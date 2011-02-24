@@ -31,7 +31,8 @@ class MediaSetsController < ApplicationController
   end
 
   def show
-    #new# theme "madek11"
+    #new# 
+    theme "madek11"
     viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
     @editable_ids = Permission.accessible_by_user("MediaEntry", current_user, :edit)
     editable_set_ids = Permission.accessible_by_user("Media::Set", current_user, :edit)
@@ -39,14 +40,14 @@ class MediaSetsController < ApplicationController
     
     #ASK Franco#: Sphinx reindexing doesn't work when we remove media_entries from a set. Need to revert to active record #
     # @media_entries = MediaEntry.search :with => {:media_set_ids => @media_set.id, :sphinx_internal_id => viewable_ids}, :page => params[:page], :per_page => per_page, :retry_stale => true
-    @media_entries =  MediaEntry.joins(:media_sets).where("media_sets.id = ?", @media_set.id).where(:id => viewable_ids)
+    @media_entries =  MediaEntry.joins(:media_sets).where("media_sets.id = ?", @media_set.id).where(:id => viewable_ids).all
     
     # for task bar
     @can_edit = editable_set_ids.include?(@media_set.id)
-    @editable_in_set = @editable_ids && @media_entries.all.map(&:id)
+    @editable_in_set = @editable_ids && @media_entries.map(&:id)
     @editable_sets = Media::Set.where("id IN (?) AND id <> ?", editable_set_ids, @media_set.id)
     
-    @info_to_json = @media_entries.all.map do |me|
+    @info_to_json = @media_entries.map do |me|
       basic = me.attributes.merge!("thumb_base64" => me.thumb_base64(:x_small), "title" => me.meta_data.get_value_for("title"))
       css_class = "thumb_mini"
       css_class += " edit" if @editable_ids.include?(me.id)
@@ -120,7 +121,8 @@ class MediaSetsController < ApplicationController
     if @media_set
       new_members = 0 #temp#
       if params[:media_entry_ids]
-        media_entries = MediaEntry.find(params[:media_entry_ids])
+        ids = params[:media_entry_ids].is_a?(String) ? params[:media_entry_ids].split(",") : params[:media_entry_ids]
+        media_entries = MediaEntry.find(ids)
         new_members = @media_set.media_entries.push_uniq(media_entries) 
       end
       flash[:notice] = "#{new_members} new media entries added to media_set #{@media_set.title}" if new_members > 0

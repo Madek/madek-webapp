@@ -40,7 +40,9 @@
       %li#batch-remove-button
         = button_to _("Aus Set Entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete, :id => "batch-remove"
       %li#batch-add-to-set
-        = select_tag "media_set", options_for_select([["Set Auswählen", ""]] + @editable_sets.collect {|set| [set.meta_data.get_value_for("title"), set.id]})
+        = form_tag add_member_media_set_url(@media_set) do
+        = select_tag "media_set_id", options_for_select([["Set Auswählen", ""]] + @editable_sets.collect {|set| [set.meta_data.get_value_for("title"), set.id]})
+        = submit_tag "Alle hinzufügen"
   .clear
 #selected_items.grid_12.task_bar
 .clear
@@ -163,6 +165,11 @@
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
       sessionStorage.removeItem(key); //maybe we just want to remove the items slated for removal (rather than the entire key)
     });
+    
+     $("#batch-add-to-set form").submit(function() {
+       var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
+       $(this).append("<input type='hidden' name='media_entry_ids' value='"+media_entry_ids+"'>");
+     });
       
   });
 
