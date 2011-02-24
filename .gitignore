@@ -1,0 +1,9 @@
+.bundle
+log/*.log
+*.log
+/tmp/
+config/database.yml
+*.swp
+*~
+.DS_Store
+config/LDAP.yml
