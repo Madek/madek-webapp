@@ -1,0 +1,18 @@
+collectionid 11 = Saeulenprojekt (1479 Objekte)
+
+collectionid 1 = Main - user - zhdk/Schumacher
+Alberti		1:718065 (3 Objekte)
+Blum		1:717796 (2 Objekte)
+Cesariano	1:718083 (9 Objekte)
+Chitham  	1:710 (28 Objekte)
+Durand  	1:717798 (4 
+Palladio	1:717795 (16
+Perrault	1:717799 (33
+Rykwert 	1:717808 (30
+Säulen20.Jhdt 1:717800 (115
+Säulen_divers 1:717802 (19 
+Serlio		1:717805 (29
+Stuart&Revett 1:717803 (6
+Vitruv		1:717801 (5
+Vignola		1:717794 (79
+

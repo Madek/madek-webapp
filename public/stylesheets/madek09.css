@@ -1,0 +1,108 @@
+@import url('/stylesheets/rails.css') all;
+
+/******************************************/
+
+ul {
+	list-style-type: none;
+}
+
+ul.columns > li {
+	display: inline-block;
+	vertical-align: top;
+}
+
+ul.items > li {
+	min-width: 9.5em;
+	max-width: 9.5em;
+	min-height: 10em;
+	overflow: hidden;
+	display: inline-block;
+	margin: 2px;
+	padding: 4px;
+	vertical-align: top;
+	border: none;
+}
+
+ul.items > li.selected {
+	background-color: #b4b4b4;
+}
+
+ul.selector > li {
+	margin-top: 3px;
+}
+
+ul.selector > li:hover {
+	cursor: pointer;
+	background-color: #d0d0d0;
+}
+
+ul.selector > li.selected {
+	background-color: #b4b4b4;
+}
+
+/*************/
+
+div#permissions > div {
+	background-color: #EEEEEE;
+	margin: 0.5em;	
+	padding: 0.5em;	
+}
+
+ul.aclbuttons li {
+	margin: 0.2em 1em;
+	line-height: 2em;	
+}
+ul.aclbuttons li a.buttontrue {
+	padding-left: 1em;
+	padding-right: 1em;
+	color: #3F3;
+	font-size: 1.2em; 
+	text-decoration: none;
+}
+ul.aclbuttons li a.buttonfalse {
+	padding-left: 1em;
+	padding-right: 1em;
+	color: #F33;
+	font-size: 1.2em; 
+	text-decoration: none;
+}
+
+ul.aclbuttons li a { 
+	display: block;
+	background-color: silver;
+}
+
+ul.aclbuttons li a.defined_action { 
+	background-color: #424242;
+}
+
+/******** Loading ********/
+
+div#ajaxLoading {
+    position: fixed;
+	z-index: 999;
+	background-color: #DBEBF1;
+	border: 3px solid #41637c;
+    padding: 0.5em 2em 0.5em 2em;
+	color: #41637c;
+    font-weight: bold;
+    font-size: 28px;
+    text-align: center;
+	top: 0.5em;
+	right: 0.5em;
+	display: none;
+	opacity: 0.8;
+	-moz-background-clip:border;
+	-moz-background-origin:padding;
+	-moz-background-size:auto auto;
+	-moz-border-radius-bottomleft:5px;
+	-moz-border-radius-bottomright:5px;
+	-moz-border-radius-topleft:5px;
+	-moz-border-radius-topright:5px;
+}
+
+/******** Editable ********/
+
+.not_editable .editable a {
+	display: none; /* optimize */
+}

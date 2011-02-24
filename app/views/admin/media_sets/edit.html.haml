@@ -1,0 +1,23 @@
+= form_for @set, :as => :media_set, :url => admin_media_set_path(@set) do |f|
+  %table
+    %tr
+      %td Type
+      %td= f.object.type
+
+    - f.fields_for :meta_data, f.object.meta_data.get("title") do |ff|
+      %tr
+        %td= ff.object.meta_key.label
+        %td= field_tag(ff, MetaContext.media_set)
+        
+    - if f.object.respond_to? :individual_contexts
+      %tr
+        %td Contexts
+        %td
+          %ul
+            - MetaContext.all.each do |context|
+              %li
+                = check_box_tag "individual_contexts[]", context.id, f.object.individual_contexts.include?(context)
+                = context
+
+    %tr{:colspan => 2}
+      %td= f.submit _("Update")

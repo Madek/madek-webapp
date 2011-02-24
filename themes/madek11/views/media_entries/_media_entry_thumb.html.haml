@@ -1,0 +1,25 @@
+%div.item_box
+  %a{:href => media_entry_path(media_entry)}
+    %div.thumb_box
+      %span.item_permission
+        = theme_image_tag "icons/icon_button_perm.png"
+        = #display_permission_icon(media_entry)
+      = thumb_for(media_entry, :small_125)
+  - title = media_entry.meta_data.get_value_for("title")
+  - author = media_entry.meta_data.get_value_for("author")
+  %p
+    - unless title.blank?
+      %span.item_title
+        = truncate(title, :length => 36)
+    - unless author.blank?
+      %span.item_author
+        = truncate(author, :length => 18)
+    .actions
+  - if @editable_ids
+    %div{:class => "action_left"}
+      = check_box_tag 'media_entry_ids[]', media_entry.id, nil, :class => "editable" # if @editable_ids.include?(media_entry.id)
+  %div{:class => "action_right"}
+    = display_edit_icon(media_entry, current_user)
+    %span.favorite_link{:id => "fav_#{media_entry.id}"}
+      = render :partial => "/media_entries/favorite_link", :locals => {:media_entry => media_entry}
+    = display_delete_icon(media_entry, current_user)

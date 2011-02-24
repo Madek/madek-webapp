@@ -1,0 +1,6 @@
+dilps2_local:
+  adapter: mysql
+  database: dilps2
+  encoding: utf8
+  username: root
+  password: 

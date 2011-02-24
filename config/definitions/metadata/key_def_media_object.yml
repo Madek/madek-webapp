@@ -1,0 +1,168 @@
+---
+#
+#   Detail view media entry
+#   Detailangaben -> Formal
+#
+- 
+    meta_key: creator
+    meta_field: 
+      description: 
+        de_CH: Urheber/in der Abbildung.
+        en_GB: Creator of the digital file (e.g. Photographer).
+      label: 
+        de_CH: Fotograf/in
+        en_GB: Photographer
+    meta_context: media_object
+- 
+    meta_key: creator address
+    meta_field: 
+      is_required: true
+      label: 
+        de_CH: Adresse
+        en_GB: Address of Creator
+      length_max: 32
+      length_min: 1
+    meta_context: media_object
+- 
+    meta_key: creator city
+    meta_field: 
+      is_required: true
+      label: 
+        de_CH: Stadt
+        en_GB: City
+      length_max: 32
+      length_min: 1
+    meta_context: media_object
+- 
+    meta_key: creator state
+    meta_field: 
+      is_required: true
+      label: 
+        de_CH: Kanton/Bundesland
+        en_GB: County
+      length_max: 32
+      length_min: 1
+    meta_context: media_object
+- 
+    meta_key: creator postal code
+    meta_field: 
+      is_required: true
+      label: 
+        de_CH: Postleitzahl
+        en_GB: Post-Code
+      length_max: 32
+      length_min: 1
+    meta_context: media_object
+- 
+    meta_key: creator country
+    meta_field: 
+      is_required: true
+      label: 
+        de_CH: Land
+        en_GB: Country
+      length_max: 32
+      length_min: 1
+    meta_context: media_object
+- 
+    meta_key: creator work telephone
+    meta_field: 
+      is_required: true
+      label: 
+        de_CH: Telefonnummer
+        en_GB: Telephone
+      length_max: 32
+      length_min: 1
+    meta_context: media_object
+- 
+    meta_key: creator work email
+    meta_field: 
+      is_required: true
+      label: 
+        de_CH: E-Mail-Adresse
+        en_GB: Email Address
+      length_max: 32
+      length_min: 1
+    meta_context: media_object
+- 
+    meta_key: creator work url
+    meta_field: 
+      is_required: true
+      label: 
+        de_CH: Website
+        en_GB: Website of the Creator
+      length_max: 32
+      length_min: 1
+    meta_context: media_object
+- 
+    meta_key: creator position
+    meta_field: 
+      label: 
+        de_CH: Berufsbezeichnung
+        en_GB: Job-title
+      length_max: 32
+      length_min: 1
+    meta_context: media_object
+- 
+    meta_key: other document participants
+    meta_field: 
+      description:
+        de_CH: "Personen, die zur Erstellung des Medieninhalts beigetragen haben: z.B. Assisstenz, Stylist, Cutter, Bildbearbeitung."
+        en_GB: People who contributed to the creation of the illustrating medium, e.g. photographic assistant, stylist, cutter, image editor.
+      label:
+        de_CH: Weitere Personen Medienerstellung
+        en_GB: Other participants
+      length_max: 32
+      length_min: 1
+    meta_context: media_object
+- 
+    meta_key: date created
+    meta_field: 
+      description: 
+        de_CH: Datum der Erstellung des Medienobjektes resp. der Datei
+        en_GB: Date of creation of media object
+      is_required: true
+      label: 
+        de_CH: Erstellungsdatum
+        en_GB: Date Created
+      length_max: 255
+    meta_context: media_object
+- 
+    meta_key: source
+    meta_field: 
+      description: 
+        de_CH: Quelle, aus der das Medium stammt z.B. URL, Buch, Sender.
+        en_GB: The described resource may be derived from the related resource in whole or in part. z.B. a URL or a book.
+      label:
+        de_CH: Quelle
+        en_GB: Source
+    meta_context: media_object
+- 
+    meta_key: provider
+    meta_field: 
+      description: 
+        de_CH: Z.B. Studio Publikationen, ZHdK Kommunikation
+        en_GB: E.g. Studio Publikationen, ZHdK Kommunikation
+      label: 
+        de_CH: Angeboten durch
+        en_GB: Provider
+    meta_context: media_object
+- 
+    meta_key: portrayed object dimensions
+    meta_field: 
+      description: 
+        de_CH: flächig, räumlich, zeitlich, z.B. 60 x 80 cm, 5 x 18 x 17 m, 5:22 h, 32 min
+        en_GB: E.g. 60 x 80 cm, 5 x 18 x 17 m, 5:22 h, 32 min.
+      label: 
+        de_CH: Dimensionen
+        en_GB: Dimensions
+    meta_context: media_object
+- 
+    meta_key: portrayed object materials
+    meta_field: 
+      description: 
+        de_CH: z.B. Öl auf Leinwand, PAL, Baryt-Abzug
+        en_GB: e.g. Oil on Canvas, PAL, Paper
+      label: 
+        de_CH: Material / Format
+        en_GB: Material / Format
+    meta_context: media_object

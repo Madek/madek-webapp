@@ -1,0 +1,27 @@
+<div id="content-body" class="container_12 clearfix">
+
+	<%= render :partial => "steps" %>
+	<%= javascript_tag do %>
+		$(document).ready(function () {
+			activate_step(2);
+		});
+	<% end %>
+
+
+
+	<div id="upload-container" class="container_12 grid_12" style="margin-top: 1em">
+		
+		<div style="background: #DBEBF1; padding: 1.75em; -moz-border-radius: 5px; -webkit-border-radius: 5px;">
+				
+			<%= render :partial => "files" %>
+			
+			<%= content_tag :h3 do
+				_("Zugriffsberechtigungen")
+			end %>
+			<%= render :partial => "/permissions/edit_multiple_on_upload" %>
+			
+		</div>
+	
+	</div>
+
+</div>		

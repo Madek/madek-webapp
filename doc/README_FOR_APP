@@ -1,0 +1,34 @@
+= MADEK
+
+==3rd party library (not gem nor plugin) requirements:
+
+	- exiftool (http://www.sno.phy.queensu.ca/~phil/exiftool/)
+	a platform independent Perl library/CLI for reading, writing and editing meta information in image, audio and video files.
+	NB: this library is really regularly updated. There is potential benefit in keeping it up to date, either by hand or automatically (cron job?)
+
+	- imageMagick
+	a platform independent tool for image manipulation. At present we mainly use 'convert'. Should be relatively trivial to replace with another tool to do image conversion.
+	
+	- GraphViz (www.graphviz.org)
+	a graphing library. At present we use 'dot' which allows hierarchical drawings of directed graphs.
+
+----------------------------------------------
+
+= Current general startup method:
+
+Make sure sphinx search daemon is running: 
+
+rake ts:conf (in case it's not configured)
+rake ts:start
+
+
+a handy reset task is provided:
+
+rake madek:reset - will reset the database, set up various meta-data contexts and index the empty db
+
+Note: Bug?
+	When making a new deployment, make sure to stop the sphinx server, index and then start it again.
+	Problem seems to be that we can have sphinx processes hanging around, which then point to the old releases index, 
+	but are working on behalf of the new deployment - chances are very high that this will not work.
+	
+	Probably need to fix in capistrano.. (fix in place, soon to test?)

@@ -1,0 +1,27 @@
+<div id="content-body" class="container_12 clearfix">
+	
+	<div id="detail-main">	
+		<h2 class="section-title">Meine Medieneinträge</h2>
+		<% @media_entries = @my_media_entries
+		unless @media_entries.empty? %>
+			<%= render :partial => '/media_entries/media_entry_thumb', :collection => @media_entries, :as => :media_entry %>
+			<%= content_tag :div, :class => "buttons" do %>
+				<%= link_to "Weitere…", user_media_entries_path(current_user) %>
+			<% end if @media_entries.total_entries >= params[:per_page]
+		else %>
+			<%= _("Sie haben noch keine Medien hochgeladen.") %>
+		<% end %>
+
+		<h2 class="section-title">Medieneinträge anderer</h2>
+		<% @media_entries = @accessible_media_entries
+		unless @media_entries.empty? %>
+			<%= render :partial => '/media_entries/media_entry_thumb', :collection => @media_entries, :as => :media_entry %>
+			<%= content_tag :div, :class => "buttons" do %>
+				<%= link_to "Weitere…", media_entries_path(:not_by_current_user => true) %>
+			<% end if @media_entries.total_entries >= params[:per_page]
+		else %>
+			<%= _("Es gibt keine weiteren Medieneinträge.") %>
+		<% end %>
+	</div>
+
+</div>

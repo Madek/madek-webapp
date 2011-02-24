@@ -1,0 +1,10 @@
+= form_for @set, :url => featured_admin_media_sets_path, :html => {:method => :post} do |f|
+	%ul
+		- # TODO Media::Set.all.collect do |set|
+		- Media::Set.where(:type => "Media::Set").each do |set|
+			- # TODO next if set is private ??
+			%li
+				= check_box_tag "children[]", set.id, @set.children.include?(set)
+				= " #{set} [#{view_permission_string(set)}] #{set.user}"
+
+	= f.submit _("Submit")

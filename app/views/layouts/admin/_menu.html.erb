@@ -1,0 +1,42 @@
+<%= content_tag :nav, :id => "menu", :style => "margin-right: 1em;" do
+		content_tag :ul do 
+			a = content_tag :li do
+				b = content_tag :span, :class => "head_menu" do
+					c = link_to _("Meta"), "#", :class => "arrow"
+					c += image_tag "/images/icons/arrow-user.png", :width => 18, :height => 15, :align => "top", :class => "arrow"
+				end
+				b += content_tag :div, :class => "sub_menu" do
+					c = link_to _("Keys"), admin_keys_path 
+					c += link_to _("Contexts"), admin_contexts_path 
+					c += link_to _("Mapping"), mapping_admin_keys_path 
+				end
+			end 
+			a += content_tag :li, :style => "margin-left: 1em;" do
+				b = content_tag :span, :class => "head_menu" do
+					c = link_to _("Subjects"), "#", :class => "arrow"
+					c += image_tag "/images/icons/arrow-user.png", :width => 18, :height => 15, :align => "top", :class => "arrow"
+				end
+				b += content_tag :div, :class => "sub_menu" do
+					c = link_to _("Users"), admin_users_path 
+					c += link_to _("People"), admin_people_path 
+					c += link_to _("Groups"), admin_groups_path 
+				end
+			end
+			a += content_tag :li, :style => "margin-left: 1em;" do
+				b = content_tag :span, :class => "head_menu" do
+					c = link_to _("Resources"), "#", :class => "arrow"
+					c += image_tag "/images/icons/arrow-user.png", :width => 18, :height => 15, :align => "top", :class => "arrow"
+				end
+				b += content_tag :div, :class => "sub_menu" do
+					c = link_to _("Importer"), import_admin_media_entries_path
+					c += link_to _("Ausgewählte Sets"), featured_admin_media_sets_path 
+					c += link_to _("Sets"), admin_media_sets_path 
+				end
+			end
+			a += content_tag :li, :style => "margin-left: 1em;" do
+				content_tag :span, :class => "head_menu" do
+					link_to _("Usage Terms"), admin_usage_term_path
+				end
+			end 
+		end
+end %>

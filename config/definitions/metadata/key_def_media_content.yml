@@ -1,0 +1,232 @@
+---
+#
+#   Detail view media entry
+#   Detailangaben -> Inhaltlich
+#
+- 
+    meta_key: title
+    meta_field: 
+      description: 
+        de_CH: Titel des Medieneintrags
+        en_GB: The title of the media entry
+      label: 
+        de_CH: Titel
+        en_GB: Title
+    meta_context: media_content
+- 
+    meta_key: subtitle
+    meta_field: 
+      description: 
+        de_CH: Untertitel des Medieneintrags
+        en_GB: The subtitle of the media entry
+      label: 
+        de_CH: Untertitel
+        en_GB: Subtitle
+    meta_context: media_content
+- 
+    meta_key: keywords
+    meta_field: 
+      description: 
+        de_CH: Schlagworte zu Inhalt und Motiv des Medieneintrags
+        en_GB: Keywords describing the media entry content
+      label: 
+        de_CH: Inhalt und Motiv
+        en_GB: Content Keywords
+    meta_context: media_content
+- 
+    meta_key: author
+    meta_field: 
+      description: 
+        de_CH: Urheber/in des abgebildeten Werkes
+        en_GB: Creator of the depicted work
+      label: 
+        de_CH: Autor/in
+        en_GB: Author
+    meta_context: media_content
+- 
+    meta_key: additional authors
+    meta_field: 
+      label: 
+        de_CH: Weitere Autoren
+        en_GB: Additional Author(s)
+    meta_context: media_content
+- 
+    meta_key: institutional affiliation
+    meta_field: 
+      description: 
+        de_CH: Der Bereich an der ZHdK, in dem das abgebildete Werk entstanden ist.
+        en_GB: Institutional Affiliation of the Author of the work to the ZHdK.
+      label: 
+        de_CH: Bereich ZHdK
+        en_GB: Institutional Affiliation
+    meta_context: media_content
+- 
+    meta_key: portrayed object dates
+    meta_field: 
+      description: 
+        de_CH: Datum der Erstellung des Medieninhalts (z.B. 1878, 1.3.2003 oder Frühlingssemester 2011) - Nicht das Datum, an dem die Datei entstanden ist.
+        en_GB: Date of creation of media content (e.g. 1878, 1.3.2003 or Spring semester 2011) - not of the media file.
+      label: 
+        de_CH: Datum
+        en_GB: Dates
+    meta_context: media_content
+- 
+    meta_key: portrayed object location
+    meta_field: 
+      description: 
+        de_CH: Standort des abgebildeten Objektes
+        en_GB: Location of the depicted object
+      label: 
+        de_CH: Standort
+        en_GB: Location
+    meta_context: media_content
+- 
+    meta_key: portrayed object city
+    meta_field: 
+      description: 
+        de_CH: Stadt des abgebildeten Objektes
+        en_GB: City of the depicted object
+      label: 
+        de_CH: Stadt
+        en_GB: City
+    meta_context: media_content
+- 
+    meta_key: portrayed object state
+    meta_field: 
+      description: 
+        de_CH: Kanton/Bundesland des abgebildeten Objektes
+        en_GB: County of the depicted object
+      label: 
+        de_CH: Kanton/Bundesland
+        en_GB: County
+    meta_context: media_content
+- 
+    meta_key: portrayed object country
+    meta_field: 
+      description: 
+        de_CH: Land des abgebildeten Objektes
+        en_GB: Country of the depicted object
+      label: 
+        de_CH: Land
+        en_GB: Country
+    meta_context: media_content
+- 
+    meta_key: portrayed object country code
+    meta_field: 
+      description: 
+        de_CH: ISO-Ländercode des abgebildeten Objektes
+        en_GB: ISO-Country code of the depicted object
+      label: 
+        de_CH: ISO-Ländercode
+        en_GB: ISO-Country code
+    meta_context: media_content
+- 
+    meta_key: portrayed person
+    meta_field: 
+      label: 
+        de_CH: Porträtierte Person/en
+        en_GB: Portrayed Person
+    meta_context: media_content
+- 
+    meta_key: portrayed institution
+    meta_field: 
+      description: 
+        de_CH: Z.B. Gebäude oder Innenräume einer Institution
+        en_GB: E.g. Zürich Museum of Art
+      label: 
+        de_CH: Porträtierte Institution
+        en_GB: Portrayed Institution
+    meta_context: media_content
+- 
+    meta_key: other creative participants
+    meta_field: 
+      description: 
+        de_CH: Personen, die zum abgebildeten Inhalt beigetragen haben, z.B. Bühnenbildner oder die Regieassistenz.
+        en_GB: Persons, who contributed to the shown contents of, e.g. Scenery maker or Assistant Director.
+      label: 
+        de_CH: Mitwirkende / weitere Personen
+        en_GB: Other participants
+    meta_context: media_content
+- 
+    meta_key: participating institution
+    meta_field:
+      label: 
+        de_CH: Partner / beteiligte Institutionen
+        en_GB: Partner Institution
+    meta_context: media_content
+- 
+    meta_key: patron
+    meta_field: 
+      label: 
+        de_CH: Auftrag durch
+        en_GB: Patron
+    meta_context: media_content
+- 
+    meta_key: academic year
+    meta_field: 
+      label: 
+        de_CH: Studienjahr
+        en_GB: Study Year
+    meta_context: media_content
+- 
+    meta_key: project leader
+    meta_field: 
+      label: 
+        de_CH: Dozierende/Projektleitung
+        en_GB: Lecturer/Project Leader
+    meta_context: media_content
+- 
+    meta_key: public caption
+    meta_field: 
+      description: 
+        de_CH: Bildunterschrift, die für einen bestimmten Kontext Gültigkeit hat, z.B. für Publikation in Jahrbuch, Presse oder Website. Bildlegende ist nicht identisch mit dem Titel des Medieneintrags.
+        en_GB: Public Caption - For use in the media and press.
+      label: 
+        de_CH: Bildlegende
+        en_GB: Public Caption
+    meta_context: media_content
+- 
+    meta_key: description
+    meta_field: 
+      description: 
+        de_CH: Beschreibung des Medieninhalts.
+        en_GB: Remarks about the Media Entry.
+      label: 
+        de_CH: Beschreibung
+        en_GB: Description
+    meta_context: media_content
+- 
+    meta_key: remark
+    meta_field: 
+      description: 
+        de_CH: Bemerkungen zum Medieninhalt.
+        en_GB: Remarks about the Media Entry.
+      label: 
+        de_CH: Bemerkung
+        en_GB: Remark
+    meta_context: media_content
+- 
+    meta_key: hyperlinks
+    meta_field: 
+      label: 
+        de_CH: Internet Links (URL)
+        en_GB: Internet Links (URL)
+    meta_context: media_content
+- 
+    meta_key: type
+    meta_field: 
+      description: 
+        de_CH: Allgemeine Gattung der Kunst in Bezug auf das Ausdrucksmedium
+        en_GB: General category of the art portrayed
+      label: 
+        de_CH: Gattung
+        en_GB: Art type
+    meta_context: media_content
+- 
+    meta_key: project type
+    meta_field: 
+      is_required: true
+      label: 
+        de_CH: ZHdK-Projekttyp
+        en_GB: ZHdK Project Type
+    meta_context: media_content

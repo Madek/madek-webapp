@@ -1,0 +1,336 @@
+==============================================================================
+Erwiterte Suche Sammlung Saeulenprojekt
+==============================================================================
+SELECT item.collectionid AS `collectionid`,
+  item.`imageid` AS `itemid`,
+  item.`item_revid` AS `revid`,
+  item.`deleted` AS `deleted`,
+  item.`creation_date` AS `creation_date`,
+  item.`modification_date` AS `modification_date`,
+  item.`creator` AS `creator`,
+  item.`modifier` AS `modifier`,
+  item_rev.`type` AS `type`,
+  item_rev.`status` AS `status`,
+  item_rev.`addition` AS `addition`,
+  item_rev.`title` AS `title`,
+  item_rev.`dating` AS `dating`,
+  item_rev.`format` AS `format`,
+  item_rev.`institution` AS `institution`,
+  item_rev.`source_type` AS `source_type`,
+  item_rev.`source` AS `source`,
+  item_rev.`keyword` AS `keyword`,
+  item_rev.`modify_date` AS `modify_date`,
+  item_rev.`name1id` AS `name1id`,
+  item_rev.`name2id` AS `name2id`,
+  item_rev.`locationid` AS `locationid`,
+  item_rev.`metaeditor` AS `metaeditor`,
+  item_rev.`name1` AS `name1`,
+  item_rev.`name2` AS `name2`,
+  item_rev.`country` AS `country`,
+  item_rev.`location` AS `location`,
+  item_rev.`locationsounds` AS `locationsounds`,
+  item_rev.`name1sounds` AS `name1sounds`,
+  item_rev.`name2sounds` AS `name2sounds`,
+  res_cache.urn AS `cache_urn`,
+  res_cache.width AS `cache_width`,
+  res_cache.height AS `cache_height`,
+  res_cache.name AS `cache_name`,
+  res.id AS `res_id`,
+  res_rev.type AS `res_type`,
+  res_rev.filename AS `res_urn`,
+  res_rev.description AS `res_description`,
+  res.main AS `res_main`
+		FROM d2_resource_cache AS res_cache,
+  d2_resource AS res,
+  d2_acl as acl1,
+  d2_acl as acl2,
+  d2_acl as acl3,
+  d2_item_rev AS item_rev,
+  d2_resource_rev AS res_rev,
+  d2_item as item
+			 
+		WHERE ( 1 
+ AND ( 0 
+ OR  ( 0
+ OR item_rev.collectionid='11'
+ ) )
+ AND ( 0 
+ OR  ( 0
+ OR item_rev.type LIKE '%%%'
+ ) )
+ AND ( 0 
+ OR  ( 0
+ OR res_cache.name='thumb'
+ )
+ AND res.id=res_cache.resourceid )
+ AND ( 0 
+ OR  ( 0
+ OR item.deleted = '0'
+ ) ) ) AND item.collectionid IN (1,15,8,16,17,13,3,9,18,11,10,14,19) 
+ AND res.itemid=item.imageid AND res.collectionid=item.collectionid
+ AND (0
+ OR (acl1.usertype='user' AND acl1.userid='local/guest')
+ OR (acl1.usertype='group' AND acl1.userid='local/guest')
+ )
+ AND acl1.collectionid=item.collectionid
+ AND acl1.id=item.imageid
+ AND acl1.collectionid=item.collectionid
+ AND acl1.type='item'
+ AND acl1.ip_from<=2887714714
+ AND acl1.ip_to>=2887714714
+ AND (0
+ OR (acl2.usertype='user' AND acl2.userid='local/guest')
+ OR (acl2.usertype='group' AND acl2.userid='local/guest')
+ )
+ AND acl2.collectionid=item.collectionid
+ AND acl2.type='collection'
+ AND acl2.ip_from<=2887714714
+ AND acl2.ip_to>=2887714714
+ AND (0
+ OR (acl3.usertype='user' AND acl3.userid='local/guest')
+ OR (acl3.usertype='group' AND acl3.userid='local/guest')
+ )
+ AND acl3.id=res.id
+ AND acl3.type='resource'
+ AND acl3.ip_from<=2887714714
+ AND acl3.ip_to>=2887714714
+		AND item.item_revid=item_rev.id
+		AND res.itemid=item.imageid
+		AND res.collectionid=item.collectionid
+		AND res.resource_revid=res_rev.id
+		AND res.main=1
+    GROUP BY `collectionid`,`itemid`,`revid`,`deleted`,`creation_date`,`modification_date`,`creator`,`modifier`,`type`,`status`,`addition`,`title`,`dating`,`format`,`institution`,`source_type`,`source`,`keyword`,`modify_date`,`name1id`,`name2id`,`locationid`,`metaeditor`,`name1`,`name2`,`country`,`location`,`locationsounds`,`name1sounds`,`name2sounds`,`cache_urn`,`cache_width`,`cache_height`,`cache_name`,`res_id`,`res_type`,`res_urn`,`res_description`,`res_main`
+HAVING 
+ SUM(acl1.`read`)>0
+ AND SUM(acl1.`exec`)>0
+ AND SUM(acl1.`revoke`)=0
+ AND SUM(acl2.`read`)>0
+ AND SUM(acl2.`exec`)>0
+ AND SUM(acl2.`revoke`)=0
+ AND SUM(acl3.`read`)>0
+ AND SUM(acl3.`exec`)>0
+ AND SUM(acl3.`revoke`)=0 ORDER BY item.creation_date DESC;
+
+==============================================================================
+Erwiterte Suche Sammlung Saeulenprojekt (simplified, select *, no acl)
+==============================================================================
+SELECT *
+FROM d2_resource_cache AS res_cache,
+  d2_resource AS res,
+  d2_item_rev AS item_rev,
+  d2_resource_rev AS res_rev,
+  d2_item as item
+WHERE ( 1 
+ 		AND item_rev.collectionid='11'
+ 		AND (res_cache.name='thumb' AND res.id=res_cache.resourceid )
+ 		AND item.deleted = '0' )
+ 	AND item.collectionid IN (1,15,8,16,17,13,3,9,18,11,10,14,19) 
+AND res.itemid=item.imageid
+AND res.collectionid=item.collectionid
+AND item.item_revid=item_rev.id
+AND res.resource_revid=res_rev.id
+	AND res.main=1
+    GROUP BY `collectionid`,`itemid`,`revid`,`deleted`,`creation_date`,`modification_date`,`creator`,`modifier`,`type`,`status`,`addition`,`title`,`dating`,`format`,`institution`,`source_type`,`source`,`keyword`,`modify_date`,`name1id`,`name2id`,`locationid`,`metaeditor`,`name1`,`name2`,`country`,`location`,`locationsounds`,`name1sounds`,`name2sounds`,`cache_urn`,`cache_width`,`cache_height`,`cache_name`,`res_id`,`res_type`,`res_urn`,`res_description`,`res_main`;
+
+==============================================================================
+Item Show
+==============================================================================
+>>>>>>>>>>>>>  START >>>>>>>>>>>>>>>
+class: DisplayMeta
+funct: showmeta
+file:  DisplayMeta.class.php
+line:  451
+Array
+(
+    [cache_urn] => urn://hgkz/design/11:2419/12941/QVGA
+    [cache_width] => 313
+    [cache_height] => 240
+    [cache_name] => QVGA
+    [res_type] => image
+    [res_urn] => 11_2419_Corinthia.jpg
+    [res_description] => local/geiger/Corinthia.jpg
+    [res_id] => 12941
+    [cache_url] => http://media2.zhdk.ch/dilps2/resource.php/diverses/lib01/e/8/320x240_12941.jpg?__SID__
+)
+
+^^^^^^^^^^^^^^ END ^^^^^^^^^^^^
+
+==============================================================================
+Index scoped by group "user - zhdk/Schumacher - Blum"
+==============================================================================
+>>>>>>>>>>>>>  START >>>>>>>>>>>>>>>
+SELECT item.collectionid AS `collectionid`,
+  item.`imageid` AS `itemid`,
+  item.`item_revid` AS `revid`,
+  item.`deleted` AS `deleted`,
+  item.`creation_date` AS `creation_date`,
+  item.`modification_date` AS `modification_date`,
+  item.`creator` AS `creator`,
+  item.`modifier` AS `modifier`,
+  item_rev.`type` AS `type`,
+  item_rev.`status` AS `status`,
+  item_rev.`addition` AS `addition`,
+  item_rev.`title` AS `title`,
+  item_rev.`dating` AS `dating`,
+  item_rev.`format` AS `format`,
+  item_rev.`institution` AS `institution`,
+  item_rev.`source_type` AS `source_type`,
+  item_rev.`source` AS `source`,
+  item_rev.`keyword` AS `keyword`,
+  item_rev.`modify_date` AS `modify_date`,
+  item_rev.`name1id` AS `name1id`,
+  item_rev.`name2id` AS `name2id`,
+  item_rev.`locationid` AS `locationid`,
+  item_rev.`metaeditor` AS `metaeditor`,
+  item_rev.`name1` AS `name1`,
+  item_rev.`name2` AS `name2`,
+  item_rev.`country` AS `country`,
+  item_rev.`location` AS `location`,
+  item_rev.`locationsounds` AS `locationsounds`,
+  item_rev.`name1sounds` AS `name1sounds`,
+  item_rev.`name2sounds` AS `name2sounds`,
+  res_cache.urn AS `cache_urn`,
+  res_cache.width AS `cache_width`,
+  res_cache.height AS `cache_height`,
+  res_cache.name AS `cache_name`,
+  res.id AS `res_id`,
+  res_rev.type AS `res_type`,
+  res_rev.filename AS `res_urn`,
+  res_rev.description AS `res_description`,
+  res.main AS `res_main`
+		FROM d2_group_resource AS grp1,
+  d2_resource_cache AS res_cache,
+  d2_resource AS res,
+  d2_acl as acl1,
+  d2_acl as acl2,
+  d2_acl as acl3,
+  d2_acl as acl4,
+  d2_item_rev AS item_rev,
+  d2_resource_rev AS res_rev,
+  d2_item as item
+			 
+		WHERE ( 1 
+ AND ( 0 
+ OR  (0
+ OR (grp1.groupid=717796 AND grp1.collectionid=1)
+ )
+ AND grp1.item_collection=item.collectionid
+ AND grp1.itemid=item.imageid
+ AND grp1.resourceid=res.id )
+ AND ( 0 
+ OR  ( 0
+ OR res_cache.name='thumb'
+ )
+ AND res.id=res_cache.resourceid )
+ AND ( 0 
+ OR  ( 0
+ OR item.deleted = '0'
+ ) ) ) AND item.collectionid IN (1,15,8,16,17,13,3,9,18,11,10,19) 
+ AND res.itemid=item.imageid AND res.collectionid=item.collectionid
+ AND (0
+ OR (acl1.usertype='user' AND acl1.userid='zhdk/Schumacher')
+ OR (acl1.usertype='group' AND acl1.userid='local/users')
+ OR (acl1.usertype='group' AND acl1.userid='zhdk/users')
+ OR (acl1.usertype='group' AND acl1.userid='zhdk/Verteilerliste.App_Projektarchiv_Admin')
+ OR (acl1.usertype='group' AND acl1.userid='zhdk/dozierende')
+ OR (acl1.usertype='group' AND acl1.userid='zhdk/DDE_FDE.alle')
+ OR (acl1.usertype='group' AND acl1.userid='zhdk/DDE_FDE.dozierende')
+ OR (acl1.usertype='group' AND acl1.userid='zhdk/DDE.alle')
+ OR (acl1.usertype='group' AND acl1.userid='zhdk/DDE.dozierende')
+ OR (acl1.usertype='group' AND acl1.userid='zhdk/Citrix Blade Word')
+ OR (acl1.usertype='group' AND acl1.userid='zhdk/Citrix Blade Internetexplorer')
+ OR (acl1.usertype='group' AND acl1.userid='zhdk/Citrix Blade Outlook')
+ OR (acl1.usertype='group' AND acl1.userid='zhdk/GRP_Bibliothek')
+ OR (acl1.usertype='group' AND acl1.userid='zhdk/LogonHGKZ')
+ OR (acl1.usertype='group' AND acl1.userid='zhdk/SNM')
+ )
+ AND acl1.collectionid=item.collectionid
+ AND acl1.id=item.imageid
+ AND acl1.collectionid=item.collectionid
+ AND acl1.type='item'
+ AND acl1.ip_from<=2887714714
+ AND acl1.ip_to>=2887714714
+ AND (0
+ OR (acl2.usertype='user' AND acl2.userid='zhdk/Schumacher')
+ OR (acl2.usertype='group' AND acl2.userid='local/users')
+ OR (acl2.usertype='group' AND acl2.userid='zhdk/users')
+ OR (acl2.usertype='group' AND acl2.userid='zhdk/Verteilerliste.App_Projektarchiv_Admin')
+ OR (acl2.usertype='group' AND acl2.userid='zhdk/dozierende')
+ OR (acl2.usertype='group' AND acl2.userid='zhdk/DDE_FDE.alle')
+ OR (acl2.usertype='group' AND acl2.userid='zhdk/DDE_FDE.dozierende')
+ OR (acl2.usertype='group' AND acl2.userid='zhdk/DDE.alle')
+ OR (acl2.usertype='group' AND acl2.userid='zhdk/DDE.dozierende')
+ OR (acl2.usertype='group' AND acl2.userid='zhdk/Citrix Blade Word')
+ OR (acl2.usertype='group' AND acl2.userid='zhdk/Citrix Blade Internetexplorer')
+ OR (acl2.usertype='group' AND acl2.userid='zhdk/Citrix Blade Outlook')
+ OR (acl2.usertype='group' AND acl2.userid='zhdk/GRP_Bibliothek')
+ OR (acl2.usertype='group' AND acl2.userid='zhdk/LogonHGKZ')
+ OR (acl2.usertype='group' AND acl2.userid='zhdk/SNM')
+ )
+ AND acl2.collectionid=item.collectionid
+ AND acl2.type='collection'
+ AND acl2.ip_from<=2887714714
+ AND acl2.ip_to>=2887714714
+ AND (0
+ OR (acl3.usertype='user' AND acl3.userid='zhdk/Schumacher')
+ OR (acl3.usertype='group' AND acl3.userid='local/users')
+ OR (acl3.usertype='group' AND acl3.userid='zhdk/users')
+ OR (acl3.usertype='group' AND acl3.userid='zhdk/Verteilerliste.App_Projektarchiv_Admin')
+ OR (acl3.usertype='group' AND acl3.userid='zhdk/dozierende')
+ OR (acl3.usertype='group' AND acl3.userid='zhdk/DDE_FDE.alle')
+ OR (acl3.usertype='group' AND acl3.userid='zhdk/DDE_FDE.dozierende')
+ OR (acl3.usertype='group' AND acl3.userid='zhdk/DDE.alle')
+ OR (acl3.usertype='group' AND acl3.userid='zhdk/DDE.dozierende')
+ OR (acl3.usertype='group' AND acl3.userid='zhdk/Citrix Blade Word')
+ OR (acl3.usertype='group' AND acl3.userid='zhdk/Citrix Blade Internetexplorer')
+ OR (acl3.usertype='group' AND acl3.userid='zhdk/Citrix Blade Outlook')
+ OR (acl3.usertype='group' AND acl3.userid='zhdk/GRP_Bibliothek')
+ OR (acl3.usertype='group' AND acl3.userid='zhdk/LogonHGKZ')
+ OR (acl3.usertype='group' AND acl3.userid='zhdk/SNM')
+ )
+ AND acl3.id=res.id
+ AND acl3.type='resource'
+ AND acl3.ip_from<=2887714714
+ AND acl3.ip_to>=2887714714
+ AND (0
+ OR (acl4.usertype='user' AND acl4.userid='zhdk/Schumacher')
+ OR (acl4.usertype='group' AND acl4.userid='local/users')
+ OR (acl4.usertype='group' AND acl4.userid='zhdk/users')
+ OR (acl4.usertype='group' AND acl4.userid='zhdk/Verteilerliste.App_Projektarchiv_Admin')
+ OR (acl4.usertype='group' AND acl4.userid='zhdk/dozierende')
+ OR (acl4.usertype='group' AND acl4.userid='zhdk/DDE_FDE.alle')
+ OR (acl4.usertype='group' AND acl4.userid='zhdk/DDE_FDE.dozierende')
+ OR (acl4.usertype='group' AND acl4.userid='zhdk/DDE.alle')
+ OR (acl4.usertype='group' AND acl4.userid='zhdk/DDE.dozierende')
+ OR (acl4.usertype='group' AND acl4.userid='zhdk/Citrix Blade Word')
+ OR (acl4.usertype='group' AND acl4.userid='zhdk/Citrix Blade Internetexplorer')
+ OR (acl4.usertype='group' AND acl4.userid='zhdk/Citrix Blade Outlook')
+ OR (acl4.usertype='group' AND acl4.userid='zhdk/GRP_Bibliothek')
+ OR (acl4.usertype='group' AND acl4.userid='zhdk/LogonHGKZ')
+ OR (acl4.usertype='group' AND acl4.userid='zhdk/SNM')
+ )
+ AND acl4.collectionid=grp1.collectionid
+ AND acl4.id=grp1.groupid
+ AND acl4.type='group'
+ AND acl4.ip_from<=2887714714
+ AND acl4.ip_to>=2887714714
+		AND item.item_revid=item_rev.id
+		AND res.itemid=item.imageid
+		AND res.collectionid=item.collectionid
+		AND res.resource_revid=res_rev.id
+		GROUP BY `collectionid`,`itemid`,`revid`,`deleted`,`creation_date`,`modification_date`,`creator`,`modifier`,`type`,`status`,`addition`,`title`,`dating`,`format`,`institution`,`source_type`,`source`,`keyword`,`modify_date`,`name1id`,`name2id`,`locationid`,`metaeditor`,`name1`,`name2`,`country`,`location`,`locationsounds`,`name1sounds`,`name2sounds`,`cache_urn`,`cache_width`,`cache_height`,`cache_name`,`res_id`,`res_type`,`res_urn`,`res_description`,`res_main`
+HAVING 
+ SUM(acl1.`read`)>0
+ AND SUM(acl1.`exec`)>0
+ AND SUM(acl1.`revoke`)=0
+ AND SUM(acl2.`read`)>0
+ AND SUM(acl2.`exec`)>0
+ AND SUM(acl2.`revoke`)=0
+ AND SUM(acl3.`read`)>0
+ AND SUM(acl3.`exec`)>0
+ AND SUM(acl3.`revoke`)=0
+ AND SUM(acl4.`read`)>0
+ AND SUM(acl4.`exec`)>0
+ AND SUM(acl4.`revoke`)=0 ORDER BY item.creation_date DESC
+
+

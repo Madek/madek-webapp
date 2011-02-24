@@ -1,0 +1,17 @@
+%table
+  %tr
+    %td{:colspan => 3, :style => "text-align: right; white-space: nowrap;"}
+      = link_to _("New Group"), new_admin_group_path, :class => "buttons", :"data-remote" => true
+  %tr
+    - [_("Name"), _("Type"), _("Users"), ""].each do |s|
+      %th= s
+  - @groups.each_with_index do |group, index|
+    %tr{:class => ((index % 2).zero? ? "even" : "odd")}
+      %td= group
+      %td= group.type
+      %td
+        - users_count = group.users.count
+        = users_count
+      %td.with_actions
+        = link_to _("Edit"), edit_admin_group_path(group), :class => "buttons", :"data-remote" => true
+        = link_to _("Delete"), admin_group_path(group), :class => "buttons", :method => :delete, :confirm => _("Sind Sie sicher?") if users_count.zero?

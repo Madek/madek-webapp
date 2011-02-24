@@ -1,0 +1,30 @@
+ul[data-meta_key='keywords'] li.bit-box {
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	border: 1px solid #CAD8F3;
+	background: #DEE7F8;
+}
+
+ul.Keyword .tabs li.bit-box {
+	padding-right: 4px;
+}
+
+ul.Keyword .tabs li.bit-box:hover {
+	cursor: pointer;
+}
+
+ul.Person li.bit-box {
+	border: 1px solid #DFAD54; background: #FFCC9A;
+}
+
+.bit-box span {
+	color: silver;
+	background-color: white;
+	padding: 0 0.4em;
+	-moz-border-radius:6px 6px 6px 6px;
+}
+
+ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
+
+.facebook-auto { z-index:9999; }

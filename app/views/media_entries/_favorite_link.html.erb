@@ -1,0 +1,16 @@
+<p>
+	<%  if current_user.favorites.include?(media_entry)
+			method = :delete
+			string = _("Favorit löschen")
+		else
+			method = :post
+			string = _("Favorit speichern")
+		end %>
+		
+	<%= _("Diesen Medieneintrag als") %>
+	<%= link_to string, favorites_media_entry_path(media_entry), :class => "button", :remote => true, :method => method %>
+	
+	<br/>
+	<br/>
+	<%= link_to _("Meine Favoriten (%d)") % current_user.favorites.count, favorites_media_entries_path %>
+</p>

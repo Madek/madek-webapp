@@ -1,0 +1,25 @@
+<% form_for [@resource, @permission] do |f|
+
+	# TODO @subjects possible subjects are User and Group (of Users) 
+%>
+	<%= f.select :subject, @users.collect {|u| [ u.to_s, u.id ] }, { :include_blank => true } %>
+	
+	<%= f.submit _("Create permissions") %>
+<% end %>
+
+
+<%= javascript_tag do %>
+	$('#new_permission').submit( function() {
+		source = $(this);
+		$.ajax({
+			url: source.attr("action"),
+			data: $.param(source.serializeArray()),
+			type: source.attr("method"),
+			success: function(response){
+						source.remove();
+						$('#permissions').prepend(response);
+			}
+		});
+		return false;
+	});
+<% end %>

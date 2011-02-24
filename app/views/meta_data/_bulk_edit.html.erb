@@ -1,0 +1,67 @@
+<% # TODO merge with _edit_multiple_without_form ??
+
+meta_data = resource.meta_data_for_context(context)
+
+labels = {}
+last_label = nil
+meta_data.each do |md|
+	label = md.meta_key.label
+	current_head_label = label.split.first
+	last_head_label = (last_label ? last_label.split.first : nil)
+	if current_head_label == last_head_label
+		labels[last_label] << label
+	else
+		last_label = label
+		labels[last_label] = []
+	end 
+end
+labels.delete_if {|k, v| v.size < 2 }
+%>
+
+<% meta_data.each_with_index do |md, i|
+	# next if md.meta_key.is_dynamic?
+	field_name = "resources[#{resource.class.name.underscore}][#{resource.id}][meta_data_attributes][#{i}]" %>
+	<%= fields_for field_name, md do |meta_datum|
+		definition = meta_datum.object.meta_key.meta_key_definitions.for_context(context)
+
+		label = md.meta_key.label
+		underscored_label = label.gsub(/\s+/, '_')
+		parent_underscored_label = labels.detect {|x| x.last.include?(label) }.try(:first).try(:gsub, /\s+/, '_')
+		is_parent = (!parent_underscored_label and labels.has_key?(label))
+
+		classes = [meta_datum.object.meta_key.object_type]
+		classes << "parent" if is_parent
+		classes.compact!
+		content_tag :ul, :"data-meta_key" => underscored_label, :"data-parent_meta_key" => parent_underscored_label, :class => (classes.blank? ? nil : classes.join(' ')) do
+			a = content_tag :li, :class => "label", :style => "width: 25%;" do
+				b = definition.meta_field.label.to_s.html_safe
+				b += "*" if definition.meta_field.is_required
+				b += content_tag :span, :class => "hint" do
+					definition.meta_field.hint.to_s
+				end if definition.meta_field.hint
+				b += content_tag :div, :class => "expander" do
+					link_to icon_tag("toggler-arrow-closed") + " " + _("Weitere Angaben"), "#"
+				end if is_parent
+				b
+			end 
+			a += content_tag :li, :style => "width: 62%;" do
+				b = "".html_safe
+				b += meta_datum.hidden_field :id if meta_datum.object.id
+				b += field_tag(meta_datum, context, false, with_actions)
+				b += content_tag :span, :class => "with_actions" do
+					link_to _("Übertragen auf andere Medien"), "#", :class => "buttons"
+				end if false # TODO see meta_data_helper
+				b
+			end
+			a += content_tag :li, :style => "width: 6%;" do
+				description_toggler(definition)
+			end
+		end
+
+	end %>
+<% end %>
+
+<% fields_for resource do |r|
+	r.fields_for :meta_data, r.object.meta_data_for_context(context) do |meta_datum|
+	end
+end if false # TODO %>

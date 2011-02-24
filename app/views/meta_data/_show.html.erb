@@ -1,0 +1,13 @@
+<%=
+editable = false # TODO inplace editor again?? # Permission.authorized?(current_user, :edit, resource)
+context ||= nil # OPTIMIZE
+
+content_tag :div, :class => (editable ? "editable" : nil), :meta_key_id => meta_datum.meta_key.id do
+	content_tag :span, :content => "value" do
+		a = formatted_value(meta_datum)
+		a += link_to _("Editieren"),
+					polymorphic_path([:edit, resource, :meta_datum], :id => meta_datum.meta_key, :context_id => context),
+					:class => "inplace-buttons" if editable and !meta_datum.meta_key.is_dynamic?
+		a
+	end
+end %>

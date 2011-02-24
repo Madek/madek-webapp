@@ -1,0 +1,7 @@
+<% if false %>
+	<%= image_tag @graph if @graph %>
+<% else %>
+	<div>
+	<embed src="<%= @graph %>" width="100%" type="image/svg+xml" />
+	<div/>
+<% end %>

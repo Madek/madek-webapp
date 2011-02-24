@@ -1,0 +1,61 @@
+<%= content_tag :div, :class => "tabs small" do %>
+	<%= content_tag :ul do 
+		b = content_tag :li do
+			link_to _("Meine Schlagworte"), "#tabs_1" 
+		end
+		b += content_tag :li do
+			link_to _("Beliebteste"), "#tabs_2"
+		end
+		b += content_tag :li do
+			link_to _("Neueste"), "#tabs_3"
+		end
+	end %>
+	
+	<% [@my_keywords, @all_keywords, @all_keywords.sort{|a,b| b.created_at <=> a.created_at}].each_with_index do |keywords,index| %>
+		<%= content_tag :ul, :id => "tabs_#{index+1}", :class => "holder all", :style => "max-height: 20em; padding: 1.3em 0.3em 1em 0.3em; overflow-y: auto;" do
+			keywords.collect do |k|
+				content_tag :li, :class => "bit-box", :rel => "#{k}" do
+					a = "#{k} ".html_safe
+					a += content_tag :span do
+						"#{k.q}"
+					end
+				end
+			end.join.html_safe
+		end %>
+	<% end %>
+	
+
+<% end %>
+
+<%= javascript_tag do %>
+	$(document).ready(function(){
+		// TODO already in application.js, use live()
+		$(".tabs").tabs({ cache: true,
+						  add: function(event, ui) {
+					      	$(this).tabs('select', ui.index);
+					      },
+						  fx: { opacity: 'toggle' }
+						});
+
+		function hide_keyword(term){
+			$(".holder.all .bit-box[rel='"+term+"']").hide();
+		}
+		function hide_keywords(elements){
+			elements.each(function(){
+				hide_keyword($(this).html());
+			});
+		}
+
+		$(".holder.all .bit-box").live('click', function(){
+			$(this).closest(".Keyword[data-meta_key]").find("select.fcbkcomplete").trigger("addItem", [{"title": $(this).attr("rel"), "value": $(this).attr("rel")}]);
+			hide_keyword($(this).attr("rel"));
+		});
+		
+		hide_keywords($(".Keyword[data-meta_key] select.fcbkcomplete option:selected"));
+		
+		$("[data-meta_key='keywords'] select.fcbkcomplete").change(function(){
+			$(".holder.all .bit-box").show();
+			hide_keywords($(this).find("option:selected"));
+		});
+	});
+<% end %>

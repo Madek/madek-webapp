@@ -1,0 +1,27 @@
+<%= content_tag :table do
+	a = content_tag :tr do
+        [_("Firstname"),
+         _("Lastname"),
+         _("User"),
+		 _("MetaData"),
+		 ""].collect do |s|
+          content_tag :th do
+            s  
+          end
+        end.join.html_safe
+	end
+	@people.each_with_index do |person, index|
+		a += content_tag :tr, :class => ((index % 2).zero? ? "even" : "odd") do
+	        [person.firstname,
+	         person.lastname,
+	         "",
+			 "#{person.meta_data.count}",
+			 link_to(_("Edit"), edit_admin_person_path(person), :class => "buttons", :"data-remote" => true)].collect do |s|
+	          content_tag :td do
+	            s  
+	          end
+	        end.join.html_safe
+		end
+	end
+	a
+end %>

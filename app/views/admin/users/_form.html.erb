@@ -1,0 +1,57 @@
+<%= form_for @user, :url => path do |f| # TODO , :html => {:"data-remote" => true}
+ 	content_tag :table do
+		a = content_tag :tr do
+			b = content_tag :th do
+				f.label :name
+			end
+			b += content_tag :td do
+				# f.text_field :name
+				@user.name
+			end
+		end
+
+		a += content_tag :tr do
+			b = content_tag :th do
+				"Groups"
+			end
+			b += content_tag :td do
+				content_tag :ul do
+					Group.all.collect do |group|
+						content_tag :li do
+							c = "".html_safe
+							is_checked = @user.groups.is_member?(group)
+							if is_checked
+								c += hidden_field_tag "user[groups_attributes][#{group.id}][_destroy]", true, :disabled => true
+								c += hidden_field_tag "user[groups_attributes][#{group.id}][id]", group.id, :disabled => true
+							end
+							c += check_box_tag "user[groups_attributes][#{group.id}][id]", group.id, is_checked, :style => "margin-right: 0.5em;"
+							c += "#{group}"
+						end
+					end.join.html_safe
+				end
+			end
+		end
+
+		a += content_tag :tr do
+			b = content_tag :td do
+			end
+			b += content_tag :td do
+				f.submit submit
+			end
+		end
+	end
+end %>
+
+<%= javascript_tag do %>
+	$(document).ready(function(){
+		$("input:checkbox").change(function(){
+			var target = $(this);
+			var siblings = target.siblings("input:hidden"); 
+			if(target.is(":checked")){
+				siblings.attr("disabled","disabled");
+			}else{
+				siblings.removeAttr("disabled");
+			}
+		});
+	});
+<% end %>

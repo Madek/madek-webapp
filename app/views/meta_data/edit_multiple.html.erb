@@ -1,0 +1,45 @@
+<%= content_tag :div do %>
+	<%= error_messages_for :resource %>
+	<%= @context.meta_field.description %>
+<% end
+
+form_for @resource, :as => :resource,
+		 :url => [:update_multiple, @resource, :meta_data],
+		 :html => {:method => :put} do |resource| %>
+	<%= hidden_field_tag :context_id, @context.id %>
+
+	<%= content_tag :div, :class => "meta_data_block" do
+		@resource.meta_data_for_context(@context).each do |md|
+			next if md.meta_key.is_dynamic? and not ["copyright usage", "copyright url"].include?(md.meta_key.label) # OPTIMIZE
+
+			valid = md.context_valid?(@context) if false #future#
+			warnings = md.context_warnings(@context) if false #future#
+
+			resource.fields_for :meta_data, md do |meta_datum|
+
+				definition = meta_datum.object.meta_key.meta_key_definitions.for_context(@context)
+	
+				content_tag :ul, :"data-meta_key" => meta_datum.object.meta_key.label.gsub(/\s+/, '_'), :class => meta_datum.object.meta_key.object_type do
+					content_tag :li, :class => "label", :style => "width: 18%;" do %>
+						<%= definition.meta_field.label %>
+						<%= content_tag :span, :class => "hint" do %>
+							<%= definition.meta_field.hint %> 
+						<% end if definition.meta_field.hint
+					end
+					content_tag :li, :style => "width: 65%;" do %>
+						<%= field_tag(meta_datum, @context) %>
+					<% end
+					content_tag :li, :style => "width: 12%;" do %>
+						<%= description_toggler(definition) %>
+					<% end
+					content_tag :li do
+						show_warnings(warnings)
+					end if false #future#
+				end
+
+			end
+		end
+	end %>
+
+	<%= resource.submit _("Speichern") %>
+<% end %>

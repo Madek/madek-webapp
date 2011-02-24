@@ -1,0 +1,11 @@
+= form_for @group, :url => path do |f|
+  %table
+    %tr
+      %th
+        = f.label :name
+      %td
+        = f.text_field :name
+    %tr
+      %td
+      %td
+        = f.submit submit

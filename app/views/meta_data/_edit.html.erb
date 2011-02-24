@@ -1,0 +1,19 @@
+<% form_for [resource, meta_datum] do |f|
+	warnings = meta_datum.context_warnings(context) if context and false #future#
+
+	f.fields_for :meta_data, meta_datum do |ff| %>
+		<%= field_tag(ff, context, true) %>
+		
+		<%= content_tag :div do
+			show_warnings(warnings)
+		end if context and false #future#
+		%>
+	<% end %>
+
+	<%= hidden_field_tag :format, 'js' %>
+	<%= hidden_field_tag :context_id, context.id if context %>
+	
+	<%= tag :input, :type => "reset", :value => _("Cancel") %>
+	<%= f.submit _("Speichern") %>
+<% end #form 
+%>

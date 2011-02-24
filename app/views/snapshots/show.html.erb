@@ -1,0 +1,68 @@
+<%= prevent_leaving_page %>
+
+<div id="content-body" class="container_12 clearfix">
+	
+	<div id="detail-main" class="grid_2">
+		
+		<div id="detail-image" style="padding: 3.25em 0 1.5em 0;">
+			<%= thumb_for(@snapshot, :small) %>
+		</div>
+
+		<%= resource_sizes(@snapshot) %>
+
+		<%= content_tag :div, :id => "detail-action-bar", :style => "padding-top: 1.5em;" do
+			content_tag :ul do
+				a = content_tag :li do
+					link_to _("XML exportieren"), snapshot_path(@snapshot, :format => :tms), :style => "line-height: 1.1em; float: none; padding: 0.5em; font-size: 0.9em;"
+				end
+				a += content_tag :li do
+					link_to _("ZIP exportieren"), export_snapshots_path(:snapshot_ids => [@snapshot]), :style => "line-height: 1.1em; float: none; padding: 0.5em; font-size: 0.9em;"
+				end
+				a += content_tag :li do
+					link_to _("MIZ-Archiv Kopie löschen"), @snapshot, :style => "line-height: 1.1em; float: none; padding: 0.5em; font-size: 0.9em;", :method => :delete, :confirm => _("Sind Sie sicher?")
+				end
+			end
+		end %>
+
+	</div>
+		
+	<div id="detail-sidebar"  class="grid_10">
+
+		<%= content_tag :h3 do
+			_("Kopie für MIZ-Archiv editieren")
+		end %>
+		<br />
+	
+		<%= form_for @snapshot, :as => :resource,
+					:url => [:update_multiple, @snapshot, :meta_data],
+					:html => {:method => :put} do |resource| %>
+
+			<%= content_for :buttons do
+				content_tag :div, :style => "text-align: right; padding: 10pt; background: #D2D2D2;" do
+					a = resource.submit _("Speichern")
+					a += link_to _("Abbrechen"), snapshots_path, :class => "buttons"
+				end
+			end %>
+
+			<%= yield :buttons %>
+
+			<%= content_tag :div, :class => "tabs", :id => "detail_specification" do
+				meta_contexts = [MetaContext.tms]
+				a = content_tag :ul do
+					meta_contexts.collect do |meta_context|
+						content_tag :li do
+							link_to meta_context, "##{meta_context.name}" 
+						end 
+					end.join.html_safe
+				end
+				meta_contexts.each do |meta_context|
+					a += render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :resource => resource }
+				end 
+				a
+			end %>	
+
+			<%= yield :buttons %>
+		<% end %>
+	</div>
+
+</div>

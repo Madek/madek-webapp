@@ -1,0 +1,19 @@
+<%= form_for [:admin, @usage_term] do |f| %>
+	<%= f.label :intro %>
+	<%= f.text_area :intro %>
+	<%= tag :br %>
+	
+	<%= f.label :title %>
+	<%= f.text_field :title %>
+	<%= tag :br %>
+
+	<%= f.label :version %>
+	<%= f.text_field :version %>
+	<%= tag :br %>
+
+	<%= f.label :body %>
+	<%= f.text_area :body, :style => "min-width: 100%; min-height: 30em;" %>
+	<%= tag :br %>
+
+	<%= f.submit _("Submit") %>
+<% end %>

@@ -1,0 +1,17 @@
+- if logged_in?
+	%li
+		%span.head_menu
+			= link_to current_user, root_path
+			= image_tag "/images/icons/arrow-user.png", :class => "arrow"
+		.sub_menu
+			= link_to _("Meine Medien"), user_media_entries_path(current_user)
+			= link_to _("Meine Sets"), user_media_sets_path(current_user)
+			= link_to _("Meine Favoriten"), favorites_media_entries_path
+			= link_to _("Kopien für MIZ-Archiv"), snapshots_path if current_user.groups.is_member?("MIZ-Archiv")
+			= link_to _("Meine Gruppen"), groups_path, :class => "item_line"
+			= link_to _("Admin"), admin_root_path, :class => "item_line" if current_user.groups.is_member?("Admin")
+			= link_to _("Abmelden"), logout_path, :class => "item_line"
+- else
+	%li
+		%span.head_menu{:style => "background: #AAD450; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
+			= link_to _("Anmelden"), login_path, :style => "background: #AAD450; color:#fff"

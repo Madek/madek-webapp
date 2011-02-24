@@ -1,0 +1,56 @@
+<%= prevent_leaving_page %>
+
+<%= content_tag :div, :id => "content-body", :class => "container_12 clearfix" do
+	content_tag :div, :id => "detail-sidebar", :class => "grid_12" do
+
+		a = content_tag :h3 do
+			_("Metadaten editieren")
+		end
+		
+		a += tag :br
+
+		a += form_for @media_set, :as => :resource,
+					:url => [:update_multiple, @media_set, :meta_data],
+					:html => {:method => :put} do |resource|
+
+			content_for :buttons do
+				content_tag :div, :style => "text-align: right; padding: 10pt; background: #DDDDDD;" do
+					c = resource.submit _("Speichern")
+					c += link_to _("Abbrechen"), @media_set, :class => "buttons"
+					c += content_tag :div, :class => "error required_message", :style => "display: none;" do
+						_("Bitte füllen Sie die Pflichtfelder aus (\"Titel\").")
+				    end
+				end
+			end
+
+			b = content_tag :div, :id => "detail_specification", :style => "border: 1px solid #D2D2D2;" do
+				render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => MetaContext.media_set, :resource => resource }
+			end	
+
+			b += yield :buttons
+		end
+
+	end
+end %>
+
+<%= javascript_tag do %>
+	$(document).ready(function () {
+		$("form").submit(function(event){
+			// OPTIMIZE nested form problem
+			if(this != event.target) return true;
+
+			var valid = true;
+			$(this).find("[data-required]").each(function(){
+				if($(this).val() == "") valid = false;
+			});
+			if(!valid){
+			// doesn't work anymore ??!!
+			//if($(this).find("[data-required][value='']").length > 0){
+				$(".required_message").show();
+				return false;
+			}else{
+				$(".required_message").hide();
+			}
+		});
+	});
+<% end %>

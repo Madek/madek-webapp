@@ -1,0 +1,17 @@
+%h2.groups Neue Gruppe erstellen
+
+= form_for @group do |f|
+  %table.groups
+    %tr
+      %th
+        = f.label :name
+      %td
+        = f.text_field :name
+    %tr
+      %td
+      %td
+        = f.submit 'Gruppe erstellen'
+%br
+= link_to _("Zurück zu den Gruppen"), groups_path
+%br
+%br

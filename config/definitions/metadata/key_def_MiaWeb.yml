@@ -1,0 +1,34 @@
+# ---
+# - 
+#     meta_key: keywords
+#     meta_field: 
+#       description: 
+#         de_CH: Stichwort Bildinhalt.
+#         en_GB: Picture Content Keywords.
+#       is_required: true
+#       label: 
+#         de_CH: Stichwort Bildinhalt
+#         en_GB: Content keywords
+#     meta_context: MIA Web
+# - 
+#     meta_key: portrayed object dates
+#     meta_field: 
+#       description: 
+#         de_CH: Datierung.
+#         en_GB: Dates.
+#       is_required: true
+#       label: 
+#         de_CH: Datierung
+#         en_GB: Dates
+#     meta_context: MIA Web
+# -
+#     meta_key: publisher
+#     meta_field: 
+#       description: 
+#         de_CH: An entity responsible for making the resource available.
+#         en_GB: An entity responsible for making the resource available.
+#       is_required: true
+#       label: 
+#         de_CH: Druckerei
+#         en_GB: Publisher
+#     meta_context: MIA Web

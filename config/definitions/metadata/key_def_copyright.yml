@@ -1,0 +1,40 @@
+---
+- 
+    meta_key: copyright notice
+    meta_field: 
+      description: 
+        de_CH: Besitzer/in der Nutzungs- und Verwertungsrechte
+        en_GB: Copyright owner
+      label: 
+        de_CH: Copyright
+        en_GB: Copyright
+      length_max: 255
+      length_min: 1
+    meta_context: copyright
+- 
+    meta_key: copyright status
+    meta_field: 
+      description: 
+        de_CH: Ist das Werk urheberrechtlich geschützt oder gemeinfrei?
+        en_GB:
+      label: 
+        de_CH: Copyright-Status
+        en_GB: Copyright Status
+    meta_context: copyright
+- 
+    meta_key: copyright usage
+    meta_field: 
+      label: 
+        de_CH: Nutzungsbedingungen
+        en_GB: Usage conditions
+    meta_context: copyright
+- 
+    meta_key: copyright url
+    meta_field: 
+      description: 
+        de_CH: Internetlink zur detaillierten Beschreibung der Nutzungsbedingungen wie z.B. Lizenztexte und Publikationsdisclaimer.
+        en_GB: Copyright URL for detailed description of usage rights of the work.
+      label: 
+        de_CH: URL für Copyright-Informationen
+        en_GB: Copyright-Info URL
+    meta_context: copyright

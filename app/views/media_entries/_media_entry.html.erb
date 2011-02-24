@@ -1,0 +1,272 @@
+<% can_edit = Permission.authorized?(current_user, :edit, media_entry)
+   is_expert = current_user.groups.is_member?("Expert") %>
+<%= include_editable if can_edit %>
+
+								<!--<div class="container_12 clearfix" style="position: relative">
+								<p class="note" style="font-size: 1em">Sie dürfen diesen Medieneintrag bearbeiten. <a href="#">Möchten Sie den Bearbeitungshilfe aktivieren?</a></p>
+								<p style="position: absolute; top: 15px; right: 0"><a href="entry-active.html" id="dialog_link" class="" style="color: #727272;"><span class="ui-icon ui-icon-info"></span> Hinweis nicht mehr anzeigen</a></p>
+								</div>-->
+		<div id="content-header" class="container_12 clearfix">
+			
+			<%= content_tag :div, :class => "grid_4" do %>
+				<p style="font-size: 100%; text-align: right;">
+					<a href="#" id="dialog_link" class="ui-state-default ui-corner-all" style="color: #727272;"><span class="ui-icon ui-icon-newwin"></span>Lightbox</a>
+					<a href="#" id="dialog_link" class="ui-state-default ui-corner-all" style="color: #727272;"><span class="ui-icon ui-icon-pencil"></span>Edit</a>
+					<a href="#" id="dialog_link" class="ui-state-default ui-corner-all" style="color: #727272;"><span class="ui-icon ui-icon-extlink"></span>Backend</a>
+				</p>
+			<% end if false #future# 
+			%>
+		</div> <!-- /#content-header -->
+		
+		<div id="content-body" class="container_12 clearfix">
+		
+			<div id="detail-main" class="grid_8">	
+				<%= content_tag :div, :id => "detail-image", :style => "padding-bottom: 1em" do %>
+					<%= thumb_for(media_entry, :large) %>
+				<% end %>
+
+				<div id="detail-action-bar" class="clearfix">
+					
+					<%= content_tag :ul, :class => "clearfix", :id => "toggle-panel" do %>
+
+						<%= content_tag :li do %>
+							<%= link_to _("Editieren"), edit_media_entry_path(media_entry), :style => "font-weight: bold;" %>
+						<% end if can_edit %>
+
+						<%= content_tag :li do
+							link_to "#", :panel => "bookmark", :class => "", :onclick => "return false;" do %>
+								<span class=''></span><%= _("Merken") %>
+							<% end
+						end if logged_in? %>
+
+						<%= content_tag :li do %>
+							<%= link_to _("Versenden"), "#", :panel => "settings", :class => "", :style => "", :onclick => "return false;" %>
+						<% end if false #future# %>
+
+						<%= content_tag :li do %>
+							<%= link_to _("Download"), "#", :panel => "download", :class => "", :style => "", :onclick => "return false;" %>
+						<% end %>
+
+						<%= content_tag :li do %>
+							<%= link_to "Index Browser", index_browser_media_entry_path(media_entry) %>
+						<% end if false #future# %>
+
+						<%= content_tag :li do %>
+							<a href="#" class="action_links ui-state-default"><span class="ui-icon ui-icon-folder-open"></span>Hinzufügen</a>
+						<% end if false #future# %>
+
+						<%= content_tag :li do %>
+							<a href="#" class="action_links ui-state-default"><span class="ui-icon ui-icon-note"></span>Protokoll</a>
+						<% end if false #future# %>
+
+						<%= content_tag :li do %>
+							<%= link_to _("Gruppieren"), "#", :panel => "media_set", :class => "", :style => "", :onclick => "return false;" %>
+						<% end %>
+
+						<%= content_tag :li do %>
+							<%= link_to _("Löschen"), "#", :panel => "delete", :onclick => "return false;" %>
+						<% end if can_edit %>
+
+						<%= content_tag :li do %>
+							<%= link_to _("Einstellungen"), "#", :panel => "settings", :class => "", :style => "", :onclick => "return false;" %>
+						<% end if false #future# can_edit # TODO :delete %>
+
+						<%= content_tag :li do %>
+							<%= link_to _("Metadaten für MIZ-Archiv editieren"), edit_tms_media_entry_path(@media_entry) %>
+						<% end if can_edit and is_expert and media_entry.snapshotable? # OPTIMIZE %>
+
+						<%= content_tag :li do %>
+							<%= link_to _("Kopie für MIZ-Archiv erstellen"), to_snapshot_media_entry_path(media_entry) %>
+						<% end if is_expert and media_entry.snapshotable? %>
+
+					<% end %>
+					
+			
+		
+		
+		
+
+					<div id="bookmark-panel" class="actionbar-panel" style="display: none">
+						<div class="actionbar-inner-panel" id="favorite_link">
+							<% if logged_in? %>
+								<%= render :partial => "favorite_link", :locals => {:media_entry => media_entry} %>
+							<% else %>
+								<%= _("Bitte anmelden.") %>
+							<% end %>
+						</div>
+						<%= javascript_tag do %>
+						    $(document).ready(function () {
+								$("#favorite_link a[data-remote]").live('ajax:complete', function(xhr, response){
+									$("#favorite_link").html(response.responseText);
+								});
+							});
+						<% end %>
+					</div>
+					
+					<div id="send-panel" class="actionbar-panel"  style="display: none">
+						<div class="actionbar-inner-panel">
+							<p>Versenden...</p>
+						</div>
+					</div>
+					
+					<div id="download-panel" class="actionbar-panel" style="display: none">
+						<div class="actionbar-inner-panel">
+							<%= render :partial => "download", :object => media_entry, :as => :media_entry %>
+						</div>
+					</div>
+
+					<div id="media_set-panel" class="actionbar-panel"  style="display: none">
+						<div class="actionbar-inner-panel">
+							<% if logged_in? %>
+								<%#temp# media_sets_autocomplete(set_media_sets_upload_path, media_entry) %>
+								<%= media_sets_setter(media_sets_media_entry_path(media_entry)) %>
+							<% else %>
+								<%= _("Bitte anmelden.") %>
+							<% end %>
+						</div>
+					</div>
+					
+					<%= content_tag :div, :id => "settings-panel", :class => "actionbar-panel", :style => "display: none" do %>
+						<div class="actionbar-inner-panel">
+							<p><%= _("Settings") -%></p>
+						</div>
+					<% end if false #future#
+					%>
+
+					<%= content_tag :div, :id => "delete-panel", :class => "actionbar-panel", :style => "display: none" do %>
+						<div class="actionbar-inner-panel">
+							<%= _("Sind Sie sicher?") %>
+							<%= link_to _("Ja"), media_entry, :method => :delete, :class => "buttons" %>
+							<%= link_to _("Nein"), "#", :onclick => "$(\"a[panel='delete']\").trigger('click'); return false;", :class => "buttons" %>
+						</div>
+					<% end if can_edit %>
+					
+				</div>
+
+			<div id="additional-metadata">
+				
+				<%= content_tag :h3, :class => "tab-title" do #, :onclick => "$('#detail_specification').toggle();"
+					_("Metadaten")
+				end %>
+				
+				<%= content_tag :div, :class => "tabs", :id => "detail_specification" do
+					content_tag :ul do 
+						a = (MetaContext.defaults + media_entry.individual_contexts).collect do |meta_context|
+							content_tag :li do
+								link_to meta_context, polymorphic_path([media_entry, :meta_data], :context_id => meta_context) 
+							end 
+						end.join.html_safe
+
+						# OPTIMIZE iterator for meta_contexts (as for the edit)
+						a += content_tag :li do
+							link_to _("Datei"), polymorphic_path([:objective, media_entry, :meta_data]) 
+						end
+
+						meta_context = MetaContext.tms
+						a += content_tag :li do
+							link_to meta_context, polymorphic_path([media_entry, :meta_data], :context_id => meta_context) 
+						end if is_expert
+						a 
+					end
+				end %>					
+
+
+				<%= content_tag :h3, :class => "tab-title", :style => "margin-top: 1em" do #, :onclick => "$('#further_information').toggle();"
+					_("Weitere Informationen")
+				end %>
+
+				<div class="tabs" id="further_information">
+					<%= content_tag :ul do
+						a = content_tag :li do
+							link_to _("Aktivitäten"), "#usage-tabs-1" 
+						end
+						a += content_tag :li do
+							link_to _("Zugriffsberechtigung"), (Permission.authorized?(current_user, :manage, media_entry) ? edit_multiple_media_entry_permissions_path(media_entry) : media_entry_permissions_path(media_entry)) 
+						end
+					end %>
+			
+					<div id="usage-tabs-1" class="meta_data">
+						<table class="metadata-table">
+							<tr>
+								<td style="width: 30%;"><%= _("Hochgeladen von") -%></td>
+								<td style="width: 70%; text-align: left;">
+									<%#temp#= link_to media_entry.user, media_entry.user %>
+									<%#TODO 2007# uploader_user = media_entry.meta_data.get_value_for("uploaded by") %>
+									<%= link_to media_entry.user, media_entries_path(:query => media_entry.user.fullname) %>
+								</td>
+							</tr>
+							<tr>
+								<td style="text-align: right;"><%= _("Hochgeladen am") -%></td>
+								<%#TODO 2007# %>
+								<td><%= _("%s Uhr") % media_entry.created_at.to_formatted_s(:date_time) %></td>
+							</tr>
+							<% edit_sessions = media_entry.edit_sessions
+							content_tag :tr do %>
+								<td style="text-align: right;"><%= _("Letzte Aktualisierung") -%></td>
+								<td>
+									<%#= media_entry.updated_at.to_formatted_s(:date_time) %>
+									<%= content_tag :ul do
+										edit_sessions.each do |edit_session|
+											content_tag :li do %>
+												<%= link_to edit_session.user, edit_session.user %> / <%= _("%s Uhr") % edit_session.created_at.to_formatted_s(:date_time) %>
+											<% end
+										end
+									end %>
+								</td>
+							<% end unless edit_sessions.empty? %>
+							<% description_author_before_import = media_entry.meta_data.get_value_for("description author before import") %>
+							<%= content_tag :tr do %>
+								<td style="text-align: right; font-weight: bold;"><%= _("Beschreibung durch (vor dem Hochladen ins Medienarchiv)") -%></td>
+								<td><%= description_author_before_import %></td>
+							<% end unless description_author_before_import.blank? %>
+							<%= content_tag :tr do %>
+								<td style="text-align: right; font-weight: bold;"><%= _("MIZ-Archiv Kopie") -%></td>
+								<td><%= _("%s Uhr") % media_entry.snapshots.first.created_at.to_formatted_s(:date_time) %></td>
+							<% end unless media_entry.snapshots.empty? %>
+						</table>
+					</div>
+
+				</div>
+			</div> <!-- #additional-metadata -->
+
+		</div> <!-- #detail-main -->
+		
+		<div id="detail-sidebar"  class="grid_4">
+			
+			<h2 class="title">
+					<%= render :partial => "/meta_data/show", :locals => { :meta_datum => media_entry.meta_data.get("title"), :resource => media_entry, :context => nil } %>
+			</h2>		
+					
+			<%= content_tag :div, :id => "detail-excerpt", :class => "sidebar-box" do
+				context = MetaContext.core
+				media_entry.meta_data_for_context(context).collect do |meta_datum|
+					# next unless meta_datum.value
+					definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
+
+					a = content_tag :h4, :style => "margin-top: 1em;" do
+						definition.meta_field.label.to_s
+					end
+					a += render :partial => "/meta_data/show", :locals => { :meta_datum => meta_datum, :resource => media_entry, :context => context }
+				end.join.html_safe
+			end %>
+			
+			<% if is_expert %>
+				<%= content_tag :div, :style => "font-size: 0.9em; margin-top: 1.5em;", :class => "notice" do
+					date = media_entry.snapshots.first.created_at.to_formatted_s(:date)
+					time = media_entry.snapshots.first.created_at.to_formatted_s(:time)
+					"Ein Kopie dieses Medieneintrags wurde am #{date} um #{time} Uhr für das MIZ-Archiv erstellt."
+				end unless media_entry.snapshots.empty? %>
+				
+				<%= content_tag :div, :style => "font-size: 0.9em; margin-top: 0.5em;", :class => "notice" do %>
+					<%= _("Diese Kopie wird gegenwärtig durch das MIZ-Archiv bearbeitet.")%>
+				<% end unless media_entry.snapshotable? %>
+			<% end %>
+			
+			<% sets = media_entry.media_sets.select {|media_set| Permission.authorized?(current_user, :view, media_set) } %>
+			<%= content_tag :div, :id => "detail-affiliation" do
+				media_sets_list(sets)
+			end unless sets.empty? %>
+
+		</div>
+
+		</div> <!-- /#content-body -->

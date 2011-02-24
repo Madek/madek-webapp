@@ -1,0 +1,27 @@
+<div id="content-body" class="container_12 clearfix">
+	
+	<div id="detail-main" class="container_12 grid_12">	
+		<h2 style="border-bottom: 1px solid #d2d2d2; padding: 0.5em 0;">Meine Medieneinträge</h2>
+		<% @media_entries = @my_media_entries
+		unless @media_entries.empty? %>
+			<%= render :partial => '/media_entries/index' %>
+			<%= content_tag :div, :style => "text-align: right;" do %>
+				<%= link_to "Weitere >>", user_media_entries_path(current_user) %>
+			<% end if @media_entries.total_entries >= params[:per_page]
+		else %>
+			<%= _("Sie haben keine Medien hochgeladen") %>
+		<% end %>
+
+		<h2 style="border-bottom: 1px solid #d2d2d2; padding: 0.5em 0;">Weitere Medieneinträge</h2>
+		<% @media_entries = @accessible_media_entries
+		unless @media_entries.empty? %>
+			<%= render :partial => '/media_entries/index' %>
+			<%= content_tag :div, :style => "text-align: right;" do %>
+				<%= link_to "Weitere >>", media_entries_path(:not_by_current_user => true) %>
+			<% end if @media_entries.total_entries >= params[:per_page]
+		else %>
+			<%= _("Es gibt keine weitere Medieneinträge") %>
+		<% end %>
+	</div>
+
+</div>

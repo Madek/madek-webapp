@@ -1,0 +1,37 @@
+    # XMP structures are defined as SubDirectory's
+    XMPmadekStruct => {
+        SubDirectory => { },  # treat as a subdirectory containing other tags
+        Struct => 'MadekStruct', # arbitrary name identifies entry in xmpStruct
+        List => 'Seq',        # structures may also be elements of a list
+    },
+    # structure elements must be defined as separate tags.  The tag ID's
+    # are the concatination of the structure tag ID with the ID of each
+    # structure element in turn.  The list flag should be set if the
+    # parent structure is contained in a list.
+    XMPmadekStructX => { List => 1 },
+    XMPmadekStructY => { List => 1 },
+);
+
+# User-defined XMP structures are added to the xmpStruct lookup
+%Image::ExifTool::UserDefined::xmpStruct = (
+    # A structure with 2 elements: X and Y
+    MadekStruct => {
+        NAMESPACE => { 'test' => 'http://madek.zhdk.ch/test/' },
+        # TYPE is optional -- it adds an rdf:type element to the structure
+        TYPE => 'http://madek.zhdk.ch/test/madekstruct',
+        X => { },
+        Y => { },
+    },
+);
+
+
+# Specify default ExifTool option values
+# (see the Options function documentation for available options)
+%Image::ExifTool::UserDefined::Options = (
+    CoordFormat => '%.6f',  # change default GPS coordinate format
+    Duplicates => 1,        # make -a default for the exiftool app
+    GeoMaxHDOP => 4,        # ignore GPS fixes with HDOP > 4
+);
+
+#------------------------------------------------------------------------------
+1;  #end

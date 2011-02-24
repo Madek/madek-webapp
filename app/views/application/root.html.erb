@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+	
+<html lang="de-CH">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Medienarchiv der Künste</title>
+	
+	<%= stylesheet_link_tag "master", :media => "all" %>
+	
+	<%= javascript_include_tag :defaults,
+								"easySlider1.7.js",
+								"fancybox/jquery.mousewheel-3.0.2.pack.js",
+								"fancybox/jquery.fancybox-1.3.0.pack.js",
+								"jquery/plugins/jquery.elastic",
+								"jquery/plugins/jquery.placeholder",
+								"jquery/plugins/jquery.flickrmenu" %>
+	<script type="text/javascript">
+		$(document).ready(function(){	
+			$("#slider").easySlider({
+				auto: true,
+				pause: 5000,
+				continuous: true
+			});
+			
+			$("#various1").fancybox({
+				'titlePosition'		: 'inside',
+				'transitionIn'		: 'none',
+				'transitionOut'		: 'none'
+			});
+		});	
+	</script>
+
+	<link rel="stylesheet" type="text/css" href="/javascripts/fancybox/jquery.fancybox-1.3.0.css" media="screen" />
+	
+	<style type="text/css" media="screen">
+	
+		body {background: #f2f2f2;}
+		
+		p {line-height:1.2em;}
+
+		.zhdk-logo a {display: block; position: absolute; right: 0; top: 5px; width: 150px; height: 59px; background: transparent url(/images/logos/zhdk-logo.png) top left no-repeat; text-indent: -999em;}
+	
+		.intro-box, .screenshot-box {padding: 1.5em 0 0.75em;}
+		
+		.intro-box h1 {margin-bottom: 0.5em; font-size: 36px; line-height: 1.1em;}
+		
+		.intro-box p {font-size: 14px; margin-bottom: 1em; line-height: 1.2em;}
+	
+		.teaser-box {background: #EEEEEE; color: #2F485B; padding: 1em 1.5em 1.5em 1.5em; margin-top: 1em; -moz-border-radius: 5px; -webkit-border-radius: 5px; font-size: 14px}
+
+		.teaser-box h2 {font-size: 32px; font-weight: bold;}
+		
+		.teaser-box1 h2 {font-size: 32px; margin-top: 0; font-weight: bold;}
+		
+		.teaser-box1 h3 {font-size: 14px;}
+		
+		.teaser-box1 {background: #DAE4EA; color: #2F485B; padding: 1.5em 1.5em 1.5em 1.5em; -moz-border-radius: 5px; -webkit-border-radius: 5px; font-size: 14px}		
+		
+		p.teaser-question {font-weight: bold; margin: 0.75em 0; font-size: 18px; line-height: 1.2em;}
+		
+		.teaser-box a.button-link {background: silver; display: block; text-align: center; color:#fff; -moz-border-radius: 5px; -webkit-border-radius: 5px; font-size: 16px; line-height: 3em; font-weight: bold; margin-top: 1.5em;}
+
+		a.button-link {background: #41637C; display: block; text-align: center; color:#fff; -moz-border-radius: 5px; -webkit-border-radius: 5px; font-size: 16px; line-height: 3em; font-weight: bold; margin-top: 1.5em;}
+		
+		a.button-link:hover {background: #38566D; text-decoration: none;}
+		
+		.browser-hint {font-size: 16px; padding-top: 1.5em}
+		
+		.browser-hint a, .intro-box p a{font-weight: bold; text-decoration: none;}
+		
+		.firefox-badge {position: absolute; top: 10px; right: 10px; width: 64px; height: 64px; text-align: center; background: transparent url(/images/firefox-badge.png) top left no-repeat;}
+		
+		.firefox-badge a {display: block; color: #fff; font-weight: bold; font-size: 11px; line-height: 13px;text-shadow: 1px 1px 1px #000; opacity: 0.95; padding-top: 14px;}
+		
+		.firefox-badge a {opacity: 1;}
+		
+		#slider {background: transparent (/images/empty-teaser.png) top left no-repeat;}
+		
+		#slider li {width:450px; height:440px;overflow:hidden;}
+		
+		#prevBtn, #nextBtn,
+		#slider1next, #slider1prev{ 
+			display:none;
+			}
+		
+	</style>
+	
+</head>
+
+<body id="" class="">
+
+
+<div id="wrapper" class="clearfix" style="background: #fff; padding-bottom: 2em">	
+
+<div id="container" class="container_12">
+	<header class="clearfix" style="background: #fff; padding: 0.5em 0">
+		<div class="container_12 grid_6">
+			<h1><%= link_to "Medienarchiv der Künste", root_path %></h1>
+		</div>
+		<div class="container_12 grid_6">
+				<p class="zhdk-logo"><a href="http://www.zhdk.ch" style="">Zürcher Hochschule der Künste</a></p>
+		</div>
+	</header>
+
+	<div class="container_12 clearfix">	
+	
+	<!--<div class="container_12 grid_12">
+		<h1 style="font-size: 200%;">Mediendatenbank und Arbeitsplattform für Lehre und Forschung</h1>
+	</div>-->
+	
+	<div class="container_12 grid_6"  style="font-size: 1.25em;">
+
+	</div>
+	
+	</div>
+
+	<%= flash_helper unless flash_helper.blank? %>
+
+	<div class="container_12 grid_12 clearfix" style="border-top: 5px solid #DAE4EA;">
+		
+		<div class="container_12 grid_6 alpha intro-box">
+			<!--<p style="margin-bottom: 1.75em">Die <a href="#" style="">Zürcher Hochschule der Künste (ZHdK)</a> entwickelt unter der Leitung des <a href="#">Informationstechnologie-Zentrum (ITZ)</a> und dem <a href="#">Medien und Informationszentrum (MIZ)</a> ein Digitales Repositorium für Forschung und Lehre.</p>-->
+		<h1>Mediendatenbank und Arbeitsplattform für Lehre und Forschung</h1>
+			<!--<p>An der Zürcher Hochschule der Künste wird seit Januar 2009 das  
+			Medienarchiv der Künste entwickelt. Diese Mediendatenbank soll  
+			zukünftig als gemeinschaftliche Arbeitsplattform den Studierenden,  
+			Dozierenden und Mitarbeitenden zur Verfügung stehen und darüber hinaus  
+			die ersten Abläufe der Archivierung erleichtern.</p>
+			<p>Die Einsatzbereiche  
+			des Medienarchivs sind hauptsächlich auf Lehre und Forschung gerichtet  
+			sowie auf die Unterstützung bei medienorientierten  
+			Produktionsabläufen. Es wird ein breites Spektrum an audiovisuellen  
+			Inhalten verwaltet werden können.</p>-->
+			
+
+
+			<div class="teaser-box1">
+			<h2>Medienarchiv <%= RELEASE_VERSION %></h2>
+			<p class="teaser-question">Ernsthaft arbeiten?</p>
+			<p>Mit einem ZHdK-Account haben Sie Zugang zum Medienarchiv.</p>
+			<p><%= link_to _("Log in"), login_path, :class => "button-link" %></p>
+			<h3>Bitte benutzen Sie zum Arbeiten mit der Betaversion <a href="http://www.mozilla-europe.org/de/firefox/" target="_blank"><b>Firefox 3.6</b></a> oder höher.</h3>
+			</div>
+
+
+
+
+
+			<!--<div class="container_12 grid_3 alpha" style="background: #EEF8FF; -moz-border-radius: 5px; -webkit-border-radius: 5px; font-size: 14px">
+				<div style="padding: 2em 1.5em">
+				<h2 style="font-weight: bold; margin-bottom: 0.5em">Mailingliste</h2>
+				<p><span style="display: block; font-weight: bold; margin-bottom: 0.5em">Auf dem aktuellen Stand bleiben?</span> Der Newsletter versorgt Sie regelmässig mit den aktuellsten Informationen.</p>
+				<p style="text-align: center"><a href="http://services.zhdk.ch/cgi-bin/mailman/listinfo/medienarchiv" style="background: #41637C; display: block; color:#fff; -moz-border-radius: 5px; -webkit-border-radius: 5px; line-height: 2.5em; font-weight: bold; margin-top: 1em">Abonnieren</a></p>
+				</div>
+			</div>-->
+			
+			<!--<div class="container_12 grid_3 omega" style="background: #EEF8FF; -moz-border-radius: 5px; -webkit-border-radius: 5px; font-size: 14px">
+					<div style="padding: 2em 1.5em">
+					<h2 style="font-weight: bold; margin-bottom: 0.5em">Testversion</h2>
+					<p><span style="display: block; font-weight: bold; margin-bottom: 0.5em">Einen ersten Eindruck gewinnen?</span>  Mit einem ZHdK-Account haben Sie Zugang zur Testumgebung.</p>
+					<p style="text-align: center"><%= link_to _("Login"), login_path, :style => "background: #41637C; display: block; color:#fff; -moz-border-radius: 5px; -webkit-border-radius: 5px; line-height: 2.5em; font-weight: bold; margin-top: 1em;" %></p>
+					</div>
+				</div>-->		
+			
+		</div>
+		
+
+		
+		<div class="container_12 grid_6 omega screenshot-box">
+			<div id="slider" style="border: 5px solid #f2f2f2; -moz-border-radius: 5px; -webkit-border-radius: 5px;">
+			<ul>
+				<li style="margin: 0; padding: 0; line-height: 0em;"><img src="/images/teaser/madek-teaser-03.png" alt="" /></li>
+				<li style="margin: 0; padding: 0; line-height: 0em;"><img src="/images/teaser/madek-teaser-04.png" alt="" /></li>
+				<li style="margin: 0; padding: 0; line-height: 0em;"><img src="/images/teaser/madek-teaser-05.png" alt="" /></li>
+				<li style="margin: 0; padding: 0; line-height: 0em;"><img src="/images/teaser/madek-teaser-06.png" alt="" /></li>
+				<li style="margin: 0; padding: 0; line-height: 0em;"><img src="/images/teaser/madek-teaser-07.png" alt="" /></li>
+
+			</ul>
+			</div>
+		</div>
+		
+	</div>
+	
+	<div class="container_12 clearfix" style="">
+		<div class="container_12 grid_4">
+			<div class="teaser-box">
+			<h2>Demoversion</h2>
+			<p class="teaser-question">In der Testumgebung einen Eindruck bekommen?</p>
+			<p>Vorsicht: Hier werden die Einträge gelegentlich wieder gelöscht.</p>
+			<p><a href="http://demo.medienarchiv.zhdk.ch/login/" class="button-link">Ausprobieren</a></p>
+			</div>
+		</div>
+		<div class="container_12 grid_4">
+			<div class="teaser-box">
+			<h2>Projekt MAdeK</h2>
+			<p class="teaser-question">Was ist das Medienarchiv der Künste?</p>
+			<p>Eine Plattform für die Medien aus Lehre und Forschung an der ZHdK.</p>
+			<p><a href="http://madek.zhdk.ch" class="button-link">Informieren</a></p>
+			</div>
+			<!--<div class="firefox-badge"><p><a href="http://www.getfirefox.com">Benutze<br />Firefox<br />3.6</a><p></div>-->
+		</div>
+		<div class="container_12 grid_4">
+			<div class="teaser-box">
+			<h2>Mailingliste</h2>
+			<p class="teaser-question">Auf dem aktuellen Stand bleiben?</p>
+			<p>Der Newsletter versorgt Sie regelmässig mit den aktuellsten Informationen.</p>
+			<p><a href="http://services.zhdk.ch/cgi-bin/mailman/listinfo/medienarchiv" class="button-link">Abonnieren</a></p>
+			</div>
+			<div style="display: none;">
+				<div id="inline1" style="width:500px;height:225px;overflow:auto;font-size: 16px">
+					<p>Das Medienarchiv der Künste wird in enger Zusammenarbeit mit Angehörigen der ZHdK entwickelt. Haben Sie Interesse als Einzelperson oder mit einem Bereich aktiv am Entwicklungsprozess teilzunehmen? Melden Sie sich bei:</p>
+					<p style="font-size: 24px; margin: 1em 0; text-align: center">susanne.schumacher@zhdk.ch</p>
+					<p style="">Mehr Informationen zu den aktuellen Pilotprojekten finden Sie auf dem <a href="http://code.zhdk.ch/projects/madek/wiki/Pilot%20Projects">MAdeK-Wiki</a>.
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+</div>
+
+<!--<div class="container_12 clearfix">
+	<p class="container_12 grid_12 browser-hint">* Bitte benutzen Sie zum Testen der Betaversion des Medienarchiv der Künste <a href="http://www.getfirefox.com">Firefox 3.6</a> oder höher. Die aktuelle Version des Firefox-Browsers können Sie für Mac, Windows und Linux auf der Mozilla-Website herunterladen.</p>
+</div> -->
+
+</div> <!-- #/wrapper -->
+
+<footer>
+	<div id="inner-footer" class="container_12 clearfix">
+
+		<p><strong>&copy; 2009-2010 &nbsp;Zürcher Hochschule der Künste</strong><br /><%= render :partial => '/layouts/deploy_info' %></p>
+		<!--<p><a href="http://www.zhdk.ch">ZHdK Website</a>  &nbsp;&middot;&nbsp; <a href="http://services.zhdk.ch/cgi-bin/mailman/listinfo/medienarchiv">MAdeK Mailingliste</a> &nbsp;&middot;&nbsp; <a href="http://code.zhdk.ch/projects/madek/wiki/">MAdeK Wiki</a>-->
+		</p>
+		
+
+	</div>
+	
+
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+---
+?
+  label: Unbekannt
+:
+
+? 
+  label: Urheberrechtlich geschützt (standardisierte Lizenz)
+: 
+  - label: Alle Rechte vorbehalten
+    usage: Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.
+    url: http://www.copyright.ch
+    is_default: true
+  - ? 
+      label: Creative Commons Licence
+    : 
+      - label: "CC-By-CH: Attribution"
+        usage: Bitte jeweils die angegebenen Nutzungsmodifikationen beachten.
+        url: http://creativecommons.org/licenses/by/2.5/ch/
+      - label: "CC-By-SA-CH: Attribution Share Alike"
+        usage: Bitte jeweils die angegebenen Nutzungsmodifikationen beachten.
+        url: http://creativecommons.org/licenses/by-sa/2.5/ch/
+      - label: "CC-By-ND-CH: Attribution No Derivates"
+        usage: Bitte jeweils die angegebenen Nutzungsmodifikationen beachten.
+        url: http://creativecommons.org/licenses/by-nd/2.5/ch/
+      - label: "CC-By-NC-CH: Attribution Non-Commercial"
+        usage: Bitte jeweils die angegebenen Nutzungsmodifikationen beachten.
+        url: http://creativecommons.org/licenses/by-nc/2.5/ch/
+      - label: "CC-By-NC-SA-CH: Attribution Non-Commercial Share Alike"
+        usage: Bitte jeweils die angegebenen Nutzungsmodifikationen beachten.
+        url: http://creativecommons.org/licenses/by-nc-sa/2.5/ch/
+      - label: "CC-By-NC-ND-CH: Attribution Non-Commercial No Derivates"
+        usage: Bitte jeweils die angegebenen Nutzungsmodifikationen beachten.
+        url: http://creativecommons.org/licenses/by-nc-nd/2.5/ch/
+  - ? 
+      label: ZHdK-Lizenzen
+    : 
+      - label: Studio Publikation
+        usage: Alle Rechte dem Studio Publikation der ZHdK vorbehalten. Freie Verwendung im Rahmen von Ankündigung und Berichterstattung der ZHdK.
+        url: http://www.zhdk.ch/index.php?id=1033
+
+?
+  label: Urheberrechtlich geschützt (individuelle Lizenz)
+  usage: ""
+  url: ""
+  is_custom: true
+:
+
+? label: Public Domain / Gemeinfrei
+  usage: Freie Nutzung ohne Einschränkung.
+  url: http://de.wikipedia.org/wiki/Public_Domain
+:

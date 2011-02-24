@@ -1,0 +1,18 @@
+%tr
+  %td
+    - if permission.subject.nil?
+      = _("Angemeldete Benutzer/innen")
+      %br
+      = _("Öffentlich und angemeldete Benutzer/innen")
+    - else
+      = permission.subject
+
+  - [:view, :edit, :hi_res].each do |key|
+    %td
+      - if permission.subject.nil?
+        %input{:type => "checkbox", :checked => (permission.actions[key] == :logged_in_users), :path => polymorphic_path([@resource, permission], :key => key, :value => :logged_in_users)}
+        %br
+      %input{:type => "checkbox", :checked => (permission.actions[key] == true), :path => polymorphic_path([@resource, permission], :key => key)}
+  %td
+    = link_to _("Löschen"), url_for([@resource, permission]), :remote => true, :method => :delete,
+      :confirm => _("Sind Sie sicher?") if permission.subject and permission.subject != current_user

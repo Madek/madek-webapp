@@ -1,0 +1,37 @@
+/* 
+
+Credits: http://www.candesprojects.com/downloads/flickr-horizontal-menu/
+
+*/
+
+#menu { position: absolute; top: 0; right: 0; margin:0 auto; text-align: right;}
+#menu a { color:#FFFFFF; text-decoration:none; }
+#menu a:hover { text-decoration:underline; }	
+#menu li { display:inline; position:relative; }
+#menu li span { position:relative; z-index:10; padding:8px 8px 8px 10px;  border-bottom:none; line-height:75px; margin-left: 0.25em;}	
+#menu li span a { font-weight:bold; padding:0 6px 0px 2px;}	
+#menu li span.over { /*padding:8px 7px 8px 9px;*/ -moz-border-radius: 3px; -webkit-border-radius: 3px; background: #41637C; /*border-top:solid 1px #e2e2e2; border-left:solid 1px #e2e2e2;  border-right:solid 1px #e2e2e2; border-bottom:solid 1px #e2e2e2;*/  }
+*+html #menu li span.over {  border-top:solid 2px #E5E5E5; padding-bottom:3px; } /* IE6 */
+#menu li span.over a { color: #fff;}
+#menu li span.over a:hover { text-decoration: underline; }
+#menu li span.active {background: #41637C; /*padding:8px 7px 8px 9px;*/  /*border-top:solid 1px #E5E5E5; border-left:solid 1px #E5E5E5;  border-right:solid 1px #999999; border-bottom:solid 1px #fff;*/  }
+*+html #menu li span.active {  border-top:solid 2px #E5E5E5; padding-bottom:3px;}
+#menu li span.active a {color: #fff;}
+#menu li span.active a:hover { text-decoration:none;}	
+#menu img.arrow { /*margin-left:4px;*/ cursor:pointer; }
+/*#menu img.arrow:hover { background: red; -moz-border-radius: 3px; -webkit-border-radius: 3px; }*/
+#menu div.sub_menu { display:none; position:absolute; text-align: left; left:0; top:0px; margin-top:20px; -moz-border-radius: 3px; -webkit-border-radius: 3px;/*border-top:solid 1px #E5E5E5; border-left:solid 1px #E5E5E5; border-right:solid 1px #999999; border-bottom:solid 1px #999999;*/ padding:4px; top:2px; width:160px;  background: #659AC3; }
+* html #menu div.sub_menu { margin-top:23px; } /* IE6 */
+*+html #menu div.sub_menu { margin-top:23px; } /* IE7 */
+#menu div.sub_menu a:link, 
+#menu div.sub_menu a:visited, 
+#menu div.sub_menu a:hover{ display:block; font-size:11px; padding:4px; color: #fff !important;}	
+#menu a.item_line { border-top:dotted 1px #fff; padding-top:6px !important; margin-top:3px; }
+
+#menu .head_menu { -moz-border-radius: 3px; -webkit-border-radius: 3px; background: #41637C; }
+#menu .head_menu_feedb { -moz-border-radius: 3px; -webkit-border-radius: 3px; color: #000000; background: #FFE13C; }
+#menu .head_menu_feedb a { color: #000000; }
+
+
+/* custom */
+#menu { z-index: 999; }

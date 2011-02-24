@@ -1,0 +1,106 @@
+- @permissions = Permission.cached_permissions_by(@resource) #tmp# @resource.permissions
+
+%table.permissions
+  %tbody
+    %tr
+      %th
+        Nachname, Vorname:
+      %th{:colspan => 2}
+        Berechtigungen:
+      %th
+    %tr
+      %td
+        %strong Einzelpersonen
+      %td
+        Sehen
+      %td
+        Editieren
+      %td
+        Volle Auflösung
+  %tbody#user_permissions
+    = render :partial => "/permissions/edit", :collection => @permissions.select{|x| x.subject_type == "User"}, :as => :permission
+  %tbody
+    %tr.adder
+      %td
+        Benutzer/in hinzufügen:
+      %td{:colspan => 4}
+        %input#new_user
+    %tr
+      %td{:colspan => 5}
+        %p{:style => "font-size: 0.9em; line-height: 2em;"}
+          Es können nur Benutzer/innen ausgewählt werden, die sich schon einmal im Medienarchiv eingeloggt haben.
+  %tbody
+    %tr
+      %td
+        %strong Gruppen
+      %td
+        Sehen
+      %td
+        Editieren
+      %td
+        Volle Auflösung
+  %tbody#group_permissions
+    = render :partial => "/permissions/edit", :collection => @permissions.select{|x| x.subject_type == "Group"}, :as => :permission
+  %tbody
+    %tr.adder
+      %td
+        Gruppe hinzufügen:
+      %td{:colspan => 4}
+        %input#new_group
+  %tbody
+    %tr
+      %td
+        %strong Allgemein
+      %td
+        Sehen
+      %td
+        Editieren
+      %td
+        Volle Auflösung
+  %tbody#anyone_permissions
+    = render :partial => "/permissions/edit", :collection => @permissions.select{|x| x.subject_type.nil?}, :as => :permission
+
+:javascript
+  $(function() {
+    function create_permission(data, type){
+  		$.ajax({
+  			url: '#{url_for([@resource, :permissions])}',
+  			data: data,
+  			type: "post",
+  			success: function(response){
+          $("input#new_"+type).val("");
+          $(response).appendTo('tbody#'+type+'_permissions').effect('highlight');
+  			}
+  		});
+    }
+
+    $("input#new_user").autocomplete({
+      source: "/users",
+      minLength: 3,
+      select: function(event, ui) {
+        create_permission({user_id: ui.item.id}, 'user');
+      }
+    });
+    
+    $("input#new_group").autocomplete({
+      source: "/groups",
+      minLength: 3,
+      select: function(event, ui) {
+        create_permission({group_id: ui.item.id}, 'group');
+      }
+    });
+    
+    $("table.permissions input:checkbox").live('click', function(){
+  		$.ajax({
+  			url: $(this).attr("path"),
+  			data: {checked: $(this).is(":checked")},
+  			type: "put",
+  			dataType: "script"
+  		});
+      $(this).siblings("input:checkbox").attr('checked', false);
+    });
+    
+    $("table.permissions a[data-method='delete']").live('ajax:success', function(){
+      $(this).closest("tr").fadeOut();
+    });
+  });

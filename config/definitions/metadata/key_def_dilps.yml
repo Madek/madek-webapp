@@ -1,0 +1,373 @@
+# ---
+# - 
+#     meta_key: identifier
+#     meta_field: 
+#       description: 
+#         de_CH: Dokument ID
+#         en_GB: Document ID
+#       is_required: true
+#       label: 
+#         de_CH: Dokument ID
+#         en_GB: Document ID
+#     key_map:
+#     meta_context: dilps
+# - 
+#     meta_key: title
+#     meta_field: 
+#       description: 
+#         de_CH: Titel
+#         en_GB: Title
+#       is_required: true
+#       label: 
+#         de_CH: Titel
+#         en_GB: Title
+#     key_map:
+#     meta_context: dilps
+# - 
+#     meta_key: author
+#     meta_field: 
+#       description: 
+#         de_CH: AutorIn
+#         en_GB: Author
+#       is_required: true
+#       label: 
+#         de_CH: AutorIn
+#         en_GB: Author
+#     key_map:
+#     meta_context: dilps
+# - 
+#     meta_key: additional authors
+#     meta_field: 
+#       description: 
+#         de_CH: Weitere AutorInnen
+#         en_GB: Other Authors
+#       is_required: true
+#       label: 
+#         de_CH: Weitere AutorInnen
+#         en_GB: Other Authors
+#     key_map:
+#     meta_context: dilps
+# - 
+#     meta_key: portrayed object dates
+#     meta_field: 
+#       description: 
+#         de_CH: Jahr
+#         en_GB: Year of creation of depicted object
+#       is_required: true
+#       label: 
+#         de_CH: Jahr
+#         en_GB: Year of creation
+#     key_map:
+#     meta_context: dilps
+# # - 
+# #     meta_key: digital creation date
+# #     meta_field: 
+# #       description: 
+# #         de_CH: Jahr (Abbildung)
+# #         en_GB: Year of digital asset creation
+# #       is_required: true
+# #       label: 
+# #         de_CH: Jahr (Abbildung)
+# #         en_GB: Year of digital asset creation
+# #     key_map:
+# #     meta_context: dilps
+# - 
+#     meta_key: portrayed object city
+#     meta_field: 
+#       description: 
+#         de_CH: Ort (Objekt)
+#         en_GB: Location of the depicted object
+#       is_required: true
+#       label: 
+#         de_CH: Ort (Object)
+#         en_GB: City (of Object)
+#     key_map:
+#     meta_context: dilps
+# - 
+#     meta_key: portrayed object country
+#     meta_field: 
+#       description: 
+#         de_CH: Land (Objekt)
+#         en_GB: Country of the depicted object
+#       is_required: true
+#       label: 
+#         de_CH: Land (Objekt)
+#         en_GB: Country (of Object)
+#     key_map:
+#     meta_context: dilps
+# - 
+#     meta_key: portrayed object time
+#     meta_field: 
+#       description: 
+#         de_CH: Zeit (Objekt)
+#         en_GB: Time/Date of the depicted object 
+#       is_required: true
+#       label: 
+#         de_CH: Zeit (Objekt)
+#         en_GB: Time/Date of the object
+#     key_map:
+#     meta_context: dilps
+# - 
+#     meta_key: portrayed object latitude
+#     meta_field: 
+#       description: 
+#         de_CH: Breitengrad (Objekt)
+#         en_GB: Latitude of the Object
+#       is_required: true
+#       label: 
+#         de_CH: Breitengrad (Objekt)
+#         en_GB: Latitude (Object)
+#     key_map:
+#     meta_context: dilps
+#     exports_as:
+# - 
+#     meta_key: portrayed object longitude
+#     meta_field: 
+#       description: 
+#         de_CH: Längengrad (Objekt)
+#         en_GB: Latitude of the Object
+#       is_required: true
+#       label: 
+#         de_CH: Längengrad (Objekt)
+#         en_GB: Latitude (Object)
+#     key_map:
+#     meta_context: dilps
+# - 
+#     meta_key: portrayed object altitude
+#     meta_field: 
+#       description: 
+#         de_CH: Höhe (Objekt)
+#         en_GB: Altitude of the Object
+#       is_required: true
+#       label: 
+#         de_CH: Höhe (Objekt)
+#         en_GB: Altitude (Object)
+#     key_map:
+#     meta_context: dilps
+# # - 
+#     # meta_key: contributor
+#     #  meta_field: 
+#     #    description: 
+#     #      de_CH: Mitwirkende/r / Weitere Personen
+#     #      en_GB: Other Contributors
+#     #    is_required: true
+#     #    label: 
+#     #      de_CH: Besetzung
+#     #      en_GB: Other Contributors
+#     #  meta_context: dilps
+# - 
+#     meta_key: participating institution
+#     meta_field: 
+#       description: 
+#         de_CH: Partner / beteiligte Institutionen
+#         en_GB: Participating Institution
+#       is_required: true
+#       label: 
+#         de_CH: Beteiligte Institutionen
+#         en_GB: Participating Institution
+#     key_map:
+#     meta_context: dilps
+# - 
+#     meta_key: patron
+#     meta_field: 
+#       description: 
+#         de_CH: Auftrag durch (Objekt)
+#         en_GB: Patron of the Object
+#       is_required: true
+#       label: 
+#         de_CH: Auftrag durch (Objekt)
+#         en_GB: Patron
+#     key_map:
+#     meta_context: dilps
+# - 
+#     meta_key: description
+#     meta_field: 
+#       description: 
+#         de_CH: Volltext Beschreibung
+#         en_GB: Full description
+#       is_required: true
+#       label: 
+#         de_CH: Beschreibung
+#         en_GB: Full Description
+#     key_map:
+#     meta_context: dilps
+# # - 
+# #     meta_key: short description
+# #     meta_field: 
+# #       description: 
+# #         de_CH: Kurzbeschreibung
+# #         en_GB: Short description
+# #       is_required: true
+# #       label: 
+# #         de_CH: Kurzbeschreibung
+# #         en_GB: Short Description
+# #     key_map:
+# #     meta_context: dilps
+# - 
+#     meta_key: remark
+#     meta_field: 
+#       description: 
+#         de_CH: Bemerkung
+#         en_GB: Remarks
+#       is_required: true
+#       label: 
+#         de_CH: Bemerkung
+#         en_GB: Remarks
+#     key_map:
+#     meta_context: dilps
+# # - 
+# #     meta_key: kind
+# #     meta_field: 
+# #       description: 
+# #         de_CH: Bildgattung (Abbildung)
+# #         en_GB: Kind of Picture
+# #       is_required: true
+# #       label: 
+# #         de_CH: Bildgattung (Abbildung)
+# #         en_GB: Kind of Picture
+# #     key_map:
+# #    meta_context: dilps
+# # - 
+# #     meta_key: photographer
+# #     meta_field: 
+# #       description: 
+# #         de_CH: Fotograf/in
+# #         en_GB: Photographer
+# #       is_required: true
+# #       label: 
+# #         de_CH: Abbildung durch
+# #         en_GB: Photographer
+# #     key_map:
+# #    meta_context: dilps
+# # - 
+# #     meta_key: source proof
+# #     meta_field: 
+# #       description: 
+# #         de_CH: Bildnachweis (Abbildung)
+# #         en_GB: Picture proof
+# #       is_required: true
+# #       label: 
+# #         de_CH: Bildnachweis (Abbildung)
+# #         en_GB: Picture proof
+# #     key_map:
+# #    meta_context: dilps
+# - 
+#     meta_key: source side
+#     meta_field: 
+#       description: 
+#         de_CH: Seite (Abbildung)
+#         en_GB: Source side
+#       is_required: true
+#       label: 
+#         de_CH: Seite (Abbildung)
+#         en_GB: Source side
+#     key_map:
+#     meta_context: dilps
+# - 
+#     meta_key: source image
+#     meta_field: 
+#       description: 
+#         de_CH: Abbildung (Abbildung)
+#         en_GB: Source image
+#       is_required: true
+#       label: 
+#         de_CH: Abbildung (Abbildung)
+#         en_GB: Source image
+#     key_map:
+#     meta_context: dilps
+# - 
+#     meta_key: source plate
+#     meta_field: 
+#       description: 
+#         de_CH: Tafel (Abbildung)
+#         en_GB: Source plate
+#       is_required: true
+#       label: 
+#         de_CH: Tafel (Abbildung)
+#         en_GB: Source plate
+#     key_map:
+#     meta_context: dilps
+# - 
+#     meta_key: source isbn
+#     meta_field: 
+#       description: 
+#         de_CH: ISBN (Abbildung)
+#         en_GB: Source ISBN
+#       is_required: true
+#       label: 
+#         de_CH: ISBN (Abbildung)
+#         en_GB: Source ISBN
+#     key_map:
+#     meta_context: dilps
+# - 
+#     meta_key: copyright notice
+#     meta_field: 
+#       description: 
+#         de_CH: Bildrechte (Abbildung)
+#         en_GB: Image Copyright
+#       is_required: true
+#       label: 
+#         de_CH: Bildrechte
+#         en_GB: Image Copyright
+#     key_map:
+#     meta_context: dilps
+# - 
+#     meta_key: portrayed object dimensions
+#     meta_field: 
+#       description: 
+#         de_CH: Format Dimensionen (flächig, räumlich, zeitlich) (Objekt)
+#         en_GB: Object Dimensions (planar, spatial, chronological).
+#       is_required: true
+#       label: 
+#         de_CH: Format (Objekt)
+#         en_GB: Format (Objekt)
+#     key_map:
+#     meta_context: dilps
+# - 
+#     meta_key: portrayed object materials
+#     meta_field: 
+#       description: 
+#         de_CH: Material und Format
+#         en_GB: Material and Format
+#       is_required: true
+#       label: 
+#         de_CH: Material und Format
+#         en_GB: Material and Format
+#     key_map:
+#     meta_context: dilps
+# - 
+#     meta_key: file uploader
+#     meta_field: 
+#       description: 
+#         de_CH: Hochgeladen durch (Dokument)
+#         en_GB: File Uploaded by
+#       is_required: true
+#       label: 
+#         de_CH: Hochgeladen durch
+#         en_GB: File Uploaded by
+#     key_map:
+#     meta_context: dilps
+# # - 
+# #     meta_key: date uploaded
+# #     meta_field: 
+# #       description: 
+# #         de_CH: Erstellungsdatum
+# #         en_GB: Upload date
+# #       is_required: true
+# #       label: 
+# #         de_CH: Erstellungsdatum
+# #         en_GB: Upload date
+# #     key_map:
+# #    meta_context: dilps
+# - 
+#     meta_key: description author
+#     meta_field: 
+#       description: 
+#         de_CH: Bearbietet durch
+#         en_GB: Description by
+#       is_required: true
+#       label: 
+#         de_CH: Bearbeitet durch
+#         en_GB: Description by
+#     key_map:
+#     meta_context: dilps

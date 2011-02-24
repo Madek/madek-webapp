@@ -1,0 +1,50 @@
+<%= javascript_include_tag "jquery/jquery.numberformatter" %>
+
+<div id="content-header" class="container_12 clearfix">
+	<div id="detail-title" class="container_12 grid_12">
+		<h2 style="font-weight: bold">Medien hochladen</h2>
+		<%= content_tag :p, :style => "font-size: 90%" do %>
+			In diesem Monate haben Sie 0% von Ihrem Guthaben von 100MB aufgebraucht. <a href="#">Limit erhöhen?</a>
+		<% end if false #future# 
+		%>
+	</div>
+</div>
+
+<div id="uploader-subnavigation">
+	<ol class="clearfix" id="upload_steps">
+		
+		<li class="step_1 step_1b container_12 grid_3" style="position: relative">
+				<p>1. Medien auswählen <br /><span>Fotos, Videos und Audiofiles bereitstellen</span></p>
+		</li>
+		<li class="step_2 container_12 grid_3">
+				<p>2. Einstellungen <br /><span>Berechtigungen/Sichtbarkeit festlegen</span></p>
+		</li>
+		<li class="step_3 container_12 grid_3">
+				<p>3. Metadaten ergänzen <br /><span>Titel, Beschreibung und Copyright hinzufügen</span></p>
+		</li>
+		<li class="step_4 container_12 grid_3">
+				<p>4. Medien gruppieren <br /><span>Fotos, Videos und Audiofiles gruppieren (optional)</span></p>
+		</li>
+	
+	</ol>
+</div>
+
+<span id="green-arrow" style="display: block; position: absolute; left: 45%; bottom: -10px;  background: transparent url('/images/icons/arrow-down-03.png') top left no-repeat; width: 18px; height: 10px"></span>
+
+<%= javascript_tag do %>
+	function activate_step(n){
+		$(".grid_3").removeClass("active");
+		current_step_header = $("#upload_steps .step_" + n)
+		current_step_header.addClass("active");
+		$("#green-arrow").appendTo(current_step_header);
+		
+		$("[class*='upload_step_']").hide();
+		$(".upload_step_" + n).show();
+		
+		//temp// if(n == 2) $('html, body').animate({ scrollTop: $("#uploader-subnavigation").offset().top}, 2000);
+		
+		$("form").submit(function(){
+			$("#ajaxLoading").show();
+		});		
+	}
+<% end %>

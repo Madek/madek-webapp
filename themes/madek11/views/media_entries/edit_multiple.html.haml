@@ -1,0 +1,167 @@
+:css
+  h4 {
+  	margin: 0 0 5px 0;
+  	}
+  a img {
+  	border: none;
+  	}
+  ul { 
+  	list-style: none; 
+  	overflow: hidden;
+  	}
+  ul li { 
+    float: left;
+  	margin-right: 10px;
+  	}
+  table thead { 
+  	font-size: 16px; 
+  	font-weight: bold; 
+  	border-bottom: 2px solid #fcc;
+  	}
+  table td {
+  	padding: 2px 10px; 
+  	border: 1px solid #ccc; 
+  	border-width: 0 1px 1px 0;
+  	}
+
+.container_12
+  .grid_12
+    %h1 Medieneinträge Bearbeiten
+  .grid_12{:style => "background: #E0ECFF; width: 100%;"}
+    %ul
+      %li#number_selected
+        %span= @media_entries.size  
+        Medieneinträge ausgewählt
+      %li
+        Add to Set (Select of Media::Sets editable by user)
+      %li
+        Add to Favorites
+      %li{:style => "background: #eeeeee;"}
+        Change Permissions (if permitted)
+      %li{:style => "background: #eeeeee;"}
+        Delete (if permitted)
+  .clear
+  = link_to "Toggle List View", "#", :id => "toggle"
+    
+  #list_as_thumbnails.grid_12
+    hello from thumbnails
+  
+  #list_as_list.grid_12
+    %table
+      %thead
+        %tr
+          %td
+            &nbsp;
+          %td
+            Titel und Autor/in:
+          %td
+            Datierung:
+          %td
+            Schlagworte:
+          %td
+            Copyright:
+          %td{:colspan => "2"}
+            Hochgeladen von und am
+      %tbody
+  .clear
+  .grid_10
+    = form_tag update_multiple_media_entries_path, :method => :put do
+      = hidden_field_tag 'media_entry_ids', @media_entries.map(&:id).join(',')
+      - meta_contexts = MetaContext.defaults # NOTE: what about individual contexts? maybe when editing project's media_entries
+      - content_for :buttons do
+        %div{:style => "text-align: right; padding: 10pt; background: #DDDDDD;"}
+          = submit_tag _("Speichern")
+          = link_to _("Abbrechen"), :back, :class => "buttons"
+
+      = yield :buttons
+      %div#detail_specification.tabs
+        %ul
+          - meta_contexts.each do |meta_context|
+            %li= link_to meta_context, "##{meta_context.name}" 
+        - meta_contexts.each do |meta_context|
+          - resource = MediaEntry.new # NOTE we need a resource
+          - meta_data = meta_context.meta_keys.map {|mk| mk.meta_data.build(:resource => resource) }
+          = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :meta_data => meta_data }
+      = yield :buttons
+  .grid_2
+    #legend
+      %h4 Legende
+      %p{:style => "background: white; height: 30px ; border: 1px solid #ccc;"} 
+      %p.info Wert leer bei allen Medieneinträgen
+      %p{:style => "background: gray; height: 30px ; border: 1px solid #333;"} 
+      %p.info Unterschiedliche Werte vorhanden
+      %p{:style => "background: white; height: 30px ; border: 1px solid #ccc;"} 
+        Text
+      %p.info Gleicher Wert bei allen Medieneinträgen
+  .clear  
+  :plain    
+    <script type="text/x-jquery-tmpl" id="thumbnail_view">
+          <div class="grid_3">
+            <a href="/media_entries/${id}">
+              <img src="${thumb_base64_small}">
+            </a>
+            <p>
+            <strong>${title}</strong>
+            <br />
+            ${author}
+            </p>
+          </div>
+    </script>
+
+    <script type="text/x-jquery-tmpl" id="list_view">
+          <tr>
+            <td>
+              <a href="/media_entries/${id}">
+                <img src="${thumb_base64_x_small}">
+              </a>
+            </td> 
+            <td>
+              <strong>${title}</strong>
+              <br />
+              ${author}
+            </td> 
+            <td>
+              ${portrayed_object_dates}
+            </td>
+            <td>
+              ${keywords}
+            </td>
+            <td>
+              ${copyright_notice}
+            </td>
+            <td>
+              ${uploaded_by}
+            </td>
+            <td>
+              ${uploaded_at}
+            </td>
+          </tr>
+    </script>
+     
+
+:javascript
+
+  $(document).ready(function () { 
+    var data = #{@info_to_json};
+    showListAsThumbnails();
+    
+    $('a#toggle').click(function() {
+      if($("#list_as_thumbnails").is(":visible")) {
+        showListAsList();
+      } else {
+        showListAsThumbnails();
+      };
+    });
+    
+    function showListAsThumbnails() {
+      $("#list_as_list").hide();
+      $("#list_as_thumbnails").show();
+      $("#list_as_thumbnails").html($("#thumbnail_view").tmpl(data));
+    };
+    
+    function showListAsList() {
+      $("#list_as_thumbnails").hide();
+      $("#list_as_list").show();
+      $("#list_as_list table tbody").html($("#list_view").tmpl(data));
+    };
+  });

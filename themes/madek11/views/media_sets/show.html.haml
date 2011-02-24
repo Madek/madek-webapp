@@ -1,0 +1,169 @@
+:css
+  h4 {margin: 0 0 5px 0;}
+  a img {border: none;}
+  ul { list-style: none; overflow: hidden; }
+  ul li { float: left; margin-right: 10px;}
+  .clear { margin: 0;}
+  .icon_bar {margin-top: 2em;}
+  .icon_bar img {margin-right: .33em;}
+  .task_bar { background: #E0ECFF; width: 100%; padding: 0.4em; margin-bottom: .8em;}
+  .task_bar input[disabled] {border: 1px solid #ccc; color: #ccc; background-color: #ddd;}
+  #selected_items .thumb_mini { display: inline-block; margin-right: 0.33em; background: white; border: 1px solid #ddd; padding: 0.2em;}
+  #selected_items .thumb_mini p { text-align: center; font-size: 0.7em;  }
+    
+#page_header.container_12
+  .grid_4.alpha
+    .group_is
+      %h1= "Set (#{@media_entries.total_entries}/#{@media_set.media_entries.size})"
+      .icon_is
+        = theme_image_tag "icons/icon_set.png"
+  .grid_5.group_meta
+    - context = MetaContext.media_set
+    - @media_set.meta_data_for_context(context).collect do |meta_datum|
+      - definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
+      %p= definition.meta_field.label.to_s
+      = formatted_value(meta_datum)
+  .grid_3.omega
+    - if @can_edit
+      .icon_bar
+        = display_edit_icon(@media_set, current_user)
+        = display_delete_icon(@media_set, current_user)
+        - if Permission.resource_viewable_only_by_user?(@media_set, current_user)
+          = theme_image_tag("icons/icon_button_perm.png")
+  .clear
+  .grid_12.task_bar
+    %ul
+      %li#number_selected
+        Keine Medieneinträge ausgewählt
+      %li#batch-edit-button
+        = button_to _("Medieneinträge Editieren"), edit_multiple_media_entries_path, :method => :post, :id => "batch-edit"
+      %li#batch-remove-button
+        = button_to _("Aus Set Entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete, :id => "batch-remove"
+      %li#batch-add-to-set
+        = select_tag "media_set", options_for_select([["Set Auswählen", ""]] + @editable_sets.collect {|set| [set.meta_data.get_value_for("title"), set.id]})
+  .clear
+#selected_items.grid_12.task_bar
+.clear
+:plain    
+  <script type="text/x-jquery-tmpl" id="mini_thumbnails">
+        <div class="${css_class}" id="me_${id}">
+          <a href="/media_entries/${id}">
+            <img src="${thumb_base64}">
+          </a>
+        </div>
+  </script>
+#results
+  = render :partial => "/media_entries/index"
+.clear
+
+:javascript
+
+  $(document).ready(function () {
+    //alert("document loaded");
+    var data = #{@info_to_json};
+    var media_set_id = #{@media_set.id};
+    var key = "media_sets/"+ media_set_id +"/media_entry_ids";
+  
+    checkSelected(media_set_id);
+    listSelected(media_set_id, data);
+    displayCount(key);
+    
+    $('.pagination a').live('ajax:success', function(xhr, response){
+  		checkSelected(media_set_id);
+  	});
+  	
+    $("span.favorite_link a").live('ajax:complete', function(xhr, response){
+      var media_entry_id = $(this).parent().attr("id").slice(4);
+    	$("span#fav_" + media_entry_id).html(response.responseText);
+    });
+  	
+    function displayCount(key) {
+      //alert("displayCount called");
+      var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
+
+      if (media_entry_ids != null) {
+        var count_checked = media_entry_ids.length;
+        var display_count = $('li#number_selected');
+        switch (count_checked){
+          case 0:
+            display_count.html("Keine Medieneinträge ausgewählt.");
+          break;
+          case 1:
+            display_count.html("1 Medieneintrag ausgewählt.");
+          break;
+          default : 
+            display_count.html(count_checked + " Medieneinträge ausgewählt.");
+        }
+      }
+    };
+  	
+  	// hover functions for batch action buttons - highlight selected entries for which action is possible 
+  	$("input#batch-edit").hover(
+      function () {
+        $('#selected_items .edit').css("background","yellow");
+      }, 
+      function () {
+        $('#selected_items .edit').css("background","white");
+      }
+    );
+    
+    $("input#batch-remove").hover(
+      function () {
+        $('#selected_items .edit_set').css("background","yellow");
+      }, 
+      function () {
+        $('#selected_items .edit_set').css("background","white");
+      }
+    );
+	      
+    $(":checkbox").live("click", function(){
+      //alert("checkbox clicked");
+      var is_checked = $(this).is(":checked");
+      var curr_value = $(this).val();
+      var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
+      
+      if(media_entry_ids == null) media_entry_ids = new Array();
+      
+      if(is_checked){
+        media_entry_ids.push(curr_value);
+      } else {
+        var i = media_entry_ids.indexOf(curr_value);
+        if(i > -1) media_entry_ids.splice(i, 1);
+      }
+  
+      $.each(data, function(i, me) {
+        if ((me.id == curr_value) && is_checked) {
+          // insert into selected bar
+          $('#selected_items').append($("#mini_thumbnails").tmpl(me));
+        } else if (me.id == curr_value) {
+          // remove from selected bar
+          $('#selected_items #me_' + me.id).remove();
+        }
+      });
+      
+      sessionStorage.setItem(key, JSON.stringify(media_entry_ids.getUnique()));
+      displayCount(key);
+    });
+
+    $("#batch-edit-button form").submit(function() {
+      //var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
+      var editable_ids = new Array();
+      $("#selected_items .edit").each(function(i, elem){
+        editable_ids.push($(this).attr("id").slice(3));
+      });
+      $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
+    });
+    
+    $("#batch-remove-button form").submit(function() {
+      //var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
+      var editable_ids = new Array();
+      $("#selected_items .edit_set").each(function(i, elem){
+        editable_ids.push($(this).attr("id").slice(3));
+      });
+      $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
+      sessionStorage.removeItem(key); //maybe we just want to remove the items slated for removal (rather than the entire key)
+    });
+      
+  });
+
+	

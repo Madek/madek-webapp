@@ -1,0 +1,11 @@
+=== Install Capistrano gems
+$ sudo gem install capistrano
+$ sudo gem install capistrano-ext
+
+=== To deploy on test server:
+$ cap staging deploy
+Uses recipe from config/deploy/staging.rb
+Any number of recipes can be created, for any number of target servers.
+
+=== To deploy on production server:
+$ cap production deploy

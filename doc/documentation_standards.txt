@@ -1,0 +1,36 @@
+Some Simplemarkup examples.. more online
+
+#= Session
+#
+#  As mentioned throughout the CLI documentation, an interactive Shard
+#  session can be invoked via the command line by simply executing index.rb
+#  at this point all modules of the type 'cli' are loaded, among with regular
+#  modules to provide their functionality. Each cli module may register hook::cli
+#  which allows it to regsiter commands. 
+#
+#  === Invokes hook::cli
+#  Each hook implementation should return an array of hashes, which register
+#  commands to the CLI::Session.
+#
+#==== Required attributes 
+#  - title:       Title of command
+#  - description: Description of command
+#  - callback:    Callback when pattern is matched
+#
+#[cat] a label for some text
+#[ant] another label for some other text
+#cat:: a small domestic animal
+#+cat+:: a command to copy standard input
+#
+#==== Example implementation
+#    def cli
+#     [
+#       {
+#         :title => 'Help',
+#         :description => 'Output command help and usage information.',
+#         :pattern => /^[\s]*help/,
+#         :syntax => 'help',
+#         :callback => 'self.usage',
+#       }
+#     ]
+#    end

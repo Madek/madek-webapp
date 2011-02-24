@@ -1,0 +1,19 @@
+
+%p Log in here
+
+= flash[:notice] if flash[:notice]
+= flash[:error] if flash[:error]
+
+
+= form_tag({:action => 'login'}, {:method => :post}) do
+  %table
+    %tr
+      %td Login
+      %td
+        = text_field_tag :login
+    %tr
+      %td Password
+      %td
+        = password_field_tag :password
+
+  = submit_tag 'Log in'

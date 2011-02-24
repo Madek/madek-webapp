@@ -1,0 +1,14 @@
+- max_thumbs = 4
+- media_entries = media_set.media_entries
+- total_entries = media_entries.count
+- media_entries.slice(0, max_thumbs)
+
+= media_set_title(media_set, true)
+%ul.items{:style => "margin: 1em; min-height: 10em;"}
+	- unless media_entries.empty?
+		- more_than_max_thumbs = total_entries > max_thumbs
+		= render :partial => "/media_entries/media_entry_thumb", :collection => (more_than_max_thumbs ? media_entries[0..max_thumbs-2] :media_entries), :as => :media_entry
+		- if more_than_max_thumbs
+			= link_to _("Restliche %d anzeigen") % (total_entries - max_thumbs + 1), media_set_path(media_set)
+	- else
+		= _("Keine Medieneinträge vorhanden")

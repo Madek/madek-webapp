@@ -1,0 +1,21 @@
+<%= stylesheet_link_tag "feedback", :media => "all" %>
+
+<div id="usage_terms_wrapper">
+	<div id="usage_terms_content">
+			
+		<p class="intro"><%= raw @usage_term.intro %></p>
+
+		<h1><%= @usage_term.title %></h1>
+		<p><i><%= @usage_term.version %></i></p>
+		
+		<%= raw simple_format(@usage_term.body) %>
+		
+		<br /><br />
+		
+		<%= content_tag :p, :class => "usage_terms-box" do
+			a = link_to _("Ablehnen"), logout_path, :class => "buttons", :style => "font-weight: normal;"
+			a += link_to _("Akzeptieren"), usage_terms_user_path(current_user), :class => "buttons", :method => :post
+		end unless params[:hide_buttons] %>
+	
+	</div>
+</div>

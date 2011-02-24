@@ -1,0 +1,13 @@
+= form_for @set, :url => admin_media_sets_path do |f|
+  %table
+    %tr
+      %td Type
+      %td= f.select :type, [Media::Set, Media::Project].collect {|o| [o, o]}
+
+    - f.fields_for :meta_data, f.object.meta_data.get("title") do |ff|
+      %tr
+        %td= ff.object.meta_key.label
+        %td= field_tag(ff, MetaContext.media_set)
+
+    %tr{:colspan => 2}
+      %td= f.submit _("Create")

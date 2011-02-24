@@ -1,0 +1,10 @@
+---
+user: madek
+cwd: /home/rails/madek/production/current
+log_file: log/mongrel.log
+port: "10310"
+environment: production
+group: madek
+address: 127.0.0.1
+pid_file: tmp/pids/mongrel.pid
+servers: 3

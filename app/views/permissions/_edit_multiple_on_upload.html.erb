@@ -1,0 +1,89 @@
+<%
+# OPTIMIZE
+is_viewable_by_all = (@resource ? @resource.acl?(:view, :all) : false)
+is_viewable_by_logged_in_users = (@resource ? @resource.acl?(:view, :logged_in_users) : false)
+is_editable_by_all = (@resource ? @resource.acl?(:edit, :all) : false)	
+is_editable_by_logged_in_users = (@resource ? @resource.acl?(:edit, :logged_in_users) : false)
+
+# TODO use rails.js data-remote instead of custom data-ajax
+%>	
+
+<%= form_for @resource || MediaEntry.new,
+			:as => (@resource.is_a?(Media::Set) ? :media_set : :media_entry),
+			:url => (@resource ? (@resource.is_a?(Media::Set) ? update_multiple_media_set_permissions_path(@resource) : [:update_multiple, @resource, :permissions]) : set_permissions_upload_path),
+			:html => (@resource ? {:method => :put, :"data-ajax" => true} : {:class => "upload_step_2"}) do |f| %>
+		
+	<%= content_tag :p do
+		_("Für wen %s sichtbar?") % (@resource.is_a?(Media::Set) ? "ist dieses Set" : "sind diese Medieneinträge")
+	end %>
+
+	<%= content_tag :ul, :class => "permissions_unit", :style => (@resource ? "width: 80%; margin-bottom: 1em;": nil) do %>
+		<%= content_tag :li do %>
+			<%= radio_button_tag :view, :private, (!is_viewable_by_all and !is_viewable_by_logged_in_users) %> Nur für Sie selbst <span class="hint">(nur für Sie selbst sichtbar)</span>
+		<% end %>
+		<%= content_tag :li do %>
+			<%= radio_button_tag :view, :logged_in_users, is_viewable_by_logged_in_users %> Für angemeldete Benutzer/innen <span class="hint">(für angemeldete ZHdK-Angehörige sichtbar)</span>
+			<%= content_tag :ul, :style => "margin-left: 2em;" do
+				content_tag :li do %>
+					<%= check_box_tag :edit, :logged_in_users, is_editable_by_logged_in_users, :disabled => true %> und von angemeldeten Benutzern editierbar.
+				<% end %>
+			<% end %>
+		<% end %>
+		<%= content_tag :li do %>
+			<%= radio_button_tag :view, :public, is_viewable_by_all %> Öffentlich <span class="hint">(vorerst nur innerhalb, später auch ausserhalb des Medienarchivs sichtbar)</span>
+			<%= content_tag :ul, :style => "margin-left: 2em;" do
+				content_tag :li do %>
+					<%= check_box_tag :edit, true, is_editable_by_all, :disabled => true %> und von allen Benutzern editierbar.
+				<% end
+			end
+		end
+	end %>
+
+	<% if @resource %>
+		<%= f.submit _("Einstellungen speichern"), :style => "display: none;" %>
+	<% else %>
+		<%= content_tag :p, :style => "margin: 2em 0 0.75em 0", :id => "upload_in_progress" do %>
+			<a href="#" id="dialog_link" class="ui-state-default ui-corner-all" style="color: #727272;" onclick="return false;">
+			<span class="ui-icon ui-icon-transferthick-e-w"></span>
+			Upload am Laufen...
+			</a>
+			&nbsp;&nbsp;Bitte gedulden Sie sich einen Moment, während das Hochladen Ihrer Medien abgeschlossen wird.
+		<% end unless @media_entries %>
+		<%= f.submit _("Einstellungen speichern und weiter") + " »", :id => "submit_to_3", :style => "margin: 2em 0; #{@media_entries ? "" : "display: none;"}" %>
+	<% end %>
+<% end %>
+
+<%= javascript_tag do %>
+	$(document).ready(function(){
+		$("input[name='view']:radio").change(function(){
+			var view_radio = $("input[name='view']:radio").nextAll("ul");
+			view_radio.hide();
+			view_radio.find("input[name='edit']").attr('disabled', 'true');
+
+			$(this).nextAll("ul").show();
+			$(this).nextAll("ul").find("input[name='edit']").removeAttr('disabled');
+		});
+
+		$("input[name='view']:radio:checked").trigger('change');
+
+
+		// TODO use rails.js data-remote
+		$("form[data-ajax]").submit(function() {
+			var source = $(this);
+			var target = $(this).closest("div");
+			$.ajax({
+				url: source.attr("action"),
+				type: source.attr("method"),
+				data: source.serialize(), //{layout: false} 
+			    success: function(response){
+	  		      target.html(response);
+			    }
+			});
+			return false;
+		});
+
+		$("form[data-ajax]").change(function() {
+			$(this).find(":submit").show();
+		});
+	});
+<% end %>

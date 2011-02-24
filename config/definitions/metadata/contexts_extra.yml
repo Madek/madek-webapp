@@ -1,0 +1,54 @@
+# Add more meta data contexts here.
+# They will be read in and created at system initialisation.
+# 'Core' should always be first
+--- 
+-
+    name: core
+    is_user_interface: 1
+    meta_field: 
+        label: Core
+-
+    name: tms
+    is_user_interface: 0
+    meta_field: 
+        label: TMS
+-
+    name: io_interface
+    is_user_interface: 0
+    meta_field: 
+        label: IO Interface
+-
+    name: media_content
+    is_user_interface: 1
+    meta_field:
+        label: Media Content
+-
+    name: media_object
+    is_user_interface: 1
+    meta_field:
+        label: Media Object
+- 
+    name: catch_all
+    is_user_interface: 0
+    meta_field:
+        label: Catch All
+- 
+    name: media_set
+    is_user_interface: 1
+    meta_field:
+        label: Media::Set
+- 
+    name: copyright
+    is_user_interface: 1
+    meta_field:
+        label: Copyright
+- 
+    name: upload
+    is_user_interface: 1
+    meta_field:
+        label: Upload
+# -
+#     name: dilps
+#     is_user_interface: 0
+#     meta_field:
+#         label: Dilps

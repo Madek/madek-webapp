@@ -1,0 +1,33 @@
+= form_for @context, :url => path do |f|
+	= f.label :name
+	\:
+	- if @context.new_record?
+		= f.text_field :name
+	- else
+		= @context.name
+	%br
+
+	Label:
+	%br
+	- LANGUAGES.each do |lang|
+		- value = (@context.meta_field and @context.meta_field.label ? @context.meta_field.label.to_s(lang) : nil)
+		= lang
+		\:
+		= text_field_tag "meta_context[meta_field][label][#{lang}]", value
+		%br
+
+	Description:
+	%br
+	- LANGUAGES.each do |lang|
+		- value = (@context.meta_field and @context.meta_field.description ? @context.meta_field.description.to_s(lang) : nil)
+		= lang
+		\:
+		= text_area_tag "meta_context[meta_field][description][#{lang}]", value
+		%br
+
+	%br
+	= f.label :is_user_interface
+	\:
+	= f.check_box :is_user_interface
+	%br
+	= f.submit submit

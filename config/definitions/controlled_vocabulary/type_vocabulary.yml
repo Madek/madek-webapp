@@ -1,0 +1,60 @@
+-
+    term_name: Collection
+    label: Collection
+    definition: An aggregation of resources
+    comment: => A collection is described as a group; its parts may also be separately described.
+- 
+    term_name: Dataset
+    label: Dataset
+    definition: Data encoded in a defined structure
+    comment: Examples include lists, tables, and databases. A dataset may be useful for direct machine processing.
+- 
+    term_name: Event
+    label: Event
+    definition: A non-persistent, time-based occurrence
+    comment: Metadata for an event provides descriptive information that is the basis for discovery of the purpose, location, duration, and responsible agents associated with an event. Examples include an exhibition, webcast, conference, workshop, open day, performance, battle, trial, wedding, tea party, conflagration.
+- 
+    term_name: Image
+    label: Image
+    definition: A visual representation other than text.
+    comment: Examples include images and photographs of physical objects, paintings, prints, drawings, other images and graphics, animations and moving pictures, film, diagrams, maps, musical notation. Note that Image may include both electronic and physical representations.
+- 
+    term_name: InteractiveResource
+    label: Interactive Resource
+    definition: A resource requiring interaction from the user to be understood, executed, or experienced.
+    comment: Examples include forms on Web pages, applets, multimedia learning objects, chat services, or virtual reality environments.
+- 
+    term_name: MovingImage
+    label: Moving Image
+    definition: A series of visual representations imparting an impression of motion when shown in succession.
+    comment: Examples include animations, movies, television programs, videos, zoetropes, or visual output from a simulation. Instances of the type Moving Image must also be describable as instances of the broader type Image.
+- 
+    term_name: PhysicalObject
+    label: Physical Object
+    definition: An inanimate, three-dimensional object or substance.
+    comment: Note that digital representations of, or surrogates for, these objects should use Image, Text or one of the other types.
+- 
+    term_name: Service
+    label: Service
+    definition: A system that provides one or more functions.
+    comment: Examples include a photocopying service, a banking service, an authentication service, interlibrary loans, a Z39.50 or Web server.
+-  
+    term_name: Software
+    label: Software
+    definition: A computer program in source or compiled form.
+    comment: Examples include a C source file, MS-Windows .exe executable, or Perl script.
+- 
+    term_name: Sound
+    label: Sound
+    definition: A resource primarily intended to be heard.
+    comment: Examples include a music playback file format, an audio compact disc, and recorded speech or sounds.
+- 
+    term_name: StillImage
+    label: Still Image
+    definition: A static visual representation.
+    comment: Examples include paintings, drawings, graphic designs, plans and maps. Recommended best practice is to assign the type Text to images of textual materials. Instances of the type Still Image must also be describable as instances of the broader type Image.
+- 
+    term_name: Text
+    label: Text
+    definition: A resource consisting primarily of words for reading.
+    comment: Examples include books, letters, dissertations, poems, newspapers, articles, archives of mailing lists. Note that facsimiles or images of texts are still of the genre Text.

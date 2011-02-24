@@ -1,0 +1,63 @@
+<%= form_for @key, :url => path do |f|
+ 	content_tag :table do
+		a = content_tag :tr do
+			b = content_tag :th do
+				f.label :label
+			end
+			b += content_tag :td do
+				f.text_field :label
+			end
+		end
+		a += content_tag :tr do
+			b = content_tag :th do
+				f.label :object_type
+			end
+			b += content_tag :td do
+				f.select :object_type, MetaKey.object_types.collect {|o| [o, o]}, { :include_blank => true }
+			end
+		end
+		if @key.object_type == "Meta::Term"
+			a += content_tag :tr do
+				b = content_tag :th do 
+					"Terms"
+				end
+				b += content_tag :td do
+					content_tag :ul do
+						# OPTIMIZE new term fields
+						@key.meta_terms.build
+			    		f.fields_for :meta_terms do |term_f| %>
+							<%= content_tag :li, :style => "padding-bottom: 1em;" do
+								LANGUAGES.each do |lang| %>
+									<%= lang %>:
+						    		<%= term_f.text_field lang %>
+									<br />
+								<% end %>
+								<% if term_f.object.is_used? %>
+									Used
+								<% elsif not term_f.object.new_record? %>
+							      <%= term_f.check_box '_destroy' %>
+							      <%= term_f.label '_destroy', _("Delete") %>
+								<% end
+						    end
+						end
+					end
+				end
+			end
+			a += content_tag :tr do
+				b = content_tag :th do 
+				end
+				b += content_tag :td do
+					c = f.check_box :is_extensible_list
+					c += f.label :is_extensible_list
+				end
+			end
+		end
+		a += content_tag :tr do
+			b = content_tag :td do
+			end
+			b += content_tag :td do
+				f.submit submit
+			end
+		end
+	end
+end %>

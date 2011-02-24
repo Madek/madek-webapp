@@ -1,0 +1,16 @@
+development: &DEVEL
+  host: sample_host
+  port: 636
+  encryption: simple_tls
+  base: sample_base 
+  log_file: log/ldap_server.log
+  log_level: warn
+  search_field: cn
+  bind_dn: sample_bind_dn 
+  bind_pwd: sample_bind_pwd
+
+test:
+  <<: *DEVEL
+
+production:
+  <<: *DEVEL

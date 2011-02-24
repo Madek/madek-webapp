@@ -1,0 +1,5 @@
+%tr
+  %td
+    = user
+  %td
+    = link_to _("Remove"), membership_admin_group_user_path(@group, user), :remote => true, :method => :delete

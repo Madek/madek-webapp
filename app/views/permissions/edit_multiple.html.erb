@@ -1,0 +1,5 @@
+<%= content_tag :div, :class => "notice" do
+	flash[:ajax_notice]
+end if flash[:ajax_notice] %>
+
+<%= render :partial => "edit_multiple" %>

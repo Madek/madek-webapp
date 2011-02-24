@@ -1,0 +1,69 @@
+<%= prevent_leaving_page %>
+
+<div id="content-body" class="container_12 clearfix">
+	
+	<div id="detail-main" class="grid_2">
+		
+		<div id="detail-image" style="padding: 3.25em 0 1.5em 0;">
+			<%= link_to thumb_for(@media_entry, :small), @media_entry %>
+		</div>
+
+		<%= resource_sizes(@media_entry) %>
+
+		<%= content_tag :div do
+			a = "".html_safe
+			a += content_tag :div, :style => "font-size: 0.9em;", :class => "notice" do
+				date = @media_entry.snapshots.first.created_at.to_formatted_s(:date)
+				time = @media_entry.snapshots.first.created_at.to_formatted_s(:time)
+				"Ein Kopie dieses Medieneintrags wurde am #{date} um #{time} Uhr für das MIZ-Archiv erstellt."
+			end unless @media_entry.snapshots.empty?
+
+			a += content_tag :div, :style => "font-size: 0.9em;", :class => "notice" do
+				_("Diese Kopie wird gegenwärtig durch das MIZ-Archiv bearbeitet.")
+			end unless @media_entry.snapshotable?
+			a
+		end %>
+	
+	</div>
+		
+	<div id="detail-sidebar"  class="grid_10">
+
+		<%= content_tag :h3 do
+			_("Metadaten für MIZ-Archiv editieren")
+		end %>
+		<br />
+
+		<%= form_for @media_entry, :as => :resource,
+					:url => [:update_multiple, @media_entry, :meta_data],
+					:html => {:method => :put} do |resource|
+
+			content_for :buttons do
+				content_tag :div, :style => "text-align: right; padding: 10pt; background: #DDDDDD;" do
+					b = resource.submit _("Speichern")
+					b += link_to _("Abbrechen"), @media_entry, :class => "buttons"
+				end
+			end
+
+			a = yield :buttons
+
+			meta_contexts = [MetaContext.tms]
+			a += content_tag :div, :class => "tabs", :id => "detail_specification" do
+				b = content_tag :ul do
+					meta_contexts.collect do |meta_context|
+						content_tag :li do
+							link_to meta_context, "##{meta_context.name}" 
+						end 
+					end.join.html_safe
+				end
+				meta_contexts.each do |meta_context|
+					b += render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :resource => resource }
+				end
+				b
+			end	
+
+			a += yield :buttons
+		end %>
+
+	</div>
+
+</div>

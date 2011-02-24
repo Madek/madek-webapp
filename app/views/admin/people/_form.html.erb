@@ -1,0 +1,36 @@
+<%= form_for @person, :url => path do |f| # TODO , :html => {:"data-remote" => true}
+ 	content_tag :table do
+		a = content_tag :tr do
+			a = content_tag :th do
+				f.label :firstname
+			end
+			a += content_tag :td do
+				f.text_field :firstname
+			end
+		end
+		a += content_tag :tr do
+			a = content_tag :th do
+				f.label :lastname
+			end
+			a += content_tag :td do
+				f.text_field :lastname
+			end
+		end
+		a += content_tag :tr do
+			a = content_tag :th do
+				f.label :pseudonym
+			end
+			a += content_tag :td do
+				f.text_field :pseudonym
+			end
+		end
+
+		a += content_tag :tr do
+			a = content_tag :td do
+			end
+			a += content_tag :td do
+				f.submit submit
+			end
+		end
+	end
+end %>

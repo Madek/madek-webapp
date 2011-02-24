@@ -1,0 +1,29 @@
+= render :partial => "form", :locals => {:path => admin_group_path(@group), :submit => _("Update") }
+
+%table#members
+  = render :partial => "/admin/groups/user", :collection => @group.users
+
+Add user:
+%input#new_user
+
+:javascript
+  $(function() {
+    $("input#new_user").autocomplete({
+      source: "/users",
+      minLength: 3,
+      select: function( event, ui ) {
+    		$.ajax({
+    			url: '#{membership_admin_group_user_path(@group)}',
+    			data: {user_id: ui.item.id},
+    			type: "post",
+    			success: function(response){
+            $("input#new_user").val("");
+            $(response).appendTo('table#members').effect('highlight');
+    			}
+    		});
+      }
+    });
+    $("table#members a[data-method='delete']").live('ajax:success', function(){
+      $(this).closest("tr").fadeOut();
+    });
+  });

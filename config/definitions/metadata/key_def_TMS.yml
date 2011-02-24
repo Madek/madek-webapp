@@ -1,0 +1,137 @@
+---
+- 
+    meta_key: objectnumber
+    meta_field: 
+      is_required: true
+      label: 
+        de_CH: Archivnummer
+        en_GB: Archive number
+    key_map: objects.objectnumber
+    meta_context: tms
+- 
+    meta_key: objectname
+    meta_field: 
+      is_required: true
+      label: 
+        de_CH: Objektbezeichnung
+        en_GB: Object Name
+    key_map: objects.objectname
+    meta_context: tms
+- 
+    meta_key: title
+    meta_field: 
+      description: 
+        de_CH: Titel des Medieneintrags.
+        en_GB: The title of the media entry.
+      is_required: true
+      label: 
+        de_CH: Titel
+        en_GB: Title
+      length_max: 255
+      length_min: 1
+    key_map: objtitles.title_typID_1
+    meta_context: tms
+- 
+    meta_key: subtitle
+    meta_field: 
+      description: 
+        de_CH: Untertitel oder weitere Titel des Medieneintrags.
+        en_GB: The subtitle or other titles of the media entry.
+      is_required: true
+      label: 
+        de_CH: Untertitel
+        en_GB: Subtitle
+      length_max: 255
+      length_min: 1
+    key_map: objtitles.title_typID_6
+    meta_context: tms
+- 
+    meta_key: description
+    meta_field: 
+      description: 
+        de_CH: Eine frei zu wählende Beschreibung des Medieninhalts.
+        en_GB: Description of the media content.
+      is_required: true
+      label: 
+        de_CH: Beschreibung
+        en_GB: Description
+      length_max: 4096
+      length_min: 1
+    key_map: objects.description
+    meta_context: tms
+- 
+    meta_key: classification
+    meta_field: 
+      is_required: true
+      label: 
+        de_CH: Klassification
+        en_GB: Classification
+    key_map: objects.classificationID
+    meta_context: tms
+- 
+    meta_key: remark
+    meta_field: 
+      description: 
+        de_CH: Interne Bemerkung - Freier Text.
+        en_GB: Internal Remark - Free Text.
+      is_required: true
+      label: 
+        de_CH: Bemerkung
+        en_GB: Remark
+      length_max: 4096
+      length_min: 1
+    key_map: objects.notes
+    meta_context: tms
+- 
+    meta_key: portrayed object dates
+    meta_field: 
+      label: 
+        de_CH: Datierung/Darstellungsdatum
+        en_GB: Datierung/Darstellungsdatum
+    key_map: objects.dated
+    meta_context: tms
+- 
+    meta_key: description
+    meta_field: 
+      label: 
+        de_CH: Beschreibung (objects.chat)
+        en_GB: Description (objects.chat)
+    key_map: objects.chat
+    meta_context: tms
+#
+#   WHAT'S THIS?   
+#   ANOTHER DESCRIPTION meta_field??
+#
+- 
+    meta_key: copyright usage
+    meta_field: 
+      is_required: true
+      label: 
+        de_CH: Rechte
+        en_GB: Copyright
+    key_map: objects.copyright
+    meta_context: tms
+- 
+    meta_key: portrayed object dimensions
+    meta_field: 
+      label: 
+        de_CH: Bemaßungsetikett
+        en_GB: Dimensions
+    key_map: objects.dimensions
+    meta_context: tms
+- 
+    meta_key: portrayed object materials
+    meta_field: 
+      label: 
+        de_CH: Material/Technik
+        en_GB: Material/Technik
+    key_map: objects.medium
+    meta_context: tms
+#- 
+#    meta_key: portrayed object materials
+#    meta_field: 
+#      label: 
+#        de_CH: Dateipfad
+#        en_GB: Dateipfad
+#    key_map: mediapath.path
+#    meta_context: tms

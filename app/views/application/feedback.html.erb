@@ -1,0 +1,124 @@
+
+	<%= stylesheet_link_tag "feedback", :media => "all" %>
+	<%= stylesheet_link_tag "jquery/shadowbox", :media => "all" %>
+
+	<%= javascript_include_tag "jquery/shadowbox" %>	
+
+	<script type="text/javascript">
+	Shadowbox.init({
+	    overlayOpacity: 0.75,
+		viewportPadding: 25
+	});
+	</script>
+	
+	
+	
+
+	<div id="feedback_wrapper">
+		
+		<div id="feedback_content">
+		<h1>Feedback & Support</h1>
+		<p class="intro">Das Medienarchiv der Künste ist nun im Release <%= RELEASE_VERSION %> verfügbar. Haben Sie es schon getestet? Machen Sie bei unserer Umfrage mit. Wir freuen uns auf Ihr Feedback! </p>
+		<h2><span>1</span> Teilnahme an der Nutzerbefragung zum Release <%= RELEASE_VERSION %></h2>
+		<p style="padding-left: 50px">Aus aktuellem Anlass wird eine Medienarchiv-Feedbackrunde zum Release <%= RELEASE_VERSION %> durchgeführt. Über ein anonymes Google-Formular wurden ausgewählte Fragen zur aktuellen Version zusammengestellt. Mit Ihrer Teilnahme helfen Sie uns Ungereimtheiten im gegenwärtigen Release des Medienarchivs zu eruieren.</p>
+		<p style="padding-left: 50px"><a rel="shadowbox" href="http://spreadsheets.google.com/viewform?formkey=dDlERjN5bVNXYlhGWTZlQ1dLaUQ3cHc6MQ" class="button-link">An der Umfrage teilnehmen &nbsp; &#9002</a></p>
+		<h2><span>2</span> Ihr ganz persönliches Feedback</h2>
+		<p style="padding-left: 50px">Keine Lust auf eine längere Umfrage? Dennoch etwas wichtiges mitzuteilen? Nutzen Sie unser kompaktes Feedback-Formular für Ihren kurzen Erfahrungsbericht oder sonstigen Anregungen.</p>
+		<p style="padding-left: 50px;"><a rel="shadowbox" href="http://spreadsheets.google.com/viewform?formkey=dEVKbjV0WF80LWtGNHpzYWJ2eGlmVmc6MQ" class="button-link">Individuelles Feedback verfassen &nbsp; &#9002</a></p>
+		<!--<p>Die Hilfefunktionen im Medienarchiv der Künste werden laufend ausgebaut. Zurzeit stehen die <a href="">Release-Umfrage</a>, ein persönliches <a href="">Feedback-Formular</a> sowie direkte Kontaktmöglichkeiten mit den MAdeK-Teammitgliedern zur Verfügung. Weitere Werkzeuge wie FAQ (Frequently Asked Questions) und ein Nutzerforum werden noch folgen.</p>-->
+		</div>
+		
+		<div id="feedback_sidebar">
+			<h2 class="box-title">Sprechen Sie mit uns</h2>
+			<div class="box">
+			<p>Gerne nehmen wir Ihre Anregungen und Fragen auch persönlich entgegen.</p>
+			<div class="team-member">
+				<p class="team-member-portrait"><img src="images/feedback/susanne-schumacher-madek.jpg" alt="Portrait von Susanne Schumacher" class="portrait" /></p>
+				<div class="team-member-contact">
+				<h3>Susanne Schumacher</h3>
+				<p class="role">Produktmanagement</p>
+				<p class="contact"><script language="JavaScript"><!--
+				    var name = "susanne.schumacher";
+				    var domain = "zhdk.ch";
+
+				document.write('<a href=\"mailto:' + name + '@' + domain + '\">');
+
+				document.write(name + '@' + domain + '</a>');
+				 // --></script><br />Telefon: +41 (0)43 446 32 76</p>
+			</div> <!-- .team-member-contact -->
+			</div>
+			<div class="team-member">
+				<p class="team-member-portrait"><img src="images/feedback/ramon-cahenzli-madek.jpg" alt="Portrait von Ramon Cahenzli" class="portrait" /></p>
+				<div class="team-member-contact">
+				<h3>Ramon Cahenzli</h3>
+				<p class="role">Projektleitung</p>
+				<p class="contact"><script language="JavaScript"><!--
+				    var name = "ramon.cahenzli";
+				    var domain = "zhdk.ch";
+
+				document.write('<a href=\"mailto:' + name + '@' + domain + '\">');
+
+				document.write(name + '@' + domain + '</a>');
+				 // --></script><br />Telefon: +41 (0)43 446 41 63</p>
+				<p class="online-contact"><img height="14" width="16" style="padding:0 2px 0 0;margin:0;border:none" src="http://www.google.com/talk/service/resources/chaticon.gif" alt=""><img height="9" width="9" style="padding:0 2px 0 0;margin:0;border:none" src="http://www.google.com/talk/service/badge/Show?tk=z01q6amlqogap3q08fveb16sa3jeucar5i31qu3h996g763c6hhp3dtbt12qb4f914mfgt4h0ev2n7qrtl3v1klghljji3goic5b1iump4pvue5bv382m8udnn9acmc381dd8427vkdf7p924va0v0kvb2hiic3l82fdjq7ac7ncbfhr57emouldfe4r099vh3puqoul5v3i4a269r215k65ukd00&amp;w=9&amp;h=9" alt=""><a href="http://www.google.com/talk/service/badge/Start?tk=z01q6amlqogap3q08fveb16sa3jeucar5i31qu3h996g763c6hhp3dtbt12qb4f914mfgt4h0ev2n7qrtl3v1klghljji3goic5b1iump4pvue5bv382m8udnn9acmc381dd8427vkdf7p924va0v0kvb2hiic3l82fdjq7ac7ncbfhr57emouldfe4r099vh3puqoul5v3i4a269r215k65ukd00" target="_blank" title="Click here to chat with Ramón Cahenzli">Live-Chat (Google Talk)</a></p>
+
+			</div> <!-- .team-member-contact -->
+			</div>
+			<div class="team-member">
+				<p class="team-member-portrait"><img src="images/feedback/stefano-vannotti-madek.png" alt="Portrait von Stefano Vannotti" class="portrait" /></p>
+				<div class="team-member-contact">
+				<h3>Stefano Vannotti</h3>
+				<p class="role">User Experience</p>
+				<p class="contact"><script language="JavaScript"><!--
+				    var name = "stefano.vannotti";
+				    var domain = "zhdk.ch";
+
+				document.write('<a href=\"mailto:' + name + '@' + domain + '\">');
+
+				document.write(name + '@' + domain + '</a>');
+				 // --></script></p>
+			<!--
+			Skype 'Mein Status' button
+			http://www.skype.com/go/skypebuttons
+			-->
+			<script type="text/javascript" src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js"></script>
+			<p class="online-contact"><a href="skype:volpephone?call"><img src="http://mystatus.skype.com/smallclassic/volpephone" style="border: none;" width="114" height="20" alt="Skype Status von Stefano Vannotti" /></a></p>
+			</div> <!-- .team-member-contact -->
+			</div>
+		
+			<div class="team-member">
+				<p class="team-member-portrait"><img src="images/feedback/olivier-heitz-madek.jpg" alt="Portrait von Olivier Heitz" class="portrait" /></p>
+				<div class="team-member-contact">
+				<h3>Olivier Heitz</h3>
+				<p class="role">Interaction Design</p>
+				<p class="contact"><script language="JavaScript"><!--
+				    var name = "olivier.heitz";
+				    var domain = "zhdk.ch";
+
+				document.write('<a href=\"mailto:' + name + '@' + domain + '\">');
+
+				document.write(name + '@' + domain + '</a>');
+				 // --></script></p>
+				
+			</div> <!-- .team-member-contact -->
+			</div>
+			
+			<div class="team-member">
+				<p class="team-member-portrait"><img src="images/feedback/franco-sellitto-madek.jpg" alt="Portrait von Franco Sellitto" class="portrait" /></p>
+				<div class="team-member-contact">
+				<h3>Franco Sellitto</h3>
+				<p class="role">Entwicklung</p>
+				<p class="contact"><script language="JavaScript"><!--
+				    var name = "franco.sellitto";
+				    var domain = "zhdk.ch";
+
+				document.write('<a href=\"mailto:' + name + '@' + domain + '\">');
+
+				document.write(name + '@' + domain + '</a>');
+				 // --></script></p>
+			</div> <!-- .team-member-contact -->
+			</div>
+		
+		</div>
+		</div> <!-- #sidebar -->
+	</div>

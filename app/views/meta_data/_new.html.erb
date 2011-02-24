@@ -1,0 +1,15 @@
+<%
+#temp#
+
+id = "new_meta_data"
+
+content_tag :tr, :id => id do
+	content_tag :td, :colspan => 2 do
+		#TODO#Rails3#
+		remote_form_for media_entry, :update => id, :position => :before, :complete => "$('##{id}').fadeOut('slow')" do |f| %>
+			<%= text_field_tag "media_entry[meta_data_attributes][0][meta_key]", nil, :size => 16 %>
+			<%= text_field_tag "media_entry[meta_data_attributes][0][value]", nil, :size => 34 %>
+			<%= f.submit _("Speichern"), :class => 'button', :style => "margin: 20px;" %>
+		<% end
+	end
+end %>
