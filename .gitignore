@@ -1,9 +1,15 @@
 .bundle
 log/*.log
+log/searchd.development.pid
 *.log
 /tmp/
-config/database.yml
 *.swp
 *~
 .DS_Store
 config/LDAP.yml
+config/sphinx.yml
+config/database.yml
+config/*.conf
+config/*.conf_with_pipe
+db/media_files/
+db/sphinx/

@@ -41,8 +41,9 @@
         = button_to _("Aus Set Entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete, :id => "batch-remove"
       %li#batch-add-to-set
         = form_tag add_member_media_set_url(@media_set) do
-        = select_tag "media_set_id", options_for_select([["Set Auswählen", ""]] + @editable_sets.collect {|set| [set.meta_data.get_value_for("title"), set.id]})
-        = submit_tag "Alle hinzufügen"
+          = select_tag "media_set_id", options_for_select([["Set Auswählen", ""]] + @editable_sets.collect {|set| [set.meta_data.get_value_for("title"), set.id]})
+          = submit_tag "Alle hinzufügen"
+
   .clear
 #selected_items.grid_12.task_bar
 .clear
@@ -59,26 +60,25 @@
 .clear
 
 :javascript
-
   $(document).ready(function () {
     //alert("document loaded");
     var data = #{@info_to_json};
     var media_set_id = #{@media_set.id};
     var key = "media_sets/"+ media_set_id +"/media_entry_ids";
-  
+
     checkSelected(media_set_id);
     listSelected(media_set_id, data);
     displayCount(key);
-    
+  
     $('.pagination a').live('ajax:success', function(xhr, response){
   		checkSelected(media_set_id);
   	});
-  	
+	
     $("span.favorite_link a").live('ajax:complete', function(xhr, response){
       var media_entry_id = $(this).parent().attr("id").slice(4);
     	$("span#fav_" + media_entry_id).html(response.responseText);
     });
-  	
+	
     function displayCount(key) {
       //alert("displayCount called");
       var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
@@ -98,7 +98,7 @@
         }
       }
     };
-  	
+	
   	// hover functions for batch action buttons - highlight selected entries for which action is possible 
   	$("input#batch-edit").hover(
       function () {
@@ -108,7 +108,7 @@
         $('#selected_items .edit').css("background","white");
       }
     );
-    
+  
     $("input#batch-remove").hover(
       function () {
         $('#selected_items .edit_set').css("background","yellow");
@@ -117,22 +117,22 @@
         $('#selected_items .edit_set').css("background","white");
       }
     );
-	      
+      
     $(":checkbox").live("click", function(){
       //alert("checkbox clicked");
       var is_checked = $(this).is(":checked");
       var curr_value = $(this).val();
       var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
-      
+    
       if(media_entry_ids == null) media_entry_ids = new Array();
-      
+    
       if(is_checked){
         media_entry_ids.push(curr_value);
       } else {
         var i = media_entry_ids.indexOf(curr_value);
         if(i > -1) media_entry_ids.splice(i, 1);
       }
-  
+
       $.each(data, function(i, me) {
         if ((me.id == curr_value) && is_checked) {
           // insert into selected bar
@@ -142,7 +142,7 @@
           $('#selected_items #me_' + me.id).remove();
         }
       });
-      
+    
       sessionStorage.setItem(key, JSON.stringify(media_entry_ids.getUnique()));
       displayCount(key);
     });
@@ -155,7 +155,7 @@
       });
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
     });
-    
+  
     $("#batch-remove-button form").submit(function() {
       //var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
       var editable_ids = new Array();
@@ -165,12 +165,10 @@
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
       sessionStorage.removeItem(key); //maybe we just want to remove the items slated for removal (rather than the entire key)
     });
-    
+  
      $("#batch-add-to-set form").submit(function() {
        var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
        $(this).append("<input type='hidden' name='media_entry_ids' value='"+media_entry_ids+"'>");
      });
-      
+    
   });
-
-	
