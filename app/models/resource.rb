@@ -344,7 +344,7 @@ private
     # TODO validates presence of the owner's permissions?
     if subject
      user_default_permissions = {:view => true, :edit => true, :manage => true}
-     user_default_permissions[:high_res] = true if self.class == MediaEntry
+     user_default_permissions[:hi_res] = true if self.class == MediaEntry
      permissions.build(:subject => subject).set_actions(user_default_permissions)  
     end # OPTIMIZE
   end
