@@ -5,7 +5,8 @@ class MediaEntriesController < ApplicationController
   before_filter :authorized?, :except => [:index, :media_sets, :favorites, :toggle_favorites, :keywords] #old# :only => [:show, :edit, :update, :destroy]
   
   def index
-    # madek11 theme "madek11"
+    # madek11
+    theme "madek11"
     # filtering attributes
     with = {}
     media_entries = if @user
@@ -159,7 +160,7 @@ class MediaEntriesController < ApplicationController
 
   # TODO refactor to users_controller ??
   def favorites
-    #theme "madek11"
+    theme "madek11"
     if request.post?
       current_user.favorites << @media_entry
       # current_user.favorites.toggle(@media_entry) -- for madek11
