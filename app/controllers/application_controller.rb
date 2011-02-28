@@ -30,7 +30,8 @@ class ApplicationController < ActionController::Base
 ##############################################  
 
   def root
-    # madek11 theme "madek11"
+    # madek11
+    theme "madek11"
     if logged_in?
       # TODO refactor to UsersController#show and dry with MediaEntriesController#index
       params[:per_page] ||= 20 #PER_PAGE.first
