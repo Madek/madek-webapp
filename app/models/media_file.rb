@@ -41,15 +41,16 @@ class MediaFile < ActiveRecord::Base
       when /image/ then
         import_image_metadata(file_storage_location) if previews.empty? # TODO why?
         make_thumbnails
-      when /video/ then 
-        import_audio_video_metadata(full_path_file)
+      when /video/ then
+        puts "HIT A VIDEO OMG AT: ", file_storage_location, "_--------__---____"
+        import_audio_video_metadata(file_storage_location)
       when /audio/ then
-        import_audio_metadata(full_path_file)
+        import_audio_metadata(file_storage_location)
       # when /application\/zip/ then
       #   logger.info "application/zip"
       #   explode_and_import(full_path_file)
       when /application/ then
-        import_document_metadata(full_path_file)
+        import_document_metadata(file_storage_location)
       else
         # TODO implement other content_types
     end
@@ -185,20 +186,25 @@ class MediaFile < ActiveRecord::Base
 #####################################################################################################################
 
   def import_audio_video_metadata(full_path_file)
-    # TODO refactor to use exiftool for metadata?
-    begin
-        blorb = `ffmpeg -i "#{full_path_file}" 2>&1`.split("\n")
-    rescue
-        blorb = nil 
+    self.meta_data = {}
+    # TODO: Find video-related  tags and add them
+    tracks = []
+    [1..10].each do |n|
+      tracks << "Track#{n}:"
     end
+    group_tags = ['File:', 'Composite:', 'IFD', 'ICC-','ICC_Profile','XMP-exif', 'XMP-xmpMM', 'XMP-aux', 'XMP-tiff', 'Photoshop:', 'ExifIFD:', 'JFIF', 'IFF:', 'GPS:', 'PNG:', 'QuickTime:'] + tracks #'System:' leaks system info
+    ignore_fields = ['UserComment','ImageDescription', 'ProfileCopyright', 'System:']
+    exif_hash = {}
 
-    unless blorb.nil?
-      [1..8].each {blorb.pop}
-      self.meta_data = { "date"               => Date.today,
-                         "format"             => content_type,
-                         "properties"         => (blorb.collect {|key| key.gsub(/\n/, "|") }).join("§")
-                       }
+    blob = exiftool_obj(full_path_file, group_tags)
+    blob.each do |tag_array_entry|
+      tag_array_entry.each do |entry|
+        exif_hash[entry[0]]=entry[1] unless ignore_fields.any? {|w| entry[0].include? w }
+      end
+      meta_data.merge!(exif_hash)
     end
+    img_x, img_y = exif_hash["Composite:ImageSize"].split("x")
+    update_attributes(:width => img_x, :height => img_y)
   end
 
 
