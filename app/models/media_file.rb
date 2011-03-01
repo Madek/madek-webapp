@@ -43,6 +43,9 @@ class MediaFile < ActiveRecord::Base
         make_thumbnails
       when /video/ then
         import_audio_video_metadata(file_storage_location)
+        # get URL of media file and submit that
+        #submit_video_encoding_job( URL? where? how?)
+        make_thumbnails
       when /audio/ then
         import_audio_metadata(file_storage_location)
       # when /application\/zip/ then
@@ -223,7 +226,7 @@ class MediaFile < ActiveRecord::Base
 
   def import_audio_metadata(full_path_file)
 
-    # TODO refactor to use exiftool
+    # TODO refactor to use ffmpeg, some id3 tag extractor, etc.
   end
 
 # This kind of thing REALLY needs to happen of elsewhere asynchronously, otherwise we move inexorably towards the day the site gets DOS'd. 
