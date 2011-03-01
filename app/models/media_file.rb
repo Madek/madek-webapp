@@ -3,6 +3,7 @@
 
 class MediaFile < ActiveRecord::Base
   # before_create :set_filename
+  before_create :assign_access_hash
   before_create :validate_file
   after_create  :store_file
   after_destroy :delete_file
@@ -228,7 +229,7 @@ class MediaFile < ActiveRecord::Base
 
     # TODO refactor to use ffmpeg, some id3 tag extractor, etc.
   end
-
+  
 # This kind of thing REALLY needs to happen of elsewhere asynchronously, otherwise we move inexorably towards the day the site gets DOS'd. 
 # ie when a user uploads a malevolent zip that unpacks to some ridiculous storage-busting size..
 # TODO - explode and import the contents of a zip file
@@ -274,6 +275,15 @@ class MediaFile < ActiveRecord::Base
   end
 
 
+  def assign_access_hash
+    self.access_hash = UUIDTools::UUID.random_create.to_s
+  end
+
+  def reset_access_hash
+    assign_access_hash
+    return save
+  end
+  
   private
 
 

@@ -5,7 +5,7 @@ class Download
       request = Rack::Request.new(env)
       params = request.params
       session = env['rack.session']
-
+      
       current_user = User.find_by_id(session[:user_id]) if session[:user_id]
 
 # e.g.
@@ -17,6 +17,18 @@ class Download
 
 #####################################################################################################################
 #####################################################################################################################
+
+
+      unless params['media_file_id'].blank?
+        @media_file = MediaFile.where(:id => params['media_file_id'], :access_hash => params['access_hash']).first
+        if @media_file.nil?
+          return [404, {"Content-Type" => "text/html"}, ["Not found or no access. Try adding an access hash."]]
+        else
+          path = @media_file.file_storage_location
+          return [200, {"Content-Type" => @media_file.content_type, "Content-Disposition" => "attachment; filename=#{@media_file.filename}" }, [File.read(path) ]]
+        end
+      end
+      
       unless params['id'].blank? 
 
         @media_entry = MediaEntry.where(:id => params['id']).first
