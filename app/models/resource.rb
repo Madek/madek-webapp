@@ -192,8 +192,9 @@ module Resource
 
       if media_file
         preview = case media_file.content_type
-                    when /video/ then 
-                      "Video"
+                    when /video/ then
+                      # Get the video's covershot that we've extracted/thumbnailed on import
+                      media_file.get_preview(size) || "Video"
                     when /audio/ then
                       "Audio"
                     when /image/ then

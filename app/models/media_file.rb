@@ -124,20 +124,30 @@ class MediaFile < ActiveRecord::Base
   def make_thumbnails(sizes = nil)
     # this should be a background job
     if content_type.include?('image')
-      THUMBNAILS.each do |thumb_size,value|
-        next if sizes and !sizes.include?(thumb_size)
-        tmparr = thumbnail_storage_location
-        tmparr += "_#{thumb_size.to_s}"
-        outfile = [tmparr, 'jpg'].join('.')
-        conv_res = `convert -verbose "#{file_storage_location}" -auto-orient -thumbnail "#{value}" -flatten -unsharp 0x.5 "#{outfile}"`
-        if conv_res.blank?
-          # if convert failed, we need to take or delegate off some rescue action, ideally.
-          # but for the moment, lets just imply no-thumbnail need be made for this size
-        else
-          x,y = `identify -format "%wx%h" "#{outfile}"`.split('x')
-          if x and y
-            previews.create(:content_type => 'image/jpeg', :filename => outfile.split('/').last, :height => y, :width => x, :thumbnail => thumb_size.to_s ) 
-          end
+      thumbnail_jpegs_for(file_storage_location)
+    elsif content_type.include?('video')
+      # Extracts a cover image from the video stream
+      covershot = "#{thumbnail_storage_location}_covershot.png"
+      # You can use the -ss option to determine the temporal position in the stream you want to grab from (in seconds)
+      conversion = `ffmpeg -i #{file_storage_location} -vcodec png -vframes 1 -an -f rawvideo #{covershot}`
+      thumbnail_jpegs_for(covershot)
+    end
+  end
+
+  def thumbnail_jpegs_for(file, sizes = nil)
+    THUMBNAILS.each do |thumb_size,value|
+      next if sizes and !sizes.include?(thumb_size)
+      tmparr = thumbnail_storage_location
+      tmparr += "_#{thumb_size.to_s}"
+      outfile = [tmparr, 'jpg'].join('.')
+      conv_res = `convert -verbose "#{file}" -auto-orient -thumbnail "#{value}" -flatten -unsharp 0x.5 "#{outfile}"`
+      if conv_res.blank?
+        # if convert failed, we need to take or delegate off some rescue action, ideally.
+        # but for the moment, lets just imply no-thumbnail need be made for this size
+      else
+        x,y = `identify -format "%wx%h" "#{outfile}"`.split('x')
+        if x and y
+          previews.create(:content_type => 'image/jpeg', :filename => outfile.split('/').last, :height => y, :width => x, :thumbnail => thumb_size.to_s )
         end
       end
     end
@@ -186,12 +196,16 @@ class MediaFile < ActiveRecord::Base
 #####################################################################################################################
 
   def import_audio_video_metadata(full_path_file)
+    # TODO: merge with import_image_metadata, make fields configurable in :options hash
     self.meta_data = {}
-    # TODO: Find video-related  tags and add them
+
+    # The Tracks: entries describe video, audio or subtitle tracks present in the container. We extract 10
+    # because we think no one would be mad enough to have more.
     tracks = []
     [1..10].each do |n|
       tracks << "Track#{n}:"
     end
+    
     group_tags = ['File:', 'Composite:', 'IFD', 'ICC-','ICC_Profile','XMP-exif', 'XMP-xmpMM', 'XMP-aux', 'XMP-tiff', 'Photoshop:', 'ExifIFD:', 'JFIF', 'IFF:', 'GPS:', 'PNG:', 'QuickTime:'] + tracks #'System:' leaks system info
     ignore_fields = ['UserComment','ImageDescription', 'ProfileCopyright', 'System:']
     exif_hash = {}
@@ -210,20 +224,7 @@ class MediaFile < ActiveRecord::Base
 
   def import_audio_metadata(full_path_file)
 
-    # TODO refactor to use exiftool for metadata?
-    begin
-        blorb = `ffmpeg -i "#{full_path_file}" 2>&1`.split("\n")
-    rescue
-        blorb = nil 
-    end
-
-    unless blorb.nil?
-      [1..8].each {blorb.pop}
-      self.meta_data = { "date"               => Date.today,
-                         "format"             => content_type,
-                         "properties"         => (blorb.collect {|key| key.gsub(/\n/, "|") }).join("§")
-                       }
-    end
+    # TODO refactor to use exiftool
   end
 
 # This kind of thing REALLY needs to happen of elsewhere asynchronously, otherwise we move inexorably towards the day the site gets DOS'd. 
