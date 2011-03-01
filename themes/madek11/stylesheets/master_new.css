@@ -20,8 +20,8 @@
 /* Imports
  ----------------------------------------------------*/
 
-@import url("/stylesheets/reset.css");
-@import url("/stylesheets/960.css");
+@import url("../../../public/stylesheets/reset.css");
+@import url("../../../public/stylesheets/960.css");
 @import url('/jquery/themes/custom-theme/jquery-ui.css');
 /* @import url("menu.css"); */
 @import url("/stylesheets/fg.menu.css");
