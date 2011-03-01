@@ -18,7 +18,7 @@ class EncodeJob
   attr_accessor :base_url # Output location where finished encodes should be stored
                           # (FTP or SFTP URL including username/password)
   def initialize
-    config = YAML::load(File.open(Rails.root + "config/zencoder-real.yml"))
+    config = YAML::load(File.open(Rails.root + "config/zencoder.yml"))
     api_key = config['zencoder']['api_key']
     @base_url = config['zencoder']['ftp_base_url']
     Zencoder.api_key = api_key
