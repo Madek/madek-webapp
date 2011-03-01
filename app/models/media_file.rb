@@ -280,6 +280,8 @@ class MediaFile < ActiveRecord::Base
     require 'encode_job'
     job = EncodeJob.new
     job.start_by_url("#{VIDEO_ENCODING_BASE_URL}/download?media_file_id=#{self.id}&access_hash=#{self.access_hash}")
+    # Save Zencoder job ID so we can use it in subsequent requests
+    update_attributes(:job_id => job.details['id'])
   end
 
   

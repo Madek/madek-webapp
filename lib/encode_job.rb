@@ -17,7 +17,8 @@ class EncodeJob
   attr_accessor :job_id # Unique job ID that the encoder system (e.g. Zencoder) should assign to us
   attr_accessor :base_url # Output location where finished encodes should be stored
                           # (FTP or SFTP URL including username/password)
-  def initialize
+  def initialize(job_id = nil)
+    @job_id = job_id unless job_id.nil?
     config = YAML::load(File.open(Rails.root + "config/zencoder.yml"))
     api_key = config['zencoder']['api_key']
     @base_url = config['zencoder']['ftp_base_url']
