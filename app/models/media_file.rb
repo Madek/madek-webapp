@@ -124,13 +124,13 @@ class MediaFile < ActiveRecord::Base
   def make_thumbnails(sizes = nil)
     # this should be a background job
     if content_type.include?('image')
-      thumbnail_jpegs_for(file_storage_location)
+      thumbnail_jpegs_for(file_storage_location, sizes)
     elsif content_type.include?('video')
       # Extracts a cover image from the video stream
       covershot = "#{thumbnail_storage_location}_covershot.png"
       # You can use the -ss option to determine the temporal position in the stream you want to grab from (in seconds)
       conversion = `ffmpeg -i #{file_storage_location} -y -vcodec png -vframes 1 -an -f rawvideo #{covershot}`
-      thumbnail_jpegs_for(covershot)
+      thumbnail_jpegs_for(covershot, sizes)
     end
   end
 
