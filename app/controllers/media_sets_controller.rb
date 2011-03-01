@@ -31,9 +31,8 @@ class MediaSetsController < ApplicationController
   end
 
   def show
-    #new# 
+    #new#
     theme "madek11"
-    
     viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
     @editable_ids = Permission.accessible_by_user("MediaEntry", current_user, :edit)
     editable_set_ids = Permission.accessible_by_user("Media::Set", current_user, :edit)
