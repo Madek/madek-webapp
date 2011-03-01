@@ -4,8 +4,8 @@ require 'rubygems'
 
 require 'yaml'
 
-#require 'zencoder'  # This doesn't work? What the?
-require '/usr/lib/ruby/gems/1.8/gems/zencoder-2.3.1/lib/zencoder' # This works. What the?
+require 'zencoder'  # This doesn't work? What the?
+#require '/usr/lib/ruby/gems/1.8/gems/zencoder-2.3.1/lib/zencoder' # This works. What the?
 
 
 # documentation: https://github.com/zencoder/zencoder-rb
