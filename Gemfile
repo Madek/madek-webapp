@@ -28,6 +28,7 @@ gem 'json', '1.4.6'
 gem "ruby-net-ldap", "0.0.4", :require => 'net/ldap'
 
 gem "zencoder"
+gem "uuidtools"
 
 group :test, :development do
   gem 'ruby-debug' # TODO 'ruby-debug19' for Ruby 1.9.x
