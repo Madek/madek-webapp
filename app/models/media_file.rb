@@ -45,7 +45,7 @@ class MediaFile < ActiveRecord::Base
       when /video/ then
         import_audio_video_metadata(file_storage_location)
         # get URL of media file and submit that
-        #submit_video_encoding_job( URL? where? how?)
+        submit_video_encoding_job
         make_thumbnails
       when /audio/ then
         import_audio_metadata(file_storage_location)
@@ -274,7 +274,15 @@ class MediaFile < ActiveRecord::Base
     #TODO - specifically for other non-zipped documents (e.g. source code, application binary, etc)
   end
 
+  def submit_video_encoding_job
+    # submit http://this_host/download?media_file_id=foo&access_hash=bar
+    puts "to submit: " + "#{VIDEO_ENCODING_BASE_URL}/download?media_file_id=#{self.id}&access_hash=#{self.access_hash}"
+    require 'encode_job'
+    job = EncodeJob.new
+    job.start_by_url("#{VIDEO_ENCODING_BASE_URL}/download?media_file_id=#{self.id}&access_hash=#{self.access_hash}")
+  end
 
+  
   def assign_access_hash
     self.access_hash = UUIDTools::UUID.random_create.to_s
   end
