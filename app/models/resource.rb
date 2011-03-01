@@ -13,8 +13,9 @@ module Resource
       end
       
       def get(key_id)
-                                                      # unless ... and !!v.match(/\A[+-]?\d+\Z/) # TODO path to String#is_numeric? method
+        # unless ... and !!v.match(/\A[+-]?\d+\Z/) # TODO path to String#is_numeric? method
         #key_id = MetaKey.find_by_label(key_id.downcase).id unless key_id.is_a?(Fixnum)
+        #TODO: handle the case when key_id is a MetaKey object
         key_id = MetaKey.all_cached.detect {|mk| mk.label == key_id.downcase }.id unless key_id.is_a?(Fixnum)
         
         #r = where(:meta_key_id => key_id).first # OPTIMIZE prevent find if is_dynamic meta_key
@@ -73,17 +74,25 @@ module Resource
       # we need to deep copy the attributes for batch edit (multiple resources)
       dup_attributes = Marshal.load(Marshal.dump(attributes))
       
+      # To avoid overriding at batch update: remove from attribute hash if :keep_original_value and value is blank
+      dup_attributes[:meta_data_attributes].delete_if { |key, attr| attr[:keep_original_value] and attr[:value].blank? }
+
       dup_attributes[:meta_data_attributes].each_pair do |key, attr|
         if attr[:value].is_a? Array and attr[:value].all? {|x| x.blank? }
           attr[:value] = nil
         end
-        if !attr[:id].blank? and attr[:value].blank?
-          attr[:_destroy] = true
-          #old# attr[:value] = "." # NOTE bypass the validation
-        elsif attr[:id].blank?
+        
+        # find existing meta_datum, if it exists
+        if attr[:id].blank?
           if (md = meta_data.all_cached.detect {|md| md.meta_key_id == attr[:meta_key_id].to_i}) #(md = meta_data.where(:meta_key_id => attr[:meta_key_id]).first)
             attr[:id] = md.id
           end
+        end
+        
+        # get rid of meta_datum if value is blank
+        if !attr[:id].blank? and attr[:value].blank?
+          attr[:_destroy] = true
+          #old# attr[:value] = "." # NOTE bypass the validation
         end
       end if dup_attributes[:meta_data_attributes]
 
@@ -264,7 +273,8 @@ module Resource
       @meta_data_for_context[context.id] = []
 
       context.meta_keys.each do |key|
-        md = key.meta_data.scoped_by_resource_type_and_resource_id(self.class.name, self.id).first  # OPTIMIZE eager loading
+        t = (self.class.name != "Media::Set") ? "Media::Set" : self.class.name # there seems to be a Rails bug with STI and polymorphic associations (Media::Set gets saved as resource_type instead of STI type)
+        md = key.meta_data.scoped_by_resource_type_and_resource_id(t, self.id).first  # OPTIMIZE eager loading
         if md
           @meta_data_for_context[context.id] << md
         elsif build_if_not_exists or key.is_dynamic?

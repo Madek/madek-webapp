@@ -23,6 +23,9 @@
   	border: 1px solid #ccc; 
   	border-width: 0 1px 1px 0;
   	}
+  li.different_values {
+    background: gray;
+  }
 
 .container_12
   .grid_12
@@ -32,14 +35,6 @@
       %li#number_selected
         %span= @media_entries.size  
         Medieneinträge ausgewählt
-      %li
-        Add to Set (Select of Media::Sets editable by user)
-      %li
-        Add to Favorites
-      %li{:style => "background: #eeeeee;"}
-        Change Permissions (if permitted)
-      %li{:style => "background: #eeeeee;"}
-        Delete (if permitted)
   .clear
   = link_to "Toggle List View", "#", :id => "toggle"
     
@@ -79,8 +74,9 @@
           - meta_contexts.each do |meta_context|
             %li= link_to meta_context, "##{meta_context.name}" 
         - meta_contexts.each do |meta_context|
-          - resource = MediaEntry.new # NOTE we need a resource
-          - meta_data = meta_context.meta_keys.map {|mk| mk.meta_data.build(:resource => resource) }
+          - #resource = MediaEntry.new # NOTE we need a resource
+          - #meta_data = meta_context.meta_keys.map {|mk| mk.meta_data.build(:resource => resource) }
+          - meta_data = MediaEntry.compare_batch_by_meta_data_in_context(@media_entries, meta_context)
           = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :meta_data => meta_data }
       = yield :buttons
   .grid_2
@@ -96,15 +92,16 @@
   .clear  
   :plain    
     <script type="text/x-jquery-tmpl" id="thumbnail_view">
-          <div class="grid_3">
-            <a href="/media_entries/${id}">
-              <img src="${thumb_base64_small}">
-            </a>
-            <p>
-            <strong>${title}</strong>
-            <br />
-            ${author}
-            </p>
+          <div class="item_box">
+            <div class="thumb_box">
+              <a href="/media_entries/${id}">
+                <img src="${thumb_base64_small}">
+              </a>
+              <p>
+              <span class="item_title">${title}</span>
+              <span class="item_author">${author}</span>
+              </p>
+            </div>
           </div>
     </script>
 
@@ -144,6 +141,10 @@
   $(document).ready(function () { 
     var data = #{@info_to_json};
     showListAsThumbnails();
+    
+    // by default
+    $("input.keep").parents("li").addClass("different_values");
+    
     
     $('a#toggle').click(function() {
       if($("#list_as_thumbnails").is(":visible")) {

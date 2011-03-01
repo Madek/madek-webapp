@@ -3,7 +3,7 @@
 	
 	# if meta_data are sent in it means that we are editing multiple resources at once
 	meta_data ||= resource.object.meta_data_for_context(context)
-
+  
 	labels = {}
 	last_label = nil
 	meta_data.each do |md|
@@ -56,6 +56,7 @@
 					#temp-fix# 0510
 					d = "".html_safe
 					d = meta_datum.hidden_field :id if meta_datum.object.id
+					d += meta_datum.hidden_field :keep_original_value, :class => "keep" if meta_datum.object.keep_original_value
 					d += field_tag(meta_datum, context)
 				end
 				c += content_tag :li, :style => "width: 10%;" do

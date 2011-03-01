@@ -163,6 +163,29 @@ class MediaEntry < ActiveRecord::Base
 
 ########################################################
 
+ def self.compare_batch_by_meta_data_in_context(media_entries, context)
+   compared_against, other_entries = media_entries[0], media_entries[1..-1]
+   meta_data_for_context = []
+   context.meta_keys.map(&:id).inject(meta_data_for_context) do |memo, mk|
+       md = compared_against.meta_data.get(mk) # this will return or build the meta datum
+       memo << {:meta_key_id => md.meta_key_id, :value => md.value}
+   end
+
+   new_blank_media_entry = self.new
+   meta_data_for_context.inject([]) do |meta_data, md_bare|
+      at_least_one_different = other_entries.detect {|me| !me.meta_data.get(md_bare[:meta_key_id]).same_value?(md_bare[:value])}
+      if at_least_one_different
+        meta_data << MetaDatum.new(:resource => new_blank_media_entry, :meta_key_id => md_bare[:meta_key_id], :value => nil, :keep_original_value => true)
+      else
+        meta_data << MetaDatum.new(:resource => new_blank_media_entry, :meta_key_id => md_bare[:meta_key_id], :value => md_bare[:value])
+      end
+      meta_data
+   end
+ end
+
+
+########################################################
+
   private
 
   # - used by metal/download.rb to collect the key_map tags and their values for writing into the 

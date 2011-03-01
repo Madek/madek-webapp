@@ -12,6 +12,8 @@ class MetaDatum < ActiveRecord::Base
 
   validates_uniqueness_of :meta_key_id, :scope => [:resource_type, :resource_id]
   validates_presence_of :resource_type, :resource_id, :meta_key_id, :value
+  
+  attr_accessor :keep_original_value
 
   before_save do |record|
     case record.meta_key.object_type
@@ -137,6 +139,25 @@ class MetaDatum < ActiveRecord::Base
 #  def <=>(other)
 #    self.meta_key.label <=> other.meta_key.label
 #  end
+  
+##########################################################
+
+  def same_value?(other_value)
+    case value
+      when String
+        value == other_value
+      when Array
+        return false unless other_value.is_a?(Array)
+        if value.first.is_a?(Meta::Date) 
+          other_value.is_a?(Meta::Date) && (other_value.first.free_text == value.first.free_text)
+        else
+          (value && other_value).length == value.length
+        end
+      when NilClass
+        other_value.blank?
+    end
+  end
+  
   
 ##########################################################
 
