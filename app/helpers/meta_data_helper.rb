@@ -262,12 +262,13 @@ module MetaDataHelper
 #          h += text_area_tag "media_entry[meta_data_attributes][0][value]", meta_datum.object.to_s
         when "Keyword"
           keywords = meta_datum.object.deserialized_value
+
           meta_term_ids = keywords.collect(&:meta_term_id)
           all_grouped_keywords = Keyword.group(:meta_term_id)
           all_grouped_keywords = all_grouped_keywords.where(["meta_term_id NOT IN (?)", meta_term_ids]) unless meta_term_ids.empty?
           all_options = (keywords + all_grouped_keywords).collect {|x| [x.to_s, x.id]}.sort {|a,b| a[0].downcase <=> b[0].downcase}
           selected_options = keywords.collect(&:id)
-
+          
           #new# TODO save keywords as entities (Keyword ??)
           #all_values = Array(meta_datum.object.value).compact
           #all_options = all_values.collect {|x| [x.to_s, x.id]}
