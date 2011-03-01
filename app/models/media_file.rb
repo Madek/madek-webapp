@@ -42,7 +42,6 @@ class MediaFile < ActiveRecord::Base
         import_image_metadata(file_storage_location) if previews.empty? # TODO why?
         make_thumbnails
       when /video/ then
-        puts "HIT A VIDEO OMG AT: ", file_storage_location, "_--------__---____"
         import_audio_video_metadata(file_storage_location)
       when /audio/ then
         import_audio_metadata(file_storage_location)
