@@ -129,7 +129,7 @@ class MediaFile < ActiveRecord::Base
       # Extracts a cover image from the video stream
       covershot = "#{thumbnail_storage_location}_covershot.png"
       # You can use the -ss option to determine the temporal position in the stream you want to grab from (in seconds)
-      conversion = `ffmpeg -i #{file_storage_location} -vcodec png -vframes 1 -an -f rawvideo #{covershot}`
+      conversion = `ffmpeg -i #{file_storage_location} -y -vcodec png -vframes 1 -an -f rawvideo #{covershot}`
       thumbnail_jpegs_for(covershot)
     end
   end
