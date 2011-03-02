@@ -151,7 +151,7 @@ class MetaDatum < ActiveRecord::Base
         if value.first.is_a?(Meta::Date) 
           other_value.is_a?(Meta::Date) && (other_value.first.free_text == value.first.free_text)
         else
-          (value && other_value).length == value.length
+          value.same_elements?(other_value) # patch of Array class, works for integers and other simple types
         end
       when NilClass
         other_value.blank?

@@ -849,7 +849,7 @@ button.dark:hover {
 
 
 
-.task_bar input[type="submit"] {
+.task_bar input[type="submit"], input[type="submit"] {
 	color: #333;
 	font-weight: bold;
 	padding: 3px 10px;
@@ -899,6 +899,111 @@ button.dark:hover {
 #set_meta h3 {
 	padding-bottom: 0.5em;
 }
+
+
+/** temporary styles to make batch edit page presentable *****/
+
+.clear {
+	margin: 10px 0;
+	}
+#legend { 
+	background: #ddd; 
+	padding: 10px; 
+	}
+#legend p.info { 
+	font-size: 11px; 
+	font-weight: bold; 
+	margin-bottom: 10px;}
+
+.ui-tabs .meta_data { 
+	padding: 2em 1em; 
+	width: 100%; 
+	background: #fff; 
+	}
+
+ul[data-meta_key].parent {
+	/*background-color: #E7E7E7;*/
+}
+ul[data-parent_meta_key] {
+	background-color: #F2F2F2;
+	display: none;
+	padding-left: 1.5em;
+}
+
+.meta_data ul[data-meta_key] > li {
+    display: inline-block;
+    margin: 0.5em 0;
+    padding: 0.4em;
+    vertical-align: top;
+}
+
+.meta_data input, .meta_data select, .meta_data textarea {
+    border: 1px solid #D2D2D2;
+    color: #424242;
+    font-size: 1em;
+    padding: 5px;
+    width: 97%;
+}
+
+.meta_data .description_toggler {
+    color: #888888;
+    font-size: 0.9em;
+    font-weight: bold;
+    padding: 0.5em;
+}
+
+.meta_data .hint {
+    color: #888888;
+    display: block;
+    font-size: 0.9em;
+    font-weight: normal;
+    line-height: 1.3em;
+    z-index: 99999;
+}
+
+.dialog {
+    -moz-border-radius: 5px 5px 5px 5px;
+    background-color: #FEFFD7;
+    border: 1px solid #D4C889;
+    padding: 8px;
+    position: absolute;
+    right: 50px;
+    width: 18em;
+}
+
+.dates input, #dateSelect {
+    width: auto;
+}
+
+.meta_data ul.meta_terms {
+    font-size: 0.8em;
+}
+
+.meta_data ul.meta_terms > li {
+    display: inline-block;
+    vertical-align: top;
+    width: 50%;
+}
+
+.meta_data ul.meta_terms > li > ul > li {
+    display: block;
+}
+
+.meta_data input[type="checkbox"] {
+    float: inherit;
+    margin-top: 0.6em;
+    width: auto;
+}
+
+.meta_data ul.meta_terms > li > ul > li > input[type="checkbox"] {
+    margin-right: 0.5em;
+}
+
+#dateSelect {
+    background: #EEEEEE;
+}
+
+
 
 /**
  * Non-semantic helper classes: please define your styles before this section.

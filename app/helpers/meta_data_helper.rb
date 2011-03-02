@@ -1,5 +1,19 @@
 # -*- encoding : utf-8 -*-
 module MetaDataHelper
+  
+  def display_meta_data_for_context(resource, context)
+    a = ''
+    resource.meta_data_for_context(context).collect do |meta_datum|
+      definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
+      a += content_tag :small, definition.meta_field.label.to_s
+      a += if meta_datum.meta_key.label == "title"
+        content_tag :h3, formatted_value(meta_datum)
+      else
+        content_tag :p, formatted_value(meta_datum)
+      end
+    end
+    return a.html_safe
+  end
 
   # TODO merge with MetaDatum#to_s
   def formatted_value(meta_datum)

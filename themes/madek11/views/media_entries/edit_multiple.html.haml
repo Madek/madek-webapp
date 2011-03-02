@@ -27,44 +27,41 @@
     background: gray;
   }
 
-.container_12
-  .grid_12
-    %h1 Medieneinträge Bearbeiten
-  .grid_12{:style => "background: #E0ECFF; width: 100%;"}
+%section#content_body
+  %h2.section_title Medieneinträge Bearbeiten
+  .task_bar
     %ul
-      %li#number_selected
-        %span= @media_entries.size  
-        Medieneinträge ausgewählt
-  .clear
-  = link_to "Toggle List View", "#", :id => "toggle"
+      %li
+        %h4= "#{@media_entries.size} Medieneinträge ausgewählt"
+      %li= link_to _("Tabellensicht"), "#", :id => "toggle"
+    #selected_items
+      #list_as_thumbnails
+        hello from thumbnails
+
+      #list_as_list
+        %table
+          %thead
+            %tr
+              %td
+                &nbsp;
+              %td
+                Titel und Autor/in:
+              %td
+                Datierung:
+              %td
+                Schlagworte:
+              %td
+                Copyright:
+              %td{:colspan => "2"}
+                Hochgeladen von und am
+          %tbody
     
-  #list_as_thumbnails.grid_12
-    hello from thumbnails
-  
-  #list_as_list.grid_12
-    %table
-      %thead
-        %tr
-          %td
-            &nbsp;
-          %td
-            Titel und Autor/in:
-          %td
-            Datierung:
-          %td
-            Schlagworte:
-          %td
-            Copyright:
-          %td{:colspan => "2"}
-            Hochgeladen von und am
-      %tbody
-  .clear
   .grid_10
     = form_tag update_multiple_media_entries_path, :method => :put do
       = hidden_field_tag 'media_entry_ids', @media_entries.map(&:id).join(',')
       - meta_contexts = MetaContext.defaults # NOTE: what about individual contexts? maybe when editing project's media_entries
       - content_for :buttons do
-        %div{:style => "text-align: right; padding: 10pt; background: #DDDDDD;"}
+        %div{:style => "text-align: right; padding: 10pt;"}
           = submit_tag _("Speichern")
           = link_to _("Abbrechen"), :back, :class => "buttons"
 
@@ -92,17 +89,15 @@
   .clear  
   :plain    
     <script type="text/x-jquery-tmpl" id="thumbnail_view">
-          <div class="item_box">
-            <div class="thumb_box">
-              <a href="/media_entries/${id}">
-                <img src="${thumb_base64_small}">
-              </a>
-              <p>
-              <span class="item_title">${title}</span>
-              <span class="item_author">${author}</span>
-              </p>
-            </div>
-          </div>
+        <div class="thumb_box">
+          <a href="/media_entries/${id}">
+            <img src="${thumb_base64_small}">
+          </a>
+          <p>
+          <span class="item_title">${title}</span>
+          <span class="item_author">${author}</span>
+          </p>
+        </div>
     </script>
 
     <script type="text/x-jquery-tmpl" id="list_view">

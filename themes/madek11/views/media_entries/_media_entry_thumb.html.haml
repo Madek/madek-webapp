@@ -1,25 +1,23 @@
 %div.item_box
-  %a{:href => media_entry_path(media_entry)}
-    %div.thumb_box
-      %span.item_permission
-        = theme_image_tag "icons/icon_button_perm.png"
-        = #display_permission_icon(media_entry)
-      = thumb_for(media_entry, :small_125)
+  %span.item_permission
+    = theme_image_tag "icons/icon_button_perm.png"
+    = #display_permission_icon(media_entry)
+  %div.thumb_box
+    = link_to thumb_for(media_entry, :small_125), media_entry_path(media_entry)
   - title = media_entry.meta_data.get_value_for("title")
   - author = media_entry.meta_data.get_value_for("author")
-  %p
-    - unless title.blank?
-      %span.item_title
-        = truncate(title, :length => 36)
-    - unless author.blank?
-      %span.item_author
-        = truncate(author, :length => 18)
-    .actions
-  - if @editable_ids
-    %div{:class => "action_left"}
-      = check_box_tag 'media_entry_ids[]', media_entry.id, nil, :class => "editable" # if @editable_ids.include?(media_entry.id)
-  %div{:class => "action_right"}
-    = display_edit_icon(media_entry, current_user)
-    %span.favorite_link{:id => "fav_#{media_entry.id}"}
-      = render :partial => "/media_entries/favorite_link", :locals => {:media_entry => media_entry}
-    = display_delete_icon(media_entry, current_user)
+  - unless title.blank?
+    %p.item_title
+      = truncate(title, :length => 36)
+  - unless author.blank?
+    %p.item_author
+      = truncate(author, :length => 18)
+  .actions
+    .action_left
+      - if @editable_ids
+        = check_box_tag 'media_entry_ids[]', media_entry.id, nil, :class => "editable" # if @editable_ids.include?(media_entry.id)
+      %span.favorite_link{:id => "fav_#{media_entry.id}"}
+        = render :partial => "/media_entries/favorite_link", :locals => {:media_entry => media_entry}
+    .action_right
+      = display_edit_icon(media_entry, current_user)
+      = display_delete_icon(media_entry, current_user)
