@@ -21,6 +21,7 @@ class Download
 
       unless params['media_file_id'].blank?
         @media_file = MediaFile.where(:id => params['media_file_id'], :access_hash => params['access_hash']).first
+        
         if @media_file.nil?
           return [404, {"Content-Type" => "text/html"}, ["Not found or no access. Try adding an access hash."]]
         else
@@ -118,6 +119,15 @@ class Download
             else
               return [500, {"Content-Type" => "text/html"}, ["Something went wrong!"]]
             end
+          end
+
+
+          # A transcoded, smaller-than-original version of the video
+          unless params['video_thumbnail'].blank?
+          
+            path = Dir.glob("#{@media_entry.media_file.file_storage_location}_encoded/*.mp4").first
+            return [200, {"Content-Type" => "video/mp4", "Content-Disposition" => "attachment; filename=#{File.basename(path)}" }, [File.read(path) ]]        
+
           end
 
 #####################################################################################################################

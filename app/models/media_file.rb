@@ -45,7 +45,6 @@ class MediaFile < ActiveRecord::Base
       when /video/ then
         import_audio_video_metadata(file_storage_location)
         # get URL of media file and submit that
-        submit_video_encoding_job
         make_thumbnails
       when /audio/ then
         import_audio_metadata(file_storage_location)
@@ -134,6 +133,18 @@ class MediaFile < ActiveRecord::Base
       # You can use the -ss option to determine the temporal position in the stream you want to grab from (in seconds)
       conversion = `ffmpeg -i #{file_storage_location} -y -vcodec png -vframes 1 -an -f rawvideo #{covershot}`
       thumbnail_jpegs_for(covershot, sizes)
+      submit_video_encoding_job
+    end
+  end
+  
+  def retrieve_video_thumbnails
+    job = EncodeJob.new(self.job_id)
+    job.encoded_file_urls.each do |f|
+      puts f.inspect, "-----__-_--_-"
+      filename = File.basename(f)
+      `mkdir -p #{thumbnail_storage_location}_encoded`
+      puts "executing `wget #{f} -O #{thumbnail_storage_location}_encoded/#{filename}`"
+      `wget #{f} -O #{thumbnail_storage_location}_encoded/#{filename}`
     end
   end
 
@@ -282,6 +293,7 @@ class MediaFile < ActiveRecord::Base
     job.start_by_url("#{VIDEO_ENCODING_BASE_URL}/download?media_file_id=#{self.id}&access_hash=#{self.access_hash}")
     # Save Zencoder job ID so we can use it in subsequent requests
     update_attributes(:job_id => job.details['id'])
+    return job
   end
 
   

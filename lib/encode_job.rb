@@ -17,11 +17,14 @@ class EncodeJob
   attr_accessor :job_id # Unique job ID that the encoder system (e.g. Zencoder) should assign to us
   attr_accessor :base_url # Output location where finished encodes should be stored
                           # (FTP or SFTP URL including username/password)
+  attr_accessor :size    # The target sizes for the encode job
+  
   def initialize(job_id = nil)
     @job_id = job_id unless job_id.nil?
     config = YAML::load(File.open(Rails.root + "config/zencoder.yml"))
     api_key = config['zencoder']['api_key']
     @base_url = config['zencoder']['ftp_base_url']
+    @size ||= { :width => 640, :height => 480 }
     Zencoder.api_key = api_key
   end
 
@@ -30,11 +33,12 @@ class EncodeJob
   # :notifications => ["http://medienarchiv.zhdk.ch/encode_jobs/notification"]
   
   def start_by_url(url)
-
+    outputs = [{:base_url => @base_url, :video_codec => "vp8", :quality => 4, :speed => 2 }.merge(@size),
+                 {:base_url => @base_url, :video_codec => "h264", :quality => 4, :speed => 2 }.merge(@size)]
+                 
     # This example encodes two copies, one in VP8/WebM, one in H.264
     settings = {:input => url,
-                :outputs => [{:base_url => @base_url, :video_codec => "vp8", :quality => 4, :speed => 2 },
-                             {:base_url => @base_url, :video_codec => "h264", :quality => 4, :speed => 2 }]
+                :outputs => outputs
                }
 
     response = Zencoder::Job.create(settings)
@@ -51,16 +55,21 @@ class EncodeJob
     Zencoder::Job.details(@job_id).body['job']
   end
 
+  def state
+    details['state']
+  end
+
   def finished?
-    details['state'] == "finished"
+    state == "finished"
   end
 
   # Not THAT useful, we should instead extract all info we need manually from +details+
-  def encoded_file_paths
+  def encoded_file_urls
     paths = []
     details['output_media_files'].each do |file|
       paths << file['url']
     end
+    return paths
   end
   
 end
