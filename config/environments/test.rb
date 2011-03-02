@@ -39,7 +39,9 @@ MAdeK::Application.configure do
 
 
   ThinkingSphinx.deltas_enabled  = true
-ThinkingSphinx.updates_enabled = true
+  ThinkingSphinx.updates_enabled = true
+  # Make less noise!
+  ThinkingSphinx.suppress_delta_output = true
 
   
 end
