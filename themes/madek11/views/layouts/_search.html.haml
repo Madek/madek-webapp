@@ -1,0 +1,27 @@
+%section#search
+  #quick-search
+    = form_tag media_entries_path, :method => :get do
+      #search-query.basic
+        %div
+          = text_field_tag 'query', params[:query], :id => 'query', :onfocus => "this.value='';"
+          = submit_tag _("Suchen"), :id => 'search-submit'
+
+:javascript
+  function submit_search(filter){
+  	query = (filter ? $('#query').val() + " " + filter : $('#query').val() );
+	
+  	$.ajax({
+  		url: "<%= media_entries_path(:format => :js) %>",
+  		data:{	query:query //temp//, //TODO only available if _search partial is present!!
+  				//temp// user_id:$('#user_id').val(),
+  				//temp// media_set_id:$('#media_set_id').val(),
+  				//temp// order:$('#order_by').val(),
+  				//temp// per_page:$('#per_page').val()
+  		},
+  	    success: function(response){
+  	      //temp// $("#results").replaceWith(response);
+  	      $("#content").html(response);
+  	    }
+  	});
+  	return false;
+  } 

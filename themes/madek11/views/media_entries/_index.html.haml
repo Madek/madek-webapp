@@ -1,5 +1,3 @@
-.grid_12
-  = will_paginate @media_entries, :previous_label => _("Zurück"), :next_label => _("Weiter")
+= will_paginate @media_entries, :previous_label => _("Zurück"), :next_label => _("Weiter")
 .clear
-.grid_12.resultsbg
-  = render :partial => "/media_entries/media_entry_thumb", :collection => @media_entries, :as => :media_entry
+= render :partial => "/media_entries/media_entry_thumb", :collection => @media_entries, :as => :media_entry

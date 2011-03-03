@@ -19,24 +19,24 @@ module PermissionsHelper
     if resource.acl?(:view, :all)
       theme_image_tag("icons/eye.png")
     elsif resource.acl?(:view, :only, current_user)
-      theme_image_tag("icons/icon_button_perm.png")
+      theme_image_tag("icons/button_status_private.png")
     end
   end
   
   def display_favorite_icon(resource, user)
     if user.favorites.include?(resource)
-      theme_image_tag("icons/heart_red.png")
+      theme_image_tag("icons/button_favorit_on.png")
     else
-      theme_image_tag("icons/icon_button_fav.png")
+      theme_image_tag("icons/button_favorit_off.png")
     end
   end
   
   def display_edit_icon(resource, user)
     if user && Permission.authorized?(user, :edit, resource) 
       url = resource.is_a?(MediaEntry) ? edit_media_entry_path(resource) : edit_media_set_path(resource)
-      link_to theme_image_tag("icons/icon_button_edit.png"), url
+      link_to theme_image_tag("icons/button_edit_active.png"), url
     else
-      theme_image_tag("icons/icon_button_edit.png")
+      theme_image_tag("icons/button_edit_inactive.png")
     end
   end
   
@@ -49,9 +49,9 @@ module PermissionsHelper
         url = media_set_path(resource)
         confirm = "Sind Sie sicher? Das Set wird gelöscht."
       end  
-      link_to theme_image_tag("icons/icon_button_delete.png"), url, :method => :delete, :confirm => confirm
+      link_to theme_image_tag("icons/button_delete_active.png"), url, :method => :delete, :confirm => confirm
     else
-      theme_image_tag("icons/icon_button_delete.png")
+      theme_image_tag("icons/button_delete_inactive.png")
     end
   end
 

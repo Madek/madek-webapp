@@ -9,10 +9,10 @@
 	<%= csrf_meta_tag %>
 	
 	<%= yield :head %>
-	<%= stylesheet_link_tag "960" %>
+	<%= stylesheet_link_tag "960", "reset", "fg.menu", "jquery/themes/custom-theme/jquery-ui.css" %>
 	<%= javascript_include_tag :defaults, "jquery/plugins/jquery.editinplace", "jquery/plugins/jquery.flickrmenu" %>
 	<%= theme_javascript_include_tag "madek11", "jquery.tmpl" %>
-	<%= theme_stylesheet_link_tag "master" %>
+	<%= theme_stylesheet_link_tag "master_new" %>
 </head>
 
 
@@ -21,14 +21,10 @@
 	<header>
 		<%= render :partial => '/layouts/header' %>
 	</header>
-	<section id="content">
-		<%= flash_helper %>
-		<%= content_tag :div, :class => "container_12 clearfix" do
-			yield
-		end %>
-	</section>
+	<%= flash_helper %>
+	<%= yield %>
 	
-	<footer>
+	<footer class="container_12 clearfix">
 		<%= render :partial => '/layouts/footer' %>
 	</footer>
 	

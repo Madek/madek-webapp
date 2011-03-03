@@ -2,7 +2,12 @@
 module MediaEntriesHelper
  
   def thumb_for(media_entry, size = :small, options = {})
-    tag :img, options.merge({:src => media_entry.thumb_base64(size)})
+    if media_entry.media_file.content_type =~ /video/ && size == :large
+      tag :video,  options.merge({:src => "/download?id=#{media_entry.id}&video_thumbnail=true", 
+      :autoplay => 'autoplay', :controls => 'controls'})
+    else
+      tag :img, options.merge({:src => media_entry.thumb_base64(size)})
+    end
   end
 
   def recent_uploads

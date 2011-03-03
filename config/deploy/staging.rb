@@ -1,6 +1,11 @@
 # -*- encoding : utf-8 -*-
 set :application, "madek"
-set :repository,  "http://code.zhdk.ch/svn/madek/trunk"
+
+set :scm, :git
+set :repository, "git://github.com/psy-q/madek.git"
+set :branch, "master"
+set :deploy_via, :remote_cache
+
 set :db_config, "/home/rails/madek-test/database.yml"
 set :ldap_config, "/home/rails/madek-test/LDAP.yml"
 set :zencoder_config, "/home/rails/madek-test/zencoder.yml"
