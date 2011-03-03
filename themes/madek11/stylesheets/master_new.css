@@ -830,6 +830,7 @@ button.dark:hover {
 	-moz-box-shadow: 0 0 2px rgba(100, 100, 100, 0.6);
 	box-shadow: 0 0 2px rgba(100, 100, 100, 0.6);
 	margin-right: 5px;
+	position: relative;
 }
 
 .thumb_mini img {
@@ -842,11 +843,14 @@ button.dark:hover {
     max-width: 50px;
 }
 
+#selected_items .thumb_mini img.thumb_remove { 
+	position:absolute;
+	z-index: 4000;
+	cursor:pointer;
+	margin: 0;
+}
+
 /*#selected_items .thumb_mini p { text-align: center; font-size: 0.7em;  }*/
-
-
-
-
 
 
 .task_bar input[type="submit"], input[type="submit"] {
