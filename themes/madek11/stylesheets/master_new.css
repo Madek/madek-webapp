@@ -483,6 +483,8 @@ ul li { float: left; }
 	height: 240px;
 	margin: 5px 5px 20px 5px;
 	padding: 5px;
+	text-align: left;
+	vertical-align: top;
 	position: relative;
 }
 
