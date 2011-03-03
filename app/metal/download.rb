@@ -125,7 +125,8 @@ class Download
           # A transcoded, smaller-than-original version of the video
           unless params['video_thumbnail'].blank?
             if params['format'].blank?
-              video_format = "mp4"
+              video_format = "webm" # This is much more widely supported than H.264. Only Apple/Safari wants H.265
+                                    # everyone else is on WebM.
             else
               video_format = params['format']
             end
