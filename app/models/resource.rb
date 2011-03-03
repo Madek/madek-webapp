@@ -201,8 +201,9 @@ module Resource
 
       if media_file
         preview = case media_file.content_type
-                    when /video/ then 
-                      "Video"
+                    when /video/ then
+                      # Get the video's covershot that we've extracted/thumbnailed on import
+                      media_file.get_preview(size) || "Video"
                     when /audio/ then
                       "Audio"
                     when /image/ then
@@ -355,7 +356,7 @@ private
     # TODO validates presence of the owner's permissions?
     if subject
      user_default_permissions = {:view => true, :edit => true, :manage => true}
-     user_default_permissions[:high_res] = true if self.class == MediaEntry
+     user_default_permissions[:hi_res] = true if self.class == MediaEntry
      permissions.build(:subject => subject).set_actions(user_default_permissions)  
     end # OPTIMIZE
   end

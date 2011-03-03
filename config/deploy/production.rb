@@ -83,6 +83,7 @@ end
 task :configure_environment do
   run "sed -i 's:DOT_PATH = \"/usr/local/bin/dot\":DOT_PATH = \"/usr/bin/dot\":' #{release_path}/config/application.rb"
   run "sed -i 's:EXIFTOOL_PATH = \"/opt/local/bin/exiftool\":EXIFTOOL_PATH = \"/usr/local/bin/exiftool\":' #{release_path}/config/application.rb"
+  run "sed -i 's:VIDEO_ENCODING_BASE_URL = \"http://test:MAdeK@test.madek.zhdk.ch\":VIDEO_ENCODING_BASE_URL = \"http://medienarchiv.zhdk.ch\":' #{release_path}/config/application.rb"
 end
 
 task :configure_sphinx do
