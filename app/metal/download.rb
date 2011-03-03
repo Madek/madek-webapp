@@ -131,11 +131,11 @@ class Download
               video_format = params['format']
             end
 
-            candidates = Dir.glob("#{@media_entry.media_file.file_storage_location}_encoded/*.#{video_format}")
-            if candidates.empty?
-              return [404, {"Content-Type" => "text/html"}, ["Not found. Try a different format, perhaps 'webm' or 'mp4'."]]
+            preview = @media_entry.media_file.previews.where(:content_type => 'video/webm').last
+            if preview.nil?
+              return [404, {"Content-Type" => "text/html"}, ["Not found."]]
             else
-              path = candidates.first
+              path = preview.filename
               content_type = "video/#{File.extname(path).gsub(".","")}"
               return [200, {"Content-Type" => content_type, "Content-Disposition" => "attachment; filename=#{File.basename(path)}" }, [File.read(path) ]]
             end

@@ -3,8 +3,14 @@ module MediaEntriesHelper
  
   def thumb_for(media_entry, size = :small, options = {})
     if media_entry.media_file.content_type =~ /video/ && size == :large
-      tag :video,  options.merge({:src => "/download?id=#{media_entry.id}&video_thumbnail=true", 
+      media_entry.media_file.assign_video_thumbnails_to_preview
+      video_preview = media_entry.media_file.previews.where(:content_type => 'video/webm', :thumbnail => 'large').last
+      if video_preview.nil?
+        tag :img, options.merge({:src => media_entry.thumb_base64(size)})
+      else
+        tag :video,  options.merge({:src => "/download?id=#{media_entry.id}&video_thumbnail=true",
       :autoplay => 'autoplay', :controls => 'controls'})
+      end
     else
       tag :img, options.merge({:src => media_entry.thumb_base64(size)})
     end
