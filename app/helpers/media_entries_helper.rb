@@ -2,6 +2,9 @@
 module MediaEntriesHelper
  
   def thumb_for(media_entry, size = :small, options = {})
+
+    # Give a video preview if there is one, otherwise revert to a preview
+    # image that was extracted from the video file.
     if media_entry.media_file.content_type =~ /video/ && size == :large
       media_entry.media_file.assign_video_thumbnails_to_preview
       video_preview = media_entry.media_file.previews.where(:content_type => 'video/webm', :thumbnail => 'large').last
