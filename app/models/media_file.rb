@@ -267,11 +267,26 @@ class MediaFile < ActiveRecord::Base
       end
       meta_data.merge!(exif_hash)
     end
-    img_x, img_y = exif_hash["Composite:ImageSize"].split("x")
+
+    # Exiftool couldn't get the dimensions. Let's try with ffmpeg
+    if exif_hash["Composite:ImageSize"].nil?
+      img_x, img_y = get_sizes_from_ffmpeg(full_path_file)
+    else
+      img_x, img_y = exif_hash["Composite:ImageSize"].split("x")
+    end
     update_attributes(:width => img_x, :height => img_y)
   end
 
-
+  def get_sizes_from_ffmpeg(path)
+    out = `ffmpeg -i #{path} 2>&1`
+    out.split("\n").each do |line|
+      if line =~ /.*Stream.*Video.*/
+        x, y = line.scan(/\d+x\d+/).first.split("x")
+        return [x, y]
+      end
+    end
+  end
+  
   def import_audio_metadata(full_path_file)
 
     # TODO refactor to use ffmpeg, some id3 tag extractor, etc.

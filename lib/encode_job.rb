@@ -24,7 +24,7 @@ class EncodeJob
     config = YAML::load(File.open(Rails.root + "config/zencoder.yml"))
     api_key = config['zencoder']['api_key']
     @base_url = config['zencoder']['ftp_base_url']
-    @size ||= { :width => 640, :height => 480 }
+    @size ||= { :width => 640 }
     Zencoder.api_key = api_key
   end
 
