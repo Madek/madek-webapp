@@ -115,6 +115,7 @@ class MediaFile < ActiveRecord::Base
     g
   end
 
+
   def shard
     # TODO variable length of sharding?
     self.guid[0..0]
