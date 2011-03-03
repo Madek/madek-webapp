@@ -140,18 +140,21 @@ class MediaFile < ActiveRecord::Base
   def retrieve_video_thumbnails
     require 'lib/encode_job'
     paths = []
-    job = EncodeJob.new(self.job_id)
-    if job.finished?
-      # Get the encoded files via FTP -- TODO: maybe get the file directly from filesystem to
-      # remove wget dependency.
-      job.encoded_file_urls.each do |f|
-        filename = File.basename(f)
-        dir = "#{thumbnail_storage_location}_encoded"
-        path = "#{dir}/#{filename}"
-        `mkdir -p #{dir}`
-        `wget #{f} -O #{path}`
-        if $? == 0
-          paths << path
+    
+    unless self.job_id.blank?
+      job = EncodeJob.new(self.job_id)
+      if job.finished?
+        # Get the encoded files via FTP -- TODO: maybe get the file directly from filesystem to
+        # remove wget dependency.
+        job.encoded_file_urls.each do |f|
+          filename = File.basename(f)
+          dir = "#{thumbnail_storage_location}_encoded"
+          path = "#{dir}/#{filename}"
+          `mkdir -p #{dir}`
+          `wget #{f} -O #{path}`
+          if $? == 0
+            paths << path
+          end
         end
       end
     end
