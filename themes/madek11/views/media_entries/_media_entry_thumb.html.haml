@@ -1,7 +1,6 @@
-%div.item_box
+%div.item_box{:id => "thumb_#{media_entry.id}"}
   %span.item_permission
-    = theme_image_tag "icons/icon_button_perm.png"
-    = #display_permission_icon(media_entry)
+    = display_permission_icon(media_entry)
   %div.thumb_box
     = link_to thumb_for(media_entry, :small_125), media_entry_path(media_entry)
   - title = media_entry.meta_data.get_value_for("title")

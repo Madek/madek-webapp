@@ -17,9 +17,9 @@ module PermissionsHelper
   # caution: only works with new theme
   def display_permission_icon(resource)
     if resource.acl?(:view, :all)
-      theme_image_tag("icons/eye.png")
-    elsif resource.acl?(:view, :only, current_user)
       theme_image_tag("icons/button_status_private.png")
+    elsif resource.acl?(:view, :only, current_user)
+      theme_image_tag("icons/icon_button_perm.png")
     end
   end
   

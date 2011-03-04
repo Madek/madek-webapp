@@ -57,12 +57,13 @@ function checkSelected(media_set_id) {
 	//alert("checkSelected called");
 	var key = "media_sets/"+ media_set_id +"/media_entry_ids";
 	var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
-	console.log("media_entry_ids in checkSelected: " + media_entry_ids);
+	//console.log("media_entry_ids in checkSelected: " + media_entry_ids);
 	if (media_entry_ids != null) {
 		//check all the previously selected checkboxes
 		$("input.editable:checkbox").each(function () {
 			if($.inArray(this.value, media_entry_ids) > -1) {
 				$(this).attr('checked', true);
+				$(this).parents('.item_box').css('background', '#dddddd');
 			} else {
 				// this seems necessary because of browser cache that keeps checkboxes checked
 				$(this).attr('checked', false);
@@ -71,12 +72,11 @@ function checkSelected(media_set_id) {
 	}
 };
 
-
 function listSelected(media_set_id, data) {
 	//alert("listSelected called");
 	var key = "media_sets/"+ media_set_id +"/media_entry_ids";
 	var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
-	console.log("media_entry_ids in listSelected: " + media_entry_ids);
+	//console.log("media_entry_ids in listSelected: " + media_entry_ids);
 	if (media_entry_ids != null) {
 		// display all previously selected items under taskbar 
 		$.each(media_entry_ids, function(i, me_id) {
@@ -86,3 +86,41 @@ function listSelected(media_set_id, data) {
 		});
 	};
 };
+
+function removeFromSelected(key, id) {
+   var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
+   var i = media_entry_ids.indexOf(id);
+   var selected_box = $('#thumb_' + id);
+   
+   if(i > -1) {
+	media_entry_ids.splice(i, 1)
+	$('#selected_items #me_' + id).remove();
+	selected_box.css('background', 'white');
+	selected_box.find('input:checkbox').attr('checked', false);
+	
+	sessionStorage.setItem(key, JSON.stringify(media_entry_ids.getUnique()));
+	displayCount(key);
+   };
+};
+
+function displayCount(key) {
+  var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
+
+  if (media_entry_ids != null) {
+    var count_checked = media_entry_ids.length;
+    var display_count = $('li#number_selected');
+    switch (count_checked){
+      case 0:
+        display_count.html("Keine Medieneinträge ausgewählt.");
+      break;
+      case 1:
+        display_count.html("1 Medieneintrag ausgewählt.");
+      break;
+      default : 
+        display_count.html(count_checked + " Medieneinträge ausgewählt.");
+    }
+  }
+};
+
+
+
