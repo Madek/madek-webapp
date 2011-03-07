@@ -36,7 +36,7 @@ class MediaSetsController < ApplicationController
     viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
     @editable_ids = Permission.accessible_by_user("MediaEntry", current_user, :edit)
     editable_set_ids = Permission.accessible_by_user("Media::Set", current_user, :edit)
-    per_page = 16 #test# 2
+    per_page = 32 #test# 2
     
     #ASK Franco#: Sphinx reindexing doesn't work when we remove media_entries from a set. Need to revert to active record #
     # @media_entries = MediaEntry.search :with => {:media_set_ids => @media_set.id, :sphinx_internal_id => viewable_ids}, :page => params[:page], :per_page => per_page, :retry_stale => true
