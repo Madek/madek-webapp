@@ -12,7 +12,7 @@ module MediaEntriesHelper
         tag :img, options.merge({:src => media_entry.thumb_base64(size)})
       else
         tag :video,  options.merge({:src => "/download?id=#{media_entry.id}&video_thumbnail=true",
-      :autoplay => 'autoplay', :controls => 'controls'})
+      :autoplay => 'autoplay', :controls => 'controls', :width => video_preview.width, :height => video_preview.height})
       end
     else
       tag :img, options.merge({:src => media_entry.thumb_base64(size)})
