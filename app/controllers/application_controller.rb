@@ -42,7 +42,6 @@ class ApplicationController < ActionController::Base
       
       @my_media_entries = MediaEntry.by_ids(ids).by_user(current_user).search(nil, options) #tmp# to avoid confusion of users looking for "their" Media entries
       @accessible_media_entries = MediaEntry.by_ids(ids).not_by_user(current_user).search(nil, options)
-
       @disabled_paginator = true # OPTIMIZE
       
       respond_to do |format|
