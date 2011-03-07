@@ -9,7 +9,8 @@
 	<%= javascript_tag do %>
 		$(document).ready(function () {
 			activate_step(3);
-
+			$("#required_message").hide();
+			
 			$("form").submit(function(event){
 				// OPTIMIZE nested form problem
 				if(this != event.target) return true;
