@@ -144,8 +144,7 @@ class MediaFile < ActiveRecord::Base
     unless self.job_id.blank?
       job = EncodeJob.new(self.job_id)
       if job.finished?
-        # Get the encoded files via FTP -- TODO: maybe get the file directly from filesystem to
-        # remove wget dependency.
+        # Get the encoded files via FTP
         job.encoded_file_urls.each do |f|
           filename = File.basename(f)
           dir = "#{thumbnail_storage_location}_encoded"
