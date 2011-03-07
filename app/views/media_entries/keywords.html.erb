@@ -14,7 +14,7 @@
 	<% [@my_keywords, @all_keywords, @all_keywords.sort{|a,b| b.created_at <=> a.created_at}].each_with_index do |keywords,index| %>
 		<%= content_tag :ul, :id => "tabs_#{index+1}", :class => "holder all", :style => "max-height: 20em; padding: 1.3em 0.3em 1em 0.3em; overflow-y: auto;" do
 			keywords.collect do |k|
-				content_tag :li, :class => "bit-box", :rel => "#{k}" do
+				content_tag :li, :class => "bit-box", :title => "#{k}", :rel => "#{k.id}" do
 					a = "#{k} ".html_safe
 					a += content_tag :span do
 						"#{k.q}"
@@ -42,12 +42,12 @@
 		}
 		function hide_keywords(elements){
 			elements.each(function(){
-				hide_keyword($(this).html());
+				hide_keyword($(this).attr("value"));
 			});
 		}
 
 		$(".holder.all .bit-box").live('click', function(){
-			$(this).closest(".Keyword[data-meta_key]").find("select.fcbkcomplete").trigger("addItem", [{"title": $(this).attr("rel"), "value": $(this).attr("rel")}]);
+			$(this).closest(".Keyword[data-meta_key]").find("select.fcbkcomplete").trigger("addItem", [{"title": $(this).attr("title"), "value": $(this).attr("rel")}]);
 			hide_keyword($(this).attr("rel"));
 		});
 		
