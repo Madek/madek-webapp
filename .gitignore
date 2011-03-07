@@ -14,3 +14,4 @@ config/*.conf_with_pipe
 config/definitions/metadata/ExifTool_config.pl
 db/media_files/
 db/sphinx/
+.project

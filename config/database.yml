@@ -8,6 +8,7 @@
 development:
   adapter: mysql2
   database: madek_dev
+  #database: madek_temp
   encoding: utf8
   username: root
   password: 
