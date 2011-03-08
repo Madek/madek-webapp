@@ -5,8 +5,7 @@
   .grid_7
     = render :partial => '/layouts/search' unless @disable_search
     %nav
-      %button.main_nav
-        = link_to _(""), new_upload_path
+      = link_to _("Hochladen"), new_upload_path, :class => "main_nav"
    
   .grid_2.logo_right.ir
     ¨= link_to "ZHdK", "http://www.zhdk.ch"

@@ -245,7 +245,9 @@ nav {
 	position: relative;
 }
 
-button.main_nav {
+/* See: http://css-tricks.com/css-image-replacement/ for proper CSS image replacement techniques */
+
+nav .main_nav {
 	background: url(../images/icons/button_upload_active.png) no-repeat 6px 6px;
 	border-style: none;
 	width: 30px;
@@ -258,20 +260,16 @@ button.main_nav {
 	position: absolute;
 }
 
-button.main_nav:hover {
+nav .main_nav:hover {
 	background-color: #7b7b7b;
 	-webkit-box-shadow: 0 0 3px rgba(255, 255, 255, 0.2);
 	-moz-box-shadow: 0 0 3px rgba(255, 255, 255, 0.2);
 	box-shadow: 0 0 3px rgba(255, 255, 255, 0.2);
 }
 
-button.main_nav:focus {
+nav .main_nav:focus {
 	-webkit-animation: pulse 1.5s infinite ease-in-out;
 }
-
-
-
-
 
 
 /* Logos */
