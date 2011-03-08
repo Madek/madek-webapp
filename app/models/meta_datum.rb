@@ -34,35 +34,40 @@ class MetaDatum < ActiveRecord::Base
                  end
         # TODO Person.suspend_delta
         record.value = values.map do |v|
-                          if v.is_a?(Fixnum) or (v.respond_to?(:match) and !!v.match(/\A[+-]?\d+\Z/)) # TODO patch to String#is_numeric? method
+                          if klass == Keyword
+                            user = resource.editors.latest || (resource.respond_to?(:user) ? resource.user : nil)
+                            if v.is_a?(Fixnum) or (v.respond_to?(:match) and !!v.match(/\A[+-]?\d+\Z/)) # TODO patch to String#is_numeric? method
+                              #old# r = klass.find_or_create_by_meta_term_id_and_user_id(:meta_term_id => v, :user_id => user.id)
+                              r = klass.where(:meta_term_id => v, :id => value_was).first
+                              r ||= klass.create(:meta_term_id => v, :user => user)
+                            else
+                              # 2210
+                              conditions = [[]]
+                              LANGUAGES.each do |lang|
+                                conditions.first << "#{lang} = ?"
+                                conditions << v
+                              end
+                              conditions[0] = conditions.first.join(" OR ") 
+                              term = Meta::Term.where(conditions).first
+                              
+                              term ||= begin
+                                h = {}
+                                LANGUAGES.each do |lang|
+                                  h[lang] = v
+                                end
+                                Meta::Term.create(h) 
+                              end
+
+                              r = Keyword.create(:meta_term => term, :user => user)
+                              # TODO delete keywords records anymore referenced
+                            end
+                          elsif v.is_a?(Fixnum) or (v.respond_to?(:match) and !!v.match(/\A[+-]?\d+\Z/)) # TODO patch to String#is_numeric? method
                             r = klass.where(:id => v).first
                           elsif klass == Copyright
                             r = record.value  
                           elsif klass == Person
                             firstname, lastname = klass.parse(v)
                             r = klass.find_or_create_by_firstname_and_lastname(:firstname => firstname.try(:capitalize), :lastname => lastname.try(:capitalize)) if firstname or lastname
-                          elsif klass == Keyword
-                            # 2210
-                            conditions = [[]]
-                            LANGUAGES.each do |lang|
-                              conditions.first << "#{lang} = ?"
-                              conditions << v
-                            end
-                            conditions[0] = conditions.first.join(" OR ") 
-                            term = Meta::Term.where(conditions).first
-                            
-                            term ||= begin
-                              h = {}
-                              LANGUAGES.each do |lang|
-                                h[lang] = v
-                              end
-                              Meta::Term.create(h) 
-                            end
-
-                            user = resource.editors.latest || (resource.respond_to?(:user) ? resource.user : nil)
-                            r = Keyword.create(:meta_term => term, :user => user)
-                            
-                            # TODO delete keywords records anymore referenced  
                           elsif klass == Meta::Date
                             r = klass.parse(v)
                           end
