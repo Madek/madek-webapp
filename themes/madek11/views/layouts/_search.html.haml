@@ -4,7 +4,8 @@
       #search-query.basic
         %div
           = text_field_tag 'query', params[:query], :id => 'query', :onfocus => "this.value='';"
-          = submit_tag _("Suchen"), :id => 'search-submit'
+          / fix this empty word
+          = submit_tag _(""), :id => 'search-submit'
 
 :javascript
   function submit_search(filter){
