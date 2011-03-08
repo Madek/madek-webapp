@@ -3,17 +3,16 @@
     = link_to "Medienarchiv der Künste", root_path
     
   .grid_7
-    = render :partial => '/layouts/search' unless @disable_search
-    %nav
-      = link_to _("Hochladen"), new_upload_path, :class => "main_nav"
+    %nav.clearfix
+      = link_to _("Hochladen"), new_upload_path, :class => "main_nav ir"
+      = render :partial => '/layouts/menu'
+      = render :partial => '/layouts/search' unless @disable_search
    
   .grid_2.logo_right.ir
     ¨= link_to "ZHdK", "http://www.zhdk.ch"
     
 - if logged_in?
-  %li
-    %button.outside
-      = link_to _("Feedback"), feedback_path
+  = link_to _("Feedback"), feedback_path, :class => "outside"
 
 #ajaxLoading
   = theme_image_tag "icons/spinner.gif"

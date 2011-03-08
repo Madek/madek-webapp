@@ -28,108 +28,109 @@
   }
 
 %section#content_body
-  %h2.section_title Medieneinträge Bearbeiten
-  .task_bar
-    %ul
-      %li
-        %h4= "#{@media_entries.size} Medieneinträge ausgewählt"
-      %li= link_to _("Tabellensicht"), "#", :id => "toggle"
-    #selected_items
-      #list_as_thumbnails
-        hello from thumbnails
-
-      #list_as_list
-        %table
-          %thead
-            %tr
-              %td
-                &nbsp;
-              %td
-                Titel und Autor/in:
-              %td
-                Datierung:
-              %td
-                Schlagworte:
-              %td
-                Copyright:
-              %td{:colspan => "2"}
-                Hochgeladen von und am
-          %tbody
+  .container_12.clearfix
+    %h2.section_title Medieneinträge Bearbeiten
+    .task_bar
+      %ul
+        %li
+          %h4= "#{@media_entries.size} Medieneinträge ausgewählt"
+        %li= link_to _("Tabellensicht"), "#", :id => "toggle"
+      #selected_items
+        #list_as_thumbnails
+          hello from thumbnails
+  
+        #list_as_list
+          %table
+            %thead
+              %tr
+                %td
+                  &nbsp;
+                %td
+                  Titel und Autor/in:
+                %td
+                  Datierung:
+                %td
+                  Schlagworte:
+                %td
+                  Copyright:
+                %td{:colspan => "2"}
+                  Hochgeladen von und am
+            %tbody
     
-  .grid_10
-    = form_tag update_multiple_media_entries_path, :method => :put do
-      = hidden_field_tag 'media_entry_ids', @media_entries.map(&:id).join(',')
-      - meta_contexts = MetaContext.defaults # NOTE: what about individual contexts? maybe when editing project's media_entries
-      - content_for :buttons do
-        %div{:style => "text-align: right; padding: 10pt;"}
-          = submit_tag _("Speichern")
-          = link_to _("Abbrechen"), :back, :class => "buttons"
+    .grid_10.alpha
+      = form_tag update_multiple_media_entries_path, :method => :put do
+        = hidden_field_tag 'media_entry_ids', @media_entries.map(&:id).join(',')
+        - meta_contexts = MetaContext.defaults # NOTE: what about individual contexts? maybe when editing project's media_entries
+        - content_for :buttons do
+          %div{:style => "text-align: right; padding: 10pt;"}
+            = submit_tag _("Speichern")
+            = link_to _("Abbrechen"), :back, :class => "buttons"
 
-      = yield :buttons
-      %div#detail_specification.tabs
-        %ul
+        = yield :buttons
+        %div#detail_specification.tabs
+          %ul
+            - meta_contexts.each do |meta_context|
+              %li= link_to meta_context, "##{meta_context.name}" 
           - meta_contexts.each do |meta_context|
-            %li= link_to meta_context, "##{meta_context.name}" 
-        - meta_contexts.each do |meta_context|
-          - #resource = MediaEntry.new # NOTE we need a resource
-          - #meta_data = meta_context.meta_keys.map {|mk| mk.meta_data.build(:resource => resource) }
-          - meta_data = MediaEntry.compare_batch_by_meta_data_in_context(@media_entries, meta_context)
-          = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :meta_data => meta_data }
-      = yield :buttons
-  .grid_2
-    #legend
-      %h4 Legende
-      %p{:style => "background: white; height: 30px ; border: 1px solid #ccc;"} 
-      %p.info Wert leer bei allen Medieneinträgen
-      %p{:style => "background: gray; height: 30px ; border: 1px solid #333;"} 
-      %p.info Unterschiedliche Werte vorhanden
-      %p{:style => "background: white; height: 30px ; border: 1px solid #ccc;"} 
-        Text
-      %p.info Gleicher Wert bei allen Medieneinträgen
-  .clear  
-  :plain    
-    <script type="text/x-jquery-tmpl" id="thumbnail_view">
-        <div class="thumb_box">
-          <a href="/media_entries/${id}">
-            <img src="${thumb_base64_small}">
-          </a>
-          <p>
-          <span class="item_title">${title}</span>
-          <span class="item_author">${author}</span>
-          </p>
-        </div>
-    </script>
-
-    <script type="text/x-jquery-tmpl" id="list_view">
-          <tr>
-            <td>
-              <a href="/media_entries/${id}">
-                <img src="${thumb_base64_x_small}">
-              </a>
-            </td> 
-            <td>
-              <strong>${title}</strong>
-              <br />
-              ${author}
-            </td> 
-            <td>
-              ${portrayed_object_dates}
-            </td>
-            <td>
-              ${keywords}
-            </td>
-            <td>
-              ${copyright_notice}
-            </td>
-            <td>
-              ${uploaded_by}
-            </td>
-            <td>
-              ${uploaded_at}
-            </td>
-          </tr>
-    </script>
-     
+            - #resource = MediaEntry.new # NOTE we need a resource
+            - #meta_data = meta_context.meta_keys.map {|mk| mk.meta_data.build(:resource => resource) }
+            - meta_data = MediaEntry.compare_batch_by_meta_data_in_context(@media_entries, meta_context)
+            = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :meta_data => meta_data }
+        = yield :buttons
+    .grid_2.omega
+      #legend
+        %h2 Legende
+        %p{:style => "background: white; height: 30px ; border: 1px solid #ccc;"} 
+        %p.info Wert leer bei allen Medieneinträgen
+        %p{:style => "background: gray; height: 30px ; border: 1px solid #333;"} 
+        %p.info Unterschiedliche Werte vorhanden
+        %p{:style => "background: white; height: 30px ; border: 1px solid #ccc;"} 
+          Text
+        %p.info Gleicher Wert bei allen Medieneinträgen
+    .clear  
+    :plain    
+      <script type="text/x-jquery-tmpl" id="thumbnail_view">
+          <div class="thumb_box">
+            <a href="/media_entries/${id}">
+              <img src="${thumb_base64_small}">
+            </a>
+            <p>
+            <span class="item_title">${title}</span>
+            <span class="item_author">${author}</span>
+            </p>
+          </div>
+      </script>
+  
+      <script type="text/x-jquery-tmpl" id="list_view">
+            <tr>
+              <td>
+                <a href="/media_entries/${id}">
+                  <img src="${thumb_base64_x_small}">
+                </a>
+              </td> 
+              <td>
+                <strong>${title}</strong>
+                <br />
+                ${author}
+              </td> 
+              <td>
+                ${portrayed_object_dates}
+              </td>
+              <td>
+                ${keywords}
+              </td>
+              <td>
+                ${copyright_notice}
+              </td>
+              <td>
+                ${uploaded_by}
+              </td>
+              <td>
+                ${uploaded_at}
+              </td>
+            </tr>
+      </script>
+   
 
 :javascript
 
