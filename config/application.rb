@@ -63,7 +63,7 @@ THUMBNAIL_STORAGE_DIR = "#{Rails.root}/db/media_files/#{Rails.env}/attachments"
 # $ sudo ln -s /usr/bin/exiftool /usr/local/bin/exiftool
 # $ sudo ln -s /usr/bin/lib /usr/local/bin/lib
 EXIFTOOL_CONFIG = "#{METADATA_CONFIG_DIR}/ExifTool_config.pl"
-EXIFTOOL_PATH = "/usr/bin/exiftool -config #{EXIFTOOL_CONFIG}"
+EXIFTOOL_PATH = "/usr/local/bin/exiftool -config #{EXIFTOOL_CONFIG}"
 # Ideally, this would work under script/server AND passenger, but it doesn't.
 # Under passenger, it has no idea. Maybe substitute as part of the Capistrano deploy?
 # EXIFTOOL_PATH = `/usr/bin/which exiftool`.gsub(/\n/,"") 

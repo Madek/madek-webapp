@@ -1,16 +1,19 @@
 .container_12.clearfix
-  .grid_4.logo_left.ir
+  .grid_3.logo_left.ir
     = link_to "Medienarchiv der Künste", root_path
     
-  .grid_5
+  .grid_7
     = render :partial => '/layouts/search' unless @disable_search
+    %nav
+      = link_to _("Hochladen"), new_upload_path, :class => "main_nav"
    
-  .grid_3.logo_right.ir
+  .grid_2.logo_right.ir
     ¨= link_to "ZHdK", "http://www.zhdk.ch"
     
-.container_12.clearfix
-  .grid_12
-    = render :partial => '/layouts/menu'
+- if logged_in?
+  %li
+    %button.outside
+      = link_to _("Feedback"), feedback_path
 
 #ajaxLoading
   = theme_image_tag "icons/spinner.gif"

@@ -3,21 +3,3 @@
     %ul
       - unless @disable_user_bar
         = render :partial => '/users/user_bar'
-        - if logged_in?
-          %button.dark
-            = link_to _("Hochladen"), new_upload_path
-            =#future# image_tag "/images/icons/arrow.png", :width => 18, :height => 15, :align => "top", :class => "arrow" unless current_user.upload_sessions.empty?
-            - if false #future# unless current_user.upload_sessions.empty?
-              .sub_menu
-                - current_user.upload_sessions.most_recents.each do |us|
-                  = link_to us, edit_upload_path(:upload_session_id => us)
-                =# link_to "Basic Uploader", new_upload_path
-          - @set = Media::FeaturedSet.first
-          - if @set and !@set.children.empty?
-            %li
-              %button.dark
-                = link_to _(@set), media_set_media_sets_path(@set)
-      - if logged_in?
-        %li
-          %button.dark
-            = link_to _("Feedback"), feedback_path
