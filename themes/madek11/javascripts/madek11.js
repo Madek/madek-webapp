@@ -11,6 +11,7 @@ $(document).ready(function () {
 	$('.pagination a').live('ajax:success', function(xhr, response){
 		$("#results").html(response);
 		$("#results .pagination a").attr('data-remote', 'true');
+		$("#pagination_container").html($("#results div.pagination").detach());
 	}).attr('data-remote', 'true');
 	
 	$("#menu").flickrmenu({ arrowPic: "/images/icons/arrow.png",
