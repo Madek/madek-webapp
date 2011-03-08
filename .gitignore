@@ -13,5 +13,4 @@ config/*.conf
 config/*.conf_with_pipe
 db/media_files/
 db/sphinx/
-/config/sphinx.yml
 .project
