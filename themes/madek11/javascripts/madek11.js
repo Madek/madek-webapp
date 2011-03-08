@@ -11,7 +11,27 @@ $(document).ready(function () {
 	$('.pagination a').live('ajax:success', function(xhr, response){
 		$("#results").html(response);
 		$("#results .pagination a").attr('data-remote', 'true');
+		var paginator_container = $("#pagination_container");
+		if(paginator_container.length) paginator_container.html($("#results div.pagination").detach());
 	}).attr('data-remote', 'true');
+	
+	
+	// toggle favorites
+	$("span.favorite_link a").live('ajax:complete', function(xhr, response){
+      var media_entry_id = $(this).parent().attr("id").slice(4);
+    	$("span#fav_" + media_entry_id).html(response.responseText);
+    });
+
+    // hide icons by default 
+    $('.actions').hide();
+    $(".item_box").live({
+      mouseenter: function() {
+        $(this).find('.actions').show();
+       },
+      mouseleave: function() {
+        $(this).find('.actions').hide();
+       }
+     });
 	
 	$("#menu").flickrmenu({ arrowPic: "/images/icons/arrow.png",
 							arrowPicA: "/images/icons/arrow_select.png",
@@ -109,6 +129,11 @@ function displayCount(key) {
   if (media_entry_ids != null) {
     var count_checked = media_entry_ids.length;
     var display_count = $('li#number_selected');
+	// if (display_count > 1) {
+	// 
+	// } else {
+	// 	
+	// };
     switch (count_checked){
       case 0:
         display_count.html("Keine Medieneinträge ausgewählt.");
