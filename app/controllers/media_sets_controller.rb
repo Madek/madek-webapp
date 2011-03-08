@@ -90,6 +90,7 @@ class MediaSetsController < ApplicationController
   end
 
   def edit
+    theme "madek11"
   end
 
 #old ??#

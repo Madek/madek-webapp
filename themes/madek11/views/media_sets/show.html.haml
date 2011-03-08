@@ -3,11 +3,11 @@
     #page_head.grid_12
       .grid_3.alpha
         #set_info
-          / TODO: move this into a helper
           %div.item_box_set
             %div.item_permission_set
               = display_permission_icon(@media_set)
             %div.thumb_box_set
+              / TODO: move this into a helper
               = tag :img, :src => @media_set.thumb_base64(:small_125)
           / %h3 Set
       .grid_6
@@ -32,10 +32,12 @@
         %h4 Ausgewählte Medieneinträge bearbeiten:
       %li#number_selected
         Keine Medieneinträge ausgewählt
-      %li#batch-edit-button
-        = button_to _("Medieneinträge Editieren"), edit_multiple_media_entries_path, :method => :post, :id => "batch-edit"
-      %li#batch-remove-button
-        = button_to _("Aus Set Entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete, :id => "batch-remove"
+      - unless @editable_in_set.blank?
+        %li#batch-edit-button
+          = button_to _("Medieneinträge Editieren"), edit_multiple_media_entries_path, :method => :post, :id => "batch-edit"
+      - if @can_edit
+        %li#batch-remove-button
+          = button_to _("Aus Set Entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete, :id => "batch-remove"
       %li#batch-add-to-set
         = form_tag add_member_media_set_url(@media_set) do
           = select_tag "media_set_id", options_for_select([["Set Auswählen", ""]] + @editable_sets.collect {|set| [set.meta_data.get_value_for("title"), set.id]})
@@ -65,17 +67,6 @@
     checkSelected(media_set_id);
     listSelected(media_set_id, data);
     displayCount(key);
-    
-    // hide icons by default 
-    $('.actions').hide();
-    $(".item_box").live({
-      mouseenter: function() {
-        $(this).find('.actions').show();
-       },
-      mouseleave: function() {
-        $(this).find('.actions').hide();
-       }
-     });
      
     // make thumbnails removable from the selected items bar
     $('#selected_items .thumb_mini').live("hover", function() {
@@ -92,11 +83,7 @@
   		checkSelected(media_set_id);
   		$('.actions').hide();
   	});
-	
-    $("span.favorite_link a").live('ajax:complete', function(xhr, response){
-      var media_entry_id = $(this).parent().attr("id").slice(4);
-    	$("span#fav_" + media_entry_id).html(response.responseText);
-    });
+
 	
   	// hover functions for batch action buttons - highlight selected entries for which action is possible 
   	$("input#batch-edit").hover(
