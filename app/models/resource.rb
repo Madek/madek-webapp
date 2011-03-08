@@ -68,7 +68,8 @@ module Resource
 
     base.validates_presence_of :user_id, :if => Proc.new { |record| record.respond_to?(:user_id) }
 
-    def update_attributes_with_pre_validation(attributes)
+    def update_attributes_with_pre_validation(attributes, current_user = nil)
+      self.editors << current_user if current_user # OPTIMIZE group by user ??
       self.updated_at = Time.now # OPTIMIZE touch or sphinx_touch ?? (only for media_entries actually)
       
       # we need to deep copy the attributes for batch edit (multiple resources)

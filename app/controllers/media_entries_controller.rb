@@ -241,8 +241,7 @@ class MediaEntriesController < ApplicationController
   def update_multiple
     MediaEntry.suspended_delta do
       @media_entries.each do |media_entry|
-        if media_entry.update_attributes(params[:resource])
-          media_entry.editors << current_user # OPTIMIZE group by user ??
+        if media_entry.update_attributes(params[:resource], current_user)
           flash[:notice] = "Die Änderungen wurden gespeichert." # TODO appending success message and resource reference (id, title)
         else
           flash[:error] = "Die Änderungen wurden nicht gespeichert." # TODO appending success message and resource reference (id, title)
