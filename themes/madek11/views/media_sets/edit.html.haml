@@ -1,0 +1,42 @@
+= prevent_leaving_page
+
+%section#content_body
+  .section_title
+    =_("Metadaten editieren")
+  = form_for @media_set, :as => :resource, :url => [:update_multiple, @media_set, :meta_data], :html => {:method => :put} do |resource|
+    - content_for :buttons do
+      %div{:style => "text-align: right; padding: 10pt; background: #DDDDDD;"}
+        = resource.submit _("Speichern")
+        = link_to _("Abbrechen"), @media_set, :class => "buttons"
+        .error.required_message{:style => "display: none;"}
+          = _("Bitte füllen Sie die Pflichtfelder aus (\"Titel\").")
+  
+    #detail_specification{:style => "border: 1px solid #D2D2D2;"}    
+      = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => MetaContext.media_set, :resource => resource }
+  
+    = yield :buttons
+  - if Permission.authorized?(current_user, :manage, @media_set)
+    - @resource = @media_set
+    = render :partial => "/permissions/edit_multiple"
+
+
+:javascript
+  $(document).ready(function () {
+  	$("form").submit(function(event){
+  		// OPTIMIZE nested form problem
+  		if(this != event.target) return true;
+
+  		var valid = true;
+  		$(this).find("[data-required]").each(function(){
+  			if($(this).val() == "") valid = false;
+  		});
+  		if(!valid){
+  		// doesn't work anymore ??!!
+  		//if($(this).find("[data-required][value='']").length > 0){
+  			$(".required_message").show();
+  			return false;
+  		}else{
+  			$(".required_message").hide();
+  		}
+  	});
+  });
