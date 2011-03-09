@@ -14,6 +14,12 @@ module PermissionsHelper
     end  
   end
   
+  # used to ajax update download partial when user changes download permission for himself
+  def changing_own_permission
+    return false if @permission.subject.blank?
+    @permission.subject.id == current_user.id && @permission.resource.is_a?(MediaEntry) 
+  end
+  
   # caution: only works with new theme
   def display_permission_icon(resource)
     if resource.acl?(:view, :all)

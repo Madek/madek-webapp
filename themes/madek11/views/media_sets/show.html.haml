@@ -33,12 +33,12 @@
       %li#number_selected
         Keine Medieneinträge ausgewählt
       - unless @editable_in_set.blank?
-        %li#batch-edit-button
+        %li#batch-edit-button.action_btn
           = button_to _("Medieneinträge Editieren"), edit_multiple_media_entries_path, :method => :post, :id => "batch-edit"
       - if @can_edit
-        %li#batch-remove-button
+        %li#batch-remove-button.action_btn
           = button_to _("Aus Set Entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete, :id => "batch-remove"
-      %li#batch-add-to-set
+      %li#batch-add-to-set.action_btn
         = form_tag add_member_media_set_url(@media_set) do
           = select_tag "media_set_id", options_for_select([["Set Auswählen", ""]] + @editable_sets.collect {|set| [set.meta_data.get_value_for("title"), set.id]})
           = submit_tag "Hinzufügen"

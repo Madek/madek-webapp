@@ -44,7 +44,7 @@ class MediaSetsController < ApplicationController
     
     # for task bar
     @can_edit = editable_set_ids.include?(@media_set.id)
-    @editable_in_set = @editable_ids && @media_entries.map(&:id)
+    @editable_in_set = @editable_ids & @media_entries.map(&:id)
     @editable_sets = Media::Set.where("id IN (?) AND id <> ?", editable_set_ids, @media_set.id)
     
     @info_to_json = @media_entries.map do |me|

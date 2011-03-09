@@ -3,7 +3,8 @@ module MetaDataHelper
   
   def display_meta_data_for_context(resource, context)
     a = ''
-    resource.meta_data_for_context(context).collect do |meta_datum|
+    uploader_info, other_info = resource.meta_data_for_context(context).partition {|md| ["uploaded by", "uploaded at"].include?(md.meta_key.label) }
+    other_info.collect do |meta_datum|
       definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
       a += content_tag :small, definition.meta_field.label.to_s
       a += if meta_datum.meta_key.label == "title"
@@ -12,6 +13,8 @@ module MetaDataHelper
         content_tag :p, formatted_value(meta_datum)
       end
     end
+    a += content_tag :small, "Erstellt von/am"
+    a += content_tag :p, formatted_value(uploader_info.first) + " / " + formatted_value(uploader_info.last)
     return a.html_safe
   end
 
