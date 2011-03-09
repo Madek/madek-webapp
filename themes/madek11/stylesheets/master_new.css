@@ -489,11 +489,6 @@ ul li { float: left; }
 	box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
 }
 
-
-.section_title {
-	position: relative;
-}
-
 .section_title {
 	padding: 0 0 10px 0;
 	font-weight: bold;
@@ -502,7 +497,6 @@ ul li { float: left; }
 
 .pagination {
 	float: right;
-	margin: 0 5px;
 }
 
 .section_title span, .section_title a {
@@ -516,7 +510,7 @@ ul li { float: left; }
 
 /* Media thumbs */
 
-#results {
+#results, #results_mine, #results_others {
 	padding: 20px 0;
 	text-align: center;
 }
@@ -524,7 +518,7 @@ ul li { float: left; }
 .item_box {
 	display: inline-block;
 	width: 140px;
-	height: 230px;
+	height: 225px;
 	margin: 5px;
 	padding: 5px;
 	text-align: left;
@@ -563,9 +557,6 @@ ul li { float: left; }
 	line-height: 1.2em;
 	letter-spacing: 0.2ex;
 	color: #4c4c4c;
-	margin-top: 0.8em;
-	width: 140px;
-	display: block;
 	padding-left: 2px;
 }
 
@@ -593,15 +584,17 @@ ul li { float: left; }
 }
 
 .thumb_box {
-    display: inline-block;
-    text-align: center;
-    vertical-align: middle;
+	float: left;
+	text-align: center;
 	width: 140px;
 	height: 140px;
+	font-size: 1em;
+	line-height: 135px;
 	background-color: #fff;
 	-webkit-box-shadow: 0 0 4px rgba(100, 100, 100, 0.6);
 	-moz-box-shadow: 0 0 4px rgba(100, 100, 100, 0.6);
 	box-shadow: 0 0 4px rgba(100, 100, 100, 0.6);
+	margin-bottom: 10px;
 }
 
 .thumb_box:hover {
@@ -611,20 +604,22 @@ ul li { float: left; }
 }
 
 .thumb_box_set {
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle;
+	float: left;
+	text-align: center;
 	width: 160px;
 	height: 160px;
-	background-color: #fff;
+	font-size: 1em;
+	line-height: 155px;
 	background: url(../images/icons/icon_set_tn1.png) no-repeat 0 0;
 	/*-webkit-box-shadow: 0 0 4px rgba(100, 100, 100, 0.6);
 	-moz-box-shadow: 0 0 4px rgba(100, 100, 100, 0.6);
 	box-shadow: 0 0 4px rgba(100, 100, 100, 0.6);*/
 }
 
-.thumb_box img {
+.thumb_box img, .thumb_box_set img {
 	border: 1px solid #e4e4e4;
+	margin-top: expression(( 140 - this.height ) / 2);
+	vertical-align: middle;
 }
 
 .actions {
@@ -876,8 +871,7 @@ button.dark:hover {
 /* Batch edit */
 
 .task_bar {
-	padding: 5px 0 0 0;
-	margin-bottom: 0.5em;
+	padding: 10px 0 0 0;
 	background-color: #dbdbdb;
 }
 
@@ -901,16 +895,15 @@ button.dark:hover {
 
 .task_bar ul {
 	width: 100%;
-	display: block;
+	display: inline-block;
 }
 
 .icon_bar {margin-top: 2em;}
 .icon_bar img {margin-right: .33em;}
 
 #selected_items {
-	padding: 10px;
-	border-top: 1px solid #dfdfdf;
-	background-color: #e8e8e8;
+	padding: 0 5px 5px 5px;
+	/*background-color: #e8e8e8;*/
 }
 
 #batch-edit-button {
@@ -932,8 +925,7 @@ button.dark:hover {
 
 /*#selected_items .thumb_mini { display: inline-block; margin-right: 0.33em; background: white; border: 1px solid #ddd; padding: 2px; min-height: 54px; min-width: 54px;}*/
 
-#selected_items .thumb_mini {
-    vertical-align: middle;
+/*#selected_items .thumb_mini {
 	width: 60px;
 	height: 60px;
 	background-color: #fff;
@@ -942,9 +934,10 @@ button.dark:hover {
 	box-shadow: 0 0 2px rgba(100, 100, 100, 0.6);
 	position: relative;
 	display: inline-block;
-}
+	margin: 0 5px;
+}*/
 
-.thumb_mini img {
+/*.thumb_mini img {
 	margin-left: auto;
     margin-right: auto;
 	margin-top: auto;
@@ -952,6 +945,26 @@ button.dark:hover {
     display: block;
     max-height: 50px;
     max-width: 50px;
+}*/
+
+#selected_items .thumb_mini {
+	float: left;
+	text-align: center;
+	width: 60px;
+	height: 60px;
+	font-size: 1em;
+	line-height: 55px;
+	background-color: #fff;
+	-webkit-box-shadow: 0 0 4px rgba(100, 100, 100, 0.6);
+	-moz-box-shadow: 0 0 4px rgba(100, 100, 100, 0.6);
+	box-shadow: 0 0 4px rgba(100, 100, 100, 0.6);
+	margin: 0 3px 10px 3px;
+}
+
+.thumb_mini img {
+	border: 1px solid #e4e4e4;
+	margin-top: expression(( 60 - this.height ) / 2);
+	vertical-align: middle;
 }
 
 #selected_items .thumb_mini img.thumb_remove { 
@@ -959,6 +972,7 @@ button.dark:hover {
 	z-index: 4000;
 	cursor:pointer;
 	margin: 0;
+	border: 0;
 }
 
 .thumb_remove {
@@ -1036,7 +1050,8 @@ button.dark:hover {
 
 #legend { 
 	background: #ddd; 
-	padding: 10px; 
+	padding: 10px;
+	margin-top: 10px;
 }
 
 #legend p.info { 
@@ -1066,7 +1081,6 @@ button.dark:hover {
 .notice label, .error label {
 	font-weight: bold;
 }
-
 
 /** temporary styles to make permissions box presentable *****/
 

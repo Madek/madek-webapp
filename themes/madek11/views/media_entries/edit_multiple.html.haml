@@ -29,8 +29,8 @@
 
 %section#content_body
   .container_12.clearfix
-    %h2.section_title Medieneinträge Bearbeiten
-    .task_bar
+    %h2.section_title Metadaten der Medieneinträge bearbeiten
+    .task_bar.clearfix
       %ul
         %li
           %h4= "#{@media_entries.size} Medieneinträge ausgewählt"
@@ -57,7 +57,7 @@
                   Hochgeladen von und am
             %tbody
     
-    .grid_10.alpha
+    .grid_10
       = form_tag update_multiple_media_entries_path, :method => :put do
         = hidden_field_tag 'media_entry_ids', @media_entries.map(&:id).join(',')
         - meta_contexts = MetaContext.defaults # NOTE: what about individual contexts? maybe when editing project's media_entries
@@ -77,7 +77,7 @@
             - meta_data = MediaEntry.compare_batch_by_meta_data_in_context(@media_entries, meta_context)
             = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :meta_data => meta_data }
         = yield :buttons
-    .grid_2.omega
+    .grid_2
       #legend
         %h2 Legende
         %p{:style => "background: white; height: 30px ; border: 1px solid #ccc;"} 
