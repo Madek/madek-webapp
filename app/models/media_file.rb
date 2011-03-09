@@ -139,16 +139,49 @@ class MediaFile < ActiveRecord::Base
   end
   
   def retrieve_video_thumbnails
-    job = EncodeJob.new(self.job_id)
-    job.encoded_file_urls.each do |f|
-      puts f.inspect, "-----__-_--_-"
-      filename = File.basename(f)
-      `mkdir -p #{thumbnail_storage_location}_encoded`
-      puts "executing `wget #{f} -O #{thumbnail_storage_location}_encoded/#{filename}`"
-      `wget #{f} -O #{thumbnail_storage_location}_encoded/#{filename}`
+    require 'lib/encode_job'
+    paths = []
+    
+    unless self.job_id.blank?
+      job = EncodeJob.new(self.job_id)
+      if job.finished?
+        # Get the encoded files via FTP
+        job.encoded_file_urls.each do |f|
+          filename = File.basename(f)
+          dir = "#{thumbnail_storage_location}_encoded"
+          path = "#{dir}/#{filename}"
+          `mkdir -p #{dir}`
+          `wget #{f} -O #{path}`
+          if $? == 0
+            paths << path
+          end
+        end
+      end
     end
+    return paths
   end
 
+  # Video thumbnails only come in one size (large) because re-encoding these costs money and they only make sense
+  # in the media_entries/show view anyhow (not in smaller versions).
+  def assign_video_thumbnails_to_preview
+    if previews.where(:content_type => 'video/webm').empty?
+      paths = retrieve_video_thumbnails
+      unless paths.empty?
+        paths.each do |path|
+          if File.extname(path) == ".webm"
+            # Must have Exiftool with Image::ExifTool::Matroska to support WebM!
+            w, h = exiftool_obj(path, ["Composite:ImageSize"])[0][0][1].split("x")
+            if previews.create(:content_type => 'video/webm', :filename => path, :width => w.to_i, :height => h.to_i, :thumbnail => 'large')
+              return true
+            else
+              return false
+            end
+          end
+        end
+      end
+    end
+  end
+  
   def thumbnail_jpegs_for(file, sizes = nil)
     THUMBNAILS.each do |thumb_size,value|
       next if sizes and !sizes.include?(thumb_size)
@@ -167,6 +200,8 @@ class MediaFile < ActiveRecord::Base
       end
     end
   end
+
+
 
   def validate_file
     #TODO - check for zip files and process accordingly
@@ -232,11 +267,26 @@ class MediaFile < ActiveRecord::Base
       end
       meta_data.merge!(exif_hash)
     end
-    img_x, img_y = exif_hash["Composite:ImageSize"].split("x")
+
+    # Exiftool couldn't get the dimensions. Let's try with ffmpeg
+    if exif_hash["Composite:ImageSize"].nil?
+      img_x, img_y = get_sizes_from_ffmpeg(full_path_file)
+    else
+      img_x, img_y = exif_hash["Composite:ImageSize"].split("x")
+    end
     update_attributes(:width => img_x, :height => img_y)
   end
 
-
+  def get_sizes_from_ffmpeg(path)
+    out = `ffmpeg -i #{path} 2>&1`
+    out.split("\n").each do |line|
+      if line =~ /.*Stream.*Video.*/
+        x, y = line.scan(/\d+x\d+/).first.split("x")
+        return [x, y]
+      end
+    end
+  end
+  
   def import_audio_metadata(full_path_file)
 
     # TODO refactor to use ffmpeg, some id3 tag extractor, etc.
@@ -296,7 +346,6 @@ class MediaFile < ActiveRecord::Base
     update_attributes(:job_id => job.details['id'])
     return job
   end
-
   
   def assign_access_hash
     self.access_hash = UUIDTools::UUID.random_create.to_s

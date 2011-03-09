@@ -24,7 +24,7 @@ class EncodeJob
     config = YAML::load(File.open(Rails.root + "config/zencoder.yml"))
     api_key = config['zencoder']['api_key']
     @base_url = config['zencoder']['ftp_base_url']
-    @size ||= { :width => 640, :height => 480 }
+    @size ||= { :width => 640 }
     Zencoder.api_key = api_key
   end
 
@@ -33,10 +33,9 @@ class EncodeJob
   # :notifications => ["http://medienarchiv.zhdk.ch/encode_jobs/notification"]
   
   def start_by_url(url)
-    outputs = [{:base_url => @base_url, :video_codec => "vp8", :quality => 4, :speed => 2 }.merge(@size),
-                 {:base_url => @base_url, :video_codec => "h264", :quality => 4, :speed => 2 }.merge(@size)]
+    outputs = [{:base_url => @base_url, :video_codec => "vp8", :quality => 4, :speed => 2 }.merge(@size)] #,
+                 #{:base_url => @base_url, :video_codec => "h264", :quality => 4, :speed => 2 }.merge(@size)]
                  
-    # This example encodes two copies, one in VP8/WebM, one in H.264
     settings = {:input => url,
                 :outputs => outputs
                }

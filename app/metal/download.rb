@@ -125,16 +125,17 @@ class Download
           # A transcoded, smaller-than-original version of the video
           unless params['video_thumbnail'].blank?
             if params['format'].blank?
-              video_format = "mp4"
+              video_format = "webm" # This is much more widely supported than H.264. Only Apple/Safari wants H.265
+                                    # everyone else is on WebM.
             else
               video_format = params['format']
             end
 
-            candidates = Dir.glob("#{@media_entry.media_file.file_storage_location}_encoded/*.#{video_format}")
-            if candidates.empty?
-              return [404, {"Content-Type" => "text/html"}, ["Not found. Try a different format, perhaps 'webm' or 'mp4'."]]
+            preview = @media_entry.media_file.previews.where(:content_type => 'video/webm').last
+            if preview.nil?
+              return [404, {"Content-Type" => "text/html"}, ["Not found."]]
             else
-              path = candidates.first
+              path = preview.filename
               content_type = "video/#{File.extname(path).gsub(".","")}"
               return [200, {"Content-Type" => content_type, "Content-Disposition" => "attachment; filename=#{File.basename(path)}" }, [File.read(path) ]]
             end
