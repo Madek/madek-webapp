@@ -42,6 +42,8 @@
         = form_tag add_member_media_set_url(@media_set) do
           = select_tag "media_set_id", options_for_select([["Set Auswählen", ""]] + @editable_sets.collect {|set| [set.meta_data.get_value_for("title"), set.id]})
           = submit_tag "Hinzufügen"
+      %li#batch_permissions
+        = button_to _("Zugriffsberechtigungen ändern"), edit_multiple_permissions_media_entries_path, :method => :post, :id => "batch-permissions"
     #selected_items
     :plain    
       <script type="text/x-jquery-tmpl" id="mini_thumbnails">
@@ -135,6 +137,15 @@
     });
 
     $("#batch-edit-button form").submit(function() {
+      //var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
+      var editable_ids = new Array();
+      $("#selected_items .edit").each(function(i, elem){
+        editable_ids.push($(this).attr("id").slice(3));
+      });
+      $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
+    });
+    
+     $("#batch_permissions form").submit(function() {
       //var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
       var editable_ids = new Array();
       $("#selected_items .edit").each(function(i, elem){

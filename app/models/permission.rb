@@ -24,6 +24,8 @@ class Permission < ActiveRecord::Base
           @keys.delete(key.to_sym)
         when "TrueClass", "Symbol"
           @keys[key.to_sym] = value
+        when "String"
+          @keys[key.to_sym] = (value == "true" ? true : false) 
         else
           @keys[key.to_sym] = false
       end
@@ -152,36 +154,46 @@ class Permission < ActiveRecord::Base
     
     #################################################
     
-    def compare(resources, type)
-      combined_permissions = {}
-      number_of_resources = resources.size
-      actions = [:view, :edit, :hi_res]
-      case type
-        when :user
-          user_permissions = resources.map(&:permissions).flatten.select {|p| p.subject_type == "User"}
-          users = user_permissions.map(&:subject)
-          users.each do |user|
-           combined_permissions[user.id] = [user, {}]
-           actions.each do |key|
-            total = user_permissions.select {|p| p.subject_id == user.id and actions[key] == true}.size
-            combined = if (total == number_of_resources)
-              true
-            elsif total == 0
-              false
-            else
-              :mixed
-            end  
-            combined_permissions[user.id].last[key] = combined
-          end
-        when :group
-          resources.map(&:permissions).flatten.select {|p| p.subject_type == "Group"}
-        when :all
-          resources.map(&:permissions).flatten.select {|p| p.subject.nil? }
+    def compare(resources)
+      combined_permissions = {"User" => {}, "Group" => {}, nil => {}}
+      keys = [:view, :edit, :hi_res]
+      permissions = resources.map(&:permissions).flatten
+
+      combined_permissions.keys.each do |type|
+        case type
+          when "User", "Group"
+            subject_permissions = permissions.select {|p| p.subject_type == type}
+            subject_permissions.map(&:subject).uniq.each do |subject|
+              combined_permissions[type][subject.id] = [subject, {}]
+              keys.each do |key|
+                combined_permissions[type][subject.id].last[key] = case subject_permissions.select {|p| p.subject_id == subject.id and p.actions[key] == true }.size
+                  when resources.size
+                    true
+                  when 0
+                    false
+                  else
+                    :mixed
+                end  
+              end
+            end
+          else
+            default_permissions = permissions.select {|p| p.subject_type.nil? }
+            combined_permissions[type] = {}
+            keys.each do |key|
+              combined_permissions[type][key] = case default_permissions.select {|p| p.actions[key] == true }.size
+                when resources.size
+                  true
+                when 0
+                  false
+                else
+                  :mixed
+              end  
+            end
         end
-        return combined_permissions
       end
-      
-      
+
+      return combined_permissions
+    end
     
     #################################################
 

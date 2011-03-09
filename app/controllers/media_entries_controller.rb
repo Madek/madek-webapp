@@ -255,9 +255,30 @@ class MediaEntriesController < ApplicationController
   def edit_multiple_permissions
     theme "madek11"
     
-    user_permissions = Permission.compare(@media_entries, :user)
-    group_permissions = Permission.compare(@media_entries, :group)
-    public_permissions = Permission.compare(@media_entries, :all)
+    @combined_permissions = Permission.compare(@media_entries)
+  end
+
+  def update_multiple_permissions
+    theme "madek11"
+    
+    MediaEntry.suspended_delta do
+      @media_entries.each do |media_entry|
+        media_entry.permissions.delete_all
+    
+        actions = params[:subject]["nil"]
+        media_entry.permissions.build(:subject => nil).set_actions(actions)
+  
+        ["User", "Group"].each do |key|
+          params[:subject][key].each_pair do |subject_id, actions|
+            media_entry.permissions.build(:subject_type => key, :subject_id => subject_id).set_actions(actions)
+          end if params[:subject][key]
+        end
+        
+        media_entry.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
+      end
+    end
+        
+    render :text => params.inspect
   end
   
 #####################################################
@@ -302,7 +323,7 @@ class MediaEntriesController < ApplicationController
       when :to_snapshot
         not_authorized! unless current_user.groups.is_member?("Expert")
         return
-      when :edit_multiple, :update_multiple
+      when :edit_multiple, :update_multiple, :edit_multiple_permissions, :update_multiple_permissions
         not_authorized! if @media_entries.empty?
         return
       when :remove_multiple
@@ -328,12 +349,15 @@ class MediaEntriesController < ApplicationController
 
       if not params[:media_entry_ids].blank?
         selected_ids = params[:media_entry_ids].split(",").map{|e| e.to_i }
-        case action
+        @media_entries = case action
           when :edit_multiple, :update_multiple
             editable_ids = Permission.accessible_by_user(MediaEntry, current_user, :edit)
-            @media_entries = MediaEntry.where(:id => (selected_ids & editable_ids))
+            MediaEntry.where(:id => (selected_ids & editable_ids))
+          when :edit_multiple_permissions, :update_multiple_permissions
+            manageable_ids = Permission.accessible_by_user(MediaEntry, current_user, :manage)
+            MediaEntry.where(:id => (selected_ids & manageable_ids))
           when :remove_multiple
-            @media_entries = MediaEntry.where(:id => selected_ids)
+            MediaEntry.where(:id => selected_ids)
         end
       elsif not params[:media_entry_id].blank?
         @media_entry =  if @media_set

@@ -1,0 +1,100 @@
+%section#content_body
+  %h2.section_title Zugriffsberechtigungen Ändern
+  
+  - form_tag update_multiple_permissions_media_entries_path, :method => :put do
+    = hidden_field_tag :media_entry_ids, @media_entries.map(&:id).join(',')
+    
+    %table.permissions
+      %tbody
+        %tr
+          %th
+            Nachname, Vorname:
+          %th{:colspan => 2}
+            Berechtigungen:
+          %th
+        %tr
+          %td
+            %strong Einzelpersonen
+          %td
+            Sehen
+          %td
+            Editieren
+          %td
+            Volle Auflösung
+      %tbody#user_permissions
+        ///
+        - @combined_permissions["User"].each_pair do |subject_id, permission| # actually permission is an array [user, {}]
+          %tr
+            %td
+              = permission.first # permission.subject
+            - [:view, :edit, :hi_res].each do |key|
+              %td{:style => (permission.last[key] == :mixed ? "background-color: gray;" : nil)}
+                = hidden_field_tag "subject[User][#{subject_id}][#{key}]", false
+                = check_box_tag "subject[User][#{subject_id}][#{key}]", true, (permission.last[key] == true)
+            %td
+              =# link_to _("Löschen"), url_for([@resource, permission]), :remote => true, :method => :delete, :confirm => _("Sind Sie sicher?") if permission.subject and permission.subject != current_user
+        ///
+      %tbody
+        %tr.adder
+          %td
+            Benutzer/in hinzufügen:
+          %td{:colspan => 4}
+            %input#new_user
+        %tr
+          %td{:colspan => 5}
+            %p{:style => "font-size: 0.9em; line-height: 2em;"}
+              Es können nur Benutzer/innen ausgewählt werden, die sich schon einmal im Medienarchiv eingeloggt haben.  
+      %tbody
+        %tr
+          %td
+            %strong Gruppen
+          %td
+            Sehen
+          %td
+            Editieren
+          %td
+            Volle Auflösung
+      %tbody#group_permissions
+        ///
+        - @combined_permissions["Group"].each_pair do |subject_id, permission| # actually permission is an array [user, {}]
+          %tr
+            %td
+              = permission.first # permission.subject
+            - [:view, :edit, :hi_res].each do |key|
+              %td{:style => (permission.last[key] == :mixed ? "background-color: gray;" : nil)}
+                = hidden_field_tag "subject[Group][#{subject_id}][#{key}]", false
+                = check_box_tag "subject[Group][#{subject_id}][#{key}]", true, (permission.last[key] == true)
+            %td
+              =# link_to _("Löschen"), url_for([@resource, permission]), :remote => true, :method => :delete, :confirm => _("Sind Sie sicher?") if permission.subject and permission.subject != current_user
+        ///
+      %tbody
+        %tr.adder
+          %td
+            Gruppe hinzufügen:
+          %td{:colspan => 4}
+            %input#new_group
+      %tbody
+        %tr
+          %td
+            %strong Allgemein
+          %td
+            Sehen
+          %td
+            Editieren
+          %td
+            Volle Auflösung
+      %tbody#anyone_permissions
+        ///
+        %tr
+          %td
+            = _("Öffentlich")
+          - [:view, :edit, :hi_res].each do |key|
+            %td{:style => (@combined_permissions[nil][key] == :mixed ? "background-color: gray;" : nil)}
+              = hidden_field_tag "subject[nil][#{key}]", false
+              = check_box_tag "subject[nil][#{key}]", true, (@combined_permissions[nil][key] == true)
+          %td
+            =# link_to _("Löschen"), url_for([@resource, permission]), :remote => true, :method => :delete, :confirm => _("Sind Sie sicher?") if permission.subject and permission.subject != current_user
+        ///
+        
+    = submit_tag _("Speichern")
+    
