@@ -38,6 +38,8 @@ MAdeK::Application.routes.draw do
       get :keywords
       post :edit_multiple
       put :update_multiple
+      post :edit_multiple_permissions
+      put :update_multiple_permissions
     end
 
     member do

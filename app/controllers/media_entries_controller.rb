@@ -252,6 +252,14 @@ class MediaEntriesController < ApplicationController
     redirect_to media_entries_path # TODO media_entries_path(:media_entries_id => @media_entries)
   end
   
+  def edit_multiple_permissions
+    theme "madek11"
+    
+    user_permissions = Permission.compare(@media_entries, :user)
+    group_permissions = Permission.compare(@media_entries, :group)
+    public_permissions = Permission.compare(@media_entries, :all)
+  end
+  
 #####################################################
 
 #old#

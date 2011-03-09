@@ -151,6 +151,39 @@ class Permission < ActiveRecord::Base
     end
     
     #################################################
+    
+    def compare(resources, type)
+      combined_permissions = {}
+      number_of_resources = resources.size
+      actions = [:view, :edit, :hi_res]
+      case type
+        when :user
+          user_permissions = resources.map(&:permissions).flatten.select {|p| p.subject_type == "User"}
+          users = user_permissions.map(&:subject)
+          users.each do |user|
+           combined_permissions[user.id] = [user, {}]
+           actions.each do |key|
+            total = user_permissions.select {|p| p.subject_id == user.id and actions[key] == true}.size
+            combined = if (total == number_of_resources)
+              true
+            elsif total == 0
+              false
+            else
+              :mixed
+            end  
+            combined_permissions[user.id].last[key] = combined
+          end
+        when :group
+          resources.map(&:permissions).flatten.select {|p| p.subject_type == "Group"}
+        when :all
+          resources.map(&:permissions).flatten.select {|p| p.subject.nil? }
+        end
+        return combined_permissions
+      end
+      
+      
+    
+    #################################################
 
 #   private
     
