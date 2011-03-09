@@ -961,6 +961,10 @@ button.dark:hover {
 	margin-left: 10px;
 }
 
+#media_content ul {
+	border-bottom: 1px solid #e6e6e6;
+}
+
 /*#selected_items .thumb_mini { display: inline-block; margin-right: 0.33em; background: white; border: 1px solid #ddd; padding: 2px; min-height: 54px; min-width: 54px;}*/
 
 /*#selected_items .thumb_mini {
@@ -1077,7 +1081,7 @@ button.dark:hover {
 
 #detail_specification ul li { 
     float: left;
-    margin-right: 0.5em;
+    /*margin-right: 0.5em;*/
 }
 
 li.different_values {
@@ -1144,12 +1148,12 @@ table td {
 #legend {
 	margin-top: 80px;
 	padding: 15px;
-	-moz-box-shadow: inset 0 0 2px 1px #ccc;
-	-webkit-box-shadow: inset 0 0 2px 1px #ccc;
-	box-shadow: inset 0 0 2px 1px #ccc;
+	-moz-box-shadow: inset 0 0 3px 1px #ccc;
+	-webkit-box-shadow: inset 0 0 3px 1px #ccc;
+	box-shadow: inset 0 0 3px 1px #ccc;
 	font: 0.8em/1.2em "Courier New", Courier, mono;
 	letter-spacing: 1px;
-	background-color: #fbfbfb;
+	background-color: #fafafa;
 }
 
 #legend h3 {
@@ -1334,8 +1338,8 @@ ul[data-parent_meta_key] {
 
 .meta_data ul[data-meta_key] > li {
     display: inline-block;
-    margin: 1em 0;
-    padding: 0.5em;
+    margin: 20px 0;
+    padding: 10px;
 }
 
 .meta_data input, .meta_data select, .meta_data textarea {
@@ -1343,18 +1347,35 @@ ul[data-parent_meta_key] {
     color: #424242;
     font-size: 1em;
     padding: 5px;
-    width: 97%;
+    width: 96%;
     -moz-box-shadow: inset 0 0 1px 1px #e3e3e3;
 	-webkit-box-shadow: inset 0 0 1px 1px #e3e3e3;
 	box-shadow: inset 0 0 1px 1px #e3e3e3;
-	background-color: #feffff;
+	background-color: #ffffff;
 }
 
 .meta_data .description_toggler {
-    color: #888888;
-    font-size: 0.9em;
-    font-weight: bold;
-    padding: 0.5em;
+	display: block;
+	font-size: 13px;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 11px;
+    background-color: #fff;
+	padding: 3px;
+	width: 10px;
+	height:  10px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-o-border-radius: 2px;
+	border-radius: 2px;
+	-webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
+	-moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
+}
+
+.meta_data .description_toggler:hover {
+	background-color: #FEFFD7;
+	text-decoration: none;
 }
 
 .meta_data .hint {
@@ -1362,17 +1383,23 @@ ul[data-parent_meta_key] {
     display: block;
     z-index: 99999;
 	font: normal 0.8em/1.2em "Courier New", Courier, mono;
-	margin-top: 0.5em;
+	margin-top: 0.8em;
 }
 
 .dialog {
-    -moz-border-radius: 5px 5px 5px 5px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-o-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
+	-moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
     background-color: #FEFFD7;
-    border: 1px solid #D4C889;
-    padding: 8px;
+    /*border: 1px solid #D4C889;*/
+    padding: 10px;
     position: absolute;
-    right: 50px;
-    width: 18em;
+    right: 39px;
+    width: 20em;
 }
 
 .dates input, #dateSelect {
@@ -1380,7 +1407,8 @@ ul[data-parent_meta_key] {
 }
 
 .meta_data ul.meta_terms {
-    font-size: 0.8em;
+    font-size: 0.9em;
+    padding-right: 0.5em;
 }
 
 .meta_data ul.meta_terms > li {
@@ -1395,16 +1423,17 @@ ul[data-parent_meta_key] {
 
 .meta_data input[type="checkbox"] {
     float: inherit;
-    margin-top: 0.6em;
+    margin-top: 0.3em;
     width: auto;
 }
 
 .meta_data ul.meta_terms > li > ul > li > input[type="checkbox"] {
     margin-right: 0.5em;
+    margin-left: 1.0em;
 }
 
 #dateSelect {
-    background: #EEEEEE;
+    background: white;
 }
 
 
@@ -1489,8 +1518,8 @@ ul[data-parent_meta_key] {
 
 /* custom Andrea Set */
 
-  h4 {margin: 0 0 5px 0;}
-  a img {border: none;}
+  h4 {margin: 0 0 4px 0;}
+
 
   .clear { margin: 0;}
 
