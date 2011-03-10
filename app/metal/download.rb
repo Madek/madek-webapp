@@ -131,13 +131,13 @@ class Download
               video_format = params['format']
             end
 
-            preview = @media_entry.media_file.previews.where(:content_type => 'video/webm').last
+            preview = @media_entry.media_file.previews.where(:content_type => "video/#{video_format}").last
             if preview.nil?
               return [404, {"Content-Type" => "text/html"}, ["Not found."]]
             else
-              path = preview.filename
+              path = "#{THUMBNAIL_STORAGE_DIR}/#{@media_entry.media_file.shard}/#{preview.filename}"
               content_type = "video/#{File.extname(path).gsub(".","")}"
-              return [200, {"Content-Type" => content_type, "Content-Disposition" => "attachment; filename=#{File.basename(path)}" }, [File.read(path) ]]
+              return [200, {"Content-Type" => content_type, "Content-Disposition" => "attachment; filename=#{@media_entry.media_file.filename}" }, [File.read(path) ]]
             end
           end
 
