@@ -1,5 +1,5 @@
 - cache("users/#{current_user.id}/menu") do
-  %nav#menu
+  #menu
     %ul
       - unless @disable_user_bar
         = render :partial => '/users/user_bar'
