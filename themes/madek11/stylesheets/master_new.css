@@ -354,9 +354,11 @@ input[type="submit"]:hover, input[type="submit"]:focus {
 	/*position: relative;*/
 }
 
+.head_menu a {
+	font-weight: bold;
+}
 .head_menu a, .sub_menu a {
 	color: #FFFFFF;
-	letter-spacing: 0.2ex;	
 	text-decoration: none;
 	height: 2em;
 }
@@ -783,11 +785,16 @@ button.dark {
 	font: bold 0.9em 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+.save_buttons {
+	margin: 0 0 40px 0;
+	float: right;
+}
+
 .outside {
 	padding: 5px 15px;
 	margin-right: 5px;
 	border: none;
-	height: 2.3em;
+	height: 1.5em;
 	/*text-shadow: 0 1px 1px rgba(255, 255, 255, 0.85);*/
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#444444), to(#252525));
 	background-image: -moz-linear-gradient(0% 100% 90deg, #252525, #444444);
@@ -807,9 +814,21 @@ button.dark {
 	z-index: 999;
 }
 
-.outside a {
+.outside:hover {
+	-webkit-box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+	-moz-box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+	box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+	overflow: visible;
+}
+
+a.outside {
 	color: #FFFFFF;
 }
+
+a.outside:hover {
+	text-decoration: none;
+}
+
 
 button.dark a {
 	color: #FFFFFF;
@@ -1086,8 +1105,7 @@ button.dark:hover {
 
 }
 
-
-.task_bar input[type="submit"]:hover {
+.task_bar input[type="submit"]:hover, .save_buttons input[type="submit"]:hover {
 	background: white;
 	-moz-box-shadow: inset 0 0 1px 1px #eaeaea;
 	-webkit-box-shadow: inset 0 0 1px 1px #eaeaea;
@@ -1095,12 +1113,31 @@ button.dark:hover {
 	color: #222;
 }
 
-.task_bar input[type="submit"]:active {
+.task_bar input[type="submit"]:active, .save_buttons input[type="submit"]:active {
 	background: #d0d0d0;
 	-moz-box-shadow: inset 0 0 1px 1px #e3e3e3;
 	-webkit-box-shadow: inset 0 0 1px 1px #e3e3e3;
 	box-shadow: inset 0 0 1px 1px #e3e3e3;
 	color: #000;
+}
+
+.save_buttons input[type="submit"] {
+	color: #333;
+	font-weight: bold;
+	padding: 3px 10px 4px;
+	text-align: center;
+	text-shadow: 0 1px 0 #fff;
+	background: #e3e3e3;
+	border: 1px solid #bbb;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: inset 0 0 1px 1px #f6f6f6;
+	-webkit-box-shadow: inset 0 0 1px 1px #f6f6f6;
+	box-shadow: inset 0 0 1px 1px #f6f6f6;
+	font-size: 1.2em;
+	margin-top: -3px;
+	margin-left: 15px;
 }
 
 .task_bar ul {
