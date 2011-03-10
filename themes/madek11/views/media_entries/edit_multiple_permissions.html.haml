@@ -89,7 +89,7 @@
           %td
             = _("Öffentlich")
           - [:view, :edit, :hi_res].each do |key|
-            %td{:style => (@combined_permissions[nil][key] == :mixed ? "background-color: gray;" : nil)}
+            %td{:style => (@combined_permissions[nil][key] == :mixed ? "background: url(../images/stripe_1.png);" : nil)}
               = hidden_field_tag "subject[nil][#{key}]", false
               = check_box_tag "subject[nil][#{key}]", true, (@combined_permissions[nil][key] == true)
           %td

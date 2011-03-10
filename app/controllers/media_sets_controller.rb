@@ -35,16 +35,19 @@ class MediaSetsController < ApplicationController
     theme "madek11"
     viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
     @editable_ids = Permission.accessible_by_user("MediaEntry", current_user, :edit)
+    managable_ids = Permission.accessible_by_user("MediaEntry", current_user, :manage)
     editable_set_ids = Permission.accessible_by_user("Media::Set", current_user, :edit)
     @per_page = 32 #test# 2
     
     #ASK Franco#: Sphinx reindexing doesn't work when we remove media_entries from a set. Need to revert to active record #
     # @media_entries = MediaEntry.search :with => {:media_set_ids => @media_set.id, :sphinx_internal_id => viewable_ids}, :page => params[:page], :per_page => per_page, :retry_stale => true
     @media_entries =  MediaEntry.joins(:media_sets).where("media_sets.id = ?", @media_set.id).where(:id => viewable_ids).all
+    media_entry_ids = @media_entries.map(&:id)
     
     # for task bar
     @can_edit = editable_set_ids.include?(@media_set.id)
-    @editable_in_set = @editable_ids & @media_entries.map(&:id)
+    @editable_in_set = @editable_ids & media_entry_ids
+    @managable_in_set = managable_ids & media_entry_ids
     @editable_sets = Media::Set.where("id IN (?) AND id <> ?", editable_set_ids, @media_set.id)
     
     @info_to_json = @media_entries.map do |me|
@@ -52,6 +55,7 @@ class MediaSetsController < ApplicationController
       css_class = "thumb_mini"
       css_class += " edit" if @editable_ids.include?(me.id)
       css_class += " edit_set" if @can_edit
+      css_class += " manage" if @managable_in_set.include?(me.id)
       basic["css_class"] = css_class
       basic
     end.to_json

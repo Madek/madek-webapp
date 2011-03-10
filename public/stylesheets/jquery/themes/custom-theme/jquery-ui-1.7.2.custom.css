@@ -52,7 +52,7 @@
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-size: 1em; }
 .ui-widget-content {
 	color: #444444;
-	border: 1px solid #d2d2d2;
+	/*border: 1px solid #d2d2d2;*/
 }
 .ui-widget-content a { color: #444444; }
 .ui-widget-header { background: #DDDDDD; font-weight: bold;}
