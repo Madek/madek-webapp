@@ -148,9 +148,8 @@ class MediaFile < ActiveRecord::Base
         # Get the encoded files via FTP
         job.encoded_file_urls.each do |f|
           filename = File.basename(f)
-          dir = "#{thumbnail_storage_location}_encoded"
-          path = "#{dir}/#{filename}"
-          `mkdir -p #{dir}`
+          prefix = "#{thumbnail_storage_location}_encoded"
+          path = "#{prefix}_#{filename}"
           `wget #{f} -O #{path}`
           if $? == 0
             paths << path
@@ -171,7 +170,7 @@ class MediaFile < ActiveRecord::Base
           if File.extname(path) == ".webm"
             # Must have Exiftool with Image::ExifTool::Matroska to support WebM!
             w, h = exiftool_obj(path, ["Composite:ImageSize"])[0][0][1].split("x")
-            if previews.create(:content_type => 'video/webm', :filename => path, :width => w.to_i, :height => h.to_i, :thumbnail => 'large')
+            if previews.create(:content_type => 'video/webm', :filename => File.basename(path), :width => w.to_i, :height => h.to_i, :thumbnail => 'large')
               return true
             else
               return false
