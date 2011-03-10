@@ -131,7 +131,7 @@ class Download
               video_format = params['format']
             end
 
-            preview = @media_entry.media_file.previews.where(:content_type => 'video/webm').last
+            preview = @media_entry.media_file.previews.where(:content_type => "video/#{video_format}").last
             if preview.nil?
               return [404, {"Content-Type" => "text/html"}, ["Not found."]]
             else
