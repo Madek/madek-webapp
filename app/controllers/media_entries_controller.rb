@@ -244,8 +244,9 @@ class MediaEntriesController < ApplicationController
   
   def edit_multiple
     theme "madek11"
-     
-    #tmp# custom hash for jQuery json templates
+    
+    session[:batch_origin_uri] = request.env['HTTP_REFERER']
+    # custom hash for jQuery json templates
     @info_to_json = @media_entries.map do |me|
       me.attributes.merge!(me.get_basic_info)
     end.to_json
@@ -262,12 +263,12 @@ class MediaEntriesController < ApplicationController
       end
     end
     
-    redirect_to media_entries_path # TODO media_entries_path(:media_entries_id => @media_entries)
+    redirect_to (session[:batch_origin_uri] || media_entries_path) # TODO media_entries_path(:media_entries_id => @media_entries)
   end
   
   def edit_multiple_permissions
     theme "madek11"
-    
+    session[:batch_origin_uri] = request.env['HTTP_REFERER']
     @combined_permissions = Permission.compare(@media_entries)
   end
 
@@ -290,7 +291,7 @@ class MediaEntriesController < ApplicationController
       end
 
     flash[:notice] = "Die Zugriffsberechtigungen wurden erflogreich gespeichert."    
-    redirect_to media_entries_path
+    redirect_to (session[:batch_origin_uri] || media_entries_path)
 
   end
   

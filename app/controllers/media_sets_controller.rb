@@ -33,6 +33,8 @@ class MediaSetsController < ApplicationController
   def show
     #new#
     theme "madek11"
+    session[:batch_origin_uri] = nil
+    
     viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
     @editable_ids = Permission.accessible_by_user("MediaEntry", current_user, :edit)
     managable_ids = Permission.accessible_by_user("MediaEntry", current_user, :manage)

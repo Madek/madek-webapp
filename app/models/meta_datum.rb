@@ -155,6 +155,9 @@ class MetaDatum < ActiveRecord::Base
         return false unless other_value.is_a?(Array)
         if value.first.is_a?(Meta::Date) 
           other_value.is_a?(Meta::Date) && (other_value.first.free_text == value.first.free_text)
+        elsif meta_key.label == "keywords"
+          referenced_meta_term_ids = Keyword.where(:id => other_value).all.map(&:meta_term_id)
+          deserialized_value.map(&:meta_term_id).same_elements?(referenced_meta_term_ids)
         else
           value.same_elements?(other_value) # patch of Array class, works for integers and other simple types
         end

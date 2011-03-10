@@ -173,7 +173,7 @@ class MediaEntry < ActiveRecord::Base
        md = compared_against.meta_data.get(mk) # this will return or build the meta datum
        memo << {:meta_key_id => md.meta_key_id, :value => md.value}
    end
-   logger.debug("=================== #{meta_data_for_context.inspect} ===========================================")
+   
    new_blank_media_entry = self.new
    meta_data_for_context.inject([]) do |meta_data, md_bare|
       at_least_one_different = other_entries.detect {|me| !me.meta_data.get(md_bare[:meta_key_id]).same_value?(md_bare[:value])}
