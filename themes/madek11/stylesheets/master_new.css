@@ -153,7 +153,7 @@ button {  width: auto; overflow: visible; }
 /*  Body and Basefont  */
 
 body, select, input, textarea {
-	background: #E8E8E8;
+	background: #f1f1f1;
 	color: #444444;
 	font-size: 87.5%; /* Base font size: 14px */
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -230,11 +230,10 @@ div#ajaxLoading {
 /* Header */
 
 header {
-	/*background: #333333 url("../images/bg-header-top.png") top left repeat-x;*/
 	height: 68px;
-	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#444444), to(#252525));
-	background-image: -moz-linear-gradient(0% 100% 90deg, #252525, #444444);
 	background-color: #333333;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 80%, from(#444444), to(#222222));
+	background-image: -moz-linear-gradient(0% 80% 90deg, #222222, #444444);
 }
 
 header a {
@@ -505,18 +504,17 @@ ul li { float: left; }
 }
 
 .page_title_left {
-	padding: 0 0 10px 0;
 	font-weight: bold;
 	font-size: 1.5em;
+	padding: 0 0 15px;
 	float: left;
 }
 
 .page_title_left span, .section_title a {
-	font-size: 0.7em;
+	font-size: 0.8em;
 	font-weight: normal;
 	word-spacing: 0.1ex;
-	padding-left: 0.4em;
-	color: #727272;
+	padding-left: 0.2em;
 	text-decoration: none;
 }
 
@@ -562,9 +560,9 @@ ul li { float: left; }
 	margin-bottom: 7px;
 }
 
-.item_box:hover {
+/*.item_box:hover {
 	background-color: #f3f3f3;
-}
+}*/
 
 .item_box_set {
 	display: inline-block;
@@ -632,11 +630,11 @@ ul li { float: left; }
 	margin-bottom: 10px;
 }
 
-.thumb_box:hover {
-	-webkit-box-shadow: 0 0 6px rgba(100, 100, 100, 1);
-	-moz-box-shadow: 0 0 6px rgba(100, 100, 100, 1);
-	box-shadow: 0 0 6px rgba(100, 100, 100, 1);
-}
+/*.thumb_box:hover {
+	-webkit-box-shadow: 0 0 4px rgba(100, 100, 100, 1);
+	-moz-box-shadow: 0 0 4px rgba(100, 100, 100, 1);
+	box-shadow: 0 0 4px rgba(100, 100, 100, 1);
+}*/
 
 #list_as_thumbnails .thumb_box {
 	float: left;
@@ -886,15 +884,18 @@ button.dark:hover {
 /* Specific Page Head for Set */
 
 #page_head {
-	overflow: auto;
 	background-color: #ffffff;
+	background-image: -webkit-gradient(linear,left top,left 60,color-stop(0.27, #FFFFFF),color-stop(1, #F7F7F7));
+	background-image: -moz-linear-gradient(center top, #FFFFFF 27%, #F7F7F7 100%);
+    /*background: -moz-linear-gradient(top, #FFFFFF, #EEEEEE);
+    background: -webkit-gradient(linear,
+                left top, left bottom, from(#FFFFFF), to(#EEEEEE));*/
 	-webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#e6e6e6))
 	-moz-linear-gradient(100% 100% 100deg,#E6E6E6, #FFFFFF)
-	-webkit-box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
-	-moz-box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
-	box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
+	-webkit-box-shadow: 0 0 4px rgba(150, 150, 150, 0.2);
+	-moz-box-shadow: 0 0 4px rgba(150, 150, 150, 0.2);
+	box-shadow: 0 0 4px rgba(150, 150, 150, 0.2);
 	margin-top: -10px;
-	margin-bottom: 5px;
 	position: relative;
 	min-height: 220px;
 }
@@ -965,41 +966,39 @@ button.dark:hover {
 	float: none;
 }
 
-.task_bar {
-	padding: 10px 0 0 0;
-	background-color: #e6e6e6;
-}
 
+/* Batch edit task bar */
+
+
+.task_bar {
+	padding-top: 3px;
+	padding-bottom: 8px;
+	line-height: 2em;
+	border-top: 1px solid #e6e6e6;
+}
 
 .task_bar h4 {
 	font-size: 0.9em;
-	margin-left: 10px;
-	margin-top: 3px;
-	color: #444;
+	padding-top: 2px;
 }
 
 .task_bar #number_selected {
-	margin-top: 3px;
 	font-size: 0.9em;
 	letter-spacing: 0.1ex;
 	font-weight: normal;
 	word-spacing: 0.1ex;
-	padding-left: 0.2em;
-	color: #444;
+	padding-left: 0.05em;
+	padding-top: 3px;
 }
 
-/*.task_bar ul {
-	width: 100%;
-	display: inline-block;
-}*/
-
-.icon_bar {margin-top: 2em;}
-.icon_bar img {margin-right: .33em;}
-
 #selected_items {
-	padding: 0 5px 0 5px;
-	/*background-color: #e8e8e8;*/
-	overflow: auto;
+	padding: 10px 5px 0 6px;
+	background-color: #e8e8e8;
+	position: absolute;
+	-webkit-box-shadow: 0 1px 4px rgba(150, 150, 150, 0.5);
+	-moz-box-shadow: 0 1px 4px rgba(150, 150, 150, 0.5);
+	box-shadow: 0 1px 4px rgba(150, 150, 150, 0.5);
+	z-index: 999;
 }
 
 #selected_items_edit {
@@ -1013,7 +1012,7 @@ button.dark:hover {
 }
 
 #batch-edit-button {
-	margin-bottom: 10px;
+
 }
 
 #batch-remove-button {
@@ -1032,6 +1031,9 @@ button.dark:hover {
 #media_content ul {
 	border-bottom: 1px solid #e6e6e6;
 }
+
+.icon_bar {margin-top: 2em;}
+.icon_bar img {margin-right: .33em;}
 
 /*#selected_items .thumb_mini { display: inline-block; margin-right: 0.33em; background: white; border: 1px solid #ddd; padding: 2px; min-height: 54px; min-width: 54px;}*/
 
@@ -1154,7 +1156,6 @@ button.dark:hover {
 }
 
 .task_bar ul li { 
-    float: left;
     margin-right: 0.5em;
 }
 

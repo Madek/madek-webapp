@@ -7,7 +7,7 @@
   - author = media_entry.meta_data.get_value_for("author")
   - unless title.blank?
     %p.item_title
-      = truncate(title, :length => 36)
+      = truncate(title, :length => 33)
   - unless author.blank?
     %p.item_author
       = truncate(author, :length => 18)
@@ -20,3 +20,13 @@
     .action_right
       = display_edit_icon(media_entry, current_user)
       = display_delete_icon(media_entry, current_user)
+
+:javascript
+  $(document).ready(function () {
+    $('.item_box')
+      .hover(function() {
+        $(this).stop(true, true).delay(300).animate({ backgroundColor: "#f1f1f1" }, 500);
+      }, function() {
+        $(this).stop(true, false).animate({ backgroundColor: "white" }, 1000);
+      });
+  });
