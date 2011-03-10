@@ -94,7 +94,7 @@ module MetaDataHelper
       # 02.21.11 Switching to newer version of multiselect plugin with less dependencies
       a += javascript_include_tag "/themes/madek11/javascripts/jquery/plugins/multiselect/jquery.localisation-min.js",
                                   "/themes/madek11/javascripts/jquery/plugins/multiselect/ui.multiselect.js",
-                                  "/themes/madek11/javascripts/jquery/plugins/multiselect/locale/ui.multiselect-#{locale}.js"
+                                  "/themes/madek11/javascripts/jquery/plugins/multiselect/locale/ui-multiselect-#{locale}.js"
       a += javascript_tag do
         begin
         <<-HERECODE
