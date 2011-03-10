@@ -1,5 +1,3 @@
-/* @override http://localhost:3000/themes/madek11/stylesheets/master_new.css */
-
 /**
  * HTML5 ✰ Boilerplate
  *
@@ -1166,7 +1164,7 @@ li.different_values {
 table thead { 
   	font-size: 1em; 
   	font-weight: bold; 
-  	border-bottom: 1px solid #000;
+	background-color: #f9f9f9;
 }
   	
 table td {
