@@ -26,6 +26,7 @@ MAdeK::Application.routes.draw do
   match '/upload_estimation.js', :to => UploadEstimation
   match '/download', :to => Download
   match '/nagiosstat', :to => Nagiosstat
+  match '/permissions/add_batch_permission', :to => "permissions#add_batch_permission"
 
 ###############################################
 

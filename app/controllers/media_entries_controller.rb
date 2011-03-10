@@ -277,8 +277,8 @@ class MediaEntriesController < ApplicationController
         media_entry.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
       end
     end
-        
-    render :text => params.inspect
+    flash[:notice] = "Die Zugriffsberechtigungen wurden erflogreich gespeichert."    
+    redirect_to media_entries_path
   end
   
 #####################################################
