@@ -82,8 +82,8 @@ class MediaEntry < ActiveRecord::Base
 
   sphinx_scope(:by_user) { |user| { :with => {:user_id => user.id} } }
   sphinx_scope(:not_by_user) { |user| { :without => {:user_id => user.id} } }
-  sphinx_scope(:public) { { :with => {:is_public => true} } }
-  sphinx_scope(:not_public) { { :with => {:is_public => false} } }
+  #old#0903# sphinx_scope(:public) { { :with => {:is_public => true} } }
+  #old#0903# sphinx_scope(:not_public) { { :with => {:is_public => false} } }
   sphinx_scope(:by_ids) { |ids| { :with => {:sphinx_internal_id => ids} } }
                                               
 ######################
@@ -103,8 +103,9 @@ class MediaEntry < ActiveRecord::Base
         end
 
         [['sphinx_internal_id', 'int'], ['class_crc', 'int'], ['sphinx_deleted', 'int', '0'], # required by thinking sphinx
-         ['user_id', 'int'], ['media_set_ids', 'multi'], ['media_file_id', 'int'], # association attributes
-         ['is_public', 'int', '0'], # attributes
+         ['user_id', 'int'], ['media_file_id', 'int'], # association attributes
+         #old 1003# ['media_set_ids', 'multi'],
+         #old#0903# ['is_public', 'int', '0'], # attributes
          #temp#facet# ['user_id_facet', 'int'], # facets
          ['subject_sort', 'str2ordinal'], ['creator_sort', 'str2ordinal'], ['updated_at', 'timestamp'] # sorting attributes
          ].each do |attr|
@@ -123,7 +124,8 @@ class MediaEntry < ActiveRecord::Base
           end
     
           ['sphinx_internal_id', 'class_crc',
-           'user_id', 'media_set_ids', 'media_file_id',
+           'user_id', 'media_file_id',
+           #old 1003# 'media_set_ids',
            #temp#facet# 'user_id_facet',
            'user'].each do |attr|
             xml.tag!(attr, media_entry.send(attr))
@@ -133,10 +135,10 @@ class MediaEntry < ActiveRecord::Base
             xml.tag!(attr, media_entry.send(attr).to_i)
           end
 
-          #wip#
-          if media_entry.acl?(:view, :all)
-            xml.tag!("is_public", 1)
-          end
+#old#0903# 
+#          if media_entry.acl?(:view, :all)
+#            xml.tag!("is_public", 1)
+#          end
         end
       end
     end
@@ -157,9 +159,10 @@ class MediaEntry < ActiveRecord::Base
 #    user_id
 #  end
 
-  def media_set_ids
-    media_sets.collect(&:id).join(',')
-  end
+#old 1003#
+#  def media_set_ids
+#    media_sets.collect(&:id).join(',')
+#  end
 
 ########################################################
 

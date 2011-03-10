@@ -129,11 +129,11 @@ function displayCount(key) {
   if (media_entry_ids != null) {
     var count_checked = media_entry_ids.length;
     var display_count = $('li#number_selected');
-	// if (display_count > 1) {
-	// 
-	// } else {
-	// 	
-	// };
+	if (count_checked > 0) {
+	  $('.task_bar .action_btn').show();
+	} else {
+	  $('.task_bar .action_btn').hide();
+	};
     switch (count_checked){
       case 0:
         display_count.html("Keine Medieneinträge ausgewählt.");

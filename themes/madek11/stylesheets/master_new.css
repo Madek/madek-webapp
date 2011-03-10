@@ -1254,6 +1254,10 @@ table td {
 	font: 1.2em "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 }
 
+.ui-multiselect .actions {
+	position: static;
+}
+
 /* Messages */
 
 .notice, .error {

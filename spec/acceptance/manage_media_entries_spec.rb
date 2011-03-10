@@ -178,7 +178,7 @@ feature "Manage media entries", %q{
     # Can't do this yet, because we don't have a notion of "public" yet
     # since we always force logins.
     user = log_in_as("helmi", "schweinsmagen")
-    upload_some_picture(title = "baustelle osten", user)
+    upload_some_picture(title = "baustelle osten")
     visit homepage
     click_media_entry_titled("baustelle osten")
     click_link("Zugriffsberechtigung")
@@ -198,7 +198,7 @@ feature "Manage media entries", %q{
   scenario "Upload a public file and then make it un-public again", :js => true do
 
     user = log_in_as("helmi", "schweinsmagen")
-    upload_some_picture(title = "geheimsache", user)
+    upload_some_picture(title = "geheimsache")
     visit homepage
     click_media_entry_titled("geheimsache")
     click_link("Zugriffsberechtigung")
@@ -230,7 +230,7 @@ feature "Manage media entries", %q{
     create_user("Hans Wurst", "hanswurst", "hansi")
     
     user = log_in_as("helmi", "schweinsmagen")
-    upload_some_picture(title = "hochaufgelöste geheimbünde", user)
+    upload_some_picture(title = "hochaufgelöste geheimbünde")
     visit homepage
     click_media_entry_titled("hochaufgelöste geheimbünde")
     click_link("Zugriffsberechtigung")
@@ -260,7 +260,7 @@ feature "Manage media entries", %q{
     create_user("Hans Wurst", "hanswurst", "hansi")
 
     user = log_in_as("helmi", "schweinsmagen")
-    upload_some_picture(title = "hochaufgelöste geheimbünde", user)
+    upload_some_picture(title = "hochaufgelöste geheimbünde")
     visit homepage
     click_media_entry_titled("hochaufgelöste geheimbünde")
     click_link("Zugriffsberechtigung")

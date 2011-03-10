@@ -22,8 +22,13 @@ class MediaEntriesController < ApplicationController
                         end
                       else
                         # intersection between public media_entries and somebody viewable media_entries
-                        ids = Permission.accessible_by_user("MediaEntry", @user)
-                        MediaEntry.public.by_ids(ids)
+                        
+                        #old#0903# 
+                        #ids = Permission.accessible_by_user("MediaEntry", @user)
+                        #MediaEntry.public.by_ids(ids)
+
+                        ids = Permission.accessible_by_user("MediaEntry", @user) & Permission.accessible_by_all("MediaEntry")
+                        MediaEntry.by_ids(ids)
                       end
                     else
                       if logged_in?
@@ -37,17 +42,23 @@ class MediaEntriesController < ApplicationController
                         end
                       else
                         # all public media_entries
-                        MediaEntry.public
+                        
+                        #old#0903#
+                        # MediaEntry.public
+                        
+                        ids = Permission.accessible_by_all("MediaEntry")
+                        MediaEntry.by_ids(ids)
                       end
                     end
 
-    if @media_set
-      if @media_set.dynamic?
-        params[:query] = @media_set.query
-      else
-        with[:media_set_ids] = @media_set.id
-      end
-    end
+#old 1003#
+#    if @media_set
+#      if @media_set.dynamic?
+#        params[:query] = @media_set.query
+#      else
+#        with[:media_set_ids] = @media_set.id
+#      end
+#    end
 
     if @media_file
       with[:media_file_id] = @media_file.id
@@ -149,7 +160,7 @@ class MediaEntriesController < ApplicationController
     elsif request.delete?
       if Permission.authorized?(current_user, :edit, @media_set) # (Media::Set ACL!)
         @media_set.media_entries.delete(@media_entry)
-        @media_entry.sphinx_reindex
+        #old 0310# @media_entry.sphinx_reindex
         render :nothing => true # TODO redirect_to @media_set
       else
         # OPTIMIZE
@@ -222,10 +233,12 @@ class MediaEntriesController < ApplicationController
 #####################################################
 
   def remove_multiple
-    @media_entries.each do |media_entry|
-      @media_set.media_entries.delete(media_entry)
-      media_entry.sphinx_reindex
-    end
+#old 1003#
+#    @media_entries.each do |media_entry|
+#      @media_set.media_entries.delete(media_entry)
+#      media_entry.sphinx_reindex
+#    end
+    @media_set.media_entries.delete(@media_entries)
     redirect_to media_set_url(@media_set)
   end
   
@@ -250,6 +263,35 @@ class MediaEntriesController < ApplicationController
     end
     
     redirect_to media_entries_path # TODO media_entries_path(:media_entries_id => @media_entries)
+  end
+  
+  def edit_multiple_permissions
+    theme "madek11"
+    
+    @combined_permissions = Permission.compare(@media_entries)
+  end
+
+  def update_multiple_permissions
+    theme "madek11"
+    
+      @media_entries.each do |media_entry|
+        media_entry.permissions.delete_all
+    
+        actions = params[:subject]["nil"]
+        media_entry.permissions.build(:subject => nil).set_actions(actions)
+  
+        ["User", "Group"].each do |key|
+          params[:subject][key].each_pair do |subject_id, actions|
+            media_entry.permissions.build(:subject_type => key, :subject_id => subject_id).set_actions(actions)
+          end if params[:subject][key]
+        end
+        
+        media_entry.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
+      end
+
+    flash[:notice] = "Die Zugriffsberechtigungen wurden erflogreich gespeichert."    
+    redirect_to media_entries_path
+
   end
   
 #####################################################
@@ -294,7 +336,7 @@ class MediaEntriesController < ApplicationController
       when :to_snapshot
         not_authorized! unless current_user.groups.is_member?("Expert")
         return
-      when :edit_multiple, :update_multiple
+      when :edit_multiple, :update_multiple, :edit_multiple_permissions, :update_multiple_permissions
         not_authorized! if @media_entries.empty?
         return
       when :remove_multiple
@@ -320,12 +362,15 @@ class MediaEntriesController < ApplicationController
 
       if not params[:media_entry_ids].blank?
         selected_ids = params[:media_entry_ids].split(",").map{|e| e.to_i }
-        case action
+        @media_entries = case action
           when :edit_multiple, :update_multiple
             editable_ids = Permission.accessible_by_user(MediaEntry, current_user, :edit)
-            @media_entries = MediaEntry.where(:id => (selected_ids & editable_ids))
+            MediaEntry.where(:id => (selected_ids & editable_ids))
+          when :edit_multiple_permissions, :update_multiple_permissions
+            manageable_ids = Permission.accessible_by_user(MediaEntry, current_user, :manage)
+            MediaEntry.where(:id => (selected_ids & manageable_ids))
           when :remove_multiple
-            @media_entries = MediaEntry.where(:id => selected_ids)
+            MediaEntry.where(:id => selected_ids)
         end
       elsif not params[:media_entry_id].blank?
         @media_entry =  if @media_set

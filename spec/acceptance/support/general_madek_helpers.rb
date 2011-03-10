@@ -109,23 +109,34 @@ def fill_in_for_media_entry_number(n, values)
 end
 
 def click_media_entry_titled(title)
-  all("ul.items li").each do |entry|
-    if entry.text =~ /#{title}/
-      entry.find("a").click
+  entry = find_media_entry_titled(title)
+  entry.find("a").click
+end
+
+def check_media_entry_titled(title)
+
+  entry = find_media_entry_titled(title)
+  # This does NOT work because Capybara neither supports hovering over items
+  # nor clicking invisible items.
+#   cb = entry.find("input")
+#   cb.click unless cb[:checked] == "true" # a string, not a bool!
+end
+
+def find_media_entry_titled(title)
+  all(".item_box").each do |item|
+    if item.find(".item_title").text =~ /#{title}/
+      return item
     end
   end
 end
 
 
 def pick_from_autocomplete(text)
-
-  
   all("ul.ui-autocomplete").each do |ul|
     ul.all("li.ui-menu-item a").each do |item|
       item.click if item.text =~ /#{text}/
     end
   end
-
 end
 
 
@@ -225,7 +236,7 @@ def sphinx_reindex
   # the indexer is actually run (in the background!) when we think it is run.
   # Otherwise it might run even more asynchronously, which breaks all of our tests.
   `rake ts:reindex &`
-  sleep(5)
+  sleep(1)
 
   # Note that NONE OF THIS WOULD BE NECESSARY if Sphinx, ThinkingSphinx and Rspec
   # were better aligned and delta indexing would actually work in testing the way it

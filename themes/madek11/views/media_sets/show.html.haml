@@ -32,15 +32,18 @@
       %li#number_selected
         Keine Medieneinträge ausgewählt
       - unless @editable_in_set.blank?
-        %li#batch-edit-button
-          = button_to _("Medieneinträge editieren"), edit_multiple_media_entries_path, :method => :post, :id => "batch-edit"
+        %li#batch-edit-button.action_btn
+          = button_to _("Medieneinträge Editieren"), edit_multiple_media_entries_path, :method => :post, :id => "batch-edit"
       - if @can_edit
-        %li#batch-remove-button
-          = button_to _("Aus Set entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete, :id => "batch-remove"
-      %li#batch-add-to-set
+        %li#batch-remove-button.action_btn
+          = button_to _("Aus Set Entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete, :id => "batch-remove"
+      %li#batch-add-to-set.action_btn
         = form_tag add_member_media_set_url(@media_set) do
           = select_tag "media_set_id", options_for_select([["Set auswählen…", ""]] + @editable_sets.collect {|set| [set.meta_data.get_value_for("title"), set.id]})
-          = submit_tag "Hinzufügen"
+          = submit_tag "Hinzufügen", :id => "batch-add-to-set"
+      - unless @managable_in_set.blank?
+        %li#batch_permissions.action_btn
+          = button_to _("Zugriffsberechtigungen ändern"), edit_multiple_permissions_media_entries_path, :method => :post, :id => "batch-permissions"
     #selected_items
     :plain    
       <script type="text/x-jquery-tmpl" id="mini_thumbnails">
@@ -102,6 +105,25 @@
         $('#selected_items .edit_set').css("background","white");
       }
     );
+    
+    $("input#batch-permissions").hover(
+      function () {
+        $('#selected_items .manage').css("background","#fff6cb");
+      }, 
+      function () {
+        $('#selected_items .manage').css("background","white");
+      }
+    );
+    
+    $("input#batch-add-to-set").hover(
+      function () {
+        $('#selected_items .thumb_mini').css("background","#fff6cb");
+      }, 
+      function () {
+        $('#selected_items .thumb_mini').css("background","white");
+      }
+    );
+    
       
     $(":checkbox").live("click", function(){
       var is_checked = $(this).is(":checked");
@@ -140,6 +162,14 @@
         editable_ids.push($(this).attr("id").slice(3));
       });
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
+    });
+    
+     $("#batch_permissions form").submit(function() {
+      var managable_ids = new Array();
+      $("#selected_items .manage").each(function(i, elem){
+        managable_ids.push($(this).attr("id").slice(3));
+      });
+      $(this).append("<input type='hidden' name='media_entry_ids' value='"+managable_ids+"'>");
     });
   
     $("#batch-remove-button form").submit(function() {

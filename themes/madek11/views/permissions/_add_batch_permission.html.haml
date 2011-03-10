@@ -1,0 +1,9 @@
+%tr
+  %td
+    = subject
+  - [:view, :edit, :hi_res].each do |key|
+    %td
+      = hidden_field_tag "subject[#{subject.class.base_class.name}][#{subject.id}][#{key}]", false
+      = check_box_tag "subject[#{subject.class.base_class.name}][#{subject.id}][#{key}]", true, true
+  %td
+    &nbsp;
