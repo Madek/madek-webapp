@@ -1325,6 +1325,16 @@ tbody#user_permissions, tbody#group_permissions, tbody#anyone_permissions {
 	padding-left: 1em;
 }
 
+/* Footer */
+
+#inner-footer {
+	margin-top: 40px;
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+
 /* Sidebar */
 
 .sidebar-box {
