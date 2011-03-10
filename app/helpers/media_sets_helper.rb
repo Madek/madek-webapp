@@ -7,7 +7,6 @@ module MediaSetsHelper
       r = content_tag :span, :style => "font-weight: bold;" do 
         with_link ? link_to(media_set.title, media_set_path(media_set)) : media_set.title
       end
-      #2001#old# r += " (%d/%d Medieneinträge)" % [visible_media_entries.total_entries, media_set.media_entries.count]
       #2001# r += " (%d/%d Medieneinträge)" % [visible_media_entries.count, media_set.media_entries.count]
       r += " (%d Medieneinträge)" % [media_set.media_entries.count]
       r += tag :br
@@ -20,7 +19,6 @@ module MediaSetsHelper
       "Sets"
     end
     media_sets.each do |media_set|
-      #2001#old# media_entries = MediaEntry.public_or_public_for_logged_in_users_or_by_user(current_user).search :with => {:media_set_ids => media_set.id} # OPTIMIZE use search_count 
       #2001# media_entries = media_set.media_entries.select {|media_entry| Permission.authorized?(current_user, :view, media_entry)}
       #2001# a += media_set_title(media_set, media_entries, true)
       a += media_set_title(media_set, true)

@@ -67,7 +67,7 @@ class Permission < ActiveRecord::Base
   def set_actions(hash)
     actions_object.set_actions(hash)
     save
-    resource.sphinx_reindex if resource.try(:respond_to?, :sphinx_reindex) and subject.nil? # OPTIMIZE after_save ??
+    #old#0903# resource.sphinx_reindex if resource.try(:respond_to?, :sphinx_reindex) and subject.nil? # OPTIMIZE after_save ??
   end
 
   private
@@ -246,6 +246,21 @@ class Permission < ActiveRecord::Base
     #
     #####
 
+    def accessible_by_all(resource_type, action = :view, with_logged_in_users = false)
+      key = "permissions/_/#{resource_type}_/actions/#{action}"
+      Rails.cache.fetch(key, :expires_in => 10.minutes) do
+        add_to_cached_keys(key)
+
+        condition = "actions_object LIKE '%#{action}: true%'"
+        condition += " OR actions_object LIKE '%#{action}: :logged_in_users%'" if with_logged_in_users
+
+        select(:resource_id).
+                    where(:resource_type => resource_type, :subject_type => nil).
+                    where(condition).
+                    collect(&:resource_id).uniq
+      end
+    end
+
     def accessible_by_user(resource_type, user, action = :view)
       key = "permissions/#{user.class}_#{user.id}/#{resource_type}_/actions/#{action}"
       Rails.cache.fetch(key, :expires_in => 10.minutes) do
@@ -266,11 +281,7 @@ class Permission < ActiveRecord::Base
       
       
         #5
-        public_true = select(:resource_id).
-                                  where(:resource_type => resource_type).
-                                  where(:subject_type => nil).
-                                  where("actions_object LIKE '%#{action}: true%' OR actions_object LIKE '%#{action}: :logged_in_users%'").
-                                  collect(&:resource_id).uniq
+        public_true = accessible_by_all(resource_type, action, true)
         
         
         #2+4

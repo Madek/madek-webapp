@@ -22,8 +22,13 @@ class MediaEntriesController < ApplicationController
                         end
                       else
                         # intersection between public media_entries and somebody viewable media_entries
-                        ids = Permission.accessible_by_user("MediaEntry", @user)
-                        MediaEntry.public.by_ids(ids)
+                        
+                        #old#0903# 
+                        #ids = Permission.accessible_by_user("MediaEntry", @user)
+                        #MediaEntry.public.by_ids(ids)
+
+                        ids = Permission.accessible_by_user("MediaEntry", @user) & Permission.accessible_by_all("MediaEntry")
+                        MediaEntry.by_ids(ids)
                       end
                     else
                       if logged_in?
@@ -37,17 +42,23 @@ class MediaEntriesController < ApplicationController
                         end
                       else
                         # all public media_entries
-                        MediaEntry.public
+                        
+                        #old#0903#
+                        # MediaEntry.public
+                        
+                        ids = Permission.accessible_by_all("MediaEntry")
+                        MediaEntry.by_ids(ids)
                       end
                     end
 
-    if @media_set
-      if @media_set.dynamic?
-        params[:query] = @media_set.query
-      else
-        with[:media_set_ids] = @media_set.id
-      end
-    end
+#old 1003#
+#    if @media_set
+#      if @media_set.dynamic?
+#        params[:query] = @media_set.query
+#      else
+#        with[:media_set_ids] = @media_set.id
+#      end
+#    end
 
     if @media_file
       with[:media_file_id] = @media_file.id
@@ -222,10 +233,12 @@ class MediaEntriesController < ApplicationController
 #####################################################
 
   def remove_multiple
-    @media_entries.each do |media_entry|
-      @media_set.media_entries.delete(media_entry)
-      media_entry.sphinx_reindex
-    end
+#old 1003#
+#    @media_entries.each do |media_entry|
+#      @media_set.media_entries.delete(media_entry)
+#      media_entry.sphinx_reindex
+#    end
+    @media_set.media_entries.delete(@media_entries)
     redirect_to media_set_url(@media_set)
   end
   
@@ -261,7 +274,7 @@ class MediaEntriesController < ApplicationController
   def update_multiple_permissions
     theme "madek11"
     
-    MediaEntry.suspended_delta do
+    #old#0903# MediaEntry.suspended_delta do
       @media_entries.each do |media_entry|
         media_entry.permissions.delete_all
     
@@ -276,7 +289,7 @@ class MediaEntriesController < ApplicationController
         
         media_entry.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
       end
-    end
+    #old#0903# end
         
     render :text => params.inspect
   end
