@@ -160,7 +160,7 @@ class MediaEntriesController < ApplicationController
     elsif request.delete?
       if Permission.authorized?(current_user, :edit, @media_set) # (Media::Set ACL!)
         @media_set.media_entries.delete(@media_entry)
-        @media_entry.sphinx_reindex
+        #old 0310# @media_entry.sphinx_reindex
         render :nothing => true # TODO redirect_to @media_set
       else
         # OPTIMIZE
@@ -274,7 +274,6 @@ class MediaEntriesController < ApplicationController
   def update_multiple_permissions
     theme "madek11"
     
-    #old#0903# MediaEntry.suspended_delta do
       @media_entries.each do |media_entry|
         media_entry.permissions.delete_all
     
@@ -289,15 +288,10 @@ class MediaEntriesController < ApplicationController
         
         media_entry.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
       end
-<<<<<<< HEAD
-    end
+
     flash[:notice] = "Die Zugriffsberechtigungen wurden erflogreich gespeichert."    
     redirect_to media_entries_path
-=======
-    #old#0903# end
-        
-    render :text => params.inspect
->>>>>>> 765e709be3efe1673b7055b20724e02b2f49fc3d
+
   end
   
 #####################################################
