@@ -215,7 +215,7 @@ div#ajaxLoading {
     font-size: 28px;
     text-align: center;
 	top: 0.5em;
-	right: 0.5em;
+	left: 0.5em;
 	display: none;
 	opacity: 0.8;
 	-moz-background-clip:border;
@@ -797,7 +797,7 @@ button.dark {
 }
 
 .save_buttons {
-	margin: 0 0 40px 0;
+	margin: 10px 0 10px 0;
 	float: right;
 }
 
@@ -1337,73 +1337,83 @@ table td {
 
 /* Permissions */
 
-.sidebar-box table.permissions {
+.permissions {
+}
+
+/*.sidebar-box table.permissions {
     width: 100%;
     padding: 0.5em 0em 0.5em 0em;
     margin-top: 1em;
-}
-.ui-tabs-panel table.permissions {
+}*/
+/*.ui-tabs-panel table.permissions {
     width: 98%;
     padding: 1em;
 	margin: 0.8em 0.5em 0.5em;
 	background-color: #f2f2f2;
-}
-.ui-tabs-panel table.permissions a {
+}*/
+
+/*.ui-tabs-panel table.permissions a {
     color: #41637C;
-}
+}*/
+
 table.permissions td {
-    padding: 0.5em;
+    padding: 0.6em 0;
     font-size: 0.9em;
 	line-height: 2em;
+	border-style: none;
+	vertical-align: middle;
 }
-table.permissions strong {
-	line-height: 4em;
-}
+
+
 table.permissions tr.adder td {
 	background-color: white;
-	font-size: 0.8em;
 	font-weight: bold;
-	padding-left: 1em;
 }
+table.permissions tr.adder p {
+	font: normal 0.9em/1.2em "Courier New", Courier, mono;
+}
+
 tr.adder input {
 	width: 22em;
 }
-table.permissions th {
-	color: #999999;
-    font-size: 0.8em;
-    margin-bottom: 0.1em;
-    padding-left: 0.5em;
-    padding-bottom: 0.3em;
-}
-.permissions {
 
+table.permissions th {
+    padding: 1em 0;
 }
 
 table.permissions {
-	background-color: #f84c3f;
-	display: block;
+	width:100%;
 }
 
-tbody#user_permissions, tbody#group_permissions, tbody#anyone_permissions {
-	background-color: #d5d5d5;
+table.permissions input[type="checkbox"] {
+	vertical-align: middle;
 }
-#group_permissions tbody {
-	padding: 3.5em 0 0;
+
+tr.adder {
 }
+
+#user_permissions, #group_permissions, #anyone_permissions {
+	background-color: #e7e7e7;
+}
+
 #user_permissions td, #group_permissions td, #anyone_permissions td {
-	border-bottom: 1px solid white;
-	font-size: 0.8em;
-	padding-left: 1em;
+	border-bottom: 2px solid white;
+	font-size: 0.9em;
+	padding-left: 10px;
 }
 
 /* Footer */
 
+
 #inner-footer {
-	margin-top: 40px;
+	margin: 40px 0 20px 0;
 	font-weight: normal;
-	font-style: normal;
+	color: #c0c0c0;
 }
 
+#inner-footer a {
+	color: #c0c0c0;
+}
 
 
 /* Sidebar */

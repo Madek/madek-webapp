@@ -12,7 +12,7 @@
           .error.required_message{:style => "display: none;"}
             = _("Bitte füllen Sie die Pflichtfelder aus (\"Titel\").")
     
-      #detail_specification{:style => "border: 1px solid #D2D2D2; margin-bottom: 20px;"}    
+      #detail_specification{:style => "border: 1px solid #D2D2D2;"}    
         = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => MetaContext.media_set, :resource => resource }
     
       = yield :buttons
