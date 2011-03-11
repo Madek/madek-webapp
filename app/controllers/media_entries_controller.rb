@@ -270,6 +270,10 @@ class MediaEntriesController < ApplicationController
     theme "madek11"
     session[:batch_origin_uri] = request.env['HTTP_REFERER']
     @combined_permissions = Permission.compare(@media_entries)
+    
+    @info_to_json = @media_entries.map do |me|
+      me.attributes.merge!(me.get_basic_info)
+    end.to_json
   end
 
   def update_multiple_permissions

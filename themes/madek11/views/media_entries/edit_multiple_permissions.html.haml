@@ -1,5 +1,34 @@
+%section#content_head
+  .container_12.clearfix
+    #page_head_edit
+      %h2.section_title Zugriffsberechtigungen ändern
+      .task_bar.clearfix
+        %ul
+          %li
+            %h4= "#{@media_entries.size} Medieneinträge ausgewählt"
+        #selected_items_edit
+          #list_as_thumbnails
+            hello from thumbnails
+            
+:plain    
+  <script type="text/x-jquery-tmpl" id="thumbnail_view">
+      <div class="thumb_box">
+        <a href="/media_entries/${id}">
+          <img src="${thumb_base64_small}">
+        </a>
+        <!-- <p>
+          <span class="item_title">${title}</span>
+          <span class="item_author">${author}</span>
+        </p> -->
+      </div>
+  </script>
+
+
 %section#content_body
-  %h2.section_title Zugriffsberechtigungen ändern
+  .page_title_left 
+    Aktuelle Zugriffsberechtigungen 
+    %span Für alle ausgewählten Medieneinträge
+  .clear
   
   - form_tag update_multiple_permissions_media_entries_path, :method => :put do
     = hidden_field_tag :media_entry_ids, @media_entries.map(&:id).join(',')
@@ -100,6 +129,10 @@
     
 :javascript
   $(function() {
+    var data = #{@info_to_json};
+    $("#list_as_thumbnails").html($("#thumbnail_view").tmpl(data));
+    
+  
     function create_permission(data, type){
   		$.ajax({
   			url: '/permissions/add_batch_permission',
