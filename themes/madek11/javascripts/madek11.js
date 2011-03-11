@@ -83,7 +83,7 @@ function checkSelected(media_set_id) {
 		$("input.editable:checkbox").each(function () {
 			if($.inArray(this.value, media_entry_ids) > -1) {
 				$(this).attr('checked', true);
-				$(this).parents('.item_box').css('background', '#dddddd');
+				$(this).parents('.item_box').css('background', '#f1f1f1');
 			} else {
 				// this seems necessary because of browser cache that keeps checkboxes checked
 				$(this).attr('checked', false);

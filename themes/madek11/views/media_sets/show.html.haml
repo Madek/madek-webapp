@@ -35,6 +35,9 @@
       - unless @editable_in_set.blank?
         %li#batch-edit-button.action_btn
           = button_to _("Metadaten editieren"), edit_multiple_media_entries_path, :method => :post, :id => "batch-edit"
+      - unless @managable_in_set.blank?
+        %li#batch_permissions.action_btn
+          = button_to _("Zugriffsberechtigungen editieren"), edit_multiple_permissions_media_entries_path, :method => :post, :id => "batch-permissions"
       - if @can_edit
         %li#batch-remove-button.action_btn
           = button_to _("Aus Set entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete, :id => "batch-remove"
@@ -42,9 +45,6 @@
         = form_tag add_member_media_set_url(@media_set) do
           = select_tag "media_set_id", options_for_select([["Set auswählen…", ""]] + @editable_sets.collect {|set| [set.meta_data.get_value_for("title"), set.id]})
           = submit_tag "Hinzufügen", :id => "batch-add-to-set"
-      - unless @managable_in_set.blank?
-        %li#batch_permissions.action_btn
-          = button_to _("Zugriffsberechtigungen ändern"), edit_multiple_permissions_media_entries_path, :method => :post, :id => "batch-permissions"
     #selected_items
     :plain    
       <script type="text/x-jquery-tmpl" id="mini_thumbnails">
@@ -109,7 +109,7 @@
     
     $("input#batch-permissions").hover(
       function () {
-        $('#selected_items .manage').css("background","#fff6cb");
+        $('#selected_items .manage').css("background","#FEFFD7");
       }, 
       function () {
         $('#selected_items .manage').css("background","white");
@@ -118,7 +118,7 @@
     
     $("input#batch-add-to-set").hover(
       function () {
-        $('#selected_items .thumb_mini').css("background","#fff6cb");
+        $('#selected_items .thumb_mini').css("background","#FEFFD7");
       }, 
       function () {
         $('#selected_items .thumb_mini').css("background","white");
@@ -187,5 +187,8 @@
        var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
        $(this).append("<input type='hidden' name='media_entry_ids' value='"+media_entry_ids+"'>");
      });
+     
+    // fading notice, error messages
+    $(".notice, .error").delay(4000).fadeOut(500);
     
   });
