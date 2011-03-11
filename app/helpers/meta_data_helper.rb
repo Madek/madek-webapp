@@ -195,12 +195,86 @@ module MetaDataHelper
 ###########################################################
 
   def widget_meta_departments(meta_datum, meta_key)
-    all_options = Meta::Department.all.collect do |d|
-      [d.to_limited_s, d.id, {:title => d.to_s}]
+#    all_options = Meta::Department.all.collect do |d|
+#      [d.to_limited_s, d.id, {:title => d.to_s}]
+#    end
+#    selected_option = meta_datum.object.value
+#    
+#    meta_datum.select :value, options_for_select(all_options, selected_option), {:include_blank => true}, {:multiple => true}
+
+    all_options = Meta::Department.all.collect {|d| {:label => d.to_s, :id => d.id} }
+    selected_option_ids = meta_datum.object.value
+    selected_options = all_options.select {|x| selected_option_ids.include? x[:id] }
+
+    h = content_tag :div, :class => "madek_multiselect_container" do 
+      a = content_tag :ul, :class => "holder" do
+      end
+      a += text_field_tag "autocomplete_search"
     end
-    selected_option = meta_datum.object.value
-    
-    meta_datum.select :value, options_for_select(all_options, selected_option), {:include_blank => true}, {:multiple => true}
+    h += content_tag :style do
+      begin
+      <<-HERECODE
+        .madek_multiselect_container ul.holder li {
+          white-space: normal;
+        }
+        .ui-autocomplete { 
+            width: 10px;
+        }
+      HERECODE
+      end.html_safe
+    end
+    h += javascript_include_tag "/themes/madek11/javascripts/jquery.tmpl.js" #TODO remove (madek11 already includes in layout)
+    h += content_tag :script, :type => "text/x-jquery-tmpl", :id => "madek_multiselect_item" do
+      begin
+      <<-HERECODE
+        <li class='bit-box'>
+          ${label}
+          <input type='hidden' name='#{meta_datum.object_name}[value][]' value='${id}'>
+          <a class="closebutton" href="#"></a>
+        </li>
+      HERECODE
+      end.html_safe
+    end
+    h += javascript_tag do
+      begin
+      <<-HERECODE
+        function add_to_selected_items(item){
+          $(".madek_multiselect_container ul.holder").append($("#madek_multiselect_item").tmpl(item).fadeIn('slow'));
+        }
+        function remove_from_selected_items(dom_item){
+          dom_item.fadeOut('slow', function() {
+            dom_item.remove();
+          });
+        }
+
+        $(document).ready(function(){
+          var all_options = #{all_options.to_json};
+          var selected_options = #{selected_options.to_json};
+          $.each(selected_options, function(i, elem){
+            add_to_selected_items(elem);
+          });
+          $(".madek_multiselect_container #autocomplete_search").autocomplete({
+            source: function(request, response){
+              var selected_option_ids = $(".madek_multiselect_container ul.holder li input[type='hidden']").map(function() { return parseInt(this.value); });
+              var unselected_options = all_options.filter(function(elem){ if($.inArray(elem.id, selected_option_ids) < 0) return elem; });
+              response($.ui.autocomplete.filter(unselected_options, request.term) );
+            },
+            minLength: 3,
+            select: function(event, ui) {
+              add_to_selected_items(ui.item);
+            },
+            close: function(event, ui) {
+              $(this).val("");
+            }
+          });
+          $("ul.holder li .closebutton").live('click', function(){
+            remove_from_selected_items($(this).parent("li"));
+          });
+        });
+      HERECODE
+      end.html_safe
+    end
+
   end
 
 ###########################################################
