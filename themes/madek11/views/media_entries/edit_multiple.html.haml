@@ -132,11 +132,13 @@
       $("#list_as_list").hide();
       $("#list_as_thumbnails").show();
       $("#list_as_thumbnails").html($("#thumbnail_view").tmpl(data));
+      $("#toggle").html("Tabellenansicht");
     };
     
     function showListAsList() {
       $("#list_as_thumbnails").hide();
       $("#list_as_list").show();
       $("#list_as_list table tbody").html($("#list_view").tmpl(data));
+      $("#toggle").html("Medienansicht");
     };
   });

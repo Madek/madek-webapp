@@ -83,7 +83,7 @@ function isArray(a) {
 function checkSelected(media_set_id) {
 	var key = "media_sets/"+ media_set_id +"/media_entry_ids";
 	var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
-	//console.log("media_entry_ids in checkSelected: " + media_entry_ids);
+	
 	if (media_entry_ids != null) {
 		//check all the previously selected checkboxes
 		$("input.editable:checkbox").each(function () {
@@ -99,10 +99,9 @@ function checkSelected(media_set_id) {
 };
 
 function listSelected(media_set_id, data) {
-	//alert("listSelected called");
 	var key = "media_sets/"+ media_set_id +"/media_entry_ids";
 	var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
-	//console.log("media_entry_ids in listSelected: " + media_entry_ids);
+
 	if (media_entry_ids != null) {
 		// display all previously selected items under taskbar 
 		$.each(media_entry_ids, function(i, me_id) {
@@ -135,6 +134,7 @@ function displayCount(key) {
   if (media_entry_ids != null) {
     var count_checked = media_entry_ids.length;
     var display_count = $('li#number_selected');
+	//don't show action buttons until something is actually selected
 	if (count_checked > 0) {
 	  $('.task_bar .action_btn').show();
 	} else {
