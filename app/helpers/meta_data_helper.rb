@@ -204,7 +204,7 @@ module MetaDataHelper
 
     all_options = Meta::Department.all.collect {|d| {:label => d.to_s, :id => d.id} }
     selected_option_ids = meta_datum.object.value
-    selected_options = all_options.select {|x| selected_option_ids.include? x[:id] }
+    selected_options = selected_option_ids.blank? ? [] : all_options.select {|x| selected_option_ids.include? x[:id] }
 
     h = content_tag :div, :class => "madek_multiselect_container" do 
       a = content_tag :ul, :class => "holder" do
