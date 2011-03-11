@@ -560,6 +560,10 @@ ul li { float: left; }
 	margin-bottom: 7px;
 }
 
+.item_box.selected {
+	background: #f1f1f1;
+}
+
 /*.item_box:hover {
 	background-color: #f3f3f3;
 }*/

@@ -135,11 +135,11 @@
     
       if(is_checked){
         media_entry_ids.push(curr_value);
-        $(this).parents('.item_box').css('background', 'rgb(238, 238, 238)');
+        $(this).parents('.item_box').addClass('selected');
       } else {
         var i = media_entry_ids.indexOf(curr_value);
         if(i > -1) media_entry_ids.splice(i, 1);
-        $(this).parents('.item_box').css('background', 'white');
+        $(this).parents('.item_box').removeClass('selected');
       }
 
       $.each(data, function(i, me) {
@@ -187,8 +187,5 @@
        var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
        $(this).append("<input type='hidden' name='media_entry_ids' value='"+media_entry_ids+"'>");
      });
-     
-    // fading notice, error messages
-    $(".notice, .error").delay(4000).fadeOut(500);
     
   });

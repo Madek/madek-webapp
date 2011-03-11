@@ -6,6 +6,9 @@ $(document).ready(function () {
 	
 	$(document).ajaxStart(function() { $("#ajaxLoading").fadeIn(); });
 	$(document).ajaxStop(function() { $("#ajaxLoading").fadeOut(); });
+	
+	// fading notice, error messages
+    $(".notice, .error").delay(4000).fadeOut(500);
 
 	// OPTIMIZE data-remote direct for pagination links
 	$('.pagination a').live('ajax:success', function(xhr, response){
@@ -27,9 +30,13 @@ $(document).ready(function () {
     $(".item_box").live({
       mouseenter: function() {
         $(this).find('.actions').show();
+		var color = $(this).css("background-color");
+		$(this).stop(true, true).delay(400).animate({ backgroundColor: "#f1f1f1" }, 500);
        },
       mouseleave: function() {
         $(this).find('.actions').hide();
+		// only remove bg color if not selected in batch context
+		if (!($(this).hasClass('selected'))) $(this).stop(true, false).animate({ backgroundColor: "white" }, 1000);
        }
      });
 	
@@ -82,7 +89,7 @@ function checkSelected(media_set_id) {
 		$("input.editable:checkbox").each(function () {
 			if($.inArray(this.value, media_entry_ids) > -1) {
 				$(this).attr('checked', true);
-				$(this).parents('.item_box').css('background', 'rgb(238, 238, 238)');
+				$(this).parents('.item_box').addClass('selected');
 			} else {
 				// this seems necessary because of browser cache that keeps checkboxes checked
 				$(this).attr('checked', false);
