@@ -45,8 +45,6 @@
             - meta_contexts.each do |meta_context|
               %li= link_to meta_context, "##{meta_context.name}" 
           - meta_contexts.each do |meta_context|
-            - #resource = MediaEntry.new # NOTE we need a resource
-            - #meta_data = meta_context.meta_keys.map {|mk| mk.meta_data.build(:resource => resource) }
             - meta_data = MediaEntry.compare_batch_by_meta_data_in_context(@media_entries, meta_context)
             = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :meta_data => meta_data }
         = yield :buttons

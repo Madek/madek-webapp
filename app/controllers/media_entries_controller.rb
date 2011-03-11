@@ -1,7 +1,8 @@
 # -*- encoding : utf-8 -*-
 class MediaEntriesController < ApplicationController
 
-  before_filter :pre_load
+  before_filter :pre_load, :except => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions, :update_multiple_permissions]
+  before_filter :pre_load_for_batch, :only => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions, :update_multiple_permissions]
   before_filter :authorized?, :except => [:index, :media_sets, :favorites, :toggle_favorites, :keywords] #old# :only => [:show, :edit, :update, :destroy]
   
   def index
@@ -231,6 +232,7 @@ class MediaEntriesController < ApplicationController
   end
   
 #####################################################
+# BATCH actions
 
   def remove_multiple
 #old 1003#
@@ -244,8 +246,9 @@ class MediaEntriesController < ApplicationController
   
   def edit_multiple
     theme "madek11"
-     
-    #tmp# custom hash for jQuery json templates
+    
+    session[:batch_origin_uri] = request.env['HTTP_REFERER']
+    # custom hash for jQuery json templates
     @info_to_json = @media_entries.map do |me|
       me.attributes.merge!(me.get_basic_info)
     end.to_json
@@ -262,13 +265,17 @@ class MediaEntriesController < ApplicationController
       end
     end
     
-    redirect_to media_entries_path # TODO media_entries_path(:media_entries_id => @media_entries)
+    redirect_to (session[:batch_origin_uri] || media_entries_path) # TODO media_entries_path(:media_entries_id => @media_entries)
   end
   
   def edit_multiple_permissions
     theme "madek11"
-    
+    session[:batch_origin_uri] = request.env['HTTP_REFERER']
     @combined_permissions = Permission.compare(@media_entries)
+    
+    @info_to_json = @media_entries.map do |me|
+      me.attributes.merge!(me.get_basic_info)
+    end.to_json
   end
 
   def update_multiple_permissions
@@ -290,7 +297,7 @@ class MediaEntriesController < ApplicationController
       end
 
     flash[:notice] = "Die Zugriffsberechtigungen wurden erflogreich gespeichert."    
-    redirect_to media_entries_path
+    redirect_to (session[:batch_origin_uri] || media_entries_path)
 
   end
   
@@ -360,19 +367,7 @@ class MediaEntriesController < ApplicationController
       @media_set = (@user? @user.media_sets : Media::Set).find(params[:media_set_id]) unless params[:media_set_id].blank? # TODO shallow
       @media_file = MediaFile.find(params[:media_file_id]) unless params[:media_file_id].blank?
 
-      if not params[:media_entry_ids].blank?
-        selected_ids = params[:media_entry_ids].split(",").map{|e| e.to_i }
-        @media_entries = case action
-          when :edit_multiple, :update_multiple
-            editable_ids = Permission.accessible_by_user(MediaEntry, current_user, :edit)
-            MediaEntry.where(:id => (selected_ids & editable_ids))
-          when :edit_multiple_permissions, :update_multiple_permissions
-            manageable_ids = Permission.accessible_by_user(MediaEntry, current_user, :manage)
-            MediaEntry.where(:id => (selected_ids & manageable_ids))
-          when :remove_multiple
-            MediaEntry.where(:id => selected_ids)
-        end
-      elsif not params[:media_entry_id].blank?
+      if not params[:media_entry_id].blank?
         @media_entry =  if @media_set
                           @media_set.media_entries.find(params[:media_entry_id])
                         elsif @user
@@ -384,6 +379,28 @@ class MediaEntriesController < ApplicationController
                           MediaEntry.find(params[:media_entry_id])
                         end
       end
+  end
+  
+  def pre_load_for_batch
+    params.delete_if {|k,v| v.blank? }
+    action = request[:action].to_sym
+    
+    @media_set = Media::Set.find(params[:media_set_id]) unless params[:media_set_id].blank?
+    
+     if not params[:media_entry_ids].blank?
+        selected_ids = params[:media_entry_ids].split(",").map{|e| e.to_i }
+        @media_entries = case action
+          when :edit_multiple, :update_multiple
+            editable_ids = Permission.accessible_by_user(MediaEntry, current_user, :edit)
+            MediaEntry.where(:id => (selected_ids & editable_ids))
+          when :edit_multiple_permissions, :update_multiple_permissions
+            manageable_ids = Permission.accessible_by_user(MediaEntry, current_user, :manage)
+            MediaEntry.where(:id => (selected_ids & manageable_ids))
+          when :remove_multiple
+            MediaEntry.where(:id => selected_ids)
+        end
+     end
+    
   end
 
 
