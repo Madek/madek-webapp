@@ -983,6 +983,11 @@ button.dark:hover {
 	height: 57px;
 }
 
+.task_bar a {
+	font-size: 0.9em;
+	padding-top: 1px;
+}
+
 .task_bar h4 {
 	font-size: 0.9em;
 	padding-top: 2px;
