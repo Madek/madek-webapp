@@ -1,17 +1,19 @@
-%h2.groups Meine Gruppen
+.container_12.clearfix              
+  %section#content_body
+    %h2.groups Meine Gruppen
 
-%table.groups
-  %tbody
-    %tr
-      %th
-        
-%ul.groups
-  - @groups.each do |group|
-    %li
-      = group
-      - unless group.is_readonly?
-        = link_to _("Bearbeiten"), edit_group_path(group), :class => "meta_data_label1"
-        = link_to _("Löschen"), group_path(group), :class => "meta_data_label2", :method => :delete, :confirm => _("Sind Sie sicher?")
-      
-  %li
-    = link_to _("Neue Gruppe erstellen"), new_group_path, :class => "buttons"
+    %table.groups
+      %tbody
+        %tr
+          %th
+            
+    %ul.groups
+      - @groups.each do |group|
+        %li
+          = group
+          - unless group.is_readonly?
+            = link_to _("Bearbeiten"), edit_group_path(group), :class => "meta_data_label1"
+            = link_to _("Löschen"), group_path(group), :class => "meta_data_label2", :method => :delete, :confirm => _("Sind Sie sicher?")
+          
+      %li
+        = link_to _("Neue Gruppe erstellen"), new_group_path, :class => "buttons"

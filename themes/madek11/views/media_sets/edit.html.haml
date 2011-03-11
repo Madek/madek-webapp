@@ -1,23 +1,26 @@
 = prevent_leaving_page
 
-%section#content_body
-  .section_title
-    =_("Metadaten editieren")
-  = form_for @media_set, :as => :resource, :url => [:update_multiple, @media_set, :meta_data], :html => {:method => :put} do |resource|
-    - content_for :buttons do
-      %div{:style => "text-align: right; padding: 10pt; background: #DDDDDD;"}
-        = resource.submit _("Speichern")
-        = link_to _("Abbrechen"), @media_set, :class => "buttons"
-        .error.required_message{:style => "display: none;"}
-          = _("Bitte füllen Sie die Pflichtfelder aus (\"Titel\").")
-  
-    #detail_specification{:style => "border: 1px solid #D2D2D2;"}    
-      = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => MetaContext.media_set, :resource => resource }
-  
-    = yield :buttons
-  - if Permission.authorized?(current_user, :manage, @media_set)
-    - @resource = @media_set
-    = render :partial => "/permissions/edit_multiple"
+.container_12.clearfix              
+  %section#content_body
+    .section_title
+      =_("Set Metadaten editieren")
+    = form_for @media_set, :as => :resource, :url => [:update_multiple, @media_set, :meta_data], :html => {:method => :put} do |resource|
+      - content_for :buttons do
+        %div{:class => "save_buttons"}
+          = link_to _("Abbrechen"), @media_set, :class => "buttons"
+          = resource.submit _("Speichern")
+          .error.required_message{:style => "display: none;"}
+            = _("Bitte füllen Sie die Pflichtfelder aus (\"Titel\").")
+    
+      #detail_specification{:style => "border: 1px solid #D2D2D2; margin-bottom: 20px;"}    
+        = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => MetaContext.media_set, :resource => resource }
+    
+      = yield :buttons
+    - if Permission.authorized?(current_user, :manage, @media_set)
+      - @resource = @media_set
+      .section_title_permissions
+        =_("Set Zugriffsberechtigungen editieren")
+      = render :partial => "/permissions/edit_multiple"
 
 
 :javascript
