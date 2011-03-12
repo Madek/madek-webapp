@@ -1767,3 +1767,28 @@ ul[data-parent_meta_key] {
   .clear { margin: 0;}
 
 
+.sticker {
+	-moz-background-clip: border;
+    -moz-background-origin: padding;
+    -moz-background-size: auto auto;
+    -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
+    -moz-transform: rotate(3deg);
+    background-attachment: scroll;
+    background-color: #FEFCAF;
+    background-image: -moz-linear-gradient(center top , #FEFCAF, #FFFEDA);
+    background-position: 0 0;
+    background-repeat: repeat;
+    color: #403F3F;
+    font-size: 12px;
+    padding-bottom: 15px;
+    padding-left: 20px;
+    padding-right: 15px;
+    padding-top: 15px;
+    position: absolute;
+    right: 130px;
+    top: 0;
+    width: 140px;
+	z-index: 999;
+	line-height: 17px;
+}
+
