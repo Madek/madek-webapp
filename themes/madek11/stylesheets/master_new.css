@@ -820,7 +820,7 @@ button.dark {
 	font: bold 0.9em 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	position: fixed;
 	float: right;
-	right: 20px;
+	right: 10px;
 	top: 13px;
 	z-index: 999;
 }
@@ -1652,6 +1652,7 @@ ul[data-parent_meta_key] {
 .meta_data ul.meta_terms {
     font-size: 0.9em;
     padding-right: 0.5em;
+    background-color: white;
 }
 
 .meta_data ul.meta_terms > li {
@@ -1780,12 +1781,12 @@ ul[data-parent_meta_key] {
     background-repeat: repeat;
     color: #403F3F;
     font-size: 12px;
-    padding-bottom: 15px;
+    padding-bottom: 20px;
     padding-left: 20px;
-    padding-right: 15px;
-    padding-top: 15px;
+    padding-right: 20px;
+    padding-top: 20px;
     position: absolute;
-    right: 130px;
+    right: 110px;
     top: 0;
     width: 140px;
 	z-index: 999;
