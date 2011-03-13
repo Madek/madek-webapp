@@ -59,7 +59,7 @@ abbr[title], dfn[title] { border-bottom: 1px dotted; cursor: help; }
 
 table { border-collapse: collapse; border-spacing: 0; }
 
-hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; }
+hr { display: block; height: 1px; border: 0; border-top: 1px solid #E6E6E6; width: 100%; margin: 0 0 10px; padding: 0; }
 
 input, select { vertical-align: middle; }
 
@@ -148,6 +148,10 @@ button {  width: auto; overflow: visible; }
 /* Bicubic resizing for non-native sized IMG:
    code.flickr.com/blog/2008/11/12/on-ui-quality-the-little-things-client-side-image-resizing/ */
 .ie7 img { -ms-interpolation-mode: bicubic; }
+
+/*Prevents Firefox from showing dotted lines around a link*/ 
+:focus {outline:none;}
+::-moz-focus-inner {border:0;}
 
 
 /*  Body and Basefont  */
@@ -467,7 +471,7 @@ ul li { float: left; }
 #content_body {
 	width:90%;
 	padding: 20px;
-	min-width: 940px;
+	min-width: 920px;
 	margin-left:auto;
 	margin-right:auto;
 	background-color: #fff;
@@ -477,6 +481,8 @@ ul li { float: left; }
 	-moz-box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
 	box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
 	position: relative;
+	margin-top: -10px;
+	min-height: 600px;
 }
 
 #content_body_fixed {
@@ -797,7 +803,7 @@ button.dark {
 }
 
 .save_buttons {
-	margin: 10px 0 10px 0;
+	margin: 0 0 30px 0;
 	float: right;
 }
 
@@ -977,7 +983,6 @@ button.dark:hover {
 
 .task_bar {
 	line-height: 1.7em;
-	border-top: 1px solid #e6e6e6;
 	border-bottom: 1px solid #e6e6e6;
 	padding-bottom: 8px;
 	height: 57px;
@@ -1169,7 +1174,6 @@ button.dark:hover {
 	padding: 3px 10px 4px;
 	text-align: center;
 	text-shadow: 0 1px 0 #fff;
-	background: #e3e3e3;
 	border: 1px solid #bbb;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -1190,7 +1194,9 @@ button.dark:hover {
 .task_bar ul li { 
     margin-right: 5px;
 }
-
+#detail_specification {
+	margin-bottom: 1em;
+}
 #detail_specification ul { 
   	list-style: none; 
   	overflow: hidden;
@@ -1384,6 +1390,10 @@ tr.adder input {
 
 table.permissions th {
     padding: 1em 0;
+}
+
+table.permissions th:first-child {
+    width: 50%;
 }
 
 table.permissions {
@@ -1773,7 +1783,7 @@ ul[data-parent_meta_key] {
     -moz-background-origin: padding;
     -moz-background-size: auto auto;
     -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
-    -moz-transform: rotate(3deg);
+    -moz-transform: rotate(5deg);
     background-attachment: scroll;
     background-color: #FEFCAF;
     background-image: -moz-linear-gradient(center top , #FEFCAF, #FFFEDA);
@@ -1781,15 +1791,16 @@ ul[data-parent_meta_key] {
     background-repeat: repeat;
     color: #403F3F;
     font-size: 12px;
-    padding-bottom: 20px;
+    padding-bottom: 40px;
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 20px;
-    position: absolute;
-    right: 110px;
-    top: 0;
-    width: 140px;
-	z-index: 999;
+    position: fixed;
+    right: 80px;
+    bottom: 0;
+    width: 150px;
+	z-index: 1000;
 	line-height: 17px;
+	margin-bottom: -10px;
 }
 

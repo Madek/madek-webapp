@@ -7,7 +7,7 @@
   - author = media_entry.meta_data.get_value_for("author")
   - unless title.blank?
     %p.item_title
-      = truncate(title, :length => 30)
+      = truncate(title, :length => 29)
   - unless author.blank?
     %p.item_author
       = truncate(author, :length => 18)

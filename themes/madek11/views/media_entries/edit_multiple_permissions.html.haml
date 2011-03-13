@@ -24,7 +24,7 @@
   </script>
 
 .container_12.clearfix  
-  %section#content_body_fixed
+  %section#content_body.clearfix
     .grid_9.alpha
       .page_title_left 
         Aktuelle Zugriffsberechtigungen 
@@ -66,9 +66,8 @@
             ///
           %tbody
             %tr.adder
-              %td
+              %td{:colspan => 5}
                 Person hinzufügen:
-              %td{:colspan => 4}
                 %input#new_user
             %tr.adder
               %td{:colspan => 5}
@@ -99,9 +98,8 @@
             ///
           %tbody
             %tr.adder
-              %td
+              %td{:colspan => 5}
                 Gruppe hinzufügen:
-              %td{:colspan => 4}
                 %input#new_group
           %tbody
             %tr
