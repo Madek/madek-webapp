@@ -59,7 +59,7 @@ abbr[title], dfn[title] { border-bottom: 1px dotted; cursor: help; }
 
 table { border-collapse: collapse; border-spacing: 0; }
 
-hr { display: block; height: 1px; border: 0; border-top: 1px solid #E6E6E6; width: 100%; margin: 0 0 10px; padding: 0; }
+hr { display: block; height: 1px; border: 0; border-top: 1px solid #E6E6E6; width: 100%; margin: 0; padding: 0; }
 
 input, select { vertical-align: middle; }
 
