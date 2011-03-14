@@ -241,6 +241,7 @@ class MediaEntriesController < ApplicationController
 #      media_entry.sphinx_reindex
 #    end
     @media_set.media_entries.delete(@media_entries)
+    flash[:notice] = "Die Medieneinträge wurden aus dem Set gelöscht."
     redirect_to media_set_url(@media_set)
   end
   
@@ -399,6 +400,9 @@ class MediaEntriesController < ApplicationController
           when :remove_multiple
             MediaEntry.where(:id => selected_ids)
         end
+     else
+       flash[:error] = "Sie haben keine Medieneinträge ausgewählt."
+       redirect_to :back
      end
     
   end
