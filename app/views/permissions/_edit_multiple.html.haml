@@ -21,9 +21,8 @@
     = render :partial => "/permissions/edit", :collection => @permissions.select{|x| x.subject_type == "User"}, :as => :permission
   %tbody
     %tr.adder
-      %td
+      %td{:colspan => 5}
         Person hinzufügen:
-      %td{:colspan => 4}
         %input#new_user
     %tr.adder
       %td{:colspan => 5}
@@ -43,9 +42,8 @@
     = render :partial => "/permissions/edit", :collection => @permissions.select{|x| x.subject_type == "Group"}, :as => :permission
   %tbody
     %tr.adder
-      %td
+      %td{:colspan => 5}
         Gruppe hinzufügen:
-      %td{:colspan => 4}
         %input#new_group
   %tbody
     %tr

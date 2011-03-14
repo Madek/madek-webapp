@@ -1,7 +1,11 @@
 %section#content_head
   .container_12.clearfix
     #page_head_edit
-      %h2.section_title Zugriffsberechtigungen editieren
+      %div.page_title_left
+        %img{:src => "/themes/madek11/images/icons/icon_permission.png"}
+        =_("Zugriffsberechtigungen editieren")
+      .clear
+      %hr
       .task_bar.clearfix
         %ul
           %li
@@ -27,9 +31,9 @@
   %section#content_body_fixed
     .grid_9.alpha
       .page_title_left 
-        Aktuelle Zugriffsberechtigungen 
-        %span für alle ausgewählten Medieneinträge
+        %span Aktuelle Zugriffsberechtigungen für alle ausgewählten Medieneinträge
       .clear
+      %hr
       
       - form_tag update_multiple_permissions_media_entries_path, :method => :put do
         = hidden_field_tag :media_entry_ids, @media_entries.map(&:id).join(',')
@@ -66,9 +70,8 @@
             ///
           %tbody
             %tr.adder
-              %td
+              %td{:colspan => 5}
                 Person hinzufügen:
-              %td{:colspan => 4}
                 %input#new_user
             %tr.adder
               %td{:colspan => 5}
@@ -99,9 +102,8 @@
             ///
           %tbody
             %tr.adder
-              %td
+              %td{:colspan => 5}
                 Gruppe hinzufügen:
-              %td{:colspan => 4}
                 %input#new_group
           %tbody
             %tr
@@ -132,18 +134,8 @@
     .grid_3.omega
       #legend
         %h3 Legende
-        %p.info Eingabefeld Typ A:
-        %p{:style => "background: white; height: 30px ; border: 1px solid #ccc;"} 
-        %p.info Noch keine Metadaten vorhanden.
-        %br
-        %p.info Eingabefeld Typ B:
         %p{:style => "background: red url(/themes/madek11/images/stripe_1.png); height: 30px ; border: 1px solid #ccc;"} 
-        %p.info Unterschiedliche Metadaten vorhanden. Achtung: Bestehende Werte werden überschrieben!
-        %br
-        %p.info Eingabefeld Typ C:
-        %p{:style => "background: white; height: 30px ; border: 1px solid #ccc; padding: 4px;"} 
-          %span.wert Text
-        %p.info Gleiche Metadaten vorhanden.
+        %p.info Unterschiedliche Berechtigungen vorhanden. Achtung: Bestehende Werte werden überschrieben!
     .clear
     
 :javascript
