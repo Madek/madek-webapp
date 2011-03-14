@@ -48,30 +48,32 @@
           = select_tag "media_set_id", options_for_select([["Set auswählen…", ""]] + @editable_sets.collect {|set| [set.meta_data.get_value_for("title"), set.id]})
           = submit_tag "Hinzufügen", :id => "batch-add-to-set"
     #selected_items
-    :plain    
-      <script type="text/x-jquery-tmpl" id="mini_thumbnails">
-            <div class="${css_class}" id="me_${id}">
-              <img id="${id}_close" src="/themes/madek11/images/icons/button_remove_action.png" style="display:none;" class="thumb_remove"/>
-              <a href="/media_entries/${id}">
-                <img src="${thumb_base64}">
-              </a>
-            </div>
-      </script>
+    %script{:type => "text/x-jquery-tmpl", :id => "thumbnail_mini"}
+      %div{:class => "${css_class}", :id => "me_${id}"}
+        %img{:rel => "${id}", :src => "/themes/madek11/images/icons/button_remove_action.png", :style => "display:none;", :class => "thumb_remove"}
+        %a{:href => "/media_entries/${id}"}
+          %img{:src => "${thumb_base64_x_small}"}
 
   %div#results
     = render :partial => "/media_entries/index"
 
 :javascript
+    function selected_items_highlight_on(selector){
+      $('#selected_items '+selector).css("background-color", "#FEFFD7");
+    }
+    function selected_items_highlight_off(selector){
+      $('#selected_items '+selector).css("background-color", "white");
+    }    
+
   $(document).ready(function () {
     $("div.pagination").appendTo("#pagination_container");
   
-    var data = #{@info_to_json};
+    var data = #{@media_entries_json};
     var media_set_id = #{@media_set.id};
-    var key = "media_sets/"+ media_set_id +"/media_entry_ids";
 
     checkSelected(media_set_id);
-    listSelected(media_set_id, data);
-    displayCount(key);
+    listSelected(media_set_id);
+    displayCount(media_set_id);
      
     // make thumbnails removable from the selected items bar
     $('#selected_items .thumb_mini').live("hover", function() {
@@ -80,86 +82,41 @@
   
     $('img.thumb_remove').live("click", function() {
       $(this).parents('.thumb_mini').remove();
-      var id = $(this).attr("id").replace('_close', '');
-      removeFromSelected(key, id);
+      var id = $(this).attr("rel");
+      toggleSelected(media_set_id, id);
     });
   
     $('.pagination a').live('ajax:success', function(xhr, response){
   		checkSelected(media_set_id);
   		$('.actions').hide();
   	});
-
 	
   	// hover functions for batch action buttons - highlight selected entries for which action is possible 
   	$("input#batch-edit").hover(
-      function () {
-        $('#selected_items .edit').css("background","#FEFFD7");
-      }, 
-      function () {
-        $('#selected_items .edit').css("background","white");
-      }
+      function () { selected_items_highlight_on('.edit'); }, 
+      function () { selected_items_highlight_off('.edit'); }
     );
   
-    $("input#batch-remove").hover(
-      function () {
-        $('#selected_items .edit_set').css("background","#FEFFD7");
-      }, 
-      function () {
-        $('#selected_items .edit_set').css("background","white");
-      }
+    $("input#batch-remove, input#batch-add-to-set").hover(
+      function () { selected_items_highlight_on('.thumb_mini'); }, 
+      function () { selected_items_highlight_off('.thumb_mini'); }
     );
     
     $("input#batch-permissions").hover(
-      function () {
-        $('#selected_items .manage').css("background","#FEFFD7");
-      }, 
-      function () {
-        $('#selected_items .manage').css("background","white");
-      }
+      function () { selected_items_highlight_on('.manage'); }, 
+      function () { selected_items_highlight_off('.manage'); }
     );
-    
-    $("input#batch-add-to-set").hover(
-      function () {
-        $('#selected_items .thumb_mini').css("background","#FEFFD7");
-      }, 
-      function () {
-        $('#selected_items .thumb_mini').css("background","white");
-      }
-    );
-    
-      
+        
     $(":checkbox").live("click", function(){
-      var is_checked = $(this).is(":checked");
       var curr_value = $(this).val();
-      var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
-    
-      if(media_entry_ids == null) media_entry_ids = new Array();
-    
-      if(is_checked){
-        media_entry_ids.push(curr_value);
-        $(this).parents('.item_box').addClass('selected');
-      } else {
-        var i = media_entry_ids.indexOf(curr_value);
-        if(i > -1) media_entry_ids.splice(i, 1);
-        $(this).parents('.item_box').removeClass('selected');
-      }
-
       $.each(data, function(i, me) {
-        if ((me.id == curr_value) && is_checked) {
-          // insert into selected bar
-          $('#selected_items').append($("#mini_thumbnails").tmpl(me));
-        } else if (me.id == curr_value) {
-          // remove from selected bar
-          $('#selected_items #me_' + me.id).remove();
+        if(me.id == curr_value){
+          toggleSelected(media_set_id, me);
         }
       });
-    
-      sessionStorage.setItem(key, JSON.stringify(media_entry_ids.getUnique()));
-      displayCount(key);
     });
 
     $("#batch-edit-button form").submit(function() {
-      //var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
       var editable_ids = new Array();
       $("#selected_items .edit").each(function(i, elem){
         editable_ids.push($(this).attr("id").slice(3));
@@ -176,18 +133,18 @@
     });
   
     $("#batch-remove-button form").submit(function() {
-      //var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
       var editable_ids = new Array();
       $("#selected_items .edit_set").each(function(i, elem){
         editable_ids.push($(this).attr("id").slice(3));
       });
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
-      sessionStorage.removeItem(key); //maybe we just want to remove the items slated for removal (rather than the entire key)
+      sessionStorage.removeItem(get_key_for_media_set(media_set_id)); //maybe we just want to remove the items slated for removal (rather than the entire key)
     });
   
-     $("#batch-add-to-set form").submit(function() {
-       var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
+    $("#batch-add-to-set form").submit(function() {
+       var media_entries_json = get_media_entries_json(media_set_id);
+       var media_entry_ids = $.map(media_entries_json, function(elem, i){ return parseInt(elem.id); });
        $(this).append("<input type='hidden' name='media_entry_ids' value='"+media_entry_ids+"'>");
-     });
+    });
     
   });
