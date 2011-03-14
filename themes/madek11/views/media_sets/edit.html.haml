@@ -22,12 +22,14 @@
     - if Permission.authorized?(current_user, :manage, @media_set)
       - @resource = @media_set
       .clear
-      %div.page_title_left
-        %img{:src => "/themes/madek11/images/icons/icon_permission.png"}
-        =_("Set Zugriffsberechtigungen editieren")
-      .clear
-      %hr
-      = render :partial => "/permissions/edit_multiple"
+      
+  %section#content_body2.clearfix   
+    %div.page_title_left
+      %img{:src => "/themes/madek11/images/icons/icon_permission.png"}
+      =_("Set Zugriffsberechtigungen editieren")
+    .clear
+    %hr
+    = render :partial => "/permissions/edit_multiple"
 
 
 :javascript
