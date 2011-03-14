@@ -193,6 +193,86 @@ module MetaDataHelper
   end
 
 ###########################################################
+  
+  # NEW generic multi select plugin (WIP)
+  def widget_multi_select(meta_datum, meta_key, meta_terms = nil)
+    if meta_key.label = "academic_year"
+      all_options = meta_terms.collect {|x| [x.to_s, x.id]}
+      raise all_options.inspect
+      selected_option_ids = meta_datum.object.value
+      selected_options = meta_datum.object.value
+    elsif meta_key.object_type.constantize == "Meta::Department"
+      all_options = Meta::Department.all.collect {|d| {:label => d.to_s, :id => d.id} }
+      selected_option_ids = meta_datum.object.value
+      selected_options = selected_option_ids.blank? ? [] : all_options.select {|x| selected_option_ids.include? x[:id] }
+    end
+    
+    dom_id = "multiselect_#{meta_key.label}"
+    
+    h = content_tag :div, :id => dom_id, :class => "madek_multiselect_container" do 
+      a = content_tag :ul, :class => "holder" do
+      end
+      a += text_field_tag "autocomplete_search"
+    end
+    
+    h += content_tag :script, :type => "text/x-jquery-tmpl", :id => "madek_multiselect_#{meta_key.label}_item" do
+      begin
+      <<-HERECODE
+        <li class='bit-box'>
+          ${label}
+          <input type='hidden' name='#{meta_datum.object_name}[value][]' value='${id}'>
+          <a class="closebutton" href="#"></a>
+        </li>
+      HERECODE
+      end.html_safe
+    end
+    h += javascript_tag do
+      begin
+      <<-HERECODE
+        
+        $(document).ready(function(){
+          var dom_scope = "#{dom_id}";
+          var all_options = #{all_options.to_json};
+          var selected_options = #{selected_options.to_json};
+          
+          $.each(selected_options, function(i, elem){
+            add_to_selected_items(elem, dom_scope);
+          });
+          
+          $("#"+ dom_scope +" #autocomplete_search").autocomplete({
+            source: function(request, response){
+              var selected_option_ids = $("#"+ dom_scope +" ul.holder li input[type='hidden']").map(function() { return parseInt(this.value); });
+              var unselected_options = all_options.filter(function(elem){ if($.inArray(elem.id, selected_option_ids) < 0) return elem; });
+              response($.ui.autocomplete.filter(unselected_options, request.term) );
+            },
+            minLength: 3,
+            select: function(event, ui) {
+              add_to_selected_items(ui.item);
+            },
+            close: function(event, ui) {
+              $(this).val("");
+            }
+          });
+          $("ul.holder li .closebutton").live('click', function(){
+            remove_from_selected_items($(this).parent("li"));
+          });
+        });
+        
+        function add_to_selected_items(item, dom_scope){
+          var template_id = "madek_"+ dom_scope + "_item";
+          alert(template_id);
+          $("#"+ dom_scope +" ul.holder").append($("#"+ template_id).tmpl(item).fadeIn('slow'));
+        }
+        function remove_from_selected_items(dom_item){
+          dom_item.fadeOut('slow', function() {
+            dom_item.remove();
+          });
+        }
+      HERECODE
+      end.html_safe
+    end
+  end
+
 
   def widget_meta_departments(meta_datum, meta_key)
 #    all_options = Meta::Department.all.collect do |d|
@@ -372,7 +452,12 @@ module MetaDataHelper
         when "Meta::Term"
           meta_terms = meta_key.meta_terms
           ui = (definition.meta_field.length_max and definition.meta_field.length_max == 1 ? :radio_button : :check_box )
+          # WIP: implementing generic madek_multiselect
+          # if meta_terms.size <= 10
           h += widget_meta_terms(meta_datum, meta_key, meta_terms, ui)
+          # else
+          #   h += widget_multi_select(meta_datum, meta_key, meta_terms)
+          # end
 
         when "Person"
           # NOTE prefetch all people and cache them

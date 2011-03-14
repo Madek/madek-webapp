@@ -6,6 +6,19 @@
 form_for @resource, :as => :resource,
 		 :url => [:update_multiple, @resource, :meta_data],
 		 :html => {:method => :put} do |resource| %>
+		   
+	<%=  content_tag :style do
+         begin
+         <<-HERECODE
+           .madek_multiselect_container ul.holder li {
+             white-space: normal;
+           }
+           .ui-autocomplete { 
+               width: 10px;
+           }
+         HERECODE
+         end.html_safe
+  end %>
 	<%= hidden_field_tag :context_id, @context.id %>
 
 	<%= content_tag :div, :class => "meta_data_block" do
@@ -43,3 +56,5 @@ form_for @resource, :as => :resource,
 
 	<%= resource.submit _("Speichern") %>
 <% end %>
+
+<%= javascript_include_tag "/themes/madek11/javascripts/jquery.tmpl.js" #TODO remove (madek11 already includes in layout) %>
