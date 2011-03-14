@@ -195,27 +195,20 @@ module MetaDataHelper
 ###########################################################
   
   # NEW generic multi select plugin (WIP)
-  def widget_multi_select(meta_datum, meta_key, meta_terms = nil)
-    if meta_key.label = "academic_year"
-      all_options = meta_terms.collect {|x| [x.to_s, x.id]}
-      raise all_options.inspect
-      selected_option_ids = meta_datum.object.value
-      selected_options = meta_datum.object.value
-    elsif meta_key.object_type.constantize == "Meta::Department"
-      all_options = Meta::Department.all.collect {|d| {:label => d.to_s, :id => d.id} }
-      selected_option_ids = meta_datum.object.value
-      selected_options = selected_option_ids.blank? ? [] : all_options.select {|x| selected_option_ids.include? x[:id] }
-    end
+  def widget_meta_terms_multiselect_2(meta_datum, meta_key, meta_terms)
+    all_options = meta_terms.collect {|t| {:label => t.to_s, :id => t.id}}
+    selected_option_ids = meta_datum.object.value
+    selected_options = selected_option_ids.blank? ? [] : all_options.select {|x| selected_option_ids.include? x[:id] }
     
-    dom_id = "multiselect_#{meta_key.label}"
+    dom_scope = meta_key.label.gsub(/\s+/, '_')
     
-    h = content_tag :div, :id => dom_id, :class => "madek_multiselect_container" do 
+    h = content_tag :div, :id => "#{dom_scope}_multiselect", :class => "madek_multiselect_container" do 
       a = content_tag :ul, :class => "holder" do
       end
       a += text_field_tag "autocomplete_search"
     end
     
-    h += content_tag :script, :type => "text/x-jquery-tmpl", :id => "madek_multiselect_#{meta_key.label}_item" do
+    h += content_tag :script, :type => "text/x-jquery-tmpl", :id => "#{dom_scope}_madek_multiselect_item" do
       begin
       <<-HERECODE
         <li class='bit-box'>
@@ -229,45 +222,9 @@ module MetaDataHelper
     h += javascript_tag do
       begin
       <<-HERECODE
-        
         $(document).ready(function(){
-          var dom_scope = "#{dom_id}";
-          var all_options = #{all_options.to_json};
-          var selected_options = #{selected_options.to_json};
-          
-          $.each(selected_options, function(i, elem){
-            add_to_selected_items(elem, dom_scope);
-          });
-          
-          $("#"+ dom_scope +" #autocomplete_search").autocomplete({
-            source: function(request, response){
-              var selected_option_ids = $("#"+ dom_scope +" ul.holder li input[type='hidden']").map(function() { return parseInt(this.value); });
-              var unselected_options = all_options.filter(function(elem){ if($.inArray(elem.id, selected_option_ids) < 0) return elem; });
-              response($.ui.autocomplete.filter(unselected_options, request.term) );
-            },
-            minLength: 3,
-            select: function(event, ui) {
-              add_to_selected_items(ui.item);
-            },
-            close: function(event, ui) {
-              $(this).val("");
-            }
-          });
-          $("ul.holder li .closebutton").live('click', function(){
-            remove_from_selected_items($(this).parent("li"));
-          });
+          create_multiselect_widget("#{dom_scope}", #{all_options.to_json}, #{selected_option_ids.to_json}, #{selected_options.to_json});
         });
-        
-        function add_to_selected_items(item, dom_scope){
-          var template_id = "madek_"+ dom_scope + "_item";
-          alert(template_id);
-          $("#"+ dom_scope +" ul.holder").append($("#"+ template_id).tmpl(item).fadeIn('slow'));
-        }
-        function remove_from_selected_items(dom_item){
-          dom_item.fadeOut('slow', function() {
-            dom_item.remove();
-          });
-        }
       HERECODE
       end.html_safe
     end
@@ -286,7 +243,9 @@ module MetaDataHelper
     selected_option_ids = meta_datum.object.value
     selected_options = selected_option_ids.blank? ? [] : all_options.select {|x| selected_option_ids.include? x[:id] }
 
-    h = content_tag :div, :class => "madek_multiselect_container" do 
+    dom_scope = meta_key.label.gsub(/\s+/, '_')
+
+    h = content_tag :div, :id => "#{dom_scope}_multiselect", :class => "madek_multiselect_container" do 
       a = content_tag :ul, :class => "holder" do
       end
       a += text_field_tag "autocomplete_search"
@@ -304,7 +263,7 @@ module MetaDataHelper
       end.html_safe
     end
     h += javascript_include_tag "/themes/madek11/javascripts/jquery.tmpl.js" #TODO remove (madek11 already includes in layout)
-    h += content_tag :script, :type => "text/x-jquery-tmpl", :id => "madek_multiselect_item" do
+    h += content_tag :script, :type => "text/x-jquery-tmpl", :id => "#{dom_scope}_madek_multiselect_item" do
       begin
       <<-HERECODE
         <li class='bit-box'>
@@ -318,39 +277,9 @@ module MetaDataHelper
     h += javascript_tag do
       begin
       <<-HERECODE
-        function add_to_selected_items(item){
-          $(".madek_multiselect_container ul.holder").append($("#madek_multiselect_item").tmpl(item).fadeIn('slow'));
-        }
-        function remove_from_selected_items(dom_item){
-          dom_item.fadeOut('slow', function() {
-            dom_item.remove();
+          $(document).ready(function(){
+            create_multiselect_widget("#{dom_scope}", #{all_options.to_json}, #{selected_option_ids.to_json}, #{selected_options.to_json});
           });
-        }
-
-        $(document).ready(function(){
-          var all_options = #{all_options.to_json};
-          var selected_options = #{selected_options.to_json};
-          $.each(selected_options, function(i, elem){
-            add_to_selected_items(elem);
-          });
-          $(".madek_multiselect_container #autocomplete_search").autocomplete({
-            source: function(request, response){
-              var selected_option_ids = $(".madek_multiselect_container ul.holder li input[type='hidden']").map(function() { return parseInt(this.value); });
-              var unselected_options = all_options.filter(function(elem){ if($.inArray(elem.id, selected_option_ids) < 0) return elem; });
-              response($.ui.autocomplete.filter(unselected_options, request.term) );
-            },
-            minLength: 3,
-            select: function(event, ui) {
-              add_to_selected_items(ui.item);
-            },
-            close: function(event, ui) {
-              $(this).val("");
-            }
-          });
-          $("ul.holder li .closebutton").live('click', function(){
-            remove_from_selected_items($(this).parent("li"));
-          });
-        });
       HERECODE
       end.html_safe
     end
