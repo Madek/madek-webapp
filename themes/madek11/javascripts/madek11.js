@@ -150,6 +150,8 @@ function displayCount(key) {
       default : 
         display_count.html(count_checked + " Medieneinträge ausgewählt.");
     }
+  } else {
+	$('.task_bar .action_btn').hide();
   }
 };
 

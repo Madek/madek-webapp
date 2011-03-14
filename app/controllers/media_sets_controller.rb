@@ -127,14 +127,28 @@ class MediaSetsController < ApplicationController
   def add_member
     if @media_set
       new_members = 0 #temp#
-      if params[:media_entry_ids]
+      #raise params[:media_entry_ids].inspect
+      if params[:media_entry_ids] && !(params[:media_entry_ids] == "null") #check for blank submission from select
         ids = params[:media_entry_ids].is_a?(String) ? params[:media_entry_ids].split(",") : params[:media_entry_ids]
         media_entries = MediaEntry.find(ids)
-        new_members = @media_set.media_entries.push_uniq(media_entries) 
+        new_members = @media_set.media_entries.push_uniq(media_entries)
       end
-      flash[:notice] = "#{new_members} new media entries added to media_set #{@media_set.title}" if new_members > 0
+      flash[:notice] = if new_members > 1
+         "#{new_members} neue Medieneinträge wurden dem Set #{@media_set.title} hinzugefügt" 
+      elsif new_members == 1
+        "Ein neuer Medieneintrag wurden dem Set #{@media_set.title} hinzugefügt" 
+      else
+        "Es wurden keine neuen Medieneinträge hinzugefügt."
+      end
       respond_to do |format|
-        format.html { redirect_to(new_members > 1 ? @media_set : media_entries) } # OPTIMIZE
+        format.html { 
+          unless params[:media_entry_ids] == "null" # check for blank submission of batch edit form.
+            redirect_to(@media_set) 
+          else
+            flash[:error] = "Keine Medieneinträge ausgewählt."
+            redirect_to @media_set
+          end
+          } # OPTIMIZE
 #temp3#
 #        format.js { 
 #          render :update do |page|
@@ -163,8 +177,13 @@ class MediaSetsController < ApplicationController
       when :destroy
         action = :edit # TODO :delete
     end
-    resource = @media_set
-    not_authorized! unless Permission.authorized?(current_user, action, resource) # TODO super ??
+    if @media_set
+      resource = @media_set
+      not_authorized! unless Permission.authorized?(current_user, action, resource) # TODO super ??
+    else
+      flash[:error] = "Kein Medienset ausgewählt."
+      redirect_to :back
+    end
   end
 
   def pre_load
