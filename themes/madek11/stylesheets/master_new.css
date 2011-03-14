@@ -499,6 +499,22 @@ ul li { float: left; }
 	min-height: 600px;
 }
 
+#content_body2 {
+	width:90%;
+	padding: 20px;
+	min-width: 920px;
+	margin-left:auto;
+	margin-right:auto;
+	background-color: #fff;
+	-webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#e6e6e6))
+	-moz-linear-gradient(100% 100% 100deg,#E6E6E6, #FFFFFF)
+	-webkit-box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
+	-moz-box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
+	box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
+	position: relative;
+	margin-top: 10px;
+}
+
 #content_body_fixed {
 	overflow: auto;
 	background-color: #ffffff;
@@ -819,6 +835,34 @@ button.dark {
 .save_buttons {
 	margin: 0 0 30px 0;
 	float: right;
+}
+
+#results .buttons, #results_others .buttons {
+	margin: 20px 0;
+}
+
+#results .buttons a, #results_others .buttons a {
+	color: #333;
+	font-weight: bold;
+	padding: 3px 20px 4px;
+	text-align: center;
+	text-shadow: 0 1px 0 #fff;
+	border: 1px solid #bbb;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: inset 0 0 1px 1px #f6f6f6;
+	-webkit-box-shadow: inset 0 0 1px 1px #f6f6f6;
+	box-shadow: inset 0 0 1px 1px #f6f6f6;
+	font-size: 1.2em;
+}
+
+#results .buttons a:hover, #results_others .buttons a:hover {
+	background: #e3e3e3;
+	-moz-box-shadow: inset 0 0 1px 1px #f6f6f6;
+	-webkit-box-shadow: inset 0 0 1px 1px #f6f6f6;
+	box-shadow: inset 0 0 1px 1px #f6f6f6;
+	text-decoration: none;
 }
 
 .outside {
