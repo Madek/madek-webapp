@@ -12,8 +12,8 @@ feature "Batch operations on media entries in a set", %q{
     helmut = create_user("Helmut Kohl", "helmi", "schweinsmagen")
     log_in_as("helmi", "schweinsmagen")
     upload_some_picture("Picture One")
-     upload_some_picture("Picture Two")
-     upload_some_picture("Picture Three")
+    upload_some_picture("Picture Two")
+    upload_some_picture("Picture Three")
   end
   
   scenario "Remove two media entries from a set using batch edit", :js => true do
@@ -30,16 +30,45 @@ feature "Batch operations on media entries in a set", %q{
 
     check_media_entry_titled("Picture One")
     check_media_entry_titled("Picture Two")
-    check_media_entry_titled("Picture Three")
-
-    # TODO: When Capybara finally supports hovering over items or
-    # checking invisible checkboxes, we need to check them and then
-    # continue here.
+    click_link_or_button("Aus Set entfernen")
     
+    visit "/media_entries"
+    click_media_entry_titled("Picture Three")
+    click_link("Set One")
+
+    # The two pictures we just removed shouldn't be on this
+    # set's page anymore
+    page.should_not have_content("Picture One")
+    page.should_not have_content("Picture Two")
   end
 
-  scenario "Add two media entries to favorites using batch edit" do
+  scenario "Change metadata on two media entries using batch edit", :js => true do
+    user = log_in_as("helmi", "schweinsmagen")
 
+    create_set("Batch Retitle Set")
+    add_to_set("Batch Retitle Set", "Picture One")
+    add_to_set("Batch Retitle Set", "Picture Two")
+
+    visit "/media_entries"
+    click_media_entry_titled("Picture One")
+    click_link("Batch Retitle Set")
+
+    check_media_entry_titled("Picture One")
+    check_media_entry_titled("Picture Two")
+    click_link_or_button("Metadaten editieren")
+
+    fill_in_for_batch_editor( { "Titel" => "We are all individuals"} )
+
+    click_button("Speichern")
+    page.should have_content("Die Änderungen wurden gespeichert.")
+    # They should both have the same title
+    # TODO: Check for _two_ matches to this title
+    page.should have_content("We are all individuals")
+
+    sphinx_reindex
+    visit "/media_entries"
+    click_media_entry_titled("We are all individuals")
+    page.should have_content("We are all individuals")
 
   end
 

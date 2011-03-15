@@ -37,6 +37,10 @@ def set_up_world
 end
 
 
+def make_hidden_items_visible
+  page.execute_script '$(":hidden").show();'
+end
+
 def click_on_arrow_next_to(word)
   find(".head_menu", :text => "#{word}").find("img.arrow").click
 end
@@ -89,10 +93,7 @@ def wait_for_css_element(element)
 end
 
 
-
 def fill_in_for_media_entry_number(n, values)
-#   fill_in "resources[media_entry][#{n}][meta_data_attributes][0][value]", :with => values[:title]
-#   fill_in "resources[media_entry][#{n}][meta_data_attributes][4][value]", :with => values[:copyright]
 
   # More human-compatible, we fill_in...(1) to fill in the field
   # at index position 0
@@ -108,29 +109,56 @@ def fill_in_for_media_entry_number(n, values)
   
 end
 
+def fill_in_for_batch_editor(values)
+
+  values.each do |k,v|
+    # Fills in the "_value" field it finds in the UL that contains
+    # the "key" text. e.g. "Titel*" or "Copyright"
+    all("ul", :text => /#{k}/).first.all("textarea").each do |ele|
+      fill_in ele[:id], :with => v if !ele[:id].match(/attributes_\d+_value$/).nil?
+    end
+  end
+
+end
+
+
 def click_media_entry_titled(title)
   entry = find_media_entry_titled(title)
   entry.find("a").click
 end
 
+# Sets the checkbox of the media entry with the given title to true.
 def check_media_entry_titled(title)
-
+  # Crutch so we can check the otherwise invisible checkboxes (they only appear on hover,
+  # which Capybara can't do)
+  make_hidden_items_visible
+  
   entry = find_media_entry_titled(title)
-  # This does NOT work because Capybara neither supports hovering over items
-  # nor clicking invisible items.
-#   cb = entry.find("input")
-#   cb.click unless cb[:checked] == "true" # a string, not a bool!
+  cb = entry.find("input")
+  cb.click unless cb[:checked] == "true" # a string, not a bool!
 end
 
+# Attempts to find a media entry based on its title by looking for
+# the .item_box that contains the title. Returns the whole .item_box element
+# if successful, nil otherwise.
 def find_media_entry_titled(title)
+  found_item = nil
   all(".item_box").each do |item|
-    if item.find(".item_title").text =~ /#{title}/
-      return item
+    #debugger; puts "lala"
+    if !item.find(".item_title").text.match(/#{title}/).nil?
+      found_item = item
     end
   end
+
+  if found_item == nil
+    puts "No media entry found with title '#{title}'"
+  end
+
+  return found_item
 end
 
-
+# Picks the given text string from an autocomplete text input box
+# that is stuck in an UL: ul.ui-autocomplete
 def pick_from_autocomplete(text)
   all("ul.ui-autocomplete").each do |ul|
     ul.all("li.ui-menu-item a").each do |item|
