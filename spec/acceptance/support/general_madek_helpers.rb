@@ -127,6 +127,15 @@ def click_media_entry_titled(title)
   entry.find("a").click
 end
 
+def oldschool_click_media_entry_titled(title)
+  all("ul.items li").each do |entry|
+    if entry.text =~ /#{title}/
+      entry.find("a").click
+    end
+  end
+end
+
+
 # Sets the checkbox of the media entry with the given title to true.
 def check_media_entry_titled(title)
   # Crutch so we can check the otherwise invisible checkboxes (they only appear on hover,
@@ -155,6 +164,7 @@ def find_media_entry_titled(title)
   end
 
   return found_item
+  
 end
 
 # Picks the given text string from an autocomplete text input box
@@ -162,7 +172,7 @@ end
 def pick_from_autocomplete(text)
   all("ul.ui-autocomplete").each do |ul|
     ul.all("li.ui-menu-item a").each do |item|
-      item.click if item.text =~ /#{text}/
+      item.click if !item.text.match(/#{text}/).nil?
     end
   end
 end
@@ -211,9 +221,7 @@ def find_permission_checkbox(type, to_or_from)
       index = 5
     end
   end
-
-  cb = find(:css, "table.permissions").find("tr", :text => text).all("input")[index]
-  
+  cb = find(:css, "table.permissions").find("tr", :text => text).all("input")[index]  
 end
 
 
@@ -229,6 +237,12 @@ def remove_permission_to(type, from)
   cb.click if cb[:checked] == "true" # a string, not a bool!
 end
 
+
+
+# DANGER: This is now (March 15, 2011) broken due to the way
+# Capybara handles fill_in. I believe it used to trigger the keyUp event
+# that is necessary for the autocomplete to kick in, but it no longer does
+# so, breaking many of our tests. Needs more investigation.
 def type_into_autocomplete(type, text)
   if type == :user
     wait_for_css_element("table.permissions")

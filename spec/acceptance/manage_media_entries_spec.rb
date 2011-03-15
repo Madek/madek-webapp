@@ -12,6 +12,7 @@ feature "Manage media entries", %q{
   end
 
   scenario "Upload one image file without any special metadata", :js => true do
+    helmut = log_in_as("helmi", "schweinsmagen")
     upload_some_picture(title = "not a special picture")
   end
 
@@ -87,7 +88,7 @@ feature "Manage media entries", %q{
     MediaEntry.search("berlin").total_entries.should > 0
     visit homepage
     
-    click_media_entry_titled("A beautiful piece of the Berlin Wall")
+    click_media_entry_titled("A beautiful piece of the B...")
     click_link("Zugriffsberechtigung")
     type_into_autocomplete(:user, 'Gorba')
     
@@ -103,7 +104,7 @@ feature "Manage media entries", %q{
 
     visit homepage
     # Gorbi should see Helmut's image
-    page.should have_content("A beautiful piece of the Berlin Wall")
+    page.should have_content("A beautiful piece of the B...")
     
   end
 
@@ -148,11 +149,10 @@ feature "Manage media entries", %q{
 
     visit homepage
     
-    click_media_entry_titled("A second piece of the Berlin Wall")
+    click_media_entry_titled("A second piece of the Berl...")
     click_link("Zugriffsberechtigung")
     type_into_autocomplete(:group, 'Mauer')
-    sleep(1)
-
+    sleep(2)
     pick_from_autocomplete("Mauerfäller")
     sleep(0.5)
     give_permission_to("view", to = "Mauerfäller")
@@ -162,14 +162,14 @@ feature "Manage media entries", %q{
     click_link("Abmelden")
     gorbi = log_in_as("gorbi", "glasnost")
 
-    page.should have_content("A second piece of the Berlin Wall")
+    page.should have_content("A second piece of the Berl...")
 
     sphinx_reindex
     # And this is how it really should be, let's let this fail until there's a solution
     visit homepage
 
     # Gorbi should see Helmut's image
-    page.should have_content("A second piece of the Berlin Wall")
+    page.should have_content("A second piece of the Berl...")
     
   end
 
