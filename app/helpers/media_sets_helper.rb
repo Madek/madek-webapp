@@ -4,7 +4,7 @@ module MediaSetsHelper
   #2001# def media_set_title(media_set, visible_media_entries, with_link = false)
   def media_set_title(media_set, with_link = false)
     content_tag :div, :class => "sidebar-box" do
-      r = content_tag :span, :style => "font-weight: bold;" do 
+      r = content_tag :span, :style => "font-weight: bold; font-size: 1.429em;" do 
         with_link ? link_to(media_set.title, media_set_path(media_set)) : media_set.title
       end
       #2001# r += " (%d/%d Medieneinträge)" % [visible_media_entries.count, media_set.media_entries.count]
