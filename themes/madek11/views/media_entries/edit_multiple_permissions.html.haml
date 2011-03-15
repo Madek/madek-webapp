@@ -58,15 +58,7 @@
           %tbody#user_permissions
             ///
             - @combined_permissions["User"].each_pair do |subject_id, permission| # actually permission is an array [user, {}]
-              %tr
-                %td
-                  = permission.first # permission.subject
-                - [:view, :edit, :hi_res].each do |key|
-                  %td{:style => (permission.last[key] == :mixed ? "background: url(/themes/madek11/images/stripe_1.png);" : nil)}
-                    = hidden_field_tag "subject[User][#{subject_id}][#{key}]", false
-                    = check_box_tag "subject[User][#{subject_id}][#{key}]", true, (permission.last[key] == true)
-                %td
-                  =# link_to _("Löschen"), url_for([@resource, permission]), :remote => true, :method => :delete, :confirm => _("Sind Sie sicher?") if permission.subject and permission.subject != current_user
+              = render :partial => "/permissions/edit", :locals => {:subject_id => subject_id, :permission => permission}
             ///
           %tbody
             %tr.adder
@@ -90,15 +82,7 @@
           %tbody#group_permissions
             ///
             - @combined_permissions["Group"].each_pair do |subject_id, permission| # actually permission is an array [user, {}]
-              %tr
-                %td
-                  = permission.first # permission.subject
-                - [:view, :edit, :hi_res].each do |key|
-                  %td{:style => (permission.last[key] == :mixed ? "background: url(/themes/madek11/images/stripe_1.png);" : nil)}
-                    = hidden_field_tag "subject[Group][#{subject_id}][#{key}]", false
-                    = check_box_tag "subject[Group][#{subject_id}][#{key}]", true, (permission.last[key] == true)
-                %td
-                  =# link_to _("Löschen"), url_for([@resource, permission]), :remote => true, :method => :delete, :confirm => _("Sind Sie sicher?") if permission.subject and permission.subject != current_user
+              = render :partial => "/permissions/edit", :locals => {:subject_id => subject_id, :permission => permission}
             ///
           %tbody
             %tr.adder
@@ -139,23 +123,22 @@
     .clear
     
 :javascript
+  function create_permission(data, type){
+    $.ajax({
+      url: '/permissions/add_batch_permission',
+      data: data,
+      type: "post",
+      success: function(response){
+        $("input#new_"+type).val("");
+        $(response).appendTo('tbody#'+type+'_permissions').effect('highlight');
+      }
+    });
+  }
+
   $(function() {
     var data = #{@info_to_json};
     $("#list_as_thumbnails").html($("#thumbnail_view").tmpl(data));
     
-  
-    function create_permission(data, type){
-  		$.ajax({
-  			url: '/permissions/add_batch_permission',
-  			data: data,
-  			type: "post",
-  			success: function(response){
-          $("input#new_"+type).val("");
-          $(response).appendTo('tbody#'+type+'_permissions').effect('highlight');
-  			}
-  		});
-    }
-
     $("input#new_user").autocomplete({
       source: "/users",
       minLength: 3,
@@ -170,6 +153,19 @@
       select: function(event, ui) {
         create_permission({group_id: ui.item.id}, 'group');
       }
+    });
+    
+    // TODO override rails.js data-method and data-confirm
+    $(".permissions a.delete[msg]").live('click', function(){
+      var element = $(this);
+      var message = element.attr('msg');
+      if(confirm(message)){
+        var to_remove = element.closest("tr");
+        to_remove.fadeOut('slow', function() {
+          to_remove.remove();
+        });
+      }
+      return false;
     });
   });
 

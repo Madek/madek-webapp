@@ -107,7 +107,7 @@ class PermissionsController < ApplicationController
     end
     
     respond_to do |format|
-      format.js { render :partial => "add_batch_permission", :object => subject, :as => :subject }
+      format.js { render :partial => "/permissions/edit", :locals => {:subject_id => subject.id, :permission => [subject, {}]} }
     end
   end
 
