@@ -1,6 +1,6 @@
 .container_12.clearfix
-	%section#page_head.clearfix
-		- unless @media_set
+	- unless @media_set
+		%section#page_head.clearfix
 			.grid_3
 				#set_info
 					%div.item_box_set
@@ -27,39 +27,47 @@
 									%td{:style => "float: left;"}
 										= f.submit _("Erstellen")
 
-.container_12.clearfix    								
-	%section#content_body3.clearfix
-		%div.page_title_left
-			- if @my_media_sets
-				%a{:id => "meine", :name => "meine", :href => "#"}
-				%img{:src => "/themes/madek11/images/icons/icon_set.png"}
-				= @index_title
-		.pagination
-			%a{:href => "#weitere"}
-				&darr; Weitere Sets
-		.clear
-		%hr
-		%br
-		%br
-		= render :partial => "media_set", :collection => @my_media_sets
+.container_12.clearfix
+	- unless @media_set   								
+		%section#content_body3.clearfix
+			%div.page_title_left
+				- if @media_sets
+					%a{:id => "meine", :name => "meine", :href => "#"}
+					%img{:src => "/themes/madek11/images/icons/icon_set.png"}
+					= @index_title
+			.pagination
+				%a{:href => "#weitere"}
+					&darr; Weitere Sets
+			.clear
+			%hr
+			%br
+			%br
+			= render :partial => "media_set", :collection => @my_media_sets
 		
 .container_12.clearfix
-	%section#content_body2.clearfix
-		%div.page_title_left
-			%a{:id => "weitere", :name => "weitere", :href => "#"}
-			%img{:src => "/themes/madek11/images/icons/icon_set.png"}
-			Weitere Sets
-		.pagination		
-			%a{:href => "#meine"}
-				&uarr; Meine Sets
-		.clear
-		%hr
-		%br
-		%br	
-		= render :partial => "media_set", :collection => @media_sets
-		else
-		%h3{:style => "margin-bottom: 2em;"}= @index_title
-		- if @media_sets.any?
+	- unless @media_set
+		%section#content_body2.clearfix
+			%div.page_title_left
+				%a{:id => "weitere", :name => "weitere", :href => "#"}
+				%img{:src => "/themes/madek11/images/icons/icon_set.png"}
+				Weitere Sets
+			.pagination		
+				%a{:href => "#meine"}
+					&uarr; Meine Sets
+			.clear
+			%hr
+			%br
+			%br	
 			= render :partial => "media_set", :collection => @media_sets
-		- else 
-			= _("Keine Sets vorhanden")
+	- else
+		%section#content_body.clearfix
+			%div.page_title_left
+				= @index_title
+			.clear
+			%hr
+			%br
+			%br
+			- if @media_sets.any?
+				= render :partial => "media_set", :collection => @media_sets
+			- else 
+				= _("Keine Sets vorhanden")
