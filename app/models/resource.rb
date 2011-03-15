@@ -190,8 +190,8 @@ module Resource
     end
 
     def thumb_base64(size = :small)
-      media_file = if self.is_a?(Media::Set) # TODO never used yet, to be tested
-        self.media_entries.first.media_file
+      media_file = if self.is_a?(Media::Set)
+        self.media_entries.first.try(:media_file)
       else
         self.media_file
       end

@@ -58,7 +58,7 @@
           %tbody#user_permissions
             ///
             - @combined_permissions["User"].each_pair do |subject_id, permission| # actually permission is an array [user, {}]
-              = render :partial => "/permissions/edit", :locals => {:subject_id => subject_id, :permission => permission}
+              = render :partial => "/permissions/edit11", :locals => {:subject_id => subject_id, :permission => permission}
             ///
           %tbody
             %tr.adder
@@ -82,7 +82,7 @@
           %tbody#group_permissions
             ///
             - @combined_permissions["Group"].each_pair do |subject_id, permission| # actually permission is an array [user, {}]
-              = render :partial => "/permissions/edit", :locals => {:subject_id => subject_id, :permission => permission}
+              = render :partial => "/permissions/edit11", :locals => {:subject_id => subject_id, :permission => permission}
             ///
           %tbody
             %tr.adder
