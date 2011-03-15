@@ -28,7 +28,7 @@
   </script>
 
 .container_12.clearfix  
-  %section#content_body_fixed
+  %section#content_body2.clearfix
     .grid_9.alpha
       .page_title_left 
         %span Aktuelle Zugriffsberechtigungen für alle ausgewählten Medieneinträge
@@ -111,11 +111,12 @@
               %td
                 =# link_to _("Löschen"), url_for([@resource, permission]), :remote => true, :method => :delete, :confirm => _("Sind Sie sicher?") if permission.subject and permission.subject != current_user
             ///
+        %br
         %div{:class => "save_buttons"}
           = link_to _("Abbrechen"), @media_set, :class => "buttons"    
           = submit_tag _("Speichern")
 
-    .grid_3.omega
+    .grid_2.omega
       #legend
         %h3 Legende
         %p{:style => "background: red url(/themes/madek11/images/stripe_1.png); height: 30px ; border: 1px solid #ccc;"} 

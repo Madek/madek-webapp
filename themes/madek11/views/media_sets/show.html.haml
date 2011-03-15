@@ -1,7 +1,7 @@
 %section#content_head
   .container_12.clearfix
-    #page_head.grid_12
-      .grid_3.alpha
+    #page_head
+      .grid_3
         #set_info
           %div.item_box_set
             %div.item_permission_set
@@ -13,7 +13,7 @@
         #set_meta
           - context = MetaContext.media_set
           = display_meta_data_for_context(@media_set, context)
-      .grid_3.omega
+      .grid_3
         #set_actions
           - if @can_edit
             = display_edit_icon(@media_set, current_user)
