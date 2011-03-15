@@ -1097,7 +1097,7 @@ button.dark:hover {
 	margin-left: 10px;
 }
 
-#media_content ul, #media_object ul, #copyright ul, #zhdk_bereich ul {
+#media_set ul, #media_content ul, #media_object ul, #copyright ul, #zhdk_bereich ul {
 	border-bottom: 1px solid #e6e6e6;
 }
 
