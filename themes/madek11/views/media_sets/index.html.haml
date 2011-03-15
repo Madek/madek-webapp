@@ -1,6 +1,6 @@
 .container_12.clearfix
 	- unless @media_set
-		%section#page_head.clearfix
+		%section#page_head_newset.clearfix
 			.grid_3
 				#set_info
 					%div.item_box_set
@@ -62,6 +62,7 @@
 	- else
 		%section#content_body.clearfix
 			%div.page_title_left
+				%img{:src => "/themes/madek11/images/icons/icon_set.png"}
 				= @index_title
 			.clear
 			%hr

@@ -981,6 +981,23 @@ button.dark:hover {
 	display: inline-block;
 }
 
+#page_head_newset {
+	background-color: #ffffff;
+	background-image: -webkit-gradient(linear,left top,left 10,color-stop(0.27, #FFFFFF),color-stop(1, #F7F7F7));
+	background-image: -moz-linear-gradient(center top, #FFFFFF 27%, #F7F7F7 100%);
+    /*background: -moz-linear-gradient(top, #FFFFFF, #EEEEEE);
+    background: -webkit-gradient(linear,
+                left top, left bottom, from(#FFFFFF), to(#EEEEEE));*/
+	-webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#e6e6e6))
+	-moz-linear-gradient(100% 100% 100deg,#E6E6E6, #FFFFFF)
+	-webkit-box-shadow: 0 0 4px rgba(150, 150, 150, 0.2);
+	-moz-box-shadow: 0 0 4px rgba(150, 150, 150, 0.2);
+	box-shadow: 0 0 4px rgba(150, 150, 150, 0.2);
+	margin-top: -10px;
+	position: relative;
+	display: inline-block;
+}
+
 #new_media_set table {
 	margin: 10px 0;
 }
