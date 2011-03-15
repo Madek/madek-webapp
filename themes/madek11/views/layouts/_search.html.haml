@@ -6,6 +6,9 @@
           = text_field_tag 'query', params[:query], :id => 'query', :onfocus => "this.value='';"
           / fix this empty word
           = submit_tag _(""), :id => 'search-submit'
+    = link_to _(@set), media_set_media_sets_path(@set), :class => "main_nav_browse ir" if (@set = Media::FeaturedSet.first) and !@set.children.empty?
+    = link_to _("Hochladen"), new_upload_path, :class => "main_nav_upload ir"
+    = render :partial => '/layouts/menu'
 
 :javascript
   function submit_search(filter){
