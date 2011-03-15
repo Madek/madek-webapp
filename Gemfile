@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.4'
+gem 'rails', '3.0.5'
 gem 'i18n' # Need this explicitly, otherwise can't deploy
 
 gem 'mysql2', '0.2.6'
@@ -23,11 +23,12 @@ gem 'nested_set', '1.6.4'
 gem 'acts-as-dag', '2.5.4' # TOOD use instead ?? gem 'dagnabit', '2.2.6'
 
 # gem 'rmagick', '2.13.1', :require => 'RMagick2'
-gem 'json', '1.4.6'
+gem 'json', '1.5.1'
 
 gem "ruby-net-ldap", "0.0.4", :require => 'net/ldap'
 
 gem "zencoder"
+gem "uuidtools"
 
 group :test, :development do
   gem 'ruby-debug' # TODO 'ruby-debug19' for Ruby 1.9.x

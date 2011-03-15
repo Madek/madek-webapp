@@ -24,6 +24,8 @@ class Permission < ActiveRecord::Base
           @keys.delete(key.to_sym)
         when "TrueClass", "Symbol"
           @keys[key.to_sym] = value
+        when "String"
+          @keys[key.to_sym] = (value == "true" ? true : false) 
         else
           @keys[key.to_sym] = false
       end
@@ -65,7 +67,7 @@ class Permission < ActiveRecord::Base
   def set_actions(hash)
     actions_object.set_actions(hash)
     save
-    resource.sphinx_reindex if resource.try(:respond_to?, :sphinx_reindex) and subject.nil? # OPTIMIZE after_save ??
+    #old#0903# resource.sphinx_reindex if resource.try(:respond_to?, :sphinx_reindex) and subject.nil? # OPTIMIZE after_save ??
   end
 
   private
@@ -151,6 +153,49 @@ class Permission < ActiveRecord::Base
     end
     
     #################################################
+    
+    def compare(resources)
+      combined_permissions = {"User" => {}, "Group" => {}, nil => {}}
+      keys = [:view, :edit, :hi_res]
+      permissions = resources.map(&:permissions).flatten
+
+      combined_permissions.keys.each do |type|
+        case type
+          when "User", "Group"
+            subject_permissions = permissions.select {|p| p.subject_type == type}
+            subject_permissions.map(&:subject).uniq.each do |subject|
+              combined_permissions[type][subject.id] = [subject, {}]
+              keys.each do |key|
+                combined_permissions[type][subject.id].last[key] = case subject_permissions.select {|p| p.subject_id == subject.id and p.actions[key] == true }.size
+                  when resources.size
+                    true
+                  when 0
+                    false
+                  else
+                    :mixed
+                end  
+              end
+            end
+          else
+            default_permissions = permissions.select {|p| p.subject_type.nil? }
+            combined_permissions[type] = {}
+            keys.each do |key|
+              combined_permissions[type][key] = case default_permissions.select {|p| p.actions[key] == true }.size
+                when resources.size
+                  true
+                when 0
+                  false
+                else
+                  :mixed
+              end  
+            end
+        end
+      end
+
+      return combined_permissions
+    end
+    
+    #################################################
 
 #   private
     
@@ -201,6 +246,21 @@ class Permission < ActiveRecord::Base
     #
     #####
 
+    def accessible_by_all(resource_type, action = :view, with_logged_in_users = false)
+      key = "permissions/_/#{resource_type}_/actions/#{action}"
+      Rails.cache.fetch(key, :expires_in => 10.minutes) do
+        add_to_cached_keys(key)
+
+        condition = "actions_object LIKE '%#{action}: true%'"
+        condition += " OR actions_object LIKE '%#{action}: :logged_in_users%'" if with_logged_in_users
+
+        select(:resource_id).
+                    where(:resource_type => resource_type, :subject_type => nil).
+                    where(condition).
+                    collect(&:resource_id).uniq
+      end
+    end
+
     def accessible_by_user(resource_type, user, action = :view)
       key = "permissions/#{user.class}_#{user.id}/#{resource_type}_/actions/#{action}"
       Rails.cache.fetch(key, :expires_in => 10.minutes) do
@@ -221,11 +281,7 @@ class Permission < ActiveRecord::Base
       
       
         #5
-        public_true = select(:resource_id).
-                                  where(:resource_type => resource_type).
-                                  where(:subject_type => nil).
-                                  where("actions_object LIKE '%#{action}: true%' OR actions_object LIKE '%#{action}: :logged_in_users%'").
-                                  collect(&:resource_id).uniq
+        public_true = accessible_by_all(resource_type, action, true)
         
         
         #2+4

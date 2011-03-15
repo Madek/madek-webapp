@@ -25,6 +25,8 @@ class MediaEntry < ActiveRecord::Base
   # TODO remove and go through permissions ??
   delegate :user, :user_id, :to => :upload_session
 
+  default_scope order("updated_at DESC")
+
 ########################################################
 
   # OPTIMIZE
@@ -82,8 +84,8 @@ class MediaEntry < ActiveRecord::Base
 
   sphinx_scope(:by_user) { |user| { :with => {:user_id => user.id} } }
   sphinx_scope(:not_by_user) { |user| { :without => {:user_id => user.id} } }
-  sphinx_scope(:public) { { :with => {:is_public => true} } }
-  sphinx_scope(:not_public) { { :with => {:is_public => false} } }
+  #old#0903# sphinx_scope(:public) { { :with => {:is_public => true} } }
+  #old#0903# sphinx_scope(:not_public) { { :with => {:is_public => false} } }
   sphinx_scope(:by_ids) { |ids| { :with => {:sphinx_internal_id => ids} } }
                                               
 ######################
@@ -103,8 +105,9 @@ class MediaEntry < ActiveRecord::Base
         end
 
         [['sphinx_internal_id', 'int'], ['class_crc', 'int'], ['sphinx_deleted', 'int', '0'], # required by thinking sphinx
-         ['user_id', 'int'], ['media_set_ids', 'multi'], ['media_file_id', 'int'], # association attributes
-         ['is_public', 'int', '0'], # attributes
+         ['user_id', 'int'], ['media_file_id', 'int'], # association attributes
+         #old 1003# ['media_set_ids', 'multi'],
+         #old#0903# ['is_public', 'int', '0'], # attributes
          #temp#facet# ['user_id_facet', 'int'], # facets
          ['subject_sort', 'str2ordinal'], ['creator_sort', 'str2ordinal'], ['updated_at', 'timestamp'] # sorting attributes
          ].each do |attr|
@@ -123,7 +126,8 @@ class MediaEntry < ActiveRecord::Base
           end
     
           ['sphinx_internal_id', 'class_crc',
-           'user_id', 'media_set_ids', 'media_file_id',
+           'user_id', 'media_file_id',
+           #old 1003# 'media_set_ids',
            #temp#facet# 'user_id_facet',
            'user'].each do |attr|
             xml.tag!(attr, media_entry.send(attr))
@@ -133,10 +137,10 @@ class MediaEntry < ActiveRecord::Base
             xml.tag!(attr, media_entry.send(attr).to_i)
           end
 
-          #wip#
-          if media_entry.acl?(:view, :all)
-            xml.tag!("is_public", 1)
-          end
+#old#0903# 
+#          if media_entry.acl?(:view, :all)
+#            xml.tag!("is_public", 1)
+#          end
         end
       end
     end
@@ -157,9 +161,33 @@ class MediaEntry < ActiveRecord::Base
 #    user_id
 #  end
 
-  def media_set_ids
-    media_sets.collect(&:id).join(',')
-  end
+#old 1003#
+#  def media_set_ids
+#    media_sets.collect(&:id).join(',')
+#  end
+
+########################################################
+
+ def self.compare_batch_by_meta_data_in_context(media_entries, context)
+   compared_against, other_entries = media_entries[0], media_entries[1..-1]
+   meta_data_for_context = []
+   context.meta_keys.map(&:id).inject(meta_data_for_context) do |memo, mk|
+       md = compared_against.meta_data.get(mk) # this will return or build the meta datum
+       memo << {:meta_key_id => md.meta_key_id, :value => md.value}
+   end
+   
+   new_blank_media_entry = self.new
+   meta_data_for_context.inject([]) do |meta_data, md_bare|
+      at_least_one_different = other_entries.detect {|me| !me.meta_data.get(md_bare[:meta_key_id]).same_value?(md_bare[:value])}
+      if at_least_one_different
+        meta_data << MetaDatum.new(:resource => new_blank_media_entry, :meta_key_id => md_bare[:meta_key_id], :value => nil, :keep_original_value => true)
+      else
+        meta_data << MetaDatum.new(:resource => new_blank_media_entry, :meta_key_id => md_bare[:meta_key_id], :value => md_bare[:value])
+      end
+      meta_data
+   end
+ end
+
 
 ########################################################
 

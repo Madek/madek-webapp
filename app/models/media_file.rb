@@ -3,6 +3,7 @@
 
 class MediaFile < ActiveRecord::Base
   # before_create :set_filename
+  before_create :assign_access_hash
   before_create :validate_file
   after_create  :store_file
   after_destroy :delete_file
@@ -41,15 +42,17 @@ class MediaFile < ActiveRecord::Base
       when /image/ then
         import_image_metadata(file_storage_location) if previews.empty? # TODO why?
         make_thumbnails
-      when /video/ then 
-        import_audio_video_metadata(full_path_file)
+      when /video/ then
+        import_audio_video_metadata(file_storage_location)
+        # get URL of media file and submit that
+        make_thumbnails
       when /audio/ then
-        import_audio_metadata(full_path_file)
+        import_audio_metadata(file_storage_location)
       # when /application\/zip/ then
       #   logger.info "application/zip"
       #   explode_and_import(full_path_file)
       when /application/ then
-        import_document_metadata(full_path_file)
+        import_document_metadata(file_storage_location)
       else
         # TODO implement other content_types
     end
@@ -115,6 +118,7 @@ class MediaFile < ActiveRecord::Base
     g
   end
 
+
   def shard
     # TODO variable length of sharding?
     self.guid[0..0]
@@ -123,24 +127,80 @@ class MediaFile < ActiveRecord::Base
   def make_thumbnails(sizes = nil)
     # this should be a background job
     if content_type.include?('image')
-      THUMBNAILS.each do |thumb_size,value|
-        next if sizes and !sizes.include?(thumb_size)
-        tmparr = thumbnail_storage_location
-        tmparr += "_#{thumb_size.to_s}"
-        outfile = [tmparr, 'jpg'].join('.')
-        conv_res = `convert -verbose "#{file_storage_location}" -auto-orient -thumbnail "#{value}" -flatten -unsharp 0x.5 "#{outfile}"`
-        if conv_res.blank?
-          # if convert failed, we need to take or delegate off some rescue action, ideally.
-          # but for the moment, lets just imply no-thumbnail need be made for this size
-        else
-          x,y = `identify -format "%wx%h" "#{outfile}"`.split('x')
-          if x and y
-            previews.create(:content_type => 'image/jpeg', :filename => outfile.split('/').last, :height => y, :width => x, :thumbnail => thumb_size.to_s ) 
+      thumbnail_jpegs_for(file_storage_location, sizes)
+    elsif content_type.include?('video')
+      # Extracts a cover image from the video stream
+      covershot = "#{thumbnail_storage_location}_covershot.png"
+      # You can use the -ss option to determine the temporal position in the stream you want to grab from (in seconds)
+      conversion = `ffmpeg -i #{file_storage_location} -y -vcodec png -vframes 1 -an -f rawvideo #{covershot}`
+      thumbnail_jpegs_for(covershot, sizes)
+      submit_video_encoding_job
+    end
+  end
+  
+  def retrieve_video_thumbnails
+    require 'lib/encode_job'
+    paths = []
+    
+    unless self.job_id.blank?
+      job = EncodeJob.new(self.job_id)
+      if job.finished?
+        # Get the encoded files via FTP
+        job.encoded_file_urls.each do |f|
+          filename = File.basename(f)
+          prefix = "#{thumbnail_storage_location}_encoded"
+          path = "#{prefix}_#{filename}"
+          `wget #{f} -O #{path}`
+          if $? == 0
+            paths << path
+          end
+        end
+      end
+    end
+    return paths
+  end
+
+  # Video thumbnails only come in one size (large) because re-encoding these costs money and they only make sense
+  # in the media_entries/show view anyhow (not in smaller versions).
+  def assign_video_thumbnails_to_preview
+    if previews.where(:content_type => 'video/webm').empty?
+      paths = retrieve_video_thumbnails
+      unless paths.empty?
+        paths.each do |path|
+          if File.extname(path) == ".webm"
+            # Must have Exiftool with Image::ExifTool::Matroska to support WebM!
+            w, h = exiftool_obj(path, ["Composite:ImageSize"])[0][0][1].split("x")
+            if previews.create(:content_type => 'video/webm', :filename => File.basename(path), :width => w.to_i, :height => h.to_i, :thumbnail => 'large')
+              return true
+            else
+              return false
+            end
           end
         end
       end
     end
   end
+  
+  def thumbnail_jpegs_for(file, sizes = nil)
+    THUMBNAILS.each do |thumb_size,value|
+      next if sizes and !sizes.include?(thumb_size)
+      tmparr = thumbnail_storage_location
+      tmparr += "_#{thumb_size.to_s}"
+      outfile = [tmparr, 'jpg'].join('.')
+      conv_res = `convert -verbose "#{file}" -auto-orient -thumbnail "#{value}" -flatten -unsharp 0x.5 "#{outfile}"`
+      if conv_res.blank?
+        # if convert failed, we need to take or delegate off some rescue action, ideally.
+        # but for the moment, lets just imply no-thumbnail need be made for this size
+      else
+        x,y = `identify -format "%wx%h" "#{outfile}"`.split('x')
+        if x and y
+          previews.create(:content_type => 'image/jpeg', :filename => outfile.split('/').last, :height => y, :width => x, :thumbnail => thumb_size.to_s )
+        end
+      end
+    end
+  end
+
+
 
   def validate_file
     #TODO - check for zip files and process accordingly
@@ -185,41 +245,52 @@ class MediaFile < ActiveRecord::Base
 #####################################################################################################################
 
   def import_audio_video_metadata(full_path_file)
-    # TODO refactor to use exiftool for metadata?
-    begin
-        blorb = `ffmpeg -i "#{full_path_file}" 2>&1`.split("\n")
-    rescue
-        blorb = nil 
+    # TODO: merge with import_image_metadata, make fields configurable in :options hash
+    self.meta_data = {}
+
+    # The Tracks: entries describe video, audio or subtitle tracks present in the container. We extract 10
+    # because we think no one would be mad enough to have more.
+    tracks = []
+    [1..10].each do |n|
+      tracks << "Track#{n}:"
+    end
+    
+    group_tags = ['File:', 'Composite:', 'IFD', 'ICC-','ICC_Profile','XMP-exif', 'XMP-xmpMM', 'XMP-aux', 'XMP-tiff', 'Photoshop:', 'ExifIFD:', 'JFIF', 'IFF:', 'GPS:', 'PNG:', 'QuickTime:'] + tracks #'System:' leaks system info
+    ignore_fields = ['UserComment','ImageDescription', 'ProfileCopyright', 'System:']
+    exif_hash = {}
+
+    blob = exiftool_obj(full_path_file, group_tags)
+    blob.each do |tag_array_entry|
+      tag_array_entry.each do |entry|
+        exif_hash[entry[0]]=entry[1] unless ignore_fields.any? {|w| entry[0].include? w }
+      end
+      meta_data.merge!(exif_hash)
     end
 
-    unless blorb.nil?
-      [1..8].each {blorb.pop}
-      self.meta_data = { "date"               => Date.today,
-                         "format"             => content_type,
-                         "properties"         => (blorb.collect {|key| key.gsub(/\n/, "|") }).join("§")
-                       }
+    # Exiftool couldn't get the dimensions. Let's try with ffmpeg
+    if exif_hash["Composite:ImageSize"].nil?
+      img_x, img_y = get_sizes_from_ffmpeg(full_path_file)
+    else
+      img_x, img_y = exif_hash["Composite:ImageSize"].split("x")
     end
+    update_attributes(:width => img_x, :height => img_y)
   end
 
-
+  def get_sizes_from_ffmpeg(path)
+    out = `ffmpeg -i #{path} 2>&1`
+    out.split("\n").each do |line|
+      if line =~ /.*Stream.*Video.*/
+        x, y = line.scan(/\d+x\d+/).first.split("x")
+        return [x, y]
+      end
+    end
+  end
+  
   def import_audio_metadata(full_path_file)
 
-    # TODO refactor to use exiftool for metadata?
-    begin
-        blorb = `ffmpeg -i "#{full_path_file}" 2>&1`.split("\n")
-    rescue
-        blorb = nil 
-    end
-
-    unless blorb.nil?
-      [1..8].each {blorb.pop}
-      self.meta_data = { "date"               => Date.today,
-                         "format"             => content_type,
-                         "properties"         => (blorb.collect {|key| key.gsub(/\n/, "|") }).join("§")
-                       }
-    end
+    # TODO refactor to use ffmpeg, some id3 tag extractor, etc.
   end
-
+  
 # This kind of thing REALLY needs to happen of elsewhere asynchronously, otherwise we move inexorably towards the day the site gets DOS'd. 
 # ie when a user uploads a malevolent zip that unpacks to some ridiculous storage-busting size..
 # TODO - explode and import the contents of a zip file
@@ -264,7 +335,26 @@ class MediaFile < ActiveRecord::Base
     #TODO - specifically for other non-zipped documents (e.g. source code, application binary, etc)
   end
 
+  def submit_video_encoding_job
+    # submit http://this_host/download?media_file_id=foo&access_hash=bar
+    puts "to submit: " + "#{VIDEO_ENCODING_BASE_URL}/download?media_file_id=#{self.id}&access_hash=#{self.access_hash}"
+    require 'encode_job'
+    job = EncodeJob.new
+    job.start_by_url("#{VIDEO_ENCODING_BASE_URL}/download?media_file_id=#{self.id}&access_hash=#{self.access_hash}")
+    # Save Zencoder job ID so we can use it in subsequent requests
+    update_attributes(:job_id => job.details['id'])
+    return job
+  end
+  
+  def assign_access_hash
+    self.access_hash = UUIDTools::UUID.random_create.to_s
+  end
 
+  def reset_access_hash
+    assign_access_hash
+    return save
+  end
+  
   private
 
 

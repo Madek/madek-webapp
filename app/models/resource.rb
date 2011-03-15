@@ -13,8 +13,9 @@ module Resource
       end
       
       def get(key_id)
-                                                      # unless ... and !!v.match(/\A[+-]?\d+\Z/) # TODO path to String#is_numeric? method
+        # unless ... and !!v.match(/\A[+-]?\d+\Z/) # TODO path to String#is_numeric? method
         #key_id = MetaKey.find_by_label(key_id.downcase).id unless key_id.is_a?(Fixnum)
+        #TODO: handle the case when key_id is a MetaKey object
         key_id = MetaKey.all_cached.detect {|mk| mk.label == key_id.downcase }.id unless key_id.is_a?(Fixnum)
         
         #r = where(:meta_key_id => key_id).first # OPTIMIZE prevent find if is_dynamic meta_key
@@ -67,23 +68,32 @@ module Resource
 
     base.validates_presence_of :user_id, :if => Proc.new { |record| record.respond_to?(:user_id) }
 
-    def update_attributes_with_pre_validation(attributes)
+    def update_attributes_with_pre_validation(attributes, current_user = nil)
+      self.editors << current_user if current_user # OPTIMIZE group by user ??
       self.updated_at = Time.now # OPTIMIZE touch or sphinx_touch ?? (only for media_entries actually)
       
       # we need to deep copy the attributes for batch edit (multiple resources)
       dup_attributes = Marshal.load(Marshal.dump(attributes))
       
+      # To avoid overriding at batch update: remove from attribute hash if :keep_original_value and value is blank
+      dup_attributes[:meta_data_attributes].delete_if { |key, attr| attr[:keep_original_value] and attr[:value].blank? }
+
       dup_attributes[:meta_data_attributes].each_pair do |key, attr|
         if attr[:value].is_a? Array and attr[:value].all? {|x| x.blank? }
           attr[:value] = nil
         end
-        if !attr[:id].blank? and attr[:value].blank?
-          attr[:_destroy] = true
-          #old# attr[:value] = "." # NOTE bypass the validation
-        elsif attr[:id].blank?
+        
+        # find existing meta_datum, if it exists
+        if attr[:id].blank?
           if (md = meta_data.all_cached.detect {|md| md.meta_key_id == attr[:meta_key_id].to_i}) #(md = meta_data.where(:meta_key_id => attr[:meta_key_id]).first)
             attr[:id] = md.id
           end
+        end
+        
+        # get rid of meta_datum if value is blank
+        if !attr[:id].blank? and attr[:value].blank?
+          attr[:_destroy] = true
+          #old# attr[:value] = "." # NOTE bypass the validation
         end
       end if dup_attributes[:meta_data_attributes]
 
@@ -180,8 +190,8 @@ module Resource
     end
 
     def thumb_base64(size = :small)
-      media_file = if self.is_a?(Media::Set) # TODO never used yet, to be tested
-        self.media_entries.first.media_file
+      media_file = if self.is_a?(Media::Set)
+        self.media_entries.first.try(:media_file)
       else
         self.media_file
       end
@@ -192,8 +202,9 @@ module Resource
 
       if media_file
         preview = case media_file.content_type
-                    when /video/ then 
-                      "Video"
+                    when /video/ then
+                      # Get the video's covershot that we've extracted/thumbnailed on import
+                      media_file.get_preview(size) || "Video"
                     when /audio/ then
                       "Audio"
                     when /image/ then
@@ -264,7 +275,9 @@ module Resource
       @meta_data_for_context[context.id] = []
 
       context.meta_keys.each do |key|
-        md = key.meta_data.scoped_by_resource_type_and_resource_id(self.class.name, self.id).first  # OPTIMIZE eager loading
+        # there seems to be a Rails bug with STI and polymorphic associations (Media::Set gets saved as resource_type instead of STI type, such as Media::Project)
+        t = (!["Media::Set", "MediaEntry"].include?(self.class.name)) ? "Media::Set" : self.class.name 
+        md = key.meta_data.scoped_by_resource_type_and_resource_id(t, self.id).first  # OPTIMIZE eager loading
         if md
           @meta_data_for_context[context.id] << md
         elsif build_if_not_exists or key.is_dynamic?

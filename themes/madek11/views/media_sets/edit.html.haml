@@ -1,0 +1,55 @@
+= prevent_leaving_page
+
+.container_12.clearfix              
+  %section#content_body.clearfix
+    %div.page_title_left
+      %img{:src => "/themes/madek11/images/icons/icon_edit.png"}
+      =_("Set-Metadaten editieren")
+    .clear
+    %hr
+    = form_for @media_set, :as => :resource, :url => [:update_multiple, @media_set, :meta_data], :html => {:method => :put} do |resource|
+      - content_for :buttons do
+        %div{:class => "save_buttons"}
+          = link_to _("Abbrechen"), @media_set, :class => "buttons"
+          = resource.submit _("Speichern")
+          .error.required_message{:style => "display: none;"}
+            = _("Bitte füllen Sie die Pflichtfelder aus (\"Titel\").")
+    
+      #detail_specification.clearfix
+        = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => MetaContext.media_set, :resource => resource }
+    
+      = yield :buttons
+    - if Permission.authorized?(current_user, :manage, @media_set)
+      - @resource = @media_set
+      .clear
+      
+.container_12.clearfix              
+  %section#content_body2.clearfix      
+    %div.page_title_left
+      %img{:src => "/themes/madek11/images/icons/icon_permission.png"}
+      =_("Set-Zugriffsberechtigungen editieren")
+    .clear
+    %hr
+    = render :partial => "/permissions/edit_multiple"
+
+
+:javascript
+  $(document).ready(function () {
+  	$("form").submit(function(event){
+  		// OPTIMIZE nested form problem
+  		if(this != event.target) return true;
+
+  		var valid = true;
+  		$(this).find("[data-required]").each(function(){
+  			if($(this).val() == "") valid = false;
+  		});
+  		if(!valid){
+  		// doesn't work anymore ??!!
+  		//if($(this).find("[data-required][value='']").length > 0){
+  			$(".required_message").show();
+  			return false;
+  		}else{
+  			$(".required_message").hide();
+  		}
+  	});
+  });

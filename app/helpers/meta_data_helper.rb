@@ -1,5 +1,22 @@
 # -*- encoding : utf-8 -*-
 module MetaDataHelper
+  
+  def display_meta_data_for_context(resource, context)
+    a = ''
+    uploader_info, other_info = resource.meta_data_for_context(context).partition {|md| ["uploaded by", "uploaded at"].include?(md.meta_key.label) }
+    other_info.collect do |meta_datum|
+      definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
+      a += content_tag :small, definition.meta_field.label.to_s
+      a += if meta_datum.meta_key.label == "title"
+        content_tag :h3, formatted_value(meta_datum)
+      else
+        content_tag :p, formatted_value(meta_datum)
+      end
+    end
+    a += content_tag :small, "Erstellt von/am"
+    a += content_tag :p, formatted_value(uploader_info.first) + " / " + formatted_value(uploader_info.last)
+    return a.html_safe
+  end
 
   # TODO merge with MetaDatum#to_s
   def formatted_value(meta_datum)
@@ -77,7 +94,7 @@ module MetaDataHelper
       # 02.21.11 Switching to newer version of multiselect plugin with less dependencies
       a += javascript_include_tag "/themes/madek11/javascripts/jquery/plugins/multiselect/jquery.localisation-min.js",
                                   "/themes/madek11/javascripts/jquery/plugins/multiselect/ui.multiselect.js",
-                                  "/themes/madek11/javascripts/jquery/plugins/multiselect/locale/ui.multiselect-#{locale}.js"
+                                  "/themes/madek11/javascripts/jquery/plugins/multiselect/locale/ui-multiselect-#{locale}.js"
       a += javascript_tag do
         begin
         <<-HERECODE
@@ -176,14 +193,97 @@ module MetaDataHelper
   end
 
 ###########################################################
+  
+  # NEW generic multi select plugin (WIP)
+  def widget_meta_terms_multiselect_2(meta_datum, meta_key, meta_terms)
+    all_options = meta_terms.collect {|t| {:label => t.to_s, :id => t.id}}
+    selected_option_ids = meta_datum.object.value
+    selected_options = selected_option_ids.blank? ? [] : all_options.select {|x| selected_option_ids.include? x[:id] }
+    
+    dom_scope = meta_key.label.gsub(/\s+/, '_')
+    
+    h = content_tag :div, :id => "#{dom_scope}_multiselect", :class => "madek_multiselect_container" do 
+      a = content_tag :ul, :class => "holder" do
+      end
+      a += text_field_tag "autocomplete_search"
+    end
+    
+    h += content_tag :script, :type => "text/x-jquery-tmpl", :id => "#{dom_scope}_madek_multiselect_item" do
+      begin
+      <<-HERECODE
+        <li class='bit-box'>
+          ${label}
+          <input type='hidden' name='#{meta_datum.object_name}[value][]' value='${id}'>
+          <a class="closebutton" href="#"></a>
+        </li>
+      HERECODE
+      end.html_safe
+    end
+    h += javascript_tag do
+      begin
+      <<-HERECODE
+        $(document).ready(function(){
+          create_multiselect_widget("#{dom_scope}", #{all_options.to_json}, #{selected_option_ids.to_json}, #{selected_options.to_json});
+        });
+      HERECODE
+      end.html_safe
+    end
+  end
+
 
   def widget_meta_departments(meta_datum, meta_key)
-    all_options = Meta::Department.all.collect do |d|
-      [d.to_limited_s, d.id, {:title => d.to_s}]
+#    all_options = Meta::Department.all.collect do |d|
+#      [d.to_limited_s, d.id, {:title => d.to_s}]
+#    end
+#    selected_option = meta_datum.object.value
+#    
+#    meta_datum.select :value, options_for_select(all_options, selected_option), {:include_blank => true}, {:multiple => true}
+
+    all_options = Meta::Department.all.collect {|d| {:label => d.to_s, :id => d.id} }
+    selected_option_ids = meta_datum.object.value
+    selected_options = selected_option_ids.blank? ? [] : all_options.select {|x| selected_option_ids.include? x[:id] }
+
+    dom_scope = meta_key.label.gsub(/\s+/, '_')
+
+    h = content_tag :div, :id => "#{dom_scope}_multiselect", :class => "madek_multiselect_container" do 
+      a = content_tag :ul, :class => "holder" do
+      end
+      a += text_field_tag "autocomplete_search"
     end
-    selected_option = meta_datum.object.value
-    
-    meta_datum.select :value, options_for_select(all_options, selected_option), {:include_blank => true}, {:multiple => true}
+    h += content_tag :style do
+      begin
+      <<-HERECODE
+        .madek_multiselect_container ul.holder li {
+          white-space: normal;
+        }
+        .ui-autocomplete { 
+            width: 10px;
+        }
+      HERECODE
+      end.html_safe
+    end
+    h += javascript_include_tag "/themes/madek11/javascripts/jquery.tmpl.js" #TODO remove (madek11 already includes in layout)
+    h += content_tag :script, :type => "text/x-jquery-tmpl", :id => "#{dom_scope}_madek_multiselect_item" do
+      begin
+      <<-HERECODE
+        <li class='bit-box'>
+          ${label}
+          <input type='hidden' name='#{meta_datum.object_name}[value][]' value='${id}'>
+          <a class="closebutton" href="#"></a>
+        </li>
+      HERECODE
+      end.html_safe
+    end
+    h += javascript_tag do
+      begin
+      <<-HERECODE
+          $(document).ready(function(){
+            create_multiselect_widget("#{dom_scope}", #{all_options.to_json}, #{selected_option_ids.to_json}, #{selected_options.to_json});
+          });
+      HERECODE
+      end.html_safe
+    end
+
   end
 
 ###########################################################
@@ -262,6 +362,7 @@ module MetaDataHelper
 #          h += text_area_tag "media_entry[meta_data_attributes][0][value]", meta_datum.object.to_s
         when "Keyword"
           keywords = meta_datum.object.deserialized_value
+
           meta_term_ids = keywords.collect(&:meta_term_id)
           all_grouped_keywords = Keyword.group(:meta_term_id)
           all_grouped_keywords = all_grouped_keywords.where(["meta_term_id NOT IN (?)", meta_term_ids]) unless meta_term_ids.empty?
@@ -280,7 +381,12 @@ module MetaDataHelper
         when "Meta::Term"
           meta_terms = meta_key.meta_terms
           ui = (definition.meta_field.length_max and definition.meta_field.length_max == 1 ? :radio_button : :check_box )
+          # WIP: implementing generic madek_multiselect
+          # if meta_terms.size <= 10
           h += widget_meta_terms(meta_datum, meta_key, meta_terms, ui)
+          # else
+          #   h += widget_multi_select(meta_datum, meta_key, meta_terms)
+          # end
 
         when "Person"
           # NOTE prefetch all people and cache them
