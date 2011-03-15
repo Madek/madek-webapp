@@ -1,44 +1,47 @@
-%h3.name.editinplace
-  = @group.name
-
-%ul#members
-  = render :partial => "user", :collection => @group.users
-
-%br
-  %b
-    Person hinzufügen:
-%input#new_user
-
-:javascript
-  $(function() {
-    $("h3.name.editinplace").editInPlace({
-      url: "#{group_path(@group)}",
-      params: "_method=put&format=js",
-      update_value: "group[name]"
-    });
-
-    $("input#new_user").autocomplete({
-      source: "/users",
-      minLength: 3,
-      select: function( event, ui ) {
-    		$.ajax({
-    			url: '#{membership_group_path(@group)}',
-    			data: {user_id: ui.item.id},
-    			type: "post",
-    			success: function(response){
-            $("input#new_user").val("");
-            $(response).appendTo('ul#members').effect('highlight');
-    			}
-    		});
-      }
-    });
-    $("ul#members a[data-method='delete']").live('ajax:success', function(){
-      $(this).closest("li").fadeOut();
-    });
-  });
-
-%br
-%br
-= link_to _("Zurück zu meinen Gruppen"), groups_path
-%br
-%br
+.container_12.clearfix              
+  %section#content_body
+    %h3.name.editinplace
+      = @group.name
+    
+    %ul#members
+      = render :partial => "user", :collection => @group.users
+    
+    %br
+    %b Person hinzufügen:
+    %input#new_user
+      %hint
+        Es können nur Personen ausgewählt werden, die sich schon einmal im Medienarchiv eingeloggt haben.
+    
+    :javascript
+      $(function() {
+        $("h3.name.editinplace").editInPlace({
+          url: "#{group_path(@group)}",
+          params: "_method=put&format=js",
+          update_value: "group[name]"
+        });
+    
+        $("input#new_user").autocomplete({
+          source: "/users",
+          minLength: 3,
+          select: function( event, ui ) {
+        		$.ajax({
+        			url: '#{membership_group_path(@group)}',
+        			data: {user_id: ui.item.id},
+        			type: "post",
+        			success: function(response){
+                $("input#new_user").val("");
+                $(response).appendTo('ul#members').effect('highlight');
+        			}
+        		});
+          }
+        });
+        $("ul#members a[data-method='delete']").live('ajax:success', function(){
+          $(this).closest("li").fadeOut();
+        });
+      });
+    
+    %br
+    %br
+    %br
+    = link_to _("Zurück zu meinen Gruppen"), groups_path
+    %br

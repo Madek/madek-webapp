@@ -4,31 +4,30 @@
   %tbody
     %tr
       %th
-        Nachname, Vorname:
+        Namen:
       %th{:colspan => 2}
         Berechtigungen:
       %th
     %tr
       %td
-        %strong Einzelpersonen
+        %strong Personen
       %td
         Sehen
       %td
         Editieren
       %td
-        Volle Auflösung
+        Download volle Auflösung
   %tbody#user_permissions
     = render :partial => "/permissions/edit", :collection => @permissions.select{|x| x.subject_type == "User"}, :as => :permission
   %tbody
     %tr.adder
-      %td
-        Benutzer/in hinzufügen:
-      %td{:colspan => 4}
-        %input#new_user
-    %tr
       %td{:colspan => 5}
-        %p{:style => "font-size: 0.9em; line-height: 2em;"}
-          Es können nur Benutzer/innen ausgewählt werden, die sich schon einmal im Medienarchiv eingeloggt haben.
+        Person hinzufügen:
+        %input#new_user
+    %tr.adder
+      %td{:colspan => 5}
+        %p.hint
+          Es können nur Personen ausgewählt werden, die sich schon einmal im Medienarchiv eingeloggt haben.
   %tbody
     %tr
       %td
@@ -38,14 +37,13 @@
       %td
         Editieren
       %td
-        Volle Auflösung
+        Download volle Auflösung
   %tbody#group_permissions
     = render :partial => "/permissions/edit", :collection => @permissions.select{|x| x.subject_type == "Group"}, :as => :permission
   %tbody
     %tr.adder
-      %td
+      %td{:colspan => 5}
         Gruppe hinzufügen:
-      %td{:colspan => 4}
         %input#new_group
   %tbody
     %tr
@@ -56,7 +54,7 @@
       %td
         Editieren
       %td
-        Volle Auflösung
+        Download volle Auflösung
   %tbody#anyone_permissions
     = render :partial => "/permissions/edit", :collection => @permissions.select{|x| x.subject_type.nil?}, :as => :permission
 

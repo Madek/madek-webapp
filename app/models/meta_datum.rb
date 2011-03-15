@@ -12,6 +12,8 @@ class MetaDatum < ActiveRecord::Base
 
   validates_uniqueness_of :meta_key_id, :scope => [:resource_type, :resource_id]
   validates_presence_of :resource_type, :resource_id, :meta_key_id, :value
+  
+  attr_accessor :keep_original_value
 
   before_save do |record|
     case record.meta_key.object_type
@@ -35,7 +37,6 @@ class MetaDatum < ActiveRecord::Base
                           if klass == Keyword
                             user = resource.editors.latest || (resource.respond_to?(:user) ? resource.user : nil)
                             if v.is_a?(Fixnum) or (v.respond_to?(:match) and !!v.match(/\A[+-]?\d+\Z/)) # TODO patch to String#is_numeric? method
-                              #old# r = klass.find_or_create_by_meta_term_id_and_user_id(:meta_term_id => v, :user_id => user.id)
                               r = klass.where(:meta_term_id => v, :id => value_was).first
                               r ||= klass.create(:meta_term_id => v, :user => user)
                             else
@@ -142,6 +143,28 @@ class MetaDatum < ActiveRecord::Base
 #  def <=>(other)
 #    self.meta_key.label <=> other.meta_key.label
 #  end
+  
+##########################################################
+
+  def same_value?(other_value)
+    case value
+      when String
+        value == other_value
+      when Array
+        return false unless other_value.is_a?(Array)
+        if value.first.is_a?(Meta::Date) 
+          other_value.is_a?(Meta::Date) && (other_value.first.free_text == value.first.free_text)
+        elsif meta_key.label == "keywords"
+          referenced_meta_term_ids = Keyword.where(:id => other_value).all.map(&:meta_term_id)
+          deserialized_value.map(&:meta_term_id).same_elements?(referenced_meta_term_ids)
+        else
+          value.same_elements?(other_value) # patch of Array class, works for integers and other simple types
+        end
+      when NilClass
+        other_value.blank?
+    end
+  end
+  
   
 ##########################################################
 

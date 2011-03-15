@@ -56,8 +56,7 @@ class MetaDataController < ApplicationController
   end
 
   def update_multiple
-    if @resource.update_attributes(params[:resource])
-      @resource.editors << current_user # OPTIMIZE group by user ??
+    if @resource.update_attributes(params[:resource], current_user)
       flash[:notice] = "Die Änderungen wurden gespeichert."
     else
       flash[:error] = "Die Änderungen wurden nicht gespeichert."

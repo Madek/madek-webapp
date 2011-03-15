@@ -1,3 +1,1 @@
-zencoder: 
-  api_key: abc123 
-  ftp_base_url: ftp://username:password@example.com/encoded
+zencoder-real.yml

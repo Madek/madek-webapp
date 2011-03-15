@@ -30,10 +30,11 @@ class ApplicationController < ActionController::Base
 ##############################################  
 
   def root
-    # madek11 theme "madek11"
+    # madek11
+    theme "madek11"
     if logged_in?
       # TODO refactor to UsersController#show and dry with MediaEntriesController#index
-      params[:per_page] ||= 20 #PER_PAGE.first
+      params[:per_page] ||= PER_PAGE.first
       ids = Permission.accessible_by_user("MediaEntry", current_user)
       options = { :page => params[:page], :per_page => params[:per_page].to_i, :retry_stale => true, :include => [:default_permission, {:media_file => :preview_small}] }
       

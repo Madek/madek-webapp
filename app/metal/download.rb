@@ -5,7 +5,7 @@ class Download
       request = Rack::Request.new(env)
       params = request.params
       session = env['rack.session']
-
+      
       current_user = User.find_by_id(session[:user_id]) if session[:user_id]
 
 # e.g.
@@ -17,6 +17,19 @@ class Download
 
 #####################################################################################################################
 #####################################################################################################################
+
+
+      unless params['media_file_id'].blank?
+        @media_file = MediaFile.where(:id => params['media_file_id'], :access_hash => params['access_hash']).first
+        
+        if @media_file.nil?
+          return [404, {"Content-Type" => "text/html"}, ["Not found or no access. Try adding an access hash."]]
+        else
+          path = @media_file.file_storage_location
+          return [200, {"Content-Type" => @media_file.content_type, "Content-Disposition" => "attachment; filename=#{@media_file.filename}" }, [File.read(path) ]]
+        end
+      end
+      
       unless params['id'].blank? 
 
         @media_entry = MediaEntry.where(:id => params['id']).first
@@ -105,6 +118,26 @@ class Download
               return [200, {"Content-Type" => content_type, "Content-Disposition" => "attachment; filename=#{filename}" }, [File.read(path) ]]
             else
               return [500, {"Content-Type" => "text/html"}, ["Something went wrong!"]]
+            end
+          end
+
+
+          # A transcoded, smaller-than-original version of the video
+          unless params['video_thumbnail'].blank?
+            if params['format'].blank?
+              video_format = "webm" # This is much more widely supported than H.264. Only Apple/Safari wants H.265
+                                    # everyone else is on WebM.
+            else
+              video_format = params['format']
+            end
+
+            preview = @media_entry.media_file.previews.where(:content_type => "video/#{video_format}").last
+            if preview.nil?
+              return [404, {"Content-Type" => "text/html"}, ["Not found."]]
+            else
+              path = "#{THUMBNAIL_STORAGE_DIR}/#{@media_entry.media_file.shard}/#{preview.filename}"
+              content_type = "video/#{File.extname(path).gsub(".","")}"
+              return [200, {"Content-Type" => content_type, "Content-Disposition" => "attachment; filename=#{@media_entry.media_file.filename}" }, [File.read(path) ]]
             end
           end
 

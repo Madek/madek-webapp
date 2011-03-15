@@ -37,6 +37,10 @@ def set_up_world
 end
 
 
+def make_hidden_items_visible
+  page.execute_script '$(":hidden").show();'
+end
+
 def click_on_arrow_next_to(word)
   find(".head_menu", :text => "#{word}").find("img.arrow").click
 end
@@ -89,10 +93,7 @@ def wait_for_css_element(element)
 end
 
 
-
 def fill_in_for_media_entry_number(n, values)
-#   fill_in "resources[media_entry][#{n}][meta_data_attributes][0][value]", :with => values[:title]
-#   fill_in "resources[media_entry][#{n}][meta_data_attributes][4][value]", :with => values[:copyright]
 
   # More human-compatible, we fill_in...(1) to fill in the field
   # at index position 0
@@ -108,7 +109,25 @@ def fill_in_for_media_entry_number(n, values)
   
 end
 
+def fill_in_for_batch_editor(values)
+
+  values.each do |k,v|
+    # Fills in the "_value" field it finds in the UL that contains
+    # the "key" text. e.g. "Titel*" or "Copyright"
+    all("ul", :text => /#{k}/).first.all("textarea").each do |ele|
+      fill_in ele[:id], :with => v if !ele[:id].match(/attributes_\d+_value$/).nil?
+    end
+  end
+
+end
+
+
 def click_media_entry_titled(title)
+  entry = find_media_entry_titled(title)
+  entry.find("a").click
+end
+
+def oldschool_click_media_entry_titled(title)
   all("ul.items li").each do |entry|
     if entry.text =~ /#{title}/
       entry.find("a").click
@@ -117,15 +136,45 @@ def click_media_entry_titled(title)
 end
 
 
-def pick_from_autocomplete(text)
-
+# Sets the checkbox of the media entry with the given title to true.
+def check_media_entry_titled(title)
+  # Crutch so we can check the otherwise invisible checkboxes (they only appear on hover,
+  # which Capybara can't do)
+  make_hidden_items_visible
   
-  all("ul.ui-autocomplete").each do |ul|
-    ul.all("li.ui-menu-item a").each do |item|
-      item.click if item.text =~ /#{text}/
+  entry = find_media_entry_titled(title)
+  cb = entry.find("input")
+  cb.click unless cb[:checked] == "true" # a string, not a bool!
+end
+
+# Attempts to find a media entry based on its title by looking for
+# the .item_box that contains the title. Returns the whole .item_box element
+# if successful, nil otherwise.
+def find_media_entry_titled(title)
+  found_item = nil
+  all(".item_box").each do |item|
+    #debugger; puts "lala"
+    if !item.find(".item_title").text.match(/#{title}/).nil?
+      found_item = item
     end
   end
 
+  if found_item == nil
+    puts "No media entry found with title '#{title}'"
+  end
+
+  return found_item
+  
+end
+
+# Picks the given text string from an autocomplete text input box
+# that is stuck in an UL: ul.ui-autocomplete
+def pick_from_autocomplete(text)
+  all("ul.ui-autocomplete").each do |ul|
+    ul.all("li.ui-menu-item a").each do |item|
+      item.click if !item.text.match(/#{text}/).nil?
+    end
+  end
 end
 
 
@@ -172,9 +221,7 @@ def find_permission_checkbox(type, to_or_from)
       index = 5
     end
   end
-
-  cb = find(:css, "table.permissions").find("tr", :text => text).all("input")[index]
-  
+  cb = find(:css, "table.permissions").find("tr", :text => text).all("input")[index]  
 end
 
 
@@ -190,6 +237,12 @@ def remove_permission_to(type, from)
   cb.click if cb[:checked] == "true" # a string, not a bool!
 end
 
+
+
+# DANGER: This is now (March 15, 2011) broken due to the way
+# Capybara handles fill_in. I believe it used to trigger the keyUp event
+# that is necessary for the autocomplete to kick in, but it no longer does
+# so, breaking many of our tests. Needs more investigation.
 def type_into_autocomplete(type, text)
   if type == :user
     wait_for_css_element("table.permissions")
@@ -225,7 +278,7 @@ def sphinx_reindex
   # the indexer is actually run (in the background!) when we think it is run.
   # Otherwise it might run even more asynchronously, which breaks all of our tests.
   `rake ts:reindex &`
-  sleep(5)
+  sleep(1)
 
   # Note that NONE OF THIS WOULD BE NECESSARY if Sphinx, ThinkingSphinx and Rspec
   # were better aligned and delta indexing would actually work in testing the way it

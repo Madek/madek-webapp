@@ -43,5 +43,4 @@ MAdeK::Application.configure do
   # Make less noise!
   ThinkingSphinx.suppress_delta_output = true
 
-  
 end

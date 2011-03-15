@@ -1,174 +1,152 @@
-:css
-  h4 {margin: 0 0 5px 0;}
-  a img {border: none;}
-  ul { list-style: none; overflow: hidden; }
-  ul li { float: left; margin-right: 10px;}
-  .clear { margin: 0;}
-  .icon_bar {margin-top: 2em;}
-  .icon_bar img {margin-right: .33em;}
-  .task_bar { background: #E0ECFF; width: 100%; padding: 0.4em; margin-bottom: .8em;}
-  .task_bar input[disabled] {border: 1px solid #ccc; color: #ccc; background-color: #ddd;}
-  #selected_items .thumb_mini { display: inline-block; margin-right: 0.33em; background: white; border: 1px solid #ddd; padding: 0.2em;}
-  #selected_items .thumb_mini p { text-align: center; font-size: 0.7em;  }
-    
-#page_header.container_12
-  .grid_4.alpha
-    .group_is
-      %h1= "Set (#{@media_entries.total_entries}/#{@media_set.media_entries.size})"
-      .icon_is
-        = theme_image_tag "icons/icon_set.png"
-  .grid_5.group_meta
-    - context = MetaContext.media_set
-    - @media_set.meta_data_for_context(context).collect do |meta_datum|
-      - definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
-      %p= definition.meta_field.label.to_s
-      = formatted_value(meta_datum)
-  .grid_3.omega
-    - if @can_edit
-      .icon_bar
-        = display_edit_icon(@media_set, current_user)
-        = display_delete_icon(@media_set, current_user)
-        - if Permission.resource_viewable_only_by_user?(@media_set, current_user)
-          = theme_image_tag("icons/icon_button_perm.png")
+%section#content_head
+  .container_12.clearfix
+    #page_head
+      .grid_3
+        #set_info
+          %div.item_box_set
+            %div.item_permission_set
+              = display_permission_icon(@media_set)
+            %div.thumb_box_set
+              / TODO: move this into a helper
+              = tag :img, :src => @media_set.thumb_base64(:small_125)
+      .grid_6
+        #set_meta
+          - context = MetaContext.media_set
+          = display_meta_data_for_context(@media_set, context)
+      .grid_3
+        #set_actions
+          - if @can_edit
+            = display_edit_icon(@media_set, current_user)
+            = display_delete_icon(@media_set, current_user)
+
+%section#content_body
+  %div.page_title_left
+    %img{:src => "/themes/madek11/images/icons/icon_set.png"}
+    =_("Set-Inhalt")
+    %span= "#{@media_set.media_entries.size} von #{@media_entries.total_entries} Medieneinträge sichtbar"
+  #pagination_container
   .clear
-  .grid_12.task_bar
+  %hr
+  .task_bar
     %ul
+      %li
+        %h4 Ausgewählte Medieneinträge bearbeiten:
       %li#number_selected
         Keine Medieneinträge ausgewählt
-      %li#batch-edit-button
-        = button_to _("Medieneinträge Editieren"), edit_multiple_media_entries_path, :method => :post, :id => "batch-edit"
-      %li#batch-remove-button
-        = button_to _("Aus Set Entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete, :id => "batch-remove"
-      %li#batch-add-to-set
+      .clear
+      - unless @editable_in_set.blank?
+        %li#batch-edit.action_btn
+          = button_to _("Metadaten editieren"), edit_multiple_media_entries_path, :method => :post
+      - unless @managable_in_set.blank?
+        %li#batch-permissions.action_btn
+          = button_to _("Zugriffsberechtigungen editieren"), edit_multiple_permissions_media_entries_path, :method => :post
+      - if @can_edit
+        %li#batch-remove.action_btn
+          = button_to _("Aus Set entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete
+      %li#batch-add-to-set.action_btn
         = form_tag add_member_media_set_url(@media_set) do
-          = select_tag "media_set_id", options_for_select([["Set Auswählen", ""]] + @editable_sets.collect {|set| [set.meta_data.get_value_for("title"), set.id]})
-          = submit_tag "Alle hinzufügen"
+          = select_tag "media_set_id", options_for_select([["Set auswählen…", ""]] + @editable_sets.collect {|set| [set.meta_data.get_value_for("title"), set.id]})
+          = submit_tag "Hinzufügen"
+    #selected_items
+    %script{:type => "text/x-jquery-tmpl", :id => "thumbnail_mini"}
+      %div{:class => "${css_class}", :id => "me_${id}"}
+        %img{:rel => "${id}", :src => "/themes/madek11/images/icons/button_remove_action.png", :style => "display:none;", :class => "thumb_remove"}
+        %a{:href => "/media_entries/${id}"}
+          %img{:src => "${thumb_base64_x_small}"}
 
-  .clear
-#selected_items.grid_12.task_bar
-.clear
-:plain    
-  <script type="text/x-jquery-tmpl" id="mini_thumbnails">
-        <div class="${css_class}" id="me_${id}">
-          <a href="/media_entries/${id}">
-            <img src="${thumb_base64}">
-          </a>
-        </div>
-  </script>
-#results
-  = render :partial => "/media_entries/index"
-.clear
+  %div#results
+    = render :partial => "/media_entries/index"
 
 :javascript
+    function selected_items_highlight_on(selector){
+      $('#selected_items '+selector).css("background-color", "#FEFFD7");
+    }
+    function selected_items_highlight_off(selector){
+      $('#selected_items '+selector).css("background-color", "white");
+    }    
+
   $(document).ready(function () {
-    //alert("document loaded");
-    var data = #{@info_to_json};
+    $("div.pagination").appendTo("#pagination_container");
+  
+    var data = #{@media_entries_json};
     var media_set_id = #{@media_set.id};
-    var key = "media_sets/"+ media_set_id +"/media_entry_ids";
 
     checkSelected(media_set_id);
-    listSelected(media_set_id, data);
-    displayCount(key);
+    listSelected(media_set_id);
+    displayCount(media_set_id);
+     
+    // make thumbnails removable from the selected items bar
+    $('#selected_items .thumb_mini').live("hover", function() {
+        $(this).children('img.thumb_remove').toggle();
+     });
+  
+    $('img.thumb_remove').live("click", function() {
+      $(this).parents('.thumb_mini').remove();
+      var id = $(this).attr("rel");
+      toggleSelected(media_set_id, id);
+    });
   
     $('.pagination a').live('ajax:success', function(xhr, response){
   		checkSelected(media_set_id);
+  		$('.actions').hide();
   	});
 	
-    $("span.favorite_link a").live('ajax:complete', function(xhr, response){
-      var media_entry_id = $(this).parent().attr("id").slice(4);
-    	$("span#fav_" + media_entry_id).html(response.responseText);
-    });
-	
-    function displayCount(key) {
-      //alert("displayCount called");
-      var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
-
-      if (media_entry_ids != null) {
-        var count_checked = media_entry_ids.length;
-        var display_count = $('li#number_selected');
-        switch (count_checked){
-          case 0:
-            display_count.html("Keine Medieneinträge ausgewählt.");
-          break;
-          case 1:
-            display_count.html("1 Medieneintrag ausgewählt.");
-          break;
-          default : 
-            display_count.html(count_checked + " Medieneinträge ausgewählt.");
-        }
-      }
-    };
-	
   	// hover functions for batch action buttons - highlight selected entries for which action is possible 
-  	$("input#batch-edit").hover(
-      function () {
-        $('#selected_items .edit').css("background","yellow");
-      }, 
-      function () {
-        $('#selected_items .edit').css("background","white");
-      }
+  	$("#batch-edit").hover(
+      function () { selected_items_highlight_on('.edit'); }, 
+      function () { selected_items_highlight_off('.edit'); }
     );
   
-    $("input#batch-remove").hover(
-      function () {
-        $('#selected_items .edit_set').css("background","yellow");
-      }, 
-      function () {
-        $('#selected_items .edit_set').css("background","white");
-      }
+    $("#batch-remove, #batch-add-to-set").hover(
+      function () { selected_items_highlight_on('.thumb_mini'); }, 
+      function () { selected_items_highlight_off('.thumb_mini'); }
     );
-      
+    
+    $("#batch-permissions").hover(
+      function () { selected_items_highlight_on('.manage'); }, 
+      function () { selected_items_highlight_off('.manage'); }
+    );
+        
     $(":checkbox").live("click", function(){
-      //alert("checkbox clicked");
-      var is_checked = $(this).is(":checked");
       var curr_value = $(this).val();
-      var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
-    
-      if(media_entry_ids == null) media_entry_ids = new Array();
-    
-      if(is_checked){
-        media_entry_ids.push(curr_value);
-      } else {
-        var i = media_entry_ids.indexOf(curr_value);
-        if(i > -1) media_entry_ids.splice(i, 1);
-      }
-
       $.each(data, function(i, me) {
-        if ((me.id == curr_value) && is_checked) {
-          // insert into selected bar
-          $('#selected_items').append($("#mini_thumbnails").tmpl(me));
-        } else if (me.id == curr_value) {
-          // remove from selected bar
-          $('#selected_items #me_' + me.id).remove();
+        if(me.id == curr_value){
+          toggleSelected(media_set_id, me);
         }
       });
-    
-      sessionStorage.setItem(key, JSON.stringify(media_entry_ids.getUnique()));
-      displayCount(key);
     });
 
-    $("#batch-edit-button form").submit(function() {
-      //var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
+    $("#batch-edit form").submit(function() {
       var editable_ids = new Array();
       $("#selected_items .edit").each(function(i, elem){
         editable_ids.push($(this).attr("id").slice(3));
       });
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
     });
+    
+     $("#batch-permissions form").submit(function() {
+      var managable_ids = new Array();
+      $("#selected_items .manage").each(function(i, elem){
+        managable_ids.push($(this).attr("id").slice(3));
+      });
+      $(this).append("<input type='hidden' name='media_entry_ids' value='"+managable_ids+"'>");
+    });
   
-    $("#batch-remove-button form").submit(function() {
-      //var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
+    $("#batch-remove form").submit(function() {
       var editable_ids = new Array();
-      $("#selected_items .edit_set").each(function(i, elem){
+      $("#selected_items .thumb_mini").each(function(i, elem){
         editable_ids.push($(this).attr("id").slice(3));
       });
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
-      sessionStorage.removeItem(key); //maybe we just want to remove the items slated for removal (rather than the entire key)
+      sessionStorage.removeItem(get_key_for_media_set(media_set_id)); //maybe we just want to remove the items slated for removal (rather than the entire key)
     });
   
-     $("#batch-add-to-set form").submit(function() {
-       var media_entry_ids = JSON.parse(sessionStorage.getItem(key));
-       $(this).append("<input type='hidden' name='media_entry_ids' value='"+media_entry_ids+"'>");
-     });
+    $("#batch-add-to-set form").submit(function() {
+      var editable_ids = new Array();
+      $("#selected_items .thumb_mini").each(function(i, elem){
+        editable_ids.push($(this).attr("id").slice(3));
+      });
+      $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
+    });
     
   });
