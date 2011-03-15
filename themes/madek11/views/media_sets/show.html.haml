@@ -35,18 +35,18 @@
         Keine Medieneinträge ausgewählt
       .clear
       - unless @editable_in_set.blank?
-        %li#batch-edit-button.action_btn
-          = button_to _("Metadaten editieren"), edit_multiple_media_entries_path, :method => :post, :id => "batch-edit"
+        %li#batch-edit.action_btn
+          = button_to _("Metadaten editieren"), edit_multiple_media_entries_path, :method => :post
       - unless @managable_in_set.blank?
-        %li#batch_permissions.action_btn
-          = button_to _("Zugriffsberechtigungen editieren"), edit_multiple_permissions_media_entries_path, :method => :post, :id => "batch-permissions"
+        %li#batch-permissions.action_btn
+          = button_to _("Zugriffsberechtigungen editieren"), edit_multiple_permissions_media_entries_path, :method => :post
       - if @can_edit
-        %li#batch-remove-button.action_btn
-          = button_to _("Aus Set entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete, :id => "batch-remove"
+        %li#batch-remove.action_btn
+          = button_to _("Aus Set entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete
       %li#batch-add-to-set.action_btn
         = form_tag add_member_media_set_url(@media_set) do
           = select_tag "media_set_id", options_for_select([["Set auswählen…", ""]] + @editable_sets.collect {|set| [set.meta_data.get_value_for("title"), set.id]})
-          = submit_tag "Hinzufügen", :id => "batch-add-to-set"
+          = submit_tag "Hinzufügen"
     #selected_items
     %script{:type => "text/x-jquery-tmpl", :id => "thumbnail_mini"}
       %div{:class => "${css_class}", :id => "me_${id}"}
@@ -92,17 +92,17 @@
   	});
 	
   	// hover functions for batch action buttons - highlight selected entries for which action is possible 
-  	$("input#batch-edit").hover(
+  	$("#batch-edit").hover(
       function () { selected_items_highlight_on('.edit'); }, 
       function () { selected_items_highlight_off('.edit'); }
     );
   
-    $("input#batch-remove, input#batch-add-to-set").hover(
+    $("#batch-remove, #batch-add-to-set").hover(
       function () { selected_items_highlight_on('.thumb_mini'); }, 
       function () { selected_items_highlight_off('.thumb_mini'); }
     );
     
-    $("input#batch-permissions").hover(
+    $("#batch-permissions").hover(
       function () { selected_items_highlight_on('.manage'); }, 
       function () { selected_items_highlight_off('.manage'); }
     );
@@ -116,7 +116,7 @@
       });
     });
 
-    $("#batch-edit-button form").submit(function() {
+    $("#batch-edit form").submit(function() {
       var editable_ids = new Array();
       $("#selected_items .edit").each(function(i, elem){
         editable_ids.push($(this).attr("id").slice(3));
@@ -124,7 +124,7 @@
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
     });
     
-     $("#batch_permissions form").submit(function() {
+     $("#batch-permissions form").submit(function() {
       var managable_ids = new Array();
       $("#selected_items .manage").each(function(i, elem){
         managable_ids.push($(this).attr("id").slice(3));
@@ -132,9 +132,9 @@
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+managable_ids+"'>");
     });
   
-    $("#batch-remove-button form").submit(function() {
+    $("#batch-remove form").submit(function() {
       var editable_ids = new Array();
-      $("#selected_items .edit_set").each(function(i, elem){
+      $("#selected_items .thumb_mini").each(function(i, elem){
         editable_ids.push($(this).attr("id").slice(3));
       });
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
@@ -142,9 +142,11 @@
     });
   
     $("#batch-add-to-set form").submit(function() {
-       var media_entries_json = get_media_entries_json(media_set_id);
-       var media_entry_ids = $.map(media_entries_json, function(elem, i){ return parseInt(elem.id); });
-       $(this).append("<input type='hidden' name='media_entry_ids' value='"+media_entry_ids+"'>");
+      var editable_ids = new Array();
+      $("#selected_items .thumb_mini").each(function(i, elem){
+        editable_ids.push($(this).attr("id").slice(3));
+      });
+      $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
     });
     
   });
