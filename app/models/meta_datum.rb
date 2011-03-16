@@ -129,7 +129,7 @@ class MetaDatum < ActiveRecord::Base
         else
           klass = meta_key.object_type.constantize
           v = Array(read_attribute(:value)) # OPTIMIZE 0,1,n limits, return single value if it isn't an Array
-          return klass.where(:id => v)
+          return klass.where(:id => v).to_a
       end
     end
   end
