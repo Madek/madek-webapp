@@ -4,10 +4,9 @@
       #search-query.basic
         %div
           = text_field_tag 'query', params[:query], :id => 'query', :onfocus => "this.value='';"
-          / fix this empty word
-          = submit_tag _(""), :id => 'search-submit'
-    = link_to _(@set), media_set_media_sets_path(@set), :class => "main_nav_browse ir" if (@set = Media::FeaturedSet.first) and !@set.children.empty?
-    = link_to _("Hochladen"), new_upload_path, :class => "main_nav_upload ir"
+          = submit_tag _("Suchen"), :title => "Suchen", :id => 'search-submit', :class => "ir"
+    = link_to _(@set), media_set_media_sets_path(@set), :title => "Erkunden", :class => "main_nav_browse ir" if (@set = Media::FeaturedSet.first) and !@set.children.empty?
+    = link_to _("Hochladen"), new_upload_path, :title => "Medien hochladen", :class => "main_nav_upload ir"
     = render :partial => '/layouts/menu'
 
 :javascript
