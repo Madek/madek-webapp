@@ -1,0 +1,58 @@
+<% n = Time.now.to_i %>
+
+<%= content_tag :div, :class => "tabs small" do %>
+	<%= content_tag :ul do 
+		b = content_tag :li do
+			link_to _("Person"), "#new_person_#{n}" 
+		end
+		b += content_tag :li do
+			link_to _("Gruppe"), "#new_group_#{n}"
+		end
+	end %>
+
+	<%= form_for @person, :remote => true, :html => {:id => "new_person_#{n}" } do |f|
+			a = icon_tag("icon_person")
+
+			a += content_tag :ul do
+				a = f.label :lastname, "Nachname:"
+				a += f.text_field :lastname
+				a += tag :br
+
+				a += f.label :firstname, "Vorname:"
+				a += f.text_field :firstname
+				a += tag :br
+
+				a += f.label :pseudonym, "Pseudonym:"
+				a += f.text_field :pseudonym
+				a += tag :br
+			end
+	
+			a += f.submit _("Personendaten einfügen")
+	end %>
+
+	<%= form_for Person.new(:is_group => true), :remote => true, :html => {:id => "new_group_#{n}"} do |f|
+			a = icon_tag("icon_group")
+			a += f.hidden_field :is_group
+
+			a += content_tag :ul do
+				a = f.label :firstname, "Name:"
+				a += f.text_field :firstname
+				a += tag :br
+			end
+	
+			a += f.submit _("Gruppendaten einfügen")
+	end %>
+	
+<% end %>
+
+<%= javascript_tag do %>
+	$(document).ready(function(){
+		// TODO already in application.js, use live()
+		$(".tabs").tabs({ cache: true,
+						  add: function(event, ui) {
+					      	$(this).tabs('select', ui.index);
+					      },
+						  fx: { opacity: 'toggle' }
+						});
+	});
+<% end %>
