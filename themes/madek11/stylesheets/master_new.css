@@ -297,9 +297,8 @@ nav .main_nav_upload:hover, nav .main_nav_browse:hover {
 	float: right;
 	display: block;
 	position: absolute;
-	right: 20px;
+	right: 0;
 	top: 0;
-	z-index: 1;
 }
 
 /* Search */
@@ -352,8 +351,8 @@ nav .main_nav_upload:hover, nav .main_nav_browse:hover {
 }
 
 #search-query input[type="submit"]:hover {
-	background-color: #606060;
-	/*-webkit-box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+	/*background-color: #606060;
+	-webkit-box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
 	-moz-box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
 	box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
 	-webkit-animation: pulse 1.5s infinite ease-in-out;*/
@@ -369,7 +368,7 @@ input[type="submit"]:hover, input[type="submit"]:focus {
 #menu {
     float: right;
     position: absolute;
-    right: 0;
+    right: 130px;
     top: 0;
 }
 
@@ -452,7 +451,8 @@ input[type="submit"]:hover, input[type="submit"]:focus {
 .head_menu .arrow {
 	margin-left: 5px;
 	vertical-align: bottom;
-	margin-bottom: 3px;
+	margin-top: 3px;
+	float: right;
 }
 
 .sub_menu .item_line {
