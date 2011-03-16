@@ -33,13 +33,15 @@ $(document).ready(function () {
 	
 });
 
-function create_multiselect_widget(dom_scope, all_options, selected_option_ids, selected_options) {
-  
+function create_multiselect_widget(dom_scope, selected_option_ids, selected_options) {
+  var search_field = $("#"+ dom_scope +"_multiselect input[name='autocomplete_search']");
+  var all_options = search_field.data("all_options");
+
   $.each(selected_options, function(i, elem){
     add_to_selected_items(elem, dom_scope);
   });
 
-  $("#"+ dom_scope +"_multiselect input[name='autocomplete_search']").autocomplete({
+  search_field.autocomplete({
     source: function(request, response){
       var selected_option_ids = $("#"+ dom_scope +"_multiselect ul.holder li input[type='hidden']").map(function() { return parseInt(this.value); });
       var unselected_options = all_options.filter(function(elem){ if($.inArray(elem.id, selected_option_ids) < 0) return elem; });
@@ -61,7 +63,7 @@ function create_multiselect_widget(dom_scope, all_options, selected_option_ids, 
 
 function add_to_selected_items(item, dom_scope){
   var template_id = "#"+ dom_scope + "_madek_multiselect_item";
-  $("#"+ dom_scope +"_multiselect ul.holder").append($(template_id).tmpl(item).fadeIn('slow'));
+  $("#"+ dom_scope +"_multiselect ul.holder").append($(template_id).tmpl(item)); //.fadeIn('slow'));
 };
 function remove_from_selected_items(dom_item){
   dom_item.fadeOut('slow', function() {
