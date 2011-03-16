@@ -42,7 +42,7 @@ class MediaSetsController < ApplicationController
     editable_set_ids = Permission.accessible_by_user("Media::Set", current_user, :edit)
 
     #old# @media_entries = MediaEntry.search :with => {:media_set_ids => @media_set.id, :sphinx_internal_id => viewable_ids}, :page => params[:page], :per_page => params[:per_page].to_i, :retry_stale => true
-    @media_entries =  @media_set.media_entries.where(:id => viewable_ids).paginate(:page => params[:page], :per_page => PER_PAGE.first)
+    @media_entries =  @media_set.media_entries.includes(:media_file).where(:id => viewable_ids).paginate(:page => params[:page], :per_page => PER_PAGE.first)
     media_entry_ids = @media_entries.map(&:id)
     
     # for task bar

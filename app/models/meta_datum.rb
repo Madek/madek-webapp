@@ -102,7 +102,8 @@ class MetaDatum < ActiveRecord::Base
   # then the returned value could be a stored one or dynamically computed
 #working here# TODO deserialized_value #value
   def deserialized_value
-     if meta_key.is_dynamic?
+    #tmp# Rails.cache.fetch("meta_datum/#{id}", :expires_in => 10.minutes) do
+    if meta_key.is_dynamic?
       case meta_key.label
         when "uploaded by"
           return resource.user
@@ -127,13 +128,8 @@ class MetaDatum < ActiveRecord::Base
           return read_attribute(:value)
         else
           klass = meta_key.object_type.constantize
-          return Array(read_attribute(:value)).map do |v| # OPTIMIZE 0,1,n limits, return single value if it isn't an Array
-            Rails.cache.fetch("#{klass}/#{v}", :expires_in => 10.minutes) do
-              #old# klass.find(v) if v
-              klass.where(:id => v).first if v
-              # TODO return "Reference not found" instead of nil ??
-            end
-          end.compact
+          v = Array(read_attribute(:value)) # OPTIMIZE 0,1,n limits, return single value if it isn't an Array
+          return klass.where(:id => v)
       end
     end
   end

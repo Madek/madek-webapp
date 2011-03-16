@@ -28,13 +28,11 @@ module PermissionsHelper
       theme_image_tag("icons/icon_button_perm.png")
     end
   end
-  
+
+  # TODO move to media_entries_helper.rb
   def display_favorite_icon(resource, user)
-    if user.favorites.include?(resource)
-      theme_image_tag("icons/button_favorit_on.png")
-    else
-      theme_image_tag("icons/button_favorit_off.png")
-    end
+    s = (user.favorite_ids.include?(resource.id) ? "on" : "off") # (user.favorites.include?(resource) ? "on" : "off")
+    theme_image_tag("icons/button_favorit_#{s}.png")
   end
   
   def display_edit_icon(resource, user)
