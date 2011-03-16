@@ -1,9 +1,10 @@
-= link_to "Medienarchiv der Künste", root_path, :class => "logo_left ir"
-= link_to "ZHdK", "http://www.zhdk.ch", :class => "logo_right ir"
 .container_12.clearfix
   .grid_12
     %nav.clearfix
-      = render :partial => '/layouts/search' unless @disable_search
+      = link_to "Medienarchiv der Künste", root_path, :class => "logo_left ir"
+    = render :partial => '/layouts/search' unless @disable_search
+
+= link_to "ZHdK", "http://www.zhdk.ch", :class => "logo_right ir"
     
 - if logged_in?
   = link_to _("Feedback"), feedback_path, :class => "outside"

@@ -286,9 +286,8 @@ nav .main_nav_upload:hover, nav .main_nav_browse:hover {
 	float: left;
 	display: block;
 	position: absolute;
-	left: 20px;
+	left: 0;
 	top: 0;
-	z-index: 1;
 }
 
 .logo_right {
@@ -308,6 +307,7 @@ nav .main_nav_upload:hover, nav .main_nav_browse:hover {
 #search {
     height: 2em;
     padding-top: 12px;
+    margin-left: 240px;
 	/*height: 40px;
 	display: block;*/
 }
@@ -1823,7 +1823,7 @@ ul[data-parent_meta_key] {
  */
 
 /* For image replacement */
-.ir { display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
+.ir { text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
 
 /* Hide for both screenreaders and browsers:
    css-discuss.incutio.com/wiki/Screenreader_Visibility */
