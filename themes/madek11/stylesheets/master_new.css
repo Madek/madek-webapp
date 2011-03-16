@@ -678,8 +678,8 @@ ul li { float: left; }
 
 .item_permission_set {
 	position: absolute;
-	right: 10px;
-	top: 10px;
+	right: 13px;
+	bottom: 11px;
 	z-index: 888;
 }
 
