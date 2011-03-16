@@ -26,6 +26,19 @@
 			_("Metadaten editieren")
 		end %>
 		<br />
+		
+		<%=  content_tag :style do
+           begin
+           <<-HERECODE
+             .madek_multiselect_container ul.holder li {
+               white-space: normal;
+             }
+             .ui-autocomplete { 
+                 width: 10px;
+             }
+           HERECODE
+           end.html_safe
+    end %>
 
 		<%= form_for @media_entry, :as => :resource,
 					:url => [:update_multiple, @media_entry, :meta_data],
