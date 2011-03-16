@@ -33,7 +33,6 @@ class MediaSetsController < ApplicationController
   end
 
   def show
-    #new#
     theme "madek11"
     session[:batch_origin_uri] = nil
     
@@ -41,11 +40,9 @@ class MediaSetsController < ApplicationController
     @editable_ids = Permission.accessible_by_user("MediaEntry", current_user, :edit)
     managable_ids = Permission.accessible_by_user("MediaEntry", current_user, :manage)
     editable_set_ids = Permission.accessible_by_user("Media::Set", current_user, :edit)
-    @per_page = 32 #test# 2
-    
-    #ASK Franco#: Sphinx reindexing doesn't work when we remove media_entries from a set. Need to revert to active record #
-    #old 1003# @media_entries = MediaEntry.search :with => {:media_set_ids => @media_set.id, :sphinx_internal_id => viewable_ids}, :page => params[:page], :per_page => per_page, :retry_stale => true
-    @media_entries =  @media_set.media_entries.where(:id => viewable_ids).all
+
+    #old# @media_entries = MediaEntry.search :with => {:media_set_ids => @media_set.id, :sphinx_internal_id => viewable_ids}, :page => params[:page], :per_page => params[:per_page].to_i, :retry_stale => true
+    @media_entries =  @media_set.media_entries.where(:id => viewable_ids).paginate(:page => params[:page], :per_page => PER_PAGE.first)
     media_entry_ids = @media_entries.map(&:id)
     
     # for task bar
@@ -54,21 +51,14 @@ class MediaSetsController < ApplicationController
     @managable_in_set = managable_ids & media_entry_ids
     @editable_sets = Media::Set.where("id IN (?) AND id <> ?", editable_set_ids, @media_set.id)
     
-    @info_to_json = @media_entries.map do |me|
-      basic = me.attributes.merge!("thumb_base64" => me.thumb_base64(:x_small), "title" => me.meta_data.get_value_for("title"))
+    @media_entries_json = @media_entries.map do |me|
+      basic = me.attributes.merge!(me.get_basic_info)
       css_class = "thumb_mini"
       css_class += " edit" if @editable_ids.include?(me.id)
-      css_class += " edit_set" if @can_edit
       css_class += " manage" if @managable_in_set.include?(me.id)
       basic["css_class"] = css_class
       basic
     end.to_json
-    
-    @media_entries = @media_entries.paginate(:page => params[:page], :per_page => @per_page)
-    
-    #2001# @media_entries = @media_set.media_entries.select {|media_entry| Permission.authorized?(current_user, :view, media_entry)}
-    #2001# @disabled_paginator = true # OPTIMIZE
-
     
     respond_to do |format|
       format.html

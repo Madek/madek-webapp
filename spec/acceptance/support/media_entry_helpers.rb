@@ -1,3 +1,5 @@
+# Uploads a picture with a given title and a fixed copyright string.
+# It's always the same picture, no way to change the image file yet.
 def upload_some_picture(title = "Untitled")
 
     visit homepage
@@ -21,18 +23,20 @@ def upload_some_picture(title = "Untitled")
     sphinx_reindex
     visit homepage
 
-    MediaEntry.search(title).total_entries.should > 0
     page.should have_content(title)
 
 end
 
+# Creates a new set
 def create_set(set_title = "Untitled Set")
   visit "/media_sets"
   fill_in "media_set_meta_data_attributes_0_value", :with => set_title
   click_link_or_button "Erstellen"
 end
 
-
+# Adds a media entry to a set. Only works if the media entry
+# has a title, so that it shows up under /media_entries. The set
+# also needs a title.
 def add_to_set(set_title = "Untitled Set", picture_title = "Untitled")
   visit "/media_entries"
   click_media_entry_titled(picture_title)

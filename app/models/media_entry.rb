@@ -25,6 +25,8 @@ class MediaEntry < ActiveRecord::Base
   # TODO remove and go through permissions ??
   delegate :user, :user_id, :to => :upload_session
 
+  default_scope order("updated_at DESC")
+
 ########################################################
 
   # OPTIMIZE
