@@ -16,7 +16,6 @@ class MediaFile < ActiveRecord::Base
 
   has_many      :media_entries # TODO validation: at least one media_entry (even empty) 
   has_many      :previews # TODO - the eventual resting place of all preview files derived from the original (e.g. thumbnails)
-  has_one       :preview_small, :class_name => "Preview", :conditions => {:thumbnail => "small"} # OPTIMIZE
 
   scope :original, where(:parent_id => nil)
 
@@ -24,10 +23,12 @@ class MediaFile < ActiveRecord::Base
 
   def get_preview(size = nil)
     unless size.blank?
-      p = previews.find_by_thumbnail(size.to_s)
+      #tmp# p = previews.where(:thumbnail => size.to_s).first
+      p = previews.detect {|x| x.thumbnail == size.to_s}
       p ||= begin
         make_thumbnails([size])
-        previews.find_by_thumbnail(size.to_s)
+        #tmp# previews.where(:thumbnail => size.to_s).first
+        previews.detect {|x| x.thumbnail == size.to_s}
       end
       # OPTIMIZE p could still be nil !!
       return p
@@ -182,6 +183,7 @@ class MediaFile < ActiveRecord::Base
   end
   
   def thumbnail_jpegs_for(file, sizes = nil)
+    return unless File.exist?(file)
     THUMBNAILS.each do |thumb_size,value|
       next if sizes and !sizes.include?(thumb_size)
       tmparr = thumbnail_storage_location

@@ -81,8 +81,7 @@ class MediaEntriesController < ApplicationController
                                            :with => with,
                                            :star => true,
                                     #temp# :order => (params[:order].blank? ? nil : params[:order]), # OPTIMIZE params[:search][:order]
-                                           :include => [:default_permission,
-                                                        {:media_file => :preview_small}] }
+                                           :include => :media_file }
 #temp#
 #    @facets = MediaEntry.facets params[:query], :match_mode => :extended2,
 #                                                 :with => with
@@ -194,8 +193,7 @@ class MediaEntriesController < ApplicationController
     end
   end
   
-  
-  #tmp # until madek11 theme complete
+  #tmp # until madek11 theme complete # TODO merge to favorites action
   def toggle_favorites
     theme "madek11"
     current_user.favorites.toggle(@media_entry)

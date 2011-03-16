@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
       # TODO refactor to UsersController#show and dry with MediaEntriesController#index
       params[:per_page] ||= PER_PAGE.first
       ids = Permission.accessible_by_user("MediaEntry", current_user)
-      options = { :page => params[:page], :per_page => params[:per_page].to_i, :retry_stale => true, :include => [:default_permission, {:media_file => :preview_small}] }
+      options = { :page => params[:page], :per_page => params[:per_page].to_i, :retry_stale => true, :include => :media_file }
       
       #@my_media_entries = MediaEntry.by_ids(ids).not_public.search(nil, options)
       #@public_media_entries = MediaEntry.by_ids(ids).public.search(nil, options)

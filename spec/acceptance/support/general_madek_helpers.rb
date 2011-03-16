@@ -167,15 +167,7 @@ def find_media_entry_titled(title)
   
 end
 
-# Picks the given text string from an autocomplete text input box
-# that is stuck in an UL: ul.ui-autocomplete
-def pick_from_autocomplete(text)
-  all("ul.ui-autocomplete").each do |ul|
-    ul.all("li.ui-menu-item a").each do |item|
-      item.click if !item.text.match(/#{text}/).nil?
-    end
-  end
-end
+
 
 
 def find_permission_checkbox(type, to_or_from)
@@ -257,6 +249,21 @@ def type_into_autocomplete(type, text)
     fill_in("new_user", :with => text)
   else
     puts "Unknown autocomplete type '#{type}', please add this type to the method type_into_autocomplete()"
+  end
+end
+
+# Picks the given text string from an autocomplete text input box
+# that is stuck in an UL: ul.ui-autocomplete
+def pick_from_autocomplete(text)
+  all("ul.ui-autocomplete").each do |ul|
+    ul.all("li.ui-menu-item a").each do |item|
+      #debugger; puts "lala"
+      #page.execute_script %Q{ $('.ui-menu-item a:contains("#{item.text}")').trigger("mouseenter").click(); }
+      #item.click if !item.text.match(/#{text}/).nil?
+      if !item.text.match(/#{text}/).nil?
+        page.execute_script %Q{ $('.ui-menu-item a:contains("#{item.text}")').trigger("mouseenter").click(); }
+      end
+    end
   end
 end
 

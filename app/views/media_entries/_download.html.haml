@@ -4,6 +4,7 @@
   format_original_file = file_format_for(original_file)
   can_download_hi_res = Permission.authorized?(current_user, :hi_res, media_entry)
   x_large_file_available = x_large_file && File.exist?(x_large_file.full_path)
+
 - if x_large_file_available
   %table#download-table
     %tr

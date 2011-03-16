@@ -428,7 +428,7 @@ module MetaDataHelper
           all_grouped_keywords = all_grouped_keywords.where(["meta_term_id NOT IN (?)", meta_term_ids]) unless meta_term_ids.empty?
           all_options = (keywords + all_grouped_keywords).collect {|x| [x.to_s, x.meta_term_id]}.sort {|a,b| a[0].downcase <=> b[0].downcase}
           selected_options = keywords.collect(&:meta_term_id)
-          
+
           #new# TODO save keywords as entities (Keyword ??)
           #all_values = Array(meta_datum.object.value).compact
           #all_options = all_values.collect {|x| [x.to_s, x.id]}

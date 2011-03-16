@@ -248,7 +248,7 @@ nav {
 	border-radius: 2px;
 	float: left;
 	display: inline-block;
-	margin-left: 20px;
+	margin-left: 10px;
 }
 
 .main_nav_browse {
@@ -262,7 +262,7 @@ nav {
 	border-radius: 2px;
 	display: inline-block;
 	float: left;
-	margin-left: 20px;
+	margin-left: 10px;
 }
 
 nav .main_nav_upload:hover, nav .main_nav_browse:hover {
@@ -286,9 +286,8 @@ nav .main_nav_upload:hover, nav .main_nav_browse:hover {
 	float: left;
 	display: block;
 	position: absolute;
-	left: 20px;
+	left: -10px;
 	top: 0;
-	z-index: 1;
 }
 
 .logo_right {
@@ -298,9 +297,8 @@ nav .main_nav_upload:hover, nav .main_nav_browse:hover {
 	float: right;
 	display: block;
 	position: absolute;
-	right: 20px;
+	right: -10px;
 	top: 0;
-	z-index: 1;
 }
 
 /* Search */
@@ -308,6 +306,7 @@ nav .main_nav_upload:hover, nav .main_nav_browse:hover {
 #search {
     height: 2em;
     padding-top: 12px;
+    margin-left: 240px;
 	/*height: 40px;
 	display: block;*/
 }
@@ -318,7 +317,7 @@ nav .main_nav_upload:hover, nav .main_nav_browse:hover {
 }
 
 #search-query input[type="text"] {
-	width: 220px;
+	width: 200px;
 	height: 29px;
 	font-size: 1em;
 	padding-left: 8px;
@@ -352,8 +351,8 @@ nav .main_nav_upload:hover, nav .main_nav_browse:hover {
 }
 
 #search-query input[type="submit"]:hover {
-	background-color: #606060;
-	/*-webkit-box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+	/*background-color: #606060;
+	-webkit-box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
 	-moz-box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
 	box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
 	-webkit-animation: pulse 1.5s infinite ease-in-out;*/
@@ -369,7 +368,7 @@ input[type="submit"]:hover, input[type="submit"]:focus {
 #menu {
     float: right;
     position: absolute;
-    right: 0;
+    right: 130px;
     top: 0;
 }
 
@@ -452,7 +451,8 @@ input[type="submit"]:hover, input[type="submit"]:focus {
 .head_menu .arrow {
 	margin-left: 5px;
 	vertical-align: bottom;
-	margin-bottom: 3px;
+	margin-top: 3px;
+	float: right;
 }
 
 .sub_menu .item_line {
@@ -671,15 +671,15 @@ ul li { float: left; }
 
 .item_permission {
 	position: absolute;
-	right: 6px;
-	top: 6px;
+	right: 8px;
+	bottom: 89px;
 	z-index: 888;
 }
 
 .item_permission_set {
 	position: absolute;
-	right: 10px;
-	top: 10px;
+	right: 13px;
+	bottom: 11px;
 	z-index: 888;
 }
 
@@ -1823,7 +1823,7 @@ ul[data-parent_meta_key] {
  */
 
 /* For image replacement */
-.ir { display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
+.ir { text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
 
 /* Hide for both screenreaders and browsers:
    css-discuss.incutio.com/wiki/Screenreader_Visibility */
