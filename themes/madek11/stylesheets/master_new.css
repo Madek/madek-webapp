@@ -248,7 +248,7 @@ nav {
 	border-radius: 2px;
 	float: left;
 	display: inline-block;
-	margin-left: 20px;
+	margin-left: 10px;
 }
 
 .main_nav_browse {
@@ -262,7 +262,7 @@ nav {
 	border-radius: 2px;
 	display: inline-block;
 	float: left;
-	margin-left: 20px;
+	margin-left: 10px;
 }
 
 nav .main_nav_upload:hover, nav .main_nav_browse:hover {
@@ -317,7 +317,7 @@ nav .main_nav_upload:hover, nav .main_nav_browse:hover {
 }
 
 #search-query input[type="text"] {
-	width: 220px;
+	width: 200px;
 	height: 29px;
 	font-size: 1em;
 	padding-left: 8px;
