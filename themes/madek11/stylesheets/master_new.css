@@ -671,8 +671,8 @@ ul li { float: left; }
 
 .item_permission {
 	position: absolute;
-	right: 6px;
-	top: 6px;
+	right: 8px;
+	bottom: 89px;
 	z-index: 888;
 }
 
