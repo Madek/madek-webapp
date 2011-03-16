@@ -16,7 +16,6 @@ class MediaFile < ActiveRecord::Base
 
   has_many      :media_entries # TODO validation: at least one media_entry (even empty) 
   has_many      :previews # TODO - the eventual resting place of all preview files derived from the original (e.g. thumbnails)
-  has_one       :preview_small, :class_name => "Preview", :conditions => {:thumbnail => "small"} # OPTIMIZE
 
   scope :original, where(:parent_id => nil)
 
