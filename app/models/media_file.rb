@@ -354,21 +354,26 @@ class MediaFile < ActiveRecord::Base
   end
 
   
-  def submit_encoding_job
-    # submit http://this_host/download?media_file_id=foo&access_hash=bar
-    require 'encode_job'
-    job = EncodeJob.new
-    if content_type.include?('video')
-      job.job_type = "video"
-    elsif content_type.include?('audio')
-      job.job_type = "audio"
+  def submit_encoding_job(:force => false)
+    if :force => true or job_id.blank?
+      # submit http://this_host/download?media_file_id=foo&access_hash=bar
+      require 'encode_job'
+      job = EncodeJob.new
+      if content_type.include?('video')
+        job.job_type = "video"
+      elsif content_type.include?('audio')
+        job.job_type = "audio"
+      else
+        raise ArgumentError, "Can only handle encoding jobs for content types video/* and audio/*, not #{content_type}"
+      end
+      job.start_by_url("#{ENCODING_BASE_URL}/download?media_file_id=#{self.id}&access_hash=#{self.access_hash}")
+      # Save Zencoder job ID so we can use it in subsequent requests
+      update_attributes(:job_id => job.details['id'])
+      return job
     else
-      raise ArgumentError, "Can only handle encoding jobs for content types video/* and audio/*, not #{content_type}"
+      puts "Won't encode -- this file already has a job_id, so it's probably already been encoded. Use submit_encoding_job(:force => true) to override."
+      return false
     end
-    job.start_by_url("#{ENCODING_BASE_URL}/download?media_file_id=#{self.id}&access_hash=#{self.access_hash}")
-    # Save Zencoder job ID so we can use it in subsequent requests
-    update_attributes(:job_id => job.details['id'])
-    return job
   end
 
   
