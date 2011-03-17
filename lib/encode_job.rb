@@ -43,9 +43,9 @@ class EncodeJob
 
     options = {:base_url => @base_url, :quality => 4, :speed => 2}
 
-    if @type == "video"
+    if @job_type == "video"
       options.merge!(:video_codec => @video_codec).merge!(@size)
-    elsif @type == "audio"
+    elsif @job_type == "audio"
       options.merge!(:audio_codec => @audio_codec)
     end
 
