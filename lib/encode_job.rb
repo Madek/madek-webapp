@@ -46,8 +46,6 @@ class EncodeJob
     elsif @job_type == "audio"
       options.merge!(:audio_codec => @audio_codec, :skip_video => 1)
     end
-
-    puts "options were: #{options.inspect}"
     
     outputs = [options]  # You can chain more outputs onto this array
     
