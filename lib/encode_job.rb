@@ -1,9 +1,7 @@
 #!/usr/bin/ruby
 
 require 'rubygems'
-
 require 'yaml'
-
 require 'zencoder'  # This doesn't work? What the?
 #require '/usr/lib/ruby/gems/1.8/gems/zencoder-2.3.1/lib/zencoder' # This works. What the?
 
@@ -42,7 +40,7 @@ class EncodeJob
   def start_by_url(url)
 
     options = {:base_url => @base_url, :quality => 4, :speed => 2}
-
+    options.merg!(:test => 1) if ENCODING_TEST_MODE == 1
     if @job_type == "video"
       options.merge!(:video_codec => @video_codec).merge!(@size)
     elsif @job_type == "audio"

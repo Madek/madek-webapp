@@ -134,7 +134,7 @@ class MediaFile < ActiveRecord::Base
       thumbnail_jpegs_for(covershot, sizes)
       submit_encoding_job
     elsif content_type.include?('audio')
-      #add_fake_audio_thumbnails
+      #add_audio_thumbnails   # This might be a future method that constructs some meaningful thumbnail for an audio file?
       submit_encoding_job
     end
   end
