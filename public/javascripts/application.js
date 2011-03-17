@@ -35,6 +35,7 @@ $(document).ready(function () {
 
 function create_multiselect_widget(dom_scope, selected_option_ids, selected_options) {
   var search_field = $("#"+ dom_scope +"_multiselect input[name='autocomplete_search']");
+  var toggler = search_field.next(".search_toggler");
   var all_options = search_field.data("all_options");
 
   $.each(selected_options, function(i, elem){
@@ -52,12 +53,30 @@ function create_multiselect_widget(dom_scope, selected_option_ids, selected_opti
       add_to_selected_items(ui.item, dom_scope);
     },
     close: function(event, ui) {
-      $(this).val("");
+	  var elem = $(this);
+	  search_field.autocomplete("option", "minLength", 3);
+  	  if(elem.val().length > 2) elem.val("");
+	  toggler.removeClass("active").find("img").attr("src", "/images/icons/toggler-arrow-closed.png");
     }
+  });
+  
+  toggler.click(function(){
+  	var elem = $(this); 
+	if (elem.hasClass('active')) {
+		elem.removeClass('active').find("img").attr("src", "/images/icons/toggler-arrow-closed.png");
+		search_field.autocomplete("close");
+	} else {
+		elem.addClass('active').find("img").attr("src", "/images/icons/toggler-arrow-opened.png");
+		search_field.autocomplete("option", "minLength", 0);
+		search_field.autocomplete("search", "");
+	}
+	
+	return false;
   });
 
   $("ul.holder li .closebutton").live('click', function(){
     remove_from_selected_items($(this).parent("li"));
+	return false;
   });
 };
 
