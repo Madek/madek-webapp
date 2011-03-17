@@ -238,7 +238,7 @@ nav {
 /* See: http://css-tricks.com/css-image-replacement/ for proper CSS image replacement techniques */
 
 .main_nav_upload {
-	background: url(../images/icons/button_upload_active.png) no-repeat 6px 6px;
+	background: url(../images/icons/nav_upload_spr.png) no-repeat 0 0;
 	border-style: none;
 	width: 32px;
 	height: 32px;
@@ -246,13 +246,13 @@ nav {
 	-moz-border-radius: 2px;
 	-o-border-radius: 2px;
 	border-radius: 2px;
-	float: left;
 	display: inline-block;
-	margin-left: 10px;
+	float: left;
+	margin-left: 15px;
 }
 
 .main_nav_browse {
-	background: url(../images/icons/button_browse.png) no-repeat 6px 6px;
+	background: url(../images/icons/nav_browse_spr.png) no-repeat 1px 0;
 	border-style: none;
 	width: 32px;
 	height: 32px;
@@ -262,15 +262,25 @@ nav {
 	border-radius: 2px;
 	display: inline-block;
 	float: left;
-	margin-left: 10px;
+	margin-left: 15px;
 }
 
-nav .main_nav_upload:hover, nav .main_nav_browse:hover {
-	background-color: #606060;
-	-webkit-box-shadow: 0 0 3px rgba(255, 255, 255, 0.2);
-	-moz-box-shadow: 0 0 3px rgba(255, 255, 255, 0.2);
-	box-shadow: 0 0 3px rgba(255, 255, 255, 0.2);
+.main_nav_browse:hover {
+	background-position: -32px 0;
+	-webkit-box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+	-moz-box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+	box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+	overflow: visible;	
 }
+
+.main_nav_upload:hover {
+	background-position: -32px 0;
+	-webkit-box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+	-moz-box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+	box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+	overflow: visible;
+}
+
 
 /*nav .main_nav_upload:focus {
 	-webkit-animation: pulse 1.5s infinite ease-in-out;
@@ -318,19 +328,19 @@ nav .main_nav_upload:hover, nav .main_nav_browse:hover {
 
 #search-query input[type="text"] {
 	width: 200px;
-	height: 29px;
+	height: 32px;
 	font-size: 1em;
 	padding-left: 8px;
 	border: none;
-	margin-right: 3px;
+	margin-right: 0;
 	-moz-box-shadow: inset 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
 	-webkit-box-shadow: inset 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
 	box-shadow: inset 1px 1px 2px 1px rgba(0, 0, 0, 0.3);
 	background-color: rgba(255, 255, 255, 0.1);
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	-o-border-radius: 3px;
-	border-radius: 3px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-o-border-radius: 2px;
+	border-radius: 2px;
 	color: #ffffff;
 	z-index: 1002;
 }
@@ -340,17 +350,30 @@ nav .main_nav_upload:hover, nav .main_nav_browse:hover {
 }
 
 #search-query input[type="submit"] {
-	background: url(../images/icons/button_search_active.png) no-repeat 6px 5px;
+	/*background: url(../images/icons/button_search_active.png) no-repeat 6px 5px;
 	border-style: none;
 	width: 30px;
 	height: 30px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	-o-border-radius: 3px;
-	border-radius: 3px;
+	border-radius: 3px;*/
+	background: url(../images/icons/nav_search_spr.png) no-repeat -1px 0;
+	border-style: none;
+	width: 32px;
+	height: 32px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-o-border-radius: 2px;
+	border-radius: 2px;
 }
 
 #search-query input[type="submit"]:hover {
+	background-position: -33px 0;
+	-webkit-box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+	-moz-box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+	box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+	overflow: visible;	
 	/*background-color: #606060;
 	-webkit-box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
 	-moz-box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
@@ -358,9 +381,9 @@ nav .main_nav_upload:hover, nav .main_nav_browse:hover {
 	-webkit-animation: pulse 1.5s infinite ease-in-out;*/
 }
 
-input[type="submit"]:hover, input[type="submit"]:focus {
+/*input[type="submit"]:hover, input[type="submit"]:focus {
 	-webkit-animation: pulse 1.5s infinite ease-in-out;
-}
+}*/
 
 
 /*  Menu  */
@@ -376,7 +399,7 @@ input[type="submit"]:hover, input[type="submit"]:focus {
 	font-weight: bold;
 }
 .head_menu a, .sub_menu a {
-	color: #FFFFFF;
+	color: #d9d9d9;
 	text-decoration: none;
 	height: 2em;
 }
@@ -449,14 +472,13 @@ input[type="submit"]:hover, input[type="submit"]:focus {
 }	
 
 .head_menu .arrow {
-	margin-left: 5px;
 	vertical-align: bottom;
 	margin-top: 3px;
 	float: right;
 }
 
 .sub_menu .item_line {
-	border-top: 1px solid #5b5b5b; padding-top:10px !important;
+	border-top: 1px solid #424242;
 }
 
 

@@ -35,7 +35,7 @@
 
 						<%= content_tag :li do
 							link_to "#", :panel => "bookmark", :class => "", :onclick => "return false;" do %>
-								<span class=''></span><%= _("Merken") %>
+								<span class=''></span><%= _("Favoriten") %>
 							<% end
 						end if logged_in? %>
 
@@ -44,7 +44,7 @@
 						<% end if false #future# %>
 
 						<%= content_tag :li do %>
-							<%= link_to _("Download"), "#", :panel => "download", :class => "", :style => "", :onclick => "return false;" %>
+							<%= link_to _("Exportieren"), "#", :panel => "download", :class => "", :style => "", :onclick => "return false;" %>
 						<% end %>
 
 						<%= content_tag :li do %>
@@ -60,7 +60,7 @@
 						<% end if false #future# %>
 
 						<%= content_tag :li do %>
-							<%= link_to _("Gruppieren"), "#", :panel => "media_set", :class => "", :style => "", :onclick => "return false;" %>
+							<%= link_to _("Sets zusammenstellen"), "#", :panel => "media_set", :class => "", :style => "", :onclick => "return false;" %>
 						<% end %>
 
 						<%= content_tag :li do %>
