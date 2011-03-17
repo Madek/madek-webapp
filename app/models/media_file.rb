@@ -354,8 +354,8 @@ class MediaFile < ActiveRecord::Base
   end
 
   
-  def submit_encoding_job(:force => false)
-    if :force == true or job_id.blank?
+  def submit_encoding_job(force = false)
+    if force == true or job_id.blank?
       # submit http://this_host/download?media_file_id=foo&access_hash=bar
       require 'encode_job'
       job = EncodeJob.new
