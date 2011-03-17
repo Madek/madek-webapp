@@ -44,7 +44,7 @@ class EncodeJob
     if @job_type == "video"
       options.merge!(:video_codec => @video_codec).merge!(@size)
     elsif @job_type == "audio"
-      options.merge!(:audio_codec => @audio_codec)
+      options.merge!(:audio_codec => @audio_codec, :skip_video => 1)
     end
 
     puts "options were: #{options.inspect}"
