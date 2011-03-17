@@ -1986,6 +1986,27 @@ ul[data-parent_meta_key] {
 	font-size: 0.9em;
 }
 
+.search_toggler {
+	border: 1px solid #bebebe;
+	width: 27px;
+	height: 27px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-o-border-radius: 2px;
+	border-radius: 2px;
+	display: inline-block;
+	vertical-align: top;
+	background-color: #e6e6e6;
+	border-left-style: none;
+}
+.search_toggler:hover {
+	background-color: #ffffff;
+}
+.search_toggler img {
+	padding-top: 4px;
+	padding-left:  4px;
+}
+
 /**
  * Non-semantic helper classes: please define your styles before this section.
  */
