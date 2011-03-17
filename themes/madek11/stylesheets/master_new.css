@@ -328,7 +328,7 @@ nav {
 
 #search-query input[type="text"] {
 	width: 200px;
-	height: 32px;
+	height: 33px;
 	font-size: 1em;
 	padding-left: 8px;
 	border: none;
@@ -366,6 +366,7 @@ nav {
 	-moz-border-radius: 2px;
 	-o-border-radius: 2px;
 	border-radius: 2px;
+	margin-left: 0;
 }
 
 #search-query input[type="submit"]:hover {
@@ -391,7 +392,7 @@ nav {
 #menu {
     float: right;
     position: absolute;
-    right: 130px;
+    right: 120px;
     top: 0;
 }
 
