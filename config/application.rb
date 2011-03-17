@@ -89,6 +89,6 @@ DEFAULT_ACTION_PERMISSIONS = {  :view => false, # read
 LANGUAGES = [:de_CH, :en_GB]
 DEFAULT_LANGUAGE = :de_CH
 
-VIDEO_ENCODING_BASE_URL = "http://test:MAdeK@test.madek.zhdk.ch"
+ENCODING_BASE_URL = "http://test:MAdeK@test.madek.zhdk.ch"
 
 RELEASE_VERSION = "0.2.4"
