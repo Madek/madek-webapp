@@ -85,8 +85,8 @@ class MediaFile < ActiveRecord::Base
     File.join(THUMBNAIL_STORAGE_DIR, shard, guid)
   end
 
-# set some attributes, for use when storing the file.
-# NB Depending on if we are being called from a rake task or the webserver, we either get a tempfile or an array.
+  # set some attributes, for use when storing the file.
+  # NB Depending on if we are being called from a rake task or the webserver, we either get a tempfile or an array.
   def set_filename
     self.guid = get_guid 
     # Same issue as above, we get a hash or an object, depending on appserver or rake task call.
@@ -101,8 +101,8 @@ class MediaFile < ActiveRecord::Base
     end
   end
 
-# the cornerstone of identity..
-# in an ideal world, this is farmed off to something that can crunch through large files _fast_
+  # the cornerstone of identity..
+  # in an ideal world, this is farmed off to something that can crunch through large files _fast_
   def get_guid
     # TODO in background?
     # Hash or object, we should be seeing a pattern here by now.
@@ -115,7 +115,6 @@ class MediaFile < ActiveRecord::Base
     end
     g
   end
-
 
   def shard
     # TODO variable length of sharding?
