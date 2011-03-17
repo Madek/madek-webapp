@@ -124,19 +124,24 @@ class Download
 
           # A transcoded, smaller-than-original version of the video
           unless params['video_thumbnail'].blank?
-            if params['format'].blank?
-              video_format = "webm" # This is much more widely supported than H.264. Only Apple/Safari wants H.265
-                                    # everyone else is on WebM.
-            else
-              video_format = params['format']
-            end
-
-            preview = @media_entry.media_file.previews.where(:content_type => "video/#{video_format}").last
+            content_type = "video/webm"
+            preview = @media_entry.media_file.previews.where(:content_type => content_type).last
             if preview.nil?
               return [404, {"Content-Type" => "text/html"}, ["Not found."]]
             else
               path = "#{THUMBNAIL_STORAGE_DIR}/#{@media_entry.media_file.shard}/#{preview.filename}"
-              content_type = "video/#{File.extname(path).gsub(".","")}"
+              return [200, {"Content-Type" => content_type, "Content-Disposition" => "attachment; filename=#{@media_entry.media_file.filename}" }, [File.read(path) ]]
+            end
+          end
+
+          # TODO: Merge with above
+          unless params['audio_preview'].blank?
+            content_type = "audio/ogg"
+            preview = @media_entry.media_file.previews.where(:content_type => content_type).last
+            if preview.nil?
+              return [404, {"Content-Type" => "text/html"}, ["Not found."]]
+            else
+              path = "#{THUMBNAIL_STORAGE_DIR}/#{@media_entry.media_file.shard}/#{preview.filename}"
               return [200, {"Content-Type" => content_type, "Content-Disposition" => "attachment; filename=#{@media_entry.media_file.filename}" }, [File.read(path) ]]
             end
           end

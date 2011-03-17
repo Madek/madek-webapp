@@ -14,6 +14,11 @@ module MediaEntriesHelper
         tag :video,  options.merge({:src => "/download?id=#{media_entry.id}&video_thumbnail=true",
       :autoplay => 'autoplay', :controls => 'controls', :width => video_preview.width, :height => video_preview.height})
       end
+
+    elsif media_entry.media_file.content_type =~ /audio/ && size == :large
+      media_entry.media_file.assign_audio_previews
+      tag :audio,  options.merge({:src => "/download?id=#{media_entry.id}&audio_preview=true",
+      :autoplay => 'autoplay', :controls => 'controls'})
     else
       tag :img, options.merge({:src => media_entry.thumb_base64(size)})
     end
