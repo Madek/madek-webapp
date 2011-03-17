@@ -97,6 +97,7 @@ class MediaEntriesController < ApplicationController
   end
     
   def show
+    theme "madek11"
     respond_to do |format|
       format.html
       format.js { render @media_entry }

@@ -45,13 +45,10 @@ class MediaFile < ActiveRecord::Base
         make_thumbnails
       when /video/ then
         import_audio_video_metadata(file_storage_location)
-        # get URL of media file and submit that
         make_thumbnails
       when /audio/ then
         import_audio_metadata(file_storage_location)
-      # when /application\/zip/ then
-      #   logger.info "application/zip"
-      #   explode_and_import(full_path_file)
+        make_thumbnails
       when /application/ then
         import_document_metadata(file_storage_location)
       else
@@ -88,8 +85,8 @@ class MediaFile < ActiveRecord::Base
     File.join(THUMBNAIL_STORAGE_DIR, shard, guid)
   end
 
-# set some attributes, for use when storing the file.
-# NB Depending on if we are being called from a rake task or the webserver, we either get a tempfile or an array.
+  # set some attributes, for use when storing the file.
+  # NB Depending on if we are being called from a rake task or the webserver, we either get a tempfile or an array.
   def set_filename
     self.guid = get_guid 
     # Same issue as above, we get a hash or an object, depending on appserver or rake task call.
@@ -104,8 +101,8 @@ class MediaFile < ActiveRecord::Base
     end
   end
 
-# the cornerstone of identity..
-# in an ideal world, this is farmed off to something that can crunch through large files _fast_
+  # the cornerstone of identity..
+  # in an ideal world, this is farmed off to something that can crunch through large files _fast_
   def get_guid
     # TODO in background?
     # Hash or object, we should be seeing a pattern here by now.
@@ -118,7 +115,6 @@ class MediaFile < ActiveRecord::Base
     end
     g
   end
-
 
   def shard
     # TODO variable length of sharding?
@@ -135,11 +131,14 @@ class MediaFile < ActiveRecord::Base
       # You can use the -ss option to determine the temporal position in the stream you want to grab from (in seconds)
       conversion = `ffmpeg -i #{file_storage_location} -y -vcodec png -vframes 1 -an -f rawvideo #{covershot}`
       thumbnail_jpegs_for(covershot, sizes)
-      submit_video_encoding_job
+      submit_encoding_job
+    elsif content_type.include?('audio')
+      #add_audio_thumbnails   # This might be a future method that constructs some meaningful thumbnail for an audio file?
+      submit_encoding_job
     end
   end
   
-  def retrieve_video_thumbnails
+  def retrieve_encoded_files
     require 'lib/encode_job'
     paths = []
     
@@ -164,14 +163,33 @@ class MediaFile < ActiveRecord::Base
   # Video thumbnails only come in one size (large) because re-encoding these costs money and they only make sense
   # in the media_entries/show view anyhow (not in smaller versions).
   def assign_video_thumbnails_to_preview
-    if previews.where(:content_type => 'video/webm').empty?
-      paths = retrieve_video_thumbnails
+    content_type = "video/webm"
+    if previews.where(:content_type => content_type).empty?
+      paths = retrieve_encoded_files
       unless paths.empty?
         paths.each do |path|
           if File.extname(path) == ".webm"
             # Must have Exiftool with Image::ExifTool::Matroska to support WebM!
             w, h = exiftool_obj(path, ["Composite:ImageSize"])[0][0][1].split("x")
-            if previews.create(:content_type => 'video/webm', :filename => File.basename(path), :width => w.to_i, :height => h.to_i, :thumbnail => 'large')
+            if previews.create(:content_type => content_type, :filename => File.basename(path), :width => w.to_i, :height => h.to_i, :thumbnail => 'large')
+              return true
+            else
+              return false
+            end
+          end
+        end
+      end
+    end
+  end
+
+  def assign_audio_previews
+    content_type = "audio/ogg"
+    if previews.where(:content_type => content_type).empty?
+      paths = retrieve_encoded_files
+      unless paths.empty?
+        paths.each do |path|
+          if File.extname(path) == ".ogg"
+            if previews.create(:content_type => content_type, :filename => File.basename(path), :width => 0, :height => 0, :thumbnail => 'large')
               return true
             else
               return false
@@ -202,8 +220,6 @@ class MediaFile < ActiveRecord::Base
     end
   end
 
-
-
   def validate_file
     #TODO - check for zip files and process accordingly
       unless importable_zipfile?
@@ -230,7 +246,7 @@ class MediaFile < ActiveRecord::Base
     group_tags = ['File:', 'Composite:', 'IFD', 'ICC-','ICC_Profile','XMP-exif', 'XMP-xmpMM', 'XMP-aux', 'XMP-tiff', 'Photoshop:', 'ExifIFD:', 'JFIF', 'IFF:', 'GPS:', 'PNG:' ] #'System:' leaks system info
     ignore_fields = ['UserComment','ImageDescription', 'ProfileCopyright', 'System:']
     exif_hash = {}
-        
+
     blob = exiftool_obj(full_path_file, group_tags)
     blob.each do |tag_array_entry|
       tag_array_entry.each do |entry|
@@ -242,7 +258,7 @@ class MediaFile < ActiveRecord::Base
     # Apparently IFD0 is not the best fit (some files don't contain it), perhaps we should use the Composite:ImageSize tag, till we get rid of these columns..
     img_x, img_y = exif_hash["Composite:ImageSize"].split("x")
     update_attributes(:width => img_x, :height => img_y)
-   end
+  end
 
 #####################################################################################################################
 
@@ -337,16 +353,24 @@ class MediaFile < ActiveRecord::Base
     #TODO - specifically for other non-zipped documents (e.g. source code, application binary, etc)
   end
 
-  def submit_video_encoding_job
+  
+  def submit_encoding_job
     # submit http://this_host/download?media_file_id=foo&access_hash=bar
-    puts "to submit: " + "#{VIDEO_ENCODING_BASE_URL}/download?media_file_id=#{self.id}&access_hash=#{self.access_hash}"
     require 'encode_job'
     job = EncodeJob.new
-    job.start_by_url("#{VIDEO_ENCODING_BASE_URL}/download?media_file_id=#{self.id}&access_hash=#{self.access_hash}")
+    if content_type.include?('video')
+      job.job_type = "video"
+    elsif content_type.include?('audio')
+      job.job_type = "audio"
+    else
+      raise ArgumentError, "Can only handle encoding jobs for content types video/* and audio/*, not #{content_type}"
+    end
+    job.start_by_url("#{ENCODING_BASE_URL}/download?media_file_id=#{self.id}&access_hash=#{self.access_hash}")
     # Save Zencoder job ID so we can use it in subsequent requests
     update_attributes(:job_id => job.details['id'])
     return job
   end
+
   
   def assign_access_hash
     self.access_hash = UUIDTools::UUID.random_create.to_s
