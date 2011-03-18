@@ -4,7 +4,7 @@
 
 .container_12
   #detail-main.grid_8
-    #detail-image{:style => "padding-bottom: 1em"}
+    #detail-image
       = thumb_for(media_entry, :large)
     #detail-action-bar.clearfix
       %ul#toggle-panel.clearfix
@@ -78,13 +78,13 @@
                   %td= "#{_("%s Uhr") % media_entry.snapshots.first.created_at.to_formatted_s(:date_time)}"
               
   #detail-sidebar.grid_4
-    %h2.title
+    %h3.title{:style => "margin: 7px 0 35px 0;"}
       = render :partial => "/meta_data/show", :locals => { :meta_datum => media_entry.meta_data.get("title"), :resource => media_entry, :context => nil } 
     #detail-excerpt.sidebar-box
       - context = MetaContext.core
       - media_entry.meta_data_for_context(context).collect do |meta_datum|
         - definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
-        %h4{:style => "margin-top: 1em;"}= definition.meta_field.label.to_s
+        %h4{:style => "margin-top: 1.1em;"}= definition.meta_field.label.to_s
         = render :partial => "/meta_data/show", :locals => { :meta_datum => meta_datum, :resource => media_entry, :context => context }
       - if is_expert 
         - unless media_entry.snapshots.empty?
