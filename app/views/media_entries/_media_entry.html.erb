@@ -189,20 +189,20 @@
 						<table class="metadata-table">
 							<tr>
 								<td style="width: 30%;"><%= _("Hochgeladen von") -%></td>
-								<td style="width: 70%; text-align: left;">
+								<td style="width: 70%;">
 									<%#temp#= link_to media_entry.user, media_entry.user %>
 									<%#TODO 2007# uploader_user = media_entry.meta_data.get_value_for("uploaded by") %>
 									<%= link_to media_entry.user, media_entries_path(:query => media_entry.user.fullname) %>
 								</td>
 							</tr>
 							<tr>
-								<td style="text-align: right;"><%= _("Hochgeladen am") -%></td>
+								<td style="text-align: left;"><%= _("Hochgeladen am") -%></td>
 								<%#TODO 2007# %>
 								<td><%= _("%s Uhr") % media_entry.created_at.to_formatted_s(:date_time) %></td>
 							</tr>
 							<% edit_sessions = media_entry.edit_sessions
 							content_tag :tr do %>
-								<td style="text-align: right;"><%= _("Letzte Aktualisierung") -%></td>
+								<td style="text-align: left;"><%= _("Letzte Aktualisierung") -%></td>
 								<td>
 									<%#= media_entry.updated_at.to_formatted_s(:date_time) %>
 									<%= content_tag :ul do
