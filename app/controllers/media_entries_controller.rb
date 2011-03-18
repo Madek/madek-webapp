@@ -109,7 +109,7 @@ class MediaEntriesController < ApplicationController
 # Authenticated Area
 
   def edit
-    
+   theme "madek11"
   end
 
 #  # NOTE accepting and destroying an array of media_entries
