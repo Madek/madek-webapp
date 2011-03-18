@@ -243,7 +243,7 @@ feature "Manage media entries", %q{
     hanswurst = log_in_as("hanswurst","hansi")
     visit homepage
     click_media_entry_titled("hochaufgelöste geheimbünde")
-    click_link("Download")
+    click_link("Exportieren")
 
     # If there is one <a> anywhere inside the first download-unit row,
     # that <a> is the download button for the full resolution. If it wouldn't
@@ -274,7 +274,7 @@ feature "Manage media entries", %q{
     hanswurst = log_in_as("hanswurst","hansi")
     visit homepage
     click_media_entry_titled("hochaufgelöste geheimbünde")
-    click_link("Download")
+    click_link("Exportieren")
 
     # If there is one <a> anywhere inside the first download-unit row,
     # that <a> is the download button for the full resolution. If it wouldn't
