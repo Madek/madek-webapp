@@ -3,7 +3,7 @@ module MediaSetsHelper
 
   #2001# def media_set_title(media_set, visible_media_entries, with_link = false)
   def media_set_title(media_set, with_link = false)
-    content_tag :div, :id => "sidebar-box" do
+    content_tag :div, :id => "set-box" do
       r = content_tag :span, :style => "font-weight: bold; font-size: 1.429em;" do 
         with_link ? link_to(media_set.title, media_set_path(media_set)) : media_set.title
       end
@@ -15,8 +15,8 @@ module MediaSetsHelper
   end
 
   def media_sets_list(media_sets)
-    a = content_tag :h3, :style => "margin: 2em 0 1em 0;" do
-      "Sets"
+    a = content_tag :h4, :style => "margin: 40px 0 1em 0;" do
+      _("In Sets enhalten:")
     end
     media_sets.each do |media_set|
       #2001# media_entries = media_set.media_entries.select {|media_entry| Permission.authorized?(current_user, :view, media_entry)}
@@ -29,26 +29,26 @@ module MediaSetsHelper
 
   def media_sets_setter(form_path, with_cancel_button = false)
     form_tag form_path, :id => "set_media_sets" do
-      b = content_tag :h2, :style => "clear: both" do
-        _("Sets")
+      b = content_tag :h3, :style => "clear: both" do
+        _("Zu Set hinzufügen:")
       end
 
       b += content_tag :span, :style => "margin-right: 1em;" do
-        select_tag "media_set_ids[]", options_for_select({_("- Auswählen -") => nil}) + options_from_collection_for_select(current_user.editable_sets, :id, :title_and_user), :style => "width: 40%;"
+        select_tag "media_set_ids[]", options_for_select({_("- Auswählen -") => nil}) + options_from_collection_for_select(current_user.editable_sets, :id, :title_and_user), :style => "width: 100%;"
       end
 
       b += content_tag :button, :id => "new_button" do
-            _("Neu")
+            _("Neues Set erstellen")
       end
 
       b += content_tag :span, :id => "text_media_set", :style => "display: none;" do
-        c = text_field_tag nil, nil, :style => "width: 15em;"
+        c = text_field_tag nil, nil, :style => "width: 20em; margin-top: 15px; float: none;"
         c += content_tag :button do
               _("Hinzufügen")
         end
       end
 
-      b += content_tag :p, :style => "margin: 1em 0 0 0" do
+      b += content_tag :p, :style => "margin: 1em 0 0 0", :class => "save" do
         submit_tag _("Gruppierungseinstellungen speichern"), :style => "display: none;"
       end
       
