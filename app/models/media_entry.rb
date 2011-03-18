@@ -215,7 +215,7 @@ class MediaEntry < ActiveRecord::Base
                     when /video/ # exiftool has no idea about .mkv containers
                       ['QuickTime', 'Track', 'Composite', 'RIFF', 'BMP', 'Flash', 'M2TS', 'AC3', 'H264' ] # OPTIMIZE - some of these may move to Objective Metadata
                     when /audio/ 
-                      ['MPEG', 'ID3', 'Track', 'Composite', 'ASF', 'FLAC' ] # OPTIMIZE - some of these may move to Objective Metadata
+                      ['MPEG', 'ID3', 'Track', 'Composite', 'ASF', 'FLAC', 'Vorbis' ] # OPTIMIZE - some of these may move to Objective Metadata
                     when /application/
                       ['FlashPix', 'PDF', 'XMP-', 'PostScript', 'Photoshop', 'EXE', 'ZIP' ] # OPTIMIZE - some of these may move to Objective Metadata
                     when /text/
