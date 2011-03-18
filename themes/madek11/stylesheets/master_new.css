@@ -328,7 +328,7 @@ nav {
 
 #search-query input[type="text"] {
 	width: 200px;
-	height: 32px;
+	height: 33px;
 	font-size: 1em;
 	padding-left: 8px;
 	border: none;
@@ -366,6 +366,7 @@ nav {
 	-moz-border-radius: 2px;
 	-o-border-radius: 2px;
 	border-radius: 2px;
+	margin-left: 0;
 }
 
 #search-query input[type="submit"]:hover {
@@ -391,7 +392,7 @@ nav {
 #menu {
     float: right;
     position: absolute;
-    right: 130px;
+    right: 120px;
     top: 0;
 }
 
@@ -1395,6 +1396,145 @@ table td {
 	font-size: 0.9em;
 }
 
+/* Action Bar */
+
+#detail-action-bar {
+	margin-bottom: 1em;
+	/*padding: 0.5em 1em;*/
+	/*background: #DBEBF1;*/
+	background: #FFF;
+	/*-moz-border-radius: 3px;*/
+	/*-webkit-border-radius: 3px;*/
+	/*border: 10px solid #e2e2e2;*/
+}
+
+#detail-action-bar p {
+	color: #424242;
+}
+
+#detail-action-bar ul {
+	padding-left: 1px;
+	/*background: #fff url(/images/icons/1x1-e2e2e2.png) bottom left repeat-x;*/
+	/*background: #DBEBF1;*/
+	background: #DDD;
+	font-weight: normal;
+	font-style: normal;
+	border-bottom: 1px solid white;
+}
+
+/*#detail-action-bar ul li {
+	display: inline;
+}*/
+
+#detail-action-bar ul li a {
+	display: block;
+	float: left;
+	line-height: 3em;
+	font-weight: normal;
+	margin-right: 0;
+	margin-left: 0;
+	border-top: 1px solid white;
+	border-right: 1px solid white;
+	padding-right: 16px;
+	padding-left: 16px;
+}
+
+#detail-action-bar ul li a:hover {
+	background: #bbbbbb;
+	text-decoration: none;
+}
+
+#detail-action-bar .actionbar-panel {
+	/*background: #fff;
+	padding: 1em;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	margin-bottom: 0.5em;*/
+}
+
+#detail-action-bar .actionbar-inner-panel {
+	background: #F2F2F2;
+	padding: 0.5em;
+	padding: 20px;
+	/*border-top: 1px solid white;*/
+}
+
+#detail-action-bar .info {
+	background: #FDFFD0;
+	color: #9FA083;
+	padding: 1em;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	/*border: 1px solid #DFE1B7;*/
+}
+
+#detail-action-bar #download-table {
+	width: 578px;
+	/*margin-bottom: 1em;*/
+	/*border-top: 1px solid #fff;*/
+}
+
+#detail-action-bar #download-table tr {
+	border-bottom: 1px solid #d9d9d9;
+}
+
+#detail-action-bar #download-table th {
+	padding: 0.5em 0;
+	font-size: 0.8em;
+}
+
+#detail-action-bar #download-table th.col1 {
+	width: 278px;
+}
+
+#detail-action-bar #download-table th.col2,
+#detail-action-bar #download-table th.col3,
+#detail-action-bar #download-table th.col4 {
+	width: 100px;
+	text-align: right;
+}
+
+#detail-action-bar #download-table td {
+	/*padding: 1em 0;*/
+}
+
+#detail-action-bar #download-table td.align-center {
+	text-align: center;
+}
+
+#detail-action-bar #download-table td.align-right {
+	text-align: right;
+}
+
+#detail-action-bar #download-table td p {
+	padding-right: 1em;
+	color: #727272;
+}
+
+#detail-action-bar #download-table td p span {
+	display: block;
+	color: #323232;
+	font-weight: bold;
+}
+
+#detail-action-bar #download-table td a {
+	background: #41637C;
+	color: #fff;
+	padding: 0.25em 0.5em;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+#detail-action-bar #download-table td a:hover {
+	background: #41637C;
+	text-decoration: none;
+}
+
+.download-info {
+	padding-bottom: 2em;
+}
+
+
 
 /* Metadata */
 
@@ -1809,36 +1949,64 @@ ul[data-parent_meta_key] {
 
 .meta_data ul.meta_terms {
     font-size: 0.9em;
+    line-height: 2em;
     padding-right: 0.5em;
     background-color: white;
+    border: 0;
 }
 
 .meta_data ul.meta_terms > li {
     display: inline-block;
     vertical-align: top;
     width: 50%;
+    border-color: #fff;
 }
 
 .meta_data ul.meta_terms > li > ul > li {
     display: block;
+	clear: left;
 }
 
 .meta_data input[type="checkbox"] {
     float: inherit;
-    margin-top: 0.3em;
+    margin-top: 0.5em;
     width: auto;
 }
 
 .meta_data ul.meta_terms > li > ul > li > input[type="checkbox"] {
     margin-right: 0.5em;
-    margin-left: 1.0em;
+    margin-left: 0.5em;
 }
 
 #dateSelect {
     background: white;
 }
 
+.expander {
+	margin-top: 0.7em;
+	font-size: 0.9em;
+}
 
+.search_toggler {
+	border: 1px solid #bebebe;
+	width: 27px;
+	height: 27px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-o-border-radius: 2px;
+	border-radius: 2px;
+	display: inline-block;
+	vertical-align: top;
+	background-color: #e6e6e6;
+	border-left-style: none;
+}
+.search_toggler:hover {
+	background-color: #ffffff;
+}
+.search_toggler img {
+	padding-top: 4px;
+	padding-left:  4px;
+}
 
 /**
  * Non-semantic helper classes: please define your styles before this section.

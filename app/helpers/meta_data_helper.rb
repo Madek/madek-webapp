@@ -261,7 +261,7 @@ module MetaDataHelper
     h = content_tag :div, :id => "#{dom_scope}_multiselect", :class => "madek_multiselect_container" do 
       a = content_tag :ul, :class => "holder" do
       end
-      a += text_field_tag "autocomplete_search", nil, :"data-all_options" => all_options.to_json, :style => "width: 90%"
+      a += text_field_tag "autocomplete_search", nil, :"data-all_options" => all_options.to_json, :style => "width: 86%"
       a += link_to icon_tag("toggler-arrow-closed"), "#", :class => "search_toggler"
     end
     
