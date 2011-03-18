@@ -1,3 +1,7 @@
+/* @override 
+	http://localhost:3000/themes/madek11/stylesheets/master_new.css
+*/
+
 /**
  * HTML5 ✰ Boilerplate
  *
@@ -1403,9 +1407,7 @@ table td {
 	/*padding: 0.5em 1em;*/
 	/*background: #DBEBF1;*/
 	background: #FFF;
-	/*-moz-border-radius: 3px;*/
-	/*-webkit-border-radius: 3px;*/
-	/*border: 10px solid #e2e2e2;*/
+	float: right;
 }
 
 #detail-action-bar p {
@@ -1537,6 +1539,13 @@ table td {
 
 
 /* Metadata */
+
+.media_meta {
+    color: #7F7F7F;
+    font-size: 0.8em;
+    letter-spacing: 0.2ex;
+}
+
 
 #set_meta small, #set_info small {
 	color: #7f7f7f;
@@ -1715,13 +1724,9 @@ tr.adder {
 
 /* Sidebar */
 
-.sidebar-box {
-	position: relative;
-	background: #f2f2f2;
-	padding: 0.75em 1em;
-	/*margin-bottom: 1px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;*/
+
+#sidebar-box {
+	margin-top: 10px;
 }
 
 .sidebar-box .buttons {
@@ -1771,6 +1776,11 @@ tr.adder {
 	height: 25px;
 	width: 25px;
 	line-height: 2em;
+}
+
+#detail-sidebar {
+	margin-bottom: 0.75em;
+	width: 280px;
 }
 
 /* Groups */
