@@ -371,7 +371,7 @@ class MediaFile < ActiveRecord::Base
       update_attributes(:job_id => job.details['id'])
       return job
     else
-      puts "Won't encode -- this file already has a job_id, so it's probably already been encoded. Use submit_encoding_job(:force => true) to override."
+      logger.error("Won't encode -- this file already has a job_id, so it's probably already been encoded. Use submit_encoding_job(force = true) to override.")
       return false
     end
   end
