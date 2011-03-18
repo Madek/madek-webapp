@@ -9,7 +9,9 @@
     #detail-action-bar.clearfix
       %ul#toggle-panel.clearfix
         %li= display_edit_icon(media_entry, current_user)
-        %li= display_favorite_icon(media_entry, current_user)
+        %li
+          %span.favorite_link{:id => "fav_#{media_entry.id}", :title => "Favorit"}
+            = render :partial => "/media_entries/favorite_link", :locals => {:media_entry => media_entry}
         %li= display_delete_icon(media_entry, current_user)
         %li= link_to _("Exportieren"), "#", :panel => "download", :onclick => "return false;"
         %li= link_to _("Sets zusammenstellen"), "#", :panel => "media_set", :onclick => "return false;"
@@ -70,7 +72,7 @@
                 %td{:style => "text-align: right; font-weight: bold;"}
                   = _("Beschreibung durch (vor dem Hochladen ins Medienarchiv)")
                 %td= description_author_before_import
-              - unless media_entry.snapshots.empty
+              - unless media_entry.snapshots.empty?
                 %tr
                   %td{:style => "text-align: right; font-weight: bold;"}= _("MIZ-Archiv Kopie") 
                   %td= "#{_("%s Uhr") % media_entry.snapshots.first.created_at.to_formatted_s(:date_time)}"
