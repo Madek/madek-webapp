@@ -128,7 +128,11 @@ module MetaDataHelper
     end
   end
   
-  def new_term_field(meta_key, dom_scope)
+  def new_term_field(meta_key, dom_scope = nil)
+    unless dom_scope
+      dom_scope = meta_key.label.gsub(/(\s+|\/+)/, '_')
+    end 
+    
     a = text_field_tag :new_term, nil
     a += link_to meta_key_meta_terms_path(meta_key), :class => "new_term", :"data-dom_scope" => dom_scope, :remote => true, :method => :post do
       icon_tag("button_add_value")
@@ -142,7 +146,8 @@ module MetaDataHelper
             <<-HERECODE
               $(document).ready(function(){
                 $("a.new_term[data-remote]").bind('click', function(){
-                  var h = $(this).data("href");
+                  var h = ''; // value needs to be reset to empty string to avoid cocantenation
+                  h = $(this).attr("href");
                   $(this).data("original_href", h);
                   var v = $(this).prev("input").val();
                   $(this).attr("href", h +"?new_term=" + v);
@@ -151,13 +156,21 @@ module MetaDataHelper
                   parsed_data = $.parseJSON(data);
                   $(this).attr("href", $(this).data("original_href"));
                   $(this).prev("input").val("");
-                  // add to all_options
                   var search_field = $("#"+ dom_scope +"_multiselect input[name='autocomplete_search']");
-                  var all_options = search_field.data("all_options");
-                  all_options.push(parsed_data);
-                  search_field.data("all_options", all_options);
-                  // call add_to_selected_items
-                  add_to_selected_items(parsed_data, dom_scope);
+                  if (search_field.length) {
+                    // add to all_options
+                    var all_options = search_field.data("all_options");
+                    all_options.push(parsed_data);
+                    search_field.data("all_options", all_options);
+                    // call add_to_selected_items
+                    add_to_selected_items(parsed_data, dom_scope);
+                  } else {
+                    // FIXME doesn't work if no term exists yet
+                    s = $(this).parent().prev();
+                    var c = s.clone().insertAfter(s); // TODO use .tmpl() ??
+                    c.children("input:first").val(parsed_data.id).attr("checked", "checked");
+                    c.contents(":last").replaceWith(parsed_data.label); // TODO jquery >= 1.4.3  .text(parsed_data.value);
+                  }
                 });  
                 
                 $("input[name='new_term']").keypress(function(event) {

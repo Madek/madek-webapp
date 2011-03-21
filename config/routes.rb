@@ -33,7 +33,7 @@ MAdeK::Application.routes.draw do
   # TODO only [:index, :show] methods
   resources :media_entries do
     collection do
-      get :favorites
+      get :favorites, :to => "media_entries#index"
       #old# post :query_count
       #temp# get :graph
       get :keywords
