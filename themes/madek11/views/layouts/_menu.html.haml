@@ -1,6 +1,4 @@
 - cache("users/#{current_user.id}/menu") do
-  = link_to _("Hochladen"), new_upload_path, :class => "main_nav_upload ir"
-  = link_to _(@set), media_set_media_sets_path(@set), :class => "main_nav_browse ir" if (@set = Media::FeaturedSet.first) and !@set.children.empty?
   #menu
     %ul
       - unless @disable_user_bar

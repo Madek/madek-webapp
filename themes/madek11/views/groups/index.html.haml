@@ -1,6 +1,10 @@
 .container_12.clearfix              
   %section#content_body
-    %h2.groups Meine Gruppen
+    %div.page_title_left
+      %img{:src => "/themes/madek11/images/icons/icon_workgroup.png"}
+      =_("Meine Arbeitsgruppen")
+    .clear
+    %hr
 
     %table.groups
       %tbody
@@ -16,4 +20,5 @@
             = link_to _("Löschen"), group_path(group), :class => "meta_data_label2", :method => :delete, :confirm => _("Sind Sie sicher?")
           
       %li
-        = link_to _("Neue Gruppe erstellen"), new_group_path, :class => "buttons"
+        %br
+        = link_to _("Neue Arbeitsgruppe erstellen"), new_group_path, :class => "buttons"

@@ -14,7 +14,8 @@ class MetaTermsController < ApplicationController
     meta_key.meta_terms << term unless meta_key.meta_terms.include?(term) 
 
     respond_to do |format|
-      format.js { render :json => {:id => term.id, :value => term.to_s} }
+      #old# format.js { render :json => {:id => term.id, :value => term.to_s} }
+      format.js { render :json => {:id => term.id, :label => term.to_s}.to_json }
     end
   end
   

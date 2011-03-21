@@ -1,3 +1,13 @@
 %section#content_body
+  = render :partial => "/shared/task_bar"
+  
   #results
     = render :partial => 'index'
+    
+:javascript
+  $(document).ready(function () {
+    setupBatch();
+    
+  });
+
+= theme_javascript_include_tag "batch_actions"

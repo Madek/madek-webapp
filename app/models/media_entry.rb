@@ -8,7 +8,7 @@ class MediaEntry < ActiveRecord::Base
 
   include Resource
 
-  belongs_to                :media_file   # TODO validates_presence # TODO on destroy, also destroy the media_file if this is the only related media_entry and snapshot
+  belongs_to                :media_file, :include => :previews # TODO validates_presence # TODO on destroy, also destroy the media_file if this is the only related media_entry and snapshot
   belongs_to                :upload_session
   has_and_belongs_to_many   :media_sets, :class_name => "Media::Set",
                                          :join_table => "media_entries_media_sets",
@@ -215,7 +215,7 @@ class MediaEntry < ActiveRecord::Base
                     when /video/ # exiftool has no idea about .mkv containers
                       ['QuickTime', 'Track', 'Composite', 'RIFF', 'BMP', 'Flash', 'M2TS', 'AC3', 'H264' ] # OPTIMIZE - some of these may move to Objective Metadata
                     when /audio/ 
-                      ['MPEG', 'ID3', 'Track', 'Composite', 'ASF', 'FLAC' ] # OPTIMIZE - some of these may move to Objective Metadata
+                      ['MPEG', 'ID3', 'Track', 'Composite', 'ASF', 'FLAC', 'Vorbis' ] # OPTIMIZE - some of these may move to Objective Metadata
                     when /application/
                       ['FlashPix', 'PDF', 'XMP-', 'PostScript', 'Photoshop', 'EXE', 'ZIP' ] # OPTIMIZE - some of these may move to Objective Metadata
                     when /text/

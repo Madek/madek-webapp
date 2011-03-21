@@ -28,19 +28,17 @@ module PermissionsHelper
       theme_image_tag("icons/icon_button_perm.png")
     end
   end
-  
+
+  # TODO move to media_entries_helper.rb
   def display_favorite_icon(resource, user)
-    if user.favorites.include?(resource)
-      theme_image_tag("icons/button_favorit_on.png")
-    else
-      theme_image_tag("icons/button_favorit_off.png")
-    end
+    s = (user.favorite_ids.include?(resource.id) ? "on" : "off") # (user.favorites.include?(resource) ? "on" : "off")
+    theme_image_tag("icons/button_favorit_#{s}.png")
   end
   
   def display_edit_icon(resource, user)
     if user && Permission.authorized?(user, :edit, resource) 
       url = resource.is_a?(MediaEntry) ? edit_media_entry_path(resource) : edit_media_set_path(resource)
-      link_to theme_image_tag("icons/button_edit_active.png"), url
+      link_to theme_image_tag("icons/button_edit_active.png"), url, :title => "Editieren"
     else
       theme_image_tag("icons/button_edit_inactive.png")
     end
@@ -55,7 +53,7 @@ module PermissionsHelper
         url = media_set_path(resource)
         confirm = "Sind Sie sicher? Das Set wird gelöscht."
       end  
-      link_to theme_image_tag("icons/button_delete_active.png"), url, :method => :delete, :confirm => confirm
+      link_to theme_image_tag("icons/button_delete_active.png"), url, :title => "Löschen", :method => :delete, :confirm => confirm
     else
       theme_image_tag("icons/button_delete_inactive.png")
     end

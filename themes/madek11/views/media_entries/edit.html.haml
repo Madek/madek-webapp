@@ -1,0 +1,37 @@
+:css
+  .madek_multiselect_container ul.holder li {
+    white-space: normal;
+  }
+  .ui-autocomplete { 
+      width: 10px;
+  }
+= prevent_leaving_page
+- is_expert = current_user.groups.is_member?("Expert")
+
+.container_12
+  %section#content_body.clearfix
+    #detail-main.grid_3
+      #detail-image{:style => "padding: 15px 0 1.5em 0;"}
+        = link_to thumb_for(@media_entry, :small), @media_entry
+      - if is_expert and @media_entry.snapshotable?
+        #detail-action-bar
+          %ul
+            %li= link_to _("Metadaten für MIZ-Archiv editieren"), edit_tms_media_entry_path(@media_entry), :style => "line-height: 1.1em; float: none; padding: 0.5em; font-size: 0.9em;"
+    .grid_8
+      %h3= _("Metadaten editieren")
+      = form_for @media_entry, :as => :resource, :url => [:update_multiple, @media_entry, :meta_data], :html => {:method => :put} do |resource|
+        - content_for :buttons do
+          %div{:style => "text-align: right; padding: 10pt; background: #DDDDDD;"}
+            = resource.submit _("Speichern")
+            = link_to _("Abbrechen"), @media_entry, :class => "buttons"
+        = yield :buttons
+        - meta_contexts = MetaContext.defaults + @media_entry.individual_contexts
+        #detail_specification.tabs
+          %ul
+            - meta_contexts.collect do |meta_context|
+              %li= link_to meta_context, "##{meta_context.name}"
+          - meta_contexts.each do |meta_context|
+            = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :resource => resource }
+          
+        = yield :buttons
+.clear

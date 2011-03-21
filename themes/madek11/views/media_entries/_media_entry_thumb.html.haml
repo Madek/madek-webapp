@@ -1,4 +1,5 @@
-%div.item_box{:id => "thumb_#{media_entry.id}"}
+- object_data = @media_entries_permissions ? media_entry.attributes.merge!(media_entry.get_basic_info).merge(@media_entries_permissions[media_entry.id]).to_json : media_entry.attributes.merge!(media_entry.get_basic_info)
+%div.item_box{:id => "thumb_#{media_entry.id}", :"data-object" => object_data }
   %div.item_permission
     = display_permission_icon(media_entry)
   %div.thumb_box
@@ -14,8 +15,8 @@
   .actions
     .action_left
       - if @editable_ids
-        = check_box_tag 'media_entry_ids[]', media_entry.id, nil, :class => "editable" # if @editable_ids.include?(media_entry.id)
-      %span.favorite_link{:id => "fav_#{media_entry.id}"}
+        = check_box_tag 'media_entry_ids[]', media_entry.id, nil, :title => "Auswählen", :class => "editable" # if @editable_ids.include?(media_entry.id)
+      %span.favorite_link{:id => "fav_#{media_entry.id}", :title => "Favorit"}
         = render :partial => "/media_entries/favorite_link", :locals => {:media_entry => media_entry}
     .action_right
       = display_edit_icon(media_entry, current_user)

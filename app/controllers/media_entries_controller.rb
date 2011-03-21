@@ -8,85 +8,102 @@ class MediaEntriesController < ApplicationController
   def index
     # madek11
     theme "madek11"
+    session[:batch_origin_uri] = nil
     # filtering attributes
     with = {}
+    session[:batch_origin_uri] = nil
+    
     media_entries = if @user
                       if logged_in?
                         if @user == current_user
                           # all media_entries I can see and uploaded by me
-                          ids = Permission.accessible_by_user("MediaEntry", current_user)
-                          MediaEntry.by_user(current_user).by_ids(ids)
+                          viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
+                          MediaEntry.by_user(current_user).by_ids(viewable_ids)
                         else
                           # intersection between me and somebody viewable media_entries
-                          ids = Permission.accessible_by_user("MediaEntry", current_user) & Permission.accessible_by_user("MediaEntry", @user)
-                          MediaEntry.by_ids(ids)
+                          viewable_ids = Permission.accessible_by_user("MediaEntry", current_user) & Permission.accessible_by_user("MediaEntry", @user)
+                          MediaEntry.by_ids(viewable_ids)
                         end
                       else
                         # intersection between public media_entries and somebody viewable media_entries
-                        
-                        #old#0903# 
-                        #ids = Permission.accessible_by_user("MediaEntry", @user)
-                        #MediaEntry.public.by_ids(ids)
-
-                        ids = Permission.accessible_by_user("MediaEntry", @user) & Permission.accessible_by_all("MediaEntry")
-                        MediaEntry.by_ids(ids)
+                        viewable_ids = Permission.accessible_by_user("MediaEntry", @user) & Permission.accessible_by_all("MediaEntry")
+                        MediaEntry.by_ids(viewable_ids)
                       end
                     else
                       if logged_in?
-                        ids = Permission.accessible_by_user("MediaEntry", current_user)
+                        viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
                         if params[:not_by_current_user]
                           # all media_entries I can see but not uploaded by me
-                          MediaEntry.not_by_user(current_user).by_ids(ids)
+                          MediaEntry.not_by_user(current_user).by_ids(viewable_ids)
                         else
                           # all media_entries I can see
-                          MediaEntry.by_ids(ids)
+                          MediaEntry.by_ids(viewable_ids)
                         end
                       else
                         # all public media_entries
-                        
-                        #old#0903#
-                        # MediaEntry.public
-                        
                         ids = Permission.accessible_by_all("MediaEntry")
-                        MediaEntry.by_ids(ids)
+                        MediaEntry.by_ids(viewable_ids)
                       end
                     end
 
-#old 1003#
-#    if @media_set
-#      if @media_set.dynamic?
-#        params[:query] = @media_set.query
-#      else
-#        with[:media_set_ids] = @media_set.id
-#      end
-#    end
 
     if @media_file
       with[:media_file_id] = @media_file.id
     end
 
-    # TODO params[:search][:query], params[:search][:page], params[:search][:per_page]
-#temp#    
-#      if params[:per_page].blank?
-#        session[:per_page] ||= PER_PAGE.first
-#        params[:per_page] = session[:per_page]
-#      else
-#        session[:per_page] = params[:per_page]
-#      end
     params[:per_page] ||= PER_PAGE.first
 
     @media_entries = media_entries.search params[:query],
-                                         { #TODO activate this if you need advanced search# :match_mode => :extended2,
+                                           { #TODO activate this if you need advanced search# :match_mode => :extended2,
                                            :page => params[:page], :per_page => params[:per_page].to_i, :retry_stale => true,
                                            :with => with,
                                            :star => true,
-                                    #temp# :order => (params[:order].blank? ? nil : params[:order]), # OPTIMIZE params[:search][:order]
-                                           :include => [:default_permission,
-                                                        {:media_file => :preview_small}] }
-#temp#
-#    @facets = MediaEntry.facets params[:query], :match_mode => :extended2,
-#                                                 :with => with
+                                           #temp# :order => (params[:order].blank? ? nil : params[:order]), # OPTIMIZE params[:search][:order]
+                                           :include => :media_file }
+
+    # TODO params[:search][:query], params[:search][:page], params[:search][:per_page]
+    #temp#    
+    #      if params[:per_page].blank?
+    #        session[:per_page] ||= PER_PAGE.first
+    #        params[:per_page] = session[:per_page]
+    #      else
+    #        session[:per_page] = params[:per_page]
+    #      end
+
+    #temp#
+    #    @facets = MediaEntry.facets params[:query], :match_mode => :extended2,
+    #                                                 :with => with
+
+    media_entry_ids = @media_entries.map(&:id)
+
+    # for task bar
+    @editable_ids = Permission.accessible_by_user("MediaEntry", current_user, :edit)
+    managable_ids = Permission.accessible_by_user("MediaEntry", current_user, :manage)
+    editable_set_ids = Permission.accessible_by_user("Media::Set", current_user, :edit)
     
+    @editable_in_context = @editable_ids & media_entry_ids
+    @managable_in_context = managable_ids & media_entry_ids
+    @editable_sets = Media::Set.where(:id => editable_set_ids)
+
+    # @media_entries_json = @media_entries.map do |me|
+    #   basic = me.attributes.merge!(me.get_basic_info)
+    #   css_class = "thumb_mini"
+    #   css_class += " edit" if @editable_in_context.include?(me.id)
+    #   css_class += " manage" if @managable_in_context.include?(me.id)
+    #   basic["css_class"] = css_class
+    #   basic
+    # end.to_json
+
+    @media_entries_permissions = {}
+    @media_entries.each do |me|
+      #   @media_entries_permissions[me.id] = { :is_editable => (@editable_in_context.include?(me.id)),
+      #                                         :is_manageable => (@managable_in_context.include?(me.id)) }
+      css_class = "thumb_mini"
+      css_class += " edit" if @editable_in_context.include?(me.id)
+      css_class += " manage" if @managable_in_context.include?(me.id)
+      @media_entries_permissions[me.id] = { :css_class => css_class }
+    end
+        
     respond_to do |format|
       format.html
       format.js {
@@ -98,6 +115,7 @@ class MediaEntriesController < ApplicationController
   end
     
   def show
+    theme "madek11"
     respond_to do |format|
       format.html
       format.js { render @media_entry }
@@ -109,7 +127,7 @@ class MediaEntriesController < ApplicationController
 # Authenticated Area
 
   def edit
-    
+   theme "madek11"
   end
 
 #  # NOTE accepting and destroying an array of media_entries
@@ -194,8 +212,7 @@ class MediaEntriesController < ApplicationController
     end
   end
   
-  
-  #tmp # until madek11 theme complete
+  #tmp # until madek11 theme complete # TODO merge to favorites action
   def toggle_favorites
     theme "madek11"
     current_user.favorites.toggle(@media_entry)

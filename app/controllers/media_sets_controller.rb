@@ -42,23 +42,26 @@ class MediaSetsController < ApplicationController
     editable_set_ids = Permission.accessible_by_user("Media::Set", current_user, :edit)
 
     #old# @media_entries = MediaEntry.search :with => {:media_set_ids => @media_set.id, :sphinx_internal_id => viewable_ids}, :page => params[:page], :per_page => params[:per_page].to_i, :retry_stale => true
-    @media_entries =  @media_set.media_entries.where(:id => viewable_ids).paginate(:page => params[:page], :per_page => PER_PAGE.first)
+    @media_entries =  @media_set.media_entries.includes(:media_file).where(:id => viewable_ids).paginate(:page => params[:page], :per_page => PER_PAGE.first)
     media_entry_ids = @media_entries.map(&:id)
     
     # for task bar
-    @can_edit = editable_set_ids.include?(@media_set.id)
-    @editable_in_set = @editable_ids & media_entry_ids
-    @managable_in_set = managable_ids & media_entry_ids
-    @editable_sets = Media::Set.where("id IN (?) AND id <> ?", editable_set_ids, @media_set.id)
+    @can_edit_set = editable_set_ids.include?(@media_set.id)
+    @editable_in_context = @editable_ids & media_entry_ids
+    @managable_in_context = managable_ids & media_entry_ids
+    @editable_sets = Media::Set.where("id IN (?)", editable_set_ids)
     
-    @media_entries_json = @media_entries.map do |me|
-      basic = me.attributes.merge!(me.get_basic_info)
+    
+    
+    @media_entries_permissions = {}
+    @media_entries.each do |me|
+      #   @media_entries_permissions[me.id] = { :is_editable => (@editable_in_context.include?(me.id)),
+      #                                         :is_manageable => (@managable_in_context.include?(me.id)) }
       css_class = "thumb_mini"
-      css_class += " edit" if @editable_ids.include?(me.id)
-      css_class += " manage" if @managable_in_set.include?(me.id)
-      basic["css_class"] = css_class
-      basic
-    end.to_json
+      css_class += " edit" if @editable_in_context.include?(me.id)
+      css_class += " manage" if @managable_in_context.include?(me.id)
+      @media_entries_permissions[me.id] = { :css_class => css_class }
+    end
     
     respond_to do |format|
       format.html
