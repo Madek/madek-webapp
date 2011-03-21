@@ -17,7 +17,7 @@ module Media
         Array(members).each do |member|
           next if exists? member
           push member
-          member.sphinx_reindex 
+          #old# member.sphinx_reindex 
           i += 1
         end
         i
