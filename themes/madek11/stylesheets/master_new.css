@@ -1691,8 +1691,9 @@ form#set_media_sets input[type="submit"] {
 	letter-spacing: 0;
 }
 
-#detail-image {
+#detail-image img {
 	margin-top:  10px;
+	border: 1px solid #e4e4e4;
 }
 
 #set_meta small, #set_info small {
@@ -1817,6 +1818,7 @@ table.meta_data td {
 }
 
 #additional-metadata table {
+	width: 600px;
 	margin: 30px -11px;
 	padding-right: 5px;
 }
@@ -1830,9 +1832,6 @@ table.meta_data td {
     color: #7F7F7F;
     font-size: 0.8em;
     letter-spacing: 0.2ex;
-}
-#additional-metadata table {
-    width: 600px;
 }
 
 #further_information table td:first-child {
@@ -1976,9 +1975,21 @@ table.permissions th:first-child {
     width: 50%;
 }
 
-table.permissions {
+#additional-metadata table.permissions {
 	width:100%;
+	margin-left: 0;
 }
+
+#additional-metadata table.permissions td {
+	color: #424242;
+}
+#additional-metadata table.permissions td strong, #additional-metadata table.permissions .adder td {
+	letter-spacing: 0;
+}
+#additional-metadata table.permissions .adder td {
+	font-weight: normal;
+}
+
 
 table.permissions input[type="checkbox"] {
 	vertical-align: middle;
@@ -2159,6 +2170,8 @@ table.groups th {
 	margin: 10px 0;
 }
 
+  /*.clear { margin: 0;}*/
+  
 li.label {
 	line-height: 1.2em;
 	font-weight: bold;
@@ -2388,14 +2401,6 @@ ul[data-parent_meta_key] {
   p, h2, h3 { orphans: 3; widows: 3; }
   h2, h3{ page-break-after: avoid; }
 }
-
-
-
-/* custom Andrea Set */
-
-
-
-  .clear { margin: 0;}
 
 
 .sticker {
