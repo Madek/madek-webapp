@@ -385,6 +385,11 @@ class MediaFile < ActiveRecord::Base
     assign_access_hash
     return save
   end
+
+  # OPTIMIZE
+  def meta_data_without_binary
+    meta_data.reject{|k,v| ["!binary |", "Binary data"].any?{|x| v.to_yaml.include?(x)}}
+  end
   
   private
 
