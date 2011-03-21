@@ -35,6 +35,8 @@ class MediaEntriesController < ApplicationController
                         if params[:not_by_current_user]
                           # all media_entries I can see but not uploaded by me
                           MediaEntry.not_by_user(current_user).by_ids(viewable_ids)
+                        elsif request.fullpath =~ /favorites/
+                          MediaEntry.by_ids(viewable_ids & current_user.favorite_ids)
                         else
                           # all media_entries I can see
                           MediaEntry.by_ids(viewable_ids)
@@ -202,12 +204,6 @@ class MediaEntriesController < ApplicationController
       current_user.favorites.delete(@media_entry)
       respond_to do |format|
         format.js { render :partial => "favorite_link", :locals => {:media_entry => @media_entry} }
-      end
-    else
-      # TODO refactor to index method and make it searcheable
-      @media_entries = current_user.favorites.paginate(:page => params[:page])
-      respond_to do |format|
-        format.html
       end
     end
   end
