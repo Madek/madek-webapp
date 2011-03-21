@@ -125,15 +125,7 @@ function setupBatch(media_set_id) {
       toggleSelected(id);
     });
 
-    $(":checkbox").live("click", function(){
-	/*
-      var curr_value = $(this).val();
-      $.each(data, function(i, me) {
-        if(me.id == curr_value){
-          toggleSelected(me);
-        }
-      });
-	*/	
+    $(":checkbox").live("click", function(){	
 		toggleSelected($(this).closest(".item_box").data("object"));
     });
 

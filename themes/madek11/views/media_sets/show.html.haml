@@ -15,7 +15,7 @@
           = display_meta_data_for_context(@media_set, context)
       .grid_3
         #set_actions
-          - if @can_edit
+          - if @can_edit_set
             = display_edit_icon(@media_set, current_user)
             = display_delete_icon(@media_set, current_user)
 
