@@ -130,7 +130,7 @@ module MetaDataHelper
   
   def new_term_field(meta_key, dom_scope)
     a = text_field_tag :new_term, nil
-    a += link_to meta_key_meta_terms_path(meta_key), :class => "new_term", :"data-dom_scope" => dom_scope, :remote => true, :method => :post do
+    a += link_to meta_key_meta_terms_path(meta_key), :class => "new_term", :"data-dom_scope" => dom_scope, :"data-original_href" => meta_key_meta_terms_path(meta_key), :remote => true, :method => :post do
       icon_tag("button_add_value")
     end
         
@@ -144,13 +144,13 @@ module MetaDataHelper
                 var h;
                 $("a.new_term[data-remote]").bind('click', function(){
                   h = ''; // value needs to be reset to empty string to avoid cocantenation
-                  h = $(this).attr("href");
+                  h = $(this).data("original_href");
                   var v = $(this).prev("input").val();
                   $(this).attr("href", h +"?new_term=" + v);
                 }).bind('ajax:success', function(xhr, data, status){
                   var dom_scope = $(this).data("dom_scope");
                   parsed_data = $.parseJSON(data);
-                  $(this).attr("href", h);
+                  $(this).attr("href", $(this).data("original_href"));
                   $(this).prev("input").val("");
                   // add to all_options
                   var search_field = $("#"+ dom_scope +"_multiselect input[name='autocomplete_search']");
