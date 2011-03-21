@@ -536,7 +536,7 @@ module MetaDataHelper
                                     
                   $(".dates input.datepicker").bind("change", function() {
                     var source = $(this);
-                    if(source.val() != source.attr("placeholder")){
+                    if(source.is(":visible") && source.val() != source.attr("placeholder")){
                       var v = source.siblings(".datepicker").andSelf().map(function() {
                         var t = $(this).nextAll(".time").first();
                         var r = this.value;
