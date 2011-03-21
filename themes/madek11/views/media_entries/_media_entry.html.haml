@@ -49,17 +49,20 @@
         #usage-tabs-1.meta_data
           %table.metadata-table
             %tr
-              %td{:style => "width: 30%;"}= _("Hochgeladen von")
-              %td{:style => "width: 70%; text-align: left;"}
+              %td
+                = _("Hochgeladen von")
+              %td
                 = link_to media_entry.user, media_entries_path(:query => media_entry.user.fullname)
             %tr
-              %td{:style => "width: 30%;"}= _("Hochgeladen am") 
-              %td{:style => "width: 70%; text-align: left;"}
+              %td
+                = _("Hochgeladen am") 
+              %td
                 = _("%s Uhr") % media_entry.created_at.to_formatted_s(:date_time)
             - edit_sessions = media_entry.edit_sessions
             - unless edit_sessions.empty?
               %tr
-                %td{:style => "text-align:right;"}= _("Letzte Aktualisierung")
+                %td
+                  = _("Letzte Aktualisierung")
                 %td
                   %ul
                     - edit_sessions.each do |edit_session|
