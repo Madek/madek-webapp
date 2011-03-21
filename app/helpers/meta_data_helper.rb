@@ -145,9 +145,8 @@ module MetaDataHelper
             begin  
             <<-HERECODE
               $(document).ready(function(){
-                var h;
                 $("a.new_term[data-remote]").bind('click', function(){
-                  h = ''; // value needs to be reset to empty string to avoid cocantenation
+                  var h = ''; // value needs to be reset to empty string to avoid cocantenation
                   h = $(this).attr("href");
                   $(this).data("original_href", h);
                   var v = $(this).prev("input").val();
