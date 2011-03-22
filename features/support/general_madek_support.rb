@@ -1,3 +1,19 @@
+module Cucumber
+  module ThinkingSphinx
+    class ExternalWorld
+      def initialize(suppress_delta_output = true)
+        puts "patching into the ass of thinking sphinx"
+#         ::ThinkingSphinx::Test.init
+#         ::ThinkingSphinx::Test.start_with_autostop
+        ::ThinkingSphinx::Test.init
+        ::ThinkingSphinx::Test.start_without_config_file_but_with_autostop
+      end
+    end
+  end
+end
+
+
+
 def make_hidden_items_visible
   page.execute_script '$(":hidden").show();'
 end
@@ -197,7 +213,7 @@ end
 # It's always the same picture, no way to change the image file yet.
 def upload_some_picture(title = "Untitled")
 
-    visit homepage
+    visit "/"
 
     # The upload itself
     click_link("Hochladen")
@@ -216,7 +232,7 @@ def upload_some_picture(title = "Untitled")
     click_link_or_button("Weiter ohne Gruppierung")
 
     sphinx_reindex
-    visit homepage
+    visit "/"
 
     page.should have_content(title)
 
