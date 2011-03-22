@@ -177,6 +177,7 @@ feature "Manage media entries", %q{
     
   end
 
+  # ported to Cucumber
   scenario "Make an uploaded file public", :js => true do
     # Helmut wants the world to see pieces of the wall
     # Can't do this yet, because we don't have a notion of "public" yet
@@ -198,7 +199,7 @@ feature "Manage media entries", %q{
 
   end
 
-
+  # ported to Cucumber
   scenario "Upload a public file and then make it un-public again", :js => true do
 
     user = log_in_as("helmi", "schweinsmagen")

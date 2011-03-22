@@ -120,7 +120,13 @@ When /^I pick "([^"]*)" from the autocomplete field$/ do |choice|
 end
 
 When /^I give "([^"]*)" permission to "([^"]*)"$/ do |permission, subject|
+  subject = :everybody if subject == "everybody"
   give_permission_to(permission, subject)
+end
+
+When /^I remove "([^"]*)" permission from "([^"]*)"$/ do |permission, subject|
+  subject = :everybody if subject == "everybody"
+  remove_permission_to(permission, subject)
 end
 
 When /^I click on the arrow next to "([^"]*)"/ do |string|

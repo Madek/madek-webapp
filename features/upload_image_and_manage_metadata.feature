@@ -66,7 +66,7 @@ Feature: Upload images and manage media entries based on images
      Then I should see "A beautiful piece of the B..."
 
 
-  @javascript @work
+  @javascript
   Scenario: Upload an image file for my group to see
     Given a group called "Mauerfäller" exists
       And the user with username "helmi" is member of the group "Mauerfäller"
@@ -101,9 +101,39 @@ Feature: Upload images and manage media entries based on images
 
   @javascript
   Scenario: Make an uploaded file public
+   Given a user called "Raissa Gorbacheva" with username "raissa" and password "novodevichy" exists
+    When I log in as "helmi" with password "schweinsmagen"
+     And I upload some picture titled "baustelle osten"
+     And I go to the home page
+     And I click the media entry titled "baustelle osten"
+     And I follow "Zugriffsberechtigung"
+     And I give "view" permission to "everybody"
+     And I log in as "raissa" with password "novodevichy"
+     And I go to the home page
+    Then I should see "baustelle osten"
+     
 
-  @javascript
+  @javascript  @work
   Scenario: Upload a public file and then make it un-public again
+   Given a user called "Raissa Gorbacheva" with username "raissa" and password "novodevichy" exists
+    When I log in as "helmi" with password "schweinsmagen"
+     And I upload some picture titled "geheimsache"
+     And I go to the home page
+     And I click the media entry titled "geheimsache"
+     And I follow "Zugriffsberechtigung"
+     And I give "view" permission to "everybody"
+     And I log in as "raissa" with password "novodevichy"
+     And I go to the home page
+    Then I should see "geheimsache"
+    When I log in as "helmi" with password "schweinsmagen"
+     And I click the media entry titled "geheimsache"
+     And I follow "Zugriffsberechtigung"
+     And I remove "view" permission from "everybody"
+     And Sphinx is forced to reindex
+     And I log in as "raissa" with password "novodevichy"
+     And I go to the home page
+    Then I should not see "geheimsache"
+
 
   @javascript
   Scenario: Give hi-resolution download permission on a file
