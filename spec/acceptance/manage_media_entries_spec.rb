@@ -261,7 +261,7 @@ feature "Manage media entries", %q{
 
   end
 
-
+  # ported to Cucumber
   scenario "Give and then revoke hi-resolution download permission on a file", :js => true do
     create_user("Hans Wurst", "hanswurst", "hansi")
 

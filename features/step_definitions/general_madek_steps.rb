@@ -140,3 +140,7 @@ end
 Then "the box should have a hires download link" do
     find(:css, "tr.download-unit").all("a").count.should == 1
 end
+
+Then "the box should not have a hires download link" do
+    find(:css, "tr.download-unit").all("a").count.should == 0
+end
