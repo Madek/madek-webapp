@@ -3,7 +3,7 @@
 = include_editable if can_edit
 
 .container_12
-  #detail-main.grid_8
+  #detail-main.grid_8.alpha
     #detail-image
       = thumb_for(media_entry, :large)
     #detail-action-bar.clearfix
@@ -82,23 +82,23 @@
                   %td{:style => "text-align: right; font-weight: bold;"}= _("MIZ-Archiv Kopie") 
                   %td= "#{_("%s Uhr") % media_entry.snapshots.first.created_at.to_formatted_s(:date_time)}"
               
-  #detail-sidebar.grid_4
-    %h3.title{:style => "margin: 7px 0 35px 0;"}
+  #detail-sidebar.grid_4.omega
+    %h3.title{:style => "margin: 0 20px 40px 0;"}
       = render :partial => "/meta_data/show", :locals => { :meta_datum => media_entry.meta_data.get("title"), :resource => media_entry, :context => nil } 
     #detail-excerpt.sidebar-box
       - context = MetaContext.core
       - media_entry.meta_data_for_context(context).collect do |meta_datum|
         - definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
-        %h4{:style => "margin-top: 1.1em;"}= definition.meta_field.label.to_s
+        %h4{:style => "margin-top: 10px;"}= definition.meta_field.label.to_s
         = render :partial => "/meta_data/show", :locals => { :meta_datum => meta_datum, :resource => media_entry, :context => context }
       - if is_expert 
         - unless media_entry.snapshots.empty?
-          .notice{:style => "font-size: 0.9em; margin-top: 1.5em;"}
+          .notice{:style => "font-size: 0.9em;"}
             - date = media_entry.snapshots.first.created_at.to_formatted_s(:date)
             - time = media_entry.snapshots.first.created_at.to_formatted_s(:time)
             = "Ein Kopie dieses Medieneintrags wurde am #{date} um #{time} Uhr für das MIZ-Archiv erstellt."
         - unless media_entry.snapshotable?
-          .notice{:style => "font-size: 0.9em; margin-top: 1.5em;"}
+          .notice{:style => "font-size: 0.9em;"}
             = _("Diese Kopie wird gegenwärtig durch das MIZ-Archiv bearbeitet.")
       - sets = media_entry.media_sets.select {|media_set| Permission.authorized?(current_user, :view, media_set) }
       - unless sets.empty?

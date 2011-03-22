@@ -4,7 +4,7 @@ module MediaSetsHelper
   #2001# def media_set_title(media_set, visible_media_entries, with_link = false)
   def media_set_title(media_set, with_link = false)
     content_tag :div, :id => "set-box" do
-      r = content_tag :span, :style => "font-weight: bold; font-size: 1.429em;" do 
+      r = content_tag :span, :style => "font-weight: bold; font-size: 1.2em;" do 
         with_link ? link_to(media_set.title, media_set_path(media_set)) : media_set.title
       end
       #2001# r += " (%d/%d Medieneinträge)" % [visible_media_entries.count, media_set.media_entries.count]
@@ -16,7 +16,7 @@ module MediaSetsHelper
 
   def media_sets_list(media_sets)
     a = content_tag :h4, :style => "margin: 40px 0 1em 0;" do
-      _("In Sets enhalten:")
+      _("In Sets enhalten")
     end
     media_sets.each do |media_set|
       #2001# media_entries = media_set.media_entries.select {|media_entry| Permission.authorized?(current_user, :view, media_entry)}

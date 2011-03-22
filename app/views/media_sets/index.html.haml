@@ -35,7 +35,7 @@
 				= f.fields_for :meta_data, media_set.meta_data.get("title") do |meta_datum|
 					- definition = meta_datum.object.meta_key.meta_key_definitions.for_context(context)
 					%tr
-						%td.label{:style => "float: left; margin-right: 1em;"}
+						%td.label{:style => "float: left;"}
 							= "#{definition.meta_field.label}:"
 						%td{:style => "float: left;"}
 							= field_tag(meta_datum, context)
