@@ -1,8 +1,3 @@
-/* @override 
-	http://localhost:3000/themes/madek11/stylesheets/master_new.css
-	http://medienarchiv.zhdk.ch/themes/madek11/stylesheets/master_new.css
-*/
-
 /**
  * HTML5 ✰ Boilerplate
  *
@@ -1126,10 +1121,9 @@ button.dark:hover {
 
 
 .task_bar {
-	line-height: 1.7em;
+	height: 4.7em;
+	line-height: 1.8em;
 	border-bottom: 1px solid #e6e6e6;
-	padding-bottom: 8px;
-	height: 57px;
 }
 
 .task_bar a {
@@ -1152,15 +1146,39 @@ button.dark:hover {
 }
 
 #selected_items {
-	padding: 10px 5px 0 6px;
-	background-color: rgba(255, 255, 255, 0.7);
+	width: 97%;
+	padding: 10px 0 10px 10px;
+	background-color: rgba(255, 255, 255, 0.8);
+	-webkit-box-shadow: 0 1px 3px rgba(150, 150, 150, 0.6);
+	-moz-box-shadow: 0 1px 3px rgba(150, 150, 150, 0.6);
+	box-shadow: 0 1px 3px rgba(150, 150, 150, 0.6);
+	z-index: 998;
 	position: absolute;
-	-webkit-box-shadow: 0 1px 4px rgba(150, 150, 150, 0.5);
-	-moz-box-shadow: 0 1px 4px rgba(150, 150, 150, 0.5);
-	box-shadow: 0 1px 4px rgba(150, 150, 150, 0.5);
-	z-index: 999;
-	margin-top: 6px;
-	width: 96%;
+}
+
+#selected_items .thumb_mini {
+	float: left;
+	text-align: center;
+	width: 60px;
+	height: 60px;
+	font-size: 1em;
+	line-height: 55px;
+	background-color: #fff;
+	-webkit-box-shadow: 0 0 1px rgba(100, 100, 100, 0.6);
+	-moz-box-shadow: 0 0 1px rgba(100, 100, 100, 0.6);
+	box-shadow: 0 0 1px rgba(100, 100, 100, 0.6);
+	margin: 0 10px 0 0;
+	position: relative;
+}
+
+#selected_items .thumb_remove { 
+	position:absolute;
+	left: 0;
+	top:  0;
+	z-index: 4000;
+	cursor:pointer;
+	margin: 0;
+	border: 0;
 }
 
 #selected_items_edit {
@@ -1172,6 +1190,20 @@ button.dark:hover {
 	box-shadow: inset 0 0 3px 1px #ccc;
 	overflow: auto;
 	max-height: 360px;
+}
+
+#selected_items_edit .thumb_mini {
+	float: left;
+	text-align: center;
+	width: 60px;
+	height: 60px;
+	font-size: 1em;
+	line-height: 55px;
+	background-color: #fff;
+	-webkit-box-shadow: 0 0 4px rgba(100, 100, 100, 0.6);
+	-moz-box-shadow: 0 0 4px rgba(100, 100, 100, 0.6);
+	box-shadow: 0 0 4px rgba(100, 100, 100, 0.6);
+	margin: 0 3px 10px 3px;	
 }
 
 #page_head_edit .task_bar {
@@ -1229,33 +1261,7 @@ button.dark:hover {
     max-width: 50px;
 }*/
 
-#selected_items .thumb_mini {
-	float: left;
-	text-align: center;
-	width: 60px;
-	height: 60px;
-	font-size: 1em;
-	line-height: 55px;
-	background-color: #fff;
-	-webkit-box-shadow: 0 0 1px rgba(100, 100, 100, 0.6);
-	-moz-box-shadow: 0 0 1px rgba(100, 100, 100, 0.6);
-	box-shadow: 0 0 1px rgba(100, 100, 100, 0.6);
-	margin: 0 3px 10px 3px;
-}
 
-#selected_items_edit .thumb_mini {
-	float: left;
-	text-align: center;
-	width: 60px;
-	height: 60px;
-	font-size: 1em;
-	line-height: 55px;
-	background-color: #fff;
-	-webkit-box-shadow: 0 0 4px rgba(100, 100, 100, 0.6);
-	-moz-box-shadow: 0 0 4px rgba(100, 100, 100, 0.6);
-	box-shadow: 0 0 4px rgba(100, 100, 100, 0.6);
-	margin: 0 3px 10px 3px;	
-}
 
 .thumb_mini img {
 	border: 1px solid #e4e4e4;
@@ -1267,17 +1273,6 @@ button.dark:hover {
 	border: 1px solid #e4e4e4;
 }
 
-#selected_items .thumb_remove { 
-	position:absolute;
-	z-index: 4000;
-	cursor:pointer;
-	margin: 0;
-	border: 0;
-}
-
-.thumb_remove {
-
-}
 
 /*#selected_items .thumb_mini p { text-align: center; font-size: 0.7em;  }*/
 
@@ -1332,7 +1327,7 @@ button.dark:hover {
 }
 
 .task_bar ul {
-	padding-bottom: 5px;
+	padding-bottom: 13px;
 	display: inline-block;
 }
 
@@ -1409,7 +1404,7 @@ table td {
 	/*padding: 0.5em 1em;*/
 	/*background: #DBEBF1;*/
 	background: #FFF;
-	float: right;
+	float: left;
 }
 #detail-action-bar li {
 
@@ -1721,7 +1716,7 @@ h3.tab-title {
 	color: #626262;
 	cursor: pointer;*/
 	/*border-bottom: 1px dotted #d2d2d2;*/
-	margin: 0 0 1.5em 0;
+	margin: 0;
 }
 
 table.metadata-table {
@@ -1819,8 +1814,7 @@ table.meta_data td {
 
 #additional-metadata table {
 	width: 600px;
-	margin: 30px -11px;
-	padding-right: 5px;
+	margin: 30px 0;
 }
 
 #additional-metadata table td:first-child {
@@ -2166,11 +2160,12 @@ table.groups th {
 
 /** temporary styles to make batch edit page presentable *****/
 
-.clear {
+/*.clear {
 	margin: 10px 0;
-}
+}*/
 
-  /*.clear { margin: 0;}*/
+.clear { margin: 0;}
+
   
 li.label {
 	line-height: 1.2em;
