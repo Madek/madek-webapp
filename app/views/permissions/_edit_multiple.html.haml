@@ -15,8 +15,9 @@
         Sehen
       %td
         Editieren
-      %td
-        Download volle Auflösung
+      - if @resource.is_a?(MediaEntry)
+        %td
+          Download volle Auflösung
   %tbody#user_permissions
     = render :partial => "/permissions/edit", :collection => @permissions.select{|x| x.subject_type == "User"}, :as => :permission
   %tbody
@@ -36,8 +37,9 @@
         Sehen
       %td
         Editieren
-      %td
-        Download volle Auflösung
+      - if @resource.is_a?(MediaEntry)
+        %td
+          Download volle Auflösung
   %tbody#group_permissions
     = render :partial => "/permissions/edit", :collection => @permissions.select{|x| x.subject_type == "Group"}, :as => :permission
   %tbody
@@ -53,8 +55,9 @@
         Sehen
       %td
         Editieren
-      %td
-        Download volle Auflösung
+      - if @resource.is_a?(MediaEntry)
+        %td
+          Download volle Auflösung
   %tbody#anyone_permissions
     = render :partial => "/permissions/edit", :collection => @permissions.select{|x| x.subject_type.nil?}, :as => :permission
 
