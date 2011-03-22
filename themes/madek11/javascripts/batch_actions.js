@@ -223,6 +223,7 @@ function displayCount() {
 	var display_count = $('li#number_selected');
 	//don't show action buttons until something is actually selected
 	if (count_checked) {
+		$('#selected_items').show();
 		$('.task_bar .action_btn').show();
 	    if (count_checked > 1) {
 			display_count.html(count_checked + " Medieneinträge ausgewählt.");
@@ -232,5 +233,6 @@ function displayCount() {
 	} else {
 		$('.task_bar .action_btn').hide();
 		display_count.html("Keine Medieneinträge ausgewählt.");
+		$('#selected_items').hide();
 	};
 };
