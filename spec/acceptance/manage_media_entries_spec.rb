@@ -231,6 +231,7 @@ feature "Manage media entries", %q{
     page.should_not have_content("geheimsache")
   end
 
+  # ported to Cucumber
   scenario "Give hi-resolution download permission on a file", :js => true do
     create_user("Hans Wurst", "hanswurst", "hansi")
     

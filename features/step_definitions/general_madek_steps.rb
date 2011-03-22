@@ -136,3 +136,7 @@ end
 When /^I click the media entry titled "([^"]*)"/ do |title|
   click_media_entry_titled(title)
 end
+
+Then "the box should have a hires download link" do
+    find(:css, "tr.download-unit").all("a").count.should == 1
+end

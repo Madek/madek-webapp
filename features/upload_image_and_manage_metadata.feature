@@ -113,7 +113,7 @@ Feature: Upload images and manage media entries based on images
     Then I should see "baustelle osten"
      
 
-  @javascript  @work
+  @javascript 
   Scenario: Upload a public file and then make it un-public again
    Given a user called "Raissa Gorbacheva" with username "raissa" and password "novodevichy" exists
     When I log in as "helmi" with password "schweinsmagen"
@@ -137,6 +137,21 @@ Feature: Upload images and manage media entries based on images
 
   @javascript
   Scenario: Give hi-resolution download permission on a file
+   Given a user called "Hans Wurst" with username "hanswurst" and password "hansi" exists
+    When I log in as "helmi" with password "schweinsmagen"
+     And I upload some picture titled "hochaufgelöste geheimbünde"
+     And I click the media entry titled "hochaufgelöste geheimbünde"
+     And I follow "Zugriffsberechtigung"
+     And I type "Wurs" into the "user" autocomplete field
+     And I pick "Wurst, Hans" from the autocomplete field
+     And I give "view" permission to "Wurst, Hans"
+     And I give "download_hires" permission to "Wurst, Hans"
+     And I log in as "hanswurst" with password "hansi"
+     And I go to the home page
+    Then I should see "hochaufgelöste geheimbünde"
+    When I click the media entry titled "hochaufgelöste geheimbünde"
+     And I follow "Exportieren"
+    Then the box should have a hires download link
 
   @javascript
   Scenario: Give and then revoke hi-resolution download permission on a file
