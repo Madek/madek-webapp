@@ -74,7 +74,7 @@ Given /^a group called "(\w+)" exists$/ do |groupname|
   create_group(groupname)
 end
 
-Given /^I upload some picture titled "([^"]*)"$/ do |title|
+When /^I upload some picture titled "([^"]*)"$/ do |title|
   upload_some_picture(title)
 end
 
@@ -108,4 +108,25 @@ end
 
 When "Sphinx is forced to reindex" do
   sphinx_reindex
+end
+
+# Can use "user" or "group" field name
+When /^I type "([^"]*)" into the "([^"]*)" autocomplete field$/ do |string, field|
+  type_into_autocomplete(field.to_sym, string)
+end
+
+When /^I pick "([^"]*)" from the autocomplete field$/ do |choice|
+  pick_from_autocomplete(choice)
+end
+
+When /^I give "([^"]*)" permission to "([^"]*)"$/ do |permission, subject|
+  give_permission_to(permission, subject)
+end
+
+When /^I click on the arrow next to "([^"]*)"/ do |string|
+  click_on_arrow_next_to(string)
+end
+
+When /^I click the media entry titled "([^"]*)"/ do |title|
+  click_media_entry_titled(title)
 end

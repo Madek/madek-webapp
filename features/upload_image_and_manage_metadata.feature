@@ -39,9 +39,65 @@ Feature: Upload images and manage media entries based on images
 
   @javascript
   Scenario: Upload an image file for another user to see
+    When I log in as "helmi" with password "schweinsmagen"
+     And I follow "Hochladen"
+     And I follow "Basic Uploader"
+     And I attach the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory to "uploaded_data[]"
+     And I press "Ausgewählte Medien hochladen »"
+     And I wait for the CSS element "#submit_to_3"
+     And I press "Einstellungen speichern und weiter »"
+     And I fill in the metadata for entry number 1 as follows:
+     |label    |value                               |
+     |Titel    |A beautiful piece of the Berlin Wall|
+     |Copyright|Kohl, Helmut                        |
+     And I press "Metadaten speichern und weiter »"
+     And I follow "Weiter ohne Gruppierung"
+     And Sphinx is forced to reindex
+     And I go to the home page
+     And I click the media entry titled "A beautiful piece of the B..."
+     And I follow "Zugriffsberechtigung"
+     And I type "Gorba" into the "user" autocomplete field
+     And I pick "Gorbachev, Mikhail" from the autocomplete field
+     And I give "view" permission to "Gorbachev, Mikhail"
+     And I click on the arrow next to "Kohl, Helmut"
+     And I follow "Abmelden"
+     And I log in as "gorbi" with password "glasnost"
+     And I go to the home page
+     Then I should see "A beautiful piece of the B..."
 
-  @javascript
+
+  @javascript @work
   Scenario: Upload an image file for my group to see
+    Given a group called "Mauerfäller" exists
+      And the user with username "helmi" is member of the group "Mauerfäller"
+      And the user with username "gorbi" is member of the group "Mauerfäller"
+      And I log in as "helmi" with password "schweinsmagen"
+      And Sphinx is forced to reindex
+      And I go to the home page
+      And I follow "Hochladen"
+      And I follow "Basic Uploader"
+      And I attach the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory to "uploaded_data[]"
+      And I press "Ausgewählte Medien hochladen »"
+      And I wait for the CSS element "#submit_to_3"
+      And I press "Einstellungen speichern und weiter »"
+      And I fill in the metadata for entry number 1 as follows:
+      |label    |value                            |
+      |Titel    |A second piece of the Berlin Wall|
+      |Copyright|Kohl, Helmut                     |
+      And I press "Metadaten speichern und weiter »"
+      And I follow "Weiter ohne Gruppierung"
+      And Sphinx is forced to reindex
+      And I go to the home page
+      And I click the media entry titled "A second piece of the Berl..."
+      And I follow "Zugriffsberechtigung"
+      And I type "Mauer" into the "group" autocomplete field
+      And I pick "Mauerfäller" from the autocomplete field
+      And I give "view" permission to "Mauerfäller"
+      And I click on the arrow next to "Kohl, Helmut"
+      And I follow "Abmelden"
+      And I log in as "gorbi" with password "glasnost"
+      And I go to the home page
+      Then I should see "A second piece of the Berl..." 
 
   @javascript
   Scenario: Make an uploaded file public
