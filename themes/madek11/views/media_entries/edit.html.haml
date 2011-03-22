@@ -21,7 +21,7 @@
       %h3= _("Metadaten editieren")
       = form_for @media_entry, :as => :resource, :url => [:update_multiple, @media_entry, :meta_data], :html => {:method => :put} do |resource|
         - content_for :buttons do
-          %div{:style => "text-align: right; padding: 10pt; background: #DDDDDD;"}
+          %div{:style => "text-align: right; padding: 10pt;"}
             = resource.submit _("Speichern")
             = link_to _("Abbrechen"), @media_entry, :class => "buttons"
         = yield :buttons
