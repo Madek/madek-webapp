@@ -15,7 +15,7 @@
           = display_meta_data_for_context(@media_set, context)
       .grid_3
         #set_actions
-          - if @can_edit
+          - if @can_edit_set
             = display_edit_icon(@media_set, current_user)
             = display_delete_icon(@media_set, current_user)
 
@@ -27,126 +27,17 @@
   #pagination_container
   .clear
   %hr
-  .task_bar
-    %ul
-      %li
-        %h4 Ausgewählte Medieneinträge bearbeiten:
-      %li#number_selected
-        Keine Medieneinträge ausgewählt
-      .clear
-      - unless @editable_in_set.blank?
-        %li#batch-edit.action_btn
-          = button_to _("Metadaten editieren"), edit_multiple_media_entries_path, :method => :post
-      - unless @managable_in_set.blank?
-        %li#batch-permissions.action_btn
-          = button_to _("Zugriffsberechtigungen editieren"), edit_multiple_permissions_media_entries_path, :method => :post
-      - if @can_edit
-        %li#batch-remove.action_btn
-          = button_to _("Aus Set entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete
-      %li#batch-add-to-set.action_btn
-        = form_tag add_member_media_set_url(@media_set) do
-          = select_tag "media_set_id", options_for_select([["Set auswählen…", ""]] + @editable_sets.collect {|set| [set.meta_data.get_value_for("title"), set.id]})
-          = submit_tag "Hinzufügen"
-    #selected_items
-    %script{:type => "text/x-jquery-tmpl", :id => "thumbnail_mini"}
-      %div{:class => "${css_class}", :id => "me_${id}"}
-        %img{:rel => "${id}", :src => "/themes/madek11/images/icons/button_remove_action.png", :style => "display:none;", :class => "thumb_remove"}
-        %a{:href => "/media_entries/${id}"}
-          %img{:src => "${thumb_base64_x_small}"}
+  = render :partial => "/shared/task_bar"
 
   %div#results
     = render :partial => "/media_entries/index"
 
 :javascript
-    function selected_items_highlight_on(selector){
-      $('#selected_items '+selector).css("background-color", "#FEFFD7");
-    }
-    function selected_items_highlight_off(selector){
-      $('#selected_items '+selector).css("background-color", "white");
-    }    
-
   $(document).ready(function () {
-    $("div.pagination").appendTo("#pagination_container");
-  
-    var data = #{@media_entries_json};
     var media_set_id = #{@media_set.id};
-
-    checkSelected(media_set_id);
-    listSelected(media_set_id);
-    displayCount(media_set_id);
-     
-    // make thumbnails removable from the selected items bar
-    $('#selected_items .thumb_mini').live("hover", function() {
-        $(this).children('img.thumb_remove').toggle();
-     });
-  
-    $('img.thumb_remove').live("click", function() {
-      $(this).parents('.thumb_mini').remove();
-      var id = $(this).attr("rel");
-      toggleSelected(media_set_id, id);
-    });
-  
-    $('.pagination a').live('ajax:success', function(xhr, response){
-  		checkSelected(media_set_id);
-  		$('.actions').hide();
-  	});
-	
-  	// hover functions for batch action buttons - highlight selected entries for which action is possible 
-  	$("#batch-edit").hover(
-      function () { selected_items_highlight_on('.edit'); }, 
-      function () { selected_items_highlight_off('.edit'); }
-    );
-  
-    $("#batch-remove, #batch-add-to-set").hover(
-      function () { selected_items_highlight_on('.thumb_mini'); }, 
-      function () { selected_items_highlight_off('.thumb_mini'); }
-    );
     
-    $("#batch-permissions").hover(
-      function () { selected_items_highlight_on('.manage'); }, 
-      function () { selected_items_highlight_off('.manage'); }
-    );
-        
-    $(":checkbox").live("click", function(){
-      var curr_value = $(this).val();
-      $.each(data, function(i, me) {
-        if(me.id == curr_value){
-          toggleSelected(media_set_id, me);
-        }
-      });
-    });
-
-    $("#batch-edit form").submit(function() {
-      var editable_ids = new Array();
-      $("#selected_items .edit").each(function(i, elem){
-        editable_ids.push($(this).attr("id").slice(3));
-      });
-      $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
-    });
-    
-     $("#batch-permissions form").submit(function() {
-      var managable_ids = new Array();
-      $("#selected_items .manage").each(function(i, elem){
-        managable_ids.push($(this).attr("id").slice(3));
-      });
-      $(this).append("<input type='hidden' name='media_entry_ids' value='"+managable_ids+"'>");
-    });
-  
-    $("#batch-remove form").submit(function() {
-      var editable_ids = new Array();
-      $("#selected_items .thumb_mini").each(function(i, elem){
-        editable_ids.push($(this).attr("id").slice(3));
-      });
-      $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
-      sessionStorage.removeItem(get_key_for_media_set(media_set_id)); //maybe we just want to remove the items slated for removal (rather than the entire key)
-    });
-  
-    $("#batch-add-to-set form").submit(function() {
-      var editable_ids = new Array();
-      $("#selected_items .thumb_mini").each(function(i, elem){
-        editable_ids.push($(this).attr("id").slice(3));
-      });
-      $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
-    });
-    
+    setupBatch(media_set_id);
+    $("div.pagination").appendTo("#pagination_container");    
   });
+  
+= theme_javascript_include_tag "batch_actions"

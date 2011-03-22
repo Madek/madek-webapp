@@ -69,15 +69,11 @@ class Meta::Date # TODO rename to Meta::DateTime ??
           string.sub!(':', '-').sub!(':', '-')
         end
         
-        local_timezone = Time.zone.formatted_offset
-        zone = Date._parse(string)[:zone]
-        h[:timezone] = zone || local_timezone
-        
-        r = Time.parse(string)
-        
-        #old# h[:parsed] = r.new_offset(local_zone) # NOTE enforcing the local timezone. DateTime in Ruby 1.9.x preserves the timezone ??
-        #old# h[:parsed] = r
-        h[:timestamp] = r.to_i
+        date_hash = Date._parse(string)
+        unless date_hash.blank?
+          h[:timezone] = date_hash[:zone] || Time.zone.formatted_offset        
+          h[:timestamp] = Time.parse(string).to_i
+        end
       rescue
         # there was no exact match, so we only store the free text
       end

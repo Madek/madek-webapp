@@ -13,7 +13,7 @@ class MetaDataController < ApplicationController
   end
 
   def objective
-    @meta_data = @resource.media_file.meta_data.sort
+    @meta_data = @resource.media_file.meta_data_without_binary.sort
   end
 
 #  # inplace editor for single meta_datum 

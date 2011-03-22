@@ -1,0 +1,8 @@
+%table.metadata-table
+  - @meta_data.each do |meta_datum|
+    %tr
+      %td
+        %label
+          = meta_datum.first #.to_s
+      %td
+        = meta_datum.last #.to_s if meta_datum.last.to_s.is_utf8? 

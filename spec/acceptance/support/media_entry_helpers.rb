@@ -40,7 +40,7 @@ end
 def add_to_set(set_title = "Untitled Set", picture_title = "Untitled")
   visit "/media_entries"
   click_media_entry_titled(picture_title)
-  click_link_or_button("Gruppieren")
+  click_link_or_button("Sets zusammenstellen")
   select(set_title, :from => "media_set_ids[]")
   click_link_or_button("Gruppierungseinstellungen speichern")
   # The set title is displayed on the right-hand side of this page, so we should be able to

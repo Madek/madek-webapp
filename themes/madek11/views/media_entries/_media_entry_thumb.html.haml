@@ -1,4 +1,5 @@
-%div.item_box{:id => "thumb_#{media_entry.id}"}
+- object_data = @media_entries_permissions ? media_entry.attributes.merge!(media_entry.get_basic_info).merge(@media_entries_permissions[media_entry.id]).to_json : media_entry.attributes.merge!(media_entry.get_basic_info)
+%div.item_box{:id => "thumb_#{media_entry.id}", :"data-object" => object_data }
   %div.item_permission
     = display_permission_icon(media_entry)
   %div.thumb_box
