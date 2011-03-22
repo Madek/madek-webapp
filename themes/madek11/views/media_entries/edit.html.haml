@@ -10,14 +10,14 @@
 
 .container_12
   %section#content_body.clearfix
-    #detail-main.grid_3
+    #detail-main.grid_2
       #detail-image{:style => "padding: 15px 0 1.5em 0;"}
         = link_to thumb_for(@media_entry, :small), @media_entry
       - if is_expert and @media_entry.snapshotable?
         #detail-action-bar
           %ul
             %li= link_to _("Metadaten für MIZ-Archiv editieren"), edit_tms_media_entry_path(@media_entry), :style => "line-height: 1.1em; float: none; padding: 0.5em; font-size: 0.9em;"
-    .grid_8
+    .grid_9
       %h3= _("Metadaten editieren")
       = form_for @media_entry, :as => :resource, :url => [:update_multiple, @media_entry, :meta_data], :html => {:method => :put} do |resource|
         - content_for :buttons do
