@@ -90,7 +90,7 @@ end
 When /I fill in the metadata for entry number (\d+) as follows:/ do |num, table|
   # Makes the text more human-readable, don't have to specify 0 to fill in
   # for the first entry
-  media_entry_num = num - 1
+  media_entry_num = num.to_i - 1
 
   table.hashes.each do |hash|
     all("ul", :text => /#{hash['label']}/)[media_entry_num].all("input").each do |ele|
@@ -99,3 +99,13 @@ When /I fill in the metadata for entry number (\d+) as follows:/ do |num, table|
   end
 end
 
+
+When /^(?:|I )attach the file "([^"]*)" relative to the Rails directory to "([^"]*)"(?: within "([^"]*)")?$/ do |path, field, selector|
+  path = Rails.root + path
+  within_string = selector.blank? ? "" : " within \"#{selector}\""
+  When "I attach the file \"#{path}\" to \"#{field}\"" + within_string
+end
+
+When "Sphinx is forced to reindex" do
+  sphinx_reindex
+end

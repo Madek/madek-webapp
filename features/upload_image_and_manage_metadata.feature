@@ -19,7 +19,7 @@ Feature: Upload images and manage media entries based on images
      And I go to the home page
      And I follow "Hochladen"
      And I follow "Basic Uploader"
-     And I attach the file "spec/data/images/berlin_wall_01.jpg" to "uploaded_data[]"
+     And I attach the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory to "uploaded_data[]"
      And I press "Ausgewählte Medien hochladen »"
      And I wait for the CSS element "#submit_to_3"
      And I press "Einstellungen speichern und weiter »"
@@ -33,6 +33,7 @@ Feature: Upload images and manage media entries based on images
      And I fill in the set title with "Mauerstücke"
      And I press "Hinzufügen"
      And I press "Gruppierungseinstellungen speichern"
+     And Sphinx is forced to reindex
      And I go to the home page
      Then I should see "berlin wall for a set"
 

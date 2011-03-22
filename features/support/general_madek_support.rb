@@ -1,18 +1,3 @@
-module Cucumber
-  module ThinkingSphinx
-    class ExternalWorld
-      def initialize(suppress_delta_output = true)
-        puts "patching into the ass of thinking sphinx"
-#         ::ThinkingSphinx::Test.init
-#         ::ThinkingSphinx::Test.start_with_autostop
-        ::ThinkingSphinx::Test.init
-        ::ThinkingSphinx::Test.start_without_config_file_but_with_autostop
-      end
-    end
-  end
-end
-
-
 
 def make_hidden_items_visible
   page.execute_script '$(":hidden").show();'
