@@ -4,18 +4,20 @@ feature "Manage media entries", %q{
   People want to upload images and add information.
 } do
 
-
+  # ported to Cucumber
   background do
     set_up_world
     helmut = create_user("Helmut Kohl", "helmi", "schweinsmagen")
     gorbatschow = create_user("Mikhail Gorbachev", "gorbi", "glasnost")
   end
 
+  # ported to Cucumber
   scenario "Upload one image file without any special metadata", :js => true do
     helmut = log_in_as("helmi", "schweinsmagen")
     upload_some_picture(title = "not a special picture")
   end
 
+  # ported to Cucumber
   scenario "Upload a media entry and add it to a set", :js => true do
     helmut = log_in_as("helmi", "schweinsmagen")
     helmut.media_entries.reload.count.should == 0
@@ -60,7 +62,8 @@ feature "Manage media entries", %q{
 
     
   end
-  
+
+  # ported to Cucumber
   scenario "Upload an image file for another user to see", :js => true do
     
    # helmut uploads a piece of the berlin wall for gorbi to see
@@ -108,6 +111,7 @@ feature "Manage media entries", %q{
     
   end
 
+  # ported to Cucumber
   scenario "Upload an image file for my group to see", :js => true do
     # bruce willis or chuck norris make a group 'wiedervereinigung' and
     # add helmut and gorbi to it. then helmut lets the group see
@@ -173,6 +177,7 @@ feature "Manage media entries", %q{
     
   end
 
+  # ported to Cucumber
   scenario "Make an uploaded file public", :js => true do
     # Helmut wants the world to see pieces of the wall
     # Can't do this yet, because we don't have a notion of "public" yet
@@ -194,7 +199,7 @@ feature "Manage media entries", %q{
 
   end
 
-
+  # ported to Cucumber
   scenario "Upload a public file and then make it un-public again", :js => true do
 
     user = log_in_as("helmi", "schweinsmagen")
@@ -226,6 +231,7 @@ feature "Manage media entries", %q{
     page.should_not have_content("geheimsache")
   end
 
+  # ported to Cucumber
   scenario "Give hi-resolution download permission on a file", :js => true do
     create_user("Hans Wurst", "hanswurst", "hansi")
     
@@ -255,7 +261,7 @@ feature "Manage media entries", %q{
 
   end
 
-
+  # ported to Cucumber
   scenario "Give and then revoke hi-resolution download permission on a file", :js => true do
     create_user("Hans Wurst", "hanswurst", "hansi")
 
