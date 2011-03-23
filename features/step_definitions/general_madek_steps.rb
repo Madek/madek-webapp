@@ -137,6 +137,18 @@ When /^I click the media entry titled "([^"]*)"/ do |title|
   click_media_entry_titled(title)
 end
 
+When /^I check the media entry titled "([^"]*)"/ do |title|
+  check_media_entry_titled(title)
+end
+
+When /^I create a set titled "([^"]*)"/ do |title|
+  create_set(title)
+end
+
+When /^I add the picture "([^"]*)" to the set "([^"]*)"/ do |picture_title, set_title|
+    add_to_set(set_title, picture_title)
+end
+
 Then "the box should have a hires download link" do
     find(:css, "tr.download-unit").all("a").count.should == 1
 end
