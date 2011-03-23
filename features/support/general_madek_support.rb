@@ -203,7 +203,7 @@ def upload_some_picture(title = "Untitled")
     # The upload itself
     click_link("Hochladen")
     click_link("Basic Uploader")
-    attach_file("uploaded_data[]", Rails.root + "spec/data/images/berlin_wall_01.jpg")
+    attach_file("uploaded_data[]", Rails.root + "features/data/images/berlin_wall_01.jpg")
     click_button("Ausgewählte Medien hochladen »")
     wait_for_css_element("#submit_to_3") # This is the "Einstellungen speichern..." button
     click_button("Einstellungen speichern und weiter »")
