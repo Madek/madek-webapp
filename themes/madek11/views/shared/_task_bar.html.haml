@@ -1,4 +1,4 @@
-.task_bar
+.task_bar.clearfix
   %ul
     %li
       %h4 Ausgewählte Medieneinträge bearbeiten:
@@ -16,9 +16,11 @@
       = form_tag add_member_media_set_url(@media_set || 1) do
         = select_tag "media_set_id", options_for_select([["Set auswählen…", ""]] + @editable_sets.collect {|set| [set.meta_data.get_value_for("title"), set.id]})
         = submit_tag "Hinzufügen"
-  #selected_items
-  %script{:type => "text/x-jquery-tmpl", :id => "thumbnail_mini"}
-    %div{:class => "thumb_mini {{if is_editable}}edit{{/if}} {{if is_manageable}}manage{{/if}}", :id => "me_${id}"}
-      %img{:rel => "${id}", :src => "/themes/madek11/images/icons/button_remove_action.png", :style => "display:none;", :class => "thumb_remove"}
-      %a{:href => "/media_entries/${id}"}
-        %img{:src => "${thumb_base64_small}", :style => "max-height: 50px; max-width: 50px;"}
+    .clear
+  %ul
+    #selected_items.clearfix
+    %script{:type => "text/x-jquery-tmpl", :id => "thumbnail_mini"}
+      %div{:class => "thumb_mini {{if is_editable}}edit{{/if}} {{if is_manageable}}manage{{/if}}", :id => "me_${id}"}
+        %img{:rel => "${id}", :src => "/themes/madek11/images/icons/button_remove_action.png", :style => "display:none;", :class => "thumb_remove"}
+        %a{:href => "/media_entries/${id}"}
+          %img{:src => "${thumb_base64_small}", :style => "max-height: 50px; max-width: 50px;"}
