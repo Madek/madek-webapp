@@ -93,12 +93,12 @@
         = render :partial => "/meta_data/show", :locals => { :meta_datum => meta_datum, :resource => media_entry, :context => context }
       - if is_expert 
         - unless media_entry.snapshots.empty?
-          .notice{:style => "font-size: 0.9em;"}
+          .notice{:style => "text-align: left; left: -5px; top: -34px;"}
             - date = media_entry.snapshots.first.created_at.to_formatted_s(:date)
             - time = media_entry.snapshots.first.created_at.to_formatted_s(:time)
             = "Ein Kopie dieses Medieneintrags wurde am #{date} um #{time} Uhr für das MIZ-Archiv erstellt."
         - unless media_entry.snapshotable?
-          .notice{:style => "font-size: 0.9em;"}
+          .notice{:style => "text-align: left; left: -5px; top: 46px;"}
             = _("Diese Kopie wird gegenwärtig durch das MIZ-Archiv bearbeitet.")
       - sets = media_entry.media_sets.select {|media_set| Permission.authorized?(current_user, :view, media_set) }
       - unless sets.empty?

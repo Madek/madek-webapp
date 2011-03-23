@@ -1903,7 +1903,22 @@ table.meta_data td {
 	text-align: center;
 }
 
-.notice {
+.notice_sidebar {
+	z-index: 998;
+	color: rgba(0, 0, 0, 0.8);
+	font-weight: bold;
+	padding: 0.75em;
+	margin: 1em 0;
+	position: absolute;
+	top: 0;
+	left: -5px;
+	-webkit-box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
+	-moz-box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
+	box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
+	text-align: left;
+}
+
+.notice, .notice_sidebar {
 	background: #FEFFD7;
 	/*border: 1px solid #EEEFB8;*/
 }
