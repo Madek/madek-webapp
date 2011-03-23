@@ -57,8 +57,6 @@
                 Download volle Auflösung
           %tbody#user_permissions
             ///
-            - @combined_permissions["User"].each_pair do |subject_id, permission| # actually permission is an array [user, {}]
-              = render :partial => "/permissions/edit11", :locals => {:subject_id => subject_id, :permission => permission}
             ///
           %tbody
             %tr.adder
@@ -81,8 +79,6 @@
                 Download volle Auflösung
           %tbody#group_permissions
             ///
-            - @combined_permissions["Group"].each_pair do |subject_id, permission| # actually permission is an array [user, {}]
-              = render :partial => "/permissions/edit11", :locals => {:subject_id => subject_id, :permission => permission}
             ///
           %tbody
             %tr.adder
@@ -101,16 +97,6 @@
                 Download volle Auflösung
           %tbody#anyone_permissions
             ///
-            %tr
-              %td
-                = _("Öffentlich")
-              - [:view, :edit, :hi_res].each do |key|
-                %td{:style => (@combined_permissions[nil][key] == :mixed ? "background: url(/themes/madek11/images/stripe_1.png);" : nil)}
-                  = hidden_field_tag "subject[nil][#{key}]", false
-                  = check_box_tag "subject[nil][#{key}]", true, (@combined_permissions[nil][key] == true)
-              %td
-                =# link_to _("Löschen"), url_for([@resource, permission]), :remote => true, :method => :delete, :confirm => _("Sind Sie sicher?") if permission.subject and permission.subject != current_user
-            ///
         %br
         %div{:class => "save_buttons"}
           = link_to _("Abbrechen"), @media_set, :class => "buttons"    
@@ -122,29 +108,48 @@
         %p{:style => "background: red url(/themes/madek11/images/stripe_1.png); height: 30px ; border: 1px solid #ccc;"} 
         %p.info Unterschiedliche Berechtigungen vorhanden. Achtung: Bestehende Werte werden überschrieben!
     .clear
-    
+
+%script{:type => "text/x-jquery-tmpl", :id => "new_permission"}
+  %tr
+    %td
+      ${name}    
+    %td{:style => "{{if (view == 'mixed')}}background: url(/themes/madek11/images/stripe_1.png){{/if}}"}
+      %input{:name => "{{if (type == 'nil')}}subject[${type}][view]{{else}}subject[${type}][${id}][view]{{/if}}", :type => "hidden", :value => "false"}
+      <input name="{{if (type == 'nil')}}subject[${type}][view]{{else}}subject[${type}][${id}][view]{{/if}}" type="checkbox" value="true" {{if view}}checked="checked"{{/if}}>
+    %td{:style => "{{if (edit == 'mixed')}}background: url(/themes/madek11/images/stripe_1.png){{/if}}"}
+      %input{:name => "{{if (type == 'nil')}}subject[${type}][edit]{{else}}subject[${type}][${id}][edit]{{/if}}", :type => "hidden", :value => "false"}
+      <input name="{{if (type == 'nil')}}subject[${type}][edit]{{else}}subject[${type}][${id}][edit]{{/if}}" type="checkbox" value="true" {{if edit}}checked="checked"{{/if}}>
+    %td{:style => "{{if (hi_res == 'mixed')}}background: url(/themes/madek11/images/stripe_1.png){{/if}}"}
+      %input{:name => "{{if (type == 'nil')}}subject[${type}][hi_res]{{else}}subject[${type}][${id}][hi_res]{{/if}}", :type => "hidden", :value => "false"}
+      <input name="{{if (type == 'nil')}}subject[${type}][hi_res]{{else}}subject[${type}][${id}][hi_res]{{/if}}" type="checkbox" value="true" {{if hi_res}}checked="checked"{{/if}}>
+    {{if (type != 'nil')}}
+    %td
+      = link_to _("Löschen"), "#", :class => "delete", :msg => _("Sind Sie sicher?")
+    {{/if}}
+
+   
 :javascript
-  function create_permission(data, type){
-    $.ajax({
-      url: '/permissions/add_batch_permission',
-      data: data,
-      type: "post",
-      success: function(response){
-        $("input#new_"+type).val("");
-        $(response).appendTo('tbody#'+type+'_permissions').effect('highlight');
-      }
-    });
-  }
 
   $(function() {
-    var data = #{@info_to_json};
+    var data = #{@media_entries_json};
     $("#list_as_thumbnails").html($("#thumbnail_view").tmpl(data));
     
+    
+    var permissions = #{@json};
+    $('#user_permissions').html($("#new_permission").tmpl(permissions.User));
+    
+    $('#group_permissions').html($("#new_permission").tmpl(permissions.Group));   
+
+    $('#anyone_permissions').html($("#new_permission").tmpl(permissions.public));
+
+
     $("input#new_user").autocomplete({
       source: "/users",
       minLength: 3,
       select: function(event, ui) {
-        create_permission({user_id: ui.item.id}, 'user');
+        var data = {type: 'User', id: ui.item.id, name: ui.item.label, view: false, edit: false, hi_res: false }
+        $('#user_permissions').append($("#new_permission").tmpl(data)).effect('highlight');
+        $(this).val('');
       }
     });
 
@@ -152,7 +157,8 @@
       source: "/groups",
       minLength: 3,
       select: function(event, ui) {
-        create_permission({group_id: ui.item.id}, 'group');
+        var data = {type: 'Group', id: ui.item.id, name: ui.item.label, view: false, edit: false, hi_res: false }
+        $('#group_permissions').append($("#new_permission").tmpl(data)).effect('highlight');
       }
     });
     

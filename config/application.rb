@@ -77,7 +77,7 @@ tmp_ext = nil
 DOT_PATH = "/usr/local/bin/dot"
 FILE_UTIL_PATH = "/usr/bin/file " + (`uname -s`.include?("Darwin") ? "-Ib" : "-ib")
 
-THUMBNAILS = { :x_large => '1024x768>', :large => '620x500>', :medium => '300x300>', :small_125 => '125x125>', :small => '100x100>', :x_small => '50x50>' }
+THUMBNAILS = { :x_large => '1024x768>', :large => '620x500>', :medium => '300x300>', :small_125 => '125x125>', :small => '100x100>' }
 PER_PAGE = [36,72,144]
 
 DEFAULT_ACTION_PERMISSIONS = {  :view => false, # read
