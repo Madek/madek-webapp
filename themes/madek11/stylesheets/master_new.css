@@ -2247,7 +2247,7 @@ ul[data-parent_meta_key] {
 	text-decoration: none;
 }
 
-.meta_data .hint {
+.hint {
     color: #707070;
     display: block;
     z-index: 99999;
