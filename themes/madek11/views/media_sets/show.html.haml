@@ -7,8 +7,7 @@
             %div.item_permission_set
               = display_permission_icon(@media_set)
             %div.thumb_box_set
-              / TODO: move this into a helper
-              = tag :img, :src => @media_set.thumb_base64(:small_125)
+              = thumb_for(@media_set, :small_125)
       .grid_6
         #set_meta
           - context = MetaContext.media_set
