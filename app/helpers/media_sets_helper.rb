@@ -2,28 +2,50 @@
 module MediaSetsHelper
 
   #2001# def media_set_title(media_set, visible_media_entries, with_link = false)
-  def media_set_title(media_set, with_link = false)
-    content_tag :div, :id => "set-box" do
-      r = content_tag :span, :style => "font-weight: bold; font-size: 1.429em;" do 
-        with_link ? link_to(media_set.title, media_set_path(media_set)) : media_set.title
+  def media_set_title(media_set, with_link = false, with_main_thumb = false, total_thumbs = 0)
+    content = capture_haml do
+      haml_tag :div, :class => "set-box", :style => (with_main_thumb ? "min-height: 160px;": nil) do
+        haml_tag :div, thumb_for(media_set, :small_125), :class => "thumb_box_set", :style => "margin-right: 20px;" if with_main_thumb
+        haml_tag :span, media_set.title, :style => "font-weight: bold; font-size: 1.429em;"
+        #2001# " (%d/%d Medieneinträge)" % [visible_media_entries.count, media_set.media_entries.count]
+        haml_concat " (%d Medieneinträge)" % [media_set.media_entries.count]
+        haml_tag :br
+        haml_concat "von #{media_set.user}"
+        haml_tag :br
+        if total_thumbs > 0
+          haml_tag :br
+          media_entries = media_set.media_entries.paginate(:page => 1, :per_page => total_thumbs)
+          if media_entries.empty?
+            haml_tag :small, _("Noch keine Medieneinträge enthalten")
+          else
+            media_entries.each do |media_entry|
+              haml_tag :div, thumb_for(media_entry, :small), :class => "thumb_mini" 
+            end
+            haml_concat "..." if media_entries.total_pages > media_entries.current_page
+          end
+        end
       end
-      #2001# r += " (%d/%d Medieneinträge)" % [visible_media_entries.count, media_set.media_entries.count]
-      r += " (%d Medieneinträge)" % [media_set.media_entries.count]
-      r += tag :br
-      r += "von #{media_set.user}"
+    end
+
+    capture_haml do
+      if with_link
+        haml_tag :a, content, :href => media_set_path(media_set)
+      else
+        haml_concat content
+      end
+      haml_tag :div, :class => "clear"
     end
   end
 
   def media_sets_list(media_sets)
-    a = content_tag :h4, :style => "margin: 40px 0 1em 0;" do
-      _("In Sets enhalten:")
+    capture_haml do
+      haml_tag :h4, _("In Sets enhalten:"), :style => "margin: 40px 0 1em 0;"
+      media_sets.each do |media_set|
+        #2001# media_entries = media_set.media_entries.select {|media_entry| Permission.authorized?(current_user, :view, media_entry)}
+        #2001# media_set_title(media_set, media_entries, true)
+        haml_concat media_set_title(media_set, true)
+      end
     end
-    media_sets.each do |media_set|
-      #2001# media_entries = media_set.media_entries.select {|media_entry| Permission.authorized?(current_user, :view, media_entry)}
-      #2001# a += media_set_title(media_set, media_entries, true)
-      a += media_set_title(media_set, true)
-    end
-    a
   end
 
 
