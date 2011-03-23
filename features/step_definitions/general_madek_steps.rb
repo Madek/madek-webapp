@@ -20,7 +20,7 @@ Given /^I have set up the world$/ do
     click_on_arrow_next_to("Willis, Bruce")
     click_link("Admin")
     click_link("Import")
-    attach_file("uploaded_data", Rails.root + "spec/data/minimal_meta.yml")
+    attach_file("uploaded_data", Rails.root + "features/data/minimal_meta.yml")
     click_button("Import »")
     
   end
