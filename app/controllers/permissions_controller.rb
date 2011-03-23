@@ -1,8 +1,8 @@
 # -*- encoding : utf-8 -*-
 class PermissionsController < ApplicationController
 
-  before_filter :pre_load, :except => [:add_batch_permission]
-  before_filter :authorized?, :except => [:add_batch_permission]
+  before_filter :pre_load
+  before_filter :authorized?
 
   layout "meta_data"
 
@@ -93,24 +93,6 @@ class PermissionsController < ApplicationController
       }
     end
   end
-
-#################################################################
-
-  def add_batch_permission
-    theme "madek11"
-    subject = if params[:user_id]
-      User.find(params[:user_id])
-    elsif params[:group_id]
-      Group.find(params[:group_id])
-    else
-      nil
-    end
-    
-    respond_to do |format|
-      format.js { render :partial => "/permissions/edit11", :locals => {:subject_id => subject.id, :permission => [subject, {}]} }
-    end
-  end
-
 
 #################################################################
 
