@@ -105,6 +105,8 @@ function setupBatch(media_set_id, media_entry_ids_in_set) {
 	checkSelected();
     listSelected();
     displayCount();
+	
+	$("footer").css("margin-bottom", "130px");
 
 	// when remove from set is hovered we only want to highlight those media_entries that are part of the current set
 	if(media_set_id && media_entry_ids_in_set){
