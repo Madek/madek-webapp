@@ -11,7 +11,7 @@ Feature: Batch edit media entries
       And I upload some picture titled "Picture Three"
 
 
-  @javascript @work
+  @javascript 
   Scenario: Remove two media entries from a set using batch edit
     When I log in as "helmi" with password "schweinsmagen"
      And I create a set titled "Set One"
@@ -30,4 +30,27 @@ Feature: Batch edit media entries
     Then I should not see "Picture One"
      And I should not see "Picture Two"
 
-
+  @javascript
+  Scenario: Change metadata on two media entries using batch edit
+    When I log in as "helmi" with password "schweinsmagen"
+     And I create a set titled "Batch Retitle Set"
+     And I add the picture "Picture One" to the set "Batch Retitle Set"
+     And I add the picture "Picture Two" to the set "Batch Retitle Set"
+     And I go to the media entries
+     And I click the media entry titled "Picture One"
+     And I follow "Batch Retitle Set"
+     And I check the media entry titled "Picture One"
+     And I check the media entry titled "Picture Two"
+     And I press "Metadaten editieren"
+     And I fill in the metadata in the batch editor as follows:
+     |label    |value                |
+     |Titel    |We are all individuals|
+     And I press "Speichern"
+     Then I should see "Die Änderungen wurden gespeichert."
+     And I should see "We are all individuals"
+    When Sphinx is forced to reindex
+     And I go to the media entries
+     And I click the media entry titled "We are all individuals"
+     Then I should see "We are all individuals"
+     And I should not see "Picture One"
+     And I should not see "Picture Two"

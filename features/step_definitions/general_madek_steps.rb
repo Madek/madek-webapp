@@ -99,6 +99,16 @@ When /I fill in the metadata for entry number (\d+) as follows:/ do |num, table|
   end
 end
 
+When "I fill in the metadata in the batch editor as follows:" do |table|
+  table.hashes.each do |hash|
+    # Fills in the "_value" field it finds in the UL that contains
+    # the "key" text. e.g. "Titel*" or "Copyright"
+    all("ul", :text => /#{hash['label']}/).first.all("textarea").each do |ele|
+      fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/attributes_\d+_value$/).nil?
+    end
+  end
+end
+
 
 When /^(?:|I )attach the file "([^"]*)" relative to the Rails directory to "([^"]*)"(?: within "([^"]*)")?$/ do |path, field, selector|
   path = Rails.root + path

@@ -43,6 +43,8 @@ feature "Batch operations on media entries in a set", %q{
     page.should_not have_content("Picture Two")
   end
 
+
+  # Ported to Cucumber
   scenario "Change metadata on two media entries using batch edit", :js => true do
     user = log_in_as("helmi", "schweinsmagen")
 
