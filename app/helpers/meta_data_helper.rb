@@ -79,42 +79,6 @@ module MetaDataHelper
     end
   end
 
-  #old# can be removed soon
-  # def widget_meta_terms_multiselect_old(meta_datum, meta_key, meta_terms)
-  #   a = "".html_safe
-  #   @js_5 ||= false
-  #   unless @js_5
-  #     @js_5 = true
-  #     locale = "de"
-  #     a += stylesheet_link_tag "jquery/plugins/ui.multiselect"
-  #     # a += javascript_include_tag "jquery/plugins/multiselect/jquery.localisation-min",
-  #     #                             "jquery/plugins/multiselect/jquery.blockUI",
-  #     #                             #tmp 02.18.11# "jquery/plugins/multiselect/jquery.tmpl.1.1.1", # conflicts with madek11's jquery.tmpl.js
-  #     #                             "jquery/plugins/multiselect/ui.multiselect",
-  #     #                             "jquery/plugins/multiselect/locale/ui.multiselect-#{locale}"
-  #     # 02.21.11 Switching to newer version of multiselect plugin with less dependencies
-  #     a += javascript_include_tag "/themes/madek11/javascripts/jquery/plugins/multiselect/jquery.localisation-min.js",
-  #                                 "/themes/madek11/javascripts/jquery/plugins/multiselect/ui.multiselect.js",
-  #                                 "/themes/madek11/javascripts/jquery/plugins/multiselect/locale/ui-multiselect-#{locale}.js"
-  #     a += javascript_tag do
-  #       begin
-  #       <<-HERECODE
-  #         $(document).ready(function(){
-  #           $(".multiselect").multiselect({dividerLocation: 0.5, sortable: false});                
-  #         });
-  #       HERECODE
-  #       end.html_safe
-  #     end
-  #   end
-  #   all_options = meta_terms.collect {|x| [x.to_s, x.id]}
-  #   selected_options = meta_datum.object.value # TODO ?? .deserialized_value.collect(&:id)
-  #   a += meta_datum.select :value, options_for_select(all_options, selected_options), {}, {:multiple => true, :class => "multiselect"}
-  #   a += content_tag :div do
-  #     new_term_field(meta_key)
-  #   end if meta_key.is_extensible_list?
-  #   a
-  # end
-
   def checkbox_for_term(term, meta_datum, ui)
     is_checked = (meta_datum.object.value and meta_datum.object.value.include?(term.id))
     content_tag :li do
