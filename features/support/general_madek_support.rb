@@ -167,13 +167,16 @@ def type_into_autocomplete(type, text)
     wait_for_css_element("table.permissions")
     wait_for_css_element("#new_user")
     fill_in("new_user", :with => text)
+    sleep(1.5)
   elsif type == :group
     wait_for_css_element("table.permissions")
     wait_for_css_element("#new_group")
     fill_in("new_group", :with => text)
+    sleep(1.5)
   elsif type == :add_member_to_group
     wait_for_css_element("#new_user")
     fill_in("new_user", :with => text)
+    sleep(1.5)
   else
     puts "Unknown autocomplete type '#{type}', please add this type to the method type_into_autocomplete()"
   end
@@ -184,9 +187,6 @@ end
 def pick_from_autocomplete(text)
   all("ul.ui-autocomplete").each do |ul|
     ul.all("li.ui-menu-item a").each do |item|
-      #debugger; puts "lala"
-      #page.execute_script %Q{ $('.ui-menu-item a:contains("#{item.text}")').trigger("mouseenter").click(); }
-      #item.click if !item.text.match(/#{text}/).nil?
       if !item.text.match(/#{text}/).nil?
         page.execute_script %Q{ $('.ui-menu-item a:contains("#{item.text}")').trigger("mouseenter").click(); }
       end

@@ -1287,44 +1287,37 @@ button.dark:hover {
 .icon_bar {margin-top: 2em;}
 .icon_bar img {margin-right: .33em;}
 
-/*#selected_items .thumb_mini { display: inline-block; margin-right: 0.33em; background: white; border: 1px solid #ddd; padding: 2px; min-height: 54px; min-width: 54px;}*/
-
-/*#selected_items .thumb_mini {
+.thumb_mini {
+	display: inline-block;
+	text-align: center;
 	width: 60px;
 	height: 60px;
+	font-size: 1em;
+	line-height: 55px;
 	background-color: #fff;
-	-webkit-box-shadow: 0 0 2px rgba(100, 100, 100, 0.6);
-	-moz-box-shadow: 0 0 2px rgba(100, 100, 100, 0.6);
-	box-shadow: 0 0 2px rgba(100, 100, 100, 0.6);
-	position: relative;
-	display: inline-block;
-	margin: 0 5px;
-}*/
+	-webkit-box-shadow: 0 0 1px rgba(100, 100, 100, 0.6);
+	-moz-box-shadow: 0 0 1px rgba(100, 100, 100, 0.6);
+	box-shadow: 0 0 1px rgba(100, 100, 100, 0.6);
+	margin: 0 3px 10px 3px;
+}
 
-/*.thumb_mini img {
-	margin-left: auto;
-    margin-right: auto;
-	margin-top: auto;
-	margin-bottom: auto;
-    display: block;
-    max-height: 50px;
-    max-width: 50px;
-}*/
-
-
+#selected_items_edit .thumb_mini {
+	-webkit-box-shadow: 0 0 4px rgba(100, 100, 100, 0.6);
+	-moz-box-shadow: 0 0 4px rgba(100, 100, 100, 0.6);
+	box-shadow: 0 0 4px rgba(100, 100, 100, 0.6);
+}
 
 .thumb_mini img {
 	border: 1px solid #e4e4e4;
 	margin-top: expression(( 60 - this.height ) / 2);
 	vertical-align: middle;
+	max-height: 50px;
+	max-width: 50px;
 }
 
 .task_bar table img {
 	border: 1px solid #e4e4e4;
 }
-
-
-/*#selected_items .thumb_mini p { text-align: center; font-size: 0.7em;  }*/
 
 
 .task_bar input[type="submit"], #media_set_submit[type="submit"] {
@@ -2110,7 +2103,7 @@ tr.adder {
 
 /* Sidebar */
 
-#set-box {
+.set-box {
 	margin-top: 10px;
 	background-color: #f4f4f4;
 	padding: 10px;

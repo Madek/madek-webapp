@@ -5,7 +5,7 @@ feature "Batch operations on media entries in a set", %q{
   avoid clicking around a lot.
 } do
 
-
+  # Ported to Cucumber
   background do
     set_up_world
 
@@ -15,7 +15,8 @@ feature "Batch operations on media entries in a set", %q{
     upload_some_picture("Picture Two")
     upload_some_picture("Picture Three")
   end
-  
+
+  # Ported to Cucumber
   scenario "Remove two media entries from a set using batch edit", :js => true do
     user = log_in_as("helmi", "schweinsmagen")
 

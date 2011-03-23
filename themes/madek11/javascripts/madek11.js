@@ -4,20 +4,11 @@ jQuery.ajaxSetup({
 
 $(document).ready(function () { 
 	
-	$(document).ajaxStart(function() { $("#ajaxLoading").fadeIn(); });
-	$(document).ajaxStop(function() { $("#ajaxLoading").fadeOut(); });
+	$(document).ajaxStart(function(){ $("*").css('cursor', 'progress'); });
+	$(document).ajaxStop(function(){ $("*").css('cursor', ''); });
 	
 	// fading notice, error messages
     $(".notice, .error").delay(4000).fadeOut(500);
-
-	// OPTIMIZE data-remote direct for pagination links
-	$('.pagination a').live('ajax:success', function(xhr, response){
-		$("#results").html(response);
-		$("#results .pagination a").attr('data-remote', 'true');
-		var paginator_container = $("#pagination_container");
-		if(paginator_container.length) paginator_container.html($("#results div.pagination").detach());
-	}).attr('data-remote', 'true');
-	
 	
 	// toggle favorites
 	$("span.favorite_link a").live('ajax:complete', function(xhr, response){

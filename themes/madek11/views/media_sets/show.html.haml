@@ -7,8 +7,7 @@
             %div.item_permission_set
               = display_permission_icon(@media_set)
             %div.thumb_box_set
-              / TODO: move this into a helper
-              = tag :img, :src => @media_set.thumb_base64(:small_125)
+              = thumb_for(@media_set, :small_125)
       .grid_6
         #set_meta
           - context = MetaContext.media_set
@@ -24,8 +23,6 @@
     %img{:src => "/themes/madek11/images/icons/icon_set.png"}
     =_("Set-Inhalt")
     %span= "#{@media_set.media_entries.size} von #{@media_entries.total_entries} Medieneinträge sichtbar"
-  #pagination_container
-  .clear
   %hr
   = render :partial => "/shared/task_bar"
 
@@ -35,9 +32,7 @@
 :javascript
   $(document).ready(function () {
     var media_set_id = #{@media_set.id};
-    
     setupBatch(media_set_id);
-    $("div.pagination").appendTo("#pagination_container");    
   });
   
 = theme_javascript_include_tag "batch_actions"

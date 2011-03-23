@@ -1,3 +1,65 @@
-= will_paginate @media_entries, :previous_label => _("Zurück"), :next_label => _("Weiter")
-.clear
-= render :partial => "/media_entries/media_entry_thumb", :collection => @media_entries, :as => :media_entry
+%h3#loading
+  = image_tag "loadingAnimation.gif"
+
+%script{:type => "text/x-jquery-tmpl", :id => "pagination"}
+  .pagination
+    ${total_entries} Resultate
+    %br
+    Seite ${current_page} von ${total_pages}
+  .clear
+
+%script{:type => "text/x-jquery-tmpl", :id => "media_entry_index"}
+  %div.item_box{:id => "thumb_${id}", :style => "overflow: hidden;" }
+    %div.item_permission
+      {{if is_public}}
+      = theme_image_tag("icons/button_status_private.png")
+      {{else is_private}}
+      = theme_image_tag("icons/icon_button_perm.png")
+      {{/if}}
+    %div.thumb_box
+      %a{:href => "/media_entries/${id}"}
+        %img{:src => "${thumb_base64_small}"}
+    %p.item_title
+      ${title}
+    %p.item_author
+      ${author}
+    .actions
+      .action_left
+        %input{:type => "checkbox", :value => "${id}", :title => "Auswählen", :class => "editable"}
+  
+:javascript
+  $(function() {
+    var loading = $("#loading");
+    var json = #{@json};
+    var pagination = json.pagination;
+    var loaded_page = 1; 
+
+    function display_entries(entries){
+      loading.detach();
+      $("#results").append($("#pagination").tmpl(pagination).fadeIn('slow'));
+    	$.each(entries, function(i, elem) {
+  	    $("#media_entry_index").tmpl(elem).data('object', elem).appendTo("#results").fadeIn('slow');
+    	});
+    }
+
+    $(window).scroll(function(){
+      var next_page = (pagination.total_pages > pagination.current_page ? pagination.current_page + 1 : 0);
+      if(next_page > loaded_page && $(window).height() + $(window).scrollTop() == $(document).height()){
+        loaded_page = next_page;
+        $.ajax({
+          data: {page: next_page},
+        	dataType: 'json',
+          beforeSend: function(){
+            loading.appendTo("#results");
+          }, 
+          success: function(response){
+            pagination = response.pagination;
+        		display_entries(response.entries);
+          }
+        });
+      }
+    });
+    
+    display_entries(json.entries);
+    $(window).scrollTop(0).trigger('scroll');
+  });
