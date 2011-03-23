@@ -101,17 +101,15 @@ function removeItems(array, item) {
 
 /////////////////////////////////////////////////////
 
-function setupBatch(media_set_id) {
+function setupBatch(media_set_id, media_entry_ids_in_set) {
 	checkSelected();
     listSelected();
     displayCount();
 
 	// when remove from set is hovered we only want to highlight those media_entries that are part of the current set
-	if(media_set_id){
-		var media_entries_in_set = $("#batch-remove input[type='submit']").data('media_entry_ids');
+	if(media_set_id && media_entry_ids_in_set){
 		var media_entry_ids = get_selected_media_entry_ids();
-		
-		var media_entries_in_set = intersection_destructive(media_entries_in_set.sort(), media_entry_ids.sort());
+		var media_entries_in_set = intersection_destructive(media_entry_ids_in_set.sort(), media_entry_ids.sort());
 	}; //end if
 	
 	// make thumbnails removable from the selected items bar

@@ -47,7 +47,7 @@ class MediaSetsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.js { render :partial => "/media_entries/index" }
+      format.js { render :json => @json }
     end
   end
 
