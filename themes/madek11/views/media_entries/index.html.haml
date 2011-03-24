@@ -4,13 +4,12 @@
       %img{:src => "/themes/madek11/images/icons/icon_favorites.png"}
       =_("Meine Favoriten")
     .clear
-  = render :partial => "/shared/task_bar"
-  = render :partial => 'index'
+  = render :partial => "index"
     
 :javascript
   $(document).ready(function () {
     setupBatch();
-    
+    display_results(#{@json});    
   });
 
 = theme_javascript_include_tag "batch_actions"
