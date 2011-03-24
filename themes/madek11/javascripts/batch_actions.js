@@ -2,7 +2,6 @@ $(document).ready(function () {
 	
     $('.pagination a').live('ajax:success', function(xhr, response){
       checkSelected();
-      $('.actions').hide();
     });
 	
   	// hover functions for batch action buttons - highlight selected entries for which action is possible 
@@ -236,3 +235,39 @@ function displayCount() {
 		$('#selected_items').hide();
 	};
 };
+
+function display_results(json){
+	var loading = $("#loading");
+	var container = $("#results"); 
+	var pagination = json.pagination;
+	var loaded_page = 1;
+	
+	function display_entries(entries){
+	  loading.detach();
+	  container.append($("#pagination").tmpl(pagination).fadeIn('slow'));
+		$.each(entries, function(i, elem) {
+		    $("#media_entry_index").tmpl(elem).data('object', elem).appendTo(container).fadeIn('slow');
+		});
+	}
+	
+	$(window).scroll(function(){
+	  var next_page = (pagination.total_pages > pagination.current_page ? pagination.current_page + 1 : 0);
+	  if(next_page > loaded_page && $(window).height() + $(window).scrollTop() == $(document).height()){
+	    loaded_page = next_page;
+	    $.ajax({
+	      data: {page: next_page},
+	    	dataType: 'json',
+	      beforeSend: function(){
+	        loading.appendTo(container);
+	      }, 
+	      success: function(response){
+	        pagination = response.pagination;
+	    		display_entries(response.entries);
+	      }
+	    });
+	  }
+	});
+	
+	display_entries(json.entries);
+	$(window).scrollTop(0).trigger('scroll');
+}

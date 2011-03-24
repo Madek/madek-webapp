@@ -16,8 +16,6 @@ $(document).ready(function () {
       $("span#fav_" + media_entry_id).html(response.responseText);
     });
 
-    // hide icons by default 
-    $('.actions').hide();
     $(".item_box").live({
       mouseenter: function() {
         $(this).find('.actions').show();
