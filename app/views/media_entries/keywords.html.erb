@@ -11,7 +11,7 @@
 		end
 	end %>
 	
-	<% [@my_keywords, @all_keywords, @all_keywords.sort{|a,b| b.created_at <=> a.created_at}].each_with_index do |keywords,index| %>
+	<% [@my_keywords, @all_keywords, @all_keywords.sort{|a,b| b.created_at <=> a.created_at}].each_with_index do |keywords, index| %>
 		<%= content_tag :ul, :id => "tabs_#{index+1}", :class => "holder all", :style => "max-height: 20em; padding: 1.3em 0.3em 1em 0.3em; overflow-y: auto;" do
 			keywords.collect do |k|
 				content_tag :li, :class => "bit-box", :title => "#{k}", :rel => "#{k.meta_term_id}" do
@@ -48,15 +48,22 @@
 						});
 
 		$(".holder.all .bit-box").live('click', function(){
-			$(this).closest(".Keyword[data-meta_key]").find("select.fcbkcomplete").trigger("addItem", [{"title": $(this).attr("title"), "value": $(this).attr("rel")}]);
+			var to_add = {label: $(this).attr("title"), id: $(this).attr("rel")};
+			var search_field = $("#keywords_multiselect input[name='autocomplete_search']");
+      // add to all_options
+      var all_options = search_field.data("all_options");
+      all_options.push(to_add);
+      search_field.data("all_options", all_options);
+      // call add_to_selected_items
+      add_to_selected_items(to_add, 'keywords');
 			hide_keyword($(this).attr("rel"));
 		});
 		
-		hide_keywords($(".Keyword[data-meta_key] select.fcbkcomplete option:selected"));
+		hide_keywords($("#keywords_multiselect ul.holder li.bit-box input[type=hidden]"));
 		
-		$("[data-meta_key='keywords'] select.fcbkcomplete").change(function(){
-			$(".holder.all .bit-box").show();
-			hide_keywords($(this).find("option:selected"));
-		});
+		$("#keywords_multiselect input[name='autocomplete_search']").bind("autocompleteselect", function(event, ui) {
+      hide_keyword(ui.item.id);
+    });
+		
 	});
 <% end %>
