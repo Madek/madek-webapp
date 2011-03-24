@@ -118,6 +118,7 @@ module MetaDataHelper
                 }).bind('ajax:success', function(xhr, data, status){
                   var dom_scope = $(this).data("dom_scope");
                   parsed_data = $.parseJSON(data);
+                  console.log($(this).data("original_href"));
                   $(this).attr("href", $(this).data("original_href"));
                   $(this).prev("input").val("");
                   var search_field = $("#"+ dom_scope +"_multiselect input[name='autocomplete_search']");
@@ -272,10 +273,10 @@ module MetaDataHelper
         end.html_safe
       end
     end
-    
+
     h += content_tag :div do
       new_term_field(meta_key, dom_scope)
-    end.html_safe if meta_key.is_extensible_list?
+    end.html_safe if (meta_key.is_extensible_list? || dom_scope == "keywords")
     h
   end
 
