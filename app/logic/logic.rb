@@ -1,5 +1,6 @@
 module Logic
-  def self.data_for_page(media_entries, current_user)
+  extend self
+  def data_for_page(media_entries, current_user)
     media_entry_ids = media_entries.map(&:id)
 
     editable_ids = Permission.accessible_by_user("MediaEntry", current_user, :edit)

@@ -84,8 +84,15 @@ function add_to_selected_items(item, dom_scope){
   var template_id = "#"+ dom_scope + "_madek_multiselect_item";
   $("#"+ dom_scope +"_multiselect ul.holder").append($(template_id).tmpl(item)); //.fadeIn('slow'));
 };
+
 function remove_from_selected_items(dom_item){
+  // remove from pre-sorted keyoword tabs
+  var keyword_holder = dom_item.closest('#keywords_multiselect');
+  if (keyword_holder.length > -1){
+   var meta_term_id = dom_item.find('input[type=hidden]:first').val();
+   $('.holder.all .bit-box[rel="'+meta_term_id+'"]').show();
+  }
   dom_item.fadeOut('slow', function() {
     dom_item.remove();
-  });
+  });   
 };

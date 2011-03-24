@@ -28,7 +28,8 @@ class PeopleController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.js { render :json => {:title => person.to_s, :value => person.id} }
+      #format.js { render :json => {:title => person.to_s, :value => person.id} }
+      format.js { render :json => {:label => person.to_s, :id => person.id} }
     end
   end
 end
