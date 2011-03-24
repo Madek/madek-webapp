@@ -31,7 +31,6 @@
 
 :javascript
   $(document).ready(function () {
-    display_results(#{@json});    
-    setupBatch(#{@media_set.id}, #{@media_set.media_entry_ids.to_json});
+    setupBatch(#{@json}, #{@media_set.id}, #{@media_set.media_entry_ids.to_json});
   });
   
