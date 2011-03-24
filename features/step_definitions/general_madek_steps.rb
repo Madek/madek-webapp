@@ -20,7 +20,7 @@ Given /^I have set up the world$/ do
     click_on_arrow_next_to("Willis, Bruce")
     click_link("Admin")
     click_link("Import")
-    attach_file("uploaded_data", Rails.root + "spec/data/minimal_meta.yml")
+    attach_file("uploaded_data", Rails.root + "features/data/minimal_meta.yml")
     click_button("Import »")
     
   end
@@ -99,6 +99,16 @@ When /I fill in the metadata for entry number (\d+) as follows:/ do |num, table|
   end
 end
 
+When "I fill in the metadata in the batch editor as follows:" do |table|
+  table.hashes.each do |hash|
+    # Fills in the "_value" field it finds in the UL that contains
+    # the "key" text. e.g. "Titel*" or "Copyright"
+    all("ul", :text => /#{hash['label']}/).first.all("textarea").each do |ele|
+      fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/attributes_\d+_value$/).nil?
+    end
+  end
+end
+
 
 When /^(?:|I )attach the file "([^"]*)" relative to the Rails directory to "([^"]*)"(?: within "([^"]*)")?$/ do |path, field, selector|
   path = Rails.root + path
@@ -135,6 +145,18 @@ end
 
 When /^I click the media entry titled "([^"]*)"/ do |title|
   click_media_entry_titled(title)
+end
+
+When /^I check the media entry titled "([^"]*)"/ do |title|
+  check_media_entry_titled(title)
+end
+
+When /^I create a set titled "([^"]*)"/ do |title|
+  create_set(title)
+end
+
+When /^I add the picture "([^"]*)" to the set "([^"]*)"/ do |picture_title, set_title|
+    add_to_set(set_title, picture_title)
 end
 
 Then "the box should have a hires download link" do
