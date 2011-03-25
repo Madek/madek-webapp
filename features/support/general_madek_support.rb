@@ -136,6 +136,7 @@ def find_permission_checkbox(type, to_or_from)
     index = 5
   end
   cb = find(:css, "table.permissions").find("tr", :text => text).all("input")[index]
+  click_button("Speichern")
 end
 
 
