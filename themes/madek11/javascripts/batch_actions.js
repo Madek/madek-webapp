@@ -112,12 +112,10 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 	// make thumbnails removable from the selected items bar
     $('#selected_items .thumb_mini').live("hover", function() {
         $(this).children('img.thumb_remove').toggle();
-     });
-
-	$('img.thumb_remove').live("click", function() {
-      $(this).parents('.thumb_mini').remove();
-      var id = $(this).attr("rel");
-      toggleSelected(id);
+    }).live("click", function() {
+		var id = $(this).attr("rel");
+		$(this).remove();
+		toggleSelected(id);
     });
 
     $(":checkbox").live("click", function(){	
@@ -135,12 +133,12 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
     $("#batch-remove").hover(
       function () { 
 	 	$.each(media_entries_in_set, function(i, id){
-		  $('#selected_items #me_' + id).css("background-color", "#FEFFD7");
+		  $('#selected_items [rel="'+id+'"]').css("background-color", "#FEFFD7");
 		});
 	   }, 
       function () { 
 		$.each(media_entries_in_set, function(i, id){
-		  $('#selected_items #me_' + id).css("background-color", "white");
+		  $('#selected_items [rel="'+id+'"]').css("background-color", "white");
 		});
 	  }
     );
@@ -159,7 +157,7 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 		if(i > -1) {
 			media_entries_json.splice(i, 1);
 			$('#thumb_' + id).removeClass('selected').removeAttr("style").find('input:checkbox').attr('checked', false);
-			$('#selected_items #me_' + id).remove();
+			$('#selected_items [rel="'+id+'"]').remove();
 			if (media_entries_in_set != undefined){ removeItems(media_entries_in_set, id) };
 		}else{
 	        media_entries_json.push(me);

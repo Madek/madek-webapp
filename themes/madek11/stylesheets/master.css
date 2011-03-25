@@ -1221,12 +1221,9 @@ button.dark:hover {
 
 #selected_items .thumb_remove { 
 	position:absolute;
-	left: 0;
-	top:  0;
-	z-index: 4000;
+	margin-top: 3px;
 	cursor:pointer;
-	margin: 0;
-	border: 0;
+	display: none;
 }
 
 #selected_items_edit {
