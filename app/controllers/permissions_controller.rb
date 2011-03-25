@@ -11,60 +11,27 @@ class PermissionsController < ApplicationController
       format.js { render :layout => (params[:layout] != "false") }
     end
   end
-
-  def create
-    subject = if params[:user_id]
-      User.find(params[:user_id])
-    elsif params[:group_id]
-      Group.find(params[:group_id])
-    else
-      nil
-    end
-
-    if subject.nil? or Permission.cached_permissions_by(@resource).collect(&:subject).include?(subject) #tmp# @resource.permissions
-      respond_to do |format|
-        format.js { render :nothing => true, :status => 204 }
-      end
-    else
-      permission = @resource.permissions.build(:subject => subject)
-      permission.set_actions({:view => true, :edit => false, :hi_res => false})
-      respond_to do |format|
-        format.js { render :partial => "/permissions/edit", :object => permission, :as => :permission }
-      end
-    end
-  end
-
-  def update
-    value = case params[:checked]
-    when "true"
-      case params[:value]
-        when "logged_in_users"
-          :logged_in_users
-        else
-          true
-      end
-    else
-      false
-    end
-    @permission.set_actions({params[:key].to_sym => value})
-    respond_to do |format|
-      format.js #{ render :nothing => true } # TODO :status => (... ? 200 : 500)
-    end
-  end
-
-  def destroy
-    @permission.destroy
-    respond_to do |format|
-      format.js { render :nothing => true, :status => (@permission.destroyed? ? 200 : 500) } #{ render :partial => 'index', :locals => {:resource => @resource} }
-    end
-  end
   
 #################################################################
 
   def edit_multiple
+    theme "madek11"
+    permissions = Permission.cached_permissions_by(@resource)
+    @permissions_json = {}
+    
+    permissions.group_by {|p| p.subject_type }.collect do |type, type_permissions|
+      unless type.nil?
+        @permissions_json[type] = type_permissions.map {|p| {:id => p.subject.id, :name => p.subject.name, :type => type, :view => p.actions[:view], :edit => p.actions[:edit], :hi_res => p.actions[:hi_res] }}
+      else
+        p = type_permissions.first
+        @permissions_json["public"] = {:name => "Öffentlich", :type => 'nil', :view => p.actions[:view], :edit => p.actions[:edit], :hi_res => p.actions[:hi_res] }
+      end
+    end
+    @permissions_json = @permissions_json.to_json
+    
     respond_to do |format|
       format.html
-      format.js { render :layout => (params[:layout] != "false") }
+      format.js { render :partial => "edit_multiple" }
     end
   end
 
@@ -87,7 +54,6 @@ class PermissionsController < ApplicationController
     flash[:ajax_notice] = "Änderungen gespeichert"
 
     respond_to do |format|
-#      format.html { redirect_to @resource }
       format.js {
         render :action => :edit_multiple, :layout => false
       }
@@ -116,9 +82,7 @@ class PermissionsController < ApplicationController
     # OPTIMIZE remove blank params
     
     if not params[:media_entry_id].blank?
-      @resource = MediaEntry.find(params[:media_entry_id]) 
-    elsif not params[:media_set_id].blank?
-      @resource = Media::Set.find(params[:media_set_id]) 
+      @resource = MediaEntry.find(params[:media_entry_id])
     else
       redirect_to root_path
     end

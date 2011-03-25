@@ -1,0 +1,62 @@
+%table.permissions
+  %tbody
+    %tr
+      %th
+        Namen:
+      %th{:colspan => 2}
+        Berechtigungen:
+      %th
+    %tr
+      %td
+        %strong Personen
+      %td
+        Sehen
+      %td
+        Editieren
+      - unless @media_set
+        %td
+          Download volle Auflösung
+  %tbody#user_permissions
+    //
+  %tbody
+    %tr.adder
+      %td{:colspan => 5}
+        Person hinzufügen:
+        %input#new_user
+    %tr.adder
+      %td{:colspan => 5}
+        %p.hint
+          Es können nur Personen ausgewählt werden, die sich schon einmal im Medienarchiv eingeloggt haben.
+  %tbody
+    %tr
+      %td
+        %strong Gruppen
+      %td
+        Sehen
+      %td
+        Editieren
+      - unless @media_set
+        %td
+          Download volle Auflösung
+  %tbody#group_permissions
+    //
+  %tbody
+    %tr.adder
+      %td{:colspan => 5}
+        Gruppe hinzufügen:
+        %input#new_group
+  %tbody
+    %tr
+      %td
+        %strong Allgemein
+      %td
+        Sehen
+      %td
+        Editieren
+      - unless @media_set
+        %td
+          Download volle Auflösung
+  %tbody#anyone_permissions
+    //
+%div{:class => "save_buttons"}   
+  = submit_tag _("Speichern") 

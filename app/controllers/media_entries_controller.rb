@@ -257,7 +257,7 @@ class MediaEntriesController < ApplicationController
     theme "madek11"
     session[:batch_origin_uri] = request.env['HTTP_REFERER']
     @combined_permissions = Permission.compare(@media_entries)
-    @json = @combined_permissions.to_json
+    @permissions_json = @combined_permissions.to_json
 
     @media_entries_json = @media_entries.map do |me|
       me.attributes.merge!(me.get_basic_info)
@@ -282,9 +282,9 @@ class MediaEntriesController < ApplicationController
         media_entry.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
       end
 
-    flash[:notice] = "Die Zugriffsberechtigungen wurden erflogreich gespeichert."    
-    redirect_to (session[:batch_origin_uri] || media_entries_path)
-
+    flash[:notice] = "Die Zugriffsberechtigungen wurden erflogreich gespeichert."  
+    alt_redirect = (!session[:batch_origin_uri] || @media_entries.size == 1) ? media_entry_path(@media_entries.first) : media_entries_path
+    redirect_to (session[:batch_origin_uri] || alt_redirect)
   end
   
 #####################################################

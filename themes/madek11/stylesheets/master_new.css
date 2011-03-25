@@ -1158,7 +1158,11 @@ button.dark:hover {
 
 #page_head_edit .task_bar {
 	height: auto;
+	min-width: auto;
 	border-bottom-style: none;
+	position: static;
+	width: auto;
+	padding: 5px 20px 5px;
 }
 
 #batch-edit-button {
@@ -1222,12 +1226,12 @@ button.dark:hover {
 }
 
 #selected_items_edit {
-	padding: 5px 5px 5px 5px;
-	/*background-color: #e8e8e8;*/
-	/*overflow: auto;*/
+	/*padding: 5px 5px 5px 5px;
+	background-color: #e8e8e8;*/
+	/*overflow: auto;
 	-moz-box-shadow: inset 0 0 3px 1px #ccc;
 	-webkit-box-shadow: inset 0 0 3px 1px #ccc;
-	box-shadow: inset 0 0 3px 1px #ccc;
+	box-shadow: inset 0 0 3px 1px #ccc;*/
 	overflow: auto;
 	max-height: 360px;
 }
