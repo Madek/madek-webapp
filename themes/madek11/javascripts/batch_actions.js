@@ -124,6 +124,14 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 		toggleSelected($(this).closest(".item_box").data("object"));
     });
 
+	$("#select_deselect_all input:checkbox").click(function() {
+	  if ($(this).is(":checked")) {
+		$('.item_box input').not(":checked").trigger("click");
+	  } else {
+		alert('deselect all');
+	  };
+	});
+
     $("#batch-remove").hover(
       function () { 
 	 	$.each(media_entries_in_set, function(i, id){
@@ -175,7 +183,7 @@ function selected_items_highlight_off(selector){
 
 function get_media_entries_json(){
 	var media_entries_json = JSON.parse(sessionStorage.getItem("selected_media_entries"));
-	if(media_entries_json == null) media_entries_json = new Array();
+	if(media_entries_json[0] == null) media_entries_json = new Array();
 	return media_entries_json;
 }
 
@@ -228,7 +236,8 @@ function display_results(json){
 			$("#media_entry_index").tmpl(elem).data('object', elem).appendTo(container).fadeIn('slow');
 		});
 		//check all the previously selected checkboxes
-		$.each(get_selected_media_entry_ids(), function(i, id) {
+		var selected_entries = get_selected_media_entry_ids();
+		$.each(selected_entries, function(i, id) {
 			$('#thumb_' + id).addClass('selected').find('input:checkbox').attr('checked', true);
 		});
 	}

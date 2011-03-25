@@ -487,10 +487,6 @@ nav {
 
 ul { list-style: none; }
 ul li { float: left; }
-
-#number_selected {
-	margin-right: 1em;
-}
   
 /*  Content  */
 
@@ -729,7 +725,7 @@ ul li { float: left; }
 #list_as_thumbnails .thumb_box {
 	float: left;
 	text-align: center;
-	width: 110px;
+	/*width: 110px;*/
 	height: 110px;
 	font-size: 1em;
 	line-height: 105px;
@@ -1123,7 +1119,7 @@ button.dark:hover {
 .task_bar {
 	position: fixed;
 	left: 0;
-	min-width: 920px;
+	/*min-width: 920px;*/
 	padding-left: 20px;
 	padding-top: 5px;
 	padding-bottom: 5px;	
@@ -1148,13 +1144,20 @@ button.dark:hover {
 	padding-top: 2px;
 }
 
-.task_bar #number_selected {
+.task_bar #number_selected, .task_bar #select_deselect_all {
 	font-size: 0.9em;
 	letter-spacing: 0.1ex;
 	font-weight: normal;
 	word-spacing: 0.1ex;
 	padding-left: 0.05em;
 	padding-top: 2px;
+	margin-right: 1em;
+}
+
+.task_bar #select_deselect_all input[type="checkbox"] {
+	position: relative;
+	top: -8px;
+	margin-right: 1px;
 }
 
 #page_head_edit .task_bar {
@@ -1227,12 +1230,12 @@ button.dark:hover {
 }
 
 #selected_items_edit {
-	padding: 5px 5px 5px 5px;
-	/*background-color: #e8e8e8;*/
-	/*overflow: auto;*/
+	/*padding: 5px 5px 5px 5px;
+	background-color: #e8e8e8;*/
+	/*overflow: auto;
 	-moz-box-shadow: inset 0 0 3px 1px #ccc;
 	-webkit-box-shadow: inset 0 0 3px 1px #ccc;
-	box-shadow: inset 0 0 3px 1px #ccc;
+	box-shadow: inset 0 0 3px 1px #ccc;*/
 	overflow: auto;
 	max-height: 360px;
 }

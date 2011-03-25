@@ -4,6 +4,9 @@
       %h4 Ausgewählte Medieneinträge bearbeiten:
     %li#number_selected
       Keine Medieneinträge ausgewählt
+    %li#select_deselect_all
+      = check_box_tag "alle", :id => "select_all_toggle"
+      Alle auswählen
     .clear
     %li#batch-edit.action_btn
       = button_to _("Metadaten editieren"), edit_multiple_media_entries_path, :method => :post
