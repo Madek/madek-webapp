@@ -116,29 +116,24 @@ def find_permission_checkbox(type, to_or_from)
   if type == "view"
     if to_or_from.class == String
       text = /#{to_or_from}/
-      index = 0
     elsif to_or_from == :everybody
-      text = "Öffentlich"
-      index = 0
+      text = "Öffentlich"    
     end
-
+    index = 1
   elsif type == "edit"
     if to_or_from.class == String
       text = /#{to_or_from}/
-      index = 1
     elsif to_or_from == :everbody
       text = "Öffentlich"
-      index = 2
     end
-
+    index = 3
   elsif type == "download_hires"
     if to_or_from.class == String
       text = /#{to_or_from}/
-      index = 2
     elsif to_or_from == :everbody
       text = "Öffentlich"
-      index = 5
     end
+    index = 5
   end
   cb = find(:css, "table.permissions").find("tr", :text => text).all("input")[index]
 end
