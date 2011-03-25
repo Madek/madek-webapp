@@ -189,7 +189,7 @@ module Resource
       core_context_keys.each do |key|
         core_info[key.gsub(' ', '_')] = meta_data.get_value_for(key)
       end
-      core_info["thumb_base64_small"] = thumb_base64
+      core_info["thumb_base64"] = thumb_base64(:small_125)
       core_info
     end
 

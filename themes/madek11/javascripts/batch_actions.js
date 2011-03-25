@@ -1,10 +1,5 @@
 $(document).ready(function () {
 	
-    $('.pagination a').live('ajax:success', function(xhr, response){
-      checkSelected();
-      $('.actions').hide();
-    });
-	
   	// hover functions for batch action buttons - highlight selected entries for which action is possible 
   	$("#batch-edit").hover(
       function () { selected_items_highlight_on('.edit'); }, 
@@ -101,8 +96,8 @@ function removeItems(array, item) {
 
 /////////////////////////////////////////////////////
 
-function setupBatch(media_set_id, media_entry_ids_in_set) {
-	checkSelected();
+function setupBatch(json, media_set_id, media_entry_ids_in_set) {
+	display_results(json);
     listSelected();
     displayCount();
 	
@@ -193,27 +188,10 @@ function get_selected_media_entry_ids() {
 	return $.map(media_entries_json, function(elem, i){ return parseInt(elem.id); });
 }
 
-function checkSelected() {
-	var media_entry_ids = get_selected_media_entry_ids();
-	//check all the previously selected checkboxes
-	$("input.editable:checkbox").each(function () {
-		if($.inArray(this.value, media_entry_ids) > -1) {
-			$(this).attr('checked', true);
-			$(this).parents('.item_box').addClass('selected');
-		} else {
-			// this seems necessary because of browser cache that keeps checkboxes checked
-			$(this).attr('checked', false);
-		};  
-	});
-};
-
 function listSelected() {
 	var media_entries_json = get_media_entries_json();
 	// display all previously selected items under taskbar 
 	$('#selected_items').html($("#thumbnail_mini").tmpl(media_entries_json));
-	$.each(media_entries_json, function(i, me) {
-		$('#thumb_' + me.id).addClass('selected').find('input:checkbox').attr('checked', true);
-	});
 };
 
 
@@ -236,3 +214,43 @@ function displayCount() {
 		$('#selected_items').hide();
 	};
 };
+
+function display_results(json){
+	var loading = $("#loading");
+	var container = $("#results"); 
+	var pagination = json.pagination;
+	var loaded_page = 1;
+	
+	function display_entries(entries){
+		loading.detach();
+		container.append($("#pagination").tmpl(pagination).fadeIn('slow'));
+		$.each(entries, function(i, elem) {
+			$("#media_entry_index").tmpl(elem).data('object', elem).appendTo(container).fadeIn('slow');
+		});
+		//check all the previously selected checkboxes
+		$.each(get_selected_media_entry_ids(), function(i, id) {
+			$('#thumb_' + id).addClass('selected').find('input:checkbox').attr('checked', true);
+		});
+	}
+	
+	$(window).scroll(function(){
+	  var next_page = (pagination.total_pages > pagination.current_page ? pagination.current_page + 1 : 0);
+	  if(next_page > loaded_page && $(window).height() + $(window).scrollTop() == $(document).height()){
+	    loaded_page = next_page;
+	    $.ajax({
+	      data: {page: next_page},
+	    	dataType: 'json',
+	      beforeSend: function(){
+	        loading.appendTo(container);
+	      }, 
+	      success: function(response){
+	        pagination = response.pagination;
+			display_entries(response.entries);
+	      }
+	    });
+	  }
+	});
+	
+	display_entries(json.entries);
+	$(window).scrollTop(0).trigger('scroll');
+}

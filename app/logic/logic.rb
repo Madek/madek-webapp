@@ -5,6 +5,7 @@ module Logic
 
     editable_ids = Permission.accessible_by_user("MediaEntry", current_user, :edit)
     managable_ids = Permission.accessible_by_user("MediaEntry", current_user, :manage)
+    favorite_ids = current_user.favorite_ids
     
     editable_in_context = editable_ids & media_entry_ids
     managable_in_context = managable_ids & media_entry_ids
@@ -14,11 +15,12 @@ module Logic
                        :total_entries => media_entries.total_entries,
                        :total_pages => media_entries.total_pages },
       :entries => media_entries.map do |me|
-                    permissions = { :is_private => me.acl?(:view, :only, current_user),
-                                    :is_public => me.acl?(:view, :all),
-                                    :is_editable => (editable_in_context.include?(me.id)),
-                                    :is_manageable => (managable_in_context.include?(me.id)) }
-                    me.attributes.merge(me.get_basic_info).merge(permissions)
+                    flags = { :is_private => me.acl?(:view, :only, current_user),
+                              :is_public => me.acl?(:view, :all),
+                              :is_editable => editable_in_context.include?(me.id),
+                              :is_manageable => managable_in_context.include?(me.id),
+                              :is_favorite => favorite_ids.include?(me.id) }
+                    me.attributes.merge(me.get_basic_info).merge(flags)
                   end } 
   end
 

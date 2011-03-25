@@ -25,14 +25,12 @@
     %span= "#{@media_set.media_entries.size} von #{@media_entries.total_entries} Medieneinträge sichtbar"
   .clear
   %hr
-  = render :partial => "/shared/task_bar"
   = render :partial => "/media_entries/index"
+
+= theme_javascript_include_tag "batch_actions"
 
 :javascript
   $(document).ready(function () {
-    var media_set_id = #{@media_set.id};
-    var media_entry_ids_in_set = #{@media_set.media_entry_ids.to_json};
-    setupBatch(media_set_id, media_entry_ids_in_set);
+    setupBatch(#{@json}, #{@media_set.id}, #{@media_set.media_entry_ids.to_json});
   });
   
-= theme_javascript_include_tag "batch_actions"
