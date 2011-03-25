@@ -180,3 +180,44 @@ Feature: Upload images and manage media entries based on images
     When I click the media entry titled "hochaufgelöste geheimbünde"
      And I follow "Exportieren"
     Then the box should not have a hires download link
+
+
+  @javascript
+  Scenario: Add a single media entry to favorites from the media entry list
+    When I log in as "helmi" with password "schweinsmagen"
+     And I upload some picture titled "mein lieblingsknödel"
+     And I go to the media entries
+     And all the hidden items become visible
+     And I toggle the favorite star on the media entry titled "mein lieblingsknödel"
+     And I click on the arrow next to "Kohl, Helmut"
+     And I follow "Meine Favoriten"
+    Then I should see "mein lieblingsknödel"
+
+  @javascript
+  Scenario: Add a single media entry to favorites from the media detail page
+    When I log in as "helmi" with password "schweinsmagen"
+     And I upload some picture titled "mein lieblingsdackel"
+     And I go to the media entries
+     And I click the media entry titled "mein lieblingsdackel"
+     And I toggle the favorite star on this media entry
+     And I click on the arrow next to "Kohl, Helmut"
+     And I follow "Meine Favoriten"
+    Then I should see "mein lieblingsdackel"
+
+  @javascript
+  Scenario: Add and remove a single media entry from favorites
+    When I log in as "helmi" with password "schweinsmagen"
+     And I upload some picture titled "mein lieblingsbier"
+     And I go to the media entries
+     And all the hidden items become visible
+     And I toggle the favorite star on the media entry titled "mein lieblingsbier"
+     And I click on the arrow next to "Kohl, Helmut"
+     And I follow "Meine Favoriten"
+    Then I should see "mein lieblingsbier"
+    When I go to the media entries
+     And all the hidden items become visible
+     And I toggle the favorite star on the media entry titled "mein lieblingsbier"
+     And I click on the arrow next to "Kohl, Helmut"
+     And I follow "Meine Favoriten"
+    Then I should not see "mein lieblingsbier"
+

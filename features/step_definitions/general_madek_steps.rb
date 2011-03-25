@@ -159,6 +159,21 @@ When /^I add the picture "([^"]*)" to the set "([^"]*)"/ do |picture_title, set_
     add_to_set(set_title, picture_title)
 end
 
+When /^I toggle the favorite star on the media entry titled "([^"]*)"$/ do |title|
+  entry = find_media_entry_titled(title)
+  entry.find(:css, ".favorite_link").find("a").click
+  sleep(0.5)
+end
+
+When "I toggle the favorite star on this media entry" do
+  find(:css, ".favorite_link").find("a").click
+  sleep(0.5)
+end
+
+When "all the hidden items become visible" do
+  make_hidden_items_visible
+end
+
 Then "the box should have a hires download link" do
     find(:css, "tr.download-unit").all("a").count.should == 1
 end
