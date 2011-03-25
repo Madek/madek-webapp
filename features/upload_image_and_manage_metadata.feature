@@ -153,7 +153,7 @@ Feature: Upload images and manage media entries based on images
      And I follow "Exportieren"
     Then the box should have a hires download link
 
-  @javascript
+  @javascript @work
   Scenario: Give and then revoke hi-resolution download permission on a file
    Given a user called "Hans Wurst" with username "hanswurst" and password "hansi" exists
     When I log in as "helmi" with password "schweinsmagen"
