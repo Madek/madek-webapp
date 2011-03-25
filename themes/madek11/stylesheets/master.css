@@ -2012,6 +2012,9 @@ ul[data-parent_meta_key] {
 .dates input, #dateSelect {
   width: auto; }
 
+.dates input.datepicker {
+  width: 6em; }
+
 .meta_data ul.meta_terms {
   font-size: 0.9em;
   line-height: 2em;
