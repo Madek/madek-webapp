@@ -118,9 +118,17 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 		toggleSelected(id);
     });
 
-    $(":checkbox").live("click", function(){	
+    $(".item_box :checkbox").live("click", function(){	
 		toggleSelected($(this).closest(".item_box").data("object"));
     });
+
+	$("#select_deselect_all input:checkbox").click(function() {
+	  if ($(this).is(":checked")) {
+		$(".item_box input[type='checkbox']").not(":checked").trigger("click");
+	  } else {
+		$(".item_box input:checked").trigger("click");
+	  };
+	});
 
     $("#batch-remove").hover(
       function () { 
@@ -142,7 +150,7 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 
 	function toggleSelected(me) {
 		var media_entries_json = get_media_entries_json();
-		var media_entry_ids = $.map(media_entries_json, function(elem, i){ return parseInt(elem.id); });
+		var media_entry_ids = $.map(media_entries_json, function(elem, i){ if (elem != null) return parseInt(elem.id); });
 		var id = (typeof(me) == "object" ? me.id : parseInt(me));
 		var i = media_entry_ids.indexOf(id);
 
@@ -183,7 +191,7 @@ function set_media_entries_json(data){
 
 function get_selected_media_entry_ids() {
 	var media_entries_json = get_media_entries_json();
-	return $.map(media_entries_json, function(elem, i){ return parseInt(elem.id); });
+	return $.map(media_entries_json, function(elem, i){ if (elem != null) return parseInt(elem.id); });
 }
 
 function listSelected() {
@@ -226,7 +234,8 @@ function display_results(json){
 			$("#media_entry_index").tmpl(elem).data('object', elem).appendTo(container).fadeIn('slow');
 		});
 		//check all the previously selected checkboxes
-		$.each(get_selected_media_entry_ids(), function(i, id) {
+		var selected_entries = get_selected_media_entry_ids();
+		$.each(selected_entries, function(i, id) {
 			$('#thumb_' + id).addClass('selected').find('input:checkbox').attr('checked', true);
 		});
 	}
@@ -244,6 +253,7 @@ function display_results(json){
 	      success: function(response){
 	        pagination = response.pagination;
 			display_entries(response.entries);
+			$('#select_all_toggle').attr('checked', false);
 	      }
 	    });
 	  }
