@@ -48,22 +48,15 @@
 						});
 
 		$(".holder.all .bit-box").live('click', function(){
-			var to_add = {label: $(this).attr("title"), id: $(this).attr("rel")};
-			var search_field = $("#keywords_multiselect input[name='autocomplete_search']");
-      // add to all_options
-      var all_options = search_field.data("all_options");
-      all_options.push(to_add);
-      search_field.data("all_options", all_options);
-      // call add_to_selected_items
-      add_to_selected_items(to_add, 'keywords');
+			var item = {label: $(this).attr("title"), id: $(this).attr("rel")};
+			add_to_selected_items(item, 'keywords', false);
 			hide_keyword($(this).attr("rel"));
 		});
 		
 		hide_keywords($("#keywords_multiselect ul.holder li.bit-box input[type=hidden]"));
 		
 		$("#keywords_multiselect input[name='autocomplete_search']").bind("autocompleteselect", function(event, ui) {
-      hide_keyword(ui.item.id);
-    });
-		
+      		hide_keyword(ui.item.id);
+		});
 	});
 <% end %>

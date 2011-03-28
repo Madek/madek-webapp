@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class MetaTermsController < ApplicationController
- 
-  # TODO only for extensible lists 
+
+  #2603# TODO remove, only used for extensible lists with checkboxes 
   def create
     term ||= begin
       h = {}
