@@ -30,6 +30,27 @@ $(document).ready(function () {
 			$(this).hide();
 		}
 	});
+
+//////////////////////////////
+
+	$("[data-meta_key] div.expander a").live("click", function() {
+		var parent = $(this).closest("[data-meta_key]");
+		var children = parent.nextAll("[data-parent_meta_key='" + parent.attr("data-meta_key") + "']");
+
+		// NOTE doesn't work with toggler because copyright custom behavior
+		if($(this).hasClass("expanded")){
+			$(this).removeClass("expanded");
+			children.slideUp(); 
+		}else{
+			$(this).addClass("expanded");
+			children.slideDown();
+		}
+
+		// NOTE copyright custom behavior
+		children.find("select.nested_options:visible, select.options_root").trigger('change');
+
+		return false;
+	});
 	
 });
 

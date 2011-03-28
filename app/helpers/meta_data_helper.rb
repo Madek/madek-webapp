@@ -116,30 +116,18 @@ module MetaDataHelper
                   var v = $(this).prev("input").val();
                   $(this).attr("href", h +"?new_term=" + v);
                 }).bind('ajax:success', function(xhr, data, status){
-                  var dom_scope = $(this).data("dom_scope");
-                  parsed_data = $.parseJSON(data);
-                  console.log($(this).data("original_href"));
+                  var parsed_data = $.parseJSON(data);
                   $(this).attr("href", $(this).data("original_href"));
                   $(this).prev("input").val("");
-                  var search_field = $("#"+ dom_scope +"_multiselect input[name='autocomplete_search']");
-                  if (search_field.length) {
-                    // add to all_options
-                    var all_options = search_field.data("all_options");
-                    all_options.push(parsed_data);
-                    search_field.data("all_options", all_options);
-                    // call add_to_selected_items
-                    add_to_selected_items(parsed_data, dom_scope);
-                  } else {
-                    // FIXME doesn't work if no term exists yet
-                    s = $(this).parent().prev();
-                    var c = s.clone().insertAfter(s); // TODO use .tmpl() ??
-                    c.children("input:first").val(parsed_data.id).attr("checked", "checked");
-                    c.contents(":last").replaceWith(parsed_data.label); // TODO jquery >= 1.4.3  .text(parsed_data.value);
-                  }
+                  // FIXME doesn't work if no term exists yet
+                  s = $(this).parent().prev();
+                  var c = s.clone().insertAfter(s); // TODO use .tmpl() ??
+                  c.children("input:first").val(parsed_data.id).attr("checked", "checked");
+                  c.contents(":last").replaceWith(parsed_data.label); // TODO jquery >= 1.4.3  .text(parsed_data.value);
                 });  
                 
                 $("input[name='new_term']").keypress(function(event) {
-                  if (event.keyCode == '13') {
+                  if (event.keyCode === $.ui.keyCode.ENTER) {
                     event.preventDefault();
                     $(this).next("a.new_term[data-remote]").trigger('click');
                   }
