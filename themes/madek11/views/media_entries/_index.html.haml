@@ -58,7 +58,7 @@
       .action_left
         %input{:type => "checkbox", :value => "${id}", :title => "Auswählen", :class => "editable"}
         %span.favorite_link{:id => "fav_${id}", :title => "Favorit"}
-          %a{:href => "/media_entries/${id}/toggle_favorites", :title => "Editieren", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
+          %a{:href => "/media_entries/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
             {{if is_favorite}}
             = theme_image_tag("icons/button_favorit_on.png")
             {{else}}
@@ -67,7 +67,7 @@
       .action_right
         /url = resource.is_a?(MediaEntry) ? edit_media_entry_path(resource) : edit_media_set_path(resource)
         {{if is_editable}}
-        %a{:href => "/media_entries/${id}", :title => "Editieren"}
+        %a{:href => "/media_entries/${id}/edit", :title => "Editieren"}
           = theme_image_tag("icons/button_edit_active.png")
         {{else}}
         = theme_image_tag("icons/button_edit_inactive.png")

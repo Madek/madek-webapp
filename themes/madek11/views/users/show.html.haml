@@ -1,3 +1,44 @@
+// TODO helper, dry => media_entries/_index.html.haml
+%script{:type => "text/x-jquery-tmpl", :id => "media_entry_index_without_checkbox"}
+  %div.item_box{:id => "thumb_${id}"}
+    %div.item_permission
+      {{if is_public}}
+      = theme_image_tag("icons/button_status_private.png")
+      {{else is_private}}
+      = theme_image_tag("icons/icon_button_perm.png")
+      {{/if}}
+    %div.thumb_box
+      %a{:href => "/media_entries/${id}"}
+        %img{:src => "${thumb_base64}"}
+    %p.item_title
+      ${title.substring(0,29)}
+    %p.item_author
+      ${author.substring(0,18)}
+    .actions
+      .action_left
+        %span.favorite_link{:id => "fav_${id}", :title => "Favorit"}
+          %a{:href => "/media_entries/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
+            {{if is_favorite}}
+            = theme_image_tag("icons/button_favorit_on.png")
+            {{else}}
+            = theme_image_tag("icons/button_favorit_off.png")
+            {{/if}}
+      .action_right
+        {{if is_editable}}
+        %a{:href => "/media_entries/${id}/edit", :title => "Editieren"}
+          = theme_image_tag("icons/button_edit_active.png")
+        {{else}}
+        = theme_image_tag("icons/button_edit_inactive.png")
+        {{/if}}
+        {{if is_manageable}}
+        %a{:href => "/media_entries/${id}", :title => "Löschen", :"data-method" => :delete, :"data-confirm" => "Sind Sie sicher?"}
+          = theme_image_tag("icons/button_delete_active.png")
+        {{else}}
+        = theme_image_tag("icons/button_delete_inactive.png")
+        {{/if}}
+
+//////////////////////////////////////////////////////
+
 %section#content_body
   %div.page_title_left
     =_("Meine Medieneinträge")
@@ -5,7 +46,6 @@
   #results
     - @media_entries = @my_media_entries
     - unless @media_entries.empty?
-      = render :partial => '/media_entries/media_entry_thumb', :collection => @media_entries, :as => :media_entry
       - if @media_entries.total_entries >= params[:per_page]
         .buttons
           = link_to "Weitere…", user_media_entries_path(current_user)
@@ -19,9 +59,19 @@
   #results_others
     - @media_entries = @accessible_media_entries
     - unless @media_entries.empty?
-      = render :partial => '/media_entries/media_entry_thumb', :collection => @media_entries, :as => :media_entry
       - if @media_entries.total_entries >= params[:per_page]
         .buttons
           = link_to "Weitere Medieneinträge", media_entries_path(:not_by_current_user => true)
     - else
       = _("Es gibt keine weiteren Medieneinträge.")
+
+:javascript
+  // TODO dry => batch_actions.js
+  $(document).ready(function () {
+  	function display_entries(entries, container){
+  	  $(container).prepend($("#media_entry_index_without_checkbox").tmpl(entries));
+  	}
+  	display_entries(#{Logic.data_for_page(@my_media_entries, current_user).to_json}.entries, "#results");
+  	display_entries(#{Logic.data_for_page(@accessible_media_entries, current_user).to_json}.entries, "#results_others");
+  });
+
