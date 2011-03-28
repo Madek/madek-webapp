@@ -2,7 +2,6 @@
   %div.page_title_left
     =_("Meine Medieneinträge")
   .clear
-  %hr
   #results
     - @media_entries = @my_media_entries
     - unless @media_entries.empty?
@@ -17,13 +16,12 @@
   %div.page_title_left
     =_("Medieneinträge anderer")
   .clear
-  %hr
   #results_others
     - @media_entries = @accessible_media_entries
     - unless @media_entries.empty?
       = render :partial => '/media_entries/media_entry_thumb', :collection => @media_entries, :as => :media_entry
       - if @media_entries.total_entries >= params[:per_page]
         .buttons
-          = link_to "Weitere…", media_entries_path(:not_by_current_user => true)
+          = link_to "Weitere Medieneinträge", media_entries_path(:not_by_current_user => true)
     - else
       = _("Es gibt keine weiteren Medieneinträge.")
