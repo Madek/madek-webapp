@@ -23,8 +23,8 @@
   #selected_items.clearfix
 
 #results
-  %h3#loading
-    = image_tag "loadingAnimation.gif"
+  - PER_PAGE.first.times do
+    .item_box.tmp{:style => "background-color: #f1f1f1; display: none;"}
 
 ////////////////////////////////////////////////////////////////////////////////
 

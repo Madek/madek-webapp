@@ -222,13 +222,13 @@ function displayCount() {
 };
 
 function display_results(json){
-	var loading = $("#loading");
+	var loading = $(".item_box.tmp");
 	var container = $("#results"); 
 	var pagination = json.pagination;
 	var loaded_page = 1;
 	
 	function display_entries(entries){
-		loading.detach();
+		loading.fadeOut('slow', function(){ $(this).detach(); });
 		container.append($("#pagination").tmpl(pagination).fadeIn('slow'));
 		$.each(entries, function(i, elem) {
 			$("#media_entry_index").tmpl(elem).data('object', elem).appendTo(container).fadeIn('slow');
@@ -248,7 +248,7 @@ function display_results(json){
 	      data: {page: next_page},
 	    	dataType: 'json',
 	      beforeSend: function(){
-	        loading.appendTo(container);
+		  	loading.appendTo(container).fadeIn('slow');
 	      }, 
 	      success: function(response){
 	        pagination = response.pagination;
