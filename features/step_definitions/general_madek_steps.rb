@@ -91,7 +91,8 @@ When /I fill in the metadata for entry number (\d+) as follows:/ do |num, table|
   # Makes the text more human-readable, don't have to specify 0 to fill in
   # for the first entry
   media_entry_num = num.to_i - 1
-
+  # Fills in the "_value" field it finds in the UL that contains
+  # the "key" text. e.g. "Titel*" or "Copyright"
   table.hashes.each do |hash|
     all("ul", :text => /#{hash['label']}/)[media_entry_num].all("input").each do |ele|
       fill_in ele[:id], :with => hash['value'] if ele[:id] =~ /_value$/

@@ -136,7 +136,6 @@ def find_permission_checkbox(type, to_or_from)
     index = 5
   end
   cb = find(:css, "table.permissions").find("tr", :text => text).all("input")[index]
-  click_button("Speichern")
 end
 
 
@@ -144,12 +143,14 @@ def give_permission_to(type, to)
 
   cb = find_permission_checkbox(type, to)
   cb.click unless cb[:checked] == "true" # a string, not a bool!
+  click_button("Speichern")
 end
 
 
 def remove_permission_to(type, from)
   cb = find_permission_checkbox(type, from)
   cb.click if cb[:checked] == "true" # a string, not a bool!
+  click_button("Speichern")
 end
 
 
