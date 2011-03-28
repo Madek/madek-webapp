@@ -20,7 +20,7 @@ $(document).ready(function () {
     $("#batch-edit form").submit(function() {
       var editable_ids = new Array();
       $("#selected_items .edit").each(function(i, elem){
-        editable_ids.push($(this).attr("id").slice(3));
+        editable_ids.push($(this).attr("rel"));
       });
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
     });
@@ -29,7 +29,7 @@ $(document).ready(function () {
     $("#batch-permissions form").submit(function() {
       var managable_ids = new Array();
       $("#selected_items .manage").each(function(i, elem){
-        managable_ids.push($(this).attr("id").slice(3));
+        managable_ids.push($(this).attr("rel"));
       });
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+managable_ids+"'>");
     });
@@ -38,7 +38,7 @@ $(document).ready(function () {
     $("#batch-add-to-set form").submit(function() {
       var editable_ids = new Array();
       $("#selected_items .thumb_mini").each(function(i, elem){
-        editable_ids.push($(this).attr("id").slice(3));
+        editable_ids.push($(this).attr("rel"));
       });
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
     });
