@@ -96,6 +96,17 @@ class MediaEntriesController < ApplicationController
     end
   end
 
+  def image
+    # TODO dry => Resource#thumb_base64
+    media_file = @media_entry.media_file
+    preview = media_file.get_preview(:large)
+    file = File.join(THUMBNAIL_STORAGE_DIR, media_file.shard, preview.filename)
+    if File.exist?(file)
+      output = File.read(file)
+      send_data output, :type => preview.content_type, :disposition => 'inline'
+    end
+  end
+
 #####################################################
 # Authenticated Area
 
@@ -317,7 +328,7 @@ class MediaEntriesController < ApplicationController
     case action
       when :new
         action = :create
-      when :show
+      when :show, :image
         action = :view
       when :edit, :update
         action = :edit
