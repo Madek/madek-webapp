@@ -30,7 +30,7 @@ Feature: Batch edit media entries
     Then I should not see "Picture One"
      And I should not see "Picture Two"
 
-  @javascript
+  @javascript @work
   Scenario: Change metadata on two media entries using batch edit
     When I log in as "helmi" with password "schweinsmagen"
      And I create a set titled "Batch Retitle Set"
@@ -43,7 +43,7 @@ Feature: Batch edit media entries
      And I check the media entry titled "Picture Two"
      And I press "Metadaten editieren"
      And I fill in the metadata in the batch editor as follows:
-     |label    |value                |
+     |label    |value                 |
      |Titel    |We are all individuals|
      And I press "Speichern"
      Then I should see "Die Änderungen wurden gespeichert."
