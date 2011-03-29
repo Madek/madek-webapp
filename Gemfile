@@ -30,6 +30,13 @@ gem "ruby-net-ldap", "0.0.4", :require => 'net/ldap'
 gem "zencoder"
 gem "uuidtools"
 
+# wiki:
+# unfortunately upstream irwi is broken. Until it is fixed we
+# install it as a plugin from our own branch on github:
+# git@github.com:tpo/irwi.git
+#gem "irwi"
+gem "RedCloth"
+
 group :test, :development do
   gem 'ruby-debug' # TODO 'ruby-debug19' for Ruby 1.9.x
   gem 'ruby-debug-completion'
