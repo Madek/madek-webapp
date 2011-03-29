@@ -66,7 +66,7 @@ Feature: Upload images and manage media entries based on images
      Then I should see "A beautiful piece of the B..."
 
 
-  @javascript
+  @javascript @problematic
   Scenario: Upload an image file for my group to see
     Given a group called "Mauerfäller" exists
       And the user with username "helmi" is member of the group "Mauerfäller"

@@ -37,7 +37,7 @@ Feature: Create and edit workgroups
     Then I should see "Pig, Porky"
      And I should see "Duck, Daffy"
 
-  @javascript @work
+  @javascript @problematic
   Scenario: Create a group, assign people to it, then remove one person
     When I log in as "porky" with password "piggy"
      And I click the arrow next to "Pig, Porky"
