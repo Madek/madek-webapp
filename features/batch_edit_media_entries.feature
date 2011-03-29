@@ -42,7 +42,7 @@ Feature: Batch edit media entries
      And I check the media entry titled "Picture One"
      And I check the media entry titled "Picture Two"
      And I press "Metadaten editieren"
-     And I fill in the metadata in the batch editor as follows:
+     And I fill in the metadata form as follows:
      |label    |value                 |
      |Titel    |We are all individuals|
      And I press "Speichern"

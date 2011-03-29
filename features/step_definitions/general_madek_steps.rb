@@ -100,11 +100,11 @@ When /I fill in the metadata for entry number (\d+) as follows:/ do |num, table|
   end
 end
 
-When "I fill in the metadata in the batch editor as follows:" do |table|
+When "I fill in the metadata form as follows:" do |table|
   table.hashes.each do |hash|
     # Fills in the "_value" field it finds in the UL that contains
     # the "key" text. e.g. "Titel*" or "Copyright"
-    all("ul", :text => /#{hash['label']}/).first.all("textarea").each do |ele|
+    all("ul", :text => /^#{hash['label']}/).first.all("textarea").each do |ele|
       fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/attributes_\d+_value$/).nil?
     end
   end
@@ -163,6 +163,14 @@ end
 When /^I toggle the favorite star on the media entry titled "([^"]*)"$/ do |title|
   entry = find_media_entry_titled(title)
   entry.find(:css, ".favorite_link").find("a").click
+  sleep(0.5)
+end
+
+When /^I click the edit icon on the media entry titled "([^"]*)"$/ do |title|
+  entry = find_media_entry_titled(title)
+  entry.all("a").each do |link|
+    link.click if link[:title] == "Editieren"
+  end
   sleep(0.5)
 end
 

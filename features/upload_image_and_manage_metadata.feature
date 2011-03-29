@@ -54,7 +54,6 @@ Feature: Upload images and manage media entries based on images
      And I follow "Weiter ohne Gruppierung"
      And Sphinx is forced to reindex
      And I go to the home page
-     And I wait for 20 seconds
      Then show me the page
      And I click the media entry titled "A beautiful piece of the Berl"
      And I follow "Zugriffsberechtigung"
