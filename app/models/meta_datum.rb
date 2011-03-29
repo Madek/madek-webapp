@@ -63,6 +63,7 @@ class MetaDatum < ActiveRecord::Base
                           elsif klass == Meta::Term
                             #2603# TODO dry
                             if v.is_a?(Fixnum) or (v.respond_to?(:match) and !!v.match(/\A[+-]?\d+\Z/)) # TODO patch to String#is_numeric? method
+                              # TODO check if is member of meta_key.meta_terms
                               r = klass.where(:id => v).first
                             elsif record.meta_key.is_extensible_list?
                               h = {}
