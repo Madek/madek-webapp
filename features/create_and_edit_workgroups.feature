@@ -21,6 +21,7 @@ Feature: Create and edit workgroups
      And I press "Gruppe erstellen"
     Then I should see "Looney Tunes"
      And I should see "Pig, Porky"
+     And "Pig, Porky" should be a member of the "Looney Tunes" group
 
   @javascript
   Scenario: Create a group and assign people to it
@@ -36,8 +37,11 @@ Feature: Create and edit workgroups
      And I pick "Duck, Daffy" from the autocomplete field
     Then I should see "Pig, Porky"
      And I should see "Duck, Daffy"
+     And "Duck, Daffy" should be a member of the "Looney Tunes" group
+     And "Pig, Porky" should be a member of the "Looney Tunes" group
 
-  @javascript @problematic
+
+  @javascript
   Scenario: Create a group, assign people to it, then remove one person
     When I log in as "porky" with password "piggy"
      And I click the arrow next to "Pig, Porky"
@@ -52,6 +56,8 @@ Feature: Create and edit workgroups
     Then I should see "Pig, Porky"
      And I should see "Duck, Daffy"
     When I remove "Duck, Daffy" from the group
-     And I wait for 4 seconds
     Then I should see "Pig, Porky"
-     And I should not see "Duck, Daffy"
+     And "Duck, Daffy" should not be a member of the "Looney Tunes" group
+    When I click the arrow next to "Pig, Porky"
+     And I follow "Meine Arbeitsgruppen"
+     Then I should not see "Duck, Daffy"
