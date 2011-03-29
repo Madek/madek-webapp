@@ -37,7 +37,7 @@ Feature: Upload images and manage media entries based on images
      And I go to the home page
      Then I should see "berlin wall for a set"
 
-  @javascript @problematic
+  @javascript
   Scenario: Upload an image file for another user to see
     When I log in as "helmi" with password "schweinsmagen"
      And I follow "Hochladen"
