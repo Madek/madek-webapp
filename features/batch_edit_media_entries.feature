@@ -30,7 +30,7 @@ Feature: Batch edit media entries
     Then I should not see "Picture One"
      And I should not see "Picture Two"
 
-  @javascript @work
+  @javascript
   Scenario: Change metadata on two media entries using batch edit
     When I log in as "helmi" with password "schweinsmagen"
      And I create a set titled "Batch Retitle Set"

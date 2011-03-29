@@ -140,7 +140,7 @@ When /^I remove "([^"]*)" permission from "([^"]*)"$/ do |permission, subject|
   remove_permission_to(permission, subject)
 end
 
-When /^I click on the arrow next to "([^"]*)"/ do |string|
+When /^I click(?: | on )the arrow next to "([^"]*)"/ do |string|
   click_on_arrow_next_to(string)
 end
 
