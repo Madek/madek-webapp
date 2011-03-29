@@ -221,8 +221,15 @@ module MetaDataHelper
         begin
         <<-HERECODE
           $(document).ready(function(){
-            
-            $(".dialog_link").click(function(){
+            function do_nothing() {
+                  return false;
+            };
+            $(".dialog_link").click(function(e){
+              // prevent double click on link
+              $(e.target).click(do_nothing);
+              setTimeout(function(){
+                $(e.target).unbind('click', do_nothing);
+              }, 1000);
               var source = $(this);
               var next_container = source.next();
               if(next_container.length > 0){
@@ -235,7 +242,6 @@ module MetaDataHelper
                     source.children("img:last").toggleClass("expanded");
                     source.after(response);
                     source.next().hide().slideDown();
-
                     $("form[data-remote] input:submit").click(function(event){
                       $(this).closest("form").trigger("submit");
                       return false;
