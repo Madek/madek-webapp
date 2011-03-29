@@ -193,9 +193,19 @@ module MetaDataHelper
     
     h = content_tag :div, :id => "#{dom_scope}_multiselect", :class => "madek_multiselect_container" do 
       a = content_tag :ul, :class => "holder" do
+        content_tag :li, :class => "input_holder" do
+          text_field_tag "autocomplete_search", nil, :"data-all_options" => all_options.to_json, :style => "outline: none; border: none;"
+        end
       end
-      a += text_field_tag "autocomplete_search", nil, :"data-all_options" => all_options.to_json, :style => "width: 86%"
-      a += link_to icon_tag("toggler-arrow-closed"), "#", :class => "search_toggler"
+      #a += link_to icon_tag("toggler-arrow-closed"), "#", :class => "search_toggler"
+    end
+    
+    h += content_tag :script, :type => "text/x-jquery-tmpl", :id => "search_toggler_template" do
+      begin
+        <<-HERECODE
+        <a class="search_toggler" href="#"><img src="/images/icons/toggler-arrow-closed.png"></a>
+        HERECODE
+      end.html_safe
     end
     
     h += content_tag :script, :type => "text/x-jquery-tmpl", :id => "#{dom_scope}_madek_multiselect_item" do
@@ -214,7 +224,11 @@ module MetaDataHelper
       begin
       <<-HERECODE
         $(document).ready(function(){
-          create_multiselect_widget("#{dom_scope}", #{selected_option_ids.to_json}, #{selected_options.to_json});                    
+          if ("#{dom_scope}" == 'keywords') {
+            create_multiselect_widget("#{dom_scope}", #{selected_option_ids.to_json}, #{selected_options.to_json}, false);    
+          } else {
+            create_multiselect_widget("#{dom_scope}", #{selected_option_ids.to_json}, #{selected_options.to_json}, true);  
+          };             
         });
       HERECODE
       end.html_safe
