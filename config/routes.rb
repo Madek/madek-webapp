@@ -51,6 +51,7 @@ MAdeK::Application.routes.draw do
       get :to_snapshot
       #temp# :graph_nodes => :get,
       #temp# :index_browser => :get
+      get :image
     end
     
     resources :permissions do

@@ -49,4 +49,5 @@ group :test do
   gem 'spork'
   gem 'steak'
   gem 'launchy'  
+  gem 'rcov'
 end

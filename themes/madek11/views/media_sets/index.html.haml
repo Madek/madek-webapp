@@ -10,7 +10,7 @@
 				#set_meta
 					%small
 						&nbsp;
-					%h3
+					%h5
 						= _("Neues Set erstellen")
 					- context = MetaContext.media_set
 					- media_set = current_user.media_sets.build # (:type => "Media::Set")
@@ -32,16 +32,13 @@
 		%section#content_body3.clearfix
 			%div.page_title_left
 				- if @media_sets
-					%a{:id => "meine", :name => "meine", :href => "#"}
 					%img{:src => "/themes/madek11/images/icons/icon_set.png"}
+					%a{:id => "meine", :name => "meine", :href => "#"}
 					= @index_title
 			.pagination
 				%a{:href => "#weitere"}
 					&darr; Weitere Sets
 			.clear
-			%hr
-			%br
-			%br
 			= render :partial => "media_set", :collection => @my_media_sets
 		
 .container_12.clearfix
@@ -55,9 +52,6 @@
 				%a{:href => "#meine"}
 					&uarr; Meine Sets
 			.clear
-			%hr
-			%br
-			%br	
 			= render :partial => "media_set", :collection => @media_sets
 	- else
 		%section#content_body.clearfix
@@ -65,9 +59,6 @@
 				%img{:src => "/themes/madek11/images/icons/icon_set.png"}
 				= @index_title
 			.clear
-			%hr
-			%br
-			%br
 			- if @media_sets.any?
 				= render :partial => "media_set", :collection => @media_sets
 			- else 
