@@ -233,6 +233,7 @@ function display_results(json){
 		$.each(entries, function(i, elem) {
 			$("#media_entry_index").tmpl(elem).data('object', elem).appendTo(container).fadeIn('slow');
 		});
+		container.append("<div class='clear' />");
 		//check all the previously selected checkboxes
 		var selected_entries = get_selected_media_entry_ids();
 		$.each(selected_entries, function(i, id) {
