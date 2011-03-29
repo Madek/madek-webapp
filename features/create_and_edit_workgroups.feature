@@ -52,6 +52,5 @@ Feature: Create and edit workgroups
     Then I should see "Pig, Porky"
      And I should see "Duck, Daffy"
     When I remove "Duck, Daffy" from the group
-     And I wait for 4 seconds
     Then I should see "Pig, Porky"
      And I should not see "Duck, Daffy"
