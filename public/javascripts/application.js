@@ -55,10 +55,10 @@ $(document).ready(function () {
 });
 
 
-function create_multiselect_widget(dom_scope, is_extensible){
+function create_multiselect_widget(dom_scope, is_extensible, with_toggler){
   var search_field = $("#"+ dom_scope +"_multiselect input[name='autocomplete_search']");
   var all_options = search_field.data("all_options");
-  if (dom_scope != "keywords") {
+  if (with_toggler) {
 	$("#"+ dom_scope +"_multiselect").append("<a class='search_toggler' href='#'><img src='/images/icons/toggler-arrow-closed.png'></a>");
 	var toggler = $("#"+ dom_scope +"_multiselect a.search_toggler");
   }
@@ -69,14 +69,17 @@ function create_multiselect_widget(dom_scope, is_extensible){
   });
 
   var new_term = is_extensible;
+  var just_selected = false;
 
   search_field.keypress(function( event ) {
     if ( event.keyCode === $.ui.keyCode.ENTER || event.keyCode === $.ui.keyCode.TAB) {
       if(new_term){
 	  	var v = $(this).val();
-	  	var item = {label: v, id: v};
-        add_to_selected_items(item, dom_scope, true);
-		$(this).autocomplete( "close" );
+	    if ($.trim(v).length){
+		  	var item = {label: v, id: v};
+	        add_to_selected_items(item, dom_scope, true);
+			$(this).autocomplete( "close" );
+		}
       }
       event.preventDefault();
     }else{
@@ -91,11 +94,14 @@ function create_multiselect_widget(dom_scope, is_extensible){
     select: function(event, ui) {
 	  new_term = false;
       add_to_selected_items(ui.item, dom_scope, false);
+	  just_selected = true;
     },
     close: function(event, ui) {
 	  search_field.autocomplete("option", "minLength", 3);
-	  var elem = $(this);
-  	  if(elem.val().length > 2) elem.val("");
+		if(just_selected){
+			$(this).val("");
+			just_selected = false;
+		}
 	  if (toggler != undefined) toggler.removeClass("active").find("img").attr("src", "/images/icons/toggler-arrow-closed.png");
     }
   });
