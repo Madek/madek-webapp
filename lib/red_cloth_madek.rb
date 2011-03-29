@@ -8,9 +8,13 @@ class RedClothMadek
     ::RedCloth.new( replace_madek_tags(text) ).to_html
   end
 
-  # Transforms the follwing Textile markup to a link to a medium
+  # Transforms the follwing Textile markups:
   # 
-  #    [[media=210 | Das Huhn]]
+  #   [[media=210      | Das Huhn]] -> <a href  ="/media_entries/210">Das Huhn</a>
+  #   [[screenshot=210 | Das Huhn]] -> <img src="/media_entries/210/image" title="Das Huhn"/>
+  #   [[video=210      | Das Huhn]] -> <video src="/media_entries/210/image" title="Das Huhn"/>
+  #                                      <a href='/media_entries/210'>(see video)</a>
+  #                                    </video>
   #
   def replace_madek_tags( text )
 
