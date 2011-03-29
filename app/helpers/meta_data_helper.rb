@@ -201,12 +201,13 @@ module MetaDataHelper
     end
     
     h += javascript_tag do
-      is_extensible = (meta_key.is_extensible_list? or dom_scope == "keywords")
+      is_extensible = (meta_key.is_extensible_list? or %(keywords author).include?(dom_scope))
+      with_toggle = !%(keywords author).include?(dom_scope)
       begin
       <<-HERECODE
         $(document).ready(function(){
           $("##{dom_scope}_multiselect input[name='autocomplete_search']").data("all_options", #{all_options.to_json});
-          create_multiselect_widget("#{dom_scope}", #{is_extensible});                     
+          create_multiselect_widget("#{dom_scope}", #{is_extensible}, #{with_toggle});                     
         });
       HERECODE
       end.html_safe
@@ -220,8 +221,15 @@ module MetaDataHelper
         begin
         <<-HERECODE
           $(document).ready(function(){
-            
-            $(".dialog_link").click(function(){
+            function do_nothing() {
+                  return false;
+            };
+            $(".dialog_link").click(function(e){
+              // prevent double click on link
+              $(e.target).click(do_nothing);
+              setTimeout(function(){
+                $(e.target).unbind('click', do_nothing);
+              }, 1000);
               var source = $(this);
               var next_container = source.next();
               if(next_container.length > 0){
@@ -234,7 +242,6 @@ module MetaDataHelper
                     source.children("img:last").toggleClass("expanded");
                     source.after(response);
                     source.next().hide().slideDown();
-
                     $("form[data-remote] input:submit").click(function(event){
                       $(this).closest("form").trigger("submit");
                       return false;
