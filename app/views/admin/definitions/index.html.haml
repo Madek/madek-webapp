@@ -54,7 +54,7 @@
 		$("tbody.sortable").sortable({
 			update: function(event, ui){
 				$.ajax({
-					url: "<%= reorder_admin_context_definitions_path(@context, :format => :js) %>",
+					url: "#{reorder_admin_context_definitions_path(@context)}",
 					type: 'PUT',
 					data: $(event.target).sortable('serialize'),
 					success: function(feedback){ $('#data').html(feedback); }
