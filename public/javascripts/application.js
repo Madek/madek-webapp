@@ -54,11 +54,14 @@ $(document).ready(function () {
 	
 });
 
+
 function create_multiselect_widget(dom_scope, is_extensible){
   var search_field = $("#"+ dom_scope +"_multiselect input[name='autocomplete_search']");
   var all_options = search_field.data("all_options");
-  var toggler = search_field.next(".search_toggler");
-
+  if (dom_scope != "keywords") {
+	$("#"+ dom_scope +"_multiselect").append("<a class='search_toggler' href='#'><img src='/images/icons/toggler-arrow-closed.png'></a>");
+	var toggler = $("#"+ dom_scope +"_multiselect a.search_toggler");
+  }
   $.each(all_options, function(i, elem){
   	if(elem.selected){
 	    add_to_selected_items(elem, dom_scope, false);
@@ -93,10 +96,11 @@ function create_multiselect_widget(dom_scope, is_extensible){
 	  search_field.autocomplete("option", "minLength", 3);
 	  var elem = $(this);
   	  if(elem.val().length > 2) elem.val("");
-	  toggler.removeClass("active").find("img").attr("src", "/images/icons/toggler-arrow-closed.png");
+	  if (toggler != undefined) toggler.removeClass("active").find("img").attr("src", "/images/icons/toggler-arrow-closed.png");
     }
   });
   
+  if (toggler != undefined) {
 	toggler.click(function(){
 		var elem = $(this); 
 		if (elem.hasClass('active')) {
@@ -108,12 +112,14 @@ function create_multiselect_widget(dom_scope, is_extensible){
 			search_field.autocomplete("search", "");
 		}
 		return false;
-	});
+	 });
+    };
 
 	$("ul.holder li .closebutton").live('click', function(){
 		remove_from_selected_items($(this).parent("li"));
 		return false;
   	});
+
 
 	function remove_from_selected_items(dom_item){
 	  	var meta_term_id = dom_item.find('input[type=hidden]:first').val();
@@ -142,6 +148,6 @@ function add_to_selected_items(item, dom_scope, add_to_options){
 			all_options.forEach(function(element){ if(element.id == item.id) element.selected = true; });  	
 		}
 	}
-	$("#"+ dom_scope + "_madek_multiselect_item").tmpl(item).appendTo($("#"+ dom_scope +"_multiselect ul.holder")).fadeIn('slow');
+	$("#"+ dom_scope + "_madek_multiselect_item").tmpl(item).insertBefore($("#"+ dom_scope +"_multiselect ul.holder li.input_holder")).fadeIn('slow');
 	search_field.val("");
 };

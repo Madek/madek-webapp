@@ -177,13 +177,16 @@ module MetaDataHelper
     end
 
     dom_scope = meta_key.label.gsub(/(\s+|\/+)/, '_')
+
     
     h = content_tag :div, :id => "#{dom_scope}_multiselect", :class => "madek_multiselect_container" do 
       a = content_tag :ul, :class => "holder" do
+        content_tag :li, :class => "input_holder" do
+          text_field_tag "autocomplete_search", nil, :style => "outline: none; border: none;"
+        end
       end
-      a += text_field_tag "autocomplete_search", nil, :style => "width: 86%"
-      a += link_to icon_tag("toggler-arrow-closed"), "#", :class => "search_toggler"
     end
+  
     
     h += content_tag :script, :type => "text/x-jquery-tmpl", :id => "#{dom_scope}_madek_multiselect_item" do
       begin

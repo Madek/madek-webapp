@@ -1702,7 +1702,14 @@ table.metadata-table {
 
 /* Metadata Autocomplete */
 
-ul.holder { margin: 0; overflow: hidden; height: auto !important; height: 1%; padding: 4px 5px 0; background-color: #fff; }
+ul.holder { 
+  margin: 0; 
+  overflow: hidden; 
+  height: auto !important; 
+  height: 1%; 
+  padding: 4px 5px 0;
+  background-color: #fff; 
+}
 
 form ul.holder { width: 97%; }
 form ul { margin: 0 !important }
