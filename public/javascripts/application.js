@@ -69,15 +69,17 @@ function create_multiselect_widget(dom_scope, is_extensible, with_toggler){
   });
 
   var new_term = is_extensible;
-	var just_selected = false;
+  var just_selected = false;
 
   search_field.keypress(function( event ) {
     if ( event.keyCode === $.ui.keyCode.ENTER || event.keyCode === $.ui.keyCode.TAB) {
       if(new_term){
 	  	var v = $(this).val();
-	  	var item = {label: v, id: v};
-        add_to_selected_items(item, dom_scope, true);
-		$(this).autocomplete( "close" );
+	    if ($.trim(v).length){
+		  	var item = {label: v, id: v};
+	        add_to_selected_items(item, dom_scope, true);
+			$(this).autocomplete( "close" );
+		}
       }
       event.preventDefault();
     }else{
@@ -92,7 +94,7 @@ function create_multiselect_widget(dom_scope, is_extensible, with_toggler){
     select: function(event, ui) {
 	  new_term = false;
       add_to_selected_items(ui.item, dom_scope, false);
-		just_selected = true;
+	  just_selected = true;
     },
     close: function(event, ui) {
 	  search_field.autocomplete("option", "minLength", 3);
