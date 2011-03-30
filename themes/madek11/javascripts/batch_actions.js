@@ -113,7 +113,7 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
     displayCount();
 	
 	$("footer").css("margin-bottom", "130px");
-
+	
 	// when remove from set is hovered we only want to highlight those media_entries that are part of the current set
 	if(media_set_id && media_entry_ids_in_set){
 		var media_entry_ids = get_selected_media_entry_ids();
@@ -129,12 +129,8 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 		toggleSelected(id);
     });
 
-		//     $(".item_box :checkbox").live("click", function(){	
-		// toggleSelected($(this).closest(".item_box").data("object"));
-		//     });
-
-    $(".item_box").live("click", function(){	
-		toggleSelected($(this).data("object"));
+    $("span.check_box").live("click", function(){
+		toggleSelected($(this).closest(".item_box").data("object"));
     });
 
 	$("#select_deselect_all input:checkbox").click(function() {		
@@ -149,7 +145,7 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 			// if not yet selected
 			if((i == -1)) {
 		        media_entries_json.push(me);
-		        $(elem).addClass('selected');
+		        $(elem).addClass('selected').find('span.check_box img').attr('src', '/themes/madek11/images/icons/button_checkbox_on.png');
 		        $('#selected_items').append($("#thumbnail_mini").tmpl(me));
 				if (media_entries_in_set != undefined){ media_entries_in_set.push(me.id) };
 			};	
@@ -160,7 +156,7 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 		var media_entries_json = get_media_entries_json();
 		// remove everything from the action bar
 		$.each(media_entries_json, function(i, me){
-			$('#thumb_' + me.id).removeClass('selected').removeAttr("style");
+			$('#thumb_' + me.id).removeClass('selected').removeAttr("style").find('span.check_box img').attr('src', '/themes/madek11/images/icons/button_checkbox_off.png');
 			$('#selected_items [rel="'+me.id+'"]').remove();
 			sessionStorage.removeItem("selected_media_entries");
 		});
@@ -194,14 +190,12 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 		
 		if(i > -1) {
 			media_entries_json.splice(i, 1);
-			$('#thumb_' + id).removeClass('selected').removeAttr("style");
-			//$('#thumb_' + id).find("input.editable[type='checkbox']").first().attr('checked', false);
+			$('#thumb_' + id).removeClass('selected').removeAttr("style").find('span.check_box img').attr('src', '/themes/madek11/images/icons/button_checkbox_off.png');
 			$('#selected_items [rel="'+id+'"]').remove();
 			if (media_entries_in_set != undefined){ removeItems(media_entries_in_set, id) };
 		} else {
 	        media_entries_json.push(me);
-	        $('#thumb_' + id).addClass('selected');
-			//$('#thumb_' + id).find("input.editable[type='checkbox']").first().attr('checked', 'checked');
+	        $('#thumb_' + id).addClass('selected').find('span.check_box img').attr('src', '/themes/madek11/images/icons/button_checkbox_on.png');
 	        $('#selected_items').append($("#thumbnail_mini").tmpl(me));
 			if (media_entries_in_set != undefined){ media_entries_in_set.push(id) };
 		};
@@ -277,7 +271,7 @@ function display_results(json){
 		//check all the previously selected checkboxes
 		var selected_entries = get_selected_media_entry_ids();
 		$.each(selected_entries, function(i, id) {
-			$('#thumb_' + id).addClass('selected').find('input:checkbox').attr('checked', true);
+			$('#thumb_' + id).addClass('selected').find('span.check_box img').attr('src', '/themes/madek11/images/icons/button_checkbox_on.png');
 		});
 	}
 	
