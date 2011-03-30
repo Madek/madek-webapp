@@ -1218,7 +1218,7 @@ button.dark:hover {
 
 #detail_specification {
   margin: 1em 0 1em 0;
-  min-height: 200px; }
+  min-height: 600px; }
   #detail_specification ul {
     list-style: none;
     overflow: hidden; }
