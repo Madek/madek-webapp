@@ -616,8 +616,8 @@ ul li {
 
 /* Media thumbs */
 #results, #results_mine, #results_others {
-  padding: 0 0 20px 0;
-  text-align: center; }
+  padding: 5px 0 20px 2px;
+  text-align: left; }
 
 .item_box {
   display: inline-block;
@@ -845,7 +845,8 @@ button.dark {
   float: right; }
 
 #results .buttons, #results_others .buttons {
-  margin: 30px 0; }
+  margin: 20px 0;
+  text-align: center; }
 
 #results .buttons a, #results_others .buttons a {
   color: #333;
@@ -1146,7 +1147,7 @@ button.dark:hover {
 
 /*********************/
 #selected_items {
-  width: 100%;
+  width: 98%;
   background-color: rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: 0 0 3px rgba(150, 150, 150, 0.6);
   -moz-box-shadow: 0 0 3px rgba(150, 150, 150, 0.6);
@@ -1156,6 +1157,7 @@ button.dark:hover {
   left: 0;
   z-index: 1000;
   padding-left: 17px;
+  padding-right: 17px;
   padding-top: 9px;
   overflow: auto;
   height: auto;
@@ -1806,12 +1808,14 @@ table.meta_data td {
   padding-bottom: 10px; }
 
 .meta_data_comment {
-  padding: 33px 10px;
-  color: #b1b1b1; }
+  padding: 33px 15px;
+  color: #7F7F7F;
+  font-size: 0.8em;
+  letter-spacing: 0.2ex; }
 
 #additional-metadata table {
   width: 600px;
-  margin: 30px 0; }
+  margin: 40px 0; }
 
 #additional-metadata table td:first-child {
   width: 140px;
