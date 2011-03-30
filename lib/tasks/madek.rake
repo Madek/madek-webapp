@@ -74,6 +74,31 @@ namespace :madek do
     task :typevocab_data => :environment do
       # TODO replace with something that reads the YML from the config directory
     end
+
+    desc "Only the 'keywords' meta_key can have the 'Keyword' object_type"
+    task :fix_keywords => :environment do
+      keywords = {}
+      meta_keys = MetaKey.where(:object_type => "Keyword").where("label != 'keywords'")
+      meta_keys.each do |meta_key|
+        keywords[meta_key.id] = {}
+        meta_key.meta_data.each do |meta_datum|
+          keywords[meta_key.id][meta_datum.id] = meta_datum.deserialized_value
+        end
+        meta_key.update_attributes(:object_type => "Meta::Term", :is_extensible_list => true)
+      end
+      # we need to fetch again the meta_keys, 'cause inside the first iteration,
+      # the meta_datum still keeps the reference to the old object_type
+      reloaded_meta_keys = MetaKey.find(meta_keys.collect(&:id))
+      reloaded_meta_keys.each do |meta_key|
+        meta_key.meta_data.each do |meta_datum|
+          value = keywords[meta_key.id][meta_datum.id]
+          meta_term_ids = value.collect(&:meta_term_id)
+          meta_key.meta_terms << Meta::Term.find(meta_term_ids - meta_key.meta_term_ids)
+          meta_datum.update_attributes(:value => meta_term_ids)
+          Keyword.delete(value)
+        end
+      end
+    end
   end
 
   namespace :helpers do

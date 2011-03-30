@@ -1,0 +1,16 @@
+- meta_data = @resource.meta_data_for_context(@context, false)
+- if meta_data.empty?
+  .meta_data_comment
+    = _("Es sind keine Metadaten zu diesem Kontext bereit gestellt.")
+- else
+  %table.meta_data
+    - meta_data.each do |meta_datum|
+      - next if meta_datum.to_s.blank? #tmp# OPTIMIZE 2007
+      - definition = meta_datum.meta_key.meta_key_definitions.for_context(@context)
+      %tr
+        %td
+          %label
+            = definition.meta_field.label
+        %td
+          =# render :partial => "/meta_data/show", :locals => { :meta_datum => meta_datum, :resource => @resource, :context => @context }
+          = formatted_value(meta_datum)
