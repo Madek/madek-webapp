@@ -56,8 +56,8 @@ labels.delete_if {|k, v| v.size < 2 }
 			a += content_tag :li, :style => "width: 5%;" do
 				description_toggler(definition)
 			end
+			a += content_tag :div, "", :class => "clear"
 		end
-
 	end %>
 <% end %>
 
