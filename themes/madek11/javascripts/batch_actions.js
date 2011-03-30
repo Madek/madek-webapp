@@ -42,8 +42,19 @@ $(document).ready(function () {
       });
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
     });
-    
-	
+
+    $(".item_box:not(.tmp)").live({
+      mouseenter: function() {
+        $(this).find('.actions').show();
+		$(this).stop(true, true).delay(400).animate({ backgroundColor: "#f1f1f1" }, 500);
+       },
+      mouseleave: function() {
+        $(this).find('.actions').hide();
+		// only remove bg color if not selected in batch context
+		if (!($(this).hasClass('selected'))) $(this).stop(true, false).animate({ backgroundColor: "white" }, 1000);
+       }
+     });
+
 });
 
 

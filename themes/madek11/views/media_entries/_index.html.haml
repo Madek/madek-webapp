@@ -1,13 +1,5 @@
 .task_bar.clearfix
   %ul
-    %li
-      %h4 Ausgewählte Medieneinträge bearbeiten:
-    %li#number_selected
-      Keine Medieneinträge ausgewählt
-    %li#select_deselect_all
-      = check_box_tag "select_all_toggle", nil
-      Alle auswählen
-    .clear
     %li#batch-edit.action_btn
       = button_to _("Metadaten editieren"), edit_multiple_media_entries_path, :method => :post
     %li#batch-permissions.action_btn
@@ -19,6 +11,14 @@
       = form_tag add_member_media_set_url(@media_set || 1) do
         = select_tag "media_set_id", options_for_select([["Set auswählen…", ""]] + @editable_sets.collect {|set| [set.meta_data.get_value_for("title"), set.id]})
         = submit_tag "Hinzufügen"
+    .clear
+    %li
+      %h4 Ausgewählte Medieneinträge bearbeiten:
+    %li#number_selected
+      Keine Medieneinträge ausgewählt
+    %li#select_deselect_all
+      = check_box_tag "select_all_toggle", nil
+      Alle auswählen
     .clear
   #selected_items.clearfix
 
