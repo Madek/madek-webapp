@@ -1596,8 +1596,8 @@ form#set_media_sets input[type="submit"] {
   margin-top: 3px;
   padding-left: 22px; }
 
-.permissions_unit input[type="radio"] {
-  margin-bottom: 1px;
+.permissions_unit input[type="radio"], .permissions_unit input[type="checkbox"] {
+  margin-bottom: 2px;
   margin-right: 4px; }
 
 .upload-me-metadata-container {
@@ -2182,7 +2182,7 @@ ul.holder li.input_holder {
 
 .meta_data .description_toggler {
   display: block;
-  font-size: 13px;
+  font-size: 12px;
   text-align: center;
   vertical-align: middle;
   line-height: 11px;

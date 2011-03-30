@@ -40,7 +40,7 @@ labels.delete_if {|k, v| v.size < 2 }
 					definition.meta_field.hint.to_s
 				end if definition.meta_field.hint
 				b += content_tag :div, :class => "expander" do
-					link_to icon_tag("toggler-arrow-closed") + " " + _("Weitere Angaben"), "#"
+					link_to _("+ Weitere Angaben"), "#"
 				end if is_parent
 				b
 			end 
