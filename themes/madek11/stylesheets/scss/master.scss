@@ -867,7 +867,7 @@ button.dark {
 }
 
 .save_buttons {
-	margin: 0 0 2em 0;
+	margin: 2.5em 0 1em 0;
 	float: right;
 }
 
@@ -1318,11 +1318,13 @@ button.dark:hover {
 }
 
 #detail_specification {
-	margin: 1em 0 1em 0;
+	margin: 1em 0 2em 0;
 	min-height: 176px;
+	border-bottom: 1px solid #dddddd; 
 	
 	ul { 
-	  	list-style: none; 
+	  	list-style: none;
+	  	border-bottom: 1px solid #dddddd; 
 	  	overflow: hidden;
 		
 		li { 
@@ -1344,7 +1346,7 @@ table thead {
 
 
 table td {
-  	padding: 3px 10px;
+  	padding: 3px 10px 3px 15px;
   	/*border: 1px solid #ccc;
   	border-width: 0 1px 1px 0;*/
 }
@@ -1383,7 +1385,8 @@ table td {
 /* Action Bar */
 
 #detail-action-bar {
-	margin-bottom: 2em;
+	margin-top: 10px;
+	margin-bottom: 30px;
 	/*padding: 0.5em 1em;*/
 	/*background: #DBEBF1;*/
 	background: #FFF;
@@ -1969,14 +1972,14 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
 .ui-widget-header {
     background-attachment: scroll;
     background-clip: border-box;
-    background-color: #EEEEEE;
+    background-color: #FFFFFF;
     background-image: none;
     background-origin: padding-box;
     background-position: 0 0;
     background-repeat: repeat;
     background-size: auto auto;
     font-weight: bold;
-background-image: -webkit-gradient(
+/*background-image: -webkit-gradient(
     linear,
     left bottom,
     left top,
@@ -1989,7 +1992,7 @@ background-image: -moz-linear-gradient(
     rgb(240,240,240) 0%,
     rgb(255,255,255) 68%,
     rgb(255,255,255) 84%
-);
+);*/
 }
 
 .ui-tabs .ui-tabs-nav {
@@ -2002,6 +2005,7 @@ background-image: -moz-linear-gradient(
     padding-right: 0;
     padding-top: 6px;
     position: relative;
+    border-bottom: 1px solid #dddddd;
 }
 
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
@@ -2037,8 +2041,7 @@ table.metadata-table td p {
 }
 
 table.meta_data td {
-	line-height: 1.4em;
-	padding-bottom: 15px;
+	padding-bottom: 10px;
 }
 
 .meta_data_comment {
@@ -2060,6 +2063,7 @@ table.meta_data td {
     color: #7F7F7F;
     font-size: 0.8em;
     letter-spacing: 0.2ex;
+    line-height: 1em;
 }
 
 #further_information table td:first-child {
@@ -2456,8 +2460,13 @@ li.label {
 	padding-top: 1px;
 }
 
+#further_information {
+	border-bottom: 1px solid #dddddd;
+	line-height: 2em;
+}
+
 .ui-tabs .meta_data { 
-	padding: 1em 0 1em 0; 
+	padding: 1em 0 1em 0;
 }
 
 ul[data-meta_key].parent {

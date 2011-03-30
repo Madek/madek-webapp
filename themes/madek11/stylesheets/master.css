@@ -841,7 +841,7 @@ button.dark {
   font: bold 0.9em 'Helvetica Neue', Helvetica, Arial, sans-serif; }
 
 .save_buttons {
-  margin: 0 0 2em 0;
+  margin: 2.5em 0 1em 0;
   float: right; }
 
 #results .buttons, #results_others .buttons {
@@ -1217,10 +1217,12 @@ button.dark:hover {
   margin-left: 15px; }
 
 #detail_specification {
-  margin: 1em 0 1em 0;
-  min-height: 176px; }
+  margin: 1em 0 2em 0;
+  min-height: 176px;
+  border-bottom: 1px solid #dddddd; }
   #detail_specification ul {
     list-style: none;
+    border-bottom: 1px solid #dddddd;
     overflow: hidden; }
     #detail_specification ul li {
       float: left;
@@ -1235,7 +1237,7 @@ table thead {
   background-color: #f9f9f9; }
 
 table td {
-  padding: 3px 10px;
+  padding: 3px 10px 3px 15px;
   /*border: 1px solid #ccc;
   border-width: 0 1px 1px 0;*/ }
 
@@ -1260,7 +1262,8 @@ table td {
 
 /* Action Bar */
 #detail-action-bar {
-  margin-bottom: 2em;
+  margin-top: 10px;
+  margin-bottom: 30px;
   /*padding: 0.5em 1em;*/
   /*background: #DBEBF1;*/
   background: #FFF;
@@ -1743,15 +1746,27 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
 .ui-widget-header {
   background-attachment: scroll;
   background-clip: border-box;
-  background-color: #EEEEEE;
+  background-color: #FFFFFF;
   background-image: none;
   background-origin: padding-box;
   background-position: 0 0;
   background-repeat: repeat;
   background-size: auto auto;
   font-weight: bold;
-  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #f0f0f0), color-stop(0.68, white), color-stop(0.84, white));
-  background-image: -moz-linear-gradient(center bottom, #f0f0f0 0%, white 68%, white 84%); }
+  /*background-image: -webkit-gradient(
+      linear,
+      left bottom,
+      left top,
+      color-stop(0, rgb(240,240,240)),
+      color-stop(0.68, rgb(255,255,255)),
+      color-stop(0.84, rgb(255,255,255))
+  );
+  background-image: -moz-linear-gradient(
+      center bottom,
+      rgb(240,240,240) 0%,
+      rgb(255,255,255) 68%,
+      rgb(255,255,255) 84%
+  );*/ }
 
 .ui-tabs .ui-tabs-nav {
   list-style-image: none;
@@ -1762,7 +1777,8 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
   padding-left: 0px;
   padding-right: 0;
   padding-top: 6px;
-  position: relative; }
+  position: relative;
+  border-bottom: 1px solid #dddddd; }
 
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
   color: #424242;
@@ -1787,8 +1803,7 @@ table.metadata-table td p {
   margin-bottom: 2em; }
 
 table.meta_data td {
-  line-height: 1.4em;
-  padding-bottom: 15px; }
+  padding-bottom: 10px; }
 
 .meta_data_comment {
   padding: 33px 10px;
@@ -1805,7 +1820,8 @@ table.meta_data td {
 #additional-metadata table label {
   color: #7F7F7F;
   font-size: 0.8em;
-  letter-spacing: 0.2ex; }
+  letter-spacing: 0.2ex;
+  line-height: 1em; }
 
 #further_information table td:first-child {
   width: 140px;
@@ -2126,6 +2142,10 @@ li.label {
 .label h4 {
   font-size: 0.9em;
   padding-top: 1px; }
+
+#further_information {
+  border-bottom: 1px solid #dddddd;
+  line-height: 2em; }
 
 .ui-tabs .meta_data {
   padding: 1em 0 1em 0; }
