@@ -20,11 +20,6 @@
     .grid_9
       %h3= _("Metadaten editieren")
       = form_for @media_entry, :as => :resource, :url => [:update_multiple, @media_entry, :meta_data], :html => {:method => :put} do |resource|
-        - content_for :buttons do
-          %div{:style => "text-align: right; padding: 10pt;"}
-            = resource.submit _("Speichern")
-            = link_to _("Abbrechen"), @media_entry, :class => "buttons"
-        = yield :buttons
         - meta_contexts = MetaContext.defaults + @media_entry.individual_contexts
         #detail_specification.tabs
           %ul
@@ -33,5 +28,7 @@
           - meta_contexts.each do |meta_context|
             = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :resource => resource }
           
-        = yield :buttons
+        %div{:class => "save_buttons"}
+          = resource.submit _("Speichern")
+          = link_to _("Abbrechen"), @media_entry, :class => "buttons"
 .clear
