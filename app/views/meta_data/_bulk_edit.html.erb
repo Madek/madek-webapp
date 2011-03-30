@@ -33,7 +33,7 @@ labels.delete_if {|k, v| v.size < 2 }
 		classes << "parent" if is_parent
 		classes.compact!
 		content_tag :ul, :"data-meta_key" => underscored_label, :"data-parent_meta_key" => parent_underscored_label, :class => (classes.blank? ? nil : classes.join(' ')) do
-			a = content_tag :li, :class => "label", :style => "width: 25%;" do
+			a = content_tag :li, :class => "label", :style => "width: 24%;" do
 				b = definition.meta_field.label.to_s.html_safe
 				b += "*" if definition.meta_field.is_required
 				b += content_tag :span, :class => "hint" do
@@ -53,7 +53,7 @@ labels.delete_if {|k, v| v.size < 2 }
 				end if false # TODO see meta_data_helper
 				b
 			end
-			a += content_tag :li, :style => "width: 6%;" do
+			a += content_tag :li, :style => "width: 5%;" do
 				description_toggler(definition)
 			end
 		end

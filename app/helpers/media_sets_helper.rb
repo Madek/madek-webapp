@@ -65,18 +65,18 @@ module MediaSetsHelper
       end
 
       b += content_tag :span, :id => "text_media_set", :style => "display: none;" do
-        c = text_field_tag nil, nil, :style => "width: 20em; margin-top: 15px; float: none;"
-        c += content_tag :button do
+        c = text_field_tag nil, nil, :style => "width: 20em; margin-top: 0; float: none;"
+        c += content_tag :button, :style => "margin-top: 0;" do
               _("Hinzufügen")
         end
       end
 
-      b += content_tag :p, :style => "margin: 1em 0 0 0", :class => "save" do
-        submit_tag _("Gruppierungseinstellungen speichern"), :style => "display: none;"
+      b += content_tag :p, :style => "clear: both; margin-bottom: 15px;", :class => "save" do
+        submit_tag _("Gruppierungseinstellungen speichern…"), :style => "display: none;"
       end
       
-      b += content_tag :p, :style => "margin: 1em 0 0 0" do
-        link_to _("Weiter ohne Gruppierung"), root_path, :class => "buttons"
+      b += content_tag :p, :style => "clear: both;" do
+        link_to _("Weiter ohne Gruppierung…"), root_path, :class => "upload_buttons"
       end if with_cancel_button
 
       b += javascript_tag do

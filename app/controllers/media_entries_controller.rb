@@ -142,7 +142,7 @@ class MediaEntriesController < ApplicationController
 #####################################################
 
   def edit_tms
-    
+    theme "madek11"
   end
 
   def to_snapshot
