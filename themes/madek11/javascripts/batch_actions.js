@@ -118,15 +118,42 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 		toggleSelected(id);
     });
 
-    $(".item_box :checkbox").live("click", function(){	
-		toggleSelected($(this).closest(".item_box").data("object"));
+		//     $(".item_box :checkbox").live("click", function(){	
+		// toggleSelected($(this).closest(".item_box").data("object"));
+		//     });
+
+    $(".item_box").live("click", function(){	
+		toggleSelected($(this).data("object"));
     });
 
-	$("#select_deselect_all input:checkbox").click(function() {
+	$("#select_deselect_all input:checkbox").click(function() {		
 	  if ($(this).is(":checked")) {
-		$(".item_box input[type='checkbox']").not(":checked").trigger("click");
+		var media_entries_json = get_media_entries_json();
+		var media_entry_ids = $.map(media_entries_json, function(elem, i){ if (elem != null) return parseInt(elem.id); });
+		
+		// select all the visible and not already selected items
+		$(".item_box").each(function(i, elem) { 
+			var me = $(elem).data("object");
+			var i = media_entry_ids.indexOf(me.id);
+			// if not yet selected
+			if((i == -1)) {
+		        media_entries_json.push(me);
+		        $(elem).addClass('selected');
+		        $('#selected_items').append($("#thumbnail_mini").tmpl(me));
+				if (media_entries_in_set != undefined){ media_entries_in_set.push(me.id) };
+			};	
+		});
+		set_media_entries_json(JSON.stringify(media_entries_json));
+	    displayCount();
 	  } else {
-		$(".item_box input:checked").trigger("click");
+		var media_entries_json = get_media_entries_json();
+		// remove everything from the action bar
+		$.each(media_entries_json, function(i, me){
+			$('#thumb_' + me.id).removeClass('selected').removeAttr("style");
+			$('#selected_items [rel="'+me.id+'"]').remove();
+			sessionStorage.removeItem("selected_media_entries");
+		});
+		displayCount();
 	  };
 	});
 
@@ -153,15 +180,17 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 		var media_entry_ids = $.map(media_entries_json, function(elem, i){ if (elem != null) return parseInt(elem.id); });
 		var id = (typeof(me) == "object" ? me.id : parseInt(me));
 		var i = media_entry_ids.indexOf(id);
-
+		
 		if(i > -1) {
 			media_entries_json.splice(i, 1);
-			$('#thumb_' + id).removeClass('selected').removeAttr("style").find('input:checkbox').attr('checked', false);
+			$('#thumb_' + id).removeClass('selected').removeAttr("style");
+			//$('#thumb_' + id).find("input.editable[type='checkbox']").first().attr('checked', false);
 			$('#selected_items [rel="'+id+'"]').remove();
 			if (media_entries_in_set != undefined){ removeItems(media_entries_in_set, id) };
-		}else{
+		} else {
 	        media_entries_json.push(me);
 	        $('#thumb_' + id).addClass('selected');
+			//$('#thumb_' + id).find("input.editable[type='checkbox']").first().attr('checked', 'checked');
 	        $('#selected_items').append($("#thumbnail_mini").tmpl(me));
 			if (media_entries_in_set != undefined){ media_entries_in_set.push(id) };
 		};
