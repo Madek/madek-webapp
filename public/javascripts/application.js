@@ -8,7 +8,8 @@ $(document).ready(function () {
 					  add: function(event, ui) {
 				      	$(this).tabs('select', ui.index); //'#' + ui.panel.id
 				      },
-					  fx: { opacity: 'toggle' }
+					  fx: { opacity: 'toggle' },
+					  ajaxOptions: { dataType: 'html' }
 					});
 
 //////////////////////////////

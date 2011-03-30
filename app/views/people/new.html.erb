@@ -52,7 +52,8 @@
 						  add: function(event, ui) {
 					      	$(this).tabs('select', ui.index);
 					      },
-						  fx: { opacity: 'toggle' }
+						  fx: { opacity: 'toggle' },
+						  ajaxOptions: { dataType: 'html' }
 						});
 	});
 <% end %>
