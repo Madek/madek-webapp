@@ -94,7 +94,8 @@ When /I fill in the metadata for entry number (\d+) as follows:/ do |num, table|
   # Fills in the "_value" field it finds in the UL that contains
   # the "key" text. e.g. "Titel*" or "Copyright"
   table.hashes.each do |hash|
-    all("ul", :text => /#{hash['label']}/)[media_entry_num].all("input").each do |ele|
+    text = filter_string_for_regex(hash['label'])
+    all("ul", :text => /^#{text}/)[media_entry_num].all("input").each do |ele|
       fill_in ele[:id], :with => hash['value'] if ele[:id] =~ /_value$/
     end
   end
@@ -104,7 +105,8 @@ When "I fill in the metadata form as follows:" do |table|
   table.hashes.each do |hash|
     # Fills in the "_value" field it finds in the UL that contains
     # the "key" text. e.g. "Titel*" or "Copyright"
-    all("ul", :text => /^#{hash['label']}/).first.all("textarea").each do |ele|
+    text = filter_string_for_regex(hash['label'])
+    all("ul", :text => /^#{text}/).first.all("textarea").each do |ele|
       fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/attributes_\d+_value$/).nil?
     end
   end
