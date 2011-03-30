@@ -52,11 +52,17 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I should see "The Millenium Falcon"
      And I should see "Foreground: A Millenium Falcon. Background: Chewbacca."
     When I follow "Medium"
+     And I wait for 2 seconds
+     And I wait for the CSS element ".ui-tabs-panel"
     Then I should see "Rebel United Photo Developers"
      And I should see "Holo-Recording"
-#    When I follow "Credits" within ".tabs"
-#    Then I should see "Rebel Photography Syndicate"
-#     And I should see "My own digital camera"
-    When I follow "ZHdK" within ".tabs"
+    When I follow "Credits" within ".ui-tabs-nav"
+     And I wait for 2 seconds
+     And I wait for the CSS element ".ui-tabs-panel"
+    Then I should see "Rebel Photography Syndicate"
+     And I should see "My own digital camera"
+    When I follow "ZHdK" within ".ui-tabs-nav"
+     And I wait for 2 seconds
+     And I wait for the CSS element ".ui-tabs-panel"
     Then I should see "No one teaches me!"
      And I should see "Photographs of Han's rides"
