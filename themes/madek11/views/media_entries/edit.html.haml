@@ -28,9 +28,12 @@
         - meta_contexts = MetaContext.defaults + @media_entry.individual_contexts
         #detail_specification.tabs
           %ul
-            - meta_contexts.collect do |meta_context|
-              %li= link_to meta_context, "##{meta_context.name}"
-          - meta_contexts.each do |meta_context|
+            - meta_contexts.each_with_index do |meta_context, index|
+              - if index == 0
+                %li= link_to meta_context, "##{meta_context.name}"
+              - else
+                %li= link_to meta_context, polymorphic_path([:edit_multiple, @media_entry, :meta_data], :context_id => meta_context)
+          - meta_contexts[0,1].each do |meta_context|
             = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :resource => resource }
           
         = yield :buttons
