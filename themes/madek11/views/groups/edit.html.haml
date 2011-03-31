@@ -1,8 +1,13 @@
 .container_12.clearfix              
   %section#content_body
-    %h3.name.editinplace
-      = @group.name
-    
+    %h3
+      .name.editinplace
+        = @group.name
+      = form_for @group, :"data-remote" => true, :html => {:id => "editinplace"} do |f|
+        = f.text_field :name 
+        = f.submit "Save", :class => "saveButton"
+        = link_to _("Abbrechen"), "", :class => "cancelButton"
+      %span.do_edit= link_to _("Bearbeiten"), ""
     %ul#members
       = render :partial => "user", :collection => @group.users
     
@@ -14,10 +19,23 @@
     
     :javascript
       $(function() {
-        $("h3.name.editinplace").editInPlace({
-          url: "#{group_path(@group)}",
-          params: "_method=put&format=js",
-          update_value: "group[name]"
+        $("form#editinplace").hide();
+        
+        $("h3 span.do_edit").live("click", function(){
+           var revert = $("h3 .name.editinplace").html();
+           $("form#editinplace").show();
+           $("h3 .name.editinplace").hide();
+           
+           $('.cancelButton').click(function(){
+              $("form#editinplace").hide();  
+              $("h3 .name.editinplace").show().html(revert);
+           });
+           
+        });
+        
+        $('form#editinplace .saveButton').bind('ajax:success', function(data){
+           $("form#editinplace").hide();
+           $("h3 .name.editinplace").show().html(data);
         });
     
         $("input#new_user").autocomplete({
