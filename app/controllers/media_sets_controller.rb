@@ -164,7 +164,7 @@ class MediaSetsController < ApplicationController
     end
     
     @media_set.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
-    flash[:notice] = "Die Zugriffsberechtigungen für das Set wurden erflogreich gespeichert."
+    flash[:notice] = "Die Zugriffsberechtigungen für das Set wurden erfolgreich gespeichert."
     redirect_to @media_set
   end
 
