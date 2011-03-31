@@ -630,7 +630,8 @@ ul li {
   text-align: left;
   vertical-align: top;
   position: relative;
-  margin-bottom: 7px; }
+  margin-bottom: 7px;
+  overflow: hidden; }
 
 .item_box.selected {
   background: #f1f1f1; }
