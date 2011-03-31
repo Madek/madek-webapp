@@ -295,7 +295,7 @@ module MetaDataHelper
         #          h += text_area_tag "media_entry[meta_data_attributes][0][value]", meta_datum.object.to_s
         when "Keyword"
           h += widget_meta_terms_multiselect(meta_datum, meta_key)
-          h += link_to icon_tag("button_add_keyword") + " " + icon_tag("toggler-arrow-closed"), keywords_media_entries_path, :class => "dialog_link", :style => "margin-top: .5em;"
+          h += link_to icon_tag("button_add_keyword"), keywords_media_entries_path, :class => "dialog_link", :style => "margin-top: .5em;"
 
         when "Meta::Term"
           meta_terms = meta_key.meta_terms
@@ -304,7 +304,7 @@ module MetaDataHelper
 
         when "Person"
           h += widget_meta_terms_multiselect(meta_datum, meta_key)
-          h += link_to icon_tag("button_add_person") + " " + icon_tag("toggler-arrow-closed"), new_person_path, :class => "dialog_link", :style => "margin-top: .5em;"
+          h += link_to icon_tag("button_add_person"), new_person_path, :class => "dialog_link", :style => "margin-top: .5em;"
           
         when "Meta::Date"
           meta_datum.object.value ||= [] # OPTIMIZE

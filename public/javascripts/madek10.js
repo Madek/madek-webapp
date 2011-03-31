@@ -108,10 +108,6 @@ $(document).ready(function () {
 			$("div#"+$(this).attr("panel")+"-panel").slideDown("slow");
 		}
 	});
-		
-//////////////////////////////
-
-	$("textarea").elastic();
 
 //////////////////////////////
 
