@@ -869,7 +869,8 @@ button.dark {
 }
 
 .save_buttons {
-	margin: 2.5em 0 1em 0;
+	/*margin: 2.5em 0 1em 0;*/
+	margin: 1em 0 3em 0;
 	float: right;
 }
 
@@ -1127,7 +1128,7 @@ button.dark:hover {
 	
 	a {
 		font-size: 0.9em;
-		padding-top: 1px;
+		padding-top: 0;
 	}
 	
 	h4 {
@@ -1189,6 +1190,39 @@ button.dark:hover {
 	}
 }
 
+#page_head_edit .task_bar {
+	text-align: left;
+	background-color: white;
+	color: #444444;
+	width: 70%;
+	min-width: 800px;
+	position: relative;
+	padding: 0;
+	-webkit-box-shadow: 0 -1px 3px rgba(255, 255, 255, 0.6);
+	-moz-box-shadow: 0 -1px 3px rgba(255, 255, 255, 0.6);
+	box-shadow: 0 -1px 3px rgba(255, 255, 255, 0.6);
+	
+	ul {
+		padding-bottom:0;
+	}
+	
+	#selected_items_edit {
+		width: 910px;
+		margin-left: -20px;
+		margin-top: -10px;
+		margin-bottom: 0;
+	}
+	
+	h4 {
+		margin-left: -20px;
+	}
+}
+
+#page_head_edit .task_bar .thumb_box img {
+	max-height: 100px;
+	max-width: 100px;
+}
+
 #new_media_set input[type="submit"] {
 	font-weight: bold;
 	padding: 3px 10px;
@@ -1206,11 +1240,6 @@ button.dark:hover {
 }
 #new_media_set input[type="submit"]:hover {
 	background: #e3e3e3;
-}
-	
-#page_head_edit .task_bar {
-	background-color: blue;
-	width: 600px;
 }
 
 #select_deselect_all {
@@ -2518,7 +2547,7 @@ li.label {
 }
 
 .ui-tabs .meta_data { 
-	padding: 1em 0 1em 0;
+	padding: 1em 0 0 0;
 }
 
 ul[data-meta_key].parent {

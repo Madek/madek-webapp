@@ -843,7 +843,8 @@ button.dark {
   font: bold 0.9em 'Helvetica Neue', Helvetica, Arial, sans-serif; }
 
 .save_buttons {
-  margin: 2.5em 0 1em 0;
+  /*margin: 2.5em 0 1em 0;*/
+  margin: 1em 0 3em 0;
   float: right; }
 
 #results .buttons, #results_others .buttons {
@@ -1066,7 +1067,7 @@ button.dark:hover {
   color: #f1f1f1; }
   .task_bar a {
     font-size: 0.9em;
-    padding-top: 1px; }
+    padding-top: 0; }
   .task_bar h4 {
     font-size: 0.9em;
     padding-top: 2px; }
@@ -1110,6 +1111,31 @@ button.dark:hover {
     box-shadow: inset 0 0 1px 1px #e3e3e3;
     color: #000; }
 
+#page_head_edit .task_bar {
+  text-align: left;
+  background-color: white;
+  color: #444444;
+  width: 70%;
+  min-width: 800px;
+  position: relative;
+  padding: 0;
+  -webkit-box-shadow: 0 -1px 3px rgba(255, 255, 255, 0.6);
+  -moz-box-shadow: 0 -1px 3px rgba(255, 255, 255, 0.6);
+  box-shadow: 0 -1px 3px rgba(255, 255, 255, 0.6); }
+  #page_head_edit .task_bar ul {
+    padding-bottom: 0; }
+  #page_head_edit .task_bar #selected_items_edit {
+    width: 910px;
+    margin-left: -20px;
+    margin-top: -10px;
+    margin-bottom: 0; }
+  #page_head_edit .task_bar h4 {
+    margin-left: -20px; }
+
+#page_head_edit .task_bar .thumb_box img {
+  max-height: 100px;
+  max-width: 100px; }
+
 #new_media_set input[type="submit"] {
   font-weight: bold;
   padding: 3px 10px;
@@ -1127,10 +1153,6 @@ button.dark:hover {
 
 #new_media_set input[type="submit"]:hover {
   background: #e3e3e3; }
-
-#page_head_edit .task_bar {
-  background-color: blue;
-  width: 600px; }
 
 #select_deselect_all {
   font-size: 0.9em;
@@ -2195,7 +2217,7 @@ li.label {
   line-height: 2em; }
 
 .ui-tabs .meta_data {
-  padding: 1em 0 1em 0; }
+  padding: 1em 0 0 0; }
 
 ul[data-meta_key].parent {
   /*background-color: #E7E7E7;*/ }
