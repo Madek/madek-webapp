@@ -77,17 +77,7 @@ def check_media_entry_titled(title)
   # Crutch so we can check the otherwise invisible checkboxes (they only appear on hover,
   # which Capybara can't do)
   make_hidden_items_visible
-
   entry = find_media_entry_titled(title)
-  # This is the old way, from when we still had checkboxes (= input elements),
-  # but now we have simple images that have a JavaScript event handler attached
-  # to them.
-  # cb = entry.find("input")
-  # cb.click unless cb[:checked] == "true" # a string, not a bool!
-  
-#   entry.all("img").each do |img|
-#     cb_icon = img if img[:alt] == "Auswählen"
-#   end
   cb_icon = entry.find(:css, ".check_box").find("img")
   #debugger; puts "lala"
   cb_icon.click if (cb_icon[:src] =~ /_on.png$/).nil? # Only click if it's not yet checked
@@ -113,7 +103,23 @@ def find_media_entry_titled(title)
 
 end
 
-
+def fill_in_person_widget(list_element, value, options = "")
+  if options == "in-field entry box"
+    field = list_element.find(:css, ".madek_multiselect_container").find("input")
+    fill_in field[:id], :with => value
+    field.native.send_key(:enter)
+  elsif options == "pseudonym field"
+    fill_in "Pseudonym", :with => value
+  elsif options == "group tab"
+  else
+    lastname, firstname = value, value
+    lastname, firstname = value.split(",") if value.include?(",")
+    list_element.find(:css, ".dialog_link").click
+    fill_in "Nachname", :with => lastname
+    fill_in "Vorname", :with => firstname
+    click_link_or_button("Personendaten einfügen")
+  end
+end
 
 
 def find_permission_checkbox(type, to_or_from)
