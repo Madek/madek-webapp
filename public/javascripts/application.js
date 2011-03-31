@@ -52,6 +52,11 @@ $(document).ready(function () {
 
 		return false;
 	});
+
+
+//////////////////////////////
+
+	$("textarea").elastic();
 	
 });
 
