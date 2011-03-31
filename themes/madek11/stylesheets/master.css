@@ -2062,7 +2062,7 @@ table.permissions tr.adder td {
   background-color: white;
   font-weight: bold; }
 table.permissions tr.adder p {
-  font: normal 0.9em/1.2em "Courier New", Courier, mono; }
+  font: normal 1em/1.2em "Courier New", Courier, mono; }
 table.permissions tr.adder input {
   width: 16em;
   margin-left: 0.5em; }
@@ -2156,6 +2156,13 @@ table.permissions tr.adder input {
   /*width: 280px;*/ }
 
 /* Groups */
+span.do_edit a {
+  color: #47788D;
+  font-size: 0.55em;
+  font-weight: normal;
+  letter-spacing: 0.1ex;
+  word-spacing: 0.2ex; }
+
 h2.groups, .name {
   border-bottom: 1px solid #c8c8c8;
   padding: 0.5em 0pt; }
@@ -2171,7 +2178,9 @@ ul.groups {
 
 .groups li, #members li {
   border-bottom: 1px solid #ebebeb;
-  float: none; }
+  float: none;
+  margin-left: 10px;
+  margin-right: 10px; }
 
 #members li {
   line-height: 2em; }
@@ -2220,7 +2229,7 @@ table.groups th {
   left: 60px; }
 
 #group_submit {
-  margin-top: 1em; }
+  margin-top: 0; }
 
 .groups label {
   font-size: 1.2em;
