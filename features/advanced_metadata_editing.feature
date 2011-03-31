@@ -69,3 +69,23 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I wait for the CSS element ".ui-tabs-panel"
     Then I should see "No one teaches me!"
      And I should see "Photographs of Han's rides"
+
+  @javascript @work
+  Scenario: Changing the author field on a media entry
+    When I log in as "hansolo" with password "leia"
+     And I upload some picture titled "Me and Leia Organa"
+     And I click the arrow next to "Solo, Han"
+     And I follow "Meine Medien"
+     And all the hidden items become visible
+     And I click the edit icon on the media entry titled "Me and Leia Organa"
+     And I fill in the metadata form as follows:
+     |label   |value      |options           |
+     |Autor/in|Foo, Bar   |in-field entry box|
+     And I wait for 20 seconds
+     And I press "Speichern"
+     And I click the arrow next to "Solo, Han"
+     And I follow "Meine Medien"
+     And I wait for 3 seconds
+     And I click the media entry titled "Me and Leia Organa"
+     Then I should see "Foo, Bar"
+     And I wait for 20 seconds
