@@ -2171,7 +2171,9 @@ ul.groups {
 
 .groups li, #members li {
   border-bottom: 1px solid #ebebeb;
-  float: none; }
+  float: none;
+  margin-left: 10px;
+  margin-right: 10px; }
 
 #members li {
   line-height: 2em; }
