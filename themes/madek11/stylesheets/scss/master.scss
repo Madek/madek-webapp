@@ -2030,7 +2030,8 @@ ul.holder {
 }
 
 form ul.holder { width: 97%; }
-form ul { margin: 0 !important }
+
+/* form ul { margin: 0 !important } */
 
 ul.holder li.bit-box, #apple-list ul.holder li.bit-box { padding-right: 15px; position: relative; z-index:1000;}
 
@@ -2658,7 +2659,7 @@ ul.holder li.input_holder {
     width: auto;
 }
 
-.dates input.datepicker {
+.dates input.datepicker, .dates input.time {
 	width: 6em;
 }
 
