@@ -16,7 +16,7 @@
       - if is_expert and @media_entry.snapshotable?
         #detail-action-bar
           %ul
-            %li= link_to _("Metadaten für MIZ-Archiv editieren"), edit_tms_media_entry_path(@media_entry), :style => "line-height: 1.1em; float: none; padding: 0.5em; font-size: 0.9em;"
+            %li= link_to _("Metadaten für MIZ-Archiv editieren"), edit_tms_media_entry_path(@media_entry), :style => "line-height: 1em; float: none; padding: 5px 0; font-size: 0.8em;"
     .grid_9
       %h3= _("Metadaten editieren")
       = form_for @media_entry, :as => :resource, :url => [:update_multiple, @media_entry, :meta_data], :html => {:method => :put} do |resource|

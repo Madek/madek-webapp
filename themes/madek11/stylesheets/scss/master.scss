@@ -1308,6 +1308,11 @@ button.dark:hover {
 	border-bottom: 1px solid #F1F1F1;
 }
 
+#zhdk_bereich .meta_terms, #zhdk_bereich .meta_terms ul {
+	border: 0;
+}
+
+
 .icon_bar {
 	margin-top: 2em;
 
@@ -1523,7 +1528,7 @@ table td {
 		-moz-box-shadow: 0 0 1px 1px #eaeaea;
 		-webkit-box-shadow: 0 0 1px 1px #eaeaea;
 		box-shadow: 0 0 1px 1px #eaeaea;
-		/*height: 22px;*/
+		height: 21px;
 	}
 	
 	a:hover {
@@ -2030,6 +2035,12 @@ ul.holder {
 }
 
 form ul.holder { width: 97%; }
+
+ul.ui-autocomplete {
+	max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
 
 /* form ul { margin: 0 !important } */
 
@@ -2662,6 +2673,10 @@ ul.holder li.input_holder {
 .dates input.datepicker, .dates input.time {
 	width: 6em;
 }
+.dates img {
+	padding-left: 5px;
+    vertical-align: middle;
+}
 
 .meta_data ul.meta_terms {
     font-size: 0.9em;
@@ -2673,11 +2688,12 @@ ul.holder li.input_holder {
 	    display: inline-block;
 	    vertical-align: top;
 	    width: 50%;
-	    border-color: #fff;
+	    border: 0;
 		> ul {
-			border-bottom: 1px solid white;
+			border: 0;
 			> li {
 	            clear: both;
+	            border: 0;
 	        }
 		}
 		> li {
@@ -2720,7 +2736,7 @@ ul.holder li.input_holder {
 	border-radius: 2px;
 	display: inline-block;
 	vertical-align: top;
-	background-color: #ffffff;
+	background-color: #eeeeee;
 	border-left-style: none;
 	img {
 		padding-top: 8px;
@@ -2728,7 +2744,7 @@ ul.holder li.input_holder {
 	}
 }
 .search_toggler:hover {
-	background-color: #e6e6e6;
+	background-color: #e4e4e4;
 }
 
 /**

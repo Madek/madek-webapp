@@ -6,7 +6,7 @@
 		
 		<div id="detail-main" class="grid_2">
 			
-			<div id="detail-image" style="padding: 3.25em 0 1.5em 0;">
+			<div id="detail-image" style="padding: 5px 0 5px 0;">
 				<%= link_to thumb_for(@media_entry, :small), @media_entry %>
 			</div>
 	
@@ -28,7 +28,7 @@
 		
 		</div>
 			
-		<div id="detail-sidebar"  class="grid_10">
+		<div id="detail-sidebar"  class="grid_9">
 	
 			<%= content_tag :h3 do
 				_("Metadaten für MIZ-Archiv editieren")
@@ -39,17 +39,8 @@
 						:url => [:update_multiple, @media_entry, :meta_data],
 						:html => {:method => :put} do |resource|
 	
-				content_for :buttons do
-					content_tag :div, :style => "text-align: right; padding: 10pt; background: #DDDDDD;" do
-						b = resource.submit _("Speichern")
-						b += link_to _("Abbrechen"), @media_entry, :class => "buttons"
-					end
-				end
-	
-				a = yield :buttons
-	
 				meta_contexts = [MetaContext.tms]
-				a += content_tag :div, :class => "tabs", :id => "detail_specification" do
+				a = content_tag :div, :class => "tabs", :id => "detail_specification" do
 					b = content_tag :ul do
 						meta_contexts.collect do |meta_context|
 							content_tag :li do
@@ -63,7 +54,10 @@
 					b
 				end	
 	
-				a += yield :buttons
+				a += content_tag :div, :class => "save_buttons" do
+					    b = link_to _("Abbrechen"), @media_entry, :class => "buttons"
+						b += resource.submit _("Speichern")
+					 end
 			end %>
 	
 		</div>
