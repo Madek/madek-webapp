@@ -204,8 +204,8 @@ module MetaDataHelper
     end
     
     h += javascript_tag do
-      is_extensible = (meta_key.is_extensible_list? or %(keywords author).include?(dom_scope))
-      with_toggle = !%(keywords author).include?(dom_scope)
+      is_extensible = (meta_key.is_extensible_list? or %w(keywords author).include?(dom_scope))
+      with_toggle = !%w(keywords author creator description_author description_author_before_import).include?(dom_scope)
       begin
       <<-HERECODE
         $(document).ready(function(){

@@ -47,7 +47,41 @@ index media_entry
   local = media_entry_core
 }
 
+source media_set_core_0
+{
+  type = xmlpipe2
+  xmlpipe_command = rails runner "Media::Set.to_sphinxpipe 0"
+}
 
+index media_set_core
+{
+  source = media_set_core_0
+  path = db/sphinx/development/media_set_core
+  morphology = libstemmer_de
+  charset_type = utf-8
+  min_prefix_len = 3
+  enable_star = 1
+}
+
+
+source media_set_delta_0 : media_set_core_0
+{
+  type = xmlpipe2
+  xmlpipe_command = rails runner "Media::Set.to_sphinxpipe 1"
+}
+
+index media_set_delta : media_set_core
+{
+  source = media_set_delta_0
+  path = db/sphinx/development/media_set_delta
+}
+
+index media_set
+{
+  type = distributed
+  local = media_set_delta
+  local = media_set_core
+}
 
 source person_core_0
 {
