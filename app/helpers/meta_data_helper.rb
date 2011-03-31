@@ -116,7 +116,7 @@ module MetaDataHelper
                   var v = $(this).prev("input").val();
                   $(this).attr("href", h +"?new_term=" + v);
                 }).bind('ajax:success', function(xhr, data, status){
-                  var parsed_data = $.parseJSON(data);
+                  var parsed_data = $.parseJSON(data); // TODO send as dateType=json 
                   $(this).attr("href", $(this).data("original_href"));
                   $(this).prev("input").val("");
                   // FIXME doesn't work if no term exists yet
@@ -180,45 +180,36 @@ module MetaDataHelper
     end
 
     dom_scope = meta_key.label.gsub(/(\s+|\/+)/, '_')
+    is_extensible = (meta_key.is_extensible_list? or %w(keywords author).include?(dom_scope))
+    with_toggle = !%w(keywords author creator description_author description_author_before_import).include?(dom_scope)
 
-    
-    h = content_tag :div, :id => "#{dom_scope}_multiselect", :class => "madek_multiselect_container" do 
+    h = content_tag :div, :class => "madek_multiselect_container",
+                          :"data-is_extensible" => is_extensible,
+                          :"data-with_toggle" => with_toggle do 
       a = content_tag :ul, :class => "holder" do
         content_tag :li, :class => "input_holder" do
-          text_field_tag "autocomplete_search", nil, :style => "outline: none; border: none;"
+          text_field_tag "autocomplete_search", nil, :style => "outline: none; border: none;",
+                          :"data-all_options" => "#{all_options.to_json}",
+                          :"data-field_name_prefix" => "#{meta_datum.object_name}"
         end
       end
     end
   
-    
-    h += content_tag :script, :type => "text/x-jquery-tmpl", :id => "#{dom_scope}_madek_multiselect_item" do
-      begin
-      <<-HERECODE
-        <li class='bit-box'>
-          ${label}
-          <input type='hidden' name='#{meta_datum.object_name}[value][]' value='${id}'>
-          <a class="closebutton" href="#"></a>
-        </li>
-      HERECODE
-      end.html_safe
-    end
-    
-    h += javascript_tag do
-      is_extensible = (meta_key.is_extensible_list? or %w(keywords author).include?(dom_scope))
-      with_toggle = !%w(keywords author creator description_author description_author_before_import).include?(dom_scope)
-      begin
-      <<-HERECODE
-        $(document).ready(function(){
-          $("##{dom_scope}_multiselect input[name='autocomplete_search']").data("all_options", #{all_options.to_json});
-          create_multiselect_widget("#{dom_scope}", #{is_extensible}, #{with_toggle});                     
-        });
-      HERECODE
-      end.html_safe
-    end
-
+        
     @js_3 ||= false
     unless @js_3
       @js_3 = true
+      h += content_tag :script, :type => "text/x-jquery-tmpl", :id => "madek_multiselect_item" do
+        begin
+        <<-HERECODE
+          <li class='bit-box'>
+            ${label}
+            <input type='hidden' name='${field_name_prefix}[value][]' value='${id}'>
+            <a class="closebutton" href="#"></a>
+          </li>
+        HERECODE
+        end.html_safe
+      end
       h += stylesheet_link_tag "jquery/fcbkcomplete.css", "jquery/fcbkcomplete_custom.css"
       h += javascript_tag do
         begin
@@ -241,6 +232,7 @@ module MetaDataHelper
               }else{
                 $.ajax({
                   url: source.attr("href"),
+                  dataType: 'html',
                   success: function(response){
                     source.children("img:last").toggleClass("expanded");
                     source.after(response);
@@ -250,16 +242,20 @@ module MetaDataHelper
                       return false;
                     });
 
-                    $("form.new_person").bind("ajax:success", function(xhr, data, status){
-                      var item = $.parseJSON(data);
-                      if (item.id != null) {
-                        var search_field = $(this).parent().siblings('.madek_multiselect_container').find("input[name='autocomplete_search']");
-                        var dom_scope = search_field.parent().attr('id').replace(/_multiselect/gi, "");
-                        add_to_selected_items(item, dom_scope, true);
-                      };  
-                      source.children("img:last").toggleClass("expanded");
-                      $(this).closest(".tabs").remove();
-                    });
+                    if(source.closest("[data-meta_key]").data("meta_key") == "keywords"){
+                      hide_selected_keywords(source.prev(".madek_multiselect_container").find("ul.holder")); 
+                    }else{
+                      $("form.new_person").bind("ajax:success", function(xhr, item, status){
+                        if (item.id != null) {
+                          var parent_block = $(this).closest("[data-meta_key]");
+                          var dom_scope = parent_block.attr('data-meta_key');
+                          var search_field = parent_block.find("input[name='autocomplete_search']");
+                          add_to_selected_items(item, dom_scope, search_field, true);
+                        };  
+                        source.children("img:last").toggleClass("expanded");
+                        $(this).closest(".tabs").remove();
+                      });
+                    }
                   }
                 });
               }

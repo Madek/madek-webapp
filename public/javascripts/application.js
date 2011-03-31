@@ -57,12 +57,60 @@ $(document).ready(function () {
 //////////////////////////////
 
 	$("textarea").elastic();
+
+//////////////////////////////
+
+	$(".madek_multiselect_container").each(function(){
+		var that = $(this);
+		var parent_block = that.closest("[data-meta_key]");
+		var dom_scope = parent_block.attr('data-meta_key');
+		var search_field = parent_block.find("input[name='autocomplete_search']");
+		create_multiselect_widget(dom_scope, search_field, that.data("is_extensible"), that.data("with_toggle"));                     
+	});
+
+	//////////////////////////////
+	// TODO move to keywords.js
+	
+		$(".holder.all .bit-box").live('click', function(){
+			var item = {label: $(this).attr("title"), id: $(this).attr("rel")};
+	        var parent_block = $(this).closest("[data-meta_key]");
+	        var dom_scope = parent_block.attr('data-meta_key');
+	        var search_field = parent_block.find("input[name='autocomplete_search']");
+			add_to_selected_items(item, dom_scope, search_field, false);
+			hide_keyword(parent_block, $(this).attr("rel"));
+		});
+	
+		$("[data-meta_key='keywords'] input[name='autocomplete_search']").bind("autocompleteselect", function(event, ui) {
+			var parent_block = $(this).closest("[data-meta_key]");
+	  		hide_keyword(parent_block, ui.item.id);
+		});
+	
+		$("ul.holder li .closebutton").live('click', function(){
+			remove_from_selected_items($(this).parent("li"));
+			return false;
+	  	});
+	//////////////////////////////
 	
 });
 
+//////////////////////////////
+// TODO move to keywords.js
 
-function create_multiselect_widget(dom_scope, is_extensible, with_toggler){
-  var search_field = $("#"+ dom_scope +"_multiselect input[name='autocomplete_search']");
+	function hide_keyword(parent_block, rel){
+		parent_block.find('.holder.all .bit-box[rel="'+rel+'"]').hide();
+	}
+
+	function hide_selected_keywords(holder){
+		holder.find("li.bit-box input[type=hidden]").each(function(){
+			var parent_block = $(this).closest("[data-meta_key]");
+			hide_keyword(parent_block, $(this).attr("value"));
+		});
+	}
+
+//////////////////////////////
+
+
+function create_multiselect_widget(dom_scope, search_field, is_extensible, with_toggler){
   var all_options = search_field.data("all_options");
   if (with_toggler) {
 	$("#"+ dom_scope +"_multiselect").append("<a class='search_toggler' href='#'><img src='/images/icons/toggler-arrow-closed.png'></a>");
@@ -70,7 +118,7 @@ function create_multiselect_widget(dom_scope, is_extensible, with_toggler){
   }
   $.each(all_options, function(i, elem){
   	if(elem.selected){
-	    add_to_selected_items(elem, dom_scope, false);
+	    add_to_selected_items(elem, dom_scope, search_field, false);
 	}
   });
 
@@ -83,7 +131,7 @@ function create_multiselect_widget(dom_scope, is_extensible, with_toggler){
 	  	var v = $(this).val();
 	    if ($.trim(v).length){
 		  	var item = {label: v, id: v};
-	        add_to_selected_items(item, dom_scope, true);
+	        add_to_selected_items(item, dom_scope, search_field, true);
 			$(this).autocomplete( "close" );
 		}
       }
@@ -99,7 +147,7 @@ function create_multiselect_widget(dom_scope, is_extensible, with_toggler){
     minLength: 3,
     select: function(event, ui) {
 	  new_term = false;
-      add_to_selected_items(ui.item, dom_scope, false);
+      add_to_selected_items(ui.item, dom_scope, search_field, false);
 	  just_selected = true;
     },
     close: function(event, ui) {
@@ -127,30 +175,24 @@ function create_multiselect_widget(dom_scope, is_extensible, with_toggler){
 	 });
     };
 
-	$("ul.holder li .closebutton").live('click', function(){
-		remove_from_selected_items($(this).parent("li"));
-		return false;
-  	});
-
-
-	function remove_from_selected_items(dom_item){
-	  	var meta_term_id = dom_item.find('input[type=hidden]:first').val();
-		all_options.forEach(function(element){ if(element.id == meta_term_id) element.selected = false; });
-
-		// remove from pre-sorted keyoword tabs
-		var keyword_holder = dom_item.closest('#keywords_multiselect');
-		if (keyword_holder.length > -1){
-			$('.holder.all .bit-box[rel="'+meta_term_id+'"]').show();
-		}
-		
-		dom_item.fadeOut('slow', function() {
-			dom_item.remove();
-		});   
-	};
 };
 
-function add_to_selected_items(item, dom_scope, add_to_options){
-	var search_field = $("#"+ dom_scope +"_multiselect input[name='autocomplete_search']");
+function remove_from_selected_items(dom_item){
+	var parent_block = dom_item.closest('[data-meta_key]');
+	var search_field = parent_block.find("input[name='autocomplete_search']");
+	var all_options = search_field.data("all_options");
+  	var meta_term_id = dom_item.find('input[type=hidden]:first').val();
+	all_options.forEach(function(element){ if(element.id == meta_term_id) element.selected = false; });
+
+	// remove from pre-sorted keyoword tabs
+	parent_block.find('.tabs ul.holder.all .bit-box[rel="'+meta_term_id+'"]').show();
+
+	dom_item.fadeOut('slow', function() {
+		dom_item.remove();
+	});   
+};
+
+function add_to_selected_items(item, dom_scope, search_field, add_to_options){
 	if(add_to_options || !item.selected){
 		var all_options = search_field.data("all_options");
 		if(add_to_options){
@@ -160,6 +202,7 @@ function add_to_selected_items(item, dom_scope, add_to_options){
 			all_options.forEach(function(element){ if(element.id == item.id) element.selected = true; });  	
 		}
 	}
-	$("#"+ dom_scope + "_madek_multiselect_item").tmpl(item).insertBefore($("#"+ dom_scope +"_multiselect ul.holder li.input_holder")).fadeIn('slow');
+	item.field_name_prefix = search_field.data("field_name_prefix");
+	$("#madek_multiselect_item").tmpl(item).insertBefore(search_field.parent()).fadeIn('slow');
 	search_field.val("");
 };

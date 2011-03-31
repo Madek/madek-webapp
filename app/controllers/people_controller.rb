@@ -24,11 +24,14 @@ class PeopleController < ApplicationController
   end
 
   def create
-    person = Person.create(params[:person])
+    # OPTIMIZE model uniqueness validation
+    person = Person.find_or_create_by_firstname_and_lastname_and_pseudonym(:firstname => params[:person][:firstname],
+                                                                           :lastname => params[:person][:lastname],
+                                                                           :pseudonym => params[:person][:pseudonym])
     
     respond_to do |format|
       format.html
-      #format.js { render :json => {:title => person.to_s, :value => person.id} }
+      #old# format.js { render :json => {:title => person.to_s, :value => person.id} }
       format.js { render :json => {:label => person.to_s, :id => person.id} }
     end
   end
