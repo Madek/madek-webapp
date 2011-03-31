@@ -2683,7 +2683,10 @@ ul.holder li.input_holder {
 }
 
 .search_toggler {
-	border: 1px solid #bebebe;
+	/*border: 1px solid #bebebe;*/
+	float:right;
+	margin-top: -32px;
+	margin-right: 5px;
 	width: 27px;
 	height: 27px;
 	-webkit-border-radius: 2px;
@@ -2692,7 +2695,7 @@ ul.holder li.input_holder {
 	border-radius: 2px;
 	display: inline-block;
 	vertical-align: top;
-	background-color: #e6e6e6;
+	background-color: #ffffff;
 	border-left-style: none;
 	img {
 		padding-top: 8px;
@@ -2700,7 +2703,7 @@ ul.holder li.input_holder {
 	}
 }
 .search_toggler:hover {
-	background-color: #ffffff;
+	background-color: #e6e6e6;
 }
 
 /**
