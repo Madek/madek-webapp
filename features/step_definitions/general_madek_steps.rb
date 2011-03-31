@@ -106,9 +106,18 @@ When "I fill in the metadata form as follows:" do |table|
     # Fills in the "_value" field it finds in the UL that contains
     # the "key" text. e.g. "Titel*" or "Copyright"
     text = filter_string_for_regex(hash['label'])
-    all("ul", :text => /^#{text}/).first.all("textarea").each do |ele|
-      fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/attributes_\d+_value$/).nil?
+
+    list = find("ul", :text => /^#{text}/)
+    if list.nil?
+      puts "Can't find any input fields with the text '#{text}'"
+    else
+      list.all("textarea").each do |ele|
+        fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/attributes_\d+_value$/).nil?
+      end
     end
+
+    
+    
   end
 end
 

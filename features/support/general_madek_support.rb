@@ -79,8 +79,18 @@ def check_media_entry_titled(title)
   make_hidden_items_visible
 
   entry = find_media_entry_titled(title)
-  cb = entry.find("input")
-  cb.click unless cb[:checked] == "true" # a string, not a bool!
+  # This is the old way, from when we still had checkboxes (= input elements),
+  # but now we have simple images that have a JavaScript event handler attached
+  # to them.
+  # cb = entry.find("input")
+  # cb.click unless cb[:checked] == "true" # a string, not a bool!
+  
+#   entry.all("img").each do |img|
+#     cb_icon = img if img[:alt] == "Auswählen"
+#   end
+  cb_icon = entry.find(:css, ".check_box").find("img")
+  #debugger; puts "lala"
+  cb_icon.click if (cb_icon[:src] =~ /_on.png$/).nil? # Only click if it's not yet checked
 end
 
 # Attempts to find a media entry based on its title by looking for
@@ -210,17 +220,17 @@ def upload_some_picture(title = "Untitled")
     click_link("Hochladen")
     click_link("Basic Uploader")
     attach_file("uploaded_data[]", Rails.root + "features/data/images/berlin_wall_01.jpg")
-    click_button("Ausgewählte Medien hochladen »")
+    click_button("Ausgewählte Medien hochladen und weiter…")
     wait_for_css_element("#submit_to_3") # This is the "Einstellungen speichern..." button
-    click_button("Einstellungen speichern und weiter »")
+    click_button("Einstellungen speichern und weiter…")
 
     # Entering metadata
 
     fill_in_for_media_entry_number(1, { "Titel"     => title,
                                         "Copyright" => 'some dude' })
 
-    click_button("Metadaten speichern und weiter »")
-    click_link_or_button("Weiter ohne Gruppierung")
+    click_button("Metadaten speichern und weiter…")
+    click_link_or_button("Weiter ohne Gruppierung…")
 
     sphinx_reindex
     visit "/"

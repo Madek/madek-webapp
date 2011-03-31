@@ -20,14 +20,14 @@ Feature: Upload images and manage media entries based on images
      And I follow "Hochladen"
      And I follow "Basic Uploader"
      And I attach the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory to "uploaded_data[]"
-     And I press "Ausgewählte Medien hochladen »"
+     And I press "Ausgewählte Medien hochladen und weiter…"
      And I wait for the CSS element "#submit_to_3"
-     And I press "Einstellungen speichern und weiter »"
+     And I press "Einstellungen speichern und weiter…"
      And I fill in the metadata for entry number 1 as follows:
      |label    |value                |
      |Titel    |berlin wall for a set|
      |Copyright|some other dude      |
-     And I press "Metadaten speichern und weiter »"
+     And I press "Metadaten speichern und weiter…"
      And I press "Neu"
      And I wait for the CSS element "#text_media_set"
      And I fill in the set title with "Mauerstücke"
@@ -43,15 +43,15 @@ Feature: Upload images and manage media entries based on images
      And I follow "Hochladen"
      And I follow "Basic Uploader"
      And I attach the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory to "uploaded_data[]"
-     And I press "Ausgewählte Medien hochladen »"
+     And I press "Ausgewählte Medien hochladen und weiter…"
      And I wait for the CSS element "#submit_to_3"
-     And I press "Einstellungen speichern und weiter »"
+     And I press "Einstellungen speichern und weiter…"
      And I fill in the metadata for entry number 1 as follows:
      |label    |value                               |
      |Titel    |A beautiful piece of the Berlin Wall|
      |Copyright|Kohl, Helmut                        |
-     And I press "Metadaten speichern und weiter »"
-     And I follow "Weiter ohne Gruppierung"
+     And I press "Metadaten speichern und weiter…"
+     And I follow "Weiter ohne Gruppierung…"
      And Sphinx is forced to reindex
      And I go to the home page
      Then show me the page
@@ -78,15 +78,15 @@ Feature: Upload images and manage media entries based on images
       And I follow "Hochladen"
       And I follow "Basic Uploader"
       And I attach the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory to "uploaded_data[]"
-      And I press "Ausgewählte Medien hochladen »"
+      And I press "Ausgewählte Medien hochladen und weiter…"
       And I wait for the CSS element "#submit_to_3"
-      And I press "Einstellungen speichern und weiter »"
+      And I press "Einstellungen speichern und weiter…"
       And I fill in the metadata for entry number 1 as follows:
       |label    |value                            |
       |Titel    |A second piece of the Berlin Wall|
       |Copyright|Kohl, Helmut                     |
-      And I press "Metadaten speichern und weiter »"
-      And I follow "Weiter ohne Gruppierung"
+      And I press "Metadaten speichern und weiter…"
+      And I follow "Weiter ohne Gruppierung…"
       And Sphinx is forced to reindex
       And I go to the home page
       And I click the media entry titled "A second piece of the Berlin"
