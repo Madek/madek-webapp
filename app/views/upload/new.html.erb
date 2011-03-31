@@ -2,87 +2,87 @@
 	<%= javascript_include_tag "madek_ajax_upload", "jquery/plugins/jquery.filestyle.js" %>
 <% end %>
 
-<div id="content-body" class="container_12 clearfix">
+<div class="container_12 clearfix">
 
-	<%= render :partial => "steps" %>
-	<%= javascript_tag do %>
-		$(document).ready(function () {
-			activate_step(1);
+	<section id="content_body" class="clearfix">
+	
+		<%= render :partial => "steps" %>
+		<%= javascript_tag do %>
+			$(document).ready(function () {
+				activate_step(1);
+				
+				$("#uploaded_data").filestyle({ 
+						image: "/themes/madek11/images/icons/button_choose_file.png",
+						imageheight : 36,
+					    imagewidth : 215,
+					    width : 0});
+						
+				$("#uploaded_data").css({'margin-left': '0',
+										 'font-size': '2em'});
+	
+				$('#upload_form').submit(function() {
+					startXHR($(this));
+					return false;
+				});
+	
+				$('#submit_upload_form').click(function() {
+					$('#upload_form').trigger('submit');
+					return false;
+				});
+			});
+		<% end %>
+	
+		<div id="upload-container" style="margin-top: 2em">
 			
-			$("#uploaded_data").filestyle({ 
-					image: "/images/icons/button-choose-file-04.png",
-					imageheight : 50,
-				    imagewidth : 250,
-				    width : 0});
-					
-			$("#uploaded_data").css({'margin-left': '0',
-									 'font-size': '2em'});
-
-			$('#upload_form').submit(function() {
-				startXHR($(this));
-				return false;
-			});
-
-			$('#submit_upload_form').click(function() {
-				$('#upload_form').trigger('submit');
-				return false;
-			});
-		});
-	<% end %>
-
-	<div id="upload-container" class="container_12 grid_12" style="margin-top: 1em">
-		
-		<div style="background: #DBEBF1; padding: 1.75em; -moz-border-radius: 5px; -webkit-border-radius: 5px;">
-		
-			<%= content_tag :div, :class => "upload_step_1b" do
-				form_tag upload_path(:format => :js), :multipart => true do
-						content_tag :span, :style => "float: right;" do %>
-							<%#= link_to_function _("Advanced Uploader") + " »", "activate_step('1')" %>
-						<% end %>
-						<label>Medien für den Upload auswählen...</label>
-						<%= file_field_tag "uploaded_data[]", :multiple => true, :min => 1, :max => 99 %>
-						<p style="margin-top: 1em">Sie benutzen den Basic Uploader. Möchten Sie den <%= link_to_function _(" Multiuploader") + "", "activate_step('1')" %> ausprobieren?</p>
-						<br/>
-						<br/>
-						<%= submit_tag _("Ausgewählte Medien hochladen") + " »" %>
+			<div style="background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;">
+			
+				<%= content_tag :div, :class => "upload_step_1b" do
+					form_tag upload_path(:format => :js), :multipart => true do
+							content_tag :span, :style => "float: right;" do %>
+								<%#= link_to_function _("Advanced Uploader") + " »", "activate_step('1')" %>
+							<% end %>
+							<label>Medien für den Upload auswählen:</label>
+							<%= file_field_tag "uploaded_data[]", :multiple => true, :min => 1, :max => 99 %>
+							<p style="margin-top: 1em">Sie benutzen den Basic Uploader. Möchten Sie den <%= link_to_function _(" Multiuploader") + "", "activate_step('1')" %> ausprobieren?</p>
+							<br/>
+							<br/>
+							<%= submit_tag _("Ausgewählte Medien hochladen und weiter…") %>
+					<% end %>
 				<% end %>
-			<% end %>
+				
+				<%= content_tag :div, :class => "upload_step_1" do
+					form_tag upload_path(:format => :js), :multipart => true, :id => "upload_form" do %>
+						<div style="height: 45px; position: relative; left: -6px">
+							<%= file_field_tag :uploaded_data, :onchange => "append_to_queue(this);", :multiple => true, :min => 1, :max => 99 %>
+						</div>
+						<p>Probleme mit dem Firefox 3.6 Multiupload? Benutzen Sie unseren <%= link_to_function _("Basic Uploader") + "", "activate_step('1b')" %>.</p>
+					<% end
+				end %>
 			
-			<%= content_tag :div, :class => "upload_step_1" do
-				form_tag upload_path(:format => :js), :multipart => true, :id => "upload_form" do %>
-					<div style="height: 50px; margin-bottom: 1em; position: relative; left: -15px">
-						<%= file_field_tag :uploaded_data, :onchange => "append_to_queue(this);", :multiple => true, :min => 1, :max => 99 %>
-					</div>
-					<p>Probleme mit dem Firefox 3.6 Multiupload? Benutzen Sie unseren <%= link_to_function _("Basic Uploader") + "", "activate_step('1b')" %>.</p>
-				<% end
-			end %>
+				<%= render :partial => "files" %>
+				
+				<%= content_tag :div, :class => "upload_step_1" do %>
+				
+					<p><strong>Akzeptierte Dateiformate: </strong>Bilder in den Formaten <strong>TIFF, JPEG und PNG</strong> werden direkt verarbeitet und dargestellt. Weitere Dateitypen (Videos, Dokumente etc.) können ebenfalls hochgeladen werden, sind vorerst jedoch nur nur als ZIP-Datei verfügbar.</p>
+				
+					<%= content_tag :p, :id => "submit_to_2", :style => "margin: 3em 0 1em 0; display: none;" do %>
+						<a href="#" id="submit_upload_form" class="upload_buttons">
+							<%# <span class="ui-icon ui-icon-circle-arrow-n"></span> %>
+							<%= _("Ausgewählte Medien hochladen und weiter…") %>
+						</a>
+					<% end
+				end %>
+	
+	
+				<%= content_tag :h3, :class => "upload_step_2" do
+					_("Zugriffsberechtigungen")
+				end %>
+				<%= render :partial => "/permissions/edit_multiple_on_upload" %>
+				
+			</div>
 		
-			<%= render :partial => "files" %>
-			
-			<%= content_tag :div, :class => "upload_step_1" do %>
-			
-				<h3>Akzeptierte Dateiformate</h3>
-				<p>Bilder in den Formaten <strong>TIFF, JPEG und PNG</strong> werden direkt verarbeitet und dargestellt. Weitere Dateitypen (Videos, Dokumente etc.) können ebenfalls hochgeladen werden, sind vorerst jedoch nur nur als ZIP-Datei verfügbar.</li>
-				</p>
-			
-				<%= content_tag :p, :id => "submit_to_2", :style => "margin: 2em 0 1em 0; display: none;" do %>
-					<a href="#" id="submit_upload_form" class="ui-state-default ui-corner-all"
-						style="padding:0.5em; color: #FFFFFF; background: none repeat scroll 0 0 #41637C; -moz-border-radius:5px 5px 5px 5px;">
-						<%# <span class="ui-icon ui-icon-circle-arrow-n"></span> %>
-						<%= _("Ausgewählte Medien hochladen") + " »" %>
-					</a>
-				<% end
-			end %>
-
-
-			<%= content_tag :h3, :class => "upload_step_2" do
-				_("Zugriffsberechtigungen")
-			end %>
-			<%= render :partial => "/permissions/edit_multiple_on_upload" %>
-			
 		</div>
 	
-	</div>
-
-
-</div>		
+	</section>
+		
+</div>

@@ -1,4 +1,13 @@
 
+# Need to escape these special characters because they might appear in the
+# labels we use in the metadata editor form.
+def filter_string_for_regex(string)
+  return string.gsub('/', '\\/')\
+               .gsub("'","\'")\
+               .gsub('(','\\(')\
+               .gsub(')','\\)')
+end
+
 def make_hidden_items_visible
   page.execute_script '$(":hidden").show();'
 end

@@ -50,8 +50,10 @@ class MetaDataController < ApplicationController
 #################################################################
 
   def edit_multiple
+    meta_data = @resource.meta_data_for_context(@context)
     respond_to do |format|
-      format.js { render :layout => (params[:layout] != "false") }
+      #old# format.js { render :layout => (params[:layout] != "false") }
+      format.js { render :partial => "edit_multiple_without_form", :locals => {:context => @context, :meta_data => meta_data } }
     end
   end
 

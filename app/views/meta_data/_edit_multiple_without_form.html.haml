@@ -20,7 +20,7 @@
     end
     labels.delete_if {|k, v| v.size < 2 }
 
-  - @i ||= 0
+  - @i ||= Time.now.to_i #old# 0
   - meta_data.each do |md| # meta_data.each_with_index do |md, i|	
     - label = md.meta_key.label
     - next if md.meta_key.is_dynamic? and not ["copyright usage", "copyright url"].include?(label) # OPTIMIZE
@@ -42,7 +42,7 @@
               = definition.meta_field.hint.to_s
           - if is_parent
             .expander
-              = link_to icon_tag("toggler-arrow-closed") + " " + _("Weitere Angaben"), "#"
+              = link_to _("+ Weitere Angaben"), "#"
         %li{:style => "width: 55%;"}
           = meta_datum.hidden_field :id if meta_datum.object.id
           = meta_datum.hidden_field :keep_original_value, :class => "keep" if meta_datum.object.keep_original_value

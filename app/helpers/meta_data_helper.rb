@@ -160,12 +160,15 @@ module MetaDataHelper
   def widget_meta_terms_multiselect(meta_datum, meta_key)
     case meta_key.object_type.constantize.name
       when "Meta::Department"
-        all_options = Meta::Department.all.collect {|x| {:label => x.to_s, :id => x.id, :selected => Array(meta_datum.object.value).include?(x.id)} }
+        selected = Array(meta_datum.object.value)
+        all_options = Meta::Department.all.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)} }
       when "Meta::Term"
-        all_options = meta_key.meta_terms.collect {|x| {:label => x.to_s, :id => x.id, :selected => Array(meta_datum.object.value).include?(x.id)}}
+        selected = Array(meta_datum.object.value)
+        all_options = meta_key.meta_terms.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}
       when "Person"
+        selected = Array(meta_datum.object.value)
         @people ||= meta_key.object_type.constantize.with_media_entries
-        all_options = @people.collect {|x| {:label => x.to_s, :id => x.id, :selected => Array(meta_datum.object.value).include?(x.id)}}
+        all_options = @people.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}
       when "Keyword"
         keywords = meta_datum.object.deserialized_value
         meta_term_ids = keywords.collect(&:meta_term_id)
@@ -485,7 +488,7 @@ module MetaDataHelper
       #tmp# h += meta_datum.text_field :value, :class => "value", :"data-required" => is_required
       h += text_field_tag "#{meta_datum.object_name}[value]", meta_datum.object.to_s, :class => "value", :"data-required" => is_required
       h += content_tag :span, :class => "with_actions" do
-            link_to _("Übertragen auf andere Medien"), "#", :class => "buttons"
+            link_to _("Übertragen auf andere Medien"), "#", :class => "hint"
            end if with_actions # TODO see _bulk_edit
     else
       #tmp# h += meta_datum.text_area :value, :"data-required" => is_required #, :rows => 2

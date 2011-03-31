@@ -48,7 +48,7 @@
     - unless @media_entries.empty?
       - if @media_entries.total_entries >= params[:per_page]
         .buttons
-          = link_to "Weitere…", user_media_entries_path(current_user)
+          = link_to "Alle meine Medieneinträge", user_media_entries_path(current_user)
     - else
       = _("Sie haben noch keine Medien hochgeladen.")
 
