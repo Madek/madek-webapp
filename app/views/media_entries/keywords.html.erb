@@ -12,7 +12,7 @@
 	end %>
 	
 	<% [@my_keywords, @all_keywords, @all_keywords.sort{|a,b| b.created_at <=> a.created_at}].each_with_index do |keywords, index| %>
-		<%= content_tag :ul, :id => "tabs_#{index+1}", :class => "holder all", :style => "max-height: 20em; padding: 1.3em 0.3em 1em 0.3em; overflow-y: auto;" do
+		<%= content_tag :ul, :id => "tabs_#{index+1}", :class => "holder all", :style => "background-color: white; max-height: 20em; padding: 1.3em 0.3em 1em 0.3em; overflow-y: auto;" do
 			keywords.collect do |k|
 				content_tag :li, :class => "bit-box", :title => "#{k}", :rel => "#{k.meta_term_id}" do
 					a = "#{k} ".html_safe

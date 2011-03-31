@@ -1242,6 +1242,29 @@ button.dark:hover {
 	background: #e3e3e3;
 }
 
+.Person input[type="submit"] {
+	font-weight: bold;
+	width: auto;
+	padding: 3px 10px;
+	text-align: center;
+	text-shadow: 0 1px 0 #fff;
+	border: 1px solid #d6d6d6;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	background: #e3e3e3;
+	/*-moz-box-shadow: 0 0 1px 1px #eaeaea;
+	-webkit-box-shadow: 0 0 1px 1px #eaeaea;
+	box-shadow: 0 0 1px 1px #eaeaea;*/
+	margin-top: 20px;
+}
+.Person input[type="submit"]:hover {
+	background: white;
+}
+.Person form {
+	margin: 10px 0 0 0;
+}
+
 #select_deselect_all {
 	font-size: 0.9em;
 	letter-spacing: 0.05ex;

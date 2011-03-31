@@ -1,6 +1,6 @@
 <% n = Time.now.to_i %>
 
-<%= content_tag :div, :class => "tabs small" do %>
+<%= content_tag :div, :class => "tabs small", :style => "padding:10px; background-color: white;" do %>
 	<%= content_tag :ul do 
 		b = content_tag :li do
 			link_to _("Person"), "#new_person_#{n}" 

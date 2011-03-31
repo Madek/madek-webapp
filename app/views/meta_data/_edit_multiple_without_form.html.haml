@@ -42,7 +42,7 @@
               = definition.meta_field.hint.to_s
           - if is_parent
             .expander
-              = link_to icon_tag("toggler-arrow-closed") + " " + _("Weitere Angaben"), "#"
+              = link_to _("+ Weitere Angaben"), "#"
         %li{:style => "width: 55%;"}
           = meta_datum.hidden_field :id if meta_datum.object.id
           = meta_datum.hidden_field :keep_original_value, :class => "keep" if meta_datum.object.keep_original_value
