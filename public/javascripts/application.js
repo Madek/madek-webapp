@@ -41,7 +41,7 @@ $(document).ready(function () {
 		return 'placeholder' in i;
 	}
 	
-	if(!hasPlaceholderSupport()){
+	if(!Modernizr.input.placeholder && !hasPlaceholderSupport()){
 		$("form").placeholder();
 	};
 	
