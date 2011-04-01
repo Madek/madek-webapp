@@ -76,7 +76,7 @@ module MediaSetsHelper
       end
       
       b += content_tag :p, :style => "clear: both;" do
-        link_to _("Weiter ohne Hinzufügen zu einem Set"), root_path, :class => "upload_buttons"
+        link_to _("Weiter ohne Hinzufügen zu einem Set..."), root_path, :class => "upload_buttons"
       end if with_cancel_button
 
       b += javascript_tag do
