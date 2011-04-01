@@ -72,11 +72,11 @@ module MediaSetsHelper
       end
 
       b += content_tag :p, :style => "clear: both; margin-bottom: 15px;", :class => "save" do
-        submit_tag _("Gruppierungseinstellungen speichern…"), :style => "display: none;"
+        submit_tag _("Zu ausgewähltem Set hinzufügen"), :style => "display: none;"
       end
       
       b += content_tag :p, :style => "clear: both;" do
-        link_to _("Weiter ohne Gruppierung…"), root_path, :class => "upload_buttons"
+        link_to _("Weiter ohne Hinzufügen zu einem Set"), root_path, :class => "upload_buttons"
       end if with_cancel_button
 
       b += javascript_tag do
