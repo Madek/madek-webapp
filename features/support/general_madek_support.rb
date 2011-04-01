@@ -107,7 +107,12 @@ def fill_in_person_widget(list_element, value, options = "")
   if options == "in-field entry box"
     field = list_element.find(:css, ".madek_multiselect_container").find("input")
     fill_in field[:id], :with => value
-    field.native.send_key(:enter)
+enter_script = <<HERE
+var enter_keypress = $.Event('keypress');
+enter_keypress.which = 13;
+$('#{field[:id]}').trigger(enter_keypress);
+HERE
+     page.execute_script(enter_script)
   elsif options == "pseudonym field"
     list_element.find(:css, ".dialog_link").click
     fill_in "Pseudonym", :with => value

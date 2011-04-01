@@ -4,18 +4,18 @@ Feature: Upload images and manage media entries based on images
 
   Background: Set up the world and some users
     Given I have set up the world
-      And a user called "Helmut Kohl" with username "helmi" and password "schweinsmagen" exists
+      And a user called "Helmut Kohl" with username "helmi" and password "saumagen" exists
       And a user called "Mikhail Gorbachev" with username "gorbi" and password "glasnost" exists
 
 
   @javascript
   Scenario: Upload one image file without any special metatada
-    When I log in as "helmi" with password "schweinsmagen"
+    When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "not a special picture"
 
   @javascript
   Scenario: Upload an image and add it to a set
-    When I log in as "helmi" with password "schweinsmagen"
+    When I log in as "helmi" with password "saumagen"
      And I go to the home page
      And I follow "Hochladen"
      And I follow "Basic Uploader"
@@ -39,7 +39,7 @@ Feature: Upload images and manage media entries based on images
 
   @javascript
   Scenario: Upload an image file for another user to see
-    When I log in as "helmi" with password "schweinsmagen"
+    When I log in as "helmi" with password "saumagen"
      And I follow "Hochladen"
      And I follow "Basic Uploader"
      And I attach the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory to "uploaded_data[]"
@@ -72,7 +72,7 @@ Feature: Upload images and manage media entries based on images
     Given a group called "Mauerfäller" exists
       And the user with username "helmi" is member of the group "Mauerfäller"
       And the user with username "gorbi" is member of the group "Mauerfäller"
-      And I log in as "helmi" with password "schweinsmagen"
+      And I log in as "helmi" with password "saumagen"
       And Sphinx is forced to reindex
       And I go to the home page
       And I follow "Hochladen"
@@ -103,7 +103,7 @@ Feature: Upload images and manage media entries based on images
   @javascript
   Scenario: Make an uploaded file public
    Given a user called "Raissa Gorbacheva" with username "raissa" and password "novodevichy" exists
-    When I log in as "helmi" with password "schweinsmagen"
+    When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "baustelle osten"
      And I go to the home page
      And I click the media entry titled "baustelle osten"
@@ -117,7 +117,7 @@ Feature: Upload images and manage media entries based on images
   @javascript 
   Scenario: Upload a public file and then make it un-public again
    Given a user called "Raissa Gorbacheva" with username "raissa" and password "novodevichy" exists
-    When I log in as "helmi" with password "schweinsmagen"
+    When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "geheimsache"
      And I go to the home page
      And I click the media entry titled "geheimsache"
@@ -126,7 +126,7 @@ Feature: Upload images and manage media entries based on images
      And I log in as "raissa" with password "novodevichy"
      And I go to the home page
     Then I should see "geheimsache"
-    When I log in as "helmi" with password "schweinsmagen"
+    When I log in as "helmi" with password "saumagen"
      And I click the media entry titled "geheimsache"
      And I follow "Zugriffsberechtigung"
      And I remove "view" permission from "everybody"
@@ -139,7 +139,7 @@ Feature: Upload images and manage media entries based on images
   @javascript
   Scenario: Give hi-resolution download permission on a file
    Given a user called "Hans Wurst" with username "hanswurst" and password "hansi" exists
-    When I log in as "helmi" with password "schweinsmagen"
+    When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "hochaufgelöste geheimbünde"
      And I click the media entry titled "hochaufgelöste geheimbünde"
      And I follow "Zugriffsberechtigung"
@@ -158,7 +158,7 @@ Feature: Upload images and manage media entries based on images
   @javascript
   Scenario: Give and then revoke hi-resolution download permission on a file
    Given a user called "Hans Wurst" with username "hanswurst" and password "hansi" exists
-    When I log in as "helmi" with password "schweinsmagen"
+    When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "hochaufgelöste geheimbünde"
      And I click the media entry titled "hochaufgelöste geheimbünde"
      And I follow "Zugriffsberechtigung"
@@ -173,7 +173,7 @@ Feature: Upload images and manage media entries based on images
     When I click the media entry titled "hochaufgelöste geheimbünde"
      And I follow "Exportieren"
     Then the box should have a hires download link
-    When I log in as "helmi" with password "schweinsmagen"
+    When I log in as "helmi" with password "saumagen"
      And I click the media entry titled "hochaufgelöste geheimbünde"
      And I follow "Zugriffsberechtigung"
      And I remove "download_hires" permission from "Wurst, Hans"
@@ -187,7 +187,7 @@ Feature: Upload images and manage media entries based on images
 
   @javascript
   Scenario: Add a single media entry to favorites from the media entry list
-    When I log in as "helmi" with password "schweinsmagen"
+    When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "mein lieblingsknödel"
      And I go to the media entries
      And all the hidden items become visible
@@ -198,7 +198,7 @@ Feature: Upload images and manage media entries based on images
 
   @javascript
   Scenario: Add a single media entry to favorites from the media detail page
-    When I log in as "helmi" with password "schweinsmagen"
+    When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "mein lieblingsdackel"
      And I go to the media entries
      And I click the media entry titled "mein lieblingsdackel"
@@ -209,7 +209,7 @@ Feature: Upload images and manage media entries based on images
 
   @javascript
   Scenario: Add and remove a single media entry from favorites
-    When I log in as "helmi" with password "schweinsmagen"
+    When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "mein lieblingsbier"
      And I go to the media entries
      And all the hidden items become visible

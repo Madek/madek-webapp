@@ -4,8 +4,8 @@ Feature: Batch edit media entries
 
   Background: Set up the world and some users
     Given I have set up the world
-      And a user called "Helmut Kohl" with username "helmi" and password "schweinsmagen" exists
-     When I log in as "helmi" with password "schweinsmagen"
+      And a user called "Helmut Kohl" with username "helmi" and password "saumagen" exists
+     When I log in as "helmi" with password "saumagen"
       And I upload some picture titled "Picture One"
       And I upload some picture titled "Picture Two"
       And I upload some picture titled "Picture Three"
@@ -13,7 +13,7 @@ Feature: Batch edit media entries
 
   @javascript 
   Scenario: Remove two media entries from a set using batch edit
-    When I log in as "helmi" with password "schweinsmagen"
+    When I log in as "helmi" with password "saumagen"
      And I create a set titled "Set One"
      And I add the picture "Picture One" to the set "Set One"
      And I add the picture "Picture Two" to the set "Set One"
@@ -32,7 +32,7 @@ Feature: Batch edit media entries
 
   @javascript 
   Scenario: Change metadata on two media entries using batch edit
-    When I log in as "helmi" with password "schweinsmagen"
+    When I log in as "helmi" with password "saumagen"
      And I create a set titled "Batch Retitle Set"
      And I add the picture "Picture One" to the set "Batch Retitle Set"
      And I add the picture "Picture Two" to the set "Batch Retitle Set"

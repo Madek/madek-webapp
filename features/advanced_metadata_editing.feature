@@ -125,3 +125,22 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I click the media entry titled "Me and Leia Organa"
      And I wait for 3 seconds
      Then I should see "The Rebel Alliance"
+
+  @javascript @work
+  Scenario: Putting a name directly into the name input box
+    When I log in as "hansolo" with password "leia"
+     And I upload some picture titled "Me and Leia Organa"
+     And I click the arrow next to "Solo, Han"
+     And I follow "Meine Medien"
+     And all the hidden items become visible
+     And I click the edit icon on the media entry titled "Me and Leia Organa"
+     And I fill in the metadata form as follows:
+     |label   |value             |options  |
+     |Autor/in|The Rebel Alliance|in-field entry box|
+     And I press "Speichern"
+     And I click the arrow next to "Solo, Han"
+     And I follow "Meine Medien"
+     And I wait for 3 seconds
+     And I click the media entry titled "Me and Leia Organa"
+     And I wait for 3 seconds
+     Then I should see "The Rebel Alliance"
