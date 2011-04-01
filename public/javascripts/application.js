@@ -1,5 +1,26 @@
+function document_ready(){
+	$("textarea").elastic();
+
+	//////////////////////////////
+
+	$(".madek_multiselect_container").each(function(){
+		var that = $(this);
+		if(!that.data("ready")){
+			var parent_block = that.closest("[data-meta_key]");
+			var dom_scope = parent_block.attr('data-meta_key');
+			var search_field = parent_block.find("input[name='autocomplete_search']");
+			create_multiselect_widget(dom_scope, search_field, that.data("is_extensible"), that.data("with_toggle"));
+			that.data("ready", true);                     
+		}
+	});
+}
+
+$(document).ajaxComplete(document_ready);
+
 $(document).ready(function () { 
 
+	document_ready();
+	
 	// Tabs
 	$(".tabs").tabs({ //spinner: 'Retrieving data...', // requires <span>link</span>
 					  cache: true,
@@ -56,18 +77,6 @@ $(document).ready(function () {
 
 //////////////////////////////
 
-	$("textarea").elastic();
-
-//////////////////////////////
-
-	$(".madek_multiselect_container").each(function(){
-		var that = $(this);
-		var parent_block = that.closest("[data-meta_key]");
-		var dom_scope = parent_block.attr('data-meta_key');
-		var search_field = parent_block.find("input[name='autocomplete_search']");
-		create_multiselect_widget(dom_scope, search_field, that.data("is_extensible"), that.data("with_toggle"));                     
-	});
-
 	//////////////////////////////
 	// TODO move to keywords.js
 	
@@ -113,8 +122,8 @@ $(document).ready(function () {
 function create_multiselect_widget(dom_scope, search_field, is_extensible, with_toggler){
   var all_options = search_field.data("all_options");
   if (with_toggler) {
-	$("#"+ dom_scope +"_multiselect").append("<a class='search_toggler' href='#'><img src='/images/icons/toggler-arrow-closed.png'></a>");
-	var toggler = $("#"+ dom_scope +"_multiselect a.search_toggler");
+  	search_field.closest(".madek_multiselect_container").append("<a class='search_toggler' href='#'><img src='/images/icons/toggler-arrow-closed.png'></a>");
+	var toggler = search_field.closest(".madek_multiselect_container").find("a.search_toggler");
   }
   $.each(all_options, function(i, elem){
   	if(elem.selected){
