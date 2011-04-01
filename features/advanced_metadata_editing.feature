@@ -70,8 +70,26 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
     Then I should see "No one teaches me!"
      And I should see "Photographs of Han's rides"
 
-  @javascript @work
-  Scenario: Changing the author field on a media entry
+  @javascript
+  Scenario: Changing the author field on a media entry using the firstname/lastname entry form tab
+    When I log in as "hansolo" with password "leia"
+     And I upload some picture titled "Me and Leia Organa"
+     And I click the arrow next to "Solo, Han"
+     And I follow "Meine Medien"
+     And all the hidden items become visible
+     And I click the edit icon on the media entry titled "Me and Leia Organa"
+     And I fill in the metadata form as follows:
+     |label   |value      |
+     |Autor/in|Foo, Bar   |
+     And I press "Speichern"
+     And I click the arrow next to "Solo, Han"
+     And I follow "Meine Medien"
+     And I wait for 3 seconds
+     And I click the media entry titled "Me and Leia Organa"
+     Then I should see "Foo, Bar"
+
+  @javascript
+  Scenario: Putting a pseudonym into the author field
     When I log in as "hansolo" with password "leia"
      And I upload some picture titled "Me and Leia Organa"
      And I click the arrow next to "Solo, Han"
@@ -80,12 +98,30 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I click the edit icon on the media entry titled "Me and Leia Organa"
      And I fill in the metadata form as follows:
      |label   |value      |options           |
-     |Autor/in|Foo, Bar   |in-field entry box|
-     And I wait for 20 seconds
+     |Autor/in|Yoda       |pseudonym field|
      And I press "Speichern"
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
      And I wait for 3 seconds
      And I click the media entry titled "Me and Leia Organa"
-     Then I should see "Foo, Bar"
-     And I wait for 20 seconds
+     And I wait for 3 seconds
+     Then I should see "(Yoda)"
+
+  @javascript
+  Scenario: Putting a group into the group name field in the group tab
+    When I log in as "hansolo" with password "leia"
+     And I upload some picture titled "Me and Leia Organa"
+     And I click the arrow next to "Solo, Han"
+     And I follow "Meine Medien"
+     And all the hidden items become visible
+     And I click the edit icon on the media entry titled "Me and Leia Organa"
+     And I fill in the metadata form as follows:
+     |label   |value             |options  |
+     |Autor/in|The Rebel Alliance|group tab|
+     And I press "Speichern"
+     And I click the arrow next to "Solo, Han"
+     And I follow "Meine Medien"
+     And I wait for 3 seconds
+     And I click the media entry titled "Me and Leia Organa"
+     And I wait for 3 seconds
+     Then I should see "The Rebel Alliance"

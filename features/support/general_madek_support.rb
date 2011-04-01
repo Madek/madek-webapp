@@ -109,8 +109,22 @@ def fill_in_person_widget(list_element, value, options = "")
     fill_in field[:id], :with => value
     field.native.send_key(:enter)
   elsif options == "pseudonym field"
+    list_element.find(:css, ".dialog_link").click
     fill_in "Pseudonym", :with => value
+    click_link_or_button("Personendaten einfügen")
   elsif options == "group tab"
+    list_element.find(:css, ".dialog_link").click
+    click_link "Gruppe"
+    sleep 2
+    list_element.all("form").each do |form|
+      if form[:id] =~ /^new_group/
+        group_form_id = form[:id]
+         within("##{group_form_id}") do
+          fill_in "Name", :with => value
+        end
+      end
+    end
+    click_link_or_button("Gruppendaten einfügen")
   else
     lastname, firstname = value, value
     lastname, firstname = value.split(",") if value.include?(",")
