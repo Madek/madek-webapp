@@ -3,7 +3,7 @@ set :application, "madek"
 
 set :scm, :git
 set :repository, "git://github.com/psy-q/madek.git"
-set :branch, "master"
+set :branch, "batch"
 set :deploy_via, :remote_cache
 
 set :db_config, "/home/rails/madek-test/database.yml"
@@ -83,6 +83,8 @@ end
 task :configure_environment do
   run "sed -i 's:DOT_PATH = \"/usr/local/bin/dot\":DOT_PATH = \"/usr/bin/dot\":' #{release_path}/config/application.rb"
   run "sed -i 's:EXIFTOOL_PATH = \"/opt/local/bin/exiftool\":EXIFTOOL_PATH = \"/usr/local/bin/exiftool\":' #{release_path}/config/application.rb"
+  run "sed -i 's,ENCODING_BASE_URL.*,ENCODING_BASE_URL = \"http://test:MAdeK@test.madek.zhdk.ch\",'  #{release_path}/config/application.rb"
+
 end
 
 task :configure_sphinx do

@@ -108,9 +108,9 @@ def fill_in_person_widget(list_element, value, options = "")
     field = list_element.find(:css, ".madek_multiselect_container").find("input")
     fill_in field[:id], :with => value
 enter_script = <<HERE
-var enter_keypress = $.Event('keypress');
-enter_keypress.which = 13;
-$('#{field[:id]}').trigger(enter_keypress);
+var e = jQuery.Event("keypress");
+e.keyCode = $.ui.keyCode.ENTER;
+$("#{field[:id]}").trigger(e);
 HERE
      page.execute_script(enter_script)
   elsif options == "pseudonym field"
@@ -255,7 +255,7 @@ def upload_some_picture(title = "Untitled")
                                         "Copyright" => 'some dude' })
 
     click_button("Metadaten speichern und weiter…")
-    click_link_or_button("Weiter ohne Gruppierung…")
+    click_link_or_button("Weiter ohne Hinzufügen zu einem Set")
 
     sphinx_reindex
     visit "/"
@@ -279,7 +279,7 @@ def add_to_set(set_title = "Untitled Set", picture_title = "Untitled")
   click_media_entry_titled(picture_title)
   click_link_or_button("Sets zusammenstellen")
   select(set_title, :from => "media_set_ids[]")
-  click_link_or_button("Gruppierungseinstellungen speichern")
+  click_link_or_button("Zu ausgewähltem Set hinzufügen")
   # The set title is displayed on the right-hand side of this page, so we should be able to
   # see it here.
   page.should have_content(set_title)
