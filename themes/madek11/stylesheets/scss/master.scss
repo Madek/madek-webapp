@@ -361,19 +361,20 @@ nav {
 		-o-border-radius: 2px;
 		border-radius: 2px;
 		margin-left: 0;
-		:hover {
-			background-position: -33px 0;
-			-webkit-box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
-			-moz-box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
-			box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
-			overflow: visible;	
-			/*background-color: #606060;
-			-webkit-box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
-			-moz-box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
-			box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
-			-webkit-animation: pulse 1.5s infinite ease-in-out;*/
-		}
 	}
+}
+
+#search-query input[type="submit"]:hover {
+	background-position: -33px 0;
+	-webkit-box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+	-moz-box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+	box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+	overflow: visible;	
+	/*background-color: #606060;
+	-webkit-box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+	-moz-box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+	box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+	-webkit-animation: pulse 1.5s infinite ease-in-out;*/
 }
 
 /*input[type="submit"]:hover, input[type="submit"]:focus {
