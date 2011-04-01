@@ -34,6 +34,18 @@ $(document).ready(function () {
 					});
 
 //////////////////////////////
+// placeholder
+
+	function hasPlaceholderSupport() {
+		var i = document.createElement('input');
+		return 'placeholder' in i;
+	}
+	
+	if(!hasPlaceholderSupport()){
+		$("form").placeholder();
+	};
+	
+//////////////////////////////
 
 	$("a.description_toggler").live("mouseenter mouseleave click", function(event) {
 		if (event.type == 'mouseenter') {

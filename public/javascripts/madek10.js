@@ -120,18 +120,6 @@ $(document).ready(function () {
 	});
 
 //////////////////////////////
-// placeholder
-
-	function hasPlaceholderSupport() {
-		var i = document.createElement('input');
-		return 'placeholder' in i;
-	}
-	
-	if(!hasPlaceholderSupport()){
-		$("form").placeholder();
-	};
-
-//////////////////////////////
 // extending jQuery
 (function($) {
 		$.widget("ui.combobox", {
