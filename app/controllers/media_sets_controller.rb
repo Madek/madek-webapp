@@ -3,7 +3,8 @@ class MediaSetsController < ApplicationController
 
   before_filter :pre_load
   before_filter :authorized?, :only => [:show, :edit, :update, :destroy, :add_member] # TODO :except => :index OR check for :index too ??
-
+  after_filter :store_location, :only => [:show]
+  
   def index
     #new#
     theme "madek11"
@@ -34,7 +35,6 @@ class MediaSetsController < ApplicationController
 
   def show
     theme "madek11"
-    session[:batch_origin_uri] = nil
 
     viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
     #old# @media_entries = MediaEntry.search :with => {:media_set_ids => @media_set.id, :sphinx_internal_id => viewable_ids}, :page => params[:page], :per_page => params[:per_page].to_i, :retry_stale => true

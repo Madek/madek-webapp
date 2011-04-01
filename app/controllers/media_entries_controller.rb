@@ -4,10 +4,10 @@ class MediaEntriesController < ApplicationController
   before_filter :pre_load, :except => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions, :update_multiple_permissions]
   before_filter :pre_load_for_batch, :only => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions, :update_multiple_permissions]
   before_filter :authorized?, :except => [:index, :media_sets, :favorites, :toggle_favorites, :keywords] #old# :only => [:show, :edit, :update, :destroy]
-  
+  after_filter :store_location, :only => [:index]
+
   def index
     theme "madek11"
-    session[:batch_origin_uri] = nil
     
     media_entries = if @user
                       if logged_in?
@@ -135,7 +135,7 @@ class MediaEntriesController < ApplicationController
     flash[:notice] = "Der Medieneintrag wurde gelöscht."
 
     respond_to do |format|
-      format.html { redirect_to root_path }
+      format.html { redirect_to media_entries_path }
     end
   end
 
@@ -171,26 +171,7 @@ class MediaEntriesController < ApplicationController
       end 
     end
   end
-
-  # TODO refactor to users_controller ??
-  def favorites
-    theme "madek11"
-    if request.post?
-      current_user.favorites << @media_entry
-      # current_user.favorites.toggle(@media_entry) -- for madek11
-      respond_to do |format|
-        format.js { render :partial => "favorite_link", :locals => {:media_entry => @media_entry} }
-      end
-    # request.delete will be obsolete in madek11 
-    elsif request.delete?
-      current_user.favorites.delete(@media_entry)
-      respond_to do |format|
-        format.js { render :partial => "favorite_link", :locals => {:media_entry => @media_entry} }
-      end
-    end
-  end
   
-  #tmp # until madek11 theme complete # TODO merge to favorites action
   def toggle_favorites
     theme "madek11"
     current_user.favorites.toggle(@media_entry)
@@ -242,8 +223,6 @@ class MediaEntriesController < ApplicationController
   
   def edit_multiple
     theme "madek11"
-    
-    session[:batch_origin_uri] = request.env['HTTP_REFERER']
     # custom hash for jQuery json templates
     @info_to_json = @media_entries.map do |me|
       me.attributes.merge!(me.get_basic_info)
@@ -261,12 +240,12 @@ class MediaEntriesController < ApplicationController
       end
     end
     
-    redirect_to (session[:batch_origin_uri] || media_entries_path) # TODO media_entries_path(:media_entries_id => @media_entries)
+    redirect_back_or_default(media_entries_path)
   end
   
   def edit_multiple_permissions
     theme "madek11"
-    session[:batch_origin_uri] = request.env['HTTP_REFERER']
+    
     @combined_permissions = Permission.compare(@media_entries)
     @permissions_json = @combined_permissions.to_json
 
@@ -294,8 +273,8 @@ class MediaEntriesController < ApplicationController
       end
 
     flash[:notice] = "Die Zugriffsberechtigungen wurden erfolgreich gespeichert."  
-    alt_redirect = (!session[:batch_origin_uri] || @media_entries.size == 1) ? media_entry_path(@media_entries.first) : media_entries_path
-    redirect_to (session[:batch_origin_uri] || alt_redirect)
+    alt_redirect = (@media_entries.size == 1) ? media_entry_path(@media_entries.first) : media_entries_path
+    redirect_back_or_default(alt_redirect)
   end
   
 #####################################################

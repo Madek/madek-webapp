@@ -43,9 +43,7 @@ MAdeK::Application.routes.draw do
     end
 
     member do
-      post :toggle_favorites #tmp for madek11
-      post :favorites
-      delete :favorites
+      post :toggle_favorites
       post :media_sets
       get :edit_tms
       get :to_snapshot

@@ -107,5 +107,14 @@ class ApplicationController < ActionController::Base
     return if request[:action].to_sym != :usage_terms
     redirect_to usage_terms_user_path(current_user) unless current_user.usage_terms_accepted?
   end
+  
+  def store_location
+    session[:return_to] = request.request_uri
+  end
+
+  def redirect_back_or_default(default)
+    redirect_to(session[:return_to] || default)
+    session[:return_to] = nil
+  end
 
 end
