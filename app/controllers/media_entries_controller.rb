@@ -132,10 +132,13 @@ class MediaEntriesController < ApplicationController
 
   def destroy
     @media_entry.destroy
-    flash[:notice] = "Der Medieneintrag wurde gelöscht."
 
     respond_to do |format|
-      format.html { redirect_back_or_default(media_entries_path) }
+      format.html { 
+        flash[:notice] = "Der Medieneintrag wurde gelöscht."
+        redirect_back_or_default(media_entries_path) 
+      }
+      format.js { render :json => {:id => @media_entry.id} }
     end
   end
 

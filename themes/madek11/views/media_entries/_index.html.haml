@@ -77,7 +77,7 @@
         {{/if}}
         {{if is_manageable}}
         /confirm = resource.is_a?(MediaEntry) ? "Sind Sie sicher?" : "Sind Sie sicher? Das Set wird gelöscht."
-        %a{:href => "/media_entries/${id}", :title => "Löschen", :"data-method" => :delete, :"data-confirm" => "Sind Sie sicher?"}
+        %a{:href => "/media_entries/${id}", :title => "Löschen", :class => "delete_me", :"data-method" => :delete, :"data-remote" => true, :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher?"}
           = theme_image_tag("icons/button_delete_active.png")
         {{else}}
         = theme_image_tag("icons/button_delete_inactive.png")

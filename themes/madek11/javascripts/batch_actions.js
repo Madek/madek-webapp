@@ -120,6 +120,25 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 		var media_entries_in_set = intersection_destructive(media_entry_ids_in_set.sort(), media_entry_ids.sort());
 	}; //end if
 	
+	
+	$('a.delete_me[data-method="delete"]').live('ajax:success', 
+		function(e, data, textStatus, jqXHR){
+			$('#thumb_' + data.id).remove();
+		    
+		    // remove also from sessionStorage and selectedItems
+			var media_entries_json = get_media_entries_json();
+			var media_entry_ids = $.map(media_entries_json, function(elem, i){ if (elem != null) return parseInt(elem.id); });
+			var i = media_entry_ids.indexOf(data.id);
+			if (i > -1){
+				media_entries_json.splice(i, 1);
+				$('#selected_items [rel="'+data.id+'"]').remove();
+				if (media_entries_in_set != undefined){ removeItems(media_entries_in_set, data.id) };
+				set_media_entries_json(JSON.stringify(media_entries_json));
+			    displayCount();
+			}
+  		}
+    );
+	
 	// make thumbnails removable from the selected items bar
     $('#selected_items .thumb_mini').live("hover", function() {
         $(this).children('img.thumb_remove').toggle();
