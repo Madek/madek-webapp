@@ -135,7 +135,7 @@ class MediaEntriesController < ApplicationController
     flash[:notice] = "Der Medieneintrag wurde gelöscht."
 
     respond_to do |format|
-      format.html { redirect_to media_entries_path }
+      format.html { redirect_back_or_default(media_entries_path) }
     end
   end
 
