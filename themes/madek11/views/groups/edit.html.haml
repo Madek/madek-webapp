@@ -5,8 +5,8 @@
         = @group.name
       = form_for @group, :"data-remote" => true, :html => {:id => "editinplace"} do |f|
         = f.text_field :name 
-        = f.submit _("speichen"), :class => "saveButton"
-        = link_to _("abbrechen"), "", :class => "cancelButton"
+        = f.submit _("Speichern"), :class => "saveButton"
+        = link_to _("Abbrechen"), "", :class => "cancelButton"
       %span.do_edit= link_to _("Gruppenname editieren"), ""
     %ul#members
       = render :partial => "user", :collection => @group.users
