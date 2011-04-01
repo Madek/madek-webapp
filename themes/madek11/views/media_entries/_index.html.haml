@@ -52,9 +52,9 @@
       %a{:href => "/media_entries/${id}"}
         %img{:src => "${thumb_base64}"}
     %p.item_title
-      ${title.substring(0,29)}
+      ${title.substring(0,50)}
     %p.item_author
-      ${author.substring(0,18)}
+      ${author.substring(0,50)}
     .actions
       .action_left
         /%input{:type => "checkbox", :value => "${id}", :title => "Auswählen", :class => "editable"}
