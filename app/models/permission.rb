@@ -155,7 +155,7 @@ class Permission < ActiveRecord::Base
     #################################################
     
     def compare(resources)
-      combined_permissions = {"User" => {}, "Group" => {}, nil => {}}
+      combined_permissions = {"User" => [], "Group" => [], "public" => {}}
       keys = [:view, :edit, :hi_res]
       permissions = resources.map(&:permissions).flatten
 
@@ -164,9 +164,9 @@ class Permission < ActiveRecord::Base
           when "User", "Group"
             subject_permissions = permissions.select {|p| p.subject_type == type}
             subject_permissions.map(&:subject).uniq.each do |subject|
-              combined_permissions[type][subject.id] = [subject, {}]
+              subject_info = {:id => subject.id, :name => subject.name, :type => type}
               keys.each do |key|
-                combined_permissions[type][subject.id].last[key] = case subject_permissions.select {|p| p.subject_id == subject.id and p.actions[key] == true }.size
+                subject_info[key] = case subject_permissions.select {|p| p.subject_id == subject.id and p.actions[key] == true }.size
                   when resources.size
                     true
                   when 0
@@ -175,10 +175,12 @@ class Permission < ActiveRecord::Base
                     :mixed
                 end  
               end
+              combined_permissions[type] << subject_info
             end
           else
             default_permissions = permissions.select {|p| p.subject_type.nil? }
-            combined_permissions[type] = {}
+            combined_permissions[type][:type] = "nil"
+            combined_permissions[type][:name] = "Öffentlich"
             keys.each do |key|
               combined_permissions[type][key] = case default_permissions.select {|p| p.actions[key] == true }.size
                 when resources.size

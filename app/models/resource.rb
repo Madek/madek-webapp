@@ -100,7 +100,12 @@ module Resource
       update_attributes_without_pre_validation(dup_attributes)
     end
     base.alias_method_chain :update_attributes, :pre_validation
-  
+
+    base.scope :accessible_by, lambda { |subject, action|
+      ids = Permission.accessible_by_user(base, subject, action)
+      base.where(:id => ids)
+    }
+
   end
 
   # returns the meta_data for a particular resource, so that it can written into a media file that is to be exported.
@@ -184,8 +189,7 @@ module Resource
       core_context_keys.each do |key|
         core_info[key.gsub(' ', '_')] = meta_data.get_value_for(key)
       end
-      core_info["thumb_base64_small"] = thumb_base64
-      core_info["thumb_base64_x_small"] = thumb_base64(:x_small)
+      core_info["thumb_base64"] = thumb_base64(:small_125)
       core_info
     end
 

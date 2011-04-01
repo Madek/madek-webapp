@@ -6,11 +6,7 @@ class MediaEntriesController < ApplicationController
   before_filter :authorized?, :except => [:index, :media_sets, :favorites, :toggle_favorites, :keywords] #old# :only => [:show, :edit, :update, :destroy]
   
   def index
-    # madek11
     theme "madek11"
-    session[:batch_origin_uri] = nil
-    # filtering attributes
-    with = {}
     session[:batch_origin_uri] = nil
     
     media_entries = if @user
@@ -35,6 +31,8 @@ class MediaEntriesController < ApplicationController
                         if params[:not_by_current_user]
                           # all media_entries I can see but not uploaded by me
                           MediaEntry.not_by_user(current_user).by_ids(viewable_ids)
+                        elsif request.fullpath =~ /favorites/
+                          MediaEntry.by_ids(viewable_ids & current_user.favorite_ids)
                         else
                           # all media_entries I can see
                           MediaEntry.by_ids(viewable_ids)
@@ -42,10 +40,12 @@ class MediaEntriesController < ApplicationController
                       else
                         # all public media_entries
                         ids = Permission.accessible_by_all("MediaEntry")
-                        MediaEntry.by_ids(viewable_ids)
+                        MediaEntry.by_ids(ids)
                       end
                     end
 
+    # filtering attributes
+    with = {}
 
     if @media_file
       with[:media_file_id] = @media_file.id
@@ -74,41 +74,14 @@ class MediaEntriesController < ApplicationController
     #    @facets = MediaEntry.facets params[:query], :match_mode => :extended2,
     #                                                 :with => with
 
-    media_entry_ids = @media_entries.map(&:id)
-
-    # for task bar
-    @editable_ids = Permission.accessible_by_user("MediaEntry", current_user, :edit)
-    managable_ids = Permission.accessible_by_user("MediaEntry", current_user, :manage)
-    editable_set_ids = Permission.accessible_by_user("Media::Set", current_user, :edit)
+    # OPTIMIZE only used for html and js formats, move to controller helper
+    @editable_sets = Media::Set.accessible_by(current_user, :edit)
     
-    @editable_in_context = @editable_ids & media_entry_ids
-    @managable_in_context = managable_ids & media_entry_ids
-    @editable_sets = Media::Set.where(:id => editable_set_ids)
+    @json = Logic.data_for_page(@media_entries, current_user).to_json
 
-    # @media_entries_json = @media_entries.map do |me|
-    #   basic = me.attributes.merge!(me.get_basic_info)
-    #   css_class = "thumb_mini"
-    #   css_class += " edit" if @editable_in_context.include?(me.id)
-    #   css_class += " manage" if @managable_in_context.include?(me.id)
-    #   basic["css_class"] = css_class
-    #   basic
-    # end.to_json
-
-    @media_entries_permissions = {}
-    @media_entries.each do |me|
-      #   @media_entries_permissions[me.id] = { :is_editable => (@editable_in_context.include?(me.id)),
-      #                                         :is_manageable => (@managable_in_context.include?(me.id)) }
-      css_class = "thumb_mini"
-      css_class += " edit" if @editable_in_context.include?(me.id)
-      css_class += " manage" if @managable_in_context.include?(me.id)
-      @media_entries_permissions[me.id] = { :css_class => css_class }
-    end
-        
     respond_to do |format|
       format.html
-      format.js {
-        render :partial => 'index'
-      }
+      format.js { render :json => @json }
       format.xml { render :xml=> @media_entries.to_xml(:include => {:meta_data => {:include => :meta_key}} ) }
     end
 
@@ -120,6 +93,17 @@ class MediaEntriesController < ApplicationController
       format.html
       format.js { render @media_entry }
       format.xml { render :xml=> @media_entry.to_xml(:include => {:meta_data => {:include => :meta_key}} ) }
+    end
+  end
+
+  def image
+    # TODO dry => Resource#thumb_base64
+    media_file = @media_entry.media_file
+    preview = media_file.get_preview(:large)
+    file = File.join(THUMBNAIL_STORAGE_DIR, media_file.shard, preview.filename)
+    if File.exist?(file)
+      output = File.read(file)
+      send_data output, :type => preview.content_type, :disposition => 'inline'
     end
   end
 
@@ -158,7 +142,7 @@ class MediaEntriesController < ApplicationController
 #####################################################
 
   def edit_tms
-    
+    theme "madek11"
   end
 
   def to_snapshot
@@ -202,12 +186,6 @@ class MediaEntriesController < ApplicationController
       current_user.favorites.delete(@media_entry)
       respond_to do |format|
         format.js { render :partial => "favorite_link", :locals => {:media_entry => @media_entry} }
-      end
-    else
-      # TODO refactor to index method and make it searcheable
-      @media_entries = current_user.favorites.paginate(:page => params[:page])
-      respond_to do |format|
-        format.html
       end
     end
   end
@@ -290,8 +268,9 @@ class MediaEntriesController < ApplicationController
     theme "madek11"
     session[:batch_origin_uri] = request.env['HTTP_REFERER']
     @combined_permissions = Permission.compare(@media_entries)
-    
-    @info_to_json = @media_entries.map do |me|
+    @permissions_json = @combined_permissions.to_json
+
+    @media_entries_json = @media_entries.map do |me|
       me.attributes.merge!(me.get_basic_info)
     end.to_json
   end
@@ -314,9 +293,9 @@ class MediaEntriesController < ApplicationController
         media_entry.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
       end
 
-    flash[:notice] = "Die Zugriffsberechtigungen wurden erflogreich gespeichert."    
-    redirect_to (session[:batch_origin_uri] || media_entries_path)
-
+    flash[:notice] = "Die Zugriffsberechtigungen wurden erfolgreich gespeichert."  
+    alt_redirect = (!session[:batch_origin_uri] || @media_entries.size == 1) ? media_entry_path(@media_entries.first) : media_entries_path
+    redirect_to (session[:batch_origin_uri] || alt_redirect)
   end
   
 #####################################################
@@ -349,7 +328,7 @@ class MediaEntriesController < ApplicationController
     case action
       when :new
         action = :create
-      when :show
+      when :show, :image
         action = :view
       when :edit, :update
         action = :edit

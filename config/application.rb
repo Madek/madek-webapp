@@ -35,7 +35,7 @@ module MAdeK
     # config.i18n.default_locale = :de
 
     # JavaScript files you want as :defaults (application.js is always included).
-    config.action_view.javascript_expansions[:defaults] = %w(jquery.min jquery-ui.min rails)
+    config.action_view.javascript_expansions[:defaults] = %w(jquery.min jquery-ui.min rails modernizr.min)
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
@@ -63,7 +63,7 @@ THUMBNAIL_STORAGE_DIR = "#{Rails.root}/db/media_files/#{Rails.env}/attachments"
 # $ sudo ln -s /usr/bin/exiftool /usr/local/bin/exiftool
 # $ sudo ln -s /usr/bin/lib /usr/local/bin/lib
 EXIFTOOL_CONFIG = "#{METADATA_CONFIG_DIR}/ExifTool_config.pl"
-EXIFTOOL_PATH = "/usr/bin/exiftool -config #{EXIFTOOL_CONFIG}"
+EXIFTOOL_PATH = "exiftool -config #{EXIFTOOL_CONFIG}"
 # Ideally, this would work under script/server AND passenger, but it doesn't.
 # Under passenger, it has no idea. Maybe substitute as part of the Capistrano deploy?
 # EXIFTOOL_PATH = `/usr/bin/which exiftool`.gsub(/\n/,"") 
@@ -77,7 +77,7 @@ tmp_ext = nil
 DOT_PATH = "/usr/local/bin/dot"
 FILE_UTIL_PATH = "/usr/bin/file " + (`uname -s`.include?("Darwin") ? "-Ib" : "-ib")
 
-THUMBNAILS = { :x_large => '1024x768>', :large => '620x500>', :medium => '300x300>', :small_125 => '125x125>', :small => '100x100>', :x_small => '50x50>' }
+THUMBNAILS = { :x_large => '1024x768>', :large => '620x500>', :medium => '300x300>', :small_125 => '125x125>', :small => '100x100>' }
 PER_PAGE = [36,72,144]
 
 DEFAULT_ACTION_PERMISSIONS = {  :view => false, # read
@@ -92,4 +92,4 @@ DEFAULT_LANGUAGE = :de_CH
 ENCODING_BASE_URL = "http://test:MAdeK@test.madek.zhdk.ch"
 ENCODING_TEST_MODE = 1 # 1 for true, 0 for false
 
-RELEASE_VERSION = "0.2.4"
+RELEASE_VERSION = "0.3"

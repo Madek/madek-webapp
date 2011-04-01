@@ -2,107 +2,110 @@
 	<%= include_editable %>
 <% end %>
 
+<div class="container_12 clearfix">
 
-<div id="content-body" class="container_12 clearfix">
-
-	<%= render :partial => "steps" %>
-	<%= javascript_tag do %>
-		$(document).ready(function () {
-			activate_step(3);
-			$("#required_message").hide();
-			
-			$("form").submit(function(event){
-				// OPTIMIZE nested form problem
-				if(this != event.target) return true;
-
-				var valid = true;
-				$(this).find("input[data-required]").each(function(){
-					if($(this).val() == "") valid = false;
-				});
-				if(!valid){
-				// doesn't work anymore ??!!
-				//if($(this).find("input[data-required][value='']").length > 0){
-					$("#ajaxLoading").hide();
-					$("#required_message").show();
-					return false;
-				}else{
-					$("#required_message").hide();
-				}
-			});
-
-			$("[data-meta_key] .with_actions > a").click(function(){
-				var value = $(this).closest("li").find("input.value").val();
-				var parent_container = $(this).closest("[data-meta_key]");
-				var target = $("[data-meta_key='"+ parent_container.attr('data-meta_key') +"']").not(parent_container).find("input.value");
-				target.val(value);
-				return false;
-			});
-		});
-	<% end %>
-		
-	<div id="upload-container" class="container_12 grid_12" style="margin-top: 1em;">
-		
-		<div style="background: #DBEBF1; padding: 1em 0; -moz-border-radius: 5px; -webkit-border-radius: 5px;" class="clearfix">
-		
-			<%= content_tag :div, :style => "margin-bottom: 2em;" do %>
-				<ul>
-					<li><input type="radio" checked /> Individuelle Metadatenvergabe</li>
-						<li style="padding-left: 1.5em"><input type="checkbox" checked /> Importierte IPTC Metadaten berücksichtigen</li>
-					<li><input type="radio" /> Batch Metadatenvergabe</li>
-				</ul>
-			<% end if false #future# %>
-			
-			<% with_actions = (@media_entries.size > 1) %>
-			<%= form_tag upload_path(:upload_session_id => params[:upload_session_id]), :method => :put do
-				a = "".html_safe
-				@media_entries.each do |media_entry|
-					a += content_tag :div, :class => "upload-me-metadata-container" do
-						b = content_tag :div, :class => "upload-me-autodata" do
-							c = content_tag :p do
-								thumb_for(media_entry, :medium, :style => "")
-							end
-							c += content_tag :p do
-								d = content_tag :strong do
-									"Filename:"
-								end 
-								d += tag :br
-								d += media_entry.media_file.filename
-							end
-							c += content_tag :p do
-								d = content_tag :strong do
-									"Hochgeladen von:"
-								end 
-								d += tag :br
-								d += media_entry.meta_data.get_value_for("uploaded by")
-							end
-							c += content_tag :p do
-								d = content_tag :strong do
-									"Hochgeladen am:"
-								end 
-								d += tag :br
-								d += formatted_value(media_entry.meta_data.get("uploaded at"))
-							end
-						end
-						b += content_tag :div, :class => "upload-me-metadata" do
-							content_tag :div, :class => "meta_data_block meta_data" do
-								render :partial => "/meta_data/bulk_edit", :locals => { :resource => media_entry, :context => @context, :with_actions => with_actions }
-							end
-						end
-					end
-				end
+	<section id="content_body" class="clearfix">
 	
-				a += content_tag :div, :class => "container_12" do
-					b = content_tag :div, :class => "grid_4" do
-						submit_tag _("Metadaten speichern und weiter") + " »"
+		<%= render :partial => "steps" %>
+		<%= javascript_tag do %>
+			$(document).ready(function () {
+				activate_step(3);
+				$("#required_message").hide();
+				
+				$("form").submit(function(event){
+					// OPTIMIZE nested form problem
+					if(this != event.target) return true;
+	
+					var valid = true;
+					$(this).find("input[data-required]").each(function(){
+						if($(this).val() == "") valid = false;
+					});
+					if(!valid){
+					// doesn't work anymore ??!!
+					//if($(this).find("input[data-required][value='']").length > 0){
+						$("#ajaxLoading").hide();
+						$("#required_message").show();
+						return false;
+					}else{
+						$("#required_message").hide();
+					}
+				});
+	
+				$("[data-meta_key] .with_actions > a").click(function(){
+					var value = $(this).closest("li").find("input.value").val();
+					var parent_container = $(this).closest("[data-meta_key]");
+					var target = $("[data-meta_key='"+ parent_container.attr('data-meta_key') +"']").not(parent_container).find("input.value");
+					target.val(value);
+					return false;
+				});
+			});
+		<% end %>
+			
+		<div id="upload-container" style="margin-top: 2em;">
+			
+			<div style="background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;" class="clearfix">
+			
+				<%= content_tag :div, :style => "margin-bottom: 2em;" do %>
+					<ul>
+						<li><input type="radio" checked /> Individuelle Metadatenvergabe</li>
+							<li style="padding-left: 1.5em"><input type="checkbox" checked /> Importierte IPTC Metadaten berücksichtigen</li>
+						<li><input type="radio" /> Batch Metadatenvergabe</li>
+					</ul>
+				<% end if false #future# %>
+				
+				<% with_actions = (@media_entries.size > 1) %>
+				<%= form_tag upload_path(:upload_session_id => params[:upload_session_id]), :method => :put do
+					a = "".html_safe
+					@media_entries.each do |media_entry|
+						a += content_tag :div, :class => "upload-me-metadata-container" do
+							b = content_tag :div, :class => "upload-me-autodata" do
+								c = content_tag :p do
+									thumb_for(media_entry, :medium, :style => "")
+								end
+								c += content_tag :p do
+									d = content_tag :strong do
+										"Filename:"
+									end 
+									d += tag :br
+									d += media_entry.media_file.filename
+								end
+								c += content_tag :p do
+									d = content_tag :strong do
+										"Hochgeladen von:"
+									end 
+									d += tag :br
+									d += media_entry.meta_data.get_value_for("uploaded by")
+								end
+								c += content_tag :p do
+									d = content_tag :strong do
+										"Hochgeladen am:"
+									end 
+									d += tag :br
+									d += formatted_value(media_entry.meta_data.get("uploaded at"))
+								end
+							end
+							b += content_tag :div, :class => "upload-me-metadata" do
+								content_tag :div, :class => "meta_data_block meta_data" do
+									render :partial => "/meta_data/bulk_edit", :locals => { :resource => media_entry, :context => @context, :with_actions => with_actions }
+								end
+							end
+						end
 					end
-					b += content_tag :div, :class => "grid_7", :id => "required_message" do
-						_("Bitte füllen Sie die Pflichtfelder aus (\"Titel\" und \"Copyright\").")
-				    end
-				end
-			end %>
+		
+					a += content_tag :div, :class => "container_12" do
+						b = content_tag :div, :class => "grid_4 alpha" do
+							submit_tag _("Metadaten speichern und weiter…"), :class => "upload_buttons"
+						end
+						b += content_tag :div, :class => "grid_7", :id => "required_message" do
+							_("Bitte füllen Sie die Pflichtfelder aus (\"Titel\" und \"Copyright\").")
+					    end
+					end
+				end %>
+		
+			</div>
 	
 		</div>
-
-	</div>
+	
+	</section>
 
 </div>

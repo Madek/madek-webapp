@@ -35,37 +35,19 @@ class MediaSetsController < ApplicationController
   def show
     theme "madek11"
     session[:batch_origin_uri] = nil
-    
-    viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
-    @editable_ids = Permission.accessible_by_user("MediaEntry", current_user, :edit)
-    managable_ids = Permission.accessible_by_user("MediaEntry", current_user, :manage)
-    editable_set_ids = Permission.accessible_by_user("Media::Set", current_user, :edit)
 
+    viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
     #old# @media_entries = MediaEntry.search :with => {:media_set_ids => @media_set.id, :sphinx_internal_id => viewable_ids}, :page => params[:page], :per_page => params[:per_page].to_i, :retry_stale => true
     @media_entries =  @media_set.media_entries.includes(:media_file).where(:id => viewable_ids).paginate(:page => params[:page], :per_page => PER_PAGE.first)
-    media_entry_ids = @media_entries.map(&:id)
-    
-    # for task bar
-    @can_edit_set = editable_set_ids.include?(@media_set.id)
-    @editable_in_context = @editable_ids & media_entry_ids
-    @managable_in_context = managable_ids & media_entry_ids
-    @editable_sets = Media::Set.where("id IN (?)", editable_set_ids)
-    
-    
-    
-    @media_entries_permissions = {}
-    @media_entries.each do |me|
-      #   @media_entries_permissions[me.id] = { :is_editable => (@editable_in_context.include?(me.id)),
-      #                                         :is_manageable => (@managable_in_context.include?(me.id)) }
-      css_class = "thumb_mini"
-      css_class += " edit" if @editable_in_context.include?(me.id)
-      css_class += " manage" if @managable_in_context.include?(me.id)
-      @media_entries_permissions[me.id] = { :css_class => css_class }
-    end
-    
+
+    @editable_sets = Media::Set.accessible_by(current_user, :edit)
+    @can_edit_set = @editable_sets.include?(@media_set)
+
+    @json = Logic.data_for_page(@media_entries, current_user).to_json
+
     respond_to do |format|
       format.html
-      format.js { render :partial => "/media_entries/index" }
+      format.js { render :json => @json }
     end
   end
 
@@ -92,6 +74,19 @@ class MediaSetsController < ApplicationController
 
   def edit
     theme "madek11"
+    
+    permissions = Permission.cached_permissions_by(@media_set)
+    @permissions_json = {}
+    
+    permissions.group_by {|p| p.subject_type }.collect do |type, type_permissions|
+      unless type.nil?
+        @permissions_json[type] = type_permissions.map {|p| {:id => p.subject.id, :name => p.subject.name, :type => type, :view => p.actions[:view], :edit => p.actions[:edit], :hi_res => p.actions[:hi_res] }}
+      else
+        p = type_permissions.first
+        @permissions_json["public"] = {:name => "Öffentlich", :type => 'nil', :view => p.actions[:view], :edit => p.actions[:edit], :hi_res => p.actions[:hi_res] }
+      end
+    end
+    @permissions_json = @permissions_json.to_json
   end
 
 #old ??#
@@ -154,6 +149,23 @@ class MediaSetsController < ApplicationController
     else
       @media_sets = @user.media_sets
     end
+  end
+  
+  def update_multiple_permsissions
+    @media_set.permissions.delete_all
+
+    actions = params[:subject]["nil"]
+    @media_set.permissions.build(:subject => nil).set_actions(actions)
+
+    ["User", "Group"].each do |key|
+      params[:subject][key].each_pair do |subject_id, actions|
+        @media_set.permissions.build(:subject_type => key, :subject_id => subject_id).set_actions(actions)
+      end if params[:subject][key]
+    end
+    
+    @media_set.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
+    flash[:notice] = "Die Zugriffsberechtigungen für das Set wurden erfolgreich gespeichert."
+    redirect_to @media_set
   end
 
 #####################################################

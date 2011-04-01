@@ -79,42 +79,6 @@ module MetaDataHelper
     end
   end
 
-  #old# can be removed soon
-  # def widget_meta_terms_multiselect_old(meta_datum, meta_key, meta_terms)
-  #   a = "".html_safe
-  #   @js_5 ||= false
-  #   unless @js_5
-  #     @js_5 = true
-  #     locale = "de"
-  #     a += stylesheet_link_tag "jquery/plugins/ui.multiselect"
-  #     # a += javascript_include_tag "jquery/plugins/multiselect/jquery.localisation-min",
-  #     #                             "jquery/plugins/multiselect/jquery.blockUI",
-  #     #                             #tmp 02.18.11# "jquery/plugins/multiselect/jquery.tmpl.1.1.1", # conflicts with madek11's jquery.tmpl.js
-  #     #                             "jquery/plugins/multiselect/ui.multiselect",
-  #     #                             "jquery/plugins/multiselect/locale/ui.multiselect-#{locale}"
-  #     # 02.21.11 Switching to newer version of multiselect plugin with less dependencies
-  #     a += javascript_include_tag "/themes/madek11/javascripts/jquery/plugins/multiselect/jquery.localisation-min.js",
-  #                                 "/themes/madek11/javascripts/jquery/plugins/multiselect/ui.multiselect.js",
-  #                                 "/themes/madek11/javascripts/jquery/plugins/multiselect/locale/ui-multiselect-#{locale}.js"
-  #     a += javascript_tag do
-  #       begin
-  #       <<-HERECODE
-  #         $(document).ready(function(){
-  #           $(".multiselect").multiselect({dividerLocation: 0.5, sortable: false});                
-  #         });
-  #       HERECODE
-  #       end.html_safe
-  #     end
-  #   end
-  #   all_options = meta_terms.collect {|x| [x.to_s, x.id]}
-  #   selected_options = meta_datum.object.value # TODO ?? .deserialized_value.collect(&:id)
-  #   a += meta_datum.select :value, options_for_select(all_options, selected_options), {}, {:multiple => true, :class => "multiselect"}
-  #   a += content_tag :div do
-  #     new_term_field(meta_key)
-  #   end if meta_key.is_extensible_list?
-  #   a
-  # end
-
   def checkbox_for_term(term, meta_datum, ui)
     is_checked = (meta_datum.object.value and meta_datum.object.value.include?(term.id))
     content_tag :li do
@@ -127,8 +91,12 @@ module MetaDataHelper
       a += term.to_s
     end
   end
-  
-  def new_term_field(meta_key, dom_scope)
+
+  def new_term_field(meta_key, dom_scope = nil)
+    unless dom_scope
+      dom_scope = meta_key.label.gsub(/(\s+|\/+)/, '_')
+    end 
+    
     a = text_field_tag :new_term, nil
     a += link_to meta_key_meta_terms_path(meta_key), :class => "new_term", :"data-dom_scope" => dom_scope, :remote => true, :method => :post do
       icon_tag("button_add_value")
@@ -141,28 +109,25 @@ module MetaDataHelper
             begin  
             <<-HERECODE
               $(document).ready(function(){
-                var h;
                 $("a.new_term[data-remote]").bind('click', function(){
-                  h = ''; // value needs to be reset to empty string to avoid cocantenation
+                  var h = ''; // value needs to be reset to empty string to avoid cocantenation
                   h = $(this).attr("href");
+                  $(this).data("original_href", h);
                   var v = $(this).prev("input").val();
                   $(this).attr("href", h +"?new_term=" + v);
                 }).bind('ajax:success', function(xhr, data, status){
-                  var dom_scope = $(this).data("dom_scope");
-                  parsed_data = $.parseJSON(data);
-                  $(this).attr("href", h);
+                  var parsed_data = $.parseJSON(data); // TODO send as dateType=json 
+                  $(this).attr("href", $(this).data("original_href"));
                   $(this).prev("input").val("");
-                  // add to all_options
-                  var search_field = $("#"+ dom_scope +"_multiselect input[name='autocomplete_search']");
-                  var all_options = search_field.data("all_options");
-                  all_options.push(parsed_data);
-                  search_field.data("all_options", all_options);
-                  // call add_to_selected_items
-                  add_to_selected_items(parsed_data, dom_scope);
+                  // FIXME doesn't work if no term exists yet
+                  s = $(this).parent().prev();
+                  var c = s.clone().insertAfter(s); // TODO use .tmpl() ??
+                  c.children("input:first").val(parsed_data.id).attr("checked", "checked");
+                  c.contents(":last").replaceWith(parsed_data.label); // TODO jquery >= 1.4.3  .text(parsed_data.value);
                 });  
                 
                 $("input[name='new_term']").keypress(function(event) {
-                  if (event.keyCode == '13') {
+                  if (event.keyCode === $.ui.keyCode.ENTER) {
                     event.preventDefault();
                     $(this).next("a.new_term[data-remote]").trigger('click');
                   }
@@ -174,58 +139,6 @@ module MetaDataHelper
       end
     return a
   end
-
-  #old# can be removed soon
-  # def new_term_field_old(meta_key)
-  #   a = text_field_tag :new_term, nil
-  #   a += link_to meta_key_meta_terms_path(meta_key), :class => "new_term", :remote => true, :method => :post do
-  #     icon_tag("button_add_value")
-  #   end
-  # 
-  #   @js_6 ||= false
-  #   unless @js_6
-  #     @js_6 = true
-  #     a += javascript_tag do
-  #       begin
-  #       <<-HERECODE
-  #         $(document).ready(function(){
-  #           var h;
-  #           $("a.new_term[data-remote]").bind('click', function(){
-  #             h = $(this).attr("href");
-  #             var v = $(this).prev("input").val();
-  #             $(this).attr("href", h +"?new_term=" + v);
-  #           }).bind('ajax:success', function(xhr, data, status){
-  #             parsed_data = $.parseJSON(data);
-  #             $(this).attr("href", h);
-  #             $(this).prev("input").val("");
-  #             
-  #             var parent = $(this).parent();
-  #             var s = parent.siblings("select.multiselect:first"); 
-  #             if(s.length){
-  #               s.multiselect('addOptions', parsed_data.id+'='+parsed_data.value);
-  #               //tmp// s.multiselect('select', '"'+parsed_data.value+'"');
-  #             }else{
-  #               // FIXME doesn't work if no term exists yet
-  #               s = parent.prev();
-  #               var c = s.clone().insertAfter(s); // TODO use .tmpl() ??
-  #               c.children("input:first").val(parsed_data.id).attr("checked", "checked");
-  #               c.contents(":last").replaceWith(parsed_data.value); // TODO jquery >= 1.4.3  .text(parsed_data.value);
-  #             }
-  #           });
-  #           
-  #           $("input[name='new_term']").keypress(function(event) {
-  #             if (event.keyCode == '13') {
-  #               event.preventDefault();
-  #               $(this).next("a.new_term[data-remote]").trigger('click');
-  #             }
-  #           });
-  #         });
-  #       HERECODE
-  #       end.html_safe
-  #     end
-  #   end
-  #   a
-  # end
 
 ###########################################################
 
@@ -247,107 +160,115 @@ module MetaDataHelper
   def widget_meta_terms_multiselect(meta_datum, meta_key)
     case meta_key.object_type.constantize.name
       when "Meta::Department"
-        all_options = Meta::Department.all.collect {|d| {:label => d.to_s, :id => d.id} }
-        selected_option_ids = meta_datum.object.value
-        selected_options = selected_option_ids.blank? ? [] : all_options.select {|x| selected_option_ids.include? x[:id] }
+        selected = Array(meta_datum.object.value)
+        all_options = Meta::Department.all.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)} }
       when "Meta::Term"
-        all_options = meta_key.meta_terms.collect {|t| {:label => t.to_s, :id => t.id}}
-        selected_option_ids = meta_datum.object.value
-        selected_options = selected_option_ids.blank? ? [] : all_options.select {|x| selected_option_ids.include? x[:id] }
+        selected = Array(meta_datum.object.value)
+        all_options = meta_key.meta_terms.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}
+      when "Person"
+        selected = Array(meta_datum.object.value)
+        @people ||= meta_key.object_type.constantize.with_media_entries
+        all_options = @people.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}
+      when "Keyword"
+        keywords = meta_datum.object.deserialized_value
+        meta_term_ids = keywords.collect(&:meta_term_id)
+        all_grouped_keywords = Keyword.group(:meta_term_id)
+        all_grouped_keywords = all_grouped_keywords.where(["meta_term_id NOT IN (?)", meta_term_ids]) unless meta_term_ids.empty?
+        all_options = keywords.collect {|x| {:label => x.to_s, :id => x.meta_term_id, :selected => true}}
+        all_options += all_grouped_keywords.collect {|x| {:label => x.to_s, :id => x.meta_term_id, :selected => false}}
+        all_options.sort! {|a,b| a[:label].downcase <=> b[:label].downcase}
     end
-    
+
     dom_scope = meta_key.label.gsub(/(\s+|\/+)/, '_')
-    
-    h = content_tag :div, :id => "#{dom_scope}_multiselect", :class => "madek_multiselect_container" do 
+    is_extensible = (meta_key.is_extensible_list? or %w(keywords author).include?(dom_scope))
+    with_toggle = !%w(keywords author creator description_author description_author_before_import).include?(dom_scope)
+
+    h = content_tag :div, :class => "madek_multiselect_container",
+                          :"data-is_extensible" => is_extensible,
+                          :"data-with_toggle" => with_toggle do 
       a = content_tag :ul, :class => "holder" do
+        content_tag :li, :class => "input_holder" do
+          text_field_tag "autocomplete_search", nil, :style => "outline: none; border: none;",
+                          :"data-all_options" => "#{all_options.to_json}",
+                          :"data-field_name_prefix" => "#{meta_datum.object_name}"
+        end
       end
-      a += text_field_tag "autocomplete_search", nil, :"data-all_options" => all_options.to_json, :style => "width: 86%"
-      a += link_to icon_tag("toggler-arrow-closed"), "#", :class => "search_toggler"
     end
-    
-    h += content_tag :script, :type => "text/x-jquery-tmpl", :id => "#{dom_scope}_madek_multiselect_item" do
-      begin
-      <<-HERECODE
-        <li class='bit-box'>
-          ${label}
-          <input type='hidden' name='#{meta_datum.object_name}[value][]' value='${id}'>
-          <a class="closebutton" href="#"></a>
-        </li>
-      HERECODE
-      end.html_safe
+  
+        
+    @js_3 ||= false
+    unless @js_3
+      @js_3 = true
+      h += content_tag :script, :type => "text/x-jquery-tmpl", :id => "madek_multiselect_item" do
+        begin
+        <<-HERECODE
+          <li class='bit-box'>
+            ${label}
+            <input type='hidden' name='${field_name_prefix}[value][]' value='${id}'>
+            <a class="closebutton" href="#"></a>
+          </li>
+        HERECODE
+        end.html_safe
+      end
+      h += stylesheet_link_tag "jquery/fcbkcomplete.css", "jquery/fcbkcomplete_custom.css"
+      h += javascript_tag do
+        begin
+        <<-HERECODE
+          $(document).ready(function(){
+            function do_nothing() {
+                  return false;
+            };
+            $(".dialog_link").click(function(e){
+              // prevent double click on link
+              $(e.target).click(do_nothing);
+              setTimeout(function(){
+                $(e.target).unbind('click', do_nothing);
+              }, 1000);
+              var source = $(this);
+              var next_container = source.next();
+              if(next_container.length > 0){
+                next_container.slideToggle();
+                source.children("img:last").toggleClass("expanded");
+              }else{
+                $.ajax({
+                  url: source.attr("href"),
+                  dataType: 'html',
+                  success: function(response){
+                    source.children("img:last").toggleClass("expanded");
+                    source.after(response);
+                    source.next().hide().slideDown();
+                    $("form[data-remote] input:submit").click(function(event){
+                      $(this).closest("form").trigger("submit");
+                      return false;
+                    });
+
+                    if(source.closest("[data-meta_key]").data("meta_key") == "keywords"){
+                      hide_selected_keywords(source.prev(".madek_multiselect_container").find("ul.holder")); 
+                    }else{
+                      $("form.new_person").bind("ajax:success", function(xhr, item, status){
+                        if (item.id != null) {
+                          var parent_block = $(this).closest("[data-meta_key]");
+                          var dom_scope = parent_block.attr('data-meta_key');
+                          var search_field = parent_block.find("input[name='autocomplete_search']");
+                          add_to_selected_items(item, dom_scope, search_field, true);
+                        };  
+                        source.children("img:last").toggleClass("expanded");
+                        $(this).closest(".tabs").remove();
+                      });
+                    }
+                  }
+                });
+              }
+              return false;                  
+            });                   
+          });
+        HERECODE
+        end.html_safe
+      end
     end
-    
-    h += javascript_tag do
-      begin
-      <<-HERECODE
-        $(document).ready(function(){
-          create_multiselect_widget("#{dom_scope}", #{selected_option_ids.to_json}, #{selected_options.to_json});
-        });
-      HERECODE
-      end.html_safe
-    end
-    h += content_tag :div do
-      new_term_field(meta_key, dom_scope)
-    end.html_safe if meta_key.is_extensible_list?
+
     h
   end
-
-#old# can be removed soon
-#   def widget_meta_departments(meta_datum, meta_key)
-# #    all_options = Meta::Department.all.collect do |d|
-# #      [d.to_limited_s, d.id, {:title => d.to_s}]
-# #    end
-# #    selected_option = meta_datum.object.value
-# #    
-# #    meta_datum.select :value, options_for_select(all_options, selected_option), {:include_blank => true}, {:multiple => true}
-# 
-#     all_options = Meta::Department.all.collect {|d| {:label => d.to_s, :id => d.id} }
-#     selected_option_ids = meta_datum.object.value
-#     selected_options = selected_option_ids.blank? ? [] : all_options.select {|x| selected_option_ids.include? x[:id] }
-# 
-#     dom_scope = meta_key.label.gsub(/\s+/, '_')
-# 
-#     h = content_tag :div, :id => "#{dom_scope}_multiselect", :class => "madek_multiselect_container" do 
-#       a = content_tag :ul, :class => "holder" do
-#       end
-#       a += text_field_tag "autocomplete_search"
-#     end
-#     h += content_tag :style do
-#       begin
-#       <<-HERECODE
-#         .madek_multiselect_container ul.holder li {
-#           white-space: normal;
-#         }
-#         .ui-autocomplete { 
-#             width: 10px;
-#         }
-#       HERECODE
-#       end.html_safe
-#     end
-#     h += javascript_include_tag "/themes/madek11/javascripts/jquery.tmpl.js" #TODO remove (madek11 already includes in layout)
-#     h += content_tag :script, :type => "text/x-jquery-tmpl", :id => "#{dom_scope}_madek_multiselect_item" do
-#       begin
-#       <<-HERECODE
-#         <li class='bit-box'>
-#           ${label}
-#           <input type='hidden' name='#{meta_datum.object_name}[value][]' value='${id}'>
-#           <a class="closebutton" href="#"></a>
-#         </li>
-#       HERECODE
-#       end.html_safe
-#     end
-#     h += javascript_tag do
-#       begin
-#       <<-HERECODE
-#           $(document).ready(function(){
-#             create_multiselect_widget("#{dom_scope}", #{all_options.to_json}, #{selected_option_ids.to_json}, #{selected_options.to_json});
-#           });
-#       HERECODE
-#       end.html_safe
-#     end
-#   end
-
-###########################################################
 
   def field_tag(meta_datum, context, autofocus = false, with_actions = false)
     h = meta_datum.hidden_field :meta_key_id
@@ -363,101 +284,23 @@ module MetaDataHelper
 
     elsif meta_key.object_type
       klass = meta_key.object_type.constantize
-      
-      @js_3 ||= false
-      unless @js_3
-        @js_3 = true
-        h += stylesheet_link_tag "jquery/fcbkcomplete.css", "jquery/fcbkcomplete_custom.css"
-        h += javascript_include_tag "jquery/fcbkcomplete.min.js"
-        h += javascript_tag do
-          begin
-          <<-HERECODE
-            $(document).ready(function(){
-                $("select.fcbkcomplete").fcbkcomplete({
-                  firstselected: true,
-                  filter_selected: true,
-                  newel: true,
-                  maxitems: 99999,
-                  addontab: true
-                });
-
-                $(".dialog_link").click(function(){
-                  var source = $(this);
-                  var next_container = source.next();
-                  if(next_container.length > 0){
-                    next_container.slideToggle();
-                    source.children("img:last").toggleClass("expanded");
-                  }else{
-                    $.ajax({
-                      url: source.attr("href"),
-                      success: function(response){
-                        source.children("img:last").toggleClass("expanded");
-                        source.after(response);
-                        source.next().hide().slideDown();
-
-                        $("form[data-remote] input:submit").click(function(event){
-                          $(this).closest("form").trigger("submit");
-                          return false;
-                        });
-  
-                        $("form[data-remote]").bind("ajax:success", function(xhr, data, status){
-                          parsed_data = $.parseJSON(data);
-                          if (parsed_data.value != null) source.siblings("select.fcbkcomplete").trigger("addItem", parsed_data);
-                          source.children("img:last").toggleClass("expanded");
-                          $(this).closest(".tabs").remove();
-                        });
-                      }
-                    });
-                  }
-                  return false;                  
-                });
-            });
-          HERECODE
-          end.html_safe
-        end
-      end
-      
+            
       case klass.name
-# TODO set String for 'subject' key, TODO multiple fields for array 
-#        when "String"
-#          h += text_area_tag "media_entry[meta_data_attributes][0][value]", meta_datum.object.to_s
+        # TODO set String for 'subject' key, TODO multiple fields for array 
+        #       when "String"
+        #          h += text_area_tag "media_entry[meta_data_attributes][0][value]", meta_datum.object.to_s
         when "Keyword"
-          keywords = meta_datum.object.deserialized_value
-
-          meta_term_ids = keywords.collect(&:meta_term_id)
-          all_grouped_keywords = Keyword.group(:meta_term_id)
-          all_grouped_keywords = all_grouped_keywords.where(["meta_term_id NOT IN (?)", meta_term_ids]) unless meta_term_ids.empty?
-          all_options = (keywords + all_grouped_keywords).collect {|x| [x.to_s, x.meta_term_id]}.sort {|a,b| a[0].downcase <=> b[0].downcase}
-          selected_options = keywords.collect(&:meta_term_id)
-
-          #new# TODO save keywords as entities (Keyword ??)
-          #all_values = Array(meta_datum.object.value).compact
-          #all_options = all_values.collect {|x| [x.to_s, x.id]}
-          #selected_options = all_values.collect(&:id) # TODO
-    
-          h += meta_datum.select :value, options_for_select(all_options, selected_options), {}, {:multiple => true, :class => "fcbkcomplete"}
-
-          h += link_to icon_tag("button_add_keyword") + " " + icon_tag("toggler-arrow-closed"), keywords_media_entries_path, :class => "dialog_link", :style => "margin-top: .5em;"
+          h += widget_meta_terms_multiselect(meta_datum, meta_key)
+          h += link_to icon_tag("button_add_keyword"), keywords_media_entries_path, :class => "dialog_link", :style => "margin-top: .5em;"
 
         when "Meta::Term"
           meta_terms = meta_key.meta_terms
           ui = (definition.meta_field.length_max and definition.meta_field.length_max == 1 ? :radio_button : :check_box )
-          # WIP: implementing generic madek_multiselect
-          # if meta_terms.size <= 10
           h += widget_meta_terms(meta_datum, meta_key, meta_terms, ui)
-          # else
-          #   h += widget_multi_select(meta_datum, meta_key, meta_terms)
-          # end
 
         when "Person"
-          # NOTE prefetch all people and cache them
-          @people ||= klass.with_media_entries
-          
-          all_options = @people.collect {|x| [x.to_s, x.id]}
-          selected_options = meta_datum.object.deserialized_value.collect(&:id)
-          h += meta_datum.select :value, options_for_select(all_options, selected_options), {}, {:multiple => true, :class => "fcbkcomplete"}
-
-          h += link_to icon_tag("button_add_person") + " " + icon_tag("toggler-arrow-closed"), new_person_path, :class => "dialog_link", :style => "margin-top: .5em;"
+          h += widget_meta_terms_multiselect(meta_datum, meta_key)
+          h += link_to icon_tag("button_add_person"), new_person_path, :class => "dialog_link", :style => "margin-top: .5em;"
           
         when "Meta::Date"
           meta_datum.object.value ||= [] # OPTIMIZE
@@ -537,7 +380,7 @@ module MetaDataHelper
                                     
                   $(".dates input.datepicker").bind("change", function() {
                     var source = $(this);
-                    if(source.val() != source.attr("placeholder")){
+                    if(source.is(":visible") && source.val() != source.attr("placeholder")){
                       var v = source.siblings(".datepicker").andSelf().map(function() {
                         var t = $(this).nextAll(".time").first();
                         var r = this.value;
@@ -641,7 +484,7 @@ module MetaDataHelper
       #tmp# h += meta_datum.text_field :value, :class => "value", :"data-required" => is_required
       h += text_field_tag "#{meta_datum.object_name}[value]", meta_datum.object.to_s, :class => "value", :"data-required" => is_required
       h += content_tag :span, :class => "with_actions" do
-            link_to _("Übertragen auf andere Medien"), "#", :class => "buttons"
+            link_to _("Übertragen auf andere Medien"), "#", :class => "hint"
            end if with_actions # TODO see _bulk_edit
     else
       #tmp# h += meta_datum.text_area :value, :"data-required" => is_required #, :rows => 2

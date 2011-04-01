@@ -60,6 +60,20 @@ class MetaDatum < ActiveRecord::Base
                               r = Keyword.create(:meta_term => term, :user => user)
                               # TODO delete keywords records anymore referenced
                             end
+                          elsif klass == Meta::Term
+                            #2603# TODO dry
+                            if v.is_a?(Fixnum) or (v.respond_to?(:match) and !!v.match(/\A[+-]?\d+\Z/)) # TODO patch to String#is_numeric? method
+                              # TODO check if is member of meta_key.meta_terms
+                              r = klass.where(:id => v).first
+                            elsif record.meta_key.is_extensible_list?
+                              h = {}
+                              LANGUAGES.each do |lang|
+                                h[lang] = v
+                              end
+                              term = Meta::Term.find_or_create_by_en_GB_and_de_CH(h)
+                              record.meta_key.meta_terms << term unless record.meta_key.meta_terms.include?(term)
+                              r = term
+                            end
                           elsif v.is_a?(Fixnum) or (v.respond_to?(:match) and !!v.match(/\A[+-]?\d+\Z/)) # TODO patch to String#is_numeric? method
                             r = klass.where(:id => v).first
                           elsif klass == Copyright
@@ -150,7 +164,7 @@ class MetaDatum < ActiveRecord::Base
         return false unless other_value.is_a?(Array)
         if value.first.is_a?(Meta::Date) 
           other_value.is_a?(Meta::Date) && (other_value.first.free_text == value.first.free_text)
-        elsif meta_key.label == "keywords"
+        elsif meta_key.object_type == "Keyword"
           referenced_meta_term_ids = Keyword.where(:id => other_value).all.map(&:meta_term_id)
           deserialized_value.map(&:meta_term_id).same_elements?(referenced_meta_term_ids)
         else

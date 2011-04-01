@@ -41,10 +41,13 @@ group :development do
 end
 
 group :test do
+  gem 'cucumber'
+  gem 'cucumber-rails'
   gem 'capybara'
   gem 'database_cleaner'
   gem 'rspec-rails'
   gem 'spork'
   gem 'steak'
   gem 'launchy'  
+  gem 'rcov'
 end

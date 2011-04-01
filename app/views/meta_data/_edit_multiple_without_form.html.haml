@@ -1,0 +1,52 @@
+.meta_data.meta_data_block{:id => "#{context.name}"}
+  = context.meta_field.description.to_s
+
+  :ruby
+    # if meta_data are sent in it means that we are editing multiple resources at once
+    meta_data ||= resource.object.meta_data_for_context(context)
+
+    labels = {}
+    last_label = nil
+    meta_data.each do |md|
+      label = md.meta_key.label
+      current_head_label = label.split.first
+      last_head_label = (last_label ? last_label.split.first : nil)
+      if current_head_label == last_head_label
+        labels[last_label] << label
+      else
+        last_label = label
+        labels[last_label] = []
+      end 
+    end
+    labels.delete_if {|k, v| v.size < 2 }
+
+  - @i ||= Time.now.to_i #old# 0
+  - meta_data.each do |md| # meta_data.each_with_index do |md, i|	
+    - label = md.meta_key.label
+    - next if md.meta_key.is_dynamic? and not ["copyright usage", "copyright url"].include?(label) # OPTIMIZE
+    =# resource.fields_for :meta_data, md do |meta_datum|
+    - field_name = "resource[meta_data_attributes][#{@i}]"
+    = fields_for field_name, md do |meta_datum|
+      - definition = meta_datum.object.meta_key.meta_key_definitions.for_context(context)
+      - underscored_label = label.gsub(/\s+/, '_')
+      - parent_underscored_label = labels.detect {|x| x.last.include?(label) }.try(:first).try(:gsub, /\s+/, '_')
+      - is_parent = (!parent_underscored_label and labels.has_key?(label))
+      - classes = [meta_datum.object.meta_key.object_type]
+      - classes << "parent" if is_parent
+      - classes.compact!
+      %ul{:"data-meta_key" => underscored_label, :"data-parent_meta_key" => parent_underscored_label, :class => (classes.blank? ? nil : classes.join(' '))}
+        %li.label{:style => "width: 30%;"}
+          = definition.meta_field.label.to_s
+          - if definition.meta_field.hint
+            %span.hint
+              = definition.meta_field.hint.to_s
+          - if is_parent
+            .expander
+              = link_to _("+ Weitere Angaben"), "#"
+        %li{:style => "width: 55%;"}
+          = meta_datum.hidden_field :id if meta_datum.object.id
+          = meta_datum.hidden_field :keep_original_value, :class => "keep" if meta_datum.object.keep_original_value
+          = field_tag(meta_datum, context)
+        %li{:style => "width: auto;"}
+          = description_toggler(definition)
+    - @i += 1

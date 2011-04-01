@@ -18,7 +18,7 @@
   <script type="text/x-jquery-tmpl" id="thumbnail_view">
       <div class="thumb_box">
         <a href="/media_entries/${id}">
-          <img src="${thumb_base64_small}">
+          <img src="${thumb_base64}">
         </a>
         <!-- <p>
           <span class="item_title">${title}</span>
@@ -34,140 +34,22 @@
         %span Aktuelle Zugriffsberechtigungen für alle ausgewählten Medieneinträge
       .clear
       %hr
-      
-      - form_tag update_multiple_permissions_media_entries_path, :method => :put do
-        = hidden_field_tag :media_entry_ids, @media_entries.map(&:id).join(',')
+      = render :partial => "/permissions/edit_multiple"
         
-        %table.permissions
-          %tbody
-            %tr
-              %th
-                Namen:
-              %th{:colspan => 2}
-                Berechtigungen:
-              %th
-            %tr
-              %td
-                %strong Personen
-              %td
-                Sehen
-              %td
-                Editieren
-              %td
-                Download volle Auflösung
-          %tbody#user_permissions
-            ///
-            - @combined_permissions["User"].each_pair do |subject_id, permission| # actually permission is an array [user, {}]
-              = render :partial => "/permissions/edit11", :locals => {:subject_id => subject_id, :permission => permission}
-            ///
-          %tbody
-            %tr.adder
-              %td{:colspan => 5}
-                Person hinzufügen:
-                %input#new_user
-            %tr.adder
-              %td{:colspan => 5}
-                %p.hint
-                  Es können nur Personen ausgewählt werden, die sich schon einmal im Medienarchiv eingeloggt haben.
-          %tbody
-            %tr
-              %td
-                %strong Gruppen
-              %td
-                Sehen
-              %td
-                Editieren
-              %td
-                Download volle Auflösung
-          %tbody#group_permissions
-            ///
-            - @combined_permissions["Group"].each_pair do |subject_id, permission| # actually permission is an array [user, {}]
-              = render :partial => "/permissions/edit11", :locals => {:subject_id => subject_id, :permission => permission}
-            ///
-          %tbody
-            %tr.adder
-              %td{:colspan => 5}
-                Gruppe hinzufügen:
-                %input#new_group
-          %tbody
-            %tr
-              %td
-                %strong Allgemein
-              %td
-                Sehen
-              %td
-                Editieren
-              %td
-                Download volle Auflösung
-          %tbody#anyone_permissions
-            ///
-            %tr
-              %td
-                = _("Öffentlich")
-              - [:view, :edit, :hi_res].each do |key|
-                %td{:style => (@combined_permissions[nil][key] == :mixed ? "background: url(/themes/madek11/images/stripe_1.png);" : nil)}
-                  = hidden_field_tag "subject[nil][#{key}]", false
-                  = check_box_tag "subject[nil][#{key}]", true, (@combined_permissions[nil][key] == true)
-              %td
-                =# link_to _("Löschen"), url_for([@resource, permission]), :remote => true, :method => :delete, :confirm => _("Sind Sie sicher?") if permission.subject and permission.subject != current_user
-            ///
-        %br
-        %div{:class => "save_buttons"}
-          = link_to _("Abbrechen"), @media_set, :class => "buttons"    
-          = submit_tag _("Speichern")
-
     .grid_2.omega
       #legend
         %h3 Legende
         %p{:style => "background: red url(/themes/madek11/images/stripe_1.png); height: 30px ; border: 1px solid #ccc;"} 
         %p.info Unterschiedliche Berechtigungen vorhanden. Achtung: Bestehende Werte werden überschrieben!
     .clear
-    
+
+   
 :javascript
-  function create_permission(data, type){
-    $.ajax({
-      url: '/permissions/add_batch_permission',
-      data: data,
-      type: "post",
-      success: function(response){
-        $("input#new_"+type).val("");
-        $(response).appendTo('tbody#'+type+'_permissions').effect('highlight');
-      }
-    });
-  }
 
   $(function() {
-    var data = #{@info_to_json};
+    var data = #{@media_entries_json};
     $("#list_as_thumbnails").html($("#thumbnail_view").tmpl(data));
     
-    $("input#new_user").autocomplete({
-      source: "/users",
-      minLength: 3,
-      select: function(event, ui) {
-        create_permission({user_id: ui.item.id}, 'user');
-      }
-    });
-
-    $("input#new_group").autocomplete({
-      source: "/groups",
-      minLength: 3,
-      select: function(event, ui) {
-        create_permission({group_id: ui.item.id}, 'group');
-      }
-    });
-    
-    // TODO override rails.js data-method and data-confirm
-    $(".permissions a.delete[msg]").live('click', function(){
-      var element = $(this);
-      var message = element.attr('msg');
-      if(confirm(message)){
-        var to_remove = element.closest("tr");
-        to_remove.fadeOut('slow', function() {
-          to_remove.remove();
-        });
-      }
-      return false;
-    });
   });
 
     

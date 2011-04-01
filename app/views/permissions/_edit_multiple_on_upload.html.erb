@@ -17,7 +17,7 @@ is_editable_by_logged_in_users = (@resource ? @resource.acl?(:edit, :logged_in_u
 		_("Für wen %s sichtbar?") % (@resource.is_a?(Media::Set) ? "ist dieses Set" : "sind diese Medieneinträge")
 	end %>
 
-	<%= content_tag :ul, :class => "permissions_unit", :style => (@resource ? "width: 80%; margin-bottom: 1em;": nil) do %>
+	<%= content_tag :ul, :class => "permissions_unit clearfix", :style => (@resource ? "width: 90%; margin-bottom: 1em;": nil) do %>
 		<%= content_tag :li do %>
 			<%= radio_button_tag :view, :private, (!is_viewable_by_all and !is_viewable_by_logged_in_users) %> Nur für Sie selbst <span class="hint">(nur für Sie selbst sichtbar)</span>
 		<% end %>
@@ -49,7 +49,7 @@ is_editable_by_logged_in_users = (@resource ? @resource.acl?(:edit, :logged_in_u
 			</a>
 			&nbsp;&nbsp;Bitte gedulden Sie sich einen Moment, während das Hochladen Ihrer Medien abgeschlossen wird.
 		<% end unless @media_entries %>
-		<%= f.submit _("Einstellungen speichern und weiter") + " »", :id => "submit_to_3", :style => "margin: 2em 0; #{@media_entries ? "" : "display: none;"}" %>
+		<%= f.submit _("Einstellungen speichern und weiter…"), :id => "submit_to_3", :class => "upload_buttons", :style => "margin: 1em 0 0 0; #{@media_entries ? "" : "display: none;"}" %>
 	<% end %>
 <% end %>
 

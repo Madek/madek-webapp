@@ -26,14 +26,13 @@ MAdeK::Application.routes.draw do
   match '/upload_estimation.js', :to => UploadEstimation
   match '/download', :to => Download
   match '/nagiosstat', :to => Nagiosstat
-  match '/permissions/add_batch_permission', :to => "permissions#add_batch_permission"
 
 ###############################################
 
   # TODO only [:index, :show] methods
   resources :media_entries do
     collection do
-      get :favorites
+      get :favorites, :to => "media_entries#index"
       #old# post :query_count
       #temp# get :graph
       get :keywords
@@ -52,6 +51,7 @@ MAdeK::Application.routes.draw do
       get :to_snapshot
       #temp# :graph_nodes => :get,
       #temp# :index_browser => :get
+      get :image
     end
     
     resources :permissions do
@@ -125,16 +125,8 @@ MAdeK::Application.routes.draw do
   resources :media_sets do
     resources :media_sets
     
-    resources :permissions do
-      #old#
-      #member do
-      #  get :toggle
-      #end
-      
-      collection do
-        get :edit_multiple
-        put :update_multiple
-      end
+    member do
+      put :update_multiple_permsissions
     end
     
     resources :meta_data do

@@ -1,6 +1,6 @@
 <% n = Time.now.to_i %>
 
-<%= content_tag :div, :class => "tabs small" do %>
+<%= content_tag :div, :class => "tabs small", :style => "padding:10px; background-color: white;" do %>
 	<%= content_tag :ul do 
 		b = content_tag :li do
 			link_to _("Person"), "#new_person_#{n}" 
@@ -10,7 +10,7 @@
 		end
 	end %>
 
-	<%= form_for @person, :remote => true, :html => {:id => "new_person_#{n}" } do |f|
+	<%= form_for @person, :remote => true, :html => {:id => "new_person_#{n}", :"data-type" => :json } do |f|
 			a = icon_tag("icon_person")
 
 			a += content_tag :ul do
@@ -30,7 +30,7 @@
 			a += f.submit _("Personendaten einfügen")
 	end %>
 
-	<%= form_for Person.new(:is_group => true), :remote => true, :html => {:id => "new_group_#{n}"} do |f|
+	<%= form_for Person.new(:is_group => true), :remote => true, :html => {:id => "new_group_#{n}", :"data-type" => :json} do |f|
 			a = icon_tag("icon_group")
 			a += f.hidden_field :is_group
 
@@ -52,7 +52,8 @@
 						  add: function(event, ui) {
 					      	$(this).tabs('select', ui.index);
 					      },
-						  fx: { opacity: 'toggle' }
+						  fx: { opacity: 'toggle' },
+						  ajaxOptions: { dataType: 'html' }
 						});
 	});
 <% end %>

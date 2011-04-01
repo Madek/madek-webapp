@@ -7,37 +7,29 @@
             %div.item_permission_set
               = display_permission_icon(@media_set)
             %div.thumb_box_set
-              / TODO: move this into a helper
-              = tag :img, :src => @media_set.thumb_base64(:small_125)
+              = thumb_for(@media_set, :small_125)
       .grid_6
         #set_meta
           - context = MetaContext.media_set
           = display_meta_data_for_context(@media_set, context)
       .grid_3
         #set_actions
-          - if @can_edit
+          - if @can_edit_set
             = display_edit_icon(@media_set, current_user)
             = display_delete_icon(@media_set, current_user)
 
-%section#content_body
+%section#content_body_set
   %div.page_title_left
     %img{:src => "/themes/madek11/images/icons/icon_set.png"}
     =_("Set-Inhalt")
     %span= "#{@media_set.media_entries.size} von #{@media_entries.total_entries} Medieneinträge sichtbar"
-  #pagination_container
   .clear
-  %hr
-  = render :partial => "/shared/task_bar"
+  = render :partial => "/media_entries/index"
 
-  %div#results
-    = render :partial => "/media_entries/index"
+= theme_javascript_include_tag "batch_actions"
 
 :javascript
   $(document).ready(function () {
-    var media_set_id = #{@media_set.id};
-    
-    setupBatch(media_set_id);
-    $("div.pagination").appendTo("#pagination_container");    
+    setupBatch(#{@json}, #{@media_set.id}, #{@media_set.media_entry_ids.to_json});
   });
   
-= theme_javascript_include_tag "batch_actions"
