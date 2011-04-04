@@ -9,7 +9,6 @@ Feature: Exporting for archival experts and using the associated archival expert
       And a group called "MIZ-Archiv" exists
       And the user with username "fred" is member of the group "MIZ-Archiv"
       And the user with username "ginger" is member of the group "MIZ-Archiv"
-      And the user with username "helmi" is member of the group "Mauerfäller"
 
 
   Scenario: Enter archival metadata for a media entry

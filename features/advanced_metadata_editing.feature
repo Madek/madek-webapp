@@ -70,7 +70,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
     Then I should see "No one teaches me!"
      And I should see "Photographs of Han's rides"
 
-  @javascript @failing
+  @javascript
   Scenario: Changing the author field on a media entry using the firstname/lastname entry form tab
     When I log in as "hansolo" with password "leia"
      And I upload some picture titled "Me and Leia Organa"
