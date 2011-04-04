@@ -275,8 +275,8 @@ function displayCount() {
 };
 
 function display_results(json){
-	var loading = $(".item_box.tmp");
 	var container = $("#results"); 
+	var loading = container.find(".loading");
 	var pagination = json.pagination;
 	var loaded_page = 1;
 	
