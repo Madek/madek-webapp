@@ -6,10 +6,8 @@ function document_ready(){
 	$(".madek_multiselect_container").each(function(){
 		var that = $(this);
 		if(!that.data("ready")){
-			var parent_block = that.closest("[data-meta_key]");
-			var dom_scope = parent_block.attr('data-meta_key');
-			var search_field = parent_block.find("input[name='autocomplete_search']");
-			create_multiselect_widget(dom_scope, search_field, that.data("is_extensible"), that.data("with_toggle"));
+			var search_field = that.closest("[data-meta_key]").find("input[name='autocomplete_search']");
+			create_multiselect_widget(search_field, that.data("is_extensible"), that.data("with_toggle"));
 			that.data("ready", true);                     
 		}
 	});
@@ -95,9 +93,8 @@ $(document).ready(function () {
 		$(".holder.all .bit-box").live('click', function(){
 			var item = {label: $(this).attr("title"), id: $(this).attr("rel")};
 	        var parent_block = $(this).closest("[data-meta_key]");
-	        var dom_scope = parent_block.attr('data-meta_key');
 	        var search_field = parent_block.find("input[name='autocomplete_search']");
-			add_to_selected_items(item, dom_scope, search_field, false);
+			add_to_selected_items(item, search_field, false);
 			hide_keyword(parent_block, $(this).attr("rel"));
 		});
 	
@@ -131,7 +128,7 @@ $(document).ready(function () {
 //////////////////////////////
 
 
-function create_multiselect_widget(dom_scope, search_field, is_extensible, with_toggler){
+function create_multiselect_widget(search_field, is_extensible, with_toggler){
   var all_options = search_field.data("all_options");
   if (with_toggler) {
   	search_field.closest(".madek_multiselect_container").append("<a class='search_toggler' href='#'><img src='/images/icons/toggler-arrow-closed.png'></a>");
@@ -139,7 +136,7 @@ function create_multiselect_widget(dom_scope, search_field, is_extensible, with_
   }
   $.each(all_options, function(i, elem){
   	if(elem.selected){
-	    add_to_selected_items(elem, dom_scope, search_field, false);
+	    add_to_selected_items(elem, search_field, false);
 	}
   });
 
@@ -152,7 +149,7 @@ function create_multiselect_widget(dom_scope, search_field, is_extensible, with_
 	  	var v = $(this).val();
 	    if ($.trim(v).length){
 		  	var item = {label: v, id: v};
-	        add_to_selected_items(item, dom_scope, search_field, true);
+	        add_to_selected_items(item, search_field, true);
 			$(this).autocomplete( "close" );
 		}
       }
@@ -168,7 +165,7 @@ function create_multiselect_widget(dom_scope, search_field, is_extensible, with_
     minLength: 3,
     select: function(event, ui) {
 	  new_term = false;
-      add_to_selected_items(ui.item, dom_scope, search_field, false);
+      add_to_selected_items(ui.item, search_field, false);
 	  just_selected = true;
     },
     close: function(event, ui) {
@@ -205,7 +202,7 @@ function remove_from_selected_items(dom_item){
   	var meta_term_id = dom_item.find('input[type=hidden]:first').val();
 	all_options.forEach(function(element){ if(element.id == meta_term_id) element.selected = false; });
 
-	// remove from pre-sorted keyoword tabs
+	// remove from pre-sorted keyword tabs
 	parent_block.find('.tabs ul.holder.all .bit-box[rel="'+meta_term_id+'"]').show();
 
 	dom_item.fadeOut('slow', function() {
@@ -213,7 +210,7 @@ function remove_from_selected_items(dom_item){
 	});   
 };
 
-function add_to_selected_items(item, dom_scope, search_field, add_to_options){
+function add_to_selected_items(item, search_field, add_to_options){
 	if(add_to_options || !item.selected){
 		var all_options = search_field.data("all_options");
 		if(add_to_options){

@@ -25,8 +25,8 @@ labels.delete_if {|k, v| v.size < 2 }
 		definition = meta_datum.object.meta_key.meta_key_definitions.for_context(context)
 
 		label = md.meta_key.label
-		underscored_label = label.gsub(/\s+/, '_')
-		parent_underscored_label = labels.detect {|x| x.last.include?(label) }.try(:first).try(:gsub, /\s+/, '_')
+		underscored_label = label.gsub(/\W+/, '_')
+		parent_underscored_label = labels.detect {|x| x.last.include?(label) }.try(:first).try(:gsub, /\W+/, '_')
 		is_parent = (!parent_underscored_label and labels.has_key?(label))
 
 		classes = [meta_datum.object.meta_key.object_type]

@@ -23,8 +23,11 @@
   #selected_items.clearfix
 
 #results
+  .pagination.loading{:style => "display: none;"}
+    &nbsp;
+  .clear.loading{:style => "display: none;"}
   - PER_PAGE.first.times do
-    .item_box.tmp{:style => "display: none;"}
+    .item_box.loading{:style => "display: none;"}
       .thumb_box
 
 ////////////////////////////////////////////////////////////////////////////////
