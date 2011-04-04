@@ -188,6 +188,18 @@ When /^I click the edit icon on the media entry titled "([^"]*)"$/ do |title|
   sleep(0.5)
 end
 
+When /^I click the delete icon on the media entry titled "([^"]*)"$/ do |title|
+  entry = find_media_entry_titled(title)
+   entry.all("a").each do |link|
+     # Fake some functions so that we automatically accept the confirmation dialog
+     page.evaluate_script("window.alert = function(msg) { return true; }")
+     page.evaluate_script("window.confirm = function(msg) { return true; }")
+     link.click if link[:title] == "Löschen"
+   end
+  sleep(0.5)
+end
+
+
 When "I toggle the favorite star on this media entry" do
   find(:css, ".favorite_link").find("a").click
   sleep(0.5)
