@@ -224,3 +224,12 @@ Feature: Upload images and manage media entries based on images
      And I follow "Meine Favoriten"
     Then I should not see "mein lieblingsbier"
 
+  @javascript @work2
+  Scenario: Upload an image and delete it afterwards
+    When I log in as "helmi" with password "saumagen"
+     And I upload some picture titled "mein lieblingsflugzeug"
+     And I go to the media entries
+     And all the hidden items become visible
+     And I click the delete icon on the media entry titled "mein lieblingsflugzeug"
+     And I go to the media entries
+    Then I should not see "mein lieblingsflugzeug"
