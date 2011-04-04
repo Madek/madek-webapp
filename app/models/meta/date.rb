@@ -35,6 +35,7 @@ class Meta::Date # TODO rename to Meta::DateTime ??
   class << self
 
     def where(args)
+      args[:id] = args[:id].first if args[:id].is_a?(Array)
       r = if args[:id].respond_to?(:ivars) and args[:id].class == "Meta::Date"
         new(args[:id].ivars)
       else

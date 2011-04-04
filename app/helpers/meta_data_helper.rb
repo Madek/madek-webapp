@@ -52,7 +52,7 @@ module MetaDataHelper
 ###########################################################
 
   def widget_meta_terms(meta_datum, meta_key, meta_terms, ui)
-    if meta_terms.size <= 10
+    unless meta_key.is_extensible_list?
       half_size = (meta_terms.size / 2) + (meta_terms.size % 2)
       content_tag :ul, :class => "meta_terms" do
         c = content_tag :li do
@@ -64,13 +64,9 @@ module MetaDataHelper
         end
         c += content_tag :li do
           content_tag :ul do
-            a = meta_terms[half_size..-1].collect do |term|
+            meta_terms[half_size..-1].collect do |term|
               checkbox_for_term(term, meta_datum, ui)
             end.join.html_safe
-            a += content_tag :li do
-              new_term_field(meta_key)
-            end if meta_key.is_extensible_list?
-            a
           end
         end
       end
@@ -90,54 +86,6 @@ module MetaDataHelper
       end
       a += term.to_s
     end
-  end
-
-  def new_term_field(meta_key, dom_scope = nil)
-    unless dom_scope
-      dom_scope = meta_key.label.gsub(/(\s+|\/+)/, '_')
-    end 
-    
-    a = text_field_tag :new_term, nil
-    a += link_to meta_key_meta_terms_path(meta_key), :class => "new_term", :"data-dom_scope" => dom_scope, :remote => true, :method => :post do
-      icon_tag("button_add_value")
-    end
-        
-    @js_6 ||= false
-      unless @js_6
-        @js_6 = true
-          a += javascript_tag do
-            begin  
-            <<-HERECODE
-              $(document).ready(function(){
-                $("a.new_term[data-remote]").bind('click', function(){
-                  var h = ''; // value needs to be reset to empty string to avoid cocantenation
-                  h = $(this).attr("href");
-                  $(this).data("original_href", h);
-                  var v = $(this).prev("input").val();
-                  $(this).attr("href", h +"?new_term=" + v);
-                }).bind('ajax:success', function(xhr, data, status){
-                  var parsed_data = $.parseJSON(data); // TODO send as dateType=json 
-                  $(this).attr("href", $(this).data("original_href"));
-                  $(this).prev("input").val("");
-                  // FIXME doesn't work if no term exists yet
-                  s = $(this).parent().prev();
-                  var c = s.clone().insertAfter(s); // TODO use .tmpl() ??
-                  c.children("input:first").val(parsed_data.id).attr("checked", "checked");
-                  c.contents(":last").replaceWith(parsed_data.label); // TODO jquery >= 1.4.3  .text(parsed_data.value);
-                });  
-                
-                $("input[name='new_term']").keypress(function(event) {
-                  if (event.keyCode === $.ui.keyCode.ENTER) {
-                    event.preventDefault();
-                    $(this).next("a.new_term[data-remote]").trigger('click');
-                  }
-                });
-             });
-           HERECODE
-          end.html_safe
-        end
-      end
-    return a
   end
 
 ###########################################################
@@ -179,9 +127,8 @@ module MetaDataHelper
         all_options.sort! {|a,b| a[:label].downcase <=> b[:label].downcase}
     end
 
-    dom_scope = meta_key.label.gsub(/(\s+|\/+)/, '_')
-    is_extensible = (meta_key.is_extensible_list? or %w(keywords author).include?(dom_scope))
-    with_toggle = !%w(keywords author creator description_author description_author_before_import).include?(dom_scope)
+    is_extensible = (meta_key.is_extensible_list? or ["keywords", "author"].include?(meta_key.label))
+    with_toggle = !["keywords", "author", "creator", "description author", "description author before import"].include?(meta_key.label)
 
     h = content_tag :div, :class => "madek_multiselect_container",
                           :"data-is_extensible" => is_extensible,
@@ -247,10 +194,8 @@ module MetaDataHelper
                     }else{
                       $("form.new_person").bind("ajax:success", function(xhr, item, status){
                         if (item.id != null) {
-                          var parent_block = $(this).closest("[data-meta_key]");
-                          var dom_scope = parent_block.attr('data-meta_key');
-                          var search_field = parent_block.find("input[name='autocomplete_search']");
-                          add_to_selected_items(item, dom_scope, search_field, true);
+                          var search_field = $(this).closest("[data-meta_key]").find("input[name='autocomplete_search']");
+                          add_to_selected_items(item, search_field, true);
                         };  
                         source.children("img:last").toggleClass("expanded");
                         $(this).closest(".tabs").remove();
