@@ -52,7 +52,7 @@ module MetaDataHelper
 ###########################################################
 
   def widget_meta_terms(meta_datum, meta_key, meta_terms, ui)
-    if meta_terms.size <= 10
+    unless meta_key.is_extensible_list?
       half_size = (meta_terms.size / 2) + (meta_terms.size % 2)
       content_tag :ul, :class => "meta_terms" do
         c = content_tag :li do
@@ -64,13 +64,9 @@ module MetaDataHelper
         end
         c += content_tag :li do
           content_tag :ul do
-            a = meta_terms[half_size..-1].collect do |term|
+            meta_terms[half_size..-1].collect do |term|
               checkbox_for_term(term, meta_datum, ui)
             end.join.html_safe
-            a += content_tag :li do
-              new_term_field(meta_key)
-            end if meta_key.is_extensible_list?
-            a
           end
         end
       end
@@ -90,50 +86,6 @@ module MetaDataHelper
       end
       a += term.to_s
     end
-  end
-
-  def new_term_field(meta_key)
-    a = text_field_tag :new_term, nil
-    a += link_to meta_key_meta_terms_path(meta_key), :class => "new_term", :remote => true, :method => :post do
-      icon_tag("button_add_value")
-    end
-        
-    @js_6 ||= false
-      unless @js_6
-        @js_6 = true
-          a += javascript_tag do
-            begin  
-            <<-HERECODE
-              $(document).ready(function(){
-                $("a.new_term[data-remote]").bind('click', function(){
-                  var h = ''; // value needs to be reset to empty string to avoid cocantenation
-                  h = $(this).attr("href");
-                  $(this).data("original_href", h);
-                  var v = $(this).prev("input").val();
-                  $(this).attr("href", h +"?new_term=" + v);
-                }).bind('ajax:success', function(xhr, data, status){
-                  var parsed_data = $.parseJSON(data); // TODO send as dateType=json 
-                  $(this).attr("href", $(this).data("original_href"));
-                  $(this).prev("input").val("");
-                  // FIXME doesn't work if no term exists yet
-                  s = $(this).parent().prev();
-                  var c = s.clone().insertAfter(s); // TODO use .tmpl() ??
-                  c.children("input:first").val(parsed_data.id).attr("checked", "checked");
-                  c.contents(":last").replaceWith(parsed_data.label); // TODO jquery >= 1.4.3  .text(parsed_data.value);
-                });  
-                
-                $("input[name='new_term']").keypress(function(event) {
-                  if (event.keyCode === $.ui.keyCode.ENTER) {
-                    event.preventDefault();
-                    $(this).next("a.new_term[data-remote]").trigger('click');
-                  }
-                });
-             });
-           HERECODE
-          end.html_safe
-        end
-      end
-    return a
   end
 
 ###########################################################

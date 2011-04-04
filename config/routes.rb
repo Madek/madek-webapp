@@ -155,10 +155,6 @@ MAdeK::Application.routes.draw do
   end
   
   resource :session
-  
-  resources :meta_keys do # TODO rename to :lists and create a List model ??
-    resources :meta_terms, :only => :create
-  end
 
 ####################################################################################
 
