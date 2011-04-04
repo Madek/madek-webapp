@@ -20,12 +20,12 @@
     end
     labels.delete_if {|k, v| v.size < 2 }
 
-  - @i ||= Time.now.to_i #old# 0
+  - @i ||= Time.now.to_i
   - meta_data.each do |md| # meta_data.each_with_index do |md, i|	
     - label = md.meta_key.label
     - next if md.meta_key.is_dynamic? and not ["copyright usage", "copyright url"].include?(label) # OPTIMIZE
     =# resource.fields_for :meta_data, md do |meta_datum|
-    - field_name = "resource[meta_data_attributes][#{@i}]"
+    - field_name = "resource[meta_data_attributes][#{context.id}-#{@i}]"
     = fields_for field_name, md do |meta_datum|
       - definition = meta_datum.object.meta_key.meta_key_definitions.for_context(context)
       - underscored_label = label.gsub(/\W+/, '_')
