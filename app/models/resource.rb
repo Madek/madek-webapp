@@ -279,9 +279,7 @@ module Resource
       @meta_data_for_context[context.id] = []
 
       context.meta_keys.each do |key|
-        # there seems to be a Rails bug with STI and polymorphic associations (Media::Set gets saved as resource_type instead of STI type, such as Media::Project)
-        t = (!["Media::Set", "MediaEntry"].include?(self.class.name)) ? "Media::Set" : self.class.name 
-        md = key.meta_data.scoped_by_resource_type_and_resource_id(t, self.id).first  # OPTIMIZE eager loading
+        md = key.meta_data.scoped_by_resource_type_and_resource_id(self.class.base_class.name, self.id).first  # OPTIMIZE eager loading
         if md
           @meta_data_for_context[context.id] << md
         elsif build_if_not_exists or key.is_dynamic?
