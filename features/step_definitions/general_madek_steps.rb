@@ -115,7 +115,7 @@ When "I fill in the metadata form as follows:" do |table|
         fill_in_person_widget(list, hash['value'], hash['options'])
       else
         list.all("textarea").each do |ele|
-          fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/attributes_\d+_value$/).nil?
+          fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil?
         end
       end
       
