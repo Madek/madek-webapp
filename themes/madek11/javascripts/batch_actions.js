@@ -178,6 +178,7 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 			$('#thumb_' + me.id).removeClass('selected').removeAttr("style").find('span.check_box img').attr('src', '/themes/madek11/images/icons/button_checkbox_off.png');
 			$('#selected_items [rel="'+me.id+'"]').remove();
 			localStorage.removeItem("selected_media_entries");
+			if (media_entries_in_set != undefined) media_entries_in_set = new Array();
 		});
 		displayCount();
 	  };
@@ -250,6 +251,9 @@ function get_selected_media_entry_ids() {
 function listSelected() {
 	var media_entries_json = get_media_entries_json();
 	// display all previously selected items under taskbar 
+	// TODO: this method needs to make sure that all ME in localStorage still exist
+	
+	
 	$('#selected_items').html($("#thumbnail_mini").tmpl(media_entries_json));
 };
 
