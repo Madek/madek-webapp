@@ -55,7 +55,7 @@ Given /^a user called "([^"]*)" with username "([^"]*)" and password "([^"]*)" e
   end
 end
 
-Given /^the user with username "(\w+)" is member of the group "(\w+)"/ do |username, groupname|
+Given /^the user with username "([^"]*)" is member of the group "([^"]*)"/ do |username, groupname|
   user = User.where(:login => username).first
   group = Group.where(:name => groupname).first
   user.groups << group unless user.groups.include?(group)
@@ -70,7 +70,7 @@ Given /^I log in as "(\w+)" with password "(\w+)"$/ do |username, password|
   click_link_or_button "Log in"
 end
 
-Given /^a group called "(\w+)" exists$/ do |groupname|
+Given /^a group called "([^"]*)" exists$/ do |groupname|
   create_group(groupname)
 end
 

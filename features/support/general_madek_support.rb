@@ -110,7 +110,8 @@ def fill_in_person_widget(list_element, value, options = "")
 enter_script = <<HERE
 var e = jQuery.Event("keypress");
 e.keyCode = $.ui.keyCode.ENTER;
-$("#{field[:id]}").trigger(e);
+e.which = $.ui.keyCode.ENTER;
+$("##{field[:id]}").trigger(e);
 HERE
      page.execute_script(enter_script)
   elsif options == "pseudonym field"
