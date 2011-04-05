@@ -17,6 +17,8 @@ class Admin::AdminController < ApplicationController
       # 10301 => Susanne Schumacher
       # 159123 => Franco Sellitto
       # 172154 => Olivier Heitz
+      # 171014 => Tomas Pospisek
+#      if [10262, 177619, 10301, 159123, 172154, 171014].include?(current_user.id)
       if [10262, 177619, 10301, 159123, 172154].include?(current_user.id)
         required_group.users << current_user
       else
