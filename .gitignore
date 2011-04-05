@@ -11,6 +11,8 @@ config/sphinx.yml
 config/database.yml
 config/*.conf
 config/*.conf_with_pipe
+config/sphinx.yml.tpo
+config/test.sphinx.conf.tpo
 config/definitions/metadata/ExifTool_config.pl
 db/media_files/
 db/sphinx/
