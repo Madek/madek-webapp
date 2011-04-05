@@ -37,7 +37,8 @@ a:hover {
 	background: #e8e8e8;
 	overflow: hidden;
 	line-height: 1.5em;
-	/*font-size: 11px;*/
+	font-size: 12px;
+	letter-spacing: 0.1ex;
 }
 
 /* Headings */
@@ -248,15 +249,19 @@ a:hover {
 /* Footer */
 
 #copyright {
-	padding: 3em 0 1em;
-	font-size: 15px;
+	padding: 4em 0 1em;
+	font-size: 14px;
 	text-align: center;
-	font-weight: bold;
-	color: #929292;
+	font-weight: normal;
+	color: #B7B7B7;
 }
 
 #copyright a {
 	text-decoration: none;
+	color: #B7B7B7;
+}
+#copyright a:hover {
+	color: #424242;
 }
 
 /* Miscellaneous */
