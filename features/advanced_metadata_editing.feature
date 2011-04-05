@@ -126,7 +126,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I wait for 3 seconds
      Then I should see "The Rebel Alliance"
 
-  @javascript @work
+  @javascript
   Scenario: Putting a name directly into the name input box
     When I log in as "hansolo" with password "leia"
      And I upload some picture titled "Me and Leia Organa"

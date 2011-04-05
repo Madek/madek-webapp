@@ -1,11 +1,34 @@
 == MAdeK ==
 
-MAdeK is the project name for the 'Medienarchiv der KŸnste' project at the ZŸrich
-University of the Arts.
+MAdeK is short for 'Medienarchiv der KÃ¼nste', a project at the ZÃ¼rich University of the Arts.
+
+The goal is to release a media archival, management and sharing system that can archive
+video, audio and image files along with their metadata. The system crowdsources the chore of
+retrieving and assigning metadata to the users themselves instead of putting all the burden
+on the archival expert.
 
 There isn't much to see here yet as we will only approach version 1.0 towards the
 end of 2011.
 
 See you then!
+
+
+= Installation (for the brave) =
+
+If you want to try to install this, here's some hints (we won't have a complete installation guide
+until 2012):
+
+ * Install ExifTool, ImageMagick, Sphinx
+ * Grab the MAdeK source
+ * Adapt the paths etc. in config/application.rb. You'll have to point at a few binaries as installed
+   on your system. 
+ * Copy config/development.sphinx.conf_with_pipe to config/development.sphinx.conf and adapt
+   the settings.
+ * cd into your MAdeK directory
+ * bundle install
+ * rake db:migrate db:seed ts:reindex ts:start
+
+That should get you up and running.
+
 
 http://madek.zhdk.ch | http://github.com/psy-q/madek | http://code.zhdk.ch/projects/madek
