@@ -35,24 +35,25 @@ module Meta
     end
   
   ######################################################
-  
-    def is_used?
-      self.class.used_ids.include?(self.id)
-    end
-  
-    # TODO method cache
-    def self.used_ids
-      @used_ids ||= begin
-        ids = (MetaContext.all + MetaKeyDefinition.all).collect do |x|
-          # TODO fetch id directly
-          [x.meta_field.label.try(:id), x.meta_field.description.try(:id), x.meta_field.hint.try(:id)]
-        end
-        ids += MetaKey.where(:object_type => "Meta::Term").collect(&:meta_data).flatten.collect do |x|
-          x.value
-        end
-        ids.flatten.uniq.compact
-      end
-    end
+
+#old#  
+#    def is_used?
+#      self.class.used_ids.include?(self.id)
+#    end
+#  
+#    # TODO method cache
+#    def self.used_ids
+#      @used_ids ||= begin
+#        ids = (MetaContext.all + MetaKeyDefinition.all).collect do |x|
+#          # TODO fetch id directly
+#          [x.meta_field.label.try(:id), x.meta_field.description.try(:id), x.meta_field.hint.try(:id)]
+#        end
+#        ids += MetaKey.where(:object_type => "Meta::Term").collect(&:meta_data).flatten.collect do |x|
+#          x.value
+#        end
+#        ids.flatten.uniq.compact
+#      end
+#    end
   
   ######################################################
   
