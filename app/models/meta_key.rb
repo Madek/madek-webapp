@@ -16,7 +16,7 @@ class MetaKey < ActiveRecord::Base
   has_and_belongs_to_many :meta_terms, :class_name => "Meta::Term",  # TODO enforce object_type="Meta::Term" if meta_terms
                                        :join_table => :meta_keys_meta_terms,
                                        :association_foreign_key => :meta_term_id
-  accepts_nested_attributes_for :meta_terms, :allow_destroy => true, :reject_if => proc { |attributes| LANGUAGES.all? {|l| attributes[l].blank? } }
+  accepts_nested_attributes_for :meta_terms, :reject_if => proc { |attributes| LANGUAGES.all? {|l| attributes[l].blank? } } #old# , :allow_destroy => true
 
   validates_uniqueness_of :label
 
@@ -112,6 +112,16 @@ class MetaKey < ActiveRecord::Base
       end
     end
     record
+  end
+
+########################################################
+
+  def used_term_ids
+    if object_type == "Meta::Term"
+      meta_data.collect do |x|
+        x.value
+      end.flatten.uniq.compact
+    end
   end
 
 ########################################################
