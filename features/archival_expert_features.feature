@@ -16,7 +16,7 @@ Feature: Exporting for archival experts and using the associated archival expert
       And the user with username "ginger" is member of the group "MIZ-Archiv"
 
   @javascript @work
-  Scenario: Enter archival metadata for a media entry
+  Scenario: Enter archival metadata for a media entry and then have an expert look at your copy
     Given I log in as "fred" with password "tapping"
       And I upload some picture titled "Tapping for the Archives"
       And I go to the home page
@@ -48,8 +48,17 @@ Feature: Exporting for archival experts and using the associated archival expert
       |nur MIZ-Archiv\nObjektbezeichnung|Things for archival||
       |Beschreibung durch|Things for archival|in-field entry box|
       And I press "Speichern"
-
-
+     Then I should see "Die Änderungen wurden gespeichert."
+     When I follow "MIZ-Archiv"
+      And I wait for 3 seconds
+     Then I should see "Things for archival"
+     When I follow "Kopie für MIZ-Archiv erstellen"
+     Then I should see "Ein Kopie dieses Medieneintrags wurde am"
+     When I log in as "ginger" with password "dancing"
+      And I click the arrow next to "Rogers, Ginger"
+      And I follow "Kopien für MIZ-Archiv"
+      And I click the media entry titled "Tapping for the Archives"
+     Then I should see "Kopie für MIZ-Archiv editieren"
 
 
 
