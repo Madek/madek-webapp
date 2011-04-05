@@ -80,7 +80,7 @@ class MediaSetsController < ApplicationController
     
     permissions.group_by {|p| p.subject_type }.collect do |type, type_permissions|
       unless type.nil?
-        @permissions_json[type] = type_permissions.map {|p| {:id => p.subject.id, :name => p.subject.name, :type => type, :view => p.actions[:view], :edit => p.actions[:edit], :hi_res => p.actions[:hi_res] }}
+        @permissions_json[type] = type_permissions.map {|p| {:id => p.subject.id, :name => p.subject.to_s, :type => type, :view => p.actions[:view], :edit => p.actions[:edit], :hi_res => p.actions[:hi_res] }}
       else
         p = type_permissions.first
         @permissions_json["public"] = {:name => "Öffentlich", :type => 'nil', :view => p.actions[:view], :edit => p.actions[:edit], :hi_res => p.actions[:hi_res] }
