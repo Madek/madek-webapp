@@ -57,7 +57,8 @@ class MetaDatum < ActiveRecord::Base
                                 Meta::Term.create(h) 
                               end
 
-                              r = Keyword.create(:meta_term => term, :user => user)
+                              r = Keyword.where(:meta_term => term, :user => user)
+                              r ||= Keyword.create(:meta_term => term, :user => user)
                               # TODO delete keywords records anymore referenced
                             end
                           elsif klass == Meta::Term
@@ -87,7 +88,7 @@ class MetaDatum < ActiveRecord::Base
                           
                           (r ? r.id : nil )
                       end
-        record.value.compact!
+        record.value.uniq.compact!
     end
   end
 
