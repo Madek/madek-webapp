@@ -125,7 +125,7 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 		function(e, data, textStatus, jqXHR){
 			$('#thumb_' + data.id).remove();
 		    
-		    // remove also from localStorage and selectedItems
+		    // remove also from sessionStorage and selectedItems
 			var media_entries_json = get_media_entries_json();
 			var media_entry_ids = $.map(media_entries_json, function(elem, i){ if (elem != null) return parseInt(elem.id); });
 			var i = media_entry_ids.indexOf(data.id);
@@ -177,7 +177,7 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 		$.each(media_entries_json, function(i, me){
 			$('#thumb_' + me.id).removeClass('selected').removeAttr("style").find('span.check_box img').attr('src', '/themes/madek11/images/icons/button_checkbox_off.png');
 			$('#selected_items [rel="'+me.id+'"]').remove();
-			localStorage.removeItem("selected_media_entries");
+			sessionStorage.removeItem("selected_media_entries");
 			if (media_entries_in_set != undefined) media_entries_in_set = new Array();
 		});
 		displayCount();
@@ -234,13 +234,13 @@ function selected_items_highlight_off(selector){
 }
 
 function get_media_entries_json(){
-	var media_entries_json = JSON.parse(localStorage.getItem("selected_media_entries"));
+	var media_entries_json = JSON.parse(sessionStorage.getItem("selected_media_entries"));
 	if(media_entries_json == null) media_entries_json = new Array();
 	return media_entries_json;
 }
 
 function set_media_entries_json(data){
-	localStorage.setItem("selected_media_entries", data);
+	sessionStorage.setItem("selected_media_entries", data);
 }
 
 function get_selected_media_entry_ids() {
@@ -251,7 +251,7 @@ function get_selected_media_entry_ids() {
 function listSelected() {
 	var media_entries_json = get_media_entries_json();
 	// display all previously selected items under taskbar 
-	// TODO: this method needs to make sure that all ME in localStorage still exist
+	// TODO: this method needs to make sure that all ME in sessionStorage still exist
 	
 	
 	$('#selected_items').html($("#thumbnail_mini").tmpl(media_entries_json));

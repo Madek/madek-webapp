@@ -34,7 +34,7 @@ begin
 
     Cucumber::Rake::Task.new(:rcov) do |t|    
       t.rcov = true
-      t.rcov_opts = %w{--rails --exclude osx\/objc,gems\/,spec\/}
+      t.rcov_opts = %w{--rails --exclude osx\/objc,gems\/,spec\/,features\/}
       t.rcov_opts << %[-o "cucumber_rcov"]
     end
 
