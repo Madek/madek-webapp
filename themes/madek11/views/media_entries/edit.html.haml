@@ -32,6 +32,6 @@
             = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :resource => resource }
           
         %div{:class => "save_buttons"}
-          = resource.submit _("Speichern")
           = link_to _("Abbrechen"), @media_entry, :class => "buttons"
+          = resource.submit _("Speichern")
 .clear

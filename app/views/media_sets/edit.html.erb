@@ -15,8 +15,8 @@
 
 			content_for :buttons do
 				content_tag :div, :style => "text-align: right; padding: 10pt; background: #DDDDDD;" do
-					c = resource.submit _("Speichern")
-					c += link_to _("Abbrechen"), @media_set, :class => "buttons"
+					c = link_to _("Abbrechen"), @media_set, :class => "buttons"
+					c += resource.submit _("Speichern")
 					c += content_tag :div, :class => "error required_message", :style => "display: none;" do
 						_("Bitte füllen Sie die Pflichtfelder aus (\"Titel\").")
 				    end
