@@ -276,8 +276,11 @@ class MediaEntriesController < ApplicationController
       end
 
     flash[:notice] = "Die Zugriffsberechtigungen wurden erfolgreich gespeichert."  
-    alt_redirect = (@media_entries.size == 1) ? media_entry_path(@media_entries.first) : media_entries_path
-    redirect_back_or_default(alt_redirect)
+    if (@media_entries.size == 1)
+      redirect_to media_entry_path(@media_entries.first)
+    else
+      redirect_back_or_default(media_entries_path)
+    end
   end
   
 #####################################################

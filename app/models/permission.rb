@@ -164,7 +164,7 @@ class Permission < ActiveRecord::Base
           when "User", "Group"
             subject_permissions = permissions.select {|p| p.subject_type == type}
             subject_permissions.map(&:subject).uniq.each do |subject|
-              subject_info = {:id => subject.id, :name => subject.name, :type => type}
+              subject_info = {:id => subject.id, :name => subject.to_s, :type => type}
               keys.each do |key|
                 subject_info[key] = case subject_permissions.select {|p| p.subject_id == subject.id and p.actions[key] == true }.size
                   when resources.size

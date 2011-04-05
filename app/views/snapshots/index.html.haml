@@ -1,0 +1,20 @@
+%h3= _("Kopien für MIZ-Archiv")
+
+%ul.items{:style => "margin: 1em; min-height: 10em;"}
+  - @snapshots.each do |snapshot|
+    %li
+      %div{:style => "text-align: center;"}
+        = link_to thumb_for(snapshot), snapshot_path(snapshot)
+      %p{:style => "font-size: 12px; text-align: center"}
+        - title = snapshot.meta_data.get_value_for("title")
+        - author = snapshot.meta_data.get_value_for("author")
+        - unless title.blank?
+          %span{:style => "font-weight: bold"}
+            = title
+        %br
+        - unless author.blank?
+          %i
+            = author
+        %br
+        %span
+          = snapshot.created_at.to_formatted_s(:date_time)
