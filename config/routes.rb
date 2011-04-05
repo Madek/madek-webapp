@@ -94,6 +94,9 @@ MAdeK::Application.routes.draw do
       get :usage_terms
       post :usage_terms
     end
+    collection do
+      get :usage_terms
+    end
     
     resources :media_entries #old# , :collection => { :query_count => :post } # TODO shallow
     resources :media_sets do

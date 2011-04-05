@@ -1328,7 +1328,8 @@ button.dark:hover {
 
 /*********************/
 #selected_items {
-	width: 98%; 
+	min-width: 98%;
+	width: auto;
 	background-color: rgba(0, 0, 0, 0.5);
 	-webkit-box-shadow: 0 0 3px rgba(150, 150, 150, 0.6);
 	-moz-box-shadow: 0 0 3px rgba(150, 150, 150, 0.6);
@@ -1337,11 +1338,11 @@ button.dark:hover {
 	bottom: 82px;
 	left: 0;
 	z-index: 1000;
-	padding-left: 17px;
-	padding-right: 17px;
+	/*padding-left: 17px;
+	padding-right: 17px;*/
 	padding-top: 9px;
-	overflow: auto;
-	height: auto;
+    overflow-x: scroll;
+	max-height: 280px;
 	min-height: 70px;
 	
 	.thumb_remove { 

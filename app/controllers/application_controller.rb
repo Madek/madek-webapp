@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 ##############################################  
 # Authentication
 
-  before_filter :login_required, :except => [:root, :login, :login_successful, :logout, :feedback] # TODO :help
+  before_filter :login_required, :except => [:root, :login, :login_successful, :logout, :feedback, :usage_terms] # TODO :help
 
   helper_method :current_user, :logged_in?, :_
 
