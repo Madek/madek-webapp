@@ -15,7 +15,7 @@
 		<%= content_tag :p, :class => "usage_terms-box" do
 			a = link_to _("Ablehnen"), logout_path, :class => "buttons", :style => "font-weight: normal;"
 			a += link_to _("Akzeptieren"), usage_terms_user_path(current_user), :class => "buttons", :method => :post
-		end unless params[:hide_buttons] %>
+		end if params[:id] and params[:id].to_i == current_user.id %>
 	
 	</div>
 </div>
