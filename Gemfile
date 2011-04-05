@@ -34,7 +34,7 @@ gem "uuidtools"
 # unfortunately upstream irwi is broken. Until it is fixed we
 # install it as a plugin from our own branch on github:
 # git@github.com:tpo/irwi.git
-#gem "irwi"
+gem "irwi"
 gem "RedCloth"
 
 group :test, :development do
