@@ -52,7 +52,9 @@ module MetaDataHelper
 ###########################################################
 
   def widget_meta_terms(meta_datum, meta_key, meta_terms, ui)
-    unless meta_key.is_extensible_list?
+    if meta_key.is_extensible_list? or meta_terms.size > 16
+      widget_meta_terms_multiselect(meta_datum, meta_key)
+    else
       half_size = (meta_terms.size / 2) + (meta_terms.size % 2)
       content_tag :ul, :class => "meta_terms" do
         c = content_tag :li do
@@ -70,8 +72,6 @@ module MetaDataHelper
           end
         end
       end
-    else
-      widget_meta_terms_multiselect(meta_datum, meta_key)
     end
   end
 

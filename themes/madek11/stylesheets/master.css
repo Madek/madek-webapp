@@ -1969,7 +1969,8 @@ table.meta_data td {
   box-shadow: inset 0 0 3px 1px #ccc;
   font: 0.8em/1.2em "Courier New", Courier, mono;
   letter-spacing: 1px;
-  background-color: #fafafa; }
+  background-color: #fafafa;
+  min-width: 170px; }
 
 #legend h3 {
   font-size: 1.6em;

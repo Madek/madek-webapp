@@ -70,7 +70,7 @@
 					</div>
 					<div class="statbox">
 						<div style="width: 81px; height: 81px; background: #fff url(../../images/icon-tags.png) 50% 50% no-repeat;border-radius: 5px; margin-bottom: 1em; border: 2px solid #929292">&nbsp;</div>
-						<p><span style="font-weight: bold; font-size: 1.5em;text-shadow: -1px -1px 2px #fff;"><%= Keyword.group(:meta_term_id).length %></span><br />Schlagworte</p>
+						<p><span style="font-weight: bold; font-size: 1.5em;text-shadow: -1px -1px 2px #fff;"><%= Keyword.count(:meta_term_id) %></span><br />Schlagworte</p>
 					</div>
 					</div>
 				</div> <!-- #stats -->
@@ -78,22 +78,22 @@
 			
 			<div id="funcs" class="stopfloating">
 				<div class="grid_2 alpha">
-					<div class="madekfuncs"><img src="/images/archiving-01.png" alt="" /></div>
+					<div class="madekfuncs"><img src="/images/archiving-02.png" alt="" /></div>
 					<h3>Werke archivieren</h3>
 					<p>Das Medienarchiv unterstützt die ersten Schritte der Archivierung an der ZHdK.</p>
 				</div>
 				<div class="grid_2">
-					<div class="madekfuncs"><img src="/images/sharing-01.png" alt="" /></div>
+					<div class="madekfuncs"><img src="/images/sharing-02.png" alt="" /></div>
 					<h3>Medien teilen</h3>
 					<p>Es ermöglicht Künstler/innen und Gestalter/innen ihre Medien zu teilen.</p>
 				</div>
 				<div class="grid_2">
-					<div class="madekfuncs"><img src="/images/learning-01.png" alt="" /></div>
+					<div class="madekfuncs"><img src="/images/learning-02.png" alt="" /></div>
 					<h3>Wissen entwickeln</h3>
 					<p>Expert/innen können über das Medienarchiv ihr Wissen für andere sichtbar machen.</p>
 				</div>
 				<div class="grid_2 omega">
-					<div class="madekfuncs"><img src="/images/exploring-01.png" alt="" /></div>
+					<div class="madekfuncs"><img src="/images/exploring-02.png" alt="" /></div>
 					<h3>Inhalte erkunden</h3>
 					<p>Im wachsenden Medienpool kann man stöbern und sich inspirieren lassen.</p>
 				</div>
@@ -105,7 +105,7 @@
 			
 			<!-- Login -->
 			<div id="login" class="sidebar-box">
-				<p>Gleich einsteigen oder <a href="http://test.madek.zhdk.ch/">Demo testen</a>?</p>
+				<p>Gleich einsteigen oder <a href="http://demo.medienarchiv.zhdk.ch/login">Demo testen</a>?</p>
 				<p><%= link_to _("Einstieg ins Medienarchiv"), login_path, :class => "actionbutton" %></p>
 				<p class="disclaimer">Bis Ende 2011 ist das Medienarchiv nur für ZHdK-Angehörige zugänglich.</p>
 			</div> <!-- #login -->
@@ -152,7 +152,7 @@
 			<div class="grid_3 alpha">
 				<h4>Projekt</h4>
 				<ul>
-					<li><a href="http://www.zhdk.ch/index.php?id=12968">Informationen</a></li>
+					<li><a href="http://www.zhdk.ch/?madek">Informationen</a></li>
 				</ul>
 			</div>
 			<div class="grid_3">

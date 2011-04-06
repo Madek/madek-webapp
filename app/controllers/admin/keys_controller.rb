@@ -26,6 +26,18 @@ class Admin::KeysController < Admin::AdminController
   end
 
   def update
+    meta_term_attributes = params[:meta_key].delete(:meta_terms_attributes)
+    meta_term_attributes.each_value do |h|
+      if h[:id].nil? and LANGUAGES.all? {|l| not h[l].blank? }
+        term = Meta::Term.find_or_create_by_en_GB_and_de_CH(h)
+        @key.meta_terms << term
+        h[:id] = term.id
+      elsif h[:_destroy].to_i == 1
+        term = @key.meta_terms.find(h[:id])
+        @key.meta_terms.delete(term)
+      end
+    end
+ 
     @key.update_attributes(params[:meta_key])
     redirect_to admin_keys_path
   end
