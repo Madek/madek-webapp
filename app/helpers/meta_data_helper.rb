@@ -135,7 +135,7 @@ module MetaDataHelper
                           :"data-with_toggle" => with_toggle do 
       a = content_tag :ul, :class => "holder" do
         content_tag :li, :class => "input_holder" do
-          text_field_tag "autocomplete_search", nil, :style => "outline: none; border: none;",
+          text_field_tag "autocomplete_search", nil, :style => "outline: none; border: none;", :id => "#{meta_key.label.gsub(/\W+/, '_')}_autocomplete_search",
                           :"data-all_options" => "#{all_options.to_json}",
                           :"data-field_name_prefix" => "#{meta_datum.object_name}"
         end
