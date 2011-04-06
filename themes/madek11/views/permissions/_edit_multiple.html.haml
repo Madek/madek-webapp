@@ -27,35 +27,73 @@
         <input name="{{if (type == 'nil')}}subject[${type}][hi_res]{{else}}subject[${type}][${id}][hi_res]{{/if}}" type="checkbox" value="true" {{if hi_res}}checked="checked"{{/if}}>
     %td
       {{if type != 'nil' && id != #{current_user.id} }}
-      = link_to _("Löschen"), "#", :class => "delete", :msg => _("Sind Sie sicher?")
+      = link_to _("Löschen"), "#", :class => "delete", :msg => _("Sind Sie sicher?"), :"data-id" => "${id}", :"data-type" => "${type}"
       {{/if}}  
 
 :javascript
   $(function() {
     var permissions = #{@permissions_json};
 
-    if (permissions.User != undefined) $('#user_permissions').html($("#new_permission").tmpl(permissions.User));
-    if (permissions.Group != undefined) $('#group_permissions').html($("#new_permission").tmpl(permissions.Group));   
+    if (permissions.User != undefined) $('#user_permissions').html($("#new_permission").tmpl(permissions.User)); 
+    var selected_user_ids = (permissions.User != undefined) ? $.map(permissions.User, function(elem, i){ return parseInt(elem.id); }) : new Array();
+    
+    if (permissions.Group != undefined) $('#group_permissions').html($("#new_permission").tmpl(permissions.Group)); 
+    var selected_group_ids = (permissions.Group != undefined) ? $.map(permissions.Group, function(elem, i){ return parseInt(elem.id); }) : new Array();
 
     $('#anyone_permissions').html($("#new_permission").tmpl(permissions.public));
 
 
     $("input#new_user").autocomplete({
-      source: "/users",
+      source: function(request, response){
+        $.ajax({
+    			url: '/users',
+    			data: {term: request.term},
+    			dataType: 'json',
+    			type: "get",
+    			success: function(data){
+    			  var unselected_options = data.filter(function(elem) { 
+    			    var i = selected_user_ids.indexOf(elem.id);
+    			    if (i == -1) return elem;
+    			  });
+            response($.ui.autocomplete.filter(unselected_options, request.term));
+    			}
+    		});
+      },
       minLength: 3,
       select: function(event, ui) {
         var data = {type: 'User', id: ui.item.id, name: ui.item.label, view: false, edit: false, hi_res: false }
         $('#user_permissions').append($("#new_permission").tmpl(data)).effect('highlight');
-        $(this).val('');
+        selected_user_ids.push(ui.item.id);
+      }, 
+      close: function(event, ui) {
+        $(this).val("");
       }
     });
-
+    
     $("input#new_group").autocomplete({
-      source: "/groups",
+      source: function(request, response){
+        $.ajax({
+    			url: '/groups',
+    			data: {term: request.term},
+    			dataType: 'json',
+    			type: "get",
+    			success: function(data){
+    			  var unselected_options = data.filter(function(elem) { 
+    			    var i = selected_group_ids.indexOf(elem.id);
+    			    if (i == -1) return elem;
+    			  });
+            response($.ui.autocomplete.filter(unselected_options, request.term));
+    			}
+    		});
+      },
       minLength: 3,
       select: function(event, ui) {
         var data = {type: 'Group', id: ui.item.id, name: ui.item.label, view: false, edit: false, hi_res: false }
         $('#group_permissions').append($("#new_permission").tmpl(data)).effect('highlight');
+        selected_group_ids.push(ui.item.id);
+      }, 
+      close: function(event, ui) {
+        $(this).val("");
       }
     });
 
@@ -64,6 +102,10 @@
       var element = $(this);
       var message = element.attr('msg');
       if(confirm(message)){
+        var id = element.data("id");
+        var type_arr = (element.data("type") == "Group") ? selected_group_ids : selected_user_ids
+        var i = type_arr.indexOf(id);
+        type_arr.splice(i, 1);
         var to_remove = element.closest("tr");
         to_remove.fadeOut('slow', function() {
           to_remove.remove();
