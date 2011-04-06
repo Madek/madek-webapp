@@ -228,7 +228,7 @@ class MediaEntriesController < ApplicationController
     theme "madek11"
     # custom hash for jQuery json templates
     @info_to_json = @media_entries.map do |me|
-      me.attributes.merge!(me.get_basic_info)
+      me.attributes.merge!(me.get_basic_info(["uploaded at", "uploaded by", "keywords", "copyright notice", "portrayed object dates"]))
     end.to_json
   end
   
