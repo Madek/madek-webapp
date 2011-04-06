@@ -219,7 +219,7 @@ a:hover {
 	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#C0D84A), to(#A4B83F));
 	background-image: -moz-linear-gradient(0% 100% 90deg, #A4B83F, #C0D84A);
-	background-color: #eee;
+	background-color: #A4B83F;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	-o-border-radius: 3px;
@@ -234,6 +234,7 @@ a:hover {
 
 #login a.actionbutton:hover {
 	/* Background Gradient Firefox 3.6+ */
+	background-color: #C0D84A;
 	background: -moz-linear-gradient(100% 100% 90deg, #C0D84A, #C0D84A);
 	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -315,7 +316,7 @@ a:hover {
     -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
     -moz-transform: rotate(-7deg);
     background-attachment: scroll;
-    background-color: #FEFCAF;
+    background-color: #F968CE;
     background-image: -moz-linear-gradient(center top , #F968CE, #D95AB5);
     background-position: 0 0;
 	-webkit-border-radius: 60px;
@@ -339,7 +340,7 @@ a:hover {
 	text-align: center;
 }
 #beta p {
-	padding-top: 45px;
+	padding-top: 43px;
 	letter-spacing: 0;
 }
 
