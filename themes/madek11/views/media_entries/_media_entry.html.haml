@@ -16,7 +16,7 @@
         - if current_user && Permission.authorized?(current_user, :manage, media_entry)
           %li= link_to theme_image_tag("icons/button_delete_active.png"), media_entry_path(media_entry), :title => "Löschen", :method => :delete, :confirm => "Sind Sie sicher?"
         %li= link_to _("Exportieren"), "#", :panel => "download", :onclick => "return false;"
-        %li= link_to _("Sets zusammenstellen"), "#", :panel => "media_set", :onclick => "return false;"
+        %li= link_to _("Zu Set hinzufügen"), "#", :panel => "media_set", :onclick => "return false;"
         - if is_expert and media_entry.snapshotable?
           %li= link_to _("Metadaten für MIZ-Archiv editieren"), edit_tms_media_entry_path(@media_entry)
           - if can_edit
