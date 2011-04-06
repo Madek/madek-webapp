@@ -182,11 +182,11 @@ module Resource
     
     
     # NEW and experimental for batch processes 
-    def get_basic_info
-      core_context_keys = ["title", "author", "uploaded at", "uploaded by", "keywords", "copyright notice", "portrayed object dates"]
+    def get_basic_info(extended_keys = [])
+      core_keys = ["title", "author"]
       core_info = Hash.new
       
-      core_context_keys.each do |key|
+      (core_keys + extended_keys).each do |key|
         core_info[key.gsub(' ', '_')] = meta_data.get_value_for(key)
       end
       core_info["thumb_base64"] = thumb_base64(:small_125)
