@@ -6,7 +6,6 @@ class MediaSetsController < ApplicationController
   after_filter :store_location, :only => [:show]
   
   def index
-    #new#
     theme "madek11"
     ids = Permission.accessible_by_user("Media::Set", current_user)
 
