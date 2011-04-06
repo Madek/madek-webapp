@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class Admin::KeysController < Admin::AdminController
+class Admin::KeysController < Admin::AdminController # TODO rename to Admin::MetaKeysController ??
 
   before_filter :pre_load
 

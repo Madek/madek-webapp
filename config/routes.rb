@@ -188,6 +188,8 @@ MAdeK::Application.routes.draw do
         end
       end
     end
+
+    resources :terms
     
     resources :users do
       member do

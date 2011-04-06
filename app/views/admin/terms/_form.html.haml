@@ -1,0 +1,12 @@
+= form_for @term, :url => path do |f|
+  %table
+    - LANGUAGES.each do |lang|
+      %tr
+        %th
+          = lang
+          \:
+        %td
+          = f.text_field lang
+    %tr
+      %td
+      %td= f.submit submit
