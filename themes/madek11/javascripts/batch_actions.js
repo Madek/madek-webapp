@@ -152,15 +152,13 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 		toggleSelected($(this).closest(".item_box").data("object"));
     });
 
-	$("#select_deselect_all input:checkbox").click(function() {		
+	$("#select_deselect_all input:checkbox").click(function() {	
+	  var media_entries_json = get_media_entries_json();		
 	  if ($(this).is(":checked")) {
-		var media_entries_json = get_media_entries_json();
-		var media_entry_ids = $.map(media_entries_json, function(elem, i){ if (elem != null) return parseInt(elem.id); });
-		
 		// select all the visible and not already selected items
 		$(".item_box").each(function(i, elem) { 
 			var me = $(elem).data("object");
-			var i = media_entry_ids.indexOf(me.id);
+			var i = is_Selected(media_entries_json, me.id);
 			// if not yet selected
 			if((i == -1)) {
 		        media_entries_json.push(me);
@@ -172,7 +170,6 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 		set_media_entries_json(JSON.stringify(media_entries_json));
 	    displayCount();
 	  } else {
-		var media_entries_json = get_media_entries_json();
 		// remove everything from the action bar
 		$.each(media_entries_json, function(i, me){
 			$('#thumb_' + me.id).removeClass('selected').removeAttr("style").find('span.check_box img').attr('src', '/themes/madek11/images/icons/button_checkbox_off.png');
@@ -204,9 +201,8 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 
 	function toggleSelected(me) {
 		var media_entries_json = get_media_entries_json();
-		var media_entry_ids = $.map(media_entries_json, function(elem, i){ if (elem != null) return parseInt(elem.id); });
 		var id = (typeof(me) == "object" ? me.id : parseInt(me));
-		var i = media_entry_ids.indexOf(id);
+		var i = is_Selected(media_entries_json, id);
 		
 		if(i > -1) {
 			media_entries_json.splice(i, 1);
@@ -233,27 +229,10 @@ function selected_items_highlight_off(selector){
   $('#selected_items '+selector).css("background-color", "white");
 }
 
-function get_media_entries_json(){
-	var media_entries_json = JSON.parse(sessionStorage.getItem("selected_media_entries"));
-	if(media_entries_json == null) media_entries_json = new Array();
-	return media_entries_json;
-}
-
-function set_media_entries_json(data){
-	sessionStorage.setItem("selected_media_entries", data);
-}
-
-function get_selected_media_entry_ids() {
-	var media_entries_json = get_media_entries_json();
-	return $.map(media_entries_json, function(elem, i){ if (elem != null) return parseInt(elem.id); });
-}
-
 function listSelected() {
 	var media_entries_json = get_media_entries_json();
 	// display all previously selected items under taskbar 
 	// TODO: this method needs to make sure that all ME in sessionStorage still exist
-	
-	
 	$('#selected_items').html($("#thumbnail_mini").tmpl(media_entries_json));
 };
 

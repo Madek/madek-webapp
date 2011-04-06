@@ -14,7 +14,7 @@
           %span.favorite_link{:id => "fav_#{media_entry.id}", :title => "Favorit"}
             = render :partial => "/media_entries/favorite_link", :locals => {:media_entry => media_entry}
         - if current_user && Permission.authorized?(current_user, :manage, media_entry)
-          %li= link_to theme_image_tag("icons/button_delete_active.png"), media_entry_path(media_entry), :title => "Löschen", :method => :delete, :confirm => "Sind Sie sicher?"
+          %li= link_to theme_image_tag("icons/button_delete_active.png"), media_entry_path(media_entry), :id => "delete_me", :title => "Löschen", :method => :delete, :"data-id" => media_entry.id
         %li= link_to _("Exportieren"), "#", :panel => "download", :onclick => "return false;"
         %li= link_to _("Sets zusammenstellen"), "#", :panel => "media_set", :onclick => "return false;"
         - if is_expert and media_entry.snapshotable?
@@ -107,6 +107,16 @@
 .clear
 
 :javascript
+  $('a#delete_me').click(function(){
+    if(confirm("Sind Sie sicher?")){
+      var media_entries_json = get_media_entries_json();
+      var i = is_Selected(media_entries_json, $(this).data("id"));
+      if (i > -1) {
+        media_entries_json.splice(i, 1);
+        set_media_entries_json(JSON.stringify(media_entries_json));
+      };
+    };
+  })
   // TO BE OPTIMIZED:
   // Action Bar
   $("a[panel]").click(function(){
