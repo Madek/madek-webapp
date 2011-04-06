@@ -105,7 +105,7 @@ end
 
 def fill_in_person_widget(list_element, value, options = "")
   if options == "in-field entry box"
-    field = list_element.find(:css, ".madek_multiselect_container").find("input")
+    field = list_element.find(".madek_multiselect_container").find("input")
     fill_in field[:id], :with => value
 enter_script = <<HERE
 var e = jQuery.Event("keypress");
@@ -115,11 +115,11 @@ $("##{field[:id]}").trigger(e);
 HERE
      page.execute_script(enter_script)
   elsif options == "pseudonym field"
-    list_element.find(:css, ".dialog_link").click
+    list_element.find(".dialog_link").click
     fill_in "Pseudonym", :with => value
     click_link_or_button("Personendaten einfügen")
   elsif options == "group tab"
-    list_element.find(:css, ".dialog_link").click
+    list_element.find(".dialog_link").click
     click_link "Gruppe"
     sleep 2
     list_element.all("form").each do |form|
@@ -140,6 +140,34 @@ HERE
     click_link_or_button("Personendaten einfügen")
   end
 end
+
+
+def fill_in_keyword_widget(list_element, value, options = "")
+  if options == "pick from my keywords tab"
+    list_element.find(".dialog_link").click
+    list_element.find("li", :title => value).click
+  elsif options == "pick from popular keywords tab"
+    list_element.find(".dialog_link").click
+    click_link "Beliebteste"
+    list_element.find("li", :title => value).click
+  elsif options == "pick from latest keywords tab"
+    list_element.find(".dialog_link").click
+    click_link "Neueste"
+    list_element.find("li", :title => value).click
+  else
+    field = list_element.find(:css, ".madek_multiselect_container").find("input")
+    fill_in field[:id], :with => value
+enter_script = <<HERE
+var e = jQuery.Event("keypress");
+e.keyCode = $.ui.keyCode.ENTER;
+e.which = $.ui.keyCode.ENTER;
+$("##{field[:id]}").trigger(e);
+HERE
+     page.execute_script(enter_script)
+  end
+end
+
+
 
 
 def find_permission_checkbox(type, to_or_from)

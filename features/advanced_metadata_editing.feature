@@ -88,7 +88,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I click the media entry titled "Me and Leia Organa"
      Then I should see "Foo, Bar"
 
-  @javascript @failing
+  @javascript
   Scenario: Putting a pseudonym into the author field
     When I log in as "hansolo" with password "leia"
      And I upload some picture titled "Me and Leia Organa"
@@ -144,3 +144,26 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I click the media entry titled "Me and Leia Organa"
      And I wait for 3 seconds
      Then I should see "Furter, Frank"
+
+
+  @javascript @work2
+  Scenario: Enter some keywords into the JS-based keyword dialog box
+    When I log in as "hansolo" with password "leia"
+     And I upload some picture titled "Me and Leia Organa on the beach"
+     And I click the arrow next to "Solo, Han"
+     And I follow "Meine Medien"
+     And all the hidden items become visible
+     And I click the edit icon on the media entry titled "Me and Leia Organa on the beach"
+     And I fill in the metadata form as follows:
+     |label   |value             |
+     |Schlagworte zu Inhalt und Motiv|leia|
+     |Schlagworte zu Inhalt und Motiv|beach|
+     |Schlagworte zu Inhalt und Motiv|sun|
+     |Schlagworte zu Inhalt und Motiv|fun|
+     And I press "Speichern"
+     And I click the arrow next to "Solo, Han"
+     And I follow "Meine Medien"
+     And I wait for 3 seconds
+     And I click the media entry titled "Me and Leia Organa on the beach"
+     And I wait for 3 seconds
+     Then I should see "leia, beach, sun, fun"
