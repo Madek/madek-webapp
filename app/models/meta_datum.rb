@@ -57,7 +57,7 @@ class MetaDatum < ActiveRecord::Base
                                 Meta::Term.create(h) 
                               end
 
-                              r = Keyword.where(:meta_term => term, :user => user)
+                              r = Keyword.where(:meta_term_id => term, :user_id => user).first
                               r ||= Keyword.create(:meta_term => term, :user => user)
                               # TODO delete keywords records anymore referenced
                             end
