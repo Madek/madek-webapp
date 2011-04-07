@@ -53,6 +53,7 @@ MAdeK::Application.routes.draw do
       #temp# :graph_nodes => :get,
       #temp# :index_browser => :get
       get :image
+      get :map
     end
     
     resources :permissions do
