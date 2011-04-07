@@ -1,0 +1,20 @@
+#map_canvas{:style => "width: 100%; height: 500px;"}
+
+- unless request.xhr? # TODO use $.getScript ??
+  = javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false"
+
+:javascript
+  $(document).ready(function () {
+    var latlng = new google.maps.LatLng(#{@lat}, #{@lng});
+    var myOptions = {
+      zoom: 14,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.HYBRID
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    var marker = new google.maps.Marker({
+        position: latlng, 
+        map: map,
+        title: "#{@media_entry.to_s}"
+    });   
+  });

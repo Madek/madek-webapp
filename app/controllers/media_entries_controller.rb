@@ -106,6 +106,18 @@ class MediaEntriesController < ApplicationController
       send_data output, :type => preview.content_type, :disposition => 'inline'
     end
   end
+  
+  def map
+    theme "madek11"
+    meta_data = @media_entry.media_file.meta_data
+    @lat = meta_data["GPS:GPSLatitude"]
+    @lng = meta_data["GPS:GPSLongitude"]
+
+    respond_to do |format|
+      format.html
+      format.js { render :layout => false }
+    end
+end
 
 #####################################################
 # Authenticated Area
@@ -313,7 +325,7 @@ class MediaEntriesController < ApplicationController
     case action
       when :new
         action = :create
-      when :show, :image
+      when :show, :image, :map
         action = :view
       when :edit, :update
         action = :edit

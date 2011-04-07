@@ -1,9 +1,9 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.5'
+gem 'rails', '3.0.6'
 gem 'i18n' # Need this explicitly, otherwise can't deploy
 
-gem 'mysql2', '0.2.6'
+gem 'mysql2', '0.2.7'
 gem 'memcache-client' #gem 'dalli' #gem 'redis-store'
 
 gem 'themes_for_rails'
@@ -14,7 +14,7 @@ gem 'will_paginate', '3.0.pre2'
 gem 'rgl', '0.4.0', :require => 'rgl/adjacency'
 gem 'builder'
 
-gem 'thinking-sphinx', '2.0.2', :require => 'thinking_sphinx'
+gem 'thinking-sphinx', '2.0.3', :require => 'thinking_sphinx'
 #temp#sphinx# gem 'ts-delayed-delta', '1.1.0', :require => 'thinking_sphinx/deltas/delayed_delta'
 
 gem 'zip', '2.0.2'
@@ -38,6 +38,7 @@ end
 group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
+  gem 'peterhoeg-railroad'
 end
 
 group :test do
