@@ -105,7 +105,8 @@ end
 
 def fill_in_person_widget(list_element, value, options = "")
   if options == "in-field entry box"
-    field = list_element.find("#author_autocomplete_search")
+    id_prefix = list_element["data-meta_key"]
+    field = list_element.find("##{id_prefix}_autocomplete_search")
     fill_in field[:id], :with => value
 enter_script = <<HERE
 var e = jQuery.Event("keypress");
