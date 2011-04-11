@@ -14,11 +14,11 @@ class SearchController < ApplicationController
       options[:with].merge!(filter_options)
       options.merge!(:classes => [MediaEntry])
     end
-    #raise options.inspect
     @media = ThinkingSphinx.search(@search_term, options).paginate(:page => params[:page], :per_page => params[:per_page])
     @json = Logic.enriched_resource_data(@media, current_user).to_json
-
-    @editable_sets = Media::Set.accessible_by(current_user, :edit)
+    
+    @facets = ThinkingSphinx.facets(@search_term, options)
+    
     respond_to do |format|
       format.html
       format.js { render :json => @json }

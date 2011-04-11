@@ -2,13 +2,14 @@ class Filter
 
   def initialize(filter_attributes)
     @filters = filter_attributes
+    @options = {:with => {}, :conditions => {}}
   end
   
   def to_query_filter
-    options = {}
     @filters.each_pair do |filter, specs|
       if specs.is_a?(Hash)
         next if specs[:value].blank?
+        filter_or_attribute(filter)
         options[filter.to_sym] = comparison_with_operator(specs[:value], specs[:operator])
       else
         options[filter.to_sym] = specs
@@ -28,6 +29,15 @@ class Filter
       else
         val.to_i
     end
+  end
+  
+  def filter_or_attribute(filter_name)
+    classes = ThinkingSphinx.context.indexed_models.collect { |model| model.constantize }
+    # classes.select { |model|
+    #   model.sphinx_indexes.first.attributes.any? { |attribute|
+    #     attribute.unique_name == filter_name
+    #   }
+    # }
   end
 
 end
