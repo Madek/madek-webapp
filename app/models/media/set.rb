@@ -83,7 +83,7 @@ module Media
         MetaKey.with_meta_data.each do |key|
           xml.tag!("sphinx:field", :name => key.label.parameterize('_'))
         end
-        ['user','type','query'].each do |field|
+        ['user','type'].each do |field|
           xml.tag!("sphinx:field", :name => field)
         end
 
@@ -102,33 +102,23 @@ module Media
         xml.tag!("sphinx:document", :id => media_set.id) do
           media_set.meta_data.with_labels.each_pair do |key, value|
             xml.tag!(key.parameterize('_'), value)
-            xml.tag!("#{key}_sort", value) if ['subject', 'creator'].include?(key)
           end
           
           ['sphinx_internal_id', 'class_crc',
-           'user_id', 'user', 'type', 'query'].each do |attr|
+           'user_id', 'user', 'type'].each do |attr|
             xml.tag!(attr, media_set.send(attr))
           end
 
           ['updated_at'].each do |attr|
             xml.tag!(attr, media_set.send(attr).to_i)
           end
+        
         end
       end
     end
 
     puts xml.target!
-  end
-
-    def sphinx_internal_id
-      id
-    end
-
-    def class_crc
-      self.class.to_crc32 #old#.to_s
-    end
-  
-  
+  end  
   
   ########################################################
     def to_s

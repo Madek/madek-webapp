@@ -1,6 +1,6 @@
 #search
   #quick-search
-    = form_tag media_entries_path, :method => :get do
+    = form_tag search_path, :method => :get do
       #search-query.basic
         %div
           = text_field_tag 'query', params[:query], :id => 'query'

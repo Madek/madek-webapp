@@ -100,16 +100,14 @@ class MediaEntry < ActiveRecord::Base
         MetaKey.with_meta_data.each do |key|
           xml.tag!("sphinx:field", :name => key.label.parameterize('_'))
         end
-        ['user'].each do |field|
+        ['orientation'].each do |field|
           xml.tag!("sphinx:field", :name => field)
         end
 
         [['sphinx_internal_id', 'int'], ['class_crc', 'int'], ['sphinx_deleted', 'int', '0'], # required by thinking sphinx
-         ['user_id', 'int'], ['media_file_id', 'int'], # association attributes
-         #old 1003# ['media_set_ids', 'multi'],
-         #old#0903# ['is_public', 'int', '0'], # attributes
-         #temp#facet# ['user_id_facet', 'int'], # facets
-         ['subject_sort', 'str2ordinal'], ['creator_sort', 'str2ordinal'], ['updated_at', 'timestamp'] # sorting attributes
+         ['user_id', 'int'], # association attributes
+         ['subject_sort', 'str2ordinal'], ['creator_sort', 'str2ordinal'], ['updated_at', 'timestamp'], # sorting attributes
+         ['height', 'int', 0], ['width', 'int', 0] # attributes for filtering
          ].each do |attr|
           args = {:name => attr[0], :type => attr[1]}
           args[:default] = attr[2] if attr.size > 2
@@ -126,45 +124,24 @@ class MediaEntry < ActiveRecord::Base
           end
     
           ['sphinx_internal_id', 'class_crc',
-           'user_id', 'media_file_id',
-           #old 1003# 'media_set_ids',
-           #temp#facet# 'user_id_facet',
-           'user'].each do |attr|
+           'user_id'].each do |attr|
             xml.tag!(attr, media_entry.send(attr))
           end
     
           ['updated_at'].each do |attr|
             xml.tag!(attr, media_entry.send(attr).to_i)
           end
-
-#old#0903# 
-#          if media_entry.acl?(:view, :all)
-#            xml.tag!("is_public", 1)
-#          end
+          
+          ['width', 'height', 'orientation'].each do |attr|
+            xml.tag!(attr, media_entry.media_file.send(attr).to_i)
+          end
+          
         end
       end
     end
 
     puts xml.target!
   end
-
-  def sphinx_internal_id
-    id
-  end
-  
-  def class_crc
-    self.class.to_crc32 #old#.to_s
-  end
-
-#temp#facet#
-#  def user_id_facet
-#    user_id
-#  end
-
-#old 1003#
-#  def media_set_ids
-#    media_sets.collect(&:id).join(',')
-#  end
 
 ########################################################
 

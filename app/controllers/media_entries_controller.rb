@@ -47,10 +47,6 @@ class MediaEntriesController < ApplicationController
     # filtering attributes
     with = {}
 
-    if @media_file
-      with[:media_file_id] = @media_file.id
-    end
-
     params[:per_page] ||= PER_PAGE.first
 
     @media_entries = media_entries.search params[:query],
@@ -347,7 +343,6 @@ class MediaEntriesController < ApplicationController
       @user = User.find(params[:user_id]) unless params[:user_id].blank?
       @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
       @media_set = (@user? @user.media_sets : Media::Set).find(params[:media_set_id]) unless params[:media_set_id].blank? # TODO shallow
-      @media_file = MediaFile.find(params[:media_file_id]) unless params[:media_file_id].blank?
 
       if not params[:media_entry_id].blank?
         @media_entry =  if @media_set
@@ -355,8 +350,6 @@ class MediaEntriesController < ApplicationController
                         elsif @user
                           @user.media_entries.find(params[:media_entry_id])
                         # TODO if @user and @media_set ??
-                        elsif @media_file # TODO still needed?
-                          @media_file.media_entries.find(params[:media_entry_id])
                         else
                           MediaEntry.find(params[:media_entry_id])
                         end

@@ -268,6 +268,17 @@ module Resource
       end
     end
   end
+  
+########################################################
+### For Sphinx  
+  
+  def sphinx_internal_id
+    id
+  end
+
+  def class_crc
+    self.class.base_class.to_crc32 #old#.to_s
+  end
 
 ########################################################
 # TODO cache methods results
