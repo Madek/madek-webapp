@@ -336,10 +336,6 @@ module Resource
         Permission.authorized?(nil, action, self)
       when :only
         Permission.resource_viewable_only_by_user?(self, subject)
-      else
-        # scope could be :logged_in_users
-        # OPTIMIZE
-        Permission.merged_actions(nil, self)[action] == scope
     end
   end
 

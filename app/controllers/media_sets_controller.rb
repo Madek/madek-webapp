@@ -149,7 +149,8 @@ class MediaSetsController < ApplicationController
       @media_sets = @user.media_sets
     end
   end
-  
+
+  # TODO merge with MediaEntries#update_multiple_permsissions
   def update_multiple_permsissions
     @media_set.permissions.delete_all
 
@@ -162,7 +163,9 @@ class MediaSetsController < ApplicationController
       end if params[:subject][key]
     end
     
+    # FIXME it's not sure that the current_user is the owner (manager) of the current resource 
     @media_set.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
+    
     flash[:notice] = "Die Zugriffsberechtigungen für das Set wurden erfolgreich gespeichert."
     redirect_to @media_set
   end

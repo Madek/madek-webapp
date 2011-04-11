@@ -269,6 +269,7 @@ end
     end.to_json
   end
 
+  # TODO merge with MediaSets#update_multiple_permsissions
   def update_multiple_permissions
     theme "madek11"
     
@@ -284,6 +285,7 @@ end
           end if params[:subject][key]
         end
         
+        # FIXME it's not sure that the current_user is the owner (manager) of the current resource 
         media_entry.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
       end
 

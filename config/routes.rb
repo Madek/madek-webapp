@@ -57,14 +57,9 @@ MAdeK::Application.routes.draw do
     end
     
     resources :permissions do
-      #old#
-      #member do
-      #  post :toggle
-      #end
-      
       collection do
         get :edit_multiple
-        put :update_multiple
+        #old# put :update_multiple
       end
     end
     
