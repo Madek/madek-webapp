@@ -1,8 +1,8 @@
 # -*- encoding : utf-8 -*-
 class MediaEntriesController < ApplicationController
 
-  before_filter :pre_load, :except => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions, :update_multiple_permissions]
-  before_filter :pre_load_for_batch, :only => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions, :update_multiple_permissions]
+  before_filter :pre_load, :except => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions]
+  before_filter :pre_load_for_batch, :only => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions]
   before_filter :authorized?, :except => [:index, :media_sets, :favorites, :toggle_favorites, :keywords] #old# :only => [:show, :edit, :update, :destroy]
   after_filter :store_location, :only => [:index]
 
@@ -268,34 +268,6 @@ end
       me.attributes.merge!(me.get_basic_info)
     end.to_json
   end
-
-  # TODO merge with MediaSets#update_multiple_permissions
-  def update_multiple_permissions
-    theme "madek11"
-    
-      @media_entries.each do |media_entry|
-        media_entry.permissions.delete_all
-    
-        actions = params[:subject]["nil"]
-        media_entry.permissions.build(:subject => nil).set_actions(actions)
-  
-        ["User", "Group"].each do |key|
-          params[:subject][key].each_pair do |subject_id, actions|
-            media_entry.permissions.build(:subject_type => key, :subject_id => subject_id).set_actions(actions)
-          end if params[:subject][key]
-        end
-        
-        # FIXME it's not sure that the current_user is the owner (manager) of the current resource 
-        media_entry.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
-      end
-
-    flash[:notice] = "Die Zugriffsberechtigungen wurden erfolgreich gespeichert."  
-    if (@media_entries.size == 1)
-      redirect_to media_entry_path(@media_entries.first)
-    else
-      redirect_back_or_default(media_entries_path)
-    end
-  end
   
 #####################################################
 
@@ -339,7 +311,7 @@ end
       when :to_snapshot
         not_authorized! unless current_user.groups.is_member?("Expert")
         return
-      when :edit_multiple, :update_multiple, :edit_multiple_permissions, :update_multiple_permissions
+      when :edit_multiple, :update_multiple, :edit_multiple_permissions
         not_authorized! if @media_entries.empty?
         return
       when :remove_multiple
@@ -389,7 +361,7 @@ end
           when :edit_multiple, :update_multiple
             editable_ids = Permission.accessible_by_user(MediaEntry, current_user, :edit)
             MediaEntry.where(:id => (selected_ids & editable_ids))
-          when :edit_multiple_permissions, :update_multiple_permissions
+          when :edit_multiple_permissions
             manageable_ids = Permission.accessible_by_user(MediaEntry, current_user, :manage)
             MediaEntry.where(:id => (selected_ids & manageable_ids))
           when :remove_multiple

@@ -42,7 +42,6 @@ MAdeK::Application.routes.draw do
       post :edit_multiple
       put :update_multiple
       post :edit_multiple_permissions
-      put :update_multiple_permissions
     end
 
     member do
@@ -59,7 +58,7 @@ MAdeK::Application.routes.draw do
     resources :permissions do
       collection do
         get :edit_multiple
-        #old# put :update_multiple
+        put :update_multiple
       end
     end
     
