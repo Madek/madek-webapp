@@ -1,5 +1,8 @@
+# !! Mostly pseudo code here. WIP
+
 class Filter
 
+  attr_accessor :options, :filters
   def initialize(filter_attributes)
     @filters = filter_attributes
     @options = {:with => {}, :conditions => {}}
@@ -7,12 +10,12 @@ class Filter
   
   def to_query_filter
     @filters.each_pair do |filter, specs|
+      key = filter_or_attribute(filter)
       if specs.is_a?(Hash)
         next if specs[:value].blank?
-        filter_or_attribute(filter)
-        options[filter.to_sym] = comparison_with_operator(specs[:value], specs[:operator])
+        options[key][filter.to_sym] = comparison_with_operator(specs[:value], specs[:operator])
       else
-        options[filter.to_sym] = specs
+        options[key][filter.to_sym] = specs
       end
     end
     return options
@@ -33,6 +36,8 @@ class Filter
   
   def filter_or_attribute(filter_name)
     classes = ThinkingSphinx.context.indexed_models.collect { |model| model.constantize }
+    
+    # does not work because of xmlpipe2 data source
     # classes.select { |model|
     #   model.sphinx_indexes.first.attributes.any? { |attribute|
     #     attribute.unique_name == filter_name

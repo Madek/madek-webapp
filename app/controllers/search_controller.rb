@@ -11,8 +11,8 @@ class SearchController < ApplicationController
     params[:per_page] ||= PER_PAGE.first
     if !params[:filter].blank?
       filter_options = Filter.new(params[:filter]).to_query_filter
-      options[:with].merge!(filter_options)
-      options.merge!(:classes => [MediaEntry])
+      options.merge!(filter_options)
+      options.merge!(:classes => [MediaEntry]) #tmp # eventually we want to figure out which classes we need to limit the search to (based on filter attributes/fields)
     end
     @media = ThinkingSphinx.search(@search_term, options).paginate(:page => params[:page], :per_page => params[:per_page])
     @json = Logic.enriched_resource_data(@media, current_user).to_json

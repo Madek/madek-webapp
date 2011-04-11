@@ -1,9 +1,8 @@
 # -*- encoding : utf-8 -*-
 module Resource
-
+  
   def self.included(base)
-
-    # TODO observe bulk changes and reindex once
+   # TODO observe bulk changes and reindex once
     base.has_many :meta_data, :as => :resource, :dependent => :destroy do #working here#7 :include => :meta_key
       def all_cached
         # OPTIMIZE since we are using the cache_key, we dont' actually need the expires_in, but let's keep it just for safety
@@ -11,16 +10,16 @@ module Resource
           all
         end
       end
-      
+
       def get(key_id)
         # unless ... and !!v.match(/\A[+-]?\d+\Z/) # TODO path to String#is_numeric? method
         #key_id = MetaKey.find_by_label(key_id.downcase).id unless key_id.is_a?(Fixnum)
         #TODO: handle the case when key_id is a MetaKey object
         key_id = MetaKey.all_cached.detect {|mk| mk.label == key_id.downcase }.id unless key_id.is_a?(Fixnum)
-        
+
         #r = where(:meta_key_id => key_id).first # OPTIMIZE prevent find if is_dynamic meta_key
         r = all_cached.detect {|md| md.meta_key_id == key_id}
-        
+
         r ||= build(:meta_key_id => key_id)
       end
 
@@ -38,8 +37,8 @@ module Resource
       end
     end
     base.accepts_nested_attributes_for :meta_data, :allow_destroy => true,
-                                                   :reject_if => proc { |attributes| attributes['value'].blank? and attributes['_destroy'].blank? }
-                                                   # NOTE the check on _destroy should be automatic, check Rails > 3.0.3
+                                               :reject_if => proc { |attributes| attributes['value'].blank? and attributes['_destroy'].blank? }
+                                               # NOTE the check on _destroy should be automatic, check Rails > 3.0.3
 
 #temp#
 #    # enforce meta_key uniqueness updating existing meta_datum
@@ -71,10 +70,10 @@ module Resource
     def update_attributes_with_pre_validation(attributes, current_user = nil)
       self.editors << current_user if current_user # OPTIMIZE group by user ??
       self.updated_at = Time.now # OPTIMIZE touch or sphinx_touch ?? (only for media_entries actually)
-      
+
       # we need to deep copy the attributes for batch edit (multiple resources)
       dup_attributes = Marshal.load(Marshal.dump(attributes))
-      
+
       # To avoid overriding at batch update: remove from attribute hash if :keep_original_value and value is blank
       dup_attributes[:meta_data_attributes].delete_if { |key, attr| attr[:keep_original_value] and attr[:value].blank? }
 
@@ -82,14 +81,14 @@ module Resource
         if attr[:value].is_a? Array and attr[:value].all? {|x| x.blank? }
           attr[:value] = nil
         end
-        
+
         # find existing meta_datum, if it exists
         if attr[:id].blank?
           if (md = meta_data.all_cached.detect {|md| md.meta_key_id == attr[:meta_key_id].to_i}) #(md = meta_data.where(:meta_key_id => attr[:meta_key_id]).first)
             attr[:id] = md.id
           end
         end
-        
+
         # get rid of meta_datum if value is blank
         if !attr[:id].blank? and attr[:value].blank?
           attr[:_destroy] = true
@@ -106,6 +105,65 @@ module Resource
       base.where(:id => ids)
     }
 
+
+    def base.to_sphinxpipe(delta = 0)
+      update_all(:delta => 0) if delta == 0
+
+      xml = Builder::XmlMarkup.new
+      xml.instruct!
+
+      xml.tag!("sphinx:docset") do
+        xml.tag!("sphinx:schema") do
+            MetaKey.with_meta_data.each do |key|
+              xml.tag!("sphinx:field", :name => key.label.parameterize('_'))
+            end
+
+            (['user'] + self::TS_FIELDS.keys).each do |field|
+              xml.tag!("sphinx:field", :name => field)
+            end
+
+             ([['sphinx_internal_id', 'int'], ['class_crc', 'int'], ['sphinx_deleted', 'int', '0'], # required by thinking sphinx
+               ['user_id', 'int'], # association attributes
+               ['updated_at', 'timestamp']] + self::TS_ATTRIBUTE_DEFINITIONS).each do |attr|
+                args = {:name => attr[0], :type => attr[1]}
+                args[:default] = attr[2] if attr.size > 2
+                xml.tag!("sphinx:attr", args)
+            end
+         end 
+
+          resources = if self.respond_to?(:upload_session)
+            self.joins(:upload_session).where(:delta => delta, :upload_sessions => {:is_complete => true})
+          else
+            self.where(:delta => delta)
+          end
+
+          resources.each do |resource|
+            # TODO: check whether sphinx:document id needs to be unique
+            xml.tag!("sphinx:document", :id => resource.id) do
+              resource.meta_data.with_labels.each_pair do |key, value|
+                xml.tag!(key.parameterize('_'), value)
+              end
+
+              ['sphinx_internal_id', 'class_crc',
+               'user_id', 'user'].each do |attr|
+                xml.tag!(attr, resource.send(attr))
+              end
+
+              ['updated_at'].each do |attr|
+                xml.tag!(attr, resource.send(attr).to_i)
+              end
+
+
+              (self::TS_FIELDS.merge(self::TS_ATTRIBUTES)).each_pair do |key, val|
+                xml.tag!(key, val.call(resource))
+              end
+
+            end
+          end
+        end
+
+      puts xml.target!
+    end
   end
 
   # returns the meta_data for a particular resource, so that it can written into a media file that is to be exported.
