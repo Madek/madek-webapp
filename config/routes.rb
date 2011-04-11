@@ -126,7 +126,7 @@ MAdeK::Application.routes.draw do
     resources :media_sets
     
     member do
-      put :update_multiple_permsissions
+      put :update_multiple_permissions
     end
     
     resources :meta_data do

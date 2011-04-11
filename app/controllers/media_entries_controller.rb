@@ -269,7 +269,7 @@ end
     end.to_json
   end
 
-  # TODO merge with MediaSets#update_multiple_permsissions
+  # TODO merge with MediaSets#update_multiple_permissions
   def update_multiple_permissions
     theme "madek11"
     

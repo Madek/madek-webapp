@@ -7,7 +7,7 @@
     = hidden_field_tag :media_entry_ids, @resource.id
     = render :partial => "/permissions/table", :locals => {:cancel_path => media_entry_path(@resource) }
 - else
-  = form_tag update_multiple_permsissions_media_set_path(@media_set), :method => :put do
+  = form_tag update_multiple_permissions_media_set_path(@media_set), :method => :put do
     = render :partial => "/permissions/table", :locals => {:cancel_path => media_set_path(@media_set) }
 
 
