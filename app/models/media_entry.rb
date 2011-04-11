@@ -100,7 +100,7 @@ class MediaEntry < ActiveRecord::Base
         MetaKey.with_meta_data.each do |key|
           xml.tag!("sphinx:field", :name => key.label.parameterize('_'))
         end
-        ['orientation'].each do |field|
+        ['orientation', 'user'].each do |field|
           xml.tag!("sphinx:field", :name => field)
         end
 
@@ -124,7 +124,7 @@ class MediaEntry < ActiveRecord::Base
           end
     
           ['sphinx_internal_id', 'class_crc',
-           'user_id'].each do |attr|
+           'user_id', 'user'].each do |attr|
             xml.tag!(attr, media_entry.send(attr))
           end
     
@@ -132,8 +132,12 @@ class MediaEntry < ActiveRecord::Base
             xml.tag!(attr, media_entry.send(attr).to_i)
           end
           
-          ['width', 'height', 'orientation'].each do |attr|
+          ['width', 'height'].each do |attr|
             xml.tag!(attr, media_entry.media_file.send(attr).to_i)
+          end
+          
+          ['orientation'].each do |attr|
+            xml.tag!(attr, media_entry.media_file.send(attr))
           end
           
         end
