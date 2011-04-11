@@ -150,8 +150,8 @@ class MediaSetsController < ApplicationController
     end
   end
 
-  # TODO merge with MediaEntries#update_multiple_permsissions
-  def update_multiple_permsissions
+  # TODO merge with Permissions#update_multiple
+  def update_multiple_permissions
     @media_set.permissions.delete_all
 
     actions = params[:subject]["nil"]

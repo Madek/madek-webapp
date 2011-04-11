@@ -35,6 +35,33 @@ class PermissionsController < ApplicationController
     end
   end
 
+  def update_multiple
+    theme "madek11"
+    
+      @media_entries.each do |media_entry|
+        media_entry.permissions.delete_all
+    
+        actions = params[:subject]["nil"]
+        media_entry.permissions.build(:subject => nil).set_actions(actions)
+  
+        ["User", "Group"].each do |key|
+          params[:subject][key].each_pair do |subject_id, actions|
+            media_entry.permissions.build(:subject_type => key, :subject_id => subject_id).set_actions(actions)
+          end if params[:subject][key]
+        end
+        
+        # FIXME it's not sure that the current_user is the owner (manager) of the current resource 
+        media_entry.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
+      end
+
+    flash[:notice] = "Die Zugriffsberechtigungen wurden erfolgreich gespeichert."  
+    if (@media_entries.size == 1)
+      redirect_to media_entry_path(@media_entries.first)
+    else
+      redirect_back_or_default(media_entries_path)
+    end
+  end
+
 #################################################################
 
   private
@@ -44,8 +71,11 @@ class PermissionsController < ApplicationController
     case action
       when :index
         action = :view
-      else
+      when :edit_multiple
         action = :manage
+      when :update_multiple
+        not_authorized! if @media_entries.empty?
+        return
     end
     
     # OPTIMIZE if member of a group
@@ -56,10 +86,15 @@ class PermissionsController < ApplicationController
   def pre_load
     # OPTIMIZE remove blank params
     
-    if not params[:media_entry_id].blank?
+    if (not params[:media_entry_id].blank?) and (not params[:media_entry_id].to_i.zero?)
       @resource = MediaEntry.find(params[:media_entry_id])
+    elsif not params[:media_entry_ids].blank?
+      selected_ids = params[:media_entry_ids].split(",").map{|e| e.to_i }
+      manageable_ids = Permission.accessible_by_user(MediaEntry, current_user, :manage)
+      @media_entries = MediaEntry.where(:id => (selected_ids & manageable_ids))
     else
-      redirect_to root_path
+      flash[:error] = "Sie haben keine Medieneinträge ausgewählt."
+      redirect_to :back
     end
 
     params[:permission_id] ||= params[:id]
