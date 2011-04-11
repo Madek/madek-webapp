@@ -22,6 +22,7 @@ Feature: Exporting for archival experts and using the associated archival expert
       And I go to the home page
       And I click the media entry titled "Tapping for the Archives"
       And I follow "Metadaten für MIZ-Archiv editieren"
+      And I wait for 6 seconds
       And I fill in the metadata form as follows:
       |label   |value             |options|
       |Autor/in|Things for archival|in-field entry box|

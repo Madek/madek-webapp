@@ -5,6 +5,6 @@
 			- # TODO next if set is private ??
 			%li
 				= check_box_tag "children[]", set.id, @set.children.include?(set)
-				= " #{set} [#{view_permission_string(set)}] #{set.user}"
+				= " #{set} [#{display_permission(set, :string)}] #{set.user}"
 
 	= f.submit _("Submit")

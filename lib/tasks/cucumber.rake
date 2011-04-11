@@ -38,6 +38,7 @@ begin
       t.rcov_opts << %[-o "cucumber_rcov"]
     end
 
+
     desc 'Run all features'
     task :all => [:ok, :wip]
   end
@@ -48,6 +49,10 @@ begin
 
   task :features => :cucumber do
     STDERR.puts "*** The 'features' task is deprecated. See rake -T cucumber ***"
+  end
+
+  # In case we don't have ActiveRecord, append a no-op task that we can depend upon.
+  task 'db:test:prepare' do
   end
 rescue LoadError
   desc 'cucumber rake task not available (cucumber not installed)'

@@ -105,7 +105,8 @@ end
 
 def fill_in_person_widget(list_element, value, options = "")
   if options == "in-field entry box"
-    field = list_element.find(:css, ".madek_multiselect_container").find("input")
+    id_prefix = list_element["data-meta_key"]
+    field = list_element.find("##{id_prefix}_autocomplete_search")
     fill_in field[:id], :with => value
 enter_script = <<HERE
 var e = jQuery.Event("keypress");
@@ -115,11 +116,11 @@ $("##{field[:id]}").trigger(e);
 HERE
      page.execute_script(enter_script)
   elsif options == "pseudonym field"
-    list_element.find(:css, ".dialog_link").click
+    list_element.find(".dialog_link").click
     fill_in "Pseudonym", :with => value
     click_link_or_button("Personendaten einfügen")
   elsif options == "group tab"
-    list_element.find(:css, ".dialog_link").click
+    list_element.find(".dialog_link").click
     click_link "Gruppe"
     sleep 2
     list_element.all("form").each do |form|
@@ -140,6 +141,34 @@ HERE
     click_link_or_button("Personendaten einfügen")
   end
 end
+
+
+def fill_in_keyword_widget(list_element, value, options = "")
+  if options == "pick from my keywords tab"
+    list_element.find(".dialog_link").click
+    list_element.find("li", :title => value).click
+  elsif options == "pick from popular keywords tab"
+    list_element.find(".dialog_link").click
+    click_link "Beliebteste"
+    list_element.find("li", :title => value).click
+  elsif options == "pick from latest keywords tab"
+    list_element.find(".dialog_link").click
+    click_link "Neueste"
+    list_element.find("li", :title => value).click
+  else
+    field = list_element.find("#keywords_autocomplete_search")
+    fill_in field[:id], :with => value
+enter_script = <<HERE
+var e = jQuery.Event("keypress");
+e.keyCode = $.ui.keyCode.ENTER;
+e.which = $.ui.keyCode.ENTER;
+$("##{field[:id]}").trigger(e);
+HERE
+     page.execute_script(enter_script)
+  end
+end
+
+
 
 
 def find_permission_checkbox(type, to_or_from)
@@ -278,7 +307,7 @@ end
 def add_to_set(set_title = "Untitled Set", picture_title = "Untitled")
   visit "/media_entries"
   click_media_entry_titled(picture_title)
-  click_link_or_button("Sets zusammenstellen")
+  click_link_or_button("Zu Set hinzufügen")
   select(set_title, :from => "media_set_ids[]")
   click_link_or_button("Zu ausgewähltem Set hinzufügen")
   # The set title is displayed on the right-hand side of this page, so we should be able to

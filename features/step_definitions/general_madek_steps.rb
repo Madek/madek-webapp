@@ -113,6 +113,8 @@ When "I fill in the metadata form as follows:" do |table|
     else
       if list[:class] == "Person"
         fill_in_person_widget(list, hash['value'], hash['options'])
+      elsif list[:class] == "Keyword"
+        fill_in_keyword_widget(list, hash['value'], hash['options'])
       else
         list.all("textarea").each do |ele|
           fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil?

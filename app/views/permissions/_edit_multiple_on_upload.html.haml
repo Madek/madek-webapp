@@ -1,0 +1,49 @@
+= form_for MediaEntry.new, :as => :media_entry, :url => set_permissions_upload_path, :html => {:class => "upload_step_2"} do |f|
+  %p
+    = _("Für wen sind diese Medieneinträge sichtbar?")
+
+  %ul.permissions_unit.clearfix
+    %li
+      = radio_button_tag :view, :private, true
+      Nur für Sie selbst
+      %span.hint
+        (nur für Sie selbst sichtbar)
+    %li
+      = radio_button_tag :view, :zhdk_users, false
+      Für angemeldete Benutzer/innen
+      %span.hint
+        (für angemeldete ZHdK-Angehörige sichtbar)
+      %ul{:style => "margin-left: 2em;"}
+        %li
+          = check_box_tag :edit, :zhdk_users, false, :disabled => true
+          und von angemeldeten Benutzern editierbar.
+    %li
+      = radio_button_tag :view, :public, false
+      Öffentlich
+      %span.hint
+        (vorerst nur innerhalb, später auch ausserhalb des Medienarchivs sichtbar)
+      %ul{:style => "margin-left: 2em;"}
+        %li
+          = check_box_tag :edit, true, false, :disabled => true
+          und von allen Benutzern editierbar.
+
+  - unless @media_entries
+    %p#upload_in_progress{:style => "margin: 2em 0 0.75em 0"}
+      %a#dialog_link.ui-state-default.ui-corner-all{:href => "#", :style => "color: #727272;", :onclick => "return false;"}
+        %span.ui-icon.ui-icon-transferthick-e-w
+        Upload am Laufen...
+      &nbsp;&nbsp;Bitte gedulden Sie sich einen Moment, während das Hochladen Ihrer Medien abgeschlossen wird.
+  = f.submit _("Einstellungen speichern und weiter…"), :id => "submit_to_3", :class => "upload_buttons", :style => "margin: 1em 0 0 0; #{@media_entries ? "" : "display: none;"}"
+
+:javascript
+  $(document).ready(function(){
+    $("input[name='view']:radio").change(function(){
+      var view_radio = $("input[name='view']:radio").nextAll("ul");
+      view_radio.hide();
+      view_radio.find("input[name='edit']").attr('disabled', 'true');
+      $(this).nextAll("ul").show();
+      $(this).nextAll("ul").find("input[name='edit']").removeAttr('disabled');
+    });
+
+    $("input[name='view']:radio:checked").trigger('change');
+  });

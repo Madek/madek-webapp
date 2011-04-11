@@ -17,12 +17,12 @@ class Permission < ActiveRecord::Base
 
     private
 
-    # @args: key as symbol; value as boolean, symbol or nil
+    # @args: key as symbol; value as boolean or nil
     def set_action(key, value)
       case value.class.name
         when "NilClass"
           @keys.delete(key.to_sym)
-        when "TrueClass", "Symbol"
+        when "TrueClass"
           @keys[key.to_sym] = value
         when "String"
           @keys[key.to_sym] = (value == "true" ? true : false) 
@@ -72,7 +72,7 @@ class Permission < ActiveRecord::Base
 
   private
 
-  # Returns key value: boolean, symbol or nil
+  # Returns key value: boolean or nil
   def action(key)
     merged_actions[key.to_sym]
   end
@@ -95,17 +95,8 @@ class Permission < ActiveRecord::Base
       #return true if action == :manage and subject == resource.user
       
       b = merged_actions(subject, resource)[action]
-      # TODO cache b
-      if b.is_a?(Symbol)
-        case b
-          when :logged_in_users
-            !!subject # returning false if subject is not defined
-          else
-            false # action denied if not recognized string
-        end
-      else
-        !!b # force to boolean
-      end
+      # TODO cache b ??
+      !!b # force to boolean
     end
 
     def resource_viewable_only_by_user?(resource, subject)
@@ -248,13 +239,12 @@ class Permission < ActiveRecord::Base
     #
     #####
 
-    def accessible_by_all(resource_type, action = :view, with_logged_in_users = false)
+    def accessible_by_all(resource_type, action = :view)
       key = "permissions/_/#{resource_type}_/actions/#{action}"
       Rails.cache.fetch(key, :expires_in => 10.minutes) do
         add_to_cached_keys(key)
 
         condition = "actions_object LIKE '%#{action}: true%'"
-        condition += " OR actions_object LIKE '%#{action}: :logged_in_users%'" if with_logged_in_users
 
         select(:resource_id).
                     where(:resource_type => resource_type, :subject_type => nil).
@@ -283,7 +273,7 @@ class Permission < ActiveRecord::Base
       
       
         #5
-        public_true = accessible_by_all(resource_type, action, true)
+        public_true = accessible_by_all(resource_type, action)
         
         
         #2+4

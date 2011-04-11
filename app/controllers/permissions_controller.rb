@@ -35,31 +35,6 @@ class PermissionsController < ApplicationController
     end
   end
 
-  def update_multiple
-    default_params = {:view => false, :edit => false}
-    params.reverse_merge!(default_params)
-
-    view_action, edit_action = case params[:view].to_sym
-                                  when :private
-                                    [default_params[:view], default_params[:edit]]
-                                  when :logged_in_users
-                                    [:logged_in_users, (!!params[:edit] ? :logged_in_users : false)]
-                                  when :public
-                                    [true, !!params[:edit]]
-                                  else
-                                    [default_params[:view], default_params[:edit]]
-                                end
-
-    @resource.default_permission.set_actions({:view => view_action, :edit => edit_action})
-    flash[:ajax_notice] = "Änderungen gespeichert"
-
-    respond_to do |format|
-      format.js {
-        render :action => :edit_multiple, :layout => false
-      }
-    end
-  end
-
 #################################################################
 
   private

@@ -1,0 +1,3741 @@
+digraph "MAdeK keymapping" {
+    label = "Key Mapping Graph\n21.03.2011, 16:16"
+    labelloc = t
+    labeljust = l
+    rankdir = LR
+    nodesep = .075
+    ranksep = 4.0
+    style = filled
+
+    subgraph cluster_internal {
+        label = Internal
+        color = "#A1D4F1"
+
+        identifier [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        urn [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        title [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        subtitle [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        author [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "additional authors" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "institutional affiliation" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "portrayed object dates" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        keywords [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        classification [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "portrayed object location" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "portrayed object city" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "portrayed object state" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "portrayed object country" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "portrayed object country code" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "portrayed person" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "portrayed institution" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "other creative participants" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "other document participants" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "participating institution" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        patron [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "academic year" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "project leader" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "project type" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        description [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "short description" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "public caption" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        remark [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        hyperlinks [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        tags [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        type [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        scene [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "subject code" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        coverage [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        language [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        relation [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        creator [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "creator address" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "creator city" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "creator state" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "creator postal code" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "creator country" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "creator work telephone" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "creator work email" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "creator work url" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "creator position" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        source [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "source side" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "source image" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "source plate" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "source isbn" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "copyright notice" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "copyright status" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "copyright usage" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = filled
+        ]
+
+        "copyright url" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = filled
+        ]
+
+        provider [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "portrayed object dimensions" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "portrayed object materials" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        rating [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "uploaded by" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = filled
+        ]
+
+        "uploaded at" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = filled
+        ]
+
+        "description author" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        publisher [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        format [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "date created" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "transmission reference" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        objectnumber [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        objectname [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "color mode" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        history [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "intellectual genre" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "creator contact info" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "project title" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "public access" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = filled
+        ]
+
+        "edited by" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = filled
+        ]
+
+        "media type" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = filled
+        ]
+
+        "description author before import" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "description author before snapshot" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "sidecar for extension" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        LV_Landschaftstyp [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        LV_Verwendungszweck [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        LV_Bildwirkung [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        LV_Bildzeit [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        LV_Farbe [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        LV_Landschaftselemente [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "LV_Wetter/Klima" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        LV_Horizontlinie [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "LV_Räumliche Wahrnehmung" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        LV_Abstraktionsgrad [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        Core [
+            shape = box,
+            height = 1.5,
+            width = 1.5,
+            style = filled
+        ]
+
+        title -> Core [
+            arrowhead = none,
+            headport = w,
+            color = "#333333",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        author -> Core [
+            arrowhead = none,
+            headport = w,
+            color = "#333333",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "portrayed object dates" -> Core [
+            arrowhead = none,
+            headport = w,
+            color = "#333333",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        keywords -> Core [
+            arrowhead = none,
+            headport = w,
+            color = "#333333",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "copyright notice" -> Core [
+            arrowhead = none,
+            headport = w,
+            color = "#333333",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "uploaded by" -> Core [
+            arrowhead = none,
+            headport = w,
+            color = "#333333",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "uploaded at" -> Core [
+            arrowhead = none,
+            headport = w,
+            color = "#333333",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        Werk [
+            shape = box,
+            height = 1.5,
+            width = 1.5,
+            style = filled
+        ]
+
+        title -> Werk [
+            arrowhead = none,
+            headport = w,
+            color = "#221155",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        subtitle -> Werk [
+            arrowhead = none,
+            headport = w,
+            color = "#221155",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        author -> Werk [
+            arrowhead = none,
+            headport = w,
+            color = "#221155",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "portrayed object dates" -> Werk [
+            arrowhead = none,
+            headport = w,
+            color = "#221155",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        keywords -> Werk [
+            arrowhead = none,
+            headport = w,
+            color = "#221155",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        type -> Werk [
+            arrowhead = none,
+            headport = w,
+            color = "#221155",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "public caption" -> Werk [
+            arrowhead = none,
+            headport = w,
+            color = "#221155",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        description -> Werk [
+            arrowhead = none,
+            headport = w,
+            color = "#221155",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        remark -> Werk [
+            arrowhead = none,
+            headport = w,
+            color = "#221155",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        hyperlinks -> Werk [
+            arrowhead = none,
+            headport = w,
+            color = "#221155",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "portrayed object location" -> Werk [
+            arrowhead = none,
+            headport = w,
+            color = "#221155",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "portrayed object city" -> Werk [
+            arrowhead = none,
+            headport = w,
+            color = "#221155",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "portrayed object state" -> Werk [
+            arrowhead = none,
+            headport = w,
+            color = "#221155",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "portrayed object country" -> Werk [
+            arrowhead = none,
+            headport = w,
+            color = "#221155",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "portrayed object country code" -> Werk [
+            arrowhead = none,
+            headport = w,
+            color = "#221155",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "other creative participants" -> Werk [
+            arrowhead = none,
+            headport = w,
+            color = "#221155",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "portrayed person" -> Werk [
+            arrowhead = none,
+            headport = w,
+            color = "#221155",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "participating institution" -> Werk [
+            arrowhead = none,
+            headport = w,
+            color = "#221155",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        patron -> Werk [
+            arrowhead = none,
+            headport = w,
+            color = "#221155",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        Medium [
+            shape = box,
+            height = 1.5,
+            width = 1.5,
+            style = filled
+        ]
+
+        creator -> Medium [
+            arrowhead = none,
+            headport = w,
+            color = "#334422",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "creator address" -> Medium [
+            arrowhead = none,
+            headport = w,
+            color = "#334422",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "creator city" -> Medium [
+            arrowhead = none,
+            headport = w,
+            color = "#334422",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "creator state" -> Medium [
+            arrowhead = none,
+            headport = w,
+            color = "#334422",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "creator postal code" -> Medium [
+            arrowhead = none,
+            headport = w,
+            color = "#334422",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "creator country" -> Medium [
+            arrowhead = none,
+            headport = w,
+            color = "#334422",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "creator work telephone" -> Medium [
+            arrowhead = none,
+            headport = w,
+            color = "#334422",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "creator work email" -> Medium [
+            arrowhead = none,
+            headport = w,
+            color = "#334422",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "creator work url" -> Medium [
+            arrowhead = none,
+            headport = w,
+            color = "#334422",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "creator position" -> Medium [
+            arrowhead = none,
+            headport = w,
+            color = "#334422",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "other document participants" -> Medium [
+            arrowhead = none,
+            headport = w,
+            color = "#334422",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "date created" -> Medium [
+            arrowhead = none,
+            headport = w,
+            color = "#334422",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "portrayed object dimensions" -> Medium [
+            arrowhead = none,
+            headport = w,
+            color = "#334422",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "portrayed object materials" -> Medium [
+            arrowhead = none,
+            headport = w,
+            color = "#334422",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        Set [
+            shape = box,
+            height = 1.5,
+            width = 1.5,
+            style = filled
+        ]
+
+        title -> Set [
+            arrowhead = none,
+            headport = w,
+            color = "#775577",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        author -> Set [
+            arrowhead = none,
+            headport = w,
+            color = "#775577",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        keywords -> Set [
+            arrowhead = none,
+            headport = w,
+            color = "#775577",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        description -> Set [
+            arrowhead = none,
+            headport = w,
+            color = "#775577",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "uploaded by" -> Set [
+            arrowhead = none,
+            headport = w,
+            color = "#775577",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "uploaded at" -> Set [
+            arrowhead = none,
+            headport = w,
+            color = "#775577",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        Credits [
+            shape = box,
+            height = 1.5,
+            width = 1.5,
+            style = filled
+        ]
+
+        "copyright notice" -> Credits [
+            arrowhead = none,
+            headport = w,
+            color = "#443322",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "copyright status" -> Credits [
+            arrowhead = none,
+            headport = w,
+            color = "#443322",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "copyright usage" -> Credits [
+            arrowhead = none,
+            headport = w,
+            color = "#443322",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "copyright url" -> Credits [
+            arrowhead = none,
+            headport = w,
+            color = "#443322",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        source -> Credits [
+            arrowhead = none,
+            headport = w,
+            color = "#443322",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        provider -> Credits [
+            arrowhead = none,
+            headport = w,
+            color = "#443322",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "description author" -> Credits [
+            arrowhead = none,
+            headport = w,
+            color = "#443322",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "description author before import" -> Credits [
+            arrowhead = none,
+            headport = w,
+            color = "#443322",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        Upload [
+            shape = box,
+            height = 1.5,
+            width = 1.5,
+            style = filled
+        ]
+
+        title -> Upload [
+            arrowhead = none,
+            headport = w,
+            color = "#005555",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        author -> Upload [
+            arrowhead = none,
+            headport = w,
+            color = "#005555",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "portrayed object dates" -> Upload [
+            arrowhead = none,
+            headport = w,
+            color = "#005555",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        keywords -> Upload [
+            arrowhead = none,
+            headport = w,
+            color = "#005555",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "copyright notice" -> Upload [
+            arrowhead = none,
+            headport = w,
+            color = "#005555",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "copyright status" -> Upload [
+            arrowhead = none,
+            headport = w,
+            color = "#005555",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "copyright usage" -> Upload [
+            arrowhead = none,
+            headport = w,
+            color = "#005555",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "copyright url" -> Upload [
+            arrowhead = none,
+            headport = w,
+            color = "#005555",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        ZHdK [
+            shape = box,
+            height = 1.5,
+            width = 1.5,
+            style = filled
+        ]
+
+        "institutional affiliation" -> ZHdK [
+            arrowhead = none,
+            headport = w,
+            color = "#117711",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "project type" -> ZHdK [
+            arrowhead = none,
+            headport = w,
+            color = "#117711",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "academic year" -> ZHdK [
+            arrowhead = none,
+            headport = w,
+            color = "#117711",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "project title" -> ZHdK [
+            arrowhead = none,
+            headport = w,
+            color = "#117711",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "project leader" -> ZHdK [
+            arrowhead = none,
+            headport = w,
+            color = "#117711",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Projekte ZHdK" [
+            shape = box,
+            height = 1.5,
+            width = 1.5,
+            style = filled
+        ]
+
+        "LV_Räumliche Wahrnehmung" -> "Projekte ZHdK" [
+            arrowhead = none,
+            headport = w,
+            color = "#110077",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        Landschaftsvisualisierung [
+            shape = box,
+            height = 1.5,
+            width = 1.5,
+            style = filled
+        ]
+
+        LV_Landschaftstyp -> Landschaftsvisualisierung [
+            arrowhead = none,
+            headport = w,
+            color = "#117700",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        LV_Verwendungszweck -> Landschaftsvisualisierung [
+            arrowhead = none,
+            headport = w,
+            color = "#117700",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        LV_Bildwirkung -> Landschaftsvisualisierung [
+            arrowhead = none,
+            headport = w,
+            color = "#117700",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        LV_Bildzeit -> Landschaftsvisualisierung [
+            arrowhead = none,
+            headport = w,
+            color = "#117700",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        LV_Farbe -> Landschaftsvisualisierung [
+            arrowhead = none,
+            headport = w,
+            color = "#117700",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        LV_Landschaftselemente -> Landschaftsvisualisierung [
+            arrowhead = none,
+            headport = w,
+            color = "#117700",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "LV_Wetter/Klima" -> Landschaftsvisualisierung [
+            arrowhead = none,
+            headport = w,
+            color = "#117700",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        LV_Horizontlinie -> Landschaftsvisualisierung [
+            arrowhead = none,
+            headport = w,
+            color = "#117700",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "LV_Räumliche Wahrnehmung" -> Landschaftsvisualisierung [
+            arrowhead = none,
+            headport = w,
+            color = "#117700",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        LV_Abstraktionsgrad -> Landschaftsvisualisierung [
+            arrowhead = none,
+            headport = w,
+            color = "#117700",
+            arrowtail = none,
+            tailport = e
+        ]
+    }
+
+    subgraph cluster_external {
+        label = External
+        color = "#A1D4F1"
+
+        "MIZ-Archiv" [
+            shape = box,
+            height = 1.5,
+            width = 1.5,
+            style = filled
+        ]
+
+        "IO Interface" [
+            shape = box,
+            height = 1.5,
+            width = 1.5,
+            style = filled
+        ]
+
+        "mediafile.formatID" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "mediafile.formatID" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "mediafile.formatID" -> "media type" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.chat" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "objects.chat" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.chat" -> description [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.copyright typ=\"Art der Objektrechte\"" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "objects.copyright typ=\"Art der Objektrechte\"" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.copyright typ=\"Art der Objektrechte\"" -> "copyright status" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.copyright typ=creditlinerepro" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "objects.copyright typ=creditlinerepro" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.copyright typ=creditlinerepro" -> "copyright notice" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.copyright typ=restrictions" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "objects.copyright typ=restrictions" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.copyright typ=restrictions" -> "copyright usage" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.creditline" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "objects.creditline" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.creditline" -> provider [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.dated" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "objects.dated" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.dated" -> "portrayed object dates" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.dimensions" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "objects.dimensions" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.dimensions" -> "portrayed object dimensions" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.medium" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "objects.medium" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.medium" -> "portrayed object materials" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.notes" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "objects.notes" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.notes" -> remark [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.objectname" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "objects.objectname" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.objectname" -> objectname [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.objectnumber" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "objects.objectnumber" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.objectnumber" -> objectnumber [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.publicaccess" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "objects.publicaccess" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objects.publicaccess" -> "public access" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objtitles.titel titeltyp=Legende" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "objtitles.titel titeltyp=Legende" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objtitles.titel titeltyp=Legende" -> "public caption" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objtitles.title titletypID=1" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "objtitles.title titletypID=1" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objtitles.title titletypID=1" -> title [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objtitles.title titletypID=6" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "objtitles.title titletypID=6" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objtitles.title titletypID=6" -> subtitle [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objtitles.title titletypID=99||sites.sitename" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "objtitles.title titletypID=99||sites.sitename" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "objtitles.title titletypID=99||sites.sitename" -> "project title" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "person RoleTypeID=1 RoleID=150" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=150" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "person RoleTypeID=1 RoleID=150" -> author [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "person RoleTypeID=1 RoleID=155" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=155" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "person RoleTypeID=1 RoleID=155" -> "portrayed person" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "person RoleTypeID=1 RoleID=156" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=156" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "person RoleTypeID=1 RoleID=156" -> "portrayed institution" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "person RoleTypeID=1 RoleID=21" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=21" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "person RoleTypeID=1 RoleID=21" -> creator [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "person RoleTypeID=1 RoleID=22" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=22" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "person RoleTypeID=1 RoleID=22" -> patron [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "person RoleTypeID=1 RoleID=251" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=251" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "person RoleTypeID=1 RoleID=251" -> "institutional affiliation" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "person RoleTypeID=1 RoleID=61" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=61" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "person RoleTypeID=1 RoleID=61" -> "project leader" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "person RoleTypeID=1 RoleID=86" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=86" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "person RoleTypeID=1 RoleID=86" -> "other creative participants" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "person RoleTypeID=1 RoleID=87" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=87" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "person RoleTypeID=1 RoleID=87" -> "participating institution" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=\"Erfasser/in vor dem Hochladen ins Medienarchiv\"" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "textentries textart=\"Erfasser/in vor dem Hochladen ins Medienarchiv\"" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=\"Erfasser/in vor dem Hochladen ins Medienarchiv\"" -> "description author before import" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=\"Erfasser/in vor dem Kopieren fürs MIZ-Achiv\"" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "textentries textart=\"Erfasser/in vor dem Kopieren fürs MIZ-Achiv\"" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=\"Erfasser/in vor dem Kopieren fürs MIZ-Achiv\"" -> "description author before snapshot" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=\"Erfasser/in\"" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "textentries textart=\"Erfasser/in\"" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=\"Erfasser/in\"" -> "description author" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=\"Web-Link\"" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "textentries textart=\"Web-Link\"" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=\"Web-Link\"" -> hyperlinks [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=\"Weitere Personen\"" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "textentries textart=\"Weitere Personen\"" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=\"Weitere Personen\"" -> "other document participants" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=\"ZHdK-Projekttyp\"" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "textentries textart=\"ZHdK-Projekttyp\"" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=\"ZHdK-Projekttyp\"" -> "project type" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=Gattung" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "textentries textart=Gattung" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=Gattung" -> type [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=Geografie typ=\"ISO-Ländercode\"" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "textentries textart=Geografie typ=\"ISO-Ländercode\"" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=Geografie typ=\"ISO-Ländercode\"" -> "portrayed object country code" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=Geografie typ=\"Kanton/Bundesland\"" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "textentries textart=Geografie typ=\"Kanton/Bundesland\"" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=Geografie typ=\"Kanton/Bundesland\"" -> "portrayed object state" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=Geografie typ=\"Standort/Aufführungsort\"" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "textentries textart=Geografie typ=\"Standort/Aufführungsort\"" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=Geografie typ=\"Standort/Aufführungsort\"" -> "portrayed object location" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=Geografie typ=Land" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "textentries textart=Geografie typ=Land" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=Geografie typ=Land" -> "portrayed object country" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=Geografie typ=Stadt" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "textentries textart=Geografie typ=Stadt" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=Geografie typ=Stadt" -> "portrayed object city" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=Stichworte" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "textentries textart=Stichworte" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=Stichworte" -> keywords [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=Studienjahr" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "MIZ-Archiv" -> "textentries textart=Studienjahr" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "textentries textart=Studienjahr" -> "academic year" [
+            arrowhead = none,
+            headport = w,
+            color = "#005522",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-dc:Creator" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-dc:Creator" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-dc:Creator" -> creator [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-dc:Description" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-dc:Description" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-dc:Description" -> description [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-dc:Identifier" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-dc:Identifier" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-dc:Identifier" -> identifier [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-dc:Rights" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-dc:Rights" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-dc:Rights" -> "copyright notice" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-dc:Subject" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-dc:Subject" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-dc:Subject" -> keywords [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-dc:Title" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-dc:Title" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-dc:Title" -> title [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-dc:Type" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-dc:Type" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-dc:Type" -> type [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CountryCode" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-iptcCore:CountryCode" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CountryCode" -> "portrayed object country code" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CreatorAddress" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-iptcCore:CreatorAddress" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CreatorAddress" -> "creator address" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CreatorCity" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-iptcCore:CreatorCity" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CreatorCity" -> "creator city" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CreatorContactInfo" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-iptcCore:CreatorContactInfo" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CreatorContactInfo" -> "creator contact info" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CreatorCountry" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-iptcCore:CreatorCountry" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CreatorCountry" -> "creator country" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CreatorPostalCode" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-iptcCore:CreatorPostalCode" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CreatorPostalCode" -> "creator postal code" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CreatorRegion" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-iptcCore:CreatorRegion" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CreatorRegion" -> "creator state" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CreatorWorkEmail" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-iptcCore:CreatorWorkEmail" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CreatorWorkEmail" -> "creator work email" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CreatorWorkTelephone" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-iptcCore:CreatorWorkTelephone" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CreatorWorkTelephone" -> "creator work telephone" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CreatorWorkURL" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-iptcCore:CreatorWorkURL" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:CreatorWorkURL" -> "creator work url" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:IntellectualGenre" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-iptcCore:IntellectualGenre" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:IntellectualGenre" -> "intellectual genre" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:Location" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-iptcCore:Location" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:Location" -> "portrayed object location" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:Scene" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-iptcCore:Scene" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:Scene" -> scene [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:SubjectCode" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-iptcCore:SubjectCode" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-iptcCore:SubjectCode" -> "subject code" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:AcademicYear" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:AcademicYear" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:AcademicYear" -> "academic year" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:AdditionalAuthors" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:AdditionalAuthors" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:AdditionalAuthors" -> "additional authors" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Author" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:Author" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Author" -> author [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Coverage" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:Coverage" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Coverage" -> coverage [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:DateCreated" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:DateCreated" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:DateCreated" -> "date created" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:DateCreated" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-photoshop:DateCreated" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:DateCreated" -> "date created" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Format" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:Format" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Format" -> format [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Hyperlinks" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:Hyperlinks" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Hyperlinks" -> hyperlinks [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:InstitutionalAffiliation" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:InstitutionalAffiliation" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:InstitutionalAffiliation" -> "institutional affiliation" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Language" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:Language" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Language" -> language [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:OtherCreativeParticipants" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:OtherCreativeParticipants" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:OtherCreativeParticipants" -> "other creative participants" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:OtherDocumentParticipants" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:OtherDocumentParticipants" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:OtherDocumentParticipants" -> "other document participants" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:ParticipatingInstitution" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:ParticipatingInstitution" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:ParticipatingInstitution" -> "participating institution" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:patron" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:patron" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:patron" -> patron [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:PortrayedInstitution" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:PortrayedInstitution" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:PortrayedInstitution" -> "portrayed institution" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:PortrayedObjectDates" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:PortrayedObjectDates" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:PortrayedObjectDates" -> "portrayed object dates" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:PortrayedObjectDimensions" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:PortrayedObjectDimensions" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:PortrayedObjectDimensions" -> "portrayed object dimensions" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:PortrayedObjectMaterials" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:PortrayedObjectMaterials" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:PortrayedObjectMaterials" -> "portrayed object materials" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:PortrayedPerson" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:PortrayedPerson" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:PortrayedPerson" -> "portrayed person" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:ProjectLeader" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:ProjectLeader" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:ProjectLeader" -> "project leader" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:ProjectType" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:ProjectType" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:ProjectType" -> "project type" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:PublicCaption" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:PublicCaption" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:PublicCaption" -> "public caption" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Publisher" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:Publisher" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Publisher" -> publisher [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Relation" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:Relation" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Relation" -> relation [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Remark" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:Remark" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Remark" -> remark [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:ShortDescription" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:ShortDescription" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:ShortDescription" -> "short description" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:SourceImage" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:SourceImage" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:SourceImage" -> "source image" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:SourceIsbn" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:SourceIsbn" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:SourceIsbn" -> "source isbn" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:SourcePlate" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:SourcePlate" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:SourcePlate" -> "source plate" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:SourceSide" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:SourceSide" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:SourceSide" -> "source side" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Tags" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:Tags" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Tags" -> tags [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:TransmissionReference" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:TransmissionReference" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:TransmissionReference" -> "transmission reference" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Urn" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-madek:Urn" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-madek:Urn" -> urn [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:AuthorsPosition" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-photoshop:AuthorsPosition" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:AuthorsPosition" -> "creator position" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:CaptionWriter" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-photoshop:CaptionWriter" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:CaptionWriter" -> "description author" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:City" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-photoshop:City" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:City" -> "portrayed object city" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:ColorMode" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-photoshop:ColorMode" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:ColorMode" -> "color mode" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:Country" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-photoshop:Country" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:Country" -> "portrayed object country" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:Credit" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-photoshop:Credit" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:Credit" -> provider [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:Headline" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-photoshop:Headline" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:Headline" -> subtitle [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:History" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-photoshop:History" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:History" -> history [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:SidecarForExtension" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-photoshop:SidecarForExtension" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:SidecarForExtension" -> "sidecar for extension" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:Source" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-photoshop:Source" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:Source" -> source [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:State" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-photoshop:State" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:State" -> "portrayed object state" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-xmp:Rating" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-xmp:Rating" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-xmp:Rating" -> rating [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-xmpRights:Marked" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-xmpRights:Marked" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-xmpRights:Marked" -> "copyright status" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-xmpRights:UsageTerms" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-xmpRights:UsageTerms" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-xmpRights:UsageTerms" -> "copyright usage" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-xmpRights:WebStatement" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-xmpRights:WebStatement" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-xmpRights:WebStatement" -> "copyright url" [
+            arrowhead = none,
+            headport = w,
+            color = "#444400",
+            arrowtail = none,
+            tailport = e
+        ]
+    }
+}

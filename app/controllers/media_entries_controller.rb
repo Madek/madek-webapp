@@ -102,6 +102,18 @@ class MediaEntriesController < ApplicationController
       send_data output, :type => preview.content_type, :disposition => 'inline'
     end
   end
+  
+  def map
+    theme "madek11"
+    meta_data = @media_entry.media_file.meta_data
+    @lat = meta_data["GPS:GPSLatitude"]
+    @lng = meta_data["GPS:GPSLongitude"]
+
+    respond_to do |format|
+      format.html
+      format.js { render :layout => false }
+    end
+end
 
 #####################################################
 # Authenticated Area
@@ -253,6 +265,7 @@ class MediaEntriesController < ApplicationController
     end.to_json
   end
 
+  # TODO merge with MediaSets#update_multiple_permsissions
   def update_multiple_permissions
     theme "madek11"
     
@@ -268,6 +281,7 @@ class MediaEntriesController < ApplicationController
           end if params[:subject][key]
         end
         
+        # FIXME it's not sure that the current_user is the owner (manager) of the current resource 
         media_entry.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
       end
 
@@ -309,7 +323,7 @@ class MediaEntriesController < ApplicationController
     case action
       when :new
         action = :create
-      when :show, :image
+      when :show, :image, :map
         action = :view
       when :edit, :update
         action = :edit
