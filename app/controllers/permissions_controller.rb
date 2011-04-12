@@ -15,7 +15,6 @@ class PermissionsController < ApplicationController
 #################################################################
 
   def edit_multiple
-    theme "madek11"
     permissions = Permission.cached_permissions_by(@resource)
     @permissions_json = {}
     

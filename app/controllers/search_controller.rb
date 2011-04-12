@@ -1,5 +1,4 @@
 class SearchController < ApplicationController
-  theme "madek11"
   
   def show
     @search_term = params[:query].blank? ? nil : params[:query]

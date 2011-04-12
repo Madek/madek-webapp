@@ -5,8 +5,6 @@ class MediaSetsController < ApplicationController
   before_filter :authorized?, :only => [:show, :edit, :update, :destroy, :add_member] # TODO :except => :index OR check for :index too ??
   after_filter :store_location, :only => [:show]
   
-  theme "madek11"
-  
   def index
     ids = Permission.accessible_by_user("Media::Set", current_user)
 

@@ -6,8 +6,6 @@ class MediaEntriesController < ApplicationController
   before_filter :authorized?, :except => [:index, :media_sets, :favorites, :toggle_favorites, :keywords] #old# :only => [:show, :edit, :update, :destroy]
   after_filter :store_location, :only => [:index]
 
-  theme "madek11"
-  
   def index
     media_entries = if @user
                       if logged_in?
