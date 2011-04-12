@@ -1,4 +1,5 @@
 source 'http://rubygems.org'
+source 'http://gems.github.com'
 
 gem 'rails', '3.0.6'
 gem 'i18n' # Need this explicitly, otherwise can't deploy

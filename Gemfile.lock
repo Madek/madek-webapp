@@ -1,5 +1,6 @@
 GEM
   remote: http://rubygems.org/
+  remote: http://gems.github.com/
   specs:
     RedCloth (4.2.3)
     abstract (1.0.0)
