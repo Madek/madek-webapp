@@ -7,7 +7,7 @@ class UploadController < ApplicationController
   #temp#sphinx#
   around_filter :disable_sphinx, :except => [:update, :import_summary, :set_media_sets]
   around_filter :suspend_sphinx, :only => [:update, :import_summary] # TODO [:set_permissions, :set_media_sets], :if => proc { |controller| controller.request.post? }
-  #theme "madek11"
+  theme "madek11"
 
 ##################################################
 # step 1

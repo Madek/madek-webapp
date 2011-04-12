@@ -1,0 +1,12 @@
+%section#content_body_fav
+  .page_title_left
+    =_("Suchergebnisse")
+  .clear
+  = render :partial => "/media_entries/index"
+
+= theme_javascript_include_tag "batch_actions"
+    
+:javascript
+  $(document).ready(function () {
+    setupBatch(#{@json});    
+  });

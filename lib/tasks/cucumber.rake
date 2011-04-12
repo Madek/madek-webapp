@@ -34,9 +34,10 @@ begin
 
     Cucumber::Rake::Task.new(:rcov) do |t|    
       t.rcov = true
-      t.rcov_opts = %w{--rails --exclude osx\/objc,gems\/,spec\/}
+      t.rcov_opts = %w{--rails --exclude osx\/objc,gems\/,spec\/,features\/}
       t.rcov_opts << %[-o "cucumber_rcov"]
     end
+
 
     desc 'Run all features'
     task :all => [:ok, :wip]
@@ -48,6 +49,10 @@ begin
 
   task :features => :cucumber do
     STDERR.puts "*** The 'features' task is deprecated. See rake -T cucumber ***"
+  end
+
+  # In case we don't have ActiveRecord, append a no-op task that we can depend upon.
+  task 'db:test:prepare' do
   end
 rescue LoadError
   desc 'cucumber rake task not available (cucumber not installed)'

@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 ##############################################  
 # Authentication
 
-  before_filter :login_required, :except => [:root, :login, :login_successful, :logout, :feedback] # TODO :help
+  before_filter :login_required, :except => [:root, :login, :login_successful, :logout, :feedback, :usage_terms] # TODO :help
 
   helper_method :current_user, :logged_in?, :_
 
@@ -30,7 +30,6 @@ class ApplicationController < ActionController::Base
 ##############################################  
 
   def root
-    # madek11
     theme "madek11"
     if logged_in?
       # TODO refactor to UsersController#show and dry with MediaEntriesController#index
@@ -106,6 +105,16 @@ class ApplicationController < ActionController::Base
   def check_usage_terms_accepted
     return if request[:action].to_sym != :usage_terms
     redirect_to usage_terms_user_path(current_user) unless current_user.usage_terms_accepted?
+  end
+  
+  def store_location
+    session[:return_to] = request.fullpath.gsub(/\?.*/, "")
+    
+  end
+
+  def redirect_back_or_default(default)
+    redirect_to(session[:return_to] || default)
+    session[:return_to] = nil
   end
 
 end

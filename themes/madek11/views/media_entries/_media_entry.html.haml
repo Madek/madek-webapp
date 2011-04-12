@@ -14,9 +14,9 @@
           %span.favorite_link{:id => "fav_#{media_entry.id}", :title => "Favorit"}
             = render :partial => "/media_entries/favorite_link", :locals => {:media_entry => media_entry}
         - if current_user && Permission.authorized?(current_user, :manage, media_entry)
-          %li= link_to theme_image_tag("icons/button_delete_active.png"), media_entry_path(media_entry), :title => "Löschen", :method => :delete, :confirm => "Sind Sie sicher?"
+          %li= link_to theme_image_tag("icons/button_delete_active.png"), media_entry_path(media_entry), :id => "delete_me", :title => "Löschen", :method => :delete, :"data-id" => media_entry.id
         %li= link_to _("Exportieren"), "#", :panel => "download", :onclick => "return false;"
-        %li= link_to _("Sets zusammenstellen"), "#", :panel => "media_set", :onclick => "return false;"
+        %li= link_to _("Zu Set hinzufügen"), "#", :panel => "media_set", :onclick => "return false;"
         - if is_expert and media_entry.snapshotable?
           %li= link_to _("Metadaten für MIZ-Archiv editieren"), edit_tms_media_entry_path(@media_entry)
           - if can_edit
@@ -40,11 +40,15 @@
               = link_to meta_context, polymorphic_path([media_entry, :meta_data], :context_id => meta_context)
           %li
             = link_to _("Datei"), polymorphic_path([:objective, media_entry, :meta_data])
+          - if media_entry.media_file.meta_data["GPS:GPSLatitude"] and media_entry.media_file.meta_data["GPS:GPSLongitude"]
+            %li
+              = javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false" # TODO move to map partial
+              = link_to _("Karte"), [:map, media_entry]
           - if is_expert
             - meta_context = MetaContext.tms
             %li
               = link_to meta_context, polymorphic_path([media_entry, :meta_data], :context_id => meta_context) 
-      %h3.tab-title{:style => "margin-top: 1em"}= _("Weitere Informationen")
+      %h3.tab-title{:style => "margin-top: 2em"}= _("Weitere Informationen")
       #further_information.tabs
         %ul
           %li= link_to _("Aktivitäten"), "#usage-tabs-1"
@@ -84,7 +88,7 @@
                   %td= "#{_("%s Uhr") % media_entry.snapshots.first.created_at.to_formatted_s(:date_time)}"
               
   #detail-sidebar.grid_4.omega
-    %h3.title{:style => "margin: 0 20px 40px 0;"}
+    %h3.title{:style => "margin: -3px 20px 80px 0;"}
       = render :partial => "/meta_data/show", :locals => { :meta_datum => media_entry.meta_data.get("title"), :resource => media_entry, :context => nil } 
     #detail-excerpt.sidebar-box
       - context = MetaContext.core
@@ -94,7 +98,7 @@
         = render :partial => "/meta_data/show", :locals => { :meta_datum => meta_datum, :resource => media_entry, :context => context }
       - if is_expert 
         - unless media_entry.snapshots.empty?
-          .notice{:style => "text-align: left; left: -5px; top: -34px;"}
+          .notice{:style => "font-size: 0.9em; line-height: 1.2em; text-align: left; left: 0; top: 33px; margin-right: 15px"}
             - date = media_entry.snapshots.first.created_at.to_formatted_s(:date)
             - time = media_entry.snapshots.first.created_at.to_formatted_s(:time)
             = "Ein Kopie dieses Medieneintrags wurde am #{date} um #{time} Uhr für das MIZ-Archiv erstellt."
@@ -107,6 +111,16 @@
 .clear
 
 :javascript
+  $('a#delete_me').click(function(){
+    if(confirm("Sind Sie sicher?")){
+      var media_entries_json = get_media_entries_json();
+      var i = is_Selected(media_entries_json, $(this).data("id"));
+      if (i > -1) {
+        media_entries_json.splice(i, 1);
+        set_media_entries_json(JSON.stringify(media_entries_json));
+      };
+    };
+  })
   // TO BE OPTIMIZED:
   // Action Bar
   $("a[panel]").click(function(){

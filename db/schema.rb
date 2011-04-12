@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110328122446) do
+ActiveRecord::Schema.define(:version => 20110330150317) do
 
   create_table "copyrights", :force => true do |t|
     t.boolean "is_default", :default => false
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(:version => 20110328122446) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "type",       :default => "Media::Set", :null => false
+    t.boolean  "delta",      :default => true,         :null => false
   end
 
   add_index "media_sets", ["updated_at"], :name => "index_media_sets_on_updated_at"

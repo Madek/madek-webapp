@@ -57,12 +57,14 @@ class MetaDatum < ActiveRecord::Base
                                 Meta::Term.create(h) 
                               end
 
-                              r = Keyword.create(:meta_term => term, :user => user)
+                              r = Keyword.where(:meta_term_id => term, :user_id => user).first
+                              r ||= Keyword.create(:meta_term => term, :user => user)
                               # TODO delete keywords records anymore referenced
                             end
                           elsif klass == Meta::Term
                             #2603# TODO dry
                             if v.is_a?(Fixnum) or (v.respond_to?(:match) and !!v.match(/\A[+-]?\d+\Z/)) # TODO patch to String#is_numeric? method
+                              # TODO check if is member of meta_key.meta_terms
                               r = klass.where(:id => v).first
                             elsif record.meta_key.is_extensible_list?
                               h = {}
@@ -86,7 +88,7 @@ class MetaDatum < ActiveRecord::Base
                           
                           (r ? r.id : nil )
                       end
-        record.value.compact!
+        record.value.uniq.compact!
     end
   end
 

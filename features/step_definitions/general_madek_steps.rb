@@ -55,7 +55,7 @@ Given /^a user called "([^"]*)" with username "([^"]*)" and password "([^"]*)" e
   end
 end
 
-Given /^the user with username "(\w+)" is member of the group "(\w+)"/ do |username, groupname|
+Given /^the user with username "([^"]*)" is member of the group "([^"]*)"/ do |username, groupname|
   user = User.where(:login => username).first
   group = Group.where(:name => groupname).first
   user.groups << group unless user.groups.include?(group)
@@ -70,7 +70,7 @@ Given /^I log in as "(\w+)" with password "(\w+)"$/ do |username, password|
   click_link_or_button "Log in"
 end
 
-Given /^a group called "(\w+)" exists$/ do |groupname|
+Given /^a group called "([^"]*)" exists$/ do |groupname|
   create_group(groupname)
 end
 
@@ -91,21 +91,38 @@ When /I fill in the metadata for entry number (\d+) as follows:/ do |num, table|
   # Makes the text more human-readable, don't have to specify 0 to fill in
   # for the first entry
   media_entry_num = num.to_i - 1
-
+  # Fills in the "_value" field it finds in the UL that contains
+  # the "key" text. e.g. "Titel*" or "Copyright"
   table.hashes.each do |hash|
-    all("ul", :text => /#{hash['label']}/)[media_entry_num].all("input").each do |ele|
+    text = filter_string_for_regex(hash['label'])
+    all("ul", :text => /^#{text}/)[media_entry_num].all("input").each do |ele|
       fill_in ele[:id], :with => hash['value'] if ele[:id] =~ /_value$/
     end
   end
 end
 
-When "I fill in the metadata in the batch editor as follows:" do |table|
+When "I fill in the metadata form as follows:" do |table|
   table.hashes.each do |hash|
     # Fills in the "_value" field it finds in the UL that contains
     # the "key" text. e.g. "Titel*" or "Copyright"
-    all("ul", :text => /#{hash['label']}/).first.all("textarea").each do |ele|
-      fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/attributes_\d+_value$/).nil?
+    text = filter_string_for_regex(hash['label'])
+
+    list = find("ul", :text => /^#{text}/)
+    if list.nil?
+      puts "Can't find any input fields with the text '#{text}'"
+    else
+      if list[:class] == "Person"
+        fill_in_person_widget(list, hash['value'], hash['options'])
+      elsif list[:class] == "Keyword"
+        fill_in_keyword_widget(list, hash['value'], hash['options'])
+      else
+        list.all("textarea").each do |ele|
+          fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil?
+        end
+      end
+      
     end
+
   end
 end
 
@@ -139,7 +156,7 @@ When /^I remove "([^"]*)" permission from "([^"]*)"$/ do |permission, subject|
   remove_permission_to(permission, subject)
 end
 
-When /^I click on the arrow next to "([^"]*)"/ do |string|
+When /^I click(?: | on )the arrow next to "([^"]*)"/ do |string|
   click_on_arrow_next_to(string)
 end
 
@@ -164,6 +181,26 @@ When /^I toggle the favorite star on the media entry titled "([^"]*)"$/ do |titl
   entry.find(:css, ".favorite_link").find("a").click
   sleep(0.5)
 end
+
+When /^I click the edit icon on the media entry titled "([^"]*)"$/ do |title|
+  entry = find_media_entry_titled(title)
+  entry.all("a").each do |link|
+    link.click if link[:title] == "Editieren"
+  end
+  sleep(0.5)
+end
+
+When /^I click the delete icon on the media entry titled "([^"]*)"$/ do |title|
+  entry = find_media_entry_titled(title)
+   entry.all("a").each do |link|
+     # Fake some functions so that we automatically accept the confirmation dialog
+     page.evaluate_script("window.alert = function(msg) { return true; }")
+     page.evaluate_script("window.confirm = function(msg) { return true; }")
+     link.click if link[:title] == "Löschen"
+   end
+  sleep(0.5)
+end
+
 
 When "I toggle the favorite star on this media entry" do
   find(:css, ".favorite_link").find("a").click

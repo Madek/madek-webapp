@@ -1,0 +1,40 @@
+- used_term_ids = @key.used_term_ids
+= form_for @key, :url => path do |f|
+  %table
+    %tr
+      %th= f.label :label
+      %td= f.text_field :label
+    %tr
+      %th= f.label :object_type
+      %td= f.select :object_type, MetaKey.object_types.collect {|o| [o, o]}, { :include_blank => true }
+    - if f.object.object_type == "Meta::Term"
+      %tr
+        %th
+          Terms
+        %td
+          %ul
+            - f.object.meta_terms.build
+            = f.fields_for :meta_terms do |term_f|
+              %li{:style => "padding-bottom: 1em;"}
+                - LANGUAGES.each do |lang|
+                  = lang
+                  \:
+                  - if term_f.object.new_record?
+                    = term_f.text_field lang
+                  - else
+                    = term_f.object.send(lang)
+                  %br
+                - if used_term_ids.include?(term_f.object.id)
+                  Used
+                - elsif not term_f.object.new_record?
+                  = term_f.check_box '_destroy'
+                  = term_f.label '_destroy', _("Delete")
+      %tr
+        %th
+        %td
+          = f.check_box :is_extensible_list
+          = f.label :is_extensible_list
+    %tr
+      %td
+      %td= f.submit submit
+

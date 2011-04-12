@@ -1,6 +1,7 @@
 .bundle
 log/*.log
 log/searchd.development.pid
+log/searchd.test.pid
 *.log
 /tmp/
 *.swp
@@ -17,3 +18,4 @@ config/definitions/metadata/ExifTool_config.pl
 db/media_files/
 db/sphinx/
 .project
+.sass-cache/

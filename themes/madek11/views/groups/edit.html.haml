@@ -1,23 +1,46 @@
 .container_12.clearfix              
   %section#content_body
-    %h3.name.editinplace
-      = @group.name
-    
+    %h3
+      .name.editinplace
+        = @group.name
+      = form_for @group, :"data-remote" => true, :html => {:id => "editinplace"} do |f|
+        = f.text_field :name 
+        = f.submit _("Speichern"), :class => "saveButton"
+        = link_to _("Abbrechen"), "", :class => "cancelButton"
+      %span.do_edit= link_to _("Gruppenname editieren"), ""
     %ul#members
       = render :partial => "user", :collection => @group.users
     
     %br
     %b Person hinzufügen:
     %input#new_user
-      %hint
+      %p.hint
         Es können nur Personen ausgewählt werden, die sich schon einmal im Medienarchiv eingeloggt haben.
     
     :javascript
       $(function() {
-        $("h3.name.editinplace").editInPlace({
-          url: "#{group_path(@group)}",
-          params: "_method=put&format=js",
-          update_value: "group[name]"
+        $("form#editinplace").hide();
+        var edit_link = $("h3 span.do_edit a");
+      
+        $("h3 span.do_edit a").live("click", function(event){
+           $("form#editinplace").show();
+           $("h3 .name.editinplace").hide();
+           $(this).hide();
+           event.preventDefault();
+        });
+        
+        $('.cancelButton').click(function(event){
+           name_display =  $("h3 .name.editinplace"); 
+           name_display.show();
+           $("form#editinplace").hide().find("input#group_name").val(name_display.html);
+           $("h3 span.do_edit a").show();
+           event.preventDefault();
+        });
+        
+        $('form#editinplace .saveButton').bind('ajax:success', function(data){
+           $("form#editinplace").hide();
+           $("h3 .name.editinplace").show().html(data);
+           $("h3 span.do_edit a").show();
         });
     
         $("input#new_user").autocomplete({

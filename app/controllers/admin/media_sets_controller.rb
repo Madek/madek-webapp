@@ -31,7 +31,15 @@ class Admin::MediaSetsController < Admin::AdminController
     if params[:individual_contexts] and @set.respond_to? :individual_contexts
       @set.individual_contexts = MetaContext.find(params[:individual_contexts])
     end
-    @set.update_attributes(params[:media_set])
+    type = params[:media_set].delete(:type)
+    if type == "Media::Project" && !@set.respond_to?(:individual_contexts)
+      # here we are allowing for a one-way conversion of Media::Set into Media::Project
+      @set.type = type # can't usually mass assign the type attribute
+      @set.attributes = params[:media_set]
+      @set.save
+    else
+      @set.update_attributes(params[:media_set])
+    end
     redirect_to admin_media_sets_path
   end
 

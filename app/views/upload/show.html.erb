@@ -1,27 +1,31 @@
-<div id="content-body" class="container_12 clearfix">
+<div class="container_12 clearfix">
 
-	<%= render :partial => "steps" %>
-	<%= javascript_tag do %>
-		$(document).ready(function () {
-			activate_step(2);
-		});
-	<% end %>
-
-
-
-	<div id="upload-container" class="container_12 grid_12" style="margin-top: 1em">
-		
-		<div style="background: #DBEBF1; padding: 1.75em; -moz-border-radius: 5px; -webkit-border-radius: 5px;">
+	<section id="content_body" class="clearfix">
+	
+		<%= render :partial => "steps" %>
+		<%= javascript_tag do %>
+			$(document).ready(function () {
+				activate_step(2);
+			});
+		<% end %>
+	
+	
+	
+		<div id="upload-container" style="margin-top: 1.5em">
+			
+			<div style="background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;">
+					
+				<%= render :partial => "files" %>
 				
-			<%= render :partial => "files" %>
-			
-			<%= content_tag :h3 do
-				_("Zugriffsberechtigungen")
-			end %>
-			<%= render :partial => "/permissions/edit_multiple_on_upload" %>
-			
+				<%= content_tag :h3 do
+					_("Zugriffsberechtigungen")
+				end %>
+				<%= render :partial => "/permissions/edit_multiple_on_upload" %>
+				
+			</div>
+		
 		</div>
 	
-	</div>
-
-</div>		
+	</section>	
+		
+</div>

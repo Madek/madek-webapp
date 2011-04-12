@@ -30,6 +30,9 @@ MAdeK::Application.routes.draw do
   match '/nagiosstat', :to => Nagiosstat
 
 ###############################################
+  #sitewide search
+  match '/search', :to => "search#show"
+###############################################
 
   # TODO only [:index, :show] methods
   resources :media_entries do
@@ -45,14 +48,14 @@ MAdeK::Application.routes.draw do
     end
 
     member do
-      post :toggle_favorites #tmp for madek11
-      post :favorites
-      delete :favorites
+      post :toggle_favorites
       post :media_sets
       get :edit_tms
       get :to_snapshot
       #temp# :graph_nodes => :get,
       #temp# :index_browser => :get
+      get :image
+      get :map
     end
     
     resources :permissions do
@@ -96,6 +99,9 @@ MAdeK::Application.routes.draw do
     member do
       get :usage_terms
       post :usage_terms
+    end
+    collection do
+      get :usage_terms
     end
     
     resources :media_entries #old# , :collection => { :query_count => :post } # TODO shallow
@@ -158,10 +164,6 @@ MAdeK::Application.routes.draw do
   end
   
   resource :session
-  
-  resources :meta_keys do # TODO rename to :lists and create a List model ??
-    resources :meta_terms, :only => :create
-  end
 
 ####################################################################################
 
@@ -189,6 +191,8 @@ MAdeK::Application.routes.draw do
         end
       end
     end
+
+    resources :terms
     
     resources :users do
       member do

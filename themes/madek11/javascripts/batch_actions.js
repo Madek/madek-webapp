@@ -20,7 +20,7 @@ $(document).ready(function () {
     $("#batch-edit form").submit(function() {
       var editable_ids = new Array();
       $("#selected_items .edit").each(function(i, elem){
-        editable_ids.push($(this).attr("id").slice(3));
+        editable_ids.push($(this).attr("rel"));
       });
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
     });
@@ -29,7 +29,7 @@ $(document).ready(function () {
     $("#batch-permissions form").submit(function() {
       var managable_ids = new Array();
       $("#selected_items .manage").each(function(i, elem){
-        managable_ids.push($(this).attr("id").slice(3));
+        managable_ids.push($(this).attr("rel"));
       });
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+managable_ids+"'>");
     });
@@ -38,12 +38,23 @@ $(document).ready(function () {
     $("#batch-add-to-set form").submit(function() {
       var editable_ids = new Array();
       $("#selected_items .thumb_mini").each(function(i, elem){
-        editable_ids.push($(this).attr("id").slice(3));
+        editable_ids.push($(this).attr("rel"));
       });
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
     });
-    
-	
+
+    $(".item_box:not(.tmp)").live({
+      mouseenter: function() {
+        $(this).find('.actions').show();
+		$(this).stop(true, true).delay(400).animate({ backgroundColor: "#f1f1f1" }, 500);
+       },
+      mouseleave: function() {
+        $(this).find('.actions').hide();
+		// only remove bg color if not selected in batch context
+		if (!($(this).hasClass('selected'))) $(this).stop(true, false).animate({ backgroundColor: "white" }, 1000);
+       }
+     });
+
 });
 
 
@@ -102,12 +113,31 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
     displayCount();
 	
 	$("footer").css("margin-bottom", "130px");
-
+	
 	// when remove from set is hovered we only want to highlight those media_entries that are part of the current set
 	if(media_set_id && media_entry_ids_in_set){
 		var media_entry_ids = get_selected_media_entry_ids();
 		var media_entries_in_set = intersection_destructive(media_entry_ids_in_set.sort(), media_entry_ids.sort());
 	}; //end if
+	
+	
+	$('a.delete_me[data-method="delete"]').live('ajax:success', 
+		function(e, data, textStatus, jqXHR){
+			$('#thumb_' + data.id).remove();
+		    
+		    // remove also from sessionStorage and selectedItems
+			var media_entries_json = get_media_entries_json();
+			var media_entry_ids = $.map(media_entries_json, function(elem, i){ if (elem != null) return parseInt(elem.id); });
+			var i = media_entry_ids.indexOf(data.id);
+			if (i > -1){
+				media_entries_json.splice(i, 1);
+				$('#selected_items [rel="'+data.id+'"]').remove();
+				if (media_entries_in_set != undefined){ removeItems(media_entries_in_set, data.id) };
+				set_media_entries_json(JSON.stringify(media_entries_json));
+			    displayCount();
+			}
+  		}
+    );
 	
 	// make thumbnails removable from the selected items bar
     $('#selected_items .thumb_mini').live("hover", function() {
@@ -118,15 +148,36 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 		toggleSelected(id);
     });
 
-    $(".item_box :checkbox").live("click", function(){	
+    $("span.check_box").live("click", function(){
 		toggleSelected($(this).closest(".item_box").data("object"));
     });
 
-	$("#select_deselect_all input:checkbox").click(function() {
+	$("#select_deselect_all input:checkbox").click(function() {	
+	  var media_entries_json = get_media_entries_json();		
 	  if ($(this).is(":checked")) {
-		$(".item_box input[type='checkbox']").not(":checked").trigger("click");
+		// select all the visible and not already selected items
+		$(".item_box").each(function(i, elem) { 
+			var me = $(elem).data("object");
+			var i = is_Selected(media_entries_json, me.id);
+			// if not yet selected
+			if((i == -1)) {
+		        media_entries_json.push(me);
+		        $(elem).addClass('selected').find('span.check_box img').attr('src', '/themes/madek11/images/icons/button_checkbox_on.png');
+		        $('#selected_items').append($("#thumbnail_mini").tmpl(me));
+				if (media_entries_in_set != undefined){ media_entries_in_set.push(me.id) };
+			};	
+		});
+		set_media_entries_json(JSON.stringify(media_entries_json));
+	    displayCount();
 	  } else {
-		$(".item_box input:checked").trigger("click");
+		// remove everything from the action bar
+		$.each(media_entries_json, function(i, me){
+			$('#thumb_' + me.id).removeClass('selected').removeAttr("style").find('span.check_box img').attr('src', '/themes/madek11/images/icons/button_checkbox_off.png');
+			$('#selected_items [rel="'+me.id+'"]').remove();
+			sessionStorage.removeItem("selected_media_entries");
+			if (media_entries_in_set != undefined) media_entries_in_set = new Array();
+		});
+		displayCount();
 	  };
 	});
 
@@ -150,18 +201,17 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 
 	function toggleSelected(me) {
 		var media_entries_json = get_media_entries_json();
-		var media_entry_ids = $.map(media_entries_json, function(elem, i){ if (elem != null) return parseInt(elem.id); });
 		var id = (typeof(me) == "object" ? me.id : parseInt(me));
-		var i = media_entry_ids.indexOf(id);
-
+		var i = is_Selected(media_entries_json, id);
+		
 		if(i > -1) {
 			media_entries_json.splice(i, 1);
-			$('#thumb_' + id).removeClass('selected').removeAttr("style").find('input:checkbox').attr('checked', false);
+			$('#thumb_' + id).removeClass('selected').removeAttr("style").find('span.check_box img').attr('src', '/themes/madek11/images/icons/button_checkbox_off.png');
 			$('#selected_items [rel="'+id+'"]').remove();
 			if (media_entries_in_set != undefined){ removeItems(media_entries_in_set, id) };
-		}else{
+		} else {
 	        media_entries_json.push(me);
-	        $('#thumb_' + id).addClass('selected');
+	        $('#thumb_' + id).addClass('selected').find('span.check_box img').attr('src', '/themes/madek11/images/icons/button_checkbox_on.png');
 	        $('#selected_items').append($("#thumbnail_mini").tmpl(me));
 			if (media_entries_in_set != undefined){ media_entries_in_set.push(id) };
 		};
@@ -179,24 +229,10 @@ function selected_items_highlight_off(selector){
   $('#selected_items '+selector).css("background-color", "white");
 }
 
-function get_media_entries_json(){
-	var media_entries_json = JSON.parse(sessionStorage.getItem("selected_media_entries"));
-	if(media_entries_json == null) media_entries_json = new Array();
-	return media_entries_json;
-}
-
-function set_media_entries_json(data){
-	sessionStorage.setItem("selected_media_entries", data);
-}
-
-function get_selected_media_entry_ids() {
-	var media_entries_json = get_media_entries_json();
-	return $.map(media_entries_json, function(elem, i){ if (elem != null) return parseInt(elem.id); });
-}
-
 function listSelected() {
 	var media_entries_json = get_media_entries_json();
 	// display all previously selected items under taskbar 
+	// TODO: this method needs to make sure that all ME in sessionStorage still exist
 	$('#selected_items').html($("#thumbnail_mini").tmpl(media_entries_json));
 };
 
@@ -222,21 +258,22 @@ function displayCount() {
 };
 
 function display_results(json){
-	var loading = $("#loading");
 	var container = $("#results"); 
+	var loading = container.find(".loading");
 	var pagination = json.pagination;
 	var loaded_page = 1;
 	
 	function display_entries(entries){
-		loading.detach();
+		loading.fadeOut('slow', function(){ $(this).detach(); });
 		container.append($("#pagination").tmpl(pagination).fadeIn('slow'));
 		$.each(entries, function(i, elem) {
 			$("#media_entry_index").tmpl(elem).data('object', elem).appendTo(container).fadeIn('slow');
 		});
+		container.append("<div class='clear' />");
 		//check all the previously selected checkboxes
 		var selected_entries = get_selected_media_entry_ids();
 		$.each(selected_entries, function(i, id) {
-			$('#thumb_' + id).addClass('selected').find('input:checkbox').attr('checked', true);
+			$('#thumb_' + id).addClass('selected').find('span.check_box img').attr('src', '/themes/madek11/images/icons/button_checkbox_on.png');
 		});
 	}
 	
@@ -248,7 +285,7 @@ function display_results(json){
 	      data: {page: next_page},
 	    	dataType: 'json',
 	      beforeSend: function(){
-	        loading.appendTo(container);
+		  	loading.appendTo(container).fadeIn('slow');
 	      }, 
 	      success: function(response){
 	        pagination = response.pagination;

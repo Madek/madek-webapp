@@ -12,47 +12,14 @@ $(document).ready(function () {
 	
 	// toggle favorites
 	$("span.favorite_link a").live('ajax:complete', function(xhr, response){
-      var media_entry_id = $(this).parent().attr("id").slice(4);
+      var media_entry_id = $(this).parent().attr("id").slice(4); // TODO $(this).closest(".item_box").attr("rel");
       $("span#fav_" + media_entry_id).html(response.responseText);
     });
 
-    $(".item_box").live({
-      mouseenter: function() {
-        $(this).find('.actions').show();
-		$(this).stop(true, true).delay(400).animate({ backgroundColor: "#f1f1f1" }, 500);
-       },
-      mouseleave: function() {
-        $(this).find('.actions').hide();
-		// only remove bg color if not selected in batch context
-		if (!($(this).hasClass('selected'))) $(this).stop(true, false).animate({ backgroundColor: "white" }, 1000);
-       }
-     });
-	
 	$("#menu").flickrmenu({ arrowPic: "/images/icons/arrow.png",
 							arrowPicA: "/images/icons/arrow_select.png",
 							arrowPicH: "/images/icons/arrow_hover.png" });
-							
-							
-	$("[data-meta_key] div.expander a").live("click", function() {
-		var parent = $(this).closest("[data-meta_key]");
-		var children = parent.nextAll("[data-parent_meta_key='" + parent.attr("data-meta_key") + "']");
 
-		// NOTE doesn't work with toggler because copyright custom behavior
-		if($(this).hasClass("expanded")){
-			$(this).removeClass("expanded");
-			children.slideUp(); 
-		}else{
-			$(this).addClass("expanded");
-			children.slideDown();
-		}
-
-		// NOTE copyright custom behavior
-		children.find("select.nested_options:visible, select.options_root").trigger('change');
-
-		return false;
-	});
-	
-	
 });
 
 /*

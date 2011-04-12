@@ -1,4 +1,13 @@
 
+# Need to escape these special characters because they might appear in the
+# labels we use in the metadata editor form.
+def filter_string_for_regex(string)
+  return string.gsub('/', '\\/')\
+               .gsub("'","\'")\
+               .gsub('(','\\(')\
+               .gsub(')','\\)')
+end
+
 def make_hidden_items_visible
   page.execute_script '$(":hidden").show();'
 end
@@ -68,10 +77,10 @@ def check_media_entry_titled(title)
   # Crutch so we can check the otherwise invisible checkboxes (they only appear on hover,
   # which Capybara can't do)
   make_hidden_items_visible
-
   entry = find_media_entry_titled(title)
-  cb = entry.find("input")
-  cb.click unless cb[:checked] == "true" # a string, not a bool!
+  cb_icon = entry.find(:css, ".check_box").find("img")
+  #debugger; puts "lala"
+  cb_icon.click if (cb_icon[:src] =~ /_on.png$/).nil? # Only click if it's not yet checked
 end
 
 # Attempts to find a media entry based on its title by looking for
@@ -92,6 +101,71 @@ def find_media_entry_titled(title)
 
   return found_item
 
+end
+
+def fill_in_person_widget(list_element, value, options = "")
+  if options == "in-field entry box"
+    id_prefix = list_element["data-meta_key"]
+    field = list_element.find("##{id_prefix}_autocomplete_search")
+    fill_in field[:id], :with => value
+enter_script = <<HERE
+var e = jQuery.Event("keypress");
+e.keyCode = $.ui.keyCode.ENTER;
+e.which = $.ui.keyCode.ENTER;
+$("##{field[:id]}").trigger(e);
+HERE
+     page.execute_script(enter_script)
+  elsif options == "pseudonym field"
+    list_element.find(".dialog_link").click
+    fill_in "Pseudonym", :with => value
+    click_link_or_button("Personendaten einfügen")
+  elsif options == "group tab"
+    list_element.find(".dialog_link").click
+    click_link "Gruppe"
+    sleep 2
+    list_element.all("form").each do |form|
+      if form[:id] =~ /^new_group/
+        group_form_id = form[:id]
+         within("##{group_form_id}") do
+          fill_in "Name", :with => value
+        end
+      end
+    end
+    click_link_or_button("Gruppendaten einfügen")
+  else
+    lastname, firstname = value, value
+    lastname, firstname = value.split(",") if value.include?(",")
+    list_element.find(:css, ".dialog_link").click
+    fill_in "Nachname", :with => lastname
+    fill_in "Vorname", :with => firstname
+    click_link_or_button("Personendaten einfügen")
+  end
+end
+
+
+def fill_in_keyword_widget(list_element, value, options = "")
+  if options == "pick from my keywords tab"
+    list_element.find(".dialog_link").click
+    list_element.find("li", :title => value).click
+  elsif options == "pick from popular keywords tab"
+    list_element.find(".dialog_link").click
+    click_link "Beliebteste"
+    list_element.find("li", :title => value).click
+  elsif options == "pick from latest keywords tab"
+    list_element.find(".dialog_link").click
+    click_link "Neueste"
+    list_element.find("li", :title => value).click
+  else
+    field = list_element.find("#keywords_autocomplete_search")
+    fill_in field[:id], :with => value
+enter_script = <<HERE
+var e = jQuery.Event("keypress");
+e.keyCode = $.ui.keyCode.ENTER;
+e.which = $.ui.keyCode.ENTER;
+$("##{field[:id]}").trigger(e);
+HERE
+     page.execute_script(enter_script)
+  end
 end
 
 
@@ -136,7 +210,6 @@ def find_permission_checkbox(type, to_or_from)
     index = 5
   end
   cb = find(:css, "table.permissions").find("tr", :text => text).all("input")[index]
-  click_button("Speichern")
 end
 
 
@@ -144,12 +217,14 @@ def give_permission_to(type, to)
 
   cb = find_permission_checkbox(type, to)
   cb.click unless cb[:checked] == "true" # a string, not a bool!
+  click_button("Speichern")
 end
 
 
 def remove_permission_to(type, from)
   cb = find_permission_checkbox(type, from)
   cb.click if cb[:checked] == "true" # a string, not a bool!
+  click_button("Speichern")
 end
 
 
@@ -200,17 +275,17 @@ def upload_some_picture(title = "Untitled")
     click_link("Hochladen")
     click_link("Basic Uploader")
     attach_file("uploaded_data[]", Rails.root + "features/data/images/berlin_wall_01.jpg")
-    click_button("Ausgewählte Medien hochladen »")
+    click_button("Ausgewählte Medien hochladen und weiter…")
     wait_for_css_element("#submit_to_3") # This is the "Einstellungen speichern..." button
-    click_button("Einstellungen speichern und weiter »")
+    click_button("Einstellungen speichern und weiter…")
 
     # Entering metadata
 
     fill_in_for_media_entry_number(1, { "Titel"     => title,
                                         "Copyright" => 'some dude' })
 
-    click_button("Metadaten speichern und weiter »")
-    click_link_or_button("Weiter ohne Gruppierung")
+    click_button("Metadaten speichern und weiter…")
+    click_link_or_button("Weiter ohne Hinzufügen zu einem Set")
 
     sphinx_reindex
     visit "/"
@@ -232,9 +307,9 @@ end
 def add_to_set(set_title = "Untitled Set", picture_title = "Untitled")
   visit "/media_entries"
   click_media_entry_titled(picture_title)
-  click_link_or_button("Sets zusammenstellen")
+  click_link_or_button("Zu Set hinzufügen")
   select(set_title, :from => "media_set_ids[]")
-  click_link_or_button("Gruppierungseinstellungen speichern")
+  click_link_or_button("Zu ausgewähltem Set hinzufügen")
   # The set title is displayed on the right-hand side of this page, so we should be able to
   # see it here.
   page.should have_content(set_title)

@@ -7,7 +7,9 @@ module Meta
   class Term < ActiveRecord::Base
     has_and_belongs_to_many :meta_keys, :join_table => :meta_keys_meta_terms,
                                         :foreign_key => :meta_term_id
-  
+
+    #tmp# has_many :keywords, :foreign_key => :meta_term_id
+    
     validate :validations
     
     def to_s(lang = nil)
@@ -35,7 +37,7 @@ module Meta
     end
   
   ######################################################
-  
+
     def is_used?
       self.class.used_ids.include?(self.id)
     end
@@ -47,9 +49,8 @@ module Meta
           # TODO fetch id directly
           [x.meta_field.label.try(:id), x.meta_field.description.try(:id), x.meta_field.hint.try(:id)]
         end
-        ids += MetaKey.where(:object_type => "Meta::Term").collect(&:meta_data).flatten.collect do |x|
-          x.value
-        end
+        ids += MetaKey.where(:object_type => "Meta::Term").collect(&:used_term_ids)
+        ids += Keyword.select(:meta_term_id).group(:meta_term_id).collect(&:meta_term_id)
         ids.flatten.uniq.compact
       end
     end

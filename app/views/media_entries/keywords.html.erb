@@ -12,7 +12,7 @@
 	end %>
 	
 	<% [@my_keywords, @all_keywords, @all_keywords.sort{|a,b| b.created_at <=> a.created_at}].each_with_index do |keywords, index| %>
-		<%= content_tag :ul, :id => "tabs_#{index+1}", :class => "holder all", :style => "max-height: 20em; padding: 1.3em 0.3em 1em 0.3em; overflow-y: auto;" do
+		<%= content_tag :ul, :id => "tabs_#{index+1}", :class => "holder all", :style => "background-color: white; max-height: 20em; padding: 1.3em 0.3em 1em 0.3em; overflow-y: auto;" do
 			keywords.collect do |k|
 				content_tag :li, :class => "bit-box", :title => "#{k}", :rel => "#{k.meta_term_id}" do
 					a = "#{k} ".html_safe
@@ -28,35 +28,14 @@
 <% end %>
 
 <%= javascript_tag do %>
-	function hide_keyword(rel){
-		$('.holder.all .bit-box[rel="'+rel+'"]').hide();
-	}
-	
-	function hide_keywords(elements){
-		elements.each(function(){
-			hide_keyword($(this).attr("value"));
-		});
-	}
-
 	$(document).ready(function(){
 		// TODO already in application.js, use live()
 		$(".tabs").tabs({ cache: true,
 						  add: function(event, ui) {
 					      	$(this).tabs('select', ui.index);
 					      },
-						  fx: { opacity: 'toggle' }
+						  fx: { opacity: 'toggle' },
+						  ajaxOptions: { dataType: 'html' }
 						});
-
-		$(".holder.all .bit-box").live('click', function(){
-			var item = {label: $(this).attr("title"), id: $(this).attr("rel")};
-			add_to_selected_items(item, 'keywords', false);
-			hide_keyword($(this).attr("rel"));
-		});
-		
-		hide_keywords($("#keywords_multiselect ul.holder li.bit-box input[type=hidden]"));
-		
-		$("#keywords_multiselect input[name='autocomplete_search']").bind("autocompleteselect", function(event, ui) {
-      		hide_keyword(ui.item.id);
-		});
 	});
 <% end %>

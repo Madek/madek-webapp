@@ -84,7 +84,9 @@ task :configure_environment do
   run "sed -i 's:DOT_PATH = \"/usr/local/bin/dot\":DOT_PATH = \"/usr/bin/dot\":' #{release_path}/config/application.rb"
   run "sed -i 's:EXIFTOOL_PATH = \"/opt/local/bin/exiftool\":EXIFTOOL_PATH = \"/usr/local/bin/exiftool\":' #{release_path}/config/application.rb"
   run "sed -i 's:ENCODING_TEST_MODE = 1:ENCODING_TEST_MODE = 0:' #{release_path}/config/application.rb"
-  run "sed -i 's,ENCODING_BASE_URL.*,ENCODING_BASE_URL = \"http://medienarchiv.zhdk.ch\",' #{release_path}/config/application.rb"
+
+  new_url = "http://medienarchiv.zhdk.ch".gsub("/","\\/")
+  run "sed -i 's,ENCODING_BASE_URL.*,ENCODING_BASE_URL = \"#{new_url}\",' #{release_path}/config/application.rb"
 end
 
 task :configure_sphinx do

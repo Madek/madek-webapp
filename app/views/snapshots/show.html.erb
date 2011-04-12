@@ -39,8 +39,8 @@
 
 			<%= content_for :buttons do
 				content_tag :div, :style => "text-align: right; padding: 10pt; background: #D2D2D2;" do
-					a = resource.submit _("Speichern")
-					a += link_to _("Abbrechen"), snapshots_path, :class => "buttons"
+					a = link_to _("Abbrechen"), snapshots_path, :class => "buttons"
+					a += resource.submit _("Speichern")
 				end
 			end %>
 

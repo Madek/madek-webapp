@@ -1,9 +1,9 @@
-<%= content_tag :div, :id => "content-body", :class => "container_12 clearfix" do
+<%= content_tag :div, :class => "container_12 clearfix"  do
+	content_tag :section, :id => "content_body", :class => "clearfix" do
 	h = render :partial => "steps"
-
-	h += content_tag :div, :id => "upload-main", :class => "container_12 grid_12", :style => "margin-top: 1em;" do
-		content_tag :div, :style => "background: #DBEBF1; padding: 1em; -moz-border-radius: 5px; -webkit-border-radius: 5px;", :class => "clearfix" do
-			a = content_tag :ul, :class => "items", :style => "margin: 1em; min-height: 10em;" do
+	h += content_tag :div, :id => "upload-main", :style => "margin-top: 2em;" do
+		content_tag :div, :style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;", :class => "clearfix" do
+			a = content_tag :ul, :class => "items", :style => "margin: 0; min-height: 10em;" do
 				b = "".html_safe
 				@media_entries.each do |media_entry|
 					b += content_tag :li do
@@ -17,6 +17,7 @@
 			a += media_sets_setter(set_media_sets_upload_path(:upload_session_id => params[:upload_session_id]), true)
 		end
 	end
+ end
 end %>
 
 <%= javascript_tag do %>

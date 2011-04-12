@@ -35,7 +35,7 @@ module MAdeK
     # config.i18n.default_locale = :de
 
     # JavaScript files you want as :defaults (application.js is always included).
-    config.action_view.javascript_expansions[:defaults] = %w(jquery.min jquery-ui.min rails)
+    config.action_view.javascript_expansions[:defaults] = %w(jquery.min jquery-ui.min rails modernizr.min)
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
@@ -92,4 +92,4 @@ DEFAULT_LANGUAGE = :de_CH
 ENCODING_BASE_URL = "http://test:MAdeK@test.madek.zhdk.ch"
 ENCODING_TEST_MODE = 1 # 1 for true, 0 for false
 
-RELEASE_VERSION = "0.2.4"
+RELEASE_VERSION = "0.3.3"

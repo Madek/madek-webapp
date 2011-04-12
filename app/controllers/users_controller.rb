@@ -19,6 +19,7 @@ class UsersController < ApplicationController
 #####################################################
 
   def usage_terms
+    theme "madek11"
     if request.post?
       # OPTIMIZE check if really submitted the form (hidden variable?)
       current_user.usage_terms_accepted!
