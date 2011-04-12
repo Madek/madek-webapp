@@ -57,6 +57,7 @@ class ApplicationController < ActionController::Base
   end
 
   def feedback
+    theme "madek11"
     @title = "Medienarchiv der Künste: Feedback & Support"
     @disable_search = true
   end
