@@ -149,23 +149,6 @@ class MediaSetsController < ApplicationController
       @media_sets = @user.media_sets
     end
   end
-  
-  def update_multiple_permsissions
-    @media_set.permissions.delete_all
-
-    actions = params[:subject]["nil"]
-    @media_set.permissions.build(:subject => nil).set_actions(actions)
-
-    ["User", "Group"].each do |key|
-      params[:subject][key].each_pair do |subject_id, actions|
-        @media_set.permissions.build(:subject_type => key, :subject_id => subject_id).set_actions(actions)
-      end if params[:subject][key]
-    end
-    
-    @media_set.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
-    flash[:notice] = "Die Zugriffsberechtigungen für das Set wurden erfolgreich gespeichert."
-    redirect_to @media_set
-  end
 
 #####################################################
 

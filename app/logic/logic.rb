@@ -27,7 +27,7 @@ module Logic
   
   def enriched_resource_data(resources, current_user)
     media_entries = resources.select{ |r| r.class.name == "MediaEntry" }
-    media_sets = resources.select{ |r| r.class.name == "Media::Set" }
+    media_sets = resources.select{ |r| r.class.base_class.name == "Media::Set" }
     
     media_entry_ids = media_entries.map(&:id)
     media_set_ids = media_sets.map(&:id)

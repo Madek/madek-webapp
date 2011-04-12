@@ -391,6 +391,10 @@ class MediaFile < ActiveRecord::Base
     meta_data.reject{|k,v| ["!binary |", "Binary data"].any?{|x| v.to_yaml.include?(x)}}
   end
   
+  def orientation
+    (width > height) ? 'horizontal' : 'vertical'
+  end
+  
   private
 
 

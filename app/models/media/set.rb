@@ -6,6 +6,12 @@ module Media
 
   class Set < ActiveRecord::Base # TODO rename to Media::Group
     include Resource
+    
+    
+    TS_FIELDS = {:type => lambda {|i| i.type } }
+    TS_ATTRIBUTE_DEFINITIONS = []
+    TS_ATTRIBUTES = {}
+    
   
     has_dag_links :link_class_name => 'Media::SetLink'
   
@@ -72,63 +78,7 @@ module Media
   default_sphinx_scope :default_search
   sphinx_scope(:default_search) { { :star => true, :order => :updated_at, :sort_mode => :desc } }
   sphinx_scope(:by_ids) { |ids| { :with => {:sphinx_internal_id => ids} } }
-  
-  def self.to_sphinxpipe(delta = 0)    
-    update_all(:delta => 0) if delta == 0
 
-    xml = Builder::XmlMarkup.new
-    xml.instruct!
-    xml.tag!("sphinx:docset") do
-      xml.tag!("sphinx:schema") do
-        MetaKey.with_meta_data.each do |key|
-          xml.tag!("sphinx:field", :name => key.label.parameterize('_'))
-        end
-        ['user','type','query'].each do |field|
-          xml.tag!("sphinx:field", :name => field)
-        end
-
-        [['sphinx_internal_id', 'int'], ['class_crc', 'int'], ['sphinx_deleted', 'int', '0'], # required by thinking sphinx
-         ['user_id', 'int'], # association attributes
-         ['updated_at', 'timestamp'] # sorting attributes
-         ].each do |attr|
-          args = {:name => attr[0], :type => attr[1]}
-          args[:default] = attr[2] if attr.size > 2
-          xml.tag!("sphinx:attr", args)
-        end
-      end
-
-      media_sets = where(:delta => delta)
-      media_sets.each do |media_set|
-        xml.tag!("sphinx:document", :id => media_set.id) do
-          media_set.meta_data.with_labels.each_pair do |key, value|
-            xml.tag!(key.parameterize('_'), value)
-            xml.tag!("#{key}_sort", value) if ['subject', 'creator'].include?(key)
-          end
-          
-          ['sphinx_internal_id', 'class_crc',
-           'user_id', 'user', 'type', 'query'].each do |attr|
-            xml.tag!(attr, media_set.send(attr))
-          end
-
-          ['updated_at'].each do |attr|
-            xml.tag!(attr, media_set.send(attr).to_i)
-          end
-        end
-      end
-    end
-
-    puts xml.target!
-  end
-
-    def sphinx_internal_id
-      id
-    end
-
-    def class_crc
-      self.class.to_crc32 #old#.to_s
-    end
-  
-  
   
   ########################################################
     def to_s

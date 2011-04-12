@@ -7,6 +7,11 @@
 class MediaEntry < ActiveRecord::Base
 
   include Resource
+  
+  TS_FIELDS = {:orientation => lambda {|i| i.media_file.orientation}}
+  TS_ATTRIBUTE_DEFINITIONS = [['height', 'int', 0], ['width', 'int', 0], ['subject_sort', 'str2ordinal'], ['creator_sort', 'str2ordinal']]
+  TS_ATTRIBUTES = {:width => lambda {|i| i.media_file.width.to_i }, :height => lambda {|i| i.media_file.height.to_i }, 
+                   :subject_sort => lambda {|i| i.meta_data.with_labels["subject"]}, :creator_sort => lambda {|i| i.meta_data.with_labels["creator"]}}
 
   belongs_to                :media_file, :include => :previews # TODO validates_presence # TODO on destroy, also destroy the media_file if this is the only related media_entry and snapshot
   belongs_to                :upload_session
@@ -87,84 +92,6 @@ class MediaEntry < ActiveRecord::Base
   #old#0903# sphinx_scope(:public) { { :with => {:is_public => true} } }
   #old#0903# sphinx_scope(:not_public) { { :with => {:is_public => false} } }
   sphinx_scope(:by_ids) { |ids| { :with => {:sphinx_internal_id => ids} } }
-                                              
-######################
-
-  def self.to_sphinxpipe(delta = 0)    
-    update_all(:delta => 0) if delta == 0
-
-    xml = Builder::XmlMarkup.new
-    xml.instruct!
-    xml.tag!("sphinx:docset") do
-      xml.tag!("sphinx:schema") do
-        MetaKey.with_meta_data.each do |key|
-          xml.tag!("sphinx:field", :name => key.label.parameterize('_'))
-        end
-        ['user'].each do |field|
-          xml.tag!("sphinx:field", :name => field)
-        end
-
-        [['sphinx_internal_id', 'int'], ['class_crc', 'int'], ['sphinx_deleted', 'int', '0'], # required by thinking sphinx
-         ['user_id', 'int'], ['media_file_id', 'int'], # association attributes
-         #old 1003# ['media_set_ids', 'multi'],
-         #old#0903# ['is_public', 'int', '0'], # attributes
-         #temp#facet# ['user_id_facet', 'int'], # facets
-         ['subject_sort', 'str2ordinal'], ['creator_sort', 'str2ordinal'], ['updated_at', 'timestamp'] # sorting attributes
-         ].each do |attr|
-          args = {:name => attr[0], :type => attr[1]}
-          args[:default] = attr[2] if attr.size > 2
-          xml.tag!("sphinx:attr", args)
-        end
-      end
-
-      media_entries = joins(:upload_session).where(:delta => delta, :upload_sessions => {:is_complete => true})
-      media_entries.each do |media_entry|
-        xml.tag!("sphinx:document", :id => media_entry.id) do
-          media_entry.meta_data.with_labels.each_pair do |key, value|
-            xml.tag!(key.parameterize('_'), value)
-            xml.tag!("#{key}_sort", value) if ['subject', 'creator'].include?(key)
-          end
-    
-          ['sphinx_internal_id', 'class_crc',
-           'user_id', 'media_file_id',
-           #old 1003# 'media_set_ids',
-           #temp#facet# 'user_id_facet',
-           'user'].each do |attr|
-            xml.tag!(attr, media_entry.send(attr))
-          end
-    
-          ['updated_at'].each do |attr|
-            xml.tag!(attr, media_entry.send(attr).to_i)
-          end
-
-#old#0903# 
-#          if media_entry.acl?(:view, :all)
-#            xml.tag!("is_public", 1)
-#          end
-        end
-      end
-    end
-
-    puts xml.target!
-  end
-
-  def sphinx_internal_id
-    id
-  end
-  
-  def class_crc
-    self.class.to_crc32 #old#.to_s
-  end
-
-#temp#facet#
-#  def user_id_facet
-#    user_id
-#  end
-
-#old 1003#
-#  def media_set_ids
-#    media_sets.collect(&:id).join(',')
-#  end
 
 ########################################################
 

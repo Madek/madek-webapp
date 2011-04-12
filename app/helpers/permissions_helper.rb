@@ -1,18 +1,25 @@
 # -*- encoding : utf-8 -*-
 module PermissionsHelper
 
-  # 23.02.11: should be obsolete soon 
-  def view_permission_string(resource)
+  # caution: icon only works with new theme
+  def display_permission(resource, type = :icon)
     if resource.acl?(:view, :all)
-      "(#{_("Öffentlich")})"
-    elsif resource.acl?(:view, :logged_in_users)
-      "(#{_("Öffentlich für angemeldete Benutzer")})"
+      if type == :icon
+        theme_image_tag("icons/button_status_private.png")
+      else
+        "(#{_("Öffentlich")})"
+      end
     elsif resource.acl?(:view, :only, current_user)
-      "(#{_("Nur für Sie selbst")})"
+      if type == :icon
+        theme_image_tag("icons/icon_button_perm.png")
+      else
+        "(#{_("Nur für Sie selbst")})"
+      end
     else
       # MediaEntries that only I and certain others have access to 
-    end  
+    end
   end
+  
   
   # used to ajax update download partial when user changes download permission for himself
   def changing_own_permission
@@ -20,15 +27,6 @@ module PermissionsHelper
     @permission.subject.id == current_user.id && @permission.resource.is_a?(MediaEntry) 
   end
   
-  # caution: only works with new theme
-  def display_permission_icon(resource)
-    if resource.acl?(:view, :all)
-      theme_image_tag("icons/button_status_private.png")
-    elsif resource.acl?(:view, :only, current_user)
-      theme_image_tag("icons/icon_button_perm.png")
-    end
-  end
-
   # TODO move to media_entries_helper.rb
   def display_favorite_icon(resource, user)
     s = (user.favorite_ids.include?(resource.id) ? "on" : "off") # (user.favorites.include?(resource) ? "on" : "off")
