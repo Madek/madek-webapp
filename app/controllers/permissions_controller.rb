@@ -36,27 +36,25 @@ class PermissionsController < ApplicationController
   end
 
   def update_multiple
-    theme "madek11"
-    
-      @media_entries.each do |media_entry|
-        media_entry.permissions.delete_all
-    
-        actions = params[:subject]["nil"]
-        media_entry.permissions.build(:subject => nil).set_actions(actions)
+    @resources.each do |resource|
+      resource.permissions.delete_all
   
-        ["User", "Group"].each do |key|
-          params[:subject][key].each_pair do |subject_id, actions|
-            media_entry.permissions.build(:subject_type => key, :subject_id => subject_id).set_actions(actions)
-          end if params[:subject][key]
-        end
-        
-        # FIXME it's not sure that the current_user is the owner (manager) of the current resource 
-        media_entry.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
+      actions = params[:subject]["nil"]
+      resource.permissions.build(:subject => nil).set_actions(actions)
+
+      ["User", "Group"].each do |key|
+        params[:subject][key].each_pair do |subject_id, actions|
+          resource.permissions.build(:subject_type => key, :subject_id => subject_id).set_actions(actions)
+        end if params[:subject][key]
       end
+      
+      # OPTIMIZE it's not sure that the current_user is the owner (manager) of the current resource 
+      resource.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
+    end
 
     flash[:notice] = "Die Zugriffsberechtigungen wurden erfolgreich gespeichert."  
-    if (@media_entries.size == 1)
-      redirect_to media_entry_path(@media_entries.first)
+    if (@resources.size == 1)
+      redirect_to @resources.first
     else
       redirect_back_or_default(media_entries_path)
     end
@@ -74,7 +72,7 @@ class PermissionsController < ApplicationController
       when :edit_multiple
         action = :manage
       when :update_multiple
-        not_authorized! if @media_entries.empty?
+        not_authorized! if @resources.empty?
         return
     end
     
@@ -91,7 +89,11 @@ class PermissionsController < ApplicationController
     elsif not params[:media_entry_ids].blank?
       selected_ids = params[:media_entry_ids].split(",").map{|e| e.to_i }
       manageable_ids = Permission.accessible_by_user(MediaEntry, current_user, :manage)
-      @media_entries = MediaEntry.where(:id => (selected_ids & manageable_ids))
+      @resources = MediaEntry.where(:id => (selected_ids & manageable_ids))
+    elsif not params[:media_set_id].blank? # TODO accept multiple media_set_ids ?? 
+      selected_ids = [params[:media_set_id].to_i]
+      manageable_ids = Permission.accessible_by_user(Media::Set, current_user, :manage)
+      @resources = Media::Set.where(:id => (selected_ids & manageable_ids))
     else
       flash[:error] = "Sie haben keine Medieneinträge ausgewählt."
       redirect_to :back
