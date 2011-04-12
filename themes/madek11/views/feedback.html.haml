@@ -1,0 +1,13 @@
+= stylesheet_link_tag "feedback", :media => "all"
+= stylesheet_link_tag "jquery/shadowbox", :media => "all"
+= javascript_include_tag "jquery/shadowbox"
+
+:javascript
+  Shadowbox.init({
+      overlayOpacity: 0.75,
+  	viewportPadding: 25
+  });
+  
+%section#content_body
+  %div.page_title_left
+    =_("Meine Medieneinträge")

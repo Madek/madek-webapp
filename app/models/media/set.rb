@@ -67,14 +67,14 @@ module Media
   end
   # 
   # # used to forcing sphinx live update
-  # def sphinx_reindex
-  #   self.delta = true
-  #   save
-  # end
+  def sphinx_reindex
+    self.delta = true
+    save
+  end
   # 
-  # default_sphinx_scope :default_search
-  # sphinx_scope(:default_search) { { :star => true, :order => :updated_at, :sort_mode => :desc } }
-  # sphinx_scope(:by_ids) { |ids| { :with => {:sphinx_internal_id => ids} } }
+  default_sphinx_scope :default_search
+  sphinx_scope(:default_search) { { :star => true, :order => :updated_at, :sort_mode => :desc } }
+  sphinx_scope(:by_ids) { |ids| { :with => {:sphinx_internal_id => ids} } }
 
   
   ########################################################
