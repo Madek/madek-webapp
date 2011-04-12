@@ -1,5 +1,7 @@
 class RedClothMadek
 
+  ActionView::Base.sanitized_allowed_tags << 'video'
+
   def initialize
     require 'redcloth'
   end
@@ -31,7 +33,7 @@ class RedClothMadek
 
          gsub(/\[\s*video\s*=\s*(\d+)\s*\|\s*([^\]]+)\s*\]/) { |number,title|
            "<video src='/media_entries/#{$1}/image' title='#{h($2)}'>" +
-             "<a href='/media_entries/#{$1}'>(see video)</a>" +
+             "<a href='/media_entries/#{$1}'>(see Wideo)</a>" +
            "</video>"  }
   end
 
