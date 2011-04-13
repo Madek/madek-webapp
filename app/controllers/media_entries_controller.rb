@@ -7,8 +7,6 @@ class MediaEntriesController < ApplicationController
   after_filter :store_location, :only => [:index]
 
   def index
-    theme "madek11"
-    
     media_entries = if @user
                       if logged_in?
                         if @user == current_user
@@ -84,7 +82,6 @@ class MediaEntriesController < ApplicationController
   end
     
   def show
-    theme "madek11"
     respond_to do |format|
       format.html
       format.js { render @media_entry }
@@ -100,11 +97,12 @@ class MediaEntriesController < ApplicationController
     if File.exist?(file)
       output = File.read(file)
       send_data output, :type => preview.content_type, :disposition => 'inline'
+    else
+      # TODO send alternative output
     end
   end
   
   def map
-    theme "madek11"
     meta_data = @media_entry.media_file.meta_data
     @lat = meta_data["GPS:GPSLatitude"]
     @lng = meta_data["GPS:GPSLongitude"]
@@ -119,7 +117,6 @@ end
 # Authenticated Area
 
   def edit
-   theme "madek11"
   end
 
 #  # NOTE accepting and destroying an array of media_entries
@@ -153,7 +150,6 @@ end
 #####################################################
 
   def edit_tms
-    theme "madek11"
   end
 
   def to_snapshot
@@ -184,7 +180,6 @@ end
   end
   
   def toggle_favorites
-    theme "madek11"
     current_user.favorites.toggle(@media_entry)
     respond_to do |format|
       format.js { render :partial => "favorite_link", :locals => {:media_entry => @media_entry} }
@@ -233,7 +228,6 @@ end
   end
   
   def edit_multiple
-    theme "madek11"
     # custom hash for jQuery json templates
     @info_to_json = @media_entries.map do |me|
       me.attributes.merge!(me.get_basic_info(["uploaded at", "uploaded by", "keywords", "copyright notice", "portrayed object dates"]))
@@ -255,8 +249,6 @@ end
   end
   
   def edit_multiple_permissions
-    theme "madek11"
-    
     @combined_permissions = Permission.compare(@media_entries)
     @permissions_json = @combined_permissions.to_json
 

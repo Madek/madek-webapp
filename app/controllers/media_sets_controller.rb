@@ -6,7 +6,6 @@ class MediaSetsController < ApplicationController
   after_filter :store_location, :only => [:show]
   
   def index
-    theme "madek11"
     ids = Permission.accessible_by_user("Media::Set", current_user)
 
     @media_sets, @my_media_sets, @index_title = if @media_set
@@ -33,8 +32,6 @@ class MediaSetsController < ApplicationController
   end
 
   def show
-    theme "madek11"
-
     viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
     #old# @media_entries = MediaEntry.search :with => {:media_set_ids => @media_set.id, :sphinx_internal_id => viewable_ids}, :page => params[:page], :per_page => params[:per_page].to_i, :retry_stale => true
     @media_entries =  @media_set.media_entries.includes(:media_file).where(:id => viewable_ids).paginate(:page => params[:page], :per_page => PER_PAGE.first)
@@ -54,26 +51,29 @@ class MediaSetsController < ApplicationController
 # Authenticated Area
 # TODO
 
-  def new
-    @dynamic = ["true", "1"].include?(params[:dynamic]) # TODO patch String to_bool
-    @media_set = current_user.media_sets.build
-    @media_set.query = params[:query] if @dynamic
-  end
+#old#
+#  def new
+#    @dynamic = ["true", "1"].include?(params[:dynamic]) # TODO patch String to_bool
+#    @media_set = current_user.media_sets.build
+#    @media_set.query = params[:query] if @dynamic
+#  end
 
   def create
-    @media_set = current_user.media_sets.create # OPTIMIZE validates_presence_of title
-    if @media_set.update_attributes(params[:media_set]) # TODO ?? find_by_id_or_create_by_title
-      #temp# flash[:notice] = "Media::Set successful created"
-      redirect_to user_media_sets_path(current_user)
-    else
-      flash[:notice] = @media_set.errors.full_messages
-      render :action => :new
+    # OPTIMIZE just preventing double delta indexing, because meta_data need resource_id
+    Media::Set.suspended_delta do
+      @media_set = current_user.media_sets.create # OPTIMIZE validates_presence_of title
+      if @media_set.update_attributes(params[:media_set]) # TODO ?? find_by_id_or_create_by_title
+        #temp# flash[:notice] = "Media::Set successful created"
+        redirect_to user_media_sets_path(current_user)
+      else
+        flash[:notice] = @media_set.errors.full_messages
+        #old# render :action => :new
+        redirect_to :back
+      end
     end
   end
 
   def edit
-    theme "madek11"
-    
     permissions = Permission.cached_permissions_by(@media_set)
     @permissions_json = {}
     
