@@ -25,7 +25,7 @@
                 = label_tag 'filter[height][value]', "Height"
                 = select_tag 'filter[height][operator]', options_for_select([['is exactly', 'is'], ['greater than', 'gt'], ['less than', 'lt']])
                 = text_field_tag 'filter[height][value]', nil, :size => 10 
-          %strong Format   
+          %strong Format
           %ul.clearfix
             - orientation_params = @filter ? @filter.filters["orientation"] : nil
             %li
