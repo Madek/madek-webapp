@@ -1,0 +1,13 @@
+.container_12.clearfix
+  %section#content_body.clearfix
+    = render :partial => "steps"
+    :javascript
+      $(document).ready(function () {
+        activate_step(2);
+      });
+
+    #upload-container{:style => "margin-top: 1.5em"}
+      %div{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
+        = render :partial => "files"
+        %h3= _("Zugriffsberechtigungen")
+        = render :partial => "/permissions/edit_multiple_on_upload"

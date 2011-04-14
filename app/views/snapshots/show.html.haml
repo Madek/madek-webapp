@@ -1,0 +1,32 @@
+= prevent_leaving_page
+
+#content-body.container_12.clearfix
+  #detail-main.grid_2
+    #detail-image{:style => "padding: 3.25em 0 1.5em 0;"}=  thumb_for(@snapshot, :small)
+    = resource_sizes(@snapshot)
+    #detail-action-bar{:style => "padding-top: 1.5em;"}
+      %ul
+        %li
+          = link_to _("XML exportieren"), snapshot_path(@snapshot, :format => :tms), :style => "line-height: 1.1em; float: none; padding: 0.5em; font-size: 0.9em;"
+        %li
+          = link_to _("ZIP exportieren"), export_snapshots_path(:snapshot_ids => [@snapshot]), :style => "line-height: 1.1em; float: none; padding: 0.5em; font-size: 0.9em;"
+        %li
+          = link_to _("MIZ-Archiv Kopie löschen"), @snapshot, :style => "line-height: 1.1em; float: none; padding: 0.5em; font-size: 0.9em;", :method => :delete, :confirm => _("Sind Sie sicher?")
+
+  #detail-sidebar.grid_10
+    %h3= _("Kopie für MIZ-Archiv editieren")
+    %br
+    = form_for @snapshot, :as => :resource, :url => [:update_multiple, @snapshot, :meta_data], :html => {:method => :put} do |resource|
+      - content_for :buttons do
+        %div{:style => "text-align: right; padding: 10pt; background: #D2D2D2;"}
+          = link_to _("Abbrechen"), snapshots_path, :class => "buttons"
+          = resource.submit _("Speichern")
+      = yield :buttons
+      #detail_specification.tabs
+        - meta_contexts = [MetaContext.tms]
+        %ul
+          - meta_contexts.each do |meta_context|
+            %li= link_to meta_context, "##{meta_context.name}" 
+        - meta_contexts.each do |meta_context|
+          = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :resource => resource }
+      = yield :buttons
