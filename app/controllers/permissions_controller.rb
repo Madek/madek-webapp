@@ -16,14 +16,23 @@ class PermissionsController < ApplicationController
 
   def edit_multiple
     permissions = Permission.cached_permissions_by(@resource)
+    keys = [:view, :edit, :hi_res, :manage]
     @permissions_json = {}
     
     permissions.group_by {|p| p.subject_type }.collect do |type, type_permissions|
       unless type.nil?
-        @permissions_json[type] = type_permissions.map {|p| {:id => p.subject.id, :name => p.subject.to_s, :type => type, :view => p.actions[:view], :edit => p.actions[:edit], :hi_res => p.actions[:hi_res] }}
+        @permissions_json[type] = type_permissions.map do |p|
+          h = {:id => p.subject.id, :name => p.subject.to_s, :type => type}
+          keys.each {|key| h[key] = p.actions[key] }
+          h
+        end
       else
         p = type_permissions.first
-        @permissions_json["public"] = {:name => "Öffentlich", :type => 'nil', :view => p.actions[:view], :edit => p.actions[:edit], :hi_res => p.actions[:hi_res] }
+        @permissions_json["public"] = begin
+          h = {:name => "Öffentlich", :type => 'nil'}
+          keys.each {|key| h[key] = p.actions[key] }
+          h
+        end
       end
     end
     @permissions_json = @permissions_json.to_json

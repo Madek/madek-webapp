@@ -26,6 +26,10 @@
         %input{:name => "{{if (type == 'nil')}}subject[${type}][hi_res]{{else}}subject[${type}][${id}][hi_res]{{/if}}", :type => "hidden", :value => "false"}
         <input name="{{if (type == 'nil')}}subject[${type}][hi_res]{{else}}subject[${type}][${id}][hi_res]{{/if}}" type="checkbox" value="true" {{if hi_res}}checked="checked"{{/if}}>
     %td
+      {{if manage}}
+      = theme_image_tag("icons/button_checkbox_on.png")
+      {{/if}}
+    %td
       {{if type != 'nil' && id != #{current_user.id} }}
       = link_to _("Löschen"), "#", :class => "delete", :msg => _("Sind Sie sicher?"), :"data-id" => "${id}", :"data-type" => "${type}"
       {{/if}}  
