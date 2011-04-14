@@ -12,26 +12,45 @@
     %h4
       = "Medieneinträge (#{get_result_count(@facets, "MediaEntry")}) / Sets (#{get_result_count(@facets, "Media::Set")})"
     %form{:action => search_path, :method => :get}
+      = hidden_field_tag "query", @search_term
       #filter-query.basic
         %div
+          -# commented out for later
+            %ul.clearfix
+              %li
+                = label_tag 'filter[width][value]', "Width"
+                = select_tag 'filter[width][operator]', options_for_select([['is exactly', 'is'], ['greater than', 'gt'], ['less than', 'lt']])
+                = text_field_tag 'filter[width][value]', nil, :size => 10
+              %li
+                = label_tag 'filter[height][value]', "Height"
+                = select_tag 'filter[height][operator]', options_for_select([['is exactly', 'is'], ['greater than', 'gt'], ['less than', 'lt']])
+                = text_field_tag 'filter[height][value]', nil, :size => 10 
+          %strong Format   
           %ul.clearfix
-            %li
-              = label_tag 'filter[width][value]', "Width"
-              = select_tag 'filter[width][operator]', options_for_select([['is exactly', 'is'], ['greater than', 'gt'], ['less than', 'lt']])
-              = text_field_tag 'filter[width][value]', nil, :size => 10
-            %li
-              = label_tag 'filter[height][value]', "Height"
-              = select_tag 'filter[height][operator]', options_for_select([['is exactly', 'is'], ['greater than', 'gt'], ['less than', 'lt']])
-              = text_field_tag 'filter[height][value]', nil, :size => 10    
-          %ul.clearfix 
+            - orientation_params = @filter ? @filter.filters["orientation"] : nil
             %li
               = label_tag 'filter[orientation][horizontal]', "Querformat"
-              = radio_button_tag 'filter[orientation]', 'horizontal'
+              = radio_button_tag 'filter[orientation]', 'horizontal', orientation_params && orientation_params == "horizontal"
             %li
               = label_tag 'filter[orientation][vertical]', "Hochformat"
-              = radio_button_tag 'filter[orientation]', 'vertical'
+              = radio_button_tag 'filter[orientation]', 'vertical', orientation_params && orientation_params == "vertical"
+          %strong Medientyp
+          %ul.clearfix
+            - media_type_params = @filter ? @filter.filters["media_type"] : nil
+            - @media.map {|m| m.media_type }.uniq.each do |media_type|
+              = check_box_tag "filter[media_type][]", media_type, media_type_params && media_type_params.include?(media_type)
+              = media_type
+          %strong Schlagworte
+          %ul.clearfix
+            = display_meta_data_checkboxes(@media, "keywords")
+          %strong Gattung
+          %ul.clearfix
+            = display_meta_data_checkboxes(@media, "type")
+        
+          
+          
         %div
-          = submit_tag _("Suchen"), :title => "Suchen", :id => 'search-submit', :name => nil
+          = submit_tag _("Ergebnisse Filtern"), :title => "Filtern", :id => 'search-submit', :name => nil
           
   #results
     .pagination.loading{:style => "display: none;"}
