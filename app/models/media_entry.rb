@@ -8,10 +8,11 @@ class MediaEntry < ActiveRecord::Base
 
   include Resource
   
-  TS_FIELDS = TS_FIELDS.merge({:orientation => lambda {|i| i.media_file.orientation}, :media_type => lambda {|i| i.media_type }})
-  TS_ATTRIBUTE_DEFINITIONS += [['height', 'int', 0], ['width', 'int', 0], ['subject_sort', 'str2ordinal'], ['creator_sort', 'str2ordinal']]
+  TS_FIELDS = TS_FIELDS.merge({:media_type => lambda {|i| i.media_type }})
+  TS_ATTRIBUTE_DEFINITIONS += [['height', 'int', 0], ['width', 'int', 0], ['orientation', 'int'], ['subject_sort', 'str2ordinal'], ['creator_sort', 'str2ordinal']]
   TS_ATTRIBUTES = TS_ATTRIBUTES.merge({:width => lambda {|i| i.media_file.width.to_i }, :height => lambda {|i| i.media_file.height.to_i }, 
-                   :subject_sort => lambda {|i| i.meta_data.with_labels["subject"]}, :creator_sort => lambda {|i| i.meta_data.with_labels["creator"]}})
+                                       :orientation => lambda {|i| i.media_file.orientation }, :subject_sort => lambda {|i| i.meta_data.with_labels["subject"]}, 
+                                       :creator_sort => lambda {|i| i.meta_data.with_labels["creator"]}})
 
   belongs_to                :media_file, :include => :previews # TODO validates_presence # TODO on destroy, also destroy the media_file if this is the only related media_entry and snapshot
   belongs_to                :upload_session

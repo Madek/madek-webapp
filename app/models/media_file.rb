@@ -393,7 +393,8 @@ class MediaFile < ActiveRecord::Base
   
   def orientation
     if content_type =~ /image/
-      (width > height) ? 'horizontal' : 'vertical'
+      # for Sphinx indexing of orientation as attributes: 0 = horizontal, 1 = vertical
+      (width > height) ? 0 : 1
     end
   end
   

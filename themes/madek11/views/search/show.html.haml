@@ -29,11 +29,11 @@
           %ul.clearfix
             - orientation_params = @filter ? @filter.filters["orientation"] : nil
             %li
-              = label_tag 'filter[orientation][horizontal]', "Querformat"
-              = radio_button_tag 'filter[orientation]', 'horizontal', orientation_params && orientation_params == "horizontal"
+              = label_tag 'filter[orientation][0]', "Querformat"
+              = radio_button_tag 'filter[orientation]', '0', orientation_params && orientation_params == "0"
             %li
-              = label_tag 'filter[orientation][vertical]', "Hochformat"
-              = radio_button_tag 'filter[orientation]', 'vertical', orientation_params && orientation_params == "vertical"
+              = label_tag 'filter[orientation][1]', "Hochformat"
+              = radio_button_tag 'filter[orientation]', '1', orientation_params && orientation_params == "1"
           %strong Medientyp
           %ul.clearfix
             - media_type_params = @filter ? @filter.filters["media_type"] : nil
