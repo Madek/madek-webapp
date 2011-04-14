@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 MAdeK::Application.routes.draw do
 
+  wiki_root '/wiki'
+
   root :to => "application#root"
 
   themes_for_rails
