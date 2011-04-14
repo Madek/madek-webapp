@@ -67,7 +67,6 @@ class Permission < ActiveRecord::Base
   def set_actions(hash)
     actions_object.set_actions(hash)
     save
-    #old#0903# resource.sphinx_reindex if resource.try(:respond_to?, :sphinx_reindex) and subject.nil? # OPTIMIZE after_save ??
   end
 
   private

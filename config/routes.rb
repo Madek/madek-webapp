@@ -36,7 +36,6 @@ MAdeK::Application.routes.draw do
   resources :media_entries do
     collection do
       get :favorites, :to => "media_entries#index"
-      #old# post :query_count
       #temp# get :graph
       get :keywords
       post :edit_multiple
@@ -96,7 +95,7 @@ MAdeK::Application.routes.draw do
       get :usage_terms
     end
     
-    resources :media_entries #old# , :collection => { :query_count => :post } # TODO shallow
+    resources :media_entries # TODO shallow
     resources :media_sets do
       member do
         post :add_member # TODO
