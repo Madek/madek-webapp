@@ -66,6 +66,9 @@ class Authenticator::ZhdkController < ApplicationController
       user.groups << to_add
       user.groups.delete(to_remove)
       
+      zhdk_group = Group.where(:name => "ZHdK (Zürcher Hochschule der Künste)").first
+      user.groups << zhdk_group unless user.groups.include?(zhdk_group) 
+      
       user.id
     end
   end

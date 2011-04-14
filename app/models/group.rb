@@ -14,7 +14,7 @@ class Group < ActiveRecord::Base
   end
 
   def is_readonly?
-    ["Admin", "Expert", "MIZ-Archiv"].include?(name)
+    ["Admin", "Expert", "MIZ-Archiv", "ZHdK (Zürcher Hochschule der Künste)"].include?(name)
   end
 
 end

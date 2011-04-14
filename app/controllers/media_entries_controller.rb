@@ -1,14 +1,12 @@
 # -*- encoding : utf-8 -*-
 class MediaEntriesController < ApplicationController
 
-  before_filter :pre_load, :except => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions, :update_multiple_permissions]
-  before_filter :pre_load_for_batch, :only => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions, :update_multiple_permissions]
+  before_filter :pre_load, :except => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions]
+  before_filter :pre_load_for_batch, :only => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions]
   before_filter :authorized?, :except => [:index, :media_sets, :favorites, :toggle_favorites, :keywords] #old# :only => [:show, :edit, :update, :destroy]
   after_filter :store_location, :only => [:index]
 
   def index
-    theme "madek11"
-    
     media_entries = if @user
                       if logged_in?
                         if @user == current_user
@@ -47,10 +45,6 @@ class MediaEntriesController < ApplicationController
     # filtering attributes
     with = {}
 
-    if @media_file
-      with[:media_file_id] = @media_file.id
-    end
-
     params[:per_page] ||= PER_PAGE.first
 
     @media_entries = media_entries.search params[:query],
@@ -88,7 +82,6 @@ class MediaEntriesController < ApplicationController
   end
     
   def show
-    theme "madek11"
     respond_to do |format|
       format.html
       format.js { render @media_entry }
@@ -104,11 +97,12 @@ class MediaEntriesController < ApplicationController
     if File.exist?(file)
       output = File.read(file)
       send_data output, :type => preview.content_type, :disposition => 'inline'
+    else
+      # TODO send alternative output
     end
   end
   
   def map
-    theme "madek11"
     meta_data = @media_entry.media_file.meta_data
     @lat = meta_data["GPS:GPSLatitude"]
     @lng = meta_data["GPS:GPSLongitude"]
@@ -123,7 +117,6 @@ end
 # Authenticated Area
 
   def edit
-   theme "madek11"
   end
 
 #  # NOTE accepting and destroying an array of media_entries
@@ -157,7 +150,6 @@ end
 #####################################################
 
   def edit_tms
-    theme "madek11"
   end
 
   def to_snapshot
@@ -188,7 +180,6 @@ end
   end
   
   def toggle_favorites
-    theme "madek11"
     current_user.favorites.toggle(@media_entry)
     respond_to do |format|
       format.js { render :partial => "favorite_link", :locals => {:media_entry => @media_entry} }
@@ -237,7 +228,6 @@ end
   end
   
   def edit_multiple
-    theme "madek11"
     # custom hash for jQuery json templates
     @info_to_json = @media_entries.map do |me|
       me.attributes.merge!(me.get_basic_info(["uploaded at", "uploaded by", "keywords", "copyright notice", "portrayed object dates"]))
@@ -259,40 +249,12 @@ end
   end
   
   def edit_multiple_permissions
-    theme "madek11"
-    
     @combined_permissions = Permission.compare(@media_entries)
     @permissions_json = @combined_permissions.to_json
 
     @media_entries_json = @media_entries.map do |me|
       me.attributes.merge!(me.get_basic_info)
     end.to_json
-  end
-
-  def update_multiple_permissions
-    theme "madek11"
-    
-      @media_entries.each do |media_entry|
-        media_entry.permissions.delete_all
-    
-        actions = params[:subject]["nil"]
-        media_entry.permissions.build(:subject => nil).set_actions(actions)
-  
-        ["User", "Group"].each do |key|
-          params[:subject][key].each_pair do |subject_id, actions|
-            media_entry.permissions.build(:subject_type => key, :subject_id => subject_id).set_actions(actions)
-          end if params[:subject][key]
-        end
-        
-        media_entry.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
-      end
-
-    flash[:notice] = "Die Zugriffsberechtigungen wurden erfolgreich gespeichert."  
-    if (@media_entries.size == 1)
-      redirect_to media_entry_path(@media_entries.first)
-    else
-      redirect_back_or_default(media_entries_path)
-    end
   end
   
 #####################################################
@@ -337,7 +299,7 @@ end
       when :to_snapshot
         not_authorized! unless current_user.groups.is_member?("Expert")
         return
-      when :edit_multiple, :update_multiple, :edit_multiple_permissions, :update_multiple_permissions
+      when :edit_multiple, :update_multiple, :edit_multiple_permissions
         not_authorized! if @media_entries.empty?
         return
       when :remove_multiple
@@ -359,7 +321,6 @@ end
       @user = User.find(params[:user_id]) unless params[:user_id].blank?
       @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
       @media_set = (@user? @user.media_sets : Media::Set).find(params[:media_set_id]) unless params[:media_set_id].blank? # TODO shallow
-      @media_file = MediaFile.find(params[:media_file_id]) unless params[:media_file_id].blank?
 
       if not params[:media_entry_id].blank?
         @media_entry =  if @media_set
@@ -367,8 +328,6 @@ end
                         elsif @user
                           @user.media_entries.find(params[:media_entry_id])
                         # TODO if @user and @media_set ??
-                        elsif @media_file # TODO still needed?
-                          @media_file.media_entries.find(params[:media_entry_id])
                         else
                           MediaEntry.find(params[:media_entry_id])
                         end
@@ -387,7 +346,7 @@ end
           when :edit_multiple, :update_multiple
             editable_ids = Permission.accessible_by_user(MediaEntry, current_user, :edit)
             MediaEntry.where(:id => (selected_ids & editable_ids))
-          when :edit_multiple_permissions, :update_multiple_permissions
+          when :edit_multiple_permissions
             manageable_ids = Permission.accessible_by_user(MediaEntry, current_user, :manage)
             MediaEntry.where(:id => (selected_ids & manageable_ids))
           when :remove_multiple

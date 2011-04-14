@@ -1,18 +1,23 @@
 class SearchController < ApplicationController
-  theme "madek11"
   
   def show
-    @search_term = params[:query]
+    @search_term = params[:query].blank? ? nil : params[:query]
     viewable_media_entry_ids = Permission.accessible_by_user("MediaEntry", current_user)
     viewable_media_set_ids = Permission.accessible_by_user("Media::Set", current_user)
     options = {:sphinx_select => "*, (IN (sphinx_internal_id, #{viewable_media_entry_ids.join(',')}) AND class_crc = #{MediaEntry.to_crc32}) 
-    OR (IN (sphinx_internal_id, #{viewable_media_set_ids.join(',')}) AND class_crc = #{Media::Set.to_crc32}) AS viewable", :with => {:viewable => true}}
+    OR (IN (sphinx_internal_id, #{viewable_media_set_ids.join(',')}) AND class_crc = #{Media::Set.to_crc32}) AS viewable"}
     
     params[:per_page] ||= PER_PAGE.first
+    if !params[:filter].blank?
+      @filter = Filter.new(params[:filter])
+      options.merge!(@filter.to_query_filter)
+      options.merge!(:classes => [MediaEntry]) #tmp # eventually we want to figure out which classes we need to limit the search to (based on filter attributes/fields)
+    end
     @media = ThinkingSphinx.search(@search_term, options).paginate(:page => params[:page], :per_page => params[:per_page])
-    
     @json = Logic.enriched_resource_data(@media, current_user).to_json
-    @editable_sets = Media::Set.accessible_by(current_user, :edit)
+    
+    @facets = ThinkingSphinx.facets(@search_term, options)
+    
     respond_to do |format|
       format.html
       format.js { render :json => @json }

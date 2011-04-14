@@ -1,13 +1,13 @@
 - if @media_entries
-  = form_tag update_multiple_permissions_media_entries_path, :method => :put do
+  = form_tag update_multiple_media_entry_permissions_path(0), :method => :put do
     = hidden_field_tag :media_entry_ids, @media_entries.map(&:id).join(',')
     = render :partial => "/permissions/table", :locals => {:cancel_path => session[:return_to]}
 - elsif @resource && @resource.is_a?(MediaEntry)
-  = form_tag update_multiple_permissions_media_entries_path, :method => :put do
+  = form_tag update_multiple_media_entry_permissions_path(0), :method => :put do
     = hidden_field_tag :media_entry_ids, @resource.id
     = render :partial => "/permissions/table", :locals => {:cancel_path => media_entry_path(@resource) }
 - else
-  = form_tag update_multiple_permsissions_media_set_path(@media_set), :method => :put do
+  = form_tag update_multiple_media_set_permissions_path(@media_set), :method => :put do
     = render :partial => "/permissions/table", :locals => {:cancel_path => media_set_path(@media_set) }
 
 
@@ -25,6 +25,10 @@
       %td{:style => "{{if (hi_res == 'mixed')}}background: url(/themes/madek11/images/stripe_1.png){{/if}}"}
         %input{:name => "{{if (type == 'nil')}}subject[${type}][hi_res]{{else}}subject[${type}][${id}][hi_res]{{/if}}", :type => "hidden", :value => "false"}
         <input name="{{if (type == 'nil')}}subject[${type}][hi_res]{{else}}subject[${type}][${id}][hi_res]{{/if}}" type="checkbox" value="true" {{if hi_res}}checked="checked"{{/if}}>
+    %td
+      {{if manage}}
+      = theme_image_tag("icons/button_checkbox_on.png")
+      {{/if}}
     %td
       {{if type != 'nil' && id != #{current_user.id} }}
       = link_to _("Löschen"), "#", :class => "delete", :msg => _("Sind Sie sicher?"), :"data-id" => "${id}", :"data-type" => "${type}"

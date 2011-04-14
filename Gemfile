@@ -14,7 +14,7 @@ gem 'will_paginate', '3.0.pre2'
 gem 'rgl', '0.4.0', :require => 'rgl/adjacency'
 gem 'builder'
 
-gem 'thinking-sphinx', '2.0.3', :require => 'thinking_sphinx'
+gem 'thinking-sphinx', '2.0.2', :require => 'thinking_sphinx' # NOTE '2.0.3' seems to be broken! delta doesn't work
 #temp#sphinx# gem 'ts-delayed-delta', '1.1.0', :require => 'thinking_sphinx/deltas/delayed_delta'
 
 gem 'zip', '2.0.2'
@@ -38,7 +38,7 @@ end
 group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
-  gem 'peterhoeg-railroad'
+  #tmp# gem 'peterhoeg-railroad'
 end
 
 group :test do

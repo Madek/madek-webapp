@@ -15,16 +15,24 @@ class PermissionsController < ApplicationController
 #################################################################
 
   def edit_multiple
-    theme "madek11"
     permissions = Permission.cached_permissions_by(@resource)
+    keys = [:view, :edit, :hi_res, :manage]
     @permissions_json = {}
     
     permissions.group_by {|p| p.subject_type }.collect do |type, type_permissions|
       unless type.nil?
-        @permissions_json[type] = type_permissions.map {|p| {:id => p.subject.id, :name => p.subject.to_s, :type => type, :view => p.actions[:view], :edit => p.actions[:edit], :hi_res => p.actions[:hi_res] }}
+        @permissions_json[type] = type_permissions.map do |p|
+          h = {:id => p.subject.id, :name => p.subject.to_s, :type => type}
+          keys.each {|key| h[key] = p.actions[key] }
+          h
+        end
       else
         p = type_permissions.first
-        @permissions_json["public"] = {:name => "Öffentlich", :type => 'nil', :view => p.actions[:view], :edit => p.actions[:edit], :hi_res => p.actions[:hi_res] }
+        @permissions_json["public"] = begin
+          h = {:name => "Öffentlich", :type => 'nil'}
+          keys.each {|key| h[key] = p.actions[key] }
+          h
+        end
       end
     end
     @permissions_json = @permissions_json.to_json
@@ -36,27 +44,27 @@ class PermissionsController < ApplicationController
   end
 
   def update_multiple
-    default_params = {:view => false, :edit => false}
-    params.reverse_merge!(default_params)
+    @resources.each do |resource|
+      resource.permissions.delete_all
+  
+      actions = params[:subject]["nil"]
+      resource.permissions.build(:subject => nil).set_actions(actions)
 
-    view_action, edit_action = case params[:view].to_sym
-                                  when :private
-                                    [default_params[:view], default_params[:edit]]
-                                  when :logged_in_users
-                                    [:logged_in_users, (!!params[:edit] ? :logged_in_users : false)]
-                                  when :public
-                                    [true, !!params[:edit]]
-                                  else
-                                    [default_params[:view], default_params[:edit]]
-                                end
+      ["User", "Group"].each do |key|
+        params[:subject][key].each_pair do |subject_id, actions|
+          resource.permissions.build(:subject_type => key, :subject_id => subject_id).set_actions(actions)
+        end if params[:subject][key]
+      end
+      
+      # OPTIMIZE it's not sure that the current_user is the owner (manager) of the current resource 
+      resource.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
+    end
 
-    @resource.default_permission.set_actions({:view => view_action, :edit => edit_action})
-    flash[:ajax_notice] = "Änderungen gespeichert"
-
-    respond_to do |format|
-      format.js {
-        render :action => :edit_multiple, :layout => false
-      }
+    flash[:notice] = "Die Zugriffsberechtigungen wurden erfolgreich gespeichert."  
+    if (@resources.size == 1)
+      redirect_to @resources.first
+    else
+      redirect_back_or_default(media_entries_path)
     end
   end
 
@@ -69,8 +77,11 @@ class PermissionsController < ApplicationController
     case action
       when :index
         action = :view
-      else
+      when :edit_multiple
         action = :manage
+      when :update_multiple
+        not_authorized! if @resources.empty?
+        return
     end
     
     # OPTIMIZE if member of a group
@@ -81,10 +92,19 @@ class PermissionsController < ApplicationController
   def pre_load
     # OPTIMIZE remove blank params
     
-    if not params[:media_entry_id].blank?
+    if (not params[:media_entry_id].blank?) and (not params[:media_entry_id].to_i.zero?)
       @resource = MediaEntry.find(params[:media_entry_id])
+    elsif not params[:media_entry_ids].blank?
+      selected_ids = params[:media_entry_ids].split(",").map{|e| e.to_i }
+      manageable_ids = Permission.accessible_by_user(MediaEntry, current_user, :manage)
+      @resources = MediaEntry.where(:id => (selected_ids & manageable_ids))
+    elsif not params[:media_set_id].blank? # TODO accept multiple media_set_ids ?? 
+      selected_ids = [params[:media_set_id].to_i]
+      manageable_ids = Permission.accessible_by_user(Media::Set, current_user, :manage)
+      @resources = Media::Set.where(:id => (selected_ids & manageable_ids))
     else
-      redirect_to root_path
+      flash[:error] = "Sie haben keine Medieneinträge ausgewählt."
+      redirect_to :back
     end
 
     params[:permission_id] ||= params[:id]

@@ -164,7 +164,7 @@ class MetaDatum < ActiveRecord::Base
       when Array
         return false unless other_value.is_a?(Array)
         if value.first.is_a?(Meta::Date) 
-          other_value.is_a?(Meta::Date) && (other_value.first.free_text == value.first.free_text)
+          other_value.first.is_a?(Meta::Date) && (other_value.first.free_text == value.first.free_text)
         elsif meta_key.object_type == "Keyword"
           referenced_meta_term_ids = Keyword.where(:id => other_value).all.map(&:meta_term_id)
           deserialized_value.map(&:meta_term_id).same_elements?(referenced_meta_term_ids)

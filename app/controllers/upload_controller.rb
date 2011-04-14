@@ -7,7 +7,6 @@ class UploadController < ApplicationController
   #temp#sphinx#
   around_filter :disable_sphinx, :except => [:update, :import_summary, :set_media_sets]
   around_filter :suspend_sphinx, :only => [:update, :import_summary] # TODO [:set_permissions, :set_media_sets], :if => proc { |controller| controller.request.post? }
-  theme "madek11"
 
 ##################################################
 # step 1
@@ -35,8 +34,6 @@ class UploadController < ApplicationController
     view_action, edit_action, hi_res_download = case params[:view].to_sym
                                   when :private
                                     [default_params[:view], default_params[:edit], default_params[:hi_res]]
-                                  when :logged_in_users
-                                    [:logged_in_users, (!!params[:edit] ? :logged_in_users : false), :logged_in_users]
                                   when :public
                                     [true, !!params[:edit], true]
                                   else
@@ -46,7 +43,16 @@ class UploadController < ApplicationController
     pre_load # OPTIMIZE
     @media_entries.each do |media_entry|
       media_entry.default_permission.set_actions(:view => view_action, :edit => edit_action, :hi_res => hi_res_download)
-      #temp# for bulk copyright # media_entry.update_attributes(params[:media_entry])
+    end
+
+    if params[:view].to_sym == :zhdk_users
+      zhdk_group = Group.where(:name => "ZHdK (Zürcher Hochschule der Künste)").first
+      view_action, edit_action, hi_res_download = [true, !!params[:edit], true]
+      @media_entries.each do |media_entry|
+        p = media_entry.permissions.where(:subject_type => zhdk_group.class.base_class.name, :subject_id => zhdk_group.id).first
+        p ||= media_entry.permissions.build(:subject => zhdk_group)
+        p.set_actions(:view => view_action, :edit => edit_action, :hi_res => hi_res_download)
+      end
     end
 
     edit
@@ -67,8 +73,10 @@ class UploadController < ApplicationController
     @upload_session.update_attributes(:is_complete => true)
 
     params[:resources][:media_entry].each_pair do |key, value|
-      media_entry = @media_entries.find(key)
+      media_entry = @media_entries.detect{|me| me.id == key.to_i } #old# .find(key)
       media_entry.update_attributes(value)
+      # OPTIMIZE this fix is a workaround, related to the media_entry updated_at used by cache_key
+      Rails.cache.delete("#{media_entry.class}/#{media_entry.cache_key}/meta_data")
     end
 
     # TODO delta index if new Person 

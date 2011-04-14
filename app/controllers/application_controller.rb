@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   layout "main"
+  theme "madek11"
 
 ##############################################  
 # Authentication
@@ -30,7 +31,6 @@ class ApplicationController < ActionController::Base
 ##############################################  
 
   def root
-    theme "madek11"
     if logged_in?
       # TODO refactor to UsersController#show and dry with MediaEntriesController#index
       params[:per_page] ||= PER_PAGE.first
