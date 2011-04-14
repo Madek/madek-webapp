@@ -37,9 +37,6 @@ class ApplicationController < ActionController::Base
       ids = Permission.accessible_by_user("MediaEntry", current_user)
       options = { :page => params[:page], :per_page => params[:per_page].to_i, :retry_stale => true, :include => :media_file }
       
-      #@my_media_entries = MediaEntry.by_ids(ids).not_public.search(nil, options)
-      #@public_media_entries = MediaEntry.by_ids(ids).public.search(nil, options)
-      
       @my_media_entries = MediaEntry.by_ids(ids).by_user(current_user).search(nil, options) #tmp# to avoid confusion of users looking for "their" Media entries
       @accessible_media_entries = MediaEntry.by_ids(ids).not_by_user(current_user).search(nil, options)
       @disabled_paginator = true # OPTIMIZE

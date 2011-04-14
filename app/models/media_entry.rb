@@ -85,14 +85,10 @@ class MediaEntry < ActiveRecord::Base
   end
 
   # TODO but override if other scope is called.
-  #  default_sphinx_scope :public
   default_sphinx_scope :default_search
   sphinx_scope(:default_search) { { :star => true, :order => :updated_at, :sort_mode => :desc } }
-  # 
   sphinx_scope(:by_user) { |user| { :with => {:user_id => user.id} } }
   sphinx_scope(:not_by_user) { |user| { :without => {:user_id => user.id} } }
-  # #old#0903# sphinx_scope(:public) { { :with => {:is_public => true} } }
-  # #old#0903# sphinx_scope(:not_public) { { :with => {:is_public => false} } }
   sphinx_scope(:by_ids) { |ids| { :with => {:sphinx_internal_id => ids} } }
 
 ########################################################
