@@ -5,7 +5,7 @@ class Filter
   attr_accessor :options, :filters, :ts_classes
   def initialize(filter_attributes)
     @filters = filter_attributes
-    @options = {:with => {:viewable => true}, :conditions => {}}
+    @options = {:with => {:viewable => true}, :conditions => {}, :classes => ts_classes}
   end
   
   def to_query_filter
