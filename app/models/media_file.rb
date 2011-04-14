@@ -392,7 +392,9 @@ class MediaFile < ActiveRecord::Base
   end
   
   def orientation
-    (width > height) ? 'horizontal' : 'vertical'
+    if content_type =~ /image/
+      (width > height) ? 'horizontal' : 'vertical'
+    end
   end
   
   private
