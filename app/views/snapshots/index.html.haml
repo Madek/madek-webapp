@@ -10,11 +10,11 @@
         - author = snapshot.meta_data.get_value_for("author")
         - unless title.blank?
           %span{:style => "font-weight: bold"}
-            = title
+            = truncate(title, :length => 29)
         %br
         - unless author.blank?
           %i
-            = author
+            = truncate(author, :length => 18)
         %br
         %span
           = snapshot.created_at.to_formatted_s(:date_time)
