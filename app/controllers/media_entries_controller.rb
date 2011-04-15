@@ -97,7 +97,7 @@ class MediaEntriesController < ApplicationController
     all_ids = scope.search_for_ids params[:query], {:per_page => (2**30), :star => true }
     # all_ids.results[:matches].select {|x| x[:attributes]["class_crc"] == MediaEntry.to_crc32}
     paginated_ids = (all_ids & viewable_ids).paginate(:page => params[:page], :per_page => params[:per_page].to_i)
-    @json = Logic.data_for_page2(paginated_ids, current_user).to_json
+    @json = Logic.data_for_page(paginated_ids, current_user).to_json
 
     ########################################################################
 

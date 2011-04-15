@@ -50,10 +50,10 @@ class ApplicationController < ActionController::Base
       options = {:per_page => (2**30), :star => true }
       all_ids = MediaEntry.by_user(current_user).search_for_ids options
       @my_media_entries_paginated_ids = (all_ids & viewable_ids).paginate(:page => params[:page], :per_page => params[:per_page].to_i)
-      @my_media_entries_json = Logic.data_for_page2(@my_media_entries_paginated_ids, current_user).to_json
+      @my_media_entries_json = Logic.data_for_page(@my_media_entries_paginated_ids, current_user).to_json
       all_ids = MediaEntry.not_by_user(current_user).search_for_ids options
       @accessible_media_entries_paginated_ids = (all_ids & viewable_ids).paginate(:page => params[:page], :per_page => params[:per_page].to_i)
-      @accessible_media_entries_json = Logic.data_for_page2(@accessible_media_entries_paginated_ids, current_user).to_json
+      @accessible_media_entries_json = Logic.data_for_page(@accessible_media_entries_paginated_ids, current_user).to_json
       
       respond_to do |format|
         format.html { render :template => "/users/show" }

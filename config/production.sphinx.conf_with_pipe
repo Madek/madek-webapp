@@ -9,7 +9,6 @@ searchd
   query_log = log/searchd.query.log
   pid_file = log/searchd.production.pid
   max_matches = 10000
-  max_filter_values = 16384
 }
 
 source media_entry_core_0
