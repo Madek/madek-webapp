@@ -1,51 +1,55 @@
 :css
-  .filter_bar {}
   .filter_bar h4 { font-size: 1.2em; }
+  .filter_bar #term {font-weight: normal; font-family: serif; font-style: italic; color: #666;}
   .filter_bar #filter-query ul {margin-bottom: 1em;}
-  .filter_bar #filter-query ul li {float: left; margin-right: 1em;}
+  .filter_bar #filter-query ul li {float: left; margin-right: 1em; }
+  .filter_bar #filter-query ul li input[type="checkbox"] {position:relative; top: -3px; margin-right: 3px;}
 
 %section#content_body_fav
   .page_title_left
     =_("Suchergebnisse")
   .clear
   .filter_bar
+    #term
+      = "für #{@search_term}"
     %h4
       = "Medieneinträge (#{get_result_count(@facets, "MediaEntry")}) / Sets (#{get_result_count(@facets, "Media::Set")})"
     %form{:action => search_path, :method => :get}
       = hidden_field_tag "query", @search_term
-      #filter-query.basic
-        %div
-          -# commented out for later
+      - unless @media.empty?
+        #filter-query.basic
+          %div
+            -# commented out for later
+              %ul.clearfix
+                %li
+                  = label_tag 'filter[width][value]', "Width"
+                  = select_tag 'filter[width][operator]', options_for_select([['is exactly', 'is'], ['greater than', 'gt'], ['less than', 'lt']])
+                  = text_field_tag 'filter[width][value]', nil, :size => 10
+                %li
+                  = label_tag 'filter[height][value]', "Height"
+                  = select_tag 'filter[height][operator]', options_for_select([['is exactly', 'is'], ['greater than', 'gt'], ['less than', 'lt']])
+                  = text_field_tag 'filter[height][value]', nil, :size => 10 
+            %strong Format
             %ul.clearfix
+              - orientation_params = @filter ? @filter.filters["orientation"] : nil
               %li
-                = label_tag 'filter[width][value]', "Width"
-                = select_tag 'filter[width][operator]', options_for_select([['is exactly', 'is'], ['greater than', 'gt'], ['less than', 'lt']])
-                = text_field_tag 'filter[width][value]', nil, :size => 10
+                = label_tag 'filter[orientation][0]', "Querformat"
+                = radio_button_tag 'filter[orientation]', '0', orientation_params && orientation_params == "0"
               %li
-                = label_tag 'filter[height][value]', "Height"
-                = select_tag 'filter[height][operator]', options_for_select([['is exactly', 'is'], ['greater than', 'gt'], ['less than', 'lt']])
-                = text_field_tag 'filter[height][value]', nil, :size => 10 
-          %strong Format
-          %ul.clearfix
-            - orientation_params = @filter ? @filter.filters["orientation"] : nil
-            %li
-              = label_tag 'filter[orientation][0]', "Querformat"
-              = radio_button_tag 'filter[orientation]', '0', orientation_params && orientation_params == "0"
-            %li
-              = label_tag 'filter[orientation][1]', "Hochformat"
-              = radio_button_tag 'filter[orientation]', '1', orientation_params && orientation_params == "1"
-          %strong Medientyp
-          %ul.clearfix
-            - media_type_params = @filter ? @filter.filters["media_type"] : nil
-            - @media.map {|m| m.media_type }.uniq.each do |media_type|
-              = check_box_tag "filter[media_type][]", media_type, media_type_params && media_type_params.include?(media_type)
-              = media_type
-          %strong Schlagworte
-          %ul.clearfix
-            = display_meta_data_checkboxes(@media, "keywords")
-          %strong Gattung
-          %ul.clearfix
-            = display_meta_data_checkboxes(@media, "type")
+                = label_tag 'filter[orientation][1]', "Hochformat"
+                = radio_button_tag 'filter[orientation]', '1', orientation_params && orientation_params == "1"
+            %strong Medientyp
+            %ul.clearfix
+              - media_type_params = @filter ? @filter.filters["media_type"] : nil
+              - @media.map {|m| m.media_type }.uniq.each do |media_type|
+                = check_box_tag "filter[media_type][]", media_type, media_type_params && media_type_params.include?(media_type)
+                = media_type
+            %strong Schlagworte
+            %ul.clearfix
+              = display_meta_data_checkboxes(@media, "keywords")
+            %strong Gattung
+            %ul.clearfix
+              = display_meta_data_checkboxes(@media, "type")
         
           
           
