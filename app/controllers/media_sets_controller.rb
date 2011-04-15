@@ -34,14 +34,6 @@ class MediaSetsController < ApplicationController
   def show
     viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
 
-    ########################################################################
-    # Approach 1: filtering ids before search
-    #old# @media_entries = MediaEntry.search :with => {:media_set_ids => @media_set.id, :sphinx_internal_id => viewable_ids}, :page => params[:page], :per_page => params[:per_page].to_i, :retry_stale => true
-#    @media_entries =  @media_set.media_entries.includes(:media_file).where(:id => viewable_ids).paginate(:page => params[:page], :per_page => PER_PAGE.first)
-#    @json = Logic.data_for_page(@media_entries, current_user).to_json
-
-    ########################################################################
-    # Approach 2: filtering ids after search
     #old# ids = @media_set.media_entries.where(:id => viewable_ids).select(:id).map(&:id) # doesn't work: @media_set.media_entry_ids.where(:id => viewable_ids)
     #old# @media_entry_ids = ids.paginate(:page => params[:page], :per_page => PER_PAGE.first)
     @media_entry_ids = (@media_set.media_entry_ids & viewable_ids).paginate(:page => params[:page], :per_page => PER_PAGE.first)
