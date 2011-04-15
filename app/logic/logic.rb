@@ -1,34 +1,8 @@
 module Logic
   extend self
 
-  # Approach 1
-  def data_for_page(media_entries, current_user)
-    media_entry_ids = media_entries.map(&:id)
-
-    editable_ids = Permission.accessible_by_user("MediaEntry", current_user, :edit)
-    managable_ids = Permission.accessible_by_user("MediaEntry", current_user, :manage)
-    favorite_ids = current_user.favorite_ids
-    
-    editable_in_context = editable_ids & media_entry_ids
-    managable_in_context = managable_ids & media_entry_ids
-
-    { :pagination => { :current_page => media_entries.current_page,
-                       :per_page => media_entries.per_page,
-                       :total_entries => media_entries.total_entries,
-                       :total_pages => media_entries.total_pages },
-      :entries => media_entries.map do |me|
-                    flags = { :is_private => me.acl?(:view, :only, current_user),
-                              :is_public => me.acl?(:view, :all),
-                              :is_editable => editable_in_context.include?(me.id),
-                              :is_manageable => managable_in_context.include?(me.id),
-                              :is_favorite => favorite_ids.include?(me.id) }
-                    me.attributes.merge(me.get_basic_info).merge(flags)
-                  end } 
-  end
-
-  # Approach 2
-  def data_for_page2(media_entry_ids, current_user)
-    media_entries = MediaEntry.find(media_entry_ids)
+  def data_for_page(media_entry_ids, current_user)
+    media_entries = MediaEntry.includes(:media_file).find(media_entry_ids)
 
     editable_ids = Permission.accessible_by_user("MediaEntry", current_user, :edit)
     managable_ids = Permission.accessible_by_user("MediaEntry", current_user, :manage)

@@ -37,23 +37,13 @@ class ApplicationController < ActionController::Base
       viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
       @disabled_paginator = true # OPTIMIZE
 
-      ########################################################################
-      # Approach 1: filtering ids before search
-#      options = { :page => params[:page], :per_page => params[:per_page].to_i, :retry_stale => true, :include => :media_file }
-#      @my_media_entries = MediaEntry.by_ids(viewable_ids).by_user(current_user).search(nil, options) #tmp# to avoid confusion of users looking for "their" Media entries
-#      @my_media_entries_json = Logic.data_for_page(@my_media_entries, current_user).to_json
-#      @accessible_media_entries = MediaEntry.by_ids(viewable_ids).not_by_user(current_user).search(nil, options)
-#      @accessible_media_entries_json = Logic.data_for_page(@accessible_media_entries, current_user).to_json
-
-      ########################################################################
-      # Approach 2: filtering ids after search
       options = {:per_page => (2**30), :star => true }
       all_ids = MediaEntry.by_user(current_user).search_for_ids options
       @my_media_entries_paginated_ids = (all_ids & viewable_ids).paginate(:page => params[:page], :per_page => params[:per_page].to_i)
-      @my_media_entries_json = Logic.data_for_page2(@my_media_entries_paginated_ids, current_user).to_json
+      @my_media_entries_json = Logic.data_for_page(@my_media_entries_paginated_ids, current_user).to_json
       all_ids = MediaEntry.not_by_user(current_user).search_for_ids options
       @accessible_media_entries_paginated_ids = (all_ids & viewable_ids).paginate(:page => params[:page], :per_page => params[:per_page].to_i)
-      @accessible_media_entries_json = Logic.data_for_page2(@accessible_media_entries_paginated_ids, current_user).to_json
+      @accessible_media_entries_json = Logic.data_for_page(@accessible_media_entries_paginated_ids, current_user).to_json
       
       respond_to do |format|
         format.html { render :template => "/users/show" }

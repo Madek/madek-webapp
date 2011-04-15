@@ -18,56 +18,6 @@ class MediaEntriesController < ApplicationController
 
     params[:per_page] ||= PER_PAGE.first
 
-    ########################################################################
-    # Approach 1: filtering ids before search
-
-#    media_entries = if @user
-#                      if logged_in?
-#                        if @user == current_user
-#                          # all media_entries I can see and uploaded by me
-#                          viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
-#                          MediaEntry.by_user(current_user).by_ids(viewable_ids)
-#                        else
-#                          # intersection between me and somebody viewable media_entries => WRONG!!!
-#                          viewable_ids = Permission.accessible_by_user("MediaEntry", current_user) & Permission.accessible_by_user("MediaEntry", @user)
-#                          MediaEntry.by_ids(viewable_ids)
-#                        end
-#                      else
-#                        # intersection between public media_entries and somebody viewable media_entries => WRONG!!!
-#                        viewable_ids = Permission.accessible_by_user("MediaEntry", @user) & Permission.accessible_by_all("MediaEntry")
-#                        MediaEntry.by_ids(viewable_ids)
-#                      end
-#                    else
-#                      if logged_in?
-#                        viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
-#                        if params[:not_by_current_user]
-#                          # all media_entries I can see but not uploaded by me
-#                          MediaEntry.not_by_user(current_user).by_ids(viewable_ids)
-#                        elsif request.fullpath =~ /favorites/
-#                          MediaEntry.by_ids(viewable_ids & current_user.favorite_ids)
-#                        else
-#                          # all media_entries I can see
-#                          MediaEntry.by_ids(viewable_ids)
-#                        end
-#                      else
-#                        # all public media_entries
-#                        ids = Permission.accessible_by_all("MediaEntry")
-#                        MediaEntry.by_ids(ids)
-#                      end
-#                    end
-#
-#    @media_entries = media_entries.search params[:query],
-#                                           { #TODO activate this if you need advanced search# :match_mode => :extended2,
-#                                           :page => params[:page], :per_page => params[:per_page].to_i, :retry_stale => true,
-#                                           :star => true,
-#                                           #temp# :order => (params[:order].blank? ? nil : params[:order]), # OPTIMIZE params[:search][:order]
-#                                           :include => :media_file }
-#
-#    @json = Logic.data_for_page(@media_entries, current_user).to_json
-
-    ########################################################################
-    # Approach 2: filtering ids after search
-
     scope, viewable_ids = if @user
                             ids = if logged_in?
                               Permission.accessible_by_user("MediaEntry", current_user)
@@ -97,7 +47,7 @@ class MediaEntriesController < ApplicationController
     all_ids = scope.search_for_ids params[:query], {:per_page => (2**30), :star => true }
     # all_ids.results[:matches].select {|x| x[:attributes]["class_crc"] == MediaEntry.to_crc32}
     paginated_ids = (all_ids & viewable_ids).paginate(:page => params[:page], :per_page => params[:per_page].to_i)
-    @json = Logic.data_for_page2(paginated_ids, current_user).to_json
+    @json = Logic.data_for_page(paginated_ids, current_user).to_json
 
     ########################################################################
 
