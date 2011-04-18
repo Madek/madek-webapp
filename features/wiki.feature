@@ -53,13 +53,10 @@ Feature: Help wiki
     When I log in as "admin" with password "aadmin"
    Given there is a media entry
     When I add a link "[video=xxx | Das Huhn ]" to it on the wiki front page and save
-    # TODO:
-    #Then show me the page
-    #    Then I should see "Das Huhn" within "video"
+    Then I should see "Das Huhn" within "video"
 
   Scenario: Admins should be able to add screenshots
     When I log in as "admin" with password "aadmin"
    Given there is a media entry
     When I add a link "[screenshot=210 | Das Huhn ]" to it on the wiki front page and save
-    # TODO:
-    #Then I should see "Das Huhn" within "img"
+    Then there should be an image with title "Das Huhn"
