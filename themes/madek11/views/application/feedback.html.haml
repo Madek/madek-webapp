@@ -1,0 +1,116 @@
+= stylesheet_link_tag "feedback", :media => "all"
+= stylesheet_link_tag "jquery/shadowbox", :media => "all"
+= javascript_include_tag "jquery/shadowbox"
+
+:javascript
+  Shadowbox.init({
+      overlayOpacity: 0.75,
+  	viewportPadding: 25
+  });
+
+.container_12
+  %section#content_body.clearfix
+    .container_12
+      %div.page_title_left
+        =_("Feedback & Support")
+      .clear
+      #feedback_content.grid_8.alpha
+        %p.intro
+          Das Medienarchiv der Künste ist nun im Release
+          = RELEASE_VERSION
+          verfügbar. Haben Sie es schon getestet? Machen Sie bei unserer Umfrage mit. Wir freuen uns auf Ihr Feedback!
+        %h2
+          %span 1
+          Teilnahme an der Nutzerbefragung zum Release
+          = RELEASE_VERSION
+        %p 
+          Aus aktuellem Anlass wird eine Medienarchiv-Feedbackrunde zum Release
+          = RELEASE_VERSION
+          durchgeführt. Über ein anonymes Google-Formular wurden ausgewählte Fragen zur aktuellen Version zusammengestellt. Mit Ihrer Teilnahme helfen Sie uns Ungereimtheiten im gegenwärtigen Release des Medienarchivs zu eruieren.
+          %a.button-link{:rel => "shadowbox", :href => "http://spreadsheets.google.com/viewform?formkey=dDlERjN5bVNXYlhGWTZlQ1dLaUQ3cHc6MQ"}
+            An der Umfrage teilnehmen &nbsp; &#9002
+        %h2
+          %span 2
+          Ihr ganz persönliches Feedback
+        %p 
+          Keine Lust auf eine längere Umfrage? Dennoch etwas wichtiges mitzuteilen? Nutzen Sie unser kompaktes Feedback-Formular für Ihren kurzen Erfahrungsbericht oder sonstigen Anregungen.
+          %a.button-link{:rel => "shadowbox", :href => "http://spreadsheets.google.com/viewform?formkey=dEVKbjV0WF80LWtGNHpzYWJ2eGlmVmc6MQ"}
+            Individuelles Feedback verfassen &nbsp; &#9002
+      #detail-sidebar.grid_4.alpha.omega
+        %h2.box-title Sprechen Sie mit uns
+        .box
+          %p Gerne nehmen wir Ihre Anregungen und Fragen auch persönlich entgegen.
+          .team-member
+            %p.team-member-portrait
+              %img{:src => "images/feedback/susanne-schumacher-madek.jpg", :alt => "Portrait von Susanne Schumacher", :class => "portrait"}
+            .team-member-contact
+              %h3 Susanne Schumacher
+              %p.role Produktmanagement
+              %p.contact
+                :javascript
+                  var name = "susanne.schumacher";
+                  var domain = "zhdk.ch";
+                  document.write('<a href=\"mailto:' + name + '@' + domain + '\">');
+                  document.write(name + '@' + domain + '</a>');
+                Telefon: +41 (0)43 446 32 76
+          .team-member
+            %p.team-member-portrait
+              %img{:src => "images/feedback/ramon-cahenzli-madek.jpg", :alt => "Portrait von Ramon Cahenzli", :class => "portrait"}
+            .team-member-contact
+              %h3 Ramon Cahenzli
+              %p.role Projektleitung
+              %p.contact
+                :javascript
+                  var name = "ramon.cahenzli";
+                  var domain = "zhdk.ch";
+                  document.write('<a href=\"mailto:' + name + '@' + domain + '\">');
+                  document.write(name + '@' + domain + '</a>');
+                Telefon: +41 (0)43 446 41 63           
+              %p.online-contact
+                %img{:height => "14", :width => "16", :style => "padding:0 2px 0 0;margin:0;border:none", :src => "http://www.google.com/talk/service/resources/chaticon.gif", :alt => ""}
+                %img{:height => "14", :width => "16", :style => "padding:0 2px 0 0;margin:0;border:none", :src => "http://www.google.com/talk/service/badge/Show?tk=z01q6amlqogap3q08fveb16sa3jeucar5i31qu3h996g763c6hhp3dtbt12qb4f914mfgt4h0ev2n7qrtl3v1klghljji3goic5b1iump4pvue5bv382m8udnn9acmc381dd8427vkdf7p924va0v0kvb2hiic3l82fdjq7ac7ncbfhr57emouldfe4r099vh3puqoul5v3i4a269r215k65ukd00&amp;w=9&amp;h=9", :alt => ""}
+                %a{:href => "http://www.google.com/talk/service/badge/Start?tk=z01q6amlqogap3q08fveb16sa3jeucar5i31qu3h996g763c6hhp3dtbt12qb4f914mfgt4h0ev2n7qrtl3v1klghljji3goic5b1iump4pvue5bv382m8udnn9acmc381dd8427vkdf7p924va0v0kvb2hiic3l82fdjq7ac7ncbfhr57emouldfe4r099vh3puqoul5v3i4a269r215k65ukd00", :target =>"_blank", :title => "Click here to chat with Ramón Cahenzli"} Live-Chat (Google Talk)
+          .team-member
+            %p.team-member-portrait
+              %img{:src => "images/feedback/stefano-vannotti-madek.png", :alt => "Portrait von Stefano Vannotti", :class => "portrait"}
+            .team-member-contact
+              %h3 Stefano Vannotti
+              %p.role User Experience
+              %p.contact
+                :javascript
+                  var name = "stefano.vannotti";
+                  var domain = "zhdk.ch";
+                  document.write('<a href=\"mailto:' + name + '@' + domain + '\">');
+                  document.write(name + '@' + domain + '</a>');
+              %script{:type => "text/javascript", :src => "http://download.skype.com/share/skypebuttons/js/skypeCheck.js"}
+              %p.online_contact
+                %a{:href => "skype:volpephone?call"}
+                  %img{:src => "http://mystatus.skype.com/smallclassic/volpephone", :style => "border: none;", :width => "114", :height => "20", :alt => "Skype Status von Stefano Vannotti"}
+          .team-member
+            %p.team-member-portrait
+              %img{:src => "images/feedback/olivier-heitz-madek.jpg", :alt => "Portrait von Olivier Heitz", :class => "portrait"}
+            .team-member-contact
+              %h3 Olivier Heitz
+              %p.role Interaction Design
+              %p.contact
+                :javascript
+                  var name = "olivier.heitz";
+                  var domain = "zhdk.ch";
+                  document.write('<a href=\"mailto:' + name + '@' + domain + '\">');
+                  document.write(name + '@' + domain + '</a>');
+          .team-member
+            %p.team-member-portrait
+              %img{:src => "images/feedback/franco-sellitto-madek.jpg", :alt => "Portrait von Franco Sellitto", :class => "portrait"}
+            .team-member-contact
+              %h3 Franco Sellitto
+              %p.role Entwicklung
+              %p.contact
+                :javascript
+                  var name = "franco.sellitto";
+                  var domain = "zhdk.ch";
+                  document.write('<a href=\"mailto:' + name + '@' + domain + '\">');
+                  document.write(name + '@' + domain + '</a>');
+          
+            
+            
+            

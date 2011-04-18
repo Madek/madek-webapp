@@ -1,0 +1,48 @@
+= javascript_include_tag "jquery/jquery.numberformatter"
+
+#content-header.clearfix
+  #detail-title.page_title_left
+    Medien importieren
+
+#uploader-subnavigation.clearfix
+  %ol#upload_steps.clearfix
+    %li.step_1.step_1b.container_12.grid_3{:style => "position: relative"}
+      %p
+        1. Medien auswählen
+        %br
+        %span
+          Fotos, Videos und Audiofiles bereitstellen
+    %li.step_2.container_12.grid_3
+      %p
+        2. Einstellungen
+        %br
+        %span
+          Berechtigungen/Sichtbarkeit festlegen
+    %li.step_3.container_12.grid_3
+      %p
+        3. Metadaten ergänzen
+        %br
+        %span
+          Titel, Beschreibung und Copyright hinzufügen
+    %li.step_4.container_12.grid_3
+      %p
+        4. Medien gruppieren
+        %br
+        %span
+          Fotos, Videos und Audiofiles gruppieren (optional)
+
+%span#green-arrow{:style => "display: block; position: absolute; left: 45%; bottom: -18px;  background: transparent url('/themes/madek11/images/icons/arrow_down_gray.png') top left no-repeat; width: 18px; height: 10px"}
+
+:javascript
+  function activate_step(n){
+    $(".grid_3").removeClass("active");
+    current_step_header = $("#upload_steps .step_" + n)
+    current_step_header.addClass("active");
+    $("#green-arrow").appendTo(current_step_header);
+    $("[class*='upload_step_']").hide();
+    $(".upload_step_" + n).show();
+    //temp// if(n == 2) $('html, body').animate({ scrollTop: $("#uploader-subnavigation").offset().top}, 2000);
+    $("form").submit(function(){
+      $("#ajaxLoading").show();
+    });		
+  }

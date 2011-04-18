@@ -127,7 +127,7 @@ module MetaDataHelper
         all_options.sort! {|a,b| a[:label].downcase <=> b[:label].downcase}
     end
 
-    is_extensible = (meta_key.is_extensible_list? or ["keywords", "author"].include?(meta_key.label))
+    is_extensible = (meta_key.is_extensible_list? or ["Keyword", "Person"].include?(meta_key.object_type))
     with_toggle = !["keywords", "author", "creator", "description author", "description author before import"].include?(meta_key.label)
 
     h = content_tag :div, :class => "madek_multiselect_container",

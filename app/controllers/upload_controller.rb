@@ -7,7 +7,6 @@ class UploadController < ApplicationController
   #temp#sphinx#
   around_filter :disable_sphinx, :except => [:update, :import_summary, :set_media_sets]
   around_filter :suspend_sphinx, :only => [:update, :import_summary] # TODO [:set_permissions, :set_media_sets], :if => proc { |controller| controller.request.post? }
-  theme "madek11"
 
 ##################################################
 # step 1
@@ -74,8 +73,10 @@ class UploadController < ApplicationController
     @upload_session.update_attributes(:is_complete => true)
 
     params[:resources][:media_entry].each_pair do |key, value|
-      media_entry = @media_entries.find(key)
+      media_entry = @media_entries.detect{|me| me.id == key.to_i } #old# .find(key)
       media_entry.update_attributes(value)
+      # OPTIMIZE this fix is a workaround, related to the media_entry updated_at used by cache_key
+      Rails.cache.delete("#{media_entry.class}/#{media_entry.cache_key}/meta_data")
     end
 
     # TODO delta index if new Person 

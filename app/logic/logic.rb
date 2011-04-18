@@ -1,7 +1,8 @@
 module Logic
   extend self
-  def data_for_page(media_entries, current_user)
-    media_entry_ids = media_entries.map(&:id)
+
+  def data_for_page(media_entry_ids, current_user)
+    media_entries = MediaEntry.includes(:media_file).find(media_entry_ids)
 
     editable_ids = Permission.accessible_by_user("MediaEntry", current_user, :edit)
     managable_ids = Permission.accessible_by_user("MediaEntry", current_user, :manage)
@@ -10,10 +11,10 @@ module Logic
     editable_in_context = editable_ids & media_entry_ids
     managable_in_context = managable_ids & media_entry_ids
 
-    { :pagination => { :current_page => media_entries.current_page,
-                       :per_page => media_entries.per_page,
-                       :total_entries => media_entries.total_entries,
-                       :total_pages => media_entries.total_pages },
+    { :pagination => { :current_page => media_entry_ids.current_page,
+                       :per_page => media_entry_ids.per_page,
+                       :total_entries => media_entry_ids.total_entries,
+                       :total_pages => media_entry_ids.total_pages },
       :entries => media_entries.map do |me|
                     flags = { :is_private => me.acl?(:view, :only, current_user),
                               :is_public => me.acl?(:view, :all),
@@ -23,7 +24,8 @@ module Logic
                     me.attributes.merge(me.get_basic_info).merge(flags)
                   end } 
   end
-  
+
+########################################################  
   
   def enriched_resource_data(resources, current_user)
     media_entries = resources.select{ |r| r.class.name == "MediaEntry" }

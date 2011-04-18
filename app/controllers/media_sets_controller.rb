@@ -6,7 +6,6 @@ class MediaSetsController < ApplicationController
   after_filter :store_location, :only => [:show]
   
   def index
-    theme "madek11"
     ids = Permission.accessible_by_user("Media::Set", current_user)
 
     @media_sets, @my_media_sets, @index_title = if @media_set
@@ -33,16 +32,15 @@ class MediaSetsController < ApplicationController
   end
 
   def show
-    theme "madek11"
-
     viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
-    #old# @media_entries = MediaEntry.search :with => {:media_set_ids => @media_set.id, :sphinx_internal_id => viewable_ids}, :page => params[:page], :per_page => params[:per_page].to_i, :retry_stale => true
-    @media_entries =  @media_set.media_entries.includes(:media_file).where(:id => viewable_ids).paginate(:page => params[:page], :per_page => PER_PAGE.first)
+
+    #old# ids = @media_set.media_entries.where(:id => viewable_ids).select(:id).map(&:id) # doesn't work: @media_set.media_entry_ids.where(:id => viewable_ids)
+    #old# @media_entry_ids = ids.paginate(:page => params[:page], :per_page => PER_PAGE.first)
+    @media_entry_ids = (@media_set.media_entry_ids & viewable_ids).paginate(:page => params[:page], :per_page => PER_PAGE.first)
+    @json = Logic.data_for_page(@media_entry_ids, current_user).to_json
 
     @editable_sets = Media::Set.accessible_by(current_user, :edit)
     @can_edit_set = @editable_sets.include?(@media_set)
-
-    @json = Logic.data_for_page(@media_entries, current_user).to_json
 
     respond_to do |format|
       format.html
@@ -54,35 +52,48 @@ class MediaSetsController < ApplicationController
 # Authenticated Area
 # TODO
 
-  def new
-    @dynamic = ["true", "1"].include?(params[:dynamic]) # TODO patch String to_bool
-    @media_set = current_user.media_sets.build
-    @media_set.query = params[:query] if @dynamic
-  end
+#old#
+#  def new
+#    @dynamic = ["true", "1"].include?(params[:dynamic]) # TODO patch String to_bool
+#    @media_set = current_user.media_sets.build
+#    @media_set.query = params[:query] if @dynamic
+#  end
 
   def create
-    @media_set = current_user.media_sets.create # OPTIMIZE validates_presence_of title
-    if @media_set.update_attributes(params[:media_set]) # TODO ?? find_by_id_or_create_by_title
-      #temp# flash[:notice] = "Media::Set successful created"
-      redirect_to user_media_sets_path(current_user)
-    else
-      flash[:notice] = @media_set.errors.full_messages
-      render :action => :new
+    # OPTIMIZE just preventing double delta indexing, because meta_data need resource_id
+    Media::Set.suspended_delta do
+      @media_set = current_user.media_sets.create # OPTIMIZE validates_presence_of title
+      if @media_set.update_attributes(params[:media_set]) # TODO ?? find_by_id_or_create_by_title
+        #temp# flash[:notice] = "Media::Set successful created"
+        redirect_to user_media_sets_path(current_user)
+      else
+        flash[:notice] = @media_set.errors.full_messages
+        #old# render :action => :new
+        redirect_to :back
+      end
     end
   end
 
+  # TODO merge to Permissions#edit_multiple
   def edit
-    theme "madek11"
-    
     permissions = Permission.cached_permissions_by(@media_set)
+    keys = [:view, :edit, :hi_res, :manage]
     @permissions_json = {}
     
     permissions.group_by {|p| p.subject_type }.collect do |type, type_permissions|
       unless type.nil?
-        @permissions_json[type] = type_permissions.map {|p| {:id => p.subject.id, :name => p.subject.to_s, :type => type, :view => p.actions[:view], :edit => p.actions[:edit], :hi_res => p.actions[:hi_res] }}
+        @permissions_json[type] = type_permissions.map do |p|
+          h = {:id => p.subject.id, :name => p.subject.to_s, :type => type}
+          keys.each {|key| h[key] = p.actions[key] }
+          h
+        end
       else
         p = type_permissions.first
-        @permissions_json["public"] = {:name => "Öffentlich", :type => 'nil', :view => p.actions[:view], :edit => p.actions[:edit], :hi_res => p.actions[:hi_res] }
+        @permissions_json["public"] = begin
+          h = {:name => "Öffentlich", :type => 'nil'}
+          keys.each {|key| h[key] = p.actions[key] }
+          h
+        end
       end
     end
     @permissions_json = @permissions_json.to_json

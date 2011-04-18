@@ -4,8 +4,6 @@ class GroupsController < ApplicationController
   before_filter :pre_load
   before_filter :authorized?, :only => [:edit, :update, :destroy]
   
-  theme "madek11"
-
   def index
     # OPTIMIZE
     respond_to do |format|

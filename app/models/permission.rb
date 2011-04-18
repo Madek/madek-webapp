@@ -67,7 +67,6 @@ class Permission < ActiveRecord::Base
   def set_actions(hash)
     actions_object.set_actions(hash)
     save
-    #old#0903# resource.sphinx_reindex if resource.try(:respond_to?, :sphinx_reindex) and subject.nil? # OPTIMIZE after_save ??
   end
 
   private
@@ -147,7 +146,7 @@ class Permission < ActiveRecord::Base
     
     def compare(resources)
       combined_permissions = {"User" => [], "Group" => [], "public" => {}}
-      keys = [:view, :edit, :hi_res]
+      keys = [:view, :edit, :hi_res, :manage]
       permissions = resources.map(&:permissions).flatten
 
       combined_permissions.keys.each do |type|
@@ -244,12 +243,10 @@ class Permission < ActiveRecord::Base
       Rails.cache.fetch(key, :expires_in => 10.minutes) do
         add_to_cached_keys(key)
 
-        condition = "actions_object LIKE '%#{action}: true%'"
-
         select(:resource_id).
-                    where(:resource_type => resource_type, :subject_type => nil).
-                    where(condition).
-                    collect(&:resource_id).uniq
+            where(:resource_type => resource_type, :subject_type => nil).
+            where("actions_object LIKE '%#{action}: true%'").
+            collect(&:resource_id).uniq
       end
     end
 

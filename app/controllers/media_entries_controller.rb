@@ -7,56 +7,6 @@ class MediaEntriesController < ApplicationController
   after_filter :store_location, :only => [:index]
 
   def index
-    theme "madek11"
-    
-    media_entries = if @user
-                      if logged_in?
-                        if @user == current_user
-                          # all media_entries I can see and uploaded by me
-                          viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
-                          MediaEntry.by_user(current_user).by_ids(viewable_ids)
-                        else
-                          # intersection between me and somebody viewable media_entries
-                          viewable_ids = Permission.accessible_by_user("MediaEntry", current_user) & Permission.accessible_by_user("MediaEntry", @user)
-                          MediaEntry.by_ids(viewable_ids)
-                        end
-                      else
-                        # intersection between public media_entries and somebody viewable media_entries
-                        viewable_ids = Permission.accessible_by_user("MediaEntry", @user) & Permission.accessible_by_all("MediaEntry")
-                        MediaEntry.by_ids(viewable_ids)
-                      end
-                    else
-                      if logged_in?
-                        viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
-                        if params[:not_by_current_user]
-                          # all media_entries I can see but not uploaded by me
-                          MediaEntry.not_by_user(current_user).by_ids(viewable_ids)
-                        elsif request.fullpath =~ /favorites/
-                          MediaEntry.by_ids(viewable_ids & current_user.favorite_ids)
-                        else
-                          # all media_entries I can see
-                          MediaEntry.by_ids(viewable_ids)
-                        end
-                      else
-                        # all public media_entries
-                        ids = Permission.accessible_by_all("MediaEntry")
-                        MediaEntry.by_ids(ids)
-                      end
-                    end
-
-    # filtering attributes
-    with = {}
-
-    params[:per_page] ||= PER_PAGE.first
-
-    @media_entries = media_entries.search params[:query],
-                                           { #TODO activate this if you need advanced search# :match_mode => :extended2,
-                                           :page => params[:page], :per_page => params[:per_page].to_i, :retry_stale => true,
-                                           :with => with,
-                                           :star => true,
-                                           #temp# :order => (params[:order].blank? ? nil : params[:order]), # OPTIMIZE params[:search][:order]
-                                           :include => :media_file }
-
     # TODO params[:search][:query], params[:search][:page], params[:search][:per_page]
     #temp#    
     #      if params[:per_page].blank?
@@ -66,15 +16,44 @@ class MediaEntriesController < ApplicationController
     #        session[:per_page] = params[:per_page]
     #      end
 
-    #temp#
-    #    @facets = MediaEntry.facets params[:query], :match_mode => :extended2,
-    #                                                 :with => with
+    params[:per_page] ||= PER_PAGE.first
+
+    scope, viewable_ids = if @user
+                            ids = if logged_in?
+                              Permission.accessible_by_user("MediaEntry", current_user)
+                            else
+                              Permission.accessible_by_all("MediaEntry")
+                            end
+                            [MediaEntry.by_user(@user), ids]
+                          else
+                            if logged_in?
+                              ids = Permission.accessible_by_user("MediaEntry", current_user)
+                              if params[:not_by_current_user]
+                                # all media_entries I can see but not uploaded by me
+                                [MediaEntry.not_by_user(current_user), ids]
+                              elsif request.fullpath =~ /favorites/
+                                [MediaEntry, (ids & current_user.favorite_ids)]
+                              else
+                                # all media_entries I can see
+                                [MediaEntry, ids]
+                              end
+                            else
+                              # all public media_entries
+                              ids = Permission.accessible_by_all("MediaEntry")
+                              [MediaEntry, ids]
+                            end
+                          end
+
+    all_ids = scope.search_for_ids params[:query], {:per_page => (2**30), :star => true }
+    # all_ids.results[:matches].select {|x| x[:attributes]["class_crc"] == MediaEntry.to_crc32}
+    paginated_ids = (all_ids & viewable_ids).paginate(:page => params[:page], :per_page => params[:per_page].to_i)
+    @json = Logic.data_for_page(paginated_ids, current_user).to_json
+
+    ########################################################################
 
     # OPTIMIZE only used for html and js formats, move to controller helper
     @editable_sets = Media::Set.accessible_by(current_user, :edit)
     
-    @json = Logic.data_for_page(@media_entries, current_user).to_json
-
     respond_to do |format|
       format.html
       format.js { render :json => @json }
@@ -84,7 +63,6 @@ class MediaEntriesController < ApplicationController
   end
     
   def show
-    theme "madek11"
     respond_to do |format|
       format.html
       format.js { render @media_entry }
@@ -100,11 +78,12 @@ class MediaEntriesController < ApplicationController
     if File.exist?(file)
       output = File.read(file)
       send_data output, :type => preview.content_type, :disposition => 'inline'
+    else
+      # TODO send alternative output
     end
   end
   
   def map
-    theme "madek11"
     meta_data = @media_entry.media_file.meta_data
     @lat = meta_data["GPS:GPSLatitude"]
     @lng = meta_data["GPS:GPSLongitude"]
@@ -119,7 +98,6 @@ end
 # Authenticated Area
 
   def edit
-   theme "madek11"
   end
 
 #  # NOTE accepting and destroying an array of media_entries
@@ -153,7 +131,6 @@ end
 #####################################################
 
   def edit_tms
-    theme "madek11"
   end
 
   def to_snapshot
@@ -184,7 +161,6 @@ end
   end
   
   def toggle_favorites
-    theme "madek11"
     current_user.favorites.toggle(@media_entry)
     respond_to do |format|
       format.js { render :partial => "favorite_link", :locals => {:media_entry => @media_entry} }
@@ -233,7 +209,6 @@ end
   end
   
   def edit_multiple
-    theme "madek11"
     # custom hash for jQuery json templates
     @info_to_json = @media_entries.map do |me|
       me.attributes.merge!(me.get_basic_info(["uploaded at", "uploaded by", "keywords", "copyright notice", "portrayed object dates"]))
@@ -255,8 +230,6 @@ end
   end
   
   def edit_multiple_permissions
-    theme "madek11"
-    
     @combined_permissions = Permission.compare(@media_entries)
     @permissions_json = @combined_permissions.to_json
 
@@ -265,26 +238,6 @@ end
     end.to_json
   end
   
-#####################################################
-
-#old#
-#  def query_count
-#    # TODO refactor to the pre_load
-#    conditions = {}
-#    conditions[:is_public] = true
-#    if @user
-#      conditions[:user_id] = @user.id
-#      conditions[:is_public] = nil if @user == current_user
-#    end
-#
-#    c = MediaEntry.search_count params[:query], :match_mode => :extended2,
-#                                                :conditions => conditions
-##    render :update do |page|
-##      page.replace_html  'query_count', c
-##    end
-#    render :text => "#{c} entries"
-#  end
-
 #####################################################
 
   private
