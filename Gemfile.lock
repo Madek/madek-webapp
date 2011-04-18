@@ -111,7 +111,6 @@ GEM
     net-ssh-gateway (1.0.1)
       net-ssh (>= 1.99.1)
     nokogiri (1.4.4)
-    peterhoeg-railroad (0.5.8)
     polyglot (0.3.1)
     rack (1.2.2)
     rack-mount (0.6.14)
@@ -170,7 +169,7 @@ GEM
     stream (0.5)
     term-ansicolor (1.0.5)
     themes_for_rails (0.4.1)
-    thinking-sphinx (2.0.3)
+    thinking-sphinx (2.0.2)
       activerecord (>= 3.0.3)
       riddle (>= 1.2.2)
     thor (0.14.6)
@@ -208,7 +207,6 @@ DEPENDENCIES
   memcache-client
   mysql2 (= 0.2.7)
   nested_set (= 1.6.4)
-  peterhoeg-railroad
   rails (= 3.0.6)
   rcov
   rgl (= 0.4.0)
@@ -219,7 +217,7 @@ DEPENDENCIES
   spork
   steak
   themes_for_rails
-  thinking-sphinx (= 2.0.3)
+  thinking-sphinx (= 2.0.2)
   uuidtools
   will_paginate (= 3.0.pre2)
   zencoder

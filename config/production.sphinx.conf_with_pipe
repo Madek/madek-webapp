@@ -41,15 +41,48 @@ index media_entry_delta : media_entry_core
   path = db/sphinx/production/media_entry_delta
 }
 
-#temp#sphinx#
-#index media_entry
-#{
-#  type = distributed
-#  local = media_entry_delta
-#  local = media_entry_core
-#}
+index media_entry
+{
+  type = distributed
+  local = media_entry_delta
+  local = media_entry_core
+}
+
+source media_set_core_0
+{
+  type = xmlpipe2
+  xmlpipe_command = rails runner "Media::Set.to_sphinxpipe 0"
+}
+
+index media_set_core
+{
+  source = media_set_core_0
+  path = db/sphinx/production/media_set_core
+  morphology = libstemmer_de
+  charset_type = utf-8
+  min_prefix_len = 3
+  enable_star = 1
+}
 
 
+source media_set_delta_0 : media_set_core_0
+{
+  type = xmlpipe2
+  xmlpipe_command = rails runner "Media::Set.to_sphinxpipe 1"
+}
+
+index media_set_delta : media_set_core
+{
+  source = media_set_delta_0
+  path = db/sphinx/production/media_set_delta
+}
+
+index media_set
+{
+  type = distributed
+  local = media_set_delta
+  local = media_set_core
+}
 
 source person_core_0
 {
@@ -105,10 +138,9 @@ index person_delta : person_core
   path = db/sphinx/production/person_delta
 }
 
-#temp#sphinx#
-#index person
-#{
-#  type = distributed
-#  local = person_delta
-#  local = person_core
-#}
+index person
+{
+  type = distributed
+  local = person_delta
+  local = person_core
+}

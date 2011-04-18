@@ -44,9 +44,8 @@
     =_("Meine Medieneinträge")
   .clear
   #results
-    - @media_entries = @my_media_entries
-    - unless @media_entries.empty?
-      - if @media_entries.total_entries >= params[:per_page]
+    - unless @my_media_entries_paginated_ids.empty?
+      - if @my_media_entries_paginated_ids.total_pages > 1
         .buttons
           = link_to "Alle meine Medieneinträge", user_media_entries_path(current_user)
     - else
@@ -57,9 +56,8 @@
     =_("Medieneinträge anderer")
   .clear
   #results_others
-    - @media_entries = @accessible_media_entries
-    - unless @media_entries.empty?
-      - if @media_entries.total_entries >= params[:per_page]
+    - unless @accessible_media_entries_paginated_ids.empty?
+      - if @accessible_media_entries_paginated_ids.total_pages > 1
         .buttons
           = link_to "Weitere Medieneinträge", media_entries_path(:not_by_current_user => true)
     - else
@@ -71,7 +69,7 @@
   	function display_entries(entries, container){
   	  $(container).prepend($("#media_entry_index_without_checkbox").tmpl(entries));
   	}
-  	display_entries(#{Logic.data_for_page(@my_media_entries, current_user).to_json}.entries, "#results");
-  	display_entries(#{Logic.data_for_page(@accessible_media_entries, current_user).to_json}.entries, "#results_others");
+  	display_entries(#{@my_media_entries_json}.entries, "#results");
+  	display_entries(#{@accessible_media_entries_json}.entries, "#results_others");
   });
 

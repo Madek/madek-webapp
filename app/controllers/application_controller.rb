@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   layout "main"
+  theme "madek11"
 
 ##############################################  
 # Authentication
@@ -30,19 +31,19 @@ class ApplicationController < ActionController::Base
 ##############################################  
 
   def root
-    theme "madek11"
     if logged_in?
       # TODO refactor to UsersController#show and dry with MediaEntriesController#index
       params[:per_page] ||= PER_PAGE.first
-      ids = Permission.accessible_by_user("MediaEntry", current_user)
-      options = { :page => params[:page], :per_page => params[:per_page].to_i, :retry_stale => true, :include => :media_file }
-      
-      #@my_media_entries = MediaEntry.by_ids(ids).not_public.search(nil, options)
-      #@public_media_entries = MediaEntry.by_ids(ids).public.search(nil, options)
-      
-      @my_media_entries = MediaEntry.by_ids(ids).by_user(current_user).search(nil, options) #tmp# to avoid confusion of users looking for "their" Media entries
-      @accessible_media_entries = MediaEntry.by_ids(ids).not_by_user(current_user).search(nil, options)
+      viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
       @disabled_paginator = true # OPTIMIZE
+
+      options = {:per_page => (2**30), :star => true }
+      all_ids = MediaEntry.by_user(current_user).search_for_ids options
+      @my_media_entries_paginated_ids = (all_ids & viewable_ids).paginate(:page => params[:page], :per_page => params[:per_page].to_i)
+      @my_media_entries_json = Logic.data_for_page(@my_media_entries_paginated_ids, current_user).to_json
+      all_ids = MediaEntry.not_by_user(current_user).search_for_ids options
+      @accessible_media_entries_paginated_ids = (all_ids & viewable_ids).paginate(:page => params[:page], :per_page => params[:per_page].to_i)
+      @accessible_media_entries_json = Logic.data_for_page(@accessible_media_entries_paginated_ids, current_user).to_json
       
       respond_to do |format|
         format.html { render :template => "/users/show" }
@@ -57,7 +58,6 @@ class ApplicationController < ActionController::Base
   end
 
   def feedback
-    theme "madek11"
     @title = "Medienarchiv der Künste: Feedback & Support"
     @disable_search = true
   end
