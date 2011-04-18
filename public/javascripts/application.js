@@ -30,6 +30,12 @@ $(document).ready(function () {
 					  fx: { opacity: 'toggle' },
 					  ajaxOptions: { dataType: 'html' }
 					});
+					
+	// For closing all open autocompletes in old tabs
+	$('#detail_specification').bind('tabsselect', function(event, ui) {
+		$('a.search_toggler').removeClass('active').find("img").attr("src", "/images/icons/toggler-arrow-closed.png");
+		$('input.ui-autocomplete-input').autocomplete("close");
+	});
 
 //////////////////////////////
 // placeholder
@@ -154,9 +160,20 @@ function is_Selected(media_entries_json, id) {
 function create_multiselect_widget(search_field, is_extensible, with_toggler){
   var all_options = search_field.data("all_options");
   if (with_toggler) {
-  	search_field.closest(".madek_multiselect_container").append("<a class='search_toggler' href='#'><img src='/images/icons/toggler-arrow-closed.png'></a>");
+	var toggler_id = search_field.attr("id").replace('autocomplete_search', 'toggler');
+  	search_field.closest(".madek_multiselect_container").append("<a class='search_toggler' href='#' id='" + toggler_id + "'><img src='/images/icons/toggler-arrow-closed.png'></a>");
 	var toggler = search_field.closest(".madek_multiselect_container").find("a.search_toggler");
+	
+	$('body').bind('click', function(e) {
+	    if($(e.target).closest('ul.ui-autocomplete').length == 0) {
+        	// click happened outside of autocomplete select menu, hide any visible menu items
+			toggler.removeClass("active").find("img").attr("src", "/images/icons/toggler-arrow-closed.png");
+			search_field.autocomplete("close");
+	    }
+	});
+	
   }
+  
   $.each(all_options, function(i, elem){
   	if(elem.selected){
 	    add_to_selected_items(elem, search_field, false);
@@ -209,6 +226,7 @@ function create_multiselect_widget(search_field, is_extensible, with_toggler){
 			search_field.autocomplete("close");
 		} else {
 			elem.addClass('active').find("img").attr("src", "/images/icons/toggler-arrow-opened.png");
+			close_any_open_autocompletes(elem);
 			search_field.autocomplete("option", "minLength", 0);
 			search_field.autocomplete("search", "");
 		}
@@ -216,6 +234,13 @@ function create_multiselect_widget(search_field, is_extensible, with_toggler){
 	 });
     };
 
+};
+
+function close_any_open_autocompletes(elem) {
+	var current_id = elem.attr("id");
+	var current_search_field_id = current_id.replace('toggler', 'autocomplete_search');
+	$('a.search_toggler:not(#'+ current_id +')').removeClass('active').find("img").attr("src", "/images/icons/toggler-arrow-closed.png");
+	$('input.ui-autocomplete-input:not(#' + current_search_field_id + ')').autocomplete("close");
 };
 
 function remove_from_selected_items(dom_item){
