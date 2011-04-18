@@ -138,10 +138,9 @@ index person_delta : person_core
   path = db/sphinx/production/person_delta
 }
 
-#temp#sphinx#
-#index person
-#{
-#  type = distributed
-#  local = person_delta
-#  local = person_core
-#}
+index person
+{
+  type = distributed
+  local = person_delta
+  local = person_core
+}
