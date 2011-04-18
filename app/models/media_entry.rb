@@ -89,7 +89,6 @@ class MediaEntry < ActiveRecord::Base
   sphinx_scope(:default_search) { { :star => true, :order => :updated_at, :sort_mode => :desc } }
   sphinx_scope(:by_user) { |user| { :with => {:user_id => user.id} } }
   sphinx_scope(:not_by_user) { |user| { :without => {:user_id => user.id} } }
-  sphinx_scope(:by_ids) { |ids| { :with => {:sphinx_internal_id => ids} } }
 
 ########################################################
 

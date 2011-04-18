@@ -1,80 +1,69 @@
 # -*- encoding : utf-8 -*-
 class Permission < ActiveRecord::Base
   
-  class Actions
-    attr_accessor :keys
-    
-    def initialize(attributes = {})
-      @keys ||= {}
-      attributes.each_pair do |key, value|
-        @keys[key] = value
-      end
-    end
-
-    def set_actions(hash)
-      hash.each_pair { |key, value| set_action(key,value) }
-    end
-
-    private
-
-    # @args: key as symbol; value as boolean or nil
-    def set_action(key, value)
-      case value.class.name
-        when "NilClass"
-          @keys.delete(key.to_sym)
-        when "TrueClass"
-          @keys[key.to_sym] = value
-        when "String"
-          @keys[key.to_sym] = (value == "true" ? true : false) 
-        else
-          @keys[key.to_sym] = false
-      end
-    end
-
-  end
-  
-#################################################
+  ACTIONS = [:view, :edit, :hi_res, :manage]
   
   belongs_to :subject, :polymorphic => true 
   belongs_to :resource, :polymorphic => true
   
-  serialize :actions_object #, Actions
-  validates_presence_of :actions_object
+  validates_numericality_of :action_bits, :action_mask
+  validates_numericality_of :action_mask, :greater_than => 0, :unless => Proc.new { |resource| resource_type.nil? }  
   validates_uniqueness_of :subject_id, :scope => [:subject_type, :resource_id, :resource_type]
 
   #old#precedence problem# default_scope order("created_at DESC")
   scope :with_subject, where("subject_id IS NOT NULL AND subject_type IS NOT NULL")
 
-  # TODO validate not empty actions_object
-  after_initialize do |record|
-    record.actions_object = Actions.new unless actions_object
-  end
-  
   after_save :invalidate_cache
   before_destroy :invalidate_cache
   
-# Returns the hash of assigned permissions
-  def actions # TODO rename to .real_action or .hard_action or .assigned_actions or .stored_actions
-    actions_object.keys
+  # Returns the hash of assigned permissions #1504# TODO return directly the integer (bits & mask)
+  def actions
+    h = {}
+    ACTIONS.each_with_index do |a, i|
+      j = 2 ** i
+      h[a] = !(j & action_bits & action_mask).zero? 
+    end
+    h
   end
 
   # TODO refactor to Permission.merged_actions (but prevent fetching record twice)
-# returns hash of all actions, correctly merged
+  # returns hash of all actions, correctly merged
   def merged_actions
-    self.class.resource_default_actions(resource).merge(actions)
+    self.class.resource_default_actions(resource).merge(actions) #1504#
   end
 
   def set_actions(hash)
-    actions_object.set_actions(hash)
-    save
+    hash.each_pair do |key, value|
+      i = ACTIONS.index(key.to_sym)
+      next unless i
+      j = 2 ** i
+      value = (value == "true" ? true : false) if value.is_a? String 
+      case value
+        when nil
+          self.action_bits &= ~j
+          self.action_mask &= ~j
+        when true
+          self.action_bits |= j
+          self.action_mask |= j
+        when false
+          self.action_bits &= ~j
+          self.action_mask |= j
+      end
+    end
+    if action_mask.zero? and not resource_type.nil? # TODO validation ???
+      destroy
+    else
+      save
+    end
   end
 
   private
 
+#old#??
   # Returns key value: boolean or nil
-  def action(key)
-    merged_actions[key.to_sym]
-  end
+#  def action(key)
+#    merged_actions[key.to_sym]
+#  end
 
   def invalidate_cache
     #regex = /permissions\/#{subject_type}_#{subject_id}\/#{resource_type}_#{resource_id}\/actions.*/
@@ -100,9 +89,9 @@ class Permission < ActiveRecord::Base
 
     def resource_viewable_only_by_user?(resource, subject)
       all = cached_permissions_by(resource)
-      default = all.select {|p| p.subject.nil? }
-      without_default = all - default
-      without_default.size == 1 and !default.first.actions[:view] and without_default.first.subject.id == subject.id
+      default = all.detect {|p| p.subject.nil? }
+      without_default = all - [default]
+      without_default.size == 1 and (default.nil? or !default.actions[:view]) and without_default.first.subject.id == subject.id #1504#
     end
   
     # set up the default system actions
@@ -124,21 +113,27 @@ class Permission < ActiveRecord::Base
       key = "permissions/_/_/actions"
       Rails.cache.fetch(key, :expires_in => 10.minutes) do
         p = where(:subject_id => nil, :subject_type => nil, :resource_type => nil, :resource_id => nil).first
-        p ? p.actions : {}
+        p ? p.actions : {} #1504#
       end
     end
   
+    def resource_default(resource)
+      #old#1504# p = resource.default_permission
+      cached_permissions_by(resource).detect {|x| x.subject.nil? }
+    end
+
     def resource_default_actions(resource)
-      #p = resource.default_permission
-      p = cached_permissions_by(resource).detect {|x| x.subject.nil? }
-      system_default_actions.merge(p ? p.actions : {})
+      p = resource_default(resource)
+      system_default_actions.merge(p ? p.actions : {}) #1504#
     end
  
     def cached_permissions_by(resource)
       key = "permissions/_/#{resource.class}_#{resource.id}/actions"
       Rails.cache.fetch(key, :expires_in => 10.minutes) do
         add_to_cached_keys(key)
-        resource.permissions.all
+        p = resource.permissions.all
+        p << resource.permissions.build(:subject => nil) unless p.any? {|x| x.subject.nil?}
+        p
       end
     end
     
@@ -146,7 +141,6 @@ class Permission < ActiveRecord::Base
     
     def compare(resources)
       combined_permissions = {"User" => [], "Group" => [], "public" => {}}
-      keys = [:view, :edit, :hi_res, :manage]
       permissions = resources.map(&:permissions).flatten
 
       combined_permissions.keys.each do |type|
@@ -155,8 +149,8 @@ class Permission < ActiveRecord::Base
             subject_permissions = permissions.select {|p| p.subject_type == type}
             subject_permissions.map(&:subject).uniq.each do |subject|
               subject_info = {:id => subject.id, :name => subject.to_s, :type => type}
-              keys.each do |key|
-                subject_info[key] = case subject_permissions.select {|p| p.subject_id == subject.id and p.actions[key] == true }.size
+              ACTIONS.each do |key|
+                subject_info[key] = case subject_permissions.select {|p| p.subject_id == subject.id and p.actions[key] == true }.size #1504#
                   when resources.size
                     true
                   when 0
@@ -172,7 +166,7 @@ class Permission < ActiveRecord::Base
             combined_permissions[type][:type] = "nil"
             combined_permissions[type][:name] = "Öffentlich"
             keys.each do |key|
-              combined_permissions[type][key] = case default_permissions.select {|p| p.actions[key] == true }.size
+              combined_permissions[type][key] = case default_permissions.select {|p| p.actions[key] == true }.size #1504#
                 when resources.size
                   true
                 when 0
@@ -193,14 +187,14 @@ class Permission < ActiveRecord::Base
     
     # returns the whole permissions hashes all merged in correct order.
     def merged_actions(subject, resource)
-       actions = resource_default_actions(resource)
+      actions = resource_default_actions(resource)
       
       if subject
         if subject.class == User # OPTIMIZE could be the subject argument a Group ?? 
           #group_permissions = resource.permissions.where(:subject_type => "Group", :subject_id => subject.group_ids)
           group_permissions = cached_permissions_by(resource).select {|x| x.subject_type == "Group" and subject.group_ids.include?(x.subject_id) }
           group_permissions.each do |group_permission|
-            group_permission.actions.each_pair do |k,v|
+            group_permission.actions.each_pair do |k,v| #1504#
               actions[k] = (actions[k] or v)
             end
           end
@@ -208,7 +202,7 @@ class Permission < ActiveRecord::Base
         
         #perm_subject_resource = resource.permissions.where(:subject_type => subject.class.base_class.name, :subject_id => subject.id).first
         perm_subject_resource = cached_permissions_by(resource).detect {|x| x.subject_type == subject.class.base_class.name and x.subject_id == subject.id }
-        actions = actions.merge(perm_subject_resource.actions) if perm_subject_resource
+        actions = actions.merge(perm_subject_resource.actions) if perm_subject_resource #1504#
       end
       actions
     end
@@ -242,10 +236,11 @@ class Permission < ActiveRecord::Base
       key = "permissions/_/#{resource_type}_/actions/#{action}"
       Rails.cache.fetch(key, :expires_in => 10.minutes) do
         add_to_cached_keys(key)
+        i = 2 ** ACTIONS.index(action)
 
         select(:resource_id).
             where(:resource_type => resource_type, :subject_type => nil).
-            where("actions_object LIKE '%#{action}: true%'").
+            where("action_bits & #{i} AND action_mask & #{i}").
             collect(&:resource_id).uniq
       end
     end
@@ -254,18 +249,19 @@ class Permission < ActiveRecord::Base
       key = "permissions/#{user.class}_#{user.id}/#{resource_type}_/actions/#{action}"
       Rails.cache.fetch(key, :expires_in => 10.minutes) do
         add_to_cached_keys(key)
+        i = 2 ** ACTIONS.index(action)
         
         #1+3
         user_groups_true = select(:resource_id).
                                 where(:resource_type => resource_type).
                                 where("(subject_type = 'Group' AND subject_id IN (?)) OR (subject_type = 'User' AND subject_id = ?)", user.groups, user.id).
-                                where("actions_object LIKE '%#{action}: true%'").
+                                where("action_bits & #{i} AND action_mask & #{i}").
                                 collect(&:resource_id).uniq
         
         #2
         user_false = user.permissions.select(:resource_id).
                                   where(:resource_type => resource_type).
-                                  where("actions_object LIKE '%#{action}: false%'").
+                                  where("(NOT action_bits & #{i}) AND action_mask & #{i}").
                                   collect(&:resource_id).uniq
       
       
@@ -277,7 +273,7 @@ class Permission < ActiveRecord::Base
         user_groups_false = select(:resource_id).
                                   where(:resource_type => resource_type).
                                   where("(subject_type = 'Group' AND subject_id IN (?)) OR (subject_type = 'User' AND subject_id = ?)", user.groups, user.id).
-                                  where("actions_object LIKE '%#{action}: false%'").
+                                  where("(NOT action_bits & #{i}) AND action_mask & #{i}").
                                   collect(&:resource_id).uniq
   
         ((user_groups_true - user_false) + (public_true - user_groups_false)).uniq

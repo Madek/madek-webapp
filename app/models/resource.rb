@@ -62,7 +62,7 @@ module Resource
 #    end
 
     base.has_many  :permissions, :as => :resource, :dependent => :destroy
-    base.has_one   :default_permission, :as => :resource, :class_name => "Permission", :conditions => {:subject_id => nil, :subject_type => nil}
+    #old#1504# base.has_one   :default_permission, :as => :resource, :class_name => "Permission", :conditions => {:subject_id => nil, :subject_type => nil}
     base.after_create :generate_permissions
 
     base.has_many  :edit_sessions, :as => :resource, :dependent => :destroy, :readonly => true, :limit => 5
@@ -121,10 +121,8 @@ module Resource
     
     # base.default_sphinx_scope :default_search
     # base.sphinx_scope(:default_search) { { :star => true, :order => :updated_at, :sort_mode => :desc } }
-    # 
     # base.sphinx_scope(:by_user) { |user| { :with => {:user_id => user.id} } }
     # base.sphinx_scope(:not_by_user) { |user| { :without => {:user_id => user.id} } }
-    # base.sphinx_scope(:by_ids) { |ids| { :with => {:sphinx_internal_id => ids} } }
     
 
     def base.to_sphinxpipe(delta = 0)
@@ -174,7 +172,10 @@ module Resource
       puts xml.target!
     end
   end
-  
+
+  def default_permission
+    Permission.resource_default(self)
+  end
   
   # used to forcing sphinx live update
   # def sphinx_reindex
@@ -432,7 +433,7 @@ private
       permissions.create(:subject => nil)
       subject = self.user
     else
-      permissions.build(:subject => nil).set_actions(media_entry.default_permission.actions)
+      permissions.build(:subject => nil).set_actions(media_entry.default_permission.actions) #1504#
       subject = Group.find_or_create_by_name("MIZ-Archiv") # Group.scoped_by_name("MIZ-Archiv").first
     end
 

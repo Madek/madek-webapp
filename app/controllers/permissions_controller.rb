@@ -16,21 +16,21 @@ class PermissionsController < ApplicationController
 
   def edit_multiple
     permissions = Permission.cached_permissions_by(@resource)
-    keys = [:view, :edit, :hi_res, :manage]
+    keys = Permission::ACTIONS
     @permissions_json = {}
     
     permissions.group_by {|p| p.subject_type }.collect do |type, type_permissions|
       unless type.nil?
         @permissions_json[type] = type_permissions.map do |p|
           h = {:id => p.subject.id, :name => p.subject.to_s, :type => type}
-          keys.each {|key| h[key] = p.actions[key] }
+          keys.each {|key| h[key] = p.actions[key] } #1504#
           h
         end
       else
         p = type_permissions.first
         @permissions_json["public"] = begin
           h = {:name => "Öffentlich", :type => 'nil'}
-          keys.each {|key| h[key] = p.actions[key] }
+          keys.each {|key| h[key] = p.actions[key] } #1504#
           h
         end
       end
@@ -44,23 +44,25 @@ class PermissionsController < ApplicationController
   end
 
   def update_multiple
-    @resources.each do |resource|
-      resource.permissions.delete_all
+    ActiveRecord::Base.transaction do
+      @resources.each do |resource|
+        resource.permissions.delete_all
+    
+        actions = params[:subject]["nil"]
+        resource.permissions.build(:subject => nil).set_actions(actions)
   
-      actions = params[:subject]["nil"]
-      resource.permissions.build(:subject => nil).set_actions(actions)
-
-      ["User", "Group"].each do |key|
-        params[:subject][key].each_pair do |subject_id, actions|
-          resource.permissions.build(:subject_type => key, :subject_id => subject_id).set_actions(actions)
-        end if params[:subject][key]
+        ["User", "Group"].each do |key|
+          params[:subject][key].each_pair do |subject_id, actions|
+            resource.permissions.build(:subject_type => key, :subject_id => subject_id).set_actions(actions)
+          end if params[:subject][key]
+        end
+        
+        # OPTIMIZE it's not sure that the current_user is the owner (manager) of the current resource 
+        resource.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
       end
-      
-      # OPTIMIZE it's not sure that the current_user is the owner (manager) of the current resource 
-      resource.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
+      flash[:notice] = "Die Zugriffsberechtigungen wurden erfolgreich gespeichert."  
     end
 
-    flash[:notice] = "Die Zugriffsberechtigungen wurden erfolgreich gespeichert."  
     if (@resources.size == 1)
       redirect_to @resources.first
     else

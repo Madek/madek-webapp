@@ -37,12 +37,13 @@ class ApplicationController < ActionController::Base
       viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
       @disabled_paginator = true # OPTIMIZE
 
-      options = {:per_page => (2**30), :star => true }
-      all_ids = MediaEntry.by_user(current_user).search_for_ids options
-      @my_media_entries_paginated_ids = (all_ids & viewable_ids).paginate(:page => params[:page], :per_page => params[:per_page].to_i)
+      search_options = {:per_page => (2**30), :star => true }
+      paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
+      all_ids = MediaEntry.by_user(current_user).search_for_ids search_options
+      @my_media_entries_paginated_ids = (all_ids & viewable_ids).paginate(paginate_options)
       @my_media_entries_json = Logic.data_for_page(@my_media_entries_paginated_ids, current_user).to_json
-      all_ids = MediaEntry.not_by_user(current_user).search_for_ids options
-      @accessible_media_entries_paginated_ids = (all_ids & viewable_ids).paginate(:page => params[:page], :per_page => params[:per_page].to_i)
+      all_ids = MediaEntry.not_by_user(current_user).search_for_ids search_options
+      @accessible_media_entries_paginated_ids = (all_ids & viewable_ids).paginate(paginate_options)
       @accessible_media_entries_json = Logic.data_for_page(@accessible_media_entries_paginated_ids, current_user).to_json
       
       respond_to do |format|

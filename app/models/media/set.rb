@@ -75,7 +75,6 @@ module Media
   # 
   default_sphinx_scope :default_search
   sphinx_scope(:default_search) { { :star => true, :order => :updated_at, :sort_mode => :desc } }
-  sphinx_scope(:by_ids) { |ids| { :with => {:sphinx_internal_id => ids} } }
 
   
   ########################################################
