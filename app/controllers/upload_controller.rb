@@ -75,8 +75,6 @@ class UploadController < ApplicationController
     params[:resources][:media_entry].each_pair do |key, value|
       media_entry = @media_entries.detect{|me| me.id == key.to_i } #old# .find(key)
       media_entry.update_attributes(value)
-      # OPTIMIZE this fix is a workaround, related to the media_entry updated_at used by cache_key
-      Rails.cache.delete("#{media_entry.class}/#{media_entry.cache_key}/meta_data")
     end
 
     # TODO delta index if new Person 

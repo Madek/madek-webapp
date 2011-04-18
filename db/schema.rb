@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110408095310) do
+ActiveRecord::Schema.define(:version => 20110415133056) do
 
   create_table "copyrights", :force => true do |t|
     t.boolean "is_default", :default => false
@@ -220,11 +220,13 @@ ActiveRecord::Schema.define(:version => 20110408095310) do
     t.string   "subject_type"
     t.integer  "resource_id"
     t.string   "resource_type"
-    t.text     "actions_object"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "action_bits",   :default => 0, :null => false
+    t.integer  "action_mask",   :default => 0, :null => false
   end
 
+  add_index "permissions", ["action_bits", "action_mask"], :name => "index_permissions_on_action_bits_and_action_mask"
   add_index "permissions", ["created_at"], :name => "index_permissions_on_created_at"
   add_index "permissions", ["resource_id", "resource_type", "subject_id", "subject_type"], :name => "index_permissions_on_resource__and_subject", :unique => true
   add_index "permissions", ["subject_id", "subject_type"], :name => "index_permissions_on_subject_id_and_subject_type"
