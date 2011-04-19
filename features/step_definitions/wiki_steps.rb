@@ -68,6 +68,12 @@ Then /^I should see a "([^"]*)" link on the page$/ do |text|
   find_link( text ).should_not be_nil
 end
 
+Then 'there should be an image with title "$title"' do |title|
+  expect {
+    find("img[title='#{title}']")
+  }.should_not raise_exception
+end
+
 Then 'I should land on the newly to be created "$name" page' do |name|
   Then 'I should see "There is no such page. Do you want to"'
   Then 'I should see a "create it" link on the page'
