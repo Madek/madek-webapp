@@ -5,7 +5,8 @@ class Filter
   attr_accessor :options, :filters, :ts_classes
   def initialize(filter_attributes)
     @filters = filter_attributes
-    @options = {:with => {:viewable => true}, :conditions => {}, :classes => ts_classes}
+    #@options = {:with => {:viewable => true}, :conditions => {}, :classes => ts_classes}
+    @options = {:with => {}, :conditions => {}, :classes => ts_classes}
   end
   
   def to_query_filter
@@ -23,11 +24,11 @@ class Filter
   end
   
   def all_ts_attributes
-    ts_classes.map {|model| model::TS_ATTRIBUTES.keys }.flatten.uniq
+    ts_classes.map {|model| model::TS_ATTRIBUTES }.flatten.uniq
   end
   
   def all_ts_fields
-    (ts_classes.map {|model| model::TS_FIELDS.keys }.flatten.uniq + MetaKey.with_meta_data.map {|key| key.label.parameterize.to_sym}).flatten
+    (ts_classes.map {|model| model::TS_FIELDS }.flatten.uniq + MetaKey.with_meta_data.map {|key| key.label.parameterize.to_sym}).flatten
   end
   
   def comparison_with_operator(val, operator)

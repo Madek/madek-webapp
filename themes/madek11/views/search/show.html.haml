@@ -1,6 +1,6 @@
 :css
   .filter_bar h4 { font-size: 1.2em; }
-  .filter_bar #term {font-weight: normal; font-family: serif; font-style: italic; color: #666;}
+  .page_title_left #term {font-weight: normal; font-size: 0.7em; line-height: 1.4em; margin-top: 0.2em; font-family: serif; font-style: italic; color: #666;}
   .filter_bar #filter-query ul {margin-bottom: 1em;}
   .filter_bar #filter-query ul li {float: left; margin-right: 1em; }
   .filter_bar #filter-query ul li input[type="checkbox"] {position:relative; top: -3px; margin-right: 3px;}
@@ -8,10 +8,12 @@
 %section#content_body_fav
   .page_title_left
     =_("Suchergebnisse")
+    #term
+      für &quot;
+      = @search_term
+      &quot;
   .clear
   .filter_bar
-    #term
-      = "für #{@search_term}"
     %h4
       = "Medieneinträge (#{get_result_count(@facets, "MediaEntry")}) / Sets (#{get_result_count(@facets, "Media::Set")})"
     %form{:action => search_path, :method => :get}

@@ -6,9 +6,9 @@ module Media
 
   class Set < ActiveRecord::Base # TODO rename to Media::Group
     include Resource
-    
-    
-    TS_FIELDS = TS_FIELDS.merge({:type => lambda {|i| i.type } })    
+     
+    TS_FIELDS += [:type]
+  
   
     has_dag_links :link_class_name => 'Media::SetLink'
   

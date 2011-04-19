@@ -8,11 +8,9 @@ class MediaEntry < ActiveRecord::Base
 
   include Resource
   
-  TS_ATTRIBUTE_DEFINITIONS += [['height', 'int', 0], ['width', 'int', 0], ['orientation', 'int'], ['media_type', 'int'], ['subject_sort', 'str2ordinal'], 
-                               ['creator_sort', 'str2ordinal']]
-  TS_ATTRIBUTES = TS_ATTRIBUTES.merge({:width => lambda {|i| i.media_file.width.to_i }, :height => lambda {|i| i.media_file.height.to_i }, 
-                                       :orientation => lambda {|i| i.media_file.orientation }, :subject_sort => lambda {|i| i.meta_data.with_labels["subject"]}, 
-                                       :creator_sort => lambda {|i| i.meta_data.with_labels["creator"]}, :media_type => lambda {|i| i.media_type.to_crc32 }})
+  TS_ATTRIBUTE_DEFINITIONS += [['height', 'int', 0], ['width', 'int', 0], ['orientation', 'int'], ['media_type', 'int']]
+  TS_ATTRIBUTES += [:width, :height, :orientation, :media_type]
+
 
   belongs_to                :media_file, :include => :previews # TODO validates_presence # TODO on destroy, also destroy the media_file if this is the only related media_entry and snapshot
   belongs_to                :upload_session
@@ -30,6 +28,7 @@ class MediaEntry < ActiveRecord::Base
 
   # TODO remove and go through permissions ??
   delegate :user, :user_id, :to => :upload_session
+  delegate :height, :width, :orientation, :to => :media_file
 
   default_scope order("updated_at DESC")
 
