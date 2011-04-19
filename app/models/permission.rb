@@ -20,7 +20,8 @@ class Permission < ActiveRecord::Base
     h = {}
     ACTIONS.each_with_index do |a, i|
       j = 2 ** i
-      h[a] = !(j & action_bits & action_mask).zero? 
+      next if (j & action_mask).zero?
+      h[a] = !(j & action_bits).zero? 
     end
     h
   end

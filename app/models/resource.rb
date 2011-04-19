@@ -86,10 +86,8 @@ module Resource
         end
 
         # find existing meta_datum, if it exists
-        if attr[:id].blank?
-          if (md = meta_data.all_cached.detect {|md| md.meta_key_id == attr[:meta_key_id].to_i}) #(md = meta_data.where(:meta_key_id => attr[:meta_key_id]).first)
-            attr[:id] = md.id
-          end
+        if attr[:id].blank? and (md = meta_data.all_cached.detect {|md| md.meta_key_id == attr[:meta_key_id].to_i}) #(md = meta_data.where(:meta_key_id => attr[:meta_key_id]).first)
+          attr[:id] = md.id
         end
 
         # get rid of meta_datum if value is blank
@@ -425,10 +423,11 @@ private
   def generate_permissions
     # OPTIMIZE
     unless self.class == Snapshot
-      permissions.create(:subject => nil)
       subject = self.user
     else
-      permissions.build(:subject => nil).set_actions(media_entry.default_permission.actions) #1504#
+      #1504#
+      h = media_entry.default_permission.actions
+      permissions.build(:subject => nil).set_actions(h) unless h.blank?
       subject = Group.find_or_create_by_name("MIZ-Archiv") # Group.scoped_by_name("MIZ-Archiv").first
     end
 
