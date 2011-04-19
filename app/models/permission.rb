@@ -286,7 +286,9 @@ class Permission < ActiveRecord::Base
       
       def assign_for(resource)
         resource.permissions.where("action_bits & #{@i} AND action_mask & #{@i}").first.set_actions({:manage => false})
-        resource.permissions.find_or_create_by_subject_type_and_subject_id(@subject.class.base_class.name, @subject.id).set_actions({:view => true, :edit => true, :hi_res => true, :manage => true})
+        h = {:view => true, :edit => true, :manage => true}
+        h[:hi_res] = true if resource.is_a?(MediaEntry)
+        resource.permissions.find_or_create_by_subject_type_and_subject_id(@subject.class.base_class.name, @subject.id).set_actions(h)
       end
       
       if resource.is_a?(Media::Set)
