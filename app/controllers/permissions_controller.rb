@@ -57,7 +57,7 @@ class PermissionsController < ApplicationController
           end if params[:subject][key]
         end
         
-        # OPTIMIZE it's not sure that the current_user is the owner (manager) of the current resource 
+        # OPTIMIZE it's not sure that the current_user is the owner (manager) of the current resource # TODO use Permission.assign_manage_to ?? 
         resource.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
       end
       flash[:notice] = "Die Zugriffsberechtigungen wurden erfolgreich gespeichert."  
