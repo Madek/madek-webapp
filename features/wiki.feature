@@ -11,6 +11,8 @@ Feature: Help wiki
       And a user called "Anonymous" with username "anon" and password "aanon" exists
 
   Scenario: Anonymous users should not see the wiki
+    When I go to the home page
+     And I make sure I'm logged out
     When I go to the wiki
     Then I should be told I have no access and I need to log in
 

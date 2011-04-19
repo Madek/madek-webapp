@@ -211,6 +211,12 @@ When "all the hidden items become visible" do
   make_hidden_items_visible
 end
 
+When "I make sure I'm logged out" do
+  if page.has_content?("Abmelden")
+    Then 'I follow "Abmelden"'
+  end
+end
+
 Then "the box should have a hires download link" do
     find(:css, "tr.download-unit").all("a").count.should == 1
 end
