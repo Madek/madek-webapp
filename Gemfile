@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 source 'http://gems.github.com'
 
-gem 'rails', '3.0.6'
+gem 'rails', '3.0.7'
 gem 'i18n' # Need this explicitly, otherwise can't deploy
 
 gem 'mysql2', '0.2.7'
