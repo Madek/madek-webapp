@@ -14,6 +14,15 @@ module NavigationHelpers
     when /the media entries/
       '/media_entries'
       
+    when /^the wiki$/
+      '/wiki'
+
+    when /the "(.*)" wiki/
+      '/wiki/'+ $1
+
+    when /the wiki edit page/
+      '/wiki/edit?path='
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

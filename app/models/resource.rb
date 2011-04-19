@@ -61,7 +61,7 @@ module Resource
 #    end
 
     base.has_many  :permissions, :as => :resource, :dependent => :destroy
-    base.has_one   :default_permission, :as => :resource, :class_name => "Permission", :conditions => {:subject_id => nil, :subject_type => nil}
+    #old#1504# base.has_one   :default_permission, :as => :resource, :class_name => "Permission", :conditions => {:subject_id => nil, :subject_type => nil}
     base.after_create :generate_permissions
 
     base.has_many  :edit_sessions, :as => :resource, :dependent => :destroy, :readonly => true, :limit => 5
@@ -74,9 +74,6 @@ module Resource
     base.validates_presence_of :user_id, :if => Proc.new { |record| record.respond_to?(:user_id) }
 
     def update_attributes_with_pre_validation(attributes, current_user = nil)
-      self.editors << current_user if current_user # OPTIMIZE group by user ??
-      self.updated_at = Time.now # OPTIMIZE touch or sphinx_touch ?? (only for media_entries actually)
-
       # we need to deep copy the attributes for batch edit (multiple resources)
       dup_attributes = Marshal.load(Marshal.dump(attributes))
 
@@ -101,6 +98,9 @@ module Resource
           #old# attr[:value] = "." # NOTE bypass the validation
         end
       end if dup_attributes[:meta_data_attributes]
+
+      self.editors << current_user if current_user # OPTIMIZE group by user ??
+      self.updated_at = Time.now # OPTIMIZE touch or sphinx_touch ?? (only for media_entries actually)
 
       update_attributes_without_pre_validation(dup_attributes)
     end
@@ -172,7 +172,10 @@ module Resource
           val.to_crc32
       end
     end
-  
+  end
+
+  def default_permission
+    Permission.resource_default(self)
   end
 
   # returns the meta_data for a particular resource, so that it can written into a media file that is to be exported.
@@ -425,7 +428,7 @@ private
       permissions.create(:subject => nil)
       subject = self.user
     else
-      permissions.build(:subject => nil).set_actions(media_entry.default_permission.actions)
+      permissions.build(:subject => nil).set_actions(media_entry.default_permission.actions) #1504#
       subject = Group.find_or_create_by_name("MIZ-Archiv") # Group.scoped_by_name("MIZ-Archiv").first
     end
 

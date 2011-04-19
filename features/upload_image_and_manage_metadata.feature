@@ -1,6 +1,6 @@
 Feature: Upload images and manage media entries based on images
 
-  Foo
+  Foo Bar
 
   Background: Set up the world and some users
     Given I have set up the world
