@@ -59,5 +59,4 @@ Feature: Create and edit workgroups
      And "Duck, Daffy" should not be a member of the "Looney Tunes" group
     When I click the arrow next to "Pig, Porky"
      And I follow "Meine Arbeitsgruppen"
-     And I wait for 3 seconds
      Then I should not see "Duck, Daffy"

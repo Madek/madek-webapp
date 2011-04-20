@@ -256,6 +256,7 @@ end
 # Picks the given text string from an autocomplete text input box
 # that is stuck in an UL: ul.ui-autocomplete
 def pick_from_autocomplete(text)
+  wait_for_css_element("li.ui-menu-item")
   all("ul.ui-autocomplete").each do |ul|
     ul.all("li.ui-menu-item a").each do |item|
       if !item.text.match(/#{text}/).nil?
