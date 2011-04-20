@@ -373,7 +373,7 @@ nav {
   #search-query input[type="text"] {
     width: 200px;
     height: 32px;
-    font-size: 1em;
+    font-size: 1.1em;
     padding-left: 8px;
     border: none;
     margin-right: 3px;
@@ -1225,7 +1225,7 @@ button.dark:hover {
 /*********************/
 #selected_items {
   min-width: 98%;
-  width: auto;
+  min-height: 70px;
   background-color: rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: 0 0 3px rgba(150, 150, 150, 0.6);
   -moz-box-shadow: 0 0 3px rgba(150, 150, 150, 0.6);
@@ -1234,12 +1234,16 @@ button.dark:hover {
   bottom: 82px;
   left: 0;
   z-index: 1000;
-  /*padding-left: 17px;
-  padding-right: 17px;*/
-  padding-top: 9px;
-  overflow-x: scroll;
+  padding-left: 10px;
+  padding-right: 25px;
+  padding-top: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
   max-height: 280px;
-  min-height: 70px; }
+  direction: rtl;
+  /* Right To left */
+  text-align: center;
+  /* Override direction */ }
   #selected_items .thumb_remove {
     position: absolute;
     margin-top: 3px;
