@@ -146,7 +146,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      Then I should see "Furter, Frank"
 
 
-  @javascript @work2
+  @javascript
   Scenario: Enter some keywords into the JS-based keyword dialog box
     When I log in as "hansolo" with password "leia"
      And I upload some picture titled "Me and Leia Organa on the beach"

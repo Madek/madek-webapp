@@ -11,7 +11,6 @@ Feature: Create and edit workgroups
       And a user called "Porky Pig" with username "porky" and password "piggy" exists
       And a user called "Daffy Duck" with username "daffy" and password "ducky" exists
 
-  
   Scenario: Create a group
     When I log in as "porky" with password "piggy"
      And I click the arrow next to "Pig, Porky"
@@ -60,4 +59,5 @@ Feature: Create and edit workgroups
      And "Duck, Daffy" should not be a member of the "Looney Tunes" group
     When I click the arrow next to "Pig, Porky"
      And I follow "Meine Arbeitsgruppen"
+     And I wait for 3 seconds
      Then I should not see "Duck, Daffy"

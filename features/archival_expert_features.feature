@@ -15,7 +15,7 @@ Feature: Exporting for archival experts and using the associated archival expert
       And the user with username "fred" is member of the group "Expert"
       And the user with username "ginger" is member of the group "MIZ-Archiv"
 
-  @javascript @work
+  @javascript
   Scenario: Enter archival metadata for a media entry and then have an expert look at your copy
     Given I log in as "fred" with password "tapping"
       And I upload some picture titled "Tapping for the Archives"
