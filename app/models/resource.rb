@@ -98,8 +98,11 @@ module Resource
       end if dup_attributes[:meta_data_attributes]
 
       self.editors << current_user if current_user # OPTIMIZE group by user ??
-      self.updated_at = Time.now # OPTIMIZE touch or sphinx_touch ?? (only for media_entries actually)
+      self.updated_at = Time.now # used for cache invalidation and sphinx reindex # OPTIMIZE touch or sphinx_touch ??
 
+      # OPTIMIZE this fix is a workaround, related to the updated_at used by cache_key
+      Rails.cache.delete("#{self.class}/#{self.cache_key}/meta_data")
+      
       update_attributes_without_pre_validation(dup_attributes)
     end
     base.alias_method_chain :update_attributes, :pre_validation
