@@ -1,4 +1,14 @@
 
+
+Before do
+  # This is run before EVERY scenario. It's necessary to prevent
+  # tests trying to fetch media entries from cache that don't exist
+  # anymore on the database.
+  Rails.cache.clear
+end
+
+
+
 # Need to escape these special characters because they might appear in the
 # labels we use in the metadata editor form.
 def filter_string_for_regex(string)
