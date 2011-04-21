@@ -1246,9 +1246,12 @@ button.dark:hover {
   /* Override direction */ }
   #selected_items .thumb_remove {
     position: absolute;
-    margin-top: 3px;
     cursor: pointer;
-    display: none; }
+    display: none;
+    text-align: center;
+    font-size: 2.2em;
+    line-height: 55px;
+    margin: 6px 0 10px 3px; }
 
 #page_head_edit #selected_items {
   width: 58%;
@@ -1293,7 +1296,6 @@ button.dark:hover {
   box-shadow: 0 0 1px rgba(100, 100, 100, 0.6);
   margin: 0 3px 10px 3px; }
   .thumb_mini img {
-    /*border: 1px solid #e4e4e4;*/
     margin-top: expression(( 60 - this.height ) / 2);
     vertical-align: middle;
     max-height: 50px;

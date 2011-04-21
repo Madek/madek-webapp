@@ -1349,9 +1349,12 @@ button.dark:hover {
 	
 	.thumb_remove { 
 		position:absolute;
-		margin-top: 3px;
 		cursor:pointer;
 		display: none;
+	    text-align: center;
+	    font-size: 2.2em;
+	    line-height: 55px;
+	    margin: 6px 0 10px 3px;
 	}
 }
 
@@ -1403,7 +1406,6 @@ button.dark:hover {
 	margin: 0 3px 10px 3px;
 
 	img {
-		/*border: 1px solid #e4e4e4;*/
 		margin-top: expression(( 60 - this.height ) / 2);
 		vertical-align: middle;
 		max-height: 50px;
