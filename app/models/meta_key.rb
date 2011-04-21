@@ -12,7 +12,7 @@ class MetaKey < ActiveRecord::Base
       @meta_key_definitions[context.id] ||= scoped_by_meta_context_id(context).first
     end
   end
-  has_many :meta_contexts, :through => :meta_key_definition
+  has_many :meta_contexts, :through => :meta_key_definitions
   has_and_belongs_to_many :meta_terms, :class_name => "Meta::Term",  # TODO enforce object_type="Meta::Term" if meta_terms
                                        :join_table => :meta_keys_meta_terms,
                                        :association_foreign_key => :meta_term_id

@@ -7,6 +7,7 @@ class MetaDataController < ApplicationController
   layout "meta_data"
 
   def index
+    @meta_data = @resource.meta_data_for_context(@context, false)
     respond_to do |format|
       format.js { render :layout => (params[:layout] != "false") }
     end

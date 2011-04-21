@@ -18,6 +18,23 @@ module MetaDataHelper
     return a.html_safe
   end
 
+  def display_project_abstract(project)
+    meta_data = project.abstract
+    return if meta_data.blank?
+    contexts = project.individual_contexts + MetaContext.defaults
+    #contexts = (project.individual_contexts + MetaContext.all).uniq
+    capture_haml do
+      haml_tag :h3, "Abstrakt"
+      meta_data.collect do |meta_datum|
+        context = contexts.detect {|c| meta_datum.meta_key.meta_contexts.include?(c) }
+        next unless context #
+        definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
+        haml_tag :small, definition.meta_field.label
+        haml_tag :p, preserve(formatted_value(meta_datum))
+      end
+    end
+  end
+
   # TODO merge with MetaDatum#to_s
   def formatted_value(meta_datum)
     case meta_datum.meta_key.object_type
