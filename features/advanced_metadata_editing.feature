@@ -8,7 +8,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
       And a user called "Obi-Wan Kenobi" with username "obi" and password "sabers" exists
       And a user called "Lando Calrissian" with username "lando" and password "bounty" exists
 
-  @javascript @work
+  @javascript
   Scenario: Changing the core text fields of a media entry
     When I log in as "hansolo" with password "leia"
      And I upload some picture titled "Millenium Falcon, Front View"
@@ -51,6 +51,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      |label|value|
      |Projekttitel|Photographs of Han's rides|
      |Dozierende/Projektleitung|No one teaches me!|
+     |Bereich ZHdK|Services, Informations-Technologie-Zentrum (SER_SUP_ITZ.alle)|
      And I press "Speichern"
     Then I should see "My beautiful and proud ship"
      And I should not see "Millenium Falcon, Front View"
@@ -169,3 +170,28 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I click the media entry titled "Me and Leia Organa on the beach"
      And I wait for 3 seconds
      Then I should see "leia, beach, sun, fun"
+
+
+  @javascript @work
+  Scenario: Using the MAdeK multi-select widget
+    When I log in as "hansolo" with password "leia"
+     And I upload some picture titled "Millenium Falcon, Front View"
+     And I click the arrow next to "Solo, Han"
+     And I follow "Meine Medien"
+     And all the hidden items become visible
+     And I click the edit icon on the media entry titled "Millenium Falcon, Front View"
+     And I fill in the metadata form as follows:
+     |label|value|
+     |Titel|My great ship|
+     And I follow "ZHdK" within ".tabs"
+     And I wait for 3 seconds
+     And I fill in the metadata form as follows:
+     |label|value|
+     |Bereich ZHdK|Services, Informations-Technologie-Zentrum (SER_SUP_ITZ.alle)|
+     And I press "Speichern"
+    Then I should see "My great ship"
+     And I should not see "Millenium Falcon, Front View"
+    When I follow "ZHdK" within ".ui-tabs-nav"
+     And I wait for 2 seconds
+     And I wait for the CSS element ".ui-tabs-panel"
+    Then I should see "Services, Informations-Technologie-Zentrum (SER_SUP_ITZ.alle)"
