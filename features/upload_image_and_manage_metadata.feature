@@ -99,7 +99,7 @@ Feature: Upload images and manage media entries based on images
       And I go to the home page
       Then I should see "A second piece of the Berlin"
 
-  @javascript @work
+  @javascript
   Scenario: Make an uploaded file public
    Given a user called "Raissa Gorbacheva" with username "raissa" and password "novodevichy" exists
     When I log in as "helmi" with password "saumagen"
@@ -113,7 +113,7 @@ Feature: Upload images and manage media entries based on images
     Then I should see "baustelle osten"
      
 
-  @javascript @work
+  @javascript
   Scenario: Upload a public file and then make it un-public again
    Given a user called "Raissa Gorbacheva" with username "raissa" and password "novodevichy" exists
     When I log in as "helmi" with password "saumagen"

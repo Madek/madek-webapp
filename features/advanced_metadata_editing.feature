@@ -8,7 +8,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
       And a user called "Obi-Wan Kenobi" with username "obi" and password "sabers" exists
       And a user called "Lando Calrissian" with username "lando" and password "bounty" exists
 
-  @javascript 
+  @javascript @work
   Scenario: Changing the core text fields of a media entry
     When I log in as "hansolo" with password "leia"
      And I upload some picture titled "Millenium Falcon, Front View"
@@ -29,6 +29,8 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      |Porträtierte Person/en|Chewbacca|
      |Partner / beteiligte Institutionen|Rebel Alliance|
      |Auftrag durch|No one! I am my own boss.|
+     |Gattung|Design|
+     |Gattung|Fotografie|
      And I follow "Medium"
      And I wait for 3 seconds
      And I fill in the metadata form as follows:

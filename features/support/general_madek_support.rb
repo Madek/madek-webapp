@@ -38,6 +38,16 @@ def wait_for_css_element(element)
   page.has_css?(element, :visible => true)
 end
 
+def set_term_checkbox(node, text)
+#   debugger; puts "lala"
+  cb = node.find("ul li ul li", :text => text).find("input")
+  cb.click unless cb[:checked] == "true" # a string, not a bool!
+end
+
+def enter_into_multiselect_widget(node, text)
+
+end
+
 
 def fill_in_for_media_entry_number(n, values)
 
