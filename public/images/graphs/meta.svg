@@ -10,7 +10,7 @@
 <title>MAdeK keymapping</title>
 <polygon fill="white" stroke="white" points="-4,5 -4,-3035 1805,-3035 1805,5 -4,5"/>
 <text text-anchor="middle" x="67" y="-3014.4" font-family="Times,serif" font-size="14.00">Key Mapping Graph</text>
-<text text-anchor="middle" x="67" y="-2999.4" font-family="Times,serif" font-size="14.00">21.03.2011, 16:16</text>
+<text text-anchor="middle" x="67" y="-2999.4" font-family="Times,serif" font-size="14.00">13.04.2011, 13:06</text>
 <g id="graph2" class="cluster"><title>cluster_internal</title>
 <polygon fill="#a1d4f1" stroke="#a1d4f1" points="1112,-548 1112,-2985 1792,-2985 1792,-548 1112,-548"/>
 <text text-anchor="middle" x="1142" y="-2968.4" font-family="Times,serif" font-size="14.00">Internal</text>
@@ -41,7 +41,7 @@
 </g>
 <!-- title&#45;&gt;Core -->
 <g id="edge3" class="edge"><title>title:e&#45;&gt;Core:w</title>
-<path fill="none" stroke="#333333" d="M1323,-891C1475.93,-891 1495.07,-1004 1648,-1004"/>
+<path fill="none" stroke="#551111" d="M1323,-891C1475.93,-891 1495.07,-1004 1648,-1004"/>
 </g>
 <!-- Werk -->
 <g id="node99" class="node"><title>Werk</title>
@@ -50,7 +50,7 @@
 </g>
 <!-- title&#45;&gt;Werk -->
 <g id="edge17" class="edge"><title>title:e&#45;&gt;Werk:w</title>
-<path fill="none" stroke="#221155" d="M1323,-891C1563.27,-891 1407.73,-1323 1648,-1323"/>
+<path fill="none" stroke="#666655" d="M1323,-891C1563.27,-891 1407.73,-1323 1648,-1323"/>
 </g>
 <!-- Set -->
 <g id="node134" class="node"><title>Set</title>
@@ -59,7 +59,7 @@
 </g>
 <!-- title&#45;&gt;Set -->
 <g id="edge83" class="edge"><title>title:e&#45;&gt;Set:w</title>
-<path fill="none" stroke="#775577" d="M1323,-891C1467.44,-891 1503.56,-891 1648,-891"/>
+<path fill="none" stroke="#117700" d="M1323,-891C1467.44,-891 1503.56,-891 1648,-891"/>
 </g>
 <!-- Upload -->
 <g id="node150" class="node"><title>Upload</title>
@@ -68,7 +68,7 @@
 </g>
 <!-- title&#45;&gt;Upload -->
 <g id="edge111" class="edge"><title>title:e&#45;&gt;Upload:w</title>
-<path fill="none" stroke="#005555" d="M1323,-891C1514.53,-891 1456.47,-1174 1648,-1174"/>
+<path fill="none" stroke="#001177" d="M1323,-891C1514.53,-891 1456.47,-1174 1648,-1174"/>
 </g>
 <!-- subtitle -->
 <g id="node5" class="node"><title>subtitle</title>
@@ -77,7 +77,7 @@
 </g>
 <!-- subtitle&#45;&gt;Werk -->
 <g id="edge19" class="edge"><title>subtitle:e&#45;&gt;Werk:w</title>
-<path fill="none" stroke="#221155" d="M1323,-1485C1484.39,-1485 1486.61,-1323 1648,-1323"/>
+<path fill="none" stroke="#666655" d="M1323,-1485C1484.39,-1485 1486.61,-1323 1648,-1323"/>
 </g>
 <!-- author -->
 <g id="node6" class="node"><title>author</title>
@@ -86,19 +86,19 @@
 </g>
 <!-- author&#45;&gt;Core -->
 <g id="edge5" class="edge"><title>author:e&#45;&gt;Core:w</title>
-<path fill="none" stroke="#333333" d="M1323,-1134C1478.57,-1134 1492.43,-1004 1648,-1004"/>
+<path fill="none" stroke="#551111" d="M1323,-1134C1478.57,-1134 1492.43,-1004 1648,-1004"/>
 </g>
 <!-- author&#45;&gt;Werk -->
 <g id="edge21" class="edge"><title>author:e&#45;&gt;Werk:w</title>
-<path fill="none" stroke="#221155" d="M1323,-1134C1490.09,-1134 1480.91,-1323 1648,-1323"/>
+<path fill="none" stroke="#666655" d="M1323,-1134C1490.09,-1134 1480.91,-1323 1648,-1323"/>
 </g>
 <!-- author&#45;&gt;Set -->
 <g id="edge85" class="edge"><title>author:e&#45;&gt;Set:w</title>
-<path fill="none" stroke="#775577" d="M1323,-1134C1503.36,-1134 1467.64,-891 1648,-891"/>
+<path fill="none" stroke="#117700" d="M1323,-1134C1503.36,-1134 1467.64,-891 1648,-891"/>
 </g>
 <!-- author&#45;&gt;Upload -->
 <g id="edge113" class="edge"><title>author:e&#45;&gt;Upload:w</title>
-<path fill="none" stroke="#005555" d="M1323,-1134C1468.53,-1134 1502.47,-1174 1648,-1174"/>
+<path fill="none" stroke="#001177" d="M1323,-1134C1468.53,-1134 1502.47,-1174 1648,-1174"/>
 </g>
 <!-- additional authors -->
 <g id="node7" class="node"><title>additional authors</title>
@@ -117,7 +117,7 @@
 </g>
 <!-- institutional affiliation&#45;&gt;ZHdK -->
 <g id="edge127" class="edge"><title>institutional affiliation:e&#45;&gt;ZHdK:w</title>
-<path fill="none" stroke="#117711" d="M1323,-2862C1469.42,-2862 1501.58,-2808 1648,-2808"/>
+<path fill="none" stroke="#556666" d="M1323,-2862C1469.42,-2862 1501.58,-2808 1648,-2808"/>
 </g>
 <!-- portrayed object dates -->
 <g id="node9" class="node"><title>portrayed object dates</title>
@@ -126,15 +126,15 @@
 </g>
 <!-- portrayed object dates&#45;&gt;Core -->
 <g id="edge7" class="edge"><title>portrayed object dates:e&#45;&gt;Core:w</title>
-<path fill="none" stroke="#333333" d="M1323,-1161C1483.42,-1161 1487.58,-1004 1648,-1004"/>
+<path fill="none" stroke="#551111" d="M1323,-1161C1483.42,-1161 1487.58,-1004 1648,-1004"/>
 </g>
 <!-- portrayed object dates&#45;&gt;Werk -->
 <g id="edge23" class="edge"><title>portrayed object dates:e&#45;&gt;Werk:w</title>
-<path fill="none" stroke="#221155" d="M1323,-1161C1484.39,-1161 1486.61,-1323 1648,-1323"/>
+<path fill="none" stroke="#666655" d="M1323,-1161C1484.39,-1161 1486.61,-1323 1648,-1323"/>
 </g>
 <!-- portrayed object dates&#45;&gt;Upload -->
 <g id="edge115" class="edge"><title>portrayed object dates:e&#45;&gt;Upload:w</title>
-<path fill="none" stroke="#005555" d="M1323,-1161C1467.56,-1161 1503.44,-1174 1648,-1174"/>
+<path fill="none" stroke="#001177" d="M1323,-1161C1467.56,-1161 1503.44,-1174 1648,-1174"/>
 </g>
 <!-- keywords -->
 <g id="node10" class="node"><title>keywords</title>
@@ -143,19 +143,19 @@
 </g>
 <!-- keywords&#45;&gt;Core -->
 <g id="edge9" class="edge"><title>keywords:e&#45;&gt;Core:w</title>
-<path fill="none" stroke="#333333" d="M1323,-918C1472.42,-918 1498.58,-1004 1648,-1004"/>
+<path fill="none" stroke="#551111" d="M1323,-918C1472.42,-918 1498.58,-1004 1648,-1004"/>
 </g>
 <!-- keywords&#45;&gt;Werk -->
 <g id="edge25" class="edge"><title>keywords:e&#45;&gt;Werk:w</title>
-<path fill="none" stroke="#221155" d="M1323,-918C1553.79,-918 1417.21,-1323 1648,-1323"/>
+<path fill="none" stroke="#666655" d="M1323,-918C1553.79,-918 1417.21,-1323 1648,-1323"/>
 </g>
 <!-- keywords&#45;&gt;Set -->
 <g id="edge87" class="edge"><title>keywords:e&#45;&gt;Set:w</title>
-<path fill="none" stroke="#775577" d="M1323,-918C1467.94,-918 1503.06,-891 1648,-891"/>
+<path fill="none" stroke="#117700" d="M1323,-918C1467.94,-918 1503.06,-891 1648,-891"/>
 </g>
 <!-- keywords&#45;&gt;Upload -->
 <g id="edge117" class="edge"><title>keywords:e&#45;&gt;Upload:w</title>
-<path fill="none" stroke="#005555" d="M1323,-918C1506.87,-918 1464.13,-1174 1648,-1174"/>
+<path fill="none" stroke="#001177" d="M1323,-918C1506.87,-918 1464.13,-1174 1648,-1174"/>
 </g>
 <!-- classification -->
 <g id="node11" class="node"><title>classification</title>
@@ -169,7 +169,7 @@
 </g>
 <!-- portrayed object location&#45;&gt;Werk -->
 <g id="edge37" class="edge"><title>portrayed object location:e&#45;&gt;Werk:w</title>
-<path fill="none" stroke="#221155" d="M1323,-1458C1479.41,-1458 1491.59,-1323 1648,-1323"/>
+<path fill="none" stroke="#666655" d="M1323,-1458C1479.41,-1458 1491.59,-1323 1648,-1323"/>
 </g>
 <!-- portrayed object city -->
 <g id="node13" class="node"><title>portrayed object city</title>
@@ -178,7 +178,7 @@
 </g>
 <!-- portrayed object city&#45;&gt;Werk -->
 <g id="edge39" class="edge"><title>portrayed object city:e&#45;&gt;Werk:w</title>
-<path fill="none" stroke="#221155" d="M1323,-1431C1475.21,-1431 1495.79,-1323 1648,-1323"/>
+<path fill="none" stroke="#666655" d="M1323,-1431C1475.21,-1431 1495.79,-1323 1648,-1323"/>
 </g>
 <!-- portrayed object state -->
 <g id="node14" class="node"><title>portrayed object state</title>
@@ -187,7 +187,7 @@
 </g>
 <!-- portrayed object state&#45;&gt;Werk -->
 <g id="edge41" class="edge"><title>portrayed object state:e&#45;&gt;Werk:w</title>
-<path fill="none" stroke="#221155" d="M1323,-1404C1471.86,-1404 1499.14,-1323 1648,-1323"/>
+<path fill="none" stroke="#666655" d="M1323,-1404C1471.86,-1404 1499.14,-1323 1648,-1323"/>
 </g>
 <!-- portrayed object country -->
 <g id="node15" class="node"><title>portrayed object country</title>
@@ -196,7 +196,7 @@
 </g>
 <!-- portrayed object country&#45;&gt;Werk -->
 <g id="edge43" class="edge"><title>portrayed object country:e&#45;&gt;Werk:w</title>
-<path fill="none" stroke="#221155" d="M1323,-1323C1467.44,-1323 1503.56,-1323 1648,-1323"/>
+<path fill="none" stroke="#666655" d="M1323,-1323C1467.44,-1323 1503.56,-1323 1648,-1323"/>
 </g>
 <!-- portrayed object country code -->
 <g id="node16" class="node"><title>portrayed object country code</title>
@@ -205,7 +205,7 @@
 </g>
 <!-- portrayed object country code&#45;&gt;Werk -->
 <g id="edge45" class="edge"><title>portrayed object country code:e&#45;&gt;Werk:w</title>
-<path fill="none" stroke="#221155" d="M1323,-1296C1467.94,-1296 1503.06,-1323 1648,-1323"/>
+<path fill="none" stroke="#666655" d="M1323,-1296C1467.94,-1296 1503.06,-1323 1648,-1323"/>
 </g>
 <!-- portrayed person -->
 <g id="node17" class="node"><title>portrayed person</title>
@@ -214,7 +214,7 @@
 </g>
 <!-- portrayed person&#45;&gt;Werk -->
 <g id="edge49" class="edge"><title>portrayed person:e&#45;&gt;Werk:w</title>
-<path fill="none" stroke="#221155" d="M1323,-1269C1469.42,-1269 1501.58,-1323 1648,-1323"/>
+<path fill="none" stroke="#666655" d="M1323,-1269C1469.42,-1269 1501.58,-1323 1648,-1323"/>
 </g>
 <!-- portrayed institution -->
 <g id="node18" class="node"><title>portrayed institution</title>
@@ -228,7 +228,7 @@
 </g>
 <!-- other creative participants&#45;&gt;Werk -->
 <g id="edge47" class="edge"><title>other creative participants:e&#45;&gt;Werk:w</title>
-<path fill="none" stroke="#221155" d="M1323,-1242C1471.86,-1242 1499.14,-1323 1648,-1323"/>
+<path fill="none" stroke="#666655" d="M1323,-1242C1471.86,-1242 1499.14,-1323 1648,-1323"/>
 </g>
 <!-- other document participants -->
 <g id="node20" class="node"><title>other document participants</title>
@@ -242,7 +242,7 @@
 </g>
 <!-- other document participants&#45;&gt;Medium -->
 <g id="edge75" class="edge"><title>other document participants:e&#45;&gt;Medium:w</title>
-<path fill="none" stroke="#334422" d="M1323,-2106C1499.7,-2106 1471.3,-2335 1648,-2335"/>
+<path fill="none" stroke="#555511" d="M1323,-2106C1499.7,-2106 1471.3,-2335 1648,-2335"/>
 </g>
 <!-- participating institution -->
 <g id="node21" class="node"><title>participating institution</title>
@@ -251,7 +251,7 @@
 </g>
 <!-- participating institution&#45;&gt;Werk -->
 <g id="edge51" class="edge"><title>participating institution:e&#45;&gt;Werk:w</title>
-<path fill="none" stroke="#221155" d="M1323,-1215C1475.21,-1215 1495.79,-1323 1648,-1323"/>
+<path fill="none" stroke="#666655" d="M1323,-1215C1475.21,-1215 1495.79,-1323 1648,-1323"/>
 </g>
 <!-- patron -->
 <g id="node22" class="node"><title>patron</title>
@@ -260,7 +260,7 @@
 </g>
 <!-- patron&#45;&gt;Werk -->
 <g id="edge53" class="edge"><title>patron:e&#45;&gt;Werk:w</title>
-<path fill="none" stroke="#221155" d="M1323,-1620C1518.67,-1620 1452.33,-1323 1648,-1323"/>
+<path fill="none" stroke="#666655" d="M1323,-1620C1518.67,-1620 1452.33,-1323 1648,-1323"/>
 </g>
 <!-- academic year -->
 <g id="node23" class="node"><title>academic year</title>
@@ -269,7 +269,7 @@
 </g>
 <!-- academic year&#45;&gt;ZHdK -->
 <g id="edge131" class="edge"><title>academic year:e&#45;&gt;ZHdK:w</title>
-<path fill="none" stroke="#117711" d="M1323,-2808C1467.44,-2808 1503.56,-2808 1648,-2808"/>
+<path fill="none" stroke="#556666" d="M1323,-2808C1467.44,-2808 1503.56,-2808 1648,-2808"/>
 </g>
 <!-- project leader -->
 <g id="node24" class="node"><title>project leader</title>
@@ -278,7 +278,7 @@
 </g>
 <!-- project leader&#45;&gt;ZHdK -->
 <g id="edge135" class="edge"><title>project leader:e&#45;&gt;ZHdK:w</title>
-<path fill="none" stroke="#117711" d="M1323,-2781C1467.94,-2781 1503.06,-2808 1648,-2808"/>
+<path fill="none" stroke="#556666" d="M1323,-2781C1467.94,-2781 1503.06,-2808 1648,-2808"/>
 </g>
 <!-- project type -->
 <g id="node25" class="node"><title>project type</title>
@@ -287,7 +287,7 @@
 </g>
 <!-- project type&#45;&gt;ZHdK -->
 <g id="edge129" class="edge"><title>project type:e&#45;&gt;ZHdK:w</title>
-<path fill="none" stroke="#117711" d="M1323,-2835C1467.94,-2835 1503.06,-2808 1648,-2808"/>
+<path fill="none" stroke="#556666" d="M1323,-2835C1467.94,-2835 1503.06,-2808 1648,-2808"/>
 </g>
 <!-- description -->
 <g id="node26" class="node"><title>description</title>
@@ -296,11 +296,11 @@
 </g>
 <!-- description&#45;&gt;Werk -->
 <g id="edge31" class="edge"><title>description:e&#45;&gt;Werk:w</title>
-<path fill="none" stroke="#221155" d="M1323,-1107C1496.44,-1107 1474.56,-1323 1648,-1323"/>
+<path fill="none" stroke="#666655" d="M1323,-1107C1496.44,-1107 1474.56,-1323 1648,-1323"/>
 </g>
 <!-- description&#45;&gt;Set -->
 <g id="edge89" class="edge"><title>description:e&#45;&gt;Set:w</title>
-<path fill="none" stroke="#775577" d="M1323,-1107C1496.44,-1107 1474.56,-891 1648,-891"/>
+<path fill="none" stroke="#117700" d="M1323,-1107C1496.44,-1107 1474.56,-891 1648,-891"/>
 </g>
 <!-- short description -->
 <g id="node27" class="node"><title>short description</title>
@@ -314,7 +314,7 @@
 </g>
 <!-- public caption&#45;&gt;Werk -->
 <g id="edge29" class="edge"><title>public caption:e&#45;&gt;Werk:w</title>
-<path fill="none" stroke="#221155" d="M1323,-1593C1510.79,-1593 1460.21,-1323 1648,-1323"/>
+<path fill="none" stroke="#666655" d="M1323,-1593C1510.79,-1593 1460.21,-1323 1648,-1323"/>
 </g>
 <!-- remark -->
 <g id="node29" class="node"><title>remark</title>
@@ -323,7 +323,7 @@
 </g>
 <!-- remark&#45;&gt;Werk -->
 <g id="edge33" class="edge"><title>remark:e&#45;&gt;Werk:w</title>
-<path fill="none" stroke="#221155" d="M1323,-1566C1503.36,-1566 1467.64,-1323 1648,-1323"/>
+<path fill="none" stroke="#666655" d="M1323,-1566C1503.36,-1566 1467.64,-1323 1648,-1323"/>
 </g>
 <!-- hyperlinks -->
 <g id="node30" class="node"><title>hyperlinks</title>
@@ -332,7 +332,7 @@
 </g>
 <!-- hyperlinks&#45;&gt;Werk -->
 <g id="edge35" class="edge"><title>hyperlinks:e&#45;&gt;Werk:w</title>
-<path fill="none" stroke="#221155" d="M1323,-1539C1496.44,-1539 1474.56,-1323 1648,-1323"/>
+<path fill="none" stroke="#666655" d="M1323,-1539C1496.44,-1539 1474.56,-1323 1648,-1323"/>
 </g>
 <!-- tags -->
 <g id="node31" class="node"><title>tags</title>
@@ -346,7 +346,7 @@
 </g>
 <!-- type&#45;&gt;Werk -->
 <g id="edge27" class="edge"><title>type:e&#45;&gt;Werk:w</title>
-<path fill="none" stroke="#221155" d="M1323,-1512C1490.09,-1512 1480.91,-1323 1648,-1323"/>
+<path fill="none" stroke="#666655" d="M1323,-1512C1490.09,-1512 1480.91,-1323 1648,-1323"/>
 </g>
 <!-- scene -->
 <g id="node33" class="node"><title>scene</title>
@@ -380,7 +380,7 @@
 </g>
 <!-- creator&#45;&gt;Medium -->
 <g id="edge55" class="edge"><title>creator:e&#45;&gt;Medium:w</title>
-<path fill="none" stroke="#334422" d="M1323,-2133C1493.07,-2133 1477.93,-2335 1648,-2335"/>
+<path fill="none" stroke="#555511" d="M1323,-2133C1493.07,-2133 1477.93,-2335 1648,-2335"/>
 </g>
 <!-- creator address -->
 <g id="node39" class="node"><title>creator address</title>
@@ -389,7 +389,7 @@
 </g>
 <!-- creator address&#45;&gt;Medium -->
 <g id="edge57" class="edge"><title>creator address:e&#45;&gt;Medium:w</title>
-<path fill="none" stroke="#334422" d="M1323,-2457C1477.29,-2457 1493.71,-2335 1648,-2335"/>
+<path fill="none" stroke="#555511" d="M1323,-2457C1477.29,-2457 1493.71,-2335 1648,-2335"/>
 </g>
 <!-- creator city -->
 <g id="node40" class="node"><title>creator city</title>
@@ -398,7 +398,7 @@
 </g>
 <!-- creator city&#45;&gt;Medium -->
 <g id="edge59" class="edge"><title>creator city:e&#45;&gt;Medium:w</title>
-<path fill="none" stroke="#334422" d="M1323,-2430C1473.49,-2430 1497.51,-2335 1648,-2335"/>
+<path fill="none" stroke="#555511" d="M1323,-2430C1473.49,-2430 1497.51,-2335 1648,-2335"/>
 </g>
 <!-- creator state -->
 <g id="node41" class="node"><title>creator state</title>
@@ -407,7 +407,7 @@
 </g>
 <!-- creator state&#45;&gt;Medium -->
 <g id="edge61" class="edge"><title>creator state:e&#45;&gt;Medium:w</title>
-<path fill="none" stroke="#334422" d="M1323,-2403C1470.57,-2403 1500.43,-2335 1648,-2335"/>
+<path fill="none" stroke="#555511" d="M1323,-2403C1470.57,-2403 1500.43,-2335 1648,-2335"/>
 </g>
 <!-- creator postal code -->
 <g id="node42" class="node"><title>creator postal code</title>
@@ -416,7 +416,7 @@
 </g>
 <!-- creator postal code&#45;&gt;Medium -->
 <g id="edge63" class="edge"><title>creator postal code:e&#45;&gt;Medium:w</title>
-<path fill="none" stroke="#334422" d="M1323,-2376C1468.59,-2376 1502.41,-2335 1648,-2335"/>
+<path fill="none" stroke="#555511" d="M1323,-2376C1468.59,-2376 1502.41,-2335 1648,-2335"/>
 </g>
 <!-- creator country -->
 <g id="node43" class="node"><title>creator country</title>
@@ -425,7 +425,7 @@
 </g>
 <!-- creator country&#45;&gt;Medium -->
 <g id="edge65" class="edge"><title>creator country:e&#45;&gt;Medium:w</title>
-<path fill="none" stroke="#334422" d="M1323,-2349C1467.58,-2349 1503.42,-2335 1648,-2335"/>
+<path fill="none" stroke="#555511" d="M1323,-2349C1467.58,-2349 1503.42,-2335 1648,-2335"/>
 </g>
 <!-- creator work telephone -->
 <g id="node44" class="node"><title>creator work telephone</title>
@@ -434,7 +434,7 @@
 </g>
 <!-- creator work telephone&#45;&gt;Medium -->
 <g id="edge67" class="edge"><title>creator work telephone:e&#45;&gt;Medium:w</title>
-<path fill="none" stroke="#334422" d="M1323,-2322C1467.56,-2322 1503.44,-2335 1648,-2335"/>
+<path fill="none" stroke="#555511" d="M1323,-2322C1467.56,-2322 1503.44,-2335 1648,-2335"/>
 </g>
 <!-- creator work email -->
 <g id="node45" class="node"><title>creator work email</title>
@@ -443,7 +443,7 @@
 </g>
 <!-- creator work email&#45;&gt;Medium -->
 <g id="edge69" class="edge"><title>creator work email:e&#45;&gt;Medium:w</title>
-<path fill="none" stroke="#334422" d="M1323,-2295C1468.53,-2295 1502.47,-2335 1648,-2335"/>
+<path fill="none" stroke="#555511" d="M1323,-2295C1468.53,-2295 1502.47,-2335 1648,-2335"/>
 </g>
 <!-- creator work url -->
 <g id="node46" class="node"><title>creator work url</title>
@@ -452,7 +452,7 @@
 </g>
 <!-- creator work url&#45;&gt;Medium -->
 <g id="edge71" class="edge"><title>creator work url:e&#45;&gt;Medium:w</title>
-<path fill="none" stroke="#334422" d="M1323,-2268C1470.48,-2268 1500.52,-2335 1648,-2335"/>
+<path fill="none" stroke="#555511" d="M1323,-2268C1470.48,-2268 1500.52,-2335 1648,-2335"/>
 </g>
 <!-- creator position -->
 <g id="node47" class="node"><title>creator position</title>
@@ -461,7 +461,7 @@
 </g>
 <!-- creator position&#45;&gt;Medium -->
 <g id="edge73" class="edge"><title>creator position:e&#45;&gt;Medium:w</title>
-<path fill="none" stroke="#334422" d="M1323,-2484C1481.9,-2484 1489.1,-2335 1648,-2335"/>
+<path fill="none" stroke="#555511" d="M1323,-2484C1481.9,-2484 1489.1,-2335 1648,-2335"/>
 </g>
 <!-- source -->
 <g id="node48" class="node"><title>source</title>
@@ -475,7 +475,7 @@
 </g>
 <!-- source&#45;&gt;Credits -->
 <g id="edge103" class="edge"><title>source:e&#45;&gt;Credits:w</title>
-<path fill="none" stroke="#443322" d="M1323,-2079C1558.68,-2079 1412.32,-1660 1648,-1660"/>
+<path fill="none" stroke="#006633" d="M1323,-2079C1558.68,-2079 1412.32,-1660 1648,-1660"/>
 </g>
 <!-- source side -->
 <g id="node49" class="node"><title>source side</title>
@@ -504,15 +504,15 @@
 </g>
 <!-- copyright notice&#45;&gt;Core -->
 <g id="edge11" class="edge"><title>copyright notice:e&#45;&gt;Core:w</title>
-<path fill="none" stroke="#333333" d="M1323,-1188C1488.99,-1188 1482.01,-1004 1648,-1004"/>
+<path fill="none" stroke="#551111" d="M1323,-1188C1488.99,-1188 1482.01,-1004 1648,-1004"/>
 </g>
 <!-- copyright notice&#45;&gt;Credits -->
 <g id="edge95" class="edge"><title>copyright notice:e&#45;&gt;Credits:w</title>
-<path fill="none" stroke="#443322" d="M1323,-1188C1577.7,-1188 1393.3,-1660 1648,-1660"/>
+<path fill="none" stroke="#006633" d="M1323,-1188C1577.7,-1188 1393.3,-1660 1648,-1660"/>
 </g>
 <!-- copyright notice&#45;&gt;Upload -->
 <g id="edge119" class="edge"><title>copyright notice:e&#45;&gt;Upload:w</title>
-<path fill="none" stroke="#005555" d="M1323,-1188C1467.58,-1188 1503.42,-1174 1648,-1174"/>
+<path fill="none" stroke="#001177" d="M1323,-1188C1467.58,-1188 1503.42,-1174 1648,-1174"/>
 </g>
 <!-- copyright status -->
 <g id="node54" class="node"><title>copyright status</title>
@@ -521,11 +521,11 @@
 </g>
 <!-- copyright status&#45;&gt;Credits -->
 <g id="edge97" class="edge"><title>copyright status:e&#45;&gt;Credits:w</title>
-<path fill="none" stroke="#443322" d="M1323,-1350C1522.62,-1350 1448.38,-1660 1648,-1660"/>
+<path fill="none" stroke="#006633" d="M1323,-1350C1522.62,-1350 1448.38,-1660 1648,-1660"/>
 </g>
 <!-- copyright status&#45;&gt;Upload -->
 <g id="edge121" class="edge"><title>copyright status:e&#45;&gt;Upload:w</title>
-<path fill="none" stroke="#005555" d="M1323,-1350C1487.26,-1350 1483.74,-1174 1648,-1174"/>
+<path fill="none" stroke="#001177" d="M1323,-1350C1487.26,-1350 1483.74,-1174 1648,-1174"/>
 </g>
 <!-- copyright usage -->
 <g id="node55" class="node"><title>copyright usage</title>
@@ -534,11 +534,11 @@
 </g>
 <!-- copyright usage&#45;&gt;Credits -->
 <g id="edge99" class="edge"><title>copyright usage:e&#45;&gt;Credits:w</title>
-<path fill="none" stroke="#443322" d="M1323,-1377C1514.53,-1377 1456.47,-1660 1648,-1660"/>
+<path fill="none" stroke="#006633" d="M1323,-1377C1514.53,-1377 1456.47,-1660 1648,-1660"/>
 </g>
 <!-- copyright usage&#45;&gt;Upload -->
 <g id="edge123" class="edge"><title>copyright usage:e&#45;&gt;Upload:w</title>
-<path fill="none" stroke="#005555" d="M1323,-1377C1493.31,-1377 1477.69,-1174 1648,-1174"/>
+<path fill="none" stroke="#001177" d="M1323,-1377C1493.31,-1377 1477.69,-1174 1648,-1174"/>
 </g>
 <!-- copyright url -->
 <g id="node56" class="node"><title>copyright url</title>
@@ -547,11 +547,11 @@
 </g>
 <!-- copyright url&#45;&gt;Credits -->
 <g id="edge101" class="edge"><title>copyright url:e&#45;&gt;Credits:w</title>
-<path fill="none" stroke="#443322" d="M1323,-1674C1467.58,-1674 1503.42,-1660 1648,-1660"/>
+<path fill="none" stroke="#006633" d="M1323,-1674C1467.58,-1674 1503.42,-1660 1648,-1660"/>
 </g>
 <!-- copyright url&#45;&gt;Upload -->
 <g id="edge125" class="edge"><title>copyright url:e&#45;&gt;Upload:w</title>
-<path fill="none" stroke="#005555" d="M1323,-1674C1588.04,-1674 1382.96,-1174 1648,-1174"/>
+<path fill="none" stroke="#001177" d="M1323,-1674C1588.04,-1674 1382.96,-1174 1648,-1174"/>
 </g>
 <!-- provider -->
 <g id="node57" class="node"><title>provider</title>
@@ -560,7 +560,7 @@
 </g>
 <!-- provider&#45;&gt;Credits -->
 <g id="edge105" class="edge"><title>provider:e&#45;&gt;Credits:w</title>
-<path fill="none" stroke="#443322" d="M1323,-1701C1468.59,-1701 1502.41,-1660 1648,-1660"/>
+<path fill="none" stroke="#006633" d="M1323,-1701C1468.59,-1701 1502.41,-1660 1648,-1660"/>
 </g>
 <!-- portrayed object dimensions -->
 <g id="node58" class="node"><title>portrayed object dimensions</title>
@@ -569,7 +569,7 @@
 </g>
 <!-- portrayed object dimensions&#45;&gt;Medium -->
 <g id="edge79" class="edge"><title>portrayed object dimensions:e&#45;&gt;Medium:w</title>
-<path fill="none" stroke="#334422" d="M1323,-2160C1487.05,-2160 1483.95,-2335 1648,-2335"/>
+<path fill="none" stroke="#555511" d="M1323,-2160C1487.05,-2160 1483.95,-2335 1648,-2335"/>
 </g>
 <!-- portrayed object materials -->
 <g id="node59" class="node"><title>portrayed object materials</title>
@@ -578,7 +578,7 @@
 </g>
 <!-- portrayed object materials&#45;&gt;Medium -->
 <g id="edge81" class="edge"><title>portrayed object materials:e&#45;&gt;Medium:w</title>
-<path fill="none" stroke="#334422" d="M1323,-2187C1481.72,-2187 1489.28,-2335 1648,-2335"/>
+<path fill="none" stroke="#555511" d="M1323,-2187C1481.72,-2187 1489.28,-2335 1648,-2335"/>
 </g>
 <!-- rating -->
 <g id="node60" class="node"><title>rating</title>
@@ -592,11 +592,11 @@
 </g>
 <!-- uploaded by&#45;&gt;Core -->
 <g id="edge13" class="edge"><title>uploaded by:e&#45;&gt;Core:w</title>
-<path fill="none" stroke="#333333" d="M1323,-864C1480.28,-864 1490.72,-1004 1648,-1004"/>
+<path fill="none" stroke="#551111" d="M1323,-864C1480.28,-864 1490.72,-1004 1648,-1004"/>
 </g>
 <!-- uploaded by&#45;&gt;Set -->
 <g id="edge91" class="edge"><title>uploaded by:e&#45;&gt;Set:w</title>
-<path fill="none" stroke="#775577" d="M1323,-864C1467.94,-864 1503.06,-891 1648,-891"/>
+<path fill="none" stroke="#117700" d="M1323,-864C1467.94,-864 1503.06,-891 1648,-891"/>
 </g>
 <!-- uploaded at -->
 <g id="node62" class="node"><title>uploaded at</title>
@@ -605,11 +605,11 @@
 </g>
 <!-- uploaded at&#45;&gt;Core -->
 <g id="edge15" class="edge"><title>uploaded at:e&#45;&gt;Core:w</title>
-<path fill="none" stroke="#333333" d="M1323,-837C1485.4,-837 1485.6,-1004 1648,-1004"/>
+<path fill="none" stroke="#551111" d="M1323,-837C1485.4,-837 1485.6,-1004 1648,-1004"/>
 </g>
 <!-- uploaded at&#45;&gt;Set -->
 <g id="edge93" class="edge"><title>uploaded at:e&#45;&gt;Set:w</title>
-<path fill="none" stroke="#775577" d="M1323,-837C1469.42,-837 1501.58,-891 1648,-891"/>
+<path fill="none" stroke="#117700" d="M1323,-837C1469.42,-837 1501.58,-891 1648,-891"/>
 </g>
 <!-- description author -->
 <g id="node63" class="node"><title>description author</title>
@@ -618,7 +618,7 @@
 </g>
 <!-- description author&#45;&gt;Credits -->
 <g id="edge107" class="edge"><title>description author:e&#45;&gt;Credits:w</title>
-<path fill="none" stroke="#443322" d="M1323,-1728C1470.57,-1728 1500.43,-1660 1648,-1660"/>
+<path fill="none" stroke="#006633" d="M1323,-1728C1470.57,-1728 1500.43,-1660 1648,-1660"/>
 </g>
 <!-- publisher -->
 <g id="node64" class="node"><title>publisher</title>
@@ -637,7 +637,7 @@
 </g>
 <!-- date created&#45;&gt;Medium -->
 <g id="edge77" class="edge"><title>date created:e&#45;&gt;Medium:w</title>
-<path fill="none" stroke="#334422" d="M1323,-2754C1558.68,-2754 1412.32,-2335 1648,-2335"/>
+<path fill="none" stroke="#555511" d="M1323,-2754C1558.68,-2754 1412.32,-2335 1648,-2335"/>
 </g>
 <!-- transmission reference -->
 <g id="node67" class="node"><title>transmission reference</title>
@@ -681,7 +681,7 @@
 </g>
 <!-- project title&#45;&gt;ZHdK -->
 <g id="edge133" class="edge"><title>project title:e&#45;&gt;ZHdK:w</title>
-<path fill="none" stroke="#117711" d="M1323,-2727C1471.86,-2727 1499.14,-2808 1648,-2808"/>
+<path fill="none" stroke="#556666" d="M1323,-2727C1471.86,-2727 1499.14,-2808 1648,-2808"/>
 </g>
 <!-- public access -->
 <g id="node75" class="node"><title>public access</title>
@@ -705,7 +705,7 @@
 </g>
 <!-- description author before import&#45;&gt;Credits -->
 <g id="edge109" class="edge"><title>description author before import:e&#45;&gt;Credits:w</title>
-<path fill="none" stroke="#443322" d="M1328,-1647C1470.34,-1647 1505.66,-1660 1648,-1660"/>
+<path fill="none" stroke="#006633" d="M1328,-1647C1470.34,-1647 1505.66,-1660 1648,-1660"/>
 </g>
 <!-- description author before snapshot -->
 <g id="node79" class="node"><title>description author before snapshot</title>
@@ -729,7 +729,7 @@
 </g>
 <!-- LV_Landschaftstyp&#45;&gt;Landschaftsvisualisierung -->
 <g id="edge139" class="edge"><title>LV_Landschaftstyp:e&#45;&gt;Landschaftsvisualisierung:w</title>
-<path fill="none" stroke="#117700" d="M1323,-756C1455.81,-756 1487.19,-723 1620,-723"/>
+<path fill="none" stroke="#773311" d="M1323,-756C1455.81,-756 1487.19,-723 1620,-723"/>
 </g>
 <!-- LV_Verwendungszweck -->
 <g id="node82" class="node"><title>LV_Verwendungszweck</title>
@@ -738,7 +738,7 @@
 </g>
 <!-- LV_Verwendungszweck&#45;&gt;Landschaftsvisualisierung -->
 <g id="edge141" class="edge"><title>LV_Verwendungszweck:e&#45;&gt;Landschaftsvisualisierung:w</title>
-<path fill="none" stroke="#117700" d="M1323,-729C1455.03,-729 1487.97,-723 1620,-723"/>
+<path fill="none" stroke="#773311" d="M1323,-729C1455.03,-729 1487.97,-723 1620,-723"/>
 </g>
 <!-- LV_Bildwirkung -->
 <g id="node83" class="node"><title>LV_Bildwirkung</title>
@@ -747,7 +747,7 @@
 </g>
 <!-- LV_Bildwirkung&#45;&gt;Landschaftsvisualisierung -->
 <g id="edge143" class="edge"><title>LV_Bildwirkung:e&#45;&gt;Landschaftsvisualisierung:w</title>
-<path fill="none" stroke="#117700" d="M1323,-702C1455.33,-702 1487.67,-723 1620,-723"/>
+<path fill="none" stroke="#773311" d="M1323,-702C1455.33,-702 1487.67,-723 1620,-723"/>
 </g>
 <!-- LV_Bildzeit -->
 <g id="node84" class="node"><title>LV_Bildzeit</title>
@@ -756,7 +756,7 @@
 </g>
 <!-- LV_Bildzeit&#45;&gt;Landschaftsvisualisierung -->
 <g id="edge145" class="edge"><title>LV_Bildzeit:e&#45;&gt;Landschaftsvisualisierung:w</title>
-<path fill="none" stroke="#117700" d="M1323,-675C1456.71,-675 1486.29,-723 1620,-723"/>
+<path fill="none" stroke="#773311" d="M1323,-675C1456.71,-675 1486.29,-723 1620,-723"/>
 </g>
 <!-- LV_Farbe -->
 <g id="node85" class="node"><title>LV_Farbe</title>
@@ -765,7 +765,7 @@
 </g>
 <!-- LV_Farbe&#45;&gt;Landschaftsvisualisierung -->
 <g id="edge147" class="edge"><title>LV_Farbe:e&#45;&gt;Landschaftsvisualisierung:w</title>
-<path fill="none" stroke="#117700" d="M1323,-648C1459.14,-648 1483.86,-723 1620,-723"/>
+<path fill="none" stroke="#773311" d="M1323,-648C1459.14,-648 1483.86,-723 1620,-723"/>
 </g>
 <!-- LV_Landschaftselemente -->
 <g id="node86" class="node"><title>LV_Landschaftselemente</title>
@@ -774,7 +774,7 @@
 </g>
 <!-- LV_Landschaftselemente&#45;&gt;Landschaftsvisualisierung -->
 <g id="edge149" class="edge"><title>LV_Landschaftselemente:e&#45;&gt;Landschaftsvisualisierung:w</title>
-<path fill="none" stroke="#117700" d="M1323,-621C1462.57,-621 1480.43,-723 1620,-723"/>
+<path fill="none" stroke="#773311" d="M1323,-621C1462.57,-621 1480.43,-723 1620,-723"/>
 </g>
 <!-- LV_Wetter/Klima -->
 <g id="node87" class="node"><title>LV_Wetter/Klima</title>
@@ -783,7 +783,7 @@
 </g>
 <!-- LV_Wetter/Klima&#45;&gt;Landschaftsvisualisierung -->
 <g id="edge151" class="edge"><title>LV_Wetter/Klima:e&#45;&gt;Landschaftsvisualisierung:w</title>
-<path fill="none" stroke="#117700" d="M1323,-594C1466.91,-594 1476.09,-723 1620,-723"/>
+<path fill="none" stroke="#773311" d="M1323,-594C1466.91,-594 1476.09,-723 1620,-723"/>
 </g>
 <!-- LV_Horizontlinie -->
 <g id="node88" class="node"><title>LV_Horizontlinie</title>
@@ -792,7 +792,7 @@
 </g>
 <!-- LV_Horizontlinie&#45;&gt;Landschaftsvisualisierung -->
 <g id="edge153" class="edge"><title>LV_Horizontlinie:e&#45;&gt;Landschaftsvisualisierung:w</title>
-<path fill="none" stroke="#117700" d="M1323,-810C1460.55,-810 1482.45,-723 1620,-723"/>
+<path fill="none" stroke="#773311" d="M1323,-810C1460.55,-810 1482.45,-723 1620,-723"/>
 </g>
 <!-- LV_Räumliche Wahrnehmung -->
 <g id="node89" class="node"><title>LV_Räumliche Wahrnehmung</title>
@@ -806,11 +806,11 @@
 </g>
 <!-- LV_Räumliche Wahrnehmung&#45;&gt;Projekte ZHdK -->
 <g id="edge137" class="edge"><title>LV_Räumliche Wahrnehmung:e&#45;&gt;Projekte ZHdK:w</title>
-<path fill="none" stroke="#110077" d="M1324,-567C1469.26,-567 1502.74,-610 1648,-610"/>
+<path fill="none" stroke="#663300" d="M1324,-567C1469.26,-567 1502.74,-610 1648,-610"/>
 </g>
 <!-- LV_Räumliche Wahrnehmung&#45;&gt;Landschaftsvisualisierung -->
 <g id="edge155" class="edge"><title>LV_Räumliche Wahrnehmung:e&#45;&gt;Landschaftsvisualisierung:w</title>
-<path fill="none" stroke="#117700" d="M1324,-567C1472.71,-567 1471.29,-723 1620,-723"/>
+<path fill="none" stroke="#773311" d="M1324,-567C1472.71,-567 1471.29,-723 1620,-723"/>
 </g>
 <!-- LV_Abstraktionsgrad -->
 <g id="node90" class="node"><title>LV_Abstraktionsgrad</title>
@@ -819,7 +819,7 @@
 </g>
 <!-- LV_Abstraktionsgrad&#45;&gt;Landschaftsvisualisierung -->
 <g id="edge157" class="edge"><title>LV_Abstraktionsgrad:e&#45;&gt;Landschaftsvisualisierung:w</title>
-<path fill="none" stroke="#117700" d="M1323,-783C1457.67,-783 1485.33,-723 1620,-723"/>
+<path fill="none" stroke="#773311" d="M1323,-783C1457.67,-783 1485.33,-723 1620,-723"/>
 </g>
 <!-- MIZ&#45;Archiv -->
 <g id="node179" class="node"><title>MIZ&#45;Archiv</title>
@@ -833,7 +833,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;mediafile.formatID -->
 <g id="edge160" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;mediafile.formatID:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C344.147,-553 226.401,-268.396 412,-150 442.498,-130.545 455.825,-135 492,-135"/>
+<path fill="none" stroke="#552255" d="M124,-553C344.147,-553 226.401,-268.396 412,-150 442.498,-130.545 455.825,-135 492,-135"/>
 </g>
 <!-- objects.chat -->
 <g id="node184" class="node"><title>objects.chat</title>
@@ -842,7 +842,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;objects.chat -->
 <g id="edge164" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;objects.chat:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C316.002,-553 244.733,-325.269 412,-231 443.515,-213.239 455.825,-216 492,-216"/>
+<path fill="none" stroke="#552255" d="M124,-553C316.002,-553 244.733,-325.269 412,-231 443.515,-213.239 455.825,-216 492,-216"/>
 </g>
 <!-- objects.copyright typ=&quot;Art der Objektrechte&quot; -->
 <g id="node187" class="node"><title>objects.copyright typ=&quot;Art der Objektrechte&quot;</title>
@@ -851,7 +851,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;objects.copyright typ=&quot;Art der Objektrechte&quot; -->
 <g id="edge168" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;objects.copyright typ=&quot;Art der Objektrechte&quot;:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C289.364,-553 318.636,-459 484,-459"/>
+<path fill="none" stroke="#552255" d="M124,-553C289.364,-553 318.636,-459 484,-459"/>
 </g>
 <!-- objects.copyright typ=creditlinerepro -->
 <g id="node190" class="node"><title>objects.copyright typ=creditlinerepro</title>
@@ -860,7 +860,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;objects.copyright typ=creditlinerepro -->
 <g id="edge172" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;objects.copyright typ=creditlinerepro:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C290.904,-553 261.07,-383.252 412,-312 444.713,-296.557 455.825,-297 492,-297"/>
+<path fill="none" stroke="#552255" d="M124,-553C290.904,-553 261.07,-383.252 412,-312 444.713,-296.557 455.825,-297 492,-297"/>
 </g>
 <!-- objects.copyright typ=restrictions -->
 <g id="node193" class="node"><title>objects.copyright typ=restrictions</title>
@@ -869,7 +869,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;objects.copyright typ=restrictions -->
 <g id="edge176" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;objects.copyright typ=restrictions:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C290.244,-553 325.756,-486 492,-486"/>
+<path fill="none" stroke="#552255" d="M124,-553C290.244,-553 325.756,-486 492,-486"/>
 </g>
 <!-- objects.creditline -->
 <g id="node196" class="node"><title>objects.creditline</title>
@@ -878,7 +878,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;objects.creditline -->
 <g id="edge180" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;objects.creditline:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C283.734,-553 265.717,-703.844 412,-768 445.129,-782.53 455.825,-783 492,-783"/>
+<path fill="none" stroke="#552255" d="M124,-553C283.734,-553 265.717,-703.844 412,-768 445.129,-782.53 455.825,-783 492,-783"/>
 </g>
 <!-- objects.dated -->
 <g id="node199" class="node"><title>objects.dated</title>
@@ -887,7 +887,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;objects.dated -->
 <g id="edge184" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;objects.dated:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C298.847,-553 255.906,-363.779 412,-285 444.295,-268.701 455.825,-270 492,-270"/>
+<path fill="none" stroke="#552255" d="M124,-553C298.847,-553 255.906,-363.779 412,-285 444.295,-268.701 455.825,-270 492,-270"/>
 </g>
 <!-- objects.dimensions -->
 <g id="node202" class="node"><title>objects.dimensions</title>
@@ -896,7 +896,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;objects.dimensions -->
 <g id="edge188" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;objects.dimensions:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C316.334,-553 244.517,-781.439 412,-876 443.501,-893.786 455.825,-891 492,-891"/>
+<path fill="none" stroke="#552255" d="M124,-553C316.334,-553 244.517,-781.439 412,-876 443.501,-893.786 455.825,-891 492,-891"/>
 </g>
 <!-- objects.medium -->
 <g id="node205" class="node"><title>objects.medium</title>
@@ -905,7 +905,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;objects.medium -->
 <g id="edge192" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;objects.medium:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C325.449,-553 238.578,-800.499 412,-903 443.142,-921.407 455.825,-918 492,-918"/>
+<path fill="none" stroke="#552255" d="M124,-553C325.449,-553 238.578,-800.499 412,-903 443.142,-921.407 455.825,-918 492,-918"/>
 </g>
 <!-- objects.notes -->
 <g id="node208" class="node"><title>objects.notes</title>
@@ -914,7 +914,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;objects.notes -->
 <g id="edge196" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;objects.notes:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C296.309,-553 319.691,-675 492,-675"/>
+<path fill="none" stroke="#552255" d="M124,-553C296.309,-553 319.691,-675 492,-675"/>
 </g>
 <!-- objects.objectname -->
 <g id="node211" class="node"><title>objects.objectname</title>
@@ -923,7 +923,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;objects.objectname -->
 <g id="edge200" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;objects.objectname:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C325.106,-553 238.802,-306.204 412,-204 443.155,-185.615 455.825,-189 492,-189"/>
+<path fill="none" stroke="#552255" d="M124,-553C325.106,-553 238.802,-306.204 412,-204 443.155,-185.615 455.825,-189 492,-189"/>
 </g>
 <!-- objects.objectnumber -->
 <g id="node214" class="node"><title>objects.objectnumber</title>
@@ -932,7 +932,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;objects.objectnumber -->
 <g id="edge204" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;objects.objectnumber:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C364.079,-553 213.436,-230.946 412,-96 441.92,-75.6664 455.825,-81 492,-81"/>
+<path fill="none" stroke="#552255" d="M124,-553C364.079,-553 213.436,-230.946 412,-96 441.92,-75.6664 455.825,-81 492,-81"/>
 </g>
 <!-- objects.publicaccess -->
 <g id="node217" class="node"><title>objects.publicaccess</title>
@@ -941,7 +941,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;objects.publicaccess -->
 <g id="edge208" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;objects.publicaccess:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C334.5,-553 232.682,-287.25 412,-177 442.816,-158.053 455.825,-162 492,-162"/>
+<path fill="none" stroke="#552255" d="M124,-553C334.5,-553 232.682,-287.25 412,-177 442.816,-158.053 455.825,-162 492,-162"/>
 </g>
 <!-- objtitles.titel titeltyp=Legende -->
 <g id="node220" class="node"><title>objtitles.titel titeltyp=Legende</title>
@@ -950,7 +950,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;objtitles.titel titeltyp=Legende -->
 <g id="edge212" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;objtitles.titel titeltyp=Legende:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C300.453,-553 315.547,-702 492,-702"/>
+<path fill="none" stroke="#552255" d="M124,-553C300.453,-553 315.547,-702 492,-702"/>
 </g>
 <!-- objtitles.title titletypID=1 -->
 <g id="node223" class="node"><title>objtitles.title titletypID=1</title>
@@ -959,7 +959,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;objtitles.title titletypID=1 -->
 <g id="edge216" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;objtitles.title titletypID=1:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C384.698,-553 200.045,-193.784 412,-42 441.411,-20.938 455.825,-27 492,-27"/>
+<path fill="none" stroke="#552255" d="M124,-553C384.698,-553 200.045,-193.784 412,-42 441.411,-20.938 455.825,-27 492,-27"/>
 </g>
 <!-- objtitles.title titletypID=6 -->
 <g id="node226" class="node"><title>objtitles.title titletypID=6</title>
@@ -968,7 +968,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;objtitles.title titletypID=6 -->
 <g id="edge220" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;objtitles.title titletypID=6:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C288.568,-553 327.432,-594 492,-594"/>
+<path fill="none" stroke="#552255" d="M124,-553C288.568,-553 327.432,-594 492,-594"/>
 </g>
 <!-- objtitles.title titletypID=99||sites.sitename -->
 <g id="node229" class="node"><title>objtitles.title titletypID=99||sites.sitename</title>
@@ -977,7 +977,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;objtitles.title titletypID=99||sites.sitename -->
 <g id="edge224" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;objtitles.title titletypID=99||sites.sitename:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C334.853,-553 232.452,-819.45 412,-930 442.804,-948.967 455.825,-945 492,-945"/>
+<path fill="none" stroke="#552255" d="M124,-553C334.853,-553 232.452,-819.45 412,-930 442.804,-948.967 455.825,-945 492,-945"/>
 </g>
 <!-- person RoleTypeID=1 RoleID=150 -->
 <g id="node232" class="node"><title>person RoleTypeID=1 RoleID=150</title>
@@ -986,7 +986,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;person RoleTypeID=1 RoleID=150 -->
 <g id="edge228" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;person RoleTypeID=1 RoleID=150:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C307.232,-553 250.447,-344.456 412,-258 443.895,-240.931 455.825,-243 492,-243"/>
+<path fill="none" stroke="#552255" d="M124,-553C307.232,-553 250.447,-344.456 412,-258 443.895,-240.931 455.825,-243 492,-243"/>
 </g>
 <!-- person RoleTypeID=1 RoleID=155 -->
 <g id="node235" class="node"><title>person RoleTypeID=1 RoleID=155</title>
@@ -995,7 +995,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;person RoleTypeID=1 RoleID=155 -->
 <g id="edge232" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;person RoleTypeID=1 RoleID=155:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C305.107,-553 310.893,-378 492,-378"/>
+<path fill="none" stroke="#552255" d="M124,-553C305.107,-553 310.893,-378 492,-378"/>
 </g>
 <!-- person RoleTypeID=1 RoleID=156 -->
 <g id="node238" class="node"><title>person RoleTypeID=1 RoleID=156</title>
@@ -1004,7 +1004,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;person RoleTypeID=1 RoleID=156 -->
 <g id="edge236" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;person RoleTypeID=1 RoleID=156:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C637.78,-553 59.8491,-2472.89 412,-2847 436.795,-2873.34 455.825,-2862 492,-2862"/>
+<path fill="none" stroke="#552255" d="M124,-553C637.78,-553 59.8491,-2472.89 412,-2847 436.795,-2873.34 455.825,-2862 492,-2862"/>
 </g>
 <!-- person RoleTypeID=1 RoleID=21 -->
 <g id="node241" class="node"><title>person RoleTypeID=1 RoleID=21</title>
@@ -1013,7 +1013,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;person RoleTypeID=1 RoleID=21 -->
 <g id="edge240" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;person RoleTypeID=1 RoleID=21:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C307.551,-553 250.24,-762.257 412,-849 443.881,-866.096 455.825,-864 492,-864"/>
+<path fill="none" stroke="#552255" d="M124,-553C307.551,-553 250.24,-762.257 412,-849 443.881,-866.096 455.825,-864 492,-864"/>
 </g>
 <!-- person RoleTypeID=1 RoleID=22 -->
 <g id="node244" class="node"><title>person RoleTypeID=1 RoleID=22</title>
@@ -1022,7 +1022,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;person RoleTypeID=1 RoleID=22 -->
 <g id="edge244" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;person RoleTypeID=1 RoleID=22:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C305.298,-553 310.702,-729 492,-729"/>
+<path fill="none" stroke="#552255" d="M124,-553C305.298,-553 310.702,-729 492,-729"/>
 </g>
 <!-- person RoleTypeID=1 RoleID=251 -->
 <g id="node247" class="node"><title>person RoleTypeID=1 RoleID=251</title>
@@ -1031,7 +1031,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;person RoleTypeID=1 RoleID=251 -->
 <g id="edge248" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;person RoleTypeID=1 RoleID=251:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C374.695,-553 206.538,-894.355 412,-1038 441.648,-1058.73 455.825,-1053 492,-1053"/>
+<path fill="none" stroke="#552255" d="M124,-553C374.695,-553 206.538,-894.355 412,-1038 441.648,-1058.73 455.825,-1053 492,-1053"/>
 </g>
 <!-- person RoleTypeID=1 RoleID=61 -->
 <g id="node250" class="node"><title>person RoleTypeID=1 RoleID=61</title>
@@ -1040,7 +1040,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;person RoleTypeID=1 RoleID=61 -->
 <g id="edge252" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;person RoleTypeID=1 RoleID=61:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C344.509,-553 226.165,-838.301 412,-957 442.487,-976.473 455.825,-972 492,-972"/>
+<path fill="none" stroke="#552255" d="M124,-553C344.509,-553 226.165,-838.301 412,-957 442.487,-976.473 455.825,-972 492,-972"/>
 </g>
 <!-- person RoleTypeID=1 RoleID=86 -->
 <g id="node253" class="node"><title>person RoleTypeID=1 RoleID=86</title>
@@ -1049,7 +1049,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;person RoleTypeID=1 RoleID=86 -->
 <g id="edge256" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;person RoleTypeID=1 RoleID=86:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C276.615,-553 270.306,-422.696 412,-366 445.586,-352.561 455.825,-351 492,-351"/>
+<path fill="none" stroke="#552255" d="M124,-553C276.615,-553 270.306,-422.696 412,-366 445.586,-352.561 455.825,-351 492,-351"/>
 </g>
 <!-- person RoleTypeID=1 RoleID=87 -->
 <g id="node256" class="node"><title>person RoleTypeID=1 RoleID=87</title>
@@ -1058,7 +1058,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;person RoleTypeID=1 RoleID=87 -->
 <g id="edge260" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;person RoleTypeID=1 RoleID=87:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C283.468,-553 265.888,-402.886 412,-339 445.145,-324.507 455.825,-324 492,-324"/>
+<path fill="none" stroke="#552255" d="M124,-553C283.468,-553 265.888,-402.886 412,-339 445.145,-324.507 455.825,-324 492,-324"/>
 </g>
 <!-- textentries textart=&quot;Erfasser/in vor dem Hochladen ins Medienarchiv&quot; -->
 <g id="node259" class="node"><title>textentries textart=&quot;Erfasser/in vor dem Hochladen ins Medienarchiv&quot;</title>
@@ -1067,7 +1067,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;textentries textart=&quot;Erfasser/in vor dem Hochladen ins Medienarchiv&quot; -->
 <g id="edge264" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;textentries textart=&quot;Erfasser/in vor dem Hochladen ins Medienarchiv&quot;:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C280.602,-553 255.398,-756 412,-756"/>
+<path fill="none" stroke="#552255" d="M124,-553C280.602,-553 255.398,-756 412,-756"/>
 </g>
 <!-- textentries textart=&quot;Erfasser/in vor dem Kopieren fürs MIZ&#45;Achiv&quot; -->
 <g id="node262" class="node"><title>textentries textart=&quot;Erfasser/in vor dem Kopieren fürs MIZ&#45;Achiv&quot;</title>
@@ -1076,7 +1076,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;textentries textart=&quot;Erfasser/in vor dem Kopieren fürs MIZ&#45;Achiv&quot; -->
 <g id="edge268" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;textentries textart=&quot;Erfasser/in vor dem Kopieren fürs MIZ&#45;Achiv&quot;:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C362.029,-553 183.971,-108 422,-108"/>
+<path fill="none" stroke="#552255" d="M124,-553C362.029,-553 183.971,-108 422,-108"/>
 </g>
 <!-- textentries textart=&quot;Erfasser/in&quot; -->
 <g id="node265" class="node"><title>textentries textart=&quot;Erfasser/in&quot;</title>
@@ -1085,7 +1085,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;textentries textart=&quot;Erfasser/in&quot; -->
 <g id="edge272" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;textentries textart=&quot;Erfasser/in&quot;:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C291.189,-553 260.884,-723.472 412,-795 444.697,-810.477 455.825,-810 492,-810"/>
+<path fill="none" stroke="#552255" d="M124,-553C291.189,-553 260.884,-723.472 412,-795 444.697,-810.477 455.825,-810 492,-810"/>
 </g>
 <!-- textentries textart=&quot;Web&#45;Link&quot; -->
 <g id="node268" class="node"><title>textentries textart=&quot;Web&#45;Link&quot;</title>
@@ -1094,7 +1094,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;textentries textart=&quot;Web&#45;Link&quot; -->
 <g id="edge276" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;textentries textart=&quot;Web&#45;Link&quot;:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C292.918,-553 323.082,-648 492,-648"/>
+<path fill="none" stroke="#552255" d="M124,-553C292.918,-553 323.082,-648 492,-648"/>
 </g>
 <!-- textentries textart=&quot;Weitere Personen&quot; -->
 <g id="node271" class="node"><title>textentries textart=&quot;Weitere Personen&quot;</title>
@@ -1103,7 +1103,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;textentries textart=&quot;Weitere Personen&quot; -->
 <g id="edge280" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;textentries textart=&quot;Weitere Personen&quot;:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C299.15,-553 255.709,-742.939 412,-822 444.28,-838.329 455.825,-837 492,-837"/>
+<path fill="none" stroke="#552255" d="M124,-553C299.15,-553 255.709,-742.939 412,-822 444.28,-838.329 455.825,-837 492,-837"/>
 </g>
 <!-- textentries textart=&quot;ZHdK&#45;Projekttyp&quot; -->
 <g id="node274" class="node"><title>textentries textart=&quot;ZHdK&#45;Projekttyp&quot;</title>
@@ -1112,7 +1112,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;textentries textart=&quot;ZHdK&#45;Projekttyp&quot; -->
 <g id="edge284" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;textentries textart=&quot;ZHdK&#45;Projekttyp&quot;:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C364.456,-553 213.191,-875.745 412,-1011 441.91,-1031.35 455.825,-1026 492,-1026"/>
+<path fill="none" stroke="#552255" d="M124,-553C364.456,-553 213.191,-875.745 412,-1011 441.91,-1031.35 455.825,-1026 492,-1026"/>
 </g>
 <!-- textentries textart=Gattung -->
 <g id="node277" class="node"><title>textentries textart=Gattung</title>
@@ -1121,7 +1121,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;textentries textart=Gattung -->
 <g id="edge288" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;textentries textart=Gattung:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C290.324,-553 325.676,-621 492,-621"/>
+<path fill="none" stroke="#552255" d="M124,-553C290.324,-553 325.676,-621 492,-621"/>
 </g>
 <!-- textentries textart=Geografie typ=&quot;ISO&#45;Ländercode&quot; -->
 <g id="node280" class="node"><title>textentries textart=Geografie typ=&quot;ISO&#45;Ländercode&quot;</title>
@@ -1130,7 +1130,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;textentries textart=Geografie typ=&quot;ISO&#45;Ländercode&quot; -->
 <g id="edge292" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;textentries textart=Geografie typ=&quot;ISO&#45;Ländercode&quot;:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C287.992,-553 298.008,-405 462,-405"/>
+<path fill="none" stroke="#552255" d="M124,-553C287.992,-553 298.008,-405 462,-405"/>
 </g>
 <!-- textentries textart=Geografie typ=&quot;Kanton/Bundesland&quot; -->
 <g id="node283" class="node"><title>textentries textart=Geografie typ=&quot;Kanton/Bundesland&quot;</title>
@@ -1139,7 +1139,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;textentries textart=Geografie typ=&quot;Kanton/Bundesland&quot; -->
 <g id="edge296" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;textentries textart=Geografie typ=&quot;Kanton/Bundesland&quot;:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C271.74,-553 306.26,-513 454,-513"/>
+<path fill="none" stroke="#552255" d="M124,-553C271.74,-553 306.26,-513 454,-513"/>
 </g>
 <!-- textentries textart=Geografie typ=&quot;Standort/Aufführungsort&quot; -->
 <g id="node286" class="node"><title>textentries textart=Geografie typ=&quot;Standort/Aufführungsort&quot;</title>
@@ -1148,7 +1148,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;textentries textart=Geografie typ=&quot;Standort/Aufführungsort&quot; -->
 <g id="edge300" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;textentries textart=Geografie typ=&quot;Standort/Aufführungsort&quot;:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C265.026,-553 299.974,-567 441,-567"/>
+<path fill="none" stroke="#552255" d="M124,-553C265.026,-553 299.974,-567 441,-567"/>
 </g>
 <!-- textentries textart=Geografie typ=Land -->
 <g id="node289" class="node"><title>textentries textart=Geografie typ=Land</title>
@@ -1157,7 +1157,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;textentries textart=Geografie typ=Land -->
 <g id="edge304" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;textentries textart=Geografie typ=Land:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C296.17,-553 319.83,-432 492,-432"/>
+<path fill="none" stroke="#552255" d="M124,-553C296.17,-553 319.83,-432 492,-432"/>
 </g>
 <!-- textentries textart=Geografie typ=Stadt -->
 <g id="node292" class="node"><title>textentries textart=Geografie typ=Stadt</title>
@@ -1166,7 +1166,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;textentries textart=Geografie typ=Stadt -->
 <g id="edge308" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;textentries textart=Geografie typ=Stadt:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C287.658,-553 328.342,-540 492,-540"/>
+<path fill="none" stroke="#552255" d="M124,-553C287.658,-553 328.342,-540 492,-540"/>
 </g>
 <!-- textentries textart=Stichworte -->
 <g id="node295" class="node"><title>textentries textart=Stichworte</title>
@@ -1175,7 +1175,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;textentries textart=Stichworte -->
 <g id="edge312" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;textentries textart=Stichworte:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C374.313,-553 206.787,-212.333 412,-69 441.657,-48.2856 455.825,-54 492,-54"/>
+<path fill="none" stroke="#552255" d="M124,-553C374.313,-553 206.787,-212.333 412,-69 441.657,-48.2856 455.825,-54 492,-54"/>
 </g>
 <!-- textentries textart=Studienjahr -->
 <g id="node298" class="node"><title>textentries textart=Studienjahr</title>
@@ -1184,7 +1184,7 @@
 </g>
 <!-- MIZ&#45;Archiv&#45;&gt;textentries textart=Studienjahr -->
 <g id="edge316" class="edge"><title>MIZ&#45;Archiv:e&#45;&gt;textentries textart=Studienjahr:w</title>
-<path fill="none" stroke="#005522" d="M124,-553C354.386,-553 219.739,-857.063 412,-984 442.189,-1003.93 455.825,-999 492,-999"/>
+<path fill="none" stroke="#552255" d="M124,-553C354.386,-553 219.739,-857.063 412,-984 442.189,-1003.93 455.825,-999 492,-999"/>
 </g>
 <!-- IO Interface -->
 <g id="node180" class="node"><title>IO Interface</title>
@@ -1198,7 +1198,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;dc:Creator -->
 <g id="edge320" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;dc:Creator:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C298.214,-1998 317.786,-2133 492,-2133"/>
+<path fill="none" stroke="#661166" d="M124,-1998C298.214,-1998 317.786,-2133 492,-2133"/>
 </g>
 <!-- XMP&#45;dc:Description -->
 <g id="node304" class="node"><title>XMP&#45;dc:Description</title>
@@ -1207,7 +1207,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;dc:Description -->
 <g id="edge324" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;dc:Description:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C541.38,-1998 74.6196,-1134 492,-1134"/>
+<path fill="none" stroke="#661166" d="M124,-1998C541.38,-1998 74.6196,-1134 492,-1134"/>
 </g>
 <!-- XMP&#45;dc:Identifier -->
 <g id="node307" class="node"><title>XMP&#45;dc:Identifier</title>
@@ -1216,7 +1216,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;dc:Identifier -->
 <g id="edge328" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;dc:Identifier:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C307.865,-1998 308.135,-1809 492,-1809"/>
+<path fill="none" stroke="#661166" d="M124,-1998C307.865,-1998 308.135,-1809 492,-1809"/>
 </g>
 <!-- XMP&#45;dc:Rights -->
 <g id="node310" class="node"><title>XMP&#45;dc:Rights</title>
@@ -1225,7 +1225,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;dc:Rights -->
 <g id="edge332" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;dc:Rights:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C488.544,-1998 132.873,-1464.48 412,-1230 439.699,-1206.73 455.825,-1215 492,-1215"/>
+<path fill="none" stroke="#661166" d="M124,-1998C488.544,-1998 132.873,-1464.48 412,-1230 439.699,-1206.73 455.825,-1215 492,-1215"/>
 </g>
 <!-- XMP&#45;dc:Subject -->
 <g id="node313" class="node"><title>XMP&#45;dc:Subject</title>
@@ -1234,7 +1234,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;dc:Subject -->
 <g id="edge336" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;dc:Subject:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C552.447,-1998 63.5535,-1107 492,-1107"/>
+<path fill="none" stroke="#661166" d="M124,-1998C552.447,-1998 63.5535,-1107 492,-1107"/>
 </g>
 <!-- XMP&#45;dc:Title -->
 <g id="node316" class="node"><title>XMP&#45;dc:Title</title>
@@ -1243,7 +1243,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;dc:Title -->
 <g id="edge340" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;dc:Title:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C563.562,-1998 52.4384,-1080 492,-1080"/>
+<path fill="none" stroke="#661166" d="M124,-1998C563.562,-1998 52.4384,-1080 492,-1080"/>
 </g>
 <!-- XMP&#45;dc:Type -->
 <g id="node319" class="node"><title>XMP&#45;dc:Type</title>
@@ -1252,7 +1252,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;dc:Type -->
 <g id="edge344" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;dc:Type:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C359.211,-1998 216.6,-1684.93 412,-1554 442.052,-1533.86 455.825,-1539 492,-1539"/>
+<path fill="none" stroke="#661166" d="M124,-1998C359.211,-1998 216.6,-1684.93 412,-1554 442.052,-1533.86 455.825,-1539 492,-1539"/>
 </g>
 <!-- XMP&#45;iptcCore:CountryCode -->
 <g id="node322" class="node"><title>XMP&#45;iptcCore:CountryCode</title>
@@ -1261,7 +1261,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;iptcCore:CountryCode -->
 <g id="edge348" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;iptcCore:CountryCode:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C444.044,-1998 161.609,-1537.33 412,-1338 440.302,-1315.47 455.825,-1323 492,-1323"/>
+<path fill="none" stroke="#661166" d="M124,-1998C444.044,-1998 161.609,-1537.33 412,-1338 440.302,-1315.47 455.825,-1323 492,-1323"/>
 </g>
 <!-- XMP&#45;iptcCore:CreatorAddress -->
 <g id="node325" class="node"><title>XMP&#45;iptcCore:CreatorAddress</title>
@@ -1270,7 +1270,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;iptcCore:CreatorAddress -->
 <g id="edge352" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;iptcCore:CreatorAddress:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C359.211,-1998 216.6,-2311.07 412,-2442 442.052,-2462.14 455.825,-2457 492,-2457"/>
+<path fill="none" stroke="#661166" d="M124,-1998C359.211,-1998 216.6,-2311.07 412,-2442 442.052,-2462.14 455.825,-2457 492,-2457"/>
 </g>
 <!-- XMP&#45;iptcCore:CreatorCity -->
 <g id="node328" class="node"><title>XMP&#45;iptcCore:CreatorCity</title>
@@ -1279,7 +1279,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;iptcCore:CreatorCity -->
 <g id="edge356" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;iptcCore:CreatorCity:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C349.239,-1998 223.087,-2292.34 412,-2415 442.341,-2434.7 455.825,-2430 492,-2430"/>
+<path fill="none" stroke="#661166" d="M124,-1998C349.239,-1998 223.087,-2292.34 412,-2415 442.341,-2434.7 455.825,-2430 492,-2430"/>
 </g>
 <!-- XMP&#45;iptcCore:CreatorContactInfo -->
 <g id="node331" class="node"><title>XMP&#45;iptcCore:CreatorContactInfo</title>
@@ -1288,7 +1288,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;iptcCore:CreatorContactInfo -->
 <g id="edge360" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;iptcCore:CreatorContactInfo:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C298.214,-1998 317.786,-1863 492,-1863"/>
+<path fill="none" stroke="#661166" d="M124,-1998C298.214,-1998 317.786,-1863 492,-1863"/>
 </g>
 <!-- XMP&#45;iptcCore:CreatorCountry -->
 <g id="node334" class="node"><title>XMP&#45;iptcCore:CreatorCountry</title>
@@ -1297,7 +1297,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;iptcCore:CreatorCountry -->
 <g id="edge364" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;iptcCore:CreatorCountry:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C320.684,-1998 241.683,-2235.63 412,-2334 443.326,-2352.09 455.825,-2349 492,-2349"/>
+<path fill="none" stroke="#661166" d="M124,-1998C320.684,-1998 241.683,-2235.63 412,-2334 443.326,-2352.09 455.825,-2349 492,-2349"/>
 </g>
 <!-- XMP&#45;iptcCore:CreatorPostalCode -->
 <g id="node337" class="node"><title>XMP&#45;iptcCore:CreatorPostalCode</title>
@@ -1306,7 +1306,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;iptcCore:CreatorPostalCode -->
 <g id="edge368" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;iptcCore:CreatorPostalCode:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C329.943,-1998 235.65,-2254.64 412,-2361 442.977,-2379.68 455.825,-2376 492,-2376"/>
+<path fill="none" stroke="#661166" d="M124,-1998C329.943,-1998 235.65,-2254.64 412,-2361 442.977,-2379.68 455.825,-2376 492,-2376"/>
 </g>
 <!-- XMP&#45;iptcCore:CreatorRegion -->
 <g id="node340" class="node"><title>XMP&#45;iptcCore:CreatorRegion</title>
@@ -1315,7 +1315,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;iptcCore:CreatorRegion -->
 <g id="edge372" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;iptcCore:CreatorRegion:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C339.473,-1998 229.444,-2273.54 412,-2388 442.649,-2407.22 455.825,-2403 492,-2403"/>
+<path fill="none" stroke="#661166" d="M124,-1998C339.473,-1998 229.444,-2273.54 412,-2388 442.649,-2407.22 455.825,-2403 492,-2403"/>
 </g>
 <!-- XMP&#45;iptcCore:CreatorWorkEmail -->
 <g id="node343" class="node"><title>XMP&#45;iptcCore:CreatorWorkEmail</title>
@@ -1324,7 +1324,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;iptcCore:CreatorWorkEmail -->
 <g id="edge376" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;iptcCore:CreatorWorkEmail:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C303.144,-1998 253.11,-2197.26 412,-2280 444.085,-2296.71 455.825,-2295 492,-2295"/>
+<path fill="none" stroke="#661166" d="M124,-1998C303.144,-1998 253.11,-2197.26 412,-2280 444.085,-2296.71 455.825,-2295 492,-2295"/>
 </g>
 <!-- XMP&#45;iptcCore:CreatorWorkTelephone -->
 <g id="node346" class="node"><title>XMP&#45;iptcCore:CreatorWorkTelephone</title>
@@ -1333,7 +1333,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;iptcCore:CreatorWorkTelephone -->
 <g id="edge380" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;iptcCore:CreatorWorkTelephone:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C311.735,-1998 247.514,-2216.51 412,-2307 443.695,-2324.44 455.825,-2322 492,-2322"/>
+<path fill="none" stroke="#661166" d="M124,-1998C311.735,-1998 247.514,-2216.51 412,-2307 443.695,-2324.44 455.825,-2322 492,-2322"/>
 </g>
 <!-- XMP&#45;iptcCore:CreatorWorkURL -->
 <g id="node349" class="node"><title>XMP&#45;iptcCore:CreatorWorkURL</title>
@@ -1342,7 +1342,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;iptcCore:CreatorWorkURL -->
 <g id="edge384" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;iptcCore:CreatorWorkURL:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C294.963,-1998 258.432,-2177.86 412,-2253 444.494,-2268.9 455.825,-2268 492,-2268"/>
+<path fill="none" stroke="#661166" d="M124,-1998C294.963,-1998 258.432,-2177.86 412,-2253 444.494,-2268.9 455.825,-2268 492,-2268"/>
 </g>
 <!-- XMP&#45;iptcCore:IntellectualGenre -->
 <g id="node352" class="node"><title>XMP&#45;iptcCore:IntellectualGenre</title>
@@ -1351,7 +1351,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;iptcCore:IntellectualGenre -->
 <g id="edge388" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;iptcCore:IntellectualGenre:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C294.454,-1998 321.546,-1890 492,-1890"/>
+<path fill="none" stroke="#661166" d="M124,-1998C294.454,-1998 321.546,-1890 492,-1890"/>
 </g>
 <!-- XMP&#45;iptcCore:Location -->
 <g id="node355" class="node"><title>XMP&#45;iptcCore:Location</title>
@@ -1360,7 +1360,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;iptcCore:Location -->
 <g id="edge392" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;iptcCore:Location:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C379.68,-1998 203.302,-1647.71 412,-1500 441.528,-1479.1 455.825,-1485 492,-1485"/>
+<path fill="none" stroke="#661166" d="M124,-1998C379.68,-1998 203.302,-1647.71 412,-1500 441.528,-1479.1 455.825,-1485 492,-1485"/>
 </g>
 <!-- XMP&#45;iptcCore:Scene -->
 <g id="node358" class="node"><title>XMP&#45;iptcCore:Scene</title>
@@ -1369,7 +1369,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;iptcCore:Scene -->
 <g id="edge396" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;iptcCore:Scene:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C422.202,-1998 175.738,-2422.05 412,-2604 440.661,-2626.07 455.825,-2619 492,-2619"/>
+<path fill="none" stroke="#661166" d="M124,-1998C422.202,-1998 175.738,-2422.05 412,-2604 440.661,-2626.07 455.825,-2619 492,-2619"/>
 </g>
 <!-- XMP&#45;iptcCore:SubjectCode -->
 <g id="node361" class="node"><title>XMP&#45;iptcCore:SubjectCode</title>
@@ -1378,7 +1378,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;iptcCore:SubjectCode -->
 <g id="edge400" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;iptcCore:SubjectCode:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C411.41,-1998 182.726,-2403.69 412,-2577 440.858,-2598.81 455.825,-2592 492,-2592"/>
+<path fill="none" stroke="#661166" d="M124,-1998C411.41,-1998 182.726,-2403.69 412,-2577 440.858,-2598.81 455.825,-2592 492,-2592"/>
 </g>
 <!-- XMP&#45;madek:AcademicYear -->
 <g id="node364" class="node"><title>XMP&#45;madek:AcademicYear</title>
@@ -1387,7 +1387,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:AcademicYear -->
 <g id="edge404" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:AcademicYear:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C488.544,-1998 132.873,-2531.52 412,-2766 439.699,-2789.27 455.825,-2781 492,-2781"/>
+<path fill="none" stroke="#661166" d="M124,-1998C488.544,-1998 132.873,-2531.52 412,-2766 439.699,-2789.27 455.825,-2781 492,-2781"/>
 </g>
 <!-- XMP&#45;madek:AdditionalAuthors -->
 <g id="node367" class="node"><title>XMP&#45;madek:AdditionalAuthors</title>
@@ -1396,7 +1396,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:AdditionalAuthors -->
 <g id="edge408" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:AdditionalAuthors:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C287.256,-1998 263.436,-1837.68 412,-1770 444.92,-1755 455.825,-1755 492,-1755"/>
+<path fill="none" stroke="#661166" d="M124,-1998C287.256,-1998 263.436,-1837.68 412,-1770 444.92,-1755 455.825,-1755 492,-1755"/>
 </g>
 <!-- XMP&#45;madek:Author -->
 <g id="node370" class="node"><title>XMP&#45;madek:Author</title>
@@ -1405,7 +1405,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:Author -->
 <g id="edge412" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:Author:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C530.367,-1998 85.6327,-1161 492,-1161"/>
+<path fill="none" stroke="#661166" d="M124,-1998C530.367,-1998 85.6327,-1161 492,-1161"/>
 </g>
 <!-- XMP&#45;madek:Coverage -->
 <g id="node373" class="node"><title>XMP&#45;madek:Coverage</title>
@@ -1414,7 +1414,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:Coverage -->
 <g id="edge416" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:Coverage:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C400.717,-1998 189.655,-2385.27 412,-2550 441.067,-2571.53 455.825,-2565 492,-2565"/>
+<path fill="none" stroke="#661166" d="M124,-1998C400.717,-1998 189.655,-2385.27 412,-2550 441.067,-2571.53 455.825,-2565 492,-2565"/>
 </g>
 <!-- XMP&#45;madek:DateCreated -->
 <g id="node376" class="node"><title>XMP&#45;madek:DateCreated</title>
@@ -1423,7 +1423,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:DateCreated -->
 <g id="edge420" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:DateCreated:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C466.176,-1998 147.31,-2495.15 412,-2712 439.983,-2734.93 455.825,-2727 492,-2727"/>
+<path fill="none" stroke="#661166" d="M124,-1998C466.176,-1998 147.31,-2495.15 412,-2712 439.983,-2734.93 455.825,-2727 492,-2727"/>
 </g>
 <!-- XMP&#45;photoshop:DateCreated -->
 <g id="node379" class="node"><title>XMP&#45;photoshop:DateCreated</title>
@@ -1432,7 +1432,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;photoshop:DateCreated -->
 <g id="edge424" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;photoshop:DateCreated:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C455.078,-1998 154.478,-2476.93 412,-2685 440.138,-2707.74 455.825,-2700 492,-2700"/>
+<path fill="none" stroke="#661166" d="M124,-1998C455.078,-1998 154.478,-2476.93 412,-2685 440.138,-2707.74 455.825,-2700 492,-2700"/>
 </g>
 <!-- XMP&#45;madek:Format -->
 <g id="node382" class="node"><title>XMP&#45;madek:Format</title>
@@ -1441,7 +1441,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:Format -->
 <g id="edge428" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:Format:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C287.556,-1998 328.444,-1998 492,-1998"/>
+<path fill="none" stroke="#661166" d="M124,-1998C287.556,-1998 328.444,-1998 492,-1998"/>
 </g>
 <!-- XMP&#45;madek:Hyperlinks -->
 <g id="node385" class="node"><title>XMP&#45;madek:Hyperlinks</title>
@@ -1450,7 +1450,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:Hyperlinks -->
 <g id="edge432" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:Hyperlinks:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C349.239,-1998 223.087,-1703.66 412,-1581 442.341,-1561.3 455.825,-1566 492,-1566"/>
+<path fill="none" stroke="#661166" d="M124,-1998C349.239,-1998 223.087,-1703.66 412,-1581 442.341,-1561.3 455.825,-1566 492,-1566"/>
 </g>
 <!-- XMP&#45;madek:InstitutionalAffiliation -->
 <g id="node388" class="node"><title>XMP&#45;madek:InstitutionalAffiliation</title>
@@ -1459,7 +1459,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:InstitutionalAffiliation -->
 <g id="edge436" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:InstitutionalAffiliation:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C530.367,-1998 85.6327,-2835 492,-2835"/>
+<path fill="none" stroke="#661166" d="M124,-1998C530.367,-1998 85.6327,-2835 492,-2835"/>
 </g>
 <!-- XMP&#45;madek:Language -->
 <g id="node391" class="node"><title>XMP&#45;madek:Language</title>
@@ -1468,7 +1468,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:Language -->
 <g id="edge440" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:Language:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C390.136,-1998 196.516,-2366.81 412,-2523 441.29,-2544.23 455.825,-2538 492,-2538"/>
+<path fill="none" stroke="#661166" d="M124,-1998C390.136,-1998 196.516,-2366.81 412,-2523 441.29,-2544.23 455.825,-2538 492,-2538"/>
 </g>
 <!-- XMP&#45;madek:OtherCreativeParticipants -->
 <g id="node394" class="node"><title>XMP&#45;madek:OtherCreativeParticipants</title>
@@ -1477,7 +1477,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:OtherCreativeParticipants -->
 <g id="edge444" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:OtherCreativeParticipants:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C466.176,-1998 147.31,-1500.85 412,-1284 439.983,-1261.07 455.825,-1269 492,-1269"/>
+<path fill="none" stroke="#661166" d="M124,-1998C466.176,-1998 147.31,-1500.85 412,-1284 439.983,-1261.07 455.825,-1269 492,-1269"/>
 </g>
 <!-- XMP&#45;madek:OtherDocumentParticipants -->
 <g id="node397" class="node"><title>XMP&#45;madek:OtherDocumentParticipants</title>
@@ -1486,7 +1486,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:OtherDocumentParticipants -->
 <g id="edge448" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:OtherDocumentParticipants:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C294.454,-1998 321.546,-2106 492,-2106"/>
+<path fill="none" stroke="#661166" d="M124,-1998C294.454,-1998 321.546,-2106 492,-2106"/>
 </g>
 <!-- XMP&#45;madek:ParticipatingInstitution -->
 <g id="node400" class="node"><title>XMP&#45;madek:ParticipatingInstitution</title>
@@ -1495,7 +1495,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:ParticipatingInstitution -->
 <g id="edge452" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:ParticipatingInstitution:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C477.333,-1998 140.107,-1482.65 412,-1257 439.837,-1233.9 455.825,-1242 492,-1242"/>
+<path fill="none" stroke="#661166" d="M124,-1998C477.333,-1998 140.107,-1482.65 412,-1257 439.837,-1233.9 455.825,-1242 492,-1242"/>
 </g>
 <!-- XMP&#45;madek:patron -->
 <g id="node403" class="node"><title>XMP&#45;madek:patron</title>
@@ -1504,7 +1504,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:patron -->
 <g id="edge456" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:patron:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C320.684,-1998 241.683,-1760.37 412,-1662 443.326,-1643.91 455.825,-1647 492,-1647"/>
+<path fill="none" stroke="#661166" d="M124,-1998C320.684,-1998 241.683,-1760.37 412,-1662 443.326,-1643.91 455.825,-1647 492,-1647"/>
 </g>
 <!-- XMP&#45;madek:PortrayedInstitution -->
 <g id="node406" class="node"><title>XMP&#45;madek:PortrayedInstitution</title>
@@ -1513,7 +1513,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:PortrayedInstitution -->
 <g id="edge460" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:PortrayedInstitution:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C552.447,-1998 63.5535,-2889 492,-2889"/>
+<path fill="none" stroke="#661166" d="M124,-1998C552.447,-1998 63.5535,-2889 492,-2889"/>
 </g>
 <!-- XMP&#45;madek:PortrayedObjectDates -->
 <g id="node409" class="node"><title>XMP&#45;madek:PortrayedObjectDates</title>
@@ -1522,7 +1522,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:PortrayedObjectDates -->
 <g id="edge464" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:PortrayedObjectDates:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C519.412,-1998 96.5883,-1188 492,-1188"/>
+<path fill="none" stroke="#661166" d="M124,-1998C519.412,-1998 96.5883,-1188 492,-1188"/>
 </g>
 <!-- XMP&#45;madek:PortrayedObjectDimensions -->
 <g id="node412" class="node"><title>XMP&#45;madek:PortrayedObjectDimensions</title>
@@ -1531,7 +1531,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:PortrayedObjectDimensions -->
 <g id="edge468" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:PortrayedObjectDimensions:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C302.702,-1998 313.298,-2160 492,-2160"/>
+<path fill="none" stroke="#661166" d="M124,-1998C302.702,-1998 313.298,-2160 492,-2160"/>
 </g>
 <!-- XMP&#45;madek:PortrayedObjectMaterials -->
 <g id="node415" class="node"><title>XMP&#45;madek:PortrayedObjectMaterials</title>
@@ -1540,7 +1540,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:PortrayedObjectMaterials -->
 <g id="edge472" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:PortrayedObjectMaterials:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C307.865,-1998 308.135,-2187 492,-2187"/>
+<path fill="none" stroke="#661166" d="M124,-1998C307.865,-1998 308.135,-2187 492,-2187"/>
 </g>
 <!-- XMP&#45;madek:PortrayedPerson -->
 <g id="node418" class="node"><title>XMP&#45;madek:PortrayedPerson</title>
@@ -1549,7 +1549,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:PortrayedPerson -->
 <g id="edge476" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:PortrayedPerson:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C455.078,-1998 154.478,-1519.07 412,-1311 440.138,-1288.26 455.825,-1296 492,-1296"/>
+<path fill="none" stroke="#661166" d="M124,-1998C455.078,-1998 154.478,-1519.07 412,-1311 440.138,-1288.26 455.825,-1296 492,-1296"/>
 </g>
 <!-- XMP&#45;madek:ProjectLeader -->
 <g id="node421" class="node"><title>XMP&#45;madek:ProjectLeader</title>
@@ -1558,7 +1558,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:ProjectLeader -->
 <g id="edge480" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:ProjectLeader:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C477.333,-1998 140.107,-2513.35 412,-2739 439.837,-2762.1 455.825,-2754 492,-2754"/>
+<path fill="none" stroke="#661166" d="M124,-1998C477.333,-1998 140.107,-2513.35 412,-2739 439.837,-2762.1 455.825,-2754 492,-2754"/>
 </g>
 <!-- XMP&#45;madek:ProjectType -->
 <g id="node424" class="node"><title>XMP&#45;madek:ProjectType</title>
@@ -1567,7 +1567,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:ProjectType -->
 <g id="edge484" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:ProjectType:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C519.412,-1998 96.5883,-2808 492,-2808"/>
+<path fill="none" stroke="#661166" d="M124,-1998C519.412,-1998 96.5883,-2808 492,-2808"/>
 </g>
 <!-- XMP&#45;madek:PublicCaption -->
 <g id="node427" class="node"><title>XMP&#45;madek:PublicCaption</title>
@@ -1576,7 +1576,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:PublicCaption -->
 <g id="edge488" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:PublicCaption:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C329.943,-1998 235.65,-1741.36 412,-1635 442.977,-1616.32 455.825,-1620 492,-1620"/>
+<path fill="none" stroke="#661166" d="M124,-1998C329.943,-1998 235.65,-1741.36 412,-1635 442.977,-1616.32 455.825,-1620 492,-1620"/>
 </g>
 <!-- XMP&#45;madek:Publisher -->
 <g id="node430" class="node"><title>XMP&#45;madek:Publisher</title>
@@ -1585,7 +1585,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:Publisher -->
 <g id="edge492" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:Publisher:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C287.995,-1998 328.005,-2025 492,-2025"/>
+<path fill="none" stroke="#661166" d="M124,-1998C287.995,-1998 328.005,-2025 492,-2025"/>
 </g>
 <!-- XMP&#45;madek:Relation -->
 <g id="node433" class="node"><title>XMP&#45;madek:Relation</title>
@@ -1594,7 +1594,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:Relation -->
 <g id="edge496" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:Relation:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C379.68,-1998 203.302,-2348.29 412,-2496 441.528,-2516.9 455.825,-2511 492,-2511"/>
+<path fill="none" stroke="#661166" d="M124,-1998C379.68,-1998 203.302,-2348.29 412,-2496 441.528,-2516.9 455.825,-2511 492,-2511"/>
 </g>
 <!-- XMP&#45;madek:Remark -->
 <g id="node436" class="node"><title>XMP&#45;madek:Remark</title>
@@ -1603,7 +1603,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:Remark -->
 <g id="edge500" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:Remark:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C339.473,-1998 229.444,-1722.46 412,-1608 442.649,-1588.78 455.825,-1593 492,-1593"/>
+<path fill="none" stroke="#661166" d="M124,-1998C339.473,-1998 229.444,-1722.46 412,-1608 442.649,-1588.78 455.825,-1593 492,-1593"/>
 </g>
 <!-- XMP&#45;madek:ShortDescription -->
 <g id="node439" class="node"><title>XMP&#45;madek:ShortDescription</title>
@@ -1612,7 +1612,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:ShortDescription -->
 <g id="edge504" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:ShortDescription:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C574.722,-1998 41.2779,-2943 492,-2943"/>
+<path fill="none" stroke="#661166" d="M124,-1998C574.722,-1998 41.2779,-2943 492,-2943"/>
 </g>
 <!-- XMP&#45;madek:SourceImage -->
 <g id="node442" class="node"><title>XMP&#45;madek:SourceImage</title>
@@ -1621,7 +1621,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:SourceImage -->
 <g id="edge508" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:SourceImage:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C280.091,-1998 268.069,-2138.6 412,-2199 445.357,-2213 455.825,-2214 492,-2214"/>
+<path fill="none" stroke="#661166" d="M124,-1998C280.091,-1998 268.069,-2138.6 412,-2199 445.357,-2213 455.825,-2214 492,-2214"/>
 </g>
 <!-- XMP&#45;madek:SourceIsbn -->
 <g id="node445" class="node"><title>XMP&#45;madek:SourceIsbn</title>
@@ -1630,7 +1630,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:SourceIsbn -->
 <g id="edge512" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:SourceIsbn:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C433.083,-1998 168.697,-2440.38 412,-2631 440.476,-2653.31 455.825,-2646 492,-2646"/>
+<path fill="none" stroke="#661166" d="M124,-1998C433.083,-1998 168.697,-2440.38 412,-2631 440.476,-2653.31 455.825,-2646 492,-2646"/>
 </g>
 <!-- XMP&#45;madek:SourcePlate -->
 <g id="node448" class="node"><title>XMP&#45;madek:SourcePlate</title>
@@ -1639,7 +1639,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:SourcePlate -->
 <g id="edge516" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:SourcePlate:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C444.044,-1998 161.609,-2458.67 412,-2658 440.302,-2680.53 455.825,-2673 492,-2673"/>
+<path fill="none" stroke="#661166" d="M124,-1998C444.044,-1998 161.609,-2458.67 412,-2658 440.302,-2680.53 455.825,-2673 492,-2673"/>
 </g>
 <!-- XMP&#45;madek:SourceSide -->
 <g id="node451" class="node"><title>XMP&#45;madek:SourceSide</title>
@@ -1648,7 +1648,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:SourceSide -->
 <g id="edge520" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:SourceSide:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C287.256,-1998 263.436,-2158.32 412,-2226 444.92,-2241 455.825,-2241 492,-2241"/>
+<path fill="none" stroke="#661166" d="M124,-1998C287.256,-1998 263.436,-2158.32 412,-2226 444.92,-2241 455.825,-2241 492,-2241"/>
 </g>
 <!-- XMP&#45;madek:Tags -->
 <g id="node454" class="node"><title>XMP&#45;madek:Tags</title>
@@ -1657,7 +1657,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:Tags -->
 <g id="edge524" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:Tags:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C563.562,-1998 52.4384,-2916 492,-2916"/>
+<path fill="none" stroke="#661166" d="M124,-1998C563.562,-1998 52.4384,-2916 492,-2916"/>
 </g>
 <!-- XMP&#45;madek:TransmissionReference -->
 <g id="node457" class="node"><title>XMP&#45;madek:TransmissionReference</title>
@@ -1666,7 +1666,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:TransmissionReference -->
 <g id="edge528" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:TransmissionReference:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C287.995,-1998 328.005,-1971 492,-1971"/>
+<path fill="none" stroke="#661166" d="M124,-1998C287.995,-1998 328.005,-1971 492,-1971"/>
 </g>
 <!-- XMP&#45;madek:Urn -->
 <g id="node460" class="node"><title>XMP&#45;madek:Urn</title>
@@ -1675,7 +1675,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;madek:Urn -->
 <g id="edge532" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;madek:Urn:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C280.091,-1998 268.069,-1857.4 412,-1797 445.357,-1783 455.825,-1782 492,-1782"/>
+<path fill="none" stroke="#661166" d="M124,-1998C280.091,-1998 268.069,-1857.4 412,-1797 445.357,-1783 455.825,-1782 492,-1782"/>
 </g>
 <!-- XMP&#45;photoshop:AuthorsPosition -->
 <g id="node463" class="node"><title>XMP&#45;photoshop:AuthorsPosition</title>
@@ -1684,7 +1684,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;photoshop:AuthorsPosition -->
 <g id="edge536" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;photoshop:AuthorsPosition:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C369.366,-1998 210,-2329.71 412,-2469 441.782,-2489.54 455.825,-2484 492,-2484"/>
+<path fill="none" stroke="#661166" d="M124,-1998C369.366,-1998 210,-2329.71 412,-2469 441.782,-2489.54 455.825,-2484 492,-2484"/>
 </g>
 <!-- XMP&#45;photoshop:CaptionWriter -->
 <g id="node466" class="node"><title>XMP&#45;photoshop:CaptionWriter</title>
@@ -1693,7 +1693,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;photoshop:CaptionWriter -->
 <g id="edge540" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;photoshop:CaptionWriter:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C294.963,-1998 258.432,-1818.14 412,-1743 444.494,-1727.1 455.825,-1728 492,-1728"/>
+<path fill="none" stroke="#661166" d="M124,-1998C294.963,-1998 258.432,-1818.14 412,-1743 444.494,-1727.1 455.825,-1728 492,-1728"/>
 </g>
 <!-- XMP&#45;photoshop:City -->
 <g id="node469" class="node"><title>XMP&#45;photoshop:City</title>
@@ -1702,7 +1702,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;photoshop:City -->
 <g id="edge544" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;photoshop:City:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C390.136,-1998 196.516,-1629.19 412,-1473 441.29,-1451.77 455.825,-1458 492,-1458"/>
+<path fill="none" stroke="#661166" d="M124,-1998C390.136,-1998 196.516,-1629.19 412,-1473 441.29,-1451.77 455.825,-1458 492,-1458"/>
 </g>
 <!-- XMP&#45;photoshop:ColorMode -->
 <g id="node472" class="node"><title>XMP&#45;photoshop:ColorMode</title>
@@ -1711,7 +1711,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;photoshop:ColorMode -->
 <g id="edge548" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;photoshop:ColorMode:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C289.307,-1998 326.693,-1944 492,-1944"/>
+<path fill="none" stroke="#661166" d="M124,-1998C289.307,-1998 326.693,-1944 492,-1944"/>
 </g>
 <!-- XMP&#45;photoshop:Country -->
 <g id="node475" class="node"><title>XMP&#45;photoshop:Country</title>
@@ -1720,7 +1720,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;photoshop:Country -->
 <g id="edge552" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;photoshop:Country:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C433.083,-1998 168.697,-1555.62 412,-1365 440.476,-1342.69 455.825,-1350 492,-1350"/>
+<path fill="none" stroke="#661166" d="M124,-1998C433.083,-1998 168.697,-1555.62 412,-1365 440.476,-1342.69 455.825,-1350 492,-1350"/>
 </g>
 <!-- XMP&#45;photoshop:Credit -->
 <g id="node478" class="node"><title>XMP&#45;photoshop:Credit</title>
@@ -1729,7 +1729,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;photoshop:Credit -->
 <g id="edge556" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;photoshop:Credit:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C303.144,-1998 253.11,-1798.74 412,-1716 444.085,-1699.29 455.825,-1701 492,-1701"/>
+<path fill="none" stroke="#661166" d="M124,-1998C303.144,-1998 253.11,-1798.74 412,-1716 444.085,-1699.29 455.825,-1701 492,-1701"/>
 </g>
 <!-- XMP&#45;photoshop:Headline -->
 <g id="node481" class="node"><title>XMP&#45;photoshop:Headline</title>
@@ -1738,7 +1738,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;photoshop:Headline -->
 <g id="edge560" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;photoshop:Headline:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C369.366,-1998 210,-1666.29 412,-1527 441.782,-1506.46 455.825,-1512 492,-1512"/>
+<path fill="none" stroke="#661166" d="M124,-1998C369.366,-1998 210,-1666.29 412,-1527 441.782,-1506.46 455.825,-1512 492,-1512"/>
 </g>
 <!-- XMP&#45;photoshop:History -->
 <g id="node484" class="node"><title>XMP&#45;photoshop:History</title>
@@ -1747,7 +1747,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;photoshop:History -->
 <g id="edge564" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;photoshop:History:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C291.471,-1998 324.529,-1917 492,-1917"/>
+<path fill="none" stroke="#661166" d="M124,-1998C291.471,-1998 324.529,-1917 492,-1917"/>
 </g>
 <!-- XMP&#45;photoshop:SidecarForExtension -->
 <g id="node487" class="node"><title>XMP&#45;photoshop:SidecarForExtension</title>
@@ -1756,7 +1756,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;photoshop:SidecarForExtension -->
 <g id="edge568" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;photoshop:SidecarForExtension:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C302.702,-1998 313.298,-1836 492,-1836"/>
+<path fill="none" stroke="#661166" d="M124,-1998C302.702,-1998 313.298,-1836 492,-1836"/>
 </g>
 <!-- XMP&#45;photoshop:Source -->
 <g id="node490" class="node"><title>XMP&#45;photoshop:Source</title>
@@ -1765,7 +1765,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;photoshop:Source -->
 <g id="edge572" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;photoshop:Source:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C291.471,-1998 324.529,-2079 492,-2079"/>
+<path fill="none" stroke="#661166" d="M124,-1998C291.471,-1998 324.529,-2079 492,-2079"/>
 </g>
 <!-- XMP&#45;photoshop:State -->
 <g id="node493" class="node"><title>XMP&#45;photoshop:State</title>
@@ -1774,7 +1774,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;photoshop:State -->
 <g id="edge576" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;photoshop:State:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C400.717,-1998 189.655,-1610.73 412,-1446 441.067,-1424.47 455.825,-1431 492,-1431"/>
+<path fill="none" stroke="#661166" d="M124,-1998C400.717,-1998 189.655,-1610.73 412,-1446 441.067,-1424.47 455.825,-1431 492,-1431"/>
 </g>
 <!-- XMP&#45;xmp:Rating -->
 <g id="node496" class="node"><title>XMP&#45;xmp:Rating</title>
@@ -1783,7 +1783,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;xmp:Rating -->
 <g id="edge580" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;xmp:Rating:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C289.307,-1998 326.693,-2052 492,-2052"/>
+<path fill="none" stroke="#661166" d="M124,-1998C289.307,-1998 326.693,-2052 492,-2052"/>
 </g>
 <!-- XMP&#45;xmpRights:Marked -->
 <g id="node499" class="node"><title>XMP&#45;xmpRights:Marked</title>
@@ -1792,7 +1792,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;xmpRights:Marked -->
 <g id="edge584" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;xmpRights:Marked:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C422.202,-1998 175.738,-1573.95 412,-1392 440.661,-1369.93 455.825,-1377 492,-1377"/>
+<path fill="none" stroke="#661166" d="M124,-1998C422.202,-1998 175.738,-1573.95 412,-1392 440.661,-1369.93 455.825,-1377 492,-1377"/>
 </g>
 <!-- XMP&#45;xmpRights:UsageTerms -->
 <g id="node502" class="node"><title>XMP&#45;xmpRights:UsageTerms</title>
@@ -1801,7 +1801,7 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;xmpRights:UsageTerms -->
 <g id="edge588" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;xmpRights:UsageTerms:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C411.41,-1998 182.726,-1592.31 412,-1419 440.858,-1397.19 455.825,-1404 492,-1404"/>
+<path fill="none" stroke="#661166" d="M124,-1998C411.41,-1998 182.726,-1592.31 412,-1419 440.858,-1397.19 455.825,-1404 492,-1404"/>
 </g>
 <!-- XMP&#45;xmpRights:WebStatement -->
 <g id="node505" class="node"><title>XMP&#45;xmpRights:WebStatement</title>
@@ -1810,443 +1810,443 @@
 </g>
 <!-- IO Interface&#45;&gt;XMP&#45;xmpRights:WebStatement -->
 <g id="edge592" class="edge"><title>IO Interface:e&#45;&gt;XMP&#45;xmpRights:WebStatement:w</title>
-<path fill="none" stroke="#444400" d="M124,-1998C311.735,-1998 247.514,-1779.49 412,-1689 443.695,-1671.56 455.825,-1674 492,-1674"/>
+<path fill="none" stroke="#661166" d="M124,-1998C311.735,-1998 247.514,-1779.49 412,-1689 443.695,-1671.56 455.825,-1674 492,-1674"/>
 </g>
 <!-- mediafile.formatID&#45;&gt;media type -->
 <g id="edge162" class="edge"><title>mediafile.formatID:e&#45;&gt;media type:w</title>
-<path fill="none" stroke="#005522" d="M752,-135C791.675,-135 810.089,-123.934 840,-150 1149.08,-419.349 719.026,-1026 1129,-1026"/>
+<path fill="none" stroke="#552255" d="M752,-135C791.675,-135 810.089,-123.934 840,-150 1149.08,-419.349 719.026,-1026 1129,-1026"/>
 </g>
 <!-- objects.chat&#45;&gt;description -->
 <g id="edge166" class="edge"><title>objects.chat:e&#45;&gt;description:w</title>
-<path fill="none" stroke="#005522" d="M752,-216C791.675,-216 810.089,-204.934 840,-231 1149.08,-500.349 719.026,-1107 1129,-1107"/>
+<path fill="none" stroke="#552255" d="M752,-216C791.675,-216 810.089,-204.934 840,-231 1149.08,-500.349 719.026,-1107 1129,-1107"/>
 </g>
 <!-- objects.copyright typ=&quot;Art der Objektrechte&quot;&#45;&gt;copyright status -->
 <g id="edge170" class="edge"><title>objects.copyright typ=&quot;Art der Objektrechte&quot;:e&#45;&gt;copyright status:w</title>
-<path fill="none" stroke="#005522" d="M760,-459C1188.62,-459 700.384,-1350 1129,-1350"/>
+<path fill="none" stroke="#552255" d="M760,-459C1188.62,-459 700.384,-1350 1129,-1350"/>
 </g>
 <!-- objects.copyright typ=creditlinerepro&#45;&gt;copyright notice -->
 <g id="edge174" class="edge"><title>objects.copyright typ=creditlinerepro:e&#45;&gt;copyright notice:w</title>
-<path fill="none" stroke="#005522" d="M752,-297C791.675,-297 810.089,-285.934 840,-312 1149.08,-581.349 719.026,-1188 1129,-1188"/>
+<path fill="none" stroke="#552255" d="M752,-297C791.675,-297 810.089,-285.934 840,-312 1149.08,-581.349 719.026,-1188 1129,-1188"/>
 </g>
 <!-- objects.copyright typ=restrictions&#45;&gt;copyright usage -->
 <g id="edge178" class="edge"><title>objects.copyright typ=restrictions:e&#45;&gt;copyright usage:w</title>
-<path fill="none" stroke="#005522" d="M752,-486C791.675,-486 810.089,-474.934 840,-501 1149.08,-770.349 719.026,-1377 1129,-1377"/>
+<path fill="none" stroke="#552255" d="M752,-486C791.675,-486 810.089,-474.934 840,-501 1149.08,-770.349 719.026,-1377 1129,-1377"/>
 </g>
 <!-- objects.creditline&#45;&gt;provider -->
 <g id="edge182" class="edge"><title>objects.creditline:e&#45;&gt;provider:w</title>
-<path fill="none" stroke="#005522" d="M752,-783C791.675,-783 810.203,-771.803 840,-798 1156.47,-1076.23 707.614,-1701 1129,-1701"/>
+<path fill="none" stroke="#552255" d="M752,-783C791.675,-783 810.203,-771.803 840,-798 1156.47,-1076.23 707.614,-1701 1129,-1701"/>
 </g>
 <!-- objects.dated&#45;&gt;portrayed object dates -->
 <g id="edge186" class="edge"><title>objects.dated:e&#45;&gt;portrayed object dates:w</title>
-<path fill="none" stroke="#005522" d="M752,-270C791.675,-270 810.089,-258.934 840,-285 1149.08,-554.349 719.026,-1161 1129,-1161"/>
+<path fill="none" stroke="#552255" d="M752,-270C791.675,-270 810.089,-258.934 840,-285 1149.08,-554.349 719.026,-1161 1129,-1161"/>
 </g>
 <!-- objects.dimensions&#45;&gt;portrayed object dimensions -->
 <g id="edge190" class="edge"><title>objects.dimensions:e&#45;&gt;portrayed object dimensions:w</title>
-<path fill="none" stroke="#005522" d="M752,-891C1340.36,-891 540.637,-2160 1129,-2160"/>
+<path fill="none" stroke="#552255" d="M752,-891C1340.36,-891 540.637,-2160 1129,-2160"/>
 </g>
 <!-- objects.medium&#45;&gt;portrayed object materials -->
 <g id="edge194" class="edge"><title>objects.medium:e&#45;&gt;portrayed object materials:w</title>
-<path fill="none" stroke="#005522" d="M752,-918C1340.36,-918 540.637,-2187 1129,-2187"/>
+<path fill="none" stroke="#552255" d="M752,-918C1340.36,-918 540.637,-2187 1129,-2187"/>
 </g>
 <!-- objects.notes&#45;&gt;remark -->
 <g id="edge198" class="edge"><title>objects.notes:e&#45;&gt;remark:w</title>
-<path fill="none" stroke="#005522" d="M752,-675C791.675,-675 810.089,-663.934 840,-690 1149.08,-959.349 719.026,-1566 1129,-1566"/>
+<path fill="none" stroke="#552255" d="M752,-675C791.675,-675 810.089,-663.934 840,-690 1149.08,-959.349 719.026,-1566 1129,-1566"/>
 </g>
 <!-- objects.objectname&#45;&gt;objectname -->
 <g id="edge202" class="edge"><title>objects.objectname:e&#45;&gt;objectname:w</title>
-<path fill="none" stroke="#005522" d="M752,-189C791.675,-189 810.089,-177.934 840,-204 1149.08,-473.349 719.026,-1080 1129,-1080"/>
+<path fill="none" stroke="#552255" d="M752,-189C791.675,-189 810.089,-177.934 840,-204 1149.08,-473.349 719.026,-1080 1129,-1080"/>
 </g>
 <!-- objects.objectnumber&#45;&gt;objectnumber -->
 <g id="edge206" class="edge"><title>objects.objectnumber:e&#45;&gt;objectnumber:w</title>
-<path fill="none" stroke="#005522" d="M752,-81C791.675,-81 810.089,-69.9338 840,-96 1149.08,-365.349 719.026,-972 1129,-972"/>
+<path fill="none" stroke="#552255" d="M752,-81C791.675,-81 810.089,-69.9338 840,-96 1149.08,-365.349 719.026,-972 1129,-972"/>
 </g>
 <!-- objects.publicaccess&#45;&gt;public access -->
 <g id="edge210" class="edge"><title>objects.publicaccess:e&#45;&gt;public access:w</title>
-<path fill="none" stroke="#005522" d="M752,-162C791.675,-162 810.089,-150.934 840,-177 1149.08,-446.349 719.026,-1053 1129,-1053"/>
+<path fill="none" stroke="#552255" d="M752,-162C791.675,-162 810.089,-150.934 840,-177 1149.08,-446.349 719.026,-1053 1129,-1053"/>
 </g>
 <!-- objtitles.titel titeltyp=Legende&#45;&gt;public caption -->
 <g id="edge214" class="edge"><title>objtitles.titel titeltyp=Legende:e&#45;&gt;public caption:w</title>
-<path fill="none" stroke="#005522" d="M752,-702C791.675,-702 810.089,-690.934 840,-717 1149.08,-986.349 719.026,-1593 1129,-1593"/>
+<path fill="none" stroke="#552255" d="M752,-702C791.675,-702 810.089,-690.934 840,-717 1149.08,-986.349 719.026,-1593 1129,-1593"/>
 </g>
 <!-- objtitles.title titletypID=1&#45;&gt;title -->
 <g id="edge218" class="edge"><title>objtitles.title titletypID=1:e&#45;&gt;title:w</title>
-<path fill="none" stroke="#005522" d="M752,-27C791.675,-27 809.968,-16.0727 840,-42 1141.71,-302.477 730.404,-891 1129,-891"/>
+<path fill="none" stroke="#552255" d="M752,-27C791.675,-27 809.968,-16.0727 840,-42 1141.71,-302.477 730.404,-891 1129,-891"/>
 </g>
 <!-- objtitles.title titletypID=6&#45;&gt;subtitle -->
 <g id="edge222" class="edge"><title>objtitles.title titletypID=6:e&#45;&gt;subtitle:w</title>
-<path fill="none" stroke="#005522" d="M752,-594C791.675,-594 810.089,-582.934 840,-609 1149.08,-878.349 719.026,-1485 1129,-1485"/>
+<path fill="none" stroke="#552255" d="M752,-594C791.675,-594 810.089,-582.934 840,-609 1149.08,-878.349 719.026,-1485 1129,-1485"/>
 </g>
 <!-- objtitles.title titletypID=99||sites.sitename&#45;&gt;project title -->
 <g id="edge226" class="edge"><title>objtitles.title titletypID=99||sites.sitename:e&#45;&gt;project title:w</title>
-<path fill="none" stroke="#005522" d="M752,-945C1561.53,-945 319.47,-2727 1129,-2727"/>
+<path fill="none" stroke="#552255" d="M752,-945C1561.53,-945 319.47,-2727 1129,-2727"/>
 </g>
 <!-- person RoleTypeID=1 RoleID=150&#45;&gt;author -->
 <g id="edge230" class="edge"><title>person RoleTypeID=1 RoleID=150:e&#45;&gt;author:w</title>
-<path fill="none" stroke="#005522" d="M752,-243C791.675,-243 810.089,-231.934 840,-258 1149.08,-527.349 719.026,-1134 1129,-1134"/>
+<path fill="none" stroke="#552255" d="M752,-243C791.675,-243 810.089,-231.934 840,-258 1149.08,-527.349 719.026,-1134 1129,-1134"/>
 </g>
 <!-- person RoleTypeID=1 RoleID=155&#45;&gt;portrayed person -->
 <g id="edge234" class="edge"><title>person RoleTypeID=1 RoleID=155:e&#45;&gt;portrayed person:w</title>
-<path fill="none" stroke="#005522" d="M752,-378C791.675,-378 810.089,-366.934 840,-393 1149.08,-662.349 719.026,-1269 1129,-1269"/>
+<path fill="none" stroke="#552255" d="M752,-378C791.675,-378 810.089,-366.934 840,-393 1149.08,-662.349 719.026,-1269 1129,-1269"/>
 </g>
 <!-- person RoleTypeID=1 RoleID=156&#45;&gt;portrayed institution -->
 <g id="edge238" class="edge"><title>person RoleTypeID=1 RoleID=156:e&#45;&gt;portrayed institution:w</title>
-<path fill="none" stroke="#005522" d="M752,-2862C919.985,-2862 961.015,-2889 1129,-2889"/>
+<path fill="none" stroke="#552255" d="M752,-2862C919.985,-2862 961.015,-2889 1129,-2889"/>
 </g>
 <!-- person RoleTypeID=1 RoleID=21&#45;&gt;creator -->
 <g id="edge242" class="edge"><title>person RoleTypeID=1 RoleID=21:e&#45;&gt;creator:w</title>
-<path fill="none" stroke="#005522" d="M752,-864C1340.36,-864 540.637,-2133 1129,-2133"/>
+<path fill="none" stroke="#552255" d="M752,-864C1340.36,-864 540.637,-2133 1129,-2133"/>
 </g>
 <!-- person RoleTypeID=1 RoleID=22&#45;&gt;patron -->
 <g id="edge246" class="edge"><title>person RoleTypeID=1 RoleID=22:e&#45;&gt;patron:w</title>
-<path fill="none" stroke="#005522" d="M752,-729C791.675,-729 810.089,-717.934 840,-744 1149.08,-1013.35 719.026,-1620 1129,-1620"/>
+<path fill="none" stroke="#552255" d="M752,-729C791.675,-729 810.089,-717.934 840,-744 1149.08,-1013.35 719.026,-1620 1129,-1620"/>
 </g>
 <!-- person RoleTypeID=1 RoleID=251&#45;&gt;institutional affiliation -->
 <g id="edge250" class="edge"><title>person RoleTypeID=1 RoleID=251:e&#45;&gt;institutional affiliation:w</title>
-<path fill="none" stroke="#005522" d="M752,-1053C791.675,-1053 812.186,-1039.71 840,-1068 1123.08,-1355.97 725.194,-2862 1129,-2862"/>
+<path fill="none" stroke="#552255" d="M752,-1053C791.675,-1053 812.186,-1039.71 840,-1068 1123.08,-1355.97 725.194,-2862 1129,-2862"/>
 </g>
 <!-- person RoleTypeID=1 RoleID=61&#45;&gt;project leader -->
 <g id="edge254" class="edge"><title>person RoleTypeID=1 RoleID=61:e&#45;&gt;project leader:w</title>
-<path fill="none" stroke="#005522" d="M752,-972C791.675,-972 812.186,-958.706 840,-987 1123.08,-1274.97 725.194,-2781 1129,-2781"/>
+<path fill="none" stroke="#552255" d="M752,-972C791.675,-972 812.186,-958.706 840,-987 1123.08,-1274.97 725.194,-2781 1129,-2781"/>
 </g>
 <!-- person RoleTypeID=1 RoleID=86&#45;&gt;other creative participants -->
 <g id="edge258" class="edge"><title>person RoleTypeID=1 RoleID=86:e&#45;&gt;other creative participants:w</title>
-<path fill="none" stroke="#005522" d="M752,-351C791.675,-351 810.089,-339.934 840,-366 1149.08,-635.349 719.026,-1242 1129,-1242"/>
+<path fill="none" stroke="#552255" d="M752,-351C791.675,-351 810.089,-339.934 840,-366 1149.08,-635.349 719.026,-1242 1129,-1242"/>
 </g>
 <!-- person RoleTypeID=1 RoleID=87&#45;&gt;participating institution -->
 <g id="edge262" class="edge"><title>person RoleTypeID=1 RoleID=87:e&#45;&gt;participating institution:w</title>
-<path fill="none" stroke="#005522" d="M752,-324C791.675,-324 810.089,-312.934 840,-339 1149.08,-608.349 719.026,-1215 1129,-1215"/>
+<path fill="none" stroke="#552255" d="M752,-324C791.675,-324 810.089,-312.934 840,-339 1149.08,-608.349 719.026,-1215 1129,-1215"/>
 </g>
 <!-- textentries textart=&quot;Erfasser/in vor dem Hochladen ins Medienarchiv&quot;&#45;&gt;description author before import -->
 <g id="edge266" class="edge"><title>textentries textart=&quot;Erfasser/in vor dem Hochladen ins Medienarchiv&quot;:e&#45;&gt;description author before import:w</title>
-<path fill="none" stroke="#005522" d="M832,-756C1248.72,-756 707.277,-1647 1124,-1647"/>
+<path fill="none" stroke="#552255" d="M832,-756C1248.72,-756 707.277,-1647 1124,-1647"/>
 </g>
 <!-- textentries textart=&quot;Erfasser/in vor dem Kopieren fürs MIZ&#45;Achiv&quot;&#45;&gt;description author before snapshot -->
 <g id="edge270" class="edge"><title>textentries textart=&quot;Erfasser/in vor dem Kopieren fürs MIZ&#45;Achiv&quot;:e&#45;&gt;description author before snapshot:w</title>
-<path fill="none" stroke="#005522" d="M822,-108C1239.56,-108 702.439,-999 1120,-999"/>
+<path fill="none" stroke="#552255" d="M822,-108C1239.56,-108 702.439,-999 1120,-999"/>
 </g>
 <!-- textentries textart=&quot;Erfasser/in&quot;&#45;&gt;description author -->
 <g id="edge274" class="edge"><title>textentries textart=&quot;Erfasser/in&quot;:e&#45;&gt;description author:w</title>
-<path fill="none" stroke="#005522" d="M752,-810C791.675,-810 810.203,-798.803 840,-825 1156.47,-1103.23 707.614,-1728 1129,-1728"/>
+<path fill="none" stroke="#552255" d="M752,-810C791.675,-810 810.203,-798.803 840,-825 1156.47,-1103.23 707.614,-1728 1129,-1728"/>
 </g>
 <!-- textentries textart=&quot;Web&#45;Link&quot;&#45;&gt;hyperlinks -->
 <g id="edge278" class="edge"><title>textentries textart=&quot;Web&#45;Link&quot;:e&#45;&gt;hyperlinks:w</title>
-<path fill="none" stroke="#005522" d="M752,-648C791.675,-648 810.089,-636.934 840,-663 1149.08,-932.349 719.026,-1539 1129,-1539"/>
+<path fill="none" stroke="#552255" d="M752,-648C791.675,-648 810.089,-636.934 840,-663 1149.08,-932.349 719.026,-1539 1129,-1539"/>
 </g>
 <!-- textentries textart=&quot;Weitere Personen&quot;&#45;&gt;other document participants -->
 <g id="edge282" class="edge"><title>textentries textart=&quot;Weitere Personen&quot;:e&#45;&gt;other document participants:w</title>
-<path fill="none" stroke="#005522" d="M752,-837C1340.36,-837 540.637,-2106 1129,-2106"/>
+<path fill="none" stroke="#552255" d="M752,-837C1340.36,-837 540.637,-2106 1129,-2106"/>
 </g>
 <!-- textentries textart=&quot;ZHdK&#45;Projekttyp&quot;&#45;&gt;project type -->
 <g id="edge286" class="edge"><title>textentries textart=&quot;ZHdK&#45;Projekttyp&quot;:e&#45;&gt;project type:w</title>
-<path fill="none" stroke="#005522" d="M752,-1026C791.675,-1026 812.186,-1012.71 840,-1041 1123.08,-1328.97 725.194,-2835 1129,-2835"/>
+<path fill="none" stroke="#552255" d="M752,-1026C791.675,-1026 812.186,-1012.71 840,-1041 1123.08,-1328.97 725.194,-2835 1129,-2835"/>
 </g>
 <!-- textentries textart=Gattung&#45;&gt;type -->
 <g id="edge290" class="edge"><title>textentries textart=Gattung:e&#45;&gt;type:w</title>
-<path fill="none" stroke="#005522" d="M752,-621C791.675,-621 810.089,-609.934 840,-636 1149.08,-905.349 719.026,-1512 1129,-1512"/>
+<path fill="none" stroke="#552255" d="M752,-621C791.675,-621 810.089,-609.934 840,-636 1149.08,-905.349 719.026,-1512 1129,-1512"/>
 </g>
 <!-- textentries textart=Geografie typ=&quot;ISO&#45;Ländercode&quot;&#45;&gt;portrayed object country code -->
 <g id="edge294" class="edge"><title>textentries textart=Geografie typ=&quot;ISO&#45;Ländercode&quot;:e&#45;&gt;portrayed object country code:w</title>
-<path fill="none" stroke="#005522" d="M782,-405C1206.97,-405 704.029,-1296 1129,-1296"/>
+<path fill="none" stroke="#552255" d="M782,-405C1206.97,-405 704.029,-1296 1129,-1296"/>
 </g>
 <!-- textentries textart=Geografie typ=&quot;Kanton/Bundesland&quot;&#45;&gt;portrayed object state -->
 <g id="edge298" class="edge"><title>textentries textart=Geografie typ=&quot;Kanton/Bundesland&quot;:e&#45;&gt;portrayed object state:w</title>
-<path fill="none" stroke="#005522" d="M790,-513C1213.69,-513 705.306,-1404 1129,-1404"/>
+<path fill="none" stroke="#552255" d="M790,-513C1213.69,-513 705.306,-1404 1129,-1404"/>
 </g>
 <!-- textentries textart=Geografie typ=&quot;Standort/Aufführungsort&quot;&#45;&gt;portrayed object location -->
 <g id="edge302" class="edge"><title>textentries textart=Geografie typ=&quot;Standort/Aufführungsort&quot;:e&#45;&gt;portrayed object location:w</title>
-<path fill="none" stroke="#005522" d="M803,-567C1224.67,-567 707.326,-1458 1129,-1458"/>
+<path fill="none" stroke="#552255" d="M803,-567C1224.67,-567 707.326,-1458 1129,-1458"/>
 </g>
 <!-- textentries textart=Geografie typ=Land&#45;&gt;portrayed object country -->
 <g id="edge306" class="edge"><title>textentries textart=Geografie typ=Land:e&#45;&gt;portrayed object country:w</title>
-<path fill="none" stroke="#005522" d="M752,-432C791.675,-432 810.089,-420.934 840,-447 1149.08,-716.349 719.026,-1323 1129,-1323"/>
+<path fill="none" stroke="#552255" d="M752,-432C791.675,-432 810.089,-420.934 840,-447 1149.08,-716.349 719.026,-1323 1129,-1323"/>
 </g>
 <!-- textentries textart=Geografie typ=Stadt&#45;&gt;portrayed object city -->
 <g id="edge310" class="edge"><title>textentries textart=Geografie typ=Stadt:e&#45;&gt;portrayed object city:w</title>
-<path fill="none" stroke="#005522" d="M752,-540C791.675,-540 810.089,-528.934 840,-555 1149.08,-824.349 719.026,-1431 1129,-1431"/>
+<path fill="none" stroke="#552255" d="M752,-540C791.675,-540 810.089,-528.934 840,-555 1149.08,-824.349 719.026,-1431 1129,-1431"/>
 </g>
 <!-- textentries textart=Stichworte&#45;&gt;keywords -->
 <g id="edge314" class="edge"><title>textentries textart=Stichworte:e&#45;&gt;keywords:w</title>
-<path fill="none" stroke="#005522" d="M752,-54C791.675,-54 809.968,-43.0727 840,-69 1141.71,-329.477 730.404,-918 1129,-918"/>
+<path fill="none" stroke="#552255" d="M752,-54C791.675,-54 809.968,-43.0727 840,-69 1141.71,-329.477 730.404,-918 1129,-918"/>
 </g>
 <!-- textentries textart=Studienjahr&#45;&gt;academic year -->
 <g id="edge318" class="edge"><title>textentries textart=Studienjahr:e&#45;&gt;academic year:w</title>
-<path fill="none" stroke="#005522" d="M752,-999C791.675,-999 812.186,-985.706 840,-1014 1123.08,-1301.97 725.194,-2808 1129,-2808"/>
+<path fill="none" stroke="#552255" d="M752,-999C791.675,-999 812.186,-985.706 840,-1014 1123.08,-1301.97 725.194,-2808 1129,-2808"/>
 </g>
 <!-- XMP&#45;dc:Creator&#45;&gt;creator -->
 <g id="edge322" class="edge"><title>XMP&#45;dc:Creator:e&#45;&gt;creator:w</title>
-<path fill="none" stroke="#444400" d="M752,-2133C919.556,-2133 961.444,-2133 1129,-2133"/>
+<path fill="none" stroke="#661166" d="M752,-2133C919.556,-2133 961.444,-2133 1129,-2133"/>
 </g>
 <!-- XMP&#45;dc:Description&#45;&gt;description -->
 <g id="edge326" class="edge"><title>XMP&#45;dc:Description:e&#45;&gt;description:w</title>
-<path fill="none" stroke="#444400" d="M752,-1134C919.985,-1134 961.015,-1107 1129,-1107"/>
+<path fill="none" stroke="#661166" d="M752,-1134C919.985,-1134 961.015,-1107 1129,-1107"/>
 </g>
 <!-- XMP&#45;dc:Identifier&#45;&gt;identifier -->
 <g id="edge330" class="edge"><title>XMP&#45;dc:Identifier:e&#45;&gt;identifier:w</title>
-<path fill="none" stroke="#444400" d="M752,-1809C919.556,-1809 961.444,-1809 1129,-1809"/>
+<path fill="none" stroke="#661166" d="M752,-1809C919.556,-1809 961.444,-1809 1129,-1809"/>
 </g>
 <!-- XMP&#45;dc:Rights&#45;&gt;copyright notice -->
 <g id="edge334" class="edge"><title>XMP&#45;dc:Rights:e&#45;&gt;copyright notice:w</title>
-<path fill="none" stroke="#444400" d="M752,-1215C919.985,-1215 961.015,-1188 1129,-1188"/>
+<path fill="none" stroke="#661166" d="M752,-1215C919.985,-1215 961.015,-1188 1129,-1188"/>
 </g>
 <!-- XMP&#45;dc:Subject&#45;&gt;keywords -->
 <g id="edge338" class="edge"><title>XMP&#45;dc:Subject:e&#45;&gt;keywords:w</title>
-<path fill="none" stroke="#444400" d="M752,-1107C791.675,-1107 802.804,-1105.81 840,-1092 980.559,-1039.83 979.072,-918 1129,-918"/>
+<path fill="none" stroke="#661166" d="M752,-1107C791.675,-1107 802.804,-1105.81 840,-1092 980.559,-1039.83 979.072,-918 1129,-918"/>
 </g>
 <!-- XMP&#45;dc:Title&#45;&gt;title -->
 <g id="edge342" class="edge"><title>XMP&#45;dc:Title:e&#45;&gt;title:w</title>
-<path fill="none" stroke="#444400" d="M752,-1080C791.675,-1080 802.804,-1078.81 840,-1065 980.559,-1012.83 979.072,-891 1129,-891"/>
+<path fill="none" stroke="#661166" d="M752,-1080C791.675,-1080 802.804,-1078.81 840,-1065 980.559,-1012.83 979.072,-891 1129,-891"/>
 </g>
 <!-- XMP&#45;dc:Type&#45;&gt;type -->
 <g id="edge346" class="edge"><title>XMP&#45;dc:Type:e&#45;&gt;type:w</title>
-<path fill="none" stroke="#444400" d="M752,-1539C919.985,-1539 961.015,-1512 1129,-1512"/>
+<path fill="none" stroke="#661166" d="M752,-1539C919.985,-1539 961.015,-1512 1129,-1512"/>
 </g>
 <!-- XMP&#45;iptcCore:CountryCode&#45;&gt;portrayed object country code -->
 <g id="edge350" class="edge"><title>XMP&#45;iptcCore:CountryCode:e&#45;&gt;portrayed object country code:w</title>
-<path fill="none" stroke="#444400" d="M752,-1323C919.985,-1323 961.015,-1296 1129,-1296"/>
+<path fill="none" stroke="#661166" d="M752,-1323C919.985,-1323 961.015,-1296 1129,-1296"/>
 </g>
 <!-- XMP&#45;iptcCore:CreatorAddress&#45;&gt;creator address -->
 <g id="edge354" class="edge"><title>XMP&#45;iptcCore:CreatorAddress:e&#45;&gt;creator address:w</title>
-<path fill="none" stroke="#444400" d="M752,-2457C919.556,-2457 961.444,-2457 1129,-2457"/>
+<path fill="none" stroke="#661166" d="M752,-2457C919.556,-2457 961.444,-2457 1129,-2457"/>
 </g>
 <!-- XMP&#45;iptcCore:CreatorCity&#45;&gt;creator city -->
 <g id="edge358" class="edge"><title>XMP&#45;iptcCore:CreatorCity:e&#45;&gt;creator city:w</title>
-<path fill="none" stroke="#444400" d="M752,-2430C919.556,-2430 961.444,-2430 1129,-2430"/>
+<path fill="none" stroke="#661166" d="M752,-2430C919.556,-2430 961.444,-2430 1129,-2430"/>
 </g>
 <!-- XMP&#45;iptcCore:CreatorContactInfo&#45;&gt;creator contact info -->
 <g id="edge362" class="edge"><title>XMP&#45;iptcCore:CreatorContactInfo:e&#45;&gt;creator contact info:w</title>
-<path fill="none" stroke="#444400" d="M752,-1863C919.556,-1863 961.444,-1863 1129,-1863"/>
+<path fill="none" stroke="#661166" d="M752,-1863C919.556,-1863 961.444,-1863 1129,-1863"/>
 </g>
 <!-- XMP&#45;iptcCore:CreatorCountry&#45;&gt;creator country -->
 <g id="edge366" class="edge"><title>XMP&#45;iptcCore:CreatorCountry:e&#45;&gt;creator country:w</title>
-<path fill="none" stroke="#444400" d="M752,-2349C919.556,-2349 961.444,-2349 1129,-2349"/>
+<path fill="none" stroke="#661166" d="M752,-2349C919.556,-2349 961.444,-2349 1129,-2349"/>
 </g>
 <!-- XMP&#45;iptcCore:CreatorPostalCode&#45;&gt;creator postal code -->
 <g id="edge370" class="edge"><title>XMP&#45;iptcCore:CreatorPostalCode:e&#45;&gt;creator postal code:w</title>
-<path fill="none" stroke="#444400" d="M752,-2376C919.556,-2376 961.444,-2376 1129,-2376"/>
+<path fill="none" stroke="#661166" d="M752,-2376C919.556,-2376 961.444,-2376 1129,-2376"/>
 </g>
 <!-- XMP&#45;iptcCore:CreatorRegion&#45;&gt;creator state -->
 <g id="edge374" class="edge"><title>XMP&#45;iptcCore:CreatorRegion:e&#45;&gt;creator state:w</title>
-<path fill="none" stroke="#444400" d="M752,-2403C919.556,-2403 961.444,-2403 1129,-2403"/>
+<path fill="none" stroke="#661166" d="M752,-2403C919.556,-2403 961.444,-2403 1129,-2403"/>
 </g>
 <!-- XMP&#45;iptcCore:CreatorWorkEmail&#45;&gt;creator work email -->
 <g id="edge378" class="edge"><title>XMP&#45;iptcCore:CreatorWorkEmail:e&#45;&gt;creator work email:w</title>
-<path fill="none" stroke="#444400" d="M752,-2295C919.556,-2295 961.444,-2295 1129,-2295"/>
+<path fill="none" stroke="#661166" d="M752,-2295C919.556,-2295 961.444,-2295 1129,-2295"/>
 </g>
 <!-- XMP&#45;iptcCore:CreatorWorkTelephone&#45;&gt;creator work telephone -->
 <g id="edge382" class="edge"><title>XMP&#45;iptcCore:CreatorWorkTelephone:e&#45;&gt;creator work telephone:w</title>
-<path fill="none" stroke="#444400" d="M752,-2322C919.556,-2322 961.444,-2322 1129,-2322"/>
+<path fill="none" stroke="#661166" d="M752,-2322C919.556,-2322 961.444,-2322 1129,-2322"/>
 </g>
 <!-- XMP&#45;iptcCore:CreatorWorkURL&#45;&gt;creator work url -->
 <g id="edge386" class="edge"><title>XMP&#45;iptcCore:CreatorWorkURL:e&#45;&gt;creator work url:w</title>
-<path fill="none" stroke="#444400" d="M752,-2268C919.556,-2268 961.444,-2268 1129,-2268"/>
+<path fill="none" stroke="#661166" d="M752,-2268C919.556,-2268 961.444,-2268 1129,-2268"/>
 </g>
 <!-- XMP&#45;iptcCore:IntellectualGenre&#45;&gt;intellectual genre -->
 <g id="edge390" class="edge"><title>XMP&#45;iptcCore:IntellectualGenre:e&#45;&gt;intellectual genre:w</title>
-<path fill="none" stroke="#444400" d="M752,-1890C919.556,-1890 961.444,-1890 1129,-1890"/>
+<path fill="none" stroke="#661166" d="M752,-1890C919.556,-1890 961.444,-1890 1129,-1890"/>
 </g>
 <!-- XMP&#45;iptcCore:Location&#45;&gt;portrayed object location -->
 <g id="edge394" class="edge"><title>XMP&#45;iptcCore:Location:e&#45;&gt;portrayed object location:w</title>
-<path fill="none" stroke="#444400" d="M752,-1485C919.985,-1485 961.015,-1458 1129,-1458"/>
+<path fill="none" stroke="#661166" d="M752,-1485C919.985,-1485 961.015,-1458 1129,-1458"/>
 </g>
 <!-- XMP&#45;iptcCore:Scene&#45;&gt;scene -->
 <g id="edge398" class="edge"><title>XMP&#45;iptcCore:Scene:e&#45;&gt;scene:w</title>
-<path fill="none" stroke="#444400" d="M752,-2619C919.556,-2619 961.444,-2619 1129,-2619"/>
+<path fill="none" stroke="#661166" d="M752,-2619C919.556,-2619 961.444,-2619 1129,-2619"/>
 </g>
 <!-- XMP&#45;iptcCore:SubjectCode&#45;&gt;subject code -->
 <g id="edge402" class="edge"><title>XMP&#45;iptcCore:SubjectCode:e&#45;&gt;subject code:w</title>
-<path fill="none" stroke="#444400" d="M752,-2592C919.556,-2592 961.444,-2592 1129,-2592"/>
+<path fill="none" stroke="#661166" d="M752,-2592C919.556,-2592 961.444,-2592 1129,-2592"/>
 </g>
 <!-- XMP&#45;madek:AcademicYear&#45;&gt;academic year -->
 <g id="edge406" class="edge"><title>XMP&#45;madek:AcademicYear:e&#45;&gt;academic year:w</title>
-<path fill="none" stroke="#444400" d="M752,-2781C919.985,-2781 961.015,-2808 1129,-2808"/>
+<path fill="none" stroke="#661166" d="M752,-2781C919.985,-2781 961.015,-2808 1129,-2808"/>
 </g>
 <!-- XMP&#45;madek:AdditionalAuthors&#45;&gt;additional authors -->
 <g id="edge410" class="edge"><title>XMP&#45;madek:AdditionalAuthors:e&#45;&gt;additional authors:w</title>
-<path fill="none" stroke="#444400" d="M752,-1755C919.556,-1755 961.444,-1755 1129,-1755"/>
+<path fill="none" stroke="#661166" d="M752,-1755C919.556,-1755 961.444,-1755 1129,-1755"/>
 </g>
 <!-- XMP&#45;madek:Author&#45;&gt;author -->
 <g id="edge414" class="edge"><title>XMP&#45;madek:Author:e&#45;&gt;author:w</title>
-<path fill="none" stroke="#444400" d="M752,-1161C919.985,-1161 961.015,-1134 1129,-1134"/>
+<path fill="none" stroke="#661166" d="M752,-1161C919.985,-1161 961.015,-1134 1129,-1134"/>
 </g>
 <!-- XMP&#45;madek:Coverage&#45;&gt;coverage -->
 <g id="edge418" class="edge"><title>XMP&#45;madek:Coverage:e&#45;&gt;coverage:w</title>
-<path fill="none" stroke="#444400" d="M752,-2565C919.556,-2565 961.444,-2565 1129,-2565"/>
+<path fill="none" stroke="#661166" d="M752,-2565C919.556,-2565 961.444,-2565 1129,-2565"/>
 </g>
 <!-- XMP&#45;madek:DateCreated&#45;&gt;date created -->
 <g id="edge422" class="edge"><title>XMP&#45;madek:DateCreated:e&#45;&gt;date created:w</title>
-<path fill="none" stroke="#444400" d="M752,-2727C919.985,-2727 961.015,-2754 1129,-2754"/>
+<path fill="none" stroke="#661166" d="M752,-2727C919.985,-2727 961.015,-2754 1129,-2754"/>
 </g>
 <!-- XMP&#45;photoshop:DateCreated&#45;&gt;date created -->
 <g id="edge426" class="edge"><title>XMP&#45;photoshop:DateCreated:e&#45;&gt;date created:w</title>
-<path fill="none" stroke="#444400" d="M752,-2700C921.266,-2700 959.734,-2754 1129,-2754"/>
+<path fill="none" stroke="#661166" d="M752,-2700C921.266,-2700 959.734,-2754 1129,-2754"/>
 </g>
 <!-- XMP&#45;madek:Format&#45;&gt;format -->
 <g id="edge430" class="edge"><title>XMP&#45;madek:Format:e&#45;&gt;format:w</title>
-<path fill="none" stroke="#444400" d="M752,-1998C919.556,-1998 961.444,-1998 1129,-1998"/>
+<path fill="none" stroke="#661166" d="M752,-1998C919.556,-1998 961.444,-1998 1129,-1998"/>
 </g>
 <!-- XMP&#45;madek:Hyperlinks&#45;&gt;hyperlinks -->
 <g id="edge434" class="edge"><title>XMP&#45;madek:Hyperlinks:e&#45;&gt;hyperlinks:w</title>
-<path fill="none" stroke="#444400" d="M752,-1566C919.985,-1566 961.015,-1539 1129,-1539"/>
+<path fill="none" stroke="#661166" d="M752,-1566C919.985,-1566 961.015,-1539 1129,-1539"/>
 </g>
 <!-- XMP&#45;madek:InstitutionalAffiliation&#45;&gt;institutional affiliation -->
 <g id="edge438" class="edge"><title>XMP&#45;madek:InstitutionalAffiliation:e&#45;&gt;institutional affiliation:w</title>
-<path fill="none" stroke="#444400" d="M752,-2835C919.985,-2835 961.015,-2862 1129,-2862"/>
+<path fill="none" stroke="#661166" d="M752,-2835C919.985,-2835 961.015,-2862 1129,-2862"/>
 </g>
 <!-- XMP&#45;madek:Language&#45;&gt;language -->
 <g id="edge442" class="edge"><title>XMP&#45;madek:Language:e&#45;&gt;language:w</title>
-<path fill="none" stroke="#444400" d="M752,-2538C919.556,-2538 961.444,-2538 1129,-2538"/>
+<path fill="none" stroke="#661166" d="M752,-2538C919.556,-2538 961.444,-2538 1129,-2538"/>
 </g>
 <!-- XMP&#45;madek:OtherCreativeParticipants&#45;&gt;other creative participants -->
 <g id="edge446" class="edge"><title>XMP&#45;madek:OtherCreativeParticipants:e&#45;&gt;other creative participants:w</title>
-<path fill="none" stroke="#444400" d="M752,-1269C919.985,-1269 961.015,-1242 1129,-1242"/>
+<path fill="none" stroke="#661166" d="M752,-1269C919.985,-1269 961.015,-1242 1129,-1242"/>
 </g>
 <!-- XMP&#45;madek:OtherDocumentParticipants&#45;&gt;other document participants -->
 <g id="edge450" class="edge"><title>XMP&#45;madek:OtherDocumentParticipants:e&#45;&gt;other document participants:w</title>
-<path fill="none" stroke="#444400" d="M752,-2106C919.556,-2106 961.444,-2106 1129,-2106"/>
+<path fill="none" stroke="#661166" d="M752,-2106C919.556,-2106 961.444,-2106 1129,-2106"/>
 </g>
 <!-- XMP&#45;madek:ParticipatingInstitution&#45;&gt;participating institution -->
 <g id="edge454" class="edge"><title>XMP&#45;madek:ParticipatingInstitution:e&#45;&gt;participating institution:w</title>
-<path fill="none" stroke="#444400" d="M752,-1242C919.985,-1242 961.015,-1215 1129,-1215"/>
+<path fill="none" stroke="#661166" d="M752,-1242C919.985,-1242 961.015,-1215 1129,-1215"/>
 </g>
 <!-- XMP&#45;madek:patron&#45;&gt;patron -->
 <g id="edge458" class="edge"><title>XMP&#45;madek:patron:e&#45;&gt;patron:w</title>
-<path fill="none" stroke="#444400" d="M752,-1647C919.985,-1647 961.015,-1620 1129,-1620"/>
+<path fill="none" stroke="#661166" d="M752,-1647C919.985,-1647 961.015,-1620 1129,-1620"/>
 </g>
 <!-- XMP&#45;madek:PortrayedInstitution&#45;&gt;portrayed institution -->
 <g id="edge462" class="edge"><title>XMP&#45;madek:PortrayedInstitution:e&#45;&gt;portrayed institution:w</title>
-<path fill="none" stroke="#444400" d="M752,-2889C919.556,-2889 961.444,-2889 1129,-2889"/>
+<path fill="none" stroke="#661166" d="M752,-2889C919.556,-2889 961.444,-2889 1129,-2889"/>
 </g>
 <!-- XMP&#45;madek:PortrayedObjectDates&#45;&gt;portrayed object dates -->
 <g id="edge466" class="edge"><title>XMP&#45;madek:PortrayedObjectDates:e&#45;&gt;portrayed object dates:w</title>
-<path fill="none" stroke="#444400" d="M752,-1188C919.985,-1188 961.015,-1161 1129,-1161"/>
+<path fill="none" stroke="#661166" d="M752,-1188C919.985,-1188 961.015,-1161 1129,-1161"/>
 </g>
 <!-- XMP&#45;madek:PortrayedObjectDimensions&#45;&gt;portrayed object dimensions -->
 <g id="edge470" class="edge"><title>XMP&#45;madek:PortrayedObjectDimensions:e&#45;&gt;portrayed object dimensions:w</title>
-<path fill="none" stroke="#444400" d="M752,-2160C919.556,-2160 961.444,-2160 1129,-2160"/>
+<path fill="none" stroke="#661166" d="M752,-2160C919.556,-2160 961.444,-2160 1129,-2160"/>
 </g>
 <!-- XMP&#45;madek:PortrayedObjectMaterials&#45;&gt;portrayed object materials -->
 <g id="edge474" class="edge"><title>XMP&#45;madek:PortrayedObjectMaterials:e&#45;&gt;portrayed object materials:w</title>
-<path fill="none" stroke="#444400" d="M752,-2187C919.556,-2187 961.444,-2187 1129,-2187"/>
+<path fill="none" stroke="#661166" d="M752,-2187C919.556,-2187 961.444,-2187 1129,-2187"/>
 </g>
 <!-- XMP&#45;madek:PortrayedPerson&#45;&gt;portrayed person -->
 <g id="edge478" class="edge"><title>XMP&#45;madek:PortrayedPerson:e&#45;&gt;portrayed person:w</title>
-<path fill="none" stroke="#444400" d="M752,-1296C919.985,-1296 961.015,-1269 1129,-1269"/>
+<path fill="none" stroke="#661166" d="M752,-1296C919.985,-1296 961.015,-1269 1129,-1269"/>
 </g>
 <!-- XMP&#45;madek:ProjectLeader&#45;&gt;project leader -->
 <g id="edge482" class="edge"><title>XMP&#45;madek:ProjectLeader:e&#45;&gt;project leader:w</title>
-<path fill="none" stroke="#444400" d="M752,-2754C919.985,-2754 961.015,-2781 1129,-2781"/>
+<path fill="none" stroke="#661166" d="M752,-2754C919.985,-2754 961.015,-2781 1129,-2781"/>
 </g>
 <!-- XMP&#45;madek:ProjectType&#45;&gt;project type -->
 <g id="edge486" class="edge"><title>XMP&#45;madek:ProjectType:e&#45;&gt;project type:w</title>
-<path fill="none" stroke="#444400" d="M752,-2808C919.985,-2808 961.015,-2835 1129,-2835"/>
+<path fill="none" stroke="#661166" d="M752,-2808C919.985,-2808 961.015,-2835 1129,-2835"/>
 </g>
 <!-- XMP&#45;madek:PublicCaption&#45;&gt;public caption -->
 <g id="edge490" class="edge"><title>XMP&#45;madek:PublicCaption:e&#45;&gt;public caption:w</title>
-<path fill="none" stroke="#444400" d="M752,-1620C919.985,-1620 961.015,-1593 1129,-1593"/>
+<path fill="none" stroke="#661166" d="M752,-1620C919.985,-1620 961.015,-1593 1129,-1593"/>
 </g>
 <!-- XMP&#45;madek:Publisher&#45;&gt;publisher -->
 <g id="edge494" class="edge"><title>XMP&#45;madek:Publisher:e&#45;&gt;publisher:w</title>
-<path fill="none" stroke="#444400" d="M752,-2025C919.556,-2025 961.444,-2025 1129,-2025"/>
+<path fill="none" stroke="#661166" d="M752,-2025C919.556,-2025 961.444,-2025 1129,-2025"/>
 </g>
 <!-- XMP&#45;madek:Relation&#45;&gt;relation -->
 <g id="edge498" class="edge"><title>XMP&#45;madek:Relation:e&#45;&gt;relation:w</title>
-<path fill="none" stroke="#444400" d="M752,-2511C919.556,-2511 961.444,-2511 1129,-2511"/>
+<path fill="none" stroke="#661166" d="M752,-2511C919.556,-2511 961.444,-2511 1129,-2511"/>
 </g>
 <!-- XMP&#45;madek:Remark&#45;&gt;remark -->
 <g id="edge502" class="edge"><title>XMP&#45;madek:Remark:e&#45;&gt;remark:w</title>
-<path fill="none" stroke="#444400" d="M752,-1593C919.985,-1593 961.015,-1566 1129,-1566"/>
+<path fill="none" stroke="#661166" d="M752,-1593C919.985,-1593 961.015,-1566 1129,-1566"/>
 </g>
 <!-- XMP&#45;madek:ShortDescription&#45;&gt;short description -->
 <g id="edge506" class="edge"><title>XMP&#45;madek:ShortDescription:e&#45;&gt;short description:w</title>
-<path fill="none" stroke="#444400" d="M752,-2943C919.556,-2943 961.444,-2943 1129,-2943"/>
+<path fill="none" stroke="#661166" d="M752,-2943C919.556,-2943 961.444,-2943 1129,-2943"/>
 </g>
 <!-- XMP&#45;madek:SourceImage&#45;&gt;source image -->
 <g id="edge510" class="edge"><title>XMP&#45;madek:SourceImage:e&#45;&gt;source image:w</title>
-<path fill="none" stroke="#444400" d="M752,-2214C919.556,-2214 961.444,-2214 1129,-2214"/>
+<path fill="none" stroke="#661166" d="M752,-2214C919.556,-2214 961.444,-2214 1129,-2214"/>
 </g>
 <!-- XMP&#45;madek:SourceIsbn&#45;&gt;source isbn -->
 <g id="edge514" class="edge"><title>XMP&#45;madek:SourceIsbn:e&#45;&gt;source isbn:w</title>
-<path fill="none" stroke="#444400" d="M752,-2646C919.556,-2646 961.444,-2646 1129,-2646"/>
+<path fill="none" stroke="#661166" d="M752,-2646C919.556,-2646 961.444,-2646 1129,-2646"/>
 </g>
 <!-- XMP&#45;madek:SourcePlate&#45;&gt;source plate -->
 <g id="edge518" class="edge"><title>XMP&#45;madek:SourcePlate:e&#45;&gt;source plate:w</title>
-<path fill="none" stroke="#444400" d="M752,-2673C919.556,-2673 961.444,-2673 1129,-2673"/>
+<path fill="none" stroke="#661166" d="M752,-2673C919.556,-2673 961.444,-2673 1129,-2673"/>
 </g>
 <!-- XMP&#45;madek:SourceSide&#45;&gt;source side -->
 <g id="edge522" class="edge"><title>XMP&#45;madek:SourceSide:e&#45;&gt;source side:w</title>
-<path fill="none" stroke="#444400" d="M752,-2241C919.556,-2241 961.444,-2241 1129,-2241"/>
+<path fill="none" stroke="#661166" d="M752,-2241C919.556,-2241 961.444,-2241 1129,-2241"/>
 </g>
 <!-- XMP&#45;madek:Tags&#45;&gt;tags -->
 <g id="edge526" class="edge"><title>XMP&#45;madek:Tags:e&#45;&gt;tags:w</title>
-<path fill="none" stroke="#444400" d="M752,-2916C919.556,-2916 961.444,-2916 1129,-2916"/>
+<path fill="none" stroke="#661166" d="M752,-2916C919.556,-2916 961.444,-2916 1129,-2916"/>
 </g>
 <!-- XMP&#45;madek:TransmissionReference&#45;&gt;transmission reference -->
 <g id="edge530" class="edge"><title>XMP&#45;madek:TransmissionReference:e&#45;&gt;transmission reference:w</title>
-<path fill="none" stroke="#444400" d="M752,-1971C919.556,-1971 961.444,-1971 1129,-1971"/>
+<path fill="none" stroke="#661166" d="M752,-1971C919.556,-1971 961.444,-1971 1129,-1971"/>
 </g>
 <!-- XMP&#45;madek:Urn&#45;&gt;urn -->
 <g id="edge534" class="edge"><title>XMP&#45;madek:Urn:e&#45;&gt;urn:w</title>
-<path fill="none" stroke="#444400" d="M752,-1782C919.556,-1782 961.444,-1782 1129,-1782"/>
+<path fill="none" stroke="#661166" d="M752,-1782C919.556,-1782 961.444,-1782 1129,-1782"/>
 </g>
 <!-- XMP&#45;photoshop:AuthorsPosition&#45;&gt;creator position -->
 <g id="edge538" class="edge"><title>XMP&#45;photoshop:AuthorsPosition:e&#45;&gt;creator position:w</title>
-<path fill="none" stroke="#444400" d="M752,-2484C919.556,-2484 961.444,-2484 1129,-2484"/>
+<path fill="none" stroke="#661166" d="M752,-2484C919.556,-2484 961.444,-2484 1129,-2484"/>
 </g>
 <!-- XMP&#45;photoshop:CaptionWriter&#45;&gt;description author -->
 <g id="edge542" class="edge"><title>XMP&#45;photoshop:CaptionWriter:e&#45;&gt;description author:w</title>
-<path fill="none" stroke="#444400" d="M752,-1728C919.556,-1728 961.444,-1728 1129,-1728"/>
+<path fill="none" stroke="#661166" d="M752,-1728C919.556,-1728 961.444,-1728 1129,-1728"/>
 </g>
 <!-- XMP&#45;photoshop:City&#45;&gt;portrayed object city -->
 <g id="edge546" class="edge"><title>XMP&#45;photoshop:City:e&#45;&gt;portrayed object city:w</title>
-<path fill="none" stroke="#444400" d="M752,-1458C919.985,-1458 961.015,-1431 1129,-1431"/>
+<path fill="none" stroke="#661166" d="M752,-1458C919.985,-1458 961.015,-1431 1129,-1431"/>
 </g>
 <!-- XMP&#45;photoshop:ColorMode&#45;&gt;color mode -->
 <g id="edge550" class="edge"><title>XMP&#45;photoshop:ColorMode:e&#45;&gt;color mode:w</title>
-<path fill="none" stroke="#444400" d="M752,-1944C919.556,-1944 961.444,-1944 1129,-1944"/>
+<path fill="none" stroke="#661166" d="M752,-1944C919.556,-1944 961.444,-1944 1129,-1944"/>
 </g>
 <!-- XMP&#45;photoshop:Country&#45;&gt;portrayed object country -->
 <g id="edge554" class="edge"><title>XMP&#45;photoshop:Country:e&#45;&gt;portrayed object country:w</title>
-<path fill="none" stroke="#444400" d="M752,-1350C919.985,-1350 961.015,-1323 1129,-1323"/>
+<path fill="none" stroke="#661166" d="M752,-1350C919.985,-1350 961.015,-1323 1129,-1323"/>
 </g>
 <!-- XMP&#45;photoshop:Credit&#45;&gt;provider -->
 <g id="edge558" class="edge"><title>XMP&#45;photoshop:Credit:e&#45;&gt;provider:w</title>
-<path fill="none" stroke="#444400" d="M752,-1701C919.556,-1701 961.444,-1701 1129,-1701"/>
+<path fill="none" stroke="#661166" d="M752,-1701C919.556,-1701 961.444,-1701 1129,-1701"/>
 </g>
 <!-- XMP&#45;photoshop:Headline&#45;&gt;subtitle -->
 <g id="edge562" class="edge"><title>XMP&#45;photoshop:Headline:e&#45;&gt;subtitle:w</title>
-<path fill="none" stroke="#444400" d="M752,-1512C919.985,-1512 961.015,-1485 1129,-1485"/>
+<path fill="none" stroke="#661166" d="M752,-1512C919.985,-1512 961.015,-1485 1129,-1485"/>
 </g>
 <!-- XMP&#45;photoshop:History&#45;&gt;history -->
 <g id="edge566" class="edge"><title>XMP&#45;photoshop:History:e&#45;&gt;history:w</title>
-<path fill="none" stroke="#444400" d="M752,-1917C919.556,-1917 961.444,-1917 1129,-1917"/>
+<path fill="none" stroke="#661166" d="M752,-1917C919.556,-1917 961.444,-1917 1129,-1917"/>
 </g>
 <!-- XMP&#45;photoshop:SidecarForExtension&#45;&gt;sidecar for extension -->
 <g id="edge570" class="edge"><title>XMP&#45;photoshop:SidecarForExtension:e&#45;&gt;sidecar for extension:w</title>
-<path fill="none" stroke="#444400" d="M752,-1836C919.556,-1836 961.444,-1836 1129,-1836"/>
+<path fill="none" stroke="#661166" d="M752,-1836C919.556,-1836 961.444,-1836 1129,-1836"/>
 </g>
 <!-- XMP&#45;photoshop:Source&#45;&gt;source -->
 <g id="edge574" class="edge"><title>XMP&#45;photoshop:Source:e&#45;&gt;source:w</title>
-<path fill="none" stroke="#444400" d="M752,-2079C919.556,-2079 961.444,-2079 1129,-2079"/>
+<path fill="none" stroke="#661166" d="M752,-2079C919.556,-2079 961.444,-2079 1129,-2079"/>
 </g>
 <!-- XMP&#45;photoshop:State&#45;&gt;portrayed object state -->
 <g id="edge578" class="edge"><title>XMP&#45;photoshop:State:e&#45;&gt;portrayed object state:w</title>
-<path fill="none" stroke="#444400" d="M752,-1431C919.985,-1431 961.015,-1404 1129,-1404"/>
+<path fill="none" stroke="#661166" d="M752,-1431C919.985,-1431 961.015,-1404 1129,-1404"/>
 </g>
 <!-- XMP&#45;xmp:Rating&#45;&gt;rating -->
 <g id="edge582" class="edge"><title>XMP&#45;xmp:Rating:e&#45;&gt;rating:w</title>
-<path fill="none" stroke="#444400" d="M752,-2052C919.556,-2052 961.444,-2052 1129,-2052"/>
+<path fill="none" stroke="#661166" d="M752,-2052C919.556,-2052 961.444,-2052 1129,-2052"/>
 </g>
 <!-- XMP&#45;xmpRights:Marked&#45;&gt;copyright status -->
 <g id="edge586" class="edge"><title>XMP&#45;xmpRights:Marked:e&#45;&gt;copyright status:w</title>
-<path fill="none" stroke="#444400" d="M752,-1377C919.985,-1377 961.015,-1350 1129,-1350"/>
+<path fill="none" stroke="#661166" d="M752,-1377C919.985,-1377 961.015,-1350 1129,-1350"/>
 </g>
 <!-- XMP&#45;xmpRights:UsageTerms&#45;&gt;copyright usage -->
 <g id="edge590" class="edge"><title>XMP&#45;xmpRights:UsageTerms:e&#45;&gt;copyright usage:w</title>
-<path fill="none" stroke="#444400" d="M752,-1404C919.985,-1404 961.015,-1377 1129,-1377"/>
+<path fill="none" stroke="#661166" d="M752,-1404C919.985,-1404 961.015,-1377 1129,-1377"/>
 </g>
 <!-- XMP&#45;xmpRights:WebStatement&#45;&gt;copyright url -->
 <g id="edge594" class="edge"><title>XMP&#45;xmpRights:WebStatement:e&#45;&gt;copyright url:w</title>
-<path fill="none" stroke="#444400" d="M752,-1674C919.556,-1674 961.444,-1674 1129,-1674"/>
+<path fill="none" stroke="#661166" d="M752,-1674C919.556,-1674 961.444,-1674 1129,-1674"/>
 </g>
 </g>
 </svg>
