@@ -56,7 +56,7 @@ source media_set_core_0
 index media_set_core
 {
   source = media_set_core_0
-  path = db/sphinx/development/media_set_core
+  path = db/sphinx/test/media_set_core
   morphology = libstemmer_de
   charset_type = utf-8
   min_prefix_len = 3
@@ -73,7 +73,7 @@ source media_set_delta_0 : media_set_core_0
 index media_set_delta : media_set_core
 {
   source = media_set_delta_0
-  path = db/sphinx/development/media_set_delta
+  path = db/sphinx/test/media_set_delta
 }
 
 index media_set
