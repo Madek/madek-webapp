@@ -1,0 +1,25 @@
+.tabs.small
+  %ul
+    %li= link_to _("Meine Schlagworte"), "#tabs_1"
+    %li= link_to _("Beliebteste"), "#tabs_2"
+    %li= link_to _("Neueste"), "#tabs_3"
+	
+  - [@my_keywords, @all_keywords, @all_keywords.sort{|a,b| b.created_at <=> a.created_at}].each_with_index do |keywords, index|
+    %ul.holder.all{:id => "tabs_#{index+1}", :style => "background-color: white; max-height: 20em; padding: 1.3em 0.3em 1em 0.3em; overflow-y: auto;"}
+      - keywords.each do |k|
+        %li.bit-box{:title => "#{k}", :rel => "#{k.meta_term_id}"}
+          = "#{k} "
+          %span= "#{k.q}"
+	
+:javascript
+  $(document).ready(function(){
+    // TODO already in application.js, use live()
+    $(".tabs").tabs({
+      cache: true,
+      add: function(event, ui) {
+        $(this).tabs('select', ui.index);
+      },
+      fx: { opacity: 'toggle' },
+      ajaxOptions: { dataType: 'html' }
+    });
+  });
