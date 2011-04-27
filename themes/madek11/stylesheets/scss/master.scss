@@ -1349,12 +1349,14 @@ button.dark:hover {
 	
 	.thumb_remove { 
 		position:absolute;
+		top: 6px;
+		left: 5px;
 		cursor:pointer;
 		display: none;
 	    text-align: center;
 	    font-size: 2.2em;
 	    line-height: 55px;
-	    margin: 6px 0 10px 3px;
+	    /*margin: 6px 0 10px 3px;*/
 	}
 }
 
@@ -1394,6 +1396,7 @@ button.dark:hover {
 
 .thumb_mini {
 	display: inline-block;
+	position: relative;
 	text-align: center;
 	width: 60px;
 	height: 60px;
