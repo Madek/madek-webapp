@@ -60,3 +60,14 @@ Feature: Create and edit workgroups
     When I click the arrow next to "Pig, Porky"
      And I follow "Meine Arbeitsgruppen"
      Then I should not see "Duck, Daffy"
+
+
+  @javascript @work
+  Scenario: Try to create a group without a name and fail
+    When I log in as "porky" with password "piggy"
+     And I click the arrow next to "Pig, Porky"
+     And I follow "Meine Arbeitsgruppen"
+     And I follow "Neue Arbeitsgruppe erstellen"
+     And I fill in "group_name" with ""
+     And I press "Gruppe erstellen"    
+    Then I should see "Bitte geben Sie einen Gruppennamen an"
