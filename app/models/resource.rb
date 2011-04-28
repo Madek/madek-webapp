@@ -108,7 +108,7 @@ module Resource
     base.alias_method_chain :update_attributes, :pre_validation
 
     base.scope :accessible_by, lambda { |subject, action|
-      ids = Permission.accessible_by_user(base, subject, action)
+      ids = subject.accessible_resource_ids(action, base)
       base.where(:id => ids)
     }
 

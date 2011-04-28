@@ -2,8 +2,8 @@ class SearchController < ApplicationController
   
   def show
     @search_term = params[:query].blank? ? nil : params[:query]
-    viewable_media_entry_ids = Permission.accessible_by_user("MediaEntry", current_user)
-    viewable_media_set_ids = Permission.accessible_by_user("Media::Set", current_user)
+    viewable_media_entry_ids = current_user.accessible_resource_ids
+    viewable_media_set_ids = current_user.accessible_resource_ids(:view, Media::Set)
     options = {:sphinx_select => "*, (IN (sphinx_internal_id, #{viewable_media_entry_ids.join(',')}) AND class_crc = #{MediaEntry.to_crc32}) 
     OR (IN (sphinx_internal_id, #{viewable_media_set_ids.join(',')}) AND class_crc = #{Media::Set.to_crc32}) AS viewable"}
     

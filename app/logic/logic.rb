@@ -4,8 +4,8 @@ module Logic
   def data_for_page(media_entry_ids, current_user)
     media_entries = MediaEntry.includes(:media_file).find(media_entry_ids)
 
-    editable_ids = Permission.accessible_by_user("MediaEntry", current_user, :edit)
-    managable_ids = Permission.accessible_by_user("MediaEntry", current_user, :manage)
+    editable_ids = current_user.accessible_resource_ids(:edit)
+    managable_ids = current_user.accessible_resource_ids(:manage)
     favorite_ids = current_user.favorite_ids
     
     editable_in_context = editable_ids & media_entry_ids
@@ -34,11 +34,11 @@ module Logic
     media_entry_ids = media_entries.map(&:id)
     media_set_ids = media_sets.map(&:id)
     
-    editable_media_entry_ids = Permission.accessible_by_user("MediaEntry", current_user, :edit)
-    managable_media_entry_ids = Permission.accessible_by_user("MediaEntry", current_user, :manage)
+    editable_media_entry_ids = current_user.accessible_resource_ids(:edit)
+    managable_media_entry_ids = current_user.accessible_resource_ids(:manage)
     
-    editable_media_set_ids = Permission.accessible_by_user("Media::Set", current_user, :edit)
-    managable_media_set_ids = Permission.accessible_by_user("Media::Set", current_user, :manage)
+    editable_media_set_ids = current_user.accessible_resource_ids(:edit, Media::Set)
+    managable_media_set_ids = current_user.accessible_resource_ids(:manage, Media::Set)
     # only to be applied to ME
     favorite_ids = current_user.favorite_ids
     
