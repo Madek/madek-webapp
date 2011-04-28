@@ -1,11 +1,31 @@
 :css
-  .filter_bar h4 { font-size: 1.2em; }
   .page_title_left #term {font-weight: normal; font-size: 0.7em; line-height: 1.4em; margin-top: 0.2em; font-family: serif; font-style: italic; color: #666;}
-  .filter_bar #filter-query ul {margin-bottom: 1em;}
-  .filter_bar #filter-query ul li {float: left; margin-right: 1em; }
-  .filter_bar #filter-query ul li input[type="checkbox"] {position:relative; top: -3px; margin-right: 3px;}
+  .filter_area { width: 18%; margin-right: 3%; float:left; }
+  .result_area { width: 77%; float:left; }
+  .filter_box { border: 1px solid #2E2430; margin-top: 3.5em; }
+  
+  .filter_box h3.filter_category { background: #D8F8BF; padding: 4px;}
+  .filter_box h3.filter_header, .filter_box .filter_footer { background: #AEBA9B; }
+  .filter_box h3.filter_subcategory { background: none; padding: 8px 12px; }
+  .filter_box h3 span.ui-icon { float: left; } 
+  .filter_box a.filter_category_link { font-size: 0.7em; float:left; }
+  .filter_box a.reset_filter { font-size: 0.5em; font-weight: normal; float:left; margin-left: 3px;}
+  .filter_box h3.filter_subcategory a.filter_category_link, 
+  .filter_box h3.filter_subcategory span.ui-icon {
+    float: right;
+   }
+  .filter_box h3.filter_subcategory span.input_wrapper { float: left; font-size: 0.7em; font-weight: normal;}
+  .filter_box .filter_content ul {margin: 5px 10px;}
+  
+  .filter_box h4 { font-size: 1.2em; }
+  .filter_box #filter-query ul { margin-bottom: 1em;}
+  .filter_box #filter-query ul li { padding: 4px 0; float: none; }
+  .filter_box input[type="checkbox"] { position:relative; top: -3px; margin-right: 3px; }
+  .filter_box .filter_footer { text-align: center; padding: 4px;}
+  .filter_box .filter_footer p {margin: 8px 0 0;}
 
-%section#content_body_fav
+
+%section#content_body
   .page_title_left
     =_("Suchergebnisse")
     #term
@@ -13,120 +33,56 @@
       = @search_term
       &quot;
   .clear
-  .filter_bar
-    %h4
-      = "Medieneinträge (#{get_result_count(@facets, "MediaEntry")}) / Sets (#{get_result_count(@facets, "Media::Set")})"
-    %form{:action => search_path, :method => :get}
-      = hidden_field_tag "query", @search_term
-      - unless @media.empty?
-        #filter-query.basic
-          %div
-            -# commented out for later
-              %ul.clearfix
-                %li
-                  = label_tag 'filter[width][value]', "Width"
-                  = select_tag 'filter[width][operator]', options_for_select([['is exactly', 'is'], ['greater than', 'gt'], ['less than', 'lt']])
-                  = text_field_tag 'filter[width][value]', nil, :size => 10
-                %li
-                  = label_tag 'filter[height][value]', "Height"
-                  = select_tag 'filter[height][operator]', options_for_select([['is exactly', 'is'], ['greater than', 'gt'], ['less than', 'lt']])
-                  = text_field_tag 'filter[height][value]', nil, :size => 10 
-            %strong Format
-            %ul.clearfix
-              - orientation_params = @filter ? @filter.filters["orientation"] : nil
-              %li
-                = label_tag 'filter[orientation][0]', "Querformat"
-                = radio_button_tag 'filter[orientation]', '0', orientation_params && orientation_params == "0"
-              %li
-                = label_tag 'filter[orientation][1]', "Hochformat"
-                = radio_button_tag 'filter[orientation]', '1', orientation_params && orientation_params == "1"
-            %strong Medientyp
-            %ul.clearfix
-              - media_type_params = @filter ? @filter.filters["media_type"] : nil
-              - @media.map {|m| m.media_type }.uniq.each do |media_type|
-                = check_box_tag "filter[media_type][]", media_type, media_type_params && media_type_params.include?(media_type)
-                = media_type
-            %strong Schlagworte
-            %ul.clearfix
-              = display_meta_data_checkboxes(@media, "keywords")
-            %strong Gattung
-            %ul.clearfix
-              = display_meta_data_checkboxes(@media, "type")
-        
+  - if [@media_entries, @media_sets, @projects].all? {|x| x.nil? }
+    = "Ihre Suche nach “#{@search_term}” hat keine Resultate ergeben."
+  - else 
+    #detail_specification.tabs
+      %ul
+        %li
+          = link_to "Medieneinträge (#{@media_entries.total_entries})", "#media_entry_tab"
+        %li
+          = link_to "Sets (#{@media_sets.total_entries})", "#set_tab" 
+        %li
+          = link_to "Projekte (#{@projects.total_entries})", "#project_tab"
+      #media_entry_tab.clearfix 
+        - if @media_entries.length > 1
+          .filter_area
+            = render :partial => 'filter_form', :locals => {:media => @media_entries, :filter => @media_entry_filter, :type => :media_entries }
+        %div{:id => "media_entry_results", :class => @media_entries.length > 1 ? "result_area" : "" }
+          = render :partial => 'media_entry_results', :locals => { :json => @media_entries_json }
+      #set_tab.clearfix   
+        - if @media_sets.length > 1
+          .filter_area
+            = render :partial => 'filter_form', :locals => {:media => @media_sets, :filter => @media_set_filter, :type => :media_sets }
+        %div{:id => "set_results", :class => @media_sets.length > 1 ? "result_area" : "" }
+          = render :partial => 'media_set_results', :locals => { :type => :set, :json => @media_sets_json }
+      #project_tab.clearfix  
+        - if @projects.length > 1
+          .filter_area
+            = render :partial => 'filter_form', :locals => {:media => @projects, :filter => @project_filter, :type => :projects }
+        %div{:id => "project_results", :class => @projects.length > 1 ? "result_area" : "" }
+          = render :partial => 'media_set_results', :locals => { :type => :project,  :json => @projects_json }
           
-          
-        %div
-          = submit_tag _("Ergebnisse Filtern"), :title => "Filtern", :id => 'search-submit', :name => nil
-          
-  #results
-    .pagination.loading{:style => "display: none;"}
-      &nbsp;
-    .clear.loading{:style => "display: none;"}
-    - PER_PAGE.first.times do
-      .item_box.loading{:style => "display: none;"}
-        .thumb_box
-  
-  %script{:type => "text/x-jquery-tmpl", :id => "pagination"}
-    .pagination
-      ${total_entries} Medieneinträge,
-      Seite ${current_page} von ${total_pages}
-    .clear
-    
-  %script{:type => "text/x-jquery-tmpl", :id => "media_entry_index"}
-    %div.item_box{:id => "thumb_${id}"}
-      %div.item_permission
-        {{if is_public}}
-        = theme_image_tag("icons/button_status_private.png")
-        {{else is_private}}
-        = theme_image_tag("icons/icon_button_perm.png")
-        {{/if}}
-      {{if is_set}}
-      %div.thumb_box_set
-        %a{:href => "/media_sets/${id}"}
-          %img{:src => "${thumb_base64}"}
-      {{else}}
-      %div.thumb_box
-        %a{:href => "/media_entries/${id}"}
-          %img{:src => "${thumb_base64}"}
-      {{/if}}
-      %p.item_title
-        ${title.substring(0,50)}
-      %p.item_author
-        ${author.substring(0,50)}
-      .actions
-        .action_left
-          /%input{:type => "checkbox", :value => "${id}", :title => "Auswählen", :class => "editable"}
-          {{if !is_set}}
-          %span.check_box.off
-            = theme_image_tag("icons/button_checkbox_off.png", :alt => _("Auswählen"))
-          %span.favorite_link{:id => "fav_${id}", :title => "Favorit"}
-            %a{:href => "/media_entries/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
-              {{if is_favorite}}
-              = theme_image_tag("icons/button_favorit_on.png")
-              {{else}}
-              = theme_image_tag("icons/button_favorit_off.png")
-              {{/if}}
-          {{/if}}
-        .action_right
-          /url = resource.is_a?(MediaEntry) ? edit_media_entry_path(resource) : edit_media_set_path(resource)
-          {{if is_editable}}
-          %a{:href => "/media_entries/${id}/edit", :title => "Editieren"}
-            = theme_image_tag("icons/button_edit_active.png")
-          {{else}}
-          = theme_image_tag("icons/button_edit_inactive.png")
-          {{/if}}
-          {{if is_manageable}}
-          /confirm = resource.is_a?(MediaEntry) ? "Sind Sie sicher?" : "Sind Sie sicher? Das Set wird gelöscht."
-          %a{:href => "/media_entries/${id}", :title => "Löschen", :class => "delete_me", :"data-method" => :delete, :"data-remote" => true, :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher?"}
-            = theme_image_tag("icons/button_delete_active.png")
-          {{else}}
-          = theme_image_tag("icons/button_delete_inactive.png")
-          {{/if}}
-    
-    
-= theme_javascript_include_tag "batch_actions"
-    
 :javascript
-  $(document).ready(function () {
-    display_results(#{@json});    
+
+  $(document).ready(function () { 
+
+    var $tabs = $('#detail_specification').tabs();
+    var active_filter = '#{@active_bookmark}';
+    if (active_filter != '') $tabs.tabs('select', active_filter);
+    
+    $('.filter_box h3.filter_category a.filter_category_link').click(function() {
+      var icon = $(this).siblings('span.ui-icon');
+      var to_toggle = $(this).parent().next('.filter_content');
+
+    	to_toggle.toggle();
+    	if (to_toggle.is(":visible")) {
+    	  icon.removeClass('ui-icon-triangle-1-e').addClass('ui-icon-triangle-1-s');
+    	} else {
+    	  icon.removeClass('ui-icon-triangle-1-s').addClass('ui-icon-triangle-1-e');
+    	};
+    	return false;
+    }).parent().next('.filter_content').hide();
+    
+  
   });

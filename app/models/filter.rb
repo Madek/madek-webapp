@@ -5,17 +5,22 @@ class Filter
   attr_accessor :options, :filters, :ts_classes
   def initialize(filter_attributes)
     @filters = filter_attributes
-    #@options = {:with => {:viewable => true}, :conditions => {}, :classes => ts_classes}
-    @options = {:with => {}, :conditions => {}, :classes => ts_classes}
+    # @options = {:with => {:viewable => true}, :conditions => {}, :classes => ts_classes}
+    @options = {:with => {:viewable => true}, :conditions => {}}
   end
   
   def to_query_filter
     @filters.each_pair do |filter, values|
       key = filter_or_attribute(filter)
       adjusted_value = adjust_values_to_key(key, values)
+      next unless adjusted_value
       options[key][filter.to_sym] = adjusted_value
     end
     return options
+  end
+  
+  def active_filters
+    @options[:with].keys + @options[:conditions].keys
   end
   
   def ts_classes 
@@ -54,9 +59,15 @@ class Filter
   
   protected
   
+  # old #
+  # def exclude_set?
+  #   return false if filters.empty?
+  #   filters.keys.all? {|k| Media::Set::TS_ATTRIBUTES.include?(k) || Media::Set::TS_FIELDS.include?(k)}
+  # end
+  
   def adjust_values_to_key(key, values)
     if values.is_a?(Hash)
-      next if values[:value].blank?
+      return nil if values[:value].blank?
       comparison_with_operator(values[:value], values[:operator])
     elsif values.is_a?(Array)
       if key == :with && values.all? {|v| string_like?(v) }

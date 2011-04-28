@@ -4,8 +4,8 @@ module Resource
   TS_FIELDS = [:user]
   TS_ATTRIBUTE_DEFINITIONS = [['sphinx_internal_id', 'int'], ['class_crc', 'int'], ['sphinx_deleted', 'int', '0'], # required by thinking sphinx
      ['user_id', 'int'], # association attributes
-     ['updated_at', 'timestamp']]
-  TS_ATTRIBUTES = [:sphinx_internal_id, :class_crc, :user_id, :updated_at]
+     ['updated_at', 'timestamp'], ['media_type', 'int']]
+  TS_ATTRIBUTES = [:sphinx_internal_id, :class_crc, :user_id, :updated_at, :media_type]
   
   def self.included(base)
    # TODO observe bulk changes and reindex once
@@ -393,18 +393,20 @@ module Resource
 ########################################################
 
   def media_type
-    r = case media_file.content_type
-      when /video/ then 
-        "Video"
-      when /audio/ then
-        "Audio"
-      when /image/ then
-        "Image"
-      else 
-        "Doc"
-    end if respond_to?(:media_file)
-    
-    r ||= "Doc"    
+    if respond_to?(:media_file)
+      case media_file.content_type
+        when /video/ then 
+          "Video"
+        when /audio/ then
+          "Audio"
+        when /image/ then
+          "Image"
+        else 
+          "Doc"
+      end 
+    else
+      self.type.gsub(/Media::/, '')
+    end    
   end
 
 ########################################################
