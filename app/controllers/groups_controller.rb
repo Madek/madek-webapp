@@ -26,8 +26,15 @@ class GroupsController < ApplicationController
   end
 
   def create
-    group = current_user.groups.create(params[:group])
-    redirect_to edit_group_path(group)    
+    group = current_user.groups.build(params[:group])
+    if group.save
+      # FIXME Rails 3.0.7 build: the association isn't saved properly
+      current_user.groups << group unless current_user.groups(true).exists?(group)
+      redirect_to edit_group_path(group)
+    else
+      flash[:error] = group.errors.full_messages
+      redirect_to :back
+    end
   end
 
   def edit
