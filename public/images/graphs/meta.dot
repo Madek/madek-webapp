@@ -1,5 +1,5 @@
 digraph "MAdeK keymapping" {
-    label = "Key Mapping Graph\n21.03.2011, 16:16"
+    label = "Key Mapping Graph\n13.04.2011, 13:06"
     labelloc = t
     labeljust = l
     rankdir = LR
@@ -644,7 +644,7 @@ digraph "MAdeK keymapping" {
         title -> Core [
             arrowhead = none,
             headport = w,
-            color = "#333333",
+            color = "#551111",
             arrowtail = none,
             tailport = e
         ]
@@ -652,7 +652,7 @@ digraph "MAdeK keymapping" {
         author -> Core [
             arrowhead = none,
             headport = w,
-            color = "#333333",
+            color = "#551111",
             arrowtail = none,
             tailport = e
         ]
@@ -660,7 +660,7 @@ digraph "MAdeK keymapping" {
         "portrayed object dates" -> Core [
             arrowhead = none,
             headport = w,
-            color = "#333333",
+            color = "#551111",
             arrowtail = none,
             tailport = e
         ]
@@ -668,7 +668,7 @@ digraph "MAdeK keymapping" {
         keywords -> Core [
             arrowhead = none,
             headport = w,
-            color = "#333333",
+            color = "#551111",
             arrowtail = none,
             tailport = e
         ]
@@ -676,7 +676,7 @@ digraph "MAdeK keymapping" {
         "copyright notice" -> Core [
             arrowhead = none,
             headport = w,
-            color = "#333333",
+            color = "#551111",
             arrowtail = none,
             tailport = e
         ]
@@ -684,7 +684,7 @@ digraph "MAdeK keymapping" {
         "uploaded by" -> Core [
             arrowhead = none,
             headport = w,
-            color = "#333333",
+            color = "#551111",
             arrowtail = none,
             tailport = e
         ]
@@ -692,7 +692,7 @@ digraph "MAdeK keymapping" {
         "uploaded at" -> Core [
             arrowhead = none,
             headport = w,
-            color = "#333333",
+            color = "#551111",
             arrowtail = none,
             tailport = e
         ]
@@ -707,7 +707,7 @@ digraph "MAdeK keymapping" {
         title -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#221155",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -715,7 +715,7 @@ digraph "MAdeK keymapping" {
         subtitle -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#221155",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -723,7 +723,7 @@ digraph "MAdeK keymapping" {
         author -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#221155",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -731,7 +731,7 @@ digraph "MAdeK keymapping" {
         "portrayed object dates" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#221155",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -739,7 +739,7 @@ digraph "MAdeK keymapping" {
         keywords -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#221155",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -747,7 +747,7 @@ digraph "MAdeK keymapping" {
         type -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#221155",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -755,7 +755,7 @@ digraph "MAdeK keymapping" {
         "public caption" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#221155",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -763,7 +763,7 @@ digraph "MAdeK keymapping" {
         description -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#221155",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -771,7 +771,7 @@ digraph "MAdeK keymapping" {
         remark -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#221155",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -779,7 +779,7 @@ digraph "MAdeK keymapping" {
         hyperlinks -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#221155",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -787,7 +787,7 @@ digraph "MAdeK keymapping" {
         "portrayed object location" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#221155",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -795,7 +795,7 @@ digraph "MAdeK keymapping" {
         "portrayed object city" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#221155",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -803,7 +803,7 @@ digraph "MAdeK keymapping" {
         "portrayed object state" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#221155",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -811,7 +811,7 @@ digraph "MAdeK keymapping" {
         "portrayed object country" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#221155",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -819,7 +819,7 @@ digraph "MAdeK keymapping" {
         "portrayed object country code" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#221155",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -827,7 +827,7 @@ digraph "MAdeK keymapping" {
         "other creative participants" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#221155",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -835,7 +835,7 @@ digraph "MAdeK keymapping" {
         "portrayed person" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#221155",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -843,7 +843,7 @@ digraph "MAdeK keymapping" {
         "participating institution" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#221155",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -851,7 +851,7 @@ digraph "MAdeK keymapping" {
         patron -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#221155",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -866,7 +866,7 @@ digraph "MAdeK keymapping" {
         creator -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#334422",
+            color = "#555511",
             arrowtail = none,
             tailport = e
         ]
@@ -874,7 +874,7 @@ digraph "MAdeK keymapping" {
         "creator address" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#334422",
+            color = "#555511",
             arrowtail = none,
             tailport = e
         ]
@@ -882,7 +882,7 @@ digraph "MAdeK keymapping" {
         "creator city" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#334422",
+            color = "#555511",
             arrowtail = none,
             tailport = e
         ]
@@ -890,7 +890,7 @@ digraph "MAdeK keymapping" {
         "creator state" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#334422",
+            color = "#555511",
             arrowtail = none,
             tailport = e
         ]
@@ -898,7 +898,7 @@ digraph "MAdeK keymapping" {
         "creator postal code" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#334422",
+            color = "#555511",
             arrowtail = none,
             tailport = e
         ]
@@ -906,7 +906,7 @@ digraph "MAdeK keymapping" {
         "creator country" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#334422",
+            color = "#555511",
             arrowtail = none,
             tailport = e
         ]
@@ -914,7 +914,7 @@ digraph "MAdeK keymapping" {
         "creator work telephone" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#334422",
+            color = "#555511",
             arrowtail = none,
             tailport = e
         ]
@@ -922,7 +922,7 @@ digraph "MAdeK keymapping" {
         "creator work email" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#334422",
+            color = "#555511",
             arrowtail = none,
             tailport = e
         ]
@@ -930,7 +930,7 @@ digraph "MAdeK keymapping" {
         "creator work url" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#334422",
+            color = "#555511",
             arrowtail = none,
             tailport = e
         ]
@@ -938,7 +938,7 @@ digraph "MAdeK keymapping" {
         "creator position" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#334422",
+            color = "#555511",
             arrowtail = none,
             tailport = e
         ]
@@ -946,7 +946,7 @@ digraph "MAdeK keymapping" {
         "other document participants" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#334422",
+            color = "#555511",
             arrowtail = none,
             tailport = e
         ]
@@ -954,7 +954,7 @@ digraph "MAdeK keymapping" {
         "date created" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#334422",
+            color = "#555511",
             arrowtail = none,
             tailport = e
         ]
@@ -962,7 +962,7 @@ digraph "MAdeK keymapping" {
         "portrayed object dimensions" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#334422",
+            color = "#555511",
             arrowtail = none,
             tailport = e
         ]
@@ -970,7 +970,7 @@ digraph "MAdeK keymapping" {
         "portrayed object materials" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#334422",
+            color = "#555511",
             arrowtail = none,
             tailport = e
         ]
@@ -985,7 +985,7 @@ digraph "MAdeK keymapping" {
         title -> Set [
             arrowhead = none,
             headport = w,
-            color = "#775577",
+            color = "#117700",
             arrowtail = none,
             tailport = e
         ]
@@ -993,7 +993,7 @@ digraph "MAdeK keymapping" {
         author -> Set [
             arrowhead = none,
             headport = w,
-            color = "#775577",
+            color = "#117700",
             arrowtail = none,
             tailport = e
         ]
@@ -1001,7 +1001,7 @@ digraph "MAdeK keymapping" {
         keywords -> Set [
             arrowhead = none,
             headport = w,
-            color = "#775577",
+            color = "#117700",
             arrowtail = none,
             tailport = e
         ]
@@ -1009,7 +1009,7 @@ digraph "MAdeK keymapping" {
         description -> Set [
             arrowhead = none,
             headport = w,
-            color = "#775577",
+            color = "#117700",
             arrowtail = none,
             tailport = e
         ]
@@ -1017,7 +1017,7 @@ digraph "MAdeK keymapping" {
         "uploaded by" -> Set [
             arrowhead = none,
             headport = w,
-            color = "#775577",
+            color = "#117700",
             arrowtail = none,
             tailport = e
         ]
@@ -1025,7 +1025,7 @@ digraph "MAdeK keymapping" {
         "uploaded at" -> Set [
             arrowhead = none,
             headport = w,
-            color = "#775577",
+            color = "#117700",
             arrowtail = none,
             tailport = e
         ]
@@ -1040,7 +1040,7 @@ digraph "MAdeK keymapping" {
         "copyright notice" -> Credits [
             arrowhead = none,
             headport = w,
-            color = "#443322",
+            color = "#006633",
             arrowtail = none,
             tailport = e
         ]
@@ -1048,7 +1048,7 @@ digraph "MAdeK keymapping" {
         "copyright status" -> Credits [
             arrowhead = none,
             headport = w,
-            color = "#443322",
+            color = "#006633",
             arrowtail = none,
             tailport = e
         ]
@@ -1056,7 +1056,7 @@ digraph "MAdeK keymapping" {
         "copyright usage" -> Credits [
             arrowhead = none,
             headport = w,
-            color = "#443322",
+            color = "#006633",
             arrowtail = none,
             tailport = e
         ]
@@ -1064,7 +1064,7 @@ digraph "MAdeK keymapping" {
         "copyright url" -> Credits [
             arrowhead = none,
             headport = w,
-            color = "#443322",
+            color = "#006633",
             arrowtail = none,
             tailport = e
         ]
@@ -1072,7 +1072,7 @@ digraph "MAdeK keymapping" {
         source -> Credits [
             arrowhead = none,
             headport = w,
-            color = "#443322",
+            color = "#006633",
             arrowtail = none,
             tailport = e
         ]
@@ -1080,7 +1080,7 @@ digraph "MAdeK keymapping" {
         provider -> Credits [
             arrowhead = none,
             headport = w,
-            color = "#443322",
+            color = "#006633",
             arrowtail = none,
             tailport = e
         ]
@@ -1088,7 +1088,7 @@ digraph "MAdeK keymapping" {
         "description author" -> Credits [
             arrowhead = none,
             headport = w,
-            color = "#443322",
+            color = "#006633",
             arrowtail = none,
             tailport = e
         ]
@@ -1096,7 +1096,7 @@ digraph "MAdeK keymapping" {
         "description author before import" -> Credits [
             arrowhead = none,
             headport = w,
-            color = "#443322",
+            color = "#006633",
             arrowtail = none,
             tailport = e
         ]
@@ -1111,7 +1111,7 @@ digraph "MAdeK keymapping" {
         title -> Upload [
             arrowhead = none,
             headport = w,
-            color = "#005555",
+            color = "#001177",
             arrowtail = none,
             tailport = e
         ]
@@ -1119,7 +1119,7 @@ digraph "MAdeK keymapping" {
         author -> Upload [
             arrowhead = none,
             headport = w,
-            color = "#005555",
+            color = "#001177",
             arrowtail = none,
             tailport = e
         ]
@@ -1127,7 +1127,7 @@ digraph "MAdeK keymapping" {
         "portrayed object dates" -> Upload [
             arrowhead = none,
             headport = w,
-            color = "#005555",
+            color = "#001177",
             arrowtail = none,
             tailport = e
         ]
@@ -1135,7 +1135,7 @@ digraph "MAdeK keymapping" {
         keywords -> Upload [
             arrowhead = none,
             headport = w,
-            color = "#005555",
+            color = "#001177",
             arrowtail = none,
             tailport = e
         ]
@@ -1143,7 +1143,7 @@ digraph "MAdeK keymapping" {
         "copyright notice" -> Upload [
             arrowhead = none,
             headport = w,
-            color = "#005555",
+            color = "#001177",
             arrowtail = none,
             tailport = e
         ]
@@ -1151,7 +1151,7 @@ digraph "MAdeK keymapping" {
         "copyright status" -> Upload [
             arrowhead = none,
             headport = w,
-            color = "#005555",
+            color = "#001177",
             arrowtail = none,
             tailport = e
         ]
@@ -1159,7 +1159,7 @@ digraph "MAdeK keymapping" {
         "copyright usage" -> Upload [
             arrowhead = none,
             headport = w,
-            color = "#005555",
+            color = "#001177",
             arrowtail = none,
             tailport = e
         ]
@@ -1167,7 +1167,7 @@ digraph "MAdeK keymapping" {
         "copyright url" -> Upload [
             arrowhead = none,
             headport = w,
-            color = "#005555",
+            color = "#001177",
             arrowtail = none,
             tailport = e
         ]
@@ -1182,7 +1182,7 @@ digraph "MAdeK keymapping" {
         "institutional affiliation" -> ZHdK [
             arrowhead = none,
             headport = w,
-            color = "#117711",
+            color = "#556666",
             arrowtail = none,
             tailport = e
         ]
@@ -1190,7 +1190,7 @@ digraph "MAdeK keymapping" {
         "project type" -> ZHdK [
             arrowhead = none,
             headport = w,
-            color = "#117711",
+            color = "#556666",
             arrowtail = none,
             tailport = e
         ]
@@ -1198,7 +1198,7 @@ digraph "MAdeK keymapping" {
         "academic year" -> ZHdK [
             arrowhead = none,
             headport = w,
-            color = "#117711",
+            color = "#556666",
             arrowtail = none,
             tailport = e
         ]
@@ -1206,7 +1206,7 @@ digraph "MAdeK keymapping" {
         "project title" -> ZHdK [
             arrowhead = none,
             headport = w,
-            color = "#117711",
+            color = "#556666",
             arrowtail = none,
             tailport = e
         ]
@@ -1214,7 +1214,7 @@ digraph "MAdeK keymapping" {
         "project leader" -> ZHdK [
             arrowhead = none,
             headport = w,
-            color = "#117711",
+            color = "#556666",
             arrowtail = none,
             tailport = e
         ]
@@ -1229,7 +1229,7 @@ digraph "MAdeK keymapping" {
         "LV_Räumliche Wahrnehmung" -> "Projekte ZHdK" [
             arrowhead = none,
             headport = w,
-            color = "#110077",
+            color = "#663300",
             arrowtail = none,
             tailport = e
         ]
@@ -1244,7 +1244,7 @@ digraph "MAdeK keymapping" {
         LV_Landschaftstyp -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#117700",
+            color = "#773311",
             arrowtail = none,
             tailport = e
         ]
@@ -1252,7 +1252,7 @@ digraph "MAdeK keymapping" {
         LV_Verwendungszweck -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#117700",
+            color = "#773311",
             arrowtail = none,
             tailport = e
         ]
@@ -1260,7 +1260,7 @@ digraph "MAdeK keymapping" {
         LV_Bildwirkung -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#117700",
+            color = "#773311",
             arrowtail = none,
             tailport = e
         ]
@@ -1268,7 +1268,7 @@ digraph "MAdeK keymapping" {
         LV_Bildzeit -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#117700",
+            color = "#773311",
             arrowtail = none,
             tailport = e
         ]
@@ -1276,7 +1276,7 @@ digraph "MAdeK keymapping" {
         LV_Farbe -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#117700",
+            color = "#773311",
             arrowtail = none,
             tailport = e
         ]
@@ -1284,7 +1284,7 @@ digraph "MAdeK keymapping" {
         LV_Landschaftselemente -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#117700",
+            color = "#773311",
             arrowtail = none,
             tailport = e
         ]
@@ -1292,7 +1292,7 @@ digraph "MAdeK keymapping" {
         "LV_Wetter/Klima" -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#117700",
+            color = "#773311",
             arrowtail = none,
             tailport = e
         ]
@@ -1300,7 +1300,7 @@ digraph "MAdeK keymapping" {
         LV_Horizontlinie -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#117700",
+            color = "#773311",
             arrowtail = none,
             tailport = e
         ]
@@ -1308,7 +1308,7 @@ digraph "MAdeK keymapping" {
         "LV_Räumliche Wahrnehmung" -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#117700",
+            color = "#773311",
             arrowtail = none,
             tailport = e
         ]
@@ -1316,7 +1316,7 @@ digraph "MAdeK keymapping" {
         LV_Abstraktionsgrad -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#117700",
+            color = "#773311",
             arrowtail = none,
             tailport = e
         ]
@@ -1349,7 +1349,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "mediafile.formatID" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1357,7 +1357,7 @@ digraph "MAdeK keymapping" {
         "mediafile.formatID" -> "media type" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1371,7 +1371,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.chat" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1379,7 +1379,7 @@ digraph "MAdeK keymapping" {
         "objects.chat" -> description [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1393,7 +1393,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.copyright typ=\"Art der Objektrechte\"" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1401,7 +1401,7 @@ digraph "MAdeK keymapping" {
         "objects.copyright typ=\"Art der Objektrechte\"" -> "copyright status" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1415,7 +1415,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.copyright typ=creditlinerepro" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1423,7 +1423,7 @@ digraph "MAdeK keymapping" {
         "objects.copyright typ=creditlinerepro" -> "copyright notice" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1437,7 +1437,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.copyright typ=restrictions" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1445,7 +1445,7 @@ digraph "MAdeK keymapping" {
         "objects.copyright typ=restrictions" -> "copyright usage" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1459,7 +1459,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.creditline" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1467,7 +1467,7 @@ digraph "MAdeK keymapping" {
         "objects.creditline" -> provider [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1481,7 +1481,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.dated" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1489,7 +1489,7 @@ digraph "MAdeK keymapping" {
         "objects.dated" -> "portrayed object dates" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1503,7 +1503,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.dimensions" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1511,7 +1511,7 @@ digraph "MAdeK keymapping" {
         "objects.dimensions" -> "portrayed object dimensions" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1525,7 +1525,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.medium" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1533,7 +1533,7 @@ digraph "MAdeK keymapping" {
         "objects.medium" -> "portrayed object materials" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1547,7 +1547,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.notes" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1555,7 +1555,7 @@ digraph "MAdeK keymapping" {
         "objects.notes" -> remark [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1569,7 +1569,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.objectname" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1577,7 +1577,7 @@ digraph "MAdeK keymapping" {
         "objects.objectname" -> objectname [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1591,7 +1591,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.objectnumber" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1599,7 +1599,7 @@ digraph "MAdeK keymapping" {
         "objects.objectnumber" -> objectnumber [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1613,7 +1613,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.publicaccess" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1621,7 +1621,7 @@ digraph "MAdeK keymapping" {
         "objects.publicaccess" -> "public access" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1635,7 +1635,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objtitles.titel titeltyp=Legende" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1643,7 +1643,7 @@ digraph "MAdeK keymapping" {
         "objtitles.titel titeltyp=Legende" -> "public caption" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1657,7 +1657,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objtitles.title titletypID=1" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1665,7 +1665,7 @@ digraph "MAdeK keymapping" {
         "objtitles.title titletypID=1" -> title [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1679,7 +1679,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objtitles.title titletypID=6" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1687,7 +1687,7 @@ digraph "MAdeK keymapping" {
         "objtitles.title titletypID=6" -> subtitle [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1701,7 +1701,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objtitles.title titletypID=99||sites.sitename" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1709,7 +1709,7 @@ digraph "MAdeK keymapping" {
         "objtitles.title titletypID=99||sites.sitename" -> "project title" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1723,7 +1723,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=150" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1731,7 +1731,7 @@ digraph "MAdeK keymapping" {
         "person RoleTypeID=1 RoleID=150" -> author [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1745,7 +1745,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=155" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1753,7 +1753,7 @@ digraph "MAdeK keymapping" {
         "person RoleTypeID=1 RoleID=155" -> "portrayed person" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1767,7 +1767,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=156" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1775,7 +1775,7 @@ digraph "MAdeK keymapping" {
         "person RoleTypeID=1 RoleID=156" -> "portrayed institution" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1789,7 +1789,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=21" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1797,7 +1797,7 @@ digraph "MAdeK keymapping" {
         "person RoleTypeID=1 RoleID=21" -> creator [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1811,7 +1811,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=22" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1819,7 +1819,7 @@ digraph "MAdeK keymapping" {
         "person RoleTypeID=1 RoleID=22" -> patron [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1833,7 +1833,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=251" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1841,7 +1841,7 @@ digraph "MAdeK keymapping" {
         "person RoleTypeID=1 RoleID=251" -> "institutional affiliation" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1855,7 +1855,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=61" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1863,7 +1863,7 @@ digraph "MAdeK keymapping" {
         "person RoleTypeID=1 RoleID=61" -> "project leader" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1877,7 +1877,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=86" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1885,7 +1885,7 @@ digraph "MAdeK keymapping" {
         "person RoleTypeID=1 RoleID=86" -> "other creative participants" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1899,7 +1899,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=87" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1907,7 +1907,7 @@ digraph "MAdeK keymapping" {
         "person RoleTypeID=1 RoleID=87" -> "participating institution" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1921,7 +1921,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=\"Erfasser/in vor dem Hochladen ins Medienarchiv\"" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1929,7 +1929,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=\"Erfasser/in vor dem Hochladen ins Medienarchiv\"" -> "description author before import" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1943,7 +1943,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=\"Erfasser/in vor dem Kopieren fürs MIZ-Achiv\"" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1951,7 +1951,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=\"Erfasser/in vor dem Kopieren fürs MIZ-Achiv\"" -> "description author before snapshot" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1965,7 +1965,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=\"Erfasser/in\"" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1973,7 +1973,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=\"Erfasser/in\"" -> "description author" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1987,7 +1987,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=\"Web-Link\"" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -1995,7 +1995,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=\"Web-Link\"" -> hyperlinks [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2009,7 +2009,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=\"Weitere Personen\"" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2017,7 +2017,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=\"Weitere Personen\"" -> "other document participants" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2031,7 +2031,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=\"ZHdK-Projekttyp\"" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2039,7 +2039,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=\"ZHdK-Projekttyp\"" -> "project type" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2053,7 +2053,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=Gattung" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2061,7 +2061,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=Gattung" -> type [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2075,7 +2075,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=Geografie typ=\"ISO-Ländercode\"" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2083,7 +2083,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=Geografie typ=\"ISO-Ländercode\"" -> "portrayed object country code" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2097,7 +2097,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=Geografie typ=\"Kanton/Bundesland\"" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2105,7 +2105,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=Geografie typ=\"Kanton/Bundesland\"" -> "portrayed object state" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2119,7 +2119,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=Geografie typ=\"Standort/Aufführungsort\"" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2127,7 +2127,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=Geografie typ=\"Standort/Aufführungsort\"" -> "portrayed object location" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2141,7 +2141,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=Geografie typ=Land" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2149,7 +2149,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=Geografie typ=Land" -> "portrayed object country" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2163,7 +2163,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=Geografie typ=Stadt" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2171,7 +2171,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=Geografie typ=Stadt" -> "portrayed object city" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2185,7 +2185,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=Stichworte" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2193,7 +2193,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=Stichworte" -> keywords [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2207,7 +2207,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=Studienjahr" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2215,7 +2215,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=Studienjahr" -> "academic year" [
             arrowhead = none,
             headport = w,
-            color = "#005522",
+            color = "#552255",
             arrowtail = none,
             tailport = e
         ]
@@ -2229,7 +2229,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-dc:Creator" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2237,7 +2237,7 @@ digraph "MAdeK keymapping" {
         "XMP-dc:Creator" -> creator [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2251,7 +2251,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-dc:Description" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2259,7 +2259,7 @@ digraph "MAdeK keymapping" {
         "XMP-dc:Description" -> description [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2273,7 +2273,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-dc:Identifier" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2281,7 +2281,7 @@ digraph "MAdeK keymapping" {
         "XMP-dc:Identifier" -> identifier [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2295,7 +2295,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-dc:Rights" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2303,7 +2303,7 @@ digraph "MAdeK keymapping" {
         "XMP-dc:Rights" -> "copyright notice" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2317,7 +2317,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-dc:Subject" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2325,7 +2325,7 @@ digraph "MAdeK keymapping" {
         "XMP-dc:Subject" -> keywords [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2339,7 +2339,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-dc:Title" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2347,7 +2347,7 @@ digraph "MAdeK keymapping" {
         "XMP-dc:Title" -> title [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2361,7 +2361,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-dc:Type" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2369,7 +2369,7 @@ digraph "MAdeK keymapping" {
         "XMP-dc:Type" -> type [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2383,7 +2383,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CountryCode" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2391,7 +2391,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CountryCode" -> "portrayed object country code" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2405,7 +2405,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CreatorAddress" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2413,7 +2413,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CreatorAddress" -> "creator address" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2427,7 +2427,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CreatorCity" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2435,7 +2435,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CreatorCity" -> "creator city" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2449,7 +2449,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CreatorContactInfo" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2457,7 +2457,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CreatorContactInfo" -> "creator contact info" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2471,7 +2471,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CreatorCountry" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2479,7 +2479,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CreatorCountry" -> "creator country" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2493,7 +2493,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CreatorPostalCode" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2501,7 +2501,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CreatorPostalCode" -> "creator postal code" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2515,7 +2515,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CreatorRegion" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2523,7 +2523,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CreatorRegion" -> "creator state" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2537,7 +2537,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CreatorWorkEmail" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2545,7 +2545,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CreatorWorkEmail" -> "creator work email" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2559,7 +2559,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CreatorWorkTelephone" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2567,7 +2567,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CreatorWorkTelephone" -> "creator work telephone" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2581,7 +2581,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CreatorWorkURL" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2589,7 +2589,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CreatorWorkURL" -> "creator work url" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2603,7 +2603,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:IntellectualGenre" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2611,7 +2611,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:IntellectualGenre" -> "intellectual genre" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2625,7 +2625,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:Location" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2633,7 +2633,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:Location" -> "portrayed object location" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2647,7 +2647,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:Scene" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2655,7 +2655,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:Scene" -> scene [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2669,7 +2669,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:SubjectCode" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2677,7 +2677,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:SubjectCode" -> "subject code" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2691,7 +2691,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:AcademicYear" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2699,7 +2699,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:AcademicYear" -> "academic year" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2713,7 +2713,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:AdditionalAuthors" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2721,7 +2721,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:AdditionalAuthors" -> "additional authors" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2735,7 +2735,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Author" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2743,7 +2743,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Author" -> author [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2757,7 +2757,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Coverage" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2765,7 +2765,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Coverage" -> coverage [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2779,7 +2779,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:DateCreated" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2787,7 +2787,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:DateCreated" -> "date created" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2801,7 +2801,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:DateCreated" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2809,7 +2809,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:DateCreated" -> "date created" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2823,7 +2823,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Format" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2831,7 +2831,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Format" -> format [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2845,7 +2845,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Hyperlinks" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2853,7 +2853,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Hyperlinks" -> hyperlinks [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2867,7 +2867,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:InstitutionalAffiliation" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2875,7 +2875,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:InstitutionalAffiliation" -> "institutional affiliation" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2889,7 +2889,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Language" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2897,7 +2897,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Language" -> language [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2911,7 +2911,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:OtherCreativeParticipants" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2919,7 +2919,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:OtherCreativeParticipants" -> "other creative participants" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2933,7 +2933,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:OtherDocumentParticipants" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2941,7 +2941,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:OtherDocumentParticipants" -> "other document participants" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2955,7 +2955,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:ParticipatingInstitution" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2963,7 +2963,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:ParticipatingInstitution" -> "participating institution" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2977,7 +2977,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:patron" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2985,7 +2985,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:patron" -> patron [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -2999,7 +2999,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:PortrayedInstitution" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3007,7 +3007,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:PortrayedInstitution" -> "portrayed institution" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3021,7 +3021,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:PortrayedObjectDates" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3029,7 +3029,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:PortrayedObjectDates" -> "portrayed object dates" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3043,7 +3043,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:PortrayedObjectDimensions" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3051,7 +3051,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:PortrayedObjectDimensions" -> "portrayed object dimensions" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3065,7 +3065,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:PortrayedObjectMaterials" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3073,7 +3073,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:PortrayedObjectMaterials" -> "portrayed object materials" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3087,7 +3087,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:PortrayedPerson" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3095,7 +3095,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:PortrayedPerson" -> "portrayed person" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3109,7 +3109,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:ProjectLeader" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3117,7 +3117,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:ProjectLeader" -> "project leader" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3131,7 +3131,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:ProjectType" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3139,7 +3139,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:ProjectType" -> "project type" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3153,7 +3153,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:PublicCaption" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3161,7 +3161,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:PublicCaption" -> "public caption" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3175,7 +3175,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Publisher" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3183,7 +3183,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Publisher" -> publisher [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3197,7 +3197,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Relation" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3205,7 +3205,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Relation" -> relation [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3219,7 +3219,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Remark" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3227,7 +3227,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Remark" -> remark [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3241,7 +3241,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:ShortDescription" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3249,7 +3249,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:ShortDescription" -> "short description" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3263,7 +3263,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:SourceImage" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3271,7 +3271,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:SourceImage" -> "source image" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3285,7 +3285,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:SourceIsbn" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3293,7 +3293,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:SourceIsbn" -> "source isbn" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3307,7 +3307,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:SourcePlate" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3315,7 +3315,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:SourcePlate" -> "source plate" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3329,7 +3329,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:SourceSide" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3337,7 +3337,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:SourceSide" -> "source side" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3351,7 +3351,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Tags" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3359,7 +3359,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Tags" -> tags [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3373,7 +3373,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:TransmissionReference" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3381,7 +3381,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:TransmissionReference" -> "transmission reference" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3395,7 +3395,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Urn" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3403,7 +3403,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Urn" -> urn [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3417,7 +3417,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:AuthorsPosition" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3425,7 +3425,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:AuthorsPosition" -> "creator position" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3439,7 +3439,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:CaptionWriter" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3447,7 +3447,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:CaptionWriter" -> "description author" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3461,7 +3461,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:City" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3469,7 +3469,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:City" -> "portrayed object city" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3483,7 +3483,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:ColorMode" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3491,7 +3491,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:ColorMode" -> "color mode" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3505,7 +3505,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:Country" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3513,7 +3513,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:Country" -> "portrayed object country" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3527,7 +3527,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:Credit" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3535,7 +3535,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:Credit" -> provider [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3549,7 +3549,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:Headline" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3557,7 +3557,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:Headline" -> subtitle [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3571,7 +3571,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:History" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3579,7 +3579,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:History" -> history [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3593,7 +3593,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:SidecarForExtension" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3601,7 +3601,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:SidecarForExtension" -> "sidecar for extension" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3615,7 +3615,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:Source" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3623,7 +3623,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:Source" -> source [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3637,7 +3637,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:State" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3645,7 +3645,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:State" -> "portrayed object state" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3659,7 +3659,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-xmp:Rating" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3667,7 +3667,7 @@ digraph "MAdeK keymapping" {
         "XMP-xmp:Rating" -> rating [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3681,7 +3681,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-xmpRights:Marked" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3689,7 +3689,7 @@ digraph "MAdeK keymapping" {
         "XMP-xmpRights:Marked" -> "copyright status" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3703,7 +3703,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-xmpRights:UsageTerms" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3711,7 +3711,7 @@ digraph "MAdeK keymapping" {
         "XMP-xmpRights:UsageTerms" -> "copyright usage" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3725,7 +3725,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-xmpRights:WebStatement" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
@@ -3733,7 +3733,7 @@ digraph "MAdeK keymapping" {
         "XMP-xmpRights:WebStatement" -> "copyright url" [
             arrowhead = none,
             headport = w,
-            color = "#444400",
+            color = "#661166",
             arrowtail = none,
             tailport = e
         ]
