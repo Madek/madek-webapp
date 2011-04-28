@@ -1999,6 +1999,7 @@ table.meta_data td {
   line-height: 1.4em;
   text-align: left;
   padding: 10px;
+  margin-left: -10px;
   position: absolute;
   top: 0px;
   font-family: "Courier New",Courier,mono;

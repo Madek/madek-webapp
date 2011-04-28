@@ -20,7 +20,7 @@
 					"Eine Kopie dieses Medieneintrages wurde am #{date} um #{time} Uhr für das MIZ-Archiv erstellt."
 				end unless @media_entry.snapshots.empty?
 	
-				a += content_tag :div, :class => "notice_tms" do
+				a += content_tag :div, :style => "margin-top: 100px;", :class => "notice_tms" do
 					_("Diese Kopie wird gegenwärtig durch das MIZ-Archiv bearbeitet.")
 				end unless @media_entry.snapshotable?
 				a
