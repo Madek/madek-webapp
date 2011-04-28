@@ -57,7 +57,7 @@ class PermissionsController < ApplicationController
           end if params[:subject][key]
         end
         
-        # OPTIMIZE it's not sure that the current_user is the owner (manager) of the current resource 
+        # OPTIMIZE it's not sure that the current_user is the owner (manager) of the current resource # TODO use Permission.assign_manage_to ?? 
         resource.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
       end
       flash[:notice] = "Die Zugriffsberechtigungen wurden erfolgreich gespeichert."  
@@ -98,11 +98,11 @@ class PermissionsController < ApplicationController
       @resource = MediaEntry.find(params[:media_entry_id])
     elsif not params[:media_entry_ids].blank?
       selected_ids = params[:media_entry_ids].split(",").map{|e| e.to_i }
-      manageable_ids = Permission.accessible_by_user(MediaEntry, current_user, :manage)
+      manageable_ids = current_user.accessible_resource_ids(:manage)
       @resources = MediaEntry.where(:id => (selected_ids & manageable_ids))
     elsif not params[:media_set_id].blank? # TODO accept multiple media_set_ids ?? 
       selected_ids = [params[:media_set_id].to_i]
-      manageable_ids = Permission.accessible_by_user(Media::Set, current_user, :manage)
+      manageable_ids = current_user.accessible_resource_ids(:manage, Media::Set)
       @resources = Media::Set.where(:id => (selected_ids & manageable_ids))
     else
       flash[:error] = "Sie haben keine Medieneinträge ausgewählt."

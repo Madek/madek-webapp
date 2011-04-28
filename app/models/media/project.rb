@@ -10,4 +10,17 @@ class Media::Project < Media::Set
     superclass.model_name
   end
 
+  def abstract
+    h = {} 
+    media_entries.collect(&:meta_data).flatten.each do |md|
+      h[md.meta_key_id] ||= [] # TODO md.meta_key
+      h[md.meta_key_id] << md.value
+    end
+    c = media_entries.count.to_f * 50 / 100
+    h.delete_if {|k, v| v.size < c }
+    h.each_pair {|k, v| h[k] = v.flatten.group_by {|x| x}.delete_if {|k, v| v.size < c }.keys }
+    h.delete_if {|k, v| v.blank? }
+    h.collect {|k, v| meta_data.build(:meta_key_id => k, :value => v) }
+  end
+
 end

@@ -51,7 +51,7 @@ class Upload
 
       # TODO check if all media_entries successfully saved
 
-      if env["CONTENT_TYPE"] =~ /AjaxUploader/
+      if params['xhr']
         [200, {"Content-Type" => "text/html"}, [""]]
       else
         uri = if params['uploaded_data']

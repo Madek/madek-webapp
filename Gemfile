@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 source 'http://gems.github.com'
 
-gem 'rails', '3.0.6'
+gem 'rails', '3.0.7'
 gem 'i18n' # Need this explicitly, otherwise can't deploy
 
 gem 'mysql2', '0.2.7'
@@ -35,7 +35,7 @@ gem "uuidtools"
 # unfortunately upstream irwi is broken. Until it is fixed we
 # install it as a plugin from our own branch on github:
 # git@github.com:tpo/irwi.git
-gem "irwi"
+gem "irwi", :git => "git://github.com/tpo/irwi.git"
 gem "RedCloth"
 
 group :test, :development do

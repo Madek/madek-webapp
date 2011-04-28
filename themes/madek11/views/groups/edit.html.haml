@@ -51,6 +51,7 @@
         			url: '#{membership_group_path(@group)}',
         			data: {user_id: ui.item.id},
         			type: "post",
+              dataType: "html",
         			success: function(response){
                 $("input#new_user").val("");
                 $(response).appendTo('ul#members').effect('highlight');

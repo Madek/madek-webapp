@@ -1,20 +1,23 @@
-%h3= _("Kopien für MIZ-Archiv")
-
-%ul.items{:style => "margin: 1em; min-height: 10em;"}
-  - @snapshots.each do |snapshot|
-    %li
-      %div{:style => "text-align: center;"}
-        = link_to thumb_for(snapshot), snapshot_path(snapshot)
-      %p{:style => "font-size: 12px; text-align: center"}
-        - title = snapshot.meta_data.get_value_for("title")
-        - author = snapshot.meta_data.get_value_for("author")
-        - unless title.blank?
-          %span{:style => "font-weight: bold"}
-            = truncate(title, :length => 29)
-        %br
-        - unless author.blank?
-          %i
-            = truncate(author, :length => 18)
-        %br
-        %span
-          = snapshot.created_at.to_formatted_s(:date_time)
+%section#content_body
+  %div.page_title_left
+    =_("Kopien für MIZ-Archiv")
+  .clear
+  #results.clearfix
+    %ul.items{:style => "margin: 10px;"}
+      - @snapshots.each do |snapshot|
+        %li{:style => "width: 125px; height: 14em; margin-right: 20px; text-align: left;"}
+          %div
+            = link_to thumb_for(snapshot), snapshot_path(snapshot)
+          %p{:style => "font-size: 0.85em; line-height: 1.4em;"}
+            - title = snapshot.meta_data.get_value_for("title")
+            - author = snapshot.meta_data.get_value_for("author")
+            - unless title.blank?
+              %span{:style => "font-weight: bold;"}
+                = truncate(title, :length => 34)
+            %br
+            - unless author.blank?
+              %i
+                = truncate(author, :length => 18)
+            %br
+            %span
+              = snapshot.created_at.to_formatted_s(:date_time)

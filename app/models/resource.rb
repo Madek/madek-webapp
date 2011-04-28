@@ -86,10 +86,8 @@ module Resource
         end
 
         # find existing meta_datum, if it exists
-        if attr[:id].blank?
-          if (md = meta_data.all_cached.detect {|md| md.meta_key_id == attr[:meta_key_id].to_i}) #(md = meta_data.where(:meta_key_id => attr[:meta_key_id]).first)
-            attr[:id] = md.id
-          end
+        if attr[:id].blank? and (md = meta_data.all_cached.detect {|md| md.meta_key_id == attr[:meta_key_id].to_i}) #(md = meta_data.where(:meta_key_id => attr[:meta_key_id]).first)
+          attr[:id] = md.id
         end
 
         # get rid of meta_datum if value is blank
@@ -100,14 +98,17 @@ module Resource
       end if dup_attributes[:meta_data_attributes]
 
       self.editors << current_user if current_user # OPTIMIZE group by user ??
-      self.updated_at = Time.now # OPTIMIZE touch or sphinx_touch ?? (only for media_entries actually)
+      self.updated_at = Time.now # used for cache invalidation and sphinx reindex # OPTIMIZE touch or sphinx_touch ??
 
+      # OPTIMIZE this fix is a workaround, related to the updated_at used by cache_key
+      Rails.cache.delete("#{self.class}/#{self.cache_key}/meta_data")
+      
       update_attributes_without_pre_validation(dup_attributes)
     end
     base.alias_method_chain :update_attributes, :pre_validation
 
     base.scope :accessible_by, lambda { |subject, action|
-      ids = Permission.accessible_by_user(base, subject, action)
+      ids = subject.accessible_resource_ids(action, base)
       base.where(:id => ids)
     }
 
@@ -427,10 +428,11 @@ private
   def generate_permissions
     # OPTIMIZE
     unless self.class == Snapshot
-      permissions.create(:subject => nil)
       subject = self.user
     else
-      permissions.build(:subject => nil).set_actions(media_entry.default_permission.actions) #1504#
+      #1504#
+      h = media_entry.default_permission.actions
+      permissions.build(:subject => nil).set_actions(h) unless h.blank?
       subject = Group.find_or_create_by_name("MIZ-Archiv") # Group.scoped_by_name("MIZ-Archiv").first
     end
 

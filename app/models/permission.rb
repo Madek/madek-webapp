@@ -11,7 +11,6 @@ class Permission < ActiveRecord::Base
   validates_uniqueness_of :subject_id, :scope => [:subject_type, :resource_id, :resource_type]
 
   #old#precedence problem# default_scope order("created_at DESC")
-  scope :with_subject, where("subject_id IS NOT NULL AND subject_type IS NOT NULL")
 
   after_save :invalidate_cache
   before_destroy :invalidate_cache
@@ -21,16 +20,18 @@ class Permission < ActiveRecord::Base
     h = {}
     ACTIONS.each_with_index do |a, i|
       j = 2 ** i
-      h[a] = !(j & action_bits & action_mask).zero? 
+      next if (j & action_mask).zero?
+      h[a] = !(j & action_bits).zero? 
     end
     h
   end
 
+#1504#
   # TODO refactor to Permission.merged_actions (but prevent fetching record twice)
   # returns hash of all actions, correctly merged
-  def merged_actions
-    self.class.resource_default_actions(resource).merge(actions) #1504#
-  end
+#  def merged_actions
+#    self.class.resource_default_actions(resource).merge(actions)
+#  end
 
   def set_actions(hash)
     hash.each_pair do |key, value|
@@ -277,6 +278,27 @@ class Permission < ActiveRecord::Base
                                   collect(&:resource_id).uniq
   
         ((user_groups_true - user_false) + (public_true - user_groups_false)).uniq
+      end
+    end
+
+    def assign_manage_to(subject, resource)
+      @subject = subject
+      @i = 2 ** ACTIONS.index(:manage)
+      
+      def assign_for(resource)
+        resource.permissions.where("action_bits & #{@i} AND action_mask & #{@i}").first.set_actions({:manage => false})
+        h = {:view => true, :edit => true, :manage => true}
+        h[:hi_res] = true if resource.is_a?(MediaEntry)
+        resource.permissions.find_or_create_by_subject_type_and_subject_id(@subject.class.base_class.name, @subject.id).set_actions(h)
+      end
+      
+      if resource.is_a?(Media::Set)
+        assign_for(resource)
+        resource.media_entries.each do |me|
+          assign_for(me)
+        end
+      elsif resource.is_a?(MediaEntry)
+        assign_for(resource)
       end
     end
 

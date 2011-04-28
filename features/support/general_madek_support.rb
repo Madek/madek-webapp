@@ -1,4 +1,14 @@
 
+
+Before do
+  # This is run before EVERY scenario. It's necessary to prevent
+  # tests trying to fetch media entries from cache that don't exist
+  # anymore on the database.
+  Rails.cache.clear
+end
+
+
+
 # Need to escape these special characters because they might appear in the
 # labels we use in the metadata editor form.
 def filter_string_for_regex(string)
@@ -7,6 +17,15 @@ def filter_string_for_regex(string)
                .gsub('(','\\(')\
                .gsub(')','\\)')
 end
+
+# Need to escape these special characters because they might appear in the values
+# we want to pick from an autocomplete field
+def filter_string_for_javascript(string)
+  return string.gsub("'","\'")\
+               .gsub("(","\(")\
+               .gsub(")","\)")
+end
+
 
 def make_hidden_items_visible
   page.execute_script '$(":hidden").show();'
@@ -26,6 +45,17 @@ end
 
 def wait_for_css_element(element)
   page.has_css?(element, :visible => true)
+end
+
+def set_term_checkbox(node, text)
+#   debugger; puts "lala"
+  cb = node.find("ul li ul li", :text => text).find("input")
+  cb.click unless cb[:checked] == "true" # a string, not a bool!
+end
+
+def select_from_multiselect_widget(node, text)
+  node.find(".madek_multiselect_container").find(".search_toggler").click
+  pick_from_autocomplete(text)
 end
 
 
@@ -103,6 +133,10 @@ def find_media_entry_titled(title)
 
 end
 
+
+# Options are:
+# "pseudonym field": Use the "pseudonym" field instea of first or last name
+# "group tab". Switch to the group tab to enter group information
 def fill_in_person_widget(list_element, value, options = "")
   if options == "in-field entry box"
     id_prefix = list_element["data-meta_key"]
@@ -256,9 +290,10 @@ end
 # Picks the given text string from an autocomplete text input box
 # that is stuck in an UL: ul.ui-autocomplete
 def pick_from_autocomplete(text)
+  wait_for_css_element("li.ui-menu-item")
   all("ul.ui-autocomplete").each do |ul|
     ul.all("li.ui-menu-item a").each do |item|
-      if !item.text.match(/#{text}/).nil?
+      if !item.text.match(/#{filter_string_for_regex(text)}/).nil?
         page.execute_script %Q{ $('.ui-menu-item a:contains("#{item.text}")').trigger("mouseenter").click(); }
       end
     end

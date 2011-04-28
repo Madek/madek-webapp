@@ -54,7 +54,6 @@ Feature: Upload images and manage media entries based on images
      And I follow "Weiter ohne Hinzufügen zu einem Set"
      And Sphinx is forced to reindex
      And I go to the home page
-     Then show me the page
      And I click the media entry titled "A beautiful piece of the Berl"
      And I follow "Zugriffsberechtigung"
      And I type "Gorba" into the "user" autocomplete field
@@ -114,7 +113,7 @@ Feature: Upload images and manage media entries based on images
     Then I should see "baustelle osten"
      
 
-  @javascript 
+  @javascript
   Scenario: Upload a public file and then make it un-public again
    Given a user called "Raissa Gorbacheva" with username "raissa" and password "novodevichy" exists
     When I log in as "helmi" with password "saumagen"
@@ -155,7 +154,7 @@ Feature: Upload images and manage media entries based on images
      And I follow "Exportieren"
     Then the box should have a hires download link
 
-  @javascript
+  @javascript 
   Scenario: Give and then revoke hi-resolution download permission on a file
    Given a user called "Hans Wurst" with username "hanswurst" and password "hansi" exists
     When I log in as "helmi" with password "saumagen"
@@ -207,7 +206,7 @@ Feature: Upload images and manage media entries based on images
      And I follow "Meine Favoriten"
     Then I should see "mein lieblingsdackel"
 
-  @javascript
+  @javascript 
   Scenario: Add and remove a single media entry from favorites
     When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "mein lieblingsbier"
@@ -224,7 +223,7 @@ Feature: Upload images and manage media entries based on images
      And I follow "Meine Favoriten"
     Then I should not see "mein lieblingsbier"
 
-  @javascript
+  @javascript 
   Scenario: Upload an image and delete it afterwards
     When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "mein lieblingsflugzeug"

@@ -1,5 +1,5 @@
 .meta_data.meta_data_block{:id => "#{context.name}"}
-  = context.meta_field.description.to_s
+  != auto_link(context.meta_field.description.to_s, :all, :target => "_blank")
 
   :ruby
     # if meta_data are sent in it means that we are editing multiple resources at once
@@ -48,5 +48,5 @@
           = meta_datum.hidden_field :keep_original_value, :class => "keep" if meta_datum.object.keep_original_value
           = field_tag(meta_datum, context)
         %li{:style => "width: auto;"}
-          = description_toggler(definition)
+          = description_toggler(definition) # TODO unescape html with !=
     - @i += 1

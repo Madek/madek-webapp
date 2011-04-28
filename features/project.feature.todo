@@ -1,0 +1,58 @@
+Investigation des Features
+
+Das Abstrakt gibt automatisch die am häufigsten verwendeten projektspezifischen Metadaten an.
+
+Given I'm Oliver Emch
+And I create a project with title "Landschaft"
+And I create a Media Entry with title "Boot"
+And I add it to the project with title "Landschaft"
+And I create a Media Entry with title "Haus"
+And I add it to the project with title "Landschaft"
+And I create a Media Entry with title "Baum"
+And I add it to the project with title "Landschaft"
+And I have.....
+
+Given I edit the Media Entry "Boot"
+And I assign the <value> to the <key>
+| key | value |
+| Abstraktionsgrad | Naturalistisch |
+| Abstraktionsgrad | Realistisch |
+| Abstraktionsgrad | Stilisiert |
+| Bildwirkung | idyllisch |
+| Bildwirkung | still |
+| Bildwirkung | üppig |
+| Bildwirkung | ordentlich |
+| Bildzeit | Sommer |
+| Bildzeit | Nachmittag |
+| Bildzeit | Mittag |
+| Bildzeit | Vormittag |
+
+Given I edit the Media Entry "Haus"
+And I assign the <value> to the <key>
+| key | value |
+| Abstraktionsgrad | Naturalistisch |
+| Abstraktionsgrad | Realistisch |
+| Abstraktionsgrad | Stilisiert |
+| Bildwirkung | idyllisch |
+| Bildwirkung | still |
+| Bildwirkung | üppig |
+| Bildwirkung | ordentlich |
+| Bildzeit | Sommer |
+| Bildzeit | Nachmittag |
+| Bildzeit | Mittag |
+| Bildzeit | Vormittag |
+
+When I check for the project abstract for "Landschaft"
+Then I see 8 values
+And I see the <key> with value <value>
+| Abstraktionsgrad | Naturalistisch |
+| Abstraktionsgrad | Realistisch |
+| Abstraktionsgrad | Stilisiert |
+| Bildwirkung | idyllisch |
+| Bildwirkung | still |
+| Bildwirkung | üppig |
+| Bildwirkung | ordentlich |
+| Bildzeit | Sommer |
+| Bildzeit | Nachmittag |
+| Bildzeit | Mittag |
+| Bildzeit | Vormittag |

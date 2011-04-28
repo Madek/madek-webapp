@@ -47,16 +47,50 @@ index media_entry
   local = media_entry_core
 }
 
+source media_set_core_0
+{
+  type = xmlpipe2
+  xmlpipe_command = rails runner "Media::Set.to_sphinxpipe 0"
+}
 
+index media_set_core
+{
+  source = media_set_core_0
+  path = db/sphinx/test/media_set_core
+  morphology = libstemmer_de
+  charset_type = utf-8
+  min_prefix_len = 3
+  enable_star = 1
+}
+
+
+source media_set_delta_0 : media_set_core_0
+{
+  type = xmlpipe2
+  xmlpipe_command = rails runner "Media::Set.to_sphinxpipe 1"
+}
+
+index media_set_delta : media_set_core
+{
+  source = media_set_delta_0
+  path = db/sphinx/test/media_set_delta
+}
+
+index media_set
+{
+  type = distributed
+  local = media_set_delta
+  local = media_set_core
+}
 
 source person_core_0
 {
   type = mysql
   sql_host = localhost
   sql_user = root
-  sql_pass = 
+  sql_pass =
   sql_db = madek_test
-  sql_sock = /tmp/mysql.sock
+  sql_sock = /var/run/mysqld/mysqld.sock
   sql_query_pre = UPDATE `people` SET `delta` = 0 WHERE `delta` = 1
   sql_query_pre = SET NAMES utf8
   sql_query = SELECT SQL_NO_CACHE `people`.`id` * 2 + 1 AS `id` , CAST(`people`.`firstname` AS CHAR) AS `firstname`, CAST(`people`.`lastname` AS CHAR) AS `lastname`, CAST(`people`.`pseudonym` AS CHAR) AS `pseudonym`, `people`.`id` AS `sphinx_internal_id`, 863032384 AS `class_crc`, '863032384' AS `subclass_crcs`, 0 AS `sphinx_deleted` FROM `people`    WHERE `people`.`id` >= $start AND `people`.`id` <= $end AND `people`.`delta` = 0 GROUP BY `people`.`id`  ORDER BY NULL
@@ -83,10 +117,10 @@ source person_delta_0 : person_core_0
   type = mysql
   sql_host = localhost
   sql_user = root
-  sql_pass = 
+  sql_pass =
   sql_db = madek_test
-  sql_sock = /tmp/mysql.sock
-  sql_query_pre = 
+  sql_sock = /var/run/mysqld/mysqld.sock
+  sql_query_pre =
   sql_query_pre = SET NAMES utf8
   sql_query = SELECT SQL_NO_CACHE `people`.`id` * 2 + 1 AS `id` , CAST(`people`.`firstname` AS CHAR) AS `firstname`, CAST(`people`.`lastname` AS CHAR) AS `lastname`, CAST(`people`.`pseudonym` AS CHAR) AS `pseudonym`, `people`.`id` AS `sphinx_internal_id`, 863032384 AS `class_crc`, '863032384' AS `subclass_crcs`, 0 AS `sphinx_deleted` FROM `people`    WHERE `people`.`id` >= $start AND `people`.`id` <= $end AND `people`.`delta` = 1 GROUP BY `people`.`id`  ORDER BY NULL
   sql_query_range = SELECT IFNULL(MIN(`id`), 1), IFNULL(MAX(`id`), 1) FROM `people` WHERE `people`.`delta` = 1

@@ -12,6 +12,7 @@
         #set_meta
           - context = MetaContext.media_set
           = display_meta_data_for_context(@media_set, context)
+          = display_project_abstract(@media_set) if @media_set.is_a?(Media::Project)
       .grid_3
         #set_actions
           - if @can_edit_set

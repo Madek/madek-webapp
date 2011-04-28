@@ -115,6 +115,16 @@ When "I fill in the metadata form as follows:" do |table|
         fill_in_person_widget(list, hash['value'], hash['options'])
       elsif list[:class] == "Keyword"
         fill_in_keyword_widget(list, hash['value'], hash['options'])
+      elsif list[:class] == "Meta::Term"
+        if list.has_css?("ul.meta_terms")
+          set_term_checkbox(list, hash['value'])
+        elsif list.has_css?(".madek_multiselect_container")
+          select_from_multiselect_widget(list, hash['value'])
+        else
+          puts "Unknown Meta::Term interface element when trying to set '#{text}'"
+        end
+      elsif list[:class] == "Meta::Department"
+        select_from_multiselect_widget(list, hash['value'])
       else
         list.all("textarea").each do |ele|
           fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil?
@@ -209,6 +219,12 @@ end
 
 When "all the hidden items become visible" do
   make_hidden_items_visible
+end
+
+When "I make sure I'm logged out" do
+  if page.has_content?("Abmelden")
+    Then 'I follow "Abmelden"'
+  end
 end
 
 Then "the box should have a hires download link" do

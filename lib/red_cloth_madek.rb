@@ -1,5 +1,7 @@
 class RedClothMadek
 
+  ActionView::Base.sanitized_allowed_tags << 'video'
+
   def initialize
     require 'redcloth'
   end
@@ -23,15 +25,15 @@ class RedClothMadek
     #
     text.gsub(/\[\s*media\s*=\s*(\d+)\s*\|\s*([^\]]+)\s*\]/) { |number,txt|
 
-           "<a href='/media_entries/#{$1}'>#{h($2)}</a>"                 }.
+           "<a href='/media_entries/#{$1}'>#{h($2.strip)}</a>"                 }.
 
          gsub(/\[\s*screenshot\s*=\s*(\d+)\s*\|\s*([^\]]+)\s*\]/) { |number,title|
 
-           "<img src='/media_entries/#{$1}/image' title='#{h($2)}'/>"    }.
+           "<img src='/media_entries/#{$1}/image' title='#{h($2.strip)}'/>"    }.
 
          gsub(/\[\s*video\s*=\s*(\d+)\s*\|\s*([^\]]+)\s*\]/) { |number,title|
-           "<video src='/media_entries/#{$1}/image' title='#{h($2)}'>" +
-             "<a href='/media_entries/#{$1}'>(see video)</a>" +
+           "<video src='/media_entries/#{$1}/image' title='#{h($2.strip)}'>" +
+             "<a href='/media_entries/#{$1}'>(see '#{h($2.strip)}' Video)</a>" +
            "</video>"  }
   end
 

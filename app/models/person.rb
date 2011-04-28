@@ -14,17 +14,14 @@ class Person < ActiveRecord::Base
     errors.add(:base, "Name cannot be blank") if [record.firstname, record.lastname, record.pseudonym].all? {|x| x.blank? }
   end
   
-  # TODO hay_many :media_entries (where the person is related through meta_data)
+  # TODO has_many :media_entries (where the person is related through meta_data)
 #  def media_entries
 #    MediaEntry.search self.to_s
 #    # TODO through new method meta_data
 #  end
 
   def self.with_media_entries
-    #old#
-    # all.delete_if {|p| MediaEntry.search_count(p.to_s) < 1 }
-    # all.select {|p| p.meta_data.count > 0 }
-
+    # OPTIMIZE
     ids = MetaDatum.joins(:meta_key).
             where(:meta_keys => {:object_type => self.name}).
             collect(&:value).flatten.uniq

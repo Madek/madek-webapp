@@ -11,6 +11,8 @@ Feature: Help wiki
       And a user called "Anonymous" with username "anon" and password "aanon" exists
 
   Scenario: Anonymous users should not see the wiki
+    When I go to the home page
+     And I make sure I'm logged out
     When I go to the wiki
     Then I should be told I have no access and I need to log in
 
@@ -53,13 +55,10 @@ Feature: Help wiki
     When I log in as "admin" with password "aadmin"
    Given there is a media entry
     When I add a link "[video=xxx | Das Huhn ]" to it on the wiki front page and save
-    # TODO:
-    #Then show me the page
-    #    Then I should see "Das Huhn" within "video"
+    Then I should see "Das Huhn" within "video"
 
   Scenario: Admins should be able to add screenshots
     When I log in as "admin" with password "aadmin"
    Given there is a media entry
     When I add a link "[screenshot=210 | Das Huhn ]" to it on the wiki front page and save
-    # TODO:
-    #Then I should see "Das Huhn" within "img"
+    Then there should be an image with title "Das Huhn"
