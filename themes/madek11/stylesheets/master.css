@@ -1605,6 +1605,11 @@ form#set_media_sets input[type="submit"] {
 #set_meta h3 {
   padding-bottom: 0.5em; }
 
+#set_meta div {
+  max-height: 200px;
+  overflow: auto;
+  margin-top: 20px; }
+
 /* Upload */
 .upload_buttons {
   background: #e3e3e3;
