@@ -23,19 +23,6 @@ module ApplicationHelper
 
   ######## Hash/Array to <ul> list #########
 
-#old#
-#  def to_list(msg = [])
-#    content_tag :ul do
-#      r = "".html_safe
-#      msg.to_a.each do |e|
-#        r += content_tag :li do
-#          e
-#        end
-#      end
-#      r
-#    end
-#  end
-
   def to_list(h)
     case h.class.name
       when "Hash"

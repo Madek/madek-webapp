@@ -53,18 +53,11 @@ class Permission < ActiveRecord::Base
 
   private
 
-#old#??
-  # Returns key value: boolean or nil
-#  def action(key)
-#    merged_actions[key.to_sym]
-#  end
-
   def invalidate_cache
     #regex = /permissions\/#{subject_type}_#{subject_id}\/#{resource_type}_#{resource_id}\/actions.*/
     regex = /permissions.*/
     Permission.delete_matched_cached_keys(regex)
   end
-
 
 ##################################################
   class << self
@@ -76,9 +69,8 @@ class Permission < ActiveRecord::Base
       # TODO default manage permission for associated user (owner) ?? 
       #return true if action == :manage and subject == resource.user
       
-      b = merged_actions(subject, resource)[action]
-      # TODO cache b ??
-      !!b # force to boolean
+      # force to boolean
+      !!merged_actions(subject, resource)[action]
     end
 
     def resource_viewable_only_by_user?(resource, subject)
