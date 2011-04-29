@@ -50,17 +50,13 @@ class User < ActiveRecord::Base
   
 #############################################################
 
-  #0704#
-#  def accessible_resources #(resource_type = nil, action = nil)
-#    editable_ids = Permission.accessible_by_user("MediaEntry", current_user, :edit)
-#    managable_ids = Permission.accessible_by_user("MediaEntry", current_user, :manage)
-#  end
+  def accessible_resource_ids(action = :view, resource_type = "MediaEntry")
+    Permission.accessible_by_user(resource_type, self, action)
+  end
 
-  # OPTIMIZE
   # return own and somebody else's sets, on which current_user has edit permission
   def editable_sets
-    #old# Media::Set.select {|s| Permission.authorized?(self, :edit, s) }
-    ids = Permission.accessible_by_user("Media::Set", self, :edit)
+    ids = accessible_resource_ids(:edit, Media::Set)
     Media::Set.where(:id => ids)
   end
 

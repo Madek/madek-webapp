@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
     if logged_in?
       # TODO refactor to UsersController#show and dry with MediaEntriesController#index
       params[:per_page] ||= PER_PAGE.first
-      viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
+      viewable_ids = current_user.accessible_resource_ids
       @disabled_paginator = true # OPTIMIZE
 
       search_options = {:per_page => (2**30), :star => true }

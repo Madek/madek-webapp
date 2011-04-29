@@ -115,7 +115,7 @@ class MetaDatum < ActiveRecord::Base
 
   # some meta_keys don't store values,
   # then the returned value could be a stored one or dynamically computed
-#working here# TODO deserialized_value #value
+  #working here# TODO deserialized_value #value
   def deserialized_value
     #tmp# Rails.cache.fetch("meta_datum/#{id}", :expires_in => 10.minutes) do
     if meta_key.is_dynamic?

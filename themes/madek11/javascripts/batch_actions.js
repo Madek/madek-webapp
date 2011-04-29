@@ -257,8 +257,9 @@ function displayCount() {
 	};
 };
 
-function display_results(json){
-	var container = $("#results"); 
+function display_results(json, container){
+	//var container = $("#results");
+	var container = container ? $("#" + container) : $("#results"); 
 	var loading = container.find(".loading");
 	var pagination = json.pagination;
 	var loaded_page = 1;

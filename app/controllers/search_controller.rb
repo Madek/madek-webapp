@@ -1,29 +1,51 @@
 class SearchController < ApplicationController
   
   def show
-    @search_term = params[:query].blank? ? nil : params[:query]
+    @search_term = params[:query]
     viewable_media_entry_ids = Permission.accessible_by_user("MediaEntry", current_user)
     viewable_media_set_ids = Permission.accessible_by_user("Media::Set", current_user)
-    options = {:sphinx_select => "*, (IN (sphinx_internal_id, #{viewable_media_entry_ids.join(',')}) AND class_crc = #{MediaEntry.to_crc32}) 
-    OR (IN (sphinx_internal_id, #{viewable_media_set_ids.join(',')}) AND class_crc = #{Media::Set.to_crc32}) AS viewable"}
     
     params[:per_page] ||= PER_PAGE.first
-    @filter = Filter.new(params[:filter] || {})
-    options.merge!(@filter.to_query_filter)
-    #tmp # eventually we want to figure out which classes we need to limit the search to (based on filter attributes/fields)
-    options.merge!(:classes => [MediaEntry]) if !@filter.filters.empty?
+    
+    @active_bookmark = if params[:media_entries]
+      "#media_entry_tab"
+    elsif params[:media_sets]
+      "#set_tab"
+    elsif params[:projects]
+      "#project_tab"
+    end
+    
+    #TODO# Use seach_for_ids method and do intersection with viewable_ids after the search
 
-    @media = ThinkingSphinx.search(@search_term, options).paginate(:page => params[:page], :per_page => params[:per_page])
+    @media_entry_filter = Filter.new(params[:media_entries] || {})
+    me_options = {:sphinx_select => "*, (IN (sphinx_internal_id, #{viewable_media_entry_ids.join(',')}) AND class_crc = #{MediaEntry.to_crc32}) AS viewable"}
+    me_options.merge!(@media_entry_filter.to_query_filter)
+    @media_entries = MediaEntry.search(@search_term, me_options).paginate(:page => params[:page], :per_page => params[:per_page])
+    @media_entries_json = Logic.enriched_resource_data(@media_entries, current_user, "MediaEntry").to_json
+
+
+    @media_set_filter = Filter.new(params[:media_sets] || {})
+    set_options = {:sphinx_select => "*, (IN (sphinx_internal_id, #{viewable_media_set_ids.join(',')}) AND class_crc = #{Media::Set.to_crc32}) AS viewable"}
+    set_options.merge!(@media_set_filter.to_query_filter)
+    set_options[:with].merge!(:media_type => "Set".to_crc32)
     
-    @json = Logic.enriched_resource_data(@media, current_user).to_json
-    
-    @facets = ThinkingSphinx.facets(@search_term, options)
-    
+    @media_sets = Media::Set.search(@search_term, set_options).paginate(:page => params[:page], :per_page => params[:per_page])
+    @media_sets_json = Logic.enriched_resource_data(@media_sets, current_user, "Media::Set").to_json
+
+    @project_filter = Filter.new(params[:projects] || {})
+    project_options = {:sphinx_select => "*, (IN (sphinx_internal_id, #{viewable_media_set_ids.join(',')}) AND class_crc = #{Media::Set.to_crc32}) AS viewable"}
+    project_options.merge!(@project_filter.to_query_filter)
+    project_options[:with].merge!(:media_type => "Project".to_crc32)
+    @projects = Media::Set.search(@search_term, project_options).paginate(:page => params[:page], :per_page => params[:per_page])
+    @projects_json = Logic.enriched_resource_data(@projects, current_user, "Media::Project").to_json
+      
     respond_to do |format|
       format.html
+      #TODO: # Separate Ajax pagination for MediaEntries, Sets and Projects. Right now not working at all
       format.js { render :json => @json }
       format.xml { render :xml=> @media_entries.to_xml(:include => {:meta_data => {:include => :meta_key}} ) }
     end
   end
+    
   
 end

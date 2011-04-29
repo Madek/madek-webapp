@@ -6,7 +6,7 @@ class MediaSetsController < ApplicationController
   after_filter :store_location, :only => [:show]
   
   def index
-    ids = Permission.accessible_by_user("Media::Set", current_user)
+    ids = current_user.accessible_resource_ids(:view, "Media::Set")
 
     @media_sets, @my_media_sets, @index_title = if @media_set
       # all media_sets I can see, nested within a media set (for now only used with featured sets)
@@ -32,7 +32,7 @@ class MediaSetsController < ApplicationController
   end
 
   def show
-    viewable_ids = Permission.accessible_by_user("MediaEntry", current_user)
+    viewable_ids = current_user.accessible_resource_ids
 
     #old# ids = @media_set.media_entries.where(:id => viewable_ids).select(:id).map(&:id) # doesn't work: @media_set.media_entry_ids.where(:id => viewable_ids)
     #old# @media_entry_ids = ids.paginate(:page => params[:page], :per_page => PER_PAGE.first)

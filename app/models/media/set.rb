@@ -6,9 +6,6 @@ module Media
 
   class Set < ActiveRecord::Base # TODO rename to Media::Group
     include Resource
-     
-    TS_FIELDS += [:type]
-  
   
     has_dag_links :link_class_name => 'Media::SetLink'
   

@@ -20,14 +20,14 @@ class MediaEntriesController < ApplicationController
 
     scope, viewable_ids = if @user
                             ids = if logged_in?
-                              Permission.accessible_by_user("MediaEntry", current_user)
+                              current_user.accessible_resource_ids
                             else
                               Permission.accessible_by_all("MediaEntry")
                             end
                             [MediaEntry.by_user(@user), ids]
                           else
                             if logged_in?
-                              ids = Permission.accessible_by_user("MediaEntry", current_user)
+                              ids = current_user.accessible_resource_ids
                               if params[:not_by_current_user]
                                 # all media_entries I can see but not uploaded by me
                                 [MediaEntry.not_by_user(current_user), ids]
@@ -305,10 +305,10 @@ end
         selected_ids = params[:media_entry_ids].split(",").map{|e| e.to_i }
         @media_entries = case action
           when :edit_multiple, :update_multiple
-            editable_ids = Permission.accessible_by_user(MediaEntry, current_user, :edit)
+            editable_ids = current_user.accessible_resource_ids(:edit)
             MediaEntry.where(:id => (selected_ids & editable_ids))
           when :edit_multiple_permissions
-            manageable_ids = Permission.accessible_by_user(MediaEntry, current_user, :manage)
+            manageable_ids = current_user.accessible_resource_ids(:manage)
             MediaEntry.where(:id => (selected_ids & manageable_ids))
           when :remove_multiple
             MediaEntry.where(:id => selected_ids)
