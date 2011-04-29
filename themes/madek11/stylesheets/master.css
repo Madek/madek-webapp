@@ -1584,8 +1584,12 @@ form#set_media_sets input[type="submit"] {
     letter-spacing: 0.2ex; }
   #detail-excerpt span {
     letter-spacing: 0.1ex; }
-  #detail-excerpt #set-box span {
-    letter-spacing: 0; }
+  #detail-excerpt .set-box {
+    padding: 15px; }
+  #detail-excerpt .set-box span {
+    letter-spacing: 0;
+    background: url(/themes/madek11/images/icons/icon_set_small.png) top left no-repeat;
+    padding-left: 20px; }
 
 #detail-image img {
   border: 1px solid #e4e4e4; }
@@ -2138,12 +2142,6 @@ table.permissions tr.adder input {
   background-color: #f4f4f4;
   padding: 15px 30px 15px 30px;
   font-size: 0.9em; }
-
-#detail-excerpt .set-box {
-  padding: 15px; }
-
-#detail-excerpt .set-box span {
-  letter-spacing: 0; }
 
 #sidebar-box {
   margin-top: 10px; }

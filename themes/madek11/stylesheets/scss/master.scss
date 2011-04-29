@@ -1784,8 +1784,14 @@ form#set_media_sets input[type="submit"] {
 		letter-spacing: 0.1ex;
 	}
 	
-	#set-box span {
+	.set-box {
+	    padding: 15px;
+	}
+	
+	.set-box span {
 		letter-spacing: 0;
+		background: url(/themes/madek11/images/icons/icon_set_small.png) top left no-repeat;
+        padding-left: 20px;
 	}
 }
 
@@ -2456,13 +2462,6 @@ table.permissions {
 	background-color: #f4f4f4;
 	padding: 15px 30px 15px 30px;
 	font-size: 0.9em;
-}
-
-#detail-excerpt .set-box {
-	padding: 15px;
-}
-#detail-excerpt .set-box span {
-	letter-spacing: 0;
 }
 
 #sidebar-box {
