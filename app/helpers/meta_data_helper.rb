@@ -44,13 +44,13 @@ module MetaDataHelper
         s = Array(meta_datum.deserialized_value).map do |p|
           next unless p
           #temp# link_to p, p
-          link_to p, media_entries_path(:query => p.fullname)
+          link_to p, search_path(:query => p.fullname)
         end
         s.join('<br />').html_safe
       when "Keyword"
         s = Array(meta_datum.deserialized_value).map do |v|
           next unless v
-          link_to v, media_entries_path(:query => v.to_s)
+          link_to v, search_path(:query => v.to_s)
         end
         s.join(', ').html_safe
       when "Meta::Date"
