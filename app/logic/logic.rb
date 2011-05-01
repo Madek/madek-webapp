@@ -30,6 +30,7 @@ module Logic
   def enriched_resource_data(resource_ids, resources, current_user, resource_type)    
     editable_ids = Permission.accessible_by_user(resource_type, current_user, :edit)
     managable_ids = Permission.accessible_by_user(resource_type, current_user, :manage)
+
     favorite_ids = current_user.favorite_ids if resource_type == "MediaEntry"
     
     # intersections

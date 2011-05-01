@@ -23,11 +23,6 @@ class MediaSetsController < ApplicationController
 
     respond_to do |format|
       format.html
-      #old# ?????
-      #format.js {
-      #  @media_sets = @media_sets.joins(:meta_data).where(:meta_data => {:meta_key_id => MetaKey.find_by_label("title"), :value => params[:tag]}) if params[:tag]
-      #  render :json => @media_sets.map {|x| {:caption => x.to_s, :value => x.id} }
-      #}
     end
   end
 
@@ -52,13 +47,6 @@ class MediaSetsController < ApplicationController
 # Authenticated Area
 # TODO
 
-#old#
-#  def new
-#    @dynamic = ["true", "1"].include?(params[:dynamic]) # TODO patch String to_bool
-#    @media_set = current_user.media_sets.build
-#    @media_set.query = params[:query] if @dynamic
-#  end
-
   def create
     # OPTIMIZE just preventing double delta indexing, because meta_data need resource_id
     Media::Set.suspended_delta do
@@ -68,7 +56,6 @@ class MediaSetsController < ApplicationController
         redirect_to user_media_sets_path(current_user)
       else
         flash[:notice] = @media_set.errors.full_messages
-        #old# render :action => :new
         redirect_to :back
       end
     end
@@ -98,19 +85,6 @@ class MediaSetsController < ApplicationController
     end
     @permissions_json = @permissions_json.to_json
   end
-
-#old ??#
-#  def update
-#    @media_set.update_attributes(params[:media_set])
-#
-#    respond_to do |format|
-#      format.html { redirect_to @media_set }
-#      format.js {
-#        meta_datum = @media_set.meta_data.get(params[:media_set][:meta_data_attributes]['0'][:meta_key_id].to_i)
-#        render :partial => "/meta_data/show", :locals => { :meta_datum => meta_datum, :resource => @media_set }
-#      }
-#    end
-#  end
 
  def destroy
    # TODO ACL

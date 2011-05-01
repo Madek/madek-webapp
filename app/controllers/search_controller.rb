@@ -2,8 +2,8 @@ class SearchController < ApplicationController
   
   def show
     @search_term = params[:query]
-    viewable_media_entry_ids = Permission.accessible_by_user("MediaEntry", current_user)
-    viewable_media_set_ids = Permission.accessible_by_user("Media::Set", current_user)
+    viewable_media_entry_ids = current_user.accessible_resource_ids
+    viewable_media_set_ids = current_user.accessible_resource_ids(:view, "Media::Set")
     
     params[:per_page] ||= PER_PAGE.first
     

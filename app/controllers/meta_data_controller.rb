@@ -17,43 +17,11 @@ class MetaDataController < ApplicationController
     @meta_data = @resource.media_file.meta_data_without_binary.sort
   end
 
-#  # inplace editor for single meta_datum 
-#  def edit
-#    params[:meta_key_id] ||= params[:id]
-#    @meta_datum = @resource.meta_data.get(params[:meta_key_id].to_i)
-#    respond_to do |format|
-#      format.js { render :partial => "/meta_data/edit", :locals => { :meta_datum => @meta_datum, :resource => @resource, :context => @context } }
-#    end
-#  end
-#
-#  # inplace editor for single meta_datum 
-#  # TODO dry with update_multiple
-#  def update
-#    case @context.try(:label)
-#      when "tms"
-#        # TODO Snapshot
-#        @resource.attributes = params[:media_entry]
-#        render :xml => @resource.to_xml(:include => {:meta_data => {:include => :meta_key}} ) and return
-#      else
-#        @resource.editors << current_user # OPTIMIZE group by user ??
-#        @resource.update_attributes(params[:media_entry])
-#    end
-#
-#    respond_to do |format|
-#      format.html { redirect_to @resource }
-#      format.js {
-#        meta_datum = @resource.meta_data.get(params[:media_entry][:meta_data_attributes]['0'][:meta_key_id].to_i)
-#        render :partial => "/meta_data/show", :locals => { :meta_datum => meta_datum, :resource => @resource, :context => @context }
-#      }
-#    end
-#  end
-
 #################################################################
 
   def edit_multiple
     meta_data = @resource.meta_data_for_context(@context)
     respond_to do |format|
-      #old# format.js { render :layout => (params[:layout] != "false") }
       format.js { render :partial => "edit_multiple_without_form", :locals => {:context => @context, :meta_data => meta_data } }
     end
   end
@@ -73,10 +41,6 @@ class MetaDataController < ApplicationController
           redirect_to @resource
         end
       }
-#old#
-#      format.js {
-#        render :action => :edit_multiple #:index #, :layout => (params[:layout] != "false")
-#      }
     end
   end
 

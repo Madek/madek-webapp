@@ -151,7 +151,6 @@ end
     elsif request.delete?
       if Permission.authorized?(current_user, :edit, @media_set) # (Media::Set ACL!)
         @media_set.media_entries.delete(@media_entry)
-        #old 0310# @media_entry.sphinx_reindex
         render :nothing => true # TODO redirect_to @media_set
       else
         # OPTIMIZE
@@ -198,11 +197,6 @@ end
 # BATCH actions
 
   def remove_multiple
-#old 1003#
-#    @media_entries.each do |media_entry|
-#      @media_set.media_entries.delete(media_entry)
-#      media_entry.sphinx_reindex
-#    end
     @media_set.media_entries.delete(@media_entries)
     flash[:notice] = "Die Medieneinträge wurden aus dem Set gelöscht."
     redirect_to media_set_url(@media_set)
@@ -230,8 +224,7 @@ end
   end
   
   def edit_multiple_permissions
-    @combined_permissions = Permission.compare(@media_entries)
-    @permissions_json = @combined_permissions.to_json
+    @permissions_json = Permission.compare(@media_entries).to_json
 
     @media_entries_json = @media_entries.map do |me|
       me.attributes.merge!(me.get_basic_info)

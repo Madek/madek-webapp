@@ -149,12 +149,6 @@ class MetaDatum < ActiveRecord::Base
     end
   end
 
-#old#
-#  # compares two objects in order to sort them
-#  def <=>(other)
-#    self.meta_key.label <=> other.meta_key.label
-#  end
-  
 ##########################################################
 
   def same_value?(other_value)

@@ -124,23 +124,4 @@ class MetaKey < ActiveRecord::Base
     end
   end
 
-########################################################
-
-#old#
-#  def self.init(reset = false)
-#    puts "Metakey::init"
-#    return 0 unless reset or count == 0
-#    delete_all
-#
-#    keys = YAML.load(File.read("#{METADATA_CONFIG_DIR}/key.yml"))
-#
-#    keys.each do |key|
-#      meta_terms = key.delete("meta_terms")
-#      k = create(key)
-#      k.meta_terms.create(meta_terms) if meta_terms
-#    end
-#
-#    return count
-#  end
-
 end

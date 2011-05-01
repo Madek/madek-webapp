@@ -61,7 +61,7 @@ module Resource
 #    end
 
     base.has_many  :permissions, :as => :resource, :dependent => :destroy
-    #old#1504# base.has_one   :default_permission, :as => :resource, :class_name => "Permission", :conditions => {:subject_id => nil, :subject_type => nil}
+    base.before_validation { permissions.delete_if {|p| p.new_record? and p.subject.nil? and p.invalid? } } #2904# OPTIMIZE
     base.after_create :generate_permissions
 
     base.has_many  :edit_sessions, :as => :resource, :dependent => :destroy, :readonly => true, :limit => 5
