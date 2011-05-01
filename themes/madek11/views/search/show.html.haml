@@ -39,37 +39,39 @@
     #detail_specification.tabs
       %ul
         %li
-          = link_to "Medieneinträge (#{@media_entries.total_entries})", "#media_entry_tab"
+          = link_to "Medieneinträge (#{@paginated_media_entry_ids.total_entries})", "#media_entry_tab"
         %li
-          = link_to "Sets (#{@media_sets.total_entries})", "#set_tab" 
+          = link_to "Sets (#{@paginated_media_set_ids.total_entries})", "#set_tab" 
         %li
-          = link_to "Projekte (#{@projects.total_entries})", "#project_tab"
+          = link_to "Projekte (#{@paginated_project_ids.total_entries})", "#project_tab"
       #media_entry_tab.clearfix 
         - if @media_entries.length > 1
           .filter_area
-            = render :partial => 'filter_form', :locals => {:media => @media_entries, :filter => @media_entry_filter, :type => :media_entries }
+            = render :partial => 'filter_form', :locals => {:filter => @media_entry_filter, :media => @media_entries }
         %div{:id => "media_entry_results", :class => @media_entries.length > 1 ? "result_area" : "" }
-          = render :partial => 'media_entry_results', :locals => { :json => @media_entries_json }
+          = render :partial => 'results', :locals => { :type => "media_entry", :json => @media_entries_json }
       #set_tab.clearfix   
         - if @media_sets.length > 1
           .filter_area
-            = render :partial => 'filter_form', :locals => {:media => @media_sets, :filter => @media_set_filter, :type => :media_sets }
+            = render :partial => 'filter_form', :locals => {:filter => @media_set_filter, :media => @media_sets }
         %div{:id => "set_results", :class => @media_sets.length > 1 ? "result_area" : "" }
-          = render :partial => 'media_set_results', :locals => { :type => :set, :json => @media_sets_json }
+          = render :partial => 'results', :locals => { :type => "set", :json => @media_sets_json }
       #project_tab.clearfix  
         - if @projects.length > 1
           .filter_area
-            = render :partial => 'filter_form', :locals => {:media => @projects, :filter => @project_filter, :type => :projects }
+            = render :partial => 'filter_form', :locals => {:filter => @project_filter, :media => @projects }
         %div{:id => "project_results", :class => @projects.length > 1 ? "result_area" : "" }
-          = render :partial => 'media_set_results', :locals => { :type => :project,  :json => @projects_json }
-          
+          = render :partial => 'results', :locals => { :type => "project",  :json => @projects_json }
+
+
+= theme_javascript_include_tag "batch_actions"        
 :javascript
 
   $(document).ready(function () { 
 
     var $tabs = $('#detail_specification').tabs();
-    var active_filter = '#{@active_bookmark}';
-    if (active_filter != '') $tabs.tabs('select', active_filter);
+    var active_bookmark = '#{@active_bookmark}';
+    if (active_bookmark != '') $tabs.tabs('select', active_bookmark);
     
     $('.filter_box h3.filter_category a.filter_category_link').click(function() {
       var icon = $(this).siblings('span.ui-icon');
@@ -82,7 +84,6 @@
     	  icon.removeClass('ui-icon-triangle-1-s').addClass('ui-icon-triangle-1-e');
     	};
     	return false;
-    }).parent().next('.filter_content').hide();
-    
+    });
   
   });

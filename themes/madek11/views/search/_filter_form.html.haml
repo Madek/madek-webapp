@@ -2,54 +2,58 @@
   %h3.filter_category.filter_header.clearfix
     %span.ui-icon.ui-icon-triangle-1-e
     = link_to "Medieneinträge filtern", "#", :class => "filter_category_link"
-  .filter_content
+  - type = media.first.class.base_class.name
+  - style = (type == @active_filter_type) ? "display: block;" : "display: none"
+  .filter_content{:style => style}
     %form{:action => search_path, :method => :get}
       = hidden_field_tag "query", @search_term
-      = hidden_field_tag "klass", type
       - unless media.empty?
+        = hidden_field_tag "klass", type
         #filter-query.basic
           %div
-            - if type == :media_entries
+            - if type == "MediaEntry"
               %h3.filter_category.clearfix
                 %span.ui-icon.ui-icon-triangle-1-e
                 = link_to "Medientyp und Format", "#", :class => "filter_category_link"
+                - #TODO # 
                 = link_to "(zurücksetzen)", "#", :class => "reset_filter"
-              .filter_content
+              .filter_content{:style => display_style(type, "media type")}
                 -#TODO# media_types = media.map {|m| m.media_type }.uniq # only applicable media types and their dependent filters should be displayed
                 -#TODO# we need some sort of config to map media_types to their dependent filters, i.e. {:image => [:orientation, :width, :height]}
-                - media_type_params = filter.options[:with][:media_type]
                 %h3.filter_subcategory.filter_category.clearfix
                   %span.input_wrapper
-                    = check_box_tag "#{type}[media_type][]", "Image", media_type_params && media_type_params.include?("Image".to_crc32)
+                    = check_box_tag "#{type}[media_type][]", "Image", should_be_checked?("media type", "Image", type)
                     Bild
                   = link_to "Details", "#", :class => "filter_category_link"
                   %span.ui-icon.ui-icon-triangle-1-e
                 .filter_content
                   %ul
-                    - orientation_params = filter.options[:with][:orientation]
                     %li
                       = label_tag "#{type}[orientation][0]", "Querformat"
-                      = check_box_tag "#{type}[orientation]", '0', orientation_params && orientation_params == "0"
+                      = check_box_tag "#{type}[orientation]", '0', should_be_checked?("orientation", "0", type)
                     %li
                       = label_tag "#{type}[orientation][1]", "Hochformat"
-                      = check_box_tag "#{type}[orientation]", '1', orientation_params && orientation_params == "1"
+                      = check_box_tag "#{type}[orientation]", '1', should_be_checked?("orientation", "1", type)
                   %ul
-                    - width_params, height_params = filter.filters[:width], filter.filters[:height]
+                    - width_value = (type == @active_filter_type && filter.filters[:width]) ? filter.filters[:width][:value] : nil
+                    - width_operator = (type == @active_filter_type && filter.filters[:width]) ? filter.filters[:width][:operator] : nil
+                    - height_value = (type == @active_filter_type && filter.filters[:height]) ? filter.filters[:height][:value] : nil
+                    - height_operator = (type == @active_filter_type && filter.filters[:height]) ? filter.filters[:height][:operator] : nil
                     %li
                       = label_tag "#{type}[width][value]", "Breite"
-                      = select_tag "#{type}[width][operator]", options_for_select({'ist genau' => 'is', 'grösser als' => 'gt', 'kleiner als' => 'lt'}, :selected => width_params ? width_params[:operator] : ""), :include_blank => true
-                      = text_field_tag "#{type}[width][value]", width_params ? width_params[:value] : nil, :size => 10
+                      = select_tag "#{type}[width][operator]", options_for_select({'ist genau' => 'is', 'grösser als' => 'gt', 'kleiner als' => 'lt'}, :selected => width_operator), :include_blank => true
+                      = text_field_tag "#{type}[width][value]", width_value, :size => 10
                     %li
                       = label_tag "#{type}[height][value]", "Höhe"
-                      = select_tag "#{type}[height][operator]", options_for_select({'ist genau' => 'is', 'grösser als' => 'gt', 'kleiner als' => 'lt'}, :selected => height_params ? height_params[:operator] : ""), :include_blank => true
-                      = text_field_tag "#{type}[height][value]", height_params ? height_params[:value] : nil, :size => 10
-            = display_meta_data_checkboxes(media, "keywords", filter, "Schlagworte")
-            - if type == :media_entries
-              = display_meta_data_checkboxes(media, "type", filter, "Gattung")
-              = display_meta_data_checkboxes(media, "academic year", filter, "Studienjahr")
-              = display_meta_data_checkboxes(media, "project type", filter, "Projekttyp")
-              = display_meta_data_checkboxes(media, "institutional affiliation", filter, "Bereich ZHdK")
+                      = select_tag "#{type}[height][operator]", options_for_select({'ist genau' => 'is', 'grösser als' => 'gt', 'kleiner als' => 'lt'}, :selected => height_operator), :include_blank => true
+                      = text_field_tag "#{type}[height][value]", height_value, :size => 10
+            = display_meta_data_checkboxes(media, "keywords", "Schlagworte")
+            - if type == "MediaEntry"
+              = display_meta_data_checkboxes(media, "type", "Gattung")
+              = display_meta_data_checkboxes(media, "academic year", "Studienjahr")
+              = display_meta_data_checkboxes(media, "project type", "Projekttyp")
+              = display_meta_data_checkboxes(media, "institutional affiliation", "Bereich ZHdK")
           .filter_footer
             = submit_tag _("Filter anwenden"), :title => "Filtern", :id => 'search-submit', :name => nil
-            - if @active_bookmark
+            - if @active_filter
               %p= link_to "Alle Filter zurücksetzen", search_path(:query => @search_term)

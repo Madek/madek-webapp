@@ -1,12 +1,9 @@
-# !! Mostly pseudo code here. WIP
-
 class Filter
 
   attr_accessor :options, :filters, :ts_classes
   def initialize(filter_attributes)
     @filters = filter_attributes
-    # @options = {:with => {:viewable => true}, :conditions => {}, :classes => ts_classes}
-    @options = {:with => {:viewable => true}, :conditions => {}}
+    @options = {:with => {}, :conditions => {}, :per_page => (2**30)}
   end
   
   def to_query_filter
@@ -59,12 +56,6 @@ class Filter
   
   protected
   
-  # old #
-  # def exclude_set?
-  #   return false if filters.empty?
-  #   filters.keys.all? {|k| Media::Set::TS_ATTRIBUTES.include?(k) || Media::Set::TS_FIELDS.include?(k)}
-  # end
-  
   def adjust_values_to_key(key, values)
     if values.is_a?(Hash)
       return nil if values[:value].blank?
@@ -73,7 +64,9 @@ class Filter
       if key == :with && values.all? {|v| string_like?(v) }
         values.map {|v| v.to_crc32}
       elsif key == :conditions
-        values.join("|")
+        # need to contain terms with spaces or dashes in (escaped) double quotes
+        escaped_values = values.map {|val| val =~ /[\s-]/ ? "\"#{val}\"" : val }
+        escaped_values.join("|")
       else
         values
       end

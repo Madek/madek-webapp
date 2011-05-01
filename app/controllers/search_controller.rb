@@ -7,42 +7,52 @@ class SearchController < ApplicationController
     
     params[:per_page] ||= PER_PAGE.first
     
-    @active_bookmark = if params[:media_entries]
+    @active_filter_type = params[:klass]
+    @active_bookmark = case @active_filter_type
+    when "MediaEntry"
       "#media_entry_tab"
-    elsif params[:media_sets]
+    when "Media::Set"
       "#set_tab"
-    elsif params[:projects]
+    when "Media::Project"
       "#project_tab"
     end
+
+    @media_entry_filter = Filter.new(params["MediaEntry"] || {})
+    me_options = @media_entry_filter.to_query_filter
+    all_media_entry_ids = MediaEntry.search_for_ids(@search_term, me_options)
+    @paginated_media_entry_ids = (all_media_entry_ids & viewable_media_entry_ids).paginate(:page => params[:page], :per_page => params[:per_page])
+    @media_entries = MediaEntry.includes(:media_file).where(:id => @paginated_media_entry_ids)
+    @media_entries_json = Logic.enriched_resource_data(@paginated_media_entry_ids, @media_entries, current_user, "MediaEntry").to_json
     
-    #TODO# Use seach_for_ids method and do intersection with viewable_ids after the search
-
-    @media_entry_filter = Filter.new(params[:media_entries] || {})
-    me_options = {:sphinx_select => "*, (IN (sphinx_internal_id, #{viewable_media_entry_ids.join(',')}) AND class_crc = #{MediaEntry.to_crc32}) AS viewable"}
-    me_options.merge!(@media_entry_filter.to_query_filter)
-    @media_entries = MediaEntry.search(@search_term, me_options).paginate(:page => params[:page], :per_page => params[:per_page])
-    @media_entries_json = Logic.enriched_resource_data(@media_entries, current_user, "MediaEntry").to_json
-
-
-    @media_set_filter = Filter.new(params[:media_sets] || {})
-    set_options = {:sphinx_select => "*, (IN (sphinx_internal_id, #{viewable_media_set_ids.join(',')}) AND class_crc = #{Media::Set.to_crc32}) AS viewable"}
-    set_options.merge!(@media_set_filter.to_query_filter)
+    @media_set_filter = Filter.new(params["Media::Set"] || {})
+    set_options = @media_set_filter.to_query_filter
     set_options[:with].merge!(:media_type => "Set".to_crc32)
+    all_media_set_ids = Media::Set.search_for_ids(@search_term, set_options)
+    @paginated_media_set_ids = (all_media_set_ids & viewable_media_set_ids).paginate(:page => params[:page], :per_page => params[:per_page])
+    @media_sets = Media::Set.where(:id => @paginated_media_set_ids)
+    @media_sets_json = Logic.enriched_resource_data(@paginated_media_set_ids, @media_sets, current_user, "Media::Set").to_json
     
-    @media_sets = Media::Set.search(@search_term, set_options).paginate(:page => params[:page], :per_page => params[:per_page])
-    @media_sets_json = Logic.enriched_resource_data(@media_sets, current_user, "Media::Set").to_json
-
-    @project_filter = Filter.new(params[:projects] || {})
-    project_options = {:sphinx_select => "*, (IN (sphinx_internal_id, #{viewable_media_set_ids.join(',')}) AND class_crc = #{Media::Set.to_crc32}) AS viewable"}
-    project_options.merge!(@project_filter.to_query_filter)
+    @project_filter = Filter.new(params["Media::Project"] || {})
+    project_options = @project_filter.to_query_filter
     project_options[:with].merge!(:media_type => "Project".to_crc32)
-    @projects = Media::Set.search(@search_term, project_options).paginate(:page => params[:page], :per_page => params[:per_page])
-    @projects_json = Logic.enriched_resource_data(@projects, current_user, "Media::Project").to_json
-      
+    all_project_ids = Media::Set.search_for_ids(@search_term, project_options)
+    @paginated_project_ids = (all_project_ids & viewable_media_set_ids).paginate(:page => params[:page], :per_page => params[:per_page])
+    @projects = Media::Project.where(:id => @paginated_project_ids)
+    @projects_json = Logic.enriched_resource_data(@paginated_project_ids, @projects, current_user, "Media::Project").to_json
+          
     respond_to do |format|
       format.html
-      #TODO: # Separate Ajax pagination for MediaEntries, Sets and Projects. Right now not working at all
-      format.js { render :json => @json }
+      format.js { 
+        page_to_render = case params[:page_type]
+          when "media_entry"
+            @media_entries_json
+          when "set"
+            @media_sets_json
+          when "project"
+            @projects_json
+        end
+        render :json => page_to_render
+      }
       format.xml { render :xml=> @media_entries.to_xml(:include => {:meta_data => {:include => :meta_key}} ) }
     end
   end

@@ -27,9 +27,7 @@ module Logic
 
 ########################################################
   
-  def enriched_resource_data(resources, current_user, resource_type)    
-    resource_ids = resources.map(&:id)
-    
+  def enriched_resource_data(resource_ids, resources, current_user, resource_type)    
     editable_ids = Permission.accessible_by_user(resource_type, current_user, :edit)
     managable_ids = Permission.accessible_by_user(resource_type, current_user, :manage)
     favorite_ids = current_user.favorite_ids if resource_type == "MediaEntry"
@@ -44,14 +42,26 @@ module Logic
                 :is_editable => editable_in_context.include?(res.id),
                 :is_manageable => managable_in_context.include?(res.id) }
       all_attributes = res.attributes.merge(res.get_basic_info).merge(flags)
-      all_attributes.merge(:is_favorite => favorite_ids.include?(res.id)) if resource_type == "MediaEntry"
+      all_attributes.merge!(:url_stub => (resource_type == "MediaEntry") ? "media_entries" : "media_sets")
+      all_attributes.merge!(:is_set => resource_type != "MediaEntry")
+      all_attributes.merge!(:is_favorite => favorite_ids.include?(res.id)) if resource_type == "MediaEntry"
       all_attributes
     end
     
-    {:pagination => { :current_page => resources.current_page,
-                       :per_page => resources.per_page,
-                       :total_entries => resources.total_entries,
-                       :total_pages => resources.total_pages },
+    pagination_label = case resource_type
+      when "MediaEntry"
+        "Medieneinträge"
+      when "Media::Set"
+        "Sets"
+      when "Media::Project"
+        "Projekte"
+      end
+    
+    {:pagination => { :current_page => resource_ids.current_page,
+                       :per_page => resource_ids.per_page,
+                       :total_entries => resource_ids.total_entries,
+                       :total_pages => resource_ids.total_pages,
+                       :pagination_label => pagination_label },
       :entries => enriched_resources }
   end
 
