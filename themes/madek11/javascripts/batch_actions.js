@@ -258,8 +258,7 @@ function displayCount() {
 };
 
 function display_results(json, container){
-	//var container = $("#results");
-	var container = container ? $("#" + container) : $("#results"); 
+	var container = container ? $("#" + container) : $("#results");
 	var loading = container.find(".loading");
 	var pagination = json.pagination;
 	var loaded_page = 1;
@@ -268,7 +267,7 @@ function display_results(json, container){
 		loading.fadeOut('slow', function(){ $(this).detach(); });
 		container.append($("#pagination").tmpl(pagination).fadeIn('slow'));
 		$.each(entries, function(i, elem) {
-			$("#media_entry_index").tmpl(elem).data('object', elem).appendTo(container).fadeIn('slow');
+			$("#index").tmpl(elem).data('object', elem).appendTo(container).fadeIn('slow');
 		});
 		container.append("<div class='clear' />");
 		//check all the previously selected checkboxes
@@ -280,18 +279,23 @@ function display_results(json, container){
 	
 	$(window).scroll(function(){
 	  var next_page = (pagination.total_pages > pagination.current_page ? pagination.current_page + 1 : 0);
-	  if(next_page > loaded_page && $(window).height() + $(window).scrollTop() == $(document).height()){
+	  if(next_page > loaded_page && $(window).height() + $(window).scrollTop() > $("footer").offset().top){
 	    loaded_page = next_page;
+			if(t = $('#detail_specification')){
+				var h = {page: next_page, page_type: t.find("div:visible:first").attr("id")};
+			}else{
+				var h = {page: next_page};
+			}
 	    $.ajax({
-	      data: {page: next_page},
+	      data: h,
 	    	dataType: 'json',
 	      beforeSend: function(){
-		  	loading.appendTo(container).fadeIn('slow');
+			  	loading.appendTo(container).fadeIn('slow');
 	      }, 
 	      success: function(response){
 	        pagination = response.pagination;
-			display_entries(response.entries);
-			$('#select_all_toggle').attr('checked', false);
+					display_entries(response.entries);
+					$('#select_all_toggle').attr('checked', false);
 	      }
 	    });
 	  }
@@ -299,43 +303,4 @@ function display_results(json, container){
 	
 	display_entries(json.entries);
 	$(window).scrollTop(0).trigger('scroll');
-};
-
-// OPTIMIZE: this function can be refactored with function display_results()
-function display_tabbed_results(json, type) {
-    var container = $("#" + type + "_results");
-  	var loading = container.find(".loading");
-  	var pagination = json.pagination;
-  	var loaded_page = 1;
-
-  	function display_entries(entries){
-  		loading.fadeOut('slow', function(){ $(this).detach(); });
-  		container.append($("#"+ type + "_pagination").tmpl(pagination).fadeIn('slow'));
-  		$.each(entries, function(i, elem) {
-  			$("#"+ type + "_index").tmpl(elem).data('object', elem).appendTo(container).fadeIn('slow');
-  		});
-  		container.append("<div class='clear' />");
-  	}
-	
-	// TODO $(window).scroll function needs to be scoped to current tab
-  	$(window).scroll(function(){
-  	  var next_page = (pagination.total_pages > pagination.current_page ? pagination.current_page + 1 : 0);
-  	  if(next_page > loaded_page && $(window).height() + $(window).scrollTop() == $(document).height()){
-  	    loaded_page = next_page;
-  	    $.ajax({
-  	      data: {page: next_page, page_type: type},
-  	    	dataType: 'json',
-  	      beforeSend: function(){
-  		  	  loading.appendTo(container).fadeIn('slow');
-  	      }, 
-  	      success: function(response){
-  	        pagination = response.pagination;
-  			display_entries(response.entries);
-  	      }
-  	    });
-  	  }
-  	});
-
-  	display_entries(json.entries);
-  	$(window).scrollTop(0).trigger('scroll');
 };

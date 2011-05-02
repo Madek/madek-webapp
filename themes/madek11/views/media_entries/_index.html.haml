@@ -43,7 +43,7 @@
     = theme_image_tag("icons/button_remove_action.png", :class => "thumb_remove")
     %img{:src => "${thumb_base64}"}
 
-%script{:type => "text/x-jquery-tmpl", :id => "media_entry_index"}
+%script{:type => "text/x-jquery-tmpl", :id => "index"}
   %div.item_box{:id => "thumb_${id}"}
     %div.item_permission
       {{if is_public}}

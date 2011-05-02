@@ -5,61 +5,7 @@
   .item_box.loading{:style => "display: none;"}
     .thumb_box
  
-%script{:type => "text/x-jquery-tmpl", :id => "#{type}_pagination"}
-  .pagination
-    ${total_entries} ${pagination_label},
-    Seite ${current_page} von ${total_pages}
-  .clear
-
-%script{:type => "text/x-jquery-tmpl", :id => "#{type}_index"}
-  %div.item_box{:id => "thumb_${id}"}
-    %div.item_permission
-      {{if is_public}}
-      = theme_image_tag("icons/button_status_private.png")
-      {{else is_private}}
-      = theme_image_tag("icons/icon_button_perm.png")
-      {{/if}}
-    {{if is_set}}
-    %div.thumb_box_set
-      %a{:href => "/media_sets/${id}"}
-        %img{:src => "${thumb_base64}"}
-    {{else}}
-    %div.thumb_box
-      %a{:href => "/media_entries/${id}"}
-        %img{:src => "${thumb_base64}"}
-    {{/if}}
-    %p.item_title
-      ${title.substring(0,50)}
-    %p.item_author
-      ${author.substring(0,50)}
-    .actions
-      {{if !is_set}}
-      .action_left
-        %span.check_box.off
-          = theme_image_tag("icons/button_checkbox_off.png", :alt => _("Auswählen"))
-        %span.favorite_link{:id => "fav_${id}", :title => "Favorit"}
-          %a{:href => "/media_entries/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
-            {{if is_favorite}}
-            = theme_image_tag("icons/button_favorit_on.png")
-            {{else}}
-            = theme_image_tag("icons/button_favorit_off.png")
-            {{/if}}
-      {{/if}}
-      .action_right
-        {{if is_editable}}
-        %a{:href => "/${url_stub}/${id}/edit", :title => "Editieren"}
-          = theme_image_tag("icons/button_edit_active.png")
-        {{else}}
-        = theme_image_tag("icons/button_edit_inactive.png")
-        {{/if}}
-        {{if is_manageable}}
-        %a{:href => "/${url_stub}/${id}", :title => "Löschen", :class => "delete_me", :"data-method" => :delete, :"data-remote" => true, :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher?"}
-          = theme_image_tag("icons/button_delete_active.png")
-        {{else}}
-        = theme_image_tag("icons/button_delete_inactive.png")
-        {{/if}}
-
 :javascript
   $(document).ready(function () {
-    display_tabbed_results(#{json}, '#{type}');
+    display_results(#{json}, '#{type}_results');
   });
