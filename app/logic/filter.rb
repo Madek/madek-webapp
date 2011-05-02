@@ -1,14 +1,16 @@
 class Filter
 
-  attr_accessor :options, :filters, :ts_classes
+  attr_accessor :options, :filters
   def initialize(filter_attributes)
     @filters = filter_attributes
     @options = {:with => {}, :conditions => {}, :per_page => (2**30)}
   end
   
   def to_query_filter
+    ts_classes = [MediaEntry, Media::Set] # ThinkingSphinx.context.indexed_models.collect { |model| model.constantize } # can't use that since it includes Person
     @filters.each_pair do |filter, values|
-      key = filter_or_attribute(filter)
+      all_ts_attributes = ts_classes.map {|model| model::TS_ATTRIBUTE_DEFINITIONS.map {|a| a.first.to_sym } }.flatten.uniq
+      key = all_ts_attributes.include?(filter.to_sym) ? :with : :conditions
       adjusted_value = adjust_values_to_key(key, values)
       next unless adjusted_value
       options[key][filter.to_sym] = adjusted_value
@@ -18,19 +20,6 @@ class Filter
   
   def active_filters
     @options[:with].keys + @options[:conditions].keys
-  end
-  
-  def ts_classes 
-    #@ts_classes ||= ThinkingSphinx.context.indexed_models.collect { |model| model.constantize } # can't use that since it includes Person
-    @ts_classes ||= [MediaEntry, Media::Set]
-  end
-  
-  def all_ts_attributes
-    ts_classes.map {|model| model::TS_ATTRIBUTES }.flatten.uniq
-  end
-  
-  def all_ts_fields
-    (ts_classes.map {|model| model::TS_FIELDS }.flatten.uniq + MetaKey.with_meta_data.map {|key| key.label.parameterize.to_sym}).flatten
   end
   
   def comparison_with_operator(val, operator)
@@ -43,14 +32,6 @@ class Filter
         0..val.to_i
       else
         val.to_i
-    end
-  end
-  
-  def filter_or_attribute(filter_name)
-    if all_ts_attributes.include?(filter_name.to_sym)
-      :with
-    else
-      :conditions
     end
   end
   

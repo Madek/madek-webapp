@@ -1,7 +1,7 @@
 .pagination.loading{:style => "display: none;"}
   &nbsp;
 .clear.loading{:style => "display: none;"}
-- PER_PAGE.first.times do
+- params[:per_page].to_i.times do
   .item_box.loading{:style => "display: none;"}
     .thumb_box
  

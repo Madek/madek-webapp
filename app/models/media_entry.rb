@@ -9,8 +9,6 @@ class MediaEntry < ActiveRecord::Base
   include Resource
   
   TS_ATTRIBUTE_DEFINITIONS += [['height', 'int', 0], ['width', 'int', 0], ['orientation', 'int']]
-  TS_ATTRIBUTES += [:width, :height, :orientation]
-
 
   belongs_to                :media_file, :include => :previews # TODO validates_presence # TODO on destroy, also destroy the media_file if this is the only related media_entry and snapshot
   belongs_to                :upload_session

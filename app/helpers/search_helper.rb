@@ -55,12 +55,12 @@ module SearchHelper
   
   def filter_for_type(type)
     case type
-    when "MediaEntry"
-      @media_entry_filter
-    when "Media::Set"
-      @media_set_filter
-    when "Media::Project"
-      @project_filter
+      when "MediaEntry"
+        @media_entry_filter
+      when "Media::Set"
+        @media_set_filter
+      when "Media::Project"
+        @project_filter
     end
   end
   

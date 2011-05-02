@@ -3,9 +3,8 @@ module Resource
   
   TS_FIELDS = [:user]
   TS_ATTRIBUTE_DEFINITIONS = [['sphinx_internal_id', 'int'], ['class_crc', 'int'], ['sphinx_deleted', 'int', '0'], # required by thinking sphinx
-     ['user_id', 'int'], # association attributes
-     ['updated_at', 'timestamp'], ['media_type', 'int']]
-  TS_ATTRIBUTES = [:sphinx_internal_id, :class_crc, :user_id, :updated_at, :media_type]
+                              ['user_id', 'int'], # association attributes
+                              ['updated_at', 'timestamp'], ['media_type', 'int']]
   
   def self.included(base)
    # TODO observe bulk changes and reindex once
@@ -152,8 +151,10 @@ module Resource
                 xml.tag!(field, resource.send(field))
               end
               
-              self::TS_ATTRIBUTES.each do |attr|
-                xml.tag!(attr, adjust_attr_value_for_sphinx(resource.send(attr)))
+              self::TS_ATTRIBUTE_DEFINITIONS.each do |attr|
+                a = attr.first
+                next if a == 'sphinx_deleted'
+                xml.tag!(a, adjust_attr_value_for_sphinx(resource.send(a)))
               end
 
             end
