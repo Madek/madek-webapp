@@ -39,8 +39,10 @@ class EncodeJob
   
   def start_by_url(url)
 
+    test_mode = 0
+    test_mode = 1 if ENCODING_TEST_MODE == 1
+    
     options = {:base_url => @base_url, :quality => 4, :speed => 2}
-    options.merge!(:test => 1) if ENCODING_TEST_MODE == 1
     if @job_type == "video"
       options.merge!(:video_codec => @video_codec).merge!(@size)
     elsif @job_type == "audio"
@@ -49,7 +51,8 @@ class EncodeJob
     
     outputs = [options]  # You can chain more outputs onto this array
     
-    settings = {:input => url,
+    settings = {:test => test_mode,
+                :input => url,
                 :outputs => outputs}
 
     response = Zencoder::Job.create(settings)
