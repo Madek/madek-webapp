@@ -2,7 +2,6 @@
   %h3.filter_category.filter_header.clearfix
     %span.ui-icon.ui-icon-triangle-1-e
     = link_to "Medieneinträge filtern", "#", :class => "filter_category_link"
-  - type = media.first.class.base_class.name
   - style = (type == @active_filter_type) ? "display: block;" : "display: none"
   .filter_content{:style => style}
     %form{:action => search_path, :method => :get}
@@ -47,13 +46,7 @@
                       = label_tag "#{type}[height][value]", "Höhe"
                       = select_tag "#{type}[height][operator]", options_for_select({'ist genau' => 'is', 'grösser als' => 'gt', 'kleiner als' => 'lt'}, :selected => height_operator), :include_blank => true
                       = text_field_tag "#{type}[height][value]", height_value, :size => 10
-            =#0205# display_meta_data_checkboxes(media, "keywords", "Schlagworte")
-            = display_meta_data_checkboxes_2(@meta_term_ids, "keywords")
-            - if type == "MediaEntry"
-              = display_meta_data_checkboxes(media, "type", "Gattung")
-              = display_meta_data_checkboxes(media, "academic year", "Studienjahr")
-              = display_meta_data_checkboxes(media, "project type", "Projekttyp")
-              = display_meta_data_checkboxes(media, "institutional affiliation", "Bereich ZHdK")
+            = display_meta_data_checkboxes(media, type) 
           .filter_footer
             = submit_tag _("Filter anwenden"), :title => "Filtern", :id => 'search-submit', :name => nil
             - if @active_filter

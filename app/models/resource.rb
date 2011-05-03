@@ -4,7 +4,6 @@ module Resource
   TS_FIELDS = [:user]
   TS_ATTRIBUTE_DEFINITIONS = [['sphinx_internal_id', 'int'], ['class_crc', 'int'], ['sphinx_deleted', 'int', '0'], # required by thinking sphinx
                               ['user_id', 'int'], # association attributes
-                              ['keywords_facet', 'multi'], # facets
                               ['updated_at', 'timestamp'], ['media_type', 'int']]
   
   def self.included(base)
@@ -169,8 +168,6 @@ module Resource
   
     def base.adjust_attr_value_for_sphinx(val)
       case val
-        when Array
-          val.join(',') #0205# TODO .to_i # val.map {|x| x.to_s.to_crc32 }
         when ActiveSupport::TimeWithZone
           val.to_i
         when String
@@ -355,12 +352,6 @@ module Resource
 
   def class_crc
     self.class.base_class.to_crc32 #old#.to_s
-  end
-
-  def keywords_facet
-    keywords = meta_data.get("keywords").deserialized_value
-    meta_term_ids = keywords.collect(&:meta_term_id)
-    meta_term_ids
   end
 
 ########################################################
