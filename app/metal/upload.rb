@@ -31,6 +31,11 @@ class Upload
 
           files.each do |f|
             uploaded_data = if params['uploaded_data']
+            supplied_type = f[:type]
+            detected_type = `#{FILE_UTIL_PATH} "#{f[:tempfile].path}"`.split(";").first.gsub(/\n/,"")
+            if supplied_type != detected_type
+              f[:type] = detected_type
+            end
               f
             else
               { :type=> `#{FILE_UTIL_PATH} "#{f}"`.split(";").first.gsub(/\n/,""),
