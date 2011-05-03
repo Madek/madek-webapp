@@ -142,13 +142,7 @@ def fill_in_person_widget(list_element, value, options = "")
     id_prefix = list_element["data-meta_key"]
     field = list_element.find("##{id_prefix}_autocomplete_search")
     fill_in field[:id], :with => value
-enter_script = <<HERE
-var e = jQuery.Event("keypress");
-e.keyCode = $.ui.keyCode.ENTER;
-e.which = $.ui.keyCode.ENTER;
-$("##{field[:id]}").trigger(e);
-HERE
-     page.execute_script(enter_script)
+    press_enter_in(field[:id])
   elsif options == "pseudonym field"
     list_element.find(".dialog_link").click
     fill_in "Pseudonym", :with => value
@@ -192,13 +186,7 @@ def fill_in_keyword_widget(list_element, value, options = "")
   else
     field = list_element.find("#keywords_autocomplete_search")
     fill_in field[:id], :with => value
-enter_script = <<HERE
-var e = jQuery.Event("keypress");
-e.keyCode = $.ui.keyCode.ENTER;
-e.which = $.ui.keyCode.ENTER;
-$("##{field[:id]}").trigger(e);
-HERE
-     page.execute_script(enter_script)
+    press_enter_in(field[:id])
   end
 end
 
@@ -298,6 +286,17 @@ def pick_from_autocomplete(text)
       end
     end
   end
+end
+
+
+def press_enter_in(field_id)
+enter_script = <<HERE
+var e = jQuery.Event("keypress");
+e.keyCode = $.ui.keyCode.ENTER;
+e.which = $.ui.keyCode.ENTER;
+$("##{field_id}").trigger(e);
+HERE
+  page.execute_script(enter_script)
 end
 
 # Uploads a picture with a given title and a fixed copyright string.

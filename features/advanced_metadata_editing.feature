@@ -172,7 +172,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      Then I should see "leia, beach, sun, fun"
 
 
-  @javascript @work
+  @javascript
   Scenario: Using the MAdeK multi-select widget
     When I log in as "hansolo" with password "leia"
      And I upload some picture titled "Millenium Falcon, Front View"

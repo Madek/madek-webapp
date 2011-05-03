@@ -62,7 +62,7 @@ Feature: Create and edit workgroups
      Then I should not see "Duck, Daffy"
 
 
-  @javascript @work
+  @javascript
   Scenario: Try to create a group without a name and fail
     When I log in as "porky" with password "piggy"
      And I click the arrow next to "Pig, Porky"

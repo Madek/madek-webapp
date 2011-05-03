@@ -211,6 +211,9 @@ When /^I click the delete icon on the media entry titled "([^"]*)"$/ do |title|
   sleep(0.5)
 end
 
+When /^I press enter in the input field "([^"]*)"$/ do |field|
+  press_enter_in(field)
+end
 
 When "I toggle the favorite star on this media entry" do
   find(:css, ".favorite_link").find("a").click
@@ -226,6 +229,24 @@ When "I make sure I'm logged out" do
     Then 'I follow "Abmelden"'
   end
 end
+
+When /I filter by "([^"]*)" in "([^"]*)"$/ do |choice, category|
+  header = find("h3.filter_category", :text => category)  
+  header.find("a.filter_category_link").click
+  # Finds the div underneath the h3 title, so that we can manipulate the form there (e.g. click some checkboxes to
+  # filter by controlled vocabulary)
+  form_div = find("#filter-query").find(:xpath, ".//h3[contains(.,'#{category}')]/following::*")
+  lis = form_div.all("li")
+  lis.each do |li|
+    unless li.text.match(choice).nil?
+      cb = li.find("input")
+      cb.click unless cb[:checked] == "true"
+    end
+  end
+  
+  #debugger; puts "lala"
+end
+
 
 Then "the box should have a hires download link" do
     find(:css, "tr.download-unit").all("a").count.should == 1
