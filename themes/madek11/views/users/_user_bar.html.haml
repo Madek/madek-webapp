@@ -6,6 +6,7 @@
     .sub_menu
       = link_to _("Meine Medieneinträge"), user_media_entries_path(current_user)
       = link_to _("Meine Sets"), user_media_sets_path(current_user)
+      = link_to _("Meine Projekte"), user_media_sets_path(current_user, :type => "projects")
       = link_to _("Meine Favoriten"), favorites_media_entries_path
       = link_to _("Kopien für MIZ-Archiv"), snapshots_path if current_user.groups.is_member?("MIZ-Archiv")
       = link_to _("Meine Arbeitsgruppen"), groups_path, :class => "item_line"

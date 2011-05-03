@@ -8,17 +8,21 @@ class MediaSetsController < ApplicationController
   def index
     ids = current_user.accessible_resource_ids(:view, "Media::Set")
 
-    @media_sets, @my_media_sets, @index_title = if @media_set
+    @media_sets, @my_media_sets, @my_title, @other_title = if @media_set
       # all media_sets I can see, nested within a media set (for now only used with featured sets)
-      [@media_set.children.where(:id => ids), nil, "#{@media_set}"]
+      [@media_set.children.where(:id => ids), nil, "#{@media_set}", nil]
     elsif @user and @user != current_user
       # all media_sets I can see that have been created by another user
-      [@user.media_sets.where(:id => ids), nil, "Sets von %s" % @user]
+      [@user.media_sets.where(:id => ids), nil, "Sets von %s" % @user, nil]
     else # TODO elsif @user == current_user
       # all media sets I can see that have not been created by me
-      [Media::Set.where(:id => ids).where("user_id != ?", current_user), current_user.media_sets.where(:id => ids), "Meine Sets"]
+      [Media::Set.where(:id => ids).where("user_id != ?", current_user), current_user.media_sets.where(:id => ids), "Meine Sets", "Weitere Sets"]
     # else
       # TODO
+    end
+
+    if params[:type] == "projects"
+      @media_sets, @my_media_sets, @my_title, @other_title = [@media_sets.projects, @my_media_sets.projects, "Meine Projekte", "Weitere Projekte"]
     end
 
     respond_to do |format|
