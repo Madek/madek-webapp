@@ -21,8 +21,7 @@ module MetaDataHelper
   def display_project_abstract(project)
     meta_data = project.abstract
     return if meta_data.blank?
-    contexts = project.individual_contexts + MetaContext.defaults
-    #contexts = (project.individual_contexts + MetaContext.all).uniq
+    contexts = project.individual_contexts
     capture_haml do
       haml_tag :div, :style => "border-top: 1px solid silver; padding-top: 1em;" do
         haml_tag :h3, "Abstrakt"

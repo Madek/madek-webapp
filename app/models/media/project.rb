@@ -11,8 +11,11 @@ class Media::Project < Media::Set
   end
 
   def abstract
-    h = {} 
-    media_entries.collect(&:meta_data).flatten.each do |md|
+    meta_key_ids = individual_contexts.map(&:meta_key_ids).flatten
+    h = {}
+    #old# mds = media_entries.collect{|me| me.meta_data.where(:meta_key_id => meta_keys) }.flatten
+    mds = MetaDatum.where(:meta_key_id => meta_key_ids, :resource_type => "MediaEntry", :resource_id => media_entry_ids)
+    mds.each do |md|
       h[md.meta_key_id] ||= [] # TODO md.meta_key
       h[md.meta_key_id] << md.value
     end
