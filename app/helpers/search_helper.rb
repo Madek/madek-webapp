@@ -32,6 +32,38 @@ module SearchHelper
       return a.html_safe
     end
   end
+
+  #0205#
+  def display_meta_data_checkboxes_2(meta_term_ids, label)
+    h = {}
+    meta_term_ids.each {|x| h[x] ||= 0; h[x] += 1 }
+    s = h.sort {|a,b| b[1] <=> a[1] }
+    all_words = s.map {|x| [Meta::Term.find(x.first).to_s, x.last] }
+    meta_key = MetaKey.where(:label => label).first
+
+    unless all_words.empty?
+      a = content_tag :h3, :class => "filter_category clearfix" do
+        b = content_tag(:span, nil, :class => "ui-icon ui-icon-triangle-1-e")
+        #0205#
+        b += link_to "#{meta_key}", "#", :class => "filter_category_link"
+        b += link_to "(zurücksetzen)", "#", :class => "reset_filter"
+      end
+      type = "MediaEntry" #0205# media.first.class.base_class.name
+      a += content_tag :div, :class => "filter_content", :style => display_style(type, label) do
+        b = content_tag :ul do
+          c = ''
+          all_words.each do |word|
+            c += content_tag :li do
+              d = check_box_tag "#{type}[#{label.parameterize('_')}][]", word.first, should_be_checked?(label, word.first, type)
+              d += "#{word.first} (#{word.last})"
+            end
+          end
+          c.html_safe
+        end
+      end
+      return a.html_safe
+    end
+  end
   
   def display_style(type, meta_key)
     if (type == @active_filter_type) && filter_for_type(@active_filter_type).active_filters.include?(meta_key.parameterize('_').to_sym)

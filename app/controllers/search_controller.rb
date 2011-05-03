@@ -19,10 +19,13 @@ class SearchController < ApplicationController
 
     @media_entry_filter = Filter.new(params["MediaEntry"] || {})
     search_options = @media_entry_filter.to_query_filter
-    all_media_entry_ids = MediaEntry.search_for_ids(@search_term, search_options)
-    @paginated_media_entry_ids = (all_media_entry_ids & viewable_media_entry_ids).paginate(:page => params[:page], :per_page => params[:per_page])
+    search_result = MediaEntry.search_for_ids(@search_term, search_options)
+    ids = (search_result & viewable_media_entry_ids)
+    @paginated_media_entry_ids = ids.paginate(:page => params[:page], :per_page => params[:per_page])
     @media_entries = MediaEntry.includes(:media_file).where(:id => @paginated_media_entry_ids)
     @media_entries_json = Logic.enriched_resource_data(@paginated_media_entry_ids, @media_entries, current_user, "MediaEntry").to_json
+    #0205#
+    @meta_term_ids = search_result.results[:matches].map{|x| x[:attributes] }.select{|x| ids.include?(x['sphinx_internal_id']) }.map{|x| x['keywords_facet'] }.flatten
     
     @media_set_filter = Filter.new(params["Media::Set"] || {})
     search_options = @media_set_filter.to_query_filter

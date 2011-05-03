@@ -47,7 +47,8 @@
                       = label_tag "#{type}[height][value]", "Höhe"
                       = select_tag "#{type}[height][operator]", options_for_select({'ist genau' => 'is', 'grösser als' => 'gt', 'kleiner als' => 'lt'}, :selected => height_operator), :include_blank => true
                       = text_field_tag "#{type}[height][value]", height_value, :size => 10
-            = display_meta_data_checkboxes(media, "keywords", "Schlagworte")
+            =#0205# display_meta_data_checkboxes(media, "keywords", "Schlagworte")
+            = display_meta_data_checkboxes_2(@meta_term_ids, "keywords")
             - if type == "MediaEntry"
               = display_meta_data_checkboxes(media, "type", "Gattung")
               = display_meta_data_checkboxes(media, "academic year", "Studienjahr")
