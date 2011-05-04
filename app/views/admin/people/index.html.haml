@@ -1,0 +1,9 @@
+%table
+  %tr
+    - [_("Firstname"), _("Lastname"), _("User"), _("MetaData"), ""].each do |s|
+      %th= s
+  - @people.each_with_index do |person, index|
+    %tr{:class => ((index % 2).zero? ? "even" : "odd")}
+      - [person.firstname, person.lastname, "", "#{person.meta_data.count}",
+        link_to(_("Edit"), edit_admin_person_path(person), :class => "buttons", :remote => true, :"data-type" => "html")].each do |s|
+        %td= s

@@ -47,7 +47,7 @@ class Filter
       elsif key == :conditions
         # need to contain terms with spaces or dashes in (escaped) double quotes
         escaped_values = values.map {|val| val =~ /[\s-]/ ? "\"#{val}\"" : val }
-        escaped_values.join("|")
+        escaped_values.join("&") # & for intersection # | for union
       else
         values
       end
