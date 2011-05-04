@@ -28,8 +28,8 @@ module SearchHelper
     
         h = {}
         meta_term_ids.each {|x| h[x] ||= 0; h[x] += 1 }
-        s = h.sort {|a,b| b[1] <=> a[1] }
-        all_words = s.map {|x| [Meta::Term.find(x.first).to_s, x.last] }
+        s = h.map {|id, count| [Meta::Term.find(id).to_s, count] }
+        all_words = s.sort {|a,b| [b[1], a[0]] <=> [a[1], b[0]] }
       
         unless all_words.empty?
           haml_tag :h3, :class => "filter_category clearfix" do
