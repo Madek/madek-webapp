@@ -40,7 +40,7 @@ module MediaSetsHelper
 
   def media_sets_list(media_sets)
     capture_haml do
-      haml_tag :h4, _("In Sets enhalten"), :style => "margin: 80px 0 1em 0;"
+      haml_tag :h4, _("In Sets enthalten"), :style => "margin: 15px 0 10px 0;"
       media_sets.each do |media_set|
         #2001# media_entries = media_set.media_entries.select {|media_entry| Permission.authorized?(current_user, :view, media_entry)}
         #2001# media_set_title(media_set, media_entries, true)

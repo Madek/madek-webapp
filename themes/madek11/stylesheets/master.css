@@ -1104,7 +1104,7 @@ button.dark:hover {
   -moz-box-shadow: 0 0 4px rgba(150, 150, 150, 0.2);
   box-shadow: 0 0 4px rgba(150, 150, 150, 0.2);
   margin-top: -10px;
-  margin-bottom: -30px;
+  margin-bottom: -50px;
   padding-top: 20px;
   position: relative;
   display: inline-block; }
@@ -1709,10 +1709,12 @@ form#set_media_sets input[type="submit"] {
   #detail-excerpt span {
     letter-spacing: 0.1ex; }
   #detail-excerpt .set-box {
-    padding: 15px; }
+    padding: 15px;
+    font-size: 0.9em;
+    letter-spacing: 0.1ex; }
   #detail-excerpt .set-box span {
     letter-spacing: 0;
-    background: url(/themes/madek11/images/icons/icon_set_small.png) top left no-repeat;
+    background: url(/themes/madek11/images/icons/icon_set_small.png) center left no-repeat;
     padding-left: 20px; }
 
 #detail-image img {
@@ -2128,15 +2130,15 @@ table.meta_data td {
 
 /* Messages */
 .notice, .error {
-  z-index: 998;
-  font-size: 0.8em;
+  z-index: 999;
+  font-weight: bold;
   line-height: 1.4em;
-  text-align: left;
+  text-align: center;
   padding: 10px;
   margin-left: 0;
   position: absolute;
   top: 58px;
-  font-family: "Courier New",Courier,mono;
+  /*font-family: "Courier New",Courier,mono;*/
   -webkit-box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
   -moz-box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
   box-shadow: 0 0 4px rgba(150, 150, 150, 0.5); }
@@ -2144,12 +2146,12 @@ table.meta_data td {
 .notice_tms {
   display: block;
   background: #FEFFD7;
-  padding: 10px;
+  padding: 10px 15px;
   margin-top: 15px;
   font-size: 0.8em;
   line-height: 1.4em;
-  /*letter-spacing: 0.1ex;*/
-  font-family: "Courier New",Courier,mono;
+  letter-spacing: 0.1ex;
+  /*font-family: "Courier New",Courier,mono;*/
   -webkit-box-shadow: 0 0 1px rgba(150, 150, 150, 0.5);
   -moz-box-shadow: 0 0 1px rgba(150, 150, 150, 0.5);
   box-shadow: 0 0 1px rgba(150, 150, 150, 0.5); }
@@ -2268,10 +2270,14 @@ table.permissions tr.adder input {
 
 /* Sidebar */
 .set-box {
-  margin-top: 10px;
+  margin-bottom: 10px;
   background-color: #f4f4f4;
   padding: 15px 30px 15px 30px;
-  font-size: 0.9em; }
+  letter-spacing: 0.1ex;
+  /*font-size: 0.9em;*/ }
+
+.set-box span {
+  letter-spacing: 0; }
 
 #sidebar-box {
   margin-top: 10px; }
