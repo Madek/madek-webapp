@@ -1,7 +1,7 @@
 %table
   %tr
     %td{:colspan => (LANGUAGES.size + 1), :style => "text-align: right; white-space: nowrap;"}
-      = link_to _("New Term"), new_admin_term_path, :class => "buttons", :"data-remote" => true
+      = link_to _("New Term"), new_admin_term_path, :class => "buttons", :remote => true, :"data-type" => "html"
   %tr
     - LANGUAGES.each do |lang|
       %th
@@ -17,6 +17,6 @@
       %td
         = term.is_used?
       %td.with_actions
-        = link_to _("Edit"), edit_admin_term_path(term), :class => "buttons", :"data-remote" => true
+        = link_to _("Edit"), edit_admin_term_path(term), :class => "buttons", :remote => true, :"data-type" => "html"
         %br
         = link_to _("Delete"), admin_term_path(term), :class => "buttons", :method => :delete, :confirm => _("Sind Sie sicher?") unless term.is_used?
