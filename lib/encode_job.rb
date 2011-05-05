@@ -26,7 +26,7 @@ class EncodeJob
     config = YAML::load(File.open(Rails.root + "config/zencoder.yml"))
     api_key = config['zencoder']['api_key']
     @base_url = config['zencoder']['ftp_base_url']
-    @size ||= { :width => 640 }
+    @size ||= { :width => 620 }
     @video_codec ||= "vp8"
     @audio_codec ||= "vorbis"
     @job_type ||= "video"
