@@ -51,8 +51,8 @@
       {{else is_private}}
       = theme_image_tag("icons/icon_button_perm.png")
       {{/if}}
-    %div.thumb_box
-      %a{:href => "/media_entries/${id}"}
+    %a{:href => "/media_entries/${id}"}
+      %div.thumb_box
         %img{:src => "${thumb_base64}"}
     %p.item_title
       ${title.substring(0,50)}
