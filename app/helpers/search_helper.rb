@@ -1,7 +1,7 @@
 module SearchHelper
   
   def display_meta_data_checkboxes(resource_ids, type)
-    resources = type.constantize.find(resource_ids) # TODO ?? include(:meta_data)
+    resources = type.constantize.where(:id => resource_ids) # TODO ?? include(:meta_data)
 
     meta_key_labels = [ ["keywords", "Schlagworte"],
                         ["type", "Gattung"],
