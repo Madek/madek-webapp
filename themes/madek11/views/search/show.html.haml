@@ -56,9 +56,9 @@
   .page_title_left
     =_("Suchergebnisse")
     #term
-      für &quot;
+      für &#8220;
       = @search_term
-      &quot;
+      &#8221;
   .clear
   - if [@media_entries, @media_sets, @projects].all? {|x| x.nil? }
     = "Ihre Suche nach “#{@search_term}” hat keine Resultate ergeben."
