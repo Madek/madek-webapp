@@ -13,12 +13,12 @@
       = theme_image_tag("icons/icon_button_perm.png")
       {{/if}}
     {{if is_set}}
-    %div.thumb_box_set
-      %a{:href => "/media_sets/${id}"}
+    %a{:href => "/media_sets/${id}"}
+      %div.thumb_box_set
         %img{:src => "${thumb_base64}"}
     {{else}}
-    %div.thumb_box
-      %a{:href => "/media_entries/${id}"}
+    %a{:href => "/media_entries/${id}"}
+      %div.thumb_box
         %img{:src => "${thumb_base64}"}
     {{/if}}
     %p.item_title
@@ -56,9 +56,7 @@
   .page_title_left
     =_("Suchergebnisse")
     #term
-      für &quot;
-      = @search_term
-      &quot;
+      = "für “#{@search_term}”"
   .clear
   - if [@media_entries, @media_sets, @projects].all? {|x| x.nil? }
     = "Ihre Suche nach “#{@search_term}” hat keine Resultate ergeben."

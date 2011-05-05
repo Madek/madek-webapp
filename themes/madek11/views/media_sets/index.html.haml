@@ -1,3 +1,12 @@
+:ruby
+  icon_src = case params[:type]
+    when "projects"
+      "/themes/madek11/images/icons/icon_set_old.png"
+    else
+      "/themes/madek11/images/icons/icon_set.png"
+  end
+    
+
 - unless @media_set
   - if params[:type] != "projects"
     .container_12.clearfix
@@ -32,7 +41,7 @@
     %section#content_body.clearfix
       %div.page_title_left
         - if @media_sets
-          %img{:src => "/themes/madek11/images/icons/icon_set.png"}
+          %img{:src => icon_src}
           %a{:id => "meine", :name => "meine", :href => "#"}
           = @my_title
       .pagination
@@ -46,7 +55,7 @@
     %section#content_body2.clearfix
       %div.page_title_left
         %a{:id => "weitere", :name => "weitere", :href => "#"}
-        %img{:src => "/themes/madek11/images/icons/icon_set.png"}
+        %img{:src => icon_src}
         = @other_title
       .pagination   
         %a{:href => "#meine"}
@@ -55,11 +64,11 @@
       .clear
       = render :partial => "media_set", :collection => @media_sets
 
-- else
+- else # FeaturedSet
   .container_12.clearfix
     %section#content_body.clearfix
       %div.page_title_left
-        %img{:src => "/themes/madek11/images/icons/icon_set.png"}
+        %img{:src => icon_src}
         = @my_title
       .clear
       - if @media_sets.any?
