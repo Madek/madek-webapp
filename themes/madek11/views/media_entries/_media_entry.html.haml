@@ -88,7 +88,7 @@
                   %td= "#{_("%s Uhr") % media_entry.snapshots.first.created_at.to_formatted_s(:date_time)}"
               
   #detail-sidebar.grid_4.omega
-    %h3.title{:style => "margin: -3px 20px 80px 0;"}
+    %h2.title{:style => "margin: -3px 20px 80px 0;"}
       = render :partial => "/meta_data/show", :locals => { :meta_datum => media_entry.meta_data.get("title"), :resource => media_entry, :context => nil } 
     #detail-excerpt.sidebar-box
       - context = MetaContext.core
