@@ -26,6 +26,15 @@ class Admin::KeysController < Admin::AdminController # TODO rename to Admin::Met
   end
 
   def update
+    params[:reassign_term_id].each_pair do |k, v|
+      next if v.blank?
+      from = @key.meta_terms.find(k)
+      to = @key.meta_terms.find(v)
+      next if from == to
+      from.reassign_meta_data_to_term(to, @key)
+      params[:meta_key][:meta_terms_attributes].values.detect{|x| x[:id].to_i == from.id}[:_destroy] = 1
+    end
+    
     meta_term_attributes = params[:meta_key].delete(:meta_terms_attributes)
     meta_term_attributes.each_value do |h|
       if h[:id].nil? and LANGUAGES.all? {|l| not h[l].blank? }

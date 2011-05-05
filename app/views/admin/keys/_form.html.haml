@@ -16,19 +16,22 @@
             - f.object.meta_terms.build
             = f.fields_for :meta_terms do |term_f|
               %li{:style => "padding-bottom: 1em;"}
+                Term id:
+                %b= term_f.object.id
+                - if used_term_ids.include?(term_f.object.id)
+                  Used, merge to:
+                  = text_field_tag "reassign_term_id[#{term_f.object.id}]", nil, :style => "width: 3em"
+                - elsif not term_f.object.new_record?
+                  = term_f.check_box '_destroy'
+                  = term_f.label '_destroy', _("Delete")
                 - LANGUAGES.each do |lang|
+                  %br
                   = lang
                   \:
                   - if term_f.object.new_record?
                     = term_f.text_field lang
                   - else
                     = term_f.object.send(lang)
-                  %br
-                - if used_term_ids.include?(term_f.object.id)
-                  Used
-                - elsif not term_f.object.new_record?
-                  = term_f.check_box '_destroy'
-                  = term_f.label '_destroy', _("Delete")
       %tr
         %th
         %td

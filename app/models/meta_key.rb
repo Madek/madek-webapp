@@ -116,12 +116,9 @@ class MetaKey < ActiveRecord::Base
 
 ########################################################
 
+  # TODO refactor to association has_many :used_meta_terms, :through ...
   def used_term_ids
-    if object_type == "Meta::Term"
-      meta_data.collect do |x|
-        x.value
-      end.flatten.uniq.compact
-    end
+    meta_data.collect(&:value).flatten.uniq.compact if object_type == "Meta::Term"
   end
 
 end

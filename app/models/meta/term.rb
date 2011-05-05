@@ -18,13 +18,15 @@ module Meta
     end
   
   ######################################################
-  
-    def meta_data
-      meta_keys.collect(&:meta_data).flatten.select {|x| x.value.include?(self.id) }
+
+    # TODO refactor to has_many through association ??
+    # TODO include keywords ??
+    def meta_data(meta_key = nil)
+      meta_keys.collect(&:meta_data).flatten.select {|x| x.value.include?(self.id) and (meta_key.nil? or x.meta_key == meta_key) }
     end
-  
-    def reassign_meta_data_to_term(term)
-      meta_data.each do |md|
+    
+    def reassign_meta_data_to_term(term, meta_key = nil)
+      meta_data(meta_key).each do |md|
         md.value.map! do |x|
           if x == self.id
             term.id
@@ -62,7 +64,7 @@ module Meta
     def validations
       errors.add_to_base("A term cannot be blank") if LANGUAGES.all? {|lang| send(lang).blank? }
     end
-  
+
   end
 
 end
