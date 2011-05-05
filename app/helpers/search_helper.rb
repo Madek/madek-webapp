@@ -1,7 +1,7 @@
 module SearchHelper
   
   def display_meta_data_checkboxes(resource_ids, type)
-    resources = type.constantize.where(:id => resource_ids) # TODO ?? include(:meta_data)
+    resources = type.constantize.find(resource_ids) # TODO ?? include(:meta_data)
 
     meta_key_labels = [ ["keywords", "Schlagworte"],
                         ["type", "Gattung"],
@@ -28,7 +28,7 @@ module SearchHelper
     
         h = {}
         meta_term_ids.each {|x| h[x] ||= 0; h[x] += 1 }
-        s = h.map {|id, count| [Meta::Term.find(id).to_s, count] }
+        s = h.map {|id, count| term = Meta::Term.where(:id => id).first.to_s; term ? [term, count] : nil }.compact
         all_words = s.sort {|a,b| [b[1], a[0]] <=> [a[1], b[0]] }
       
         unless all_words.empty?
