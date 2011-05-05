@@ -26,7 +26,16 @@ class EncodeJob
     config = YAML::load(File.open(Rails.root + "config/zencoder.yml"))
     api_key = config['zencoder']['api_key']
     @base_url = config['zencoder']['ftp_base_url']
-    @size ||= { :width => 620 }
+    begin
+      max_width = THUMBNAILS[:large].split("x").first
+    rescue
+      # If THUMBNAILS is undefined, the previous statement will raise a NameError, so let's set the width here
+      max_width = 620
+    ensure
+      # And if it hasn't been set until now, let's set a reasonable default
+      max_width ||= 620
+    end
+    @size ||= { :width => max_width }
     @video_codec ||= "vp8"
     @audio_codec ||= "vorbis"
     @job_type ||= "video"
