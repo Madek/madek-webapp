@@ -26,21 +26,28 @@ class Admin::KeysController < Admin::AdminController # TODO rename to Admin::Met
   end
 
   def update
+    meta_terms_attributes = params[:meta_key].delete(:meta_terms_attributes)
+
     params[:reassign_term_id].each_pair do |k, v|
       next if v.blank?
       from = @key.meta_terms.find(k)
       to = @key.meta_terms.find(v)
       next if from == to
       from.reassign_meta_data_to_term(to, @key)
-      params[:meta_key][:meta_terms_attributes].values.detect{|x| x[:id].to_i == from.id}[:_destroy] = 1
+      meta_terms_attributes.values.detect{|x| x[:id].to_i == from.id}[:_destroy] = 1
     end
-    
-    meta_term_attributes = params[:meta_key].delete(:meta_terms_attributes)
-    meta_term_attributes.each_value do |h|
+
+    positions = CGI.parse(params[:term_positions])["position[]"]
+    positions.each_with_index do |id, i|
+      # meta_terms_attributes.values.detect{|x| x[:id].to_i == id.to_i}[:position] = i+1
+      @key.meta_key_meta_terms.where(:meta_term_id => id).first.update_attributes(:position => i+1)
+    end
+
+    meta_terms_attributes.each_value do |h|
       if h[:id].nil? and LANGUAGES.all? {|l| not h[l].blank? }
         term = Meta::Term.find_or_create_by_en_GB_and_de_CH(h)
         @key.meta_terms << term
-        h[:id] = term.id
+        #old??# h[:id] = term.id
       elsif h[:_destroy].to_i == 1
         term = @key.meta_terms.find(h[:id])
         @key.meta_terms.delete(term)

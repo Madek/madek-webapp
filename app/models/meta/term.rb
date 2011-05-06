@@ -5,8 +5,8 @@ module Meta
   end
 
   class Term < ActiveRecord::Base
-    has_and_belongs_to_many :meta_keys, :join_table => :meta_keys_meta_terms,
-                                        :foreign_key => :meta_term_id
+    has_many :meta_key_meta_terms
+    has_many :meta_keys, :through => :meta_key_meta_terms, :foreign_key => :meta_term_id
 
     #tmp# has_many :keywords, :foreign_key => :meta_term_id
     

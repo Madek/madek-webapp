@@ -1,5 +1,6 @@
 - used_term_ids = @key.used_term_ids
 = form_for @key, :url => path do |f|
+  = hidden_field_tag :term_positions
   %table
     %tr
       %th= f.label :label
@@ -12,10 +13,13 @@
         %th
           Terms
         %td
-          %ul
+          %ul.sortable
             - f.object.meta_terms.build
             = f.fields_for :meta_terms do |term_f|
-              %li{:style => "padding-bottom: 1em;"}
+              %li{:style => "padding-bottom: 1em;", :id => (term_f.object.new_record? ? nil : "position_#{term_f.object.id}")}
+                - unless term_f.object.new_record?
+                  = term_f.hidden_field :id # NOTE placeholder for the hidden id used by fields_for
+                  %span.ui-icon.ui-icon-arrowthick-2-n-s.handler
                 Term id:
                 %b= term_f.object.id
                 - if used_term_ids.include?(term_f.object.id)
@@ -41,3 +45,14 @@
       %td
       %td= f.submit submit
 
+:javascript
+  $(document).ready(function(){
+    $("ul.sortable").sortable({
+      handle: 'span.handler',
+      axis: 'y'
+    });
+
+    $('form.edit_meta_key').submit(function(){
+      $('#term_positions').val($("ul.sortable").sortable("serialize"));
+    });     
+  });

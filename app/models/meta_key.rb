@@ -13,9 +13,13 @@ class MetaKey < ActiveRecord::Base
     end
   end
   has_many :meta_contexts, :through => :meta_key_definitions
-  has_and_belongs_to_many :meta_terms, :class_name => "Meta::Term",  # TODO enforce object_type="Meta::Term" if meta_terms
-                                       :join_table => :meta_keys_meta_terms,
-                                       :association_foreign_key => :meta_term_id
+
+#old#
+#  has_and_belongs_to_many :meta_terms, :class_name => "Meta::Term",  # TODO enforce object_type="Meta::Term" if meta_terms
+#                                       :join_table => :meta_keys_meta_terms,
+#                                       :association_foreign_key => :meta_term_id
+  has_many :meta_key_meta_terms
+  has_many :meta_terms, :through => :meta_key_meta_terms, :order => :position
   accepts_nested_attributes_for :meta_terms, :reject_if => proc { |attributes| LANGUAGES.all? {|l| attributes[l].blank? } } #old# , :allow_destroy => true
 
   validates_uniqueness_of :label

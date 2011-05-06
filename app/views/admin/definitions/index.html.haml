@@ -53,6 +53,7 @@
 	$(document).ready(function(){
 		$("tbody.sortable").sortable({
 		  handle: 'td.handler',
+		  axis: 'y',
 			update: function(event, ui){
 				$.ajax({
 					url: "#{reorder_admin_context_definitions_path(@context)}",
