@@ -7,7 +7,11 @@
       %td= f.text_field :label
     %tr
       %th= f.label :object_type
-      %td= f.select :object_type, MetaKey.object_types.collect {|o| [o, o]}, { :include_blank => true }
+      %td
+        - if f.object.object_type.nil?
+          = f.select :object_type, MetaKey.object_types.collect {|o| [o, o]}, { :include_blank => true }
+        - else
+          = f.object.object_type
     - if f.object.object_type == "Meta::Term"
       %tr
         %th

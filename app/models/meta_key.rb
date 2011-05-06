@@ -29,8 +29,17 @@ class MetaKey < ActiveRecord::Base
 
 ########################################################
 
-  before_save do |record|
-    record.object_type = nil if record.object_type.blank? 
+  before_save do
+    if object_type.blank?
+      self.object_type = nil
+    elsif object_type_changed?
+      case object_type
+        when "Meta::Term"
+          self.is_extensible_list = true
+          meta_data.each {|md| md.update_attributes(:value => md.value) }
+        # TODO when... else
+      end
+    end
   end
 
   def to_s

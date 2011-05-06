@@ -35,12 +35,14 @@ class Admin::KeysController < Admin::AdminController # TODO rename to Admin::Met
       next if from == to
       from.reassign_meta_data_to_term(to, @key)
       meta_terms_attributes.values.detect{|x| x[:id].to_i == from.id}[:_destroy] = 1
-    end
+    end if params[:reassign_term_id]
 
-    positions = CGI.parse(params[:term_positions])["position[]"]
-    positions.each_with_index do |id, i|
-      # meta_terms_attributes.values.detect{|x| x[:id].to_i == id.to_i}[:position] = i+1
-      @key.meta_key_meta_terms.where(:meta_term_id => id).first.update_attributes(:position => i+1)
+    if params[:term_positions]
+      positions = CGI.parse(params[:term_positions])["position[]"]
+      positions.each_with_index do |id, i|
+        # meta_terms_attributes.values.detect{|x| x[:id].to_i == id.to_i}[:position] = i+1
+        @key.meta_key_meta_terms.where(:meta_term_id => id).first.update_attributes(:position => i+1)
+      end
     end
 
     meta_terms_attributes.each_value do |h|
@@ -52,7 +54,7 @@ class Admin::KeysController < Admin::AdminController # TODO rename to Admin::Met
         term = @key.meta_terms.find(h[:id])
         @key.meta_terms.delete(term)
       end
-    end
+    end if meta_terms_attributes
  
     @key.update_attributes(params[:meta_key])
     redirect_to admin_keys_path
