@@ -153,6 +153,13 @@ task :record_deploy_info do
   run "echo 'Deployed on #{deploy_date}' > #{release_path}/app/views/layouts/_deploy_info.erb"
 end
 
+task :clear_cache do
+  # We have to run it this way (in a subshell) because Rails.cache is not available
+  # in Rake tasks, otherwise we could stick a task into lib/tasks/madek.rake
+  run "cd #{release_path} && RAILS_ENV=production bundle exec rails runner 'Rails.cache.clear'"
+end
+
+
 after "deploy:symlink", :link_config
 before "configure_sphinx", :link_sphinx
 after "deploy:symlink", :configure_sphinx
@@ -162,6 +169,7 @@ after "deploy:symlink", :migrate_database
 after "deploy:symlink", :record_deploy_info
 before "migrate_database", :install_gems
 after "migrate_database", :load_seed_data
+after "migrate_database", :clear_cache
 before "deploy:restart", :make_tmp
 after "install_gems", :stop_sphinx
 after "deploy", :start_sphinx
