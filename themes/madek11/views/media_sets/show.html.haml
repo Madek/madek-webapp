@@ -23,7 +23,7 @@
   %div.page_title_left
     %img{:src => "/themes/madek11/images/icons/icon_set.png"}
     =_("Set-Inhalt")
-    %span= "#{@media_set.media_entries.count} von #{@media_entry_ids.total_entries} Medieneinträge für Sie sichtbar"
+    %span= "#{@media_entry_ids.total_entries} von #{@media_set.media_entries.count} Medieneinträge für Sie sichtbar"
   .clear
   = render :partial => "/media_entries/index"
 
