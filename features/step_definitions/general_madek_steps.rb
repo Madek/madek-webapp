@@ -129,11 +129,11 @@ When "I fill in the metadata form as follows:" do |table|
         # These can be either textareas or input fields, let's fill in both. It's a bit brute force,
         # can be done more elegantly by finding out whether we're dealing with a textarea or an input field.
         list.all("textarea").each do |ele|
-          fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil?
+          fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil? and ele[:id].match(/meta_data_attributes_.+_keep_original_value$/).nil?
         end
         
         list.all("input").each do |ele|
-          fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil?
+          fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil? and ele[:id].match(/meta_data_attributes_.+_keep_original_value$/).nil?
         end
         
       end
