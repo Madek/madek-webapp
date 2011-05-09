@@ -150,7 +150,7 @@ class Permission < ActiveRecord::Base
             default_permissions = permissions.select {|p| p.subject_type.nil? }
             combined_permissions[type][:type] = "nil"
             combined_permissions[type][:name] = "Öffentlich"
-            keys.each do |key|
+            ACTIONS.each do |key|
               combined_permissions[type][key] = case default_permissions.select {|p| p.actions[key] == true }.size #1504#
                 when resources.size
                   true
