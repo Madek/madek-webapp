@@ -9,36 +9,48 @@ class SearchController < ApplicationController
     
     @active_filter_type = params[:klass]
     @active_bookmark = case @active_filter_type
-    when "MediaEntry"
-      "#media_entry_tab"
-    when "Media::Set"
-      "#set_tab"
-    when "Media::Project"
-      "#project_tab"
+      when "MediaEntry"
+        "#media_entry_tab"
+      when "Media::Set"
+        "#set_tab"
+      when "Media::Project"
+        "#project_tab"
     end
 
-    @media_entry_filter = Filter.new(params["MediaEntry"] || {})
+    filter_ids = if params[:filter_ids] # TODO resource_type
+      params[:filter_ids].inject(nil) do |a, x|
+        b = x.split(',').collect(&:to_i)
+        a ? a &= b : a = b
+      end
+    else
+      nil
+    end
+    
+    @media_entry_filter = Filter.new(params["MediaEntry"]) 
     search_options = @media_entry_filter.to_query_filter
     search_result = MediaEntry.search_for_ids(@search_term, search_options)
     @_media_entry_ids = (search_result & viewable_media_entry_ids)
+    @_media_entry_ids &= filter_ids unless filter_ids.blank? 
     @paginated_media_entry_ids = @_media_entry_ids.paginate(:page => params[:page], :per_page => params[:per_page])
     @media_entries = MediaEntry.includes(:media_file).where(:id => @paginated_media_entry_ids)
     @media_entries_json = Logic.enriched_resource_data(@paginated_media_entry_ids, @media_entries, current_user, "MediaEntry").to_json
     
-    @media_set_filter = Filter.new(params["Media::Set"] || {})
+    @media_set_filter = Filter.new(params["Media::Set"])
     search_options = @media_set_filter.to_query_filter
     search_options[:with].merge!(:media_type => "Set".to_crc32)
     search_result = Media::Set.search_for_ids(@search_term, search_options)
     @_media_set_ids = (search_result & viewable_media_set_ids)
+    @_media_set_ids &= filter_ids unless filter_ids.blank? 
     @paginated_media_set_ids = @_media_set_ids.paginate(:page => params[:page], :per_page => params[:per_page])
     @media_sets = Media::Set.where(:id => @paginated_media_set_ids)
     @media_sets_json = Logic.enriched_resource_data(@paginated_media_set_ids, @media_sets, current_user, "Media::Set").to_json
     
-    @project_filter = Filter.new(params["Media::Project"] || {})
+    @project_filter = Filter.new(params["Media::Project"])
     search_options = @project_filter.to_query_filter
     search_options[:with].merge!(:media_type => "Project".to_crc32)
     search_result = Media::Set.search_for_ids(@search_term, search_options)
     @_media_project_ids = (search_result & viewable_media_set_ids)
+    @_media_project_ids &= filter_ids unless filter_ids.blank? 
     @paginated_project_ids = @_media_project_ids.paginate(:page => params[:page], :per_page => params[:per_page])
     @projects = Media::Project.where(:id => @paginated_project_ids)
     @projects_json = Logic.enriched_resource_data(@paginated_project_ids, @projects, current_user, "Media::Project").to_json

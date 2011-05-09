@@ -2,7 +2,7 @@ class Filter
 
   attr_accessor :options, :filters
   def initialize(filter_attributes)
-    @filters = filter_attributes
+    @filters = filter_attributes ||= {}
     @options = {:with => {}, :conditions => {}, :per_page => (2**30)}
   end
   

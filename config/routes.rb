@@ -30,9 +30,6 @@ MAdeK::Application.routes.draw do
   match '/nagiosstat', :to => Nagiosstat
 
 ###############################################
-  #sitewide search
-  match '/search', :to => "search#show"
-###############################################
 
   # TODO only [:index, :show] methods
   resources :media_entries do
@@ -159,6 +156,8 @@ MAdeK::Application.routes.draw do
   end
   
   resource :session
+
+  resource :search, :controller => 'search'
 
 ####################################################################################
 

@@ -3,7 +3,7 @@ module SearchHelper
   def display_meta_data_checkboxes(resource_ids, type)
     resources = type.constantize.find(resource_ids) # TODO ?? include(:meta_data)
 
-    meta_key_labels = [ ["keywords", "Schlagworte"],
+    meta_key_labels = [ ["keywords", "Schlagworte"], # TODO get german title through definitions: meta_key = MetaKey.where(:label => label).first, etc...
                         ["type", "Gattung"],
                         ["academic year", "Studienjahr"],
                         ["project type", "Projekttyp"],
@@ -11,26 +11,28 @@ module SearchHelper
 
     capture_haml do
       meta_key_labels.each do |label, title|
-        #old# meta_key = MetaKey.where(:label => label).first
-        case label
-          when "keywords"
-            keywords = resources.collect {|r| r.meta_data.get(label).deserialized_value }.flatten
-            meta_term_ids = keywords.collect(&:meta_term_id)
-          else
-            case type
-              when "MediaEntry"
-                # MetaData.where(:resource_id => all_resource_ids, :resource_type => type, :meta_key => meta_key).all.map {|md| md.deserialized_value}
-                meta_term_ids = resources.collect {|r| r.meta_data.get(label).deserialized_value }.flatten
-              else
-                next
-            end
+        meta_terms_h = {}
+        resources.each do |r|
+          terms = case label
+            when "keywords"
+              r.meta_data.get(label).deserialized_value.collect(&:meta_term)
+            else
+              case type
+                when "MediaEntry"
+                  r.meta_data.get(label).deserialized_value
+                else
+                  next
+              end
+          end
+          terms.each do |term|
+            meta_terms_h[term] ||= []
+            meta_terms_h[term] << r.id # TODO include r.type
+          end
         end
-    
+
         h = {}
-        meta_term_ids.each {|x| h[x] ||= 0; h[x] += 1 }
-        s = h.map {|id, count| term = Meta::Term.where(:id => id).first.to_s; term ? [term, count] : nil }.compact
-        all_words = s.sort {|a,b| [b[1], a[0]] <=> [a[1], b[0]] }
-      
+        all_words = meta_terms_h.sort {|a,b| [b[1].count, a[0].to_s] <=> [a[1].count, b[0].to_s] }
+
         unless all_words.empty?
           haml_tag :h3, :class => "filter_category clearfix" do
             haml_tag :span, "", :class => "ui-icon ui-icon-triangle-1-e"
@@ -41,8 +43,8 @@ module SearchHelper
             haml_tag :ul do
               all_words.each do |word|
                 haml_tag :li do
-                  haml_concat check_box_tag "#{type}[#{label.parameterize('_')}][]", word.first, should_be_checked?(label, word.first, type)
-                  haml_concat "#{word.first} (#{word.last})"
+                  haml_concat check_box_tag "filter_ids[]", word.last.join(','), should_be_checked?(label, word.first, type)
+                  haml_concat "#{word.first} (#{word.last.count})"
                 end
               end
             end
