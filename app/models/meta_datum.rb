@@ -11,7 +11,7 @@ class MetaDatum < ActiveRecord::Base
   serialize :value
 
   validates_uniqueness_of :meta_key_id, :scope => [:resource_type, :resource_id]
-  validates_presence_of :resource_type, :resource_id, :meta_key_id, :value
+  validates_presence_of :meta_key_id, :value #old# :resource_type, :resource_id 
   
   attr_accessor :keep_original_value
 

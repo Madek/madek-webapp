@@ -52,16 +52,14 @@ class MediaSetsController < ApplicationController
 # TODO
 
   def create
-    # OPTIMIZE just preventing double delta indexing, because meta_data need resource_id
-    Media::Set.suspended_delta do
-      @media_set = current_user.media_sets.create # OPTIMIZE validates_presence_of title
-      if @media_set.update_attributes(params[:media_set]) # TODO ?? find_by_id_or_create_by_title
-        #temp# flash[:notice] = "Media::Set successful created"
-        redirect_to user_media_sets_path(current_user)
-      else
-        flash[:notice] = @media_set.errors.full_messages
-        redirect_to :back
-      end
+    # TODO ?? find_by_id_or_create_by_title
+    @media_set = current_user.media_sets.build(params[:media_set])
+    if @media_set.save
+      #temp# flash[:notice] = "Media::Set successful created"
+      redirect_to user_media_sets_path(current_user)
+    else
+      flash[:notice] = @media_set.errors.full_messages
+      redirect_to :back
     end
   end
 
