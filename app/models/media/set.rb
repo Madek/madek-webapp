@@ -29,8 +29,8 @@ module Media
                         if v.is_a?(Numeric) or !!v.match(/\A[+-]?\d+\Z/) # TODO path to String#is_numeric? method
                           a = where(:id => v).first
                         else
-                          a = user.media_sets.create # FIXME user can create non-uniquely named sets
-                          a.meta_data.create(:meta_key => MetaKey.find_by_label("title"), :value => v)
+                          mk = MetaKey.find_by_label("title")
+                          a = user.media_sets.create(:meta_data_attributes => [{:meta_key_id => mk.id, :value => v}])
                         end
                         a
                     end
