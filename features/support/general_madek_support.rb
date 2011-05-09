@@ -323,7 +323,7 @@ def upload_some_picture(title = "Untitled")
 
     sphinx_reindex
     visit "/"
-
+   
     page.should have_content(title)
 
 end

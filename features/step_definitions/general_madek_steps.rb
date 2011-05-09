@@ -74,6 +74,10 @@ Given /^a group called "([^"]*)" exists$/ do |groupname|
   create_group(groupname)
 end
 
+When /^I debug$/ do
+  debugger; puts "lala"
+end
+
 When /^I upload some picture titled "([^"]*)"$/ do |title|
   upload_some_picture(title)
 end
@@ -244,14 +248,15 @@ When /I filter by "([^"]*)" in "([^"]*)"$/ do |choice, category|
   # filter by controlled vocabulary)
   form_div = find("#filter-query").find(:xpath, ".//h3[contains(.,'#{category}')]/following::*")
   lis = form_div.all("li")
+
+#   debugger; puts "lala"
   lis.each do |li|
-    unless li.text.match(choice).nil?
+    unless (li.text =~ /^#{choice} \(\d+\)$/).nil?
       cb = li.find("input")
       cb.click unless cb[:checked] == "true"
     end
   end
   
-  #debugger; puts "lala"
 end
 
 
