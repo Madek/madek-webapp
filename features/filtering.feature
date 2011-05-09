@@ -18,7 +18,7 @@ Feature: Use the search filters on my search results
      And I press "Suchen"
     Then I should not see "The Necronomicon"
 
-  @javascript 
+  @javascript
   Scenario: Filtering by keyword: Finding both media entries that have a common word, but showing just one when only one's keyword is selected
     When I log in as "evil" with password "books"
      And I upload some picture titled "The Necronomicon"
@@ -48,10 +48,8 @@ Feature: Use the search filters on my search results
      |Schlagworte zu Inhalt und Motiv|common words|
      |Schlagworte zu Inhalt und Motiv|raimi|
      And I press "Speichern"
-     And I wait for 15 seconds
      And Sphinx is forced to reindex
      And I fill in "query" with "common"
-     And I wait for 15 seconds
      And I press "Suchen"
     Then I should see "The Necronomicon"
      And I should see "Klaatu Barata Nicto"
@@ -61,7 +59,7 @@ Feature: Use the search filters on my search results
     Then I should not see "The Necronomicon"
      And I should see "Klaatu Barata Nicto"
 
-  @javascript
+  @javascript @work
   Scenario: Filtering three different media entries
     When I log in as "evil" with password "books"
      And I upload some picture titled "Pure Evil"
@@ -99,10 +97,7 @@ Feature: Use the search filters on my search results
      |Schlagworte zu Inhalt und Motiv|not bad|
      |Schlagworte zu Inhalt und Motiv|common words|
      And I press "Speichern"
-     And I wait for 15 seconds
-     And Sphinx is forced to reindex
-     And I fill in "query" with "common"
-     And I wait for 15 seconds
+     And I fill in "query" with "evil"
      And I press "Suchen"
     Then I should see "Pure Evil"
      And I should see "Slightly less pure evil"
@@ -113,10 +108,25 @@ Feature: Use the search filters on my search results
     Then I should see "Pure Evil"
      And I should see "Slightly less pure evil"
      And I should not see "Completely unpure evil"
+    When I fill in "query" with ""
+     And I fill in "query" with "evil"
+     And I press "Suchen"
+    Then I should see "Pure Evil"
     When I follow "Medieneinträge filtern"
      And I filter by "unpure" in "Schlagworte"
      And I press "Filter anwenden"
+     And I wait for 2 seconds
     Then I should not see "Pure Evil"
      And I should see "Slightly less pure evil"
      And I should not see "Completely unpure evil"
-
+    When I fill in "query" with ""
+     And I fill in "query" with "evil"
+     And I press "Suchen"
+    Then I should see "Pure Evil"
+    When I follow "Medieneinträge filtern"
+     And I filter by "good" in "Schlagworte"
+     And I press "Filter anwenden"
+     And I wait for 2 seconds
+    Then I should not see "Pure Evil"
+     And I should not see "Slightly less pure evil"
+     And I should see "Completely unpure evil"
