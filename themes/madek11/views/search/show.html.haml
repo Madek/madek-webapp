@@ -56,10 +56,10 @@
   .page_title_left
     =_("Suchergebnisse")
     #term
-      = "für “#{@search_term}”"
+      = "für “#{params[:query]}”"
   .clear
-  - if [@media_entries, @media_sets, @projects].all? {|x| x.nil? }
-    = "Ihre Suche nach “#{@search_term}” hat keine Resultate ergeben."
+  - if [@media_entries[:entries], @media_sets[:entries], @projects[:entries]].all? {|x| x.nil? }
+    = "Ihre Suche nach “#{params[:query]}” hat keine Resultate ergeben."
   - else 
     #detail_specification.tabs
       %ul
@@ -70,23 +70,23 @@
         %li
           = link_to "Projekte (#{@paginated_project_ids.total_entries})", "#project_tab"
       #media_entry_tab.clearfix 
-        - if @media_entries.length > 1
+        - if @media_entries[:entries].length > 1
           .filter_area
             = render :partial => 'filter_form', :locals => {:filter => @media_entry_filter, :media => @_media_entry_ids, :type => "MediaEntry" }
-        %div{:id => "media_entry_results", :class => @media_entries.length > 1 ? "result_area" : nil }
-          = render :partial => 'results', :locals => { :type => "media_entry", :json => @media_entries_json }
+        %div{:id => "media_entry_results", :class => @media_entries[:entries].length > 1 ? "result_area" : nil }
+          = render :partial => 'results', :locals => { :type => "media_entry", :json => @media_entries.to_json }
       #set_tab.clearfix   
-        - if @media_sets.length > 1
+        - if @media_sets[:entries].length > 1
           .filter_area
             = render :partial => 'filter_form', :locals => {:filter => @media_set_filter, :media => @_media_set_ids, :type => "Media::Set" }
-        %div{:id => "set_results", :class => @media_sets.length > 1 ? "result_area" : nil }
-          = render :partial => 'results', :locals => { :type => "set", :json => @media_sets_json }
+        %div{:id => "set_results", :class => @media_sets[:entries].length > 1 ? "result_area" : nil }
+          = render :partial => 'results', :locals => { :type => "set", :json => @media_sets.to_json }
       #project_tab.clearfix  
-        - if @projects.length > 1
+        - if @projects[:entries].length > 1
           .filter_area
             = render :partial => 'filter_form', :locals => {:filter => @project_filter, :media => @_media_project_ids, :type => "Media::Set" }
-        %div{:id => "project_results", :class => @projects.length > 1 ? "result_area" : nil }
-          = render :partial => 'results', :locals => { :type => "project",  :json => @projects_json }
+        %div{:id => "project_results", :class => @projects[:entries].length > 1 ? "result_area" : nil }
+          = render :partial => 'results', :locals => { :type => "project",  :json => @projects.to_json }
 
 
 = theme_javascript_include_tag "batch_actions"        

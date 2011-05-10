@@ -2,7 +2,7 @@ module Logic
   extend self
 
   def data_for_page(media_entry_ids, current_user)
-    media_entries = MediaEntry.includes(:media_file).find(media_entry_ids)
+    media_entries = MediaEntry.find(media_entry_ids)
 
     editable_ids = current_user.accessible_resource_ids(:edit)
     managable_ids = current_user.accessible_resource_ids(:manage)
@@ -27,9 +27,11 @@ module Logic
 
 ########################################################
   
-  def enriched_resource_data(resource_ids, resources, current_user, resource_type)    
-    editable_ids = Permission.accessible_by_user(resource_type, current_user, :edit)
-    managable_ids = Permission.accessible_by_user(resource_type, current_user, :manage)
+  def enriched_resource_data(resource_ids, current_user, resource_type)
+    resources = resource_type.constantize.find(resource_ids)
+
+    editable_ids = current_user.accessible_resource_ids(:edit, resource_type)
+    managable_ids = current_user.accessible_resource_ids(:manage, resource_type)
 
     favorite_ids = current_user.favorite_ids if resource_type == "MediaEntry"
     
