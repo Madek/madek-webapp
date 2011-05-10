@@ -2,20 +2,20 @@
 module MetaDataHelper
   
   def display_meta_data_for_context(resource, context)
-    a = ''
-    uploader_info, other_info = resource.meta_data_for_context(context).partition {|md| ["uploaded by", "uploaded at"].include?(md.meta_key.label) }
-    other_info.collect do |meta_datum|
-      definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
-      a += content_tag :small, definition.meta_field.label.to_s
-      a += if meta_datum.meta_key.label == "title"
-        content_tag :h3, formatted_value(meta_datum)
-      else
-        content_tag :p, formatted_value(meta_datum)
+    capture_haml do
+      uploader_info, other_info = resource.meta_data_for_context(context).partition {|md| ["uploaded by", "uploaded at"].include?(md.meta_key.label) }
+      other_info.each do |meta_datum|
+        definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
+        haml_tag :small, definition.meta_field.label.to_s
+        if meta_datum.meta_key.label == "title"
+          haml_tag :h3, formatted_value(meta_datum)
+        else
+          haml_tag :p, formatted_value(meta_datum)
+        end
       end
+      haml_tag :small, "Erstellt von/am"
+      haml_tag :p, formatted_value(uploader_info.first) + " / " + formatted_value(uploader_info.last)
     end
-    a += content_tag :small, "Erstellt von/am"
-    a += content_tag :p, formatted_value(uploader_info.first) + " / " + formatted_value(uploader_info.last)
-    return a.html_safe
   end
 
   def display_project_abstract(project)

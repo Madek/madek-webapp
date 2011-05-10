@@ -10,20 +10,22 @@ class Media::Project < Media::Set
     superclass.model_name
   end
 
-  def abstract
+  def abstract(percentage = 50)
+    threshold = media_entries.count.to_f * percentage / 100
     meta_key_ids = individual_contexts.map(&:meta_key_ids).flatten
-    h = {}
-    #old# mds = media_entries.collect{|me| me.meta_data.where(:meta_key_id => meta_keys) }.flatten
+    h = {} #1005# TODO upgrade to Ruby 1.9 and use ActiveSupport::OrderedHash.new
     mds = MetaDatum.where(:meta_key_id => meta_key_ids, :resource_type => "MediaEntry", :resource_id => media_entry_ids)
     mds.each do |md|
       h[md.meta_key_id] ||= [] # TODO md.meta_key
       h[md.meta_key_id] << md.value
     end
-    c = media_entries.count.to_f * 50 / 100
-    h.delete_if {|k, v| v.size < c }
-    h.each_pair {|k, v| h[k] = v.flatten.group_by {|x| x}.delete_if {|k, v| v.size < c }.keys }
+    h.delete_if {|k, v| v.size < threshold }
+    h.each_pair {|k, v| h[k] = v.flatten.group_by {|x| x}.delete_if {|k, v| v.size < threshold }.keys }
     h.delete_if {|k, v| v.blank? }
-    h.collect {|k, v| meta_data.build(:meta_key_id => k, :value => v) }
+    #1005# return h.collect {|k, v| meta_data.build(:meta_key_id => k, :value => v) }
+    b = []
+    h.each_pair {|k, v| b[meta_key_ids.index(k)] = meta_data.build(:meta_key_id => k, :value => v) }
+    return b.compact
   end
 
 end
