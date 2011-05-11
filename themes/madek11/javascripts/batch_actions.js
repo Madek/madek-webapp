@@ -65,8 +65,8 @@ $(document).ready(function () {
  * two arrays in a simple fashion.  
  *
  * PARAMS
- *  a - first array, must already be sorted
- *  b - second array, must already be sorted
+ *  a - first array
+ *  b - second array
  *
  * NOTES
  *  State of input arrays is undefined when
@@ -76,20 +76,18 @@ $(document).ready(function () {
  *  Should have O(n) operations, where n is 
  *    n = MIN(a.length(), b.length())
  */
-function intersection_destructive(a, b)
-{
+function intersection_destructive(a, b) {
+  var a = a.sort();
+  var b = b.sort();
   var result = new Array();
-  while( a.length > 0 && b.length > 0 )
-  {  
+  while( a.length > 0 && b.length > 0 ) {  
      if      (a[0] < b[0] ){ a.shift(); }
      else if (a[0] > b[0] ){ b.shift(); }
-     else /* they're equal */
-     {
+     else { /* they're equal */
        result.push(a.shift());
        b.shift();
      }
   }
-
   return result;
 }
 
@@ -117,7 +115,7 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 	// when remove from set is hovered we only want to highlight those media_entries that are part of the current set
 	if(media_set_id && media_entry_ids_in_set){
 		var media_entry_ids = get_selected_media_entry_ids();
-		var media_entries_in_set = intersection_destructive(media_entry_ids_in_set.sort(), media_entry_ids.sort());
+		var media_entries_in_set = intersection_destructive(media_entry_ids_in_set, media_entry_ids);
 	}; //end if
 	
 	

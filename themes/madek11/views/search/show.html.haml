@@ -86,11 +86,10 @@
           = render :partial => 'results', :locals => { :type => "project",  :json => @projects.to_json }
 
 
-= theme_javascript_include_tag "batch_actions"        
+= theme_javascript_include_tag "batch_actions"
+
 :javascript
-
   $(document).ready(function () { 
-
     var t = $('#detail_specification').tabs();
     var active_bookmark = '#{@active_bookmark}';
     if (active_bookmark != '') t.tabs('select', active_bookmark);
@@ -107,5 +106,35 @@
     	};
     	return false;
     });
-  
+
+    // TODO split to array and save as data ??
+    var list_items = $(".filter_content > ul > li").has("input[name='filter_ids[]']:checkbox");
+    var checkboxes = list_items.find("input[name='filter_ids[]']:checkbox");
+    checkboxes.change(function(){
+      var intersected_ids;
+      checkboxes.filter(":checked").each(function(i, elem){
+        var a = elem.value.split(',');
+        if(i){
+          intersected_ids = intersected_ids.intersect(a);
+        }else{
+          intersected_ids = a;
+        }
+      });
+      list_items.show();
+      if(intersected_ids){
+        var intersecting_lists = list_items.has(intersected_ids.map(function(elem, i){ return ":checkbox[value*='"+elem+"']"; }).join(','));
+        list_items.not(intersecting_lists).hide();
+      }
+    });
+    
+    /* TODO
+    $( "#slider-range" ).slider({
+      range: true,
+      min: 0,
+      max: 500,
+      values: [ 75, 300 ],
+      slide: function( event, ui ) {
+      }
+    });
+    */
   });

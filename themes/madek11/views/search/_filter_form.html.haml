@@ -2,7 +2,7 @@
   %h3.filter_category.filter_header.clearfix
     %span.ui-icon.ui-icon-triangle-1-e
     = link_to "Medieneinträge filtern", "#", :class => "filter_category_link"
-  - style = (type == @active_filter_type) ? "display: block;" : "display: none"
+  - style = "display: block;" #tmp# (type == @active_filter_type) ? "display: block;" : "display: none"
   .filter_content{:style => style}
     %form{:action => search_path, :method => :get}
       = hidden_field_tag "query", params[:query]
@@ -42,12 +42,13 @@
                       = label_tag "#{type}[width][value]", "Breite"
                       = select_tag "#{type}[width][operator]", options_for_select({'ist genau' => 'is', 'grösser als' => 'gt', 'kleiner als' => 'lt'}, :selected => width_operator), :include_blank => true
                       = text_field_tag "#{type}[width][value]", width_value, :size => 10
+                      / TODO #slider-range
                     %li
                       = label_tag "#{type}[height][value]", "Höhe"
                       = select_tag "#{type}[height][operator]", options_for_select({'ist genau' => 'is', 'grösser als' => 'gt', 'kleiner als' => 'lt'}, :selected => height_operator), :include_blank => true
                       = text_field_tag "#{type}[height][value]", height_value, :size => 10
-                  
-            = display_meta_data_checkboxes(media, type) 
+
+            = display_meta_data_checkboxes(media, type)
           .filter_footer
             = submit_tag _("Filter anwenden"), :title => "Filtern", :id => 'search-submit', :name => nil
             - if @active_filter
