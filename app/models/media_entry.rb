@@ -28,7 +28,7 @@ class MediaEntry < ActiveRecord::Base
   delegate :user, :user_id, :to => :upload_session
   delegate :height, :width, :orientation, :to => :media_file
 
-  default_scope order("updated_at DESC").includes(:media_file)
+  default_scope order("media_entries.updated_at DESC").includes(:media_file)
 
 ########################################################
 
