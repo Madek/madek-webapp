@@ -479,7 +479,7 @@ nav {
   margin-top: 45px;
   z-index: 999; }
   .sub_menu a {
-    padding: 5px 5px 0 5px;
+    padding: 5px 5px 0 20px;
     border: none;
     font-size: 0.9em;
     text-align: left;
@@ -499,6 +499,21 @@ nav {
 
 .sub_menu .item_line {
   border-top: 1px solid #424242; }
+
+.item_line_me {
+  background: url(../images/icons/icon_me_small_white.png) no-repeat 0 12px; }
+
+.item_line_set {
+  background: url(../images/icons/icon_set_small_white.png) no-repeat 0 9px; }
+
+.item_line_project {
+  background: url(../images/icons/icon_project_small_white.png) no-repeat 0 8px; }
+
+.item_line_fav {
+  background: url(../images/icons/icon_fav_small_white.png) no-repeat -1px 6px; }
+
+.item_line_workgroup {
+  background: url(../images/icons/icon_workgroup_small_white.png) no-repeat -1px 7px; }
 
 /*  Lists  */
 ul {
