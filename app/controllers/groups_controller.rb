@@ -71,6 +71,8 @@ class GroupsController < ApplicationController
         format.js { render :nothing => true } # TODO check if successfully deleted
       end
     end
+    # OPTIMIZE
+    Permission.delete_matched_cached_keys(/permissions.*/)
   end
 
 ######################################################
