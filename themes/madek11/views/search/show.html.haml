@@ -70,22 +70,19 @@
         %li
           = link_to "Projekte (#{@paginated_project_ids.total_entries})", "#project_tab"
       #media_entry_tab.clearfix 
-        - if @media_entries[:entries].length > 1
-          .filter_area
-            = render :partial => 'filter_form', :locals => {:filter => @media_entry_filter, :media => @_media_entry_ids, :type => "MediaEntry" }
-        %div{:id => "media_entry_results", :class => @media_entries[:entries].length > 1 ? "result_area" : nil }
+        .filter_area
+          = render :partial => 'filter_form', :locals => {:filter => @media_entry_filter, :media => @_media_entry_ids, :type => "MediaEntry" }
+        %div{:id => "media_entry_results", :class => "result_area" }
           = render :partial => 'results', :locals => { :type => "media_entry", :json => @media_entries.to_json }
       #set_tab.clearfix   
-        - if @media_sets[:entries].length > 1
-          .filter_area
-            = render :partial => 'filter_form', :locals => {:filter => @media_set_filter, :media => @_media_set_ids, :type => "Media::Set" }
-        %div{:id => "set_results", :class => @media_sets[:entries].length > 1 ? "result_area" : nil }
+        .filter_area
+          = render :partial => 'filter_form', :locals => {:filter => @media_set_filter, :media => @_media_set_ids, :type => "Media::Set" }
+        %div{:id => "set_results", :class => "result_area" }
           = render :partial => 'results', :locals => { :type => "set", :json => @media_sets.to_json }
       #project_tab.clearfix  
-        - if @projects[:entries].length > 1
-          .filter_area
-            = render :partial => 'filter_form', :locals => {:filter => @project_filter, :media => @_media_project_ids, :type => "Media::Set" }
-        %div{:id => "project_results", :class => @projects[:entries].length > 1 ? "result_area" : nil }
+        .filter_area
+          = render :partial => 'filter_form', :locals => {:filter => @project_filter, :media => @_media_project_ids, :type => "Media::Set" }
+        %div{:id => "project_results", :class => "result_area" }
           = render :partial => 'results', :locals => { :type => "project",  :json => @projects.to_json }
 
 
