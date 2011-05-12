@@ -45,7 +45,7 @@
 					var row = $(this).closest("tr");
 					var cols = 0;
 					row.children().each(function(){
-						cols += $(this).attr('colspan');
+						cols += $(this).prop('colSpan');
 					});
 					row.hide().after(edit_row_tpl(response.responseText, row.attr('class'), cols-1));
 				});
