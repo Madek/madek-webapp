@@ -1,0 +1,14 @@
+%section#content_body_fav 
+  - if request.fullpath =~ /favorites/
+    .page_title_left
+      %img{:src => "/images/icons/icon_favorites.png"}
+      =_("Meine Favoriten")
+    .clear
+  = render :partial => "index"
+
+= javascript_include_tag "batch_actions"
+    
+:javascript
+  $(document).ready(function () {
+    setupBatch(#{@json});    
+  });

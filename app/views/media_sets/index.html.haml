@@ -1,0 +1,77 @@
+:ruby
+  icon_src = case params[:type]
+    when "projects"
+      "/images/icons/icon_project.png"
+    else
+      "/images/icons/icon_set.png"
+  end
+    
+
+- unless @media_set
+  - if params[:type] != "projects"
+    .container_12.clearfix
+      %section#page_head_newset.clearfix
+        .grid_3
+          #set_info
+            %div.item_box_set
+              %div.thumb_box_set
+      
+        .grid_9
+          #set_meta
+            %small
+              &nbsp;
+            %h5
+              = _("Neues Set erstellen")
+            - context = MetaContext.media_set
+            - media_set = current_user.media_sets.build # (:type => "Media::Set")
+            = form_for [current_user, media_set] do |f|
+              %table.label
+                = f.fields_for :meta_data, media_set.meta_data.get("title") do |meta_datum|
+                  - definition = meta_datum.object.meta_key.meta_key_definitions.for_context(context)
+                  %tr
+                    %td
+                      %p
+                        = "#{definition.meta_field.label}:"
+                    %td{:style => "float: left;"}
+                      = field_tag(meta_datum, context)
+                    %td{:style => "float: left;"}
+                      = f.submit _("Erstellen")
+
+  .container_12.clearfix
+    %section#content_body.clearfix
+      %div.page_title_left
+        - if @media_sets
+          %img{:src => icon_src}
+          %a{:id => "meine", :name => "meine", :href => "#"}
+          = @my_title
+      .pagination
+        %a{:href => "#weitere"}
+          &darr;
+          = @other_title
+      .clear
+      = render :partial => "media_set", :collection => @my_media_sets
+    
+  .container_12.clearfix
+    %section#content_body2.clearfix
+      %div.page_title_left
+        %a{:id => "weitere", :name => "weitere", :href => "#"}
+        %img{:src => icon_src}
+        = @other_title
+      .pagination   
+        %a{:href => "#meine"}
+          &uarr;
+          = @my_title
+      .clear
+      = render :partial => "media_set", :collection => @media_sets
+
+- else # FeaturedSet
+  .container_12.clearfix
+    %section#content_body.clearfix
+      %div.page_title_left
+        %img{:src => icon_src}
+        = @my_title
+      .clear
+      - if @media_sets.any?
+        = render :partial => "media_set", :collection => @media_sets
+      - else 
+        = _("Keine Sets vorhanden")

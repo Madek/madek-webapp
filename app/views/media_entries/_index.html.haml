@@ -1,0 +1,87 @@
+.task_bar.clearfix
+  %ul
+    %li#batch-edit.action_btn
+      = button_to _("Metadaten editieren"), edit_multiple_media_entries_path, :method => :post
+    %li#batch-permissions.action_btn
+      = button_to _("Zugriffsberechtigungen editieren"), edit_multiple_permissions_media_entries_path, :method => :post
+    - if @can_edit_set
+      %li#batch-remove.action_btn
+        = button_to _("Aus Set entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete
+    %li#batch-add-to-set.action_btn
+      = form_tag add_member_media_set_url(@media_set || 1) do
+        = select_tag "media_set_id", options_for_select([["Set auswählen…", ""]] + @editable_sets.collect {|set| [set.meta_data.get_value_for("title"), set.id]})
+        = submit_tag "Hinzufügen"
+    .clear
+    %li
+      %h4 Ausgewählte Medieneinträge bearbeiten:
+    %li#number_selected
+      Keine Medieneinträge ausgewählt
+    %li#select_deselect_all
+      = check_box_tag "select_all_toggle", nil
+      Alle auswählen
+    .clear
+  #selected_items.clearfix
+
+#results
+  .pagination.loading{:style => "display: none;"}
+    &nbsp;
+  .clear.loading{:style => "display: none;"}
+  - params[:per_page].to_i.times do
+    .item_box.loading{:style => "display: none;"}
+      .thumb_box
+
+////////////////////////////////////////////////////////////////////////////////
+
+%script{:type => "text/x-jquery-tmpl", :id => "pagination"}
+  .pagination
+    ${total_entries} Medieneinträge,
+    Seite ${current_page} von ${total_pages}
+  .clear
+
+%script{:type => "text/x-jquery-tmpl", :id => "thumbnail_mini"}
+  %div{:class => "thumb_mini {{if is_editable}}edit{{/if}} {{if is_manageable}}manage{{/if}}", :rel => "${id}"}
+    = image_tag("icons/button_remove_action.png", :class => "thumb_remove")
+    %img{:src => "${thumb_base64}"}
+
+%script{:type => "text/x-jquery-tmpl", :id => "index"}
+  %div.item_box{:id => "thumb_${id}"}
+    %div.item_permission
+      {{if is_public}}
+      = image_tag("icons/button_status_private.png")
+      {{else is_private}}
+      = image_tag("icons/icon_button_perm.png")
+      {{/if}}
+    %a{:href => "/media_entries/${id}"}
+      %div.thumb_box
+        %img{:src => "${thumb_base64}"}
+    %p.item_title
+      ${title.substring(0,50)}
+    %p.item_author
+      ${author.substring(0,50)}
+    .actions
+      .action_left
+        /%input{:type => "checkbox", :value => "${id}", :title => "Auswählen", :class => "editable"}
+        %span.check_box.off
+          = image_tag("icons/button_checkbox_off.png", :alt => _("Auswählen"))
+        %span.favorite_link{:id => "fav_${id}", :title => "Favorit"}
+          %a{:href => "/media_entries/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
+            {{if is_favorite}}
+            = image_tag("icons/button_favorit_on.png")
+            {{else}}
+            = image_tag("icons/button_favorit_off.png")
+            {{/if}}
+      .action_right
+        /url = resource.is_a?(MediaEntry) ? edit_media_entry_path(resource) : edit_media_set_path(resource)
+        {{if is_editable}}
+        %a{:href => "/media_entries/${id}/edit", :title => "Editieren"}
+          = image_tag("icons/button_edit_active.png")
+        {{else}}
+        = image_tag("icons/button_edit_inactive.png")
+        {{/if}}
+        {{if is_manageable}}
+        /confirm = resource.is_a?(MediaEntry) ? "Sind Sie sicher?" : "Sind Sie sicher? Das Set wird gelöscht."
+        %a{:href => "/media_entries/${id}", :title => "Löschen", :class => "delete_me", :"data-method" => :delete, :"data-remote" => true, :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher?"}
+          = image_tag("icons/button_delete_active.png")
+        {{else}}
+        = image_tag("icons/button_delete_inactive.png")
+        {{/if}}

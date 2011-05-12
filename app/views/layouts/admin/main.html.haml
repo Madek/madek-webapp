@@ -5,18 +5,10 @@
     %meta{:charset => 'utf-8'}
     %title
       Admin
-    = stylesheet_link_tag "master"
+    = stylesheet_link_tag "master10"
     = javascript_include_tag :defaults, "madek10", "jquery/plugins/jquery.flickrmenu", "jquery/plugins/jquery.elastic", "jquery/plugins/jquery.placeholder"
     = csrf_meta_tag
     = yield :head
-
-    :css
-      table { width: 100%; }
-      tr.even { background-color: #dbebf1; }
-      tr.odd { background-color: #ffffff; }
-      th { color: white; background-color: #42627e; }
-      th, td { padding: 0.5em; }
-      input[type='text'], textarea { width: 25em; }
 
     :javascript
       function edit_row_tpl(content, class, colspan){

@@ -1,17 +1,16 @@
 # -*- encoding : utf-8 -*-
 module PermissionsHelper
 
-  # caution: icon only works with new theme
   def display_permission(resource, type = :icon)
     if resource.acl?(:view, :all)
       if type == :icon
-        theme_image_tag("icons/button_status_private.png")
+        image_tag("icons/button_status_private.png")
       else
         "(#{_("Öffentlich")})"
       end
     elsif resource.acl?(:view, :only, current_user)
       if type == :icon
-        theme_image_tag("icons/icon_button_perm.png")
+        image_tag("icons/icon_button_perm.png")
       else
         "(#{_("Nur für Sie selbst")})"
       end
@@ -30,15 +29,15 @@ module PermissionsHelper
   # TODO move to media_entries_helper.rb
   def display_favorite_icon(resource, user)
     s = (user.favorite_ids.include?(resource.id) ? "on" : "off") # (user.favorites.include?(resource) ? "on" : "off")
-    theme_image_tag("icons/button_favorit_#{s}.png")
+    image_tag("icons/button_favorit_#{s}.png")
   end
   
   def display_edit_icon(resource, user)
     if user && Permission.authorized?(user, :edit, resource) 
       url = resource.is_a?(MediaEntry) ? edit_media_entry_path(resource) : edit_media_set_path(resource)
-      link_to theme_image_tag("icons/button_edit_active.png"), url, :title => "Editieren"
+      link_to image_tag("icons/button_edit_active.png"), url, :title => "Editieren"
     else
-      theme_image_tag("icons/button_edit_inactive.png")
+      image_tag("icons/button_edit_inactive.png")
     end
   end
   
@@ -51,9 +50,9 @@ module PermissionsHelper
         url = media_set_path(resource)
         confirm = "Sind Sie sicher? Das Set wird gelöscht."
       end  
-      link_to theme_image_tag("icons/button_delete_active.png"), url, :title => "Löschen", :method => :delete, :confirm => confirm
+      link_to image_tag("icons/button_delete_active.png"), url, :title => "Löschen", :method => :delete, :confirm => confirm
     else
-      theme_image_tag("icons/button_delete_inactive.png")
+      image_tag("icons/button_delete_inactive.png")
     end
   end
 

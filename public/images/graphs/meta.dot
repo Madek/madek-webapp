@@ -1,5 +1,5 @@
 digraph "MAdeK keymapping" {
-    label = "Key Mapping Graph\n13.04.2011, 13:06"
+    label = "Key Mapping Graph\n12.05.2011, 21:09"
     labelloc = t
     labeljust = l
     rankdir = LR
@@ -634,6 +634,888 @@ digraph "MAdeK keymapping" {
             style = ""
         ]
 
+        "compatible brands" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "create date" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "current time" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        duration [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "handler type" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "handler vendor id" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "initial object descriptor" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "major brand" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "matrix structure" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "minor version" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "modify date" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "movie data" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "movie data size" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "movie header version" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "next track id" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "poster time" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "preferred rate" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "preferred volume" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "preview duration" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "preview time" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "selection duration" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "selection time" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "time scale" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "unknown gshh" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "unknown gspm" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "unknown gspu" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "unknown gssd" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "unknown gsst" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "unknown gstd" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "audio bits per sample" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "audio channels" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "audio format" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "audio sample rate" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        balance [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "chunk offset" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "handler description" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "media create date" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "media duration" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "media header version" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "media language code" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "media modify date" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "media time scale" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "sample sizes" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "sample to chunk" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "time to sample table" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "track create date" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "track duration" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "track header version" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "track id" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "track layer" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "track modify date" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "track volume" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "bit depth" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "compressor id" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "graphics mode" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "image height" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "image width" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "op color" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "source image height" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "source image width" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "sync sample table" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "video frame rate" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "x resolution" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "y resolution" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "avg bitrate" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "image size" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        rotation [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        comment [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        encoder [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        free [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        wide [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "handler class" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "unknown alis" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "unknown edts" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "composition time to sample" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "composition to decode timeline mapping" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "compressor name" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "idependent and disposable samples" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "unknown tapt" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "vendor id" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "audio bitrate" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "audio layer" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "channel mode" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "copyright flag" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        emphasis [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "intensity stereo" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "mpeg audio version" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "ms stereo" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "original media" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "sample rate" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "id3 size" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        album [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        artist [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        composer [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "encoded by" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        genre [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "part of set" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        track [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        year [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "date time original" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        tracknumber [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "bits per sample" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "block size max" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "block size min" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        channels [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "flac 0x0001" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "flac 0x0003" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "frame size max" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "frame size min" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "total samples" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "lame bitrate" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "lame low pass filter" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "lame method" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "lame quality" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "lame stereo mode" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "lame vbr quality" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        band [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        conductor [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        copyright [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        picture [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "picture description" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "picture mime type" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "picture type" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        lyrics [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        "recording time" [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
+        instructions [
+            shape = box,
+            height = 0,
+            width = 2.7,
+            style = ""
+        ]
+
         Core [
             shape = box,
             height = 1.5,
@@ -644,7 +1526,7 @@ digraph "MAdeK keymapping" {
         title -> Core [
             arrowhead = none,
             headport = w,
-            color = "#551111",
+            color = "#006600",
             arrowtail = none,
             tailport = e
         ]
@@ -652,7 +1534,7 @@ digraph "MAdeK keymapping" {
         author -> Core [
             arrowhead = none,
             headport = w,
-            color = "#551111",
+            color = "#006600",
             arrowtail = none,
             tailport = e
         ]
@@ -660,7 +1542,7 @@ digraph "MAdeK keymapping" {
         "portrayed object dates" -> Core [
             arrowhead = none,
             headport = w,
-            color = "#551111",
+            color = "#006600",
             arrowtail = none,
             tailport = e
         ]
@@ -668,7 +1550,7 @@ digraph "MAdeK keymapping" {
         keywords -> Core [
             arrowhead = none,
             headport = w,
-            color = "#551111",
+            color = "#006600",
             arrowtail = none,
             tailport = e
         ]
@@ -676,7 +1558,7 @@ digraph "MAdeK keymapping" {
         "copyright notice" -> Core [
             arrowhead = none,
             headport = w,
-            color = "#551111",
+            color = "#006600",
             arrowtail = none,
             tailport = e
         ]
@@ -684,7 +1566,7 @@ digraph "MAdeK keymapping" {
         "uploaded by" -> Core [
             arrowhead = none,
             headport = w,
-            color = "#551111",
+            color = "#006600",
             arrowtail = none,
             tailport = e
         ]
@@ -692,7 +1574,7 @@ digraph "MAdeK keymapping" {
         "uploaded at" -> Core [
             arrowhead = none,
             headport = w,
-            color = "#551111",
+            color = "#006600",
             arrowtail = none,
             tailport = e
         ]
@@ -707,7 +1589,7 @@ digraph "MAdeK keymapping" {
         title -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#666655",
+            color = "#004444",
             arrowtail = none,
             tailport = e
         ]
@@ -715,7 +1597,7 @@ digraph "MAdeK keymapping" {
         subtitle -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#666655",
+            color = "#004444",
             arrowtail = none,
             tailport = e
         ]
@@ -723,7 +1605,7 @@ digraph "MAdeK keymapping" {
         author -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#666655",
+            color = "#004444",
             arrowtail = none,
             tailport = e
         ]
@@ -731,7 +1613,7 @@ digraph "MAdeK keymapping" {
         "portrayed object dates" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#666655",
+            color = "#004444",
             arrowtail = none,
             tailport = e
         ]
@@ -739,7 +1621,7 @@ digraph "MAdeK keymapping" {
         keywords -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#666655",
+            color = "#004444",
             arrowtail = none,
             tailport = e
         ]
@@ -747,7 +1629,7 @@ digraph "MAdeK keymapping" {
         type -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#666655",
+            color = "#004444",
             arrowtail = none,
             tailport = e
         ]
@@ -755,7 +1637,7 @@ digraph "MAdeK keymapping" {
         "public caption" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#666655",
+            color = "#004444",
             arrowtail = none,
             tailport = e
         ]
@@ -763,7 +1645,7 @@ digraph "MAdeK keymapping" {
         description -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#666655",
+            color = "#004444",
             arrowtail = none,
             tailport = e
         ]
@@ -771,7 +1653,7 @@ digraph "MAdeK keymapping" {
         remark -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#666655",
+            color = "#004444",
             arrowtail = none,
             tailport = e
         ]
@@ -779,7 +1661,7 @@ digraph "MAdeK keymapping" {
         hyperlinks -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#666655",
+            color = "#004444",
             arrowtail = none,
             tailport = e
         ]
@@ -787,7 +1669,7 @@ digraph "MAdeK keymapping" {
         "portrayed object location" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#666655",
+            color = "#004444",
             arrowtail = none,
             tailport = e
         ]
@@ -795,7 +1677,7 @@ digraph "MAdeK keymapping" {
         "portrayed object city" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#666655",
+            color = "#004444",
             arrowtail = none,
             tailport = e
         ]
@@ -803,7 +1685,7 @@ digraph "MAdeK keymapping" {
         "portrayed object state" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#666655",
+            color = "#004444",
             arrowtail = none,
             tailport = e
         ]
@@ -811,7 +1693,7 @@ digraph "MAdeK keymapping" {
         "portrayed object country" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#666655",
+            color = "#004444",
             arrowtail = none,
             tailport = e
         ]
@@ -819,7 +1701,7 @@ digraph "MAdeK keymapping" {
         "portrayed object country code" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#666655",
+            color = "#004444",
             arrowtail = none,
             tailport = e
         ]
@@ -827,7 +1709,7 @@ digraph "MAdeK keymapping" {
         "other creative participants" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#666655",
+            color = "#004444",
             arrowtail = none,
             tailport = e
         ]
@@ -835,7 +1717,7 @@ digraph "MAdeK keymapping" {
         "portrayed person" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#666655",
+            color = "#004444",
             arrowtail = none,
             tailport = e
         ]
@@ -843,7 +1725,7 @@ digraph "MAdeK keymapping" {
         "participating institution" -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#666655",
+            color = "#004444",
             arrowtail = none,
             tailport = e
         ]
@@ -851,7 +1733,7 @@ digraph "MAdeK keymapping" {
         patron -> Werk [
             arrowhead = none,
             headport = w,
-            color = "#666655",
+            color = "#004444",
             arrowtail = none,
             tailport = e
         ]
@@ -866,7 +1748,7 @@ digraph "MAdeK keymapping" {
         creator -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#555511",
+            color = "#773322",
             arrowtail = none,
             tailport = e
         ]
@@ -874,7 +1756,7 @@ digraph "MAdeK keymapping" {
         "creator address" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#555511",
+            color = "#773322",
             arrowtail = none,
             tailport = e
         ]
@@ -882,7 +1764,7 @@ digraph "MAdeK keymapping" {
         "creator city" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#555511",
+            color = "#773322",
             arrowtail = none,
             tailport = e
         ]
@@ -890,7 +1772,7 @@ digraph "MAdeK keymapping" {
         "creator state" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#555511",
+            color = "#773322",
             arrowtail = none,
             tailport = e
         ]
@@ -898,7 +1780,7 @@ digraph "MAdeK keymapping" {
         "creator postal code" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#555511",
+            color = "#773322",
             arrowtail = none,
             tailport = e
         ]
@@ -906,7 +1788,7 @@ digraph "MAdeK keymapping" {
         "creator country" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#555511",
+            color = "#773322",
             arrowtail = none,
             tailport = e
         ]
@@ -914,7 +1796,7 @@ digraph "MAdeK keymapping" {
         "creator work telephone" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#555511",
+            color = "#773322",
             arrowtail = none,
             tailport = e
         ]
@@ -922,7 +1804,7 @@ digraph "MAdeK keymapping" {
         "creator work email" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#555511",
+            color = "#773322",
             arrowtail = none,
             tailport = e
         ]
@@ -930,7 +1812,7 @@ digraph "MAdeK keymapping" {
         "creator work url" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#555511",
+            color = "#773322",
             arrowtail = none,
             tailport = e
         ]
@@ -938,7 +1820,7 @@ digraph "MAdeK keymapping" {
         "creator position" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#555511",
+            color = "#773322",
             arrowtail = none,
             tailport = e
         ]
@@ -946,7 +1828,7 @@ digraph "MAdeK keymapping" {
         "other document participants" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#555511",
+            color = "#773322",
             arrowtail = none,
             tailport = e
         ]
@@ -954,7 +1836,7 @@ digraph "MAdeK keymapping" {
         "date created" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#555511",
+            color = "#773322",
             arrowtail = none,
             tailport = e
         ]
@@ -962,7 +1844,7 @@ digraph "MAdeK keymapping" {
         "portrayed object dimensions" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#555511",
+            color = "#773322",
             arrowtail = none,
             tailport = e
         ]
@@ -970,7 +1852,7 @@ digraph "MAdeK keymapping" {
         "portrayed object materials" -> Medium [
             arrowhead = none,
             headport = w,
-            color = "#555511",
+            color = "#773322",
             arrowtail = none,
             tailport = e
         ]
@@ -985,7 +1867,7 @@ digraph "MAdeK keymapping" {
         title -> Set [
             arrowhead = none,
             headport = w,
-            color = "#117700",
+            color = "#551155",
             arrowtail = none,
             tailport = e
         ]
@@ -993,7 +1875,7 @@ digraph "MAdeK keymapping" {
         author -> Set [
             arrowhead = none,
             headport = w,
-            color = "#117700",
+            color = "#551155",
             arrowtail = none,
             tailport = e
         ]
@@ -1001,7 +1883,7 @@ digraph "MAdeK keymapping" {
         keywords -> Set [
             arrowhead = none,
             headport = w,
-            color = "#117700",
+            color = "#551155",
             arrowtail = none,
             tailport = e
         ]
@@ -1009,7 +1891,7 @@ digraph "MAdeK keymapping" {
         description -> Set [
             arrowhead = none,
             headport = w,
-            color = "#117700",
+            color = "#551155",
             arrowtail = none,
             tailport = e
         ]
@@ -1017,7 +1899,7 @@ digraph "MAdeK keymapping" {
         "uploaded by" -> Set [
             arrowhead = none,
             headport = w,
-            color = "#117700",
+            color = "#551155",
             arrowtail = none,
             tailport = e
         ]
@@ -1025,7 +1907,7 @@ digraph "MAdeK keymapping" {
         "uploaded at" -> Set [
             arrowhead = none,
             headport = w,
-            color = "#117700",
+            color = "#551155",
             arrowtail = none,
             tailport = e
         ]
@@ -1040,7 +1922,7 @@ digraph "MAdeK keymapping" {
         "copyright notice" -> Credits [
             arrowhead = none,
             headport = w,
-            color = "#006633",
+            color = "#002211",
             arrowtail = none,
             tailport = e
         ]
@@ -1048,7 +1930,7 @@ digraph "MAdeK keymapping" {
         "copyright status" -> Credits [
             arrowhead = none,
             headport = w,
-            color = "#006633",
+            color = "#002211",
             arrowtail = none,
             tailport = e
         ]
@@ -1056,7 +1938,7 @@ digraph "MAdeK keymapping" {
         "copyright usage" -> Credits [
             arrowhead = none,
             headport = w,
-            color = "#006633",
+            color = "#002211",
             arrowtail = none,
             tailport = e
         ]
@@ -1064,7 +1946,7 @@ digraph "MAdeK keymapping" {
         "copyright url" -> Credits [
             arrowhead = none,
             headport = w,
-            color = "#006633",
+            color = "#002211",
             arrowtail = none,
             tailport = e
         ]
@@ -1072,7 +1954,7 @@ digraph "MAdeK keymapping" {
         source -> Credits [
             arrowhead = none,
             headport = w,
-            color = "#006633",
+            color = "#002211",
             arrowtail = none,
             tailport = e
         ]
@@ -1080,7 +1962,7 @@ digraph "MAdeK keymapping" {
         provider -> Credits [
             arrowhead = none,
             headport = w,
-            color = "#006633",
+            color = "#002211",
             arrowtail = none,
             tailport = e
         ]
@@ -1088,7 +1970,7 @@ digraph "MAdeK keymapping" {
         "description author" -> Credits [
             arrowhead = none,
             headport = w,
-            color = "#006633",
+            color = "#002211",
             arrowtail = none,
             tailport = e
         ]
@@ -1096,7 +1978,7 @@ digraph "MAdeK keymapping" {
         "description author before import" -> Credits [
             arrowhead = none,
             headport = w,
-            color = "#006633",
+            color = "#002211",
             arrowtail = none,
             tailport = e
         ]
@@ -1111,7 +1993,7 @@ digraph "MAdeK keymapping" {
         title -> Upload [
             arrowhead = none,
             headport = w,
-            color = "#001177",
+            color = "#441177",
             arrowtail = none,
             tailport = e
         ]
@@ -1119,7 +2001,7 @@ digraph "MAdeK keymapping" {
         author -> Upload [
             arrowhead = none,
             headport = w,
-            color = "#001177",
+            color = "#441177",
             arrowtail = none,
             tailport = e
         ]
@@ -1127,7 +2009,7 @@ digraph "MAdeK keymapping" {
         "portrayed object dates" -> Upload [
             arrowhead = none,
             headport = w,
-            color = "#001177",
+            color = "#441177",
             arrowtail = none,
             tailport = e
         ]
@@ -1135,7 +2017,7 @@ digraph "MAdeK keymapping" {
         keywords -> Upload [
             arrowhead = none,
             headport = w,
-            color = "#001177",
+            color = "#441177",
             arrowtail = none,
             tailport = e
         ]
@@ -1143,7 +2025,7 @@ digraph "MAdeK keymapping" {
         "copyright notice" -> Upload [
             arrowhead = none,
             headport = w,
-            color = "#001177",
+            color = "#441177",
             arrowtail = none,
             tailport = e
         ]
@@ -1151,7 +2033,7 @@ digraph "MAdeK keymapping" {
         "copyright status" -> Upload [
             arrowhead = none,
             headport = w,
-            color = "#001177",
+            color = "#441177",
             arrowtail = none,
             tailport = e
         ]
@@ -1159,7 +2041,7 @@ digraph "MAdeK keymapping" {
         "copyright usage" -> Upload [
             arrowhead = none,
             headport = w,
-            color = "#001177",
+            color = "#441177",
             arrowtail = none,
             tailport = e
         ]
@@ -1167,7 +2049,7 @@ digraph "MAdeK keymapping" {
         "copyright url" -> Upload [
             arrowhead = none,
             headport = w,
-            color = "#001177",
+            color = "#441177",
             arrowtail = none,
             tailport = e
         ]
@@ -1182,7 +2064,7 @@ digraph "MAdeK keymapping" {
         "institutional affiliation" -> ZHdK [
             arrowhead = none,
             headport = w,
-            color = "#556666",
+            color = "#337744",
             arrowtail = none,
             tailport = e
         ]
@@ -1190,7 +2072,7 @@ digraph "MAdeK keymapping" {
         "project type" -> ZHdK [
             arrowhead = none,
             headport = w,
-            color = "#556666",
+            color = "#337744",
             arrowtail = none,
             tailport = e
         ]
@@ -1198,7 +2080,7 @@ digraph "MAdeK keymapping" {
         "academic year" -> ZHdK [
             arrowhead = none,
             headport = w,
-            color = "#556666",
+            color = "#337744",
             arrowtail = none,
             tailport = e
         ]
@@ -1206,7 +2088,7 @@ digraph "MAdeK keymapping" {
         "project title" -> ZHdK [
             arrowhead = none,
             headport = w,
-            color = "#556666",
+            color = "#337744",
             arrowtail = none,
             tailport = e
         ]
@@ -1214,7 +2096,7 @@ digraph "MAdeK keymapping" {
         "project leader" -> ZHdK [
             arrowhead = none,
             headport = w,
-            color = "#556666",
+            color = "#337744",
             arrowtail = none,
             tailport = e
         ]
@@ -1229,7 +2111,7 @@ digraph "MAdeK keymapping" {
         "LV_Räumliche Wahrnehmung" -> "Projekte ZHdK" [
             arrowhead = none,
             headport = w,
-            color = "#663300",
+            color = "#225555",
             arrowtail = none,
             tailport = e
         ]
@@ -1244,7 +2126,7 @@ digraph "MAdeK keymapping" {
         LV_Landschaftstyp -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#773311",
+            color = "#337766",
             arrowtail = none,
             tailport = e
         ]
@@ -1252,7 +2134,7 @@ digraph "MAdeK keymapping" {
         LV_Verwendungszweck -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#773311",
+            color = "#337766",
             arrowtail = none,
             tailport = e
         ]
@@ -1260,7 +2142,7 @@ digraph "MAdeK keymapping" {
         LV_Bildwirkung -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#773311",
+            color = "#337766",
             arrowtail = none,
             tailport = e
         ]
@@ -1268,7 +2150,7 @@ digraph "MAdeK keymapping" {
         LV_Bildzeit -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#773311",
+            color = "#337766",
             arrowtail = none,
             tailport = e
         ]
@@ -1276,7 +2158,7 @@ digraph "MAdeK keymapping" {
         LV_Farbe -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#773311",
+            color = "#337766",
             arrowtail = none,
             tailport = e
         ]
@@ -1284,7 +2166,7 @@ digraph "MAdeK keymapping" {
         LV_Landschaftselemente -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#773311",
+            color = "#337766",
             arrowtail = none,
             tailport = e
         ]
@@ -1292,7 +2174,7 @@ digraph "MAdeK keymapping" {
         "LV_Wetter/Klima" -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#773311",
+            color = "#337766",
             arrowtail = none,
             tailport = e
         ]
@@ -1300,7 +2182,7 @@ digraph "MAdeK keymapping" {
         LV_Horizontlinie -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#773311",
+            color = "#337766",
             arrowtail = none,
             tailport = e
         ]
@@ -1308,7 +2190,7 @@ digraph "MAdeK keymapping" {
         "LV_Räumliche Wahrnehmung" -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#773311",
+            color = "#337766",
             arrowtail = none,
             tailport = e
         ]
@@ -1316,9 +2198,16 @@ digraph "MAdeK keymapping" {
         LV_Abstraktionsgrad -> Landschaftsvisualisierung [
             arrowhead = none,
             headport = w,
-            color = "#773311",
+            color = "#337766",
             arrowtail = none,
             tailport = e
+        ]
+
+        "" [
+            shape = box,
+            height = 1.5,
+            width = 1.5,
+            style = filled
         ]
     }
 
@@ -1340,6 +2229,688 @@ digraph "MAdeK keymapping" {
             style = filled
         ]
 
+        "Composite:AvgBitrate" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Composite:AvgBitrate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Composite:AvgBitrate" -> "avg bitrate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Composite:DateTimeOriginal" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Composite:DateTimeOriginal" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Composite:DateTimeOriginal" -> "date time original" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Composite:ImageSize" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Composite:ImageSize" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Composite:ImageSize" -> "image size" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Composite:Rotation" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Composite:Rotation" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Composite:Rotation" -> rotation [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "File:ID3Size" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "File:ID3Size" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "File:ID3Size" -> "id3 size" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "FLAC:BitsPerSample" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "FLAC:BitsPerSample" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "FLAC:BitsPerSample" -> "bits per sample" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "FLAC:BlockSizeMax" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "FLAC:BlockSizeMax" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "FLAC:BlockSizeMax" -> "block size max" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "FLAC:BlockSizeMin" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "FLAC:BlockSizeMin" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "FLAC:BlockSizeMin" -> "block size min" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "FLAC:Channels" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "FLAC:Channels" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "FLAC:Channels" -> channels [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "FLAC:FLAC_0x0001" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "FLAC:FLAC_0x0001" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "FLAC:FLAC_0x0001" -> "flac 0x0001" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "FLAC:FLAC_0x0003" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "FLAC:FLAC_0x0003" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "FLAC:FLAC_0x0003" -> "flac 0x0003" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "FLAC:FrameSizeMax" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "FLAC:FrameSizeMax" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "FLAC:FrameSizeMax" -> "frame size max" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "FLAC:FrameSizeMin" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "FLAC:FrameSizeMin" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "FLAC:FrameSizeMin" -> "frame size min" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "FLAC:TotalSamples" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "FLAC:TotalSamples" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "FLAC:TotalSamples" -> "total samples" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_2:Album" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "ID3v2_2:Album" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_2:Album" -> album [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_2:Artist" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "ID3v2_2:Artist" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_2:Artist" -> artist [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_2:Composer" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "ID3v2_2:Composer" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_2:Composer" -> composer [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_2:EncodedBy" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "ID3v2_2:EncodedBy" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_2:EncodedBy" -> "encoded by" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_2:Genre" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "ID3v2_2:Genre" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_2:Genre" -> genre [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_2:PartOfSet" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "ID3v2_2:PartOfSet" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_2:PartOfSet" -> "part of set" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_2:Track" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "ID3v2_2:Track" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_2:Track" -> track [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_2:Year" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "ID3v2_2:Year" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_2:Year" -> year [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_3:Band" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "ID3v2_3:Band" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_3:Band" -> band [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_3:Conductor" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "ID3v2_3:Conductor" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_3:Conductor" -> conductor [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_3:Copyright" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "ID3v2_3:Copyright" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_3:Copyright" -> copyright [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_3:Picture" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "ID3v2_3:Picture" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_3:Picture" -> picture [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_3:PictureDescription" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "ID3v2_3:PictureDescription" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_3:PictureDescription" -> "picture description" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_3:PictureMimeType" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "ID3v2_3:PictureMimeType" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_3:PictureMimeType" -> "picture mime type" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_3:PictureType" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "ID3v2_3:PictureType" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_3:PictureType" -> "picture type" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_4:Lyrics" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "ID3v2_4:Lyrics" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_4:Lyrics" -> lyrics [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_4:RecordingTime" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "ID3v2_4:RecordingTime" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "ID3v2_4:RecordingTime" -> "recording time" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
         "mediafile.formatID" [
             shape = box,
             height = 0,
@@ -1349,7 +2920,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "mediafile.formatID" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1357,7 +2928,359 @@ digraph "MAdeK keymapping" {
         "mediafile.formatID" -> "media type" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:AudioBitrate" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "MPEG:AudioBitrate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:AudioBitrate" -> "audio bitrate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:AudioLayer" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "MPEG:AudioLayer" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:AudioLayer" -> "audio layer" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:ChannelMode" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "MPEG:ChannelMode" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:ChannelMode" -> "channel mode" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:CopyrightFlag" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "MPEG:CopyrightFlag" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:CopyrightFlag" -> "copyright flag" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:Emphasis" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "MPEG:Emphasis" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:Emphasis" -> emphasis [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:IntensityStereo" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "MPEG:IntensityStereo" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:IntensityStereo" -> "intensity stereo" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:LameBitrate" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "MPEG:LameBitrate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:LameBitrate" -> "lame bitrate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:LameLowPassFilter" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "MPEG:LameLowPassFilter" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:LameLowPassFilter" -> "lame low pass filter" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:LameMethod" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "MPEG:LameMethod" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:LameMethod" -> "lame method" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:LameQuality" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "MPEG:LameQuality" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:LameQuality" -> "lame quality" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:LameStereoMode" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "MPEG:LameStereoMode" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:LameStereoMode" -> "lame stereo mode" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:LameVBRQuality" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "MPEG:LameVBRQuality" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:LameVBRQuality" -> "lame vbr quality" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:MPEGAudioVersion" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "MPEG:MPEGAudioVersion" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:MPEGAudioVersion" -> "mpeg audio version" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:MSStereo" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "MPEG:MSStereo" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:MSStereo" -> "ms stereo" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:OriginalMedia" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "MPEG:OriginalMedia" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:OriginalMedia" -> "original media" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:SampleRate" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "MPEG:SampleRate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "MPEG:SampleRate" -> "sample rate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -1371,7 +3294,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.chat" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1379,7 +3302,7 @@ digraph "MAdeK keymapping" {
         "objects.chat" -> description [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1393,7 +3316,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.copyright typ=\"Art der Objektrechte\"" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1401,7 +3324,7 @@ digraph "MAdeK keymapping" {
         "objects.copyright typ=\"Art der Objektrechte\"" -> "copyright status" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1415,7 +3338,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.copyright typ=creditlinerepro" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1423,7 +3346,7 @@ digraph "MAdeK keymapping" {
         "objects.copyright typ=creditlinerepro" -> "copyright notice" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1437,7 +3360,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.copyright typ=restrictions" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1445,7 +3368,7 @@ digraph "MAdeK keymapping" {
         "objects.copyright typ=restrictions" -> "copyright usage" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1459,7 +3382,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.creditline" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1467,7 +3390,7 @@ digraph "MAdeK keymapping" {
         "objects.creditline" -> provider [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1481,7 +3404,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.dated" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1489,7 +3412,7 @@ digraph "MAdeK keymapping" {
         "objects.dated" -> "portrayed object dates" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1503,7 +3426,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.dimensions" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1511,7 +3434,7 @@ digraph "MAdeK keymapping" {
         "objects.dimensions" -> "portrayed object dimensions" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1525,7 +3448,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.medium" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1533,7 +3456,7 @@ digraph "MAdeK keymapping" {
         "objects.medium" -> "portrayed object materials" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1547,7 +3470,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.notes" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1555,7 +3478,7 @@ digraph "MAdeK keymapping" {
         "objects.notes" -> remark [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1569,7 +3492,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.objectname" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1577,7 +3500,7 @@ digraph "MAdeK keymapping" {
         "objects.objectname" -> objectname [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1591,7 +3514,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.objectnumber" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1599,7 +3522,7 @@ digraph "MAdeK keymapping" {
         "objects.objectnumber" -> objectnumber [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1613,7 +3536,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objects.publicaccess" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1621,7 +3544,7 @@ digraph "MAdeK keymapping" {
         "objects.publicaccess" -> "public access" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1635,7 +3558,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objtitles.titel titeltyp=Legende" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1643,7 +3566,7 @@ digraph "MAdeK keymapping" {
         "objtitles.titel titeltyp=Legende" -> "public caption" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1657,7 +3580,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objtitles.title titletypID=1" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1665,7 +3588,7 @@ digraph "MAdeK keymapping" {
         "objtitles.title titletypID=1" -> title [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1679,7 +3602,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objtitles.title titletypID=6" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1687,7 +3610,7 @@ digraph "MAdeK keymapping" {
         "objtitles.title titletypID=6" -> subtitle [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1701,7 +3624,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "objtitles.title titletypID=99||sites.sitename" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1709,7 +3632,7 @@ digraph "MAdeK keymapping" {
         "objtitles.title titletypID=99||sites.sitename" -> "project title" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1723,7 +3646,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=150" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1731,7 +3654,7 @@ digraph "MAdeK keymapping" {
         "person RoleTypeID=1 RoleID=150" -> author [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1745,7 +3668,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=155" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1753,7 +3676,7 @@ digraph "MAdeK keymapping" {
         "person RoleTypeID=1 RoleID=155" -> "portrayed person" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1767,7 +3690,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=156" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1775,7 +3698,7 @@ digraph "MAdeK keymapping" {
         "person RoleTypeID=1 RoleID=156" -> "portrayed institution" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1789,7 +3712,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=21" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1797,7 +3720,7 @@ digraph "MAdeK keymapping" {
         "person RoleTypeID=1 RoleID=21" -> creator [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1811,7 +3734,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=22" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1819,7 +3742,7 @@ digraph "MAdeK keymapping" {
         "person RoleTypeID=1 RoleID=22" -> patron [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1833,7 +3756,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=251" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1841,7 +3764,7 @@ digraph "MAdeK keymapping" {
         "person RoleTypeID=1 RoleID=251" -> "institutional affiliation" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1855,7 +3778,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=61" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1863,7 +3786,7 @@ digraph "MAdeK keymapping" {
         "person RoleTypeID=1 RoleID=61" -> "project leader" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1877,7 +3800,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=86" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1885,7 +3808,7 @@ digraph "MAdeK keymapping" {
         "person RoleTypeID=1 RoleID=86" -> "other creative participants" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1899,7 +3822,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "person RoleTypeID=1 RoleID=87" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1907,7 +3830,733 @@ digraph "MAdeK keymapping" {
         "person RoleTypeID=1 RoleID=87" -> "participating institution" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Comment" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:Comment" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Comment" -> comment [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:CompatibleBrands" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:CompatibleBrands" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:CompatibleBrands" -> "compatible brands" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:CreateDate" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:CreateDate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:CreateDate" -> "create date" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:CurrentTime" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:CurrentTime" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:CurrentTime" -> "current time" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Duration" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:Duration" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Duration" -> duration [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Encoder" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:Encoder" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Encoder" -> encoder [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Free" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:Free" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Free" -> free [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:HandlerType" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:HandlerType" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:HandlerType" -> "handler type" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:HandlerVendorID" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:HandlerVendorID" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:HandlerVendorID" -> "handler vendor id" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:InitialObjectDescriptor" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:InitialObjectDescriptor" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:InitialObjectDescriptor" -> "initial object descriptor" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:MajorBrand" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:MajorBrand" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:MajorBrand" -> "major brand" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:MatrixStructure" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:MatrixStructure" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:MatrixStructure" -> "matrix structure" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:MinorVersion" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:MinorVersion" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:MinorVersion" -> "minor version" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:ModifyDate" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:ModifyDate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:ModifyDate" -> "modify date" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:MovieData" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:MovieData" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:MovieData" -> "movie data" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:MovieDataSize" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:MovieDataSize" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:MovieDataSize" -> "movie data size" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:MovieHeaderVersion" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:MovieHeaderVersion" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:MovieHeaderVersion" -> "movie header version" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:NextTrackID" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:NextTrackID" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:NextTrackID" -> "next track id" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:PosterTime" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:PosterTime" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:PosterTime" -> "poster time" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:PreferredRate" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:PreferredRate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:PreferredRate" -> "preferred rate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:PreferredVolume" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:PreferredVolume" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:PreferredVolume" -> "preferred volume" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:PreviewDuration" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:PreviewDuration" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:PreviewDuration" -> "preview duration" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:PreviewTime" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:PreviewTime" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:PreviewTime" -> "preview time" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:SelectionDuration" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:SelectionDuration" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:SelectionDuration" -> "selection duration" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:SelectionTime" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:SelectionTime" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:SelectionTime" -> "selection time" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:TimeScale" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:TimeScale" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:TimeScale" -> "time scale" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Unknown_gshh" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:Unknown_gshh" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Unknown_gshh" -> "unknown gshh" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Unknown_gspm" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:Unknown_gspm" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Unknown_gspm" -> "unknown gspm" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Unknown_gspu" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:Unknown_gspu" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Unknown_gspu" -> "unknown gspu" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Unknown_gssd" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:Unknown_gssd" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Unknown_gssd" -> "unknown gssd" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Unknown_gsst" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:Unknown_gsst" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Unknown_gsst" -> "unknown gsst" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Unknown_gstd" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:Unknown_gstd" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Unknown_gstd" -> "unknown gstd" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Wide" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "QuickTime:Wide" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "QuickTime:Wide" -> wide [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -1921,7 +4570,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=\"Erfasser/in vor dem Hochladen ins Medienarchiv\"" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1929,7 +4578,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=\"Erfasser/in vor dem Hochladen ins Medienarchiv\"" -> "description author before import" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1943,7 +4592,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=\"Erfasser/in vor dem Kopieren fürs MIZ-Achiv\"" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1951,7 +4600,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=\"Erfasser/in vor dem Kopieren fürs MIZ-Achiv\"" -> "description author before snapshot" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1965,7 +4614,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=\"Erfasser/in\"" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1973,7 +4622,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=\"Erfasser/in\"" -> "description author" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1987,7 +4636,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=\"Web-Link\"" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -1995,7 +4644,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=\"Web-Link\"" -> hyperlinks [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2009,7 +4658,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=\"Weitere Personen\"" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2017,7 +4666,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=\"Weitere Personen\"" -> "other document participants" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2031,7 +4680,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=\"ZHdK-Projekttyp\"" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2039,7 +4688,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=\"ZHdK-Projekttyp\"" -> "project type" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2053,7 +4702,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=Gattung" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2061,7 +4710,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=Gattung" -> type [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2075,7 +4724,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=Geografie typ=\"ISO-Ländercode\"" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2083,7 +4732,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=Geografie typ=\"ISO-Ländercode\"" -> "portrayed object country code" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2097,7 +4746,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=Geografie typ=\"Kanton/Bundesland\"" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2105,7 +4754,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=Geografie typ=\"Kanton/Bundesland\"" -> "portrayed object state" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2119,7 +4768,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=Geografie typ=\"Standort/Aufführungsort\"" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2127,7 +4776,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=Geografie typ=\"Standort/Aufführungsort\"" -> "portrayed object location" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2141,7 +4790,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=Geografie typ=Land" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2149,7 +4798,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=Geografie typ=Land" -> "portrayed object country" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2163,7 +4812,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=Geografie typ=Stadt" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2171,7 +4820,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=Geografie typ=Stadt" -> "portrayed object city" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2185,7 +4834,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=Stichworte" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2193,7 +4842,7 @@ digraph "MAdeK keymapping" {
         "textentries textart=Stichworte" -> keywords [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2207,7 +4856,7 @@ digraph "MAdeK keymapping" {
         "MIZ-Archiv" -> "textentries textart=Studienjahr" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
             arrowtail = none,
             tailport = e
         ]
@@ -2215,7 +4864,997 @@ digraph "MAdeK keymapping" {
         "textentries textart=Studienjahr" -> "academic year" [
             arrowhead = none,
             headport = w,
-            color = "#552255",
+            color = "#002200",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:AudioBitsPerSample" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:AudioBitsPerSample" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:AudioBitsPerSample" -> "audio bits per sample" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:AudioChannels" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:AudioChannels" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:AudioChannels" -> "audio channels" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:AudioFormat" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:AudioFormat" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:AudioFormat" -> "audio format" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:AudioSampleRate" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:AudioSampleRate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:AudioSampleRate" -> "audio sample rate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:Balance" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:Balance" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:Balance" -> balance [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:ChunkOffset" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:ChunkOffset" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:ChunkOffset" -> "chunk offset" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:HandlerClass" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:HandlerClass" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:HandlerClass" -> "handler class" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:HandlerDescription" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:HandlerDescription" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:HandlerDescription" -> "handler description" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:MediaCreateDate" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:MediaCreateDate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:MediaCreateDate" -> "media create date" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:MediaDuration" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:MediaDuration" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:MediaDuration" -> "media duration" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:MediaHeaderVersion" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:MediaHeaderVersion" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:MediaHeaderVersion" -> "media header version" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:MediaLanguageCode" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:MediaLanguageCode" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:MediaLanguageCode" -> "media language code" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:MediaModifyDate" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:MediaModifyDate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:MediaModifyDate" -> "media modify date" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:MediaTimeScale" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:MediaTimeScale" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:MediaTimeScale" -> "media time scale" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:SampleSizes" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:SampleSizes" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:SampleSizes" -> "sample sizes" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:SampleToChunk" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:SampleToChunk" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:SampleToChunk" -> "sample to chunk" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:TimeToSampleTable" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:TimeToSampleTable" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:TimeToSampleTable" -> "time to sample table" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:TrackCreateDate" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:TrackCreateDate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:TrackCreateDate" -> "track create date" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:TrackDuration" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:TrackDuration" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:TrackDuration" -> "track duration" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:TrackHeaderVersion" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:TrackHeaderVersion" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:TrackHeaderVersion" -> "track header version" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:TrackID" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:TrackID" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:TrackID" -> "track id" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:TrackLayer" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:TrackLayer" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:TrackLayer" -> "track layer" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:TrackModifyDate" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:TrackModifyDate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:TrackModifyDate" -> "track modify date" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:TrackVolume" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:TrackVolume" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:TrackVolume" -> "track volume" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:Unknown_alis" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:Unknown_alis" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:Unknown_alis" -> "unknown alis" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:Unknown_edts" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track1:Unknown_edts" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track1:Unknown_edts" -> "unknown edts" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:BitDepth" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track2:BitDepth" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:BitDepth" -> "bit depth" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:CompositionTimeToSample" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track2:CompositionTimeToSample" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:CompositionTimeToSample" -> "composition time to sample" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:CompositionToDecodeTimelineMapping" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track2:CompositionToDecodeTimelineMapping" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:CompositionToDecodeTimelineMapping" -> "composition to decode timeline mapping" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:CompressorID" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track2:CompressorID" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:CompressorID" -> "compressor id" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:CompressorName" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track2:CompressorName" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:CompressorName" -> "compressor name" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:GraphicsMode" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track2:GraphicsMode" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:GraphicsMode" -> "graphics mode" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:IdependentAndDisposableSamples" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track2:IdependentAndDisposableSamples" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:IdependentAndDisposableSamples" -> "idependent and disposable samples" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:ImageHeight" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track2:ImageHeight" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:ImageHeight" -> "image height" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:ImageWidth" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track2:ImageWidth" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:ImageWidth" -> "image width" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:OpColor" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track2:OpColor" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:OpColor" -> "op color" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:SourceImageHeight" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track2:SourceImageHeight" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:SourceImageHeight" -> "source image height" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:SourceImageWidth" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track2:SourceImageWidth" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:SourceImageWidth" -> "source image width" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:SyncSampleTable" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track2:SyncSampleTable" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:SyncSampleTable" -> "sync sample table" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:Unknown_tapt" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track2:Unknown_tapt" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:Unknown_tapt" -> "unknown tapt" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:VendorID" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track2:VendorID" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:VendorID" -> "vendor id" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:VideoFrameRate" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track2:VideoFrameRate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:VideoFrameRate" -> "video frame rate" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:XResolution" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track2:XResolution" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:XResolution" -> "x resolution" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:YResolution" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Track2:YResolution" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Track2:YResolution" -> "y resolution" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Vorbis:Tracknumber" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "Vorbis:Tracknumber" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "Vorbis:Tracknumber" -> tracknumber [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2229,7 +5868,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-dc:Creator" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2237,7 +5876,7 @@ digraph "MAdeK keymapping" {
         "XMP-dc:Creator" -> creator [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2251,7 +5890,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-dc:Description" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2259,7 +5898,7 @@ digraph "MAdeK keymapping" {
         "XMP-dc:Description" -> description [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2273,7 +5912,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-dc:Identifier" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2281,7 +5920,7 @@ digraph "MAdeK keymapping" {
         "XMP-dc:Identifier" -> identifier [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2295,7 +5934,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-dc:Rights" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2303,7 +5942,7 @@ digraph "MAdeK keymapping" {
         "XMP-dc:Rights" -> "copyright notice" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2317,7 +5956,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-dc:Subject" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2325,7 +5964,7 @@ digraph "MAdeK keymapping" {
         "XMP-dc:Subject" -> keywords [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2339,7 +5978,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-dc:Title" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2347,7 +5986,7 @@ digraph "MAdeK keymapping" {
         "XMP-dc:Title" -> title [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2361,7 +6000,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-dc:Type" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2369,7 +6008,7 @@ digraph "MAdeK keymapping" {
         "XMP-dc:Type" -> type [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2383,7 +6022,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CountryCode" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2391,7 +6030,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CountryCode" -> "portrayed object country code" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2405,7 +6044,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CreatorAddress" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2413,7 +6052,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CreatorAddress" -> "creator address" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2427,7 +6066,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CreatorCity" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2435,7 +6074,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CreatorCity" -> "creator city" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2449,7 +6088,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CreatorContactInfo" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2457,7 +6096,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CreatorContactInfo" -> "creator contact info" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2471,7 +6110,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CreatorCountry" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2479,7 +6118,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CreatorCountry" -> "creator country" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2493,7 +6132,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CreatorPostalCode" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2501,7 +6140,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CreatorPostalCode" -> "creator postal code" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2515,7 +6154,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CreatorRegion" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2523,7 +6162,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CreatorRegion" -> "creator state" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2537,7 +6176,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CreatorWorkEmail" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2545,7 +6184,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CreatorWorkEmail" -> "creator work email" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2559,7 +6198,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CreatorWorkTelephone" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2567,7 +6206,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CreatorWorkTelephone" -> "creator work telephone" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2581,7 +6220,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:CreatorWorkURL" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2589,7 +6228,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:CreatorWorkURL" -> "creator work url" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2603,7 +6242,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:IntellectualGenre" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2611,7 +6250,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:IntellectualGenre" -> "intellectual genre" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2625,7 +6264,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:Location" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2633,7 +6272,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:Location" -> "portrayed object location" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2647,7 +6286,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:Scene" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2655,7 +6294,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:Scene" -> scene [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2669,7 +6308,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-iptcCore:SubjectCode" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2677,7 +6316,7 @@ digraph "MAdeK keymapping" {
         "XMP-iptcCore:SubjectCode" -> "subject code" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2691,7 +6330,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:AcademicYear" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2699,7 +6338,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:AcademicYear" -> "academic year" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2713,7 +6352,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:AdditionalAuthors" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2721,7 +6360,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:AdditionalAuthors" -> "additional authors" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2735,7 +6374,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Author" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2743,7 +6382,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Author" -> author [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2757,7 +6396,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Coverage" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2765,7 +6404,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Coverage" -> coverage [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2779,7 +6418,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:DateCreated" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2787,7 +6426,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:DateCreated" -> "date created" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2801,7 +6440,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:DateCreated" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2809,7 +6448,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:DateCreated" -> "date created" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2823,7 +6462,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Format" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2831,7 +6470,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Format" -> format [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2845,7 +6484,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Hyperlinks" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2853,7 +6492,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Hyperlinks" -> hyperlinks [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2867,7 +6506,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:InstitutionalAffiliation" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2875,7 +6514,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:InstitutionalAffiliation" -> "institutional affiliation" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2889,7 +6528,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Language" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2897,7 +6536,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Language" -> language [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2911,7 +6550,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:OtherCreativeParticipants" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2919,7 +6558,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:OtherCreativeParticipants" -> "other creative participants" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2933,7 +6572,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:OtherDocumentParticipants" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2941,7 +6580,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:OtherDocumentParticipants" -> "other document participants" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2955,7 +6594,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:ParticipatingInstitution" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2963,7 +6602,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:ParticipatingInstitution" -> "participating institution" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2977,7 +6616,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:patron" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2985,7 +6624,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:patron" -> patron [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -2999,7 +6638,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:PortrayedInstitution" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3007,7 +6646,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:PortrayedInstitution" -> "portrayed institution" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3021,7 +6660,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:PortrayedObjectDates" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3029,7 +6668,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:PortrayedObjectDates" -> "portrayed object dates" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3043,7 +6682,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:PortrayedObjectDimensions" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3051,7 +6690,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:PortrayedObjectDimensions" -> "portrayed object dimensions" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3065,7 +6704,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:PortrayedObjectMaterials" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3073,7 +6712,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:PortrayedObjectMaterials" -> "portrayed object materials" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3087,7 +6726,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:PortrayedPerson" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3095,7 +6734,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:PortrayedPerson" -> "portrayed person" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3109,7 +6748,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:ProjectLeader" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3117,7 +6756,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:ProjectLeader" -> "project leader" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3131,7 +6770,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:ProjectType" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3139,7 +6778,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:ProjectType" -> "project type" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3153,7 +6792,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:PublicCaption" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3161,7 +6800,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:PublicCaption" -> "public caption" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3175,7 +6814,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Publisher" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3183,7 +6822,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Publisher" -> publisher [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3197,7 +6836,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Relation" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3205,7 +6844,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Relation" -> relation [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3219,7 +6858,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Remark" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3227,7 +6866,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Remark" -> remark [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3241,7 +6880,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:ShortDescription" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3249,7 +6888,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:ShortDescription" -> "short description" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3263,7 +6902,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:SourceImage" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3271,7 +6910,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:SourceImage" -> "source image" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3285,7 +6924,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:SourceIsbn" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3293,7 +6932,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:SourceIsbn" -> "source isbn" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3307,7 +6946,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:SourcePlate" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3315,7 +6954,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:SourcePlate" -> "source plate" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3329,7 +6968,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:SourceSide" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3337,7 +6976,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:SourceSide" -> "source side" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3351,7 +6990,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Tags" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3359,7 +6998,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Tags" -> tags [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3373,7 +7012,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:TransmissionReference" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3381,7 +7020,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:TransmissionReference" -> "transmission reference" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3395,7 +7034,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-madek:Urn" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3403,7 +7042,7 @@ digraph "MAdeK keymapping" {
         "XMP-madek:Urn" -> urn [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3417,7 +7056,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:AuthorsPosition" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3425,7 +7064,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:AuthorsPosition" -> "creator position" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3439,7 +7078,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:CaptionWriter" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3447,7 +7086,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:CaptionWriter" -> "description author" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3461,7 +7100,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:City" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3469,7 +7108,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:City" -> "portrayed object city" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3483,7 +7122,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:ColorMode" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3491,7 +7130,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:ColorMode" -> "color mode" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3505,7 +7144,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:Country" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3513,7 +7152,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:Country" -> "portrayed object country" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3527,7 +7166,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:Credit" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3535,7 +7174,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:Credit" -> provider [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3549,7 +7188,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:Headline" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3557,7 +7196,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:Headline" -> subtitle [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3571,7 +7210,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:History" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3579,7 +7218,29 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:History" -> history [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:Instructions" [
+            shape = box,
+            height = 0,
+            width = 3.6
+        ]
+
+        "IO Interface" -> "XMP-photoshop:Instructions" [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
+            arrowtail = none,
+            tailport = e
+        ]
+
+        "XMP-photoshop:Instructions" -> instructions [
+            arrowhead = none,
+            headport = w,
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3593,7 +7254,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:SidecarForExtension" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3601,7 +7262,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:SidecarForExtension" -> "sidecar for extension" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3615,7 +7276,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:Source" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3623,7 +7284,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:Source" -> source [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3637,7 +7298,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-photoshop:State" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3645,7 +7306,7 @@ digraph "MAdeK keymapping" {
         "XMP-photoshop:State" -> "portrayed object state" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3659,7 +7320,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-xmp:Rating" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3667,7 +7328,7 @@ digraph "MAdeK keymapping" {
         "XMP-xmp:Rating" -> rating [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3681,7 +7342,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-xmpRights:Marked" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3689,7 +7350,7 @@ digraph "MAdeK keymapping" {
         "XMP-xmpRights:Marked" -> "copyright status" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3703,7 +7364,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-xmpRights:UsageTerms" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3711,7 +7372,7 @@ digraph "MAdeK keymapping" {
         "XMP-xmpRights:UsageTerms" -> "copyright usage" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3725,7 +7386,7 @@ digraph "MAdeK keymapping" {
         "IO Interface" -> "XMP-xmpRights:WebStatement" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]
@@ -3733,7 +7394,7 @@ digraph "MAdeK keymapping" {
         "XMP-xmpRights:WebStatement" -> "copyright url" [
             arrowhead = none,
             headport = w,
-            color = "#661166",
+            color = "#666655",
             arrowtail = none,
             tailport = e
         ]

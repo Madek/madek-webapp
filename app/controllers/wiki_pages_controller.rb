@@ -1,7 +1,5 @@
 class WikiPagesController < ApplicationController
 
-  theme "madek11"
-  
   acts_as_wiki_pages_controller
 
 

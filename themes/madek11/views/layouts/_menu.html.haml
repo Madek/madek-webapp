@@ -1,5 +1,0 @@
-/ - cache("users/#{current_user.id}/menu") do # TODO expire cache on group assignment
-#menu
-  %ul
-    - unless @disable_user_bar
-      = render :partial => '/users/user_bar'

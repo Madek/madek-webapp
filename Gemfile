@@ -7,7 +7,6 @@ gem 'i18n' # Need this explicitly, otherwise can't deploy
 gem 'mysql2', '~> 0.2.7'
 gem 'memcache-client' #gem 'dalli' #gem 'redis-store'
 
-gem 'themes_for_rails', '~> 0.4.1'
 gem 'haml', '~> 3.1.1' # '3.0.25'
 gem 'sass', '~> 3.1.1' # Haml will no longer automatically load Sass in Haml 3.2.0. # Please add gem 'sass' to your Gemfile.
 gem 'jquery-rails', '~> 1.0'

@@ -5,8 +5,6 @@ MAdeK::Application.routes.draw do
 
   root :to => "application#root"
 
-  themes_for_rails
-
 ###############################################
   
   match '/help', :to => "application#help"
