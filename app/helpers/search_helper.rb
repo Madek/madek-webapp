@@ -43,8 +43,8 @@ module SearchHelper
             haml_tag :ul do
               all_words.each do |word|
                 haml_tag :li do
-                  haml_concat check_box_tag "filter_ids[]", word.last.join(','), should_be_checked?(label, word.first, type)
-                  haml_concat "#{word.first} (#{word.last.count})"
+                  haml_concat check_box_tag "filter_ids[]", word.last.join(','), should_be_checked?(label, word.first, type) #debug#, :title => word.last.join(',')
+                  haml_concat "#{word.first} (<span class='total_ids'>#{word.last.count}</span>)"
                 end
               end
             end

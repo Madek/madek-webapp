@@ -107,24 +107,28 @@
     	return false;
     });
 
-    // TODO split to array and save as data ??
-    var list_items = $(".filter_content > ul > li").has("input[name='filter_ids[]']:checkbox");
-    var checkboxes = list_items.find("input[name='filter_ids[]']:checkbox");
+    var checkboxes = $(".filter_content input[name='filter_ids[]']:checkbox");
+    checkboxes.each(function(){
+      var that = $(this);
+      that.data('item_ids', that.val().split(','));
+    });
     checkboxes.change(function(){
       var intersected_ids;
       checkboxes.filter(":checked").each(function(i, elem){
-        var a = elem.value.split(',');
-        if(i){
-          intersected_ids = intersected_ids.intersect(a);
+        var a = $(elem).data('item_ids');
+        intersected_ids = (i ? intersected_ids.intersect(a) : a );
+      });
+      checkboxes.each(function(){
+        var that = $(this);
+        var a = that.data('item_ids');
+        if(intersected_ids) a = intersected_ids.intersect(a);
+        that.next(".total_ids").html(a.length);
+        if(a.length){
+          that.closest("li").show();
         }else{
-          intersected_ids = a;
+          that.closest("li").hide();
         }
       });
-      list_items.show();
-      if(intersected_ids){
-        var intersecting_lists = list_items.has(intersected_ids.map(function(elem, i){ return ":checkbox[value*='"+elem+"']"; }).join(','));
-        list_items.not(intersecting_lists).hide();
-      }
     });
     
     /* TODO
