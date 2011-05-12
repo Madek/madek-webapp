@@ -70,4 +70,4 @@ Feature: Create and edit workgroups
      And I follow "Neue Arbeitsgruppe erstellen"
      And I fill in "group_name" with ""
      And I press "Gruppe erstellen"    
-    Then I should see "Bitte geben Sie einen Gruppennamen an"
+    Then I should see "Name can't be blank"

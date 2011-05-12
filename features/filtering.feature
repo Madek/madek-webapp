@@ -18,7 +18,7 @@ Feature: Use the search filters on my search results
      And I press "Suchen"
     Then I should not see "The Necronomicon"
 
-  @javascript
+  @javascript 
   Scenario: Filtering by keyword: Finding both media entries that have a common word, but showing just one when only one's keyword is selected
     When I log in as "evil" with password "books"
      And I upload some picture titled "The Necronomicon"
@@ -53,8 +53,7 @@ Feature: Use the search filters on my search results
      And I press "Suchen"
     Then I should see "The Necronomicon"
      And I should see "Klaatu Barata Nicto"
-    When I follow "Medieneinträge filtern"
-     And I filter by "nasty" in "Schlagworte"
+     When I filter by "nasty" in "Schlagworte"
      And I press "Filter anwenden"
     Then I should not see "The Necronomicon"
      And I should see "Klaatu Barata Nicto"
@@ -102,8 +101,7 @@ Feature: Use the search filters on my search results
     Then I should see "Pure Evil"
      And I should see "Slightly less pure evil"
      And I should see "Completely unpure evil"
-    When I follow "Medieneinträge filtern"
-     And I filter by "evil" in "Schlagworte"
+    When I filter by "evil" in "Schlagworte"
      And I press "Filter anwenden"
     Then I should see "Pure Evil"
      And I should see "Slightly less pure evil"
@@ -112,8 +110,7 @@ Feature: Use the search filters on my search results
      And I fill in "query" with "evil"
      And I press "Suchen"
     Then I should see "Pure Evil"
-    When I follow "Medieneinträge filtern"
-     And I filter by "unpure" in "Schlagworte"
+    When I filter by "unpure" in "Schlagworte"
      And I press "Filter anwenden"
      And I wait for 2 seconds
     Then I should not see "Pure Evil"
@@ -123,8 +120,7 @@ Feature: Use the search filters on my search results
      And I fill in "query" with "evil"
      And I press "Suchen"
     Then I should see "Pure Evil"
-    When I follow "Medieneinträge filtern"
-     And I filter by "good" in "Schlagworte"
+    When I filter by "good" in "Schlagworte"
      And I press "Filter anwenden"
      And I wait for 2 seconds
     Then I should not see "Pure Evil"
