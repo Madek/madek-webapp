@@ -13,7 +13,7 @@
 @import url("reset.css");
 @import url("menu.css");
 @import url("960.css");
-@import url('jquery/themes/custom-theme/jquery-ui.css');
+@import url('jquery/themes/custom-theme/jquery-ui-1.8.12.custom.css');
 @import url("fg.menu.css");
 
 @import url("madek09.css"); /* TODO remove */

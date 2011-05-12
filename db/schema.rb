@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110415133056) do
+ActiveRecord::Schema.define(:version => 20110505180606) do
 
   create_table "copyrights", :force => true do |t|
     t.boolean "is_default", :default => false
@@ -182,12 +182,14 @@ ActiveRecord::Schema.define(:version => 20110415133056) do
   add_index "meta_keys", ["label"], :name => "index_meta_keys_on_label", :unique => true
   add_index "meta_keys", ["object_type"], :name => "index_meta_keys_on_object_type"
 
-  create_table "meta_keys_meta_terms", :id => false, :force => true do |t|
+  create_table "meta_keys_meta_terms", :force => true do |t|
     t.integer "meta_key_id"
     t.integer "meta_term_id"
+    t.integer "position",     :default => 0, :null => false
   end
 
   add_index "meta_keys_meta_terms", ["meta_key_id", "meta_term_id"], :name => "index_meta_keys_terms_on_meta_key_id_and_term_id", :unique => true
+  add_index "meta_keys_meta_terms", ["position"], :name => "index_meta_keys_meta_terms_on_position"
 
   create_table "meta_terms", :force => true do |t|
     t.string "en_GB"

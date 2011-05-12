@@ -1,0 +1,58 @@
+!!! 5
+%html{:lang => "de-CH"}
+
+  %head
+    %meta{:charset => 'utf-8'}
+    %title
+      Admin
+    = stylesheet_link_tag "master"
+    = javascript_include_tag :defaults, "madek10", "jquery/plugins/jquery.flickrmenu", "jquery/plugins/jquery.elastic", "jquery/plugins/jquery.placeholder"
+    = csrf_meta_tag
+    = yield :head
+
+    :css
+      table { width: 100%; }
+      tr.even { background-color: #dbebf1; }
+      tr.odd { background-color: #ffffff; }
+      th { color: white; background-color: #42627e; }
+      th, td { padding: 0.5em; }
+      input[type='text'], textarea { width: 25em; }
+
+    :javascript
+      function edit_row_tpl(content, class, colspan){
+        return '<tr class="' + class + '"><td colspan="' + colspan + '">' + content + '</td><td class="with_actions"><a class="buttons cancel" href="#">Cancel</a></td></tr>';
+      }
+      $(document).ready(function () {
+        $("a[data-remote]:not(a[data-method='delete'])").live('ajax:complete', function(xhr, response){
+          var row = $(this).closest("tr");
+          var cols = 0;
+          row.children().each(function(){
+            cols += $(this).prop('colSpan');
+          });
+          row.hide().after(edit_row_tpl(response.responseText, row.attr('class'), cols-1));
+        });
+        
+        $("a.cancel").live('click', function(){
+          var row = $(this).closest("tr");
+          row.prev().show();
+          row.remove();
+          return false;
+        });
+        // TODO
+        //$("form[data-remote]").live('ajax:complete', function(xhr, response){});
+      });
+    
+  %body
+    %header.container_12.clearfix
+      %h1= link_to "Medienarchiv der KÃ¼nste", root_path
+      = render :partial => "/layouts/admin/menu"
+      #ajaxLoading
+        = image_tag("spinner.gif")
+        = _("Loading")
+        \...
+    %section.container_12.clearfix
+      = yield
+    %footer.container_12.clearfix
+      = link_to _("Export"), export_admin_meta_path
+      |
+      = link_to _("Import"), import_admin_meta_path

@@ -1861,12 +1861,10 @@ ul.Person ul.holder li.bit-box {
 ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
   z-index: 0; }
 
-/* Overwriting jQuery css */
-.ui-tabs {
-  padding-bottom: 0;
-  padding-left: 0;
-  padding-right: 0;
-  padding-top: 0; }
+/* Overriding jQuery-UI css - start */
+.ui-widget-content {
+  color: #444444;
+  border: 0; }
 
 .ui-widget-header {
   background-attachment: scroll;
@@ -1877,7 +1875,20 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
   background-position: 0 0;
   background-repeat: repeat;
   background-size: auto auto;
-  font-weight: bold; }
+  font-weight: bold;
+  border: 0; }
+
+.ui-tabs .ui-tabs-panel {
+  border-bottom: 1px solid #dddddd;
+  display: block;
+  border-width: 0;
+  background: none; }
+
+.ui-tabs {
+  padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0; }
 
 .ui-tabs .ui-tabs-nav {
   list-style-image: none;
@@ -1895,6 +1906,9 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
   color: #424242;
   cursor: text; }
 
+.ui-tabs .ui-tabs-nav li a {
+  padding: 0.8em 1em .5em 1em; }
+
 .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
   color: #7f7f7f;
   outline-color: -moz-use-text-color;
@@ -1902,6 +1916,19 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
   outline-width: medium;
   text-decoration: none; }
 
+.ui-state-active, .ui-widget-content .ui-state-active {
+  border: 1px solid #dddddd;
+  font-weight: bold; }
+
+.ui-menu .ui-menu-item a.ui-state-hover,
+.ui-menu .ui-menu-item a.ui-state-active {
+  background: #f1f1f1;
+  color: black; }
+
+.ui-datepicker {
+  background-color: #F1F1F1; }
+
+/* Overriding jQuery-UI css - end */
 table.metadata-table a {
   text-decoration: none; }
 
