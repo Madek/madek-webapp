@@ -54,7 +54,7 @@ Feature: Exporting for archival experts and using the associated archival expert
       And I wait for 3 seconds
      Then I should see "Things for archival"
      When I follow "Kopie für MIZ-Archiv erstellen"
-     Then I should see "Ein Kopie dieses Medieneintrags wurde am"
+     Then I should see "Ein Kopie dieses Medieneintrages wurde am"
      When I log in as "ginger" with password "dancing"
       And I click the arrow next to "Rogers, Ginger"
       And I follow "Kopien für MIZ-Archiv"
