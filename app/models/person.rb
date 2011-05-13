@@ -45,6 +45,8 @@ class Person < ActiveRecord::Base
 
     set_property :delta => true # :delayed
   end
+  #tmp#thinking-sphinx 2.0.4#
+  include ThinkingSphinx::ActiveRecord::Delta
 
   default_sphinx_scope :default_search
   sphinx_scope(:default_search) { { :star => true } }

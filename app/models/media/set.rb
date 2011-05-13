@@ -62,7 +62,9 @@ module Media
   
     set_property :delta => true
   end
-  # 
+  #tmp#thinking-sphinx 2.0.4#
+  include ThinkingSphinx::ActiveRecord::Delta
+
   # # used to forcing sphinx live update
   def sphinx_reindex
     self.delta = true

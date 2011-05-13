@@ -92,13 +92,10 @@ class UploadController < ApplicationController
 
       pre_load # OPTIMIZE
 
-      #temp#sphinx#
-      #old 1003# MediaEntry.suspended_delta do
-        media_sets = Media::Set.find_by_id_or_create_by_title(params[:media_set_ids], current_user)
-        media_sets.each do |media_set|
-          media_set.media_entries.push_uniq @media_entries
-        end
-      #old 1003# end #temp#always perform delta reindex# unless params[:media_set_ids].empty? 
+      media_sets = Media::Set.find_by_id_or_create_by_title(params[:media_set_ids], current_user)
+      media_sets.each do |media_set|
+        media_set.media_entries.push_uniq @media_entries
+      end
     
       redirect_to root_path
     else

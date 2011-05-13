@@ -73,6 +73,8 @@ class MediaEntry < ActiveRecord::Base
     
     set_property :delta => true # :delayed
   end
+  #tmp#thinking-sphinx 2.0.4#
+  include ThinkingSphinx::ActiveRecord::Delta
 
   # used to forcing sphinx live update
   def sphinx_reindex
