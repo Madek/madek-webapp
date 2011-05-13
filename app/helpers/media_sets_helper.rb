@@ -3,7 +3,7 @@ module MediaSetsHelper
 
   #2001# def media_set_title(media_set, visible_media_entries, with_link = false)
 
-  def media_set_title(media_set, with_link = false, with_main_thumb = false, total_thumbs = 0)
+  def media_set_title(media_set, with_link = false, with_main_thumb = false, total_thumbs = 0, accessible_resource_ids = nil)
     content = capture_haml do
       haml_tag :div, :class => "set-box", :style => (with_main_thumb ? "min-height: 160px;": nil) do
         haml_tag :div, thumb_for(media_set, :small_125), :class => "thumb_box_set", :style => "margin-right: 40px;" if with_main_thumb
@@ -15,7 +15,7 @@ module MediaSetsHelper
         haml_tag :br
         if total_thumbs > 0
           haml_tag :br
-          media_entries = media_set.media_entries.paginate(:page => 1, :per_page => total_thumbs)
+          media_entries = media_set.media_entries.where(:id => accessible_resource_ids).paginate(:page => 1, :per_page => total_thumbs)
           if media_entries.empty?
             haml_tag :small, _("Noch keine Medieneinträge enthalten")
           else
