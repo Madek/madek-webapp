@@ -133,6 +133,9 @@
           that.attr("disabled", "disabled");
         }
       });
+      var submit_value = "Filter anwenden";
+      if(intersected_ids) submit_value += " ("+intersected_ids.length+")";
+      $(".filter_footer #search-submit").val(submit_value);
     });
     
     /* TODO
