@@ -124,9 +124,13 @@
         if(intersected_ids) a = intersected_ids.intersect(a);
         that.next(".total_ids").html(a.length);
         if(a.length){
-          that.closest("li").show();
+          //that.closest("li").show();
+          that.closest("li").removeClass("disabled");
+          that.removeAttr("disabled");
         }else{
-          that.closest("li").hide();
+          //that.closest("li").hide();
+          that.closest("li").addClass("disabled");
+          that.attr("disabled", "disabled");
         }
       });
     });
