@@ -143,10 +143,12 @@ def fill_in_person_widget(list_element, value, options = "")
     field = list_element.find("##{id_prefix}_autocomplete_search")
     fill_in field[:id], :with => value
     press_enter_in(field[:id])
+    sleep 3.0
   elsif options == "pseudonym field"
     list_element.find(".dialog_link").click
     fill_in "Pseudonym", :with => value
     click_link_or_button("Personendaten einfügen")
+    sleep 3.0
   elsif options == "group tab"
     list_element.find(".dialog_link").click
     click_link "Gruppe"
@@ -160,6 +162,7 @@ def fill_in_person_widget(list_element, value, options = "")
       end
     end
     click_link_or_button("Gruppendaten einfügen")
+    sleep 3.0
   else
     lastname, firstname = value, value
     lastname, firstname = value.split(",") if value.include?(",")

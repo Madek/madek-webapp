@@ -73,7 +73,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
     Then I should see "No one teaches me!"
      And I should see "Photographs of Han's rides"
 
-  @javascript
+  @javascript @work
   Scenario: Changing the author field on a media entry using the firstname/lastname entry form tab
     When I log in as "hansolo" with password "leia"
      And I upload some picture titled "Me and Leia Organa"
@@ -87,8 +87,10 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I press "Speichern"
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
-     And I wait for 3 seconds
+     And I wait for 4 seconds
      And I click the media entry titled "Me and Leia Organa"
+     #And I wait for 10 seconds
+     And I wait for the CSS element "#detail-excerpt"
      Then I should see "Foo, Bar"
 
   @javascript
@@ -107,10 +109,10 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I follow "Meine Medien"
      And I wait for 3 seconds
      And I click the media entry titled "Me and Leia Organa"
-     And I wait for 3 seconds
+     And I wait for the CSS element "#detail-excerpt"
      Then I should see "(Yoda)"
 
-  @javascript
+  @javascript @work
   Scenario: Putting a group into the group name field in the group tab
     When I log in as "hansolo" with password "leia"
      And I upload some picture titled "Me and Leia Organa"
@@ -126,7 +128,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I follow "Meine Medien"
      And I wait for 3 seconds
      And I click the media entry titled "Me and Leia Organa"
-     And I wait for 3 seconds
+     And I wait for the CSS element "#detail-excerpt"
      Then I should see "The Rebel Alliance"
 
   @javascript
@@ -145,7 +147,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I follow "Meine Medien"
      And I wait for 3 seconds
      And I click the media entry titled "Me and Leia Organa"
-     And I wait for 3 seconds
+     And I wait for the CSS element "#detail-excerpt"
      Then I should see "Furter, Frank"
 
 
@@ -168,7 +170,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I follow "Meine Medien"
      And I wait for 3 seconds
      And I click the media entry titled "Me and Leia Organa on the beach"
-     And I wait for 3 seconds
+     And I wait for the CSS element "#detail-excerpt"
      Then I should see "leia, beach, sun, fun"
 
 
