@@ -253,6 +253,10 @@ function displayCount() {
 		display_count.html("Keine Medieneinträge ausgewählt.");
 		$('#selected_items').hide();
 	};
+
+	if($('#selected_items .edit').length){ $("#batch-edit").show(); }else{ $("#batch-edit").hide(); }
+	if($('#selected_items .manage').length){ $("#batch-permissions").show(); }else{ $("#batch-permissions").hide(); }
+	//if($('#selected_items .thumb_mini').length){ $("#batch-add-to-set").show(); }else{ $("#batch-add-to-set").hide(); }
 };
 
 function display_results(json, container){
