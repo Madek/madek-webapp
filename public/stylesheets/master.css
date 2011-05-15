@@ -266,8 +266,6 @@ div#ajaxLoading {
   position: fixed;
   z-index: 999;
   padding: 0;
-  font-weight: bold;
-  font-size: 14px;
   text-align: center;
   top: 14px;
   left: 14px;
@@ -409,7 +407,7 @@ nav {
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  min-width: 134px; }
+  min-width: 150px; }
   .head_menu a {
     font-weight: bold; }
   .head_menu a:hover {
@@ -801,12 +799,39 @@ ul li {
 .thumb_box_set {
   float: left;
   text-align: center;
-  width: 144px;
-  height: 145px;
+  width: 150px;
+  height: 150px;
   font-size: 1em;
   line-height: 144px;
-  background: url(../images/icons/icon_set_tn1.png) no-repeat 0 1px;
+  background: url(../images/icons/icon_tn_set.png) no-repeat 0 1px;
+  margin-bottom: 6px;
+  position: relative; }
+
+#set_results .item_box, #project_results .item_box {
+  width: 150px; }
+
+#project_results .thumb_box_set {
+  float: left;
+  text-align: center;
+  width: 150px;
+  height: 150px;
+  font-size: 1em;
+  line-height: 144px;
+  background: url(../images/icons/icon_tn_project.png) no-repeat 0 1px;
   margin-bottom: 6px; }
+
+#project_results .thumb_box_set img {
+  background-color: #FFFFFF;
+  padding: 3px;
+  margin-top: 20px;
+  max-width: 65px;
+  max-height: 65px;
+  -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
+  /*  position: absolute; */
+  /*  top: 0; */
+  /*  right: 10px; */
+  /*  -moz-transform: rotate(0deg); */
+  /*  clip: rect(0px 150px 36px 0px); */ }
 
 .thumb_box img, .thumb_box_set img {
   border: 1px solid #f2f2f2;
