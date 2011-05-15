@@ -5,7 +5,7 @@
     else
       "/images/icons/icon_set.png"
   end
-    
+  accessible_resource_ids = current_user.accessible_resource_ids
 
 - unless @media_set
   - if params[:type] != "projects"
@@ -49,7 +49,8 @@
           &darr;
           = @other_title
       .clear
-      = render :partial => "media_set", :collection => @my_media_sets
+      - @my_media_sets.each do |media_set|
+        = media_set_title(media_set, true, true, 9, accessible_resource_ids) 
     
   .container_12.clearfix
     %section#content_body2.clearfix
@@ -62,7 +63,8 @@
           &uarr;
           = @my_title
       .clear
-      = render :partial => "media_set", :collection => @media_sets
+      - @media_sets.each do |media_set|
+        = media_set_title(media_set, true, true, 9, accessible_resource_ids)
 
 - else # FeaturedSet
   .container_12.clearfix
@@ -72,6 +74,7 @@
         = @my_title
       .clear
       - if @media_sets.any?
-        = render :partial => "media_set", :collection => @media_sets
+        - @media_sets.each do |media_set|
+          = media_set_title(media_set, true, true, 9, accessible_resource_ids)
       - else 
         = _("Keine Sets vorhanden")

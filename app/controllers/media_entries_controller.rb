@@ -100,22 +100,6 @@ end
   def edit
   end
 
-#  # NOTE accepting and destroying an array of media_entries
-#  def multiple_destroy
-#    MediaEntry.suspended_delta do
-#      @deleted = []
-#      Array(@media_entry).each do |media_entry|
-#        next unless current_user == media_entry.user # TODO acl
-#        @deleted << media_entry.destroy
-#      end
-#    end
-#
-#    respond_to do |format|
-#      format.html { redirect_to media_entries_path }
-#      format.js { render :json => @deleted.collect(&:id) }
-#    end
-#  end
-
   def destroy
     @media_entry.destroy
 

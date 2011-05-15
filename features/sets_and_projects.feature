@@ -41,7 +41,7 @@ Feature: Do things to and with sets and projects
     Then I should see "After-Upload Set"
      And I should not see "Ohne Titel"
 
- @javascript @work
+ @javascript
   Scenario: Rename a set
     When I log in as "helmi" with password "saumagen"
      And I go to the home page

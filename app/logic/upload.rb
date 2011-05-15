@@ -14,7 +14,7 @@ class Upload
 
       current_user = User.find_by_id(session[:user_id]) if session[:user_id]
       
-      ThinkingSphinx.deltas_enabled = false #MediaEntry.suspended_delta do
+      ThinkingSphinx.deltas_enabled = false
 
         files = if !params['uploaded_data'].blank?
           params['uploaded_data']
@@ -52,7 +52,7 @@ class Upload
           end
         end
 
-      ThinkingSphinx.deltas_enabled = true #end
+      ThinkingSphinx.deltas_enabled = true
 
       # TODO check if all media_entries successfully saved
 
