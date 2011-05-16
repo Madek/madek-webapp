@@ -53,9 +53,9 @@ class SearchController < ApplicationController
     @_media_project_ids &= filter_ids unless filter_ids.blank? 
     @paginated_project_ids = @_media_project_ids.paginate(:page => params[:page], :per_page => params[:per_page])
     @projects = Logic.enriched_resource_data(@paginated_project_ids, current_user, resource_type)
-          
+
     respond_to do |format|
-      format.html
+      format.html { @editable_sets = Media::Set.accessible_by(current_user, :edit) }
       format.js { 
         render :json => case params[:page_type]
           when "media_entry_tab"
