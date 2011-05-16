@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Permission < ActiveRecord::Base
   
-  ACTIONS = [:view, :edit, :hi_res, :manage]
+  ACTIONS = [:view, :edit, :hi_res, :manage] # view = 2^0 = 1; edit = 2^1 = 2; hi_res = 2^2 = 4; manage = 2^3 = 8
   
   belongs_to :subject, :polymorphic => true 
   belongs_to :resource, :polymorphic => true
