@@ -23,8 +23,8 @@ module MetaDataHelper
     return if meta_data.blank?
     contexts = project.individual_contexts
     capture_haml do
-      haml_tag :div, :style => "border-top: 1px solid silver; padding-top: 1em;" do
-        haml_tag :h3, "Abstrakt"
+      haml_tag :div do
+        haml_tag :h3, _("Auszug")
         meta_data.collect do |meta_datum|
           context = contexts.detect {|c| meta_datum.meta_key.meta_contexts.include?(c) }
           next unless context #

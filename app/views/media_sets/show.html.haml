@@ -9,10 +9,24 @@
             %div.thumb_box_set
               = thumb_for(@media_set, :small_125)
       .grid_7
-        #set_meta
-          - context = MetaContext.media_set
-          = display_meta_data_for_context(@media_set, context)
-          = display_project_abstract(@media_set) if @media_set.is_a?(Media::Project)
+        #detail_specification.tabs
+          %ul
+            %li
+              = link_to _("Projektinfo"), "#info_tab"
+            %li
+              = link_to _("Auszug"), "#abstract_tab"
+            %li
+              = link_to _("Zugriffsberechtigungen"), "#permission_tab"
+            %li
+              = link_to _("Vokabular"), "#vocabulary_tab"
+          #info_tab.clearfix
+            - context = MetaContext.media_set
+            = display_meta_data_for_context(@media_set, context)
+          #abstract_tab.clearfix
+            = display_project_abstract(@media_set) if @media_set.is_a?(Media::Project)
+          #permission_tab.clearfix
+            = render :partial => "/permissions/edit_multiple"
+          #vocabulary_tab.clearfix
       .grid_2
         #set_actions
           - if @can_edit_set
