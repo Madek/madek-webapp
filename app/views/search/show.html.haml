@@ -1,58 +1,4 @@
-%script{:type => "text/x-jquery-tmpl", :id => "pagination"}
-  .pagination
-    ${total_entries} ${pagination_label},
-    Seite ${current_page} von ${total_pages}
-  .clear
-
-%script{:type => "text/x-jquery-tmpl", :id => "index"}
-  %div.item_box{:id => "thumb_${id}"}
-    %div.item_permission
-      {{if is_public}}
-      = image_tag("icons/button_status_private.png")
-      {{else is_private}}
-      = image_tag("icons/icon_button_perm.png")
-      {{/if}}
-    {{if is_set}}
-    %a{:href => "/media_sets/${id}"}
-      %div.thumb_box_set
-        %img{:src => "${thumb_base64}"}
-    {{else}}
-    %a{:href => "/media_entries/${id}"}
-      %div.thumb_box
-        %img{:src => "${thumb_base64}"}
-    {{/if}}
-    %p.item_title
-      ${title.substring(0,50)}
-    %p.item_author
-      ${author.substring(0,50)}
-    .actions
-      {{if !is_set}}
-      .action_left
-        //tmp// %span.check_box.off
-        //tmp//  = image_tag("icons/button_checkbox_off.png", :alt => _("Auswählen"))
-        %span.favorite_link{:id => "fav_${id}", :title => "Favorit"}
-          %a{:href => "/media_entries/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
-            {{if is_favorite}}
-            = image_tag("icons/button_favorit_on.png")
-            {{else}}
-            = image_tag("icons/button_favorit_off.png")
-            {{/if}}
-      {{/if}}
-      .action_right
-        {{if is_editable}}
-        %a{:href => "/${url_stub}/${id}/edit", :title => "Editieren"}
-          = image_tag("icons/button_edit_active.png")
-        {{else}}
-        = image_tag("icons/button_edit_inactive.png")
-        {{/if}}
-        {{if is_manageable}}
-        %a{:href => "/${url_stub}/${id}", :title => "Löschen", :class => "delete_me", :"data-method" => :delete, :"data-remote" => true, :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher?"}
-          = image_tag("icons/button_delete_active.png")
-        {{else}}
-        = image_tag("icons/button_delete_inactive.png")
-        {{/if}}
-
-%section#content_body
+%section#content_body_result
   .page_title_left
     =_("Suchergebnisse")
     #term
@@ -85,11 +31,14 @@
         %div{:id => "project_results", :class => "result_area" }
           = render :partial => 'results', :locals => { :type => "project",  :json => @projects.to_json }
 
+= render :partial => "media_entries/batch_bar"
 
 = javascript_include_tag "batch_actions"
 
 :javascript
   $(document).ready(function () { 
+    setupBatch(#{@media_entries.to_json});    
+
     var t = $('#detail_specification').tabs();
     var active_bookmark = '#{@active_bookmark}';
     if (active_bookmark != '') t.tabs('select', active_bookmark);
