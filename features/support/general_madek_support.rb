@@ -170,6 +170,7 @@ def fill_in_person_widget(list_element, value, options = "")
     fill_in "Nachname", :with => lastname
     fill_in "Vorname", :with => firstname
     click_link_or_button("Personendaten einfügen")
+    sleep 3.0
   end
 end
 

@@ -82,14 +82,13 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And all the hidden items become visible
      And I click the edit icon on the media entry titled "Me and Leia Organa"
      And I fill in the metadata form as follows:
-     |label   |value      |
-     |Autor/in|Foo, Bar   |
+     |label   |value   |
+     |Autor/in|Foo, Bar|
      And I press "Speichern"
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
      And I wait for 4 seconds
      And I click the media entry titled "Me and Leia Organa"
-     #And I wait for 10 seconds
      And I wait for the CSS element "#detail-excerpt"
      Then I should see "Foo, Bar"
 
@@ -112,7 +111,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I wait for the CSS element "#detail-excerpt"
      Then I should see "(Yoda)"
 
-  @javascript @work
+  @javascript
   Scenario: Putting a group into the group name field in the group tab
     When I log in as "hansolo" with password "leia"
      And I upload some picture titled "Me and Leia Organa"
