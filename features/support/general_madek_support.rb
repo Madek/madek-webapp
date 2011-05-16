@@ -29,6 +29,7 @@ end
 
 def make_hidden_items_visible
   page.execute_script '$(":hidden").show();'
+  sleep 0.5
 end
 
 def click_on_arrow_next_to(word)
