@@ -829,7 +829,9 @@ ul li {
 .thumb_box img, .thumb_box_set img {
   border: 1px solid #f2f2f2;
   margin-top: expression(( 140 - this.height ) / 2);
-  vertical-align: middle; }
+  vertical-align: middle;
+  max-width: 110px;
+  max-height: 110px; }
 
 .actions {
   position: absolute;
@@ -1884,6 +1886,10 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
 .ui-widget-content {
   color: #444444;
   border: 0; }
+
+#page_head .ui-widget-content {
+  background: none;
+  border-bottom-width: 0; }
 
 .ui-widget-header {
   background-attachment: scroll;

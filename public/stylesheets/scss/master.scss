@@ -796,6 +796,8 @@ ul li { float: left; }
 	border: 1px solid #f2f2f2;
 	margin-top: expression(( 140 - this.height ) / 2);
 	vertical-align: middle;
+	max-width: 110px;
+  max-height: 110px;
 }
 
 .actions {
@@ -2082,6 +2084,11 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
     color: #444444;
     border: 0;
 }
+#page_head .ui-widget-content {
+    background: none;
+    border-bottom-width: 0;
+}
+
 
 .ui-widget-header {
     background-attachment: scroll;
