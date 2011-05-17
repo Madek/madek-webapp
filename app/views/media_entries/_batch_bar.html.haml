@@ -43,16 +43,22 @@
       {{else is_private}}
       = image_tag("icons/icon_button_perm.png")
       {{/if}}
+    {{if is_set}}
+    %a{:href => "/media_sets/${id}"}
+      %div.thumb_box_set
+        %img{:src => "${thumb_base64}"}
+    {{else}}
     %a{:href => "/media_entries/${id}"}
       %div.thumb_box
         %img{:src => "${thumb_base64}"}
+    {{/if}}
     %p.item_title
       ${title.substring(0,50)}
     %p.item_author
       ${author.substring(0,50)}
     .actions
+      {{if !is_set}}
       .action_left
-        /%input{:type => "checkbox", :value => "${id}", :title => "Auswählen", :class => "editable"}
         %span.check_box.off
           = image_tag("icons/button_checkbox_off.png", :alt => _("Auswählen"))
         %span.favorite_link{:id => "fav_${id}", :title => "Favorit"}
@@ -62,6 +68,7 @@
             {{else}}
             = image_tag("icons/button_favorit_off.png")
             {{/if}}
+      {{/if}}
       .action_right
         /url = resource.is_a?(MediaEntry) ? edit_media_entry_path(resource) : edit_media_set_path(resource)
         {{if is_editable}}

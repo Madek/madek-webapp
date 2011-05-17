@@ -1,3 +1,17 @@
+:ruby
+  case @media_set.class.name
+    when "Media::Project"
+      thumb_class = "thumb_box_project"
+      tab_title = _("Projektinfo")
+      content_title = _("Projekt-Inhalt")
+      content_img_src = "/images/icons/icon_project.png"
+    else
+      thumb_class = "thumb_box_set"
+      tab_title = _("Setinfo")      
+      content_title = _("Set-Inhalt")
+      content_img_src = "/images/icons/icon_set.png"
+  end
+
 %section#content_head
   .container_12.clearfix
     #page_head
@@ -6,27 +20,32 @@
           %div.item_box_set
             %div.item_permission_set
               = display_permission(@media_set, :icon)
-            %div.thumb_box_set
+            %div{:class => thumb_class}
               = thumb_for(@media_set, :small_125)
       .grid_7
         #detail_specification.tabs
           %ul
             %li
-              = link_to _("Projektinfo"), "#info_tab"
-            %li
-              = link_to _("Auszug"), "#abstract_tab"
+              = link_to tab_title, "#info_tab"
+            - if @media_set.is_a?(Media::Project)
+              %li
+                = link_to _("Auszug"), "#abstract_tab"
             %li
               = link_to _("Zugriffsberechtigungen"), "#permission_tab"
-            %li
-              = link_to _("Vokabular"), "#vocabulary_tab"
+            - if @media_set.is_a?(Media::Project)
+              %li
+                = link_to _("Vokabular"), "#vocabulary_tab"
           #info_tab.clearfix
             - context = MetaContext.media_set
             = display_meta_data_for_context(@media_set, context)
-          #abstract_tab.clearfix
-            = display_project_abstract(@media_set) if @media_set.is_a?(Media::Project)
+          - if @media_set.is_a?(Media::Project)
+            #abstract_tab.clearfix
+              = display_project_abstract(@media_set)
           #permission_tab.clearfix
             = render :partial => "/permissions/edit_multiple"
-          #vocabulary_tab.clearfix
+          - if @media_set.is_a?(Media::Project)
+            #vocabulary_tab.clearfix
+              Vocabulary here
       .grid_2
         #set_actions
           - if @can_edit_set
@@ -35,8 +54,8 @@
 
 %section#content_body_set
   %div.page_title_left
-    %img{:src => "/images/icons/icon_set.png"}
-    =_("Set-Inhalt")
+    %img{:src => content_img_src}
+    = content_title
     %span= "#{@media_entry_ids.total_entries} von #{@media_set.media_entries.count} Medieneinträge für Sie sichtbar"
   .clear
   = render :partial => "/media_entries/index"
