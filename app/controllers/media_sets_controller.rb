@@ -63,29 +63,7 @@ class MediaSetsController < ApplicationController
     end
   end
 
-  # TODO merge to Permissions#edit_multiple
   def edit
-    permissions = Permission.cached_permissions_by(@media_set)
-    keys = Permission::ACTIONS
-    @permissions_json = {}
-    
-    permissions.group_by {|p| p.subject_type }.collect do |type, type_permissions|
-      unless type.nil?
-        @permissions_json[type] = type_permissions.map do |p|
-          h = {:id => p.subject.id, :name => p.subject.to_s, :type => type}
-          keys.each {|key| h[key] = p.actions[key] } #1504#
-          h
-        end
-      else
-        p = type_permissions.first
-        @permissions_json["public"] = begin
-          h = {:name => "Öffentlich", :type => 'nil'}
-          keys.each {|key| h[key] = p.actions[key] } #1504#
-          h
-        end
-      end
-    end
-    @permissions_json = @permissions_json.to_json
   end
 
  def destroy

@@ -20,6 +20,7 @@ module Logic
                               :is_public => me.acl?(:view, :all),
                               :is_editable => editable_in_context.include?(me.id),
                               :is_manageable => managable_in_context.include?(me.id),
+                              :is_set => false, # OPTIMIZE
                               :is_favorite => favorite_ids.include?(me.id) }
                     me.attributes.merge(me.get_basic_info).merge(flags)
                   end } 

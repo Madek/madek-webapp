@@ -1,14 +1,23 @@
+/
+  .page_title_left
+    %img{:src => "/images/icons/icon_permission.png"}
+    = _("Zugriffsberechtigungen editieren")
+  .clear
+
+- @display_hi_res_action = true
+
 - if @media_entries
   = form_tag update_multiple_media_entry_permissions_path(0), :method => :put do
     = hidden_field_tag :media_entry_ids, @media_entries.map(&:id).join(',')
     = render :partial => "/permissions/table", :locals => {:cancel_path => session[:return_to]}
-- elsif @resource && @resource.is_a?(MediaEntry)
+- elsif @resource and @resource.is_a?(MediaEntry)
   = form_tag update_multiple_media_entry_permissions_path(0), :method => :put do
     = hidden_field_tag :media_entry_ids, @resource.id
     = render :partial => "/permissions/table", :locals => {:cancel_path => media_entry_path(@resource) }
 - else
-  = form_tag update_multiple_media_set_permissions_path(@media_set), :method => :put do
-    = render :partial => "/permissions/table", :locals => {:cancel_path => media_set_path(@media_set) }
+  - @display_hi_res_action = false
+  = form_tag update_multiple_media_set_permissions_path(@resource), :method => :put do
+    = render :partial => "/permissions/table", :locals => {:cancel_path => media_set_path(@resource) }
 
 
 %script{:type => "text/x-jquery-tmpl", :id => "new_permission"}
@@ -21,13 +30,13 @@
     %td{:style => "{{if (edit == 'mixed')}}background: url(/images/stripe_1.png){{/if}}"}
       %input{:name => "{{if (type == 'nil')}}subject[${type}][edit]{{else}}subject[${type}][${id}][edit]{{/if}}", :type => "hidden", :value => "false"}
       <input name="{{if (type == 'nil')}}subject[${type}][edit]{{else}}subject[${type}][${id}][edit]{{/if}}" type="checkbox" value="true" {{if edit}}checked="checked"{{/if}}>
-    - unless @media_set
+    - if @display_hi_res_action
       %td{:style => "{{if (hi_res == 'mixed')}}background: url(/images/stripe_1.png){{/if}}"}
         %input{:name => "{{if (type == 'nil')}}subject[${type}][hi_res]{{else}}subject[${type}][${id}][hi_res]{{/if}}", :type => "hidden", :value => "false"}
         <input name="{{if (type == 'nil')}}subject[${type}][hi_res]{{else}}subject[${type}][${id}][hi_res]{{/if}}" type="checkbox" value="true" {{if hi_res}}checked="checked"{{/if}}>
     %td
       {{if manage}}
-      = image_tag("icons/button_checkbox_on.png")
+      %input{:type => :checkbox, :checked => :checked, :disabled => :disabled}
       {{/if}}
     %td
       {{if type != 'nil' && id != #{current_user.id} }}
@@ -101,7 +110,7 @@
       }
     });
 
-    // TODO override rails.js data-method and data-confirm
+    // TODO override jquery_ujs.js data-method and data-confirm
     $(".permissions a.delete[msg]").live('click', function(){
       var element = $(this);
       var message = element.attr('msg');

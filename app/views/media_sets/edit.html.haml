@@ -20,17 +20,6 @@
       = yield :buttons
   .clear
 
-- if Permission.authorized?(current_user, :manage, @media_set)
-  - @resource = @media_set
-  .container_12.clearfix              
-    %section#content_body2.clearfix      
-      %div.page_title_left
-        %img{:src => "/images/icons/icon_permission.png"}
-        =_("Set-Zugriffsberechtigungen editieren")
-      .clear
-      = render :partial => "/permissions/edit_multiple"
-
-
 :javascript
   $(document).ready(function () {
   	$("form").submit(function(event){

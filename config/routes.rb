@@ -122,6 +122,7 @@ MAdeK::Application.routes.draw do
     
     resources :permissions do
       collection do
+        get :edit_multiple
         put :update_multiple
       end
     end
@@ -155,7 +156,11 @@ MAdeK::Application.routes.draw do
   
   resource :session
 
-  resource :search, :controller => 'search'
+  resource :search, :controller => 'search' do
+    member do
+      post :filter
+    end
+  end
 
 ####################################################################################
 

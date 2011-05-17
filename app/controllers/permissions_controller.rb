@@ -104,6 +104,7 @@ class PermissionsController < ApplicationController
       selected_ids = [params[:media_set_id].to_i]
       manageable_ids = current_user.accessible_resource_ids(:manage, Media::Set)
       @resources = Media::Set.where(:id => (selected_ids & manageable_ids))
+      @resource = @resources.first # OPTIMIZE
     else
       flash[:error] = "Sie haben keine Medieneinträge ausgewählt."
       redirect_to :back

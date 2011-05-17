@@ -30,8 +30,9 @@
             - if @media_set.is_a?(Media::Project)
               %li
                 = link_to _("Auszug"), "#abstract_tab"
-            %li
-              = link_to _("Zugriffsberechtigungen"), "#permission_tab"
+            - if Permission.authorized?(current_user, :manage, @media_set)
+              %li
+                = link_to _("Zugriffsberechtigungen"), edit_multiple_media_set_permissions_path(@media_set)
             - if @media_set.is_a?(Media::Project)
               %li
                 = link_to _("Vokabular"), "#vocabulary_tab"
@@ -41,8 +42,6 @@
           - if @media_set.is_a?(Media::Project)
             #abstract_tab.clearfix
               = display_project_abstract(@media_set)
-          #permission_tab.clearfix
-            = render :partial => "/permissions/edit_multiple"
           - if @media_set.is_a?(Media::Project)
             #vocabulary_tab.clearfix
               Vocabulary here
