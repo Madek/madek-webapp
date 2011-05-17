@@ -811,7 +811,14 @@ ul li {
   margin-bottom: 6px; }
 
 .thumb_box_project {
-  background: url(../images/icons/icon_tn_project.png) no-repeat 0 1px; }
+  float: left;
+  text-align: center;
+  width: 150px;
+  height: 150px;
+  font-size: 1em;
+  line-height: 144px;
+  background: url(../images/icons/icon_tn_project.png) no-repeat 0 1px;
+  margin-bottom: 6px; }
 
 #project_results .thumb_box_set img {
   background-color: #FFFFFF;
@@ -826,12 +833,20 @@ ul li {
   /*  -moz-transform: rotate(0deg); */
   /*  clip: rect(0px 150px 36px 0px); */ }
 
+.thumb_box_project img {
+  background-color: #FFFFFF;
+  padding: 3px;
+  margin-top: 50px;
+  max-width: 65px;
+  max-height: 65px;
+  -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.25); }
+
 .thumb_box img, .thumb_box_set img {
   border: 1px solid #f2f2f2;
   margin-top: expression(( 140 - this.height ) / 2);
   vertical-align: middle;
-  max-width: 110px;
-  max-height: 110px; }
+  max-width: 120px;
+  max-height: 120px; }
 
 .actions {
   position: absolute;
@@ -1073,7 +1088,7 @@ button.dark:hover {
   display: block; }
 
 #set_info img {
-  padding: 0; }
+  /*padding: 0;*/ }
 
 #set_info h3 {
   background: url("../images/icons/icon_set_small.png") no-repeat 0 1px;
@@ -1385,6 +1400,9 @@ button.dark:hover {
     overflow: hidden; }
     #detail_specification ul li {
       float: left; }
+  #detail_specification small {
+    display: block;
+    margin-top: 10px; }
 
 #content_body_fixed #detail_specification {
   margin-left: 20px; }
@@ -1890,7 +1908,8 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
 #page_head .ui-widget-content {
   background: none;
   border-bottom-width: 0;
-  margin: 40px 0; }
+  margin: 10px 0;
+  line-height: 1.2em; }
 
 .ui-widget-header {
   background-attachment: scroll;
