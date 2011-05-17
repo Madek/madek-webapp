@@ -17,17 +17,17 @@
           = link_to "Projekte (#{@paginated_project_ids.total_entries})", "#project_tab"
       #media_entry_tab.clearfix 
         .filter_area
-          = render :partial => 'filter_form', :locals => {:filter => @media_entry_filter, :media => @_media_entry_ids, :type => "MediaEntry" }
+          = render :partial => 'filter_form', :locals => {:filter => @media_entry_filter, :resource_ids => @_media_entry_ids, :type => "MediaEntry" }
         %div{:id => "media_entry_results", :class => "result_area" }
           = render :partial => 'results', :locals => { :type => "media_entry", :json => @media_entries.to_json }
       #set_tab.clearfix   
         .filter_area
-          = render :partial => 'filter_form', :locals => {:filter => @media_set_filter, :media => @_media_set_ids, :type => "Media::Set" }
+          = render :partial => 'filter_form', :locals => {:filter => @media_set_filter, :resource_ids => @_media_set_ids, :type => "Media::Set" }
         %div{:id => "set_results", :class => "result_area" }
           = render :partial => 'results', :locals => { :type => "set", :json => @media_sets.to_json }
       #project_tab.clearfix  
         .filter_area
-          = render :partial => 'filter_form', :locals => {:filter => @project_filter, :media => @_media_project_ids, :type => "Media::Set" }
+          = render :partial => 'filter_form', :locals => {:filter => @project_filter, :resource_ids => @_media_project_ids, :type => "Media::Set" }
         %div{:id => "project_results", :class => "result_area" }
           = render :partial => 'results', :locals => { :type => "project",  :json => @projects.to_json }
 
@@ -39,9 +39,7 @@
   $(document).ready(function () { 
     setupBatch(#{@media_entries.to_json});    
 
-    var t = $('#detail_specification').tabs();
-    var active_bookmark = '#{@active_bookmark}';
-    if (active_bookmark != '') t.tabs('select', active_bookmark);
+    $('#detail_specification').tabs();
     
     $('.filter_box h3.filter_category a.filter_category_link').click(function() {
       var icon = $(this).siblings('span.ui-icon');
@@ -56,35 +54,39 @@
     	return false;
     });
 
-    var checkboxes = $(".filter_content input[name='filter_ids[]']:checkbox");
-    checkboxes.each(function(){
-      var that = $(this);
-      that.data('item_ids', that.val().split(','));
-    });
+    var checkboxes = $(".filter_content input[data-item_ids]:checkbox");
     checkboxes.change(function(){
-      var intersected_ids;
-      checkboxes.filter(":checked").each(function(i, elem){
+      var parent_form = $(this).closest("form");
+      var sibling_checkboxes = parent_form.find("input[data-item_ids]:checkbox");
+      var intersected_ids = parent_form.data('item_ids');
+      sibling_checkboxes.filter(":checked").each(function(i, elem){
         var a = $(elem).data('item_ids');
         intersected_ids = (i ? intersected_ids.intersect(a) : a );
       });
-      checkboxes.each(function(){
+      sibling_checkboxes.each(function(){
         var that = $(this);
         var a = that.data('item_ids');
         if(intersected_ids) a = intersected_ids.intersect(a);
         that.next(".total_ids").html(a.length);
         if(a.length){
-          //that.closest("li").show();
           that.closest("li").removeClass("disabled");
           that.removeAttr("disabled");
         }else{
-          //that.closest("li").hide();
           that.closest("li").addClass("disabled");
           that.attr("disabled", "disabled");
         }
       });
       var submit_value = "Filter anwenden";
       if(intersected_ids) submit_value += " ("+intersected_ids.length+")";
-      $(".filter_footer #search-submit").val(submit_value);
+      parent_form.find(".filter_footer #search-submit").val(submit_value);
+      parent_form.find("input#filter_ids").val(intersected_ids.join(','));
+    });
+
+    $(".filter_content form").live('ajax:complete.rails', function(xhr, response){ // TODO ajax:success ??
+      var json = JSON.parse(response.responseText);
+      var container = $(".result_area:visible:first");
+      container.empty();
+      display_results(json, container)      
     });
     
     /* TODO

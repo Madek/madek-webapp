@@ -1,24 +1,20 @@
-.filter_box
-  %h3.filter_category.filter_header.clearfix
-    %span.ui-icon.ui-icon-triangle-1-e
-    = link_to "Medieneinträge filtern", "#", :class => "filter_category_link"
-  - style = "display: block;" #tmp# (type == @active_filter_type) ? "display: block;" : "display: none"
-  .filter_content{:style => style}
-    %form{:action => search_path, :method => :get}
-      = hidden_field_tag "query", params[:query]
-      - unless media.empty?
-        = hidden_field_tag "klass", type
+- unless resource_ids.empty?
+  .filter_box
+    %h3.filter_category.filter_header.clearfix
+      %span.ui-icon.ui-icon-triangle-1-e
+      = link_to "Medieneinträge filtern", "#", :class => "filter_category_link"
+    .filter_content{:style => "display: block;"}
+      %form{:action => filter_search_path, :method => :post, :"data-remote" => "true", :"data-type" => :json, :"data-item_ids" => resource_ids.to_json}
+        =#tmp# hidden_field_tag "query", params[:query]
+        = hidden_field_tag "filter_ids", resource_ids.join(',')
         #filter-query.basic
           %div
             - if type == "MediaEntry"
               %h3.filter_category.clearfix
                 %span.ui-icon.ui-icon-triangle-1-e
                 = link_to "Medientyp und Format", "#", :class => "filter_category_link"
-                - #TODO # 
-                = link_to "(zurücksetzen)", "#", :class => "reset_filter"
+                =#tmp# link_to "(zurücksetzen)", "#", :class => "reset_filter"
               .filter_content{:style => display_style(type, "media type")}
-                -#TODO# media_types = media.map {|m| m.media_type }.uniq # only applicable media types and their dependent filters should be displayed
-                -#TODO# we need some sort of config to map media_types to their dependent filters, i.e. {:image => [:orientation, :width, :height]}
                 %h3.filter_subcategory.filter_category.clearfix
                   %span.input_wrapper
                     = check_box_tag "#{type}[media_type][]", "Image", should_be_checked?("media type", "Image", type)
@@ -34,10 +30,10 @@
                       = label_tag "#{type}[orientation][1]", "Hochformat"
                       = check_box_tag "#{type}[orientation]", '1', should_be_checked?("orientation", "1", type)
                   %ul
-                    - width_value = (type == @active_filter_type && filter.filters[:width]) ? filter.filters[:width][:value] : nil
-                    - width_operator = (type == @active_filter_type && filter.filters[:width]) ? filter.filters[:width][:operator] : nil
-                    - height_value = (type == @active_filter_type && filter.filters[:height]) ? filter.filters[:height][:value] : nil
-                    - height_operator = (type == @active_filter_type && filter.filters[:height]) ? filter.filters[:height][:operator] : nil
+                    - width_value = (filter.filters[:width]) ? filter.filters[:width][:value] : nil
+                    - width_operator = (filter.filters[:width]) ? filter.filters[:width][:operator] : nil
+                    - height_value = (filter.filters[:height]) ? filter.filters[:height][:value] : nil
+                    - height_operator = (filter.filters[:height]) ? filter.filters[:height][:operator] : nil
                     %li
                       = label_tag "#{type}[width][value]", "Breite"
                       = select_tag "#{type}[width][operator]", options_for_select({'ist genau' => 'is', 'grösser als' => 'gt', 'kleiner als' => 'lt'}, :selected => width_operator), :include_blank => true
@@ -47,9 +43,9 @@
                       = label_tag "#{type}[height][value]", "Höhe"
                       = select_tag "#{type}[height][operator]", options_for_select({'ist genau' => 'is', 'grösser als' => 'gt', 'kleiner als' => 'lt'}, :selected => height_operator), :include_blank => true
                       = text_field_tag "#{type}[height][value]", height_value, :size => 10
-
-            = display_meta_data_checkboxes(media, type)
+  
+            = display_meta_data_checkboxes(resource_ids, type)
           .filter_footer
-            = submit_tag _("Filter anwenden"), :title => "Filtern", :id => 'search-submit', :name => nil
-            - if @active_filter
-              %p= link_to "Alle Filter zurücksetzen", search_path(:query => params[:query])
+            = submit_tag _("Filter anwenden (%d)") % resource_ids.count, :title => "Filtern", :id => 'search-submit', :name => nil
+            - if false #tmp# @active_filter
+              %p=#tmp# link_to "Alle Filter zurücksetzen", search_path(:query => params[:query])
