@@ -36,6 +36,7 @@ module Resource
       def with_labels
         h = {}
         all_cached.each do |meta_datum|
+          next unless meta_datum.meta_key # FIXME inconsistency: there are meta_data referencing to not existing meta_key_ids [131, 135]
           h[meta_datum.meta_key.label] = meta_datum.to_s
         end
         h
