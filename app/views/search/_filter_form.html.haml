@@ -12,8 +12,8 @@
             - if type == "MediaEntry"
               = hidden_field_tag "query", params[:query]
               %h3.filter_category.clearfix
-                %span.ui-icon.ui-icon-triangle-1-e
                 = link_to "Medientyp und Format", "#", :class => "filter_category_link"
+                %span.ui-icon.ui-icon-triangle-1-e
                 =#tmp# link_to "(zurücksetzen)", "#", :class => "reset_filter"
               .filter_content{:style => display_style(type, "media type")}
                 %h3.filter_subcategory.filter_category.clearfix
