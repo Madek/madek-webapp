@@ -1409,6 +1409,14 @@ button.dark:hover {
     display: block;
     margin-top: 10px; }
 
+#vocabulary_tab {
+  -moz-column-count: 3;
+  -moz-column-gap: 20px;
+  -webkit-column-count: 3;
+  -webkit-column-gap: 20px;
+  column-count: 3;
+  column-gap: 20px; }
+
 #content_body_fixed #detail_specification {
   margin-left: 20px; }
 
@@ -1914,7 +1922,8 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
   background: none;
   border-bottom-width: 0;
   margin: 10px 0;
-  line-height: 1.2em; }
+  line-height: 1.2em;
+  padding: 0; }
 
 .ui-widget-header {
   background-attachment: scroll;
@@ -1929,12 +1938,36 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
   border: 0; }
 
 .ui-tabs .ui-tabs-panel {
-  border-bottom: 1px solid #dddddd;
   display: block;
   border-width: 0;
-  background: none; }
+  background: none;
+  padding: 0; }
+
+#info_tab.ui-tabs-panel, #abstract_tab.ui-tabs-panel {
+  padding: 10px 0;
+  line-height: 1.3em; }
+
+#vocabulary_tab.ui-tabs-panel {
+  padding: 50px 0 10px 0;
+  line-height: 1.3em; }
+
+#info_tab p, #abstract_tab p, #vocabulary_tab p {
+  letter-spacing: 0.1ex; }
+
+#info_tab h4, #abstract_tab h4, #vocabulary_tab h4 {
+  color: #7F7F7F;
+  font-size: 0.8em;
+  letter-spacing: 0.2ex;
+  font-weight: normal;
+  margin-top: 10px; }
+
+#vocabulary_tab h3 {
+  font-size: 1.4em;
+  margin-top: -32px;
+  position: absolute; }
 
 .ui-tabs {
+  /*border-bottom: 1px solid #dddddd;*/
   padding-bottom: 0;
   padding-left: 0;
   padding-right: 0;
@@ -1958,6 +1991,11 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
   color: #424242;
   cursor: text; }
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected {
+  margin-bottom: 0;
+  padding-bottom: 1px;
+  position: relative; }
 
 .ui-tabs .ui-tabs-nav li a {
   padding: 0.8em 1em .5em 1em; }
