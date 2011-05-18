@@ -616,7 +616,8 @@ ul li {
   border-top: 1px solid white; }
 .filter_box h3.filter_header, .filter_box .filter_footer {
   background: #DDDDDD;
-  border: 0; }
+  border: 0;
+  margin-left: 0; }
 .filter_box .filter_header .filter_category_link {
   font-size: 0.9em;
   text-shadow: 0 1px 0 #fff; }
@@ -627,7 +628,8 @@ ul li {
   float: left; }
 .filter_box a.filter_category_link {
   font-size: 0.7em;
-  float: left; }
+  float: left;
+  margin-left: 10px; }
 .filter_box .filter_category_link {
   font-size: 0.6em; }
 .filter_box a.reset_filter {
