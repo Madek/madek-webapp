@@ -29,7 +29,7 @@ module MetaDataHelper
           context = contexts.detect {|c| meta_datum.meta_key.meta_contexts.include?(c) }
           next unless context #
           definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
-          haml_tag :small, definition.meta_field.label
+          haml_tag :h4, definition.meta_field.label
           haml_tag :p, preserve(formatted_value(meta_datum))
         end
       end

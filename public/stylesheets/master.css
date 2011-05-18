@@ -523,9 +523,9 @@ ul li {
   margin-top: 10px; }
 
 #content_body_result {
-  width: 80%;
+  /*width:80%;*/
   padding: 20px;
-  min-width: 920px;
+  min-width: 720px;
   margin-left: 222px;
   margin-right: auto;
   background-color: #fff;
@@ -596,11 +596,15 @@ ul li {
 
 .filter_area {
   font-size: 0.8em;
-  width: 221px;
+  width: 230px;
   position: fixed;
   left: 0;
   top: 68px;
-  overflow-y: auto; }
+  overflow-y: auto;
+  background-color: white;
+  -webkit-box-shadow: 0 0 4px rgba(100, 100, 100, 0.3);
+  -moz-box-shadow: 0 0 4px rgba(100, 100, 100, 0.3);
+  box-shadow: 0 0 4px rgba(100, 100, 100, 0.3); }
 
 .result_area {
   float: left; }
@@ -611,7 +615,8 @@ ul li {
   padding: 8px 8px 8px 5px;
   border-top: 1px solid white; }
 .filter_box h3.filter_header, .filter_box .filter_footer {
-  background: #DDDDDD; }
+  background: #DDDDDD;
+  border: 0; }
 .filter_box .filter_header .filter_category_link {
   font-size: 0.9em;
   text-shadow: 0 1px 0 #fff; }
@@ -1141,7 +1146,7 @@ button.dark:hover {
   position: fixed;
   left: 0;
   text-align: center;
-  min-width: 920px;
+  min-width: 900px;
   padding-left: 20px;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -1935,11 +1940,14 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
   padding-right: 0;
   padding-top: 0; }
 
+#content_body_result .ui-tabs {
+  margin-left: 10px; }
+
 .ui-tabs .ui-tabs-nav {
   list-style-image: none;
   list-style-position: outside;
   list-style-type: none;
-  margin-left: 0px;
+  margin-left: 0;
   padding-bottom: 0;
   padding-left: 0px;
   padding-right: 0;
