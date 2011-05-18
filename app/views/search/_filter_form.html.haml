@@ -5,11 +5,12 @@
       = link_to "Medieneinträge filtern", "#", :class => "filter_category_link"
     .filter_content{:style => "display: block;"}
       %form{:action => filter_search_path, :method => :post, :"data-remote" => "true", :"data-type" => :json, :"data-item_ids" => resource_ids.to_json}
-        =#tmp# hidden_field_tag "query", params[:query]
-        = hidden_field_tag "filter_ids", resource_ids.join(',')
+        = hidden_field_tag "filter[type]", type
+        = hidden_field_tag "filter[ids]", resource_ids.join(',')
         #filter-query.basic
           %div
             - if type == "MediaEntry"
+              = hidden_field_tag "query", params[:query]
               %h3.filter_category.clearfix
                 %span.ui-icon.ui-icon-triangle-1-e
                 = link_to "Medientyp und Format", "#", :class => "filter_category_link"

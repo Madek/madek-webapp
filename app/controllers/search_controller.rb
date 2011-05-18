@@ -48,18 +48,27 @@ class SearchController < ApplicationController
   end
     
   def filter
-    viewable_media_entry_ids = current_user.accessible_resource_ids # TODO before_filter
+    case params[:filter][:type]
+      when "MediaEntry"
+        viewable_ids = current_user.accessible_resource_ids
+        # TODO merge search and filter methods
+        if params["MediaEntry"]["media_type"]
+          search_options = Filter.new(params["MediaEntry"]).to_query_filter
+          search_result = MediaEntry.search_for_ids(params[:query], search_options)
+          viewable_ids &= search_result
+        end
+      when "Media::Set", "Media::Project"
+        viewable_ids = current_user.accessible_resource_ids(:view, "Media::Set")
+    end
 
-    resource_type = "MediaEntry"
-    @_media_entry_ids = viewable_media_entry_ids & params[:filter_ids].split(',').map(&:to_i) 
-    @paginated_media_entry_ids = @_media_entry_ids.paginate(:page => params[:page], :per_page => params[:per_page])
-    @media_entries = Logic.enriched_resource_data(@paginated_media_entry_ids, current_user, resource_type)
+    params[:per_page] ||= PER_PAGE.first
 
-    #@_media_set_ids &= filter_ids unless filter_ids.blank? 
-    #@_media_project_ids &= filter_ids unless filter_ids.blank? 
+    intersected_ids = viewable_ids & params[:filter][:ids].split(',').map(&:to_i) 
+    @paginated_ids = intersected_ids.paginate(:page => params[:page], :per_page => params[:per_page])
+    @resources = Logic.enriched_resource_data(@paginated_ids, current_user, params[:filter][:type])
 
     respond_to do |format|
-      format.js { render :json => @media_entries.to_json }
+      format.js { render :json => @resources.to_json }
     end    
   end
   
