@@ -260,6 +260,7 @@ function displayCount() {
 };
 
 function display_results(json, container){
+	$(window).unbind('scroll');
 	//var container = container ? $("#" + container) : $("#results");
 	var container = container ? (typeof(container) === "string" ? $("#" + container) : container) : $("#results");
 	var loading = container.find(".loading");
