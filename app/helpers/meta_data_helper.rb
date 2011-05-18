@@ -36,6 +36,20 @@ module MetaDataHelper
     end
   end
 
+  def display_project_vocabulary(project)
+    capture_haml do
+      project.individual_contexts.each do |context|
+        haml_tag :h3, context
+        context.meta_keys.where(:object_type => "Meta::Term").each do |meta_key|
+          haml_tag :h4, meta_key
+          meta_key.meta_terms.each do |meta_term|
+            haml_tag :p, meta_term
+          end
+        end
+      end
+    end
+  end
+
   # TODO merge with MetaDatum#to_s
   def formatted_value(meta_datum)
     case meta_datum.meta_key.object_type
