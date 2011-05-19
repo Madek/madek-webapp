@@ -3,7 +3,6 @@ class MediaSetsController < ApplicationController
 
   before_filter :pre_load
   before_filter :authorized?, :only => [:show, :edit, :update, :destroy, :add_member] # TODO :except => :index OR check for :index too ??
-  after_filter :store_location, :only => [:show]
   
   def index
     ids = current_user.accessible_resource_ids(:view, "Media::Set")

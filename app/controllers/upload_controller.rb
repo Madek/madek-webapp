@@ -1,9 +1,6 @@
 # -*- encoding : utf-8 -*-
 class UploadController < ApplicationController
 
-  # TODO before_filter :login_required and authorized_for(:upload) ??
-  # TODO before_filter :pre_load, :except => :new
-
   #temp#sphinx#
   around_filter :disable_sphinx, :except => [:update, :import_summary, :set_media_sets]
   around_filter :suspend_sphinx, :only => [:update, :import_summary] # TODO [:set_permissions, :set_media_sets], :if => proc { |controller| controller.request.post? }
@@ -21,7 +18,6 @@ class UploadController < ApplicationController
 ### metal/upload.rb ###    
 #  def create
 #  end
-
 
 ##################################################
 # step 2

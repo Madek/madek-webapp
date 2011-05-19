@@ -9,7 +9,7 @@
 - if @media_entries
   = form_tag update_multiple_media_entry_permissions_path(0), :method => :put do
     = hidden_field_tag :media_entry_ids, @media_entries.map(&:id).join(',')
-    = render :partial => "permissions/table", :locals => {:cancel_path => session[:return_to]}
+    = render :partial => "permissions/table", :locals => {:cancel_path => "javascript:history.back(1);"}
 - elsif @resource and @resource.is_a?(MediaEntry)
   = form_tag update_multiple_media_entry_permissions_path(0), :method => :put do
     = hidden_field_tag :media_entry_ids, @resource.id
