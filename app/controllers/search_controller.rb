@@ -6,31 +6,11 @@ class SearchController < ApplicationController
     
     params[:per_page] ||= PER_PAGE.first
     
-    @active_filter_type = params[:klass]
-    @active_bookmark = case @active_filter_type
-      when "MediaEntry"
-        "#media_entry_tab"
-      when "Media::Set"
-        "#set_tab"
-      when "Media::Project"
-        "#project_tab"
-    end
-
-    filter_ids = if params[:filter_ids] # TODO resource_type
-      params[:filter_ids].inject(nil) do |a, x|
-        b = x.split(',').collect(&:to_i)
-        a ? a &= b : a = b
-      end
-    else
-      nil
-    end
-
     resource_type = "MediaEntry"
     @media_entry_filter = Filter.new(params[resource_type]) 
     search_options = @media_entry_filter.to_query_filter
     search_result = MediaEntry.search_for_ids(params[:query], search_options)
     @_media_entry_ids = (search_result & viewable_media_entry_ids)
-    @_media_entry_ids &= filter_ids unless filter_ids.blank? 
     @paginated_media_entry_ids = @_media_entry_ids.paginate(:page => params[:page], :per_page => params[:per_page])
     @media_entries = Logic.enriched_resource_data(@paginated_media_entry_ids, current_user, resource_type)
     
@@ -40,7 +20,6 @@ class SearchController < ApplicationController
     search_options[:with].merge!(:media_type => "Set".to_crc32)
     search_result = Media::Set.search_for_ids(params[:query], search_options)
     @_media_set_ids = (search_result & viewable_media_set_ids)
-    @_media_set_ids &= filter_ids unless filter_ids.blank? 
     @paginated_media_set_ids = @_media_set_ids.paginate(:page => params[:page], :per_page => params[:per_page])
     @media_sets = Logic.enriched_resource_data(@paginated_media_set_ids, current_user, resource_type)
     
@@ -50,7 +29,6 @@ class SearchController < ApplicationController
     search_options[:with].merge!(:media_type => "Project".to_crc32)
     search_result = Media::Set.search_for_ids(params[:query], search_options)
     @_media_project_ids = (search_result & viewable_media_set_ids)
-    @_media_project_ids &= filter_ids unless filter_ids.blank? 
     @paginated_project_ids = @_media_project_ids.paginate(:page => params[:page], :per_page => params[:per_page])
     @projects = Logic.enriched_resource_data(@paginated_project_ids, current_user, resource_type)
 
@@ -66,9 +44,32 @@ class SearchController < ApplicationController
             @projects.to_json
         end
       }
-      format.xml { render :xml => @media_entries.to_xml(:include => {:meta_data => {:include => :meta_key}} ) }
     end
   end
     
+  def filter
+    case params[:filter][:type]
+      when "MediaEntry"
+        viewable_ids = current_user.accessible_resource_ids
+        # TODO merge search and filter methods
+        if params["MediaEntry"]["media_type"]
+          search_options = Filter.new(params["MediaEntry"]).to_query_filter
+          search_result = MediaEntry.search_for_ids(params[:query], search_options)
+          viewable_ids &= search_result
+        end
+      when "Media::Set", "Media::Project"
+        viewable_ids = current_user.accessible_resource_ids(:view, "Media::Set")
+    end
+
+    params[:per_page] ||= PER_PAGE.first
+
+    intersected_ids = viewable_ids & params[:filter][:ids].split(',').map(&:to_i) 
+    @paginated_ids = intersected_ids.paginate(:page => params[:page], :per_page => params[:per_page])
+    @resources = Logic.enriched_resource_data(@paginated_ids, current_user, params[:filter][:type])
+
+    respond_to do |format|
+      format.js { render :json => @resources.to_json }
+    end    
+  end
   
 end

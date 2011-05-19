@@ -6,14 +6,14 @@ module MetaDataHelper
       uploader_info, other_info = resource.meta_data_for_context(context).partition {|md| ["uploaded by", "uploaded at"].include?(md.meta_key.label) }
       other_info.each do |meta_datum|
         definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
-        haml_tag :small, definition.meta_field.label.to_s
+        haml_tag :h4, definition.meta_field.label.to_s
         if meta_datum.meta_key.label == "title"
           haml_tag :h3, formatted_value(meta_datum)
         else
           haml_tag :p, formatted_value(meta_datum)
         end
       end
-      haml_tag :small, "Erstellt von/am"
+      haml_tag :h4, "Erstellt von/am"
       haml_tag :p, formatted_value(uploader_info.first) + " / " + formatted_value(uploader_info.last)
     end
   end
@@ -24,13 +24,28 @@ module MetaDataHelper
     contexts = project.individual_contexts
     capture_haml do
       haml_tag :div do
-        haml_tag :h3, _("Auszug")
+        #haml_tag :h3, _("Auszug")
         meta_data.collect do |meta_datum|
           context = contexts.detect {|c| meta_datum.meta_key.meta_contexts.include?(c) }
           next unless context #
           definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
-          haml_tag :small, definition.meta_field.label
+          haml_tag :h4, definition.meta_field.label
           haml_tag :p, preserve(formatted_value(meta_datum))
+        end
+      end
+    end
+  end
+
+  def display_project_vocabulary(project)
+    capture_haml do
+      project.individual_contexts.each do |context|
+        haml_tag :h3, context
+        context.meta_keys.where(:object_type => "Meta::Term").each do |meta_key|
+          definition = meta_key.meta_key_definitions.for_context(context)
+          haml_tag :h4, definition.meta_field.label
+          meta_key.meta_terms.each do |meta_term|
+            haml_tag :p, meta_term
+          end
         end
       end
     end

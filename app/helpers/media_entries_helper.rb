@@ -4,7 +4,9 @@ module MediaEntriesHelper
   def thumb_for(resource, size = :small_125, options = {})
     # OPTIMIZE dry with Resource#thumb_base64
     media_file = if resource.is_a?(Media::Set)
-      resource.media_entries.first.try(:media_file)
+      # OPTIMIZE
+      ids = resource.media_entry_ids & current_user.accessible_resource_ids
+      resource.media_entries.where(:id => ids.first).first.try(:media_file)
     else
       resource.media_file
     end

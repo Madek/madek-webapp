@@ -523,9 +523,9 @@ ul li {
   margin-top: 10px; }
 
 #content_body_result {
-  width: 80%;
+  /*width:80%;*/
   padding: 20px;
-  min-width: 920px;
+  min-width: 720px;
   margin-left: 222px;
   margin-right: auto;
   background-color: #fff;
@@ -596,11 +596,15 @@ ul li {
 
 .filter_area {
   font-size: 0.8em;
-  width: 221px;
+  width: 230px;
   position: fixed;
   left: 0;
   top: 68px;
-  overflow-y: auto; }
+  overflow-y: auto;
+  background-color: white;
+  -webkit-box-shadow: 0 0 4px rgba(100, 100, 100, 0.3);
+  -moz-box-shadow: 0 0 4px rgba(100, 100, 100, 0.3);
+  box-shadow: 0 0 4px rgba(100, 100, 100, 0.3); }
 
 .result_area {
   float: left; }
@@ -611,7 +615,9 @@ ul li {
   padding: 8px 8px 8px 5px;
   border-top: 1px solid white; }
 .filter_box h3.filter_header, .filter_box .filter_footer {
-  background: #DDDDDD; }
+  background: #DDDDDD;
+  border: 0;
+  margin-left: 0; }
 .filter_box .filter_header .filter_category_link {
   font-size: 0.9em;
   text-shadow: 0 1px 0 #fff; }
@@ -622,7 +628,8 @@ ul li {
   float: left; }
 .filter_box a.filter_category_link {
   font-size: 0.7em;
-  float: left; }
+  float: left;
+  margin-left: 10px; }
 .filter_box .filter_category_link {
   font-size: 0.6em; }
 .filter_box a.reset_filter {
@@ -1141,7 +1148,7 @@ button.dark:hover {
   position: fixed;
   left: 0;
   text-align: center;
-  min-width: 920px;
+  min-width: 900px;
   padding-left: 20px;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -1403,6 +1410,14 @@ button.dark:hover {
   #detail_specification small {
     display: block;
     margin-top: 10px; }
+
+#vocabulary_tab {
+  -moz-column-count: 3;
+  -moz-column-gap: 20px;
+  -webkit-column-count: 3;
+  -webkit-column-gap: 20px;
+  column-count: 3;
+  column-gap: 20px; }
 
 #content_body_fixed #detail_specification {
   margin-left: 20px; }
@@ -1909,7 +1924,8 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
   background: none;
   border-bottom-width: 0;
   margin: 10px 0;
-  line-height: 1.2em; }
+  line-height: 1.2em;
+  padding: 0; }
 
 .ui-widget-header {
   background-attachment: scroll;
@@ -1924,22 +1940,49 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
   border: 0; }
 
 .ui-tabs .ui-tabs-panel {
-  border-bottom: 1px solid #dddddd;
   display: block;
   border-width: 0;
-  background: none; }
+  background: none;
+  padding: 0; }
+
+#info_tab.ui-tabs-panel, #abstract_tab.ui-tabs-panel {
+  padding: 10px 0;
+  line-height: 1.3em; }
+
+#vocabulary_tab.ui-tabs-panel {
+  padding: 50px 0 10px 0;
+  line-height: 1.3em; }
+
+#info_tab p, #abstract_tab p, #vocabulary_tab p {
+  letter-spacing: 0.1ex; }
+
+#info_tab h4, #abstract_tab h4, #vocabulary_tab h4 {
+  color: #7F7F7F;
+  font-size: 0.8em;
+  letter-spacing: 0.2ex;
+  font-weight: normal;
+  margin-top: 10px; }
+
+#vocabulary_tab h3 {
+  font-size: 1.4em;
+  margin-top: -32px;
+  position: absolute; }
 
 .ui-tabs {
+  /*border-bottom: 1px solid #dddddd;*/
   padding-bottom: 0;
   padding-left: 0;
   padding-right: 0;
   padding-top: 0; }
 
+#content_body_result .ui-tabs {
+  margin-left: 10px; }
+
 .ui-tabs .ui-tabs-nav {
   list-style-image: none;
   list-style-position: outside;
   list-style-type: none;
-  margin-left: 0px;
+  margin-left: 0;
   padding-bottom: 0;
   padding-left: 0px;
   padding-right: 0;
@@ -1950,6 +1993,11 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
   color: #424242;
   cursor: text; }
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected {
+  margin-bottom: 0;
+  padding-bottom: 1px;
+  position: relative; }
 
 .ui-tabs .ui-tabs-nav li a {
   padding: 0.8em 1em .5em 1em; }

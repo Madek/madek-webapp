@@ -16,13 +16,13 @@ class MediaSetsController < ApplicationController
       [@user.media_sets.where(:id => ids), nil, "Sets von %s" % @user, nil]
     else # TODO elsif @user == current_user
       # all media sets I can see that have not been created by me
-      [Media::Set.where(:id => ids).where("user_id != ?", current_user), current_user.media_sets.where(:id => ids), "Meine Sets", "Weitere Sets"]
-    # else
-      # TODO
-    end
-
-    if params[:type] == "projects"
-      @media_sets, @my_media_sets, @my_title, @other_title = [@media_sets.projects, @my_media_sets.projects, "Meine Projekte", "Weitere Projekte"]
+      other = Media::Set.where(:id => ids).where("user_id != ?", current_user)
+      my = current_user.media_sets.where(:id => ids)
+      if params[:type] == "projects"
+        [other.projects, my.projects, "Meine Projekte", "Weitere Projekte"]
+      else
+        [other.sets, my.sets, "Meine Sets", "Weitere Sets"]
+      end
     end
 
     respond_to do |format|

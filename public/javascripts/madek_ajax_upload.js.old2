@@ -1,0 +1,153 @@
+	function transferComplete(evt) {
+	  //var h = "<p style='margin: 0pt; padding: 0.5em; text-align: left; color: rgb(114, 114, 114);' class='ui-state-default ui-corner-all'><span class='ui-icon ui-icon-circle-check'/>Upload OK!</p>";
+	  var h = "<span class='ui-icon ui-icon-circle-check'/>Upload OK!";
+
+		//progressbar// OPTIMIZE
+		// $(evt.target.table_row).find("td:last .progressbar").html(h);
+		// $(evt.target.table_row).attr("media_entry_id", evt.target.responseText);
+		for (var i = 0; i < evt.target.dom_ids.length; i++) {
+			//$("#upload-table tr#file_"+evt.target.dom_ids[i]).find("td:last .progressbar").html(h);
+			$("#upload-table tr#file_"+evt.target.dom_ids[i]).find("td:last .progressbar p").html(h);
+			
+			$("#upload-table tr#file_"+evt.target.dom_ids[i]).attr("media_entry_id", "-1"); //TODO
+		}
+	  
+	  update_totals();
+	}
+	
+	function transferFailed(evt) {
+	  console.log("An error occurred while transferring the file.");
+	}
+	
+	function transferCanceled(evt) {
+	  console.log("The transfer has been canceled by the user.");
+	}
+
+	var requestbody = "";
+	function transferStart(content, dom_ids) {
+		var upload_form = $("#upload_form");
+		requestbody += boundary + '\r\n'
+						+ 'Content-Disposition: form-data; name="authenticity_token"' + '\r\n'
+						+ '\r\n'
+						+ upload_form.find("[name='authenticity_token']").val() + '\r\n'
+						+ content
+						+ boundary + '--';
+
+		var req = new XMLHttpRequest();
+			//progressbar//
+			req.dom_ids = dom_ids;
+		//req.addEventListener("progress", updateProgress, false);  
+		req.addEventListener("load", transferComplete, false);  
+		req.addEventListener("error", transferFailed, false);  
+		req.addEventListener("abort", transferCanceled, false);
+		req.open(upload_form.attr("method"), upload_form.attr("action"), true);
+		req.setRequestHeader("Content-type", upload_form.attr("enctype") + "; boundary=\"" + boundaryString + "\"");
+		req.setRequestHeader("Content-length", requestbody.length);
+		req.sendAsBinary(requestbody);
+		
+		requestbody = "";
+
+		return;
+	}
+
+////////////////////////////////////
+	var boundaryString = '123___AjaxUploader___321';
+	var boundary = '--' + boundaryString;
+	var reject_new_files = false;
+	
+	function startXHR(){
+		reject_new_files = true;
+		activate_step(2);
+		update_totals();
+
+		var dom_ids = [];
+
+		$("#upload-table tr[media_entry_id]").each(function(){
+			//if($(this).file == undefined) continue;
+			
+			console.log($(this).file);
+			
+			$(this).reader = new FileReader();
+			$(this).reader.readAsBinaryString($(this).file);
+			$(this).reader.file = $(this).file;
+			
+				//progressbar//
+				//$(this).reader.dom_id = i;
+				dom_ids.push(i);
+				table_row = $("#upload-table tr#file_"+i);
+				
+				//table_row.find("td:last").append("<div class='progressbar'><img src='/images/spinner.gif'></div>");
+				table_row.find("td:last").append("<div class='progressbar'><p style='margin: 0pt; padding: 0.5em; text-align: left; color: rgb(114, 114, 114);' class='ui-state-default ui-corner-all'>Uploading...</p></div>");
+				
+				//$(this).reader.onloadstart = function(){ table_row.find("td:last").append("<div class='progressbar'><img src='/images/spinner.gif'></div>"); };
+			$(this).reader.onloadend = function(e){
+				var content = boundary + '\r\n'
+//progressbar//
+//							+ 'Content-Disposition: form-data; name="dom_id[]"' + '\r\n'
+//							+ '\r\n'
+//							+ e.target.dom_id + '\r\n'
+//							+ boundary + '\r\n'
+						+ 'Content-Disposition: form-data; name="uploaded_data[]"; filename="' + e.target.file.name + '"' + '\r\n'
+						+ 'Content-Transfer-Encoding: binary' + '\r\n'
+						+ 'Content-Type: ' + e.target.file.type + '\r\n' // OPTIMIZE doesn't work for FireFox 3.5
+						+ '\r\n'
+						+ e.target.result + '\r\n';
+
+				//working here// 
+				//if(--j == 0) transferStart(content, dom_ids);
+				transferStart(content, [e.target.dom_id]);
+				//content = "";
+			};
+		});
+
+		return;
+	}
+	
+	function append_to_queue(element){
+		if(reject_new_files) return;
+		
+		for (i = 0; i < element.files.length; i++){
+file = element.files[i];
+			// OPTIMIZE refactor to a queue_table_toggle() function
+			$("#upload-table tr#nofiles_row").hide();
+			$("#submit_to_2").show();
+			
+			var kb_size = Number(file.size/1024).toFixed();
+var index = kb_size; // TODO *** replace file_... id
+			var tr = $("<tr id='file_"+index+"' media_entry_id=''>\
+						<td>" + file.name + "</td>\
+						<td>" + kb_size + " KB</td>\
+						<td><ul id='icons' class='upload_step_1'><li class='ui-state-default ui-corner-all'><span class='ui-icon ui-icon-trash' onclick='queue_table_remove("+index+");'/></li></ul></td>\
+					    </tr>");
+tr.attr('file', file);
+			$("#upload-table #totals").before(tr);
+		}
+		element.value = "";
+		// TODO $('html, body').animate({ scrollTop: $("#submit_to_2").offset().top}, 1000);
+		
+$("#upload-table tr[file]").each(function(){
+	console.log($(this).attr('file'));
+});
+		
+		return;
+	}
+	
+	function queue_table_remove(index){
+		$("#upload-table tr#file_"+index).remove();
+		
+		// OPTIMIZE refactor to a queue_table_toggle() function
+		if($("#upload-table tr[media_entry_id]").length == 0){
+			$("#upload-table tr#nofiles_row").show();
+			$("#submit_to_2").hide();
+		}
+	}
+
+	function update_totals(){
+		var total_files = $("#upload-table tr[media_entry_id]").length;
+		var uploaded_files = $("#upload-table tr[media_entry_id][media_entry_id!='']").length;
+		$("#upload-table #totals #total_files").html(total_files);
+		$("#upload-table #totals #uploaded_files").html(uploaded_files);
+		if((total_files - uploaded_files) == 0){
+			$("#upload_in_progress, #submit_to_3").toggle();
+		}
+	}

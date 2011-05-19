@@ -110,25 +110,6 @@ class MetaKey < ActiveRecord::Base
   
 ########################################################
 
-  # overriding framework method in order to have an identity map
-  @@identity_map ||= {}
-  def self.find(*args)
-    record = if args.first.is_a?(Fixnum) # or !!args.first.match(/\A[+-]?\d+\Z/) # TODO path to String#is_numeric? method
-               @@identity_map[args.first]
-             elsif args.size > 1 and args.last[:conditions] and args.last[:conditions][:label] 
-               @@identity_map[args.last[:conditions][:label]]
-             end
-    unless record
-      record = super(*args)
-      Array(record).each do |r|
-        @@identity_map[r.id] = @@identity_map[r.label] = r
-      end
-    end
-    record
-  end
-
-########################################################
-
   # TODO refactor to association has_many :used_meta_terms, :through ...
   def used_term_ids
     meta_data.collect(&:value).flatten.uniq.compact if object_type == "Meta::Term"
