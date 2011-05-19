@@ -1665,6 +1665,7 @@ form#set_media_sets input[type="submit"] {
       width: 65px;
       line-height: 65px; }
       #detail-excerpt .set-box .thumb_box_set img, #detail-excerpt .set-box .thumb_box_project img {
+        margin-top: 0;
         max-height: 50px;
         max-width: 50px; }
 
