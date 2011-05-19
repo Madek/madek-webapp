@@ -1802,16 +1802,17 @@ form#set_media_sets input[type="submit"] {
 	}
 	
 	.set-box {
-	    padding: 10px;
-	    font-size: 0.9em;
-	    letter-spacing: 0.1ex;
+    padding: 10px;
+    font-size: 0.9em;
+    letter-spacing: 0.1ex;
+    min-height: 65px;
 	    
   	span {
   		letter-spacing: 0;
   		background: url(/images/icons/icon_set_small.png) center left no-repeat;
       padding-left: 20px;
   	}
-  	.thumb_box_set, .thumb_box_project {
+  	.thumb_box_set {
       background-size: 65px 65px;
       height: 65px;
       width: 65px;
@@ -1821,7 +1822,22 @@ form#set_media_sets input[type="submit"] {
     		max-height: 50px;
     		max-width: 50px;
     	}
+    }
+  	.thumb_box_project {
+      background-size: 65px 65px;
+      height: 65px;
+      width: 65px;
+      line-height: 65px;
+    	img {
+    	  margin-top: 19px;
+    		max-height: 35px;
+    		max-width: 35px;
+    	}
   	}
+	}
+	
+	.set-box.project-box span {
+    background: url(/images/icons/icon_project_small.png) center left no-repeat;
 	}
 	
 }
@@ -2495,7 +2511,7 @@ table.permissions {
 	background-color: #f4f4f4;
 	padding: 15px 30px 15px 30px;
   letter-spacing: 0.1ex;
-  /*height: 160px;*/
+  min-height: 160px;
 }
 .set-box span {
     letter-spacing: 0;
