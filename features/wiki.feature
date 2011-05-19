@@ -33,6 +33,7 @@ Feature: Help wiki
     When I go to the wiki edit page
     Then I should see a message that I'm not allowed to do that
 
+  @work @javascript
   Scenario: Admins should be able to edit pages
     When I log in as "admin" with password "aadmin"
      And I go to the wiki
@@ -43,6 +44,7 @@ Feature: Help wiki
     When I follow "Foo"
     Then I should land on the newly to be created "Foo" page
 
+  @work @javascript
   Scenario: Admins should be able to add media links
     When I log in as "admin" with password "aadmin"
    Given there is a media entry
