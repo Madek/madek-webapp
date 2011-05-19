@@ -1481,7 +1481,7 @@ button.dark:hover {
 	}
 }
 
-#vocabulary_tab {
+#vocabulary_tab div {
   -moz-column-count: 3;
   -moz-column-gap: 20px;
   -webkit-column-count: 3;
@@ -1802,16 +1802,27 @@ form#set_media_sets input[type="submit"] {
 	}
 	
 	.set-box {
-	    padding: 15px;
+	    padding: 10px;
 	    font-size: 0.9em;
 	    letter-spacing: 0.1ex;
+	    
+  	span {
+  		letter-spacing: 0;
+  		background: url(/images/icons/icon_set_small.png) center left no-repeat;
+      padding-left: 20px;
+  	}
+  	.thumb_box_set {
+      background-size: 65px 65px;
+      height: 65px;
+      width: 65px;
+      line-height: 65px;
+    	img {
+    		max-height: 50px;
+    		max-width: 50px;
+    	}
+  	}
 	}
 	
-	.set-box span {
-		letter-spacing: 0;
-		background: url(/images/icons/icon_set_small.png) center left no-repeat;
-        padding-left: 20px;
-	}
 }
 
 #detail-image img {
@@ -2482,7 +2493,8 @@ table.permissions {
 	margin-bottom: 10px;
 	background-color: #f4f4f4;
 	padding: 15px 30px 15px 30px;
-    letter-spacing: 0.1ex;
+  letter-spacing: 0.1ex;
+  height: 160px;
 }
 .set-box span {
     letter-spacing: 0;

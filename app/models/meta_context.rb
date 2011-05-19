@@ -31,6 +31,10 @@ class MetaContext < ActiveRecord::Base
     "#{meta_field.try(:label)}"
   end
 
+  def description
+    "#{meta_field.try(:description)}"
+  end
+
   def next_position
     meta_key_definitions.maximum(:position).try(:next).to_i
   end

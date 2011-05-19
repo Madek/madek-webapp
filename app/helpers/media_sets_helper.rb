@@ -5,8 +5,9 @@ module MediaSetsHelper
 
   def media_set_title(media_set, with_link = false, with_main_thumb = false, total_thumbs = 0, accessible_resource_ids = nil)
     content = capture_haml do
-      haml_tag :div, :class => "set-box", :style => (with_main_thumb ? "min-height: 160px;": nil) do
-        haml_tag :div, thumb_for(media_set, :small_125), :class => "thumb_box_set", :style => "margin-right: 40px;" if with_main_thumb
+      haml_tag :div, :class => "set-box", :style => (with_main_thumb ? "min-height: 65px;": nil) do
+        thumb_class = media_set.is_a?(Media::Project) ? "thumb_box_project" : "thumb_box_set"
+        haml_tag :div, thumb_for(media_set, :small_125), :class => thumb_class, :style => "margin-right: 10px;" if with_main_thumb
         haml_tag :span, media_set.title, :style => "font-weight: bold; font-size: 1.2em;"
         #2001# " (%d/%d Medieneinträge)" % [visible_media_entries.count, media_set.media_entries.count]
         haml_concat " (%d Medieneinträge)" % [media_set.media_entries.count]
@@ -45,7 +46,7 @@ module MediaSetsHelper
       media_sets.each do |media_set|
         #2001# media_entries = media_set.media_entries.select {|media_entry| Permission.authorized?(current_user, :view, media_entry)}
         #2001# media_set_title(media_set, media_entries, true)
-        haml_concat media_set_title(media_set, true)
+        haml_concat media_set_title(media_set, true, true)
       end
     end
   end

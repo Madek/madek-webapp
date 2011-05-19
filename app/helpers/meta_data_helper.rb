@@ -40,11 +40,14 @@ module MetaDataHelper
     capture_haml do
       project.individual_contexts.each do |context|
         haml_tag :h3, context
-        context.meta_keys.where(:object_type => "Meta::Term").each do |meta_key|
-          definition = meta_key.meta_key_definitions.for_context(context)
-          haml_tag :h4, definition.meta_field.label
-          meta_key.meta_terms.each do |meta_term|
-            haml_tag :p, meta_term
+        haml_tag :p, context.description
+        haml_tag :div do
+          context.meta_keys.where(:object_type => "Meta::Term").each do |meta_key|
+            definition = meta_key.meta_key_definitions.for_context(context)
+            haml_tag :h4, definition.meta_field.label
+            meta_key.meta_terms.each do |meta_term|
+              haml_tag :p, meta_term
+            end
           end
         end
       end
