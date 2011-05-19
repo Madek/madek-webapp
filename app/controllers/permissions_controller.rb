@@ -80,12 +80,17 @@ class PermissionsController < ApplicationController
       when :index
         action = :view
       when :edit_multiple
-        action = :manage
+        if @resources and @resources.empty?
+          not_authorized!
+          return
+        else
+          action = :manage
+        end
       when :update_multiple
         not_authorized! if @resources.empty?
         return
     end
-    
+
     # OPTIMIZE if member of a group
     resource = @resource
     not_authorized! unless Permission.authorized?(current_user, action, resource) # TODO super ??

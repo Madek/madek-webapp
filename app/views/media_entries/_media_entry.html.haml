@@ -52,7 +52,7 @@
       #further_information.tabs
         %ul
           %li= link_to _("Aktivitäten"), "#usage-tabs-1"
-          %li= link_to _("Zugriffsberechtigungen"), (Permission.authorized?(current_user, :manage, media_entry) ? edit_multiple_media_entry_permissions_path(media_entry) : media_entry_permissions_path(media_entry))
+          %li= link_to _("Zugriffsberechtigungen"), edit_multiple_media_entry_permissions_path(media_entry)
         #usage-tabs-1.meta_data
           %table.metadata-table
             %tr
