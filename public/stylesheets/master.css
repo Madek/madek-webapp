@@ -1659,12 +1659,12 @@ form#set_media_sets input[type="submit"] {
       letter-spacing: 0;
       background: url(/images/icons/icon_set_small.png) center left no-repeat;
       padding-left: 20px; }
-    #detail-excerpt .set-box .thumb_box_set {
+    #detail-excerpt .set-box .thumb_box_set, #detail-excerpt .set-box .thumb_box_project {
       background-size: 65px 65px;
       height: 65px;
       width: 65px;
       line-height: 65px; }
-      #detail-excerpt .set-box .thumb_box_set img {
+      #detail-excerpt .set-box .thumb_box_set img, #detail-excerpt .set-box .thumb_box_project img {
         max-height: 50px;
         max-width: 50px; }
 
