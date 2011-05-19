@@ -15,7 +15,7 @@
             = _("Bitte füllen Sie die Pflichtfelder aus (\"Titel\").")
     
       #detail_specification.clearfix
-        = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => MetaContext.media_set, :resource => resource }
+        = render :partial => "meta_data/edit_multiple_without_form", :locals => {:context => MetaContext.media_set, :resource => resource }
     
       = yield :buttons
   .clear

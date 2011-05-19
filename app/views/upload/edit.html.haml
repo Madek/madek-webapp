@@ -56,7 +56,7 @@
                   = formatted_value(media_entry.meta_data.get("uploaded at"))
               .upload-me-metadata
                 .meta_data_block.meta_data
-                  = render :partial => "/meta_data/bulk_edit", :locals => { :resource => media_entry, :context => @context, :with_actions => with_actions }
+                  = render :partial => "meta_data/bulk_edit", :locals => { :resource => media_entry, :context => @context, :with_actions => with_actions }
 
           .container_12
             .grid_4.alpha

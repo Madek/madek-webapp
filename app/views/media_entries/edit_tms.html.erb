@@ -49,7 +49,7 @@
 						end.join.html_safe
 					end
 					meta_contexts.each do |meta_context|
-						b += render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :resource => resource }
+						b += render :partial => "meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :resource => resource }
 					end
 					b
 				end	

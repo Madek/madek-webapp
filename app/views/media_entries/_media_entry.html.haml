@@ -12,7 +12,7 @@
           %li= link_to image_tag("icons/button_edit_active.png"), edit_media_entry_path(media_entry), :title => "Editieren"
         %li
           %span.favorite_link{:id => "fav_#{media_entry.id}", :title => "Favorit"}
-            = render :partial => "/media_entries/favorite_link", :locals => {:media_entry => media_entry}
+            = render :partial => "media_entries/favorite_link", :locals => {:media_entry => media_entry}
         - if current_user && Permission.authorized?(current_user, :manage, media_entry)
           %li= link_to image_tag("icons/button_delete_active.png"), media_entry_path(media_entry), :id => "delete_me", :title => "Löschen", :method => :delete, :"data-id" => media_entry.id
         %li= link_to _("Exportieren"), "#", :panel => "download", :onclick => "return false;"
@@ -89,13 +89,13 @@
               
   #detail-sidebar.grid_4.omega
     %h2.title{:style => "margin: -3px 20px 80px 0;"}
-      = render :partial => "/meta_data/show", :locals => { :meta_datum => media_entry.meta_data.get("title"), :resource => media_entry, :context => nil } 
+      = render :partial => "meta_data/show", :locals => { :meta_datum => media_entry.meta_data.get("title"), :resource => media_entry, :context => nil } 
     #detail-excerpt.sidebar-box
       - context = MetaContext.core
       - media_entry.meta_data_for_context(context).collect do |meta_datum|
         - definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
         %h4{:style => "margin-top: 10px;"}= definition.meta_field.label.to_s
-        = render :partial => "/meta_data/show", :locals => { :meta_datum => meta_datum, :resource => media_entry, :context => context }
+        = render :partial => "meta_data/show", :locals => { :meta_datum => meta_datum, :resource => media_entry, :context => context }
       - if is_expert 
         - unless media_entry.snapshots.empty?
           .notice_tms

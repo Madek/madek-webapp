@@ -22,6 +22,8 @@ module MAdeK
 
     # Activate observers that should always be running.
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
+    #config.active_record.identity_map = true #Rails3.1# 
+    #ActiveRecord::IdentityMap.enabled = true #Rails3.1#
 
     config.cache_store = :mem_cache_store, {:namespace => "MAdeK_#{Rails.env}_#{Rails.root}"}
 

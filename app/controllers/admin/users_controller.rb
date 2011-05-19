@@ -42,7 +42,7 @@ class Admin::UsersController < Admin::AdminController
     if request.post?
       @group.users << @user
       respond_to do |format|
-        format.js { render :partial => "/admin/groups/user", :object => @user }
+        format.js { render :partial => "admin/groups/user", :object => @user }
       end
     elsif request.delete?
       @group.users.delete(@user)

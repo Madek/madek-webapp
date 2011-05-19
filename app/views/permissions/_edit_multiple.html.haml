@@ -9,15 +9,15 @@
 - if @media_entries
   = form_tag update_multiple_media_entry_permissions_path(0), :method => :put do
     = hidden_field_tag :media_entry_ids, @media_entries.map(&:id).join(',')
-    = render :partial => "/permissions/table", :locals => {:cancel_path => session[:return_to]}
+    = render :partial => "permissions/table", :locals => {:cancel_path => session[:return_to]}
 - elsif @resource and @resource.is_a?(MediaEntry)
   = form_tag update_multiple_media_entry_permissions_path(0), :method => :put do
     = hidden_field_tag :media_entry_ids, @resource.id
-    = render :partial => "/permissions/table", :locals => {:cancel_path => media_entry_path(@resource) }
+    = render :partial => "permissions/table", :locals => {:cancel_path => media_entry_path(@resource) }
 - else
   - @display_hi_res_action = false
   = form_tag update_multiple_media_set_permissions_path(@resource), :method => :put do
-    = render :partial => "/permissions/table", :locals => {:cancel_path => media_set_path(@resource) }
+    = render :partial => "permissions/table", :locals => {:cancel_path => media_set_path(@resource) }
 
 
 %script{:type => "text/x-jquery-tmpl", :id => "new_permission"}

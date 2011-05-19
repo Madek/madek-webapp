@@ -29,7 +29,7 @@
               - else
                 %li= link_to meta_context, polymorphic_path([:edit_multiple, @media_entry, :meta_data], :context_id => meta_context)
           - meta_contexts[0,1].each do |meta_context|
-            = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :resource => resource }
+            = render :partial => "meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :resource => resource }
           
         %div{:class => "save_buttons"}
           = link_to _("Abbrechen"), @media_entry, :class => "buttons"

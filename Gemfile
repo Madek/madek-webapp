@@ -1,21 +1,26 @@
 source 'http://rubygems.org'
 source 'http://gems.github.com'
 
-gem 'rails', '3.0.7'
+gem 'rails', '3.0.7' #Rails3.1# '3.1.0.beta1' 
+gem 'builder', '~> 2.1.2' #Rails3.1# '~> 3.0' 
 gem 'i18n' # Need this explicitly, otherwise can't deploy
 
-gem 'mysql2', '~> 0.2.7'
+gem 'mysql2', '~> 0.2.7' #Rails3.1# '~> 0.3.2' 
 gem 'memcache-client' #gem 'dalli' #gem 'redis-store'
 
 gem 'haml', '~> 3.1.1' # '3.0.25'
 gem 'sass', '~> 3.1.1' # Haml will no longer automatically load Sass in Haml 3.2.0. # Please add gem 'sass' to your Gemfile.
-gem 'jquery-rails', '~> 1.0'
+#gem 'coffee-script' #Rails3.1#
+#gem 'uglifier' #Rails3.1#
 
-gem 'will_paginate', '~> 3.0.pre2'
+gem 'jquery-rails', '~> 1.0'
+#gem 'rails_autolink', '~> 1.0.1' #Rails3.1#
+
+gem 'will_paginate', '~> 3.0.pre2' #Rails3.1# :git => 'git://github.com/JackDanger/will_paginate.git' # fix for CollectionAssociation 
 gem 'rgl', '~> 0.4.0', :require => 'rgl/adjacency'
-gem 'builder', '~> 2.1.2'
 
 gem 'thinking-sphinx', '~> 2.0.4', :require => 'thinking_sphinx' # NOTE '2.0.3' seems to be broken! delta doesn't work
+#gem 'thinking-sphinx', :git => 'git://github.com/sylogix/thinking-sphinx.git', :branch => "rails3", :require => 'thinking_sphinx' #Rails 3.1# fix for JoinDependency
 #temp#sphinx# gem 'ts-delayed-delta', '1.1.0', :require => 'thinking_sphinx/deltas/delayed_delta'
 
 gem 'zip', '~> 2.0.2'

@@ -1,7 +1,7 @@
 = render :partial => "form", :locals => {:path => admin_group_path(@group), :submit => _("Update") }
 
 %table#members
-  = render :partial => "/admin/groups/user", :collection => @group.users
+  = render :partial => "admin/groups/user", :collection => @group.users
 
 Add user:
 %input#new_user

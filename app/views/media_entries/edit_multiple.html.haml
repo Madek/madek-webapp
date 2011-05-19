@@ -60,7 +60,7 @@
               %li= link_to meta_context, "##{meta_context.name}" 
           - meta_contexts.each do |meta_context|
             - meta_data = MediaEntry.compare_batch_by_meta_data_in_context(@media_entries, meta_context)
-            = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :meta_data => meta_data }
+            = render :partial => "meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :meta_data => meta_data }
         = yield :buttons
     .grid_3.omega
       #legend

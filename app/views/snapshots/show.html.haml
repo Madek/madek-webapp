@@ -28,5 +28,5 @@
             - meta_contexts.each do |meta_context|
               %li= link_to meta_context, "##{meta_context.name}" 
           - meta_contexts.each do |meta_context|
-            = render :partial => "/meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :resource => resource }
+            = render :partial => "meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :resource => resource }
         = yield :buttons

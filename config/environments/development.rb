@@ -12,7 +12,7 @@ MAdeK::Application.configure do
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
-  config.action_view.debug_rjs             = true
+  config.action_view.debug_rjs             = true #Rails3.1#
   config.action_controller.perform_caching = true #false
 
   # Don't care if the mailer can't send
