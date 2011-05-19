@@ -5,7 +5,7 @@ class Keyword < ActiveRecord::Base
   belongs_to :user # TODO person ??
   #belongs_to :media_entry
 
-  validates_presence_of :meta_term_id
+  validates_presence_of :meta_term
 
   default_scope :include => :meta_term
 

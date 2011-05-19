@@ -10,7 +10,7 @@ class MetaKeyDefinition < ActiveRecord::Base
   belongs_to    :meta_context
   belongs_to    :meta_key
 
-  validates_presence_of :meta_field, :meta_key_id
+  validates_presence_of :meta_field, :meta_key
   validate do |record|
     # FIXME undefined method `add_to_base' for #<MetaKeyDefinition:0x20d8b24>
     if record.meta_context.is_user_interface?
