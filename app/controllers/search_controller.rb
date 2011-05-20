@@ -55,7 +55,7 @@ class SearchController < ApplicationController
         if params["MediaEntry"]["media_type"]
           search_options = Filter.new(params["MediaEntry"]).to_query_filter
           search_result = MediaEntry.search_for_ids(params[:query], search_options)
-          viewable_ids &= search_result
+          viewable_ids &= search_result.to_a
         end
       when "Media::Set", "Media::Project"
         viewable_ids = current_user.accessible_resource_ids(:view, "Media::Set")
