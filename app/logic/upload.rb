@@ -39,7 +39,8 @@ class Upload
               # But since QuickTime video is always video/quicktime and always .mov, we simply override
               # this based on the filename here.
               # TODO: Could use exiftool instead of 'file' in general, it seems to do a good job with QuickTime
-              if f[:tempfile].path =~ /.mov$/
+            puts "filename was #{f[:filename]}"
+              if f[:filename] =~ /.mov$/
                 f[:type] = "video/quicktime"
               else
                 supplied_type = f[:type]
