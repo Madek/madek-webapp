@@ -154,7 +154,7 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 	  var media_entries_json = get_media_entries_json();		
 	  if ($(this).is(":checked")) {
 		// select all the visible and not already selected items
-		$(".item_box").each(function(i, elem) { 
+		$(".item_box").has(".check_box").each(function(i, elem) { 
 			var me = $(elem).data("object");
 			var i = is_Selected(media_entries_json, me.id);
 			// if not yet selected
