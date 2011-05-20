@@ -30,12 +30,24 @@ class Upload
           upload_session = current_user.upload_sessions.create
 
           files.each do |f|
+            # Mac OS X sometimes lies about the content type, so we have to detect the supplied type
+            # separately from the true type
             uploaded_data = if params['uploaded_data']
-            supplied_type = f[:type]
-            detected_type = `#{FILE_UTIL_PATH} "#{f[:tempfile].path}"`.split(";").first.gsub(/\n/,"")
-            if supplied_type != detected_type
-              f[:type] = detected_type
-            end
+
+              # QuickTime containers contain all sorts of messy data, which makes them hard for
+              # the 'file' utility to guess, resulting in a lot of application/octet-stream types.
+              # But since QuickTime video is always video/quicktime and always .mov, we simply override
+              # this based on the filename here.
+              # TODO: Could use exiftool instead of 'file' in general, it seems to do a good job with QuickTime
+              if f[:tempfile].path =~ /.mov$/
+                f[:type] = "video/quicktime"
+              else
+                supplied_type = f[:type]
+                detected_type = `#{FILE_UTIL_PATH} "#{f[:tempfile].path}"`.split(";").first.gsub(/\n/,"")
+                if supplied_type != detected_type
+                  f[:type] = detected_type
+                end
+              end
               f
             else
               { :type=> `#{FILE_UTIL_PATH} "#{f}"`.split(";").first.gsub(/\n/,""),
