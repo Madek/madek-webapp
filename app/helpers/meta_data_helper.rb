@@ -19,18 +19,21 @@ module MetaDataHelper
   end
 
   def display_project_abstract(project)
-    meta_data = project.abstract
-    return if meta_data.blank?
-    contexts = project.individual_contexts
     capture_haml do
-      haml_tag :div do
-        #haml_tag :h3, _("Auszug")
-        meta_data.collect do |meta_datum|
-          context = contexts.detect {|c| meta_datum.meta_key.meta_contexts.include?(c) }
-          next unless context #
-          definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
-          haml_tag :h4, definition.meta_field.label
-          haml_tag :p, preserve(formatted_value(meta_datum))
+      meta_data = project.abstract
+      if meta_data.blank?
+        haml_tag :p, _("Es sind nicht genügend Werte für einene Projekt-Auszug vorhanden.")
+      else
+        contexts = project.individual_contexts
+        haml_tag :div do
+          #haml_tag :h3, _("Auszug")
+          meta_data.collect do |meta_datum|
+            context = contexts.detect {|c| meta_datum.meta_key.meta_contexts.include?(c) }
+            next unless context #
+            definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
+            haml_tag :h4, definition.meta_field.label
+            haml_tag :p, preserve(formatted_value(meta_datum))
+          end
         end
       end
     end
