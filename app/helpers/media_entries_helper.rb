@@ -2,7 +2,6 @@
 module MediaEntriesHelper
  
   def thumb_for(resource, size = :small_125, options = {})
-    # OPTIMIZE dry with Resource#thumb_base64
     media_file = if resource.is_a?(Media::Set)
       # OPTIMIZE
       ids = resource.media_entry_ids & current_user.accessible_resource_ids
@@ -18,7 +17,7 @@ module MediaEntriesHelper
       media_file.assign_video_thumbnails_to_preview
       video_preview = media_file.previews.where(:content_type => 'video/webm', :thumbnail => 'large').last
       if video_preview.nil?
-        tag :img, options.merge({:src => resource.thumb_base64(size)})
+        tag :img, options.merge({:src => media_file.thumb_base64(size)})
       else
         tag :video,  options.merge({:src => "/download?id=#{resource.id}&video_thumbnail=true",
                                     :autoplay => 'autoplay', :controls => 'controls', :width => video_preview.width, :height => video_preview.height})
@@ -29,7 +28,7 @@ module MediaEntriesHelper
       tag :audio,  options.merge({:src => "/download?id=#{resource.id}&audio_preview=true",
                                   :autoplay => 'autoplay', :controls => 'controls'})
     else
-      tag :img, options.merge({:src => resource.thumb_base64(size)})
+      tag :img, options.merge({:src => media_file.thumb_base64(size)})
     end
   end
 

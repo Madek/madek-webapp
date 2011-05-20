@@ -261,65 +261,24 @@ module Resource
       exif_conf.close
     end
     
-    
     # NEW and experimental for batch processes 
-    def get_basic_info(extended_keys = [])
+    def get_basic_info(current_user, extended_keys = [])
       core_keys = ["title", "author"]
       core_info = Hash.new
       
       (core_keys + extended_keys).each do |key|
         core_info[key.gsub(' ', '_')] = meta_data.get_value_for(key)
       end
-      core_info["thumb_base64"] = thumb_base64(:small_125)
-      core_info
-    end
-
-    def thumb_base64(size = :small)
-      media_file = if self.is_a?(Media::Set)
-        self.media_entries.first.try(:media_file)
+      mf = if self.is_a?(Media::Set)
+        # OPTIMIZE
+        ids = self.media_entry_ids & current_user.accessible_resource_ids
+        self.media_entries.where(:id => ids.first).first.try(:media_file)
       else
         self.media_file
       end
-
-      # TODO give access to the original one?
-      # available_sizes = THUMBNAILS.keys #old# ['small', 'medium']
-      # size = 'small' unless available_sizes.include?(size)
-
-      if media_file
-        preview = case media_file.content_type
-                    when /video/ then
-                      # Get the video's covershot that we've extracted/thumbnailed on import
-                      media_file.get_preview(size) || "Video"
-                    when /audio/ then
-                      "Audio"
-                    when /image/ then
-                      media_file.get_preview(size) || "Image"
-                    else 
-                      "Doc"
-                  end
-
-        # OPTIMIZE
-        unless preview.is_a? String
-          file = File.join(THUMBNAIL_STORAGE_DIR, media_file.shard, preview.filename)
-          if File.exist?(file)
-           output = File.read(file)
-           return "data:#{preview.content_type};base64,#{Base64.encode64(output)}"
-          else
-            preview = "Image" # OPTIMIZE
-          end
-        end
-
-        # nothing found, we show then a placeholder icon
-        size = if size == :large
-          :medium
-        else
-          :small
-        end
-        output = File.read("#{Rails.root}/public/images/#{preview}_#{size}.png")
-        return "data:#{media_file.content_type};base64,#{Base64.encode64(output)}"      
-      end
+      core_info["thumb_base64"] = mf.thumb_base64(:small_125) if mf
+      core_info
     end
-    
 
 ########################################################
 

@@ -70,7 +70,7 @@ class MediaEntriesController < ApplicationController
   end
 
   def image
-    # TODO dry => Resource#thumb_base64
+    # TODO dry => Resource#thumb_base64 and Download audio/video
     media_file = @media_entry.media_file
     preview = media_file.get_preview(:large)
     file = File.join(THUMBNAIL_STORAGE_DIR, media_file.shard, preview.filename)
@@ -188,7 +188,7 @@ end
   def edit_multiple
     # custom hash for jQuery json templates
     @info_to_json = @media_entries.map do |me|
-      me.attributes.merge!(me.get_basic_info(["uploaded at", "uploaded by", "keywords", "copyright notice", "portrayed object dates"]))
+      me.attributes.merge!(me.get_basic_info(current_user, ["uploaded at", "uploaded by", "keywords", "copyright notice", "portrayed object dates"]))
     end.to_json
   end
   
@@ -210,7 +210,7 @@ end
     @permissions_json = Permission.compare(@media_entries).to_json
 
     @media_entries_json = @media_entries.map do |me|
-      me.attributes.merge!(me.get_basic_info)
+      me.attributes.merge!(me.get_basic_info(current_user))
     end.to_json
   end
   

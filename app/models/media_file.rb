@@ -230,6 +230,42 @@ class MediaFile < ActiveRecord::Base
       end
   end
 
+  def thumb_base64(size = :small)
+    # TODO give access to the original one?
+    # available_sizes = THUMBNAILS.keys #old# ['small', 'medium']
+    # size = 'small' unless available_sizes.include?(size)
+
+    preview = case content_type
+                when /video/ then
+                  # Get the video's covershot that we've extracted/thumbnailed on import
+                  get_preview(size) || "Video"
+                when /audio/ then
+                  "Audio"
+                when /image/ then
+                  get_preview(size) || "Image"
+                else 
+                  "Doc"
+              end
+
+    # OPTIMIZE
+    unless preview.is_a? String
+      file = File.join(THUMBNAIL_STORAGE_DIR, shard, preview.filename)
+      if File.exist?(file)
+       output = File.read(file)
+       return "data:#{preview.content_type};base64,#{Base64.encode64(output)}"
+      else
+        preview = "Image" # OPTIMIZE
+      end
+    end
+
+    # nothing found, we show then a placeholder icon
+    size = (size == :large ? :medium : :small)
+    output = File.read("#{Rails.root}/public/images/#{preview}_#{size}.png")
+    return "data:#{content_type};base64,#{Base64.encode64(output)}"      
+  end
+    
+######################################################################
+
   def importable_zipfile?
     if uploaded_data.kind_of? Hash
       ret = uploaded_data[:filename].include?('__IMPORT__') and uploaded_data[:filename].include?('.zip')
