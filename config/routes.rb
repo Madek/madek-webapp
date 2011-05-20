@@ -118,6 +118,10 @@ MAdeK::Application.routes.draw do
 ###############################################
 
   resources :media_sets do
+    member do
+      get :browse  
+    end
+    
     resources :media_sets
     
     resources :permissions do

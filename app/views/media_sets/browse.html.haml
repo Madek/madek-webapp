@@ -1,0 +1,22 @@
+- media_entry_ids = @project.media_entry_ids
+- @project.individual_contexts.each do |context|
+  -# TODO next if empty
+  %h3= context
+  %div
+    - context.meta_keys.where(:object_type => "Meta::Term").each do |meta_key|
+      - definition = meta_key.meta_key_definitions.for_context(context)
+      %h4= definition.meta_field.label
+      .accordion
+        - meta_key.meta_terms.each do |meta_term|
+          - media_entries = meta_term.meta_data(meta_key).select{|md| md.resource_type == "MediaEntry" and media_entry_ids.include?(md.resource_id) }.collect(&:resource)
+          - size = media_entries.size
+          - next unless size > 1
+          %h3= "#{meta_term} (#{size})"
+          %div
+            - media_entries.each do |media_entry|
+              = link_to thumb_for(media_entry, :small), media_entry, :class => "thumb_mini"
+
+:javascript
+  $(function() {
+    $(".accordion").accordion();
+  });

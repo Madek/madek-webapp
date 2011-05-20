@@ -2,7 +2,7 @@
 class MediaSetsController < ApplicationController
 
   before_filter :pre_load
-  before_filter :authorized?, :only => [:show, :edit, :update, :destroy, :add_member] # TODO :except => :index OR check for :index too ??
+  before_filter :authorized?, :except => [:index, :create]
   
   def index
     ids = current_user.accessible_resource_ids(:view, "Media::Set")
@@ -44,6 +44,11 @@ class MediaSetsController < ApplicationController
       format.html
       format.js { render :json => @json }
     end
+  end
+
+  def browse
+    # TODO only for media_project
+    @project = @media_set
   end
 
 #####################################################
@@ -123,7 +128,7 @@ class MediaSetsController < ApplicationController
     case action
 #      when :new
 #        action = :create
-      when :show
+      when :show, :browse
         action = :view
       when :edit, :update, :add_member
         action = :edit
