@@ -2,19 +2,23 @@
   %tr
     %td{:colspan => 5, :style => "text-align: right; white-space: nowrap;"}
       = link_to _("New Set"), new_admin_media_set_path, :class => "buttons", :remote => true
-  %tr
-    %th Type
-    %th Title
-    %th Owner
-    %th MediaEntries
-    %th
-  - @sets.each_with_index do |set, index|
-    %tr{:class => ((index % 2).zero? ? "even" : "odd")}
-      %td= set.class
-      %td= set.title
-      %td= set.user
-      %td= set.media_entries.count
-      %td.with_actions
-        = link_to _("Edit"), edit_admin_media_set_path(set), :class => "buttons", :remote => true
-        %br
-        = link_to _("Delete"), admin_media_set_path(set), :class => "buttons", :method => :delete, :confirm => _("Sind Sie sicher?") if set.media_entries.empty?
+
+%table.datatable
+  %thead
+    %tr
+      %th Type
+      %th Title
+      %th Owner
+      %th MediaEntries
+      %th
+  %tbody
+    - @sets.each do |set|
+      %tr
+        %td= set.class
+        %td= set.title
+        %td= set.user
+        %td= set.media_entries.count
+        %td.with_actions
+          = link_to _("Edit"), edit_admin_media_set_path(set), :class => "buttons", :remote => true
+          %br
+          = link_to _("Delete"), admin_media_set_path(set), :class => "buttons", :method => :delete, :confirm => _("Sind Sie sicher?") if set.media_entries.empty?

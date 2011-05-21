@@ -2,21 +2,25 @@
   %tr
     %td{:colspan => (LANGUAGES.size + 1), :style => "text-align: right; white-space: nowrap;"}
       = link_to _("New Term"), new_admin_term_path, :class => "buttons", :remote => true, :"data-type" => "html"
-  %tr
-    - LANGUAGES.each do |lang|
-      %th
-        = lang
-    %th
-      Used?
-    %th
-  - @terms.each_with_index do |term, index|
-    %tr{:class => ((index % 2).zero? ? "even" : "odd")}
+
+%table.datatable
+  %thead
+    %tr
       - LANGUAGES.each do |lang|
+        %th
+          = lang
+      %th
+        Used?
+      %th
+  %tbody
+    - @terms.each do |term|
+      %tr
+        - LANGUAGES.each do |lang|
+          %td
+            = term.send(lang)
         %td
-          = term.send(lang)
-      %td
-        = term.is_used?
-      %td.with_actions
-        = link_to _("Edit"), edit_admin_term_path(term), :class => "buttons", :remote => true, :"data-type" => "html"
-        %br
-        = link_to _("Delete"), admin_term_path(term), :class => "buttons", :method => :delete, :confirm => _("Sind Sie sicher?") unless term.is_used?
+          = term.is_used?
+        %td.with_actions
+          = link_to _("Edit"), edit_admin_term_path(term), :class => "buttons", :remote => true, :"data-type" => "html"
+          %br
+          = link_to _("Delete"), admin_term_path(term), :class => "buttons", :method => :delete, :confirm => _("Sind Sie sicher?") unless term.is_used?

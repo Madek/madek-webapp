@@ -6,14 +6,17 @@
     %title
       Admin
     = stylesheet_link_tag "master10"
-    = javascript_include_tag :defaults, "madek10", "jquery/plugins/jquery.flickrmenu", "jquery/plugins/jquery.elastic", "jquery/plugins/jquery.placeholder"
+    = javascript_include_tag :defaults,
+                              "jquery/plugins/jquery.flickrmenu", 
+                              "jquery/plugins/jquery.tmpl", 
+                              "jquery/plugins/jquery.elastic", 
+                              "jquery/plugins/jquery.placeholder",
+                              "jquery/plugins/jquery.dataTables.min",
+                              "madek10"
     = csrf_meta_tag
     = yield :head
 
     :javascript
-      function edit_row_tpl(content, class, colspan){
-        return '<tr class="' + class + '"><td colspan="' + colspan + '">' + content + '</td><td class="with_actions"><a class="buttons cancel" href="#">Cancel</a></td></tr>';
-      }
       $(document).ready(function () {
         $("a[data-remote]:not(a[data-method='delete'])").live('ajax:complete', function(xhr, response){
           var row = $(this).closest("tr");
@@ -21,7 +24,7 @@
           row.children().each(function(){
             cols += $(this).prop('colSpan');
           });
-          row.hide().after(edit_row_tpl(response.responseText, row.attr('class'), cols-1));
+          row.hide().after($("#edit_row").tmpl({tr_class: row.attr('class'), cols: (cols-1), text: response.responseText}));
         });
         
         $("a.cancel").live('click', function(){
@@ -32,6 +35,10 @@
         });
         // TODO
         //$("form[data-remote]").live('ajax:complete', function(xhr, response){});
+        $('.datatable').dataTable({
+          "sPaginationType": "full_numbers",
+          "sDom": '<"top"fi>rt<"bottom"lp><"clear">'
+        });
       });
     
   %body
@@ -44,7 +51,14 @@
         \...
     %section.container_12.clearfix
       = yield
-    %footer.container_12.clearfix
+    %footer.container_12.clearfix{:style => "padding-top: 4em;"}
       = link_to _("Export"), export_admin_meta_path
       |
       = link_to _("Import"), import_admin_meta_path
+
+    %script{:type => "text/x-jquery-tmpl", :id => "edit_row"}
+      %tr{:class => "${tr_class}"}
+        %td{:colspan => "${cols}"}
+          {{html text}}
+        %td.with_actions
+          %a.buttons.cancel{:href => "#"} Cancel

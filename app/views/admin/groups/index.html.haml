@@ -2,16 +2,20 @@
   %tr
     %td{:colspan => 3, :style => "text-align: right; white-space: nowrap;"}
       = link_to _("New Group"), new_admin_group_path, :class => "buttons", :remote => true, :"data-type" => "html"
-  %tr
-    - [_("Name"), _("Type"), _("Users"), ""].each do |s|
-      %th= s
-  - @groups.each_with_index do |group, index|
-    %tr{:class => ((index % 2).zero? ? "even" : "odd")}
-      %td= group
-      %td= group.type
-      %td
-        - users_count = group.users.count
-        = users_count
-      %td.with_actions
-        = link_to _("Edit"), edit_admin_group_path(group), :class => "buttons", :remote => true, :"data-type" => "html"
-        = link_to _("Delete"), admin_group_path(group), :class => "buttons", :method => :delete, :confirm => _("Sind Sie sicher?") if users_count.zero?
+
+%table.datatable
+  %thead
+    %tr
+      - [_("Name"), _("Type"), _("Users"), ""].each do |s|
+        %th= s
+  %tbody
+    - @groups.each do |group|
+      %tr
+        %td= group
+        %td= group.type
+        %td
+          - users_count = group.users.count
+          = users_count
+        %td.with_actions
+          = link_to _("Edit"), edit_admin_group_path(group), :class => "buttons", :remote => true, :"data-type" => "html"
+          = link_to _("Delete"), admin_group_path(group), :class => "buttons", :method => :delete, :confirm => _("Sind Sie sicher?") if users_count.zero?

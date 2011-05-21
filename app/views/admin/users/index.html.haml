@@ -1,11 +1,13 @@
-%table
-  %tr
-    - [_("Login"), _("Email"), _("Name"), _("Total MediaEntries"), _("Groups"), ""].collect do |s|
-      %th= s
-  - @users.each_with_index do |user, index|
-    %tr{:class => ((index % 2).zero? ? "even" : "odd")}
-      - [user.login, user.email, user.name, user.media_entries.count, user.groups.join(', ')].each do |s|
-        %td= s
-      %td.with_actions
-        = link_to _("Edit"), edit_admin_user_path(user), :class => "buttons", :remote => true, :"data-type" => "html"
-        = link_to _("Switch to"), switch_to_admin_user_path(user), :class => "buttons"
+%table.datatable
+  %thead
+    %tr
+      - [_("Login"), _("Email"), _("Name"), _("Total MediaEntries"), _("Groups"), ""].collect do |s|
+        %th= s
+  %tbody
+    - @users.each do |user|
+      %tr
+        - [user.login, user.email, user.name, user.media_entries.count, user.groups.join(', ')].each do |s|
+          %td= s
+        %td.with_actions
+          = link_to _("Edit"), edit_admin_user_path(user), :class => "buttons", :remote => true, :"data-type" => "html"
+          = link_to _("Switch to"), switch_to_admin_user_path(user), :class => "buttons"

@@ -3,6 +3,7 @@
 @import url("menu.css");
 @import url("960.css");
 @import url('jquery/themes/custom-theme/jquery-ui-1.8.12.custom.css');
+@import url('jquery/datatable.css');
 @import url("fg.menu.css");
 
 /***** Global *****/
@@ -101,9 +102,6 @@ header h1 a {
 }
 
 table { width: 100%; }
-tr.even { background-color: #bbb; }
-tr.odd { background-color: #eee; }
-th { color: white; background-color: #333; }
 th, td { padding: 0.5em; }
 input[type='text'], textarea { width: 25em; }
 

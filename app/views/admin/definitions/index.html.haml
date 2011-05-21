@@ -1,66 +1,65 @@
 %table
-	%tbody
-		%tr
-			%td{:colspan => 4}
-				= "Name: #{@context.name}"
-				%br
-				= "Label: #{@context.meta_field.label}"
-				%br
-				!= "Description: #{simple_format(@context.meta_field.description.to_s)}"
-				%br
-				= "#{_("For user interface")}: #{@context.is_user_interface?}"
-			%td{:colspan => 2, :style => "text-align: right; white-space: nowrap;"}
-				= link_to _("Edit"), edit_admin_context_path(@context), :class => "buttons", :remote => true, :"data-type" => "html"
-				%br
-				= link_to _("Delete"), admin_context_path(@context), :class => "buttons", :"data-method" => "delete", :"data-confirm" => "Are you sure?"
-				%br
-				= link_to _("Add Key"), new_admin_context_definition_path(@context), :class => "buttons", :remote => true, :"data-type" => "html"
-		%tr
-			%th
-			%th
-				MetaKey
-			%th
-				Label
-			%th
-				Description
-			%th
-				Hint
-			%th
-	%tbody.sortable
-		- @context.meta_key_definitions.each_with_index do |definition, index|
-			%tr{:class => ((index % 2).zero? ? "even" : "odd"), :id => "definition_#{definition.id}"}
-				%td.handler
-					%span.ui-icon.ui-icon-arrowthick-2-n-s
-				%td
-					= definition.meta_key.to_s
-					%br
-					%i
-						= definition.key_map.to_s
-						%br
-						= definition.key_map_type.to_s
-				%td
-					= definition.meta_field.label.to_s
-				%td
-					= definition.meta_field.description.to_s
-				%td
-					= definition.meta_field.hint.to_s
-				%td.with_actions
-					= link_to _("Edit"), edit_admin_context_definition_path(@context, definition), :class => "buttons", :remote => true, :"data-type" => "html"
-					%br
-					= link_to _("Delete"), admin_context_definition_path(@context, definition), :class => "buttons", :method => :delete, :confirm => _("Sind Sie sicher?")
-	
+  %tbody
+    %tr
+      %td{:colspan => 4}
+        = "Name: #{@context.name}"
+        %br
+        = "Label: #{@context.meta_field.label}"
+        %br
+        != "Description: #{simple_format(@context.meta_field.description.to_s)}"
+        %br
+        = "#{_("For user interface")}: #{@context.is_user_interface?}"
+      %td{:colspan => 2, :style => "text-align: right; white-space: nowrap;"}
+        = link_to _("Edit"), edit_admin_context_path(@context), :class => "buttons", :remote => true, :"data-type" => "html"
+        %br
+        = link_to _("Delete"), admin_context_path(@context), :class => "buttons", :"data-method" => "delete", :"data-confirm" => "Are you sure?"
+        %br
+        = link_to _("Add Key"), new_admin_context_definition_path(@context), :class => "buttons", :remote => true, :"data-type" => "html"
+
+%table
+  %thead
+    %tr
+      %th
+      %th MetaKey
+      %th Label
+      %th Description
+      %th Hint
+      %th
+  %tbody.sortable
+    - @context.meta_key_definitions.each_with_index do |definition, index|
+      %tr{:class => ((index % 2).zero? ? "even" : "odd"), :id => "definition_#{definition.id}"}
+        %td.handler
+          %span.ui-icon.ui-icon-arrowthick-2-n-s
+        %td
+          = definition.meta_key.to_s
+          %br
+          %i
+            = definition.key_map.to_s
+            %br
+            = definition.key_map_type.to_s
+        %td
+          = definition.meta_field.label.to_s
+        %td
+          = definition.meta_field.description.to_s
+        %td
+          = definition.meta_field.hint.to_s
+        %td.with_actions
+          = link_to _("Edit"), edit_admin_context_definition_path(@context, definition), :class => "buttons", :remote => true, :"data-type" => "html"
+          %br
+          = link_to _("Delete"), admin_context_definition_path(@context, definition), :class => "buttons", :method => :delete, :confirm => _("Sind Sie sicher?")
+  
 :javascript
-	$(document).ready(function(){
-		$("tbody.sortable").sortable({
-		  handle: 'td.handler',
-		  axis: 'y',
-			update: function(event, ui){
-				$.ajax({
-					url: "#{reorder_admin_context_definitions_path(@context)}",
-					type: 'PUT',
-					data: $(event.target).sortable('serialize'),
-					success: function(feedback){ $('#data').html(feedback); }
-				});
-			}
-		}); //temp//.disableSelection();
-	});
+  $(document).ready(function(){
+    $("tbody.sortable").sortable({
+      handle: 'td.handler',
+      axis: 'y',
+      update: function(event, ui){
+        $.ajax({
+          url: "#{reorder_admin_context_definitions_path(@context)}",
+          type: 'PUT',
+          data: $(event.target).sortable('serialize'),
+          success: function(feedback){ $('#data').html(feedback); }
+        });
+      }
+    }); //temp//.disableSelection();
+  });
