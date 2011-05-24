@@ -79,3 +79,46 @@ Feature: Do things to and with sets and projects
     Then I should see "Die Änderungen wurden gespeichert"
      And I should see "Something new"
      And I should not see "After-Upload Set"
+
+
+
+  @javascript @work
+  Scenario: Use a URL in a set description and expect it to turn into a link
+    When I log in as "helmi" with password "saumagen"
+     And I go to the home page
+     And I follow "Hochladen"
+     And I follow "Basic Uploader"
+     And I attach the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory to "uploaded_data[]"
+     And I press "Ausgewählte Medien hochladen und weiter…"
+     And I wait for the CSS element "#submit_to_3"
+     And I press "Einstellungen speichern und weiter…"
+     And I fill in the metadata for entry number 1 as follows:
+     |label    |value                       |
+     |Titel    |Link test|
+     |Copyright|some other dude             |
+     And I press "Metadaten speichern und weiter…"
+     And I follow "Weiter ohne Hinzufügen zu einem Set"
+     And Sphinx is forced to reindex
+     And I go to the media entries
+     And I click the media entry titled "Link test"
+     And I follow "Zu Set hinzufügen"
+     And I press "Neues Set erstellen"
+     And I wait for the CSS element "#text_media_set"
+     And I fill in the set title with "Testing the link"
+     And I press "Hinzufügen"
+     And I press "Zu ausgewähltem Set hinzufügen"
+     And Sphinx is forced to reindex
+     And I go to the home page
+    Then I should see "Link test"
+    When I click the media entry titled "Link test"
+     And I follow "Testing the link"
+     And I follow "Editieren"
+     And I fill in the metadata form as follows:
+     |label|value|
+     |Beschreibung|Here is a wonderful link http://www.zhdk.ch|
+     And I press "Speichern"
+    Then I should see "http://www.zhdk.ch"
+    When I follow "http://www.zhdk.ch"
+    Then I should be on http://www.zhdk.ch
+     
+  
