@@ -15,70 +15,75 @@ class MetaDatum < ActiveRecord::Base
   
   attr_accessor :keep_original_value
 
-  before_save do |record|
-    case record.meta_key.object_type
+  before_save do
+    case meta_key.object_type
       when nil, "Meta::Country"
       #working here# TODO set String for 'subject' key
       #when "String"
-      #  record.value = record.value.split(',')
+      #  self.value = value.split(',')
       else
-        klass = record.meta_key.object_type.constantize
-        values = case klass.name
-                    when "Person"
-                      klass.split(Array(record.value))
-                    when "Meta::Date"
-                      record.value.to_s.split(' - ') # Needs to be a string because other objects might not have .split, which breaks
-                                                     # parsing the date. Mostly a safety measure, but also to make migration from 0.1.2 to 0.1.3 work.
+        klass = meta_key.object_type.constantize
+        values = case klass
+                    when Person
+                      klass.split(Array(value))
+                    when Meta::Date
+                      value.to_s.split(' - ') # Needs to be a string because other objects might not have .split, which breaks
+                                              # parsing the date. Mostly a safety measure, but also to make migration from 0.1.2 to 0.1.3 work.
                     else
-                      Array(record.value)
+                      Array(value)
                  end
         # TODO Person.suspend_delta
-        record.value = values.map do |v|
+        self.value = values.map do |v|
                           if klass == Keyword
                             user = resource.editors.latest || (resource.respond_to?(:user) ? resource.user : nil)
-                            if v.is_a?(Fixnum) or (v.respond_to?(:match) and !!v.match(/\A[+-]?\d+\Z/)) # TODO patch to String#is_numeric? method
-                              r = klass.where(:meta_term_id => v, :id => value_was).first
-                              r ||= klass.create(:meta_term_id => v, :user => user)
+                            if user.nil? and resource.is_a?(Snapshot)
+                              # the Snapshot has just been created, so we take exactly the MediaEntry's keyword
+                              r = klass.find(v)
                             else
-                              # 2210
-                              conditions = [[]]
-                              LANGUAGES.each do |lang|
-                                conditions.first << "#{lang} = ?"
-                                conditions << v
-                              end
-                              conditions[0] = conditions.first.join(" OR ") 
-                              term = Meta::Term.where(conditions).first
-                              
-                              term ||= begin
-                                h = {}
+                              if v.is_a?(Fixnum) or (v.respond_to?(:match) and !!v.match(/\A[+-]?\d+\Z/)) # TODO patch to String#is_numeric? method
+                                r = klass.where(:meta_term_id => v, :id => value_was).first
+                                r ||= klass.create(:meta_term_id => v, :user => user)
+                              else
+                                # 2210
+                                conditions = [[]]
                                 LANGUAGES.each do |lang|
-                                  h[lang] = v
+                                  conditions.first << "#{lang} = ?"
+                                  conditions << v
                                 end
-                                Meta::Term.create(h) 
+                                conditions[0] = conditions.first.join(" OR ") 
+                                term = Meta::Term.where(conditions).first
+                                
+                                term ||= begin
+                                  h = {}
+                                  LANGUAGES.each do |lang|
+                                    h[lang] = v
+                                  end
+                                  Meta::Term.create(h) 
+                                end
+  
+                                r = Keyword.where(:meta_term_id => term, :user_id => user).first
+                                r ||= Keyword.create(:meta_term => term, :user => user)
+                                # TODO delete keywords records anymore referenced by any meta_data (it could be the same keyword is referenced to a Snapshot)
                               end
-
-                              r = Keyword.where(:meta_term_id => term, :user_id => user).first
-                              r ||= Keyword.create(:meta_term => term, :user => user)
-                              # TODO delete keywords records anymore referenced
                             end
                           elsif klass == Meta::Term
                             #2603# TODO dry
                             if v.is_a?(Fixnum) or (v.respond_to?(:match) and !!v.match(/\A[+-]?\d+\Z/)) # TODO patch to String#is_numeric? method
                               # TODO check if is member of meta_key.meta_terms
                               r = klass.where(:id => v).first
-                            elsif record.meta_key.is_extensible_list?
+                            elsif meta_key.is_extensible_list?
                               h = {}
                               LANGUAGES.each do |lang|
                                 h[lang] = v
                               end
                               term = Meta::Term.find_or_create_by_en_GB_and_de_CH(h)
-                              record.meta_key.meta_terms << term unless record.meta_key.meta_terms.include?(term)
+                              meta_key.meta_terms << term unless meta_key.meta_terms.include?(term)
                               r = term
                             end
                           elsif v.is_a?(Fixnum) or (v.respond_to?(:match) and !!v.match(/\A[+-]?\d+\Z/)) # TODO patch to String#is_numeric? method
                             r = klass.where(:id => v).first
                           elsif klass == Copyright
-                            r = record.value  
+                            r = value  
                           elsif klass == Person
                             firstname, lastname = klass.parse(v)
                             r = klass.find_or_create_by_firstname_and_lastname(:firstname => firstname.try(:capitalize), :lastname => lastname.try(:capitalize)) if firstname or lastname
@@ -88,7 +93,7 @@ class MetaDatum < ActiveRecord::Base
                           
                           (r ? r.id : nil )
                       end
-        record.value.uniq.compact!
+        value.uniq.compact!
     end
   end
 

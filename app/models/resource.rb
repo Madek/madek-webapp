@@ -11,15 +11,10 @@ module Resource
     base.has_many :meta_data, :as => :resource, :dependent => :destroy do #working here#7 :include => :meta_key
       def all_cached
         # OPTIMIZE since we are using the cache_key, we dont' actually need the expires_in, but let's keep it just for safety
-        #Rails3.1#
-        #if first
-        #  proxy_owner = first.resource
-          Rails.cache.fetch("#{proxy_owner.class}/#{proxy_owner.cache_key}/meta_data", :expires_in => 10.minutes) do
-            all
-          end
-        #else
-        #  all
-        #end
+        #Rails3.1# record.meta_data.proxy_owner is deprecated. Please use record.association(:meta_data).owner instead.
+        Rails.cache.fetch("#{proxy_owner.class}/#{proxy_owner.cache_key}/meta_data", :expires_in => 10.minutes) do
+          all
+        end
       end
 
       def get(key_id)

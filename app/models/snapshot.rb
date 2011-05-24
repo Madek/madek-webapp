@@ -8,18 +8,18 @@ class Snapshot < ActiveRecord::Base
   
   # TODO type attribute ?? TMS, etc...
 
-  before_create do |record|
-    record.media_file = record.media_entry.media_file
+  before_create do
+    self.media_file = media_entry.media_file
   end
   
-  after_create do |record|
-    record.media_entry.meta_data.each do |md|
+  after_create do
+    media_entry.meta_data.each do |md|
       nmd = md.clone
-      nmd.resource = record
+      nmd.resource = self
       nmd.save
     end
-    descr_author_value = record.meta_data.get("description author").value
-    record.meta_data.get("description author before snapshot").update_attributes(:value => descr_author_value) if descr_author_value
+    descr_author_value = meta_data.get("description author").value
+    meta_data.get("description author before snapshot").update_attributes(:value => descr_author_value) if descr_author_value
   end
 
   default_scope order("created_at DESC")
