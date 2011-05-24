@@ -1971,7 +1971,7 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
   line-height: 1.3em; }
 
 #vocabulary_tab.ui-tabs-panel {
-  padding: 50px 0 10px 0;
+  padding: 20px 0 10px 0;
   line-height: 1.3em; }
 
 #info_tab p, #abstract_tab p, #vocabulary_tab p {
@@ -1986,8 +1986,7 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
 
 #vocabulary_tab h3 {
   font-size: 1.4em;
-  margin-top: -32px;
-  position: absolute; }
+  margin-bottom: 1em; }
 
 .ui-tabs {
   /*border-bottom: 1px solid #dddddd;*/
