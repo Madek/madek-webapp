@@ -10,7 +10,7 @@ module MetaDataHelper
         if meta_datum.meta_key.label == "title"
           haml_tag :h3, formatted_value(meta_datum)
         else
-          haml_tag :p, formatted_value(meta_datum)
+          haml_tag :p, preserve(formatted_value(meta_datum))
         end
       end
       haml_tag :h4, "Erstellt von/am"
