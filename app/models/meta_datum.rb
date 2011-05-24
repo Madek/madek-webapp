@@ -45,12 +45,13 @@ class MetaDatum < ActiveRecord::Base
                                 r ||= klass.create(:meta_term_id => v, :user => user)
                               else
                                 # 2210
-                                conditions = [[]]
-                                LANGUAGES.each do |lang|
-                                  conditions.first << "#{lang} = ?"
-                                  conditions << v
-                                end
-                                conditions[0] = conditions.first.join(" OR ") 
+                                #conditions = [[]]
+                                #LANGUAGES.each do |lang|
+                                #  conditions.first << "#{lang} = ?"
+                                #  conditions << v
+                                #end
+                                #conditions[0] = conditions.first.join(" OR ")
+                                conditions = {DEFAULT_LANGUAGE => v} 
                                 term = Meta::Term.where(conditions).first
                                 
                                 term ||= begin
