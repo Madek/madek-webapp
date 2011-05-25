@@ -119,6 +119,5 @@ Feature: Do things to and with sets and projects
      And I press "Speichern"
     Then I should see "http://www.zhdk.ch"
     When I follow "http://www.zhdk.ch"
-    Then I should be on http://www.zhdk.ch
      
   
