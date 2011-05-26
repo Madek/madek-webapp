@@ -45,24 +45,33 @@ class SearchController < ApplicationController
   end
     
   def filter
-    case params[:filter][:type]
-      when "MediaEntry"
-        viewable_ids = current_user.accessible_resource_ids
-        # TODO merge search and filter methods
-        if params["MediaEntry"]["media_type"]
-          search_options = Filter.new(params["MediaEntry"]).to_query_filter
-          search_result = MediaEntry.search_for_ids(params[:query], search_options)
-          viewable_ids &= search_result.to_a
-        end
-      when "Media::Set", "Media::Project"
-        viewable_ids = current_user.accessible_resource_ids(:view, "Media::Set")
-    end
-
     params[:per_page] ||= PER_PAGE.first
 
-    intersected_ids = viewable_ids & params[:filter][:ids].split(',').map(&:to_i) 
-    @paginated_ids = intersected_ids.paginate(:page => params[:page], :per_page => params[:per_page])
-    @resources = Logic.enriched_resource_data(@paginated_ids, current_user, params[:filter][:type])
+    if params[:meta_key_id] and params[:meta_term_id]
+      viewable_ids = current_user.accessible_resource_ids
+      meta_key = MetaKey.find(params[:meta_key_id])
+      meta_term = meta_key.meta_terms.find(params[:meta_term_id])
+      media_entry_ids = meta_term.meta_data(meta_key).select{|md| md.resource_type == "MediaEntry"}.collect(&:resource_id)
+      intersected_ids = viewable_ids & media_entry_ids 
+      paginated_ids = intersected_ids.paginate(:page => params[:page], :per_page => params[:per_page].to_i)
+      @resources = Logic.data_for_page(paginated_ids, current_user)
+    else
+      case params[:filter][:type]
+        when "MediaEntry"
+          viewable_ids = current_user.accessible_resource_ids
+          # TODO merge search and filter methods
+          if params["MediaEntry"]["media_type"]
+            search_options = Filter.new(params["MediaEntry"]).to_query_filter
+            search_result = MediaEntry.search_for_ids(params[:query], search_options)
+            viewable_ids &= search_result.to_a
+          end
+        when "Media::Set", "Media::Project"
+          viewable_ids = current_user.accessible_resource_ids(:view, "Media::Set")
+      end
+      intersected_ids = viewable_ids & params[:filter][:ids].split(',').map(&:to_i) 
+      @paginated_ids = intersected_ids.paginate(:page => params[:page], :per_page => params[:per_page])
+      @resources = Logic.enriched_resource_data(@paginated_ids, current_user, params[:filter][:type])
+    end
 
     respond_to do |format|
       format.js { render :json => @resources.to_json }

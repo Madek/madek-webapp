@@ -260,8 +260,14 @@ class MediaFile < ActiveRecord::Base
 
     # nothing found, we show then a placeholder icon
     size = (size == :large ? :medium : :small)
-    output = File.read("#{Rails.root}/public/images/#{preview}_#{size}.png")
-    return "data:#{content_type};base64,#{Base64.encode64(output)}"      
+    case Rails.env
+      when "development"
+        w, h = THUMBNAILS[size].split('x').map(&:to_i)
+        return "http://lorempixum.com/#{w}/#{h}/?#{id}"
+      else
+      output = File.read("#{Rails.root}/public/images/#{preview}_#{size}.png")
+      return "data:#{content_type};base64,#{Base64.encode64(output)}"
+    end
   end
     
 ######################################################################

@@ -13,3 +13,21 @@
         %td
           =# render :partial => "meta_data/show", :locals => { :meta_datum => meta_datum, :resource => @resource, :context => @context }
           != formatted_value(meta_datum)
+
+
+
+
+  %script{:type => "text/x-jquery-tmpl", :id => "thumbnail_mini"}
+    %a{:href => "/media_entries/${id}"}
+      %div{:class => "thumb_mini"}
+        %img{:src => "${thumb_base64}"}
+
+  :javascript
+    $(function() {
+      $(".meta_data a[data-remote]").bind('ajax:complete.rails', function(xhr, response){ // TODO ajax:success ??
+        var json = JSON.parse(response.responseText);
+        var container = $("#detail-sidebar");
+        container.append($("#thumbnail_mini").tmpl(json.entries));
+      });
+    });
+    

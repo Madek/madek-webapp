@@ -39,6 +39,10 @@ module MetaDataHelper
         s.join(' - ').html_safe
       when "Date"
         _("%s Uhr") % meta_datum.deserialized_value.to_formatted_s(:date_time)
+      when "Meta::Term"
+        s = meta_datum.deserialized_value.map do |dv|
+              link_to dv, filter_search_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :method => :post, :remote => true, :style => "background-color: yellow;"
+            end.join(', ') 
       else
         s = meta_datum.to_s
         #(s =~ /\n/ ? simple_format(s) : s)
