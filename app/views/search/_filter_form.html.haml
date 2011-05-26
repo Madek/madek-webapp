@@ -1,8 +1,8 @@
 - unless resource_ids.empty?
   .filter_box
     %h3.filter_category.filter_header.clearfix
-      %span.ui-icon.ui-icon-triangle-1-e
-      = link_to "Medieneinträge filtern", "#", :class => "filter_category_link"
+      / %span.ui-icon.ui-icon-triangle-1-e
+      = link_to "Suchergebnisse filtern", "#", :class => "filter_category_link"
     .filter_content{:style => "display: block;"}
       %form{:action => filter_search_path, :method => :post, :"data-remote" => "true", :"data-type" => :json, :"data-item_ids" => resource_ids.to_json}
         = hidden_field_tag "filter[type]", type

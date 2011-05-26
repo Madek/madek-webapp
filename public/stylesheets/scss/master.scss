@@ -587,21 +587,21 @@ ul li { float: left; }
   top: 68px;
   overflow-y: auto;
   background-color: white;
-  -webkit-box-shadow: 0 0 4px rgba(100, 100, 100, 0.3);
-  -moz-box-shadow: 0 0 4px rgba(100, 100, 100, 0.3);
-  box-shadow: 0 0 4px rgba(100, 100, 100, 0.3);
+  -webkit-box-shadow: 0 0 2px rgba(100, 100, 100, 0.3);
+  -moz-box-shadow: 0 0 2px rgba(100, 100, 100, 0.3);
+  box-shadow: 0 0 2px rgba(100, 100, 100, 0.3);
 }
 
 .result_area { float:left; }
 
 .filter_box {
   a:hover { text-decoration: none; }
-  h3.filter_category { padding: 8px 8px 8px 5px; border-top: 1px solid silver;}
-  h3.filter_header, .filter_footer { background: #DDDDDD; border:0; margin-left: 0 }
-  .filter_header .filter_category_link { font-size: 0.9em; 	text-shadow: 0 1px 0 #fff; }
+  h3.filter_category { padding: 7px 5px 5px 0; border-top: 1px solid #DDDDDD;}
+  h3.filter_header, .filter_footer { background: #DFDFDF; border:0; padding: 12px 0 10px 0;}
+  .filter_header .filter_category_link { font-size: 0.8em; font-weight: bold; letter-spacing: 0.1ex; text-shadow: 0 1px 0 #eee; }
   h3.filter_subcategory { background: #FFFFFF; padding: 8px 10px; }
-  h3 span.ui-icon { float: left; } 
-  a.filter_category_link { font-size: 0.7em; float:left; margin-left: 10px }
+  h3 span.ui-icon { float: right; } 
+  a.filter_category_link { text-transform:uppercase; font-weight: normal; font-size: 0.7em; letter-spacing: 0.2ex; float:left; margin-left: 15px }
   .filter_category_link { font-size: 0.6em; }
   a.reset_filter { font-size: 0.6em; letter-spacing: 0.1ex; font-weight: normal; float:right; margin-right: 3px;}
   h3.filter_subcategory a.filter_category_link, 
@@ -613,11 +613,12 @@ ul li { float: left; }
   #filter-query ul li { padding: 0 0 5px 0; float: none; font-size: 0.9em; line-height: 1em; }
   #filter-query .filter_content { max-height: 222px; background: #FFFFFF; overflow-x: hidden; overflow-y: auto; }
   input[type="checkbox"] { margin: 0 4px 0 0; }
-  .filter_footer { text-align: center; padding: 10px;}
+  .filter_footer { text-align: center; padding: 15px;}
   .filter_footer p {margin: 8px 0 0;}
   .filter_footer input[type="submit"] {
     font-weight: bold;
-  	padding: 5px 10px;
+    font-size: 1.1em;
+  	padding: 8px 12px;
   	text-align: center;
   	text-shadow: 0 1px 0 #fff;
   	border: 1px solid #d6d6d6;
