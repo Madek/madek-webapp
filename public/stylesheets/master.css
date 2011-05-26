@@ -1943,6 +1943,9 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
   z-index: 0; }
 
 /* Overriding jQuery-UI css - start */
+.ui-accordion .ui-accordion-header {
+  padding-left: 25px; }
+
 .ui-widget-content {
   color: #444444;
   border: 0; }
