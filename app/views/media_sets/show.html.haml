@@ -22,7 +22,11 @@
               = display_permission(@media_set, :icon)
             %div{:class => thumb_class}
               = thumb_for(@media_set, :small_125)
-      .grid_7
+        #set_actions
+          - if @can_edit_set
+            = display_edit_icon(@media_set, current_user)
+            = display_delete_icon(@media_set, current_user)
+      .grid_9
         #detail_specification.tabs
           %ul
             %li
@@ -34,7 +38,9 @@
                 = link_to _("Auszug"), "#abstract_tab"
             - if @media_set.is_a?(Media::Project)
               %li
-                = link_to _("Vokabular"), "#vocabulary_tab"
+                = link_to _("Vokabular Übersicht"), "#vocabulary_tab"
+              %li
+                = link_to _("Vokabular Browser"), browse_media_set_path(@media_set), :class => "vocabulary_tab_browse"
           #info_tab.clearfix
             - context = MetaContext.media_set
             = display_meta_data_for_context(@media_set, context)
@@ -48,12 +54,10 @@
               = display_project_abstract(@media_set)
           - if @media_set.is_a?(Media::Project)
             #vocabulary_tab.clearfix
+              %p
+                Diese Metadaten zeigen das gesamte projektspezifische Vokabular.
+              %br
               = display_project_vocabulary(@media_set)
-      .grid_2
-        #set_actions
-          - if @can_edit_set
-            = display_edit_icon(@media_set, current_user)
-            = display_delete_icon(@media_set, current_user)
 
 %section#content_body_set
   %div.page_title_left

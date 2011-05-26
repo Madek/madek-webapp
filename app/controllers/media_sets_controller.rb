@@ -49,6 +49,9 @@ class MediaSetsController < ApplicationController
   def browse
     # TODO only for media_project
     @project = @media_set
+    respond_to do |format|
+      format.js { render :layout => false }
+    end
   end
 
   def abstract

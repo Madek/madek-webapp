@@ -7,7 +7,7 @@ module MediaSetsHelper
     content = capture_haml do
       div_class, thumb_class = media_set.is_a?(Media::Project) ? ["set-box project-box", "thumb_box_project"] : ["set-box", "thumb_box_set"]
       haml_tag :div, :class => div_class do
-        haml_tag :div, thumb_for(media_set, :small_125), :class => thumb_class, :style => "margin-right: 10px;" if with_main_thumb
+        haml_tag :div, thumb_for(media_set, :small_125), :class => thumb_class if with_main_thumb
         haml_tag :span, media_set.title, :style => "font-weight: bold; font-size: 1.2em;"
         #2001# " (%d/%d Medieneinträge)" % [visible_media_entries.count, media_set.media_entries.count]
         haml_concat " (%d Medieneinträge)" % [media_set.media_entries.count]
