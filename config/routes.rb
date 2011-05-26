@@ -119,7 +119,8 @@ MAdeK::Application.routes.draw do
 
   resources :media_sets do
     member do
-      get :browse  
+      get :browse
+      get :abstract
     end
     
     resources :media_sets

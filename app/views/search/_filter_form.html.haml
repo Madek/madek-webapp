@@ -15,10 +15,10 @@
                 = link_to "Medientyp und Format", "#", :class => "filter_category_link"
                 %span.ui-icon.ui-icon-triangle-1-e
                 =#tmp# link_to "(zurücksetzen)", "#", :class => "reset_filter"
-              .filter_content{:style => display_style(type, "media type")}
+              .filter_content{:style => "display: none;"}
                 %h3.filter_subcategory.filter_category.clearfix
                   %span.input_wrapper
-                    = check_box_tag "#{type}[media_type][]", "Image", should_be_checked?("media type", "Image", type)
+                    = check_box_tag "#{type}[media_type][]", "Image"
                     Bild
                   = link_to "Details", "#", :class => "filter_category_link"
                   %span.ui-icon.ui-icon-triangle-1-e
@@ -26,24 +26,20 @@
                   %ul
                     %li
                       = label_tag "#{type}[orientation][0]", "Querformat"
-                      = check_box_tag "#{type}[orientation]", '0', should_be_checked?("orientation", "0", type)
+                      = check_box_tag "#{type}[orientation]", '0'
                     %li
                       = label_tag "#{type}[orientation][1]", "Hochformat"
-                      = check_box_tag "#{type}[orientation]", '1', should_be_checked?("orientation", "1", type)
+                      = check_box_tag "#{type}[orientation]", '1'
                   %ul
-                    - width_value = (filter.filters[:width]) ? filter.filters[:width][:value] : nil
-                    - width_operator = (filter.filters[:width]) ? filter.filters[:width][:operator] : nil
-                    - height_value = (filter.filters[:height]) ? filter.filters[:height][:value] : nil
-                    - height_operator = (filter.filters[:height]) ? filter.filters[:height][:operator] : nil
                     %li
                       = label_tag "#{type}[width][value]", "Breite"
-                      = select_tag "#{type}[width][operator]", options_for_select({'ist genau' => 'is', 'grösser als' => 'gt', 'kleiner als' => 'lt'}, :selected => width_operator), :include_blank => true
-                      = text_field_tag "#{type}[width][value]", width_value, :size => 10
+                      = select_tag "#{type}[width][operator]", options_for_select({'ist genau' => 'is', 'grösser als' => 'gt', 'kleiner als' => 'lt'}, :selected => nil), :include_blank => true
+                      = text_field_tag "#{type}[width][value]", nil, :size => 10
                       / TODO #slider-range
                     %li
                       = label_tag "#{type}[height][value]", "Höhe"
-                      = select_tag "#{type}[height][operator]", options_for_select({'ist genau' => 'is', 'grösser als' => 'gt', 'kleiner als' => 'lt'}, :selected => height_operator), :include_blank => true
-                      = text_field_tag "#{type}[height][value]", height_value, :size => 10
+                      = select_tag "#{type}[height][operator]", options_for_select({'ist genau' => 'is', 'grösser als' => 'gt', 'kleiner als' => 'lt'}, :selected => nil), :include_blank => true
+                      = text_field_tag "#{type}[height][value]", nil, :size => 10
   
             = display_meta_data_checkboxes(resource_ids, type)
           .filter_footer

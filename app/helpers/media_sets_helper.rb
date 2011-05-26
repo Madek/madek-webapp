@@ -122,9 +122,9 @@ module MediaSetsHelper
 ####################################################################
 # TODO move to media_projects_helper.rb ??
 
-  def display_project_abstract(project)
+  def display_project_abstract(project, min_media_entries = nil)
     capture_haml do
-      meta_data = project.abstract
+      meta_data = project.abstract(min_media_entries)
       if meta_data.blank?
         haml_tag :p, _("Es sind nicht genügend Werte für einene Projekt-Auszug vorhanden.")
       else
@@ -150,6 +150,7 @@ module MediaSetsHelper
         haml_tag :p, context.description
         haml_tag :div do
           context.meta_keys.where(:object_type => "Meta::Term").each do |meta_key|
+            next if ["epoch", "style", "genre"].include?(meta_key.label)
             definition = meta_key.meta_key_definitions.for_context(context)
             haml_tag :h4, definition.meta_field.label
             meta_key.meta_terms.each do |meta_term|

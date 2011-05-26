@@ -51,6 +51,13 @@ class MediaSetsController < ApplicationController
     @project = @media_set
   end
 
+  def abstract
+    # TODO only for media_project
+    respond_to do |format|
+      format.js { render :layout => false }
+    end
+  end
+
 #####################################################
 # Authenticated Area
 # TODO
@@ -128,7 +135,7 @@ class MediaSetsController < ApplicationController
     case action
 #      when :new
 #        action = :create
-      when :show, :browse
+      when :show, :browse, :abstract
         action = :view
       when :edit, :update, :add_member
         action = :edit
