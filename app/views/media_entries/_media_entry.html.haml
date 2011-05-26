@@ -14,13 +14,17 @@
           %span.favorite_link{:id => "fav_#{media_entry.id}", :title => "Favorit"}
             = render :partial => "media_entries/favorite_link", :locals => {:media_entry => media_entry}
         - if current_user && Permission.authorized?(current_user, :manage, media_entry)
-          %li= link_to image_tag("icons/button_delete_active.png"), media_entry_path(media_entry), :id => "delete_me", :title => "Löschen", :method => :delete, :"data-id" => media_entry.id
-        %li= link_to _("Exportieren"), "#", :panel => "download", :onclick => "return false;"
-        %li= link_to _("Zu Set hinzufügen"), "#", :panel => "media_set", :onclick => "return false;"
+          %li= link_to image_tag("icons/button_delete_active.png"), "#", :panel => "delete"
+        %li= link_to _("Exportieren"), "#", :panel => "download"
+        %li= link_to _("Zu Set hinzufügen"), "#", :panel => "media_set"
         - if is_expert and media_entry.snapshotable?
           %li= link_to _("Metadaten für MIZ-Archiv editieren"), edit_tms_media_entry_path(@media_entry)
           - if can_edit
             %li= link_to _("Kopie für MIZ-Archiv erstellen"), to_snapshot_media_entry_path(media_entry)
+    #delete-panel.actionbar-panel{:style => "display: none"}
+      .actionbar-inner-panel
+        = _("Wollen Sie diesen Medieneintrag und alle zugehörigen Dateien wirklich löschen? Sie können dies nicht rückgängig machen. Die Daten sind unwiederbringlich verloren.")
+        = link_to _("Löschen"), media_entry_path(media_entry), :id => "delete_me", :method => :delete, :confirm => _("Sind Sie sicher?"), :"data-id" => media_entry.id
     #download-panel.actionbar-panel{:style => "display: none"}
       .actionbar-inner-panel
         = render :partial => "download", :object => media_entry, :as => :media_entry
@@ -111,18 +115,17 @@
 .clear
 
 :javascript
-  $('a#delete_me').click(function(){
-    if(confirm("Sind Sie sicher?")){
-      var media_entries_json = get_media_entries_json();
-      var i = is_Selected(media_entries_json, $(this).data("id"));
-      if (i > -1) {
-        media_entries_json.splice(i, 1);
-        set_media_entries_json(JSON.stringify(media_entries_json));
-      };
+  // OPTIMIZE
+  $('a#delete_me').bind('confirm:complete', function(){
+    var media_entries_json = get_media_entries_json();
+    var i = is_Selected(media_entries_json, $(this).data("id"));
+    if (i > -1) {
+      media_entries_json.splice(i, 1);
+      set_media_entries_json(JSON.stringify(media_entries_json));
     };
   })
-  // TO BE OPTIMIZED:
-  // Action Bar
+  
+  // OPTIMIZE Action Bar
   $("a[panel]").click(function(){
   	to_open = !$(this).hasClass("active");
 
@@ -137,4 +140,6 @@
   		$(this).css("background", "transparent url('/images/icons/arrow-up-04.png') 50% bottom no-repeat");
   		$("div#"+$(this).attr("panel")+"-panel").slideDown("slow");
   	}
+  	
+  	return false;
   });

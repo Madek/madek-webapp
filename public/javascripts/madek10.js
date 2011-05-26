@@ -91,25 +91,6 @@ $(document).ready(function () {
 		$("#settings-container-minimized").show();
 	});
 //////////////////////////////	
-		
-	// Action Bar
-	$("a[panel]").click(function(){
-		to_open = !$(this).hasClass("active");
-		
-		$("a.active[panel]").each(function () {
-			$(this).removeClass("active");
-			$(this).css("background", "");
-			$("div#"+$(this).attr("panel")+"-panel").slideUp("slow");
-		});
-
-		if(to_open){
-			$(this).addClass("active");
-			$(this).css("background", "transparent url('/images/icons/arrow-up-04.png') 50% bottom no-repeat");
-			$("div#"+$(this).attr("panel")+"-panel").slideDown("slow");
-		}
-	});
-
-//////////////////////////////
 
 	var actions_parent_containers = $("tr:has(td.with_actions), ul[data-meta_key]:has(.with_actions)"); 
 	actions_parent_containers.live('mouseover', function(){
