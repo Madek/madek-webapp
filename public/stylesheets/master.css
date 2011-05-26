@@ -1423,7 +1423,8 @@ button.dark:hover {
   -webkit-column-count: 3;
   -webkit-column-gap: 20px;
   column-count: 3;
-  column-gap: 20px; }
+  column-gap: 20px;
+  margin-bottom: 20px; }
 
 #content_body_fixed #detail_specification {
   margin-left: 20px; }
