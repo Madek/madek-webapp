@@ -1600,7 +1600,6 @@ table td {
 	
 	.actionbar-inner-panel {
 		background: #F2F2F2;
-		padding: 0.5em;
 		padding: 20px;
 	}
 	
@@ -1681,7 +1680,7 @@ table td {
 	}
 }
 
-#media_set-panel {
+#media_set-panel, #delete-panel {
 	float: left;
 	width: 575px;
 	font-size: 0.9em;
@@ -1693,7 +1692,9 @@ table td {
 	background-color: #fafafa;
 	margin-bottom: 30px;
 }
-
+#delete-panel a {
+  text-decoration: underline;
+}
 
 #detail-action-bar #download-table {
 
@@ -1874,7 +1875,7 @@ form#set_media_sets input[type="submit"] {
 /* Upload */
 
 .upload_buttons {
-	background: #e3e3e3;
+	background: white;
 	color: #333;
 	font-weight: bold;
 	padding: 3px 10px 4px;
@@ -1900,7 +1901,7 @@ form#set_media_sets input[type="submit"] {
 }
 .upload_buttons:hover {
   text-decoration: none;
-  background: white;
+  background: #e3e3e3;
 }
 
 .upload-me-metadata > .meta_data {

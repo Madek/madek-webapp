@@ -1504,7 +1504,6 @@ table td {
     text-decoration: none; }
   #detail-action-bar .actionbar-inner-panel {
     background: #F2F2F2;
-    padding: 0.5em;
     padding: 20px; }
   #detail-action-bar .info {
     background: #FDFFD0;
@@ -1565,7 +1564,7 @@ table td {
   #download-table th.col2, #download-table th.col3, #download-table th.col4 {
     width: 110px; }
 
-#media_set-panel {
+#media_set-panel, #delete-panel {
   float: left;
   width: 575px;
   font-size: 0.9em;
@@ -1576,6 +1575,9 @@ table td {
   box-shadow: inset 0 0 3px 1px #ccc;
   background-color: #fafafa;
   margin-bottom: 30px; }
+
+#delete-panel a {
+  text-decoration: underline; }
 
 #detail-action-bar #download-table td.align-center {
   text-align: center; }
@@ -1712,7 +1714,7 @@ form#set_media_sets input[type="submit"] {
 
 /* Upload */
 .upload_buttons {
-  background: #e3e3e3;
+  background: white;
   color: #333;
   font-weight: bold;
   padding: 3px 10px 4px;
@@ -1738,7 +1740,7 @@ form#set_media_sets input[type="submit"] {
 
 .upload_buttons:hover {
   text-decoration: none;
-  background: white; }
+  background: #e3e3e3; }
 
 .upload-me-metadata > .meta_data {
   border-top: 1px solid #d2d2d2; }
