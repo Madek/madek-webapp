@@ -126,7 +126,7 @@ module MediaSetsHelper
     capture_haml do
       meta_data = project.abstract(min_media_entries)
       if meta_data.blank?
-        haml_tag :p, _("Es sind nicht genügend Werte für einene Projekt-Auszug vorhanden.")
+        haml_tag :p, _("Es sind nicht genügend Werte für einen Projekt-Auszug vorhanden.")
       else
         contexts = project.individual_contexts
         haml_tag :div do
