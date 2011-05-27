@@ -1539,6 +1539,8 @@ table td {
 		vertical-align: middle;
 		line-height: 1.4em;
 		font-size: 0.9em;
+		max-width: 220px;
+		overflow: hidden;
 	}
 }
 
