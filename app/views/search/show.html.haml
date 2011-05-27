@@ -78,7 +78,7 @@
       });
       var submit_value = "Filter anwenden";
       if(intersected_ids) submit_value += " ("+intersected_ids.length+")";
-      parent_form.find(".filter_footer #search-submit").val(submit_value);
+      parent_form.find(".filter_footer #filter-submit").val(submit_value);
       parent_form.find("input#filter_ids").val(intersected_ids.join(','));
     });
 
