@@ -1731,7 +1731,7 @@ table td {
 }
 
 .download-info {
-	padding-bottom: 2em;
+  padding-bottom: 2em;
 }
 
 form#set_media_sets span {
@@ -1796,9 +1796,9 @@ form#set_media_sets input[type="submit"] {
 	padding-right: 20px;
 	
 	h4 {
-	    color: #7F7F7F;
-	    font-size: 0.8em;
-	    letter-spacing: 0.2ex;
+    color: #7F7F7F;
+	  font-size: 0.8em;
+	  letter-spacing: 0.2ex;
 	}
 	
 	span {
@@ -1889,17 +1889,18 @@ form#set_media_sets input[type="submit"] {
 	box-shadow: inset 0 0 1px 1px #f6f6f6;
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	font-size: 17px;
-    padding-bottom: 6px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
-    text-align: center;
-    text-shadow: 0 1px 0 #FFFFFF;
-    letter-spacing: 0;
-    text-decoration: none;
+  padding-bottom: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  text-align: center;
+  text-shadow: 0 1px 0 #FFFFFF;
+  letter-spacing: 0;
+  text-decoration: none;
 }
 .upload_buttons:hover {
-    text-decoration: none;
+  text-decoration: none;
+  background: white;
 }
 
 .upload-me-metadata > .meta_data {
@@ -1907,11 +1908,16 @@ form#set_media_sets input[type="submit"] {
 }
 
 #upload-container a {
-    text-decoration: none;
+  text-decoration: none;
+}
+#upload-container a:hover {
+  text-decoration: underline;
 }
 
 #upload-container p {
-	font: 0.8em/1.3em;
+  font-size: 0.9em;
+	line-height: 1.3em;
+	color: #727272;
 }
 
 #upload-container h3 {
@@ -1971,11 +1977,11 @@ form#set_media_sets input[type="submit"] {
 	margin-top: 1em;
 }
 .permissions_unit .hint {
-    font-size: 0.8em;
-    line-height: 1.3em;
-    letter-spacing: 0.1ex;
-    margin-top: 3px;
-    padding-left: 22px;
+  font-size: 0.8em;
+  line-height: 1.3em;
+  letter-spacing: 0.1ex;
+  margin-top: 3px;
+  padding-left: 22px;
 }
 
 .with_actions .hint {
@@ -2012,7 +2018,6 @@ form#set_media_sets input[type="submit"] {
 .upload-me-metadata {width: 720px; float: left; margin-left: 15px;}
 
 .upload-me-metadata ul {
-
 	display: block;
 }
 
@@ -2020,6 +2025,7 @@ form#set_media_sets input[type="submit"] {
 	margin-right: 15px;
 	border: 1px solid #f2f2f2;
 }
+
 
 /* Organize Table */
 
@@ -2048,7 +2054,7 @@ table.organize-detail-view td {
 	color: #727272;
 	font-weight: bold;
 	width: 200px;
-	height: 80px;
+	height: 90px;
 	margin-top: 10px;
 	padding: 5px;
 	-moz-box-shadow: inset 0 0 3px 1px #ccc;
@@ -2057,11 +2063,12 @@ table.organize-detail-view td {
 	font: 0.9em/1.1em;
 	letter-spacing: 0;
 	background-color: #fafafa;
+	
+	p {
+    padding: 0.75em;	
+	}
 }
 
-#uploader-subnavigation ol li p {
-	padding: 0.75em;
-}
 
 #uploader-subnavigation ol li.active {
 	background: #424242;
@@ -2073,12 +2080,11 @@ table.organize-detail-view td {
 
 #uploader-subnavigation ol li span {
 	padding-top: 8px;
-	font-size: 0.8em;
+	font-size: 0.85em;
 	line-height: 1.3em;
 	display: block;
 	font-weight: normal;
 }
-
 
 
 /* Metadata Table */
