@@ -832,7 +832,7 @@ ul li {
   font-size: 1em;
   line-height: 144px;
   background: url(../images/icons/icon_tn_project.png) no-repeat 0 1px;
-  margin-bottom: 10px; }
+  margin: 0 10px 10px 0; }
 
 #project_results .thumb_box_set img {
   background-color: #FFFFFF;
@@ -1946,7 +1946,8 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
 
 /* Overriding jQuery-UI css - start */
 .ui-accordion .ui-accordion-header {
-  padding: 4px 0 2px 10px; }
+  padding: 4px 0 2px 10px;
+  font-size: 0.9em; }
 
 .ui-accordion .ui-state-active {
   letter-spacing: 0; }
@@ -2000,7 +2001,7 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
 #vocabulary_tab.ui-tabs-panel {
   padding: 20px 0 10px 0; }
 
-#info_tab h4, #abstract_tab h4, #vocabulary_tab h4, #ui-tabs-2 h4 {
+#info_tab h4, #abstract_tab h4, #vocabulary_tab h4 {
   color: #7F7F7F;
   font-size: 0.8em;
   letter-spacing: 0.2ex;
@@ -2008,11 +2009,13 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
   margin-top: 10px; }
 
 #ui-tabs-2 h4 {
-  padding-top: 20px; }
+  padding-top: 20px;
+  font-size: 1em;
+  margin: 20px 0 10px 0; }
 
 #ui-tabs-2 h3 {
   font-size: 1.4em;
-  margin-bottom: -1em; }
+  margin-bottom: -20px; }
 
 #vocabulary_tab h3 {
   font-size: 1.4em;
