@@ -1744,7 +1744,7 @@ form#set_media_sets input[type="submit"] {
   text-decoration: none; }
 
 #upload-container p {
-  font: 0.8em/1.3em "Courier New", Courier, mono; }
+  font: 0.8em/1.3em; }
 
 #upload-container h3 {
   margin: 1.5em 0 0.25em 0;
@@ -1867,7 +1867,7 @@ table.organize-detail-view td {
   -moz-box-shadow: inset 0 0 3px 1px #ccc;
   -webkit-box-shadow: inset 0 0 3px 1px #ccc;
   box-shadow: inset 0 0 3px 1px #ccc;
-  font: 0.9em/1.1em "Courier New", Courier, mono;
+  font: 0.9em/1.1em;
   letter-spacing: 0;
   background-color: #fafafa; }
 
@@ -2229,7 +2229,7 @@ table.permissions tr.adder td {
   background-color: white;
   font-weight: bold; }
 table.permissions tr.adder p {
-  font: normal 1em/1.2em "Courier New", Courier, mono; }
+  font: normal 1em/1.2em; }
 table.permissions tr.adder input {
   width: 16em;
   margin-left: 0.5em; }
