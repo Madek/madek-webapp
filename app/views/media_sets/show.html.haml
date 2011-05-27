@@ -73,15 +73,16 @@
   $(document).ready(function () {
     setupBatch(#{@json}, #{@media_set.id}, #{@media_set.media_entry_ids.to_json});
 
+    var total_entries = #{@media_set.media_entries.count}; 
     function update_amount(ui){
       var l = ui.find("a").css('left');
-      var v = ui.slider( "value" )
+      var v = ui.slider( "value" ) + " von " + total_entries;
       $("#amount").html(v).css('left', l);
     }
     $("#slider").slider({
-      value: #{@media_set.media_entries.count / 2},
+      value: total_entries / 2,
       min: 1,
-      max: #{@media_set.media_entries.count},
+      max: total_entries,
       step: 1,
       create: function( event, ui ) {
         update_amount($(this));
