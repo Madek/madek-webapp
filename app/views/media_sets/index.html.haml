@@ -44,8 +44,8 @@
           = @my_title
       .pagination
         %a{:href => "#weitere"}
-          &darr;
           = @other_title
+          &darr;
       .clear
       - @my_media_sets.each do |media_set|
         = media_set_title(media_set, true, true, 9, accessible_resource_ids) 
@@ -58,8 +58,8 @@
         = @other_title
       .pagination   
         %a{:href => "#meine"}
-          &uarr;
           = @my_title
+          &uarr;
       .clear
       - @media_sets.each do |media_set|
         = media_set_title(media_set, true, true, 9, accessible_resource_ids)
