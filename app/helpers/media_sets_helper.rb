@@ -11,10 +11,10 @@ module MediaSetsHelper
         haml_tag :span, media_set.title, :style => "font-weight: bold; font-size: 1.1em;"
         #2001# " (%d/%d Medieneinträge)" % [visible_media_entries.count, media_set.media_entries.count]
         haml_tag :br
+        haml_concat "von #{media_set.user}"
+        haml_tag :br
         haml_tag :br
         haml_concat " (%d Medieneinträge)" % [media_set.media_entries.count]
-        haml_tag :br
-        haml_concat "von #{media_set.user}"
         haml_tag :br
         if total_thumbs > 0
           haml_tag :br
