@@ -2266,6 +2266,8 @@ table.meta_data td {
 /* Permissions */
 table.permissions input[type="checkbox"] {
   vertical-align: middle; }
+table.permissions tbody {
+  border-bottom: 1px solid #c8c8c8; }
 table.permissions td {
   padding: 0.6em 0;
   font-size: 0.9em;
@@ -2276,6 +2278,8 @@ table.permissions th {
   padding: 1em 0; }
 table.permissions th:first-child {
   width: 50%; }
+table.permissions .hint {
+  font-size: 1em; }
 table.permissions tr.adder td {
   background-color: white;
   font-weight: bold; }
@@ -2290,7 +2294,8 @@ table.permissions tr.adder input {
   #additional-metadata table.permissions td {
     color: #424242; }
     #additional-metadata table.permissions td strong, #additional-metadata table.permissions td #additional-metadata table.permissions .adder td {
-      letter-spacing: 0; }
+      letter-spacing: 0;
+      font-size: 1em; }
   #additional-metadata table.permissions .adder td {
     font-weight: normal; }
 
