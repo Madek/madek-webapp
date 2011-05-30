@@ -4,6 +4,8 @@
 
 .container_12
   #detail-main.grid_8.alpha
+    %h2.title{:style => "margin: 0 10px 0 0;"}
+      = render :partial => "meta_data/show", :locals => { :meta_datum => media_entry.meta_data.get("title"), :resource => media_entry, :context => nil }
     #detail-image
       = thumb_for(media_entry, :large)
     #detail-action-bar.clearfix
@@ -92,8 +94,6 @@
                   %td= "#{_("%s Uhr") % media_entry.snapshots.first.created_at.to_formatted_s(:date_time)}"
               
   #detail-sidebar.grid_4.omega
-    %h2.title{:style => "margin: -3px 20px 80px 0;"}
-      = render :partial => "meta_data/show", :locals => { :meta_datum => media_entry.meta_data.get("title"), :resource => media_entry, :context => nil } 
     #detail-excerpt.sidebar-box
       - context = MetaContext.core
       - media_entry.meta_data_for_context(context).collect do |meta_datum|
