@@ -4,13 +4,13 @@ module PermissionsHelper
   def display_permission(resource, type = :icon)
     if resource.acl?(:view, :all)
       if type == :icon
-        image_tag("icons/button_status_private.png")
+        image_tag("icons/icon_status_perm_public.png")
       else
         "(#{_("Öffentlich")})"
       end
     elsif resource.acl?(:view, :only, current_user)
       if type == :icon
-        image_tag("icons/icon_button_perm.png")
+        image_tag("icons/icon_status_perm_private.png")
       else
         "(#{_("Nur für Sie selbst")})"
       end

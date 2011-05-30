@@ -39,9 +39,9 @@
   %div.item_box{:id => "thumb_${id}"}
     %div.item_permission
       {{if is_public}}
-      = image_tag("icons/button_status_private.png")
+      = image_tag("icons/icon_status_perm_public.png")
       {{else is_private}}
-      = image_tag("icons/icon_button_perm.png")
+      = image_tag("icons/icon_status_perm_private.png")
       {{/if}}
     {{if is_set}}
     %a{:href => "/media_sets/${id}"}
