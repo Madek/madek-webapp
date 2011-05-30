@@ -56,7 +56,7 @@ group :development do
 end
 
 group :test do
-  gem 'cucumber'
+  gem 'cucumber ', '< 0.5.0'
   gem 'cucumber-rails'
   gem 'capybara'
   gem 'database_cleaner'
