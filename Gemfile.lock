@@ -69,9 +69,8 @@ GEM
       gherkin (>= 2.3.8)
       json (>= 1.4.6)
       term-ansicolor (>= 1.0.5)
-    cucumber-rails (0.5.1)
-      capybara (>= 1.0.0.beta1)
-      cucumber (>= 0.10.3)
+    cucumber-rails (0.4.1)
+      cucumber (>= 0.10.1)
       nokogiri (>= 1.4.4)
       rack-test (>= 0.5.7)
     database_cleaner (0.6.7)
@@ -197,7 +196,7 @@ DEPENDENCIES
   capistrano-ext
   capybara
   cucumber
-  cucumber-rails
+  cucumber-rails (< 0.5.0)
   database_cleaner
   haml (~> 3.1.1)
   i18n
