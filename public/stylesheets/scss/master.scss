@@ -1864,6 +1864,16 @@ form#set_media_sets input[type="submit"] {
 
 #detail-image img {
 	border: 1px solid #e4e4e4;
+  margin-top: expression(( 620px - this.height ) / 2);
+  vertical-align: middle;
+}
+#detail-image {
+  float: left;
+  text-align: center;
+  width: 620px;
+  height: 620px;
+  font-size: 1em;
+  line-height: 620px;
 }
 
 #set_meta small, #set_info small {
