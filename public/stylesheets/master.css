@@ -564,7 +564,7 @@ ul li {
 
 /* Pagination */
 .pagination {
-  margin: 5px 0 0 0;
+  margin: 5px 0 10px 0;
   float: right;
   color: #999999;
   letter-spacing: 0.1ex; }
@@ -625,7 +625,8 @@ ul li {
   background: #FFFFFF;
   padding: 8px 10px; }
 .filter_box h3 span.ui-icon {
-  float: right; }
+  float: right;
+  background-image: none; }
 .filter_box a.filter_category_link {
   text-transform: uppercase;
   font-weight: normal;

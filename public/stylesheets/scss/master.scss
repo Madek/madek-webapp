@@ -546,7 +546,7 @@ ul li { float: left; }
 /* Pagination */
 
 .pagination {
-	margin: 5px 0 0 0;
+	margin: 5px 0 10px 0;
 	float: right;
 	color: #999999;
 	letter-spacing: 0.1ex;
@@ -597,7 +597,7 @@ ul li { float: left; }
   h3.filter_header, .filter_footer { background: #DFDFDF; border:0; padding: 12px 0 10px 0;}
   .filter_header .filter_category_link { font-size: 0.8em; font-weight: bold; text-transform:none; letter-spacing: 0.1ex; text-shadow: 0 1px 0 #eee; }
   h3.filter_subcategory { background: #FFFFFF; padding: 8px 10px; }
-  h3 span.ui-icon { float: right; }
+  h3 span.ui-icon { float: right; background-image: none; }
   a.filter_category_link { text-transform:uppercase; font-weight: normal; font-size: 0.7em; letter-spacing: 0.2ex; float:left; margin-left: 15px }
   .filter_category_link { font-size: 0.6em; }
   a.reset_filter { font-size: 0.6em; letter-spacing: 0.1ex; font-weight: normal; float:right; margin-right: 3px;}
