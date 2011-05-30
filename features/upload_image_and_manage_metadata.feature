@@ -232,3 +232,19 @@ Feature: Upload images and manage media entries based on images
      And I click the delete icon on the media entry titled "mein lieblingsflugzeug"
      And I go to the media entries
     Then I should not see "mein lieblingsflugzeug"
+
+  @javascript @work
+  Scenario: Upload an image that has MAdeK title and date information (specific date) its EXIF/IPTC metadata
+    When I log in as "helmi" with password "saumagen"
+     And I go to the home page
+     And I follow "Hochladen"
+     And I follow "Basic Uploader"
+     And I attach the file "features/data/images/date_should_be_2011-05-30.jpg" relative to the Rails directory to "uploaded_data[]"
+     And I press "Ausgewählte Medien hochladen und weiter…"
+     And I wait for the CSS element "#submit_to_3"
+     And I press "Einstellungen speichern und weiter…"
+    Then I should see "30.05.2011"
+
+  Scenario: Upload an image that has MAdeK title and date information (from/to date) its EXIF/IPTC metadata
+
+  Scenario: Upload an image that has MAdeK title and date information (string instead of date) its EXIF/IPTC metadata
