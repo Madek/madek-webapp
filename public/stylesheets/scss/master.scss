@@ -593,7 +593,7 @@ ul li { float: left; }
 
 .filter_box {
   a:hover { text-decoration: none; }
-  h3.filter_category { padding: 7px 5px 5px 0; border-top: 1px solid #DDDDDD;}
+  h3.filter_category { padding: 7px 5px 5px 0; border-top: 1px solid #E9E9E9;}
   h3.filter_header, .filter_footer { background: #DFDFDF; border:0; padding: 12px 0 10px 0;}
   .filter_header .filter_category_link { font-size: 0.8em; font-weight: bold; text-transform:none; letter-spacing: 0.1ex; text-shadow: 0 1px 0 #eee; }
   h3.filter_subcategory { background: #FFFFFF; padding: 8px 10px; }
@@ -630,7 +630,9 @@ ul li { float: left; }
   }
   li.disabled { color: silver; }
 }
-
+.filter_box h3:hover {
+  background-color: #E9E9E9;
+}
 /* Media thumbs */
 
 #results, #results_mine, #results_others {
@@ -940,7 +942,7 @@ button.dark {
 
 .save_buttons {
 	margin: 1em 0 3em 0;
-	float: right;
+  float: right;
 }
 
 #results .buttons, #results_others .buttons {

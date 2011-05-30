@@ -610,7 +610,7 @@ ul li {
   text-decoration: none; }
 .filter_box h3.filter_category {
   padding: 7px 5px 5px 0;
-  border-top: 1px solid #DDDDDD; }
+  border-top: 1px solid #E9E9E9; }
 .filter_box h3.filter_header, .filter_box .filter_footer {
   background: #DFDFDF;
   border: 0;
@@ -693,6 +693,9 @@ ul li {
   background: white; }
 .filter_box li.disabled {
   color: silver; }
+
+.filter_box h3:hover {
+  background-color: #E9E9E9; }
 
 /* Media thumbs */
 #results, #results_mine, #results_others {
