@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 class Preview < ActiveRecord::Base
 
+  after_destroy { File.delete(full_path) }
+
   belongs_to :media_file
 
   def full_path

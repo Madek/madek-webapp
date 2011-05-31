@@ -4,7 +4,7 @@
 
 .container_12
   #detail-main.grid_8.alpha
-    %h2.title{:style => "margin: 0 10px 0 0;"}
+    %h2.title{:style => "margin: 0 10px 10px 0;"}
       = render :partial => "meta_data/show", :locals => { :meta_datum => media_entry.meta_data.get("title"), :resource => media_entry, :context => nil }
     #detail-image
       = thumb_for(media_entry, :large)
