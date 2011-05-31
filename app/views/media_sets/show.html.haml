@@ -26,6 +26,7 @@
           - if @can_edit_set
             = display_edit_icon(@media_set, current_user)
             = display_delete_icon(@media_set, current_user)
+        = render :partial => "media_entries/browsing"
       .grid_9
         #detail_specification.tabs
           %ul
@@ -51,7 +52,7 @@
               %p{:style => "padding: 1em;"}
                 %span#amount{:style => "color: #444444; font-weight: bold; position: absolute;"}
               #slider{:style => "border: 1px solid #DDDDDD;"}
-              = display_project_abstract(@media_set)
+              = display_project_abstract(@media_set, 1)
           - if @media_set.is_a?(Media::Project)
             #vocabulary_tab.clearfix
               %p
@@ -80,7 +81,7 @@
       $("#amount").html(v).css('left', l);
     }
     $("#slider").slider({
-      value: total_entries / 2,
+      value: 1, // total_entries / 2,
       min: 1,
       max: total_entries,
       step: 1,

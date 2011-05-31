@@ -1,0 +1,15 @@
+%script{:type => "text/x-jquery-tmpl", :id => "browsing_thumbnail_mini"}
+  %a{:href => "/media_entries/${id}"}
+    %div{:class => "thumb_mini"}
+      %img{:src => "${thumb_base64}"}
+
+:javascript
+  $(function() {
+    $(".meta_data a[data-remote]").live('ajax:complete.rails', function(xhr, response){ // TODO ajax:success ??
+      var json = JSON.parse(response.responseText);
+      var container = $("#browsing_media_entries");
+      container.append($("#browsing_thumbnail_mini").tmpl(json.entries));
+    });
+  });
+
+#browsing_media_entries

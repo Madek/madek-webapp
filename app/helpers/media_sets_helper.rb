@@ -131,8 +131,7 @@ module MediaSetsHelper
         haml_tag :p, _("Es sind nicht genügend Werte für einen Projekt-Auszug vorhanden.")
       else
         contexts = project.individual_contexts
-        haml_tag :div do
-          #haml_tag :h3, _("Auszug")
+        haml_tag :div, :class => "meta_data" do
           meta_data.collect do |meta_datum|
             context = contexts.detect {|c| meta_datum.meta_key.meta_contexts.include?(c) }
             next unless context #
