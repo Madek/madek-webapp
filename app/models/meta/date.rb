@@ -53,30 +53,32 @@ class Meta::Date # TODO rename to Meta::DateTime ??
   
     def parse(string)
       h = {:free_text => string}
-      begin
-  #old#
-  #      r = if string =~ /^(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})[\+|\-](\d{2}):(\d{2})$/ # EXIF standard with time and zone
-  #        ::DateTime.strptime(string, DateTime::DATE_FORMATS[:exif_date_time_zone])
-  #      elsif string =~ /^(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})$/ # EXIF standard with time
-  #        ::DateTime.strptime(string, DateTime::DATE_FORMATS[:exif_date_time])
-  #      elsif string =~ /^(\d{4}):(\d{2}):(\d{2})$/ # EXIF standard without time
-  #        ::DateTime.strptime(string, Date::DATE_FORMATS[:exif_date])
-  #      else
-  #        ::DateTime.parse(string)
-  #      end
-  
-        # OPTIMIZE
-        if string =~ /^(\d{4}):(\d{2}):(\d{2})/
-          string.sub!(':', '-').sub!(':', '-')
+      unless string =~ /^[A-Za-z]/ # NOTE we skip the parsing in case of string starting with alphabetic characters
+        begin
+          #old#
+          #      r = if string =~ /^(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})[\+|\-](\d{2}):(\d{2})$/ # EXIF standard with time and zone
+          #        ::DateTime.strptime(string, DateTime::DATE_FORMATS[:exif_date_time_zone])
+          #      elsif string =~ /^(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})$/ # EXIF standard with time
+          #        ::DateTime.strptime(string, DateTime::DATE_FORMATS[:exif_date_time])
+          #      elsif string =~ /^(\d{4}):(\d{2}):(\d{2})$/ # EXIF standard without time
+          #        ::DateTime.strptime(string, Date::DATE_FORMATS[:exif_date])
+          #      else
+          #        ::DateTime.parse(string)
+          #      end
+          
+          # OPTIMIZE
+          if string =~ /^(\d{4}):(\d{2}):(\d{2})/
+            string.sub!(':', '-').sub!(':', '-')
+          end
+          
+          date_hash = Date._parse(string)
+          unless date_hash.blank?
+            h[:timezone] = date_hash[:zone] || Time.zone.formatted_offset        
+            h[:timestamp] = Time.parse(string).to_i
+          end
+        rescue
+          # there was no exact match, so we only store the free text
         end
-        
-        date_hash = Date._parse(string)
-        unless date_hash.blank?
-          h[:timezone] = date_hash[:zone] || Time.zone.formatted_offset        
-          h[:timestamp] = Time.parse(string).to_i
-        end
-      rescue
-        # there was no exact match, so we only store the free text
       end
       new(h)
     end
