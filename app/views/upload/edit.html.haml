@@ -59,7 +59,8 @@
                   = render :partial => "meta_data/bulk_edit", :locals => { :resource => media_entry, :context => @context, :with_actions => with_actions }
 
           .container_12
-            .grid_4.alpha
+            .grid_11.omega
               = submit_tag _("Metadaten speichern und weiter…"), :class => "upload_buttons"
-            #required_message.grid_7
-              = _("Bitte füllen Sie die Pflichtfelder aus (\"Titel\" und \"Copyright\").")
+            #required_message.grid_11.omega
+              %p{:style => "float:right; color: red;"}
+                = _("Bitte füllen Sie die Pflichtfelder aus (\"Titel\" und \"Copyright\").")

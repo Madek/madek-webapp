@@ -64,23 +64,23 @@ module MediaSetsHelper
         select_tag "media_set_ids[]", options_for_select({_("- Auswählen -") => nil}) + options_from_collection_for_select(current_user.editable_sets, :id, :title_and_user), :style => "width: 100%;"
       end
 
-      b += content_tag :button, :id => "new_button" do
+      b += content_tag :button, :id => "new_button", :style => "float: left;" do
             _("Neues Set erstellen")
       end
 
       b += content_tag :span, :id => "text_media_set", :style => "display: none;" do
-        c = text_field_tag nil, nil, :style => "width: 20em; margin-top: 0; float: none;"
-        c += content_tag :button, :style => "margin-top: 0;" do
+        c = text_field_tag nil, nil, :style => "width: 20em; margin-top: 0; float: left;"
+        c += content_tag :button, :style => "margin: 0 0 0 10px;" do
               _("Hinzufügen")
         end
       end
 
-      b += content_tag :p, :style => "clear: both; margin-bottom: 15px;", :class => "save" do
-        submit_tag _("Zu ausgewähltem Set hinzufügen"), :style => "display: none;"
+      b += content_tag :p, :style => "clear: right; margin-bottom: 15px; font-size:1.2em;", :class => "save" do
+        submit_tag _("Zu ausgewähltem Set hinzufügen…"), :style => "display: none; float: right; margin: 20px 0;"
       end
       
       b += content_tag :p, :style => "clear: both;" do
-        link_to _("Weiter ohne Hinzufügen zu einem Set..."), root_path, :class => "upload_buttons"
+        link_to _("Weiter ohne Hinzufügen zu einem Set…"), root_path, :class => "upload_buttons"
       end if with_cancel_button
 
       b += javascript_tag do
