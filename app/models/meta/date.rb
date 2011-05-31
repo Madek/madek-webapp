@@ -35,20 +35,20 @@ class Meta::Date # TODO rename to Meta::DateTime ??
   class << self
 
     def where(args)
-      args[:id] = args[:id].first if args[:id].is_a?(Array)
-      r = if args[:id].respond_to?(:ivars) and args[:id].class == "Meta::Date"
-        new(args[:id].ivars)
-      else
-        case args[:id].class.name
-          when "Meta::Date"
-            args[:id]
-          when "String"
-            parse(args[:id])
-          else
-            nil
+      Array(args[:id]).collect do |x|
+        if x.respond_to?(:ivars) and x.class == "Meta::Date"
+          new(x.ivars)
+        else
+          case x.class.name
+            when "Meta::Date"
+              x
+            when "String"
+              parse(x)
+            else
+              nil
+          end
         end
       end
-      [r]
     end
   
     def parse(string)

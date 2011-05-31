@@ -23,10 +23,10 @@ class MetaDatum < ActiveRecord::Base
       #  self.value = value.split(',')
       else
         klass = meta_key.object_type.constantize
-        values = case klass
-                    when Person
+        values = case klass.name # NOTE comparing directly the class doesn't work
+                    when "Person"
                       klass.split(Array(value))
-                    when Meta::Date
+                    when "Meta::Date"
                       value.to_s.split(' - ') # Needs to be a string because other objects might not have .split, which breaks
                                               # parsing the date. Mostly a safety measure, but also to make migration from 0.1.2 to 0.1.3 work.
                     else
