@@ -233,7 +233,7 @@ Feature: Upload images and manage media entries based on images
      And I go to the media entries
     Then I should not see "mein lieblingsflugzeug"
 
-  @javascript
+  @javascript @work
   Scenario: Upload an image that has MAdeK title and date information (specific date) its EXIF/IPTC metadata
     When I log in as "helmi" with password "saumagen"
      And I go to the home page
@@ -243,11 +243,39 @@ Feature: Upload images and manage media entries based on images
      And I press "Ausgewählte Medien hochladen und weiter…"
      And I wait for the CSS element "#submit_to_3"
      And I press "Einstellungen speichern und weiter…"
+     And I press "Metadaten speichern und weiter…"
+     And I follow "Weiter ohne Hinzufügen zu einem Set"
+     And Sphinx is forced to reindex
+     And I go to the home page
+     And I click the media entry titled "Grumpy Cat"
     Then I should see "30.05.2011"
 
+  @javascript 
   Scenario: Upload an image that has MAdeK metadata with a from/to date in its EXIF/IPTC metadata
+    When I log in as "helmi" with password "saumagen"
+     And I go to the home page
+     And I follow "Hochladen"
+     And I follow "Basic Uploader"
+     And I attach the file "features/data/images/date_should_be_from_to_may.jpg" relative to the Rails directory to "uploaded_data[]"
+     And I press "Ausgewählte Medien hochladen und weiter…"
+     And I wait for the CSS element "#submit_to_3"
+     And I press "Einstellungen speichern und weiter…"
+     And I press "Metadaten speichern und weiter…"
+     And I follow "Weiter ohne Hinzufügen zu einem Set"
+     And Sphinx is forced to reindex
+     And I go to the home page
+     And I click the media entry titled "Frau-Sein"
+    # The below stuff would better be done with a Cucumber table, so you can do e.g.:
+    # |field|value|
+    # |Datierung|1990|
+    # So that we can specify the "should be..." part of a media entry like we specify the
+    # metadata editor part.
+    Then I should see "01.05.2011 - 30.05.2011"
+     And I should see "Frau-Sein"
+     And I should see "Buser, Monika"
+     And I should see "Diplomarbeit, Porträt, Selbstporträt, Schweiz"
 
-  @javascript @work
+  @javascript 
   Scenario: Upload an image that has MAdeK metadata with a string instead of a date its EXIF/IPTC metadata
     When I log in as "helmi" with password "saumagen"
      And I go to the home page
