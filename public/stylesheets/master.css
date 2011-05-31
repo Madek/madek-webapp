@@ -499,6 +499,9 @@ ul li {
   margin-top: -10px;
   min-height: 400px; }
 
+#content_body_fav .page_title_left {
+  margin-bottom: -35px; }
+
 #content_body2 {
   width: 90%;
   padding: 20px 20px 10px 20px;
@@ -536,6 +539,8 @@ ul li {
   position: relative;
   margin-top: -10px;
   min-height: 400px; }
+  #content_body_result .page_title_left {
+    padding-left: 13px; }
 
 .section_title {
   padding: 0 0 10px 0;
@@ -821,6 +826,14 @@ ul li {
 
 #set_results .item_box, #project_results .item_box {
   width: 150px; }
+
+#set_results .item_permission {
+  right: 16px;
+  top: 16px; }
+
+#project_results .item_permission {
+  right: 10px;
+  top: 45px; }
 
 #project_results .thumb_box_set {
   float: left;
