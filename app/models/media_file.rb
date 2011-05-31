@@ -15,7 +15,7 @@ class MediaFile < ActiveRecord::Base
   serialize     :meta_data, Hash
 
   has_many      :media_entries # TODO validation: at least one media_entry (even empty) 
-  has_many      :previews # TODO - the eventual resting place of all preview files derived from the original (e.g. thumbnails)
+  has_many      :previews, :dependent => :destroy # TODO - the eventual resting place of all preview files derived from the original (e.g. thumbnails)
 
   scope :original, where(:parent_id => nil)
 

@@ -172,7 +172,7 @@ class MediaEntry < ActiveRecord::Base
               end
 
               # TODO dry
-              next if entry_value.blank? or meta_data.detect {|md| md.meta_key == meta_key } # we do sometimes receive a blank value in metadata, hence the check. 
+              next if entry_value.blank? or entry_value == "-" or meta_data.detect {|md| md.meta_key == meta_key } # we do sometimes receive a blank value in metadata, hence the check. 
               entry_value.gsub!(/\\n/,"\n") if entry_value.is_a?(String) # OPTIMIZE line breaks in text are broken somehow
               meta_data.build(:meta_key => meta_key, :value => entry_value )
             end
