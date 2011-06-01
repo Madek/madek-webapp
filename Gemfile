@@ -4,7 +4,7 @@ source 'http://gems.github.com'
 gem 'rails', '3.0.7' #Rails3.1# '3.1.0.rc1' 
 gem 'builder', '~> 2.1.2' #Rails3.1# '~> 3.0'  
 gem 'i18n' # Need this explicitly, otherwise can't deploy
-gem 'rake', '~> 0.9.1'
+gem 'rake', '~> 0.8.7' #'~> 0.9.1'
 
 gem 'mysql2', '~> 0.2.7' #Rails3.1# '~> 0.3.2' 
 gem 'memcache-client' #gem 'dalli' #gem 'redis-store'
