@@ -5,9 +5,22 @@
 
 :javascript
   $(function() {
-    $(".meta_data a[data-remote]").live('ajax:complete.rails', function(xhr, response){ // TODO ajax:success ??
-      var json = JSON.parse(response.responseText);
+    $(".meta_data a[data-remote]").live('ajax:beforeSend.rails', function(){
+      var that = $(this);
       var container = $("#browsing_media_entries");
+      if(that.hasClass("active")){
+        that.removeClass("active");
+        container.find("div[rel='"+that.html()+"']").remove();    
+        return false;
+      }else{
+        that.addClass("active");
+        container.append("<div rel='"+that.html()+"'><p>"+that.html()+"</p></div>");    
+        return true;
+      }
+    }).live('ajax:complete.rails', function(xhr, response){ // TODO ajax:success ??
+      var json = JSON.parse(response.responseText);
+      var that = $(this);
+      var container = $("#browsing_media_entries").find("div[rel='"+that.html()+"']");
       container.append($("#browsing_thumbnail_mini").tmpl(json.entries));
     });
   });
