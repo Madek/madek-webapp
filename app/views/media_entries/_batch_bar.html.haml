@@ -1,3 +1,5 @@
+= javascript_include_tag "jquery/plugins/jquery.inview.min"
+
 .task_bar.clearfix
   %ul
     %li#batch-edit.action_btn
@@ -24,6 +26,20 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+%script{:type => "text/x-jquery-tmpl", :id => "empty_index"}
+  %div.item_box
+    %div.thumb_box
+
+%script{:type => "text/x-jquery-tmpl", :id => "empty_result_page"}
+  %div.page{:"data-page" => "${pagination.current_page}"}
+    {{tmpl(pagination) "#pagination"}}
+    {{tmpl(entries) "#empty_index"}}
+
+%script{:type => "text/x-jquery-tmpl", :id => "result_page"}
+  %div.page
+    {{tmpl(pagination) "#pagination"}}
+    {{tmpl(entries) "#thumbnail"}}
+
 %script{:type => "text/x-jquery-tmpl", :id => "pagination"}
   .pagination
     ${total_entries} Medieneinträge,
@@ -34,8 +50,8 @@
   %div{:class => "thumb_mini {{if is_editable}}edit{{/if}} {{if is_manageable}}manage{{/if}}", :rel => "${id}"}
     = image_tag("icons/button_remove_action.png", :class => "thumb_remove")
     %img{:src => "${thumb_base64}"}
-
-%script{:type => "text/x-jquery-tmpl", :id => "index"}
+        
+%script{:type => "text/x-jquery-tmpl", :id => "thumbnail"}
   %div.item_box{:id => "thumb_${id}"}
     %div.item_permission
       {{if is_public}}
