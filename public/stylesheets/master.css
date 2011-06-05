@@ -160,7 +160,8 @@ input[type="checkbox"] {
   vertical-align: text-bottom; }
 
 /* Hand cursor on clickable input elements */
-label, input[type="button"], input[type="submit"], input[type="image"], button {
+/*label,*/
+input[type="button"], input[type="submit"], input[type="image"], button {
   cursor: pointer; }
 
 /* Webkit browsers add a 2px margin outside the chrome of form elements */
@@ -1366,7 +1367,7 @@ button.dark:hover {
   /* Override direction */ }
   #selected_items .thumb_remove {
     position: absolute;
-    top: 6px;
+    top: 5px;
     left: 5px;
     cursor: pointer;
     display: none;
@@ -2023,6 +2024,11 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
 .ui-widget-content {
   color: #444444;
   border: 0; }
+  .ui-widget-content a {
+    color: #424242; }
+
+.ui-widget-content:hover {
+  color: black; }
 
 #page_head .ui-widget-content {
   background: none;
@@ -2159,6 +2165,15 @@ table.meta_data td {
   color: #7F7F7F;
   font-size: 0.8em;
   letter-spacing: 0.2ex; }
+
+.meta_data a[data-remote] {
+  background: url(../images/icons/icon_toggle_browse_on.png) no-repeat -1px -4px;
+  padding-left: 20px; }
+
+.meta_data a[data-remote].active {
+  background: url(../images/icons/icon_toggle_browse_off.png) no-repeat -1px -4px;
+  padding-left: 20px;
+  color: black; }
 
 #additional-metadata table {
   width: 600px;
@@ -2400,6 +2415,33 @@ table.permissions tr.adder input {
 #detail-sidebar {
   margin-bottom: 0.75em;
   word-wrap: break-word; }
+
+#browsing_media_entries {
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: -1px 0 3px rgba(150, 150, 150, 0.6);
+  color: #FFFFFF;
+  position: fixed;
+  top: 130px;
+  right: 0;
+  padding: 0 10px;
+  width: 155px;
+  max-height: 73%;
+  overflow-y: auto;
+  z-index: 1001;
+  /*direction:rtl; Right To left */
+  /*text-align:left; Override direction */ }
+  #browsing_media_entries p {
+    padding: 5px 0 5px 20px;
+    background: url(../images/icons/icon_toggle_browse_on_white.png) no-repeat 0 5px;
+    font-size: 0.9em;
+    font-weight: bold;
+    letter-spacing: 0; }
+  #browsing_media_entries .thumb_mini {
+    margin-bottom: 10px;
+    margin-left: 2px; }
+
+#browsing_media_entries .thumb_mini:hover {
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.7); }
 
 /* Groups */
 span.do_edit a, form#editinplace .cancelButton {
