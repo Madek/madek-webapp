@@ -2741,7 +2741,7 @@ table.permissions {
   box-shadow: -1px 0 3px rgba(150, 150, 150, 0.6);
   color: #FFFFFF;
   position: fixed;
-  top: 108px;
+  top: 80px;
   right: 0;
   padding: 0 10px;
   width: 155px;
@@ -2752,10 +2752,11 @@ table.permissions {
   /*text-align:left; Override direction */
   
   p {
-    padding: 5px 0 5px 20px;
-    background: url(../images/icons/icon_toggle_browse_on_white.png) no-repeat 0 5px;
+    padding: 5px 0 7px 20px;
+    background: url(../images/icons/icon_toggle_browse_on_white.png) no-repeat 0 3px;
     font-size: 0.9em;
     font-weight: bold;
+    line-height: 1.2em;
     letter-spacing: 0;
   }
   .thumb_mini {
