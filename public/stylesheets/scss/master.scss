@@ -1238,7 +1238,8 @@ button.dark:hover {
 	
 	h4 {
 		font-size: 0.9em;
-		padding-top: 2px;
+		padding: 2px 0 0 20px;
+		background: url(/images/icons/icon_taskbar_edit_white.png) no-repeat 0 7px;
 	}
 
 	ul {
@@ -2740,11 +2741,11 @@ table.permissions {
   box-shadow: -1px 0 3px rgba(150, 150, 150, 0.6);
   color: #FFFFFF;
   position: fixed;
-  top: 130px;
+  top: 108px;
   right: 0;
   padding: 0 10px;
   width: 155px;
-  max-height: 73%;
+  max-height: 60%;
   overflow-y: auto;
   z-index: 1001;
   /*direction:rtl; Right To left */ 

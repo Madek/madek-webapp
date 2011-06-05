@@ -39,9 +39,9 @@
                 = link_to _("Auszug"), "#abstract_tab"
             - if @media_set.is_a?(Media::Project)
               %li
-                = link_to _("Vokabular Übersicht"), "#vocabulary_tab"
+                = link_to _("Vokabular"), "#vocabulary_tab"
               %li
-                = link_to _("Vokabular Browser"), browse_media_set_path(@media_set), :class => "vocabulary_tab_browse"
+                / = link_to _("Vokabular Browser"), browse_media_set_path(@media_set), :class => "vocabulary_tab_browse"
           #info_tab.clearfix
             - context = MetaContext.media_set
             = display_meta_data_for_context(@media_set, context)

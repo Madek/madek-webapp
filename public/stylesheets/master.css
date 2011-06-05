@@ -1207,7 +1207,8 @@ button.dark:hover {
     padding-top: 0; }
   .task_bar h4 {
     font-size: 0.9em;
-    padding-top: 2px; }
+    padding: 2px 0 0 20px;
+    background: url(/images/icons/icon_taskbar_edit_white.png) no-repeat 0 7px; }
   .task_bar ul {
     padding: 5px 0 10px 0;
     display: inline-block; }
@@ -2421,11 +2422,11 @@ table.permissions tr.adder input {
   box-shadow: -1px 0 3px rgba(150, 150, 150, 0.6);
   color: #FFFFFF;
   position: fixed;
-  top: 130px;
+  top: 108px;
   right: 0;
   padding: 0 10px;
   width: 155px;
-  max-height: 73%;
+  max-height: 60%;
   overflow-y: auto;
   z-index: 1001;
   /*direction:rtl; Right To left */
