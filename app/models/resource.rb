@@ -190,7 +190,12 @@ module Resource
   #     (since we write meta-data to the file anyway regardless of if we do a download or an export)
   def to_metadata_tags
     MetaContext.io_interface.meta_key_definitions.collect do |definition|
-      value = meta_data.get(definition.meta_key_id).deserialized_value
+      # OPTIMIZE
+      value = if definition.meta_key.object_type == "Meta::Date"
+                meta_data.get(definition.meta_key_id).to_s
+              else
+                meta_data.get(definition.meta_key_id).deserialized_value
+              end
       
       definition.key_map.split(',').collect do |km|
         km.strip!

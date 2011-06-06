@@ -113,9 +113,14 @@ class MetaDatum < ActiveRecord::Base
   def to_s
     v = deserialized_value
     if v.is_a?(Array)
-      return v.join(', ')
+      case meta_key.object_type
+        when "Meta::Date"
+          v.join(' - ')
+        else
+          v.join(', ')
+      end
     else
-      return v.to_s
+      v.to_s
     end
   end
 

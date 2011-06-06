@@ -35,14 +35,13 @@ module MetaDataHelper
         end
         s.join(', ').html_safe
       when "Meta::Date"
-        s = meta_datum.deserialized_value
-        s.join(' - ').html_safe
+        meta_datum.to_s.html_safe
       when "Date"
         _("%s Uhr") % meta_datum.deserialized_value.to_formatted_s(:date_time)
       when "Meta::Term"
-        s = meta_datum.deserialized_value.map do |dv|
-              link_to dv, filter_search_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :method => :post, :remote => true
-            end.join(', ') 
+        meta_datum.deserialized_value.map do |dv|
+          link_to dv, filter_search_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :method => :post, :remote => true
+        end.join(', ') 
       else
         s = meta_datum.to_s
         #(s =~ /\n/ ? simple_format(s) : s)
@@ -292,7 +291,7 @@ module MetaDataHelper
               b += text_field_tag "datepicker_to_#{key_id}", to, :class => "datepicker", :placeholder => "TT.MM.JJJJ"
             end
             a += content_tag :span, :rel => "freetext" do
-              meta_datum.object.value = meta_datum.object.value.join(' - ')
+              meta_datum.object.value = meta_datum.object.to_s
               meta_datum.text_field :value, :placeholder => "Wird als Freitext gespeichert."
             end
           end
