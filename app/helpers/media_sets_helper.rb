@@ -142,7 +142,7 @@ module MediaSetsHelper
               $("#amount").html(v).css('left', l);
             }
             $("#slider").slider({
-              value: 1,
+              value: #{total_entries * 30 / 100},
               min: 1,
               max: total_entries,
               step: 1,

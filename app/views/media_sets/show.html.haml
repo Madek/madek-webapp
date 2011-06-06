@@ -50,7 +50,7 @@
               %p
                 Diese Metadaten wurden am häufigsten vergeben. Sie zeigen den thematischen Schwerpunkt des Projekts an.
               = display_project_abstract_slider(@media_set, @paginated_media_entry_ids.total_entries)
-              = display_project_abstract(@media_set, 1, @_media_entry_ids)
+              = display_project_abstract(@media_set, (@paginated_media_entry_ids.total_entries * 30 / 100), @_media_entry_ids)
           - if @media_set.is_a?(Media::Project)
             #vocabulary_tab.clearfix
               %p
