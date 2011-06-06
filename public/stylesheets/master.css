@@ -1192,7 +1192,7 @@ button.dark:hover {
   min-width: 900px;
   padding-left: 20px;
   padding-top: 5px;
-  padding-bottom: 5px;
+  padding-bottom: 10px;
   line-height: 2em;
   background-color: #323232;
   -webkit-box-shadow: 0 -1px 3px rgba(150, 150, 150, 0.6);
@@ -1213,7 +1213,7 @@ button.dark:hover {
     padding: 5px 0 10px 0;
     display: inline-block; }
     .task_bar ul li {
-      margin-right: 5px; }
+      margin-right: 0; }
   .task_bar #number_selected {
     font-size: 0.9em;
     letter-spacing: 0.1ex;
@@ -1353,12 +1353,12 @@ button.dark:hover {
   -moz-box-shadow: 0 0 3px rgba(150, 150, 150, 0.6);
   box-shadow: 0 0 3px rgba(150, 150, 150, 0.6);
   position: absolute;
-  bottom: 82px;
+  bottom: 87px;
   left: 0;
   z-index: 1000;
   padding-left: 10px;
   padding-right: 25px;
-  padding-top: 10px;
+  padding-top: 5px;
   overflow-x: hidden;
   overflow-y: auto;
   max-height: 280px;
@@ -2429,7 +2429,8 @@ table.permissions tr.adder input {
   max-height: 60%;
   overflow-y: auto;
   z-index: 1001;
-  /*direction:rtl; Right To left */
+  direction: rtl;
+  /*Right To left */
   /*text-align:left; Override direction */ }
   #browsing_media_entries p {
     padding: 5px 0 7px 20px;

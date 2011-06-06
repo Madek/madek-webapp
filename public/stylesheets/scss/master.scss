@@ -1220,7 +1220,7 @@ button.dark:hover {
 	min-width: 900px;
 	padding-left: 20px;
 	padding-top: 5px;
-	padding-bottom: 5px;	
+	padding-bottom: 10px;	
 	line-height: 2em;
 	background-color: rgba(50, 50, 50, 1);
 	-webkit-box-shadow: 0 -1px 3px rgba(150, 150, 150, 0.6);
@@ -1247,7 +1247,7 @@ button.dark:hover {
 		display: inline-block;
 	
 		li { 
-		    margin-right: 5px;
+		    margin-right: 0;
 		}
 	}
 	
@@ -1424,17 +1424,17 @@ button.dark:hover {
 	-moz-box-shadow: 0 0 3px rgba(150, 150, 150, 0.6);
 	box-shadow: 0 0 3px rgba(150, 150, 150, 0.6);
 	position: absolute;
-	bottom: 82px;
+	bottom: 87px;
 	left: 0;
 	z-index: 1000;
 	padding-left: 10px;
 	padding-right: 25px;
-	padding-top: 10px;
-    overflow-x: hidden;
-    overflow-y: auto;
+	padding-top: 5px;
+  overflow-x: hidden;
+  overflow-y: auto;
 	max-height: 280px;
 	direction:rtl;  /* Right To left */ 
-    text-align:center; /* Override direction */
+  text-align:center; /* Override direction */
 	
 	.thumb_remove { 
 		position:absolute;
@@ -2748,7 +2748,7 @@ table.permissions {
   max-height: 60%;
   overflow-y: auto;
   z-index: 1001;
-  /*direction:rtl; Right To left */ 
+  direction:rtl; /*Right To left */ 
   /*text-align:left; Override direction */
   
   p {
