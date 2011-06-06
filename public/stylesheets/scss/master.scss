@@ -608,7 +608,7 @@ ul li { float: left; }
     font-size: 0.9em;
     line-height: 1.2em;
     letter-spacing: 0;
-    border-bottom: 1px solid #323232;
+    border-bottom: 1px solid #5f5f5f;
   }
   h3.filter_header {
     color: #FFFFFF;
@@ -649,7 +649,7 @@ ul li { float: left; }
   h3.filter_subcategory span.input_wrapper { float: left; padding-left: 5px; font-size: 0.7em; letter-spacing: 0; font-weight: bold;}
   .filter_content ul { margin: 5px 10px; }
   h4 { font-size: 1.2em; }
-  #filter-query ul { margin: 0.8em 0 0.8em 15px; }
+  #filter-query ul { margin: 0.9em 0 0.5em 15px; }
   #filter-query ul li { padding: 0 0 5px 0; float: none; font-size: 0.8em; letter-spacing: 0.1ex; line-height: 1em; }
   #filter-query .filter_content { background-color: rgba(255, 255, 255, 0.9); color: #424242; max-height: 222px; overflow-x: hidden; overflow-y: auto; border-bottom: 1px solid #323232; }
   input[type="checkbox"] { margin: 0 5px 0 0; }

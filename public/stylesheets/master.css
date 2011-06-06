@@ -619,7 +619,7 @@ ul li {
   font-size: 0.9em;
   line-height: 1.2em;
   letter-spacing: 0;
-  border-bottom: 1px solid #323232; }
+  border-bottom: 1px solid #5f5f5f; }
 .filter_box h3.filter_header {
   color: #FFFFFF;
   padding: 11px 0 10px 30px;
@@ -667,7 +667,7 @@ ul li {
 .filter_box h4 {
   font-size: 1.2em; }
 .filter_box #filter-query ul {
-  margin: 0.8em 0 0.8em 15px; }
+  margin: 0.9em 0 0.5em 15px; }
 .filter_box #filter-query ul li {
   padding: 0 0 5px 0;
   float: none;
