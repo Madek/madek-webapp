@@ -11,11 +11,12 @@ class Media::Project < Media::Set
   end
 
   # TODO scope accessible media_entries only
-  def abstract(min_media_entries = nil)
+  def abstract(min_media_entries = nil, accessible_media_entry_ids = nil)
     min_media_entries ||= media_entries.count.to_f * 50 / 100
+    accessible_media_entry_ids ||= media_entry_ids
     meta_key_ids = individual_contexts.map(&:meta_key_ids).flatten
     h = {} #1005# TODO upgrade to Ruby 1.9 and use ActiveSupport::OrderedHash.new
-    mds = MetaDatum.where(:meta_key_id => meta_key_ids, :resource_type => "MediaEntry", :resource_id => media_entry_ids)
+    mds = MetaDatum.where(:meta_key_id => meta_key_ids, :resource_type => "MediaEntry", :resource_id => accessible_media_entry_ids)
     mds.each do |md|
       h[md.meta_key_id] ||= [] # TODO md.meta_key
       h[md.meta_key_id] << md.value

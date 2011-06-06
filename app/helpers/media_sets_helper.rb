@@ -124,17 +124,59 @@ module MediaSetsHelper
 ####################################################################
 # TODO move to media_projects_helper.rb ??
 
-  def display_project_abstract(project, min_media_entries = nil)
+  def display_project_abstract_slider(project, total_entries)
     capture_haml do
-      meta_data = project.abstract(min_media_entries)
-      if meta_data.blank?
-        haml_tag :p, _("Es sind nicht genügend Werte für einen Projekt-Auszug vorhanden.")
-      else
-        contexts = project.individual_contexts
-        haml_tag :div, :class => "meta_data" do
+      haml_tag :p, :style => "padding: 1em;" do
+        haml_tag :span, :id => "amount", :style => "color: #444444; font-weight: bold; position: absolute;"
+      end
+      haml_tag :div, :id =>"slider", :style => "border: 1px solid #DDDDDD;"
+      
+      script = javascript_tag do
+        begin
+        <<-HERECODE
+          $(document).ready(function () {
+            var total_entries = #{total_entries}; 
+            function update_amount(ui){
+              var l = ui.find("a").css('left');
+              var v = ui.slider( "value" ) + " von " + total_entries;
+              $("#amount").html(v).css('left', l);
+            }
+            $("#slider").slider({
+              value: 1,
+              min: 1,
+              max: total_entries,
+              step: 1,
+              create: function( event, ui ) { update_amount($(this)); },
+              slide: function( event, ui ) { update_amount($(this)); },
+              change: function( event, ui ) {
+                update_amount($(this));
+                $.ajax({
+                  url: "#{abstract_media_set_path(@media_set)}",
+                  data: {value: ui.value},
+                  complete: function(response){ $("#slider").nextAll(".meta_data:first").replaceWith(response.responseText); }
+                });
+              }
+            });
+          });
+        HERECODE
+        end.html_safe
+      end
+
+      haml_concat script
+    end
+  end
+
+  def display_project_abstract(project, min_media_entries, accessible_media_entry_ids)
+    meta_data = project.abstract(min_media_entries, accessible_media_entry_ids)
+    capture_haml do
+      haml_tag :div, :class => "meta_data" do
+        if meta_data.blank?
+          haml_concat _("Es sind nicht genügend Werte für einen Projekt-Auszug vorhanden.")
+        else
+          contexts = project.individual_contexts
           meta_data.collect do |meta_datum|
             context = contexts.detect {|c| meta_datum.meta_key.meta_contexts.include?(c) }
-            next unless context #
+            next unless context
             definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
             haml_tag :h4, definition.meta_field.label
             haml_tag :p, preserve(formatted_value(meta_datum))
@@ -151,10 +193,10 @@ module MediaSetsHelper
         haml_tag :p, context.description
         haml_tag :div do
           context.meta_keys.where(:object_type => "Meta::Term").each do |meta_key|
-            next if ["epoch", "style", "genre"].include?(meta_key.label)
             definition = meta_key.meta_key_definitions.for_context(context)
             haml_tag :h4, definition.meta_field.label
             meta_key.meta_terms.each do |meta_term|
+              # TODO check used terms
               haml_tag :p, meta_term
             end
           end

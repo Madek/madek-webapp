@@ -31,11 +31,10 @@ class MediaSetsController < ApplicationController
 
   def show
     viewable_ids = current_user.accessible_resource_ids
-
-    #old# ids = @media_set.media_entries.where(:id => viewable_ids).select(:id).map(&:id) # doesn't work: @media_set.media_entry_ids.where(:id => viewable_ids)
-    #old# @media_entry_ids = ids.paginate(:page => params[:page], :per_page => PER_PAGE.first)
-    @media_entry_ids = (@media_set.media_entry_ids & viewable_ids).paginate(:page => params[:page], :per_page => PER_PAGE.first)
-    @json = Logic.data_for_page(@media_entry_ids, current_user).to_json
+    @_media_entry_ids = (@media_set.media_entry_ids & viewable_ids)
+    
+    @paginated_media_entry_ids = @_media_entry_ids.paginate(:page => params[:page], :per_page => PER_PAGE.first)
+    @json = Logic.data_for_page(@paginated_media_entry_ids, current_user).to_json
 
     @editable_sets = Media::Set.accessible_by(current_user, :edit)
     @can_edit_set = @editable_sets.include?(@media_set)
@@ -46,16 +45,20 @@ class MediaSetsController < ApplicationController
     end
   end
 
-  def browse
-    # TODO only for media_project
-    @project = @media_set
+  # TODO only for media_project
+  def abstract
+    # TODO dry with show action (before_filter)
+    viewable_ids = current_user.accessible_resource_ids
+    @_media_entry_ids = (@media_set.media_entry_ids & viewable_ids)
+    
     respond_to do |format|
       format.js { render :layout => false }
     end
   end
 
-  def abstract
-    # TODO only for media_project
+  # TODO only for media_project
+  def browse
+    @project = @media_set
     respond_to do |format|
       format.js { render :layout => false }
     end
