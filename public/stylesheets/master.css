@@ -657,11 +657,10 @@ ul li {
   letter-spacing: 0.1ex;
   font-weight: normal; }
 .filter_box h3.filter_subcategory span.input_wrapper {
-  float: left;
-  padding-left: 5px;
-  font-size: 0.7em;
-  letter-spacing: 0;
-  font-weight: bold; }
+  padding-left: 4px;
+  font-size: 0.9em;
+  letter-spacing: 0.1ex;
+  font-weight: normal; }
 .filter_box .filter_content ul {
   margin: 5px 10px; }
 .filter_box h4 {
@@ -680,7 +679,7 @@ ul li {
   max-height: 222px;
   overflow-x: hidden;
   overflow-y: auto;
-  border-bottom: 1px solid #323232; }
+  border-bottom: 1px solid #5f5f5f; }
 .filter_box input[type="checkbox"] {
   margin: 0 5px 0 0; }
 .filter_box .filter_footer {
@@ -2030,9 +2029,6 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
   border: 0; }
   .ui-widget-content a {
     color: #424242; }
-
-.ui-widget-content:hover {
-  color: black; }
 
 #page_head .ui-widget-content {
   background: none;
