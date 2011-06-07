@@ -57,7 +57,7 @@ module MediaSetsHelper
   def media_sets_setter(form_path, with_cancel_button = false)
     form_tag form_path, :id => "set_media_sets" do
       b = content_tag :h3, :style => "clear: both" do
-        _("Zu Set hinzufügen:")
+        _("Zu Set/Projekt hinzufügen:")
       end
 
       b += content_tag :span, :style => "margin-right: 1em;" do
@@ -80,7 +80,7 @@ module MediaSetsHelper
       end
       
       b += content_tag :p, :style => "clear: both;" do
-        link_to _("Weiter ohne Hinzufügen zu einem Set…"), root_path, :class => "upload_buttons"
+        link_to _("Weiter ohne Hinzufügen zu einem Set/Projekt…"), root_path, :class => "upload_buttons"
       end if with_cancel_button
 
       b += javascript_tag do

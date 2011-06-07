@@ -18,7 +18,7 @@
         - if current_user && Permission.authorized?(current_user, :manage, media_entry)
           %li= link_to image_tag("icons/button_delete_active.png"), "#", :panel => "delete"
         %li= link_to _("Exportieren"), "#", :panel => "download"
-        %li= link_to _("Zu Set hinzufügen"), "#", :panel => "media_set"
+        %li= link_to _("Zu Set/Projekt hinzufügen"), "#", :panel => "media_set"
         - if is_expert and media_entry.snapshotable?
           %li= link_to _("Metadaten für MIZ-Archiv editieren"), edit_tms_media_entry_path(@media_entry)
           - if can_edit
