@@ -2432,12 +2432,13 @@ table.meta_data td {
   letter-spacing: 0.2ex;
 }
 
-.meta_data a[data-remote] {
+.meta_data a[data-meta_term_id] {
   background: url(../images/icons/icon_toggle_browse_on.png) no-repeat -1px -4px;
   padding-left: 20px;
+  padding-right: 5px;
 }
 
-.meta_data a[data-remote].active {
+.meta_data a[data-meta_term_id].active {
   background: url(../images/icons/icon_toggle_browse_off.png) no-repeat -1px -4px;
   padding-left: 20px;
   color: black;
