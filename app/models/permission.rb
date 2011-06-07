@@ -265,7 +265,7 @@ class Permission < ActiveRecord::Base
       end
     end
 
-    def assign_manage_to(subject, resource)
+    def assign_manage_to(subject, resource, recursive = false)
       @subject = subject
       @i = 2 ** ACTIONS.index(:manage)
       
@@ -276,14 +276,11 @@ class Permission < ActiveRecord::Base
         resource.permissions.find_or_create_by_subject_type_and_subject_id(@subject.class.base_class.name, @subject.id).set_actions(h)
       end
       
-      if resource.is_a?(Media::Set)
-        assign_for(resource)
-        resource.media_entries.each do |me|
-          assign_for(me)
-        end
-      elsif resource.is_a?(MediaEntry)
-        assign_for(resource)
-      end
+      assign_for(resource) # TODO only in case of MediaEntry or Media::Set ??  
+      
+      resource.media_entries.each do |me|
+        assign_for(me)
+      end if resource.is_a?(Media::Set) and recursive
     end
 
   end

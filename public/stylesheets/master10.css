@@ -28,6 +28,14 @@ body {
 	text-align: left;
 }
 
+tr, th, td {
+	vertical-align: top;
+}
+
+th.right, td.right {
+	text-align: right;
+}
+
 /* Links */
 
 a {
@@ -128,4 +136,9 @@ div#ajaxLoading {
 	-moz-border-radius-bottomright:5px;
 	-moz-border-radius-topleft:5px;
 	-moz-border-radius-topright:5px;
+}
+
+ul.columns_3 {
+	-moz-column-count: 3;
+	-moz-column-width: 6em;	
 }

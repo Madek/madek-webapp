@@ -1,25 +1,53 @@
 = form_for @set, :as => :media_set, :url => admin_media_set_path(@set) do |f|
   %table
+    %tr
+      %td Type
+      - if f.object.respond_to? :individual_contexts
+        %td= f.object.type
+      - else
+        %td= f.select :type, [Media::Set, Media::Project].collect {|o| [o, o]}
+
     = f.fields_for :meta_data, f.object.meta_data.get("title") do |ff|
-      %tr
-        %td Type
-        - if f.object.respond_to? :individual_contexts
-          %td= f.object.type
-        - else
-          %td= f.select :type, [Media::Set, Media::Project].collect {|o| [o, o]}
       %tr
         %td= ff.object.meta_key.label
         %td= field_tag(ff, MetaContext.media_set)
-        
+
     - if f.object.respond_to? :individual_contexts
       %tr
         %td Contexts
         %td
-          %ul
+          %ul.columns_3
             - MetaContext.all.each do |context|
               %li
                 = check_box_tag "individual_contexts[]", context.id, f.object.individual_contexts.include?(context)
                 = context
 
-    %tr{:colspan => 2}
-      %td= f.submit _("Update")
+    %tr
+      %td Manage Permission
+      %td
+        User:
+        = text_field_tag :new_manager_user
+        = hidden_field_tag :new_manager_user_id
+        = check_box_tag :with_media_entries
+        with media_entries
+
+    %tr
+      %td.right{:colspan => 2}
+        = f.submit _("Update")
+        
+
+:javascript
+  $(function() {
+    var new_manager_user_id_field = $("input#new_manager_user_id"); 
+  
+    $("input#new_manager_user").autocomplete({
+      source: "/users",
+      minLength: 3,
+      select: function( event, ui ) {
+        new_manager_user_id_field.val(ui.item.id);
+      },
+      change: function( event, ui ) {
+        if(ui.item == null) new_manager_user_id_field.val("");
+      }
+    });
+  });

@@ -9,5 +9,6 @@
         %td= ff.object.meta_key.label
         %td= field_tag(ff, MetaContext.media_set)
 
-    %tr{:colspan => 2}
-      %td= f.submit _("Create")
+    %tr
+      %td.right{:colspan => 2}
+        = f.submit _("Create")
