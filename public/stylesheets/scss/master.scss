@@ -2344,6 +2344,7 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
 #vocabulary_tab h3 {
     font-size: 1.4em;
     margin-bottom: 1em;
+    letter-spacing: 0;
 }
 
 .ui-tabs {
@@ -2750,27 +2751,18 @@ table.permissions {
 }
 
 #browsing_media_entries {
-  background-color: rgba(0, 0, 0, 0.5);
-  box-shadow: -1px 0 3px rgba(150, 150, 150, 0.6);
-  color: #FFFFFF;
-  position: fixed;
-  top: 80px;
-  right: 0;
-  padding: 0 10px;
-  width: 155px;
-  max-height: 60%;
-  overflow-y: auto;
-  z-index: 1001;
-  direction:rtl; /*Right To left */ 
+  padding: 0 0 15px 15px;
+  width: 230px;
+  display: inline-block;
+  /*direction:rtl; Right To left */ 
   /*text-align:left; Override direction */
   
   p {
     padding: 5px 0 7px 20px;
-    background: url(../images/icons/icon_toggle_browse_on_white.png) no-repeat 0 3px;
-    font-size: 0.9em;
-    font-weight: bold;
+    background: url(../images/icons/icon_toggle_browse_on.png) no-repeat 0 3px;
+    font-size: 1em;
     line-height: 1.2em;
-    letter-spacing: 0;
+    letter-spacing: 0.1ex;
   }
   .thumb_mini {
     margin-bottom: 10px;
@@ -2778,7 +2770,11 @@ table.permissions {
   }
 }
 #browsing_media_entries .thumb_mini:hover {
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+#detail-sidebar #browsing_media_entries {
+  width: 290px;
+  padding: 0 0 15px 0;
 }
 
 /* Groups */
