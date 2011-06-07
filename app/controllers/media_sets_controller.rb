@@ -60,6 +60,7 @@ class MediaSetsController < ApplicationController
   def browse
     @project = @media_set
     respond_to do |format|
+      format.html
       format.js { render :layout => false }
     end
   end
