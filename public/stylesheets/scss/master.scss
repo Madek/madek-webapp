@@ -1253,7 +1253,7 @@ button.dark:hover {
 	
 	h4 {
 		font-size: 0.9em;
-		padding: 2px 0 0 20px;
+		padding: 2px 5px 0 20px;
 		background: url(/images/icons/icon_taskbar_edit_white.png) no-repeat 0 7px;
 	}
 
@@ -2769,6 +2769,12 @@ table.permissions {
     margin-left: 2px;
   }
 }
+#browsing_media_entries p:hover {
+  text-decoration: underline;
+  color: black;
+  background: url(../images/icons/icon_toggle_browse_off.png) no-repeat 0 3px;
+}
+
 #browsing_media_entries .thumb_mini:hover {
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 }
