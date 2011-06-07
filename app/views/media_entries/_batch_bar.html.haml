@@ -19,7 +19,7 @@
         = button_to _("Aus Set entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete
     %li#batch-add-to-set.action_btn
       = form_tag add_member_media_set_url(@media_set || 1) do
-        = select_tag "media_set_id", options_for_select([["Set auswählen…", ""]] + @editable_sets.collect {|set| [set.meta_data.get_value_for("title"), set.id]})
+        = select_tag "media_set_id", options_for_select([["Set/Projekt auswählen…", ""]] + @editable_sets.collect {|set| [set.title_and_user, set.id]})
         = submit_tag "Hinzufügen"
     .clear
   #selected_items.clearfix
@@ -86,7 +86,7 @@
             {{/if}}
       {{/if}}
       .action_right
-        /url = resource.is_a?(MediaEntry) ? edit_media_entry_path(resource) : edit_media_set_path(resource)
+        -# url = resource.is_a?(MediaEntry) ? edit_media_entry_path(resource) : edit_media_set_path(resource)
         {{if is_editable}}
         %a{:href => "/media_entries/${id}/edit", :title => "Editieren"}
           = image_tag("icons/button_edit_active.png")

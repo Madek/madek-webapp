@@ -294,7 +294,9 @@ module Resource
   end
 
   def title_and_user
-    "#{title} (#{user})"
+    s = ""
+    s += "[Projekt] " if is_a?(Media::Project)
+    s += "#{title} (#{user})"
   end
   
 ########################################################
