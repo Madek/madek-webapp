@@ -233,7 +233,7 @@ Feature: Upload images and manage media entries based on images
      And I go to the media entries
     Then I should not see "mein lieblingsflugzeug"
 
-  @javascript @work
+  @javascript
   Scenario: Upload an image that has MAdeK title and date information (specific date) its EXIF/IPTC metadata
     When I log in as "helmi" with password "saumagen"
      And I go to the home page
@@ -250,7 +250,7 @@ Feature: Upload images and manage media entries based on images
      And I click the media entry titled "Grumpy Cat"
     Then I should see "30.05.2011"
 
-  @javascript 
+  @javascript @work
   Scenario: Upload an image that has MAdeK metadata with a from/to date in its EXIF/IPTC metadata
     When I log in as "helmi" with password "saumagen"
      And I go to the home page
@@ -270,7 +270,7 @@ Feature: Upload images and manage media entries based on images
     # |Datierung|1990|
     # So that we can specify the "should be..." part of a media entry like we specify the
     # metadata editor part.
-    Then I should see "01.05.2011 - 30.05.2011"
+    Then I should see "01.05.2011 - 31.05.2011"
      And I should see "Frau-Sein"
      And I should see "Buser, Monika"
      And I should see "Diplomarbeit, Porträt, Selbstporträt, Schweiz"
