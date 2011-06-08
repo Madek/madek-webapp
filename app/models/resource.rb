@@ -33,14 +33,19 @@ module Resource
         get(key_id).to_s
       end
 
+      
       # indexing to sphinx
-      def with_labels
-        h = {}
-        all_cached.each do |meta_datum|
-          next unless meta_datum.meta_key # FIXME inconsistency: there are meta_data referencing to not existing meta_key_ids [131, 135]
-          h[meta_datum.meta_key.label] = meta_datum.to_s
-        end
-        h
+      #tmp#
+      #def with_labels
+      #  h = {}
+      #  all_cached.each do |meta_datum|
+      #    next unless meta_datum.meta_key # FIXME inconsistency: there are meta_data referencing to not existing meta_key_ids [131, 135]
+      #    h[meta_datum.meta_key.label] = meta_datum.to_s
+      #  end
+      #  h
+      #end
+      def concatenated
+        all_cached.map(&:to_s).join('; ')
       end
     end
     base.accepts_nested_attributes_for :meta_data, :allow_destroy => true,
@@ -121,9 +126,11 @@ module Resource
 
       xml.tag!("sphinx:docset") do
         xml.tag!("sphinx:schema") do
-            MetaKey.with_meta_data.each do |key|
-              xml.tag!("sphinx:field", :name => key.label.parameterize('_'))
-            end
+            #tmp# Sphinx: max 32 fields allowed
+            #MetaKey.with_meta_data.each do |key|
+            #  xml.tag!("sphinx:field", :name => key.label.parameterize('_'))
+            #end
+            xml.tag!("sphinx:field", :name => "meta_data")
 
             self::TS_FIELDS.each do |field|
               xml.tag!("sphinx:field", :name => field)
@@ -145,9 +152,11 @@ module Resource
           resources.each do |resource|
             # TODO: check whether sphinx:document id needs to be unique
             xml.tag!("sphinx:document", :id => resource.id) do
-              resource.meta_data.with_labels.each_pair do |key, value|
-                xml.tag!(key.parameterize('_'), value)
-              end
+              #tmp# Sphinx: max 32 fields allowed
+              #resource.meta_data.with_labels.each_pair do |key, value|
+              #  xml.tag!(key.parameterize('_'), value)
+              #end
+              xml.tag!("meta_data", resource.meta_data.concatenated)
               
               self::TS_FIELDS.each do |field|
                 xml.tag!(field, resource.send(field))
