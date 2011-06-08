@@ -199,10 +199,10 @@ module MediaSetsHelper
       project.individual_contexts.each do |context|
         haml_tag :h3, context
         haml_tag :p, context.description
-        haml_tag :div do
-          context.meta_keys.where(:object_type => "Meta::Term").each do |meta_key|
-            definition = meta_key.meta_key_definitions.for_context(context)
-            haml_tag :h4, definition.meta_field.label
+        context.meta_keys.where(:object_type => "Meta::Term").each do |meta_key|
+          definition = meta_key.meta_key_definitions.for_context(context)
+          haml_tag :h4, definition.meta_field.label
+          haml_tag :div, :class => "columns_3" do
             meta_key.meta_terms.each do |meta_term|
               is_used = used_meta_term_ids.include?(meta_term.id)
               haml_tag :p, meta_term, :"data-meta_term_id" => meta_term.id, :"data-used" => (is_used ? 1 : 0)

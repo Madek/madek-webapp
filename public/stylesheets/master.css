@@ -1458,14 +1458,19 @@ button.dark:hover {
     display: block;
     margin-top: 10px; }
 
-#vocabulary_tab div {
+.columns_3 {
   -moz-column-count: 3;
   -moz-column-gap: 20px;
   -webkit-column-count: 3;
   -webkit-column-gap: 20px;
   column-count: 3;
-  column-gap: 20px;
+  column-gap: 20px; }
+
+#vocabulary_tab {
   margin-bottom: 20px; }
+  #vocabulary_tab .columns_3 {
+    padding-bottom: 10px;
+    border-bottom: 1px solid silver; }
 
 #terms_toggler {
   text-decoration: underline; }
