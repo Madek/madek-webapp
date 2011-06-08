@@ -28,7 +28,7 @@ Feature: Do things to and with sets and projects
      And Sphinx is forced to reindex
      And I go to the media entries
      And I click the media entry titled "into the set after uploading"
-     And I follow "Zu Set hinzufügen"
+     And I follow "Zu Set/Projekt hinzufügen"
      And I press "Neues Set erstellen"
      And I wait for the CSS element "#text_media_set"
      And I fill in the set title with "After-Upload Set"
@@ -60,7 +60,7 @@ Feature: Do things to and with sets and projects
      And Sphinx is forced to reindex
      And I go to the media entries
      And I click the media entry titled "into the set after uploading"
-     And I follow "Zu Set hinzufügen"
+     And I follow "Zu Set/Projekt hinzufügen"
      And I press "Neues Set erstellen"
      And I wait for the CSS element "#text_media_set"
      And I fill in the set title with "After-Upload Set"
@@ -101,7 +101,7 @@ Feature: Do things to and with sets and projects
      And Sphinx is forced to reindex
      And I go to the media entries
      And I click the media entry titled "Link test"
-     And I follow "Zu Set hinzufügen"
+     And I follow "Zu Set/Projekt hinzufügen"
      And I press "Neues Set erstellen"
      And I wait for the CSS element "#text_media_set"
      And I fill in the set title with "Testing the link"
