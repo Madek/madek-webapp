@@ -16,12 +16,12 @@
                 %span.ui-icon.ui-icon-triangle-1-e
                 =#tmp# link_to "(zurücksetzen)", "#", :class => "reset_filter"
               .filter_content{:style => "display: none;"}
-                %h3.filter_subcategory.filter_category.clearfix
+                %h5.filter_subcategory.filter_category.clearfix
                   %span.input_wrapper
                     = check_box_tag "#{type}[media_type][]", "Image"
                     Bild
-                  = link_to "Details", "#", :class => "filter_category_link"
-                  %span.ui-icon.ui-icon-triangle-1-e
+                  / = link_to "Details", "#", :class => "filter_category_link"
+                  / %span.ui-icon.ui-icon-triangle-1-e
                 .filter_content
                   %ul
                     %li
