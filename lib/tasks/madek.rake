@@ -41,7 +41,7 @@ namespace :madek do
 
 # CONSTANTS used here are in environment.rb
   desc "Reset"
-  task :reset, :needs => :environment  do |t,args|
+  task :reset => :environment  do |t,args|
       system "rm -rf #{FILE_STORAGE_DIR}/* #{THUMBNAIL_STORAGE_DIR}/*"
 
       [ '0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f' ].each do |h|
