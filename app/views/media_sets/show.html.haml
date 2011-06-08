@@ -53,9 +53,6 @@
               = display_project_abstract(@media_set, (@paginated_media_entry_ids.total_entries * 30 / 100), @_media_entry_ids)
           - if @media_set.is_a?(Media::Project)
             #vocabulary_tab.clearfix
-              %p
-                Diese Metadaten zeigen das projektspezifische Vokabular.
-              %br
               = display_project_vocabulary(@media_set)
 
 %section#content_body_set

@@ -188,7 +188,13 @@ module MediaSetsHelper
 
   def display_project_vocabulary(project)
     capture_haml do
-      haml_tag :a, "Show used", :href => "#", :id => "terms_toggler"
+      haml_tag :p do
+        haml_concat "Diese Metadaten zeigen das projektspezifische Vokabular."
+        haml_tag :p
+          haml_tag :a, "Show used", :href => "#", :id => "terms_toggler"
+      end
+      haml_tag :br
+      
       project.individual_contexts.each do |context|
         haml_tag :h3, context
         haml_tag :p, context.description
