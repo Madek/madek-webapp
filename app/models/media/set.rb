@@ -44,7 +44,7 @@ module Media
   
   ########################################################
   
-    default_scope order("updated_at DESC")
+    default_scope order("type ASC, updated_at DESC")
   
     scope :static, where("query IS NULL")
     scope :dynamic, where("query IS NOT NULL")

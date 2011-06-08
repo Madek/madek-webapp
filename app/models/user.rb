@@ -54,12 +54,6 @@ class User < ActiveRecord::Base
     Permission.accessible_by_user(resource_type, self, action)
   end
 
-  # return own and somebody else's sets, on which current_user has edit permission
-  def editable_sets
-    ids = accessible_resource_ids(:edit, Media::Set)
-    Media::Set.where(:id => ids)
-  end
-
 #############################################################
 
   validates_presence_of     :login

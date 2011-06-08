@@ -61,7 +61,7 @@ module MediaSetsHelper
       end
 
       b += content_tag :span, :style => "margin-right: 1em;" do
-        select_tag "media_set_ids[]", options_for_select({_("- Auswählen -") => nil}) + options_from_collection_for_select(current_user.editable_sets, :id, :title_and_user), :style => "width: 100%;"
+        select_tag "media_set_ids[]", options_for_select({_("- Auswählen -") => nil}) + options_from_collection_for_select(Media::Set.accessible_by(current_user, :edit), :id, :title_and_user), :style => "width: 100%;"
       end
 
       b += content_tag :button, :id => "new_button", :style => "float: left;" do
