@@ -1534,6 +1534,7 @@ button.dark:hover {
 
 #detail_specification {
 	overflow: hidden;
+	white-space:normal;
 	margin: 1em 0 2em 0;
 	min-height: 176px;
 	border-bottom: 1px solid #dddddd;
@@ -2430,15 +2431,18 @@ table.meta_data td {
 }
 
 .meta_data a[data-meta_term_id] {
-  background: url(../images/icons/icon_toggle_browse_on.png) no-repeat -1px -4px;
+  background: url(../images/icons/icon_toggle_browse_on.png) no-repeat -1px -1px;
   padding-left: 20px;
-  padding-right: 5px;
+  padding-right: 6px;
+  display: inline-block;
 }
 
 .meta_data a[data-meta_term_id].active {
-  background: url(../images/icons/icon_toggle_browse_off.png) no-repeat -1px -4px;
+  background: url(../images/icons/icon_toggle_browse_off.png) no-repeat -1px -1px;
   padding-left: 20px;
+  padding-right: 6px;
   color: black;
+  display: inline-block;
 }
 
 #additional-metadata table {
@@ -2771,6 +2775,7 @@ table.permissions {
   text-decoration: underline;
   color: black;
   background: url(../images/icons/icon_toggle_browse_off.png) no-repeat 0 3px;
+  cursor: pointer;
 }
 
 #browsing_media_entries .thumb_mini:hover {
