@@ -30,4 +30,11 @@ class Media::Project < Media::Set
     return b.compact
   end
 
+  def used_meta_term_ids(accessible_media_entry_ids = nil)
+    accessible_media_entry_ids ||= media_entry_ids
+    meta_key_ids = individual_contexts.map{|ic| ic.meta_keys.for_meta_terms.map(&:id) }.flatten
+    mds = MetaDatum.where(:meta_key_id => meta_key_ids, :resource_type => "MediaEntry", :resource_id => accessible_media_entry_ids)
+    mds.collect(&:value).flatten.uniq.compact
+  end
+
 end

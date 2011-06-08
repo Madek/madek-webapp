@@ -186,7 +186,8 @@ module MediaSetsHelper
     end
   end
 
-  def display_project_vocabulary(project)
+  def display_project_vocabulary(project, accessible_media_entry_ids)
+    used_meta_term_ids = project.used_meta_term_ids(accessible_media_entry_ids)
     capture_haml do
       haml_tag :a, "Show used", :href => "#", :id => "terms_toggler"
       project.individual_contexts.each do |context|
@@ -197,8 +198,7 @@ module MediaSetsHelper
             definition = meta_key.meta_key_definitions.for_context(context)
             haml_tag :h4, definition.meta_field.label
             meta_key.meta_terms.each do |meta_term|
-              # TODO check used terms
-              is_used = (meta_term.id % 3 == 0)
+              is_used = used_meta_term_ids.include?(meta_term.id)
               haml_tag :p, meta_term, :"data-meta_term_id" => meta_term.id, :"data-used" => (is_used ? 1 : 0)
             end
           end

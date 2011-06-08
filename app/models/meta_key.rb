@@ -26,7 +26,8 @@ class MetaKey < ActiveRecord::Base
 
   #old#precedence problem# default_scope order(:label)
   scope :with_meta_data, joins(:meta_data).group(:id)
-
+  scope :for_meta_terms, where(:object_type => "Meta::Term") 
+  
 ########################################################
 
   before_save do
