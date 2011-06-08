@@ -590,6 +590,9 @@ ul li {
 #content_body2 .pagination {
   word-spacing: 0; }
 
+.disabled {
+  color: silver; }
+
 /* Filter */
 .page_title_left #term {
   display: inline-block;
@@ -700,8 +703,6 @@ ul li {
   color: white; }
 .filter_box .filter_footer input[type="submit"]:hover {
   background: black; }
-.filter_box li.disabled {
-  color: silver; }
 
 .filter_box h3:hover {
   background-color: #5F5F5F; }
@@ -2169,17 +2170,13 @@ table.meta_data td {
   letter-spacing: 0.2ex; }
 
 .meta_data a[data-meta_term_id] {
-  background: url(../images/icons/icon_toggle_browse_on.png) no-repeat -1px -1px;
-  padding-left: 20px;
-  padding-right: 6px;
-  display: inline-block; }
+  background: url(../images/icons/icon_toggle_browse_on.png) no-repeat -1px -4px;
+  padding-left: 20px; }
 
 .meta_data a[data-meta_term_id].active {
-  background: url(../images/icons/icon_toggle_browse_off.png) no-repeat -1px -1px;
+  background: url(../images/icons/icon_toggle_browse_off.png) no-repeat -1px -4px;
   padding-left: 20px;
-  padding-right: 6px;
-  color: black;
-  display: inline-block; }
+  color: black; }
 
 #additional-metadata table {
   width: 600px;

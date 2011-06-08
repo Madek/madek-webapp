@@ -161,8 +161,8 @@ module MediaSetsHelper
         HERECODE
         end.html_safe
       end
-
       haml_concat script
+
     end
   end
 
@@ -188,6 +188,7 @@ module MediaSetsHelper
 
   def display_project_vocabulary(project)
     capture_haml do
+      haml_tag :a, "Show used", :href => "#", :id => "terms_toggler"
       project.individual_contexts.each do |context|
         haml_tag :h3, context
         haml_tag :p, context.description
@@ -197,11 +198,39 @@ module MediaSetsHelper
             haml_tag :h4, definition.meta_field.label
             meta_key.meta_terms.each do |meta_term|
               # TODO check used terms
-              haml_tag :p, meta_term
+              is_used = (meta_term.id % 3 == 0)
+              haml_tag :p, meta_term, :"data-meta_term_id" => meta_term.id, :"data-used" => (is_used ? 1 : 0)
             end
           end
         end
       end
+
+      script = javascript_tag do
+        begin
+        <<-HERECODE
+          $(document).ready(function () {
+            var unused_terms = $("p[data-meta_term_id][data-used='0']");
+            var terms_toggler = $("a#terms_toggler");
+            terms_toggler.data("active", false);             
+            terms_toggler.click(function(){
+              var that = $(this);
+              if(that.data("active")){
+                unused_terms.removeClass("disabled");
+                that.html("Show used");
+                that.data("active", false);
+              }else{
+                unused_terms.addClass("disabled");
+                that.html("Show all");
+                that.data("active", true);
+              }
+              return false;
+            });
+          });
+        HERECODE
+        end.html_safe
+      end
+      haml_concat script
+      
     end
   end
 
