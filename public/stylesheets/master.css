@@ -632,7 +632,7 @@ ul li {
   border-bottom: 0; }
 .filter_box .filter_header .filter_category_link {
   color: #FFFFFF; }
-.filter_box h3.filter_subcategory {
+.filter_box h3.filter_subcategory, .filter_box h5.filter_subcategory {
   padding: 10px 10px; }
 .filter_box h3 span.ui-icon {
   float: right;
@@ -660,7 +660,7 @@ ul li {
   letter-spacing: 0.1ex;
   font-weight: normal; }
 .filter_box h5.filter_subcategory .input_wrapper {
-  padding: 5px 0 5px 15px;
+  padding: 0 0 0 4px;
   font-size: 0.7em;
   letter-spacing: 0; }
 .filter_box h4 {

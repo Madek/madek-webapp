@@ -624,7 +624,7 @@ ul li { float: left; }
   .filter_header .filter_category_link {
     color: #FFFFFF;
   }
-  h3.filter_subcategory {
+  h3.filter_subcategory, h5.filter_subcategory {
     padding: 10px 10px;
   }
   h3 span.ui-icon {
@@ -644,7 +644,7 @@ ul li { float: left; }
   h3.filter_subcategory a.filter_category_link, 
   h3.filter_subcategory span.ui-icon { float: right; letter-spacing: 0.1ex; font-weight: normal; }
   h3.filter_subcategory span.input_wrapper { padding-left: 4px; font-size: 0.9em; letter-spacing: 0.1ex; font-weight: normal;}
-  h5.filter_subcategory .input_wrapper { padding: 5px 0 5px 15px; font-size: 0.7em; letter-spacing: 0; }
+  h5.filter_subcategory .input_wrapper { padding: 0 0 0 4px; font-size: 0.7em; letter-spacing: 0; }
   h4 { font-size: 1.2em; }
   #filter-query ul { margin: 0.9em 0 0.5em 15px; }
   #filter-query ul li { padding: 0 0 5px 0; float: none; font-size: 0.8em; letter-spacing: 0.1ex; line-height: 1em; }

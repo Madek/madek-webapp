@@ -32,14 +32,18 @@
                       = check_box_tag "#{type}[orientation]", '1'
                   %ul
                     %li
-                      = label_tag "#{type}[width][value]", "Breite"
+                      = label_tag "#{type}[width][value]", "Breite:"
                       = select_tag "#{type}[width][operator]", options_for_select({'ist genau' => 'is', 'grösser als' => 'gt', 'kleiner als' => 'lt'}, :selected => nil), :include_blank => true
-                      = text_field_tag "#{type}[width][value]", nil, :size => 10
+                      = text_field_tag "#{type}[width][value]", nil, :size => 5
+                      %span
+                        Pixel
                       / TODO #slider-range
                     %li
-                      = label_tag "#{type}[height][value]", "Höhe"
+                      = label_tag "#{type}[height][value]", "Höhe:"
                       = select_tag "#{type}[height][operator]", options_for_select({'ist genau' => 'is', 'grösser als' => 'gt', 'kleiner als' => 'lt'}, :selected => nil), :include_blank => true
-                      = text_field_tag "#{type}[height][value]", nil, :size => 10
+                      = text_field_tag "#{type}[height][value]", nil, :size => 5
+                      %span
+                        Pixel
   
             = display_meta_data_checkboxes(resource_ids, type)
           .filter_footer
