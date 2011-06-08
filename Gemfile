@@ -4,12 +4,11 @@ source 'http://gems.github.com'
 gem 'rails', '3.0.7' #Rails3.1# '3.1.0.rc1' 
 gem 'builder', '~> 2.1.2' #Rails3.1# '~> 3.0'  
 gem 'i18n' # Need this explicitly, otherwise can't deploy
-gem 'rake', '~> 0.8.7' #'~> 0.9.1'
 
 gem 'mysql2', '~> 0.2.7' #Rails3.1# '~> 0.3.2' 
 gem 'memcache-client' #gem 'dalli' #gem 'redis-store'
 
-gem 'haml', '~> 3.1.1'
+gem 'haml', '~> 3.1.2'
 gem 'sass', '~> 3.1.2' # Haml will no longer automatically load Sass in Haml 3.2.0. # Please add gem 'sass' to your Gemfile.
 #gem 'coffee-script' #Rails3.1#
 #gem 'uglifier' #Rails3.1#
@@ -57,8 +56,8 @@ group :development do
 end
 
 group :test do
-  gem 'cucumber'
-  gem 'cucumber-rails', ">= 0.5.1"
+  gem 'cucumber', '~> 0.10.6'
+  gem 'cucumber-rails', '~> 0.5.2'
   gem 'capybara'
   gem 'database_cleaner'
   gem 'rspec-rails'
