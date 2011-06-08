@@ -1473,7 +1473,14 @@ button.dark:hover {
     border-bottom: 1px solid silver; }
 
 #terms_toggler {
-  text-decoration: underline; }
+  font-size: 0.8em;
+  font-weight: bold;
+  letter-spacing: 0; }
+
+#terms_toggler:hover {
+  color: black;
+  font-weight: bold;
+  text-decoration: none; }
 
 #content_body_fixed #detail_specification {
   margin-left: 20px; }

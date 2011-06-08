@@ -1574,7 +1574,14 @@ button.dark:hover {
 }
 
 #terms_toggler {
-  text-decoration: underline;
+  font-size: 0.8em;
+  font-weight:bold;
+  letter-spacing:0;
+}
+#terms_toggler:hover {
+  color: black;
+  font-weight:bold;
+  text-decoration: none;
 }
 
 #content_body_fixed #detail_specification {
@@ -2315,10 +2322,6 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
   line-height: 1.5em;
 }
 
-.vocabulary_tab_browse {
-
-}
-
 #info_tab.ui-tabs-panel, #abstract_tab.ui-tabs-panel {
     padding: 10px 25px 10px 0;
 }
@@ -2330,8 +2333,6 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
     padding: 20px 0 10px 0;
 }
 
-#info_tab p, #abstract_tab p, #vocabulary_tab p {
-}
 #info_tab h4, #abstract_tab h4, #vocabulary_tab h4 {
     color: #7F7F7F;
     font-size: 0.8em;

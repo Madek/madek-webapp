@@ -190,9 +190,9 @@ module MediaSetsHelper
     used_meta_term_ids = project.used_meta_term_ids(accessible_media_entry_ids)
     capture_haml do
       haml_tag :p do
-        haml_concat "Diese Metadaten zeigen das projektspezifische Vokabular."
+        haml_concat "Für dieses Projekt wurde ein spezifisches Vokabular erstellt."
         haml_tag :p
-          haml_tag :a, "Show used", :href => "#", :id => "terms_toggler"
+          haml_tag :a, "Zeige die bereits vergebenen Werte", :href => "#", :id => "terms_toggler"
       end
       haml_tag :br
       
@@ -222,11 +222,11 @@ module MediaSetsHelper
               var that = $(this);
               if(that.data("active")){
                 unused_terms.removeClass("disabled");
-                that.html("Show used");
+                that.html("Zeige die bereits vergebenen Werte");
                 that.data("active", false);
               }else{
                 unused_terms.addClass("disabled");
-                that.html("Show all");
+                that.html("Zeige das gesamte Vokabular");
                 that.data("active", true);
               }
               return false;
