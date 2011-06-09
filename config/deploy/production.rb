@@ -127,7 +127,7 @@ task :migrate_database do
   # deploy.migrate should work, but is buggy and is run in the _previous_ release's
   # directory, thus never runs anything? Strange.
   #deploy.migrate
-  run "cd #{release_path} && RAILS_ENV='production' rake db:migrate"
+  run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:migrate"
 
 end
 
@@ -140,12 +140,12 @@ task :install_gems do
 end
 
 task :stop_sphinx do
-  run "cd #{previous_release} && RAILS_ENV='production' rake ts:stop"
+  run "cd #{previous_release} && RAILS_ENV='production' bundle exec rake ts:stop"
 end
 
 task :start_sphinx do
-  run "cd #{release_path} && RAILS_ENV='production' rake ts:reindex"
-  run "cd #{release_path} && RAILS_ENV='production' rake ts:start"
+  run "cd #{release_path} && RAILS_ENV='production' bundle exec rake ts:reindex"
+  run "cd #{release_path} && RAILS_ENV='production' bundle exec rake ts:start"
 end
 
 task :record_deploy_info do
