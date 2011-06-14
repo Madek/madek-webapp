@@ -104,16 +104,26 @@ class MediaFile < ActiveRecord::Base
   # the cornerstone of identity..
   # in an ideal world, this is farmed off to something that can crunch through large files _fast_
   def get_guid
-    # TODO in background?
-    # Hash or object, we should be seeing a pattern here by now.
-    if uploaded_data.kind_of? Hash
-      g = Digest::SHA256.hexdigest(uploaded_data[:tempfile].read)
-      uploaded_data[:tempfile].rewind
-    else
-      g = Digest::SHA256.hexdigest(uploaded_data.read)
-      uploaded_data.rewind
-    end
-    g
+    # This was the old GUID code in use up to June, 2011. Please leave to code here
+    # so we know why older files have different GUIDs. The new GUID code doesn't take
+    # the file hash into account at all, which is much faster at the expensve of a very
+    # low probability of file duplication.
+    # We can solve the file duplication problem elsewhere, e.g. by nightly hashing over all files
+    # that have identical size and assigning the media entries to the same file if there is a
+    # match on the hash. This would be a lot less expensive than doing it during upload.
+    #     # TODO in background?
+    #     # Hash or object, we should be seeing a pattern here by now.
+    #     if uploaded_data.kind_of? Hash
+    #       g = Digest::SHA256.hexdigest(uploaded_data[:tempfile].read)
+    #       uploaded_data[:tempfile].rewind
+    #     else
+    #       g = Digest::SHA256.hexdigest(uploaded_data.read)
+    #       uploaded_data.rewind
+    #     end
+    #     g
+
+    return UUIDTools::UUID.random_create.hexdigest
+    
   end
 
   def shard
