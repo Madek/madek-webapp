@@ -36,6 +36,7 @@ gem 'ruby-net-ldap', '~> 0.0.4', :require => 'net/ldap'
 
 gem 'zencoder'
 gem 'uuidtools'
+gem 'mini_exiftool'
 
 # wiki:
 # unfortunately upstream irwi is broken. Until it is fixed we

@@ -6,6 +6,30 @@ class UploadEstimation
   end
 end
 
+class UploadUtility
+  def self.detect_type(path)
+    file_result = self.type_using_file(path)
+    exiftool_result = self.type_using_exiftool(path)
+    # If "file" and Exiftool disagree, trust Exiftool
+    if [file_result, exiftool_result].compact.uniq.size > 1
+      detected_type = exiftool_result
+    else
+      detected_type = file_result
+    end
+    
+    return detected_type
+  end
+  
+  def self.type_using_file(path)
+    return `#{FILE_UTIL_PATH} "#{path}"`.split(";").first.gsub(/\n/,"")
+  end
+
+  def self.type_using_exiftool(path)
+    exif = MiniExiftool.new(path)
+    return exif['MIMEType']
+  end
+end
+
 class Upload
   def self.call(env)
       request = Rack::Request.new(env)
@@ -39,19 +63,19 @@ class Upload
               # But since QuickTime video is always video/quicktime and always .mov, we simply override
               # this based on the filename here.
               # TODO: Could use exiftool instead of 'file' in general, it seems to do a good job with QuickTime
-            puts "filename was #{f[:filename]}"
               if f[:filename] =~ /.mov$/
                 f[:type] = "video/quicktime"
               else
                 supplied_type = f[:type]
-                detected_type = `#{FILE_UTIL_PATH} "#{f[:tempfile].path}"`.split(";").first.gsub(/\n/,"")
+                detected_type = UploadUtility.detect_type(f[:tempfile].path)
+                
                 if supplied_type != detected_type
                   f[:type] = detected_type
                 end
               end
               f
             else
-              { :type=> `#{FILE_UTIL_PATH} "#{f}"`.split(";").first.gsub(/\n/,""),
+              { :type=> UploadUtility.detect_type(f),
                 :tempfile=> File.new(f, "r"),
                 :filename=> File.basename(f)}
             end
@@ -60,6 +84,8 @@ class Upload
             # uploaded_data['current_user'] = current_user.login # for the use of media_file, if we get a zipfile
             media_file = MediaFile.create(:uploaded_data => uploaded_data)
             media_entry = upload_session.media_entries.create(:media_file => media_file)
+
+#             debugger; puts "lala"
 
             uploaded_data[:tempfile].close unless params['uploaded_data']
           end
