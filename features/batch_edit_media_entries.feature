@@ -23,7 +23,7 @@ Feature: Batch edit media entries
      And I follow "Set One"
      And I check the media entry titled "Picture One"
      And I check the media entry titled "Picture Two"
-     And I press "Aus Set entfernen"
+     And I press "Aus Set/Projekt entfernen"
      And I go to the media entries
      And I click the media entry titled "Picture Three"
      And I follow "Set One"
