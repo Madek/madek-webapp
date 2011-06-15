@@ -63,7 +63,7 @@ class MediaFile < ActiveRecord::Base
     FileUtils.cp uploaded_data[:tempfile].path, file_storage_location
 
     # TODO in background?
-    import if meta_data.nil?
+    import if meta_data.blank?
   end
 
 # We need to ensure that the media file is not still being used by another media_entry.
