@@ -2122,7 +2122,12 @@ form#set_media_sets input[type="submit"] {
 	padding: 10px 0 2em 0;
 }
 
-.upload-me-autodata {width: 165px; float: left;}
+.upload-me-autodata {
+	width: 165px;
+	float: left;
+	font-size: 0.8em;
+	overflow: hidden;
+}
 
 .upload-me-autodata img {
 	max-width: 160px;
@@ -2322,8 +2327,11 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
   line-height: 1.5em;
 }
 
-#info_tab.ui-tabs-panel, #abstract_tab.ui-tabs-panel {
-    padding: 10px 25px 10px 0;
+#info_tab.ui-tabs-panel {
+    padding: 0 25px 10px 0;
+}
+#abstract_tab.ui-tabs-panel {
+    padding: 20px 25px 10px 0;
 }
 #ui-tabs-1.ui-tabs-panel, #ui-tabs-2.ui-tabs-panel {
     padding: 20px 0;
