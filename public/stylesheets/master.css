@@ -707,6 +707,13 @@ ul li {
 .filter_box h3:hover {
   background-color: #5F5F5F; }
 
+.filter_box h3 a {
+  text-decoration: none; }
+
+.filter_box h3 a:hover {
+  color: white;
+  text-decoration: underline; }
+
 /* Media thumbs */
 #results, #results_mine, #results_others {
   padding: 5px 0 20px 13px;
