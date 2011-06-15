@@ -1306,6 +1306,10 @@ button.dark:hover {
 .Person form {
   margin: 10px 0 0 0; }
 
+form.new_person {
+  margin: 10px;
+  border: 0; }
+
 #select_deselect_all {
   font-size: 0.9em;
   letter-spacing: 0.05ex;
@@ -1429,7 +1433,7 @@ button.dark:hover {
 .save_buttons input[type="submit"] {
   color: #333;
   font-weight: bold;
-  padding: 3px 10px 4px;
+  padding: 6px 10px 4px;
   text-align: center;
   text-shadow: 0 1px 0 #fff;
   border: 1px solid #bbb;
@@ -1447,8 +1451,7 @@ button.dark:hover {
   overflow: hidden;
   white-space: normal;
   margin: 1em 0 2em 0;
-  min-height: 176px;
-  border-bottom: 1px solid #dddddd; }
+  min-height: 176px; }
   #detail_specification ul {
     list-style: none;
     overflow: hidden; }
@@ -2031,6 +2034,10 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
   z-index: 0; }
 
 /* Overriding jQuery-UI css - start */
+.ui-corner-all, .ui-corner-bottom {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0; }
+
 .ui-accordion .ui-accordion-header {
   padding: 4px 0 2px 10px;
   font-size: 0.9em; }
@@ -2048,14 +2055,24 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
   color: #444444;
   border: 0; }
   .ui-widget-content a {
-    color: #424242; }
+    color: #424242;
+    text-decoration: underline; }
+
+.ui-widget-content a:hover {
+  color: black; }
+
+.permissions .ui-widget-content a {
+  font-size: 0.8em;
+  letter-spacing: 0.1ex; }
 
 #page_head .ui-widget-content {
   background: none;
   border-bottom-width: 0;
-  margin: 10px;
+  margin: 10px 10px 10px 0;
   /*    line-height: 1.2em; */
-  padding: 0; }
+  padding: 0 10px 10px 0; }
+  #page_head .ui-widget-content .ui-slider {
+    padding: 0; }
 
 .ui-widget-header {
   background-attachment: scroll;
@@ -2073,24 +2090,30 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
   display: block;
   border-width: 0;
   background: none;
-  padding: 0; }
+  padding: 0;
+  border: 1px solid #dddddd;
+  border-top: 0;
+  min-height: 100px; }
+
+#page_head #detail_specification .ui-tabs-panel {
+  border: 0; }
 
 #info_tab, #ui-tabs-1, #abstract_tab, #vocabulary_tab {
   letter-spacing: 0.1ex;
-  margin-right: 25px;
+  margin-right: 0;
   line-height: 1.5em; }
 
 #info_tab.ui-tabs-panel {
-  padding: 0 25px 10px 0; }
+  padding: 15px 25px 25px 0; }
 
 #abstract_tab.ui-tabs-panel {
-  padding: 20px 25px 10px 0; }
+  padding: 25px 25px 10px 0; }
 
 #ui-tabs-1.ui-tabs-panel, #ui-tabs-2.ui-tabs-panel {
-  padding: 20px 0; }
+  padding: 25px 0 0 0; }
 
 #vocabulary_tab.ui-tabs-panel {
-  padding: 20px 0 10px 0; }
+  padding: 25px 0 10px 0; }
 
 #info_tab h4, #abstract_tab h4, #vocabulary_tab h4 {
   color: #7F7F7F;
@@ -2131,9 +2154,8 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
   list-style-position: outside;
   list-style-type: none;
   margin-left: 0;
-  margin-bottom: 10px;
   padding-bottom: 0;
-  padding-left: 0px;
+  padding-left: 0;
   padding-right: 0;
   padding-top: 6px;
   position: relative;
@@ -2141,7 +2163,7 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
 
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
   color: #424242;
-  cursor: text; }
+  cursor: pointer; }
 
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected {
   margin-bottom: 0;
@@ -2172,9 +2194,10 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box {
 
 /* Overriding jQuery-UI css - end */
 table.metadata-table a {
-  text-decoration: none; }
+  text-decoration: underline; }
 
 table.metadata-table a:hover {
+  color: black;
   text-decoration: underline; }
 
 table.metadata-table td p {
@@ -2185,10 +2208,8 @@ table.meta_data td {
   word-wrap: break-word; }
 
 .meta_data_comment {
-  padding: 20px 15px 30px 15px;
-  color: #7F7F7F;
-  font-size: 0.8em;
-  letter-spacing: 0.2ex; }
+  padding: 15px 0 0 15px;
+  color: silver; }
 
 .meta_data a[data-meta_term_id] {
   background: url(../images/icons/icon_toggle_browse_on.png) no-repeat -1px -4px;
@@ -2201,7 +2222,7 @@ table.meta_data td {
 
 #additional-metadata table {
   width: 600px;
-  margin: 40px 0; }
+  margin: 25px 0 20px 0; }
 
 #additional-metadata table td:first-child {
   width: 140px;
@@ -2222,6 +2243,7 @@ table.meta_data td {
 
 #further_information {
   margin: 1em 0;
+  line-height: 2em;
   min-height: 200px; }
 
 /* Metadata edit */
@@ -2324,7 +2346,7 @@ table.meta_data td {
 table.permissions input[type="checkbox"] {
   vertical-align: middle; }
 table.permissions tbody {
-  border-bottom: 1px solid #c8c8c8; }
+  border-bottom: 1px solid #E7E7E7; }
 table.permissions td {
   padding: 0.6em 0;
   font-size: 0.9em;
@@ -2332,7 +2354,9 @@ table.permissions td {
   border-style: none;
   vertical-align: middle; }
 table.permissions th {
-  padding: 1em 0; }
+  padding: 10px;
+  letter-spacing: 0;
+  font-size: 1.1em; }
 table.permissions th:first-child {
   width: 50%; }
 table.permissions .hint {
@@ -2347,13 +2371,27 @@ table.permissions tr.adder input {
   margin-left: 0.5em; }
 
 #additional-metadata table.permissions {
-  margin: 30px 10px; }
+  margin: 10px; }
   #additional-metadata table.permissions td {
-    color: #424242; }
+    color: #424242;
+    line-height: 1.2em;
+    padding: 10px; }
     #additional-metadata table.permissions td strong, #additional-metadata table.permissions td #additional-metadata table.permissions .adder td {
       letter-spacing: 0;
-      font-size: 1em; }
+      font-size: 1.2em; }
   #additional-metadata table.permissions .adder td {
+    font-weight: normal; }
+
+#detail_specification table.permissions {
+  margin: 0; }
+  #detail_specification table.permissions td {
+    color: #424242;
+    line-height: 1.2em;
+    padding: 10px; }
+    #detail_specification table.permissions td strong, #detail_specification table.permissions td #additional-metadata table.permissions .adder td {
+      letter-spacing: 0;
+      font-size: 1.2em; }
+  #detail_specification table.permissions .adder td {
     font-weight: normal; }
 
 #user_permissions, #group_permissions, #anyone_permissions {
@@ -2362,7 +2400,7 @@ table.permissions tr.adder input {
 #user_permissions td, #group_permissions td, #anyone_permissions td {
   border-bottom: 2px solid white;
   font-size: 0.9em;
-  padding-left: 10px; }
+  padding: 0 10px; }
 
 /* Footer */
 #inner-footer {
@@ -2574,12 +2612,8 @@ li.label {
   font-size: 0.9em;
   padding-top: 1px; }
 
-#further_information {
-  border-bottom: 1px solid #dddddd;
-  line-height: 2em; }
-
 .ui-tabs .meta_data {
-  padding: 1em 0 0 0; }
+  padding: 0; }
 
 ul[data-parent_meta_key] {
   background-color: #F2F2F2;
