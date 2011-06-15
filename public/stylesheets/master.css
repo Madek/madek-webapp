@@ -543,6 +543,10 @@ ul li {
   #content_body_result .page_title_left {
     padding-left: 10px; }
 
+#content_body_result .ui-tabs-panel {
+  border-left: 0;
+  border-right: 0; }
+
 .section_title {
   padding: 0 0 10px 0;
   font-weight: bold;
