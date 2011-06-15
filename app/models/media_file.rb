@@ -421,7 +421,10 @@ class MediaFile < ActiveRecord::Base
       else
         raise ArgumentError, "Can only handle encoding jobs for content types video/* and audio/*, not #{content_type}"
       end
-      job.start_by_url("#{ENCODING_BASE_URL}/download?media_file_id=#{self.id}&access_hash=#{self.access_hash}")
+      # Note: We cannot use media_entry_url(self.id) here because ENCODING_BASE_URL may include
+      # a username/password (e.g. http://test:foo@www.blah.com) for Zencoder or other encoding
+      # services to reach the file by.
+      job.start_by_url("#{ENCODING_BASE_URL}/media_entries/#{self.id}?access_hash=#{self.access_hash}")
       # Save Zencoder job ID so we can use it in subsequent requests
       update_attributes(:job_id => job.details['id'])
       return job
