@@ -267,3 +267,15 @@ end
 Then "the box should not have a hires download link" do
     find(:css, "tr.download-unit").all("a").count.should == 0
 end
+
+
+# TODO: Make this generic so that we can use sentences like "with metadata" and
+# "without metadata" etc.
+When "I click the download button for ZIP with metadata" do
+#     all(:css, "tr.download-unit").each do |tr|
+#       para = tr.find("p.download-info")
+#       if para.text =~ /^ZIP-Verzeichnis mit Datei und/
+#         tr.all("a").first.click
+#       end
+#     end
+end

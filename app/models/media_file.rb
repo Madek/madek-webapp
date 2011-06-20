@@ -63,7 +63,7 @@ class MediaFile < ActiveRecord::Base
     FileUtils.cp uploaded_data[:tempfile].path, file_storage_location
 
     # TODO in background?
-    import if meta_data.nil?
+    import if meta_data.blank?
   end
 
 # We need to ensure that the media file is not still being used by another media_entry.
@@ -104,16 +104,26 @@ class MediaFile < ActiveRecord::Base
   # the cornerstone of identity..
   # in an ideal world, this is farmed off to something that can crunch through large files _fast_
   def get_guid
-    # TODO in background?
-    # Hash or object, we should be seeing a pattern here by now.
-    if uploaded_data.kind_of? Hash
-      g = Digest::SHA256.hexdigest(uploaded_data[:tempfile].read)
-      uploaded_data[:tempfile].rewind
-    else
-      g = Digest::SHA256.hexdigest(uploaded_data.read)
-      uploaded_data.rewind
-    end
-    g
+    # This was the old GUID code in use up to June, 2011. Please leave to code here
+    # so we know why older files have different GUIDs. The new GUID code doesn't take
+    # the file hash into account at all, which is much faster at the expensve of a very
+    # low probability of file duplication.
+    # We can solve the file duplication problem elsewhere, e.g. by nightly hashing over all files
+    # that have identical size and assigning the media entries to the same file if there is a
+    # match on the hash. This would be a lot less expensive than doing it during upload.
+    #     # TODO in background?
+    #     # Hash or object, we should be seeing a pattern here by now.
+    #     if uploaded_data.kind_of? Hash
+    #       g = Digest::SHA256.hexdigest(uploaded_data[:tempfile].read)
+    #       uploaded_data[:tempfile].rewind
+    #     else
+    #       g = Digest::SHA256.hexdigest(uploaded_data.read)
+    #       uploaded_data.rewind
+    #     end
+    #     g
+
+    return UUIDTools::UUID.random_create.hexdigest
+    
   end
 
   def shard
@@ -411,7 +421,10 @@ class MediaFile < ActiveRecord::Base
       else
         raise ArgumentError, "Can only handle encoding jobs for content types video/* and audio/*, not #{content_type}"
       end
-      job.start_by_url("#{ENCODING_BASE_URL}/download?media_file_id=#{self.id}&access_hash=#{self.access_hash}")
+      # Note: We cannot use media_entry_url(self.id) here because ENCODING_BASE_URL may include
+      # a username/password (e.g. http://test:foo@www.blah.com) for Zencoder or other encoding
+      # services to reach the file by.
+      job.start_by_url("#{ENCODING_BASE_URL}/media_files/#{self.id}?access_hash=#{self.access_hash}")
       # Save Zencoder job ID so we can use it in subsequent requests
       update_attributes(:job_id => job.details['id'])
       return job
@@ -437,7 +450,7 @@ class MediaFile < ActiveRecord::Base
   end
   
   def orientation
-    if content_type =~ /image/
+    if content_type =~ /image/ and width and height
       # for Sphinx indexing of orientation as attributes: 0 = horizontal, 1 = vertical
       (width > height) ? 0 : 1
     end

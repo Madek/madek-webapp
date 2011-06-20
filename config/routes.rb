@@ -30,6 +30,8 @@ MAdeK::Application.routes.draw do
 ###############################################
 
   # TODO only [:index, :show] methods
+
+  resources :media_files
   resources :media_entries do
     collection do
       get :favorites, :to => "media_entries#index"

@@ -16,7 +16,7 @@
       = button_to _("Zugriffsberechtigungen editieren"), edit_multiple_permissions_media_entries_path, :method => :post
     - if @can_edit_set
       %li#batch-remove.action_btn
-        = button_to _("Aus Set entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete
+        = button_to _("Aus Set/Projekt entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete
     %li#batch-add-to-set.action_btn
       = form_tag add_member_media_set_url(@media_set || 1) do
         = select_tag "media_set_id", options_for_select([["Set/Projekt auswählen…", ""]] + @editable_sets.collect {|set| [set.title_and_user, set.id]})

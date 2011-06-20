@@ -143,10 +143,10 @@ module Resource
             end
          end 
 
-          resources = if self.respond_to?(:upload_session)
-            self.joins(:upload_session).where(:delta => delta, :upload_sessions => {:is_complete => true})
+          resources = if instance_methods.include?("upload_session")
+            joins(:upload_session).where(:delta => delta, :upload_sessions => {:is_complete => true})
           else
-            self.where(:delta => delta)
+            where(:delta => delta)
           end
 
           resources.each do |resource|
