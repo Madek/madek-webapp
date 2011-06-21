@@ -76,7 +76,7 @@ module MediaSetsHelper
       end
 
       b += content_tag :p, :style => "clear: right; margin-bottom: 15px; font-size:1.2em;", :class => "save" do
-        submit_tag _("Zu ausgewähltem Set hinzufügen…"), :style => "display: none; float: right; margin: 20px 0;"
+        submit_tag _("Zu ausgewähltem Set/Projekt hinzufügen…"), :style => "display: none; float: right; margin: 20px 0;"
       end
       
       b += content_tag :p, :style => "clear: both;" do

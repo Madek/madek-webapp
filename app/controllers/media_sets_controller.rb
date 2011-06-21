@@ -106,9 +106,9 @@ class MediaSetsController < ApplicationController
         new_members = @media_set.media_entries.push_uniq(media_entries)
       end
       flash[:notice] = if new_members > 1
-         "#{new_members} neue Medieneinträge wurden dem Set #{@media_set.title} hinzugefügt" 
+         "#{new_members} neue Medieneinträge wurden dem Set/Projekt #{@media_set.title} hinzugefügt" 
       elsif new_members == 1
-        "Ein neuer Medieneintrag wurden dem Set #{@media_set.title} hinzugefügt" 
+        "Ein neuer Medieneintrag wurde dem Set/Projekt #{@media_set.title} hinzugefügt" 
       else
         "Es wurden keine neuen Medieneinträge hinzugefügt."
       end
