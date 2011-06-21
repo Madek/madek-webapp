@@ -33,7 +33,7 @@ Feature: Do things to and with sets and projects
      And I wait for the CSS element "#text_media_set"
      And I fill in the set title with "After-Upload Set"
      And I press "Hinzufügen"
-     And I press "Zu ausgewähltem Set hinzufügen"
+     And I press "Zu ausgewähltem Set hinzufügen…"
      And Sphinx is forced to reindex
      And I go to the home page
     Then I should see "into the set after uploading"
@@ -65,7 +65,7 @@ Feature: Do things to and with sets and projects
      And I wait for the CSS element "#text_media_set"
      And I fill in the set title with "After-Upload Set"
      And I press "Hinzufügen"
-     And I press "Zu ausgewähltem Set hinzufügen"
+     And I press "Zu ausgewähltem Set hinzufügen…"
      And Sphinx is forced to reindex
      And I go to the home page
      And I click the arrow next to "Kohl, Helmut"
@@ -106,7 +106,7 @@ Feature: Do things to and with sets and projects
      And I wait for the CSS element "#text_media_set"
      And I fill in the set title with "Testing the link"
      And I press "Hinzufügen"
-     And I press "Zu ausgewähltem Set hinzufügen"
+     And I press "Zu ausgewähltem Set hinzufügen…"
      And Sphinx is forced to reindex
      And I go to the home page
     Then I should see "Link test"
