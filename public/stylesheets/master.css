@@ -1535,7 +1535,8 @@ table td {
   margin-top: 10px;
   margin-bottom: 30px;
   background: #FFF;
-  float: left; }
+  float: left;
+  clear: left; }
   #detail-action-bar img {
     padding-top: 2px; }
   #detail-action-bar ul li {
