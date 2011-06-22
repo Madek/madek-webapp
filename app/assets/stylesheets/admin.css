@@ -1,0 +1,144 @@
+/*
+ *= require reset
+ *= require admin/menu
+ *= require 960
+ *= require jquery/jquery-ui-1.8.12.custom
+ *= require jquery/datatable
+*/
+
+/***** Global *****/
+
+/* HTML5 tags */
+
+header, section, footer,
+aside, nav, article, figure {
+	display: block;
+}
+
+/* Body */
+
+body {
+	background: #f2f2f2;
+	color: #424242;
+	font-size: 87.5%; /* Base font size: 14px */
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	line-height: 1.429;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+}
+
+tr, th, td {
+	vertical-align: top;
+}
+
+th.right, td.right {
+	text-align: right;
+}
+
+/* Links */
+
+a {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+
+a.buttons {
+	color: #FFFFFF;
+}
+
+.buttons {
+	background: #888888;
+	/*border:1px solid #FFFFFF;*/
+	padding: 0.5em 0.8em;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	font-weight: regular;
+	font-size: 1em;
+	margin-right: 0.5em;
+	display: inline-block;
+}
+
+.buttons_big {
+	background: #41637C; 
+	color: #fff; 
+	padding: 0.8em;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	font-weight: regular;
+	font-size: 1em;
+	margin-bottom: 1em;
+}
+
+.buttons:hover {
+	background: #41637C;
+	/*border:1px solid #41637C;*/
+	text-decoration: none;
+}
+
+/***** Header *****/
+
+header {
+	position: relative;
+	background-color: #333333;
+}
+
+/* Logo */
+
+header h1 a {
+	display: block;
+	background: transparent url("logo-madek.png") top left no-repeat;
+	text-decoration: none;
+	text-indent: -999em;
+	height: 75px;
+	width: 325px;
+}
+
+.open {
+    background: transparent url(icons/toggler-arrow-opened.png) left 50% no-repeat;
+}
+
+.close {
+    background: transparent url(icons/toggler-arrow-closed.png) left 50% no-repeat;
+}
+
+.with_actions {
+	visibility: hidden;
+	text-align: right;
+}
+
+table { width: 100%; }
+th, td { padding: 0.5em; }
+input[type='text'], textarea { width: 25em; }
+
+/******** Loading ********/
+
+div#ajaxLoading {
+    position: fixed;
+	z-index: 999;
+	background-color: #DBEBF1;
+	border: 3px solid #41637c;
+    padding: 0.5em 2em 0.5em 2em;
+	color: #41637c;
+    font-weight: bold;
+    font-size: 28px;
+    text-align: center;
+	top: 0.5em;
+	right: 0.5em;
+	display: none;
+	opacity: 0.8;
+	-moz-background-clip:border;
+	-moz-background-origin:padding;
+	-moz-background-size:auto auto;
+	-moz-border-radius-bottomleft:5px;
+	-moz-border-radius-bottomright:5px;
+	-moz-border-radius-topleft:5px;
+	-moz-border-radius-topright:5px;
+}
+
+ul.columns_3 {
+	-moz-column-count: 3;
+	-moz-column-width: 6em;	
+}

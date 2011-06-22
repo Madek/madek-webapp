@@ -1,4 +1,4 @@
-/* $ sass --watch public/stylesheets/scss:public/stylesheets */
+/* $ sass --watch public/stylesheets/scss:app/assets/stylesheets */
 
 /**
  * HTML5 ✰ Boilerplate
@@ -226,7 +226,7 @@ nav {
 /* See: http://css-tricks.com/css-image-replacement/ for proper CSS image replacement techniques */
 
 .main_nav_upload {
-	background: url(../images/icons/nav_upload_spr.png) no-repeat 0 0;
+	background: url(icons/nav_upload_spr.png) no-repeat 0 0;
 	border-style: none;
 	width: 32px;
 	height: 32px;
@@ -240,7 +240,7 @@ nav {
 }
 
 .main_nav_browse {
-	background: url(../images/icons/main_nav_buttons_browse.png) no-repeat 1px 0;
+	background: url(icons/main_nav_buttons_browse.png) no-repeat 1px 0;
 	border-style: none;
 	width: 32px;
 	height: 32px;
@@ -272,7 +272,7 @@ nav {
 /* Logos */
 
 .logo_left {
-	background: transparent url("../images/logo-madek.png") top left no-repeat;
+	background: transparent url("logo-madek.png") top left no-repeat;
 	height: 40px;
 	width: 220px;
 	float: left;
@@ -283,7 +283,7 @@ nav {
 }
 
 .logo_right {
-	background: transparent url("../images/logo-zhdk.png") top right no-repeat;
+	background: transparent url("logo-zhdk.png") top right no-repeat;
 	height: 40px;
 	width: 100px;
 	float: right;
@@ -323,7 +323,7 @@ nav {
     background-color: rgba(255, 255, 255, 0.4);
 	}
 	input[type="submit"] {
-		background: url(../images/icons/nav_search_spr.png) no-repeat -1px 0;
+		background: url(icons/nav_search_spr.png) no-repeat -1px 0;
 		border-style: none;
 		width: 32px;
 		height: 32px;
@@ -429,19 +429,19 @@ nav {
 }
 
 .item_line_me {
-  background: url(../images/icons/icon_me_small_white.png) no-repeat 0 12px;
+  background: url(icons/icon_me_small_white.png) no-repeat 0 12px;
 }
 .item_line_set {
-  background: url(../images/icons/icon_set_small_white.png) no-repeat 0 9px;
+  background: url(icons/icon_set_small_white.png) no-repeat 0 9px;
 }
 .item_line_project {
-  background: url(../images/icons/icon_project_small_white.png) no-repeat 0 8px;
+  background: url(icons/icon_project_small_white.png) no-repeat 0 8px;
 }
 .item_line_fav {
-  background: url(../images/icons/icon_fav_small_white.png) no-repeat -1px 6px;
+  background: url(icons/icon_fav_small_white.png) no-repeat -1px 6px;
 }
 .item_line_workgroup {
-  background: url(../images/icons/icon_workgroup_small_white.png) no-repeat -1px 7px;
+  background: url(icons/icon_workgroup_small_white.png) no-repeat -1px 7px;
 }
 
 
@@ -621,7 +621,7 @@ ul li { float: left; }
   h3.filter_header {
     color: #FFFFFF;
     padding: 11px 0 10px 30px;
-    background: url(../images/icons/icon_filter_white.png) no-repeat 10px 8px;
+    background: url(icons/icon_filter_white.png) no-repeat 10px 8px;
     background-color: #323232;
     font-size: 0.9em;
     font-weight: bold;
@@ -818,7 +818,7 @@ ul li { float: left; }
 	height: 155px;
 	font-size: 1em;
 	line-height: 150px;
-	background: url(../images/icons/icon_tn_set.png) no-repeat 0 3px;
+	background: url(icons/icon_tn_set.png) no-repeat 0 3px;
 	margin: 0 25px 10px 0;
 	position: relative;
 }
@@ -842,7 +842,7 @@ ul li { float: left; }
   height: 150px;
   font-size: 1em;
   line-height: 144px;
-  background: url(../images/icons/icon_tn_project.png) no-repeat 0 1px;
+  background: url(icons/icon_tn_project.png) no-repeat 0 1px;
   margin-bottom: 10px;
 }
 
@@ -853,7 +853,7 @@ ul li { float: left; }
   height: 150px;
   font-size: 1em;
   line-height: 144px;
-  background: url(../images/icons/icon_tn_project.png) no-repeat 0 -2px;
+  background: url(icons/icon_tn_project.png) no-repeat 0 -2px;
   margin: 0 25px 10px 0;
 }
 
@@ -1094,7 +1094,7 @@ button.dark:hover {
 .button_delete {
 	width: 18px;
 	height:  18px;
-	background: url('../images/icons/delete_master_sprite.png') bottom;
+	background: url('icons/delete_master_sprite.png') bottom;
 	text-indent: 999em;
 	overflow: hidden;
 	display: inline-block;
@@ -1181,7 +1181,7 @@ button.dark:hover {
 }
 
 #set_info h3 {
-	background: url('../images/icons/icon_set_small.png') no-repeat 0 1px;
+	background: url('icons/icon_set_small.png') no-repeat 0 1px;
 	padding-bottom: 0.5em;
 	text-indent: 27px;
 }
@@ -1264,7 +1264,7 @@ button.dark:hover {
 	h4 {
 		font-size: 0.9em;
 		padding: 2px 5px 0 20px;
-		background: url(/images/icons/icon_taskbar_edit_white.png) no-repeat 0 7px;
+		background: url(icons/icon_taskbar_edit_white.png) no-repeat 0 7px;
 	}
 
 	ul {
@@ -1602,7 +1602,7 @@ form.new_person {
 
 
 li.different_values {
-    background: red url(../images/stripe_1.png);
+    background: red url(stripe_1.png);
 }
   	
 table thead { 
@@ -1921,7 +1921,7 @@ form#set_media_sets input[type="submit"] {
   	span {
   		letter-spacing: 0;
   		font-size: 1.7em;
-  		background: url(/images/icons/icon_set_small.png) center left no-repeat;
+  		background: url(icons/icon_set_small.png) center left no-repeat;
       padding-left: 20px;
   	}
   	.thumb_box_set {
@@ -1951,7 +1951,7 @@ form#set_media_sets input[type="submit"] {
 	}
 	
 	.set-box.project-box span {
-    background: url(/images/icons/icon_project_small.png) center left no-repeat;
+    background: url(icons/icon_project_small.png) center left no-repeat;
 	}
 	
 }
@@ -2483,12 +2483,12 @@ table.meta_data td {
 }
 
 .meta_data a[data-meta_term_id] {
-  background: url(../images/icons/icon_toggle_browse_on.png) no-repeat -1px -4px;
+  background: url(icons/icon_toggle_browse_on.png) no-repeat -1px -4px;
   padding-left: 20px;
 }
 
 .meta_data a[data-meta_term_id].active {
-  background: url(../images/icons/icon_toggle_browse_off.png) no-repeat -1px -4px;
+  background: url(icons/icon_toggle_browse_off.png) no-repeat -1px -4px;
   padding-left: 20px;
   color: black;
 }
@@ -2828,7 +2828,7 @@ table.permissions {
   
   p {
     padding: 5px 0 7px 20px;
-    background: url(../images/icons/icon_toggle_browse_on.png) no-repeat 0 3px;
+    background: url(icons/icon_toggle_browse_on.png) no-repeat 0 3px;
     font-size: 1em;
     line-height: 1.2em;
     letter-spacing: 0.1ex;
@@ -2841,7 +2841,7 @@ table.permissions {
 #browsing_media_entries p:hover {
   text-decoration: underline;
   color: black;
-  background: url(../images/icons/icon_toggle_browse_off.png) no-repeat 0 3px;
+  background: url(icons/icon_toggle_browse_off.png) no-repeat 0 3px;
   cursor: pointer;
 }
 

@@ -1,6 +1,14 @@
 #search
   #quick-search
-    %form{:action => search_path, :method => :get}
+    :ruby
+      path = case request[:controller]
+        when "media_sets"
+          params[:type] ||= (@media_set and @media_set.is_a?(Media::Project) ? "projects" : nil)
+          media_sets_path(:type => params[:type])
+        else
+          media_entries_path
+      end
+    %form{:action => path, :method => :get}
       #search-query.basic
         %div
           = text_field_tag 'query', params[:query], :id => 'query'

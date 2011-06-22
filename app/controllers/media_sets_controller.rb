@@ -24,6 +24,9 @@ class MediaSetsController < ApplicationController
       end
     end
 
+    #3105#
+    @_media_set_ids = ids
+
     respond_to do |format|
       format.html
     end

@@ -1,5 +1,5 @@
 - content_for :head do
-  = javascript_include_tag "madek_ajax_upload", "jquery/plugins/jquery.filestyle.js"
+  = javascript_include_tag "madek_ajax_upload", "plugins/jquery.filestyle.js"
 
 .container_12.clearfix
   %section#content_body.clearfix
@@ -8,7 +8,7 @@
       $(document).ready(function () {
         activate_step(1);
         $("#uploaded_data").filestyle({ 
-          image: "/images/icons/button_choose_file.png",
+          image: "/assets/icons/button_choose_file.png",
           imageheight : 36,
           imagewidth : 215,
           width : 0}

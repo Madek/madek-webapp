@@ -37,4 +37,70 @@ class Media::Project < Media::Set
     mds.collect(&:value).flatten.uniq.compact
   end
 
+###################################################
+
+=begin
+  # NOTE config.gem "rgl", :lib => "rgl/adjacency"
+  # http://rgl.rubyforge.org/ - http://www.graphviz.org/
+  # require 'rgl/adjacency'
+  require 'rgl/dot'
+  # TODO use ruby-graphviz gem instead ??
+  def graph
+    current_user = User.find 159123
+    viewable_ids = current_user.accessible_resource_ids
+    mes = MediaEntry.find(media_entry_ids & viewable_ids)
+
+    g = RGL::DOT::Digraph.new({ 'name' => title,
+                                'label' => "#{title}\n#{DateTime.now.to_formatted_s(:date_time)}" })
+
+    mes.each do |media_entry|
+      g << RGL::DOT::Node.new({'name' => "#{media_entry.id}" })
+    end 
+
+
+#=begin
+    individual_contexts.each do |context|
+      sg_keys = RGL::DOT::Subgraph.new({ 'name' => "#{context}",
+                                        'label' => "#{context}",
+                                        'color' => '#A1D4F1'})
+
+      context.meta_keys.where(:object_type => "Meta::Term").each do |meta_key|
+        sg_keys << RGL::DOT::Node.new({'name' => meta_key.label  })
+
+        meta_key.meta_terms.each do |meta_term|
+          sg_keys << RGL::DOT::Node.new({'name' => "#{meta_term}" })
+
+          color = "#"
+          3.times { c = rand(8); color << "#{c}"*2 }
+          media_entries.each do |media_entry|
+            sg_keys << RGL::DOT::Node.new({'name' => "#{media_entry.id}" })
+
+            sg_keys << RGL::DOT::DirectedEdge.new({'from' => "#{meta_term}",
+                                                    'to' => "#{media_entry.id}",
+                                                    'arrowhead' => 'none',
+                                                    'arrowtail' => 'none',
+                                                    'headport' => 'w',
+                                                    'tailport' => 'e',
+                                                    'color' => color })
+          end 
+        end
+      end
+      
+      g << sg_keys
+    end
+#=end
+    
+    fmt = 'svg' # 'png'
+    dotfile = "app/assets/images/graphs/project_#{id}"
+    src = dotfile + ".dot"
+    dot = dotfile + "." + fmt
+
+    File.open(src, 'w') do |f|
+      f << g.to_s << "\n"
+    end
+    system( "/usr/local/bin/neato -T#{fmt} #{src} -o #{dot}" ) # dot # neato # twopi # circo # fdp # sfdp 
+    dot.gsub('app/assets/images/', '/assets/')
+  end
+=end
+
 end

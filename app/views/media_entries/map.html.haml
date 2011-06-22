@@ -15,6 +15,8 @@
         title: "#{@media_entry.to_s}"
     });
 
+    /// workaround to correctly display the map within a jQuery tab,
+    /// preventing the grey background
     var listener = google.maps.event.addListener(map, 'tilesloaded', function() {
       map.setCenter(latlng);
       google.maps.event.trigger(map, 'resize');
@@ -22,6 +24,7 @@
     google.maps.event.addListener(map, 'dragstart', function() {
       google.maps.event.removeListener(listener);
     });
+    ///
   }
     
   $(document).ready(function () {

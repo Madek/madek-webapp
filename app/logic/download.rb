@@ -7,6 +7,7 @@ class Download
       session = env['rack.session']
       
       current_user = User.find_by_id(session[:user_id]) if session[:user_id]
+      # TODO permission check
 
 # e.g.
 # 'zip' param present means original file + xml sidecar of meta-data all zipped as one file

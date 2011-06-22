@@ -172,9 +172,9 @@ class MetaDatum < ActiveRecord::Base
           other_value.first.is_a?(Meta::Date) && (other_value.first.free_text == value.first.free_text)
         elsif meta_key.object_type == "Keyword"
           referenced_meta_term_ids = Keyword.where(:id => other_value).all.map(&:meta_term_id)
-          deserialized_value.map(&:meta_term_id).same_elements?(referenced_meta_term_ids)
+          deserialized_value.map(&:meta_term_id).uniq.sort.eql?(referenced_meta_term_ids.uniq.sort)
         else
-          value.same_elements?(other_value) # patch of Array class, works for integers and other simple types
+          value.uniq.sort.eql?(other_value.uniq.sort)
         end
       when NilClass
         other_value.blank?

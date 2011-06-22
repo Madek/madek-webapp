@@ -278,7 +278,7 @@ class MediaFile < ActiveRecord::Base
         return "http://lorempixum.com/#{w}/#{h}/#{cat}/#{n}"
       else
         size = (size == :large ? :medium : :small)
-        output = File.read("#{Rails.root}/public/images/#{preview}_#{size}.png")
+        output = File.read("#{Rails.root}/app/assets/images/#{preview}_#{size}.png")
         return "data:#{content_type};base64,#{Base64.encode64(output)}"
     end
   end
