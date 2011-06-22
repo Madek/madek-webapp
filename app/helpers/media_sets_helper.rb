@@ -175,6 +175,7 @@ module MediaSetsHelper
         else
           contexts = project.individual_contexts
           meta_data.collect do |meta_datum|
+            meta_datum.meta_key.reload #tmp# TODO remove this line, is an Identity Map problem ??
             context = contexts.detect {|c| meta_datum.meta_key.meta_contexts.include?(c) }
             next unless context
             definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
