@@ -57,14 +57,6 @@ class MetaKey < ActiveRecord::Base
 
 ########################################################
 
-  def self.all_cached
-    Rails.cache.fetch("meta_keys", :expires_in => 10.minutes) do
-      all
-    end    
-  end
-
-########################################################
-
 # Return a meta_key matching the provided key-map
 #
 # args: a keymap (fully namespaced)

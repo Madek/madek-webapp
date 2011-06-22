@@ -24,8 +24,6 @@ module MAdeK
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
     config.active_record.identity_map = true 
 
-    #Rails3.1# config.cache_store = :mem_cache_store, {:namespace => "MAdeK_#{Rails.env}_#{Rails.root}"}
-
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
