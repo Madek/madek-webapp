@@ -23,6 +23,7 @@ class RedClothMadek
     text = media_tag(text)
     text = thumbnail_tag(text)
     text = video_tag(text)
+    text = include_tag(text)
     text
   end
 
