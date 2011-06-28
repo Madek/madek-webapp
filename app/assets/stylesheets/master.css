@@ -605,7 +605,7 @@ ul li {
   letter-spacing: 0; }
 
 .filter_area {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.8);
   box-shadow: 1px 0 3px rgba(150, 150, 150, 0.6);
   color: #FFFFFF;
   position: fixed;
@@ -681,7 +681,7 @@ ul li {
   letter-spacing: 0.1ex;
   line-height: 1em; }
 .filter_box #filter-query .filter_content {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.8);
   color: #424242;
   max-height: 222px;
   overflow-x: hidden;

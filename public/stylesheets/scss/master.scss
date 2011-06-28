@@ -592,7 +592,7 @@ ul li { float: left; }
 .page_title_left #term { display: inline-block; font-weight: normal; font-size: 0.6em; letter-spacing: 0; }
 
 .filter_area {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.8);
   box-shadow: 1px 0 3px rgba(150, 150, 150, 0.6);
   color: #FFFFFF;
   position: fixed;
@@ -656,7 +656,7 @@ ul li { float: left; }
   h4 { font-size: 1.2em; }
   #filter-query ul { margin: 0.9em 0 0.5em 15px; }
   #filter-query ul li { padding: 0 0 5px 0; float: none; font-size: 0.8em; letter-spacing: 0.1ex; line-height: 1em; }
-  #filter-query .filter_content { background-color: rgba(255, 255, 255, 0.9); color: #424242; max-height: 222px; overflow-x: hidden; overflow-y: auto; border-bottom: 1px solid #5f5f5f; }
+  #filter-query .filter_content { background-color: rgba(255, 255, 255, 0.8); color: #424242; max-height: 222px; overflow-x: hidden; overflow-y: auto; border-bottom: 1px solid #5f5f5f; }
   input[type="checkbox"] { margin: 0 5px 0 0; }
   .filter_footer { text-align: right; padding: 15px;}
   .filter_footer p {margin: 8px 0 0;}
