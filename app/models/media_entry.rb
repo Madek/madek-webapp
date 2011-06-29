@@ -151,43 +151,48 @@ class MediaEntry < ActiveRecord::Base
                       end
 
       blob = exiftool_subjective(self.media_file.file_storage_location, group_tags)
-      blob.each do |tag_array_entry|
-        tag_array_entry.each do |entry|
-          entry_key = entry[0]
-          entry_value = entry[1]
-          next if ignore_fields.detect {|e| entry_key =~ e}
-          
-          if entry_key =~ /^XMP-(expressionmedia|mediapro):UserFields/
-            Array(entry_value).each do |s|
-              entry_key, entry_value = s.split('=', 2)
+      process_metadata_blob(blob, ignore_fields)
+  end
 
-              # TODO priority ?? 
-              case entry_key
-                when "Datum", "Datierung"
-                  meta_key = MetaKey.find_by_label("portrayed object dates")
-                when "Autor/in"
-                  meta_key = MetaKey.find_by_label("author")
-                else
-                  next
-              end
 
-              # TODO dry
-              next if entry_value.blank? or entry_value == "-" or meta_data.detect {|md| md.meta_key == meta_key } # we do sometimes receive a blank value in metadata, hence the check. 
-              entry_value.gsub!(/\\n/,"\n") if entry_value.is_a?(String) # OPTIMIZE line breaks in text are broken somehow
-              meta_data.build(:meta_key => meta_key, :value => entry_value )
+  def process_metadata_blob(blob, ignore_fields = [])
+    blob.each do |tag_array_entry|
+      tag_array_entry.each do |entry|
+        entry_key = entry[0]
+        entry_value = entry[1]
+        next if ignore_fields.detect {|e| entry_key =~ e}
+
+        if entry_key =~ /^XMP-(expressionmedia|mediapro):UserFields/
+          Array(entry_value).each do |s|
+            entry_key, entry_value = s.split('=', 2)
+
+            # TODO priority ??
+            case entry_key
+              when "Datum", "Datierung"
+                meta_key = MetaKey.find_by_label("portrayed object dates")
+              when "Autor/in"
+                meta_key = MetaKey.find_by_label("author")
+              else
+                next
             end
-          else
-            meta_key = MetaKey.meta_key_for(entry_key) #working here#10 , MetaContext.file_embedded)
 
-            next if entry_value.blank? or meta_data.detect {|md| md.meta_key == meta_key } # we do sometimes receive a blank value in metadata, hence the check. 
+            # TODO dry
+            next if entry_value.blank? or entry_value == "-" or meta_data.detect {|md| md.meta_key == meta_key } # we do sometimes receive a blank value in metadata, hence the check.
             entry_value.gsub!(/\\n/,"\n") if entry_value.is_a?(String) # OPTIMIZE line breaks in text are broken somehow
             meta_data.build(:meta_key => meta_key, :value => entry_value )
           end
+        else
+          meta_key = MetaKey.meta_key_for(entry_key) #working here#10 , MetaContext.file_embedded)
 
+          next if entry_value.blank? or meta_data.detect {|md| md.meta_key == meta_key } # we do sometimes receive a blank value in metadata, hence the check.
+          entry_value.gsub!(/\\n/,"\n") if entry_value.is_a?(String) # OPTIMIZE line breaks in text are broken somehow
+          meta_data.build(:meta_key => meta_key, :value => entry_value )
         end
-      end
-  end
 
+      end
+    end
+  end
+  
 #temp#
 #  def extract_mediapro_userfields
 #  end
