@@ -59,39 +59,52 @@ class Upload
       
       ThinkingSphinx.deltas_enabled = false
 
-        files = if !params['uploaded_data'].blank?
-          params['uploaded_data']
-        elsif !params['import_path'].blank?
-          Dir[File.join(params['import_path'], '**', '*')]
-        else
-          nil
-        end
+      files = if !params['uploaded_data'].blank?
+        params['uploaded_data']
+      elsif !params['import_path'].blank?
+        Dir[File.join(params['import_path'], '**', '*')]
+      else
+        nil
+      end
 
-        unless files.blank?
-          # OPTIMIZE append if already exists (multiple grouped posts)
-          #temp# upload_session = current_user.upload_sessions.latest
-          upload_session = current_user.upload_sessions.create
+      unless files.blank?
+        # OPTIMIZE append if already exists (multiple grouped posts)
+        #temp# upload_session = current_user.upload_sessions.latest
+        upload_session = current_user.upload_sessions.create
 
-          files.each do |f|
-            # Mac OS X sometimes lies about the content type, so we have to detect the supplied type
-            # separately from the true type
-            uploaded_data = if params['uploaded_data']
-              UploadUtility.assign_type(f)
-              f
-            else
-              { :type=> UploadUtility.detect_type(f),
-                :tempfile=> File.new(f, "r"),
-                :filename=> File.basename(f)}
-            end
-            
-            # if uploaded_data['filename'].include?
-            # uploaded_data['current_user'] = current_user.login # for the use of media_file, if we get a zipfile
-            media_file = MediaFile.create(:uploaded_data => uploaded_data)
-            media_entry = upload_session.media_entries.create(:media_file => media_file)
-
-            uploaded_data[:tempfile].close unless params['uploaded_data']
+        files.each do |f|
+          # Mac OS X sometimes lies about the content type, so we have to detect the supplied type
+          # separately from the true type
+          uploaded_data = if params['uploaded_data']
+            UploadUtility.assign_type(f)
+            f
+          else
+            { :type=> UploadUtility.detect_type(f),
+              :tempfile=> File.new(f, "r"),
+              :filename=> File.basename(f)}
           end
+
+          # if uploaded_data['filename'].include?
+          # uploaded_data['current_user'] = current_user.login # for the use of media_file, if we get a zipfile
+          media_file = MediaFile.create(:uploaded_data => uploaded_data)
+          media_entry = upload_session.media_entries.create(:media_file => media_file)
+          
+          # If this is a path-based upload for e.g. video files, it's almost impossible that we've imported the title
+          # correctly because some file formats don't give us that metadata. Let's overwrite with an auto-import default then.
+          # TODO: We should get this information from a YAML file that's uploaded with the media file itself instead.
+          if !params[:uploaded_data]
+            # TODO: Extract metadata from separate YAML file here, along with refactoring MediaEntry#process_metadata_blob and friends
+            mandatory_key_ids = MetaKey.where(:label => ['title', 'copyright notice']).collect(&:id)
+            if media_entry.meta_data.where(:meta_key_id => mandatory_key_ids).empty?
+              mandatory_key_ids.each do |key_id|
+                media_entry.meta_data.create(:meta_key_id => key_id, :value => 'Auto-created default during import')
+              end
+            end
+          end
+
+          uploaded_data[:tempfile].close unless params['uploaded_data']
         end
+      end
 
       ThinkingSphinx.deltas_enabled = true
 
@@ -111,6 +124,4 @@ class Upload
       end
   end
 
-
-  
 end
