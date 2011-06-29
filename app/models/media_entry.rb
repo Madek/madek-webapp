@@ -112,14 +112,14 @@ class MediaEntry < ActiveRecord::Base
   # - used by metal/download.rb to collect the key_map tags and their values for writing into the 
   # copy of the original media file that the user is about to download.
 
-# Handler for extracting some subjective meta-data from whatever file has been handed to us
-#
-#--  
-# TODO - more sophisticated importing validations.. some files have a key with a blank entry.. useful! (ie the import will fail if we allow blanks through)
-# TODO - generally everything we get via exiftool will have File and System tags.. do we really want this in subjective MD?
-# TODO - IFD0 tags will contain a camera manufacturer, possibly followed by that manufacturers own data. Parse or not to parse..
-# NOTE - java jar files are zipped, hence the group tag in application
-#++
+  # Handler for extracting some subjective meta-data from whatever file has been handed to us
+  #
+  #--
+  # TODO - more sophisticated importing validations.. some files have a key with a blank entry.. useful! (ie the import will fail if we allow blanks through)
+  # TODO - generally everything we get via exiftool will have File and System tags.. do we really want this in subjective MD?
+  # TODO - IFD0 tags will contain a camera manufacturer, possibly followed by that manufacturers own data. Parse or not to parse..
+  # NOTE - java jar files are zipped, hence the group tag in application
+  #++
   def extract_subjective_metadata
      return unless ["image", "audio", "video"].any? {|w| self.media_file.content_type.include? w }
 
@@ -128,7 +128,7 @@ class MediaEntry < ActiveRecord::Base
                     when /image/ 
                       #NOTE - these two really don't bring much to the party, except broken character encodings.. # 'IPTC:', 'IPTC2']
                       ['XMP-madek', 'XMP-dc', 'XMP-photoshop', 'XMP-iptcCore', 'XMP-xmpRights', 'XMP-expressionmedia', 'XMP-mediapro']
-                    when /video/ # exiftool has no idea about .mkv containers
+                    when /video/
                       ['QuickTime', 'Track', 'Composite', 'RIFF', 'BMP', 'Flash', 'M2TS', 'AC3', 'H264' ] # OPTIMIZE - some of these may move to Objective Metadata
                     when /audio/ 
                       ['MPEG', 'ID3', 'Track', 'Composite', 'ASF', 'FLAC', 'Vorbis' ] # OPTIMIZE - some of these may move to Objective Metadata

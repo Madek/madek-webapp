@@ -297,7 +297,7 @@ class MediaFile < ActiveRecord::Base
 
 # IMAGES 
   def import_image_metadata(full_path_file)
-    self.meta_data = {}
+    self.meta_data ||= {}
     group_tags = ['File:', 'Composite:', 'IFD', 'ICC-','ICC_Profile','XMP-exif', 'XMP-xmpMM', 'XMP-aux', 'XMP-tiff', 'Photoshop:', 'ExifIFD:', 'JFIF', 'IFF:', 'GPS:', 'PNG:' ] #'System:' leaks system info
     ignore_fields = ['UserComment','ImageDescription', 'ProfileCopyright', 'System:']
     exif_hash = {}
@@ -319,7 +319,7 @@ class MediaFile < ActiveRecord::Base
 
   def import_audio_video_metadata(full_path_file)
     # TODO: merge with import_image_metadata, make fields configurable in :options hash
-    self.meta_data = {}
+    self.meta_data ||= {}
 
     # The Tracks: entries describe video, audio or subtitle tracks present in the container. We extract 10
     # because we think no one would be mad enough to have more.
