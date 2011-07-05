@@ -19,7 +19,8 @@
         = button_to _("Aus Set/Projekt entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete
     %li#batch-add-to-set.action_btn
       = form_tag add_member_media_set_url(@media_set || 1) do
-        = select_tag "media_set_id", options_for_select([["Set/Projekt auswählen…", ""]] + @editable_sets.collect {|set| [set.title_and_user, set.id]})
+        - editable_sets = Media::Set.accessible_by(current_user, :edit)
+        = select_tag "media_set_id", options_for_select([["Set/Projekt auswählen…", ""]] + editable_sets.collect {|set| [set.title_and_user, set.id]})
         = submit_tag "Hinzufügen"
     .clear
   #selected_items.clearfix

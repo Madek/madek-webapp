@@ -1,0 +1,8 @@
+= render :partial => "media_entries/batch_bar"
+
+#results
+
+:javascript
+  $(document).ready(function () {
+    display_results(#{@json});
+  });

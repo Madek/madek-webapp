@@ -39,8 +39,8 @@ class MediaSetsController < ApplicationController
     @paginated_media_entry_ids = @_media_entry_ids.paginate(:page => params[:page], :per_page => PER_PAGE.first)
     @json = Logic.data_for_page(@paginated_media_entry_ids, current_user).to_json
 
-    @editable_sets = Media::Set.accessible_by(current_user, :edit)
-    @can_edit_set = @editable_sets.include?(@media_set)
+    editable_sets = Media::Set.accessible_by(current_user, :edit)
+    @can_edit_set = editable_sets.include?(@media_set)
 
     respond_to do |format|
       format.html

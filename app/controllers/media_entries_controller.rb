@@ -52,9 +52,6 @@ class MediaEntriesController < ApplicationController
 
     ########################################################################
 
-    # OPTIMIZE only used for html and js formats, move to controller helper
-    @editable_sets = Media::Set.accessible_by(current_user, :edit)
-    
     respond_to do |format|
       format.html
       format.js { render :json => @json }

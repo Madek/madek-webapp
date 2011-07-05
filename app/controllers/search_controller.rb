@@ -42,7 +42,7 @@ class SearchController < ApplicationController
     @projects = Logic.enriched_resource_data(@paginated_project_ids, current_user, resource_type)
 
     respond_to do |format|
-      format.html { @editable_sets = Media::Set.accessible_by(current_user, :edit) }
+      format.html
       format.js { 
         render :json => case params[:page_type]
           when "media_entry_tab"
