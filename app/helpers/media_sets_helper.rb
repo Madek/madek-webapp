@@ -200,7 +200,7 @@ module MediaSetsHelper
       project.individual_contexts.each do |context|
         haml_tag :h3, context
         haml_tag :p, context.description
-        context.meta_keys.where(:object_type => "Meta::Term").each do |meta_key|
+        context.meta_keys.for_meta_terms.each do |meta_key|
           definition = meta_key.meta_key_definitions.for_context(context)
           haml_tag :h4, definition.meta_field.label
           haml_tag :div, :class => "columns_3" do

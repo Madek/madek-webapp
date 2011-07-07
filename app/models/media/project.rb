@@ -64,7 +64,7 @@ class Media::Project < Media::Set
                                         'label' => "#{context}",
                                         'color' => '#A1D4F1'})
 
-      context.meta_keys.where(:object_type => "Meta::Term").each do |meta_key|
+      context.meta_keys.for_meta_terms.each do |meta_key|
         sg_keys << RGL::DOT::Node.new({'name' => meta_key.label  })
 
         meta_key.meta_terms.each do |meta_term|

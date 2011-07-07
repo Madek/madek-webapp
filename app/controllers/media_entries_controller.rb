@@ -93,7 +93,8 @@ class MediaEntriesController < ApplicationController
   end
   
   def browse
-    
+    # TODO merge with index
+    @viewable_ids = current_user.accessible_resource_ids
   end
 
 #####################################################

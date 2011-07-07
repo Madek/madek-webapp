@@ -24,76 +24,44 @@
         %h5
           Referenz-Medieneintrag
         %div.thumb_box
-          %img{:src => "http://lorempixum.com/100/100/transport/4", :class => "img_reference"}
+          %img{:src => "#{@media_entry.media_file.thumb_base64(:small_125)}", :class => "img_reference"}
         .clear
-        %h4
-          Titel
-        %p
-          Anything
-        %h4
-          Autor/in
-        %p
-          Peter Muster
-        %h4
-          Datierung
-        %p
-          2010
-        %h4
-          Rechte
-        %p
-          Peter Muster
+        - context = MetaContext.core
+        - @media_entry.meta_data_for_context(context).collect do |meta_datum|
+          - definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
+          %h4{:style => "margin-top: 10px;"}= definition.meta_field.label.to_s
+          = render :partial => "meta_data/show", :locals => { :meta_datum => meta_datum, :resource => @media_entry, :context => context }
       
   %div.dyncolumn_right.clearfix
-    %ul.browse
-      %li
-        %a.toggler{:href => "#"}
-          %div.browse_key
-            %div.toggler-arrow
-            %h5
-              Key 1:
-              %span Value (75)
-          .clear
-        %div.browse_thumbs
-          - 36.times do
-            %div.thumb_mini
-              %a{:href => "#"}
-                %img{:src => "http://lorempixum.com/100/100/transport/1", :alt => "tn"}
-          %div.browse_thumbs_more
-            +
+    - @media_entry.meta_data.for_meta_terms.each do |meta_datum|
+      %ul.browse
+        - meta_datum.deserialized_value.each do |meta_term|
+          :ruby
+            media_entry_ids = meta_term.meta_data(meta_datum.meta_key).select{|md| md.resource_type == "MediaEntry"}.collect(&:resource_id)
+            media_entry_ids.delete(@media_entry.id)
+            media_entries = MediaEntry.find(media_entry_ids & @viewable_ids)
+            c = media_entries.count
+            next if c.zero?
+          %li
+            %a.toggler{:href => "#"}
+              %div.browse_key
+                %div.toggler-arrow
+                %h5
+                  = meta_datum.meta_key
+                  \:
+                  %span
+                    = meta_term
+                    = "(#{c})"
+              .clear
+            %div.browse_thumbs
+              - media_entries.each do |me|
+                %div.thumb_mini
+                  %a{:href => "#"}
+                    %img{:src => "#{me.media_file.thumb_base64(:small_125)}"}
+              %div.browse_thumbs_more
+                +
+          %clear
       %clear
-      %li
-        %a.toggler{:href => "#"}
-          %div.browse_key
-            %div.toggler-arrow
-            %h5
-              Key 1:
-              %span Value (40)
-          .clear
-        %div.browse_thumbs
-          - 36.times do
-            %div.thumb_mini
-              %a{:href => "#"}
-                %img{:src => "http://lorempixum.com/100/100/transport/1", :alt => "tn"}
-          %div.browse_thumbs_more
-            +
-    %clear
-    %ul.browse
-      %li
-        %a.toggler{:href => "#"}
-          %div.browse_key
-            %div.toggler-arrow
-            %h5
-              Key 2:
-              %span Value (22)
-          .clear
-        %div.browse_thumbs
-          - 36.times do
-            %div.thumb_mini
-              %a{:href => "#"}
-                %img{:src => "http://lorempixum.com/100/100/transport/1", :alt => "tn"}
-          %div.browse_thumbs_more
-            +              
-    %clear
     
 :javascript
   $(document).ready(function () {

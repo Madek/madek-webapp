@@ -15,6 +15,8 @@ class MetaDatum < ActiveRecord::Base
   
   attr_accessor :keep_original_value
 
+  scope :for_meta_terms, joins(:meta_key).where(:meta_keys => {:object_type => "Meta::Term"}) 
+
   before_save do
     case meta_key.object_type
       when nil, "Meta::Country"

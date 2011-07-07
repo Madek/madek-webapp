@@ -51,7 +51,7 @@ module Meta
           # TODO fetch id directly
           [x.meta_field.label.try(:id), x.meta_field.description.try(:id), x.meta_field.hint.try(:id)]
         end
-        ids += MetaKey.where(:object_type => "Meta::Term").collect(&:used_term_ids)
+        ids += MetaKey.for_meta_terms.collect(&:used_term_ids)
         ids += Keyword.select(:meta_term_id).group(:meta_term_id).collect(&:meta_term_id)
         ids.flatten.uniq.compact
       end
