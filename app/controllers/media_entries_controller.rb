@@ -90,7 +90,11 @@ class MediaEntriesController < ApplicationController
       format.html
       format.js { render :layout => false }
     end
-end
+  end
+  
+  def browse
+    
+  end
 
 #####################################################
 # Authenticated Area
@@ -223,7 +227,7 @@ end
     case action
       when :new
         action = :create
-      when :show, :image, :map
+      when :show, :image, :map, :browse
         action = :view
       when :edit, :update
         action = :edit

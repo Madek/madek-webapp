@@ -54,6 +54,7 @@ MAdeK::Application.routes.draw do
       #temp# :index_browser => :get
       get :image
       get :map
+      get :browse
     end
     
     resources :permissions do
