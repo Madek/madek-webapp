@@ -10,7 +10,7 @@ class MediaEntry < ActiveRecord::Base
   
   TS_ATTRIBUTE_DEFINITIONS += [['height', 'int', 0], ['width', 'int', 0], ['orientation', 'int']]
 
-  belongs_to                :media_file, :include => :previews # TODO validates_presence # TODO on destroy, also destroy the media_file if this is the only related media_entry and snapshot
+  belongs_to                :media_file #, :include => :previews # TODO validates_presence # TODO on destroy, also destroy the media_file if this is the only related media_entry and snapshot
   belongs_to                :upload_session
   has_and_belongs_to_many   :media_sets, :class_name => "Media::Set",
                                          :join_table => "media_entries_media_sets",

@@ -1,6 +1,7 @@
 #search
   #quick-search
     :ruby
+      #old#
       #path = case request[:controller]
       #  when "media_sets"
       #    params[:type] ||= (@media_set and @media_set.is_a?(Media::Project) ? "projects" : nil)
@@ -8,7 +9,9 @@
       #  else
       #    media_entries_path
       #end
-      path = media_entries_path
+      #old#
+      #path = media_entries_path
+      path = resources_path
       
     %form{:action => path, :method => :get}
       #search-query.basic

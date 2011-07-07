@@ -27,34 +27,6 @@ module Logic
                   end } 
   end
 
-  #tmp# Refactor to STI
-  def data_for_page2(media_entry_ids, current_user)
-    #media_entries = MediaEntry.find(media_entry_ids)
-    media_entries = MediaEntry.where(:id => media_entry_ids)
-    media_entries += Media::Set.where(:id => media_entry_ids)
-
-    editable_ids = current_user.accessible_resource_ids(:edit)
-    managable_ids = current_user.accessible_resource_ids(:manage)
-    favorite_ids = current_user.favorite_ids
-    
-    editable_in_context = editable_ids & media_entry_ids
-    managable_in_context = managable_ids & media_entry_ids
-
-    { :pagination => { :current_page => media_entry_ids.current_page,
-                       :per_page => media_entry_ids.per_page,
-                       :total_entries => media_entry_ids.total_entries,
-                       :total_pages => media_entry_ids.total_pages },
-      :entries => media_entries.map do |me|
-                    flags = { :is_private => me.acl?(:view, :only, current_user),
-                              :is_public => me.acl?(:view, :all),
-                              :is_editable => editable_in_context.include?(me.id),
-                              :is_manageable => managable_in_context.include?(me.id),
-                              :is_set => me.is_a?(Media::Set),
-                              :is_favorite => favorite_ids.include?(me.id) }
-                    me.attributes.merge(me.get_basic_info(current_user)).merge(flags)
-                  end } 
-  end
-
 ########################################################
   
   def enriched_resource_data(resource_ids, current_user, resource_type)
