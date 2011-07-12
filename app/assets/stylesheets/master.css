@@ -737,7 +737,8 @@ ul li {
   position: absolute;
   top: 0;
   left: 240px;
-  /*min-height: 500px;*/
+  min-width: 80%;
+  min-height: 600px;
   padding: 20px 20px 10px 20px;
   margin-right: 30px;
   background-color: #ffffff;
@@ -803,7 +804,8 @@ ul li {
     margin-right: 2px; }
 
 .browse_reference {
-  position: fixed; }
+  position: fixed;
+  width: 210px; }
 
 .browse_recent h4, .browse_reference h4 {
   margin-top: 10px; }
