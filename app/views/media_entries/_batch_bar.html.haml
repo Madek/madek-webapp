@@ -85,6 +85,9 @@
             {{else}}
             = image_tag("icons/button_favorit_off.png")
             {{/if}}
+        %span.explore_link{:id => "exp_${id}"}
+          %a{:href => "/media_entries/${id}/browse", :title => "Erkunden"}
+            = image_tag("/assets/icons/button_explore.png")
       {{/if}}
       .action_right
         -# url = resource.is_a?(MediaEntry) ? edit_media_entry_path(resource) : edit_media_set_path(resource)
