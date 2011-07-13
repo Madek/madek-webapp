@@ -1,6 +1,11 @@
-= render :partial => "media_entries/batch_bar"
-
-#results
+%section#content_body
+  .page_title_left
+    =_("Suchergebnisse")
+    #term
+      = "für “#{params[:query]}”"
+  .clear 
+  = render :partial => "media_entries/batch_bar"
+  #results
 
 :javascript
   $(document).ready(function () {
