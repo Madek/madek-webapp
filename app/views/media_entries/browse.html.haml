@@ -5,26 +5,28 @@
       Erkunden
     .clear
     
-    %div.browse_recent
-      %p
-        Zurück zu:
-      %div.thumb_mini
-        %a{:href => "#"}
-          %img{:src => "http://lorempixum.com/100/100/transport/1", :alt => "tn"}
-      %div.thumb_mini
-        %a{:href => "#"}
-          %img{:src => "http://lorempixum.com/100/100/transport/2", :alt => "tn"}
-      %div.thumb_mini
-        %a{:href => "#"}
-          %img{:src => "http://lorempixum.com/100/100/transport/3", :alt => "tn"}  
-    .clear
+    /
+      %div.browse_recent
+        %p
+          Zurück zu:
+        %div.thumb_mini
+          %a{:href => "#"}
+            %img{:src => "http://lorempixum.com/100/100/transport/1", :alt => "tn"}
+        %div.thumb_mini
+          %a{:href => "#"}
+            %img{:src => "http://lorempixum.com/100/100/transport/2", :alt => "tn"}
+        %div.thumb_mini
+          %a{:href => "#"}
+            %img{:src => "http://lorempixum.com/100/100/transport/3", :alt => "tn"}  
+      .clear
     
     %div#detail-excerpt.sidebar-box
       %div.browse_reference
         %h5
           Referenz-Medieneintrag
         %div.thumb_box
-          %img{:src => "#{@media_entry.media_file.thumb_base64(:small_125)}", :class => "img_reference"}
+          = link_to @media_entry do
+            = image_tag @media_entry.media_file.thumb_base64(:small_125), :class => "img_reference"
         .clear
         - context = MetaContext.core
         - @media_entry.meta_data_for_context(context).collect do |meta_datum|
@@ -56,8 +58,8 @@
             %div.browse_thumbs
               - media_entries.each do |me|
                 %div.thumb_mini
-                  %a{:href => "#"}
-                    %img{:src => "#{me.media_file.thumb_base64(:small_125)}"}
+                  = link_to browse_media_entry_path(@media_entry) do
+                    = image_tag me.media_file.thumb_base64(:small_125)
               %div.browse_thumbs_more
                 +
           %clear

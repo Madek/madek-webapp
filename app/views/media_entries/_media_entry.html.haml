@@ -14,7 +14,7 @@
         %li
           %span.favorite_link{:id => "fav_#{media_entry.id}", :title => "Favorit"}
             = render :partial => "media_entries/favorite_link", :locals => {:media_entry => media_entry}
-        %li= link_to image_tag("/assets/icons/button_explore.png"), edit_media_entry_path(media_entry), :title => "Erkunden"
+        %li= link_to image_tag("/assets/icons/button_explore.png"), browse_media_entry_path(media_entry), :title => "Erkunden"
         %li= link_to image_tag("/assets/icons/button_download.png"), "#", :panel => "download", :title => "Exportieren"
         %li= link_to image_tag("/assets/icons/button_addto.png"), "#", :panel => "media_set", :title => "Zu Set/Projekt hinzufügen"
         - if current_user && Permission.authorized?(current_user, :manage, media_entry)
