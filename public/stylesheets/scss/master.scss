@@ -691,27 +691,34 @@ ul li { float: left; }
 /*     Browse      */
 
 #content_body_browse {
-	/*width:80%;*/
+	width:90%;
 	padding: 20px 20px 10px 20px;
 	margin-left:auto;
 	margin-right:auto;
 	position: relative;
 	margin-top: -10px;
+	/*width:80%;*/
+	/*padding: 20px 20px 10px 20px;
+	margin-left:auto;
+	margin-right:auto;
+	position: relative;
+	margin-top: -10px;
+	clear: right;*/
 }
 
 .fixcolumn_left {
 	position: absolute;
 	top: 30px;
-	left: 30px;
+	left: 0;
 	width: 210px;
 }
 
 .dyncolumn_right {
 	position: absolute;
 	top: 0;
-	left: 240px;
-	min-width: 80%;
-	min-height: 600px;
+	left: 230px;
+	width: 73%;
+	min-height: 540px;
 	padding: 20px 20px 10px 20px;
 	margin-right: 30px;
 	background-color: #ffffff;

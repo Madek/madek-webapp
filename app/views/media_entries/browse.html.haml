@@ -1,4 +1,4 @@
-%section#content_body_browse.clearfix
+%section#content_body_browse
   %div.fixcolumn_left
     %div.page_title_left
       %img{:src => "/assets/icons/icon_explore.png"}
@@ -58,7 +58,7 @@
             %div.browse_thumbs
               - media_entries.each do |me|
                 %div.thumb_mini
-                  = link_to browse_media_entry_path(@media_entry) do
+                  = link_to browse_media_entry_path(me) do
                     = image_tag me.media_file.thumb_base64(:small_125)
               %div.browse_thumbs_more
                 +
