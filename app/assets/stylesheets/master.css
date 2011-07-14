@@ -1020,6 +1020,8 @@ ul li {
   padding-left: 0;
   float: left;
   vertical-align: baseline; }
+  .action_left .explore_link {
+    padding-left: 5px; }
 
 .action_left input[type="checkbox"] {
   text-align: left;
