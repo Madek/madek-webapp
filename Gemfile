@@ -64,6 +64,7 @@ group :test do
   gem 'cucumber', '~> 0.10.6'
   gem 'cucumber-rails', '~> 0.5.2'
   gem 'capybara', '~> 1.0.0'
+  gem 'selenium-webdriver', '= 0.2.2' 
   gem 'database_cleaner'
   gem 'rspec-rails'
   gem 'spork'
