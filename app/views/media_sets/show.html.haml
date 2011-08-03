@@ -4,12 +4,12 @@
       thumb_class = "thumb_box_project"
       tab_title = _("Projekt")
       content_title = _("Projekt")
-      content_img_src = "/assets/icons/icon_project.png"
+      icon_class = "icon_project"
     else
       thumb_class = "thumb_box_set"
       tab_title = _("Set")
       content_title = _("Set")
-      content_img_src = "/assets/icons/icon_set.png"
+      icon_class = "icon_set"
   end
 
 %section#content_head
@@ -57,7 +57,7 @@
 
 %section#content_body_set
   %div.page_title_left
-    %img{:src => content_img_src}
+    %div{:class => icon_class}
     = content_title
     %span= "#{@paginated_media_entry_ids.total_entries} von #{@media_set.media_entries.count} Medieneinträge für Sie sichtbar"
   .clear

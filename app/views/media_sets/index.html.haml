@@ -1,9 +1,9 @@
 :ruby
-  icon_src = case params[:type]
+  icon_class = case params[:type]
     when "projects"
-      "/assets/icons/icon_project.png"
+      "icon_project"
     else
-      "/assets/icons/icon_set.png"
+      "icon_set"
   end
   accessible_resource_ids = current_user.accessible_resource_ids
 
@@ -43,7 +43,7 @@
     %section#content_body.clearfix
       %div.page_title_left
         - if @media_sets
-          %img{:src => icon_src}
+          %div{:class => icon_class}
           %a{:id => "meine", :name => "meine", :href => "#"}
           = @my_title
       .pagination
@@ -58,7 +58,7 @@
     %section#content_body2.clearfix
       %div.page_title_left
         %a{:id => "weitere", :name => "weitere", :href => "#"}
-        %img{:src => icon_src}
+        %div{:class => icon_class}
         = @other_title
       .pagination   
         %a{:href => "#meine"}
@@ -72,7 +72,7 @@
   .container_12.clearfix
     %section#content_body.clearfix
       %div.page_title_left
-        %img{:src => icon_src}
+        %div{:class => icon_class}
         = @my_title
       .clear
       - if @media_sets.any?
