@@ -311,8 +311,14 @@ http://www.spritebox.net/
   width: 18px;
   height: 18px; }
 
-.button_favorit_on {
-  background: url(icons/madek_icon_sprites.png) 0 -1062px no-repeat;
+.check_box {
+  background: url(icons/madek_icon_sprites.png) 0 -314px no-repeat;
+  width: 18px;
+  height: 18px;
+  display: inline-block; }
+
+.selected .check_box {
+  background: url(icons/madek_icon_sprites.png) 0 -382px no-repeat;
   width: 18px;
   height: 18px;
   display: inline-block; }
