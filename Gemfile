@@ -1,7 +1,8 @@
 source 'http://rubygems.org'
 source 'http://gems.github.com'
 
-gem 'rails', '3.1.0.rc4'  
+gem 'rails', '3.1.0.rc5'
+gem 'arel', '2.1.4' #tmp#
 gem 'builder', '~> 3.0'   
 gem 'i18n' # Need this explicitly, otherwise can't deploy
 
@@ -15,7 +16,6 @@ gem 'haml', '~> 3.1.2'
 gem 'sass', '~> 3.1.3' # Haml will no longer automatically load Sass in Haml 3.2.0. # Please add gem 'sass' to your Gemfile.
 gem 'coffee-script'
 gem 'uglifier'
-gem 'sprockets', '2.0.0.beta.10' #tmp# 2.0.0.beta.11 doesn't work
 
 gem 'jquery-rails', '~> 1.0'
 gem 'rails_autolink', '~> 1.0.2'
