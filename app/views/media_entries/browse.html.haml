@@ -1,32 +1,32 @@
 %section#content_body_browse
-  %div.fixcolumn_left
-    %div.page_title_left
+  .fixcolumn_left
+    .page_title_left
       %img{:src => "/assets/icons/icon_explore.png"}
       Erkunden
     .clear
     
     /
-      %div.browse_recent
+      .browse_recent
         %p
           Zurück zu:
-        %div.thumb_mini
+        .thumb_mini
           %a{:href => "#"}
             %img{:src => "http://lorempixum.com/100/100/transport/1", :alt => "tn"}
-        %div.thumb_mini
+        .thumb_mini
           %a{:href => "#"}
             %img{:src => "http://lorempixum.com/100/100/transport/2", :alt => "tn"}
-        %div.thumb_mini
+        .thumb_mini
           %a{:href => "#"}
             %img{:src => "http://lorempixum.com/100/100/transport/3", :alt => "tn"}  
       .clear
     
-    %div#detail-excerpt.sidebar-box
-      %div.browse_reference
+    #detail-excerpt.sidebar-box
+      .browse_reference
         %h5
           Referenz-Medieneintrag
-        %div.thumb_box
+        .thumb_box
           = link_to @media_entry do
-            = image_tag @media_entry.media_file.thumb_base64(:small_125), :class => "img_reference"
+            %img.img_reference{:src => @media_entry.media_file.thumb_base64(:small_125)}
         .clear
         - context = MetaContext.core
         - @media_entry.meta_data_for_context(context).collect do |meta_datum|
@@ -34,7 +34,7 @@
           %h4{:style => "margin-top: 10px;"}= definition.meta_field.label.to_s
           = render :partial => "meta_data/show", :locals => { :meta_datum => meta_datum, :resource => @media_entry, :context => context }
       
-  %div.dyncolumn_right.clearfix
+  .dyncolumn_right.clearfix
     - @media_entry.meta_data.for_meta_terms.each do |meta_datum|
       %ul.browse
         - meta_datum.deserialized_value.each do |meta_term|
@@ -44,10 +44,11 @@
             media_entries = MediaEntry.find(media_entry_ids & @viewable_ids)
             c = media_entries.count
             next if c.zero?
+            media_entries_data = Logic.data_for(media_entries, current_user)
           %li
             %a.toggler{:href => "#"}
-              %div.browse_key
-                %div.toggler-arrow
+              .browse_key
+                .toggler-arrow
                 %h5
                   = meta_datum.meta_key.all_context_labels
                   \:
@@ -55,15 +56,19 @@
                     = meta_term
                     = "(#{c})"
               .clear
-            %div.browse_thumbs
-              - media_entries.each do |me|
-                %div.thumb_mini
-                  = link_to browse_media_entry_path(me) do
-                    = image_tag me.media_file.thumb_base64(:small_125)
-              %div.browse_thumbs_more
+            .browse_thumbs
+              - media_entries_data.each do |me|
+                .thumb_mini{:"data-media_entry" => me.to_json}
+                  = link_to browse_media_entry_path(me["id"]) do
+                    = image_tag me["thumb_base64"]
+              .browse_thumbs_more
                 +
           %clear
       %clear
+
+= render :partial => "media_entries/templates"
+
+#positionable{:style => "position: absolute; display: none; background-color: white;"}
     
 :javascript
   $(document).ready(function () {
@@ -76,4 +81,71 @@
       next_div.find(".browse_thumbs_more").toggle();
       return false;
     });
+
+    /*
+    $(".positionable").each(function(){
+      $(this).position({
+        my: "center center",
+        at: "center center",
+        of: $(this).prev(".thumb_mini"),
+        collision: 'fit'
+      });
+    });
+    $(".positionable").position({
+        my: "center center",
+        at: "center center",
+        of: $(".positionable").prev(),
+        collision: 'fit'
+    });
+    $(".first").mouseenter(function() {
+      $(this).next(".positionable").show();
+    });
+    $(".positionable").mouseleave(function() {
+      $(this).hide();
+    });
+    */
+
+    var delayed;
+    $(".thumb_mini").mouseenter(function() {
+      var _this = $(this);
+      delayed = setTimeout(function(){
+        $('#positionable').html($("#thumbnail").tmpl(_this.data("media_entry")));
+        var final_offset = $("#positionable")
+          .show()
+          .position({
+              my: "center center",
+              at: "center center",
+              of: _this,
+              collision: 'fit'
+            })
+         .offset();
+         
+        $("#positionable").hide()
+         .css("width", _this.width())
+         .css("height", _this.height())
+         .show()
+         .position({
+              my: "center center",
+              at: "center center",
+              of: _this,
+              collision: 'fit'
+            })
+         .hide();
+        
+        $("#positionable").show().animate({
+          top: final_offset.top,
+          left: final_offset.left,
+          width: $("#positionable").children().width(),
+          height: $("#positionable").children().height()
+        }, 100);
+
+      }, 800);
+    }).mouseleave(function(){
+      clearTimeout(delayed);
+    });;
+    
+    $("#positionable").mouseleave(function(){
+      $(this).fadeOut();
+    });
+
   });

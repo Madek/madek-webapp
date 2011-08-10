@@ -5,26 +5,27 @@ module Logic
   def data_for_page(media_entry_ids, current_user)
     media_entries = MediaEntry.find(media_entry_ids)
 
-    editable_ids = current_user.accessible_resource_ids(:edit)
-    managable_ids = current_user.accessible_resource_ids(:manage)
-    favorite_ids = current_user.favorite_ids
-    
-    editable_in_context = editable_ids & media_entry_ids
-    managable_in_context = managable_ids & media_entry_ids
-
     { :pagination => { :current_page => media_entry_ids.current_page,
                        :per_page => media_entry_ids.per_page,
                        :total_entries => media_entry_ids.total_entries,
                        :total_pages => media_entry_ids.total_pages },
-      :entries => media_entries.map do |me|
-                    flags = { :is_private => me.acl?(:view, :only, current_user),
-                              :is_public => me.acl?(:view, :all),
-                              :is_editable => editable_in_context.include?(me.id),
-                              :is_manageable => managable_in_context.include?(me.id),
-                              :is_set => false, # OPTIMIZE
-                              :is_favorite => favorite_ids.include?(me.id) }
-                    me.attributes.merge(me.get_basic_info(current_user)).merge(flags)
-                  end } 
+      :entries => data_for(media_entries, current_user) } 
+  end
+
+  def data_for(media_entries, current_user)
+    editable_ids = current_user.accessible_resource_ids(:edit)
+    managable_ids = current_user.accessible_resource_ids(:manage)
+    favorite_ids = current_user.favorite_ids
+
+    media_entries.map do |me|
+      flags = { :is_private => me.acl?(:view, :only, current_user),
+                :is_public => me.acl?(:view, :all),
+                :is_editable => editable_ids.include?(me.id),
+                :is_manageable => managable_ids.include?(me.id),
+                :is_set => false, # OPTIMIZE
+                :is_favorite => favorite_ids.include?(me.id) }
+      me.attributes.merge(me.get_basic_info(current_user)).merge(flags)
+    end    
   end
 
 ########################################################
