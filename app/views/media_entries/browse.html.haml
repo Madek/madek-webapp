@@ -60,7 +60,7 @@
               - media_entries_data.each do |me|
                 .thumb_mini{:"data-media_entry" => me.to_json}
                   = link_to browse_media_entry_path(me["id"]) do
-                    = image_tag me["thumb_base64"]
+                    %img{:src => me["thumb_base64"]}
               .browse_thumbs_more
                 +
           %clear
