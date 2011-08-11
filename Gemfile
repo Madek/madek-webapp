@@ -2,12 +2,11 @@ source 'http://rubygems.org'
 source 'http://gems.github.com'
 
 gem 'rails', '3.1.0.rc5'
-gem 'arel', '2.1.4' #tmp#
 gem 'builder', '~> 3.0'   
 gem 'i18n' # Need this explicitly, otherwise can't deploy
 
 gem 'mysql2', '~> 0.3.6'  
-gem 'memcache-client' #gem 'dalli' #gem 'redis-store'
+#tmp# gem 'memcache-client' #gem 'dalli' #gem 'redis-store'
 
 #tmp# dependency for linecache
 gem 'require_relative'
@@ -20,8 +19,7 @@ gem 'uglifier'
 gem 'jquery-rails', '~> 1.0'
 gem 'rails_autolink', '~> 1.0.2'
 
-#gem 'will_paginate', '~> 3.0.pre2' 
-gem 'will_paginate', :git => 'git://github.com/JackDanger/will_paginate.git' # fix for CollectionAssociation
+gem 'will_paginate', '~> 3.0' 
 
 gem 'thinking-sphinx', '~> 2.0.5', :require => 'thinking_sphinx'
 #temp#sphinx# gem 'ts-delayed-delta', '1.1.0', :require => 'thinking_sphinx/deltas/delayed_delta'
@@ -49,8 +47,7 @@ gem 'irwi', :git => 'git://github.com/tpo/irwi.git'
 gem 'RedCloth'
 
 group :test, :development do
-  gem 'ruby-debug'
-  #gem 'ruby-debug19', :require => 'ruby-debug' # for Ruby 1.9.x
+  gem 'ruby-debug19', :require => 'ruby-debug' # for Ruby 1.8.x: gem 'ruby-debug'
   gem 'ruby-debug-completion'
 end
 
@@ -64,10 +61,10 @@ group :test do
   gem 'cucumber', '~> 0.10.6'
   gem 'cucumber-rails', '~> 0.5.2'
   gem 'capybara', '~> 1.0.0'
-  gem 'selenium-webdriver', '= 0.2.2' 
+  gem 'selenium-webdriver', '~> 0.2.2' 
   gem 'database_cleaner'
   gem 'rspec-rails'
   gem 'spork'
   gem 'launchy'  
-  gem 'rcov'
+  gem 'simplecov' # for Ruby 1.8.x:  gem 'rcov'
 end
