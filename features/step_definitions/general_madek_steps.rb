@@ -1,3 +1,5 @@
+# coding: UTF-8
+
 Given /^I have set up the world$/ do
   # Set this to a non-JS driver because:
   # 1. The Selenium driver times out during this step

@@ -1,4 +1,4 @@
-
+# coding: UTF-8
 
 Before do
   # This is run before EVERY scenario. It's necessary to prevent
