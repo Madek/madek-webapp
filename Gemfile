@@ -33,7 +33,7 @@ gem 'acts-as-dag', '~> 2.5.5' # TOOD use instead ?? gem 'dagnabit', '2.2.6'
 # gem 'rmagick', '2.13.1', :require => 'RMagick2'
 gem 'json', '~> 1.5.3'
 
-gem 'ruby-net-ldap', '~> 0.0.4', :require => 'net/ldap'
+gem 'net-ldap', :require => 'net/ldap'
 
 gem 'zencoder'
 gem 'uuidtools'
