@@ -24,7 +24,7 @@ Feature: Do things to and with sets and projects
      |Titel    |into the set after uploading|
      |Copyright|some other dude             |
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set"
+     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
      And Sphinx is forced to reindex
      And I go to the media entries
      And I click the media entry titled "into the set after uploading"
@@ -56,7 +56,7 @@ Feature: Do things to and with sets and projects
      |Titel    |into the set after uploading|
      |Copyright|some other dude             |
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set"
+     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
      And Sphinx is forced to reindex
      And I go to the media entries
      And I click the media entry titled "into the set after uploading"
@@ -97,7 +97,7 @@ Feature: Do things to and with sets and projects
      |Titel    |Link test|
      |Copyright|some other dude             |
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set"
+     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
      And Sphinx is forced to reindex
      And I go to the media entries
      And I click the media entry titled "Link test"

@@ -51,7 +51,7 @@ Feature: Upload images and manage media entries based on images
      |Titel    |A beautiful piece of the Berlin Wall|
      |Copyright|Kohl, Helmut                        |
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set"
+     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
      And Sphinx is forced to reindex
      And I go to the home page
      And I click the media entry titled "A beautiful piece of the Berl"
@@ -85,7 +85,7 @@ Feature: Upload images and manage media entries based on images
       |Titel    |A second piece of the Berlin Wall|
       |Copyright|Kohl, Helmut                     |
       And I press "Metadaten speichern und weiter…"
-      And I follow "Weiter ohne Hinzufügen zu einem Set"
+      And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
       And Sphinx is forced to reindex
       And I go to the home page
       And I click the media entry titled "A second piece of the Berlin"
@@ -244,7 +244,7 @@ Feature: Upload images and manage media entries based on images
      And I wait for the CSS element "#submit_to_3"
      And I press "Einstellungen speichern und weiter…"
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set"
+     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
      And Sphinx is forced to reindex
      And I go to the home page
      And I click the media entry titled "Grumpy Cat"
@@ -261,7 +261,7 @@ Feature: Upload images and manage media entries based on images
      And I wait for the CSS element "#submit_to_3"
      And I press "Einstellungen speichern und weiter…"
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set"
+     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
      And Sphinx is forced to reindex
      And I go to the home page
      And I click the media entry titled "Frau-Sein"
@@ -286,7 +286,7 @@ Feature: Upload images and manage media entries based on images
      And I wait for the CSS element "#submit_to_3"
      And I press "Einstellungen speichern und weiter…"
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set"
+     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
      And Sphinx is forced to reindex
      And I go to the home page
      And I click the media entry titled "Frau-Sein"

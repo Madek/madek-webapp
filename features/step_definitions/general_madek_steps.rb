@@ -36,6 +36,7 @@ Given /^I have set up the world$/ do
   # the tests. Therefore we recreate our world in this step.
   Copyright.init
   Permission.init
+
   Meta::Department.fetch_from_ldap
   Meta::Date.parse_all
 

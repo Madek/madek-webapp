@@ -324,7 +324,7 @@ def upload_some_picture(title = "Untitled")
                                         "Copyright" => 'some dude' })
 
     click_button("Metadaten speichern und weiter…")
-    click_link_or_button("Weiter ohne Hinzufügen zu einem Set")
+    click_link_or_button("Weiter ohne Hinzufügen zu einem Set/Projekt…")
 
     sphinx_reindex
     visit "/"
