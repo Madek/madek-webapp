@@ -55,9 +55,11 @@
             {{else}}
             .button_favorit_off
             {{/if}}
+        {{if can_maybe_browse}}    
         %span.explore_link{:id => "exp_${id}"}
           %a{:href => "/media_entries/${id}/browse", :title => "Erkunden"}
             .button_explore
+        {{/if}}
       {{/if}}
       .action_right
         -# url = resource.is_a?(MediaEntry) ? edit_media_entry_path(resource) : edit_media_set_path(resource)
@@ -99,6 +101,8 @@
             {{else}}
             .button_favorit_off
             {{/if}}
+        {{if can_maybe_browse}}    
         %span.explore_link{:id => "exp_${id}"}
           %a{:href => "/media_entries/${id}/browse", :title => "Erkunden"}
             .button_explore
+        {{/if}}

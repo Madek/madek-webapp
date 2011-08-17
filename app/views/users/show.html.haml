@@ -23,9 +23,11 @@
             {{else}}
             .button_favorit_off
             {{/if}}
+        {{if can_maybe_browse}}    
         %span.explore_link{:id => "exp_${id}"}
           %a{:href => "/media_entries/${id}/browse", :title => "Erkunden"}
             .button_explore
+        {{/if}}
       .action_right
         {{if is_editable}}
         %a{:href => "/media_entries/${id}/edit", :title => "Editieren"}

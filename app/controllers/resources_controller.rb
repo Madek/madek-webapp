@@ -44,6 +44,7 @@ class ResourcesController < ApplicationController
                               :is_public => me.acl?(:view, :all),
                               :is_editable => h[crc32][:edit].include?(me.id),
                               :is_manageable => h[crc32][:manage].include?(me.id),
+                              :can_maybe_browse => !me.meta_data.for_meta_terms.blank?,
                               :is_set => me.is_a?(Media::Set),
                               :is_favorite => current_user.favorite_ids.include?(me.id) }
                     me.attributes.merge(me.get_basic_info(current_user)).merge(flags)

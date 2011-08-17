@@ -22,6 +22,7 @@ module Logic
                 :is_public => me.acl?(:view, :all),
                 :is_editable => editable_ids.include?(me.id),
                 :is_manageable => managable_ids.include?(me.id),
+                :can_maybe_browse => !me.meta_data.for_meta_terms.blank?,
                 :is_set => false, # OPTIMIZE
                 :is_favorite => favorite_ids.include?(me.id) }
       me.attributes.merge(me.get_basic_info(current_user)).merge(flags)
@@ -46,7 +47,8 @@ module Logic
       flags = { :is_private => res.acl?(:view, :only, current_user),
                 :is_public => res.acl?(:view, :all),
                 :is_editable => editable_in_context.include?(res.id),
-                :is_manageable => managable_in_context.include?(res.id) }
+                :is_manageable => managable_in_context.include?(res.id),
+                :can_maybe_browse => !res.meta_data.for_meta_terms.blank? }
       all_attributes = res.attributes.merge(res.get_basic_info(current_user)).merge(flags)
       all_attributes.merge!(:url_stub => (resource_type == "MediaEntry") ? "media_entries" : "media_sets")
       all_attributes.merge!(:is_set => resource_type != "MediaEntry")
