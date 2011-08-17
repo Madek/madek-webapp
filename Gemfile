@@ -55,13 +55,14 @@ group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
   #tmp# gem 'peterhoeg-railroad'
+  gem 'newrelic_rpm', '~> 3.1'
 end
 
 group :test do
-  gem 'cucumber', '~> 0.10.6'
-  gem 'cucumber-rails', '~> 0.5.2'
-  gem 'capybara', '~> 1.0.0'
-  gem 'selenium-webdriver', '~> 0.2.2' 
+  gem 'cucumber', '~> 1.0.2'
+  gem 'cucumber-rails', '~> 1.0.2'
+  gem 'capybara', '~> 1.0.1'
+  gem 'selenium-webdriver', '~> 2.4.0' 
   gem 'database_cleaner'
   gem 'rspec-rails'
   gem 'spork'
