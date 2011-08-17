@@ -700,7 +700,7 @@ ul li {
   word-spacing: 0; }
 
 .disabled {
-  color: silver; }
+  color: #6a6a6a; }
 
 /* Filter */
 .page_title_left #term {
@@ -780,7 +780,8 @@ ul li {
 .filter_box #filter-query ul {
   margin: 0.9em 0 0.5em 15px; }
 .filter_box #filter-query ul li {
-  padding: 0 0 5px 0;
+  padding: 0 0 5px 20px;
+  text-indent: -22px;
   float: none;
   font-size: 0.8em;
   letter-spacing: 0.1ex;
