@@ -60,14 +60,13 @@
             .browse_thumbs
               - media_entries_data.each do |me|
                 .thumb_mini{:"data-media_entry" => me.to_json}
-                  = link_to browse_media_entry_path(me["id"]) do
-                    %img{:src => me["thumb_base64"]}
+                  %img{:src => me["thumb_base64"]}
           %clear
       %clear
 
 = render :partial => "media_entries/templates"
 
-#positionable{:style => "position: absolute; display: none; background-color: white;"}
+#positionable{:style => "position: absolute; display: none;"}
     
 :javascript
   $(document).ready(function () {
@@ -108,7 +107,7 @@
     $(".thumb_mini").mouseenter(function() {
       var _this = $(this);
       delayed = setTimeout(function(){
-        $('#positionable').html($("#thumbnail").tmpl(_this.data("media_entry")));
+        $('#positionable').html($("#thumbnail_browse").tmpl(_this.data("media_entry")));
         var final_offset = $("#positionable")
           .show()
           .position({
