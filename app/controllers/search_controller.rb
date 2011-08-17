@@ -1,17 +1,6 @@
 class SearchController < ApplicationController
 
-  def new
-    search_result = ThinkingSphinx.search_for_ids params[:query], :classes => [MediaEntry, Media::Set, Media::Project]
-    search_result2 = ThinkingSphinx.facets params[:query]
-
-    debugger
-    
-    render :text => "temp"
-  end
-
-#######################################
-
-#=begin # TODO remove
+  #old# TODO remove
   def show
     viewable_media_entry_ids = current_user.accessible_resource_ids
     viewable_media_set_ids = current_user.accessible_resource_ids(:view, "Media::Set")
@@ -55,7 +44,6 @@ class SearchController < ApplicationController
       }
     end
   end
-#=end  
     
   def filter
     params[:per_page] ||= PER_PAGE.first
