@@ -1,10 +1,5 @@
 %section#content_body_browse
   .fixcolumn_left
-    .page_title_left
-      %img{:src => "/assets/icons/icon_explore.png"}
-      Erkunden
-    .clear
-    
     /
       .browse_recent
         %p
@@ -23,7 +18,7 @@
     #detail-excerpt.sidebar-box
       .browse_reference
         %h5
-          Referenz-Medieneintrag
+          Gewähltes Beispiel
         .thumb_box
           = link_to @media_entry do
             %img.img_reference{:src => @media_entry.media_file.thumb_base64(:small_125)}
@@ -35,6 +30,12 @@
           = render :partial => "meta_data/show", :locals => { :meta_datum => meta_datum, :resource => @media_entry, :context => context }
       
   .dyncolumn_right.clearfix
+    .page_title_left
+      %img{:src => "/assets/icons/icon_explore.png"}
+      Erkunden
+      %h5
+        Vergleichbare Medieneinträge
+    .clear
     - @media_entry.meta_data.for_meta_terms.each do |meta_datum|
       %ul.browse
         - meta_datum.deserialized_value.each do |meta_term|

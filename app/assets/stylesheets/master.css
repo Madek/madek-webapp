@@ -826,6 +826,7 @@ ul li {
 /*     Browse      */
 #content_body_browse {
   width: 90%;
+  min-height: 600px;
   padding: 20px 20px 10px 20px;
   margin-left: auto;
   margin-right: auto;
@@ -858,6 +859,12 @@ ul li {
   -webkit-box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
   -moz-box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
   box-shadow: 0 0 4px rgba(150, 150, 150, 0.5); }
+  .dyncolumn_right .page_title_left {
+    padding-bottom: 5px; }
+    .dyncolumn_right .page_title_left h5 {
+      font-size: 0.6em;
+      letter-spacing: 0;
+      padding: 10px 0 10px 0; }
   .dyncolumn_right ul.browse li {
     /*border-bottom: 1px solid silver;*/
     padding-top: 0;
@@ -885,11 +892,11 @@ ul li {
       font-size: 2em;
       font-weight: bold; }
     .dyncolumn_right ul.browse li h5 {
-      font-size: 1em;
-      padding: 3px 10px 5px 10px; }
+      font-size: 1.1em;
+      padding: 6px 10px 7px 10px; }
       .dyncolumn_right ul.browse li h5 span {
         font-weight: normal;
-        letter-spacing: 0.1ex;
+        letter-spacing: 0.05ex;
         padding-left: 4px; }
 
 .browse_key h5:hover {
@@ -901,7 +908,7 @@ ul li {
   border-bottom: white solid 5px; }
 
 .toggler-arrow {
-  margin: 8px 8px 0 10px;
+  margin: 11px 8px 0 10px;
   width: 11px;
   height: 11px;
   float: left;
@@ -922,7 +929,8 @@ ul li {
 .browse_recent h4, .browse_reference h4 {
   margin-top: 10px; }
 .browse_recent h5, .browse_reference h5 {
-  margin-bottom: 10px; }
+  margin-top: 25px;
+  margin-bottom: 15px; }
 .browse_recent p, .browse_reference p {
   margin-bottom: 5px; }
 
@@ -984,18 +992,18 @@ ul li {
 
 .item_permission {
   position: absolute;
-  right: 5px;
+  left: 5px;
   top: 5px;
-  background-color: rgba(255, 255, 255, 0.8);
+  /*background-color: rgba(255, 255, 255, 0.8);*/
   z-index: 888;
   width: 18px;
   height: 18px; }
 
 .item_permission_set {
   position: absolute;
-  right: 20px;
-  top: 12px;
-  background-color: rgba(255, 255, 255, 0.8);
+  left: 6px;
+  top: 28px;
+  /*background-color: rgba(255, 255, 255, 0.8);*/
   z-index: 888;
   width: 18px;
   height: 18px; }
@@ -1116,11 +1124,11 @@ ul li {
 .actions {
   position: absolute;
   bottom: 0;
-  right: 0;
+  /*right: 0;*/
   display: none; }
 
 .action_left {
-  width: 72px;
+  /*width: 72px;*/
   text-align: left;
   padding-left: 0;
   float: left;
