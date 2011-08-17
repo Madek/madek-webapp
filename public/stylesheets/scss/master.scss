@@ -266,6 +266,12 @@ http://www.spritebox.net/
 	display: inline-block;
 }
 
+.button_favorit_on {
+	background: url(icons/madek_icon_sprites.png) 0 -1062px no-repeat;
+	width: 18px;
+	height: 18px;
+	display: inline-block;
+}
 
 .button_favorit_off {
 	background: url(icons/madek_icon_sprites.png) 0 -994px no-repeat;
@@ -2890,7 +2896,11 @@ table.meta_data td {
     -moz-background-origin: padding;
     -moz-background-size: auto auto;
     -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
-    -moz-transform: rotate(5deg);
+    transform:rotate(5deg);
+	-ms-transform:rotate(5deg);
+	-moz-transform:rotate(5deg);
+	-webkit-transform:rotate(5deg);
+	-o-transform:rotate(5deg);
     background-attachment: scroll;
     background-color: #FEFCAF;
     background-image: -moz-linear-gradient(center top , #FEFCAF, #FFFEDA);
@@ -2911,8 +2921,6 @@ table.meta_data td {
 	margin-bottom: -10px;
 	display: none;
 }
-
-/** temporary styles to make permissions box presentable *****/
 
 /* Permissions */
 
