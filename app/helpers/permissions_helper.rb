@@ -33,7 +33,7 @@ module PermissionsHelper
         content_tag :div, :class => "button_edit_active" do end
       end
     else
-      content_tag :div, :class => "button_edit_inactive" do end
+      content_tag :div, :class => "button_edit_active ghost" do end
     end
   end
   
@@ -50,7 +50,7 @@ module PermissionsHelper
         content_tag :div, :class => "button_delete_active" do end
       end
     else
-      content_tag :div, :class => "button_delete_inactive" do end
+      content_tag :div, :class => "button_delete_active ghost" do end
     end
   end
 

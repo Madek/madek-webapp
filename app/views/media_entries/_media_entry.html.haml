@@ -13,6 +13,9 @@
           %li
             = link_to edit_media_entry_path(media_entry), :title => "Editieren" do
               .button_edit_active
+        - else
+          %li
+            .button_edit_active.ghost
         %li
           %span.favorite_link{:id => "fav_#{media_entry.id}", :title => "Favorit"}
             = render :partial => "media_entries/favorite_link", :locals => {:media_entry => media_entry}
@@ -20,6 +23,9 @@
           %li
             = link_to browse_media_entry_path(media_entry), :title => "Erkunden" do
               .button_explore
+        - else
+          %li
+            .button_explore.ghost
         %li
           = link_to "#", :panel => "download", :title => "Exportieren" do
             .button_download
@@ -30,6 +36,9 @@
           %li
             = link_to "#", :panel => "delete", :title => "Löschen" do
               .button_delete_active
+        - else
+          %li
+            .button_delete_active.ghost
         .clear
         - if is_expert and media_entry.snapshotable?
           %li= link_to _("Metadaten für MIZ-Archiv editieren"), edit_tms_media_entry_path(@media_entry)

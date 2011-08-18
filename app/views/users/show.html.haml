@@ -27,19 +27,21 @@
         %span.explore_link{:id => "exp_${id}"}
           %a{:href => "/media_entries/${id}/browse", :title => "Erkunden"}
             .button_explore
+        {{else}}
+        .button_explore.ghost
         {{/if}}
       .action_right
         {{if is_editable}}
         %a{:href => "/media_entries/${id}/edit", :title => "Editieren"}
           .button_edit_active
         {{else}}
-        .button_edit_inactive
+        .button_edit_active.ghost
         {{/if}}
         {{if is_manageable}}
         %a{:href => "/media_entries/${id}", :title => "Löschen", :"data-method" => :delete, :"data-confirm" => "Sind Sie sicher?"}
           .button_delete_active
         {{else}}
-        .button_delete_inactive
+        .button_delete_active.ghost
         {{/if}}
 
 //////////////////////////////////////////////////////

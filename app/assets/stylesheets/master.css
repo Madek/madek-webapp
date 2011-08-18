@@ -352,16 +352,17 @@ http://www.spritebox.net/
   background: url(icons/madek_icon_sprites.png) 0 -858px no-repeat;
   width: 18px;
   height: 18px;
-  display: inline-block; }
+  display: inline-block;
+  margin-left: 1px; }
 
 .button_delete_active {
-  background: url(icons/madek_icon_sprites.png) 0 -450px no-repeat;
+  background: url(icons/madek_icon_sprites.png) 0 -449px no-repeat;
   width: 18px;
   height: 18px;
   display: inline-block; }
 
 .button_delete_inactive {
-  background: url(icons/madek_icon_sprites.png) 0 -586px no-repeat;
+  background: url(icons/madek_icon_sprites.png) 0 -585px no-repeat;
   width: 18px;
   height: 18px;
   display: inline-block; }
@@ -1152,7 +1153,7 @@ ul li {
   padding-left: 8px; }
 
 .action_right img {
-  padding-right: 5px; }
+  padding-left: 5px; }
 
 /* Links and Buttons */
 a {
@@ -1413,6 +1414,19 @@ button.dark:hover {
   -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
   -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.7); }
+
+.ghost {
+  opacity: 0.3; }
+
+#detail-action-bar .ghost {
+  opacity: 0.3;
+  border: 1px solid #aaaaaa;
+  width: 38px;
+  height: 38px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  /*background-position: 10px -440px;*/ }
 
 /* Batch edit */
 #page_head_edit {
@@ -1772,7 +1786,7 @@ table td {
   #detail-action-bar img {
     padding-top: 2px; }
   #detail-action-bar ul li {
-    margin: 10px 10px 5px 0; }
+    margin: 10px 10px 0 0; }
   #detail-action-bar a {
     display: block;
     float: left;

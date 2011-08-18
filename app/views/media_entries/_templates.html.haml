@@ -59,6 +59,8 @@
         %span.explore_link{:id => "exp_${id}"}
           %a{:href => "/media_entries/${id}/browse", :title => "Erkunden"}
             .button_explore
+        {{else}}
+        .button_explore.ghost
         {{/if}}
       {{/if}}
       .action_right
@@ -67,14 +69,14 @@
         %a{:href => "/media_entries/${id}/edit", :title => "Editieren"}
           .button_edit_active
         {{else}}
-        .button_edit_inactive
+        .button_edit_active.ghost
         {{/if}}
         {{if is_manageable}}
         /confirm = resource.is_a?(MediaEntry) ? "Sind Sie sicher?" : "Sind Sie sicher? Das Set wird gelöscht."
         %a{:href => "/media_entries/${id}", :title => "Löschen", :class => "delete_me", :"data-method" => :delete, :"data-remote" => true, :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher?"}
           .button_delete_active
         {{else}}
-        .button_delete_inactive
+        .button_delete_active.ghost
         {{/if}}
         
 %script{:type => "text/x-jquery-tmpl", :id => "thumbnail_browse"}
