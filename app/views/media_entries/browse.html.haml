@@ -36,6 +36,7 @@
       %h5
         Vergleichbare Medieneinträge
     .clear
+    - nothing_found = true 
     - @media_entry.meta_data.for_meta_terms.each do |meta_datum|
       %ul.browse
         - meta_datum.deserialized_value.each do |meta_term|
@@ -45,6 +46,7 @@
             media_entries = MediaEntry.find(media_entry_ids & @viewable_ids)
             c = media_entries.count
             next if c.zero?
+            nothing_found = false
             media_entries_data = Logic.data_for(media_entries, current_user)
           %li
             %a.toggler{:href => "#"}
@@ -63,6 +65,8 @@
                   %img{:src => me["thumb_base64"]}
           %clear
       %clear
+    - if nothing_found
+      = _("Nothing found")
 
 = render :partial => "media_entries/templates"
 
