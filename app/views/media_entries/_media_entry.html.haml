@@ -16,9 +16,10 @@
         %li
           %span.favorite_link{:id => "fav_#{media_entry.id}", :title => "Favorit"}
             = render :partial => "media_entries/favorite_link", :locals => {:media_entry => media_entry}
-        %li
-          = link_to browse_media_entry_path(media_entry), :title => "Erkunden" do
-            .button_explore
+        - unless media_entry.meta_data.for_meta_terms.blank?
+          %li
+            = link_to browse_media_entry_path(media_entry), :title => "Erkunden" do
+              .button_explore
         %li
           = link_to "#", :panel => "download", :title => "Exportieren" do
             .button_download
