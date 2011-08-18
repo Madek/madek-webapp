@@ -84,32 +84,10 @@
       return false;
     });
 
-    /*
-    $(".positionable").each(function(){
-      $(this).position({
-        my: "center center",
-        at: "center center",
-        of: $(this).prev(".thumb_mini"),
-        collision: 'fit'
-      });
-    });
-    $(".positionable").position({
-        my: "center center",
-        at: "center center",
-        of: $(".positionable").prev(),
-        collision: 'fit'
-    });
-    $(".first").mouseenter(function() {
-      $(this).next(".positionable").show();
-    });
-    $(".positionable").mouseleave(function() {
-      $(this).hide();
-    });
-    */
-
     var delayed;
     $(".thumb_mini").mouseenter(function() {
       var _this = $(this);
+      clearTimeout(delayed);
       delayed = setTimeout(function(){
         $('#positionable').html($("#thumbnail_browse").tmpl(_this.data("media_entry")));
         var final_offset = $("#positionable")
