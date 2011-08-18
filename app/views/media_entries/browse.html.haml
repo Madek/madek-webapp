@@ -142,8 +142,14 @@
       clearTimeout(delayed);
     });;
     
-    $("#positionable").mouseleave(function(){
-      $(this).fadeOut();
+    $("#positionable").mouseenter(function(){
+      clearTimeout(delayed);
+    }).mouseleave(function(){
+      var _this = $(this);
+      delayed = setTimeout(function(){
+        _this.fadeOut();
+      }, 800);
     });
+
 
   });
