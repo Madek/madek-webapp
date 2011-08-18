@@ -355,13 +355,13 @@ http://www.spritebox.net/
   display: inline-block; }
 
 .button_delete_active {
-  background: url(icons/madek_icon_sprites.png) 0 -449px no-repeat;
+  background: url(icons/madek_icon_sprites.png) 0 -450px no-repeat;
   width: 18px;
   height: 18px;
   display: inline-block; }
 
 .button_delete_inactive {
-  background: url(icons/madek_icon_sprites.png) 0 -585px no-repeat;
+  background: url(icons/madek_icon_sprites.png) 0 -586px no-repeat;
   width: 18px;
   height: 18px;
   display: inline-block; }
@@ -1149,7 +1149,7 @@ ul li {
   width: 72px;
   text-align: right;
   float: right;
-  padding-right: 3px; }
+  padding-left: 10px; }
 
 .action_right img {
   padding-right: 6px; }
