@@ -1135,7 +1135,7 @@ ul li {
   float: left;
   vertical-align: baseline; }
   .action_left .explore_link {
-    padding-left: 5px; }
+    padding-left: 3px; }
 
 .action_left input[type="checkbox"] {
   text-align: left;
@@ -1146,13 +1146,13 @@ ul li {
   margin-right: 10px; }
 
 .action_right {
-  width: 72px;
-  text-align: right;
+  /*width: 72px;*/
+  /*text-align: right;*/
   float: right;
-  padding-left: 10px; }
+  padding-left: 8px; }
 
 .action_right img {
-  padding-right: 6px; }
+  padding-right: 5px; }
 
 /* Links and Buttons */
 a {
