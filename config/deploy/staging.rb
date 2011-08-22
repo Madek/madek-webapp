@@ -157,7 +157,11 @@ task :clear_cache do
   run "cd #{release_path} && RAILS_ENV=production bundle exec rails runner 'Rails.cache.clear'"
 end
 
+task :setup_rvm do
+  run "rvm use 1.9.2"
+end
 
+before "deploy", :setup_rvm
 before "configure_sphinx", :link_sphinx
 before "deploy:symlink", :make_tmp
 after "deploy:symlink", :link_config
