@@ -11,6 +11,7 @@ set :ldap_config, "/home/rails/madek/LDAP.yml"
 set :zencoder_config, "/home/rails/madek/zencoder.yml"
 set :checkout, :export
 
+require "bundler/capistrano"
 
 set :use_sudo, false 
 set :rails_env, "production"
@@ -135,9 +136,9 @@ task :load_seed_data do
     run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:seed"
 end
 
-task :install_gems do
-  run "cd #{release_path} && bundle install --deployment --without test development"
-end
+#task :install_gems do
+#  run "cd #{release_path} && bundle install --deployment --without test development"
+#end
 
 task :stop_sphinx do
   run "cd #{previous_release} && RAILS_ENV='production' bundle exec rake ts:stop"
@@ -167,7 +168,7 @@ after "deploy:symlink", :configure_environment
 after "deploy:symlink", :link_attachments
 after "deploy:symlink", :migrate_database
 after "deploy:symlink", :record_deploy_info
-before "migrate_database", :install_gems
+#before "migrate_database", :install_gems
 after "migrate_database", :load_seed_data
 after "migrate_database", :clear_cache
 before "deploy:restart", :make_tmp
