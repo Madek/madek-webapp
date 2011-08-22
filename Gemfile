@@ -55,7 +55,7 @@ group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
   #tmp# gem 'peterhoeg-railroad'
-  gem 'newrelic_rpm', '~> 3.1'
+  #tmp# gem 'newrelic_rpm', '~> 3.1'
 end
 
 group :test do
