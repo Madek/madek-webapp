@@ -217,15 +217,15 @@ class MediaFile < ActiveRecord::Base
       tmparr = thumbnail_storage_location
       tmparr += "_#{thumb_size.to_s}"
       outfile = [tmparr, 'jpg'].join('.')
-      conv_res = `convert -verbose "#{file}" -auto-orient -thumbnail "#{value}" -flatten -unsharp 0x.5 "#{outfile}"`
-      if conv_res.blank?
-        # if convert failed, we need to take or delegate off some rescue action, ideally.
-        # but for the moment, lets just imply no-thumbnail need be made for this size
-      else
+      `convert -verbose "#{file}" -auto-orient -thumbnail "#{value}" -flatten -unsharp 0x.5 "#{outfile}"`
+      if File.exists?(outfile)
         x,y = `identify -format "%wx%h" "#{outfile}"`.split('x')
         if x and y
           previews.create(:content_type => 'image/jpeg', :filename => outfile.split('/').last, :height => y, :width => x, :thumbnail => thumb_size.to_s )
         end
+      else
+        # if convert failed, we need to take or delegate off some rescue action, ideally.
+        # but for the moment, lets just imply no-thumbnail need be made for this size
       end
     end
   end
