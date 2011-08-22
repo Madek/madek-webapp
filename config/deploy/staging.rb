@@ -1,4 +1,12 @@
 # -*- encoding : utf-8 -*-
+
+$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
+require "rvm/capistrano"                  # Load RVM's capistrano plugin.
+set :rvm_ruby_string, '1.9.2'        # Or whatever env you want it to run in.
+set :rvm_type, :user  # Copy the exact line. I really mean :user here
+
+require "bundler/capistrano"
+
 set :application, "madek"
 
 set :scm, :git
@@ -88,7 +96,7 @@ task :configure_environment do
 end
 
 task :configure_sphinx do
-  #run "cd #{release_path} && rake ts:conf"
+  #run "cd #{release_path} && bundle exec rake ts:conf"
  run "cp #{release_path}/config/production.sphinx.conf_with_pipe #{release_path}/config/production.sphinx.conf"
 
  run "sed -i 's/listen = 127.0.0.1:3312/listen = 127.0.0.1:3322/' #{release_path}/config/production.sphinx.conf" 
@@ -125,12 +133,12 @@ task :migrate_database do
   # deploy.migrate should work, but is buggy and is run in the _previous_ release's
   # directory, thus never runs anything? Strange.
   #deploy.migrate
-  run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:migrate"
+  run "cd #{release_path} && RAILS_ENV='production'  bundle exec rake db:migrate"
 
 end
 
 task :load_seed_data do
-  run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:seed"
+  run "cd #{release_path} && RAILS_ENV='production'  bundle exec rake db:seed"
 end
 
 task :install_gems do
@@ -138,12 +146,12 @@ task :install_gems do
 end
 
 task :stop_sphinx do
- run "cd #{previous_release} && RAILS_ENV='production' bundle exec rake ts:stop"
+ run "cd #{previous_release} && RAILS_ENV='production'  bundle exec rake ts:stop"
 end
 
 task :start_sphinx do
-  run "cd #{release_path} && RAILS_ENV='production' bundle exec rake ts:reindex"
-  run "cd #{release_path} && RAILS_ENV='production' bundle exec rake ts:start"
+  run "cd #{release_path} && RAILS_ENV='production'  bundle exec rake ts:reindex"
+  run "cd #{release_path} && RAILS_ENV='production'  bundle exec rake ts:start"
 end
 
 task :record_deploy_info do 
@@ -153,10 +161,9 @@ end
 
 task :clear_cache do
   # We have to run it this way (in a subshell) because Rails.cache is not available
-  # in Rake tasks, otherwise we could stick a task into lib/tasks/madek.rake
-  run "cd #{release_path} && RAILS_ENV=production bundle exec rails runner 'Rails.cache.clear'"
+  # in Rake tasks, otherwise we could stick a task into lib/tasks/madek.bundle exec rake
+  run "cd #{release_path} && RAILS_ENV=production  bundle exec rails runner 'Rails.cache.clear'"
 end
-
 
 before "configure_sphinx", :link_sphinx
 before "deploy:symlink", :make_tmp
@@ -166,7 +173,7 @@ after "deploy:symlink", :configure_environment
 after "deploy:symlink", :link_attachments
 after "deploy:symlink", :record_deploy_info 
 after "deploy:symlink", :migrate_database
-before "migrate_database", :install_gems
+#before "migrate_database", :install_gems
 after "migrate_database", :load_seed_data
 after "migrate_database", :clear_cache
 after "install_gems", :stop_sphinx

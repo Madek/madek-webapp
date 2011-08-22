@@ -45,9 +45,9 @@
             %div{:style => "height: 45px; position: relative; left: -6px"}
               = file_field_tag :uploaded_data, :onchange => "append_to_queue(this);", :multiple => true, :min => 1, :max => 99
             %p
-              Probleme mit dem Firefox 4.0 / Safari 5.0 / Chrome 10.0 Multiupload? Benutzen Sie unseren
+              Sie benutzen den Multiuploader. Alternativ können Sie den  
               = link_to_function _("Basic Uploader") + "", "activate_step('1b')"
-              \.
+              \ verwenden.
 
         = render :partial => "files"
 
@@ -55,11 +55,7 @@
           %p
             %strong
               Akzeptierte Dateiformate:
-            Bilder in den Formaten
-            %strong
-              TIFF, JPEG und PNG
-            werden direkt verarbeitet und dargestellt.
-            Weitere Dateitypen (Videos, Dokumente etc.) können ebenfalls hochgeladen werden, sind vorerst jedoch nur nur als ZIP-Datei verfügbar.
+            Bilder (TIFF, JPEG, PNG) sowie Audio- und Videofiles in den gängigsten Formaten werden direkt verarbeitet und dargestellt. Weitere Dateitypen (PDFs, PSDs, Webarchive) können ebenfalls hochgeladen werden, sind vorerst jedoch nur nur als ZIP-Datei verfügbar.
           %p#submit_to_2{:style => "margin: 3em 0 1em 0; display: none;"}
             %a#submit_upload_form.upload_buttons{:href => "#"}
               /<span class="ui-icon ui-icon-circle-arrow-n"></span>
