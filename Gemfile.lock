@@ -209,6 +209,7 @@ DEPENDENCIES
   mysql2 (~> 0.2.7)
   nested_set (~> 1.6.5)
   rails (= 3.0.7)
+  rake
   rcov
   rgl (~> 0.4.0)
   rspec-rails

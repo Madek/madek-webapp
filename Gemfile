@@ -2,6 +2,7 @@ source 'http://rubygems.org'
 source 'http://gems.github.com'
 
 gem 'rails', '3.0.7' #Rails3.1# '3.1.0.rc1' 
+gem 'rake'
 gem 'builder', '~> 2.1.2' #Rails3.1# '~> 3.0'  
 gem 'i18n' # Need this explicitly, otherwise can't deploy
 
