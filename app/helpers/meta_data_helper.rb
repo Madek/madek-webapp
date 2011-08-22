@@ -352,8 +352,8 @@ module MetaDataHelper
           h += widget_meta_terms_multiselect(meta_datum, meta_key)
 
         when "Copyright"
-          h += meta_datum.hidden_field :value, :class => "copyright_value"
-###          h += hidden_field_tag field_id, meta_datum.object.value.first, :class => "copyright_value"
+          #old# h += meta_datum.hidden_field :value, :class => "copyright_value"
+          h += hidden_field_tag "#{meta_datum.object_name}[value]", meta_datum.object.value.try(:first), :class => "copyright_value"
 
           @copyright_all ||= Copyright.all # OPTIMIZE
           @copyright_roots ||= Copyright.roots

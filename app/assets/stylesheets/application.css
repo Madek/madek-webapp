@@ -7,7 +7,4 @@
  *= require reset 
  *= require jquery/jquery-ui-1.8.12.custom
  *= require master
- * 
- * require_self
- * require_tree .
 */

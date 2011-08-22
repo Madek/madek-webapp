@@ -13,8 +13,6 @@
 //= require batch_actions
 //= require madek_ajax_upload
 //= require madek11
-//
-// require_tree .
 
 function document_ready(){
 	$("textarea").elastic();
