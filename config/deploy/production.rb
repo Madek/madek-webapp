@@ -1,4 +1,11 @@
 # -*- encoding : utf-8 -*-
+
+# Don't switch to 1.9.2 until we're 100% ready
+#$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
+#require "rvm/capistrano"                  # Load RVM's capistrano plugin.
+#set :rvm_ruby_string, '1.9.2'        # Or whatever env you want it to run in.
+require "bundler/capistrano"
+
 set :application, "madek"
 
 set :scm, :git
@@ -11,7 +18,6 @@ set :ldap_config, "/home/rails/madek/LDAP.yml"
 set :zencoder_config, "/home/rails/madek/zencoder.yml"
 set :checkout, :export
 
-require "bundler/capistrano"
 
 set :use_sudo, false 
 set :rails_env, "production"
@@ -169,7 +175,7 @@ after "deploy:symlink", :link_attachments
 after "deploy:symlink", :migrate_database
 after "deploy:symlink", :record_deploy_info
 #before "migrate_database", :install_gems
-after "migrate_database", :load_seed_data
+#after "migrate_database", :load_seed_data
 after "migrate_database", :clear_cache
 before "deploy:restart", :make_tmp
 after "install_gems", :stop_sphinx
