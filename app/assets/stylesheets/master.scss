@@ -1006,7 +1006,7 @@ ul li { float: left; }
 	
 .item_title {
 	font-size: 0.9em;
-	line-height: 1.12em;
+	line-height: 1.2em;
 	max-height: 2.4em;
 	color: #4c4c4c;
 }
@@ -1170,39 +1170,17 @@ ul li { float: left; }
 .actions {
 	position: absolute;
 	bottom: 0;
-	/*right: 0;*/
+	width: 140px;
+	padding: 2px;
 	display: none;
 }
 
 .action_left {
-	/*width: 72px;*/
-	text-align: left;
-	padding-left: 0;
 	float: left;
-	vertical-align: baseline;
-	
-	.explore_link {
-		padding-left: 3px;	
-	}
-}
-
-.action_left input[type="checkbox"] {
-	text-align: left;
-	padding-left: 5px;
-	margin-top: 3px;
-	vertical-align: baseline;
-	float: left;
-	margin-right: 10px;
 }
 
 .action_right {
-	/*width: 72px;*/
-	/*text-align: right;*/
 	float: right;
-	padding-left: 8px;
-}
-.action_right img {
-	padding-left: 5px;
 }
 
 /* Links and Buttons */
@@ -1512,16 +1490,44 @@ button.dark:hover {
 .ghost {
 	opacity:0.3;
 }
-#detail-action-bar .ghost {
+
+#toggle-panel .button_delete_active.ghost {
 	opacity:0.3;
+	display: block;
 	border: 1px solid #aaaaaa;
 	width: 38px;
 	height: 38px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	/*background-position: 10px -440px;*/
+	background: url(icons/madek_icon_sprites.png) 10px -440px no-repeat;
 }
+
+#toggle-panel .button_explore.ghost {
+	opacity:0.3;
+	display: block;
+	border: 1px solid #aaaaaa;
+	width: 38px;
+	height: 38px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	background: url(icons/madek_icon_sprites.png) 10px -917px no-repeat;
+}
+
+#toggle-panel .button_edit_active.ghost {
+	opacity:0.3;
+	display: block;
+	border: 1px solid #aaaaaa;
+	width: 38px;
+	height: 38px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	background: url(icons/madek_icon_sprites.png) 10px -712px no-repeat;
+}
+
+
 
 /* Batch edit */
 
@@ -1965,6 +1971,7 @@ table td {
 	float: left;
 	clear: left;
 
+
 	img {
 		padding-top: 2px;
 	}
@@ -1982,14 +1989,14 @@ table td {
 		padding: 9px 10px;
 		text-align: center;
 		text-shadow: 0 1px 0 #fff;
+		-moz-box-shadow: 0 0 1px 1px #eaeaea;
+		-webkit-box-shadow: 0 0 1px 1px #eaeaea;
+		box-shadow: 0 0 1px 1px #eaeaea;
 		-moz-border-radius: 3px;
 		-webkit-border-radius: 3px;
 		border-radius: 3px;
 		background: white;
 		border: 1px solid #d6d6d6;
-		-moz-box-shadow: 0 0 1px 1px #eaeaea;
-		-webkit-box-shadow: 0 0 1px 1px #eaeaea;
-		box-shadow: 0 0 1px 1px #eaeaea;
 		height: 20px;
 	}
 	
@@ -2207,7 +2214,7 @@ form#set_media_sets input[type="submit"] {
 #detail-excerpt {
 	line-height: 1.2em;
 	padding-right: 20px;
-	margin-top: -3px;
+	margin-top: 25px;
 	
 	h4 {
     color: #7F7F7F;
