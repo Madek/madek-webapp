@@ -114,7 +114,7 @@ class MetaDatum < ActiveRecord::Base
   
   def to_s
     v = deserialized_value
-    if v.is_a?(Array)
+    s = if v.is_a?(Array)
       case meta_key.object_type
         when "Meta::Date"
           v.join(' - ')
@@ -124,6 +124,11 @@ class MetaDatum < ActiveRecord::Base
     else
       v.to_s
     end
+    # We must force the encoding of the retrieved string, otherwise it gives us the form it deserialized
+    # into ASCII-8BIT, which looks like this: "\xE2\x88\x86G  = \xE2\x88\x86G\xC2\xB0\xE2\x80\x99 +  R T lnK" 
+    # Those multibyte characters are useless to us in that form and the encoding mismatch triggers an
+    # EncodingError exception.
+    s.force_encoding("utf-8") 
   end
 
   # some meta_keys don't store values,

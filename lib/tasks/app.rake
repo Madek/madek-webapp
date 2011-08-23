@@ -34,7 +34,7 @@ namespace :app do
       meta_contexts = MetaContext.all.as_json(:except => [:id],
                                               :include => {:meta_key_definitions => {:except => [:id, :created_at, :updated_at]}})
   
-      copyrights = Copyright.all.as_json
+      copyrights = Copyright.all.as_json(:except => [:lft, :rgt])
       
       media_sets = Media::Set.all.as_json(h)
   
