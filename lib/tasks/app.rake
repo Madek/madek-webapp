@@ -29,7 +29,7 @@ namespace :app do
       
       meta_terms = Meta::Term.all.as_json
   
-      meta_keys = MetaKey.all.as_json
+      meta_keys = MetaKey.all.as_json(:methods => :meta_term_ids)
   
       meta_contexts = MetaContext.all.as_json(:except => [:id],
                                               :include => {:meta_key_definitions => {:except => [:id, :created_at, :updated_at]}})
@@ -46,8 +46,6 @@ namespace :app do
   
       # TODO
       #1 media_projects_meta_contexts
-      #1 meta_keys_meta_terms
-      #2 copyrights
       #2 edit_sessions + upload_sessions
       #2 snapshots
       #3 usage_terms
