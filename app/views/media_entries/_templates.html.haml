@@ -1,31 +1,36 @@
-%script{:type => "text/x-jquery-tmpl", :id => "empty_index"}
-  %div.item_box
-    %div.thumb_box
 
-%script{:type => "text/x-jquery-tmpl", :id => "empty_result_page"}
-  %div.page{:"data-page" => "${pagination.current_page}"}
+////////////////////////////////////////////////////////////////////////////////
+
+%script#empty_index{:type => "text/x-jquery-tmpl"}
+  .item_box
+    .thumb_box
+
+%script#empty_result_page{:type => "text/x-jquery-tmpl"}
+  .page{:"data-page" => "${pagination.current_page}"}
     {{tmpl(pagination) "#pagination"}}
     {{tmpl(entries) "#empty_index"}}
 
-%script{:type => "text/x-jquery-tmpl", :id => "result_page"}
-  %div.page
+%script#result_page{:type => "text/x-jquery-tmpl"}
+  .page
     {{tmpl(pagination) "#pagination"}}
     {{tmpl(entries) "#thumbnail"}}
 
-%script{:type => "text/x-jquery-tmpl", :id => "pagination"}
+%script#pagination{:type => "text/x-jquery-tmpl"}
   .pagination
     ${total_entries} Einträge,
     Seite ${current_page} von ${total_pages}
   .clear
 
-%script{:type => "text/x-jquery-tmpl", :id => "thumbnail_mini"}
+%script#thumbnail_mini{:type => "text/x-jquery-tmpl"}
   %div{:class => "thumb_mini {{if is_editable}}edit{{/if}} {{if is_manageable}}manage{{/if}}", :rel => "${id}"}
     = image_tag("icons/button_remove_action.png", :class => "thumb_remove")
     %img{:src => "${thumb_base64}"}
-        
-%script{:type => "text/x-jquery-tmpl", :id => "thumbnail"}
-  %div.item_box{:id => "thumb_${id}"}
-    %div.item_permission
+
+////////////////////////////////////////////////////////////////////////////////
+
+%script#thumbnail{:type => "text/x-jquery-tmpl"}
+  .item_box{:id => "thumb_${id}"}
+    .item_permission
       {{if is_public}}
       .icon_status_perm_public
       {{else is_private}}
@@ -33,11 +38,11 @@
       {{/if}}
     {{if is_set}}
     %a{:href => "/media_sets/${id}"}
-      %div.thumb_box_set
+      .thumb_box_set
         %img{:src => "${thumb_base64}"}
     {{else}}
     %a{:href => "/media_entries/${id}"}
-      %div.thumb_box
+      .thumb_box
         %img{:src => "${thumb_base64}"}
     {{/if}}
     %p.item_title
@@ -78,17 +83,19 @@
         {{else}}
         .button_delete_active.ghost
         {{/if}}
+
+////////////////////////////////////////////////////////////////////////////////
         
-%script{:type => "text/x-jquery-tmpl", :id => "thumbnail_browse"}
-  %div.item_box.tmp{:id => "thumb_${id}", :style => "background-color: #f1f1f1; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);"}
-    %div.item_permission
+%script#thumbnail_browse{:type => "text/x-jquery-tmpl"}
+  .item_box.tmp{:id => "thumb_${id}", :style => "background-color: #f1f1f1; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);"}
+    .item_permission
       {{if is_public}}
       .icon_status_perm_public
       {{else is_private}}
       .icon_status_perm_private
       {{/if}}
     %a{:href => "/media_entries/${id}"}
-      %div.thumb_box
+      .thumb_box
         %img{:src => "${thumb_base64}"}
     %p.item_title
       ${title.substring(0,50)}
