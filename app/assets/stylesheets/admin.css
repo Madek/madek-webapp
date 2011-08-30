@@ -105,7 +105,7 @@ header h1 a {
 }
 
 .with_actions {
-	visibility: hidden;
+	/*visibility: hidden;*/
 	text-align: right;
 }
 
