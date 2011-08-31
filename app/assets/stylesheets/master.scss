@@ -708,7 +708,7 @@ ul li { float: left; }
 /* Pagination */
 
 .pagination {
-	margin: 5px 0 10px 0;
+	margin: -6px 16px 10px 0;
 	float: right;
 	color: #999999;
 	letter-spacing: 0.1ex;
@@ -724,6 +724,10 @@ ul li { float: left; }
 		color: #000;
 		text-decoration: none;
 	}
+}
+
+#content_body_result .pagination {
+	margin-top: 15px;
 }
 
 #content_body_set .pagination {
@@ -768,6 +772,7 @@ ul li { float: left; }
     line-height: 1.2em;
     letter-spacing: 0;
     border-bottom: 1px solid #5f5f5f;
+    background-color:#7c7c7c;
   }
   h3.filter_header {
     color: #FFFFFF;
@@ -806,7 +811,7 @@ ul li { float: left; }
   h5.filter_subcategory .input_wrapper { padding: 0 0 0 4px; font-size: 0.7em; letter-spacing: 0; }
   h4 { font-size: 1.2em; }
   #filter-query ul { margin: 0.9em 0 0.5em 15px; }
-  #filter-query ul li { padding: 0 0 5px 20px; text-indent: -22px; float: none; font-size: 0.8em; letter-spacing: 0.1ex; line-height: 1em; }
+  #filter-query ul li { padding: 0 0 5px 22px; text-indent: -22px; float: none; font-size: 0.8em; letter-spacing: 0.1ex; line-height: 1em; }
   #filter-query .filter_content { background-color: rgba(255, 255, 255, 0.8); color: #424242; max-height: 222px; overflow-x: hidden; overflow-y: auto; border-bottom: 1px solid #5f5f5f; }
   input[type="checkbox"] { margin: 0 5px 0 0; }
   .filter_footer { text-align: right; padding: 15px;}
@@ -1034,23 +1039,23 @@ ul li { float: left; }
 	
 .item_title {
 	font-size: 0.9em;
-	line-height: 1.2em;
-	max-height: 2.4em;
-	color: #4c4c4c;
+	line-height: 1.15em;
+	max-height: 30px;
+	color: black;
 }
 
 .item_author {
 	font-size: 0.7em;
 	line-height: 1.1em;
-	max-height: 2.2em;
-	margin-top: 0.5em;
+	max-height: 20px;
+	margin-top: 5px;
 	display: block;
 }
 
 .item_title, .item_author {
   overflow: hidden;
-  letter-spacing: 0.2ex;
-  padding-left: 2px;
+  letter-spacing: 0.1ex;
+  padding-left: 1px;
 }
 
 .item_permission {
