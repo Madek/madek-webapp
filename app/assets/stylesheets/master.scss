@@ -19,7 +19,8 @@
  
 /* Variables */
 
-$general_bg: #ff9;
+$general_bg: #F3F1EB; /* light beige */
+$selected_bg: #6FCBF5; /* cyan */
 
 /* ----------------------------------------------------*/
 
@@ -131,14 +132,14 @@ input:invalid, textarea:invalid {
 .no-boxshadow input:invalid, .no-boxshadow textarea:invalid { background-color: #f0dddd; }
 
 
-/* These selection declarations have to be separate
+/* These 6FCBF5 declarations have to be separate
    No text-shadow: twitter.com/miketaylr/status/12228805301
-   Also: hot pink! */
-::-moz-selection{ background: #FF5E99; color:#fff; text-shadow: none; }
-::selection { background:#FF5E99; color:#fff; text-shadow: none; }
+   Also: cool cyan! */
+::-moz-selection{ background:$selected_bg; color:#fff; text-shadow: none; }
+::selection { background:$selected_bg; color:#fff; text-shadow: none; }
 
 /* j.mp/webkit-tap-highlight-color */
-a:link { -webkit-tap-highlight-color: #FF5E99; }
+a:link { -webkit-tap-highlight-color:$selected_bg; }
 
 /* Make buttons play nice in IE:
    www.viget.com/inspire/styling-the-button-element-in-internet-explorer/ */
@@ -179,11 +180,12 @@ h6 {font-size: 1em}	/* 14px */
 h1, h2, h3, h4, h5, h6 {
 	font-weight: bold;
 	word-spacing:-0.1em;
+	letter-spacing: -0.05ex;
 }
 
 
 p {
-	letter-spacing: 0.1ex;
+	letter-spacing: 0.05ex;
 }
 
 /**
@@ -204,11 +206,11 @@ div#ajaxLoading {
 	display: none;
 }
 
-/* CSS image sprites - generated with:
+/******** CSS image sprites - generated with:
 http://spritegen.website-performance.org/
 and edited with:
 http://www.spritebox.net/
-*/
+********/
 
 .icon_me {
 	background: url(icons/madek_icon_sprites.png) -100px -381px no-repeat;
@@ -240,14 +242,14 @@ http://www.spritebox.net/
 
 .icon_status_perm_private {
 	background: url(icons/madek_icon_sprites.png) -100px -1038px no-repeat;
-	width: 18px;
-	height: 18px;
+	width: 30px;
+	height: 30px;
 }
 
 .icon_status_perm_public {
 	background: url(icons/madek_icon_sprites.png) -100px -1106px no-repeat;
-	width: 18px;
-	height: 18px;
+	width: 30px;
+	height: 30px;
 }
 
 .check_box {
@@ -335,10 +337,12 @@ http://www.spritebox.net/
 /* Header */
 
 header {
-	height: 68px;
+	height: 65px;
 	background-color: #333333;
-	background-image: -webkit-gradient(linear, 0% 0%, 0% 80%, from(#444444), to(#222222));
-	background-image: -moz-linear-gradient(0% 80% 90deg, #222222, #444444);
+	background: -moz-linear-gradient(0% 80% 90deg, #222222, #444444);
+	background: -webkit-gradient(linear, 0% 0%, 0% 80%, from(#444444), to(#222222));
+	overflow-x: hidden;
+	overflow-x: visible;
 }
 
 header a {
@@ -354,21 +358,25 @@ nav {
 	border-style: none;
 	width: 32px;
 	height: 32px;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	-o-border-radius: 2px;
-	border-radius: 2px;
 	display: inline-block;
-	float: left;
-	margin-left: 18px;
+	position:absolute;
+	top: 12px;
+	left: 48px;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-o-border-radius: 2px;
+	-ms-border-radius: 2px;
 }
 
 .main_nav_upload:hover {
+	display: inline-block;
 	background-position: -332px -413px;
-	-webkit-box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
-	-moz-box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
 	box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
-	overflow: visible;
+	-moz-box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+	-webkit-box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+	-o-box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+	-ms-box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
 }
 
 .main_nav_browse {
@@ -376,13 +384,15 @@ nav {
 	border-style: none;
 	width: 32px;
 	height: 32px;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	-o-border-radius: 2px;
-	border-radius: 2px;
 	display: inline-block;
-	float: left;
-	margin-left: 15px;
+	position:absolute;
+	top: 12px;
+	margin-left: 5px;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-o-border-radius: 2px;
+	-ms-border-radius: 2px;
 }
 
 .main_nav_browse:hover {
@@ -390,7 +400,7 @@ nav {
 	-webkit-box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
 	-moz-box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
 	box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
-	overflow: visible;	
+	display: inline-block;	
 }
 
 
@@ -400,37 +410,51 @@ nav {
 	background: transparent url(icons/madek_icon_sprites.png) -300px -69px no-repeat;
 	height: 40px;
 	width: 220px;
-	float: left;
-	display: block;
-	position: absolute;
+	display: inline-block;
+	top:-3px;
 	left: -10px;
-	top: 0;
+	position: absolute;
 }
 
 .logo_right {
 	background: transparent url(icons/madek_icon_sprites.png) -300px -159px no-repeat;
 	height: 40px;
 	width: 100px;
+	display: inline-block;
 	float: right;
-	display: block;
 	position: absolute;
-	right: -10px;
-	top: 0;
+	top:1px;
+	right: -90px;
 }
+
+
+#nav_links {
+	display: inline-block;
+	position: absolute;
+	left: 523px;
+	top: -1px;
+}
+
 
 /* Search */
 
+#quick-search {
+	display: inline-block;
+	position: relative;
+	top: -11px;
+	margin-left: 10px;
+}
+
 #search {
-    height: 2em;
-    padding-top: 12px;
-    margin-left: 240px;
+	display: inline-block;
+	position: absolute;
+	left: 222px;
+	top: 22px;
 }
 
 #search-query {
-	display: block;
-	float: left;
 	input[type="text"] {
-		width: 200px;
+		width: 240px;
 		height: 32px;
 		font-size: 1.1em;
 		padding-left: 8px;
@@ -442,7 +466,6 @@ nav {
 		-o-border-radius: 2px;
 		border-radius: 2px;
 		color: #ffffff;
-		z-index: 1002;
 	}
 	input[type="text"]:focus {
     background-color: rgba(255, 255, 255, 0.4);
@@ -465,16 +488,12 @@ nav {
 	-webkit-box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
 	-moz-box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
 	box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
-	overflow: visible;	
 }
 
 /*  Menu  */
 
 #menu {
-    float: right;
-    position: absolute;
-    right: 120px;
-    top: 0;
+    display: inline-block;
 	ul {
 		padding: 13px 0 0 0;
 		margin-left: 20px;
@@ -482,6 +501,9 @@ nav {
 }
 
 .head_menu {
+	position: absolute;
+	left: 90px;
+	top: 12px;
 	padding: 5px 10px;
 	border: none;
 	font-size: 0.9em;
@@ -492,9 +514,10 @@ nav {
 	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-	min-width: 150px;
+	min-width: 160px;
 	a {
 		font-weight: bold;
+		padding-left: 5px;
 	}
 	a:hover {
 		color: #FFFFFF;
@@ -525,7 +548,8 @@ nav {
 	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 	position: absolute;
-	right:0;
+	left:90px;
+	min-width: 160px;
 	top:0;
 	margin-top:45px;
 	z-index: 999;
@@ -546,7 +570,9 @@ nav {
 .head_menu .arrow {
 	vertical-align: bottom;
 	margin-top: 3px;
-	float: right;
+	margin-left: -2px;
+	float: left;
+	margin-left: -4px;
 }
 
 .sub_menu .item_line {
@@ -667,7 +693,7 @@ ul li { float: left; }
 	font-weight: bold;
 	letter-spacing: -0.05ex;
 	font-size: 1.9em;
-	padding: 0 0 20px 0;
+	padding: 15px 0 20px 20px;
 	float: left;
 }
 
@@ -721,7 +747,7 @@ ul li { float: left; }
   box-shadow: 1px 0 3px rgba(150, 150, 150, 0.6);
   color: #FFFFFF;
   position: fixed;
-  top: 80px;
+  top: 55px;
   left: 0;
   width: 257px;
   max-height: 80%;
@@ -1176,6 +1202,9 @@ ul li { float: left; }
 	padding: 2px;
 	display: none;
 }
+.actions a:hover {
+	text-decoration: none;
+}
 
 .action_left {
 	float: left;
@@ -1319,6 +1348,7 @@ button.dark {
 	float: right;
 	right: 20px;
 	top: -29px;
+	display: none; /*temporary off*/
 }
 
 .outside:hover {
@@ -1556,11 +1586,11 @@ button.dark:hover {
 .task_bar {
 	position: fixed;
 	left: 0;
-	text-align: center;
+	text-align: left;
 	min-width: 900px;
 	padding-left: 20px;
-	padding-top: 5px;
-	padding-bottom: 10px;	
+	padding-top: 0;
+	padding-bottom: 0;	
 	line-height: 2em;
 	background-color: rgba(50, 50, 50, 1);
 	-webkit-box-shadow: 0 -1px 3px rgba(150, 150, 150, 0.6);
@@ -1577,9 +1607,10 @@ button.dark:hover {
 	}
 	
 	h4 {
-		font-size: 0.9em;
-		padding: 2px 5px 0 20px;
-		background: url(icons/madek_icon_sprites.png) -100px -1168px no-repeat;
+		font-size: 0.95em;
+		padding: 2px 5px 0 0;
+		letter-spacing: 0;
+		/*background: url(icons/madek_icon_sprites.png) -100px -1168px no-repeat;*/
 	}
 
 	ul {
@@ -1596,7 +1627,7 @@ button.dark:hover {
 		letter-spacing: 0.1ex;
 		font-weight: normal;
 		word-spacing: 0.1ex;
-		padding-left: 0.05em;
+		padding-left: 5px;
 		padding-top: 2px;
 	}
 
@@ -1705,7 +1736,8 @@ form.new_person {
 }
 #select_deselect_all {
 	font-size: 0.9em;
-	letter-spacing: 0.05ex;
+	font-weight: bold;
+	letter-spacing: 0;
 	padding-top: 2px;
 	input[type="checkbox"] {
 		vertical-align: middle;
@@ -1767,7 +1799,7 @@ form.new_person {
 	-moz-box-shadow: 0 0 3px rgba(150, 150, 150, 0.6);
 	box-shadow: 0 0 3px rgba(150, 150, 150, 0.6);
 	position: absolute;
-	bottom: 87px;
+	bottom: 73px;
 	left: 0;
 	z-index: 1000;
 	padding-left: 10px;
@@ -2346,9 +2378,6 @@ form#set_media_sets input[type="submit"] {
 }
 
 #upload-container a {
-  text-decoration: none;
-}
-#upload-container a:hover {
   text-decoration: underline;
 }
 
@@ -2424,7 +2453,6 @@ form#set_media_sets input[type="submit"] {
   line-height: 1.3em;
   letter-spacing: 0.1ex;
   margin-top: 3px;
-  padding-left: 22px;
 }
 
 .with_actions .hint {
@@ -2504,13 +2532,14 @@ table.organize-detail-view td {
 	width: 200px;
 	height: 90px;
 	margin-top: 10px;
-	padding: 5px;
+	padding: 5px 5px 15px 5px;
 	font: 0.9em/1.1em;
 	letter-spacing: 0;
 	background-color: #F2F2F2;
 	
 	p {
-    padding: 0.75em;	
+    padding: 0.75em;
+    line-height: 1.1em;	
 	}
 }
 
@@ -2524,7 +2553,7 @@ table.organize-detail-view td {
 }
 
 #uploader-subnavigation ol li span {
-	padding-top: 8px;
+	padding-top: 5px;
 	font-size: 0.85em;
 	line-height: 1.3em;
 	display: block;
@@ -3346,6 +3375,8 @@ ul.holder li.input_holder {
 
 .hint {
     display: block;
+	background-color: #FEFFD7;
+	padding: 2px;
     z-index: 99999;
 	font: normal 0.8em/1.2em "Courier New", Courier, mono;
 	margin-top: 0.8em;

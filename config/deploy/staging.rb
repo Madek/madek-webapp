@@ -66,7 +66,7 @@ namespace :deploy do
 	end
 
 	task :restart do
-    run "touch #{latest_release}/tmp/restart.txt" 
+    run "touch #{latest_release}/tmp/restart.txt"
 	end
 
 end

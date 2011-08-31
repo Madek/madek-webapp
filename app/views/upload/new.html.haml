@@ -45,7 +45,9 @@
             %div{:style => "height: 45px; position: relative; left: -6px"}
               = file_field_tag :uploaded_data, :onchange => "append_to_queue(this);", :multiple => true, :min => 1, :max => 99
             %p
-              Sie benutzen den Multiuploader. Alternativ können Sie den  
+              %strong
+                Sie benutzen den Multiuploader.
+              Alternativ können Sie den  
               = link_to_function _("Basic Uploader") + "", "activate_step('1b')"
               \ verwenden.
 
