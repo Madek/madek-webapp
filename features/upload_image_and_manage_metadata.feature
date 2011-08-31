@@ -13,7 +13,7 @@ Feature: Upload images and manage media entries based on images
     When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "not a special picture"
 
-  @javascript @broken
+  @javascript
   Scenario: Upload an image and add it to a set
     When I log in as "helmi" with password "saumagen"
      And I go to the home page
@@ -32,7 +32,7 @@ Feature: Upload images and manage media entries based on images
      And I wait for the CSS element "#text_media_set"
      And I fill in the set title with "Mauerstücke"
      And I press "Hinzufügen"
-     And I press "Zu Set/Projekt hinzufügen"
+     And I press "Zu ausgewähltem Set/Projekt hinzufügen…"
      And Sphinx is forced to reindex
      And I go to the home page
      Then I should see "berlin wall for a set"
