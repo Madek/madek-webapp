@@ -120,7 +120,7 @@ class MediaSetsController < ApplicationController
           unless params[:media_entry_ids] == "null" # check for blank submission of batch edit form.
             redirect_to(@media_set) 
           else
-            flash[:error] = "Keine Medieneinträge ausgewählt."
+            flash[:error] = "Keine Medieneinträge ausgewählt"
             redirect_to @media_set
           end
           } # OPTIMIZE
