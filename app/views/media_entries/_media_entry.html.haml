@@ -59,20 +59,20 @@
           = _("Bitte anmelden.")
     .clear
     #additional-metadata
-      %h3.tab-title= _("Metadaten")
-      #detail_specification.tabs
+      #detail_specification
         %ul
           - (MetaContext.defaults + media_entry.individual_contexts).collect do |meta_context|
             %li
-              = link_to meta_context, polymorphic_path([media_entry, :meta_data], :context_id => meta_context)
+              = display_meta_data_for(media_entry, meta_context)
           %li
-            = link_to _("Datei"), polymorphic_path([:objective, media_entry, :meta_data])
+            = display_objective_meta_data_for(media_entry)
           - if media_entry.media_file.meta_data and media_entry.media_file.meta_data["GPS:GPSLatitude"] and media_entry.media_file.meta_data["GPS:GPSLongitude"]
             %li= link_to _("Karte"), [:map, media_entry]
           - if is_expert
             - meta_context = MetaContext.tms
             %li
-              = link_to meta_context, polymorphic_path([media_entry, :meta_data], :context_id => meta_context) 
+              = display_meta_data_for(media_entry, meta_context)
+
       %h3.tab-title{:style => "margin-top: 2em"}= _("Weitere Informationen")
       #further_information.tabs
         %ul

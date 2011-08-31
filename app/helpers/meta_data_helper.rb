@@ -1,5 +1,42 @@
 # -*- encoding : utf-8 -*-
 module MetaDataHelper
+
+  def display_meta_data_helper(title, values)
+    capture_haml do
+      haml_tag :h4, title
+      if values.blank?
+        haml_tag :div, _("Es sind keine Metadaten zu diesem Kontext bereit gestellt."), :class => "meta_data_comment"
+      else
+        haml_tag :div, :class => "meta_data" do
+          values.each do |value|
+            haml_tag :div do
+              haml_tag :label, value.first
+              haml_tag :br
+              haml_concat value.last
+            end
+          end
+        end
+      end
+    end
+  end
+
+  def display_meta_data_for(resource, context)
+    h = {}
+    meta_data = resource.meta_data_for_context(context, false)
+    meta_data.each do |meta_datum|
+      next if meta_datum.to_s.blank? #tmp# OPTIMIZE 2007
+      definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
+      h[definition.meta_field.label.to_s] = formatted_value(meta_datum) 
+    end
+    display_meta_data_helper(context, h)
+  end
+  
+  def display_objective_meta_data_for(resource)
+    meta_data = resource.media_file.meta_data_without_binary.sort
+    display_meta_data_helper(_("Datei"), meta_data)
+  end
+  
+  #####################################################################################
   
   def display_meta_data_for_context(resource, context)
     capture_haml do
