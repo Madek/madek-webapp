@@ -266,13 +266,13 @@ function displayCount() {
 		$('#selected_items').show();
 		$('.task_bar .action_btn').show();
 	    if (count_checked > 1) {
-			display_count.html(count_checked + " Medieneinträge ausgewählt.");
+			display_count.html(count_checked + " Medieneinträge ausgewählt");
 		}else{
-	        display_count.html("1 Medieneintrag ausgewählt.");
+	        display_count.html("1 Medieneintrag ausgewählt");
 		}
 	} else {
 		$('.task_bar .action_btn').hide();
-		display_count.html("Keine Medieneinträge ausgewählt.");
+		display_count.html("Keine Medieneinträge ausgewählt");
 		$('#selected_items').hide();
 	};
 

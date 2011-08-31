@@ -1,9 +1,13 @@
 .container_12.clearfix
   .grid_12
-    %nav.clearfix
+    %nav
       = link_to "Medienarchiv der Künste", root_path, :class => "logo_left ir"
-    = render :partial => "layouts/search" unless @disable_search
-    = link_to "ZHdK", "http://www.zhdk.ch", :class => "logo_right ir"
+      = render :partial => "layouts/search" unless @disable_search
+      #nav_links
+        = link_to _(@set), media_set_media_sets_path(@set), :title => "Inhalte erkunden", :class => "main_nav_browse ir" if (@set = Media::FeaturedSet.first) and !@set.children.empty?
+        = link_to _("Hochladen"), new_upload_path, :title => "Medien importieren", :class => "main_nav_upload ir"
+        = render :partial => "layouts/menu"
+      = link_to "ZHdK", "http://www.zhdk.ch", :class => "logo_right ir"
 
     
 - if logged_in?
@@ -11,6 +15,3 @@
 
 #ajaxLoading
   = image_tag "icons/spinner.gif"
-  
-.sticker
-  Das Interface des Medienarchivs wird zur Zeit aktualisiert. Ab April haben alle Seiten ein neues Interface Design.
