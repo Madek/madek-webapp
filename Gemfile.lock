@@ -1,12 +1,14 @@
 GIT
-  remote: git://github.com/tpo/irwi.git
-  revision: 5d38ce21ace85020efd5e99c39524f8f5c5570c1
+  remote: git://github.com/valodzka/irwi.git
+  revision: 2b0615ee5a3bf88b086acfaaba92ae25f52005cc
   specs:
     irwi (0.4.1)
+      actionpack (>= 3.0.0)
       actionpack (>= 3.0.0)
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
       diff-lcs (>= 1.1.2)
+      rails_autolink (>= 1.0)
 
 GEM
   remote: http://rubygems.org/

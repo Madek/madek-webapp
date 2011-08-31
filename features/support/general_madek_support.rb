@@ -343,12 +343,12 @@ end
 # Adds a media entry to a set. Only works if the media entry
 # has a title, so that it shows up under /media_entries. The set
 # also needs a title.
-def add_to_set(set_title = "Untitled Set", picture_title = "Untitled")
+def add_to_set(set_title = "Untitled Set", picture_title = "Untitled", owner = "No one")
   visit "/media_entries"
   click_media_entry_titled(picture_title)
   click_link_or_button("Zu Set/Projekt hinzufügen")
-  select(set_title, :from => "media_set_ids[]")
-  click_link_or_button("Zu ausgewähltem Set hinzufügen")
+  select("#{set_title} (#{owner})", :from => "media_set_ids[]")
+  click_link_or_button("Zu ausgewähltem Set/Projekt hinzufügen…")
   # The set title is displayed on the right-hand side of this page, so we should be able to
   # see it here.
   page.should have_content(set_title)
