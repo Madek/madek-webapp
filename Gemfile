@@ -43,7 +43,8 @@ gem 'mini_exiftool'
 # unfortunately upstream irwi is broken. Until it is fixed we
 # install it as a plugin from our own branch on github:
 # git@github.com:tpo/irwi.git
-gem 'irwi', :git => 'git://github.com/tpo/irwi.git'
+#gem 'irwi', :git => 'git://github.com/tpo/irwi.git'
+gem 'irwi', :git => 'git://github.com/valodzka/irwi.git'
 gem 'RedCloth'
 
 group :test, :development do

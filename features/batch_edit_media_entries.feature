@@ -15,9 +15,9 @@ Feature: Batch edit media entries
   Scenario: Remove two media entries from a set using batch edit
     When I log in as "helmi" with password "saumagen"
      And I create a set titled "Set One"
-     And I add the picture "Picture One" to the set "Set One"
-     And I add the picture "Picture Two" to the set "Set One"
-     And I add the picture "Picture Three" to the set "Set One"
+     And I add the picture "Picture One" to the set "Set One" owned by "Kohl, Helmut"
+     And I add the picture "Picture Two" to the set "Set One" owned by "Kohl, Helmut"
+     And I add the picture "Picture Three" to the set "Set One" owned by "Kohl, Helmut"
      And I go to the media entries
      And I click the media entry titled "Picture One"
      And I follow "Set One"
@@ -34,8 +34,8 @@ Feature: Batch edit media entries
   Scenario: Change metadata on two media entries using batch edit
     When I log in as "helmi" with password "saumagen"
      And I create a set titled "Batch Retitle Set"
-     And I add the picture "Picture One" to the set "Batch Retitle Set"
-     And I add the picture "Picture Two" to the set "Batch Retitle Set"
+     And I add the picture "Picture One" to the set "Batch Retitle Set" owned by "Kohl, Helmut"
+     And I add the picture "Picture Two" to the set "Batch Retitle Set" owned by "Kohl, Helmut"
      And I go to the media entries
      And I click the media entry titled "Picture One"
      And I follow "Batch Retitle Set"

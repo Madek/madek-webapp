@@ -196,8 +196,8 @@ When /^I create a set titled "([^"]*)"/ do |title|
   create_set(title)
 end
 
-When /^I add the picture "([^"]*)" to the set "([^"]*)"/ do |picture_title, set_title|
-    add_to_set(set_title, picture_title)
+When /^I add the picture "([^"]*)" to the set "([^"]*)" owned by "([^"]*)"/ do |picture_title, set_title, owner|
+    add_to_set(set_title, picture_title, owner)
 end
 
 When /^I toggle the favorite star on the media entry titled "([^"]*)"$/ do |title|
