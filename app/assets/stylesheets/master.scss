@@ -1903,7 +1903,7 @@ form.new_person {
 #detail_specification {
 	overflow: hidden;
 	white-space:normal;
-	margin: 1em 0 2em 0;
+	margin: 0 0 2em 0;
 	min-height: 176px;
 	
 	ul { 
@@ -2256,13 +2256,13 @@ form#set_media_sets input[type="submit"] {
 	margin-top: 25px;
 	
 	h4 {
-    color: #7F7F7F;
+      color: #7F7F7F;
 	  font-size: 0.8em;
 	  letter-spacing: 0.2ex;
 	}
 	
 	span {
-		letter-spacing: 0.1ex;
+	  letter-spacing: 0.1ex;
 	}
 	
 	.set-box {
@@ -2844,6 +2844,47 @@ table.meta_data td {
   color: black;
 }
 
+
+#additional-metadata {
+	margin-top: 0;
+	ul {
+		li {
+			width: 220px;
+			font-size: 0.85em;
+			line-height: 1.2em;
+			letter-spacing: 0.05ex;
+			margin-right: 10px;
+			margin-bottom: 15px;
+			max-height:500px;
+			overflow: hidden;
+			display: block;
+			h4 {
+				padding: 5px 0 10px 0;
+			}
+			p {
+				color: red;
+			}
+		}
+	}
+	.meta_data {
+			div {
+				padding-top: 7px;
+				padding-bottom: 10px;
+				border-bottom: 1px solid #E9E9E9;
+				label {
+	  				font-size: 0.8em;
+	  				line-height: 0.9em;
+	  				font-weight: bold;
+	  				letter-spacing: 0;
+				}
+			}
+	}
+}
+
+#additional-metadata ul li {
+	
+}
+/*
 #additional-metadata table {
 	width: 600px;
 	margin: 25px 0 20px 0;
@@ -2860,7 +2901,9 @@ table.meta_data td {
     letter-spacing: 0.2ex;
     line-height: 1em;
 }
+*/
 
+/*
 #further_information table td:first-child {
 	width: 140px;
     color: #7F7F7F;
@@ -2874,7 +2917,7 @@ table.meta_data td {
 	line-height: 2em;
 	min-height: 200px;
 }
-
+*/
 
 /* Metadata edit */
 
