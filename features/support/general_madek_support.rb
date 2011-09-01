@@ -109,7 +109,8 @@ def check_media_entry_titled(title)
   # which Capybara can't do)
   make_hidden_items_visible
   entry = find_media_entry_titled(title)
-  cb_icon = entry.find(:css, ".check_box").find("img")
+  #cb_icon = entry.find(:css, ".check_box").find("img")
+  cb_icon = entry.find(:css, "div.check_box")
   #debugger; puts "lala"
   cb_icon.click if (cb_icon[:src] =~ /_on.png$/).nil? # Only click if it's not yet checked
 end
