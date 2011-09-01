@@ -103,6 +103,7 @@
       ${author.substring(0,50)}
     %div{:style => "position: absolute; bottom: 0; left: 0; padding: 5px;"}
       .action_left
+        .check_box
         %span.favorite_link{:id => "fav_${id}", :title => "Favorit"}
           %a{:href => "/media_entries/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
             {{if is_favorite}}
