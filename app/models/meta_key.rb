@@ -47,20 +47,17 @@ class MetaKey < ActiveRecord::Base
     label #.capitalize
   end
 
+  def all_context_labels
+    #meta_key_definitions.collect {|d| "#{d.meta_context}: #{d.meta_field.label}" if d.key_map.blank? }.compact.join(', ')
+    meta_key_definitions.collect {|d| d.meta_field.label if d.key_map.blank? }.compact.uniq.join(', ')
+  end
+
 ########################################################
 
   #working here#9
   def key_map_for(context)
     d = meta_key_definitions.for_context(context)
     d.key_map if d
-  end
-
-########################################################
-
-  def self.all_cached
-    Rails.cache.fetch("meta_keys", :expires_in => 10.minutes) do
-      all
-    end    
   end
 
 ########################################################

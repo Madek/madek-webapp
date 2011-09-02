@@ -49,15 +49,11 @@ module ApplicationHelper
   ######## Icon #########
 
   def icon_tag(icon)
-    image_tag("/images/icons/#{icon}.png", :style => "vertical-align: middle;")
+    image_tag("icons/#{icon}.png", :style => "vertical-align: middle;")
   end
 
 
   ######## Editable #########
-
-  def include_editable
-    javascript_include_tag "madek_editable"
-  end
 
   def prevent_leaving_page
     javascript_tag do

@@ -10,7 +10,7 @@ class MediaEntry < ActiveRecord::Base
   
   TS_ATTRIBUTE_DEFINITIONS += [['height', 'int', 0], ['width', 'int', 0], ['orientation', 'int']]
 
-  belongs_to                :media_file, :include => :previews # TODO validates_presence # TODO on destroy, also destroy the media_file if this is the only related media_entry and snapshot
+  belongs_to                :media_file #, :include => :previews # TODO validates_presence # TODO on destroy, also destroy the media_file if this is the only related media_entry and snapshot
   belongs_to                :upload_session
   has_and_belongs_to_many   :media_sets, :class_name => "Media::Set",
                                          :join_table => "media_entries_media_sets",
@@ -224,7 +224,7 @@ class MediaEntry < ActiveRecord::Base
   def exiftool_subjective(media, tags = nil)
     result_set = []
     parse_hash = JSON.parse(`#{EXIFTOOL_PATH} -s "#{media}" -a -u -G1 -D -j`).first
-
+    # TODO ?? parse_hash.delete_if {|k,v| v.is_a?(String) and not v.valid_encoding? }
     tags.each do |tag_group|
       result_set << parse_hash.select {|k,v| k.include?(tag_group)}.sort
     end

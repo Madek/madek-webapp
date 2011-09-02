@@ -150,7 +150,7 @@ class MetaKeyDefinition < ActiveRecord::Base
 
 
       fmt = 'svg' # 'png'
-      dotfile = "public/images/graphs/meta"
+      dotfile = "app/assets/images/graphs/meta"
       src = dotfile + ".dot"
       dot = dotfile + "." + fmt
 
@@ -158,7 +158,7 @@ class MetaKeyDefinition < ActiveRecord::Base
         f << g.to_s << "\n"
       end
       system( "#{DOT_PATH} -T#{fmt} #{src} -o #{dot}" ) # dot # neato # twopi # circo # fdp # sfdp 
-      dot.gsub('public', '')
+      dot.gsub('app/assets/images/', '/assets/')
 
     ############ end graph
   end

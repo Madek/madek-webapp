@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 MAdeK::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
@@ -31,6 +30,10 @@ MAdeK::Application.configure do
   # Disable Rails's static asset server
   # In production, Apache or nginx will already do this
   config.serve_static_assets = false
+
+  # Compress both stylesheets and JavaScripts
+  config.assets.js_compressor  = :uglifier
+  config.assets.css_compressor = :scss
 
   # Enable serving of images, stylesheets, and javascripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"

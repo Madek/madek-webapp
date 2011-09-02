@@ -159,6 +159,7 @@ end
 
 
 
+before "deploy:symlink", :make_tmp
 after "deploy:symlink", :link_config
 before "configure_sphinx", :link_sphinx
 after "deploy:symlink", :configure_sphinx
@@ -169,7 +170,6 @@ after "deploy:symlink", :migrate_database
 before "migrate_database", :install_gems
 after "migrate_database", :load_seed_data
 after "migrate_database", :clear_cache
-before "deploy:restart", :make_tmp
 after "install_gems", :stop_sphinx
 after "deploy", :start_sphinx
 after "deploy", "deploy:cleanup"

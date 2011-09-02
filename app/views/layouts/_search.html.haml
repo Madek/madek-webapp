@@ -1,10 +1,21 @@
 #search
   #quick-search
-    %form{:action => search_path, :method => :get}
+    :ruby
+      #old#1#
+      path = search_path
+      #old#2#
+      #path = case request[:controller]
+      #  when "media_sets"
+      #    params[:type] ||= (@media_set and @media_set.is_a?(Media::Project) ? "projects" : nil)
+      #    media_sets_path(:type => params[:type])
+      #  else
+      #    media_entries_path
+      #end
+      #old#3# path = media_entries_path
+      #new# path = resources_path
+      
+    %form{:action => path, :method => :get}
       #search-query.basic
         %div
           = text_field_tag 'query', params[:query], :id => 'query'
           = submit_tag _("Suchen"), :title => "Suchen", :id => 'search-submit', :class => "ir", :name => nil
-    = link_to _(@set), media_set_media_sets_path(@set), :title => "Inhalte erkunden", :class => "main_nav_browse ir" if (@set = Media::FeaturedSet.first) and !@set.children.empty?
-    = link_to _("Hochladen"), new_upload_path, :title => "Medien importieren", :class => "main_nav_upload ir"
-    = render :partial => "layouts/menu"

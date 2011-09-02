@@ -31,7 +31,10 @@ MAdeK::Application.routes.draw do
 
   # TODO only [:index, :show] methods
 
-  resources :media_files
+  resources :resources, :only => :index
+
+  resources :media_files # TODO remove ??
+
   resources :media_entries do
     collection do
       get :favorites, :to => "media_entries#index"
@@ -51,6 +54,7 @@ MAdeK::Application.routes.draw do
       #temp# :index_browser => :get
       get :image
       get :map
+      get :browse
     end
     
     resources :permissions do

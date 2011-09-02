@@ -19,3 +19,4 @@ db/media_files/
 db/sphinx/
 .project
 .sass-cache/
+db/full_export.json

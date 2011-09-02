@@ -1,6 +1,6 @@
 /
   .page_title_left
-    %img{:src => "/images/icons/icon_permission.png"}
+    %img{:src => "/assets/icons/icon_permission.png"}
     = _("Zugriffsberechtigungen editieren")
   .clear
 
@@ -24,14 +24,14 @@
   %tr
     %td
       ${name}    
-    %td{:style => "{{if (view == 'mixed')}}background: url(/images/stripe_1.png){{/if}}"}
+    %td{:style => "{{if (view == 'mixed')}}background: url(/assets/stripe_1.png){{/if}}"}
       %input{:name => "{{if (type == 'nil')}}subject[${type}][view]{{else}}subject[${type}][${id}][view]{{/if}}", :type => "hidden", :value => "false"}
       <input name="{{if (type == 'nil')}}subject[${type}][view]{{else}}subject[${type}][${id}][view]{{/if}}" type="checkbox" value="true" {{if view}}checked="checked"{{/if}}>
-    %td{:style => "{{if (edit == 'mixed')}}background: url(/images/stripe_1.png){{/if}}"}
+    %td{:style => "{{if (edit == 'mixed')}}background: url(/assets/stripe_1.png){{/if}}"}
       %input{:name => "{{if (type == 'nil')}}subject[${type}][edit]{{else}}subject[${type}][${id}][edit]{{/if}}", :type => "hidden", :value => "false"}
       <input name="{{if (type == 'nil')}}subject[${type}][edit]{{else}}subject[${type}][${id}][edit]{{/if}}" type="checkbox" value="true" {{if edit}}checked="checked"{{/if}}>
     - if @display_hi_res_action
-      %td{:style => "{{if (hi_res == 'mixed')}}background: url(/images/stripe_1.png){{/if}}"}
+      %td{:style => "{{if (hi_res == 'mixed')}}background: url(/assets/stripe_1.png){{/if}}"}
         %input{:name => "{{if (type == 'nil')}}subject[${type}][hi_res]{{else}}subject[${type}][${id}][hi_res]{{/if}}", :type => "hidden", :value => "false"}
         <input name="{{if (type == 'nil')}}subject[${type}][hi_res]{{else}}subject[${type}][${id}][hi_res]{{/if}}" type="checkbox" value="true" {{if hi_res}}checked="checked"{{/if}}>
     %td

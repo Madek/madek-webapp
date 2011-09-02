@@ -1,5 +1,6 @@
 class SearchController < ApplicationController
-  
+
+  #old# TODO remove
   def show
     viewable_media_entry_ids = current_user.accessible_resource_ids
     viewable_media_set_ids = current_user.accessible_resource_ids(:view, "Media::Set")
@@ -30,7 +31,7 @@ class SearchController < ApplicationController
     @projects = Logic.enriched_resource_data(@paginated_project_ids, current_user, resource_type)
 
     respond_to do |format|
-      format.html { @editable_sets = Media::Set.accessible_by(current_user, :edit) }
+      format.html
       format.js { 
         render :json => case params[:page_type]
           when "media_entry_tab"

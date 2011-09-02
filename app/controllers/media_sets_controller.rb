@@ -24,6 +24,9 @@ class MediaSetsController < ApplicationController
       end
     end
 
+    #3105#
+    @_media_set_ids = ids
+
     respond_to do |format|
       format.html
     end
@@ -36,8 +39,8 @@ class MediaSetsController < ApplicationController
     @paginated_media_entry_ids = @_media_entry_ids.paginate(:page => params[:page], :per_page => PER_PAGE.first)
     @json = Logic.data_for_page(@paginated_media_entry_ids, current_user).to_json
 
-    @editable_sets = Media::Set.accessible_by(current_user, :edit)
-    @can_edit_set = @editable_sets.include?(@media_set)
+    editable_sets = Media::Set.accessible_by(current_user, :edit)
+    @can_edit_set = editable_sets.include?(@media_set)
 
     respond_to do |format|
       format.html
@@ -106,9 +109,9 @@ class MediaSetsController < ApplicationController
         new_members = @media_set.media_entries.push_uniq(media_entries)
       end
       flash[:notice] = if new_members > 1
-         "#{new_members} neue Medieneinträge wurden dem Set #{@media_set.title} hinzugefügt" 
+         "#{new_members} neue Medieneinträge wurden dem Set/Projekt #{@media_set.title} hinzugefügt" 
       elsif new_members == 1
-        "Ein neuer Medieneintrag wurden dem Set #{@media_set.title} hinzugefügt" 
+        "Ein neuer Medieneintrag wurde dem Set/Projekt #{@media_set.title} hinzugefügt" 
       else
         "Es wurden keine neuen Medieneinträge hinzugefügt."
       end
@@ -117,7 +120,7 @@ class MediaSetsController < ApplicationController
           unless params[:media_entry_ids] == "null" # check for blank submission of batch edit form.
             redirect_to(@media_set) 
           else
-            flash[:error] = "Keine Medieneinträge ausgewählt."
+            flash[:error] = "Keine Medieneinträge ausgewählt"
             redirect_to @media_set
           end
           } # OPTIMIZE

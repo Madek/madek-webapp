@@ -1,11 +1,15 @@
 :ruby
-  icon_src = case params[:type]
+  icon_class = case params[:type]
     when "projects"
-      "/images/icons/icon_project.png"
+      "icon_project"
     else
-      "/images/icons/icon_set.png"
+      "icon_set"
   end
   accessible_resource_ids = current_user.accessible_resource_ids
+
+/ #3105#
+.filter_area
+  = render :partial => 'search/filter_form', :locals => {:resource_ids => @_media_set_ids, :type => "Media::Set" }
 
 - unless @media_set
   - if params[:type] != "projects"
@@ -39,7 +43,7 @@
     %section#content_body.clearfix
       %div.page_title_left
         - if @media_sets
-          %img{:src => icon_src}
+          %div{:class => icon_class}
           %a{:id => "meine", :name => "meine", :href => "#"}
           = @my_title
       .pagination
@@ -54,7 +58,7 @@
     %section#content_body2.clearfix
       %div.page_title_left
         %a{:id => "weitere", :name => "weitere", :href => "#"}
-        %img{:src => icon_src}
+        %div{:class => icon_class}
         = @other_title
       .pagination   
         %a{:href => "#meine"}
@@ -68,7 +72,7 @@
   .container_12.clearfix
     %section#content_body.clearfix
       %div.page_title_left
-        %img{:src => icon_src}
+        %div{:class => icon_class}
         = @my_title
       .clear
       - if @media_sets.any?
@@ -76,3 +80,62 @@
           = media_set_title(media_set, true, true, 9, accessible_resource_ids)
       - else 
         = _("Keine Sets vorhanden")
+
+
+
+=#Rails3.1# javascript_include_tag "batch_actions"
+    
+:javascript
+  $(document).ready(function () {
+    /////////////////////////////////// dry start
+    // #3105#
+    $('.filter_box h3.filter_category a.filter_category_link').click(function() {
+      var icon = $(this).siblings('span.ui-icon');
+      var to_toggle = $(this).parent().next('.filter_content');
+
+      to_toggle.toggle();
+      if (to_toggle.is(":visible")) {
+        icon.removeClass('ui-icon-triangle-1-e').addClass('ui-icon-triangle-1-s');
+      } else {
+        icon.removeClass('ui-icon-triangle-1-s').addClass('ui-icon-triangle-1-e');
+      };
+      return false;
+    });
+
+    var checkboxes = $(".filter_content input[data-item_ids]:checkbox");
+    checkboxes.change(function(){
+      var parent_form = $(this).closest("form");
+      var sibling_checkboxes = parent_form.find("input[data-item_ids]:checkbox");
+      var intersected_ids = parent_form.data('item_ids');
+      sibling_checkboxes.filter(":checked").each(function(i, elem){
+        var a = $(elem).data('item_ids');
+        intersected_ids = (i ? intersected_ids.intersect(a) : a );
+      });
+      sibling_checkboxes.each(function(){
+        var that = $(this);
+        var a = that.data('item_ids');
+        if(intersected_ids) a = intersected_ids.intersect(a);
+        that.next(".total_ids").html(a.length);
+        if(a.length){
+          that.closest("li").removeClass("disabled");
+          that.removeAttr("disabled");
+        }else{
+          that.closest("li").addClass("disabled");
+          that.attr("disabled", "disabled");
+        }
+      });
+      var submit_value = "Filter anwenden";
+      if(intersected_ids) submit_value += " ("+intersected_ids.length+")";
+      parent_form.find(".filter_footer #filter-submit").val(submit_value);
+      parent_form.find("input#filter_ids").val(intersected_ids.join(','));
+    });
+
+    $(".filter_content form").live('ajax:complete.rails', function(xhr, response){ // TODO ajax:success ??
+      var json = JSON.parse(response.responseText);
+      var container = $("#results");
+      container.empty();
+      display_results(json, container)      
+    });
+    /////////////////////////////////// dry end
+
+  });

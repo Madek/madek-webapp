@@ -217,15 +217,15 @@ class MediaFile < ActiveRecord::Base
       tmparr = thumbnail_storage_location
       tmparr += "_#{thumb_size.to_s}"
       outfile = [tmparr, 'jpg'].join('.')
-      conv_res = `convert -verbose "#{file}" -auto-orient -thumbnail "#{value}" -flatten -unsharp 0x.5 "#{outfile}"`
-      if conv_res.blank?
-        # if convert failed, we need to take or delegate off some rescue action, ideally.
-        # but for the moment, lets just imply no-thumbnail need be made for this size
-      else
+      `convert -verbose "#{file}" -auto-orient -thumbnail "#{value}" -flatten -unsharp 0x.5 "#{outfile}"`
+      if File.exists?(outfile)
         x,y = `identify -format "%wx%h" "#{outfile}"`.split('x')
         if x and y
           previews.create(:content_type => 'image/jpeg', :filename => outfile.split('/').last, :height => y, :width => x, :thumbnail => thumb_size.to_s )
         end
+      else
+        # if convert failed, we need to take or delegate off some rescue action, ideally.
+        # but for the moment, lets just imply no-thumbnail need be made for this size
       end
     end
   end
@@ -278,7 +278,7 @@ class MediaFile < ActiveRecord::Base
         return "http://lorempixum.com/#{w}/#{h}/#{cat}/#{n}"
       else
         size = (size == :large ? :medium : :small)
-        output = File.read("#{Rails.root}/public/images/#{preview}_#{size}.png")
+        output = File.read("#{Rails.root}/app/assets/images/#{preview}_#{size}.png")
         return "data:#{content_type};base64,#{Base64.encode64(output)}"
     end
   end
@@ -464,6 +464,7 @@ class MediaFile < ActiveRecord::Base
   def exiftool_obj(full_path_file, tags = nil)
     result_set = []
     parse_hash = JSON.parse(`#{EXIFTOOL_PATH} -s "#{full_path_file}" -a -u -G1 -D -j`).first
+    parse_hash.delete_if {|k,v| v.is_a?(String) and not v.valid_encoding? }
     tags.each do |tag_group|
       result_set << parse_hash.select {|k,v| k.include?(tag_group)}.sort
     end

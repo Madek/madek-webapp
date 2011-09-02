@@ -24,7 +24,7 @@ Feature: Do things to and with sets and projects
      |Titel    |into the set after uploading|
      |Copyright|some other dude             |
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set"
+     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
      And Sphinx is forced to reindex
      And I go to the media entries
      And I click the media entry titled "into the set after uploading"
@@ -33,7 +33,7 @@ Feature: Do things to and with sets and projects
      And I wait for the CSS element "#text_media_set"
      And I fill in the set title with "After-Upload Set"
      And I press "Hinzufügen"
-     And I press "Zu ausgewähltem Set hinzufügen…"
+     And I press "Zu ausgewähltem Set/Projekt hinzufügen…"
      And Sphinx is forced to reindex
      And I go to the home page
     Then I should see "into the set after uploading"
@@ -56,7 +56,7 @@ Feature: Do things to and with sets and projects
      |Titel    |into the set after uploading|
      |Copyright|some other dude             |
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set"
+     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
      And Sphinx is forced to reindex
      And I go to the media entries
      And I click the media entry titled "into the set after uploading"
@@ -65,7 +65,7 @@ Feature: Do things to and with sets and projects
      And I wait for the CSS element "#text_media_set"
      And I fill in the set title with "After-Upload Set"
      And I press "Hinzufügen"
-     And I press "Zu ausgewähltem Set hinzufügen…"
+     And I press "Zu ausgewähltem Set/Projekt hinzufügen…"
      And Sphinx is forced to reindex
      And I go to the home page
      And I click the arrow next to "Kohl, Helmut"
@@ -82,7 +82,7 @@ Feature: Do things to and with sets and projects
 
 
 
-  @javascript @work
+  @javascript
   Scenario: Use a URL in a set description and expect it to turn into a link
     When I log in as "helmi" with password "saumagen"
      And I go to the home page
@@ -97,7 +97,7 @@ Feature: Do things to and with sets and projects
      |Titel    |Link test|
      |Copyright|some other dude             |
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set"
+     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
      And Sphinx is forced to reindex
      And I go to the media entries
      And I click the media entry titled "Link test"
@@ -106,7 +106,7 @@ Feature: Do things to and with sets and projects
      And I wait for the CSS element "#text_media_set"
      And I fill in the set title with "Testing the link"
      And I press "Hinzufügen"
-     And I press "Zu ausgewähltem Set hinzufügen…"
+     And I press "Zu ausgewähltem Set/Projekt hinzufügen…"
      And Sphinx is forced to reindex
      And I go to the home page
     Then I should see "Link test"

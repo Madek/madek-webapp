@@ -44,7 +44,7 @@ Feature: Help wiki
     When I follow "Foo"
     Then I should land on the newly to be created "Foo" page
 
-  @javascript
+  @javascript 
   Scenario: Admins should be able to add media links
     When I log in as "admin" with password "aadmin"
    Given there is a media entry
@@ -60,9 +60,8 @@ Feature: Help wiki
     When I add a link "[video=xxx | Das Huhn ]" to it on the wiki front page and save
     Then I should see "Das Huhn" within "video"
 
-
-  @javascript
-  Scenario: Admins should be able to add thumbnails
+  @javascript 
+  Scenario: Admins should be able to add screenshots
     When I log in as "admin" with password "aadmin"
    Given there is a media entry
     When I add a link "[thumbnail=210 | Das Huhn ]" to it on the wiki front page and save

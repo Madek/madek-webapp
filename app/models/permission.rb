@@ -12,9 +12,6 @@ class Permission < ActiveRecord::Base
 
   #old#precedence problem# default_scope order("created_at DESC")
 
-  after_save :invalidate_cache
-  before_destroy :invalidate_cache
-  
   # Returns the hash of assigned permissions #1504# TODO return directly the integer (bits & mask)
   def actions
     h = {}
@@ -49,14 +46,6 @@ class Permission < ActiveRecord::Base
     else
       save
     end
-  end
-
-  private
-
-  def invalidate_cache
-    #regex = /permissions\/#{subject_type}_#{subject_id}\/#{resource_type}_#{resource_id}\/actions.*/
-    regex = /permissions.*/
-    Permission.delete_matched_cached_keys(regex)
   end
 
 ##################################################
@@ -95,12 +84,8 @@ class Permission < ActiveRecord::Base
   
     # Lowest level of permission defaults.
     def system_default_actions
-      # NOTE cache tree structure: "permissions/subject_type_id/resource_type_id/actions/action_key"
-      key = "permissions/_/_/actions"
-      Rails.cache.fetch(key, :expires_in => 10.minutes) do
-        p = where(:subject_id => nil, :subject_type => nil, :resource_type => nil, :resource_id => nil).first
-        p ? p.actions : {} #1504#
-      end
+      p = where(:subject_id => nil, :subject_type => nil, :resource_type => nil, :resource_id => nil).first
+      p ? p.actions : {} #1504#
     end
   
     def resource_default(resource)
@@ -112,14 +97,11 @@ class Permission < ActiveRecord::Base
       system_default_actions.merge(p ? p.actions : {}) #1504#
     end
  
+    # TODO remove
     def cached_permissions_by(resource)
-      key = "permissions/_/#{resource.class}_#{resource.id}/actions"
-      Rails.cache.fetch(key, :expires_in => 10.minutes) do
-        add_to_cached_keys(key)
-        p = resource.permissions.all
-        p << resource.permissions.build(:subject => nil) unless p.any? {|x| x.subject.nil?} #2904# OPTIMIZE
-        p
-      end
+      p = resource.permissions.all
+      p << resource.permissions.build(:subject => nil) unless p.any? {|x| x.subject.nil?} #2904# OPTIMIZE
+      p
     end
     
     #################################################
@@ -192,77 +174,43 @@ class Permission < ActiveRecord::Base
       actions
     end
 
-    #####
-    # TODO move to an initializer or use
-    # http://railsforum.com/viewtopic.php?id=42738
-      def cached_keys
-        Rails.cache.read("cached_keys") || []
-      end
-  
-      def cached_keys=(keys)
-        Rails.cache.write("cached_keys", keys)
-      end
-  
-      def add_to_cached_keys(key)
-        self.cached_keys = (cached_keys + [key]) unless cached_keys.include?(key)
-      end
-      
-      def delete_matched_cached_keys(regex)
-        matched_keys = cached_keys.select {|v| v =~ regex }
-        matched_keys.each do |key|
-          Rails.cache.delete(key)
-        end
-        self.cached_keys = (cached_keys - matched_keys)
-      end
-    #
-    #####
-
     def accessible_by_all(resource_type, action = :view)
-      key = "permissions/_/#{resource_type}_/actions/#{action}"
-      Rails.cache.fetch(key, :expires_in => 10.minutes) do
-        add_to_cached_keys(key)
-        i = 2 ** ACTIONS.index(action)
-
-        select(:resource_id).
-            where(:resource_type => resource_type, :subject_type => nil).
-            where("action_bits & #{i} AND action_mask & #{i}").
-            collect(&:resource_id).uniq
-      end
+      i = 2 ** ACTIONS.index(action)
+      select(:resource_id).
+          where(:resource_type => resource_type, :subject_type => nil).
+          where("action_bits & #{i} AND action_mask & #{i}").
+          collect(&:resource_id).uniq
     end
 
     def accessible_by_user(resource_type, user, action = :view)
-      key = "permissions/#{user.class}_#{user.id}/#{resource_type}_/actions/#{action}"
-      Rails.cache.fetch(key, :expires_in => 10.minutes) do
-        add_to_cached_keys(key)
-        i = 2 ** ACTIONS.index(action)
-        
-        #1+3
-        user_groups_true = select(:resource_id).
+      i = 2 ** ACTIONS.index(action)
+      
+      #1+3
+      user_groups_true = select(:resource_id).
+                              where(:resource_type => resource_type).
+                              where("(subject_type = 'Group' AND subject_id IN (?)) OR (subject_type = 'User' AND subject_id = ?)", user.groups, user.id).
+                              where("action_bits & #{i} AND action_mask & #{i}").
+                              collect(&:resource_id).uniq
+      
+      #2
+      user_false = user.permissions.select(:resource_id).
+                                where(:resource_type => resource_type).
+                                where("(NOT action_bits & #{i}) AND action_mask & #{i}").
+                                collect(&:resource_id).uniq
+    
+    
+      #5
+      public_true = accessible_by_all(resource_type, action)
+      
+      
+      #2+4
+      user_groups_false = select(:resource_id).
                                 where(:resource_type => resource_type).
                                 where("(subject_type = 'Group' AND subject_id IN (?)) OR (subject_type = 'User' AND subject_id = ?)", user.groups, user.id).
-                                where("action_bits & #{i} AND action_mask & #{i}").
+                                where("(NOT action_bits & #{i}) AND action_mask & #{i}").
                                 collect(&:resource_id).uniq
-        
-        #2
-        user_false = user.permissions.select(:resource_id).
-                                  where(:resource_type => resource_type).
-                                  where("(NOT action_bits & #{i}) AND action_mask & #{i}").
-                                  collect(&:resource_id).uniq
-      
-      
-        #5
-        public_true = accessible_by_all(resource_type, action)
-        
-        
-        #2+4
-        user_groups_false = select(:resource_id).
-                                  where(:resource_type => resource_type).
-                                  where("(subject_type = 'Group' AND subject_id IN (?)) OR (subject_type = 'User' AND subject_id = ?)", user.groups, user.id).
-                                  where("(NOT action_bits & #{i}) AND action_mask & #{i}").
-                                  collect(&:resource_id).uniq
-  
-        ((user_groups_true - user_false) + (public_true - user_groups_false)).uniq
-      end
+
+      ((user_groups_true - user_false) + (public_true - user_groups_false)).uniq
     end
 
     def assign_manage_to(subject, resource, recursive = false)

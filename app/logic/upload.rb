@@ -92,7 +92,7 @@ class Upload
           # If this is a path-based upload for e.g. video files, it's almost impossible that we've imported the title
           # correctly because some file formats don't give us that metadata. Let's overwrite with an auto-import default then.
           # TODO: We should get this information from a YAML file that's uploaded with the media file itself instead.
-          if !params[:uploaded_data]
+          if !params['import_path'].blank?
             # TODO: Extract metadata from separate YAML file here, along with refactoring MediaEntry#process_metadata_blob and friends
             mandatory_key_ids = MetaKey.where(:label => ['title', 'copyright notice']).collect(&:id)
             if media_entry.meta_data.where(:meta_key_id => mandatory_key_ids).empty?

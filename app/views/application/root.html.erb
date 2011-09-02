@@ -6,7 +6,8 @@
 	<meta charset="UTF-8">
 	<title>Medienarchiv der Künste</title>
 	
-	<%= stylesheet_link_tag "reset", "960", "smv-style", "nivo-slider", "master", :media => "all" %>
+	<%= stylesheet_link_tag "root" %>
+	<%= javascript_include_tag "jquery.min", "plugins/jquery.nivo.slider.pack" %>
 	
 </head>
 
@@ -34,9 +35,9 @@
 			
 			<div id="slider-wrapper">
 				<div id="slider" class="nivoSlider">
-<img src="/images/goran-galic-568-215.png" alt="" title="#htmlcaption1" />
-<img src="/images/christoph-brunner-performance.png" alt="" title="#htmlcaption2" />
-<img src="/images/karen-kaegi.png" alt="" title="#htmlcaption3" />
+<img src="/assets/goran-galic-568-215.png" alt="" title="#htmlcaption1" />
+<img src="/assets/christoph-brunner-performance.png" alt="" title="#htmlcaption2" />
+<img src="/assets/karen-kaegi.png" alt="" title="#htmlcaption3" />
 				</div>
 			<div id="htmlcaption1" class="nivo-html-caption">
                 <strong>Ma Bice Boije - Goran Galic</strong><br />Diplomarbeit 2005, Vertiefung Fotografie
@@ -69,7 +70,7 @@
 						<p><span style="font-weight: bold; font-size: 1.5em;text-shadow: -1px -1px 2px #fff;"><%= User.count %></span><br />Nutzer/innen</p>
 					</div>
 					<div class="statbox">
-						<div style="width: 81px; height: 81px; background: #fff url(../../images/icon-tags.png) 50% 50% no-repeat;border-radius: 5px; margin-bottom: 1em; border: 2px solid #929292">&nbsp;</div>
+						<div style="width: 81px; height: 81px; background: #fff url(/assets/icon-tags.png) 50% 50% no-repeat;border-radius: 5px; margin-bottom: 1em; border: 2px solid #929292">&nbsp;</div>
 						<p><span style="font-weight: bold; font-size: 1.5em;text-shadow: -1px -1px 2px #fff;"><%= Keyword.count(:meta_term_id) %></span><br />Schlagworte</p>
 					</div>
 					</div>
@@ -78,22 +79,22 @@
 			
 			<div id="funcs" class="stopfloating">
 				<div class="grid_2 alpha">
-					<div class="madekfuncs"><img src="/images/archiving-02.png" alt="" /></div>
+					<div class="madekfuncs"><img src="/assets/archiving-02.png" alt="" /></div>
 					<h3>Werke archivieren</h3>
 					<p>Das Medienarchiv unterstützt die ersten Schritte der Archivierung an der ZHdK.</p>
 				</div>
 				<div class="grid_2">
-					<div class="madekfuncs"><img src="/images/sharing-02.png" alt="" /></div>
+					<div class="madekfuncs"><img src="/assets/sharing-02.png" alt="" /></div>
 					<h3>Medien teilen</h3>
 					<p>Es ermöglicht Künstler/innen und Gestalter/innen ihre Medien zu teilen.</p>
 				</div>
 				<div class="grid_2">
-					<div class="madekfuncs"><img src="/images/learning-02.png" alt="" /></div>
+					<div class="madekfuncs"><img src="/assets/learning-02.png" alt="" /></div>
 					<h3>Wissen entwickeln</h3>
 					<p>Expert/innen können über das Medienarchiv ihr Wissen für andere sichtbar machen.</p>
 				</div>
 				<div class="grid_2 omega">
-					<div class="madekfuncs"><img src="/images/exploring-02.png" alt="" /></div>
+					<div class="madekfuncs"><img src="/assets/exploring-02.png" alt="" /></div>
 					<h3>Inhalte erkunden</h3>
 					<p>Im wachsenden Medienpool kann man stöbern und sich inspirieren lassen.</p>
 				</div>
@@ -136,15 +137,15 @@
 				<h4>Pilotanwendungen</h4>
 				<p class="sidebar-box-claim">Lehre & Forschung</p>
 				<div class="pilotitem">
-					<div class="portrait"><img src="/images/oliver-emch-portrait.png" alt="Oliver Emch" /></div>
+					<div class="portrait"><img src="/assets/oliver-emch-portrait.png" alt="Oliver Emch" /></div>
 					<p><span>Oliver Emch</span> nutzt das Medienarchiv für den Forschungsschwerpunkt Landschaftsvisualisierung.</p>
 				</div>
 				<div class="pilotitem stopfloating">
-					<div class="portrait"><img src="/images/vertiefung-fotografie-portrait.png" alt="Vertiefung Fotografie" /></div>
+					<div class="portrait"><img src="/assets/vertiefung-fotografie-portrait.png" alt="Vertiefung Fotografie" /></div>
 					<p><span>Vertiefung Fotografie</span> überträgt Ihre Diathek ins Medienarchiv: Lehrmittel zur Geschichte der Fotografie.</p>
 				</div>
 				<div class="pilotitem stopfloating">
-					<div class="portrait"><img src="/images/vmk-portrait.png" alt="Birk Weiberg" /></div>
+					<div class="portrait"><img src="/assets/vmk-portrait.png" alt="Birk Weiberg" /></div>
 					<p><span>Birk Weiberg</span> dokumentiert die Projekte der Vertiefung Mediale Künste im Medienarchiv.</p>
 				</div>			
 			</div> <!-- #news -->
@@ -186,9 +187,7 @@
 			
 		</div>
 	</div>
-	
-	<%= javascript_include_tag "jquery.min", "jquery.nivo.slider.pack.js" %>
-	
+		
     <script type="text/javascript">
     $(window).load(function() {
         $('#slider').nivoSlider({

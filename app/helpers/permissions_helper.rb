@@ -4,13 +4,13 @@ module PermissionsHelper
   def display_permission(resource, type = :icon)
     if resource.acl?(:view, :all)
       if type == :icon
-        image_tag("icons/icon_status_perm_public.png")
+        content_tag :div, :class => "icon_status_perm_public" do end
       else
         "(#{_("Öffentlich")})"
       end
     elsif resource.acl?(:view, :only, current_user)
       if type == :icon
-        image_tag("icons/icon_status_perm_private.png")
+        content_tag :div, :class => "icon_status_perm_private" do end
       else
         "(#{_("Nur für Sie selbst")})"
       end
@@ -25,19 +25,15 @@ module PermissionsHelper
     return false if @permission.subject.blank?
     @permission.subject.id == current_user.id && @permission.resource.is_a?(MediaEntry) 
   end
-  
-  # TODO move to media_entries_helper.rb
-  def display_favorite_icon(resource, user)
-    s = (user.favorite_ids.include?(resource.id) ? "on" : "off") # (user.favorites.include?(resource) ? "on" : "off")
-    image_tag("icons/button_favorit_#{s}.png")
-  end
-  
+    
   def display_edit_icon(resource, user)
     if user && Permission.authorized?(user, :edit, resource) 
       url = resource.is_a?(MediaEntry) ? edit_media_entry_path(resource) : edit_media_set_path(resource)
-      link_to image_tag("icons/button_edit_active.png"), url, :title => "Editieren"
+      link_to url, :title => "Editieren" do
+        content_tag :div, :class => "button_edit_active" do end
+      end
     else
-      image_tag("icons/button_edit_inactive.png")
+      content_tag :div, :class => "button_edit_active ghost" do end
     end
   end
   
@@ -48,11 +44,13 @@ module PermissionsHelper
         confirm = "Sind Sie sicher?"
       else
         url = media_set_path(resource)
-        confirm = "Sind Sie sicher? Das Set wird gelöscht."
+        confirm = "Sind Sie sicher? Das Set/Projekt wird gelöscht."
       end  
-      link_to image_tag("icons/button_delete_active.png"), url, :title => "Löschen", :method => :delete, :confirm => confirm
+      link_to url, :title => "Löschen", :method => :delete, :confirm => confirm do
+        content_tag :div, :class => "button_delete_active" do end
+      end
     else
-      image_tag("icons/button_delete_inactive.png")
+      content_tag :div, :class => "button_delete_active ghost" do end
     end
   end
 

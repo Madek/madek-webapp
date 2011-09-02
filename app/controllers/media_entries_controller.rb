@@ -45,14 +45,13 @@ class MediaEntriesController < ApplicationController
 
     all_ids = scope.search_for_ids params[:query], {:per_page => (2**30), :star => true }
     # all_ids.results[:matches].select {|x| x[:attributes]["class_crc"] == MediaEntry.to_crc32}
-    paginated_ids = (all_ids & viewable_ids).paginate(:page => params[:page], :per_page => params[:per_page].to_i)
+    #3105#
+    @_media_entry_ids = (all_ids & viewable_ids)
+    paginated_ids = @_media_entry_ids.paginate(:page => params[:page], :per_page => params[:per_page].to_i)
     @json = Logic.data_for_page(paginated_ids, current_user).to_json
 
     ########################################################################
 
-    # OPTIMIZE only used for html and js formats, move to controller helper
-    @editable_sets = Media::Set.accessible_by(current_user, :edit)
-    
     respond_to do |format|
       format.html
       format.js { render :json => @json }
@@ -91,7 +90,12 @@ class MediaEntriesController < ApplicationController
       format.html
       format.js { render :layout => false }
     end
-end
+  end
+  
+  def browse
+    # TODO merge with index
+    @viewable_ids = current_user.accessible_resource_ids
+  end
 
 #####################################################
 # Authenticated Area
@@ -181,7 +185,7 @@ end
 
   def remove_multiple
     @media_set.media_entries.delete(@media_entries)
-    flash[:notice] = "Die Medieneinträge wurden aus dem Set gelöscht."
+    flash[:notice] = "Die Medieneinträge wurden aus dem Set/Projekt gelöscht."
     redirect_to media_set_url(@media_set)
   end
   
@@ -224,7 +228,7 @@ end
     case action
       when :new
         action = :create
-      when :show, :image, :map
+      when :show, :image, :map, :browse
         action = :view
       when :edit, :update
         action = :edit

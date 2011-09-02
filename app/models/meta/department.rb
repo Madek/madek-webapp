@@ -20,7 +20,7 @@ class Meta::Department < Group
 
 ##########################################
 
-  LDAP_CONFIG = YAML::load_file("#{Rails.root}/config/LDAP.yml")
+  LDAP_CONFIG ||= YAML::load_file("#{Rails.root}/config/LDAP.yml")
 
   def self.fetch_from_ldap
     ldap = Net::LDAP.new :host => LDAP_CONFIG[Rails.env]["host"],

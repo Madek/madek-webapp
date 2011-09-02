@@ -76,7 +76,7 @@ module MediaSetsHelper
       end
 
       b += content_tag :p, :style => "clear: right; margin-bottom: 15px; font-size:1.2em;", :class => "save" do
-        submit_tag _("Zu ausgewähltem Set hinzufügen…"), :style => "display: none; float: right; margin: 20px 0;"
+        submit_tag _("Zu ausgewähltem Set/Projekt hinzufügen…"), :style => "display: none; float: right; margin: 20px 0;"
       end
       
       b += content_tag :p, :style => "clear: both;" do
@@ -175,6 +175,7 @@ module MediaSetsHelper
         else
           contexts = project.individual_contexts
           meta_data.collect do |meta_datum|
+            meta_datum.meta_key.reload #tmp# TODO remove this line, is an Identity Map problem ??
             context = contexts.detect {|c| meta_datum.meta_key.meta_contexts.include?(c) }
             next unless context
             definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
@@ -199,7 +200,7 @@ module MediaSetsHelper
       project.individual_contexts.each do |context|
         haml_tag :h3, context
         haml_tag :p, context.description
-        context.meta_keys.where(:object_type => "Meta::Term").each do |meta_key|
+        context.meta_keys.for_meta_terms.each do |meta_key|
           definition = meta_key.meta_key_definitions.for_context(context)
           haml_tag :h4, definition.meta_field.label
           haml_tag :div, :class => "columns_3" do

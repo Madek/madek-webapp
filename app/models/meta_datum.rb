@@ -15,6 +15,8 @@ class MetaDatum < ActiveRecord::Base
   
   attr_accessor :keep_original_value
 
+  scope :for_meta_terms, joins(:meta_key).where(:meta_keys => {:object_type => "Meta::Term"}) 
+
   before_save do
     case meta_key.object_type
       when nil, "Meta::Country"
@@ -112,7 +114,7 @@ class MetaDatum < ActiveRecord::Base
   
   def to_s
     v = deserialized_value
-    if v.is_a?(Array)
+    s = if v.is_a?(Array)
       case meta_key.object_type
         when "Meta::Date"
           v.join(' - ')
@@ -122,13 +124,17 @@ class MetaDatum < ActiveRecord::Base
     else
       v.to_s
     end
+    # We must force the encoding of the retrieved string, otherwise it gives us the form it deserialized
+    # into ASCII-8BIT, which looks like this: "\xE2\x88\x86G  = \xE2\x88\x86G\xC2\xB0\xE2\x80\x99 +  R T lnK" 
+    # Those multibyte characters are useless to us in that form and the encoding mismatch triggers an
+    # EncodingError exception.
+    s.force_encoding("utf-8") 
   end
 
   # some meta_keys don't store values,
   # then the returned value could be a stored one or dynamically computed
   #working here# TODO deserialized_value #value
   def deserialized_value
-    #tmp# Rails.cache.fetch("meta_datum/#{id}", :expires_in => 10.minutes) do
     if meta_key.is_dynamic?
       case meta_key.label
         when "uploaded by"
@@ -172,9 +178,9 @@ class MetaDatum < ActiveRecord::Base
           other_value.first.is_a?(Meta::Date) && (other_value.first.free_text == value.first.free_text)
         elsif meta_key.object_type == "Keyword"
           referenced_meta_term_ids = Keyword.where(:id => other_value).all.map(&:meta_term_id)
-          deserialized_value.map(&:meta_term_id).same_elements?(referenced_meta_term_ids)
+          deserialized_value.map(&:meta_term_id).uniq.sort.eql?(referenced_meta_term_ids.uniq.sort)
         else
-          value.same_elements?(other_value) # patch of Array class, works for integers and other simple types
+          value.uniq.sort.eql?(other_value.uniq.sort)
         end
       when NilClass
         other_value.blank?

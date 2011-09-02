@@ -1,0 +1,14 @@
+%section#content_body
+  - if params[:query]
+    .page_title_left
+      =_("Suchergebnisse")
+      #term
+        = "für “#{params[:query]}”"
+    .clear 
+  = render :partial => "media_entries/batch_bar"
+  #results
+
+:javascript
+  $(document).ready(function () {
+    display_results(#{@json});
+  });

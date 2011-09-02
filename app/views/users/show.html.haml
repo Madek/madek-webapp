@@ -3,9 +3,9 @@
   %div.item_box{:id => "thumb_${id}"}
     %div.item_permission
       {{if is_public}}
-      = image_tag("icons/icon_status_perm_public.png")
+      .icon_status_perm_public
       {{else is_private}}
-      = image_tag("icons/icon_status_perm_private.png")
+      .icon_status_perm_private
       {{/if}}
     %a{:href => "/media_entries/${id}"}
       %div.thumb_box
@@ -19,29 +19,36 @@
         %span.favorite_link{:id => "fav_${id}", :title => "Favorit"}
           %a{:href => "/media_entries/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
             {{if is_favorite}}
-            = image_tag("icons/button_favorit_on.png")
+            .button_favorit_on
             {{else}}
-            = image_tag("icons/button_favorit_off.png")
+            .button_favorit_off
             {{/if}}
+        {{if can_maybe_browse}}    
+        %span.explore_link{:id => "exp_${id}"}
+          %a{:href => "/media_entries/${id}/browse", :title => "Erkunden"}
+            .button_explore
+        {{else}}
+        .button_explore.ghost
+        {{/if}}
       .action_right
         {{if is_editable}}
         %a{:href => "/media_entries/${id}/edit", :title => "Editieren"}
-          = image_tag("icons/button_edit_active.png")
+          .button_edit_active
         {{else}}
-        = image_tag("icons/button_edit_inactive.png")
+        .button_edit_active.ghost
         {{/if}}
         {{if is_manageable}}
         %a{:href => "/media_entries/${id}", :title => "Löschen", :"data-method" => :delete, :"data-confirm" => "Sind Sie sicher?"}
-          = image_tag("icons/button_delete_active.png")
+          .button_delete_active
         {{else}}
-        = image_tag("icons/button_delete_inactive.png")
+        .button_delete_active.ghost
         {{/if}}
 
 //////////////////////////////////////////////////////
 
 %section#content_body
   %div.page_title_left
-    %img{:src => "/images/icons/icon_me.png"}
+    .icon_me
     =_("Meine Medieneinträge")
   .clear
   #results
@@ -54,7 +61,7 @@
 
 %section#content_body2      
   %div.page_title_left
-    %img{:src => "/images/icons/icon_me.png"}
+    .icon_me
     =_("Medieneinträge anderer")
   .clear
   #results_others

@@ -17,4 +17,9 @@ class Group < ActiveRecord::Base
     ["Admin", "Expert", "MIZ-Archiv", "ZHdK (Zürcher Hochschule der Künste)"].include?(name)
   end
 
+  # only used for json export
+  def person_ids
+    users.collect(&:person_id)
+  end
+  
 end

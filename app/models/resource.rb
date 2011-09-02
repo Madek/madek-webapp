@@ -9,23 +9,11 @@ module Resource
   def self.included(base)
    # TODO observe bulk changes and reindex once
     base.has_many :meta_data, :as => :resource, :dependent => :destroy do #working here#7 :include => :meta_key
-      def all_cached
-        # OPTIMIZE since we are using the cache_key, we dont' actually need the expires_in, but let's keep it just for safety
-        #Rails3.1# record.meta_data.proxy_owner is deprecated. Please use record.association(:meta_data).owner instead.
-        Rails.cache.fetch("#{proxy_owner.class}/#{proxy_owner.cache_key}/meta_data", :expires_in => 10.minutes) do
-          all
-        end
-      end
-
       def get(key_id)
         # unless ... and !!v.match(/\A[+-]?\d+\Z/) # TODO path to String#is_numeric? method
-        #key_id = MetaKey.find_by_label(key_id.downcase).id unless key_id.is_a?(Fixnum)
         #TODO: handle the case when key_id is a MetaKey object
-        key_id = MetaKey.all_cached.detect {|mk| mk.label == key_id.downcase }.id unless key_id.is_a?(Fixnum)
-
-        #r = where(:meta_key_id => key_id).first # OPTIMIZE prevent find if is_dynamic meta_key
-        r = all_cached.detect {|md| md.meta_key_id == key_id}
-
+        key_id = MetaKey.find_by_label(key_id.downcase).id unless key_id.is_a?(Fixnum)
+        r = where(:meta_key_id => key_id).first # OPTIMIZE prevent find if is_dynamic meta_key
         r ||= build(:meta_key_id => key_id)
       end
 
@@ -33,19 +21,17 @@ module Resource
         get(key_id).to_s
       end
 
-      
       # indexing to sphinx
-      #tmp#
       #def with_labels
       #  h = {}
-      #  all_cached.each do |meta_datum|
+      #  all.each do |meta_datum|
       #    next unless meta_datum.meta_key # FIXME inconsistency: there are meta_data referencing to not existing meta_key_ids [131, 135]
       #    h[meta_datum.meta_key.label] = meta_datum.to_s
       #  end
       #  h
       #end
       def concatenated
-        all_cached.map(&:to_s).join('; ')
+        all.map(&:to_s).join('; ')
       end
     end
     base.accepts_nested_attributes_for :meta_data, :allow_destroy => true,
@@ -92,7 +78,7 @@ module Resource
         end
 
         # find existing meta_datum, if it exists
-        if attr[:id].blank? and (md = meta_data.all_cached.detect {|md| md.meta_key_id == attr[:meta_key_id].to_i}) #(md = meta_data.where(:meta_key_id => attr[:meta_key_id]).first)
+        if attr[:id].blank? and (md = meta_data.where(:meta_key_id => attr[:meta_key_id]).first)
           attr[:id] = md.id
         end
 
@@ -106,9 +92,6 @@ module Resource
       self.editors << current_user if current_user # OPTIMIZE group by user ??
       self.updated_at = Time.now # used for cache invalidation and sphinx reindex # OPTIMIZE touch or sphinx_touch ??
 
-      # OPTIMIZE this fix is a workaround, related to the updated_at used by cache_key
-      Rails.cache.delete("#{self.class}/#{self.cache_key}/meta_data")
-      
       update_attributes_without_pre_validation(dup_attributes)
     end
     base.alias_method_chain :update_attributes, :pre_validation

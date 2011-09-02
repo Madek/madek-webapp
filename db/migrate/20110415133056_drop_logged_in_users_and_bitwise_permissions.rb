@@ -1,3 +1,5 @@
+# coding: UTF-8
+
 class DropLoggedInUsersAndBitwisePermissions < ActiveRecord::Migration
   def self.up
     change_table :permissions do |t|

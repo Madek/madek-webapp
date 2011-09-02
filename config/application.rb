@@ -22,10 +22,7 @@ module MAdeK
 
     # Activate observers that should always be running.
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
-    #config.active_record.identity_map = true #Rails3.1# 
-    #ActiveRecord::IdentityMap.enabled = true #Rails3.1#
-
-    config.cache_store = :mem_cache_store, {:namespace => "MAdeK_#{Rails.env}_#{Rails.root}"}
+    config.active_record.identity_map = true 
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
@@ -36,16 +33,18 @@ module MAdeK
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # JavaScript files you want as :defaults (application.js is always included).
-    config.action_view.javascript_expansions[:defaults] = %w(jquery.min jquery-ui.min jquery_ujs modernizr.min)
-
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+
+    # Enable the asset pipeline
+    config.assets.enabled = true
   end
 end
+
+YAML::ENGINE.yamler= 'syck' # TODO use psyck ??
 
 # Config files here.
 METADATA_CONFIG_DIR = "#{Rails.root}/config/definitions/metadata"
@@ -77,7 +76,8 @@ KNOWN_EXTENSIONS = tmp_ext.join.split # now we have an array of individual exten
 tmp_ext = nil
 
 DOT_PATH = "/usr/local/bin/dot"
-FILE_UTIL_PATH = "/usr/bin/file " + (`uname -s`.include?("Darwin") ? "-Ib" : "-ib")
+#old# FILE_UTIL_PATH = "/usr/bin/file " + (`uname -s`.include?("Darwin") ? "-Ib" : "-ib")
+FILE_UTIL_PATH = "/usr/bin/file -b --mime-type"
 
 THUMBNAILS = { :x_large => '1024x768>', :large => '620x500>', :medium => '300x300>', :small_125 => '125x125>', :small => '100x100>' }
 PER_PAGE = [36,72,144]
@@ -94,4 +94,4 @@ DEFAULT_LANGUAGE = :de_CH
 ENCODING_BASE_URL = "http://test:MAdeK@test.madek.zhdk.ch"
 ENCODING_TEST_MODE = 1 # 1 for true, 0 for false
 
-RELEASE_VERSION = "0.3.7"
+RELEASE_VERSION = "0.3.8"

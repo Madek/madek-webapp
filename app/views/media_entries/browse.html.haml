@@ -1,0 +1,140 @@
+%section#content_body_browse
+  .fixcolumn_left
+    /
+      .browse_recent
+        %p
+          Zurück zu:
+        .thumb_mini
+          %a{:href => "#"}
+            %img{:src => "http://lorempixum.com/100/100/transport/1", :alt => "tn"}
+        .thumb_mini
+          %a{:href => "#"}
+            %img{:src => "http://lorempixum.com/100/100/transport/2", :alt => "tn"}
+        .thumb_mini
+          %a{:href => "#"}
+            %img{:src => "http://lorempixum.com/100/100/transport/3", :alt => "tn"}  
+      .clear
+    
+    #detail-excerpt.sidebar-box
+      .browse_reference
+        %h5
+          Gewähltes Beispiel
+        .thumb_box
+          = link_to @media_entry do
+            %img.img_reference{:src => @media_entry.media_file.thumb_base64(:small_125)}
+        .clear
+        - context = MetaContext.core
+        - @media_entry.meta_data_for_context(context).collect do |meta_datum|
+          - definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
+          %h4{:style => "margin-top: 10px;"}= definition.meta_field.label.to_s
+          = render :partial => "meta_data/show", :locals => { :meta_datum => meta_datum, :resource => @media_entry, :context => context }
+      
+  .dyncolumn_right.clearfix
+    .page_title_left
+      %img{:src => "/assets/icons/icon_explore.png"}
+      Erkunden
+      %h5
+        Vergleichbare Medieneinträge
+    .clear
+    - nothing_found = true 
+    - @media_entry.meta_data.for_meta_terms.each do |meta_datum|
+      %ul.browse
+        - meta_datum.deserialized_value.each do |meta_term|
+          :ruby
+            media_entry_ids = meta_term.meta_data(meta_datum.meta_key).select{|md| md.resource_type == "MediaEntry"}.collect(&:resource_id)
+            media_entry_ids.delete(@media_entry.id)
+            media_entries = MediaEntry.find(media_entry_ids & @viewable_ids)
+            c = media_entries.count
+            next if c.zero?
+            nothing_found = false
+            media_entries_data = Logic.data_for(media_entries, current_user)
+          %li
+            %a.toggler{:href => "#"}
+              .browse_key
+                .toggler-arrow
+                %h5
+                  = meta_datum.meta_key.all_context_labels
+                  \:
+                  %span
+                    = meta_term
+                    = "(#{c})"
+              .clear
+            .browse_thumbs
+              - media_entries_data.each do |me|
+                .thumb_mini{:"data-media_entry" => me.to_json}
+                  %img{:src => me["thumb_base64"]}
+          %clear
+      %clear
+    - if nothing_found
+      =# _("Mit diesem Medieneintrag ist das erkunden des Medienarchivs nicht möglich, da er zu wenig Metadaten enthält.")
+      = _("Es gibt keine vergleichbaren Medieneinträge im Medienarchiv.")
+
+#positionable{:style => "position: absolute; display: none;"}
+
+= render :partial => "media_entries/batch_bar"
+    
+:javascript
+  $(document).ready(function () {
+    setupBatch();    
+
+    $("ul.browse a.toggler").click(function(event) {
+      var that = $(this);
+      var next_div = that.next(); 
+      that.parent().toggleClass("browse_show");
+      next_div.toggleClass("browse_show");
+      that.find(".toggler-arrow").toggleClass("toggler-arrow-on");
+      next_div.find(".browse_thumbs_more").toggle();
+      return false;
+    });
+
+    var delayed;
+    $(".thumb_mini").mouseenter(function() {
+      var _this = $(this);
+      clearTimeout(delayed);
+      delayed = setTimeout(function(){
+        $('#positionable').html($("#thumbnail_browse").tmpl(_this.data("media_entry")));
+        var final_offset = $("#positionable")
+          .show()
+          .position({
+              my: "center center",
+              at: "center center",
+              of: _this,
+              collision: 'fit'
+            })
+         .offset();
+         
+        $("#positionable").hide()
+         .css("width", _this.width())
+         .css("height", _this.height())
+         .show()
+         .position({
+              my: "center center",
+              at: "center center",
+              of: _this,
+              collision: 'fit'
+            })
+         .hide();
+        
+        $("#positionable").show().animate({
+          top: final_offset.top,
+          left: final_offset.left,
+          width: $("#positionable").children().width(),
+          height: $("#positionable").children().height()
+        }, 100);
+
+      }, 800);
+    }).mouseleave(function(){
+      clearTimeout(delayed);
+    });;
+    
+    $("#positionable").mouseenter(function(){
+      clearTimeout(delayed);
+    }).mouseleave(function(){
+      var _this = $(this);
+      delayed = setTimeout(function(){
+        _this.fadeOut();
+      }, 800);
+    });
+
+
+  });

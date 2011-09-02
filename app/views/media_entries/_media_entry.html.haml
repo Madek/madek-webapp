@@ -1,6 +1,5 @@
 - can_edit = Permission.authorized?(current_user, :edit, media_entry)
 - is_expert = current_user.groups.is_member?("Expert")
-= include_editable if can_edit
 
 .container_12
   #detail-main.grid_8.alpha
@@ -11,14 +10,36 @@
     #detail-action-bar.clearfix
       %ul#toggle-panel.clearfix
         - if current_user && Permission.authorized?(current_user, :edit, media_entry)
-          %li= link_to image_tag("icons/button_edit_active.png"), edit_media_entry_path(media_entry), :title => "Editieren"
+          %li
+            = link_to edit_media_entry_path(media_entry), :title => "Editieren" do
+              .button_edit_active
+        - else
+          %li
+            .button_edit_active.ghost
         %li
           %span.favorite_link{:id => "fav_#{media_entry.id}", :title => "Favorit"}
             = render :partial => "media_entries/favorite_link", :locals => {:media_entry => media_entry}
+        - unless media_entry.meta_data.for_meta_terms.blank?
+          %li
+            = link_to browse_media_entry_path(media_entry), :title => "Erkunden" do
+              .button_explore
+        - else
+          %li
+            .button_explore.ghost
+        %li
+          = link_to "#", :panel => "download", :title => "Exportieren" do
+            .button_download
+        %li
+          = link_to "#", :panel => "media_set", :title => "Zu Set/Projekt hinzufügen" do
+            .button_addto
         - if current_user && Permission.authorized?(current_user, :manage, media_entry)
-          %li= link_to image_tag("icons/button_delete_active.png"), "#", :panel => "delete"
-        %li= link_to _("Exportieren"), "#", :panel => "download"
-        %li= link_to _("Zu Set/Projekt hinzufügen"), "#", :panel => "media_set"
+          %li
+            = link_to "#", :panel => "delete", :title => "Löschen" do
+              .button_delete_active
+        - else
+          %li
+            .button_delete_active.ghost
+        .clear
         - if is_expert and media_entry.snapshotable?
           %li= link_to _("Metadaten für MIZ-Archiv editieren"), edit_tms_media_entry_path(@media_entry)
           - if can_edit
@@ -63,7 +84,7 @@
               %td
                 = _("Hochgeladen von")
               %td
-                = link_to media_entry.user, search_path(:query => media_entry.user.fullname)
+                = link_to media_entry.user, media_entries_path(:query => media_entry.user.fullname)
             %tr
               %td
                 = _("Hochgeladen am") 
@@ -126,19 +147,19 @@
   
   // OPTIMIZE Action Bar
   $("a[panel]").click(function(){
-  	to_open = !$(this).hasClass("active");
+    to_open = !$(this).hasClass("active");
 
-  	$("a.active[panel]").each(function () {
-  		$(this).removeClass("active");
-  		$(this).css("background", "");
-  		$("div#"+$(this).attr("panel")+"-panel").slideUp("slow");
-  	});
+    $("a.active[panel]").each(function () {
+      $(this).removeClass("active");
+      $(this).css("background", "");
+      $("div#"+$(this).attr("panel")+"-panel").slideUp("slow");
+    });
 
-  	if(to_open){
-  		$(this).addClass("active");
-  		$(this).css("background", "transparent url('/images/icons/arrow-up-04.png') 50% bottom no-repeat");
-  		$("div#"+$(this).attr("panel")+"-panel").slideDown("slow");
-  	}
-  	
-  	return false;
+    if(to_open){
+      $(this).addClass("active");
+      $(this).css("background", "transparent url('/assets/icons/arrow-up-04.png') 50% bottom no-repeat");
+      $("div#"+$(this).attr("panel")+"-panel").slideDown("slow");
+    }
+    
+    return false;
   });

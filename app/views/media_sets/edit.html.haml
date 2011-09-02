@@ -3,8 +3,8 @@
 .container_12.clearfix              
   %section#content_body.clearfix
     %div.page_title_left
-      %img{:src => "/images/icons/icon_edit.png"}
-      =_("Set-Metadaten editieren")
+      %img{:src => "/assets/icons/icon_edit.png"}
+      =_("Metadaten editieren")
     .clear
     = form_for @media_set, :as => :resource, :url => [:update_multiple, @media_set, :meta_data], :html => {:method => :put} do |resource|
       - content_for :buttons do
