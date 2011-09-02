@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 source 'http://gems.github.com'
 
-gem 'rails', '3.1.0.rc8'
+gem 'rails', '3.1.0'
 gem 'builder', '~> 3.0'   
 gem 'i18n' # Need this explicitly, otherwise can't deploy
 
@@ -27,11 +27,11 @@ gem 'thinking-sphinx', '~> 2.0.7', :require => 'thinking_sphinx'
 gem 'zip', '~> 2.0.2'
 gem 'rgl', '~> 0.4.0', :require => 'rgl/adjacency'
 
-gem 'nested_set', '~> 1.6.7'
+gem 'nested_set', '~> 1.6.8'
 gem 'acts-as-dag', '~> 2.5.5' # TOOD use instead ?? gem 'dagnabit', '2.2.6'
 
 # gem 'rmagick', '2.13.1', :require => 'RMagick2'
-gem 'json', '~> 1.5.3'
+gem 'json', '~> 1.5.4'
 
 gem 'net-ldap', :require => 'net/ldap'
 
@@ -63,7 +63,7 @@ group :test do
   gem 'cucumber', '~> 1.0.2'
   gem 'cucumber-rails', '~> 1.0.2'
   gem 'capybara', '~> 1.0.1'
-  gem 'selenium-webdriver', '~> 2.4.0' 
+  gem 'selenium-webdriver', '~> 2.5.0' 
   gem 'database_cleaner'
   gem 'rspec-rails'
   gem 'spork'
