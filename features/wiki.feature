@@ -48,7 +48,7 @@ Feature: Help wiki
   Scenario: Admins should be able to add media links
     When I log in as "admin" with password "aadmin"
    Given there is a media entry
-    When I add a link "[media=xxx | Das Huhn ]" to it on the wiki front page and save
+    When I add a link "[media=xxx |Das Huhn]" to it on the wiki front page and save
     Then I should see a "Das Huhn" link on the page
     When I follow "Das Huhn"
     Then I should see the media entry
@@ -57,12 +57,12 @@ Feature: Help wiki
   Scenario: Admins should be able to add video links
     When I log in as "admin" with password "aadmin"
    Given there is a media entry
-    When I add a link "[video=xxx | Das Huhn ]" to it on the wiki front page and save
+    When I add a link "[video=xxx |Das Huhn]" to it on the wiki front page and save
     Then I should see "Das Huhn" within "video"
 
   @javascript 
   Scenario: Admins should be able to add screenshots
     When I log in as "admin" with password "aadmin"
    Given there is a media entry
-    When I add a link "[thumbnail=210 | Das Huhn ]" to it on the wiki front page and save
+    When I add a link "[thumbnail=210 |Das Huhn]" to it on the wiki front page and save
     Then there should be an image with title "Das Huhn"
