@@ -30,7 +30,7 @@ Feature: Batch edit media entries
     Then I should not see "Picture One"
      And I should not see "Picture Two"
 
-  @javascript @broken
+  @javascript
   Scenario: Change metadata on two media entries using batch edit
     When I log in as "helmi" with password "saumagen"
      And I create a set titled "Batch Retitle Set"
@@ -41,7 +41,6 @@ Feature: Batch edit media entries
      And I follow "Batch Retitle Set"
      And I check the media entry titled "Picture One"
      And I check the media entry titled "Picture Two"
-     And I wait for 20 seconds
      And all the hidden items become visible
      And I press "Metadaten editieren"
      And I fill in the metadata form as follows:
