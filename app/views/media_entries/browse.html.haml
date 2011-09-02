@@ -66,14 +66,17 @@
           %clear
       %clear
     - if nothing_found
-      = _("Mit diesem Medieneintrag ist das erkunden des Medienarchivs nicht möglich, da er zu wenig Metadaten enthält.")
-
-= render :partial => "media_entries/templates"
+      =# _("Mit diesem Medieneintrag ist das erkunden des Medienarchivs nicht möglich, da er zu wenig Metadaten enthält.")
+      = _("Es gibt keine vergleichbaren Medieneinträge im Medienarchiv.")
 
 #positionable{:style => "position: absolute; display: none;"}
+
+= render :partial => "media_entries/batch_bar"
     
 :javascript
   $(document).ready(function () {
+    setupBatch();    
+
     $("ul.browse a.toggler").click(function(event) {
       var that = $(this);
       var next_div = that.next(); 

@@ -464,6 +464,7 @@ class MediaFile < ActiveRecord::Base
   def exiftool_obj(full_path_file, tags = nil)
     result_set = []
     parse_hash = JSON.parse(`#{EXIFTOOL_PATH} -s "#{full_path_file}" -a -u -G1 -D -j`).first
+    parse_hash.delete_if {|k,v| v.is_a?(String) and not v.valid_encoding? }
     tags.each do |tag_group|
       result_set << parse_hash.select {|k,v| k.include?(tag_group)}.sort
     end
