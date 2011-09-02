@@ -53,8 +53,8 @@ class RedClothMadek
 
   def video_tag(text)
     text.gsub(/\[\s*video\s*=\s*(\d+)\s*\|\s*([^\]]+)\s*\]/) { 
-      "<video src='/media_entries/\\1/image' title='\\2'>" +
-        "<a href='/media_entries/\\1'>(see '\\2' Video)</a>" +
+      "<video src='/media_entries/#{$1}/image' title='#{$2}'>" +
+        "<a href='/media_entries/#{$1}'>(see '#{$2}' Video)</a>" +
       "</video>"
     }
   end
