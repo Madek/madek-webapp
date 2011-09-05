@@ -1,4 +1,9 @@
 # -*- encoding : utf-8 -*-
+$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
+require "rvm/capistrano"                  # Load RVM's capistrano plugin.
+set :rvm_ruby_string, '1.9.2'        # Or whatever env you want it to run in.
+require "bundler/capistrano"
+
 set :application, "madek"
 
 set :scm, :git
@@ -21,8 +26,6 @@ set :sql_database, "rails_madek_demo"
 set :sql_host, "db.zhdk.ch"
 set :sql_username, "madekdemo"
 set :sql_password, "m4d3m0dm30d"
-
-
 
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
@@ -63,8 +66,6 @@ namespace :deploy do
   end
 
 end
-
-
 
 task :link_attachments do
   run "rm -rf #{release_path}/db/media_files/production/attachments"
@@ -133,10 +134,6 @@ task :load_seed_data do
     run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:seed"
 end
 
-task :install_gems do
-  run "cd #{release_path} && bundle install --deployment --without test development"
-end
-
 task :stop_sphinx do
  run "cd #{previous_release} && RAILS_ENV='production' bundle exec rake ts:stop"
 end
@@ -157,18 +154,14 @@ task :clear_cache do
   run "cd #{release_path} && RAILS_ENV=production bundle exec rails runner 'Rails.cache.clear'"
 end
 
-
-
 before "deploy:symlink", :make_tmp
 after "deploy:symlink", :link_config
 before "configure_sphinx", :link_sphinx
 after "deploy:symlink", :configure_sphinx
 after "deploy:symlink", :configure_environment
 after "deploy:symlink", :link_attachments
-after "deploy:symlink", :record_deploy_info
 after "deploy:symlink", :migrate_database
-before "migrate_database", :install_gems
-after "migrate_database", :load_seed_data
+after "deploy:symlink", :record_deploy_info
 after "migrate_database", :clear_cache
 after "install_gems", :stop_sphinx
 after "deploy", :start_sphinx
