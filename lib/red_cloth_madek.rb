@@ -23,7 +23,8 @@ class RedClothMadek
     text = media_tag(text)
     text = thumbnail_tag(text)
     text = video_tag(text)
-    text = include_tag(text)
+    # The include tag is broken and is therefore skipped
+    #text = include_tag(text)
     text
   end
 
@@ -35,6 +36,7 @@ class RedClothMadek
     text.gsub(/\[\s*thumbnail\s*=\s*(\d+)\s*\|\s*([^\]]+)\s*\]/, "<img src='/media_entries/\\1/image' title='\\2'/>")
   end
 
+  # The include tag is broken and is therefore skipped
   def include_tag(text)
     text.gsub(/\[\s*include\s*=\s*(.+)\s*\]/) {
       page = WikiPage.where(:path => $1).first
