@@ -160,15 +160,14 @@ task :clear_cache do
   run "cd #{release_path} && RAILS_ENV=production  bundle exec rails runner 'Rails.cache.clear'"
 end
 
-before "configure_sphinx", :link_sphinx
 before "deploy:symlink", :make_tmp
 after "deploy:symlink", :link_config
+before "configure_sphinx", :link_sphinx
 after "deploy:symlink", :configure_sphinx
 after "deploy:symlink", :configure_environment
 after "deploy:symlink", :link_attachments
-after "deploy:symlink", :record_deploy_info 
 after "deploy:symlink", :migrate_database
-after "migrate_database", :load_seed_data
+after "deploy:symlink", :record_deploy_info 
 after "migrate_database", :clear_cache
 after "install_gems", :stop_sphinx
 after "deploy", :start_sphinx
