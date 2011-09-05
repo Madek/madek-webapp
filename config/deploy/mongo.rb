@@ -31,6 +31,7 @@ task :link_config do
   on_rollback { run "rm #{release_path}/config/database.yml" }
   run "rm #{release_path}/config/database.yml"
   run "ln -s #{db_config} #{release_path}/config/database.yml"
+  run "rm #{release_path}/config/mongoid.yml"
   run "ln -s #{mongoid_config} #{release_path}/config/mongoid.yml"
   run "ln -s #{ldap_config} #{release_path}/config/LDAP.yml"
 
