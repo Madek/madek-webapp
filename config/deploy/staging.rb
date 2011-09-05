@@ -10,7 +10,7 @@ set :application, "madek"
 
 set :scm, :git
 set :repository, "git://github.com/psy-q/madek.git"
-set :branch, "deployable"
+set :branch, "master"
 set :deploy_via, :remote_cache
 
 set :db_config, "/home/rails/madek-test/database.yml"
