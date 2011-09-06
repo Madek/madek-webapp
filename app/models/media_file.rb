@@ -446,7 +446,8 @@ class MediaFile < ActiveRecord::Base
 
   # OPTIMIZE
   def meta_data_without_binary
-    meta_data.reject{|k,v| ["!binary |", "Binary data"].any?{|x| v.to_yaml.include?(x)}}
+    r = meta_data.reject{|k,v| ["!binary |", "Binary data"].any?{|x| v.to_yaml.include?(x)}}
+    r.map {|x| x.map{|y| y.to_s.dup.force_encoding('utf-8') } }
   end
   
   def orientation
