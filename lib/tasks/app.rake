@@ -20,29 +20,37 @@ namespace :app do
                         }, # :include => :person
            :except => [:delta]
           }
-          
+
+      puts "Exporting people..."
       people = Person.all.as_json(:except => [:delta, :created_at, :updated_at],
                                   :include => {:user => {:except => :person_id,
                                                          :methods => :favorite_ids}})
-      
-      groups = Group.all.as_json(:methods => :person_ids)
-      
+
+      puts "Exporting groups..."
+      groups = Group.all.as_json(:methods => [:type, :person_ids])
+
+      puts "Exporting meta_terms..."
       meta_terms = Meta::Term.all.as_json
-  
+
+      puts "Exporting meta_keys..."
       meta_keys = MetaKey.all.as_json(:methods => :meta_term_ids)
-  
+
+      puts "Exporting meta_contexts..."
       meta_contexts = MetaContext.all.as_json(:except => [:id],
                                               :include => {:meta_key_definitions => {:except => [:id, :created_at, :updated_at]}})
-  
+
+      puts "Exporting copyrights..."
       copyrights = Copyright.all.as_json(:except => [:lft, :rgt])
-      
+
+      puts "Exporting media_sets..."
       media_sets = Media::Set.all.as_json(h)
-  
+
+      puts "Exporting media_entries..."
       h[:include].merge!(:media_file => {:except => [:id, :meta_data, :job_id, :access_hash, :created_at, :updated_at],
                                          :include => {:previews => {:except => [:id, :media_file_id, :created_at, :updated_at]} }}) # TODO include :meta_data
       h.merge!(:methods => :media_set_ids)
-      # TODO fetch all
-      media_entries = MediaEntry.limit(100).as_json(h)
+      #media_entries = MediaEntry.limit(100).as_json(h)
+      media_entries = MediaEntry.all.as_json(h)
   
       # TODO
       #1 media_projects_meta_contexts
