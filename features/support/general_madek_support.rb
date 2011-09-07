@@ -112,7 +112,9 @@ def check_media_entry_titled(title)
   #cb_icon = entry.find(:css, ".check_box").find("img")
   cb_icon = entry.find(:css, "div.check_box")
   #debugger; puts "lala"
-  cb_icon.click if (cb_icon[:src] =~ /_on.png$/).nil? # Only click if it's not yet checked
+  cb_icon.click if (cb_icon.find(:xpath, "../../..")[:class] =~ /.*selected.*/).nil?
+  # Old way, when it was a PNG
+  #cb_icon.click if (cb_icon[:src] =~ /_on.png$/).nil? # Only click if it's not yet checked
 end
 
 # Attempts to find a media entry based on its title by looking for
