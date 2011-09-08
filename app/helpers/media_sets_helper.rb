@@ -8,13 +8,12 @@ module MediaSetsHelper
       div_class, thumb_class = media_set.is_a?(Media::Project) ? ["set-box project-box", "thumb_box_project"] : ["set-box", "thumb_box_set"]
       haml_tag :div, :class => div_class do
         haml_tag :div, thumb_for(media_set, :small_125), :class => thumb_class if with_main_thumb
-        haml_tag :span, media_set.title, :style => "font-weight: bold; font-size: 1.1em;"
+        haml_tag :br
+        haml_tag :span, media_set.title, :style => "font-weight: bold; font-size: 1.2em;"
         #2001# " (%d/%d Medieneinträge)" % [visible_media_entries.count, media_set.media_entries.count]
+        haml_concat " (%d Medieneinträge)" % [media_set.media_entries.count]
         haml_tag :br
         haml_concat "von #{media_set.user}"
-        haml_tag :br
-        haml_tag :br
-        haml_concat " (%d Medieneinträge)" % [media_set.media_entries.count]
         haml_tag :br
         if total_thumbs > 0
           haml_tag :br
@@ -38,13 +37,12 @@ module MediaSetsHelper
       else
         haml_concat content
       end
-      haml_tag :div, :class => "clear"
     end
   end
 
   def media_sets_list(media_sets)
     capture_haml do
-      haml_tag :h4, _("Enthalten in"), :style => "margin: 15px 0 10px 0;"
+      haml_tag :h4, _("Enthalten in")
       media_sets.each do |media_set|
         #2001# media_entries = media_set.media_entries.select {|media_entry| Permission.authorized?(current_user, :view, media_entry)}
         #2001# media_set_title(media_set, media_entries, true)

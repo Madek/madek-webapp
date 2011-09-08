@@ -188,13 +188,19 @@ p {
 	letter-spacing: 0.05ex;
 }
 
-/**
- * Primary styles
+
+
+
+
+
+
+/***************************************************
+ * Primary styles MAdeK
  *
- * Author: 
+ * Author: MAdeK team
  */
 
-/******** Loading ********/
+/************************************************** Loading ********/
 
 div#ajaxLoading {
  	position: fixed;
@@ -206,11 +212,7 @@ div#ajaxLoading {
 	display: none;
 }
 
-/******** CSS image sprites - generated with:
-http://spritegen.website-performance.org/
-and edited with:
-http://www.spritebox.net/
-********/
+/************************************************** CSS image sprites generated with http://spritegen.website-performance.org and edited with http://www.spritebox.net/ */
 
 .icon_me {
 	background: url(icons/madek_icon_sprites.png) -100px -381px no-repeat;
@@ -334,7 +336,7 @@ http://www.spritebox.net/
 
 
 
-/* Header */
+/************************************************** Header */
 
 header {
 	height: 65px;
@@ -404,7 +406,7 @@ nav {
 }
 
 
-/* Logos */
+/************************************************** Logos */
 
 .logo_left {
 	background: transparent url(icons/madek_icon_sprites.png) -300px -69px no-repeat;
@@ -436,7 +438,7 @@ nav {
 }
 
 
-/* Search */
+/************************************************** Search */
 
 #quick-search {
 	display: inline-block;
@@ -490,7 +492,7 @@ nav {
 	box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
 }
 
-/*  Menu  */
+/**************************************************  Menu  */
 
 #menu {
     display: inline-block;
@@ -596,7 +598,7 @@ nav {
 }
 
 
-/*  Lists  */
+/**************************************************  Lists  */
 
 ul { list-style: none; }
 ul li { float: left; }
@@ -605,7 +607,7 @@ ul li { float: left; }
 	margin-right: 1em;
 }
   
-/*  Content  */
+/**************************************************  Content  */
 
 #content_body, #content_body_set, #content_body_fav {
 	width:90%;
@@ -705,7 +707,7 @@ ul li { float: left; }
 	text-decoration: none;
 }
 
-/* Pagination */
+/************************************************** Pagination */
 
 .pagination {
 	margin: -6px 16px 10px 0;
@@ -742,7 +744,7 @@ ul li { float: left; }
   color: #6a6a6a;
 }
 
-/* Filter */
+/************************************************** Filter */
 
 .page_title_left #term { display: inline-block; font-weight: normal; font-size: 0.6em; letter-spacing: 0; }
 
@@ -844,7 +846,7 @@ ul li { float: left; }
 }
 
 
-/*     Browse      */
+/**************************************************     Browse      */
 
 #content_body_browse {
 	width:90%;
@@ -993,7 +995,7 @@ ul li { float: left; }
 }
 
 
-/* Media thumbs */
+/************************************************** Media thumbs */
 
 #results, #results_mine, #results_others {
 	padding: 5px 0 20px 13px;
@@ -1219,7 +1221,7 @@ ul li { float: left; }
 	float: right;
 }
 
-/* Links and Buttons */
+/************************************************** Links and Buttons */
 
 a {
 	color: #424242;
@@ -1412,7 +1414,7 @@ button.dark:hover {
 	color: #FFFFFF;
 }
 
-/* Specific Page Head for Set */
+/************************************************** Specific Page Heads */
 
 #page_head {
 		background-color: #ffffff;
@@ -1566,7 +1568,7 @@ button.dark:hover {
 
 
 
-/* Batch edit */
+/************************************************** Batch edit */
 
 #page_head_edit {
 	background-color: #ffffff;
@@ -1586,7 +1588,7 @@ button.dark:hover {
 	}
 }
 
-/* Batch edit task bar */
+/************************************************** Batch edit task bar */
 
 .task_bar {
 	position: fixed;
@@ -1795,7 +1797,6 @@ form.new_person {
 	}
 }
 
-/*********************/
 #selected_items {
 	min-width: 98%;
 	min-height: 70px;
@@ -2001,15 +2002,46 @@ table td {
 }
 
 
-/* Action Bar */
+/************************************************** Set Bar */
+
+#detail-set-bar {
+	float: left;
+	width: 400px;
+	h4 {
+		padding: 10px 0;
+		font-size: 0.8em;
+	}
+	.set-box {
+		display: inline-block;
+		vertical-align: top;
+		width: 120px;
+		font-size: 0.7em;
+		padding: 0;
+		
+		.thumb_box_set {
+     		background-size: 70px 70px;
+			height: 60px;
+      		width: 70px;
+      		line-height: 60px;
+      		margin: 0;
+      		padding-right: 50px;
+    		img {
+    	  		margin: 0;
+    			max-height: 40px;
+    			max-width: 40px;
+    		}
+    	}
+	}
+}
+
+
+/************************************************** Action Bar */
 
 #detail-action-bar {
-	margin-top: 10px;
-	margin-bottom: 30px;
-	background: #FFF;
-	float: left;
-	clear: left;
-
+	padding: 10px 10px 25px 20px;
+	float: right;
+	margin-right: -10px;
+	background: #333333;
 
 	img {
 		padding-top: 2px;
@@ -2248,7 +2280,7 @@ form#set_media_sets input[type="submit"] {
 	margin-top: 15px;
 }
 
-/* Metadata */
+/************************************************** Metadata */
 
 #detail-excerpt {
 	line-height: 1.2em;
@@ -2275,7 +2307,7 @@ form#set_media_sets input[type="submit"] {
   		letter-spacing: 0;
   		font-size: 1.7em;
   		background: url(icons/icon_set_small.png) center left no-repeat;
-      padding-left: 20px;
+    	padding-left: 20px;
   	}
   	.thumb_box_set {
       background-size: 70px 70px;
@@ -2311,17 +2343,22 @@ form#set_media_sets input[type="submit"] {
 }
 
 #detail-image img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 	border: 1px solid #e4e4e4;
-  /*margin-top: expression(( 620px - this.height ) / 2);*/
-  /*vertical-align: middle;*/
+	max-width: 680px;
+	max-height: 680px;
+	padding: 10px;
 }
+
 #detail-image {
-  float: left;
-  /*text-align: center;*/
+	/*background: #ffffff;*/
+  /*text-align: center;
   max-width: 620px;
   max-height: 620px;
   font-size: 1em;
-  /*line-height: 620px;*/
+  line-height: 620px;*/
 }
 
 #set_meta small, #set_info small {
@@ -2345,7 +2382,7 @@ form#set_media_sets input[type="submit"] {
 }
 
 
-/* Upload */
+/************************************************** Upload */
 
 .upload_buttons {
 	background: white;
@@ -2508,7 +2545,7 @@ form#set_media_sets input[type="submit"] {
 }
 
 
-/* Organize Table */
+/************************************************** Organize Table */
 
 table.organize-detail-view tr {
 	border-bottom: 1px solid #d2d2d2;
@@ -2524,7 +2561,7 @@ table.organize-detail-view td {
 	padding: 1em 0.5em;
 }
 
-/* Subnavigation (e.g. Uploader, Admin ) */
+/************************************************** Subnavigation (e.g. Uploader, Admin ) */
 
 #uploader-subnavigation ol {
 	list-style: none;
@@ -2566,7 +2603,7 @@ table.organize-detail-view td {
 }
 
 
-/* Metadata Table */
+/************************************************** Metadata Table */
 
 h3.tab-title {
 	margin: 0;
@@ -2577,7 +2614,7 @@ table.metadata-table {
 	width: 100%;
 }
 
-/* Metadata Autocomplete */
+/************************************************** Metadata Autocomplete */
 
 ul.holder { 
   margin: 0; 
@@ -2631,7 +2668,9 @@ ul.Person ul.holder li.bit-box {
 
 ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
 
-/* Overriding jQuery-UI css - start */
+
+
+/************************************************** Overriding jQuery-UI CSS - Start */
 
 
 .ui-corner-all, .ui-corner-bottom {
@@ -2670,18 +2709,6 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
 	letter-spacing: 0.1ex;
 }
 
-#page_head .ui-widget-content {
-    background: none;
-    border-bottom-width: 0;
-    margin: 10px 10px 10px 0;
-/*    line-height: 1.2em; */
-    padding: 0 10px 10px 0;
-    .ui-slider {
-      padding: 0;
-    }
-}
-
-
 .ui-widget-header {
     background-attachment: scroll;
     background-clip: border-box;
@@ -2700,8 +2727,8 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
     border-width: 0;
     background: none;
     padding: 0;
-    border: 1px solid #dddddd;
-    border-top: 0;
+    /*border: 1px solid #dddddd;
+    border-top: 0;*/
     min-height: 100px;
 }
 #page_head #detail_specification .ui-tabs-panel {
@@ -2808,7 +2835,76 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
 
 .ui-datepicker { background-color: #F1F1F1; }
 
-/* Overriding jQuery-UI css - end */
+
+/************************************************** New Design ME view */
+
+
+#page_head .detail-image img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid #e4e4e4;
+	max-width: 680px;
+	max-height: 680px;
+	padding: 10px;
+}
+
+#page_head ul.tab-nav {
+	float: right;
+	display: inline-block;
+	li {
+		font-weight: bold;
+		padding: 10px;
+	}
+	a {
+		font-weight: normal;
+		text-decoration: underline;
+	}
+}
+#page_head #tab-info {
+	/*background-color: red;*/
+}
+#page_head #tab-permission {
+	/*background-color: blue;*/
+}
+#page_head #tab-activity{
+	/*background-color: green;*/
+}
+#page_head .tab-hide {
+	display: none;
+}
+
+
+
+#page_head .ui-widget-content {
+    background: none;
+    border-bottom-width: 0;
+    margin: 0;
+    padding: 0;
+    .ui-slider {
+    	padding: 0;
+    }
+}
+
+#page_head .tabs {
+	ul li a {
+	}
+}
+
+#page_head .ui-tabs .ui-tabs-nav {
+	float: right;
+    padding:0;
+    border:0;
+    li a {
+    	padding: 0.8em 1em .5em 1em;
+    }
+}
+
+
+
+
+
+
 
 table.metadata-table a {
 	text-decoration: underline;
@@ -2829,7 +2925,7 @@ table.meta_data td {
 }
 
 .meta_data_comment {
-	padding: 15px 0 0 15px;
+	padding: 7px 0 0 0;
 	color: silver;
 }
 
@@ -2855,7 +2951,7 @@ table.meta_data td {
 			letter-spacing: 0.05ex;
 			margin-right: 10px;
 			margin-bottom: 15px;
-			max-height:500px;
+			/*max-height:600px;*/
 			overflow: hidden;
 			display: block;
 			h4 {
@@ -2919,7 +3015,7 @@ table.meta_data td {
 }
 */
 
-/* Metadata edit */
+/************************************************** Metadata edit */
 
 #page_edit {
 	overflow: auto;
@@ -2960,7 +3056,7 @@ table.meta_data td {
 	font: 1.2em "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 }
 
-/* Messages */
+/************************************************** Messages */
 
 .notice, .error {
 	z-index: 999;
@@ -3032,7 +3128,7 @@ table.meta_data td {
 	display: none;
 }
 
-/* Permissions */
+/************************************************** Permissions */
 
 table.permissions {
 	input[type="checkbox"] {
@@ -3135,26 +3231,26 @@ table.permissions {
 }
 
 
-/* Sidebar */
+/************************************************** Sidebar */
 
 .set-box {
-  font-size: 0.9em;
-  line-height: 1.2em;
+	font-size: 0.9em;
+	line-height: 1.2em;
 	margin-bottom: 10px;
 	background-color: #f4f4f4;
 	padding: 15px 30px 15px 30px;
-  letter-spacing: 0.1ex;
-  min-height: 155px;
-  span {
-    letter-spacing: 0;
-  }
-  small {
-    font-size: 1em;
-    color: #999999;
-  }
-}
-.set-box:hover {
-	background-color: #E9E9E9;
+	letter-spacing: 0.1ex;
+	min-height: 155px;
+	:hover {
+		background-color: #E9E9E9;	
+	}
+	span {
+    	letter-spacing: 0;
+	}
+	small {
+		font-size: 1em;
+    	color: #999999;
+	}
 }
 
 #sidebar-box {
@@ -3211,8 +3307,13 @@ table.permissions {
 }
 
 #detail-sidebar {
-	margin-bottom: 0.75em;
 	word-wrap: break-word;
+	position: relative;
+	#detail-excerpt {
+		display: block;
+		margin: 0 0 6px 0;
+		padding: 0;
+	}
 }
 
 #browsing_media_entries {
@@ -3249,7 +3350,7 @@ table.permissions {
   padding: 20px 0 15px 0;
 }
 
-/* Groups */
+/************************************************** Groups */
 
 span.do_edit a, form#editinplace .cancelButton {
 	  color: #47788D;
@@ -3322,11 +3423,15 @@ ul.groups {
 table.groups {
 	margin: 1em 0;
 	width: 60%;
+	th {
+		color: #999999;
+    	font-size: 0.8em;
+	}
+	input[type="text"] {
+		width: 400px;
+	}
 }
-table.groups th {
-	color: #999999;
-    font-size: 0.8em;
-}
+
 .meta_data_label1 {
 	font-size: 0.8em;
 	color: #47788D;
@@ -3349,7 +3454,7 @@ table.groups th {
 	color: #424242;
 }
 
-/** temporary styles to make batch edit page presentable *****/
+/************************************************** temporary styles batch edit *****/
 
 .clear { margin: 0;}
 
@@ -3524,6 +3629,11 @@ ul.holder li.input_holder {
 .search_toggler:hover {
 	background-color: #e4e4e4;
 }
+
+
+
+
+
 
 /**
  * Non-semantic helper classes: please define your styles before this section.
