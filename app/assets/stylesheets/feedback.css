@@ -71,7 +71,7 @@
 }
 
 #usage_terms_content p a {
-	color: #FFFFFF;
+	/*color: #FFFFFF;*/
 	font-weight: bold;
 	text-decoration: none;
 }

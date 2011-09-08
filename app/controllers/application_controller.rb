@@ -31,7 +31,9 @@ class ApplicationController < ActionController::Base
 
   def root
     if logged_in?
-      if session[:return_to]
+      if @already_redirected
+        # do nothing
+      elsif session[:return_to]
         redirect_back_or_default('/')
       else
         # TODO refactor to UsersController#show and dry with MediaEntriesController#index
@@ -109,8 +111,11 @@ class ApplicationController < ActionController::Base
   end
 
   def check_usage_terms_accepted
-    return if request[:action].to_sym != :usage_terms
-    redirect_to usage_terms_user_path(current_user) unless current_user.usage_terms_accepted?
+    return if request[:action].to_sym == :usage_terms # OPTIMIZE
+    unless current_user.usage_terms_accepted?
+      redirect_to usage_terms_user_path(current_user)
+      @already_redirected = true # OPTIMIZE prevent DoubleRenderError 
+    end
   end
   
   def store_location
