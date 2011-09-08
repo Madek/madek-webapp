@@ -42,6 +42,9 @@ namespace :app do
       puts "Exporting copyrights..."
       copyrights = Copyright.all.as_json(:except => [:lft, :rgt])
 
+      puts "Exporting usage_terms..."
+      usage_terms = UsageTerm.all.as_json(:except => :id)
+
       puts "Exporting media_sets..."
       media_sets = Media::Set.all.as_json(h)
 
@@ -49,14 +52,13 @@ namespace :app do
       h[:include].merge!(:media_file => {:except => [:id, :meta_data, :job_id, :access_hash, :created_at, :updated_at],
                                          :include => {:previews => {:except => [:id, :media_file_id, :created_at, :updated_at]} }}) # TODO include :meta_data
       h.merge!(:methods => :media_set_ids)
-      #media_entries = MediaEntry.limit(100).as_json(h)
-      media_entries = MediaEntry.all.as_json(h)
+      media_entries = MediaEntry.limit(100).as_json(h)
+      #media_entries = MediaEntry.all.as_json(h)
   
       # TODO
       #1 media_projects_meta_contexts
       #2 edit_sessions + upload_sessions
       #2 snapshots
-      #3 usage_terms
       #3 wiki_pages + wiki_page_versions
   
       export = { :subjects => {:people => people,
@@ -65,6 +67,7 @@ namespace :app do
                  :meta_keys => meta_keys,
                  :meta_contexts => meta_contexts,
                  :copyrights => copyrights,
+                 :usage_terms => usage_terms,
                  :media_sets => media_sets,
                  :media_entries => media_entries }
   
