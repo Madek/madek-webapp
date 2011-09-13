@@ -8,7 +8,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
       And a user called "Obi-Wan Kenobi" with username "obi" and password "sabers" exists
       And a user called "Lando Calrissian" with username "lando" and password "bounty" exists
 
-  @javascript
+  @javascript @work
   Scenario: Changing the core text fields of a media entry
     When I log in as "hansolo" with password "leia"
      And I upload some picture titled "Millenium Falcon, Front View"
@@ -57,23 +57,14 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I should not see "Millenium Falcon, Front View"
      And I should see "The Millenium Falcon"
      And I should see "Foreground: A Millenium Falcon. Background: Chewbacca."
-    When I follow "Medium"
-     And I wait for 2 seconds
-     And I wait for the CSS element ".ui-tabs-panel"
-    Then I should see "Rebel United Photo Developers"
+     And I should see "Rebel United Photo Developers"
      And I should see "Holo-Recording"
-    When I follow "Credits" within ".ui-tabs-nav"
-     And I wait for 2 seconds
-     And I wait for the CSS element ".ui-tabs-panel"
-    Then I should see "Rebel Photography Syndicate"
+     And I should see "Rebel Photography Syndicate"
      And I should see "My own digital camera"
-    When I follow "ZHdK" within ".ui-tabs-nav"
-     And I wait for 2 seconds
-     And I wait for the CSS element ".ui-tabs-panel"
-    Then I should see "No one teaches me!"
+     And I should see "No one teaches me!"
      And I should see "Photographs of Han's rides"
 
-  @javascript @work
+  @javascript
   Scenario: Changing the author field on a media entry using the firstname/lastname entry form tab
     When I log in as "hansolo" with password "leia"
      And I upload some picture titled "Me and Leia Organa"
@@ -191,8 +182,5 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      |Bereich ZHdK|Services, Informations-Technologie-Zentrum (SER_SUP_ITZ.alle)|
      And I press "Speichern"
     Then I should see "My great ship"
-     And I should not see "Millenium Falcon, Front View"
-    When I follow "ZHdK" within ".ui-tabs-nav"
-     And I wait for 2 seconds
-     And I wait for the CSS element ".ui-tabs-panel"
-    Then I should see "Services, Informations-Technologie-Zentrum (SER_SUP_ITZ.alle)"
+     And I should not see "Millenium Falcon, Front View"   
+     And I should see "Services, Informations-Technologie-Zentrum (SER_SUP_ITZ.alle)"
