@@ -12,12 +12,12 @@
         .head-tabs
           #tab-info.clearfix
             %ul.tab-nav
-              %li
+              %li.tab-info.ir
                 = _("Information")
               %li
                 =# link_to _("Zugriffsberechtigungen"), edit_multiple_media_entry_permissions_path(media_entry)
-                = link_to _("Zugriffsberechtigungen"), "#tab-permission"
-              %li= link_to _("Aktivitäten"), "#tab-activity"
+                = link_to _("Zugriffsberechtigungen"), "#tab-permission", :class => "tab-permission ir"
+              %li= link_to _("Aktivitäten"), "#tab-activity", :class => "tab-activity ir"
             .tab-content
               .detail-image.grid_9.alpha
                 = thumb_for(media_entry, :large)
@@ -42,10 +42,10 @@
                 
           #tab-permission.clearfix.tab-hide
             %ul.tab-nav
-              %li= link_to _("Information"), "#tab-info"
-              %li
+              %li= link_to _("Information"), "#tab-info", :class => "tab-info ir"
+              %li.tab-permission.ir
                 = _("Zugriffsberechtigungen")
-              %li= link_to _("Aktivitäten"), "#tab-activity"
+              %li= link_to _("Aktivitäten"), "#tab-activity", :class => "tab-activity ir"
             .tab-content
               .detail-image.grid_3.alpha
                 = thumb_for(media_entry, :small)
@@ -56,9 +56,9 @@
                 =# render :partial => "permissions/edit_multiple"
           #tab-activity.clearfix.tab-hide
             %ul.tab-nav
-              %li= link_to _("Information"), "#tab-info"
-              %li= link_to _("Zugriffsberechtigungen"), "#tab-permission"
-              %li
+              %li= link_to _("Information"), "#tab-info", :class => "tab-info ir"
+              %li= link_to _("Zugriffsberechtigungen"), "#tab-permission", :class => "tab-permission ir"
+              %li.tab-activity.ir
                 = _("Aktivitäten")
             .tab-content              
               .detail-image.grid_3.alpha

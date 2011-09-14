@@ -2018,7 +2018,7 @@ table td {
 		font-size: 0.7em;
 		padding: 0;
 		
-		.thumb_box_set {
+		.thumb_box_set, .thumb_box_project {
      		background-size: 70px 70px;
 			height: 60px;
       		width: 70px;
@@ -2041,7 +2041,7 @@ table td {
 	padding: 10px 10px 25px 20px;
 	float: right;
 	margin-right: -10px;
-	background: #333333;
+	background: #FFFFFF;
 
 	img {
 		padding-top: 2px;
@@ -2698,7 +2698,7 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
     border: 0;
     a {
       color: #424242;
-      text-decoration: underline;
+      text-decoration: none;
     }
 }
 .ui-widget-content a:hover {
@@ -2851,16 +2851,54 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
 
 #page_head ul.tab-nav {
 	float: right;
+	margin-right:-10px;
 	display: inline-block;
 	li {
-		font-weight: bold;
-		padding: 10px;
+		background-color: white;
 	}
 	a {
 		font-weight: normal;
 		text-decoration: underline;
 	}
 }
+
+#page_head .tab-info {
+	background: url(icons/madek_icon_sprites.png) -285px -701px no-repeat;
+	background-color: silver;
+	border-style: none;
+	margin-left: 1px;
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+	position:relative;
+	top: 0;
+	right: 0;
+}
+#page_head .tab-permission {
+	background: url(icons/madek_icon_sprites.png) -348px -762px no-repeat;
+	background-color: silver;
+	border-style: none;
+	margin-left: 1px;
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+	position:relative;
+	top: 0;
+	right: 0;
+}
+#page_head .tab-activity {
+	background: url(icons/madek_icon_sprites.png) -285px -827px no-repeat;
+	background-color: silver;
+	border-style: none;
+	margin-left: 1px;
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+	position:relative;
+	top: 0;
+	right: 0;
+}
+
 #page_head #tab-info {
 	/*background-color: red;*/
 }
@@ -2874,7 +2912,10 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
 	display: none;
 }
 
-
+#page_head .tab-content {
+	padding-top: 60px;
+	min-height: 300px;
+}
 
 #page_head .ui-widget-content {
     background: none;
@@ -2951,7 +2992,7 @@ table.meta_data td {
 			letter-spacing: 0.05ex;
 			margin-right: 10px;
 			margin-bottom: 15px;
-			/*max-height:600px;*/
+			height: 500px;
 			overflow: hidden;
 			display: block;
 			h4 {
@@ -2977,9 +3018,6 @@ table.meta_data td {
 	}
 }
 
-#additional-metadata ul li {
-	
-}
 /*
 #additional-metadata table {
 	width: 600px;
@@ -3036,7 +3074,7 @@ table.meta_data td {
 	-moz-box-shadow: inset 0 0 3px 1px #ccc;
 	-webkit-box-shadow: inset 0 0 3px 1px #ccc;
 	box-shadow: inset 0 0 3px 1px #ccc;
-	font: 0.8em/1.2em "Courier New", Courier, mono;
+	font: 0.8em/1.2em;
 	letter-spacing: 1px;
 	background-color: #fafafa;
 	min-width: 170px;
@@ -3311,10 +3349,14 @@ table.permissions {
 	position: relative;
 	#detail-excerpt {
 		display: block;
-		margin: 0 0 6px 0;
+		margin: 0;
 		padding: 0;
 	}
 }
+
+/*#detail-sidebar #detail-excerpt h4:first-child {
+	background-color: red;
+}*/
 
 #browsing_media_entries {
   padding: 0 0 15px 15px;
@@ -3512,6 +3554,7 @@ ul.holder li.input_holder {
 	padding: 3px;
 	width: 10px;
 	height:  10px;
+	text-decoration: none;
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
 	-o-border-radius: 2px;
@@ -3528,10 +3571,13 @@ ul.holder li.input_holder {
 
 .hint {
     display: block;
-	background-color: #FEFFD7;
+	/*background-color: #FEFFD7;*/
+	background-color: none;
 	padding: 2px;
     z-index: 99999;
-	font: normal 0.8em/1.2em "Courier New", Courier, mono;
+	font-weight: normal;
+	font-size: 0.9em;
+	line-height: 1.3em;
 	margin-top: 0.8em;
 }
 
