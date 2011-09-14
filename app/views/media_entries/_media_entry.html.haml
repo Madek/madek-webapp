@@ -96,7 +96,7 @@
                 - description_author_before_import = media_entry.meta_data.get_value_for("description author before import") 
                 - unless description_author_before_import.blank?
                   %tr
-                    %td{:style => "text-align: right; font-weight: bold;"}
+                    %td
                       = _("Beschreibung durch (vor dem Hochladen ins Medienarchiv)")
                     %td= description_author_before_import
                   - unless media_entry.snapshots.empty?
