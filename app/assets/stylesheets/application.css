@@ -6,5 +6,6 @@
  *= require 960
  *= require reset 
  *= require jquery/jquery-ui-1.8.12.custom
+ *= require jquery.tools
  *= require master
 */

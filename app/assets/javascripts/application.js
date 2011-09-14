@@ -3,16 +3,23 @@
 // be included in the compiled file accessible from http://example.com/assets/application.js
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
-//
+
+/////////// Gem /////////////
 //= require jquery.min
 //= require jquery-ui.min
 //= require jquery_ujs
-//= require modernizr.min
-//
-//= require_tree ./plugins/.
+
+/////////// App /////////////
 //= require batch_actions
 //= require madek_ajax_upload
 //= require madek11
+
+/////////// Lib /////////////
+
+/////////// Vendor /////////////
+//= require modernizr.min
+//= require_tree ../../../vendor/assets/javascripts/jquery/.
+
 
 function document_ready(){
 	$("textarea").elastic();
