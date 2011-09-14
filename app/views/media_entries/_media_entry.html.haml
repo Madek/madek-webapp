@@ -19,14 +19,15 @@
                 = link_to _("Zugriffsberechtigungen"), "#tab-permission", :class => "tab-permission ir"
               %li= link_to _("Aktivitäten"), "#tab-activity", :class => "tab-activity ir"
             .tab-content
-              .detail-image.grid_9.alpha
+              .detail-image.grid_9.alpha.omega
                 = thumb_for(media_entry, :large)
               #detail-sidebar.grid_3.omega
                 #detail-excerpt.sidebar-box
                   - context = MetaContext.core
                   - media_entry.meta_data_for_context(context).collect do |meta_datum|
                     - definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
-                    %h4{:style => "margin-top: 10px;"}= definition.meta_field.label.to_s
+                    %h4
+                      = definition.meta_field.label.to_s
                     = render :partial => "meta_data/show", :locals => { :meta_datum => meta_datum, :resource => media_entry, :context => context }
                   - if is_expert 
                     - unless media_entry.snapshots.empty?
@@ -50,6 +51,8 @@
               .detail-image.grid_3.alpha
                 = thumb_for(media_entry, :small)
               .grid_9.omega
+                %h2
+                  = _("Zugriffsberechtigungen")
                 - # TODO #working here#
                 -# @resource = media_entry
                 -# @permissions_json = @resource.permissions.to_json
@@ -64,6 +67,11 @@
               .detail-image.grid_3.alpha
                 = thumb_for(media_entry, :small)
               %table.metadata-table.grid_9.omega
+                %tr
+                  %td
+                    %h2
+                      = _("Aktivitäten")
+                  %td
                 %tr
                   %td
                     = _("Hochgeladen von")

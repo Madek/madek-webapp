@@ -2041,7 +2041,6 @@ table td {
 	padding: 10px 10px 25px 20px;
 	float: right;
 	margin-right: -10px;
-	background: #FFFFFF;
 
 	img {
 		padding-top: 2px;
@@ -2349,7 +2348,7 @@ form#set_media_sets input[type="submit"] {
 	border: 1px solid #e4e4e4;
 	max-width: 680px;
 	max-height: 680px;
-	padding: 10px;
+	padding: 5px;
 }
 
 #detail-image {
@@ -2839,14 +2838,18 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
 /************************************************** New Design ME view */
 
 
-#page_head .detail-image img {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	border: 1px solid #e4e4e4;
-	max-width: 680px;
-	max-height: 680px;
-	padding: 10px;
+#page_head .detail-image {
+	margin-bottom: 20px;
+
+	img {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		border: 1px solid #e4e4e4;
+		max-width: 680px;
+		max-height: 680px;
+		padding: 5px;
+	}
 }
 
 #page_head ul.tab-nav {
@@ -2859,6 +2862,9 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
 	a {
 		font-weight: normal;
 		text-decoration: underline;
+	}
+	a:hover {
+		background-color: #d5d5d5;
 	}
 }
 
@@ -2913,8 +2919,8 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
 }
 
 #page_head .tab-content {
-	padding-top: 60px;
-	min-height: 300px;
+	padding-top: 70px;
+	min-height: 200px;
 }
 
 #page_head .ui-widget-content {
@@ -2958,6 +2964,10 @@ table.metadata-table a:hover {
 
 table.metadata-table td p {
 	margin-bottom: 2em;
+}
+
+table.metadata-table h2 {
+	margin-bottom: 20px;
 }
 
 table.meta_data td {
@@ -3351,6 +3361,9 @@ table.permissions {
 		display: block;
 		margin: 0;
 		padding: 0;
+		div {
+			padding-bottom: 10px;
+		}
 	}
 }
 
