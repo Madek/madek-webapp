@@ -8,3 +8,30 @@
 	padding:25px;
 	color:#fff;	
 }
+
+
+.scrollable {
+	position: relative;
+	overflow: hidden;
+	height: 400px;
+	width: 200px;
+}
+.scrollable .items {
+	position: absolute;
+}
+.scrollable_actions {
+	width: 200px;
+	text-align: right;
+}
+.scrollable_actions a {
+	font-size: 11px;
+	cursor: pointer;
+	color: #666;
+}
+.scrollable_actions a:hover {
+	text-decoration: underline;
+	color: #000;
+}
+.scrollable_actions a.disabled {
+	visibility: hidden;
+}

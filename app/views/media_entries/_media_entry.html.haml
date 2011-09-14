@@ -106,7 +106,7 @@
    
         #detail-set-bar
           - unless sets.empty?
-            = media_sets_list(sets)
+            = media_sets_list(sets, true)
    
         #detail-action-bar
           %ul#toggle-panel
@@ -169,6 +169,7 @@
             = display_meta_data_for(media_entry, meta_context)
         %li
           = display_objective_meta_data_for(media_entry)
+         
         - if false #media_entry.media_file.meta_data and media_entry.media_file.meta_data["GPS:GPSLatitude"] and media_entry.media_file.meta_data["GPS:GPSLongitude"]
           %li
             =# link_to _("Karte"), [:map, media_entry]
@@ -177,9 +178,10 @@
           %li
             = display_meta_data_for(media_entry, meta_context)
 
-
 :javascript
   $(document).ready(function () {
+    $(".scrollable").scrollable({ vertical: true, mousewheel: true });  
+
     $("ul.tab-nav a").click(function(event) {
       var that = $(this);
       that.closest("div").hide();
