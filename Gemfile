@@ -11,10 +11,11 @@ gem 'mysql2', '~> 0.3.7'
 #tmp# dependency for linecache
 gem 'require_relative'
 
+gem 'json', '~> 1.6'
 gem 'haml', '~> 3.1.2'
 gem 'sass', '~> 3.1.7'
 gem 'coffee-script', '~> 2.2.0'
-gem 'uglifier', '~> 1.0.2'
+gem 'uglifier', '~> 1.0.3'
 
 gem 'jquery-rails', '~> 1.0'
 gem 'rails_autolink', '~> 1.0.2'
@@ -29,9 +30,6 @@ gem 'rgl', '~> 0.4.0', :require => 'rgl/adjacency'
 
 gem 'nested_set', '~> 1.6.8'
 gem 'acts-as-dag', '~> 2.5.5' # TOOD use instead ?? gem 'dagnabit', '2.2.6'
-
-# gem 'rmagick', '2.13.1', :require => 'RMagick2'
-gem 'json', '~> 1.5.4'
 
 gem 'net-ldap', :require => 'net/ldap'
 
@@ -60,10 +58,10 @@ group :development do
 end
 
 group :test do
-  gem 'cucumber', '~> 1.0.2'
+  gem 'cucumber', '~> 1.0.3'
   gem 'cucumber-rails', '~> 1.0.2'
-  gem 'capybara', '~> 1.0.1'
-  gem 'selenium-webdriver', '~> 2.5.0' 
+  gem 'capybara', '~> 1.1.1'
+  gem 'selenium-webdriver', '~> 2.6' 
   gem 'database_cleaner'
   gem 'rspec-rails'
   gem 'spork'
