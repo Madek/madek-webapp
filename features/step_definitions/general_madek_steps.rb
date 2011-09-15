@@ -54,7 +54,7 @@ Given /^a user called "([^"]*)" with username "([^"]*)" and password "([^"]*)" e
     user = person.build_user(:login => username,
                              :email => "#{username}@zhdk.ch",
                              :password => crypted_password)
-    user.usage_terms_accepted_at = DateTime.now
+    user.usage_terms_accepted_at = DateTime.now + 10.years
     user.save.should == true
   end
 end
