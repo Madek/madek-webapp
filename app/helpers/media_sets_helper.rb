@@ -1,8 +1,6 @@
 # -*- encoding : utf-8 -*-
 module MediaSetsHelper
 
-  #2001# def media_set_title(media_set, visible_media_entries, with_link = false)
-
   def media_set_title(media_set, with_link = false, with_main_thumb = false, total_thumbs = 0, accessible_resource_ids = nil)
     content = capture_haml do
       div_class, thumb_class = media_set.is_a?(Media::Project) ? ["set-box project-box", "thumb_box_project"] : ["set-box", "thumb_box_set"]
@@ -40,17 +38,35 @@ module MediaSetsHelper
     end
   end
 
-  def media_sets_list(media_sets)
+  def media_sets_list(media_sets, with_tooltip = false)
     capture_haml do
-      haml_tag :h4, _("Enthalten in")
-      media_sets.each do |media_set|
-        #2001# media_entries = media_set.media_entries.select {|media_entry| Permission.authorized?(current_user, :view, media_entry)}
-        #2001# media_set_title(media_set, media_entries, true)
-        haml_concat media_set_title(media_set, true, true)
+      if with_tooltip
+        media_sets.each do |media_set|
+          div_class, thumb_class = media_set.is_a?(Media::Project) ? ["set-box project-box", "thumb_box_project"] : ["set-box", "thumb_box_set"]
+          haml_tag :div, :class => div_class, :title => media_set.to_s do
+            haml_tag :div, thumb_for(media_set, :small_125), :class => thumb_class
+          end
+        end
+        script = javascript_tag do
+          begin
+          <<-HERECODE
+            $(document).ready(function () {
+              $(".set-box[title]").tooltip();
+            });
+          HERECODE
+          end.html_safe
+        end
+        haml_concat script
+      else
+        haml_tag :h4, _("Enthalten in")
+        media_sets.each do |media_set|
+          #2001# media_entries = media_set.media_entries.select {|media_entry| Permission.authorized?(current_user, :view, media_entry)}
+          #2001# media_set_title(media_set, media_entries, true)
+          haml_concat media_set_title(media_set, true, true)
+        end
       end
     end
   end
-
 
   def media_sets_setter(form_path, with_cancel_button = false)
     form_tag form_path, :id => "set_media_sets" do
