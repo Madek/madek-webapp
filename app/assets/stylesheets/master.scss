@@ -2006,7 +2006,7 @@ table td {
 
 #detail-set-bar {
 	float: left;
-	width: 400px;
+	margin-left: 10px;
 	h4 {
 		padding: 10px 0;
 		font-size: 0.8em;
@@ -2014,7 +2014,7 @@ table td {
 	.set-box {
 		display: inline-block;
 		vertical-align: top;
-		width: 120px;
+		/*width: 120px;*/
 		font-size: 0.7em;
 		padding: 0;
 		
@@ -2024,7 +2024,7 @@ table td {
       		width: 70px;
       		line-height: 60px;
       		margin: 0;
-      		padding-right: 50px;
+      		padding-right: 10px;
     		img {
     	  		margin: 0;
     			max-height: 40px;
@@ -2038,7 +2038,7 @@ table td {
 /************************************************** Action Bar */
 
 #detail-action-bar {
-	padding: 10px 10px 25px 20px;
+	padding: 0 10px 20px 0;
 	float: right;
 	margin-right: -10px;
 
@@ -3284,14 +3284,14 @@ table.permissions {
 .set-box {
 	font-size: 0.9em;
 	line-height: 1.2em;
-	margin-bottom: 10px;
-	background-color: #f4f4f4;
+	/*margin-bottom: 10px;*/ 
+	/*background-color: #f4f4f4;*/
 	padding: 15px 30px 15px 30px;
 	letter-spacing: 0.1ex;
-	min-height: 155px;
+	/*min-height: 155px;
 	:hover {
 		background-color: #E9E9E9;	
-	}
+	}*/
 	span {
     	letter-spacing: 0;
 	}
