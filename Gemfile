@@ -12,7 +12,7 @@ gem 'mysql2', '~> 0.3.7'
 gem 'require_relative'
 
 gem 'json', '~> 1.6'
-gem 'haml', '~> 3.1.2'
+gem 'haml'#, '~> 3.1.2'
 gem 'sass', '~> 3.1.7'
 gem 'coffee-script', '~> 2.2.0'
 gem 'uglifier', '~> 1.0.3'
@@ -58,8 +58,8 @@ group :development do
 end
 
 group :test do
-  gem 'cucumber', '~> 1.0.3'
-  gem 'cucumber-rails', '~> 1.0.2'
+  gem 'cucumber'#, '~> 1.0.3'
+  gem 'cucumber-rails'#, '~> 1.0.2'
   gem 'capybara', '~> 1.1.1'
   gem 'selenium-webdriver', '~> 2.6' 
   gem 'database_cleaner'
