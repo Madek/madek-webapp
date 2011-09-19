@@ -31,3 +31,9 @@
 
 <%= wiki_page_attachments(@page) %>
 
+
+<h4>Extra Textile markup</h4>
+
+<p>[media=210      | Das Huhn] becomes <%= h('<a href="/media_entries/210">Das Huhn</a>')%></p>
+<p>[thumbnail=210  | Das Huhn] becomes <%= h('<img src="/media_entries/210/image" title="Das Huhn"/>') %></p>
+<p>[video=210      | Das Huhn] becomes <%= h('<video src="/media_entries/210/image" title="Das Huhn"/><a href="/media_entries/210">(see video)</a></video>') %></p>
