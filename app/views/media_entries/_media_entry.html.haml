@@ -5,11 +5,12 @@
   .container_12.clearfix
     #page_head
       #detail-main.grid_12
-        /
-          %h2.title{:style => "margin: 0 10px 10px 0;"}
-            = render :partial => "meta_data/show", :locals => { :meta_datum => media_entry.meta_data.get("title"), :resource => media_entry, :context => nil }
 
         .head-tabs
+          %h2.title.grid_8
+            %br
+            =# render :partial => "meta_data/show", :locals => { :meta_datum => media_entry.meta_data.get("title"), :resource => media_entry, :context => nil }
+            = media_entry.meta_data.get_value_for("title")
           %ul.tab-nav
             %li.tab-info.ir
               = link_to _("Information"), "#", :class => "tab-info ir", :rel => "tab-info"
