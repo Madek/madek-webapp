@@ -1,6 +1,11 @@
 class RedClothMadek
 
   ActionView::Base.sanitized_allowed_tags << 'video'
+  ActionView::Base.sanitized_allowed_tags << 'video'
+  ActionView::Base.sanitized_allowed_tags << 'source'
+  ActionView::Base.sanitized_allowed_attributes << 'controls'
+  ActionView::Base.sanitized_allowed_attributes << 'type'
+  ActionView::Base.sanitized_allowed_attributes << 'autoplay'
 
   def initialize
     require 'redcloth'

@@ -1,1 +1,220 @@
 /* This is the MAdeK Wiki CSS */
+
+/* Wiki Customize Automatic CSS */
+
+.wiki_page_info {
+
+}
+
+.wiki_page_actions {
+
+}
+
+.wiki_page_actions li {
+     margin: 0px;
+     padding: 0px;
+	margin-right: 5px;
+	text-align: right;
+}
+
+.wiki_content, .wiki_diff, .wiki_history {
+    margin: 0 auto;
+    width: 940px;
+	position: relative;
+	padding: 20px;
+	background: #fff url(../images/splitter.png) 675px 0 repeat-y;
+}
+
+.wiki_history {
+     width: auto;
+}
+
+.wiki_history_header td {
+     border-bottom: 2px dashed black;
+}
+
+.wiki_form {
+     border: 1px dashed #666666;
+     display: block;
+     width: 100%;
+}
+
+.wiki_form p {
+     padding: 10px;
+}
+
+.wiki_form p input, .wiki_form p textarea {
+     width: 100%;
+}
+
+.wiki_form .submit {
+     margin-bottom: 10px;
+     margin-left: 20px;
+}
+
+.wiki_diff span.added {
+     background: none repeat scroll 0% 0% #D4FFAB;
+     color: #509A05;
+}
+
+.wiki_diff span.removed {
+     background: none repeat scroll 0% 0% #FFD8D8;
+     color: #EF2828;
+}
+
+/* SV Styles */
+
+/* SV Structure */
+
+.wiki_meta {
+	width: 200px;
+	/*margin: 10px auto;*/
+	bottom: 50px;
+	padding: 10px;
+	background: yellow;
+	position: fixed;
+}
+
+.wiki_navigation {
+	position: absolute;
+	top: 50px;
+	right: 0;
+	width: 250px;
+	padding-left: 40px;
+}
+
+.wiki_navigation h3 {
+	font-size: 14px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	width: auto !important;
+}
+
+.wiki_navigation ul li a {
+	display: block;
+	/*width: 200px;*/
+}
+
+.wiki_navigation ul {
+	margin-bottom: 1em !important;
+	overflow:hidden;
+}
+
+.wiki_navigation ul li ul {
+	font-size: 11px;
+	margin-bottom: 0 !important;
+	overflow:hidden;
+	padding-left: 10px;
+}
+
+.wiki_content h1 {
+	margin-bottom: 0.5em;
+    width: 630px;
+	line-height: 1.1em;
+}
+
+.wiki_content h2 {
+	margin-bottom: 0.5em;
+    width: 630px
+	line-height: 1.1em;
+}
+
+.wiki_content h3 {
+	margin-bottom: 0.5em;
+    width: 630px;
+	font-size: 16px;
+}
+
+.wiki_content .archiving {
+	width: 505px;
+	padding-left: 125px;
+	height: 125px;
+	background: transparent url('http://files.kitsune.ch/madek/functionalities-test-icon.png') top left no-repeat;
+}
+
+.wiki_content .archiving h3,
+.wiki_content .archiving p {
+	width: auto !important;
+}
+
+
+.wiki_content p {
+	margin-bottom: 1em;
+	width: 630px !important;
+}
+
+.wiki_content p img {
+	border-top: 20px solid #f2f2f2;
+	border-right: 25px solid #f2f2f2;
+	border-bottom: 20px solid #f2f2f2;
+	border-left: 25px solid #f2f2f2;
+	border-radius: 5px;
+}
+
+.wiki_content .imagebox {
+	border: 20px solid #f2f2f2;
+	border-radius: 5px;	
+	width: 300px;
+}
+
+.wiki_content a {
+	color: #337DC3;
+}
+
+.wiki_content ul,
+.wiki_content ol {
+	overflow: hidden;
+	margin-bottom: 2em;
+}
+
+.wiki_content ol {
+	padding-left: 1.5em;
+}
+
+.wiki_content ul li {
+	width: 620px !important;
+}
+
+.wiki_content ol li {
+	list-style: decimal;
+	width: 620px !important;
+	margin-bottom: 1em;
+}
+
+.wiki_related {
+	width: 590px;
+	background: #f2f2f2;
+	border-radius: 5px;
+	padding: 20px;
+	margin-bottom: 1em;
+}
+
+.wiki_breadcrumb {
+	/*border-bottom: 1px solid #d2d2d2;*/
+	margin-bottom: 1.25em;
+	font-size: 11px;
+	color: #727272;
+	width: 630px;
+}
+
+.wiki_anchor {
+	border-top: 1px solid #d2d2d2;
+	font-size: 11px;
+	width: 630px;
+	text-align: right;
+}
+
+.wiki_AZ {
+	margin-bottom: 1em;
+}
+
+.wiki_content video {
+	padding: 30px 100px;
+	background:-moz-linear-gradient(top, #727272, #424242); /* Firefox */
+	background:-webkit-gradient(linear, left top, left bottom, from(#727272), to(#424242)); /* Safari, Chrome */
+	background:-webkit-linear-gradient(top, #727272, #424242); /* Safari, Chrome - neue Syntax! */
+	background:-o-linear-gradient(top, #727272, #424242); /* Opera */
+	background:-ms-linear-gradient(top, #727272, #424242); /* IE */
+	background:linear-gradient(top, #727272, #424242); /* W3C Standard */
+	border-radius: 5px;
+}
