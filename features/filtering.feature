@@ -58,7 +58,7 @@ Feature: Use the search filters on my search results
     Then the search results should not contain "The Necronomicon"
      And the search results should contain "Klaatu Barata Nicto"
 
-  @javascript
+  @javascript @broken
   Scenario: Filtering three different media entries
     When I log in as "evil" with password "books"
      And I upload some picture titled "Pure Evil"

@@ -1,11 +1,14 @@
 <%= wiki_page_style %>
 
-<h1><%=h @page.title %></h1>
-  
-<%= wiki_page_info %>
-<%= wiki_page_actions %>
+
+<% if current_user.groups.is_member?("Admin") %>
+  <div class="wiki_meta">
+        <%= wiki_page_actions %>
+	<strong>Title:</strong> <%=h @page.title %>
+	<strong>Info:</strong> <%= wiki_page_info %>
+  </div>
+<% end %>
   
 <div class="wiki_content">
   <%=wiki_content @page.content %>
 </div>
-

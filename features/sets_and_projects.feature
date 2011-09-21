@@ -82,7 +82,7 @@ Feature: Do things to and with sets and projects
 
 
 
-  @javascript
+  @javascript @broken
   Scenario: Use a URL in a set description and expect it to turn into a link
     When I log in as "helmi" with password "saumagen"
      And I go to the home page
@@ -111,7 +111,6 @@ Feature: Do things to and with sets and projects
      And I go to the home page
     Then I should see "Link test"
     When I click the media entry titled "Link test"
-     And I follow "Testing the link"
      And I follow "Editieren"
      And I fill in the metadata form as follows:
      |label|value|
@@ -120,4 +119,3 @@ Feature: Do things to and with sets and projects
     Then I should see "http://www.zhdk.ch"
     When I follow "http://www.zhdk.ch"
      
-  
