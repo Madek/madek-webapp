@@ -69,7 +69,7 @@
                     = _("Hochgeladen am") 
                   %td
                     = _("%s Uhr") % media_entry.created_at.to_formatted_s(:date_time)
-                - edit_sessions = media_entry.edit_sessions
+                - edit_sessions = media_entry.edit_sessions.limit(5)
                 - unless edit_sessions.empty?
                   %tr
                     %td

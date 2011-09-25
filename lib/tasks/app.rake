@@ -58,14 +58,13 @@ namespace :app do
         end
 
       h1 = h2 = {:include => {:meta_data => {:except => [:id, :resource_type, :resource_id, :created_at, :updated_at],
-                                       :methods => :deserialized_value
-                                      },
-                        :permissions => {:methods => :actions,
-                                         :except => [:id, :resource_type, :resource_id, :created_at, :updated_at]
-                                        } 
-                        }, # :include => :person
-           :except => [:delta]
-          }
+                                             :methods => :deserialized_value },
+                              :permissions => {:methods => :actions,
+                                               :except => [:id, :resource_type, :resource_id, :created_at, :updated_at] },
+                              :edit_sessions => {:only => [:created_at, :user_id]}
+                              }, # :include => :person
+                 :except => [:delta]
+                }
           
       h1.merge!(:methods => :individual_context_ids)
 
@@ -82,7 +81,7 @@ namespace :app do
       #####################################################
 
       # TODO
-      #2 edit_sessions + upload_sessions
+      #2 upload_sessions
       #2 snapshots
       #3 wiki_pages + wiki_page_versions
   

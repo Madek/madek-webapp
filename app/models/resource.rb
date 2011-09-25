@@ -56,7 +56,7 @@ module Resource
     base.before_validation { permissions.delete_if {|p| p.new_record? and p.subject.nil? and p.invalid? } } #2904# OPTIMIZE
     base.after_create :generate_permissions
 
-    base.has_many  :edit_sessions, :as => :resource, :dependent => :destroy, :readonly => true, :limit => 5
+    base.has_many  :edit_sessions, :as => :resource, :dependent => :destroy, :readonly => true
     base.has_many  :editors, :through => :edit_sessions, :source => :user do
       def latest
         first
