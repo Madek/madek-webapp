@@ -73,15 +73,20 @@ namespace :app do
 
       #####################################################
       puts "Exporting media_entries..."
-      h2[:include].merge!(:media_file => {:except => [:id, :meta_data, :job_id, :access_hash, :created_at, :updated_at],
-                                         :include => {:previews => {:except => [:id, :media_file_id, :created_at, :updated_at]} }}) # TODO include :meta_data
+      h2[:include].merge!(:media_file => {:except => [:id, :meta_data, :job_id, :access_hash, :created_at, :updated_at]
+                                          #old#, :include => {:previews => {:except => [:id, :media_file_id, :created_at, :updated_at]}}
+                                         })
+                                         # TODO include :meta_data
       h2.merge!(:methods => :media_set_ids)
       media_entries = MediaEntry.all.as_json(h2)
   
       #####################################################
+      puts "Exporting snapshots..."
+      snapshots = Snapshot.all.as_json(h2)
+  
+      #####################################################
 
       # TODO
-      #2 snapshots
       #3 wiki_pages + wiki_page_versions
   
       export = { :subjects => {:people => people,
@@ -92,12 +97,9 @@ namespace :app do
                  :copyrights => copyrights,
                  :usage_terms => usage_terms,
                  :media_sets => media_sets,
-                 :media_entries => media_entries }
+                 :media_entries => media_entries,
+                 :snapshots => snapshots }
   
-      #old#
-      #send_data export.to_yaml, :filename => "full_export.yml", :type => :yaml
-      #send_data export.to_json, :filename => "full_export.json", :type => :json
-
       file_path = "#{Rails.root}/db/full_export.json"
       File.open(file_path, 'w') do |f|
         f << export.to_json # << "\n"
