@@ -30,17 +30,6 @@
                     %h4
                       = definition.meta_field.label.to_s
                     = render :partial => "meta_data/show", :locals => { :meta_datum => meta_datum, :resource => media_entry, :context => context }
-                  - if is_expert 
-                    - unless media_entry.snapshots.empty?
-                      .notice_tms
-                        - date = media_entry.snapshots.first.created_at.to_formatted_s(:date)
-                        - time = media_entry.snapshots.first.created_at.to_formatted_s(:time)
-                        = "Eine Kopie dieses Medieneintrages wurde am #{date} um #{time} Uhr für das MIZ-Archiv erstellt."
-                    - unless media_entry.snapshotable?
-                      .notice_tms{:style => "margin-top: 100px;"}
-                        = _("Diese Kopie wird gegenwärtig durch das MIZ-Archiv bearbeitet.")
-                  - sets = media_entry.media_sets.select {|media_set| Permission.authorized?(current_user, :view, media_set) }
-                = render :partial => "media_entries/browsing"
                 
           #tab-permission.clearfix.tab-hide
             .tab-content
@@ -69,7 +58,7 @@
                     = _("Hochgeladen am") 
                   %td
                     = _("%s Uhr") % media_entry.created_at.to_formatted_s(:date_time)
-                - edit_sessions = media_entry.edit_sessions
+                - edit_sessions = media_entry.edit_sessions.limit(5)
                 - unless edit_sessions.empty?
                   %tr
                     %td
@@ -90,8 +79,21 @@
                     %tr
                       %td{:style => "text-align: right; font-weight: bold;"}= _("MIZ-Archiv Kopie") 
                       %td= "#{_("%s Uhr") % media_entry.snapshots.first.created_at.to_formatted_s(:date_time)}"
-   
+
+                - if is_expert
+                  %tr
+                    %td{:colspan => 2} 
+                      - unless media_entry.snapshots.empty?
+                        .notice_tms
+                          - date = media_entry.snapshots.first.created_at.to_formatted_s(:date)
+                          - time = media_entry.snapshots.first.created_at.to_formatted_s(:time)
+                          = "Eine Kopie dieses Medieneintrages wurde am #{date} um #{time} Uhr für das MIZ-Archiv erstellt."
+                      - unless media_entry.snapshotable?
+                        .notice_tms
+                          = _("Diese Kopie wird gegenwärtig durch das MIZ-Archiv bearbeitet.")
+
         #detail-set-bar
+          - sets = media_entry.media_sets.select {|media_set| Permission.authorized?(current_user, :view, media_set) }
           - unless sets.empty?
             = media_sets_list(sets, true)
    
