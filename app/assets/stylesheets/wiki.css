@@ -22,7 +22,7 @@
     width: 940px;
 	position: relative;
 	padding: 20px;
-	background: #fff url(images/splitter.png) 675px 0 repeat-y;
+	background: #fff url(splitter.png) 675px 0 repeat-y;
 }
 
 .wiki_history {
