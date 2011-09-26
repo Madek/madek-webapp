@@ -15,7 +15,8 @@ namespace :app do
       puts "Exporting people..."
       people = Person.all.as_json(:except => [:delta, :created_at, :updated_at],
                                   :include => {:user => {:except => :person_id,
-                                                         :methods => :favorite_ids}})
+                                                         :methods => :favorite_ids,
+                                                         :include => {:upload_sessions => {:except => [:user_id, :updated_at]}} }})
 
       #####################################################
       puts "Exporting groups..."
@@ -75,13 +76,11 @@ namespace :app do
       h2[:include].merge!(:media_file => {:except => [:id, :meta_data, :job_id, :access_hash, :created_at, :updated_at],
                                          :include => {:previews => {:except => [:id, :media_file_id, :created_at, :updated_at]} }}) # TODO include :meta_data
       h2.merge!(:methods => :media_set_ids)
-      media_entries = MediaEntry.limit(100).as_json(h2)
-      #media_entries = MediaEntry.all.as_json(h)
+      media_entries = MediaEntry.all.as_json(h2)
   
       #####################################################
 
       # TODO
-      #2 upload_sessions
       #2 snapshots
       #3 wiki_pages + wiki_page_versions
   
