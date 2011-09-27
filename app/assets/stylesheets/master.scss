@@ -631,6 +631,15 @@ ul li { float: left; }
 	box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
 	position: relative;
 	margin-top: 10px;
+	
+	> a {
+		display: block;
+		clear: both;
+	}
+
+	.pagination {
+		word-spacing: 0;
+	}
 }
 
 #content_body_fixed {
@@ -725,10 +734,6 @@ ul li { float: left; }
 
 #content_body_set .pagination {
 	margin-top: -43px;
-}
-
-#content_body2 .pagination {
-	word-spacing: 0;
 }
 
 .disabled {
@@ -2917,20 +2922,6 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
     padding: 0;
     .ui-slider {
     	padding: 0;
-    }
-}
-
-#page_head .tabs {
-	ul li a {
-	}
-}
-
-#page_head .ui-tabs .ui-tabs-nav {
-	float: right;
-    padding:0;
-    border:0;
-    li a {
-    	padding: 0.8em 1em .5em 1em;
     }
 }
 
