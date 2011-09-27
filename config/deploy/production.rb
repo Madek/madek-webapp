@@ -1,4 +1,10 @@
 # -*- encoding : utf-8 -*-
+$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
+require "rvm/capistrano"                  # Load RVM's capistrano plugin.
+set :rvm_ruby_string, '1.9.2'        # Or whatever env you want it to run in.
+require "bundler/capistrano"
+
+
 set :application, "madek"
 
 set :scm, :git
@@ -135,10 +141,6 @@ task :load_seed_data do
     run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:seed"
 end
 
-task :install_gems do
-  run "cd #{release_path} && bundle install --deployment --without test development"
-end
-
 task :stop_sphinx do
   run "cd #{previous_release} && RAILS_ENV='production' bundle exec rake ts:stop"
 end
@@ -167,9 +169,8 @@ after "deploy:symlink", :configure_environment
 after "deploy:symlink", :link_attachments
 after "deploy:symlink", :migrate_database
 after "deploy:symlink", :record_deploy_info
-before "migrate_database", :install_gems
 after "migrate_database", :load_seed_data
 after "migrate_database", :clear_cache
-after "install_gems", :stop_sphinx
+after "migrate_database", :stop_sphinx
 after "deploy", :start_sphinx
 after "deploy", "deploy:cleanup"
