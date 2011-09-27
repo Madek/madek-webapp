@@ -31,12 +31,6 @@ gem 'rgl', '~> 0.4.0', :require => 'rgl/adjacency'
 gem 'nested_set', '~> 1.6.8'
 gem 'acts-as-dag', '~> 2.5.5' # TOOD use instead ?? gem 'dagnabit', '2.2.6'
 
-<<<<<<< HEAD
-# gem 'rmagick', '2.13.1', :require => 'RMagick2'
-gem 'json', '~> 1.5.4'
-
-=======
->>>>>>> next
 gem 'net-ldap', :require => 'net/ldap'
 
 gem 'zencoder'
@@ -64,17 +58,10 @@ group :development do
 end
 
 group :test do
-<<<<<<< HEAD
-  gem 'cucumber', '~> 1.0.2'
-  gem 'cucumber-rails', '~> 1.0.2'
-  gem 'capybara', '~> 1.0.1'
-  gem 'selenium-webdriver', '~> 2.5.0' 
-=======
   gem 'cucumber'#, '~> 1.0.3'
   gem 'cucumber-rails'#, '~> 1.0.2'
   gem 'capybara', '~> 1.1.1'
   gem 'selenium-webdriver', '~> 2.6' 
->>>>>>> next
   gem 'database_cleaner'
   gem 'rspec-rails'
   gem 'spork'
