@@ -1167,7 +1167,7 @@ ul li { float: left; }
 	height: 140px;
 	font-size: 1em;
 	line-height: 150px;
-	background: url(icons/icon_tn_project.png) no-repeat 0 -11px;
+	background: url(icons/icon_tn_project.png) no-repeat 0 -8px;
 	margin: 0 25px 10px 0;
 	position: relative;
 	
@@ -2011,6 +2011,7 @@ table td {
       		line-height: 60px;
       		margin: 0;
       		padding-right: 10px;
+      		padding-top: 5px;
     		img {
     	  		margin: 0;
     			max-height: 40px;
@@ -2959,7 +2960,9 @@ table.meta_data td {
 }
 
 .meta_data_comment {
-	padding: 7px 0 0 0;
+  font-size: 1.1em;
+  line-height: 1.3em;
+	padding: 21px 0 0 0;
 	color: silver;
 }
 
@@ -2989,25 +2992,29 @@ table.meta_data td {
 			overflow: hidden;
 			display: block;
 			h4 {
-				padding: 5px 0 10px 0;
+				padding: 5px 0 8px 0;
 			}
 			p {
 				color: red;
 			}
 		}
 	}
-	.meta_data {
-			div {
-				padding-top: 7px;
-				padding-bottom: 10px;
-				border-bottom: 1px solid #E9E9E9;
-				label {
-	  				font-size: 0.8em;
-	  				line-height: 0.9em;
-	  				font-weight: bold;
-	  				letter-spacing: 0;
-				}
-			}
+  .meta_data {
+		.item {
+		  border-bottom: 1px solid #E9E9E9;
+		  font-size: 1.1em;
+		  line-height: 1.2em;
+		  padding-top: 7px;
+      padding-bottom: 10px;
+      
+      label {
+        display: block;
+        font-size: 0.9em;
+        font-weight: bold;
+        letter-spacing: 0;
+        padding-bottom: 6px;
+      }
+		}
 	}
 }
 
