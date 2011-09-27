@@ -1,0 +1,21 @@
+= stylesheet_link_tag "feedback", :media => "all"
+
+#usage_terms_wrapper
+  #usage_terms_content
+    %p.intro
+      = raw @usage_term.intro
+    %h1
+      = @usage_term.title
+    %p
+      %i
+        = @usage_term.version
+
+    = raw simple_format(@usage_term.body)
+		
+    %br
+    %br
+
+    - if params[:id].try(:to_i) == current_user.id
+      %p.usage_terms-box
+        = link_to _("Ablehnen"), logout_path, :class => "buttons", :style => "font-weight: normal;"
+        = link_to _("Akzeptieren"), usage_terms_user_path(current_user), :class => "buttons", :method => :post

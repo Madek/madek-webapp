@@ -3,19 +3,28 @@
 // be included in the compiled file accessible from http://example.com/assets/application.js
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
-//
+
+/////////// Gem /////////////
 //= require jquery.min
 //= require jquery-ui.min
 //= require jquery_ujs
-//= require modernizr.min
-//
-//= require_tree ./plugins/.
+
+/////////// App /////////////
 //= require batch_actions
 //= require madek_ajax_upload
 //= require madek11
 
+/////////// Lib /////////////
+
+/////////// Vendor /////////////
+//= require modernizr.min
+//= require_tree ../../../vendor/assets/javascripts/jquery/.
+
+
 function document_ready(){
 	$("textarea").elastic();
+
+	//////////////////////////////
 
 	$(".madek_multiselect_container").each(function(){
 		var that = $(this);
@@ -23,6 +32,16 @@ function document_ready(){
 			var search_field = that.closest("[data-meta_key]").find("input[name='autocomplete_search']");
 			create_multiselect_widget(search_field, that.data("is_extensible"), that.data("with_toggle"));
 			that.data("ready", true);                     
+		}
+	});
+
+	//////////////////////////////
+
+	$(".description_toggler").qtip({
+		position: {
+			my: 'bottom left',
+			at: 'top right',
+			viewport: $(window)
 		}
 	});
 }
@@ -63,26 +82,6 @@ $(document).ready(function () {
 		$("form").placeholder();
 	};
 	
-//////////////////////////////
-
-	$("a.description_toggler").live("mouseenter mouseleave click", function(event) {
-		if (event.type == 'mouseenter') {
-			$(this).next(".dialog").show();
-		} else if (event.type == 'mouseleave') {
-			$(this).next(".dialog").hide();
-		} else {
-			return false;
-		}
-	});
-
-	$(".dialog").live("mouseenter mouseleave", function(event) {
-		if (event.type == 'mouseenter') {
-			$(this).show();
-		} else {
-			$(this).hide();
-		}
-	});
-
 //////////////////////////////
 
 	$("[data-meta_key] div.expander a").live("click", function() {

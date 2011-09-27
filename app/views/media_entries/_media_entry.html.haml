@@ -1,165 +1,259 @@
 - can_edit = Permission.authorized?(current_user, :edit, media_entry)
 - is_expert = current_user.groups.is_member?("Expert")
 
-.container_12
-  #detail-main.grid_8.alpha
-    %h2.title{:style => "margin: 0 10px 10px 0;"}
-      = render :partial => "meta_data/show", :locals => { :meta_datum => media_entry.meta_data.get("title"), :resource => media_entry, :context => nil }
-    #detail-image
-      = thumb_for(media_entry, :large)
-    #detail-action-bar.clearfix
-      %ul#toggle-panel.clearfix
-        - if current_user && Permission.authorized?(current_user, :edit, media_entry)
-          %li
-            = link_to edit_media_entry_path(media_entry), :title => "Editieren" do
-              .button_edit_active
-        - else
-          %li
-            .button_edit_active.ghost
-        %li
-          %span.favorite_link{:id => "fav_#{media_entry.id}", :title => "Favorit"}
-            = render :partial => "media_entries/favorite_link", :locals => {:media_entry => media_entry}
-        - unless media_entry.meta_data.for_meta_terms.blank?
-          %li
-            = link_to browse_media_entry_path(media_entry), :title => "Erkunden" do
-              .button_explore
-        - else
-          %li
-            .button_explore.ghost
-        %li
-          = link_to "#", :panel => "download", :title => "Exportieren" do
-            .button_download
-        %li
-          = link_to "#", :panel => "media_set", :title => "Zu Set/Projekt hinzufügen" do
-            .button_addto
-        - if current_user && Permission.authorized?(current_user, :manage, media_entry)
-          %li
-            = link_to "#", :panel => "delete", :title => "Löschen" do
-              .button_delete_active
-        - else
-          %li
-            .button_delete_active.ghost
-        .clear
-        - if is_expert and media_entry.snapshotable?
-          %li= link_to _("Metadaten für MIZ-Archiv editieren"), edit_tms_media_entry_path(@media_entry)
-          - if can_edit
-            %li= link_to _("Kopie für MIZ-Archiv erstellen"), to_snapshot_media_entry_path(media_entry)
-    #delete-panel.actionbar-panel{:style => "display: none"}
-      .actionbar-inner-panel
-        = _("Wollen Sie diesen Medieneintrag und alle zugehörigen Dateien wirklich löschen? Sie können dies nicht rückgängig machen. Die Daten sind unwiederbringlich verloren.")
-        = link_to _("Löschen"), media_entry_path(media_entry), :id => "delete_me", :method => :delete, :confirm => _("Sind Sie sicher?"), :"data-id" => media_entry.id
-    #download-panel.actionbar-panel{:style => "display: none"}
-      .actionbar-inner-panel
-        = render :partial => "download", :object => media_entry, :as => :media_entry
-    #media_set-panel.actionbar-panel{:style => "display: none"}
-      .actionbar-inner-panel
-        - if logged_in?
-          = media_sets_setter(media_sets_media_entry_path(media_entry))
-        - else
-          = _("Bitte anmelden.")
-    .clear
-    #additional-metadata
-      %h3.tab-title= _("Metadaten")
-      #detail_specification.tabs
-        %ul
-          - (MetaContext.defaults + media_entry.individual_contexts).collect do |meta_context|
-            %li
-              = link_to meta_context, polymorphic_path([media_entry, :meta_data], :context_id => meta_context)
-          %li
-            = link_to _("Datei"), polymorphic_path([:objective, media_entry, :meta_data])
-          - if media_entry.media_file.meta_data and media_entry.media_file.meta_data["GPS:GPSLatitude"] and media_entry.media_file.meta_data["GPS:GPSLongitude"]
-            %li= link_to _("Karte"), [:map, media_entry]
-          - if is_expert
-            - meta_context = MetaContext.tms
-            %li
-              = link_to meta_context, polymorphic_path([media_entry, :meta_data], :context_id => meta_context) 
-      %h3.tab-title{:style => "margin-top: 2em"}= _("Weitere Informationen")
-      #further_information.tabs
-        %ul
-          %li= link_to _("Aktivitäten"), "#usage-tabs-1"
-          %li= link_to _("Zugriffsberechtigungen"), edit_multiple_media_entry_permissions_path(media_entry)
-        #usage-tabs-1.meta_data
-          %table.metadata-table
-            %tr
-              %td
-                = _("Hochgeladen von")
-              %td
-                = link_to media_entry.user, media_entries_path(:query => media_entry.user.fullname)
-            %tr
-              %td
-                = _("Hochgeladen am") 
-              %td
-                = _("%s Uhr") % media_entry.created_at.to_formatted_s(:date_time)
-            - edit_sessions = media_entry.edit_sessions
-            - unless edit_sessions.empty?
-              %tr
-                %td
-                  = _("Letzte Aktualisierung")
-                %td
-                  %ul
-                    - edit_sessions.each do |edit_session|
-                      %li
-                        = link_to edit_session.user, edit_session.user
-                        = " / #{_("%s Uhr") % edit_session.created_at.to_formatted_s(:date_time)}"
-            - description_author_before_import = media_entry.meta_data.get_value_for("description author before import") 
-            - unless description_author_before_import.blank?
-              %tr
-                %td{:style => "text-align: right; font-weight: bold;"}
-                  = _("Beschreibung durch (vor dem Hochladen ins Medienarchiv)")
-                %td= description_author_before_import
-              - unless media_entry.snapshots.empty?
+%section#content_head
+  .container_12.clearfix
+    #page_head
+      #detail-main.grid_12
+
+        .head-tabs
+          %h2.title.grid_8
+            %br
+            =# render :partial => "meta_data/show", :locals => { :meta_datum => media_entry.meta_data.get("title"), :resource => media_entry, :context => nil }
+            = media_entry.meta_data.get_value_for("title")
+          %ul.tab-nav
+            %li.tab-info.ir
+              = link_to _("Information"), "#", :class => "tab-info ir", :rel => "tab-info"
+            %li.tab-permission
+              = link_to _("Zugriffsberechtigungen"), edit_multiple_media_entry_permissions_path(media_entry), :class => "tab-permission ir", :rel => "tab-permission"
+            %li.tab-activity
+              = link_to _("Aktivitäten"), "#", :class => "tab-activity ir", :rel => "tab-activity"
+          #tab-info.clearfix
+            .tab-content
+              .detail-image.grid_9.alpha.omega
+                = thumb_for(media_entry, :large)
+              #detail-sidebar.grid_3.omega
+                #detail-excerpt.sidebar-box
+                  - context = MetaContext.core
+                  - media_entry.meta_data_for_context(context).collect do |meta_datum|
+                    - definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
+                    %h4
+                      = definition.meta_field.label.to_s
+                    = render :partial => "meta_data/show", :locals => { :meta_datum => meta_datum, :resource => media_entry, :context => context }
+                
+          #tab-permission.clearfix.tab-hide
+            .tab-content
+              .detail-image.grid_3.alpha
+                = thumb_for(media_entry, :small)
+              .grid_9.omega
+                %h2
+                  = _("Zugriffsberechtigungen")
+          #tab-activity.clearfix.tab-hide
+            .tab-content              
+              .detail-image.grid_3.alpha
+                = thumb_for(media_entry, :small)
+              %table.metadata-table.grid_9.omega
                 %tr
-                  %td{:style => "text-align: right; font-weight: bold;"}= _("MIZ-Archiv Kopie") 
-                  %td= "#{_("%s Uhr") % media_entry.snapshots.first.created_at.to_formatted_s(:date_time)}"
-              
-  #detail-sidebar.grid_4.omega
-    #detail-excerpt.sidebar-box
-      - context = MetaContext.core
-      - media_entry.meta_data_for_context(context).collect do |meta_datum|
-        - definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
-        %h4{:style => "margin-top: 10px;"}= definition.meta_field.label.to_s
-        = render :partial => "meta_data/show", :locals => { :meta_datum => meta_datum, :resource => media_entry, :context => context }
-      - if is_expert 
-        - unless media_entry.snapshots.empty?
-          .notice_tms
-            - date = media_entry.snapshots.first.created_at.to_formatted_s(:date)
-            - time = media_entry.snapshots.first.created_at.to_formatted_s(:time)
-            = "Eine Kopie dieses Medieneintrages wurde am #{date} um #{time} Uhr für das MIZ-Archiv erstellt."
-        - unless media_entry.snapshotable?
-          .notice_tms{:style => "margin-top: 100px;"}
-            = _("Diese Kopie wird gegenwärtig durch das MIZ-Archiv bearbeitet.")
-      - sets = media_entry.media_sets.select {|media_set| Permission.authorized?(current_user, :view, media_set) }
-      - unless sets.empty?
-        = media_sets_list(sets)
-    = render :partial => "media_entries/browsing"
-.clear
+                  %td
+                    %h2
+                      = _("Aktivitäten")
+                  %td
+                %tr
+                  %td
+                    = _("Hochgeladen von")
+                  %td
+                    = link_to media_entry.user, media_entries_path(:query => media_entry.user.fullname)
+                %tr
+                  %td
+                    = _("Hochgeladen am") 
+                  %td
+                    = _("%s Uhr") % media_entry.created_at.to_formatted_s(:date_time)
+                - edit_sessions = media_entry.edit_sessions.limit(5)
+                - unless edit_sessions.empty?
+                  %tr
+                    %td
+                      = _("Letzte Aktualisierung")
+                    %td
+                      %ul
+                        - edit_sessions.each do |edit_session|
+                          %li
+                            = link_to edit_session.user, edit_session.user
+                            = " / #{_("%s Uhr") % edit_session.created_at.to_formatted_s(:date_time)}"
+                - description_author_before_import = media_entry.meta_data.get_value_for("description author before import") 
+                - unless description_author_before_import.blank?
+                  %tr
+                    %td
+                      = _("Beschreibung durch (vor dem Hochladen ins Medienarchiv)")
+                    %td= description_author_before_import
+                  - unless media_entry.snapshots.empty?
+                    %tr
+                      %td{:style => "text-align: right; font-weight: bold;"}= _("MIZ-Archiv Kopie") 
+                      %td= "#{_("%s Uhr") % media_entry.snapshots.first.created_at.to_formatted_s(:date_time)}"
+
+                - if is_expert
+                  %tr
+                    %td{:colspan => 2} 
+                      - unless media_entry.snapshots.empty?
+                        .notice_tms
+                          - date = media_entry.snapshots.first.created_at.to_formatted_s(:date)
+                          - time = media_entry.snapshots.first.created_at.to_formatted_s(:time)
+                          = "Eine Kopie dieses Medieneintrages wurde am #{date} um #{time} Uhr für das MIZ-Archiv erstellt."
+                      - unless media_entry.snapshotable?
+                        .notice_tms
+                          = _("Diese Kopie wird gegenwärtig durch das MIZ-Archiv bearbeitet.")
+
+        #detail-set-bar
+          - sets = media_entry.media_sets.select {|media_set| Permission.authorized?(current_user, :view, media_set) }
+          - unless sets.empty?
+            = media_sets_list(sets, true)
+   
+        #detail-action-bar
+          %ul#toggle-panel
+            - if is_expert and media_entry.snapshotable?
+              %li= link_to _("Metadaten für MIZ-Archiv editieren"), edit_tms_media_entry_path(@media_entry)
+              - if can_edit
+                %li= link_to _("Kopie für MIZ-Archiv erstellen"), to_snapshot_media_entry_path(media_entry)
+            - if current_user && Permission.authorized?(current_user, :edit, media_entry)
+              %li
+                = link_to edit_media_entry_path(media_entry), :title => "Editieren" do
+                  .button_edit_active
+            - else
+              %li
+                .button_edit_active.ghost
+            %li
+              %span.favorite_link{:id => "fav_#{media_entry.id}", :title => "Favorit"}
+                = render :partial => "media_entries/favorite_link", :locals => {:media_entry => media_entry}
+            - unless media_entry.meta_data.for_meta_terms.blank?
+              %li
+                = link_to browse_media_entry_path(media_entry), :title => "Erkunden" do
+                  .button_explore
+            - else
+              %li
+                .button_explore.ghost
+            %li
+              = link_to "#", :panel => "download", :title => "Exportieren" do
+                .button_download
+            %li
+              = link_to "#", :panel => "media_set", :title => "Zu Set/Projekt hinzufügen" do
+                .button_addto
+            - if current_user && Permission.authorized?(current_user, :manage, media_entry)
+              %li
+                = link_to "#", :panel => "delete", :title => "Löschen" do
+                  .button_delete_active
+            - else
+              %li
+                .button_delete_active.ghost
+        #delete-panel.actionbar-panel{:style => "display: none"}
+          .actionbar-inner-panel
+            = _("Wollen Sie diesen Medieneintrag und alle zugehörigen Dateien wirklich löschen? Sie können dies nicht rückgängig machen. Die Daten sind unwiederbringlich verloren.")
+            = link_to _("Löschen"), media_entry_path(media_entry), :id => "delete_me", :method => :delete, :confirm => _("Sind Sie sicher?"), :"data-id" => media_entry.id
+        #download-panel.actionbar-panel{:style => "display: none"}
+          .actionbar-inner-panel
+            = render :partial => "download", :object => media_entry, :as => :media_entry
+        #media_set-panel.actionbar-panel{:style => "display: none"}
+          .actionbar-inner-panel
+            - if logged_in?
+              = media_sets_setter(media_sets_media_entry_path(media_entry))
+            - else
+              = _("Bitte anmelden.")
+        .clear
+    
+                  
+%section#content_body_set
+  #additional-metadata
+    #detail_specification
+      %ul
+        - (MetaContext.defaults + media_entry.individual_contexts).collect do |meta_context|
+          %li
+            = display_meta_data_for(media_entry, meta_context)
+        %li
+          = display_objective_meta_data_for(media_entry)
+         
+        - if false #media_entry.media_file.meta_data and media_entry.media_file.meta_data["GPS:GPSLatitude"] and media_entry.media_file.meta_data["GPS:GPSLongitude"]
+          %li
+            =# link_to _("Karte"), [:map, media_entry]
+        - if is_expert
+          - meta_context = MetaContext.tms
+          %li
+            = display_meta_data_for(media_entry, meta_context)
 
 :javascript
-  // OPTIMIZE
-  $('a#delete_me').bind('confirm:complete', function(){
-    var media_entries_json = get_media_entries_json();
-    var i = is_Selected(media_entries_json, $(this).data("id"));
-    if (i > -1) {
-      media_entries_json.splice(i, 1);
-      set_media_entries_json(JSON.stringify(media_entries_json));
-    };
-  })
+  $(document).ready(function () {
   
-  // OPTIMIZE Action Bar
-  $("a[panel]").click(function(){
-    to_open = !$(this).hasClass("active");
+    $(".scrollable").each(function(){
+      
+      // enable the jquery tools scrollable plugin only on elements wich are higher then their content
+      
+      if($(this).find(".items").height() > $(this).height()) {
+        
+        $(this).scrollable({ vertical: true, mousewheel: true }); 
+        
+         // disable the next button when the last seeked element whas the last element in the list
+      
+        $(this).bind("onSeek", function() {
+          if(parseInt($(this).find(".items").height())+parseInt($(this).find(".items").css("top")) <= $(this).height()) {
+            $(this).parent().find(".next").addClass("disabled");
+          }
+        });
+        
+        // stops the plugin from scrolling when the last element is visible already
+         
+         $(this).bind("onBeforeSeek", function(event, index) {
+        
+          if(parseInt($(this).find(".items").height())+parseInt($(this).find(".items").css("top")) <= $(this).height()) {
+            
+            // only prevent from scrolling if the direction is forward
+            if(index > $(this).data("scrollable").getIndex()) {
+              return false;
+            }
+          }
+        });
 
-    $("a.active[panel]").each(function () {
-      $(this).removeClass("active");
-      $(this).css("background", "");
-      $("div#"+$(this).attr("panel")+"-panel").slideUp("slow");
+      } else {
+        $(this).parent().find(".next").addClass("disabled");
+      }
     });
-
-    if(to_open){
-      $(this).addClass("active");
-      $(this).css("background", "transparent url('/assets/icons/arrow-up-04.png') 50% bottom no-repeat");
-      $("div#"+$(this).attr("panel")+"-panel").slideDown("slow");
-    }
     
-    return false;
+    $("ul.tab-nav a").click(function(event) {
+      var that = $(this);
+    
+      $("ul.tab-nav li").removeClass("ir");
+      that.closest("li").addClass("ir");
+    
+      var target = $("#" + that.attr("rel"));
+      $(".head-tabs > div").hide();
+      if(that.attr("href") != "#"){
+        var inner_target = target.find(".tab-content h2");
+        if(!inner_target.next().length){
+          $.ajax({
+            url: that.attr("href"),
+            complete: function(response){
+              inner_target.after(response.responseText);
+            }
+          });
+        }
+      }
+      target.show();
+      return false;
+    });
+  
+    // OPTIMIZE
+    $('a#delete_me').bind('confirm:complete', function(){
+      var media_entries_json = get_media_entries_json();
+      var i = is_Selected(media_entries_json, $(this).data("id"));
+      if (i > -1) {
+        media_entries_json.splice(i, 1);
+        set_media_entries_json(JSON.stringify(media_entries_json));
+      };
+    })
+    
+    // OPTIMIZE Action Bar
+    $("a[panel]").click(function(){
+      to_open = !$(this).hasClass("active");
+  
+      $("a.active[panel]").each(function () {
+        $(this).removeClass("active");
+        $(this).css("background", "");
+        $("div#"+$(this).attr("panel")+"-panel").slideUp("slow");
+      });
+  
+      if(to_open){
+        $(this).addClass("active");
+        $(this).css("background", "transparent url('/assets/icons/arrow-up-04.png') 50% bottom no-repeat");
+        $("div#"+$(this).attr("panel")+"-panel").slideDown("slow");
+      }
+      
+      return false;
+    });
+  
   });

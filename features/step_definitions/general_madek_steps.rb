@@ -1,5 +1,6 @@
 # coding: UTF-8
 
+
 Given /^I have set up the world$/ do
   # Set this to a non-JS driver because:
   # 1. The Selenium driver times out during this step
@@ -53,7 +54,7 @@ Given /^a user called "([^"]*)" with username "([^"]*)" and password "([^"]*)" e
     user = person.build_user(:login => username,
                              :email => "#{username}@zhdk.ch",
                              :password => crypted_password)
-    user.usage_terms_accepted_at = DateTime.now
+    user.usage_terms_accepted_at = DateTime.now + 10.years
     user.save.should == true
   end
 end
@@ -71,6 +72,7 @@ Given /^I log in as "(\w+)" with password "(\w+)"$/ do |username, password|
   fill_in "login", :with => username
   fill_in "password", :with => password
   click_link_or_button "Log in"
+  page.should_not have_content "Invalid username/password"
 end
 
 Given /^a group called "([^"]*)" exists$/ do |groupname|

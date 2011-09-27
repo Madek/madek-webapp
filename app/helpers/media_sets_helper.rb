@@ -1,20 +1,17 @@
 # -*- encoding : utf-8 -*-
 module MediaSetsHelper
 
-  #2001# def media_set_title(media_set, visible_media_entries, with_link = false)
-
   def media_set_title(media_set, with_link = false, with_main_thumb = false, total_thumbs = 0, accessible_resource_ids = nil)
     content = capture_haml do
       div_class, thumb_class = media_set.is_a?(Media::Project) ? ["set-box project-box", "thumb_box_project"] : ["set-box", "thumb_box_set"]
       haml_tag :div, :class => div_class do
         haml_tag :div, thumb_for(media_set, :small_125), :class => thumb_class if with_main_thumb
-        haml_tag :span, media_set.title, :style => "font-weight: bold; font-size: 1.1em;"
+        haml_tag :br
+        haml_tag :span, media_set.title, :style => "font-weight: bold; font-size: 1.2em;"
         #2001# " (%d/%d Medieneinträge)" % [visible_media_entries.count, media_set.media_entries.count]
+        haml_concat " (%d Medieneinträge)" % [media_set.media_entries.count]
         haml_tag :br
         haml_concat "von #{media_set.user}"
-        haml_tag :br
-        haml_tag :br
-        haml_concat " (%d Medieneinträge)" % [media_set.media_entries.count]
         haml_tag :br
         if total_thumbs > 0
           haml_tag :br
@@ -38,21 +35,47 @@ module MediaSetsHelper
       else
         haml_concat content
       end
-      haml_tag :div, :class => "clear"
     end
   end
 
-  def media_sets_list(media_sets)
+  def media_sets_list(media_sets, with_tooltip = false)
     capture_haml do
-      haml_tag :h4, _("Enthalten in"), :style => "margin: 15px 0 10px 0;"
-      media_sets.each do |media_set|
-        #2001# media_entries = media_set.media_entries.select {|media_entry| Permission.authorized?(current_user, :view, media_entry)}
-        #2001# media_set_title(media_set, media_entries, true)
-        haml_concat media_set_title(media_set, true, true)
+      if with_tooltip
+        media_sets.each do |media_set|
+          div_class, thumb_class = media_set.is_a?(Media::Project) ? ["set-box project-box", "thumb_box_project"] : ["set-box", "thumb_box_set"]
+          haml_tag :div, :class => div_class, :title => media_set.to_s do
+            haml_tag :a, thumb_for(media_set, :small_125), :href => media_set_path(media_set), :class => thumb_class
+          end
+        end
+        script = javascript_tag do
+          begin
+          <<-HERECODE
+            $(document).ready(function () {
+              $(".set-box[title]").qtip({
+                position: {
+                  my: 'bottom center',
+                  at: 'top center',
+                  viewport: $(window)
+                },
+                style: {
+                   classes: 'ui-tooltip-youtube ui-tooltip-shadow'
+                }
+              });
+            });
+          HERECODE
+          end.html_safe
+        end
+        haml_concat script
+      else
+        haml_tag :h4, _("Enthalten in")
+        media_sets.each do |media_set|
+          #2001# media_entries = media_set.media_entries.select {|media_entry| Permission.authorized?(current_user, :view, media_entry)}
+          #2001# media_set_title(media_set, media_entries, true)
+          haml_concat media_set_title(media_set, true, true)
+        end
       end
     end
   end
-
 
   def media_sets_setter(form_path, with_cancel_button = false)
     form_tag form_path, :id => "set_media_sets" do
@@ -126,7 +149,7 @@ module MediaSetsHelper
 
   def display_project_abstract_slider(project, total_entries)
     capture_haml do
-      haml_tag :p, :style => "padding: 1em;" do
+      haml_tag :p, :style => "padding: 1.8em;" do
         haml_tag :span, :id => "amount", :style => "color: #444444; font-weight: bold; position: absolute;"
       end
       haml_tag :div, :id =>"slider", :style => "border: 1px solid #DDDDDD;"

@@ -1,5 +1,53 @@
 # -*- encoding : utf-8 -*-
 module MetaDataHelper
+
+  def display_meta_data_helper(title, values)
+    capture_haml do
+      haml_tag :h4, title
+      if values.blank?
+        haml_tag :div, _("Es sind keine Metadaten zu diesem Kontext bereit gestellt."), :class => "meta_data_comment"
+      else
+        haml_tag :div, :class => "scrollable_actions" do
+          haml_tag :a, :class => "prev disabled" do 
+            haml_concat "« Back"
+          end
+        end
+        haml_tag :div, :class => "meta_data scrollable vertical" do
+          haml_tag :div, :class => "items" do
+            values.each do |value|
+              haml_tag :div, :class => "item" do
+                haml_tag :label, value.first
+                haml_concat value.last
+              end
+            end
+          end
+        end
+        haml_tag :div, :class => "scrollable_actions" do
+          haml_tag :a, :class => "next" do
+            haml_concat "More »"
+          end
+        end
+      end
+    end
+  end
+
+  def display_meta_data_for(resource, context)
+    h = {}
+    meta_data = resource.meta_data_for_context(context, false)
+    meta_data.each do |meta_datum|
+      next if meta_datum.to_s.blank? #tmp# OPTIMIZE 2007
+      definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
+      h[definition.meta_field.label.to_s] = formatted_value(meta_datum) 
+    end
+    display_meta_data_helper(context, h)
+  end
+  
+  def display_objective_meta_data_for(resource)
+    meta_data = resource.media_file.meta_data_without_binary.sort
+    display_meta_data_helper(_("Datei"), meta_data)
+  end
+  
+  #####################################################################################
   
   def display_meta_data_for_context(resource, context)
     capture_haml do
@@ -25,13 +73,13 @@ module MetaDataHelper
         s = Array(meta_datum.deserialized_value).map do |p|
           next unless p
           #temp# link_to p, p
-          link_to p, media_entries_path(:query => p.fullname)
+          link_to p, search_path(:query => p.fullname)
         end
         s.join('<br />').html_safe
       when "Keyword"
         s = Array(meta_datum.deserialized_value).map do |v|
           next unless v
-          link_to v, media_entries_path(:query => v.to_s)
+          link_to v, search_path(:query => v.to_s)
         end
         s.join(', ').html_safe
       when "Meta::Date"
@@ -300,7 +348,7 @@ module MetaDataHelper
           unless @js_1
             @js_1 = true
             locale = "de-CH"
-            h += javascript_include_tag "plugins/i18n/jquery.ui.datepicker-#{locale}"
+            h += javascript_include_tag "jquery/i18n/jquery.ui.datepicker-#{locale}"
             h += javascript_tag do
               begin
               <<-HERECODE
@@ -457,10 +505,7 @@ module MetaDataHelper
   def description_toggler(definition)
     d = definition.meta_field.description.try(:to_s)
     unless d.blank?
-      r = link_to "?", "#", :class => "description_toggler"
-      r += content_tag :span, :style => "display: none;", :class => "dialog hint" do
-        auto_link(d, :all, :target => "_blank")
-      end
+      content_tag :span, "?", :class => "description_toggler", :title => d #old# auto_link(d, :all, :target => "_blank")
     end
   end
 

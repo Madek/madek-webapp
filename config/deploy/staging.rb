@@ -170,5 +170,6 @@ after "deploy:symlink", :link_attachments
 after "deploy:symlink", :migrate_database
 after "deploy:symlink", :record_deploy_info 
 after "migrate_database", :clear_cache
+after "migrate_database", :stop_sphinx
 after "deploy", :start_sphinx
 after "deploy", "deploy:cleanup"
