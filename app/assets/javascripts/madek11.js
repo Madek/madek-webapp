@@ -4,8 +4,8 @@ jQuery.ajaxSetup({
 
 $(document).ready(function () { 
 	
-	$(document).ajaxStart(function(){ $("*").css('cursor', 'progress'); });
-	$(document).ajaxStop(function(){ $("*").css('cursor', ''); });
+	$(document).ajaxStart(function(){ $("body").css('cursor', 'progress'); });
+	$(document).ajaxStop(function(){ $("body").css('cursor', ''); });
 	
 	// fading notice, error messages
     $(".notice, .error").delay(4000).fadeOut(500);

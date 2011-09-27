@@ -44,14 +44,22 @@ module MediaSetsHelper
         media_sets.each do |media_set|
           div_class, thumb_class = media_set.is_a?(Media::Project) ? ["set-box project-box", "thumb_box_project"] : ["set-box", "thumb_box_set"]
           haml_tag :div, :class => div_class, :title => media_set.to_s do
-            haml_tag :div, thumb_for(media_set, :small_125), :class => thumb_class
+            haml_tag :a, thumb_for(media_set, :small_125), :href => media_set_path(media_set), :class => thumb_class
           end
         end
         script = javascript_tag do
           begin
           <<-HERECODE
             $(document).ready(function () {
-              $(".set-box[title]").tooltip();
+              $(".set-box[title]").qtip({
+                position: {
+                  my: 'bottom center',
+                  at: 'top center'
+                },
+                style: {
+                   classes: 'ui-tooltip-youtube ui-tooltip-shadow'
+                }
+              });
             });
           HERECODE
           end.html_safe
@@ -140,7 +148,7 @@ module MediaSetsHelper
 
   def display_project_abstract_slider(project, total_entries)
     capture_haml do
-      haml_tag :p, :style => "padding: 1em;" do
+      haml_tag :p, :style => "padding: 1.8em;" do
         haml_tag :span, :id => "amount", :style => "color: #444444; font-weight: bold; position: absolute;"
       end
       haml_tag :div, :id =>"slider", :style => "border: 1px solid #DDDDDD;"
