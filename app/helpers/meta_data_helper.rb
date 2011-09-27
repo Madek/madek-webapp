@@ -17,7 +17,6 @@ module MetaDataHelper
             values.each do |value|
               haml_tag :div, :class => "item" do
                 haml_tag :label, value.first
-                haml_tag :br
                 haml_concat value.last
               end
             end
