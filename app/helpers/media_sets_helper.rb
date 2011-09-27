@@ -54,7 +54,8 @@ module MediaSetsHelper
               $(".set-box[title]").qtip({
                 position: {
                   my: 'bottom center',
-                  at: 'top center'
+                  at: 'top center',
+                  viewport: $(window)
                 },
                 style: {
                    classes: 'ui-tooltip-youtube ui-tooltip-shadow'

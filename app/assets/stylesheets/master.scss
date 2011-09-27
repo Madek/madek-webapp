@@ -3558,6 +3558,7 @@ ul[data-parent_meta_key] {
 		-webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
 		-moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
 		box-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
+		cursor: help;
 	}
 	
 	.description_toggler:hover {
@@ -3580,21 +3581,6 @@ ul.holder li.input_holder {
 	font-size: 0.9em;
 	line-height: 1.3em;
 	margin-top: 0.8em;
-}
-
-.dialog {
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	-o-border-radius: 3px;
-	border-radius: 3px;
-	-webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
-	-moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
-	box-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
-    background-color: #FEFFD7;
-    padding: 10px;
-    position: absolute;
-    right: 39px;
-    width: 20em;
 }
 
 .dates input, #dateSelect {
