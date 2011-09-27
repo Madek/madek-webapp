@@ -17,7 +17,6 @@ module MetaDataHelper
             values.each do |value|
               haml_tag :div, :class => "item" do
                 haml_tag :label, value.first
-                haml_tag :br
                 haml_concat value.last
               end
             end
@@ -506,10 +505,7 @@ module MetaDataHelper
   def description_toggler(definition)
     d = definition.meta_field.description.try(:to_s)
     unless d.blank?
-      r = link_to "?", "#", :class => "description_toggler"
-      r += content_tag :span, :style => "display: none;", :class => "dialog hint" do
-        auto_link(d, :all, :target => "_blank")
-      end
+      content_tag :span, "?", :class => "description_toggler", :title => d #old# auto_link(d, :all, :target => "_blank")
     end
   end
 

@@ -169,8 +169,41 @@
 
 :javascript
   $(document).ready(function () {
-    $(".scrollable").scrollable({ vertical: true, mousewheel: true });  
+  
+    $(".scrollable").each(function(){
+      
+      // enable the jquery tools scrollable plugin only on elements wich are higher then their content
+      
+      if($(this).find(".items").height() > $(this).height()) {
+        
+        $(this).scrollable({ vertical: true, mousewheel: true }); 
+        
+         // disable the next button when the last seeked element whas the last element in the list
+      
+        $(this).bind("onSeek", function() {
+          if(parseInt($(this).find(".items").height())+parseInt($(this).find(".items").css("top")) <= $(this).height()) {
+            $(this).parent().find(".next").addClass("disabled");
+          }
+        });
+        
+        // stops the plugin from scrolling when the last element is visible already
+         
+         $(this).bind("onBeforeSeek", function(event, index) {
+        
+          if(parseInt($(this).find(".items").height())+parseInt($(this).find(".items").css("top")) <= $(this).height()) {
+            
+            // only prevent from scrolling if the direction is forward
+            if(index > $(this).data("scrollable").getIndex()) {
+              return false;
+            }
+          }
+        });
 
+      } else {
+        $(this).parent().find(".next").addClass("disabled");
+      }
+    });
+    
     $("ul.tab-nav a").click(function(event) {
       var that = $(this);
     
