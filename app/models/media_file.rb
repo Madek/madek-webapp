@@ -149,7 +149,7 @@ class MediaFile < ActiveRecord::Base
   end
   
   def retrieve_encoded_files
-    require 'lib/encode_job'
+    require_relative '../../lib/encode_job'
     paths = []
     
     unless self.job_id.blank?
