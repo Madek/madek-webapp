@@ -64,7 +64,7 @@ module MediaEntriesHelper
       when /audio/ then
         "hh:mm:ss"
       else
-        "? x ?"
+        nil
     end
   end
   
@@ -74,7 +74,7 @@ module MediaEntriesHelper
         format = media_file.content_type.gsub(/image\//, '')
       # other media formats ....
     else
-      "?"
+      media_file.content_type
     end
   end
 
