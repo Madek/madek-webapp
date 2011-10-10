@@ -52,6 +52,7 @@ class Meta::Date # TODO rename to Meta::DateTime ??
     end
   
     def parse(string)
+      string.gsub!(/\[|\]/, '') # NOTE strip out the square brackets
       h = {:free_text => string}
       unless string =~ /^[A-Za-z]/ # NOTE we skip the parsing in case of string starting with alphabetic characters
         begin
