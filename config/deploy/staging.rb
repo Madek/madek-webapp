@@ -161,7 +161,6 @@ end
 before "deploy:symlink", :make_tmp
 after "deploy:symlink", :link_config
 before "configure_sphinx", :link_sphinx
-after "link_sphinx", :stop_sphinx
 after "deploy:symlink", :configure_sphinx
 after "deploy:symlink", :configure_environment
 after "deploy:symlink", :link_attachments
