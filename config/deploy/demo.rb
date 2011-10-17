@@ -157,12 +157,12 @@ end
 before "deploy:symlink", :make_tmp
 after "deploy:symlink", :link_config
 before "configure_sphinx", :link_sphinx
-after "link_sphinx", :stop_sphinx
 after "deploy:symlink", :configure_sphinx
 after "deploy:symlink", :configure_environment
 after "deploy:symlink", :link_attachments
 after "deploy:symlink", :migrate_database
 after "deploy:symlink", :record_deploy_info
 after "migrate_database", :clear_cache
+after "migrate_database", :stop_sphinx
 after "deploy", :start_sphinx
 after "deploy", "deploy:cleanup"
