@@ -23,14 +23,6 @@ set :rails_env, "production"
 
 set :deploy_to, "/home/rails/madek"
 
-
-# DB credentials needed by Sphinx, mysqldump etc.
-set :sql_database, "rails_madek_prod"
-set :sql_host, "db.zhdk.ch"
-set :sql_username, "madekprod"
-set :sql_password, "m4d_ekkpr0dd"
-
-
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
 # set :scm, :subversion
@@ -38,6 +30,16 @@ set :sql_password, "m4d_ekkpr0dd"
 role :app, "madek@madek-server.zhdk.ch"
 role :web, "madek@madek-server.zhdk.ch"
 role :db,  "madek@madek-server.zhdk.ch", :primary => true
+
+task :retrieve_db_config do
+  # DB credentials needed by Sphinx, mysqldump etc.
+  get(db_config, "/tmp/leihs_db_config.yml")
+  dbconf = YAML::load_file("/tmp/madek_db_config.yml")["production"]
+  set :sql_database, dbconf['database']
+  set :sql_host, dbconf['host']
+  set :sql_username, dbconf['username']
+  set :sql_password, dbconf['password']
+end
 
 task :link_config do
   on_rollback { run "rm #{release_path}/config/database.yml" }
@@ -161,6 +163,7 @@ task :clear_cache do
   run "cd #{release_path} && RAILS_ENV=production bundle exec rails runner 'Rails.cache.clear'"
 end
 
+before "deploy", "retrieve_db_config"
 before "deploy:symlink", :make_tmp
 after "deploy:symlink", :link_config
 before "configure_sphinx", :link_sphinx
