@@ -67,9 +67,14 @@ namespace :app do
                  :except => [:delta]
                 }
           
-      h1.merge!(:methods => :individual_context_ids)
+      h1.merge!(:methods => [:individual_context_ids, :child_ids])
 
       media_sets = Media::Set.all.as_json(h1)
+
+      #####################################################
+      puts "Exporting media_featured_set..."
+
+      media_featured_set_id = Media::FeaturedSet.first.try(:id)
 
       #####################################################
       puts "Exporting media_entries..."
@@ -97,6 +102,7 @@ namespace :app do
                  :copyrights => copyrights,
                  :usage_terms => usage_terms,
                  :media_sets => media_sets,
+                 :media_featured_set_id => media_featured_set_id,
                  :media_entries => media_entries,
                  :snapshots => snapshots }
   
