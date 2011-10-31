@@ -5,14 +5,14 @@
   can_download_hi_res = Permission.authorized?(current_user, :hi_res, media_entry)
   x_large_file_available = x_large_file && File.exist?(x_large_file.full_path)
 
-- if x_large_file_available
-  %table#download-table
-    %tr
-      %th.col1= _("Version")
-      %th.col2= select_dimensions_header_for_entry(media_entry)
-      %th.col3= _("Grösse")
-      %th.col4= _("Download")
+%table#download-table
+  %tr
+    %th.col1= _("Version")
+    %th.col2= select_dimensions_header_for_entry(media_entry)
+    %th.col3= _("Grösse")
+    %th.col4= _("Download")
 
+  - if x_large_file_available
     %tr.download-unit
       %td{:rowspan => 2}
         %p.download-info
@@ -80,23 +80,25 @@
       %td{:colspan => 4}
         %hr
 
+  - if File.exist?(original_file.file_storage_location) # NOTE it could be a zip file
     %tr.download-unit
       %td{:rowspan => 2}
         %p.download-info
           %span= _("Datei mit ursprünglichen Metadaten")
           = _("Originaldatei mit gleichen Metadaten wie beim Hochladen ins Medienarchiv")
-      %td.align-right= "#{dimensions_for(original_file)} (#{format_original_file})"
+      %td.align-right= "#{dimensions_for(original_file)} (#{format_original_file})" 
       %td.align-right
         \~
         = number_to_human_size(original_file.size)
       %td.align-right= link_to _("Download"),"/download?id=#{media_entry.id}" if can_download_hi_res
     %tr
-      - if x_large_file #and x_large_file.width < original_file.width  
+      - if x_large_file_available #old# x_large_file #and x_large_file.width < original_file.width  
         %td.align-right= "#{dimensions_for(x_large_file)} (jpeg)"
         %td.align-right
           \~
           = number_to_human_size(x_large_file.size)
         %td.align-right
           = link_to _("Download"),"/download?id=#{media_entry.id}&size=x_large"
-- else
-  Die Dateien sind leider nicht zum Download vorhanden.
+
+-#old# else
+  =#old# _("Die Dateien sind leider nicht zum Download vorhanden.")
