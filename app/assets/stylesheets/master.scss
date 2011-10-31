@@ -371,6 +371,32 @@ nav {
 	-ms-box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
 }
 
+.main_nav_help {
+  background: url(icons/madek_icon_sprites.png) -299px -911px no-repeat;
+  border-style: none;
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+  position:absolute;
+  top: 12px;
+  left: 275px;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -o-border-radius: 2px;
+  -ms-border-radius: 2px;
+}
+
+.main_nav_help:hover {
+  display: inline-block;
+  background-position: -332px -911px;
+  box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+  -moz-box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+  -webkit-box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+  -o-box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+  -ms-box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
 .main_nav_browse {
 	background: url(icons/madek_icon_sprites.png) -299px -249px no-repeat;
 	border-style: none;
