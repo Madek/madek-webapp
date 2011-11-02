@@ -13,8 +13,10 @@
 //= require batch_actions
 //= require madek_ajax_upload
 //= require madek11
+//= require browser-check/browser-check
 
 /////////// Lib /////////////
+//= require browser-detection/browser-detection
 
 /////////// Vendor /////////////
 //= require modernizr.min
