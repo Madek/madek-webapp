@@ -3,6 +3,8 @@ $:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory
 require "rvm/capistrano"                  # Load RVM's capistrano plugin.
 set :rvm_ruby_string, '1.9.2'        # Or whatever env you want it to run in.
 
+require "bundler/capistrano"
+
 set :application, "madek"
 
 set :scm, :git
@@ -158,14 +160,20 @@ end
 
 before "deploy", "retrieve_db_config"
 before "deploy:symlink", :make_tmp
+
 after "deploy:symlink", :link_config
-before "configure_sphinx", :link_sphinx
-after "deploy:symlink", :configure_sphinx
-after "deploy:symlink", :configure_environment
 after "deploy:symlink", :link_attachments
-after "deploy:symlink", :migrate_database
-after "deploy:symlink", :record_deploy_info
+after "deploy:symlink", :configure_environment
+after "deploy:symlink", :record_deploy_info 
+after "deploy:symlink", :stop_sphinx
+
+after "link_config", :migrate_database
+after "migrate_database", :configure_sphinx
 after "migrate_database", :clear_cache
-after "migrate_database", :stop_sphinx
+
+after "deploy:restart", :stop_sphinx
+before "stop_sphinx", :link_sphinx
+
 after "deploy", :start_sphinx
+after "deploy:cold", :start_sphinx
 after "deploy", "deploy:cleanup"
