@@ -6,7 +6,11 @@ class RedClothMadek
   ActionView::Base.sanitized_allowed_attributes << 'controls'
   ActionView::Base.sanitized_allowed_attributes << 'type'
   ActionView::Base.sanitized_allowed_attributes << 'autoplay'
+  ActionView::Base.sanitized_allowed_attributes << 'poster'
+  ActionView::Base.sanitized_allowed_attributes << 'style'
 
+  
+  
   def initialize
     require 'redcloth'
   end
