@@ -3,7 +3,6 @@
 $:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
 require "rvm/capistrano"                  # Load RVM's capistrano plugin.
 set :rvm_ruby_string, '1.9.2'        # Or whatever env you want it to run in.
-require "bundler/capistrano"
 
 set :application, "madek"
 
@@ -16,7 +15,6 @@ set :db_config, "/home/rails/madek/database.yml"
 set :ldap_config, "/home/rails/madek/LDAP.yml"
 set :zencoder_config, "/home/rails/madek/zencoder.yml"
 set :checkout, :export
-
 
 set :use_sudo, false 
 set :rails_env, "production"
@@ -98,7 +96,6 @@ task :configure_environment do
 end
 
 task :configure_sphinx do
-  #run "cd #{release_path} && rake ts:conf"
  run "cp #{release_path}/config/production.sphinx.conf_with_pipe #{release_path}/config/production.sphinx.conf"
 
  run "sed -i 's/listen = 127.0.0.1:3312/listen = 127.0.0.1:3342/' #{release_path}/config/production.sphinx.conf" 
@@ -139,12 +136,19 @@ task :migrate_database do
 
 end
 
+# The built-in capistrano/bundler integration seems broken: It does not cd to release_path but instead
+# to the previous release, which has the wrong Gemfile. This fixes that, but of course means we cannot use 
+# the built-in bundler support.
+task :bundle_install do
+  run "cd #{release_path} && bundle install --gemfile '#{release_path}/Gemfile' --path '#{deploy_to}/#{shared_dir}/bundle' --deployment --without development test"
+end
+
 task :load_seed_data do
     run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:seed"
 end
 
 task :stop_sphinx do
-  run "cd #{previous_release} && RAILS_ENV='production' bundle exec rake ts:stop"
+  run "cd #{release_path} && RAILS_ENV='production' bundle exec rake ts:stop"
 end
 
 task :start_sphinx do

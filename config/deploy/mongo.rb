@@ -4,7 +4,6 @@
 $:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
 require "rvm/capistrano"                  # Load RVM's capistrano plugin.
 set :rvm_ruby_string, '1.9.2'        # Or whatever env you want it to run in.
-require "bundler/capistrano"
 
 set :application, "madek"
 
@@ -105,6 +104,13 @@ task :configure_sphinx do
  
  run "chmod -w #{release_path}/config/production.sphinx.conf"
  
+end
+
+# The built-in capistrano/bundler integration seems broken: It does not cd to release_path but instead
+# to the previous release, which has the wrong Gemfile. This fixes that, but of course means we cannot use 
+# the built-in bundler support.
+task :bundle_install do
+  run "cd #{release_path} && bundle install --gemfile '#{release_path}/Gemfile' --path '#{deploy_to}/#{shared_dir}/bundle' --deployment --without development test"
 end
 
 task :load_seed_data do

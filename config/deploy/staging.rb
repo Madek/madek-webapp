@@ -2,7 +2,6 @@
 $:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
 require "rvm/capistrano"                  # Load RVM's capistrano plugin.
 set :rvm_ruby_string, '1.9.2'        # Or whatever env you want it to run in.
-require "bundler/capistrano"
 
 set :application, "madek"
 
@@ -96,7 +95,6 @@ task :configure_environment do
 end
 
 task :configure_sphinx do
-  #run "cd #{release_path} && bundle exec rake ts:conf"
  run "cp #{release_path}/config/production.sphinx.conf_with_pipe #{release_path}/config/production.sphinx.conf"
 
  run "sed -i 's/listen = 127.0.0.1:3312/listen = 127.0.0.1:3322/' #{release_path}/config/production.sphinx.conf" 
@@ -137,12 +135,19 @@ task :migrate_database do
 
 end
 
+# The built-in capistrano/bundler integration seems broken: It does not cd to release_path but instead
+# to the previous release, which has the wrong Gemfile. This fixes that, but of course means we cannot use 
+# the built-in bundler support.
+task :bundle_install do
+  run "cd #{release_path} && bundle install --gemfile '#{release_path}/Gemfile' --path '#{deploy_to}/#{shared_dir}/bundle' --deployment --without development test"
+end
+
 task :load_seed_data do
   run "cd #{release_path} && RAILS_ENV='production'  bundle exec rake db:seed"
 end
 
 task :stop_sphinx do
- run "cd #{previous_release} && RAILS_ENV='production'  bundle exec rake ts:stop"
+ run "cd #{release_path} && RAILS_ENV='production'  bundle exec rake ts:stop"
 end
 
 task :start_sphinx do
@@ -163,14 +168,20 @@ end
 
 before "deploy", "retrieve_db_config"
 before "deploy:symlink", :make_tmp
+
 after "deploy:symlink", :link_config
-before "configure_sphinx", :link_sphinx
+after "deploy:symlink", :link_attachments
 after "deploy:symlink", :configure_sphinx
 after "deploy:symlink", :configure_environment
-after "deploy:symlink", :link_attachments
-after "deploy:symlink", :migrate_database
+after "deploy:symlink", :bundle_install
 after "deploy:symlink", :record_deploy_info 
+after "deploy:symlink", :stop_sphinx
+
+after "bundle_install", :migrate_database
 after "migrate_database", :clear_cache
-after "migrate_database", :stop_sphinx
+
+before "start_sphinx", :link_sphinx
 after "deploy", :start_sphinx
+after "deploy:cold", :start_sphinx
+
 after "deploy", "deploy:cleanup"
