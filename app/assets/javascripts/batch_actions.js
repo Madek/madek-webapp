@@ -35,6 +35,10 @@ $(document).ready(function () {
     });
   
 	// add to set
+	 $("#batch-add-to-set form select").change(function() {
+	   $("#batch-add-to-set form").submit();
+	 });
+	
     $("#batch-add-to-set form").submit(function() {
       var editable_ids = new Array();
       $("#selected_items .thumb_mini").each(function(i, elem){
@@ -65,7 +69,6 @@ $(document).ready(function () {
 				//data: {page: next_page},
 				success: function(response){
 					display_page(response, $this);
-					$('#select_all_toggle').attr('checked', false);
 				}
 			}; 
 		var f = $(".filter_content form:first");
@@ -173,36 +176,45 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
     });
 
 	// hide the select_deselect_all checkbox on the browse page
-	if($(".item_box .check_box").length < 2) $("#select_deselect_all").hide();
+	if($(".item_box .check_box").length < 2) { $("#batch-select-all").hide(); $("#batch-deselect-all").hide(); $("#batch-deselect-all").next().hide() }
 
-	$("#select_deselect_all input:checkbox").click(function() {	
-	  var media_entries_json = get_media_entries_json();		
-	  if ($(this).is(":checked")) {
-		// select all the visible and not already selected items
-		$(".item_box").has(".check_box").each(function(i, elem) { 
-			var me = $(elem).tmplItem().data;
-			var i = is_Selected(media_entries_json, me.id);
-			// if not yet selected
-			if((i == -1)) {
-		        media_entries_json.push(me);
-		        $(elem).addClass('selected');
-		        $('#selected_items').append($("#thumbnail_mini").tmpl(me));
-				if (media_entries_in_set != undefined){ media_entries_in_set.push(me.id) };
-			};	
-		});
-		set_media_entries_json(JSON.stringify(media_entries_json));
-	    displayCount();
-	  } else {
-		// remove everything from the action bar
-		$.each(media_entries_json, function(i, me){
-			$('#thumb_' + me.id).removeClass('selected').removeAttr("style");
-			$('#selected_items [rel="'+me.id+'"]').remove();
-			sessionStorage.removeItem("selected_media_entries");
-			if (media_entries_in_set != undefined) media_entries_in_set = new Array();
-		});
-		displayCount();
-	  };
-	});
+  // select all function
+  $("#batch-select-all").click(function(){
+    event.preventDefault();
+    var media_entries_json = get_media_entries_json();
+    // select all the visible and not already selected items
+    $(".item_box").has(".check_box").each(function(i, elem) { 
+      var me = $(elem).tmplItem().data;
+      var i = is_Selected(media_entries_json, me.id);
+      // if not yet selected
+      if((i == -1)) {
+            media_entries_json.push(me);
+            $(elem).addClass('selected');
+            $('#selected_items').append($("#thumbnail_mini").tmpl(me));
+        if (media_entries_in_set != undefined){ media_entries_in_set.push(me.id) };
+      };  
+    });
+    set_media_entries_json(JSON.stringify(media_entries_json));
+    displayCount();
+    return false;
+  });
+  
+  // deselect all function
+  $("#batch-deselect-all").click(function(event){
+    event.preventDefault();
+    var media_entries_json = get_media_entries_json();
+    // remove everything from the action bar
+    $.each(media_entries_json, function(i, me){
+      $('#thumb_' + me.id).removeClass('selected').removeAttr("style");
+      $('#selected_items [rel="'+me.id+'"]').remove();
+      sessionStorage.removeItem("selected_media_entries");
+      if (media_entries_in_set != undefined) media_entries_in_set = new Array();
+    });
+    displayCount();
+    return false;
+  });
+  
+	////
 
     $("#batch-remove").hover(
       function () { 
@@ -241,7 +253,7 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 		};
 
 		set_media_entries_json(JSON.stringify(media_entries_json));
-	    displayCount();
+    displayCount();
 	};
 
 }
@@ -269,6 +281,7 @@ function displayCount() {
 	if (count_checked) {
 		$('#selected_items').show();
 		$('.task_bar .action_btn').show();
+		$('.task_bar .seperator:first').show();
 	    if (count_checked > 1) {
 			display_count.html(count_checked + " Medieneinträge ausgewählt");
 		}else{
@@ -276,12 +289,14 @@ function displayCount() {
 		}
 	} else {
 		$('.task_bar .action_btn').hide();
+		$('.task_bar .seperator').hide();
 		display_count.html("Keine Medieneinträge ausgewählt");
 		$('#selected_items').hide();
 	};
 
 	if($('#selected_items .edit').length){ $("#batch-edit").show(); }else{ $("#batch-edit").hide(); }
 	if($('#selected_items .manage').length){ $("#batch-permissions").show(); }else{ $("#batch-permissions").hide(); }
+	if($("#batch-edit:visible").length || $("#batch-permissions").length) { $(".task_bar .seperator.edit").show(); }else{ $(".task_bar .seperator.edit").hide(); }
 	//if($('#selected_items .thumb_mini').length){ $("#batch-add-to-set").show(); }else{ $("#batch-add-to-set").hide(); }
 };
 

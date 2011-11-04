@@ -1653,7 +1653,7 @@ button.dark:hover {
 	
 	input[type="submit"], #media_set_submit[type="submit"] {
 		font-weight: bold;
-		padding: 3px 10px;
+		padding: 3px 6px;
 		text-align: center;
 		text-shadow: 0 1px 0 #fff;
 		border: 1px solid #d6d6d6;
@@ -1674,6 +1674,15 @@ button.dark:hover {
 		-webkit-box-shadow: inset 0 0 1px 1px #e3e3e3;
 		box-shadow: inset 0 0 1px 1px #e3e3e3;
 		color: #000;
+	}
+	
+	li.seperator {
+	  background: #d0d0d0;
+	  height: 16px;
+	  margin-right: 10px;
+	  position: relative;
+	  top: 8px;
+	  width: 1px;
 	}
 }
 
@@ -1784,10 +1793,31 @@ form.new_person {
 }
 
 #batch-add-to-set {
-	margin-left: 20px;
+  position: relative;
+  margin-left: -4px;
+	
+	&:hover {
+	  input[type="submit"] {
+	    background: white;
+	  }
+	}
 	
 	input[type="submit"] {
+	  text-align: center;
 		margin-left: 5px;
+		width: 169px;
+	}
+	
+	select {
+	  bottom: 2px;
+	  cursor: pointer;
+	  height: 24px;
+	  filter: alpha(opacity=0);
+    -moz-opacity: 0;
+    -khtml-opacity: 0;
+    opacity: 0;
+	  position: absolute;
+	  width: 175px;
 	}
 }
 

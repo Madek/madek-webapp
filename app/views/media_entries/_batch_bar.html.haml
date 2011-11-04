@@ -1,25 +1,28 @@
 .task_bar.clearfix
   %ul
-    %li#batch-edit.action_btn
-      = button_to _("Metadaten editieren"), edit_multiple_media_entries_path, :method => :post
-    %li#batch-permissions.action_btn
-      = button_to _("Zugriffsberechtigungen editieren"), edit_multiple_permissions_media_entries_path, :method => :post
-    - if @can_edit_set
-      %li#batch-remove.action_btn
-        = button_to _("Aus Set/Projekt entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete
-    %li#batch-add-to-set.action_btn
-      = form_tag add_member_media_set_url(@media_set || 1) do
-        - editable_sets = Media::Set.accessible_by(current_user, :edit)
-        = select_tag "media_set_id", options_for_select([["Set/Projekt auswählen…", ""]] + editable_sets.collect {|set| [set.title_and_user, set.id]})
-        = submit_tag "Hinzufügen"
-    .clear
     %li
       %h4 Ausgewählte Medieneinträge bearbeiten
     %li#number_selected
       Keine Medieneinträge ausgewählt
-    %li#select_deselect_all
-      = check_box_tag "select_all_toggle", nil
-      Alle auswählen
+    .clear
+    %li#batch-select-all
+      = button_to _("Alle auswählen"), "", :title=>_("Alle angezeigten Medieneinträge auswählen")
+    %li#batch-deselect-all
+      = button_to _("Alle abwählen"), "", :title=>_("Alle ausgewählten Medieneinträge abwählen")
+    %li.seperator
+    %li#batch-edit.action_btn
+      = button_to _("Metadaten editieren"), edit_multiple_media_entries_path, :method => :post
+    %li#batch-permissions.action_btn
+      = button_to _("Zugriffsberechtigungen editieren"), edit_multiple_permissions_media_entries_path, :method => :post
+    %li.seperator.edit
+    %li#batch-add-to-set.action_btn
+      = form_tag add_member_media_set_url(@media_set || 1) do
+        - editable_sets = Media::Set.accessible_by(current_user, :edit)
+        = select_tag "media_set_id", options_for_select([["Set/Projekt auswählen…", ""]] + editable_sets.collect {|set| [set.title_and_user, set.id]})
+        = submit_tag "Zu Set/Projekt hinzufügen"
+    - if @can_edit_set
+      %li#batch-remove.action_btn
+        = button_to _("Aus Set/Projekt entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete
     .clear
   #selected_items.clearfix
 
