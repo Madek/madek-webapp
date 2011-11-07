@@ -10,7 +10,7 @@ require "bundler/capistrano"
 set :application, "madek"
 
 set :scm, :git
-set :repository, "git://github.com/sellittf/madek-mongo.git"
+set :repository, "git://github.com/zhdk/madek-mongo.git"
 set :branch, "master"
 set :deploy_via, :remote_cache
 
