@@ -179,7 +179,7 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 	if($(".item_box .check_box").length < 2) { $("#batch-select-all").hide(); $("#batch-deselect-all").hide(); $("#batch-deselect-all").next().hide() }
 
   // select all function
-  $("#batch-select-all").click(function(){
+  $("#batch-select-all").click(function(event){
     event.preventDefault();
     var media_entries_json = get_media_entries_json();
     // select all the visible and not already selected items
