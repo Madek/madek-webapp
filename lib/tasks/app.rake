@@ -111,8 +111,6 @@ namespace :app do
 
       #####################################################
 
-      minimal_export = minimal_export
-      
       export =  {:subjects => {:people => people,
                                :groups => groups},
                  :media_sets => media_sets,
