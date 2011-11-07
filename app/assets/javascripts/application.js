@@ -14,13 +14,15 @@
 //= require madek_ajax_upload
 //= require madek11
 //= require jquery/browser-check/browser-check
+//= require jquery/video-js/video
 
 /////////// Lib /////////////
 //= require jquery/browser-detection/browser-detection
 
 /////////// Vendor /////////////
-//= require modernizr.min
 //= require_tree ../../../vendor/assets/javascripts/jquery/.
+//= require modernizr.min
+//= require video
 
 
 function document_ready(){
