@@ -126,14 +126,20 @@ task :record_deploy_info do
   run "echo 'Deployed on #{deploy_date}' > #{release_path}/app/views/layouts/_deploy_info.erb" 
 end 
 
+task :precompile_assets do
+  run "cd #{release_path} && RAILS_ENV=production bundle exec rake assets:precompile"
+end
+
 task :clear_cache do
   # We have to run it this way (in a subshell) because Rails.cache is not available
   # in Rake tasks, otherwise we could stick a task into lib/tasks/madek.bundle exec rake
   run "cd #{release_path} && RAILS_ENV=production  bundle exec rails runner 'Rails.cache.clear'"
 end
 
+#before "deploy:assets:precompile", :link_config
 before "deploy:symlink", :make_tmp
 after "deploy:symlink", :link_config
+after "link_config", "precompile_assets"
 after "deploy:symlink", :configure_environment
 after "deploy:symlink", :link_attachments
 after "deploy:symlink", :record_deploy_info 
