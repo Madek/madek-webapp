@@ -61,21 +61,27 @@ module MetaDataHelper
           haml_tag :p, preserve(formatted_value(meta_datum))
         end
       end
-      haml_tag :h4, "Erstellt von/am"
+      haml_tag :h4, _("Erstellt von/am")
       haml_tag :p, formatted_value(uploader_info.first) + " / " + formatted_value(uploader_info.last)
+      haml_tag :h4, _("Verwaltet durch")
+      haml_tag :p, formatted_value_for_people(resource.managers)
     end
+  end
+
+  def formatted_value_for_people(people)
+    s = people.map do |p|
+      next unless p
+      #temp# link_to p, p
+      link_to p, search_path(:query => p.fullname)
+    end
+    s.join('<br />').html_safe
   end
 
   # TODO merge with MetaDatum#to_s
   def formatted_value(meta_datum)
     case meta_datum.meta_key.object_type
       when "Person"
-        s = Array(meta_datum.deserialized_value).map do |p|
-          next unless p
-          #temp# link_to p, p
-          link_to p, search_path(:query => p.fullname)
-        end
-        s.join('<br />').html_safe
+        formatted_value_for_people(Array(meta_datum.deserialized_value))
       when "Keyword"
         s = Array(meta_datum.deserialized_value).map do |v|
           next unless v

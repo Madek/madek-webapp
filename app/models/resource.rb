@@ -385,6 +385,13 @@ module Resource
         Permission.resource_viewable_only_by_user?(self, subject)
     end
   end
+  
+  def managers
+    i = Permission::ACTIONS.index(:manage)
+    return nil unless i
+    j = 2 ** i
+    permissions.where("action_bits & #{j} AND action_mask & #{j}").map(&:subject)
+  end
 
 private
 
