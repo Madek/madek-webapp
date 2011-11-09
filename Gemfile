@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 source 'http://gems.github.com'
 
-gem 'rails', '3.1.0'
+gem 'rails', '3.1.1'
 gem 'builder', '~> 3.0'   
 gem 'i18n' # Need this explicitly, otherwise can't deploy
 
@@ -12,17 +12,17 @@ gem 'mysql2', '~> 0.3.7'
 gem 'require_relative'
 
 gem 'json', '~> 1.6'
-gem 'haml'#, '~> 3.1.2'
-gem 'sass', '~> 3.1.7'
-gem 'coffee-script', '~> 2.2.0'
-gem 'uglifier', '~> 1.0.3'
+gem 'haml', '~> 3.1'
+gem 'sass', '~> 3.1'
+gem 'coffee-script', '~> 2.2'
+gem 'uglifier', '~> 1.0'
 
 gem 'jquery-rails', '~> 1.0'
-gem 'rails_autolink', '~> 1.0.2'
+gem 'rails_autolink', '~> 1.0'
 
 gem 'will_paginate', '~> 3.0' 
 
-gem 'thinking-sphinx', '~> 2.0.7', :require => 'thinking_sphinx'
+#-# gem 'thinking-sphinx', '~> 2.0.10', :require => 'thinking_sphinx'
 #temp#sphinx# gem 'ts-delayed-delta', '1.1.0', :require => 'thinking_sphinx/deltas/delayed_delta'
 
 gem 'zip', '~> 2.0.2'
@@ -42,7 +42,7 @@ gem 'mini_exiftool'
 # install it as a plugin from our own branch on github:
 # git@github.com:tpo/irwi.git
 #gem 'irwi', :git => 'git://github.com/tpo/irwi.git'
-gem 'irwi', :git => 'git://github.com/valodzka/irwi.git'
+gem 'irwi' #tmp#, :git => 'git://github.com/valodzka/irwi.git'
 gem 'RedCloth'
 
 group :test, :development do
