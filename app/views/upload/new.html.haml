@@ -1,25 +1,6 @@
 .container_12.clearfix
   %section#content_body.clearfix
     = render :partial => "steps"
-    :javascript
-      $(document).ready(function () {
-        activate_step(1);
-        $("#uploaded_data").filestyle({ 
-          image: "/assets/icons/button_choose_file.png",
-          imageheight : 36,
-          imagewidth : 215,
-          width : 0}
-        );
-        $("#uploaded_data").css({'margin-left': '0', 'font-size': '2em'});
-        $('#upload_form').submit(function() {
-          startXHR($(this));
-          return false;
-        });
-        $('#submit_upload_form').click(function() {
-          $('#upload_form').trigger('submit');
-          return false;
-        });
-      });
 
     #upload-container{:style => "margin-top: 2em"}
       %div{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
@@ -39,14 +20,16 @@
 
         .upload_step_1
           = form_tag upload_path(:format => :js), :multipart => true, :id => "upload_form" do
-            %div{:style => "height: 45px; position: relative; left: -6px"}
-              = file_field_tag :uploaded_data, :onchange => "append_to_queue(this);", :multiple => true, :min => 1, :max => 99
-            %p
-              %strong
-                Sie benutzen den Multiuploader.
-              Alternativ können Sie den  
-              = link_to_function _("Basic Uploader") + "", "activate_step('1b')"
-              \ verwenden.
+            %label{:for => :uploaded_data}
+              %span.upload_buttons
+                = _("Medien auswählen...")
+              = file_field_tag :uploaded_data, :multiple => true, :min => 1, :max => 99
+          %p
+            %strong
+              Sie benutzen den Multiuploader.
+            Alternativ können Sie den  
+            = link_to_function _("Basic Uploader") + "", "activate_step('1b')"
+            \ verwenden.
 
         = render :partial => "files"
 
@@ -56,10 +39,33 @@
               Akzeptierte Dateiformate:
             Bilder (TIFF, JPEG, PNG) sowie Audio- und Videofiles in den gängigsten Formaten werden direkt verarbeitet und dargestellt. Weitere Dateitypen (PDFs, PSDs, Webarchive) können ebenfalls hochgeladen werden, sind vorerst jedoch nur als ZIP-Datei verfügbar.
           %p#submit_to_2{:style => "margin: 3em 0 1em 0; display: none;"}
-            %a#submit_upload_form.upload_buttons{:href => "#"}
+            %a#submit_upload_form.upload_buttons.right{:href => "#"}
               /<span class="ui-icon ui-icon-circle-arrow-n"></span>
               = _("Ausgewählte Medien hochladen und weiter…")
 
         %h3.upload_step_2
           = _("Zugriffsberechtigungen")
         = render :partial => "permissions/edit_multiple_on_upload"
+
+:javascript
+  $(document).ready(function () {
+  
+    activate_step(1);
+    
+    $('#upload_form').submit(function() {
+      startXHR($(this));
+      return false;
+    });
+    
+    $('#submit_upload_form').click(function() {
+      $('#upload_form').trigger('submit');
+      return false;
+    });
+    
+    $('input#uploaded_data').change(function() {
+      append_to_queue(this);
+    });
+    
+    $('#upload_form label').click(function(){
+    });
+  });
