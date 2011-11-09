@@ -153,6 +153,7 @@
   #additional-metadata
     #detail_specification
       %ul
+        -# TODO check permissions for individual contexts (through media_sets)
         - (MetaContext.defaults + media_entry.individual_contexts).collect do |meta_context|
           %li
             = display_meta_data_for(media_entry, meta_context)
