@@ -22,7 +22,7 @@ gem 'rails_autolink', '~> 1.0'
 
 gem 'will_paginate', '~> 3.0' 
 
-#-# gem 'thinking-sphinx', '~> 2.0.10', :require => 'thinking_sphinx'
+gem 'thinking-sphinx', '~> 2.0.10', :require => 'thinking_sphinx'
 #temp#sphinx# gem 'ts-delayed-delta', '1.1.0', :require => 'thinking_sphinx/deltas/delayed_delta'
 
 gem 'zip', '~> 2.0.2'
