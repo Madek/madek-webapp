@@ -2479,6 +2479,7 @@ form#set_media_sets input[type="submit"] {
       
       label {
         display: inline-block;
+        overflow: hidden;
         position: relative;
         
         .upload_buttons {
@@ -2495,6 +2496,7 @@ form#set_media_sets input[type="submit"] {
         }
         
         input[type='file'] {
+          -moz-transform: translate(-203px, 0) scaleX(2);
           cursor: pointer !important;
           display: block;
           font-size: 1.5em;
