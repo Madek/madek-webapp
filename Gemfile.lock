@@ -1,6 +1,7 @@
 GIT
-  remote: git://github.com/valodzka/irwi.git
-  revision: 2b0615ee5a3bf88b086acfaaba92ae25f52005cc
+  remote: git://github.com/alno/irwi.git
+  revision: b78694c09f5ae6e292646b2ad27f15cfccc690b1
+  ref: b78694
   specs:
     irwi (0.4.1)
       actionpack (>= 3.0.0)

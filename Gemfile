@@ -37,17 +37,7 @@ gem 'zencoder'
 gem 'uuidtools'
 gem 'mini_exiftool'
 
-# wiki:
-# unfortunately upstream irwi is broken. Until it is fixed we
-# install it as a plugin from our own branch on github:
-# git@github.com:tpo/irwi.git
-#gem 'irwi', :git => 'git://github.com/tpo/irwi.git'
-
-# No really, upstream irwi is totally fucked. Please use only irwi versions that
-# other people have hacked to work with modern Rails.
-#gem 'irwi' #tmp#, :git => 'git://github.com/valodzka/irwi.git'
-
-gem 'irwi', :git => 'git://github.com/valodzka/irwi.git'
+gem 'irwi', :git => 'git://github.com/alno/irwi.git', :ref => 'b78694'
 gem 'RedCloth'
 
 group :test, :development do
