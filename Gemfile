@@ -42,7 +42,12 @@ gem 'mini_exiftool'
 # install it as a plugin from our own branch on github:
 # git@github.com:tpo/irwi.git
 #gem 'irwi', :git => 'git://github.com/tpo/irwi.git'
-gem 'irwi' #tmp#, :git => 'git://github.com/valodzka/irwi.git'
+
+# No really, upstream irwi is totally fucked. Please use only irwi versions that
+# other people have hacked to work with modern Rails.
+#gem 'irwi' #tmp#, :git => 'git://github.com/valodzka/irwi.git'
+
+gem 'irwi', :git => 'git://github.com/valodzka/irwi.git'
 gem 'RedCloth'
 
 group :test, :development do
