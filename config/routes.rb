@@ -34,6 +34,7 @@ MAdeK::Application.routes.draw do
   resources :resources, :only => :index do
     collection do
       get :favorites, :to => "resources#index"
+      get :filter_panel
     end
   end
 

@@ -37,7 +37,6 @@ module SearchHelper
           haml_tag :h3, :class => "filter_category clearfix" do
             haml_concat link_to title, "#", :class => "filter_category_link"
             haml_tag :span, "", :class => "ui-icon ui-icon-triangle-1-e"
-            #tmp# haml_concat link_to "(zurücksetzen)", "#", :class => "reset_filter"
           end
           haml_tag :div, :class => "filter_content", :style => "display: none;" do
             haml_tag :ul do

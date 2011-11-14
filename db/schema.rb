@@ -48,12 +48,13 @@ ActiveRecord::Schema.define(:version => 20111114110109) do
 
   add_index "favorites", ["user_id", "media_entry_id"], :name => "index_favorites_on_user_id_and_media_entry_id", :unique => true
 
-  create_table "full_texts", :id => false, :force => true do |t|
-    t.integer "resource_id",   :default => 0,  :null => false
-    t.string  "resource_type", :default => "", :null => false
+  create_table "full_texts", :force => true do |t|
+    t.integer "resource_id"
+    t.string  "resource_type"
     t.text    "text"
   end
 
+  add_index "full_texts", ["resource_id", "resource_type"], :name => "index_full_texts_on_resource_id_and_resource_type", :unique => true
   add_index "full_texts", ["text"], :name => "text"
 
   create_table "groups", :force => true do |t|

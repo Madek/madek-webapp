@@ -49,5 +49,3 @@
             = display_meta_data_checkboxes(resource_ids, type)
           .filter_footer
             = submit_tag _("Filter anwenden (%d)") % resource_ids.count, :title => "Filtern", :id => 'filter-submit', :name => nil
-            - if false #tmp# @active_filter
-              %p=#tmp# link_to "Alle Filter zurücksetzen", search_path(:query => params[:query])
