@@ -1,10 +1,6 @@
 # -*- encoding : utf-8 -*-
 class UploadController < ApplicationController
 
-  #temp#sphinx#
-  around_filter :disable_sphinx, :except => [:update, :import_summary, :set_media_sets]
-  around_filter :suspend_sphinx, :only => [:update, :import_summary] # TODO [:set_permissions, :set_media_sets], :if => proc { |controller| controller.request.post? }
-
 ##################################################
 # step 1
 
@@ -120,20 +116,6 @@ class UploadController < ApplicationController
                         current_user.upload_sessions.latest
                       end
     @media_entries = @upload_session.media_entries
-  end
-
-  #temp#sphinx#
-  def disable_sphinx
-    ThinkingSphinx.deltas_enabled = false
-    yield
-    ThinkingSphinx.deltas_enabled = true
-  end
-  
-  #temp#sphinx#
-  def suspend_sphinx
-    MediaEntry.suspended_delta do
-      yield
-    end
   end
 
 end

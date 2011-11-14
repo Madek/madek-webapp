@@ -23,6 +23,42 @@
       var container = $("#browsing_media_entries").find("div[rel='"+that.html()+"']");
       container.append($("#browsing_thumbnail_mini").tmpl(json.entries));
     });
+
+    /* #tmp#tooltip#
+    $(".meta_data a[data-meta_term_id]").each(function(){
+      var that = $(this);
+      that.qtip({
+        content: {
+          text: 'Loading...',
+          ajax: {
+             url: that.attr('href'),
+             type: that.data('method'),
+             dataType: 'json',
+             success: function(json, status) {
+               var container = $("<div id='' style='max-height: 200px; overflow: auto;'></div>");
+               container.append($("#browsing_thumbnail_mini").tmpl(json.entries));
+               this.set('content.text', container);
+             }
+          }
+        },
+        position: {
+          my: 'bottom center',
+          at: 'top center',
+          viewport: $(window),
+          effect: false
+        },
+        show: {
+           //event: 'click',
+           solo: true // Only show one tooltip at a time
+        },
+        hide: 'unfocus',
+        style: {
+           classes: 'ui-tooltip-youtube ui-tooltip-shadow',
+           width: 500
+        }
+      });
+    }).click(function() { return false; });
+    */
     
     $("#browsing_media_entries p").live('click', function(){
       var that = $(this);
@@ -32,5 +68,6 @@
     });
     
   });
-  
+
+- #tmp#tooltip# remove this div
 #browsing_media_entries

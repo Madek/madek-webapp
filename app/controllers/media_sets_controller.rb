@@ -33,18 +33,23 @@ class MediaSetsController < ApplicationController
   end
 
   def show
-    viewable_ids = current_user.accessible_resource_ids
-    @_media_entry_ids = (@media_set.media_entry_ids & viewable_ids)
-    
-    @paginated_media_entry_ids = @_media_entry_ids.paginate(:page => params[:page], :per_page => PER_PAGE.first)
-    @json = Logic.data_for_page(@paginated_media_entry_ids, current_user).to_json
+    params[:per_page] ||= PER_PAGE.first
+
+    paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
+    resources = MediaResource.accessible_by_user(current_user).by_media_set(@media_set).paginate(paginate_options)
+
+    @media_entries = { :pagination => { :current_page => resources.current_page,
+                                        :per_page => resources.per_page,
+                                        :total_entries => resources.total_entries,
+                                        :total_pages => resources.total_pages },
+                       :entries => resources.as_json(:user => current_user) } 
 
     editable_sets = Media::Set.accessible_by(current_user, :edit)
     @can_edit_set = editable_sets.include?(@media_set)
 
     respond_to do |format|
       format.html
-      format.js { render :json => @json }
+      format.js { render :json => @media_entries.to_json }
     end
   end
 

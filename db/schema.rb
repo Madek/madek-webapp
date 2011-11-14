@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110505180606) do
+ActiveRecord::Schema.define(:version => 20111114110109) do
 
   create_table "copyrights", :force => true do |t|
     t.boolean "is_default", :default => false
@@ -47,6 +47,14 @@ ActiveRecord::Schema.define(:version => 20110505180606) do
   end
 
   add_index "favorites", ["user_id", "media_entry_id"], :name => "index_favorites_on_user_id_and_media_entry_id", :unique => true
+
+  create_table "full_texts", :id => false, :force => true do |t|
+    t.integer "resource_id",   :default => 0,  :null => false
+    t.string  "resource_type", :default => "", :null => false
+    t.text    "text"
+  end
+
+  add_index "full_texts", ["text"], :name => "text"
 
   create_table "groups", :force => true do |t|
     t.string "name"
@@ -118,6 +126,16 @@ ActiveRecord::Schema.define(:version => 20110505180606) do
   end
 
   add_index "media_projects_meta_contexts", ["media_project_id", "meta_context_id"], :name => "index_on_projects_and_contexts", :unique => true
+
+  create_table "media_resources", :id => false, :force => true do |t|
+    t.integer  "id",                :default => 0,  :null => false
+    t.string   "type",              :default => "", :null => false
+    t.integer  "user_id"
+    t.integer  "upload_session_id"
+    t.integer  "media_file_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "media_set_links", :force => true do |t|
     t.integer "ancestor_id"

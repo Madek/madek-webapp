@@ -31,13 +31,16 @@ MAdeK::Application.routes.draw do
 
   # TODO only [:index, :show] methods
 
-  resources :resources, :only => :index
+  resources :resources, :only => :index do
+    collection do
+      get :favorites, :to => "resources#index"
+    end
+  end
 
   resources :media_files # TODO remove ??
 
-  resources :media_entries do
+  resources :media_entries, :except => :index do
     collection do
-      get :favorites, :to => "media_entries#index"
       #temp# get :graph
       get :keywords
       post :edit_multiple
@@ -98,7 +101,7 @@ MAdeK::Application.routes.draw do
       get :usage_terms
     end
     
-    resources :media_entries # TODO shallow
+    resources :resources # TODO shallow
     resources :media_sets do
       member do
         post :add_member # TODO
@@ -167,6 +170,7 @@ MAdeK::Application.routes.draw do
   
   resource :session
 
+  #-#
   resource :search, :controller => 'search' do
     member do
       post :filter

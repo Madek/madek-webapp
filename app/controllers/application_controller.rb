@@ -36,23 +36,29 @@ class ApplicationController < ActionController::Base
       elsif session[:return_to]
         redirect_back_or_default('/')
       else
-        # TODO refactor to UsersController#show and dry with MediaEntriesController#index
+        # TODO refactor to UsersController#show and dry with ResourcesController#index
         params[:per_page] ||= PER_PAGE.first
-        viewable_ids = current_user.accessible_resource_ids
-        @disabled_paginator = true # OPTIMIZE
-  
-        search_options = {:per_page => (2**30), :star => true }
+
         paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
-        all_ids = MediaEntry.by_user(current_user).search_for_ids search_options
-        @my_media_entries_paginated_ids = (all_ids & viewable_ids).paginate(paginate_options)
-        @my_media_entries_json = Logic.data_for_page(@my_media_entries_paginated_ids, current_user).to_json
-        all_ids = MediaEntry.not_by_user(current_user).search_for_ids search_options
-        @accessible_media_entries_paginated_ids = (all_ids & viewable_ids).paginate(paginate_options)
-        @accessible_media_entries_json = Logic.data_for_page(@accessible_media_entries_paginated_ids, current_user).to_json
+        resources = MediaResource.accessible_by_user(current_user)
         
+        my_resources = resources.by_user(current_user).paginate(paginate_options)
+        @my_media_entries = { :pagination => { :current_page => my_resources.current_page,
+                                              :per_page => my_resources.per_page,
+                                              :total_entries => my_resources.total_entries,
+                                              :total_pages => my_resources.total_pages },
+                             :entries => my_resources.as_json(:user => current_user) } 
+        
+        other_resources = resources.not_by_user(current_user).paginate(paginate_options)
+        @other_media_entries = { :pagination => { :current_page => other_resources.current_page,
+                                                  :per_page => other_resources.per_page,
+                                                  :total_entries => other_resources.total_entries,
+                                                  :total_pages => other_resources.total_pages },
+                                 :entries => other_resources.as_json(:user => current_user) } 
+
         respond_to do |format|
           format.html { render :template => "/users/show" }
-          format.js { render :partial => "media_entries/index" }
+          #-# format.js { render :partial => "media_entries/index" }
         end
       end
     else

@@ -66,7 +66,7 @@ class PermissionsController < ApplicationController
     if (@resources.size == 1)
       redirect_to @resources.first
     else
-      redirect_back_or_default(media_entries_path)
+      redirect_back_or_default(resources_path)
     end
   end
 

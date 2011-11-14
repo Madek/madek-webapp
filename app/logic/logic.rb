@@ -9,24 +9,8 @@ module Logic
                        :per_page => media_entry_ids.per_page,
                        :total_entries => media_entry_ids.total_entries,
                        :total_pages => media_entry_ids.total_pages },
-      :entries => data_for(media_entries, current_user) } 
-  end
-
-  def data_for(media_entries, current_user)
-    editable_ids = current_user.accessible_resource_ids(:edit)
-    managable_ids = current_user.accessible_resource_ids(:manage)
-    favorite_ids = current_user.favorite_ids
-
-    media_entries.map do |me|
-      flags = { :is_private => me.acl?(:view, :only, current_user),
-                :is_public => me.acl?(:view, :all),
-                :is_editable => editable_ids.include?(me.id),
-                :is_manageable => managable_ids.include?(me.id),
-                :can_maybe_browse => !me.meta_data.for_meta_terms.blank?,
-                :is_set => false, # OPTIMIZE
-                :is_favorite => favorite_ids.include?(me.id) }
-      me.attributes.merge(me.get_basic_info(current_user)).merge(flags)
-    end    
+      :entries => media_entries.as_json({:user => current_user})
+    } 
   end
 
 ########################################################

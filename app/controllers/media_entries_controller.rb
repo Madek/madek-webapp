@@ -5,61 +5,6 @@ class MediaEntriesController < ApplicationController
   before_filter :pre_load_for_batch, :only => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions]
   before_filter :authorized?, :except => [:index, :media_sets, :favorites, :toggle_favorites, :keywords] #old# :only => [:show, :edit, :update, :destroy]
 
-  def index
-    # TODO params[:search][:query], params[:search][:page], params[:search][:per_page]
-    #temp#    
-    #      if params[:per_page].blank?
-    #        session[:per_page] ||= PER_PAGE.first
-    #        params[:per_page] = session[:per_page]
-    #      else
-    #        session[:per_page] = params[:per_page]
-    #      end
-
-    params[:per_page] ||= PER_PAGE.first
-
-    scope, viewable_ids = if @user
-                            ids = if logged_in?
-                              current_user.accessible_resource_ids
-                            else
-                              Permission.accessible_by_all("MediaEntry")
-                            end
-                            [MediaEntry.by_user(@user), ids]
-                          else
-                            if logged_in?
-                              ids = current_user.accessible_resource_ids
-                              if params[:not_by_current_user]
-                                # all media_entries I can see but not uploaded by me
-                                [MediaEntry.not_by_user(current_user), ids]
-                              elsif request.fullpath =~ /favorites/
-                                [MediaEntry, (ids & current_user.favorite_ids)]
-                              else
-                                # all media_entries I can see
-                                [MediaEntry, ids]
-                              end
-                            else
-                              # all public media_entries
-                              ids = Permission.accessible_by_all("MediaEntry")
-                              [MediaEntry, ids]
-                            end
-                          end
-
-    all_ids = scope.search_for_ids params[:query], {:per_page => (2**30), :star => true }
-    # all_ids.results[:matches].select {|x| x[:attributes]["class_crc"] == MediaEntry.to_crc32}
-    #3105#
-    @_media_entry_ids = (all_ids & viewable_ids)
-    paginated_ids = @_media_entry_ids.paginate(:page => params[:page], :per_page => params[:per_page].to_i)
-    @json = Logic.data_for_page(paginated_ids, current_user).to_json
-
-    ########################################################################
-
-    respond_to do |format|
-      format.html
-      format.js { render :json => @json }
-      format.xml { render :xml=> @media_entries.to_xml(:include => {:meta_data => {:include => :meta_key}} ) }
-    end
-
-  end
-    
   def show
     respond_to do |format|
       format.html
@@ -109,7 +54,7 @@ class MediaEntriesController < ApplicationController
     respond_to do |format|
       format.html { 
         flash[:notice] = "Der Medieneintrag wurde gelöscht."
-        redirect_back_or_default(media_entries_path) 
+        redirect_back_or_default(resources_path) 
       }
       format.js { render :json => {:id => @media_entry.id} }
     end
@@ -207,7 +152,7 @@ class MediaEntriesController < ApplicationController
       end
     end
     
-    redirect_back_or_default(media_entries_path)
+    redirect_back_or_default(resources_path)
   end
   
   def edit_multiple_permissions

@@ -192,8 +192,8 @@ module MediaSetsHelper
     end
   end
 
-  def display_project_abstract(project, min_media_entries, accessible_media_entry_ids)
-    meta_data = project.abstract(min_media_entries, accessible_media_entry_ids)
+  def display_project_abstract(project, min_media_entries, current_user)
+    meta_data = project.abstract(min_media_entries, current_user)
     capture_haml do
       haml_tag :div, :class => "meta_data" do
         if meta_data.blank?
@@ -213,8 +213,8 @@ module MediaSetsHelper
     end
   end
 
-  def display_project_vocabulary(project, accessible_media_entry_ids)
-    used_meta_term_ids = project.used_meta_term_ids(accessible_media_entry_ids)
+  def display_project_vocabulary(project, current_user)
+    used_meta_term_ids = project.used_meta_term_ids(current_user)
     capture_haml do
       haml_tag :p do
         haml_concat "Für dieses Projekt wurde ein spezifisches Vokabular erstellt."

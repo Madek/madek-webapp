@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 module Resource
   
+  #-#
   TS_FIELDS = [:user]
   TS_ATTRIBUTE_DEFINITIONS = [['sphinx_internal_id', 'int'], ['class_crc', 'int'], ['sphinx_deleted', 'int', '0'], # required by thinking sphinx
                               ['user_id', 'int'], # association attributes
@@ -21,7 +22,6 @@ module Resource
         get(key_id).to_s
       end
 
-      # indexing to sphinx
       #def with_labels
       #  h = {}
       #  all.each do |meta_datum|
@@ -101,75 +101,8 @@ module Resource
       base.where(:id => ids)
     }
 
-    def base.to_sphinxpipe(delta = 0)
-      update_all(:delta => 0) if delta == 0
-
-      xml = Builder::XmlMarkup.new
-      xml.instruct!
-
-      xml.tag!("sphinx:docset") do
-        xml.tag!("sphinx:schema") do
-            #tmp# Sphinx: max 32 fields allowed
-            #MetaKey.with_meta_data.each do |key|
-            #  xml.tag!("sphinx:field", :name => key.label.parameterize('_'))
-            #end
-            xml.tag!("sphinx:field", :name => "meta_data")
-
-            self::TS_FIELDS.each do |field|
-              xml.tag!("sphinx:field", :name => field)
-            end
-
-             self::TS_ATTRIBUTE_DEFINITIONS.each do |attr|
-                args = {:name => attr[0], :type => attr[1]}
-                args[:default] = attr[2] if attr.size > 2
-                xml.tag!("sphinx:attr", args)
-            end
-         end 
-
-          resources = if instance_methods.include?("upload_session")
-            joins(:upload_session).where(:delta => delta, :upload_sessions => {:is_complete => true})
-          else
-            where(:delta => delta)
-          end
-
-          resources.each do |resource|
-            # TODO: check whether sphinx:document id needs to be unique
-            xml.tag!("sphinx:document", :id => resource.id) do
-              #tmp# Sphinx: max 32 fields allowed
-              #resource.meta_data.with_labels.each_pair do |key, value|
-              #  xml.tag!(key.parameterize('_'), value)
-              #end
-              xml.tag!("meta_data", resource.meta_data.concatenated)
-              
-              self::TS_FIELDS.each do |field|
-                xml.tag!(field, resource.send(field))
-              end
-              
-              self::TS_ATTRIBUTE_DEFINITIONS.each do |attr|
-                a = attr.first
-                next if a == 'sphinx_deleted'
-                v = resource.send(a)
-                next if v.blank?
-                xml.tag!(a, adjust_attr_value_for_sphinx(v))
-              end
-
-            end
-          end
-        end
-
-      puts xml.target!
-    end
-  
-    def base.adjust_attr_value_for_sphinx(val)
-      case val
-        when ActiveSupport::TimeWithZone
-          val.to_i
-        when String
-          val.to_crc32
-        else # Integer
-          val
-      end
-    end
+    base.has_one :full_text, :as => :resource, :dependent => :destroy
+    base.after_save { reindex } # OPTIMIZE
   end
 
   def default_permission
@@ -293,6 +226,19 @@ module Resource
   
 ########################################################
 
+  def as_json(options={})
+    user = options[:user]
+    editable_ids = user.accessible_resource_ids(:edit)
+    managable_ids = user.accessible_resource_ids(:manage)
+    flags = { :is_private => acl?(:view, :only, user),
+              :is_public => acl?(:view, :all),
+              :is_editable => editable_ids.include?(id),
+              :is_manageable => managable_ids.include?(id) }
+    self.attributes.merge(self.get_basic_info(user)).merge(flags)
+  end
+
+########################################################
+
   def self.to_tms_doc(resources, context = MetaContext.tms)
     xml = Builder::XmlMarkup.new
     xml.instruct!
@@ -305,13 +251,23 @@ module Resource
   
 ########################################################
 ### For Sphinx  
-  
+=begin #-#
   def sphinx_internal_id
     id
   end
 
   def class_crc
     self.class.base_class.to_crc32 #old#.to_s
+  end
+=end  
+
+  def reindex
+    ft = full_text || build_full_text
+    new_text = meta_data.concatenated
+    TS_FIELDS.each do |field|
+      new_text << " #{send(field)}"
+    end
+    ft.update_attributes(:text => new_text)
   end
 
 ########################################################
