@@ -34,7 +34,8 @@ MAdeK::Application.routes.draw do
   resources :resources, :only => :index do
     collection do
       get :favorites, :to => "resources#index"
-      get :filter_panel
+      get :filter
+      post :filter
     end
   end
 
@@ -170,13 +171,6 @@ MAdeK::Application.routes.draw do
   end
   
   resource :session
-
-  #-#
-  resource :search, :controller => 'search' do
-    member do
-      post :filter
-    end
-  end
 
 ####################################################################################
 

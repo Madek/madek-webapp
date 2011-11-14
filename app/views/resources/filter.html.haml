@@ -1,4 +1,4 @@
-= render :partial => 'search/filter_form', :locals => {:resource_ids => @_media_entry_ids, :type => "MediaEntry" }
+= render :partial => 'resources/filter_form', :locals => {:resource_ids => @_media_entry_ids, :type => "MediaEntry" }
 
 :javascript
   $(document).ready(function () {
@@ -52,5 +52,16 @@
       display_results(json, container)      
     });
     /////////////////////////////////// dry end
+
+    /* TODO
+    $( "#slider-range" ).slider({
+      range: true,
+      min: 0,
+      max: 500,
+      values: [ 75, 300 ],
+      slide: function( event, ui ) {
+      }
+    });
+    */
 
   });
