@@ -41,12 +41,10 @@ class MediaResource < ActiveRecord::Base
     where("MATCH (text) AGAINST (?)", q)    
   end
 
+  # TODO complete permission refactoring from Permission#accessible_by_user    
   def self.accessible_by_user(user, action = :view)
     i = 2 ** Permission::ACTIONS.index(action)
 
-    # TODO complete permission refactoring from Permission#accessible_by_user    
-    #1+3+5
-    
     # select("r.*").
     # from("media_resources AS r").
     # joins("inner join permissions p ON p.resource_id=r.id AND p.resource_type=r.type").
@@ -54,14 +52,17 @@ class MediaResource < ActiveRecord::Base
     # where("action_bits & #{i} AND action_mask & #{i}").
     # group("r.id, r.type")
 
-    where("(media_resources.id, media_resources.type) IN " \
+    where("(media_resources.id, media_resources.type) NOT IN " \
+            "(SELECT resource_id, resource_type from permissions " \
+              "WHERE (subject_type = 'User' AND subject_id = ?) " \
+                "AND NOT action_bits & #{i} AND action_mask & #{i}) " \
+          "AND (media_resources.id, media_resources.type) IN " \
             "(SELECT resource_id, resource_type from permissions " \
               "WHERE (subject_type IS NULL " \
                   "OR (subject_type = 'Group' AND subject_id IN (?)) " \
                   "OR (subject_type = 'User' AND subject_id = ?)) " \
-                "AND action_bits & #{i} AND action_mask & #{i})", user.groups, user.id);
-
-    #-# FIXME -2-4
+                "AND action_bits & #{i} AND action_mask & #{i})",
+          user.id, user.group_ids, user.id);
       
   end
   
