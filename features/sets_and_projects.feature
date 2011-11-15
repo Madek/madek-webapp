@@ -25,7 +25,6 @@ Feature: Do things to and with sets and projects
      |Copyright|some other dude             |
      And I press "Metadaten speichern und weiter…"
      And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
-     And Sphinx is forced to reindex
      And I go to the media entries
      And I click the media entry titled "into the set after uploading"
      And I follow "Zu Set/Projekt hinzufügen"
@@ -34,7 +33,6 @@ Feature: Do things to and with sets and projects
      And I fill in the set title with "After-Upload Set"
      And I press "Hinzufügen"
      And I press "Zu ausgewähltem Set/Projekt hinzufügen…"
-     And Sphinx is forced to reindex
      And I go to the home page
     Then I should see "into the set after uploading"
     When I click the media entry titled "into the set after uploading"
@@ -57,7 +55,6 @@ Feature: Do things to and with sets and projects
      |Copyright|some other dude             |
      And I press "Metadaten speichern und weiter…"
      And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
-     And Sphinx is forced to reindex
      And I go to the media entries
      And I click the media entry titled "into the set after uploading"
      And I follow "Zu Set/Projekt hinzufügen"
@@ -66,7 +63,6 @@ Feature: Do things to and with sets and projects
      And I fill in the set title with "After-Upload Set"
      And I press "Hinzufügen"
      And I press "Zu ausgewähltem Set/Projekt hinzufügen…"
-     And Sphinx is forced to reindex
      And I go to the home page
      And I click the arrow next to "Kohl, Helmut"
      And I follow "Meine Sets"
@@ -98,7 +94,6 @@ Feature: Do things to and with sets and projects
      |Copyright|some other dude             |
      And I press "Metadaten speichern und weiter…"
      And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
-     And Sphinx is forced to reindex
      And I go to the media entries
      And I click the media entry titled "Link test"
      And I follow "Zu Set/Projekt hinzufügen"
@@ -107,7 +102,6 @@ Feature: Do things to and with sets and projects
      And I fill in the set title with "Testing the link"
      And I press "Hinzufügen"
      And I press "Zu ausgewähltem Set/Projekt hinzufügen…"
-     And Sphinx is forced to reindex
      And I go to the home page
     Then I should see "Link test"
     When I click the media entry titled "Link test"

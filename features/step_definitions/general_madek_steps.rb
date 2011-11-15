@@ -13,12 +13,17 @@ Given /^I have set up the world$/ do
   if MetaKey.count == 0 # TODO: Test for more stuff, just having more than 0
                         # keys doesn't guarantee the YAML file has already been
                         # loaded.
-    steps %Q{
-      Given a user called "Bruce Willis" with username "bruce_willis" and password "fluffyKittens" exists
-      And a group called "Admin" exists
-      And the user with username "bruce_willis" is member of the group "Admin"
-      And I log in as "bruce_willis" with password "fluffyKittens"
-    }
+#     steps %Q{
+#       Given a user called "Bruce Willis" with username "bruce_willis" and password "fluffyKittens" exists
+#       And a group called "Admin" exists
+#       And the user with username "bruce_willis" is member of the group "Admin"
+#       And I log in as "bruce_willis" with password "fluffyKittens"
+#     }
+    
+    step 'a user called "Bruce Willis" with username "bruce_willis" and password "fluffyKittens" exists'
+    step 'a group called "Admin" exists'
+    step 'the user with username "bruce_willis" is member of the group "Admin"'
+    step 'I log in as "bruce_willis" with password "fluffyKittens"'
 
     click_on_arrow_next_to("Willis, Bruce")
     click_link("Admin")
@@ -157,10 +162,6 @@ When /^(?:|I )attach the file "([^"]*)" relative to the Rails directory to "([^"
   path = Rails.root + path
   within_string = selector.blank? ? "" : " within \"#{selector}\""
   When "I attach the file \"#{path}\" to \"#{field}\"" + within_string
-end
-
-When "Sphinx is forced to reindex" do
-  sphinx_reindex
 end
 
 # Can use "user" or "group" field name

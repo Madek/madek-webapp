@@ -329,7 +329,6 @@ def upload_some_picture(title = "Untitled")
     click_button("Metadaten speichern und weiter…")
     click_link_or_button("Weiter ohne Hinzufügen zu einem Set/Projekt…")
 
-    sphinx_reindex
     visit "/"
    
     page.should have_content(title)
@@ -357,29 +356,3 @@ def add_to_set(set_title = "Untitled Set", picture_title = "Untitled", owner = "
   page.should have_content(set_title)
 end
 
-
-
-def sphinx_reindex
-  # This would be the "clean" and "proper" way to do things. However,
-  # rspec often causes a race condition where the sphinx_reindex task is
-  # finished before the actual rake task has finished, therefore
-  # any subsequent searches that _should_ return results do not!
-  # So we do it the ugly way, as seen below.
-  #   require 'rake'
-  #   require 'thinking_sphinx/tasks'
-  #   Rake::Task["ts:reindex"].invoke
-  #   sleep(4)
-
-
-  # The ugly way, then.
-  # This sends the reindex rake task into the background, so that we're sure
-  # the indexer is actually run (in the background!) when we think it is run.
-  # Otherwise it might run even more asynchronously, which breaks all of our tests.
-  `rake ts:reindex &`
-  sleep(1)
-
-  # Note that NONE OF THIS WOULD BE NECESSARY if Sphinx, ThinkingSphinx and Rspec
-  # were better aligned and delta indexing would actually work in testing the way it
-  # usually works on a real server.
-
-end
