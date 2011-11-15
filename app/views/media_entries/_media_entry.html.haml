@@ -30,6 +30,7 @@
                     %h4
                       = definition.meta_field.label.to_s
                     = render :partial => "meta_data/show", :locals => { :meta_datum => meta_datum, :resource => media_entry, :context => context }
+                = render :partial => "media_entries/browsing"
                 
           #tab-permission.clearfix.tab-hide
             .tab-content

@@ -5,18 +5,18 @@ class MediaSetsController < ApplicationController
   before_filter :authorized?, :except => [:index, :create]
   
   def index
-    ids = current_user.accessible_resource_ids(:view, "Media::Set")
+    resources = MediaResource.accessible_by_user(current_user).media_sets
 
     @media_sets, @my_media_sets, @my_title, @other_title = if @media_set
       # all media_sets I can see, nested within a media set (for now only used with featured sets)
-      [@media_set.children.where(:id => ids), nil, "#{@media_set}", nil]
+      [resources.where(:id => @media_set.children), nil, "#{@media_set}", nil]
     elsif @user and @user != current_user
       # all media_sets I can see that have been created by another user
-      [@user.media_sets.where(:id => ids), nil, "Sets von %s" % @user, nil]
+      [resources.by_user(@user), nil, "Sets von %s" % @user, nil]
     else # TODO elsif @user == current_user
       # all media sets I can see that have not been created by me
-      other = Media::Set.where(:id => ids).where("user_id != ?", current_user)
-      my = current_user.media_sets.where(:id => ids)
+      other = resources.not_by_user(current_user)
+      my = resources.by_user(current_user)
       if params[:type] == "projects"
         [other.projects, my.projects, "Meine Projekte", "Weitere Projekte"]
       else
@@ -24,8 +24,7 @@ class MediaSetsController < ApplicationController
       end
     end
 
-    #3105#
-    @_media_set_ids = ids
+    @_media_set_ids = resources.map(&:id)
 
     respond_to do |format|
       format.html
@@ -44,8 +43,7 @@ class MediaSetsController < ApplicationController
                                         :total_pages => resources.total_pages },
                        :entries => resources.as_json(:user => current_user) } 
 
-    editable_sets = Media::Set.accessible_by(current_user, :edit)
-    @can_edit_set = editable_sets.include?(@media_set)
+    @can_edit_set = Permission.authorized?(current_user, :edit, @media_set)
 
     respond_to do |format|
       format.html
@@ -55,10 +53,7 @@ class MediaSetsController < ApplicationController
 
   # TODO only for media_project
   def abstract
-    # TODO dry with show action (before_filter)
-    viewable_ids = current_user.accessible_resource_ids
-    @_media_entry_ids = (@media_set.media_entry_ids & viewable_ids)
-    
+    @_media_entry_ids = MediaResource.accessible_by_user(current_user).by_media_set(@media_set).map(&:id)
     respond_to do |format|
       format.js { render :layout => false }
     end

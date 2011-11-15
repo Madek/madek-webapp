@@ -54,9 +54,8 @@ class Media::Project < Media::Set
   require 'rgl/dot'
   # TODO use ruby-graphviz gem instead ??
   def graph
-    current_user = User.find 159123
-    viewable_ids = current_user.accessible_resource_ids
-    mes = MediaEntry.find(media_entry_ids & viewable_ids)
+    current_user = nil # TODO
+    mes = MediaResource.accessible_by_user(current_user).by_media_set(self)
 
     g = RGL::DOT::Digraph.new({ 'name' => title,
                                 'label' => "#{title}\n#{DateTime.now.to_formatted_s(:date_time)}" })

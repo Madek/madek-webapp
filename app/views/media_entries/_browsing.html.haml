@@ -4,27 +4,7 @@
       %img{:src => "${thumb_base64}"}
 
 :javascript
-  $(function() {
-    $(".meta_data a[data-remote][data-meta_term_id]").live('ajax:beforeSend.rails', function(){
-      var that = $(this);
-      var container = $("#browsing_media_entries");
-      if(that.hasClass("active")){
-        that.removeClass("active");
-        container.find("div[rel='"+that.html()+"']").remove();
-        return false;
-      }else{
-        that.addClass("active");
-        container.append("<div rel='"+that.html()+"'><p data-meta_term_id='"+that.data('meta_term_id')+"'>"+that.html()+"</p></div>");
-        return true;
-      }
-    }).live('ajax:complete.rails', function(xhr, response){ // TODO ajax:success ??
-      var json = JSON.parse(response.responseText);
-      var that = $(this);
-      var container = $("#browsing_media_entries").find("div[rel='"+that.html()+"']");
-      container.append($("#browsing_thumbnail_mini").tmpl(json.entries));
-    });
-
-    /* #tmp#tooltip#
+  function browsing_document_ready(){
     $(".meta_data a[data-meta_term_id]").each(function(){
       var that = $(this);
       that.qtip({
@@ -58,7 +38,10 @@
         }
       });
     }).click(function() { return false; });
-    */
+  }
+  
+  $(function() {
+    browsing_document_ready();
     
     $("#browsing_media_entries p").live('click', function(){
       var that = $(this);
@@ -68,6 +51,3 @@
     });
     
   });
-
-- #tmp#tooltip# remove this div
-#browsing_media_entries

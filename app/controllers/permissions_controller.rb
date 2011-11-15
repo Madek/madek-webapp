@@ -103,12 +103,10 @@ class PermissionsController < ApplicationController
       @resource = MediaEntry.find(params[:media_entry_id])
     elsif not params[:media_entry_ids].blank?
       selected_ids = params[:media_entry_ids].split(",").map{|e| e.to_i }
-      manageable_ids = current_user.accessible_resource_ids(:manage)
-      @resources = MediaEntry.where(:id => (selected_ids & manageable_ids))
+      @resources = MediaResource.accessible_by_user(current_user, :manage).media_entries.where(:id => selected_ids)
     elsif not params[:media_set_id].blank? # TODO accept multiple media_set_ids ?? 
       selected_ids = [params[:media_set_id].to_i]
-      manageable_ids = current_user.accessible_resource_ids(:manage, Media::Set)
-      @resources = Media::Set.where(:id => (selected_ids & manageable_ids))
+      @resources = MediaResource.accessible_by_user(current_user, :manage).media_sets.where(:id => selected_ids)
       @resource = @resources.first # OPTIMIZE
     else
       flash[:error] = "Sie haben keine Medieneinträge ausgewählt."

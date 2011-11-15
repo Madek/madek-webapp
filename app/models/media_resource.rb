@@ -13,7 +13,7 @@ class MediaResource < ActiveRecord::Base
   default_scope order("updated_at DESC")
 
   scope :media_entries, where(:type => "MediaEntry")
-  #scope :media_sets, where(:type => "Media::Set")
+  scope :media_sets, where(:type => ["Media::Set", "Media::Project", "Media::Collection", "Media::FeaturedSet"]) # OPTIMIZE
 
   #scope :by_user, lambda {|user| media_entries.joins(:upload_session).where(:upload_sessions => {:user_id => user}) } 
   scope :by_user, lambda {|user| where(:user_id => user) } 
@@ -41,16 +41,8 @@ class MediaResource < ActiveRecord::Base
     where("MATCH (text) AGAINST (?)", q)    
   end
 
-  # TODO complete permission refactoring from Permission#accessible_by_user    
   def self.accessible_by_user(user, action = :view)
     i = 2 ** Permission::ACTIONS.index(action)
-
-    # select("r.*").
-    # from("media_resources AS r").
-    # joins("inner join permissions p ON p.resource_id=r.id AND p.resource_type=r.type").
-    # where("(subject_type = 'Group' AND subject_id IN (?)) OR (subject_type = 'User' AND subject_id = ?)", user.groups, user.id).
-    # where("action_bits & #{i} AND action_mask & #{i}").
-    # group("r.id, r.type")
 
     where("(media_resources.id, media_resources.type) NOT IN " \
             "(SELECT resource_id, resource_type from permissions " \
@@ -63,7 +55,6 @@ class MediaResource < ActiveRecord::Base
                   "OR (subject_type = 'User' AND subject_id = ?)) " \
                 "AND action_bits & #{i} AND action_mask & #{i})",
           user.id, user.group_ids, user.id);
-      
   end
   
   

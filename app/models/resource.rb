@@ -2,9 +2,7 @@
 module Resource
   
   #-#
-  TS_FIELDS = [:user]
-  TS_ATTRIBUTE_DEFINITIONS = [['sphinx_internal_id', 'int'], ['class_crc', 'int'], ['sphinx_deleted', 'int', '0'], # required by thinking sphinx
-                              ['user_id', 'int'], # association attributes
+  TS_ATTRIBUTE_DEFINITIONS = [['user_id', 'int'], # association attributes
                               ['updated_at', 'timestamp'], ['media_type', 'int']]
   
   def self.included(base)
@@ -95,11 +93,6 @@ module Resource
       update_attributes_without_pre_validation(dup_attributes)
     end
     base.alias_method_chain :update_attributes, :pre_validation
-
-    base.scope :accessible_by, lambda { |subject, action|
-      ids = subject.accessible_resource_ids(action, base)
-      base.where(:id => ids)
-    }
 
     base.has_one :full_text, :as => :resource, :dependent => :destroy
     base.after_save { reindex } # OPTIMIZE
@@ -195,9 +188,7 @@ module Resource
         core_info[key.gsub(' ', '_')] = meta_data.get_value_for(key)
       end
       mf = if self.is_a?(Media::Set)
-        # OPTIMIZE
-        ids = self.media_entry_ids & current_user.accessible_resource_ids
-        self.media_entries.where(:id => ids.first).first.try(:media_file)
+        MediaResource.accessible_by_user(current_user).by_media_set(self).first.try(:media_file)
       else
         self.media_file
       end
@@ -228,12 +219,10 @@ module Resource
 
   def as_json(options={})
     user = options[:user]
-    editable_ids = user.accessible_resource_ids(:edit)
-    managable_ids = user.accessible_resource_ids(:manage)
     flags = { :is_private => acl?(:view, :only, user),
               :is_public => acl?(:view, :all),
-              :is_editable => editable_ids.include?(id),
-              :is_manageable => managable_ids.include?(id) }
+              :is_editable => Permission.authorized?(user, :edit, self),
+              :is_manageable => Permission.authorized?(user, :manage, self) }
     self.attributes.merge(self.get_basic_info(user)).merge(flags)
   end
 
@@ -250,21 +239,11 @@ module Resource
   end
   
 ########################################################
-### For Sphinx  
-=begin #-#
-  def sphinx_internal_id
-    id
-  end
-
-  def class_crc
-    self.class.base_class.to_crc32 #old#.to_s
-  end
-=end  
 
   def reindex
     ft = full_text || build_full_text
     new_text = meta_data.concatenated
-    TS_FIELDS.each do |field|
+    [:user].each do |field|
       new_text << " #{send(field)}"
     end
     ft.update_attributes(:text => new_text)

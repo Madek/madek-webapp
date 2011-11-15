@@ -5,9 +5,7 @@
     else
       "icon_set"
   end
-  accessible_resource_ids = current_user.accessible_resource_ids
 
-/ #3105#
 .filter_area
   = render :partial => 'resources/filter_form', :locals => {:resource_ids => @_media_set_ids, :type => "Media::Set" }
 
@@ -52,7 +50,7 @@
           &darr;
       .clear
       - @my_media_sets.each do |media_set|
-        = media_set_title(media_set, true, true, 9, accessible_resource_ids) 
+        = media_set_title(media_set, true, true, 9) 
     
   .container_12.clearfix
     %section#content_body2.clearfix
@@ -66,7 +64,7 @@
           &uarr;
       .clear
       - @media_sets.each do |media_set|
-        = media_set_title(media_set, true, true, 9, accessible_resource_ids)
+        = media_set_title(media_set, true, true, 9)
 
 - else # FeaturedSet
   .container_12.clearfix
@@ -77,7 +75,7 @@
       .clear
       - if @media_sets.any?
         - @media_sets.each do |media_set|
-          = media_set_title(media_set, true, true, 9, accessible_resource_ids)
+          = media_set_title(media_set, true, true, 9)
       - else 
         = _("Keine Sets vorhanden")
 

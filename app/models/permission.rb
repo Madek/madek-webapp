@@ -4,7 +4,7 @@ class Permission < ActiveRecord::Base
   ACTIONS = [:view, :edit, :hi_res, :manage] # view = 2^0 = 1; edit = 2^1 = 2; hi_res = 2^2 = 4; manage = 2^3 = 8
   
   belongs_to :subject, :polymorphic => true 
-  belongs_to :resource, :polymorphic => true
+  belongs_to :resource, :polymorphic => true #-# TODO store real subclass type
   
   validates_numericality_of :action_bits, :action_mask
   validates_numericality_of :action_mask, :greater_than => 0, :unless => Proc.new { |resource| resource_type.nil? }  
@@ -172,45 +172,6 @@ class Permission < ActiveRecord::Base
         actions = actions.merge(perm_subject_resource.actions) if perm_subject_resource #1504#
       end
       actions
-    end
-
-    def accessible_by_all(resource_type, action = :view)
-      i = 2 ** ACTIONS.index(action)
-      select(:resource_id).
-          where(:resource_type => resource_type, :subject_type => nil).
-          where("action_bits & #{i} AND action_mask & #{i}").
-          collect(&:resource_id).uniq
-    end
-
-    def accessible_by_user(resource_type, user, action = :view)
-      i = 2 ** ACTIONS.index(action)
-      
-      #1+3
-      user_groups_true = select(:resource_id).
-                              where(:resource_type => resource_type).
-                              where("(subject_type = 'Group' AND subject_id IN (?)) OR (subject_type = 'User' AND subject_id = ?)", user.groups, user.id).
-                              where("action_bits & #{i} AND action_mask & #{i}").
-                              collect(&:resource_id).uniq
-      
-      #2
-      user_false = user.permissions.select(:resource_id).
-                                where(:resource_type => resource_type).
-                                where("(NOT action_bits & #{i}) AND action_mask & #{i}").
-                                collect(&:resource_id).uniq
-    
-    
-      #5
-      public_true = accessible_by_all(resource_type, action)
-      
-      
-      #2+4
-      user_groups_false = select(:resource_id).
-                                where(:resource_type => resource_type).
-                                where("(subject_type = 'Group' AND subject_id IN (?)) OR (subject_type = 'User' AND subject_id = ?)", user.groups, user.id).
-                                where("(NOT action_bits & #{i}) AND action_mask & #{i}").
-                                collect(&:resource_id).uniq
-
-      ((user_groups_true - user_false) + (public_true - user_groups_false)).uniq
     end
 
     def assign_manage_to(subject, resource, recursive = false)

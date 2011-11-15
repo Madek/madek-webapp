@@ -1,10 +1,10 @@
 - unless resource_ids.empty?
   .filter_box
     %h3.filter_category.filter_header.clearfix
-      / %span.ui-icon.ui-icon-triangle-1-e
+      -# %span.ui-icon.ui-icon-triangle-1-e
       = link_to "Suchergebnisse filtern", "#", :class => "filter_category_link"
     .filter_content{:style => "display: block;"}
-      / #3105# %form{:action => request.fullpath.gsub( /\?.*/, "" ), :method => :get, :"data-remote" => "true", :"data-type" => :json, :"data-item_ids" => resource_ids.to_json}
+      -# %form{:action => request.fullpath.gsub( /\?.*/, "" ), :method => :get, :"data-remote" => "true", :"data-type" => :json, :"data-item_ids" => resource_ids.to_json}
       %form{:action => filter_resources_path, :method => :post, :"data-remote" => "true", :"data-type" => :json, :"data-item_ids" => resource_ids.to_json}
         = hidden_field_tag "filter[type]", type
         = hidden_field_tag "filter[ids]", resource_ids.join(',')
@@ -21,8 +21,8 @@
                   %span.input_wrapper
                     = check_box_tag "#{type}[media_type][]", "Image"
                     Bild
-                  / = link_to "Details", "#", :class => "filter_category_link"
-                  / %span.ui-icon.ui-icon-triangle-1-e
+                  -# = link_to "Details", "#", :class => "filter_category_link"
+                  -# %span.ui-icon.ui-icon-triangle-1-e
                 .filter_content
                   %ul
                     %li
@@ -38,7 +38,7 @@
                       = text_field_tag "#{type}[width][value]", nil, :size => 5
                       %span
                         Pixel
-                      / TODO #slider-range
+                      -# TODO #slider-range
                     %li
                       = label_tag "#{type}[height][value]", "Höhe:"
                       = select_tag "#{type}[height][operator]", options_for_select({'ist genau' => 'is', 'grösser als' => 'gt', 'kleiner als' => 'lt'}, :selected => nil), :include_blank => true

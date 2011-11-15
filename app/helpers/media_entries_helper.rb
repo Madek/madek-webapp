@@ -3,9 +3,7 @@ module MediaEntriesHelper
  
   def thumb_for(resource, size = :small_125, options = {})
     media_file = if resource.is_a?(Media::Set)
-      # OPTIMIZE
-      ids = resource.media_entry_ids & current_user.accessible_resource_ids
-      resource.media_entries.where(:id => ids.first).first.try(:media_file)
+      MediaResource.accessible_by_user(current_user).by_media_set(resource).first.try(:media_file)
     else
       resource.media_file
     end

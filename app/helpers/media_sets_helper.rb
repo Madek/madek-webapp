@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 module MediaSetsHelper
 
-  def media_set_title(media_set, with_link = false, with_main_thumb = false, total_thumbs = 0, accessible_resource_ids = nil)
+  def media_set_title(media_set, with_link = false, with_main_thumb = false, total_thumbs = 0)
     content = capture_haml do
       div_class, thumb_class = media_set.is_a?(Media::Project) ? ["set-box project-box", "thumb_box_project"] : ["set-box", "thumb_box_set"]
       haml_tag :div, :class => div_class do
@@ -15,8 +15,7 @@ module MediaSetsHelper
         haml_tag :br
         if total_thumbs > 0
           haml_tag :br
-          ids = (media_set.media_entry_ids & accessible_resource_ids)[0, total_thumbs]
-          media_entries = media_set.media_entries.find(ids).paginate
+          media_entries = MediaResource.accessible_by_user(current_user).by_media_set(media_set).paginate(:page => 1, :per_page => total_thumbs)
           if media_entries.empty?
             haml_tag :small, _("Noch keine Medieneinträge enthalten")
           else
@@ -81,13 +80,14 @@ module MediaSetsHelper
   end
 
   def media_sets_setter(form_path, with_cancel_button = false)
+    editable_sets = MediaResource.accessible_by_user(current_user, :edit).media_sets
     form_tag form_path, :id => "set_media_sets" do
       b = content_tag :h3, :style => "clear: both" do
         _("Zu Set/Projekt hinzufügen:")
       end
 
       b += content_tag :span, :style => "margin-right: 1em;" do
-        select_tag "media_set_ids[]", options_for_select({_("- Auswählen -") => nil}) + options_from_collection_for_select(Media::Set.accessible_by(current_user, :edit), :id, :title_and_user), :style => "width: 100%;"
+        select_tag "media_set_ids[]", options_for_select({_("- Auswählen -") => nil}) + options_from_collection_for_select(editable_sets, :id, :title_and_user), :style => "width: 100%;"
       end
 
       b += content_tag :button, :id => "new_button", :style => "float: left;" do
@@ -179,7 +179,10 @@ module MediaSetsHelper
                 $.ajax({
                   url: "#{abstract_media_set_path(@media_set)}",
                   data: {value: ui.value},
-                  complete: function(response){ $("#slider").nextAll(".meta_data:first").replaceWith(response.responseText); }
+                  complete: function(response){
+                    $("#slider").nextAll(".meta_data:first").replaceWith(response.responseText);
+                    browsing_document_ready();
+                  }
                 });
               }
             });
