@@ -159,10 +159,6 @@ When /^(?:|I )attach the file "([^"]*)" relative to the Rails directory to "([^"
   When "I attach the file \"#{path}\" to \"#{field}\"" + within_string
 end
 
-When "Sphinx is forced to reindex" do
-  sphinx_reindex
-end
-
 # Can use "user" or "group" field name
 When /^I type "([^"]*)" into the "([^"]*)" autocomplete field$/ do |string, field|
   type_into_autocomplete(field.to_sym, string)

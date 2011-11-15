@@ -48,7 +48,6 @@ Feature: Use the search filters on my search results
      |Schlagworte zu Inhalt und Motiv|common words|
      |Schlagworte zu Inhalt und Motiv|raimi|
      And I press "Speichern"
-     And Sphinx is forced to reindex
      And I fill in "query" with "common"
      And I press "Suchen"
     Then the search results should contain "The Necronomicon"

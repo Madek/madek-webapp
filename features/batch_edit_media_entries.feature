@@ -50,7 +50,6 @@ Feature: Batch edit media entries
      And I press "Speichern"
      Then I should see "Die Änderungen wurden gespeichert."
      And I should see "We are all individuals"
-    When Sphinx is forced to reindex
      And I go to the media entries
      And I click the media entry titled "We are all individuals"
      Then I should see "We are all individuals"
