@@ -11,7 +11,7 @@ Feature: Batch edit media entries
       And I upload some picture titled "Picture Three"
 
 
-  @javascript
+  @javascript @work
   Scenario: Remove two media entries from a set using batch edit
     When I log in as "helmi" with password "saumagen"
      And I create a set titled "Set One"
@@ -20,17 +20,17 @@ Feature: Batch edit media entries
      And I add the picture "Picture Three" to the set "Set One" owned by "Kohl, Helmut"
      And I go to the media entries
      And I click the media entry titled "Picture One"
-     And I follow "Set One"
+     And I choose the set "Set One" from the media entry
      And I check the media entry titled "Picture One"
      And I check the media entry titled "Picture Two"
      And I press "Aus Set/Projekt entfernen"
      And I go to the media entries
      And I click the media entry titled "Picture Three"
-     And I follow "Set One"
+     And I choose the set "Set One" from the media entry
     Then I should not see "Picture One"
      And I should not see "Picture Two"
 
-  @javascript @work
+  @javascript 
   Scenario: Change metadata on two media entries using batch edit
     When I log in as "helmi" with password "saumagen"
      And I create a set titled "Batch Retitle Set"

@@ -266,10 +266,13 @@ When /I filter by "([^"]*)" in "([^"]*)"$/ do |choice, category|
 end
 
 When /I choose the set "([^"]*)" from the media entry$/ do |set_name|
-  element = find("div.set-box[oldtitle='#{set_name}']")
+#   binding.pry
+  element = find(:xpath, "//div[@class='set-box' and @oldtitle]")
   unless element.nil?
-    link = element.find("a")
-    link.click
+    if element[:oldtitle] =~ /^#{set_name}/
+      link = element.find("a")
+      link.click
+    end
   end
 end
 
