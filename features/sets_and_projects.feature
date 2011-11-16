@@ -66,7 +66,7 @@ Feature: Do things to and with sets and projects
      And I go to the home page
      And I click the arrow next to "Kohl, Helmut"
      And I follow "Meine Sets"
-     And I follow "After-Upload Set"
+     And I click the media entry titled "After-Upload Set"
      And I follow "Editieren"
      And I fill in the metadata form as follows:
      |label|value|

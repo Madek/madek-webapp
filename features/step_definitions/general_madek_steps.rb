@@ -265,6 +265,14 @@ When /I filter by "([^"]*)" in "([^"]*)"$/ do |choice, category|
   
 end
 
+When /I choose the set "([^"]*)" from the media entry$/ do |set_name|
+  element = find("div.set-box[oldtitle='#{set_name}']")
+  unless element.nil?
+    link = element.find("a")
+    link.click
+  end
+end
+
 
 Then "the box should have a hires download link" do
     find(:css, "tr.download-unit").all("a").count.should == 1
