@@ -22,7 +22,7 @@ gem 'rails_autolink', '~> 1.0'
 group :assets do
   gem 'sass-rails', '~> 3.1'
   gem 'coffee-rails', '~> 3.1'
-  gem 'uglifier', '~> 1.0'
+  gem 'uglifier', '~> 1.1'
 end
 
 gem 'cancan', '~> 1.6'
@@ -62,8 +62,8 @@ end
 group :test do
   gem 'cucumber'#, '~> 1.0.3'
   gem 'cucumber-rails'#, '~> 1.0.2'
-  gem 'capybara', '~> 1.1.1'
-  gem 'selenium-webdriver', '~> 2.6' 
+  gem 'capybara', '~> 1.1'
+  gem 'selenium-webdriver', '~> 2.12'
   gem 'database_cleaner'
   gem 'rspec-rails'
   gem 'spork'
