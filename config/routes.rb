@@ -104,7 +104,7 @@ MAdeK::Application.routes.draw do
     end
     
     resources :resources # TODO shallow
-    resources :media_sets do
+    resources :media_sets, :except => :index do
       member do
         post :add_member # TODO
       end
@@ -128,13 +128,13 @@ MAdeK::Application.routes.draw do
 
 ###############################################
 
-  resources :media_sets do
+  resources :media_sets, :except => :index do
     member do
       get :browse
       get :abstract
     end
     
-    resources :media_sets
+    resources :media_sets #-# only used for FeaturedSet 
     
     resources :permissions do
       collection do

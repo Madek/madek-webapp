@@ -58,7 +58,6 @@ class ApplicationController < ActionController::Base
 
         respond_to do |format|
           format.html { render :template => "/users/show" }
-          #-# format.js { render :partial => "media_entries/index" }
         end
       end
     else

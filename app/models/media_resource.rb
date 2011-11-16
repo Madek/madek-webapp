@@ -16,7 +16,10 @@ class MediaResource < ActiveRecord::Base
 
   scope :media_entries, where(:type => "MediaEntry")
   
-  scope :media_sets, where(:type => ["Media::Set", "Media::Project", "Media::Collection", "Media::FeaturedSet"]) # OPTIMIZE
+  # OPTIMIZE
+  scope :media_sets, where(:type => ["Media::Set", "Media::Project", "Media::FeaturedSet"]) # , "Media::Collection"
+  scope :sets, where(:type => "Media::Set")
+  scope :projects, where(:type => "Media::Project")
 
   ################################################################
 
@@ -44,7 +47,7 @@ class MediaResource < ActiveRecord::Base
   ################################################################
 
   scope :search, lambda {|q|
-    joins("LEFT JOIN full_texts ON (media_resources.id, media_resources.type) = (full_texts.resource_id, full_texts.resource_type)").
+    joins("LEFT JOIN full_texts ON (media_resources.id, #{media_resources_type}) = (full_texts.resource_id, full_texts.resource_type)").
     where("MATCH (text) AGAINST (?)", q)    
   }
 
@@ -93,14 +96,21 @@ class MediaResource < ActiveRecord::Base
     sql    
   end
 
+  #-# NOTE workaround to manage subclass type
+  def self.media_resources_type
+    #original# "media_resources.type"
+    "IF(type IN ('Media::Project', 'Media::FeaturedSet'), 'Media::Set', type)" # , 'Media::Collection'
+  end
+
   def self.accessible_by_user(user, action = :view)
     i = 2 ** Permission::ACTIONS.index(action)
 
-    where("(media_resources.id, media_resources.type) NOT IN " \
+
+    where("(media_resources.id, #{media_resources_type}) NOT IN " \
             "(SELECT resource_id, resource_type from permissions " \
               "WHERE (subject_type = 'User' AND subject_id = ?) " \
                 "AND NOT action_bits & #{i} AND action_mask & #{i}) " \
-          "AND (media_resources.id, media_resources.type) IN " \
+          "AND (media_resources.id, #{media_resources_type}) IN " \
             "(SELECT resource_id, resource_type from permissions " \
               "WHERE (subject_type IS NULL " \
                   "OR (subject_type = 'Group' AND subject_id IN (?)) " \

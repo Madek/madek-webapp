@@ -7,6 +7,7 @@ class ResourcesController < ApplicationController
     params[:per_page] ||= PER_PAGE.first
 
     resources = MediaResource.accessible_by_user(current_user)
+    resources = resources.send(params[:type]) if params[:type]
     resources = resources.by_user(@user) if params[:user_id] and (@user = User.find(params[:user_id]))
     resources = resources.not_by_user(current_user) if params[:not_by_current_user]
     resources = resources.favorites_for_user(current_user) if request.fullpath =~ /favorites/
@@ -37,7 +38,9 @@ class ResourcesController < ApplicationController
         meta_term = meta_key.meta_terms.find(params[:meta_term_id])
         media_entry_ids = meta_term.meta_data(meta_key).select{|md| md.resource_type == "MediaEntry"}.collect(&:resource_id)
       else
-        resources = resources.filter_media_file(params["MediaEntry"]) if params["MediaEntry"]["media_type"]
+        if params["MediaEntry"] and params["MediaEntry"]["media_type"]
+          resources = resources.filter_media_file(params["MediaEntry"])
+        end
         media_entry_ids = params[:filter][:ids].split(',').map(&:to_i) 
       end
   

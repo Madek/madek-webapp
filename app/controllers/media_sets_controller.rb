@@ -3,7 +3,8 @@ class MediaSetsController < ApplicationController
 
   before_filter :pre_load
   before_filter :authorized?, :except => [:index, :create]
-  
+
+  #-# only used for FeaturedSet
   def index
     resources = MediaResource.accessible_by_user(current_user).media_sets
 
@@ -24,7 +25,7 @@ class MediaSetsController < ApplicationController
       end
     end
 
-    @_media_set_ids = resources.map(&:id)
+    #-# @_media_set_ids = (Array(@media_sets) + Array(@my_media_sets)).map(&:id)
 
     respond_to do |format|
       format.html
@@ -77,7 +78,7 @@ class MediaSetsController < ApplicationController
     @media_set = current_user.media_sets.build(params[:media_set])
     if @media_set.save
       #temp# flash[:notice] = "Media::Set successful created"
-      redirect_to user_media_sets_path(current_user)
+      redirect_to user_resources_path(current_user, :type => "sets")
     else
       flash[:notice] = @media_set.errors.full_messages
       redirect_to :back
@@ -93,7 +94,7 @@ class MediaSetsController < ApplicationController
      @media_set.destroy
    end
     respond_to do |format|
-      format.html { redirect_to user_media_sets_path(current_user) }
+      format.html { redirect_to user_resources_path(current_user, :type => "sets") }
     end
  end
 

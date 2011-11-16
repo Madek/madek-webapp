@@ -6,8 +6,8 @@
       "icon_set"
   end
 
-.filter_area
-  = render :partial => 'resources/filter_form', :locals => {:resource_ids => @_media_set_ids, :type => "Media::Set" }
+-#-# .filter_area
+  =#-# render :partial => 'resources/filter_form', :locals => {:resource_ids => @_media_set_ids, :type => "Media::Set" }
 
 - unless @media_set
   - if params[:type] != "projects"
