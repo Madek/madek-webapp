@@ -9,7 +9,7 @@ Feature: Do things to and with sets and projects
 
 
   # This test makes sure that the titles we give are actually saved and also displayed/cached properly
-  @javascript
+  @javascript @work
   Scenario: Upload an image, then go to the detail page and add it to a set
     When I log in as "helmi" with password "saumagen"
      And I go to the home page
@@ -26,6 +26,7 @@ Feature: Do things to and with sets and projects
      And I press "Metadaten speichern und weiter…"
      And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
      And I go to the media entries
+     And I wait for the CSS element "div.page div.item_box"
      And I click the media entry titled "into the set after uploading"
      And I follow "Zu Set/Projekt hinzufügen"
      And I press "Neues Set erstellen"
