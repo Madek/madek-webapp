@@ -346,7 +346,7 @@ end
 # has a title, so that it shows up under /media_entries. The set
 # also needs a title.
 def add_to_set(set_title = "Untitled Set", picture_title = "Untitled", owner = "No one")
-  visit "/media_entries"
+  visit "/resources"
   click_media_entry_titled(picture_title)
   click_link_or_button("Zu Set/Projekt hinzufügen")
   select("#{set_title} (#{owner})", :from => "media_set_ids[]")
