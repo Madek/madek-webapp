@@ -37,12 +37,7 @@ class ResourcesController < ApplicationController
         meta_term = meta_key.meta_terms.find(params[:meta_term_id])
         media_entry_ids = meta_term.meta_data(meta_key).select{|md| md.resource_type == "MediaEntry"}.collect(&:resource_id)
       else
-        if params["MediaEntry"]["media_type"]
-          #-# search_options = Filter.new(params["MediaEntry"]).to_query_filter
-          #-# search_result = MediaEntry.search_for_ids(params[:query], search_options)
-          #viewable_ids = viewable_ids #-# search_result.to_a & viewable_ids
-          #-# FIXME resource.media_file.etc....
-        end
+        resources = resources.filter_media_file(params["MediaEntry"]) if params["MediaEntry"]["media_type"]
         media_entry_ids = params[:filter][:ids].split(',').map(&:to_i) 
       end
   

@@ -12,13 +12,20 @@ class MediaResource < ActiveRecord::Base
   
   default_scope order("updated_at DESC")
 
+  ################################################################
+
   scope :media_entries, where(:type => "MediaEntry")
+  
   scope :media_sets, where(:type => ["Media::Set", "Media::Project", "Media::Collection", "Media::FeaturedSet"]) # OPTIMIZE
+
+  ################################################################
 
   #scope :by_user, lambda {|user| media_entries.joins(:upload_session).where(:upload_sessions => {:user_id => user}) } 
   scope :by_user, lambda {|user| where(:user_id => user) } 
   #scope :not_by_user, lambda {|user| media_entries.joins(:upload_session).where(["upload_sessions.user_id != ?", user]) } 
   scope :not_by_user, lambda {|user| where(["user_id != ?", user]) }
+
+  ################################################################
   
   scope :favorites_for_user, lambda {|user|
     media_entries.
@@ -26,19 +33,64 @@ class MediaResource < ActiveRecord::Base
     where(:favorites => {:user_id => user})
   }
 
+  ################################################################
+
   scope :by_media_set, lambda {|media_set|
     media_entries.
     joins("INNER JOIN media_entries_media_sets ON media_resources.id = media_entries_media_sets.media_entry_id").
     where(:media_entries_media_sets => {:media_set_id => media_set})
-  } 
+  }
+
+  ################################################################
+
+  scope :search, lambda {|q|
+    joins("LEFT JOIN full_texts ON (media_resources.id, media_resources.type) = (full_texts.resource_id, full_texts.resource_type)").
+    where("MATCH (text) AGAINST (?)", q)    
+  }
+
+  ################################################################
   
   def self.reindex
     all.map(&:reindex).uniq
   end
   
-  def self.search(q)
-    joins("LEFT JOIN full_texts ON (media_resources.id, media_resources.type) = (full_texts.resource_id, full_texts.resource_type)").
-    where("MATCH (text) AGAINST (?)", q)    
+  def self.filter_media_file(options = {})
+    sql = media_entries.joins("RIGHT JOIN media_files ON media_resources.media_file_id = media_files.id")
+    
+    if options[:width] and not options[:width][:value].blank?
+      operator = case options[:width][:operator]
+        when "gt"
+          ">"
+        when "lt"
+          "<"
+        else
+          "="
+      end
+      sql = sql.where("media_files.width #{operator} ?", options[:width][:value])
+    end
+
+    if options[:height] and not options[:height][:value].blank?
+      operator = case options[:height][:operator]
+        when "gt"
+          ">"
+        when "lt"
+          "<"
+        else
+          "="
+      end
+      sql = sql.where("media_files.height #{operator} ?", options[:height][:value])
+    end
+
+    unless options[:orientation].blank?
+      case options[:orientation].to_i
+        when 0
+          sql = sql.where("media_files.height < media_files.width")
+        when 1
+          sql = sql.where("media_files.height > media_files.width")
+      end
+    end
+
+    sql    
   end
 
   def self.accessible_by_user(user, action = :view)

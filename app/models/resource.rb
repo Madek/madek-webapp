@@ -1,10 +1,6 @@
 # -*- encoding : utf-8 -*-
 module Resource
   
-  #-#
-  TS_ATTRIBUTE_DEFINITIONS = [['user_id', 'int'], # association attributes
-                              ['updated_at', 'timestamp'], ['media_type', 'int']]
-  
   def self.included(base)
    # TODO observe bulk changes and reindex once
     base.has_many :meta_data, :as => :resource, :dependent => :destroy do #working here#7 :include => :meta_key
