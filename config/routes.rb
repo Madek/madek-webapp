@@ -128,7 +128,7 @@ MAdeK::Application.routes.draw do
 
 ###############################################
 
-  resources :media_sets, :except => :index do
+  resources :media_sets do #-# TODO , :except => :index # the index is only used to create new sets
     member do
       get :browse
       get :abstract

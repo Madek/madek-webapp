@@ -84,7 +84,7 @@ module Resource
       end if dup_attributes[:meta_data_attributes]
 
       self.editors << current_user if current_user # OPTIMIZE group by user ??
-      self.updated_at = Time.now # used for cache invalidation and sphinx reindex # OPTIMIZE touch or sphinx_touch ??
+      self.updated_at = Time.now # OPTIMIZE touch
 
       update_attributes_without_pre_validation(dup_attributes)
     end
@@ -337,7 +337,6 @@ private
       subject = Group.find_or_create_by_name("MIZ-Archiv") # Group.scoped_by_name("MIZ-Archiv").first
     end
 
-    # TODO solve inconsistency between search 'by_user' sphinx_scope and the actual permissions
     # TODO validates presence of the owner's permissions?
     if subject
      user_default_permissions = {:view => true, :edit => true, :manage => true}

@@ -85,12 +85,13 @@ class MediaResource < ActiveRecord::Base
     end
 
     unless options[:orientation].blank?
-      case options[:orientation].to_i
+      operator = case options[:orientation].to_i
         when 0
-          sql = sql.where("media_files.height < media_files.width")
+          "<"
         when 1
-          sql = sql.where("media_files.height > media_files.width")
+          ">"
       end
+      sql = sql.where("media_files.height #{operator} media_files.width")
     end
 
     sql    
