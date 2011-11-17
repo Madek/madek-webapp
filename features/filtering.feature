@@ -7,7 +7,7 @@ Feature: Use the search filters on my search results
     Given I have set up the world
       And a user called "Evil Librarian" with username "evil" and password "books" exists
 
-  @javascript 
+  @javascript @work
   Scenario: A simple search, no filtering, that should return a result
     When I log in as "evil" with password "books"
      And I upload some picture titled "The Necronomicon"
@@ -18,7 +18,7 @@ Feature: Use the search filters on my search results
      And I press "Suchen"
     Then I should not see "The Necronomicon"
 
-  @javascript @work
+  @javascript
   Scenario: Filtering by keyword: Finding both media entries that have a common word, but showing just one when only one's keyword is selected
     When I log in as "evil" with password "books"
      And I upload some picture titled "The Necronomicon"
@@ -57,7 +57,7 @@ Feature: Use the search filters on my search results
     Then the search results should not contain "The Necronomicon"
      And the search results should contain "Klaatu Barata Nicto"
 
-  @javascript @broken
+  @javascript
   Scenario: Filtering three different media entries
     When I log in as "evil" with password "books"
      And I upload some picture titled "Pure Evil"
