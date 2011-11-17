@@ -142,13 +142,11 @@ class MediaEntriesController < ApplicationController
   end
   
   def update_multiple
-    MediaEntry.suspended_delta do
-      @media_entries.each do |media_entry|
-        if media_entry.update_attributes(params[:resource], current_user)
-          flash[:notice] = "Die Änderungen wurden gespeichert." # TODO appending success message and resource reference (id, title)
-        else
-          flash[:error] = "Die Änderungen wurden nicht gespeichert." # TODO appending success message and resource reference (id, title)
-        end
+    @media_entries.each do |media_entry|
+      if media_entry.update_attributes(params[:resource], current_user)
+        flash[:notice] = "Die Änderungen wurden gespeichert." # TODO appending success message and resource reference (id, title)
+      else
+        flash[:error] = "Die Änderungen wurden nicht gespeichert." # TODO appending success message and resource reference (id, title)
       end
     end
     
