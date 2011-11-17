@@ -47,8 +47,11 @@
     {{/if}}
     %p.item_title
       ${title.substring(0,50)}
-    %p.item_author
-      ${author.substring(0,50)}
+    %p.item_author{:title => "${author}"} 
+      ${author.substring(0,42)}
+      {{if author.length > 42}}
+      = "..."
+      {{/if}}
     .actions
       {{if !is_set}}
       .action_left

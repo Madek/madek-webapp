@@ -1068,18 +1068,19 @@ ul li { float: left; }
 	font-size: 0.9em;
 	line-height: 1.15em;
 	max-height: 30px;
+	padding-bottom: 2px;
 	color: black;
 }
 
 .item_author {
 	font-size: 0.7em;
 	line-height: 1.1em;
-	max-height: 20px;
-	margin-top: 5px;
+	height: 23px;
 	display: block;
 }
 
 .item_title, .item_author {
+  cursor: default;
   overflow: hidden;
   letter-spacing: 0.1ex;
   padding-left: 1px;
