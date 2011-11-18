@@ -50,12 +50,6 @@ class User < ActiveRecord::Base
   
 #############################################################
 
-  def accessible_resource_ids(action = :view, resource_type = "MediaEntry")
-    Permission.accessible_by_user(resource_type, self, action)
-  end
-
-#############################################################
-
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40
   validates_uniqueness_of   :login

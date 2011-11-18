@@ -12,7 +12,7 @@ module NavigationHelpers
       '/'
 
     when /the media entries/
-      '/media_entries'
+      '/resources'
       
     when /^the wiki$/
       '/wiki'

@@ -9,7 +9,7 @@ Feature: Do things to and with sets and projects
 
 
   # This test makes sure that the titles we give are actually saved and also displayed/cached properly
-  @javascript
+  @javascript @work
   Scenario: Upload an image, then go to the detail page and add it to a set
     When I log in as "helmi" with password "saumagen"
      And I go to the home page
@@ -25,8 +25,8 @@ Feature: Do things to and with sets and projects
      |Copyright|some other dude             |
      And I press "Metadaten speichern und weiter…"
      And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
-     And Sphinx is forced to reindex
      And I go to the media entries
+     And I wait for the CSS element "div.page div.item_box"
      And I click the media entry titled "into the set after uploading"
      And I follow "Zu Set/Projekt hinzufügen"
      And I press "Neues Set erstellen"
@@ -34,7 +34,6 @@ Feature: Do things to and with sets and projects
      And I fill in the set title with "After-Upload Set"
      And I press "Hinzufügen"
      And I press "Zu ausgewähltem Set/Projekt hinzufügen…"
-     And Sphinx is forced to reindex
      And I go to the home page
     Then I should see "into the set after uploading"
     When I click the media entry titled "into the set after uploading"
@@ -57,7 +56,6 @@ Feature: Do things to and with sets and projects
      |Copyright|some other dude             |
      And I press "Metadaten speichern und weiter…"
      And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
-     And Sphinx is forced to reindex
      And I go to the media entries
      And I click the media entry titled "into the set after uploading"
      And I follow "Zu Set/Projekt hinzufügen"
@@ -66,11 +64,10 @@ Feature: Do things to and with sets and projects
      And I fill in the set title with "After-Upload Set"
      And I press "Hinzufügen"
      And I press "Zu ausgewähltem Set/Projekt hinzufügen…"
-     And Sphinx is forced to reindex
      And I go to the home page
      And I click the arrow next to "Kohl, Helmut"
      And I follow "Meine Sets"
-     And I follow "After-Upload Set"
+     And I click the media entry titled "After-Upload Set"
      And I follow "Editieren"
      And I fill in the metadata form as follows:
      |label|value|
@@ -98,7 +95,6 @@ Feature: Do things to and with sets and projects
      |Copyright|some other dude             |
      And I press "Metadaten speichern und weiter…"
      And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
-     And Sphinx is forced to reindex
      And I go to the media entries
      And I click the media entry titled "Link test"
      And I follow "Zu Set/Projekt hinzufügen"
@@ -107,7 +103,6 @@ Feature: Do things to and with sets and projects
      And I fill in the set title with "Testing the link"
      And I press "Hinzufügen"
      And I press "Zu ausgewähltem Set/Projekt hinzufügen…"
-     And Sphinx is forced to reindex
      And I go to the home page
     Then I should see "Link test"
     When I click the media entry titled "Link test"

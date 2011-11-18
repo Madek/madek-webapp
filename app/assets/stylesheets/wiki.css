@@ -208,8 +208,8 @@
 	margin-bottom: 1em;
 }
 
-.wiki_content video {
-	padding: 30px 100px;
+.wiki_content .video-js-box {
+  display: block;
 	background:-moz-linear-gradient(top, #727272, #424242); /* Firefox */
 	background:-webkit-gradient(linear, left top, left bottom, from(#727272), to(#424242)); /* Safari, Chrome */
 	background:-webkit-linear-gradient(top, #727272, #424242); /* Safari, Chrome - neue Syntax! */
@@ -217,4 +217,7 @@
 	background:-ms-linear-gradient(top, #727272, #424242); /* IE */
 	background:linear-gradient(top, #727272, #424242); /* W3C Standard */
 	border-radius: 5px;
+	text-align: center;
+	margin: 16px 0 26px 0;
+	width: 630px !important;
 }

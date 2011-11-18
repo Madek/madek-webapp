@@ -1,11 +1,6 @@
 # -*- encoding : utf-8 -*-
 module Resource
   
-  TS_FIELDS = [:user]
-  TS_ATTRIBUTE_DEFINITIONS = [['sphinx_internal_id', 'int'], ['class_crc', 'int'], ['sphinx_deleted', 'int', '0'], # required by thinking sphinx
-                              ['user_id', 'int'], # association attributes
-                              ['updated_at', 'timestamp'], ['media_type', 'int']]
-  
   def self.included(base)
    # TODO observe bulk changes and reindex once
     base.has_many :meta_data, :as => :resource, :dependent => :destroy do #working here#7 :include => :meta_key
@@ -21,7 +16,6 @@ module Resource
         get(key_id).to_s
       end
 
-      # indexing to sphinx
       #def with_labels
       #  h = {}
       #  all.each do |meta_datum|
@@ -90,86 +84,14 @@ module Resource
       end if dup_attributes[:meta_data_attributes]
 
       self.editors << current_user if current_user # OPTIMIZE group by user ??
-      self.updated_at = Time.now # used for cache invalidation and sphinx reindex # OPTIMIZE touch or sphinx_touch ??
+      self.updated_at = Time.now # OPTIMIZE touch
 
       update_attributes_without_pre_validation(dup_attributes)
     end
     base.alias_method_chain :update_attributes, :pre_validation
 
-    base.scope :accessible_by, lambda { |subject, action|
-      ids = subject.accessible_resource_ids(action, base)
-      base.where(:id => ids)
-    }
-
-    def base.to_sphinxpipe(delta = 0)
-      update_all(:delta => 0) if delta == 0
-
-      xml = Builder::XmlMarkup.new
-      xml.instruct!
-
-      xml.tag!("sphinx:docset") do
-        xml.tag!("sphinx:schema") do
-            #tmp# Sphinx: max 32 fields allowed
-            #MetaKey.with_meta_data.each do |key|
-            #  xml.tag!("sphinx:field", :name => key.label.parameterize('_'))
-            #end
-            xml.tag!("sphinx:field", :name => "meta_data")
-
-            self::TS_FIELDS.each do |field|
-              xml.tag!("sphinx:field", :name => field)
-            end
-
-             self::TS_ATTRIBUTE_DEFINITIONS.each do |attr|
-                args = {:name => attr[0], :type => attr[1]}
-                args[:default] = attr[2] if attr.size > 2
-                xml.tag!("sphinx:attr", args)
-            end
-         end 
-
-          resources = if instance_methods.include?("upload_session")
-            joins(:upload_session).where(:delta => delta, :upload_sessions => {:is_complete => true})
-          else
-            where(:delta => delta)
-          end
-
-          resources.each do |resource|
-            # TODO: check whether sphinx:document id needs to be unique
-            xml.tag!("sphinx:document", :id => resource.id) do
-              #tmp# Sphinx: max 32 fields allowed
-              #resource.meta_data.with_labels.each_pair do |key, value|
-              #  xml.tag!(key.parameterize('_'), value)
-              #end
-              xml.tag!("meta_data", resource.meta_data.concatenated)
-              
-              self::TS_FIELDS.each do |field|
-                xml.tag!(field, resource.send(field))
-              end
-              
-              self::TS_ATTRIBUTE_DEFINITIONS.each do |attr|
-                a = attr.first
-                next if a == 'sphinx_deleted'
-                v = resource.send(a)
-                next if v.blank?
-                xml.tag!(a, adjust_attr_value_for_sphinx(v))
-              end
-
-            end
-          end
-        end
-
-      puts xml.target!
-    end
-  
-    def base.adjust_attr_value_for_sphinx(val)
-      case val
-        when ActiveSupport::TimeWithZone
-          val.to_i
-        when String
-          val.to_crc32
-        else # Integer
-          val
-      end
-    end
+    base.has_one :full_text, :as => :resource, :dependent => :destroy
+    base.after_save { reindex } # OPTIMIZE
   end
 
   def default_permission
@@ -262,9 +184,7 @@ module Resource
         core_info[key.gsub(' ', '_')] = meta_data.get_value_for(key)
       end
       mf = if self.is_a?(Media::Set)
-        # OPTIMIZE
-        ids = self.media_entry_ids & current_user.accessible_resource_ids
-        self.media_entries.where(:id => ids.first).first.try(:media_file)
+        MediaResource.accessible_by_user(current_user).by_media_set(self).first.try(:media_file)
       else
         self.media_file
       end
@@ -293,6 +213,17 @@ module Resource
   
 ########################################################
 
+  def as_json(options={})
+    user = options[:user]
+    flags = { :is_private => acl?(:view, :only, user),
+              :is_public => acl?(:view, :all),
+              :is_editable => Permission.authorized?(user, :edit, self),
+              :is_manageable => Permission.authorized?(user, :manage, self) }
+    self.attributes.merge(self.get_basic_info(user)).merge(flags)
+  end
+
+########################################################
+
   def self.to_tms_doc(resources, context = MetaContext.tms)
     xml = Builder::XmlMarkup.new
     xml.instruct!
@@ -304,14 +235,14 @@ module Resource
   end
   
 ########################################################
-### For Sphinx  
-  
-  def sphinx_internal_id
-    id
-  end
 
-  def class_crc
-    self.class.base_class.to_crc32 #old#.to_s
+  def reindex
+    ft = full_text || build_full_text
+    new_text = meta_data.concatenated
+    [:user].each do |field|
+      new_text << " #{send(field)}"
+    end
+    ft.update_attributes(:text => new_text)
   end
 
 ########################################################
@@ -385,6 +316,13 @@ module Resource
         Permission.resource_viewable_only_by_user?(self, subject)
     end
   end
+  
+  def managers
+    i = Permission::ACTIONS.index(:manage)
+    return nil unless i
+    j = 2 ** i
+    permissions.where("action_bits & #{j} AND action_mask & #{j}").map(&:subject)
+  end
 
 private
 
@@ -399,7 +337,6 @@ private
       subject = Group.find_or_create_by_name("MIZ-Archiv") # Group.scoped_by_name("MIZ-Archiv").first
     end
 
-    # TODO solve inconsistency between search 'by_user' sphinx_scope and the actual permissions
     # TODO validates presence of the owner's permissions?
     if subject
      user_default_permissions = {:view => true, :edit => true, :manage => true}

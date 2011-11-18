@@ -13,7 +13,7 @@ class UsersController < ApplicationController
 
   def show
     # TODO refactor from ApplicationController#root
-    redirect_to user_media_entries_path(params[:id])
+    redirect_to user_resources_path(params[:id])
   end
 
 #####################################################

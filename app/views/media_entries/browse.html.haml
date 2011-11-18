@@ -47,7 +47,7 @@
             c = media_entries.count
             next if c.zero?
             nothing_found = false
-            media_entries_data = Logic.data_for(media_entries, current_user)
+            media_entries_data = media_entries.as_json({:user => current_user})
           %li
             %a.toggler{:href => "#"}
               .browse_key

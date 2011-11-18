@@ -36,20 +36,24 @@ class Person < ActiveRecord::Base
 
 #######################################
 
-  define_index do
-    indexes :firstname
-    indexes :lastname #, :sortable => true
-    indexes :pseudonym
+=begin #tmp#
+  has_one :full_text, :as => :resource, :dependent => :destroy
+  after_save { reindex }
 
-    #TODO has user(:id), :as => :user_id
-
-    set_property :delta => true # :delayed
+  def reindex
+    ft = full_text || build_full_text
+    new_text = "#{firstname} #{lastname} #{pseudonym}"
+    ft.update_attributes(:text => new_text)
   end
-  #tmp#thinking-sphinx 2.0.4#
-  include ThinkingSphinx::ActiveRecord::Delta
+=end
 
-  default_sphinx_scope :default_search
-  sphinx_scope(:default_search) { { :star => true } }
+  def self.search(s)
+    w = s.split.map do |q|
+      "firstname LIKE '%#{q}%' OR lastname LIKE '%#{q}%' OR pseudonym LIKE '%#{q}%'"
+    end
+    where(w.join(' OR '))
+  end
+  
 
 #######################################
 

@@ -53,11 +53,6 @@ namespace :madek do
       Rake::Task["log:clear"].invoke
       Rake::Task["db:migrate:reset"].invoke
       
-      Rake::Task["thinking_sphinx:stop"].invoke if sphinx_running?
-      Rake::Task["thinking_sphinx:reindex"].invoke # Reindex Sphinx without regenerating the configuration file
-      Rake::Task["thinking_sphinx:start"].invoke
-#temp#sphinx# system "rake ts:dd > /dev/null &"
-
       Rake::Task["madek:init"].invoke
   end
 

@@ -61,25 +61,31 @@ module MetaDataHelper
           haml_tag :p, preserve(formatted_value(meta_datum))
         end
       end
-      haml_tag :h4, "Erstellt von/am"
+      haml_tag :h4, _("Erstellt von/am")
       haml_tag :p, formatted_value(uploader_info.first) + " / " + formatted_value(uploader_info.last)
+      haml_tag :h4, _("Verwaltet durch")
+      haml_tag :p, formatted_value_for_people(resource.managers)
     end
+  end
+
+  def formatted_value_for_people(people)
+    s = people.map do |p|
+      next unless p
+      #temp# link_to p, p
+      link_to p, resources_path(:query => p.fullname)
+    end
+    s.join('<br />').html_safe
   end
 
   # TODO merge with MetaDatum#to_s
   def formatted_value(meta_datum)
     case meta_datum.meta_key.object_type
       when "Person"
-        s = Array(meta_datum.deserialized_value).map do |p|
-          next unless p
-          #temp# link_to p, p
-          link_to p, search_path(:query => p.fullname)
-        end
-        s.join('<br />').html_safe
+        formatted_value_for_people(Array(meta_datum.deserialized_value))
       when "Keyword"
         s = Array(meta_datum.deserialized_value).map do |v|
           next unless v
-          link_to v, search_path(:query => v.to_s)
+          link_to v, resources_path(:query => v.to_s)
         end
         s.join(', ').html_safe
       when "Meta::Date"
@@ -88,7 +94,7 @@ module MetaDataHelper
         _("%s Uhr") % meta_datum.deserialized_value.to_formatted_s(:date_time)
       when "Meta::Term"
         meta_datum.deserialized_value.map do |dv|
-          link_to dv, filter_search_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :method => :post, :remote => true, :"data-meta_term_id" => dv.id
+          link_to dv, filter_resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :method => :post, :"data-meta_term_id" => dv.id #old# , :remote => true
         end.join(' ')
       else
         s = meta_datum.to_s

@@ -115,7 +115,8 @@ class Admin::MetaController < Admin::AdminController
           ActiveRecord::Base.connection.rollback_db_transaction
           @buffer << "--- The import has been aborted with rollback ---"
         else
-          @buffer << `rake ts:reindex`
+          # Sphinx is not needed anymore
+          #@buffer << `rake ts:reindex`
           @buffer << "--- Import completed successfully ---"
         end
         

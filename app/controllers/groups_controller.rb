@@ -11,7 +11,7 @@ class GroupsController < ApplicationController
         @groups = current_user.groups
       }
       format.js {
-        # OPTIMIZE index groups to sphinx ??
+        # OPTIMIZE index groups to fulltext ??
         groups = Group.where("name LIKE :term OR ldap_name LIKE :term", {:term => "%#{params[:term]}%"})
         render :json => groups.map {|x| {:id => x.id, :value => x.to_s} }
       }

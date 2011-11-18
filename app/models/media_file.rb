@@ -450,13 +450,6 @@ class MediaFile < ActiveRecord::Base
     r.map {|x| x.map{|y| y.to_s.dup.force_encoding('utf-8') } }
   end
   
-  def orientation
-    if content_type =~ /image/ and width and height
-      # for Sphinx indexing of orientation as attributes: 0 = horizontal, 1 = vertical
-      (width > height) ? 0 : 1
-    end
-  end
-  
   private
 
 

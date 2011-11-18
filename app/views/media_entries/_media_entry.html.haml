@@ -30,6 +30,7 @@
                     %h4
                       = definition.meta_field.label.to_s
                     = render :partial => "meta_data/show", :locals => { :meta_datum => meta_datum, :resource => media_entry, :context => context }
+                = render :partial => "media_entries/browsing"
                 
           #tab-permission.clearfix.tab-hide
             .tab-content
@@ -52,7 +53,7 @@
                   %td
                     = _("Hochgeladen von")
                   %td
-                    = link_to media_entry.user, media_entries_path(:query => media_entry.user.fullname)
+                    = link_to media_entry.user, resources_path(:query => media_entry.user.fullname)
                 %tr
                   %td
                     = _("Hochgeladen am") 
@@ -153,6 +154,7 @@
   #additional-metadata
     #detail_specification
       %ul
+        -# TODO check permissions for individual contexts (through media_sets)
         - (MetaContext.defaults + media_entry.individual_contexts).collect do |meta_context|
           %li
             = display_meta_data_for(media_entry, meta_context)

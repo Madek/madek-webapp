@@ -1068,18 +1068,19 @@ ul li { float: left; }
 	font-size: 0.9em;
 	line-height: 1.15em;
 	max-height: 30px;
+	padding-bottom: 2px;
 	color: black;
 }
 
 .item_author {
 	font-size: 0.7em;
 	line-height: 1.1em;
-	max-height: 20px;
-	margin-top: 5px;
+	height: 23px;
 	display: block;
 }
 
 .item_title, .item_author {
+  cursor: default;
   overflow: hidden;
   letter-spacing: 0.1ex;
   padding-left: 1px;
@@ -2436,6 +2437,7 @@ form#set_media_sets input[type="submit"] {
 .upload_buttons {
 	background: white;
 	color: #333;
+	cursor: pointer;
 	font-weight: bold;
 	text-align: center;
 	text-shadow: 0 1px 0 #fff;
@@ -2457,7 +2459,7 @@ form#set_media_sets input[type="submit"] {
 	text-shadow: 0 1px 0 #FFFFFF;
 	letter-spacing: 0;
 	text-decoration: none;
-	float: right;
+  float: right;
 	
 	&:hover {
 	  text-decoration: none;
@@ -2470,6 +2472,51 @@ form#set_media_sets input[type="submit"] {
 }
 
 #upload-container {
+  
+  .upload_step_1 {
+    
+    #upload_form {
+      position: relative;
+      
+      label {
+        display: inline-block;
+        overflow: hidden;
+        position: relative;
+        
+        .upload_buttons {
+          cursor: pointer !important;
+          float: none;
+          position: relative;
+          margin: 0 !important;
+          display: inline-block;
+        }
+        
+        &:hover .upload_buttons {
+          text-decoration: none;
+          background: #e3e3e3;
+        }
+        
+        input[type='file'] {
+          -moz-transform: translate(-203px, 0) scaleX(2);
+          cursor: pointer !important;
+          display: block;
+          font-size: 1.5em;
+          position: absolute;
+          top: 0;
+          right: 0;
+          filter: alpha(opacity=0); // IE5-7
+          -moz-opacity: 0; // NETSCAPE & MOZILLA
+          -khtml-opacity: 0; // OLD SAFARI
+          opacity: 0; // THE REST
+        }
+      }      
+    }
+    
+    p {
+      margin-top: 13px;
+    }    
+  }
+  
 	a {
 	  text-decoration: underline;
 	}

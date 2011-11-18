@@ -1,14 +1,41 @@
-%section#content_body
-  - if params[:query]
+-# OPTIMIZE merge content_body_result css to content_body
+%section{:id => params[:query].blank? ? "content_body" : "content_body_result"}
+
+  - if request.fullpath =~ /favorites/
+    .page_title_left
+      %img{:src => "/assets/icons/icon_favorites.png"}
+      =_("Meine Favoriten")
+    .clear
+    
+  - unless params[:query].blank?
     .page_title_left
       =_("Suchergebnisse")
       #term
         = "für “#{params[:query]}”"
     .clear 
+    .filter_area
+       
   = render :partial => "media_entries/batch_bar"
   #results
 
 :javascript
   $(document).ready(function () {
-    display_results(#{@json});
+    setupBatch(#{@resources.to_json});
+
+    if(!#{params[:query].blank?}){
+      var filter_area = $("#content_body_result .filter_area");
+      $.ajax({
+        url: "#{filter_resources_path}",
+        type: 'GET',
+        dataType: 'html',
+        data: {query: "#{params[:query]}"},
+        beforeSend: function(){
+          filter_area.html("Loading...");
+        },
+        complete: function(response){
+          filter_area.html(response.responseText);
+        }
+      });
+    }
+
   });

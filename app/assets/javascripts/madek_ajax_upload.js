@@ -109,6 +109,7 @@ function append_to_queue(element){
 		append_to_table(element.files[i]);
 	}
 	element.value = "";
+	$(element).closest("form").each(function(){this.reset();});
 	update_totals();
 	return;
 }

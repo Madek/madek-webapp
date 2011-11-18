@@ -9,4 +9,5 @@
  *= require jquery.tools
  *= require ../../../vendor/assets/javascripts/jquery/qtip/jquery.qtip.min.css
  *= require master
+ *= require video-js
 */

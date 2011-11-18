@@ -18,38 +18,38 @@ Given /^the main page links to it$/ do
 end
 
 Then /^I should see the "([^"]*)" wiki page$/ do |name|
-  Then 'I should be on the "' + name + '" wiki page'
+  step 'I should be on the "' + name + '" wiki page'
   page.body.should =~ /wiki_content/
 end
 
 Then /^I should see the wiki front page$/ do
-  Then 'I should be on the wiki'
+  step 'I should be on the wiki'
   page.body.should =~ /wiki_content/
 end
 
 Then /^I should see the media entry$/ do
-  Then 'I should see "' + @media_entry.title + '"'
+  step 'I should see "' + @media_entry.title + '"'
 end
 
 Given "there is a media entry" do
   # TODO: this doesn't work correctly yet. Only execute it once, since
   #       the upload step takes too much time
   unless @media_entry = MediaEntry.last
-    When 'I upload some picture titled "baustelle osten"'
+    step 'I upload some picture titled "baustelle osten"'
     @media_entry = MediaEntry.last # TODO: sorry, ugly
   end
 end
 
 When /^I add a line "([^"]*)" to the wiki front page and save$/ do |text|
-  When "I go to the wiki"
-  When 'I follow "Edit"'
-  When 'I fill in "page_content" with "' + text + '"'
-  When 'I press "Save page"'
+  step "I go to the wiki"
+  step 'I follow "Edit"'
+  step 'I fill in "page_content" with "' + text + '"'
+  step 'I press "Save page"'
 end
 
 When /^I add a link "([^"]*)" to it on the wiki front page and save$/ do |text|
   text = text.sub("xxx", @media_entry.id.to_s)
-  When 'I add a line "' + text + '" to the wiki front page and save'
+  step 'I add a line "' + text + '" to the wiki front page and save'
 end
 
 Then /^I should see the media entry (\d+)$/ do |arg1|
@@ -61,7 +61,7 @@ Given /^"([^"]*)" is an admin$/ do |name|
 end
 
 Then /^I should see a message that I'm not allowed to do that$/ do
-  Then 'I should see "You are not allowed to be here"'
+  step 'I should see "You are not allowed to be here"'
 end
 
 Then /^I should see a "([^"]*)" link on the page$/ do |text|
@@ -75,8 +75,8 @@ Then 'there should be an image with title "$title"' do |title|
 end
 
 Then 'I should land on the newly to be created "$name" page' do |name|
-  Then 'I should see "There is no such page. Do you want to"'
-  Then 'I should see a "create it" link on the page'
+  step 'I should see "There is no such page. Do you want to"'
+  step 'I should see a "create it" link on the page'
 end
 
 Then "show me the debugger" do

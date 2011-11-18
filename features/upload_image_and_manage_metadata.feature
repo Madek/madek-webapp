@@ -33,7 +33,6 @@ Feature: Upload images and manage media entries based on images
      And I fill in the set title with "Mauerstücke"
      And I press "Hinzufügen"
      And I press "Zu ausgewähltem Set/Projekt hinzufügen…"
-     And Sphinx is forced to reindex
      And I go to the home page
      Then I should see "berlin wall for a set"
 
@@ -52,7 +51,6 @@ Feature: Upload images and manage media entries based on images
      |Copyright|Kohl, Helmut                        |
      And I press "Metadaten speichern und weiter…"
      And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
-     And Sphinx is forced to reindex
      And I go to the home page
      And I click the media entry titled "A beautiful piece of the Berl"
      And I follow "Zugriffsberechtigung"
@@ -72,7 +70,6 @@ Feature: Upload images and manage media entries based on images
       And the user with username "helmi" is member of the group "Mauerfäller"
       And the user with username "gorbi" is member of the group "Mauerfäller"
       And I log in as "helmi" with password "saumagen"
-      And Sphinx is forced to reindex
       And I go to the home page
       And I follow "Hochladen"
       And I follow "Basic Uploader"
@@ -86,7 +83,6 @@ Feature: Upload images and manage media entries based on images
       |Copyright|Kohl, Helmut                     |
       And I press "Metadaten speichern und weiter…"
       And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
-      And Sphinx is forced to reindex
       And I go to the home page
       And I click the media entry titled "A second piece of the Berlin"
       And I follow "Zugriffsberechtigung"
@@ -129,7 +125,6 @@ Feature: Upload images and manage media entries based on images
      And I click the media entry titled "geheimsache"
      And I follow "Zugriffsberechtigung"
      And I remove "view" permission from "everybody"
-     And Sphinx is forced to reindex
      And I log in as "raissa" with password "novodevichy"
      And I go to the home page
     Then I should not see "geheimsache"
@@ -245,7 +240,6 @@ Feature: Upload images and manage media entries based on images
      And I press "Einstellungen speichern und weiter…"
      And I press "Metadaten speichern und weiter…"
      And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
-     And Sphinx is forced to reindex
      And I go to the home page
      And I click the media entry titled "Grumpy Cat"
     Then I should see "30.05.2011"
@@ -262,7 +256,6 @@ Feature: Upload images and manage media entries based on images
      And I press "Einstellungen speichern und weiter…"
      And I press "Metadaten speichern und weiter…"
      And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
-     And Sphinx is forced to reindex
      And I go to the home page
      And I click the media entry titled "Frau-Sein"
     # The below stuff would better be done with a Cucumber table, so you can do e.g.:
@@ -287,7 +280,6 @@ Feature: Upload images and manage media entries based on images
      And I press "Einstellungen speichern und weiter…"
      And I press "Metadaten speichern und weiter…"
      And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
-     And Sphinx is forced to reindex
      And I go to the home page
      And I click the media entry titled "Frau-Sein"
     # The below stuff would better be done with a Cucumber table, so you can do e.g.:

@@ -17,7 +17,7 @@
     %li.seperator.edit
     %li#batch-add-to-set.action_btn
       = form_tag add_member_media_set_url(@media_set || 1) do
-        - editable_sets = Media::Set.accessible_by(current_user, :edit)
+        - editable_sets = MediaResource.accessible_by_user(current_user, :edit).media_sets
         = select_tag "media_set_id", options_for_select([["Set/Projekt auswählen…", ""]] + editable_sets.collect {|set| [set.title_and_user, set.id]})
         = submit_tag "Zu Set/Projekt hinzufügen"
     - if @can_edit_set

@@ -20,13 +20,13 @@ Feature: Batch edit media entries
      And I add the picture "Picture Three" to the set "Set One" owned by "Kohl, Helmut"
      And I go to the media entries
      And I click the media entry titled "Picture One"
-     And I follow "Set One"
+     And I choose the set "Set One" from the media entry
      And I check the media entry titled "Picture One"
      And I check the media entry titled "Picture Two"
      And I press "Aus Set/Projekt entfernen"
      And I go to the media entries
      And I click the media entry titled "Picture Three"
-     And I follow "Set One"
+     And I choose the set "Set One" from the media entry
     Then I should not see "Picture One"
      And I should not see "Picture Two"
 
@@ -38,9 +38,10 @@ Feature: Batch edit media entries
      And I add the picture "Picture Two" to the set "Batch Retitle Set" owned by "Kohl, Helmut"
      And I go to the media entries
      And I click the media entry titled "Picture One"
-     And I follow "Batch Retitle Set"
+     And I choose the set "Batch Retitle Set" from the media entry
      And I check the media entry titled "Picture One"
      And I check the media entry titled "Picture Two"
+     And I wait for 2 seconds
      And all the hidden items become visible
      And I press "Metadaten editieren"
      And I wait for 2 seconds
@@ -50,7 +51,6 @@ Feature: Batch edit media entries
      And I press "Speichern"
      Then I should see "Die Änderungen wurden gespeichert."
      And I should see "We are all individuals"
-    When Sphinx is forced to reindex
      And I go to the media entries
      And I click the media entry titled "We are all individuals"
      Then I should see "We are all individuals"
