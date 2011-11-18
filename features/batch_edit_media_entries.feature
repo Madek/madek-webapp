@@ -41,7 +41,7 @@ Feature: Batch edit media entries
      And I choose the set "Batch Retitle Set" from the media entry
      And I check the media entry titled "Picture One"
      And I check the media entry titled "Picture Two"
-     And I wait for 20 seconds
+     And I wait for 2 seconds
      And all the hidden items become visible
      And I press "Metadaten editieren"
      And I fill in the metadata form as follows:

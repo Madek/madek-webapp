@@ -11,6 +11,10 @@ Feature: Use the search filters on my search results
   Scenario: A simple search, no filtering, that should return a result
     When I log in as "evil" with password "books"
      And I upload some picture titled "The Necronomicon"
+     And I upload some picture titled "Filler Picture so the silly MySQL full-text search works"
+     And I upload some picture titled "Filler Picture so the silly MySQL full-text search works"
+     And I upload some picture titled "Filler Picture so the silly MySQL full-text search works"
+     And I upload some picture titled "Filler Picture so the silly MySQL full-text search works"
      And I fill in "query" with "necronomicon"
      And I press "Suchen"
     Then I should see "The Necronomicon"
@@ -35,6 +39,7 @@ Feature: Use the search filters on my search results
      |Schlagworte zu Inhalt und Motiv|raimi|
      |Schlagworte zu Inhalt und Motiv|dead|
      And I press "Speichern"
+
      And I upload some picture titled "Klaatu Barata Nicto"
      And I click the arrow next to "Librarian, Evil"
      And I follow "Meine Medien"
@@ -48,6 +53,38 @@ Feature: Use the search filters on my search results
      |Schlagworte zu Inhalt und Motiv|common words|
      |Schlagworte zu Inhalt und Motiv|raimi|
      And I press "Speichern"
+
+     And I upload some picture titled "Not being found 1"
+     And I click the arrow next to "Librarian, Evil"
+     And I follow "Meine Medien"
+     And all the hidden items become visible
+     And I click the edit icon on the media entry titled "Not being found 1"
+     And I fill in the metadata form as follows:
+     |label                          |value|
+     |Schlagworte zu Inhalt und Motiv|evil|
+     And I press "Speichern"
+
+     And I upload some picture titled "Not being found 2"
+     And I click the arrow next to "Librarian, Evil"
+     And I follow "Meine Medien"
+     And all the hidden items become visible
+     And I click the edit icon on the media entry titled "Not being found 2"
+     And I fill in the metadata form as follows:
+     |label                          |value|
+     |Schlagworte zu Inhalt und Motiv|evil|
+     And I press "Speichern"
+
+     And I upload some picture titled "Not being found 3"
+     And I click the arrow next to "Librarian, Evil"
+     And I follow "Meine Medien"
+     And all the hidden items become visible
+     And I click the edit icon on the media entry titled "Not being found 3"
+     And I fill in the metadata form as follows:
+     |label                          |value|
+     |Schlagworte zu Inhalt und Motiv|evil|
+     And I press "Speichern"
+
+
      And I fill in "query" with "common"
      And I press "Suchen"
     Then the search results should contain "The Necronomicon"
@@ -95,6 +132,38 @@ Feature: Use the search filters on my search results
      |Schlagworte zu Inhalt und Motiv|not bad|
      |Schlagworte zu Inhalt und Motiv|common words|
      And I press "Speichern"
+
+     And I upload some picture titled "Not to be found 1"
+     And I click the arrow next to "Librarian, Evil"
+     And I follow "Meine Medien"
+     And all the hidden items become visible
+     And I click the edit icon on the media entry titled "Not to be found 1"
+     And I fill in the metadata form as follows:
+     |label                          |value|
+     |Schlagworte zu Inhalt und Motiv|good|
+     And I press "Speichern"
+
+     And I upload some picture titled "Not to be found 2"
+     And I click the arrow next to "Librarian, Evil"
+     And I follow "Meine Medien"
+     And all the hidden items become visible
+     And I click the edit icon on the media entry titled "Not to be found 2"
+     And I fill in the metadata form as follows:
+     |label                          |value|
+     |Schlagworte zu Inhalt und Motiv|good|
+     And I press "Speichern"
+
+     And I upload some picture titled "Not to be found 3"
+     And I click the arrow next to "Librarian, Evil"
+     And I follow "Meine Medien"
+     And all the hidden items become visible
+     And I click the edit icon on the media entry titled "Not to be found 3"
+     And I fill in the metadata form as follows:
+     |label                          |value|
+     |Schlagworte zu Inhalt und Motiv|good|
+     And I press "Speichern"
+
+
      And I fill in "query" with "evil"
      And I press "Suchen"
     Then the search results should contain "Pure Evil"
