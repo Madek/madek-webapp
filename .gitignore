@@ -10,7 +10,7 @@
 config/*.conf
 config/*.conf_with_pipe
 config/LDAP.yml
-config/database.yml
+/config/database.yml
 config/definitions/metadata/ExifTool_config.pl
 config/sphinx.yml
 config/sphinx.yml.tpo
