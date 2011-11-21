@@ -48,11 +48,14 @@ class MediaResource < ActiveRecord::Base
 
   scope :search, lambda {|q|
     sql = joins("LEFT JOIN full_texts ON (media_resources.id, #{media_resources_type}) = (full_texts.resource_id, full_texts.resource_type)")
-    if q.size > 3
-      sql.where("MATCH (text) AGAINST (?)", q)
-    else
-      sql.where("text LIKE ?", "%#{q}%")
-    end
+    #with fulltext index#
+    #if q.size > 3
+    #  sql.where("MATCH (text) AGAINST (?)", q)
+    #else
+    #  sql.where("text LIKE ?", "%#{q}%")
+    #end
+    w = q.split.map{|x| "text LIKE '%#{x}%'" }.join(' AND ')
+    sql.where(w)
   }
 
   ################################################################

@@ -1,6 +1,6 @@
 class CreateFullTexts < ActiveRecord::Migration
   def up
-    create_table(:full_texts, :options => "ENGINE=MyISAM") do |t|
+    create_table(:full_texts) do |t| #with fulltext index# , :options => "ENGINE=MyISAM"
       t.belongs_to  :resource, :polymorphic => true
       t.text        :text
     end
@@ -11,7 +11,8 @@ class CreateFullTexts < ActiveRecord::Migration
     
     MediaResource.reindex
     
-    execute "ALTER TABLE full_texts ADD FULLTEXT INDEX (text);"
+    #with fulltext index#
+    # execute "ALTER TABLE full_texts ADD FULLTEXT INDEX (text);"
   end
 
   def down

@@ -55,7 +55,6 @@ ActiveRecord::Schema.define(:version => 20111114110109) do
   end
 
   add_index "full_texts", ["resource_id", "resource_type"], :name => "index_full_texts_on_resource_id_and_resource_type", :unique => true
-  add_index "full_texts", ["text"], :name => "text"
 
   create_table "groups", :force => true do |t|
     t.string "name"
