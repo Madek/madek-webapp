@@ -5,7 +5,6 @@ Name Refactoring
 This file contains suggestions for renaming things.
 
 
-
 Person
 -------
 
