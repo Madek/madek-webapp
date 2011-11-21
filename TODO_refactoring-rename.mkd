@@ -1,0 +1,20 @@
+
+Name Refactoring
+=================
+
+This file contains suggestions for renaming things.
+
+
+
+Person
+-------
+
+### deathdate
+
+* reason: is not an English word
+* suggestion:  date_of_death
+
+### birthdate
+
+* suggestion: date_of_birth
+
