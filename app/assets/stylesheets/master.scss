@@ -784,6 +784,11 @@ ul li { float: left; }
   max-height: 80%;
   overflow-y: auto;
   z-index: 1001;
+  
+  &.loading {
+    padding: 5px;
+    width: 238px;
+  }
 }
 
 .result_area { float:left; }
