@@ -8,7 +8,7 @@ require "bundler/capistrano"
 set :application, "madek"
 
 set :scm, :git
-set :repository, "git://github.com/psy-q/madek.git"
+set :repository, "git://github.com/zhdk/madek.git"
 set :branch, "master"
 set :deploy_via, :remote_cache
 
