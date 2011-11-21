@@ -127,16 +127,6 @@ ActiveRecord::Schema.define(:version => 20111114110109) do
 
   add_index "media_projects_meta_contexts", ["media_project_id", "meta_context_id"], :name => "index_on_projects_and_contexts", :unique => true
 
-  create_table "media_resources", :id => false, :force => true do |t|
-    t.integer  "id",                :default => 0,  :null => false
-    t.string   "type",              :default => "", :null => false
-    t.integer  "user_id"
-    t.integer  "upload_session_id"
-    t.integer  "media_file_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "media_set_links", :force => true do |t|
     t.integer "ancestor_id"
     t.integer "descendant_id"
@@ -175,7 +165,7 @@ ActiveRecord::Schema.define(:version => 20111114110109) do
   end
 
   add_index "meta_data", ["meta_key_id"], :name => "index_meta_data_on_meta_key_id"
-  add_index "meta_data", ["resource_id", "resource_type", "meta_key_id"], :name => "index_meta_data_on_resource_id_and_resource_type_and_meta_key_id", :unique => true
+  add_index "meta_data", ["resource_id", "resource_type", "meta_key_id"], :name => "id_type_key_idx_on_meta_data", :unique => true
 
   create_table "meta_key_definitions", :force => true do |t|
     t.integer  "meta_context_id"

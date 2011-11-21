@@ -7,10 +7,9 @@ class CreateMetaData < ActiveRecord::Migration
       t.text        :value # serialized
     end
     change_table  :meta_data do |t|
-      t.index [:resource_id, :resource_type, :meta_key_id], :unique => true
+      t.index [:resource_id, :resource_type, :meta_key_id], :name => "id_type_key_idx_on_meta_data", :unique => true
       t.index :meta_key_id
     end
-    
   end
   
   def self.down
