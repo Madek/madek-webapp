@@ -6,6 +6,7 @@ gem 'builder', '~> 3.0'
 gem 'i18n' # Need this explicitly, otherwise can't deploy
 
 gem 'mysql2', '~> 0.3.8'  
+gem 'pg'
 #tmp# gem 'memcache-client' #gem 'dalli' #gem 'redis-store'
 
 #tmp# dependency for linecache
@@ -47,9 +48,15 @@ gem 'irwi', :git => 'git://github.com/alno/irwi.git', :ref => 'b78694'
 gem 'RedCloth'
 
 group :test, :development do
-  #gem 'ruby-debug19', '~> 0.11.6', :require => 'ruby-debug'
-  #gem 'ruby-debug-completion'
+  gem 'autotest'
+  gem 'factory_girl', "~> 2.1.0"
+  gem 'factory_girl_rails', "~> 1.2"
+  gem 'faker'
   gem 'pry'
+  gem 'rspec-rails'
+  gem 'watchr'
+  gem 'wirble'
+  gem 'statsample'
 end
 
 group :development do
@@ -60,13 +67,13 @@ group :development do
 end
 
 group :test do
+  gem 'capybara', '~> 1.1'
   gem 'cucumber'#, '~> 1.0.3'
   gem 'cucumber-rails'#, '~> 1.0.2'
-  gem 'capybara', '~> 1.1'
-  gem 'selenium-webdriver', '~> 2.12'
   gem 'database_cleaner'
-  gem 'rspec-rails'
-  gem 'spork'
   gem 'launchy'  
+  gem 'rspec-rails'
+  gem 'selenium-webdriver', '~> 2.12'
   gem 'simplecov' # for Ruby 1.8.x:  gem 'rcov'
+  gem 'spork'
 end
