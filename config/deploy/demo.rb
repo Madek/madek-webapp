@@ -1,4 +1,10 @@
 # -*- encoding : utf-8 -*-
+$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
+require "rvm/capistrano"                  # Load RVM's capistrano plugin.
+set :rvm_ruby_string, '1.9.2'        # Or whatever env you want it to run in.
+
+require "bundler/capistrano"
+
 set :application, "madek"
 
 set :scm, :git
@@ -16,14 +22,6 @@ set :rails_env, "production"
 
 set :deploy_to, "/home/rails/madek-demo"
 
-# DB credentials needed by Sphinx, mysqldump etc.
-set :sql_database, "rails_madek_demo"
-set :sql_host, "db.zhdk.ch"
-set :sql_username, "madekdemo"
-set :sql_password, "m4d3m0dm30d"
-
-
-
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
 # set :scm, :subversion
@@ -31,6 +29,16 @@ set :sql_password, "m4d3m0dm30d"
 role :app, "madek-demo@madek-server.zhdk.ch"
 role :web, "madek-demo@madek-server.zhdk.ch"
 role :db,  "madek-demo@madek-server.zhdk.ch", :primary => true
+
+task :retrieve_db_config do
+  # DB credentials needed by Sphinx, mysqldump etc.
+  get(db_config, "/tmp/madek_db_config.yml")
+  dbconf = YAML::load_file("/tmp/madek_db_config.yml")["production"]
+  set :sql_database, dbconf['database']
+  set :sql_host, dbconf['host']
+  set :sql_username, dbconf['username']
+  set :sql_password, dbconf['password']
+end
 
 task :link_config do
   on_rollback { run "rm #{release_path}/config/database.yml" }
@@ -64,8 +72,6 @@ namespace :deploy do
 
 end
 
-
-
 task :link_attachments do
   run "rm -rf #{release_path}/db/media_files/production/attachments"
   run "rm -rf #{release_path}/doc/Testbilder"
@@ -88,7 +94,6 @@ task :configure_environment do
 end
 
 task :configure_sphinx do
-  #run "cd #{release_path} && rake ts:conf"
  run "cp #{release_path}/config/production.sphinx.conf_with_pipe #{release_path}/config/production.sphinx.conf"
 
  run "sed -i 's/listen = 127.0.0.1:3312/listen = 127.0.0.1:3352/' #{release_path}/config/production.sphinx.conf" 
@@ -133,12 +138,8 @@ task :load_seed_data do
     run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:seed"
 end
 
-task :install_gems do
-  run "cd #{release_path} && bundle install --deployment --without test development"
-end
-
 task :stop_sphinx do
- run "cd #{previous_release} && RAILS_ENV='production' bundle exec rake ts:stop"
+ run "cd #{release_path} && RAILS_ENV='production' bundle exec rake ts:stop"
 end
 
 task :start_sphinx do
@@ -157,19 +158,22 @@ task :clear_cache do
   run "cd #{release_path} && RAILS_ENV=production bundle exec rails runner 'Rails.cache.clear'"
 end
 
-
-
+before "deploy", "retrieve_db_config"
 before "deploy:symlink", :make_tmp
+
 after "deploy:symlink", :link_config
-before "configure_sphinx", :link_sphinx
-after "deploy:symlink", :configure_sphinx
-after "deploy:symlink", :configure_environment
 after "deploy:symlink", :link_attachments
-after "deploy:symlink", :record_deploy_info
-after "deploy:symlink", :migrate_database
-before "migrate_database", :install_gems
-after "migrate_database", :load_seed_data
+after "deploy:symlink", :configure_environment
+after "deploy:symlink", :record_deploy_info 
+after "deploy:symlink", :stop_sphinx
+
+after "link_config", :migrate_database
+after "migrate_database", :configure_sphinx
 after "migrate_database", :clear_cache
-after "install_gems", :stop_sphinx
+
+after "deploy:restart", :stop_sphinx
+before "stop_sphinx", :link_sphinx
+
 after "deploy", :start_sphinx
+after "deploy:cold", :start_sphinx
 after "deploy", "deploy:cleanup"

@@ -9,7 +9,7 @@ Feature: Do things to and with sets and projects
 
 
   # This test makes sure that the titles we give are actually saved and also displayed/cached properly
-  @javascript @work
+  @javascript
   Scenario: Upload an image, then go to the detail page and add it to a set
     When I log in as "helmi" with password "saumagen"
      And I go to the home page
@@ -40,7 +40,7 @@ Feature: Do things to and with sets and projects
     Then I should see "After-Upload Set"
      And I should not see "Ohne Titel"
 
- @javascript
+ @javascript @work
   Scenario: Rename a set
     When I log in as "helmi" with password "saumagen"
      And I go to the home page
@@ -79,7 +79,7 @@ Feature: Do things to and with sets and projects
 
 
 
-  @javascript @broken
+  @javascript
   Scenario: Use a URL in a set description and expect it to turn into a link
     When I log in as "helmi" with password "saumagen"
      And I go to the home page
