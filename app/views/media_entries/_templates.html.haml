@@ -45,8 +45,11 @@
       .thumb_box
         %img{:src => "${thumb_base64}"}
     {{/if}}
-    %p.item_title
-      ${title.substring(0,50)}
+    %p.item_title{:title => "${title}"} 
+      ${title.substring(0,34)}
+      {{if title.length > 34}}
+      = "..."
+      {{/if}}
     %p.item_author{:title => "${author}"} 
       ${author.substring(0,42)}
       {{if author.length > 42}}
