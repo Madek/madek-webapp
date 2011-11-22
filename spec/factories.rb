@@ -11,4 +11,9 @@ FactoryGirl.define do
     login {email}
   end
 
+  factory :group do
+    name {Faker::Name.last_name}
+  end
+
+
 end
