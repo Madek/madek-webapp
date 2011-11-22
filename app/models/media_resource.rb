@@ -39,9 +39,22 @@ class MediaResource < ActiveRecord::Base
   ################################################################
 
   scope :by_media_set, lambda {|media_set|
-    media_entries.
-    joins("INNER JOIN media_entries_media_sets ON media_resources.id = media_entries_media_sets.media_entry_id").
-    where(:media_entries_media_sets => {:media_set_id => media_set})
+    #tmp#
+    #SELECT `media_resources`.* FROM `media_resources`
+    #left JOIN media_entries_media_sets ON media_resources.id = media_entries_media_sets.media_entry_id and `media_entries_media_sets`.`media_set_id` = 347
+    #inner JOIN `media_set_links` ON media_resources.id = `media_set_links`.`descendant_id` and `media_set_links`.`ancestor_id` = 347 AND `media_set_links`.`direct` = 1;
+
+    #old#
+    #joins("INNER JOIN media_entries_media_sets ON media_resources.id = media_entries_media_sets.media_entry_id").
+    #where(:media_entries_media_sets => {:media_set_id => media_set})
+
+    where("(media_resources.id, #{media_resources_type}) IN " \
+            "(SELECT media_entry_id AS id, 'MediaEntry' AS type FROM media_entries_media_sets " \
+              "WHERE media_set_id = ? " \
+            "UNION " \
+              "SELECT descendant_id AS id, 'Media::Set' AS type FROM media_set_links " \
+                "WHERE ancestor_id = ? AND direct = 1)",
+          media_set.id, media_set.id);
   }
 
   ################################################################

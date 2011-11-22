@@ -238,24 +238,5 @@
         set_media_entries_json(JSON.stringify(media_entries_json));
       };
     })
-    
-    // OPTIMIZE Action Bar
-    $("a[panel]").click(function(){
-      to_open = !$(this).hasClass("active");
-  
-      $("a.active[panel]").each(function () {
-        $(this).removeClass("active");
-        $(this).css("background", "");
-        $("div#"+$(this).attr("panel")+"-panel").slideUp("slow");
-      });
-  
-      if(to_open){
-        $(this).addClass("active");
-        $(this).css("background", "transparent url('/assets/icons/arrow-up-04.png') 50% bottom no-repeat");
-        $("div#"+$(this).attr("panel")+"-panel").slideDown("slow");
-      }
-      
-      return false;
-    });
   
   });
