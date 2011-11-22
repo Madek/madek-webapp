@@ -55,6 +55,7 @@ Feature: Use the search filters on my search results
      And the search results should contain "Klaatu Barata Nicto"
      When I filter by "nasty" in "Schlagworte"
      And I press "Filter anwenden"
+     And I wait for 4 seconds
     Then the search results should not contain "The Necronomicon"
      And the search results should contain "Klaatu Barata Nicto"
 
