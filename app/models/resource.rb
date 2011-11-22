@@ -184,7 +184,7 @@ module Resource
         core_info[key.gsub(' ', '_')] = meta_data.get_value_for(key)
       end
       mf = if self.is_a?(Media::Set)
-        MediaResource.accessible_by_user(current_user).by_media_set(self).first.try(:media_file)
+        MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).first.try(:media_file)
       else
         self.media_file
       end

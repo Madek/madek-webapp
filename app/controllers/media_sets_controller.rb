@@ -54,7 +54,7 @@ class MediaSetsController < ApplicationController
 
   # TODO only for media_project
   def abstract
-    @_media_entry_ids = MediaResource.accessible_by_user(current_user).by_media_set(@media_set).map(&:id)
+    @_media_entry_ids = MediaResource.accessible_by_user(current_user).media_entries.by_media_set(@media_set).map(&:id)
     respond_to do |format|
       format.js { render :layout => false }
     end
@@ -137,6 +137,19 @@ class MediaSetsController < ApplicationController
     end
   end
 
+  # TODO merge with media_entries_controller#media_sets ?? OR merge to parent using the inverse nesting ??
+  def parent
+    if request.post?
+      Media::Set.find_by_id_or_create_by_title(params[:media_set_ids], current_user).each do |media_set|
+        next unless Permission.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
+        media_set.children << @media_set
+      end
+      redirect_to @media_set
+    elsif request.delete?
+      # TODO
+    end
+  end
+
 #####################################################
 
   private
@@ -146,7 +159,7 @@ class MediaSetsController < ApplicationController
     case action
 #      when :new
 #        action = :create
-      when :show, :browse, :abstract
+      when :show, :browse, :abstract, :parent
         action = :view
       when :edit, :update, :add_member
         action = :edit

@@ -15,7 +15,7 @@ module MediaSetsHelper
         haml_tag :br
         if total_thumbs > 0
           haml_tag :br
-          media_entries = MediaResource.accessible_by_user(current_user).by_media_set(media_set).paginate(:page => 1, :per_page => total_thumbs)
+          media_entries = MediaResource.accessible_by_user(current_user).media_entries.by_media_set(media_set).paginate(:page => 1, :per_page => total_thumbs)
           if media_entries.empty?
             haml_tag :small, _("Noch keine Medieneinträge enthalten")
           else
