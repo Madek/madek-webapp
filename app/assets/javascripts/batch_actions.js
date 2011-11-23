@@ -137,7 +137,13 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 	if(json != undefined) display_results(json);
     listSelected();
     displayCount();
-	
+
+	// display the task_bar only whether there is something selectable or something is already selected
+	if(get_media_entries_json().length == 0 && $(".item_box").has(".check_box").length == 0){
+		$('.task_bar').hide();
+		return false;
+	}
+
 	// when remove from set is hovered we only want to highlight those media_entries that are part of the current set
 	if(media_set_id && media_entry_ids_in_set){
 		var media_entry_ids = get_selected_media_entry_ids();
