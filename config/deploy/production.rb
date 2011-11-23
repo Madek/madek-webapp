@@ -41,11 +41,11 @@ role :db,  "madek@madek-server.zhdk.ch", :primary => true
 
 task :link_config do
   on_rollback { run "rm #{release_path}/config/database.yml" }
-  run "rm #{release_path}/config/database.yml"
+  run "rm -f #{release_path}/config/database.yml"
   run "ln -s #{db_config} #{release_path}/config/database.yml"
   run "ln -s #{ldap_config} #{release_path}/config/LDAP.yml"
 
-  run "rm #{release_path}/config/zencoder.yml"
+  run "rm -f #{release_path}/config/zencoder.yml"
   run "ln -s #{zencoder_config} #{release_path}/config/zencoder.yml"
 end
 
@@ -171,6 +171,4 @@ after "deploy:symlink", :migrate_database
 after "deploy:symlink", :record_deploy_info
 after "migrate_database", :load_seed_data
 after "migrate_database", :clear_cache
-after "migrate_database", :stop_sphinx
-after "deploy", :start_sphinx
 after "deploy", "deploy:cleanup"
