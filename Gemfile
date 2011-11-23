@@ -49,14 +49,15 @@ gem 'RedCloth'
 
 group :test, :development do
   gem 'autotest'
+  gem 'database_cleaner'
   gem 'factory_girl', "~> 2.1.0"
   gem 'factory_girl_rails', "~> 1.2"
   gem 'faker'
   gem 'pry'
   gem 'rspec-rails'
+  gem 'statsample'
   gem 'watchr'
   gem 'wirble'
-  gem 'statsample'
 end
 
 group :development do
@@ -70,7 +71,6 @@ group :test do
   gem 'capybara', '~> 1.1'
   gem 'cucumber'#, '~> 1.0.3'
   gem 'cucumber-rails'#, '~> 1.0.2'
-  gem 'database_cleaner'
   gem 'launchy'  
   gem 'rspec-rails'
   gem 'selenium-webdriver', '~> 2.12'

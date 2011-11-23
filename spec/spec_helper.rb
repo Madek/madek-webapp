@@ -32,10 +32,11 @@ end
 RSpec.configure do |config|
 
   config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation, {:except => %w[meta_keys meta_contexts meta_terms meta_keys_meta_terms meta_key_definitions meta_departments usage_terms]}
+    #DatabaseCleaner.strategy = :truncation, {:except => %w[meta_keys meta_contexts meta_terms meta_keys_meta_terms meta_key_definitions meta_departments usage_terms]}
+    DatabaseCleaner.strategy = :transaction
 
     # Truncate everything before the first steps run
-    DatabaseCleaner.clean
+    #DatabaseCleaner.clean
   end
 
   config.before(:each) do
