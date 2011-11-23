@@ -32,14 +32,14 @@ default: &default
 
 development: 
   <<: *default
-  database: madek-sql_dev
+  database: madek_dev
 
 test: 
   <<: *default
-  database: madek-sql_test
+  database: madek_test
 
 production:
   <<: *default
-  database: madek-sql_prod
+  database: madek_prod
 
 

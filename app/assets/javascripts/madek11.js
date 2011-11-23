@@ -20,6 +20,22 @@ $(document).ready(function () {
 							arrowPicA: "/assets/icons/arrow_select.png",
 							arrowPicH: "/assets/icons/arrow_hover.png" });
 
+    // OPTIMIZE Action Bar for media_entry and media_set templates
+    $("a[panel]").click(function(){
+      to_open = !$(this).hasClass("active");
+      $("a.active[panel]").each(function () {
+        $(this).removeClass("active");
+        $(this).css("background", "");
+        $("div#"+$(this).attr("panel")+"-panel").slideUp("slow");
+      });
+      if(to_open){
+        $(this).addClass("active");
+        $(this).css("background", "transparent url('/assets/icons/arrow-up-04.png') 50% bottom no-repeat");
+        $("div#"+$(this).attr("panel")+"-panel").slideDown("slow");
+      }
+      return false;
+    });
+
 });
 
 /*

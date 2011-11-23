@@ -132,6 +132,8 @@ MAdeK::Application.routes.draw do
     member do
       get :browse
       get :abstract
+      post :parent
+      delete :parent
     end
     
     resources :media_sets #-# only used for FeaturedSet 
