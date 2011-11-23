@@ -166,7 +166,8 @@ module MetaDataHelper
     case meta_key.object_type.constantize.name
       when "Meta::Department"
         selected = Array(meta_datum.object.value)
-        all_options = Meta::Department.all.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)} }
+        departments_without_semester = Meta::Department.where("ldap_name NOT REGEXP '_[0-9]{2}[A-Za-z]\.studierende'")
+        all_options = departments_without_semester.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)} }
       when "Meta::Term"
         selected = Array(meta_datum.object.value)
         all_options = meta_key.meta_terms.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}
