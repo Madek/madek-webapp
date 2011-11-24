@@ -94,7 +94,8 @@ module MetaDataHelper
         _("%s Uhr") % meta_datum.deserialized_value.to_formatted_s(:date_time)
       when "Meta::Term"
         meta_datum.deserialized_value.map do |dv|
-          link_to dv, filter_resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :method => :post, :"data-meta_term_id" => dv.id #old# , :remote => true
+          #old# link_to dv, filter_resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :method => :post, :"data-meta_term_id" => dv.id #old# , :remote => true
+          link_to dv, resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :"data-meta_term_id" => dv.id
         end.join(' ')
       else
         s = meta_datum.to_s

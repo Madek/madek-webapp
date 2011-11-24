@@ -14,6 +14,13 @@ class ResourcesController < ApplicationController
     resources = resources.search(params[:query]) unless params[:query].blank?
     resources = resources.paginate(:page => params[:page], :per_page => params[:per_page].to_i)
 
+    if params[:meta_key_id] and params[:meta_term_id]
+      meta_key = MetaKey.find(params[:meta_key_id])
+      meta_term = meta_key.meta_terms.find(params[:meta_term_id])
+      media_entry_ids = meta_term.meta_data(meta_key).select{|md| md.resource_type == "MediaEntry"}.collect(&:resource_id)
+      resources = resources.media_entries.where(:id => media_entry_ids)
+    end
+
     @resources = { :pagination => { :current_page => resources.current_page,
                                    :per_page => resources.per_page,
                                    :total_entries => resources.total_entries,
