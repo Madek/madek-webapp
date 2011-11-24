@@ -7,6 +7,19 @@
       =_("Meine Favoriten")
     .clear
     
+  - if request.fullpath =~ /resources/
+    .page_title_left
+      -if params[:type].blank? || params[:type] == "media_entries"
+        .icon_me
+        =_("Meine Medieneinträge")
+      -elsif params[:type] == "sets"
+        .icon_set
+        =_("Meine Sets")
+      -elsif params[:type] == "projects"
+        .icon_project
+        =_("Meine Projekte")
+    .clear
+    
   - unless params[:query].blank?
     .page_title_left
       =_("Suchergebnisse")
