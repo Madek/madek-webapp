@@ -3,14 +3,10 @@ module SearchHelper
   def display_meta_data_checkboxes(resource_ids, type)
     resources = type.constantize.find(resource_ids) # TODO ?? include(:meta_data)
 
-    meta_key_labels = [ ["keywords", "Schlagworte"], # TODO get german title through definitions: meta_key = MetaKey.where(:label => label).first, etc...
-                        ["type", "Gattung"],
-                        ["academic year", "Studienjahr"],
-                        ["project type", "Projekttyp"],
-                        ["institutional affiliation", "Bereich ZHdK"] ]
+    meta_key_labels = ["keywords", "type", "academic year", "project type", "institutional affiliation"]
 
     capture_haml do
-      meta_key_labels.each do |label, title|
+      meta_key_labels.each do |label|
         meta_terms_h = {}
         resources.each do |r|
           terms = case label
@@ -34,6 +30,7 @@ module SearchHelper
         all_words = meta_terms_h.sort {|a,b| [b[1].count, a[0].to_s] <=> [a[1].count, b[0].to_s] }
 
         unless all_words.empty?
+          title = MetaKey.where(:label => label).first.first_context_label # OPTIMIZE
           haml_tag :h3, :class => "filter_category clearfix" do
             haml_concat link_to title, "#", :class => "filter_category_link"
             haml_tag :span, "", :class => "ui-icon ui-icon-triangle-1-e"
