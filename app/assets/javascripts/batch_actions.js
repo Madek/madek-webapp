@@ -175,6 +175,10 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 		var id = $(this).attr("rel");
 		$(this).remove();
 		toggleSelected(id);
+		// display the task_bar only whether there is something selectable or something is already selected
+    if(get_media_entries_json().length == 0 && $(".item_box").has(".check_box").length == 0){
+      $('.task_bar').hide();
+    }
     });
 
     $(".check_box").live("click", function(){
@@ -287,8 +291,7 @@ function displayCount() {
 	if (count_checked) {
 		$('#selected_items').show();
 		$('.task_bar .action_btn').show();
-		$('.task_bar .seperator:first').show();
-	    if (count_checked > 1) {
+    if (count_checked > 1) {
 			display_count.html(count_checked + " Medieneinträge ausgewählt");
 		}else{
 	        display_count.html("1 Medieneintrag ausgewählt");
@@ -303,7 +306,13 @@ function displayCount() {
 	if($('#selected_items .edit').length){ $("#batch-edit").show(); }else{ $("#batch-edit").hide(); }
 	if($('#selected_items .manage').length){ $("#batch-permissions").show(); }else{ $("#batch-permissions").hide(); }
 	if($("#batch-edit:visible").length || $("#batch-permissions:visible").length) { $(".task_bar .seperator.edit").show(); }else{ $(".task_bar .seperator.edit").hide(); }
-	//if($('#selected_items .thumb_mini').length){ $("#batch-add-to-set").show(); }else{ $("#batch-add-to-set").hide(); }
+	if($('#selected_items .thumb_mini').length){ 
+	  $("#batch-add-to-set").show(); 
+	  if($("#batch-select-all:visible").length) $('.task_bar .seperator:first').show(); 
+	} else { 
+	  $("#batch-add-to-set").hide(); 
+	  if($("#batch-select-all:visible").length) $('.task_bar .seperator:first').hide(); 
+	}
 };
 
 function display_page(json, container){
