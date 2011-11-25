@@ -4,7 +4,9 @@ require "metahelper"
 class Admin::MetaController < Admin::AdminController
 
   def import
+    @buffer = []
     if request.post? and params[:uploaded_data]
+      binding.pry
       @buffer = MetaHelper.import_initial_metadata params[:uploaded_data]
     end
   end
