@@ -45,6 +45,7 @@ describe Group do
 
       it "the row in groups_users should be deleted automatically when deleting the user on a database level" do
         @group.users << @user
+
         @group.users(true).should include @user
         SQLHelper.execute_sql "DELETE FROM users WHERE id = #{@user.id};"
         @group.users(true).should_not include @user

@@ -1,6 +1,6 @@
 module MetaHelper 
 
-  def self.import_initial_metadata
+  def self.import_initial_metadata(uploaded_data=nil)
 
     # TODO cleanup and remove from admin meta controller
 
@@ -38,7 +38,8 @@ module MetaHelper
 
         ###################################################
         # core meta import
-        meta = YAML.load(File.read("#{Rails.root}/features/data/minimal_meta.yml"))
+        uploaded_data ||= File.read("#{Rails.root}/features/data/minimal_meta.yml")
+        meta = YAML.load(uploaded_data)
 
         #binding.pry
 
