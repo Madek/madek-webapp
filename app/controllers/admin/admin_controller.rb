@@ -18,8 +18,9 @@ class Admin::AdminController < ApplicationController
       # 159123 => Franco Sellitto
       # 172154 => Olivier Heitz
       # 171014 => Tomas Pospisek
+      # 182749 => Thomas Schank
 #      if [10262, 177619, 10301, 159123, 172154, 171014].include?(current_user.id)
-      if [10262, 177619, 10301, 159123, 172154].include?(current_user.id)
+      if [10262, 177619, 10301, 159123, 172154, 182749].include?(current_user.id)
         required_group.users << current_user
       else
         flash[:error] = "The function you wish to use is only available to admin users"

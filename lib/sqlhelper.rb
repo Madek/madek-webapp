@@ -40,8 +40,7 @@ module SQLHelper
     end
   end
 
-  module ActionBits
 
-  end
+
 
 end
