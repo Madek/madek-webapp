@@ -10,11 +10,11 @@ module SQLHelper
 
 
   def self.adapter_is_mysql?
-    adapter_name == "Mysql2" ? true : false
+    adapter_name == "Mysql2"
   end
 
   def self.adapter_is_postgresql?
-    adapter_name == "PostgreSQL" ? true : false
+    adapter_name == "PostgreSQL"
   end
 
 
@@ -28,6 +28,20 @@ module SQLHelper
     elsif adapter_is_mysql?
       (execute_sql %Q@ SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE table_type = "BASE TABLE" AND TABLE_SCHEMA = "#{database_name}" @).to_a.flatten
     end
+  end
+
+  def self.bitwise_is action,i
+    if SQLHelper.adapter_is_mysql?
+      " #{action} & #{i} "
+    elsif SQLHelper.adapter_is_postgresql?
+      "(#{action} & #{i})>0 "
+    else 
+      raise "unsupported db adapter"
+    end
+  end
+
+  module ActionBits
+
   end
 
 end

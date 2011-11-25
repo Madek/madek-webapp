@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
-include "metahelper"
+require "metahelper"
+
 class Admin::MetaController < Admin::AdminController
 
   def import

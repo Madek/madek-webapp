@@ -179,7 +179,7 @@ class Permission < ActiveRecord::Base
       @i = 2 ** ACTIONS.index(:manage)
       
       def assign_for(resource)
-        resource.permissions.where("action_bits & #{@i} AND action_mask & #{@i}").first.set_actions({:manage => false})
+        resource.permissions.where(" #{SQLHelper.bitwise_is('action_bits',@i)} AND #{SQLHelper.bitwise_is('action_mask',@i)}").first.set_actions({:manage => false})
         h = {:view => true, :edit => true, :manage => true}
         h[:hi_res] = true if resource.is_a?(MediaEntry)
         resource.permissions.find_or_create_by_subject_type_and_subject_id(@subject.class.base_class.name, @subject.id).set_actions(h)
@@ -196,3 +196,4 @@ class Permission < ActiveRecord::Base
 
 
 end
+
