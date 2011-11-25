@@ -1,3 +1,4 @@
+require 'sqlhelper'
 class MediaResource < ActiveRecord::Base
   # it's a VIEW !! refactor to STI ??
 
@@ -120,8 +121,31 @@ class MediaResource < ActiveRecord::Base
   #-# NOTE workaround to manage subclass type
   def self.media_resources_type
     #original# "media_resources.type"
-    "IF(type IN ('Media::Project', 'Media::FeaturedSet'), 'Media::Set', type)" # , 'Media::Collection'
+    if SQLHelper.adapter_is_mysql?
+      "IF(type IN ('Media::Project', 'Media::FeaturedSet'), 'Media::Set', type)" # , 'Media::Collection'
+    elsif SQLHelper.adapter_is_postgresql?
+      "
+      CASE 
+        WHEN (type IN ('Media::Project', 'Media::FeaturedSet'))  THEN  'Media::Set'
+        ELSE type
+      END
+      "
+    else 
+      raise "unsupported db adapter"
+    end
   end
+  
+
+  def self.bitwise_is action,i
+    if SQLHelper.adapter_is_mysql?
+      " #{action} & #{i} "
+    elsif SQLHelper.adapter_is_postgresql?
+      "(#{action} & #{i})>0 "
+    else 
+      raise "unsupported db adapter"
+    end
+  end
+
 
   def self.accessible_by_user(user, action = :view)
     i = 2 ** Permission::ACTIONS.index(action)
@@ -130,13 +154,13 @@ class MediaResource < ActiveRecord::Base
     where("(media_resources.id, #{media_resources_type}) NOT IN " \
             "(SELECT resource_id, resource_type from permissions " \
               "WHERE (subject_type = 'User' AND subject_id = ?) " \
-                "AND NOT action_bits & #{i} AND action_mask & #{i}) " \
+                "AND NOT #{bitwise_is('action_bits',i)} AND #{bitwise_is('action_mask',i)}) " \
           "AND (media_resources.id, #{media_resources_type}) IN " \
             "(SELECT resource_id, resource_type from permissions " \
               "WHERE (subject_type IS NULL " \
                   "OR (subject_type = 'Group' AND subject_id IN (?)) " \
                   "OR (subject_type = 'User' AND subject_id = ?)) " \
-                "AND action_bits & #{i} AND action_mask & #{i})",
+                "AND   #{bitwise_is('action_bits',i)} AND #{bitwise_is('action_mask',i)}) ",
           user.id, user.group_ids, user.id);
   end
   

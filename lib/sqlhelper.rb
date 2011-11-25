@@ -10,11 +10,11 @@ module SQLHelper
 
 
   def self.adapter_is_mysql?
-    adapter_name == "Mysql2" ? true : false
+    adapter_name == "Mysql2"
   end
 
   def self.adapter_is_postgresql?
-    adapter_name == "PostgreSQL" ? true : false
+    adapter_name == "PostgreSQL"
   end
 
 
