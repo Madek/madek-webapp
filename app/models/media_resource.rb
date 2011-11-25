@@ -55,7 +55,7 @@ class MediaResource < ActiveRecord::Base
               "WHERE media_set_id = ? " \
             "UNION " \
               "SELECT descendant_id AS id, 'Media::Set' AS type FROM media_set_links " \
-                "WHERE ancestor_id = ? AND direct = 1)",
+                "WHERE ancestor_id = ? AND direct = true)",
           media_set.id, media_set.id);
   }
 
