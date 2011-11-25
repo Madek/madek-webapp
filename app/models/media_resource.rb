@@ -1,5 +1,6 @@
 require 'sqlhelper'
 class MediaResource < ActiveRecord::Base
+
   # it's a VIEW !! refactor to STI ??
 
   ### only for media_entries
@@ -136,16 +137,6 @@ class MediaResource < ActiveRecord::Base
   end
   
 
-  def self.bitwise_is action,i
-    if SQLHelper.adapter_is_mysql?
-      " #{action} & #{i} "
-    elsif SQLHelper.adapter_is_postgresql?
-      "(#{action} & #{i})>0 "
-    else 
-      raise "unsupported db adapter"
-    end
-  end
-
 
   def self.accessible_by_user(user, action = :view)
     i = 2 ** Permission::ACTIONS.index(action)
@@ -154,13 +145,13 @@ class MediaResource < ActiveRecord::Base
     where("(media_resources.id, #{media_resources_type}) NOT IN " \
             "(SELECT resource_id, resource_type from permissions " \
               "WHERE (subject_type = 'User' AND subject_id = ?) " \
-                "AND NOT #{bitwise_is('action_bits',i)} AND #{bitwise_is('action_mask',i)}) " \
+                "AND NOT #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) " \
           "AND (media_resources.id, #{media_resources_type}) IN " \
             "(SELECT resource_id, resource_type from permissions " \
               "WHERE (subject_type IS NULL " \
                   "OR (subject_type = 'Group' AND subject_id IN (?)) " \
                   "OR (subject_type = 'User' AND subject_id = ?)) " \
-                "AND   #{bitwise_is('action_bits',i)} AND #{bitwise_is('action_mask',i)}) ",
+                "AND   #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) ",
           user.id, user.group_ids, user.id);
   end
   

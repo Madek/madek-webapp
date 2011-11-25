@@ -30,4 +30,18 @@ module SQLHelper
     end
   end
 
+  def self.bitwise_is action,i
+    if SQLHelper.adapter_is_mysql?
+      " #{action} & #{i} "
+    elsif SQLHelper.adapter_is_postgresql?
+      "(#{action} & #{i})>0 "
+    else 
+      raise "unsupported db adapter"
+    end
+  end
+
+  module ActionBits
+
+  end
+
 end
