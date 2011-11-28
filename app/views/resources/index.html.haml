@@ -7,7 +7,7 @@
       =_("Meine Favoriten")
     .clear
     
-  - if request.fullpath =~ /resources/
+  - elsif request.fullpath =~ /resources/ and params[:query].blank?
     .page_title_left
       -if params[:type].blank? || params[:type] == "media_entries"
         .icon_me
@@ -20,7 +20,7 @@
         =_("Meine Projekte")
     .clear
     
-  - unless params[:query].blank?
+  - elsif !params[:query].blank?
     .page_title_left
       =_("Suchergebnisse")
       #term
