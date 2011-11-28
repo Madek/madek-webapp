@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+required 'SQLHelper'
 module MetaDataHelper
 
   def display_meta_data_helper(title, values)

@@ -1,3 +1,4 @@
+require 'SQLHelper'
 class MediaResource < ActiveRecord::Base
 
   # it's a VIEW !! refactor to STI ??
