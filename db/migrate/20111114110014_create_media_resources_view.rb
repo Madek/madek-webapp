@@ -1,5 +1,3 @@
-require 'sqlhelper'
-
 class CreateMediaResourcesView < ActiveRecord::Migration
   def up
     #var#1#

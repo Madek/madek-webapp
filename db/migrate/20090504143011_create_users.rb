@@ -1,5 +1,4 @@
 # -*- encoding : utf-8 -*-
-require 'sqlhelper'
 
 class CreateUsers < ActiveRecord::Migration
   def self.up

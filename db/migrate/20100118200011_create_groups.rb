@@ -1,5 +1,4 @@
 # -*- encoding : utf-8 -*-
-require 'sqlhelper'
 
 class CreateGroups < ActiveRecord::Migration
   def self.up

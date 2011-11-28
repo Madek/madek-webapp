@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'sqlhelper'
 
 describe User do
 

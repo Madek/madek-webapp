@@ -1,5 +1,3 @@
-require 'sqlhelper'
-
 class RefactorMetaTerms < ActiveRecord::Migration
   def self.up
     MetaKey.update_all({:object_type => "Meta::Term"}, {:object_type => "Term"})
