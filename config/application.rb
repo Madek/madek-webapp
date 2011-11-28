@@ -48,7 +48,7 @@ module MAdeK
   end
 end
 
-YAML::ENGINE.yamler= 'syck' # TODO use psyck ??
+YAML::ENGINE.yamler= 'syck' # TODO use psych ??
 
 # Config files here.
 METADATA_CONFIG_DIR = "#{Rails.root}/config/definitions/metadata"

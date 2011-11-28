@@ -94,7 +94,8 @@ module MetaDataHelper
         _("%s Uhr") % meta_datum.deserialized_value.to_formatted_s(:date_time)
       when "Meta::Term"
         meta_datum.deserialized_value.map do |dv|
-          link_to dv, filter_resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :method => :post, :"data-meta_term_id" => dv.id #old# , :remote => true
+          #old# link_to dv, filter_resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :method => :post, :"data-meta_term_id" => dv.id #old# , :remote => true
+          link_to dv, resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :"data-meta_term_id" => dv.id
         end.join(' ')
       else
         s = meta_datum.to_s
@@ -178,7 +179,14 @@ module MetaDataHelper
       when "Keyword"
         keywords = meta_datum.object.deserialized_value
         meta_term_ids = keywords.collect(&:meta_term_id)
-        all_grouped_keywords = Keyword.group(:meta_term_id)
+        all_grouped_keywords = 
+          if SQLHelper.adapter_is_mysql?
+            Keyword.group(:meta_term_id)
+          elsif SQLHelper.adapter_is_postgresql?
+            Keyword.select "DISTINCT ON (meta_term_id) * "
+          else
+            raise "adapter is not supported"
+          end
         all_grouped_keywords = all_grouped_keywords.where(["meta_term_id NOT IN (?)", meta_term_ids]) unless meta_term_ids.empty?
         all_options = keywords.collect {|x| {:label => x.to_s, :id => x.meta_term_id, :selected => true}}
         all_options += all_grouped_keywords.collect {|x| {:label => x.to_s, :id => x.meta_term_id, :selected => false}}

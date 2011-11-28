@@ -11,8 +11,8 @@
         content: {
           text: 'Loading...',
           ajax: {
-             url: that.attr('href'),
-             type: that.data('method'),
+             url: that.attr('href').replace("/resources", "/resources/filter"),
+             type: 'POST',
              dataType: 'json',
              success: function(json, status) {
                var container = $("<div id='' style='max-height: 200px; overflow: auto;'></div>");
@@ -37,7 +37,7 @@
            width: 500
         }
       });
-    }).click(function() { return false; });
+    });
   }
   
   $(function() {

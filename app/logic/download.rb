@@ -62,8 +62,12 @@ class Download
               zos.print IO.read(path)
               zos.put_next_entry("#{filename}.xml")
               zos.print @media_entry.to_xml(:include => {:meta_data => {:include => :meta_key}} )
-              zos.put_next_entry("#{filename}.yml")
-              zos.print @media_entry.to_yaml(:include => {:include => :meta_key} )
+              
+              # FIXME yaml not working properly anymore!
+              # YAML::ENGINE.yamler='psych'
+              # zos.put_next_entry("#{filename}.yml")
+              # zos.print @media_entry.to_yaml(:include => {:meta_data => {:include => :meta_key}} )
+              # YAML::ENGINE.yamler='syck'
             end
 
             if path
