@@ -1,13 +1,19 @@
 # -*- encoding : utf-8 -*-
 class UsersController < ApplicationController
 
+  # only used for jquery-autocomplete ?? 
   def index
-    # OPTIMIZE add :user_id to Person#define_index and search :with => :user_id
-    people = Person.search(params[:term]).select {|p| p.user }
+    people = Person.search(params[:term])
+    users = people.map(&:user).compact
+    
+    if params[:group_id]
+      group = Group.find(params[:group_id])
+      users -= group.users
+    end
     
     respond_to do |format|
       format.html
-      format.js { render :json => people.map {|x| {:id => x.user.id, :value => x.to_s} } }
+      format.js { render :json => users.map {|x| {:id => x.id, :value => x.to_s} } }
     end
   end
 
