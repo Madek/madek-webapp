@@ -3,35 +3,44 @@
   =_("Meine Sets")
 .clear
 
-= button_tag(:id => "new_button", :style => "float: left;") do
+= button_tag(:id => "new_button", :class => "new_set", :style => "float: left;") do
   = _("Neues Set erstellen")
-  
-%section#page_head_newset.clearfix
-  .grid_12
+
+#page_head_newset.new_set
+  #set_meta
     #set_info
       %div.item_box_set
         %div.thumb_box_set
-    #set_meta
-      %small
-        &nbsp;
-      %h5
-        = _("Neues Set erstellen")
-      - context = MetaContext.media_set
-      - media_set = current_user.media_sets.build # (:type => "Media::Set")
-      = form_for [current_user, media_set] do |f|
-        %table.label
-          = f.fields_for :meta_data, media_set.meta_data.get("title") do |meta_datum|
-            - definition = meta_datum.object.meta_key.meta_key_definitions.for_context(context)
-            %tr
-              %td
-                %p
-                  = "#{definition.meta_field.label}:"
-              %td{:style => "float: left;"}
-                = field_tag(meta_datum, context)
-              %td{:style => "float: left;"}
-                = f.submit _("Erstellen")
+    %small
+    - context = MetaContext.media_set
+    - media_set = current_user.media_sets.build # (:type => "Media::Set")
+    = form_for [current_user, media_set] do |f|
+      = f.fields_for :meta_data, media_set.meta_data.get("title") do |meta_datum|
+        - definition = meta_datum.object.meta_key.meta_key_definitions.for_context(context)
+        = field_tag(meta_datum, context)
+        .hint= definition.meta_field.label
+        = f.submit _("Erstellen")
 
 - if @resources[:entries].any?
   #results
 - else 
   = _("Keine Sets vorhanden")
+  
+:javascript
+  
+  $(function(){
+    $("#page_head_newset.new_set").css("display", "inline-block").hide();
+    $("#page_head_newset.new_set input[type=text]").attr("autocomplete", "off");
+  
+    $("#new_button.new_set").live("click",function(){
+      if($("#results")) {
+        $("#results > .page > .item_box:first").before($("#page_head_newset.new_set"));
+        $("#page_head_newset.new_set").fadeIn("slow");
+        $("#page_head_newset.new_set input[type=text]").val("").focus();
+      }
+    });
+    
+    $("#page_head_newset.new_set input[type=text]").live("keydown", function() {
+      $(this).next(".hint").hide();
+    });
+  });
