@@ -841,22 +841,26 @@ ul li { float: left; }
   #filter-query ul li { padding: 0 0 5px 22px; text-indent: -22px; float: none; font-size: 0.8em; letter-spacing: 0.1ex; line-height: 1em; }
   #filter-query .filter_content { background-color: rgba(255, 255, 255, 0.8); color: #424242; max-height: 222px; overflow-x: hidden; overflow-y: auto; border-bottom: 1px solid #5f5f5f; }
   input[type="checkbox"] { margin: 0 5px 0 0; }
-  .filter_footer { text-align: right; padding: 15px;}
-  .filter_footer p {margin: 8px 0 0;}
-  .filter_footer input[type="submit"] {
-    font-weight: bold;
-    font-size: 0.9em;
-  	padding: 8px 10px;
-  	text-align: center;
-  	border: 1px solid black;
-  	-moz-border-radius: 3px;
-  	-webkit-border-radius: 3px;
-  	border-radius: 3px;
-  	background: #323232;
-  	color: white;
-  }
-  .filter_footer input[type="submit"]:hover {
-  	background: black;
+  .filter_footer {
+  	text-align: right; padding: 15px;
+  	p {
+  		margin: 8px 0 0;
+  	}
+	input[type="submit"], button  {
+		font-weight: bold;
+		font-size: 0.9em;
+		padding: 8px 10px;
+		text-align: center;
+		border: 1px solid black;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		background: #323232;
+		color: white;
+		&:hover {
+			background: black;
+		}
+	}
   }
 }
 .filter_box h3:hover {
