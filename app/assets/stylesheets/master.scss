@@ -629,7 +629,7 @@ ul li { float: left; }
 /**************************************************  Content  */
 
 #content_body, #content_body_set, #content_body_fav {
-	width:960px;
+	width:90%;
 	padding: 20px 20px 10px 20px;
 	min-width: 920px;
 	margin-left:auto;
@@ -2298,10 +2298,11 @@ form#set_media_sets span {
 
 #new_button {
 	font-weight: bold;
-	position: absolute;
-	right: 22px;
 	padding: 3px 10px;
-	top: 8px;
+	position: absolute;
+	top: 36px;
+	left: 420px;
+	margin: 0 auto;
 	text-align: center;
 	text-shadow: 0 1px 0 #fff;
 	border: 1px solid #d6d6d6;
@@ -2312,9 +2313,6 @@ form#set_media_sets span {
 	-moz-box-shadow: 0 0 1px 1px #eaeaea;
 	-webkit-box-shadow: 0 0 1px 1px #eaeaea;
 	box-shadow: 0 0 1px 1px #eaeaea;
-	margin-right: 10px;
-	margin-top: 15px;
-	float: left;
 	
 	&:hover {
 	  background: #EEE;
