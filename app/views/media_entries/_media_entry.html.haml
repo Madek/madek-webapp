@@ -149,62 +149,75 @@
               = _("Bitte anmelden.")
         .clear
     
+
+:ruby
+  meta_data = []
+  # TODO check permissions for individual contexts (through media_sets)
+  (MetaContext.defaults + media_entry.individual_contexts).collect do |meta_context|
+    meta_data << display_meta_data_for(media_entry, meta_context)
+  end
+  meta_data << display_objective_meta_data_for(media_entry)
+  if false #media_entry.media_file.meta_data and media_entry.media_file.meta_data["GPS:GPSLatitude"] and media_entry.media_file.meta_data["GPS:GPSLongitude"]
+    meta_data << (link_to _("Karte"), [:map, media_entry])
+  end
+  if is_expert
+    meta_context = MetaContext.tms
+    meta_data << display_meta_data_for(media_entry, meta_context)
+  end
+  
+  meta_data_output = [[],[],[],[]]
+  meta_data.each_slice(4) do |slice|
+    slice.each_with_index do |entry, index|
+      meta_data_output[index] << entry
+    end
+  end
                   
 %section#content_body_set
   #additional-metadata
     #detail_specification
-      %ul
-        -# TODO check permissions for individual contexts (through media_sets)
-        - (MetaContext.defaults + media_entry.individual_contexts).collect do |meta_context|
-          %li
-            = display_meta_data_for(media_entry, meta_context)
-        %li
-          = display_objective_meta_data_for(media_entry)
-         
-        - if false #media_entry.media_file.meta_data and media_entry.media_file.meta_data["GPS:GPSLatitude"] and media_entry.media_file.meta_data["GPS:GPSLongitude"]
-          %li
-            =# link_to _("Karte"), [:map, media_entry]
-        - if is_expert
-          - meta_context = MetaContext.tms
-          %li
-            = display_meta_data_for(media_entry, meta_context)
+      %ul.first
+        -meta_data_output[0].each do |entry|
+          %li= entry
+      %ul.second
+        -meta_data_output[1].each do |entry|
+          %li= entry
+      %ul.third
+        -meta_data_output[2].each do |entry|
+          %li= entry
+      %ul.fourth
+        -meta_data_output[3].each do |entry|
+          %li= entry
+    
 
 :javascript
   $(document).ready(function () {
   
+    /* FIXME: Remove me completly later on
     $(".scrollable").each(function(){
-      
       // enable the jquery tools scrollable plugin only on elements wich are higher then their content
-      
       if($(this).find(".items").height() > $(this).height()) {
-        
         $(this).scrollable({ vertical: true, mousewheel: true }); 
-        
-         // disable the next button when the last seeked element whas the last element in the list
-      
+        // disable the next button when the last seeked element whas the last element in the list
         $(this).bind("onSeek", function() {
           if(parseInt($(this).find(".items").height())+parseInt($(this).find(".items").css("top")) <= $(this).height()) {
             $(this).parent().find(".next").addClass("disabled");
           }
         });
-        
         // stops the plugin from scrolling when the last element is visible already
-         
          $(this).bind("onBeforeSeek", function(event, index) {
-        
+         
           if(parseInt($(this).find(".items").height())+parseInt($(this).find(".items").css("top")) <= $(this).height()) {
-            
             // only prevent from scrolling if the direction is forward
             if(index > $(this).data("scrollable").getIndex()) {
               return false;
             }
           }
         });
-
       } else {
         $(this).parent().find(".next").addClass("disabled");
       }
     });
+    */
     
     $("ul.tab-nav a").click(function(event) {
       var that = $(this);
