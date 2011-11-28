@@ -1,4 +1,4 @@
-require 'sqlhelper'
+require 'SQLHelper'
 
 class RefactorMetaTerms < ActiveRecord::Migration
   def self.up

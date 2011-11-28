@@ -1,4 +1,4 @@
-require 'sqlhelper'
+require 'SQLHelper'
 
 class CreateMediaResourcesView < ActiveRecord::Migration
   def up

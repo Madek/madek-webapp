@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'sqlhelper'
 
 describe MediaEntry do
 
@@ -7,7 +6,4 @@ describe MediaEntry do
     (FactoryGirl.create :media_entry).should_not == nil
   end
 
-
 end
-
-

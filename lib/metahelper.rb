@@ -1,5 +1,3 @@
-require 'SQLHelper'
-
 module MetaHelper 
 
   def self.import_initial_metadata(uploaded_data=nil)

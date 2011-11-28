@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
-require 'sqlhelper'
-
+require 'SQLHelper'
 module Resource
 
   
