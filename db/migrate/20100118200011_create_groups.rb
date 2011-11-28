@@ -1,6 +1,4 @@
 # -*- encoding : utf-8 -*-
-require Rails.root + 'lib/sql_helper'
-
 class CreateGroups < ActiveRecord::Migration
   def self.up
     create_table :groups do |t|

@@ -1,5 +1,4 @@
 # -*- encoding : utf-8 -*-
-require Rails.root + 'lib/sql_helper'
 module Resource
 
   
