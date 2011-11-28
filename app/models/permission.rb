@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-require 'SQLHelper'
+require Rails.root + 'lib/sql_helper'
 class Permission < ActiveRecord::Base
   
   ACTIONS = [:view, :edit, :hi_res, :manage] # view = 2^0 = 1; edit = 2^1 = 2; hi_res = 2^2 = 4; manage = 2^3 = 8

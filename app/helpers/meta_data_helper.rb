@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-required 'SQLHelper'
+require Rails.root + 'lib/sql_helper'
 module MetaDataHelper
 
   def display_meta_data_helper(title, values)

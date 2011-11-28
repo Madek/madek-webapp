@@ -1,6 +1,8 @@
 require 'digest'
 require 'action_controller'
 
+
+
 namespace :madek do
 
 
@@ -42,14 +44,32 @@ namespace :madek do
 # CONSTANTS used here are in environment.rb
   desc "Reset"
   task :reset => :environment  do |t,args|
-      system "rm -rf #{FILE_STORAGE_DIR}/* #{THUMBNAIL_STORAGE_DIR}/*"
-
-      [ '0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f' ].each do |h|
-        system "mkdir -p #{FILE_STORAGE_DIR}/#{h} #{THUMBNAIL_STORAGE_DIR}/#{h}"
+    
+      def rm_and_mkdir(path)
+        puts "Removing #{path}"
+        system "rm -rf #{path}"
+        puts "Creating #{path}"
+        system "mkdir -p #{path}"
       end
-      system "rm -rf #{TEMP_STORAGE_DIR} #{DOWNLOAD_STORAGE_DIR} #{ZIP_STORAGE_DIR}"
-      system "mkdir -p #{TEMP_STORAGE_DIR} #{DOWNLOAD_STORAGE_DIR} #{ZIP_STORAGE_DIR}"
-
+    
+      # If any of the paths are either nil or set to ""...
+      if [FILE_STORAGE_DIR, THUMBNAIL_STORAGE_DIR, TEMP_STORAGE_DIR, DOWNLOAD_STORAGE_DIR, ZIP_STORAGE_DIR].map{|path| path.to_s}.uniq == ""
+        puts "DANGER, EXITING: The file storage paths are not defined! You need to define FILE_STORAGE_DIR, THUMBNAIL_STORAGE_DIR, TEMP_STORAGE_DIR, DOWNLOAD_STORAGE_DIR, ZIP_STORAGE_DIR in your config/application.rb"
+        exit        
+      else
+        if (File.exist?(FILE_STORAGE_DIR) and File.exist?(THUMBNAIL_STORAGE_DIR))
+          puts "Deleting #{FILE_STORAGE_DIR} and #{THUMBNAIL_STORAGE_DIR}"
+          system "rm -rf #{FILE_STORAGE_DIR}/* #{THUMBNAIL_STORAGE_DIR}/*"
+          [ '0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f' ].each do |h|
+            puts "Creating #{FILE_STORAGE_DIR}/#{h} and #{THUMBNAIL_STORAGE_DIR}/#{h}"
+            system "mkdir -p #{FILE_STORAGE_DIR}/#{h} #{THUMBNAIL_STORAGE_DIR}/#{h}"
+          end
+        end
+        rm_and_mkdir(TEMP_STORAGE_DIR)
+        rm_and_mkdir(DOWNLOAD_STORAGE_DIR)
+        rm_and_mkdir(ZIP_STORAGE_DIR)
+      end
+      
       Rake::Task["log:clear"].invoke
       Rake::Task["db:migrate:reset"].invoke
       Rake::Task["madek:init"].invoke
