@@ -1,8 +1,10 @@
 # -*- encoding : utf-8 -*-
-include "metahelper"
+require "metahelper"
+
 class Admin::MetaController < Admin::AdminController
 
   def import
+    @buffer = []
     if request.post? and params[:uploaded_data]
       @buffer = MetaHelper.import_initial_metadata params[:uploaded_data]
     end

@@ -34,6 +34,7 @@ module MetaHelper
           end
         end
 
+        MetaDatum.reset_column_information
         MetaDatum.update_all("meta_key_id = (meta_key_id * -1)")
 
         ###################################################
