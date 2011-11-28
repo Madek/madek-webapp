@@ -57,7 +57,7 @@ namespace :madek do
       # workaround for realoading Models
       ActiveRecord::Base.subclasses.each { |a| a.reset_column_information }
 
-#      Rake::Task["db:seed"].invoke
+      Rake::Task["db:seed"].invoke
       Rake::Task["app:import_initial_metadata"].invoke
 
   end

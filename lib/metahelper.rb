@@ -1,3 +1,5 @@
+require 'SQLHelper'
+
 module MetaHelper 
 
   def self.import_initial_metadata(uploaded_data=nil)
@@ -126,6 +128,13 @@ module MetaHelper
           buffer << "--- Import completed successfully ---"
         end
       end
+
+      SQLHelper.reset_autoinc_sequence_to_max MetaContext
+      SQLHelper.reset_autoinc_sequence_to_max MetaDatum
+      SQLHelper.reset_autoinc_sequence_to_max MetaKey
+      SQLHelper.reset_autoinc_sequence_to_max MetaKeyDefinition
+      SQLHelper.reset_autoinc_sequence_to_max Meta::Term
+
     rescue 
       buffer << $!
     end

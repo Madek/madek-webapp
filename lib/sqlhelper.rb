@@ -40,7 +40,11 @@ module SQLHelper
     end
   end
 
-
+  def self.reset_autoinc_sequence_to_max model
+    if adapter_is_postgresql?
+      execute_sql %Q{ select setval('#{model.table_name}_id_seq',(SELECT max(id) from #{model.table_name})); }
+    end
+  end
 
 
 end
