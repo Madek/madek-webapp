@@ -44,7 +44,12 @@
         });
     
         $("input#new_user").autocomplete({
-          source: "/users",
+          source: function( request, response ) {
+            $.getJSON( "/users", {
+              term: request.term,
+              group_id: #{@group.id}
+            }, response );
+          },
           minLength: 3,
           select: function( event, ui ) {
         		$.ajax({
