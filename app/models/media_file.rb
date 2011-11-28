@@ -122,6 +122,8 @@ class MediaFile < ActiveRecord::Base
     #     end
     #     g
 
+    # We now simply create a random UUID as it took ages to actually use file contents
+    # for this. Also, our file server does deduplication for us, so we don't have to.
     return UUIDTools::UUID.random_create.hexdigest
     
   end
