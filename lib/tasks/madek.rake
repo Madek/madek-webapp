@@ -47,7 +47,7 @@ namespace :madek do
     
       def rm_and_mkdir(path)
         puts "Removing #{path}"
-        system "rm -rf #{path}"
+        system "rm -rf '#{path}'"
         puts "Creating #{path}"
         system "mkdir -p #{path}"
       end
@@ -59,7 +59,7 @@ namespace :madek do
       else
         if (File.exist?(FILE_STORAGE_DIR) and File.exist?(THUMBNAIL_STORAGE_DIR))
           puts "Deleting #{FILE_STORAGE_DIR} and #{THUMBNAIL_STORAGE_DIR}"
-          system "rm -rf #{FILE_STORAGE_DIR}/* #{THUMBNAIL_STORAGE_DIR}/*"
+          system "rm -rf '#{FILE_STORAGE_DIR}' '#{THUMBNAIL_STORAGE_DIR}'"
           [ '0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f' ].each do |h|
             puts "Creating #{FILE_STORAGE_DIR}/#{h} and #{THUMBNAIL_STORAGE_DIR}/#{h}"
             system "mkdir -p #{FILE_STORAGE_DIR}/#{h} #{THUMBNAIL_STORAGE_DIR}/#{h}"
