@@ -21,7 +21,7 @@
           #tab-info.clearfix
             .tab-content
               .detail-image.grid_9.alpha.omega
-                = thumb_for(media_entry, :large)
+                = thumb_for(media_entry, :large).html_safe
               #detail-sidebar.grid_3.omega
                 #detail-excerpt.sidebar-box
                   - context = MetaContext.core
