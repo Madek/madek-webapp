@@ -39,16 +39,16 @@ class Download
             # This isn't video or audio, it's a plain old image
             if (!size.nil? and params['video_thumbnail'].nil? and params['audio_preview'].nil?)
               preview = @media_entry.media_file.get_preview(size)
-              filename = [filename.split('.', 2).first, preview.filename.gsub(@media_entry.media_file.guid, '')].join
               content_type = preview.content_type
+              filename = [filename.split('.', 2).first, preview.filename.gsub(@media_entry.media_file.guid, '')].join
               
             # Video files get a WebM preview file
             elsif !params['video_thumbnail'].nil?
+              content_type = "video/webm"
               preview = @media_entry.media_file.previews.where(:content_type => content_type).last
               if preview.nil?
                 return [404, {"Content-Type" => "text/html"}, ["Preview file not found."]]
               else
-                content_type = "video/webm"
                 filename = preview.filename # The filename going out to the browser
                 path = "#{THUMBNAIL_STORAGE_DIR}/#{@media_entry.media_file.shard}/#{preview.filename}"
                 # this return seems to be handled later on anyhow                
@@ -57,11 +57,11 @@ class Download
               
             # Audio files get an Ogg Vorbis preview file
             elsif !params['audio_preview'].nil?
+              content_type = "audio/ogg"
               preview = @media_entry.media_file.previews.where(:content_type => content_type).last
               if preview.nil?
                 return [404, {"Content-Type" => "text/html"}, ["Preview file not found."]]
               else
-                content_type = "audio/ogg"
                 filename = preview.filename # The filename going out to the browser
                 path = "#{THUMBNAIL_STORAGE_DIR}/#{@media_entry.media_file.shard}/#{preview.filename}"
                 # this return seems to be handled later on anyhow
