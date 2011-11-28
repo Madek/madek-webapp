@@ -1,4 +1,4 @@
-require 'SQLHelper'
+require Rails.root + 'lib/sql_helper'
 class MediaResource < ActiveRecord::Base
 
   # it's a VIEW !! refactor to STI ??
