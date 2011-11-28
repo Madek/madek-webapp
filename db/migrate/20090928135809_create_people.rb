@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+require 'SQLHelper'
 class CreatePeople < ActiveRecord::Migration
   def self.up
 
