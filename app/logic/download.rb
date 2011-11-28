@@ -35,9 +35,7 @@ class Download
             return [500, {"Content-Type" => "text/html"}, ["Sie haben nicht die notwendige Zugriffsberechtigung."]] unless Permission.authorized?(current_user, :view, @media_entry) 
             
             size = params['size'].try(:to_sym)
-            
-            puts ["THIS IS THE REEEEEEEMIXX","-------------------","FOOOOO"]
-            
+                        
             # This isn't video or audio, it's a plain old image
             if (!size.nil? and params['video_thumbnail'].nil? and params['audio_preview'].nil?)
               preview = @media_entry.media_file.get_preview(size)
