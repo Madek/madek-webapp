@@ -10,6 +10,7 @@ Bundler.require(:default, Rails.env) if defined?(Bundler)
 module MAdeK
   class Application < Rails::Application
 
+
     config.active_record.schema_format = :sql
 
     # Settings in config/environments/* take precedence over those specified here.
@@ -18,6 +19,10 @@ module MAdeK
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
+    #
+    Dir["lib/**/*.rb"].each do |path|
+        require_dependency path
+    end
     config.autoload_paths += %W(#{Rails.root}/lib)
 
     # Only load the plugins named here, in the order given (default is alphabetical).
