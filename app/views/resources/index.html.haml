@@ -2,34 +2,20 @@
 %section{:id => params[:query].blank? ? "content_body" : "content_body_result"}
 
   - if request.fullpath =~ /favorites/
-    .page_title_left
-      %img{:src => "/assets/icons/icon_favorites.png"}
-      =_("Meine Favoriten")
-    .clear
+    = render :partial => "favorites"
     
   - elsif request.fullpath =~ /resources/ and params[:query].blank?
-    .page_title_left
-      -if params[:type].blank? || params[:type] == "media_entries"
-        .icon_me
-        =_("Meine Medieneinträge")
-      -elsif params[:type] == "sets"
-        .icon_set
-        =_("Meine Sets")
-      -elsif params[:type] == "projects"
-        .icon_project
-        =_("Meine Projekte")
-    .clear
-    
+    -if params[:type].blank? || params[:type] == "media_entries"
+      = render :partial => "my_entries"    
+    -elsif params[:type] == "sets"
+      = render :partial => "my_sets"  
+    -elsif params[:type] == "projects"
+      = render :partial => "my_projects" 
+
   - elsif !params[:query].blank?
-    .page_title_left
-      =_("Suchergebnisse")
-      #term
-        = "für “#{params[:query]}”"
-    .clear 
-    .filter_area
+    = render :partial => "search"  
        
   = render :partial => "media_entries/batch_bar"
-  #results
 
 :javascript
   $(document).ready(function () {

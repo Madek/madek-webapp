@@ -629,7 +629,7 @@ ul li { float: left; }
 /**************************************************  Content  */
 
 #content_body, #content_body_set, #content_body_fav {
-	width:90%;
+	width:960px;
 	padding: 20px 20px 10px 20px;
 	min-width: 920px;
 	margin-left:auto;
@@ -2296,9 +2296,12 @@ form#set_media_sets span {
 	float: left;
 }
 
-form#set_media_sets #new_button, form#set_media_sets button {
+#new_button {
 	font-weight: bold;
+	position: absolute;
+	right: 22px;
 	padding: 3px 10px;
+	top: 8px;
 	text-align: center;
 	text-shadow: 0 1px 0 #fff;
 	border: 1px solid #d6d6d6;
@@ -2312,6 +2315,10 @@ form#set_media_sets #new_button, form#set_media_sets button {
 	margin-right: 10px;
 	margin-top: 15px;
 	float: left;
+	
+	&:hover {
+	  background: #EEE;
+	}
 }
 
 form#set_media_sets input[type="submit"]:hover {
@@ -3106,25 +3113,36 @@ table.meta_data td {
 
 #additional-metadata {
 	margin-top: 0;
+	width: 960px;
+	
 	ul {
+	  float: left;
+	  display: block;
+	  margin-right: 38px;
+	  width: 210px;
+	  &.fourth {
+	    margin-right: 0;
+	  }
+	  
 		li {
-			width: 220px;
+		  display: inline;
+			width: 210px;
 			font-size: 0.85em;
 			line-height: 1.2em;
 			letter-spacing: 0.05ex;
-			margin-right: 10px;
+			margin-right: 30px;
 			margin-bottom: 15px;
-			height: 500px;
-			overflow: hidden;
-			display: block;
+			
 			h4 {
 				padding: 5px 0 8px 0;
 			}
+			
 			p {
 				color: red;
 			}
 		}
 	}
+	
   .meta_data {
 		.item {
 		  border-bottom: 1px solid #E9E9E9;

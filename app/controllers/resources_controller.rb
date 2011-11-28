@@ -25,8 +25,8 @@ class ResourcesController < ApplicationController
                                    :per_page => resources.per_page,
                                    :total_entries => resources.total_entries,
                                    :total_pages => resources.total_pages },
-                  :entries => resources.as_json(:user => current_user) } 
-
+                  :entries => resources.as_json(:user => current_user) }
+                   
     respond_to do |format|
       format.html
       format.js { render :json => @resources }
