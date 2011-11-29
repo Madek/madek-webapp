@@ -31,5 +31,10 @@ FactoryGirl.define do
     login {email}
   end
 
+  factory :userpermission do
+    user {FactoryGirl.create :user}
+    resource {FactoryGirl.create :media_entry}
+  end
+
 
 end
