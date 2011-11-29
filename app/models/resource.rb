@@ -241,8 +241,8 @@ module Resource
   def reindex
     ft = full_text || build_full_text
     new_text = meta_data.concatenated
-    [:user].each do |field|
-      new_text << " #{send(field)}"
+    [:user].each do |method|
+      new_text << " #{send(method)}" if respond_to?(method)
     end
     ft.update_attributes(:text => new_text)
   end
