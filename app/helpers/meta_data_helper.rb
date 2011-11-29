@@ -278,7 +278,8 @@ module MetaDataHelper
     field_id = "#{sanitize_to_id(meta_datum.object_name)}_value"
     definition = meta_key.meta_key_definitions.for_context(context)
     is_required = (definition.meta_field.is_required ? true : nil)
-    key_id = meta_datum.object.meta_key_id
+    #key_id = meta_datum.object.meta_key_id
+    object_id = meta_datum.object.object_id
 
     if meta_key.object_type == "Meta::Country"
       h += widget_meta_countries(meta_datum, meta_key)
@@ -334,14 +335,14 @@ module MetaDataHelper
           
           h += content_tag :span, :class => "dates" do
             a = content_tag :span, :rel => "at" do
-              b = text_field_tag "datepicker_at_#{key_id}", at, :class => "datepicker", :placeholder => "TT.MM.JJJJ"
-              b += text_field_tag "at_#{key_id}_tiem", at_time, :class => "time", :placeholder => "HH:MM:SS +HH:MM" unless at_time.blank?
+              b = text_field_tag "datepicker_at_#{object_id}", at, :class => "datepicker", :placeholder => "TT.MM.JJJJ"
+              b += text_field_tag "at_#{object_id}_time", at_time, :class => "time", :placeholder => "HH:MM:SS +HH:MM" unless at_time.blank?
               b
             end
             a += content_tag :span, :rel => "from-to" do
-              b = text_field_tag "datepicker_from_#{key_id}", from, :class => "datepicker", :placeholder => "TT.MM.JJJJ"
+              b = text_field_tag "datepicker_from_#{object_id}", from, :class => "datepicker", :placeholder => "TT.MM.JJJJ"
               b += " - "
-              b += text_field_tag "datepicker_to_#{key_id}", to, :class => "datepicker", :placeholder => "TT.MM.JJJJ"
+              b += text_field_tag "datepicker_to_#{object_id}", to, :class => "datepicker", :placeholder => "TT.MM.JJJJ"
             end
             a += content_tag :span, :rel => "freetext" do
               meta_datum.object.value = meta_datum.object.to_s
