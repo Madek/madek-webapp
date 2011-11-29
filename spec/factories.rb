@@ -1,13 +1,23 @@
 # encoding: utf-8
 
-#load Rails.root + "app/models/media_file.rb"
+load Rails.root + "app/models/media_file.rb"
 # TODO somehow the orinal model won't get even loaded
 # mokey_patch the methods dynamically!
-class MediaFile 
+class MediaFile < ActiveRecord::Base
   def assign_access_hash; end
   def validate_file; end
   def store_file; end
 end
+
+load Rails.root + "app/models/media_entry.rb"
+# TODO somehow the orinal model won't get even loaded
+# mokey_patch the methods dynamically!
+class MediaEntry < ActiveRecord::Base
+  def extract_subjective_metadata; end
+  def set_copyright; end
+end
+
+
 
 
 FactoryGirl.define do
@@ -19,8 +29,9 @@ FactoryGirl.define do
   end
 
   factory :media_file do
-
-
+    uploaded_data { { :type=> "image/png",
+      :tempfile=> File.new("#{Rails.root}/app/assets/images/icons/eye.png", "r"),
+      :filename=> "eye.png"} }
     content_type "image_png"
     guid {Digest::SHA1.hexdigest Time.now.to_f.to_s}
     filename "dummy.png"
