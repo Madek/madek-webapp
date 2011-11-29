@@ -1,4 +1,17 @@
+# encoding: utf-8
+
+#load Rails.root + "app/models/media_file.rb"
+# TODO somehow the orinal model won't get even loaded
+# mokey_patch the methods dynamically!
+class MediaFile 
+  def assign_access_hash; end
+  def validate_file; end
+  def store_file; end
+end
+
+
 FactoryGirl.define do
+
 
   factory :media_entry do
     upload_session {FactoryGirl.create :upload_session}
@@ -6,10 +19,12 @@ FactoryGirl.define do
   end
 
   factory :media_file do
-    uploaded_data { { :type=> "image/png",
-              :tempfile=> File.new("#{Rails.root}/app/assets/images/icons/eye.png", "r"),
-              :filename=> "eye.png"} }
 
+
+    content_type "image_png"
+    guid {Digest::SHA1.hexdigest Time.now.to_f.to_s}
+    filename "dummy.png"
+    access_hash UUIDTools::UUID.random_create.to_s
   end
 
   factory :group do
