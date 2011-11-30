@@ -20,7 +20,7 @@ describe Userpermission do
     end
 
     it "should remove userpermissions if the resource is destroyed" do
-      pending "dosen't work with polymorphic relationships"
+      pending "doesn't work with polymorphic relationships"
 #      id = (FactoryGirl.create :userpermission, :user => @user, :resource => @resource).id
 #      (Userpermission.find_by_id id).should_not be_nil
 #      @resource.destroy

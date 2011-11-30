@@ -79,8 +79,22 @@ FactoryGirl.define do
     maynot_edit_metadata {(not may_edit_metadata) and FactoryHelper.rand_bool}
 
     user {User.find_random || (FactoryGirl.create :user)} 
+    # TODO select media_set / media_resource randomly
     resource {FactoryGirl.create :media_set}
   end
+
+
+  factory :grouppermission do
+    may_view {FactoryHelper.rand_bool}
+    may_download {FactoryHelper.rand_bool}
+    may_edit_metadata {FactoryHelper.rand_bool}
+
+    group {Group.find_random || (FactoryGirl.create :group)}
+    # TODO select media_set / media_resource randomly
+    resource {FactoryGirl.create :media_set}
+  end
+
+
 
 
 end
