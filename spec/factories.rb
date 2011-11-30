@@ -12,7 +12,7 @@ module ModelFactory
     mf = MediaFile.new( :uploaded_data => { :type=> "image/png",
                        :tempfile=> File.new("#{Rails.root}/app/assets/images/icons/eye.png", "r"),
                        :filename=> "eye.png"},
-                       :content_type => "image_png",
+                       :content_type => "image/png",
                        :guid => (Digest::SHA1.hexdigest Time.now.to_f.to_s),
                        :filename => "dummy.png",
                        :access_hash => UUIDTools::UUID.random_create.to_s)
@@ -36,6 +36,10 @@ module ModelFactory
 end
 
 FactoryGirl.define do
+
+  factory :media_set, :class => Media::Set do
+    user {User.find_random || (FactoryGirl.create :user)}
+  end
 
   factory :group do
     name {Faker::Name.last_name}
