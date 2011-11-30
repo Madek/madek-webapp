@@ -1,6 +1,14 @@
 # encoding: utf-8
 
 
+module FactoryHelper
+  def self.rand_bool *opts
+    bias = ((opts and opts[0]) or 0.5)
+    raise "bias must be a real number within [0,1)" if bias < 0.0 or bias >= 1.0
+    (rand < bias) ? true : false
+  end
+end
+
 module ModelFactory 
 
   # some more complicated factories are defined here; e.g. we define methods in
@@ -51,7 +59,7 @@ FactoryGirl.define do
   end
 
   factory :upload_session do
-    user {FactoryGirl.create :user}
+    user {User.find_random || (FactoryGirl.create :user)}
   end
 
   factory :user do
@@ -61,8 +69,15 @@ FactoryGirl.define do
   end
 
   factory :userpermission do
-    user {FactoryGirl.create :user}
-    resource {FactoryGirl.create :media_entry}
+    may_view {FactoryHelper.rand_bool 1/4.0}
+    maynot_view {(not may_view) and FactoryHelper.rand_bool}
+    may_download {FactoryHelper.rand_bool 1/4.0}
+    maynot_download {(not may_download) and FactoryHelper.rand_bool}
+    may_edit_metadata {FactoryHelper.rand_bool 1/4.0}
+    maynot_edit_metadata {(not may_edit_metadata) and FactoryHelper.rand_bool}
+
+    user {User.find_random || (FactoryGirl.create :user)} 
+    resource {FactoryGirl.create :media_set}
   end
 
 
