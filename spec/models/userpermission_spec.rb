@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Userpermission do
 
   it "should be producible by a factory" do
-    (FactoryGirl.create :Userpermission).should_not == nil
+    (FactoryGirl.create :userpermission).should_not == nil
   end
 
   context "consistency constraints " do
