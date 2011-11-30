@@ -15,6 +15,7 @@ load Rails.root + "app/models/media_entry.rb"
 class MediaEntry < ActiveRecord::Base
   def extract_subjective_metadata; end
   def set_copyright; end
+  def set_descr_author_value; end
 end
 
 

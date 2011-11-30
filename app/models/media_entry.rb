@@ -17,12 +17,14 @@ class MediaEntry < ActiveRecord::Base
 
   before_create :extract_subjective_metadata, :set_copyright
 
-  after_create do |record|
+  after_create :set_descr_author_value
+
+  def set_descr_author_value
     descr_author_value = record.meta_data.get("description author").value
     record.meta_data.get("description author before import").update_attributes(:value => descr_author_value) if descr_author_value
   end
 
-  # TODO remove and go through permissions ??
+    # TODO remove and go through permissions ??
   delegate :user, :user_id, :to => :upload_session
 
   default_scope order("media_entries.updated_at DESC") #-# .includes(:media_file)
