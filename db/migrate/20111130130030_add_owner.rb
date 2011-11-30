@@ -6,6 +6,7 @@ class AddOwner < ActiveRecord::Migration
       ALTER TABLE media_sets ADD COLUMN owner_id integer;
       UPDATE media_sets SET owner_id = user_id;
       ALTER TABLE media_sets ADD CONSTRAINT owner_id_fkey FOREIGN KEY (owner_id) REFERENCES users (id);
+      ALTER TABLE media_sets ALTER COLUMN owner_id SET NOT NULL;
 
 
       ALTER TABLE media_entries ADD COLUMN owner_id integer;
@@ -15,8 +16,7 @@ class AddOwner < ActiveRecord::Migration
                       INNER JOIN  media_entries as me ON  upload_sessions.id = me.upload_session_id
                       WHERE media_entries.id = me.id);
       ALTER TABLE media_entries ADD CONSTRAINT owner_id_fkey FOREIGN KEY (owner_id) REFERENCES users (id);
-
-
+      ALTER TABLE media_entries ALTER COLUMN owner_id SET NOT NULL;
 
 
     SQL

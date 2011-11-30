@@ -33,6 +33,7 @@ module ModelFactory
 
   def self.create_media_entry 
     me = MediaEntry.new( :upload_session => (FactoryGirl.create :upload_session),
+                        :owner => (User.find_random || (FactoryGirl.create :user)),
                         :media_file => create_media_file )
     def me.extract_subjective_metadata; end
     def me.set_copyright; end
@@ -47,6 +48,7 @@ FactoryGirl.define do
 
   factory :media_set, :class => Media::Set do
     user {User.find_random || (FactoryGirl.create :user)}
+    owner {User.find_random || (FactoryGirl.create :user)}
   end
 
   factory :group do
