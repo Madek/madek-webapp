@@ -642,6 +642,10 @@ ul li { float: left; }
 	position: relative;
 	margin-top: -10px;
 	min-height: 400px;
+	
+	&.metadata {
+	  width: 960px;
+	}
 }
 #content_body_fav .page_title_left {
   margin-bottom: -35px;
@@ -3123,13 +3127,16 @@ table.meta_data td {
 
 #additional-metadata {
 	margin-top: 0;
-	width: 960px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0 15px;
+	width: 930px;
 	
 	ul {
 	  float: left;
 	  display: block;
 	  margin-right: 38px;
-	  width: 210px;
+	  width: 200px;
 	  &.fourth {
 	    margin-right: 0;
 	  }
