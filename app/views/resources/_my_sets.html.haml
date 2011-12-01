@@ -5,6 +5,7 @@
 
 = button_tag(:id => "new_button", :class => "new_set", :style => "float: left;") do
   = _("Neues Set erstellen")
+.clear
 
 #page_head_newset.new_set
   #set_meta
@@ -24,6 +25,7 @@
 - if @resources[:entries].any?
   #results
 - else 
+  %br
   = _("Keine Sets vorhanden")
   
 :javascript

@@ -5,12 +5,14 @@
     = render :partial => "favorites"
     
   - elsif request.fullpath =~ /resources/ and params[:query].blank?
-    -if params[:type].blank? || params[:type] == "media_entries"
+    -if params[:user_id]
       = render :partial => "my_entries"    
     -elsif params[:type] == "sets"
       = render :partial => "my_sets"  
     -elsif params[:type] == "projects"
       = render :partial => "my_projects" 
+    -else
+      = render :partial => "all_entries"  
 
   - elsif !params[:query].blank?
     = render :partial => "search"  
