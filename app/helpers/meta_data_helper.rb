@@ -3,16 +3,20 @@ module MetaDataHelper
 
   def display_meta_data_helper(title, values)
     capture_haml do
-      haml_tag :h4, title
-      if values.blank?
-        haml_tag :div, _("Es sind keine Metadaten zu diesem Kontext bereit gestellt."), :class => "meta_data_comment"
-      else
-        haml_tag :div, :class => "meta_data" do
-          haml_tag :div, :class => "items" do
-            values.each do |value|
-              haml_tag :div, :class => "item" do
-                haml_tag :label, value.first
-                haml_concat value.last
+      haml_tag :ul do
+        haml_tag :li, :class=>"meta_group" do
+          haml_tag :h4, title, :class=>"meta_group_name"
+            haml_tag :ul do
+            if values.blank?
+              haml_tag :li, _("Es sind keine Metadaten zu diesem Kontext bereit gestellt."), :class=>"meta_data_comment"
+            else
+              values.each do |value|
+                haml_tag :li, :class=>"meta_vocab" do
+                  haml_tag :h5, value.first, :class=>"meta_vocab_name"
+                  haml_tag :span, :class => "meta_terms" do
+                    haml_concat value.last
+                  end
+                end
               end
             end
           end
