@@ -190,7 +190,7 @@ module Resource
       else
         self.media_file
       end
-      core_info["thumb_base64"] = mf.thumb_base64(:small_125) if mf
+      core_info["thumb_base64"] = mf.thumb_base64(:small_125) if mf #1+n http-requests# "/media_entries/%d/image?size=small_125" % self.id
       core_info
     end
 
@@ -216,12 +216,15 @@ module Resource
 ########################################################
 
   def as_json(options={})
-    user = options[:user]
+    user = options[:user] #.delete(:user)
     flags = { :is_private => acl?(:view, :only, user),
               :is_public => acl?(:view, :all),
               :is_editable => Permission.authorized?(user, :edit, self),
               :is_manageable => Permission.authorized?(user, :manage, self) }
-    self.attributes.merge(self.get_basic_info(user)).merge(flags)
+
+    default_options = {:only => :id}
+    json = super(default_options.deep_merge(options))
+    json.merge(self.get_basic_info(user)).merge(flags)
   end
 
 ########################################################
