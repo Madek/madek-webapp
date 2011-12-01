@@ -1,6 +1,4 @@
 # -*- encoding : utf-8 -*-
-require Rails.root + 'lib/sql_helper'
-
 class CreatePeople < ActiveRecord::Migration
   def self.up
 

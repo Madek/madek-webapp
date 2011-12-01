@@ -1,6 +1,3 @@
-require "metahelper"
-require 'sqlhelper'
-
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
@@ -35,7 +32,10 @@ end
 RSpec.configure do |config|
 
   config.before(:suite) do
+
+    # TODO do we still need this here: 
     MetaHelper.import_initial_metadata
+
     DatabaseCleaner.strategy = :transaction
   end
 
