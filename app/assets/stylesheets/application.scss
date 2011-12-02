@@ -11,9 +11,6 @@
  *= require master
  *= require video-js
  * 
- *  STARTING GREENFIELD FROM HERE
- *= require_self
- *= depend_on media_entry/_meta_data
+ *  START OF REFACTORING BEGINS HERE:
+ *= require media_entry/_meta_data
 */
-@import "mixins.scss";
-@import "media_entry/_meta_data.scss";
