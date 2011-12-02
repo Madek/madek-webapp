@@ -3,9 +3,8 @@
 
   - if request.fullpath =~ /favorites/
     = render :partial => "favorites"
-    
   - elsif request.fullpath =~ /resources/ and params[:query].blank?
-    -if params[:user_id]
+    -if params[:user_id] && params[:type] != "sets"
       = render :partial => "my_entries"    
     -elsif params[:type] == "sets"
       = render :partial => "my_sets"  
