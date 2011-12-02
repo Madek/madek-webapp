@@ -37,7 +37,10 @@ class AddOwner < ActiveRecord::Migration
     execute pg_sql if SQLHelper.adapter_is_postgresql?
 
     if SQLHelper.adapter_is_mysql?
-    
+      MediaEntry.all.each do |me|
+        me.owner = me.upload_session.user
+        me.save!
+      end
     end
 
 
