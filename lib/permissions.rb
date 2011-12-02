@@ -19,7 +19,6 @@ module Permissions
 
   
   def self.resourceuserpermission_disallows what, resource, user 
-    if 
       (Mediaresourceuserpermission.count_by_sql %Q@ 
         SELECT count(*) from mediaresourceuserpermissions 
           WHERE mediaresource_id=#{mediaresource.id} 

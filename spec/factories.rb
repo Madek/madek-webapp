@@ -55,6 +55,16 @@ FactoryGirl.define do
     name {Faker::Name.last_name}
   end
 
+  factory :grouppermission do
+    may_view {FactoryHelper.rand_bool}
+    may_download {FactoryHelper.rand_bool}
+    may_edit_metadata {FactoryHelper.rand_bool}
+
+    group {Group.find_random || (FactoryGirl.create :group)}
+    # TODO select media_set / media_resource randomly
+    resource {FactoryGirl.create :media_set}
+  end
+
   factory :person do
     lastname {Faker::Name.last_name}
     firstname {Faker::Name.first_name}
@@ -83,16 +93,6 @@ FactoryGirl.define do
     resource {FactoryGirl.create :media_set}
   end
 
-
-  factory :grouppermission do
-    may_view {FactoryHelper.rand_bool}
-    may_download {FactoryHelper.rand_bool}
-    may_edit_metadata {FactoryHelper.rand_bool}
-
-    group {Group.find_random || (FactoryGirl.create :group)}
-    # TODO select media_set / media_resource randomly
-    resource {FactoryGirl.create :media_set}
-  end
 
 
 
