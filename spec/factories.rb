@@ -50,8 +50,15 @@ FactoryGirl.define do
     may_edit_metadata {FactoryHelper.rand_bool}
 
     group {Group.find_random || (FactoryGirl.create :group)}
-    # TODO select media_set / media_resource randomly
-    resource {FactoryGirl.create :media_set}
+    resource do 
+      if FactoryHelper.rand_bool 1.0/3
+        Media::Set.find_random ||  (FactoryGirl.create :media_set)
+      else
+        MediaEntry.find_random || (FactoryGirl.create :media_entry)
+      end
+    end
+
+
   end
 
   factory :person do
@@ -61,6 +68,7 @@ FactoryGirl.define do
 
   factory :upload_session do
     user {User.find_random || (FactoryGirl.create :user)}
+    is_complete true
   end
 
   factory :user do
@@ -76,14 +84,14 @@ FactoryGirl.define do
     maynot_download {(not may_download) and FactoryHelper.rand_bool}
     may_edit_metadata {FactoryHelper.rand_bool 1/4.0}
     maynot_edit_metadata {(not may_edit_metadata) and FactoryHelper.rand_bool}
-
     user {User.find_random || (FactoryGirl.create :user)} 
-    # TODO select media_set / media_resource randomly
-    resource {FactoryGirl.create :media_set}
+    resource do 
+      if FactoryHelper.rand_bool 1.0/3
+        Media::Set.find_random ||  (FactoryGirl.create :media_set)
+      else
+        MediaEntry.find_random || (FactoryGirl.create :media_entry)
+      end
+    end
   end
-
-
-
-
 
 end
