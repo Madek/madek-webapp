@@ -27,7 +27,6 @@ class CreateGrouppermissions < ActiveRecord::Migration
     sql.split(/;\s*$/).each {|cmd| execute cmd} if SQLHelper.adapter_is_mysql?
     execute sql if SQLHelper.adapter_is_postgresql?
 
-
   end
 
   def down
