@@ -1465,10 +1465,15 @@ button.dark:hover {
 	}
 	
 	&.new_set {
+	  background: -moz-linear-gradient(20% 80% 90deg, #222, #444) repeat scroll 0 0 transparent;
+	  -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+    border: 1px solid white;
 	  display: none;
 	  height: 230px;
 	  margin: 5px 8px 0 8px;
-	  padding: 4px 0 0 0;
+	  padding: 4px 12px 0 12px;
 	  width: 152px;
 	  
 	  #set_info {
@@ -1478,9 +1483,9 @@ button.dark:hover {
 }
 
 #new_media_set {
-  left: 6px;
+  left: 14px;
   position: absolute;
-  top: 152px;
+  top: 158px;
   
   input[type=text] {
     background-color: #FFFFFF;
@@ -3104,13 +3109,6 @@ table.metadata-table {
 table.meta_data td {
 	padding-bottom: 10px;
 	word-wrap: break-word;
-}
-
-.meta_data_comment {
-  font-size: 1.1em;
-  line-height: 1.3em;
-	padding: 21px 0 0 0;
-	color: silver;
 }
 
 .meta_data a[data-meta_term_id] {

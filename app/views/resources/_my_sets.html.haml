@@ -26,7 +26,8 @@
   #results
 - else 
   %br
-  = _("Keine Sets vorhanden")
+  %p.no_sets
+    = _("Keine Sets vorhanden")
   
 :javascript
   
@@ -38,6 +39,7 @@
       if($("#results")) {
         $("#results > .page > .item_box:first").before($("#page_head_newset.new_set"));
         $("#page_head_newset.new_set").fadeIn("slow");
+        $(".no_sets").hide();
         $("#page_head_newset.new_set input[type=text]").val("").focus();
       }
     });
