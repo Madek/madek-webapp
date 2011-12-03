@@ -24,6 +24,8 @@ $selected_bg: #6FCBF5; /* cyan */
 
 /* ----------------------------------------------------*/
 
+@import "mixins.scss";
+
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
@@ -221,6 +223,30 @@ div#ajaxLoading {
 	height: 19px;
 	display: inline-block;	
 }
+
+.icon_set_parents {
+  background: url(icons/madek_icon_sprites.png) -301px -844px no-repeat;
+  cursor: pointer;
+  width: 19px;
+  height: 19px;
+  position: relative;
+  display: inline-block;
+  left: -4px;  
+  @include rotate(90deg);
+  @include opacity(0.5);
+  
+  &.open {
+    @include rotate(180deg);
+  }
+}
+
+.set_parents_title {
+  cursor: pointer;
+  &:hover .icon_set_parents {
+    @include opacity(0.8);
+  }
+}
+
 
 .icon_project {
 	background: url(icons/madek_icon_sprites.png) -100px -653px no-repeat;
@@ -2825,6 +2851,68 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
+.ui-corner-all.department {
+  border: none;
+  cursor: pointer;
+  display: block;
+  float: left;
+  margin: 0 !important;
+  width: 100%;
+  
+  &.with-navigator {
+    width: 80%;
+  }
+}
+
+.ui-menu-item {
+  position: relative;
+  
+  &:hover {
+    background: #f1f1f1;
+  }
+  
+  &.selected {
+    .ui-corner-all.grouped {
+      float: right;
+    }
+    .ui-corner-navigator {
+      float: left;
+      .arrow {
+        margin-top: -3px;
+        @include rotate(180deg);
+      }
+    }
+  }
+}
+
+.ui-corner-navigator {
+  float: right;
+  height: 25px;
+  position: relative;
+  vertical: middle;
+  width: 15%;
+  
+  .arrow {
+    background: url('icons/toggler-arrow-closed.png') no-repeat;
+    margin: 0 auto;
+    position: relative;
+    height: 14px;
+    width: 11px;
+    @include opacity(0.4);
+  }
+  
+  &:hover {
+    background: #e0e0e0;
+    .arrow {
+      @include opacity(1.0);
+    }
+  }
+  
+  table tr td {
+    vertical-align: middle;
+  }
+}
+
 .ui-accordion .ui-accordion-header  {
   padding: 4px 0 2px 10px;
   font-size: 0.9em;

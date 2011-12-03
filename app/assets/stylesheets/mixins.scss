@@ -10,3 +10,17 @@
   -webkit-box-shadow: $options;
   box-shadow: $options;
 }
+
+@mixin opacity($value) {
+  filter: alpha(opacity=$value); // IE5-7
+  -moz-opacity: $value; // NETSCAPE & MOZILLA
+  -khtml-opacity: $value; // OLD SAFARI
+  opacity: $value; // THE REST
+}
+
+@mixin rotate($value) {
+  -moz-transform:rotate($value);
+  -webkit-transform:rotate($value);
+  -o-transform:rotate($value);
+  transform:rotate($value);
+}

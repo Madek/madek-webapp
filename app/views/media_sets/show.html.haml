@@ -65,19 +65,40 @@
 
 
 %section#content_body_set
+  %div.page_title_left.set_parents_title
+    .icon_set_parents
+    = _("Set enthalten in:")
+    %span
+      = _("Dieses Set ist in %s enthalten") % pluralize(@parents.size, "Set")
+  .clear
+  #parents
+  
   %div.page_title_left
     %div{:class => icon_class}
-    = content_title
+    = _("Set enthält:")
     %span
       =#old# "#{@media_entries[:pagination][:total_entries]} von #{@media_set.media_entries.count} Medieneinträge für Sie sichtbar"
       = "#{@media_entries[:pagination][:total_entries]} von #{MediaResource.by_media_set(@media_set).count} für Sie sichtbar"
   .clear
   = render :partial => "media_entries/index"
-
+  
+  
 =#Rails3.1# javascript_include_tag "batch_actions"
 
 :javascript
   $(document).ready(function () {
     setupBatch(#{@media_entries.to_json}, #{@media_set.id}, #{@media_set.media_entry_ids.to_json});
+    
+    // hide parents at start
+    $("#parents").hide();
+        
+    // setup parents of current sets
+    $("#parents").append($("#thumbnail").tmpl(#{@parents.to_json}));
+    
+    // show parents toggle
+    $(".set_parents_title").click(function(){
+      $("#parents").toggle();
+      $(".icon_set_parents").toggleClass("open");
+    });
   });
   
