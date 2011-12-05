@@ -131,6 +131,7 @@ function DepartmentSelection() {
     });
    
    // save the computed infos on the target
+   console.log(groups);
    $(target).data("all_options", all_options);
   }
   
@@ -141,7 +142,6 @@ function DepartmentSelection() {
         DepartmentSelection.recursive_fill_up(elements);
       } else {
         // depest element till here
-        
         if(current_element["_info"] == undefined) current_element["_info"] = {};
         // prepare ids
         if(current_element["_info"]["_ids"] == undefined) current_element["_info"]["_ids"] = [];
@@ -171,25 +171,40 @@ function DepartmentSelection() {
     if(current_element["_info"] && current_element["_info"]["_titles"]) {
       // replace parenthesis on each element first
       $.each(current_element["_info"]["_titles"], function(index, current_title){
-        current_element["_info"]["_titles"][index] = current_title.replace(/\s\(.*?\)/, "");
+        current_element["_info"]["_titles"][index] = DepartmentSelection.strip_units_in_parenthesis(current_title);
       });
       
       // fill title
-      var _title = "";
-      var matched_title;
-      for(var i = 0; i < current_element["_info"]["_titles"].length; i++) {
-        if(matched_title == undefined) {
-          matched_title = current_element["_info"]["_titles"][i];
-          continue;
-        } else if(matched_title == current_element["_info"]["_titles"][i]) {
-          _title = matched_title;
-          break;
-        }
-      }
+      var _title = DepartmentSelection.fill_up_title(current_element["_info"]["_titles"]);
       
-      current_element["_info"]["_title"] = _title;
+      current_element["_info"]["_title"] = DepartmentSelection.strip_units_in_parenthesis(_title);
       delete current_element["_info"]["_titles"];
     }
+  }
+  
+  this.strip_units_in_parenthesis = function(title) {
+    return title.replace(/\s\(.*?\)/, "");
+  }
+  
+  this.fill_up_title = function(titles) {
+    var matched_title;
+    for(var i = 0; i < titles.length; i++) {
+      if(matched_title == undefined || matched_title.length == 0) {
+        matched_title = titles[i];
+        // if there are not more then 1 element break insted of continue
+        if(titles.length == 1) {
+          _title = matched_title;
+          break;
+        } else {
+          continue;
+        }
+      } else if(matched_title == titles[i]) {
+        _title = matched_title;
+        break;
+      }
+    }
+    
+    return matched_title;
   }
   
   this.open_extended_autocomplete = function(event, ui) {
@@ -219,20 +234,10 @@ function DepartmentSelection() {
         $(item).find(".ui-corner-all").addClass("department");
         
         // search if current element is currently selected
-        var selected = false;
-        var selected_items = $("#institutional_affiliation_autocomplete_search").closest("li").prevAll(".bit-box"); 
-        $.each(selected_items, function(i_s_item, selected_item){
-          if(JSON.stringify($(selected_item).data().ids) == JSON.stringify($(item).data("item.autocomplete").ids)) {
-            selected = true;
-          }
-        });        
+        var selected = DepartmentSelection.check_if_item_is_selected(item);
         
         // if current elemetn is selected mark as selected        
-        if(selected) {
-          $(item).addClass("selected");
-          $(item).find(".ui-corner-all").addClass("with-navigator");
-          $(item).find(".ui-corner-all").after($("<div class='selected-marker'><div class='icon'></div></div>"));
-        } else { // if not selected add navigator
+        if(!selected) {
           // check for any child
           var any_child = DepartmentSelection.has_any_children($(item).data("item.autocomplete").children);
           
@@ -255,6 +260,24 @@ function DepartmentSelection() {
         }
       }
     });
+  }
+  
+  this.check_if_item_is_selected = function(item) {
+    var is_selected = false;
+    var selected_items = $("#institutional_affiliation_autocomplete_search").closest("li").prevAll(".bit-box"); 
+    $.each(selected_items, function(i_s_item, selected_item){
+      if(JSON.stringify($(selected_item).data().ids) == JSON.stringify($(item).data("item.autocomplete").ids)) {
+        is_selected = true;
+      }
+    });      
+    
+    if(is_selected) {
+      $(item).addClass("selected");
+      $(item).find(".ui-corner-all").addClass("with-navigator").addClass("department");
+      $(item).find(".ui-corner-all").after($("<div class='selected-marker'><div class='icon'></div></div>"));
+    }
+    
+    return is_selected;  
   }
   
   this.has_any_children = function(children) {
@@ -283,16 +306,16 @@ function DepartmentSelection() {
       });
     });
     
-    // add children of selected item
-    var item = $(target).closest(".ui-menu-item-department");
-    DepartmentSelection.add_children(item);
-    
-    // add navigation after adding childs
-    DepartmentSelection.prepare_menu_elements_dom(target);
+    window.setTimeout(function(){
+      // add children of selected item
+      var item = $(target).closest(".ui-menu-item-department");
+      DepartmentSelection.add_children($(item).closest(".ui-autocomplete"), $(item).data("item.autocomplete").children);
+      // add navigation after adding childs
+      DepartmentSelection.prepare_menu_elements_dom(target);
+    }, 500);
   }
   
-  this.add_children = function(item) {
-    var children = $(item).data("item.autocomplete").children;
+  this.add_children = function(autocomplete, children) {
     $.each(children, function(index, child){
       // check if info is present
       if(child["_info"] != undefined) {
@@ -301,14 +324,11 @@ function DepartmentSelection() {
           var new_item = $('<li class="ui-menu-item-department"><a class="ui-corner-all" tabindex="-1"></a></li>');
           var label = child["_info"]["_title"];
           $(new_item).find("a").html(label);
-          $(item).closest(".ui-autocomplete").append(new_item); 
+          $(autocomplete).append(new_item); 
           
           // prepare for autocomplete
           var autocomplete_object = {};
           autocomplete_object.label = label;
-          autocomplete_object.value = label;
-          // OPTIMIZE selected should be depend on selected values
-          autocomplete_object.selected = false;
           autocomplete_object.ids = child["_info"]["_ids"];
           
           // compute children for autocomplete object
@@ -351,11 +371,14 @@ function DepartmentSelection() {
     if(item.length == 0) {
       DepartmentSelection.reset();
     } else {
-      DepartmentSelection.add_children(item);
+      window.setTimeout(function(){
+        DepartmentSelection.add_children($(item).closest(".ui-autocomplete"), $(item).data("item.autocomplete").children);
+      }, 500);
     }
-    
     // add navigation after adding childs
-    DepartmentSelection.prepare_menu_elements_dom(target);
+    window.setTimeout(function(){
+      DepartmentSelection.prepare_menu_elements_dom(target);
+    }, 500);
   }
   
   this.reset = function() {
@@ -397,29 +420,55 @@ function DepartmentSelection() {
   }
   
   this.search_department = function(event, ui) {
-    var min = 2;
-    var target = event.target;
-    DepartmentSelection.current_search_term = $(target).val();
-    var all_options = $(target).data("all_options")
-    
-    // break search if term is small than min
-    if(DepartmentSelection.current_search_term < min) return;
-        
-    // just extend search of deepe levels
-    $.each(all_options, function(i_option, option){
-      if(option.children == undefined) return;
+    window.setTimeout(function(){
+      var min = 2;
+      var target = event.target;
+      DepartmentSelection.current_search_term = $(target).val();
+      var all_options = $(target).data("all_options");
       
-      $.each(option.children, function(i_child, child){
-        DepartmentSelection.recursive_search(child);
+      // break search if term is small than min
+      if(DepartmentSelection.current_search_term < min) return;
+          
+      // clean autocomplete before showing search results
+      $(".department-autocomplete").html("");
+      
+      // search all options      
+      $.each(all_options, function(i_option, option){
+        if(option.children == undefined) return;
+        
+        // start searching top levels
+        if(option.label.search(DepartmentSelection.current_search_term) > -1) {
+          // prepare option for output
+          option["_info"] = {};
+          option["_info"]["_title"] = option.label;
+          option["_info"]["_ids"] = option.ids;
+          
+          // add to search results
+          DepartmentSelection.current_search_results.push(option);
+        }
+        
+        // now go on searching in deeper levels
+        $.each(option.children, function(i_child, child){
+          DepartmentSelection.recursive_search(child);
+        });
       });
-    });
-    
-    // compute search results
-    console.log(DepartmentSelection.current_search_results.length);
-    
-    // clean current_search_term and results
-    DepartmentSelection.current_search_results = [];
-    DepartmentSelection.current_search_term = undefined;
+      
+      // create search result elements
+      DepartmentSelection.add_children($(".department-autocomplete"), DepartmentSelection.current_search_results);
+      
+      // add selectded-marker
+      // search if current element is currently selected
+      $(".department-autocomplete .ui-menu-item-department").each(function(index, item){
+        DepartmentSelection.check_if_item_is_selected(item);
+      });
+      
+      // force to show search results if there are some
+      if(DepartmentSelection.current_search_results.length) $(".department-autocomplete").show();
+      
+      // clean current_search_term and results
+      DepartmentSelection.current_search_results = [];
+      DepartmentSelection.current_search_term = undefined;
+    },90);
   }
   
   this.recursive_search = function(target_object){
@@ -434,8 +483,10 @@ function DepartmentSelection() {
     
     // if any children search there as well
     var any_child = DepartmentSelection.has_any_children(target_object);
-    if() {
-      
+    if(any_child) {
+      $.each(target_object, function(i, child){
+        DepartmentSelection.recursive_search(child);
+      });
     }
   }
 }
