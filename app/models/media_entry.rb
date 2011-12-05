@@ -15,6 +15,7 @@ class MediaEntry < ActiveRecord::Base
                                          :join_table => "media_entries_media_sets",
                                          :association_foreign_key => "media_set_id" # TODO validate_uniqueness
   has_many                  :snapshots
+  has_many :mediaentry_userpermission_joins
 
   before_create :extract_subjective_metadata, :set_copyright
 
