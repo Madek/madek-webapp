@@ -80,6 +80,10 @@ FactoryGirl.define do
     login {email}
   end
 
+
+  factory :mediaset_userpermission_join do
+  end
+
   factory :userpermission do
     may_view {FactoryHelper.rand_bool 1/4.0}
     maynot_view {(not may_view) and FactoryHelper.rand_bool}
@@ -95,6 +99,18 @@ FactoryGirl.define do
         MediaEntry.find_random || (FactoryGirl.create :media_entry)
       end
     end
+
+    after_create do |userpermission|
+      case userpermission.resource.class
+      when Media::Set
+        FactoryGirl.create :mediaset_userpermission_join, :userpermission => userpermission, :media_set => userpermission.resource
+      when MediaEntry
+        FactoryGirl.create :mediaentry_userpermission_join, :userpermission => userpermission, :media_entry => userpermission.resource
+      else 
+        log "handle this case"
+      end
+    end
+
   end
 
 end
