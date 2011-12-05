@@ -84,6 +84,9 @@ FactoryGirl.define do
   factory :mediaset_userpermission_join do
   end
 
+  factory :mediaentry_userpermission_join do
+  end
+
   factory :userpermission do
     may_view {FactoryHelper.rand_bool 1/4.0}
     maynot_view {(not may_view) and FactoryHelper.rand_bool}
@@ -100,12 +103,11 @@ FactoryGirl.define do
       end
     end
 
-    after_create do |userpermission|
-      case userpermission.resource.class
-      when Media::Set
-        FactoryGirl.create :mediaset_userpermission_join, :userpermission => userpermission, :media_set => userpermission.resource
-      when MediaEntry
-        FactoryGirl.create :mediaentry_userpermission_join, :userpermission => userpermission, :media_entry => userpermission.resource
+    after_create do |up|
+      if  up.resource.class ==  Media::Set
+        FactoryGirl.create :mediaset_userpermission_join, :userpermission => up, :media_set => up.resource
+      elsif up.resource.class == MediaEntry
+        FactoryGirl.create :mediaentry_userpermission_join, :userpermission => up, :media_entry => up.resource
       else 
         log "handle this case"
       end
