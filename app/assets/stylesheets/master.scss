@@ -243,7 +243,7 @@ div#ajaxLoading {
 .set_parents_title {
   cursor: pointer;
   &:hover .icon_set_parents {
-    @include opacity(0.8);
+    @include opacity(0.9);
   }
 }
 
@@ -2850,67 +2850,6 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
 .ui-corner-all, .ui-corner-bottom {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-}
-.ui-corner-all.department {
-  border: none;
-  cursor: pointer;
-  display: block;
-  float: left;
-  margin: 0 !important;
-  width: 100%;
-  
-  &.with-navigator {
-    width: 80%;
-  }
-}
-
-.ui-menu-item {
-  position: relative;
-  
-  &:hover {
-    background: #f1f1f1;
-  }
-  
-  &.selected {
-    .ui-corner-all.grouped {
-      float: right;
-    }
-    .ui-corner-navigator {
-      float: left;
-      .arrow {
-        margin-top: -3px;
-        @include rotate(180deg);
-      }
-    }
-  }
-}
-
-.ui-corner-navigator {
-  float: right;
-  height: 25px;
-  position: relative;
-  vertical: middle;
-  width: 15%;
-  
-  .arrow {
-    background: url('icons/toggler-arrow-closed.png') no-repeat;
-    margin: 0 auto;
-    position: relative;
-    height: 14px;
-    width: 11px;
-    @include opacity(0.4);
-  }
-  
-  &:hover {
-    background: #e0e0e0;
-    .arrow {
-      @include opacity(1.0);
-    }
-  }
-  
-  table tr td {
-    vertical-align: middle;
-  }
 }
 
 .ui-accordion .ui-accordion-header  {

@@ -1,0 +1,110 @@
+@import "../../../mixins.scss";
+
+.ui-menu-item-department {
+  border: none;
+  display: block;
+  position: relative;
+  width: 100%;
+  
+  a {
+    display: block;
+    line-height: 1.5;
+    padding: 0.2em 0.4em;
+  }
+  
+  .ui-corner-all.department {
+    border: none;
+    cursor: pointer;
+    display: block;
+    float: left;
+    margin: 0 !important;
+    width: 100%;
+    
+    &.ui-state-hover {
+      background: none;
+    }
+    
+    &.with-navigator {
+      width: 80%;
+    }
+    
+    &:hover {
+      background: #e6e6e6;
+    }
+  }
+  
+  &:hover {
+    background: #f1f1f1;
+  }
+  
+  &.opened {
+    .ui-corner-all {
+      float: right;
+    }
+    .ui-corner-navigator {
+      float: left;
+      .arrow {
+        margin-top: -3px;
+        @include rotate(180deg);
+      }
+    }
+  }
+  
+  .ui-corner-navigator {
+    float: right;
+    height: 25px;
+    position: relative;
+    vertical: middle;
+    width: 15%;
+    
+    .arrow {
+      background: url('icons/toggler-arrow-closed.png') no-repeat;
+      margin: 0 auto;
+      position: relative;
+      height: 14px;
+      width: 11px;
+      @include opacity(0.4);
+    }
+    
+    &:hover {
+      background: #e0e0e0;
+      .arrow {
+        @include opacity(1.0);
+      }
+    }
+  }
+  
+  &.selected {
+    background: white;
+    cursor: default !important;
+    
+    &:hover {
+      background: white;
+    }
+    
+    .ui-corner-all {
+      cursor: default !important;
+      
+      &:hover {
+        background: white;
+      }
+    }
+    
+    .selected-marker {
+      float: right;
+      height: 25px;
+      position: relative;
+      vertical: middle;
+      width: 15%;
+      
+      .icon {
+        background: url('icons/madek_icon_sprites.png') no-repeat 0 -384px;
+        margin: 0 auto;
+        position: relative;
+        top: 3px;
+        height: 17px;
+        width: 16px;
+      }
+    }
+  }
+}
