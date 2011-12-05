@@ -212,7 +212,7 @@
       var i = is_Selected(media_entries_json, $(this).data("id"));
       if (i > -1) {
         media_entries_json.splice(i, 1);
-        set_media_entries_json(JSON.stringify(media_entries_json));
+        set_media_entries_json(media_entries_json);
       };
     })
   

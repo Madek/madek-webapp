@@ -145,7 +145,12 @@ function get_media_entries_json(){
 }
 
 function set_media_entries_json(data){
-	sessionStorage.setItem("selected_media_entries", data);
+	//1+n http-requests//
+	$.each(data, function(i, elem){
+		elem.thumb_base64 = "/media_entries/"+elem.id+"/image?size=small_125";
+	});
+
+	sessionStorage.setItem("selected_media_entries", JSON.stringify(data));
 }
 
 function get_selected_media_entry_ids() {
