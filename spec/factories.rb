@@ -76,7 +76,7 @@ FactoryGirl.define do
 
   factory :user do
     person {FactoryGirl.create :person}
-    email {"#{person.firstname}.#{person.lastname}@example.com".downcase} 
+    email {UUIDTools::UUID.random_create.hexdigest.slice(0,20)+"@example.com"}
     login {email}
   end
 
