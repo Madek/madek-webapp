@@ -1,5 +1,12 @@
 module SQLHelper
 
+  # all methods in here are real functions! we can include them in
+  # the eigenclass, so they are callable as module/class methods:
+  # TODO remove all "self." and test
+  class << self
+    include SQLHelper
+  end
+
   def self.execute_sql query
     ActiveRecord::Base.connection.execute query 
   end
