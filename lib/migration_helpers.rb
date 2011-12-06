@@ -1,6 +1,29 @@
 module MigrationHelpers
   extend self
 
+ 
+
+  # we are patching the index_name function here, 
+  # do it explicitly so limit the impact to only when it is needed
+
+  def patch_index_name
+    ActiveRecord::ConnectionAdapters::SchemaStatements.class_eval do
+      def index_name(table_name, options) #:nodoc:
+        if Hash === options # legacy support
+          if options[:column]
+            MigrationHelpers.shorten_schema_names("index_#{table_name}_on_#{Array.wrap(options[:column]) * '_and_'}")
+          elsif options[:name]
+            options[:name]
+          else
+            raise ArgumentError, "You must specify the index name"
+          end
+        else
+          MigrationHelpers.shorten_schema_names(index_name(table_name, :column => options))
+        end
+      end
+    end
+  end
+
 
   def ref_id model
     model.table_name.singularize + "_id"
@@ -38,7 +61,7 @@ module MigrationHelpers
 
 #  private 
 
-  def shorten_pg_fun_names fun_name
+  def shorten_schema_names fun_name
     if fun_name.size > 63
       fun_name.slice(0,20) + (Digest::SHA1.hexdigest fun_name) 
     else
@@ -47,7 +70,7 @@ module MigrationHelpers
   end
 
   def drop_del_referenced_trigger_pgsql fun_name
-    fun_name = shorten_pg_fun_names fun_name
+    fun_name = shorten_schema_names fun_name
     <<-SQL
       DROP TRIGGER #{fun_name};
       DROP FUNCTION #{fun_name}();
@@ -56,7 +79,7 @@ module MigrationHelpers
 
   def create_del_referenced_trigger_pgsql source_table, target_table, fkey, fun_name
 
-    fun_name = shorten_pg_fun_names fun_name
+    fun_name = shorten_schema_names fun_name
 
     <<-SQL
       CREATE FUNCTION #{fun_name}() 

@@ -1,5 +1,9 @@
+
 class CreateMediasetUserpermissionJoins < ActiveRecord::Migration
   include MigrationHelpers
+
+  MigrationHelpers.patch_index_name()
+
 
   def up
 
@@ -13,6 +17,7 @@ class CreateMediasetUserpermissionJoins < ActiveRecord::Migration
           t.integer ref_id(permission_model), :null => false
         end
 
+      # TODO look up implementation in active record and monkey patch it
       add_index table_name, ref_id(resource_model)
       add_index table_name, ref_id(permission_model)
 
