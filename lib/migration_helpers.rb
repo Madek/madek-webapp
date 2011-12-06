@@ -49,11 +49,16 @@ module MigrationHelpers
   end
 
 
-  def drop_del_referenced_trigger source_model, target_model
-    fun_name = "delref_fkey_#{target_table}_#{source_table}_#{fkey}"
+  def drop_del_referenced_trigger source, target
+
+    source_table_name = source.class == String ? source : source.table_name
+    target_table_name = target.class == String ? target : target.table_name
+    fkey = target_table_name.singularize + "_id"
+    fun_name = "delref_fkey_#{target_table_name}_#{source_table_name}_#{fkey}"
+
 
     if SQLHelper.adapter_is_postgresql?
-      execute drop_del_referenced_trigger_pgsql  fun_name
+      execute drop_del_referenced_trigger_pgsql  fun_name, source_table_name
     else
       # TODO warn
     end
@@ -69,10 +74,10 @@ module MigrationHelpers
     end
   end
 
-  def drop_del_referenced_trigger_pgsql fun_name
+  def drop_del_referenced_trigger_pgsql fun_name, table_name
     fun_name = shorten_schema_names fun_name
     <<-SQL
-      DROP TRIGGER #{fun_name};
+      DROP TRIGGER #{fun_name} ON #{table_name};
       DROP FUNCTION #{fun_name}();
     SQL
   end
