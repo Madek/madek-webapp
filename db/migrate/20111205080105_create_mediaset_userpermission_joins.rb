@@ -19,6 +19,9 @@ class CreateMediasetUserpermissionJoins < ActiveRecord::Migration
 
     end
 
+    # create_del_referenced_trigger MediaEntryUserpermissionJoin, Userpermission
+    # create_del_referenced_trigger MediaSetUserpermissionJoin, Userpermission
+
   end
 
   def down
