@@ -30,24 +30,42 @@ CREATE TRIGGER del_SOURCETABLE_TARGETTABLE_referenced_fkey_KEYROW
 
 
 
+CREATE OR REPLACE FUNCTION update_v_m_u_sanspublic_on_mediaresource_owner_update() 
+RETURNS trigger
+AS $$
+DECLARE
+BEGIN
+  IF NEW.owner_id <> OLD.owner_id THEN
+    IF NOT can_view_by_group_or_user_perm(OLD.id, OLD.owner_id) THEN
+      PERFORM v_m_u_sanspublic_delete_if_exists(OLD.id, OLD.owner_id);
+    END IF;
+    PERFORM v_m_u_sanspublic_insert_if_not_exists(NEW.id,NEW.owner_id);
+  END IF;
+  RETURN NEW;
+END $$
+LANGUAGE PLPGSQL;
 
 
 CREATE FUNCTION delref_fkey_userperm2ba04ffd52973efb154726d2ed4bdc7973eec9f4() 
-  RETURNS trigger
-  AS $$
-  DECLARE
-  BEGIN
-    PERFORM DELETE FROM userpermissions WHERE id = OLD.userpermission_id
-    RETURN OLD;
-  END $$
-  LANGUAGE PLPGSQL;
-
-CREATE TRIGGER delref_fkey_userperm2ba04ffd52973efb154726d2ed4bdc7973eec9f4
-  AFTER DELETE
-  ON media_entry_userpermission_joins
-  FOR EACH ROW execute procedure delref_fkey_userperm2ba04ffd52973efb154726d2ed4bdc7973eec9f4;
+RETURNS trigger
+AS $$
+DECLARE
+BEGIN
+  PERFORM DELETE FROM userpermissions WHERE id = OLD.userpermission_id;
+  RETURN OLD;
+END $$
+LANGUAGE PLPGSQL;
 
 
+CREATE OR REPLACE FUNCTION delref_fkey_userperm2ba04ffd52973efb154726d2ed4bdc7973eec9f4() 
+RETURNS trigger
+AS $$
+DECLARE
+BEGIN
+  PERFORM DELETE FROM userpermissions WHERE id = OLD.userpermission_id;
+  RETURN OLD;
+END $$
+LANGUAGE PLPGSQL;
 
 --
 

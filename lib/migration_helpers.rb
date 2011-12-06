@@ -58,7 +58,7 @@ module MigrationHelpers
       AS $$
       DECLARE
       BEGIN
-        PERFORM DELETE FROM #{target_table} WHERE id = OLD.#{fkey}
+        PERFORM DELETE FROM #{target_table} WHERE id = OLD.#{fkey};
         RETURN OLD;
       END $$
       LANGUAGE PLPGSQL;
@@ -66,10 +66,7 @@ module MigrationHelpers
       CREATE TRIGGER #{fun_name}
         AFTER DELETE
         ON #{source_table}
-        FOR EACH ROW execute procedure #{fun_name};
+        FOR EACH ROW execute procedure #{fun_name}();
       SQL
-
-  
   end
-
 end
