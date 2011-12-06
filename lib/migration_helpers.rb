@@ -1,19 +1,25 @@
 module MigrationHelpers
   extend self
 
+
+  def ref_id model
+    model.table_name.singularize + "_id"
+  end
+
   def fkey_cascade_on_delete from_table, from_column, to_table
     name = "#{from_table}_#{from_column}_#{to_table}_fkey"
     execute "ALTER TABLE #{from_table} ADD CONSTRAINT #{name} FOREIGN KEY (#{from_column}) REFERENCES #{to_table} (id) ON DELETE CASCADE;"
   end
 
-  def create_del_referenced_trigger source_model, target_model
-    fkey = target_model.table_name.singularize + "_id"
-    source_table = source_model.table_name
-    target_table = target_model.table_name
-    fun_name = "delref_fkey_#{target_table}_#{source_table}_#{fkey}"
+  def create_del_referenced_trigger source, target
+    source_table_name = source.class == String ? source : source.table_name
+    target_table_name = target.class == String ? target : target.table_name
+
+    fkey = target_table_name.singularize + "_id"
+    fun_name = "delref_fkey_#{target_table_name}_#{source_table_name}_#{fkey}"
 
     if SQLHelper.adapter_is_postgresql?
-      execute create_del_referenced_trigger_pgsql  source_table, target_table, fkey, fun_name
+      execute create_del_referenced_trigger_pgsql  source_table_name, target_table_name, fkey, fun_name
     else
       # TODO warn
     end
