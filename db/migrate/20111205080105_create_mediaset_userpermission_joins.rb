@@ -3,38 +3,28 @@ class CreateMediasetUserpermissionJoins < ActiveRecord::Migration
 
   def up
 
-    create_table :mediaset_userpermission_joins do |t|
-      t.references :userpermission, :null => false
-      t.references :media_set, :null => false
+    #TODO check relations ho, hm ...
+    #TODO extend to grouppermissions
+    %w{media_set media_entry}.each do |resource|
+
+      create_table "#{resource}_userpermission_joins" do |t|
+        t.references :userpermission, :null => false
+        t.integer "#{resource}_id", :null => false
+      end
+
+      add_index "#{resource}_userpermission_joins", :userpermission_id
+      add_index "#{resource}_userpermission_joins", "#{resource}_id"
+      fkey_cascade_on_delete "#{resource}_userpermission_joins", :userpermission_id, :userpermissions
+      fkey_cascade_on_delete "#{resource}_userpermission_joins", "#{resource}_id", "#{resource.pluralize}"
+
     end
-
-  add_index :mediaset_userpermission_joins, :userpermission_id
-  add_index :mediaset_userpermission_joins, :media_set_id
-  fkey_cascade_on_delete :mediaset_userpermission_joins, :userpermission_id, :userpermissions
-  fkey_cascade_on_delete :mediaset_userpermission_joins, :media_set_id, :media_sets
-
-
-  create_table :mediaentry_userpermission_joins do |t|
-      t.references :userpermission, :null => false
-      t.references :media_entry, :null => false
-    end
-
-  add_index :mediaentry_userpermission_joins, :userpermission_id
-  add_index :mediaentry_userpermission_joins, :media_entry_id
-  fkey_cascade_on_delete :mediaentry_userpermission_joins, :userpermission_id, :userpermissions
-  fkey_cascade_on_delete :mediaentry_userpermission_joins, :media_entry_id, :media_entries
-
-
 
   end
 
   def down
-
-    drop_table :mediaentry_userpermission_joins
-
-    drop_table :mediaset_userpermission_joins
-
-
+    %w{media_set media_entry}.each do |resource|
+      drop_table "#{resource}_userpermission_joins"
+    end
   end
 
 end
