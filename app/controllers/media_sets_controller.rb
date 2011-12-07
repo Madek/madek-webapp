@@ -50,7 +50,7 @@ class MediaSetsController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.js { render :json => @media_entries.to_json }
+      format.js { render :json => @media_entries.to_json } #FE# render :json => @media_set.as_json(:user => current_user)
     end
   end
 

@@ -8,7 +8,7 @@ class MediaEntriesController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      format.js { render @media_entry }
+      format.js { render @media_entry } #FE# render :json => @media_entry.as_json(:user => current_user)
       format.xml { render :xml=> @media_entry.to_xml(:include => {:meta_data => {:include => :meta_key}} ) }
     end
   end
