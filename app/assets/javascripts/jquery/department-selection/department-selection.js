@@ -16,6 +16,7 @@ function DepartmentSelection() {
  
   this.current_search_results = [];
   this.current_search_term;
+  this.ignore_list = ["verteilerliste"]; // ldap prefixes case insensetive e.g. verteilerliste will remove ldap groups like "Verteilerliste.123"
  
  
   this.setup = function(){
@@ -66,6 +67,13 @@ function DepartmentSelection() {
       var group_elements = [];
       // match ldap with regexp
       option.ldap = option.label.match(/\w*?\.\w*?\)$/)[0].replace("(", "").replace(")", "");
+      
+      // before touching check if current element is on ignore list
+      var ldap_prefix = option.ldap.split(".")[0].toLowerCase();
+      if($.inArray(ldap_prefix, DepartmentSelection.ignore_list) > -1) {
+        console.log(ldap_prefix);
+        return; // continue loop
+      }
           
       // split (department_subunit_subunit)
       var department_unit = option.ldap.split(".")[0].split("_");
@@ -131,7 +139,6 @@ function DepartmentSelection() {
     });
    
    // save the computed infos on the target
-   console.log(groups);
    $(target).data("all_options", all_options);
   }
   
@@ -437,7 +444,8 @@ function DepartmentSelection() {
         if(option.children == undefined) return;
         
         // start searching top levels
-        if(option.label.search(DepartmentSelection.current_search_term) > -1) {
+        var regexp = new RegExp(DepartmentSelection.current_search_term, "ig");
+        if(option.label.search(regexp) > -1) {
           // prepare option for output
           option["_info"] = {};
           option["_info"]["_title"] = option.label;
@@ -477,7 +485,8 @@ function DepartmentSelection() {
     if(target_object["_info"]["_title"] == undefined) return;
     
     // search current title
-    if(target_object["_info"]["_title"].search(DepartmentSelection.current_search_term) > -1) {
+    var regexp = new RegExp(DepartmentSelection.current_search_term, "ig");
+    if(target_object["_info"]["_title"].search(regexp) > -1) {
       DepartmentSelection.current_search_results.push(target_object);
     }
     
