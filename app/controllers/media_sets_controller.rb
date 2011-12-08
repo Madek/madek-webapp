@@ -75,15 +75,26 @@ class MediaSetsController < ApplicationController
 # Authenticated Area
 # TODO
 
-  def create
+  # API #
+  # POST "/media_sets", {media_set: {meta_data_attributes: {0 => {meta_key_id: 3, value: "Set title"}}} }
+  def create(attr = params[:media_set])
     # TODO ?? find_by_id_or_create_by_title
-    @media_set = current_user.media_sets.build(params[:media_set])
-    if @media_set.save
-      #temp# flash[:notice] = "Media::Set successful created"
-      redirect_to user_resources_path(current_user, :type => "sets")
-    else
-      flash[:notice] = @media_set.errors.full_messages
-      redirect_to :back
+    @media_set = current_user.media_sets.build(attr)
+    is_saved = @media_set.save
+
+    respond_to do |format|
+      format.html {
+        if is_saved
+          #temp# flash[:notice] = "Media::Set successful created"
+          redirect_to user_resources_path(current_user, :type => "sets")
+        else
+          flash[:notice] = @media_set.errors.full_messages
+          redirect_to :back
+        end
+      }
+      format.js {
+        render :json => @media_set.as_json(:user => current_user), :status => (is_saved ? 200 : 500)
+      }
     end
   end
 
@@ -140,15 +151,22 @@ class MediaSetsController < ApplicationController
   end
 
   # TODO merge with media_entries_controller#media_sets ?? OR merge to parent using the inverse nesting ??
-  def parent
+  # API #
+  # POST "/media_sets/:id/parent", {media_set_ids: [1, 2, 3, "My new parent set"] }
+  # DELETE "/media_sets/:id/parent", {media_set_ids: [1, 2, 3] }
+  def parent(media_set_ids = params[:media_set_ids])
     if request.post?
-      Media::Set.find_by_id_or_create_by_title(params[:media_set_ids], current_user).each do |media_set|
+      Media::Set.find_by_id_or_create_by_title(media_set_ids, current_user).each do |media_set|
         next unless Permission.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
-        media_set.children << @media_set
+        @media_set.parents << media_set
       end
-      redirect_to @media_set
     elsif request.delete?
-      # TODO
+      @media_set.parents.delete(Media::Set.find(media_set_ids))
+    end
+    
+    respond_to do |format|
+      format.html { redirect_to @media_set }
+      format.js { render :json => @media_set.as_json(:user => current_user, :methods => :parent_ids) }
     end
   end
 
