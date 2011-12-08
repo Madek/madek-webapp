@@ -59,26 +59,28 @@ namespace :madek do
       else
         if (File.exist?(FILE_STORAGE_DIR) and File.exist?(THUMBNAIL_STORAGE_DIR))
           puts "Deleting #{FILE_STORAGE_DIR} and #{THUMBNAIL_STORAGE_DIR}"
-          system "rm -rf '#{FILE_STORAGE_DIR}' '#{THUMBNAIL_STORAGE_DIR}'"
-          [ '0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f' ].each do |h|
-            puts "Creating #{FILE_STORAGE_DIR}/#{h} and #{THUMBNAIL_STORAGE_DIR}/#{h}"
-            system "mkdir -p #{FILE_STORAGE_DIR}/#{h} #{THUMBNAIL_STORAGE_DIR}/#{h}"
-          end
+          system "rm -rf '#{FILE_STORAGE_DIR}' '#{THUMBNAIL_STORAGE_DIR}'"         
         end
+      
+        [ '0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f' ].each do |h|
+          puts "Creating #{FILE_STORAGE_DIR}/#{h} and #{THUMBNAIL_STORAGE_DIR}/#{h}"
+          system "mkdir -p #{FILE_STORAGE_DIR}/#{h} #{THUMBNAIL_STORAGE_DIR}/#{h}"
+        end
+      
         rm_and_mkdir(TEMP_STORAGE_DIR)
         rm_and_mkdir(DOWNLOAD_STORAGE_DIR)
         rm_and_mkdir(ZIP_STORAGE_DIR)
       end
       
-      Rake::Task["log:clear"].invoke
-      Rake::Task["db:migrate:reset"].invoke
-      Rake::Task["madek:init"].invoke
+     Rake::Task["log:clear"].invoke
+     Rake::Task["db:migrate:reset"].invoke
+     Rake::Task["madek:init"].invoke
 
       # workaround for realoading Models
-      ActiveRecord::Base.subclasses.each { |a| a.reset_column_information }
+     ActiveRecord::Base.subclasses.each { |a| a.reset_column_information }
 
-      Rake::Task["db:seed"].invoke
-      Rake::Task["app:import_initial_metadata"].invoke
+     Rake::Task["db:seed"].invoke
+     Rake::Task["app:import_initial_metadata"].invoke
 
   end
 
