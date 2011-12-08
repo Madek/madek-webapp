@@ -13,11 +13,7 @@ describe Media::Set do
   
   context "sets in sets" do
 
-    pending "should contain other sets" do
-      
-    end
-    
-    pending "should have all the contexts of all their ancestors" do
+    pending "should be able to contain other sets" do
       
     end
 
