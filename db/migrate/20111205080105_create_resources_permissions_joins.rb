@@ -1,5 +1,5 @@
 
-class CreateMediasetUserpermissionJoins < ActiveRecord::Migration
+class CreateResourcesPermissionsJoins < ActiveRecord::Migration
   include MigrationHelpers
 
   MigrationHelpers.patch_index_name()

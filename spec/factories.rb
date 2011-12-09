@@ -81,10 +81,10 @@ FactoryGirl.define do
   end
 
 
-  factory :media_set_userpermission_join do
+  factory :media_sets_userpermissions_join do
   end
 
-  factory :media_entry_userpermission_join do
+  factory :media_entries_userpermissions_join do
   end
 
   factory :userpermission do
@@ -105,9 +105,9 @@ FactoryGirl.define do
 
     after_create do |up|
       if  up.resource.class ==  Media::Set
-        FactoryGirl.create :media_set_userpermission_join, :userpermission => up, :media_set => up.resource
+        FactoryGirl.create :media_sets_userpermissions_join, :userpermission => up, :media_set => up.resource
       elsif up.resource.class == MediaEntry
-        FactoryGirl.create :media_entry_userpermission_join, :userpermission => up, :media_entry => up.resource
+        FactoryGirl.create :media_entries_userpermissions_join, :userpermission => up, :media_entry => up.resource
       else 
         log "handle this case"
       end
