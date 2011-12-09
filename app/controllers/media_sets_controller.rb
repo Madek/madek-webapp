@@ -150,11 +150,11 @@ class MediaSetsController < ApplicationController
     end
   end
 
-  # TODO merge with media_entries_controller#media_sets ?? OR merge to parent using the inverse nesting ??
+  # TODO merge with media_entries_controller#media_sets ?? OR merge to parents using the inverse nesting ??
   # API #
-  # POST "/media_sets/:id/parent", {media_set_ids: [1, 2, 3, "My new parent set"] }
-  # DELETE "/media_sets/:id/parent", {media_set_ids: [1, 2, 3] }
-  def parent(media_set_ids = params[:media_set_ids])
+  # POST "/media_sets/:id/parents", {media_set_ids: [1, 2, 3, "My new parent set"] }
+  # DELETE "/media_sets/:id/parents", {media_set_ids: [1, 2, 3] }
+  def parents(media_set_ids = params[:media_set_ids])
     if request.post?
       Media::Set.find_by_id_or_create_by_title(media_set_ids, current_user).each do |media_set|
         next unless Permission.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
@@ -179,7 +179,7 @@ class MediaSetsController < ApplicationController
     case action
 #      when :new
 #        action = :create
-      when :show, :browse, :abstract, :parent
+      when :show, :browse, :abstract, :parents
         action = :view
       when :edit, :update, :add_member
         action = :edit
