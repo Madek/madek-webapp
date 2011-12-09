@@ -15,6 +15,7 @@
 //= require madek11
 //= require jquery/browser-check/browser-check
 //= require jquery/video-js/video
+//= require jquery/department-selection/department-selection
 
 /////////// Lib /////////////
 //= require jquery/browser-detection/browser-detection
@@ -115,8 +116,8 @@ $(document).ready(function () {
 	
 		$(".holder.all .bit-box").live('click', function(){
 			var item = {label: $(this).attr("title"), id: $(this).attr("rel")};
-	        var parent_block = $(this).closest("[data-meta_key]");
-	        var search_field = parent_block.find("input[name='autocomplete_search']");
+      var parent_block = $(this).closest("[data-meta_key]");
+      var search_field = parent_block.find("input[name='autocomplete_search']");
 			add_to_selected_items(item, search_field, false);
 			hide_keyword(parent_block, $(this).attr("rel"));
 		});
@@ -144,7 +145,12 @@ function get_media_entries_json(){
 }
 
 function set_media_entries_json(data){
-	sessionStorage.setItem("selected_media_entries", data);
+	//1+n http-requests//
+	$.each(data, function(i, elem){
+		elem.thumb_base64 = "/media_entries/"+elem.id+"/image?size=small_125";
+	});
+
+	sessionStorage.setItem("selected_media_entries", JSON.stringify(data));
 }
 
 function get_selected_media_entry_ids() {
@@ -216,14 +222,18 @@ function create_multiselect_widget(search_field, is_extensible, with_toggler){
     }
   }).autocomplete({
     source: function(request, response){
-      var unselected_options = all_options.filter(function(elem){ if(!elem.selected) return elem; });
+      var unselected_options = $(search_field).data("all_options").filter(function(elem){ if(!elem.selected) return elem; });
       response($.ui.autocomplete.filter(unselected_options, request.term) );
     },
     minLength: 3,
     select: function(event, ui) {
-	  new_term = false;
-      add_to_selected_items(ui.item, search_field, false);
-	  just_selected = true;
+      if($(event.target).hasClass("department-selection")) {
+        return false;
+      } else {
+    	  new_term = false;
+        add_to_selected_items(ui.item, search_field, false);
+    	  just_selected = true;
+      }
     },
     close: function(event, ui) {
 	  search_field.autocomplete("option", "minLength", 3);

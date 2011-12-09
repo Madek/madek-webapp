@@ -1,6 +1,40 @@
 # -*- encoding : utf-8 -*-
 module MediaEntriesHelper
  
+  def meta_data(media_entry, is_expert)
+    
+    meta_data = []
+    # TODO check permissions for individual contexts (through media_sets)
+    (MetaContext.defaults + media_entry.individual_contexts).collect do |meta_context|
+      meta_data << display_meta_data_for(media_entry, meta_context)
+    end
+    meta_data << display_objective_meta_data_for(media_entry)
+    if false #media_entry.media_file.meta_data and media_entry.media_file.meta_data["GPS:GPSLatitude"] and media_entry.media_file.meta_data["GPS:GPSLongitude"]
+      meta_data << (link_to _("Karte"), [:map, media_entry])
+    end
+    if is_expert
+      meta_context = MetaContext.tms
+      meta_data << display_meta_data_for(media_entry, meta_context)
+    end
+    
+    meta_data_output = [[],[],[],[]]
+    meta_data.each_slice(4) do |slice|
+      slice.each_with_index do |entry, index|
+        meta_data_output[index] << entry
+      end
+    end
+    
+    capture_haml do
+      meta_data_output.each_with_index do |entry, index|
+        haml_tag :div, :class => "col" do
+          meta_data_output[index].each do |entry|
+            haml_concat entry
+          end
+        end
+      end
+    end
+  end
+ 
   def thumb_for(resource, size = :small_125, options = {})
     media_file = if resource.is_a?(Media::Set)
       MediaResource.accessible_by_user(current_user).media_entries.by_media_set(resource).first.try(:media_file)

@@ -178,19 +178,24 @@ module Resource
     end
     
     # NEW and experimental for batch processes 
-    def get_basic_info(current_user, extended_keys = [])
+    def get_basic_info(current_user, extended_keys = [], with_thumb = false)
       core_keys = ["title", "author"]
       core_info = Hash.new
       
       (core_keys + extended_keys).each do |key|
         core_info[key.gsub(' ', '_')] = meta_data.get_value_for(key)
       end
-      mf = if self.is_a?(Media::Set)
-        MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).first.try(:media_file)
+      if with_thumb
+        mf = if self.is_a?(Media::Set)
+          MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).first.try(:media_file)
+        else
+          self.media_file
+        end
+        core_info["thumb_base64"] = mf.thumb_base64(:small_125) if mf
       else
-        self.media_file
+        #1+n http-requests#
+        core_info["thumb_base64"] = "/media_entries/%d/image?size=small_125" % self.id
       end
-      core_info["thumb_base64"] = mf.thumb_base64(:small_125) if mf
       core_info
     end
 
@@ -216,12 +221,17 @@ module Resource
 ########################################################
 
   def as_json(options={})
-    user = options[:user]
+    user = options[:user] #.delete(:user)
+    with_thumb = options[:with_thumb]
+    
     flags = { :is_private => acl?(:view, :only, user),
               :is_public => acl?(:view, :all),
               :is_editable => Permission.authorized?(user, :edit, self),
               :is_manageable => Permission.authorized?(user, :manage, self) }
-    self.attributes.merge(self.get_basic_info(user)).merge(flags)
+
+    default_options = {:only => :id}
+    json = super(default_options.deep_merge(options))
+    json.merge(self.get_basic_info(user, [], with_thumb)).merge(flags)
   end
 
 ########################################################

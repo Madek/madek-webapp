@@ -5,6 +5,7 @@
 
 = button_tag(:id => "new_button", :class => "new_set", :style => "float: left;") do
   = _("Neues Set erstellen")
+.clear
 
 #page_head_newset.new_set
   #set_meta
@@ -24,7 +25,9 @@
 - if @resources[:entries].any?
   #results
 - else 
-  = _("Keine Sets vorhanden")
+  %br
+  %p.no_sets
+    = _("Keine Sets vorhanden")
   
 :javascript
   
@@ -36,6 +39,7 @@
       if($("#results")) {
         $("#results > .page > .item_box:first").before($("#page_head_newset.new_set"));
         $("#page_head_newset.new_set").fadeIn("slow");
+        $(".no_sets").hide();
         $("#page_head_newset.new_set input[type=text]").val("").focus();
       }
     });
