@@ -6,8 +6,14 @@ module Media
 
   class Set < ActiveRecord::Base # TODO rename to Media::Group
     include Resource
+
+    has_many :out_arcs, class_name: "Media::SetArc", :foreign_key => :parent_id
+    has_many :in_arcs, class_name: "Media::SetArc", :foreign_key => :child_id
+
+    has_many :children, :through => :out_arcs
+    has_many :parents, :through => :in_arcs
   
-    has_dag_links :link_class_name => 'Media::SetLink'
+    #has_dag_links :link_class_name => 'Media::SetLink'
   
     belongs_to :user
     has_and_belongs_to_many :media_entries, :join_table => "media_entries_media_sets",
