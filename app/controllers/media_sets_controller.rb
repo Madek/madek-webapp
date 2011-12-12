@@ -10,7 +10,7 @@ class MediaSetsController < ApplicationController
 
     @media_sets, @my_media_sets, @my_title, @other_title = if @media_set
       # all media_sets I can see, nested within a media set (for now only used with featured sets)
-      [resources.where(:id => @media_set.children), nil, "#{@media_set}", nil]
+      [resources.where(:id => @media_set.child_sets), nil, "#{@media_set}", nil]
     elsif @user and @user != current_user
       # all media_sets I can see that have been created by another user
       [resources.by_user(@user), nil, "Sets von %s" % @user, nil]
@@ -46,7 +46,7 @@ class MediaSetsController < ApplicationController
 
     @can_edit_set = Permission.authorized?(current_user, :edit, @media_set)
     
-    @parents = @media_set.parents.as_json(:user => current_user)
+    @parents = @media_set.parent_sets.as_json(:user => current_user)
     
     respond_to do |format|
       format.html
