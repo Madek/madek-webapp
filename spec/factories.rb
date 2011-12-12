@@ -16,6 +16,9 @@ end
 
 FactoryGirl.define do
 
+  factory :media_set_arc , :class => Media::SetArc do
+  end
+
   factory :media_entry do
     upload_session {FactoryGirl.create :upload_session}
     media_file {FactoryGirl.create :media_file}
