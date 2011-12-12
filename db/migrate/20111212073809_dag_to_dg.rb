@@ -1,12 +1,18 @@
 class DagToDg < ActiveRecord::Migration
+  extend MigrationHelpers
+
   def up
 
     create_table :media_set_arcs do |t|
-      t.integer :parent_id
-      t.integer :child_id
+      t.integer :parent_id, :null => false
+      t.integer :child_id, :null => false
     end
+
     add_index :media_set_arcs, :parent_id
     add_index :media_set_arcs, :child_id
+
+    MigrationHelpers::fkey_cascade_on_delete :media_set_arcs, :parent_id, :media_sets 
+    MigrationHelpers::fkey_cascade_on_delete :media_set_arcs, :child_id, :media_sets 
 
 
     Media::SetLink.where(direct: true).each do |link|

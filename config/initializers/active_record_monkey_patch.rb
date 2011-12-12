@@ -1,4 +1,4 @@
-require 'sqlhelper'
+require 'sql_helper'
 
 class ActiveRecord::Base
 
