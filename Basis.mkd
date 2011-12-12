@@ -1,0 +1,83 @@
+
+In response to Ramons request to name things that would improve our code basis.
+
+Note, this is not a critics of what has been done so far. I understand the
+history and I am aware where the focus has been. 
+
+
+Specs and Tests
+---------------
+
+Write them. We are doing much better; but still the focus is not closely on
+writing tests as it should be (I don't mean the cucumber stuff, I'm very happy
+we have at least that). In particular all the old/existing models and
+controllers are pretty much not covered.
+
+If testing had been done from the start, many of the following "problems" would
+not exist.
+
+
+Decouple
+--------
+
+Increase decoupling of components.
+
+1. Do we really need LDAP in test/dev?
+
+2. Creating a media_resource is coupled to a bunch external tools. 
+
+3. Accessing external tools seems to be a bit scattered all over the place.
+
+
+Review for violations of Rails or even MVC
+------------------------------------------
+
+I have one example (but maybe there is more):  the (already mentioned
+media_ file/resource) fetches some (meta-) data via a hook in the model. 
+
+1. This is a violation of MVC. The model should never be responsible for
+   fetching. The data should be passed into the model.
+
+2. Besides, using hooks/callbacks makes the program flow hard to understand.
+   It is not necessary in this case.
+
+This did cost me quite a lot of time when writing factories. I finally managed
+to work around it, but it is still a very ugly solution.
+
+
+Review architectural concepts
+-----------------------------
+
+A few of the performance improving measures seem to me (looking at them from a
+superficial level) only getting us so far. For example putting the thumb-images
+in one fat request. It makes things better as long we don't have that many of
+them. Such approaches might be more of a burden than a solution in the long
+run.
+
+Then there is the unconditional getting all "things" from the DB in some
+places. This actually goes all the way up to UI. We might do some eager loading
+and patches alike. But again, this will not scale to where we want to go.
+
+Is there more of this stuff? 
+
+
+Code refactorings and cleanup
+-------------------------------------
+
+My point is that we release this software as open source. What we publish will
+be reflected back to us and our reputation. Then there is the Broken Window
+Theory.
+
+1. There seem to be a few forgotten "TODO"s around in the code.
+
+2. The naming is sometimes off, e.g. there is no deathdate in an English
+   dictionary.
+
+3. I personally don't care much of the length of functions/methods. But even
+   for me, some of them are way too long and too complex. 
+
+4. Breaches of Rails or MVC might be obvious to some.
+
+5. I already mentioned the architectural problems (at least, only very few
+   people will find them).
+

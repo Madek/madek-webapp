@@ -1,5 +1,19 @@
 # encoding: utf-8
 
+
+module DataFactory 
+  extend self
+
+  def create_dag 
+    prev_media_set = FactoryGirl.create :media_set
+    (1..10).each do |i|
+      next_media_set = FactoryGirl.create :media_set
+      Media::SetLink.create_edge prev_media_set, next_media_set
+      prev_media_set = next_media_set
+    end
+  end
+end
+
 FactoryGirl.define do
 
   factory :media_entry do
@@ -27,7 +41,6 @@ FactoryGirl.define do
 
   factory :media_set, :class => Media::Set do
     user {User.find_random || (FactoryGirl.create :user)}
-    owner {User.find_random || (FactoryGirl.create :user)}
   end
 
   factory :group do
