@@ -20,12 +20,14 @@ class ResourcesController < ApplicationController
       media_entry_ids = meta_term.meta_data(meta_key).select{|md| md.resource_type == "MediaEntry"}.collect(&:resource_id)
       resources = resources.media_entries.where(:id => media_entry_ids)
     end
-
+    
+    with_thumb = true #FE# (params[:thumb].to_i > 0)
+    
     @resources = { :pagination => { :current_page => resources.current_page,
                                    :per_page => resources.per_page,
                                    :total_entries => resources.total_entries,
                                    :total_pages => resources.total_pages },
-                  :entries => resources.as_json(:user => current_user) }
+                  :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) }
                    
     respond_to do |format|
       format.html
