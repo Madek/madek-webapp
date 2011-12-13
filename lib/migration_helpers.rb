@@ -1,6 +1,7 @@
 require 'sql_helper'
 
 module MigrationHelpers
+  include ::SQLHelper
   extend ::SQLHelper
   extend self
  
