@@ -4,31 +4,35 @@ class MediaSetsController < ApplicationController
   before_filter :pre_load
   before_filter :authorized?, :except => [:index, :create]
 
-  #-# only used for FeaturedSet
-  def index
-    resources = MediaResource.accessible_by_user(current_user).media_sets
-
-    @media_sets, @my_media_sets, @my_title, @other_title = if @media_set
-      # all media_sets I can see, nested within a media set (for now only used with featured sets)
-      [resources.where(:id => @media_set.children), nil, "#{@media_set}", nil]
-    elsif @user and @user != current_user
-      # all media_sets I can see that have been created by another user
-      [resources.by_user(@user), nil, "Sets von %s" % @user, nil]
-    else # TODO elsif @user == current_user
-      # all media sets I can see that have not been created by me
-      other = resources.not_by_user(current_user)
-      my = resources.by_user(current_user)
-      if params[:type] == "projects"
-        [other.projects, my.projects, "Meine Projekte", "Weitere Projekte"]
-      else
-        [other.sets, my.sets, "Meine Sets", "Weitere Sets"]
-      end
-    end
-
-    #-# @_media_set_ids = (Array(@media_sets) + Array(@my_media_sets)).map(&:id)
-
+  # API #
+  # GET "/media_sets.js", {accessible_action: "edit"}
+  def index(accessible_action = params[:accessible_action] || :view)
     respond_to do |format|
-      format.html
+      #-# only used for FeaturedSet
+      format.html {
+        resources = MediaResource.accessible_by_user(current_user).media_sets
+    
+        @media_sets, @my_media_sets, @my_title, @other_title = if @media_set
+          # all media_sets I can see, nested within a media set (for now only used with featured sets)
+          [resources.where(:id => @media_set.children), nil, "#{@media_set}", nil]
+        elsif @user and @user != current_user
+          # all media_sets I can see that have been created by another user
+          [resources.by_user(@user), nil, "Sets von %s" % @user, nil]
+        else # TODO elsif @user == current_user
+          # all media sets I can see that have not been created by me
+          other = resources.not_by_user(current_user)
+          my = resources.by_user(current_user)
+          if params[:type] == "projects"
+            [other.projects, my.projects, "Meine Projekte", "Weitere Projekte"]
+          else
+            [other.sets, my.sets, "Meine Sets", "Weitere Sets"]
+          end
+        end
+      }
+      format.js {
+        resources = MediaResource.accessible_by_user(current_user, accessible_action.to_sym).media_sets
+        render :json => resources.as_json(:user => current_user, :with_thumb => false)
+      }
     end
   end
 
@@ -45,16 +49,18 @@ class MediaSetsController < ApplicationController
                        :entries => resources.as_json(:user => current_user) } 
 
     @can_edit_set = Permission.authorized?(current_user, :edit, @media_set)
-
+    
+    @parents = @media_set.parents.as_json(:user => current_user)
+    
     respond_to do |format|
       format.html
-      format.js { render :json => @media_entries.to_json }
+      format.js { render :json => @media_entries.to_json } #FE# render :json => @media_set.as_json(:user => current_user)
     end
   end
 
   # TODO only for media_project
   def abstract
-    @_media_entry_ids = MediaResource.accessible_by_user(current_user).by_media_set(@media_set).map(&:id)
+    @_media_entry_ids = MediaResource.accessible_by_user(current_user).media_entries.by_media_set(@media_set).map(&:id)
     respond_to do |format|
       format.js { render :layout => false }
     end
@@ -73,15 +79,26 @@ class MediaSetsController < ApplicationController
 # Authenticated Area
 # TODO
 
-  def create
+  # API #
+  # POST "/media_sets", {media_set: {meta_data_attributes: {0 => {meta_key_id: 3, value: "Set title"}}} }
+  def create(attr = params[:media_set])
     # TODO ?? find_by_id_or_create_by_title
-    @media_set = current_user.media_sets.build(params[:media_set])
-    if @media_set.save
-      #temp# flash[:notice] = "Media::Set successful created"
-      redirect_to user_resources_path(current_user, :type => "sets")
-    else
-      flash[:notice] = @media_set.errors.full_messages
-      redirect_to :back
+    @media_set = current_user.media_sets.build(attr)
+    is_saved = @media_set.save
+
+    respond_to do |format|
+      format.html {
+        if is_saved
+          #temp# flash[:notice] = "Media::Set successful created"
+          redirect_to user_resources_path(current_user, :type => "sets")
+        else
+          flash[:notice] = @media_set.errors.full_messages
+          redirect_to :back
+        end
+      }
+      format.js {
+        render :json => @media_set.as_json(:user => current_user), :status => (is_saved ? 200 : 500)
+      }
     end
   end
 
@@ -137,6 +154,26 @@ class MediaSetsController < ApplicationController
     end
   end
 
+  # TODO merge with media_entries_controller#media_sets ?? OR merge to parents using the inverse nesting ??
+  # API #
+  # POST "/media_sets/:id/parents", {media_set_ids: [1, 2, 3, "My new parent set"] }
+  # DELETE "/media_sets/:id/parents", {media_set_ids: [1, 2, 3] }
+  def parents(media_set_ids = params[:media_set_ids])
+    if request.post?
+      Media::Set.find_by_id_or_create_by_title(media_set_ids, current_user).each do |media_set|
+        next unless Permission.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
+        @media_set.parents << media_set
+      end
+    elsif request.delete?
+      @media_set.parents.delete(Media::Set.find(media_set_ids))
+    end
+    
+    respond_to do |format|
+      format.html { redirect_to @media_set }
+      format.js { render :json => @media_set.as_json(:user => current_user, :methods => :parent_ids) }
+    end
+  end
+
 #####################################################
 
   private
@@ -146,7 +183,7 @@ class MediaSetsController < ApplicationController
     case action
 #      when :new
 #        action = :create
-      when :show, :browse, :abstract
+      when :show, :browse, :abstract, :parents
         action = :view
       when :edit, :update, :add_member
         action = :edit

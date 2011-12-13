@@ -9,12 +9,21 @@ Bundler.require(:default, Rails.env) if defined?(Bundler)
 
 module MAdeK
   class Application < Rails::Application
+
+
+    config.active_record.schema_format = :sql
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
+    #
+    Dir["lib/**/*.rb"].each do |path|
+        require_dependency path
+    end
+    config.autoload_paths += %W(#{Rails.root}/lib)
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -44,7 +53,7 @@ module MAdeK
   end
 end
 
-YAML::ENGINE.yamler= 'syck' # TODO use psyck ??
+YAML::ENGINE.yamler= 'syck' # TODO use psych ??
 
 # Config files here.
 METADATA_CONFIG_DIR = "#{Rails.root}/config/definitions/metadata"
@@ -81,6 +90,8 @@ FILE_UTIL_PATH = "/usr/bin/file -b --mime-type"
 
 THUMBNAILS = { :x_large => '1024x768>', :large => '620x500>', :medium => '300x300>', :small_125 => '125x125>', :small => '100x100>' }
 PER_PAGE = [36,72,144]
+
+SPLASHSCREEN_SLIDESHOW_SET = 361
 
 DEFAULT_ACTION_PERMISSIONS = {  :view => false, # read
                                 :edit => false #, # update

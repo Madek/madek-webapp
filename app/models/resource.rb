@@ -1,7 +1,9 @@
 # -*- encoding : utf-8 -*-
 module Resource
+
   
   def self.included(base)
+
    # TODO observe bulk changes and reindex once
     base.has_many :meta_data, :as => :resource, :dependent => :destroy do #working here#7 :include => :meta_key
       def get(key_id)
@@ -176,19 +178,24 @@ module Resource
     end
     
     # NEW and experimental for batch processes 
-    def get_basic_info(current_user, extended_keys = [])
+    def get_basic_info(current_user, extended_keys = [], with_thumb = false)
       core_keys = ["title", "author"]
       core_info = Hash.new
       
       (core_keys + extended_keys).each do |key|
         core_info[key.gsub(' ', '_')] = meta_data.get_value_for(key)
       end
-      mf = if self.is_a?(Media::Set)
-        MediaResource.accessible_by_user(current_user).by_media_set(self).first.try(:media_file)
+      if with_thumb
+        mf = if self.is_a?(Media::Set)
+          MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).first.try(:media_file)
+        else
+          self.media_file
+        end
+        core_info["thumb_base64"] = mf.thumb_base64(:small_125) if mf
       else
-        self.media_file
+        #1+n http-requests#
+        core_info["thumb_base64"] = "/media_entries/%d/image?size=small_125" % self.id
       end
-      core_info["thumb_base64"] = mf.thumb_base64(:small_125) if mf
       core_info
     end
 
@@ -214,12 +221,17 @@ module Resource
 ########################################################
 
   def as_json(options={})
-    user = options[:user]
+    user = options[:user] #.delete(:user)
+    with_thumb = options[:with_thumb]
+    
     flags = { :is_private => acl?(:view, :only, user),
               :is_public => acl?(:view, :all),
               :is_editable => Permission.authorized?(user, :edit, self),
               :is_manageable => Permission.authorized?(user, :manage, self) }
-    self.attributes.merge(self.get_basic_info(user)).merge(flags)
+
+    default_options = {:only => :id}
+    json = super(default_options.deep_merge(options))
+    json.merge(self.get_basic_info(user, [], with_thumb)).merge(flags)
   end
 
 ########################################################
@@ -239,8 +251,8 @@ module Resource
   def reindex
     ft = full_text || build_full_text
     new_text = meta_data.concatenated
-    [:user].each do |field|
-      new_text << " #{send(field)}"
+    [:user].each do |method|
+      new_text << " #{send(method)}" if respond_to?(method)
     end
     ft.update_attributes(:text => new_text)
   end
@@ -321,7 +333,7 @@ module Resource
     i = Permission::ACTIONS.index(:manage)
     return nil unless i
     j = 2 ** i
-    permissions.where("action_bits & #{j} AND action_mask & #{j}").map(&:subject)
+    permissions.where("#{SQLHelper.bitwise_is 'action_bits',j} AND #{SQLHelper.bitwise_is 'action_mask',j}").map(&:subject)
   end
 
 private

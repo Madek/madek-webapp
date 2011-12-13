@@ -1,6 +1,21 @@
 # -*- encoding : utf-8 -*-
 MAdeK::Application.routes.draw do
 
+=begin #FE#
+  resources :resources, :only => :index
+  resources :media_sets, :only => :show
+  resources :media_entries, :only => :show do
+    member do
+      get :image
+    end
+    resources :meta_data do
+      collection do
+        put :update_multiple
+      end
+    end
+  end
+=end  
+
   wiki_root '/wiki'
 
   root :to => "application#root"
@@ -132,6 +147,8 @@ MAdeK::Application.routes.draw do
     member do
       get :browse
       get :abstract
+      post :parents
+      delete :parents
     end
     
     resources :media_sets #-# only used for FeaturedSet 
@@ -233,5 +250,5 @@ MAdeK::Application.routes.draw do
       end
     end
   end
-  
+
 end

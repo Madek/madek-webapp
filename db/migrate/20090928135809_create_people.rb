@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 class CreatePeople < ActiveRecord::Migration
   def self.up
+
     create_table    :people do |t|
       t.string      :firstname
       t.string      :lastname
@@ -13,6 +14,15 @@ class CreatePeople < ActiveRecord::Migration
       t.boolean     :delta, :null => false, :default => true
       t.timestamps
     end
+
+    sql = <<-SQL
+      ALTER TABLE users ADD CONSTRAINT person_id_fkey
+        FOREIGN KEY (person_id) REFERENCES people (id); 
+    SQL
+    sql.split(/;\s*$/).each {|cmd| execute cmd} if SQLHelper.adapter_is_mysql?
+    execute sql if SQLHelper.adapter_is_postgresql?
+
+
   end
 
   def self.down

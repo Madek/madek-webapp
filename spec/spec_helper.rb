@@ -32,10 +32,11 @@ end
 RSpec.configure do |config|
 
   config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation, {:except => %w[meta_keys meta_contexts meta_terms meta_keys_meta_terms meta_key_definitions meta_departments usage_terms]}
 
-    # Truncate everything before the first steps run
-    DatabaseCleaner.clean
+    # TODO do we still need this here: 
+    MetaHelper.import_initial_metadata
+
+    DatabaseCleaner.strategy = :transaction
   end
 
   config.before(:each) do

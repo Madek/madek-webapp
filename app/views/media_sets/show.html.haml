@@ -26,7 +26,9 @@
           - if @can_edit_set
             = display_edit_icon(@media_set, current_user)
             = display_delete_icon(@media_set, current_user)
-        = render :partial => "media_entries/browsing"
+          = link_to "#", :panel => "media_set", :title => "Zu Set/Projekt hinzufügen" do
+            .button_addto
+
       .grid_9
         #detail_specification.tabs
           %ul
@@ -37,7 +39,6 @@
             - if @media_set.is_a?(Media::Project)
               %li
                 = link_to _("Auszug"), "#abstract_tab"
-            - if @media_set.is_a?(Media::Project)
               %li
                 = link_to _("Vokabular"), "#vocabulary_tab"
               %li
@@ -46,27 +47,59 @@
             - context = MetaContext.media_set
             = display_meta_data_for_context(@media_set, context)
           - if @media_set.is_a?(Media::Project)
+            = render :partial => "media_entries/browsing"
             #abstract_tab.clearfix
               %p
                 Diese Metadaten wurden am häufigsten vergeben. Sie zeigen den thematischen Schwerpunkt des Projekts an.
               = display_project_abstract_slider(@media_set, @media_entries[:pagination][:total_entries])
               = display_project_abstract(@media_set, (@media_entries[:pagination][:total_entries] * 30 / 100), current_user)
-          - if @media_set.is_a?(Media::Project)
             #vocabulary_tab.clearfix
               = display_project_vocabulary(@media_set, current_user)
 
+        #media_set-panel.actionbar-panel{:style => "display: none"}
+          .actionbar-inner-panel
+            - if logged_in?
+              = media_sets_setter(parents_media_set_path(@media_set))
+            - else
+              = _("Bitte anmelden.")
+
+
 %section#content_body_set
+  -if(@parents.size > 0)
+    %div.page_title_left.set_parents_title
+      .icon_set_parents
+      = _("Set enthalten in:")
+      %span
+        = _("Dieses Set ist in %s enthalten") % pluralize(@parents.size, "Set")
+    .clear
+    #parents
+  
   %div.page_title_left
     %div{:class => icon_class}
-    = content_title
-    %span= "#{@media_entries[:pagination][:total_entries]} von #{@media_set.media_entries.count} Medieneinträge für Sie sichtbar"
+    = _("Set enthält:")
+    %span
+      =#old# "#{@media_entries[:pagination][:total_entries]} von #{@media_set.media_entries.count} Medieneinträge für Sie sichtbar"
+      = "#{@media_entries[:pagination][:total_entries]} von #{MediaResource.by_media_set(@media_set).count} für Sie sichtbar"
   .clear
   = render :partial => "media_entries/index"
-
+  
+  
 =#Rails3.1# javascript_include_tag "batch_actions"
 
 :javascript
   $(document).ready(function () {
     setupBatch(#{@media_entries.to_json}, #{@media_set.id}, #{@media_set.media_entry_ids.to_json});
+    
+    // hide parents at start
+    $("#parents").hide();
+        
+    // setup parents of current sets
+    $("#parents").append($("#thumbnail").tmpl(#{@parents.to_json}));
+    
+    // show parents toggle
+    $(".set_parents_title").click(function(){
+      $("#parents").toggle();
+      $(".icon_set_parents").toggleClass("open");
+    });
   });
   

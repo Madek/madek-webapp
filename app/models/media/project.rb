@@ -14,7 +14,7 @@ class Media::Project < Media::Set
   def abstract(min_media_entries = nil, current_user = nil)
     min_media_entries ||= media_entries.count.to_f * 50 / 100
     accessible_media_entry_ids = if current_user
-      MediaResource.accessible_by_user(current_user).by_media_set(self).map(&:id)
+      MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).map(&:id)
     else
       media_entry_ids
     end
@@ -36,7 +36,7 @@ class Media::Project < Media::Set
 
   def used_meta_term_ids(current_user = nil)
     accessible_media_entry_ids = if current_user
-      MediaResource.accessible_by_user(current_user).by_media_set(self).map(&:id)
+      MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).map(&:id)
     else
       media_entry_ids
     end
@@ -55,7 +55,7 @@ class Media::Project < Media::Set
   # TODO use ruby-graphviz gem instead ??
   def graph
     current_user = nil # TODO
-    mes = MediaResource.accessible_by_user(current_user).by_media_set(self)
+    mes = MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self)
 
     g = RGL::DOT::Digraph.new({ 'name' => title,
                                 'label' => "#{title}\n#{DateTime.now.to_formatted_s(:date_time)}" })

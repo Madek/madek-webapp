@@ -1,0 +1,62 @@
+@import "../mixins.scss";
+
+#meta_data {
+  background: white;
+  display: block;
+  padding: 20px 20px 10px 20px;
+  position: relative;
+  margin: -4px auto 0 auto;
+  width: 90%;
+  min-width: 920px;
+  @include box-shadow(0 0 4px rgba(150, 150, 150, 0.5));
+  
+  .col {
+    display: inline-block;
+    float: left;
+    position: relative;
+    width: 25%;
+    
+    &:nth-child(1) {
+      margin-left: 0;
+    }
+    
+    & > ul {
+      padding: 0 0.75em;
+    }
+    
+    li {
+      float: none;
+    }
+  }
+  
+  h4.meta_group_name {
+    font-size: 1.1em;
+    padding: 5px 0 8px;
+  }
+  
+  h5.meta_vocab_name {
+    font-size: 0.84em;
+    padding-bottom: 6px;
+  }
+  
+  .meta_terms {
+    font-size: 0.93em;
+  }
+  
+  .meta_vocab {
+    border-bottom: 1px solid #E9E9E9;
+    line-height: 1.2em;
+    padding-bottom: 10px;
+    padding-top: 7px;
+  }
+  
+  .meta_group {
+    margin-bottom: 16px;
+  }
+  
+  .meta_data_comment {
+    font-size: 0.97em;
+    padding: 12px 0 0 0;
+    color: silver;
+  }
+}

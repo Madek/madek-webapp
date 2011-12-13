@@ -11,11 +11,13 @@ module MediaSetsHelper
         #2001# " (%d/%d Medieneinträge)" % [visible_media_entries.count, media_set.media_entries.count]
         haml_concat " (%d Medieneinträge)" % [media_set.media_entries.count]
         haml_tag :br
-        haml_concat "von #{media_set.user}"
-        haml_tag :br
+        unless (authors = media_set.meta_data.get_value_for("author")).blank?
+          haml_concat "von #{authors}"
+          haml_tag :br
+        end
         if total_thumbs > 0
           haml_tag :br
-          media_entries = MediaResource.accessible_by_user(current_user).by_media_set(media_set).paginate(:page => 1, :per_page => total_thumbs)
+          media_entries = MediaResource.accessible_by_user(current_user).media_entries.by_media_set(media_set).paginate(:page => 1, :per_page => total_thumbs)
           if media_entries.empty?
             haml_tag :small, _("Noch keine Medieneinträge enthalten")
           else
@@ -25,6 +27,7 @@ module MediaSetsHelper
             haml_concat "..." if media_entries.total_pages > media_entries.current_page
           end
         end
+        haml_tag :div, :class => "clearfix"
       end
     end
 

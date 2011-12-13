@@ -30,12 +30,48 @@ class Download
           # If we move the gsub to execute after the unescape has processed, we can easily lose part of the 
           # filename if it contains diacritics and spaces.
           filename = CGI::unescape(@media_entry.media_file.filename.gsub(/\+/, '_'))
-          size = params['size'].try(:to_sym)
-          if size
-            preview = @media_entry.media_file.get_preview(size)
-            filename = [filename.split('.', 2).first, preview.filename.gsub(@media_entry.media_file.guid, '')].join
-            content_type = preview.content_type
+          is_preview = (!params['size'].nil? or !params['video_thumbnail'].nil? or !params['audio_preview'].nil?)
+          if is_preview
             return [500, {"Content-Type" => "text/html"}, ["Sie haben nicht die notwendige Zugriffsberechtigung."]] unless Permission.authorized?(current_user, :view, @media_entry) 
+            
+            size = params['size'].try(:to_sym)
+                        
+            # This isn't video or audio, it's a plain old image
+            if (!size.nil? and params['video_thumbnail'].nil? and params['audio_preview'].nil?)
+              preview = @media_entry.media_file.get_preview(size)
+              content_type = preview.content_type
+              filename = [filename.split('.', 2).first, preview.filename.gsub(@media_entry.media_file.guid, '')].join
+              
+            # Video files get a WebM preview file
+            elsif !params['video_thumbnail'].nil?
+              content_type = "video/webm"
+              preview = @media_entry.media_file.previews.where(:content_type => content_type).last
+              if preview.nil?
+                return [404, {"Content-Type" => "text/html"}, ["Preview file not found."]]
+              else
+                filename = preview.filename # The filename going out to the browser
+                path = "#{THUMBNAIL_STORAGE_DIR}/#{@media_entry.media_file.shard}/#{preview.filename}"
+                # this return seems to be handled later on anyhow                
+                #return [200, {"Content-Type" => content_type, "Content-Disposition" => "attachment; filename=#{@media_entry.media_file.filename}" }, [File.read(path) ]]
+              end     
+              
+            # Audio files get an Ogg Vorbis preview file
+            elsif !params['audio_preview'].nil?
+              content_type = "audio/ogg"
+              preview = @media_entry.media_file.previews.where(:content_type => content_type).last
+              if preview.nil?
+                return [404, {"Content-Type" => "text/html"}, ["Preview file not found."]]
+              else
+                filename = preview.filename # The filename going out to the browser
+                path = "#{THUMBNAIL_STORAGE_DIR}/#{@media_entry.media_file.shard}/#{preview.filename}"
+                # this return seems to be handled later on anyhow
+                #return [200, {"Content-Type" => content_type, "Content-Disposition" => "attachment; filename=#{@media_entry.media_file.filename}" }, [File.read(path) ]]
+              end
+              
+            # This isn't any preview we can handle
+            else
+              return [500, {"Content-Type" => "text/html"}, ["Don't know how to handle this type of preview."]]
+            end
           else
             content_type = @media_entry.media_file.content_type
             return [500, {"Content-Type" => "text/html"}, ["Sie haben nicht die notwendige Zugriffsberechtigung."]] unless Permission.authorized?(current_user, :hi_res, @media_entry) 
@@ -62,8 +98,12 @@ class Download
               zos.print IO.read(path)
               zos.put_next_entry("#{filename}.xml")
               zos.print @media_entry.to_xml(:include => {:meta_data => {:include => :meta_key}} )
-              zos.put_next_entry("#{filename}.yml")
-              zos.print @media_entry.to_yaml(:include => {:include => :meta_key} )
+              
+              # FIXME yaml not working properly anymore!
+              # YAML::ENGINE.yamler='psych'
+              # zos.put_next_entry("#{filename}.yml")
+              # zos.print @media_entry.to_yaml(:include => {:meta_data => {:include => :meta_key}} )
+              # YAML::ENGINE.yamler='syck'
             end
 
             if path
@@ -108,31 +148,6 @@ class Download
               return [200, {"Content-Type" => content_type, "Content-Disposition" => "attachment; filename=#{filename}" }, [File.read(path) ]]
             else
               return [500, {"Content-Type" => "text/html"}, ["Something went wrong!"]]
-            end
-          end
-
-
-          # A transcoded, smaller-than-original version of the video
-          unless params['video_thumbnail'].blank?
-            content_type = "video/webm"
-            preview = @media_entry.media_file.previews.where(:content_type => content_type).last
-            if preview.nil?
-              return [404, {"Content-Type" => "text/html"}, ["Not found."]]
-            else
-              path = "#{THUMBNAIL_STORAGE_DIR}/#{@media_entry.media_file.shard}/#{preview.filename}"
-              return [200, {"Content-Type" => content_type, "Content-Disposition" => "attachment; filename=#{@media_entry.media_file.filename}" }, [File.read(path) ]]
-            end
-          end
-
-          # TODO: Merge with above
-          unless params['audio_preview'].blank?
-            content_type = "audio/ogg"
-            preview = @media_entry.media_file.previews.where(:content_type => content_type).last
-            if preview.nil?
-              return [404, {"Content-Type" => "text/html"}, ["Not found."]]
-            else
-              path = "#{THUMBNAIL_STORAGE_DIR}/#{@media_entry.media_file.shard}/#{preview.filename}"
-              return [200, {"Content-Type" => content_type, "Content-Disposition" => "attachment; filename=#{@media_entry.media_file.filename}" }, [File.read(path) ]]
             end
           end
 

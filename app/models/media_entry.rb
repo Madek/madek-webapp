@@ -43,7 +43,7 @@ class MediaEntry < ActiveRecord::Base
   # compares two objects in order to sort them
   # required by dot
   def <=>(other)
-    self.updated_at <=> other.updated_at
+    self.updated_at <=> other.updated_a_t
   end
 
 ########################################################
@@ -105,7 +105,7 @@ class MediaEntry < ActiveRecord::Base
   # NOTE - java jar files are zipped, hence the group tag in application
   #++
   def extract_subjective_metadata
-     return unless ["image", "audio", "video"].any? {|w| self.media_file.content_type.include? w }
+    return unless ["image", "audio", "video"].any? {|w| self.media_file.content_type.include? w }
 
      fct = self.media_file.content_type
      group_tags = case fct

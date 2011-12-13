@@ -1,0 +1,77 @@
+html, body {
+  height: 100%;
+}
+
+#sticky-footer-wrapper {
+  min-height: 100%;
+}
+
+#wrapper {
+  overflow: auto;
+  padding-bottom: 165px;
+}
+
+#footer {
+  position: relative;
+  margin-top: -172px;
+  height: 122px;
+  clear:both;
+} 
+
+/*Opera Fix*/
+body:before {/* thanks to Maleika (Kohoutec)*/
+content:"";
+height:100%;
+float:left;
+width:0;
+margin-top:-32767px;/* thank you Erik J - negate effect of float*/
+}
+
+#users.sidebar-box {
+  
+  .inline-tabs {
+    display: table;
+    position: relative;
+    left: -1px;
+    
+    .container {
+      display: table-row;
+      
+      .tab {
+        background: #EEE;
+        border-top: 1px solid #CCC;
+        border-left: 1px solid #CCC;
+        border-bottom: 1px solid #BCC;     
+        cursor: pointer;
+        display: table-cell;
+        height: 35px;
+        line-height: 1.1em;
+        padding: 0 8px;
+        pointer: cursor;
+        vertical-align: middle;
+        width: 112px;
+        
+        &.active {
+          background: white;
+          border-bottom: 1px solid white;
+        }
+        
+        &:hover {
+          background: #FFE;
+        }
+        
+        &:nth-last-child(1) {
+          border-right: 1px solid #BCC;
+        }        
+      }
+    }
+  }
+  
+  .pilotitem {
+    display: none;
+    
+    &.tab1 {
+      display: block;
+    }
+  }
+}

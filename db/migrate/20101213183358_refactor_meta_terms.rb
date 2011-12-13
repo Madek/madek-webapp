@@ -9,6 +9,12 @@ class RefactorMetaTerms < ActiveRecord::Migration
     change_table :meta_keys do |t|
       t.boolean :is_extensible_list, :null => true
     end
+
+    sql = <<-SQL
+      ALTER SEQUENCE terms_id_seq RENAME TO meta_terms_id_seq;
+    SQL
+    execute sql if SQLHelper.adapter_is_postgresql? 
+
   end
 
   def self.down

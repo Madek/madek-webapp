@@ -1,4 +1,5 @@
 class MediaResource < ActiveRecord::Base
+
   # it's a VIEW !! refactor to STI ??
 
   ### only for media_entries
@@ -39,9 +40,22 @@ class MediaResource < ActiveRecord::Base
   ################################################################
 
   scope :by_media_set, lambda {|media_set|
-    media_entries.
-    joins("INNER JOIN media_entries_media_sets ON media_resources.id = media_entries_media_sets.media_entry_id").
-    where(:media_entries_media_sets => {:media_set_id => media_set})
+    #tmp#
+    #SELECT `media_resources`.* FROM `media_resources`
+    #left JOIN media_entries_media_sets ON media_resources.id = media_entries_media_sets.media_entry_id and `media_entries_media_sets`.`media_set_id` = 347
+    #inner JOIN `media_set_links` ON media_resources.id = `media_set_links`.`descendant_id` and `media_set_links`.`ancestor_id` = 347 AND `media_set_links`.`direct` = 1;
+
+    #old#
+    #joins("INNER JOIN media_entries_media_sets ON media_resources.id = media_entries_media_sets.media_entry_id").
+    #where(:media_entries_media_sets => {:media_set_id => media_set})
+
+    where("(media_resources.id, #{media_resources_type}) IN " \
+            "(SELECT media_entry_id AS id, 'MediaEntry' AS type FROM media_entries_media_sets " \
+              "WHERE media_set_id = ? " \
+            "UNION " \
+              "SELECT descendant_id AS id, 'Media::Set' AS type FROM media_set_links " \
+                "WHERE ancestor_id = ? AND direct = true)",
+          media_set.id, media_set.id);
   }
 
   ################################################################
@@ -107,8 +121,21 @@ class MediaResource < ActiveRecord::Base
   #-# NOTE workaround to manage subclass type
   def self.media_resources_type
     #original# "media_resources.type"
-    "IF(type IN ('Media::Project', 'Media::FeaturedSet'), 'Media::Set', type)" # , 'Media::Collection'
+    if SQLHelper.adapter_is_mysql?
+      "IF(type IN ('Media::Project', 'Media::FeaturedSet'), 'Media::Set', type)" # , 'Media::Collection'
+    elsif SQLHelper.adapter_is_postgresql?
+      "
+      CASE 
+        WHEN (type IN ('Media::Project', 'Media::FeaturedSet'))  THEN  'Media::Set'
+        ELSE type
+      END
+      "
+    else 
+      raise "unsupported db adapter"
+    end
   end
+  
+
 
   def self.accessible_by_user(user, action = :view)
     i = 2 ** Permission::ACTIONS.index(action)
@@ -117,13 +144,13 @@ class MediaResource < ActiveRecord::Base
     where("(media_resources.id, #{media_resources_type}) NOT IN " \
             "(SELECT resource_id, resource_type from permissions " \
               "WHERE (subject_type = 'User' AND subject_id = ?) " \
-                "AND NOT action_bits & #{i} AND action_mask & #{i}) " \
+                "AND NOT #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) " \
           "AND (media_resources.id, #{media_resources_type}) IN " \
             "(SELECT resource_id, resource_type from permissions " \
               "WHERE (subject_type IS NULL " \
                   "OR (subject_type = 'Group' AND subject_id IN (?)) " \
                   "OR (subject_type = 'User' AND subject_id = ?)) " \
-                "AND action_bits & #{i} AND action_mask & #{i})",
+                "AND   #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) ",
           user.id, user.group_ids, user.id);
   end
   

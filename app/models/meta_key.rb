@@ -52,6 +52,11 @@ class MetaKey < ActiveRecord::Base
     meta_key_definitions.collect {|d| d.meta_field.label if d.key_map.blank? }.compact.uniq.join(', ')
   end
 
+  # OPTIMIZE with context argument
+  def first_context_label
+    meta_key_definitions.collect {|d| d.meta_field.label if d.key_map.blank? }.compact.uniq.first.to_s
+  end
+
 ########################################################
 
   #working here#9

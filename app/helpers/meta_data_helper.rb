@@ -3,28 +3,22 @@ module MetaDataHelper
 
   def display_meta_data_helper(title, values)
     capture_haml do
-      haml_tag :h4, title
-      if values.blank?
-        haml_tag :div, _("Es sind keine Metadaten zu diesem Kontext bereit gestellt."), :class => "meta_data_comment"
-      else
-        haml_tag :div, :class => "scrollable_actions" do
-          haml_tag :a, :class => "prev disabled" do 
-            haml_concat "« Back"
-          end
-        end
-        haml_tag :div, :class => "meta_data scrollable vertical" do
-          haml_tag :div, :class => "items" do
-            values.each do |value|
-              haml_tag :div, :class => "item" do
-                haml_tag :label, value.first
-                haml_concat value.last
+      haml_tag :ul do
+        haml_tag :li, :class=>"meta_group" do
+          haml_tag :h4, title, :class=>"meta_group_name"
+            haml_tag :ul do
+            if values.blank?
+              haml_tag :li, _("Es sind keine Metadaten zu diesem Kontext bereit gestellt."), :class=>"meta_data_comment"
+            else
+              values.each do |value|
+                haml_tag :li, :class=>"meta_vocab" do
+                  haml_tag :h5, value.first, :class=>"meta_vocab_name"
+                  haml_tag :span, :class => "meta_terms" do
+                    haml_concat value.last.gsub(/\S\,\S/,", ")
+                  end
+                end
               end
             end
-          end
-        end
-        haml_tag :div, :class => "scrollable_actions" do
-          haml_tag :a, :class => "next" do
-            haml_concat "More »"
           end
         end
       end
@@ -94,7 +88,8 @@ module MetaDataHelper
         _("%s Uhr") % meta_datum.deserialized_value.to_formatted_s(:date_time)
       when "Meta::Term"
         meta_datum.deserialized_value.map do |dv|
-          link_to dv, filter_resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :method => :post, :"data-meta_term_id" => dv.id #old# , :remote => true
+          #old# link_to dv, filter_resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :method => :post, :"data-meta_term_id" => dv.id #old# , :remote => true
+          link_to dv, resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :"data-meta_term_id" => dv.id
         end.join(' ')
       else
         s = meta_datum.to_s
@@ -166,7 +161,8 @@ module MetaDataHelper
     case meta_key.object_type.constantize.name
       when "Meta::Department"
         selected = Array(meta_datum.object.value)
-        all_options = Meta::Department.all.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)} }
+        departments_without_semester = Meta::Department.where("ldap_name NOT REGEXP '_[0-9]{2}[A-Za-z]\.studierende'")
+        all_options = departments_without_semester.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)} }
       when "Meta::Term"
         selected = Array(meta_datum.object.value)
         all_options = meta_key.meta_terms.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}
@@ -177,7 +173,14 @@ module MetaDataHelper
       when "Keyword"
         keywords = meta_datum.object.deserialized_value
         meta_term_ids = keywords.collect(&:meta_term_id)
-        all_grouped_keywords = Keyword.group(:meta_term_id)
+        all_grouped_keywords = 
+          if SQLHelper.adapter_is_mysql?
+            Keyword.group(:meta_term_id)
+          elsif SQLHelper.adapter_is_postgresql?
+            Keyword.select "DISTINCT ON (meta_term_id) * "
+          else
+            raise "adapter is not supported"
+          end
         all_grouped_keywords = all_grouped_keywords.where(["meta_term_id NOT IN (?)", meta_term_ids]) unless meta_term_ids.empty?
         all_options = keywords.collect {|x| {:label => x.to_s, :id => x.meta_term_id, :selected => true}}
         all_options += all_grouped_keywords.collect {|x| {:label => x.to_s, :id => x.meta_term_id, :selected => false}}
@@ -279,7 +282,8 @@ module MetaDataHelper
     field_id = "#{sanitize_to_id(meta_datum.object_name)}_value"
     definition = meta_key.meta_key_definitions.for_context(context)
     is_required = (definition.meta_field.is_required ? true : nil)
-    key_id = meta_datum.object.meta_key_id
+    #key_id = meta_datum.object.meta_key_id
+    object_id = meta_datum.object.object_id
 
     if meta_key.object_type == "Meta::Country"
       h += widget_meta_countries(meta_datum, meta_key)
@@ -335,14 +339,14 @@ module MetaDataHelper
           
           h += content_tag :span, :class => "dates" do
             a = content_tag :span, :rel => "at" do
-              b = text_field_tag "datepicker_at_#{key_id}", at, :class => "datepicker", :placeholder => "TT.MM.JJJJ"
-              b += text_field_tag "at_#{key_id}_tiem", at_time, :class => "time", :placeholder => "HH:MM:SS +HH:MM" unless at_time.blank?
+              b = text_field_tag "datepicker_at_#{object_id}", at, :class => "datepicker", :placeholder => "TT.MM.JJJJ"
+              b += text_field_tag "at_#{object_id}_time", at_time, :class => "time", :placeholder => "HH:MM:SS +HH:MM" unless at_time.blank?
               b
             end
             a += content_tag :span, :rel => "from-to" do
-              b = text_field_tag "datepicker_from_#{key_id}", from, :class => "datepicker", :placeholder => "TT.MM.JJJJ"
+              b = text_field_tag "datepicker_from_#{object_id}", from, :class => "datepicker", :placeholder => "TT.MM.JJJJ"
               b += " - "
-              b += text_field_tag "datepicker_to_#{key_id}", to, :class => "datepicker", :placeholder => "TT.MM.JJJJ"
+              b += text_field_tag "datepicker_to_#{object_id}", to, :class => "datepicker", :placeholder => "TT.MM.JJJJ"
             end
             a += content_tag :span, :rel => "freetext" do
               meta_datum.object.value = meta_datum.object.to_s

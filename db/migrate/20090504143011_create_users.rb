@@ -1,8 +1,9 @@
 # -*- encoding : utf-8 -*-
+
 class CreateUsers < ActiveRecord::Migration
   def self.up
     create_table :users, :force => true do |t|
-      t.belongs_to :person
+      t.belongs_to :person, :null => false
       t.column :login,                     :string, :limit => 40
       t.column :email,                     :string, :limit => 100
 #old#
@@ -14,10 +15,14 @@ class CreateUsers < ActiveRecord::Migration
       
       t.timestamps
     end
+
     change_table :users do |t|
       t.index :person_id
       t.index :login, :unique => true
     end
+
+
+
   end
 
   def self.down

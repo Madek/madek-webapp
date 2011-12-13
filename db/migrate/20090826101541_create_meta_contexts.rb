@@ -3,7 +3,7 @@ class CreateMetaContexts < ActiveRecord::Migration
   def self.up
     create_table :meta_contexts do |t|
       t.string  :label
-      t.boolean :is_user_interface, :default => 0
+      t.boolean :is_user_interface, :default => false
     end
     change_table    :meta_contexts do |t|
       t.index       :label

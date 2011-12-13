@@ -137,12 +137,24 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 	if(json != undefined) display_results(json);
     listSelected();
     displayCount();
-	
+
+	// display the task_bar only whether there is something selectable or something is already selected
+	if(get_media_entries_json().length == 0 && $(".item_box").has(".check_box").length == 0){
+		$('.task_bar').hide();
+		return false;
+	}
+	// hide the select_deselect_all checkbox on the browse page
+	if($(".item_box .check_box").length < 2) {
+		$("#batch-select-all").hide();
+		$("#batch-deselect-all").hide();
+		$("#batch-deselect-all").next().hide();
+	}
+
 	// when remove from set is hovered we only want to highlight those media_entries that are part of the current set
 	if(media_set_id && media_entry_ids_in_set){
 		var media_entry_ids = get_selected_media_entry_ids();
 		var media_entries_in_set = intersection_destructive(media_entry_ids_in_set, media_entry_ids);
-	}; //end if
+	}
 	
 	$('a.delete_me[data-method="delete"]').live('ajax:success', 
 		function(e, data, textStatus, jqXHR){
@@ -156,7 +168,7 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 				media_entries_json.splice(i, 1);
 				$('#selected_items [rel="'+data.id+'"]').remove();
 				if (media_entries_in_set != undefined){ removeItems(media_entries_in_set, data.id) };
-				set_media_entries_json(JSON.stringify(media_entries_json));
+				set_media_entries_json(media_entries_json);
 			    displayCount();
 			}
   		}
@@ -169,14 +181,16 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 		var id = $(this).attr("rel");
 		$(this).remove();
 		toggleSelected(id);
+		
+		//TODO dry// display the task_bar only whether there is something selectable or something is already selected
+	    if(get_media_entries_json().length == 0 && $(".item_box").has(".check_box").length == 0){
+	      $('.task_bar').hide();
+	    }
     });
 
     $(".check_box").live("click", function(){
 		toggleSelected($(this).closest(".item_box").tmplItem().data);
     });
-
-	// hide the select_deselect_all checkbox on the browse page
-	if($(".item_box .check_box").length < 2) { $("#batch-select-all").hide(); $("#batch-deselect-all").hide(); $("#batch-deselect-all").next().hide() }
 
   // select all function
   $("#batch-select-all").click(function(event){
@@ -194,7 +208,7 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
         if (media_entries_in_set != undefined){ media_entries_in_set.push(me.id) };
       };  
     });
-    set_media_entries_json(JSON.stringify(media_entries_json));
+    set_media_entries_json(media_entries_json);
     displayCount();
     return false;
   });
@@ -252,7 +266,7 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 			if (media_entries_in_set != undefined){ media_entries_in_set.push(id) };
 		};
 
-		set_media_entries_json(JSON.stringify(media_entries_json));
+		set_media_entries_json(media_entries_json);
     displayCount();
 	};
 
@@ -281,8 +295,7 @@ function displayCount() {
 	if (count_checked) {
 		$('#selected_items').show();
 		$('.task_bar .action_btn').show();
-		$('.task_bar .seperator:first').show();
-	    if (count_checked > 1) {
+    if (count_checked > 1) {
 			display_count.html(count_checked + " Medieneinträge ausgewählt");
 		}else{
 	        display_count.html("1 Medieneintrag ausgewählt");
@@ -296,8 +309,14 @@ function displayCount() {
 
 	if($('#selected_items .edit').length){ $("#batch-edit").show(); }else{ $("#batch-edit").hide(); }
 	if($('#selected_items .manage').length){ $("#batch-permissions").show(); }else{ $("#batch-permissions").hide(); }
-	if($("#batch-edit:visible").length || $("#batch-permissions").length) { $(".task_bar .seperator.edit").show(); }else{ $(".task_bar .seperator.edit").hide(); }
-	//if($('#selected_items .thumb_mini').length){ $("#batch-add-to-set").show(); }else{ $("#batch-add-to-set").hide(); }
+	if($("#batch-edit:visible").length || $("#batch-permissions:visible").length) { $(".task_bar .seperator.edit").show(); }else{ $(".task_bar .seperator.edit").hide(); }
+	if($('#selected_items .thumb_mini').length){ 
+	  $("#batch-add-to-set").show(); 
+	  if($("#batch-select-all:visible").length) $('.task_bar .seperator:first').show(); 
+	} else { 
+	  $("#batch-add-to-set").hide(); 
+	  if($("#batch-select-all:visible").length) $('.task_bar .seperator:first').hide(); 
+	}
 };
 
 function display_page(json, container){

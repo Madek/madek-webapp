@@ -1,0 +1,32 @@
+@mixin border-box {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box; 
+}
+
+@mixin box-shadow($value) {
+  -moz-box-shadow: $value;
+  -webkit-box-shadow: $value;
+  box-shadow: $value;
+}
+
+@mixin opacity($value) {
+  filter: alpha(opacity=$value); // IE5-7
+  -moz-opacity: $value; // NETSCAPE & MOZILLA
+  -khtml-opacity: $value; // OLD SAFARI
+  opacity: $value; // THE REST
+}
+
+@mixin rotate($value) {
+  -moz-transform:rotate($value);
+  -webkit-transform:rotate($value);
+  -o-transform:rotate($value);
+  transform:rotate($value);
+}
+
+@mixin border-radius($value) {
+  -moz-border-radius: $value; /* Firefox */
+  -webkit-border-radius: $value; /* Safari, Chrome */
+  border-radius: $value; /* CSS3 */
+}

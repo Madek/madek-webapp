@@ -151,7 +151,7 @@ class MediaFile < ActiveRecord::Base
   end
   
   def retrieve_encoded_files
-    require_relative '../../lib/encode_job'
+    require Rails.root + 'lib/encode_job'
     paths = []
     
     unless self.job_id.blank?
@@ -414,7 +414,7 @@ class MediaFile < ActiveRecord::Base
   def submit_encoding_job(force = false)
     if force == true or job_id.blank?
       # submit http://this_host/download?media_file_id=foo&access_hash=bar
-      require 'encode_job'
+      require Rails.root + 'lib/encode_job'
       job = EncodeJob.new
       if content_type.include?('video')
         job.job_type = "video"

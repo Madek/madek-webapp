@@ -1,3 +1,5 @@
+require 'metahelper'
+
 def minimal_export
     #####################################################
     puts "Exporting meta_terms..."
@@ -40,6 +42,13 @@ end
 
 
 namespace :app do
+
+  desc "import initial metadata" 
+  task :import_initial_metadata=> :environment do
+    puts MetaHelper.import_initial_metadata
+  end
+
+
 
   desc "Build Railroad diagrams (requires peterhoeg-railroad 0.5.8 gem)"
   task :railroad do

@@ -2,21 +2,21 @@
 %section{:id => params[:query].blank? ? "content_body" : "content_body_result"}
 
   - if request.fullpath =~ /favorites/
-    .page_title_left
-      %img{:src => "/assets/icons/icon_favorites.png"}
-      =_("Meine Favoriten")
-    .clear
-    
-  - unless params[:query].blank?
-    .page_title_left
-      =_("Suchergebnisse")
-      #term
-        = "für “#{params[:query]}”"
-    .clear 
-    .filter_area
+    = render :partial => "favorites"
+  - elsif request.fullpath =~ /resources/ and params[:query].blank?
+    -if params[:user_id] && params[:type] != "sets" && params[:type] != "projects"
+      = render :partial => "my_entries"    
+    -elsif params[:type] == "sets"
+      = render :partial => "my_sets"  
+    -elsif params[:type] == "projects"
+      = render :partial => "my_projects" 
+    -else
+      = render :partial => "all_entries"  
+
+  - elsif !params[:query].blank?
+    = render :partial => "search"  
        
   = render :partial => "media_entries/batch_bar"
-  #results
 
 :javascript
   $(document).ready(function () {

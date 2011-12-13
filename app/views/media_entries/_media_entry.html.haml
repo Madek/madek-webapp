@@ -21,7 +21,7 @@
           #tab-info.clearfix
             .tab-content
               .detail-image.grid_9.alpha.omega
-                = thumb_for(media_entry, :large)
+                = thumb_for(media_entry, :large).html_safe
               #detail-sidebar.grid_3.omega
                 #detail-excerpt.sidebar-box
                   - context = MetaContext.core
@@ -149,62 +149,39 @@
               = _("Bitte anmelden.")
         .clear
     
-                  
-%section#content_body_set
-  #additional-metadata
-    #detail_specification
-      %ul
-        -# TODO check permissions for individual contexts (through media_sets)
-        - (MetaContext.defaults + media_entry.individual_contexts).collect do |meta_context|
-          %li
-            = display_meta_data_for(media_entry, meta_context)
-        %li
-          = display_objective_meta_data_for(media_entry)
-         
-        - if false #media_entry.media_file.meta_data and media_entry.media_file.meta_data["GPS:GPSLatitude"] and media_entry.media_file.meta_data["GPS:GPSLongitude"]
-          %li
-            =# link_to _("Karte"), [:map, media_entry]
-        - if is_expert
-          - meta_context = MetaContext.tms
-          %li
-            = display_meta_data_for(media_entry, meta_context)
+%section#meta_data
+  = meta_data(media_entry, is_expert)
+  .clear
 
 :javascript
   $(document).ready(function () {
   
+    /* FIXME: Remove me completly later on
     $(".scrollable").each(function(){
-      
       // enable the jquery tools scrollable plugin only on elements wich are higher then their content
-      
       if($(this).find(".items").height() > $(this).height()) {
-        
         $(this).scrollable({ vertical: true, mousewheel: true }); 
-        
-         // disable the next button when the last seeked element whas the last element in the list
-      
+        // disable the next button when the last seeked element whas the last element in the list
         $(this).bind("onSeek", function() {
           if(parseInt($(this).find(".items").height())+parseInt($(this).find(".items").css("top")) <= $(this).height()) {
             $(this).parent().find(".next").addClass("disabled");
           }
         });
-        
         // stops the plugin from scrolling when the last element is visible already
-         
          $(this).bind("onBeforeSeek", function(event, index) {
-        
+         
           if(parseInt($(this).find(".items").height())+parseInt($(this).find(".items").css("top")) <= $(this).height()) {
-            
             // only prevent from scrolling if the direction is forward
             if(index > $(this).data("scrollable").getIndex()) {
               return false;
             }
           }
         });
-
       } else {
         $(this).parent().find(".next").addClass("disabled");
       }
     });
+    */
     
     $("ul.tab-nav a").click(function(event) {
       var that = $(this);
@@ -235,27 +212,8 @@
       var i = is_Selected(media_entries_json, $(this).data("id"));
       if (i > -1) {
         media_entries_json.splice(i, 1);
-        set_media_entries_json(JSON.stringify(media_entries_json));
+        set_media_entries_json(media_entries_json);
       };
     })
-    
-    // OPTIMIZE Action Bar
-    $("a[panel]").click(function(){
-      to_open = !$(this).hasClass("active");
-  
-      $("a.active[panel]").each(function () {
-        $(this).removeClass("active");
-        $(this).css("background", "");
-        $("div#"+$(this).attr("panel")+"-panel").slideUp("slow");
-      });
-  
-      if(to_open){
-        $(this).addClass("active");
-        $(this).css("background", "transparent url('/assets/icons/arrow-up-04.png') 50% bottom no-repeat");
-        $("div#"+$(this).attr("panel")+"-panel").slideDown("slow");
-      }
-      
-      return false;
-    });
   
   });
