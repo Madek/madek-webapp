@@ -14,7 +14,7 @@ module MetaDataHelper
                 haml_tag :li, :class=>"meta_vocab" do
                   haml_tag :h5, value.first, :class=>"meta_vocab_name"
                   haml_tag :span, :class => "meta_terms" do
-                    haml_concat value.last
+                    haml_concat value.last.gsub(/\S\,\S/,", ")
                   end
                 end
               end
