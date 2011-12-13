@@ -57,11 +57,12 @@
 	opacity:0.8; /* Overridden by captionOpacity setting */
 	width:100%;
 	z-index:8;
-	font-size: 11px;
+	font-size: 16px;
 }
 
 .nivo-caption strong {
 	font-weight: bold;
+	font-size: 1.1em;
 }
 
 .nivo-caption p {

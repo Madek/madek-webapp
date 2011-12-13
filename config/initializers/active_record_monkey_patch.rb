@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 require 'sqlhelper'
+=======
+require 'sql_helper'
+>>>>>>> next
 
 class ActiveRecord::Base
 

@@ -13,5 +13,8 @@
  * 
  *  START OF REFACTORING BEGINS HERE:
  *= require media_entry/_meta_data
- *= require meta_data/edit/multiselect/_department-selection.scss
+ *= require meta_data/edit/multiselect/_department-selection
+ *= require widgets/selection
+ *= require button/button
+ *= require modal_overlay/modal_overlay
 */

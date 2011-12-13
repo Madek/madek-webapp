@@ -26,7 +26,7 @@ a:hover {
 	padding-top: 15px;
 	margin-top: -10px;
 	overflow: hidden;
-	background: transparent url(/assets/teaser-shadow-02.png) -10px 7px no-repeat;
+	background: transparent url(/assets/root/teaser-shadow-02.png) -10px 7px no-repeat;
 }
 
 #sidebar {
@@ -125,7 +125,7 @@ a:hover {
 	margin-right: 10px;
  	width: 81px; 
 	height: 81px;
-	background: #fff url(/assets/icon-media-01.png) 50% 50% no-repeat;
+	background: #fff url(/assets/root/icon-media-01.png) 50% 50% no-repeat;
 	border-radius: 5px;
 	margin-bottom: 1em; 
 	border: 2px solid #929292;
@@ -136,7 +136,7 @@ a:hover {
 	margin-right: 10px;
  	width: 81px; 
 	height: 81px;
-	background: #fff url(/assets/icon-users.png) 50% 50% no-repeat;
+	background: #fff url(/assets/root/icon-users.png) 50% 50% no-repeat;
 	border-radius: 5px;
 	margin-bottom: 1em; 
 	border: 2px solid #929292;
@@ -185,60 +185,47 @@ a:hover {
 }
 #login {
 	padding-top: 10px;
-	border: 1px solid #d2d2d2;
-	-webkit-box-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
-	-moz-box-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
-	box-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
+	-webkit-box-shadow: 0 0 3px rgba(100, 100, 100, 0.8);
+  -moz-box-shadow: 0 0 3px rgba(100, 100, 100, 0.8);
+  box-shadow: 0 0 3px rgba(100, 100, 100, 0.8);
 }
 #login a {
 	text-decoration: underline;
 }
-/*#users {
-	margin-bottom: 40px;
-}*/
 #login a.actionbutton {
-	/*display: block;
-	margin: 0.75em 0;
-	background: #B9D047;
-	border: 2px solid #A5B93F;
-	text-shadow: -1px -1px 1px #A5B93F;
-	background: -moz-linear-gradient(100% 100% 90deg, #B9D047, #CCE54E);
-	padding: 0.75em 0 0.65em;
-	text-align: center;
-	border-radius: 5px;
-	text-decoration: none;
-	color: #fff;
-	font-weight: bold;
-	font-size: 15px;*/
 	display: block;
 	margin: 1em 0;
 	text-decoration: none;
 	padding: 10px 14px;
 	color: #444;
 	border: none;
-	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#C0D84A), to(#A4B83F));
-	background-image: -moz-linear-gradient(0% 100% 90deg, #A4B83F, #C0D84A);
-	background-color: #A4B83F;
+	text-shadow: 0 0 1px #fffe50;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#dbfd3a), to(#fffe7c));
+	background-image: -moz-linear-gradient(0% 100% 90deg, #dbfd3a, #fffe7c);
+	background-color: #fffd37;
+	border-left: 1px solid #CCC;
+	border-right: 1px solid #AAA;
+	border-bottom: 1px solid #999;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	-o-border-radius: 3px;
 	border-radius: 3px;
-	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
 	font-weight: bold;
 	font-size: 1.3em;
 	text-align: center;
 }
 
 #login a.actionbutton:hover {
-	/* Background Gradient Firefox 3.6+ */
-	background-color: #C0D84A;
-	background: -moz-linear-gradient(100% 100% 90deg, #C0D84A, #C0D84A);
-	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);	
+  border-top: 1px solid #fffe7c;
+  border-bottom: none;
+  border-right: 1px solid #CCC;
+  border-left: 1px solid #DDD;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#dbfd3a), to(#dcfd42));
+  background-image: -moz-linear-gradient(0% 100% 90deg, #dbfd3a, #dcfd42);
+  background-color: #dcfd42;
 }
 
 /*#news {

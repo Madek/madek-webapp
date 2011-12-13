@@ -53,8 +53,8 @@ class MediaResource < ActiveRecord::Base
             "(SELECT media_entry_id AS id, 'MediaEntry' AS type FROM media_entries_media_sets " \
               "WHERE media_set_id = ? " \
             "UNION " \
-              "SELECT descendant_id AS id, 'Media::Set' AS type FROM media_set_links " \
-                "WHERE ancestor_id = ? AND direct = true)",
+              "SELECT child_id AS id, 'Media::Set' AS type FROM media_set_arcs " \
+                "WHERE parent_id = ? )",
           media_set.id, media_set.id);
   }
 

@@ -1,22 +1,41 @@
 # encoding: utf-8
 
 
+<<<<<<< HEAD
 module FactoryHelper
   def self.rand_bool *opts
     bias = ((opts and opts[0]) or 0.5)
     raise "bias must be a real number within [0,1)" if bias < 0.0 or bias >= 1.0
     (rand < bias) ? true : false
+=======
+module DataFactory 
+  extend self
+
+  def create_dag 
+    prev_media_set = FactoryGirl.create :media_set
+    (1..10).each do |i|
+      next_media_set = FactoryGirl.create :media_set
+      Media::SetLink.create_edge prev_media_set, next_media_set
+      prev_media_set = next_media_set
+    end
+>>>>>>> next
   end
 end
 
 FactoryGirl.define do
 
+  factory :media_set_arc , :class => Media::SetArc do
+  end
+
   factory :media_entry do
     upload_session {FactoryGirl.create :upload_session}
     owner  {User.find_random || (FactoryGirl.create :user)}
     media_file {FactoryGirl.create :media_file}
+<<<<<<< HEAD
     perm_public_may_view {FactoryHelper.rand_bool 0.1}
     perm_public_may_download {FactoryHelper.rand_bool 0.1}
+=======
+>>>>>>> next
     after_build do |me|
       def me.extract_subjective_metadata; end
       def me.set_copyright; end
@@ -39,8 +58,11 @@ FactoryGirl.define do
 
   factory :media_set, :class => Media::Set do
     user {User.find_random || (FactoryGirl.create :user)}
+<<<<<<< HEAD
     owner {User.find_random || (FactoryGirl.create :user)}
     perm_public_may_view {FactoryHelper.rand_bool 0.1}
+=======
+>>>>>>> next
   end
 
   factory :group do
@@ -80,6 +102,7 @@ FactoryGirl.define do
     login {email}
   end
 
+<<<<<<< HEAD
 
   factory :media_sets_userpermissions_join do
   end
@@ -115,4 +138,6 @@ FactoryGirl.define do
 
   end
 
+=======
+>>>>>>> next
 end
