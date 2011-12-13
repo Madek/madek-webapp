@@ -2,23 +2,29 @@ require 'spec_helper'
 
 describe Media::SetArc do
 
-  before :all do
+  before :each do
     @set1 = FactoryGirl.create :media_set
     @set2 = FactoryGirl.create :media_set
+    @arc = (FactoryGirl.create :media_set_arc, :parent => @set1 , :child => @set2)
   end
 
 
   it "should be producible by a factory" do
-    (FactoryGirl.create :media_set_arc, :parent => @set1 , :child => @set2).should_not == nil
+    (FactoryGirl.create :media_set_arc, :parent => @set1 , :child => (FactoryGirl.create :media_set)).should_not == nil
+  end
+
+  context "referential inegrity" do
+    
+    it "should cause the arc to be deleted if one of either parent/child set is deleted" do
+      @set1.destroy
+      Media::SetArc.all.should be_empty
+    end
+
   end
 
   context "sets in sets" do
 
     context "graph relations" do
-
-      before :all do
-        @arc = (FactoryGirl.create :media_set_arc, :parent => @set1 , :child => @set2)
-      end
 
       it "the arcs child should be in the child_sets of the parent" do
         @arc.parent.child_sets.should include @arc.child
@@ -28,13 +34,21 @@ describe Media::SetArc do
         @arc.child.parent_sets.should include @arc.parent
       end
 
-    end
+      it "should raise an error if a double arc is inserted " do
+        ->(){ FactoryGirl.create :media_set_arc, :parent => @set1 , :child => @set2}.should raise_error
+      end
 
+      it "should raise an error if a self reference is insteted " do
+        ->(){ FactoryGirl.create :media_set_arc, :parent => @set1 , :child => @set1}.should raise_error
+      end
+
+    end
 
     context "rails relations" do
 
-      before :all do
-        @set1.child_sets << @set2
+      it "should be appendable " do
+        @set3 = FactoryGirl.create :media_set
+        ->(){@set1.child_sets << @set3}.should_not raise_error
       end
 
       it "the set2 should be included in by_media_set" do

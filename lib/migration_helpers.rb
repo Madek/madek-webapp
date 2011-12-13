@@ -31,6 +31,10 @@ module MigrationHelpers
     model.table_name.singularize + "_id"
   end
 
+  def add_check table_name, check
+    execute_sql "ALTER TABLE #{table_name} ADD CHECK #{check} ;"
+  end
+
   def fkey_cascade_on_delete from_table, from_column, to_table
     name = "#{from_table}_#{from_column}_#{to_table}_fkey"
     execute_sql "ALTER TABLE #{from_table} ADD CONSTRAINT #{name} FOREIGN KEY (#{from_column}) REFERENCES #{to_table} (id) ON DELETE CASCADE;"

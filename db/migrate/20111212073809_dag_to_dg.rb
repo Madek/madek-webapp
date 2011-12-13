@@ -6,7 +6,6 @@ class DagToDg < ActiveRecord::Migration
     create_table :media_set_arcs do |t|
       t.integer :parent_id, :null => false
       t.integer :child_id, :null => false
-#      t.index([:parent_id,:child_id], :unique => false)
     end
 
     add_index :media_set_arcs, :parent_id
@@ -16,10 +15,14 @@ class DagToDg < ActiveRecord::Migration
     MigrationHelpers::fkey_cascade_on_delete :media_set_arcs, :parent_id, :media_sets 
     MigrationHelpers::fkey_cascade_on_delete :media_set_arcs, :child_id, :media_sets 
 
+    MigrationHelpers::add_check :media_set_arcs, "(parent_id <> child_id)"
+
 
     Media::SetLink.where(direct: true).each do |link|
-      if (Media::Set.find link.descendant_id) and (Media::Set.find link.ancestor_id)
-        Media::SetArc.create child_id: link.descendant_id, parent_id: link.ancestor_id
+      if (Media::Set.find link.descendant_id) \
+        and (Media::Set.find link.ancestor_id) \
+        and link.descendant_id != link.ancestor_id
+          Media::SetArc.create child_id: link.descendant_id, parent_id: link.ancestor_id
       end
     end
 
