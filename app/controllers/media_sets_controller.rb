@@ -55,7 +55,7 @@ class MediaSetsController < ApplicationController
 
     @can_edit_set = Permission.authorized?(current_user, :edit, @media_set)
     
-    @parents = @media_set.parents.as_json(:user => current_user)
+    @parents = @media_set.parent_sets.as_json(:user => current_user)
     
     respond_to do |format|
       format.html

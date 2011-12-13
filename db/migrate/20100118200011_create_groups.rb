@@ -13,14 +13,8 @@ class CreateGroups < ActiveRecord::Migration
       t.index :user_id
     end
 
-    sql = <<-SQL
-      ALTER TABLE groups_users ADD CONSTRAINT group_id_fkey
-        FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE CASCADE; 
-      ALTER TABLE groups_users ADD CONSTRAINT user_id_fkey
-        FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE; 
-    SQL
-    sql.split(/;\s*$/).each {|cmd| execute cmd} if SQLHelper.adapter_is_mysql?
-    execute sql if SQLHelper.adapter_is_postgresql?
+    MigrationHelpers::fkey_cascade_on_delete :groups_users, :group_id, :groups
+    MigrationHelpers::fkey_cascade_on_delete :groups_users, :user_id, :users
 
   end
 
