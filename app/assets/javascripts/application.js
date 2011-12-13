@@ -8,6 +8,7 @@
 //= require jquery.min
 //= require jquery-ui.min
 //= require jquery_ujs
+//= require jquery-tmpl
 
 /////////// App /////////////
 //= require batch_actions
@@ -16,6 +17,10 @@
 //= require jquery/browser-check/browser-check
 //= require jquery/video-js/video
 //= require jquery/department-selection/department-selection
+//= require_tree ./jquery/widgets/ 
+
+/////////// Tmpl /////////////
+//= require_tree ./tmpl/
 
 /////////// Lib /////////////
 //= require jquery/browser-detection/browser-detection
@@ -24,7 +29,6 @@
 //= require_tree ../../../vendor/assets/javascripts/jquery/.
 //= require modernizr.min
 //= require video
-
 
 function document_ready(){
 	$("textarea").elastic();

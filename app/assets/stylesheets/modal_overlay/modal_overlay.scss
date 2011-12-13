@@ -1,0 +1,13 @@
+@import "../mixins.scss";
+
+#modal_overlay {
+  background: white;
+  display: block;
+  height: 100%;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 9998;
+  @include opacity(0.5);
+}

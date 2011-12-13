@@ -1,0 +1,54 @@
+.widget.selection
+  %h5
+    = "Zu Set hinzufügen"
+  .search
+    = text_field_tag "widget_search", "", :class => "autofocus"
+    .hint= "Suche..." #FIXME _("") fast gettext translation is not working here???
+  %ul
+    %li
+      %label
+        = check_box_tag 'selected'
+        = "Set-Name 1"
+    %li
+      %label
+        = check_box_tag 'selected'
+        = "Set-Name 1"
+    %li
+      %label
+        = check_box_tag 'selected'
+        = "Set-Name 1"
+    %li
+      %label
+        = check_box_tag 'selected'
+        = "Set-Name 1"
+    %li
+      %label
+        = check_box_tag 'selected'
+        = "Set-Name 1"
+    %li
+      %label
+        = check_box_tag 'selected'
+        = "Set-Name 1"
+    %li
+      %label
+        = check_box_tag 'selected'
+        = "Set-Name 1"
+    %li
+      %label
+        = check_box_tag 'selected'
+        = "Set-Name 1"
+    
+  .create_new
+    %a
+      = "Neues Set erstellen"
+    = text_field_tag "create_name"
+    .hint= "Titel"
+   
+  .actions
+    %button.submit.button{:disabled => :disabled}
+      = "Anwenden"
+    %a.cancel
+      = "Abbrechen"
+    .clear
+  
+  

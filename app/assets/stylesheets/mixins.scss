@@ -5,10 +5,10 @@
   box-sizing: border-box; 
 }
 
-@mixin box-shadow($options) {
-  -moz-box-shadow: $options;
-  -webkit-box-shadow: $options;
-  box-shadow: $options;
+@mixin box-shadow($value) {
+  -moz-box-shadow: $value;
+  -webkit-box-shadow: $value;
+  box-shadow: $value;
 }
 
 @mixin opacity($value) {
@@ -23,4 +23,10 @@
   -webkit-transform:rotate($value);
   -o-transform:rotate($value);
   transform:rotate($value);
+}
+
+@mixin border-radius($value) {
+  -moz-border-radius: $value; /* Firefox */
+  -webkit-border-radius: $value; /* Safari, Chrome */
+  border-radius: $value; /* CSS3 */
 }

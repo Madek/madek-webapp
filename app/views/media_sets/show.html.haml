@@ -59,7 +59,7 @@
         #media_set-panel.actionbar-panel{:style => "display: none"}
           .actionbar-inner-panel
             - if logged_in?
-              = media_sets_setter(parent_media_set_path(@media_set))
+              = media_sets_setter(parents_media_set_path(@media_set))
             - else
               = _("Bitte anmelden.")
 
