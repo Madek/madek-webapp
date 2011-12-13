@@ -1,0 +1,46 @@
+#users.sidebar-box {
+  
+  .inline-tabs {
+    display: table;
+    position: relative;
+    left: -1px;
+    
+    .container {
+      display: table-row;
+      
+      .tab {
+        background: #EEE;
+        border-top: 1px solid #CCC;
+        border-left: 1px solid #CCC;
+        border-bottom: 1px solid #BCC;     
+        cursor: pointer;
+        display: table-cell;
+        padding: 0 8px;
+        pointer: cursor;
+        vertical-align: middle;
+        width: 112px;
+        
+        &.active {
+          background: white;
+          border-bottom: 1px solid white;
+        }
+        
+        &:hover {
+          background: #FFE;
+        }
+        
+        &:nth-last-child(1) {
+          border-right: 1px solid #BCC;
+        }        
+      }
+    }
+  }
+  
+  .pilotitem {
+    display: none;
+    
+    &.tab1 {
+      display: block;
+    }
+  }
+}

@@ -1,7 +1,6 @@
 /*
  *= require reset
  *= require 960
- *= require root/smv-style
- *= require root/nivo-slider
+ *= require_tree ./root
  *= require master
 */
