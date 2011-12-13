@@ -6,6 +6,12 @@ module Media
 
   class Set < ActiveRecord::Base # TODO rename to Media::Group
     include Resource
+
+    has_many :out_arcs, class_name: "Media::SetArc", :foreign_key => :parent_id
+    has_many :in_arcs, class_name: "Media::SetArc", :foreign_key => :child_id
+
+    has_many :child_sets, :through => :out_arcs, :source => :child
+    has_many :parent_sets, :through => :in_arcs, :source => :parent
   
     has_dag_links :link_class_name => 'Media::SetLink'
   
