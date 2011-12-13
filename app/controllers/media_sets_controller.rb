@@ -36,17 +36,22 @@ class MediaSetsController < ApplicationController
     end
   end
 
+  # API #
+  # get nested media_entries:
+  # GET "/media_sets/:id.js"
   def show
     params[:per_page] ||= PER_PAGE.first
 
     paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
     resources = MediaResource.accessible_by_user(current_user).by_media_set(@media_set).paginate(paginate_options)
 
+    with_thumb = true #FE# (params[:thumb].to_i > 0)
+    
     @media_entries = { :pagination => { :current_page => resources.current_page,
                                         :per_page => resources.per_page,
                                         :total_entries => resources.total_entries,
                                         :total_pages => resources.total_pages },
-                       :entries => resources.as_json(:user => current_user) } 
+                       :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
 
     @can_edit_set = Permission.authorized?(current_user, :edit, @media_set)
     
