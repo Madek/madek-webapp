@@ -16,8 +16,10 @@ gem 'json', '~> 1.6'
 gem 'haml', '~> 3.1'
 gem 'sass', '~> 3.1'
 gem 'coffee-script', '~> 2.2'
-gem 'jquery-rails', '= 1.0.16' # FIXME upgrade jquery.inview plugin before upgrade to '~> 1.0'
+gem 'jquery-rails', '= 1.0.16' # NOTE .live will be deprecated in the future && upgrade jquery.inview plugin before upgrade to '~> 1.0'
 gem 'rails_autolink', '~> 1.0'
+gem 'jquery-tmpl-rails'
+gem 'haml_assets'
 
 # Gems used only for assets and not required in production environments by default.
 group :assets do
