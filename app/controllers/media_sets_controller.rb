@@ -45,7 +45,12 @@ class MediaSetsController < ApplicationController
     paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
     resources = MediaResource.accessible_by_user(current_user).by_media_set(@media_set).paginate(paginate_options)
 
-    with_thumb = true #FE# (params[:thumb].to_i > 0)
+    # default as true
+    with_thumb = if params[:thumb]
+      (params[:thumb].to_i > 0)
+    else
+      true
+    end
     
     @media_entries = { :pagination => { :current_page => resources.current_page,
                                         :per_page => resources.per_page,

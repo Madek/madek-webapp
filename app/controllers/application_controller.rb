@@ -112,8 +112,12 @@ class ApplicationController < ActionController::Base
       # TODO use find without exception: self.current_user = User.find(session[:user_id])
       self.current_user = user = User.where(:id => session[:user_id]).first
       check_usage_terms_accepted
-    elsif request[:controller] == "media_sets" and request[:action] == "show" # TODO remove this when public open
+
+    # TODO remove this when public open
+    elsif (request[:controller] == "media_sets" and request[:action] == "show") or
+          (request[:controller] == "media_entries" and request[:action] == "image")
       @current_user = user = User.new
+
     end
     user
   end
