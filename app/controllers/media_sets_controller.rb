@@ -44,27 +44,30 @@ class MediaSetsController < ApplicationController
 
     paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
     resources = MediaResource.accessible_by_user(current_user).by_media_set(@media_set).paginate(paginate_options)
-
-    # default as true
-    with_thumb = if params[:thumb]
-      (params[:thumb].to_i > 0)
-    else
-      true
-    end
     
-    @media_entries = { :pagination => { :current_page => resources.current_page,
-                                        :per_page => resources.per_page,
-                                        :total_entries => resources.total_entries,
-                                        :total_pages => resources.total_pages },
-                       :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
-
     @can_edit_set = Permission.authorized?(current_user, :edit, @media_set)
-    
     @parents = @media_set.parent_sets.as_json(:user => current_user)
     
     respond_to do |format|
-      format.html
-      format.js { render :json => @media_entries.to_json } #FE# render :json => @media_set.as_json(:user => current_user)
+      format.html {
+        with_thumb = true
+        @media_entries = { :pagination => { :current_page => resources.current_page,
+                                            :per_page => resources.per_page,
+                                            :total_entries => resources.total_entries,
+                                            :total_pages => resources.total_pages },
+                           :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
+      }
+      format.js {
+        #FE# render :json => @media_set.as_json(:user => current_user)
+        json = {:id => @media_set.id, :title => @media_set.title}
+
+        if params[:with_media_entries]
+          with_thumb = (params[:thumb].to_i > 0)
+          json.merge!({ :entries => resources.as_json(:only => :id, :methods => :title,
+                                                      :user => current_user, :with_thumb => with_thumb) })
+        end
+        render :json => json
+      }
     end
   end
 
