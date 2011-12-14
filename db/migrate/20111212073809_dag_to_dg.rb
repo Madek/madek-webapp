@@ -18,8 +18,8 @@ class DagToDg < ActiveRecord::Migration
 
 
     Media::SetLink.where(direct: true).each do |link|
-      if (Media::Set.find link.descendant_id) \
-        and (Media::Set.find link.ancestor_id) \
+      if (Media::Set.exists? link.descendant_id) \
+        and (Media::Set.exists? link.ancestor_id) \
         and link.descendant_id != link.ancestor_id
           Media::SetArc.create child_id: link.descendant_id, parent_id: link.ancestor_id
       end
