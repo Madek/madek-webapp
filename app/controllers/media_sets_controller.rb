@@ -14,7 +14,7 @@ class MediaSetsController < ApplicationController
     
         @media_sets, @my_media_sets, @my_title, @other_title = if @media_set
           # all media_sets I can see, nested within a media set (for now only used with featured sets)
-          [resources.where(:id => @media_set.children), nil, "#{@media_set}", nil]
+          [resources.where(:id => @media_set.child_sets), nil, "#{@media_set}", nil]
         elsif @user and @user != current_user
           # all media_sets I can see that have been created by another user
           [resources.by_user(@user), nil, "Sets von %s" % @user, nil]
