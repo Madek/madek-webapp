@@ -1,11 +1,13 @@
 # -*- encoding : utf-8 -*-
 module Media
-  def self.table_name_prefix
-    "media_"
-  end
 
   class Set < ActiveRecord::Base # TODO rename to Media::Group
     include Resource
+
+    def self.table_name_prefix
+      "media_"
+    end
+
 
     has_many :out_arcs, class_name: "Media::SetArc", :foreign_key => :parent_id
     has_many :in_arcs, class_name: "Media::SetArc", :foreign_key => :child_id

@@ -51,7 +51,7 @@ cucumber:
   
 production:
   adapter: mysql2
-  database: madek_prod
+  database: rails_madek_prod
   encoding: utf8
   username: root
   password: 

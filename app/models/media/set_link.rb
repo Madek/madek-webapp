@@ -1,5 +1,8 @@
 # -*- encoding : utf-8 -*-
 class Media::SetLink < ActiveRecord::Base
+  def self.table_name_prefix
+    "media_"
+  end
   
   # TODO use dagnabit gem instead ??
   acts_as_dag_links :node_class_name => 'Media::Set'  
