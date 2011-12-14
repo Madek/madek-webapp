@@ -39,7 +39,9 @@ class MediaSetsController < ApplicationController
   # API #
   # get nested media_entries:
   # GET "/media_sets/:id.js"
-  def show
+  def show( options_for_media_entries = params[:options_for_media_entries],
+            thumb = params[:thumb])
+            
     params[:per_page] ||= PER_PAGE.first
 
     paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
@@ -61,10 +63,9 @@ class MediaSetsController < ApplicationController
         #FE# render :json => @media_set.as_json(:user => current_user)
         json = {:id => @media_set.id, :title => @media_set.title}
 
-        if params[:with_media_entries]
-          with_thumb = (params[:thumb].to_i > 0)
-          json.merge!({ :entries => resources.as_json(:only => :id, :methods => :title,
-                                                      :user => current_user, :with_thumb => with_thumb) })
+        if options_for_media_entries and options_for_media_entries.is_a? Hash
+          options_for_media_entries.reverse_merge!(:only => :id, :methods => :title, :user => current_user)
+          json.merge!(:entries => resources.as_json(options_for_media_entries))
         end
         render :json => json
       }

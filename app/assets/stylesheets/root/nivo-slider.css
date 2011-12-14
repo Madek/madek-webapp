@@ -14,8 +14,8 @@
 .nivoSlider {
 	margin: 18px 26px 60px 26px;
 	position:relative;
-	width: 568px;
-	height: 215px;
+	width: 583px;
+	height: 230px;
 }
 .nivoSlider img {
 	position:absolute;
@@ -51,6 +51,7 @@
 .nivo-caption {
 	position:absolute;
 	left:0px;
+	top: 171px;
 	bottom:0px;
 	background:#000;
 	color:#fff;
