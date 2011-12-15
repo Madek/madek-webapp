@@ -5,6 +5,15 @@ require 'action_controller'
 
 namespace :madek do
 
+  desc "Set up the environment for testing, then run tests"
+  task :test do
+    RAILS_ENV='test'   
+    ENV['RAILS_ENV']='test'
+    task :environment
+    Rake::Task["madek:reset"].invoke
+    `bundle exec rspec spec`
+    `bundle exec cucumber features`
+  end
 
   desc "Back up images and database before doing anything silly"
   task :backup do
