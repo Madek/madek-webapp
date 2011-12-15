@@ -48,14 +48,14 @@ class ApplicationController < ActionController::Base
                                               :per_page => my_resources.per_page,
                                               :total_entries => my_resources.total_entries,
                                               :total_pages => my_resources.total_pages },
-                             :entries => my_resources.as_json(:user => current_user) } 
+                             :entries => my_resources.as_json(:user => current_user, :with_thumb => true) } 
         
         other_resources = resources.not_by_user(current_user).paginate(paginate_options)
         @other_media_entries = { :pagination => { :current_page => other_resources.current_page,
                                                   :per_page => other_resources.per_page,
                                                   :total_entries => other_resources.total_entries,
                                                   :total_pages => other_resources.total_pages },
-                                 :entries => other_resources.as_json(:user => current_user) } 
+                                 :entries => other_resources.as_json(:user => current_user, :with_thumb => true) } 
 
         respond_to do |format|
           format.html { render :template => "/users/show" }
