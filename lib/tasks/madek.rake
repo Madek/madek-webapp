@@ -11,9 +11,16 @@ namespace :madek do
     ENV['RAILS_ENV']='test'
     task :environment
     Rake::Task["madek:reset"].invoke
-    puts `bundle exec rspec spec`
-    puts `bundle exec cucumber features`
-  end
+    system "bundle exec rspec spec"
+    exit_code = $? >> 8 # magic brainfuck
+    raise "Tests failed with: #{exit_code}" if exit_code != 0
+
+    system "bundle exec cucumber features"
+    exit_code = $? >> 8 # magic brainfuck
+    raise "Tests failed with: #{exit_code}" if exit_code != 0
+
+
+end
 
   desc "Back up images and database before doing anything silly"
   task :backup do
