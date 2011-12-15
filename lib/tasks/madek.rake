@@ -11,8 +11,8 @@ namespace :madek do
     ENV['RAILS_ENV']='test'
     task :environment
     Rake::Task["madek:reset"].invoke
-    `bundle exec rspec spec`
-    `bundle exec cucumber features`
+    puts `bundle exec rspec spec`
+    puts `bundle exec cucumber features`
   end
 
   desc "Back up images and database before doing anything silly"
