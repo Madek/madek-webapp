@@ -7,8 +7,10 @@ namespace :madek do
 
   desc "Set up the environment for testing, then run tests"
   task :test do
-    RAILS_ENV='test'   
-    ENV['RAILS_ENV']='test'
+    # Rake seems to be very stubborn about where it takes
+    # the RAILS_ENV from, so let's set a lot of options (?)
+
+    Rails.env = 'test'
     task :environment
     Rake::Task["madek:reset"].invoke
     system "bundle exec rspec spec"
