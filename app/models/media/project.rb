@@ -7,11 +7,7 @@ class Media::Project < Media::Set
                                                 :foreign_key => :media_project_id
 
   def inheritable_contexts
-    inheritable_contexts = ::Set.new
-    parent_sets.projects.each  do |p|
-      inheritable_contexts.merge p.individual_contexts 
-    end
-    inheritable_contexts
+    parent_sets.map(&:individual_contexts).flatten.to_set
   end
 
   # TODO this is used to construct url_path and partials, find a better solution!!! (route alias, ...)

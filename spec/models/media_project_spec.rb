@@ -49,11 +49,11 @@ describe Media::Project do |mp|
           @parent1.individual_contexts << (@meta_context11 = FactoryGirl.create :meta_context)
           @parent1.individual_contexts << (@meta_context12 = FactoryGirl.create :meta_context)
           @parent2.individual_contexts << (@meta_context22 = FactoryGirl.create :meta_context)
-          @parent2.individual_contexts << (@meta_context12)
+          @parent2.individual_contexts << @meta_context12
         end
 
         it "inheritable_contexts should equal the union of the contexts of all parents" do
-          @media_project.inheritable_contexts.to_a.sort.should == [@meta_context11,@meta_context12,@meta_context21].sort
+          @media_project.inheritable_contexts.to_a.sort.should == [@meta_context11,@meta_context12,@meta_context22].sort
         end
 
       end
