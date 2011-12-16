@@ -14,7 +14,17 @@ module DataFactory
   end
 end
 
+
 FactoryGirl.define do
+
+  ### Meta
+
+  factory :meta_context do
+    name {Faker::Lorem.words.join("_")}
+    is_user_interface true
+  end
+
+  ### Media ....
 
   factory :media_set_arc , :class => Media::SetArc do
   end
@@ -45,6 +55,13 @@ FactoryGirl.define do
   factory :media_set, :class => Media::Set do
     user {User.find_random || (FactoryGirl.create :user)}
   end
+
+  factory :media_project, :class => Media::Project do
+    user {User.find_random || (FactoryGirl.create :user)}
+  end
+
+
+  ### Groups, Users, ....
 
   factory :group do
     name {Faker::Name.last_name}
