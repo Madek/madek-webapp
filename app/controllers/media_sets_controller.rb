@@ -89,6 +89,12 @@ class MediaSetsController < ApplicationController
     end
   end
 
+#####################
+ 
+  def inheritable_contexts
+    @inheritable_contexts = @media_set.inheritable_contexts
+  end
+
 #####################################################
 # Authenticated Area
 # TODO
@@ -128,6 +134,7 @@ class MediaSetsController < ApplicationController
       format.html { redirect_to user_resources_path(current_user, :type => "sets") }
     end
  end
+
 
 #####################################################
 

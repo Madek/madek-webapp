@@ -148,7 +148,7 @@ MAdeK::Application.routes.draw do
       delete :parents
       get :abstract
       get :browse
-      # get :inheritable_contexts
+      get :inheritable_contexts
       post :parents
     end
     
