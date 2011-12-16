@@ -23,7 +23,7 @@ describe Media::Project do |mp|
         lambda {@media_project.individual_contexts << @meta_context}.should_not raise_error
       end
 
-      context "the projects individual_contexts contains an context" do
+      context "the projects individual_contexts contains a context" do
 
         before :each do
           @media_project.individual_contexts << @meta_context
