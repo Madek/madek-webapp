@@ -51,6 +51,8 @@ class Download
               else
                 filename = preview.filename # The filename going out to the browser
                 path = "#{THUMBNAIL_STORAGE_DIR}/#{@media_entry.media_file.shard}/#{preview.filename}"
+                # this return seems to be handled later on anyhow                
+                #return [200, {"Content-Type" => content_type, "Content-Disposition" => "attachment; filename=#{@media_entry.media_file.filename}" }, [File.read(path) ]]
               end     
               
             # Audio files get an Ogg Vorbis preview file
@@ -62,6 +64,8 @@ class Download
               else
                 filename = preview.filename # The filename going out to the browser
                 path = "#{THUMBNAIL_STORAGE_DIR}/#{@media_entry.media_file.shard}/#{preview.filename}"
+                # this return seems to be handled later on anyhow
+                #return [200, {"Content-Type" => content_type, "Content-Disposition" => "attachment; filename=#{@media_entry.media_file.filename}" }, [File.read(path) ]]
               end
               
             # This isn't any preview we can handle
@@ -103,12 +107,8 @@ class Download
             end
 
             if path
-               send_file("#{ZIP_STORAGE_DIR}/#{race_free_filename}.zip",
-                         :filename => filename,
-                         :type          =>  content_type,
-                         :disposition  =>  'attachment',
-                         :stream    =>  true,
-                         :buffer_size  =>  4096)              
+              return [200, {"Content-Type" => "application/zip", "Content-Disposition" => "attachment; filename=#{filename}.zip"}, 
+                    [File.read("#{ZIP_STORAGE_DIR}/#{race_free_filename}.zip")]]
             else
               return [500, {"Content-Type" => "text/html"}, ["Something went wrong!"]]
             end
@@ -128,12 +128,7 @@ class Download
             # path = @media_entry.media_file.update_file_metadata(@media_entry.to_metadata_tags)
             path = @media_entry.updated_resource_file(false, size) # false means we don't want to blank all the tags
             if path
-               send_file(path,
-                         :filename => filename,
-                         :type          =>  content_type,
-                         :disposition  =>  'attachment',
-                         :stream    =>  true,
-                         :buffer_size  =>  4096)
+              return [200, {"Content-Type" => content_type, "Content-Disposition" => "attachment; filename=#{filename}" }, [File.read(path)]]
             else
               return [500, {"Content-Type" => "text/html"}, ["Something went wrong!"]]
             end
@@ -150,12 +145,7 @@ class Download
             path = @media_entry.updated_resource_file(true, size) # true means we do want to blank all the tags
 
             if path
-              send_file(path,
-                        :filename => filename,
-                        :type          =>  content_type,
-                        :disposition  =>  'attachment',
-                        :stream    =>  true,
-                        :buffer_size  =>  4096)
+              return [200, {"Content-Type" => content_type, "Content-Disposition" => "attachment; filename=#{filename}" }, [File.read(path) ]]
             else
               return [500, {"Content-Type" => "text/html"}, ["Something went wrong!"]]
             end
@@ -175,14 +165,7 @@ class Download
           end
           
           # return [200, {"Content-Type" => "text/html"}, [ "#{filename.inspect}" ]] # temp debugging aid
-          #return [200, {"Content-Type" => content_type, "Content-Disposition" => "attachment; filename=#{filename}" }, [File.read(path) ]]
-          
-          send_file(path,
-                    :filename => filename,
-                    :type          =>  content_type,
-                    :disposition  =>  'attachment',
-                    :stream    =>  true,
-                    :buffer_size  =>  4096)
+          return [200, {"Content-Type" => content_type, "Content-Disposition" => "attachment; filename=#{filename}" }, [File.read(path) ]]
         end
 
       end

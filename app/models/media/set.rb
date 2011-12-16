@@ -15,8 +15,6 @@ module Media
     has_many :child_sets, :through => :out_arcs, :source => :child
     has_many :parent_sets, :through => :in_arcs, :source => :parent
   
-    has_dag_links :link_class_name => 'Media::SetLink'
-  
     belongs_to :user
     has_and_belongs_to_many :media_entries, :join_table => "media_entries_media_sets",
                                             :foreign_key => "media_set_id" do

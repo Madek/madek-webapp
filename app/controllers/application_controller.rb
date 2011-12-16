@@ -48,14 +48,14 @@ class ApplicationController < ActionController::Base
                                               :per_page => my_resources.per_page,
                                               :total_entries => my_resources.total_entries,
                                               :total_pages => my_resources.total_pages },
-                             :entries => my_resources.as_json(:user => current_user) } 
+                             :entries => my_resources.as_json(:user => current_user, :with_thumb => true) } 
         
         other_resources = resources.not_by_user(current_user).paginate(paginate_options)
         @other_media_entries = { :pagination => { :current_page => other_resources.current_page,
                                                   :per_page => other_resources.per_page,
                                                   :total_entries => other_resources.total_entries,
                                                   :total_pages => other_resources.total_pages },
-                                 :entries => other_resources.as_json(:user => current_user) } 
+                                 :entries => other_resources.as_json(:user => current_user, :with_thumb => true) } 
 
         respond_to do |format|
           format.html { render :template => "/users/show" }
@@ -112,8 +112,12 @@ class ApplicationController < ActionController::Base
       # TODO use find without exception: self.current_user = User.find(session[:user_id])
       self.current_user = user = User.where(:id => session[:user_id]).first
       check_usage_terms_accepted
-    elsif request[:controller] == "media_sets" and request[:action] == "show" # TODO remove this when public open
+
+    # TODO remove this when public open
+    elsif (request[:controller] == "media_sets" and request[:action] == "show") or
+          (request[:controller] == "media_entries" and request[:action] == "image")
       @current_user = user = User.new
+
     end
     user
   end

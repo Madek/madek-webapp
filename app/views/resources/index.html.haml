@@ -1,13 +1,25 @@
 -# OPTIMIZE merge content_body_result css to content_body
 %section{:id => params[:query].blank? ? "content_body" : "content_body_result"}
 
+  - my_user = (@user and @user == current_user)
+
   - if request.fullpath =~ /favorites/
     = render :partial => "favorites"
   - elsif request.fullpath =~ /resources/ and params[:query].blank?
-    -if params[:user_id] && params[:type] != "sets" && params[:type] != "projects"
-      = render :partial => "my_entries"    
+    -if params[:type] != "sets" and params[:type] != "projects"
+      - if my_user
+        = render :partial => "my_entries"
+      - elsif @user    
+        = render :partial => "user_entries"
+      - else
+        = render :partial => "all_entries"    
     -elsif params[:type] == "sets"
-      = render :partial => "my_sets"  
+      - if my_user
+        = render :partial => "my_sets"
+      - elsif @user
+        = render :partial => "user_sets"
+      - else
+        = render :partial => "all_sets"
     -elsif params[:type] == "projects"
       = render :partial => "my_projects" 
     -else

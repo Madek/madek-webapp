@@ -64,8 +64,8 @@ class Admin::MediaSetsController < Admin::AdminController
         @set.save
         @set.default_permission.set_actions({:view => true})
       end
-      @set.children.delete_all
-      @set.children << Media::Set.find(params[:children]) unless params[:children].blank?
+      @set.child_sets.delete_all
+      @set.child_sets << Media::Set.find(params[:children]) unless params[:children].blank?
     end
   end
 
