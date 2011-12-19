@@ -1,19 +1,18 @@
 # -*- encoding : utf-8 -*-
 module Media
-  def self.table_name_prefix
-    "media_"
-  end
 
   class Set < ActiveRecord::Base # TODO rename to Media::Group
     include Resource
+
+    def self.table_name_prefix
+      "media_"
+    end
 
     has_many :out_arcs, class_name: "Media::SetArc", :foreign_key => :parent_id
     has_many :in_arcs, class_name: "Media::SetArc", :foreign_key => :child_id
 
     has_many :child_sets, :through => :out_arcs, :source => :child
     has_many :parent_sets, :through => :in_arcs, :source => :parent
-  
-    has_dag_links :link_class_name => 'Media::SetLink'
   
     belongs_to :user
     belongs_to :owner, :class_name => 'User'
@@ -61,6 +60,12 @@ module Media
     scope :sets, where(:type => "Media::Set")
     scope :projects, where(:type => "Media::Project")
   
+  ########################################################
+
+    def inheritable_contexts  # overwitten by project
+      []
+    end
+    
   ########################################################
     def to_s
       s = "#{title} " 

@@ -1,8 +1,14 @@
 # -*- encoding : utf-8 -*-
 class MediaSetsController < ApplicationController
 
+
   before_filter :pre_load
-  before_filter :authorized?, :except => [:index, :create]
+  if Rails.env == "development"  # REMARK: maybe push this up to the ApplicationController
+    skip_before_filter :login_required
+  else
+    before_filter :authorized?, :except => [:index, :create]
+  end
+
 
   # API #
   # GET "/media_sets.js", {accessible_action: "edit"}
@@ -14,7 +20,7 @@ class MediaSetsController < ApplicationController
     
         @media_sets, @my_media_sets, @my_title, @other_title = if @media_set
           # all media_sets I can see, nested within a media set (for now only used with featured sets)
-          [resources.where(:id => @media_set.children), nil, "#{@media_set}", nil]
+          [resources.where(:id => @media_set.child_sets), nil, "#{@media_set}", nil]
         elsif @user and @user != current_user
           # all media_sets I can see that have been created by another user
           [resources.by_user(@user), nil, "Sets von %s" % @user, nil]
@@ -36,25 +42,39 @@ class MediaSetsController < ApplicationController
     end
   end
 
-  def show
+  # API #
+  # get nested media_entries:
+  # GET "/media_sets/:id.js"
+  def show( options_for_media_entries = params[:options_for_media_entries],
+            thumb = params[:thumb])
+            
     params[:per_page] ||= PER_PAGE.first
 
     paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
     resources = MediaResource.accessible_by_user(current_user).by_media_set(@media_set).paginate(paginate_options)
-
-    @media_entries = { :pagination => { :current_page => resources.current_page,
-                                        :per_page => resources.per_page,
-                                        :total_entries => resources.total_entries,
-                                        :total_pages => resources.total_pages },
-                       :entries => resources.as_json(:user => current_user) } 
-
-    @can_edit_set = Permission.authorized?(current_user, :edit, @media_set)
     
+    @can_edit_set = Permission.authorized?(current_user, :edit, @media_set)
     @parents = @media_set.parent_sets.as_json(:user => current_user)
     
     respond_to do |format|
-      format.html
-      format.js { render :json => @media_entries.to_json } #FE# render :json => @media_set.as_json(:user => current_user)
+      format.html {
+        with_thumb = true
+        @media_entries = { :pagination => { :current_page => resources.current_page,
+                                            :per_page => resources.per_page,
+                                            :total_entries => resources.total_entries,
+                                            :total_pages => resources.total_pages },
+                           :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
+      }
+      format.js {
+        #FE# render :json => @media_set.as_json(:user => current_user)
+        json = {:id => @media_set.id, :title => @media_set.title}
+
+        if options_for_media_entries and options_for_media_entries.is_a? Hash
+          options_for_media_entries.reverse_merge!(:only => :id, :methods => :title, :user => current_user)
+          json.merge!(:entries => resources.as_json(options_for_media_entries))
+        end
+        render :json => json
+      }
     end
   end
 
@@ -73,6 +93,19 @@ class MediaSetsController < ApplicationController
       format.html
       format.js { render :layout => false }
     end
+  end
+
+#####################
+ 
+  def inheritable_contexts
+    @inheritable_contexts = @media_set.inheritable_contexts
+    respond_to do |format|
+      #format.js { render :json => @inheritable_contexts}
+      #format.html{render :text => "Use JSON", :status => 406}
+      #format.html{render :text => "Use JSON"}
+      format.json{render :json => @inheritable_contexts}
+    end
+
   end
 
 #####################################################
@@ -114,6 +147,7 @@ class MediaSetsController < ApplicationController
       format.html { redirect_to user_resources_path(current_user, :type => "sets") }
     end
  end
+
 
 #####################################################
 
@@ -162,10 +196,10 @@ class MediaSetsController < ApplicationController
     if request.post?
       Media::Set.find_by_id_or_create_by_title(media_set_ids, current_user).each do |media_set|
         next unless Permission.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
-        @media_set.parents << media_set
+        @media_set.parent_sets << media_set
       end
     elsif request.delete?
-      @media_set.parents.delete(Media::Set.find(media_set_ids))
+      @media_set.parent_sets.delete(Media::Set.find(media_set_ids))
     end
     
     respond_to do |format|
@@ -183,7 +217,7 @@ class MediaSetsController < ApplicationController
     case action
 #      when :new
 #        action = :create
-      when :show, :browse, :abstract, :parents
+      when :show, :browse, :abstract, :parents, :inheritable_contexts
         action = :view
       when :edit, :update, :add_member
         action = :edit

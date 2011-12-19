@@ -25,6 +25,15 @@ end
 
 FactoryGirl.define do
 
+  ### Meta
+
+  factory :meta_context do
+    name {Faker::Lorem.words.join("_")}
+    is_user_interface true
+  end
+
+  ### Media ....
+
   factory :media_set_arc , :class => Media::SetArc do
   end
 
@@ -59,6 +68,24 @@ FactoryGirl.define do
     owner {User.find_random || (FactoryGirl.create :user)}
     perm_public_may_view {FactoryHelper.rand_bool 0.1}
   end
+
+  factory :media_project, :class => Media::Project do
+    user {User.find_random || (FactoryGirl.create :user)}
+  end
+
+  ### Permissions ...
+
+  factory :permission do
+    subject {FactoryGirl.create :user}
+    resource {FactoryGirl.create :media_set,:user => (FactoryGirl.create :user)}
+    after_build do |perm| 
+      user_default_permissions = {:view => false, :edit => false, :manage => false, :hi_res => false}
+      perm.set_actions user_default_permissions
+    end
+  end
+
+
+  ### Groups, Users, ....
 
   factory :group do
     name {Faker::Name.last_name}
@@ -95,6 +122,7 @@ FactoryGirl.define do
     person {FactoryGirl.create :person}
     email {UUIDTools::UUID.random_create.hexdigest.slice(0,20)+"@example.com"}
     login {email}
+    usage_terms_accepted_at {Time.now}
   end
 
   factory :media_sets_userpermissions_join do

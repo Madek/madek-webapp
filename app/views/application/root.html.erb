@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<title>Medienarchiv der Künste</title>
 	<%= stylesheet_link_tag "root" %>
-	<%= javascript_include_tag "jquery.min", "jquery/jquery.nivo.slider.pack" %>
+	<%= javascript_include_tag "root.js" %>
 </head>
 
 <body>
@@ -103,14 +103,14 @@
   				<h4>Neu mit Version <small><%= RELEASE_VERSION %></small></i></h4>
   				<p class="sidebar-box-claim">Rund um die Entwicklung</p>
           <div class="newsitem">
-  					<p><span>ZHdK-Bereichsauswahl</span></p>
-            <p>Die Zuweisung eines Medieneintrages zu einem Bereich/Departement der ZHdK wurde erheblich vereinfacht.</p>
+  					<p><span>Metadaten: ZHdK-Bereich</span></p>
+            <p>Die Zuweisung eines Medieneintrages zu einem Bereich der ZHdK wurde erheblich vereinfacht.</p>
   				</div>
           <div class="newsitem">
-            <p><span>Suche</span><br/>Die Anzeige von Suchresultaten wurde erheblich beschleunigt.</p>
+            <p><span>Suchen, Editieren und Löschen</span><br/>Die Geschwindigkeit des Systems wurde markant verbessert.</p>
           </div>
            <div class="newsitem">
-            <p><span>Batch-Edit</span><br/>Der Batch-Edit umfasst nun das Mehrfacheditieren bis zu 1500 Einträgen.</p>
+            <p><span>Zwischenablage</span><br/>Mit der Zwischenablage können nun bis zu 1500 Medieneinträge ausgewählt und anschliessend gleichzeitig bearbeitet werden.</p>
           </div>
   			</div> <!-- #news -->
   			
@@ -124,11 +124,9 @@
   		        <span class="tab active" data-items_class="tab1">
   		          Lehre & Forschung
   		        </span>
-  		        <!-- 
   		        <span class="tab" data-items_class="tab2">
   		          Archiv & Hochschul&shy;kommunikation
               </span>  
-              --> 
   		      </div>
   			  </div>
   				
@@ -145,20 +143,10 @@
   					<p><span>Birk Weiberg</span> dokumentiert die Projekte der Vertiefung Mediale Künste im Medienarchiv.</p>
   				</div>
   				
-  				<!-- 
   				<div class="pilotitem tab2">
-            <div class="portrait"><img src="/assets/root/oliver-emch-portrait.png" alt="Oliver Emch" /></div>
-            <p><span>TEST</span> nutzt das Medienarchiv für den Forschungsschwerpunkt Landschaftsvisualisierung.</p>
+            <div class="portrait"><img src="/assets/root/rolf-wolfensberger-portrait.png" alt="Rolf Wolfensberger" /></div>
+            <p><span>Rolf Wolfensberger</span>, Leiter Archiv ZHdK, schätzt das Medienarchiv als Werkzeug für die aktive Dokumentation vergänglicher Werke.</p>
           </div>
-          <div class="pilotitem stopfloating tab2">
-            <div class="portrait"><img src="/assets/root/vertiefung-fotografie-portrait.png" alt="Vertiefung Fotografie" /></div>
-            <p><span>TEST</span> überträgt Ihre Diathek ins Medienarchiv: Lehrmittel zur Geschichte der Fotografie.</p>
-          </div>
-          <div class="pilotitem stopfloating tab2">
-            <div class="portrait"><img src="/assets/root/vmk-portrait.png" alt="Birk Weiberg" /></div>
-            <p><span>TEST</span> dokumentiert die Projekte der Vertiefung Mediale Künste im Medienarchiv.</p>
-          </div>		
-          -->	
   			</div> <!-- #news -->
   		</div>
   	</div> <!-- #container -->
@@ -211,16 +199,57 @@
         });
         
         // get splash screen images from splash_screen_set
-        
-        
-        // setup nivo slider
-        $('#slider').nivoSlider({
-          pauseTime:15000,
-          captionOpacity: 0.8,
-          effect: 'fade',
-          directionNav:false,
-          controlNav: false,
-        });
+        var set_id = "<%= SPLASHSCREEN_SLIDESHOW_SET[Rails.env][:media_set_id] unless SPLASHSCREEN_SLIDESHOW_SET[Rails.env].blank? %>";
+        if(set_id.length) {
+          $.ajax("/media_sets/"+set_id+".js", {
+            data: {options_for_media_entries: {show: true}},
+            dataType: "json",
+            beforeSend: function(request, settings){
+            },
+            success: function(data, status, request) {
+              $("#slider").fadeOut(1000, function(){
+                // setup splashscreen images
+                var image_clone = $("#slider-wrapper #slider img").clone();
+                $("#slider-wrapper #slider img").remove();
+                var caption_clone = $("#slider-wrapper #htmlcaption1").clone();
+                $("#slider-wrapper #htmlcaption1").remove();
+                
+                randomElements = data.entries.sort(function(){ 
+                  return Math.round(Math.random())-0.5
+                }).slice(0,5)
+                
+                $.each(randomElements, function(i, entry){
+                  // image
+                  var entry_image = $(image_clone).clone();
+                  $(entry_image).attr("src", "/media_entries/"+entry.id+"/image?size=large");
+                  $(entry_image).attr("title", "#htmlcaption"+(i+1));
+                  $("#slider-wrapper #slider").append(entry_image);
+                  
+                  // caption
+                  var entry_caption = $(caption_clone).clone();
+                  $(entry_caption).attr("id", "htmlcaption"+(i+1));
+                  $(entry_caption).html("<strong>"+entry.title+"</strong><br/>"+entry.author);
+                  $("#slider-wrapper").append(entry_caption);
+                });
+                
+                // setup nivo slider
+                $('#slider').nivoSlider({
+                  pauseTime:4000,
+                  captionOpacity: 0.8,
+                  effect: 'fade',
+                  directionNav:false,
+                  controlNav: false
+                });
+                
+                $("#slider").fadeIn();
+              });
+              
+            },
+            error: function(request, status, error){
+              console.log(error);
+            }
+          });    
+        }
       });
     </script>
 </body>

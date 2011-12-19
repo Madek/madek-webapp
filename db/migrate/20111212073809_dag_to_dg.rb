@@ -1,3 +1,20 @@
+# -*- encoding : utf-8 -*-
+
+class Media::SetLink < ActiveRecord::Base
+  def self.table_name_prefix
+    "media_"
+  end
+
+  # TODO use dagnabit gem instead ??
+  acts_as_dag_links :node_class_name => 'Media::Set'  
+
+  validate :validations
+
+  def validations
+    errors.add_to_base("A collection cannot be nested") if descendant.type == "Media::Collection"
+  end
+end
+
 class DagToDg < ActiveRecord::Migration
   include MigrationHelpers
 
@@ -18,8 +35,8 @@ class DagToDg < ActiveRecord::Migration
 
 
     Media::SetLink.where(direct: true).each do |link|
-      if (Media::Set.find link.descendant_id) \
-        and (Media::Set.find link.ancestor_id) \
+      if (Media::Set.exists? link.descendant_id) \
+        and (Media::Set.exists? link.ancestor_id) \
         and link.descendant_id != link.ancestor_id
           Media::SetArc.create child_id: link.descendant_id, parent_id: link.ancestor_id
       end

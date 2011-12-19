@@ -177,6 +177,7 @@ module Resource
       exif_conf.close
     end
     
+    # TODO merge to as_json
     # NEW and experimental for batch processes 
     def get_basic_info(current_user, extended_keys = [], with_thumb = false)
       core_keys = ["title", "author"]
@@ -224,6 +225,7 @@ module Resource
     user = options[:user] #.delete(:user)
     with_thumb = options[:with_thumb]
     
+    #TODO DONT DO THIS PER DEFAULT!
     flags = { :is_private => acl?(:view, :only, user),
               :is_public => acl?(:view, :all),
               :is_editable => Permission.authorized?(user, :edit, self),
@@ -231,7 +233,7 @@ module Resource
 
     default_options = {:only => :id}
     json = super(default_options.deep_merge(options))
-    json.merge(self.get_basic_info(user, [], with_thumb)).merge(flags)
+    json.merge(self.get_basic_info(user, [], with_thumb)).merge(flags) #TODO DONT DO THIS PER DEFAULT!
   end
 
 ########################################################
