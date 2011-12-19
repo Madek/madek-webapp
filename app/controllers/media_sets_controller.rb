@@ -195,10 +195,10 @@ class MediaSetsController < ApplicationController
     if request.post?
       Media::Set.find_by_id_or_create_by_title(media_set_ids, current_user).each do |media_set|
         next unless Permission.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
-        @media_set.parents << media_set
+        @media_set.parent_sets << media_set
       end
     elsif request.delete?
-      @media_set.parents.delete(Media::Set.find(media_set_ids))
+      @media_set.parent_sets.delete(Media::Set.find(media_set_ids))
     end
     
     respond_to do |format|
