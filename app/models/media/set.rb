@@ -8,7 +8,6 @@ module Media
       "media_"
     end
 
-
     has_many :out_arcs, class_name: "Media::SetArc", :foreign_key => :parent_id
     has_many :in_arcs, class_name: "Media::SetArc", :foreign_key => :child_id
 
@@ -58,6 +57,12 @@ module Media
     scope :sets, where(:type => "Media::Set")
     scope :projects, where(:type => "Media::Project")
   
+  ########################################################
+
+    def inheritable_contexts  # overwitten by project
+      []
+    end
+    
   ########################################################
     def to_s
       s = "#{title} " 

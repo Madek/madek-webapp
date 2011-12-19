@@ -145,10 +145,11 @@ MAdeK::Application.routes.draw do
 
   resources :media_sets do #-# TODO , :except => :index # the index is only used to create new sets
     member do
-      get :browse
-      get :abstract
-      post :parents
       delete :parents
+      get :abstract
+      get :browse
+      get :inheritable_contexts
+      post :parents
     end
     
     resources :media_sets #-# only used for FeaturedSet 
