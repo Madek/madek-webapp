@@ -1,8 +1,9 @@
 # -*- encoding : utf-8 -*-
 class MediaSetsController < ApplicationController
 
+
   before_filter :pre_load
-  if Rails.env == "development" 
+  if Rails.env == "development"  # REMARK: maybe push this up to the ApplicationController
     skip_before_filter :login_required
   else
     before_filter :authorized?, :except => [:index, :create]
