@@ -81,6 +81,7 @@ FactoryGirl.define do
     person {FactoryGirl.create :person}
     email {UUIDTools::UUID.random_create.hexdigest.slice(0,20)+"@example.com"}
     login {email}
+    usage_terms_accepted_at {Time.now}
   end
 
 end

@@ -93,6 +93,10 @@ class MediaSetsController < ApplicationController
  
   def inheritable_contexts
     @inheritable_contexts = @media_set.inheritable_contexts
+    respond_to do |format|
+      format.js { render :json => @inheritable_contexts}
+    end
+
   end
 
 #####################################################
@@ -204,7 +208,7 @@ class MediaSetsController < ApplicationController
     case action
 #      when :new
 #        action = :create
-      when :show, :browse, :abstract, :parents
+      when :show, :browse, :abstract, :parents, :inheritable_contexts
         action = :view
       when :edit, :update, :add_member
         action = :edit
