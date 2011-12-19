@@ -71,6 +71,8 @@ FactoryGirl.define do
 
   factory :media_project, :class => Media::Project do
     user {User.find_random || (FactoryGirl.create :user)}
+    owner {User.find_random || (FactoryGirl.create :user)}
+    perm_public_may_view {FactoryHelper.rand_bool 0.1}
   end
 
   ### Permissions ...
