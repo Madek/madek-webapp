@@ -63,11 +63,10 @@ FactoryGirl.define do
   ### Permissions ...
 
   factory :permission do
-    subject {(FactoryGirl.create :user)}
-    resource {(FactoryGirl.create :media_set)}
+    subject {FactoryGirl.create :user}
+    resource {FactoryGirl.create :media_set}
     after_build do |perm| 
-      user_default_permissions = {:view => true, :edit => true, :manage => true}
-      user_default_permissions[:hi_res] = true if perm.resource.class == MediaEntry
+      user_default_permissions = {:view => false, :edit => false, :manage => false, :hi_res => false}
       perm.set_actions user_default_permissions
     end
   end
