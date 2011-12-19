@@ -60,6 +60,18 @@ FactoryGirl.define do
     user {User.find_random || (FactoryGirl.create :user)}
   end
 
+  ### Permissions ...
+
+  factory :permission do
+    subject {(FactoryGirl.create :user)}
+    resource {(FactoryGirl.create :media_set)}
+    after_build do |perm| 
+      user_default_permissions = {:view => true, :edit => true, :manage => true}
+      user_default_permissions[:hi_res] = true if perm.resource.class == MediaEntry
+      perm.set_actions user_default_permissions
+    end
+  end
+
 
   ### Groups, Users, ....
 
