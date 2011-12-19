@@ -2,7 +2,12 @@
 class MediaSetsController < ApplicationController
 
   before_filter :pre_load
-  before_filter :authorized?, :except => [:index, :create]
+  if Rails.env == "development" 
+    skip_before_filter :login_required
+  else
+    before_filter :authorized?, :except => [:index, :create]
+  end
+
 
   # API #
   # GET "/media_sets.js", {accessible_action: "edit"}
@@ -94,7 +99,10 @@ class MediaSetsController < ApplicationController
   def inheritable_contexts
     @inheritable_contexts = @media_set.inheritable_contexts
     respond_to do |format|
-      format.js { render :json => @inheritable_contexts}
+      #format.js { render :json => @inheritable_contexts}
+      #format.html{render :text => "Use JSON", :status => 406}
+      #format.html{render :text => "Use JSON"}
+      format.json{render :json => @inheritable_contexts}
     end
 
   end
