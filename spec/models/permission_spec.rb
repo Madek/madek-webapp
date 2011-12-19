@@ -6,15 +6,18 @@ describe Permission do
     (FactoryGirl.create :permission).should_not == nil
   end
 
-  context "and empty permission" do
+  context "an 'empty' permission" do
 
     before :each do 
       @permission = (FactoryGirl.create :permission)
     end
 
-    it "should be setable to allow view"  do
+    it "should not be vieable by default" do
       Permission.authorized?(@permission.subject,:view,@permission.resource).should == false
-      @permission.set_actions(:view)
+    end
+
+    it "should be setable to allow view"  do
+      @permission.set_actions(:view => true)
       @permission.save!
       Permission.authorized?(@permission.subject,:view,@permission.resource).should == true
     end
