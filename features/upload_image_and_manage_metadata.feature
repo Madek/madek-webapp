@@ -257,7 +257,6 @@ Feature: Upload images and manage media entries based on images
      And I press "Metadaten speichern und weiter…"
      And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
      And I go to the home page
-     And I wait for the CSS element "#results"
      And I click the media entry titled "Frau-Sein"
     # The below stuff would better be done with a Cucumber table, so you can do e.g.:
     # |field|value|

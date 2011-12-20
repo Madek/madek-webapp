@@ -122,8 +122,8 @@ end
 # if successful, nil otherwise.
 def find_media_entry_titled(title)
   found_item = nil
+  wait_for_css_element("#results.item_box")
   all(".item_box").each do |item|
-    #debugger; puts "lala"
     if !item.find(".item_title").text.match(/#{title}/).nil?
       found_item = item
     end
