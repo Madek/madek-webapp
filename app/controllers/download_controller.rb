@@ -178,7 +178,7 @@ class DownloadController < ApplicationController
               :buffer_size  =>  4096)
   end
   
-  def send_mutimedia_preview
+  def send_multimedia_preview
     send_file(@path,
           :filename => @filename,
           :type          =>  @content_type,
