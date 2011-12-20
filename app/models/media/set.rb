@@ -59,7 +59,6 @@ module Media
     scope :static, where("query IS NULL")
     scope :dynamic, where("query IS NOT NULL")
     
-    scope :collections, where(:type => "Media::Collection")
     scope :sets, where(:type => "Media::Set")
     scope :projects, where(:type => "Media::Project")
   

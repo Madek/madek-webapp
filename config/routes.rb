@@ -36,10 +36,11 @@ MAdeK::Application.routes.draw do
   
 ###############################################
 
+  match '/download', :controller => 'download', :action => 'download'
+  
   match '/import', :to => Upload
   match '/upload.js', :to => Upload
   match '/upload_estimation.js', :to => UploadEstimation
-  match '/download', :to => Download
   match '/nagiosstat', :to => Nagiosstat
 
 ###############################################
@@ -190,6 +191,7 @@ MAdeK::Application.routes.draw do
   
   resource :session
 
+#__ Admin namespace __##############################################################
 ####################################################################################
 
   namespace :admin do

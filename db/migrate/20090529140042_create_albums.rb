@@ -4,12 +4,10 @@ class CreateAlbums < ActiveRecord::Migration
     create_table    :albums do |t|
       t.belongs_to  :user
       t.string      :query
-      t.boolean     :is_collection, :default => false
       t.timestamps
     end
     change_table    :albums do |t|
       t.index :user_id
-      t.index :is_collection
     end
 
     create_table    :albums_media_entries, :id => false do |t|
