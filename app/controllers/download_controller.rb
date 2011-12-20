@@ -20,51 +20,13 @@ class DownloadController < ApplicationController
         # If we move the gsub to execute after the unescape has processed, we can easily lose part of the 
         # filename if it contains diacritics and spaces.       
         @filename = CGI::unescape(@media_entry.media_file.filename.gsub(/\+/, '_'))
-        @@content_type = "text/plain"
+        @content_type = "text/plain"
         
         unless @media_entry.nil?
 
-          is_preview = (!params['size'].nil? or !params['video_thumbnail'].nil? or !params['audio_preview'].nil?)
-          if is_preview
-            render :text => 'Sie haben nicht die notwendige Zugriffsberechtigung.', :status => 500 unless Permission.authorized?(current_user, :view, @media_entry) 
-            @size = params['size'].try(:to_sym)
-                        
-            # This isn't video or audio, it's a plain old image
-            if (!@size.nil? and params['video_thumbnail'].nil? and params['audio_preview'].nil?)
-              preview = @media_entry.media_file.get_preview(@size)
-              @content_type = preview.content_type
-              @filename = [@filename.split('.', 2).first, preview.filename.gsub(@media_entry.media_file.guid, '')].join
-              
-            # Video files get a WebM preview file
-            elsif !params['video_thumbnail'].nil?
-              @content_type = "video/webm"
-              preview = @media_entry.media_file.previews.where(:@content_type => content_type).last
-              if preview.nil?
-                render :text => 'Preview file not found.', :status => 404
-              else
-                @filename = preview.filename # The filename going out to the browser
-                path = "#{THUMBNAIL_STORAGE_DIR}/#{@media_entry.media_file.shard}/#{preview.filename}"
-              end     
-              
-            # Audio files get an Ogg Vorbis preview file
-            elsif !params['audio_preview'].nil?
-              @content_type = "audio/ogg"
-              preview = @media_entry.media_file.previews.where(:@content_type => content_type).last
-              if preview.nil?
-                render :text => 'Preview file not found.', :status => 404
-              else
-                @filename = preview.filename # The filename going out to the browser
-                path = "#{THUMBNAIL_STORAGE_DIR}/#{@media_entry.media_file.shard}/#{preview.filename}"
-              end
-              
-            # This isn't any preview we can handle
-            else
-              render :text => "Don't know how to handle this type of preview.", :status => 500
-            end
-          else
-            @content_type = @media_entry.media_file.content_type
-            render :text => 'Sie haben nicht die notwendige Zugriffsberechtigung.', :status => 500 unless Permission.authorized?(current_user, :hi_res, @media_entry) 
-          end
+          render :text => 'Sie haben nicht die notwendige Zugriffsberechtigung.', :status => 500 unless Permission.authorized?(current_user, :view, @media_entry) 
+          @size = params['size'].try(:to_sym)           
+          @content_type = @media_entry.media_file.content_type
 
           if !params['zip'].blank?
             send_as_zip
@@ -72,6 +34,34 @@ class DownloadController < ApplicationController
             send_updated_file
           elsif !params['naked'].blank?
             send_naked_file
+            
+          # Video files get a WebM preview file
+          elsif !params['video_thumbnail'].blank?
+            @content_type = "video/webm"
+            preview = @media_entry.media_file.previews.where(:content_type => @content_type).last
+            if preview.nil?
+              render :text => 'Preview file not found.', :status => 404
+            else
+              @filename = preview.filename # The filename going out to the browser
+              @path = "#{THUMBNAIL_STORAGE_DIR}/#{@media_entry.media_file.shard}/#{preview.filename}"
+              send_multimedia_preview
+            end
+            
+          # Audio files get an Ogg Vorbis preview file            
+          elsif !params['audio_preview'].blank?
+            @content_type = "audio/ogg"
+            preview = @media_entry.media_file.previews.where(:content_type => @content_type).last
+            if preview.nil?
+              render :text => 'Preview file not found.', :status => 404
+            else
+              @filename = preview.filename # The filename going out to the browser
+              @path = "#{THUMBNAIL_STORAGE_DIR}/#{@media_entry.media_file.shard}/#{preview.filename}"
+              send_multimedia_preview
+            end
+            
+          # We use @size to find out if we have to send a resized preview -- this is pretty bad
+          elsif !@size.blank?
+            send_preview
           else
             send_original_file
           end
@@ -81,15 +71,33 @@ class DownloadController < ApplicationController
 
   end # download 
   
- 
   
-  #####################################################################################################################
-  #####################################################################################################################
+  def send_preview
+    # This isn't video or audio, it's a plain old image
+    preview = @media_entry.media_file.get_preview(@size)
+    @content_type = preview.content_type
+    @filename = [@filename.split('.', 2).first, preview.filename.gsub(@media_entry.media_file.guid, '')].join
+    
+    # Provide a copy of the original file, not updated or nuffin'
+    path = @media_entry.media_file.file_storage_location
+    if @size
+      outfile = File.join(DOWNLOAD_STORAGE_DIR, @filename)
+      `convert "#{path}" -resize "#{THUMBNAILS[@size]}" "#{outfile}"`
+      path = outfile
+    end
+    send_file(path,
+              :filename => @filename,
+              :type          =>  @content_type,
+              :disposition  =>  'attachment',
+              :stream    =>  true,
+              :buffer_size  =>  4096)
+
+  end
+  
+  
   # A media file updated with current madek meta-data, zipped up together with a bunch of side-car meta-data files.
   # At present these are yaml and xml files, but they are pretty raw ATM - exposing the internals of the model/schema
   # instead of following a well formed and easier to comprehend xml/yml schema..
-  #####################################################################################################################
-  #####################################################################################################################
   def send_as_zip
     path = @media_entry.updated_resource_file(false, @size) # false means we don't want to blank all the tags
 
@@ -162,17 +170,21 @@ class DownloadController < ApplicationController
   def send_original_file
     # Provide a copy of the original file, not updated or nuffin'
     path = @media_entry.media_file.file_storage_location
-    if @size
-      outfile = File.join(DOWNLOAD_STORAGE_DIR, filename)
-      `convert "#{path}" -resize "#{THUMBNAILS[@size]}" "#{outfile}"`
-      path = outfile
-    end
     send_file(path,
               :filename => @filename,
               :type          =>  @content_type,
               :disposition  =>  'attachment',
               :stream    =>  true,
               :buffer_size  =>  4096)
+  end
+  
+  def send_mutimedia_preview
+    send_file(@path,
+          :filename => @filename,
+          :type          =>  @content_type,
+          :disposition  =>  'attachment',
+          :stream    =>  true,
+          :buffer_size  =>  4096)
   end
   
 end # class
