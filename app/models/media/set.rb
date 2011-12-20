@@ -4,9 +4,11 @@ module Media
   class Set < ActiveRecord::Base # TODO rename to Media::Group
     include Resource
 
-    def self.table_name_prefix
-      "media_"
-    end
+    set_table_name "media_sets"
+
+#    def self.table_name_prefix
+#      "media_"
+#    end
 
     has_many :out_arcs, class_name: "Media::SetArc", :foreign_key => :parent_id
     has_many :in_arcs, class_name: "Media::SetArc", :foreign_key => :child_id
@@ -16,7 +18,8 @@ module Media
   
     belongs_to :user
     belongs_to :owner, :class_name => 'User'
-    has_many :mediaset_userpermission_joins 
+    has_many :media_sets_userpermissions_joins, :foreign_key => :media_set_id 
+#    has_many :media_sets_userpermissions_joins
 
     has_and_belongs_to_many :media_entries, :join_table => "media_entries_media_sets",
                                             :foreign_key => "media_set_id" do
@@ -51,7 +54,7 @@ module Media
   
   ########################################################
   
-    default_scope order("type ASC, updated_at DESC")
+    #default_scope order("type ASC, updated_at DESC")
   
     scope :static, where("query IS NULL")
     scope :dynamic, where("query IS NOT NULL")

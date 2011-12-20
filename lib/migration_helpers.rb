@@ -4,6 +4,17 @@ module MigrationHelpers
   include ::SQLHelper
   extend ::SQLHelper
   extend self
+
+
+  # view
+  def create_view view_name, sql
+    execute_sql "CREATE VIEW #{view_name} AS #{sql} ;"
+  end
+
+  def drop_view view_name
+    execute_sql "DROP VIEW #{view_name};"
+  end
+
  
 
   # we are patching the index_name function here, 

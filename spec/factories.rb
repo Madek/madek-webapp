@@ -149,6 +149,7 @@ FactoryGirl.define do
       end
     end
 
+    # TODO add this into a post create hook
     after_create do |up|
       if  up.resource.class ==  Media::Set
         FactoryGirl.create :media_sets_userpermissions_join, :userpermission => up, :media_set => up.resource

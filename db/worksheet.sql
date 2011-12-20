@@ -76,6 +76,9 @@ CREATE VIEW viewable_mediasets_by_userpermission AS
     INNER JOIN userpermissions ON userpermissions.id = mediaset_userpermission_joins.userpermission_id
     INNER JOIN users ON users.id = userpermissions.user_id
     WHERE userpermissions.may_view = true;
+
+
+  
   
 SELECT media_sets.id as media_set_id
   FROM media_sets;
