@@ -1,8 +1,14 @@
 # -*- encoding : utf-8 -*-
 class MediaSetsController < ApplicationController
 
+
   before_filter :pre_load
-  before_filter :authorized?, :except => [:index, :create]
+  if Rails.env == "development"  # REMARK: maybe push this up to the ApplicationController
+    skip_before_filter :login_required
+  else
+    before_filter :authorized?, :except => [:index, :create]
+  end
+
 
   # API #
   # GET "/media_sets.js", {accessible_action: "edit"}
@@ -94,7 +100,10 @@ class MediaSetsController < ApplicationController
   def inheritable_contexts
     @inheritable_contexts = @media_set.inheritable_contexts
     respond_to do |format|
-      format.js { render :json => @inheritable_contexts}
+      #format.js { render :json => @inheritable_contexts}
+      #format.html{render :text => "Use JSON", :status => 406}
+      #format.html{render :text => "Use JSON"}
+      format.json{render :json => @inheritable_contexts}
     end
 
   end
@@ -187,10 +196,10 @@ class MediaSetsController < ApplicationController
     if request.post?
       Media::Set.find_by_id_or_create_by_title(media_set_ids, current_user).each do |media_set|
         next unless Permission.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
-        @media_set.parents << media_set
+        @media_set.parent_sets << media_set
       end
     elsif request.delete?
-      @media_set.parents.delete(Media::Set.find(media_set_ids))
+      @media_set.parent_sets.delete(Media::Set.find(media_set_ids))
     end
     
     respond_to do |format|
