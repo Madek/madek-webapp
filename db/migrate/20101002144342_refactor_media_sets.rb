@@ -16,7 +16,6 @@ class RefactorMediaSets < ActiveRecord::Migration
     end
     
     change_table :media_sets do |t|
-      t.remove :is_collection
       t.string :type, :null => false, :default => 'Media::Set'   # STI (single table inheritance)
     end
 
@@ -45,9 +44,7 @@ class RefactorMediaSets < ActiveRecord::Migration
     rename_table :media_set_links, :album_links
 
     change_table :albums do |t|
-      t.boolean :is_collection, :default => false
       t.remove :type
-      t.index :is_collection
     end
   end
 end
