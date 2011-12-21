@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+require 'constants'
 
 module DataFactory 
   extend self
@@ -95,8 +96,8 @@ FactoryGirl.define do
 
   factory :grouppermission do
     may_view {FactoryHelper.rand_bool}
-    may_download {FactoryHelper.rand_bool}
-    may_edit_metadata {FactoryHelper.rand_bool}
+    may_download_high_resolution {FactoryHelper.rand_bool}
+    may_edit {FactoryHelper.rand_bool}
 
     group {Group.find_random || (FactoryGirl.create :group)}
     resource do 
@@ -134,12 +135,13 @@ FactoryGirl.define do
   end
 
   factory :userpermission do
+
     may_view {FactoryHelper.rand_bool 1/4.0}
     maynot_view {(not may_view) and FactoryHelper.rand_bool}
-    may_download {FactoryHelper.rand_bool 1/4.0}
-    maynot_download {(not may_download) and FactoryHelper.rand_bool}
-    may_edit_metadata {FactoryHelper.rand_bool 1/4.0}
-    maynot_edit_metadata {(not may_edit_metadata) and FactoryHelper.rand_bool}
+    may_download_high_resolution {FactoryHelper.rand_bool 1/4.0}
+    maynot_download_high_resolution {(not maynot_download_high_resolution) and FactoryHelper.rand_bool}
+    may_edit {FactoryHelper.rand_bool 1/4.0}
+    maynot_edit {(not may_edit) and FactoryHelper.rand_bool}
     user {User.find_random || (FactoryGirl.create :user)} 
     resource do 
       if FactoryHelper.rand_bool 1.0/3

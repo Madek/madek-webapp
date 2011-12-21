@@ -23,7 +23,6 @@ class CreateUserpermissions < ActiveRecord::Migration
 
     fkey_cascade_on_delete :userpermissions, :user_id, :users
     
-
   end
 
 

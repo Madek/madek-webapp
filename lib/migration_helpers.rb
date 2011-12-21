@@ -111,7 +111,7 @@ module MigrationHelpers
       AS $$
       DECLARE
       BEGIN
-        PERFORM DELETE FROM #{target_table} WHERE id = OLD.#{fkey};
+        DELETE FROM #{target_table} WHERE id = OLD.#{fkey};
         RETURN OLD;
       END $$
       LANGUAGE PLPGSQL;

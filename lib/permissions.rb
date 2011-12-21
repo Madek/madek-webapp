@@ -7,13 +7,13 @@ module Permissions
     def authorized?(subject, action, resource)
       if resource.owner == user
         true
-      elsif resource.perm_public_may_view 
+      elsif action == :view && resource.perm_public_may_view 
         true
-      elsif userpermission_disallows :view, mediaresource, user
+      elsif userpermission_disallows action, mediaresource, user
         false
-      elsif userpermission_allows :view, mediaresource, user
+      elsif userpermission_allows action, mediaresource, user
         true
-      elsif grouppermissions_allows :view, mediaresource, user
+      elsif grouppermissions_allows action, mediaresource, user
         true
       else
         false
