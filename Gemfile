@@ -72,6 +72,7 @@ group :development do
 end
 
 group :test do
+  gem 'cover_me'
   gem 'capybara', '~> 1.1'
   gem 'cucumber'#, '~> 1.0.3'
   gem 'cucumber-rails'#, '~> 1.0.2'

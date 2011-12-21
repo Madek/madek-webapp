@@ -119,24 +119,28 @@ class MediaSetsController < ApplicationController
 # TODO
 
   # API #
-  # POST "/media_sets", {media_set: {meta_data_attributes: {0 => {meta_key_id: 3, value: "Set title"}}} } FIXME: this is not working any more, perhaps we need a create_multiple
-  # POST "/media_sets", {media_set: {0: {meta_data_attributes: {0 => {meta_key_id: 3, value: "Set title"}}}, {1: {meta_data_attributes: {0 => {meta_key_id: 3, value: "Set title"}}}}] } NOTE: creates multiple
+  # POST "/media_sets", {media_set: {meta_data_attributes: {0 => {meta_key_id: 3, value: "Set title"}}} }
+  # POST "/media_sets", {media_set: {0: {meta_data_attributes: {0 => {meta_key_id: 3, value: "Set title"}}},
+  #                                  1: {meta_data_attributes: {0 => {meta_key_id: 3, value: "Set title"}}} }}
   def create(attr = params[:media_set])
-    if attr.is_a? Hash # create single
+    
+    is_saved = true
+    if attr.has_key? "0" # CREATE MULTIPLE
       # TODO ?? find_by_id_or_create_by_title
-      is_saved = true
-      @media_sets = []
+      @media_sets = [] 
       attr.each_pair do |k,v|
         media_set = current_user.media_sets.build(v)
         @media_sets << media_set
         is_saved = (is_saved and media_set.save)
       end
+    else # CREATE SINGLE
+      @media_set = current_user.media_sets.build(attr)
+      is_saved = @media_set.save
     end
 
     respond_to do |format|
       format.html {
         if is_saved
-          #temp# flash[:notice] = "Media::Set successful created"
           redirect_to user_resources_path(current_user, :type => "sets")
         else
           flash[:notice] = @media_set.errors.full_messages
@@ -149,6 +153,8 @@ class MediaSetsController < ApplicationController
       }
     end
   end
+  
+  
   
   def edit
   end
