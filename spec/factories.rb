@@ -90,8 +90,8 @@ FactoryGirl.define do
 
   factory :user do
     person {FactoryGirl.create :person}
-    email {UUIDTools::UUID.random_create.hexdigest.slice(0,20)+"@example.com"}
-    login {email}
+    email {Faker::Internet.email}
+    login {Faker::Internet.user_name}
     usage_terms_accepted_at {Time.now}
   end
 
