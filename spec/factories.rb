@@ -100,6 +100,7 @@ FactoryGirl.define do
     may_edit {FactoryHelper.rand_bool}
 
     group {Group.find_random || (FactoryGirl.create :group)}
+
     resource do 
       if FactoryHelper.rand_bool 1.0/3
         Media::Set.find_random ||  (FactoryGirl.create :media_set)
@@ -152,15 +153,15 @@ FactoryGirl.define do
     end
 
     # TODO add this into a post create hook
-    after_create do |up|
-      if  up.resource.class ==  Media::Set
-        FactoryGirl.create :media_sets_userpermissions_join, :userpermission => up, :media_set => up.resource
-      elsif up.resource.class == MediaEntry
-        FactoryGirl.create :media_entries_userpermissions_join, :userpermission => up, :media_entry => up.resource
-      else 
-        log "handle this case"
-      end
-    end
+#    after_create do |up|
+#      if  up.resource.class ==  Media::Set
+#        FactoryGirl.create :media_sets_userpermissions_join, :userpermission => up, :media_set => up.resource
+#      elsif up.resource.class == MediaEntry
+#        FactoryGirl.create :media_entries_userpermissions_join, :userpermission => up, :media_entry => up.resource
+#      else 
+#        log "handle this case"
+#      end
+#    end
 
   end
 

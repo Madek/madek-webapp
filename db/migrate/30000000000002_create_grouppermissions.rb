@@ -5,7 +5,7 @@ class CreateGrouppermissions < ActiveRecord::Migration
   def up
     create_table :grouppermissions do |t|
 
-      t.belongs_to  :resource, :polymorphic => true, :null => false
+      #t.belongs_to  :resource, :polymorphic => true, :null => false
       t.references :group, :null => false
 
       ACTIONS.each do |action|

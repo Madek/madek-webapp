@@ -10,7 +10,7 @@ describe Permissions do
   context "function userpermission_disallows" do
 
     it "should return not nil if there is a userpermission that disallows" do
-      FactoryGirl.create :userpermission, :user => @user, :resource => @media_set, :maynot_view => true
+      FactoryGirl.create :userpermission, user: @user, resource: @media_set, maynot_view: true
       (Permissions.userpermission_disallows :view, @media_set, @user).should_not == nil
     end
 

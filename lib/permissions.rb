@@ -21,7 +21,7 @@ module Permissions
     end
 
     def userpermission_disallows action, resource, user
-        resource.class.joins(:userpermissions_joins => {:userpermission => :user}) \
+        resource.class.joins(:userpermissions => :user) \
           .where("#{resource.class.table_name}.id = #{resource.id}") \
           .where("users.id = #{user.id}") \
           .where("userpermissions.maynot_#{action} = true")
@@ -29,7 +29,7 @@ module Permissions
     end
 
     def userpermission_allows action, resource, user
-        resource.class.joins(:userpermissions_joins => {:userpermission => :user}) \
+        resource.class.joins(:userpermissions => :user) \
           .where("#{resource.class.table_name}.id = #{resource.id}") \
           .where("users.id = #{user.id}") \
           .where("userpermissions.may_#{action} = true")
@@ -37,7 +37,7 @@ module Permissions
     end
 
     def grouppermission_allows action, resource, user
-      resource.class.joins(:grouppermissions_joins => {:grouppermission => {:group => :users}}) \
+      resource.class.joins(:grouppermissions => {:group => :users}) \
         .where("#{resource.class.table_name}.id = #{resource.id}") \
         .where("users.id = #{user.id}") \
         .where("grouppermissions.may_#{action} = true") \

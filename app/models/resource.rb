@@ -48,6 +48,9 @@ module Resource
 #      end
 #    end
 
+    base.has_many :userpermissions, :as => :resource, :dependent => :destroy
+    base.has_many :grouppermissions, :as => :resource, :dependent => :destroy
+
     base.has_many  :permissions, :as => :resource, :dependent => :destroy
     base.before_validation { permissions.delete_if {|p| p.new_record? and p.subject.nil? and p.invalid? } } #2904# OPTIMIZE
     base.after_create :generate_permissions
