@@ -27,8 +27,11 @@ FactoryGirl.define do
 
   factory :user do
     person {FactoryGirl.create :person}
-    email {"#{person.firstname}.#{person.lastname}@example.com".downcase} 
-    login {email}
+    # This can break the tests because the names can contain characters that when combined like this, will
+    # break the "looks like e-mail" validation
+    #email {"#{person.firstname}.#{person.lastname}@example.com".downcase} 
+    email {Faker::Internet.email}
+    login {Faker::Internet.user_name}
   end
 
 
