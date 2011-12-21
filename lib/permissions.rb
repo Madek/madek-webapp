@@ -25,7 +25,7 @@ module Permissions
           .where("#{resource.class.table_name}.id = #{resource.id}") \
           .where("users.id = #{user.id}") \
           .where("userpermissions.maynot_#{action} = true")
-          .limit 1
+          .first
     end
 
     def userpermission_allows action, resource, user
@@ -33,7 +33,7 @@ module Permissions
           .where("#{resource.class.table_name}.id = #{resource.id}") \
           .where("users.id = #{user.id}") \
           .where("userpermissions.may_#{action} = true")
-          .limit 1
+          .first
     end
 
     def grouppermission_allows action, resource, user
@@ -41,7 +41,7 @@ module Permissions
         .where("#{resource.class.table_name}.id = #{resource.id}") \
         .where("users.id = #{user.id}") \
         .where("grouppermissions.may_#{action} = true") \
-        .limit 1
+        .first
     end
 
  
