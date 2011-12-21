@@ -17,16 +17,15 @@ class CreateViewableResourcesView < ActiveRecord::Migration
           .where("userpermissions.may_view = false").to_sql \
           .gsub /SELECT.*FROM/, select_ms
 
-
       viewable_mediasets_by_grouppermission= \
         Media::Set.joins(:grouppermissions => {:group => :users}) \
         .where("grouppermissions.may_view = true").to_sql \
         .gsub /SELECT.*FROM/, select_ms
 
-
       viewable_mediasets_by_gp_not_denied_by_up=  <<-SQL
         SELECT * from viewable_mediasets_by_grouppermission
-        WHERE (media_set_id,user_id) NOT IN (SELECT media_set_id,user_id from non_viewable_mediasets_by_userpermission);
+        WHERE (media_set_id,user_id) 
+          NOT IN (SELECT media_set_id,user_id from non_viewable_mediasets_by_userpermission);
       SQL
 
       viewable_mediasets_by_publicpermission= <<-SQL
