@@ -384,7 +384,7 @@ function SelectionWidget() {
     
     // scroll to new entry which is append to list
     $(target).data("widget").find(".list").animate({
-      scrollTop: ($(new_item).offset().top-$(target).data("widget").find(".list").offset().top)
+      scrollTop: ($(new_item).offset().top-$(target).data("widget").find(".list li:first").offset().top)
     }, function(){
       $(new_item).hide().fadeIn();
     });
