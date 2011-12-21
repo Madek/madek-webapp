@@ -21,6 +21,10 @@ class MediaEntry < ActiveRecord::Base
 
   after_create :set_descr_author_value
 
+  before_save do
+    owner ||= upload_session.user
+  end
+
   def set_descr_author_value
     descr_author_value = record.meta_data.get("description author").value
     record.meta_data.get("description author before import").update_attributes(:value => descr_author_value) if descr_author_value

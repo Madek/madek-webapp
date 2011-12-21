@@ -21,6 +21,7 @@ module Media
     has_many :userpermissions_joins, class_name: "MediaSetsUserpermissionsJoin", :foreign_key => :media_set_id 
     has_many :grouppermissions_joins, class_name: "MediaSetsGrouppermissionsJoin", :foreign_key => :media_set_id 
 
+
     has_and_belongs_to_many :media_entries, :join_table => "media_entries_media_sets",
                                             :foreign_key => "media_set_id" do
       def push_uniq(members)
@@ -34,6 +35,10 @@ module Media
       end
     end
     
+    before_save do
+      owner ||=  user
+    end
+
     def self.find_by_id_or_create_by_title(values, user)
       records = Array(values).map do |v|
                         if v.is_a?(Numeric) or !!v.match(/\A[+-]?\d+\Z/) # TODO path to String#is_numeric? method
