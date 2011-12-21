@@ -16,12 +16,13 @@ class CreateUserpermissions < ActiveRecord::Migration
     end
 
     add_index :userpermissions, ref_id(User)
-    fkey_cascade_on_delete :userpermissions, :user_id, :users
-    
     ACTIONS.each do |action|
       add_index :userpermissions, "may_#{action}"
       add_index :userpermissions, "maynot_#{action}"
     end
+
+    fkey_cascade_on_delete :userpermissions, :user_id, :users
+    
 
   end
 
