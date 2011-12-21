@@ -30,3 +30,10 @@
   -webkit-border-radius: $value; /* Safari, Chrome */
   border-radius: $value; /* CSS3 */
 }
+
+@mixin transition($value) {
+  -moz-transition: $value;
+  -webkit-transition: $value;
+  -o-transition: $value;
+  transition: $value;
+}

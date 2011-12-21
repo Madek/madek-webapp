@@ -84,6 +84,34 @@ Given /^a group called "([^"]*)" exists$/ do |groupname|
   create_group(groupname)
 end
 
+Given /^a set titled "(.+)" created by "(.+)" exists$/ do |title, username|
+  user = User.where(:login => username).first
+  meta_data = {:meta_data_attributes => {0 => {:meta_key_id => 3, :value => title}}}
+  set = user.media_sets.create(meta_data)
+end
+
+Given /^a entry titled "(.+)" created by "(.+)" exists$/ do |title, username|
+  user = User.where(:login => username).first
+  upload_session = UploadSession.create(:user => user)
+  meta_data = {:meta_data_attributes => {0 => {:meta_key_id => 3, :value => title}}}
+  MediaEntry.skip_callback(:create, :before, :extract_subjective_metadata)
+  entry = upload_session.media_entries.create(meta_data)
+  MediaEntry.set_callback(:create, :before, :extract_subjective_metadata)
+  upload_session.update_attributes(:is_complete => true)
+end
+
+Given /^the last entry is child of the last set/ do
+  parent_set = Media::Set.all.sort_by(&:id).last
+  entry = MediaEntry.all.sort_by(&:id).last
+  parent_set.media_entries.push_uniq entry
+end
+
+Given /^the last set is parent of the (.+) set$/ do |offset|
+  parent_set = Media::Set.all.sort_by(&:id).last
+  child_set = Media::Set.all.sort_by(&:id)[offset.to_i-1]
+  parent_set.child_sets << child_set
+end
+
 When /^I debug$/ do
   debugger; puts "lala"
 end
