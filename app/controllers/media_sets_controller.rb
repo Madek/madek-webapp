@@ -11,8 +11,14 @@ class MediaSetsController < ApplicationController
 
 
   # API #
+  # GET "/media_sets.js", {}
+  # => RETURNS {{id: 1, title: "ABC"}, {id: 2, title: "CDF"}}
   # GET "/media_sets.js", {accessible_action: "edit"}
-  def index(accessible_action = params[:accessible_action] || :view)
+  # => RETURNS {{id: 1, title: "ABC"}, {id: 2, title: "CDF"}} # NOTE: but only editable sets
+  # GET "/media_sets.js", {accessible_action: "edit", with: {set: {child_sets: {}}}}
+  # => RETURNS {{id: 1, title: "ABC", child_sets: {}}, {id: 2, title: "CDF", child_sets: {{id: 4, title: "XYZ"}}}} # NOTE: but only editable sets
+  def index(accessible_action = params[:accessible_action] || :view,
+            with = params[:with])
     respond_to do |format|
       #-# only used for FeaturedSet
       format.html {
@@ -36,8 +42,8 @@ class MediaSetsController < ApplicationController
         end
       }
       format.js {
-        resources = MediaResource.accessible_by_user(current_user, accessible_action.to_sym).media_sets
-        render :json => resources.as_json(:user => current_user, :with_thumb => false)
+        sets = MediaResource.accessible_by_user(current_user, accessible_action.to_sym).media_sets
+        render :json => sets.as_json(:user => current_user, :with => with, :with_thumb => false) # TODO drop with_thum merge with with
       }
     end
   end
@@ -113,11 +119,19 @@ class MediaSetsController < ApplicationController
 # TODO
 
   # API #
-  # POST "/media_sets", {media_set: {meta_data_attributes: {0 => {meta_key_id: 3, value: "Set title"}}} }
+  # POST "/media_sets", {media_set: {meta_data_attributes: {0 => {meta_key_id: 3, value: "Set title"}}} } FIXME: this is not working any more, perhaps we need a create_multiple
+  # POST "/media_sets", {media_set: {0: {meta_data_attributes: {0 => {meta_key_id: 3, value: "Set title"}}}, {1: {meta_data_attributes: {0 => {meta_key_id: 3, value: "Set title"}}}}] } NOTE: creates multiple
   def create(attr = params[:media_set])
-    # TODO ?? find_by_id_or_create_by_title
-    @media_set = current_user.media_sets.build(attr)
-    is_saved = @media_set.save
+    if attr.is_a? Hash # create single
+      # TODO ?? find_by_id_or_create_by_title
+      is_saved = true
+      @media_sets = []
+      attr.each_pair do |k,v|
+        media_set = current_user.media_sets.build(v)
+        @media_sets << media_set
+        is_saved = (is_saved and media_set.save)
+      end
+    end
 
     respond_to do |format|
       format.html {
@@ -130,11 +144,12 @@ class MediaSetsController < ApplicationController
         end
       }
       format.js {
-        render :json => @media_set.as_json(:user => current_user), :status => (is_saved ? 200 : 500)
+        r = @media_sets ? @media_sets : @media_set
+        render :json => r.as_json(:user => current_user), :status => (is_saved ? 200 : 500)
       }
     end
   end
-
+  
   def edit
   end
 
@@ -204,7 +219,9 @@ class MediaSetsController < ApplicationController
     
     respond_to do |format|
       format.html { redirect_to @media_set }
-      format.js { render :json => @media_set.as_json(:user => current_user, :methods => :parent_ids) }
+      format.js { 
+        render :json => @media_set.as_json(:user => current_user, :methods => :parent_ids) 
+      }
     end
   end
 

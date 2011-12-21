@@ -234,6 +234,9 @@ module Resource
     default_options = {:only => :id}
     json = super(default_options.deep_merge(options))
     json.merge(self.get_basic_info(user, [], with_thumb)).merge(flags) #TODO DONT DO THIS PER DEFAULT!
+    
+    # add relationships for a given parent
+    
   end
 
 ########################################################

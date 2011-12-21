@@ -1,0 +1,8 @@
+%li
+  %label{:title => "${title}"}
+    = check_box_tag 'selected'
+    {{if title.length > 15}}
+    ${title.substr(0,15)}...
+    {{else}}
+    ${title}
+    {{/if}}

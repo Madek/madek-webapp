@@ -74,8 +74,28 @@ module Media
   ########################################################
 
     def as_json(options={})
-      h = { :is_set => true }
-      super(options).merge(h)
+      options ||= {}
+      json = super(options)
+      
+      json[:is_set] = true # TODO use :type instead of :is_set 
+      
+      if(with = options[:with])
+        if(with[:set])
+          if with[:set].has_key?(:child_sets) and (with[:set][:child_sets].is_a?(Hash) or not with[:set][:child_sets].to_i.zero?)
+            # more_json[:child_sets] = {}
+            # set_options.each_pair do |k,v|
+              # next unless [:child_set_ids].include?(k)
+              # more_json[k] = send(v)
+            # end
+            json[:child_sets] = child_sets.as_json(options)
+          end
+          if with[:set].has_key?(:media_entries) and (with[:set][:media_entries].is_a?(Hash) or not with[:set][:media_entries].to_i.zero?)
+            json[:media_entries] = media_entries.as_json(options)
+          end
+        end
+      end
+      
+      json
   end
 
   ########################################################

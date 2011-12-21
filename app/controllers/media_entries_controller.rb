@@ -44,7 +44,7 @@ class MediaEntriesController < ApplicationController
     # TODO merge with index
     @viewable_ids = MediaResource.accessible_by_user(current_user).media_entries.map(&:id)
   end
-
+  
 #####################################################
 # Authenticated Area
 
@@ -76,17 +76,23 @@ class MediaEntriesController < ApplicationController
 #####################################################
 
   # OPTIMIZE media_set ACL
-  def media_sets
+  # API #
+  # POST "/media_entries/:id/media_sets", {media_set_ids: [1, 2, 3, "My new parent set"] }
+  # DELETE "/media_entries/:id/media_sets", {media_set_ids: [1, 2, 3] }
+  def media_sets(media_set_ids = params[:media_set_ids])
     if request.post?
       Media::Set.find_by_id_or_create_by_title(params[:media_set_ids], current_user).each do |media_set|
         next unless Permission.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
         media_set.media_entries.push_uniq @media_entry
       end
-      redirect_to @media_entry
+      respond_to do |format|
+        format.html {redirect_to @media_entry}
+        format.js { render :json => @media_set.as_json(:user => current_user, :methods => :parent_ids) }
+      end
     elsif request.delete?
       if Permission.authorized?(current_user, :edit, @media_set) # (Media::Set ACL!)
         @media_set.media_entries.delete(@media_entry)
-        render :nothing => true # TODO redirect_to @media_set
+        render :json => @media_set.as_json(:user => current_user, :methods => :parent_ids) 
       else
         # OPTIMIZE
         render :nothing => true, :status => 403

@@ -2,6 +2,7 @@
 
 .button {
   color: #333333;
+  cursor: pointer;
   display: block;
   font-weight: bold;
   font-size: 1em;
@@ -41,6 +42,19 @@
       border-left: 1px solid #CCC;
       border-right: 1px solid #AAA;
       border-bottom: 1px solid #999;
+      @include box-shadow(0 0 1px rgba(0, 0, 0, 0.3));
+    }
+  }
+  
+  &.loading {
+    &:hover {
+      border: none;
+      background-color: #fffd37;
+      background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f0eee8), to(#FFFEEE));
+      background-image: -moz-linear-gradient(0% 100% 90deg, #f0eee8, #FFFEEE);
+      border-left: 1px solid #CCC;
+      border-right: 1px solid #AAA;
+      border-bottom: 1px solid #999;      
       @include box-shadow(0 0 1px rgba(0, 0, 0, 0.3));
     }
   }
