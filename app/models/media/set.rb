@@ -63,12 +63,29 @@ module Media
     end
     
   ########################################################
+  
     def to_s
+      return "Beispielhafte Sets" if is_featured_set?
+
       s = "#{title} " 
       s += "- %s " % self.class.name.split('::').last # OPTIMIZE get class name without module name
       # TODO filter accessible ??
       # s += (static? ? "(#{MediaResource.accessible_by_user(current_user).by_media_set(self).count})" : "(#{MediaResource.accessible_by_user(current_user).by_media_set(self).search(query).count}) [#{query}]")
       s += (static? ? "(#{media_entries.count})" : "(#{MediaResource.by_media_set(self).search(query).count}) [#{query}]")
+    end
+  
+  ########################################################
+
+    def is_featured_set?
+      self.id == Settings.featured_set_id
+    end
+
+    def self.featured_set
+      where(:id => Settings.featured_set_id).first
+    end
+
+    def self.featured_set=(media_set)
+      Settings.featured_set_id = media_set.id
     end
   
   ########################################################

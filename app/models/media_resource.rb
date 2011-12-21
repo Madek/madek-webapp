@@ -18,7 +18,7 @@ class MediaResource < ActiveRecord::Base
   scope :media_entries, where(:type => "MediaEntry")
   
   # OPTIMIZE
-  scope :media_sets, where(:type => ["Media::Set", "Media::Project", "Media::FeaturedSet"])
+  scope :media_sets, where(:type => ["Media::Set", "Media::Project"])
   scope :sets, where(:type => "Media::Set")
   scope :projects, where(:type => "Media::Project")
 
@@ -122,11 +122,11 @@ class MediaResource < ActiveRecord::Base
   def self.media_resources_type
     #original# "media_resources.type"
     if SQLHelper.adapter_is_mysql?
-      "IF(type IN ('Media::Project', 'Media::FeaturedSet'), 'Media::Set', type)"
+      "IF(type IN ('Media::Project'), 'Media::Set', type)"
     elsif SQLHelper.adapter_is_postgresql?
       "
       CASE 
-        WHEN (type IN ('Media::Project', 'Media::FeaturedSet'))  THEN  'Media::Set'
+        WHEN (type IN ('Media::Project'))  THEN  'Media::Set'
         ELSE type
       END
       "
