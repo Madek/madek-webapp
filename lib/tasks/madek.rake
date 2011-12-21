@@ -5,6 +5,24 @@ require 'action_controller'
 
 namespace :madek do
 
+  desc "Set up the environment for testing, then run tests"
+  task :test do
+    # Rake seems to be very stubborn about where it takes
+    # the RAILS_ENV from, so let's set a lot of options (?)
+
+    Rails.env = 'test'
+    task :environment
+    Rake::Task["madek:reset"].invoke
+    system "bundle exec rspec spec"
+    exit_code = $? >> 8 # magic brainfuck
+    raise "Tests failed with: #{exit_code}" if exit_code != 0
+
+    system "bundle exec cucumber features"
+    exit_code = $? >> 8 # magic brainfuck
+    raise "Tests failed with: #{exit_code}" if exit_code != 0
+
+
+end
 
   desc "Back up images and database before doing anything silly"
   task :backup do
