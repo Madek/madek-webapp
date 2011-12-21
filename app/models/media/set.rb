@@ -18,9 +18,6 @@ module Media
   
     belongs_to :user
     belongs_to :owner, :class_name => 'User'
-    has_many :userpermissions_joins, class_name: "MediaSetsUserpermissionsJoin", :foreign_key => :media_set_id 
-    has_many :grouppermissions_joins, class_name: "MediaSetsGrouppermissionsJoin", :foreign_key => :media_set_id 
-
 
     has_and_belongs_to_many :media_entries, :join_table => "media_entries_media_sets",
                                             :foreign_key => "media_set_id" do
