@@ -8,18 +8,18 @@ class CreateViewableResourcesView < ActiveRecord::Migration
       select_ms = "SELECT media_sets.id as media_set_id, users.id as user_id FROM"
 
       viewable_mediasets_by_userpermission= \
-        Media::Set.joins(:media_sets_userpermissions_joins => {:userpermission => :user}) \
+        Media::Set.joins(:userpermissions_joins => {:userpermission => :user}) \
         .where("userpermissions.may_view = true").to_sql \
         .gsub /SELECT.*FROM/, select_ms
 
       non_viewable_mediasets_by_userpermission= \
-        Media::Set.joins(:media_sets_userpermissions_joins => {:userpermission => :user}) \
+        Media::Set.joins(:userpermissions_joins => {:userpermission => :user}) \
         .where("userpermissions.may_view = false").to_sql \
         .gsub /SELECT.*FROM/, select_ms
 
 
       viewable_mediasets_by_grouppermission= \
-        Media::Set.joins(:media_sets_grouppermissions_joins => {:grouppermission => {:group => :users}}) \
+        Media::Set.joins(:grouppermissions_joins => {:grouppermission => {:group => :users}}) \
         .where("grouppermissions.may_view = true").to_sql \
         .gsub /SELECT.*FROM/, select_ms
 
