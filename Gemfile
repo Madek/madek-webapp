@@ -28,7 +28,9 @@ group :assets do
   gem 'uglifier', '~> 1.1'
 end
 
-gem 'cancan', '~> 1.6'
+#tmp# gem 'cancan', '~> 1.6'
+
+gem 'ledermann-rails-settings', :require => 'rails-settings' # alternatives: 'settingslogic', 'settler', 'rails_config', 'settings', 'simpleconfig' 
 
 gem 'will_paginate', '~> 3.0' 
 
