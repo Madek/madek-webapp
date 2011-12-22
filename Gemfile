@@ -28,12 +28,14 @@ group :assets do
   gem 'uglifier', '~> 1.1'
 end
 
-gem 'cancan', '~> 1.6'
+#tmp# gem 'cancan', '~> 1.6'
+
+gem 'ledermann-rails-settings', :require => 'rails-settings' # alternatives: 'settingslogic', 'settler', 'rails_config', 'settings', 'simpleconfig' 
 
 gem 'will_paginate', '~> 3.0' 
 
 gem "yard", "~> 0.7.4"
-#gem "yard-rest-plugin", "~> 0.2.5" FIXME this plugin is not working, even forks are not working with the latest yard
+#gem "yard-rest-plugin", "~> 0.2.5" FIXME this plugin is not working
 
 gem 'zip', '~> 2.0.2' # alternatives: 'rubyzip', 'zipruby', 'zippy'
 gem 'rgl', '~> 0.4.0', :require => 'rgl/adjacency'

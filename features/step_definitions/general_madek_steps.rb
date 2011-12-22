@@ -86,18 +86,23 @@ end
 
 Given /^a set titled "(.+)" created by "(.+)" exists$/ do |title, username|
   user = User.where(:login => username).first
-  meta_data = {:meta_data_attributes => {0 => {:meta_key_id => 3, :value => title}}}
+  meta_data = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
   set = user.media_sets.create(meta_data)
 end
 
 Given /^a entry titled "(.+)" created by "(.+)" exists$/ do |title, username|
   user = User.where(:login => username).first
   upload_session = UploadSession.create(:user => user)
-  meta_data = {:meta_data_attributes => {0 => {:meta_key_id => 3, :value => title}}}
-  MediaEntry.skip_callback(:create, :before, :extract_subjective_metadata)
-  entry = upload_session.media_entries.create(meta_data)
-  MediaEntry.set_callback(:create, :before, :extract_subjective_metadata)
+  f = "#{Rails.root}/features/data/images/berlin_wall_01.jpg"
+  uploaded_data = { :type=> "image/jpeg",
+                    :tempfile=> File.new(f, "r"),
+                    :filename=> File.basename(f)}
+  media_file = MediaFile.create(:uploaded_data => uploaded_data)
+  entry = upload_session.media_entries.create(:media_file => media_file)
   upload_session.update_attributes(:is_complete => true)
+
+  h = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
+  entry.reload.update_attributes(h, user)
 end
 
 Given /^the last entry is child of the last set/ do
@@ -115,6 +120,10 @@ end
 When /^I debug$/ do
   debugger; puts "lala"
 end
+
+When /^I use pry$/ do
+  binding.pry
+end 
 
 When /^I upload some picture titled "([^"]*)"$/ do |title|
   upload_some_picture(title)
