@@ -77,15 +77,15 @@ module Media
   ########################################################
 
     def is_featured_set?
-      self.id == Settings.featured_set_id
+      !self.id.nil? and self.id == AppSettings.featured_set_id
     end
 
     def self.featured_set
-      where(:id => Settings.featured_set_id).first
+      where(:id => AppSettings.featured_set_id).first
     end
 
     def self.featured_set=(media_set)
-      Settings.featured_set_id = media_set.id
+      AppSettings.featured_set_id = media_set.id
     end
   
   ########################################################
