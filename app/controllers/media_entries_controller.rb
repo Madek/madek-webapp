@@ -99,9 +99,9 @@ class MediaEntriesController < ApplicationController
     Media::Set.find(media_set_ids).each do |media_set|
       next unless Permission.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
       if request.post?
-        media_set.media_entries.delete(@media_entry)
-      else
         media_set.media_entries.push_uniq @media_entry
+      else
+        media_set.media_entries.delete(@media_entry)
       end
       media_sets << media_set
     end

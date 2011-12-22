@@ -17,7 +17,7 @@ function SelectionWidget() {
   this.setup = function() {
     $(window).bind("click", SelectionWidget.handle_click_on_window);
     
-    // NOTE OPTIMIZE when widgets get rendered by jquery templates (live inview for example)
+    // OPTIMIZE when widgets get rendered by jquery templates (live inview for example)
     $(".has-selection-widget").each(function(){
       var element = this;
       
@@ -99,9 +99,17 @@ function SelectionWidget() {
             // remove from stack
             for(var i = 0; i < $(target).data("link_stack").length; i++) {
               var link = $(target).data("link_stack")[i];
-              if(link.id == item_data.id) {
-                $(target).data("link_stack").splice(i, 1);
-                break;
+              // check id and uid for items not yet created
+              if(link.uid == undefined ) {
+                if(link.id == item_data.id) {
+                  $(target).data("link_stack").splice(i, 1);
+                  break;
+                }
+              } else {
+                if(link.uid == item_data.uid) {
+                  $(target).data("link_stack").splice(i, 1);
+                  break;
+                }
               }
             }
           } else { // the item was already linked
@@ -122,7 +130,7 @@ function SelectionWidget() {
     
     // data
     var items = $(target).data("items");
-    var widget = $(target).data("widget"); 
+    var widget = $(target).data("widget");
     
     // templating
     $(widget).append($.tmpl("tmpl/widgets/_search"));
@@ -137,7 +145,6 @@ function SelectionWidget() {
     SelectionWidget.setup_search_hint(target);
     SelectionWidget.setup_cancel(target);
     SelectionWidget.setup_create_new(target);
-    SelectionWidget.setup_create_new_hint(target);
     SelectionWidget.setup_selection_actions(target, $(".list ul li input[type=checkbox]"));
     SelectionWidget.setup_submit(target);
   }
@@ -177,10 +184,14 @@ function SelectionWidget() {
       $(this).next(".cancel").hide();
       
       // disable search
-      // TODO go on here
+      $(target).data("widget").find("#widget_search").attr("disabled", true);
+      $(target).data("widget").find(".search").addClass("disabled");
+      
+      // hide create new
+      $(target).data("widget").find(".create_new").hide();
       
       // disable all checkboxes
-      // TODO go on here
+      $(target).data("widget").find("input[type=checkbox]").attr("disabled", true);
       
       // start submitting
       SelectionWidget.submit_create_stack(target);
@@ -362,7 +373,7 @@ function SelectionWidget() {
       SelectionWidget.show_create_input(target, $(target).data("widget").find(".search input").val());
     });
     
-    $(target).data("widget").find(".create_new input").bind("blur", function() {
+    $(target).data("widget").find(".create_new input").bind("blur", function(event) {
       if($(this).val() == "") {
         SelectionWidget.reset_create_new(target);
       }
@@ -400,7 +411,7 @@ function SelectionWidget() {
     $(target).data("widget").find(".list").animate({
       scrollTop: ($(new_item).offset().top-$(target).data("widget").find(".list li:first").offset().top)
     }, function(){
-      $(new_item).hide().fadeIn();
+      $(new_item).hide().stop(true,true).fadeIn();
     });
     
     // new is activated per default
@@ -424,9 +435,9 @@ function SelectionWidget() {
   this.check_stack_state = function(target) {
     var empty = true;
     
-    if($(target).data("create_stack").length > 0) empty = false;
-    if($(target).data("link_stack").length > 0) empty = false;
-    if($(target).data("unlink_stack").length > 0) empty = false;
+    if($(target).data("create_stack") != undefined && $(target).data("create_stack").length > 0) empty = false;
+    if($(target).data("link_stack") != undefined && $(target).data("link_stack").length > 0) empty = false;
+    if($(target).data("unlink_stack") != undefined && $(target).data("unlink_stack").length > 0) empty = false;
     
     if(empty == false) {
       SelectionWidget.activate_submit(target);
@@ -441,9 +452,7 @@ function SelectionWidget() {
     SelectionWidget.enable_modal(target);
     $(target).data("widget").find(".create_new a").hide();
     $(target).data("widget").find(".create_new input").show().val(val).select().focus();
-    if(val == "") {
-      $(target).data("widget").find(".create_new .hint").show();
-    } else {
+    if(val != "") {
       $(target).data("widget").find(".create_new .button").show();      
     }
   }
@@ -461,7 +470,6 @@ function SelectionWidget() {
   this.reset_create_new = function(target) {
     $(target).data("widget").find(".create_new a").show();
     $(target).data("widget").find(".create_new input").hide().val("");
-    $(target).data("widget").find(".create_new .hint").hide();
     $(target).data("widget").find(".create_new .button").hide();
   }
   
@@ -483,10 +491,10 @@ function SelectionWidget() {
       SelectionWidget.search(target, $(this).val());
     });
     
-    $(target).data("widget").find(".search input").bind("blur", function() {
+    $(target).data("widget").find(".search input").bind("blur", function(event) {
       if($(this).val() == "") {
        $(this).siblings(".hint").show();
-       SelectionWidget.disable_modal(target);
+       SelectionWidget.check_stack_state(target);
       }
     });
   }
@@ -506,22 +514,15 @@ function SelectionWidget() {
   
   this.setup_search_hint = function(target) {
     $(target).data("widget").find(".search input").bind("keydown click", function(){
-      $(target).data("widget").find(".search .hint").hide();
+      if(! $(this).closest(".search").hasClass("disabled")) {
+        $(target).data("widget").find(".search .hint").hide();
+      }
     });
     $(target).data("widget").find(".search .hint").bind("click", function(){
-      $(target).data("widget").find(".search .hint").hide();
-      $(target).data("widget").find(".search input").focus();
-    });
-  }
-  
-  this.setup_create_new_hint = function(target) {
-    $(target).data("widget").find(".create_new input").bind("keydown click", function(){
-      $(target).data("widget").find(".create_new .hint").hide();
-    });
-    
-    $(target).data("widget").find(".create_new .hint").bind("click", function(){
-      $(target).data("widget").find(".create_new .hint").hide();
-      $(target).data("widget").find(".create_new input").focus();
+      if(! $(this).closest(".search").hasClass("disabled")) {
+        $(target).data("widget").find(".search .hint").hide();
+        $(target).data("widget").find(".search input").focus();
+      }
     });
   }
   
@@ -633,6 +634,16 @@ function SelectionWidget() {
     
     // scrolltop
     $(target).data("widget").find(".list").scrollTop(0);
+    
+    // enable search
+    $(target).data("widget").find("#widget_search").removeAttr("disabled");
+    $(target).data("widget").find(".search").removeClass("disabled");
+    
+    // show create new
+    $(target).data("widget").find(".create_new").show();
+    
+    // enable all checkboxes
+    $(target).data("widget").find("input[type=checkbox]").removeAttr("disabled");
   }
   
   this.handle_click_on_window = function(event) {

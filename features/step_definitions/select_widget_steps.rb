@@ -20,8 +20,14 @@ When /^(?:|I )open the "(.+)" entry/ do |title|
   visit media_entry_path(id)
 end
 
-When /^(?:|I )open the selection widget in "(.+)"$/ do |container|
-  find("#{container} .has-selection-widget").click
+When /^(?:|I )open the selection widget for this (.+)$/ do |type|
+  case type
+    when "set"
+      find("#set_actions .has-selection-widget").click
+    when "entry"
+      find("#detail-action-bar .has-selection-widget").click
+  end
+  wait_for_css_element(".widget .list")
 end
 
 When /^(?:|I )select "(.+)" as parent set$/ do |label|
@@ -35,4 +41,32 @@ end
 
 When /^(?:|I )submit the selection widget$/ do
   find(".widget .submit").click
+  wait_for_css_element(".has-selection-widget:not(.open)")
 end
+
+When /^(?:|I )create a new set named "(.+)"$/ do |name|
+  find(".widget .create_new a").click
+  wait_for_css_element("#create_name")
+  fill_in("create_name", :with => name)
+  find(".widget .create_new .button").click
+  wait_for_css_element(".create_new a")
+end
+
+When /^(?:|I )create a new set$/ do
+  find(".widget .create_new a").click
+  find(".widget .create_new .button").click
+  wait_for_css_element(".create_new a")
+end
+
+When /^(?:|I )should see the "(.+)" set inside the widget$/ do |name|
+  find(".widget").should have_content(name)
+end
+
+When /^(?:|I )should not see the "(.+)" set inside the widget$/ do |name|
+  find(".widget").should have_no_content(name)
+end
+
+When /^(?:|I )search for "(.+)"$/ do |search|
+  fill_in("widget_search", :with => search)
+end
+

@@ -84,9 +84,14 @@
     }
     
     &:hover {
-      
       .icon {
         @include opacity(0.8);
+      }
+    }
+    
+    &.disabled:hover {
+      .icon {
+        @include opacity(0.5);
       }
     }
   }
