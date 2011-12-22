@@ -96,6 +96,7 @@
       });
   
       $(".filter_content form").live('ajax:complete.rails', function(xhr, response){ // TODO ajax:success ??
+        $(this).data("paginate_using_filter", true);
         var json = JSON.parse(response.responseText);
         var container = $("#results");
         container.empty();
