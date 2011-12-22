@@ -75,28 +75,40 @@ class MediaEntriesController < ApplicationController
 
 #####################################################
 
-  # OPTIMIZE media_set ACL
-  # API #
-  # POST "/media_entries/:id/media_sets", {media_set_ids: [1, 2, 3, "My new parent set"] }
-  # DELETE "/media_entries/:id/media_sets", {media_set_ids: [1, 2, 3] }
+  ##
+  # Manage parent media sets from a specific media entry.
+  # 
+  # @url [POST] /media_entries/:id/media_sets?[arguments]
+  # @url [DELETE] /media_entries/:id/media_sets?[arguments]
+  # 
+  # @argument [media_set_ids] array The ids of the parent media sets to remove/add
+  #
+  # @example_request
+  #   {"media_set_ids": [1,2,3]}
+  #
+  # @request_field [Array] media_set_ids The ids of the parent media sets to remove/add  
+  #
+  # @example_response
+  #   [{"id":407},{"id":406}]
+  # 
+  # @response_field [Integer] id The id of a removed or an added parent set 
+  # 
   def media_sets(media_set_ids = params[:media_set_ids])
-    if request.post?
-      Media::Set.find_by_id_or_create_by_title(params[:media_set_ids], current_user).each do |media_set|
-        next unless Permission.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
+    # OPTIMIZE media_set ACL
+    media_sets = []
+    Media::Set.find(media_set_ids).each do |media_set|
+      next unless Permission.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
+      if request.post?
+        media_set.media_entries.delete(@media_entry)
+      else
         media_set.media_entries.push_uniq @media_entry
       end
-      respond_to do |format|
-        format.html {redirect_to @media_entry}
-        format.js { render :json => @media_set.as_json(:user => current_user, :methods => :parent_ids) }
-      end
-    elsif request.delete?
-      if Permission.authorized?(current_user, :edit, @media_set) # (Media::Set ACL!)
-        @media_set.media_entries.delete(@media_entry)
-        render :json => @media_set.as_json(:user => current_user, :methods => :parent_ids) 
-      else
-        # OPTIMIZE
-        render :nothing => true, :status => 403
-      end 
+      media_sets << media_set
+    end
+    
+    respond_to do |format|
+      format.html {redirect_to @media_entry}
+      format.js { render :json => media_sets.as_json() }
     end
   end
   

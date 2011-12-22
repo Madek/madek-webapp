@@ -150,7 +150,7 @@ function SelectionWidget() {
     $(target).data("widget").find(".list li").each(function(i_item, item){
       if($(this).tmplItem().data[$(target).data("child_name")] != undefined) {
         // check if the element is the set themself and remove
-        if($(target).data("id") == $(this).tmplItem().data.id) {
+        if($(target).data("detach_my_self") == "true" && $(target).data("id") == $(this).tmplItem().data.id) {
           $(this).detach();
         }
         
@@ -176,9 +176,21 @@ function SelectionWidget() {
       // hide cancle button
       $(this).next(".cancel").hide();
       
+      // disable search
+      // TODO go on here
+      
+      // disable all checkboxes
+      // TODO go on here
+      
       // start submitting
       SelectionWidget.submit_create_stack(target);
     });
+  }
+  
+  this.disable_search = function(target) {
+    $(target).data("widget").find(".seach").attr("disabled", true);
+    $(target).data("widget").find(".seach input").attr("disabled", true);
+    $(target).data("widget").find(".seach .hint").hide();
   }
   
   this.submit_create_stack = function(target) {
@@ -316,7 +328,6 @@ function SelectionWidget() {
         SelectionWidget.finish_submitting(target);
       },
       error: function(request, status, error){
-        console.log(error);
       },
       data: data,
       type: $(target).data("unlink").method,
@@ -328,18 +339,21 @@ function SelectionWidget() {
     // replace loading indicator with green submitted button
     $(target).data("widget").find(".loading img").remove();
     $(target).data("widget").find(".loading").append("<div class='success icon'></div>");
-
+    
+    // eval target after-submit
+    eval($(target).data("after_submit"));
+    
+    // eval a after submit callback instead of fade out the widget, because we didnt take care about updating the complete view currently,
+    // so we have a window.location.reload as callback
+    /*
     // leave modal    
     SelectionWidget.disable_modal(target);
-    
     // fade out
     $(target).data("widget").stop(true,true).delay(400).fadeOut(500, function(){
       // close/reset widget
       SelectionWidget.close_widget(target);
-      
-      // eval target after-submit
-      eval($(target).data("after_submit"));
     });
+    */
   }
   
   this.setup_create_new = function(target) {
@@ -583,12 +597,10 @@ function SelectionWidget() {
     $(target).data("widget").find(".list li").each(function(i, line){
       if($(line).hasClass("created")) $(line).remove();
       if($(line).find("input").data("linked")) {
-        console.log($(this));
         $(line).find("input").removeData("linked");
         $(line).find("input").attr("checked", false); 
       }
       if($(line).find("input").data("unlinked")) {
-        console.log($(this));
         $(line).find("input").removeData("unlinked");
         $(line).find("input").attr("checked", true); 
       }

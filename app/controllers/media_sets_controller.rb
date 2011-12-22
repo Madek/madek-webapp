@@ -9,14 +9,33 @@ class MediaSetsController < ApplicationController
     before_filter :authorized?, :except => [:index, :create]
   end
 
-
-  # API #
-  # GET "/media_sets.js", {}
-  # => RETURNS {{id: 1, title: "ABC"}, {id: 2, title: "CDF"}}
-  # GET "/media_sets.js", {accessible_action: "edit"}
-  # => RETURNS {{id: 1, title: "ABC"}, {id: 2, title: "CDF"}} # NOTE: but only editable sets
-  # GET "/media_sets.js", {accessible_action: "edit", with: {set: {child_sets: {}}}}
-  # => RETURNS {{id: 1, title: "ABC", child_sets: {}}, {id: 2, title: "CDF", child_sets: {{id: 4, title: "XYZ"}}}} # NOTE: but only editable sets
+  ##
+  # Get media sets
+  # 
+  # @url [GET] /media_sets?[arguments]
+  # 
+  # @argument [accessible_action] string Limit the list of media sets by the accessible action
+  #   show, browse, abstract, inheritable_contexts, edit, update, add_member, parents, destroy
+  #
+  # @argument [with] hash Options forwarded to the results which will be inside of the respond 
+  #
+  # @example_request
+  #   {"accessible_action": "edit", "with": {"set": {"media_entries": 1}}}
+  #
+  # @request_field [String] accessible_action The accessible action the user can perform on a set
+  # @request_field [Hash] with Options forwarded to the results which will be inside of the respond
+  # @request_field [Hash] with.set Options forwarded to all resulting models from type set
+  # @request_field [Hash] with.set.media_entries When this hash of options is setted, it forces all result sets
+  #   to include their media_entries forwarding the options. When "media_entries" is just setted to 1, then 
+  #   they are include but without forwarding any options.
+  #
+  # @example_response
+  #   [{"id":422, "media_entries": [{"id":2}, {"id":3}]}, {"id":423, "media_entries": [{"id":1}, {"id":4}]}]
+  # 
+  # @response_field [Integer] id The id of a set 
+  # @response_field [Hash] media_entries Media entries of the set
+  # @response_field [Integer] media_entries[].id The id of a media entry 
+  #
   def index(accessible_action = params[:accessible_action] || :view,
             with = params[:with])
     respond_to do |format|
@@ -209,10 +228,24 @@ class MediaSetsController < ApplicationController
     end
   end
 
-  # TODO merge with media_entries_controller#media_sets ?? OR merge to parents using the inverse nesting ??
-  # API #
-  # POST "/media_sets/:id/parents", {media_set_ids: [1, 2, 3, "My new parent set"] }
-  # DELETE "/media_sets/:id/parents", {media_set_ids: [1, 2, 3] }
+  ##
+  # Manage parent media sets from a specific media set.
+  # 
+  # @url [POST] /media_sets/:id/parents?[arguments]
+  # @url [DELETE] /media_sets/:id/parents?[arguments]
+  # 
+  # @argument [media_set_ids] array The ids of the parent media sets to remove/add
+  #
+  # @example_request
+  #   {"media_set_ids": [1,2,3]}
+  #
+  # @request_field [Array] media_set_ids The ids of the parent media sets to remove/add  
+  #
+  # @example_response
+  #   [{"id":407},{"id":406}]
+  # 
+  # @response_field [Integer] id The id of a removed or an added parent set 
+  # 
   def parents(media_set_ids = params[:media_set_ids])
     if request.post?
       Media::Set.find_by_id_or_create_by_title(media_set_ids, current_user).each do |media_set|
@@ -220,7 +253,10 @@ class MediaSetsController < ApplicationController
         @media_set.parent_sets << media_set
       end
     elsif request.delete?
-      @media_set.parent_sets.delete(Media::Set.find(media_set_ids))
+      Media::Set.find(media_set_ids).each do |media_set|
+        next unless Permission.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
+        @media_set.parent_sets.delete(media_set)
+      end
     end
     
     respond_to do |format|
@@ -240,9 +276,9 @@ class MediaSetsController < ApplicationController
     case action
 #      when :new
 #        action = :create
-      when :show, :browse, :abstract, :parents, :inheritable_contexts
+      when :show, :browse, :abstract, :inheritable_contexts
         action = :view
-      when :edit, :update, :add_member
+      when :edit, :update, :add_member, :parents
         action = :edit
       when :destroy
         action = :edit # TODO :delete

@@ -29,6 +29,7 @@
           = link_to "", :title => "Zu Set/Projekt hinzufügen",
             :class=>"has-selection-widget",
             :"data-id" => "#{@media_set.id}",
+            :"data-detach_my_self" => "true",
             :"data-after_submit" => "window.location.reload();",
             :"data-child_name" => "child_sets",
             :"data-index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "with" => {"set" => {"child_sets" => 1}}}}.to_json}",
