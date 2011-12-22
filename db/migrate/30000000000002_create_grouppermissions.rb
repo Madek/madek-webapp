@@ -15,6 +15,9 @@ class CreateGrouppermissions < ActiveRecord::Migration
     end
 
     add_index :grouppermissions, ref_id(Group)
+    add_index :grouppermissions, :resource_id
+    add_index :grouppermissions, :resource_type
+
     ACTIONS.each do |action|
       add_index :grouppermissions, "may_#{action}"
     end

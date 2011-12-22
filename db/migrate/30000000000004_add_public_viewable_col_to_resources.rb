@@ -1,7 +1,14 @@
 class AddPublicViewableColToResources < ActiveRecord::Migration
+  include Constants
+
   def change
-    add_column :media_entries, :perm_public_may_view, :boolean, :default => false
-    add_column :media_entries, :perm_public_may_download, :boolean, :default => false
-    add_column :media_sets, :perm_public_may_view, :boolean, :default => false
+
+    PublicActions.each do |action|
+      [:media_sets,:media_entries].each do |resource|
+        add_column resource, "perm_public_may_#{action}", :boolean, :default => false
+        add_index resource, "perm_public_may_#{action}"
+      end
+    end
+    
   end
 end

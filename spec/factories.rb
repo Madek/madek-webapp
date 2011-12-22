@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-require 'constants'
 
 module DataFactory 
   extend self
@@ -43,7 +42,7 @@ FactoryGirl.define do
     owner  {User.find_random || (FactoryGirl.create :user)}
     media_file {FactoryGirl.create :media_file}
     perm_public_may_view {FactoryHelper.rand_bool 0.1}
-    perm_public_may_download {FactoryHelper.rand_bool 0.1}
+    perm_public_may_download_high_resolution {FactoryHelper.rand_bool 0.1}
     after_build do |me|
       def me.extract_subjective_metadata; end
       def me.set_copyright; end

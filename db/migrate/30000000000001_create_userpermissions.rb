@@ -16,6 +16,8 @@ class CreateUserpermissions < ActiveRecord::Migration
     end
 
     add_index :userpermissions, ref_id(User)
+    add_index :userpermissions, :resource_id
+    add_index :userpermissions, :resource_type
     ACTIONS.each do |action|
       add_index :userpermissions, "may_#{action}"
       add_index :userpermissions, "maynot_#{action}"
