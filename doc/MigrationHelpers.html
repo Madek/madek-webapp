@@ -1,0 +1,739 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: MigrationHelpers
+  
+    &mdash; Documentation by YARD 0.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (M)</a> &raquo; 
+    
+    
+    <span class="title">MigrationHelpers</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Module: MigrationHelpers
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+      <dt class="r1">Extended by:</dt>
+      <dd class="r1"><span class='object_link'><a href="" title="MigrationHelpers (module)">MigrationHelpers</a></span>, <span class='object_link'><a href="SQLHelper.html" title="SQLHelper (module)">SQLHelper</a></span></dd>
+      
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="SQLHelper.html" title="SQLHelper (module)">SQLHelper</a></span></dd>
+      
+    
+  
+  
+    <dt class="r1">Included in:</dt>
+    <dd class="r1"><span class='object_link'><a href="" title="MigrationHelpers (module)">MigrationHelpers</a></span></dd>
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/migration_helpers.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+  
+  
+  
+  
+
+
+  
+  
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_check-instance_method" title="#add_check (instance method)">- (Object) <strong>add_check</strong>(table_name, check) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_del_referenced_trigger-instance_method" title="#create_del_referenced_trigger (instance method)">- (Object) <strong>create_del_referenced_trigger</strong>(source, target) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_del_referenced_trigger_pgsql-instance_method" title="#create_del_referenced_trigger_pgsql (instance method)">- (Object) <strong>create_del_referenced_trigger_pgsql</strong>(source_table, target_table, fkey, fun_name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#drop_del_referenced_trigger-instance_method" title="#drop_del_referenced_trigger (instance method)">- (Object) <strong>drop_del_referenced_trigger</strong>(source, target) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#drop_del_referenced_trigger_pgsql-instance_method" title="#drop_del_referenced_trigger_pgsql (instance method)">- (Object) <strong>drop_del_referenced_trigger_pgsql</strong>(fun_name, table_name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fkey_cascade_on_delete-instance_method" title="#fkey_cascade_on_delete (instance method)">- (Object) <strong>fkey_cascade_on_delete</strong>(from_table, from_column, to_table) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#patch_index_name-instance_method" title="#patch_index_name (instance method)">- (Object) <strong>patch_index_name</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+we are patching the index_name function here,  do it explicitly so limit
+the impact to only when it is needed.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ref_id-instance_method" title="#ref_id (instance method)">- (Object) <strong>ref_id</strong>(model) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#shorten_schema_names-instance_method" title="#shorten_schema_names (instance method)">- (Object) <strong>shorten_schema_names</strong>(fun_name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+private.
+</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="SQLHelper.html" title="SQLHelper (module)">SQLHelper</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="SQLHelper.html#adapter_is_mysql%3F-instance_method" title="SQLHelper#adapter_is_mysql? (method)">adapter_is_mysql?</a></span>, <span class='object_link'><a href="SQLHelper.html#adapter_is_postgresql%3F-instance_method" title="SQLHelper#adapter_is_postgresql? (method)">adapter_is_postgresql?</a></span>, <span class='object_link'><a href="SQLHelper.html#adapter_name-instance_method" title="SQLHelper#adapter_name (method)">adapter_name</a></span>, <span class='object_link'><a href="SQLHelper.html#bitwise_is-instance_method" title="SQLHelper#bitwise_is (method)">bitwise_is</a></span>, <span class='object_link'><a href="SQLHelper.html#database_name-instance_method" title="SQLHelper#database_name (method)">database_name</a></span>, <span class='object_link'><a href="SQLHelper.html#execute_sql-instance_method" title="SQLHelper#execute_sql (method)">execute_sql</a></span>, <span class='object_link'><a href="SQLHelper.html#reset_autoinc_sequence_to_max-instance_method" title="SQLHelper#reset_autoinc_sequence_to_max (method)">reset_autoinc_sequence_to_max</a></span>, <span class='object_link'><a href="SQLHelper.html#table_names-instance_method" title="SQLHelper#table_names (method)">table_names</a></span></p>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="add_check-instance_method">
+  
+    - (<tt>Object</tt>) <strong>add_check</strong>(table_name, check) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+35
+36
+37</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/migration_helpers.rb', line 35</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_add_check'>add_check</span> <span class='id identifier rubyid_table_name'>table_name</span><span class='comma'>,</span> <span class='id identifier rubyid_check'>check</span>
+  <span class='id identifier rubyid_execute_sql'>execute_sql</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ALTER TABLE </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_table_name'>table_name</span><span class='rbrace'>}</span><span class='tstring_content'> ADD CHECK </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_check'>check</span><span class='rbrace'>}</span><span class='tstring_content'> ;</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="create_del_referenced_trigger-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_del_referenced_trigger</strong>(source, target) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/migration_helpers.rb', line 44</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create_del_referenced_trigger'>create_del_referenced_trigger</span> <span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='id identifier rubyid_target'>target</span>
+  <span class='id identifier rubyid_source_table_name'>source_table_name</span> <span class='op'>=</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>String</span> <span class='op'>?</span> <span class='id identifier rubyid_source'>source</span> <span class='op'>:</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_table_name'>table_name</span>
+  <span class='id identifier rubyid_target_table_name'>target_table_name</span> <span class='op'>=</span> <span class='id identifier rubyid_target'>target</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>String</span> <span class='op'>?</span> <span class='id identifier rubyid_target'>target</span> <span class='op'>:</span> <span class='id identifier rubyid_target'>target</span><span class='period'>.</span><span class='id identifier rubyid_table_name'>table_name</span>
+
+  <span class='id identifier rubyid_fkey'>fkey</span> <span class='op'>=</span> <span class='id identifier rubyid_target_table_name'>target_table_name</span><span class='period'>.</span><span class='id identifier rubyid_singularize'>singularize</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_id</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_fun_name'>fun_name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>delref_fkey_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_target_table_name'>target_table_name</span><span class='rbrace'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_source_table_name'>source_table_name</span><span class='rbrace'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fkey'>fkey</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+
+  <span class='kw'>if</span> <span class='const'>SQLHelper</span><span class='period'>.</span><span class='id identifier rubyid_adapter_is_postgresql?'>adapter_is_postgresql?</span>
+    <span class='id identifier rubyid_execute'>execute</span> <span class='id identifier rubyid_create_del_referenced_trigger_pgsql'>create_del_referenced_trigger_pgsql</span>  <span class='id identifier rubyid_source_table_name'>source_table_name</span><span class='comma'>,</span> <span class='id identifier rubyid_target_table_name'>target_table_name</span><span class='comma'>,</span> <span class='id identifier rubyid_fkey'>fkey</span><span class='comma'>,</span> <span class='id identifier rubyid_fun_name'>fun_name</span>
+  <span class='kw'>else</span>
+    <span class='comment'># TODO warn
+</span>  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="create_del_referenced_trigger_pgsql-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_del_referenced_trigger_pgsql</strong>(source_table, target_table, fkey, fun_name) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/migration_helpers.rb', line 92</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create_del_referenced_trigger_pgsql'>create_del_referenced_trigger_pgsql</span> <span class='id identifier rubyid_source_table'>source_table</span><span class='comma'>,</span> <span class='id identifier rubyid_target_table'>target_table</span><span class='comma'>,</span> <span class='id identifier rubyid_fkey'>fkey</span><span class='comma'>,</span> <span class='id identifier rubyid_fun_name'>fun_name</span>
+
+  <span class='id identifier rubyid_fun_name'>fun_name</span> <span class='op'>=</span> <span class='id identifier rubyid_shorten_schema_names'>shorten_schema_names</span> <span class='id identifier rubyid_fun_name'>fun_name</span>
+
+  <span class='heredoc_beg'>&lt;&lt;-SQL</span>
+<span class='tstring_content'>    CREATE FUNCTION </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fun_name'>fun_name</span><span class='rbrace'>}</span><span class='tstring_content'>() 
+    RETURNS trigger
+    AS $$
+    DECLARE
+    BEGIN
+</span><span class='embexpr_beg'>      PERFORM DELETE FROM #{</span><span class='id identifier rubyid_target_table'>target_table</span><span class='rbrace'>}</span><span class='tstring_content'> WHERE id = OLD.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fkey'>fkey</span><span class='rbrace'>}</span><span class='tstring_content'>;
+      RETURN OLD;
+    END $$
+    LANGUAGE PLPGSQL;
+
+</span><span class='embexpr_beg'>    CREATE TRIGGER #{</span><span class='id identifier rubyid_fun_name'>fun_name</span><span class='rbrace'>}</span><span class='tstring_content'>
+      AFTER DELETE
+</span><span class='embexpr_beg'>      ON #{</span><span class='id identifier rubyid_source_table'>source_table</span><span class='rbrace'>}</span><span class='tstring_content'>
+</span><span class='embexpr_beg'>      FOR EACH ROW execute procedure #{</span><span class='id identifier rubyid_fun_name'>fun_name</span><span class='rbrace'>}</span><span class='tstring_content'>();
+</span><span class='heredoc_end'>    SQL
+</span><span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="drop_del_referenced_trigger-instance_method">
+  
+    - (<tt>Object</tt>) <strong>drop_del_referenced_trigger</strong>(source, target) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/migration_helpers.rb', line 59</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_drop_del_referenced_trigger'>drop_del_referenced_trigger</span> <span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='id identifier rubyid_target'>target</span>
+
+  <span class='id identifier rubyid_source_table_name'>source_table_name</span> <span class='op'>=</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>String</span> <span class='op'>?</span> <span class='id identifier rubyid_source'>source</span> <span class='op'>:</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_table_name'>table_name</span>
+  <span class='id identifier rubyid_target_table_name'>target_table_name</span> <span class='op'>=</span> <span class='id identifier rubyid_target'>target</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>String</span> <span class='op'>?</span> <span class='id identifier rubyid_target'>target</span> <span class='op'>:</span> <span class='id identifier rubyid_target'>target</span><span class='period'>.</span><span class='id identifier rubyid_table_name'>table_name</span>
+  <span class='id identifier rubyid_fkey'>fkey</span> <span class='op'>=</span> <span class='id identifier rubyid_target_table_name'>target_table_name</span><span class='period'>.</span><span class='id identifier rubyid_singularize'>singularize</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_id</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_fun_name'>fun_name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>delref_fkey_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_target_table_name'>target_table_name</span><span class='rbrace'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_source_table_name'>source_table_name</span><span class='rbrace'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fkey'>fkey</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+
+
+  <span class='kw'>if</span> <span class='const'>SQLHelper</span><span class='period'>.</span><span class='id identifier rubyid_adapter_is_postgresql?'>adapter_is_postgresql?</span>
+    <span class='id identifier rubyid_execute'>execute</span> <span class='id identifier rubyid_drop_del_referenced_trigger_pgsql'>drop_del_referenced_trigger_pgsql</span>  <span class='id identifier rubyid_fun_name'>fun_name</span><span class='comma'>,</span> <span class='id identifier rubyid_source_table_name'>source_table_name</span>
+  <span class='kw'>else</span>
+    <span class='comment'># TODO warn
+</span>  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="drop_del_referenced_trigger_pgsql-instance_method">
+  
+    - (<tt>Object</tt>) <strong>drop_del_referenced_trigger_pgsql</strong>(fun_name, table_name) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84
+85
+86
+87
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/migration_helpers.rb', line 84</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_drop_del_referenced_trigger_pgsql'>drop_del_referenced_trigger_pgsql</span> <span class='id identifier rubyid_fun_name'>fun_name</span><span class='comma'>,</span> <span class='id identifier rubyid_table_name'>table_name</span>
+  <span class='id identifier rubyid_fun_name'>fun_name</span> <span class='op'>=</span> <span class='id identifier rubyid_shorten_schema_names'>shorten_schema_names</span> <span class='id identifier rubyid_fun_name'>fun_name</span>
+  <span class='heredoc_beg'>&lt;&lt;-SQL</span>
+<span class='tstring_content'>    DROP TRIGGER </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fun_name'>fun_name</span><span class='rbrace'>}</span><span class='tstring_content'> ON </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_table_name'>table_name</span><span class='rbrace'>}</span><span class='tstring_content'>;
+</span><span class='embexpr_beg'>    DROP FUNCTION #{</span><span class='id identifier rubyid_fun_name'>fun_name</span><span class='rbrace'>}</span><span class='tstring_content'>();
+</span><span class='heredoc_end'>  SQL
+</span><span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="fkey_cascade_on_delete-instance_method">
+  
+    - (<tt>Object</tt>) <strong>fkey_cascade_on_delete</strong>(from_table, from_column, to_table) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41
+42</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/migration_helpers.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_fkey_cascade_on_delete'>fkey_cascade_on_delete</span> <span class='id identifier rubyid_from_table'>from_table</span><span class='comma'>,</span> <span class='id identifier rubyid_from_column'>from_column</span><span class='comma'>,</span> <span class='id identifier rubyid_to_table'>to_table</span>
+  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_from_table'>from_table</span><span class='rbrace'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_from_column'>from_column</span><span class='rbrace'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_to_table'>to_table</span><span class='rbrace'>}</span><span class='tstring_content'>_fkey</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_execute_sql'>execute_sql</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ALTER TABLE </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_from_table'>from_table</span><span class='rbrace'>}</span><span class='tstring_content'> ADD CONSTRAINT </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'> FOREIGN KEY (</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_from_column'>from_column</span><span class='rbrace'>}</span><span class='tstring_content'>) REFERENCES </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_to_table'>to_table</span><span class='rbrace'>}</span><span class='tstring_content'> (id) ON DELETE CASCADE;</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="patch_index_name-instance_method">
+  
+    - (<tt>Object</tt>) <strong>patch_index_name</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+we are patching the index_name function here,  do it explicitly so limit
+the impact to only when it is needed
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/migration_helpers.rb', line 12</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_patch_index_name'>patch_index_name</span>
+  <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>ConnectionAdapters</span><span class='op'>::</span><span class='const'>SchemaStatements</span><span class='period'>.</span><span class='id identifier rubyid_class_eval'>class_eval</span> <span class='kw'>do</span>
+    <span class='kw'>def</span> <span class='id identifier rubyid_index_name'>index_name</span><span class='lparen'>(</span><span class='id identifier rubyid_table_name'>table_name</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span> <span class='comment'>#:nodoc:
+</span>      <span class='kw'>if</span> <span class='const'>Hash</span> <span class='op'>===</span> <span class='id identifier rubyid_options'>options</span> <span class='comment'># legacy support
+</span>        <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:column</span><span class='rbracket'>]</span>
+          <span class='const'>MigrationHelpers</span><span class='period'>.</span><span class='id identifier rubyid_shorten_schema_names'>shorten_schema_names</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>index_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_table_name'>table_name</span><span class='rbrace'>}</span><span class='tstring_content'>_on_</span><span class='embexpr_beg'>#{</span><span class='const'>Array</span><span class='period'>.</span><span class='id identifier rubyid_wrap'>wrap</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:column</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>_and_</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+        <span class='kw'>elsif</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span>
+          <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span>
+        <span class='kw'>else</span>
+          <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You must specify the index name</span><span class='tstring_end'>&quot;</span></span>
+        <span class='kw'>end</span>
+      <span class='kw'>else</span>
+        <span class='const'>MigrationHelpers</span><span class='period'>.</span><span class='id identifier rubyid_shorten_schema_names'>shorten_schema_names</span><span class='lparen'>(</span><span class='id identifier rubyid_index_name'>index_name</span><span class='lparen'>(</span><span class='id identifier rubyid_table_name'>table_name</span><span class='comma'>,</span> <span class='symbol'>:column</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="ref_id-instance_method">
+  
+    - (<tt>Object</tt>) <strong>ref_id</strong>(model) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+31
+32
+33</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/migration_helpers.rb', line 31</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_ref_id'>ref_id</span> <span class='id identifier rubyid_model'>model</span>
+  <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_table_name'>table_name</span><span class='period'>.</span><span class='id identifier rubyid_singularize'>singularize</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_id</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="shorten_schema_names-instance_method">
+  
+    - (<tt>Object</tt>) <strong>shorten_schema_names</strong>(fun_name) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+private
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+76
+77
+78
+79
+80
+81
+82</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/migration_helpers.rb', line 76</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_shorten_schema_names'>shorten_schema_names</span> <span class='id identifier rubyid_fun_name'>fun_name</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_fun_name'>fun_name</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>&gt;</span> <span class='int'>63</span>
+    <span class='id identifier rubyid_fun_name'>fun_name</span><span class='period'>.</span><span class='id identifier rubyid_slice'>slice</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>20</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='lparen'>(</span><span class='const'>Digest</span><span class='op'>::</span><span class='const'>SHA1</span><span class='period'>.</span><span class='id identifier rubyid_hexdigest'>hexdigest</span> <span class='id identifier rubyid_fun_name'>fun_name</span><span class='rparen'>)</span> 
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_fun_name'>fun_name</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Thu Dec 22 13:34:27 2011 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.4 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>
