@@ -53,12 +53,14 @@ class ResourcesController < ApplicationController
         media_entry_ids = params[:filter][:ids].split(',').map(&:to_i) 
       end
   
+      with_thumb = true #FE# (params[:thumb].to_i > 0)
+
       resources = resources.media_entries.where(:id => media_entry_ids).paginate(:page => params[:page], :per_page => params[:per_page].to_i)
       @resources = { :pagination => { :current_page => resources.current_page,
                                      :per_page => resources.per_page,
                                      :total_entries => resources.total_entries,
                                      :total_pages => resources.total_pages },
-                    :entries => resources.as_json(:user => current_user) } 
+                    :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
   
       respond_to do |format|
         format.js { render :json => @resources.to_json }
