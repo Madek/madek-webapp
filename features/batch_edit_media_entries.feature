@@ -1,6 +1,8 @@
 Feature: Batch edit media entries
 
-  Foo
+  In order to have a tool which provides functionalities for making a batch operation with multiple selected resources,entries and sets
+  As a normal and expert user
+  I want to have a widget which provides functions for selecting multiple resources and provides batch-operations for the selection
 
   Background: Set up the world and some users
     Given I have set up the world
@@ -9,12 +11,11 @@ Feature: Batch edit media entries
       And I upload some picture titled "Picture One"
       And I upload some picture titled "Picture Two"
       And I upload some picture titled "Picture Three"
-
+      And I log in as "helmi" with password "saumagen"
 
   @javascript
   Scenario: Remove two media entries from a set using batch edit
-    When I log in as "helmi" with password "saumagen"
-     And I create a set titled "Set One"
+    When I create a set titled "Set One"
      And I add the picture "Picture One" to the set "Set One" owned by "Kohl, Helmut"
      And I add the picture "Picture Two" to the set "Set One" owned by "Kohl, Helmut"
      And I add the picture "Picture Three" to the set "Set One" owned by "Kohl, Helmut"
@@ -30,10 +31,9 @@ Feature: Batch edit media entries
     Then I should not see "Picture One"
      And I should not see "Picture Two"
 
-  @javascript @work
+  @javascript
   Scenario: Change metadata on two media entries using batch edit
-    When I log in as "helmi" with password "saumagen"
-     And I create a set titled "Batch Retitle Set"
+    When I create a set titled "Batch Retitle Set"
      And I add the picture "Picture One" to the set "Batch Retitle Set" owned by "Kohl, Helmut"
      And I add the picture "Picture Two" to the set "Batch Retitle Set" owned by "Kohl, Helmut"
      And I go to the media entries
