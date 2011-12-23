@@ -1,0 +1,2332 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: MediaFile
+  
+    &mdash; Documentation by YARD 0.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (M)</a> &raquo; 
+    
+    
+    <span class="title">MediaFile</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: MediaFile
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">ActiveRecord::Base</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ActiveRecord::Base</li>
+          
+            <li class="next">MediaFile</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">app/models/media_file.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>
+require &#8216;digest&#8217;
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+  
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#uploaded_data-instance_method" title="#uploaded_data (instance method)">- (Object) <strong>uploaded_data</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Returns the value of attribute uploaded_data.
+</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#assign_access_hash-instance_method" title="#assign_access_hash (instance method)">- (Object) <strong>assign_access_hash</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#assign_audio_previews-instance_method" title="#assign_audio_previews (instance method)">- (Object) <strong>assign_audio_previews</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#assign_video_thumbnails_to_preview-instance_method" title="#assign_video_thumbnails_to_preview (instance method)">- (Object) <strong>assign_video_thumbnails_to_preview</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Video thumbnails only come in one size (large) because re-encoding these
+costs money and they only make sense in the media_entries/show view anyhow
+(not in smaller versions).
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_file-instance_method" title="#delete_file (instance method)">- (Object) <strong>delete_file</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+We need to ensure that the media file is not still being used by another
+media_entry.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#explode_and_import-instance_method" title="#explode_and_import (instance method)">- (Object) <strong>explode_and_import</strong>(full_path_file) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+This kind of thing REALLY needs to happen of elsewhere asynchronously,
+otherwise we move inexorably towards the day the site gets DOS&#8217;d.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#file_storage_location-instance_method" title="#file_storage_location (instance method)">- (Object) <strong>file_storage_location</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+The final resting place of the media file.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_guid-instance_method" title="#get_guid (instance method)">- (Object) <strong>get_guid</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+the cornerstone of identity..
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_preview-instance_method" title="#get_preview (instance method)">- (Object) <strong>get_preview</strong>(size = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_sizes_from_ffmpeg-instance_method" title="#get_sizes_from_ffmpeg (instance method)">- (Object) <strong>get_sizes_from_ffmpeg</strong>(path) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#import-instance_method" title="#import (instance method)">- (Object) <strong>import</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#import_audio_metadata-instance_method" title="#import_audio_metadata (instance method)">- (Object) <strong>import_audio_metadata</strong>(full_path_file) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#import_audio_video_metadata-instance_method" title="#import_audio_video_metadata (instance method)">- (Object) <strong>import_audio_video_metadata</strong>(full_path_file) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#import_document_metadata-instance_method" title="#import_document_metadata (instance method)">- (Object) <strong>import_document_metadata</strong>(full_path_file) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#import_image_metadata-instance_method" title="#import_image_metadata (instance method)">- (Object) <strong>import_image_metadata</strong>(full_path_file) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+IMAGES.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#importable_zipfile%3F-instance_method" title="#importable_zipfile? (instance method)">- (Boolean) <strong>importable_zipfile?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#make_thumbnails-instance_method" title="#make_thumbnails (instance method)">- (Object) <strong>make_thumbnails</strong>(sizes = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#meta_data_without_binary-instance_method" title="#meta_data_without_binary (instance method)">- (Object) <strong>meta_data_without_binary</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+OPTIMIZE.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reset_access_hash-instance_method" title="#reset_access_hash (instance method)">- (Object) <strong>reset_access_hash</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#retrieve_encoded_files-instance_method" title="#retrieve_encoded_files (instance method)">- (Object) <strong>retrieve_encoded_files</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_filename-instance_method" title="#set_filename (instance method)">- (Object) <strong>set_filename</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+set some attributes, for use when storing the file.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#shard-instance_method" title="#shard (instance method)">- (Object) <strong>shard</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#store_file-instance_method" title="#store_file (instance method)">- (Object) <strong>store_file</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Write the file out to storage.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#submit_encoding_job-instance_method" title="#submit_encoding_job (instance method)">- (Object) <strong>submit_encoding_job</strong>(force = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#thumb_base64-instance_method" title="#thumb_base64 (instance method)">- (Object) <strong>thumb_base64</strong>(size = :small) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#thumbnail_jpegs_for-instance_method" title="#thumbnail_jpegs_for (instance method)">- (Object) <strong>thumbnail_jpegs_for</strong>(file, sizes = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#thumbnail_storage_location-instance_method" title="#thumbnail_storage_location (instance method)">- (Object) <strong>thumbnail_storage_location</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+remember, thumbnails <b>could</b> be on a faster storage medium than
+original files.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#validate_file-instance_method" title="#validate_file (instance method)">- (Object) <strong>validate_file</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="uploaded_data=-instance_method"></span>
+      <span id="uploaded_data-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="uploaded_data-instance_method">
+  
+    - (<tt>Object</tt>) <strong>uploaded_data</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns the value of attribute uploaded_data
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+13
+14
+15</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 13</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_uploaded_data'>uploaded_data</span>
+  <span class='ivar'>@uploaded_data</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="assign_access_hash-instance_method">
+  
+    - (<tt>Object</tt>) <strong>assign_access_hash</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+438
+439
+440</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 438</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_assign_access_hash'>assign_access_hash</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_access_hash'>access_hash</span> <span class='op'>=</span> <span class='const'>UUIDTools</span><span class='op'>::</span><span class='const'>UUID</span><span class='period'>.</span><span class='id identifier rubyid_random_create'>random_create</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="assign_audio_previews-instance_method">
+  
+    - (<tt>Object</tt>) <strong>assign_audio_previews</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 195</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_assign_audio_previews'>assign_audio_previews</span>
+  <span class='id identifier rubyid_content_type'>content_type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>audio/ogg</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_previews'>previews</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='symbol'>:content_type</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_content_type'>content_type</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_paths'>paths</span> <span class='op'>=</span> <span class='id identifier rubyid_retrieve_encoded_files'>retrieve_encoded_files</span>
+    <span class='kw'>unless</span> <span class='id identifier rubyid_paths'>paths</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_paths'>paths</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_path'>path</span><span class='op'>|</span>
+        <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_extname'>extname</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.ogg</span><span class='tstring_end'>&quot;</span></span>
+          <span class='kw'>if</span> <span class='id identifier rubyid_previews'>previews</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='symbol'>:content_type</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_content_type'>content_type</span><span class='comma'>,</span> <span class='symbol'>:filename</span> <span class='op'>=&gt;</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='symbol'>:width</span> <span class='op'>=&gt;</span> <span class='int'>0</span><span class='comma'>,</span> <span class='symbol'>:height</span> <span class='op'>=&gt;</span> <span class='int'>0</span><span class='comma'>,</span> <span class='symbol'>:thumbnail</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>large</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+            <span class='kw'>return</span> <span class='kw'>true</span>
+          <span class='kw'>else</span>
+            <span class='kw'>return</span> <span class='kw'>false</span>
+          <span class='kw'>end</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="assign_video_thumbnails_to_preview-instance_method">
+  
+    - (<tt>Object</tt>) <strong>assign_video_thumbnails_to_preview</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Video thumbnails only come in one size (large) because re-encoding these
+costs money and they only make sense in the media_entries/show view anyhow
+(not in smaller versions).
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 175</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_assign_video_thumbnails_to_preview'>assign_video_thumbnails_to_preview</span>
+  <span class='id identifier rubyid_content_type'>content_type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>video/webm</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_previews'>previews</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='symbol'>:content_type</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_content_type'>content_type</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_paths'>paths</span> <span class='op'>=</span> <span class='id identifier rubyid_retrieve_encoded_files'>retrieve_encoded_files</span>
+    <span class='kw'>unless</span> <span class='id identifier rubyid_paths'>paths</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_paths'>paths</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_path'>path</span><span class='op'>|</span>
+        <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_extname'>extname</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.webm</span><span class='tstring_end'>&quot;</span></span>
+          <span class='comment'># Must have Exiftool with Image::ExifTool::Matroska to support WebM!
+</span>          <span class='id identifier rubyid_w'>w</span><span class='comma'>,</span> <span class='id identifier rubyid_h'>h</span> <span class='op'>=</span> <span class='id identifier rubyid_exiftool_obj'>exiftool_obj</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Composite:ImageSize</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>x</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+          <span class='kw'>if</span> <span class='id identifier rubyid_previews'>previews</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='symbol'>:content_type</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_content_type'>content_type</span><span class='comma'>,</span> <span class='symbol'>:filename</span> <span class='op'>=&gt;</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='symbol'>:width</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_w'>w</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='comma'>,</span> <span class='symbol'>:height</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_h'>h</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='comma'>,</span> <span class='symbol'>:thumbnail</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>large</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+            <span class='kw'>return</span> <span class='kw'>true</span>
+          <span class='kw'>else</span>
+            <span class='kw'>return</span> <span class='kw'>false</span>
+          <span class='kw'>end</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="delete_file-instance_method">
+  
+    - (<tt>Object</tt>) <strong>delete_file</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+We need to ensure that the media file is not still being used by another
+media_entry.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 70</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_file'>delete_file</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_file_storage_location'>file_storage_location</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="explode_and_import-instance_method">
+  
+    - (<tt>Object</tt>) <strong>explode_and_import</strong>(full_path_file) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+This kind of thing REALLY needs to happen of elsewhere asynchronously,
+otherwise we move inexorably towards the day the site gets DOS&#8217;d.  ie
+when a user uploads a malevolent zip that unpacks to some ridiculous
+storage-busting size.. TODO - explode and import the contents of a zip file
+this may be a rag-tag collection of any old rubbish, so we need to try and
+impose a few minimal rules on the proceedings.
+</p>
+<ul>
+<li><p>
+contains some kind of media file (as per madek media types list)
+</p>
+</li>
+<li><p>
+optionally contains an xml metadata file, conforming to the Dublin Core XML
+schema, or other agreed schemas
+</p>
+</li>
+</ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 373</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_explode_and_import'>explode_and_import</span><span class='lparen'>(</span><span class='id identifier rubyid_full_path_file'>full_path_file</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_racer_x'>racer_x</span> <span class='op'>=</span> <span class='id identifier rubyid_rand'>rand</span><span class='lparen'>(</span><span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_mkdir'>mkdir</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span><span class='rbrace'>}</span><span class='tstring_content'>/tmp/unzipfiles/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_racer_x'>racer_x</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='comment'># logger.info &quot;inspect: #{full_path_file[:tempfile].inspect}&quot;
+</span>  <span class='comment'># logger.info &quot;full_path_file[:tempfile] stat=#{full_path_file[:tempfile].stat.inspect}&quot;
+</span>  <span class='comment'># logger.info &quot;full_path_file[:tempfile] path=#{full_path_file[:tempfile].path.inspect}&quot;
+</span>  <span class='id identifier rubyid_z'>z</span> <span class='op'>=</span> <span class='const'>Zip</span><span class='op'>::</span><span class='const'>ZipFile</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_full_path_file'>full_path_file</span><span class='lbracket'>[</span><span class='symbol'>:tempfile</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_mf'>mf</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='comment'># logger.info { &quot;*****************************************************************&quot; }
+</span>  <span class='comment'># logger.info { &quot;ZIPFLE HAS #{z.entries.size} ENTRIES&quot; }
+</span>  <span class='id identifier rubyid_destination'>destination</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span><span class='rbrace'>}</span><span class='tstring_content'>/tmp/unzipfiles/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_racer_x'>racer_x</span><span class='rbrace'>}</span><span class='tstring_content'>/</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># TODO configurable
+</span>  <span class='id identifier rubyid_z'>z</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_ent'>ent</span><span class='op'>|</span>
+    <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_ent'>ent</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>__MACOSX</span><span class='regexp_end'>/</span></span> <span class='kw'>or</span> <span class='id identifier rubyid_ent'>ent</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\.DS_Store</span><span class='regexp_end'>/</span></span> <span class='kw'>or</span> <span class='op'>!</span><span class='id identifier rubyid_ent'>ent</span><span class='period'>.</span><span class='id identifier rubyid_file?'>file?</span>
+    <span class='comment'># logger.info &quot;ZIPFLE Entry #{ent}&quot;
+</span>    <span class='id identifier rubyid_f_path'>f_path</span><span class='op'>=</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_ent'>ent</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+    <span class='comment'># logger.info &quot;f_path=#{f_path}&quot;
+</span>    <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_rm_rf'>rm_rf</span> <span class='id identifier rubyid_f_path'>f_path</span> <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='id identifier rubyid_f_path'>f_path</span><span class='rparen'>)</span>
+    <span class='comment'># logger.info &quot;remove pth&quot;
+</span>    <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_mkdir_p'>mkdir_p</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='id identifier rubyid_f_path'>f_path</span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='comment'># logger.info &quot;made directory&quot;
+</span>    <span class='id identifier rubyid_z'>z</span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='id identifier rubyid_ent'>ent</span><span class='comma'>,</span> <span class='id identifier rubyid_f_path'>f_path</span><span class='rparen'>)</span>
+    <span class='comment'># logger.info &quot;just extracted #{ent} to #{f_path}&quot;
+</span>    <span class='id identifier rubyid_mimetype'>mimetype</span> <span class='op'>=</span> <span class='backtick'>`</span><span class='embexpr_beg'>#{</span><span class='const'>FILE_UTIL_PATH</span><span class='rbrace'>}</span><span class='tstring_content'> &quot;</span><span class='embexpr_beg'>#{</span><span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span><span class='rbrace'>}</span><span class='tstring_content'>/tmp/unzipfiles/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_racer_x'>racer_x</span><span class='rbrace'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ent'>ent</span><span class='rbrace'>}</span><span class='tstring_content'>&quot;</span><span class='tstring_end'>`</span></span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\n</span><span class='regexp_end'>/</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='comment'># logger.info &quot;mimetype=#{mimetype}&quot;
+</span>
+    <span class='comment'>#TODO something intelligent and asynchronous here, to allow us to go through the files in the zip and insert them, optionally adding any yaml metadata we find that relate to media.
+</span>    <span class='comment'># mf &lt;&lt; MediaFile.create(:uploaded_data =&gt; ActionController::TestUploadedFile.new(&quot;#{Rails.root}/tmp/unzipfiles/#{racer_x}/#{ent}&quot;, mimetype))
+</span>  <span class='kw'>end</span>
+  <span class='id identifier rubyid_resout'>resout</span> <span class='op'>=</span> <span class='backtick'>`</span><span class='tstring_content'>rake madek:importer:import[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_full_path_file'>full_path_file</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>current_user</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>, &quot;</span><span class='embexpr_beg'>#{</span><span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span><span class='rbrace'>}</span><span class='tstring_content'>/tmp/unzipfiles/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_racer_x'>racer_x</span><span class='rbrace'>}</span><span class='tstring_content'>/&quot;]</span><span class='tstring_end'>`</span></span>
+  <span class='id identifier rubyid_res'>res</span> <span class='op'>=</span> <span class='gvar'>$?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="file_storage_location-instance_method">
+  
+    - (<tt>Object</tt>) <strong>file_storage_location</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+The final resting place of the media file. consider it permanent storage.
+basing the shard on (some non-zero) part of the guid gives us a trivial
+&#8216;storage balancer&#8217; which completely ignores any size attributes
+of the file, and distributes amongst directories pseudorandomly (which in
+practice averages out in the long-term).
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 79</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_file_storage_location'>file_storage_location</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'>FILE_STORAGE_DIR</span><span class='comma'>,</span> <span class='id identifier rubyid_shard'>shard</span><span class='comma'>,</span> <span class='id identifier rubyid_guid'>guid</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="get_guid-instance_method">
+  
+    - (<tt>Object</tt>) <strong>get_guid</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+the cornerstone of identity.. in an ideal world, this is farmed off to
+something that can crunch through large files <em>fast</em>
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 106</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_guid'>get_guid</span>
+  <span class='comment'># This was the old GUID code in use up to June, 2011. Please leave to code here
+</span>  <span class='comment'># so we know why older files have different GUIDs. The new GUID code doesn't take
+</span>  <span class='comment'># the file hash into account at all, which is much faster at the expensve of a very
+</span>  <span class='comment'># low probability of file duplication.
+</span>  <span class='comment'># We can solve the file duplication problem elsewhere, e.g. by nightly hashing over all files
+</span>  <span class='comment'># that have identical size and assigning the media entries to the same file if there is a
+</span>  <span class='comment'># match on the hash. This would be a lot less expensive than doing it during upload.
+</span>  <span class='comment'>#     # TODO in background?
+</span>  <span class='comment'>#     # Hash or object, we should be seeing a pattern here by now.
+</span>  <span class='comment'>#     if uploaded_data.kind_of? Hash
+</span>  <span class='comment'>#       g = Digest::SHA256.hexdigest(uploaded_data[:tempfile].read)
+</span>  <span class='comment'>#       uploaded_data[:tempfile].rewind
+</span>  <span class='comment'>#     else
+</span>  <span class='comment'>#       g = Digest::SHA256.hexdigest(uploaded_data.read)
+</span>  <span class='comment'>#       uploaded_data.rewind
+</span>  <span class='comment'>#     end
+</span>  <span class='comment'>#     g
+</span>
+  <span class='kw'>return</span> <span class='const'>UUIDTools</span><span class='op'>::</span><span class='const'>UUID</span><span class='period'>.</span><span class='id identifier rubyid_random_create'>random_create</span><span class='period'>.</span><span class='id identifier rubyid_hexdigest'>hexdigest</span>
+  
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="get_preview-instance_method">
+  
+    - (<tt>Object</tt>) <strong>get_preview</strong>(size = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 24</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_preview'>get_preview</span><span class='lparen'>(</span><span class='id identifier rubyid_size'>size</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_size'>size</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+    <span class='comment'>#tmp# p = previews.where(:thumbnail =&gt; size.to_s).first
+</span>    <span class='id identifier rubyid_p'>p</span> <span class='op'>=</span> <span class='id identifier rubyid_previews'>previews</span><span class='period'>.</span><span class='id identifier rubyid_detect'>detect</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_x'>x</span><span class='op'>|</span> <span class='id identifier rubyid_x'>x</span><span class='period'>.</span><span class='id identifier rubyid_thumbnail'>thumbnail</span> <span class='op'>==</span> <span class='id identifier rubyid_size'>size</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbrace'>}</span>
+    <span class='id identifier rubyid_p'>p</span> <span class='op'>||=</span> <span class='kw'>begin</span>
+      <span class='id identifier rubyid_make_thumbnails'>make_thumbnails</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_size'>size</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+      <span class='comment'>#tmp# previews.where(:thumbnail =&gt; size.to_s).first
+</span>      <span class='id identifier rubyid_previews'>previews</span><span class='period'>.</span><span class='id identifier rubyid_detect'>detect</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_x'>x</span><span class='op'>|</span> <span class='id identifier rubyid_x'>x</span><span class='period'>.</span><span class='id identifier rubyid_thumbnail'>thumbnail</span> <span class='op'>==</span> <span class='id identifier rubyid_size'>size</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+    <span class='comment'># OPTIMIZE p could still be nil !!
+</span>    <span class='kw'>return</span> <span class='id identifier rubyid_p'>p</span>
+  <span class='kw'>else</span>
+    <span class='comment'># get the original
+</span>    <span class='kw'>return</span> <span class='id identifier rubyid_file_storage_location'>file_storage_location</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="get_sizes_from_ffmpeg-instance_method">
+  
+    - (<tt>Object</tt>) <strong>get_sizes_from_ffmpeg</strong>(path) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+352
+353
+354
+355
+356
+357
+358
+359
+360</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 352</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_sizes_from_ffmpeg'>get_sizes_from_ffmpeg</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_out'>out</span> <span class='op'>=</span> <span class='backtick'>`</span><span class='tstring_content'>ffmpeg -i </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='rbrace'>}</span><span class='tstring_content'> 2&gt;&amp;1</span><span class='tstring_end'>`</span></span>
+  <span class='id identifier rubyid_out'>out</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_line'>line</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_line'>line</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>.*Stream.*Video.*</span><span class='regexp_end'>/</span></span>
+      <span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_scan'>scan</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\d+x\d+</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>x</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+      <span class='kw'>return</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="import-instance_method">
+  
+    - (<tt>Object</tt>) <strong>import</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 41</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_import'>import</span>
+  <span class='kw'>case</span> <span class='id identifier rubyid_content_type'>content_type</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>image</span><span class='regexp_end'>/</span></span> <span class='kw'>then</span>
+      <span class='id identifier rubyid_import_image_metadata'>import_image_metadata</span><span class='lparen'>(</span><span class='id identifier rubyid_file_storage_location'>file_storage_location</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_previews'>previews</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='comment'># TODO why?
+</span>      <span class='id identifier rubyid_make_thumbnails'>make_thumbnails</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>video</span><span class='regexp_end'>/</span></span> <span class='kw'>then</span>
+      <span class='id identifier rubyid_import_audio_video_metadata'>import_audio_video_metadata</span><span class='lparen'>(</span><span class='id identifier rubyid_file_storage_location'>file_storage_location</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_make_thumbnails'>make_thumbnails</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>audio</span><span class='regexp_end'>/</span></span> <span class='kw'>then</span>
+      <span class='id identifier rubyid_import_audio_metadata'>import_audio_metadata</span><span class='lparen'>(</span><span class='id identifier rubyid_file_storage_location'>file_storage_location</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_make_thumbnails'>make_thumbnails</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>application</span><span class='regexp_end'>/</span></span> <span class='kw'>then</span>
+      <span class='id identifier rubyid_import_document_metadata'>import_document_metadata</span><span class='lparen'>(</span><span class='id identifier rubyid_file_storage_location'>file_storage_location</span><span class='rparen'>)</span>
+    <span class='kw'>else</span>
+      <span class='comment'># TODO implement other content_types
+</span>  <span class='kw'>end</span>
+  <span class='id identifier rubyid_update_attributes'>update_attributes</span><span class='lparen'>(</span><span class='symbol'>:meta_data</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_meta_data'>meta_data</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="import_audio_metadata-instance_method">
+  
+    - (<tt>Object</tt>) <strong>import_audio_metadata</strong>(full_path_file) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+362
+363
+364
+365</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 362</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_import_audio_metadata'>import_audio_metadata</span><span class='lparen'>(</span><span class='id identifier rubyid_full_path_file'>full_path_file</span><span class='rparen'>)</span>
+
+  <span class='comment'># TODO refactor to use ffmpeg, some id3 tag extractor, etc.
+</span><span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="import_audio_video_metadata-instance_method">
+  
+    - (<tt>Object</tt>) <strong>import_audio_video_metadata</strong>(full_path_file) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 320</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_import_audio_video_metadata'>import_audio_video_metadata</span><span class='lparen'>(</span><span class='id identifier rubyid_full_path_file'>full_path_file</span><span class='rparen'>)</span>
+  <span class='comment'># TODO: merge with import_image_metadata, make fields configurable in :options hash
+</span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_meta_data'>meta_data</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+
+  <span class='comment'># The Tracks: entries describe video, audio or subtitle tracks present in the container. We extract 10
+</span>  <span class='comment'># because we think no one would be mad enough to have more.
+</span>  <span class='id identifier rubyid_tracks'>tracks</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='int'>10</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span>
+    <span class='id identifier rubyid_tracks'>tracks</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Track</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_n'>n</span><span class='rbrace'>}</span><span class='tstring_content'>:</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  
+  <span class='id identifier rubyid_group_tags'>group_tags</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>File:</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Composite:</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>IFD</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ICC-</span><span class='tstring_end'>'</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ICC_Profile</span><span class='tstring_end'>'</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>XMP-exif</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>XMP-xmpMM</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>XMP-aux</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>XMP-tiff</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Photoshop:</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ExifIFD:</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>JFIF</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>IFF:</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>GPS:</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PNG:</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>QuickTime:</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id identifier rubyid_tracks'>tracks</span> <span class='comment'>#'System:' leaks system info
+</span>  <span class='id identifier rubyid_ignore_fields'>ignore_fields</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>UserComment</span><span class='tstring_end'>'</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ImageDescription</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ProfileCopyright</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>System:</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_exif_hash'>exif_hash</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+
+  <span class='id identifier rubyid_blob'>blob</span> <span class='op'>=</span> <span class='id identifier rubyid_exiftool_obj'>exiftool_obj</span><span class='lparen'>(</span><span class='id identifier rubyid_full_path_file'>full_path_file</span><span class='comma'>,</span> <span class='id identifier rubyid_group_tags'>group_tags</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_blob'>blob</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_tag_array_entry'>tag_array_entry</span><span class='op'>|</span>
+    <span class='id identifier rubyid_tag_array_entry'>tag_array_entry</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span>
+      <span class='id identifier rubyid_exif_hash'>exif_hash</span><span class='lbracket'>[</span><span class='id identifier rubyid_entry'>entry</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='op'>=</span><span class='id identifier rubyid_entry'>entry</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_ignore_fields'>ignore_fields</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_w'>w</span><span class='op'>|</span> <span class='id identifier rubyid_entry'>entry</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_w'>w</span> <span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_meta_data'>meta_data</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='id identifier rubyid_exif_hash'>exif_hash</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Exiftool couldn't get the dimensions. Let's try with ffmpeg
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_exif_hash'>exif_hash</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Composite:ImageSize</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_img_x'>img_x</span><span class='comma'>,</span> <span class='id identifier rubyid_img_y'>img_y</span> <span class='op'>=</span> <span class='id identifier rubyid_get_sizes_from_ffmpeg'>get_sizes_from_ffmpeg</span><span class='lparen'>(</span><span class='id identifier rubyid_full_path_file'>full_path_file</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_img_x'>img_x</span><span class='comma'>,</span> <span class='id identifier rubyid_img_y'>img_y</span> <span class='op'>=</span> <span class='id identifier rubyid_exif_hash'>exif_hash</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Composite:ImageSize</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>x</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_update_attributes'>update_attributes</span><span class='lparen'>(</span><span class='symbol'>:width</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_img_x'>img_x</span><span class='comma'>,</span> <span class='symbol'>:height</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_img_y'>img_y</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="import_document_metadata-instance_method">
+  
+    - (<tt>Object</tt>) <strong>import_document_metadata</strong>(full_path_file) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+407
+408
+409</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 407</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_import_document_metadata'>import_document_metadata</span><span class='lparen'>(</span><span class='id identifier rubyid_full_path_file'>full_path_file</span><span class='rparen'>)</span>
+  <span class='comment'>#TODO - specifically for other non-zipped documents (e.g. source code, application binary, etc)
+</span><span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="import_image_metadata-instance_method">
+  
+    - (<tt>Object</tt>) <strong>import_image_metadata</strong>(full_path_file) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+IMAGES
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 299</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_import_image_metadata'>import_image_metadata</span><span class='lparen'>(</span><span class='id identifier rubyid_full_path_file'>full_path_file</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_meta_data'>meta_data</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_group_tags'>group_tags</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>File:</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Composite:</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>IFD</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ICC-</span><span class='tstring_end'>'</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ICC_Profile</span><span class='tstring_end'>'</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>XMP-exif</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>XMP-xmpMM</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>XMP-aux</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>XMP-tiff</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Photoshop:</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ExifIFD:</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>JFIF</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>IFF:</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>GPS:</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PNG:</span><span class='tstring_end'>'</span></span> <span class='rbracket'>]</span> <span class='comment'>#'System:' leaks system info
+</span>  <span class='id identifier rubyid_ignore_fields'>ignore_fields</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>UserComment</span><span class='tstring_end'>'</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ImageDescription</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ProfileCopyright</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>System:</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_exif_hash'>exif_hash</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+
+  <span class='id identifier rubyid_blob'>blob</span> <span class='op'>=</span> <span class='id identifier rubyid_exiftool_obj'>exiftool_obj</span><span class='lparen'>(</span><span class='id identifier rubyid_full_path_file'>full_path_file</span><span class='comma'>,</span> <span class='id identifier rubyid_group_tags'>group_tags</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_blob'>blob</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_tag_array_entry'>tag_array_entry</span><span class='op'>|</span>
+    <span class='id identifier rubyid_tag_array_entry'>tag_array_entry</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span>
+      <span class='id identifier rubyid_exif_hash'>exif_hash</span><span class='lbracket'>[</span><span class='id identifier rubyid_entry'>entry</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='op'>=</span><span class='id identifier rubyid_entry'>entry</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_ignore_fields'>ignore_fields</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_w'>w</span><span class='op'>|</span> <span class='id identifier rubyid_entry'>entry</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_w'>w</span> <span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_meta_data'>meta_data</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='id identifier rubyid_exif_hash'>exif_hash</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='comment'># FIXME - We are inserting image-specific data into a model that is generic in intent, for the convenience of it all.
+</span>  <span class='comment'># Apparently IFD0 is not the best fit (some files don't contain it), perhaps we should use the Composite:ImageSize tag, till we get rid of these columns..
+</span>  <span class='id identifier rubyid_img_x'>img_x</span><span class='comma'>,</span> <span class='id identifier rubyid_img_y'>img_y</span> <span class='op'>=</span> <span class='id identifier rubyid_exif_hash'>exif_hash</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Composite:ImageSize</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>x</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_update_attributes'>update_attributes</span><span class='lparen'>(</span><span class='symbol'>:width</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_img_x'>img_x</span><span class='comma'>,</span> <span class='symbol'>:height</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_img_y'>img_y</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="importable_zipfile?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>importable_zipfile?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+288
+289
+290
+291
+292
+293
+294
+295</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 288</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_importable_zipfile?'>importable_zipfile?</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_uploaded_data'>uploaded_data</span><span class='period'>.</span><span class='id identifier rubyid_kind_of?'>kind_of?</span> <span class='const'>Hash</span>
+    <span class='id identifier rubyid_ret'>ret</span> <span class='op'>=</span> <span class='id identifier rubyid_uploaded_data'>uploaded_data</span><span class='lbracket'>[</span><span class='symbol'>:filename</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>__IMPORT__</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='id identifier rubyid_uploaded_data'>uploaded_data</span><span class='lbracket'>[</span><span class='symbol'>:filename</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.zip</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_ret'>ret</span> <span class='op'>=</span> <span class='id identifier rubyid_uploaded_data'>uploaded_data</span><span class='period'>.</span><span class='id identifier rubyid_original_filename'>original_filename</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>__IMPORT__</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='id identifier rubyid_uploaded_data'>uploaded_data</span><span class='period'>.</span><span class='id identifier rubyid_original_filename'>original_filename</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.zip</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_ret'>ret</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="make_thumbnails-instance_method">
+  
+    - (<tt>Object</tt>) <strong>make_thumbnails</strong>(sizes = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 134</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_make_thumbnails'>make_thumbnails</span><span class='lparen'>(</span><span class='id identifier rubyid_sizes'>sizes</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='comment'># this should be a background job
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_content_type'>content_type</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>image</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_thumbnail_jpegs_for'>thumbnail_jpegs_for</span><span class='lparen'>(</span><span class='id identifier rubyid_file_storage_location'>file_storage_location</span><span class='comma'>,</span> <span class='id identifier rubyid_sizes'>sizes</span><span class='rparen'>)</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_content_type'>content_type</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>video</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+    <span class='comment'># Extracts a cover image from the video stream
+</span>    <span class='id identifier rubyid_covershot'>covershot</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_thumbnail_storage_location'>thumbnail_storage_location</span><span class='rbrace'>}</span><span class='tstring_content'>_covershot.png</span><span class='tstring_end'>&quot;</span></span>
+    <span class='comment'># You can use the -ss option to determine the temporal position in the stream you want to grab from (in seconds)
+</span>    <span class='id identifier rubyid_conversion'>conversion</span> <span class='op'>=</span> <span class='backtick'>`</span><span class='tstring_content'>ffmpeg -i </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_file_storage_location'>file_storage_location</span><span class='rbrace'>}</span><span class='tstring_content'> -y -vcodec png -vframes 1 -an -f rawvideo </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_covershot'>covershot</span><span class='rbrace'>}</span><span class='tstring_end'>`</span></span>
+    <span class='id identifier rubyid_thumbnail_jpegs_for'>thumbnail_jpegs_for</span><span class='lparen'>(</span><span class='id identifier rubyid_covershot'>covershot</span><span class='comma'>,</span> <span class='id identifier rubyid_sizes'>sizes</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_submit_encoding_job'>submit_encoding_job</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_content_type'>content_type</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>audio</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+    <span class='comment'>#add_audio_thumbnails   # This might be a future method that constructs some meaningful thumbnail for an audio file?
+</span>    <span class='id identifier rubyid_submit_encoding_job'>submit_encoding_job</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="meta_data_without_binary-instance_method">
+  
+    - (<tt>Object</tt>) <strong>meta_data_without_binary</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+OPTIMIZE
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+448
+449
+450
+451</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 448</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_meta_data_without_binary'>meta_data_without_binary</span>
+  <span class='id identifier rubyid_r'>r</span> <span class='op'>=</span> <span class='id identifier rubyid_meta_data'>meta_data</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>!binary |</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Binary data</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_x'>x</span><span class='op'>|</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_to_yaml'>to_yaml</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_x'>x</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_r'>r</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_x'>x</span><span class='op'>|</span> <span class='id identifier rubyid_x'>x</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_y'>y</span><span class='op'>|</span> <span class='id identifier rubyid_y'>y</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span><span class='period'>.</span><span class='id identifier rubyid_force_encoding'>force_encoding</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>utf-8</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='rbrace'>}</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="reset_access_hash-instance_method">
+  
+    - (<tt>Object</tt>) <strong>reset_access_hash</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+442
+443
+444
+445</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 442</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_reset_access_hash'>reset_access_hash</span>
+  <span class='id identifier rubyid_assign_access_hash'>assign_access_hash</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_save'>save</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="retrieve_encoded_files-instance_method">
+  
+    - (<tt>Object</tt>) <strong>retrieve_encoded_files</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 151</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_retrieve_encoded_files'>retrieve_encoded_files</span>
+  <span class='id identifier rubyid_require'>require</span> <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>lib/encode_job</span><span class='tstring_end'>'</span></span>
+  <span class='id identifier rubyid_paths'>paths</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  
+  <span class='kw'>unless</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_job_id'>job_id</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+    <span class='id identifier rubyid_job'>job</span> <span class='op'>=</span> <span class='const'>EncodeJob</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_job_id'>job_id</span><span class='rparen'>)</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_job'>job</span><span class='period'>.</span><span class='id identifier rubyid_finished?'>finished?</span>
+      <span class='comment'># Get the encoded files via FTP
+</span>      <span class='id identifier rubyid_job'>job</span><span class='period'>.</span><span class='id identifier rubyid_encoded_file_urls'>encoded_file_urls</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
+        <span class='id identifier rubyid_filename'>filename</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_prefix'>prefix</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_thumbnail_storage_location'>thumbnail_storage_location</span><span class='rbrace'>}</span><span class='tstring_content'>_encoded</span><span class='tstring_end'>&quot;</span></span>
+        <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_prefix'>prefix</span><span class='rbrace'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_filename'>filename</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+        <span class='backtick'>`</span><span class='tstring_content'>wget </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_f'>f</span><span class='rbrace'>}</span><span class='tstring_content'> -O </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='rbrace'>}</span><span class='tstring_end'>`</span></span>
+        <span class='kw'>if</span> <span class='gvar'>$?</span> <span class='op'>==</span> <span class='int'>0</span>
+          <span class='id identifier rubyid_paths'>paths</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_path'>path</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_paths'>paths</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="set_filename-instance_method">
+  
+    - (<tt>Object</tt>) <strong>set_filename</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+set some attributes, for use when storing the file. NB Depending on if we
+are being called from a rake task or the webserver, we either get a
+tempfile or an array.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 90</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_filename'>set_filename</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_guid'>guid</span> <span class='op'>=</span> <span class='id identifier rubyid_get_guid'>get_guid</span> 
+  <span class='comment'># Same issue as above, we get a hash or an object, depending on appserver or rake task call.
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_uploaded_data'>uploaded_data</span><span class='period'>.</span><span class='id identifier rubyid_kind_of?'>kind_of?</span> <span class='const'>Hash</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_filename'>filename</span> <span class='op'>=</span> <span class='const'>CGI</span><span class='op'>::</span><span class='id identifier rubyid_escape'>escape</span><span class='lparen'>(</span><span class='id identifier rubyid_uploaded_data'>uploaded_data</span><span class='lbracket'>[</span><span class='symbol'>:filename</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='lparen'>(</span><span class='id identifier rubyid_uploaded_data'>uploaded_data</span><span class='lbracket'>[</span><span class='symbol'>:tempfile</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_content_type'>content_type</span> <span class='op'>=</span> <span class='id identifier rubyid_uploaded_data'>uploaded_data</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_filename'>filename</span> <span class='op'>=</span> <span class='const'>CGI</span><span class='op'>::</span><span class='id identifier rubyid_escape'>escape</span><span class='lparen'>(</span><span class='id identifier rubyid_uploaded_data'>uploaded_data</span><span class='period'>.</span><span class='id identifier rubyid_original_filename'>original_filename</span><span class='rparen'>)</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>=</span> <span class='id identifier rubyid_uploaded_data'>uploaded_data</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_content_type'>content_type</span> <span class='op'>=</span> <span class='id identifier rubyid_uploaded_data'>uploaded_data</span><span class='period'>.</span><span class='id identifier rubyid_content_type'>content_type</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="shard-instance_method">
+  
+    - (<tt>Object</tt>) <strong>shard</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+129
+130
+131
+132</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 129</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_shard'>shard</span>
+  <span class='comment'># TODO variable length of sharding?
+</span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_guid'>guid</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>..</span><span class='int'>0</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="store_file-instance_method">
+  
+    - (<tt>Object</tt>) <strong>store_file</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Write the file out to storage
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+62
+63
+64
+65
+66
+67</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 62</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_store_file'>store_file</span>
+  <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_cp'>cp</span> <span class='id identifier rubyid_uploaded_data'>uploaded_data</span><span class='lbracket'>[</span><span class='symbol'>:tempfile</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_file_storage_location'>file_storage_location</span>
+
+  <span class='comment'># TODO in background?
+</span>  <span class='id identifier rubyid_import'>import</span> <span class='kw'>if</span> <span class='id identifier rubyid_meta_data'>meta_data</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="submit_encoding_job-instance_method">
+  
+    - (<tt>Object</tt>) <strong>submit_encoding_job</strong>(force = false) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 412</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_submit_encoding_job'>submit_encoding_job</span><span class='lparen'>(</span><span class='id identifier rubyid_force'>force</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_force'>force</span> <span class='op'>==</span> <span class='kw'>true</span> <span class='kw'>or</span> <span class='id identifier rubyid_job_id'>job_id</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+    <span class='comment'># submit http://this_host/download?media_file_id=foo&amp;access_hash=bar
+</span>    <span class='id identifier rubyid_require'>require</span> <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>lib/encode_job</span><span class='tstring_end'>'</span></span>
+    <span class='id identifier rubyid_job'>job</span> <span class='op'>=</span> <span class='const'>EncodeJob</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_content_type'>content_type</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>video</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_job'>job</span><span class='period'>.</span><span class='id identifier rubyid_job_type'>job_type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>video</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>elsif</span> <span class='id identifier rubyid_content_type'>content_type</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>audio</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_job'>job</span><span class='period'>.</span><span class='id identifier rubyid_job_type'>job_type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>audio</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can only handle encoding jobs for content types video/* and audio/*, not </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_content_type'>content_type</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+    <span class='comment'># Note: We cannot use media_entry_url(self.id) here because ENCODING_BASE_URL may include
+</span>    <span class='comment'># a username/password (e.g. http://test:foo@www.blah.com) for Zencoder or other encoding
+</span>    <span class='comment'># services to reach the file by.
+</span>    <span class='id identifier rubyid_job'>job</span><span class='period'>.</span><span class='id identifier rubyid_start_by_url'>start_by_url</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>ENCODING_BASE_URL</span><span class='rbrace'>}</span><span class='tstring_content'>/media_files/</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='tstring_content'>?access_hash=</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_access_hash'>access_hash</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='comment'># Save Zencoder job ID so we can use it in subsequent requests
+</span>    <span class='id identifier rubyid_update_attributes'>update_attributes</span><span class='lparen'>(</span><span class='symbol'>:job_id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_job'>job</span><span class='period'>.</span><span class='id identifier rubyid_details'>details</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>id</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_job'>job</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_error'>error</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Won't encode -- this file already has a job_id, so it's probably already been encoded. Use submit_encoding_job(force = true) to override.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='kw'>false</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="thumb_base64-instance_method">
+  
+    - (<tt>Object</tt>) <strong>thumb_base64</strong>(size = :small) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 243</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_thumb_base64'>thumb_base64</span><span class='lparen'>(</span><span class='id identifier rubyid_size'>size</span> <span class='op'>=</span> <span class='symbol'>:small</span><span class='rparen'>)</span>
+  <span class='comment'># TODO give access to the original one?
+</span>  <span class='comment'># available_sizes = THUMBNAILS.keys #old# ['small', 'medium']
+</span>  <span class='comment'># size = 'small' unless available_sizes.include?(size)
+</span>
+  <span class='id identifier rubyid_preview'>preview</span> <span class='op'>=</span> <span class='kw'>case</span> <span class='id identifier rubyid_content_type'>content_type</span>
+              <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>video</span><span class='regexp_end'>/</span></span> <span class='kw'>then</span>
+                <span class='comment'># Get the video's covershot that we've extracted/thumbnailed on import
+</span>                <span class='id identifier rubyid_get_preview'>get_preview</span><span class='lparen'>(</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Video</span><span class='tstring_end'>&quot;</span></span>
+              <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>audio</span><span class='regexp_end'>/</span></span> <span class='kw'>then</span>
+                <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Audio</span><span class='tstring_end'>&quot;</span></span>
+              <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>image</span><span class='regexp_end'>/</span></span> <span class='kw'>then</span>
+                <span class='id identifier rubyid_get_preview'>get_preview</span><span class='lparen'>(</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Image</span><span class='tstring_end'>&quot;</span></span>
+              <span class='kw'>else</span> 
+                <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Doc</span><span class='tstring_end'>&quot;</span></span>
+            <span class='kw'>end</span>
+
+  <span class='comment'># OPTIMIZE
+</span>  <span class='kw'>unless</span> <span class='id identifier rubyid_preview'>preview</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span>
+    <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'>THUMBNAIL_STORAGE_DIR</span><span class='comma'>,</span> <span class='id identifier rubyid_shard'>shard</span><span class='comma'>,</span> <span class='id identifier rubyid_preview'>preview</span><span class='period'>.</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
+    <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+     <span class='id identifier rubyid_output'>output</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>data:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_preview'>preview</span><span class='period'>.</span><span class='id identifier rubyid_content_type'>content_type</span><span class='rbrace'>}</span><span class='tstring_content'>;base64,</span><span class='embexpr_beg'>#{</span><span class='const'>Base64</span><span class='period'>.</span><span class='id identifier rubyid_encode64'>encode64</span><span class='lparen'>(</span><span class='id identifier rubyid_output'>output</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_preview'>preview</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Image</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># OPTIMIZE
+</span>    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># nothing found, we show then a placeholder icon
+</span>  <span class='kw'>case</span> <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_env'>env</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>development</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_w'>w</span><span class='comma'>,</span> <span class='id identifier rubyid_h'>h</span> <span class='op'>=</span> <span class='const'>THUMBNAILS</span><span class='lbracket'>[</span><span class='id identifier rubyid_size'>size</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>x</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_i</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_categories'>categories</span> <span class='op'>=</span> <span class='qwords_beg'>%w(</span><span class='tstring_content'>abstract</span><span class='words_sep'> </span><span class='tstring_content'>food</span><span class='words_sep'> </span><span class='tstring_content'>people</span><span class='words_sep'> </span><span class='tstring_content'>technics</span><span class='words_sep'> </span><span class='tstring_content'>animals</span><span class='words_sep'> </span><span class='tstring_content'>nightlife</span><span class='words_sep'> </span><span class='tstring_content'>nature</span><span class='words_sep'> </span><span class='tstring_content'>transport</span><span class='words_sep'> </span><span class='tstring_content'>city</span><span class='words_sep'> </span><span class='tstring_content'>fashion</span><span class='words_sep'> </span><span class='tstring_content'>sports</span><span class='words_sep'>)</span>
+      <span class='id identifier rubyid_cat'>cat</span> <span class='op'>=</span> <span class='id identifier rubyid_categories'>categories</span><span class='lbracket'>[</span><span class='id identifier rubyid_id'>id</span> <span class='op'>%</span> <span class='id identifier rubyid_categories'>categories</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_n'>n</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span> <span class='op'>%</span> <span class='int'>10</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='int'>1</span>
+      <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://lorempixum.com/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_w'>w</span><span class='rbrace'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_h'>h</span><span class='rbrace'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_cat'>cat</span><span class='rbrace'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_n'>n</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_size'>size</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_size'>size</span> <span class='op'>==</span> <span class='symbol'>:large</span> <span class='op'>?</span> <span class='symbol'>:medium</span> <span class='op'>:</span> <span class='symbol'>:small</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_output'>output</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span><span class='rbrace'>}</span><span class='tstring_content'>/app/assets/images/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_preview'>preview</span><span class='rbrace'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_size'>size</span><span class='rbrace'>}</span><span class='tstring_content'>.png</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+      <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>data:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_content_type'>content_type</span><span class='rbrace'>}</span><span class='tstring_content'>;base64,</span><span class='embexpr_beg'>#{</span><span class='const'>Base64</span><span class='period'>.</span><span class='id identifier rubyid_encode64'>encode64</span><span class='lparen'>(</span><span class='id identifier rubyid_output'>output</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="thumbnail_jpegs_for-instance_method">
+  
+    - (<tt>Object</tt>) <strong>thumbnail_jpegs_for</strong>(file, sizes = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 213</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_thumbnail_jpegs_for'>thumbnail_jpegs_for</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='id identifier rubyid_sizes'>sizes</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+  <span class='const'>THUMBNAILS</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_thumb_size'>thumb_size</span><span class='comma'>,</span><span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
+    <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_sizes'>sizes</span> <span class='kw'>and</span> <span class='op'>!</span><span class='id identifier rubyid_sizes'>sizes</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_thumb_size'>thumb_size</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_tmparr'>tmparr</span> <span class='op'>=</span> <span class='id identifier rubyid_thumbnail_storage_location'>thumbnail_storage_location</span>
+    <span class='id identifier rubyid_tmparr'>tmparr</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_thumb_size'>thumb_size</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_outfile'>outfile</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_tmparr'>tmparr</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>jpg</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+    <span class='backtick'>`</span><span class='tstring_content'>convert -verbose &quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_file'>file</span><span class='rbrace'>}</span><span class='tstring_content'>&quot; -auto-orient -thumbnail &quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_value'>value</span><span class='rbrace'>}</span><span class='tstring_content'>&quot; -flatten -unsharp 0x.5 &quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_outfile'>outfile</span><span class='rbrace'>}</span><span class='tstring_content'>&quot;</span><span class='tstring_end'>`</span></span>
+    <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='id identifier rubyid_outfile'>outfile</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_x'>x</span><span class='comma'>,</span><span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='backtick'>`</span><span class='tstring_content'>identify -format &quot;%wx%h&quot; &quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_outfile'>outfile</span><span class='rbrace'>}</span><span class='tstring_content'>&quot;</span><span class='tstring_end'>`</span></span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>x</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_x'>x</span> <span class='kw'>and</span> <span class='id identifier rubyid_y'>y</span>
+        <span class='id identifier rubyid_previews'>previews</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='symbol'>:content_type</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>image/jpeg</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='symbol'>:filename</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_outfile'>outfile</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='comma'>,</span> <span class='symbol'>:height</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_y'>y</span><span class='comma'>,</span> <span class='symbol'>:width</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='symbol'>:thumbnail</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_thumb_size'>thumb_size</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='rparen'>)</span>
+      <span class='kw'>end</span>
+    <span class='kw'>else</span>
+      <span class='comment'># if convert failed, we need to take or delegate off some rescue action, ideally.
+</span>      <span class='comment'># but for the moment, lets just imply no-thumbnail need be made for this size
+</span>    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="thumbnail_storage_location-instance_method">
+  
+    - (<tt>Object</tt>) <strong>thumbnail_storage_location</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+remember, thumbnails <b>could</b> be on a faster storage medium than
+original files.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84
+85
+86</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 84</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_thumbnail_storage_location'>thumbnail_storage_location</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'>THUMBNAIL_STORAGE_DIR</span><span class='comma'>,</span> <span class='id identifier rubyid_shard'>shard</span><span class='comma'>,</span> <span class='id identifier rubyid_guid'>guid</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="validate_file-instance_method">
+  
+    - (<tt>Object</tt>) <strong>validate_file</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+233
+234
+235
+236
+237
+238
+239
+240
+241</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/media_file.rb', line 233</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_validate_file'>validate_file</span>
+  <span class='comment'>#TODO - check for zip files and process accordingly
+</span>    <span class='kw'>unless</span> <span class='id identifier rubyid_importable_zipfile?'>importable_zipfile?</span>
+      <span class='id identifier rubyid_set_filename'>set_filename</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_explode_and_import'>explode_and_import</span><span class='lparen'>(</span><span class='id identifier rubyid_uploaded_data'>uploaded_data</span><span class='rparen'>)</span>
+      <span class='comment'># do the explode and import in the background
+</span>    <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Thu Dec 22 13:34:27 2011 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.4 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

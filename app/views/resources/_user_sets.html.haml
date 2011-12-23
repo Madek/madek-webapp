@@ -1,0 +1,10 @@
+.page_title_left
+  .icon_set
+  =_("Alle Sets")
+.clear
+
+- if @resources[:entries].any?
+  #results
+- else 
+  = _("Keine Sets vorhanden")
+

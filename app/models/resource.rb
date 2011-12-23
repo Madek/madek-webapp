@@ -87,7 +87,6 @@ module Resource
 
       self.editors << current_user if current_user # OPTIMIZE group by user ??
       self.updated_at = Time.now # OPTIMIZE touch
-
       update_attributes_without_pre_validation(dup_attributes)
     end
     base.alias_method_chain :update_attributes, :pre_validation
@@ -177,6 +176,7 @@ module Resource
       exif_conf.close
     end
     
+    # TODO merge to as_json
     # NEW and experimental for batch processes 
     def get_basic_info(current_user, extended_keys = [], with_thumb = false)
       core_keys = ["title", "author"]
@@ -221,17 +221,25 @@ module Resource
 ########################################################
 
   def as_json(options={})
-    user = options[:user] #.delete(:user)
     with_thumb = options[:with_thumb]
+    more_json = {}
     
-    flags = { :is_private => acl?(:view, :only, user),
-              :is_public => acl?(:view, :all),
-              :is_editable => Permission.authorized?(user, :edit, self),
-              :is_manageable => Permission.authorized?(user, :manage, self) }
+    if user = options[:user]
+      #TODO Dont do this behaviour on default
+      flags = { :is_private => acl?(:view, :only, user),
+                :is_public => acl?(:view, :all),
+                :is_editable => Permission.authorized?(user, :edit, self),
+                :is_manageable => Permission.authorized?(user, :manage, self) }
+      more_json.merge! flags         
+      more_json.merge!(self.get_basic_info(user, [], with_thumb))
+    end
 
     default_options = {:only => :id}
     json = super(default_options.deep_merge(options))
-    json.merge(self.get_basic_info(user, [], with_thumb)).merge(flags)
+    
+    # add relationships for a given parent
+    
+    json.merge(more_json)
   end
 
 ########################################################

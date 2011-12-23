@@ -18,7 +18,7 @@ class MediaResource < ActiveRecord::Base
   scope :media_entries, where(:type => "MediaEntry")
   
   # OPTIMIZE
-  scope :media_sets, where(:type => ["Media::Set", "Media::Project", "Media::FeaturedSet"]) # , "Media::Collection"
+  scope :media_sets, where(:type => ["Media::Set", "Media::Project"])
   scope :sets, where(:type => "Media::Set")
   scope :projects, where(:type => "Media::Project")
 
@@ -53,8 +53,8 @@ class MediaResource < ActiveRecord::Base
             "(SELECT media_entry_id AS id, 'MediaEntry' AS type FROM media_entries_media_sets " \
               "WHERE media_set_id = ? " \
             "UNION " \
-              "SELECT descendant_id AS id, 'Media::Set' AS type FROM media_set_links " \
-                "WHERE ancestor_id = ? AND direct = true)",
+              "SELECT child_id AS id, 'Media::Set' AS type FROM media_set_arcs " \
+                "WHERE parent_id = ? )",
           media_set.id, media_set.id);
   }
 
@@ -122,11 +122,11 @@ class MediaResource < ActiveRecord::Base
   def self.media_resources_type
     #original# "media_resources.type"
     if SQLHelper.adapter_is_mysql?
-      "IF(type IN ('Media::Project', 'Media::FeaturedSet'), 'Media::Set', type)" # , 'Media::Collection'
+      "IF(type IN ('Media::Project'), 'Media::Set', type)"
     elsif SQLHelper.adapter_is_postgresql?
       "
       CASE 
-        WHEN (type IN ('Media::Project', 'Media::FeaturedSet'))  THEN  'Media::Set'
+        WHEN (type IN ('Media::Project'))  THEN  'Media::Set'
         ELSE type
       END
       "

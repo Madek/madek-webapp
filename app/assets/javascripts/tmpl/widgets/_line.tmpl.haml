@@ -1,0 +1,9 @@
+%li
+  %label{:title => "${title}"}
+    ${$item.title = title.replace(/\s/g,'_'), ""}
+    %input{:id => "${$item.title}", :type => "checkbox", :value => 1, :name => "${$item.title}"}
+    {{if title.length > 18}}
+    ${title.substr(0,18)}...
+    {{else}}
+    ${title}
+    {{/if}}

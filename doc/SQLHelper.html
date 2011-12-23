@@ -1,0 +1,581 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: SQLHelper
+  
+    &mdash; Documentation by YARD 0.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (S)</a> &raquo; 
+    
+    
+    <span class="title">SQLHelper</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Module: SQLHelper
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+      <dt class="r1">Extended by:</dt>
+      <dd class="r1"><span class='object_link'><a href="" title="SQLHelper (module)">SQLHelper</a></span></dd>
+      
+    
+  
+    
+  
+  
+    <dt class="r2">Included in:</dt>
+    <dd class="r2"><span class='object_link'><a href="MigrationHelpers.html" title="MigrationHelpers (module)">MigrationHelpers</a></span>, <span class='object_link'><a href="MigrationHelpers.html" title="MigrationHelpers (module)">MigrationHelpers</a></span>, <span class='object_link'><a href="" title="SQLHelper (module)">SQLHelper</a></span></dd>
+    
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/sql_helper.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#adapter_is_mysql%3F-instance_method" title="#adapter_is_mysql? (instance method)">- (Boolean) <strong>adapter_is_mysql?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#adapter_is_postgresql%3F-instance_method" title="#adapter_is_postgresql? (instance method)">- (Boolean) <strong>adapter_is_postgresql?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#adapter_name-instance_method" title="#adapter_name (instance method)">- (Object) <strong>adapter_name</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bitwise_is-instance_method" title="#bitwise_is (instance method)">- (Object) <strong>bitwise_is</strong>(action, i) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#database_name-instance_method" title="#database_name (instance method)">- (Object) <strong>database_name</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#execute_sql-instance_method" title="#execute_sql (instance method)">- (Object) <strong>execute_sql</strong>(query) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reset_autoinc_sequence_to_max-instance_method" title="#reset_autoinc_sequence_to_max (instance method)">- (Object) <strong>reset_autoinc_sequence_to_max</strong>(model) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#table_names-instance_method" title="#table_names (instance method)">- (Object) <strong>table_names</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="adapter_is_mysql?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>adapter_is_mysql?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+17
+18
+19</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sql_helper.rb', line 17</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_adapter_is_mysql?'>adapter_is_mysql?</span>
+  <span class='id identifier rubyid_adapter_name'>adapter_name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Mysql2</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="adapter_is_postgresql?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>adapter_is_postgresql?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+21
+22
+23</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sql_helper.rb', line 21</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_adapter_is_postgresql?'>adapter_is_postgresql?</span>
+  <span class='id identifier rubyid_adapter_name'>adapter_name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>PostgreSQL</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="adapter_name-instance_method">
+  
+    - (<tt>Object</tt>) <strong>adapter_name</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+13
+14
+15</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sql_helper.rb', line 13</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_adapter_name'>adapter_name</span>
+   <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Base</span><span class='period'>.</span><span class='id identifier rubyid_connection'>connection</span><span class='period'>.</span><span class='id identifier rubyid_adapter_name'>adapter_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="bitwise_is-instance_method">
+  
+    - (<tt>Object</tt>) <strong>bitwise_is</strong>(action, i) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+37
+38
+39
+40
+41
+42
+43
+44
+45</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sql_helper.rb', line 37</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_bitwise_is'>bitwise_is</span> <span class='id identifier rubyid_action'>action</span><span class='comma'>,</span><span class='id identifier rubyid_i'>i</span>
+  <span class='kw'>if</span> <span class='const'>SQLHelper</span><span class='period'>.</span><span class='id identifier rubyid_adapter_is_mysql?'>adapter_is_mysql?</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_action'>action</span><span class='rbrace'>}</span><span class='tstring_content'> &amp; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_i'>i</span><span class='rbrace'>}</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>elsif</span> <span class='const'>SQLHelper</span><span class='period'>.</span><span class='id identifier rubyid_adapter_is_postgresql?'>adapter_is_postgresql?</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_action'>action</span><span class='rbrace'>}</span><span class='tstring_content'> &amp; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_i'>i</span><span class='rbrace'>}</span><span class='tstring_content'>)&gt;0 </span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>else</span> 
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>unsupported db adapter</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="database_name-instance_method">
+  
+    - (<tt>Object</tt>) <strong>database_name</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sql_helper.rb', line 25</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_database_name'>database_name</span>
+  <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_configuration'>configuration</span><span class='period'>.</span><span class='id identifier rubyid_database_configuration'>database_configuration</span><span class='lbracket'>[</span><span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_env'>env</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>database</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="execute_sql-instance_method">
+  
+    - (<tt>Object</tt>) <strong>execute_sql</strong>(query) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+9
+10
+11</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sql_helper.rb', line 9</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_execute_sql'>execute_sql</span> <span class='id identifier rubyid_query'>query</span>
+  <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Base</span><span class='period'>.</span><span class='id identifier rubyid_connection'>connection</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span> <span class='id identifier rubyid_query'>query</span> 
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="reset_autoinc_sequence_to_max-instance_method">
+  
+    - (<tt>Object</tt>) <strong>reset_autoinc_sequence_to_max</strong>(model) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sql_helper.rb', line 47</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_reset_autoinc_sequence_to_max'>reset_autoinc_sequence_to_max</span> <span class='id identifier rubyid_model'>model</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_adapter_is_postgresql?'>adapter_is_postgresql?</span>
+    <span class='id identifier rubyid_execute_sql'>execute_sql</span> <span class='tstring'><span class='tstring_beg'>%Q{</span><span class='tstring_content'> select setval('</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_table_name'>table_name</span><span class='rbrace'>}</span><span class='tstring_content'>_id_seq',(SELECT max(id) from </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_table_name'>table_name</span><span class='rbrace'>}</span><span class='tstring_content'>)); </span><span class='tstring_end'>}</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="table_names-instance_method">
+  
+    - (<tt>Object</tt>) <strong>table_names</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+29
+30
+31
+32
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sql_helper.rb', line 29</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_table_names'>table_names</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_adapter_is_postgresql?'>adapter_is_postgresql?</span>
+    <span class='lparen'>(</span><span class='id identifier rubyid_execute_sql'>execute_sql</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT tablename from pg_tables where tableowner = 'rails' AND tablename &lt;&gt; 'schema_migrations' ORDER BY tablename</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_adapter_is_mysql?'>adapter_is_mysql?</span>
+    <span class='lparen'>(</span><span class='id identifier rubyid_execute_sql'>execute_sql</span> <span class='tstring'><span class='tstring_beg'>%Q@</span><span class='tstring_content'> SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE table_type = &quot;BASE TABLE&quot; AND TABLE_SCHEMA = &quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_database_name'>database_name</span><span class='rbrace'>}</span><span class='tstring_content'>&quot; </span><span class='tstring_end'>@</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_a'>to_a</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Thu Dec 22 13:34:26 2011 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.4 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

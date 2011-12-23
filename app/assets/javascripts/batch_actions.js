@@ -72,7 +72,7 @@ $(document).ready(function () {
 				}
 			}; 
 		var f = $(".filter_content form:first");
-		if(f.length){
+		if(f.length && f.data("paginate_using_filter")){
 			options.url = f.attr('action');
 			options.type = f.attr('method');
 			options.data = f.serializeArray();

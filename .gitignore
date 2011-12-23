@@ -27,3 +27,5 @@ log/*.log
 log/searchd.development.pid
 log/searchd.test.pid
 
+coverage.data
+.yardoc

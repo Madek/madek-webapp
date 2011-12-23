@@ -15,15 +15,4 @@
 		<% end %>
 	</div>
 	
-	<div style="display: inline-block; width: 30em; margin: 1em; vertical-align: top;">
-		<h3>Kollektionen <a href="#">Was sind Kollektionen?</a></h3>
-		<% Media::Collection.all.each do |collection| %>
-			<%= content_tag :div, :class => "sidebar-box" do
-				content_tag :h4 do
-					"#{link_to(collection.title, add_member_media_set_path(collection, :params => params), :method => :post)} von #{collection.user}"
-				end
-			end %>
-		<% end %>
-	</div>
-
 <% end %>

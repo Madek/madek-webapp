@@ -123,8 +123,8 @@ end
 def find_media_entry_titled(title)
   wait_for_css_element("div.item_box")
   found_item = nil
+  wait_for_css_element("#results.item_box")
   all(".item_box").each do |item|
-    #debugger; puts "lala"
     if !item.find(".item_title").text.match(/#{title}/).nil?
       found_item = item
     end
@@ -349,11 +349,10 @@ end
 def add_to_set(set_title = "Untitled Set", picture_title = "Untitled", owner = "No one")
   visit "/resources"
   click_media_entry_titled(picture_title)
-  click_link_or_button("Zu Set/Projekt hinzufügen")
-  select("#{set_title} (#{owner})", :from => "media_set_ids[]")
-  click_link_or_button("Zu ausgewähltem Set/Projekt hinzufügen…")
-  # The set title is displayed on the right-hand side of this page, so we should be able to
-  # see it here.
-  page.should have_content(set_title)
+  find(".has-selection-widget").click
+  wait_for_css_element(".widget .list")
+  find("input##{set_title.gsub(/\s/, "_")}").click
+  find(".widget .submit").click
+  wait_for_css_element(".has-selection-widget:not(.open)")
 end
 

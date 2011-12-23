@@ -36,10 +36,11 @@ MAdeK::Application.routes.draw do
   
 ###############################################
 
+  match '/download', :controller => 'download', :action => 'download'
+  
   match '/import', :to => Upload
   match '/upload.js', :to => Upload
   match '/upload_estimation.js', :to => UploadEstimation
-  match '/download', :to => Download
   match '/nagiosstat', :to => Nagiosstat
 
 ###############################################
@@ -68,6 +69,7 @@ MAdeK::Application.routes.draw do
     member do
       post :toggle_favorites
       post :media_sets
+      delete :media_sets
       get :edit_tms
       get :to_snapshot
       #temp# :graph_nodes => :get,
@@ -145,10 +147,11 @@ MAdeK::Application.routes.draw do
 
   resources :media_sets do #-# TODO , :except => :index # the index is only used to create new sets
     member do
-      get :browse
-      get :abstract
-      post :parents
       delete :parents
+      get :abstract
+      get :browse
+      get :inheritable_contexts
+      post :parents
     end
     
     resources :media_sets #-# only used for FeaturedSet 
@@ -189,6 +192,7 @@ MAdeK::Application.routes.draw do
   
   resource :session
 
+#__ Admin namespace __##############################################################
 ####################################################################################
 
   namespace :admin do

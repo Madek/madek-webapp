@@ -1,14 +1,14 @@
 Feature: Do things to and with sets and projects
 
-  Foo Bar
+  In order to be able to work with sets and entries
+  As a normal user
+  I want to have functionalities for create and edit sets and manage entries
 
   Background: Set up the world and some users
     Given I have set up the world
       And a user called "Helmut Kohl" with username "helmi" and password "saumagen" exists
       And a user called "Mikhail Gorbachev" with username "gorbi" and password "glasnost" exists
 
-
-  # This test makes sure that the titles we give are actually saved and also displayed/cached properly
   @javascript
   Scenario: Upload an image, then go to the detail page and add it to a set
     When I log in as "helmi" with password "saumagen"
@@ -28,19 +28,16 @@ Feature: Do things to and with sets and projects
      And I go to the media entries
      And I wait for the CSS element "div.page div.item_box"
      And I click the media entry titled "into the set after uploading"
-     And I follow "Zu Set/Projekt hinzufügen"
-     And I press "Neues Set erstellen"
-     And I wait for the CSS element "#text_media_set"
-     And I fill in the set title with "After-Upload Set"
-     And I press "Hinzufügen"
-     And I press "Zu ausgewähltem Set/Projekt hinzufügen…"
+     And I open the selection widget for this entry
+     And I create a new set named "After-Upload Set"
+     And I submit the selection widget
      And I go to the home page
     Then I should see "into the set after uploading"
     When I click the media entry titled "into the set after uploading"
     Then I should see "After-Upload Set"
      And I should not see "Ohne Titel"
 
- @javascript @work
+ @javascript 
   Scenario: Rename a set
     When I log in as "helmi" with password "saumagen"
      And I go to the home page
@@ -58,12 +55,9 @@ Feature: Do things to and with sets and projects
      And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
      And I go to the media entries
      And I click the media entry titled "into the set after uploading"
-     And I follow "Zu Set/Projekt hinzufügen"
-     And I press "Neues Set erstellen"
-     And I wait for the CSS element "#text_media_set"
-     And I fill in the set title with "After-Upload Set"
-     And I press "Hinzufügen"
-     And I press "Zu ausgewähltem Set/Projekt hinzufügen…"
+     And I open the selection widget for this entry
+     And I create a new set named "After-Upload Set"
+     And I submit the selection widget
      And I go to the home page
      And I click the arrow next to "Kohl, Helmut"
      And I follow "Meine Sets"
@@ -76,8 +70,6 @@ Feature: Do things to and with sets and projects
     Then I should see "Die Änderungen wurden gespeichert"
      And I should see "Something new"
      And I should not see "After-Upload Set"
-
-
 
   @javascript
   Scenario: Use a URL in a set description and expect it to turn into a link
@@ -97,12 +89,9 @@ Feature: Do things to and with sets and projects
      And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
      And I go to the media entries
      And I click the media entry titled "Link test"
-     And I follow "Zu Set/Projekt hinzufügen"
-     And I press "Neues Set erstellen"
-     And I wait for the CSS element "#text_media_set"
-     And I fill in the set title with "Testing the link"
-     And I press "Hinzufügen"
-     And I press "Zu ausgewähltem Set/Projekt hinzufügen…"
+     And I open the selection widget for this entry
+     And I create a new set named "After-Upload Set"
+     And I submit the selection widget
      And I go to the home page
     Then I should see "Link test"
     When I click the media entry titled "Link test"

@@ -4,7 +4,7 @@
 		- Media::Set.where(:type => "Media::Set").each do |set|
 			- # TODO next if set is private ??
 			%li
-				= check_box_tag "children[]", set.id, @set.children.include?(set)
+				= check_box_tag "children[]", set.id, @set.child_sets.include?(set)
 				= " #{set} [#{display_permission(set, :string)}] #{set.user}"
 
 	= f.submit _("Submit")
