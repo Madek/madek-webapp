@@ -13,11 +13,11 @@ namespace :madek do
     Rails.env = 'test'
     task :environment
     Rake::Task["madek:reset"].invoke
-    system "bundle exec rspec spec"
+    system "bundle exec rspec --format d --format html --out tmp/html/rspec.html spec"
     exit_code = $? >> 8 # magic brainfuck
     raise "Tests failed with: #{exit_code}" if exit_code != 0
 
-    system "bundle exec cucumber features"
+    system "bundle exec cucumber --format pretty --format junit --out tmp/junit --format html --out tmp/html/cucumber.html features"
     exit_code = $? >> 8 # magic brainfuck
     raise "Tests failed with: #{exit_code}" if exit_code != 0
 
