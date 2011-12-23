@@ -91,13 +91,24 @@ class MediaSetsController < ApplicationController
                            :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
       }
       format.js {
-        #FE# render :json => @media_set.as_json(:user => current_user)
-        json = {:id => @media_set.id, :title => @media_set.title}
-
-        if options_for_media_entries and options_for_media_entries.is_a? Hash
-          options_for_media_entries.reverse_merge!(:only => :id, :methods => :title, :user => current_user)
-          json.merge!(:entries => resources.as_json(options_for_media_entries))
+        
+        # OPTIMIZE this is a quick-fix for the inview-pagination
+        if params[:page]
+          with_thumb = true
+          json = { :pagination => { :current_page => resources.current_page,
+                                    :per_page => resources.per_page,
+                                    :total_entries => resources.total_entries,
+                                    :total_pages => resources.total_pages },
+                   :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
+        else
+          #FE# render :json => @media_set.as_json(:user => current_user)
+          json = {:id => @media_set.id, :title => @media_set.title}
+          if options_for_media_entries and options_for_media_entries.is_a? Hash
+            options_for_media_entries.reverse_merge!(:only => :id, :methods => :title, :user => current_user)
+            json.merge!(:entries => resources.as_json(options_for_media_entries))
+          end
         end
+        
         render :json => json
       }
     end
