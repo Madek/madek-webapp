@@ -92,10 +92,13 @@
         });
         var submit_value = intersected_ids ? "("+intersected_ids.length+")" : "";
         parent_form.find(".filter_footer #filter-submit > #expected_total_results").html(submit_value);
-        parent_form.find("input#filter_ids").val(intersected_ids.join(','));
+        parent_form.data("tmp_intersected_ids", intersected_ids);
       });
   
-      $(".filter_content form").live('ajax:complete.rails', function(xhr, response){ // TODO ajax:success ??
+      $(".filter_content form").live('ajax:before', function(){
+        var _this = $(this); 
+        _this.find("input#filter_ids").val(_this.data("tmp_intersected_ids").join(','));
+      }).live('ajax:complete.rails', function(xhr, response){ // TODO ajax:success ??
         $(this).data("paginate_using_filter", true);
         var json = JSON.parse(response.responseText);
         var container = $("#results");
