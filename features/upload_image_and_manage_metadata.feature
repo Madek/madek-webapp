@@ -184,7 +184,7 @@ Feature: Upload images and manage media entries based on images
     When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "mein lieblingsknödel"
      And I go to the media entries
-     And all the hidden items become visible
+     And all the entries controls become visible
      And I toggle the favorite star on the media entry titled "mein lieblingsknödel"
      And I click on the arrow next to "Kohl, Helmut"
      And I follow "Meine Favoriten"
@@ -206,13 +206,13 @@ Feature: Upload images and manage media entries based on images
     When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "mein lieblingsbier"
      And I go to the media entries
-     And all the hidden items become visible
+     And all the entries controls become visible
      And I toggle the favorite star on the media entry titled "mein lieblingsbier"
      And I click on the arrow next to "Kohl, Helmut"
      And I follow "Meine Favoriten"
     Then I should see "mein lieblingsbier"
     When I go to the media entries
-     And all the hidden items become visible
+     And all the entries controls become visible
      And I toggle the favorite star on the media entry titled "mein lieblingsbier"
      And I click on the arrow next to "Kohl, Helmut"
      And I follow "Meine Favoriten"
@@ -223,7 +223,7 @@ Feature: Upload images and manage media entries based on images
     When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "mein lieblingsflugzeug"
      And I go to the media entries
-     And all the hidden items become visible
+     And all the entries controls become visible
      And I click the delete icon on the media entry titled "mein lieblingsflugzeug"
      And I go to the media entries
     Then I should not see "mein lieblingsflugzeug"

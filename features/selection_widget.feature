@@ -32,7 +32,7 @@ Feature: Selection Widget for Sets in Sets and Entries in Sets
       
       And I log in as "max" with password "moritz"
   
-  @javascript @current
+  @javascript
   Scenario: User goes to a set and opens the widget. The current set should not be visible.
     When I open the "My Act Photos" set
     And I open the selection widget for this set
