@@ -26,7 +26,16 @@
           - if @can_edit_set
             = display_edit_icon(@media_set, current_user)
             = display_delete_icon(@media_set, current_user)
-          = link_to "#", :panel => "media_set", :title => "Zu Set/Projekt hinzufügen" do
+          = link_to "", :title => "Zu Set/Projekt hinzufügen",
+            :class=>"has-selection-widget",
+            :"data-id" => "#{@media_set.id}",
+            :"data-detach_my_self" => "true",
+            :"data-after_submit" => "window.location.reload();",
+            :"data-child_name" => "child_sets",
+            :"data-index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "with" => {"set" => {"child_sets" => 1}}}}.to_json}",
+            :"data-create" => "#{{"path" => "/media_sets", "method" => "POST", "data" => {"media_set" => "{:array}"}, "array" => {"meta_data_attributes" => {0 => {"meta_key_id" => 3, "value" => "{:title}"}}}}.to_json}",
+            :"data-link" => "#{{"path" => "/media_sets/"+@media_set.id.to_s+"/parents", "method" => "POST", "data" => {"media_set_ids" => "{:array}"}, "array" => "{:id}"}.to_json}",
+            :"data-unlink" => "#{{"path" => "/media_sets/"+@media_set.id.to_s+"/parents", "method" => "DELETE", "data" => {"media_set_ids" => "{:array}"}, "array" => "{:id}"}.to_json}" do
             .button_addto
 
       .grid_9
@@ -68,7 +77,7 @@
   -if(@parents.size > 0)
     %div.page_title_left.set_parents_title
       .icon_set_parents
-      = _("Set enthalten in:")
+      = _("Set enthalten in")
       %span
         = _("Dieses Set ist in %s enthalten") % pluralize(@parents.size, "Set")
     .clear
@@ -76,7 +85,7 @@
   
   %div.page_title_left
     %div{:class => icon_class}
-    = _("Set enthält:")
+    = _("Set enthält")
     %span
       =#old# "#{@media_entries[:pagination][:total_entries]} von #{@media_set.media_entries.count} Medieneinträge für Sie sichtbar"
       = "#{@media_entries[:pagination][:total_entries]} von #{MediaResource.by_media_set(@media_set).count} für Sie sichtbar"

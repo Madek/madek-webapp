@@ -71,7 +71,10 @@ module Media
     end
     
   ########################################################
+  
     def to_s
+      return "Beispielhafte Sets" if is_featured_set?
+
       s = "#{title} " 
       s += "- %s " % self.class.name.split('::').last # OPTIMIZE get class name without module name
       # TODO filter accessible ??
@@ -81,9 +84,38 @@ module Media
   
   ########################################################
 
+    def is_featured_set?
+      !self.id.nil? and self.id == AppSettings.featured_set_id
+    end
+
+    def self.featured_set
+      where(:id => AppSettings.featured_set_id).first
+    end
+
+    def self.featured_set=(media_set)
+      AppSettings.featured_set_id = media_set.id
+    end
+  
+  ########################################################
+
     def as_json(options={})
-      h = { :is_set => true }
-      super(options).merge(h)
+      options ||= {}
+      json = super(options)
+      
+      json[:is_set] = true # TODO use :type instead of :is_set 
+      
+      if(with = options[:with])
+        if(with[:set])
+          if with[:set].has_key?(:child_sets) and (with[:set][:child_sets].is_a?(Hash) or not with[:set][:child_sets].to_i.zero?)
+            json[:child_sets] = child_sets.as_json(options)
+          end
+          if with[:set].has_key?(:media_entries) and (with[:set][:media_entries].is_a?(Hash) or not with[:set][:media_entries].to_i.zero?)
+            json[:media_entries] = media_entries.as_json(options)
+          end
+        end
+      end
+      
+      json
   end
 
   ########################################################

@@ -103,7 +103,7 @@ namespace :app do
 
       #####################################################
       puts "Exporting media_featured_set..."
-      media_featured_set_id = Media::FeaturedSet.first.try(:id)
+      media_featured_set_id = AppSettings.featured_set_id
 
       #####################################################
       puts "Exporting media_entries..."

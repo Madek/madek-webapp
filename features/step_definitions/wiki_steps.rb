@@ -65,7 +65,7 @@ Then /^I should see a message that I'm not allowed to do that$/ do
 end
 
 Then /^I should see a "([^"]*)" link on the page$/ do |text|
-  find_link( text ).should_not be_nil
+  find_link(text).should_not be_nil
 end
 
 Then 'there should be an image with title "$title"' do |title|

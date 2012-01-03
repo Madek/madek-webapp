@@ -69,6 +69,7 @@ MAdeK::Application.routes.draw do
     member do
       post :toggle_favorites
       post :media_sets
+      delete :media_sets
       get :edit_tms
       get :to_snapshot
       #temp# :graph_nodes => :get,

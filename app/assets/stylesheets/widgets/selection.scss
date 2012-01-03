@@ -1,4 +1,5 @@
 @import "../mixins.scss";
+@import "../variables.scss";
 
 .widget.selection {
   background: white;
@@ -14,11 +15,25 @@
   &>h5 {
     padding-left: 6px;
     margin-bottom: 6px;
-    margin-top: 2px;
+    margin-top: 6px;
   }
   
+  .loading.icon {
+    display: block;
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    
+    img {
+      height: 16px;
+      width: 16px;
+    }
+  }
   
   &>.search {
+    display: block;
+    margin: 0 0 2px 0;
+    padding: 0;
     position: relative;
     
     &>input {
@@ -32,13 +47,21 @@
       position: relative;
       width: 191px;
       @include box-shadow(0 0 4px #CCC);
+      
+      &:focus {
+        &+.icon {
+          @include opacity(0.8);
+        }
+      }
     }
     
     &>.hint {
       font-size: 1.0em;
+      margin: 0;
+      padding: 0;
       position: absolute;
-      left: 6px;
-      bottom: 1px;
+      left: 7px;
+      top: 3px;
     }
     
     &:hover {
@@ -46,6 +69,29 @@
         &+.hint {
           color: black !important;
         }
+      }
+    }
+    
+    .icon {
+      background: url($sprite) no-repeat;
+      display: block;
+      height: 15px;
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      width: 16px;
+      @include opacity(0.5);
+    }
+    
+    &:hover {
+      .icon {
+        @include opacity(0.8);
+      }
+    }
+    
+    &.disabled:hover {
+      .icon {
+        @include opacity(0.5);
       }
     }
   }
@@ -100,6 +146,21 @@
       margin: 0;
       padding: 0;      
     }
+    
+    &>.button {
+      display: none;
+      height: 18px;
+      padding: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 18px;
+      
+      &>span {
+        position: relative;
+        top: -2px;
+      }
+    }
   }
   
   &>.actions {
@@ -121,42 +182,61 @@
     button.submit {
       float: right;
       margin-right: 12px;
+      
+      &>.success.icon {
+        background: url($sprite) no-repeat -17px 0;
+        display: block;
+        height: 15px;
+        margin: 0 auto;
+        width: 16px;
+      }
     }
   }
   
-  &>ul {
+  &>.list {
     display: block;
-    height: 145px;
+    max-height: 147px;
     overflow-y: scroll;
+    padding-bottom: 19px;
+    position: relative;   
     
-    &>li {
-      background: #FEE;
-      border-bottom: 1px solid white;
-      display: block;
-      font-size: 0.9em;
-      float: none;
+    &>ul {
       
-      label {
-        cursor: pointer;
+      &>li {
+        background: #FEE;
+        border-bottom: 1px solid white;
         display: block;
-        padding-left: 6px;
-        width: 179px;
+        font-size: 0.9em;
+        float: none;
+        position: relative;
         
-        &>input[type=checkbox] {
-          cursor: pointer;
-          margin-right: 4px;
-          position: relative;
-          top: -2px;
+        &:hover {
+          background: white;
         }
-      }
-      
-      &:hover {
-        background: white;
-      }
-      
-      &:nth-last-child(1) {
-        margin-bottom: 19px;
+        
+        label {
+          cursor: pointer;
+          display: block;
+          padding-right: 12px;
+          padding-left: 6px;
+          white-space: nowrap;
+          width: 166px;
+          
+          &>input[type=checkbox] {
+            cursor: pointer;
+            margin-right: 4px;
+            position: relative;
+            top: -2px;
+          }
+        }
+        
+        &.created {
+          .delete {
+            display: inline-block;
+          }          
+        }
       }
     }
   }
+  
 }

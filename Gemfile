@@ -7,7 +7,6 @@ gem 'i18n' # Need this explicitly, otherwise can't deploy
 
 gem 'mysql2', '~> 0.3.8'  
 gem 'pg'
-gem 'squeel'
 #tmp# gem 'memcache-client' #gem 'dalli' #gem 'redis-store'
 
 #tmp# dependency for linecache
@@ -29,9 +28,14 @@ group :assets do
   gem 'uglifier', '~> 1.1'
 end
 
-gem 'cancan', '~> 1.6'
+#tmp# gem 'cancan', '~> 1.6'
+
+gem 'ledermann-rails-settings', :require => 'rails-settings' # alternatives: 'settingslogic', 'settler', 'rails_config', 'settings', 'simpleconfig' 
 
 gem 'will_paginate', '~> 3.0' 
+
+gem "yard", "~> 0.7.4"
+#gem "yard-rest-plugin", "~> 0.2.5" FIXME this plugin is not working
 
 gem 'zip', '~> 2.0.2' # alternatives: 'rubyzip', 'zipruby', 'zippy'
 gem 'rgl', '~> 0.4.0', :require => 'rgl/adjacency'
@@ -71,6 +75,7 @@ group :development do
 end
 
 group :test do
+  gem 'cover_me'
   gem 'capybara', '~> 1.1'
   gem 'cucumber'#, '~> 1.0.3'
   gem 'cucumber-rails'#, '~> 1.0.2'

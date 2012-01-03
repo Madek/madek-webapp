@@ -1,5 +1,8 @@
 # -*- encoding : utf-8 -*-
 
+class Media::FeaturedSet < Media::Set
+end
+
 class Media::SetLink < ActiveRecord::Base
   def self.table_name_prefix
     "media_"

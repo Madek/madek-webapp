@@ -84,9 +84,46 @@ Given /^a group called "([^"]*)" exists$/ do |groupname|
   create_group(groupname)
 end
 
+Given /^a set titled "(.+)" created by "(.+)" exists$/ do |title, username|
+  user = User.where(:login => username).first
+  meta_data = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
+  set = user.media_sets.create(meta_data)
+end
+
+Given /^a entry titled "(.+)" created by "(.+)" exists$/ do |title, username|
+  user = User.where(:login => username).first
+  upload_session = UploadSession.create(:user => user)
+  f = "#{Rails.root}/features/data/images/berlin_wall_01.jpg"
+  uploaded_data = { :type=> "image/jpeg",
+                    :tempfile=> File.new(f, "r"),
+                    :filename=> File.basename(f)}
+  media_file = MediaFile.create(:uploaded_data => uploaded_data)
+  entry = upload_session.media_entries.create(:media_file => media_file)
+  upload_session.update_attributes(:is_complete => true)
+
+  h = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
+  entry.reload.update_attributes(h, user)
+end
+
+Given /^the last entry is child of the last set/ do
+  parent_set = Media::Set.all.sort_by(&:id).last
+  entry = MediaEntry.all.sort_by(&:id).last
+  parent_set.media_entries.push_uniq entry
+end
+
+Given /^the last set is parent of the (.+) set$/ do |offset|
+  parent_set = Media::Set.all.sort_by(&:id).last
+  child_set = Media::Set.all.sort_by(&:id)[offset.to_i-1]
+  parent_set.child_sets << child_set
+end
+
 When /^I debug$/ do
   debugger; puts "lala"
 end
+
+When /^I use pry$/ do
+  binding.pry
+end 
 
 When /^I upload some picture titled "([^"]*)"$/ do |title|
   upload_some_picture(title)

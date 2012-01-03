@@ -58,11 +58,12 @@ class Admin::MediaSetsController < Admin::AdminController
 #####################################################
 
   def featured
-    @set = Media::FeaturedSet.first || Media::FeaturedSet.new(:user => current_user)
+    @set = Media::Set.featured_set || Media::Set.new(:user => current_user)
     if request.post?
       if @set.new_record?
         @set.save
         @set.default_permission.set_actions({:view => true})
+        Media::Set.featured_set = @set
       end
       @set.child_sets.delete_all
       @set.child_sets << Media::Set.find(params[:children]) unless params[:children].blank?
