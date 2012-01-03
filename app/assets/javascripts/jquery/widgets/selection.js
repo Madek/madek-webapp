@@ -157,7 +157,8 @@ function SelectionWidget() {
     $(target).data("widget").find(".list li").each(function(i_item, item){
       if($(this).tmplItem().data[$(target).data("child_name")] != undefined) {
         // check if the element is the set themself and remove
-        if($(target).data("detach_my_self") == "true" && $(target).data("id") == $(this).tmplItem().data.id) {
+        console.log($(target).data("detach_my_self"));
+        if(parseInt($(target).data("id")) == $(this).tmplItem().data.id && $(target).data("detach_my_self") == true) {
           $(this).detach();
         }
         
