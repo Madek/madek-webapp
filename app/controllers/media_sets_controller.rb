@@ -78,7 +78,7 @@ class MediaSetsController < ApplicationController
     paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
     resources = MediaResource.accessible_by_user(current_user).by_media_set(@media_set).paginate(paginate_options)
     
-    @can_edit_set = Permission.authorized?(current_user, :edit, @media_set)
+    @can_edit_set = Permissions.authorized?(current_user, :edit, @media_set)
     @parents = @media_set.parent_sets.as_json(:user => current_user)
     
     respond_to do |format|
@@ -260,12 +260,12 @@ class MediaSetsController < ApplicationController
   def parents(media_set_ids = params[:media_set_ids])
     if request.post?
       Media::Set.find_by_id_or_create_by_title(media_set_ids, current_user).each do |media_set|
-        next unless Permission.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
+        next unless Permissions.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
         @media_set.parent_sets << media_set
       end
     elsif request.delete?
       Media::Set.find(media_set_ids).each do |media_set|
-        next unless Permission.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
+        next unless Permissions.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
         @media_set.parent_sets.delete(media_set)
       end
     end
@@ -296,7 +296,7 @@ class MediaSetsController < ApplicationController
     end
     if @media_set
       resource = @media_set
-      not_authorized! unless Permission.authorized?(current_user, action, resource) # TODO super ??
+      not_authorized! unless Permissions.authorized?(current_user, action, resource) # TODO super ??
     else
       flash[:error] = "Kein Medienset ausgewählt."
       redirect_to :back

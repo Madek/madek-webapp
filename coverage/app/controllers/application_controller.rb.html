@@ -2,8 +2,8 @@
   <head>
     <title>app/controllers/application_controller.rb</title>
     
-    <link href="../../report.css?0.4786292818800274" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.9820120995110455'></script>
+    <link href="../../report.css?0.8249037978019307" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.6277894722014827'></script>
     <script>
       $(function() {
 
@@ -218,7 +218,7 @@
               <td class='code_line'>
                 <pre>    !!current_user</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="never" "">
@@ -250,7 +250,7 @@
               <td class='code_line'>
                 <pre>    @current_user ||= login_from_session</pre>
               </td>
-              <td class='hit_number'>12</td>
+              <td class='hit_number'>24</td>
             </tr>
           
             <tr class="never" "">
@@ -858,7 +858,7 @@
               <td class='code_line'>
                 <pre>    unless logged_in?</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -922,7 +922,7 @@
               <td class='code_line'>
                 <pre>    session[:user_id] = new_user ? new_user.id : nil</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -930,7 +930,7 @@
               <td class='code_line'>
                 <pre>    @current_user = new_user || false</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="never" "">
@@ -962,7 +962,7 @@
               <td class='code_line'>
                 <pre>    user = nil</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -970,7 +970,7 @@
               <td class='code_line'>
                 <pre>    if session[:user_id]</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="never" "">
@@ -986,7 +986,7 @@
               <td class='code_line'>
                 <pre>      self.current_user = user = User.where(:id => session[:user_id]).first</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -994,7 +994,7 @@
               <td class='code_line'>
                 <pre>      check_usage_terms_accepted</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="never" "">
@@ -1058,7 +1058,7 @@
               <td class='code_line'>
                 <pre>    user</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="never" "">
@@ -1090,7 +1090,7 @@
               <td class='code_line'>
                 <pre>    return if request[:action].to_sym == :usage_terms # OPTIMIZE</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -1098,7 +1098,7 @@
               <td class='code_line'>
                 <pre>    unless current_user.usage_terms_accepted?</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1226,6 +1226,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-03 12:29:31 +0100</p>
+    <p>Generated on: 2012-01-03 16:03:00 +0100</p>
   </body>
 </html>

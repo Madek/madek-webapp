@@ -2,8 +2,8 @@
   <head>
     <title>app/models/permission.rb</title>
     
-    <link href="../../report.css?0.3425407079132071" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.2752172077741669'></script>
+    <link href="../../report.css?0.8343926031318588" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.25098183309163447'></script>
     <script>
       $(function() {
 
@@ -60,8 +60,8 @@
         </td>
         <td>199</td>
         <td>102</td>
-        <td>47</td>
-        <td>53.9%</td>
+        <td>82</td>
+        <td>19.6%</td>
       </tr>
     </table>
 
@@ -165,7 +165,7 @@
               <td class='code_line'>
                 <pre>  validates_numericality_of :action_mask, :greater_than => 0, :unless => Proc.new { |resource| resource_type.nil? }  </pre>
               </td>
-              <td class='hit_number'>156</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -216,44 +216,44 @@
               <td class='hit_number'>2</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>17</td>
               <td class='code_line'>
                 <pre>    h = {}</pre>
               </td>
-              <td class='hit_number'>16</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>18</td>
               <td class='code_line'>
                 <pre>    ACTIONS.each_with_index do |a, i|</pre>
               </td>
-              <td class='hit_number'>16</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>19</td>
               <td class='code_line'>
                 <pre>      j = 2 ** i</pre>
               </td>
-              <td class='hit_number'>64</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>20</td>
               <td class='code_line'>
                 <pre>      next if (j & action_mask).zero?</pre>
               </td>
-              <td class='hit_number'>64</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>21</td>
               <td class='code_line'>
                 <pre>      h[a] = !(j & action_bits).zero? </pre>
               </td>
-              <td class='hit_number'>28</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -264,12 +264,12 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>23</td>
               <td class='code_line'>
                 <pre>    h</pre>
               </td>
-              <td class='hit_number'>16</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -296,52 +296,52 @@
               <td class='hit_number'>2</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>27</td>
               <td class='code_line'>
                 <pre>    hash.each_pair do |key, value|</pre>
               </td>
-              <td class='hit_number'>146</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>28</td>
               <td class='code_line'>
                 <pre>      i = ACTIONS.index(key.to_sym)</pre>
               </td>
-              <td class='hit_number'>450</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>29</td>
               <td class='code_line'>
                 <pre>      next unless i</pre>
               </td>
-              <td class='hit_number'>450</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>30</td>
               <td class='code_line'>
                 <pre>      j = 2 ** i</pre>
               </td>
-              <td class='hit_number'>450</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>31</td>
               <td class='code_line'>
                 <pre>      value = (value == "true" ? true : false) if value.is_a? String </pre>
               </td>
-              <td class='hit_number'>450</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>32</td>
               <td class='code_line'>
                 <pre>      case value</pre>
               </td>
-              <td class='hit_number'>450</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -376,20 +376,20 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>37</td>
               <td class='code_line'>
                 <pre>          self.action_bits |= j</pre>
               </td>
-              <td class='hit_number'>426</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>38</td>
               <td class='code_line'>
                 <pre>          self.action_mask |= j</pre>
               </td>
-              <td class='hit_number'>426</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -400,20 +400,20 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>40</td>
               <td class='code_line'>
                 <pre>          self.action_bits &= ~j</pre>
               </td>
-              <td class='hit_number'>24</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>41</td>
               <td class='code_line'>
                 <pre>          self.action_mask |= j</pre>
               </td>
-              <td class='hit_number'>24</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -432,12 +432,12 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>44</td>
               <td class='code_line'>
                 <pre>    if action_mask.zero? and not resource_type.nil? # TODO validation ???</pre>
               </td>
-              <td class='hit_number'>146</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -456,12 +456,12 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>47</td>
               <td class='code_line'>
                 <pre>      save</pre>
               </td>
-              <td class='hit_number'>146</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -576,12 +576,12 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>62</td>
               <td class='code_line'>
                 <pre>      !!merged_actions(subject, resource)[action]</pre>
               </td>
-              <td class='hit_number'>8</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -776,20 +776,20 @@
               <td class='hit_number'>2</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>87</td>
               <td class='code_line'>
                 <pre>      p = where(:subject_id => nil, :subject_type => nil, :resource_type => nil, :resource_id => nil).first</pre>
               </td>
-              <td class='hit_number'>8</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>88</td>
               <td class='code_line'>
                 <pre>      p ? p.actions : {} #1504#</pre>
               </td>
-              <td class='hit_number'>8</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -816,12 +816,12 @@
               <td class='hit_number'>2</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>92</td>
               <td class='code_line'>
                 <pre>      cached_permissions_by(resource).detect {|x| x.subject.nil? }</pre>
               </td>
-              <td class='hit_number'>28</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -848,20 +848,20 @@
               <td class='hit_number'>2</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>96</td>
               <td class='code_line'>
                 <pre>      p = resource_default(resource)</pre>
               </td>
-              <td class='hit_number'>8</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>97</td>
               <td class='code_line'>
                 <pre>      system_default_actions.merge(p ? p.actions : {}) #1504#</pre>
               </td>
-              <td class='hit_number'>8</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -896,28 +896,28 @@
               <td class='hit_number'>2</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>102</td>
               <td class='code_line'>
                 <pre>      p = resource.permissions.all</pre>
               </td>
-              <td class='hit_number'>24</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>103</td>
               <td class='code_line'>
                 <pre>      p << resource.permissions.build(:subject => nil) unless p.any? {|x| x.subject.nil?} #2904# OPTIMIZE</pre>
               </td>
-              <td class='hit_number'>60</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>104</td>
               <td class='code_line'>
                 <pre>      p</pre>
               </td>
-              <td class='hit_number'>24</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -1336,12 +1336,12 @@
               <td class='hit_number'>2</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>157</td>
               <td class='code_line'>
                 <pre>      actions = resource_default_actions(resource)</pre>
               </td>
-              <td class='hit_number'>8</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -1352,20 +1352,20 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>159</td>
               <td class='code_line'>
                 <pre>      if subject</pre>
               </td>
-              <td class='hit_number'>8</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>160</td>
               <td class='code_line'>
                 <pre>        if subject.class == User # OPTIMIZE could be the subject argument a Group ?? </pre>
               </td>
-              <td class='hit_number'>8</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -1376,20 +1376,20 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>162</td>
               <td class='code_line'>
                 <pre>          group_permissions = cached_permissions_by(resource).select {|x| x.subject_type == "Group" and subject.group_ids.include?(x.subject_id) }</pre>
               </td>
-              <td class='hit_number'>28</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>163</td>
               <td class='code_line'>
                 <pre>          group_permissions.each do |group_permission|</pre>
               </td>
-              <td class='hit_number'>8</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1448,20 +1448,20 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>171</td>
               <td class='code_line'>
                 <pre>        perm_subject_resource = cached_permissions_by(resource).detect {|x| x.subject_type == subject.class.base_class.name and x.subject_id == subject.id }</pre>
               </td>
-              <td class='hit_number'>16</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>172</td>
               <td class='code_line'>
                 <pre>        actions = actions.merge(perm_subject_resource.actions) if perm_subject_resource #1504#</pre>
               </td>
-              <td class='hit_number'>8</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -1472,12 +1472,12 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>174</td>
               <td class='code_line'>
                 <pre>      actions</pre>
               </td>
-              <td class='hit_number'>8</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -1714,7 +1714,7 @@
               <tr class="never">
                 <td class='line_number'>4</td>
                 <td class='code_line'>
-                  <pre></pre>
+                  <pre>#</pre>
                 </td>
               </tr>
               
@@ -1722,7 +1722,7 @@
               <tr class="never">
                 <td class='line_number'>5</td>
                 <td class='code_line'>
-                  <pre>  it "should be producible by a factory" do</pre>
+                  <pre>#  it "should be producible by a factory" do</pre>
                 </td>
               </tr>
               
@@ -1730,7 +1730,7 @@
               <tr class="never">
                 <td class='line_number'>6</td>
                 <td class='code_line'>
-                  <pre>    (FactoryGirl.create :permission).should_not == nil</pre>
+                  <pre>#    (FactoryGirl.create :permission).should_not == nil</pre>
                 </td>
               </tr>
               
@@ -1738,7 +1738,7 @@
               <tr class="never">
                 <td class='line_number'>7</td>
                 <td class='code_line'>
-                  <pre>  end</pre>
+                  <pre>#  end</pre>
                 </td>
               </tr>
               
@@ -1746,7 +1746,7 @@
               <tr class="never">
                 <td class='line_number'>8</td>
                 <td class='code_line'>
-                  <pre></pre>
+                  <pre>#</pre>
                 </td>
               </tr>
               
@@ -1754,7 +1754,7 @@
               <tr class="never">
                 <td class='line_number'>9</td>
                 <td class='code_line'>
-                  <pre>  context "an 'empty' permission" do</pre>
+                  <pre>#  context "an 'empty' permission" do</pre>
                 </td>
               </tr>
               
@@ -1762,7 +1762,7 @@
               <tr class="never">
                 <td class='line_number'>10</td>
                 <td class='code_line'>
-                  <pre></pre>
+                  <pre>#</pre>
                 </td>
               </tr>
               
@@ -1770,7 +1770,7 @@
               <tr class="never">
                 <td class='line_number'>11</td>
                 <td class='code_line'>
-                  <pre>    before :each do </pre>
+                  <pre>#    before :each do </pre>
                 </td>
               </tr>
               
@@ -1778,7 +1778,7 @@
               <tr class="never">
                 <td class='line_number'>12</td>
                 <td class='code_line'>
-                  <pre>      @permission = (FactoryGirl.create :permission)</pre>
+                  <pre>#      @permission = (FactoryGirl.create :permission)</pre>
                 </td>
               </tr>
               
@@ -1786,7 +1786,7 @@
               <tr class="never">
                 <td class='line_number'>13</td>
                 <td class='code_line'>
-                  <pre>    end</pre>
+                  <pre>#    end</pre>
                 </td>
               </tr>
               
@@ -1794,7 +1794,7 @@
               <tr class="never">
                 <td class='line_number'>14</td>
                 <td class='code_line'>
-                  <pre></pre>
+                  <pre>#</pre>
                 </td>
               </tr>
               
@@ -1802,7 +1802,7 @@
               <tr class="never">
                 <td class='line_number'>15</td>
                 <td class='code_line'>
-                  <pre>    it "should not be vieable by default" do</pre>
+                  <pre>#    it "should not be vieable by default" do</pre>
                 </td>
               </tr>
               
@@ -1810,7 +1810,7 @@
               <tr class="never">
                 <td class='line_number'>16</td>
                 <td class='code_line'>
-                  <pre>      Permission.authorized?(@permission.subject,:view,@permission.resource).should == false</pre>
+                  <pre>#      Permission.authorized?(@permission.subject,:view,@permission.resource).should == false</pre>
                 </td>
               </tr>
               
@@ -1818,7 +1818,7 @@
               <tr class="never">
                 <td class='line_number'>17</td>
                 <td class='code_line'>
-                  <pre>    end</pre>
+                  <pre>#    end</pre>
                 </td>
               </tr>
               
@@ -1826,7 +1826,7 @@
               <tr class="never">
                 <td class='line_number'>18</td>
                 <td class='code_line'>
-                  <pre></pre>
+                  <pre>#</pre>
                 </td>
               </tr>
               
@@ -1834,7 +1834,7 @@
               <tr class="never">
                 <td class='line_number'>19</td>
                 <td class='code_line'>
-                  <pre>    it "should be setable to allow view"  do</pre>
+                  <pre>#    it "should be setable to allow view"  do</pre>
                 </td>
               </tr>
               
@@ -1842,7 +1842,7 @@
               <tr class="never">
                 <td class='line_number'>20</td>
                 <td class='code_line'>
-                  <pre>      @permission.set_actions(:view => true)</pre>
+                  <pre>#      @permission.set_actions(:view => true)</pre>
                 </td>
               </tr>
               
@@ -1850,7 +1850,7 @@
               <tr class="never">
                 <td class='line_number'>21</td>
                 <td class='code_line'>
-                  <pre>      @permission.save!</pre>
+                  <pre>#      @permission.save!</pre>
                 </td>
               </tr>
               
@@ -1858,7 +1858,7 @@
               <tr class="never">
                 <td class='line_number'>22</td>
                 <td class='code_line'>
-                  <pre>      Permission.authorized?(@permission.subject,:view,@permission.resource).should == true</pre>
+                  <pre>#      Permission.authorized?(@permission.subject,:view,@permission.resource).should == true</pre>
                 </td>
               </tr>
               
@@ -1866,7 +1866,7 @@
               <tr class="never">
                 <td class='line_number'>23</td>
                 <td class='code_line'>
-                  <pre>    end</pre>
+                  <pre>#    end</pre>
                 </td>
               </tr>
               
@@ -1874,7 +1874,7 @@
               <tr class="never">
                 <td class='line_number'>24</td>
                 <td class='code_line'>
-                  <pre></pre>
+                  <pre>#</pre>
                 </td>
               </tr>
               
@@ -1882,7 +1882,7 @@
               <tr class="never">
                 <td class='line_number'>25</td>
                 <td class='code_line'>
-                  <pre>  end</pre>
+                  <pre>#  end</pre>
                 </td>
               </tr>
               
@@ -1908,6 +1908,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-03 12:29:31 +0100</p>
+    <p>Generated on: 2012-01-03 16:03:00 +0100</p>
   </body>
 </html>

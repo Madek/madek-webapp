@@ -51,8 +51,6 @@ module Resource
     base.has_many :userpermissions, :as => :resource, :dependent => :destroy
     base.has_many :grouppermissions, :as => :resource, :dependent => :destroy
 
-    base.has_many  :permissions, :as => :resource, :dependent => :destroy
-    base.before_validation { permissions.delete_if {|p| p.new_record? and p.subject.nil? and p.invalid? } } #2904# OPTIMIZE
     base.after_create :generate_permissions
 
     base.has_many  :edit_sessions, :as => :resource, :dependent => :destroy, :readonly => true
@@ -349,23 +347,27 @@ module Resource
 
 private
 
+  # TODO check with franco permissions for snapshot 
   def generate_permissions
-    # OPTIMIZE
-    unless self.class == Snapshot
-      subject = self.user
+    if self.class == Snapshot
+      group = Group.find_or_create_by_name("MIZ-Archiv") 
+      gp = Grouppermission.create  \
+        group: group, 
+        resource: self,
+        may_download_high_resolution: true,
+        may_edit: true,
+        may_manage: true,
+        may_view: true
     else
-      #1504#
-      h = media_entry.default_permission.actions
-      permissions.build(:subject => nil).set_actions(h) unless h.blank?
-      subject = Group.find_or_create_by_name("MIZ-Archiv") # Group.scoped_by_name("MIZ-Archiv").first
+      up = Userpermission.create \
+        user: owner, 
+        resource: self,
+        may_download_high_resolution: true,
+        may_edit: true,
+        may_manage: true,
+        may_view: true
     end
-
-    # TODO validates presence of the owner's permissions?
-    if subject
-     user_default_permissions = {:view => true, :edit => true, :manage => true}
-     user_default_permissions[:hi_res] = true if self.class == MediaEntry
-     permissions.build(:subject => subject).set_actions(user_default_permissions)  
-    end # OPTIMIZE
   end
+
 
 end

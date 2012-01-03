@@ -2,8 +2,8 @@
   <head>
     <title>app/models/resource.rb</title>
     
-    <link href="../../report.css?0.35114342633093665" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.06964603355521204'></script>
+    <link href="../../report.css?0.414832701785502" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.4043609386971674'></script>
     <script>
       $(function() {
 
@@ -55,10 +55,10 @@
           app/models/resource.rb
           
         </td>
-        <td>371</td>
-        <td>168</td>
-        <td>118</td>
-        <td>29.8%</td>
+        <td>373</td>
+        <td>161</td>
+        <td>117</td>
+        <td>27.3%</td>
       </tr>
     </table>
 
@@ -98,7 +98,7 @@
               <td class='code_line'>
                 <pre>module Resource</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -122,7 +122,7 @@
               <td class='code_line'>
                 <pre>  def self.included(base)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -146,7 +146,7 @@
               <td class='code_line'>
                 <pre>    base.has_many :meta_data, :as => :resource, :dependent => :destroy do #working here#7 :include => :meta_key</pre>
               </td>
-              <td class='hit_number'>3</td>
+              <td class='hit_number'>6</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -154,7 +154,7 @@
               <td class='code_line'>
                 <pre>      def get(key_id)</pre>
               </td>
-              <td class='hit_number'>3</td>
+              <td class='hit_number'>6</td>
             </tr>
           
             <tr class="never" "">
@@ -218,7 +218,7 @@
               <td class='code_line'>
                 <pre>      def get_value_for(key_id)</pre>
               </td>
-              <td class='hit_number'>3</td>
+              <td class='hit_number'>6</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -314,7 +314,7 @@
               <td class='code_line'>
                 <pre>      def concatenated</pre>
               </td>
-              <td class='hit_number'>3</td>
+              <td class='hit_number'>6</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -322,7 +322,7 @@
               <td class='code_line'>
                 <pre>        all.map(&:to_s).join('; ')</pre>
               </td>
-              <td class='hit_number'>69</td>
+              <td class='hit_number'>131</td>
             </tr>
           
             <tr class="never" "">
@@ -346,7 +346,7 @@
               <td class='code_line'>
                 <pre>    base.accepts_nested_attributes_for :meta_data, :allow_destroy => true,</pre>
               </td>
-              <td class='hit_number'>3</td>
+              <td class='hit_number'>6</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -490,7 +490,7 @@
               <td class='code_line'>
                 <pre>    base.has_many :userpermissions, :as => :resource, :dependent => :destroy</pre>
               </td>
-              <td class='hit_number'>3</td>
+              <td class='hit_number'>6</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -498,7 +498,7 @@
               <td class='code_line'>
                 <pre>    base.has_many :grouppermissions, :as => :resource, :dependent => :destroy</pre>
               </td>
-              <td class='hit_number'>3</td>
+              <td class='hit_number'>6</td>
             </tr>
           
             <tr class="never" "">
@@ -512,29 +512,13 @@
             <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>54</td>
               <td class='code_line'>
-                <pre>    base.has_many  :permissions, :as => :resource, :dependent => :destroy</pre>
-              </td>
-              <td class='hit_number'>3</td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>55</td>
-              <td class='code_line'>
-                <pre>    base.before_validation { permissions.delete_if {|p| p.new_record? and p.subject.nil? and p.invalid? } } #2904# OPTIMIZE</pre>
-              </td>
-              <td class='hit_number'>72</td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>56</td>
-              <td class='code_line'>
                 <pre>    base.after_create :generate_permissions</pre>
               </td>
-              <td class='hit_number'>3</td>
+              <td class='hit_number'>6</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>57</td>
+              <td class='line_number'>55</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -542,31 +526,31 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>58</td>
+              <td class='line_number'>56</td>
               <td class='code_line'>
                 <pre>    base.has_many  :edit_sessions, :as => :resource, :dependent => :destroy, :readonly => true</pre>
               </td>
-              <td class='hit_number'>3</td>
+              <td class='hit_number'>6</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>59</td>
+              <td class='line_number'>57</td>
               <td class='code_line'>
                 <pre>    base.has_many  :editors, :through => :edit_sessions, :source => :user do</pre>
               </td>
-              <td class='hit_number'>3</td>
+              <td class='hit_number'>6</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>60</td>
+              <td class='line_number'>58</td>
               <td class='code_line'>
                 <pre>      def latest</pre>
               </td>
-              <td class='hit_number'>3</td>
+              <td class='hit_number'>6</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>61</td>
+              <td class='line_number'>59</td>
               <td class='code_line'>
                 <pre>        first</pre>
               </td>
@@ -574,7 +558,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>62</td>
+              <td class='line_number'>60</td>
               <td class='code_line'>
                 <pre>      end</pre>
               </td>
@@ -582,11 +566,27 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>63</td>
+              <td class='line_number'>61</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
               <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>62</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>63</td>
+              <td class='code_line'>
+                <pre>    base.validates_presence_of :user, :if => Proc.new { |record| record.respond_to?(:user_id) }</pre>
+              </td>
+              <td class='hit_number'>137</td>
             </tr>
           
             <tr class="never" "">
@@ -600,29 +600,13 @@
             <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>65</td>
               <td class='code_line'>
-                <pre>    base.validates_presence_of :user, :if => Proc.new { |record| record.respond_to?(:user_id) }</pre>
+                <pre>    def update_attributes_with_pre_validation(attributes, current_user = nil)</pre>
               </td>
-              <td class='hit_number'>72</td>
+              <td class='hit_number'>6</td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>66</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>67</td>
-              <td class='code_line'>
-                <pre>    def update_attributes_with_pre_validation(attributes, current_user = nil)</pre>
-              </td>
-              <td class='hit_number'>3</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>68</td>
               <td class='code_line'>
                 <pre>      # we need to deep copy the attributes for batch edit (multiple resources)</pre>
               </td>
@@ -630,7 +614,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>69</td>
+              <td class='line_number'>67</td>
               <td class='code_line'>
                 <pre>      dup_attributes = Marshal.load(Marshal.dump(attributes))</pre>
               </td>
@@ -638,7 +622,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>70</td>
+              <td class='line_number'>68</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -646,7 +630,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>71</td>
+              <td class='line_number'>69</td>
               <td class='code_line'>
                 <pre>      # To avoid overriding at batch update: remove from attribute hash if :keep_original_value and value is blank</pre>
               </td>
@@ -654,7 +638,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>72</td>
+              <td class='line_number'>70</td>
               <td class='code_line'>
                 <pre>      dup_attributes[:meta_data_attributes].delete_if { |key, attr| attr[:keep_original_value] and attr[:value].blank? }</pre>
               </td>
@@ -662,7 +646,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>73</td>
+              <td class='line_number'>71</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -670,7 +654,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>74</td>
+              <td class='line_number'>72</td>
               <td class='code_line'>
                 <pre>      dup_attributes[:meta_data_attributes].each_pair do |key, attr|</pre>
               </td>
@@ -678,7 +662,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>75</td>
+              <td class='line_number'>73</td>
               <td class='code_line'>
                 <pre>        if attr[:value].is_a? Array and attr[:value].all? {|x| x.blank? }</pre>
               </td>
@@ -686,7 +670,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>76</td>
+              <td class='line_number'>74</td>
               <td class='code_line'>
                 <pre>          attr[:value] = nil</pre>
               </td>
@@ -694,7 +678,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>77</td>
+              <td class='line_number'>75</td>
               <td class='code_line'>
                 <pre>        end</pre>
               </td>
@@ -702,7 +686,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>78</td>
+              <td class='line_number'>76</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -710,7 +694,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>79</td>
+              <td class='line_number'>77</td>
               <td class='code_line'>
                 <pre>        # find existing meta_datum, if it exists</pre>
               </td>
@@ -718,7 +702,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>80</td>
+              <td class='line_number'>78</td>
               <td class='code_line'>
                 <pre>        if attr[:id].blank? and (md = meta_data.where(:meta_key_id => attr[:meta_key_id]).first)</pre>
               </td>
@@ -726,7 +710,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>81</td>
+              <td class='line_number'>79</td>
               <td class='code_line'>
                 <pre>          attr[:id] = md.id</pre>
               </td>
@@ -734,7 +718,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>82</td>
+              <td class='line_number'>80</td>
               <td class='code_line'>
                 <pre>        end</pre>
               </td>
@@ -742,7 +726,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>83</td>
+              <td class='line_number'>81</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -750,7 +734,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>84</td>
+              <td class='line_number'>82</td>
               <td class='code_line'>
                 <pre>        # get rid of meta_datum if value is blank</pre>
               </td>
@@ -758,7 +742,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>85</td>
+              <td class='line_number'>83</td>
               <td class='code_line'>
                 <pre>        if !attr[:id].blank? and attr[:value].blank?</pre>
               </td>
@@ -766,7 +750,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>86</td>
+              <td class='line_number'>84</td>
               <td class='code_line'>
                 <pre>          attr[:_destroy] = true</pre>
               </td>
@@ -774,7 +758,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>87</td>
+              <td class='line_number'>85</td>
               <td class='code_line'>
                 <pre>          #old# attr[:value] = "." # NOTE bypass the validation</pre>
               </td>
@@ -782,7 +766,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>88</td>
+              <td class='line_number'>86</td>
               <td class='code_line'>
                 <pre>        end</pre>
               </td>
@@ -790,7 +774,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>89</td>
+              <td class='line_number'>87</td>
               <td class='code_line'>
                 <pre>      end if dup_attributes[:meta_data_attributes]</pre>
               </td>
@@ -798,7 +782,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>90</td>
+              <td class='line_number'>88</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -806,7 +790,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>91</td>
+              <td class='line_number'>89</td>
               <td class='code_line'>
                 <pre>      self.editors << current_user if current_user # OPTIMIZE group by user ??</pre>
               </td>
@@ -814,7 +798,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>92</td>
+              <td class='line_number'>90</td>
               <td class='code_line'>
                 <pre>      self.updated_at = Time.now # OPTIMIZE touch</pre>
               </td>
@@ -822,7 +806,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>93</td>
+              <td class='line_number'>91</td>
               <td class='code_line'>
                 <pre>      update_attributes_without_pre_validation(dup_attributes)</pre>
               </td>
@@ -830,9 +814,25 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>94</td>
+              <td class='line_number'>92</td>
               <td class='code_line'>
                 <pre>    end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>93</td>
+              <td class='code_line'>
+                <pre>    base.alias_method_chain :update_attributes, :pre_validation</pre>
+              </td>
+              <td class='hit_number'>6</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>94</td>
+              <td class='code_line'>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -840,37 +840,21 @@
             <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>95</td>
               <td class='code_line'>
-                <pre>    base.alias_method_chain :update_attributes, :pre_validation</pre>
-              </td>
-              <td class='hit_number'>3</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>96</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>97</td>
-              <td class='code_line'>
                 <pre>    base.has_one :full_text, :as => :resource, :dependent => :destroy</pre>
               </td>
-              <td class='hit_number'>3</td>
+              <td class='hit_number'>6</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>98</td>
+              <td class='line_number'>96</td>
               <td class='code_line'>
                 <pre>    base.after_save { reindex } # OPTIMIZE</pre>
               </td>
-              <td class='hit_number'>72</td>
+              <td class='hit_number'>137</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>99</td>
+              <td class='line_number'>97</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -878,7 +862,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>100</td>
+              <td class='line_number'>98</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -886,15 +870,15 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>101</td>
+              <td class='line_number'>99</td>
               <td class='code_line'>
                 <pre>  def default_permission</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>102</td>
+              <td class='line_number'>100</td>
               <td class='code_line'>
                 <pre>    Permission.resource_default(self)</pre>
               </td>
@@ -902,7 +886,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>103</td>
+              <td class='line_number'>101</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -910,7 +894,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>104</td>
+              <td class='line_number'>102</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -918,7 +902,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>105</td>
+              <td class='line_number'>103</td>
               <td class='code_line'>
                 <pre>  # returns the meta_data for a particular resource, so that it can written into a media file that is to be exported.</pre>
               </td>
@@ -926,7 +910,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>106</td>
+              <td class='line_number'>104</td>
               <td class='code_line'>
                 <pre>  # NB: this is exiftool specific at present, but can be refactored to take account of other tools if necessary.</pre>
               </td>
@@ -934,7 +918,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>107</td>
+              <td class='line_number'>105</td>
               <td class='code_line'>
                 <pre>  # NB: In this case the 'export' in 'get_data_for_export' also means 'download' </pre>
               </td>
@@ -942,7 +926,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>108</td>
+              <td class='line_number'>106</td>
               <td class='code_line'>
                 <pre>  #     (since we write meta-data to the file anyway regardless of if we do a download or an export)</pre>
               </td>
@@ -950,15 +934,15 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>109</td>
+              <td class='line_number'>107</td>
               <td class='code_line'>
                 <pre>  def to_metadata_tags</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>110</td>
+              <td class='line_number'>108</td>
               <td class='code_line'>
                 <pre>    MetaContext.io_interface.meta_key_definitions.collect do |definition|</pre>
               </td>
@@ -966,7 +950,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>111</td>
+              <td class='line_number'>109</td>
               <td class='code_line'>
                 <pre>      # OPTIMIZE</pre>
               </td>
@@ -974,7 +958,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>112</td>
+              <td class='line_number'>110</td>
               <td class='code_line'>
                 <pre>      value = if definition.meta_key.object_type == "Meta::Date"</pre>
               </td>
@@ -982,7 +966,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>113</td>
+              <td class='line_number'>111</td>
               <td class='code_line'>
                 <pre>                meta_data.get(definition.meta_key_id).to_s</pre>
               </td>
@@ -990,7 +974,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>114</td>
+              <td class='line_number'>112</td>
               <td class='code_line'>
                 <pre>              else</pre>
               </td>
@@ -998,7 +982,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>115</td>
+              <td class='line_number'>113</td>
               <td class='code_line'>
                 <pre>                meta_data.get(definition.meta_key_id).deserialized_value</pre>
               </td>
@@ -1006,7 +990,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>116</td>
+              <td class='line_number'>114</td>
               <td class='code_line'>
                 <pre>              end</pre>
               </td>
@@ -1014,7 +998,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>117</td>
+              <td class='line_number'>115</td>
               <td class='code_line'>
                 <pre>      </pre>
               </td>
@@ -1022,7 +1006,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>118</td>
+              <td class='line_number'>116</td>
               <td class='code_line'>
                 <pre>      definition.key_map.split(',').collect do |km|</pre>
               </td>
@@ -1030,7 +1014,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>119</td>
+              <td class='line_number'>117</td>
               <td class='code_line'>
                 <pre>        km.strip!</pre>
               </td>
@@ -1038,7 +1022,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>120</td>
+              <td class='line_number'>118</td>
               <td class='code_line'>
                 <pre>        case definition.key_map_type</pre>
               </td>
@@ -1046,7 +1030,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>121</td>
+              <td class='line_number'>119</td>
               <td class='code_line'>
                 <pre>          when "Array"</pre>
               </td>
@@ -1054,7 +1038,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>122</td>
+              <td class='line_number'>120</td>
               <td class='code_line'>
                 <pre>            vo = ["-#{km}= "]</pre>
               </td>
@@ -1062,7 +1046,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>123</td>
+              <td class='line_number'>121</td>
               <td class='code_line'>
                 <pre>            vo += value.collect {|m| "-#{km}='#{(m.respond_to?(:strip) ? m.strip : m)}'" } if value</pre>
               </td>
@@ -1070,7 +1054,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>124</td>
+              <td class='line_number'>122</td>
               <td class='code_line'>
                 <pre>            vo</pre>
               </td>
@@ -1078,7 +1062,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>125</td>
+              <td class='line_number'>123</td>
               <td class='code_line'>
                 <pre>          else</pre>
               </td>
@@ -1086,7 +1070,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>126</td>
+              <td class='line_number'>124</td>
               <td class='code_line'>
                 <pre>            "-#{km}='#{value}'"          </pre>
               </td>
@@ -1094,7 +1078,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>127</td>
+              <td class='line_number'>125</td>
               <td class='code_line'>
                 <pre>        end</pre>
               </td>
@@ -1102,7 +1086,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>128</td>
+              <td class='line_number'>126</td>
               <td class='code_line'>
                 <pre>      end</pre>
               </td>
@@ -1110,7 +1094,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>129</td>
+              <td class='line_number'>127</td>
               <td class='code_line'>
                 <pre>      </pre>
               </td>
@@ -1118,7 +1102,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>130</td>
+              <td class='line_number'>128</td>
               <td class='code_line'>
                 <pre>    end.join(" ")</pre>
               </td>
@@ -1126,7 +1110,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>131</td>
+              <td class='line_number'>129</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -1134,7 +1118,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>132</td>
+              <td class='line_number'>130</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1142,7 +1126,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>133</td>
+              <td class='line_number'>131</td>
               <td class='code_line'>
                 <pre>  # Instance method to update a copy (referenced by path) of a media file with the meta_data tags provided</pre>
               </td>
@@ -1150,7 +1134,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>134</td>
+              <td class='line_number'>132</td>
               <td class='code_line'>
                 <pre>  # args: blank_all_tags = flag indicating whether we clean all the tags from the file, or update the tags in the file</pre>
               </td>
@@ -1158,7 +1142,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>135</td>
+              <td class='line_number'>133</td>
               <td class='code_line'>
                 <pre>  # returns: the path and filename of the updated copy or nil (if the copy failed)</pre>
               </td>
@@ -1166,15 +1150,15 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>136</td>
+              <td class='line_number'>134</td>
               <td class='code_line'>
                 <pre>  def updated_resource_file(blank_all_tags = false, size = nil)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>137</td>
+              <td class='line_number'>135</td>
               <td class='code_line'>
                 <pre>    begin</pre>
               </td>
@@ -1182,7 +1166,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>138</td>
+              <td class='line_number'>136</td>
               <td class='code_line'>
                 <pre>      source_filename = if size</pre>
               </td>
@@ -1190,7 +1174,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>139</td>
+              <td class='line_number'>137</td>
               <td class='code_line'>
                 <pre>        media_file.get_preview(size).full_path</pre>
               </td>
@@ -1198,7 +1182,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>140</td>
+              <td class='line_number'>138</td>
               <td class='code_line'>
                 <pre>      else</pre>
               </td>
@@ -1206,7 +1190,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>141</td>
+              <td class='line_number'>139</td>
               <td class='code_line'>
                 <pre>        media_file.file_storage_location</pre>
               </td>
@@ -1214,7 +1198,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>142</td>
+              <td class='line_number'>140</td>
               <td class='code_line'>
                 <pre>      end</pre>
               </td>
@@ -1222,7 +1206,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>143</td>
+              <td class='line_number'>141</td>
               <td class='code_line'>
                 <pre>      FileUtils.cp( source_filename, DOWNLOAD_STORAGE_DIR )</pre>
               </td>
@@ -1230,7 +1214,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>144</td>
+              <td class='line_number'>142</td>
               <td class='code_line'>
                 <pre>      # remember we want to handle the following:</pre>
               </td>
@@ -1238,7 +1222,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>145</td>
+              <td class='line_number'>143</td>
               <td class='code_line'>
                 <pre>      # include all madek tags in file</pre>
               </td>
@@ -1246,7 +1230,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>146</td>
+              <td class='line_number'>144</td>
               <td class='code_line'>
                 <pre>      # remove all (ok, as many as we can) tags from the file.</pre>
               </td>
@@ -1254,7 +1238,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>147</td>
+              <td class='line_number'>145</td>
               <td class='code_line'>
                 <pre>      cleaner_tags = (blank_all_tags ? "-All= " : "-IPTC:All= ") + "-XMP-madek:All= -IFD0:Artist= -IFD0:Copyright= -IFD0:Software= " # because we do want to remove IPTC tags, regardless</pre>
               </td>
@@ -1262,7 +1246,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>148</td>
+              <td class='line_number'>146</td>
               <td class='code_line'>
                 <pre>      tags = cleaner_tags + (blank_all_tags ? "" : to_metadata_tags)</pre>
               </td>
@@ -1270,7 +1254,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>149</td>
+              <td class='line_number'>147</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1278,7 +1262,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>150</td>
+              <td class='line_number'>148</td>
               <td class='code_line'>
                 <pre>      path = File.join(DOWNLOAD_STORAGE_DIR, File.basename(source_filename))</pre>
               </td>
@@ -1286,7 +1270,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>151</td>
+              <td class='line_number'>149</td>
               <td class='code_line'>
                 <pre>      # TODO - robustification</pre>
               </td>
@@ -1294,7 +1278,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>152</td>
+              <td class='line_number'>150</td>
               <td class='code_line'>
                 <pre>      generate_exiftool_config if MetaContext.io_interface.meta_key_definitions.maximum("updated_at").to_i > File.stat(EXIFTOOL_CONFIG).mtime.to_i</pre>
               </td>
@@ -1302,7 +1286,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>153</td>
+              <td class='line_number'>151</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1310,7 +1294,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>154</td>
+              <td class='line_number'>152</td>
               <td class='code_line'>
                 <pre>      resout = `#{EXIFTOOL_PATH} #{tags} "#{path}"`</pre>
               </td>
@@ -1318,7 +1302,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>155</td>
+              <td class='line_number'>153</td>
               <td class='code_line'>
                 <pre>      FileUtils.rm("#{path}_original") if resout.include?("1 image files updated") # Exiftool backs up the original before editing. We don't need the backup.</pre>
               </td>
@@ -1326,7 +1310,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>156</td>
+              <td class='line_number'>154</td>
               <td class='code_line'>
                 <pre>      return path.to_s</pre>
               </td>
@@ -1334,7 +1318,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>157</td>
+              <td class='line_number'>155</td>
               <td class='code_line'>
                 <pre>    rescue </pre>
               </td>
@@ -1342,7 +1326,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>158</td>
+              <td class='line_number'>156</td>
               <td class='code_line'>
                 <pre>      # "No such file or directory" ?</pre>
               </td>
@@ -1350,7 +1334,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>159</td>
+              <td class='line_number'>157</td>
               <td class='code_line'>
                 <pre>      logger.error "MediaFile#update_file_metadata, copy failed with #{$!}"</pre>
               </td>
@@ -1358,7 +1342,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>160</td>
+              <td class='line_number'>158</td>
               <td class='code_line'>
                 <pre>      return nil</pre>
               </td>
@@ -1366,7 +1350,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>161</td>
+              <td class='line_number'>159</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -1374,7 +1358,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>162</td>
+              <td class='line_number'>160</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -1382,7 +1366,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>163</td>
+              <td class='line_number'>161</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1390,7 +1374,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>164</td>
+              <td class='line_number'>162</td>
               <td class='code_line'>
                 <pre>  # ad-hoc method that generates a new exiftool config file, when it is sensed that there are new keys/key_defs that should be saved in a file</pre>
               </td>
@@ -1398,7 +1382,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>165</td>
+              <td class='line_number'>163</td>
               <td class='code_line'>
                 <pre>  # using the XMP-madek metadata namespace.</pre>
               </td>
@@ -1406,7 +1390,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>166</td>
+              <td class='line_number'>164</td>
               <td class='code_line'>
                 <pre>  # TODO refactor the use of exiftool, so that for each media file/entry it is only called once, </pre>
               </td>
@@ -1414,7 +1398,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>167</td>
+              <td class='line_number'>165</td>
               <td class='code_line'>
                 <pre>  # entrys' contents cached, and obj/subj meta-data extracted as necessary  </pre>
               </td>
@@ -1422,17 +1406,33 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>168</td>
+              <td class='line_number'>166</td>
               <td class='code_line'>
                 <pre>    def generate_exiftool_config</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>167</td>
+              <td class='code_line'>
+                <pre>      exiftool_keys = MetaContext.io_interface.meta_key_definitions.collect {|e| "#{e.key_map.split(":").last} => {#{e.key_map_type == "Array" ? " List => 'Bag'" : nil} },"}</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>168</td>
+              <td class='code_line'>
+                <pre>  </pre>
+              </td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>169</td>
               <td class='code_line'>
-                <pre>      exiftool_keys = MetaContext.io_interface.meta_key_definitions.collect {|e| "#{e.key_map.split(":").last} => {#{e.key_map_type == "Array" ? " List => 'Bag'" : nil} },"}</pre>
+                <pre>      skels = Dir.glob("#{METADATA_CONFIG_DIR}/ExifTool_config.skeleton.*")</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -1448,29 +1448,13 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>171</td>
               <td class='code_line'>
-                <pre>      skels = Dir.glob("#{METADATA_CONFIG_DIR}/ExifTool_config.skeleton.*")</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>172</td>
-              <td class='code_line'>
-                <pre>  </pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>173</td>
-              <td class='code_line'>
                 <pre>      exif_conf = File.open(EXIFTOOL_CONFIG, 'w')</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>174</td>
+              <td class='line_number'>172</td>
               <td class='code_line'>
                 <pre>      exif_conf.puts IO.read(skels.first)</pre>
               </td>
@@ -1478,7 +1462,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>175</td>
+              <td class='line_number'>173</td>
               <td class='code_line'>
                 <pre>      exiftool_keys.sort.each do |k|</pre>
               </td>
@@ -1486,7 +1470,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>176</td>
+              <td class='line_number'>174</td>
               <td class='code_line'>
                 <pre>        exif_conf.puts "\t#{k}\n"</pre>
               </td>
@@ -1494,7 +1478,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>177</td>
+              <td class='line_number'>175</td>
               <td class='code_line'>
                 <pre>      end</pre>
               </td>
@@ -1502,7 +1486,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>178</td>
+              <td class='line_number'>176</td>
               <td class='code_line'>
                 <pre>      exif_conf.puts IO.read(skels.last)</pre>
               </td>
@@ -1510,7 +1494,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>179</td>
+              <td class='line_number'>177</td>
               <td class='code_line'>
                 <pre>      exif_conf.close</pre>
               </td>
@@ -1518,7 +1502,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>180</td>
+              <td class='line_number'>178</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -1526,7 +1510,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>181</td>
+              <td class='line_number'>179</td>
               <td class='code_line'>
                 <pre>    </pre>
               </td>
@@ -1534,7 +1518,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>182</td>
+              <td class='line_number'>180</td>
               <td class='code_line'>
                 <pre>    # TODO merge to as_json</pre>
               </td>
@@ -1542,7 +1526,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>183</td>
+              <td class='line_number'>181</td>
               <td class='code_line'>
                 <pre>    # NEW and experimental for batch processes </pre>
               </td>
@@ -1550,15 +1534,15 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>184</td>
+              <td class='line_number'>182</td>
               <td class='code_line'>
                 <pre>    def get_basic_info(current_user, extended_keys = [], with_thumb = false)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>185</td>
+              <td class='line_number'>183</td>
               <td class='code_line'>
                 <pre>      core_keys = ["title", "author"]</pre>
               </td>
@@ -1566,7 +1550,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>186</td>
+              <td class='line_number'>184</td>
               <td class='code_line'>
                 <pre>      core_info = Hash.new</pre>
               </td>
@@ -1574,7 +1558,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>187</td>
+              <td class='line_number'>185</td>
               <td class='code_line'>
                 <pre>      </pre>
               </td>
@@ -1582,7 +1566,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>188</td>
+              <td class='line_number'>186</td>
               <td class='code_line'>
                 <pre>      (core_keys + extended_keys).each do |key|</pre>
               </td>
@@ -1590,7 +1574,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>189</td>
+              <td class='line_number'>187</td>
               <td class='code_line'>
                 <pre>        core_info[key.gsub(' ', '_')] = meta_data.get_value_for(key)</pre>
               </td>
@@ -1598,7 +1582,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>190</td>
+              <td class='line_number'>188</td>
               <td class='code_line'>
                 <pre>      end</pre>
               </td>
@@ -1606,7 +1590,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>191</td>
+              <td class='line_number'>189</td>
               <td class='code_line'>
                 <pre>      if with_thumb</pre>
               </td>
@@ -1614,7 +1598,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>192</td>
+              <td class='line_number'>190</td>
               <td class='code_line'>
                 <pre>        mf = if self.is_a?(Media::Set)</pre>
               </td>
@@ -1622,7 +1606,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>193</td>
+              <td class='line_number'>191</td>
               <td class='code_line'>
                 <pre>          MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).first.try(:media_file)</pre>
               </td>
@@ -1630,7 +1614,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>194</td>
+              <td class='line_number'>192</td>
               <td class='code_line'>
                 <pre>        else</pre>
               </td>
@@ -1638,7 +1622,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>195</td>
+              <td class='line_number'>193</td>
               <td class='code_line'>
                 <pre>          self.media_file</pre>
               </td>
@@ -1646,7 +1630,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>196</td>
+              <td class='line_number'>194</td>
               <td class='code_line'>
                 <pre>        end</pre>
               </td>
@@ -1654,7 +1638,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>197</td>
+              <td class='line_number'>195</td>
               <td class='code_line'>
                 <pre>        core_info["thumb_base64"] = mf.thumb_base64(:small_125) if mf</pre>
               </td>
@@ -1662,7 +1646,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>198</td>
+              <td class='line_number'>196</td>
               <td class='code_line'>
                 <pre>      else</pre>
               </td>
@@ -1670,7 +1654,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>199</td>
+              <td class='line_number'>197</td>
               <td class='code_line'>
                 <pre>        #1+n http-requests#</pre>
               </td>
@@ -1678,7 +1662,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>200</td>
+              <td class='line_number'>198</td>
               <td class='code_line'>
                 <pre>        core_info["thumb_base64"] = "/media_entries/%d/image?size=small_125" % self.id</pre>
               </td>
@@ -1686,7 +1670,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>201</td>
+              <td class='line_number'>199</td>
               <td class='code_line'>
                 <pre>      end</pre>
               </td>
@@ -1694,7 +1678,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>202</td>
+              <td class='line_number'>200</td>
               <td class='code_line'>
                 <pre>      core_info</pre>
               </td>
@@ -1702,9 +1686,25 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>203</td>
+              <td class='line_number'>201</td>
               <td class='code_line'>
                 <pre>    end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>202</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>203</td>
+              <td class='code_line'>
+                <pre>########################################################</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1720,7 +1720,7 @@
             <tr class="never" "">
               <td class='line_number'>205</td>
               <td class='code_line'>
-                <pre>########################################################</pre>
+                <pre>  # OPTIMIZE</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1728,7 +1728,7 @@
             <tr class="never" "">
               <td class='line_number'>206</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>#  scope :without_meta_data, :select => "media_entries.*",</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1736,7 +1736,7 @@
             <tr class="never" "">
               <td class='line_number'>207</td>
               <td class='code_line'>
-                <pre>  # OPTIMIZE</pre>
+                <pre>#                                  #:joins => "LEFT JOIN items ON items.model_id = models.id",</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1744,7 +1744,7 @@
             <tr class="never" "">
               <td class='line_number'>208</td>
               <td class='code_line'>
-                <pre>#  scope :without_meta_data, :select => "media_entries.*",</pre>
+                <pre>#                                  #:conditions => ['items.model_id IS NULL']</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1752,37 +1752,21 @@
             <tr class="never" "">
               <td class='line_number'>209</td>
               <td class='code_line'>
-                <pre>#                                  #:joins => "LEFT JOIN items ON items.model_id = models.id",</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>210</td>
-              <td class='code_line'>
-                <pre>#                                  #:conditions => ['items.model_id IS NULL']</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>211</td>
-              <td class='code_line'>
                 <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>212</td>
+              <td class='line_number'>210</td>
               <td class='code_line'>
                 <pre>  def title</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>213</td>
+              <td class='line_number'>211</td>
               <td class='code_line'>
                 <pre>    t = meta_data.get_value_for("title")</pre>
               </td>
@@ -1790,7 +1774,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>214</td>
+              <td class='line_number'>212</td>
               <td class='code_line'>
                 <pre>    t = "Ohne Titel" if t.blank?</pre>
               </td>
@@ -1798,7 +1782,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>215</td>
+              <td class='line_number'>213</td>
               <td class='code_line'>
                 <pre>    t</pre>
               </td>
@@ -1806,7 +1790,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>216</td>
+              <td class='line_number'>214</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -1814,7 +1798,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>217</td>
+              <td class='line_number'>215</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1822,15 +1806,15 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>218</td>
+              <td class='line_number'>216</td>
               <td class='code_line'>
                 <pre>  def title_and_user</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>219</td>
+              <td class='line_number'>217</td>
               <td class='code_line'>
                 <pre>    s = ""</pre>
               </td>
@@ -1838,7 +1822,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>220</td>
+              <td class='line_number'>218</td>
               <td class='code_line'>
                 <pre>    s += "[Projekt] " if is_a?(Media::Project)</pre>
               </td>
@@ -1846,7 +1830,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>221</td>
+              <td class='line_number'>219</td>
               <td class='code_line'>
                 <pre>    s += "#{title} (#{user})"</pre>
               </td>
@@ -1854,7 +1838,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>222</td>
+              <td class='line_number'>220</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -1862,7 +1846,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>223</td>
+              <td class='line_number'>221</td>
               <td class='code_line'>
                 <pre>  </pre>
               </td>
@@ -1870,7 +1854,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>224</td>
+              <td class='line_number'>222</td>
               <td class='code_line'>
                 <pre>########################################################</pre>
               </td>
@@ -1878,7 +1862,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>225</td>
+              <td class='line_number'>223</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1886,15 +1870,15 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>226</td>
+              <td class='line_number'>224</td>
               <td class='code_line'>
                 <pre>  def as_json(options={})</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>227</td>
+              <td class='line_number'>225</td>
               <td class='code_line'>
                 <pre>    with_thumb = options[:with_thumb]</pre>
               </td>
@@ -1902,7 +1886,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>228</td>
+              <td class='line_number'>226</td>
               <td class='code_line'>
                 <pre>    more_json = {}</pre>
               </td>
@@ -1910,7 +1894,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>229</td>
+              <td class='line_number'>227</td>
               <td class='code_line'>
                 <pre>    </pre>
               </td>
@@ -1918,7 +1902,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>230</td>
+              <td class='line_number'>228</td>
               <td class='code_line'>
                 <pre>    if user = options[:user]</pre>
               </td>
@@ -1926,7 +1910,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>231</td>
+              <td class='line_number'>229</td>
               <td class='code_line'>
                 <pre>      #TODO Dont do this behaviour on default</pre>
               </td>
@@ -1934,7 +1918,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>232</td>
+              <td class='line_number'>230</td>
               <td class='code_line'>
                 <pre>      flags = { :is_private => acl?(:view, :only, user),</pre>
               </td>
@@ -1942,7 +1926,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>233</td>
+              <td class='line_number'>231</td>
               <td class='code_line'>
                 <pre>                :is_public => acl?(:view, :all),</pre>
               </td>
@@ -1950,7 +1934,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>234</td>
+              <td class='line_number'>232</td>
               <td class='code_line'>
                 <pre>                :is_editable => Permission.authorized?(user, :edit, self),</pre>
               </td>
@@ -1958,7 +1942,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>235</td>
+              <td class='line_number'>233</td>
               <td class='code_line'>
                 <pre>                :is_manageable => Permission.authorized?(user, :manage, self) }</pre>
               </td>
@@ -1966,7 +1950,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>236</td>
+              <td class='line_number'>234</td>
               <td class='code_line'>
                 <pre>      more_json.merge! flags         </pre>
               </td>
@@ -1974,7 +1958,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>237</td>
+              <td class='line_number'>235</td>
               <td class='code_line'>
                 <pre>      more_json.merge!(self.get_basic_info(user, [], with_thumb))</pre>
               </td>
@@ -1982,7 +1966,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>238</td>
+              <td class='line_number'>236</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -1990,7 +1974,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>239</td>
+              <td class='line_number'>237</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1998,7 +1982,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>240</td>
+              <td class='line_number'>238</td>
               <td class='code_line'>
                 <pre>    default_options = {:only => :id}</pre>
               </td>
@@ -2006,11 +1990,27 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>241</td>
+              <td class='line_number'>239</td>
               <td class='code_line'>
                 <pre>    json = super(default_options.deep_merge(options))</pre>
               </td>
               <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>240</td>
+              <td class='code_line'>
+                <pre>    </pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>241</td>
+              <td class='code_line'>
+                <pre>    # add relationships for a given parent</pre>
+              </td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
@@ -2021,24 +2021,8 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="never" "">
-              <td class='line_number'>243</td>
-              <td class='code_line'>
-                <pre>    # add relationships for a given parent</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>244</td>
-              <td class='code_line'>
-                <pre>    </pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>245</td>
+              <td class='line_number'>243</td>
               <td class='code_line'>
                 <pre>    json.merge(more_json)</pre>
               </td>
@@ -2046,9 +2030,25 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>246</td>
+              <td class='line_number'>244</td>
               <td class='code_line'>
                 <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>245</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>246</td>
+              <td class='code_line'>
+                <pre>########################################################</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2061,32 +2061,16 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="never" "">
-              <td class='line_number'>248</td>
-              <td class='code_line'>
-                <pre>########################################################</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>249</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>250</td>
+              <td class='line_number'>248</td>
               <td class='code_line'>
                 <pre>  def self.to_tms_doc(resources, context = MetaContext.tms)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>251</td>
+              <td class='line_number'>249</td>
               <td class='code_line'>
                 <pre>    xml = Builder::XmlMarkup.new</pre>
               </td>
@@ -2094,7 +2078,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>252</td>
+              <td class='line_number'>250</td>
               <td class='code_line'>
                 <pre>    xml.instruct!</pre>
               </td>
@@ -2102,7 +2086,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>253</td>
+              <td class='line_number'>251</td>
               <td class='code_line'>
                 <pre>    xml.madek(:version => RELEASE_VERSION) do</pre>
               </td>
@@ -2110,7 +2094,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>254</td>
+              <td class='line_number'>252</td>
               <td class='code_line'>
                 <pre>      Array(resources).each do |resource|</pre>
               </td>
@@ -2118,7 +2102,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>255</td>
+              <td class='line_number'>253</td>
               <td class='code_line'>
                 <pre>        resource.to_tms(xml, context)</pre>
               </td>
@@ -2126,9 +2110,25 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>256</td>
+              <td class='line_number'>254</td>
               <td class='code_line'>
                 <pre>      end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>255</td>
+              <td class='code_line'>
+                <pre>    end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>256</td>
+              <td class='code_line'>
+                <pre>  end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2136,7 +2136,7 @@
             <tr class="never" "">
               <td class='line_number'>257</td>
               <td class='code_line'>
-                <pre>    end</pre>
+                <pre>  </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2144,7 +2144,7 @@
             <tr class="never" "">
               <td class='line_number'>258</td>
               <td class='code_line'>
-                <pre>  end</pre>
+                <pre>########################################################</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2152,69 +2152,53 @@
             <tr class="never" "">
               <td class='line_number'>259</td>
               <td class='code_line'>
-                <pre>  </pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>260</td>
-              <td class='code_line'>
-                <pre>########################################################</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>261</td>
-              <td class='code_line'>
                 <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>262</td>
+              <td class='line_number'>260</td>
               <td class='code_line'>
                 <pre>  def reindex</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>261</td>
+              <td class='code_line'>
+                <pre>    ft = full_text || build_full_text</pre>
+              </td>
+              <td class='hit_number'>131</td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>262</td>
+              <td class='code_line'>
+                <pre>    new_text = meta_data.concatenated</pre>
+              </td>
+              <td class='hit_number'>131</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>263</td>
               <td class='code_line'>
-                <pre>    ft = full_text || build_full_text</pre>
+                <pre>    [:user].each do |method|</pre>
               </td>
-              <td class='hit_number'>69</td>
+              <td class='hit_number'>131</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>264</td>
               <td class='code_line'>
-                <pre>    new_text = meta_data.concatenated</pre>
-              </td>
-              <td class='hit_number'>69</td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>265</td>
-              <td class='code_line'>
-                <pre>    [:user].each do |method|</pre>
-              </td>
-              <td class='hit_number'>69</td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>266</td>
-              <td class='code_line'>
                 <pre>      new_text << " #{send(method)}" if respond_to?(method)</pre>
               </td>
-              <td class='hit_number'>69</td>
+              <td class='hit_number'>131</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>267</td>
+              <td class='line_number'>265</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -2222,17 +2206,33 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>268</td>
+              <td class='line_number'>266</td>
               <td class='code_line'>
                 <pre>    ft.update_attributes(:text => new_text)</pre>
               </td>
-              <td class='hit_number'>69</td>
+              <td class='hit_number'>131</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>267</td>
+              <td class='code_line'>
+                <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>268</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>269</td>
               <td class='code_line'>
-                <pre>  end</pre>
+                <pre>########################################################</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2240,7 +2240,7 @@
             <tr class="never" "">
               <td class='line_number'>270</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre># TODO cache methods results</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2248,37 +2248,21 @@
             <tr class="never" "">
               <td class='line_number'>271</td>
               <td class='code_line'>
-                <pre>########################################################</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>272</td>
-              <td class='code_line'>
-                <pre># TODO cache methods results</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>273</td>
-              <td class='code_line'>
                 <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>274</td>
+              <td class='line_number'>272</td>
               <td class='code_line'>
                 <pre>  def meta_data_for_context(context = MetaContext.core, build_if_not_exists = true)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>275</td>
+              <td class='line_number'>273</td>
               <td class='code_line'>
                 <pre>    @meta_data_for_context ||= {}</pre>
               </td>
@@ -2286,7 +2270,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>276</td>
+              <td class='line_number'>274</td>
               <td class='code_line'>
                 <pre>    # OPTIMIZE cache for build_if_not_exists</pre>
               </td>
@@ -2294,7 +2278,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>277</td>
+              <td class='line_number'>275</td>
               <td class='code_line'>
                 <pre>    #unless @meta_data_for_context[context.id]</pre>
               </td>
@@ -2302,7 +2286,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>278</td>
+              <td class='line_number'>276</td>
               <td class='code_line'>
                 <pre>      @meta_data_for_context[context.id] = []</pre>
               </td>
@@ -2310,7 +2294,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>279</td>
+              <td class='line_number'>277</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -2318,7 +2302,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>280</td>
+              <td class='line_number'>278</td>
               <td class='code_line'>
                 <pre>      context.meta_keys.each do |key|</pre>
               </td>
@@ -2326,7 +2310,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>281</td>
+              <td class='line_number'>279</td>
               <td class='code_line'>
                 <pre>        md = key.meta_data.scoped_by_resource_type_and_resource_id(self.class.base_class.name, self.id).first  # OPTIMIZE eager loading</pre>
               </td>
@@ -2334,7 +2318,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>282</td>
+              <td class='line_number'>280</td>
               <td class='code_line'>
                 <pre>        if md</pre>
               </td>
@@ -2342,7 +2326,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>283</td>
+              <td class='line_number'>281</td>
               <td class='code_line'>
                 <pre>          @meta_data_for_context[context.id] << md</pre>
               </td>
@@ -2350,7 +2334,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>284</td>
+              <td class='line_number'>282</td>
               <td class='code_line'>
                 <pre>        elsif build_if_not_exists or key.is_dynamic?</pre>
               </td>
@@ -2358,7 +2342,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>285</td>
+              <td class='line_number'>283</td>
               <td class='code_line'>
                 <pre>          @meta_data_for_context[context.id] << meta_data.build(:meta_key => key)</pre>
               </td>
@@ -2366,7 +2350,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>286</td>
+              <td class='line_number'>284</td>
               <td class='code_line'>
                 <pre>        end</pre>
               </td>
@@ -2374,7 +2358,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>287</td>
+              <td class='line_number'>285</td>
               <td class='code_line'>
                 <pre>      end if context</pre>
               </td>
@@ -2382,7 +2366,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>288</td>
+              <td class='line_number'>286</td>
               <td class='code_line'>
                 <pre>    #end</pre>
               </td>
@@ -2390,7 +2374,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>289</td>
+              <td class='line_number'>287</td>
               <td class='code_line'>
                 <pre>    return @meta_data_for_context[context.id]</pre>
               </td>
@@ -2398,7 +2382,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>290</td>
+              <td class='line_number'>288</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -2406,7 +2390,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>291</td>
+              <td class='line_number'>289</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -2414,15 +2398,15 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>292</td>
+              <td class='line_number'>290</td>
               <td class='code_line'>
                 <pre>  def context_warnings(context = MetaContext.core)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>293</td>
+              <td class='line_number'>291</td>
               <td class='code_line'>
                 <pre>    @context_warnings ||= {}</pre>
               </td>
@@ -2430,7 +2414,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>294</td>
+              <td class='line_number'>292</td>
               <td class='code_line'>
                 <pre>    unless @context_warnings[context.id]</pre>
               </td>
@@ -2438,7 +2422,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>295</td>
+              <td class='line_number'>293</td>
               <td class='code_line'>
                 <pre>      @context_warnings[context.id] = {}</pre>
               </td>
@@ -2446,7 +2430,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>296</td>
+              <td class='line_number'>294</td>
               <td class='code_line'>
                 <pre>      meta_data_for_context(context).each do |meta_datum|</pre>
               </td>
@@ -2454,7 +2438,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>297</td>
+              <td class='line_number'>295</td>
               <td class='code_line'>
                 <pre>        w = meta_datum.context_warnings(context)</pre>
               </td>
@@ -2462,7 +2446,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>298</td>
+              <td class='line_number'>296</td>
               <td class='code_line'>
                 <pre>        unless w.blank?</pre>
               </td>
@@ -2470,7 +2454,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>299</td>
+              <td class='line_number'>297</td>
               <td class='code_line'>
                 <pre>          @context_warnings[context.id][meta_datum.meta_key.label] ||= []</pre>
               </td>
@@ -2478,7 +2462,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>300</td>
+              <td class='line_number'>298</td>
               <td class='code_line'>
                 <pre>          @context_warnings[context.id][meta_datum.meta_key.label] << w</pre>
               </td>
@@ -2486,7 +2470,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>301</td>
+              <td class='line_number'>299</td>
               <td class='code_line'>
                 <pre>        end</pre>
               </td>
@@ -2494,7 +2478,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>302</td>
+              <td class='line_number'>300</td>
               <td class='code_line'>
                 <pre>      end</pre>
               </td>
@@ -2502,7 +2486,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>303</td>
+              <td class='line_number'>301</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -2510,7 +2494,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>304</td>
+              <td class='line_number'>302</td>
               <td class='code_line'>
                 <pre>    return @context_warnings[context.id]</pre>
               </td>
@@ -2518,7 +2502,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>305</td>
+              <td class='line_number'>303</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -2526,7 +2510,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>306</td>
+              <td class='line_number'>304</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -2534,15 +2518,15 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>307</td>
+              <td class='line_number'>305</td>
               <td class='code_line'>
                 <pre>  def context_valid?(context = MetaContext.core)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>308</td>
+              <td class='line_number'>306</td>
               <td class='code_line'>
                 <pre>    meta_data_for_context(context).all? {|meta_datum| meta_datum.context_valid?(context) }</pre>
               </td>
@@ -2550,9 +2534,25 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>309</td>
+              <td class='line_number'>307</td>
               <td class='code_line'>
                 <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>308</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>309</td>
+              <td class='code_line'>
+                <pre>########################################################</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2565,32 +2565,16 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="never" "">
-              <td class='line_number'>311</td>
-              <td class='code_line'>
-                <pre>########################################################</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>312</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>313</td>
+              <td class='line_number'>311</td>
               <td class='code_line'>
                 <pre>  def media_type</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>314</td>
+              <td class='line_number'>312</td>
               <td class='code_line'>
                 <pre>    if respond_to?(:media_file)</pre>
               </td>
@@ -2598,7 +2582,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>315</td>
+              <td class='line_number'>313</td>
               <td class='code_line'>
                 <pre>      case media_file.content_type</pre>
               </td>
@@ -2606,7 +2590,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>316</td>
+              <td class='line_number'>314</td>
               <td class='code_line'>
                 <pre>        when /video/ then </pre>
               </td>
@@ -2614,7 +2598,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>317</td>
+              <td class='line_number'>315</td>
               <td class='code_line'>
                 <pre>          "Video"</pre>
               </td>
@@ -2622,7 +2606,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>318</td>
+              <td class='line_number'>316</td>
               <td class='code_line'>
                 <pre>        when /audio/ then</pre>
               </td>
@@ -2630,7 +2614,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>319</td>
+              <td class='line_number'>317</td>
               <td class='code_line'>
                 <pre>          "Audio"</pre>
               </td>
@@ -2638,7 +2622,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>320</td>
+              <td class='line_number'>318</td>
               <td class='code_line'>
                 <pre>        when /image/ then</pre>
               </td>
@@ -2646,7 +2630,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>321</td>
+              <td class='line_number'>319</td>
               <td class='code_line'>
                 <pre>          "Image"</pre>
               </td>
@@ -2654,7 +2638,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>322</td>
+              <td class='line_number'>320</td>
               <td class='code_line'>
                 <pre>        else </pre>
               </td>
@@ -2662,7 +2646,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>323</td>
+              <td class='line_number'>321</td>
               <td class='code_line'>
                 <pre>          "Doc"</pre>
               </td>
@@ -2670,7 +2654,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>324</td>
+              <td class='line_number'>322</td>
               <td class='code_line'>
                 <pre>      end </pre>
               </td>
@@ -2678,7 +2662,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>325</td>
+              <td class='line_number'>323</td>
               <td class='code_line'>
                 <pre>    else</pre>
               </td>
@@ -2686,7 +2670,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>326</td>
+              <td class='line_number'>324</td>
               <td class='code_line'>
                 <pre>      self.type.gsub(/Media::/, '')</pre>
               </td>
@@ -2694,7 +2678,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>327</td>
+              <td class='line_number'>325</td>
               <td class='code_line'>
                 <pre>    end    </pre>
               </td>
@@ -2702,7 +2686,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>328</td>
+              <td class='line_number'>326</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -2710,7 +2694,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>329</td>
+              <td class='line_number'>327</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -2718,7 +2702,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>330</td>
+              <td class='line_number'>328</td>
               <td class='code_line'>
                 <pre>########################################################</pre>
               </td>
@@ -2726,7 +2710,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>331</td>
+              <td class='line_number'>329</td>
               <td class='code_line'>
                 <pre># ACL</pre>
               </td>
@@ -2734,7 +2718,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>332</td>
+              <td class='line_number'>330</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -2742,15 +2726,15 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>333</td>
+              <td class='line_number'>331</td>
               <td class='code_line'>
                 <pre>  def acl?(action, scope, subject = nil)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>334</td>
+              <td class='line_number'>332</td>
               <td class='code_line'>
                 <pre>    case scope</pre>
               </td>
@@ -2758,7 +2742,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>335</td>
+              <td class='line_number'>333</td>
               <td class='code_line'>
                 <pre>      when :all</pre>
               </td>
@@ -2766,7 +2750,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>336</td>
+              <td class='line_number'>334</td>
               <td class='code_line'>
                 <pre>        # TODO ?? use :permissions association</pre>
               </td>
@@ -2774,7 +2758,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>337</td>
+              <td class='line_number'>335</td>
               <td class='code_line'>
                 <pre>        Permission.authorized?(nil, action, self)</pre>
               </td>
@@ -2782,7 +2766,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>338</td>
+              <td class='line_number'>336</td>
               <td class='code_line'>
                 <pre>      when :only</pre>
               </td>
@@ -2790,7 +2774,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>339</td>
+              <td class='line_number'>337</td>
               <td class='code_line'>
                 <pre>        Permission.resource_viewable_only_by_user?(self, subject)</pre>
               </td>
@@ -2798,7 +2782,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>340</td>
+              <td class='line_number'>338</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -2806,7 +2790,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>341</td>
+              <td class='line_number'>339</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -2814,7 +2798,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>342</td>
+              <td class='line_number'>340</td>
               <td class='code_line'>
                 <pre>  </pre>
               </td>
@@ -2822,15 +2806,15 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>343</td>
+              <td class='line_number'>341</td>
               <td class='code_line'>
                 <pre>  def managers</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>344</td>
+              <td class='line_number'>342</td>
               <td class='code_line'>
                 <pre>    i = Permission::ACTIONS.index(:manage)</pre>
               </td>
@@ -2838,7 +2822,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>345</td>
+              <td class='line_number'>343</td>
               <td class='code_line'>
                 <pre>    return nil unless i</pre>
               </td>
@@ -2846,7 +2830,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>346</td>
+              <td class='line_number'>344</td>
               <td class='code_line'>
                 <pre>    j = 2 ** i</pre>
               </td>
@@ -2854,7 +2838,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>347</td>
+              <td class='line_number'>345</td>
               <td class='code_line'>
                 <pre>    permissions.where("#{SQLHelper.bitwise_is 'action_bits',j} AND #{SQLHelper.bitwise_is 'action_mask',j}").map(&:subject)</pre>
               </td>
@@ -2862,11 +2846,27 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>348</td>
+              <td class='line_number'>346</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
               <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>347</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>348</td>
+              <td class='code_line'>
+                <pre>private</pre>
+              </td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -2877,58 +2877,58 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>350</td>
               <td class='code_line'>
-                <pre>private</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>351</td>
-              <td class='code_line'>
-                <pre></pre>
+                <pre>  # TODO check with franco permissions for snapshot </pre>
               </td>
               <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>351</td>
+              <td class='code_line'>
+                <pre>  def generate_permissions</pre>
+              </td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>352</td>
               <td class='code_line'>
-                <pre>  def generate_permissions</pre>
+                <pre>    if self.class == Snapshot</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>131</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>353</td>
+              <td class='code_line'>
+                <pre>      group = Group.find_or_create_by_name("MIZ-Archiv") </pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>354</td>
+              <td class='code_line'>
+                <pre>      gp = Grouppermission.create  \</pre>
+              </td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>353</td>
-              <td class='code_line'>
-                <pre>    # OPTIMIZE</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>354</td>
-              <td class='code_line'>
-                <pre>    unless self.class == Snapshot</pre>
-              </td>
-              <td class='hit_number'>69</td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>355</td>
               <td class='code_line'>
-                <pre>      subject = self.user</pre>
+                <pre>        group: group, </pre>
               </td>
-              <td class='hit_number'>69</td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>356</td>
               <td class='code_line'>
-                <pre>    else</pre>
+                <pre>        resource: self,</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2936,95 +2936,95 @@
             <tr class="never" "">
               <td class='line_number'>357</td>
               <td class='code_line'>
-                <pre>      #1504#</pre>
+                <pre>        may_download_high_resolution: true,</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>358</td>
               <td class='code_line'>
-                <pre>      h = media_entry.default_permission.actions</pre>
+                <pre>        may_edit: true,</pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'></td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>359</td>
               <td class='code_line'>
-                <pre>      permissions.build(:subject => nil).set_actions(h) unless h.blank?</pre>
+                <pre>        may_manage: true,</pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'></td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>360</td>
               <td class='code_line'>
-                <pre>      subject = Group.find_or_create_by_name("MIZ-Archiv") # Group.scoped_by_name("MIZ-Archiv").first</pre>
+                <pre>        may_view: true</pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>361</td>
               <td class='code_line'>
-                <pre>    end</pre>
+                <pre>    else</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>362</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>      up = Userpermission.create \</pre>
               </td>
-              <td class='hit_number'></td>
+              <td class='hit_number'>131</td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>363</td>
               <td class='code_line'>
-                <pre>    # TODO validates presence of the owner's permissions?</pre>
+                <pre>        user: owner, </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>364</td>
               <td class='code_line'>
-                <pre>    if subject</pre>
+                <pre>        resource: self,</pre>
               </td>
-              <td class='hit_number'>69</td>
+              <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>365</td>
               <td class='code_line'>
-                <pre>     user_default_permissions = {:view => true, :edit => true, :manage => true}</pre>
+                <pre>        may_download_high_resolution: true,</pre>
               </td>
-              <td class='hit_number'>69</td>
+              <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>366</td>
               <td class='code_line'>
-                <pre>     user_default_permissions[:hi_res] = true if self.class == MediaEntry</pre>
+                <pre>        may_edit: true,</pre>
               </td>
-              <td class='hit_number'>69</td>
+              <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>367</td>
               <td class='code_line'>
-                <pre>     permissions.build(:subject => subject).set_actions(user_default_permissions)  </pre>
+                <pre>        may_manage: true,</pre>
               </td>
-              <td class='hit_number'>69</td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>368</td>
               <td class='code_line'>
-                <pre>    end # OPTIMIZE</pre>
+                <pre>        may_view: true</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3032,7 +3032,7 @@
             <tr class="never" "">
               <td class='line_number'>369</td>
               <td class='code_line'>
-                <pre>  end</pre>
+                <pre>    end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3040,13 +3040,29 @@
             <tr class="never" "">
               <td class='line_number'>370</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>  end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>371</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>372</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>373</td>
               <td class='code_line'>
                 <pre>end</pre>
               </td>
@@ -3058,6 +3074,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-03 12:29:31 +0100</p>
+    <p>Generated on: 2012-01-03 16:03:00 +0100</p>
   </body>
 </html>

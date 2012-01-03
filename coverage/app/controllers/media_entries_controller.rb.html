@@ -2,8 +2,8 @@
   <head>
     <title>app/controllers/media_entries_controller.rb</title>
     
-    <link href="../../report.css?0.7217785875119592" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.14538893589502166'></script>
+    <link href="../../report.css?0.7800733402559662" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.9225902383752839'></script>
     <script>
       $(function() {
 
@@ -98,7 +98,7 @@
               <td class='code_line'>
                 <pre>class MediaEntriesController < ApplicationController</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -114,7 +114,7 @@
               <td class='code_line'>
                 <pre>  before_filter :pre_load, :except => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions]</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -122,7 +122,7 @@
               <td class='code_line'>
                 <pre>  before_filter :pre_load_for_batch, :only => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions]</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -130,7 +130,7 @@
               <td class='code_line'>
                 <pre>  before_filter :authorized?, :except => [:index, :media_sets, :favorites, :toggle_favorites, :keywords] #old# :only => [:show, :edit, :update, :destroy]</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -146,7 +146,7 @@
               <td class='code_line'>
                 <pre>  def show</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -210,7 +210,7 @@
               <td class='code_line'>
                 <pre>  def image(size = params[:size] || :large)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -338,7 +338,7 @@
               <td class='code_line'>
                 <pre>  def map</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -426,7 +426,7 @@
               <td class='code_line'>
                 <pre>  def browse</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -490,7 +490,7 @@
               <td class='code_line'>
                 <pre>  def edit</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -514,7 +514,7 @@
               <td class='code_line'>
                 <pre>  def destroy</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -626,7 +626,7 @@
               <td class='code_line'>
                 <pre>  def edit_tms</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -650,7 +650,7 @@
               <td class='code_line'>
                 <pre>  def to_snapshot</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -850,7 +850,7 @@
               <td class='code_line'>
                 <pre>  def media_sets(media_set_ids = params[:media_set_ids])</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -1002,7 +1002,7 @@
               <td class='code_line'>
                 <pre>  def toggle_favorites</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1058,7 +1058,7 @@
               <td class='code_line'>
                 <pre>  def keywords</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -1298,7 +1298,7 @@
               <td class='code_line'>
                 <pre>  def remove_multiple</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1346,7 +1346,7 @@
               <td class='code_line'>
                 <pre>  def edit_multiple</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -1402,7 +1402,7 @@
               <td class='code_line'>
                 <pre>  def update_multiple</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1498,7 +1498,7 @@
               <td class='code_line'>
                 <pre>  def edit_multiple_permissions</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1578,7 +1578,7 @@
               <td class='code_line'>
                 <pre>  private</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -1594,7 +1594,7 @@
               <td class='code_line'>
                 <pre>  def authorized?</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1834,7 +1834,7 @@
               <td class='code_line'>
                 <pre>  def pre_load</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -2018,7 +2018,7 @@
               <td class='code_line'>
                 <pre>  def pre_load_for_batch</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -2218,6 +2218,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-03 12:29:31 +0100</p>
+    <p>Generated on: 2012-01-03 16:03:00 +0100</p>
   </body>
 </html>

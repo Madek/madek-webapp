@@ -2,8 +2,8 @@
   <head>
     <title>lib/metahelper.rb</title>
     
-    <link href="../report.css?0.5269392660917986" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../jquery.js?0.477956138969272'></script>
+    <link href="../report.css?0.8250837836263477" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../jquery.js?0.11808398886129379'></script>
     <script>
       $(function() {
 
@@ -90,7 +90,7 @@
               <td class='code_line'>
                 <pre>module MetaHelper </pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -106,7 +106,7 @@
               <td class='code_line'>
                 <pre>  def self.import_initial_metadata(uploaded_data=nil)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -138,7 +138,7 @@
               <td class='code_line'>
                 <pre>    buffer = []</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -146,7 +146,7 @@
               <td class='code_line'>
                 <pre>    begin</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -154,7 +154,7 @@
               <td class='code_line'>
                 <pre>      ActiveRecord::Base.transaction do</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -186,7 +186,7 @@
               <td class='code_line'>
                 <pre>        @meta_data = {}</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -194,7 +194,7 @@
               <td class='code_line'>
                 <pre>        MetaDatum.all.each do |meta_datum|</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -378,7 +378,7 @@
               <td class='code_line'>
                 <pre>        MetaDatum.reset_column_information</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -386,7 +386,7 @@
               <td class='code_line'>
                 <pre>        MetaDatum.update_all("meta_key_id = (meta_key_id * -1)")</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -418,7 +418,7 @@
               <td class='code_line'>
                 <pre>        uploaded_data ||= File.read("#{Rails.root}/features/data/minimal_meta.yml")</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -426,7 +426,7 @@
               <td class='code_line'>
                 <pre>        meta = YAML.load(uploaded_data)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -458,7 +458,7 @@
               <td class='code_line'>
                 <pre>        if meta[:meta_terms] and meta[:meta_keys] and meta[:meta_contexts] and meta[:meta_key_definitions]   </pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -474,7 +474,7 @@
               <td class='code_line'>
                 <pre>          [MetaKey, MetaContext, MetaKeyDefinition, Meta::Term, UsageTerm].each {|a| a.destroy_all }</pre>
               </td>
-              <td class='hit_number'>6</td>
+              <td class='hit_number'>12</td>
             </tr>
           
             <tr class="never" "">
@@ -490,7 +490,7 @@
               <td class='code_line'>
                 <pre>          meta[:meta_terms].each do |term|</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -498,7 +498,7 @@
               <td class='code_line'>
                 <pre>            k = Meta::Term.new(term)</pre>
               </td>
-              <td class='hit_number'>827</td>
+              <td class='hit_number'>1654</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -506,7 +506,7 @@
               <td class='code_line'>
                 <pre>            k.id = term["id"]</pre>
               </td>
-              <td class='hit_number'>827</td>
+              <td class='hit_number'>1654</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -514,7 +514,7 @@
               <td class='code_line'>
                 <pre>            k.save</pre>
               </td>
-              <td class='hit_number'>827</td>
+              <td class='hit_number'>1654</td>
             </tr>
           
             <tr class="never" "">
@@ -546,7 +546,7 @@
               <td class='code_line'>
                 <pre>          meta[:meta_keys].each do |meta_key|</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -554,7 +554,7 @@
               <td class='code_line'>
                 <pre>            meta_terms = meta_key.delete("meta_terms")</pre>
               </td>
-              <td class='hit_number'>89</td>
+              <td class='hit_number'>178</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -562,7 +562,7 @@
               <td class='code_line'>
                 <pre>            k = MetaKey.new(meta_key)</pre>
               </td>
-              <td class='hit_number'>89</td>
+              <td class='hit_number'>178</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -570,7 +570,7 @@
               <td class='code_line'>
                 <pre>            k.id = meta_key["id"]</pre>
               </td>
-              <td class='hit_number'>89</td>
+              <td class='hit_number'>178</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -578,7 +578,7 @@
               <td class='code_line'>
                 <pre>            k.save</pre>
               </td>
-              <td class='hit_number'>89</td>
+              <td class='hit_number'>178</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -586,7 +586,7 @@
               <td class='code_line'>
                 <pre>            k.meta_terms << Meta::Term.find(meta_terms) if meta_terms</pre>
               </td>
-              <td class='hit_number'>89</td>
+              <td class='hit_number'>178</td>
             </tr>
           
             <tr class="never" "">
@@ -618,7 +618,7 @@
               <td class='code_line'>
                 <pre>          meta[:meta_contexts].each do |meta_context|</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -626,7 +626,7 @@
               <td class='code_line'>
                 <pre>            k = MetaContext.new(meta_context)</pre>
               </td>
-              <td class='hit_number'>11</td>
+              <td class='hit_number'>22</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -634,7 +634,7 @@
               <td class='code_line'>
                 <pre>            k.id = meta_context["id"]</pre>
               </td>
-              <td class='hit_number'>11</td>
+              <td class='hit_number'>22</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -642,7 +642,7 @@
               <td class='code_line'>
                 <pre>            k.save</pre>
               </td>
-              <td class='hit_number'>11</td>
+              <td class='hit_number'>22</td>
             </tr>
           
             <tr class="never" "">
@@ -674,7 +674,7 @@
               <td class='code_line'>
                 <pre>          meta[:meta_key_definitions].each do |meta_key_definition|</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -682,7 +682,7 @@
               <td class='code_line'>
                 <pre>            k = MetaKeyDefinition.new(meta_key_definition)</pre>
               </td>
-              <td class='hit_number'>187</td>
+              <td class='hit_number'>374</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -690,7 +690,7 @@
               <td class='code_line'>
                 <pre>            k.id = meta_key_definition["id"]</pre>
               </td>
-              <td class='hit_number'>187</td>
+              <td class='hit_number'>374</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -698,7 +698,7 @@
               <td class='code_line'>
                 <pre>            k.save</pre>
               </td>
-              <td class='hit_number'>187</td>
+              <td class='hit_number'>374</td>
             </tr>
           
             <tr class="never" "">
@@ -730,7 +730,7 @@
               <td class='code_line'>
                 <pre>          k = UsageTerm.new(meta[:usage_terms])</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -738,7 +738,7 @@
               <td class='code_line'>
                 <pre>          k.id = meta[:usage_terms]["id"]</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -746,7 +746,7 @@
               <td class='code_line'>
                 <pre>          k.save</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -818,7 +818,7 @@
               <td class='code_line'>
                 <pre>        @meta_keys = {}</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -826,7 +826,7 @@
               <td class='code_line'>
                 <pre>        MetaDatum.where("meta_key_id < 0").each do |meta_datum|</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1026,7 +1026,7 @@
               <td class='code_line'>
                 <pre>        negatives = MetaDatum.where("meta_key_id < 0").count</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -1034,7 +1034,7 @@
               <td class='code_line'>
                 <pre>        if negatives > 0</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1090,7 +1090,7 @@
               <td class='code_line'>
                 <pre>          buffer << "--- Import completed successfully ---"</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -1122,7 +1122,7 @@
               <td class='code_line'>
                 <pre>      SQLHelper.reset_autoinc_sequence_to_max MetaContext</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -1130,7 +1130,7 @@
               <td class='code_line'>
                 <pre>      SQLHelper.reset_autoinc_sequence_to_max MetaDatum</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -1138,7 +1138,7 @@
               <td class='code_line'>
                 <pre>      SQLHelper.reset_autoinc_sequence_to_max MetaKey</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -1146,7 +1146,7 @@
               <td class='code_line'>
                 <pre>      SQLHelper.reset_autoinc_sequence_to_max MetaKeyDefinition</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -1154,7 +1154,7 @@
               <td class='code_line'>
                 <pre>      SQLHelper.reset_autoinc_sequence_to_max Meta::Term</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -1194,7 +1194,7 @@
               <td class='code_line'>
                 <pre>    buffer</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -1218,6 +1218,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-03 12:29:31 +0100</p>
+    <p>Generated on: 2012-01-03 16:03:00 +0100</p>
   </body>
 </html>

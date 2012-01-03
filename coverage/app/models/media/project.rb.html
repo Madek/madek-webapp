@@ -2,8 +2,8 @@
   <head>
     <title>app/models/media/project.rb</title>
     
-    <link href="../../../report.css?0.5698418418615128" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../../jquery.js?0.19046337864104068'></script>
+    <link href="../../../report.css?0.9863157675852893" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../../jquery.js?0.6094495093868433'></script>
     <script>
       $(function() {
 
@@ -90,7 +90,7 @@
               <td class='code_line'>
                 <pre>require 'set'</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -106,7 +106,7 @@
               <td class='code_line'>
                 <pre>class Media::Project < Media::Set</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -122,7 +122,7 @@
               <td class='code_line'>
                 <pre>  has_and_belongs_to_many :individual_contexts, :class_name => "MetaContext",</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -154,7 +154,7 @@
               <td class='code_line'>
                 <pre>  def inheritable_contexts</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -162,7 +162,7 @@
               <td class='code_line'>
                 <pre>    parent_sets.map(&:individual_contexts).flatten.to_set.to_a # removes duplicates, I don't know how efficient .to_a.uniq is</pre>
               </td>
-              <td class='hit_number'>5</td>
+              <td class='hit_number'>10</td>
             </tr>
           
             <tr class="never" "">
@@ -194,7 +194,7 @@
               <td class='code_line'>
                 <pre>  def self.model_name</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -234,7 +234,7 @@
               <td class='code_line'>
                 <pre>  def abstract(min_media_entries = nil, current_user = nil)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -418,7 +418,7 @@
               <td class='code_line'>
                 <pre>  def used_meta_term_ids(current_user = nil)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1034,6 +1034,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-03 12:29:31 +0100</p>
+    <p>Generated on: 2012-01-03 16:03:00 +0100</p>
   </body>
 </html>
