@@ -4,7 +4,7 @@ module Permissions
   class << self
 
     def authorized?(user, action, resource)
-      # the old authorized acceted subjects 
+      # the old authorized accepted subjects 
       raise "authorized? can only be called with a user" if user.class != User
 
       if resource.owner == user
