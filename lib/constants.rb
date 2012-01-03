@@ -3,22 +3,26 @@ module Constants
 
   
   PUBLIC_PREFIX= "perm_public_may_"
-  PUBLIC_ACTIONS= %w{view download_high_resolution}
-  ACTIONS= PUBLIC_ACTIONS.concat %w{manage edit}
-  
-  NEW_OLD_ACTIONS_MAP = {
-      download_high_resolution: :hi_res,
-      edit: :edit,
-      manage: :manage,
-      view: :view
+ 
+  NEW_OLD_PUBLIC_ACTIONS_MAP =  \
+    { download_high_resolution: :hi_res \
+    , view: :view
     }
+
+  NEW_OLD_ACTIONS_MAP = NEW_OLD_PUBLIC_ACTIONS_MAP.merge (
+    { edit: :edit \
+    , manage: :manage
+    })
+
+  PUBLIC_ACTIONS= NEW_OLD_PUBLIC_ACTIONS_MAP.keys
+  ACTIONS= NEW_OLD_ACTIONS_MAP.keys
 
 
   module Actions 
-    include Enumerable
     extend self
 
     class << self 
+      include Enumerable
 
       def new2old old_action
         Constants::NEW_OLD_ACTIONS_MAP.fetch old_action.to_sym
@@ -38,11 +42,14 @@ module Constants
 
   
   module PublicActions
-    include Enumerable
     extend self
-  
-    def each 
-      PUBLIC_ACTIONS.each {|action| yield action}
+
+    class << self
+      include Enumerable
+
+      def each 
+        PUBLIC_ACTIONS.each {|action| yield action}
+      end
     end
   end
 
