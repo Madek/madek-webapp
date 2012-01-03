@@ -2,8 +2,8 @@
   <head>
     <title>app/controllers/application_controller.rb</title>
     
-    <link href="../../report.css?0.3278654916450473" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.00975181224937216'></script>
+    <link href="../../report.css?0.544505068477343" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.862019039409607'></script>
     <script>
       $(function() {
 
@@ -57,8 +57,8 @@
         </td>
         <td>142</td>
         <td>64</td>
-        <td>31</td>
-        <td>51.6%</td>
+        <td>43</td>
+        <td>32.8%</td>
       </tr>
     </table>
 
@@ -213,12 +213,12 @@
               <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>17</td>
               <td class='code_line'>
                 <pre>    !!current_user</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -245,12 +245,12 @@
               <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>21</td>
               <td class='code_line'>
                 <pre>    @current_user ||= login_from_session</pre>
               </td>
-              <td class='hit_number'>12</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -853,12 +853,12 @@
               <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>97</td>
               <td class='code_line'>
                 <pre>    unless logged_in?</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -917,20 +917,20 @@
               <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>105</td>
               <td class='code_line'>
                 <pre>    session[:user_id] = new_user ? new_user.id : nil</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>106</td>
               <td class='code_line'>
                 <pre>    @current_user = new_user || false</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -957,20 +957,20 @@
               <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>110</td>
               <td class='code_line'>
                 <pre>    user = nil</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>111</td>
               <td class='code_line'>
                 <pre>    if session[:user_id]</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -981,20 +981,20 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>113</td>
               <td class='code_line'>
                 <pre>      self.current_user = user = User.where(:id => session[:user_id]).first</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>114</td>
               <td class='code_line'>
                 <pre>      check_usage_terms_accepted</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -1053,12 +1053,12 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>122</td>
               <td class='code_line'>
                 <pre>    user</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -1085,20 +1085,20 @@
               <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>126</td>
               <td class='code_line'>
                 <pre>    return if request[:action].to_sym == :usage_terms # OPTIMIZE</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>127</td>
               <td class='code_line'>
                 <pre>    unless current_user.usage_terms_accepted?</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1226,6 +1226,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-03 10:10:04 +0100</p>
+    <p>Generated on: 2012-01-03 10:36:18 +0100</p>
   </body>
 </html>
