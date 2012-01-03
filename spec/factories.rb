@@ -46,7 +46,7 @@ FactoryGirl.define do
     after_build do |me|
       def me.extract_subjective_metadata; end
       def me.set_copyright; end
-      def me.set_descr_author_value; end
+      def me.set_descr_author_value record; end
     end
   end
 

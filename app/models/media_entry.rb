@@ -19,13 +19,15 @@ class MediaEntry < ActiveRecord::Base
 
   before_create :extract_subjective_metadata, :set_copyright
 
-  after_create :set_descr_author_value
+  after_create do |record| 
+    set_descr_author_value record
+  end 
 
   before_save do
     owner ||= upload_session.user
   end
 
-  def set_descr_author_value
+  def set_descr_author_value record
     descr_author_value = record.meta_data.get("description author").value
     record.meta_data.get("description author before import").update_attributes(:value => descr_author_value) if descr_author_value
   end

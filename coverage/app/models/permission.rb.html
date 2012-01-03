@@ -2,8 +2,8 @@
   <head>
     <title>app/models/permission.rb</title>
     
-    <link href="../../report.css?0.5591438578538472" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.9781306025941796'></script>
+    <link href="../../report.css?0.3425407079132071" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.2752172077741669'></script>
     <script>
       $(function() {
 
@@ -101,7 +101,7 @@
               <td class='code_line'>
                 <pre>class Permission < ActiveRecord::Base</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -117,7 +117,7 @@
               <td class='code_line'>
                 <pre>  ACTIONS = [:view, :edit, :hi_res, :manage] # view = 2^0 = 1; edit = 2^1 = 2; hi_res = 2^2 = 4; manage = 2^3 = 8</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -133,7 +133,7 @@
               <td class='code_line'>
                 <pre>  belongs_to :subject, :polymorphic => true </pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -141,7 +141,7 @@
               <td class='code_line'>
                 <pre>  belongs_to :resource, :polymorphic => true #-# TODO store real subclass type</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -157,7 +157,7 @@
               <td class='code_line'>
                 <pre>  validates_numericality_of :action_bits, :action_mask</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -165,7 +165,7 @@
               <td class='code_line'>
                 <pre>  validates_numericality_of :action_mask, :greater_than => 0, :unless => Proc.new { |resource| resource_type.nil? }  </pre>
               </td>
-              <td class='hit_number'>78</td>
+              <td class='hit_number'>156</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -173,7 +173,7 @@
               <td class='code_line'>
                 <pre>  validates_uniqueness_of :subject_id, :scope => [:subject_type, :resource_id, :resource_type]</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -213,7 +213,7 @@
               <td class='code_line'>
                 <pre>  def actions</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -221,7 +221,7 @@
               <td class='code_line'>
                 <pre>    h = {}</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>16</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -229,7 +229,7 @@
               <td class='code_line'>
                 <pre>    ACTIONS.each_with_index do |a, i|</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>16</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -237,7 +237,7 @@
               <td class='code_line'>
                 <pre>      j = 2 ** i</pre>
               </td>
-              <td class='hit_number'>16</td>
+              <td class='hit_number'>64</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -245,7 +245,7 @@
               <td class='code_line'>
                 <pre>      next if (j & action_mask).zero?</pre>
               </td>
-              <td class='hit_number'>16</td>
+              <td class='hit_number'>64</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -253,7 +253,7 @@
               <td class='code_line'>
                 <pre>      h[a] = !(j & action_bits).zero? </pre>
               </td>
-              <td class='hit_number'>8</td>
+              <td class='hit_number'>28</td>
             </tr>
           
             <tr class="never" "">
@@ -269,7 +269,7 @@
               <td class='code_line'>
                 <pre>    h</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>16</td>
             </tr>
           
             <tr class="never" "">
@@ -293,7 +293,7 @@
               <td class='code_line'>
                 <pre>  def set_actions(hash)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -301,7 +301,7 @@
               <td class='code_line'>
                 <pre>    hash.each_pair do |key, value|</pre>
               </td>
-              <td class='hit_number'>73</td>
+              <td class='hit_number'>146</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -309,7 +309,7 @@
               <td class='code_line'>
                 <pre>      i = ACTIONS.index(key.to_sym)</pre>
               </td>
-              <td class='hit_number'>227</td>
+              <td class='hit_number'>450</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -317,7 +317,7 @@
               <td class='code_line'>
                 <pre>      next unless i</pre>
               </td>
-              <td class='hit_number'>227</td>
+              <td class='hit_number'>450</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -325,7 +325,7 @@
               <td class='code_line'>
                 <pre>      j = 2 ** i</pre>
               </td>
-              <td class='hit_number'>227</td>
+              <td class='hit_number'>450</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -333,7 +333,7 @@
               <td class='code_line'>
                 <pre>      value = (value == "true" ? true : false) if value.is_a? String </pre>
               </td>
-              <td class='hit_number'>227</td>
+              <td class='hit_number'>450</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -341,7 +341,7 @@
               <td class='code_line'>
                 <pre>      case value</pre>
               </td>
-              <td class='hit_number'>227</td>
+              <td class='hit_number'>450</td>
             </tr>
           
             <tr class="never" "">
@@ -381,7 +381,7 @@
               <td class='code_line'>
                 <pre>          self.action_bits |= j</pre>
               </td>
-              <td class='hit_number'>215</td>
+              <td class='hit_number'>426</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -389,7 +389,7 @@
               <td class='code_line'>
                 <pre>          self.action_mask |= j</pre>
               </td>
-              <td class='hit_number'>215</td>
+              <td class='hit_number'>426</td>
             </tr>
           
             <tr class="never" "">
@@ -405,7 +405,7 @@
               <td class='code_line'>
                 <pre>          self.action_bits &= ~j</pre>
               </td>
-              <td class='hit_number'>12</td>
+              <td class='hit_number'>24</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -413,7 +413,7 @@
               <td class='code_line'>
                 <pre>          self.action_mask |= j</pre>
               </td>
-              <td class='hit_number'>12</td>
+              <td class='hit_number'>24</td>
             </tr>
           
             <tr class="never" "">
@@ -437,7 +437,7 @@
               <td class='code_line'>
                 <pre>    if action_mask.zero? and not resource_type.nil? # TODO validation ???</pre>
               </td>
-              <td class='hit_number'>73</td>
+              <td class='hit_number'>146</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -461,7 +461,7 @@
               <td class='code_line'>
                 <pre>      save</pre>
               </td>
-              <td class='hit_number'>73</td>
+              <td class='hit_number'>146</td>
             </tr>
           
             <tr class="never" "">
@@ -501,7 +501,7 @@
               <td class='code_line'>
                 <pre>  class << self</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -541,7 +541,7 @@
               <td class='code_line'>
                 <pre>    def authorized?(subject, action, resource)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -581,7 +581,7 @@
               <td class='code_line'>
                 <pre>      !!merged_actions(subject, resource)[action]</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="never" "">
@@ -605,7 +605,7 @@
               <td class='code_line'>
                 <pre>    def resource_viewable_only_by_user?(resource, subject)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -669,7 +669,7 @@
               <td class='code_line'>
                 <pre>    def init(reset = false)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -773,7 +773,7 @@
               <td class='code_line'>
                 <pre>    def system_default_actions</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -781,7 +781,7 @@
               <td class='code_line'>
                 <pre>      p = where(:subject_id => nil, :subject_type => nil, :resource_type => nil, :resource_id => nil).first</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -789,7 +789,7 @@
               <td class='code_line'>
                 <pre>      p ? p.actions : {} #1504#</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="never" "">
@@ -813,7 +813,7 @@
               <td class='code_line'>
                 <pre>    def resource_default(resource)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -821,7 +821,7 @@
               <td class='code_line'>
                 <pre>      cached_permissions_by(resource).detect {|x| x.subject.nil? }</pre>
               </td>
-              <td class='hit_number'>8</td>
+              <td class='hit_number'>28</td>
             </tr>
           
             <tr class="never" "">
@@ -845,7 +845,7 @@
               <td class='code_line'>
                 <pre>    def resource_default_actions(resource)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -853,7 +853,7 @@
               <td class='code_line'>
                 <pre>      p = resource_default(resource)</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -861,7 +861,7 @@
               <td class='code_line'>
                 <pre>      system_default_actions.merge(p ? p.actions : {}) #1504#</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="never" "">
@@ -893,7 +893,7 @@
               <td class='code_line'>
                 <pre>    def cached_permissions_by(resource)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -901,7 +901,7 @@
               <td class='code_line'>
                 <pre>      p = resource.permissions.all</pre>
               </td>
-              <td class='hit_number'>6</td>
+              <td class='hit_number'>24</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -909,7 +909,7 @@
               <td class='code_line'>
                 <pre>      p << resource.permissions.build(:subject => nil) unless p.any? {|x| x.subject.nil?} #2904# OPTIMIZE</pre>
               </td>
-              <td class='hit_number'>18</td>
+              <td class='hit_number'>60</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -917,7 +917,7 @@
               <td class='code_line'>
                 <pre>      p</pre>
               </td>
-              <td class='hit_number'>6</td>
+              <td class='hit_number'>24</td>
             </tr>
           
             <tr class="never" "">
@@ -957,7 +957,7 @@
               <td class='code_line'>
                 <pre>    def compare(resources)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1333,7 +1333,7 @@
               <td class='code_line'>
                 <pre>    def merged_actions(subject, resource)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -1341,7 +1341,7 @@
               <td class='code_line'>
                 <pre>      actions = resource_default_actions(resource)</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="never" "">
@@ -1357,7 +1357,7 @@
               <td class='code_line'>
                 <pre>      if subject</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -1365,7 +1365,7 @@
               <td class='code_line'>
                 <pre>        if subject.class == User # OPTIMIZE could be the subject argument a Group ?? </pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="never" "">
@@ -1381,7 +1381,7 @@
               <td class='code_line'>
                 <pre>          group_permissions = cached_permissions_by(resource).select {|x| x.subject_type == "Group" and subject.group_ids.include?(x.subject_id) }</pre>
               </td>
-              <td class='hit_number'>8</td>
+              <td class='hit_number'>28</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -1389,7 +1389,7 @@
               <td class='code_line'>
                 <pre>          group_permissions.each do |group_permission|</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1453,7 +1453,7 @@
               <td class='code_line'>
                 <pre>        perm_subject_resource = cached_permissions_by(resource).detect {|x| x.subject_type == subject.class.base_class.name and x.subject_id == subject.id }</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>16</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -1461,7 +1461,7 @@
               <td class='code_line'>
                 <pre>        actions = actions.merge(perm_subject_resource.actions) if perm_subject_resource #1504#</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="never" "">
@@ -1477,7 +1477,7 @@
               <td class='code_line'>
                 <pre>      actions</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>8</td>
             </tr>
           
             <tr class="never" "">
@@ -1501,7 +1501,7 @@
               <td class='code_line'>
                 <pre>    def assign_manage_to(subject, resource, recursive = false)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1908,6 +1908,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-03 10:36:18 +0100</p>
+    <p>Generated on: 2012-01-03 12:29:31 +0100</p>
   </body>
 </html>

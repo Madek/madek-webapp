@@ -2,8 +2,8 @@
   <head>
     <title>app/models/meta_context.rb</title>
     
-    <link href="../../report.css?0.3805188992410887" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.4264320898032272'></script>
+    <link href="../../report.css?0.8511750710960246" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.33462603430080873'></script>
     <script>
       $(function() {
 
@@ -149,7 +149,7 @@
               <td class='code_line'>
                 <pre>class MetaContext < ActiveRecord::Base</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -165,7 +165,7 @@
               <td class='code_line'>
                 <pre>  has_many :meta_key_definitions, :dependent => :destroy</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -173,7 +173,7 @@
               <td class='code_line'>
                 <pre>  has_many :meta_keys, :through => :meta_key_definitions, :order => :position</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -189,7 +189,7 @@
               <td class='code_line'>
                 <pre>  validates_presence_of :name</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -213,7 +213,7 @@
               <td class='code_line'>
                 <pre>  def meta_field=(hash = {})</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -221,7 +221,7 @@
               <td class='code_line'>
                 <pre>    f = meta_field || MetaField.new</pre>
               </td>
-              <td class='hit_number'>11</td>
+              <td class='hit_number'>22</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -229,7 +229,7 @@
               <td class='code_line'>
                 <pre>    f.update_attributes(hash)</pre>
               </td>
-              <td class='hit_number'>11</td>
+              <td class='hit_number'>22</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -237,7 +237,7 @@
               <td class='code_line'>
                 <pre>    write_attribute(:meta_field, f)</pre>
               </td>
-              <td class='hit_number'>11</td>
+              <td class='hit_number'>22</td>
             </tr>
           
             <tr class="never" "">
@@ -253,7 +253,7 @@
               <td class='code_line'>
                 <pre>  serialize     :meta_field, MetaField</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -285,7 +285,7 @@
               <td class='code_line'>
                 <pre>  scope :for_interface, where(:is_user_interface => true)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -293,7 +293,7 @@
               <td class='code_line'>
                 <pre>  scope :for_import_export, where(:is_user_interface => false)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -325,7 +325,7 @@
               <td class='code_line'>
                 <pre>  def to_s</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -357,7 +357,7 @@
               <td class='code_line'>
                 <pre>  def description</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -389,7 +389,7 @@
               <td class='code_line'>
                 <pre>  def next_position</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -437,7 +437,7 @@
               <td class='code_line'>
                 <pre>  def self.defaults</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -469,7 +469,7 @@
               <td class='code_line'>
                 <pre>  def self.method_missing(*args)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -628,6 +628,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-03 10:36:18 +0100</p>
+    <p>Generated on: 2012-01-03 12:29:31 +0100</p>
   </body>
 </html>

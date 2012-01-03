@@ -2,8 +2,8 @@
   <head>
     <title>app/models/user.rb</title>
     
-    <link href="../../report.css?0.2437197209186881" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.46958810912833915'></script>
+    <link href="../../report.css?0.8652384383738269" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.563568150975555'></script>
     <script>
       $(function() {
 
@@ -60,8 +60,8 @@
         </td>
         <td>102</td>
         <td>48</td>
-        <td>13</td>
-        <td>72.9%</td>
+        <td>12</td>
+        <td>75.0%</td>
       </tr>
     </table>
 
@@ -117,7 +117,7 @@
               <td class='code_line'>
                 <pre>require 'digest/sha1'</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -133,7 +133,7 @@
               <td class='code_line'>
                 <pre>class User < ActiveRecord::Base</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -149,7 +149,7 @@
               <td class='code_line'>
                 <pre>  include Subject</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -165,7 +165,7 @@
               <td class='code_line'>
                 <pre>  has_and_belongs_to_many :viewable_media_sets, </pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -205,7 +205,7 @@
               <td class='code_line'>
                 <pre>  belongs_to :person</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -213,7 +213,7 @@
               <td class='code_line'>
                 <pre>  delegate :name, :to => :person</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -221,7 +221,7 @@
               <td class='code_line'>
                 <pre>  delegate :fullname, :to => :person</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -237,7 +237,7 @@
               <td class='code_line'>
                 <pre>  has_many :userpermissions</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -253,7 +253,7 @@
               <td class='code_line'>
                 <pre>  has_many :upload_sessions do</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -261,7 +261,7 @@
               <td class='code_line'>
                 <pre>    def latest</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -285,7 +285,7 @@
               <td class='code_line'>
                 <pre>    def most_recents(limit = 3)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -317,7 +317,7 @@
               <td class='code_line'>
                 <pre>  has_many :media_entries, :through => :upload_sessions</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -333,7 +333,7 @@
               <td class='code_line'>
                 <pre>  has_many :media_sets, :class_name => "Media::Set"</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -341,7 +341,7 @@
               <td class='code_line'>
                 <pre>  has_and_belongs_to_many :favorites, :class_name => "MediaEntry", :join_table => "favorites" do</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -349,7 +349,7 @@
               <td class='code_line'>
                 <pre>    def toggle(media_entry_or_id)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -437,7 +437,7 @@
               <td class='code_line'>
                 <pre>    def include?(media_entry_id)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -485,7 +485,7 @@
               <td class='code_line'>
                 <pre>  has_and_belongs_to_many :groups do</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -493,7 +493,7 @@
               <td class='code_line'>
                 <pre>    def is_member?(group)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -565,7 +565,7 @@
               <td class='code_line'>
                 <pre>  validates_presence_of     :login</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -573,7 +573,7 @@
               <td class='code_line'>
                 <pre>  validates_length_of       :login,    :within => 3..40</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -581,7 +581,7 @@
               <td class='code_line'>
                 <pre>  validates_uniqueness_of   :login</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -589,7 +589,7 @@
               <td class='code_line'>
                 <pre>  validates_format_of       :login,    :with => /\A\w[\w\.\-_@]+\z/, :message => "use only letters, numbers, and .-_@ please."</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -605,7 +605,7 @@
               <td class='code_line'>
                 <pre>  validates_presence_of     :email</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -613,7 +613,7 @@
               <td class='code_line'>
                 <pre>  validates_length_of       :email,    :within => 6..100 #r@a.wk</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -621,7 +621,7 @@
               <td class='code_line'>
                 <pre>  validates_uniqueness_of   :email</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -629,7 +629,7 @@
               <td class='code_line'>
                 <pre>  validates_format_of       :email,    :with => /\A[\w\.%\+\-]+@(?:[A-Z0-9\-]+\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|jobs|museum)\z/i, :message => "should look like an email address."</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -645,7 +645,7 @@
               <td class='code_line'>
                 <pre>  validates_presence_of     :person</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -717,7 +717,7 @@
               <td class='code_line'>
                 <pre>  def to_s</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -725,7 +725,7 @@
               <td class='code_line'>
                 <pre>    name</pre>
               </td>
-              <td class='hit_number'>69</td>
+              <td class='hit_number'>138</td>
             </tr>
           
             <tr class="never" "">
@@ -749,7 +749,7 @@
               <td class='code_line'>
                 <pre>  def login=(value)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -757,7 +757,7 @@
               <td class='code_line'>
                 <pre>    write_attribute :login, (value ? value.downcase : nil)</pre>
               </td>
-              <td class='hit_number'>90</td>
+              <td class='hit_number'>180</td>
             </tr>
           
             <tr class="never" "">
@@ -781,7 +781,7 @@
               <td class='code_line'>
                 <pre>  def email=(value)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -789,7 +789,7 @@
               <td class='code_line'>
                 <pre>    write_attribute :email, (value ? value.downcase : nil)</pre>
               </td>
-              <td class='hit_number'>90</td>
+              <td class='hit_number'>180</td>
             </tr>
           
             <tr class="never" "">
@@ -837,15 +837,15 @@
               <td class='code_line'>
                 <pre>  def usage_terms_accepted?</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>95</td>
               <td class='code_line'>
                 <pre>    usage_terms_accepted_at.to_i >= UsageTerm.current.updated_at.to_i</pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'>4</td>
             </tr>
           
             <tr class="never" "">
@@ -869,7 +869,7 @@
               <td class='code_line'>
                 <pre>  def usage_terms_accepted!</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1060,6 +1060,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-03 10:36:18 +0100</p>
+    <p>Generated on: 2012-01-03 12:29:31 +0100</p>
   </body>
 </html>

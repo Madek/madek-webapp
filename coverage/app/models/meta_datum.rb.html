@@ -2,8 +2,8 @@
   <head>
     <title>app/models/meta_datum.rb</title>
     
-    <link href="../../report.css?0.4339602973760719" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.4759464066844885'></script>
+    <link href="../../report.css?0.6554433568757222" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.8666123181603984'></script>
     <script>
       $(function() {
 
@@ -130,7 +130,7 @@
               <td class='code_line'>
                 <pre>class MetaDatum < ActiveRecord::Base</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -146,7 +146,7 @@
               <td class='code_line'>
                 <pre>  belongs_to :resource, :polymorphic => true</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -154,7 +154,7 @@
               <td class='code_line'>
                 <pre>  belongs_to :meta_key</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -170,7 +170,7 @@
               <td class='code_line'>
                 <pre>  serialize :value</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -186,7 +186,7 @@
               <td class='code_line'>
                 <pre>  validates_uniqueness_of :meta_key_id, :scope => [:resource_type, :resource_id]</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -194,7 +194,7 @@
               <td class='code_line'>
                 <pre>  validates_presence_of :meta_key, :value #old# :resource_type, :resource_id </pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -210,7 +210,7 @@
               <td class='code_line'>
                 <pre>  attr_accessor :keep_original_value</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -226,7 +226,7 @@
               <td class='code_line'>
                 <pre>  scope :for_meta_terms, joins(:meta_key).where(:meta_keys => {:object_type => "Meta::Term"}) </pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -242,7 +242,7 @@
               <td class='code_line'>
                 <pre>  before_save do</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -922,7 +922,7 @@
               <td class='code_line'>
                 <pre>  alias_method :orig_meta_key=, :meta_key=</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -930,7 +930,7 @@
               <td class='code_line'>
                 <pre>  def meta_key=(key)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1002,7 +1002,7 @@
               <td class='code_line'>
                 <pre>  def to_s</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1178,7 +1178,7 @@
               <td class='code_line'>
                 <pre>  def deserialized_value</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1450,7 +1450,7 @@
               <td class='code_line'>
                 <pre>  def same_value?(other_value)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1626,7 +1626,7 @@
               <td class='code_line'>
                 <pre>  def context_warnings(context = MetaContext.core)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1754,7 +1754,7 @@
               <td class='code_line'>
                 <pre>  def context_valid?(context = MetaContext.core)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1794,6 +1794,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-03 10:36:18 +0100</p>
+    <p>Generated on: 2012-01-03 12:29:31 +0100</p>
   </body>
 </html>

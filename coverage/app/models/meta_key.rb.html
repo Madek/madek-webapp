@@ -2,8 +2,8 @@
   <head>
     <title>app/models/meta_key.rb</title>
     
-    <link href="../../report.css?0.3443564143751531" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.23104980261403263'></script>
+    <link href="../../report.css?0.060290786633399374" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.2387679555373149'></script>
     <script>
       $(function() {
 
@@ -122,7 +122,7 @@
               <td class='code_line'>
                 <pre>class MetaKey < ActiveRecord::Base</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -138,7 +138,7 @@
               <td class='code_line'>
                 <pre>  has_many :meta_data</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -146,7 +146,7 @@
               <td class='code_line'>
                 <pre>  has_many :media_entries, :through => :meta_data, :uniq => true</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -154,7 +154,7 @@
               <td class='code_line'>
                 <pre>  has_many :meta_key_definitions do</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -162,7 +162,7 @@
               <td class='code_line'>
                 <pre>    def for_context(context)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -202,7 +202,7 @@
               <td class='code_line'>
                 <pre>  has_many :meta_contexts, :through => :meta_key_definitions</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -250,7 +250,7 @@
               <td class='code_line'>
                 <pre>  has_many :meta_key_meta_terms</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -258,7 +258,7 @@
               <td class='code_line'>
                 <pre>  has_many :meta_terms, :through => :meta_key_meta_terms, :order => :position</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -266,7 +266,7 @@
               <td class='code_line'>
                 <pre>  accepts_nested_attributes_for :meta_terms, :reject_if => proc { |attributes| LANGUAGES.all? {|l| attributes[l].blank? } } #old# , :allow_destroy => true</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -282,7 +282,7 @@
               <td class='code_line'>
                 <pre>  validates_uniqueness_of :label</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -306,7 +306,7 @@
               <td class='code_line'>
                 <pre>  scope :with_meta_data, joins(:meta_data).group(:id)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -314,7 +314,7 @@
               <td class='code_line'>
                 <pre>  scope :for_meta_terms, where(:object_type => "Meta::Term") </pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -346,7 +346,7 @@
               <td class='code_line'>
                 <pre>  before_save do</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -354,7 +354,7 @@
               <td class='code_line'>
                 <pre>    if object_type.blank?</pre>
               </td>
-              <td class='hit_number'>89</td>
+              <td class='hit_number'>178</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -362,7 +362,7 @@
               <td class='code_line'>
                 <pre>      self.object_type = nil</pre>
               </td>
-              <td class='hit_number'>62</td>
+              <td class='hit_number'>124</td>
             </tr>
           
             <tr class="never" "">
@@ -378,7 +378,7 @@
               <td class='code_line'>
                 <pre>      case object_type</pre>
               </td>
-              <td class='hit_number'>27</td>
+              <td class='hit_number'>54</td>
             </tr>
           
             <tr class="never" "">
@@ -394,7 +394,7 @@
               <td class='code_line'>
                 <pre>          self.is_extensible_list = true</pre>
               </td>
-              <td class='hit_number'>10</td>
+              <td class='hit_number'>20</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -402,7 +402,7 @@
               <td class='code_line'>
                 <pre>          meta_data.each {|md| md.update_attributes(:value => md.value) }</pre>
               </td>
-              <td class='hit_number'>10</td>
+              <td class='hit_number'>20</td>
             </tr>
           
             <tr class="never" "">
@@ -450,7 +450,7 @@
               <td class='code_line'>
                 <pre>  def to_s</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -482,7 +482,7 @@
               <td class='code_line'>
                 <pre>  def all_context_labels</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -530,7 +530,7 @@
               <td class='code_line'>
                 <pre>  def first_context_label</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -586,7 +586,7 @@
               <td class='code_line'>
                 <pre>  def key_map_for(context)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -698,7 +698,7 @@
               <td class='code_line'>
                 <pre>  def self.meta_key_for(key_map) # TODO, context = nil)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -962,7 +962,7 @@
               <td class='code_line'>
                 <pre>  def self.object_types</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1018,7 +1018,7 @@
               <td class='code_line'>
                 <pre>  def used_term_ids</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1058,6 +1058,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-03 10:36:18 +0100</p>
+    <p>Generated on: 2012-01-03 12:29:31 +0100</p>
   </body>
 </html>

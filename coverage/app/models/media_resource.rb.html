@@ -2,8 +2,8 @@
   <head>
     <title>app/models/media_resource.rb</title>
     
-    <link href="../../report.css?0.5336047432319221" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.7247034955143775'></script>
+    <link href="../../report.css?0.7741449773438671" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.8900755031371224'></script>
     <script>
       $(function() {
 
@@ -57,8 +57,8 @@
         </td>
         <td>158</td>
         <td>48</td>
-        <td>28</td>
-        <td>41.7%</td>
+        <td>29</td>
+        <td>39.6%</td>
       </tr>
     </table>
 
@@ -90,7 +90,7 @@
               <td class='code_line'>
                 <pre>class MediaResource < ActiveRecord::Base</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -130,7 +130,7 @@
               <td class='code_line'>
                 <pre>  belongs_to :upload_session</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -194,7 +194,7 @@
               <td class='code_line'>
                 <pre>  default_scope order("updated_at DESC")</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -226,7 +226,7 @@
               <td class='code_line'>
                 <pre>  scope :media_entries, where(:type => "MediaEntry")</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -250,7 +250,7 @@
               <td class='code_line'>
                 <pre>  scope :media_sets, where(:type => ["Media::Set", "Media::Project"])</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -258,7 +258,7 @@
               <td class='code_line'>
                 <pre>  scope :sets, where(:type => "Media::Set")</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -266,7 +266,7 @@
               <td class='code_line'>
                 <pre>  scope :projects, where(:type => "Media::Project")</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -306,7 +306,7 @@
               <td class='code_line'>
                 <pre>  scope :by_user, lambda {|user| where(:user_id => user) } </pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -322,7 +322,7 @@
               <td class='code_line'>
                 <pre>  scope :not_by_user, lambda {|user| where(["user_id != ?", user]) }</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -354,7 +354,7 @@
               <td class='code_line'>
                 <pre>  scope :favorites_for_user, lambda {|user|</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -418,7 +418,7 @@
               <td class='code_line'>
                 <pre>  scope :by_media_set, lambda {|media_set|</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -538,7 +538,7 @@
               <td class='code_line'>
                 <pre>                "WHERE parent_id = ? )",</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -586,7 +586,7 @@
               <td class='code_line'>
                 <pre>  scope :search, lambda {|q|</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -698,7 +698,7 @@
               <td class='code_line'>
                 <pre>  def self.reindex</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -730,7 +730,7 @@
               <td class='code_line'>
                 <pre>  def self.filter_media_file(options = {})</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1058,7 +1058,7 @@
               <td class='code_line'>
                 <pre>  def self.media_resources_type</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -1074,23 +1074,23 @@
               <td class='code_line'>
                 <pre>    if SQLHelper.adapter_is_mysql?</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>125</td>
               <td class='code_line'>
                 <pre>      "IF(type IN ('Media::Project'), 'Media::Set', type)"</pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'>2</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>126</td>
               <td class='code_line'>
                 <pre>    elsif SQLHelper.adapter_is_postgresql?</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -1133,12 +1133,12 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>132</td>
               <td class='code_line'>
                 <pre>      "</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -1202,7 +1202,7 @@
               <td class='code_line'>
                 <pre>  def self.accessible_by_user(user, action = :view)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1354,6 +1354,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-03 10:36:18 +0100</p>
+    <p>Generated on: 2012-01-03 12:29:31 +0100</p>
   </body>
 </html>

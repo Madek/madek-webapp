@@ -2,8 +2,8 @@
   <head>
     <title>app/models/media_file.rb</title>
     
-    <link href="../../report.css?0.04222823326977976" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.8363538386012526'></script>
+    <link href="../../report.css?0.5690232616466231" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.38860454322090654'></script>
     <script>
       $(function() {
 
@@ -114,7 +114,7 @@
               <td class='code_line'>
                 <pre>class MediaFile < ActiveRecord::Base</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -130,7 +130,7 @@
               <td class='code_line'>
                 <pre>  before_create :assign_access_hash</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -138,7 +138,7 @@
               <td class='code_line'>
                 <pre>  before_create :validate_file</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -146,7 +146,7 @@
               <td class='code_line'>
                 <pre>  after_create  :store_file</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -154,7 +154,7 @@
               <td class='code_line'>
                 <pre>  after_destroy :delete_file</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -170,7 +170,7 @@
               <td class='code_line'>
                 <pre>  validates_presence_of :uploaded_data</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -186,7 +186,7 @@
               <td class='code_line'>
                 <pre>  attr_accessor :uploaded_data</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -202,7 +202,7 @@
               <td class='code_line'>
                 <pre>  serialize     :meta_data, Hash</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -218,7 +218,7 @@
               <td class='code_line'>
                 <pre>  has_many      :media_entries # TODO validation: at least one media_entry (even empty) </pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -226,7 +226,7 @@
               <td class='code_line'>
                 <pre>  has_many      :previews, :dependent => :destroy # TODO - the eventual resting place of all preview files derived from the original (e.g. thumbnails)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -242,7 +242,7 @@
               <td class='code_line'>
                 <pre>  scope :original, where(:parent_id => nil)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -274,7 +274,7 @@
               <td class='code_line'>
                 <pre>  def get_preview(size = nil)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -410,7 +410,7 @@
               <td class='code_line'>
                 <pre>  def import</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -578,7 +578,7 @@
               <td class='code_line'>
                 <pre>  def store_file</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -642,7 +642,7 @@
               <td class='code_line'>
                 <pre>  def delete_file</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -714,7 +714,7 @@
               <td class='code_line'>
                 <pre>  def file_storage_location</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -754,7 +754,7 @@
               <td class='code_line'>
                 <pre>  def thumbnail_storage_location</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -802,7 +802,7 @@
               <td class='code_line'>
                 <pre>  def set_filename</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -930,7 +930,7 @@
               <td class='code_line'>
                 <pre>  def get_guid</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -1130,7 +1130,7 @@
               <td class='code_line'>
                 <pre>  def shard</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -1170,7 +1170,7 @@
               <td class='code_line'>
                 <pre>  def make_thumbnails(sizes = nil)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -1306,7 +1306,7 @@
               <td class='code_line'>
                 <pre>  def retrieve_encoded_files</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1498,7 +1498,7 @@
               <td class='code_line'>
                 <pre>  def assign_video_thumbnails_to_preview</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1658,7 +1658,7 @@
               <td class='code_line'>
                 <pre>  def assign_audio_previews</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1802,7 +1802,7 @@
               <td class='code_line'>
                 <pre>  def thumbnail_jpegs_for(file, sizes = nil)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -1962,7 +1962,7 @@
               <td class='code_line'>
                 <pre>  def validate_file</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -2042,7 +2042,7 @@
               <td class='code_line'>
                 <pre>  def thumb_base64(size = :small)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -2402,7 +2402,7 @@
               <td class='code_line'>
                 <pre>  def importable_zipfile?</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -2490,7 +2490,7 @@
               <td class='code_line'>
                 <pre>  def import_image_metadata(full_path_file)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -2658,7 +2658,7 @@
               <td class='code_line'>
                 <pre>  def import_audio_video_metadata(full_path_file)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -2914,7 +2914,7 @@
               <td class='code_line'>
                 <pre>  def get_sizes_from_ffmpeg(path)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -2994,7 +2994,7 @@
               <td class='code_line'>
                 <pre>  def import_audio_metadata(full_path_file)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -3082,7 +3082,7 @@
               <td class='code_line'>
                 <pre>  def explode_and_import(full_path_file)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -3354,7 +3354,7 @@
               <td class='code_line'>
                 <pre>  def import_document_metadata(full_path_file)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -3394,7 +3394,7 @@
               <td class='code_line'>
                 <pre>  def submit_encoding_job(force = false)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -3602,7 +3602,7 @@
               <td class='code_line'>
                 <pre>  def assign_access_hash</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -3634,7 +3634,7 @@
               <td class='code_line'>
                 <pre>  def reset_access_hash</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -3682,7 +3682,7 @@
               <td class='code_line'>
                 <pre>  def meta_data_without_binary</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -3722,7 +3722,7 @@
               <td class='code_line'>
                 <pre>  private</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -3762,7 +3762,7 @@
               <td class='code_line'>
                 <pre>  def exiftool_obj(full_path_file, tags = nil)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -3858,6 +3858,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-03 10:36:18 +0100</p>
+    <p>Generated on: 2012-01-03 12:29:31 +0100</p>
   </body>
 </html>
