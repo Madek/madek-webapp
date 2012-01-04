@@ -4,6 +4,14 @@
 module DataFactory 
   extend self
 
+  class << self
+    def create_small_dataset 
+      (1..10).each {FactoryGirl.create :user}
+      (1..50).each {FactoryGirl.create :media_entry}
+      (1..50).each {FactoryGirl.create :media_set}
+    end
+  end
+
   def create_dag 
     prev_media_set = FactoryGirl.create :media_set
     (1..10).each do |i|
@@ -78,7 +86,7 @@ FactoryGirl.define do
   ### Permissions ...
 
   factory :permission do
-    subject {FactoryGirl.create :user}
+    subject {User.find_random || (FactoryGirl.create :user)}
     resource {FactoryGirl.create :media_set,:user => (FactoryGirl.create :user)}
     after_build do |perm| 
       user_default_permissions = {:view => false, :edit => false, :manage => false, :hi_res => false}
