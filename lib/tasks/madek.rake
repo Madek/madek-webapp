@@ -17,11 +17,11 @@ namespace :madek do
     exit_code = $? >> 8 # magic brainfuck
     raise "Tests failed with: #{exit_code}" if exit_code != 0
 
-    system "bundle exec cucumber --format pretty --format junit --out tmp/junit --format html --out tmp/html/cucumber.html -e features/examples features"
+    system "bundle exec cucumber -p default"
     exit_code = $? >> 8 # magic brainfuck
     raise "Tests failed with: #{exit_code}" if exit_code != 0
 
-    system "bundle exec cucumber --format pretty --format junit --out tmp/junit --format html --out tmp/html/examples.html features/examples"
+    system "bundle exec cucumber -p examples"
     exit_code = $? >> 8 # magic brainfuck
     raise "Tests failed with: #{exit_code}" if exit_code != 0
 end
