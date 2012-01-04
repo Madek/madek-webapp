@@ -2,7 +2,6 @@
 module Subject
 
   def self.included(base)
-    base.has_many :permissions, :as => :subject, :dependent => :destroy
 
 ################################
 =begin
