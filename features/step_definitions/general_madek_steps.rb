@@ -280,6 +280,10 @@ When "all the hidden items become visible" do
   make_hidden_items_visible
 end
 
+When "all the entries controls become visible" do
+  make_entries_controls_visible
+end
+
 When "I make sure I'm logged out" do
   if page.has_content?("Abmelden")
     Then 'I follow "Abmelden"'

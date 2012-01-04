@@ -32,6 +32,11 @@ def make_hidden_items_visible
   sleep 0.5
 end
 
+def make_entries_controls_visible
+  page.execute_script '$(".item_box *:hidden").show();'
+  sleep 0.5
+end
+
 def click_on_arrow_next_to(word)
   find(".head_menu", :text => "#{word}").find("img.arrow").click
 end
