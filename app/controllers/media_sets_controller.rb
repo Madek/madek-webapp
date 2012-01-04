@@ -18,9 +18,14 @@ class MediaSetsController < ApplicationController
   #   show, browse, abstract, inheritable_contexts, edit, update, add_member, parents, destroy
   #
   # @argument [with] hash Options forwarded to the results which will be inside of the respond 
+  # 
+  # @argument [child] hash An object {:id, :type} which shall be used for scoping the media parent sets
   #
   # @example_request
   #   {"accessible_action": "edit", "with": {"set": {"media_entries": 1}}}
+  #
+  # @example_request
+  #   {"accessible_action": "edit", "child": {"id": 2, "type": "entry"}}
   #
   # @request_field [String] accessible_action The accessible action the user can perform on a set
   # @request_field [Hash] with Options forwarded to the results which will be inside of the respond
@@ -28,6 +33,7 @@ class MediaSetsController < ApplicationController
   # @request_field [Hash] with.set.media_entries When this hash of options is setted, it forces all result sets
   #   to include their media_entries forwarding the options. When "media_entries" is just setted to 1, then 
   #   they are include but without forwarding any options.
+  # @request_field [Hash] child A child object which shall be used for scoping the media parent sets
   #
   # @example_response
   #   [{"id":422, "media_entries": [{"id":2}, {"id":3}]}, {"id":423, "media_entries": [{"id":1}, {"id":4}]}]
@@ -37,7 +43,7 @@ class MediaSetsController < ApplicationController
   # @response_field [Integer] media_entries[].id The id of a media entry 
   #
   def index(accessible_action = params[:accessible_action] || :view,
-            with = params[:with])
+            with = params[:with], child = params[:child] || nil)
     respond_to do |format|
       #-# only used for FeaturedSet
       format.html {
@@ -60,8 +66,19 @@ class MediaSetsController < ApplicationController
           end
         end
       }
+      
       format.js {
-        sets = MediaResource.accessible_by_user(current_user, accessible_action.to_sym).media_sets
+        
+        sets = all_sets = MediaResource.accessible_by_user(current_user, accessible_action.to_sym).media_sets
+        
+        if(!child.nil?) # if child is set try to get child and scope sets trough child
+          if(child["type"] == "entry" && MediaEntry.exists?(child["id"]))
+            sets = MediaEntry.find(child["id"]).media_sets.delete_if {|s| !all_sets.include?(s)}
+          elsif(child["type"] == "set" && Media::Set.exists?(child["id"]))
+            sets = Media::Set.find(child["id"]).parent_sets.delete_if {|s| !all_sets.include?(s)}
+          end
+        end  
+        
         render :json => sets.as_json(:user => current_user, :with => with, :with_thumb => false) # TODO drop with_thum merge with with
       }
     end
