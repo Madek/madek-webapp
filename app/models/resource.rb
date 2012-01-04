@@ -48,8 +48,8 @@ module Resource
 #      end
 #    end
 
-    base.has_many :userpermissions, :as => :resource, :dependent => :destroy
-    base.has_many :grouppermissions, :as => :resource, :dependent => :destroy
+    base.has_many :userpermissions, :as => :media_resource, :dependent => :destroy
+    base.has_many :grouppermissions, :as => :media_resource, :dependent => :destroy
 
     base.after_create :generate_permissions
 
@@ -353,7 +353,7 @@ private
       group = Group.find_or_create_by_name("MIZ-Archiv") 
       gp = Grouppermission.create  \
         group: group, 
-        resource: self,
+        media_resource: self,
         may_download_high_resolution: true,
         may_edit: true,
         may_manage: true,
@@ -361,7 +361,7 @@ private
     else
       up = Userpermission.create \
         user: owner, 
-        resource: self,
+        media_resource: self,
         may_download_high_resolution: true,
         may_edit: true,
         may_manage: true,

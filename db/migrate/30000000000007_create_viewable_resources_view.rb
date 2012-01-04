@@ -3,41 +3,42 @@ class CreateViewableResourcesView < ActiveRecord::Migration
 
   def up
 
-    [Media::Set,MediaEntry].each do |model|
+    [Media::Set,MediaEntry,MediaResource].each do |model|
 
       tname = model.table_name
+      fkey_name = (ActiveSupport::Inflector.singularize tname)+ "_id"
 
-      select_ms = "SELECT media_sets.id as media_set_id, users.id as user_id FROM"
+      select_ms = "SELECT #{tname}.id as #{fkey_name}, users.id as user_id FROM"
 
       viewable_by_userpermission= \
-        Media::Set.joins(:userpermissions => :user) \
+        model.joins(:userpermissions => :user) \
           .where("userpermissions.may_view = true").to_sql \
           .gsub /SELECT.*FROM/, select_ms
 
       non_viewable_by_userpermission= \
-        Media::Set.joins(:userpermissions => :user) \
+        model.joins(:userpermissions => :user) \
           .where("userpermissions.may_view = false").to_sql \
           .gsub /SELECT.*FROM/, select_ms
 
       viewable_by_grouppermission= \
-        Media::Set.joins(:grouppermissions => {:group => :users}) \
+        model.joins(:grouppermissions => {:group => :users}) \
         .where("grouppermissions.may_view = true").to_sql \
         .gsub /SELECT.*FROM/, select_ms
 
       viewable_by_gp_not_denied_by_up=  <<-SQL
         SELECT * from viewable_#{tname}_by_grouppermission
-        WHERE (media_set_id,user_id) 
-          NOT IN (SELECT media_set_id,user_id from non_viewable_#{tname}_by_userpermission);
+        WHERE (#{fkey_name},user_id) 
+          NOT IN (SELECT #{fkey_name},user_id from non_viewable_#{tname}_by_userpermission);
       SQL
 
       viewable_by_publicpermission= <<-SQL
-      #{select_ms} media_sets
+      #{select_ms} #{tname}
           CROSS JOIN users 
-          WHERE media_sets.perm_public_may_view = true;
+          WHERE #{tname}.perm_public_may_view = true;
       SQL
 
       viewable_by_ownership= <<-SQL
-      SELECT media_sets.id as media_sets_id, owner_id as user_id from  media_sets;
+        SELECT #{tname}.id as #{fkey_name}, owner_id as user_id from #{tname};
       SQL
 
       viewable_users= <<-SQL 
@@ -61,7 +62,7 @@ class CreateViewableResourcesView < ActiveRecord::Migration
   end
 
   def down
-    [Media::Set,MediaEntry].each do |model|
+    [Media::Set,MediaEntry,MediaResource].each do |model|
 
       tname = model.table_name
 

@@ -7,11 +7,12 @@ class User < ActiveRecord::Base
 
   include Subject
 
-    [Media::Set,MediaEntry].each do |model|
+    [Media::Set,MediaEntry,MediaResource].each do |model|
       tname = model.table_name
+      fkey_name = (ActiveSupport::Inflector.singularize tname)+ "_id"
       has_and_belongs_to_many "viewable_#{tname}", 
-        :class_name => "Media::Set", :join_table => "viewable_#{tname}_users", :foreign_key => 'user_id', 
-        :association_foreign_key => 'media_set_id',
+        :class_name => model.to_s, :join_table => "viewable_#{tname}_users", :foreign_key => 'user_id', 
+        :association_foreign_key => fkey_name,
         :delete_sql => "SELECT false;" # otherwise rails will try to delete rows in the view
     end
 

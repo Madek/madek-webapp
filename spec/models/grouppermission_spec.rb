@@ -33,11 +33,11 @@ describe Grouppermission do
 
       before :each do
         @group = FactoryGirl.create :group
-        @resource = FactoryGirl.create :media_set, :owner => (FactoryGirl.create :user)
+        @media_resource = FactoryGirl.create :media_set, :owner => (FactoryGirl.create :user)
       end
 
       it "should remove grouppermissions if the group is destroyed" do
-        id = (FactoryGirl.create :grouppermission, :group => @group, :resource => @resource).id
+        id = (FactoryGirl.create :grouppermission, :group => @group, :media_resource => @media_resource).id
         (Grouppermission.find_by_id id).should_not be_nil
         @group.destroy
         (Grouppermission.find_by_id id).should be_nil

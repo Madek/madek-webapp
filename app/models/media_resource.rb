@@ -1,5 +1,8 @@
 class MediaResource < ActiveRecord::Base
 
+  has_many :userpermissions
+  has_many :grouppermissions
+
   # it's a VIEW !! refactor to STI ??
 
   ### only for media_entries
@@ -11,7 +14,8 @@ class MediaResource < ActiveRecord::Base
   #tmp# has_and_belongs_to_many :media_entries, :join_table => "media_entries_media_sets", :foreign_key => "media_set_id"
   ###
   
-  default_scope order("updated_at DESC")
+  # TODO take care of order when using API
+  # default_scope order("updated_at DESC")
 
   ################################################################
 

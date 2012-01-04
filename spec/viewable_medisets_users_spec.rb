@@ -17,7 +17,7 @@ describe "viewable_mediasets_users" do
     context "when the user is not allowed by user permissions" do
 
       before(:each) do
-        FactoryGirl.create :userpermission, user: @user, resource: @media_set, maynot_view: true
+        FactoryGirl.create :userpermission, user: @user, media_resource: @media_set, maynot_view: true
       end
 
       it "should be included in the users viewable media_sets" do
@@ -41,7 +41,7 @@ describe "viewable_mediasets_users" do
     end
 
     it "should be included in the viewable_media_sets even if the owner is disallowed by media_setuserpermissions"  do
-      FactoryGirl.create :userpermission, user: @user, resource: @media_set, maynot_view: true
+      FactoryGirl.create :userpermission, user: @user, media_resource: @media_set, maynot_view: true
       @owner.viewable_media_sets.should include @media_set
     end
 
@@ -53,7 +53,7 @@ describe "viewable_mediasets_users" do
     context "when a userpermission allows the user" do
 
       before(:each) do
-        FactoryGirl.create :userpermission, user: @user, resource: @media_set, may_view: true
+        FactoryGirl.create :userpermission, user: @user, media_resource: @media_set, may_view: true
       end
 
       it "the media_set should be included" do
@@ -67,7 +67,7 @@ describe "viewable_mediasets_users" do
       before(:each) do
         @group = FactoryGirl.create :group
         @group.users << @user
-        FactoryGirl.create :grouppermission, may_view: true, group: @group, resource: @media_set
+        FactoryGirl.create :grouppermission, may_view: true, group: @group, media_resource: @media_set
       end
 
       it "should be be included for the user" do
@@ -77,7 +77,7 @@ describe "viewable_mediasets_users" do
       context "when a mediaresourceuserpermission denies the user to view" do
 
         before(:each) do
-          FactoryGirl.create :userpermission, may_view: false, maynot_view: true, resource: @media_set, user: @user
+          FactoryGirl.create :userpermission, may_view: false, maynot_view: true, media_resource: @media_set, user: @user
         end
 
         it "should not be included for the user" do

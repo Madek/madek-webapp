@@ -5,7 +5,7 @@ class CreateGrouppermissions < ActiveRecord::Migration
   def up
     create_table :grouppermissions do |t|
 
-      t.belongs_to  :resource, :polymorphic => true, :null => false
+      t.belongs_to  :media_resource, :polymorphic => true, :null => false
       t.references :group, :null => false
 
       ACTIONS.each do |action|
@@ -15,8 +15,8 @@ class CreateGrouppermissions < ActiveRecord::Migration
     end
 
     add_index :grouppermissions, ref_id(Group)
-    add_index :grouppermissions, :resource_id
-    add_index :grouppermissions, :resource_type
+    add_index :grouppermissions, :media_resource_id
+    add_index :grouppermissions, :media_resource_type
 
     ACTIONS.each do |action|
       add_index :grouppermissions, "may_#{action}"

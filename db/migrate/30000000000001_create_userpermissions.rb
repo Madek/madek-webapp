@@ -5,7 +5,7 @@ class CreateUserpermissions < ActiveRecord::Migration
   def up 
     create_table :userpermissions do |t|
 
-      t.belongs_to  :resource, :polymorphic => true, :null => false
+      t.belongs_to  :media_resource, :polymorphic => true, :null => false
       t.references :user, :null => false
 
       ACTIONS.each do |action|
@@ -16,8 +16,8 @@ class CreateUserpermissions < ActiveRecord::Migration
     end
 
     add_index :userpermissions, ref_id(User)
-    add_index :userpermissions, :resource_id
-    add_index :userpermissions, :resource_type
+    add_index :userpermissions, :media_resource_id
+    add_index :userpermissions, :media_resource_type
     ACTIONS.each do |action|
       add_index :userpermissions, "may_#{action}"
       add_index :userpermissions, "maynot_#{action}"

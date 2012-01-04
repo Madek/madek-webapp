@@ -108,7 +108,7 @@ FactoryGirl.define do
 
     group {Group.find_random || (FactoryGirl.create :group)}
 
-    resource do 
+    media_resource do 
       if FactoryHelper.rand_bool 1.0/3
         Media::Set.find_random ||  (FactoryGirl.create :media_set)
       else
@@ -132,7 +132,7 @@ FactoryGirl.define do
   factory :user do
     person {FactoryGirl.create :person}
     email {Faker::Internet.email}
-    login {Faker::Internet.user_name}
+    login {Faker::Internet.user_name + "_blah"}
     usage_terms_accepted_at {Time.now}
   end
 
@@ -151,7 +151,7 @@ FactoryGirl.define do
     may_edit {FactoryHelper.rand_bool 1/4.0}
     maynot_edit {(not may_edit) and FactoryHelper.rand_bool}
     user {User.find_random || (FactoryGirl.create :user)} 
-    resource do 
+    media_resource do 
       if FactoryHelper.rand_bool 1.0/3
         Media::Set.find_random ||  (FactoryGirl.create :media_set)
       else

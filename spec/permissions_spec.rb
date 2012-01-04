@@ -17,7 +17,7 @@ describe "Permissions" do
     context "the user is not allowed by user permissions" do
 
       before(:each) do
-        FactoryGirl.create :userpermission, user: @user, resource: @media_set, maynot_view: true
+        FactoryGirl.create :userpermission, user: @user, media_resource: @media_set, maynot_view: true
       end
 
       it "should be viewable by the user" do
@@ -42,7 +42,7 @@ describe "Permissions" do
     end
 
     it "can be viewed by its owner even if the owner is disallowed by a userpermission"  do
-      FactoryGirl.create :userpermission, user: @user, resource: @media_set, maynot_view: true
+      FactoryGirl.create :userpermission, user: @user, media_resource: @media_set, maynot_view: true
       (Permissions.authorized? @owner, :view , @media_set).should == true
     end
 
@@ -53,7 +53,7 @@ describe "Permissions" do
     context "when a userpermission allows the user" do
 
       before(:each) do
-        FactoryGirl.create :userpermission, user: @user, resource: @media_set, may_view: true
+        FactoryGirl.create :userpermission, user: @user, media_resource: @media_set, may_view: true
       end
 
       it "should be be viewable by the user" do
@@ -67,7 +67,7 @@ describe "Permissions" do
       before(:each) do
         @group = FactoryGirl.create :group
         @group.users << @user
-        FactoryGirl.create :grouppermission, may_view: true, group: @group, resource: @media_set
+        FactoryGirl.create :grouppermission, may_view: true, group: @group, media_resource: @media_set
       end
 
       it "should be be viewable for the user" do
@@ -77,7 +77,7 @@ describe "Permissions" do
       context "when a mediaresourceuserpermission denies the user to view" do
 
         before(:each) do
-          FactoryGirl.create :userpermission, may_view: false, maynot_view: true, resource: @media_set, user: @user
+          FactoryGirl.create :userpermission, may_view: false, maynot_view: true, media_resource: @media_set, user: @user
         end
 
         it "should not be viewable for the user" do
