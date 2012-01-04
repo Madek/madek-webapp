@@ -7,10 +7,13 @@ class User < ActiveRecord::Base
 
   include Subject
 
-  has_and_belongs_to_many :viewable_media_sets, 
-    :class_name => "Media::Set", :join_table => 'viewable_media_sets_users', :foreign_key => 'user_id', 
-    :association_foreign_key => 'media_set_id',
-    :delete_sql => "SELECT false;" # otherwise rails will try to delete rows in the view
+    [Media::Set,MediaEntry].each do |model|
+      tname = model.table_name
+      has_and_belongs_to_many "viewable_#{tname}", 
+        :class_name => "Media::Set", :join_table => "viewable_#{tname}_users", :foreign_key => 'user_id', 
+        :association_foreign_key => 'media_set_id',
+        :delete_sql => "SELECT false;" # otherwise rails will try to delete rows in the view
+    end
 
   belongs_to :person
   delegate :name, :to => :person
