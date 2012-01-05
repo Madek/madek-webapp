@@ -1,32 +1,18 @@
 @import "../mixins.scss";
 
 .button {
-  color: #333333;
   cursor: pointer;
   display: block;
   font-weight: bold;
   font-size: 1em;
-  text-decoration: none;
+  text-decoration: none !important;
   padding: 5px 5px 4px;
   border: none;
-  background-color: #fffd37;
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f0eee8), to(#FFFEEE));
-  background-image: -moz-linear-gradient(0% 100% 90deg, #f0eee8, #FFFEEE);
-  border-left: 1px solid #CCC;
-  border-right: 1px solid #AAA;
-  border-bottom: 1px solid #999;
   text-align: center;
   @include border-radius(3px);
   @include box-shadow(0 0 1px rgba(0, 0, 0, 0.3));
   
   &:hover {
-    border-top: 1px solid #f0eee0;
-    border-bottom: none;
-    border-right: 1px solid #f0eee0;
-    border-left: 1px solid #f0eee0;
-    background-color: #f0eee0;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f0eee8), to(#f0eee0));
-    background-image: -moz-linear-gradient(0% 100% 90deg, #f0eee8, #f0eee0);
     @include box-shadow(0 0 0 rgba(0, 0, 0, 0));
   }
   
@@ -35,27 +21,63 @@
     @include opacity(0.6);
     
     &:hover {
-      border: none;
-      background-color: #fffd37;
-      background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f0eee8), to(#FFFEEE));
-      background-image: -moz-linear-gradient(0% 100% 90deg, #f0eee8, #FFFEEE);
-      border-left: 1px solid #CCC;
-      border-right: 1px solid #AAA;
-      border-bottom: 1px solid #999;
       @include box-shadow(0 0 1px rgba(0, 0, 0, 0.3));
     }
   }
   
   &.loading {
     &:hover {
-      border: none;
-      background-color: #fffd37;
-      background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f0eee8), to(#FFFEEE));
-      background-image: -moz-linear-gradient(0% 100% 90deg, #f0eee8, #FFFEEE);
-      border-left: 1px solid #CCC;
-      border-right: 1px solid #AAA;
-      border-bottom: 1px solid #999;      
       @include box-shadow(0 0 1px rgba(0, 0, 0, 0.3));
     }
   }
+}
+
+@mixin button($text-color, $color1, $color2, $color3, $border-color-left, $border-color-right, $border-color-bottom) {
+  color: $text-color;
+  background-color: $color1;
+  border-left: 1px solid $border-color-left;
+  border-right: 1px solid $border-color-right;
+  border-bottom: 1px solid $border-color-bottom;
+  @include vertical-gradient($color2, $color3, 0%, 100%);
+  
+  &:hover {
+    border-top: 1px solid #f0eee0;
+    border-bottom: none;
+    border-right: 1px solid #f0eee0;
+    border-left: 1px solid #f0eee0;
+    @include vertical-gradient($color2, $color3, 0%, 100%);
+  }
+  
+  &:active {
+    border-top: 1px solid $color2;
+    border-bottom: none;
+    border-right: 1px solid #f0eee0;
+    border-left: 1px solid #f0eee0;
+    @include vertical-gradient($color2, $color2, 0%, 100%);
+  }
+  
+   &[disabled=disabled] {
+    
+    &:hover {
+      border: none;
+      border-left: 1px solid $border-color-left;
+      border-right: 1px solid $border-color-right;
+      border-bottom: 1px solid $border-color-bottom;
+      @include vertical-gradient($color2, $color3, 0%, 100%);
+    }
+  }
+  
+  &.loading {
+    &:hover {
+      border: none;
+      border-left: 1px solid $border-color-left;
+      border-right: 1px solid $border-color-right;
+      border-bottom: 1px solid $border-color-bottom;
+      @include vertical-gradient($color2, $color3, 0%, 100%); 
+    }
+  }
+}
+
+.button.yellow {
+  @include button(#444, #fffd37, #dbfd3a, #fffe7c, #CCC, #AAA, #999);
 }

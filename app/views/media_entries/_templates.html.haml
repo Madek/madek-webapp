@@ -89,9 +89,13 @@
         .button_edit_active.ghost
         {{/if}}
         {{if is_manageable}}
-        /confirm = resource.is_a?(MediaEntry) ? "Sind Sie sicher?" : "Sind Sie sicher? Das Set wird gelöscht."
-        %a{:href => "/media_entries/${id}", :title => "Löschen", :class => "delete_me", :"data-method" => :delete, :"data-remote" => true, :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher?"}
+        {{if is_set}}
+        %a{:href => "/media_sets/${id}", :title => "Löschen", :"data-method" => :delete, :"data-remote" => true, :class => "delete_me", :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher dass Sie diesen Set löschen möchten?"}
           .button_delete_active
+        {{else}}
+        %a{:href => "/media_entries/${id}", :title => "Löschen", :"data-method" => :delete, :"data-remote" => true, :class => "delete_me", :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher dass Sie diesen Medien-Eintrag löschen möchten?"}
+          .button_delete_active
+        {{/if}}
         {{else}}
         .button_delete_active.ghost
         {{/if}}

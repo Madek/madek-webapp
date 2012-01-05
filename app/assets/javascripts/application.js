@@ -18,6 +18,7 @@
 //= require jquery/video-js/video
 //= require jquery/department-selection/department-selection
 //= require_tree ./jquery/widgets/ 
+//= require resources/item-box
 
 /////////// Tmpl /////////////
 //= require_tree ./tmpl/
