@@ -136,11 +136,6 @@ class MediaFile < ActiveRecord::Base
     if content_type.include?('image')
       thumbnail_jpegs_for(file_storage_location, sizes)
     elsif content_type.include?('video')
-      # Extracts a cover image from the video stream
-      covershot = "#{thumbnail_storage_location}_covershot.png"
-      # You can use the -ss option to determine the temporal position in the stream you want to grab from (in seconds)
-      conversion = `ffmpeg -i #{file_storage_location} -y -vcodec png -vframes 1 -an -f rawvideo #{covershot}`
-      thumbnail_jpegs_for(covershot, sizes)
       submit_encoding_job
     elsif content_type.include?('audio')
       #add_audio_thumbnails   # This might be a future method that constructs some meaningful thumbnail for an audio file?
@@ -151,7 +146,8 @@ class MediaFile < ActiveRecord::Base
   def retrieve_encoded_files
     require Rails.root + 'lib/encode_job'
     paths = []
-    
+    thumbnail_paths = []
+
     unless self.job_id.blank?
       job = EncodeJob.new(self.job_id)
       if job.finished?
@@ -165,8 +161,25 @@ class MediaFile < ActiveRecord::Base
             paths << path
           end
         end
+        
+        job.thumbnail_file_urls.each do |f|
+          filename = File.basename(f)
+          prefix = "#{thumbnail_storage_location}_encoded"
+          path = "#{prefix}_#{filename}"
+          `wget #{f} -O #{path}`
+          if $? == 0
+            thumbnail_paths << path
+          end
+        end
+        
+        # If any of the encoding jobs resulted in a PNG screenshot of the film, use
+        # that as a thumbnail
+        pngs = thumbnail_paths.select{|path| path.match(/\.png$/)}
+        thumbnail_jpegs_for(pngs[0], sizes) unless pngs.empty?
+        
       end
     end
+        
     return paths
   end
 
