@@ -16,7 +16,20 @@ gem 'json', '~> 1.6'
 gem 'haml', '~> 3.1'
 gem 'sass', '~> 3.1'
 gem 'coffee-script', '~> 2.2'
-gem 'jquery-rails', '= 1.0.16' # NOTE .live will be deprecated in the future && upgrade jquery.inview plugin before upgrade to '~> 1.0'
+
+#                          _             
+#                         (_)            
+#__      ____ _ _ __ _ __  _ _ __   __ _ 
+#\ \ /\ / / _` | '__| '_ \| | '_ \ / _` |
+# \ V  V / (_| | |  | | | | | | | | (_| |
+#  \_/\_/ \__,_|_|  |_| |_|_|_| |_|\__, |
+#                                   __/ |
+#                                  |___/ 
+# NOTE WARNING DO NOT CHANGE THIS LINE
+gem 'jquery-rails', '= 1.0.16'
+# DO NOT CHANGE, OTHERWISE ENDLESS SCROLLING STOPS WORKING (BECAUSE OF OUR INVIEW PLUGIN),
+# OTHER THINGS STOP WORKING ALSO
+#
 gem 'rails_autolink', '~> 1.0'
 gem 'jquery-tmpl-rails'
 gem 'haml_assets'
