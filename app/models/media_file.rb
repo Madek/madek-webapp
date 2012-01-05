@@ -177,7 +177,7 @@ class MediaFile < ActiveRecord::Base
         # If any of the encoding jobs resulted in a PNG screenshot of the film, use
         # that as a thumbnail
         pngs = thumbnail_paths.select{|path| path.match(/\.png$/)}
-        thumbnail_jpegs_for(pngs[0], sizes) unless pngs.empty?
+        thumbnail_jpegs_for(pngs[0]) unless pngs.empty?
         
       end
     end
