@@ -163,7 +163,9 @@ class MediaFile < ActiveRecord::Base
         end
         
         job.thumbnail_file_urls.each do |f|
-          filename = File.basename(f)
+          filename = File.basename(f).split("?")[0] # Take the first part of the name before the query string only
+                                                    # example basename otherwise:
+                                                    # frame_0000.png?AWSAccessKeyId=AKIAI456JQ76GBU7FECA&Signature=VpkFCcIwn77IucCkaDG7pERJieM%3D&Expires=1325862058
           prefix = "#{thumbnail_storage_location}_encoded"
           path = "#{prefix}_#{filename}"
           `wget "#{f}" -O "#{path}"`
