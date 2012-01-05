@@ -94,6 +94,13 @@ class EncodeJob
     return paths
   end
   
+  def thumbnail_file_urls
+    paths = []
+    details['thumbnails'].each do |tn|
+      paths << tn['url']
+    end
+  end
+  
 end
 
 

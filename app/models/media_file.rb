@@ -146,7 +146,8 @@ class MediaFile < ActiveRecord::Base
   def retrieve_encoded_files
     require Rails.root + 'lib/encode_job'
     paths = []
-    
+    thumbnail_paths = []
+
     unless self.job_id.blank?
       job = EncodeJob.new(self.job_id)
       if job.finished?
@@ -160,14 +161,25 @@ class MediaFile < ActiveRecord::Base
             paths << path
           end
         end
+        
+        job.thumbnail_file_urls.each do |f|
+          filename = File.basename(f)
+          prefix = "#{thumbnail_storage_location}_encoded"
+          path = "#{prefix}_#{filename}"
+          `wget #{f} -O #{path}`
+          if $? == 0
+            thumbnail_paths << path
+          end
+        end
+        
+        # If any of the encoding jobs resulted in a PNG screenshot of the film, use
+        # that as a thumbnail
+        pngs = thumbnail_paths.select{|path| path.match(/\.png$/)}
+        thumbnail_jpegs_for(pngs[0], sizes) unless pngs.empty?
+        
       end
     end
-    
-    # If any of the encoding jobs resulted in a PNG screenshot of the film, use
-    # that as a thumbnail
-    pngs = paths.select{|path| path.match(/\.png$/)}
-    thumbnail_jpegs_for(pngs[0], sizes) unless pngs.empty?
-    
+        
     return paths
   end
 
