@@ -136,11 +136,6 @@ class MediaFile < ActiveRecord::Base
     if content_type.include?('image')
       thumbnail_jpegs_for(file_storage_location, sizes)
     elsif content_type.include?('video')
-      # Extracts a cover image from the video stream
-      covershot = "#{thumbnail_storage_location}_covershot.png"
-      # You can use the -ss option to determine the temporal position in the stream you want to grab from (in seconds)
-      conversion = `ffmpeg -i #{file_storage_location} -y -vcodec png -vframes 1 -an -f rawvideo #{covershot}`
-      thumbnail_jpegs_for(covershot, sizes)
       submit_encoding_job
     elsif content_type.include?('audio')
       #add_audio_thumbnails   # This might be a future method that constructs some meaningful thumbnail for an audio file?
@@ -167,6 +162,12 @@ class MediaFile < ActiveRecord::Base
         end
       end
     end
+    
+    # If any of the encoding jobs resulted in a PNG screenshot of the film, use
+    # that as a thumbnail
+    pngs = paths.select{|path| path.match(/\.png$/)
+    thumbnail_jpegs_for(pngs[0], sizes) unless pngs.empty?
+    
     return paths
   end
 
