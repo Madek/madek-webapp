@@ -156,7 +156,7 @@ class MediaFile < ActiveRecord::Base
           filename = File.basename(f)
           prefix = "#{thumbnail_storage_location}_encoded"
           path = "#{prefix}_#{filename}"
-          `wget #{f} -O #{path}`
+          `wget "#{f}" -O "#{path}"`
           if $? == 0
             paths << path
           end
@@ -166,7 +166,7 @@ class MediaFile < ActiveRecord::Base
           filename = File.basename(f)
           prefix = "#{thumbnail_storage_location}_encoded"
           path = "#{prefix}_#{filename}"
-          `wget #{f} -O #{path}`
+          `wget "#{f}" -O "#{path}"`
           if $? == 0
             thumbnail_paths << path
           end
