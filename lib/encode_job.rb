@@ -99,6 +99,7 @@ class EncodeJob
     details['thumbnails'].each do |tn|
       paths << tn['url']
     end
+    return paths
   end
   
 end

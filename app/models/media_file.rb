@@ -162,15 +162,15 @@ class MediaFile < ActiveRecord::Base
           end
         end
         
-#         job.thumbnail_file_urls.each do |f|
-#           filename = File.basename(f)
-#           prefix = "#{thumbnail_storage_location}_encoded"
-#           path = "#{prefix}_#{filename}"
-#           `wget #{f} -O #{path}`
-#           if $? == 0
-#             thumbnail_paths << path
-#           end
-#         end
+        job.thumbnail_file_urls.each do |f|
+          filename = File.basename(f)
+          prefix = "#{thumbnail_storage_location}_encoded"
+          path = "#{prefix}_#{filename}"
+          `wget #{f} -O #{path}`
+          if $? == 0
+            thumbnail_paths << path
+          end
+        end
         
         # If any of the encoding jobs resulted in a PNG screenshot of the film, use
         # that as a thumbnail
