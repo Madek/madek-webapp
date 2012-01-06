@@ -58,7 +58,7 @@ module MediaEntriesHelper
           tag :img, options.merge({:src => media_file.thumb_base64(size)})  
         end
       else
-        content_tag :video, {:width => video_preview.width, :height => video_preview.height, :autoplay => 'autoplay', :controls => 'controls'} do
+        content_tag :video, {:width => video_preview.width, :height => video_preview.height} do
           tag :source, {:type => video_preview.content_type, :src => "/download?id=#{resource.id}&video_thumbnail=true"}
         end
       end
