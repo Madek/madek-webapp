@@ -4,7 +4,7 @@ class CreateViewableResourcesView < ActiveRecord::Migration
   def up
 
     Constants::Actions.each do |action|
-      [Media::Set,MediaEntry,MediaResource].each do |model|
+      [MediaResource].each do |model|
 
         tname = model.table_name
         fkey_name = (ActiveSupport::Inflector.singularize tname)+ "_id"
@@ -16,7 +16,7 @@ class CreateViewableResourcesView < ActiveRecord::Migration
           .where("userpermissions.may_view = true").to_sql \
           .gsub /SELECT.*FROM/, select_ms
 
-        non_actionable_by_userpermission= \
+        actionable_disallowed_by_userpermission= \
           model.joins(:userpermissions => :user) \
           .where("userpermissions.may_view = false").to_sql \
           .gsub /SELECT.*FROM/, select_ms
@@ -29,7 +29,7 @@ class CreateViewableResourcesView < ActiveRecord::Migration
         actionable_by_gp_not_denied_by_up=  <<-SQL
           SELECT * from #{action}able_#{tname}_by_grouppermission
           WHERE (#{fkey_name},user_id) 
-            NOT IN (SELECT #{fkey_name},user_id from non_#{action}able_#{tname}_by_userpermission);
+            NOT IN (SELECT #{fkey_name},user_id from #{action}able_#{tname}_disallowed_by_userpermission);
         SQL
 
         actionable_by_publicpermission= <<-SQL
@@ -50,7 +50,7 @@ class CreateViewableResourcesView < ActiveRecord::Migration
         SQL
 
         create_view "#{action}able_#{tname}_by_userpermission",actionable_by_userpermission
-        create_view "non_#{action}able_#{tname}_by_userpermission",non_actionable_by_userpermission
+        create_view "#{action}able_#{tname}_disallowed_by_userpermission",actionable_disallowed_by_userpermission
         create_view "#{action}able_#{tname}_by_grouppermission",actionable_by_grouppermission
         create_view "#{action}able_#{tname}_by_gp_not_denied_by_up",actionable_by_gp_not_denied_by_up
         create_view "#{action}able_#{tname}_by_publicpermission",actionable_by_publicpermission
@@ -65,7 +65,7 @@ class CreateViewableResourcesView < ActiveRecord::Migration
 
   def down
     Constants::Actions.each do |action|
-      [Media::Set,MediaEntry,MediaResource].each do |model|
+      [MediaResource].each do |model|
 
         tname = model.table_name
 
@@ -74,7 +74,7 @@ class CreateViewableResourcesView < ActiveRecord::Migration
         drop_view "#{action}able_#{tname}_by_publicpermission"
         drop_view "#{action}able_#{tname}_by_gp_not_denied_by_up"
         drop_view "#{action}able_#{tname}_by_grouppermission"
-        drop_view "non_#{action}able_#{tname}_by_userpermission"
+        drop_view "#{action}able_#{tname}_disallowed_by_userpermission"
         drop_view "#{action}able_#{tname}_by_userpermission"
 
       end

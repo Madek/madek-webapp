@@ -10,7 +10,7 @@ class RecreateMediaResourcesView < ActiveRecord::Migration
       t.integer :owner_id, :null => false
 
       Actions.each do |action|
-        t.boolean "may_#{action}", :default => false
+        t.boolean "perm_public_may_#{action}", :default => false
       end
 
     end

@@ -19,6 +19,8 @@ module Media
     belongs_to :user
     belongs_to :owner, :class_name => 'User'
 
+    belongs_to :media_resource
+
     has_and_belongs_to_many :media_entries, :join_table => "media_entries_media_sets",
                                             :foreign_key => "media_set_id" do
       def push_uniq(members)

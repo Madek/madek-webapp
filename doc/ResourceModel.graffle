@@ -58,7 +58,7 @@
 	<array>
 		<dict>
 			<key>Bounds</key>
-			<string>{{845.21655, 443.05261}, {79.942101, 14}}</string>
+			<string>{{836.51154, 460.10498}, {79.942101, 14}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -213,8 +213,8 @@
 			<integer>689</integer>
 			<key>Points</key>
 			<array>
-				<string>{851.93195, 433.57187}</string>
-				<string>{921.4007, 467.99899}</string>
+				<string>{829.49048, 434.70352}</string>
+				<string>{927.65375, 502.38788}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -391,7 +391,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{1024.0627, 352.41577}, {43.875301, 14}}</string>
+			<string>{{1021.7415, 368.51187}, {43.875301, 14}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -472,7 +472,7 @@
 			<array>
 				<string>{1018.945, 276.67496}</string>
 				<string>{1046.67, 351}</string>
-				<string>{1014.611, 456.27661}</string>
+				<string>{1010.7528, 501}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -494,7 +494,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{957.91083, 353.51544}, {43.875301, 14}}</string>
+			<string>{{956.63782, 372.16833}, {43.875301, 14}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -575,7 +575,7 @@
 			<array>
 				<string>{1010.6365, 276.67822}</string>
 				<string>{979, 366.72302}</string>
-				<string>{992.04504, 456.26013}</string>
+				<string>{993.38055, 500.98911}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1085,7 +1085,7 @@ implemented }</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{904.2489, 365.72949}, {48, 14}}</string>
+			<string>{{908.93225, 402.30151}, {48, 14}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -1104,7 +1104,7 @@ implemented }</string>
 				<integer>2</integer>
 			</dict>
 			<key>Rotation</key>
-			<real>67.948028564453125</real>
+			<real>70.29852294921875</real>
 			<key>Shape</key>
 			<string>Rectangle</string>
 			<key>Style</key>
@@ -1166,7 +1166,7 @@ implemented }</string>
 			<integer>622</integer>
 			<key>Points</key>
 			<array>
-				<string>{968.17651, 456.33047}</string>
+				<string>{971.63403, 501.04663}</string>
 				<string>{809, 200.69257}</string>
 				<string>{404.16412, 171.27599}</string>
 			</array>
@@ -1190,7 +1190,7 @@ implemented }</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{921.84924, 456.75491}, {155, 99.278}}</string>
+			<string>{{921.25037, 501.48633}, {155, 99.278}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -2887,7 +2887,7 @@ belongs_to}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2012-01-06 16:18:04 +0000</string>
+	<string>2012-01-06 20:19:12 +0000</string>
 	<key>Modifier</key>
 	<string>Thomas Schank</string>
 	<key>NotesVisible</key>
@@ -2924,16 +2924,6 @@ belongs_to}</string>
 		<array>
 			<string>int</string>
 			<string>0</string>
-		</array>
-		<key>NSPrinter</key>
-		<array>
-			<string>coded</string>
-			<string>BAtzdHJlYW10eXBlZIHoA4QBQISEhAlOU1ByaW50ZXIAhIQITlNPYmplY3QAhZKEhIQITlNTdHJpbmcBlIQBKw4xOTIuMTY4LjE3OC4xMIaG</string>
-		</array>
-		<key>NSPrinterName</key>
-		<array>
-			<string>string</string>
-			<string>192.168.178.10</string>
 		</array>
 		<key>NSRightMargin</key>
 		<array>
@@ -2980,7 +2970,7 @@ belongs_to}</string>
 		<key>FitInWindow</key>
 		<true/>
 		<key>Frame</key>
-		<string>{{6, 4}, {1206, 1174}}</string>
+		<string>{{1, 0}, {1206, 778}}</string>
 		<key>ListView</key>
 		<false/>
 		<key>OutlineWidth</key>
@@ -2994,9 +2984,9 @@ belongs_to}</string>
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{0, -85}, {1117.0629, 954.93878}}</string>
+		<string>{{-190, 0}, {1498.1316, 783}}</string>
 		<key>Zoom</key>
-		<real>1.0670840740203857</real>
+		<real>0.79565775394439697</real>
 		<key>ZoomValues</key>
 		<array>
 			<array>
