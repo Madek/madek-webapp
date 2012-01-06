@@ -52,9 +52,8 @@ module MediaEntriesHelper
       # encoding the video.
       if video_preview.nil?
         if !media_file.encode_job_finished?
-          # TODO: Use the Zencoder v2 API to retrieve job status (conversion in %): https://github.com/zencoder/zencoder-rb
           # TODO: Display a nicer box with this information, not just dump the text there
-          "<p>Diese Videodatei wird gerade fürs Web konvertiert. Sobald die Konvertierung abgeschlossen ist, finden Sie hier eine direkt abspielbare Version.</p>"
+          "<p>Diese Videodatei wird gerade fürs Web konvertiert. Die Konvertierung ist zu %.2f Prozent abgeschlossen. Sobald sie ganz abgeschlossen ist, finden Sie hier eine abspielbare Version. Laden Sie diese Seite neu, um den aktuellsten Stand zu erfahren.</p>" % media_file.encode_job_progress_percentage 
         else
           tag :img, options.merge({:src => media_file.thumb_base64(size)})  
         end

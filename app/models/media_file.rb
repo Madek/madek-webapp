@@ -448,7 +448,8 @@ class MediaFile < ActiveRecord::Base
       return false
     end
   end
-
+  
+  # TODO: Refactor into something like MediaFile#encode_job ?
   def encode_job_finished?
     if self.job_id.blank?
       return false
@@ -458,6 +459,17 @@ class MediaFile < ActiveRecord::Base
       return job.finished?
     end
   end
+  
+  def encode_job_progress_percentage
+    if self.job_id.blank?
+      return 0
+    else
+      require Rails.root + 'lib/encode_job'
+      job = EncodeJob.new(self.job_id)
+      return job.progress['progress'].to_f
+    end
+  end
+  
   
   def assign_access_hash
     self.access_hash = UUIDTools::UUID.random_create.to_s
