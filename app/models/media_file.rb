@@ -449,6 +449,15 @@ class MediaFile < ActiveRecord::Base
     end
   end
 
+  def encode_job_finished?
+    if self.job_id.blank?
+      return false
+    else
+      require Rails.root + 'lib/encode_job'
+      job = EncodeJob.new(self.job_id)
+      return job.finished?
+    end
+  end
   
   def assign_access_hash
     self.access_hash = UUIDTools::UUID.random_create.to_s

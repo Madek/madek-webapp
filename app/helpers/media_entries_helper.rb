@@ -48,8 +48,14 @@ module MediaEntriesHelper
     if media_file.content_type =~ /video/ && size == :large
       media_file.assign_video_thumbnails_to_preview
       video_preview = media_file.previews.where(:content_type => 'video/webm', :thumbnail => 'large').last
+      # Since we don't have a video preview, we also don't have any thumbnails, since those are generated while
+      # encoding the video.
       if video_preview.nil?
-        tag :img, options.merge({:src => media_file.thumb_base64(size)})
+        if !media_file.encode_job_finished?
+          "Diese Videodatei wird gerade fürs Web konvertiert."
+        else
+          tag :img, options.merge({:src => media_file.thumb_base64(size)})  
+        end
       else
         tag :video,  options.merge({:src => "/download?id=#{resource.id}&video_thumbnail=true",
                                     :autoplay => 'autoplay', :controls => 'controls', :width => video_preview.width, :height => video_preview.height})
