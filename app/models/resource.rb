@@ -227,11 +227,9 @@ module Resource
     more_json = {}
     
     if user = options[:user]
-      #TODO Dont do this behaviour on default
-      flags = { :is_private => acl?(:view, :only, user),
-                :is_public => acl?(:view, :all),
-                :is_editable => Permission.authorized?(user, :edit, self),
-                :is_manageable => Permission.authorized?(user, :manage, self) }
+      #TODO implement is_public, is_private
+      flags = { :is_editable => Permissions.authorized?(user, :edit, self),
+                :is_manageable => Permissions.authorized?(user, :manage, self) }
       more_json.merge! flags         
       more_json.merge!(self.get_basic_info(user, [], with_thumb))
     end
@@ -326,18 +324,6 @@ module Resource
     end    
   end
 
-########################################################
-# ACL
-
-  def acl?(action, scope, subject = nil)
-    case scope
-      when :all
-        # TODO ?? use :permissions association
-        Permission.authorized?(nil, action, self)
-      when :only
-        Permission.resource_viewable_only_by_user?(self, subject)
-    end
-  end
   
   def managers
     i = Permission::ACTIONS.index(:manage)
