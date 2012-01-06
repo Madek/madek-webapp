@@ -31,7 +31,7 @@ class MediaResource < ActiveRecord::Base
   #scope :by_user, lambda {|user| media_entries.joins(:upload_session).where(:upload_sessions => {:user_id => user}) } 
   scope :by_user, lambda {|user| where(:user_id => user) } 
   #scope :not_by_user, lambda {|user| media_entries.joins(:upload_session).where(["upload_sessions.user_id != ?", user]) } 
-  scope :not_by_user, lambda {|user| where(["user_id != ?", user]) }
+  scope :not_by_user, lambda {|user| where([table_name+".user_id != ?", user]) }
 
   ################################################################
   

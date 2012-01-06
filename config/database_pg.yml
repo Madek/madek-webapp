@@ -16,7 +16,7 @@
 pg: &pg
   adapter: postgresql
   encoding: unicode
-  username: rails
+  username: postgres 
   password:
   
 my: &my
