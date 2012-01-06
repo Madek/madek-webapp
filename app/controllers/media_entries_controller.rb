@@ -97,7 +97,7 @@ class MediaEntriesController < ApplicationController
     # OPTIMIZE media_set ACL
     media_sets = []
     Media::Set.find(media_set_ids).each do |media_set|
-      next unless Permission.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
+      next unless Permissions.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
       if request.post?
         media_set.media_entries.push_uniq @media_entry
       else
@@ -208,11 +208,11 @@ class MediaEntriesController < ApplicationController
         not_authorized! if @media_entries.empty?
         return
       when :remove_multiple
-        not_authorized! unless Permission.authorized?(current_user, :edit, @media_set)
+        not_authorized! unless Permissions.authorized?(current_user, :edit, @media_set)
         return
     end
     resource = @media_entry
-    not_authorized! unless Permission.authorized?(current_user, action, resource) and conditions.all?
+    not_authorized! unless Permissions.authorized?(current_user, Constants::Actions.old2new(action), resource) and conditions.all?
     # TODO super ??
   end
   

@@ -24,7 +24,7 @@ class DownloadController < ApplicationController
         
         unless @media_entry.nil?
 
-          render :text => 'Sie haben nicht die notwendige Zugriffsberechtigung.', :status => 500 unless Permission.authorized?(current_user, :view, @media_entry) 
+          render :text => 'Sie haben nicht die notwendige Zugriffsberechtigung.', :status => 500 unless Permissions.authorized?(current_user, :view, @media_entry) 
           @size = params['size'].try(:to_sym)           
           @content_type = @media_entry.media_file.content_type
 
