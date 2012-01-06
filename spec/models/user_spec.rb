@@ -6,6 +6,10 @@ describe User do
     (FactoryGirl.create :user).should_not == nil
   end
 
+  it "should be destroyable" do
+    expect{ (FactoryGirl.create :user).destroy }.not_to raise_error
+  end
+
   context "referential integrity" do
 
     it "should raise an execption if the person is deleted on the database layer" do
