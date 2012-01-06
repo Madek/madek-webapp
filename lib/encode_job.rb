@@ -76,6 +76,10 @@ class EncodeJob
   def details
     Zencoder::Job.details(@job_id).body['job']
   end
+  
+  def progress
+    Zencoder::Job.progress(@job_id).body
+  end
 
   def state
     details['state']

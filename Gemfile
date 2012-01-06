@@ -58,7 +58,7 @@ gem 'acts-as-dag', '~> 2.5.5' # TOOD use instead ?? gem 'dagnabit', '2.2.6'
 
 gem 'net-ldap', :require => 'net/ldap'
 
-gem 'zencoder', '~> 2.3.1'
+gem 'zencoder', '2.4.0'
 gem 'uuidtools', '~> 2.1.2'
 gem 'mini_exiftool', '~> 1.3.1'
 # gem 'mini_magick', '~> 3.3'
