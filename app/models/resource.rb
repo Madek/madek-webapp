@@ -354,7 +354,7 @@ private
       gp = Grouppermission.create  \
         group: group, 
         media_resource: self,
-        may_download_high_resolution: true,
+        may_download: true,
         may_edit: true,
         may_manage: true,
         may_view: true
@@ -362,7 +362,7 @@ private
       up = Userpermission.create \
         user: owner, 
         media_resource: self,
-        may_download_high_resolution: true,
+        may_download: true,
         may_edit: true,
         may_manage: true,
         may_view: true

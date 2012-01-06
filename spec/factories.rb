@@ -50,7 +50,7 @@ FactoryGirl.define do
     owner  {User.find_random || (FactoryGirl.create :user)}
     media_file {FactoryGirl.create :media_file}
     perm_public_may_view {FactoryHelper.rand_bool 0.1}
-    perm_public_may_download_high_resolution {FactoryHelper.rand_bool 0.1}
+    perm_public_may_download {FactoryHelper.rand_bool 0.1}
     after_build do |me|
       def me.extract_subjective_metadata; end
       def me.set_copyright; end
@@ -103,7 +103,7 @@ FactoryGirl.define do
 
   factory :grouppermission do
     may_view {FactoryHelper.rand_bool}
-    may_download_high_resolution {FactoryHelper.rand_bool}
+    may_download {FactoryHelper.rand_bool}
     may_edit {FactoryHelper.rand_bool}
 
     group {Group.find_random || (FactoryGirl.create :group)}
@@ -146,8 +146,8 @@ FactoryGirl.define do
 
     may_view {FactoryHelper.rand_bool 1/4.0}
     maynot_view {(not may_view) and FactoryHelper.rand_bool}
-    may_download_high_resolution {FactoryHelper.rand_bool 1/4.0}
-    maynot_download_high_resolution {(not maynot_download_high_resolution) and FactoryHelper.rand_bool}
+    may_download {FactoryHelper.rand_bool 1/4.0}
+    maynot_download {(not maynot_download) and FactoryHelper.rand_bool}
     may_edit {FactoryHelper.rand_bool 1/4.0}
     maynot_edit {(not may_edit) and FactoryHelper.rand_bool}
     user {User.find_random || (FactoryGirl.create :user)} 
