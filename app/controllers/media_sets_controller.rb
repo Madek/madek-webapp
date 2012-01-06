@@ -41,7 +41,7 @@ class MediaSetsController < ApplicationController
     respond_to do |format|
       #-# only used for FeaturedSet
       format.html {
-        resources = MediaResource.accessible_by_user(current_user).media_sets
+        resources = current_user.viewable_media_resources.media_sets
     
         @media_sets, @my_media_sets, @my_title, @other_title = if @media_set
           # all media_sets I can see, nested within a media set (for now only used with featured sets)
@@ -61,7 +61,8 @@ class MediaSetsController < ApplicationController
         end
       }
       format.js {
-        sets = MediaResource.accessible_by_user(current_user, accessible_action.to_sym).media_sets
+        action = Constants::Actions.old2new accessible_action.to_sym
+        sets = current_user.send "#{action}able_media_sets"
         render :json => sets.as_json(:user => current_user, :with => with, :with_thumb => false) # TODO drop with_thum merge with with
       }
     end
@@ -76,7 +77,7 @@ class MediaSetsController < ApplicationController
     params[:per_page] ||= PER_PAGE.first
 
     paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
-    resources = MediaResource.accessible_by_user(current_user).by_media_set(@media_set).paginate(paginate_options)
+    resources = current_user.viewable_media_resources.by_media_set(@media_set).paginate(paginate_options)
     
     @can_edit_set = Permissions.authorized?(current_user, :edit, @media_set)
     @parents = @media_set.parent_sets.as_json(:user => current_user)
@@ -116,7 +117,8 @@ class MediaSetsController < ApplicationController
 
   # TODO only for media_project
   def abstract
-    @_media_entry_ids = MediaResource.accessible_by_user(current_user).media_entries.by_media_set(@media_set).map(&:id)
+    # TODO Tom check following line with Franco
+    @_media_entry_ids = current_user.viewable_media_resources.media_entries.by_media_set(@media_set).map(&:id)
     respond_to do |format|
       format.js { render :layout => false }
     end

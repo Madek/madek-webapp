@@ -188,7 +188,8 @@ module Resource
       end
       if with_thumb
         mf = if self.is_a?(Media::Set)
-          MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).first.try(:media_file)
+          # TODO Tom check with Franco if this can be made simpler:
+          current_user.viewable_media_resources.media_entries.by_media_set(self).first.try(:media_file)
         else
           self.media_file
         end

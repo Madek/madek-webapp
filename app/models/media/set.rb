@@ -78,7 +78,6 @@ module Media
       s = "#{title} " 
       s += "- %s " % self.class.name.split('::').last # OPTIMIZE get class name without module name
       # TODO filter accessible ??
-      # s += (static? ? "(#{MediaResource.accessible_by_user(current_user).by_media_set(self).count})" : "(#{MediaResource.accessible_by_user(current_user).by_media_set(self).search(query).count}) [#{query}]")
       s += (static? ? "(#{media_entries.count})" : "(#{MediaResource.by_media_set(self).search(query).count}) [#{query}]")
     end
   

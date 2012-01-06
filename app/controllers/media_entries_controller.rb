@@ -42,7 +42,7 @@ class MediaEntriesController < ApplicationController
   
   def browse
     # TODO merge with index
-    @viewable_ids = MediaResource.accessible_by_user(current_user).media_entries.map(&:id)
+    @viewable_ids = current_user.viewable_media_entries.map(&:id)
   end
   
 #####################################################
@@ -249,11 +249,11 @@ class MediaEntriesController < ApplicationController
         selected_ids = params[:media_entry_ids].split(",").map{|e| e.to_i }
         @media_entries = case action
           when :edit_multiple, :update_multiple
-            MediaResource.accessible_by_user(current_user, :edit)
+            current_user.editable_media_resources
           when :edit_multiple_permissions
-            MediaResource.accessible_by_user(current_user, :manage)
+            current_user.manageable_media_resources
           when :remove_multiple
-            MediaResource.accessible_by_user(current_user, :view)
+            current_user.editable_media_resources
         end.media_entries.where(:id => selected_ids)
      else
        flash[:error] = "Sie haben keine Medieneinträge ausgewählt."

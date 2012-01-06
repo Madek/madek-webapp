@@ -17,7 +17,8 @@ module MediaSetsHelper
         end
         if total_thumbs > 0
           haml_tag :br
-          media_entries = MediaResource.accessible_by_user(current_user).media_entries.by_media_set(media_set).paginate(:page => 1, :per_page => total_thumbs)
+          # TODO Tom check with Franco
+          media_entries = current_user.viewable_media_resources.media_entries.by_media_set(media_set).paginate(:page => 1, :per_page => total_thumbs)
           if media_entries.empty?
             haml_tag :small, _("Noch keine Medieneinträge enthalten")
           else
@@ -83,7 +84,7 @@ module MediaSetsHelper
   end
 
   def media_sets_setter(form_path, with_cancel_button = false)
-    editable_sets = MediaResource.accessible_by_user(current_user, :edit).media_sets
+    editable_sets = current_user.editable_media_sets
     form_tag form_path, :id => "set_media_sets" do
       b = content_tag :h3, :style => "clear: both" do
         _("Zu Set/Projekt hinzufügen:")

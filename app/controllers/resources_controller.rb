@@ -6,7 +6,7 @@ class ResourcesController < ApplicationController
   def index
     params[:per_page] ||= PER_PAGE.first
 
-    resources = MediaResource.accessible_by_user(current_user)
+    resources = current_user.viewable_media_resources
     resources = resources.send(params[:type]) if params[:type]
     resources = resources.by_user(@user) if params[:user_id] and (@user = User.find(params[:user_id]))
     resources = resources.not_by_user(current_user) if params[:not_by_current_user]
@@ -37,7 +37,7 @@ class ResourcesController < ApplicationController
   
   # TODO merge search and filter methods ??
   def filter
-    resources = MediaResource.accessible_by_user(current_user)
+    resources = current_user.viewable_media_resources
 
     if request.post?
       params[:per_page] ||= PER_PAGE.first

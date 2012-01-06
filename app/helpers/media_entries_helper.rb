@@ -37,7 +37,7 @@ module MediaEntriesHelper
  
   def thumb_for(resource, size = :small_125, options = {})
     media_file = if resource.is_a?(Media::Set)
-      MediaResource.accessible_by_user(current_user).media_entries.by_media_set(resource).first.try(:media_file)
+      current_user.viewable_media_resources.media_entries.by_media_set(resource).first.try(:media_file)
     else
       resource.media_file
     end
