@@ -59,7 +59,9 @@ module MediaEntriesHelper
         end
       else
         content_tag :video, {:width => video_preview.width, :height => video_preview.height, :autoplay => 'autoplay', :controls => 'controls'} do
-          tag :source, {:type => video_preview.content_type, :src => "/download?id=#{resource.id}&video_thumbnail=true"}
+          # This src points to a symlink to the actual file, so that Apache serves it. This lets us support
+          # seeking, partial content (HTTP status code 206) and request ranges without any additional work.
+          tag :source, {:type => video_preview.content_type, :src => "/previews/#{media_file.filename}"}
         end
       end
 

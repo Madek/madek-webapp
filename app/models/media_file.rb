@@ -197,6 +197,9 @@ class MediaFile < ActiveRecord::Base
             # Must have Exiftool with Image::ExifTool::Matroska to support WebM!
             w, h = exiftool_obj(path, ["Composite:ImageSize"])[0][0][1].split("x")
             if previews.create(:content_type => content_type, :filename => File.basename(path), :width => w.to_i, :height => h.to_i, :thumbnail => 'large')
+              # Link the file to a symlink inside of public/ so that Apache serves the preview file, otherwise
+              # it would become far too hard to support partial content (status 206) and ranges (for seeking in media files)
+              File.symlink(path, Rails.root + "public/previews/#{File.basename(path)}")
               return true
             else
               return false
