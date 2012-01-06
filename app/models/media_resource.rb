@@ -142,6 +142,8 @@ class MediaResource < ActiveRecord::Base
 
 
   def self.accessible_by_user(user, action = :view)
+    raise "this is deprecated"
+
     i = 2 ** Permission::ACTIONS.index(action)
 
 

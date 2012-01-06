@@ -5,7 +5,7 @@ module Constants
   PUBLIC_PREFIX= "perm_public_may_"
  
   NEW_OLD_PUBLIC_ACTIONS_MAP =  \
-    { download_high_resolution: :hi_res \
+    { download: :hi_res \
     , view: :view
     }
 
