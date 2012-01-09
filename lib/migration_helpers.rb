@@ -55,6 +55,20 @@ module MigrationHelpers
     execute_sql "ALTER TABLE #{table_name} ADD CHECK #{check} ;"
   end
 
+  def add_not_null_constraint table, col
+    table_name = infer_table_name table
+    col_name = infer_column_name col
+    execute_sql "ALTER TABLE #{table_name} ALTER COLUMN #{col_name} SET NOT NULL;"
+  end
+
+  def add_unique_constraint table, col
+    # if required make col optionally an array, because unique can refer to multiple cols
+     
+    table_name = infer_table_name table
+    col_name = infer_column_name col
+    constraint_name = "#{table_name}_#{col_name}_unique"
+    execute_sql "ALTER TABLE #{table_name} ADD CONSTRAINT #{constraint_name} UNIQUE (#{col_name});"
+  end
 
 ######################################################################
 # Foreign key constraints
@@ -124,6 +138,14 @@ module MigrationHelpers
       table.table_name
     else
       table.to_s
+    end
+  end
+
+  def infer_column_name col
+    if col.is_a? Class # col is a model that is referenced, i.e. a fkey
+      fkey_name col
+    elsif
+      col.to_s
     end
   end
 

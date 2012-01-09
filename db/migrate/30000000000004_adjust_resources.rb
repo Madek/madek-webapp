@@ -24,6 +24,13 @@ class AdjustResources < ActiveRecord::Migration
     add_fkey_referrence_constraint MediaEntry, MediaResource
     add_fkey_referrence_constraint Media::Set, MediaResource
 
+    add_not_null_constraint MediaEntry, MediaResource
+    add_not_null_constraint Media::Set, MediaResource
+
+    add_unique_constraint MediaEntry, MediaResource
+    add_unique_constraint Media::Set, MediaResource
+
+
   end
 
   def down
