@@ -66,8 +66,11 @@ class PermissionsController < ApplicationController
   #     :manage=>true}]}
   #
   def edit_multiple
+
+=begin
     permissions = Permission.cached_permissions_by(@resource)
     keys = Permission::ACTIONS
+
     @permissions_json = {}
     
     permissions.group_by {|p| p.subject_type }.collect do |type, type_permissions|
@@ -88,6 +91,33 @@ class PermissionsController < ApplicationController
     end
     @permissions_json = @permissions_json.to_json
     
+=end
+    
+    permissions =  {}
+    permissions[:public] = \
+      begin 
+        h = {:name => "Öffentlich", :type => 'nil'}
+        Constants::Actions.each do |action|
+          h[Constants::Actions.new2old action] = @resource.send "perm_public_may_#{action}"
+        end
+        h
+      end
+
+    [User].map{|m| m.to_s.downcase}.each do |subject|
+      permissions[subject.capitalize] = @resource.send("#{subject}permissions").map do |permission|
+        h = {name: permission.name, id: permission.id, type: subject.capitalize}
+        Constants::Actions.each do |action|
+          h[Constants::Actions.new2old action] = permission.send "may_#{action}"
+        end
+        h
+      end
+    end
+
+    binding.pry
+    @permissions_json = permissions.to_json
+
+
+
     respond_to do |format|
       format.html
       format.js { render :partial => "edit_multiple" }
@@ -102,9 +132,12 @@ class PermissionsController < ApplicationController
  #   "Group"=>{"1519"=>{"view"=>"true", "edit"=>"true", "hi_res"=>"false"}},
  #   "nil"=>{"view"=>"false", "edit"=>"false", "hi_res"=>"false"}}
  #  
+  # REMARK: delete_all is probably used for removing users
+  #
   def update_multiple
     ActiveRecord::Base.transaction do
       @resources.each do |resource|
+      
         resource.permissions.delete_all
     
         actions = params[:subject]["nil"]
