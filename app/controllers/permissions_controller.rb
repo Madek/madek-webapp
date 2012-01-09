@@ -66,34 +66,9 @@ class PermissionsController < ApplicationController
   #     :manage=>true}]}
   #
   def edit_multiple
-
-=begin
-    permissions = Permission.cached_permissions_by(@resource)
-    keys = Permission::ACTIONS
-
-    @permissions_json = {}
-    
-    permissions.group_by {|p| p.subject_type }.collect do |type, type_permissions|
-      unless type.nil?
-        @permissions_json[type] = type_permissions.map do |p|
-          h = {:id => p.subject.id, :name => p.subject.to_s, :type => type}
-          keys.each {|key| h[key] = p.actions[key] } #1504#
-          h
-        end
-      else
-        p = type_permissions.first
-        @permissions_json["public"] = begin
-          h = {:name => "Öffentlich", :type => 'nil'}
-          keys.each {|key| h[key] = p.actions[key] } #1504#
-          h
-        end
-      end
-    end
-    @permissions_json = @permissions_json.to_json
-    
-=end
     
     permissions =  {}
+
     permissions[:public] = \
       begin 
         h = {:name => "Öffentlich", :type => 'nil'}
@@ -103,6 +78,7 @@ class PermissionsController < ApplicationController
         h
       end
 
+    # ASK the type is used in two places why? 
     [User].map{|m| m.to_s.downcase}.each do |subject|
       permissions[subject.capitalize] = @resource.send("#{subject}permissions").map do |permission|
         h = {name: permission.name, id: permission.id, type: subject.capitalize}
@@ -113,10 +89,7 @@ class PermissionsController < ApplicationController
       end
     end
 
-    binding.pry
     @permissions_json = permissions.to_json
-
-
 
     respond_to do |format|
       format.html
