@@ -1,2 +1,2 @@
-default:  --format pretty --format junit --out tmp/junit --format html --out tmp/html/cucumber.html -e 'features/examples' features
-examples: --format pretty --format junit --out tmp/junit --format html --out tmp/html/examples.html features/examples
+default:  -r features --format pretty --format junit --out tmp/junit --format html --out tmp/html/cucumber.html -e 'features/examples' features
+examples: -r features --format pretty --format junit --out tmp/junit --format html --out tmp/html/examples.html features/examples
