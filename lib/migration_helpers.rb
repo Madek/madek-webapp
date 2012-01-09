@@ -45,9 +45,33 @@ module MigrationHelpers
     model.table_name.singularize + "_id"
   end
 
-  def fkey_cascade_on_delete from_table, from_column, to_table
-    name = "#{from_table}_#{from_column}_#{to_table}_fkey"
-    execute_sql "ALTER TABLE #{from_table} ADD CONSTRAINT #{name} FOREIGN KEY (#{from_column}) REFERENCES #{to_table} (id) ON DELETE CASCADE;"
+
+  def infer_table_name table
+    if table.is_a? Class
+      table.table_name
+    else
+      table.to_s
+    end
+  end
+
+  def fkey_name table
+    table_name = 
+      if table.is_a? Class
+        table.table_name
+      else
+        table.to_s
+      end
+    (ActiveSupport::Inflector.singularize table_name)+ "_id"
+  end
+    
+  def cascade_on_delete from_table, to_table, from_column=nil 
+
+    from_table_name = infer_table_name from_table
+    to_table_name = infer_table_name to_table
+    from_column ||= fkey_name to_table_name
+    contraint_name = "#{from_table_name}_#{from_column}_#{to_table_name}_fkey"
+
+    execute_sql "ALTER TABLE #{from_table_name} ADD CONSTRAINT #{contraint_name} FOREIGN KEY (#{from_column}) REFERENCES #{to_table_name} (id) ON DELETE CASCADE;"
   end
 
 

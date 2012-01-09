@@ -8,13 +8,27 @@ class User < ActiveRecord::Base
   include Subject
 
   Constants::Actions.each do |action|
-    [Media::Set,MediaEntry,MediaResource].each do |model|
+    [MediaResource].each do |model|
       tname = model.table_name
       fkey_name = (ActiveSupport::Inflector.singularize tname)+ "_id"
       has_and_belongs_to_many "#{action}able_#{tname}", 
         :class_name => model.to_s, :join_table => "#{action}able_#{tname}_users", :foreign_key => 'user_id', 
         :association_foreign_key => fkey_name,
         :delete_sql => "SELECT false;" # otherwise rails will try to delete rows in the view
+    end
+  end
+
+  # TODO Tom 
+  # maybe rather like: User.first.viewable_media_resources.media_sets
+  Constants::Actions.each do |action|
+    [Media::Set,MediaEntry].each do |model|
+      tname = model.table_name
+      fkey_name = (ActiveSupport::Inflector.singularize tname)+ "_id"
+      #has_many "#{action}able_#{tname}", through: "#{action}able_media_resources"
+#      has_and_belongs_to_many "#{action}able_#{tname}", 
+#        :class_name => model.to_s, :join_table => "#{action}able_#{tname}_users", :foreign_key => 'user_id', 
+#        :association_foreign_key => fkey_name,
+#        :delete_sql => "SELECT false;" # otherwise rails will try to delete rows in the view
     end
   end
 

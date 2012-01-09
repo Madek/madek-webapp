@@ -23,7 +23,7 @@ class CreateUserpermissions < ActiveRecord::Migration
       add_index :userpermissions, "maynot_#{action}"
     end
 
-    fkey_cascade_on_delete :userpermissions, :user_id, :users
+   cascade_on_delete Userpermission, User
     
   end
 

@@ -21,7 +21,8 @@ class AdjustResources < ActiveRecord::Migration
       ms.save!
     end
 
-    # constraints 
+    cascade_on_delete MediaEntry, MediaResource
+    cascade_on_delete Media::Set, MediaResource
 
   end
 

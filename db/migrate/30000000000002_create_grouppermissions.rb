@@ -22,8 +22,7 @@ class CreateGrouppermissions < ActiveRecord::Migration
       add_index :grouppermissions, "may_#{action}"
     end
 
-    fkey_cascade_on_delete :grouppermissions, :group_id, :groups
- 
+    cascade_on_delete Grouppermission, Group
 
   end
 

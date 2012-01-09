@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 class CreateGroups < ActiveRecord::Migration
-  def self.up
+  include MigrationHelpers
+
+  def up
     create_table :groups do |t|
       t.string :name
     end
@@ -13,12 +15,12 @@ class CreateGroups < ActiveRecord::Migration
       t.index :user_id
     end
 
-    MigrationHelpers::fkey_cascade_on_delete :groups_users, :group_id, :groups
-    MigrationHelpers::fkey_cascade_on_delete :groups_users, :user_id, :users
+    cascade_on_delete :groups_users, :groups
+    cascade_on_delete :groups_users, :users
 
   end
 
-  def self.down
+  def down
     drop_table :groups_users
     drop_table :groups
   end

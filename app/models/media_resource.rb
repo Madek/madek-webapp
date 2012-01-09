@@ -5,6 +5,6 @@ class MediaResource < ActiveRecord::Base
   belongs_to :owner, :class_name => User.name
 
   has_one :media_entry
-  has_one :media_set
+  has_one :media_set, :class_name => Media::Set.name
   
 end
