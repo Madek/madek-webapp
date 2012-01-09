@@ -77,7 +77,7 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'statsample'
   gem 'watchr'
-  gem 'wirble'
+  gem 'spork'
 end
 
 group :development do
