@@ -195,7 +195,7 @@ module Resource
       else
         #1+n http-requests#
         me = if self.is_a?(Media::Set)
-          MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).first.try(:id)
+          MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).first
         else
           self
         end
