@@ -58,7 +58,13 @@ module MigrationHelpers
   def add_not_null_constraint table, col
     table_name = infer_table_name table
     col_name = infer_column_name col
-    execute_sql "ALTER TABLE #{table_name} ALTER COLUMN #{col_name} SET NOT NULL;"
+    constraint_name = "#{table_name}_#{col_name}_not_null"
+    execute_sql "ALTER TABLE #{table_name} ADD CONSTRAINT #{constraint_name} NOT NULL (#{col_name});"
+#    if adapter_is_mysql?
+#      execute_sql "ALTER TABLE #{table_name} Modify #{col_name}  NOT NULL; "
+#    else
+#      execute_sql "ALTER TABLE #{table_name} ALTER COLUMN #{col_name} SET NOT NULL;"
+#    end
   end
 
   def add_unique_constraint table, col
