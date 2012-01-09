@@ -14,6 +14,57 @@ class PermissionsController < ApplicationController
   
 #################################################################
 
+  # creates a JSON
+  #
+  # { public: permentry
+  #  User: [permentries....] 
+  #  Group: [permentries....] 
+  #  }
+  #
+  # entry:
+  #
+  # { id: 20
+  # , name: "Fred "
+  # , type: "User"
+  # , view: true
+  # , edit: false
+  # }
+  #
+  #
+  #
+  #
+  # @permissions_json
+  # => {"public"=>
+  #   {:name=>"Öffentlich",
+  #    :type=>"nil",
+  #    :view=>false,
+  #    :edit=>nil,
+  #    :hi_res=>nil,
+  #    :manage=>nil},
+  #  "Group"=>
+  #   [{:id=>1519,
+  #     :name=>"MAdeK-Team",
+  #     :type=>"Group",
+  #     :view=>true,
+  #     :edit=>true,
+  #     :hi_res=>nil,
+  #     :manage=>nil}],
+  #  "User"=>
+  #   [{:id=>10262,
+  #     :name=>"Cahenzli, Ramon",
+  #     :type=>"User",
+  #     :view=>false,
+  #     :edit=>nil,
+  #     :hi_res=>nil,
+  #     :manage=>nil},
+  #    {:id=>159123,
+  #     :name=>"Sellitto, Franco",
+  #     :type=>"User",
+  #     :view=>true,
+  #     :edit=>nil,
+  #     :hi_res=>nil,
+  #     :manage=>true}]}
+  #
   def edit_multiple
     permissions = Permission.cached_permissions_by(@resource)
     keys = Permission::ACTIONS
@@ -43,6 +94,14 @@ class PermissionsController < ApplicationController
     end
   end
 
+
+ #  params[:subject]
+ #  => {"User"=>
+ #    {"10262"=>{"view"=>"true", "edit"=>"false", "hi_res"=>"false"},
+ #     "159123"=>{"view"=>"true", "edit"=>"false", "hi_res"=>"false"}},
+ #   "Group"=>{"1519"=>{"view"=>"true", "edit"=>"true", "hi_res"=>"false"}},
+ #   "nil"=>{"view"=>"false", "edit"=>"false", "hi_res"=>"false"}}
+ #  
   def update_multiple
     ActiveRecord::Base.transaction do
       @resources.each do |resource|
