@@ -59,12 +59,14 @@ module MigrationHelpers
     table_name = infer_table_name table
     col_name = infer_column_name col
     constraint_name = "#{table_name}_#{col_name}_not_null"
-    execute_sql "ALTER TABLE #{table_name} ADD CONSTRAINT #{constraint_name} NOT NULL (#{col_name});"
-#    if adapter_is_mysql?
-#      execute_sql "ALTER TABLE #{table_name} Modify #{col_name}  NOT NULL; "
-#    else
-#      execute_sql "ALTER TABLE #{table_name} ALTER COLUMN #{col_name} SET NOT NULL;"
-#    end
+    if adapter_is_mysql?
+      raise "add_not_null_constraint will only work for foreign_keys and models with mysql " if not (col.is_a? Class)
+      execute_sql "ALTER TABLE #{table_name} Modify #{col_name} INTEGER NOT NULL; "
+    elsif adapter_is_postgresql?
+      execute_sql "ALTER TABLE #{table_name} ALTER COLUMN #{col_name} SET NOT NULL;"
+    else
+      raise "sorry! your db-adapter is not supported"
+    end
   end
 
   def add_unique_constraint table, col
