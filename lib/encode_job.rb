@@ -2,9 +2,7 @@
 
 require 'rubygems'
 require 'yaml'
-require 'zencoder'  # This doesn't work? What the?
-#require '/usr/lib/ruby/gems/1.8/gems/zencoder-2.3.1/lib/zencoder' # This works. What the?
-
+require 'zencoder'
 
 # documentation: https://github.com/zencoder/zencoder-rb
 
@@ -39,6 +37,7 @@ class EncodeJob
     @video_codec ||= "vp8"
     @audio_codec ||= "vorbis"
     @job_type ||= "video"
+    @thumbnails ||= {:thumbnails => {:interval => 60, :prefix => 'frame'}}
     Zencoder.api_key = api_key
   end
 
@@ -53,7 +52,7 @@ class EncodeJob
     
     options = {:base_url => @base_url, :quality => 4, :speed => 2}
     if @job_type == "video"
-      options.merge!(:video_codec => @video_codec).merge!(@size)
+      options.merge!(:video_codec => @video_codec).merge!(@size).merge!(@thumbnails)
     elsif @job_type == "audio"
       options.merge!(:audio_codec => @audio_codec, :skip_video => 1)
     end
@@ -77,6 +76,10 @@ class EncodeJob
   def details
     Zencoder::Job.details(@job_id).body['job']
   end
+  
+  def progress
+    Zencoder::Job.progress(@job_id).body
+  end
 
   def state
     details['state']
@@ -91,6 +94,14 @@ class EncodeJob
     paths = []
     details['output_media_files'].each do |file|
       paths << file['url']
+    end
+    return paths
+  end
+  
+  def thumbnail_file_urls
+    paths = []
+    details['thumbnails'].each do |tn|
+      paths << tn['url']
     end
     return paths
   end
