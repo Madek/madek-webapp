@@ -21,8 +21,8 @@ class AdjustResources < ActiveRecord::Migration
       ms.save!
     end
 
-    cascade_on_delete MediaEntry, MediaResource
-    cascade_on_delete Media::Set, MediaResource
+    add_fkey_referrence_constraint MediaEntry, MediaResource
+    add_fkey_referrence_constraint Media::Set, MediaResource
 
   end
 

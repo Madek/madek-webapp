@@ -46,22 +46,31 @@ module MigrationHelpers
   end
 
 
-  def infer_table_name table
-    if table.is_a? Class
-      table.table_name
-    else
-      table.to_s
-    end
+
+######################################################################
+# general constraints
+######################################################################
+
+  def add_check table_name, check
+    execute_sql "ALTER TABLE #{table_name} ADD CHECK #{check} ;"
   end
 
-  def fkey_name table
-    table_name = 
-      if table.is_a? Class
-        table.table_name
-      else
-        table.to_s
-      end
-    (ActiveSupport::Inflector.singularize table_name)+ "_id"
+
+######################################################################
+# Foreign key constraints
+######################################################################
+  
+  # TODO make the next ones more DRY
+   
+  def add_fkey_referrence_constraint from_table, to_table, from_column=nil 
+
+    from_table_name = infer_table_name from_table
+    to_table_name = infer_table_name to_table
+    from_column ||= fkey_name to_table_name
+    contraint_name = "#{from_table_name}_#{from_column}_#{to_table_name}_fkey"
+
+    execute_sql "ALTER TABLE #{from_table_name} ADD CONSTRAINT #{contraint_name} FOREIGN KEY (#{from_column}) REFERENCES #{to_table_name} (id) ;"
+
   end
     
   def cascade_on_delete from_table, to_table, from_column=nil 
@@ -75,9 +84,6 @@ module MigrationHelpers
   end
 
 
-  def add_check table_name, check
-    execute_sql "ALTER TABLE #{table_name} ADD CHECK #{check} ;"
-  end
 
   def create_del_referenced_trigger source, target
     source_table_name = source.class == String ? source : source.table_name
@@ -109,7 +115,32 @@ module MigrationHelpers
     end
   end
 
-#  private 
+######################################################################
+# misc pulic helpers
+######################################################################
+
+  def infer_table_name table
+    if table.is_a? Class
+      table.table_name
+    else
+      table.to_s
+    end
+  end
+
+  def fkey_name table
+    table_name = 
+      if table.is_a? Class
+        table.table_name
+      else
+        table.to_s
+      end
+    (ActiveSupport::Inflector.singularize table_name)+ "_id"
+  end
+
+
+######################################################################
+# misc private helpers
+######################################################################
 
   def shorten_schema_names fun_name
     if fun_name.size > 63
