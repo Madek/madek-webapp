@@ -12,7 +12,7 @@ module Permissions
 
       if resource.owner == user
         true
-      elsif action == :view && resource.perm_public_may_view 
+      elsif resource.permissionset.send(action) == true
         true
       elsif userpermission_disallows action, resource, user
         false
@@ -28,25 +28,25 @@ module Permissions
 
     def userpermission_disallows action, resource, user
       Userpermission.joins(:user,:permissionset,:media_resource)
-      .where("permissionsets.view = false")
+      .where("permissionsets.#{action} = false")
       .where(user_id: user.id)
       .where(media_resource_id: resource.id)
       .first
     end
 
     def userpermission_allows action, resource, user
-        resource.class.joins(:userpermissions => :user) \
-          .where("#{resource.class.table_name}.id = #{resource.id}") \
-          .where("users.id = #{user.id}") \
-          .where("userpermissions.may_#{action} = true")
-          .first
+      Userpermission.joins(:user,:permissionset,:media_resource)
+      .where("permissionsets.#{action} = true")
+      .where(user_id: user.id)
+      .where(media_resource_id: resource.id)
+      .first
     end
 
     def grouppermission_allows action, resource, user
-      resource.class.joins(:grouppermissions => {:group => :users}) \
-        .where("#{resource.class.table_name}.id = #{resource.id}") \
-        .where("users.id = #{user.id}") \
-        .where("grouppermissions.may_#{action} = true") \
+      Grouppermission.joins(:permissionset,:media_resource,:group => :users)
+        .where(media_resource_id: resource.id)
+        .where("permissionsets.#{action} = true")
+        .where("user.id = #{user.id}")
         .first
     end
 
