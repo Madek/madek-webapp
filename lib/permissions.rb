@@ -26,12 +26,11 @@ module Permissions
 
     end
 
-
     def userpermission_disallows action, resource, user
       Userpermission.joins(:user,:permissionset,:media_resource)
       .where("permissionsets.view = false")
-      .where(user: user)
-      .where(media_resource: resource)
+      .where(user_id: user.id)
+      .where(media_resource_id: resource.id)
       .first
     end
 
