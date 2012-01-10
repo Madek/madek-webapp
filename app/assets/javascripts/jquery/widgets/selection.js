@@ -407,9 +407,9 @@ function SelectionWidget() {
     $(target).data("widget").find(".create_new input").bind("keyup", function(event) {
       // hide or show depending on val
       if($(this).val() == "") {
-        $(this).siblings(".button").hide();
+        $(this).siblings(".create.button").hide();
       } else {
-        $(this).siblings(".button").show();
+        $(this).siblings(".create.button").show();
       } 
       
       // create new on enter
@@ -418,7 +418,7 @@ function SelectionWidget() {
       }
     });
     
-    $(target).data("widget").find(".create_new .button").bind("click", function(event) {
+    $(target).data("widget").find(".create_new .create.button").bind("click", function(event) {
        SelectionWidget.create_new(target, $(target).data("widget").find(".create_new input").val());
     });
   }
@@ -478,7 +478,7 @@ function SelectionWidget() {
     $(target).data("widget").find(".create_new a").hide();
     $(target).data("widget").find(".create_new input").show().val(val).select().focus();
     if(val != "") {
-      $(target).data("widget").find(".create_new .button").show();      
+      $(target).data("widget").find(".create_new .create.button").show();      
     }
   }
   
@@ -495,7 +495,7 @@ function SelectionWidget() {
   this.reset_create_new = function(target) {
     $(target).data("widget").find(".create_new a").show();
     $(target).data("widget").find(".create_new input").hide().val("");
-    $(target).data("widget").find(".create_new .button").hide();
+    $(target).data("widget").find(".create_new .create.button").hide();
   }
   
   this.setup_cancel = function(target) {

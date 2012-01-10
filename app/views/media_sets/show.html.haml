@@ -26,7 +26,7 @@
           - if @can_edit_set
             = display_edit_icon(@media_set, current_user)
             = display_delete_icon(@media_set, current_user)
-          = link_to "", :title => "Zu Set/Projekt hinzufügen",
+          = link_to "", :title => "Zu Set hinzufügen/entfernen",
             :class=>"has-selection-widget",
             :"data-id" => "#{@media_set.id}",
             :"data-detach_my_self" => "true",

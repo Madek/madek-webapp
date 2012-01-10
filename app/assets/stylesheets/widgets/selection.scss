@@ -7,7 +7,7 @@
   display: block;
   padding: 6px 0 6px 2px;
   position: absolute;
-  width: 200px;
+  width: 350px;
   z-index: 9999;
   @include box-shadow(0 0 2px #AAA);
   @include border-radius(4px);
@@ -97,44 +97,42 @@
   }
   
   &>.create_new {
-    background: #EEE;
-    border-top: 1px solid white;
-    border-bottom: 1px solid white;
+    background: white;
+    border-bottom: 1px solid #EEE;
+    border-top: 4x solid white;
     display: block;
-    top: -20px;
+    top: -36px;
     height: 20px;
-    margin: 0;
-    padding: 0;
-    margin-bottom: -20px;
+    padding-bottom: 10px;
+    padding-top: 6px;
+    margin-bottom: -26px;
     position: relative;
     width: 185px;
+    @include box-shadow(0 -2px 6px white);
     
-    &>a {
+    &>a.button {
       cursor: pointer;
       display: block;
       font-size: 0.9em;
-      padding-left: 8px;
+      padding: 2px 2px;
       position: relative;
-      width: 177px;
-      
-      &:hover {
-        background: white;
-        text-decoration: none;
-      }
+      left: 5px;
+      width: 168px;
     }
     
     &>input {
+      background: #EEE;
       border: none;
       background: transparent;
       color: black;
       display: none;
-      font-size: 0.9em;
-      height: 20px;
-      padding-right: 12px;
+      font-size: 1em;
+      height: 31px;
+      left: -2px;
       padding-left: 6px;
+      padding-right: 30px;
       position: relative;
-      top: -2px;
-      width: 167px;
+      width: 151px;
       @include box-shadow(inset 0 0 4px #CCC);
     }
     
@@ -147,13 +145,13 @@
       padding: 0;      
     }
     
-    &>.button {
+    &>.create.button {
       display: none;
-      height: 18px;
+      height: 19px;
       padding: 0;
       position: absolute;
-      right: 0;
-      top: 0;
+      right: 5px;
+      top: 12px;
       width: 18px;
       
       &>span {
@@ -183,6 +181,11 @@
       float: right;
       margin-right: 12px;
       
+      &>.loading.icon {
+        height: 14px;
+        width: 14px;
+      }
+            
       &>.success.icon {
         background: url($sprite) no-repeat -17px 0;
         display: block;
@@ -197,13 +200,13 @@
     display: block;
     max-height: 147px;
     overflow-y: scroll;
-    padding-bottom: 19px;
+    padding-bottom: 35px;
     position: relative;   
     
     &>ul {
       
       &>li {
-        background: #EEE;
+        background: white;
         border-bottom: 1px solid white;
         display: block;
         font-size: 0.9em;
@@ -211,7 +214,7 @@
         position: relative;
         
         &:hover {
-          background: white;
+          background: #EEE;
         }
         
         label {
@@ -234,6 +237,10 @@
           .delete {
             display: inline-block;
           }          
+        }
+        
+        &.selected {
+          background: #EEE;
         }
       }
     }
