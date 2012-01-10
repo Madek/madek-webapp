@@ -24,7 +24,9 @@
 %script#thumbnail_mini{:type => "text/x-jquery-tmpl"}
   %div{:class => "thumb_mini {{if is_editable}}edit{{/if}} {{if is_manageable}}manage{{/if}}", :rel => "${id}"}
     = image_tag("icons/button_remove_action.png", :class => "thumb_remove")
+    {{if thumb_base64}}
     %img{:src => "${thumb_base64}"}
+    {{/if}}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -39,11 +41,15 @@
     {{if is_set}}
     %a{:href => "/media_sets/${id}"}
       .thumb_box_set
+        {{if thumb_base64}}
         %img{:src => "${thumb_base64}"}
+        {{/if}}
     {{else}}
     %a{:href => "/media_entries/${id}"}
       .thumb_box
+        {{if thumb_base64}}
         %img{:src => "${thumb_base64}"}
+        {{/if}}
     {{/if}}
     %p.item_title{:title => "${title}"} 
       ${title.substring(0,34)}
@@ -112,7 +118,9 @@
       {{/if}}
     %a{:href => "/media_entries/${id}"}
       .thumb_box
+        {{if thumb_base64}}
         %img{:src => "${thumb_base64}"}
+        {{/if}}
     %p.item_title
       ${title.substring(0,50)}
     %p.item_author
