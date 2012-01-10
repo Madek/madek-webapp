@@ -71,6 +71,7 @@ FactoryGirl.define do
 
   factory :media_resource do
     owner {User.find_random || (FactoryGirl.create :user)}
+    permissionset {FactoryGirl.create :permissionset}
   end
 
   factory :media_set, :class => Media::Set do
@@ -95,29 +96,55 @@ FactoryGirl.define do
     end
   end
 
+  factory :permissionset do
+    view {FactoryHelper.rand_bool 1/4.0}
+    download { view and FactoryHelper.rand_bool}
+    edit {FactoryHelper.rand_bool 1/4.0}
+    manage {edit and FactoryHelper.rand_bool}
+  end
+
+  factory :userpermission do
+
+    permissionset {FactoryGirl.create :permissionset}
+    user {User.find_random || (FactoryGirl.create :user)} 
+
+    media_resource do 
+      mr = FactoryGirl.create :media_resource
+      if FactoryHelper.rand_bool 1.0/3
+        FactoryGirl.create :media_set, media_resource: mr
+      else
+        FactoryGirl.create :media_entry, media_resource: mr
+      end
+      mr
+    end
+
+  end
+
+
+  factory :grouppermission do
+
+    permissionset {FactoryGirl.create :permissionset}
+    group {Group.find_random || (FactoryGirl.create :group)}
+
+
+    media_resource do 
+      mr = FactoryGirl.create :media_resource
+      if FactoryHelper.rand_bool 1.0/3
+        FactoryGirl.create :media_set, media_resource: mr
+      else
+        FactoryGirl.create :media_entry, media_resource: mr
+      end
+      mr
+    end
+
+  end
+
+
 
   ### Groups, Users, ....
 
   factory :group do
     name {Faker::Name.last_name}
-  end
-
-  factory :grouppermission do
-    may_view {FactoryHelper.rand_bool}
-    may_download {FactoryHelper.rand_bool}
-    may_edit {FactoryHelper.rand_bool}
-
-    group {Group.find_random || (FactoryGirl.create :group)}
-
-    media_resource do 
-      if FactoryHelper.rand_bool 1.0/3
-        Media::Set.find_random ||  (FactoryGirl.create :media_set)
-      else
-        MediaEntry.find_random || (FactoryGirl.create :media_entry)
-      end
-    end
-
-
   end
 
   factory :person do
@@ -141,25 +168,6 @@ FactoryGirl.define do
   end
 
   factory :media_entries_userpermissions_join do
-  end
-
-  factory :userpermission do
-
-    may_view {FactoryHelper.rand_bool 1/4.0}
-    maynot_view {(not may_view) and FactoryHelper.rand_bool}
-    may_download {FactoryHelper.rand_bool 1/4.0}
-    maynot_download {(not maynot_download) and FactoryHelper.rand_bool}
-    may_edit {FactoryHelper.rand_bool 1/4.0}
-    maynot_edit {(not may_edit) and FactoryHelper.rand_bool}
-    user {User.find_random || (FactoryGirl.create :user)} 
-    media_resource do 
-      if FactoryHelper.rand_bool 1.0/3
-        Media::Set.find_random ||  (FactoryGirl.create :media_set)
-      else
-        MediaEntry.find_random || (FactoryGirl.create :media_entry)
-      end
-    end
-
   end
 
 end

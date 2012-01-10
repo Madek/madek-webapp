@@ -1,4 +1,4 @@
-class RecreateMediaResourcesView < ActiveRecord::Migration
+class CreateMediaResourceModel < ActiveRecord::Migration
   include MigrationHelpers
   include Constants
 
@@ -6,16 +6,12 @@ class RecreateMediaResourcesView < ActiveRecord::Migration
     drop_view "media_resources"
 
     create_table :media_resources do |t| 
-
+      t.references :permissionset, null: false, unique: true
       t.integer :owner_id, :null => false
-
-      Actions.each do |action|
-        t.boolean "perm_public_may_#{action}", :default => false
-      end
-
     end
 
     add_index :media_resources, :owner_id
+    add_index :media_resources, :permissionset_id
 
   end
 
