@@ -2,6 +2,11 @@ require 'spec_helper'
 
 describe "Internal Permissions" do
 
+  # let us create some noise, this could uncover fragile code 
+  before :all do
+    DataFactory.create_small_dataset
+  end
+
   before :each do
     @media_resource = FactoryGirl.create :media_resource
     @user = FactoryGirl.create :user
