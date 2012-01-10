@@ -24,7 +24,7 @@ Feature: Sets in Sets
 
   # Pivotal: https://www.pivotaltracker.com/story/show/22421449
   @current
-  Scenario: Moving ressources into or out of multiple sets at the same time
+  Scenario: Moving resources into or out of multiple sets at the same time
     Given multiple resources are in my selection
       And they are in various different sets
      When I open the sets in sets tool
@@ -34,6 +34,15 @@ Feature: Sets in Sets
       And I can add all of them to one set
       And I can remove all of them from one set
 
-   # https://www.pivotaltracker.com/story/show/21269559
-#   Scenario:
+    # https://www.pivotaltracker.com/story/show/12828561
+    @current
+    Scenario: Add a set to my favorites
+     Given I see some sets
+      When I add them to my favorites
+      Then they are in my favorites
+
+
+    # https://www.pivotaltracker.com/story/show/22464659
+    @current
+    Scenario: Choosing which metadata contexts are valid for a set
 
