@@ -107,6 +107,8 @@ class PermissionsController < ApplicationController
  #  
   # REMARK: delete_all is probably used for removing users
   #
+  # ASK can we send state: update|delete with each permission .... from the js client? 
+  #
   def update_multiple
     ActiveRecord::Base.transaction do
       @resources.each do |resource|
