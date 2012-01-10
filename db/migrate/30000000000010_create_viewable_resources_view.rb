@@ -3,6 +3,44 @@ class CreateViewableResourcesView < ActiveRecord::Migration
 
   def up
 
+    Constants::Actions.each do |action|
+        select_ms = "SELECT media_resources.id as media_resource_id, users.id as user_id FROM"
+
+        actionable_by_userpermission= \
+          Userpermission.joins(:user,:permissionset,:media_resource) \
+          .where("permissionsets.#{action} = true") \
+          .to_sql.gsub /SELECT.*FROM/, select_ms
+
+        actionable_disallowed_by_userpermission= \
+          Userpermission.joins(:user,:permissionset,:media_resource) \
+            .where("permissionsets.#{action} = false") \
+           .to_sql.gsub /SELECT.*FROM/, select_ms
+
+        actionable_by_grouppermission= \
+          Grouppermission.joins(:permissionset,:media_resource,:group => :users) \
+            .where("permissionsets.#{action} = true") \
+            .to_sql.gsub /SELECT.*FROM/, select_ms
+
+        create_view "#{action}able_media_resources_by_userpermission", actionable_by_userpermission
+        create_view "#{action}able_disallowd_media_resources_by_userpermission", actionable_disallowed_by_userpermission
+        create_view "#{action}able_media_resources_by_grouppermissions", actionable_by_grouppermission
+
+    end
+
+  end
+
+  def down
+
+    Constants::Actions.each do |action|
+
+      drop_view "#{action}able_disallowd_media_resources_by_userpermission"
+      drop_view "#{action}able_media_resources_by_userpermission"
+
+    end
+
+  end
+
+
 =begin
     Constants::Actions.each do |action|
       [MediaResource].each do |model|
@@ -63,11 +101,8 @@ class CreateViewableResourcesView < ActiveRecord::Migration
 
 =end
 
-  end
 
 
-  def down
-    
 =begin
     Constants::Actions.each do |action|
       [MediaResource].each do |model|
@@ -86,5 +121,4 @@ class CreateViewableResourcesView < ActiveRecord::Migration
     end
 =end
 
-  end
 end

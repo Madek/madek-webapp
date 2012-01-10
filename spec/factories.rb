@@ -9,6 +9,7 @@ module DataFactory
       (1..10).each {FactoryGirl.create :user}
       (1..50).each {FactoryGirl.create :media_entry}
       (1..50).each {FactoryGirl.create :media_set}
+      (1..25).each {FactoryGirl.create :userpermission}
     end
   end
 
@@ -108,13 +109,16 @@ FactoryGirl.define do
     user {User.find_random || (FactoryGirl.create :user)} 
 
     media_resource do 
-      mr = FactoryGirl.create :media_resource
-      if FactoryHelper.rand_bool 1.0/3
-        FactoryGirl.create :media_set, media_resource: mr
-      else
-        FactoryGirl.create :media_entry, media_resource: mr
-      end
-      mr
+      MediaResource.find_random || 
+        begin
+          mr = FactoryGirl.create :media_resource
+          if FactoryHelper.rand_bool 1.0/3
+            FactoryGirl.create :media_set, media_resource: mr
+          else
+            FactoryGirl.create :media_entry, media_resource: mr
+          end
+          mr
+        end
     end
 
   end
@@ -124,7 +128,6 @@ FactoryGirl.define do
 
     permissionset {FactoryGirl.create :permissionset}
     group {Group.find_random || (FactoryGirl.create :group)}
-
 
     media_resource do 
       mr = FactoryGirl.create :media_resource
