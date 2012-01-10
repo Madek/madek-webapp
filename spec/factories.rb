@@ -47,10 +47,8 @@ FactoryGirl.define do
 
   factory :media_entry do
     upload_session {FactoryGirl.create :upload_session}
-    owner  {User.find_random || (FactoryGirl.create :user)}
     media_file {FactoryGirl.create :media_file}
-    perm_public_may_view {FactoryHelper.rand_bool 0.1}
-    perm_public_may_download {FactoryHelper.rand_bool 0.1}
+    media_resource {FactoryGirl.create  :media_resource}
     after_build do |me|
       def me.extract_subjective_metadata; end
       def me.set_copyright; end
@@ -71,10 +69,13 @@ FactoryGirl.define do
     end
   end
 
+  factory :media_resource do
+    owner {User.find_random || (FactoryGirl.create :user)}
+  end
+
   factory :media_set, :class => Media::Set do
     user {User.find_random || (FactoryGirl.create :user)}
-    owner {User.find_random || (FactoryGirl.create :user)}
-    perm_public_may_view {FactoryHelper.rand_bool 0.1}
+    media_resource {FactoryGirl.create  :media_resource}
   end
 
   factory :media_project, :class => Media::Project do

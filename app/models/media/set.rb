@@ -17,7 +17,6 @@ module Media
     has_many :parent_sets, :through => :in_arcs, :source => :parent
   
     belongs_to :user
-    belongs_to :owner, :class_name => 'User'
 
     belongs_to :media_resource
 

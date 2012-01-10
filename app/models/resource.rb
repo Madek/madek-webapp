@@ -345,14 +345,6 @@ private
         may_edit: true,
         may_manage: true,
         may_view: true
-    else
-      up = Userpermission.create \
-        user: owner, 
-        media_resource: self,
-        may_download: true,
-        may_edit: true,
-        may_manage: true,
-        may_view: true
     end
   end
 
