@@ -46,7 +46,7 @@ module Permissions
       Grouppermission.joins(:permissionset,:media_resource,:group => :users)
         .where(media_resource_id: resource.id)
         .where("permissionsets.#{action} = true")
-        .where("user.id = #{user.id}")
+        .where("groups_users.user_id = #{user.id}")
         .first
     end
 

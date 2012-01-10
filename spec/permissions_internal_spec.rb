@@ -57,13 +57,13 @@ describe "Internal Permissions" do
 
       
     it "should return nil if there is a grouppermission that does not allow " do
-      FactoryGirl.create :grouppermission, permissionset: @permissionset_view_false, group: @group, media_resource: @media_resource, view: false
+      FactoryGirl.create :grouppermission, permissionset: @permissionset_view_false, group: @group, media_resource: @media_resource
       (Permissions.grouppermission_allows :view, @media_resource, @user).should == nil
     end
 
 
     it "should return not nil if there is a grouppermission that allows " do
-      FactoryGirl.create :grouppermission, permissionset: @permissionset_view_true, group: @group, media_resource: @media_resource, view: false
+      FactoryGirl.create :grouppermission, permissionset: @permissionset_view_true, group: @group, media_resource: @media_resource
       (Permissions.grouppermission_allows :view, @media_resource, @user).should_not == nil
     end
 
