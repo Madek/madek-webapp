@@ -4,6 +4,9 @@ module Permissions
   class << self
 
     def authorized?(user, action, resource)
+
+      resource = resource.media_resource if resource.class.name  != MediaResource.name
+
       # the old authorized accepted subjects 
       raise "authorized? can only be called with a user" if user.class != User
 
@@ -19,15 +22,17 @@ module Permissions
         true
       else
         false
-      end 
+      end
+
     end
 
+
     def userpermission_disallows action, resource, user
-        resource.class.joins(:userpermissions => :user) \
-          .where("#{resource.class.table_name}.id = #{resource.id}") \
-          .where("users.id = #{user.id}") \
-          .where("userpermissions.maynot_#{action} = true")
-          .first
+      Userpermission.joins(:user,:permissionset,:media_resource)
+      .where("permissionsets.view = false")
+      .where(user: user)
+      .where(media_resource: resource)
+      .first
     end
 
     def userpermission_allows action, resource, user

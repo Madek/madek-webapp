@@ -3,6 +3,7 @@ class CreateViewableResourcesView < ActiveRecord::Migration
 
   def up
 
+=begin
     Constants::Actions.each do |action|
       [MediaResource].each do |model|
 
@@ -60,10 +61,14 @@ class CreateViewableResourcesView < ActiveRecord::Migration
       end
     end
 
+=end
 
   end
 
+
   def down
+    
+=begin
     Constants::Actions.each do |action|
       [MediaResource].each do |model|
 
@@ -79,5 +84,7 @@ class CreateViewableResourcesView < ActiveRecord::Migration
 
       end
     end
+=end
+
   end
 end
