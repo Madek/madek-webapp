@@ -1,4 +1,4 @@
-Feature: Do things to and with sets and projects
+Feature: Do things to and with sets
 
   In order to be able to work with sets and entries
   As a normal user
@@ -24,7 +24,7 @@ Feature: Do things to and with sets and projects
      |Titel    |into the set after uploading|
      |Copyright|some other dude             |
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
+     And I follow "Weiter ohne Hinzufügen zu einem Set…"
      And I go to the media entries
      And I wait for the CSS element "div.page div.item_box"
      And I click the media entry titled "into the set after uploading"
@@ -52,7 +52,7 @@ Feature: Do things to and with sets and projects
      |Titel    |into the set after uploading|
      |Copyright|some other dude             |
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
+     And I follow "Weiter ohne Hinzufügen zu einem Set…"
      And I go to the media entries
      And I click the media entry titled "into the set after uploading"
      And I open the selection widget for this entry
@@ -86,7 +86,7 @@ Feature: Do things to and with sets and projects
      |Titel    |Link test|
      |Copyright|some other dude             |
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
+     And I follow "Weiter ohne Hinzufügen zu einem Set…"
      And I go to the media entries
      And I click the media entry titled "Link test"
      And I open the selection widget for this entry

@@ -16,11 +16,7 @@ class MediaResource < ActiveRecord::Base
   ################################################################
 
   scope :media_entries, where(:type => "MediaEntry")
-  
-  # OPTIMIZE
-  scope :media_sets, where(:type => ["Media::Set", "Media::Project"])
-  scope :sets, where(:type => "Media::Set")
-  scope :projects, where(:type => "Media::Project")
+  scope :media_sets, where(:type => "Media::Set")
 
   ################################################################
 
@@ -49,7 +45,7 @@ class MediaResource < ActiveRecord::Base
     #joins("INNER JOIN media_entries_media_sets ON media_resources.id = media_entries_media_sets.media_entry_id").
     #where(:media_entries_media_sets => {:media_set_id => media_set})
 
-    where("(media_resources.id, #{media_resources_type}) IN " \
+    where("(media_resources.id, media_resources.type) IN " \
             "(SELECT media_entry_id AS id, 'MediaEntry' AS type FROM media_entries_media_sets " \
               "WHERE media_set_id = ? " \
             "UNION " \
@@ -61,7 +57,7 @@ class MediaResource < ActiveRecord::Base
   ################################################################
 
   scope :search, lambda {|q|
-    sql = joins("LEFT JOIN full_texts ON (media_resources.id, #{media_resources_type}) = (full_texts.resource_id, full_texts.resource_type)")
+    sql = joins("LEFT JOIN full_texts ON (media_resources.id, media_resources.type) = (full_texts.resource_id, full_texts.resource_type)")
     #with fulltext index#
     #if q.size > 3
     #  sql.where("MATCH (text) AGAINST (?)", q)
@@ -118,34 +114,16 @@ class MediaResource < ActiveRecord::Base
     sql    
   end
 
-  #-# NOTE workaround to manage subclass type
-  def self.media_resources_type
-    #original# "media_resources.type"
-    if SQLHelper.adapter_is_mysql?
-      "IF(type IN ('Media::Project'), 'Media::Set', type)"
-    elsif SQLHelper.adapter_is_postgresql?
-      "
-      CASE 
-        WHEN (type IN ('Media::Project'))  THEN  'Media::Set'
-        ELSE type
-      END
-      "
-    else 
-      raise "unsupported db adapter"
-    end
-  end
-  
-
 
   def self.accessible_by_user(user, action = :view)
     i = 2 ** Permission::ACTIONS.index(action)
 
 
-    where("(media_resources.id, #{media_resources_type}) NOT IN " \
+    where("(media_resources.id, media_resources.type) NOT IN " \
             "(SELECT resource_id, resource_type from permissions " \
               "WHERE (subject_type = 'User' AND subject_id = ?) " \
                 "AND NOT #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) " \
-          "AND (media_resources.id, #{media_resources_type}) IN " \
+          "AND (media_resources.id, media_resources.type) IN " \
             "(SELECT resource_id, resource_type from permissions " \
               "WHERE (subject_type IS NULL " \
                   "OR (subject_type = 'Group' AND subject_id IN (?)) " \

@@ -5,7 +5,7 @@ describe MediaSetsController do
 
   before :each do
     @user = FactoryGirl.create :user
-    @media_set = FactoryGirl.create :media_project, :user => @user
+    @media_set = FactoryGirl.create :media_set, :user => @user
   end
 
   describe "GET inheritable_contexts in JSON format" do
@@ -24,7 +24,7 @@ describe MediaSetsController do
     context "with iherited context" do
 
       before :each do
-        @media_set.parent_sets << (@parent1 = FactoryGirl.create :media_project)
+        @media_set.parent_sets << (@parent1 = FactoryGirl.create :media_set)
         @parent1.individual_contexts << (@meta_context11 = FactoryGirl.create :meta_context)
       end
 
