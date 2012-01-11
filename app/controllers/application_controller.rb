@@ -57,6 +57,7 @@ class ApplicationController < ActionController::Base
                                                   :total_pages => other_resources.total_pages },
                                  :entries => other_resources.as_json(:user => current_user, :with_thumb => true) } 
 
+        binding.pry
         respond_to do |format|
           format.html { render :template => "/users/show" }
         end

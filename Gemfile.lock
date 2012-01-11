@@ -282,7 +282,6 @@ GEM
     xpath (0.1.4)
       nokogiri (~> 1.3)
     yamler (0.1.0)
-    yard (0.7.4)
     zencoder (2.4.0)
       multi_json
     zip (2.0.2)
@@ -337,6 +336,5 @@ DEPENDENCIES
   uuidtools (~> 2.1.2)
   watchr
   will_paginate (~> 3.0)
-  yard (~> 0.7.4)
   zencoder (= 2.4.0)
   zip (~> 2.0.2)
