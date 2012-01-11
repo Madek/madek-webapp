@@ -7,5 +7,4 @@ class Userpermission < ActiveRecord::Base
     delegate action, :to => :permissionset
     delegate "#{action}=", :to => :permissionset
   end
-
 end

@@ -66,28 +66,31 @@ class PermissionsController < ApplicationController
   #     :manage=>true}]}
   #
   def edit_multiple
-    permissions = Permission.cached_permissions_by(@resource)
-    keys = Permission::ACTIONS
-    @permissions_json = {}
     
-    permissions.group_by {|p| p.subject_type }.collect do |type, type_permissions|
-      unless type.nil?
-        @permissions_json[type] = type_permissions.map do |p|
-          h = {:id => p.subject.id, :name => p.subject.to_s, :type => type}
-          keys.each {|key| h[key] = p.actions[key] } #1504#
-          h
+    permissions =  {}
+
+    permissions[:public] = \
+      begin 
+        h = {:name => "Öffentlich", :type => 'nil'}
+        Constants::Actions.each do |action|
+          h[Constants::Actions.new2old action] = @resource.send "perm_public_may_#{action}"
         end
-      else
-        p = type_permissions.first
-        @permissions_json["public"] = begin
-          h = {:name => "Öffentlich", :type => 'nil'}
-          keys.each {|key| h[key] = p.actions[key] } #1504#
-          h
+        h
+      end
+
+    # ASK the type is used in two places why? 
+    [User].map{|m| m.to_s.downcase}.each do |subject|
+      permissions[subject.capitalize] = @resource.send("#{subject}permissions").map do |permission|
+        h = {name: permission.name, id: permission.id, type: subject.capitalize}
+        Constants::Actions.each do |action|
+          h[Constants::Actions.new2old action] = permission.send "may_#{action}"
         end
+        h
       end
     end
-    @permissions_json = @permissions_json.to_json
-    
+
+    @permissions_json = permissions.to_json
+
     respond_to do |format|
       format.html
       format.js { render :partial => "edit_multiple" }
@@ -103,9 +106,14 @@ class PermissionsController < ApplicationController
  #   "nil"=>{"view"=>"false", "edit"=>"false", "hi_res"=>"false"}}
  #  
   #   numbers are either user_id or group_id
+  # REMARK: delete_all is probably used for removing users
+  #
+  # ASK can we send state: update|delete with each permission .... from the js client? 
+  #
   def update_multiple
     ActiveRecord::Base.transaction do
       @resources.each do |resource|
+      
         resource.permissions.delete_all
     
         actions = params[:subject]["nil"]
@@ -130,7 +138,6 @@ class PermissionsController < ApplicationController
     end
   end
 
-#################################################################
 
   private
 
