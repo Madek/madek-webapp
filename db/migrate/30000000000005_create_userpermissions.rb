@@ -17,6 +17,7 @@ class CreateUserpermissions < ActiveRecord::Migration
     end
 
     cascade_on_delete Userpermission, User
+    cascade_on_delete Userpermission, MediaResource
 
   end
 

@@ -16,8 +16,8 @@ class MigrateResources < ActiveRecord::Migration
     end
 
     Media::Set.all.each do |ms| 
-      mr = MediaResource.create :owner => ms.user
-      mr.media_resource = mr
+      mr = (MediaResource.create owner: ms.user)
+      ms.media_resource = mr
       ms.save!
     end
 

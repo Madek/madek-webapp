@@ -17,6 +17,7 @@ class CreateGrouppermissions < ActiveRecord::Migration
     end
 
     cascade_on_delete Grouppermission, Group
+    cascade_on_delete Grouppermission, MediaResource
 
   end
 
