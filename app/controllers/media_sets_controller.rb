@@ -62,11 +62,7 @@ class MediaSetsController < ApplicationController
           # all media sets I can see that have not been created by me
           other = resources.not_by_user(current_user)
           my = resources.by_user(current_user)
-          if params[:type] == "projects"
-            [other.projects, my.projects, "Meine Projekte", "Weitere Projekte"]
-          else
-            [other.sets, my.sets, "Meine Sets", "Weitere Sets"]
-          end
+          [other.media_sets, my.media_sets, "Meine Sets", "Weitere Sets"]
         end
       }
       
@@ -135,7 +131,6 @@ class MediaSetsController < ApplicationController
     end
   end
 
-  # TODO only for media_project
   def abstract
     @_media_entry_ids = MediaResource.accessible_by_user(current_user).media_entries.by_media_set(@media_set).map(&:id)
     respond_to do |format|
@@ -143,9 +138,7 @@ class MediaSetsController < ApplicationController
     end
   end
 
-  # TODO only for media_project
   def browse
-    @project = @media_set
     respond_to do |format|
       format.html
       format.js { render :layout => false }
@@ -192,7 +185,7 @@ class MediaSetsController < ApplicationController
     respond_to do |format|
       format.html {
         if is_saved
-          redirect_to user_resources_path(current_user, :type => "sets")
+          redirect_to user_resources_path(current_user, :type => "media_sets")
         else
           flash[:notice] = @media_set.errors.full_messages
           redirect_to :back
@@ -216,7 +209,7 @@ class MediaSetsController < ApplicationController
      @media_set.destroy
    end
     respond_to do |format|
-      format.html { redirect_to user_resources_path(current_user, :type => "sets") }
+      format.html { redirect_to user_resources_path(current_user, :type => "media_sets") }
     end
  end
 
@@ -233,9 +226,9 @@ class MediaSetsController < ApplicationController
         new_members = @media_set.media_entries.push_uniq(media_entries)
       end
       flash[:notice] = if new_members > 1
-         "#{new_members} neue Medieneinträge wurden dem Set/Projekt #{@media_set.title} hinzugefügt" 
+         "#{new_members} neue Medieneinträge wurden dem Set #{@media_set.title} hinzugefügt" 
       elsif new_members == 1
-        "Ein neuer Medieneintrag wurde dem Set/Projekt #{@media_set.title} hinzugefügt" 
+        "Ein neuer Medieneintrag wurde dem Set #{@media_set.title} hinzugefügt" 
       else
         "Es wurden keine neuen Medieneinträge hinzugefügt."
       end

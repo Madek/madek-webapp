@@ -31,7 +31,7 @@ class MediaEntry < ActiveRecord::Base
 
   # OPTIMIZE
   def individual_contexts
-    media_sets.projects.collect {|project| project.individual_contexts }.flatten.uniq
+    media_sets.collect {|set| set.individual_contexts }.flatten.uniq
   end
 
 ########################################################

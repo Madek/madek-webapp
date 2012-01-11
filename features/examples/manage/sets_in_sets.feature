@@ -61,8 +61,8 @@ Feature: Sets in Sets
   #- User wundert sich nicht über die rosarote Farbe: Widget soll nicht rosarot sein
   #- Die Angewählten Sets sollen grau hinterlegt sein und die Anzeige des Rollovers. Anstatt wie jetzt, wo alles grau ist und die Angezeigten / Rollovers weiss werden
   #- Die Funktion "Neues Set erstellen" soll als Button gestaltet werden.
-  #- User kann nach eigenen Sets filtern durch ein Häkchen im Kopf des Widgets (Meine Sets/Projekte)
-  #- das Flyout über dem Icon soll lauten: "zu Set/Projekt hinzufügen bzw. daraus entfernen"
+  #- User kann nach eigenen Sets filtern durch ein Häkchen im Kopf des Widgets (Meine Sets)
+  #- das Flyout über dem Icon soll lauten: "zu Set hinzufügen bzw. daraus entfernen"
   #- das Widget erscheint schnell nachdem man den Button angewählt hat
   #
   # Currently:

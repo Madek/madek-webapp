@@ -56,10 +56,6 @@ FactoryGirl.define do
     user {User.find_random || (FactoryGirl.create :user)}
   end
 
-  factory :media_project, :class => Media::Project do
-    user {User.find_random || (FactoryGirl.create :user)}
-  end
-
   ### Permissions ...
 
   factory :permission do

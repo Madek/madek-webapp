@@ -1,12 +1,5 @@
 = form_for @set, :as => :media_set, :url => admin_media_set_path(@set) do |f|
   %table
-    %tr
-      %td Type
-      - if f.object.respond_to? :individual_contexts
-        %td= f.object.type
-      - else
-        %td= f.select :type, [Media::Set, Media::Project].collect {|o| [o, o]}
-
     = f.fields_for :meta_data, f.object.meta_data.get("title") do |ff|
       %tr
         %td= ff.object.meta_key.label

@@ -44,7 +44,7 @@ module PermissionsHelper
         confirm = "Sind Sie sicher?"
       else
         url = media_set_path(resource)
-        confirm = "Sind Sie sicher? Das Set/Projekt wird gelöscht."
+        confirm = "Sind Sie sicher? Das Set wird gelöscht."
       end  
       link_to url, :title => "Löschen", :method => :delete, :confirm => confirm do
         content_tag :div, :class => "button_delete_active" do end
