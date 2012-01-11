@@ -1623,6 +1623,8 @@ button.dark:hover {
 			box-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
 		}
 	}
+	
+	.open {  background: url("/assets/icons/arrow-up-04.png") no-repeat scroll 72% 72% transparent; }
 }
 
 
@@ -1665,6 +1667,10 @@ button.dark:hover {
 		-webkit-border-radius: 3px;
 		border-radius: 3px;
 		background: url(icons/madek_icon_sprites.png) 10px -712px no-repeat;
+	}
+	
+	&>li > a.open {
+	  background: url("/assets/icons/arrow-up-04.png") no-repeat scroll 50% bottom transparent;
 	}
 }
 

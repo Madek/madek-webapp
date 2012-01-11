@@ -2,8 +2,27 @@
   %label{:title => "${title}"}
     ${$item.title = title.replace(/\s/g,'_'), ""}
     %input{:id => "${$item.title}", :type => "checkbox", :value => 1, :name => "${$item.title}"}
-    {{if title.length > 18}}
-    ${title.substr(0,18)}...
-    {{else}}
-    ${title}
-    {{/if}}
+    %span.title
+      {{if title.length > 40}}
+      ${title.substr(0,40)}...
+      {{else}}
+      ${title}
+      {{/if}}
+    %span.author
+      {{if creator}}
+      ${creator}
+      {{else}}
+      = "Von Dir erstellt (noch nicht gespeichert)"
+      {{/if}}
+    %span.date
+      {{if created_at}}
+      ${$created_at = new Date(created_at), ""}
+      ${$is_today = ($created_at.getDate() == new Date().getDate() && $created_at.getMonth() == new Date().getMonth() && $created_at.getFullYear() == new Date().getFullYear()), ""}
+      {{if $is_today}}
+      = "Heute"
+      {{else}}
+      ${$created_at.getDate()}.${$created_at.getMonth()+1}.${$created_at.getFullYear()}
+      {{/if}}
+      {{else}}
+      = "NEU"
+      {{/if}}

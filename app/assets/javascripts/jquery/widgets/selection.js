@@ -16,63 +16,60 @@ function SelectionWidget() {
   
   this.setup = function() {
     $(window).bind("click", SelectionWidget.handle_click_on_window);
-    
-    // OPTIMIZE when widgets get rendered by jquery templates (live inview for example)
-    $(".has-selection-widget").each(function(){
-      var target = this;
-      
-      // call ajax for index
-      $.ajax($(this).data("index").path, {
-        beforeSend: function(request, settings){
-        },
-        success: function(data, status, request) {
-          if(data.length > 0) {
-            $(target).data("items", JSON.parse(data));
-          } else {
-            $(target).data("items", null);
-          }
-          
-          if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
-            SelectionWidget.setup_widget(target);
-          }
-        },
-        error: function(request, status, error){
-          if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
-            SelectionWidget.setup_widget(target);
-          }
-        },
-        data: $(this).data("index").data,
-        type: $(this).data("index").method
-      });
-      
-      // call ajax for linked_index
-      $.ajax($(target).data("linked_index").path, {
-        beforeSend: function(request, settings){
-        },
-        success: function(data, status, request) {
-          if(data.length > 0) {
-            $(target).data("linked_items", JSON.parse(data));
-          } else {
-            $(target).data("linked_items", null);
-          }
-          
-          if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
-            SelectionWidget.setup_widget(target);
-          }
-        },
-        error: function(request, status, error){
-          if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
-            SelectionWidget.setup_widget(target);
-          }
-        },
-        data: $(target).data("linked_index").data,
-        type: $(target).data("linked_index").method
-      });  
+  }
+  
+  this.load_content = function(target) {
+    // call ajax for index
+    $.ajax($(target).data("index").path, {
+      beforeSend: function(request, settings){
+      },
+      success: function(data, status, request) {
+        if(data.length > 0) {
+          $(target).data("items", JSON.parse(data));
+        } else {
+          $(target).data("items", null);
+        }
+        
+        if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
+          SelectionWidget.setup_widget(target);
+        }
+      },
+      error: function(request, status, error){
+        if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
+          SelectionWidget.setup_widget(target);
+        }
+      },
+      data: $(target).data("index").data,
+      type: $(target).data("index").method
     });
+    
+    // call ajax for linked_index
+    $.ajax($(target).data("linked_index").path, {
+      beforeSend: function(request, settings){
+      },
+      success: function(data, status, request) {
+        if(data.length > 0) {
+          $(target).data("linked_items", JSON.parse(data));
+        } else {
+          $(target).data("linked_items", null);
+        }
+        
+        if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
+          SelectionWidget.setup_widget(target);
+        }
+      },
+      error: function(request, status, error){
+        if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
+          SelectionWidget.setup_widget(target);
+        }
+      },
+      data: $(target).data("linked_index").data,
+      type: $(target).data("linked_index").method
+    }); 
   }
   
   this.create_widget = function(target){
-    var widget = $.tmpl("tmpl/widgets/selection").data("target", target);
+    var widget = $.tmpl("tmpl/widgets/selection", {title: target.attr("title")}).data("target", target);
     
     // add identifier to target and add to dom
     $(target).data("widget", widget);
@@ -98,8 +95,9 @@ function SelectionWidget() {
   
   this.setup_selection_actions = function(target, elements) {
     $(elements).each(function(i, element){
-      $(element).bind("change", function(){
+      $(element).bind("change", function(){     
         if($(this).is(":checked")) { // checkbox was activated
+          $(this).closest("li").addClass("selected");
           if($(this).data("unlinked")) {
             var item = $(this).closest("li").tmplItem().data;
             $(this).removeData("unlinked");
@@ -118,6 +116,7 @@ function SelectionWidget() {
             $(target).data("link_stack").push(item_data);
           }
         } else { // checkbox was deactivated
+          $(this).closest("li").removeClass("selected");
           // check if current item was linked inside of the widget
           if($(this).data("linked")) {
             var item_data = $(this).closest("li").tmplItem().data;
@@ -171,6 +170,7 @@ function SelectionWidget() {
     SelectionWidget.setup_search_hint(target);
     SelectionWidget.setup_cancel(target);
     SelectionWidget.setup_create_new(target);
+    SelectionWidget.setup_create_hint(target);
     SelectionWidget.setup_selection_actions(target, $(".list ul li input[type=checkbox]"));
     SelectionWidget.setup_submit(target);
   }
@@ -190,6 +190,7 @@ function SelectionWidget() {
       $.each($(target).data("linked_items"), function(i_link, linked_item){
         // check if the ellement is already linked
         if(linked_item.id == $(item).tmplItem().data.id) {
+          $(item).addClass("selected");
           $(item).find("input").attr("checked", "checked");
         }
       });
@@ -400,7 +401,11 @@ function SelectionWidget() {
     
     $(target).data("widget").find(".create_new input").bind("blur", function(event) {
       if($(this).val() == "") {
-        SelectionWidget.reset_create_new(target);
+        window.setTimeout(function(){
+          if($(target).data("widget").find(".create_new input:focus").length < 1) {
+            SelectionWidget.reset_create_new(target);
+          }
+        },200);
       }
     });
     
@@ -426,6 +431,7 @@ function SelectionWidget() {
   this.create_new = function(target, val) {
     var new_item = $.tmpl("tmpl/widgets/_line", {title: val});
     $(new_item).addClass("created");
+    $(new_item).css("background-color", "#CCC");
     $(target).data("widget").find(".list ul").append(new_item);
     SelectionWidget.reset_create_new(target);
     
@@ -436,12 +442,17 @@ function SelectionWidget() {
     $(target).data("widget").find(".list").animate({
       scrollTop: ($(new_item).offset().top-$(target).data("widget").find(".list li:first").offset().top)
     }, function(){
-      $(new_item).hide().stop(true,true).fadeIn();
+      $(new_item).animate({
+        "background-color": "#EEE"
+      }, function(){
+        $(this).removeAttr("css");
+      });
     });
     
     // new is activated per default
     $(new_item).find("input").attr("checked", true);
     $(new_item).find("input").data("linked", true);
+    $(new_item).addClass("selected");
     SelectionWidget.setup_selection_actions(target, $(new_item).find("input"));
     
     // add new created to stack
@@ -455,6 +466,17 @@ function SelectionWidget() {
     
     // check stack state
     SelectionWidget.check_stack_state(target);
+  }
+  
+  this.setup_create_hint = function(target) {
+    $(target).data("widget").find(".create_new input").bind("keydown click", function(){
+      $(target).data("widget").find(".create_new .hint").hide();
+    });
+    $(target).data("widget").find(".create_new .hint").bind("click", function(){
+      SelectionWidget.show_create_input(target, "");
+      $(target).data("widget").find(".create_new .hint").hide();
+      $(target).data("widget").find(".create_new input").focus();
+    });
   }
   
   this.check_stack_state = function(target) {
@@ -476,6 +498,7 @@ function SelectionWidget() {
   this.show_create_input = function(target, val) {
     SelectionWidget.enable_modal(target);
     $(target).data("widget").find(".create_new a").hide();
+    $(target).data("widget").find(".create_new .hint").show();
     $(target).data("widget").find(".create_new input").show().val(val).select().focus();
     if(val != "") {
       $(target).data("widget").find(".create_new .create.button").show();      
@@ -494,6 +517,7 @@ function SelectionWidget() {
   
   this.reset_create_new = function(target) {
     $(target).data("widget").find(".create_new a").show();
+    $(target).data("widget").find(".create_new .hint").hide();
     $(target).data("widget").find(".create_new input").hide().val("");
     $(target).data("widget").find(".create_new .create.button").hide();
   }
@@ -527,12 +551,12 @@ function SelectionWidget() {
   this.search = function(target, val) {
     $(target).data("widget").find(".list li label").each(function(i, element){
       var element = $(element).clone();
-      $(element).find("*").remove();
       var regexp = new RegExp(val, 'i');
-      if($(element).html().search(regexp) == -1) {
-        $(this).parent().hide();
-      } else {
+      
+      if($(element).html().search(regexp) > -1) {
         $(this).parent().show();
+      } else {
+        $(this).parent().hide();
       }
     });
   }
@@ -603,7 +627,7 @@ function SelectionWidget() {
       of: $(target),
       my: "center top",
       at: "center bottom",
-      collision: "none"
+      collision: "fit fit"
     });
   }
   
@@ -673,6 +697,7 @@ function SelectionWidget() {
   
   this.handle_click_on_window = function(event) {
     var trigger = event.target;
+    
     // hide all selection widgets if target was not the selection widget or any childs
     if($(trigger).hasClass("has-selection-widget") || $(trigger).parents(".has-selection-widget").length) {
       var target = ($(trigger).hasClass("has-selection-widget")) ? $(trigger) : $(trigger).parents(".has-selection-widget");
@@ -689,6 +714,7 @@ function SelectionWidget() {
         if($(target).hasClass("created")) {
           SelectionWidget.open_widget(target);
         } else {
+          SelectionWidget.load_content(target);
           SelectionWidget.create_widget(target);
           $(target).addClass("created");
           $(target).addClass("open");

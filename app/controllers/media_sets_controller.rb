@@ -19,7 +19,9 @@ class MediaSetsController < ApplicationController
   #
   # @argument [with] hash Options forwarded to the results which will be inside of the respond 
   # 
-  # @argument [child] hash An object {:id, :type} which shall be used for scoping the media parent sets
+  # @argument [child] hash An object {:id, :type} which shall be used for scoping the media sets
+  #
+  # @argument [user] hash An object {:id} which shall be used for scoping the media sets for a specific user
   #
   # @example_request
   #   {"accessible_action": "edit", "with": {"set": {"media_entries": 1}}}
@@ -33,11 +35,12 @@ class MediaSetsController < ApplicationController
   # @request_field [Hash] with.set.media_entries When this hash of options is setted, it forces all result sets
   #   to include their media_entries forwarding the options. When "media_entries" is just setted to 1, then 
   #   they are include but without forwarding any options.
-  # @request_field [Hash] child A child object which shall be used for scoping the media parent sets
+  # @request_field [Hash] child A child object which shall be used for scoping the media sets
+  # @request_field [Hash] user A user object which shall be used for scoping the media sets for a specific user
   #
   # @example_response
   #   [{"id":422, "media_entries": [{"id":2}, {"id":3}]}, {"id":423, "media_entries": [{"id":1}, {"id":4}]}]
-  # 
+  #
   # @response_field [Integer] id The id of a set 
   # @response_field [Hash] media_entries Media entries of the set
   # @response_field [Integer] media_entries[].id The id of a media entry 
@@ -69,6 +72,7 @@ class MediaSetsController < ApplicationController
       
       format.js {
         
+        #FIXME: MediaResource.accessible_by_user is not well-performing
         sets = all_sets = MediaResource.accessible_by_user(current_user, accessible_action.to_sym).media_sets
         
         if(!child.nil?) # if child is set try to get child and scope sets trough child
