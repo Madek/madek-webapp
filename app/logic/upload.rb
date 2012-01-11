@@ -82,10 +82,12 @@ class Upload
               :filename=> File.basename(f)}
           end
 
+
           # if uploaded_data['filename'].include?
           # uploaded_data['current_user'] = current_user.login # for the use of media_file, if we get a zipfile
           media_file = MediaFile.create(:uploaded_data => uploaded_data)
-          media_entry = upload_session.media_entries.create(:owner => current_user, :media_file => media_file)
+          media_resource = MediaResource.create owner: current_user, permissionset: Permissionset.create
+          media_entry = upload_session.media_entries.create(media_resource: media_resource, media_file: media_file)
           
           # If this is a path-based upload for e.g. video files, it's almost impossible that we've imported the title
           # correctly because some file formats don't give us that metadata. Let's overwrite with an auto-import default then.
