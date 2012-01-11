@@ -46,21 +46,25 @@ class ApplicationController < ActionController::Base
         my_resources = current_user.viewable_media_resources
           .where("media_resources.owner_id= #{current_user.id}").paginate(paginate_options)
 
+        other_resources = current_user.viewable_media_resources
+          .where("media_resources.owner_id <> #{current_user.id}").paginate(paginate_options)
+
+
         @my_media_entries = { :pagination => { :current_page => my_resources.current_page,
                                               :per_page => my_resources.per_page,
                                               :total_entries => my_resources.total_entries,
                                               :total_pages => my_resources.total_pages },
                              :entries => my_resources.as_json(:user => current_user, :with_thumb => true) } 
         
-        #binding.pry
-        other_resources = current_user.viewable_media_resources
-          .where("media_resources.owner_id <> #{current_user.id}").paginate(paginate_options)
 
         @other_media_entries = { :pagination => { :current_page => other_resources.current_page,
                                                   :per_page => other_resources.per_page,
                                                   :total_entries => other_resources.total_entries,
                                                   :total_pages => other_resources.total_pages },
                                  :entries => other_resources.as_json(:user => current_user, :with_thumb => true) } 
+
+        #binding.pry
+
         respond_to do |format|
           format.html { render :template => "/users/show" }
         end
