@@ -27,7 +27,7 @@ module Permissions
     end
 
     def userpermission_disallows action, resource, user
-      Userpermission.joins(:user,:permissionset,:media_resource)
+      Userpermission.joins(:permissionset)
       .where("permissionsets.#{action} = false")
       .where(user_id: user.id)
       .where(media_resource_id: resource.id)
@@ -35,7 +35,7 @@ module Permissions
     end
 
     def userpermission_allows action, resource, user
-      Userpermission.joins(:user,:permissionset,:media_resource)
+      Userpermission.joins(:permissionset)
       .where("permissionsets.#{action} = true")
       .where(user_id: user.id)
       .where(media_resource_id: resource.id)
@@ -43,7 +43,7 @@ module Permissions
     end
 
     def grouppermission_allows action, resource, user
-      Grouppermission.joins(:permissionset,:media_resource,:group => :users)
+      Grouppermission.joins(:permissionset,:group => :users)
         .where(media_resource_id: resource.id)
         .where("permissionsets.#{action} = true")
         .where("groups_users.user_id = #{user.id}")

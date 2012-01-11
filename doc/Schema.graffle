@@ -68,8 +68,8 @@
 			<integer>686</integer>
 			<key>Points</key>
 			<array>
-				<string>{613.9494, 304.59219}</string>
-				<string>{705.73553, 370.70755}</string>
+				<string>{618.91089, 307.84598}</string>
+				<string>{705.8335, 370.70743}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -594,7 +594,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{419.56522, 212.69572}, {48.948002, 14}}</string>
+			<string>{{422.38501, 214.52795}, {48.948002, 14}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -673,8 +673,8 @@
 			<integer>107</integer>
 			<key>Points</key>
 			<array>
-				<string>{497.76682, 242.50327}</string>
-				<string>{384.00754, 194.2121}</string>
+				<string>{503.47638, 245.75497}</string>
+				<string>{383.59854, 194.45828}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -696,7 +696,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{487.81, 242.69865}, {165.948, 61.601299}}</string>
+			<string>{{492.94165, 245.95168}, {165.948, 61.601299}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -2891,7 +2891,7 @@ belongs_to}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2012-01-09 14:22:15 +0000</string>
+	<string>2012-01-11 14:38:43 +0000</string>
 	<key>Modifier</key>
 	<string>Thomas Schank</string>
 	<key>NotesVisible</key>
@@ -2984,7 +2984,7 @@ belongs_to}</string>
 		<key>FitInWindow</key>
 		<true/>
 		<key>Frame</key>
-		<string>{{734, 220}, {1131, 938}}</string>
+		<string>{{111, 404}, {1131, 774}}</string>
 		<key>ListView</key>
 		<false/>
 		<key>OutlineWidth</key>
@@ -2998,9 +2998,9 @@ belongs_to}</string>
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{0, 0}, {1117, 783}}</string>
+		<string>{{-148, 0}, {1412.9418, 782.99994}}</string>
 		<key>Zoom</key>
-		<real>1</real>
+		<real>0.79054915904998779</real>
 		<key>ZoomValues</key>
 		<array>
 			<array>

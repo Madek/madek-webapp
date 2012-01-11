@@ -1,5 +1,16 @@
 
 
+
+
+SELECT "userpermissions".* FROM "userpermissions" 
+  INNER JOIN "users" ON "users"."id" = "userpermissions"."user_id" 
+  INNER JOIN "permissionsets" ON "permissionsets"."id" = "userpermissions"."permissionset_id" 
+  INNER JOIN "media_resources" ON "media_resources"."id" = "userpermissions"."media_resource_id" 
+  WHERE "userpermissions"."user_id" = 1 
+  AND "userpermissions"."media_resource_id" = 1 
+  AND (permissionsets.view = false) 
+  LIMIT 1
+
 -- migrating owner data
 
 ALTER TABLE media_entries ADD COLUMN owner_id integer;
