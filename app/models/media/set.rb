@@ -43,15 +43,7 @@ module Media
 
   ########################################################
   
-    # TODO validation: if dynamic media_set, then media_entries must be empty
-    # TODO validation: if static media_set, then query must be nil
-  
-  ########################################################
-  
     default_scope order("updated_at DESC")
-  
-    scope :static, where("query IS NULL")
-    scope :dynamic, where("query IS NOT NULL")
   
   ########################################################
 
@@ -70,9 +62,7 @@ module Media
 
       s = "#{title} " 
       s += "- %s " % self.class.name.split('::').last # OPTIMIZE get class name without module name
-      # TODO filter accessible ??
-      # s += (static? ? "(#{MediaResource.accessible_by_user(current_user).by_media_set(self).count})" : "(#{MediaResource.accessible_by_user(current_user).by_media_set(self).search(query).count}) [#{query}]")
-      s += (static? ? "(#{media_entries.count})" : "(#{MediaResource.by_media_set(self).search(query).count}) [#{query}]")
+      s += "(#{media_entries.count})" # TODO filter accessible ?? "(#{MediaResource.accessible_by_user(current_user).by_media_set(self).count})"
     end
   
   ########################################################
@@ -146,16 +136,6 @@ module Media
       meta_key_ids = individual_contexts.map{|ic| ic.meta_keys.for_meta_terms.map(&:id) }.flatten
       mds = MetaDatum.where(:meta_key_id => meta_key_ids, :resource_type => "MediaEntry", :resource_id => accessible_media_entry_ids)
       mds.collect(&:value).flatten.uniq.compact
-    end
-
-  ########################################################
-  
-    def dynamic?
-      not static?
-    end
-  
-    def static?
-      query.nil?
     end
   
   end
