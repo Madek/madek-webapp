@@ -30,7 +30,7 @@ class CreateViewableResourcesView < ActiveRecord::Migration
 
         actionable_by_publicpermission=
           MediaResource.joins(:permissionset).joins("CROSS JOIN users") \
-            .where("permissionsets.view = #{action}") \
+            .where("permissionsets.#{action} = true") \
             .to_sql.gsub /SELECT.*FROM/, select_ms
 
         actionable_by_ownership= "SELECT media_resources.id as media_resource_id, owner_id as user_id from media_resources; "

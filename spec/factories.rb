@@ -4,13 +4,14 @@
 module DataFactory 
   extend self
 
-  class << self
-    def create_small_dataset 
-      (1..10).each {FactoryGirl.create :user}
-      (1..50).each {FactoryGirl.create :media_entry}
-      (1..50).each {FactoryGirl.create :media_set}
-      (1..25).each {FactoryGirl.create :userpermission}
-    end
+  def clear_data 
+  end
+
+  def create_small_dataset 
+    (1..10).each {FactoryGirl.create :user}
+    (1..50).each {FactoryGirl.create :media_entry}
+    (1..50).each {FactoryGirl.create :media_set}
+    (1..25).each {FactoryGirl.create :userpermission}
   end
 
   def create_dag 
