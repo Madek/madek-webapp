@@ -51,11 +51,28 @@ class CreateViewableResourcesView < ActiveRecord::Migration
         create_view "#{action}able_media_resources_by_ownership",actionable_by_ownership
         create_view "#{action}able_media_resources_users",actionable_users
 
+
+        [Media::Set,MediaEntry].each do |model|
+          table_name = model.table_name
+          sql= <<-SQL 
+            SELECT #{table_name}.id as #{ref_id model}, #{action}able_media_resources_users.user_id as user_id 
+              FROM #{table_name}
+              INNER JOIN #{action}able_media_resources_users 
+                ON #{action}able_media_resources_users.media_resource_id = #{table_name}.media_resource_id;
+          SQL
+          create_view "#{action}able_#{table_name}_users", sql
+        end
+
     end
 
   end
 
   def down
+
+    [Media::Set,MediaEntry].each do |model|
+      table_name = model.table_name
+      drop_view "#{action}able_#{table_name}_users"
+    end
 
     Constants::Actions.each do |action|
       drop_view "#{action}able_media_resources_users"
