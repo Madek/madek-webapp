@@ -196,7 +196,12 @@ module Resource
         core_info["thumb_base64"] = mf.thumb_base64(:small_125) if mf
       else
         #1+n http-requests#
-        core_info["thumb_base64"] = "/media_entries/%d/image?size=small_125" % self.id
+        me = if self.is_a?(Media::Set)
+          MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).first
+        else
+          self
+        end
+        core_info["thumb_base64"] = "/media_entries/%d/image?size=small_125" % me.id if me
       end
       core_info
     end
@@ -216,7 +221,6 @@ module Resource
 
   def title_and_user
     s = ""
-    s += "[Projekt] " if is_a?(Media::Project)
     s += "#{title} (#{user})"
   end
   

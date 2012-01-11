@@ -6,24 +6,20 @@
   - if request.fullpath =~ /favorites/
     = render :partial => "favorites"
   - elsif request.fullpath =~ /resources/ and params[:query].blank?
-    -if params[:type] != "sets" and params[:type] != "projects"
-      - if my_user
-        = render :partial => "my_entries"
-      - elsif @user    
-        = render :partial => "user_entries"
-      - else
-        = render :partial => "all_entries"    
-    -elsif params[:type] == "sets"
+    -if params[:type] == "media_sets"
       - if my_user
         = render :partial => "my_sets"
       - elsif @user
         = render :partial => "user_sets"
       - else
         = render :partial => "all_sets"
-    -elsif params[:type] == "projects"
-      = render :partial => "my_projects" 
     -else
-      = render :partial => "all_entries"  
+      - if my_user
+        = render :partial => "my_entries"
+      - elsif @user    
+        = render :partial => "user_entries"
+      - else
+        = render :partial => "all_entries"    
 
   - elsif !params[:query].blank?
     = render :partial => "search"  

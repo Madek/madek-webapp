@@ -81,11 +81,6 @@ FactoryGirl.define do
     media_resource {FactoryGirl.create  :media_resource}
   end
 
-  factory :media_project, :class => Media::Project do
-    user {User.find_random || (FactoryGirl.create :user)}
-    media_resource {FactoryGirl.create  :media_resource}
-  end
-
   ### Permissions ...
 
   factory :permission do

@@ -33,6 +33,13 @@ Feature: Selection Widget for Sets in Sets and Entries in Sets
       And I log in as "max" with password "moritz"
   
   @javascript
+  Scenario: User goes to a set and opens the widget. The current set should not be visible.
+    When I open the "My Act Photos" set
+    And I open the selection widget for this set
+    Then I should not see the "My Act Photos" set inside the widget
+
+  
+  @javascript
   Scenario: User goes to a set and opens the widget. All editable sets should be visible and parent_sets of the set should already be checked.
     When I open the "My Act Photos" set
     And I open the selection widget for this set

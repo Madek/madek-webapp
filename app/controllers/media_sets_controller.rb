@@ -18,9 +18,14 @@ class MediaSetsController < ApplicationController
   #   show, browse, abstract, inheritable_contexts, edit, update, add_member, parents, destroy
   #
   # @argument [with] hash Options forwarded to the results which will be inside of the respond 
+  # 
+  # @argument [child] hash An object {:id, :type} which shall be used for scoping the media parent sets
   #
   # @example_request
   #   {"accessible_action": "edit", "with": {"set": {"media_entries": 1}}}
+  #
+  # @example_request
+  #   {"accessible_action": "edit", "child": {"id": 2, "type": "entry"}}
   #
   # @request_field [String] accessible_action The accessible action the user can perform on a set
   # @request_field [Hash] with Options forwarded to the results which will be inside of the respond
@@ -28,6 +33,7 @@ class MediaSetsController < ApplicationController
   # @request_field [Hash] with.set.media_entries When this hash of options is setted, it forces all result sets
   #   to include their media_entries forwarding the options. When "media_entries" is just setted to 1, then 
   #   they are include but without forwarding any options.
+  # @request_field [Hash] child A child object which shall be used for scoping the media parent sets
   #
   # @example_response
   #   [{"id":422, "media_entries": [{"id":2}, {"id":3}]}, {"id":423, "media_entries": [{"id":1}, {"id":4}]}]
@@ -37,7 +43,7 @@ class MediaSetsController < ApplicationController
   # @response_field [Integer] media_entries[].id The id of a media entry 
   #
   def index(accessible_action = params[:accessible_action] || :view,
-            with = params[:with])
+            with = params[:with], child = params[:child] || nil)
     respond_to do |format|
       #-# only used for FeaturedSet
       format.html {
@@ -53,16 +59,23 @@ class MediaSetsController < ApplicationController
           # all media sets I can see that have not been created by me
           other = resources.not_by_user(current_user)
           my = resources.by_user(current_user)
-          if params[:type] == "projects"
-            [other.projects, my.projects, "Meine Projekte", "Weitere Projekte"]
-          else
-            [other.sets, my.sets, "Meine Sets", "Weitere Sets"]
-          end
+          [other.media_sets, my.media_sets, "Meine Sets", "Weitere Sets"]
         end
       }
+      
       format.js {
-        action = Constants::Actions.old2new accessible_action.to_sym
-        sets = current_user.send "#{action}able_media_sets"
+
+        sets = if(!child.nil?) # if child is set try to get child and scope sets trough child
+                 if(child["type"] == "entry" and MediaEntry.exists?(child["id"]))
+                   MediaEntry.find(child["id"]).media_sets.delete_if {|s| !all_sets.include?(s)}
+                 elsif(child["type"] == "set" and Media::Set.exists?(child["id"]))
+                   Media::Set.find(child["id"]).parent_sets.delete_if {|s| !all_sets.include?(s)}
+                 end 
+               else
+                 action = Constants::Actions.old2new accessible_action.to_sym
+                 current_user.send "#{action}able_media_sets"
+               end
+
         render :json => sets.as_json(:user => current_user, :with => with, :with_thumb => false) # TODO drop with_thum merge with with
       }
     end
@@ -115,7 +128,6 @@ class MediaSetsController < ApplicationController
     end
   end
 
-  # TODO only for media_project
   def abstract
     # TODO Tom check following line with Franco
     @_media_entry_ids = current_user.viewable_media_resources.media_entries.by_media_set(@media_set).map(&:id)
@@ -124,9 +136,7 @@ class MediaSetsController < ApplicationController
     end
   end
 
-  # TODO only for media_project
   def browse
-    @project = @media_set
     respond_to do |format|
       format.html
       format.js { render :layout => false }
@@ -173,7 +183,7 @@ class MediaSetsController < ApplicationController
     respond_to do |format|
       format.html {
         if is_saved
-          redirect_to user_resources_path(current_user, :type => "sets")
+          redirect_to user_resources_path(current_user, :type => "media_sets")
         else
           flash[:notice] = @media_set.errors.full_messages
           redirect_to :back
@@ -197,7 +207,7 @@ class MediaSetsController < ApplicationController
      @media_set.destroy
    end
     respond_to do |format|
-      format.html { redirect_to user_resources_path(current_user, :type => "sets") }
+      format.html { redirect_to user_resources_path(current_user, :type => "media_sets") }
     end
  end
 
@@ -214,9 +224,9 @@ class MediaSetsController < ApplicationController
         new_members = @media_set.media_entries.push_uniq(media_entries)
       end
       flash[:notice] = if new_members > 1
-         "#{new_members} neue Medieneinträge wurden dem Set/Projekt #{@media_set.title} hinzugefügt" 
+         "#{new_members} neue Medieneinträge wurden dem Set #{@media_set.title} hinzugefügt" 
       elsif new_members == 1
-        "Ein neuer Medieneintrag wurde dem Set/Projekt #{@media_set.title} hinzugefügt" 
+        "Ein neuer Medieneintrag wurde dem Set #{@media_set.title} hinzugefügt" 
       else
         "Es wurden keine neuen Medieneinträge hinzugefügt."
       end

@@ -8,5 +8,6 @@ class MediaResource < ActiveRecord::Base
 
   has_one :media_entry
   has_one :media_set, :class_name => Media::Set.name
-  
+
+    
 end

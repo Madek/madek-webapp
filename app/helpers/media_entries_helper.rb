@@ -48,11 +48,21 @@ module MediaEntriesHelper
     if media_file.content_type =~ /video/ && size == :large
       media_file.assign_video_thumbnails_to_preview
       video_preview = media_file.previews.where(:content_type => 'video/webm', :thumbnail => 'large').last
+      # Since we don't have a video preview, we also don't have any thumbnails, since those are generated while
+      # encoding the video.
       if video_preview.nil?
-        tag :img, options.merge({:src => media_file.thumb_base64(size)})
+        if !media_file.encode_job_finished?
+          # TODO: Display a nicer box with this information, not just dump the text there
+          "<p>Diese Videodatei wird gerade fürs Web konvertiert. Die Konvertierung ist zu %.2f Prozent abgeschlossen. Sobald sie ganz abgeschlossen ist, finden Sie hier eine abspielbare Version. Laden Sie diese Seite neu, um den aktuellsten Stand zu erfahren.</p>" % media_file.encode_job_progress_percentage 
+        else
+          tag :img, options.merge({:src => media_file.thumb_base64(size)})  
+        end
       else
-        tag :video,  options.merge({:src => "/download?id=#{resource.id}&video_thumbnail=true",
-                                    :autoplay => 'autoplay', :controls => 'controls', :width => video_preview.width, :height => video_preview.height})
+        content_tag :video, {:width => video_preview.width, :height => video_preview.height, :autoplay => 'autoplay', :controls => 'controls'} do
+          # This src points to a symlink to the actual file, so that Apache serves it. This lets us support
+          # seeking, partial content (HTTP status code 206) and request ranges without any additional work.
+          tag :source, {:type => video_preview.content_type, :src => "/previews/#{video_preview.filename}"}
+        end
       end
 
     elsif media_file.content_type =~ /audio/ && size == :large

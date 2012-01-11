@@ -79,6 +79,8 @@ task :link_attachments do
   run "ln -s #{deploy_to}/#{shared_dir}/attachments #{release_path}/db/media_files/production/attachments"
 
   run "ln -s #{deploy_to}/#{shared_dir}/uploads #{release_path}/tmp/uploads"
+  
+  run "ln -sf #{deploy_to}/#{shared_dir}/previews #{release_path}/public/previews"
 end
 
 task :configure_environment do

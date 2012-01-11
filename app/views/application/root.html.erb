@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<title>Medienarchiv der Künste</title>
 	<%= stylesheet_link_tag "root" %>
+	<%= stylesheet_link_tag "button/button" %>
 	<%= javascript_include_tag "root.js" %>
 </head>
 
@@ -94,7 +95,7 @@
   			<!-- Login -->
   			<div id="login" class="sidebar-box">
   				<p>Gleich einsteigen oder <a href="http://demo.medienarchiv.zhdk.ch/login">Demo testen</a></p>
-  				<p><%= link_to _("Los geht's"), login_path, :class => "actionbutton" %></p>
+  				<p><%= link_to _("Los geht's"), login_path, :class => "actionbutton button yellow" %></p>
   				<p class="disclaimer">Bis Ende 2012 ist das Medienarchiv nur für ZHdK-Angehörige zugänglich.</p>
   			</div> <!-- #login -->
   			
@@ -102,6 +103,10 @@
   			<div id="news" class="sidebar-box">
   				<h4>Neu mit Version <small><%= RELEASE_VERSION %></small></i></h4>
   				<p class="sidebar-box-claim">Rund um die Entwicklung</p>
+  				<div class="newsitem">
+            <p><span>Organisieren mit Sets</span></p>
+            <p>Zur besseren Verwaltung der eigenen Medieneinträge können nun die Sets auch in Sets gelegt werden. Dies verhilft zu einer besseren Übersicht bei grossen Sammlungen von verschiedenen Medien. Die Medieneinträge und Sets können neu über ein Widget gleichzeitig in ein oder mehrere Sets gelegt bzw. daraus entfern werden.</p>
+          </div>
           <div class="newsitem">
   					<p><span>Metadaten: ZHdK-Bereich</span></p>
             <p>Die Zuweisung eines Medieneintrages zu einem Bereich der ZHdK wurde erheblich vereinfacht.</p>

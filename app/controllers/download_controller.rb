@@ -88,9 +88,7 @@ class DownloadController < ApplicationController
     send_file(path,
               :filename => @filename,
               :type          =>  @content_type,
-              :disposition  =>  'attachment',
-              :stream    =>  true,
-              :buffer_size  =>  4096)
+              :disposition  =>  'attachment')
 
   end
   
@@ -121,9 +119,7 @@ class DownloadController < ApplicationController
         send_file("#{ZIP_STORAGE_DIR}/#{race_free_filename}.zip",
                   :filename => "#{race_free_filename}.zip",
                   :type          =>  @content_type,
-                  :disposition  =>  'attachment',
-                  :stream    =>  true,
-                  :buffer_size  =>  4096)  
+                  :disposition  =>  'attachment')  
     else
       render :status => 500
     end
@@ -142,9 +138,7 @@ class DownloadController < ApplicationController
       send_file(path,
                 :filename => @filename,
                 :type          =>  @content_type,
-                :disposition  =>  'attachment',
-                :stream    =>  true,
-                :buffer_size  =>  4096)            
+                :disposition  =>  'attachment')            
     else
       render :status => 500
     end
@@ -159,9 +153,7 @@ class DownloadController < ApplicationController
         send_file(path,
                   :filename => @filename,
                   :type          =>  @content_type,
-                  :disposition  =>  'attachment',
-                  :stream    =>  true,
-                  :buffer_size  =>  4096)            
+                  :disposition  =>  'attachment')            
     else
       render :status => 500
     end    
@@ -173,18 +165,14 @@ class DownloadController < ApplicationController
     send_file(path,
               :filename => @filename,
               :type          =>  @content_type,
-              :disposition  =>  'attachment',
-              :stream    =>  true,
-              :buffer_size  =>  4096)
+              :disposition  =>  'attachment')
   end
   
   def send_multimedia_preview
     send_file(@path,
           :filename => @filename,
           :type          =>  @content_type,
-          :disposition  =>  'attachment',
-          :stream    =>  true,
-          :buffer_size  =>  4096)
+          :disposition  =>  'attachment')
   end
   
 end # class

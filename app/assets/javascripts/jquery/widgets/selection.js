@@ -19,30 +19,56 @@ function SelectionWidget() {
     
     // OPTIMIZE when widgets get rendered by jquery templates (live inview for example)
     $(".has-selection-widget").each(function(){
-      var element = this;
+      var target = this;
       
       // call ajax for index
       $.ajax($(this).data("index").path, {
         beforeSend: function(request, settings){
         },
         success: function(data, status, request) {
-          SelectionWidget.setup_widget_data_after_ajax(element, data);
+          if(data.length > 0) {
+            $(target).data("items", JSON.parse(data));
+          } else {
+            $(target).data("items", null);
+          }
+          
+          if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
+            SelectionWidget.setup_widget(target);
+          }
         },
         error: function(request, status, error){
-           SelectionWidget.setup_widget_data_after_ajax(element, null);
+          if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
+            SelectionWidget.setup_widget(target);
+          }
         },
         data: $(this).data("index").data,
         type: $(this).data("index").method
-      });    
+      });
+      
+      // call ajax for linked_index
+      $.ajax($(target).data("linked_index").path, {
+        beforeSend: function(request, settings){
+        },
+        success: function(data, status, request) {
+          if(data.length > 0) {
+            $(target).data("linked_items", JSON.parse(data));
+          } else {
+            $(target).data("linked_items", null);
+          }
+          
+          if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
+            SelectionWidget.setup_widget(target);
+          }
+        },
+        error: function(request, status, error){
+          if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
+            SelectionWidget.setup_widget(target);
+          }
+        },
+        data: $(target).data("linked_index").data,
+        type: $(target).data("linked_index").method
+      });  
     });
-  }
-  
-  this.setup_widget_data_after_ajax = function(target, data) {
-    $(target).data("items", JSON.parse(data));
-    
-    if($(target).data("widget") != undefined) {
-      SelectionWidget.setup_widget(target);
-    }
   }
   
   this.create_widget = function(target){
@@ -153,21 +179,20 @@ function SelectionWidget() {
     // sort list alphabeticaly
     SelectionWidget.sort_list(target);
     
-    // check if there are already connected items
     $(target).data("widget").find(".list li").each(function(i_item, item){
-      if($(this).tmplItem().data[$(target).data("child_name")] != undefined) {
-        // check if the element is the set themself and remove
-        if($(target).data("detach_my_self") == "true" && $(target).data("id") == $(this).tmplItem().data.id) {
-          $(this).detach();
-        }
-        
-        $.each($(this).tmplItem().data[$(target).data("child_name")], function(i_child, child_set){
-          // check if the ellement is already linked
-          if(child_set.id == $(target).data("id")) {
-            $(item).find("input").attr("checked", "checked");
-          }
-        });
+      
+      // detach the element of the list if the element is the current opened one
+      if(parseInt($(target).data("id")) == $(this).tmplItem().data.id && $(target).data("detach_my_self") == true) {
+        $(this).detach();
       }
+      
+      // check if there are already connected items
+      $.each($(target).data("linked_items"), function(i_link, linked_item){
+        // check if the ellement is already linked
+        if(linked_item.id == $(item).tmplItem().data.id) {
+          $(item).find("input").attr("checked", "checked");
+        }
+      });
     });
   }
   

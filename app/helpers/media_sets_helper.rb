@@ -3,7 +3,7 @@ module MediaSetsHelper
 
   def media_set_title(media_set, with_link = false, with_main_thumb = false, total_thumbs = 0)
     content = capture_haml do
-      div_class, thumb_class = media_set.is_a?(Media::Project) ? ["set-box project-box", "thumb_box_project"] : ["set-box", "thumb_box_set"]
+      div_class, thumb_class = ["set-box", "thumb_box_set"]
       haml_tag :div, :class => div_class do
         haml_tag :div, thumb_for(media_set, :small_125), :class => thumb_class if with_main_thumb
         haml_tag :br
@@ -45,7 +45,7 @@ module MediaSetsHelper
     capture_haml do
       if with_tooltip
         media_sets.each do |media_set|
-          div_class, thumb_class = media_set.is_a?(Media::Project) ? ["set-box project-box", "thumb_box_project"] : ["set-box", "thumb_box_set"]
+          div_class, thumb_class = ["set-box", "thumb_box_set"]
           haml_tag :div, :class => div_class, :title => media_set.to_s do
             haml_tag :a, thumb_for(media_set, :small_125), :href => media_set_path(media_set), :class => thumb_class
           end
@@ -87,7 +87,7 @@ module MediaSetsHelper
     editable_sets = current_user.editable_media_sets
     form_tag form_path, :id => "set_media_sets" do
       b = content_tag :h3, :style => "clear: both" do
-        _("Zu Set/Projekt hinzufügen:")
+        _("Zu Set hinzufügen:")
       end
 
       b += content_tag :span, :style => "margin-right: 1em;" do
@@ -106,11 +106,11 @@ module MediaSetsHelper
       end
 
       b += content_tag :p, :style => "clear: right; margin-bottom: 15px; font-size:1.2em;", :class => "save" do
-        submit_tag _("Zu ausgewähltem Set/Projekt hinzufügen…"), :style => "display: none; float: right; margin: 20px 0;"
+        submit_tag _("Zu ausgewähltem Set hinzufügen…"), :style => "display: none; float: right; margin: 20px 0;"
       end
       
       b += content_tag :p, :style => "clear: both;" do
-        link_to _("Weiter ohne Hinzufügen zu einem Set/Projekt…"), root_path, :class => "upload_buttons"
+        link_to _("Weiter ohne Hinzufügen zu einem Set…"), root_path, :class => "upload_buttons"
       end if with_cancel_button
 
       b += javascript_tag do
@@ -152,9 +152,8 @@ module MediaSetsHelper
   end
 
 ####################################################################
-# TODO move to media_projects_helper.rb ??
 
-  def display_project_abstract_slider(project, total_entries)
+  def display_set_abstract_slider(set, total_entries)
     capture_haml do
       haml_tag :p, :style => "padding: 1.8em;" do
         haml_tag :span, :id => "amount", :style => "color: #444444; font-weight: bold; position: absolute;"
@@ -199,14 +198,14 @@ module MediaSetsHelper
     end
   end
 
-  def display_project_abstract(project, min_media_entries, current_user)
-    meta_data = project.abstract(min_media_entries, current_user)
+  def display_set_abstract(set, min_media_entries, current_user)
+    meta_data = set.abstract(min_media_entries, current_user)
     capture_haml do
       haml_tag :div, :class => "meta_data" do
         if meta_data.blank?
-          haml_concat _("Es sind nicht genügend Werte für einen Projekt-Auszug vorhanden.")
+          haml_concat _("Es sind nicht genügend Werte für einen Set-Auszug vorhanden.")
         else
-          contexts = project.individual_contexts
+          contexts = set.individual_contexts
           meta_data.collect do |meta_datum|
             meta_datum.meta_key.reload #tmp# TODO remove this line, is an Identity Map problem ??
             context = contexts.detect {|c| meta_datum.meta_key.meta_contexts.include?(c) }
@@ -220,17 +219,17 @@ module MediaSetsHelper
     end
   end
 
-  def display_project_vocabulary(project, current_user)
-    used_meta_term_ids = project.used_meta_term_ids(current_user)
+  def display_set_vocabulary(set, current_user)
+    used_meta_term_ids = set.used_meta_term_ids(current_user)
     capture_haml do
       haml_tag :p do
-        haml_concat "Für dieses Projekt wurde ein spezifisches Vokabular erstellt."
+        haml_concat "Für dieses Set wurde ein spezifisches Vokabular erstellt."
         haml_tag :p
           haml_tag :a, "Zeige die bereits vergebenen Werte", :href => "#", :id => "terms_toggler"
       end
       haml_tag :br
       
-      project.individual_contexts.each do |context|
+      set.individual_contexts.each do |context|
         haml_tag :h3, context
         haml_tag :p, context.description
         context.meta_keys.for_meta_terms.each do |meta_key|

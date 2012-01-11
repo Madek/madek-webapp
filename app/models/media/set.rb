@@ -49,26 +49,19 @@ module Media
                     end
       records.compact
     end
-  
+
   ########################################################
   
-    # TODO validation: if dynamic media_set, then media_entries must be empty
-    # TODO validation: if static media_set, then query must be nil
-  
-  ########################################################
-  
-    #default_scope order("type ASC, updated_at DESC")
-  
-    scope :static, where("query IS NULL")
-    scope :dynamic, where("query IS NOT NULL")
-    
-    scope :sets, where(:type => "Media::Set")
-    scope :projects, where(:type => "Media::Project")
+    default_scope order("updated_at DESC")
   
   ########################################################
 
-    def inheritable_contexts  # overwitten by project
-      []
+    has_and_belongs_to_many :individual_contexts, :class_name => "MetaContext",
+                                                  :join_table => :media_sets_meta_contexts,
+                                                  :foreign_key => :media_set_id
+    
+    def inheritable_contexts
+      parent_sets.map(&:individual_contexts).flatten.to_set.to_a # removes duplicates, I don't know how efficient .to_a.uniq is
     end
     
   ########################################################
@@ -78,8 +71,7 @@ module Media
 
       s = "#{title} " 
       s += "- %s " % self.class.name.split('::').last # OPTIMIZE get class name without module name
-      # TODO filter accessible ??
-      s += (static? ? "(#{media_entries.count})" : "(#{MediaResource.by_media_set(self).search(query).count}) [#{query}]")
+      s += "(#{media_entries.count})" # TODO filter accessible ?? "(#{MediaResource.accessible_by_user(current_user).by_media_set(self).count})"
     end
   
   ########################################################
@@ -119,13 +111,40 @@ module Media
   end
 
   ########################################################
-  
-    def dynamic?
-      not static?
+
+    # TODO scope accessible media_entries only
+    def abstract(min_media_entries = nil, current_user = nil)
+      min_media_entries ||= media_entries.count.to_f * 50 / 100
+      accessible_media_entry_ids = if current_user
+        MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).map(&:id)
+      else
+        media_entry_ids
+      end
+      meta_key_ids = individual_contexts.map(&:meta_key_ids).flatten
+      h = {} #1005# TODO upgrade to Ruby 1.9 and use ActiveSupport::OrderedHash.new
+      mds = MetaDatum.where(:meta_key_id => meta_key_ids, :resource_type => "MediaEntry", :resource_id => accessible_media_entry_ids)
+      mds.each do |md|
+        h[md.meta_key_id] ||= [] # TODO md.meta_key
+        h[md.meta_key_id] << md.value
+      end
+      h.delete_if {|k, v| v.size < min_media_entries }
+      h.each_pair {|k, v| h[k] = v.flatten.group_by {|x| x}.delete_if {|k, v| v.size < min_media_entries }.keys }
+      h.delete_if {|k, v| v.blank? }
+      #1005# return h.collect {|k, v| meta_data.build(:meta_key_id => k, :value => v) }
+      b = []
+      h.each_pair {|k, v| b[meta_key_ids.index(k)] = meta_data.build(:meta_key_id => k, :value => v) }
+      return b.compact
     end
   
-    def static?
-      query.nil?
+    def used_meta_term_ids(current_user = nil)
+      accessible_media_entry_ids = if current_user
+        MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).map(&:id)
+      else
+        media_entry_ids
+      end
+      meta_key_ids = individual_contexts.map{|ic| ic.meta_keys.for_meta_terms.map(&:id) }.flatten
+      mds = MetaDatum.where(:meta_key_id => meta_key_ids, :resource_type => "MediaEntry", :resource_id => accessible_media_entry_ids)
+      mds.collect(&:value).flatten.uniq.compact
     end
   
   end

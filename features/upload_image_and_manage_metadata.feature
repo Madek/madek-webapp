@@ -32,7 +32,7 @@ Feature: Upload images and manage media entries based on images
      And I wait for the CSS element "#text_media_set"
      And I fill in the set title with "Mauerstücke"
      And I press "Hinzufügen"
-     And I press "Zu ausgewähltem Set/Projekt hinzufügen…"
+     And I press "Zu ausgewähltem Set hinzufügen…"
      And I go to the home page
      Then I should see "berlin wall for a set"
 
@@ -50,7 +50,7 @@ Feature: Upload images and manage media entries based on images
      |Titel    |A beautiful piece of the Berlin Wall|
      |Copyright|Kohl, Helmut                        |
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
+     And I follow "Weiter ohne Hinzufügen zu einem Set…"
      And I go to the home page
      And I click the media entry titled "A beautiful piece of the Berl"
      And I follow "Zugriffsberechtigung"
@@ -82,7 +82,7 @@ Feature: Upload images and manage media entries based on images
       |Titel    |A second piece of the Berlin Wall|
       |Copyright|Kohl, Helmut                     |
       And I press "Metadaten speichern und weiter…"
-      And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
+      And I follow "Weiter ohne Hinzufügen zu einem Set…"
       And I go to the home page
       And I click the media entry titled "A second piece of the Berlin"
       And I follow "Zugriffsberechtigung"
@@ -184,7 +184,7 @@ Feature: Upload images and manage media entries based on images
     When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "mein lieblingsknödel"
      And I go to the media entries
-     And all the hidden items become visible
+     And all the entries controls become visible
      And I toggle the favorite star on the media entry titled "mein lieblingsknödel"
      And I click on the arrow next to "Kohl, Helmut"
      And I follow "Meine Favoriten"
@@ -206,13 +206,13 @@ Feature: Upload images and manage media entries based on images
     When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "mein lieblingsbier"
      And I go to the media entries
-     And all the hidden items become visible
+     And all the entries controls become visible
      And I toggle the favorite star on the media entry titled "mein lieblingsbier"
      And I click on the arrow next to "Kohl, Helmut"
      And I follow "Meine Favoriten"
     Then I should see "mein lieblingsbier"
     When I go to the media entries
-     And all the hidden items become visible
+     And all the entries controls become visible
      And I toggle the favorite star on the media entry titled "mein lieblingsbier"
      And I click on the arrow next to "Kohl, Helmut"
      And I follow "Meine Favoriten"
@@ -223,7 +223,7 @@ Feature: Upload images and manage media entries based on images
     When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "mein lieblingsflugzeug"
      And I go to the media entries
-     And all the hidden items become visible
+     And all the entries controls become visible
      And I click the delete icon on the media entry titled "mein lieblingsflugzeug"
      And I go to the media entries
     Then I should not see "mein lieblingsflugzeug"
@@ -239,7 +239,7 @@ Feature: Upload images and manage media entries based on images
      And I wait for the CSS element "#submit_to_3"
      And I press "Einstellungen speichern und weiter…"
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
+     And I follow "Weiter ohne Hinzufügen zu einem Set…"
      And I go to the home page
      And I click the media entry titled "Grumpy Cat"
     Then I should see "30.05.2011"
@@ -255,7 +255,7 @@ Feature: Upload images and manage media entries based on images
      And I wait for the CSS element "#submit_to_3"
      And I press "Einstellungen speichern und weiter…"
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
+     And I follow "Weiter ohne Hinzufügen zu einem Set…"
      And I go to the home page
      And I click the media entry titled "Frau-Sein"
     # The below stuff would better be done with a Cucumber table, so you can do e.g.:
@@ -279,7 +279,7 @@ Feature: Upload images and manage media entries based on images
      And I wait for the CSS element "#submit_to_3"
      And I press "Einstellungen speichern und weiter…"
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
+     And I follow "Weiter ohne Hinzufügen zu einem Set…"
      And I go to the home page
      And I click the media entry titled "Frau-Sein"
     # The below stuff would better be done with a Cucumber table, so you can do e.g.:

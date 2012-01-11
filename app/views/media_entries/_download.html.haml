@@ -13,72 +13,73 @@
     %th.col4= _("Download")
 
   - if x_large_file_available
-    %tr.download-unit
-      %td{:rowspan => 2}
-        %p.download-info
-          %span= _("Datei ohne Metadaten")
-          = _("Originaldatei ohne eingeschriebene Metadaten.")
-      %td.align-right= "#{dimensions_for(original_file)} (#{format_original_file})"
-      %td.align-right
-        \~
-        = number_to_human_size(original_file.size)
-      %td.align-right
-        = link_to _("Download"), "/download?id=#{media_entry.id}&naked=1" if can_download_hi_res
-        =# render :partial => "download_links", :locals => {:hi_res => can_download_hi_res, :downlaod_type => "naked", :media_entry => media_entry}
-    %tr
-      - if x_large_file #and x_large_file.width < original_file.width  
-        %td.align-right= "#{dimensions_for(x_large_file)} (jpeg)"
+    - unless original_file.content_type.match(/^video.*/)
+      %tr.download-unit
+        %td{:rowspan => 2}
+          %p.download-info
+            %span= _("Datei ohne Metadaten")
+            = _("Originaldatei ohne eingeschriebene Metadaten.")
+        %td.align-right= "#{dimensions_for(original_file)} (#{format_original_file})"
         %td.align-right
           \~
-          = number_to_human_size(x_large_file.size)
-        %td.align-right= link_to _("Download"), "/download?id=#{media_entry.id}&naked=1&size=x_large"
-    %tr
-      %td{:colspan => 4}
-        %hr
-  
-    %tr.download-unit
-      %td{:rowspan => 2}
-        %p.download-info
-          %span= _("Datei mit aktuellen Metadaten")
-          = _("Die aktuellen Metadaten aus dem Medienarchiv im Format XMP/IPTC sind direkt in die Datei eingeschrieben.")
-      %td.align-right= "#{dimensions_for(original_file)} (#{format_original_file})"
-      %td.align-right
-        \~
-        = number_to_human_size(original_file.size)
-      %td.align-right
-        = link_to _("Download"), "/download?id=#{media_entry.id}&update=1" if can_download_hi_res
-    %tr
-      - if x_large_file #and x_large_file.width < original_file.width
-        %td.align-right= "#{dimensions_for(x_large_file)} (jpeg)"
+          = number_to_human_size(original_file.size)
+        %td.align-right
+          = link_to _("Download"), "/download?id=#{media_entry.id}&naked=1" if can_download_hi_res
+          =# render :partial => "download_links", :locals => {:hi_res => can_download_hi_res, :downlaod_type => "naked", :media_entry => media_entry}
+      %tr
+        - if x_large_file #and x_large_file.width < original_file.width  
+          %td.align-right= "#{dimensions_for(x_large_file)} (jpeg)"
+          %td.align-right
+            \~
+            = number_to_human_size(x_large_file.size)
+          %td.align-right= link_to _("Download"), "/download?id=#{media_entry.id}&naked=1&size=x_large"
+      %tr
+        %td{:colspan => 4}
+          %hr
+    
+      %tr.download-unit
+        %td{:rowspan => 2}
+          %p.download-info
+            %span= _("Datei mit aktuellen Metadaten")
+            = _("Die aktuellen Metadaten aus dem Medienarchiv im Format XMP/IPTC sind direkt in die Datei eingeschrieben.")
+        %td.align-right= "#{dimensions_for(original_file)} (#{format_original_file})"
         %td.align-right
           \~
-          = number_to_human_size(x_large_file.size)
-        %td.align-right= link_to _("Download"), "/download?id=#{media_entry.id}&update=1&size=x_large"
-    %tr
-      %td{:colspan => 4}
-        %hr
+          = number_to_human_size(original_file.size)
+        %td.align-right
+          = link_to _("Download"), "/download?id=#{media_entry.id}&update=1" if can_download_hi_res
+      %tr
+        - if x_large_file #and x_large_file.width < original_file.width
+          %td.align-right= "#{dimensions_for(x_large_file)} (jpeg)"
+          %td.align-right
+            \~
+            = number_to_human_size(x_large_file.size)
+          %td.align-right= link_to _("Download"), "/download?id=#{media_entry.id}&update=1&size=x_large"
+      %tr
+        %td{:colspan => 4}
+          %hr
 
-    %tr.download-unit
-      %td{:rowspan => 2}
-        %p.download-info
-          %span= _("ZIP-Verzeichnis mit Datei und separaten Metadaten")
-          = _("Das gezippte Verzeichnis enthält die Datei mit eingeschriebenen, aktuellen Metadaten sowie einem separaten XML Metadatendokument") #old# " und YAML"
-      %td.align-right= "#{dimensions_for(original_file)} (#{format_original_file})"
-      %td.align-right
-        \~
-        = number_to_human_size(original_file.size)
-      %td.align-right
-        = link_to _("Download"), "/download?id=#{media_entry.id}&zip=1" if can_download_hi_res
-    %tr
-      - if x_large_file #and x_large_file.width < original_file.width
-        %td.align-right= "#{dimensions_for(x_large_file)} (jpeg)"
+      %tr.download-unit
+        %td{:rowspan => 2}
+          %p.download-info
+            %span= _("ZIP-Verzeichnis mit Datei und separaten Metadaten")
+            = _("Das gezippte Verzeichnis enthält die Datei mit eingeschriebenen, aktuellen Metadaten sowie einem separaten XML Metadatendokument") #old# " und YAML"
+        %td.align-right= "#{dimensions_for(original_file)} (#{format_original_file})"
         %td.align-right
           \~
-          = number_to_human_size(x_large_file.size)
-        %td.align-right= link_to _("Download"), "/download?id=#{media_entry.id}&zip=1&size=x_large"
-    %tr
-      %td{:colspan => 4}
-        %hr
+          = number_to_human_size(original_file.size)
+        %td.align-right
+          = link_to _("Download"), "/download?id=#{media_entry.id}&zip=1" if can_download_hi_res
+      %tr
+        - if x_large_file #and x_large_file.width < original_file.width
+          %td.align-right= "#{dimensions_for(x_large_file)} (jpeg)"
+          %td.align-right
+            \~
+            = number_to_human_size(x_large_file.size)
+          %td.align-right= link_to _("Download"), "/download?id=#{media_entry.id}&zip=1&size=x_large"
+      %tr
+        %td{:colspan => 4}
+          %hr
 
   - if File.exist?(original_file.file_storage_location) # NOTE it could be a zip file
     %tr.download-unit

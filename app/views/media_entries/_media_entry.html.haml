@@ -125,12 +125,12 @@
               = link_to "#", :panel => "download", :title => "Exportieren" do
                 .button_download
             %li
-              = link_to " ", :title => "Zu Set/Projekt hinzufügen",
+              = link_to " ", :title => "Zu Set hinzufügen",
                 :class=>"has-selection-widget",
                 :"data-id" => "#{@media_entry.id}",
-                :"data-child_name" => "media_entries",
                 :"data-after_submit" => "window.location.reload();",
-                :"data-index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "with" => {"set" => {"media_entries" => 1}}}}.to_json}",
+                :"data-index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit"}}.to_json}",
+                :"data-linked_index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "child" => {"id" => @media_entry.id, "type" => "entry"}}}.to_json}",
                 :"data-create" => "#{{"path" => "/media_sets", "method" => "POST", "data" => {"media_set" => "{:array}"}, "array" => {"meta_data_attributes" => {0 => {"meta_key_id" => 3, "value" => "{:title}"}}}}.to_json}",
                 :"data-link" => "#{{"path" => "/media_entries/"+@media_entry.id.to_s+"/media_sets", "method" => "POST", "data" => {"media_set_ids" => "{:array}"}, "array" => "{:id}"}.to_json}",
                 :"data-unlink" => "#{{"path" => "/media_entries/"+@media_entry.id.to_s+"/media_sets", "method" => "DELETE", "data" => {"media_set_ids" => "{:array}"}, "array" => "{:id}"}.to_json}" do
