@@ -3,8 +3,8 @@
     ${$item.title = title.replace(/\s/g,'_'), ""}
     %input{:id => "${$item.title}", :type => "checkbox", :value => 1, :name => "${$item.title}"}
     %span.title
-      {{if title.length > 40}}
-      ${title.substr(0,40)}...
+      {{if title.length > 50}}
+      ${title.substr(0,50)}...
       {{else}}
       ${title}
       {{/if}}

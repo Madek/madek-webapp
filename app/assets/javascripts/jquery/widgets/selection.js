@@ -549,14 +549,24 @@ function SelectionWidget() {
   }
   
   this.search = function(target, val) {
-    $(target).data("widget").find(".list li label").each(function(i, element){
-      var element = $(element).clone();
-      var regexp = new RegExp(val, 'i');
+    var search_elements = val.split(/[\s+,\,,\+]/g);
+    
+    $(target).data("widget").find(".list li").each(function(i, element){
+      var found = false;
+      $.each(search_elements, function(i_search_element, search_element){
+        var regexp = new RegExp(search_element, 'i');
+        if($(element).tmplItem().data.title.search(regexp) < 0 && $(element).tmplItem().data.creator.search(regexp) < 0 && $(element).tmplItem().data.created_at.search(regexp) < 0){
+          found = false;
+          return false;  
+        } else {
+          found = true;
+        }
+      });
       
-      if($(element).html().search(regexp) > -1) {
-        $(this).parent().show();
+      if(found) {
+        $(this).show();
       } else {
-        $(this).parent().hide();
+        $(this).hide();
       }
     });
   }
