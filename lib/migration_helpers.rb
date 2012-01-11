@@ -9,12 +9,16 @@ module MigrationHelpers
   # view
   def create_view view_name, sql
     cmd = "CREATE VIEW #{view_name} AS #{sql} ;"
-    #puts cmd
+    puts cmd
+    puts ""
     execute_sql cmd
   end
 
   def drop_view view_name
-    execute_sql "DROP VIEW #{view_name};"
+    cmd = "DROP VIEW #{view_name};"
+    puts cmd
+    puts ""
+    execute_sql cmd 
   end
 
  
