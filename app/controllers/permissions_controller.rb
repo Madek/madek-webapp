@@ -102,6 +102,7 @@ class PermissionsController < ApplicationController
  #   "Group"=>{"1519"=>{"view"=>"true", "edit"=>"true", "hi_res"=>"false"}},
  #   "nil"=>{"view"=>"false", "edit"=>"false", "hi_res"=>"false"}}
  #  
+  #   numbers are either user_id or group_id
   def update_multiple
     ActiveRecord::Base.transaction do
       @resources.each do |resource|
