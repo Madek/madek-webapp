@@ -120,11 +120,13 @@ class MediaResource < ActiveRecord::Base
 
 
     where("(media_resources.id, media_resources.type) NOT IN " \
-            "(SELECT resource_id, resource_type from permissions " \
+            "(SELECT resource_id, resource_type FROM permissions " \
+              "USE INDEX (index_permissions_on_resource__and_subject) " \
               "WHERE (subject_type = 'User' AND subject_id = ?) " \
                 "AND NOT #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) " \
           "AND (media_resources.id, media_resources.type) IN " \
-            "(SELECT resource_id, resource_type from permissions " \
+            "(SELECT resource_id, resource_type FROM permissions " \
+              "USE INDEX (index_permissions_on_resource__and_subject) " \
               "WHERE (subject_type IS NULL " \
                   "OR (subject_type = 'Group' AND subject_id IN (?)) " \
                   "OR (subject_type = 'User' AND subject_id = ?)) " \
