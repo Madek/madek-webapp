@@ -50,8 +50,7 @@
           - unless @media_set.individual_contexts.empty?
             = render :partial => "media_entries/browsing"
             #abstract_tab.clearfix
-              %p
-                Diese Metadaten wurden am häufigsten vergeben. Sie zeigen den thematischen Schwerpunkt des Projekts an.
+              %p= _("Diese Metadaten wurden am häufigsten vergeben. Sie zeigen den thematischen Schwerpunkt des Projekts an.")
               = display_set_abstract_slider(@media_set, @media_entries[:pagination][:total_entries])
               = display_set_abstract(@media_set, (@media_entries[:pagination][:total_entries] * 30 / 100), current_user)
             #vocabulary_tab.clearfix

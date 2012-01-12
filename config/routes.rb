@@ -192,6 +192,12 @@ MAdeK::Application.routes.draw do
   
   resource :session
 
+  resources :meta_contexts, :only => [:index, :show] do
+    member do
+      get :abstract
+    end
+  end
+
 #__ Admin namespace __##############################################################
 ####################################################################################
 
