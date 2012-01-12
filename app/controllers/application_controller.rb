@@ -41,6 +41,10 @@ class ApplicationController < ActionController::Base
         params[:per_page] ||= PER_PAGE.first
 
         paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
+
+        # TODO Tom
+        # apparently resources is really an array of sets and entries, pfff....
+        # create a method like get_set_or_entry (in the resource model) and map over
         resources = current_user.viewable_media_resources
 
         my_resources = current_user.viewable_media_resources
