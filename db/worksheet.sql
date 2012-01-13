@@ -2,6 +2,49 @@
 
 
 
+SELECT media_resource_id as media_resource_id, user_id as user_id 
+  FROM userpermissions 
+  JOIN permissionsets ON permissionsets.id = userpermissions.permissionset_id
+  WHERE permissionsets.view = true;
+
+
+SELECT media_resource_id as media_resource_id, user_id as user_id 
+  FROM grouppermissions
+    JOIN permissionsets ON permissionsets.id = grouppermissions.permissionset_id
+    JOIN groups_users ON groups_users.group_id = grouppermissions.group_id
+  WHERE permissionsets.view = true; 
+
+SELECT media_resource_id as media_resource_id, user_id as user_id 
+        FROM userpermissions 
+        JOIN permissionsets ON permissionsets.id = userpermissions.permissionset_id
+        WHERE permissionsets.view = false);
+       
+-- combined: 
+
+SELECT media_resource_id as media_resource_id, user_id as user_id 
+  FROM grouppermissions
+    JOIN permissionsets ON permissionsets.id = grouppermissions.permissionset_id
+    JOIN groups_users ON groups_users.group_id = grouppermissions.group_id
+  WHERE permissionsets.view = true 
+    AND (media_resource_id, user_id) NOT IN  (
+      SELECT media_resource_id as media_resource_id, user_id as user_id 
+        FROM userpermissions 
+        JOIN permissionsets ON permissionsets.id = userpermissions.permissionset_id
+        WHERE permissionsets.view = false);
+       
+SELECT media_resources.id as media_resource_id, users.id as user_id 
+  FROM media_resources
+  INNER JOIN permissionsets ON permissionsets.id = media_resources.permissionset_id
+  CROSS JOIN users
+  WHERE permissionsets.view = true;
+  
+SELECT media_resources.id as media_resource_id, owner_id as user_id from media_resources"
+
+ 
+
+
+
+
 SELECT "userpermissions".* FROM "userpermissions" 
   INNER JOIN "users" ON "users"."id" = "userpermissions"."user_id" 
   INNER JOIN "permissionsets" ON "permissionsets"."id" = "userpermissions"."permissionset_id" 
