@@ -5,7 +5,7 @@ class MigrateResources < ActiveRecord::Migration
   def up
 
     [:media_sets,:media_entries].each do |resource|
-      add_column resource, :media_resource_id, :integer, :null => false 
+      add_column resource, :media_resource_id, :integer
       add_index resource, :media_resource_id
     end
 

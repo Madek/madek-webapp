@@ -69,9 +69,11 @@ class CreateViewableResourcesView < ActiveRecord::Migration
 
   def down
 
-    [Media::Set,MediaEntry].each do |model|
-      table_name = model.table_name
-      drop_view "#{action}able_#{table_name}_users"
+    Constants::Actions.each do |action|
+      [Media::Set,MediaEntry].each do |model|
+        table_name = model.table_name
+        drop_view "#{action}able_#{table_name}_users"
+      end
     end
 
     Constants::Actions.each do |action|
