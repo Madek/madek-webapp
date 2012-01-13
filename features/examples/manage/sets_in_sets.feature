@@ -74,7 +74,7 @@ Feature: Sets in Sets
       And I can see the owner of each set
       And I can see that selected sets are already highlighted
       And I can choose to see additional information
-      And I can read the first 60 characters of each set name
+      And I can read the first 30 characters of each set name
       # And I can see enough information to differentiate between similar sets # Ask SUS: What makes it possible to differentiate similar sets?
 
   # https://www.pivotaltracker.com/story/show/22421449

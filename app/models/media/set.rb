@@ -104,6 +104,12 @@ module Media
           if with[:set].has_key?(:media_entries) and (with[:set][:media_entries].is_a?(Hash) or not with[:set][:media_entries].to_i.zero?)
             json[:media_entries] = media_entries.as_json(options)
           end
+          if with[:set].has_key?(:creator) and (with[:set][:creator].is_a?(Hash) or not with[:set][:creator].to_i.zero?)
+            json[:creator] = user.to_s
+          end
+          if with[:set].has_key?(:created_at) and (with[:set][:created_at].is_a?(Hash) or not with[:set][:created_at].to_i.zero?)
+            json[:created_at] = created_at
+          end
         end
       end
       
@@ -112,7 +118,7 @@ module Media
 
   ########################################################
 
-    # TODO scope accessible media_entries only
+    # TODO dry with MetaContext#abstract  
     def abstract(min_media_entries = nil, current_user = nil)
       min_media_entries ||= media_entries.count.to_f * 50 / 100
       accessible_media_entry_ids = if current_user
@@ -135,7 +141,8 @@ module Media
       h.each_pair {|k, v| b[meta_key_ids.index(k)] = meta_data.build(:meta_key_id => k, :value => v) }
       return b.compact
     end
-  
+
+    # TODO dry with MetaContext#used_meta_term_ids  
     def used_meta_term_ids(current_user = nil)
       accessible_media_entry_ids = if current_user
         MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).map(&:id)

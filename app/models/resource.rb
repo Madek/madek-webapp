@@ -48,9 +48,6 @@ module Resource
 #      end
 #    end
 
-    base.has_many :userpermissions, :as => :media_resource, :dependent => :destroy
-    base.has_many :grouppermissions, :as => :media_resource, :dependent => :destroy
-
     base.after_create :generate_permissions
 
     base.has_many  :edit_sessions, :as => :resource, :dependent => :destroy, :readonly => true

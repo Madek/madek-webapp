@@ -1,6 +1,8 @@
 .create_new
-  %a
+  %a.button.white
+    %span.plus= "+"
     = "Neues Set erstellen"
   = text_field_tag "create_name"
-  .button
+  .hint= "Title eingeben..."
+  .button.create
     %span= "+"

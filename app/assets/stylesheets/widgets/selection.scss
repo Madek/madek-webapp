@@ -5,16 +5,18 @@
   background: white;
   border: 1px solid #AAA;
   display: block;
+  margin: 0 8px;
   padding: 6px 0 6px 2px;
   position: absolute;
-  width: 200px;
+  width: 400px;
   z-index: 9999;
   @include box-shadow(0 0 2px #AAA);
   @include border-radius(4px);
   
   &>h5 {
+    letter-spacing: 0;
     padding-left: 6px;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
     margin-top: 6px;
   }
   
@@ -29,131 +31,179 @@
       width: 16px;
     }
   }
-  
-  &>.search {
-    display: block;
-    margin: 0 0 2px 0;
-    padding: 0;
+ 
+  &>.topbar {
+    background: white;
+    left: -3px;
+    padding-right: 3px;
     position: relative;
+    z-index: 1000;
+    width: 100%;
+    @include box-shadow(0 1px 4px #CCC);
     
-    &>input {
+    &>.filter {
       background: white;
-      border: none;
       border: 1px solid #AAA;
-      color: black !important;
-      font-size: 1.0em;
-      left: -3px;
-      padding: 3px 3px 3px 8px;
+      border-left: none;
+      color: #444;
+      display: block;
+      float: left;
+      height: 28px;
+      padding: 2px 6px 0 6px;
+      top: 0;
       position: relative;
-      width: 191px;
-      @include box-shadow(0 0 4px #CCC);
+      text-align: center;
       
-      &:focus {
-        &+.icon {
+      &.my {
+        width: 23%;
+      }
+      
+      &.favorites {
+        margin-right: -6px;
+        width: 22.5%;
+      }
+      
+      &:hover {
+        background: #DDD;
+      }
+      
+      &:active {
+        background: #EEE;
+      }
+    }
+    
+    &>.search {
+      background: white;
+      border: 1px solid #AAA;
+      display: block;
+      float: left;
+      height: 26px;
+      padding: 0;
+      position: relative;
+      top: 0;
+      width: 55%;
+      
+      input {
+        background: white;
+        border: none;
+        color: black !important;
+        font-size: 1.0em;
+        padding: 4px 23px 3px 8px;
+        position: relative;
+        
+        &:focus {
+          &+.icon {
+            @include opacity(0.8);
+          }
+        }
+      }
+      
+      .hint {
+        font-size: 1.0em;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        left: 9px;
+        top: 3px;
+      }
+      
+      &:hover {
+        &>input {
+          &+.hint {
+            color: black !important;
+          }
+        }
+      }
+      
+      .icon {
+        background: url($sprite) no-repeat;
+        display: block;
+        height: 15px;
+        position: absolute;
+        right: 5px;
+        top: 6px;
+        width: 16px;
+        @include opacity(0.5);
+      }
+      
+      &:hover {
+        .icon {
           @include opacity(0.8);
         }
       }
-    }
-    
-    &>.hint {
-      font-size: 1.0em;
-      margin: 0;
-      padding: 0;
-      position: absolute;
-      left: 7px;
-      top: 3px;
-    }
-    
-    &:hover {
-      &>input {
-        &+.hint {
-          color: black !important;
+      
+      &.disabled:hover {
+        .icon {
+          @include opacity(0.5);
         }
       }
-    }
-    
-    .icon {
-      background: url($sprite) no-repeat;
-      display: block;
-      height: 15px;
-      position: absolute;
-      right: 5px;
-      top: 5px;
-      width: 16px;
-      @include opacity(0.5);
-    }
-    
-    &:hover {
-      .icon {
-        @include opacity(0.8);
-      }
-    }
-    
-    &.disabled:hover {
-      .icon {
-        @include opacity(0.5);
-      }
-    }
+    } 
   }
   
   &>.create_new {
-    background: #EEE;
-    border-top: 1px solid white;
-    border-bottom: 1px solid white;
+    background: white;
+    border-bottom: 1px solid #EEE;
+    border-top: 4x solid white;
     display: block;
-    top: -20px;
+    top: -37px;
     height: 20px;
-    margin: 0;
-    padding: 0;
-    margin-bottom: -20px;
+    margin-right: 15px;
+    margin-bottom: -26px;
+    padding-bottom: 10px;
+    padding-right: 41px;
+    padding-top: 6px;
     position: relative;
-    width: 185px;
+    @include box-shadow(0 -2px 6px white);
     
-    &>a {
+    &>a.button {
       cursor: pointer;
-      display: block;
+      display: inline-block;
       font-size: 0.9em;
-      padding-left: 8px;
+      left: 5px;
+      padding: 2px 8px 2px;
       position: relative;
-      width: 177px;
+      text-align: left;
       
-      &:hover {
-        background: white;
-        text-decoration: none;
+      .plus {
+        padding-right: 2px;
+        position: relative;
+        top: -1px;   
       }
     }
     
     &>input {
+      background: #EEE;
       border: none;
       background: transparent;
       color: black;
       display: none;
-      font-size: 0.9em;
-      height: 20px;
-      padding-right: 12px;
-      padding-left: 6px;
+      font-size: 1em;
+      height: 31px;
+      left: -2px;
+      padding-left: 14px;
+      padding-right: 30px;
       position: relative;
-      top: -2px;
-      width: 167px;
+      width: 100%;
       @include box-shadow(inset 0 0 4px #CCC);
     }
     
     &>.hint {
       display: none;
+      font-size: 1em;
       position: absolute;
-      top: 2px;
-      left: 9px;
+      top: 12px;
+      left: 16px;
       margin: 0;
       padding: 0;      
     }
     
-    &>.button {
+    &>.create.button {
       display: none;
-      height: 18px;
+      height: 19px;
       padding: 0;
       position: absolute;
-      right: 0;
-      top: 0;
+      right: 5px;
+      top: 12px;
       width: 18px;
       
       &>span {
@@ -183,6 +233,11 @@
       float: right;
       margin-right: 12px;
       
+      &>.loading.icon {
+        height: 14px;
+        width: 14px;
+      }
+            
       &>.success.icon {
         background: url($sprite) no-repeat -17px 0;
         display: block;
@@ -195,38 +250,38 @@
   
   &>.list {
     display: block;
-    max-height: 147px;
+    max-height: 240px;
     overflow-y: scroll;
-    padding-bottom: 19px;
+    padding-bottom: 39px;
     position: relative;   
     
     &>ul {
       
       &>li {
-        background: #EEE;
-        border-bottom: 1px solid white;
+        background: white;
+        border-bottom: 1px solid #EEE;
         display: block;
         font-size: 0.9em;
         float: none;
+        height: 39px;
+        overflow: hidden;
         position: relative;
-        
-        &:hover {
-          background: white;
-        }
         
         label {
           cursor: pointer;
           display: block;
+          height: 100%;
           padding-right: 12px;
-          padding-left: 6px;
+          padding-left: 35px;
           white-space: nowrap;
-          width: 166px;
           
           &>input[type=checkbox] {
             cursor: pointer;
-            margin-right: 4px;
-            position: relative;
-            top: -2px;
+            left: 6px;
+            margin-left: 4px;
+            margin-right: 8px;
+            position: absolute;
+            top: 12px;
           }
         }
         
@@ -234,6 +289,34 @@
           .delete {
             display: inline-block;
           }          
+        }
+        
+        &.selected {
+          border-bottom: 1px solid white;
+          background: #EEE;
+        }
+        
+        &:hover {
+          background: #DDD;
+        }
+        
+        .title {
+          font-weight: bold;
+          float: left;
+          width: 100%;
+        }
+        
+        .author {
+          float: left;
+          position: relative;
+          top: -5px;
+        }
+        
+        .date {
+          color: grey;
+          float: right;
+          position: relative;
+          top: -5px;
         }
       }
     }

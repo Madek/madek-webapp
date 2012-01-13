@@ -78,6 +78,11 @@
   }
 }
 
+.button, .button.white {
+  @include button(#444, #e1e1e1, #d7d7d7, #fdfdfd, #CCC, #AAA, #999);
+}
+
 .button.yellow {
   @include button(#444, #fffd37, #dbfd3a, #fffe7c, #CCC, #AAA, #999);
 }
+

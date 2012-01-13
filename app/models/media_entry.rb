@@ -15,8 +15,9 @@ class MediaEntry < ActiveRecord::Base
   has_and_belongs_to_many   :media_sets, :class_name => "Media::Set",
                                          :join_table => "media_entries_media_sets",
                                          :association_foreign_key => "media_set_id" # TODO validate_uniqueness
+
+
   has_many                  :snapshots
-  has_many :mediaentry_userpermission_joins
 
   before_create :extract_subjective_metadata, :set_copyright
 
@@ -25,7 +26,10 @@ class MediaEntry < ActiveRecord::Base
   end 
 
   before_save do
-    owner ||= upload_session.user
+    if media_resource
+      media_resource.owner ||= user
+      media_resource.created_at = created_at
+    end
   end
 
   def set_descr_author_value record
