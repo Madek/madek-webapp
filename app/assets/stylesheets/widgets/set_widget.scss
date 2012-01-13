@@ -1,7 +1,7 @@
 @import "../mixins.scss";
 @import "../variables.scss";
 
-.widget.selection {
+.set.widget {
   background: white;
   border: 1px solid #AAA;
   display: block;
@@ -81,7 +81,7 @@
       padding: 0;
       position: relative;
       top: 0;
-      width: 55%;
+      width: 100%;
       
       input {
         background: white;
@@ -90,6 +90,7 @@
         font-size: 1.0em;
         padding: 4px 23px 3px 8px;
         position: relative;
+        width: 90%;
         
         &:focus {
           &+.icon {
@@ -267,6 +268,10 @@
         overflow: hidden;
         position: relative;
         
+        .highlighted {
+          font-weight: bold;
+        }
+        
         label {
           cursor: pointer;
           display: block;
@@ -301,22 +306,24 @@
         }
         
         .title {
-          font-weight: bold;
           float: left;
+          font-size: 1.15em;
+          position: relative;
+          top: 1px;
           width: 100%;
         }
         
-        .author {
+        .creator {
           float: left;
           position: relative;
-          top: -5px;
+          top: -3px;
         }
         
-        .date {
+        .created_at {
           color: grey;
           float: right;
           position: relative;
-          top: -5px;
+          top: -3px;
         }
       }
     }

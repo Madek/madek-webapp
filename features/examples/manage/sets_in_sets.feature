@@ -73,9 +73,9 @@ Feature: Sets in Sets
       # And I can filter for my sets # The "my" is not defined yet!
       And I can see the owner of each set
       And I can see that selected sets are already highlighted
-      And I can choose to see additional information
-      And I can read the first 30 characters of each set name
-      # And I can see enough information to differentiate between similar sets # Ask SUS: What makes it possible to differentiate similar sets?
+      And I can choose to see additional information # I can see the full set title on hover
+      And I can read the first 30 characters of each set title
+      And I can see enough information to differentiate between similar sets # Ask SUS: What makes it possible to differentiate similar sets?
 
   # https://www.pivotaltracker.com/story/show/22421449
   # Pts: 13

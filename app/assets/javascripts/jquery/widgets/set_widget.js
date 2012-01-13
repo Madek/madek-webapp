@@ -1,26 +1,26 @@
 /*
- * Selection Widget
+ * Set Widget
  *
- * This script provides functionalities to create, open and
- * interact with a generic selection widget.
- *
+ * This script provides functionalities for a set organizing widget
+ * 
 */
 
 $(document).ready(function(){
-  SelectionWidget.setup();
+  SetWidget.setup();
 });
 
-var SelectionWidget = new SelectionWidget();
+var SetWidget = new SetWidget();
 
-function SelectionWidget() {
+function SetWidget() {
   
   this.setup = function() {
-    $(window).bind("click", SelectionWidget.handle_click_on_window);
+    $(window).bind("click", SetWidget.handle_click_on_window);
   }
   
   this.load_content = function(target) {
     // call ajax for index
-    $.ajax($(target).data("index").path, {
+    $.ajax({
+      url: $(target).data("index").path,
       beforeSend: function(request, settings){
       },
       success: function(data, status, request) {
@@ -31,12 +31,13 @@ function SelectionWidget() {
         }
         
         if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
-          SelectionWidget.setup_widget(target);
+          SetWidget.setup_widget(target);
         }
       },
       error: function(request, status, error){
+        console.log("ERROR");
         if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
-          SelectionWidget.setup_widget(target);
+          SetWidget.setup_widget(target);
         }
       },
       data: $(target).data("index").data,
@@ -44,7 +45,8 @@ function SelectionWidget() {
     });
     
     // call ajax for linked_index
-    $.ajax($(target).data("linked_index").path, {
+    $.ajax({
+      url: $(target).data("linked_index").path,
       beforeSend: function(request, settings){
       },
       success: function(data, status, request) {
@@ -55,12 +57,12 @@ function SelectionWidget() {
         }
         
         if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
-          SelectionWidget.setup_widget(target);
+          SetWidget.setup_widget(target);
         }
       },
       error: function(request, status, error){
         if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
-          SelectionWidget.setup_widget(target);
+          SetWidget.setup_widget(target);
         }
       },
       data: $(target).data("linked_index").data,
@@ -69,11 +71,11 @@ function SelectionWidget() {
   }
   
   this.create_widget = function(target){
-    var widget = $.tmpl("tmpl/widgets/selection", {title: target.attr("title")}).data("target", target);
+    var widget = $.tmpl("tmpl/widgets/set_widget", {title: target.attr("title")}).data("target", target);
     
     // add identifier to target and add to dom
     $(target).data("widget", widget);
-    SelectionWidget.align_widget(target);
+    SetWidget.align_widget(target);
     $("body").append(widget);
     
     // prepare stacks
@@ -84,12 +86,12 @@ function SelectionWidget() {
     
     // check if data is already there
     if($(target).data("items") != undefined && $(target).data("items") != null) {
-      SelectionWidget.setup_widget(target);
+      SetWidget.setup_widget(target);
     }
     
     // bind window events resize and scroll to align widget method
     $(window).bind("resize scroll",function(){
-      SelectionWidget.align_widget(target);
+      SetWidget.align_widget(target);
     });
   }
   
@@ -144,7 +146,7 @@ function SelectionWidget() {
           }
         }
         
-        SelectionWidget.check_stack_state(target);
+        SetWidget.check_stack_state(target);
       });
     });
   }
@@ -164,20 +166,20 @@ function SelectionWidget() {
     $(widget).append($.tmpl("tmpl/widgets/_actions"));
     
     // setup the rest
-    SelectionWidget.setup_list(target);
-    SelectionWidget.focus_input(target);
-    SelectionWidget.setup_search_field(target);
-    SelectionWidget.setup_search_hint(target);
-    SelectionWidget.setup_cancel(target);
-    SelectionWidget.setup_create_new(target);
-    SelectionWidget.setup_create_hint(target);
-    SelectionWidget.setup_selection_actions(target, $(".list ul li input[type=checkbox]"));
-    SelectionWidget.setup_submit(target);
+    SetWidget.setup_list(target);
+    SetWidget.focus_input(target);
+    SetWidget.setup_search_field(target);
+    SetWidget.setup_search_hint(target);
+    SetWidget.setup_cancel(target);
+    SetWidget.setup_create_new(target);
+    SetWidget.setup_create_hint(target);
+    SetWidget.setup_selection_actions(target, $(".list ul li input[type=checkbox]"));
+    SetWidget.setup_submit(target);
   }
   
   this.setup_list = function(target) {
     // sort list alphabeticaly
-    SelectionWidget.sort_list(target);
+    SetWidget.sort_list(target);
     
     $(target).data("widget").find(".list li").each(function(i_item, item){
       
@@ -220,7 +222,7 @@ function SelectionWidget() {
       $(target).data("widget").find("input[type=checkbox]").attr("disabled", true);
       
       // start submitting
-      SelectionWidget.submit_create_stack(target);
+      SetWidget.submit_create_stack(target);
     });
   }
   
@@ -234,7 +236,7 @@ function SelectionWidget() {
     
     // if create stack is empty go on with submiting the link stack
     if($(target).data("create_stack").length == 0){
-      SelectionWidget.submit_link_stack(target);
+      SetWidget.submit_link_stack(target);
       return false;     
     }
     
@@ -248,11 +250,11 @@ function SelectionWidget() {
     var data_as_string = JSON.stringify($(target).data("create").data);
     var data = JSON.parse(data_as_string.replace(/"\{:array\}"/g, JSON.stringify(array)));
     
-    $.ajax($(target).data("create").path, {
+    $.ajax({
+      url: $(target).data("create").path,
       beforeSend: function(request, settings){
       },
       success: function(data, status, request) {
-        
         var returned_items = JSON.parse(data);
         for(var i_returned = 0; i_returned < returned_items.length; i_returned++) {
           // add id to linked items in the link_stack which where created with the widget, because these just got ids after they are created on the server
@@ -281,7 +283,7 @@ function SelectionWidget() {
         });
         
         // go on with submit link stack
-        SelectionWidget.submit_link_stack(target);
+        SetWidget.submit_link_stack(target);
       },
       error: function(request, status, error){
       },
@@ -294,7 +296,7 @@ function SelectionWidget() {
     
     // if link stack is empty go on with submiting the unlink stack
     if($(target).data("link_stack").length == 0){
-      SelectionWidget.submit_unlink_stack(target); 
+      SetWidget.submit_unlink_stack(target); 
       return false;
     }     
     
@@ -308,7 +310,8 @@ function SelectionWidget() {
     var data_as_string = JSON.stringify($(target).data("link").data);
     var data = JSON.parse(data_as_string.replace(/"\{:array\}"/g, JSON.stringify(array)));
     
-    $.ajax($(target).data("link").path, {
+    $.ajax({
+      url: $(target).data("link").path,
       beforeSend: function(request, settings){
       },
       success: function(data, status, request) {
@@ -321,7 +324,7 @@ function SelectionWidget() {
         });
         
         // go on
-        SelectionWidget.submit_unlink_stack(target);
+        SetWidget.submit_unlink_stack(target);
       },
       error: function(request, status, error){
       },
@@ -335,7 +338,7 @@ function SelectionWidget() {
     
     // if unlink stack is empty go on with submiting the finish submiting
     if($(target).data("unlink_stack").length == 0) {
-      SelectionWidget.finish_submitting(target);
+      SetWidget.finish_submitting(target);
       return false;
     }
         
@@ -349,7 +352,8 @@ function SelectionWidget() {
     var data_as_string = JSON.stringify($(target).data("unlink").data);
     var data = JSON.parse(data_as_string.replace(/"\{:array\}"/g, JSON.stringify(array)));
     
-    $.ajax($(target).data("unlink").path, {
+    $.ajax({
+      url: $(target).data("unlink").path,
       beforeSend: function(request, settings){
       },
       success: function(data, status, request) {
@@ -362,7 +366,7 @@ function SelectionWidget() {
         });
         
         // go on
-        SelectionWidget.finish_submitting(target);
+        SetWidget.finish_submitting(target);
       },
       error: function(request, status, error){
       },
@@ -384,11 +388,11 @@ function SelectionWidget() {
     // so we have a window.location.reload as callback
     /*
     // leave modal    
-    SelectionWidget.disable_modal(target);
+    SetWidget.disable_modal(target);
     // fade out
     $(target).data("widget").stop(true,true).delay(400).fadeOut(500, function(){
       // close/reset widget
-      SelectionWidget.close_widget(target);
+      SetWidget.close_widget(target);
     });
     */
   }
@@ -396,14 +400,14 @@ function SelectionWidget() {
   this.setup_create_new = function(target) {
     $(target).data("widget").find(".create_new a").click(function(event){
       event.preventDefault();
-      SelectionWidget.show_create_input(target, $(target).data("widget").find(".search input").val());
+      SetWidget.show_create_input(target, $(target).data("widget").find(".search input").val());
     });
     
     $(target).data("widget").find(".create_new input").bind("blur", function(event) {
       if($(this).val() == "") {
         window.setTimeout(function(){
           if($(target).data("widget").find(".create_new input:focus").length < 1) {
-            SelectionWidget.reset_create_new(target);
+            SetWidget.reset_create_new(target);
           }
         },200);
       }
@@ -419,24 +423,24 @@ function SelectionWidget() {
       
       // create new on enter
       if(event.keyCode == 13) {
-        SelectionWidget.create_new(target, $(this).val());
+        SetWidget.create_new(target, $(this).val());
       }
     });
     
     $(target).data("widget").find(".create_new .create.button").bind("click", function(event) {
-       SelectionWidget.create_new(target, $(target).data("widget").find(".create_new input").val());
+       SetWidget.create_new(target, $(target).data("widget").find(".create_new input").val());
     });
   }
   
   this.create_new = function(target, val) {
-    var new_item = $.tmpl("tmpl/widgets/_line", {title: val});
+    var new_item = $.tmpl("tmpl/widgets/_line", {title: val, creator: $(target).data("user"), created_at: new Date()});
     $(new_item).addClass("created");
     $(new_item).css("background-color", "#CCC");
     $(target).data("widget").find(".list ul").append(new_item);
-    SelectionWidget.reset_create_new(target);
+    SetWidget.reset_create_new(target);
     
     // sort list
-    SelectionWidget.sort_list(target);
+    SetWidget.sort_list(target);
     
     // scroll to new entry which is append to list
     $(target).data("widget").find(".list").animate({
@@ -453,7 +457,7 @@ function SelectionWidget() {
     $(new_item).find("input").attr("checked", true);
     $(new_item).find("input").data("linked", true);
     $(new_item).addClass("selected");
-    SelectionWidget.setup_selection_actions(target, $(new_item).find("input"));
+    SetWidget.setup_selection_actions(target, $(new_item).find("input"));
     
     // add new created to stack
     $(target).data("create_stack").push({title: val});
@@ -465,7 +469,7 @@ function SelectionWidget() {
     $(new_item).tmplItem().data.uid = ($(target).data("create_stack").length-1);
     
     // check stack state
-    SelectionWidget.check_stack_state(target);
+    SetWidget.check_stack_state(target);
   }
   
   this.setup_create_hint = function(target) {
@@ -473,7 +477,7 @@ function SelectionWidget() {
       $(target).data("widget").find(".create_new .hint").hide();
     });
     $(target).data("widget").find(".create_new .hint").bind("click", function(){
-      SelectionWidget.show_create_input(target, "");
+      SetWidget.show_create_input(target, "");
       $(target).data("widget").find(".create_new .hint").hide();
       $(target).data("widget").find(".create_new input").focus();
     });
@@ -487,18 +491,22 @@ function SelectionWidget() {
     if($(target).data("unlink_stack") != undefined && $(target).data("unlink_stack").length > 0) empty = false;
     
     if(empty == false) {
-      SelectionWidget.activate_submit(target);
-      SelectionWidget.enable_modal(target);
+      SetWidget.activate_submit(target);
+      SetWidget.enable_modal(target);
     } else {
-      SelectionWidget.deactivate_submit(target);
-      if($(target).data("widget").find(".search input").val() == "") SelectionWidget.disable_modal(target);
+      SetWidget.deactivate_submit(target);
+      if($(target).data("widget").find(".search input").val() == "") SetWidget.disable_modal(target);
     }
   }
   
   this.show_create_input = function(target, val) {
-    SelectionWidget.enable_modal(target);
+    SetWidget.enable_modal(target);
     $(target).data("widget").find(".create_new a").hide();
-    $(target).data("widget").find(".create_new .hint").show();
+    if(val != "") {
+      $(target).data("widget").find(".create_new .hint").hide();
+    } else {
+      $(target).data("widget").find(".create_new .hint").show();
+    }
     $(target).data("widget").find(".create_new input").show().val(val).select().focus();
     if(val != "") {
       $(target).data("widget").find(".create_new .create.button").show();      
@@ -507,7 +515,7 @@ function SelectionWidget() {
   
   this.sort_list = function(target) {
     var items = $(target).data("widget").find(".list li");
-        items = items.sort(SelectionWidget.sort_title_alphabeticaly);
+        items = items.sort(SetWidget.sort_title_alphabeticaly);
     $(target).data("widget").find(".list ul").append(items);
   }
   
@@ -524,51 +532,64 @@ function SelectionWidget() {
   
   this.setup_cancel = function(target) {
     $(target).data("widget").find(".actions .cancel").click(function(){
-      SelectionWidget.destroy_modal_overlay(target);
+      SetWidget.destroy_modal_overlay(target);
       $(target).data("widget").removeClass("modal");
-      SelectionWidget.deactivate_submit(target);
-      SelectionWidget.close_widget(target);
+      SetWidget.deactivate_submit(target);
+      SetWidget.close_widget(target);
     });
   }
   
   this.setup_search_field = function(target) {
-    $(target).data("widget").find(".search input").bind("keyup", function() {
+    $(target).data("widget").find(".search input").bind("keyup keydown", function() {
       if($(this).val().length != 0) {
-        SelectionWidget.enable_modal(target);
+        SetWidget.enable_modal(target);
       } 
       
-      SelectionWidget.search(target, $(this).val());
+      SetWidget.search(target, $(this).val());
     });
     
     $(target).data("widget").find(".search input").bind("blur", function(event) {
       if($(this).val() == "") {
-       $(this).siblings(".hint").show();
-       SelectionWidget.check_stack_state(target);
+        $(this).siblings(".hint").show();
+        SetWidget.check_stack_state(target);
       }
     });
   }
   
   this.search = function(target, val) {
-    var search_elements = val.split(/[\s+,\,,\+]/g);
-    
-    $(target).data("widget").find(".list li").each(function(i, element){
-      var found = false;
-      $.each(search_elements, function(i_search_element, search_element){
-        var regexp = new RegExp(search_element, 'i');
-        if($(element).tmplItem().data.title.search(regexp) < 0 && $(element).tmplItem().data.creator.search(regexp) < 0 && $(element).tmplItem().data.created_at.search(regexp) < 0){
-          found = false;
-          return false;  
-        } else {
-          found = true;
-        }
-      });
-      
+    if (val.length > 0) {
+      val = val.replace(/\s+$/, "");
+      var search_elements = val.split(/[\s+]/g);
+      // each list element
+      $(target).data("widget").find(".list li").each(function(i, element){
+        var found = false;
+        // each search element
+        $.each(search_elements, function(i_search_element, search_element){
+          var regexp = new RegExp("\(\^\|\\s\)"+search_element, 'i');
+          if($(element).tmplItem().data.title.search(regexp) == -1 && $(element).tmplItem().data.creator.name.search(regexp) == -1 && $(element).find(".created_at").data("search").search(regexp) == -1){
+            found = false;
+            return false;
+          } else {
+            found = true;
+          }
+        });
       if(found) {
         $(this).show();
+        // remove old highlights first
+        $(element).removeHighlights();
+        // highlight all matches
+        $(element).find(".title").highlight(search_elements);
+        $(element).find(".creator").highlight(search_elements);
+        $(element).find(".created_at").highlight(search_elements);
       } else {
         $(this).hide();
+        $(element).removeHighlights();
       }
     });
+    } else { // clear search results
+      $(target).data("widget").find(".list li").show();
+      $(target).data("widget").find(".list li").removeHighlights();
+    }
   }
   
   this.setup_search_hint = function(target) {
@@ -587,9 +608,9 @@ function SelectionWidget() {
   
   this.enable_modal = function(target) {
     if($("#modal_overlay").length == 0) {
-      SelectionWidget.create_modal_overlay(target);
+      SetWidget.create_modal_overlay(target);
     } else {
-      if($("#modal_overlay:visible").length == 0) $("#modal_overlay").stop(true,true).fadeIn();  
+      $("#modal_overlay").stop(true,true).fadeIn(); 
     }
     $(target).data("widget").addClass("modal");
   }
@@ -603,7 +624,7 @@ function SelectionWidget() {
     var modal_container = $("<div id='modal_overlay'></div>")
     $(modal_container).hide();
     $(target).data("widget").before(modal_container);
-    SelectionWidget.enable_modal(target);
+    SetWidget.enable_modal(target);
   }
   
   this.destroy_modal_overlay = function(target) {
@@ -625,9 +646,9 @@ function SelectionWidget() {
   
   this.open_widget = function(target) {
     $(target).data("widget").show();
-    SelectionWidget.align_widget(target);
+    SetWidget.align_widget(target);
     $(target).addClass("open");
-    SelectionWidget.focus_input(target);
+    SetWidget.focus_input(target);
     $(target).data("widget").find(".search .hint").show();
   }
   
@@ -649,7 +670,7 @@ function SelectionWidget() {
     $(target).removeClass("open");
     
     // reset create new 
-    SelectionWidget.reset_create_new(target);
+    SetWidget.reset_create_new(target);
     
     // remove all unsaved new items
     // unlink all elements from the link stack
@@ -658,11 +679,13 @@ function SelectionWidget() {
       if($(line).hasClass("created")) $(line).remove();
       if($(line).find("input").data("linked")) {
         $(line).find("input").removeData("linked");
-        $(line).find("input").attr("checked", false); 
+        $(line).find("input").attr("checked", false);
+        $(line).removeClass("selected");  
       }
       if($(line).find("input").data("unlinked")) {
         $(line).find("input").removeData("unlinked");
-        $(line).find("input").attr("checked", true); 
+        $(line).find("input").attr("checked", true);
+        $(line).addClass("selected"); 
       }
     });
     
@@ -685,11 +708,11 @@ function SelectionWidget() {
     if($(target).data("widget").find(".actions .submit").hasClass("loading")) {
       $(target).data("widget").find(".actions .submit").removeClass("loading");
       // setup submit button again
-      SelectionWidget.setup_submit(target);
+      SetWidget.setup_submit(target);
     }
     
     // check stack state to disable button
-    SelectionWidget.check_stack_state(target);
+    SetWidget.check_stack_state(target);
     
     // scrolltop
     $(target).data("widget").find(".list").scrollTop(0);
@@ -708,35 +731,35 @@ function SelectionWidget() {
   this.handle_click_on_window = function(event) {
     var trigger = event.target;
     
-    // hide all selection widgets if target was not the selection widget or any childs
-    if($(trigger).hasClass("has-selection-widget") || $(trigger).parents(".has-selection-widget").length) {
-      var target = ($(trigger).hasClass("has-selection-widget")) ? $(trigger) : $(trigger).parents(".has-selection-widget");
+    // hide all set widgets if target was not the set widget or any childs
+    if($(trigger).hasClass("has-set-widget") || $(trigger).parents(".has-set-widget").length) {
+      var target = ($(trigger).hasClass("has-set-widget")) ? $(trigger) : $(trigger).parents(".has-set-widget");
       if($(target).hasClass("open")) {
         // prevent default click 
         event.preventDefault();
         
-        SelectionWidget.close_widget(target);
+        SetWidget.close_widget(target);
       } else {
         // prevent default click 
         event.preventDefault();
         
         // create or open widget
         if($(target).hasClass("created")) {
-          SelectionWidget.open_widget(target);
+          SetWidget.open_widget(target);
         } else {
-          SelectionWidget.load_content(target);
-          SelectionWidget.create_widget(target);
+          SetWidget.load_content(target);
+          SetWidget.create_widget(target);
           $(target).addClass("created");
           $(target).addClass("open");
         }
       }
       
-    } else if(($(trigger).hasClass("widget") && $(trigger).hasClass("selection")) || $(trigger).parents(".selection.widget").length) {
+    } else if(($(trigger).hasClass("widget") && $(trigger).hasClass("set")) || $(trigger).parents(".set.widget").length) {
       // click on widget
     } else {
       // click on window (not widget not button wich has widget)
-      $(".selection.widget:not(.modal)").each(function(){
-        SelectionWidget.close_widget($(this).data("target"));        
+      $(".set.widget:not(.modal)").each(function(){
+        SetWidget.close_widget($(this).data("target"));        
       });
     }
   }
