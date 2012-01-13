@@ -47,7 +47,7 @@ gem 'ledermann-rails-settings', :require => 'rails-settings' # alternatives: 'se
 
 gem 'will_paginate', '~> 3.0' 
 
-gem "yard", "~> 0.7.4"
+#gem "yard", "~> 0.7.4"
 #gem "yard-rest-plugin", "~> 0.2.5" FIXME this plugin is not working
 
 gem 'zip', '~> 2.0.2' # alternatives: 'rubyzip', 'zipruby', 'zippy'

@@ -41,6 +41,54 @@ class MetaContext < ActiveRecord::Base
 
 ##################################################################
 
+  # TODO dry with Media::Set#abstract  
+  def abstract(current_user = nil, min_media_entries = nil)
+    accessible_media_entry_ids = media_entries(current_user).map(&:id)
+    min_media_entries ||= accessible_media_entry_ids.size.to_f * 50 / 100
+    meta_key_ids = meta_keys.where(:is_dynamic => nil).map(&:id) # TODO get all related meta_key_ids ?? 
+
+    h = {} #1005# TODO upgrade to Ruby 1.9 and use ActiveSupport::OrderedHash.new
+    mds = MetaDatum.where(:meta_key_id => meta_key_ids, :resource_type => "MediaEntry", :resource_id => accessible_media_entry_ids)
+    mds.each do |md|
+      h[md.meta_key_id] ||= [] # TODO md.meta_key
+      h[md.meta_key_id] << md.value
+    end
+    h.delete_if {|k, v| v.size < min_media_entries }
+    h.each_pair {|k, v| h[k] = v.flatten.group_by {|x| x}.delete_if {|k, v| v.size < min_media_entries }.keys }
+    h.delete_if {|k, v| v.blank? }
+    #1005# return h.collect {|k, v| meta_data.build(:meta_key_id => k, :value => v) }
+    b = []
+    h.each_pair {|k, v| b[meta_key_ids.index(k)] = MetaDatum.new(:meta_key_id => k, :value => v) }
+    return b.compact
+  end
+
+  # TODO dry with Media::Set#used_meta_term_ids  
+  def used_meta_term_ids(current_user = nil)
+    meta_key_ids = meta_keys.for_meta_terms.map(&:id)
+
+    mds = if current_user
+      accessible_media_entry_ids = MediaResource.accessible_by_user(current_user).media_entries.map(&:id)
+      MetaDatum.where(:meta_key_id => meta_key_ids, :resource_type => "MediaEntry", :resource_id => accessible_media_entry_ids)
+    else
+      MetaDatum.where(:meta_key_id => meta_key_ids)
+    end
+
+    mds.collect(&:value).flatten.uniq.compact
+  end
+
+  # chainable query
+  def media_entries(current_user = nil)
+    sql = if current_user
+      MediaResource.accessible_by_user(current_user).media_entries.
+        joins("INNER JOIN meta_data ON (media_resources.id, media_resources.type) = (meta_data.resource_id, meta_data.resource_type)")
+    else
+      MediaEntry.joins(:meta_data)
+    end
+    sql.group("meta_data.resource_id, meta_data.resource_type").where(:meta_data => {:meta_key_id => meta_key_ids})
+  end
+
+##################################################################
+
   def self.defaults
     [media_content, media_object, copyright, zhdk_bereich]
   end

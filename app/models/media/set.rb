@@ -112,7 +112,7 @@ module Media
 
   ########################################################
 
-    # TODO scope accessible media_entries only
+    # TODO dry with MetaContext#abstract  
     def abstract(min_media_entries = nil, current_user = nil)
       min_media_entries ||= media_entries.count.to_f * 50 / 100
       accessible_media_entry_ids = if current_user
@@ -135,7 +135,8 @@ module Media
       h.each_pair {|k, v| b[meta_key_ids.index(k)] = meta_data.build(:meta_key_id => k, :value => v) }
       return b.compact
     end
-  
+
+    # TODO dry with MetaContext#used_meta_term_ids  
     def used_meta_term_ids(current_user = nil)
       accessible_media_entry_ids = if current_user
         MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).map(&:id)

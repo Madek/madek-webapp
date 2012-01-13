@@ -10,10 +10,16 @@ class Authenticator::ZhdkController < ApplicationController
   APPLICATION_IDENT = 'fc7228cdd9defd78b81532ac71967beb'
     
   def login
-    target = AUTHENTICATION_URL + "&url_postlogin=" + CGI::escape("http://#{request.host}:#{request.port}#{url_for('/authenticator/zhdk/login_successful/%s')}")
-    redirect_to target
+    if Rails.env.development? and params["bypass"]
+      session[:user_id] = create_or_update_user(DevelopmentHelpers::AUTH_XML) # self.current_user =
+      (User.find session[:user_id]).usage_terms_accepted!
+      redirect_to root_path
+    else
+      target = AUTHENTICATION_URL + "&url_postlogin=" + CGI::escape("http://#{request.host}:#{request.port}#{url_for('/authenticator/zhdk/login_successful/%s')}")
+      redirect_to target
+    end
   end
-  
+
   def login_successful(session_id = params[:id])
     response = fetch("#{AUTHENTICATION_URL}/response&agw_sess_id=#{session_id}&app_ident=#{APPLICATION_IDENT}")
     if response.code.to_i == 200
