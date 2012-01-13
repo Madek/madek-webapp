@@ -1,7 +1,10 @@
 Feature: Sets in Sets
 
-  Background: To be defined
-
+  Background: Set up the world with a user and logging in
+    Given I have set up the world
+      And a user called "Max" with username "max" and password "moritz" exists
+      And I log in as "max" with password "moritz"
+  
   # We should do this when we attack the rest of the technical debt, do optimization
   Scenario: The sets in sets tool loads quickly enough
     When I open the sets in sets tool
