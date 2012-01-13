@@ -161,7 +161,14 @@ module MetaDataHelper
     case meta_key.object_type.constantize.name
       when "Meta::Department"
         selected = Array(meta_datum.object.value)
-        departments_without_semester = Meta::Department.where("ldap_name NOT REGEXP '_[0-9]{2}[A-Za-z]\.studierende'")
+        departments_without_semester = 
+          if SQLHelper.adapter_is_mysql?
+            Meta::Department.where("ldap_name NOT REGEXP '_[0-9]{2}[A-Za-z]\.studierende'")
+          elsif SQLHelper.adapter_is_postgresql?
+            Meta::Department.where("ldap_name NOT SIMILAR TO '%_[0-9]{2}[A-Za-z]\.studierende'")
+          else
+            raise "you are fucked!"
+          end
         all_options = departments_without_semester.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)} }
       when "Meta::Term"
         selected = Array(meta_datum.object.value)
