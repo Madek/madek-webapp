@@ -96,10 +96,13 @@ module Media
             json[:media_entries] = media_entries.as_json(options)
           end
           if with[:set].has_key?(:creator) and (with[:set][:creator].is_a?(Hash) or not with[:set][:creator].to_i.zero?)
-            json[:creator] = user.to_s
+            json[:creator] = user.as_json(:only => :id, :methods => :name)
           end
           if with[:set].has_key?(:created_at) and (with[:set][:created_at].is_a?(Hash) or not with[:set][:created_at].to_i.zero?)
             json[:created_at] = created_at
+          end
+          if with[:set].has_key?(:title) and (with[:set][:title].is_a?(Hash) or not with[:set][:title].to_i.zero?)
+            json[:title] = meta_data.get_value_for("title")
           end
         end
       end

@@ -353,10 +353,10 @@ end
 def add_to_set(set_title = "Untitled Set", picture_title = "Untitled", owner = "No one")
   visit "/resources"
   click_media_entry_titled(picture_title)
-  find(".has-selection-widget").click
+  find(".has-set-widget").click
   wait_for_css_element(".widget .list")
   find("input##{set_title.gsub(/\s/, "_")}").click
   find(".widget .submit").click
-  wait_for_css_element(".has-selection-widget:not(.open)")
+  wait_for_css_element(".has-set-widget:not(.open)")
 end
 
