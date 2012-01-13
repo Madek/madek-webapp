@@ -5,6 +5,11 @@ module DataFactory
   extend self
 
   def clear_data 
+    MediaEntry.all.each {|e| e.destroy}
+    Media::Set.all.each {|e| e.destroy}
+    MediaResource.all.each {|e| e.destroy}
+    Grouppermission.all.each {|e| e.destroy}
+    Userpermission.all.each {|e| e.destroy}
   end
 
   def create_small_dataset 

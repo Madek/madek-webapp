@@ -47,12 +47,13 @@ class ApplicationController < ActionController::Base
         # create a method like get_set_or_entry (in the resource model) and map over
         resources = current_user.viewable_media_resources
 
-        my_resources = current_user.viewable_media_resources
+        my_resources = current_user.viewable_media_resources \
           .where("media_resources.owner_id= #{current_user.id}").paginate(paginate_options)
 
-        other_resources = current_user.viewable_media_resources
+        other_resources = current_user.viewable_media_resources \
           .where("media_resources.owner_id <> #{current_user.id}").paginate(paginate_options)
 
+        binding.pry
 
         @my_media_entries = { :pagination => { :current_page => my_resources.current_page,
                                               :per_page => my_resources.per_page,

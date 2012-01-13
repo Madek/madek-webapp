@@ -44,6 +44,8 @@ class MediaEntry < ActiveRecord::Base
     media_resource.media_file ||= media_file 
     media_resource.save!
   end
+
+  delegate :owner, :to => :media_resource
   ######## MediaResource <<<<
 
 

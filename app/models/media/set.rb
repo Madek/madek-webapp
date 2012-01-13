@@ -31,7 +31,10 @@ module Media
       media_resource.type = self.class.name
       media_resource.save!
     end
+
+    delegate :owner, :to => :media_resource
     ######## MediaResource <<<<
+    
 
 
     has_and_belongs_to_many :media_entries, :join_table => "media_entries_media_sets",
@@ -47,10 +50,6 @@ module Media
       end
     end
     
-    before_save do
-      owner ||=  user
-    end
-
     def self.find_by_id_or_create_by_title(values, user)
       records = Array(values).map do |v|
                         if v.is_a?(Numeric) or !!v.match(/\A[+-]?\d+\Z/) # TODO path to String#is_numeric? method
