@@ -121,18 +121,19 @@ class MediaResource < ActiveRecord::Base
 
     if SQLHelper::adapter_is_mysql? 
       where("(media_resources.id, media_resources.type) NOT IN " \
-            "(SELECT resource_id, resource_type FROM permissions " \
-            "USE INDEX (index_permissions_on_resource__and_subject) " \
-            "WHERE (subject_type = 'User' AND subject_id = ?) " \
-            "AND NOT #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) " \
+              "(SELECT resource_id, resource_type FROM permissions " \
+                "USE INDEX (index_permissions_on_resource__and_subject) " \
+                "WHERE (subject_type = 'User' AND subject_id = :user_id) " \
+                  "AND NOT #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) " \
             "AND (media_resources.id, media_resources.type) IN " \
-            "(SELECT resource_id, resource_type FROM permissions " \
-            "USE INDEX (index_permissions_on_resource__and_subject) " \
-            "WHERE (subject_type IS NULL " \
-            "OR (subject_type = 'Group' AND subject_id IN (?)) " \
-            "OR (subject_type = 'User' AND subject_id = ?)) " \
-            "AND   #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) ",
-            user.id, user.group_ids, user.id);
+              "(SELECT resource_id, resource_type FROM permissions " \
+                "USE INDEX (index_permissions_on_resource__and_subject) " \
+                "LEFT JOIN groups_users ON permissions.subject_id = groups_users.group_id " \
+                "WHERE (subject_type IS NULL " \
+                  "OR (subject_type = 'Group' AND groups_users.user_id = :user_id) " \
+                  "OR (subject_type = 'User' AND subject_id = :user_id)) " \
+                "AND   #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) ",
+            :user_id => user.id);
 
     else
       where("(media_resources.id, media_resources.type) NOT IN " \
