@@ -18,7 +18,21 @@ module Media
   
     belongs_to :user
 
-    belongs_to :media_resource
+    ######## MediaResource  >>>>
+    belongs_to :media_resource 
+    after_destroy {|r| r.media_resource.destroy if r.media_resource }
+    before_create do |r|
+      unless r.media_resource
+        r.media_resource= (MediaResource.create owner: user) 
+      end
+    end
+    after_create do 
+      media_resource.created_at= created_at if media_resource.created_at > created_at
+      media_resource.type = self.class.name
+      media_resource.save!
+    end
+    ######## MediaResource <<<<
+
 
     has_and_belongs_to_many :media_entries, :join_table => "media_entries_media_sets",
                                             :foreign_key => "media_set_id" do
@@ -52,7 +66,7 @@ module Media
 
   ########################################################
   
-    default_scope order("updated_at DESC")
+    #default_scope order("updated_at DESC")
   
   ########################################################
 

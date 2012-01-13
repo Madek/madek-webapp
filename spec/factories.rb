@@ -78,7 +78,7 @@ FactoryGirl.define do
 
   factory :media_set, :class => Media::Set do
     user {User.find_random || (FactoryGirl.create :user)}
-    media_resource {FactoryGirl.create  :media_resource}
+    #media_resource {FactoryGirl.create  :media_resource}
   end
 
   ### Permissions ...
@@ -155,10 +155,10 @@ FactoryGirl.define do
     is_complete true
   end
 
-  factory :user do
+  factory :user do |n| 
     person {FactoryGirl.create :person}
     email {Faker::Internet.email}
-    login {Faker::Internet.user_name + "_blah"}
+    login {Faker::Internet.user_name + "_#{UUIDTools::UUID.random_create.to_s.first 5}"}
     usage_terms_accepted_at {Time.now}
   end
 

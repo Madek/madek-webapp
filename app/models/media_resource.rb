@@ -4,7 +4,15 @@ class MediaResource < ActiveRecord::Base
   has_many :grouppermissions, :dependent => :destroy
 
   belongs_to :owner, :class_name => User.name
-  belongs_to :permissionset, :dependent => :destroy
+  belongs_to :media_file
+  belongs_to :upload_session
+
+  ### Permissionset >>>
+  belongs_to :permissionset
+  before_create do |r| 
+    r.permissionset= Permissionset.create unless r.permissionset 
+  end
+  ### Permissionset <<<
 
   has_one :media_entry
   has_one :media_set, :class_name => Media::Set.name
@@ -18,7 +26,7 @@ class MediaResource < ActiveRecord::Base
   #tmp# has_and_belongs_to_many :media_entries, :join_table => "media_entries_media_sets", :foreign_key => "media_set_id"
   ###
   
-  default_scope order("updated_at DESC")
+  # default_scope order("updated_at DESC")
 
   ################################################################
 

@@ -13,7 +13,7 @@ class ActiveRecord::Base
       if not (find_by_sql "SELECT * FROM #{table_name} LIMIT 1").first 
         nil
       else
-        (find_by_sql "SELECT t.* FROM #{table_name} t, (SELECT @id := (FLOOR((MAX(id) - MIN(id) + 1) * RAND()) + MIN(id)) FROM #{table_name} ) t2 WHERE t.id = @id;").first  || find_random
+        (find_by_sql "SELECT t.* FROM #{table_name} t, (SELECT @id := (FLOOR((MAX(id) - MIN(id) + 1) * RAND()) + MIN(id)) FROM #{table_name} ) t2 WHERE t.id = @id;").first  
       end
     end
 
@@ -23,7 +23,7 @@ class ActiveRecord::Base
       if not (find_by_sql "SELECT * FROM #{table_name} LIMIT 1").first 
         nil
       else
-        (find_by_sql "SELECT * from #{table_name} WHERE id = (SELECT floor((max(id) - min(id) + 1) * random())::int  + min(id) from #{table_name});").first || find_random
+        (find_by_sql "SELECT * from #{table_name} WHERE id = (SELECT floor((max(id) - min(id) + 1) * random())::int  + min(id) from #{table_name});").first 
       end
     end
 

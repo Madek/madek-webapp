@@ -11,7 +11,8 @@ class MediaEntry < ActiveRecord::Base
   belongs_to                :media_file #, :include => :previews # TODO validates_presence # TODO on destroy, also destroy the media_file if this is the only related media_entry and snapshot
   belongs_to                :upload_session
   #belongs_to :owner, :class_name => 'User'
-  belongs_to :media_resource 
+
+  
   has_and_belongs_to_many   :media_sets, :class_name => "Media::Set",
                                          :join_table => "media_entries_media_sets",
                                          :association_foreign_key => "media_set_id" # TODO validate_uniqueness
@@ -25,12 +26,28 @@ class MediaEntry < ActiveRecord::Base
     set_descr_author_value record
   end 
 
-  before_save do
-    if media_resource
-      media_resource.owner ||= user
-      media_resource.created_at = created_at
+  ######## MediaResource  >>>>
+  belongs_to :media_resource 
+  after_destroy {|r| r.media_resource.destroy if r.media_resource }
+  before_create do |r|
+    unless r.media_resource
+      r.media_resource= (MediaResource.create owner: user) 
     end
   end
+  after_create do 
+    media_resource.created_at= created_at if media_resource.created_at > created_at
+    media_resource.type = self.class.name
+    media_resource.save!
+  end
+  after_save do
+    media_resource.upload_session ||= upload_session 
+    media_resource.media_file ||= media_file 
+    media_resource.save!
+  end
+  ######## MediaResource <<<<
+
+
+
 
   def set_descr_author_value record
     descr_author_value = record.meta_data.get("description author").value
