@@ -61,6 +61,11 @@ end
 
   end
 
+  desc "Fetch meta information from ldap and store it into db/ldap.json"
+  task :fetch_ldap => :environment do
+    DevelopmentHelpers.fetch_from_ldap
+  end
+
 # CONSTANTS used here are in environment.rb
   desc "Reset"
   task :reset => :environment  do |t,args|
