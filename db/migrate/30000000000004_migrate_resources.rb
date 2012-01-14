@@ -12,6 +12,9 @@ class MigrateResources < ActiveRecord::Migration
     drop_table :media_sets
     drop_table :media_entries
 
+    cascade_on_delete :media_set_arcs,  :media_resources, :parent_id
+    cascade_on_delete :media_set_arcs, :media_resources, :child_id
+
 
    end
 

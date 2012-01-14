@@ -2,8 +2,8 @@
   <head>
     <title>app/controllers/media_sets_controller.rb</title>
     
-    <link href="../../report.css?0.9807467883778207" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.9650990051109753'></script>
+    <link href="../../report.css?0.03959134508867879" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.1450839883265712'></script>
     <script>
       $(function() {
 
@@ -58,10 +58,10 @@
             <a href='#' id='toggle_test_file'>spec/controllers/media_sets_controller_spec.rb</a>
           
         </td>
-        <td>327</td>
-        <td>125</td>
-        <td>95</td>
-        <td>24.0%</td>
+        <td>328</td>
+        <td>126</td>
+        <td>96</td>
+        <td>23.8%</td>
       </tr>
     </table>
 
@@ -507,7 +507,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>53</td>
               <td class='code_line'>
-                <pre>        resources = MediaResource.accessible_by_user(current_user).media_sets</pre>
+                <pre>        resources = current_user.viewable_media_resources.media_sets</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -648,58 +648,58 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>71</td>
               <td class='code_line'>
-                <pre>        #FIXME: MediaResource.accessible_by_user is not well-performing</pre>
+                <pre>        sets = if(!child.nil?) # if child is set try to get child and scope sets trough child</pre>
               </td>
-              <td class='hit_number'></td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>72</td>
               <td class='code_line'>
-                <pre>        sets = all_sets = MediaResource.accessible_by_user(current_user, accessible_action.to_sym).media_sets</pre>
+                <pre>                 if(child["type"] == "entry" and MediaEntry.exists?(child["id"]))</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>73</td>
+              <td class='code_line'>
+                <pre>                   MediaEntry.find(child["id"]).media_sets.delete_if {|s| !all_sets.include?(s)}</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>73</td>
+              <td class='line_number'>74</td>
               <td class='code_line'>
-                <pre>        </pre>
+                <pre>                 elsif(child["type"] == "set" and MediaSet.exists?(child["id"]))</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>74</td>
-              <td class='code_line'>
-                <pre>        if(!child.nil?) # if child is set try to get child and scope sets trough child</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>75</td>
               <td class='code_line'>
-                <pre>          if(child["type"] == "entry" && MediaEntry.exists?(child["id"]))</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>76</td>
-              <td class='code_line'>
-                <pre>            sets = MediaEntry.find(child["id"]).media_sets.delete_if {|s| !all_sets.include?(s)}</pre>
+                <pre>                   MediaSet.find(child["id"]).parent_sets.delete_if {|s| !all_sets.include?(s)}</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
+              <td class='line_number'>76</td>
+              <td class='code_line'>
+                <pre>                 end </pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
               <td class='line_number'>77</td>
               <td class='code_line'>
-                <pre>          elsif(child["type"] == "set" && MediaSet.exists?(child["id"]))</pre>
+                <pre>               else</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -707,23 +707,23 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>78</td>
               <td class='code_line'>
-                <pre>            sets = MediaSet.find(child["id"]).parent_sets.delete_if {|s| !all_sets.include?(s)}</pre>
+                <pre>                 action = Constants::Actions.old2new accessible_action.to_sym</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>79</td>
+              <td class='code_line'>
+                <pre>                 current_user.send "#{action}able_media_sets"</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>79</td>
-              <td class='code_line'>
-                <pre>          end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>80</td>
               <td class='code_line'>
-                <pre>        end  </pre>
+                <pre>               end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -731,7 +731,7 @@
             <tr class="never" "">
               <td class='line_number'>81</td>
               <td class='code_line'>
-                <pre>        </pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -851,7 +851,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>96</td>
               <td class='code_line'>
-                <pre>    resources = MediaResource.accessible_by_user(current_user).by_media_set(@media_set).paginate(paginate_options)</pre>
+                <pre>    resources = current_user.viewable_media_resources.by_media_set(@media_set).paginate(paginate_options)</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -867,7 +867,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>98</td>
               <td class='code_line'>
-                <pre>    @can_edit_set = Permission.authorized?(current_user, :edit, @media_set)</pre>
+                <pre>    @can_edit_set = Permissions.authorized?(current_user, :edit, @media_set)</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -1160,18 +1160,18 @@
               <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>135</td>
               <td class='code_line'>
-                <pre>    @_media_entry_ids = MediaResource.accessible_by_user(current_user).media_entries.by_media_set(@media_set).map(&:id)</pre>
+                <pre>    # TODO Tom check following line with Franco</pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>136</td>
               <td class='code_line'>
-                <pre>    respond_to do |format|</pre>
+                <pre>    @_media_entry_ids = current_user.viewable_media_resources.media_entries.by_media_set(@media_set).map(&:id)</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -1179,23 +1179,23 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>137</td>
               <td class='code_line'>
+                <pre>    respond_to do |format|</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>138</td>
+              <td class='code_line'>
                 <pre>      format.js { render :layout => false }</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>138</td>
-              <td class='code_line'>
-                <pre>    end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>139</td>
               <td class='code_line'>
-                <pre>  end</pre>
+                <pre>    end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1203,13 +1203,21 @@
             <tr class="never" "">
               <td class='line_number'>140</td>
               <td class='code_line'>
+                <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>141</td>
+              <td class='code_line'>
                 <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>141</td>
+              <td class='line_number'>142</td>
               <td class='code_line'>
                 <pre>  def browse</pre>
               </td>
@@ -1217,17 +1225,9 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>142</td>
-              <td class='code_line'>
-                <pre>    respond_to do |format|</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>143</td>
               <td class='code_line'>
-                <pre>      format.html</pre>
+                <pre>    respond_to do |format|</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -1235,23 +1235,23 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>144</td>
               <td class='code_line'>
+                <pre>      format.html</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>145</td>
+              <td class='code_line'>
                 <pre>      format.js { render :layout => false }</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>145</td>
-              <td class='code_line'>
-                <pre>    end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>146</td>
               <td class='code_line'>
-                <pre>  end</pre>
+                <pre>    end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1259,7 +1259,7 @@
             <tr class="never" "">
               <td class='line_number'>147</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>  end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1267,7 +1267,7 @@
             <tr class="never" "">
               <td class='line_number'>148</td>
               <td class='code_line'>
-                <pre>#####################</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1275,13 +1275,21 @@
             <tr class="never" "">
               <td class='line_number'>149</td>
               <td class='code_line'>
+                <pre>#####################</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>150</td>
+              <td class='code_line'>
                 <pre> </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>150</td>
+              <td class='line_number'>151</td>
               <td class='code_line'>
                 <pre>  def inheritable_contexts</pre>
               </td>
@@ -1289,7 +1297,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>151</td>
+              <td class='line_number'>152</td>
               <td class='code_line'>
                 <pre>    @inheritable_contexts = @media_set.inheritable_contexts</pre>
               </td>
@@ -1297,7 +1305,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>152</td>
+              <td class='line_number'>153</td>
               <td class='code_line'>
                 <pre>    respond_to do |format|</pre>
               </td>
@@ -1305,7 +1313,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>153</td>
+              <td class='line_number'>154</td>
               <td class='code_line'>
                 <pre>      #format.js { render :json => @inheritable_contexts}</pre>
               </td>
@@ -1313,7 +1321,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>154</td>
+              <td class='line_number'>155</td>
               <td class='code_line'>
                 <pre>      #format.html{render :text => "Use JSON", :status => 406}</pre>
               </td>
@@ -1321,7 +1329,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>155</td>
+              <td class='line_number'>156</td>
               <td class='code_line'>
                 <pre>      #format.html{render :text => "Use JSON"}</pre>
               </td>
@@ -1329,7 +1337,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>156</td>
+              <td class='line_number'>157</td>
               <td class='code_line'>
                 <pre>      format.json{render :json => @inheritable_contexts}</pre>
               </td>
@@ -1337,17 +1345,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>157</td>
-              <td class='code_line'>
-                <pre>    end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>158</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>    end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1355,7 +1355,7 @@
             <tr class="never" "">
               <td class='line_number'>159</td>
               <td class='code_line'>
-                <pre>  end</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1363,7 +1363,7 @@
             <tr class="never" "">
               <td class='line_number'>160</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>  end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1371,7 +1371,7 @@
             <tr class="never" "">
               <td class='line_number'>161</td>
               <td class='code_line'>
-                <pre>#####################################################</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1379,7 +1379,7 @@
             <tr class="never" "">
               <td class='line_number'>162</td>
               <td class='code_line'>
-                <pre># Authenticated Area</pre>
+                <pre>#####################################################</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1387,7 +1387,7 @@
             <tr class="never" "">
               <td class='line_number'>163</td>
               <td class='code_line'>
-                <pre># TODO</pre>
+                <pre># Authenticated Area</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1395,7 +1395,7 @@
             <tr class="never" "">
               <td class='line_number'>164</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre># TODO</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1403,7 +1403,7 @@
             <tr class="never" "">
               <td class='line_number'>165</td>
               <td class='code_line'>
-                <pre>  # API #</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1411,7 +1411,7 @@
             <tr class="never" "">
               <td class='line_number'>166</td>
               <td class='code_line'>
-                <pre>  # POST "/media_sets", {media_set: {meta_data_attributes: {0 => {meta_key_id: 3, value: "Set title"}}} }</pre>
+                <pre>  # API #</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1419,7 +1419,7 @@
             <tr class="never" "">
               <td class='line_number'>167</td>
               <td class='code_line'>
-                <pre>  # POST "/media_sets", {media_set: {0: {meta_data_attributes: {0 => {meta_key_id: 3, value: "Set title"}}},</pre>
+                <pre>  # POST "/media_sets", {media_set: {meta_data_attributes: {0 => {meta_key_id: 3, value: "Set title"}}} }</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1427,13 +1427,21 @@
             <tr class="never" "">
               <td class='line_number'>168</td>
               <td class='code_line'>
+                <pre>  # POST "/media_sets", {media_set: {0: {meta_data_attributes: {0 => {meta_key_id: 3, value: "Set title"}}},</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>169</td>
+              <td class='code_line'>
                 <pre>  #                                  1: {meta_data_attributes: {0 => {meta_key_id: 3, value: "Set title"}}} }}</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>169</td>
+              <td class='line_number'>170</td>
               <td class='code_line'>
                 <pre>  def create(attr = params[:media_set])</pre>
               </td>
@@ -1441,7 +1449,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>170</td>
+              <td class='line_number'>171</td>
               <td class='code_line'>
                 <pre>    </pre>
               </td>
@@ -1449,7 +1457,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>171</td>
+              <td class='line_number'>172</td>
               <td class='code_line'>
                 <pre>    is_saved = true</pre>
               </td>
@@ -1457,7 +1465,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>172</td>
+              <td class='line_number'>173</td>
               <td class='code_line'>
                 <pre>    if attr.has_key? "0" # CREATE MULTIPLE</pre>
               </td>
@@ -1465,7 +1473,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>173</td>
+              <td class='line_number'>174</td>
               <td class='code_line'>
                 <pre>      # TODO ?? find_by_id_or_create_by_title</pre>
               </td>
@@ -1473,7 +1481,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>174</td>
+              <td class='line_number'>175</td>
               <td class='code_line'>
                 <pre>      @media_sets = [] </pre>
               </td>
@@ -1481,7 +1489,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>175</td>
+              <td class='line_number'>176</td>
               <td class='code_line'>
                 <pre>      attr.each_pair do |k,v|</pre>
               </td>
@@ -1489,7 +1497,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>176</td>
+              <td class='line_number'>177</td>
               <td class='code_line'>
                 <pre>        media_set = current_user.media_sets.build(v)</pre>
               </td>
@@ -1497,7 +1505,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>177</td>
+              <td class='line_number'>178</td>
               <td class='code_line'>
                 <pre>        @media_sets << media_set</pre>
               </td>
@@ -1505,7 +1513,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>178</td>
+              <td class='line_number'>179</td>
               <td class='code_line'>
                 <pre>        is_saved = (is_saved and media_set.save)</pre>
               </td>
@@ -1513,7 +1521,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>179</td>
+              <td class='line_number'>180</td>
               <td class='code_line'>
                 <pre>      end</pre>
               </td>
@@ -1521,7 +1529,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>180</td>
+              <td class='line_number'>181</td>
               <td class='code_line'>
                 <pre>    else # CREATE SINGLE</pre>
               </td>
@@ -1529,7 +1537,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>181</td>
+              <td class='line_number'>182</td>
               <td class='code_line'>
                 <pre>      @media_set = current_user.media_sets.build(attr)</pre>
               </td>
@@ -1537,7 +1545,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>182</td>
+              <td class='line_number'>183</td>
               <td class='code_line'>
                 <pre>      is_saved = @media_set.save</pre>
               </td>
@@ -1545,7 +1553,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>183</td>
+              <td class='line_number'>184</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -1553,7 +1561,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>184</td>
+              <td class='line_number'>185</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1561,7 +1569,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>185</td>
+              <td class='line_number'>186</td>
               <td class='code_line'>
                 <pre>    respond_to do |format|</pre>
               </td>
@@ -1569,7 +1577,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>186</td>
+              <td class='line_number'>187</td>
               <td class='code_line'>
                 <pre>      format.html {</pre>
               </td>
@@ -1577,7 +1585,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>187</td>
+              <td class='line_number'>188</td>
               <td class='code_line'>
                 <pre>        if is_saved</pre>
               </td>
@@ -1585,7 +1593,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>188</td>
+              <td class='line_number'>189</td>
               <td class='code_line'>
                 <pre>          redirect_to user_resources_path(current_user, :type => "media_sets")</pre>
               </td>
@@ -1593,7 +1601,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>189</td>
+              <td class='line_number'>190</td>
               <td class='code_line'>
                 <pre>        else</pre>
               </td>
@@ -1601,7 +1609,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>190</td>
+              <td class='line_number'>191</td>
               <td class='code_line'>
                 <pre>          flash[:notice] = @media_set.errors.full_messages</pre>
               </td>
@@ -1609,7 +1617,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>191</td>
+              <td class='line_number'>192</td>
               <td class='code_line'>
                 <pre>          redirect_to :back</pre>
               </td>
@@ -1617,7 +1625,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>192</td>
+              <td class='line_number'>193</td>
               <td class='code_line'>
                 <pre>        end</pre>
               </td>
@@ -1625,7 +1633,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>193</td>
+              <td class='line_number'>194</td>
               <td class='code_line'>
                 <pre>      }</pre>
               </td>
@@ -1633,7 +1641,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>194</td>
+              <td class='line_number'>195</td>
               <td class='code_line'>
                 <pre>      format.js {</pre>
               </td>
@@ -1641,7 +1649,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>195</td>
+              <td class='line_number'>196</td>
               <td class='code_line'>
                 <pre>        r = @media_sets ? @media_sets : @media_set</pre>
               </td>
@@ -1649,7 +1657,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>196</td>
+              <td class='line_number'>197</td>
               <td class='code_line'>
                 <pre>        render :json => r.as_json(:user => current_user), :status => (is_saved ? 200 : 500)</pre>
               </td>
@@ -1657,7 +1665,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>197</td>
+              <td class='line_number'>198</td>
               <td class='code_line'>
                 <pre>      }</pre>
               </td>
@@ -1665,7 +1673,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>198</td>
+              <td class='line_number'>199</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -1673,17 +1681,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>199</td>
-              <td class='code_line'>
-                <pre>  end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>200</td>
               <td class='code_line'>
-                <pre>  </pre>
+                <pre>  end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1704,8 +1704,16 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>203</td>
+              <td class='code_line'>
+                <pre>  </pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>204</td>
               <td class='code_line'>
                 <pre>  def edit</pre>
               </td>
@@ -1713,7 +1721,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>204</td>
+              <td class='line_number'>205</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -1721,7 +1729,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>205</td>
+              <td class='line_number'>206</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1729,7 +1737,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>206</td>
+              <td class='line_number'>207</td>
               <td class='code_line'>
                 <pre> def destroy</pre>
               </td>
@@ -1737,7 +1745,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>207</td>
+              <td class='line_number'>208</td>
               <td class='code_line'>
                 <pre>   # TODO ACL</pre>
               </td>
@@ -1745,7 +1753,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>208</td>
+              <td class='line_number'>209</td>
               <td class='code_line'>
                 <pre>   if params[:media_set_id]</pre>
               </td>
@@ -1753,7 +1761,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>209</td>
+              <td class='line_number'>210</td>
               <td class='code_line'>
                 <pre>     @media_set.destroy</pre>
               </td>
@@ -1761,7 +1769,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>210</td>
+              <td class='line_number'>211</td>
               <td class='code_line'>
                 <pre>   end</pre>
               </td>
@@ -1769,7 +1777,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>211</td>
+              <td class='line_number'>212</td>
               <td class='code_line'>
                 <pre>    respond_to do |format|</pre>
               </td>
@@ -1777,7 +1785,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>212</td>
+              <td class='line_number'>213</td>
               <td class='code_line'>
                 <pre>      format.html { redirect_to user_resources_path(current_user, :type => "media_sets") }</pre>
               </td>
@@ -1785,7 +1793,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>213</td>
+              <td class='line_number'>214</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -1793,17 +1801,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>214</td>
-              <td class='code_line'>
-                <pre> end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>215</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre> end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1819,7 +1819,7 @@
             <tr class="never" "">
               <td class='line_number'>217</td>
               <td class='code_line'>
-                <pre>#####################################################</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1827,13 +1827,21 @@
             <tr class="never" "">
               <td class='line_number'>218</td>
               <td class='code_line'>
+                <pre>#####################################################</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>219</td>
+              <td class='code_line'>
                 <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>219</td>
+              <td class='line_number'>220</td>
               <td class='code_line'>
                 <pre>  def add_member</pre>
               </td>
@@ -1841,7 +1849,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>220</td>
+              <td class='line_number'>221</td>
               <td class='code_line'>
                 <pre>    if @media_set</pre>
               </td>
@@ -1849,7 +1857,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>221</td>
+              <td class='line_number'>222</td>
               <td class='code_line'>
                 <pre>      new_members = 0 #temp#</pre>
               </td>
@@ -1857,7 +1865,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>222</td>
+              <td class='line_number'>223</td>
               <td class='code_line'>
                 <pre>      #raise params[:media_entry_ids].inspect</pre>
               </td>
@@ -1865,7 +1873,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>223</td>
+              <td class='line_number'>224</td>
               <td class='code_line'>
                 <pre>      if params[:media_entry_ids] && !(params[:media_entry_ids] == "null") #check for blank submission from select</pre>
               </td>
@@ -1873,7 +1881,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>224</td>
+              <td class='line_number'>225</td>
               <td class='code_line'>
                 <pre>        ids = params[:media_entry_ids].is_a?(String) ? params[:media_entry_ids].split(",") : params[:media_entry_ids]</pre>
               </td>
@@ -1881,7 +1889,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>225</td>
+              <td class='line_number'>226</td>
               <td class='code_line'>
                 <pre>        media_entries = MediaEntry.find(ids)</pre>
               </td>
@@ -1889,7 +1897,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>226</td>
+              <td class='line_number'>227</td>
               <td class='code_line'>
                 <pre>        new_members = @media_set.media_entries.push_uniq(media_entries)</pre>
               </td>
@@ -1897,7 +1905,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>227</td>
+              <td class='line_number'>228</td>
               <td class='code_line'>
                 <pre>      end</pre>
               </td>
@@ -1905,7 +1913,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>228</td>
+              <td class='line_number'>229</td>
               <td class='code_line'>
                 <pre>      flash[:notice] = if new_members > 1</pre>
               </td>
@@ -1913,7 +1921,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>229</td>
+              <td class='line_number'>230</td>
               <td class='code_line'>
                 <pre>         "#{new_members} neue Medieneinträge wurden dem Set #{@media_set.title} hinzugefügt" </pre>
               </td>
@@ -1921,7 +1929,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>230</td>
+              <td class='line_number'>231</td>
               <td class='code_line'>
                 <pre>      elsif new_members == 1</pre>
               </td>
@@ -1929,7 +1937,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>231</td>
+              <td class='line_number'>232</td>
               <td class='code_line'>
                 <pre>        "Ein neuer Medieneintrag wurde dem Set #{@media_set.title} hinzugefügt" </pre>
               </td>
@@ -1937,7 +1945,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>232</td>
+              <td class='line_number'>233</td>
               <td class='code_line'>
                 <pre>      else</pre>
               </td>
@@ -1945,7 +1953,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>233</td>
+              <td class='line_number'>234</td>
               <td class='code_line'>
                 <pre>        "Es wurden keine neuen Medieneinträge hinzugefügt."</pre>
               </td>
@@ -1953,7 +1961,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>234</td>
+              <td class='line_number'>235</td>
               <td class='code_line'>
                 <pre>      end</pre>
               </td>
@@ -1961,7 +1969,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>235</td>
+              <td class='line_number'>236</td>
               <td class='code_line'>
                 <pre>      respond_to do |format|</pre>
               </td>
@@ -1969,7 +1977,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>236</td>
+              <td class='line_number'>237</td>
               <td class='code_line'>
                 <pre>        format.html { </pre>
               </td>
@@ -1977,7 +1985,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>237</td>
+              <td class='line_number'>238</td>
               <td class='code_line'>
                 <pre>          unless params[:media_entry_ids] == "null" # check for blank submission of batch edit form.</pre>
               </td>
@@ -1985,7 +1993,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>238</td>
+              <td class='line_number'>239</td>
               <td class='code_line'>
                 <pre>            redirect_to(@media_set) </pre>
               </td>
@@ -1993,7 +2001,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>239</td>
+              <td class='line_number'>240</td>
               <td class='code_line'>
                 <pre>          else</pre>
               </td>
@@ -2001,7 +2009,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>240</td>
+              <td class='line_number'>241</td>
               <td class='code_line'>
                 <pre>            flash[:error] = "Keine Medieneinträge ausgewählt"</pre>
               </td>
@@ -2009,7 +2017,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>241</td>
+              <td class='line_number'>242</td>
               <td class='code_line'>
                 <pre>            redirect_to @media_set</pre>
               </td>
@@ -2017,7 +2025,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>242</td>
+              <td class='line_number'>243</td>
               <td class='code_line'>
                 <pre>          end</pre>
               </td>
@@ -2025,7 +2033,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>243</td>
+              <td class='line_number'>244</td>
               <td class='code_line'>
                 <pre>          } # OPTIMIZE</pre>
               </td>
@@ -2033,7 +2041,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>244</td>
+              <td class='line_number'>245</td>
               <td class='code_line'>
                 <pre>#temp3#</pre>
               </td>
@@ -2041,7 +2049,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>245</td>
+              <td class='line_number'>246</td>
               <td class='code_line'>
                 <pre>#        format.js { </pre>
               </td>
@@ -2049,7 +2057,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>246</td>
+              <td class='line_number'>247</td>
               <td class='code_line'>
                 <pre>#          render :update do |page|</pre>
               </td>
@@ -2057,7 +2065,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>247</td>
+              <td class='line_number'>248</td>
               <td class='code_line'>
                 <pre>#            page.replace_html 'flash', flash_content</pre>
               </td>
@@ -2065,7 +2073,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>248</td>
+              <td class='line_number'>249</td>
               <td class='code_line'>
                 <pre>#          end</pre>
               </td>
@@ -2073,7 +2081,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>249</td>
+              <td class='line_number'>250</td>
               <td class='code_line'>
                 <pre>#        }</pre>
               </td>
@@ -2081,7 +2089,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>250</td>
+              <td class='line_number'>251</td>
               <td class='code_line'>
                 <pre>      end</pre>
               </td>
@@ -2089,7 +2097,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>251</td>
+              <td class='line_number'>252</td>
               <td class='code_line'>
                 <pre>    else</pre>
               </td>
@@ -2097,7 +2105,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>252</td>
+              <td class='line_number'>253</td>
               <td class='code_line'>
                 <pre>      @media_sets = @user.media_sets</pre>
               </td>
@@ -2105,17 +2113,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>253</td>
-              <td class='code_line'>
-                <pre>    end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>254</td>
               <td class='code_line'>
-                <pre>  end</pre>
+                <pre>    end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2123,7 +2123,7 @@
             <tr class="never" "">
               <td class='line_number'>255</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>  end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2131,7 +2131,7 @@
             <tr class="never" "">
               <td class='line_number'>256</td>
               <td class='code_line'>
-                <pre>  ##</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2139,7 +2139,7 @@
             <tr class="never" "">
               <td class='line_number'>257</td>
               <td class='code_line'>
-                <pre>  # Manage parent media sets from a specific media set.</pre>
+                <pre>  ##</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2147,7 +2147,7 @@
             <tr class="never" "">
               <td class='line_number'>258</td>
               <td class='code_line'>
-                <pre>  # </pre>
+                <pre>  # Manage parent media sets from a specific media set.</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2155,7 +2155,7 @@
             <tr class="never" "">
               <td class='line_number'>259</td>
               <td class='code_line'>
-                <pre>  # @url [POST] /media_sets/:id/parents?[arguments]</pre>
+                <pre>  # </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2163,7 +2163,7 @@
             <tr class="never" "">
               <td class='line_number'>260</td>
               <td class='code_line'>
-                <pre>  # @url [DELETE] /media_sets/:id/parents?[arguments]</pre>
+                <pre>  # @url [POST] /media_sets/:id/parents?[arguments]</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2171,7 +2171,7 @@
             <tr class="never" "">
               <td class='line_number'>261</td>
               <td class='code_line'>
-                <pre>  # </pre>
+                <pre>  # @url [DELETE] /media_sets/:id/parents?[arguments]</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2179,7 +2179,7 @@
             <tr class="never" "">
               <td class='line_number'>262</td>
               <td class='code_line'>
-                <pre>  # @argument [media_set_ids] array The ids of the parent media sets to remove/add</pre>
+                <pre>  # </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2187,7 +2187,7 @@
             <tr class="never" "">
               <td class='line_number'>263</td>
               <td class='code_line'>
-                <pre>  #</pre>
+                <pre>  # @argument [media_set_ids] array The ids of the parent media sets to remove/add</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2195,7 +2195,7 @@
             <tr class="never" "">
               <td class='line_number'>264</td>
               <td class='code_line'>
-                <pre>  # @example_request</pre>
+                <pre>  #</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2203,7 +2203,7 @@
             <tr class="never" "">
               <td class='line_number'>265</td>
               <td class='code_line'>
-                <pre>  #   {"media_set_ids": [1,2,3]}</pre>
+                <pre>  # @example_request</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2211,7 +2211,7 @@
             <tr class="never" "">
               <td class='line_number'>266</td>
               <td class='code_line'>
-                <pre>  #</pre>
+                <pre>  #   {"media_set_ids": [1,2,3]}</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2219,7 +2219,7 @@
             <tr class="never" "">
               <td class='line_number'>267</td>
               <td class='code_line'>
-                <pre>  # @request_field [Array] media_set_ids The ids of the parent media sets to remove/add  </pre>
+                <pre>  #</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2227,7 +2227,7 @@
             <tr class="never" "">
               <td class='line_number'>268</td>
               <td class='code_line'>
-                <pre>  #</pre>
+                <pre>  # @request_field [Array] media_set_ids The ids of the parent media sets to remove/add  </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2235,7 +2235,7 @@
             <tr class="never" "">
               <td class='line_number'>269</td>
               <td class='code_line'>
-                <pre>  # @example_response</pre>
+                <pre>  #</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2243,7 +2243,7 @@
             <tr class="never" "">
               <td class='line_number'>270</td>
               <td class='code_line'>
-                <pre>  #   [{"id":407},{"id":406}]</pre>
+                <pre>  # @example_response</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2251,7 +2251,7 @@
             <tr class="never" "">
               <td class='line_number'>271</td>
               <td class='code_line'>
-                <pre>  # </pre>
+                <pre>  #   [{"id":407},{"id":406}]</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2259,7 +2259,7 @@
             <tr class="never" "">
               <td class='line_number'>272</td>
               <td class='code_line'>
-                <pre>  # @response_field [Integer] id The id of a removed or an added parent set </pre>
+                <pre>  # </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2267,13 +2267,21 @@
             <tr class="never" "">
               <td class='line_number'>273</td>
               <td class='code_line'>
+                <pre>  # @response_field [Integer] id The id of a removed or an added parent set </pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>274</td>
+              <td class='code_line'>
                 <pre>  # </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>274</td>
+              <td class='line_number'>275</td>
               <td class='code_line'>
                 <pre>  def parents(media_set_ids = params[:media_set_ids])</pre>
               </td>
@@ -2281,7 +2289,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>275</td>
+              <td class='line_number'>276</td>
               <td class='code_line'>
                 <pre>    if request.post?</pre>
               </td>
@@ -2289,7 +2297,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>276</td>
+              <td class='line_number'>277</td>
               <td class='code_line'>
                 <pre>      MediaSet.find_by_id_or_create_by_title(media_set_ids, current_user).each do |media_set|</pre>
               </td>
@@ -2297,15 +2305,15 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>277</td>
+              <td class='line_number'>278</td>
               <td class='code_line'>
-                <pre>        next unless Permission.authorized?(current_user, :edit, media_set) # (MediaSet ACL!)</pre>
+                <pre>        next unless Permissions.authorized?(current_user, :edit, media_set) # (MediaSet ACL!)</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>278</td>
+              <td class='line_number'>279</td>
               <td class='code_line'>
                 <pre>        @media_set.parent_sets << media_set</pre>
               </td>
@@ -2313,7 +2321,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>279</td>
+              <td class='line_number'>280</td>
               <td class='code_line'>
                 <pre>      end</pre>
               </td>
@@ -2321,7 +2329,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>280</td>
+              <td class='line_number'>281</td>
               <td class='code_line'>
                 <pre>    elsif request.delete?</pre>
               </td>
@@ -2329,7 +2337,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>281</td>
+              <td class='line_number'>282</td>
               <td class='code_line'>
                 <pre>      MediaSet.find(media_set_ids).each do |media_set|</pre>
               </td>
@@ -2337,15 +2345,15 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>282</td>
+              <td class='line_number'>283</td>
               <td class='code_line'>
-                <pre>        next unless Permission.authorized?(current_user, :edit, media_set) # (MediaSet ACL!)</pre>
+                <pre>        next unless Permissions.authorized?(current_user, :edit, media_set) # (MediaSet ACL!)</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>283</td>
+              <td class='line_number'>284</td>
               <td class='code_line'>
                 <pre>        @media_set.parent_sets.delete(media_set)</pre>
               </td>
@@ -2353,7 +2361,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>284</td>
+              <td class='line_number'>285</td>
               <td class='code_line'>
                 <pre>      end</pre>
               </td>
@@ -2361,7 +2369,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>285</td>
+              <td class='line_number'>286</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -2369,7 +2377,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>286</td>
+              <td class='line_number'>287</td>
               <td class='code_line'>
                 <pre>    </pre>
               </td>
@@ -2377,7 +2385,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>287</td>
+              <td class='line_number'>288</td>
               <td class='code_line'>
                 <pre>    respond_to do |format|</pre>
               </td>
@@ -2385,7 +2393,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>288</td>
+              <td class='line_number'>289</td>
               <td class='code_line'>
                 <pre>      format.html { redirect_to @media_set }</pre>
               </td>
@@ -2393,7 +2401,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>289</td>
+              <td class='line_number'>290</td>
               <td class='code_line'>
                 <pre>      format.js { </pre>
               </td>
@@ -2401,7 +2409,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>290</td>
+              <td class='line_number'>291</td>
               <td class='code_line'>
                 <pre>        render :json => @media_set.as_json(:user => current_user, :methods => :parent_ids) </pre>
               </td>
@@ -2409,7 +2417,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>291</td>
+              <td class='line_number'>292</td>
               <td class='code_line'>
                 <pre>      }</pre>
               </td>
@@ -2417,17 +2425,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>292</td>
-              <td class='code_line'>
-                <pre>    end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>293</td>
               <td class='code_line'>
-                <pre>  end</pre>
+                <pre>    end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2435,7 +2435,7 @@
             <tr class="never" "">
               <td class='line_number'>294</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>  end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2443,7 +2443,7 @@
             <tr class="never" "">
               <td class='line_number'>295</td>
               <td class='code_line'>
-                <pre>#####################################################</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2451,13 +2451,21 @@
             <tr class="never" "">
               <td class='line_number'>296</td>
               <td class='code_line'>
+                <pre>#####################################################</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>297</td>
+              <td class='code_line'>
                 <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>297</td>
+              <td class='line_number'>298</td>
               <td class='code_line'>
                 <pre>  private</pre>
               </td>
@@ -2465,7 +2473,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>298</td>
+              <td class='line_number'>299</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -2473,7 +2481,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>299</td>
+              <td class='line_number'>300</td>
               <td class='code_line'>
                 <pre>  def authorized?</pre>
               </td>
@@ -2481,7 +2489,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>300</td>
+              <td class='line_number'>301</td>
               <td class='code_line'>
                 <pre>    action = request[:action].to_sym</pre>
               </td>
@@ -2489,7 +2497,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>301</td>
+              <td class='line_number'>302</td>
               <td class='code_line'>
                 <pre>    case action</pre>
               </td>
@@ -2497,7 +2505,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>302</td>
+              <td class='line_number'>303</td>
               <td class='code_line'>
                 <pre>#      when :new</pre>
               </td>
@@ -2505,7 +2513,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>303</td>
+              <td class='line_number'>304</td>
               <td class='code_line'>
                 <pre>#        action = :create</pre>
               </td>
@@ -2513,7 +2521,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>304</td>
+              <td class='line_number'>305</td>
               <td class='code_line'>
                 <pre>      when :show, :browse, :abstract, :inheritable_contexts</pre>
               </td>
@@ -2521,7 +2529,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>305</td>
+              <td class='line_number'>306</td>
               <td class='code_line'>
                 <pre>        action = :view</pre>
               </td>
@@ -2529,7 +2537,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>306</td>
+              <td class='line_number'>307</td>
               <td class='code_line'>
                 <pre>      when :edit, :update, :add_member, :parents</pre>
               </td>
@@ -2537,7 +2545,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>307</td>
+              <td class='line_number'>308</td>
               <td class='code_line'>
                 <pre>        action = :edit</pre>
               </td>
@@ -2545,7 +2553,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>308</td>
+              <td class='line_number'>309</td>
               <td class='code_line'>
                 <pre>      when :destroy</pre>
               </td>
@@ -2553,7 +2561,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>309</td>
+              <td class='line_number'>310</td>
               <td class='code_line'>
                 <pre>        action = :edit # TODO :delete</pre>
               </td>
@@ -2561,7 +2569,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>310</td>
+              <td class='line_number'>311</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -2569,7 +2577,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>311</td>
+              <td class='line_number'>312</td>
               <td class='code_line'>
                 <pre>    if @media_set</pre>
               </td>
@@ -2577,7 +2585,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>312</td>
+              <td class='line_number'>313</td>
               <td class='code_line'>
                 <pre>      resource = @media_set</pre>
               </td>
@@ -2585,15 +2593,15 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>313</td>
+              <td class='line_number'>314</td>
               <td class='code_line'>
-                <pre>      not_authorized! unless Permission.authorized?(current_user, action, resource) # TODO super ??</pre>
+                <pre>      not_authorized! unless Permissions.authorized?(current_user, action, resource) # TODO super ??</pre>
               </td>
               <td class='hit_number'>4</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>314</td>
+              <td class='line_number'>315</td>
               <td class='code_line'>
                 <pre>    else</pre>
               </td>
@@ -2601,7 +2609,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>315</td>
+              <td class='line_number'>316</td>
               <td class='code_line'>
                 <pre>      flash[:error] = "Kein Medienset ausgewählt."</pre>
               </td>
@@ -2609,7 +2617,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>316</td>
+              <td class='line_number'>317</td>
               <td class='code_line'>
                 <pre>      redirect_to :back</pre>
               </td>
@@ -2617,7 +2625,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>317</td>
+              <td class='line_number'>318</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -2625,7 +2633,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>318</td>
+              <td class='line_number'>319</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -2633,7 +2641,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>319</td>
+              <td class='line_number'>320</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -2641,7 +2649,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>320</td>
+              <td class='line_number'>321</td>
               <td class='code_line'>
                 <pre>  def pre_load</pre>
               </td>
@@ -2649,7 +2657,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>321</td>
+              <td class='line_number'>322</td>
               <td class='code_line'>
                 <pre>      params[:media_set_id] ||= params[:id]</pre>
               </td>
@@ -2657,7 +2665,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>322</td>
+              <td class='line_number'>323</td>
               <td class='code_line'>
                 <pre>      @user = User.find(params[:user_id]) unless params[:user_id].blank?</pre>
               </td>
@@ -2665,7 +2673,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>323</td>
+              <td class='line_number'>324</td>
               <td class='code_line'>
                 <pre>      @media_set = (@user? @user.media_sets : MediaSet).find(params[:media_set_id]) unless params[:media_set_id].blank? # TODO shallow</pre>
               </td>
@@ -2673,7 +2681,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>324</td>
+              <td class='line_number'>325</td>
               <td class='code_line'>
                 <pre>      @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?</pre>
               </td>
@@ -2681,7 +2689,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>325</td>
+              <td class='line_number'>326</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -2689,7 +2697,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>326</td>
+              <td class='line_number'>327</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -2697,7 +2705,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>327</td>
+              <td class='line_number'>328</td>
               <td class='code_line'>
                 <pre>end</pre>
               </td>
@@ -3084,6 +3092,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-13 12:28:34 +0100</p>
+    <p>Generated on: 2012-01-14 14:37:56 +0100</p>
   </body>
 </html>

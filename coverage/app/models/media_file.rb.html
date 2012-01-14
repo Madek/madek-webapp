@@ -2,8 +2,8 @@
   <head>
     <title>app/models/media_file.rb</title>
     
-    <link href="../../report.css?0.28878556617847206" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.5244699640403112'></script>
+    <link href="../../report.css?0.781294194323119" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.7392052779300858'></script>
     <script>
       $(function() {
 
@@ -55,7 +55,7 @@
           app/models/media_file.rb
           
         </td>
-        <td>508</td>
+        <td>510</td>
         <td>239</td>
         <td>197</td>
         <td>17.6%</td>
@@ -1077,8 +1077,24 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>125</td>
+              <td class='code_line'>
+                <pre>    # We now simply create a random UUID as it took ages to actually use file contents</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>126</td>
+              <td class='code_line'>
+                <pre>    # for this. Also, our file server does deduplication for us, so we don't have to.</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>127</td>
               <td class='code_line'>
                 <pre>    return UUIDTools::UUID.random_create.hexdigest</pre>
               </td>
@@ -1086,7 +1102,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>126</td>
+              <td class='line_number'>128</td>
               <td class='code_line'>
                 <pre>    </pre>
               </td>
@@ -1094,7 +1110,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>127</td>
+              <td class='line_number'>129</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -1102,7 +1118,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>128</td>
+              <td class='line_number'>130</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1110,7 +1126,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>129</td>
+              <td class='line_number'>131</td>
               <td class='code_line'>
                 <pre>  def shard</pre>
               </td>
@@ -1118,7 +1134,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>130</td>
+              <td class='line_number'>132</td>
               <td class='code_line'>
                 <pre>    # TODO variable length of sharding?</pre>
               </td>
@@ -1126,7 +1142,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>131</td>
+              <td class='line_number'>133</td>
               <td class='code_line'>
                 <pre>    self.guid[0..0]</pre>
               </td>
@@ -1134,7 +1150,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>132</td>
+              <td class='line_number'>134</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -1142,7 +1158,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>133</td>
+              <td class='line_number'>135</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1150,7 +1166,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>134</td>
+              <td class='line_number'>136</td>
               <td class='code_line'>
                 <pre>  def make_thumbnails(sizes = nil)</pre>
               </td>
@@ -1158,7 +1174,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>135</td>
+              <td class='line_number'>137</td>
               <td class='code_line'>
                 <pre>    # this should be a background job</pre>
               </td>
@@ -1166,7 +1182,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>136</td>
+              <td class='line_number'>138</td>
               <td class='code_line'>
                 <pre>    if content_type.include?('image')</pre>
               </td>
@@ -1174,7 +1190,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>137</td>
+              <td class='line_number'>139</td>
               <td class='code_line'>
                 <pre>      thumbnail_jpegs_for(file_storage_location, sizes)</pre>
               </td>
@@ -1182,7 +1198,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>138</td>
+              <td class='line_number'>140</td>
               <td class='code_line'>
                 <pre>    elsif content_type.include?('video')</pre>
               </td>
@@ -1190,7 +1206,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>139</td>
+              <td class='line_number'>141</td>
               <td class='code_line'>
                 <pre>      submit_encoding_job</pre>
               </td>
@@ -1198,7 +1214,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>140</td>
+              <td class='line_number'>142</td>
               <td class='code_line'>
                 <pre>    elsif content_type.include?('audio')</pre>
               </td>
@@ -1206,7 +1222,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>141</td>
+              <td class='line_number'>143</td>
               <td class='code_line'>
                 <pre>      #add_audio_thumbnails   # This might be a future method that constructs some meaningful thumbnail for an audio file?</pre>
               </td>
@@ -1214,7 +1230,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>142</td>
+              <td class='line_number'>144</td>
               <td class='code_line'>
                 <pre>      submit_encoding_job</pre>
               </td>
@@ -1222,7 +1238,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>143</td>
+              <td class='line_number'>145</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -1230,7 +1246,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>144</td>
+              <td class='line_number'>146</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -1238,7 +1254,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>145</td>
+              <td class='line_number'>147</td>
               <td class='code_line'>
                 <pre>  </pre>
               </td>
@@ -1246,7 +1262,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>146</td>
+              <td class='line_number'>148</td>
               <td class='code_line'>
                 <pre>  def retrieve_encoded_files</pre>
               </td>
@@ -1254,7 +1270,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>147</td>
+              <td class='line_number'>149</td>
               <td class='code_line'>
                 <pre>    require Rails.root + 'lib/encode_job'</pre>
               </td>
@@ -1262,7 +1278,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>148</td>
+              <td class='line_number'>150</td>
               <td class='code_line'>
                 <pre>    paths = []</pre>
               </td>
@@ -1270,7 +1286,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>149</td>
+              <td class='line_number'>151</td>
               <td class='code_line'>
                 <pre>    thumbnail_paths = []</pre>
               </td>
@@ -1278,7 +1294,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>150</td>
+              <td class='line_number'>152</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1286,7 +1302,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>151</td>
+              <td class='line_number'>153</td>
               <td class='code_line'>
                 <pre>    unless self.job_id.blank?</pre>
               </td>
@@ -1294,7 +1310,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>152</td>
+              <td class='line_number'>154</td>
               <td class='code_line'>
                 <pre>      job = EncodeJob.new(self.job_id)</pre>
               </td>
@@ -1302,7 +1318,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>153</td>
+              <td class='line_number'>155</td>
               <td class='code_line'>
                 <pre>      if job.finished?</pre>
               </td>
@@ -1310,7 +1326,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>154</td>
+              <td class='line_number'>156</td>
               <td class='code_line'>
                 <pre>        # Get the encoded files via FTP</pre>
               </td>
@@ -1318,7 +1334,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>155</td>
+              <td class='line_number'>157</td>
               <td class='code_line'>
                 <pre>        job.encoded_file_urls.each do |f|</pre>
               </td>
@@ -1326,7 +1342,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>156</td>
+              <td class='line_number'>158</td>
               <td class='code_line'>
                 <pre>          filename = File.basename(f)</pre>
               </td>
@@ -1334,25 +1350,9 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>157</td>
-              <td class='code_line'>
-                <pre>          prefix = "#{thumbnail_storage_location}_encoded"</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>158</td>
-              <td class='code_line'>
-                <pre>          path = "#{prefix}_#{filename}"</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>159</td>
               <td class='code_line'>
-                <pre>          `wget "#{f}" -O "#{path}"`</pre>
+                <pre>          prefix = "#{thumbnail_storage_location}_encoded"</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -1360,7 +1360,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>160</td>
               <td class='code_line'>
-                <pre>          if $? == 0</pre>
+                <pre>          path = "#{prefix}_#{filename}"</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -1368,93 +1368,13 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>161</td>
               <td class='code_line'>
-                <pre>            paths << path</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>162</td>
-              <td class='code_line'>
-                <pre>          end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>163</td>
-              <td class='code_line'>
-                <pre>        end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>164</td>
-              <td class='code_line'>
-                <pre>        </pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>165</td>
-              <td class='code_line'>
-                <pre>        job.thumbnail_file_urls.each do |f|</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>166</td>
-              <td class='code_line'>
-                <pre>          filename = File.basename(f).split("?")[0] # Take the first part of the name before the query string only</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>167</td>
-              <td class='code_line'>
-                <pre>                                                    # example basename otherwise:</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>168</td>
-              <td class='code_line'>
-                <pre>                                                    # frame_0000.png?AWSAccessKeyId=AKIAI456JQ76GBU7FECA&Signature=VpkFCcIwn77IucCkaDG7pERJieM%3D&Expires=1325862058</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>169</td>
-              <td class='code_line'>
-                <pre>          prefix = "#{thumbnail_storage_location}_encoded"</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>170</td>
-              <td class='code_line'>
-                <pre>          path = "#{prefix}_#{filename}"</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>171</td>
-              <td class='code_line'>
                 <pre>          `wget "#{f}" -O "#{path}"`</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>172</td>
+              <td class='line_number'>162</td>
               <td class='code_line'>
                 <pre>          if $? == 0</pre>
               </td>
@@ -1462,7 +1382,103 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>163</td>
+              <td class='code_line'>
+                <pre>            paths << path</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>164</td>
+              <td class='code_line'>
+                <pre>          end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>165</td>
+              <td class='code_line'>
+                <pre>        end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>166</td>
+              <td class='code_line'>
+                <pre>        </pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>167</td>
+              <td class='code_line'>
+                <pre>        job.thumbnail_file_urls.each do |f|</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>168</td>
+              <td class='code_line'>
+                <pre>          filename = File.basename(f).split("?")[0] # Take the first part of the name before the query string only</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>169</td>
+              <td class='code_line'>
+                <pre>                                                    # example basename otherwise:</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>170</td>
+              <td class='code_line'>
+                <pre>                                                    # frame_0000.png?AWSAccessKeyId=AKIAI456JQ76GBU7FECA&Signature=VpkFCcIwn77IucCkaDG7pERJieM%3D&Expires=1325862058</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>171</td>
+              <td class='code_line'>
+                <pre>          prefix = "#{thumbnail_storage_location}_encoded"</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>172</td>
+              <td class='code_line'>
+                <pre>          path = "#{prefix}_#{filename}"</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>173</td>
+              <td class='code_line'>
+                <pre>          `wget "#{f}" -O "#{path}"`</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>174</td>
+              <td class='code_line'>
+                <pre>          if $? == 0</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>175</td>
               <td class='code_line'>
                 <pre>            thumbnail_paths << path</pre>
               </td>
@@ -1470,25 +1486,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>174</td>
-              <td class='code_line'>
-                <pre>          end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>175</td>
-              <td class='code_line'>
-                <pre>        end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>176</td>
               <td class='code_line'>
-                <pre>        </pre>
+                <pre>          end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1496,7 +1496,7 @@
             <tr class="never" "">
               <td class='line_number'>177</td>
               <td class='code_line'>
-                <pre>        # If any of the encoding jobs resulted in a PNG screenshot of the film, use</pre>
+                <pre>        end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1504,13 +1504,29 @@
             <tr class="never" "">
               <td class='line_number'>178</td>
               <td class='code_line'>
+                <pre>        </pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>179</td>
+              <td class='code_line'>
+                <pre>        # If any of the encoding jobs resulted in a PNG screenshot of the film, use</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>180</td>
+              <td class='code_line'>
                 <pre>        # that as a thumbnail</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>179</td>
+              <td class='line_number'>181</td>
               <td class='code_line'>
                 <pre>        pngs = thumbnail_paths.select{|path| path.match(/\.png$/)}</pre>
               </td>
@@ -1518,7 +1534,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>180</td>
+              <td class='line_number'>182</td>
               <td class='code_line'>
                 <pre>        thumbnail_jpegs_for(pngs[0]) unless pngs.empty?</pre>
               </td>
@@ -1526,25 +1542,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>181</td>
-              <td class='code_line'>
-                <pre>        </pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>182</td>
-              <td class='code_line'>
-                <pre>      end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>183</td>
               <td class='code_line'>
-                <pre>    end</pre>
+                <pre>        </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1552,13 +1552,29 @@
             <tr class="never" "">
               <td class='line_number'>184</td>
               <td class='code_line'>
+                <pre>      end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>185</td>
+              <td class='code_line'>
+                <pre>    end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>186</td>
+              <td class='code_line'>
                 <pre>        </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>185</td>
+              <td class='line_number'>187</td>
               <td class='code_line'>
                 <pre>    return paths</pre>
               </td>
@@ -1566,25 +1582,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>186</td>
-              <td class='code_line'>
-                <pre>  end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>187</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>188</td>
               <td class='code_line'>
-                <pre>  # Video thumbnails only come in one size (large) because re-encoding these costs money and they only make sense</pre>
+                <pre>  end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1592,13 +1592,29 @@
             <tr class="never" "">
               <td class='line_number'>189</td>
               <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>190</td>
+              <td class='code_line'>
+                <pre>  # Video thumbnails only come in one size (large) because re-encoding these costs money and they only make sense</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>191</td>
+              <td class='code_line'>
                 <pre>  # in the media_entries/show view anyhow (not in smaller versions).</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>190</td>
+              <td class='line_number'>192</td>
               <td class='code_line'>
                 <pre>  def assign_video_thumbnails_to_preview</pre>
               </td>
@@ -1606,7 +1622,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>191</td>
+              <td class='line_number'>193</td>
               <td class='code_line'>
                 <pre>    content_type = "video/webm"</pre>
               </td>
@@ -1614,25 +1630,9 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>192</td>
-              <td class='code_line'>
-                <pre>    if previews.where(:content_type => content_type).empty?</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>193</td>
-              <td class='code_line'>
-                <pre>      paths = retrieve_encoded_files</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>194</td>
               <td class='code_line'>
-                <pre>      unless paths.empty?</pre>
+                <pre>    if previews.where(:content_type => content_type).empty?</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -1640,7 +1640,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>195</td>
               <td class='code_line'>
-                <pre>        paths.each do |path|</pre>
+                <pre>      paths = retrieve_encoded_files</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -1648,181 +1648,13 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>196</td>
               <td class='code_line'>
-                <pre>          if File.extname(path) == ".webm"</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>197</td>
-              <td class='code_line'>
-                <pre>            # Must have Exiftool with Image::ExifTool::Matroska to support WebM!</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>198</td>
-              <td class='code_line'>
-                <pre>            w, h = exiftool_obj(path, ["Composite:ImageSize"])[0][0][1].split("x")</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>199</td>
-              <td class='code_line'>
-                <pre>            if previews.create(:content_type => content_type, :filename => File.basename(path), :width => w.to_i, :height => h.to_i, :thumbnail => 'large')</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>200</td>
-              <td class='code_line'>
-                <pre>              # Link the file to a symlink inside of public/ so that Apache serves the preview file, otherwise</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>201</td>
-              <td class='code_line'>
-                <pre>              # it would become far too hard to support partial content (status 206) and ranges (for seeking in media files)</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>202</td>
-              <td class='code_line'>
-                <pre>              File.symlink(path, Rails.root + "public/previews/#{File.basename(path)}")</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>203</td>
-              <td class='code_line'>
-                <pre>              return true</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>204</td>
-              <td class='code_line'>
-                <pre>            else</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>205</td>
-              <td class='code_line'>
-                <pre>              return false</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>206</td>
-              <td class='code_line'>
-                <pre>            end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>207</td>
-              <td class='code_line'>
-                <pre>          end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>208</td>
-              <td class='code_line'>
-                <pre>        end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>209</td>
-              <td class='code_line'>
-                <pre>      end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>210</td>
-              <td class='code_line'>
-                <pre>    end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>211</td>
-              <td class='code_line'>
-                <pre>  end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>212</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>213</td>
-              <td class='code_line'>
-                <pre>  def assign_audio_previews</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>214</td>
-              <td class='code_line'>
-                <pre>    content_type = "audio/ogg"</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>215</td>
-              <td class='code_line'>
-                <pre>    if previews.where(:content_type => content_type).empty?</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>216</td>
-              <td class='code_line'>
-                <pre>      paths = retrieve_encoded_files</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>217</td>
-              <td class='code_line'>
                 <pre>      unless paths.empty?</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>218</td>
+              <td class='line_number'>197</td>
               <td class='code_line'>
                 <pre>        paths.each do |path|</pre>
               </td>
@@ -1830,23 +1662,63 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>219</td>
+              <td class='line_number'>198</td>
               <td class='code_line'>
-                <pre>          if File.extname(path) == ".ogg"</pre>
+                <pre>          if File.extname(path) == ".webm"</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>199</td>
+              <td class='code_line'>
+                <pre>            # Must have Exiftool with Image::ExifTool::Matroska to support WebM!</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>200</td>
+              <td class='code_line'>
+                <pre>            w, h = exiftool_obj(path, ["Composite:ImageSize"])[0][0][1].split("x")</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>220</td>
+              <td class='line_number'>201</td>
               <td class='code_line'>
-                <pre>            if previews.create(:content_type => content_type, :filename => File.basename(path), :width => 0, :height => 0, :thumbnail => 'large')</pre>
+                <pre>            if previews.create(:content_type => content_type, :filename => File.basename(path), :width => w.to_i, :height => h.to_i, :thumbnail => 'large')</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>202</td>
+              <td class='code_line'>
+                <pre>              # Link the file to a symlink inside of public/ so that Apache serves the preview file, otherwise</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>203</td>
+              <td class='code_line'>
+                <pre>              # it would become far too hard to support partial content (status 206) and ranges (for seeking in media files)</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>204</td>
+              <td class='code_line'>
+                <pre>              File.symlink(path, Rails.root + "public/previews/#{File.basename(path)}")</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>221</td>
+              <td class='line_number'>205</td>
               <td class='code_line'>
                 <pre>              return true</pre>
               </td>
@@ -1854,7 +1726,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>222</td>
+              <td class='line_number'>206</td>
               <td class='code_line'>
                 <pre>            else</pre>
               </td>
@@ -1862,7 +1734,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>223</td>
+              <td class='line_number'>207</td>
               <td class='code_line'>
                 <pre>              return false</pre>
               </td>
@@ -1870,7 +1742,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>224</td>
+              <td class='line_number'>208</td>
               <td class='code_line'>
                 <pre>            end</pre>
               </td>
@@ -1878,7 +1750,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>225</td>
+              <td class='line_number'>209</td>
               <td class='code_line'>
                 <pre>          end</pre>
               </td>
@@ -1886,9 +1758,137 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>226</td>
+              <td class='line_number'>210</td>
               <td class='code_line'>
                 <pre>        end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>211</td>
+              <td class='code_line'>
+                <pre>      end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>212</td>
+              <td class='code_line'>
+                <pre>    end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>213</td>
+              <td class='code_line'>
+                <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>214</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>215</td>
+              <td class='code_line'>
+                <pre>  def assign_audio_previews</pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>216</td>
+              <td class='code_line'>
+                <pre>    content_type = "audio/ogg"</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>217</td>
+              <td class='code_line'>
+                <pre>    if previews.where(:content_type => content_type).empty?</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>218</td>
+              <td class='code_line'>
+                <pre>      paths = retrieve_encoded_files</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>219</td>
+              <td class='code_line'>
+                <pre>      unless paths.empty?</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>220</td>
+              <td class='code_line'>
+                <pre>        paths.each do |path|</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>221</td>
+              <td class='code_line'>
+                <pre>          if File.extname(path) == ".ogg"</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>222</td>
+              <td class='code_line'>
+                <pre>            if previews.create(:content_type => content_type, :filename => File.basename(path), :width => 0, :height => 0, :thumbnail => 'large')</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>223</td>
+              <td class='code_line'>
+                <pre>              return true</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>224</td>
+              <td class='code_line'>
+                <pre>            else</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>225</td>
+              <td class='code_line'>
+                <pre>              return false</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>226</td>
+              <td class='code_line'>
+                <pre>            end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1896,7 +1896,7 @@
             <tr class="never" "">
               <td class='line_number'>227</td>
               <td class='code_line'>
-                <pre>      end</pre>
+                <pre>          end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1904,7 +1904,7 @@
             <tr class="never" "">
               <td class='line_number'>228</td>
               <td class='code_line'>
-                <pre>    end</pre>
+                <pre>        end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1912,7 +1912,7 @@
             <tr class="never" "">
               <td class='line_number'>229</td>
               <td class='code_line'>
-                <pre>  end</pre>
+                <pre>      end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1920,13 +1920,29 @@
             <tr class="never" "">
               <td class='line_number'>230</td>
               <td class='code_line'>
+                <pre>    end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>231</td>
+              <td class='code_line'>
+                <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>232</td>
+              <td class='code_line'>
                 <pre>  </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>231</td>
+              <td class='line_number'>233</td>
               <td class='code_line'>
                 <pre>  def thumbnail_jpegs_for(file, sizes = nil)</pre>
               </td>
@@ -1934,7 +1950,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>232</td>
+              <td class='line_number'>234</td>
               <td class='code_line'>
                 <pre>    return unless File.exist?(file)</pre>
               </td>
@@ -1942,7 +1958,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>233</td>
+              <td class='line_number'>235</td>
               <td class='code_line'>
                 <pre>    THUMBNAILS.each do |thumb_size,value|</pre>
               </td>
@@ -1950,7 +1966,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>234</td>
+              <td class='line_number'>236</td>
               <td class='code_line'>
                 <pre>      next if sizes and !sizes.include?(thumb_size)</pre>
               </td>
@@ -1958,7 +1974,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>235</td>
+              <td class='line_number'>237</td>
               <td class='code_line'>
                 <pre>      tmparr = thumbnail_storage_location</pre>
               </td>
@@ -1966,7 +1982,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>236</td>
+              <td class='line_number'>238</td>
               <td class='code_line'>
                 <pre>      tmparr += "_#{thumb_size.to_s}"</pre>
               </td>
@@ -1974,7 +1990,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>237</td>
+              <td class='line_number'>239</td>
               <td class='code_line'>
                 <pre>      outfile = [tmparr, 'jpg'].join('.')</pre>
               </td>
@@ -1982,7 +1998,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>238</td>
+              <td class='line_number'>240</td>
               <td class='code_line'>
                 <pre>      `convert -verbose "#{file}" -auto-orient -thumbnail "#{value}" -flatten -unsharp 0x.5 "#{outfile}"`</pre>
               </td>
@@ -1990,7 +2006,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>239</td>
+              <td class='line_number'>241</td>
               <td class='code_line'>
                 <pre>      if File.exists?(outfile)</pre>
               </td>
@@ -1998,7 +2014,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>240</td>
+              <td class='line_number'>242</td>
               <td class='code_line'>
                 <pre>        x,y = `identify -format "%wx%h" "#{outfile}"`.split('x')</pre>
               </td>
@@ -2006,7 +2022,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>241</td>
+              <td class='line_number'>243</td>
               <td class='code_line'>
                 <pre>        if x and y</pre>
               </td>
@@ -2014,7 +2030,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>242</td>
+              <td class='line_number'>244</td>
               <td class='code_line'>
                 <pre>          previews.create(:content_type => 'image/jpeg', :filename => outfile.split('/').last, :height => y, :width => x, :thumbnail => thumb_size.to_s )</pre>
               </td>
@@ -2022,7 +2038,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>243</td>
+              <td class='line_number'>245</td>
               <td class='code_line'>
                 <pre>        end</pre>
               </td>
@@ -2030,25 +2046,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>244</td>
-              <td class='code_line'>
-                <pre>      else</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>245</td>
-              <td class='code_line'>
-                <pre>        # if convert failed, we need to take or delegate off some rescue action, ideally.</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>246</td>
               <td class='code_line'>
-                <pre>        # but for the moment, lets just imply no-thumbnail need be made for this size</pre>
+                <pre>      else</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2056,7 +2056,7 @@
             <tr class="never" "">
               <td class='line_number'>247</td>
               <td class='code_line'>
-                <pre>      end</pre>
+                <pre>        # if convert failed, we need to take or delegate off some rescue action, ideally.</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2064,7 +2064,7 @@
             <tr class="never" "">
               <td class='line_number'>248</td>
               <td class='code_line'>
-                <pre>    end</pre>
+                <pre>        # but for the moment, lets just imply no-thumbnail need be made for this size</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2072,7 +2072,7 @@
             <tr class="never" "">
               <td class='line_number'>249</td>
               <td class='code_line'>
-                <pre>  end</pre>
+                <pre>      end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2080,13 +2080,29 @@
             <tr class="never" "">
               <td class='line_number'>250</td>
               <td class='code_line'>
+                <pre>    end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>251</td>
+              <td class='code_line'>
+                <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>252</td>
+              <td class='code_line'>
                 <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>251</td>
+              <td class='line_number'>253</td>
               <td class='code_line'>
                 <pre>  def validate_file</pre>
               </td>
@@ -2094,7 +2110,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>252</td>
+              <td class='line_number'>254</td>
               <td class='code_line'>
                 <pre>    #TODO - check for zip files and process accordingly</pre>
               </td>
@@ -2102,7 +2118,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>253</td>
+              <td class='line_number'>255</td>
               <td class='code_line'>
                 <pre>      unless importable_zipfile?</pre>
               </td>
@@ -2110,7 +2126,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>254</td>
+              <td class='line_number'>256</td>
               <td class='code_line'>
                 <pre>        set_filename</pre>
               </td>
@@ -2118,7 +2134,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>255</td>
+              <td class='line_number'>257</td>
               <td class='code_line'>
                 <pre>      else</pre>
               </td>
@@ -2126,7 +2142,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>256</td>
+              <td class='line_number'>258</td>
               <td class='code_line'>
                 <pre>        explode_and_import(uploaded_data)</pre>
               </td>
@@ -2134,7 +2150,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>257</td>
+              <td class='line_number'>259</td>
               <td class='code_line'>
                 <pre>        # do the explode and import in the background</pre>
               </td>
@@ -2142,7 +2158,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>258</td>
+              <td class='line_number'>260</td>
               <td class='code_line'>
                 <pre>      end</pre>
               </td>
@@ -2150,7 +2166,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>259</td>
+              <td class='line_number'>261</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -2158,7 +2174,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>260</td>
+              <td class='line_number'>262</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -2166,7 +2182,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>261</td>
+              <td class='line_number'>263</td>
               <td class='code_line'>
                 <pre>  def thumb_base64(size = :small)</pre>
               </td>
@@ -2174,7 +2190,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>262</td>
+              <td class='line_number'>264</td>
               <td class='code_line'>
                 <pre>    # TODO give access to the original one?</pre>
               </td>
@@ -2182,7 +2198,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>263</td>
+              <td class='line_number'>265</td>
               <td class='code_line'>
                 <pre>    # available_sizes = THUMBNAILS.keys #old# ['small', 'medium']</pre>
               </td>
@@ -2190,7 +2206,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>264</td>
+              <td class='line_number'>266</td>
               <td class='code_line'>
                 <pre>    # size = 'small' unless available_sizes.include?(size)</pre>
               </td>
@@ -2198,7 +2214,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>265</td>
+              <td class='line_number'>267</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -2206,7 +2222,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>266</td>
+              <td class='line_number'>268</td>
               <td class='code_line'>
                 <pre>    preview = case content_type</pre>
               </td>
@@ -2214,7 +2230,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>267</td>
+              <td class='line_number'>269</td>
               <td class='code_line'>
                 <pre>                when /video/ then</pre>
               </td>
@@ -2222,7 +2238,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>268</td>
+              <td class='line_number'>270</td>
               <td class='code_line'>
                 <pre>                  # Get the video's covershot that we've extracted/thumbnailed on import</pre>
               </td>
@@ -2230,7 +2246,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>269</td>
+              <td class='line_number'>271</td>
               <td class='code_line'>
                 <pre>                  get_preview(size) || "Video"</pre>
               </td>
@@ -2238,7 +2254,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>270</td>
+              <td class='line_number'>272</td>
               <td class='code_line'>
                 <pre>                when /audio/ then</pre>
               </td>
@@ -2246,7 +2262,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>271</td>
+              <td class='line_number'>273</td>
               <td class='code_line'>
                 <pre>                  "Audio"</pre>
               </td>
@@ -2254,7 +2270,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>272</td>
+              <td class='line_number'>274</td>
               <td class='code_line'>
                 <pre>                when /image/ then</pre>
               </td>
@@ -2262,7 +2278,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>273</td>
+              <td class='line_number'>275</td>
               <td class='code_line'>
                 <pre>                  get_preview(size) || "Image"</pre>
               </td>
@@ -2270,7 +2286,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>274</td>
+              <td class='line_number'>276</td>
               <td class='code_line'>
                 <pre>                else </pre>
               </td>
@@ -2278,7 +2294,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>275</td>
+              <td class='line_number'>277</td>
               <td class='code_line'>
                 <pre>                  "Doc"</pre>
               </td>
@@ -2286,7 +2302,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>276</td>
+              <td class='line_number'>278</td>
               <td class='code_line'>
                 <pre>              end</pre>
               </td>
@@ -2294,7 +2310,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>277</td>
+              <td class='line_number'>279</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -2302,7 +2318,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>278</td>
+              <td class='line_number'>280</td>
               <td class='code_line'>
                 <pre>    # OPTIMIZE</pre>
               </td>
@@ -2310,7 +2326,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>279</td>
+              <td class='line_number'>281</td>
               <td class='code_line'>
                 <pre>    unless preview.is_a? String</pre>
               </td>
@@ -2318,7 +2334,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>280</td>
+              <td class='line_number'>282</td>
               <td class='code_line'>
                 <pre>      file = File.join(THUMBNAIL_STORAGE_DIR, shard, preview.filename)</pre>
               </td>
@@ -2326,7 +2342,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>281</td>
+              <td class='line_number'>283</td>
               <td class='code_line'>
                 <pre>      if File.exist?(file)</pre>
               </td>
@@ -2334,7 +2350,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>282</td>
+              <td class='line_number'>284</td>
               <td class='code_line'>
                 <pre>       output = File.read(file)</pre>
               </td>
@@ -2342,7 +2358,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>283</td>
+              <td class='line_number'>285</td>
               <td class='code_line'>
                 <pre>       return "data:#{preview.content_type};base64,#{Base64.encode64(output)}"</pre>
               </td>
@@ -2350,7 +2366,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>284</td>
+              <td class='line_number'>286</td>
               <td class='code_line'>
                 <pre>      else</pre>
               </td>
@@ -2358,7 +2374,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>285</td>
+              <td class='line_number'>287</td>
               <td class='code_line'>
                 <pre>        preview = "Image" # OPTIMIZE</pre>
               </td>
@@ -2366,25 +2382,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>286</td>
-              <td class='code_line'>
-                <pre>      end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>287</td>
-              <td class='code_line'>
-                <pre>    end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>288</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>      end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2392,23 +2392,23 @@
             <tr class="never" "">
               <td class='line_number'>289</td>
               <td class='code_line'>
-                <pre>    # nothing found, we show then a placeholder icon</pre>
+                <pre>    end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>290</td>
               <td class='code_line'>
-                <pre>    case Rails.env</pre>
+                <pre></pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>291</td>
               <td class='code_line'>
-                <pre>      when "development"</pre>
+                <pre>    # nothing found, we show then a placeholder icon</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2416,23 +2416,23 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>292</td>
               <td class='code_line'>
-                <pre>        w, h = THUMBNAILS[size].split('x').map(&:to_i)</pre>
+                <pre>    case Rails.env</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>293</td>
               <td class='code_line'>
-                <pre>        categories = %w(abstract food people technics animals nightlife nature transport city fashion sports)</pre>
+                <pre>      when "development"</pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>294</td>
               <td class='code_line'>
-                <pre>        cat = categories[id % categories.size]</pre>
+                <pre>        w, h = THUMBNAILS[size].split('x').map(&:to_i)</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -2440,7 +2440,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>295</td>
               <td class='code_line'>
-                <pre>        n = (id % 10) + 1</pre>
+                <pre>        categories = %w(abstract food people technics animals nightlife nature transport city fashion sports)</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -2448,13 +2448,29 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>296</td>
               <td class='code_line'>
+                <pre>        cat = categories[id % categories.size]</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>297</td>
+              <td class='code_line'>
+                <pre>        n = (id % 10) + 1</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>298</td>
+              <td class='code_line'>
                 <pre>        return "http://lorempixum.com/#{w}/#{h}/#{cat}/#{n}"</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>297</td>
+              <td class='line_number'>299</td>
               <td class='code_line'>
                 <pre>      else</pre>
               </td>
@@ -2462,7 +2478,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>298</td>
+              <td class='line_number'>300</td>
               <td class='code_line'>
                 <pre>        size = (size == :large ? :medium : :small)</pre>
               </td>
@@ -2470,7 +2486,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>299</td>
+              <td class='line_number'>301</td>
               <td class='code_line'>
                 <pre>        output = File.read("#{Rails.root}/app/assets/images/#{preview}_#{size}.png")</pre>
               </td>
@@ -2478,7 +2494,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>300</td>
+              <td class='line_number'>302</td>
               <td class='code_line'>
                 <pre>        return "data:#{content_type};base64,#{Base64.encode64(output)}"</pre>
               </td>
@@ -2486,25 +2502,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>301</td>
-              <td class='code_line'>
-                <pre>    end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>302</td>
-              <td class='code_line'>
-                <pre>  end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>303</td>
               <td class='code_line'>
-                <pre>    </pre>
+                <pre>    end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2512,7 +2512,7 @@
             <tr class="never" "">
               <td class='line_number'>304</td>
               <td class='code_line'>
-                <pre>######################################################################</pre>
+                <pre>  end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2520,13 +2520,29 @@
             <tr class="never" "">
               <td class='line_number'>305</td>
               <td class='code_line'>
+                <pre>    </pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>306</td>
+              <td class='code_line'>
+                <pre>######################################################################</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>307</td>
+              <td class='code_line'>
                 <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>306</td>
+              <td class='line_number'>308</td>
               <td class='code_line'>
                 <pre>  def importable_zipfile?</pre>
               </td>
@@ -2534,7 +2550,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>307</td>
+              <td class='line_number'>309</td>
               <td class='code_line'>
                 <pre>    if uploaded_data.kind_of? Hash</pre>
               </td>
@@ -2542,7 +2558,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>308</td>
+              <td class='line_number'>310</td>
               <td class='code_line'>
                 <pre>      ret = uploaded_data[:filename].include?('__IMPORT__') and uploaded_data[:filename].include?('.zip')</pre>
               </td>
@@ -2550,7 +2566,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>309</td>
+              <td class='line_number'>311</td>
               <td class='code_line'>
                 <pre>    else</pre>
               </td>
@@ -2558,7 +2574,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>310</td>
+              <td class='line_number'>312</td>
               <td class='code_line'>
                 <pre>      ret = uploaded_data.original_filename.include?('__IMPORT__') and uploaded_data.original_filename.include?('.zip')</pre>
               </td>
@@ -2566,7 +2582,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>311</td>
+              <td class='line_number'>313</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -2574,7 +2590,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>312</td>
+              <td class='line_number'>314</td>
               <td class='code_line'>
                 <pre>    ret</pre>
               </td>
@@ -2582,25 +2598,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>313</td>
-              <td class='code_line'>
-                <pre>  end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>314</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>315</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>  end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2608,13 +2608,29 @@
             <tr class="never" "">
               <td class='line_number'>316</td>
               <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>317</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>318</td>
+              <td class='code_line'>
                 <pre># IMAGES </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>317</td>
+              <td class='line_number'>319</td>
               <td class='code_line'>
                 <pre>  def import_image_metadata(full_path_file)</pre>
               </td>
@@ -2622,7 +2638,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>318</td>
+              <td class='line_number'>320</td>
               <td class='code_line'>
                 <pre>    self.meta_data ||= {}</pre>
               </td>
@@ -2630,7 +2646,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>319</td>
+              <td class='line_number'>321</td>
               <td class='code_line'>
                 <pre>    group_tags = ['File:', 'Composite:', 'IFD', 'ICC-','ICC_Profile','XMP-exif', 'XMP-xmpMM', 'XMP-aux', 'XMP-tiff', 'Photoshop:', 'ExifIFD:', 'JFIF', 'IFF:', 'GPS:', 'PNG:' ] #'System:' leaks system info</pre>
               </td>
@@ -2638,7 +2654,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>320</td>
+              <td class='line_number'>322</td>
               <td class='code_line'>
                 <pre>    ignore_fields = ['UserComment','ImageDescription', 'ProfileCopyright', 'System:']</pre>
               </td>
@@ -2646,7 +2662,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>321</td>
+              <td class='line_number'>323</td>
               <td class='code_line'>
                 <pre>    exif_hash = {}</pre>
               </td>
@@ -2654,7 +2670,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>322</td>
+              <td class='line_number'>324</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -2662,7 +2678,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>323</td>
+              <td class='line_number'>325</td>
               <td class='code_line'>
                 <pre>    blob = exiftool_obj(full_path_file, group_tags)</pre>
               </td>
@@ -2670,7 +2686,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>324</td>
+              <td class='line_number'>326</td>
               <td class='code_line'>
                 <pre>    blob.each do |tag_array_entry|</pre>
               </td>
@@ -2678,7 +2694,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>325</td>
+              <td class='line_number'>327</td>
               <td class='code_line'>
                 <pre>      tag_array_entry.each do |entry|</pre>
               </td>
@@ -2686,7 +2702,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>326</td>
+              <td class='line_number'>328</td>
               <td class='code_line'>
                 <pre>        exif_hash[entry[0]]=entry[1] unless ignore_fields.any? {|w| entry[0].include? w }</pre>
               </td>
@@ -2694,7 +2710,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>327</td>
+              <td class='line_number'>329</td>
               <td class='code_line'>
                 <pre>      end</pre>
               </td>
@@ -2702,7 +2718,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>328</td>
+              <td class='line_number'>330</td>
               <td class='code_line'>
                 <pre>      meta_data.merge!(exif_hash)</pre>
               </td>
@@ -2710,7 +2726,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>329</td>
+              <td class='line_number'>331</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -2718,7 +2734,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>330</td>
+              <td class='line_number'>332</td>
               <td class='code_line'>
                 <pre>    # FIXME - We are inserting image-specific data into a model that is generic in intent, for the convenience of it all.</pre>
               </td>
@@ -2726,7 +2742,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>331</td>
+              <td class='line_number'>333</td>
               <td class='code_line'>
                 <pre>    # Apparently IFD0 is not the best fit (some files don't contain it), perhaps we should use the Composite:ImageSize tag, till we get rid of these columns..</pre>
               </td>
@@ -2734,7 +2750,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>332</td>
+              <td class='line_number'>334</td>
               <td class='code_line'>
                 <pre>    img_x, img_y = exif_hash["Composite:ImageSize"].split("x")</pre>
               </td>
@@ -2742,7 +2758,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>333</td>
+              <td class='line_number'>335</td>
               <td class='code_line'>
                 <pre>    update_attributes(:width => img_x, :height => img_y)</pre>
               </td>
@@ -2750,25 +2766,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>334</td>
-              <td class='code_line'>
-                <pre>  end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>335</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>336</td>
               <td class='code_line'>
-                <pre>#####################################################################################################################</pre>
+                <pre>  end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2781,8 +2781,24 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>338</td>
+              <td class='code_line'>
+                <pre>#####################################################################################################################</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>339</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>340</td>
               <td class='code_line'>
                 <pre>  def import_audio_video_metadata(full_path_file)</pre>
               </td>
@@ -2790,7 +2806,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>339</td>
+              <td class='line_number'>341</td>
               <td class='code_line'>
                 <pre>    # TODO: merge with import_image_metadata, make fields configurable in :options hash</pre>
               </td>
@@ -2798,7 +2814,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>340</td>
+              <td class='line_number'>342</td>
               <td class='code_line'>
                 <pre>    self.meta_data ||= {}</pre>
               </td>
@@ -2806,7 +2822,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>341</td>
+              <td class='line_number'>343</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -2814,7 +2830,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>342</td>
+              <td class='line_number'>344</td>
               <td class='code_line'>
                 <pre>    # The Tracks: entries describe video, audio or subtitle tracks present in the container. We extract 10</pre>
               </td>
@@ -2822,7 +2838,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>343</td>
+              <td class='line_number'>345</td>
               <td class='code_line'>
                 <pre>    # because we think no one would be mad enough to have more.</pre>
               </td>
@@ -2830,7 +2846,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>344</td>
+              <td class='line_number'>346</td>
               <td class='code_line'>
                 <pre>    tracks = []</pre>
               </td>
@@ -2838,7 +2854,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>345</td>
+              <td class='line_number'>347</td>
               <td class='code_line'>
                 <pre>    [1..10].each do |n|</pre>
               </td>
@@ -2846,7 +2862,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>346</td>
+              <td class='line_number'>348</td>
               <td class='code_line'>
                 <pre>      tracks << "Track#{n}:"</pre>
               </td>
@@ -2854,7 +2870,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>347</td>
+              <td class='line_number'>349</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -2862,7 +2878,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>348</td>
+              <td class='line_number'>350</td>
               <td class='code_line'>
                 <pre>    </pre>
               </td>
@@ -2870,7 +2886,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>349</td>
+              <td class='line_number'>351</td>
               <td class='code_line'>
                 <pre>    group_tags = ['File:', 'Composite:', 'IFD', 'ICC-','ICC_Profile','XMP-exif', 'XMP-xmpMM', 'XMP-aux', 'XMP-tiff', 'Photoshop:', 'ExifIFD:', 'JFIF', 'IFF:', 'GPS:', 'PNG:', 'QuickTime:'] + tracks #'System:' leaks system info</pre>
               </td>
@@ -2878,7 +2894,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>350</td>
+              <td class='line_number'>352</td>
               <td class='code_line'>
                 <pre>    ignore_fields = ['UserComment','ImageDescription', 'ProfileCopyright', 'System:']</pre>
               </td>
@@ -2886,7 +2902,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>351</td>
+              <td class='line_number'>353</td>
               <td class='code_line'>
                 <pre>    exif_hash = {}</pre>
               </td>
@@ -2894,7 +2910,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>352</td>
+              <td class='line_number'>354</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -2902,7 +2918,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>353</td>
+              <td class='line_number'>355</td>
               <td class='code_line'>
                 <pre>    blob = exiftool_obj(full_path_file, group_tags)</pre>
               </td>
@@ -2910,7 +2926,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>354</td>
+              <td class='line_number'>356</td>
               <td class='code_line'>
                 <pre>    blob.each do |tag_array_entry|</pre>
               </td>
@@ -2918,7 +2934,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>355</td>
+              <td class='line_number'>357</td>
               <td class='code_line'>
                 <pre>      tag_array_entry.each do |entry|</pre>
               </td>
@@ -2926,7 +2942,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>356</td>
+              <td class='line_number'>358</td>
               <td class='code_line'>
                 <pre>        exif_hash[entry[0]]=entry[1] unless ignore_fields.any? {|w| entry[0].include? w }</pre>
               </td>
@@ -2934,7 +2950,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>357</td>
+              <td class='line_number'>359</td>
               <td class='code_line'>
                 <pre>      end</pre>
               </td>
@@ -2942,7 +2958,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>358</td>
+              <td class='line_number'>360</td>
               <td class='code_line'>
                 <pre>      meta_data.merge!(exif_hash)</pre>
               </td>
@@ -2950,7 +2966,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>359</td>
+              <td class='line_number'>361</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -2958,7 +2974,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>360</td>
+              <td class='line_number'>362</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -2966,7 +2982,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>361</td>
+              <td class='line_number'>363</td>
               <td class='code_line'>
                 <pre>    # Exiftool couldn't get the dimensions. Let's try with ffmpeg</pre>
               </td>
@@ -2974,7 +2990,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>362</td>
+              <td class='line_number'>364</td>
               <td class='code_line'>
                 <pre>    if exif_hash["Composite:ImageSize"].nil?</pre>
               </td>
@@ -2982,7 +2998,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>363</td>
+              <td class='line_number'>365</td>
               <td class='code_line'>
                 <pre>      img_x, img_y = get_sizes_from_ffmpeg(full_path_file)</pre>
               </td>
@@ -2990,25 +3006,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>364</td>
-              <td class='code_line'>
-                <pre>    else</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>365</td>
-              <td class='code_line'>
-                <pre>      img_x, img_y = exif_hash["Composite:ImageSize"].split("x")</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>366</td>
               <td class='code_line'>
-                <pre>    end</pre>
+                <pre>    else</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3016,7 +3016,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>367</td>
               <td class='code_line'>
-                <pre>    update_attributes(:width => img_x, :height => img_y)</pre>
+                <pre>      img_x, img_y = exif_hash["Composite:ImageSize"].split("x")</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -3024,13 +3024,29 @@
             <tr class="never" "">
               <td class='line_number'>368</td>
               <td class='code_line'>
+                <pre>    end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>369</td>
+              <td class='code_line'>
+                <pre>    update_attributes(:width => img_x, :height => img_y)</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>370</td>
+              <td class='code_line'>
                 <pre>  end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>369</td>
+              <td class='line_number'>371</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -3038,7 +3054,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>370</td>
+              <td class='line_number'>372</td>
               <td class='code_line'>
                 <pre>  def get_sizes_from_ffmpeg(path)</pre>
               </td>
@@ -3046,7 +3062,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>371</td>
+              <td class='line_number'>373</td>
               <td class='code_line'>
                 <pre>    out = `ffmpeg -i #{path} 2>&1`</pre>
               </td>
@@ -3054,7 +3070,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>372</td>
+              <td class='line_number'>374</td>
               <td class='code_line'>
                 <pre>    out.split("\n").each do |line|</pre>
               </td>
@@ -3062,7 +3078,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>373</td>
+              <td class='line_number'>375</td>
               <td class='code_line'>
                 <pre>      if line =~ /.*Stream.*Video.*/</pre>
               </td>
@@ -3070,7 +3086,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>374</td>
+              <td class='line_number'>376</td>
               <td class='code_line'>
                 <pre>        x, y = line.scan(/\d+x\d+/).first.split("x")</pre>
               </td>
@@ -3078,7 +3094,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>375</td>
+              <td class='line_number'>377</td>
               <td class='code_line'>
                 <pre>        return [x, y]</pre>
               </td>
@@ -3086,25 +3102,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>376</td>
-              <td class='code_line'>
-                <pre>      end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>377</td>
-              <td class='code_line'>
-                <pre>    end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>378</td>
               <td class='code_line'>
-                <pre>  end</pre>
+                <pre>      end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3112,13 +3112,29 @@
             <tr class="never" "">
               <td class='line_number'>379</td>
               <td class='code_line'>
+                <pre>    end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>380</td>
+              <td class='code_line'>
+                <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>381</td>
+              <td class='code_line'>
                 <pre>  </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>380</td>
+              <td class='line_number'>382</td>
               <td class='code_line'>
                 <pre>  def import_audio_metadata(full_path_file)</pre>
               </td>
@@ -3126,25 +3142,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>381</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>382</td>
-              <td class='code_line'>
-                <pre>    # TODO refactor to use ffmpeg, some id3 tag extractor, etc.</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>383</td>
               <td class='code_line'>
-                <pre>  end</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3152,7 +3152,7 @@
             <tr class="never" "">
               <td class='line_number'>384</td>
               <td class='code_line'>
-                <pre>  </pre>
+                <pre>    # TODO refactor to use ffmpeg, some id3 tag extractor, etc.</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3160,7 +3160,7 @@
             <tr class="never" "">
               <td class='line_number'>385</td>
               <td class='code_line'>
-                <pre># This kind of thing REALLY needs to happen of elsewhere asynchronously, otherwise we move inexorably towards the day the site gets DOS'd. </pre>
+                <pre>  end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3168,7 +3168,7 @@
             <tr class="never" "">
               <td class='line_number'>386</td>
               <td class='code_line'>
-                <pre># ie when a user uploads a malevolent zip that unpacks to some ridiculous storage-busting size..</pre>
+                <pre>  </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3176,7 +3176,7 @@
             <tr class="never" "">
               <td class='line_number'>387</td>
               <td class='code_line'>
-                <pre># TODO - explode and import the contents of a zip file</pre>
+                <pre># This kind of thing REALLY needs to happen of elsewhere asynchronously, otherwise we move inexorably towards the day the site gets DOS'd. </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3184,7 +3184,7 @@
             <tr class="never" "">
               <td class='line_number'>388</td>
               <td class='code_line'>
-                <pre># this may be a rag-tag collection of any old rubbish, so we need to try and impose a few minimal rules on the proceedings.</pre>
+                <pre># ie when a user uploads a malevolent zip that unpacks to some ridiculous storage-busting size..</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3192,7 +3192,7 @@
             <tr class="never" "">
               <td class='line_number'>389</td>
               <td class='code_line'>
-                <pre># - contains some kind of media file (as per madek media types list)</pre>
+                <pre># TODO - explode and import the contents of a zip file</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3200,13 +3200,29 @@
             <tr class="never" "">
               <td class='line_number'>390</td>
               <td class='code_line'>
+                <pre># this may be a rag-tag collection of any old rubbish, so we need to try and impose a few minimal rules on the proceedings.</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>391</td>
+              <td class='code_line'>
+                <pre># - contains some kind of media file (as per madek media types list)</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>392</td>
+              <td class='code_line'>
                 <pre># - optionally contains an xml metadata file, conforming to the Dublin Core XML schema, or other agreed schemas</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>391</td>
+              <td class='line_number'>393</td>
               <td class='code_line'>
                 <pre>  def explode_and_import(full_path_file)</pre>
               </td>
@@ -3214,7 +3230,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>392</td>
+              <td class='line_number'>394</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -3222,7 +3238,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>393</td>
+              <td class='line_number'>395</td>
               <td class='code_line'>
                 <pre>    racer_x = rand(Time.now.to_i).to_s</pre>
               </td>
@@ -3230,7 +3246,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>394</td>
+              <td class='line_number'>396</td>
               <td class='code_line'>
                 <pre>    Dir.mkdir("#{Rails.root}/tmp/unzipfiles/#{racer_x}")</pre>
               </td>
@@ -3238,7 +3254,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>395</td>
+              <td class='line_number'>397</td>
               <td class='code_line'>
                 <pre>    # logger.info "inspect: #{full_path_file[:tempfile].inspect}"</pre>
               </td>
@@ -3246,7 +3262,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>396</td>
+              <td class='line_number'>398</td>
               <td class='code_line'>
                 <pre>    # logger.info "full_path_file[:tempfile] stat=#{full_path_file[:tempfile].stat.inspect}"</pre>
               </td>
@@ -3254,7 +3270,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>397</td>
+              <td class='line_number'>399</td>
               <td class='code_line'>
                 <pre>    # logger.info "full_path_file[:tempfile] path=#{full_path_file[:tempfile].path.inspect}"</pre>
               </td>
@@ -3262,7 +3278,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>398</td>
+              <td class='line_number'>400</td>
               <td class='code_line'>
                 <pre>    z = Zip::ZipFile.open(full_path_file[:tempfile].path)</pre>
               </td>
@@ -3270,7 +3286,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>399</td>
+              <td class='line_number'>401</td>
               <td class='code_line'>
                 <pre>    mf = []</pre>
               </td>
@@ -3278,7 +3294,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>400</td>
+              <td class='line_number'>402</td>
               <td class='code_line'>
                 <pre>    # logger.info { "*****************************************************************" }</pre>
               </td>
@@ -3286,7 +3302,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>401</td>
+              <td class='line_number'>403</td>
               <td class='code_line'>
                 <pre>    # logger.info { "ZIPFLE HAS #{z.entries.size} ENTRIES" }</pre>
               </td>
@@ -3294,7 +3310,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>402</td>
+              <td class='line_number'>404</td>
               <td class='code_line'>
                 <pre>    destination = "#{Rails.root}/tmp/unzipfiles/#{racer_x}/" # TODO configurable</pre>
               </td>
@@ -3302,7 +3318,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>403</td>
+              <td class='line_number'>405</td>
               <td class='code_line'>
                 <pre>    z.each do |ent|</pre>
               </td>
@@ -3310,7 +3326,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>404</td>
+              <td class='line_number'>406</td>
               <td class='code_line'>
                 <pre>      next if ent.name =~ /__MACOSX/ or ent.name =~ /\.DS_Store/ or !ent.file?</pre>
               </td>
@@ -3318,7 +3334,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>405</td>
+              <td class='line_number'>407</td>
               <td class='code_line'>
                 <pre>      # logger.info "ZIPFLE Entry #{ent}"</pre>
               </td>
@@ -3326,7 +3342,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>406</td>
+              <td class='line_number'>408</td>
               <td class='code_line'>
                 <pre>      f_path=File.join(destination, ent.name)</pre>
               </td>
@@ -3334,7 +3350,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>407</td>
+              <td class='line_number'>409</td>
               <td class='code_line'>
                 <pre>      # logger.info "f_path=#{f_path}"</pre>
               </td>
@@ -3342,7 +3358,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>408</td>
+              <td class='line_number'>410</td>
               <td class='code_line'>
                 <pre>      FileUtils.rm_rf f_path if File.exist?(f_path)</pre>
               </td>
@@ -3350,7 +3366,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>409</td>
+              <td class='line_number'>411</td>
               <td class='code_line'>
                 <pre>      # logger.info "remove pth"</pre>
               </td>
@@ -3358,7 +3374,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>410</td>
+              <td class='line_number'>412</td>
               <td class='code_line'>
                 <pre>      FileUtils.mkdir_p(File.dirname(f_path))</pre>
               </td>
@@ -3366,7 +3382,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>411</td>
+              <td class='line_number'>413</td>
               <td class='code_line'>
                 <pre>      # logger.info "made directory"</pre>
               </td>
@@ -3374,7 +3390,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>412</td>
+              <td class='line_number'>414</td>
               <td class='code_line'>
                 <pre>      z.extract(ent, f_path)</pre>
               </td>
@@ -3382,7 +3398,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>413</td>
+              <td class='line_number'>415</td>
               <td class='code_line'>
                 <pre>      # logger.info "just extracted #{ent} to #{f_path}"</pre>
               </td>
@@ -3390,7 +3406,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>414</td>
+              <td class='line_number'>416</td>
               <td class='code_line'>
                 <pre>      mimetype = `#{FILE_UTIL_PATH} "#{Rails.root}/tmp/unzipfiles/#{racer_x}/#{ent}"`.gsub(/\n/,"")</pre>
               </td>
@@ -3398,7 +3414,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>415</td>
+              <td class='line_number'>417</td>
               <td class='code_line'>
                 <pre>      # logger.info "mimetype=#{mimetype}"</pre>
               </td>
@@ -3406,25 +3422,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>416</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>417</td>
-              <td class='code_line'>
-                <pre>      #TODO something intelligent and asynchronous here, to allow us to go through the files in the zip and insert them, optionally adding any yaml metadata we find that relate to media.</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>418</td>
               <td class='code_line'>
-                <pre>      # mf << MediaFile.create(:uploaded_data => ActionController::TestUploadedFile.new("#{Rails.root}/tmp/unzipfiles/#{racer_x}/#{ent}", mimetype))</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3432,13 +3432,29 @@
             <tr class="never" "">
               <td class='line_number'>419</td>
               <td class='code_line'>
+                <pre>      #TODO something intelligent and asynchronous here, to allow us to go through the files in the zip and insert them, optionally adding any yaml metadata we find that relate to media.</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>420</td>
+              <td class='code_line'>
+                <pre>      # mf << MediaFile.create(:uploaded_data => ActionController::TestUploadedFile.new("#{Rails.root}/tmp/unzipfiles/#{racer_x}/#{ent}", mimetype))</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>421</td>
+              <td class='code_line'>
                 <pre>    end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>420</td>
+              <td class='line_number'>422</td>
               <td class='code_line'>
                 <pre>    resout = `rake madek:importer:import[#{full_path_file["current_user"]}, "#{Rails.root}/tmp/unzipfiles/#{racer_x}/"]`</pre>
               </td>
@@ -3446,7 +3462,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>421</td>
+              <td class='line_number'>423</td>
               <td class='code_line'>
                 <pre>    res = $?</pre>
               </td>
@@ -3454,7 +3470,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>422</td>
+              <td class='line_number'>424</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -3462,7 +3478,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>423</td>
+              <td class='line_number'>425</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -3470,7 +3486,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>424</td>
+              <td class='line_number'>426</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -3478,7 +3494,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>425</td>
+              <td class='line_number'>427</td>
               <td class='code_line'>
                 <pre>  def import_document_metadata(full_path_file)</pre>
               </td>
@@ -3486,7 +3502,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>426</td>
+              <td class='line_number'>428</td>
               <td class='code_line'>
                 <pre>    #TODO - specifically for other non-zipped documents (e.g. source code, application binary, etc)</pre>
               </td>
@@ -3494,7 +3510,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>427</td>
+              <td class='line_number'>429</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -3502,7 +3518,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>428</td>
+              <td class='line_number'>430</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -3510,7 +3526,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>429</td>
+              <td class='line_number'>431</td>
               <td class='code_line'>
                 <pre>  </pre>
               </td>
@@ -3518,7 +3534,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>430</td>
+              <td class='line_number'>432</td>
               <td class='code_line'>
                 <pre>  def submit_encoding_job(force = false)</pre>
               </td>
@@ -3526,7 +3542,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>431</td>
+              <td class='line_number'>433</td>
               <td class='code_line'>
                 <pre>    if force == true or job_id.blank?</pre>
               </td>
@@ -3534,7 +3550,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>432</td>
+              <td class='line_number'>434</td>
               <td class='code_line'>
                 <pre>      # submit http://this_host/download?media_file_id=foo&access_hash=bar</pre>
               </td>
@@ -3542,25 +3558,9 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>433</td>
-              <td class='code_line'>
-                <pre>      require Rails.root + 'lib/encode_job'</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>434</td>
-              <td class='code_line'>
-                <pre>      job = EncodeJob.new</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>435</td>
               <td class='code_line'>
-                <pre>      if content_type.include?('video')</pre>
+                <pre>      require Rails.root + 'lib/encode_job'</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -3568,23 +3568,23 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>436</td>
               <td class='code_line'>
-                <pre>        job.job_type = "video"</pre>
+                <pre>      job = EncodeJob.new</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>437</td>
               <td class='code_line'>
-                <pre>      elsif content_type.include?('audio')</pre>
+                <pre>      if content_type.include?('video')</pre>
               </td>
-              <td class='hit_number'></td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>438</td>
               <td class='code_line'>
-                <pre>        job.job_type = "audio"</pre>
+                <pre>        job.job_type = "video"</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -3592,7 +3592,7 @@
             <tr class="never" "">
               <td class='line_number'>439</td>
               <td class='code_line'>
-                <pre>      else</pre>
+                <pre>      elsif content_type.include?('audio')</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3600,7 +3600,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>440</td>
               <td class='code_line'>
-                <pre>        raise ArgumentError, "Can only handle encoding jobs for content types video/* and audio/*, not #{content_type}"</pre>
+                <pre>        job.job_type = "audio"</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -3608,23 +3608,23 @@
             <tr class="never" "">
               <td class='line_number'>441</td>
               <td class='code_line'>
-                <pre>      end</pre>
+                <pre>      else</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>442</td>
               <td class='code_line'>
-                <pre>      # Note: We cannot use media_entry_url(self.id) here because ENCODING_BASE_URL may include</pre>
+                <pre>        raise ArgumentError, "Can only handle encoding jobs for content types video/* and audio/*, not #{content_type}"</pre>
               </td>
-              <td class='hit_number'></td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>443</td>
               <td class='code_line'>
-                <pre>      # a username/password (e.g. http://test:foo@www.blah.com) for Zencoder or other encoding</pre>
+                <pre>      end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3632,23 +3632,23 @@
             <tr class="never" "">
               <td class='line_number'>444</td>
               <td class='code_line'>
-                <pre>      # services to reach the file by.</pre>
+                <pre>      # Note: We cannot use media_entry_url(self.id) here because ENCODING_BASE_URL may include</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>445</td>
               <td class='code_line'>
-                <pre>      job.start_by_url("#{ENCODING_BASE_URL}/media_files/#{self.id}?access_hash=#{self.access_hash}")</pre>
+                <pre>      # a username/password (e.g. http://test:foo@www.blah.com) for Zencoder or other encoding</pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>446</td>
               <td class='code_line'>
-                <pre>      # Save Zencoder job ID so we can use it in subsequent requests</pre>
+                <pre>      # services to reach the file by.</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3656,13 +3656,29 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>447</td>
               <td class='code_line'>
+                <pre>      job.start_by_url("#{ENCODING_BASE_URL}/media_files/#{self.id}?access_hash=#{self.access_hash}")</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>448</td>
+              <td class='code_line'>
+                <pre>      # Save Zencoder job ID so we can use it in subsequent requests</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>449</td>
+              <td class='code_line'>
                 <pre>      update_attributes(:job_id => job.details['id'])</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>448</td>
+              <td class='line_number'>450</td>
               <td class='code_line'>
                 <pre>      return job</pre>
               </td>
@@ -3670,7 +3686,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>449</td>
+              <td class='line_number'>451</td>
               <td class='code_line'>
                 <pre>    else</pre>
               </td>
@@ -3678,7 +3694,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>450</td>
+              <td class='line_number'>452</td>
               <td class='code_line'>
                 <pre>      logger.error("Won't encode -- this file already has a job_id, so it's probably already been encoded. Use submit_encoding_job(force = true) to override.")</pre>
               </td>
@@ -3686,7 +3702,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>451</td>
+              <td class='line_number'>453</td>
               <td class='code_line'>
                 <pre>      return false</pre>
               </td>
@@ -3694,25 +3710,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>452</td>
-              <td class='code_line'>
-                <pre>    end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>453</td>
-              <td class='code_line'>
-                <pre>  end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>454</td>
               <td class='code_line'>
-                <pre>  </pre>
+                <pre>    end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3720,13 +3720,29 @@
             <tr class="never" "">
               <td class='line_number'>455</td>
               <td class='code_line'>
+                <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>456</td>
+              <td class='code_line'>
+                <pre>  </pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>457</td>
+              <td class='code_line'>
                 <pre>  # TODO: Refactor into something like MediaFile#encode_job ?</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>456</td>
+              <td class='line_number'>458</td>
               <td class='code_line'>
                 <pre>  def encode_job_finished?</pre>
               </td>
@@ -3734,7 +3750,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>457</td>
+              <td class='line_number'>459</td>
               <td class='code_line'>
                 <pre>    if self.job_id.blank?</pre>
               </td>
@@ -3742,7 +3758,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>458</td>
+              <td class='line_number'>460</td>
               <td class='code_line'>
                 <pre>      return false</pre>
               </td>
@@ -3750,7 +3766,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>459</td>
+              <td class='line_number'>461</td>
               <td class='code_line'>
                 <pre>    else</pre>
               </td>
@@ -3758,7 +3774,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>460</td>
+              <td class='line_number'>462</td>
               <td class='code_line'>
                 <pre>      require Rails.root + 'lib/encode_job'</pre>
               </td>
@@ -3766,7 +3782,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>461</td>
+              <td class='line_number'>463</td>
               <td class='code_line'>
                 <pre>      job = EncodeJob.new(self.job_id)</pre>
               </td>
@@ -3774,7 +3790,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>462</td>
+              <td class='line_number'>464</td>
               <td class='code_line'>
                 <pre>      return job.finished?</pre>
               </td>
@@ -3782,7 +3798,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>463</td>
+              <td class='line_number'>465</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -3790,7 +3806,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>464</td>
+              <td class='line_number'>466</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -3798,7 +3814,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>465</td>
+              <td class='line_number'>467</td>
               <td class='code_line'>
                 <pre>  </pre>
               </td>
@@ -3806,7 +3822,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>466</td>
+              <td class='line_number'>468</td>
               <td class='code_line'>
                 <pre>  def encode_job_progress_percentage</pre>
               </td>
@@ -3814,7 +3830,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>467</td>
+              <td class='line_number'>469</td>
               <td class='code_line'>
                 <pre>    if self.job_id.blank?</pre>
               </td>
@@ -3822,7 +3838,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>468</td>
+              <td class='line_number'>470</td>
               <td class='code_line'>
                 <pre>      return 0</pre>
               </td>
@@ -3830,7 +3846,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>469</td>
+              <td class='line_number'>471</td>
               <td class='code_line'>
                 <pre>    else</pre>
               </td>
@@ -3838,7 +3854,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>470</td>
+              <td class='line_number'>472</td>
               <td class='code_line'>
                 <pre>      require Rails.root + 'lib/encode_job'</pre>
               </td>
@@ -3846,7 +3862,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>471</td>
+              <td class='line_number'>473</td>
               <td class='code_line'>
                 <pre>      job = EncodeJob.new(self.job_id)</pre>
               </td>
@@ -3854,7 +3870,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>472</td>
+              <td class='line_number'>474</td>
               <td class='code_line'>
                 <pre>      return job.progress['progress'].to_f</pre>
               </td>
@@ -3862,25 +3878,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>473</td>
-              <td class='code_line'>
-                <pre>    end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>474</td>
-              <td class='code_line'>
-                <pre>  end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>475</td>
               <td class='code_line'>
-                <pre>  </pre>
+                <pre>    end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3888,13 +3888,29 @@
             <tr class="never" "">
               <td class='line_number'>476</td>
               <td class='code_line'>
+                <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>477</td>
+              <td class='code_line'>
+                <pre>  </pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>478</td>
+              <td class='code_line'>
                 <pre>  </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>477</td>
+              <td class='line_number'>479</td>
               <td class='code_line'>
                 <pre>  def assign_access_hash</pre>
               </td>
@@ -3902,7 +3918,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>478</td>
+              <td class='line_number'>480</td>
               <td class='code_line'>
                 <pre>    self.access_hash = UUIDTools::UUID.random_create.to_s</pre>
               </td>
@@ -3910,7 +3926,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>479</td>
+              <td class='line_number'>481</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -3918,7 +3934,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>480</td>
+              <td class='line_number'>482</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -3926,7 +3942,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>481</td>
+              <td class='line_number'>483</td>
               <td class='code_line'>
                 <pre>  def reset_access_hash</pre>
               </td>
@@ -3934,7 +3950,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>482</td>
+              <td class='line_number'>484</td>
               <td class='code_line'>
                 <pre>    assign_access_hash</pre>
               </td>
@@ -3942,7 +3958,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>483</td>
+              <td class='line_number'>485</td>
               <td class='code_line'>
                 <pre>    return save</pre>
               </td>
@@ -3950,7 +3966,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>484</td>
+              <td class='line_number'>486</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -3958,7 +3974,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>485</td>
+              <td class='line_number'>487</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -3966,7 +3982,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>486</td>
+              <td class='line_number'>488</td>
               <td class='code_line'>
                 <pre>  # OPTIMIZE</pre>
               </td>
@@ -3974,7 +3990,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>487</td>
+              <td class='line_number'>489</td>
               <td class='code_line'>
                 <pre>  def meta_data_without_binary</pre>
               </td>
@@ -3982,7 +3998,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>488</td>
+              <td class='line_number'>490</td>
               <td class='code_line'>
                 <pre>    r = meta_data.reject{|k,v| ["!binary |", "Binary data"].any?{|x| v.to_yaml.include?(x)}}</pre>
               </td>
@@ -3990,7 +4006,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>489</td>
+              <td class='line_number'>491</td>
               <td class='code_line'>
                 <pre>    r.map {|x| x.map{|y| y.to_s.dup.force_encoding('utf-8') } }</pre>
               </td>
@@ -3998,7 +4014,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>490</td>
+              <td class='line_number'>492</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -4006,7 +4022,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>491</td>
+              <td class='line_number'>493</td>
               <td class='code_line'>
                 <pre>  </pre>
               </td>
@@ -4014,7 +4030,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>492</td>
+              <td class='line_number'>494</td>
               <td class='code_line'>
                 <pre>  private</pre>
               </td>
@@ -4022,25 +4038,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>493</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>494</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>495</td>
               <td class='code_line'>
-                <pre> # parses the passed in file reference for the requested tag groups (using exiftool)</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -4048,13 +4048,29 @@
             <tr class="never" "">
               <td class='line_number'>496</td>
               <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>497</td>
+              <td class='code_line'>
+                <pre> # parses the passed in file reference for the requested tag groups (using exiftool)</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>498</td>
+              <td class='code_line'>
                 <pre> # returns an array of arrays of meta-data for the group tags requested</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>497</td>
+              <td class='line_number'>499</td>
               <td class='code_line'>
                 <pre>  def exiftool_obj(full_path_file, tags = nil)</pre>
               </td>
@@ -4062,7 +4078,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>498</td>
+              <td class='line_number'>500</td>
               <td class='code_line'>
                 <pre>    result_set = []</pre>
               </td>
@@ -4070,7 +4086,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>499</td>
+              <td class='line_number'>501</td>
               <td class='code_line'>
                 <pre>    parse_hash = JSON.parse(`#{EXIFTOOL_PATH} -s "#{full_path_file}" -a -u -G1 -D -j`).first</pre>
               </td>
@@ -4078,7 +4094,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>500</td>
+              <td class='line_number'>502</td>
               <td class='code_line'>
                 <pre>    parse_hash.delete_if {|k,v| v.is_a?(String) and not v.valid_encoding? }</pre>
               </td>
@@ -4086,7 +4102,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>501</td>
+              <td class='line_number'>503</td>
               <td class='code_line'>
                 <pre>    tags.each do |tag_group|</pre>
               </td>
@@ -4094,7 +4110,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>502</td>
+              <td class='line_number'>504</td>
               <td class='code_line'>
                 <pre>      result_set << parse_hash.select {|k,v| k.include?(tag_group)}.sort</pre>
               </td>
@@ -4102,7 +4118,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>503</td>
+              <td class='line_number'>505</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -4110,7 +4126,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>504</td>
+              <td class='line_number'>506</td>
               <td class='code_line'>
                 <pre>    result_set</pre>
               </td>
@@ -4118,7 +4134,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>505</td>
+              <td class='line_number'>507</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -4126,7 +4142,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>506</td>
+              <td class='line_number'>508</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -4134,7 +4150,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>507</td>
+              <td class='line_number'>509</td>
               <td class='code_line'>
                 <pre>  </pre>
               </td>
@@ -4142,7 +4158,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>508</td>
+              <td class='line_number'>510</td>
               <td class='code_line'>
                 <pre>end</pre>
               </td>
@@ -4154,6 +4170,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-13 12:28:34 +0100</p>
+    <p>Generated on: 2012-01-14 14:37:56 +0100</p>
   </body>
 </html>

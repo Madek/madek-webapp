@@ -5,8 +5,6 @@ module Permissions
 
     def authorized?(user, action, resource)
 
-      resource = resource.media_resource if resource.class.name  != MediaResource.name
-
       # the old authorized accepted subjects 
       raise "authorized? can only be called with a user" if user.class != User
 

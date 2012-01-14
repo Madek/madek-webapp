@@ -2,8 +2,8 @@
   <head>
     <title>app/controllers/resources_controller.rb</title>
     
-    <link href="../../report.css?0.34029963243673167" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.11823780520050997'></script>
+    <link href="../../report.css?0.2892497672702484" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.9894675722639759'></script>
     <script>
       $(function() {
 
@@ -152,7 +152,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>9</td>
               <td class='code_line'>
-                <pre>    resources = MediaResource.accessible_by_user(current_user)</pre>
+                <pre>    resources = current_user.viewable_media_resources</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -400,7 +400,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>40</td>
               <td class='code_line'>
-                <pre>    resources = MediaResource.accessible_by_user(current_user)</pre>
+                <pre>    resources = current_user.viewable_media_resources</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -722,6 +722,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-13 12:28:34 +0100</p>
+    <p>Generated on: 2012-01-14 14:37:56 +0100</p>
   </body>
 </html>

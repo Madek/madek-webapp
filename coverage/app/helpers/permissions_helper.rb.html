@@ -2,8 +2,8 @@
   <head>
     <title>app/helpers/permissions_helper.rb</title>
     
-    <link href="../../report.css?0.8107713265729285" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.8683547264607689'></script>
+    <link href="../../report.css?0.21426936036951627" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.20593310897447903'></script>
     <script>
       $(function() {
 
@@ -320,7 +320,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>30</td>
               <td class='code_line'>
-                <pre>    if user && Permission.authorized?(user, :edit, resource) </pre>
+                <pre>    if user && Permissions.authorized?(user, :edit, resource) </pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -408,7 +408,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>41</td>
               <td class='code_line'>
-                <pre>    if user && Permission.authorized?(user, :manage, resource) </pre>
+                <pre>    if user && Permissions.authorized?(user, :manage, resource) </pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -546,6 +546,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-13 12:28:34 +0100</p>
+    <p>Generated on: 2012-01-14 14:37:55 +0100</p>
   </body>
 </html>

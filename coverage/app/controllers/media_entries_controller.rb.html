@@ -2,8 +2,8 @@
   <head>
     <title>app/controllers/media_entries_controller.rb</title>
     
-    <link href="../../report.css?0.7609820490497009" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.6950584885877947'></script>
+    <link href="../../report.css?0.8920110788276496" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.42446977137216413'></script>
     <script>
       $(function() {
 
@@ -440,7 +440,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>45</td>
               <td class='code_line'>
-                <pre>    @viewable_ids = MediaResource.accessible_by_user(current_user).media_entries.map(&:id)</pre>
+                <pre>    @viewable_ids = current_user.viewable_media_entries.map(&:id)</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -880,7 +880,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>100</td>
               <td class='code_line'>
-                <pre>      next unless Permission.authorized?(current_user, :edit, media_set) # (MediaSet ACL!)</pre>
+                <pre>      next unless Permissions.authorized?(current_user, :edit, media_set) # (MediaSet ACL!)</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -1768,7 +1768,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>211</td>
               <td class='code_line'>
-                <pre>        not_authorized! unless Permission.authorized?(current_user, :edit, @media_set)</pre>
+                <pre>        not_authorized! unless Permissions.authorized?(current_user, :edit, @media_set)</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -1800,7 +1800,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>215</td>
               <td class='code_line'>
-                <pre>    not_authorized! unless Permission.authorized?(current_user, action, resource) and conditions.all?</pre>
+                <pre>    not_authorized! unless Permissions.authorized?(current_user, Constants::Actions.old2new(action), resource) and conditions.all?</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -2096,7 +2096,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>252</td>
               <td class='code_line'>
-                <pre>            MediaResource.accessible_by_user(current_user, :edit)</pre>
+                <pre>            current_user.editable_media_resources</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -2112,7 +2112,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>254</td>
               <td class='code_line'>
-                <pre>            MediaResource.accessible_by_user(current_user, :manage)</pre>
+                <pre>            current_user.manageable_media_resources</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -2128,7 +2128,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>256</td>
               <td class='code_line'>
-                <pre>            MediaResource.accessible_by_user(current_user, :view)</pre>
+                <pre>            current_user.editable_media_resources</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -2218,6 +2218,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-13 12:28:34 +0100</p>
+    <p>Generated on: 2012-01-14 14:37:56 +0100</p>
   </body>
 </html>

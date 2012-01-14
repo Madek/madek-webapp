@@ -2,8 +2,8 @@
   <head>
     <title>app/models/subject.rb</title>
     
-    <link href="../../report.css?0.17123895927284138" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.33298196859974805'></script>
+    <link href="../../report.css?0.4052944553371237" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.6761547301380173'></script>
     <script>
       $(function() {
 
@@ -55,8 +55,8 @@
           app/models/subject.rb
           
         </td>
-        <td>21</td>
-        <td>3</td>
+        <td>20</td>
+        <td>2</td>
         <td>0</td>
         <td>100.0%</td>
       </tr>
@@ -98,7 +98,7 @@
               <td class='code_line'>
                 <pre>module Subject</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="never" "">
@@ -114,21 +114,21 @@
               <td class='code_line'>
                 <pre>  def self.included(base)</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>5</td>
               <td class='code_line'>
-                <pre>    base.has_many :permissions, :as => :subject, :dependent => :destroy</pre>
+                <pre></pre>
               </td>
-              <td class='hit_number'>3</td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>6</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>################################</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -136,7 +136,7 @@
             <tr class="never" "">
               <td class='line_number'>7</td>
               <td class='code_line'>
-                <pre>################################</pre>
+                <pre>=begin</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -144,7 +144,7 @@
             <tr class="never" "">
               <td class='line_number'>8</td>
               <td class='code_line'>
-                <pre>=begin</pre>
+                <pre>    #tmp#</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -152,7 +152,7 @@
             <tr class="never" "">
               <td class='line_number'>9</td>
               <td class='code_line'>
-                <pre>    #tmp#</pre>
+                <pre>    base.has_many :accessible_permissions, :class_name => "Permission", :as => :subject,</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -160,7 +160,7 @@
             <tr class="never" "">
               <td class='line_number'>10</td>
               <td class='code_line'>
-                <pre>    base.has_many :accessible_permissions, :class_name => "Permission", :as => :subject,</pre>
+                <pre>                        :conditions => "action_bits & 1 AND action_mask & 1"</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -168,7 +168,7 @@
             <tr class="never" "">
               <td class='line_number'>11</td>
               <td class='code_line'>
-                <pre>                        :conditions => "action_bits & 1 AND action_mask & 1"</pre>
+                <pre>                        #where("(subject_type = 'Group' AND subject_id IN (?)) OR (subject_type = 'User' AND subject_id = ?)", user.groups, user.id).</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -176,7 +176,7 @@
             <tr class="never" "">
               <td class='line_number'>12</td>
               <td class='code_line'>
-                <pre>                        #where("(subject_type = 'Group' AND subject_id IN (?)) OR (subject_type = 'User' AND subject_id = ?)", user.groups, user.id).</pre>
+                <pre>                        #where("action_bits & #{i} AND action_mask & #{i}").</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -184,7 +184,7 @@
             <tr class="never" "">
               <td class='line_number'>13</td>
               <td class='code_line'>
-                <pre>                        #where("action_bits & #{i} AND action_mask & #{i}").</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -192,7 +192,7 @@
             <tr class="never" "">
               <td class='line_number'>14</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>    base.has_many :accessible_resources, :through => :accessible_permissions, :source => :resource</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -200,7 +200,7 @@
             <tr class="never" "">
               <td class='line_number'>15</td>
               <td class='code_line'>
-                <pre>    base.has_many :accessible_resources, :through => :accessible_permissions, :source => :resource</pre>
+                <pre>=end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -208,7 +208,7 @@
             <tr class="never" "">
               <td class='line_number'>16</td>
               <td class='code_line'>
-                <pre>=end</pre>
+                <pre>################################</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -216,7 +216,7 @@
             <tr class="never" "">
               <td class='line_number'>17</td>
               <td class='code_line'>
-                <pre>################################</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -224,7 +224,7 @@
             <tr class="never" "">
               <td class='line_number'>18</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>  end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -232,21 +232,13 @@
             <tr class="never" "">
               <td class='line_number'>19</td>
               <td class='code_line'>
-                <pre>  end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>20</td>
-              <td class='code_line'>
                 <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>21</td>
+              <td class='line_number'>20</td>
               <td class='code_line'>
                 <pre>end</pre>
               </td>
@@ -258,6 +250,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-13 12:28:34 +0100</p>
+    <p>Generated on: 2012-01-14 14:37:55 +0100</p>
   </body>
 </html>

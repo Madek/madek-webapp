@@ -2,8 +2,8 @@
   <head>
     <title>app/controllers/download_controller.rb</title>
     
-    <link href="../../report.css?0.5644827206282712" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.42538538332665'></script>
+    <link href="../../report.css?0.20988255579211745" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.3208348734001074'></script>
     <script>
       $(function() {
 
@@ -296,7 +296,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>27</td>
               <td class='code_line'>
-                <pre>          render :text => 'Sie haben nicht die notwendige Zugriffsberechtigung.', :status => 500 unless Permission.authorized?(current_user, :view, @media_entry) </pre>
+                <pre>          render :text => 'Sie haben nicht die notwendige Zugriffsberechtigung.', :status => 500 unless Permissions.authorized?(current_user, :view, @media_entry) </pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -1514,6 +1514,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-13 12:28:34 +0100</p>
+    <p>Generated on: 2012-01-14 14:37:56 +0100</p>
   </body>
 </html>

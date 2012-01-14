@@ -2,8 +2,8 @@
   <head>
     <title>app/models/copyright.rb</title>
     
-    <link href="../../report.css?0.9951906099677033" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.417571164522054'></script>
+    <link href="../../report.css?0.6989125561063422" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.9537065231170035'></script>
     <script>
       $(function() {
 
@@ -57,8 +57,8 @@
         </td>
         <td>74</td>
         <td>34</td>
-        <td>4</td>
-        <td>88.2%</td>
+        <td>22</td>
+        <td>35.3%</td>
       </tr>
     </table>
 
@@ -98,7 +98,7 @@
               <td class='code_line'>
                 <pre>class Copyright < ActiveRecord::Base</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="never" "">
@@ -114,7 +114,7 @@
               <td class='code_line'>
                 <pre>  acts_as_nested_set</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="never" "">
@@ -130,7 +130,7 @@
               <td class='code_line'>
                 <pre>  validates_presence_of :label</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="never" "">
@@ -146,7 +146,7 @@
               <td class='code_line'>
                 <pre>  def to_s</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -178,15 +178,15 @@
               <td class='code_line'>
                 <pre>  def usage(value = "")</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>13</td>
               <td class='code_line'>
                 <pre>    (is_custom? ? value : read_attribute(:usage))</pre>
               </td>
-              <td class='hit_number'>10</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -210,15 +210,15 @@
               <td class='code_line'>
                 <pre>  def url(value = "")</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>17</td>
               <td class='code_line'>
                 <pre>    (is_custom? ? value : read_attribute(:url))</pre>
               </td>
-              <td class='hit_number'>10</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -258,7 +258,7 @@
               <td class='code_line'>
                 <pre>  def self.default</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -290,7 +290,7 @@
               <td class='code_line'>
                 <pre>  def self.custom</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -330,7 +330,7 @@
               <td class='code_line'>
                 <pre>  def self.public</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -378,23 +378,23 @@
               <td class='code_line'>
                 <pre>  def self.init(reset = false)</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>38</td>
               <td class='code_line'>
                 <pre>    return 0 unless reset or count == 0</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>39</td>
               <td class='code_line'>
                 <pre>    delete_all</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -405,20 +405,20 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>41</td>
               <td class='code_line'>
                 <pre>    file = "#{Rails.root}/config/definitions/helpers/copyrights.yml"</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>42</td>
               <td class='code_line'>
                 <pre>    entries = YAML.load(File.read(file))</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -429,12 +429,12 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>44</td>
               <td class='code_line'>
                 <pre>    save_as_nested_set(entries)</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -445,12 +445,12 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>46</td>
               <td class='code_line'>
                 <pre>    return count</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -482,7 +482,7 @@
               <td class='code_line'>
                 <pre>  class << self</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="never" "">
@@ -498,15 +498,15 @@
               <td class='code_line'>
                 <pre>    def save_as_nested_set(nodes, parent = nil)</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>53</td>
               <td class='code_line'>
                 <pre>      case nodes.class.name</pre>
               </td>
-              <td class='hit_number'>14</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -517,44 +517,44 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>55</td>
               <td class='code_line'>
                 <pre>            if nodes.keys.first.is_a?(Hash)</pre>
               </td>
-              <td class='hit_number'>11</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>56</td>
               <td class='code_line'>
                 <pre>              nodes.each_pair do |key,value|</pre>
               </td>
-              <td class='hit_number'>3</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>57</td>
               <td class='code_line'>
                 <pre>                new_parent = create(key)</pre>
               </td>
-              <td class='hit_number'>6</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>58</td>
               <td class='code_line'>
                 <pre>                new_parent.move_to_child_of parent if parent</pre>
               </td>
-              <td class='hit_number'>6</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>59</td>
               <td class='code_line'>
                 <pre>                save_as_nested_set(value, new_parent) if value.is_a?(Array)</pre>
               </td>
-              <td class='hit_number'>6</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -573,20 +573,20 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>62</td>
               <td class='code_line'>
                 <pre>                new_leaf = create(nodes)</pre>
               </td>
-              <td class='hit_number'>8</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>63</td>
               <td class='code_line'>
                 <pre>                new_leaf.move_to_child_of parent if parent</pre>
               </td>
-              <td class='hit_number'>8</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -605,20 +605,20 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>66</td>
               <td class='code_line'>
                 <pre>          nodes.each do |value|</pre>
               </td>
-              <td class='hit_number'>3</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>67</td>
               <td class='code_line'>
                 <pre>            save_as_nested_set(value, parent)</pre>
               </td>
-              <td class='hit_number'>10</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -682,6 +682,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-13 12:28:34 +0100</p>
+    <p>Generated on: 2012-01-14 14:37:56 +0100</p>
   </body>
 </html>

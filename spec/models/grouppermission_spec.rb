@@ -44,10 +44,10 @@ describe Grouppermission do
       end
 
       it "should remove grouppermissions if the resource is destroyed" do
-        id = (FactoryGirl.create :grouppermission, :group => @group, :resource => @media_resource).id
-        (grouppermission.find_by_id id).should_not be_nil
+        id = (FactoryGirl.create :grouppermission, :group => @group, :media_resource => @media_resource).id
+        (Grouppermission.find_by_id id).should_not be_nil
         @media_resource.destroy
-        (grouppermission.find_by_id id).should be_nil
+        (Grouppermission.find_by_id id).should be_nil
       end
 
     end

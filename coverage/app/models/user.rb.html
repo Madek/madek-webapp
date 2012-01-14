@@ -2,8 +2,8 @@
   <head>
     <title>app/models/user.rb</title>
     
-    <link href="../../report.css?0.29224108666499615" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.9639804596294964'></script>
+    <link href="../../report.css?0.6561134276671415" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.5779858526681706'></script>
     <script>
       $(function() {
 
@@ -58,10 +58,10 @@
             <a href='#' id='toggle_test_file'>spec/models/user_spec.rb</a>
           
         </td>
-        <td>95</td>
-        <td>46</td>
+        <td>110</td>
+        <td>53</td>
         <td>12</td>
-        <td>73.9%</td>
+        <td>77.4%</td>
       </tr>
     </table>
 
@@ -163,7 +163,7 @@
             <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>10</td>
               <td class='code_line'>
-                <pre>  belongs_to :person</pre>
+                <pre>  Constants::Actions.each do |action|</pre>
               </td>
               <td class='hit_number'>1</td>
             </tr>
@@ -171,21 +171,45 @@
             <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>11</td>
               <td class='code_line'>
-                <pre>  delegate :name, :to => :person</pre>
+                <pre>    {media_resource: MediaResource, media_entry: MediaEntry, media_set: MediaSet}.each do |singular,model|</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>4</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>12</td>
               <td class='code_line'>
-                <pre>  delegate :fullname, :to => :person</pre>
+                <pre>      has_and_belongs_to_many "#{action}able_#{singular.to_s.pluralize}",  class_name: model.to_s, </pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>12</td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>13</td>
+              <td class='code_line'>
+                <pre>        join_table: "#{action}able_#{singular.to_s.pluralize}_users", foreign_key: :user_id, association_foreign_key: "#{singular.to_s}_id"</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>14</td>
+              <td class='code_line'>
+                <pre>    end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>15</td>
+              <td class='code_line'>
+                <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>16</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -193,59 +217,35 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>14</td>
-              <td class='code_line'>
-                <pre>  has_many :upload_sessions do</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>15</td>
-              <td class='code_line'>
-                <pre>    def latest</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>16</td>
-              <td class='code_line'>
-                <pre>      first</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>17</td>
               <td class='code_line'>
-                <pre>    end</pre>
+                <pre>  def destroy </pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>18</td>
+              <td class='code_line'>
+                <pre>    # TODO, for now since the above is not compatible with destroy, seems to be a rails problem</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>18</td>
-              <td class='code_line'>
-                <pre>    def most_recents(limit = 3)</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>19</td>
               <td class='code_line'>
-                <pre>      all(:limit => limit)</pre>
+                <pre>    warn "destroy will is overwitten to use delete in the background"</pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'>2</td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>20</td>
               <td class='code_line'>
-                <pre>    end</pre>
+                <pre>    delete</pre>
               </td>
-              <td class='hit_number'></td>
+              <td class='hit_number'>2</td>
             </tr>
           
             <tr class="never" "">
@@ -256,26 +256,26 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>22</td>
               <td class='code_line'>
-                <pre>  has_many :media_entries, :through => :upload_sessions</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>23</td>
-              <td class='code_line'>
-                <pre># TODO ??  has_many :media_files, :through => :media_entries</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>23</td>
+              <td class='code_line'>
+                <pre>  belongs_to :person</pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>24</td>
               <td class='code_line'>
-                <pre>  has_many :media_sets, :class_name => "MediaSet"</pre>
+                <pre>  delegate :name, :to => :person</pre>
               </td>
               <td class='hit_number'>1</td>
             </tr>
@@ -283,81 +283,81 @@
             <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>25</td>
               <td class='code_line'>
-                <pre>  has_and_belongs_to_many :favorites, :class_name => "MediaEntry", :join_table => "favorites" do</pre>
+                <pre>  delegate :fullname, :to => :person</pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>26</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>27</td>
+              <td class='code_line'>
+                <pre>  has_many :userpermissions</pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>28</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>29</td>
+              <td class='code_line'>
+                <pre>  has_many :upload_sessions do</pre>
               </td>
               <td class='hit_number'>1</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>26</td>
+              <td class='line_number'>30</td>
               <td class='code_line'>
-                <pre>    def toggle(media_entry_or_id)</pre>
+                <pre>    def latest</pre>
               </td>
               <td class='hit_number'>1</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>27</td>
-              <td class='code_line'>
-                <pre>      media_entry_id = media_entry_or_id.is_a?(MediaEntry) ? media_entry_or_id.id : media_entry_or_id.to_i</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>28</td>
-              <td class='code_line'>
-                <pre>      if include?(media_entry_id)</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>29</td>
-              <td class='code_line'>
-                <pre>        media_entry = where(:id => media_entry_id).first</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>30</td>
-              <td class='code_line'>
-                <pre>        self.delete(media_entry)</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>31</td>
               <td class='code_line'>
-                <pre>      else</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>32</td>
-              <td class='code_line'>
-                <pre>        new_favorite = MediaEntry.find(media_entry_id)</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>33</td>
-              <td class='code_line'>
-                <pre>        self << new_favorite</pre>
+                <pre>      first</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>34</td>
+              <td class='line_number'>32</td>
               <td class='code_line'>
-                <pre>      end</pre>
+                <pre>    end</pre>
               </td>
               <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>33</td>
+              <td class='code_line'>
+                <pre>    def most_recents(limit = 3)</pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>34</td>
+              <td class='code_line'>
+                <pre>      all(:limit => limit)</pre>
+              </td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -371,7 +371,7 @@
             <tr class="never" "">
               <td class='line_number'>36</td>
               <td class='code_line'>
-                <pre>    </pre>
+                <pre>  end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -379,103 +379,103 @@
             <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>37</td>
               <td class='code_line'>
-                <pre>    def include?(media_entry_id)</pre>
+                <pre>  has_many :media_entries, :through => :upload_sessions</pre>
               </td>
               <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>38</td>
               <td class='code_line'>
-                <pre>      exists? :id => media_entry_id</pre>
+                <pre># TODO ??  has_many :media_files, :through => :media_entries</pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'></td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>39</td>
               <td class='code_line'>
-                <pre>    end  </pre>
+                <pre>  has_many :media_sets, :class_name => "MediaSet"</pre>
               </td>
-              <td class='hit_number'></td>
+              <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>40</td>
               <td class='code_line'>
-                <pre>  end</pre>
+                <pre>  has_and_belongs_to_many :favorites, :class_name => "MediaEntry", :join_table => "favorites" do</pre>
               </td>
-              <td class='hit_number'></td>
+              <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>41</td>
               <td class='code_line'>
-                <pre>    </pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>42</td>
-              <td class='code_line'>
-                <pre>  </pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>43</td>
-              <td class='code_line'>
-                <pre>  has_and_belongs_to_many :groups do</pre>
+                <pre>    def toggle(media_entry_or_id)</pre>
               </td>
               <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>44</td>
-              <td class='code_line'>
-                <pre>    def is_member?(group)</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>45</td>
-              <td class='code_line'>
-                <pre>      # OPTIMIZE</pre>
-              </td>
-              <td class='hit_number'></td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>46</td>
+              <td class='line_number'>42</td>
               <td class='code_line'>
-                <pre>      group = Group.find_or_create_by_name(group) if group.is_a? String</pre>
+                <pre>      media_entry_id = media_entry_or_id.is_a?(MediaEntry) ? media_entry_or_id.id : media_entry_or_id.to_i</pre>
               </td>
               <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>43</td>
+              <td class='code_line'>
+                <pre>      if include?(media_entry_id)</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>44</td>
+              <td class='code_line'>
+                <pre>        media_entry = where(:id => media_entry_id).first</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>45</td>
+              <td class='code_line'>
+                <pre>        self.delete(media_entry)</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>46</td>
+              <td class='code_line'>
+                <pre>      else</pre>
+              </td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>47</td>
               <td class='code_line'>
-                <pre>      include?(group)</pre>
+                <pre>        new_favorite = MediaEntry.find(media_entry_id)</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>48</td>
+              <td class='code_line'>
+                <pre>        self << new_favorite</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>48</td>
-              <td class='code_line'>
-                <pre>    end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>49</td>
               <td class='code_line'>
-                <pre>  end</pre>
+                <pre>      end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -483,7 +483,7 @@
             <tr class="never" "">
               <td class='line_number'>50</td>
               <td class='code_line'>
-                <pre>  </pre>
+                <pre>    end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -491,55 +491,55 @@
             <tr class="never" "">
               <td class='line_number'>51</td>
               <td class='code_line'>
-                <pre>#############################################################</pre>
+                <pre>    </pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>52</td>
+              <td class='code_line'>
+                <pre>    def include?(media_entry_id)</pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>53</td>
+              <td class='code_line'>
+                <pre>      exists? :id => media_entry_id</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>54</td>
+              <td class='code_line'>
+                <pre>    end  </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>52</td>
+              <td class='line_number'>55</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>  end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>53</td>
-              <td class='code_line'>
-                <pre>  validates_presence_of     :login</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>54</td>
-              <td class='code_line'>
-                <pre>  validates_length_of       :login,    :within => 3..40</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>55</td>
-              <td class='code_line'>
-                <pre>  validates_uniqueness_of   :login</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>56</td>
               <td class='code_line'>
-                <pre>  validates_format_of       :login,    :with => /\A\w[\w\.\-_@]+\z/, :message => "use only letters, numbers, and .-_@ please."</pre>
+                <pre>    </pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>57</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>  </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -547,7 +547,7 @@
             <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>58</td>
               <td class='code_line'>
-                <pre>  validates_presence_of     :email</pre>
+                <pre>  has_and_belongs_to_many :groups do</pre>
               </td>
               <td class='hit_number'>1</td>
             </tr>
@@ -555,47 +555,47 @@
             <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>59</td>
               <td class='code_line'>
-                <pre>  validates_length_of       :email,    :within => 6..100 #r@a.wk</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>60</td>
-              <td class='code_line'>
-                <pre>  validates_uniqueness_of   :email</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>61</td>
-              <td class='code_line'>
-                <pre>  validates_format_of       :email,    :with => /\A[\w\.%\+\-]+@(?:[A-Z0-9\-]+\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|jobs|museum)\z/i, :message => "should look like an email address."</pre>
+                <pre>    def is_member?(group)</pre>
               </td>
               <td class='hit_number'>1</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>62</td>
+              <td class='line_number'>60</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>      # OPTIMIZE</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>61</td>
+              <td class='code_line'>
+                <pre>      group = Group.find_or_create_by_name(group) if group.is_a? String</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>62</td>
+              <td class='code_line'>
+                <pre>      include?(group)</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
               <td class='line_number'>63</td>
               <td class='code_line'>
-                <pre>  validates_presence_of     :person</pre>
+                <pre>    end</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>64</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>  end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -603,7 +603,7 @@
             <tr class="never" "">
               <td class='line_number'>65</td>
               <td class='code_line'>
-                <pre>  # HACK HACK HACK -- how to do attr_accessible from here?</pre>
+                <pre>  </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -611,7 +611,7 @@
             <tr class="never" "">
               <td class='line_number'>66</td>
               <td class='code_line'>
-                <pre>  # prevents a user from submitting a crafted form that bypasses activation</pre>
+                <pre>#############################################################</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -619,69 +619,85 @@
             <tr class="never" "">
               <td class='line_number'>67</td>
               <td class='code_line'>
-                <pre>  # anything else you want your user to change should be added here.</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>68</td>
-              <td class='code_line'>
-                <pre>#temp#  attr_accessible :login, :email, :person_id</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>69</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>70</td>
-              <td class='code_line'>
-                <pre>#############################################################</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>71</td>
-              <td class='code_line'>
                 <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>72</td>
+              <td class='line_number'>68</td>
               <td class='code_line'>
-                <pre>  def to_s</pre>
+                <pre>  validates_presence_of     :login</pre>
               </td>
               <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>69</td>
+              <td class='code_line'>
+                <pre>  validates_length_of       :login,    :within => 3..40</pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>70</td>
+              <td class='code_line'>
+                <pre>  validates_uniqueness_of   :login</pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>71</td>
+              <td class='code_line'>
+                <pre>  validates_format_of       :login,    :with => /\A\w[\w\.\-_@]+\z/, :message => "use only letters, numbers, and .-_@ please."</pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>72</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>73</td>
               <td class='code_line'>
-                <pre>    name</pre>
+                <pre>  validates_presence_of     :email</pre>
               </td>
-              <td class='hit_number'>37</td>
+              <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>74</td>
               <td class='code_line'>
-                <pre>  end</pre>
+                <pre>  validates_length_of       :email,    :within => 6..100 #r@a.wk</pre>
               </td>
-              <td class='hit_number'></td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>75</td>
+              <td class='code_line'>
+                <pre>  validates_uniqueness_of   :email</pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>76</td>
+              <td class='code_line'>
+                <pre>  validates_format_of       :email,    :with => /\A[\w\.%\+\-]+@(?:[A-Z0-9\-]+\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|jobs|museum)\z/i, :message => "should look like an email address."</pre>
+              </td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>75</td>
+              <td class='line_number'>77</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -689,27 +705,11 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>76</td>
-              <td class='code_line'>
-                <pre>  def login=(value)</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>77</td>
-              <td class='code_line'>
-                <pre>    write_attribute :login, (value ? value.downcase : nil)</pre>
-              </td>
-              <td class='hit_number'>29</td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>78</td>
               <td class='code_line'>
-                <pre>  end</pre>
+                <pre>  validates_presence_of     :person</pre>
               </td>
-              <td class='hit_number'></td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="never" "">
@@ -720,26 +720,26 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>80</td>
               <td class='code_line'>
-                <pre>  def email=(value)</pre>
+                <pre>  # HACK HACK HACK -- how to do attr_accessible from here?</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>81</td>
               <td class='code_line'>
-                <pre>    write_attribute :email, (value ? value.downcase : nil)</pre>
+                <pre>  # prevents a user from submitting a crafted form that bypasses activation</pre>
               </td>
-              <td class='hit_number'>29</td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>82</td>
               <td class='code_line'>
-                <pre>  end</pre>
+                <pre>  # anything else you want your user to change should be added here.</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -747,7 +747,7 @@
             <tr class="never" "">
               <td class='line_number'>83</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>#temp#  attr_accessible :login, :email, :person_id</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -755,7 +755,7 @@
             <tr class="never" "">
               <td class='line_number'>84</td>
               <td class='code_line'>
-                <pre>#############################################################</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -763,7 +763,7 @@
             <tr class="never" "">
               <td class='line_number'>85</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>#############################################################</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -771,7 +771,7 @@
             <tr class="never" "">
               <td class='line_number'>86</td>
               <td class='code_line'>
-                <pre>  # TODO check against usage_terms version ??</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -779,7 +779,7 @@
             <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>87</td>
               <td class='code_line'>
-                <pre>  def usage_terms_accepted?</pre>
+                <pre>  def to_s</pre>
               </td>
               <td class='hit_number'>1</td>
             </tr>
@@ -787,9 +787,9 @@
             <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>88</td>
               <td class='code_line'>
-                <pre>    usage_terms_accepted_at.to_i >= UsageTerm.current.updated_at.to_i</pre>
+                <pre>    name</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>342</td>
             </tr>
           
             <tr class="never" "">
@@ -803,7 +803,7 @@
             <tr class="never" "">
               <td class='line_number'>90</td>
               <td class='code_line'>
-                <pre>  </pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -811,17 +811,17 @@
             <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>91</td>
               <td class='code_line'>
-                <pre>  def usage_terms_accepted!</pre>
+                <pre>  def login=(value)</pre>
               </td>
               <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>92</td>
               <td class='code_line'>
-                <pre>    update_attributes(:usage_terms_accepted_at => Time.now)</pre>
+                <pre>    write_attribute :login, (value ? value.downcase : nil)</pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'>161</td>
             </tr>
           
             <tr class="never" "">
@@ -840,8 +840,128 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>95</td>
+              <td class='code_line'>
+                <pre>  def email=(value)</pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>96</td>
+              <td class='code_line'>
+                <pre>    write_attribute :email, (value ? value.downcase : nil)</pre>
+              </td>
+              <td class='hit_number'>161</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>97</td>
+              <td class='code_line'>
+                <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>98</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>99</td>
+              <td class='code_line'>
+                <pre>#############################################################</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>100</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>101</td>
+              <td class='code_line'>
+                <pre>  # TODO check against usage_terms version ??</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>102</td>
+              <td class='code_line'>
+                <pre>  def usage_terms_accepted?</pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>103</td>
+              <td class='code_line'>
+                <pre>    usage_terms_accepted_at.to_i >= UsageTerm.current.updated_at.to_i</pre>
+              </td>
+              <td class='hit_number'>4</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>104</td>
+              <td class='code_line'>
+                <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>105</td>
+              <td class='code_line'>
+                <pre>  </pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>106</td>
+              <td class='code_line'>
+                <pre>  def usage_terms_accepted!</pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>107</td>
+              <td class='code_line'>
+                <pre>    update_attributes(:usage_terms_accepted_at => Time.now)</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>108</td>
+              <td class='code_line'>
+                <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>109</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>110</td>
               <td class='code_line'>
                 <pre>end</pre>
               </td>
@@ -922,7 +1042,7 @@
               <tr class="never">
                 <td class='line_number'>9</td>
                 <td class='code_line'>
-                  <pre>  context "referential integrity" do</pre>
+                  <pre>  it "should be destroyable" do</pre>
                 </td>
               </tr>
               
@@ -930,7 +1050,7 @@
               <tr class="never">
                 <td class='line_number'>10</td>
                 <td class='code_line'>
-                  <pre></pre>
+                  <pre>    expect{ (FactoryGirl.create :user).destroy }.not_to raise_error</pre>
                 </td>
               </tr>
               
@@ -938,7 +1058,7 @@
               <tr class="never">
                 <td class='line_number'>11</td>
                 <td class='code_line'>
-                  <pre>    it "should raise an execption if the person is deleted on the database layer" do</pre>
+                  <pre>  end</pre>
                 </td>
               </tr>
               
@@ -946,7 +1066,7 @@
               <tr class="never">
                 <td class='line_number'>12</td>
                 <td class='code_line'>
-                  <pre>      user = FactoryGirl.create :user</pre>
+                  <pre></pre>
                 </td>
               </tr>
               
@@ -954,7 +1074,7 @@
               <tr class="never">
                 <td class='line_number'>13</td>
                 <td class='code_line'>
-                  <pre>      expect { SQLHelper.execute_sql "DELETE FROM people WHERE ID = #{user.person.id};" }.to raise_error</pre>
+                  <pre>  context "referential integrity" do</pre>
                 </td>
               </tr>
               
@@ -962,7 +1082,7 @@
               <tr class="never">
                 <td class='line_number'>14</td>
                 <td class='code_line'>
-                  <pre>    end</pre>
+                  <pre></pre>
                 </td>
               </tr>
               
@@ -970,7 +1090,7 @@
               <tr class="never">
                 <td class='line_number'>15</td>
                 <td class='code_line'>
-                  <pre></pre>
+                  <pre>    it "should raise an execption if the person is deleted on the database layer" do</pre>
                 </td>
               </tr>
               
@@ -978,7 +1098,7 @@
               <tr class="never">
                 <td class='line_number'>16</td>
                 <td class='code_line'>
-                  <pre>  end</pre>
+                  <pre>      user = FactoryGirl.create :user</pre>
                 </td>
               </tr>
               
@@ -986,13 +1106,45 @@
               <tr class="never">
                 <td class='line_number'>17</td>
                 <td class='code_line'>
-                  <pre></pre>
+                  <pre>      expect { SQLHelper.execute_sql "DELETE FROM people WHERE ID = #{user.person.id};" }.to raise_error</pre>
                 </td>
               </tr>
               
             
               <tr class="never">
                 <td class='line_number'>18</td>
+                <td class='code_line'>
+                  <pre>    end</pre>
+                </td>
+              </tr>
+              
+            
+              <tr class="never">
+                <td class='line_number'>19</td>
+                <td class='code_line'>
+                  <pre></pre>
+                </td>
+              </tr>
+              
+            
+              <tr class="never">
+                <td class='line_number'>20</td>
+                <td class='code_line'>
+                  <pre>  end</pre>
+                </td>
+              </tr>
+              
+            
+              <tr class="never">
+                <td class='line_number'>21</td>
+                <td class='code_line'>
+                  <pre></pre>
+                </td>
+              </tr>
+              
+            
+              <tr class="never">
+                <td class='line_number'>22</td>
                 <td class='code_line'>
                   <pre>end</pre>
                 </td>
@@ -1004,6 +1156,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-13 12:28:34 +0100</p>
+    <p>Generated on: 2012-01-14 14:37:55 +0100</p>
   </body>
 </html>

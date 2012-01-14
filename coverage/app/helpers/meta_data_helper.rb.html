@@ -2,8 +2,8 @@
   <head>
     <title>app/helpers/meta_data_helper.rb</title>
     
-    <link href="../../report.css?0.6515071031919454" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.9622275749664132'></script>
+    <link href="../../report.css?0.5883957322097363" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.569440535532874'></script>
     <script>
       $(function() {
 
@@ -55,10 +55,10 @@
           app/helpers/meta_data_helper.rb
           
         </td>
-        <td>522</td>
-        <td>204</td>
-        <td>191</td>
-        <td>6.4%</td>
+        <td>529</td>
+        <td>207</td>
+        <td>194</td>
+        <td>6.3%</td>
       </tr>
     </table>
 
@@ -1392,109 +1392,13 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>164</td>
               <td class='code_line'>
-                <pre>        departments_without_semester = Meta::Department.where("ldap_name NOT REGEXP '_[0-9]{2}[A-Za-z]\.studierende'")</pre>
+                <pre>        departments_without_semester = </pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>165</td>
-              <td class='code_line'>
-                <pre>        all_options = departments_without_semester.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)} }</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>166</td>
-              <td class='code_line'>
-                <pre>      when "Meta::Term"</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>167</td>
-              <td class='code_line'>
-                <pre>        selected = Array(meta_datum.object.value)</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>168</td>
-              <td class='code_line'>
-                <pre>        all_options = meta_key.meta_terms.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>169</td>
-              <td class='code_line'>
-                <pre>      when "Person"</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>170</td>
-              <td class='code_line'>
-                <pre>        selected = Array(meta_datum.object.value)</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>171</td>
-              <td class='code_line'>
-                <pre>        @people ||= meta_key.object_type.constantize.with_media_entries</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>172</td>
-              <td class='code_line'>
-                <pre>        all_options = @people.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>173</td>
-              <td class='code_line'>
-                <pre>      when "Keyword"</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>174</td>
-              <td class='code_line'>
-                <pre>        keywords = meta_datum.object.deserialized_value</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>175</td>
-              <td class='code_line'>
-                <pre>        meta_term_ids = keywords.collect(&:meta_term_id)</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>176</td>
-              <td class='code_line'>
-                <pre>        all_grouped_keywords = </pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>177</td>
               <td class='code_line'>
                 <pre>          if SQLHelper.adapter_is_mysql?</pre>
               </td>
@@ -1502,15 +1406,15 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>178</td>
+              <td class='line_number'>166</td>
               <td class='code_line'>
-                <pre>            Keyword.group(:meta_term_id)</pre>
+                <pre>            Meta::Department.where("ldap_name NOT REGEXP '_[0-9]{2}[A-Za-z]\.studierende'")</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>179</td>
+              <td class='line_number'>167</td>
               <td class='code_line'>
                 <pre>          elsif SQLHelper.adapter_is_postgresql?</pre>
               </td>
@@ -1518,15 +1422,15 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>180</td>
+              <td class='line_number'>168</td>
               <td class='code_line'>
-                <pre>            Keyword.select "DISTINCT ON (meta_term_id) * "</pre>
+                <pre>            Meta::Department.where("ldap_name NOT SIMILAR TO '%_[0-9]{2}[A-Za-z]\.studierende'")</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>181</td>
+              <td class='line_number'>169</td>
               <td class='code_line'>
                 <pre>          else</pre>
               </td>
@@ -1534,15 +1438,15 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>182</td>
+              <td class='line_number'>170</td>
               <td class='code_line'>
-                <pre>            raise "adapter is not supported"</pre>
+                <pre>            raise "you are fucked!"</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>183</td>
+              <td class='line_number'>171</td>
               <td class='code_line'>
                 <pre>          end</pre>
               </td>
@@ -1550,33 +1454,129 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>184</td>
+              <td class='line_number'>172</td>
               <td class='code_line'>
-                <pre>        all_grouped_keywords = all_grouped_keywords.where(["meta_term_id NOT IN (?)", meta_term_ids]) unless meta_term_ids.empty?</pre>
+                <pre>        all_options = departments_without_semester.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)} }</pre>
               </td>
               <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>173</td>
+              <td class='code_line'>
+                <pre>      when "Meta::Term"</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>174</td>
+              <td class='code_line'>
+                <pre>        selected = Array(meta_datum.object.value)</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>175</td>
+              <td class='code_line'>
+                <pre>        all_options = meta_key.meta_terms.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>176</td>
+              <td class='code_line'>
+                <pre>      when "Person"</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>177</td>
+              <td class='code_line'>
+                <pre>        selected = Array(meta_datum.object.value)</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>178</td>
+              <td class='code_line'>
+                <pre>        @people ||= meta_key.object_type.constantize.with_media_entries</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>179</td>
+              <td class='code_line'>
+                <pre>        all_options = @people.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>180</td>
+              <td class='code_line'>
+                <pre>      when "Keyword"</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>181</td>
+              <td class='code_line'>
+                <pre>        keywords = meta_datum.object.deserialized_value</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>182</td>
+              <td class='code_line'>
+                <pre>        meta_term_ids = keywords.collect(&:meta_term_id)</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>183</td>
+              <td class='code_line'>
+                <pre>        all_grouped_keywords = </pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>184</td>
+              <td class='code_line'>
+                <pre>          if SQLHelper.adapter_is_mysql?</pre>
+              </td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>185</td>
               <td class='code_line'>
-                <pre>        all_options = keywords.collect {|x| {:label => x.to_s, :id => x.meta_term_id, :selected => true}}</pre>
+                <pre>            Keyword.group(:meta_term_id)</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>186</td>
               <td class='code_line'>
-                <pre>        all_options += all_grouped_keywords.collect {|x| {:label => x.to_s, :id => x.meta_term_id, :selected => false}}</pre>
+                <pre>          elsif SQLHelper.adapter_is_postgresql?</pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>187</td>
               <td class='code_line'>
-                <pre>        all_options.sort! {|a,b| a[:label].downcase <=> b[:label].downcase}</pre>
+                <pre>            Keyword.select "DISTINCT ON (meta_term_id) * "</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -1584,13 +1584,69 @@
             <tr class="never" "">
               <td class='line_number'>188</td>
               <td class='code_line'>
+                <pre>          else</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>189</td>
+              <td class='code_line'>
+                <pre>            raise "adapter is not supported"</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>190</td>
+              <td class='code_line'>
+                <pre>          end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>191</td>
+              <td class='code_line'>
+                <pre>        all_grouped_keywords = all_grouped_keywords.where(["meta_term_id NOT IN (?)", meta_term_ids]) unless meta_term_ids.empty?</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>192</td>
+              <td class='code_line'>
+                <pre>        all_options = keywords.collect {|x| {:label => x.to_s, :id => x.meta_term_id, :selected => true}}</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>193</td>
+              <td class='code_line'>
+                <pre>        all_options += all_grouped_keywords.collect {|x| {:label => x.to_s, :id => x.meta_term_id, :selected => false}}</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>194</td>
+              <td class='code_line'>
+                <pre>        all_options.sort! {|a,b| a[:label].downcase <=> b[:label].downcase}</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>195</td>
+              <td class='code_line'>
                 <pre>    end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>189</td>
+              <td class='line_number'>196</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1598,7 +1654,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>190</td>
+              <td class='line_number'>197</td>
               <td class='code_line'>
                 <pre>    is_extensible = (meta_key.is_extensible_list? or ["Keyword", "Person"].include?(meta_key.object_type))</pre>
               </td>
@@ -1606,7 +1662,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>191</td>
+              <td class='line_number'>198</td>
               <td class='code_line'>
                 <pre>    with_toggle = !["keywords", "author", "creator", "description author", "description author before import"].include?(meta_key.label)</pre>
               </td>
@@ -1614,7 +1670,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>192</td>
+              <td class='line_number'>199</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1622,7 +1678,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>193</td>
+              <td class='line_number'>200</td>
               <td class='code_line'>
                 <pre>    h = content_tag :div, :class => "madek_multiselect_container",</pre>
               </td>
@@ -1630,7 +1686,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>194</td>
+              <td class='line_number'>201</td>
               <td class='code_line'>
                 <pre>                          :"data-is_extensible" => is_extensible,</pre>
               </td>
@@ -1638,7 +1694,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>195</td>
+              <td class='line_number'>202</td>
               <td class='code_line'>
                 <pre>                          :"data-with_toggle" => with_toggle do </pre>
               </td>
@@ -1646,7 +1702,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>196</td>
+              <td class='line_number'>203</td>
               <td class='code_line'>
                 <pre>      a = content_tag :ul, :class => "holder" do</pre>
               </td>
@@ -1654,7 +1710,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>197</td>
+              <td class='line_number'>204</td>
               <td class='code_line'>
                 <pre>        content_tag :li, :class => "input_holder" do</pre>
               </td>
@@ -1662,7 +1718,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>198</td>
+              <td class='line_number'>205</td>
               <td class='code_line'>
                 <pre>          text_field_tag "autocomplete_search", nil, :style => "outline: none; border: none;", :id => "#{meta_key.label.gsub(/\W+/, '_')}_autocomplete_search",</pre>
               </td>
@@ -1670,7 +1726,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>199</td>
+              <td class='line_number'>206</td>
               <td class='code_line'>
                 <pre>                          :"data-all_options" => "#{all_options.to_json}",</pre>
               </td>
@@ -1678,7 +1734,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>200</td>
+              <td class='line_number'>207</td>
               <td class='code_line'>
                 <pre>                          :"data-field_name_prefix" => "#{meta_datum.object_name}"</pre>
               </td>
@@ -1686,7 +1742,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>201</td>
+              <td class='line_number'>208</td>
               <td class='code_line'>
                 <pre>        end</pre>
               </td>
@@ -1694,7 +1750,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>202</td>
+              <td class='line_number'>209</td>
               <td class='code_line'>
                 <pre>      end</pre>
               </td>
@@ -1702,7 +1758,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>203</td>
+              <td class='line_number'>210</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -1710,7 +1766,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>204</td>
+              <td class='line_number'>211</td>
               <td class='code_line'>
                 <pre>  </pre>
               </td>
@@ -1718,7 +1774,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>205</td>
+              <td class='line_number'>212</td>
               <td class='code_line'>
                 <pre>        </pre>
               </td>
@@ -1726,7 +1782,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>206</td>
+              <td class='line_number'>213</td>
               <td class='code_line'>
                 <pre>    @js_3 ||= false</pre>
               </td>
@@ -1734,7 +1790,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>207</td>
+              <td class='line_number'>214</td>
               <td class='code_line'>
                 <pre>    unless @js_3</pre>
               </td>
@@ -1742,7 +1798,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>208</td>
+              <td class='line_number'>215</td>
               <td class='code_line'>
                 <pre>      @js_3 = true</pre>
               </td>
@@ -1750,7 +1806,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>209</td>
+              <td class='line_number'>216</td>
               <td class='code_line'>
                 <pre>      h += content_tag :script, :type => "text/x-jquery-tmpl", :id => "madek_multiselect_item" do</pre>
               </td>
@@ -1758,7 +1814,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>210</td>
+              <td class='line_number'>217</td>
               <td class='code_line'>
                 <pre>        begin</pre>
               </td>
@@ -1766,7 +1822,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>211</td>
+              <td class='line_number'>218</td>
               <td class='code_line'>
                 <pre>        <<-HERECODE</pre>
               </td>
@@ -1774,7 +1830,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>212</td>
+              <td class='line_number'>219</td>
               <td class='code_line'>
                 <pre>          <li class='bit-box'></pre>
               </td>
@@ -1782,7 +1838,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>213</td>
+              <td class='line_number'>220</td>
               <td class='code_line'>
                 <pre>            ${label}</pre>
               </td>
@@ -1790,7 +1846,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>214</td>
+              <td class='line_number'>221</td>
               <td class='code_line'>
                 <pre>            <input type='hidden' name='${field_name_prefix}[value][]' value='${id}'></pre>
               </td>
@@ -1798,7 +1854,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>215</td>
+              <td class='line_number'>222</td>
               <td class='code_line'>
                 <pre>            <a class="closebutton" href="#"></a></pre>
               </td>
@@ -1806,7 +1862,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>216</td>
+              <td class='line_number'>223</td>
               <td class='code_line'>
                 <pre>          </li></pre>
               </td>
@@ -1814,65 +1870,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>217</td>
-              <td class='code_line'>
-                <pre>        HERECODE</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>218</td>
-              <td class='code_line'>
-                <pre>        end.html_safe</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>219</td>
-              <td class='code_line'>
-                <pre>      end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>220</td>
-              <td class='code_line'>
-                <pre>      h += stylesheet_link_tag "jquery/fcbkcomplete.css", "jquery/fcbkcomplete_custom.css"</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>221</td>
-              <td class='code_line'>
-                <pre>      h += javascript_tag do</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>222</td>
-              <td class='code_line'>
-                <pre>        begin</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>223</td>
-              <td class='code_line'>
-                <pre>        <<-HERECODE</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>224</td>
               <td class='code_line'>
-                <pre>          $(document).ready(function(){</pre>
+                <pre>        HERECODE</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1880,7 +1880,7 @@
             <tr class="never" "">
               <td class='line_number'>225</td>
               <td class='code_line'>
-                <pre>            function do_nothing() {</pre>
+                <pre>        end.html_safe</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1888,47 +1888,47 @@
             <tr class="never" "">
               <td class='line_number'>226</td>
               <td class='code_line'>
-                <pre>                  return false;</pre>
+                <pre>      end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>227</td>
               <td class='code_line'>
-                <pre>            };</pre>
+                <pre>      h += stylesheet_link_tag "jquery/fcbkcomplete.css", "jquery/fcbkcomplete_custom.css"</pre>
               </td>
-              <td class='hit_number'></td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>228</td>
               <td class='code_line'>
-                <pre>            $(".dialog_link").click(function(e){</pre>
+                <pre>      h += javascript_tag do</pre>
               </td>
-              <td class='hit_number'></td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>229</td>
               <td class='code_line'>
-                <pre>              // prevent double click on link</pre>
+                <pre>        begin</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>230</td>
               <td class='code_line'>
-                <pre>              $(e.target).click(do_nothing);</pre>
+                <pre>        <<-HERECODE</pre>
               </td>
-              <td class='hit_number'></td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>231</td>
               <td class='code_line'>
-                <pre>              setTimeout(function(){</pre>
+                <pre>          $(document).ready(function(){</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1936,7 +1936,7 @@
             <tr class="never" "">
               <td class='line_number'>232</td>
               <td class='code_line'>
-                <pre>                $(e.target).unbind('click', do_nothing);</pre>
+                <pre>            function do_nothing() {</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1944,7 +1944,7 @@
             <tr class="never" "">
               <td class='line_number'>233</td>
               <td class='code_line'>
-                <pre>              }, 1000);</pre>
+                <pre>                  return false;</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1952,7 +1952,7 @@
             <tr class="never" "">
               <td class='line_number'>234</td>
               <td class='code_line'>
-                <pre>              var source = $(this);</pre>
+                <pre>            };</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1960,7 +1960,7 @@
             <tr class="never" "">
               <td class='line_number'>235</td>
               <td class='code_line'>
-                <pre>              var next_container = source.next();</pre>
+                <pre>            $(".dialog_link").click(function(e){</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1968,7 +1968,7 @@
             <tr class="never" "">
               <td class='line_number'>236</td>
               <td class='code_line'>
-                <pre>              if(next_container.length > 0){</pre>
+                <pre>              // prevent double click on link</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1976,7 +1976,7 @@
             <tr class="never" "">
               <td class='line_number'>237</td>
               <td class='code_line'>
-                <pre>                next_container.slideToggle();</pre>
+                <pre>              $(e.target).click(do_nothing);</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1984,7 +1984,7 @@
             <tr class="never" "">
               <td class='line_number'>238</td>
               <td class='code_line'>
-                <pre>                source.children("img:last").toggleClass("expanded");</pre>
+                <pre>              setTimeout(function(){</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -1992,7 +1992,7 @@
             <tr class="never" "">
               <td class='line_number'>239</td>
               <td class='code_line'>
-                <pre>              }else{</pre>
+                <pre>                $(e.target).unbind('click', do_nothing);</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2000,7 +2000,7 @@
             <tr class="never" "">
               <td class='line_number'>240</td>
               <td class='code_line'>
-                <pre>                $.ajax({</pre>
+                <pre>              }, 1000);</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2008,7 +2008,7 @@
             <tr class="never" "">
               <td class='line_number'>241</td>
               <td class='code_line'>
-                <pre>                  url: source.attr("href"),</pre>
+                <pre>              var source = $(this);</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2016,7 +2016,7 @@
             <tr class="never" "">
               <td class='line_number'>242</td>
               <td class='code_line'>
-                <pre>                  dataType: 'html',</pre>
+                <pre>              var next_container = source.next();</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2024,7 +2024,7 @@
             <tr class="never" "">
               <td class='line_number'>243</td>
               <td class='code_line'>
-                <pre>                  success: function(response){</pre>
+                <pre>              if(next_container.length > 0){</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2032,7 +2032,7 @@
             <tr class="never" "">
               <td class='line_number'>244</td>
               <td class='code_line'>
-                <pre>                    source.children("img:last").toggleClass("expanded");</pre>
+                <pre>                next_container.slideToggle();</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2040,7 +2040,7 @@
             <tr class="never" "">
               <td class='line_number'>245</td>
               <td class='code_line'>
-                <pre>                    source.after(response);</pre>
+                <pre>                source.children("img:last").toggleClass("expanded");</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2048,7 +2048,7 @@
             <tr class="never" "">
               <td class='line_number'>246</td>
               <td class='code_line'>
-                <pre>                    source.next().hide().slideDown();</pre>
+                <pre>              }else{</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2056,7 +2056,7 @@
             <tr class="never" "">
               <td class='line_number'>247</td>
               <td class='code_line'>
-                <pre>                    $("form[data-remote] input:submit").click(function(event){</pre>
+                <pre>                $.ajax({</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2064,7 +2064,7 @@
             <tr class="never" "">
               <td class='line_number'>248</td>
               <td class='code_line'>
-                <pre>                      $(this).closest("form").trigger("submit");</pre>
+                <pre>                  url: source.attr("href"),</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2072,7 +2072,7 @@
             <tr class="never" "">
               <td class='line_number'>249</td>
               <td class='code_line'>
-                <pre>                      return false;</pre>
+                <pre>                  dataType: 'html',</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2080,7 +2080,7 @@
             <tr class="never" "">
               <td class='line_number'>250</td>
               <td class='code_line'>
-                <pre>                    });</pre>
+                <pre>                  success: function(response){</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2088,7 +2088,7 @@
             <tr class="never" "">
               <td class='line_number'>251</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>                    source.children("img:last").toggleClass("expanded");</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2096,7 +2096,7 @@
             <tr class="never" "">
               <td class='line_number'>252</td>
               <td class='code_line'>
-                <pre>                    if(source.closest("[data-meta_key]").data("meta_key") == "keywords"){</pre>
+                <pre>                    source.after(response);</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2104,7 +2104,7 @@
             <tr class="never" "">
               <td class='line_number'>253</td>
               <td class='code_line'>
-                <pre>                      hide_selected_keywords(source.prev(".madek_multiselect_container").find("ul.holder")); </pre>
+                <pre>                    source.next().hide().slideDown();</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2112,7 +2112,7 @@
             <tr class="never" "">
               <td class='line_number'>254</td>
               <td class='code_line'>
-                <pre>                    }else{</pre>
+                <pre>                    $("form[data-remote] input:submit").click(function(event){</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2120,7 +2120,7 @@
             <tr class="never" "">
               <td class='line_number'>255</td>
               <td class='code_line'>
-                <pre>                      $("form.new_person").bind("ajax:success", function(xhr, item, status){</pre>
+                <pre>                      $(this).closest("form").trigger("submit");</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2128,7 +2128,7 @@
             <tr class="never" "">
               <td class='line_number'>256</td>
               <td class='code_line'>
-                <pre>                        if (item.id != null) {</pre>
+                <pre>                      return false;</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2136,7 +2136,7 @@
             <tr class="never" "">
               <td class='line_number'>257</td>
               <td class='code_line'>
-                <pre>                          var search_field = $(this).closest("[data-meta_key]").find("input[name='autocomplete_search']");</pre>
+                <pre>                    });</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2144,7 +2144,7 @@
             <tr class="never" "">
               <td class='line_number'>258</td>
               <td class='code_line'>
-                <pre>                          add_to_selected_items(item, search_field, true);</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2152,7 +2152,7 @@
             <tr class="never" "">
               <td class='line_number'>259</td>
               <td class='code_line'>
-                <pre>                        };  </pre>
+                <pre>                    if(source.closest("[data-meta_key]").data("meta_key") == "keywords"){</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2160,7 +2160,7 @@
             <tr class="never" "">
               <td class='line_number'>260</td>
               <td class='code_line'>
-                <pre>                        source.children("img:last").toggleClass("expanded");</pre>
+                <pre>                      hide_selected_keywords(source.prev(".madek_multiselect_container").find("ul.holder")); </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2168,7 +2168,7 @@
             <tr class="never" "">
               <td class='line_number'>261</td>
               <td class='code_line'>
-                <pre>                        $(this).closest(".tabs").remove();</pre>
+                <pre>                    }else{</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2176,7 +2176,7 @@
             <tr class="never" "">
               <td class='line_number'>262</td>
               <td class='code_line'>
-                <pre>                      });</pre>
+                <pre>                      $("form.new_person").bind("ajax:success", function(xhr, item, status){</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2184,7 +2184,7 @@
             <tr class="never" "">
               <td class='line_number'>263</td>
               <td class='code_line'>
-                <pre>                    }</pre>
+                <pre>                        if (item.id != null) {</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2192,7 +2192,7 @@
             <tr class="never" "">
               <td class='line_number'>264</td>
               <td class='code_line'>
-                <pre>                  }</pre>
+                <pre>                          var search_field = $(this).closest("[data-meta_key]").find("input[name='autocomplete_search']");</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2200,7 +2200,7 @@
             <tr class="never" "">
               <td class='line_number'>265</td>
               <td class='code_line'>
-                <pre>                });</pre>
+                <pre>                          add_to_selected_items(item, search_field, true);</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2208,7 +2208,7 @@
             <tr class="never" "">
               <td class='line_number'>266</td>
               <td class='code_line'>
-                <pre>              }</pre>
+                <pre>                        };  </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2216,7 +2216,7 @@
             <tr class="never" "">
               <td class='line_number'>267</td>
               <td class='code_line'>
-                <pre>              return false;                  </pre>
+                <pre>                        source.children("img:last").toggleClass("expanded");</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2224,7 +2224,7 @@
             <tr class="never" "">
               <td class='line_number'>268</td>
               <td class='code_line'>
-                <pre>            });                   </pre>
+                <pre>                        $(this).closest(".tabs").remove();</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2232,7 +2232,7 @@
             <tr class="never" "">
               <td class='line_number'>269</td>
               <td class='code_line'>
-                <pre>          });</pre>
+                <pre>                      });</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2240,7 +2240,7 @@
             <tr class="never" "">
               <td class='line_number'>270</td>
               <td class='code_line'>
-                <pre>        HERECODE</pre>
+                <pre>                    }</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2248,7 +2248,7 @@
             <tr class="never" "">
               <td class='line_number'>271</td>
               <td class='code_line'>
-                <pre>        end.html_safe</pre>
+                <pre>                  }</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2256,7 +2256,7 @@
             <tr class="never" "">
               <td class='line_number'>272</td>
               <td class='code_line'>
-                <pre>      end</pre>
+                <pre>                });</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2264,7 +2264,7 @@
             <tr class="never" "">
               <td class='line_number'>273</td>
               <td class='code_line'>
-                <pre>    end</pre>
+                <pre>              }</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2272,23 +2272,23 @@
             <tr class="never" "">
               <td class='line_number'>274</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>              return false;                  </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>275</td>
               <td class='code_line'>
-                <pre>    h</pre>
+                <pre>            });                   </pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>276</td>
               <td class='code_line'>
-                <pre>  end</pre>
+                <pre>          });</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2296,13 +2296,69 @@
             <tr class="never" "">
               <td class='line_number'>277</td>
               <td class='code_line'>
+                <pre>        HERECODE</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>278</td>
+              <td class='code_line'>
+                <pre>        end.html_safe</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>279</td>
+              <td class='code_line'>
+                <pre>      end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>280</td>
+              <td class='code_line'>
+                <pre>    end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>281</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>282</td>
+              <td class='code_line'>
+                <pre>    h</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>283</td>
+              <td class='code_line'>
+                <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>284</td>
+              <td class='code_line'>
                 <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>278</td>
+              <td class='line_number'>285</td>
               <td class='code_line'>
                 <pre>  def field_tag(meta_datum, context, autofocus = false, with_actions = false)</pre>
               </td>
@@ -2310,65 +2366,9 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>279</td>
-              <td class='code_line'>
-                <pre>    h = meta_datum.hidden_field :meta_key_id</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>280</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>281</td>
-              <td class='code_line'>
-                <pre>    meta_key = meta_datum.object.meta_key</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>282</td>
-              <td class='code_line'>
-                <pre>    field_id = "#{sanitize_to_id(meta_datum.object_name)}_value"</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>283</td>
-              <td class='code_line'>
-                <pre>    definition = meta_key.meta_key_definitions.for_context(context)</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>284</td>
-              <td class='code_line'>
-                <pre>    is_required = (definition.meta_field.is_required ? true : nil)</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>285</td>
-              <td class='code_line'>
-                <pre>    #key_id = meta_datum.object.meta_key_id</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>286</td>
               <td class='code_line'>
-                <pre>    object_id = meta_datum.object.object_id</pre>
+                <pre>    h = meta_datum.hidden_field :meta_key_id</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -2384,7 +2384,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>288</td>
               <td class='code_line'>
-                <pre>    if meta_key.object_type == "Meta::Country"</pre>
+                <pre>    meta_key = meta_datum.object.meta_key</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -2392,71 +2392,71 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>289</td>
               <td class='code_line'>
-                <pre>      h += widget_meta_countries(meta_datum, meta_key)</pre>
+                <pre>    field_id = "#{sanitize_to_id(meta_datum.object_name)}_value"</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>290</td>
+              <td class='code_line'>
+                <pre>    definition = meta_key.meta_key_definitions.for_context(context)</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>291</td>
+              <td class='code_line'>
+                <pre>    is_required = (definition.meta_field.is_required ? true : nil)</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>290</td>
+              <td class='line_number'>292</td>
+              <td class='code_line'>
+                <pre>    #key_id = meta_datum.object.meta_key_id</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>293</td>
+              <td class='code_line'>
+                <pre>    object_id = meta_datum.object.object_id</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>294</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="never" "">
-              <td class='line_number'>291</td>
-              <td class='code_line'>
-                <pre>    elsif meta_key.object_type</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>292</td>
-              <td class='code_line'>
-                <pre>      klass = meta_key.object_type.constantize</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>293</td>
-              <td class='code_line'>
-                <pre>            </pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>294</td>
-              <td class='code_line'>
-                <pre>      case klass.name</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>295</td>
               <td class='code_line'>
-                <pre>        # TODO set String for 'subject' key, TODO multiple fields for array </pre>
+                <pre>    if meta_key.object_type == "Meta::Country"</pre>
               </td>
-              <td class='hit_number'></td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>296</td>
               <td class='code_line'>
-                <pre>        #       when "String"</pre>
+                <pre>      h += widget_meta_countries(meta_datum, meta_key)</pre>
               </td>
-              <td class='hit_number'></td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>297</td>
               <td class='code_line'>
-                <pre>        #          h += text_area_tag "media_entry[meta_data_attributes][0][value]", meta_datum.object.to_s</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2464,7 +2464,7 @@
             <tr class="never" "">
               <td class='line_number'>298</td>
               <td class='code_line'>
-                <pre>        when "Keyword"</pre>
+                <pre>    elsif meta_key.object_type</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -2472,13 +2472,69 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>299</td>
               <td class='code_line'>
+                <pre>      klass = meta_key.object_type.constantize</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>300</td>
+              <td class='code_line'>
+                <pre>            </pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>301</td>
+              <td class='code_line'>
+                <pre>      case klass.name</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>302</td>
+              <td class='code_line'>
+                <pre>        # TODO set String for 'subject' key, TODO multiple fields for array </pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>303</td>
+              <td class='code_line'>
+                <pre>        #       when "String"</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>304</td>
+              <td class='code_line'>
+                <pre>        #          h += text_area_tag "media_entry[meta_data_attributes][0][value]", meta_datum.object.to_s</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>305</td>
+              <td class='code_line'>
+                <pre>        when "Keyword"</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>306</td>
+              <td class='code_line'>
                 <pre>          h += widget_meta_terms_multiselect(meta_datum, meta_key)</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>300</td>
+              <td class='line_number'>307</td>
               <td class='code_line'>
                 <pre>          h += link_to icon_tag("button_add_keyword"), keywords_media_entries_path, :class => "dialog_link", :style => "margin-top: .5em;"</pre>
               </td>
@@ -2486,7 +2542,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>301</td>
+              <td class='line_number'>308</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -2494,7 +2550,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>302</td>
+              <td class='line_number'>309</td>
               <td class='code_line'>
                 <pre>        when "Meta::Term"</pre>
               </td>
@@ -2502,7 +2558,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>303</td>
+              <td class='line_number'>310</td>
               <td class='code_line'>
                 <pre>          meta_terms = meta_key.meta_terms</pre>
               </td>
@@ -2510,7 +2566,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>304</td>
+              <td class='line_number'>311</td>
               <td class='code_line'>
                 <pre>          ui = (definition.meta_field.length_max and definition.meta_field.length_max == 1 ? :radio_button : :check_box )</pre>
               </td>
@@ -2518,7 +2574,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>305</td>
+              <td class='line_number'>312</td>
               <td class='code_line'>
                 <pre>          h += widget_meta_terms(meta_datum, meta_key, meta_terms, ui)</pre>
               </td>
@@ -2526,7 +2582,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>306</td>
+              <td class='line_number'>313</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -2534,7 +2590,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>307</td>
+              <td class='line_number'>314</td>
               <td class='code_line'>
                 <pre>        when "Person"</pre>
               </td>
@@ -2542,7 +2598,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>308</td>
+              <td class='line_number'>315</td>
               <td class='code_line'>
                 <pre>          h += widget_meta_terms_multiselect(meta_datum, meta_key)</pre>
               </td>
@@ -2550,7 +2606,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>309</td>
+              <td class='line_number'>316</td>
               <td class='code_line'>
                 <pre>          h += link_to icon_tag("button_add_person"), new_person_path, :class => "dialog_link", :style => "margin-top: .5em;"</pre>
               </td>
@@ -2558,7 +2614,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>310</td>
+              <td class='line_number'>317</td>
               <td class='code_line'>
                 <pre>          </pre>
               </td>
@@ -2566,7 +2622,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>311</td>
+              <td class='line_number'>318</td>
               <td class='code_line'>
                 <pre>        when "Meta::Date"</pre>
               </td>
@@ -2574,7 +2630,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>312</td>
+              <td class='line_number'>319</td>
               <td class='code_line'>
                 <pre>          meta_datum.object.value ||= [] # OPTIMIZE</pre>
               </td>
@@ -2582,7 +2638,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>313</td>
+              <td class='line_number'>320</td>
               <td class='code_line'>
                 <pre>          at = from = to = at_time = ""</pre>
               </td>
@@ -2590,7 +2646,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>314</td>
+              <td class='line_number'>321</td>
               <td class='code_line'>
                 <pre>          selected_option = "freetext"</pre>
               </td>
@@ -2598,7 +2654,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>315</td>
+              <td class='line_number'>322</td>
               <td class='code_line'>
                 <pre>          case meta_datum.object.value.size</pre>
               </td>
@@ -2606,7 +2662,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>316</td>
+              <td class='line_number'>323</td>
               <td class='code_line'>
                 <pre>            when 2</pre>
               </td>
@@ -2614,7 +2670,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>317</td>
+              <td class='line_number'>324</td>
               <td class='code_line'>
                 <pre>              f = meta_datum.object.value.first</pre>
               </td>
@@ -2622,7 +2678,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>318</td>
+              <td class='line_number'>325</td>
               <td class='code_line'>
                 <pre>              l = meta_datum.object.value.last</pre>
               </td>
@@ -2630,7 +2686,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>319</td>
+              <td class='line_number'>326</td>
               <td class='code_line'>
                 <pre>              if f.parsed and l.parsed</pre>
               </td>
@@ -2638,7 +2694,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>320</td>
+              <td class='line_number'>327</td>
               <td class='code_line'>
                 <pre>                #old# from = f.to_s</pre>
               </td>
@@ -2646,7 +2702,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>321</td>
+              <td class='line_number'>328</td>
               <td class='code_line'>
                 <pre>                #old# to = l.to_s</pre>
               </td>
@@ -2654,7 +2710,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>322</td>
+              <td class='line_number'>329</td>
               <td class='code_line'>
                 <pre>                from = f.parsed.to_formatted_s(:date)</pre>
               </td>
@@ -2662,7 +2718,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>323</td>
+              <td class='line_number'>330</td>
               <td class='code_line'>
                 <pre>                to = l.parsed.to_formatted_s(:date)</pre>
               </td>
@@ -2670,7 +2726,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>324</td>
+              <td class='line_number'>331</td>
               <td class='code_line'>
                 <pre>                selected_option = "from-to"</pre>
               </td>
@@ -2678,7 +2734,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>325</td>
+              <td class='line_number'>332</td>
               <td class='code_line'>
                 <pre>              end</pre>
               </td>
@@ -2686,7 +2742,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>326</td>
+              <td class='line_number'>333</td>
               <td class='code_line'>
                 <pre>            when 1</pre>
               </td>
@@ -2694,7 +2750,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>327</td>
+              <td class='line_number'>334</td>
               <td class='code_line'>
                 <pre>              f = meta_datum.object.value.first</pre>
               </td>
@@ -2702,7 +2758,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>328</td>
+              <td class='line_number'>335</td>
               <td class='code_line'>
                 <pre>              if f.parsed</pre>
               </td>
@@ -2710,7 +2766,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>329</td>
+              <td class='line_number'>336</td>
               <td class='code_line'>
                 <pre>                #old# at = f.to_s</pre>
               </td>
@@ -2718,7 +2774,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>330</td>
+              <td class='line_number'>337</td>
               <td class='code_line'>
                 <pre>                at = f.parsed.to_formatted_s(:date)</pre>
               </td>
@@ -2726,7 +2782,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>331</td>
+              <td class='line_number'>338</td>
               <td class='code_line'>
                 <pre>                if f.parsed.seconds_since_midnight > 0</pre>
               </td>
@@ -2734,7 +2790,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>332</td>
+              <td class='line_number'>339</td>
               <td class='code_line'>
                 <pre>                  at_time = f.parsed.to_formatted_s(:time_full) + " " + f.parsed.formatted_offset </pre>
               </td>
@@ -2742,7 +2798,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>333</td>
+              <td class='line_number'>340</td>
               <td class='code_line'>
                 <pre>                end</pre>
               </td>
@@ -2750,7 +2806,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>334</td>
+              <td class='line_number'>341</td>
               <td class='code_line'>
                 <pre>                selected_option = "at"</pre>
               </td>
@@ -2758,7 +2814,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>335</td>
+              <td class='line_number'>342</td>
               <td class='code_line'>
                 <pre>              end</pre>
               </td>
@@ -2766,7 +2822,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>336</td>
+              <td class='line_number'>343</td>
               <td class='code_line'>
                 <pre>          end</pre>
               </td>
@@ -2774,7 +2830,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>337</td>
+              <td class='line_number'>344</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -2782,7 +2838,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>338</td>
+              <td class='line_number'>345</td>
               <td class='code_line'>
                 <pre>          h += select_tag "dateSelect", options_for_select([["am", "at"], ["von - bis", "from-to"], ["Freie Eingabe", "freetext"]], selected_option)</pre>
               </td>
@@ -2790,7 +2846,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>339</td>
+              <td class='line_number'>346</td>
               <td class='code_line'>
                 <pre>          </pre>
               </td>
@@ -2798,7 +2854,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>340</td>
+              <td class='line_number'>347</td>
               <td class='code_line'>
                 <pre>          h += content_tag :span, :class => "dates" do</pre>
               </td>
@@ -2806,7 +2862,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>341</td>
+              <td class='line_number'>348</td>
               <td class='code_line'>
                 <pre>            a = content_tag :span, :rel => "at" do</pre>
               </td>
@@ -2814,7 +2870,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>342</td>
+              <td class='line_number'>349</td>
               <td class='code_line'>
                 <pre>              b = text_field_tag "datepicker_at_#{object_id}", at, :class => "datepicker", :placeholder => "TT.MM.JJJJ"</pre>
               </td>
@@ -2822,7 +2878,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>343</td>
+              <td class='line_number'>350</td>
               <td class='code_line'>
                 <pre>              b += text_field_tag "at_#{object_id}_time", at_time, :class => "time", :placeholder => "HH:MM:SS +HH:MM" unless at_time.blank?</pre>
               </td>
@@ -2830,7 +2886,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>344</td>
+              <td class='line_number'>351</td>
               <td class='code_line'>
                 <pre>              b</pre>
               </td>
@@ -2838,7 +2894,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>345</td>
+              <td class='line_number'>352</td>
               <td class='code_line'>
                 <pre>            end</pre>
               </td>
@@ -2846,7 +2902,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>346</td>
+              <td class='line_number'>353</td>
               <td class='code_line'>
                 <pre>            a += content_tag :span, :rel => "from-to" do</pre>
               </td>
@@ -2854,7 +2910,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>347</td>
+              <td class='line_number'>354</td>
               <td class='code_line'>
                 <pre>              b = text_field_tag "datepicker_from_#{object_id}", from, :class => "datepicker", :placeholder => "TT.MM.JJJJ"</pre>
               </td>
@@ -2862,7 +2918,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>348</td>
+              <td class='line_number'>355</td>
               <td class='code_line'>
                 <pre>              b += " - "</pre>
               </td>
@@ -2870,7 +2926,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>349</td>
+              <td class='line_number'>356</td>
               <td class='code_line'>
                 <pre>              b += text_field_tag "datepicker_to_#{object_id}", to, :class => "datepicker", :placeholder => "TT.MM.JJJJ"</pre>
               </td>
@@ -2878,7 +2934,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>350</td>
+              <td class='line_number'>357</td>
               <td class='code_line'>
                 <pre>            end</pre>
               </td>
@@ -2886,7 +2942,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>351</td>
+              <td class='line_number'>358</td>
               <td class='code_line'>
                 <pre>            a += content_tag :span, :rel => "freetext" do</pre>
               </td>
@@ -2894,7 +2950,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>352</td>
+              <td class='line_number'>359</td>
               <td class='code_line'>
                 <pre>              meta_datum.object.value = meta_datum.object.to_s</pre>
               </td>
@@ -2902,7 +2958,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>353</td>
+              <td class='line_number'>360</td>
               <td class='code_line'>
                 <pre>              meta_datum.text_field :value, :placeholder => "Wird als Freitext gespeichert."</pre>
               </td>
@@ -2910,7 +2966,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>354</td>
+              <td class='line_number'>361</td>
               <td class='code_line'>
                 <pre>            end</pre>
               </td>
@@ -2918,7 +2974,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>355</td>
+              <td class='line_number'>362</td>
               <td class='code_line'>
                 <pre>          end</pre>
               </td>
@@ -2926,7 +2982,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>356</td>
+              <td class='line_number'>363</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -2934,7 +2990,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>357</td>
+              <td class='line_number'>364</td>
               <td class='code_line'>
                 <pre>          @js_1 ||= false</pre>
               </td>
@@ -2942,7 +2998,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>358</td>
+              <td class='line_number'>365</td>
               <td class='code_line'>
                 <pre>          unless @js_1</pre>
               </td>
@@ -2950,7 +3006,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>359</td>
+              <td class='line_number'>366</td>
               <td class='code_line'>
                 <pre>            @js_1 = true</pre>
               </td>
@@ -2958,7 +3014,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>360</td>
+              <td class='line_number'>367</td>
               <td class='code_line'>
                 <pre>            locale = "de-CH"</pre>
               </td>
@@ -2966,7 +3022,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>361</td>
+              <td class='line_number'>368</td>
               <td class='code_line'>
                 <pre>            h += javascript_include_tag "jquery/i18n/jquery.ui.datepicker-#{locale}"</pre>
               </td>
@@ -2974,7 +3030,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>362</td>
+              <td class='line_number'>369</td>
               <td class='code_line'>
                 <pre>            h += javascript_tag do</pre>
               </td>
@@ -2982,7 +3038,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>363</td>
+              <td class='line_number'>370</td>
               <td class='code_line'>
                 <pre>              begin</pre>
               </td>
@@ -2990,7 +3046,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>364</td>
+              <td class='line_number'>371</td>
               <td class='code_line'>
                 <pre>              <<-HERECODE</pre>
               </td>
@@ -2998,7 +3054,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>365</td>
+              <td class='line_number'>372</td>
               <td class='code_line'>
                 <pre>                $(document).ready(function(){</pre>
               </td>
@@ -3006,7 +3062,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>366</td>
+              <td class='line_number'>373</td>
               <td class='code_line'>
                 <pre>                  $("[name='dateSelect']").change(function(){</pre>
               </td>
@@ -3014,7 +3070,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>367</td>
+              <td class='line_number'>374</td>
               <td class='code_line'>
                 <pre>                    var selected_value = $(this).val();</pre>
               </td>
@@ -3022,7 +3078,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>368</td>
+              <td class='line_number'>375</td>
               <td class='code_line'>
                 <pre>                    $(this).next(".dates").find("span").hide();</pre>
               </td>
@@ -3030,7 +3086,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>369</td>
+              <td class='line_number'>376</td>
               <td class='code_line'>
                 <pre>                    var to_show = $(this).next(".dates").find("span[rel='"+selected_value+"']");</pre>
               </td>
@@ -3038,7 +3094,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>370</td>
+              <td class='line_number'>377</td>
               <td class='code_line'>
                 <pre>                    to_show.show();</pre>
               </td>
@@ -3046,7 +3102,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>371</td>
+              <td class='line_number'>378</td>
               <td class='code_line'>
                 <pre>                    if(selected_value != "freetext") to_show.find("input:first").trigger("change");</pre>
               </td>
@@ -3054,65 +3110,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>372</td>
-              <td class='code_line'>
-                <pre>                  }).trigger("change");</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>373</td>
-              <td class='code_line'>
-                <pre>                  </pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>374</td>
-              <td class='code_line'>
-                <pre>                  $(".datepicker").datepicker(</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>375</td>
-              <td class='code_line'>
-                <pre>                    $.extend({</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>376</td>
-              <td class='code_line'>
-                <pre>                      showOn: "button",</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>377</td>
-              <td class='code_line'>
-                <pre>                      buttonImage: "/assets/icons/calendar.png",</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>378</td>
-              <td class='code_line'>
-                <pre>                      buttonImageOnly: true,</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>379</td>
               <td class='code_line'>
-                <pre>                      changeMonth: true,</pre>
+                <pre>                  }).trigger("change");</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3120,7 +3120,7 @@
             <tr class="never" "">
               <td class='line_number'>380</td>
               <td class='code_line'>
-                <pre>                      changeYear: true,</pre>
+                <pre>                  </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3128,7 +3128,7 @@
             <tr class="never" "">
               <td class='line_number'>381</td>
               <td class='code_line'>
-                <pre>                      onClose: function(dateText, inst) {</pre>
+                <pre>                  $(".datepicker").datepicker(</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3136,7 +3136,7 @@
             <tr class="never" "">
               <td class='line_number'>382</td>
               <td class='code_line'>
-                <pre>                        $(inst.input.context).trigger("blur");</pre>
+                <pre>                    $.extend({</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3144,23 +3144,23 @@
             <tr class="never" "">
               <td class='line_number'>383</td>
               <td class='code_line'>
-                <pre>                      }</pre>
+                <pre>                      showOn: "button",</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>384</td>
               <td class='code_line'>
-                <pre>                    }, $.datepicker.regional["#{locale}"])</pre>
+                <pre>                      buttonImage: "/assets/icons/calendar.png",</pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>385</td>
               <td class='code_line'>
-                <pre>                  );</pre>
+                <pre>                      buttonImageOnly: true,</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3168,7 +3168,7 @@
             <tr class="never" "">
               <td class='line_number'>386</td>
               <td class='code_line'>
-                <pre>                                    </pre>
+                <pre>                      changeMonth: true,</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3176,7 +3176,7 @@
             <tr class="never" "">
               <td class='line_number'>387</td>
               <td class='code_line'>
-                <pre>                  $(".dates input.datepicker").bind("change", function() {</pre>
+                <pre>                      changeYear: true,</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3184,7 +3184,7 @@
             <tr class="never" "">
               <td class='line_number'>388</td>
               <td class='code_line'>
-                <pre>                    var source = $(this);</pre>
+                <pre>                      onClose: function(dateText, inst) {</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3192,7 +3192,7 @@
             <tr class="never" "">
               <td class='line_number'>389</td>
               <td class='code_line'>
-                <pre>                    if(source.is(":visible") && source.val() != source.attr("placeholder")){</pre>
+                <pre>                        $(inst.input.context).trigger("blur");</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3200,23 +3200,23 @@
             <tr class="never" "">
               <td class='line_number'>390</td>
               <td class='code_line'>
-                <pre>                      var v = source.siblings(".datepicker").andSelf().map(function() {</pre>
+                <pre>                      }</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>391</td>
               <td class='code_line'>
-                <pre>                        var t = $(this).nextAll(".time").first();</pre>
+                <pre>                    }, $.datepicker.regional["#{locale}"])</pre>
               </td>
-              <td class='hit_number'></td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>392</td>
               <td class='code_line'>
-                <pre>                        var r = this.value;</pre>
+                <pre>                  );</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3224,7 +3224,7 @@
             <tr class="never" "">
               <td class='line_number'>393</td>
               <td class='code_line'>
-                <pre>                        if(t.length) r = r + " " + t.val(); </pre>
+                <pre>                                    </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3232,7 +3232,7 @@
             <tr class="never" "">
               <td class='line_number'>394</td>
               <td class='code_line'>
-                <pre>                        return r;</pre>
+                <pre>                  $(".dates input.datepicker").bind("change", function() {</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3240,7 +3240,7 @@
             <tr class="never" "">
               <td class='line_number'>395</td>
               <td class='code_line'>
-                <pre>                      }).get().join(' - ');</pre>
+                <pre>                    var source = $(this);</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3248,7 +3248,7 @@
             <tr class="never" "">
               <td class='line_number'>396</td>
               <td class='code_line'>
-                <pre>                      source.closest(".dates").find("[rel='freetext'] input").val(v);</pre>
+                <pre>                    if(source.is(":visible") && source.val() != source.attr("placeholder")){</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3256,7 +3256,7 @@
             <tr class="never" "">
               <td class='line_number'>397</td>
               <td class='code_line'>
-                <pre>                    }</pre>
+                <pre>                      var v = source.siblings(".datepicker").andSelf().map(function() {</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3264,7 +3264,7 @@
             <tr class="never" "">
               <td class='line_number'>398</td>
               <td class='code_line'>
-                <pre>                  }).trigger("change");</pre>
+                <pre>                        var t = $(this).nextAll(".time").first();</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3272,7 +3272,7 @@
             <tr class="never" "">
               <td class='line_number'>399</td>
               <td class='code_line'>
-                <pre>                  </pre>
+                <pre>                        var r = this.value;</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3280,7 +3280,7 @@
             <tr class="never" "">
               <td class='line_number'>400</td>
               <td class='code_line'>
-                <pre>                  $(".time").bind("change", function() {</pre>
+                <pre>                        if(t.length) r = r + " " + t.val(); </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3288,7 +3288,7 @@
             <tr class="never" "">
               <td class='line_number'>401</td>
               <td class='code_line'>
-                <pre>                    $(this).prevAll(".datepicker").first().trigger("change");</pre>
+                <pre>                        return r;</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3296,7 +3296,7 @@
             <tr class="never" "">
               <td class='line_number'>402</td>
               <td class='code_line'>
-                <pre>                  });</pre>
+                <pre>                      }).get().join(' - ');</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3304,7 +3304,7 @@
             <tr class="never" "">
               <td class='line_number'>403</td>
               <td class='code_line'>
-                <pre>                });</pre>
+                <pre>                      source.closest(".dates").find("[rel='freetext'] input").val(v);</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3312,7 +3312,7 @@
             <tr class="never" "">
               <td class='line_number'>404</td>
               <td class='code_line'>
-                <pre>              HERECODE</pre>
+                <pre>                    }</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3320,7 +3320,7 @@
             <tr class="never" "">
               <td class='line_number'>405</td>
               <td class='code_line'>
-                <pre>              end.html_safe</pre>
+                <pre>                  }).trigger("change");</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3328,7 +3328,7 @@
             <tr class="never" "">
               <td class='line_number'>406</td>
               <td class='code_line'>
-                <pre>            end</pre>
+                <pre>                  </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3336,7 +3336,7 @@
             <tr class="never" "">
               <td class='line_number'>407</td>
               <td class='code_line'>
-                <pre>          end</pre>
+                <pre>                  $(".time").bind("change", function() {</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3344,7 +3344,7 @@
             <tr class="never" "">
               <td class='line_number'>408</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>                    $(this).prevAll(".datepicker").first().trigger("change");</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3352,23 +3352,23 @@
             <tr class="never" "">
               <td class='line_number'>409</td>
               <td class='code_line'>
-                <pre>        when "Meta::Department"</pre>
+                <pre>                  });</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>410</td>
               <td class='code_line'>
-                <pre>          h += widget_meta_terms_multiselect(meta_datum, meta_key)</pre>
+                <pre>                });</pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>411</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>              HERECODE</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3376,7 +3376,7 @@
             <tr class="never" "">
               <td class='line_number'>412</td>
               <td class='code_line'>
-                <pre>        when "Copyright"</pre>
+                <pre>              end.html_safe</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3384,17 +3384,17 @@
             <tr class="never" "">
               <td class='line_number'>413</td>
               <td class='code_line'>
-                <pre>          #old# h += meta_datum.hidden_field :value, :class => "copyright_value"</pre>
+                <pre>            end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>414</td>
               <td class='code_line'>
-                <pre>          h += hidden_field_tag "#{meta_datum.object_name}[value]", meta_datum.object.value.try(:first), :class => "copyright_value"</pre>
+                <pre>          end</pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
@@ -3405,8 +3405,64 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>416</td>
+              <td class='code_line'>
+                <pre>        when "Meta::Department"</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>417</td>
+              <td class='code_line'>
+                <pre>          h += widget_meta_terms_multiselect(meta_datum, meta_key)</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>418</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>419</td>
+              <td class='code_line'>
+                <pre>        when "Copyright"</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>420</td>
+              <td class='code_line'>
+                <pre>          #old# h += meta_datum.hidden_field :value, :class => "copyright_value"</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>421</td>
+              <td class='code_line'>
+                <pre>          h += hidden_field_tag "#{meta_datum.object_name}[value]", meta_datum.object.value.try(:first), :class => "copyright_value"</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>422</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>423</td>
               <td class='code_line'>
                 <pre>          @copyright_all ||= Copyright.all # OPTIMIZE</pre>
               </td>
@@ -3414,7 +3470,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>417</td>
+              <td class='line_number'>424</td>
               <td class='code_line'>
                 <pre>          @copyright_roots ||= Copyright.roots</pre>
               </td>
@@ -3422,7 +3478,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>418</td>
+              <td class='line_number'>425</td>
               <td class='code_line'>
                 <pre>          value = meta_datum.object.deserialized_value.try(:first) # OPTIMIZE</pre>
               </td>
@@ -3430,7 +3486,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>419</td>
+              <td class='line_number'>426</td>
               <td class='code_line'>
                 <pre>          selected = @copyright_roots.detect{|s| (value and s.is_or_is_ancestor_of?(value)) }.try(:id)</pre>
               </td>
@@ -3438,7 +3494,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>420</td>
+              <td class='line_number'>427</td>
               <td class='code_line'>
                 <pre>          h += select_tag "options_root", options_from_collection_for_select(@copyright_roots, :id, :to_s, selected), :class => "options_root" </pre>
               </td>
@@ -3446,7 +3502,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>421</td>
+              <td class='line_number'>428</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -3454,7 +3510,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>422</td>
+              <td class='line_number'>429</td>
               <td class='code_line'>
                 <pre>          @copyright_roots.each do |s|</pre>
               </td>
@@ -3462,7 +3518,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>423</td>
+              <td class='line_number'>430</td>
               <td class='code_line'>
                 <pre>            next if s.leaf?</pre>
               </td>
@@ -3470,7 +3526,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>424</td>
+              <td class='line_number'>431</td>
               <td class='code_line'>
                 <pre>            grouped_options = s.children.collect do |t|</pre>
               </td>
@@ -3478,7 +3534,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>425</td>
+              <td class='line_number'>432</td>
               <td class='code_line'>
                 <pre>                                  if t.leaf?</pre>
               </td>
@@ -3486,7 +3542,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>426</td>
+              <td class='line_number'>433</td>
               <td class='code_line'>
                 <pre>                                    [nil, [[t.label, t.id]]]</pre>
               </td>
@@ -3494,7 +3550,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>427</td>
+              <td class='line_number'>434</td>
               <td class='code_line'>
                 <pre>                                  else</pre>
               </td>
@@ -3502,7 +3558,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>428</td>
+              <td class='line_number'>435</td>
               <td class='code_line'>
                 <pre>                                    [t.label, t.children.collect {|c| [c.label, c.id] }]</pre>
               </td>
@@ -3510,7 +3566,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>429</td>
+              <td class='line_number'>436</td>
               <td class='code_line'>
                 <pre>                                  end</pre>
               </td>
@@ -3518,7 +3574,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>430</td>
+              <td class='line_number'>437</td>
               <td class='code_line'>
                 <pre>                              end</pre>
               </td>
@@ -3526,7 +3582,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>431</td>
+              <td class='line_number'>438</td>
               <td class='code_line'>
                 <pre>            is_selected = (value and s.is_or_is_ancestor_of?(value))</pre>
               </td>
@@ -3534,7 +3590,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>432</td>
+              <td class='line_number'>439</td>
               <td class='code_line'>
                 <pre>            h += select_tag "options_#{s.id}", grouped_options_for_select(grouped_options, value.try(:id)), :class => "nested_options options_#{s.id}", :style => (is_selected ? nil : "display: none;")</pre>
               </td>
@@ -3542,7 +3598,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>433</td>
+              <td class='line_number'>440</td>
               <td class='code_line'>
                 <pre>          end</pre>
               </td>
@@ -3550,7 +3606,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>434</td>
+              <td class='line_number'>441</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -3558,7 +3614,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>435</td>
+              <td class='line_number'>442</td>
               <td class='code_line'>
                 <pre>          @js_2 ||= false</pre>
               </td>
@@ -3566,7 +3622,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>436</td>
+              <td class='line_number'>443</td>
               <td class='code_line'>
                 <pre>          h += javascript_tag do</pre>
               </td>
@@ -3574,7 +3630,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>437</td>
+              <td class='line_number'>444</td>
               <td class='code_line'>
                 <pre>            @js_2 = true</pre>
               </td>
@@ -3582,7 +3638,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>438</td>
+              <td class='line_number'>445</td>
               <td class='code_line'>
                 <pre>            begin</pre>
               </td>
@@ -3590,7 +3646,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>439</td>
+              <td class='line_number'>446</td>
               <td class='code_line'>
                 <pre>            <<-HERECODE</pre>
               </td>
@@ -3598,7 +3654,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>440</td>
+              <td class='line_number'>447</td>
               <td class='code_line'>
                 <pre>              $(document).ready(function(){</pre>
               </td>
@@ -3606,7 +3662,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>441</td>
+              <td class='line_number'>448</td>
               <td class='code_line'>
                 <pre>                var copyrights = {};</pre>
               </td>
@@ -3614,7 +3670,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>442</td>
+              <td class='line_number'>449</td>
               <td class='code_line'>
                 <pre>                var custom_copyright_id;</pre>
               </td>
@@ -3622,7 +3678,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>443</td>
+              <td class='line_number'>450</td>
               <td class='code_line'>
                 <pre>                $.each(#{@copyright_all.to_json}, function(i,item){</pre>
               </td>
@@ -3630,7 +3686,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>444</td>
+              <td class='line_number'>451</td>
               <td class='code_line'>
                 <pre>                  copyrights[item.id] = item;</pre>
               </td>
@@ -3638,7 +3694,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>445</td>
+              <td class='line_number'>452</td>
               <td class='code_line'>
                 <pre>                  if(item.is_custom) custom_copyright_id = item.id; </pre>
               </td>
@@ -3646,65 +3702,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>446</td>
-              <td class='code_line'>
-                <pre>                });</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>447</td>
-              <td class='code_line'>
-                <pre>                </pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>448</td>
-              <td class='code_line'>
-                <pre>                $("select.nested_options, select.options_root").change(function(event){</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>449</td>
-              <td class='code_line'>
-                <pre>                  selected = copyrights[$(this).val()];</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>450</td>
-              <td class='code_line'>
-                <pre>                  block = $(this).closest(".meta_data_block");</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>451</td>
-              <td class='code_line'>
-                <pre>                  block.find(".copyright_value").val(selected.id);</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>452</td>
-              <td class='code_line'>
-                <pre>                  if(!selected.is_custom){</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>453</td>
               <td class='code_line'>
-                <pre>                    block.find("[data-meta_key='copyright_usage'] textarea").val(selected.usage);</pre>
+                <pre>                });</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3712,7 +3712,7 @@
             <tr class="never" "">
               <td class='line_number'>454</td>
               <td class='code_line'>
-                <pre>                    block.find("[data-meta_key='copyright_url'] textarea").val(selected.url);</pre>
+                <pre>                </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3720,7 +3720,7 @@
             <tr class="never" "">
               <td class='line_number'>455</td>
               <td class='code_line'>
-                <pre>                  }</pre>
+                <pre>                $("select.nested_options, select.options_root").change(function(event){</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3728,7 +3728,7 @@
             <tr class="never" "">
               <td class='line_number'>456</td>
               <td class='code_line'>
-                <pre>                });</pre>
+                <pre>                  selected = copyrights[$(this).val()];</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3736,7 +3736,7 @@
             <tr class="never" "">
               <td class='line_number'>457</td>
               <td class='code_line'>
-                <pre>              </pre>
+                <pre>                  block = $(this).closest(".meta_data_block");</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3744,7 +3744,7 @@
             <tr class="never" "">
               <td class='line_number'>458</td>
               <td class='code_line'>
-                <pre>                $("select.options_root").change(function(event){</pre>
+                <pre>                  block.find(".copyright_value").val(selected.id);</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3752,7 +3752,7 @@
             <tr class="never" "">
               <td class='line_number'>459</td>
               <td class='code_line'>
-                <pre>                  block = $(this).closest(".meta_data_block");</pre>
+                <pre>                  if(!selected.is_custom){</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3760,7 +3760,7 @@
             <tr class="never" "">
               <td class='line_number'>460</td>
               <td class='code_line'>
-                <pre>                  block.find(".nested_options").hide();</pre>
+                <pre>                    block.find("[data-meta_key='copyright_usage'] textarea").val(selected.usage);</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3768,7 +3768,7 @@
             <tr class="never" "">
               <td class='line_number'>461</td>
               <td class='code_line'>
-                <pre>                  block.find(".options_" + selected.id).show().change();</pre>
+                <pre>                    block.find("[data-meta_key='copyright_url'] textarea").val(selected.url);</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3776,7 +3776,7 @@
             <tr class="never" "">
               <td class='line_number'>462</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>                  }</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3784,7 +3784,7 @@
             <tr class="never" "">
               <td class='line_number'>463</td>
               <td class='code_line'>
-                <pre>                  usage = block.find("[data-meta_key='copyright_usage']");</pre>
+                <pre>                });</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3792,7 +3792,7 @@
             <tr class="never" "">
               <td class='line_number'>464</td>
               <td class='code_line'>
-                <pre>                  if(selected.usage == null){</pre>
+                <pre>              </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3800,7 +3800,7 @@
             <tr class="never" "">
               <td class='line_number'>465</td>
               <td class='code_line'>
-                <pre>                    usage.hide();</pre>
+                <pre>                $("select.options_root").change(function(event){</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3808,7 +3808,7 @@
             <tr class="never" "">
               <td class='line_number'>466</td>
               <td class='code_line'>
-                <pre>                  }else{</pre>
+                <pre>                  block = $(this).closest(".meta_data_block");</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3816,7 +3816,7 @@
             <tr class="never" "">
               <td class='line_number'>467</td>
               <td class='code_line'>
-                <pre>                    usage.show();</pre>
+                <pre>                  block.find(".nested_options").hide();</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3824,7 +3824,7 @@
             <tr class="never" "">
               <td class='line_number'>468</td>
               <td class='code_line'>
-                <pre>                  }</pre>
+                <pre>                  block.find(".options_" + selected.id).show().change();</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3832,7 +3832,7 @@
             <tr class="never" "">
               <td class='line_number'>469</td>
               <td class='code_line'>
-                <pre>                  url = block.find("[data-meta_key='copyright_url']");</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3840,7 +3840,7 @@
             <tr class="never" "">
               <td class='line_number'>470</td>
               <td class='code_line'>
-                <pre>                  if(selected.url == null){</pre>
+                <pre>                  usage = block.find("[data-meta_key='copyright_usage']");</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3848,7 +3848,7 @@
             <tr class="never" "">
               <td class='line_number'>471</td>
               <td class='code_line'>
-                <pre>                    url.hide();</pre>
+                <pre>                  if(selected.usage == null){</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3856,7 +3856,7 @@
             <tr class="never" "">
               <td class='line_number'>472</td>
               <td class='code_line'>
-                <pre>                  }else{</pre>
+                <pre>                    usage.hide();</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3864,7 +3864,7 @@
             <tr class="never" "">
               <td class='line_number'>473</td>
               <td class='code_line'>
-                <pre>                    url.show();</pre>
+                <pre>                  }else{</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3872,7 +3872,7 @@
             <tr class="never" "">
               <td class='line_number'>474</td>
               <td class='code_line'>
-                <pre>                  }</pre>
+                <pre>                    usage.show();</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3880,7 +3880,7 @@
             <tr class="never" "">
               <td class='line_number'>475</td>
               <td class='code_line'>
-                <pre>                });</pre>
+                <pre>                  }</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3888,7 +3888,7 @@
             <tr class="never" "">
               <td class='line_number'>476</td>
               <td class='code_line'>
-                <pre>                </pre>
+                <pre>                  url = block.find("[data-meta_key='copyright_url']");</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3896,7 +3896,7 @@
             <tr class="never" "">
               <td class='line_number'>477</td>
               <td class='code_line'>
-                <pre>                $("[data-meta_key='copyright_usage'], [data-meta_key='copyright_url']").change(function(event){</pre>
+                <pre>                  if(selected.url == null){</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3904,7 +3904,7 @@
             <tr class="never" "">
               <td class='line_number'>478</td>
               <td class='code_line'>
-                <pre>                  block = $(this).closest(".meta_data_block");</pre>
+                <pre>                    url.hide();</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3912,7 +3912,7 @@
             <tr class="never" "">
               <td class='line_number'>479</td>
               <td class='code_line'>
-                <pre>                  block.find("select.options_root").val(custom_copyright_id).trigger('change');</pre>
+                <pre>                  }else{</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3920,7 +3920,7 @@
             <tr class="never" "">
               <td class='line_number'>480</td>
               <td class='code_line'>
-                <pre>                });</pre>
+                <pre>                    url.show();</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3928,7 +3928,7 @@
             <tr class="never" "">
               <td class='line_number'>481</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>                  }</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3936,7 +3936,7 @@
             <tr class="never" "">
               <td class='line_number'>482</td>
               <td class='code_line'>
-                <pre>                //temp//doesn't work with generic nested meta_data// $("select.nested_options:visible, select.options_root").trigger('change');</pre>
+                <pre>                });</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3944,7 +3944,7 @@
             <tr class="never" "">
               <td class='line_number'>483</td>
               <td class='code_line'>
-                <pre>              });</pre>
+                <pre>                </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3952,7 +3952,7 @@
             <tr class="never" "">
               <td class='line_number'>484</td>
               <td class='code_line'>
-                <pre>            HERECODE</pre>
+                <pre>                $("[data-meta_key='copyright_usage'], [data-meta_key='copyright_url']").change(function(event){</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3960,23 +3960,23 @@
             <tr class="never" "">
               <td class='line_number'>485</td>
               <td class='code_line'>
-                <pre>            end.html_safe</pre>
+                <pre>                  block = $(this).closest(".meta_data_block");</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>486</td>
               <td class='code_line'>
-                <pre>          end unless @js_2</pre>
+                <pre>                  block.find("select.options_root").val(custom_copyright_id).trigger('change');</pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>487</td>
               <td class='code_line'>
-                <pre>      end</pre>
+                <pre>                });</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -3992,7 +3992,7 @@
             <tr class="never" "">
               <td class='line_number'>489</td>
               <td class='code_line'>
-                <pre>    elsif definition.meta_field.length_max and definition.meta_field.length_max <= 255</pre>
+                <pre>                //temp//doesn't work with generic nested meta_data// $("select.nested_options:visible, select.options_root").trigger('change');</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -4000,23 +4000,23 @@
             <tr class="never" "">
               <td class='line_number'>490</td>
               <td class='code_line'>
-                <pre>      #tmp# h += meta_datum.text_field :value, :class => "value", :"data-required" => is_required</pre>
+                <pre>              });</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>491</td>
               <td class='code_line'>
-                <pre>      h += text_field_tag "#{meta_datum.object_name}[value]", meta_datum.object.to_s, :class => "value", :"data-required" => is_required</pre>
+                <pre>            HERECODE</pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>492</td>
               <td class='code_line'>
-                <pre>      h += content_tag :span, :class => "with_actions" do</pre>
+                <pre>            end.html_safe</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -4024,23 +4024,23 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>493</td>
               <td class='code_line'>
-                <pre>            link_to _("Übertragen auf andere Medien"), "#", :class => "hint"</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>494</td>
-              <td class='code_line'>
-                <pre>           end if with_actions # TODO see _bulk_edit</pre>
+                <pre>          end unless @js_2</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
+              <td class='line_number'>494</td>
+              <td class='code_line'>
+                <pre>      end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
               <td class='line_number'>495</td>
               <td class='code_line'>
-                <pre>    else</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -4048,31 +4048,31 @@
             <tr class="never" "">
               <td class='line_number'>496</td>
               <td class='code_line'>
-                <pre>      #tmp# h += meta_datum.text_area :value, :"data-required" => is_required #, :rows => 2</pre>
+                <pre>    elsif definition.meta_field.length_max and definition.meta_field.length_max <= 255</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>497</td>
+              <td class='code_line'>
+                <pre>      #tmp# h += meta_datum.text_field :value, :class => "value", :"data-required" => is_required</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>497</td>
+              <td class='line_number'>498</td>
               <td class='code_line'>
-                <pre>      h += text_area_tag "#{meta_datum.object_name}[value]", meta_datum.object.to_s, :"data-required" => is_required, :rows => 2</pre>
+                <pre>      h += text_field_tag "#{meta_datum.object_name}[value]", meta_datum.object.to_s, :class => "value", :"data-required" => is_required</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>498</td>
-              <td class='code_line'>
-                <pre>    end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>499</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>      h += content_tag :span, :class => "with_actions" do</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -4080,13 +4080,69 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>500</td>
               <td class='code_line'>
+                <pre>            link_to _("Übertragen auf andere Medien"), "#", :class => "hint"</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>501</td>
+              <td class='code_line'>
+                <pre>           end if with_actions # TODO see _bulk_edit</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>502</td>
+              <td class='code_line'>
+                <pre>    else</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>503</td>
+              <td class='code_line'>
+                <pre>      #tmp# h += meta_datum.text_area :value, :"data-required" => is_required #, :rows => 2</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>504</td>
+              <td class='code_line'>
+                <pre>      h += text_area_tag "#{meta_datum.object_name}[value]", meta_datum.object.to_s, :"data-required" => is_required, :rows => 2</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>505</td>
+              <td class='code_line'>
+                <pre>    end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>506</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>507</td>
+              <td class='code_line'>
                 <pre>    @js_4 ||= false</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>501</td>
+              <td class='line_number'>508</td>
               <td class='code_line'>
                 <pre>    h += javascript_tag do</pre>
               </td>
@@ -4094,7 +4150,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>502</td>
+              <td class='line_number'>509</td>
               <td class='code_line'>
                 <pre>      @js_4 = true</pre>
               </td>
@@ -4102,7 +4158,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>503</td>
+              <td class='line_number'>510</td>
               <td class='code_line'>
                 <pre>      begin</pre>
               </td>
@@ -4110,7 +4166,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>504</td>
+              <td class='line_number'>511</td>
               <td class='code_line'>
                 <pre>      <<-HERECODE</pre>
               </td>
@@ -4118,7 +4174,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>505</td>
+              <td class='line_number'>512</td>
               <td class='code_line'>
                 <pre>        $(document).ready(function(){</pre>
               </td>
@@ -4126,7 +4182,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>506</td>
+              <td class='line_number'>513</td>
               <td class='code_line'>
                 <pre>            $("##{field_id}").focus();</pre>
               </td>
@@ -4134,7 +4190,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>507</td>
+              <td class='line_number'>514</td>
               <td class='code_line'>
                 <pre>        });</pre>
               </td>
@@ -4142,7 +4198,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>508</td>
+              <td class='line_number'>515</td>
               <td class='code_line'>
                 <pre>      HERECODE</pre>
               </td>
@@ -4150,7 +4206,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>509</td>
+              <td class='line_number'>516</td>
               <td class='code_line'>
                 <pre>      end.html_safe</pre>
               </td>
@@ -4158,7 +4214,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>510</td>
+              <td class='line_number'>517</td>
               <td class='code_line'>
                 <pre>    end if autofocus and !@js_4</pre>
               </td>
@@ -4166,7 +4222,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>511</td>
+              <td class='line_number'>518</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -4174,67 +4230,11 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>512</td>
+              <td class='line_number'>519</td>
               <td class='code_line'>
                 <pre>    h</pre>
               </td>
               <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>513</td>
-              <td class='code_line'>
-                <pre>  end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>514</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>515</td>
-              <td class='code_line'>
-                <pre>  def description_toggler(definition)</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>516</td>
-              <td class='code_line'>
-                <pre>    d = definition.meta_field.description.try(:to_s)</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>517</td>
-              <td class='code_line'>
-                <pre>    unless d.blank?</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>518</td>
-              <td class='code_line'>
-                <pre>      content_tag :span, "?", :class => "description_toggler", :title => d #old# auto_link(d, :all, :target => "_blank")</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>519</td>
-              <td class='code_line'>
-                <pre>    end</pre>
-              </td>
-              <td class='hit_number'></td>
             </tr>
           
             <tr class="never" "">
@@ -4253,8 +4253,64 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>522</td>
+              <td class='code_line'>
+                <pre>  def description_toggler(definition)</pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>523</td>
+              <td class='code_line'>
+                <pre>    d = definition.meta_field.description.try(:to_s)</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>524</td>
+              <td class='code_line'>
+                <pre>    unless d.blank?</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>525</td>
+              <td class='code_line'>
+                <pre>      content_tag :span, "?", :class => "description_toggler", :title => d #old# auto_link(d, :all, :target => "_blank")</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>526</td>
+              <td class='code_line'>
+                <pre>    end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>527</td>
+              <td class='code_line'>
+                <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>528</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>529</td>
               <td class='code_line'>
                 <pre>end</pre>
               </td>
@@ -4266,6 +4322,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-13 12:28:34 +0100</p>
+    <p>Generated on: 2012-01-14 14:37:55 +0100</p>
   </body>
 </html>

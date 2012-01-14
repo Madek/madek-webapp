@@ -2,8 +2,8 @@
   <head>
     <title>app/models/meta/department.rb</title>
     
-    <link href="../../../report.css?0.573290598838678" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../../jquery.js?0.8191982466577817'></script>
+    <link href="../../../report.css?0.27904243698798237" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../../jquery.js?0.018784044954395562'></script>
     <script>
       $(function() {
 
@@ -57,8 +57,8 @@
         </td>
         <td>31</td>
         <td>14</td>
-        <td>7</td>
-        <td>50.0%</td>
+        <td>8</td>
+        <td>42.9%</td>
       </tr>
     </table>
 
@@ -90,7 +90,7 @@
               <td class='code_line'>
                 <pre>class Meta::Department < Group</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="never" "">
@@ -106,7 +106,7 @@
               <td class='code_line'>
                 <pre>  default_scope order(:name)</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="never" "">
@@ -122,7 +122,7 @@
               <td class='code_line'>
                 <pre>  def to_s</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -154,7 +154,7 @@
               <td class='code_line'>
                 <pre>  def to_limited_s(n = 80)</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -218,7 +218,7 @@
               <td class='code_line'>
                 <pre>  def is_readonly?</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -274,15 +274,15 @@
               <td class='code_line'>
                 <pre>  def self.setup_ldapdata_from_localfile</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>25</td>
               <td class='code_line'>
                 <pre>    JSON.parse(File.read("db/ldap.json")) do |entry|</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -338,6 +338,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-13 12:28:34 +0100</p>
+    <p>Generated on: 2012-01-14 14:37:56 +0100</p>
   </body>
 </html>

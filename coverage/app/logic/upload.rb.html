@@ -2,8 +2,8 @@
   <head>
     <title>app/logic/upload.rb</title>
     
-    <link href="../../report.css?0.8263259630663184" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.5798629669811025'></script>
+    <link href="../../report.css?0.7214211106225131" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.287996294111614'></script>
     <script>
       $(function() {
 
@@ -55,10 +55,10 @@
           app/logic/upload.rb
           
         </td>
-        <td>123</td>
-        <td>55</td>
-        <td>46</td>
-        <td>16.4%</td>
+        <td>125</td>
+        <td>56</td>
+        <td>47</td>
+        <td>16.1%</td>
       </tr>
     </table>
 
@@ -106,7 +106,7 @@
               <td class='code_line'>
                 <pre>class UploadEstimation</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -114,7 +114,7 @@
               <td class='code_line'>
                 <pre>  def self.call(env)</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -162,7 +162,7 @@
               <td class='code_line'>
                 <pre>class UploadUtility</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -170,7 +170,7 @@
               <td class='code_line'>
                 <pre>  def self.detect_type(path)</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -274,7 +274,7 @@
               <td class='code_line'>
                 <pre>  def self.type_using_file(path)</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -306,7 +306,7 @@
               <td class='code_line'>
                 <pre>  def self.type_using_exiftool(path)</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -346,7 +346,7 @@
               <td class='code_line'>
                 <pre>  def self.assign_type(f)</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="never" "">
@@ -498,7 +498,7 @@
               <td class='code_line'>
                 <pre>class Upload</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
@@ -506,7 +506,7 @@
               <td class='code_line'>
                 <pre>  def self.call(env)</pre>
               </td>
-              <td class='hit_number'>2</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -760,7 +760,7 @@
             <tr class="never" "">
               <td class='line_number'>85</td>
               <td class='code_line'>
-                <pre>          # if uploaded_data['filename'].include?</pre>
+                <pre></pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -768,13 +768,21 @@
             <tr class="never" "">
               <td class='line_number'>86</td>
               <td class='code_line'>
+                <pre>          # if uploaded_data['filename'].include?</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>87</td>
+              <td class='code_line'>
                 <pre>          # uploaded_data['current_user'] = current_user.login # for the use of media_file, if we get a zipfile</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>87</td>
+              <td class='line_number'>88</td>
               <td class='code_line'>
                 <pre>          media_file = MediaFile.create(:uploaded_data => uploaded_data)</pre>
               </td>
@@ -782,15 +790,23 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>88</td>
+              <td class='line_number'>89</td>
               <td class='code_line'>
-                <pre>          media_entry = upload_session.media_entries.create(:media_file => media_file)</pre>
+                <pre>          media_resource = MediaResource.create owner: current_user, permissionset: Permissionset.create</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>90</td>
+              <td class='code_line'>
+                <pre>          media_entry = upload_session.media_entries.create(media_resource: media_resource, media_file: media_file)</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>89</td>
+              <td class='line_number'>91</td>
               <td class='code_line'>
                 <pre>          </pre>
               </td>
@@ -798,7 +814,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>90</td>
+              <td class='line_number'>92</td>
               <td class='code_line'>
                 <pre>          # If this is a path-based upload for e.g. video files, it's almost impossible that we've imported the title</pre>
               </td>
@@ -806,7 +822,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>91</td>
+              <td class='line_number'>93</td>
               <td class='code_line'>
                 <pre>          # correctly because some file formats don't give us that metadata. Let's overwrite with an auto-import default then.</pre>
               </td>
@@ -814,25 +830,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>92</td>
-              <td class='code_line'>
-                <pre>          # TODO: We should get this information from a YAML file that's uploaded with the media file itself instead.</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>93</td>
-              <td class='code_line'>
-                <pre>          if !params['import_path'].blank?</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>94</td>
               <td class='code_line'>
-                <pre>            # TODO: Extract metadata from separate YAML file here, along with refactoring MediaEntry#process_metadata_blob and friends</pre>
+                <pre>          # TODO: We should get this information from a YAML/XML file that's uploaded with the media file itself instead.</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -840,23 +840,23 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>95</td>
               <td class='code_line'>
-                <pre>            mandatory_key_ids = MetaKey.where(:label => ['title', 'copyright notice']).collect(&:id)</pre>
+                <pre>          if !params['import_path'].blank?</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>96</td>
               <td class='code_line'>
-                <pre>            if media_entry.meta_data.where(:meta_key_id => mandatory_key_ids).empty?</pre>
+                <pre>            # TODO: Extract metadata from separate YAML file here, along with refactoring MediaEntry#process_metadata_blob and friends</pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'></td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>97</td>
               <td class='code_line'>
-                <pre>              mandatory_key_ids.each do |key_id|</pre>
+                <pre>            mandatory_key_ids = MetaKey.where(:label => ['title', 'copyright notice']).collect(&:id)</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -864,13 +864,29 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>98</td>
               <td class='code_line'>
+                <pre>            if media_entry.meta_data.where(:meta_key_id => mandatory_key_ids).empty?</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>99</td>
+              <td class='code_line'>
+                <pre>              mandatory_key_ids.each do |key_id|</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>100</td>
+              <td class='code_line'>
                 <pre>                media_entry.meta_data.create(:meta_key_id => key_id, :value => 'Auto-created default during import')</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>99</td>
+              <td class='line_number'>101</td>
               <td class='code_line'>
                 <pre>              end</pre>
               </td>
@@ -878,7 +894,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>100</td>
+              <td class='line_number'>102</td>
               <td class='code_line'>
                 <pre>            end</pre>
               </td>
@@ -886,7 +902,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>101</td>
+              <td class='line_number'>103</td>
               <td class='code_line'>
                 <pre>          end</pre>
               </td>
@@ -894,7 +910,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>102</td>
+              <td class='line_number'>104</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -902,7 +918,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>103</td>
+              <td class='line_number'>105</td>
               <td class='code_line'>
                 <pre>          uploaded_data[:tempfile].close unless params['uploaded_data']</pre>
               </td>
@@ -910,7 +926,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>104</td>
+              <td class='line_number'>106</td>
               <td class='code_line'>
                 <pre>        end</pre>
               </td>
@@ -918,25 +934,9 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>105</td>
-              <td class='code_line'>
-                <pre>      end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>106</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
               <td class='line_number'>107</td>
               <td class='code_line'>
-                <pre>      # TODO check if all media_entries successfully saved</pre>
+                <pre>      end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
@@ -949,8 +949,24 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>109</td>
+              <td class='code_line'>
+                <pre>      # TODO check if all media_entries successfully saved</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>110</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>111</td>
               <td class='code_line'>
                 <pre>      if params['xhr']</pre>
               </td>
@@ -958,7 +974,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>110</td>
+              <td class='line_number'>112</td>
               <td class='code_line'>
                 <pre>        [200, {"Content-Type" => "text/html"}, [""]]</pre>
               </td>
@@ -966,7 +982,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>111</td>
+              <td class='line_number'>113</td>
               <td class='code_line'>
                 <pre>      else</pre>
               </td>
@@ -974,7 +990,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>112</td>
+              <td class='line_number'>114</td>
               <td class='code_line'>
                 <pre>        uri = if params['uploaded_data']</pre>
               </td>
@@ -982,7 +998,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>113</td>
+              <td class='line_number'>115</td>
               <td class='code_line'>
                 <pre>                "/upload"</pre>
               </td>
@@ -990,7 +1006,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>114</td>
+              <td class='line_number'>116</td>
               <td class='code_line'>
                 <pre>              elsif params['import_path']</pre>
               </td>
@@ -998,7 +1014,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>115</td>
+              <td class='line_number'>117</td>
               <td class='code_line'>
                 <pre>                "/upload/import_summary"</pre>
               </td>
@@ -1006,7 +1022,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>116</td>
+              <td class='line_number'>118</td>
               <td class='code_line'>
                 <pre>              else</pre>
               </td>
@@ -1014,7 +1030,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>117</td>
+              <td class='line_number'>119</td>
               <td class='code_line'>
                 <pre>                "/upload/new"</pre>
               </td>
@@ -1022,7 +1038,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>118</td>
+              <td class='line_number'>120</td>
               <td class='code_line'>
                 <pre>              end</pre>
               </td>
@@ -1030,7 +1046,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>119</td>
+              <td class='line_number'>121</td>
               <td class='code_line'>
                 <pre>        [ 303, {'Content-Length'=>'0', 'Content-Type'=>'text/plain', 'Location' => uri}, []]</pre>
               </td>
@@ -1038,7 +1054,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>120</td>
+              <td class='line_number'>122</td>
               <td class='code_line'>
                 <pre>      end</pre>
               </td>
@@ -1046,7 +1062,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>121</td>
+              <td class='line_number'>123</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -1054,7 +1070,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>122</td>
+              <td class='line_number'>124</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1062,7 +1078,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>123</td>
+              <td class='line_number'>125</td>
               <td class='code_line'>
                 <pre>end</pre>
               </td>
@@ -1074,6 +1090,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-13 12:28:34 +0100</p>
+    <p>Generated on: 2012-01-14 14:37:56 +0100</p>
   </body>
 </html>
