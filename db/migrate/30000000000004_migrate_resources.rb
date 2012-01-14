@@ -4,10 +4,12 @@ class MigrateResources < ActiveRecord::Migration
 
   def up
 
-    execute_sql <<-SQL
+    if adapter_is_postgresql?
+      execute_sql <<-SQL
       ALTER TABLE media_set_arcs DROP CONSTRAINT media_set_arcs_parent_id_media_sets_fkey;
       ALTER TABLE media_set_arcs DROP CONSTRAINT media_set_arcs_child_id_media_sets_fkey;
-    SQL
+      SQL
+    end
 
     drop_table :media_sets
     drop_table :media_entries

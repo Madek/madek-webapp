@@ -133,40 +133,9 @@ class MediaResource < ActiveRecord::Base
 
 
   def self.accessible_by_user(user, action = :view)
-    raise "this method is deprecated" 
-
-    i = 2 ** Permission::ACTIONS.index(action)
-
-
-    if SQLHelper::adapter_is_mysql? 
-      where("(media_resources.id, media_resources.type) NOT IN " \
-              "(SELECT resource_id, resource_type FROM permissions " \
-                "USE INDEX (index_permissions_on_resource__and_subject) " \
-                "WHERE (subject_type = 'User' AND subject_id = :user_id) " \
-                  "AND NOT #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) " \
-            "AND (media_resources.id, media_resources.type) IN " \
-              "(SELECT resource_id, resource_type FROM permissions " \
-                "USE INDEX (index_permissions_on_resource__and_subject) " \
-                "LEFT JOIN groups_users ON permissions.subject_id = groups_users.group_id " \
-                "WHERE (subject_type IS NULL " \
-                  "OR (subject_type = 'Group' AND groups_users.user_id = :user_id) " \
-                  "OR (subject_type = 'User' AND subject_id = :user_id)) " \
-                "AND   #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) ",
-            :user_id => user.id);
-
-    else
-      where("(media_resources.id, media_resources.type) NOT IN " \
-            "(SELECT resource_id, resource_type from permissions " \
-            "WHERE (subject_type = 'User' AND subject_id = ?) " \
-            "AND NOT #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) " \
-            "AND (media_resources.id, media_resources.type) IN " \
-            "(SELECT resource_id, resource_type from permissions " \
-            "WHERE (subject_type IS NULL " \
-            "OR (subject_type = 'Group' AND subject_id IN (?)) " \
-            "OR (subject_type = 'User' AND subject_id = ?)) " \
-            "AND   #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) ",
-            user.id, user.group_ids, user.id);
-    end
+    # TODO Tom & Franco, it is most likely unefficient to call this method and then
+    # map it to media_whatever ....
+    user.send "#{Constants::Actions.old2new action}able_media_resources"
   end
 
 end
