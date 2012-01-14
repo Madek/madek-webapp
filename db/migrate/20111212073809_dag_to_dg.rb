@@ -1,15 +1,15 @@
 # -*- encoding : utf-8 -*-
 
-class Media::FeaturedSet < Media::Set
+class Media::FeaturedSet < MediaSet
 end
 
-class Media::SetLink < ActiveRecord::Base
+class MediaSetLink < ActiveRecord::Base
   def self.table_name_prefix
     "media_"
   end
 
   # TODO use dagnabit gem instead ??
-  acts_as_dag_links :node_class_name => 'Media::Set'  
+  acts_as_dag_links :node_class_name => 'MediaSet'  
 end
 
 class DagToDg < ActiveRecord::Migration
@@ -31,11 +31,11 @@ class DagToDg < ActiveRecord::Migration
     add_check :media_set_arcs, "(parent_id <> child_id)"
 
 
-    Media::SetLink.where(direct: true).each do |link|
-      if (Media::Set.exists? link.descendant_id) \
-        and (Media::Set.exists? link.ancestor_id) \
+    MediaSetLink.where(direct: true).each do |link|
+      if (MediaSet.exists? link.descendant_id) \
+        and (MediaSet.exists? link.ancestor_id) \
         and link.descendant_id != link.ancestor_id
-          Media::SetArc.create child_id: link.descendant_id, parent_id: link.ancestor_id
+          MediaSetArc.create child_id: link.descendant_id, parent_id: link.ancestor_id
       end
     end
 
@@ -55,8 +55,8 @@ class DagToDg < ActiveRecord::Migration
     add_index :media_set_links, :ancestor_id
     add_index :media_set_links, :direct
 
-    Media::SetArc.all.each do |arc|
-      Media::SetLink.create_edge arc.parent_id, arc.child_id 
+    MediaSetArc.all.each do |arc|
+      MediaSetLink.create_edge arc.parent_id, arc.child_id 
     end
 
     drop_table :media_set_arcs

@@ -1,3 +1,5 @@
+# -*- encoding : utf-8 -*-
+
 class MediaResource < ActiveRecord::Base
 
   has_many :userpermissions, :dependent => :destroy
@@ -15,7 +17,7 @@ class MediaResource < ActiveRecord::Base
   ### Permissionset <<<
 
   has_one :media_entry
-  has_one :media_set, :class_name => Media::Set.name
+  has_one :media_set, :class_name => MediaSet.name
 
   ### only for media_entries
   belongs_to :upload_session
@@ -31,7 +33,7 @@ class MediaResource < ActiveRecord::Base
   ################################################################
 
   scope :media_entries, where(:type => "MediaEntry")
-  scope :media_sets, where(:type => "Media::Set")
+  scope :media_sets, where(:type => "MediaSet")
 
   ################################################################
 
@@ -64,7 +66,7 @@ class MediaResource < ActiveRecord::Base
             "(SELECT media_entry_id AS id, 'MediaEntry' AS type FROM media_entries_media_sets " \
               "WHERE media_set_id = ? " \
             "UNION " \
-              "SELECT child_id AS id, 'Media::Set' AS type FROM media_set_arcs " \
+              "SELECT child_id AS id, 'MediaSet' AS type FROM media_set_arcs " \
                 "WHERE parent_id = ? )",
           media_set.id, media_set.id);
   }

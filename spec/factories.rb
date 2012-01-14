@@ -6,7 +6,7 @@ module DataFactory
 
   def clear_data 
     MediaEntry.all.each {|e| e.destroy}
-    Media::Set.all.each {|e| e.destroy}
+    MediaSet.all.each {|e| e.destroy}
     MediaResource.all.each {|e| e.destroy}
     Grouppermission.all.each {|e| e.destroy}
     Userpermission.all.each {|e| e.destroy}
@@ -23,7 +23,7 @@ module DataFactory
     prev_media_set = FactoryGirl.create :media_set
     (1..10).each do |i|
       next_media_set = FactoryGirl.create :media_set
-      Media::SetLink.create_edge prev_media_set, next_media_set
+      MediaSetLink.create_edge prev_media_set, next_media_set
       prev_media_set = next_media_set
     end
   end
@@ -49,7 +49,7 @@ FactoryGirl.define do
 
   ### Media ....
 
-  factory :media_set_arc , :class => Media::SetArc do
+  factory :media_set_arc , :class => MediaSetArc do
   end
 
   factory :media_entry do
@@ -81,7 +81,7 @@ FactoryGirl.define do
     permissionset {FactoryGirl.create :permissionset}
   end
 
-  factory :media_set, :class => Media::Set do
+  factory :media_set, :class => MediaSet do
     user {User.find_random || (FactoryGirl.create :user)}
     #media_resource {FactoryGirl.create  :media_resource}
   end

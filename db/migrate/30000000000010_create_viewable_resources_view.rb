@@ -56,7 +56,7 @@ class CreateViewableResourcesView < ActiveRecord::Migration
         create_view "#{action}able_media_resources_users",actionable_users
 
 
-        [Media::Set,MediaEntry].each do |model|
+        [MediaSet,MediaEntry].each do |model|
           table_name = model.table_name
           sql= <<-SQL 
             SELECT #{table_name}.id as #{ref_id model}, #{action}able_media_resources_users.user_id as user_id 
@@ -74,7 +74,7 @@ class CreateViewableResourcesView < ActiveRecord::Migration
   def down
 
     Constants::Actions.each do |action|
-      [Media::Set,MediaEntry].each do |model|
+      [MediaSet,MediaEntry].each do |model|
         table_name = model.table_name
         drop_view "#{action}able_#{table_name}_users"
       end

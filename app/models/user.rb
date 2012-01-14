@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   include Subject
 
   Constants::Actions.each do |action|
-    [MediaResource,Media::Set,MediaEntry].each do |model|
+    [MediaResource,MediaSet,MediaEntry].each do |model|
       tname = model.table_name
       fkey_name = MigrationHelpers.fkey_name tname
       has_and_belongs_to_many "#{action}able_#{tname}", 
@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   # TODO Tom 
   # maybe rather like: User.first.viewable_media_resources.media_sets
   Constants::Actions.each do |action|
-    [Media::Set,MediaEntry].each do |model|
+    [MediaSet,MediaEntry].each do |model|
       tname = model.table_name
       fkey_name = (ActiveSupport::Inflector.singularize tname)+ "_id"
       #has_many "#{action}able_#{tname}", through: "#{action}able_media_resources"
@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
   end
   has_many :media_entries, :through => :upload_sessions
 # TODO ??  has_many :media_files, :through => :media_entries
-  has_many :media_sets, :class_name => "Media::Set"
+  has_many :media_sets, :class_name => "MediaSet"
   has_and_belongs_to_many :favorites, :class_name => "MediaEntry", :join_table => "favorites" do
     def toggle(media_entry_or_id)
       media_entry_id = media_entry_or_id.is_a?(MediaEntry) ? media_entry_or_id.id : media_entry_or_id.to_i

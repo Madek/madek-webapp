@@ -4,8 +4,6 @@
 # This class could just as easily also be known as MediaObject..
 # and one day might become so.
 
-load "app/models/media_resource.rb"
-
 class MediaEntry < MediaResource
 
   include Resource
@@ -15,7 +13,7 @@ class MediaEntry < MediaResource
   #belongs_to :owner, :class_name => 'User'
 
   
-  has_and_belongs_to_many   :media_sets, :class_name => "Media::Set",
+  has_and_belongs_to_many   :media_sets, :class_name => "MediaSet",
                                          :join_table => "media_entries_media_sets",
                                          :association_foreign_key => "media_set_id" # TODO validate_uniqueness
 

@@ -1,12 +1,12 @@
-class Media::FeaturedSet < Media::Set
+class Media::FeaturedSet < MediaSet
 end
 
 class DropFeaturedSet < ActiveRecord::Migration
   def up
     
     if(featured_set = Media::FeaturedSet.first)
-      Media::Set.featured_set = featured_set
-      featured_set.type = "Media::Set"
+      MediaSet.featured_set = featured_set
+      featured_set.type = "MediaSet"
       featured_set.save
     end
 
