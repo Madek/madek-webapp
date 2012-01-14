@@ -2,8 +2,8 @@
   <head>
     <title>app/models/meta_field.rb</title>
     
-    <link href="../../report.css?0.7043172619971076" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.5809939493240291'></script>
+    <link href="../../report.css?0.2960026801276773" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.7751281746433049'></script>
     <script>
       $(function() {
 
@@ -57,8 +57,8 @@
         </td>
         <td>94</td>
         <td>44</td>
-        <td>22</td>
-        <td>50.0%</td>
+        <td>32</td>
+        <td>27.3%</td>
       </tr>
     </table>
 
@@ -205,20 +205,20 @@
               <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>16</td>
               <td class='code_line'>
                 <pre>    attributes.each_pair do |key, value|</pre>
               </td>
-              <td class='hit_number'>198</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>17</td>
               <td class='code_line'>
                 <pre>      self.send("#{key}=", value)</pre>
               </td>
-              <td class='hit_number'>414</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -269,20 +269,20 @@
               <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>24</td>
               <td class='code_line'>
                 <pre>    @label = get_term(h).try(:id)</pre>
               </td>
-              <td class='hit_number'>130</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>25</td>
               <td class='code_line'>
                 <pre>    remove_instance_variable(:@label) if @label.blank?</pre>
               </td>
-              <td class='hit_number'>130</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -309,20 +309,20 @@
               <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>29</td>
               <td class='code_line'>
                 <pre>    @description = get_term(h).try(:id)</pre>
               </td>
-              <td class='hit_number'>64</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>30</td>
               <td class='code_line'>
                 <pre>    remove_instance_variable(:@description) if @description.blank?</pre>
               </td>
-              <td class='hit_number'>64</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -349,20 +349,20 @@
               <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>34</td>
               <td class='code_line'>
                 <pre>    @hint = get_term(h).try(:id)</pre>
               </td>
-              <td class='hit_number'>76</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>35</td>
               <td class='code_line'>
                 <pre>    remove_instance_variable(:@hint) if @hint.blank?</pre>
               </td>
-              <td class='hit_number'>76</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -605,20 +605,20 @@
               <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>66</td>
               <td class='code_line'>
                 <pre>    if h.is_a? Integer</pre>
               </td>
-              <td class='hit_number'>270</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>67</td>
               <td class='code_line'>
                 <pre>      Meta::Term.where(:id => h).first</pre>
               </td>
-              <td class='hit_number'>270</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
@@ -842,6 +842,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-14 14:37:56 +0100</p>
+    <p>Generated on: 2012-01-14 16:10:09 +0100</p>
   </body>
 </html>

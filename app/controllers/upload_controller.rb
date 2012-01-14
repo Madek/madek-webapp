@@ -66,9 +66,11 @@ class UploadController < ApplicationController
     pre_load
     @upload_session.update_attributes(:is_complete => true)
 
-    params[:resources][:media_entry].each_pair do |key, value|
-      media_entry = @media_entries.detect{|me| me.id == key.to_i } #old# .find(key)
-      media_entry.update_attributes(value)
+    if params[:resources] and params[:resources][:media_entry] 
+      params[:resources][:media_entry].each_pair do |key, value|
+        media_entry = @media_entries.detect{|me| me.id == key.to_i } #old# .find(key)
+        media_entry.update_attributes(value)
+      end
     end
 
     # TODO delta index if new Person 

@@ -2,8 +2,8 @@
   <head>
     <title>app/controllers/application_controller.rb</title>
     
-    <link href="../../report.css?0.31476347615938804" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.5689934543620041'></script>
+    <link href="../../report.css?0.6426285856579432" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.1863262046952361'></script>
     <script>
       $(function() {
 
@@ -55,10 +55,10 @@
           app/controllers/application_controller.rb
           
         </td>
-        <td>153</td>
+        <td>142</td>
         <td>64</td>
-        <td>31</td>
-        <td>51.6%</td>
+        <td>43</td>
+        <td>32.8%</td>
       </tr>
     </table>
 
@@ -213,12 +213,12 @@
               <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>17</td>
               <td class='code_line'>
                 <pre>    !!current_user</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -245,12 +245,12 @@
               <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>21</td>
               <td class='code_line'>
                 <pre>    @current_user ||= login_from_session</pre>
               </td>
-              <td class='hit_number'>12</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -429,112 +429,32 @@
               <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>44</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>        resources = MediaResource.accessible_by_user(current_user)</pre>
               </td>
-              <td class='hit_number'></td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
               <td class='line_number'>45</td>
               <td class='code_line'>
-                <pre>        # TODO Tom</pre>
+                <pre>        </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>46</td>
               <td class='code_line'>
-                <pre>        # apparently resources is really an array of sets and entries, pfff....</pre>
+                <pre>        my_resources = resources.by_user(current_user).paginate(paginate_options)</pre>
               </td>
-              <td class='hit_number'></td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>47</td>
-              <td class='code_line'>
-                <pre>        # create a method like get_set_or_entry (in the resource model) and map over</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>48</td>
-              <td class='code_line'>
-                <pre>        resources = current_user.viewable_media_resources</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>49</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>50</td>
-              <td class='code_line'>
-                <pre>        my_resources = current_user.viewable_media_resources \</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>51</td>
-              <td class='code_line'>
-                <pre>          .where("media_resources.owner_id= #{current_user.id}").paginate(paginate_options)</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>52</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>53</td>
-              <td class='code_line'>
-                <pre>        other_resources = current_user.viewable_media_resources \</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>54</td>
-              <td class='code_line'>
-                <pre>          .where("media_resources.owner_id <> #{current_user.id}").paginate(paginate_options)</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>55</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>56</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>57</td>
               <td class='code_line'>
                 <pre>        @my_media_entries = { :pagination => { :current_page => my_resources.current_page,</pre>
               </td>
@@ -542,7 +462,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>58</td>
+              <td class='line_number'>48</td>
               <td class='code_line'>
                 <pre>                                              :per_page => my_resources.per_page,</pre>
               </td>
@@ -550,7 +470,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>59</td>
+              <td class='line_number'>49</td>
               <td class='code_line'>
                 <pre>                                              :total_entries => my_resources.total_entries,</pre>
               </td>
@@ -558,7 +478,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>60</td>
+              <td class='line_number'>50</td>
               <td class='code_line'>
                 <pre>                                              :total_pages => my_resources.total_pages },</pre>
               </td>
@@ -566,7 +486,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>61</td>
+              <td class='line_number'>51</td>
               <td class='code_line'>
                 <pre>                             :entries => my_resources.as_json(:user => current_user, :with_thumb => true) } </pre>
               </td>
@@ -574,23 +494,23 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>62</td>
+              <td class='line_number'>52</td>
               <td class='code_line'>
                 <pre>        </pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="never" "">
-              <td class='line_number'>63</td>
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>53</td>
               <td class='code_line'>
-                <pre></pre>
+                <pre>        other_resources = resources.not_by_user(current_user).paginate(paginate_options)</pre>
               </td>
-              <td class='hit_number'></td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>64</td>
+              <td class='line_number'>54</td>
               <td class='code_line'>
                 <pre>        @other_media_entries = { :pagination => { :current_page => other_resources.current_page,</pre>
               </td>
@@ -598,7 +518,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>65</td>
+              <td class='line_number'>55</td>
               <td class='code_line'>
                 <pre>                                                  :per_page => other_resources.per_page,</pre>
               </td>
@@ -606,7 +526,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>66</td>
+              <td class='line_number'>56</td>
               <td class='code_line'>
                 <pre>                                                  :total_entries => other_resources.total_entries,</pre>
               </td>
@@ -614,7 +534,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>67</td>
+              <td class='line_number'>57</td>
               <td class='code_line'>
                 <pre>                                                  :total_pages => other_resources.total_pages },</pre>
               </td>
@@ -622,7 +542,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>68</td>
+              <td class='line_number'>58</td>
               <td class='code_line'>
                 <pre>                                 :entries => other_resources.as_json(:user => current_user, :with_thumb => true) } </pre>
               </td>
@@ -630,15 +550,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>69</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>70</td>
+              <td class='line_number'>59</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -646,7 +558,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>71</td>
+              <td class='line_number'>60</td>
               <td class='code_line'>
                 <pre>        respond_to do |format|</pre>
               </td>
@@ -654,7 +566,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>72</td>
+              <td class='line_number'>61</td>
               <td class='code_line'>
                 <pre>          format.html { render :template => "/users/show" }</pre>
               </td>
@@ -662,7 +574,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>73</td>
+              <td class='line_number'>62</td>
               <td class='code_line'>
                 <pre>        end</pre>
               </td>
@@ -670,7 +582,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>74</td>
+              <td class='line_number'>63</td>
               <td class='code_line'>
                 <pre>      end</pre>
               </td>
@@ -678,7 +590,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>75</td>
+              <td class='line_number'>64</td>
               <td class='code_line'>
                 <pre>    else</pre>
               </td>
@@ -686,7 +598,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>76</td>
+              <td class='line_number'>65</td>
               <td class='code_line'>
                 <pre>      render :layout => false</pre>
               </td>
@@ -694,11 +606,99 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>77</td>
+              <td class='line_number'>66</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
               <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>67</td>
+              <td class='code_line'>
+                <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>68</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>69</td>
+              <td class='code_line'>
+                <pre>  def help</pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>70</td>
+              <td class='code_line'>
+                <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>71</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>72</td>
+              <td class='code_line'>
+                <pre>  def feedback</pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>73</td>
+              <td class='code_line'>
+                <pre>    @title = "Medienarchiv der Künste: Feedback & Support"</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>74</td>
+              <td class='code_line'>
+                <pre>    @disable_search = true</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>75</td>
+              <td class='code_line'>
+                <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>76</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>77</td>
+              <td class='code_line'>
+                <pre>  def catalog</pre>
+              </td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="never" "">
@@ -717,20 +717,20 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="never" "">
               <td class='line_number'>80</td>
               <td class='code_line'>
-                <pre>  def help</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>81</td>
-              <td class='code_line'>
-                <pre>  end</pre>
+                <pre>##############################################  </pre>
               </td>
               <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>81</td>
+              <td class='code_line'>
+                <pre>  protected</pre>
+              </td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="never" "">
@@ -744,7 +744,7 @@
             <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>83</td>
               <td class='code_line'>
-                <pre>  def feedback</pre>
+                <pre>  def not_authorized!</pre>
               </td>
               <td class='hit_number'>1</td>
             </tr>
@@ -752,7 +752,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>84</td>
               <td class='code_line'>
-                <pre>    @title = "Medienarchiv der Künste: Feedback & Support"</pre>
+                <pre>    msg = "Sie haben nicht die notwendige Zugriffsberechtigung." #"You don't have appropriate permission to perform this operation."</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -760,101 +760,13 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>85</td>
               <td class='code_line'>
-                <pre>    @disable_search = true</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>86</td>
-              <td class='code_line'>
-                <pre>  end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>87</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>88</td>
-              <td class='code_line'>
-                <pre>  def catalog</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>89</td>
-              <td class='code_line'>
-                <pre>  end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>90</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>91</td>
-              <td class='code_line'>
-                <pre>##############################################  </pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>92</td>
-              <td class='code_line'>
-                <pre>  protected</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>93</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>94</td>
-              <td class='code_line'>
-                <pre>  def not_authorized!</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>95</td>
-              <td class='code_line'>
-                <pre>    msg = "Sie haben nicht die notwendige Zugriffsberechtigung." #"You don't have appropriate permission to perform this operation."</pre>
-              </td>
-              <td class='hit_number'>0</td>
-            </tr>
-          
-            <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>96</td>
-              <td class='code_line'>
                 <pre>    respond_to do |format|</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>97</td>
+              <td class='line_number'>86</td>
               <td class='code_line'>
                 <pre>      format.html { flash[:error] = msg</pre>
               </td>
@@ -862,7 +774,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>98</td>
+              <td class='line_number'>87</td>
               <td class='code_line'>
                 <pre>                    redirect_to (request.env["HTTP_REFERER"] ? :back : root_path)</pre>
               </td>
@@ -870,7 +782,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>99</td>
+              <td class='line_number'>88</td>
               <td class='code_line'>
                 <pre>                  } </pre>
               </td>
@@ -878,9 +790,97 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>100</td>
+              <td class='line_number'>89</td>
               <td class='code_line'>
                 <pre>      format.js { render :json => {error: msg}, :status => 500}</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>90</td>
+              <td class='code_line'>
+                <pre>    end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>91</td>
+              <td class='code_line'>
+                <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>92</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>93</td>
+              <td class='code_line'>
+                <pre>##############################################  </pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>94</td>
+              <td class='code_line'>
+                <pre>  private</pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>95</td>
+              <td class='code_line'>
+                <pre>  </pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>96</td>
+              <td class='code_line'>
+                <pre>  def login_required</pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>97</td>
+              <td class='code_line'>
+                <pre>    unless logged_in?</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>98</td>
+              <td class='code_line'>
+                <pre>      store_location</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>99</td>
+              <td class='code_line'>
+                <pre>      flash[:error] = "Bitte anmelden."</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>100</td>
+              <td class='code_line'>
+                <pre>      redirect_to root_path</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -909,58 +909,58 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="never" "">
+            <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>104</td>
               <td class='code_line'>
-                <pre>##############################################  </pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>105</td>
-              <td class='code_line'>
-                <pre>  private</pre>
+                <pre>  def current_user=(new_user)</pre>
               </td>
               <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>106</td>
-              <td class='code_line'>
-                <pre>  </pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>107</td>
-              <td class='code_line'>
-                <pre>  def login_required</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>108</td>
-              <td class='code_line'>
-                <pre>    unless logged_in?</pre>
-              </td>
-              <td class='hit_number'>4</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>109</td>
+              <td class='line_number'>105</td>
               <td class='code_line'>
-                <pre>      store_location</pre>
+                <pre>    session[:user_id] = new_user ? new_user.id : nil</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>106</td>
+              <td class='code_line'>
+                <pre>    @current_user = new_user || false</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>107</td>
+              <td class='code_line'>
+                <pre>  end</pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="never" "">
+              <td class='line_number'>108</td>
+              <td class='code_line'>
+                <pre></pre>
+              </td>
+              <td class='hit_number'></td>
+            </tr>
+          
+            <tr class="hit" data-hits='#{cov}'"">
+              <td class='line_number'>109</td>
+              <td class='code_line'>
+                <pre>  def login_from_session</pre>
+              </td>
+              <td class='hit_number'>1</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>110</td>
               <td class='code_line'>
-                <pre>      flash[:error] = "Bitte anmelden."</pre>
+                <pre>    user = nil</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -968,7 +968,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>111</td>
               <td class='code_line'>
-                <pre>      redirect_to root_path</pre>
+                <pre>    if session[:user_id]</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -976,117 +976,29 @@
             <tr class="never" "">
               <td class='line_number'>112</td>
               <td class='code_line'>
-                <pre>    end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>113</td>
-              <td class='code_line'>
-                <pre>  end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>114</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>115</td>
-              <td class='code_line'>
-                <pre>  def current_user=(new_user)</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>116</td>
-              <td class='code_line'>
-                <pre>    session[:user_id] = new_user ? new_user.id : nil</pre>
-              </td>
-              <td class='hit_number'>4</td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>117</td>
-              <td class='code_line'>
-                <pre>    @current_user = new_user || false</pre>
-              </td>
-              <td class='hit_number'>4</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>118</td>
-              <td class='code_line'>
-                <pre>  end</pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>119</td>
-              <td class='code_line'>
-                <pre></pre>
-              </td>
-              <td class='hit_number'></td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>120</td>
-              <td class='code_line'>
-                <pre>  def login_from_session</pre>
-              </td>
-              <td class='hit_number'>1</td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>121</td>
-              <td class='code_line'>
-                <pre>    user = nil</pre>
-              </td>
-              <td class='hit_number'>4</td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>122</td>
-              <td class='code_line'>
-                <pre>    if session[:user_id]</pre>
-              </td>
-              <td class='hit_number'>4</td>
-            </tr>
-          
-            <tr class="never" "">
-              <td class='line_number'>123</td>
-              <td class='code_line'>
                 <pre>      # TODO use find without exception: self.current_user = User.find(session[:user_id])</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>124</td>
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>113</td>
               <td class='code_line'>
                 <pre>      self.current_user = user = User.where(:id => session[:user_id]).first</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>125</td>
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>114</td>
               <td class='code_line'>
                 <pre>      check_usage_terms_accepted</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>126</td>
+              <td class='line_number'>115</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1094,7 +1006,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>127</td>
+              <td class='line_number'>116</td>
               <td class='code_line'>
                 <pre>    # TODO remove this when public open</pre>
               </td>
@@ -1102,7 +1014,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>128</td>
+              <td class='line_number'>117</td>
               <td class='code_line'>
                 <pre>    elsif (request[:controller] == "media_sets" and request[:action] == "show") or</pre>
               </td>
@@ -1110,7 +1022,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>129</td>
+              <td class='line_number'>118</td>
               <td class='code_line'>
                 <pre>          (request[:controller] == "media_entries" and request[:action] == "image")</pre>
               </td>
@@ -1118,7 +1030,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>130</td>
+              <td class='line_number'>119</td>
               <td class='code_line'>
                 <pre>      @current_user = user = User.new</pre>
               </td>
@@ -1126,7 +1038,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>131</td>
+              <td class='line_number'>120</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1134,23 +1046,23 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>132</td>
+              <td class='line_number'>121</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>133</td>
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>122</td>
               <td class='code_line'>
                 <pre>    user</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>134</td>
+              <td class='line_number'>123</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -1158,7 +1070,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>135</td>
+              <td class='line_number'>124</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1166,31 +1078,31 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>136</td>
+              <td class='line_number'>125</td>
               <td class='code_line'>
                 <pre>  def check_usage_terms_accepted</pre>
               </td>
               <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>137</td>
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>126</td>
               <td class='code_line'>
                 <pre>    return if request[:action].to_sym == :usage_terms # OPTIMIZE</pre>
               </td>
-              <td class='hit_number'>4</td>
-            </tr>
-          
-            <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>138</td>
-              <td class='code_line'>
-                <pre>    unless current_user.usage_terms_accepted?</pre>
-              </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>139</td>
+              <td class='line_number'>127</td>
+              <td class='code_line'>
+                <pre>    unless current_user.usage_terms_accepted?</pre>
+              </td>
+              <td class='hit_number'>0</td>
+            </tr>
+          
+            <tr class="miss" data-hits='#{cov}'"">
+              <td class='line_number'>128</td>
               <td class='code_line'>
                 <pre>      redirect_to usage_terms_user_path(current_user)</pre>
               </td>
@@ -1198,7 +1110,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>140</td>
+              <td class='line_number'>129</td>
               <td class='code_line'>
                 <pre>      @already_redirected = true # OPTIMIZE prevent DoubleRenderError </pre>
               </td>
@@ -1206,7 +1118,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>141</td>
+              <td class='line_number'>130</td>
               <td class='code_line'>
                 <pre>    end</pre>
               </td>
@@ -1214,7 +1126,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>142</td>
+              <td class='line_number'>131</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -1222,7 +1134,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>143</td>
+              <td class='line_number'>132</td>
               <td class='code_line'>
                 <pre>  </pre>
               </td>
@@ -1230,7 +1142,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>144</td>
+              <td class='line_number'>133</td>
               <td class='code_line'>
                 <pre>  def store_location</pre>
               </td>
@@ -1238,7 +1150,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>145</td>
+              <td class='line_number'>134</td>
               <td class='code_line'>
                 <pre>    session[:return_to] = request.fullpath</pre>
               </td>
@@ -1246,7 +1158,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>146</td>
+              <td class='line_number'>135</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -1254,7 +1166,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>147</td>
+              <td class='line_number'>136</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1262,7 +1174,7 @@
             </tr>
           
             <tr class="hit" data-hits='#{cov}'"">
-              <td class='line_number'>148</td>
+              <td class='line_number'>137</td>
               <td class='code_line'>
                 <pre>  def redirect_back_or_default(default)</pre>
               </td>
@@ -1270,7 +1182,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>149</td>
+              <td class='line_number'>138</td>
               <td class='code_line'>
                 <pre>    redirect_to(session[:return_to] || default)</pre>
               </td>
@@ -1278,7 +1190,7 @@
             </tr>
           
             <tr class="miss" data-hits='#{cov}'"">
-              <td class='line_number'>150</td>
+              <td class='line_number'>139</td>
               <td class='code_line'>
                 <pre>    session[:return_to] = nil</pre>
               </td>
@@ -1286,7 +1198,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>151</td>
+              <td class='line_number'>140</td>
               <td class='code_line'>
                 <pre>  end</pre>
               </td>
@@ -1294,7 +1206,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>152</td>
+              <td class='line_number'>141</td>
               <td class='code_line'>
                 <pre></pre>
               </td>
@@ -1302,7 +1214,7 @@
             </tr>
           
             <tr class="never" "">
-              <td class='line_number'>153</td>
+              <td class='line_number'>142</td>
               <td class='code_line'>
                 <pre>end</pre>
               </td>
@@ -1314,6 +1226,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-14 14:37:55 +0100</p>
+    <p>Generated on: 2012-01-14 16:10:09 +0100</p>
   </body>
 </html>

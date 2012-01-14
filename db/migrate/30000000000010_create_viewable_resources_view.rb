@@ -54,17 +54,17 @@ class CreateViewableResourcesView < ActiveRecord::Migration
         create_view "#{action}able_media_resources_by_ownership",actionable_by_ownership
         create_view "#{action}able_media_resources_users",actionable_users
 
+        {media_entry: MediaEntry, media_set: MediaSet}.each do |singular,model|
+          sql= <<-SQL 
+              SELECT media_resources.id as #{singular.to_s}_id, #{action}able_media_resources_users.user_id as user_id 
+                FROM media_resources
+                INNER JOIN #{action}able_media_resources_users 
+                  ON #{action}able_media_resources_users.media_resource_id = media_resources.id
+                WHERE media_resources.type = '#{model.name}'
+          SQL
+          create_view "#{action}able_#{singular.to_s.pluralize}_users", sql
+        end
 
-#        [MediaSet,MediaEntry].each do |model|
-#          table_name = model.table_name
-#          sql= <<-SQL 
-#            SELECT #{table_name}.id as #{ref_id model}, #{action}able_media_resources_users.user_id as user_id 
-#              FROM #{table_name}
-#              INNER JOIN #{action}able_media_resources_users 
-#                ON #{action}able_media_resources_users.media_resource_id = #{table_name}.media_resource_id;
-#          SQL
-#          create_view "#{action}able_#{table_name}_users", sql
-#        end
 
     end
 
@@ -73,13 +73,9 @@ class CreateViewableResourcesView < ActiveRecord::Migration
   def down
 
     Constants::Actions.each do |action|
-      [MediaSet,MediaEntry].each do |model|
-        table_name = model.table_name
-        drop_view "#{action}able_#{table_name}_users"
+      {media_entry: MediaEntry, media_set: MediaSet}.each do |singular,model|
+        drop_view "#{action}able_#{singular.to_s.pluralize}_users"
       end
-    end
-
-    Constants::Actions.each do |action|
       drop_view "#{action}able_media_resources_users"
       drop_view "#{action}able_media_resources_by_ownership"
       drop_view "#{action}able_media_resources_by_publicpermission"

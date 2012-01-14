@@ -2,8 +2,8 @@
   <head>
     <title>app/controllers/media_sets_controller.rb</title>
     
-    <link href="../../report.css?0.03959134508867879" media="screen" rel="stylesheet" type="text/css" />
-    <script src='../../jquery.js?0.1450839883265712'></script>
+    <link href="../../report.css?0.14372141331726151" media="screen" rel="stylesheet" type="text/css" />
+    <script src='../../jquery.js?0.5715879229389588'></script>
     <script>
       $(function() {
 
@@ -60,8 +60,8 @@
         </td>
         <td>328</td>
         <td>126</td>
-        <td>96</td>
-        <td>23.8%</td>
+        <td>102</td>
+        <td>19.0%</td>
       </tr>
     </table>
 
@@ -136,12 +136,12 @@
               <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="miss" data-hits='#{cov}'"">
+            <tr class="hit" data-hits='#{cov}'"">
               <td class='line_number'>7</td>
               <td class='code_line'>
                 <pre>    skip_before_filter :login_required</pre>
               </td>
-              <td class='hit_number'>0</td>
+              <td class='hit_number'>1</td>
             </tr>
           
             <tr class="never" "">
@@ -152,12 +152,12 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>9</td>
               <td class='code_line'>
                 <pre>    before_filter :authorized?, :except => [:index, :create]</pre>
               </td>
-              <td class='hit_number'>1</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -2488,20 +2488,20 @@
               <td class='hit_number'>1</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>301</td>
               <td class='code_line'>
                 <pre>    action = request[:action].to_sym</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>302</td>
               <td class='code_line'>
                 <pre>    case action</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -2528,12 +2528,12 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>306</td>
               <td class='code_line'>
                 <pre>        action = :view</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -2576,28 +2576,28 @@
               <td class='hit_number'></td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>312</td>
               <td class='code_line'>
                 <pre>    if @media_set</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>313</td>
               <td class='code_line'>
                 <pre>      resource = @media_set</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
-            <tr class="hit" data-hits='#{cov}'"">
+            <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>314</td>
               <td class='code_line'>
                 <pre>      not_authorized! unless Permissions.authorized?(current_user, action, resource) # TODO super ??</pre>
               </td>
-              <td class='hit_number'>4</td>
+              <td class='hit_number'>0</td>
             </tr>
           
             <tr class="never" "">
@@ -3092,6 +3092,6 @@
       
     </div>
     
-    <p>Generated on: 2012-01-14 14:37:56 +0100</p>
+    <p>Generated on: 2012-01-14 16:10:09 +0100</p>
   </body>
 </html>
