@@ -78,13 +78,16 @@ group :test, :development do
   gem 'statsample'
   gem 'watchr'
   gem 'spork'
+  gem "jasmine-rails", "~> 0.0.2" # javascript test environment
+  gem "jasmine-headless-webkit", "~> 0.8.4" # needed for "headless" running of jasmine tests (needed for CI)
+  gem "jasminerice", "~> 0.0.8" # needed for implement coffeescript, fixtures and asset pipeline serverd css into jasmine
 end
 
 group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
   #tmp# gem 'peterhoeg-railroad'
-  #tmp# gem 'newrelic_rpm', '~> 3.1'
+  gem 'newrelic_rpm', '~> 3.3'
 end
 
 group :test do

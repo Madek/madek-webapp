@@ -30,7 +30,7 @@ Feature: Do things to and with sets
      And I click the media entry titled "into the set after uploading"
      And I open the selection widget for this entry
      
-     And I use pry
+     # And I use pry
      
      And I create a new set named "After-Upload Set"
      

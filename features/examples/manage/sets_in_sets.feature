@@ -1,7 +1,10 @@
 Feature: Sets in Sets
 
-  Background: To be defined
-
+  Background: Set up the world with a user and logging in
+    Given I have set up the world
+      And a user called "Max" with username "max" and password "moritz" exists
+      And I log in as "max" with password "moritz"
+  
   # We should do this when we attack the rest of the technical debt, do optimization
   Scenario: The sets in sets tool loads quickly enough
     When I open the sets in sets tool
@@ -73,9 +76,9 @@ Feature: Sets in Sets
       # And I can filter for my sets # The "my" is not defined yet!
       And I can see the owner of each set
       And I can see that selected sets are already highlighted
-      And I can choose to see additional information
-      And I can read the first 30 characters of each set name
-      # And I can see enough information to differentiate between similar sets # Ask SUS: What makes it possible to differentiate similar sets?
+      And I can choose to see additional information # I can see the full set title on hover
+      And I can read the first 30 characters of each set title
+      And I can see enough information to differentiate between similar sets # Ask SUS: What makes it possible to differentiate similar sets?
 
   # https://www.pivotaltracker.com/story/show/22421449
   # Pts: 13
