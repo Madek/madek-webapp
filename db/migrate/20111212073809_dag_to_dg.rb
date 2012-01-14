@@ -31,13 +31,13 @@ class DagToDg < ActiveRecord::Migration
     add_check :media_set_arcs, "(parent_id <> child_id)"
 
 
-    MediaSetLink.where(direct: true).each do |link|
-      if (MediaSet.exists? link.descendant_id) \
-        and (MediaSet.exists? link.ancestor_id) \
-        and link.descendant_id != link.ancestor_id
-          MediaSetArc.create child_id: link.descendant_id, parent_id: link.ancestor_id
-      end
-    end
+#    MediaSetLink.where(direct: true).each do |link|
+#      if (MediaSet.exists? link.descendant_id) \
+#        and (MediaSet.exists? link.ancestor_id) \
+#        and link.descendant_id != link.ancestor_id
+#          MediaSetArc.create child_id: link.descendant_id, parent_id: link.ancestor_id
+#      end
+#    end
 
     drop_table :media_set_links
 

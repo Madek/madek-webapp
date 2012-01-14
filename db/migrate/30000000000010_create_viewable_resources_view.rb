@@ -38,7 +38,6 @@ class CreateViewableResourcesView < ActiveRecord::Migration
           SQL
 
         actionable_by_ownership= "SELECT media_resources.id as media_resource_id, owner_id as user_id from media_resources; "
-
         
         actionable_users= <<-SQL 
           SELECT * FROM  #{action}able_media_resources_by_userpermission
@@ -56,16 +55,16 @@ class CreateViewableResourcesView < ActiveRecord::Migration
         create_view "#{action}able_media_resources_users",actionable_users
 
 
-        [MediaSet,MediaEntry].each do |model|
-          table_name = model.table_name
-          sql= <<-SQL 
-            SELECT #{table_name}.id as #{ref_id model}, #{action}able_media_resources_users.user_id as user_id 
-              FROM #{table_name}
-              INNER JOIN #{action}able_media_resources_users 
-                ON #{action}able_media_resources_users.media_resource_id = #{table_name}.media_resource_id;
-          SQL
-          create_view "#{action}able_#{table_name}_users", sql
-        end
+#        [MediaSet,MediaEntry].each do |model|
+#          table_name = model.table_name
+#          sql= <<-SQL 
+#            SELECT #{table_name}.id as #{ref_id model}, #{action}able_media_resources_users.user_id as user_id 
+#              FROM #{table_name}
+#              INNER JOIN #{action}able_media_resources_users 
+#                ON #{action}able_media_resources_users.media_resource_id = #{table_name}.media_resource_id;
+#          SQL
+#          create_view "#{action}able_#{table_name}_users", sql
+#        end
 
     end
 
