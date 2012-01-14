@@ -872,7 +872,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>99</td>
               <td class='code_line'>
-                <pre>    Media::Set.find(media_set_ids).each do |media_set|</pre>
+                <pre>    MediaSet.find(media_set_ids).each do |media_set|</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -880,7 +880,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>100</td>
               <td class='code_line'>
-                <pre>      next unless Permission.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)</pre>
+                <pre>      next unless Permission.authorized?(current_user, :edit, media_set) # (MediaSet ACL!)</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -1904,7 +1904,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>228</td>
               <td class='code_line'>
-                <pre>      @media_set = (@user? @user.media_sets : Media::Set).find(params[:media_set_id]) unless params[:media_set_id].blank? # TODO shallow</pre>
+                <pre>      @media_set = (@user? @user.media_sets : MediaSet).find(params[:media_set_id]) unless params[:media_set_id].blank? # TODO shallow</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>
@@ -2048,7 +2048,7 @@
             <tr class="miss" data-hits='#{cov}'"">
               <td class='line_number'>246</td>
               <td class='code_line'>
-                <pre>    @media_set = Media::Set.find(params[:media_set_id]) unless params[:media_set_id].blank?</pre>
+                <pre>    @media_set = MediaSet.find(params[:media_set_id]) unless params[:media_set_id].blank?</pre>
               </td>
               <td class='hit_number'>0</td>
             </tr>

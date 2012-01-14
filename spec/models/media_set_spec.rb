@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Media::Set do
+describe MediaSet do
 
   before :all do
     @media_set = FactoryGirl.create :media_set
@@ -18,7 +18,7 @@ describe Media::Set do
     (FactoryGirl.create :media_set).should_not == nil
   end
 
-  context "an existing Media::Set" do
+  context "an existing MediaSet" do
 
     before :each do 
       @media_set = FactoryGirl.create :media_set

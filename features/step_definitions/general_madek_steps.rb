@@ -106,14 +106,14 @@ Given /^a entry titled "(.+)" created by "(.+)" exists$/ do |title, username|
 end
 
 Given /^the last entry is child of the last set/ do
-  parent_set = Media::Set.all.sort_by(&:id).last
+  parent_set = MediaSet.all.sort_by(&:id).last
   entry = MediaEntry.all.sort_by(&:id).last
   parent_set.media_entries.push_uniq entry
 end
 
 Given /^the last set is parent of the (.+) set$/ do |offset|
-  parent_set = Media::Set.all.sort_by(&:id).last
-  child_set = Media::Set.all.sort_by(&:id)[offset.to_i-1]
+  parent_set = MediaSet.all.sort_by(&:id).last
+  child_set = MediaSet.all.sort_by(&:id)[offset.to_i-1]
   parent_set.child_sets << child_set
 end
 

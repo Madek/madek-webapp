@@ -1,6 +1,6 @@
 When /^(?:|I )open the "(.+)" set$/ do |title|
   id = nil
-  Media::Set.all.each do |set|
+  MediaSet.all.each do |set|
     if set.title == title
       id = set.id
       break

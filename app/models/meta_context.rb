@@ -41,7 +41,7 @@ class MetaContext < ActiveRecord::Base
 
 ##################################################################
 
-  # TODO dry with Media::Set#abstract  
+  # TODO dry with MediaSet#abstract  
   def abstract(current_user = nil, min_media_entries = nil)
     accessible_media_entry_ids = media_entries(current_user).map(&:id)
     min_media_entries ||= accessible_media_entry_ids.size.to_f * 50 / 100
@@ -62,7 +62,7 @@ class MetaContext < ActiveRecord::Base
     return b.compact
   end
 
-  # TODO dry with Media::Set#used_meta_term_ids  
+  # TODO dry with MediaSet#used_meta_term_ids  
   def used_meta_term_ids(current_user = nil)
     meta_key_ids = meta_keys.for_meta_terms.map(&:id)
 
