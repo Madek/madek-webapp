@@ -53,7 +53,6 @@ class ApplicationController < ActionController::Base
         other_resources = current_user.viewable_media_resources \
           .where("media_resources.owner_id <> #{current_user.id}").paginate(paginate_options)
 
-        binding.pry
 
         @my_media_entries = { :pagination => { :current_page => my_resources.current_page,
                                               :per_page => my_resources.per_page,

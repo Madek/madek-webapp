@@ -18,22 +18,22 @@ module Media
   
     belongs_to :user
 
-    ######## MediaResource  >>>>
-    belongs_to :media_resource 
-    after_destroy {|r| r.media_resource.destroy if r.media_resource }
-    before_create do |r|
-      unless r.media_resource
-        r.media_resource= (MediaResource.create owner: user) 
-      end
-    end
-    after_create do 
-      media_resource.created_at= created_at if media_resource.created_at > created_at
-      media_resource.type = self.class.name
-      media_resource.save!
-    end
-
-    delegate :owner, :to => :media_resource
-    ######## MediaResource <<<<
+#    ######## MediaResource  >>>>
+#    belongs_to :media_resource 
+#    after_destroy {|r| r.media_resource.destroy if r.media_resource }
+#    before_create do |r|
+#      unless r.media_resource
+#        r.media_resource= (MediaResource.create owner: user) 
+#      end
+#    end
+#    after_create do 
+#      media_resource.created_at= created_at if media_resource.created_at > created_at
+#      media_resource.type = self.class.name
+#      media_resource.save!
+#    end
+#
+#    delegate :owner, :to => :media_resource
+#    ######## MediaResource <<<<
     
 
 
