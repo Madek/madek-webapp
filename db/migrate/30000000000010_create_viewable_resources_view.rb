@@ -37,7 +37,7 @@ class CreateViewableResourcesView < ActiveRecord::Migration
             WHERE permissionsets.#{action} = true;
           SQL
 
-        actionable_by_ownership= "SELECT media_resources.id as media_resource_id, owner_id as user_id from media_resources; "
+        actionable_by_ownership= "SELECT media_resources.id as media_resource_id, user_id as user_id from media_resources; "
         
         actionable_users= <<-SQL 
           SELECT * FROM  #{action}able_media_resources_by_userpermission

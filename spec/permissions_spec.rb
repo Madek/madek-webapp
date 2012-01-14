@@ -12,7 +12,7 @@ describe "Permissions" do
 
     before(:each) do
       @owner = FactoryGirl.create :user
-      @media_resource = FactoryGirl.create :media_resource, owner: @owner, permissionset: @permissionset_view_true
+      @media_resource = FactoryGirl.create :media_resource, user: @owner, permissionset: @permissionset_view_true
       @user = FactoryGirl.create :user
     end
 
@@ -39,7 +39,7 @@ describe "Permissions" do
 
     before(:each) do
       @owner = FactoryGirl.create :user
-      @media_resource = FactoryGirl.create :media_resource, owner: @owner, permissionset: @permissionset_view_false
+      @media_resource = FactoryGirl.create :media_resource, user: @owner, permissionset: @permissionset_view_false
       @user = FactoryGirl.create :user
     end
 

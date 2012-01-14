@@ -10,6 +10,8 @@ module DataFactory
     MediaResource.all.each {|e| e.destroy}
     Grouppermission.all.each {|e| e.destroy}
     Userpermission.all.each {|e| e.destroy}
+    Permissionset.all.each {|e| e.destroy}
+    User.all.each {|e| e.destroy}
   end
 
   def create_small_dataset 
@@ -54,8 +56,8 @@ FactoryGirl.define do
 
   factory :media_entry do
     upload_session {FactoryGirl.create :upload_session}
+    user {upload_session.user}
     media_file {FactoryGirl.create :media_file}
-    media_resource {FactoryGirl.create  :media_resource}
     after_build do |me|
       def me.extract_subjective_metadata; end
       def me.set_copyright; end
@@ -77,13 +79,12 @@ FactoryGirl.define do
   end
 
   factory :media_resource do
-    owner {User.find_random || (FactoryGirl.create :user)}
+    user {User.find_random || (FactoryGirl.create :user)}
     permissionset {FactoryGirl.create :permissionset}
   end
 
   factory :media_set, :class => MediaSet do
     user {User.find_random || (FactoryGirl.create :user)}
-    #media_resource {FactoryGirl.create  :media_resource}
   end
 
   ### Permissions ...
@@ -112,13 +113,11 @@ FactoryGirl.define do
     media_resource do 
       MediaResource.find_random || 
         begin
-          mr = FactoryGirl.create :media_resource
           if FactoryHelper.rand_bool 1.0/3
-            FactoryGirl.create :media_set, media_resource: mr
+            FactoryGirl.create :media_set
           else
-            FactoryGirl.create :media_entry, media_resource: mr
+            FactoryGirl.create :media_entry
           end
-          mr
         end
     end
 
@@ -131,13 +130,11 @@ FactoryGirl.define do
     group {Group.find_random || (FactoryGirl.create :group)}
 
     media_resource do 
-      mr = FactoryGirl.create :media_resource
       if FactoryHelper.rand_bool 1.0/3
-        FactoryGirl.create :media_set, media_resource: mr
+        FactoryGirl.create :media_set
       else
-        FactoryGirl.create :media_entry, media_resource: mr
+        FactoryGirl.create :media_entry
       end
-      mr
     end
 
   end

@@ -10,7 +10,7 @@ module Permissions
       # the old authorized accepted subjects 
       raise "authorized? can only be called with a user" if user.class != User
 
-      if resource.owner == user
+      if resource.user == user
         true
       elsif resource.permissionset.send(action) == true
         true

@@ -4,8 +4,6 @@
 # This class could just as easily also be known as MediaObject..
 # and one day might become so.
 
-class MediaResource < ActiveRecord::Base
-end
 
 class MediaEntry < MediaResource
 

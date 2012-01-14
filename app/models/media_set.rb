@@ -1,7 +1,6 @@
 # -*- encoding : utf-8 -*-
 
-class MediaResource < ActiveRecord::Base
-end
+require 'media_resource'
 
 class MediaSet < MediaResource # TODO rename to Media::Group
 

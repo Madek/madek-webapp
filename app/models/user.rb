@@ -8,28 +8,16 @@ class User < ActiveRecord::Base
   include Subject
 
   Constants::Actions.each do |action|
-    [MediaResource,MediaSet,MediaEntry].each do |model|
-      tname = model.table_name
-      fkey_name = MigrationHelpers.fkey_name tname
-      has_and_belongs_to_many "#{action}able_#{tname}", 
-        :class_name => model.to_s, :join_table => "#{action}able_#{tname}_users", :foreign_key => 'user_id', 
-        :association_foreign_key => fkey_name,
-        :delete_sql => "SELECT false;" # otherwise rails will try to delete rows in the view
+    {media_resource: MediaResource, media_entry: MediaEntry, media_set: MediaSet}.each do |singular,model|
+      has_and_belongs_to_many "#{action}able_#{singular.to_s.pluralize}",  class_name: model.to_s, 
+        join_table: "#{action}able_#{singular.to_s.pluralize}_users", foreign_key: :user_id, association_foreign_key: "#{singular.to_s}_id"
     end
   end
 
-  # TODO Tom 
-  # maybe rather like: User.first.viewable_media_resources.media_sets
-  Constants::Actions.each do |action|
-    [MediaSet,MediaEntry].each do |model|
-      tname = model.table_name
-      fkey_name = (ActiveSupport::Inflector.singularize tname)+ "_id"
-      #has_many "#{action}able_#{tname}", through: "#{action}able_media_resources"
-#      has_and_belongs_to_many "#{action}able_#{tname}", 
-#        :class_name => model.to_s, :join_table => "#{action}able_#{tname}_users", :foreign_key => 'user_id', 
-#        :association_foreign_key => fkey_name,
-#        :delete_sql => "SELECT false;" # otherwise rails will try to delete rows in the view
-    end
+  def destroy 
+    # TODO, for now since the above is not compatible with destroy, seems to be a rails problem
+    warn "destroy will is overwitten to use delete in the background"
+    delete
   end
 
   belongs_to :person

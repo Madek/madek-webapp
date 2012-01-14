@@ -6,7 +6,7 @@ class CreateMediaResourceModel < ActiveRecord::Migration
     drop_view "media_resources"
 
     create_table :media_resources do |t| 
-      t.integer :owner_id, :null => false
+      t.integer :user_id, :null => false
       t.references :media_file
       t.references :permissionset, null: false, unique: true
       t.references :upload_session
@@ -18,9 +18,9 @@ class CreateMediaResourceModel < ActiveRecord::Migration
     change_table :media_resources do |t| 
       t.index :created_at
       t.index :media_file_id
-      t.index :owner_id
       t.index :permissionset_id
       t.index :upload_session_id
+      t.index :user_id
     end
     
   end

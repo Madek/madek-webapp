@@ -33,7 +33,7 @@ describe Grouppermission do
 
       before :each do
         @group = FactoryGirl.create :group
-        @media_resource = FactoryGirl.create :media_resource, :owner => (FactoryGirl.create :user)
+        @media_resource = FactoryGirl.create :media_resource, :user => (FactoryGirl.create :user)
       end
 
       it "should remove grouppermissions if the group is destroyed" do

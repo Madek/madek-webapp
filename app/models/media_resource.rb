@@ -5,7 +5,7 @@ class MediaResource < ActiveRecord::Base
   has_many :userpermissions, :dependent => :destroy
   has_many :grouppermissions, :dependent => :destroy
 
-  belongs_to :owner, :class_name => User.name
+  belongs_to :user 
   belongs_to :media_file
   belongs_to :upload_session
 
@@ -16,8 +16,8 @@ class MediaResource < ActiveRecord::Base
   end
   ### Permissionset <<<
 
-  has_one :media_entry
-  has_one :media_set, :class_name => MediaSet.name
+  #has_one :media_entry
+  #has_one :media_set, :class_name => MediaSet.name
 
   ### only for media_entries
   belongs_to :upload_session
