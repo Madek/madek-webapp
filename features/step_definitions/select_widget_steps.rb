@@ -1,6 +1,6 @@
 When /^(?:|I )open the "(.+)" set$/ do |title|
   id = nil
-  Media::Set.all.each do |set|
+  MediaSet.all.each do |set|
     if set.title == title
       id = set.id
       break
@@ -23,9 +23,9 @@ end
 When /^(?:|I )open the selection widget for this (.+)$/ do |type|
   case type
     when "set"
-      find("#set_actions .has-selection-widget").click
+      find("#set_actions .has-set-widget").click
     when "entry"
-      find("#detail-action-bar .has-selection-widget").click
+      find("#detail-action-bar .has-set-widget").click
   end
   wait_for_css_element(".widget .list")
 end
@@ -41,7 +41,7 @@ end
 
 When /^(?:|I )submit the selection widget$/ do
   find(".widget .submit").click
-  wait_for_css_element(".has-selection-widget:not(.open)")
+  wait_for_css_element(".has-set-widget:not(.open)")
 end
 
 When /^(?:|I )create a new set named "(.+)"$/ do |name|

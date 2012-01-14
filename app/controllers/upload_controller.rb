@@ -34,9 +34,9 @@ class UploadController < ApplicationController
     
     pre_load # OPTIMIZE
     @media_entries.each do |media_entry|
-      media_entry.media_resource.permissionset.download = hi_res_download
-      media_entry.media_resource.permissionset.edit = edit_action
-      media_entry.media_resource.permissionset.view = view_action
+      media_entry.permissionset.download = hi_res_download
+      media_entry.permissionset.edit = edit_action
+      media_entry.permissionset.view = view_action
     end
 
     if params[:view].to_sym == :zhdk_users
@@ -66,9 +66,11 @@ class UploadController < ApplicationController
     pre_load
     @upload_session.update_attributes(:is_complete => true)
 
-    params[:resources][:media_entry].each_pair do |key, value|
-      media_entry = @media_entries.detect{|me| me.id == key.to_i } #old# .find(key)
-      media_entry.update_attributes(value)
+    if params[:resources] and params[:resources][:media_entry] 
+      params[:resources][:media_entry].each_pair do |key, value|
+        media_entry = @media_entries.detect{|me| me.id == key.to_i } #old# .find(key)
+        media_entry.update_attributes(value)
+      end
     end
 
     # TODO delta index if new Person 
@@ -86,7 +88,7 @@ class UploadController < ApplicationController
 
       pre_load # OPTIMIZE
 
-      media_sets = Media::Set.find_by_id_or_create_by_title(params[:media_set_ids], current_user)
+      media_sets = MediaSet.find_by_id_or_create_by_title(params[:media_set_ids], current_user)
       media_sets.each do |media_set|
         media_set.media_entries.push_uniq @media_entries
       end

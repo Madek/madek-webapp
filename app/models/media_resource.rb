@@ -1,9 +1,11 @@
+# -*- encoding : utf-8 -*-
+
 class MediaResource < ActiveRecord::Base
 
   has_many :userpermissions, :dependent => :destroy
   has_many :grouppermissions, :dependent => :destroy
 
-  belongs_to :owner, :class_name => User.name
+  belongs_to :user 
   belongs_to :media_file
   belongs_to :upload_session
 
@@ -14,8 +16,8 @@ class MediaResource < ActiveRecord::Base
   end
   ### Permissionset <<<
 
-  has_one :media_entry
-  has_one :media_set, :class_name => Media::Set.name
+  #has_one :media_entry
+  #has_one :media_set, :class_name => MediaSet.name
 
   ### only for media_entries
   belongs_to :upload_session
@@ -31,14 +33,14 @@ class MediaResource < ActiveRecord::Base
   ################################################################
 
   scope :media_entries, where(:type => "MediaEntry")
-  scope :media_sets, where(:type => "Media::Set")
+  scope :media_sets, where(:type => "MediaSet")
 
   ################################################################
 
   #scope :by_user, lambda {|user| media_entries.joins(:upload_session).where(:upload_sessions => {:user_id => user}) } 
-  scope :by_user, lambda {|user| where(:user_id => user) } 
+  scope :by_user, lambda {|user| where(["media_resources.user_id = ?", user]) }
   #scope :not_by_user, lambda {|user| media_entries.joins(:upload_session).where(["upload_sessions.user_id != ?", user]) } 
-  scope :not_by_user, lambda {|user| where(["user_id != ?", user]) }
+  scope :not_by_user, lambda {|user| where(["media_resources.user_id <> ?", user]) }
 
   ################################################################
   
@@ -64,7 +66,7 @@ class MediaResource < ActiveRecord::Base
             "(SELECT media_entry_id AS id, 'MediaEntry' AS type FROM media_entries_media_sets " \
               "WHERE media_set_id = ? " \
             "UNION " \
-              "SELECT child_id AS id, 'Media::Set' AS type FROM media_set_arcs " \
+              "SELECT child_id AS id, 'MediaSet' AS type FROM media_set_arcs " \
                 "WHERE parent_id = ? )",
           media_set.id, media_set.id);
   }
@@ -131,23 +133,26 @@ class MediaResource < ActiveRecord::Base
 
 
   def self.accessible_by_user(user, action = :view)
+    raise "this method is deprecated" 
+
     i = 2 ** Permission::ACTIONS.index(action)
 
 
     if SQLHelper::adapter_is_mysql? 
       where("(media_resources.id, media_resources.type) NOT IN " \
-            "(SELECT resource_id, resource_type FROM permissions " \
-            "USE INDEX (index_permissions_on_resource__and_subject) " \
-            "WHERE (subject_type = 'User' AND subject_id = ?) " \
-            "AND NOT #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) " \
+              "(SELECT resource_id, resource_type FROM permissions " \
+                "USE INDEX (index_permissions_on_resource__and_subject) " \
+                "WHERE (subject_type = 'User' AND subject_id = :user_id) " \
+                  "AND NOT #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) " \
             "AND (media_resources.id, media_resources.type) IN " \
-            "(SELECT resource_id, resource_type FROM permissions " \
-            "USE INDEX (index_permissions_on_resource__and_subject) " \
-            "WHERE (subject_type IS NULL " \
-            "OR (subject_type = 'Group' AND subject_id IN (?)) " \
-            "OR (subject_type = 'User' AND subject_id = ?)) " \
-            "AND   #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) ",
-            user.id, user.group_ids, user.id);
+              "(SELECT resource_id, resource_type FROM permissions " \
+                "USE INDEX (index_permissions_on_resource__and_subject) " \
+                "LEFT JOIN groups_users ON permissions.subject_id = groups_users.group_id " \
+                "WHERE (subject_type IS NULL " \
+                  "OR (subject_type = 'Group' AND groups_users.user_id = :user_id) " \
+                  "OR (subject_type = 'User' AND subject_id = :user_id)) " \
+                "AND   #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) ",
+            :user_id => user.id);
 
     else
       where("(media_resources.id, media_resources.type) NOT IN " \

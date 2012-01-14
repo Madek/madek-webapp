@@ -184,7 +184,7 @@ module Resource
         core_info[key.gsub(' ', '_')] = meta_data.get_value_for(key)
       end
       if with_thumb
-        mf = if self.is_a?(Media::Set)
+        mf = if self.is_a?(MediaSet)
           # TODO Tom check with Franco if this can be made simpler:
           current_user.viewable_media_resources.media_entries.by_media_set(self).first.try(:media_file)
         else
@@ -193,7 +193,7 @@ module Resource
         core_info["thumb_base64"] = mf.thumb_base64(:small_125) if mf
       else
         #1+n http-requests#
-        me = if self.is_a?(Media::Set)
+        me = if self.is_a?(MediaSet)
           MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).first
         else
           self

@@ -96,8 +96,8 @@ class MediaEntriesController < ApplicationController
   def media_sets(media_set_ids = params[:media_set_ids])
     # OPTIMIZE media_set ACL
     media_sets = []
-    Media::Set.find(media_set_ids).each do |media_set|
-      next unless Permissions.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
+    MediaSet.find(media_set_ids).each do |media_set|
+      next unless Permissions.authorized?(current_user, :edit, media_set) # (MediaSet ACL!)
       if request.post?
         media_set.media_entries.push_uniq @media_entry
       else
@@ -225,7 +225,7 @@ class MediaEntriesController < ApplicationController
       
       @user = User.find(params[:user_id]) unless params[:user_id].blank?
       @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
-      @media_set = (@user? @user.media_sets : Media::Set).find(params[:media_set_id]) unless params[:media_set_id].blank? # TODO shallow
+      @media_set = (@user? @user.media_sets : MediaSet).find(params[:media_set_id]) unless params[:media_set_id].blank? # TODO shallow
 
       if not params[:media_entry_id].blank?
         @media_entry =  if @media_set
@@ -243,7 +243,7 @@ class MediaEntriesController < ApplicationController
     params.delete_if {|k,v| v.blank? }
     action = request[:action].to_sym
     
-    @media_set = Media::Set.find(params[:media_set_id]) unless params[:media_set_id].blank?
+    @media_set = MediaSet.find(params[:media_set_id]) unless params[:media_set_id].blank?
     
      unless params[:media_entry_ids].blank?
         selected_ids = params[:media_entry_ids].split(",").map{|e| e.to_i }

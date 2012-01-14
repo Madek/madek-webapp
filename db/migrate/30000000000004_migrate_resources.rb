@@ -4,39 +4,21 @@ class MigrateResources < ActiveRecord::Migration
 
   def up
 
-    [:media_sets,:media_entries].each do |resource|
-      add_column resource, :media_resource_id, :integer
-      add_index resource, :media_resource_id
-    end
+    execute_sql <<-SQL
+      ALTER TABLE media_set_arcs DROP CONSTRAINT media_set_arcs_parent_id_media_sets_fkey;
+      ALTER TABLE media_set_arcs DROP CONSTRAINT media_set_arcs_child_id_media_sets_fkey;
+    SQL
 
-    MediaEntry.all.each do |me| 
-      mr = MediaResource.create :owner => me.upload_session.user
-      me.media_resource = mr
-      me.save!
-    end
+    drop_table :media_sets
+    drop_table :media_entries
 
-    Media::Set.all.each do |ms| 
-      mr = (MediaResource.create owner: ms.user)
-      ms.media_resource = mr
-      ms.save!
-    end
+    cascade_on_delete :media_set_arcs,  :media_resources, :parent_id
+    cascade_on_delete :media_set_arcs, :media_resources, :child_id
 
-    add_fkey_referrence_constraint MediaEntry, MediaResource
-    add_fkey_referrence_constraint Media::Set, MediaResource
 
-    add_not_null_constraint MediaEntry, MediaResource
-    add_not_null_constraint Media::Set, MediaResource
-
-    add_unique_constraint MediaEntry, MediaResource
-    add_unique_constraint Media::Set, MediaResource
-
-  end
+   end
 
   def down
-
-    [:media_sets,:media_entries].each do |resource|
-      remove_column resource, :media_resource_id
-    end
 
   end
 

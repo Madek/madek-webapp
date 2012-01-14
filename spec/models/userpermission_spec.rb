@@ -9,7 +9,7 @@ describe Userpermission do
   context "consistency constraints " do
     before :each do
      @user  = FactoryGirl.create :user
-     @media_resource = FactoryGirl.create :media_resource, :owner => (FactoryGirl.create :user)
+     @media_resource = FactoryGirl.create :media_resource, :user => (FactoryGirl.create :user)
     end
 
     it "should remove userpermissions if the user is destroyed" do

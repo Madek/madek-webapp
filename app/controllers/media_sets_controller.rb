@@ -29,21 +29,30 @@ class MediaSetsController < ApplicationController
   # @example_request
   #   {"accessible_action": "edit", "child": {"id": 2, "type": "entry"}}
   #
+  # @example_request
+  #   {"accessible_action": "edit", "with": {"set": {"creator": 1, "created_at": 1, "title": 1}}}
+  #
   # @request_field [String] accessible_action The accessible action the user can perform on a set
   # @request_field [Hash] with Options forwarded to the results which will be inside of the respond
   # @request_field [Hash] with.set Options forwarded to all resulting models from type set
   # @request_field [Hash] with.set.media_entries When this hash of options is setted, it forces all result sets
   #   to include their media_entries forwarding the options. When "media_entries" is just setted to 1, then 
   #   they are include but without forwarding any options.
+  # @request_field [Integer] with.set.title When this hash of options is setted, provide the set title in the results
   # @request_field [Hash] child A child object which shall be used for scoping the media sets
   # @request_field [Hash] user A user object which shall be used for scoping the media sets for a specific user
   #
   # @example_response
   #   [{"id":422, "media_entries": [{"id":2}, {"id":3}]}, {"id":423, "media_entries": [{"id":1}, {"id":4}]}]
   #
+  # @example_response
+  #   [{"id":422, "title": "My Private Set", "creator": {"id": 142, "name": "Max Muster"}}]
+  #
   # @response_field [Integer] id The id of a set 
   # @response_field [Hash] media_entries Media entries of the set
-  # @response_field [Integer] media_entries[].id The id of a media entry 
+  # @response_field [Integer] media_entries[].id The id of a media entry
+  # @response_field [String] title The title of the media set 
+  # @response_field [Hash] author The author of the media set 
   #
   def index(accessible_action = params[:accessible_action] || :view,
             with = params[:with], child = params[:child] || nil)
@@ -68,18 +77,20 @@ class MediaSetsController < ApplicationController
       
       format.js {
         
+
         sets = if(!child.nil?) # if child is set try to get child and scope sets trough child
                  if(child["type"] == "entry" and MediaEntry.exists?(child["id"]))
                    MediaEntry.find(child["id"]).media_sets.delete_if {|s| !all_sets.include?(s)}
-                 elsif(child["type"] == "set" and Media::Set.exists?(child["id"]))
-                   Media::Set.find(child["id"]).parent_sets.delete_if {|s| !all_sets.include?(s)}
+                 elsif(child["type"] == "set" and MediaSet.exists?(child["id"]))
+                   MediaSet.find(child["id"]).parent_sets.delete_if {|s| !all_sets.include?(s)}
                  end 
                else
                  action = Constants::Actions.old2new accessible_action.to_sym
                  current_user.send "#{action}able_media_sets"
                end
 
-        render :json => sets.as_json(:user => current_user, :with => with, :with_thumb => false) # TODO drop with_thum merge with with
+      render :json => sets.as_json(:with => with, :with_thumb => false) # TODO drop with_thum merge with with
+
       }
     end
   end
@@ -274,13 +285,13 @@ class MediaSetsController < ApplicationController
   # 
   def parents(media_set_ids = params[:media_set_ids])
     if request.post?
-      Media::Set.find_by_id_or_create_by_title(media_set_ids, current_user).each do |media_set|
-        next unless Permissions.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
+      MediaSet.find_by_id_or_create_by_title(media_set_ids, current_user).each do |media_set|
+        next unless Permissions.authorized?(current_user, :edit, media_set) # (MediaSet ACL!)
         @media_set.parent_sets << media_set
       end
     elsif request.delete?
-      Media::Set.find(media_set_ids).each do |media_set|
-        next unless Permissions.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
+      MediaSet.find(media_set_ids).each do |media_set|
+        next unless Permissions.authorized?(current_user, :edit, media_set) # (MediaSet ACL!)
         @media_set.parent_sets.delete(media_set)
       end
     end
@@ -321,7 +332,7 @@ class MediaSetsController < ApplicationController
   def pre_load
       params[:media_set_id] ||= params[:id]
       @user = User.find(params[:user_id]) unless params[:user_id].blank?
-      @media_set = (@user? @user.media_sets : Media::Set).find(params[:media_set_id]) unless params[:media_set_id].blank? # TODO shallow
+      @media_set = (@user? @user.media_sets : MediaSet).find(params[:media_set_id]) unless params[:media_set_id].blank? # TODO shallow
       @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
   end
 

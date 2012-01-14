@@ -1,6 +1,6 @@
 require 'set'
 
-class Media::Project < Media::Set
+class Media::Project < MediaSet
 
   has_and_belongs_to_many :individual_contexts, :class_name => "MetaContext",
                                                 :join_table => :media_projects_meta_contexts,

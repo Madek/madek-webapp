@@ -41,33 +41,21 @@ class ApplicationController < ActionController::Base
         params[:per_page] ||= PER_PAGE.first
 
         paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
-
-        # TODO Tom
-        # apparently resources is really an array of sets and entries, pfff....
-        # create a method like get_set_or_entry (in the resource model) and map over
-        resources = current_user.viewable_media_resources
-
-        my_resources = current_user.viewable_media_resources \
-          .where("media_resources.owner_id= #{current_user.id}").paginate(paginate_options)
-
-        other_resources = current_user.viewable_media_resources \
-          .where("media_resources.owner_id <> #{current_user.id}").paginate(paginate_options)
-
-        binding.pry
-
+        resources = current_user.viewable_media_resources 
+        
+        my_resources = resources.by_user(current_user).paginate(paginate_options)
         @my_media_entries = { :pagination => { :current_page => my_resources.current_page,
                                               :per_page => my_resources.per_page,
                                               :total_entries => my_resources.total_entries,
                                               :total_pages => my_resources.total_pages },
                              :entries => my_resources.as_json(:user => current_user, :with_thumb => true) } 
         
-
+        other_resources = resources.not_by_user(current_user).paginate(paginate_options)
         @other_media_entries = { :pagination => { :current_page => other_resources.current_page,
                                                   :per_page => other_resources.per_page,
                                                   :total_entries => other_resources.total_entries,
                                                   :total_pages => other_resources.total_pages },
                                  :entries => other_resources.as_json(:user => current_user, :with_thumb => true) } 
-
 
         respond_to do |format|
           format.html { render :template => "/users/show" }

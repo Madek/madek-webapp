@@ -4,11 +4,9 @@ module Media
   class Set < ActiveRecord::Base # TODO rename to Media::Group
     include Resource
 
-    set_table_name "media_sets"
-
-#    def self.table_name_prefix
-#      "media_"
-#    end
+    def self.table_name_prefix
+      "media_"
+    end
 
     has_many :out_arcs, class_name: "Media::SetArc", :foreign_key => :parent_id
     has_many :in_arcs, class_name: "Media::SetArc", :foreign_key => :child_id
@@ -17,26 +15,6 @@ module Media
     has_many :parent_sets, :through => :in_arcs, :source => :parent
   
     belongs_to :user
-
-    ######## MediaResource  >>>>
-    belongs_to :media_resource 
-    after_destroy {|r| r.media_resource.destroy if r.media_resource }
-    before_create do |r|
-      unless r.media_resource
-        r.media_resource= (MediaResource.create owner: user) 
-      end
-    end
-    after_create do 
-      media_resource.created_at= created_at if media_resource.created_at > created_at
-      media_resource.type = self.class.name
-      media_resource.save!
-    end
-
-    delegate :owner, :to => :media_resource
-    ######## MediaResource <<<<
-    
-
-
     has_and_belongs_to_many :media_entries, :join_table => "media_entries_media_sets",
                                             :foreign_key => "media_set_id" do
       def push_uniq(members)
@@ -65,7 +43,7 @@ module Media
 
   ########################################################
   
-    #default_scope order("updated_at DESC")
+    default_scope order("updated_at DESC")
   
   ########################################################
 
@@ -118,10 +96,13 @@ module Media
             json[:media_entries] = media_entries.as_json(options)
           end
           if with[:set].has_key?(:creator) and (with[:set][:creator].is_a?(Hash) or not with[:set][:creator].to_i.zero?)
-            json[:creator] = user.to_s
+            json[:creator] = user.as_json(:only => :id, :methods => :name)
           end
           if with[:set].has_key?(:created_at) and (with[:set][:created_at].is_a?(Hash) or not with[:set][:created_at].to_i.zero?)
             json[:created_at] = created_at
+          end
+          if with[:set].has_key?(:title) and (with[:set][:title].is_a?(Hash) or not with[:set][:title].to_i.zero?)
+            json[:title] = meta_data.get_value_for("title")
           end
         end
       end

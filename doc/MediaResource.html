@@ -407,11 +407,11 @@
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_media_resources_type'>media_resources_type</span>
   <span class='comment'>#original# &quot;media_resources.type&quot;
 </span>  <span class='kw'>if</span> <span class='const'>SQLHelper</span><span class='period'>.</span><span class='id identifier rubyid_adapter_is_mysql?'>adapter_is_mysql?</span>
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>IF(type IN ('Media::Project', 'Media::FeaturedSet'), 'Media::Set', type)</span><span class='tstring_end'>&quot;</span></span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>IF(type IN ('Media::Project', 'Media::FeaturedSet'), 'MediaSet', type)</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>elsif</span> <span class='const'>SQLHelper</span><span class='period'>.</span><span class='id identifier rubyid_adapter_is_postgresql?'>adapter_is_postgresql?</span>
     <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>
     CASE 
-      WHEN (type IN ('Media::Project', 'Media::FeaturedSet'))  THEN  'Media::Set'
+      WHEN (type IN ('Media::Project', 'Media::FeaturedSet'))  THEN  'MediaSet'
       ELSE type
     END
     </span><span class='tstring_end'>&quot;</span></span>

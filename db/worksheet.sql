@@ -38,9 +38,12 @@ SELECT media_resources.id as media_resource_id, users.id as user_id
   CROSS JOIN users
   WHERE permissionsets.view = true;
   
-SELECT media_resources.id as media_resource_id, owner_id as user_id from media_resources"
 
- 
+  SELECT #{table_name}.id as #{ref_id model}, #{action}able_media_resources_users.user_id as user_id 
+  FROM #{table_name}
+  INNER JOIN #{action}able_media_resources_users 
+  ON #{action}able_media_resources_users.media_resource_id = #{table_name}.media_resource_id;
+
 
 
 
