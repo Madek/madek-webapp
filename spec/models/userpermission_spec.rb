@@ -6,6 +6,19 @@ describe Userpermission do
     (FactoryGirl.create :userpermission).should_not == nil
   end
 
+    it "should be destroyable" do
+      gp = (FactoryGirl.create :userpermission)
+      expect {gp.destroy}.not_to raise_error
+    end
+
+    it "should destroy the permissionset after destroying the userpermission" do
+      up = (FactoryGirl.create :userpermission)
+      pid = up.permissionset.id
+      up.destroy
+      (Permissionset.exists? pid).should == false
+    end
+
+
   context "consistency constraints " do
     before :each do
      @user  = FactoryGirl.create :user

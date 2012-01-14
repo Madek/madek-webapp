@@ -2,24 +2,18 @@ require 'spec_helper'
 
 describe "Internal Permissions" do
 
-  # let us create some noise, this could uncover fragile code 
   before :all do
-    DataFactory.create_small_dataset
-  end
-
-  before :each do
-    @media_resource = FactoryGirl.create :media_resource
+    # DataFactory.create_small_dataset
+    @permissionset_view_false  = FactoryGirl.create :permissionset, view: false, download: false, edit: false, manage: false
+    @permissionset_view_true  = FactoryGirl.create :permissionset, view: true, download: false, edit: false, manage: false
+    @media_resource = FactoryGirl.create :media_resource, permissionset: @permissionset_view_false
     @user = FactoryGirl.create :user
   end
 
   context "function userpermission_disallows" do
-    
-    before :each do
-      @permissionset = FactoryGirl.create :permissionset, view: false, download: false, edit: false, manage: false
-    end
 
     it "should return not nil if there is a userpermission that disallows" do
-      FactoryGirl.create :userpermission, permissionset: @permissionset, user: @user, media_resource: @media_resource, view: false
+      FactoryGirl.create :userpermission, permissionset: @permissionset_view_false, user: @user, media_resource: @media_resource
       (Permissions.userpermission_disallows :view, @media_resource, @user).should_not == nil
     end
 
@@ -32,12 +26,8 @@ describe "Internal Permissions" do
 
   context "function userpermission_allows " do
 
-    before :each do
-      @permissionset = FactoryGirl.create :permissionset, view: true, download: false, edit: false, manage: false
-    end
-
     it "should return not nil if there is a userpermission that allows " do
-      FactoryGirl.create :userpermission, permissionset: @permissionset, user: @user, media_resource: @media_resource, view: false
+      FactoryGirl.create :userpermission, permissionset: @permissionset_view_true, user: @user, media_resource: @media_resource
       (Permissions.userpermission_allows :view, @media_resource, @user).should_not == nil
     end
 
@@ -52,8 +42,6 @@ describe "Internal Permissions" do
     before :each do
       @group = FactoryGirl.create :group
       @group.users << @user
-      @permissionset_view_true  = FactoryGirl.create :permissionset, view: true, download: false, edit: false, manage: false
-      @permissionset_view_false  = FactoryGirl.create :permissionset, view: false, download: false, edit: false, manage: false
     end
 
     it "should return nil if there is no grouppermission at all" do

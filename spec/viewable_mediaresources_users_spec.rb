@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "viewable_mediaresources_users" do
 
   before :all do
-     DataFactory.create_small_dataset
+    # DataFactory.create_small_dataset
     @permissionset_view_false  = FactoryGirl.create :permissionset, view: false, download: false, edit: false, manage: false
     @permissionset_view_true  = FactoryGirl.create :permissionset, view: true, download: false, edit: false, manage: false
   end

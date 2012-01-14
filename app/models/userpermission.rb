@@ -3,8 +3,6 @@ class Userpermission < ActiveRecord::Base
   belongs_to :permissionset
   belongs_to :user 
 
-  Constants::Actions.each do |action|
-    delegate action, :to => :permissionset
-    delegate "#{action}=", :to => :permissionset
-  end
+  after_destroy {|r| r.permissionset.destroy if r.permissionset}
+
 end

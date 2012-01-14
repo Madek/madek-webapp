@@ -14,7 +14,7 @@ class CreateUserpermissions < ActiveRecord::Migration
       t.index ref_id(MediaResource)
       t.index  ref_id(Permissionset)
       t.index  ref_id(User)
-      t.index [ref_id(MediaResource),ref_id(User)], unique: => true
+      t.index [ref_id(MediaResource),ref_id(User)], unique: true
     end
 
     cascade_on_delete Userpermission, User
