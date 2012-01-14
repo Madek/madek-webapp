@@ -38,9 +38,9 @@ class MediaResource < ActiveRecord::Base
   ################################################################
 
   #scope :by_user, lambda {|user| media_entries.joins(:upload_session).where(:upload_sessions => {:user_id => user}) } 
-  scope :by_user, lambda {|user| where(:user_id => user) } 
+  scope :by_user, lambda {|user| where(["media_resources.user_id = ?", user]) }
   #scope :not_by_user, lambda {|user| media_entries.joins(:upload_session).where(["upload_sessions.user_id != ?", user]) } 
-  scope :not_by_user, lambda {|user| where(["user_id != ?", user]) }
+  scope :not_by_user, lambda {|user| where(["media_resources.user_id <> ?", user]) }
 
   ################################################################
   
@@ -133,6 +133,8 @@ class MediaResource < ActiveRecord::Base
 
 
   def self.accessible_by_user(user, action = :view)
+    raise "this method is deprecated" 
+
     i = 2 ** Permission::ACTIONS.index(action)
 
 
