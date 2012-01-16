@@ -1,4 +1,10 @@
 
+SELECT users from users
+  INNER JOIN  manageable_media_resources_users ON manageable_media_resources_users.user_id = users.id
+  INNER JOIN media_resources ON media_resources.id = manageable_media_resources_users.media_resource_id;
+
+
+---
 
 
 
