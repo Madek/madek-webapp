@@ -72,7 +72,7 @@ class Person < ActiveRecord::Base
   end
 
   # TODO drop this method, use to_s instead
-  def fullname
+  def ullname
     r = "#{firstname} #{lastname}"
     r += " (#{pseudonym})" unless pseudonym.blank?
     r
@@ -88,11 +88,11 @@ class Person < ActiveRecord::Base
     #TODO does this really belong here?
     value.gsub!(/[*%;]/,'')
     if value.include?(",") # input comes to us as lastname<comma>firstname(s)
-      x = value.downcase.strip.squeeze(" ").split(/\s*,\s*/,2)
+      x = value.strip.squeeze(" ").split(/\s*,\s*/,2)
       fn = x.pop
       ln = x.pop
     else # Last word is family name, everything else is firstname(s)
-      x = value.downcase.strip.split(/\s{1}/,-1)
+      x = value.strip.split(/\s{1}/,-1)
       ln = x.pop
       fn = x.each {|e| e.capitalize }.join(' ')
     end
