@@ -74,18 +74,21 @@ class MediaResource < ActiveRecord::Base
   ################################################################
 
   scope :search, lambda {|q|
-    sql = joins("LEFT JOIN full_texts ON (media_resources.id, media_resources.type) = (full_texts.resource_id, full_texts.resource_type)")
-    #with fulltext index#
-    #if q.size > 3
-    #  sql.where("MATCH (text) AGAINST (?)", q)
-    #else
-    #  sql.where("text LIKE ?", "%#{q}%")
-    #end
-    w = q.split.map{|x| "text LIKE '%#{x}%'" }.join(' AND ')
-    sql.where(w)
+    sql = joins("LEFT JOIN full_texts ON (media_resources.id) = (full_texts.resource_id)")
+    where_clause= 
+      if SQLHelper.adapter_is_postgresql?
+        q.split.map{|x| "text ILIKE '%#{x}%'" }.join(' AND ')
+      elsif SQLHelper.adapter_is_mysql? 
+        q.split.map{|x| "text LIKE '%#{x}%'" }.join(' AND ')
+      else
+        raise "you sql adapter is not yet supported"
+      end
+    sql.where(where_clause)
   }
 
   ################################################################
+  
+
   
   def self.reindex
     all.map(&:reindex).uniq

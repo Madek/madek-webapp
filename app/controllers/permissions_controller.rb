@@ -22,17 +22,17 @@ class PermissionsController < ApplicationController
       acc.merge( (Constants::Actions.new2old action) => (@resource.permissionset.send action))
       end)
 
-    permissions["Group"] = @resource.grouppermissions.map do |permission|
-      {name: permission.group.name, id: permission.group.id, type: "Group"}.merge(
+    permissions["Group"] = @resource.grouppermissions.map do |grouppermission|
+      {name: grouppermission.group.name, id: grouppermission.group.id, type: "Group"}.merge(
       Constants::Actions.inject({}) do |acc,action|
-        acc.merge( (Constants::Actions.new2old action) => (permission.send action))
+        acc.merge( (Constants::Actions.new2old action) => (grouppermission.permissionset.send action))
       end)
     end
 
-    permissions["User"] = @resource.userpermissions.map do |permission|
-      {name: permission.user.name, id: permission.user.id, type: "User"}.merge(
+    permissions["User"] = @resource.userpermissions.map do |userpermission|
+      {name: userpermission.user.name, id: userpermission.user.id, type: "User"}.merge(
         Constants::Actions.inject(Hash.new) do |acc,action|
-        acc.merge( (Constants::Actions.new2old action) => (permission.send action))
+        acc.merge( (Constants::Actions.new2old action) => (userpermission.permissionset.send action))
         end)
     end
 
@@ -45,7 +45,7 @@ class PermissionsController < ApplicationController
   end
 
 
-  # REMARK by Tom: we delete everything and recreated it with new permissions,
+  # NOTE by Tom: we delete everything and recreated it with new permissions,
   # this is apparently not very smart; However, the clientside is involved and
   # I just keep it this way for now
   def update_multiple

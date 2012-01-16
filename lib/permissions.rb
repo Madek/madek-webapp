@@ -24,6 +24,14 @@ module Permissions
 
     end
 
+    def is_private? user, resource, action
+      new_action = Constants::Actions.old2new action
+      nil == (user.viewable_media_resources.where("#{new_action}able_media_resources_users.user_id <> #{user.id}").first)
+    end
+
+
+    ### private
+
     def userpermission_disallows action, resource, user
       Userpermission.joins(:permissionset)
       .where("permissionsets.#{action} = false")

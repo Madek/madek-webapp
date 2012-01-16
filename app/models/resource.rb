@@ -2,7 +2,11 @@
 module Resource
 
   
+
+
+  
   def self.included(base)
+
 
    # TODO observe bulk changes and reindex once
     base.has_many :meta_data, :as => :resource, :dependent => :destroy do #working here#7 :include => :meta_key
@@ -325,12 +329,22 @@ module Resource
     end    
   end
 
-  
+########################################################
+# ACL
+
+  def acl?(action, scope, subject = nil)
+    case scope
+    when :all
+      self.permissionset.send(action)
+    when :only
+      Permissions.is_private?(subject,self,:view)
+    end
+  end
+
   def managers
-    i = Permission::ACTIONS.index(:manage)
-    return nil unless i
-    j = 2 ** i
-    permissions.where("#{SQLHelper.bitwise_is 'action_bits',j} AND #{SQLHelper.bitwise_is 'action_mask',j}").map(&:subject)
+    User \
+      .joins("INNER JOIN  manageable_media_resources_users ON manageable_media_resources_users.user_id = users.id") \
+      .joins("INNER JOIN media_resources ON media_resources.id = manageable_media_resources_users.media_resource_id")
   end
 
 private
