@@ -72,7 +72,7 @@ class Person < ActiveRecord::Base
   end
 
   # TODO drop this method, use to_s instead
-  def ullname
+  def fullname
     r = "#{firstname} #{lastname}"
     r += " (#{pseudonym})" unless pseudonym.blank?
     r
