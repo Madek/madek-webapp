@@ -56,6 +56,7 @@ class MediaSetsController < ApplicationController
   #
   def index(accessible_action = params[:accessible_action] || :view,
             with = params[:with], child = params[:child] || nil)
+
     respond_to do |format|
       #-# only used for FeaturedSet
       format.html {
@@ -76,18 +77,14 @@ class MediaSetsController < ApplicationController
       }
       
       format.js {
-        
 
-        sets = if(!child.nil?) # if child is set try to get child and scope sets trough child
-                 if(child["type"] == "entry" and MediaEntry.exists?(child["id"]))
-                   MediaEntry.find(child["id"]).media_sets.delete_if {|s| !all_sets.include?(s)}
-                 elsif(child["type"] == "set" and MediaSet.exists?(child["id"]))
-                   MediaSet.find(child["id"]).parent_sets.delete_if {|s| !all_sets.include?(s)}
-                 end 
+        sets = if(not child.nil?) # if child is set try to get child and scope sets trough child
+                 MediaSet.joins(:out_arcs).where(" child_id = #{child[:id]} ")
                else
                  action = Constants::Actions.old2new accessible_action.to_sym
                  current_user.send "#{action}able_media_sets"
                end
+
 
       render :json => sets.as_json(:with => with, :with_thumb => false) # TODO drop with_thum merge with with
 
