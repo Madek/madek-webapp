@@ -2,7 +2,11 @@
 module Resource
 
   
+
+
+  
   def self.included(base)
+
 
    # TODO observe bulk changes and reindex once
     base.has_many :meta_data, :as => :resource, :dependent => :destroy do #working here#7 :include => :meta_key
@@ -323,6 +327,18 @@ module Resource
     else
       self.type.gsub(/Media::/, '')
     end    
+  end
+
+########################################################
+# ACL
+
+  def acl?(action, scope, subject = nil)
+    case scope
+    when :all
+      self.permissionset.send(action)
+    when :only
+      Permissions.is_private(subject,self,:view)
+    end
   end
 
   

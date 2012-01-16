@@ -87,6 +87,8 @@ class MediaResource < ActiveRecord::Base
 
   ################################################################
   
+
+  
   def self.reindex
     all.map(&:reindex).uniq
   end
