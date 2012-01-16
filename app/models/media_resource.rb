@@ -74,7 +74,7 @@ class MediaResource < ActiveRecord::Base
   ################################################################
 
   scope :search, lambda {|q|
-    sql = joins("LEFT JOIN full_texts ON (media_resources.id, media_resources.type) = (full_texts.resource_id, full_texts.resource_type)")
+    sql = joins("LEFT JOIN full_texts ON (media_resources.id) = (full_texts.resource_id)")
     #with fulltext index#
     #if q.size > 3
     #  sql.where("MATCH (text) AGAINST (?)", q)
