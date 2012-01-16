@@ -45,7 +45,7 @@ class PermissionsController < ApplicationController
   end
 
 
-  # REMARK by Tom: we delete everything and recreated it with new permissions,
+  # NOTE by Tom: we delete everything and recreated it with new permissions,
   # this is apparently not very smart; However, the clientside is involved and
   # I just keep it this way for now
   def update_multiple
