@@ -81,7 +81,14 @@ group :test, :development do
   gem "jasmine-rails", "~> 0.0.2" # javascript test environment
   gem "jasmine-headless-webkit", "~> 0.8.4" # needed for "headless" running of jasmine tests (needed for CI)
   gem "jasminerice", "~> 0.0.8" # needed for implement coffeescript, fixtures and asset pipeline serverd css into jasmine
+  gem "guard", "~> 0.10.0"
+  gem "rb-fsevent", "~> 0.4.3.1"
+  gem "guard-rspec", "~> 0.6.0"
+  gem "guard-spork", "~> 0.5.1"
+  gem "guard-cucumber", "~> 0.7.4"
+  gem "growl", "~> 1.0.3"
 end
+
 
 group :development do
   gem 'capistrano'
