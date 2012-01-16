@@ -78,10 +78,13 @@ class MediaSetsController < ApplicationController
       
       format.js {
 
+        action = Constants::Actions.old2new accessible_action.to_sym
+
         sets = if(not child.nil?) # if child is set try to get child and scope sets trough child
-                 MediaSet.joins(:out_arcs).where(" child_id = #{child[:id]} ")
+                 MediaSet.joins(:out_arcs).where(" child_id = #{child[:id]} ") \
+                  .joins(" INNER JOIN #{action}able_media_sets_users ON media_resources.id = media_set_id ") \
+                  .where(" #{action}able_media_sets_users.user_id = #{current_user.id} ")
                else
-                 action = Constants::Actions.old2new accessible_action.to_sym
                  current_user.send "#{action}able_media_sets"
                end
 
