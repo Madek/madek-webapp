@@ -249,9 +249,7 @@ end
 
 When /^I click the edit icon on the media entry titled "([^"]*)"$/ do |title|
   entry = find_media_entry_titled(title)
-  entry.all("a").each do |link|
-    link.click if link[:title] == "Editieren"
-  end
+  entry.find(".button_edit_active").click
   sleep(0.5)
 end
 
