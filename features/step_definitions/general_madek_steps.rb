@@ -109,6 +109,7 @@ Given /^the last entry is child of the last set/ do
   parent_set = MediaSet.all.sort_by(&:id).last
   entry = MediaEntry.all.sort_by(&:id).last
   parent_set.media_entries.push_uniq entry
+  binding.pry
 end
 
 Given /^the last set is parent of the (.+) set$/ do |offset|
