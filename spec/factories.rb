@@ -60,7 +60,7 @@ FactoryGirl.define do
 
   factory :permission do
     subject {FactoryGirl.create :user}
-    resource {FactoryGirl.create :media_set,:user => (FactoryGirl.create :user)}
+    media_resource {FactoryGirl.create :media_set,:user => (FactoryGirl.create :user)}
     after_build do |perm| 
       user_default_permissions = {:view => false, :edit => false, :manage => false, :hi_res => false}
       perm.set_actions user_default_permissions

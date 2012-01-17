@@ -13,13 +13,13 @@ describe Permission do
     end
 
     it "should not be vieable by default" do
-      Permission.authorized?(@permission.subject,:view,@permission.resource).should == false
+      Permission.authorized?(@permission.subject, :view, @permission.media_resource).should == false
     end
 
     it "should be setable to allow view"  do
       @permission.set_actions(:view => true)
       @permission.save!
-      Permission.authorized?(@permission.subject,:view,@permission.resource).should == true
+      Permission.authorized?(@permission.subject, :view, @permission.media_resource).should == true
     end
 
   end

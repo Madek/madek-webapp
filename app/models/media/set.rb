@@ -1,12 +1,7 @@
 # -*- encoding : utf-8 -*-
 module Media
 
-  class Set < ActiveRecord::Base # TODO rename to Media::Group
-    include Resource
-
-    def self.table_name_prefix
-      "media_"
-    end
+  class Set < MediaResource # TODO rename to Media::Group
 
     has_many :out_arcs, class_name: "Media::SetArc", :foreign_key => :parent_id
     has_many :in_arcs, class_name: "Media::SetArc", :foreign_key => :child_id
@@ -41,10 +36,6 @@ module Media
       records.compact
     end
 
-  ########################################################
-  
-    default_scope order("updated_at DESC")
-  
   ########################################################
 
     has_and_belongs_to_many :individual_contexts, :class_name => "MetaContext",
@@ -122,7 +113,7 @@ module Media
       end
       meta_key_ids = individual_contexts.map(&:meta_key_ids).flatten
       h = {} #1005# TODO upgrade to Ruby 1.9 and use ActiveSupport::OrderedHash.new
-      mds = MetaDatum.where(:meta_key_id => meta_key_ids, :resource_type => "MediaEntry", :resource_id => accessible_media_entry_ids)
+      mds = MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids)
       mds.each do |md|
         h[md.meta_key_id] ||= [] # TODO md.meta_key
         h[md.meta_key_id] << md.value
@@ -144,7 +135,7 @@ module Media
         media_entry_ids
       end
       meta_key_ids = individual_contexts.map{|ic| ic.meta_keys.for_meta_terms.map(&:id) }.flatten
-      mds = MetaDatum.where(:meta_key_id => meta_key_ids, :resource_type => "MediaEntry", :resource_id => accessible_media_entry_ids)
+      mds = MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids)
       mds.collect(&:value).flatten.uniq.compact
     end
   

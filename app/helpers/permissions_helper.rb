@@ -23,7 +23,7 @@ module PermissionsHelper
   # used to ajax update download partial when user changes download permission for himself
   def changing_own_permission
     return false if @permission.subject.blank?
-    @permission.subject.id == current_user.id && @permission.resource.is_a?(MediaEntry) 
+    @permission.subject.id == current_user.id && @permission.media_resource.is_a?(MediaEntry) 
   end
     
   def display_edit_icon(resource, user)
