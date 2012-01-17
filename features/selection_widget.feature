@@ -44,6 +44,7 @@ Feature: Selection Widget for Sets in Sets and Entries in Sets
     When I open the "My Act Photos" set
     And I open the selection widget for this set
     Then I should see the "My Private Images" set inside the widget
+    And I use pry
     And the "My_Private_Images" checkbox should be checked 
     And I should see the "My Public Images" set inside the widget
     And the "My_Public_Images" checkbox should not be checked
@@ -59,7 +60,6 @@ Feature: Selection Widget for Sets in Sets and Entries in Sets
     Then I should see the "My Private Images" set inside the widget
     And the "My_Private_Images" checkbox should not be checked
     And I should see the "My Act Photos" set inside the widget
-    And I use pry
     And the "My_Act_Photos" checkbox should be checked
     And I should see the "My Public Images" set inside the widget
     And the "My_Public_Images" checkbox should not be checked
@@ -85,7 +85,6 @@ Feature: Selection Widget for Sets in Sets and Entries in Sets
   Scenario: User goes to an entry and add one set and remove another set from the parent sets
     When I open the "My Profile Pic" entry
     And I open the selection widget for this entry
-    And I use pry
     And I deselect "My_Public_Images" as parent set
     And I select "My_Private_Images" as parent set
     And I submit the selection widget

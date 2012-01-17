@@ -80,18 +80,15 @@ class MediaSetsController < ApplicationController
 
         action = Constants::Actions.old2new accessible_action.to_sym
 
-
-        sets = if(not child.nil?) # if child is set try to get child and scope sets trough child
-
-                 child = MediaResource.find child[:id].to_i
-
-                 child.parents.select("DISTINCT *") \
-                   .joins(" INNER JOIN #{action}able_media_resources_users ON media_resources.id = media_set_id ") \
+        sets = if child
+                 (MediaResource.find child[:id].to_i).parents.select("DISTINCT *") \
+                   .joins(" INNER JOIN #{action}able_media_resources_users ON media_resources.id = media_resource_id ") \
                    .where(" #{action}able_media_resources_users.user_id = #{current_user.id} ") 
-
                else
                  current_user.send "#{action}able_media_sets"
                end
+
+        binding.pry
 
       render :json => sets.as_json(:with => with, :with_thumb => false) # TODO drop with_thum merge with with
 
