@@ -48,7 +48,7 @@ class MergeResources < ActiveRecord::Migration
 
     create_table    :media_resources do |t|
       t.integer     :old_id                # to be dropped  
-      t.string      :type, :null => false  # STI (single table inheritance)
+      t.string      :type                  # STI (single table inheritance)
       t.belongs_to  :user, :null => false
       t.belongs_to  :upload_session        # for media_entry
       t.belongs_to  :media_file            # for media_entry
