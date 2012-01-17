@@ -90,6 +90,15 @@ Given /^a set titled "(.+)" created by "(.+)" exists$/ do |title, username|
   set = user.media_sets.create(meta_data)
 end
 
+Given /^a public set titled "(.+)" created by "(.+)" exists$/ do |title, username|
+  user = User.where(:login => username).first
+  meta_data = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
+  set = user.media_sets.create(meta_data)
+  permission = Permission.create({:resource_id => set.id, :resource_type => "Media::Set"})
+  permission.set_actions({:view => true})
+  set.permissions << permission
+end
+
 Given /^a entry titled "(.+)" created by "(.+)" exists$/ do |title, username|
   user = User.where(:login => username).first
   upload_session = UploadSession.create(:user => user)
@@ -258,13 +267,36 @@ end
 
 When /^I click the delete icon on the media entry titled "([^"]*)"$/ do |title|
   entry = find_media_entry_titled(title)
-   entry.all("a").each do |link|
-     # Fake some functions so that we automatically accept the confirmation dialog
-     page.evaluate_script("window.alert = function(msg) { return true; }")
-     page.evaluate_script("window.confirm = function(msg) { return true; }")
-     link.click if link[:title] == "Löschen"
-   end
+   # Fake some functions so that we automatically accept the confirmation dialog
+   page.evaluate_script("window.alert = function(msg) { return true; }")
+   page.evaluate_script("window.confirm = function(msg) { return true; }")
+   entry.find(".delete_me").click
   sleep(0.5)
+end
+
+When /^I click the delete icon on the set titled "([^"]*)"$/ do |title|
+  entry = find_media_entry_titled(title)
+  # show controls
+  page.execute_script '$(".item_box *:hidden").show();'
+  sleep 0.5
+  # click delete
+  entry.find(".delete_me").click
+  sleep(0.5)
+  page.driver.browser.switch_to.alert.accept #accept confirm message
+  sleep(5.5)
+end
+
+When /^I reload the page$/ do
+  case Capybara::current_driver
+    when :selenium
+    visit page.driver.browser.current_url
+    when :racktest
+    visit [ current_path, page.driver.last_request.env['QUERY_STRING'] ].reject(&:blank?).join('?')
+    when :culerity
+    page.driver.browser.refresh
+    else
+    raise "unsupported driver, use rack::test or selenium/webdriver"
+  end
 end
 
 When /^I press enter in the input field "([^"]*)"$/ do |field|
