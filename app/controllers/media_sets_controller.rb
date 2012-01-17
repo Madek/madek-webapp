@@ -82,8 +82,8 @@ class MediaSetsController < ApplicationController
         if(!child.nil?) # if child is set try to get child and scope sets trough child
           if(child["type"] == "entry" && MediaEntry.exists?(child["id"]))
             sets = MediaEntry.find(child["id"]).media_sets.delete_if {|s| !all_sets.include?(s)}
-          elsif(child["type"] == "set" && Media::Set.exists?(child["id"]))
-            sets = Media::Set.find(child["id"]).parent_sets.delete_if {|s| !all_sets.include?(s)}
+          elsif(child["type"] == "set" && MediaSet.exists?(child["id"]))
+            sets = MediaSet.find(child["id"]).parent_sets.delete_if {|s| !all_sets.include?(s)}
           end
         end  
         
@@ -282,13 +282,13 @@ class MediaSetsController < ApplicationController
   # 
   def parents(media_set_ids = params[:media_set_ids])
     if request.post?
-      Media::Set.find_by_id_or_create_by_title(media_set_ids, current_user).each do |media_set|
-        next unless Permission.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
+      MediaSet.find_by_id_or_create_by_title(media_set_ids, current_user).each do |media_set|
+        next unless Permission.authorized?(current_user, :edit, media_set) # (MediaSet ACL!)
         @media_set.parent_sets << media_set
       end
     elsif request.delete?
-      Media::Set.find(media_set_ids).each do |media_set|
-        next unless Permission.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
+      MediaSet.find(media_set_ids).each do |media_set|
+        next unless Permission.authorized?(current_user, :edit, media_set) # (MediaSet ACL!)
         @media_set.parent_sets.delete(media_set)
       end
     end
@@ -329,7 +329,7 @@ class MediaSetsController < ApplicationController
   def pre_load
       params[:media_set_id] ||= params[:id]
       @user = User.find(params[:user_id]) unless params[:user_id].blank?
-      @media_set = (@user? @user.media_sets : Media::Set).find(params[:media_set_id]) unless params[:media_set_id].blank? # TODO shallow
+      @media_set = (@user? @user.media_sets : MediaSet).find(params[:media_set_id]) unless params[:media_set_id].blank? # TODO shallow
       @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
   end
 

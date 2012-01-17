@@ -4,11 +4,11 @@ class Admin::MediaSetsController < Admin::AdminController
   before_filter :pre_load
 
   def index
-    @sets = Media::Set.all
+    @sets = MediaSet.all
   end
 
   def new
-    @set = Media::Set.new
+    @set = MediaSet.new
     respond_to do |format|
       format.js
     end
@@ -50,15 +50,15 @@ class Admin::MediaSetsController < Admin::AdminController
 #####################################################
 
   def featured
-    @set = Media::Set.featured_set || Media::Set.new(:user => current_user)
+    @set = MediaSet.featured_set || MediaSet.new(:user => current_user)
     if request.post?
       if @set.new_record?
         @set.save
         @set.default_permission.set_actions({:view => true})
-        Media::Set.featured_set = @set
+        MediaSet.featured_set = @set
       end
       @set.child_sets.delete_all
-      @set.child_sets << Media::Set.find(params[:children]) unless params[:children].blank?
+      @set.child_sets << MediaSet.find(params[:children]) unless params[:children].blank?
     end
   end
 
@@ -68,7 +68,7 @@ class Admin::MediaSetsController < Admin::AdminController
 
   def pre_load
       params[:media_set_id] ||= params[:id]
-      @set = Media::Set.find(params[:media_set_id]) unless params[:media_set_id].blank?
+      @set = MediaSet.find(params[:media_set_id]) unless params[:media_set_id].blank?
   end
   
 end

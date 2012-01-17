@@ -2,7 +2,7 @@
 class EditSession < ActiveRecord::Base
   
   belongs_to :user
-  belongs_to :resource, :polymorphic => true
+  belongs_to :media_resource
 
   validates_presence_of :user
 

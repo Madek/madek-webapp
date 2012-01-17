@@ -107,22 +107,21 @@ Given /^a entry titled "(.+)" created by "(.+)" exists$/ do |title, username|
                     :tempfile=> File.new(f, "r"),
                     :filename=> File.basename(f)}
   media_file = MediaFile.create(:uploaded_data => uploaded_data)
-  entry = upload_session.media_entries.create(:media_file => media_file)
-  upload_session.update_attributes(:is_complete => true)
-
+  entry = upload_session.incomplete_media_entries.create(:media_file => media_file)
   h = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
   entry.reload.update_attributes(h, user)
+  upload_session.set_as_complete
 end
 
 Given /^the last entry is child of the last set/ do
-  parent_set = Media::Set.all.sort_by(&:id).last
+  parent_set = MediaSet.all.sort_by(&:id).last
   entry = MediaEntry.all.sort_by(&:id).last
   parent_set.media_entries.push_uniq entry
 end
 
 Given /^the last set is parent of the (.+) set$/ do |offset|
-  parent_set = Media::Set.all.sort_by(&:id).last
-  child_set = Media::Set.all.sort_by(&:id)[offset.to_i-1]
+  parent_set = MediaSet.all.sort_by(&:id).last
+  child_set = MediaSet.all.sort_by(&:id)[offset.to_i-1]
   parent_set.child_sets << child_set
 end
 
@@ -259,9 +258,7 @@ end
 
 When /^I click the edit icon on the media entry titled "([^"]*)"$/ do |title|
   entry = find_media_entry_titled(title)
-  entry.all("a").each do |link|
-    link.click if link[:title] == "Editieren"
-  end
+  entry.find(".button_edit_active").click
   sleep(0.5)
 end
 
