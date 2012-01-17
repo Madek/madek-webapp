@@ -1,6 +1,9 @@
 # -*- encoding : utf-8 -*-
 
-class Media::FeaturedSet < Media::Set
+module Media
+end
+
+class Media::FeaturedSet < MediaSet
 end
 
 class Media::SetLink < ActiveRecord::Base
@@ -32,10 +35,10 @@ class DagToDg < ActiveRecord::Migration
 
 
     Media::SetLink.where(direct: true).each do |link|
-      if (Media::Set.exists? link.descendant_id) \
-        and (Media::Set.exists? link.ancestor_id) \
+      if (MediaSet.exists? link.descendant_id) \
+        and (MediaSet.exists? link.ancestor_id) \
         and link.descendant_id != link.ancestor_id
-          Media::SetArc.create child_id: link.descendant_id, parent_id: link.ancestor_id
+          MediaSetArc.create child_id: link.descendant_id, parent_id: link.ancestor_id
       end
     end
 
@@ -55,7 +58,7 @@ class DagToDg < ActiveRecord::Migration
     add_index :media_set_links, :ancestor_id
     add_index :media_set_links, :direct
 
-    Media::SetArc.all.each do |arc|
+    MediaSetArc.all.each do |arc|
       Media::SetLink.create_edge arc.parent_id, arc.child_id 
     end
 

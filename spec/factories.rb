@@ -8,7 +8,7 @@ module DataFactory
     prev_media_set = FactoryGirl.create :media_set
     (1..10).each do |i|
       next_media_set = FactoryGirl.create :media_set
-      Media::SetLink.create_edge prev_media_set, next_media_set
+      MediaSetArc.create_edge prev_media_set, next_media_set
       prev_media_set = next_media_set
     end
   end
@@ -26,7 +26,7 @@ FactoryGirl.define do
 
   ### Media ....
 
-  factory :media_set_arc , :class => Media::SetArc do
+  factory :media_set_arc do
   end
 
   factory :media_entry do
@@ -52,7 +52,7 @@ FactoryGirl.define do
     end
   end
 
-  factory :media_set, :class => Media::Set do
+  factory :media_set do
     user {User.find_random || (FactoryGirl.create :user)}
   end
 

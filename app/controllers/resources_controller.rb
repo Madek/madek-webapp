@@ -10,7 +10,7 @@ class ResourcesController < ApplicationController
     if params[:type]
       resources = resources.send(params[:type])
     else
-      resources = resources.where(:type => ["MediaEntry", "Media::Set"])
+      resources = resources.where(:type => ["MediaEntry", "MediaSet"])
     end
     resources = resources.by_user(@user) if params[:user_id] and (@user = User.find(params[:user_id]))
     resources = resources.not_by_user(current_user) if params[:not_by_current_user]

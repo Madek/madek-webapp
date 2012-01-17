@@ -173,6 +173,8 @@ class MergeResources < ActiveRecord::Migration
 
     ############################################################################
 
+    execute "UPDATE media_resources SET type='MediaSet' WHERE type='Media::Set'"
+
     change_table    :media_resources do |t|
       t.index       :type
       t.index       :user_id

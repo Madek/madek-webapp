@@ -83,7 +83,7 @@ class UploadController < ApplicationController
       params[:media_set_ids].delete_if {|x| x.blank?}
 
       pre_load # OPTIMIZE
-      media_sets = Media::Set.find_by_id_or_create_by_title(params[:media_set_ids], current_user)
+      media_sets = MediaSet.find_by_id_or_create_by_title(params[:media_set_ids], current_user)
       media_sets.each do |media_set|
         media_set.media_entries.push_uniq @upload_session.media_entries
       end

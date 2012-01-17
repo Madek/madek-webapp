@@ -185,11 +185,11 @@ class Permission < ActiveRecord::Base
         resource.permissions.find_or_create_by_subject_type_and_subject_id(@subject.class.base_class.name, @subject.id).set_actions(h)
       end
       
-      assign_for(resource) # TODO only in case of MediaEntry or Media::Set ??  
+      assign_for(resource) # TODO only in case of MediaEntry or MediaSet ??  
       
       resource.media_entries.each do |me|
         assign_for(me)
-      end if resource.is_a?(Media::Set) and recursive
+      end if resource.is_a?(MediaSet) and recursive
     end
 
   end

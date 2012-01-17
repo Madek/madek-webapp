@@ -82,7 +82,7 @@ namespace :app do
       #####################################################
       puts "Exporting media_sets..."
       
-        class Media::Set
+        class MediaSet
           def individual_context_ids
             []
           end
@@ -99,7 +99,7 @@ namespace :app do
           
       h1.merge!(:methods => [:individual_context_ids, :child_ids])
 
-      media_sets = Media::Set.all.as_json(h1)
+      media_sets = MediaSet.all.as_json(h1)
 
       #####################################################
       puts "Exporting media_featured_set..."

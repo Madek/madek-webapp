@@ -184,7 +184,7 @@ class MediaResource < ActiveRecord::Base
         core_info[key.gsub(' ', '_')] = meta_data.get_value_for(key)
       end
       if with_thumb
-        mf = if self.is_a?(Media::Set)
+        mf = if self.is_a?(MediaSet)
           MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).first.try(:media_file)
         else
           self.media_file
@@ -192,7 +192,7 @@ class MediaResource < ActiveRecord::Base
         core_info["thumb_base64"] = mf.thumb_base64(:small_125) if mf
       else
         #1+n http-requests#
-        me = if self.is_a?(Media::Set)
+        me = if self.is_a?(MediaSet)
           MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).first
         else
           self
@@ -322,7 +322,7 @@ class MediaResource < ActiveRecord::Base
           "Doc"
       end 
     else
-      self.type.gsub(/Media::/, '')
+      self.type.gsub(/Media/, '')
     end    
   end
 
@@ -378,7 +378,7 @@ public
   ################################################################
 
   scope :media_entries, where(:type => "MediaEntry")
-  scope :media_sets, where(:type => "Media::Set")
+  scope :media_sets, where(:type => "MediaSet")
 
   ################################################################
 
@@ -411,7 +411,7 @@ public
             "(SELECT media_entry_id AS id, 'MediaEntry' AS type FROM media_entries_media_sets " \
               "WHERE media_set_id = ? " \
             "UNION " \
-              "SELECT child_id AS id, 'Media::Set' AS type FROM media_set_arcs " \
+              "SELECT child_id AS id, 'MediaSet' AS type FROM media_set_arcs " \
                 "WHERE parent_id = ? )",
           media_set.id, media_set.id);
   }

@@ -65,7 +65,7 @@ class MetaDataController < ApplicationController
       @resource = if not params[:media_entry_id].blank?
                     MediaEntry.find(params[:media_entry_id])
                   elsif not params[:media_set_id].blank?
-                    Media::Set.find(params[:media_set_id])
+                    MediaSet.find(params[:media_set_id])
                   elsif not params[:snapshot_id].blank?
                     Snapshot.find(params[:snapshot_id])
                   end
