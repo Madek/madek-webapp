@@ -27,4 +27,3 @@ setup_deletion = ->
         displayCount()
         
     item_box.remove() # finaly remove item box from dom
-    
