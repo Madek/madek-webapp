@@ -88,7 +88,6 @@ class MediaSetsController < ApplicationController
                  current_user.send "#{action}able_media_sets"
                end
 
-        binding.pry
 
       render :json => sets.as_json(:with => with, :with_thumb => false) # TODO drop with_thum merge with with
 

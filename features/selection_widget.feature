@@ -44,7 +44,6 @@ Feature: Selection Widget for Sets in Sets and Entries in Sets
     When I open the "My Act Photos" set
     And I open the selection widget for this set
     Then I should see the "My Private Images" set inside the widget
-    And I use pry
     And the "My_Private_Images" checkbox should be checked 
     And I should see the "My Public Images" set inside the widget
     And the "My_Public_Images" checkbox should not be checked
