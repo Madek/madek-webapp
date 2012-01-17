@@ -1,21 +1,21 @@
 # -*- encoding : utf-8 -*-
 #= MetaDatum
 # The Association class for relating a Resource (e.g. a MediaEntry) to a MetaKey and a value for that key.
-# 
+#
 # Values are serialized objects (but should we be using composed_of instead?)
 class MetaDatum < ActiveRecord::Base
-  
+
   belongs_to :resource, :polymorphic => true
   belongs_to :meta_key
 
   serialize :value
 
   validates_uniqueness_of :meta_key_id, :scope => [:resource_type, :resource_id]
-  validates_presence_of :meta_key, :value #old# :resource_type, :resource_id 
-  
+  validates_presence_of :meta_key, :value #old# :resource_type, :resource_id
+
   attr_accessor :keep_original_value
 
-  scope :for_meta_terms, joins(:meta_key).where(:meta_keys => {:object_type => "Meta::Term"}) 
+  scope :for_meta_terms, joins(:meta_key).where(:meta_keys => {:object_type => "Meta::Term"})
 
   before_save do
     case meta_key.object_type
@@ -53,17 +53,17 @@ class MetaDatum < ActiveRecord::Base
                                 #  conditions << v
                                 #end
                                 #conditions[0] = conditions.first.join(" OR ")
-                                conditions = {DEFAULT_LANGUAGE => v} 
+                                conditions = {DEFAULT_LANGUAGE => v}
                                 term = Meta::Term.where(conditions).first
-                                
+
                                 term ||= begin
                                   h = {}
                                   LANGUAGES.each do |lang|
                                     h[lang] = v
                                   end
-                                  Meta::Term.create(h) 
+                                  Meta::Term.create(h)
                                 end
-  
+
                                 r = Keyword.where(:meta_term_id => term, :user_id => user).first
                                 r ||= Keyword.create(:meta_term => term, :user => user)
                                 # TODO delete keywords records anymore referenced by any meta_data (it could be the same keyword is referenced to a Snapshot)
@@ -86,14 +86,14 @@ class MetaDatum < ActiveRecord::Base
                           elsif v.is_a?(Fixnum) or (v.respond_to?(:match) and !!v.match(/\A[+-]?\d+\Z/)) # TODO patch to String#is_numeric? method
                             r = klass.where(:id => v).first
                           elsif klass == Copyright
-                            r = value  
+                            r = value
                           elsif klass == Person
                             firstname, lastname = klass.parse(v)
-                            r = klass.find_or_create_by_firstname_and_lastname(:firstname => firstname.try(:capitalize), :lastname => lastname.try(:capitalize)) if firstname or lastname
+                            r = klass.find_or_create_by_firstname_and_lastname(:firstname => firstname, :lastname => lastname) if firstname or lastname
                           elsif klass == Meta::Date
                             r = klass.parse(v)
                           end
-                          
+
                           (r ? r.id : nil )
                       end
         value.uniq.compact!
@@ -111,7 +111,7 @@ class MetaDatum < ActiveRecord::Base
       #new# MetaKey.find_label(key.downcase)
     end
   end
-  
+
   def to_s
     v = deserialized_value
     s = if v.is_a?(Array)
@@ -125,10 +125,10 @@ class MetaDatum < ActiveRecord::Base
       v.to_s
     end
     # We must force the encoding of the retrieved string, otherwise it gives us the form it deserialized
-    # into ASCII-8BIT, which looks like this: "\xE2\x88\x86G  = \xE2\x88\x86G\xC2\xB0\xE2\x80\x99 +  R T lnK" 
+    # into ASCII-8BIT, which looks like this: "\xE2\x88\x86G  = \xE2\x88\x86G\xC2\xB0\xE2\x80\x99 +  R T lnK"
     # Those multibyte characters are useless to us in that form and the encoding mismatch triggers an
     # EncodingError exception.
-    s.force_encoding("utf-8") 
+    s.force_encoding("utf-8")
   end
 
   # some meta_keys don't store values,
@@ -174,7 +174,7 @@ class MetaDatum < ActiveRecord::Base
         value == other_value
       when Array
         return false unless other_value.is_a?(Array)
-        if value.first.is_a?(Meta::Date) 
+        if value.first.is_a?(Meta::Date)
           other_value.first.is_a?(Meta::Date) && (other_value.first.free_text == value.first.free_text)
         elsif meta_key.object_type == "Keyword"
           referenced_meta_term_ids = Keyword.where(:id => other_value).all.map(&:meta_term_id)
@@ -186,15 +186,15 @@ class MetaDatum < ActiveRecord::Base
         other_value.blank?
     end
   end
-  
-  
+
+
 ##########################################################
 
   def context_warnings(context = MetaContext.core)
     @context_warnings ||= {}
     unless @context_warnings[context.id]
       @context_warnings[context.id] = []
-      
+
       definition = meta_key.meta_key_definitions.for_context(context)
       meta_field = definition.meta_field
 
@@ -205,9 +205,9 @@ class MetaDatum < ActiveRecord::Base
     end
     return @context_warnings[context.id]
   end
-  
+
   def context_valid?(context = MetaContext.core)
     context_warnings(context).empty?
   end
-  
+
 end
