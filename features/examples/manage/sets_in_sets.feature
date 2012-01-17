@@ -48,6 +48,7 @@ Feature: Sets in Sets
   # Pts: 40 - ?
   # Cannot be solved before we attack this: https://www.pivotaltracker.com/story/show/21437563
   # This includes refactoring of media sets/entries -> resources
+  @current
   Scenario: Add a set to my favorites
    Given I see some sets
     When I add them to my favorites

@@ -4,11 +4,11 @@ class Permission < ActiveRecord::Base
   ACTIONS = [:view, :edit, :hi_res, :manage] # view = 2^0 = 1; edit = 2^1 = 2; hi_res = 2^2 = 4; manage = 2^3 = 8
   
   belongs_to :subject, :polymorphic => true 
-  belongs_to :resource, :polymorphic => true #-# TODO store real subclass type
+  belongs_to :media_resource
   
   validates_numericality_of :action_bits, :action_mask
-  validates_numericality_of :action_mask, :greater_than => 0, :unless => Proc.new { |resource| resource_type.nil? }  
-  validates_uniqueness_of :subject_id, :scope => [:subject_type, :resource_id, :resource_type]
+  validates_numericality_of :action_mask, :greater_than => 0, :unless => Proc.new { |record| record.media_resource_id.nil? }  
+  validates_uniqueness_of :subject_id, :scope => [:subject_type, :media_resource_id]
 
   #old#precedence problem# default_scope order("created_at DESC")
 
@@ -41,7 +41,7 @@ class Permission < ActiveRecord::Base
           self.action_mask |= j
       end
     end
-    if action_mask.zero? and not resource_type.nil? # TODO validation ???
+    if action_mask.zero? and not media_resource_id.nil? # TODO validation ???
       destroy
     else
       save
@@ -85,7 +85,7 @@ class Permission < ActiveRecord::Base
   
     # Lowest level of permission defaults.
     def system_default_actions
-      p = where(:subject_id => nil, :subject_type => nil, :resource_type => nil, :resource_id => nil).first
+      p = where(:subject_id => nil, :subject_type => nil, :media_resource_id => nil).first
       p ? p.actions : {} #1504#
     end
   

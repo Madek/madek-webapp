@@ -21,14 +21,6 @@ module DataFactory
     (1..25).each {FactoryGirl.create :userpermission}
   end
 
-  def create_dag 
-    prev_media_set = FactoryGirl.create :media_set
-    (1..10).each do |i|
-      next_media_set = FactoryGirl.create :media_set
-      MediaSetLink.create_edge prev_media_set, next_media_set
-      prev_media_set = next_media_set
-    end
-  end
 end
 
 
@@ -51,8 +43,6 @@ FactoryGirl.define do
 
   ### Media ....
 
-  factory :media_set_arc , :class => MediaSetArc do
-  end
 
   factory :media_entry do
     upload_session {FactoryGirl.create :upload_session}
@@ -83,20 +73,12 @@ FactoryGirl.define do
     permissionset {FactoryGirl.create :permissionset}
   end
 
-  factory :media_set, :class => MediaSet do
+  factory :media_set do
     user {User.find_random || (FactoryGirl.create :user)}
   end
 
   ### Permissions ...
 
-  factory :permission do
-    subject {User.find_random || (FactoryGirl.create :user)}
-    resource {FactoryGirl.create :media_set,:user => (FactoryGirl.create :user)}
-    after_build do |perm| 
-      user_default_permissions = {:view => false, :edit => false, :manage => false, :hi_res => false}
-      perm.set_actions user_default_permissions
-    end
-  end
 
   factory :permissionset do
     view {FactoryHelper.rand_bool 1/4.0}

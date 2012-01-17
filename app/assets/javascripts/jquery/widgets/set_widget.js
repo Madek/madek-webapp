@@ -383,18 +383,6 @@ function SetWidget() {
     
     // eval target after-submit
     eval($(target).data("after_submit"));
-    
-    // eval a after submit callback instead of fade out the widget, because we didnt take care about updating the complete view currently,
-    // so we have a window.location.reload as callback
-    /*
-    // leave modal    
-    SetWidget.disable_modal(target);
-    // fade out
-    $(target).data("widget").stop(true,true).delay(400).fadeOut(500, function(){
-      // close/reset widget
-      SetWidget.close_widget(target);
-    });
-    */
   }
   
   this.setup_create_new = function(target) {
@@ -413,7 +401,7 @@ function SetWidget() {
       }
     });
     
-    $(target).data("widget").find(".create_new input").bind("keyup", function(event) {
+    $(target).data("widget").find(".create_new input").bind("keyup keydown", function(event) {
       // hide or show depending on val
       if($(this).val() == "") {
         $(this).siblings(".create.button").hide();
@@ -425,6 +413,9 @@ function SetWidget() {
       if(event.keyCode == 13) {
         SetWidget.create_new(target, $(this).val());
       }
+      
+      // connect create new field with search
+      $(target).data("widget").find("input#widget_search").val($(this).val()).change();
     });
     
     $(target).data("widget").find(".create_new .create.button").bind("click", function(event) {
@@ -540,7 +531,7 @@ function SetWidget() {
   }
   
   this.setup_search_field = function(target) {
-    $(target).data("widget").find(".search input").bind("keyup keydown", function() {
+    $(target).data("widget").find(".search input").bind("keyup keydown change", function() {
       if($(this).val().length != 0) {
         SetWidget.enable_modal(target);
       } 
@@ -548,10 +539,12 @@ function SetWidget() {
       SetWidget.search(target, $(this).val());
     });
     
-    $(target).data("widget").find(".search input").bind("blur", function(event) {
+    $(target).data("widget").find(".search input").bind("blur change", function(event) {
       if($(this).val() == "") {
         $(this).siblings(".hint").show();
         SetWidget.check_stack_state(target);
+      } else {
+        $(this).siblings(".hint").hide();
       }
     });
   }

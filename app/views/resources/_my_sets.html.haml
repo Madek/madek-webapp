@@ -14,7 +14,7 @@
         %div.thumb_box_set
     %small
     - context = MetaContext.media_set
-    - media_set = current_user.media_sets.build # (:type => "MediaSet")
+    - media_set = current_user.media_sets.build
     = form_for [current_user, media_set] do |f|
       = f.fields_for :meta_data, media_set.meta_data.get("title") do |meta_datum|
         - definition = meta_datum.object.meta_key.meta_key_definitions.for_context(context)

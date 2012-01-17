@@ -11,7 +11,7 @@
       %h4= definition.meta_field.label
       .accordion
         - meta_key.meta_terms.each do |meta_term|
-          - media_entries = meta_term.meta_data(meta_key).select{|md| md.resource_type == "MediaEntry" and media_entry_ids.include?(md.resource_id) }.collect(&:resource)
+          - media_entries = meta_term.meta_data(meta_key).select{|md| media_entry_ids.include?(md.media_resource_id) }.collect(&:resource)
           - size = media_entries.size
           - next unless size > 1
           %p= "#{meta_term} (#{size})"

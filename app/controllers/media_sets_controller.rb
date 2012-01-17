@@ -222,6 +222,7 @@ class MediaSetsController < ApplicationController
    end
     respond_to do |format|
       format.html { redirect_to user_resources_path(current_user, :type => "media_sets") }
+      format.js { render :json => {:id => @media_set.id} }
     end
  end
 

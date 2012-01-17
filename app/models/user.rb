@@ -36,8 +36,8 @@ class User < ActiveRecord::Base
   end
   has_many :media_entries, :through => :upload_sessions
 # TODO ??  has_many :media_files, :through => :media_entries
-  has_many :media_sets, :class_name => "MediaSet"
-  has_and_belongs_to_many :favorites, :class_name => "MediaEntry", :join_table => "favorites" do
+  has_many :media_sets
+  has_and_belongs_to_many :favorites, :class_name => "MediaResource", :join_table => "favorites" do
     def toggle(media_entry_or_id)
       media_entry_id = media_entry_or_id.is_a?(MediaEntry) ? media_entry_or_id.id : media_entry_or_id.to_i
       if include?(media_entry_id)
