@@ -88,8 +88,17 @@ class MediaResource < ActiveRecord::Base
 
   ################################################################
   
+  def parents 
+    case type
+    when "MediaSet"
+      parent_sets
+    when "MediaEntry"
+      media_sets
+    else
+      raise "parents is not supported (yet) for your type"
+    end
+  end
 
-  
   def self.reindex
     all.map(&:reindex).uniq
   end

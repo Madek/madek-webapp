@@ -6,6 +6,12 @@ SELECT users from users
 
 ---
 
+SELECT DISTINCT * FROM "media_resources" 
+  INNER JOIN "media_set_arcs" ON "media_resources"."id" = "media_set_arcs"."parent_id" 
+  INNER JOIN editable_media_resources_users ON media_resources.id = media_set_id 
+  WHERE "media_resources"."type" IN ('MediaSet') AND "media_set_arcs"."child_id" = 2
+
+
 SELECT "media_resources".* FROM "media_resources" 
   INNER JOIN "media_set_arcs" ON "media_set_arcs"."parent_id" = "media_resources"."id" 
   INNER JOIN viewable_media_sets_users ON media_resources.id = media_set_id
