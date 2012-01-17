@@ -17,8 +17,8 @@ class CreateGrouppermissions < ActiveRecord::Migration
       t.index [ref_id(Group),ref_id(MediaResource)], unique: true
     end
 
-    cascade_on_delete Grouppermission, Group
-    cascade_on_delete Grouppermission, MediaResource
+    fkey_cascade_on_delete Grouppermission, Group
+    fkey_cascade_on_delete Grouppermission, MediaResource
 
   end
 

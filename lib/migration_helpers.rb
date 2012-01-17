@@ -105,7 +105,7 @@ module MigrationHelpers
     end
   end
     
-  def cascade_on_delete from_table, to_table, from_column=nil 
+  def fkey_cascade_on_delete from_table, to_table, from_column=nil 
 
     from_table_name = infer_table_name from_table
     to_table_name = infer_table_name to_table

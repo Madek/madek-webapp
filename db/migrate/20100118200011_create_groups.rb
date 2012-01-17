@@ -15,8 +15,8 @@ class CreateGroups < ActiveRecord::Migration
       t.index :user_id
     end
 
-    cascade_on_delete :groups_users, :groups
-    cascade_on_delete :groups_users, :users
+    fkey_cascade_on_delete :groups_users, :groups
+    fkey_cascade_on_delete :groups_users, :users
 
   end
 

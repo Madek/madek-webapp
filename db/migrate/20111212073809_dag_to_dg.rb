@@ -29,9 +29,11 @@ class DagToDg < ActiveRecord::Migration
     add_index :media_set_arcs, :child_id
     add_index :media_set_arcs, [:parent_id, :child_id], :unique => true
 
-    fkey_cascade_on_delete :media_set_arcs, :parent_id, :media_sets 
-    fkey_cascade_on_delete :media_set_arcs, :child_id, :media_sets 
-    add_check :media_set_arcs, "(parent_id <> child_id)"
+    if adapter_is_postgresql?
+      fkey_cascade_on_delete :media_set_arcs,  :media_sets, :parent_id
+      fkey_cascade_on_delete :media_set_arcs, :media_sets, :child_id
+      add_check :media_set_arcs, "(parent_id <> child_id)"
+    end
 
 
     Media::SetLink.where(direct: true).each do |link|
