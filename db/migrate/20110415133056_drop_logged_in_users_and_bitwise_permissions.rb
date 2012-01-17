@@ -11,7 +11,7 @@ class DropLoggedInUsersAndBitwisePermissions < ActiveRecord::Migration
     group = Group.find_or_create_by_name(:name => "ZHdK (Zürcher Hochschule der Künste)")    
 
     Permission.where("actions_object LIKE '%:logged_in_users%'").each do |p|
-      q = group.permissions.build(:resource => p.resource)
+      q = group.permissions.build(:media_resource => p.media_resource)
       h = YAML.load(p.actions_object).ivars["keys"]
       actions = h.select {|k,v| v == :logged_in_users}.map(&:first)
       h = {}

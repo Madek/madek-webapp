@@ -98,11 +98,10 @@ Given /^a entry titled "(.+)" created by "(.+)" exists$/ do |title, username|
                     :tempfile=> File.new(f, "r"),
                     :filename=> File.basename(f)}
   media_file = MediaFile.create(:uploaded_data => uploaded_data)
-  entry = upload_session.media_entries.create(:media_file => media_file)
-  upload_session.update_attributes(:is_complete => true)
-
+  entry = upload_session.incomplete_media_entries.create(:media_file => media_file)
   h = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
   entry.reload.update_attributes(h, user)
+  upload_session.set_as_complete
 end
 
 Given /^the last entry is child of the last set/ do

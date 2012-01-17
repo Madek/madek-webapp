@@ -5,13 +5,13 @@
 # Values are serialized objects (but should we be using composed_of instead?)
 class MetaDatum < ActiveRecord::Base
   
-  belongs_to :resource, :polymorphic => true
+  belongs_to :media_resource
   belongs_to :meta_key
 
   serialize :value
 
-  validates_uniqueness_of :meta_key_id, :scope => [:resource_type, :resource_id]
-  validates_presence_of :meta_key, :value #old# :resource_type, :resource_id 
+  validates_uniqueness_of :meta_key_id, :scope => :media_resource_id
+  validates_presence_of :meta_key, :value #old# :media_resource_id 
   
   attr_accessor :keep_original_value
 
@@ -37,8 +37,8 @@ class MetaDatum < ActiveRecord::Base
         # TODO Person.suspend_delta
         self.value = values.map do |v|
                           if klass == Keyword
-                            user = resource.editors.latest || (resource.respond_to?(:user) ? resource.user : nil)
-                            if user.nil? and resource.is_a?(Snapshot)
+                            user = media_resource.editors.latest || (media_resource.respond_to?(:user) ? media_resource.user : nil)
+                            if user.nil? and media_resource.is_a?(Snapshot)
                               # the Snapshot has just been created, so we take exactly the MediaEntry's keyword
                               r = klass.find(v)
                             else
@@ -138,21 +138,21 @@ class MetaDatum < ActiveRecord::Base
     if meta_key.is_dynamic?
       case meta_key.label
         when "uploaded by"
-          return resource.user
+          return media_resource.user
         when "uploaded at"
-          return resource.created_at #old# .to_formatted_s(:date_time) # TODO resource.upload_session.created_at ??
+          return media_resource.created_at #old# .to_formatted_s(:date_time) # TODO media_resource.upload_session.created_at ??
         when "copyright usage"
-          copyright = resource.meta_data.get("copyright status").deserialized_value.first || Copyright.default # OPTIMIZE array or single element
+          copyright = media_resource.meta_data.get("copyright status").deserialized_value.first || Copyright.default # OPTIMIZE array or single element
           return copyright.usage(read_attribute(:value))
         when "copyright url"
-          copyright = resource.meta_data.get("copyright status").deserialized_value.first  || Copyright.default # OPTIMIZE array or single element
+          copyright = media_resource.meta_data.get("copyright status").deserialized_value.first  || Copyright.default # OPTIMIZE array or single element
           return copyright.url(read_attribute(:value))
         when "public access"
-          return resource.acl?(:view, :all)
+          return media_resource.acl?(:view, :all)
         when "media type"
-          return resource.media_type
+          return media_resource.media_type
         #when "gps"
-        #  return resource.media_file.meta_data["GPS"]
+        #  return media_resource.media_file.meta_data["GPS"]
       end
     else
       case meta_key.object_type

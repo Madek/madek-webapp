@@ -1,7 +1,5 @@
 # -*- encoding : utf-8 -*-
-class Snapshot < ActiveRecord::Base
-
-  include Resource
+class Snapshot < MediaResource
 
   belongs_to :media_entry
   belongs_to :media_file
