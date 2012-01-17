@@ -27,7 +27,7 @@ class MergeResources < ActiveRecord::Migration
     if SQLHelper.adapter_is_mysql?
       sql.split(/;\s*$/).each {|cmd| execute cmd}
     elsif SQLHelper.adapter_is_postgresql?
-      execute sql
+      # do nothing for pg, no data there
     end 
 
     ############################################################################
@@ -104,7 +104,7 @@ class MergeResources < ActiveRecord::Migration
     if SQLHelper.adapter_is_mysql?
       sql.split(/;\s*$/).each {|cmd| execute cmd}
     elsif SQLHelper.adapter_is_postgresql?
-      execute sql
+      # do nothing for postgres
     end 
 
     rename_column :favorites, :media_entry_id, :media_resource_id
@@ -127,7 +127,7 @@ class MergeResources < ActiveRecord::Migration
       if SQLHelper.adapter_is_mysql?
         sql.split(/;\s*$/).each {|cmd| execute cmd}
       elsif SQLHelper.adapter_is_postgresql?
-        execute sql
+        # do nothing
       end 
     end
     
@@ -147,8 +147,9 @@ class MergeResources < ActiveRecord::Migration
     table_name = :meta_data
     existing_indexes = indexes(table_name).map(&:name)
     [:index_meta_data_on_resource_id_and_resource_type_and_meta_key_id, :id_type_key_idx_on_meta_data].each do |index_name|
-      execute "ALTER TABLE #{table_name} DROP INDEX #{index_name}" if existing_indexes.include? index_name.to_s 
+      remove_index table_name, name: index_name if existing_indexes.include? index_name.to_s 
     end
+  
     change_table      :meta_data do |t|
       t.remove        :resource_id
       t.remove        :resource_type

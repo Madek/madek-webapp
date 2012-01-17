@@ -43,7 +43,11 @@ module MigrationHelpers
   
   def remove_fkey_constraint from_table, from_column, to_table
     name = "#{from_table}_#{from_column}_#{to_table}_fkey"
-    execute_sql "ALTER TABLE #{from_table} DROP FOREIGN KEY #{name};"
+    if adapter_is_mysql? 
+      execute_sql "ALTER TABLE #{from_table} DROP FOREIGN KEY #{name};"
+    elsif adapter_is_postgresql? 
+      execute_sql "ALTER TABLE #{from_table} DROP CONSTRAINT #{name};"
+    end
   end
 
   def create_del_referenced_trigger source, target
