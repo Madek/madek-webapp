@@ -1,5 +1,31 @@
 # coding: UTF-8
 
+
+Given /^I see some sets$/ do
+  @user = FactoryGirl.create :user
+  3.times do
+    FactoryGirl.create :media_set, :user => @user
+  end
+  @user.media_sets.count.should == 3
+  
+  # TODO gui
+  pending
+  # visit user_resources_path(@user, :type => "media_sets")
+  # all(".thumb_box_set").size.should == 3
+end
+
+When /^I add them to my favorites$/ do
+  @user.favorites.count.should == 0
+  @user.favorites << @user.media_sets
+  @user.favorites.count.should == 3
+end
+
+Then /^they are in my favorites$/ do
+  @user.favorites.reload.should == @user.media_sets.reload
+end
+
+##########################################################################
+
 Given /^a context$/ do
   name = "Landschaftsvisualisierung"
   @context = MetaContext.send(name)
@@ -35,3 +61,5 @@ Then /^I see an abstract of the most assigned values from media entries using th
   find_link("Auszug").click
   find("#slider")
 end
+
+##########################################################################
