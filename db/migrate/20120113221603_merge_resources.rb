@@ -44,6 +44,7 @@ class MergeResources < ActiveRecord::Migration
     remove_fkey_constraint :media_set_arcs, :parent_id, :media_sets 
     remove_fkey_constraint :media_set_arcs, :child_id, :media_sets 
     remove_index :media_set_arcs, [:parent_id, :child_id]
+    remove_index :media_entries_media_sets, :name => :index_albums_media_entries_on_album_id_and_media_entry_id 
 
     create_table    :media_resources do |t|
       t.integer     :old_id                # to be dropped  
@@ -85,6 +86,19 @@ class MergeResources < ActiveRecord::Migration
       UPDATE media_set_arcs LEFT JOIN media_resources
         ON media_set_arcs.child_id = media_resources.old_id AND media_resources.type="Media::Set"
         SET media_set_arcs.child_id = media_resources.id;
+
+      UPDATE media_entries_media_sets LEFT JOIN media_resources
+        ON media_entries_media_sets.media_set_id = media_resources.old_id AND media_resources.type="Media::Set"
+        SET media_entries_media_sets.media_set_id = media_resources.id;
+
+      UPDATE media_entries_media_sets LEFT JOIN media_resources
+        ON media_entries_media_sets.media_entry_id = media_resources.old_id AND media_resources.type="MediaEntry"
+        SET media_entries_media_sets.media_entry_id = media_resources.id;
+      DELETE FROM media_entries_media_sets WHERE media_entry_id IS NULL;
+
+      UPDATE media_sets_meta_contexts LEFT JOIN media_resources
+        ON media_sets_meta_contexts.media_set_id = media_resources.old_id AND media_resources.type="Media::Set"
+        SET media_sets_meta_contexts.media_set_id = media_resources.id;
 
     SQL
     if SQLHelper.adapter_is_mysql?
@@ -147,7 +161,7 @@ class MergeResources < ActiveRecord::Migration
       t.remove        :resource_type
       t.index         [:media_resource_id, :subject_id, :subject_type], :name => :index_permissions_on_resource_and_subject
     end
-    
+
     ############################################################################
 
     [:featured_set_id, :splashscreen_slideshow_set_id].each do |k|
@@ -174,12 +188,17 @@ class MergeResources < ActiveRecord::Migration
     drop_table :media_sets
 
     add_index :media_set_arcs, [:parent_id, :child_id], :unique => true
+    add_index :media_entries_media_sets, [:media_set_id, :media_entry_id], :unique => true, :name => :index_on_media_set_id_and_media_entry_id 
 
     ############################################################################
     # Add Contraints
 
     fkey_cascade_on_delete :media_set_arcs, :parent_id, :media_resources 
     fkey_cascade_on_delete :media_set_arcs, :child_id, :media_resources 
+
+    fkey_cascade_on_delete :media_entries_media_sets, :media_set_id, :media_resources 
+    fkey_cascade_on_delete :media_entries_media_sets, :media_entry_id, :media_resources 
+    fkey_cascade_on_delete :media_sets_meta_contexts, :media_set_id, :media_resources 
 
     [:edit_sessions, :full_texts, :meta_data, :permissions, :favorites].each do |table|
       fkey_cascade_on_delete table, :media_resource_id, :media_resources 
