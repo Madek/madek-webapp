@@ -150,6 +150,15 @@ class MergeResources < ActiveRecord::Migration
     
     ############################################################################
 
+    [:featured_set_id, :splashscreen_slideshow_set_id].each do |k|
+      if (old_id = AppSettings.send(k))
+        new_id = MediaResource.select(:id).where(:old_id => old_id).first.id
+        AppSettings.send("#{k}=", new_id)
+      end
+    end
+
+    ############################################################################
+
     change_table    :media_resources do |t|
       t.index       :type
       t.index       :user_id
@@ -157,15 +166,12 @@ class MergeResources < ActiveRecord::Migration
       t.index       :media_file_id
       t.index       :updated_at
       t.index       [:media_entry_id, :created_at]
+      t.remove      :old_id
     end
   
     drop_table :media_entries
     drop_table :snapshots
     drop_table :media_sets
-
-    change_table    :media_resources do |t|
-      t.remove      :old_id
-    end
 
     add_index :media_set_arcs, [:parent_id, :child_id], :unique => true
 
