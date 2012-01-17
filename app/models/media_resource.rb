@@ -95,7 +95,7 @@ class MediaResource < ActiveRecord::Base
     when "MediaEntry"
       media_sets
     else
-      raise "parentes is not supported (yet) for your type"
+      raise "parents is not supported (yet) for your type"
     end
   end
 

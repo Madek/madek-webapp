@@ -85,12 +85,9 @@ class MediaSetsController < ApplicationController
 
                  child = MediaResource.find child[:id].to_i
 
-                 MediaSet.joins(:out_arcs).where(" child_id = #{child[:id]} ") \
-                  .joins(" INNER JOIN #{action}able_media_sets_users ON media_resources.id = media_set_id ") \
-                  .where(" #{action}able_media_sets_users.user_id = #{current_user.id} ")
-
-                binding.pry
-
+                 child.parents.select("DISTINCT *") \
+                   .joins(" INNER JOIN #{action}able_media_resources_users ON media_resources.id = media_set_id ") \
+                   .where(" #{action}able_media_resources_users.user_id = #{current_user.id} ") 
 
                else
                  current_user.send "#{action}able_media_sets"

@@ -1,4 +1,8 @@
 
+SELECT "media_resources".* FROM "media_resources" 
+  INNER JOIN "media_entries_media_sets" ON "media_resources"."id" = "media_entries_media_sets"."media_set_id" 
+  INNER JOIN editable_media_resources_users ON media_resources.id = media_set_id 
+  WHERE "media_resources"."type" IN ('MediaSet') AND "media_entries_media_sets"."media_entry_id" = 1
 
 SELECT "media_resources".* FROM "media_resources" 
   INNER JOIN "media_set_arcs" ON "media_set_arcs"."parent_id" = "media_resources"."id" 
