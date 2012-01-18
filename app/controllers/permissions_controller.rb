@@ -59,13 +59,13 @@ class PermissionsController < ApplicationController
 
         resource.userpermissions.destroy_all
         params[:subject][:User] and  params[:subject][:User].each do |s_id,s_actions|
-          Userpermission.create media_resource: resource, user: (User.find s_id), \
+          Userpermission.create media_resource: resource, user: (User.find s_id), 
             view: (s_actions[:view] == "true"), download: (s_actions[:hi_res] == "true"), edit: (s_actions[:edit] == "true")
         end
 
         resource.grouppermissions.destroy_all
         params[:subject][:Group] and  params[:subject][:Group].each do |s_id,s_actions|
-          Grouppermission.create media_resource: resource, group: (Group.find s_id),\ 
+          Grouppermission.create media_resource: resource, group: (Group.find s_id),  
             view: (s_actions[:view] == "true"), download: (s_actions[:hi_res] == "true"), edit: (s_actions[:edit] == "true")
         end
 
