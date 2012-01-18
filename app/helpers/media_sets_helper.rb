@@ -151,6 +151,7 @@ module MediaSetsHelper
   end
 
 ####################################################################
+# TODO merge with meta_contexts_helper ?? 
 
   def display_set_abstract_slider(set, total_entries)
     capture_haml do
@@ -218,136 +219,14 @@ module MediaSetsHelper
     end
   end
 
-  def display_context_abstract_slider(context, current_user)
-    # OPTIMIZE total_entries = context.media_entries(current_user).count
-    total_entries = begin
-      me = context.media_entries(current_user)
-      me.to_a.size
-    end
-    
-    capture_haml do
-      haml_tag :p, :style => "padding: 1.8em;" do
-        haml_tag :span, :id => "amount", :style => "color: #444444; font-weight: bold; position: absolute;"
-      end
-      haml_tag :div, :id =>"slider", :style => "border: 1px solid #DDDDDD;"
-      
-      script = javascript_tag do
-        begin
-        <<-HERECODE
-          $(document).ready(function () {
-            var total_entries = #{total_entries}; 
-            function update_amount(ui){
-              var l = ui.find("a").css('left');
-              var v = ui.slider( "value" ) + " von " + total_entries;
-              $("#amount").html(v).css('left', l);
-            }
-            $("#slider").slider({
-              value: #{total_entries * 30 / 100},
-              min: 1,
-              max: total_entries,
-              step: 1,
-              create: function( event, ui ) { update_amount($(this)); },
-              slide: function( event, ui ) { update_amount($(this)); },
-              change: function( event, ui ) {
-                update_amount($(this));
-                $.ajax({
-                  url: "#{abstract_meta_context_path(@context)}",
-                  data: {value: ui.value},
-                  complete: function(response){
-                    $("#slider").nextAll(".meta_data:first").replaceWith(response.responseText);
-                    browsing_document_ready();
-                  }
-                });
-              }
-            });
-          });
-        HERECODE
-        end.html_safe
-      end
-      haml_concat script
-
-    end
-  end
-
-  def display_context_abstract(context, current_user, min_media_entries = nil)
-    meta_data = context.abstract(current_user, min_media_entries)
-    capture_haml do
-      haml_tag :div, :class => "meta_data" do
-        if meta_data.blank?
-          haml_concat _("Es sind nicht genügend Werte für einen Set-Auszug vorhanden.")
-        else
-          meta_data.collect do |meta_datum|
-            meta_datum.meta_key.reload #tmp# TODO remove this line, is an Identity Map problem ??
-            definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
-            haml_tag :h4, definition.meta_field.label
-            haml_tag :p, preserve(formatted_value(meta_datum))
-          end
-        end
-      end
-    end
-  end
-
-####################################################################
-
-  def display_contexts_vocabulary(contexts, current_user, used_meta_term_ids = nil)
-    search_used_meta_term_ids = used_meta_term_ids.nil?
-    capture_haml do
-      haml_tag :br
-      haml_tag :a, "Zeige die bereits vergebenen Werte", :href => "#", :id => "terms_toggler"
-      haml_tag :br
-      haml_tag :br
-
-      Array(contexts).each do |context|
-        used_meta_term_ids = context.used_meta_term_ids(current_user) if search_used_meta_term_ids
-        haml_tag :h3, context
-        haml_tag :p, context.description
-        context.meta_keys.for_meta_terms.each do |meta_key|
-          definition = meta_key.meta_key_definitions.for_context(context)
-          haml_tag :h4, definition.meta_field.label
-          haml_tag :div, :class => "columns_3" do
-            meta_key.meta_terms.each do |meta_term|
-              is_used = used_meta_term_ids.include?(meta_term.id)
-              haml_tag :p, meta_term, :"data-meta_term_id" => meta_term.id, :"data-used" => (is_used ? 1 : 0)
-            end
-          end
-        end
-      end
-
-      script = javascript_tag do
-        begin
-        <<-HERECODE
-          $(document).ready(function () {
-            var unused_terms = $("p[data-meta_term_id][data-used='0']");
-            var terms_toggler = $("a#terms_toggler");
-            terms_toggler.data("active", false);             
-            terms_toggler.click(function(){
-              var that = $(this);
-              if(that.data("active")){
-                unused_terms.removeClass("disabled");
-                that.html("Zeige die bereits vergebenen Werte");
-                that.data("active", false);
-              }else{
-                unused_terms.addClass("disabled");
-                that.html("Zeige das gesamte Vokabular");
-                that.data("active", true);
-              }
-              return false;
-            });
-          });
-        HERECODE
-        end.html_safe
-      end
-      haml_concat script
-    end
-  end
-
   def display_set_vocabulary(set, current_user)
     used_meta_term_ids = set.used_meta_term_ids(current_user)
+    vocabulary_json = set.individual_contexts.map {|context| context.vocabulary(current_user, used_meta_term_ids).as_json }
     capture_haml do
       haml_tag :p do
         haml_concat "Für dieses Set wurde ein spezifisches Vokabular erstellt."
       end
-      haml_concat display_contexts_vocabulary(set.individual_contexts, current_user, used_meta_term_ids)
+      haml_concat display_contexts_vocabulary(vocabulary_json)
     end
   end
 

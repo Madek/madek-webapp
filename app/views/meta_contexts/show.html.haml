@@ -14,8 +14,8 @@
 
           = render :partial => "media_entries/browsing"
           #vocabulary_tab.clearfix
-            = display_contexts_vocabulary(@context, current_user)
+            = display_contexts_vocabulary(@vocabulary_json)
           #abstract_tab.clearfix
             %p= _("Diese Metadaten wurden am häufigsten vergeben. Sie zeigen den thematischen Schwerpunkt des Projekts an.")
-            = display_context_abstract_slider(@context, current_user)
-            = display_context_abstract(@context, current_user)
+            = display_context_abstract_slider(@abstract_slider_json)
+            = display_context_abstract(@abstract_json)
