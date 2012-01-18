@@ -7,7 +7,7 @@ Given /^I see some sets$/ do
     FactoryGirl.create :media_set, :user => @user
   end
   @user.media_sets.count.should == 3
-  
+
   # TODO gui
   pending
   # visit user_resources_path(@user, :type => "media_sets")

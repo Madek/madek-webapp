@@ -71,6 +71,7 @@ Given /^the user with username "([^"]*)" is member of the group "([^"]*)"/ do |u
   user.save.should == true
 end
 
+# Uses the browser to log in
 Given /^I log in as "(\w+)" with password "(\w+)"$/ do |username, password|
   visit "/logout"
   visit "/db/login"
@@ -78,6 +79,11 @@ Given /^I log in as "(\w+)" with password "(\w+)"$/ do |username, password|
   fill_in "password", :with => password
   click_link_or_button "Log in"
   page.should_not have_content "Invalid username/password"
+end
+
+# Gives you a user object
+Given /^I am logged in as "(\w+)"$/ do |username|
+  @current_user = FactoryGirl.create(:user, {:login => username})
 end
 
 Given /^a group called "([^"]*)" exists$/ do |groupname|
