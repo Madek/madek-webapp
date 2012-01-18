@@ -94,7 +94,7 @@ Given /^a public set titled "(.+)" created by "(.+)" exists$/ do |title, usernam
   user = User.where(:login => username).first
   meta_data = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
   set = user.media_sets.create(meta_data)
-  permission = Permission.create({:resource_id => set.id, :resource_type => "Media::Set"})
+  permission = set.permissions.create
   permission.set_actions({:view => true})
   set.permissions << permission
 end
