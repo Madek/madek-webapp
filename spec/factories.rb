@@ -10,26 +10,35 @@ module DataFactory
     MediaResource.all.each {|e| e.destroy}
     Grouppermission.all.each {|e| e.destroy}
     Userpermission.all.each {|e| e.destroy}
-    Permissionset.all.each {|e| e.destroy}
     User.all.each {|e| e.destroy}
   end
 
   def create_small_dataset 
-    (1..10).each {FactoryGirl.create :user}
-    (1..50).each {FactoryGirl.create :media_entry}
-    (1..50).each {FactoryGirl.create :media_set}
-    (1..25).each {FactoryGirl.create :userpermission}
+    ActiveRecord::Base.transaction do
+      (1..10).each {FactoryGirl.create :user}
+      (1..50).each {FactoryGirl.create :media_entry}
+      (1..50).each {FactoryGirl.create :media_set}
+      (1..25).each do 
+        mr = MediaResource.find_random
+        u =  MediaResource.find_random
+        unless Userpermission.where(user: u).where(media_resource: mr)
+          FactoryGirl.create(:userpermission, user: u, media_resource: mr ) 
+        end
+      end
+    end
   end
 
 end
 
 
 module FactoryHelper
+
   def self.rand_bool *opts
     bias = ((opts and opts[0]) or 0.5)
     raise "bias must be a real number within [0,1)" if bias < 0.0 or bias >= 1.0
     (rand < bias) ? true : false
   end
+
 end
 
 FactoryGirl.define do
@@ -72,7 +81,10 @@ FactoryGirl.define do
 
   factory :media_resource do
     user {User.find_random || (FactoryGirl.create :user)}
-    permissionset {FactoryGirl.create :permissionset}
+    view {FactoryHelper.rand_bool 1/4.0}
+    download { view and FactoryHelper.rand_bool}
+    edit {FactoryHelper.rand_bool 1/4.0}
+    manage {edit and FactoryHelper.rand_bool}
   end
 
   factory :media_set do
@@ -82,16 +94,12 @@ FactoryGirl.define do
   ### Permissions ...
 
 
-  factory :permissionset do
+
+  factory :userpermission do
     view {FactoryHelper.rand_bool 1/4.0}
     download { view and FactoryHelper.rand_bool}
     edit {FactoryHelper.rand_bool 1/4.0}
     manage {edit and FactoryHelper.rand_bool}
-  end
-
-  factory :userpermission do
-
-    permissionset {FactoryGirl.create :permissionset}
     user {User.find_random || (FactoryGirl.create :user)} 
 
     media_resource do 
@@ -110,7 +118,11 @@ FactoryGirl.define do
 
   factory :grouppermission do
 
-    permissionset {FactoryGirl.create :permissionset}
+    view {FactoryHelper.rand_bool 1/4.0}
+    download { view and FactoryHelper.rand_bool}
+    edit {FactoryHelper.rand_bool 1/4.0}
+    manage {edit and FactoryHelper.rand_bool}
+
     group {Group.find_random || (FactoryGirl.create :group)}
 
     media_resource do 
