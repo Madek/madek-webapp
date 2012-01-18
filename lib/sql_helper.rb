@@ -50,4 +50,29 @@ module SQLHelper
     end
   end
 
+
+  def actionable_media_resources_users_by_userpermission action
+    Userpermission.select("media_resource_id,user_id").where(action => true)
+  end
+
+  def actionable_media_resources_users_disallowed_by_userpermission action
+    Userpermission.select("media_resource_id,user_id").where(action => false)
+  end
+
+  def  actionable_media_resources_users_by_grouppermission action
+    Grouppermission.joins(:group => :users) \
+      .select("media_resource_id,user_id").where(action => true)
+  end
+
+  def actionable_media_resources_users_by_publicpermission action
+    User.joins("CROSS JOIN media_resources") \
+      .select("media_resources.id as media_resource_id, users.id as user_id") \
+      .where("media_resources.#{action}" => true )
+  end
+
+  def actionable_media_resources_users_by_ownership action
+      MediaResource.select("media_resources.id as media_resource_id, user_id as user_id") 
+  end
+
+
 end

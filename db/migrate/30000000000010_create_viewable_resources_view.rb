@@ -5,27 +5,18 @@ class CreateViewableResourcesView < ActiveRecord::Migration
 
     Constants::Actions.each do |action|
 
-        actionable_by_userpermission= \
-          Userpermission.select("media_resource_id,user_id").where(action => true)
+        actionable_by_userpermission=  actionable_media_resources_users_by_userpermission action
         
-        actionable_disallowed_by_userpermission=  \
-          Userpermission.select("media_resource_id,user_id").where(action => false)
+        actionable_disallowed_by_userpermission=  actionable_media_resources_users_disallowed_by_userpermission action
 
-        actionable_by_grouppermission= \
-          Grouppermission.joins(:group => :users) \
-          .select("media_resource_id,user_id").where(action => true)
-
+        actionable_by_grouppermission= actionable_media_resources_users_by_grouppermission action
 
         actionable_by_gp_not_denied_by_up= actionable_by_grouppermission
           .where(" (media_resource_id,user_id)  NOT IN (#{actionable_disallowed_by_userpermission.to_sql}) ")
 
-        actionable_by_publicpermission= 
-          User.joins("CROSS JOIN media_resources") \
-          .select("media_resources.id as media_resource_id, users.id as user_id") \
-          .where("media_resources.#{action}" => true )
+        actionable_by_publicpermission=  actionable_media_resources_users_by_publicpermission action
         
-        actionable_by_ownership=  
-          MediaResource.select("media_resources.id as media_resource_id, user_id as user_id") 
+        actionable_by_ownership= actionable_media_resources_users_by_ownership action
 
         actionable_users= <<-SQL 
           SELECT * FROM  #{action}able_media_resources_by_userpermission
