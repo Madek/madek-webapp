@@ -10,7 +10,7 @@ module Permissions
 
       if resource.user == user
         true
-      elsif resource.permissionset.send(action) == true
+      elsif resource.send(action) == true
         true
       elsif userpermission_disallows action, resource, user
         false

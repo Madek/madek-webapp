@@ -2,17 +2,11 @@ require 'spec_helper'
 
 describe "Permissions" do
 
-  before :all do
-    # DataFactory.create_small_dataset
-    @permissionset_view_false  = FactoryGirl.create :permissionset, view: false, download: false, edit: false, manage: false
-    @permissionset_view_true  = FactoryGirl.create :permissionset, view: true, download: false, edit: false, manage: false
-  end
-
   describe "A public viewable Mediaresource" do
 
     before(:each) do
       @owner = FactoryGirl.create :user
-      @media_resource = FactoryGirl.create :media_resource, user: @owner, permissionset: @permissionset_view_true
+      @media_resource = FactoryGirl.create :media_resource, user: @owner, view: true
       @user = FactoryGirl.create :user
     end
 
@@ -23,7 +17,7 @@ describe "Permissions" do
     context "the user is not allowed by user permissions" do
 
       before(:each) do
-        FactoryGirl.create :userpermission, user: @user, media_resource: @media_resource, permissionset: @permissionset_view_false
+        FactoryGirl.create :userpermission, user: @user, media_resource: @media_resource, view: false
       end
 
       it "should be viewable by the user" do
@@ -39,7 +33,7 @@ describe "Permissions" do
 
     before(:each) do
       @owner = FactoryGirl.create :user
-      @media_resource = FactoryGirl.create :media_resource, user: @owner, permissionset: @permissionset_view_false
+      @media_resource = FactoryGirl.create :media_resource, user: @owner, view: false
       @user = FactoryGirl.create :user
     end
 
@@ -48,7 +42,7 @@ describe "Permissions" do
     end
 
     it "can be viewed by its owner even if the owner is disallowed by a userpermission"  do
-      FactoryGirl.create :userpermission, user: @owner, media_resource: @media_resource, permissionset: @permissionset_view_false
+      FactoryGirl.create :userpermission, user: @owner, media_resource: @media_resource, view: false
       (Permissions.authorized? @owner, :view , @media_resource).should == true
     end
 
@@ -59,7 +53,7 @@ describe "Permissions" do
     context "when a userpermission allows the user" do
 
       before(:each) do
-        FactoryGirl.create :userpermission, user: @user, media_resource: @media_resource, permissionset: @permissionset_view_true
+        FactoryGirl.create :userpermission, user: @user, media_resource: @media_resource, view: true
       end
 
       it "should be be viewable by the user" do
@@ -73,7 +67,7 @@ describe "Permissions" do
       before(:each) do
         @group = FactoryGirl.create :group
         @group.users << @user
-        FactoryGirl.create :grouppermission, permissionset: @permissionset_view_true, group: @group, media_resource: @media_resource
+        FactoryGirl.create :grouppermission, view: true, group: @group, media_resource: @media_resource
       end
 
       it "should be be viewable for the user" do
@@ -82,7 +76,7 @@ describe "Permissions" do
 
       context "when a userpermission denies the user to view" do
         before(:each) do
-          FactoryGirl.create :userpermission, user: @user, media_resource: @media_resource, permissionset: @permissionset_view_false
+          FactoryGirl.create :userpermission, user: @user, media_resource: @media_resource, view: false
         end
 
         it "should not be viewable for the user" do

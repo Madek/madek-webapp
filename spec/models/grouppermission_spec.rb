@@ -14,14 +14,6 @@ describe Grouppermission do
       expect {gp.destroy}.not_to raise_error
     end
 
-    it "should destroy the permissionset after destroying the grouppermission" do
-      gp = (FactoryGirl.create :grouppermission)
-      pid = gp.permissionset.id
-      gp.destroy
-      (Permissionset.exists? pid).should == false
-    end
-
-
     context "because of data consistency" do
 
       it "should raise an error if the group is set to null" do
