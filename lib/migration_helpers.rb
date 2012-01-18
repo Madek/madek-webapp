@@ -8,6 +8,9 @@ module MigrationHelpers
 
   # view
   def create_view view_name, sql
+
+    sql = (sql.class == ActiveRecord::Relation)? sql.to_sql : sql.to_s
+
     cmd = "CREATE VIEW #{view_name} AS #{sql} ;"
     #puts "#{cmd}\n"
     execute_sql cmd
@@ -85,6 +88,16 @@ module MigrationHelpers
   
   # TODO make the next ones more DRY
    
+
+  def remove_fkey_constraint from_table, from_column, to_table
+    name = "#{from_table}_#{from_column}_#{to_table}_fkey"
+    if adapter_is_mysql? 
+      execute_sql "ALTER TABLE #{from_table} DROP FOREIGN KEY #{name};"
+    elsif adapter_is_postgresql? 
+      execute_sql "ALTER TABLE #{from_table} DROP CONSTRAINT #{name};"
+    end
+  end
+    
   def add_fkey_referrence_constraint from_table, to_table, from_column=nil 
 
     from_table_name = infer_table_name from_table
@@ -96,15 +109,17 @@ module MigrationHelpers
 
   end
 
-  def remove_fkey_constraint from_table, from_column, to_table
-    name = "#{from_table}_#{from_column}_#{to_table}_fkey"
-    if adapter_is_mysql? 
-      execute_sql "ALTER TABLE #{from_table} DROP FOREIGN KEY #{name};"
-    elsif adapter_is_postgresql? 
-      execute_sql "ALTER TABLE #{from_table} DROP CONSTRAINT #{name};"
-    end
+  def add_fkey_referrence_constraint from_table, to_table, from_column=nil 
+
+    from_table_name = infer_table_name from_table
+    to_table_name = infer_table_name to_table
+    from_column ||= fkey_name to_table_name
+    contraint_name = "#{from_table_name}_#{from_column}_#{to_table_name}_fkey"
+
+    execute_sql "ALTER TABLE #{from_table_name} ADD CONSTRAINT #{contraint_name} FOREIGN KEY (#{from_column}) REFERENCES #{to_table_name} (id) ;"
+
   end
-    
+
   def fkey_cascade_on_delete from_table, to_table, from_column=nil 
 
     from_table_name = infer_table_name from_table

@@ -5,9 +5,12 @@ class ChangeMediaResourceModel < ActiveRecord::Migration
   def up
 
     change_table :media_resources do |t| 
-      t.references :permissionset, null: false, unique: true
       t.index :created_at
-      t.index :permissionset_id
+
+      Actions.each do |action|
+        t.boolean action, null: false, default: false, index: true
+      end
+
     end
     
   end
@@ -15,9 +18,9 @@ class ChangeMediaResourceModel < ActiveRecord::Migration
   def down
 
     change_table :media_resources do |t| 
-      t.remove_index :created_at
-      t.remove_index :permissionset_id
-      t.remove :permissionset
+      Actions.each do |action|
+        t.remove action
+      end
     end
 
   end

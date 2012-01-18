@@ -6,14 +6,15 @@ class CreateUserpermissions < ActiveRecord::Migration
 
     create_table :userpermissions do |t|
       t.references :media_resource, null: false
-      t.references :permissionset, null: false
       t.references :user, null: false
+      Actions.each do |action|
+        t.boolean action, null: false, default: false, index: true
+      end
     end
 
     change_table :userpermissions do |t|
       t.index ref_id(MediaResource)
-      t.index  ref_id(Permissionset)
-      t.index  ref_id(User)
+      t.index ref_id(User)
       t.index [ref_id(MediaResource),ref_id(User)], unique: true
     end
 

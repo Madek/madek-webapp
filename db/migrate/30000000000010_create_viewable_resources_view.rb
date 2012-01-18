@@ -5,23 +5,16 @@ class CreateViewableResourcesView < ActiveRecord::Migration
 
     Constants::Actions.each do |action|
 
-        actionable_by_userpermission= <<-SQL
-          SELECT media_resource_id as media_resource_id, user_id as user_id 
-            FROM userpermissions 
-            JOIN permissionsets ON permissionsets.id = userpermissions.permissionset_id
-            WHERE permissionsets.#{action} = true;
-        SQL
-
-        actionable_disallowed_by_userpermission=  \
-          actionable_by_userpermission.gsub /true/, "false"
+        actionable_by_userpermission= \
+          Userpermission.select("media_resource_id,user_id").where(action => true)
         
-        actionable_by_grouppermission= <<-SQL
-          SELECT media_resource_id as media_resource_id, user_id as user_id 
-            FROM grouppermissions
-              JOIN permissionsets ON permissionsets.id = grouppermissions.permissionset_id
-              JOIN groups_users ON groups_users.group_id = grouppermissions.group_id
-            WHERE permissionsets.#{action} = true; 
-          SQL
+        actionable_disallowed_by_userpermission=  \
+          Userpermission.select("media_resource_id,user_id").where(action => false)
+
+        actionable_by_grouppermission= \
+          Grouppermission.joins(:group => :users) \
+          .select("media_resource_id,user_id").where(action => true)
+
 
         actionable_by_gp_not_denied_by_up=  <<-SQL
           SELECT * from #{action}able_media_resources_by_grouppermission
@@ -29,7 +22,12 @@ class CreateViewableResourcesView < ActiveRecord::Migration
             NOT IN (SELECT media_resource_id,user_id from #{action}able_media_resources_disallowed_by_userpermission);
         SQL
 
-        actionable_by_publicpermission= <<-SQL
+        actionable_by_publicpermission= 
+          User.joins("CROSS JOIN media_resources") \
+          .select("media_resources.id as media_resource_id, users.id as user_id") \
+          .where("media_resources.#{action}" => true )
+        
+        <<-SQL
           SELECT media_resources.id as media_resource_id, users.id as user_id 
             FROM media_resources
             INNER JOIN permissionsets ON permissionsets.id = media_resources.permissionset_id
