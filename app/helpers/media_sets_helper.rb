@@ -84,7 +84,7 @@ module MediaSetsHelper
   end
 
   def media_sets_setter(form_path, with_cancel_button = false)
-    editable_sets = current_user.editable_media_sets
+    editable_sets = MediaResource.accessible_by_user(current_user, :edit).media_sets
     form_tag form_path, :id => "set_media_sets" do
       b = content_tag :h3, :style => "clear: both" do
         _("Zu Set hinzufügen:")

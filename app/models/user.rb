@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   include Subject
 
   Constants::Actions.each do |action|
-    {media_resource: MediaResource, media_entry: MediaEntry, media_set: MediaSet}.each do |singular,model|
+    {media_resource: MediaResource}.each do |singular,model|
       has_and_belongs_to_many "#{action}able_#{singular.to_s.pluralize}",  class_name: model.to_s, 
         join_table: "#{action}able_#{singular.to_s.pluralize}_users", foreign_key: :user_id, association_foreign_key: "#{singular.to_s}_id"
     end

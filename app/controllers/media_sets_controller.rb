@@ -85,7 +85,7 @@ class MediaSetsController < ApplicationController
                    .joins(" INNER JOIN #{action}able_media_resources_users ON media_resources.id = media_resource_id ") \
                    .where(" #{action}able_media_resources_users.user_id = #{current_user.id} ") 
                else
-                 current_user.send "#{action}able_media_sets"
+                 (current_user.send "#{action}able_media_resources").media_sets
                end
 
 
@@ -104,7 +104,7 @@ class MediaSetsController < ApplicationController
     params[:per_page] ||= PER_PAGE.first
 
     paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
-    resources = current_user.viewable_media_resources.by_media_set(@media_set).paginate(paginate_options)
+    resources = MediaResource.accessible_by_user(current_user).by_media_set(@media_set).paginate(paginate_options)
     
     @can_edit_set = Permissions.authorized?(current_user, :edit, @media_set)
     @parents = @media_set.parent_sets.as_json(:user => current_user)
@@ -143,7 +143,6 @@ class MediaSetsController < ApplicationController
   end
 
   def abstract
-    # TODO Tom check following line with Franco
     @_media_entry_ids = current_user.viewable_media_resources.media_entries.by_media_set(@media_set).map(&:id)
     respond_to do |format|
       format.js { render :layout => false }
