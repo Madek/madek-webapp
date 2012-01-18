@@ -249,11 +249,11 @@ class MediaEntriesController < ApplicationController
         selected_ids = params[:media_entry_ids].split(",").map{|e| e.to_i }
         @media_entries = case action
           when :edit_multiple, :update_multiple
-            current_user.editable_media_resources
+            MediaResource.accessible_by_user(current_user, :edit)
           when :edit_multiple_permissions
-            current_user.manageable_media_resources
+            MediaResource.accessible_by_user(current_user, :manage)
           when :remove_multiple
-            current_user.editable_media_resources
+            MediaResource.accessible_by_user(current_user, :view)
         end.media_entries.where(:id => selected_ids)
      else
        flash[:error] = "Sie haben keine Medieneinträge ausgewählt."

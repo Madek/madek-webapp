@@ -60,7 +60,7 @@ class MediaSetsController < ApplicationController
     respond_to do |format|
       #-# only used for FeaturedSet
       format.html {
-        resources = current_user.viewable_media_resources.media_sets
+        resources = MediaResource.accessible_by_user(current_user).media_sets
     
         @media_sets, @my_media_sets, @my_title, @other_title = if @media_set
           # all media_sets I can see, nested within a media set (for now only used with featured sets)
@@ -143,7 +143,7 @@ class MediaSetsController < ApplicationController
   end
 
   def abstract
-    @_media_entry_ids = current_user.viewable_media_resources.media_entries.by_media_set(@media_set).map(&:id)
+    @_media_entry_ids = MediaResource.accessible_by_user(current_user).media_entries.by_media_set(@media_set).map(&:id)
     respond_to do |format|
       format.js { render :layout => false }
     end

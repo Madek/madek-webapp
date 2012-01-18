@@ -498,9 +498,7 @@ public
 
 
   def self.accessible_by_user(user, action = :view)
-    # TODO Tom & Franco, it is most likely unefficient to call this method and then
-    # map it to media_whatever ....
-    user.send "#{Constants::Actions.old2new action}able_media_resources"
+    user.send("#{Constants::Actions.old2new action}able_media_resources").select("DISTINCT *").order("created_at DESC ")
   end
 
 
