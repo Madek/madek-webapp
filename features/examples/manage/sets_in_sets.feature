@@ -3,6 +3,7 @@ Feature: Sets in Sets
   Background: Set up the world with a user and logging in
     Given I have set up the world
       And a user called "Max" with username "max" and password "moritz" exists
+      And I log in as "max" with password "moritz"
       And I am logged in as "max"
 
   # We should do this when we attack the rest of the technical debt, do optimization
@@ -48,7 +49,7 @@ Feature: Sets in Sets
   # Pts: 40 - ?
   # Cannot be solved before we attack this: https://www.pivotaltracker.com/story/show/21437563
   # This includes refactoring of media sets/entries -> resources
-  @current
+  @current @javascript
   Scenario: Add a set to my favorites
    Given I see some sets
     When I add them to my favorites

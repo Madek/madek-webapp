@@ -47,8 +47,7 @@ class MediaEntry < MediaResource
 
   def as_json(options={})
     h = { :is_set => false,
-          :can_maybe_browse => !meta_data.for_meta_terms.blank?,
-          :is_favorite => user.favorite_ids.include?(id) #,
+          :can_maybe_browse => !meta_data.for_meta_terms.blank? #,
           #:thumb_base64 => media_file.try(:thumb_base64, :small_125)
         }
     super(options).merge(h)
