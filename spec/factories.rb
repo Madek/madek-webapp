@@ -15,6 +15,15 @@ module DataFactory
     end
   end
 
+  def create_permission_migration_dataset
+    ActiveRecord::Base.transaction do
+      (1..50).each {FactoryGirl.create :user}
+      (1..50).each {FactoryGirl.create :media_entry}
+      (1..50).each {FactoryGirl.create :media_set}
+      (1..10).each {FactoryGirl.create :permission}
+    end
+  end
+
   def create_small_dataset 
     ActiveRecord::Base.transaction do
       (1..10).each {FactoryGirl.create :user}
@@ -108,6 +117,17 @@ FactoryGirl.define do
   end
 
   ### Permissions ...
+
+
+  factory :permission do
+    subject {FactoryHelper.rand_bool ? User.find_random : Group.find_random }
+    media_resource { MediaResource.find_random }
+    after_build do |perm| 
+      permissions = {:view => FactoryHelper.rand_bool, :edit => FactoryHelper.rand_bool, :manage => FactoryHelper.rand_bool, :hi_res => FactoryHelper.rand_bool}
+      perm.set_actions permissions 
+    end
+  end
+ 
 
 
 
