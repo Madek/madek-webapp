@@ -15,19 +15,18 @@ class CreateViewableResourcesView < ActiveRecord::Migration
           Grouppermission.joins(:group => :users) \
           .select("media_resource_id,user_id").where(action => true)
 
-        actionable_by_gp_not_denied_by_up=  <<-SQL
-          SELECT * from #{action}able_media_resources_by_grouppermission
-          WHERE (media_resource_id,user_id) 
-            NOT IN (SELECT media_resource_id,user_id from #{action}able_media_resources_disallowed_by_userpermission);
-        SQL
+
+        actionable_by_gp_not_denied_by_up= actionable_by_grouppermission
+          .where(" (media_resource_id,user_id)  NOT IN (#{actionable_disallowed_by_userpermission.to_sql}) ")
 
         actionable_by_publicpermission= 
           User.joins("CROSS JOIN media_resources") \
           .select("media_resources.id as media_resource_id, users.id as user_id") \
           .where("media_resources.#{action}" => true )
         
-        actionable_by_ownership= "SELECT media_resources.id as media_resource_id, user_id as user_id from media_resources; "
-        
+        actionable_by_ownership=  
+          MediaResource.select("media_resources.id as media_resource_id, user_id as user_id") 
+
         actionable_users= <<-SQL 
           SELECT * FROM  #{action}able_media_resources_by_userpermission
             UNION SELECT * from #{action}able_media_resources_by_gp_not_denied_by_up
