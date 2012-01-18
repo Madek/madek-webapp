@@ -34,9 +34,9 @@ class UploadController < ApplicationController
     
     pre_load # OPTIMIZE
     @media_entries.each do |media_entry|
-      media_entry.permissionset.download = hi_res_download
-      media_entry.permissionset.edit = edit_action
-      media_entry.permissionset.view = view_action
+      media_entry.download = hi_res_download
+      media_entry.edit = edit_action
+      media_entry.view = view_action
     end
 
     if params[:view].to_sym == :zhdk_users

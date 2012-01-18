@@ -26,14 +26,6 @@ class CreateViewableResourcesView < ActiveRecord::Migration
           .select("media_resources.id as media_resource_id, users.id as user_id") \
           .where("media_resources.#{action}" => true )
         
-        <<-SQL
-          SELECT media_resources.id as media_resource_id, users.id as user_id 
-            FROM media_resources
-            INNER JOIN permissionsets ON permissionsets.id = media_resources.permissionset_id
-            CROSS JOIN users
-            WHERE permissionsets.#{action} = true;
-          SQL
-
         actionable_by_ownership= "SELECT media_resources.id as media_resource_id, user_id as user_id from media_resources; "
         
         actionable_users= <<-SQL 

@@ -19,20 +19,20 @@ class PermissionsController < ApplicationController
 
     permissions[:public] = {:name => "Öffentlich", :type => 'nil'}.merge(
       Constants::Actions.inject({}) do |acc,action|
-      acc.merge( (Constants::Actions.new2old action) => (@resource.permissionset.send action))
+      acc.merge( (Constants::Actions.new2old action) => (@resource.send action))
       end)
 
     permissions["Group"] = @resource.grouppermissions.map do |grouppermission|
       {name: grouppermission.group.name, id: grouppermission.group.id, type: "Group"}.merge(
       Constants::Actions.inject({}) do |acc,action|
-        acc.merge( (Constants::Actions.new2old action) => (grouppermission.permissionset.send action))
+        acc.merge( (Constants::Actions.new2old action) => (grouppermission.send action))
       end)
     end
 
     permissions["User"] = @resource.userpermissions.map do |userpermission|
       {name: userpermission.user.name, id: userpermission.user.id, type: "User"}.merge(
         Constants::Actions.inject(Hash.new) do |acc,action|
-        acc.merge( (Constants::Actions.new2old action) => (userpermission.permissionset.send action))
+        acc.merge( (Constants::Actions.new2old action) => (userpermission.send action))
         end)
     end
 
@@ -53,20 +53,20 @@ class PermissionsController < ApplicationController
       @resources.each do |resource|
 
         params[:subject]["nil"].each do |s_action,s_bool| 
-          resource.permissionset.send("#{Constants::Actions.old2new(s_action)}=",s_bool == "true")
+          resource.send("#{Constants::Actions.old2new(s_action)}=",s_bool == "true")
         end
-        resource.permissionset.save!
+        resource.save!
 
         resource.userpermissions.destroy_all
         params[:subject][:User] and  params[:subject][:User].each do |s_id,s_actions|
-          Userpermission.create media_resource: resource, user: (User.find s_id), permissionset: (
-            Permissionset.create view: (s_actions[:view] == "true"), download: (s_actions[:hi_res] == "true"), edit: (s_actions[:edit] == "true"))
+          Userpermission.create media_resource: resource, user: (User.find s_id), \
+            view: (s_actions[:view] == "true"), download: (s_actions[:hi_res] == "true"), edit: (s_actions[:edit] == "true")
         end
 
         resource.grouppermissions.destroy_all
         params[:subject][:Group] and  params[:subject][:Group].each do |s_id,s_actions|
-          Grouppermission.create media_resource: resource, group: (Group.find s_id), permissionset: (
-            Permissionset.create view: (s_actions[:view] == "true"), download: (s_actions[:hi_res] == "true"), edit: (s_actions[:edit] == "true"))
+          Grouppermission.create media_resource: resource, group: (Group.find s_id),\ 
+            view: (s_actions[:view] == "true"), download: (s_actions[:hi_res] == "true"), edit: (s_actions[:edit] == "true")
         end
 
       end

@@ -8,13 +8,6 @@ class MediaResource < ActiveRecord::Base
   belongs_to :media_file
   belongs_to :upload_session
 
-  ### Permissionset >>>
-  belongs_to :permissionset
-  before_create do |r| 
-    r.permissionset= Permissionset.create unless r.permissionset 
-  end
-  ### Permissionset <<<
-
 
  # TODO observe bulk changes and reindex once
   has_many :meta_data, :dependent => :destroy do #working here#7 :include => :meta_key
