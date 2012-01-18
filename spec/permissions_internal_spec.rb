@@ -4,16 +4,14 @@ describe "Internal Permissions" do
 
   before :all do
     # DataFactory.create_small_dataset
-    @permissionset_view_false  = FactoryGirl.create :permissionset, view: false, download: false, edit: false, manage: false
-    @permissionset_view_true  = FactoryGirl.create :permissionset, view: true, download: false, edit: false, manage: false
-    @media_resource = FactoryGirl.create :media_resource, permissionset: @permissionset_view_false
+    @media_resource = FactoryGirl.create :media_resource, view: false
     @user = FactoryGirl.create :user
   end
 
   context "function userpermission_disallows" do
 
     it "should return not nil if there is a userpermission that disallows" do
-      FactoryGirl.create :userpermission, permissionset: @permissionset_view_false, user: @user, media_resource: @media_resource
+      FactoryGirl.create :userpermission, view: false, user: @user, media_resource: @media_resource
       (Permissions.userpermission_disallows :view, @media_resource, @user).should_not == nil
     end
 
@@ -27,7 +25,7 @@ describe "Internal Permissions" do
   context "function userpermission_allows " do
 
     it "should return not nil if there is a userpermission that allows " do
-      FactoryGirl.create :userpermission, permissionset: @permissionset_view_true, user: @user, media_resource: @media_resource
+      FactoryGirl.create :userpermission, view: true, user: @user, media_resource: @media_resource
       (Permissions.userpermission_allows :view, @media_resource, @user).should_not == nil
     end
 
@@ -50,13 +48,13 @@ describe "Internal Permissions" do
 
       
     it "should return nil if there is a grouppermission that does not allow " do
-      FactoryGirl.create :grouppermission, permissionset: @permissionset_view_false, group: @group, media_resource: @media_resource
+      FactoryGirl.create :grouppermission, view: false, group: @group, media_resource: @media_resource
       (Permissions.grouppermission_allows :view, @media_resource, @user).should == nil
     end
 
 
     it "should return not nil if there is a grouppermission that allows " do
-      FactoryGirl.create :grouppermission, permissionset: @permissionset_view_true, group: @group, media_resource: @media_resource
+      FactoryGirl.create :grouppermission, view: true, group: @group, media_resource: @media_resource
       (Permissions.grouppermission_allows :view, @media_resource, @user).should_not == nil
     end
 

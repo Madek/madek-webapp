@@ -33,26 +33,20 @@ module Permissions
     ### private
 
     def userpermission_disallows action, resource, user
-      Userpermission.joins(:permissionset)
-      .where("permissionsets.#{action} = false")
-      .where(user_id: user.id)
-      .where(media_resource_id: resource.id)
-      .first
+      Userpermission.where(action => false).where(user_id: user).where(media_resource_id: resource).first
     end
+
 
     def userpermission_allows action, resource, user
-      Userpermission.joins(:permissionset)
-      .where("permissionsets.#{action} = true")
-      .where(user_id: user.id)
-      .where(media_resource_id: resource.id)
-      .first
+      Userpermission.where(action => true).where(user_id: user).where(media_resource_id: resource).first
     end
 
+
     def grouppermission_allows action, resource, user
-      Grouppermission.joins(:permissionset,:group => :users)
+      Grouppermission.joins(:group => :users)
         .where(media_resource_id: resource.id)
-        .where("permissionsets.#{action} = true")
-        .where("groups_users.user_id = #{user.id}")
+        .where(action => true)
+        .where("groups_users.user_id" => user)
         .first
     end
 

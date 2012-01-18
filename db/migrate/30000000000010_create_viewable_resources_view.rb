@@ -15,7 +15,6 @@ class CreateViewableResourcesView < ActiveRecord::Migration
           Grouppermission.joins(:group => :users) \
           .select("media_resource_id,user_id").where(action => true)
 
-
         actionable_by_gp_not_denied_by_up=  <<-SQL
           SELECT * from #{action}able_media_resources_by_grouppermission
           WHERE (media_resource_id,user_id) 
