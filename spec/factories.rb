@@ -5,12 +5,14 @@ module DataFactory
   extend self
 
   def clear_data 
-    MediaEntry.all.each {|e| e.destroy}
-    MediaSet.all.each {|e| e.destroy}
-    MediaResource.all.each {|e| e.destroy}
-    Grouppermission.all.each {|e| e.destroy}
-    Userpermission.all.each {|e| e.destroy}
-    User.all.each {|e| e.destroy}
+    ActiveRecord::Base.transaction do
+      MediaEntry.all.each {|e| e.destroy}
+      MediaSet.all.each {|e| e.destroy}
+      MediaResource.all.each {|e| e.destroy}
+      Grouppermission.all.each {|e| e.destroy}
+      Userpermission.all.each {|e| e.destroy}
+      User.all.each {|e| e.destroy}
+    end
   end
 
   def create_small_dataset 
@@ -59,6 +61,12 @@ FactoryGirl.define do
     upload_session {FactoryGirl.create :upload_session}
     user {upload_session.user}
     media_file {FactoryGirl.create :media_file}
+
+    view {FactoryHelper.rand_bool 1/10.0}
+    download { view and FactoryHelper.rand_bool}
+    edit {FactoryHelper.rand_bool 1/10.0}
+    manage {edit and FactoryHelper.rand_bool}
+
     after_build do |me|
       def me.extract_subjective_metadata; end
       def me.set_copyright; end
@@ -81,14 +89,22 @@ FactoryGirl.define do
 
   factory :media_resource do
     user {User.find_random || (FactoryGirl.create :user)}
-    view {FactoryHelper.rand_bool 1/4.0}
+
+    view {FactoryHelper.rand_bool 1/10.0}
     download { view and FactoryHelper.rand_bool}
-    edit {FactoryHelper.rand_bool 1/4.0}
+    edit {FactoryHelper.rand_bool 1/10.0}
     manage {edit and FactoryHelper.rand_bool}
   end
 
   factory :media_set do
+
     user {User.find_random || (FactoryGirl.create :user)}
+
+    view {FactoryHelper.rand_bool 1/10.0}
+    download { view and FactoryHelper.rand_bool}
+    edit {FactoryHelper.rand_bool 1/10.0}
+    manage {edit and FactoryHelper.rand_bool}
+
   end
 
   ### Permissions ...
