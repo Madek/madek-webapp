@@ -7,12 +7,22 @@ class User < ActiveRecord::Base
 
   include Subject
 
-  Constants::Actions.each do |action|
-    {media_resource: MediaResource}.each do |singular,model|
-      has_and_belongs_to_many "#{action}able_#{singular.to_s.pluralize}",  class_name: model.to_s, 
-        join_table: "#{action}able_#{singular.to_s.pluralize}_users", foreign_key: :user_id, association_foreign_key: "#{singular.to_s}_id"
-    end
-  end
+  has_and_belongs_to_many "viewable_media_resources",  class_name: MediaResource.name, 
+    join_table: "viewable_media_resources_users", foreign_key: :user_id, association_foreign_key: :media_resource_id, 
+    :delete_sql => "SELECT false;" # otherwise rails will try to delete rows in the view
+
+
+  has_and_belongs_to_many "editable_media_resources",  class_name: MediaResource.name, 
+    join_table: "editable_media_resources_users", foreign_key: :user_id, association_foreign_key: :media_resource_id,
+    :delete_sql => "SELECT false;" # otherwise rails will try to delete rows in the view
+
+  has_and_belongs_to_many "manageable_media_resources",  class_name: MediaResource.name, 
+    join_table: "manageable_media_resources_users", foreign_key: :user_id, association_foreign_key: :media_resource_id,
+    :delete_sql => "SELECT false;" # otherwise rails will try to delete rows in the view
+
+  has_and_belongs_to_many "downloadable_media_resources",  class_name: MediaResource.name, 
+    join_table: "downloadable_media_resources_users", foreign_key: :user_id, association_foreign_key: :media_resource_id,
+    :delete_sql => "SELECT false;" # otherwise rails will try to delete rows in the view
 
   def destroy 
     # TODO, for now since the above is not compatible with destroy, seems to be a rails problem
