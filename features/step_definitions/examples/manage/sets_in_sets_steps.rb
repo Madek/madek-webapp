@@ -63,3 +63,69 @@ Then /^I see an abstract of the most assigned values from media entries using th
 end
 
 ##########################################################################
+
+Given /^are some sets and entries$/ do
+  
+end
+
+When /^I open the sets in sets tool$/ do
+  
+end
+
+Then /^I see all sets I can edit$/ do
+
+end
+
+Then /^I can see the owner of each set$/ do
+
+end
+
+Then /^I can see that selected sets are already highlighted$/ do
+
+end
+
+Then /^I can choose to see additional information$/ do
+
+end
+
+Then /^I can read the first 30 characters of each set title$/ do
+
+end
+
+Then /^I can see enough information to differentiate between similar sets$/ do
+
+end
+
+##########################################################################
+
+Given /^multiple resources are in my selection$/ do
+  
+end
+
+Given /^they are in various different sets$/ do
+  
+end
+
+When /^I open the sets in sets tool$/ do
+
+end
+
+When /^I see the sets none of them are in$/ do
+
+end
+
+When /^I see the sets some of them are in$/ do
+
+end
+
+When /^I see the sets all of them are in$/ do
+
+end
+
+When /^I can add all of them to one set$/ do
+
+end
+
+When /^I can remove all of them from one set$/ do
+
+end
