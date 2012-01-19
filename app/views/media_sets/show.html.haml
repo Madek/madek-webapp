@@ -20,9 +20,9 @@
             = display_delete_icon(@media_set, current_user)
           = link_to "", :title => "Zu Set hinzufügen/entfernen",
             :class=>"has-set-widget",
-            :"data-id" => "#{@media_set.id}",
-            :"data-user" => "#{current_user.to_json(:only => {}, :methods => :name)}",
+            :"data-current_id" => "#{@media_set.id}",
             :"data-detach_my_self" => "true",
+            :"data-user" => "#{current_user.to_json(:only => {}, :methods => :name)}",
             :"data-after_submit" => "window.location.reload();",
             :"data-index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "with" => {"set" => {"creator" => 1, "created_at" => 1, "title" => 1}}}}.to_json}",
             :"data-linked_index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "child" => {"id" => @media_set.id, "type" => "set"}}}.to_json}",
