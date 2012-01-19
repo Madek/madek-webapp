@@ -7,34 +7,13 @@ class User < ActiveRecord::Base
 
   include Subject
 
-  has_and_belongs_to_many "viewable_media_resources",  class_name: MediaResource.name, 
-    join_table: "viewable_media_resources_users", foreign_key: :user_id, association_foreign_key: :media_resource_id, 
-    :delete_sql => "SELECT false;" # otherwise rails will try to delete rows in the view
-
-
-  has_and_belongs_to_many "editable_media_resources",  class_name: MediaResource.name, 
-    join_table: "editable_media_resources_users", foreign_key: :user_id, association_foreign_key: :media_resource_id,
-    :delete_sql => "SELECT false;" # otherwise rails will try to delete rows in the view
-
-  has_and_belongs_to_many "manageable_media_resources",  class_name: MediaResource.name, 
-    join_table: "manageable_media_resources_users", foreign_key: :user_id, association_foreign_key: :media_resource_id,
-    :delete_sql => "SELECT false;" # otherwise rails will try to delete rows in the view
-
-  has_and_belongs_to_many "downloadable_media_resources",  class_name: MediaResource.name, 
-    join_table: "downloadable_media_resources_users", foreign_key: :user_id, association_foreign_key: :media_resource_id,
-    :delete_sql => "SELECT false;" # otherwise rails will try to delete rows in the view
-
-  def destroy 
-    # TODO, for now since the above is not compatible with destroy, seems to be a rails problem
-    warn "destroy will is overwitten to use delete in the background"
-    delete
-  end
-
   belongs_to :person
   delegate :name, :to => :person
   delegate :fullname, :to => :person
 
   has_many :userpermissions
+
+  has_many :media_resources
 
   has_many :upload_sessions do
     def latest

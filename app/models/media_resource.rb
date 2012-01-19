@@ -362,10 +362,7 @@ class MediaResource < ActiveRecord::Base
 
 
   def managers
-    # TODO Tom fix this
-    User \
-      .joins("INNER JOIN  manageable_media_resources_users ON manageable_media_resources_users.user_id = users.id") \
-      .joins("INNER JOIN media_resources ON media_resources.id = manageable_media_resources_users.media_resource_id")
+    users_permitted_to_act_on_resouce self, :manage
   end
 
 
@@ -509,23 +506,7 @@ public
 
 
   def self.accessible_by_user(user, action = :view)
-
-    up = Userpermission.select("media_resource_id").where(action => true).where("user_id = #{user.id} ")
-    not_up= Userpermission.select("media_resource_id").where(action => false).where("user_id = #{user.id} ")
-    gp_not_dis_up = Grouppermission.select("media_resource_id").where(action => true).joins(:group).joins("INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id ").where("groups_users.user_id = #{user.id}").where(" media_resource_id NOT IN ( #{not_up.to_sql} )")
-    ownership = MediaResource.select("media_resources.id").where(user_id: user)
-    public_mr = MediaResource.select("media_resources.id").where(action => true)
-
-    where(" media_resources.id IN  (
-          #{up.to_sql} 
-        UNION
-          #{gp_not_dis_up.to_sql} 
-        UNION
-          #{ownership.to_sql}
-        UNION 
-          #{public_mr.to_sql}
-              )")
-
+    Permissions.resources_permissible_for_user user, action
   end
 
 end

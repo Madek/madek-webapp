@@ -52,7 +52,7 @@ module SQLHelper
 
 
   def actionable_media_resources_users_by_userpermission action
-    Userpermission.select("media_resource_id,user_id").where(action => true)
+    Userpermission.where(action => true)
   end
 
   def actionable_media_resources_users_disallowed_by_userpermission action

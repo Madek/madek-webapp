@@ -1,5 +1,13 @@
 
 
+SELECT "users".* FROM "users" 
+  INNER JOIN "groups_users" ON "groups_users"."user_id" = "users"."id" 
+  INNER JOIN "groups" ON "groups"."id" = "groups_users"."group_id" 
+  INNER JOIN "grouppermissions" ON "grouppermissions"."group_id" = "groups"."id" 
+  INNER JOIN "media_resources" ON "media_resources"."id" = "grouppermissions"."media_resource_id" 
+  WHERE "grouppermissions"."view" = 't'  
+  NOT IN ( SELECT "users".* FROM "users" INNER JOIN "userpermissions" ON "userpermissions"."user_id" = "users"."id" INNER JOIN "media_resources" ON "media_resources"."id" = "userpermissions"."media_resource_id" WHERE "userpermissions"."view" = 't' AND "media_resources"."id" = 1 AND "userpermissions"."view" = 'f' )
+
 SELECT "media_resources".* FROM "media_resources"  WHERE ( media_resources.id IN  (
          SELECT media_resource_id FROM "userpermissions"  WHERE "userpermissions"."view" = 't' AND (user_id = 1 ) 
         UNION
