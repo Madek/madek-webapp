@@ -67,7 +67,7 @@ class MediaResource < ActiveRecord::Base
     end
   end
 
-  validates_presence_of :user, :if => Proc.new { |record| record.respond_to?(:user_id) }
+  validates_presence_of :user, :unless => Proc.new { |record| record.is_a?(Snapshot) }
 
   def update_attributes_with_pre_validation(attributes, current_user = nil)
     # we need to deep copy the attributes for batch edit (multiple resources)
