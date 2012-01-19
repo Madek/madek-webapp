@@ -6,6 +6,7 @@ class ChangeMediaResourceModel < ActiveRecord::Migration
 
     change_table :media_resources do |t| 
       t.index :created_at
+      t.index :updated_at 
 
       Actions.each do |action|
         t.boolean action, null: false, default: false, index: true

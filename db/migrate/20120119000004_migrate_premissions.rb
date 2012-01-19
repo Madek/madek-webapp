@@ -13,7 +13,7 @@ class MigratePremissions < ActiveRecord::Migration
     Permission.all.each do |p| 
 
       if (not p.subject) and (not p.media_resource) 
-        # system default, don't care about this
+        # system default (false,false,false,false) don't need this
       elsif (not p.subject)  # public permission
         set_new_from_old p.media_resource, p
       else # the regular case
@@ -29,9 +29,15 @@ class MigratePremissions < ActiveRecord::Migration
       end
     end
 
+    drop_table :permissions
 
   end
+
 
   def down
+    
+    raise "this migration is not revertable" 
+
   end
+
 end
