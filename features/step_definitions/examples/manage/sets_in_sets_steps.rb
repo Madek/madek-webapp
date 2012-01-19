@@ -1,27 +1,28 @@
 # coding: UTF-8
 
-
 Given /^I see some sets$/ do
-  @user = FactoryGirl.create :user
   3.times do
-    FactoryGirl.create :media_set, :user => @user
+    FactoryGirl.create :media_set, :user => @current_user
   end
-  @user.media_sets.count.should == 3
+  @current_user.media_sets.count.should == 3
   
-  # TODO gui
-  pending
-  # visit user_resources_path(@user, :type => "media_sets")
-  # all(".thumb_box_set").size.should == 3
+  visit user_resources_path(@current_user, :type => "media_sets")
+  wait_for_css_element("div.page div.item_box")
+  all(".item_box").size.should == 3
 end
 
 When /^I add them to my favorites$/ do
-  @user.favorites.count.should == 0
-  @user.favorites << @user.media_sets
-  @user.favorites.count.should == 3
+  @current_user.favorites.count.should == 0
+  @current_user.favorites << @current_user.media_sets
+  @current_user.favorites.count.should == 3
 end
 
 Then /^they are in my favorites$/ do
-  @user.favorites.reload.should == @user.media_sets.reload
+  @current_user.favorites.reload.should == @current_user.media_sets.reload
+
+  visit favorites_resources_path
+  wait_for_css_element("div.page div.item_box")
+  all(".item_box").size.should == 3
 end
 
 ##########################################################################

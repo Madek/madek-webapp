@@ -16,15 +16,15 @@ class RefactorMediaSets < ActiveRecord::Migration
     end
     
     change_table :media_sets do |t|
-      t.string :type, :null => false, :default => 'Media::Set'   # STI (single table inheritance)
+      t.string :type, :null => false, :default => 'MediaSet'   # STI (single table inheritance)
     end
 
     #######
     
     MetaContext.update_all({:name => "media_set"}, {:name => "album"})
-    EditSession.update_all({:resource_type => "Media::Set"}, {:resource_type => "Album"})
-    MetaDatum.update_all({:resource_type => "Media::Set"}, {:resource_type => "Album"})
-    Permission.update_all({:resource_type => "Media::Set"}, {:resource_type => "Album"})
+    EditSession.update_all({:resource_type => "MediaSet"}, {:resource_type => "Album"})
+    MetaDatum.update_all({:resource_type => "MediaSet"}, {:resource_type => "Album"})
+    Permission.update_all({:resource_type => "MediaSet"}, {:resource_type => "Album"})
 
     #######
 

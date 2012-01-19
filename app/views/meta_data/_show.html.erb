@@ -1,5 +1,5 @@
 <%=
-editable = false # TODO inplace editor again?? # Permission.authorized?(current_user, :edit, resource)
+editable = false # TODO inplace editor again?? # Permissions.authorized?(current_user, :edit, resource)
 context ||= nil # OPTIMIZE
 
 content_tag :div, :class => (editable ? "editable" : nil), :meta_key_id => meta_datum.meta_key.id do

@@ -71,6 +71,7 @@ Given /^the user with username "([^"]*)" is member of the group "([^"]*)"/ do |u
   user.save.should == true
 end
 
+# Uses the browser to log in
 Given /^I log in as "(\w+)" with password "(\w+)"$/ do |username, password|
   visit "/logout"
   visit "/db/login"
@@ -78,6 +79,12 @@ Given /^I log in as "(\w+)" with password "(\w+)"$/ do |username, password|
   fill_in "password", :with => password
   click_link_or_button "Log in"
   page.should_not have_content "Invalid username/password"
+end
+
+# Gives you a user object
+Given /^I am logged in as "(\w+)"$/ do |username|
+  @current_user = User.find_by_login(username)
+  @current_user ||= FactoryGirl.create(:user, {:login => username})
 end
 
 Given /^a group called "([^"]*)" exists$/ do |groupname|
@@ -94,7 +101,7 @@ Given /^a public set titled "(.+)" created by "(.+)" exists$/ do |title, usernam
   user = User.where(:login => username).first
   meta_data = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
   set = user.media_sets.create(meta_data)
-  permission = Permission.create({:resource_id => set.id, :resource_type => "Media::Set"})
+  permission = set.permissions.create
   permission.set_actions({:view => true})
   set.permissions << permission
 end

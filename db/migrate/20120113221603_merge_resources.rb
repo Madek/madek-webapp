@@ -48,8 +48,8 @@ class MergeResources < ActiveRecord::Migration
 
     create_table    :media_resources do |t|
       t.integer     :old_id                # to be dropped  
-      t.string      :type, :null => false  # STI (single table inheritance)
-      t.belongs_to  :user
+      t.string      :type                  # STI (single table inheritance)
+      t.belongs_to  :user, :null => false
       t.belongs_to  :upload_session        # for media_entry
       t.belongs_to  :media_file            # for media_entry
       t.belongs_to  :media_entry           # for snapshot
@@ -196,15 +196,15 @@ class MergeResources < ActiveRecord::Migration
     ############################################################################
     # Add Contraints
 
-    fkey_cascade_on_delete :media_set_arcs, :parent_id, :media_resources 
-    fkey_cascade_on_delete :media_set_arcs, :child_id, :media_resources 
+    fkey_cascade_on_delete :media_set_arcs, :media_resources, :parent_id
+    fkey_cascade_on_delete :media_set_arcs, :media_resources, :child_id
 
-    fkey_cascade_on_delete :media_entries_media_sets, :media_set_id, :media_resources 
-    fkey_cascade_on_delete :media_entries_media_sets, :media_entry_id, :media_resources 
-    fkey_cascade_on_delete :media_sets_meta_contexts, :media_set_id, :media_resources 
+    fkey_cascade_on_delete :media_entries_media_sets, :media_resources, :media_set_id 
+    fkey_cascade_on_delete :media_entries_media_sets, :media_resources, :media_entry_id 
+    fkey_cascade_on_delete :media_sets_meta_contexts, :media_resources, :media_set_id
 
     [:edit_sessions, :full_texts, :meta_data, :permissions, :favorites].each do |table|
-      fkey_cascade_on_delete table, :media_resource_id, :media_resources 
+      fkey_cascade_on_delete table, :media_resources, :media_resource_id
     end
 
   end

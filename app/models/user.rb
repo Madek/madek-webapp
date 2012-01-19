@@ -7,9 +7,24 @@ class User < ActiveRecord::Base
 
   include Subject
 
+  Constants::Actions.each do |action|
+    {media_resource: MediaResource}.each do |singular,model|
+      has_and_belongs_to_many "#{action}able_#{singular.to_s.pluralize}",  class_name: model.to_s, 
+        join_table: "#{action}able_#{singular.to_s.pluralize}_users", foreign_key: :user_id, association_foreign_key: "#{singular.to_s}_id"
+    end
+  end
+
+  def destroy 
+    # TODO, for now since the above is not compatible with destroy, seems to be a rails problem
+    warn "destroy will is overwitten to use delete in the background"
+    delete
+  end
+
   belongs_to :person
   delegate :name, :to => :person
   delegate :fullname, :to => :person
+
+  has_many :userpermissions
 
   has_many :upload_sessions do
     def latest
@@ -23,22 +38,14 @@ class User < ActiveRecord::Base
 # TODO ??  has_many :media_files, :through => :media_entries
   has_many :media_sets
   has_and_belongs_to_many :favorites, :class_name => "MediaResource", :join_table => "favorites" do
-    def toggle(media_entry_or_id)
-      media_entry_id = media_entry_or_id.is_a?(MediaEntry) ? media_entry_or_id.id : media_entry_or_id.to_i
-      if include?(media_entry_id)
-        media_entry = where(:id => media_entry_id).first
-        self.delete(media_entry)
+    def toggle(media_resource)
+      if exists?(media_resource)
+        self.delete(media_resource)
       else
-        new_favorite = MediaEntry.find(media_entry_id)
-        self << new_favorite
+        self << media_resource
       end
     end
-    
-    def include?(media_entry_id)
-      exists? :id => media_entry_id
-    end  
   end
-    
   
   has_and_belongs_to_many :groups do
     def is_member?(group)

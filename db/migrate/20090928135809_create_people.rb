@@ -1,5 +1,7 @@
 # -*- encoding : utf-8 -*-
 class CreatePeople < ActiveRecord::Migration
+  include SQLHelper
+
   def self.up
 
     create_table    :people do |t|
@@ -19,8 +21,8 @@ class CreatePeople < ActiveRecord::Migration
       ALTER TABLE users ADD CONSTRAINT person_id_fkey
         FOREIGN KEY (person_id) REFERENCES people (id); 
     SQL
-    sql.split(/;\s*$/).each {|cmd| execute cmd} if SQLHelper.adapter_is_mysql?
-    execute sql if SQLHelper.adapter_is_postgresql?
+    sql.split(/;\s*$/).each {|cmd| execute cmd} if adapter_is_mysql?
+    execute sql if adapter_is_postgresql?
 
 
   end

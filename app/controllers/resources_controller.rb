@@ -2,6 +2,7 @@
 class ResourcesController < ApplicationController
 
   # TODO cancan # load_resource #:class => "MediaResource"
+  before_filter :pre_load, :except => [:index, :filter]
 
   def index
     params[:per_page] ||= PER_PAGE.first
@@ -10,8 +11,9 @@ class ResourcesController < ApplicationController
     if params[:type]
       resources = resources.send(params[:type])
     else
-      resources = resources.where(:type => ["MediaEntry", "MediaSet"])
+      resources = resources.media_entries_and_media_sets
     end
+
     resources = resources.by_user(@user) if params[:user_id] and (@user = User.find(params[:user_id]))
     resources = resources.not_by_user(current_user) if params[:not_by_current_user]
     resources = resources.favorites_for_user(current_user) if request.fullpath =~ /favorites/
@@ -80,6 +82,22 @@ class ResourcesController < ApplicationController
         format.js { render :layout => false}
       end
     end
+  end
+
+###################################################################################
+
+  def toggle_favorites
+    current_user.favorites.toggle(@media_resource)
+    respond_to do |format|
+      format.js { render :partial => "favorite_link", :locals => {:media_resource => @media_resource} }
+    end
+  end
+
+###################################################################################
+
+  def pre_load
+    params[:media_resource_id] ||= params[:id]
+    @media_resource = MediaResource.find(params[:media_resource_id]) unless params[:media_resource_id].blank?
   end
 
 end

@@ -3,7 +3,7 @@ class MediaEntriesController < ApplicationController
 
   before_filter :pre_load, :except => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions]
   before_filter :pre_load_for_batch, :only => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions]
-  before_filter :authorized?, :except => [:index, :media_sets, :favorites, :toggle_favorites, :keywords] #old# :only => [:show, :edit, :update, :destroy]
+  before_filter :authorized?, :except => [:index, :media_sets, :favorites, :keywords] #old# :only => [:show, :edit, :update, :destroy]
 
   def show
     respond_to do |format|
@@ -97,7 +97,7 @@ class MediaEntriesController < ApplicationController
     # OPTIMIZE media_set ACL
     media_sets = []
     MediaSet.find(media_set_ids).each do |media_set|
-      next unless Permission.authorized?(current_user, :edit, media_set) # (MediaSet ACL!)
+      next unless Permissions.authorized?(current_user, :edit, media_set) # (MediaSet ACL!)
       if request.post?
         media_set.media_entries.push_uniq @media_entry
       else
@@ -112,13 +112,6 @@ class MediaEntriesController < ApplicationController
     end
   end
   
-  def toggle_favorites
-    current_user.favorites.toggle(@media_entry)
-    respond_to do |format|
-      format.js { render :partial => "favorite_link", :locals => {:media_entry => @media_entry} }
-    end
-  end
-
   def keywords
 #old#
 ##select *, count(*) from keywords group by term_id;
@@ -208,11 +201,11 @@ class MediaEntriesController < ApplicationController
         not_authorized! if @media_entries.empty?
         return
       when :remove_multiple
-        not_authorized! unless Permission.authorized?(current_user, :edit, @media_set)
+        not_authorized! unless Permissions.authorized?(current_user, :edit, @media_set)
         return
     end
     resource = @media_entry
-    not_authorized! unless Permission.authorized?(current_user, action, resource) and conditions.all?
+    not_authorized! unless Permissions.authorized?(current_user, Constants::Actions.old2new(action), resource) and conditions.all?
     # TODO super ??
   end
   

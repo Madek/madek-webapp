@@ -67,6 +67,8 @@ gem 'mini_exiftool', '~> 1.3.1'
 gem 'irwi', :git => 'git://github.com/alno/irwi.git', :ref => 'b78694'
 gem 'RedCloth'
 
+gem 'newrelic_rpm', '~> 3.3'
+
 group :test, :development do
   gem 'autotest'
   gem 'database_cleaner'
@@ -95,7 +97,6 @@ group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
   #tmp# gem 'peterhoeg-railroad'
-  gem 'newrelic_rpm', '~> 3.3'
 end
 
 group :test do

@@ -53,6 +53,10 @@ MAdeK::Application.routes.draw do
       get :filter
       post :filter
     end
+    
+    member do
+      post :toggle_favorites
+    end
   end
 
   resources :media_files # TODO remove ??
@@ -67,7 +71,6 @@ MAdeK::Application.routes.draw do
     end
 
     member do
-      post :toggle_favorites
       post :media_sets
       delete :media_sets
       get :edit_tms

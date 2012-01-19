@@ -15,6 +15,7 @@ set :deploy_via, :remote_cache
 set :db_config, "/home/rails/madek-test/database.yml"
 set :ldap_config, "/home/rails/madek-test/LDAP.yml"
 set :zencoder_config, "/home/rails/madek-test/zencoder.yml"
+set :newrelic_config, "/home/rails/madek-test/newrelic.yml"
 set :checkout, :export
 
 
@@ -49,6 +50,9 @@ task :link_config do
 
   run "rm -f #{release_path}/config/zencoder.yml"
   run "ln -s #{zencoder_config} #{release_path}/config/zencoder.yml"
+
+  run "rm -f #{release_path}/config/newrelic.yml"
+  run "ln -s #{newrelic_config} #{release_path}/config/newrelic.yml"
 end
 
 task :remove_htaccess do

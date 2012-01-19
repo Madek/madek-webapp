@@ -37,10 +37,10 @@
         dataType: 'html',
         data: {query: "#{params[:query]}"},
         beforeSend: function(){
-          filter_area.html("Loading...");
+          filter_area.html("#{_('Filter werden geladen. Haben Sie bitte einen Moment Geduld...')}").addClass("loading");
         },
         complete: function(response){
-          filter_area.html(response.responseText);
+          filter_area.html(response.responseText).removeClass("loading");
         }
       });
     }

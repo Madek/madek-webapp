@@ -9,7 +9,7 @@
       var that = $(this);
       that.qtip({
         content: {
-          text: 'Loading...',
+          text: #{_('Filter werden geladen. Haben Sie bitte einen Moment Geduld...')},
           ajax: {
              url: that.attr('href').replace("/resources", "/resources/filter"),
              type: 'POST',

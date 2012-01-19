@@ -1,6 +1,14 @@
 # -*- encoding : utf-8 -*-
 class MediaResource < ActiveRecord::Base
 
+  has_many :userpermissions, :dependent => :destroy
+  has_many :grouppermissions, :dependent => :destroy
+
+  belongs_to :user 
+  belongs_to :media_file
+  belongs_to :upload_session
+
+
  # TODO observe bulk changes and reindex once
   has_many :meta_data, :dependent => :destroy do #working here#7 :include => :meta_key
     def get(key_id)
@@ -14,6 +22,11 @@ class MediaResource < ActiveRecord::Base
     def get_value_for(key_id)
       get(key_id).to_s
     end
+
+    #wip#
+    #def get_for_labels(labels)
+    #  joins(:meta_key).where(:meta_keys => {:label => labels})
+    #end
 
     #def with_labels
     #  h = {}
@@ -45,8 +58,6 @@ class MediaResource < ActiveRecord::Base
 #      end
 #    end
 
-  has_many  :permissions, :dependent => :destroy
-  before_validation { permissions.delete_if {|p| p.new_record? and p.subject.nil? and p.invalid? } } #2904# OPTIMIZE
   after_create :generate_permissions
 
   has_many  :edit_sessions, :dependent => :destroy, :readonly => true
@@ -175,14 +186,22 @@ class MediaResource < ActiveRecord::Base
     end
     
     # TODO merge to as_json
-    # NEW and experimental for batch processes 
     def get_basic_info(current_user, extended_keys = [], with_thumb = false)
       core_keys = ["title", "author"]
       core_info = Hash.new
       
-      (core_keys + extended_keys).each do |key|
+      labels = core_keys + extended_keys
+      (labels).each do |key|
         core_info[key.gsub(' ', '_')] = meta_data.get_value_for(key)
       end
+      #wip#
+      #labels.each do |label|
+      #  core_info[label.gsub(' ', '_')] = ""
+      #end
+      #meta_data.get_for_labels(labels).each do |md|
+      #  core_info[md.meta_key.label.gsub(' ', '_')] = md.to_s
+      #end
+      
       if with_thumb
         mf = if self.is_a?(MediaSet)
           MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).first.try(:media_file)
@@ -199,6 +218,7 @@ class MediaResource < ActiveRecord::Base
         end
         core_info["thumb_base64"] = "/media_entries/%d/image?size=small_125" % me.id if me
       end
+      
       core_info
     end
 
@@ -230,8 +250,9 @@ class MediaResource < ActiveRecord::Base
       #TODO Dont do this behaviour on default
       flags = { :is_private => acl?(:view, :only, user),
                 :is_public => acl?(:view, :all),
-                :is_editable => Permission.authorized?(user, :edit, self),
-                :is_manageable => Permission.authorized?(user, :manage, self) }
+                :is_editable => Permissions.authorized?(user, :edit, self),
+                :is_manageable => Permissions.authorized?(user, :manage, self),
+                :is_favorite => user.favorite_ids.include?(id) }
       more_json.merge! flags         
       more_json.merge!(self.get_basic_info(user, [], with_thumb))
     end
@@ -329,43 +350,42 @@ class MediaResource < ActiveRecord::Base
 ########################################################
 # ACL
 
+
   def acl?(action, scope, subject = nil)
     case scope
-      when :all
-        # TODO ?? use :permissions association
-        Permission.authorized?(nil, action, self)
-      when :only
-        Permission.resource_viewable_only_by_user?(self, subject)
+    when :all
+      self.send(action)
+    when :only
+      Permissions.is_private?(subject,self,:view)
     end
   end
-  
+
+
   def managers
-    i = Permission::ACTIONS.index(:manage)
-    return nil unless i
-    j = 2 ** i
-    permissions.where("#{SQLHelper.bitwise_is 'action_bits',j} AND #{SQLHelper.bitwise_is 'action_mask',j}").map(&:subject)
+    # TODO Tom fix this
+    User \
+      .joins("INNER JOIN  manageable_media_resources_users ON manageable_media_resources_users.user_id = users.id") \
+      .joins("INNER JOIN media_resources ON media_resources.id = manageable_media_resources_users.media_resource_id")
   end
 
-private
+
+  private
+
 
   def generate_permissions
-    # OPTIMIZE
-    unless self.class == Snapshot
-      subject = self.user
-    else
-      #1504#
-      h = media_entry.default_permission.actions
-      permissions.build(:subject => nil).set_actions(h) unless h.blank?
-      subject = Group.find_or_create_by_name("MIZ-Archiv") # Group.scoped_by_name("MIZ-Archiv").first
+    if self.class == Snapshot
+      group = Group.find_or_create_by_name("MIZ-Archiv") 
+      gp = Grouppermission.create  \
+        group: group, 
+        media_resource: self,
+        download: true,
+        edit: true,
+        manage: true,
+        view: true
     end
-
-    # TODO validates presence of the owner's permissions?
-    if subject
-     user_default_permissions = {:view => true, :edit => true, :manage => true}
-     user_default_permissions[:hi_res] = true if self.class == MediaEntry
-     permissions.build(:subject => subject).set_actions(user_default_permissions)  
-    end # OPTIMIZE
   end
+
+
 
 public
 
@@ -377,20 +397,19 @@ public
 
   ################################################################
 
+  scope :media_entries_and_media_sets, where(:type => ["MediaEntry", "MediaSet"])
   scope :media_entries, where(:type => "MediaEntry")
   scope :media_sets, where(:type => "MediaSet")
+  scope :snapshots, where(:type => "Snapshot")
 
   ################################################################
 
-  #scope :by_user, lambda {|user| media_entries.joins(:upload_session).where(:upload_sessions => {:user_id => user}) } 
-  scope :by_user, lambda {|user| where(:user_id => user) } 
-  #scope :not_by_user, lambda {|user| media_entries.joins(:upload_session).where(["upload_sessions.user_id != ?", user]) } 
-  scope :not_by_user, lambda {|user| where(["user_id != ?", user]) }
+  scope :by_user, lambda {|user| where(["media_resources.user_id = ?", user]) }
+  scope :not_by_user, lambda {|user| where(["media_resources.user_id <> ?", user]) }
 
   ################################################################
   
   scope :favorites_for_user, lambda {|user|
-    media_entries.
     joins("RIGHT JOIN favorites ON media_resources.id = favorites.media_resource_id").
     where(:favorites => {:user_id => user})
   }
@@ -419,19 +438,31 @@ public
   ################################################################
 
   scope :search, lambda {|q|
-    sql = joins("LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id")
-    #with fulltext index#
-    #if q.size > 3
-    #  sql.where("MATCH (text) AGAINST (?)", q)
-    #else
-    #  sql.where("text LIKE ?", "%#{q}%")
-    #end
-    w = q.split.map{|x| "text LIKE '%#{x}%'" }.join(' AND ')
-    sql.where(w)
+    sql = joins("LEFT JOIN full_texts ON (media_resources.id) = (full_texts.resource_id)")
+    where_clause= 
+      if SQLHelper.adapter_is_postgresql?
+        q.split.map{|x| "text ILIKE '%#{x}%'" }.join(' AND ')
+      elsif SQLHelper.adapter_is_mysql? 
+        q.split.map{|x| "text LIKE '%#{x}%'" }.join(' AND ')
+      else
+        raise "you sql adapter is not yet supported"
+      end
+    sql.where(where_clause)
   }
 
   ################################################################
   
+  def parents 
+    case type
+    when "MediaSet"
+      parent_sets
+    when "MediaEntry"
+      media_sets
+    else
+      raise "parents is not supported (yet) for your type"
+    end
+  end
+
   def self.reindex
     all.map(&:reindex).uniq
   end
@@ -478,39 +509,9 @@ public
 
 
   def self.accessible_by_user(user, action = :view)
-    i = 2 ** Permission::ACTIONS.index(action)
-
-    if SQLHelper::adapter_is_mysql? 
-      where("media_resources.id NOT IN " \
-              "(SELECT media_resource_id FROM permissions " \
-                "USE INDEX (index_permissions_on_resource_and_subject) " \
-                "WHERE (subject_type = 'User' AND subject_id = :user_id) " \
-                  "AND NOT #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) " \
-            "AND media_resources.id IN " \
-              "(SELECT media_resource_id FROM permissions " \
-                "USE INDEX (index_permissions_on_resource_and_subject) " \
-                "LEFT JOIN groups_users ON permissions.subject_id = groups_users.group_id " \
-                "WHERE (subject_type IS NULL " \
-                  "OR (subject_type = 'Group' AND groups_users.user_id = :user_id) " \
-                  "OR (subject_type = 'User' AND subject_id = :user_id)) " \
-                "AND   #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) ",
-            :user_id => user.id);
-
-    else
-      where("media_resources.id NOT IN " \
-              "(SELECT media_resource_id FROM permissions " \
-                "WHERE (subject_type = 'User' AND subject_id = :user_id) " \
-                  "AND NOT #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) " \
-            "AND media_resources.id IN " \
-              "(SELECT media_resource_id FROM permissions " \
-                "LEFT JOIN groups_users ON permissions.subject_id = groups_users.group_id " \
-                "WHERE (subject_type IS NULL " \
-                  "OR (subject_type = 'Group' AND groups_users.user_id = :user_id) " \
-                  "OR (subject_type = 'User' AND subject_id = :user_id)) " \
-                "AND   #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) ",
-            :user_id => user.id);
-    end
+    user.send("#{Constants::Actions.old2new action}able_media_resources").select("DISTINCT *").order("created_at DESC ")
   end
 
-  
+
+
 end

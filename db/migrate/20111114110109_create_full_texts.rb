@@ -9,7 +9,7 @@ class CreateFullTexts < ActiveRecord::Migration
       t.index [:resource_id, :resource_type], :unique => true
     end
     
-    MediaResource.reindex
+    #MediaResource.reindex
     
     #with fulltext index#
     # execute "ALTER TABLE full_texts ADD FULLTEXT INDEX (text);"

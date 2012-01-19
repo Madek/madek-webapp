@@ -5,7 +5,8 @@ Feature: Sets in Sets
       And the example data is completly loaded
       And a user called "Max" with username "max" and password "moritz" exists
       And I log in as "max" with password "moritz"
-  
+      And I am logged in as "max"
+
   # We should do this when we attack the rest of the technical debt, do optimization
   Scenario: The sets in sets tool loads quickly enough
     When I open the sets in sets tool
@@ -49,7 +50,7 @@ Feature: Sets in Sets
   # Pts: 40 - ?
   # Cannot be solved before we attack this: https://www.pivotaltracker.com/story/show/21437563
   # This includes refactoring of media sets/entries -> resources
-  @current
+  @current @javascript
   Scenario: Add a set to my favorites
    Given I see some sets
     When I add them to my favorites
@@ -108,4 +109,3 @@ Feature: Sets in Sets
      Then I see all the keys that can be used in this context
       And I see all the values those keys can have
       And I see an abstract of the most assigned values from media entries using this context
-

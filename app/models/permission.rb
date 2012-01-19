@@ -71,6 +71,7 @@ class Permission < ActiveRecord::Base
   
     # set up the default system actions
     def init(reset = false)
+      #binding.pry
       return 0 unless reset or count == 0
       delete_all
   

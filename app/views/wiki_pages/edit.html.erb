@@ -11,7 +11,6 @@
 <%= wiki_page_form do |f| %>
   <%= f.hidden_field :previous_version_number, :value => f.object.last_version_number %>
   <%= hidden_field_tag :path, @page.path %>
-  
   <p><%=wt 'Title:' %><br /><%= f.text_field :title %></p>
   <%# If our 'content' contains newlines, Erubis will indent them (to make the
       produced HTML look nicer). However those indenting spaces *will* appear
@@ -30,7 +29,6 @@
 <% end %>
 
 <%= wiki_page_attachments(@page) %>
-
 
 <h4>Extra Textile markup</h4>
 

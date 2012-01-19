@@ -1,0 +1,142 @@
+
+////////////////////////////////////////////////////////////////////////////////
+
+%script#empty_index{:type => "text/x-jquery-tmpl"}
+  .item_box
+    .thumb_box
+
+%script#empty_result_page{:type => "text/x-jquery-tmpl"}
+  .page{:"data-page" => "${pagination.current_page}"}
+    {{tmpl(pagination) "#pagination"}}
+    {{tmpl(entries) "#empty_index"}}
+
+%script#result_page{:type => "text/x-jquery-tmpl"}
+  .page
+    {{tmpl(pagination) "#pagination"}}
+    {{tmpl(entries) "#thumbnail"}}
+
+%script#pagination{:type => "text/x-jquery-tmpl"}
+  .pagination
+    ${total_entries} Einträge,
+    Seite ${current_page} von ${total_pages}
+  .clear
+
+%script#thumbnail_mini{:type => "text/x-jquery-tmpl"}
+  %div{:class => "thumb_mini {{if is_editable}}edit{{/if}} {{if is_manageable}}manage{{/if}}", :rel => "${id}"}
+    = image_tag("icons/button_remove_action.png", :class => "thumb_remove")
+    {{if thumb_base64}}
+    %img{:src => "${thumb_base64}"}
+    {{/if}}
+
+////////////////////////////////////////////////////////////////////////////////
+
+%script#thumbnail{:type => "text/x-jquery-tmpl"}
+  .item_box{:id => "thumb_${id}"}
+    .item_permission
+      {{if is_public}}
+      .icon_status_perm_public
+      {{else is_private}}
+      .icon_status_perm_private
+      {{/if}}
+    {{if is_set}}
+    %a{:href => "/media_sets/${id}"}
+      .thumb_box_set
+        {{if thumb_base64}}
+        %img{:src => "${thumb_base64}"}
+        {{/if}}
+    {{else}}
+    %a{:href => "/media_entries/${id}"}
+      .thumb_box
+        {{if thumb_base64}}
+        %img{:src => "${thumb_base64}"}
+        {{/if}}
+    {{/if}}
+    %p.item_title{:title => "${title}"} 
+      ${title.substring(0,34)}
+      {{if title.length > 34}}
+      = "..."
+      {{/if}}
+    %p.item_author{:title => "${author}"} 
+      ${author.substring(0,42)}
+      {{if author.length > 42}}
+      = "..."
+      {{/if}}
+    .actions
+      .action_left
+        {{if !is_set && ($item.with_checkbox == null || $item.with_checkbox)}}
+        .check_box
+        {{/if}}
+        %span.favorite_link{:id => "fav_${id}", :title => "Favorit"}
+          %a{:href => "/resources/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
+            {{if is_favorite}}
+            .button_favorit_on
+            {{else}}
+            .button_favorit_off
+            {{/if}}
+        {{if !is_set}}
+        {{if can_maybe_browse}}    
+        %span.explore_link{:id => "exp_${id}"}
+          %a{:href => "/media_entries/${id}/browse", :title => "Erkunden"}
+            .button_explore
+        {{else}}
+        .button_explore.ghost
+        {{/if}}
+        {{/if}}
+      .action_right
+        {{if is_editable}}
+        {{if is_set}}
+        %a{:href => "/media_sets/${id}/edit", :title => "Editieren"}
+          .button_edit_active
+        {{else}}
+        %a{:href => "/media_entries/${id}/edit", :title => "Editieren"}
+          .button_edit_active
+        {{/if}}
+        {{else}}
+        .button_edit_active.ghost
+        {{/if}}
+        {{if is_manageable}}
+        {{if is_set}}
+        %a{:href => "/media_sets/${id}", :title => "Löschen", :"data-method" => "delete", :"data-remote" => true, :class => "delete_me", :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher dass Sie diesen Set löschen möchten?"}
+          .button_delete_active
+        {{else}}
+        %a{:href => "/media_entries/${id}", :title => "Löschen", :"data-method" => "delete", :"data-remote" => true, :class => "delete_me", :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher dass Sie diesen Medien-Eintrag löschen möchten?"}
+          .button_delete_active
+        {{/if}}
+        {{else}}
+        .button_delete_active.ghost
+        {{/if}}
+
+////////////////////////////////////////////////////////////////////////////////
+        
+%script#thumbnail_browse{:type => "text/x-jquery-tmpl"}
+  .item_box.tmp{:id => "thumb_${id}", :style => "background-color: #f1f1f1; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);"}
+    .item_permission
+      {{if is_public}}
+      .icon_status_perm_public
+      {{else is_private}}
+      .icon_status_perm_private
+      {{/if}}
+    %a{:href => "/media_entries/${id}"}
+      .thumb_box
+        {{if thumb_base64}}
+        %img{:src => "${thumb_base64}"}
+        {{/if}}
+    %p.item_title
+      ${title.substring(0,50)}
+    %p.item_author
+      ${author.substring(0,50)}
+    %div{:style => "position: absolute; bottom: 0; left: 0; padding: 5px;"}
+      .action_left
+        .check_box
+        %span.favorite_link{:id => "fav_${id}", :title => "Favorit"}
+          %a{:href => "/resources/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
+            {{if is_favorite}}
+            .button_favorit_on
+            {{else}}
+            .button_favorit_off
+            {{/if}}
+        {{if can_maybe_browse}}    
+        %span.explore_link{:id => "exp_${id}"}
+          %a{:href => "/media_entries/${id}/browse", :title => "Erkunden"}
+            .button_explore
+        {{/if}}

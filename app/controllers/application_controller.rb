@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
         params[:per_page] ||= PER_PAGE.first
 
         paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
-        resources = MediaResource.accessible_by_user(current_user).where(:type => ["MediaEntry", "MediaSet"])
+        resources = MediaResource.accessible_by_user(current_user).media_entries_and_media_sets
         
         my_resources = resources.by_user(current_user).paginate(paginate_options)
         @my_media_entries = { :pagination => { :current_page => my_resources.current_page,
@@ -57,7 +57,6 @@ class ApplicationController < ActionController::Base
                                                   :total_pages => other_resources.total_pages },
                                  :entries => other_resources.as_json(:user => current_user, :with_thumb => true) } 
 
-        #binding.pry
         respond_to do |format|
           format.html { render :template => "/users/show" }
         end

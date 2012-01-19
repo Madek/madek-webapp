@@ -15,6 +15,29 @@ class MediaEntry < MediaResource
 
   before_create :extract_subjective_metadata, :set_copyright
 
+#  ######## MediaResource  >>>>
+#  belongs_to :media_resource 
+#  after_destroy {|r| r.media_resource.destroy if r.media_resource }
+#  before_create do |r|
+#    unless r.media_resource
+#      r.media_resource= (MediaResource.create owner: user) 
+#    end
+#  end
+#  after_create do 
+#    media_resource.created_at= created_at if media_resource.created_at > created_at
+#    media_resource.type = self.class.name
+#    media_resource.save!
+#  end
+#  after_save do
+#    media_resource.upload_session ||= upload_session 
+#    media_resource.media_file ||= media_file 
+#    media_resource.save!
+#  end
+#
+#  delegate :owner, :to => :media_resource
+#  ######## MediaResource <<<<
+#
+
   before_validation(:on => :create) do
     self.user = upload_session.user
   end
@@ -47,8 +70,7 @@ class MediaEntry < MediaResource
 
   def as_json(options={})
     h = { :is_set => false,
-          :can_maybe_browse => !meta_data.for_meta_terms.blank?,
-          :is_favorite => user.favorite_ids.include?(id) #,
+          :can_maybe_browse => !meta_data.for_meta_terms.blank? #,
           #:thumb_base64 => media_file.try(:thumb_base64, :small_125)
         }
     super(options).merge(h)

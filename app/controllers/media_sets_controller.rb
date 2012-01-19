@@ -56,6 +56,7 @@ class MediaSetsController < ApplicationController
   #
   def index(accessible_action = params[:accessible_action] || :view,
             with = params[:with], child = params[:child] || nil)
+
     respond_to do |format|
       #-# only used for FeaturedSet
       format.html {
@@ -76,18 +77,20 @@ class MediaSetsController < ApplicationController
       }
       
       format.js {
-        
-        sets = all_sets = MediaResource.accessible_by_user(current_user, accessible_action.to_sym).media_sets
-        
-        if(!child.nil?) # if child is set try to get child and scope sets trough child
-          if(child["type"] == "entry" && MediaEntry.exists?(child["id"]))
-            sets = MediaEntry.find(child["id"]).media_sets.delete_if {|s| !all_sets.include?(s)}
-          elsif(child["type"] == "set" && MediaSet.exists?(child["id"]))
-            sets = MediaSet.find(child["id"]).parent_sets.delete_if {|s| !all_sets.include?(s)}
-          end
-        end  
-        
-        render :json => sets.as_json(:with => with, :with_thumb => false) # TODO drop with_thum merge with with
+
+        action = Constants::Actions.old2new accessible_action.to_sym
+
+        sets = if child
+                 (MediaResource.find child[:id].to_i).parents.select("DISTINCT *") \
+                   .joins(" INNER JOIN #{action}able_media_resources_users ON media_resources.id = media_resource_id ") \
+                   .where(" #{action}able_media_resources_users.user_id = #{current_user.id} ") 
+               else
+                 (current_user.send "#{action}able_media_resources").media_sets
+               end
+
+
+      render :json => sets.as_json(:with => with, :with_thumb => false) # TODO drop with_thum merge with with
+
       }
     end
   end
@@ -103,7 +106,7 @@ class MediaSetsController < ApplicationController
     paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
     resources = MediaResource.accessible_by_user(current_user).by_media_set(@media_set).paginate(paginate_options)
     
-    @can_edit_set = Permission.authorized?(current_user, :edit, @media_set)
+    @can_edit_set = Permissions.authorized?(current_user, :edit, @media_set)
     @parents = @media_set.parent_sets.as_json(:user => current_user)
     
     respond_to do |format|
@@ -140,7 +143,6 @@ class MediaSetsController < ApplicationController
   end
 
   def abstract
-    @_media_entry_ids = MediaResource.accessible_by_user(current_user).media_entries.by_media_set(@media_set).map(&:id)
     respond_to do |format|
       format.js { render :layout => false }
     end
@@ -283,12 +285,12 @@ class MediaSetsController < ApplicationController
   def parents(media_set_ids = params[:media_set_ids])
     if request.post?
       MediaSet.find_by_id_or_create_by_title(media_set_ids, current_user).each do |media_set|
-        next unless Permission.authorized?(current_user, :edit, media_set) # (MediaSet ACL!)
+        next unless Permissions.authorized?(current_user, :edit, media_set) # (MediaSet ACL!)
         @media_set.parent_sets << media_set
       end
     elsif request.delete?
       MediaSet.find(media_set_ids).each do |media_set|
-        next unless Permission.authorized?(current_user, :edit, media_set) # (MediaSet ACL!)
+        next unless Permissions.authorized?(current_user, :edit, media_set) # (MediaSet ACL!)
         @media_set.parent_sets.delete(media_set)
       end
     end
@@ -319,7 +321,7 @@ class MediaSetsController < ApplicationController
     end
     if @media_set
       resource = @media_set
-      not_authorized! unless Permission.authorized?(current_user, action, resource) # TODO super ??
+      not_authorized! unless Permissions.authorized?(current_user, action, resource) # TODO super ??
     else
       flash[:error] = "Kein Medienset ausgewählt."
       redirect_to :back
