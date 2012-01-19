@@ -41,7 +41,6 @@ Given /^I have set up the world$/ do
   # they drop the database even if we seed it before running
   # the tests. Therefore we recreate our world in this step.
   Copyright.init
-  Permission.init
 
   Meta::Department.setup_ldapdata_from_localfile
   Meta::Date.parse_all

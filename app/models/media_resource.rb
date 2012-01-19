@@ -509,7 +509,7 @@ public
 
 
   def self.accessible_by_user(user, action = :view)
-    user.send("#{Constants::Actions.old2new action}able_media_resources").select("DISTINCT *").order("created_at DESC ")
+    user.send("#{Constants::Actions.old2new action}able_media_resources").order("created_at DESC ")
   end
 
 
