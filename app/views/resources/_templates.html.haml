@@ -62,18 +62,18 @@
       = "..."
       {{/if}}
     .actions
-      {{if !is_set}}
       .action_left
-        {{if $item.with_checkbox == null || $item.with_checkbox}}
+        {{if !is_set && ($item.with_checkbox == null || $item.with_checkbox)}}
         .check_box
         {{/if}}
         %span.favorite_link{:id => "fav_${id}", :title => "Favorit"}
-          %a{:href => "/media_entries/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
+          %a{:href => "/resources/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
             {{if is_favorite}}
             .button_favorit_on
             {{else}}
             .button_favorit_off
             {{/if}}
+        {{if !is_set}}
         {{if can_maybe_browse}}    
         %span.explore_link{:id => "exp_${id}"}
           %a{:href => "/media_entries/${id}/browse", :title => "Erkunden"}
@@ -81,7 +81,7 @@
         {{else}}
         .button_explore.ghost
         {{/if}}
-      {{/if}}
+        {{/if}}
       .action_right
         {{if is_editable}}
         {{if is_set}}
@@ -129,7 +129,7 @@
       .action_left
         .check_box
         %span.favorite_link{:id => "fav_${id}", :title => "Favorit"}
-          %a{:href => "/media_entries/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
+          %a{:href => "/resources/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
             {{if is_favorite}}
             .button_favorit_on
             {{else}}

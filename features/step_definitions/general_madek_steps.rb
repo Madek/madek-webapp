@@ -83,7 +83,8 @@ end
 
 # Gives you a user object
 Given /^I am logged in as "(\w+)"$/ do |username|
-  @current_user = FactoryGirl.create(:user, {:login => username})
+  @current_user = User.find_by_login(username)
+  @current_user ||= FactoryGirl.create(:user, {:login => username})
 end
 
 Given /^a group called "([^"]*)" exists$/ do |groupname|

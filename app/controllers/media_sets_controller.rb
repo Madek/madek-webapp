@@ -143,7 +143,6 @@ class MediaSetsController < ApplicationController
   end
 
   def abstract
-    @_media_entry_ids = MediaResource.accessible_by_user(current_user).media_entries.by_media_set(@media_set).map(&:id)
     respond_to do |format|
       format.js { render :layout => false }
     end

@@ -3,7 +3,7 @@ class MediaEntriesController < ApplicationController
 
   before_filter :pre_load, :except => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions]
   before_filter :pre_load_for_batch, :only => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions]
-  before_filter :authorized?, :except => [:index, :media_sets, :favorites, :toggle_favorites, :keywords] #old# :only => [:show, :edit, :update, :destroy]
+  before_filter :authorized?, :except => [:index, :media_sets, :favorites, :keywords] #old# :only => [:show, :edit, :update, :destroy]
 
   def show
     respond_to do |format|
@@ -112,13 +112,6 @@ class MediaEntriesController < ApplicationController
     end
   end
   
-  def toggle_favorites
-    current_user.favorites.toggle(@media_entry)
-    respond_to do |format|
-      format.js { render :partial => "favorite_link", :locals => {:media_entry => @media_entry} }
-    end
-  end
-
   def keywords
 #old#
 ##select *, count(*) from keywords group by term_id;

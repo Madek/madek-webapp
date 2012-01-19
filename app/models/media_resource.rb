@@ -23,6 +23,11 @@ class MediaResource < ActiveRecord::Base
       get(key_id).to_s
     end
 
+    #wip#
+    #def get_for_labels(labels)
+    #  joins(:meta_key).where(:meta_keys => {:label => labels})
+    #end
+
     #def with_labels
     #  h = {}
     #  all.each do |meta_datum|
@@ -183,14 +188,22 @@ class MediaResource < ActiveRecord::Base
     end
     
     # TODO merge to as_json
-    # NEW and experimental for batch processes 
     def get_basic_info(current_user, extended_keys = [], with_thumb = false)
       core_keys = ["title", "author"]
       core_info = Hash.new
       
-      (core_keys + extended_keys).each do |key|
+      labels = core_keys + extended_keys
+      (labels).each do |key|
         core_info[key.gsub(' ', '_')] = meta_data.get_value_for(key)
       end
+      #wip#
+      #labels.each do |label|
+      #  core_info[label.gsub(' ', '_')] = ""
+      #end
+      #meta_data.get_for_labels(labels).each do |md|
+      #  core_info[md.meta_key.label.gsub(' ', '_')] = md.to_s
+      #end
+      
       if with_thumb
         mf = if self.is_a?(MediaSet)
           MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).first.try(:media_file)
@@ -207,6 +220,7 @@ class MediaResource < ActiveRecord::Base
         end
         core_info["thumb_base64"] = "/media_entries/%d/image?size=small_125" % me.id if me
       end
+      
       core_info
     end
 
@@ -239,7 +253,8 @@ class MediaResource < ActiveRecord::Base
       flags = { :is_private => acl?(:view, :only, user),
                 :is_public => acl?(:view, :all),
                 :is_editable => Permission.authorized?(user, :edit, self),
-                :is_manageable => Permission.authorized?(user, :manage, self) }
+                :is_manageable => Permission.authorized?(user, :manage, self),
+                :is_favorite => user.favorite_ids.include?(id) }
       more_json.merge! flags         
       more_json.merge!(self.get_basic_info(user, [], with_thumb))
     end
@@ -381,24 +396,23 @@ public
 ##########################################################################################################################
 ##########################################################################################################################
   
-  # default_scope order("updated_at DESC")
+  default_scope order("media_resources.updated_at DESC")
 
   ################################################################
 
+  scope :media_entries_and_media_sets, where(:type => ["MediaEntry", "MediaSet"])
   scope :media_entries, where(:type => "MediaEntry")
   scope :media_sets, where(:type => "MediaSet")
+  scope :snapshots, where(:type => "Snapshot")
 
   ################################################################
 
-  #scope :by_user, lambda {|user| media_entries.joins(:upload_session).where(:upload_sessions => {:user_id => user}) } 
   scope :by_user, lambda {|user| where(["media_resources.user_id = ?", user]) }
-  #scope :not_by_user, lambda {|user| media_entries.joins(:upload_session).where(["upload_sessions.user_id != ?", user]) } 
   scope :not_by_user, lambda {|user| where(["media_resources.user_id <> ?", user]) }
 
   ################################################################
   
   scope :favorites_for_user, lambda {|user|
-    media_entries.
     joins("RIGHT JOIN favorites ON media_resources.id = favorites.media_resource_id").
     where(:favorites => {:user_id => user})
   }

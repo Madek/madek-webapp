@@ -28,6 +28,10 @@ class MetaContext < ActiveRecord::Base
 ##################################################################
 
   def to_s
+    label
+  end
+
+  def label
     "#{meta_field.try(:label)}"
   end
 
@@ -38,8 +42,32 @@ class MetaContext < ActiveRecord::Base
   def next_position
     meta_key_definitions.maximum(:position).try(:next).to_i
   end
+  
+  def as_json(options={})
+    default_options = {:only => :id,
+                       :methods => [:label, :description]}
+                       
+    super(default_options.merge(options))
+  end
 
 ##################################################################
+
+  def vocabulary(user, used_meta_term_ids = nil)
+    r = as_json
+    used_meta_term_ids ||= used_meta_term_ids(user)
+    r[:meta_keys] = meta_keys.for_meta_terms.map do |meta_key|
+      definition = meta_key.meta_key_definitions.for_context(self)
+      { :label => definition.meta_field.label.to_s,
+        :meta_terms => meta_key.meta_terms.map do |meta_term|
+          { :id => meta_term.id,
+            :label => meta_term.to_s,
+            :is_used => (used_meta_term_ids.include?(meta_term.id) ? 1 : 0)
+          }
+        end
+      }
+    end
+    r
+  end
 
   # TODO dry with MediaSet#abstract  
   def abstract(current_user = nil, min_media_entries = nil)
@@ -59,7 +87,19 @@ class MetaContext < ActiveRecord::Base
     #1005# return h.collect {|k, v| meta_data.build(:meta_key_id => k, :value => v) }
     b = []
     h.each_pair {|k, v| b[meta_key_ids.index(k)] = MetaDatum.new(:meta_key_id => k, :value => v) }
-    return b.compact
+    
+    return b.compact.map do |meta_datum|
+      meta_datum.meta_key.reload #tmp# TODO remove this line, is an Identity Map problem ??
+      definition = meta_datum.meta_key.meta_key_definitions.for_context(self)
+      { :meta_key_id => meta_datum.meta_key_id,
+        :meta_key_label => definition.meta_field.label.to_s,
+        :meta_terms => meta_datum.deserialized_value.map do |meta_term|
+          { :id => meta_term.id,
+            :label => meta_term.to_s
+          }
+        end 
+      }
+    end
   end
 
   # TODO dry with MediaSet#used_meta_term_ids  
