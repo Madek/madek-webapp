@@ -1,53 +1,47 @@
 # -*- encoding : utf-8 -*-
-class MediaResource < ActiveRecord::Base
+module Resource
 
-  has_many :userpermissions, :dependent => :destroy
-  has_many :grouppermissions, :dependent => :destroy
-
-  belongs_to :user 
-  belongs_to :media_file
-  belongs_to :upload_session
+  
 
 
- # TODO observe bulk changes and reindex once
-  has_many :meta_data, :dependent => :destroy do #working here#7 :include => :meta_key
-    def get(key_id)
-      # unless ... and !!v.match(/\A[+-]?\d+\Z/) # TODO path to String#is_numeric? method
-      #TODO: handle the case when key_id is a MetaKey object
-      key_id = MetaKey.find_by_label(key_id.downcase).id unless key_id.is_a?(Fixnum)
-      r = where(:meta_key_id => key_id).first # OPTIMIZE prevent find if is_dynamic meta_key
-      r ||= build(:meta_key_id => key_id)
+  
+  def self.included(base)
+
+
+   # TODO observe bulk changes and reindex once
+    base.has_many :meta_data, :as => :resource, :dependent => :destroy do #working here#7 :include => :meta_key
+      def get(key_id)
+        # unless ... and !!v.match(/\A[+-]?\d+\Z/) # TODO path to String#is_numeric? method
+        #TODO: handle the case when key_id is a MetaKey object
+        key_id = MetaKey.find_by_label(key_id.downcase).id unless key_id.is_a?(Fixnum)
+        r = where(:meta_key_id => key_id).first # OPTIMIZE prevent find if is_dynamic meta_key
+        r ||= build(:meta_key_id => key_id)
+      end
+
+      def get_value_for(key_id)
+        get(key_id).to_s
+      end
+
+      #def with_labels
+      #  h = {}
+      #  all.each do |meta_datum|
+      #    next unless meta_datum.meta_key # FIXME inconsistency: there are meta_data referencing to not existing meta_key_ids [131, 135]
+      #    h[meta_datum.meta_key.label] = meta_datum.to_s
+      #  end
+      #  h
+      #end
+      def concatenated
+        all.map(&:to_s).join('; ')
+      end
     end
-
-    def get_value_for(key_id)
-      get(key_id).to_s
-    end
-
-    #wip#
-    #def get_for_labels(labels)
-    #  joins(:meta_key).where(:meta_keys => {:label => labels})
-    #end
-
-    #def with_labels
-    #  h = {}
-    #  all.each do |meta_datum|
-    #    next unless meta_datum.meta_key # FIXME inconsistency: there are meta_data referencing to not existing meta_key_ids [131, 135]
-    #    h[meta_datum.meta_key.label] = meta_datum.to_s
-    #  end
-    #  h
-    #end
-    def concatenated
-      all.map(&:to_s).join('; ')
-    end
-  end
-  accepts_nested_attributes_for :meta_data, :allow_destroy => true,
-                                             :reject_if => proc { |attributes| attributes['value'].blank? and attributes['_destroy'].blank? }
-                                             # NOTE the check on _destroy should be automatic, check Rails > 3.0.3
+    base.accepts_nested_attributes_for :meta_data, :allow_destroy => true,
+                                               :reject_if => proc { |attributes| attributes['value'].blank? and attributes['_destroy'].blank? }
+                                               # NOTE the check on _destroy should be automatic, check Rails > 3.0.3
 
 #temp#
 #    # enforce meta_key uniqueness updating existing meta_datum
 #    # also useful for bulk meta_data updates such as Copyright, Organizer forms,...
-#    before_validation(:on => :update) do |record|
+#    base.before_validation(:on => :update) do |record|
 #      new_meta_data = record.meta_data.select{|md| md.new_record? }
 #      new_meta_data.each do |new_md|
 #        old_md = record.meta_data.detect{|md| !md.new_record? and md.meta_key_id == new_md.meta_key_id }
@@ -58,51 +52,50 @@ class MediaResource < ActiveRecord::Base
 #      end
 #    end
 
-  after_create :generate_permissions
+    base.after_create :generate_permissions
 
-  has_many  :edit_sessions, :dependent => :destroy, :readonly => true
-  has_many  :editors, :through => :edit_sessions, :source => :user do
-    def latest
-      first
+    base.has_many  :edit_sessions, :as => :resource, :dependent => :destroy, :readonly => true
+    base.has_many  :editors, :through => :edit_sessions, :source => :user do
+      def latest
+        first
+      end
     end
+
+    base.validates_presence_of :user, :if => Proc.new { |record| record.respond_to?(:user_id) }
+
+    def update_attributes_with_pre_validation(attributes, current_user = nil)
+      # we need to deep copy the attributes for batch edit (multiple resources)
+      dup_attributes = Marshal.load(Marshal.dump(attributes))
+
+      # To avoid overriding at batch update: remove from attribute hash if :keep_original_value and value is blank
+      dup_attributes[:meta_data_attributes].delete_if { |key, attr| attr[:keep_original_value] and attr[:value].blank? }
+
+      dup_attributes[:meta_data_attributes].each_pair do |key, attr|
+        if attr[:value].is_a? Array and attr[:value].all? {|x| x.blank? }
+          attr[:value] = nil
+        end
+
+        # find existing meta_datum, if it exists
+        if attr[:id].blank? and (md = meta_data.where(:meta_key_id => attr[:meta_key_id]).first)
+          attr[:id] = md.id
+        end
+
+        # get rid of meta_datum if value is blank
+        if !attr[:id].blank? and attr[:value].blank?
+          attr[:_destroy] = true
+          #old# attr[:value] = "." # NOTE bypass the validation
+        end
+      end if dup_attributes[:meta_data_attributes]
+
+      self.editors << current_user if current_user # OPTIMIZE group by user ??
+      self.updated_at = Time.now # OPTIMIZE touch
+      update_attributes_without_pre_validation(dup_attributes)
+    end
+    base.alias_method_chain :update_attributes, :pre_validation
+
+    base.has_one :full_text, :as => :resource, :dependent => :destroy
+    base.after_save { reindex } # OPTIMIZE
   end
-
-  validates_presence_of :user, :if => Proc.new { |record| record.respond_to?(:user_id) }
-
-  def update_attributes_with_pre_validation(attributes, current_user = nil)
-    # we need to deep copy the attributes for batch edit (multiple resources)
-    dup_attributes = Marshal.load(Marshal.dump(attributes))
-
-    # To avoid overriding at batch update: remove from attribute hash if :keep_original_value and value is blank
-    dup_attributes[:meta_data_attributes].delete_if { |key, attr| attr[:keep_original_value] and attr[:value].blank? }
-
-    dup_attributes[:meta_data_attributes].each_pair do |key, attr|
-      if attr[:value].is_a? Array and attr[:value].all? {|x| x.blank? }
-        attr[:value] = nil
-      end
-
-      # find existing meta_datum, if it exists
-      if attr[:id].blank? and (md = meta_data.where(:meta_key_id => attr[:meta_key_id]).first)
-        attr[:id] = md.id
-      end
-
-      # get rid of meta_datum if value is blank
-      if !attr[:id].blank? and attr[:value].blank?
-        attr[:_destroy] = true
-        #old# attr[:value] = "." # NOTE bypass the validation
-      end
-    end if dup_attributes[:meta_data_attributes]
-
-    self.editors << current_user if current_user # OPTIMIZE group by user ??
-    self.updated_at = Time.now # OPTIMIZE touch
-    update_attributes_without_pre_validation(dup_attributes)
-  end
-  alias_method_chain :update_attributes, :pre_validation
-
-  has_one :full_text, :dependent => :destroy
-  after_save { reindex } # OPTIMIZE
-
-
 
   def default_permission
     Permission.resource_default(self)
@@ -186,25 +179,18 @@ class MediaResource < ActiveRecord::Base
     end
     
     # TODO merge to as_json
+    # NEW and experimental for batch processes 
     def get_basic_info(current_user, extended_keys = [], with_thumb = false)
       core_keys = ["title", "author"]
       core_info = Hash.new
       
-      labels = core_keys + extended_keys
-      (labels).each do |key|
+      (core_keys + extended_keys).each do |key|
         core_info[key.gsub(' ', '_')] = meta_data.get_value_for(key)
       end
-      #wip#
-      #labels.each do |label|
-      #  core_info[label.gsub(' ', '_')] = ""
-      #end
-      #meta_data.get_for_labels(labels).each do |md|
-      #  core_info[md.meta_key.label.gsub(' ', '_')] = md.to_s
-      #end
-      
       if with_thumb
         mf = if self.is_a?(MediaSet)
-          MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).first.try(:media_file)
+          # TODO Tom check with Franco if this can be made simpler:
+          current_user.viewable_media_resources.media_entries.by_media_set(self).first.try(:media_file)
         else
           self.media_file
         end
@@ -218,7 +204,6 @@ class MediaResource < ActiveRecord::Base
         end
         core_info["thumb_base64"] = "/media_entries/%d/image?size=small_125" % me.id if me
       end
-      
       core_info
     end
 
@@ -247,12 +232,9 @@ class MediaResource < ActiveRecord::Base
     more_json = {}
     
     if user = options[:user]
-      #TODO Dont do this behaviour on default
-      flags = { :is_private => acl?(:view, :only, user),
-                :is_public => acl?(:view, :all),
-                :is_editable => Permissions.authorized?(user, :edit, self),
-                :is_manageable => Permissions.authorized?(user, :manage, self),
-                :is_favorite => user.favorite_ids.include?(id) }
+      #TODO implement is_public, is_private
+      flags = { :is_editable => Permissions.authorized?(user, :edit, self),
+                :is_manageable => Permissions.authorized?(user, :manage, self) }
       more_json.merge! flags         
       more_json.merge!(self.get_basic_info(user, [], with_thumb))
     end
@@ -298,7 +280,7 @@ class MediaResource < ActiveRecord::Base
       @meta_data_for_context[context.id] = []
 
       context.meta_keys.each do |key|
-        md = key.meta_data.scoped_by_media_resource_id(self.id).first  # OPTIMIZE eager loading
+        md = key.meta_data.scoped_by_resource_type_and_resource_id(self.class.base_class.name, self.id).first  # OPTIMIZE eager loading
         if md
           @meta_data_for_context[context.id] << md
         elsif build_if_not_exists or key.is_dynamic?
@@ -343,175 +325,43 @@ class MediaResource < ActiveRecord::Base
           "Doc"
       end 
     else
-      self.type.gsub(/Media/, '')
+      self.type.gsub(/Media::/, '')
     end    
   end
 
 ########################################################
 # ACL
 
-
   def acl?(action, scope, subject = nil)
     case scope
     when :all
-      self.send(action)
+      self.permissionset.send(action)
     when :only
       Permissions.is_private?(subject,self,:view)
     end
   end
 
-
   def managers
-    # TODO Tom fix this
     User \
       .joins("INNER JOIN  manageable_media_resources_users ON manageable_media_resources_users.user_id = users.id") \
       .joins("INNER JOIN media_resources ON media_resources.id = manageable_media_resources_users.media_resource_id")
   end
 
+private
 
-  private
-
-
+  # TODO check with franco permissions for snapshot 
   def generate_permissions
     if self.class == Snapshot
       group = Group.find_or_create_by_name("MIZ-Archiv") 
       gp = Grouppermission.create  \
         group: group, 
         media_resource: self,
-        download: true,
-        edit: true,
-        manage: true,
-        view: true
+        may_download: true,
+        may_edit: true,
+        may_manage: true,
+        may_view: true
     end
   end
-
-
-
-public
-
-
-##########################################################################################################################
-##########################################################################################################################
-  
-  default_scope order("media_resources.updated_at DESC")
-
-  ################################################################
-
-  scope :media_entries_and_media_sets, where(:type => ["MediaEntry", "MediaSet"])
-  scope :media_entries, where(:type => "MediaEntry")
-  scope :media_sets, where(:type => "MediaSet")
-  scope :snapshots, where(:type => "Snapshot")
-
-  ################################################################
-
-  scope :by_user, lambda {|user| where(["media_resources.user_id = ?", user]) }
-  scope :not_by_user, lambda {|user| where(["media_resources.user_id <> ?", user]) }
-
-  ################################################################
-  
-  scope :favorites_for_user, lambda {|user|
-    joins("RIGHT JOIN favorites ON media_resources.id = favorites.media_resource_id").
-    where(:favorites => {:user_id => user})
-  }
-
-  ################################################################
-
-  scope :by_media_set, lambda {|media_set|
-    #tmp#
-    #SELECT `media_resources`.* FROM `media_resources`
-    #left JOIN media_entries_media_sets ON media_resources.id = media_entries_media_sets.media_entry_id and `media_entries_media_sets`.`media_set_id` = 347
-    #inner JOIN `media_set_links` ON media_resources.id = `media_set_links`.`descendant_id` and `media_set_links`.`ancestor_id` = 347 AND `media_set_links`.`direct` = 1;
-
-    #old#
-    #joins("INNER JOIN media_entries_media_sets ON media_resources.id = media_entries_media_sets.media_entry_id").
-    #where(:media_entries_media_sets => {:media_set_id => media_set})
-
-    where("(media_resources.id, media_resources.type) IN " \
-            "(SELECT media_entry_id AS id, 'MediaEntry' AS type FROM media_entries_media_sets " \
-              "WHERE media_set_id = ? " \
-            "UNION " \
-              "SELECT child_id AS id, 'MediaSet' AS type FROM media_set_arcs " \
-                "WHERE parent_id = ? )",
-          media_set.id, media_set.id);
-  }
-
-  ################################################################
-
-  scope :search, lambda {|q|
-    sql = joins("LEFT JOIN full_texts ON (media_resources.id) = (full_texts.resource_id)")
-    where_clause= 
-      if SQLHelper.adapter_is_postgresql?
-        q.split.map{|x| "text ILIKE '%#{x}%'" }.join(' AND ')
-      elsif SQLHelper.adapter_is_mysql? 
-        q.split.map{|x| "text LIKE '%#{x}%'" }.join(' AND ')
-      else
-        raise "you sql adapter is not yet supported"
-      end
-    sql.where(where_clause)
-  }
-
-  ################################################################
-  
-  def parents 
-    case type
-    when "MediaSet"
-      parent_sets
-    when "MediaEntry"
-      media_sets
-    else
-      raise "parents is not supported (yet) for your type"
-    end
-  end
-
-  def self.reindex
-    all.map(&:reindex).uniq
-  end
-  
-  def self.filter_media_file(options = {})
-    sql = media_entries.joins("RIGHT JOIN media_files ON media_resources.media_file_id = media_files.id")
-    
-    if options[:width] and not options[:width][:value].blank?
-      operator = case options[:width][:operator]
-        when "gt"
-          ">"
-        when "lt"
-          "<"
-        else
-          "="
-      end
-      sql = sql.where("media_files.width #{operator} ?", options[:width][:value])
-    end
-
-    if options[:height] and not options[:height][:value].blank?
-      operator = case options[:height][:operator]
-        when "gt"
-          ">"
-        when "lt"
-          "<"
-        else
-          "="
-      end
-      sql = sql.where("media_files.height #{operator} ?", options[:height][:value])
-    end
-
-    unless options[:orientation].blank?
-      operator = case options[:orientation].to_i
-        when 0
-          "<"
-        when 1
-          ">"
-      end
-      sql = sql.where("media_files.height #{operator} media_files.width")
-    end
-
-    sql    
-  end
-
-
-  def self.accessible_by_user(user, action = :view)
-    user.send("#{Constants::Actions.old2new action}able_media_resources").select("DISTINCT *").order("created_at DESC ")
-  end
-
 
 
 end

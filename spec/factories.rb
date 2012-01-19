@@ -196,10 +196,4 @@ FactoryGirl.define do
     usage_terms_accepted_at {Time.now}
   end
 
-  factory :media_sets_userpermissions_join do
-  end
-
-  factory :media_entries_userpermissions_join do
-  end
-
 end
