@@ -28,7 +28,7 @@ module Permissions
 
     def is_private? user, resource, action
       new_action = Constants::Actions.old2new action
-      nil == (user.viewable_media_resources.where("#{new_action}able_media_resources_users.user_id <> #{user.id}").first)
+      (users_permitted_to_act_on_resouce resource, new_action).where("users.id <> #{user.id}").first.nil?
     end
 
 
