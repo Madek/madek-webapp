@@ -1,4 +1,15 @@
 
+SELECT `media_resources`.* FROM `media_resources`  WHERE ( media_resources.id IN 
+         (SELECT media_resource_id FROM `userpermissions`  WHERE `userpermissions`.`view` = 1 AND (user_id = 2233 ) )
+        UNION
+         (SELECT media_resource_id FROM `grouppermissions` INNER JOIN `groups` ON `groups`.`id` = `grouppermissions`.`group_id` INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id WHERE `grouppermissions`.`view` = 1 AND (groups_users.user_id = 2233) AND ( media_resource_id NOT IN ( SELECT media_resource_id FROM `userpermissions`  WHERE `userpermissions`.`view` = 0 AND (user_id = 2233 ) )) )
+              ) 
+
+SELECT media_resource_id FROM `userpermissions`  WHERE `userpermissions`.`view` = 1 AND (user_id = 2233 )
+UNION
+SELECT media_resource_id FROM `grouppermissions` INNER JOIN `groups` ON `groups`.`id` = `grouppermissions`.`group_id` INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id WHERE `grouppermissions`.`view` = 1 AND (groups_users.user_id = 2233) AND ( media_resource_id NOT IN ( SELECT media_resource_id FROM `userpermissions`  WHERE `userpermissions`.`view` = 0 AND (user_id = 2233 ) ))
+
+
 SELECT users from users
   INNER JOIN  manageable_media_resources_users ON manageable_media_resources_users.user_id = users.id
   INNER JOIN media_resources ON media_resources.id = manageable_media_resources_users.media_resource_id;
