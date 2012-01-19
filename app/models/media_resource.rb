@@ -393,7 +393,7 @@ public
 ##########################################################################################################################
 ##########################################################################################################################
   
-  default_scope order("media_resources.updated_at DESC")
+  #default_scope order("media_resources.updated_at DESC")
 
   ################################################################
 
@@ -513,38 +513,18 @@ public
     up = Userpermission.select("media_resource_id").where(action => true).where("user_id = #{user.id} ")
     not_up= Userpermission.select("media_resource_id").where(action => false).where("user_id = #{user.id} ")
     gp_not_dis_up = Grouppermission.select("media_resource_id").where(action => true).joins(:group).joins("INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id ").where("groups_users.user_id = #{user.id}").where(" media_resource_id NOT IN ( #{not_up.to_sql} )")
+    ownership = MediaResource.select("media_resources.id").where(user_id: user)
+    public_mr = MediaResource.select("media_resources.id").where(action => true)
 
-
-
-
-
-    self.where(" media_resources.id IN 
-         #{up.to_sql} 
+    where(" media_resources.id IN  (
+          #{up.to_sql} 
         UNION
-         #{gp_not_dis_up.to_sql} 
-              ")
-    
-    
-   
-
-    #      where("media_resources.id NOT IN " \
-#              "(SELECT media_resource_id FROM permissions " \
-#                "USE INDEX (index_permissions_on_resource_and_subject) " \
-#                "WHERE (subject_type = 'User' AND subject_id = :user_id) " \
-#                  "AND NOT #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) " \
-#            "AND media_resources.id IN " \
-#              "(SELECT media_resource_id FROM permissions " \
-#                "USE INDEX (index_permissions_on_resource_and_subject) " \
-#                "LEFT JOIN groups_users ON permissions.subject_id = groups_users.group_id " \
-#                "WHERE (subject_type IS NULL " \
-#                  "OR (subject_type = 'Group' AND groups_users.user_id = :user_id) " \
-#                  "OR (subject_type = 'User' AND subject_id = :user_id)) " \
-#                "AND   #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)}) ",
-#            :user_id => user.id);
-#
-#    user.send("#{Constants::Actions.old2new action}able_media_resources").order("created_at DESC ")
-
-
+          #{gp_not_dis_up.to_sql} 
+        UNION
+          #{ownership.to_sql}
+        UNION 
+          #{public_mr.to_sql}
+              )")
 
   end
 
