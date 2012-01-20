@@ -34,19 +34,7 @@ $(document).ready(function () {
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+managable_ids+"'>");
     });
   
-	// add to set
-	 $("#batch-add-to-set form select").change(function() {
-	   $("#batch-add-to-set form").submit();
-	 });
 	
-    $("#batch-add-to-set form").submit(function() {
-      var editable_ids = new Array();
-      $("#selected_items .thumb_mini").each(function(i, elem){
-        editable_ids.push($(this).attr("rel"));
-      });
-      $(this).append("<input type='hidden' name='media_entry_ids' value='"+editable_ids+"'>");
-    });
-
     $(".item_box:not(.tmp)").live({
       mouseenter: function() {
         $(this).find('.actions').show();
@@ -299,6 +287,8 @@ function displayCount() {
 	  $("#batch-add-to-set").hide(); 
 	  if($("#batch-select-all:visible").length) $('.task_bar .seperator:first').hide(); 
 	}
+	
+	update_selection(); // needed for set widget
 };
 
 function display_page(json, container){
@@ -329,3 +319,13 @@ function display_results(json, container){
   		
 	display_page(json, container);
 };
+
+///////////////////////////////////////////////////////// SELECTION UPDATE FOR SET WIDGET
+
+function update_selection(){
+  var selected_ids = [];
+  $.each(get_media_entries_json(), function(i, element){
+    selected_ids.push(element.id);
+  });
+  $(".task_bar .has-set-widget").data("selected_ids", selected_ids);
+}
