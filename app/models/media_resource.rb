@@ -84,6 +84,8 @@ class MediaResource < ActiveRecord::Base
         if (md = meta_data.where(:meta_key_id => attr[:meta_key_id]).first)
           attr[:id] = md.id
         end
+      else
+        attr.delete(:meta_key_label)
       end
 
       # get rid of meta_datum if value is blank
