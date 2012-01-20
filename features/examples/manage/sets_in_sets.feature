@@ -1,8 +1,7 @@
 Feature: Sets in Sets
 
-  Background: Set up the world and load all example data
+  Background: Set up the world with a user and logging in
     Given I have set up the world
-      And the example data is completly loaded
       And a user called "Max" with username "max" and password "moritz" exists
       And I log in as "max" with password "moritz"
       And I am logged in as "max"
@@ -71,18 +70,15 @@ Feature: Sets in Sets
   #- das Flyout über dem Icon soll lauten: "zu Set hinzufügen bzw. daraus entfernen"
   #- das Widget erscheint schnell nachdem man den Button angewählt hat
   #
-  # Not yet implementet:
-  # - And I can filter for my sets and for my favorites # The "my" is not defined yet!
-  #
   # Currently:
   @current
   Scenario: Information I see when I open the sets in sets tool
-    Given are some sets and entries 
      When I open the sets in sets tool
-     Then I see all sets I can edit
+      And I see all sets I can edit
+      # And I can filter for my sets # The "my" is not defined yet!
       And I can see the owner of each set
       And I can see that selected sets are already highlighted
-      And I can choose to see additional information
+      And I can choose to see additional information # I can see the full set title on hover
       And I can read the first 30 characters of each set title
       And I can see enough information to differentiate between similar sets # Ask SUS: What makes it possible to differentiate similar sets?
 

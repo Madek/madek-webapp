@@ -51,7 +51,7 @@ class MediaSet < MediaResource
 
     s = "#{title} " 
     s += "- %s " % self.class.name.split('::').last # OPTIMIZE get class name without module name
-    s += "(#{media_entries.count})" # TODO filter accessible ?? "(#{MediaResource.accessible_by_user(current_user).by_media_set(self).count})"
+    s += "(#{media_entries.count})" # TODO filter accessible ?? "(#{media_entries.accessible_by_user(current_user).count})"
   end
 
 ########################################################
@@ -105,7 +105,7 @@ end
   def abstract(min_media_entries = nil, current_user = nil)
     min_media_entries ||= media_entries.count.to_f * 50 / 100
     accessible_media_entry_ids = if current_user
-      MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).map(&:id)
+      media_entries.accessible_by_user(current_user).map(&:id)
     else
       media_entry_ids
     end
@@ -128,7 +128,7 @@ end
   # TODO dry with MetaContext#used_meta_term_ids  
   def used_meta_term_ids(current_user = nil)
     accessible_media_entry_ids = if current_user
-      MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).map(&:id)
+      media_entries.accessible_by_user(current_user).map(&:id)
     else
       media_entry_ids
     end

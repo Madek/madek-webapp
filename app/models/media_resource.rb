@@ -204,7 +204,7 @@ class MediaResource < ActiveRecord::Base
       
       if with_thumb
         mf = if self.is_a?(MediaSet)
-          MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).first.try(:media_file)
+          media_entries.accessible_by_user(current_user).first.try(:media_file)
         else
           self.media_file
         end
@@ -212,7 +212,7 @@ class MediaResource < ActiveRecord::Base
       else
         #1+n http-requests#
         me = if self.is_a?(MediaSet)
-          MediaResource.accessible_by_user(current_user).media_entries.by_media_set(self).first
+          media_entries.accessible_by_user(current_user).first
         else
           self
         end
