@@ -40,22 +40,13 @@ class ApplicationController < ActionController::Base
         # TODO refactor to UsersController#show and dry with ResourcesController#index
         params[:per_page] ||= PER_PAGE.first
 
-        paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
         resources = MediaResource.accessible_by_user(current_user).media_entries_and_media_sets
         
-        my_resources = resources.by_user(current_user).paginate(paginate_options)
-        @my_media_entries = { :pagination => { :current_page => my_resources.current_page,
-                                              :per_page => my_resources.per_page,
-                                              :total_entries => my_resources.total_entries,
-                                              :total_pages => my_resources.total_pages },
-                             :entries => my_resources.as_json(:user => current_user, :with_thumb => true) } 
+        my_resources = resources.by_user(current_user).limit(params[:per_page].to_i)
+        @my_media_entries = { :entries => my_resources.as_json(:user => current_user, :with_thumb => true) } 
         
-        other_resources = resources.not_by_user(current_user).paginate(paginate_options)
-        @other_media_entries = { :pagination => { :current_page => other_resources.current_page,
-                                                  :per_page => other_resources.per_page,
-                                                  :total_entries => other_resources.total_entries,
-                                                  :total_pages => other_resources.total_pages },
-                                 :entries => other_resources.as_json(:user => current_user, :with_thumb => true) } 
+        other_resources = resources.not_by_user(current_user).limit(params[:per_page].to_i)
+        @other_media_entries = { :entries => other_resources.as_json(:user => current_user, :with_thumb => true) } 
 
         #binding.pry
         respond_to do |format|
