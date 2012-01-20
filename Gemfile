@@ -89,7 +89,6 @@ group :test, :development do
   gem "guard-spork", "~> 0.5.1"
   gem "guard-cucumber", "~> 0.7.4"
   gem "growl", "~> 1.0.3"
-#  gem "ruby_gntp", "~> 0.3.4"
 end
 
 
