@@ -12,6 +12,7 @@ Feature: Batch edit media entries
       And I upload some picture titled "Picture Two"
       And I upload some picture titled "Picture Three"
       And I log in as "helmi" with password "saumagen"
+      And I am logged in as "helmi"
 
   @javascript
   Scenario: Remove two media entries from a set using batch edit
