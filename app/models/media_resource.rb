@@ -435,7 +435,7 @@ public
   ################################################################
 
   scope :search, lambda {|q|
-    sql = joins("LEFT JOIN full_texts ON (media_resources.id) = (full_texts.resource_id)")
+    sql = joins("LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id")
     where_clause= 
       if SQLHelper.adapter_is_postgresql?
         q.split.map{|x| "text ILIKE '%#{x}%'" }.join(' AND ')
