@@ -20,15 +20,15 @@
             = display_delete_icon(@media_set, current_user)
           = link_to "", :title => "Zu Set hinzufügen/entfernen",
             :class=>"has-set-widget",
-            :"data-id" => "#{@media_set.id}",
+            :"data-selected_ids" => "[#{@media_set.id}]",
             :"data-user" => "#{current_user.to_json(:only => {}, :methods => :name)}",
-            :"data-detach_my_self" => "true",
+            :"data-detach_selected" => "true",
             :"data-after_submit" => "window.location.reload();",
             :"data-index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "with" => {"set" => {"creator" => 1, "created_at" => 1, "title" => 1}}}}.to_json}",
-            :"data-linked_index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "child" => {"id" => @media_set.id, "type" => "set"}}}.to_json}",
-            :"data-create" => "#{{"path" => "/media_sets", "method" => "POST", "data" => {"media_set" => "{:array}"}, "array" => {"meta_data_attributes" => {0 => {"meta_key_id" => 3, "value" => "{:title}"}}}}.to_json}",
-            :"data-link" => "#{{"path" => "/media_sets/"+@media_set.id.to_s+"/parents", "method" => "POST", "data" => {"media_set_ids" => "{:array}"}, "array" => "{:id}"}.to_json}",
-            :"data-unlink" => "#{{"path" => "/media_sets/"+@media_set.id.to_s+"/parents", "method" => "DELETE", "data" => {"media_set_ids" => "{:array}"}, "array" => "{:id}"}.to_json}" do
+            :"data-linked_index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "child_ids" => [@media_set.id]}}.to_json}",
+            :"data-create" => "#{{"path" => "/media_sets", "method" => "POST", "data" => {"media_sets" => ":created_items"}, "created_item" => {"meta_data_attributes" => {0 => {"meta_key_label" => "title", "value" => ":title"}}}}.to_json}",
+            :"data-link" => "#{{"path" => "/media_sets/parents", "method" => "POST", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_set_ids" => ":media_set_ids"}}.to_json}",
+            :"data-unlink" => "#{{"path" => "/media_sets/parents", "method" => "DELETE", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_set_ids" => ":media_set_ids"}}.to_json}" do
             .button_addto
 
       .grid_9
@@ -56,14 +56,6 @@
               = display_set_abstract(@media_set, (@media_entries[:pagination][:total_entries] * 30 / 100), current_user)
             #vocabulary_tab.clearfix
               = display_set_vocabulary(@media_set, current_user)
-
-        #media_set-panel.actionbar-panel{:style => "display: none"}
-          .actionbar-inner-panel
-            - if logged_in?
-              = media_sets_setter(parents_media_set_path(@media_set))
-            - else
-              = _("Bitte anmelden.")
-
 
 %section#content_body_set
   -if(@parents.size > 0)

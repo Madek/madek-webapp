@@ -9,9 +9,21 @@
               = thumb_for(media_entry, :small)
               %br
               = media_entry.meta_data.get_value_for("title")
-        = media_sets_setter(set_media_sets_upload_path(:upload_session_id => params[:upload_session_id]), true)
+        =link_to _("Weiter ohne Hinzufügen zu einem Set…"), root_path, :class => "upload_buttons"
+        =link_to _("Einträge zu einem Set hinzufügen"), "", :title => "Zu einem Set hinzufügen/entfernen",:class => "upload_buttons has-set-widget",
+        :"data-selected_ids" => "",
+        :"data-user" => "#{current_user.to_json(:only => {}, :methods => :name)}",
+        :"data-after_submit" => "",
+        :"data-index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "with" => {"set" => {"creator" => 1, "created_at" => 1, "title" => 1}}}}.to_json}",
+        :"data-linked_index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "child_ids" => ":selected_ids", "with" => {"set" => {"media_entries" => 1, "child_sets" => 1}}}}.to_json}",
+        :"data-create" => "#{{"path" => "/media_sets", "method" => "POST", "data" => {"media_sets" => ":created_items"}, "created_item" => {"meta_data_attributes" => {0 => {"meta_key_label" => "title", "value" => ":title"}}}}.to_json}",
+        :"data-link" => "#{{"path" => "/media_entries/media_sets", "method" => "POST", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_entry_ids" => ":media_entry_ids"}}.to_json}",
+        :"data-unlink" => "#{{"path" => "/media_entries/media_sets", "method" => "DELETE", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_entry_ids" => ":media_entry_ids"}}.to_json}"
 
 :javascript
   $(document).ready(function () {
     activate_step(4);
+    
+    $(".has-set-widget").data("selected_ids", "#{@media_entries.map(&:id).to_json}");
+    console.log($(".has-set-widget").data("selected_ids"));
   });
