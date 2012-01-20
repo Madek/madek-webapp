@@ -362,7 +362,7 @@ class MediaResource < ActiveRecord::Base
 
 
   def managers
-    users_permitted_to_act_on_resouce self, :manage
+    Permissions.users_permitted_to_act_on_resouce self, :manage
   end
 
 

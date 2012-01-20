@@ -77,20 +77,18 @@ class MediaSetsController < ApplicationController
       }
       
       format.js {
-
-        action = Constants::Actions.old2new accessible_action.to_sym
-
-        sets = if child
-                 (MediaResource.find child[:id].to_i).parents.select("DISTINCT *") \
-                   .joins(" INNER JOIN #{action}able_media_resources_users ON media_resources.id = media_resource_id ") \
-                   .where(" #{action}able_media_resources_users.user_id = #{current_user.id} ") 
-               else
-                 (current_user.send "#{action}able_media_resources").media_sets
-               end
-
-
-      render :json => sets.as_json(:with => with, :with_thumb => false) # TODO drop with_thum merge with with
-
+        
+        sets = all_sets = MediaResource.accessible_by_user(current_user, accessible_action.to_sym).media_sets
+        
+        if(!child.nil?) # if child is set try to get child and scope sets trough child
+          if(child["type"] == "entry" && MediaEntry.exists?(child["id"]))
+            sets = MediaEntry.find(child["id"]).media_sets.delete_if {|s| !all_sets.include?(s)}
+          elsif(child["type"] == "set" && MediaSet.exists?(child["id"]))
+            sets = MediaSet.find(child["id"]).parent_sets.delete_if {|s| !all_sets.include?(s)}
+          end
+        end  
+        
+        render :json => sets.as_json(:with => with, :with_thumb => false) # TODO drop with_thum merge with with
       }
     end
   end
