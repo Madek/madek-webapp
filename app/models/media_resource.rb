@@ -249,10 +249,12 @@ class MediaResource < ActiveRecord::Base
     
     if user = options[:user]
       #TODO Dont do this behaviour on default
-      flags = { :is_private => acl?(:view, :only, user),
-                :is_public => acl?(:view, :all),
-                :is_editable => Permission.authorized?(user, :edit, self),
-                :is_manageable => Permission.authorized?(user, :manage, self),
+      is_public = acl?(:view, :all)
+      permissions_merged_actions = Permission.merged_actions(user, self)
+      flags = { :is_public => is_public,
+                :is_private => (is_public ? false : acl?(:view, :only, user)),
+                :is_editable => !!permissions_merged_actions[:edit],
+                :is_manageable => !!permissions_merged_actions[:manage],
                 :is_favorite => user.favorite_ids.include?(id) }
       more_json.merge! flags         
       more_json.merge!(self.get_basic_info(user, [], with_thumb))
