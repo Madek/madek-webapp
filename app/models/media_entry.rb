@@ -20,7 +20,7 @@ class MediaEntry < MediaResource
   end
     
   after_create do |record|
-    descr_author_value = record.meta_data.get("description author").value
+    descr_author_value = record.meta_data.get("description author", false).try(:value)
     record.meta_data.get("description author before import").update_attributes(:value => descr_author_value) if descr_author_value
   end
 
