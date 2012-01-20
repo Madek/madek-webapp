@@ -18,15 +18,29 @@ describe MediaEntry do
     end
 
     it "title should be assignable using meta_key_id" do
-      params = {:meta_data_attributes => {"0" => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "My new value using meta_key_id"}}}
+      meta_key_id = MetaKey.find_by_label("title").id
+      
+      title = "My new value using meta_key_id with symbol keys"
+      params = {:meta_data_attributes => {"0" => {:meta_key_id => meta_key_id, :value => title}}}
       @media_entry.update_attributes(params)
-      @media_entry.title.should == "My new value using meta_key_id"
+      @media_entry.reload.title.should == title
+
+      title = "My new value using meta_key_id with string keys"
+      params = {"meta_data_attributes" => {"0" => {"meta_key_id" => meta_key_id, "value" => title}}}
+      @media_entry.update_attributes(params)
+      @media_entry.reload.title.should == title
     end
 
     it "title should be assignable using meta_key_label" do
-      params = {:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => "My new value using meta_key_label"}}}
+      title = "My new value using meta_key_label with symbol keys"
+      params = {:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title}}}
       @media_entry.update_attributes(params)
-      @media_entry.title.should == "My new value using meta_key_label"
+      @media_entry.reload.title.should == title
+
+      title = "My new value using meta_key_label with string keys"
+      params = {"meta_data_attributes" => {"0" => {"meta_key_label" => "title", "value" => title}}}
+      @media_entry.update_attributes(params)
+      @media_entry.reload.title.should == title
     end
 
   end

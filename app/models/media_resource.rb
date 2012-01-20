@@ -66,7 +66,7 @@ class MediaResource < ActiveRecord::Base
 
   def update_attributes_with_pre_validation(attributes, current_user = nil)
     # we need to deep copy the attributes for batch edit (multiple resources)
-    dup_attributes = Marshal.load(Marshal.dump(attributes))
+    dup_attributes = Marshal.load(Marshal.dump(attributes)).deep_symbolize_keys
 
     # To avoid overriding at batch update: remove from attribute hash if :keep_original_value and value is blank
     dup_attributes[:meta_data_attributes].delete_if { |key, attr| attr[:keep_original_value] and attr[:value].blank? }
