@@ -127,8 +127,7 @@
             %li
               = link_to " ", :title => "Zu Set hinzufügen/entfernen",
                 :class=>"has-set-widget",
-                :"data-current_id" => "#{@media_entry.id}",
-                :"data-detach_my_self" => "false",
+                :"data-id" => "#{@media_entry.id}",
                 :"data-user" => "#{current_user.to_json(:only => {}, :methods => :name)}",
                 :"data-after_submit" => "window.location.reload();",
                 :"data-index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "with" => {"set" => {"creator" => 1, "created_at" => 1, "title" => 1}}}}.to_json}",

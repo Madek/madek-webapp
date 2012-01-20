@@ -18,7 +18,14 @@
       = button_to _("Zugriffsberechtigungen editieren"), edit_multiple_permissions_media_entries_path, :method => :post
     %li.seperator.edit
     %li#batch-add-to-set.action_btn
-      = button_to _("Zu Set hinzufügen/entfernen"), "", :class => "has-set-widget"
+      - # TODO ajax request on click
+      -#= form_tag add_member_media_set_url(@media_set || 1) do
+      -#  - editable_sets = MediaResource.accessible_by_user(current_user, :edit).media_sets
+      -#  = select_tag "media_set_id", options_for_select([["Set auswählen…", ""]] + editable_sets.collect {|set| [set.title_and_user, set.id]})
+      -#  = submit_tag "Zu Set hinzufügen"
+    - if @can_edit_set
+      %li#batch-remove.action_btn
+        = button_to _("Aus Set entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete
     .clear
   #selected_items.clearfix
 
