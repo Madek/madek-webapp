@@ -100,9 +100,8 @@ Given /^a public set titled "(.+)" created by "(.+)" exists$/ do |title, usernam
   user = User.where(:login => username).first
   meta_data = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
   set = user.media_sets.create(meta_data)
-  permission = set.permissions.create
-  permission.set_actions({:view => true})
-  set.permissions << permission
+  set.view= true
+  set.save!
 end
 
 Given /^a entry titled "(.+)" created by "(.+)" exists$/ do |title, username|
