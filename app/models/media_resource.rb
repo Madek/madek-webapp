@@ -16,10 +16,9 @@ class MediaResource < ActiveRecord::Base
       get(key_id).to_s
     end
 
-    #wip#
-    #def get_for_labels(labels)
-    #  joins(:meta_key).where(:meta_keys => {:label => labels})
-    #end
+    def get_for_labels(labels)
+      joins(:meta_key).where(:meta_keys => {:label => labels})
+    end
 
     #def with_labels
     #  h = {}
@@ -192,16 +191,12 @@ class MediaResource < ActiveRecord::Base
       core_info = Hash.new
       
       labels = core_keys + extended_keys
-      (labels).each do |key|
-        core_info[key.gsub(' ', '_')] = meta_data.get_value_for(key)
+      labels.each do |label|
+        core_info[label.gsub(' ', '_')] = ""
       end
-      #wip#
-      #labels.each do |label|
-      #  core_info[label.gsub(' ', '_')] = ""
-      #end
-      #meta_data.get_for_labels(labels).each do |md|
-      #  core_info[md.meta_key.label.gsub(' ', '_')] = md.to_s
-      #end
+      meta_data.get_for_labels(labels).each do |md|
+        core_info[md.meta_key.label.gsub(' ', '_')] = md.to_s
+      end
       
       if with_thumb
         mf = if self.is_a?(MediaSet)
