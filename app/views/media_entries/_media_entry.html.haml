@@ -127,14 +127,14 @@
             %li
               = link_to " ", :title => "Zu Set hinzufügen/entfernen",
                 :class=>"has-set-widget",
-                :"data-id" => "#{@media_entry.id}",
+                :"data-selected_ids" => "[#{@media_entry.id}]",
                 :"data-user" => "#{current_user.to_json(:only => {}, :methods => :name)}",
                 :"data-after_submit" => "window.location.reload();",
                 :"data-index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "with" => {"set" => {"creator" => 1, "created_at" => 1, "title" => 1}}}}.to_json}",
-                :"data-linked_index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "child" => {"id" => @media_entry.id, "type" => "entry"}}}.to_json}",
-                :"data-create" => "#{{"path" => "/media_sets", "method" => "POST", "data" => {"media_set" => "{:array}"}, "array" => {"meta_data_attributes" => {0 => {"meta_key_id" => 3, "value" => "{:title}"}}}}.to_json}",
-                :"data-link" => "#{{"path" => "/media_entries/"+@media_entry.id.to_s+"/media_sets", "method" => "POST", "data" => {"media_set_ids" => "{:array}"}, "array" => "{:id}"}.to_json}",
-                :"data-unlink" => "#{{"path" => "/media_entries/"+@media_entry.id.to_s+"/media_sets", "method" => "DELETE", "data" => {"media_set_ids" => "{:array}"}, "array" => "{:id}"}.to_json}" do
+                :"data-linked_index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "child_ids" => [@media_entry.id]}}.to_json}",
+                :"data-create" => "#{{"path" => "/media_sets", "method" => "POST", "data" => {"media_sets" => ":created_items"}, "created_item" => {"meta_data_attributes" => {0 => {"meta_key_label" => "title", "value" => ":title"}}}}.to_json}",
+                :"data-link" => "#{{"path" => "/media_entries/media_sets", "method" => "POST", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_entry_ids" => ":media_entry_ids"}}.to_json}",
+                :"data-unlink" => "#{{"path" => "/media_entries/media_sets", "method" => "DELETE", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_entry_ids" => ":media_entry_ids"}}.to_json}" do
                 .button_addto
             - if current_user && Permission.authorized?(current_user, :manage, media_entry)
               %li
@@ -150,12 +150,6 @@
         #download-panel.actionbar-panel{:style => "display: none"}
           .actionbar-inner-panel
             = render :partial => "download", :object => media_entry, :as => :media_entry
-        #media_set-panel.actionbar-panel{:style => "display: none"}
-          .actionbar-inner-panel
-            - if logged_in?
-              = media_sets_setter(media_sets_media_entry_path(media_entry))
-            - else
-              = _("Bitte anmelden.")
         .clear
 
 %section#meta_data
