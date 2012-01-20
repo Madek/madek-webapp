@@ -70,12 +70,15 @@ Feature: Sets in Sets
   #- das Flyout über dem Icon soll lauten: "zu Set hinzufügen bzw. daraus entfernen"
   #- das Widget erscheint schnell nachdem man den Button angewählt hat
   #
+  # Not yet implemented:
+  # And I can filter for my sets # The "my" is not defined yet!
+  #
   # Currently:
   @current
   Scenario: Information I see when I open the sets in sets tool
+    Given are some sets and entries
      When I open the sets in sets tool
       And I see all sets I can edit
-      # And I can filter for my sets # The "my" is not defined yet!
       And I can see the owner of each set
       And I can see that selected sets are already highlighted
       And I can choose to see additional information # I can see the full set title on hover
