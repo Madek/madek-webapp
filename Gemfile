@@ -47,8 +47,9 @@ gem 'ledermann-rails-settings', :require => 'rails-settings' # alternatives: 'se
 
 gem 'will_paginate', '~> 3.0' 
 
-#gem "yard", "~> 0.7.4"
-#gem "yard-rest-plugin", "~> 0.2.5" FIXME this plugin is not working
+# FIXME
+#  gem "yard", "~> 0.7.4"
+#  gem "yard-rest-plugin", :git => "git://github.com/kanevski/yard-rest-plugin.git"
 
 gem 'zip', '~> 2.0.2' # alternatives: 'rubyzip', 'zipruby', 'zippy'
 gem 'rgl', '~> 0.4.0', :require => 'rgl/adjacency'
@@ -89,6 +90,7 @@ group :test, :development do
   gem "guard-spork", "~> 0.5.1"
   gem "guard-cucumber", "~> 0.7.4"
   gem "growl", "~> 1.0.3"
+  gem "ruby_gntp", "~> 0.3.4"
 end
 
 
