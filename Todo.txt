@@ -1,9 +1,0 @@
-
-MediaSet undefined method acl?
-
--> that was defined for the old permissions
-
-PGError: ERROR:  null value in column "user_id" violates not-null constraint
-        : INSERT INTO "media_resources" ("created_at", "media_f
-
--> use the hooks
