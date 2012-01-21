@@ -194,10 +194,10 @@ class MediaSetsController < ApplicationController
   #
   # @response_field [Integer] title The title of the created set
   # 
-  def create(attr = params[:media_sets])
+  def create(attr = params[:media_sets] ||= params[:media_set])
     
     is_saved = true
-    if attr.has_key? "0" # CREATE MULTIPLE
+    if not attr.blank? and attr.has_key? "0" # CREATE MULTIPLE
       # TODO ?? find_by_id_or_create_by_title
       @media_sets = [] 
       attr.each_pair do |k,v|
