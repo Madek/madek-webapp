@@ -25,7 +25,9 @@ Feature: Batch edit media entries
      And I choose the set "Set One" from the media entry
      And I check the media entry titled "Picture One"
      And I check the media entry titled "Picture Two"
-     And I press "Aus Set entfernen"
+     And I open the selection widget for this batchedit
+     And I deselect "Set_One" as parent set
+     And I submit the selection widget
      And I go to the media entries
      And I click the media entry titled "Picture Three"
      And I choose the set "Set One" from the media entry
