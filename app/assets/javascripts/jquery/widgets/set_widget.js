@@ -600,8 +600,9 @@ function SetWidget() {
   }
   
   this.search = function(target, val) {
-    if (val.length > 0) {
+    if (val.replace(/\s+/g, "").length > 0) {
       val = val.replace(/\s+$/, "");
+      val = val.replace(/^\s+/, "");
       var search_elements = val.split(/[\s+]/g);
       // each list element
       $(target).data("widget").find(".list li").each(function(i, element){
