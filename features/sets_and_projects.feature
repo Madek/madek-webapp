@@ -9,7 +9,7 @@ Feature: Do things to and with sets
       And a user called "Helmut Kohl" with username "helmi" and password "saumagen" exists
       And a user called "Mikhail Gorbachev" with username "gorbi" and password "glasnost" exists
 
-  @javascript @current
+  @javascript
   Scenario: Upload an image, then go to the detail page and add it to a set
     When I log in as "helmi" with password "saumagen"
      And I go to the home page
@@ -29,16 +29,12 @@ Feature: Do things to and with sets
      And I wait for the CSS element "div.page div.item_box"
      And I click the media entry titled "into the set after uploading"
      And I open the selection widget for this entry
-     
-     # And I use pry
-     
      And I create a new set named "After-Upload Set"
-     
      And I submit the selection widget
      And I go to the home page
     Then I should see "into the set after uploading"
     When I click the media entry titled "into the set after uploading"
-    Then I should see "After-Upload Set"
+     And I see the set-box "After-Upload Set"
      And I should not see "Ohne Titel"
 
  @javascript 

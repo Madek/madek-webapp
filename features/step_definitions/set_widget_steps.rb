@@ -28,6 +28,8 @@ When /^(?:|I )open the selection widget for this (.+)$/ do |type|
       find("#detail-action-bar .has-set-widget").click
     when "batchedit"
       find(".task_bar .has-set-widget").click
+    when "page"
+      find(".has-set-widget").click
   end
   wait_for_css_element(".widget .list")
 end

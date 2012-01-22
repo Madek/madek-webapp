@@ -28,13 +28,13 @@ Feature: Upload images and manage media entries based on images
      |Titel    |berlin wall for a set|
      |Copyright|some other dude      |
      And I press "Metadaten speichern und weiter…"
-     And I press "Neu"
+     And I open the selection widget for this page
      And I wait for the CSS element "#text_media_set"
-     And I fill in the set title with "Mauerstücke"
-     And I press "Hinzufügen"
-     And I press "Zu ausgewähltem Set hinzufügen…"
+     And I create a new set named "Mauerstücke"
+     And I submit the selection widget
      And I go to the home page
      Then I should see "berlin wall for a set"
+      And I should see "Mauerstücke"
 
   @javascript
   Scenario: Upload an image file for another user to see
