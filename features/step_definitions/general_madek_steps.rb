@@ -91,10 +91,17 @@ Given /^a group called "([^"]*)" exists$/ do |groupname|
   create_group(groupname)
 end
 
-Given /^a set titled "(.+)" created by "(.+)" exists$/ do |title, username|
+Given /^a set titled "(.+?)" created by "(.+?)" exists$/ do |title, username|
   user = User.where(:login => username).first
   meta_data = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
   set = user.media_sets.create(meta_data)
+end
+
+Given /^a set was created at "(.+?)" titled "(.+?)" by "(.+?)"$/ do |date, title, username|
+  user = User.where(:login => username).first
+  meta_data = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
+  set = user.media_sets.create(meta_data)
+  set.created_at = Date.parse(date)
 end
 
 Given /^a public set titled "(.+)" created by "(.+)" exists$/ do |title, username|

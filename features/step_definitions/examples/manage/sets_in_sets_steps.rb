@@ -25,8 +25,6 @@ Then /^they are in my favorites$/ do
   all(".item_box").size.should == 3
 end
 
-##########################################################################
-
 Given /^a context$/ do
   name = "Landschaftsvisualisierung"
   @context = MetaContext.send(name)
@@ -63,9 +61,7 @@ Then /^I see an abstract of the most assigned values from media entries using th
   find("#slider")
 end
 
-##########################################################################
-
-Given /^some sets and entries$/ do
+Given /^are some sets and entries$/ do
   steps %Q{
     And a set titled "My Act Photos" created by "max" exists
     And a entry titled "Me with Nothing" created by "max" exists
@@ -88,67 +84,114 @@ Given /^some sets and entries$/ do
     And a set titled "Images from School" created by "max" exists
     And a entry titled "Me with School Uniform" created by "max" exists
     And the last entry is child of the last set
+    
+    And a set titled "This is a extreme long set title reaaaaaaly looooooong" created by "max" exists
+    
+    And a set was created at "18.01.1987" titled "Long time ago" by "max"
   }
 end
 
 When /^I open the sets in sets tool$/ do
+  steps %Q{
+    When I open the "My Act Photos" set
+    And I open the selection widget for this set
+  }
   
+  @current_set = MediaSet.find 1
+  @user = User.last
+  @accsible_sets = MediaSet.accessible_by_user(@user, :edit)
+  @parent_sets = @current_set.parent_sets.accessible_by_user(@user, :edit)
 end
 
 Then /^I see all sets I can edit$/ do
-  
+  @accsible_sets.each do |set|
+    steps %Q{
+      Then I can read the first 30 characters of each set title
+    }
+  end
 end
 
 Then /^I can see the owner of each set$/ do
-  
+  @accsible_sets.each do |set|
+    steps %Q{
+      Then I should see "#{set.user.name}"
+    }
+  end
 end
 
 Then /^I can see that selected sets are already highlighted$/ do
-  
+  @parent_sets.each do |set|
+    assert find("[title='#{set.title}']").has_xpath?('./..[@class="selected"]')
+  end
 end
 
 Then /^I can choose to see additional information$/ do
-  
+  @parent_sets.each do |set|
+    assert find("[title='#{set.title}']")
+  end
 end
 
 Then /^I can read the first 30 characters of each set title$/ do
-  
+  @accsible_sets.each do |set|
+    steps %Q{
+      Then I should see "#{set.title[0..30]}"
+    }
+  end
 end
 
 Then /^I can see enough information to differentiate between similar sets$/ do
-  
+  @accsible_sets.each do |set|
+    next if set = @current_set
+    steps %Q{
+      Then I can read the first 30 characters of each set title
+      And I can see the owner of each set
+      And I can choose to see additional information
+    }
+    date_container = find("[title='#{set.title}'] .created_at")
+    unless set.created_at.strftime("%d.%m.%Y") == Date.today.strftime("%d.%m.%Y")
+      date_container.should have_content(set.created_at.strftime("%d"))
+      date_container.should have_content(set.created_at.strftime("%m"))
+      date_container.should have_content(set.created_at.strftime("%Y"))   
+    end
+  end
 end
       
-##########################################################################
-
 Given /^multiple resources are in my selection$/ do
-   
+  steps %Q{
+    Given are some sets and entries
+    When I go to the media entries
+    And I check the media entry titled "My Profile Pic"
+    And I check the media entry titled "Me and my Balls"
+    And I open the selection widget for this batchedit
+  }
 end
 
 Given /^they are in various different sets$/ do
-   
-end
-
-When /^I open the sets in sets tool$/ do
-   
+  binding.pry
+  # check if the sets in selection are in different sets
 end
 
 Then /^I see the sets none of them are in$/ do
-   
+  # not checked
+  # not selected
 end
 
 Then /^I see the sets some of them are in$/ do
-   
+  # is intermdiate state
+  # has intermediate pipe
 end
 
 Then /^I see the sets all of them are in$/ do
-   
+  # checked
+  # selected 
 end
 
 Then /^I can add all of them to one set$/ do
-   
+   # link
+   # submit
+   # check
 end
 
 Then /^I can remove all of them from one set$/ do
-   
+   # revert
 end

@@ -26,6 +26,8 @@ When /^(?:|I )open the selection widget for this (.+)$/ do |type|
       find("#set_actions .has-set-widget").click
     when "entry"
       find("#detail-action-bar .has-set-widget").click
+    when "batchedit"
+      find(".task_bar .has-set-widget").click
   end
   wait_for_css_element(".widget .list")
 end
@@ -41,7 +43,7 @@ end
 
 When /^(?:|I )submit the selection widget$/ do
   find(".widget .submit").click
-  wait_for_css_element(".has-set-widget:not(.open)")
+  sleep(15)
 end
 
 When /^(?:|I )create a new set named "(.+)"$/ do |name|
@@ -54,7 +56,7 @@ end
 
 When /^(?:|I )create a new set$/ do
   find(".widget .create_new a").click
-  find(".widget .create_new .button").click
+  find(".widget .create_new div.button").click
   wait_for_css_element(".create_new a")
 end
 

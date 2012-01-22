@@ -74,20 +74,20 @@ Feature: Sets in Sets
   # And I can filter for my sets # The "my" is not defined yet!
   #
   # Currently:
-  @current
+  @current @javascript
   Scenario: Information I see when I open the sets in sets tool
     Given are some sets and entries
      When I open the sets in sets tool
-      And I see all sets I can edit
+     Then I see all sets I can edit
       And I can see the owner of each set
       And I can see that selected sets are already highlighted
-      And I can choose to see additional information # I can see the full set title on hover
+      And I can choose to see additional information
       And I can read the first 30 characters of each set title
-      And I can see enough information to differentiate between similar sets # Ask SUS: What makes it possible to differentiate similar sets?
+      And I can see enough information to differentiate between similar sets
 
   # https://www.pivotaltracker.com/story/show/22421449
   # Pts: 13
-  @current
+  @current @javascript
   Scenario: Moving resources into or out of multiple sets at the same time
     Given multiple resources are in my selection
       And they are in various different sets
