@@ -167,7 +167,6 @@ Given /^multiple resources are in my selection$/ do
 end
 
 Given /^they are in various different sets$/ do
-  binding.pry
   # check if the sets in selection are in different sets
 end
 
