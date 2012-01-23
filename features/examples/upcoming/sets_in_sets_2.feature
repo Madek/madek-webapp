@@ -1,4 +1,4 @@
-Feature: Sets in Sets
+Feature: Sets in Sets II
 
   Background: Set up the world with a user and logging in
     Given I have set up the world
