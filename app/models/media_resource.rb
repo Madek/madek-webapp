@@ -287,39 +287,35 @@ class MediaResource < ActiveRecord::Base
   end
 
 ########################################################
-# TODO cache methods results
 
   def meta_data_for_context(context = MetaContext.core, build_if_not_exists = true)
-    @meta_data_for_context ||= {}
-    # OPTIMIZE cache for build_if_not_exists
-    #unless @meta_data_for_context[context.id]
-      @meta_data_for_context[context.id] = []
+    meta_keys = context.meta_keys
 
-      context.meta_keys.each do |key|
-        md = key.meta_data.scoped_by_media_resource_id(self.id).first  # OPTIMIZE eager loading
-        if md
-          @meta_data_for_context[context.id] << md
-        elsif build_if_not_exists or key.is_dynamic?
-          @meta_data_for_context[context.id] << meta_data.build(:meta_key => key)
-        end
-      end if context
-    #end
-    return @meta_data_for_context[context.id]
+    mds = meta_data.where(:meta_key_id => meta_keys)
+    
+    meta_keys.select{|x| x.is_dynamic? }.each do |key|
+      mds << meta_data.build(:meta_key => key) 
+    end
+
+    (context.meta_key_ids - mds.map(&:meta_key_id)).each do |key_id|
+      mds << meta_data.build(:meta_key_id => key_id)
+    end if build_if_not_exists
+    
+    mds.sort_by {|md| context.meta_key_ids.index(md.meta_key_id) } 
   end
 
   def context_warnings(context = MetaContext.core)
-    @context_warnings ||= {}
-    unless @context_warnings[context.id]
-      @context_warnings[context.id] = {}
-      meta_data_for_context(context).each do |meta_datum|
-        w = meta_datum.context_warnings(context)
-        unless w.blank?
-          @context_warnings[context.id][meta_datum.meta_key.label] ||= []
-          @context_warnings[context.id][meta_datum.meta_key.label] << w
-        end
+    r = {}
+    
+    meta_data_for_context(context).each do |meta_datum|
+      w = meta_datum.context_warnings(context)
+      unless w.blank?
+        r[meta_datum.meta_key.label] ||= []
+        r[meta_datum.meta_key.label] << w
       end
     end
-    return @context_warnings[context.id]
+
+    r
   end
 
   def context_valid?(context = MetaContext.core)
@@ -425,13 +421,11 @@ public
     #joins("INNER JOIN media_entries_media_sets ON media_resources.id = media_entries_media_sets.media_entry_id").
     #where(:media_entries_media_sets => {:media_set_id => media_set})
 
-    where("(media_resources.id, media_resources.type) IN " \
-            "(SELECT media_entry_id AS id, 'MediaEntry' AS type FROM media_entries_media_sets " \
-              "WHERE media_set_id = ? " \
+    where("media_resources.id IN " \
+            "(SELECT media_entry_id AS id FROM media_entries_media_sets WHERE media_set_id = :id " \
             "UNION " \
-              "SELECT child_id AS id, 'MediaSet' AS type FROM media_set_arcs " \
-                "WHERE parent_id = ? )",
-          media_set.id, media_set.id);
+              "SELECT child_id AS id FROM media_set_arcs WHERE parent_id = :id )",
+          :id => media_set.id);
   }
 
   ################################################################
