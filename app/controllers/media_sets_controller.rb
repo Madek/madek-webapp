@@ -346,7 +346,7 @@ class MediaSetsController < ApplicationController
     end
     if @media_set
       resource = @media_set
-      # FIXME not_authorized! unless Permission.authorized?(current_user, action, resource) # TODO super ??
+      not_authorized! unless Permission.authorized?(current_user, action, resource) # TODO super ??
     else
       flash[:error] = "Kein Medienset ausgewählt."
       redirect_to :back

@@ -54,12 +54,16 @@ class Permission < ActiveRecord::Base
     # OPTIMIZE could be the subject argument a Group ?? or it's always a User ??
     # is a subject authorized to perform action on a resource?
     # returns true or false
-    def authorized?(subject, action, resource)
+    def authorized?(subject, action, resource_or_resources)
       # TODO default manage permission for associated user (owner) ?? 
       #return true if action == :manage and subject == resource.user
       
       # force to boolean
-      !!merged_actions(subject, resource)[action]
+      #old# !!merged_actions(subject, resource)[action]
+      
+      Array(resource_or_resources).all? do |resource|
+        !!merged_actions(subject, resource)[action]
+      end
     end
 
     def resource_viewable_only_by_user?(resource, subject)
