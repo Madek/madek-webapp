@@ -14,6 +14,7 @@ Feature: Sets in Sets
    Given I see some sets
     When I add them to my favorites
     Then they are in my favorites
+    And I can open them
 
   # https://www.pivotaltracker.com/story/show/22779469
   # Pts: 3

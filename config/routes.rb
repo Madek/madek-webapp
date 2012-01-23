@@ -131,7 +131,7 @@ MAdeK::Application.routes.draw do
 
   # TODO only [:index, :show] methods
 
-  resources :resources, :only => :index do
+  resources :resources, :only => [:index, :show] do
     collection do
       get :favorites, :to => "resources#index"
       get :filter
