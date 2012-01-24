@@ -49,16 +49,15 @@ class Admin::MediaSetsController < Admin::AdminController
 
 #####################################################
 
-  def featured
-    @set = MediaSet.featured_set || MediaSet.new(:user => current_user)
+  def special
     if request.post?
-      if @set.new_record?
-        @set.save
-        @set.default_permission.set_actions({:view => true})
-        MediaSet.featured_set = @set
-      end
-      @set.child_sets.delete_all
-      @set.child_sets << MediaSet.find(params[:children]) unless params[:children].blank?
+      AppSettings.featured_set_id = params[:featured_set_id].to_i
+      AppSettings.splashscreen_slideshow_set_id = params[:splashscreen_slideshow_set_id].to_i
+      redirect_to special_admin_media_sets_path
+    else
+      @featured_set_id = AppSettings.featured_set_id
+      @splashscreen_slideshow_set_id = AppSettings.splashscreen_slideshow_set_id
+      @media_sets = MediaSet.accessible_by_public
     end
   end
 

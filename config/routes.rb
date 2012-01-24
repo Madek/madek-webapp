@@ -270,8 +270,8 @@ MAdeK::Application.routes.draw do
 
     resources :media_sets do
       collection do
-        get :featured
-        post :featured
+        get :special
+        post :special
       end
     end
   end
