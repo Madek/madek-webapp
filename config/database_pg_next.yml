@@ -1,0 +1,45 @@
+# PostgreSQL. Versions 7.4 and 8.x are supported.
+#
+# Install the pg driver:
+#   gem install pg
+# On Mac OS X with macports:
+#   gem install pg -- --with-pg-config=/opt/local/lib/postgresql84/bin/pg_config
+# On Windows:
+#   gem install pg
+#       Choose the win32 build.
+#       Install PostgreSQL and put its /bin directory on your path.
+#
+# Configure Using Gemfile
+# gem 'pg'
+#
+
+pg: &pg
+  adapter: postgresql
+  encoding: unicode
+  username: postgres
+  password:
+  
+my: &my
+  adapter: mysql2
+  encoding: utf8
+  username: root
+  password:
+
+default: &default
+  <<: *pg
+  pool: 5
+
+
+development: 
+  <<: *default
+  database: madek_next_dev
+
+test: 
+  <<: *default
+  database: madek_next_test
+
+production:
+  <<: *default
+  database: madek_next_prod
+
+

@@ -21,24 +21,16 @@ class User < ActiveRecord::Base
   end
   has_many :media_entries, :through => :upload_sessions
 # TODO ??  has_many :media_files, :through => :media_entries
-  has_many :media_sets, :class_name => "Media::Set"
-  has_and_belongs_to_many :favorites, :class_name => "MediaEntry", :join_table => "favorites" do
-    def toggle(media_entry_or_id)
-      media_entry_id = media_entry_or_id.is_a?(MediaEntry) ? media_entry_or_id.id : media_entry_or_id.to_i
-      if include?(media_entry_id)
-        media_entry = where(:id => media_entry_id).first
-        self.delete(media_entry)
+  has_many :media_sets
+  has_and_belongs_to_many :favorites, :class_name => "MediaResource", :join_table => "favorites" do
+    def toggle(media_resource)
+      if exists?(media_resource)
+        self.delete(media_resource)
       else
-        new_favorite = MediaEntry.find(media_entry_id)
-        self << new_favorite
+        self << media_resource
       end
     end
-    
-    def include?(media_entry_id)
-      exists? :id => media_entry_id
-    end  
   end
-    
   
   has_and_belongs_to_many :groups do
     def is_member?(group)

@@ -24,7 +24,11 @@ namespace :madek do
     system "bundle exec cucumber -p examples"
     exit_code = $? >> 8 # magic brainfuck
     raise "Tests failed with: #{exit_code}" if exit_code != 0
-end
+
+    system "bundle exec cucumber -p current_examples"
+    exit_code = $? >> 8 # magic brainfuck
+    raise "Tests failed with: #{exit_code}" if exit_code != 0
+  end
 
   desc "Back up images and database before doing anything silly"
   task :backup do
@@ -59,6 +63,11 @@ end
    puts "Compressing database with bzip2"
    system "bzip2 #{dump_path}"
 
+  end
+
+  desc "Fetch meta information from ldap and store it into db/ldap.json"
+  task :fetch_ldap => :environment do
+    DevelopmentHelpers.fetch_from_ldap
   end
 
 # CONSTANTS used here are in environment.rb

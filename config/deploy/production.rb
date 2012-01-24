@@ -15,9 +15,10 @@ set :deploy_via, :remote_cache
 set :db_config, "/home/rails/madek/database.yml"
 set :ldap_config, "/home/rails/madek/LDAP.yml"
 set :zencoder_config, "/home/rails/madek/zencoder.yml"
+set :newrelic_config, "/home/rails/madek/newrelic.yml"
 set :checkout, :export
 
-set :use_sudo, false 
+set :use_sudo, false
 set :rails_env, "production"
 
 set :deploy_to, "/home/rails/madek"
@@ -48,6 +49,9 @@ task :link_config do
 
   run "rm -f #{release_path}/config/zencoder.yml"
   run "ln -s #{zencoder_config} #{release_path}/config/zencoder.yml"
+
+  run "rm -f #{release_path}/config/newrelic.yml"
+  run "ln -s #{newrelic_config} #{release_path}/config/newrelic.yml"
 end
 
 task :remove_htaccess do
@@ -67,7 +71,7 @@ namespace :deploy do
 	end
 
 	task :restart do
-    run "touch #{latest_release}/tmp/restart.txt" 
+    run "touch #{latest_release}/tmp/restart.txt"
 	end
 
   desc "Cleanup older revisions"
@@ -104,7 +108,7 @@ task :migrate_database do
   run "mysqldump -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -r #{dump_path} #{sql_database}"
   run "bzip2 #{dump_path}"
 
-  # Migration here 
+  # Migration here
   # deploy.migrate should work, but is buggy and is run in the _previous_ release's
   # directory, thus never runs anything? Strange.
   #deploy.migrate
@@ -137,7 +141,7 @@ before "deploy:symlink", :make_tmp
 after "deploy:symlink", :link_config
 after "deploy:symlink", :link_attachments
 after "deploy:symlink", :configure_environment
-after "deploy:symlink", :record_deploy_info 
+after "deploy:symlink", :record_deploy_info
 
 after "link_config", :migrate_database
 after "link_config", "precompile_assets"

@@ -44,18 +44,7 @@ MAdeK::Application.routes.draw do
   match '/nagiosstat', :to => Nagiosstat
 
 ###############################################
-
-  # TODO only [:index, :show] methods
-
-  resources :resources, :only => :index do
-    collection do
-      get :favorites, :to => "resources#index"
-      get :filter
-      post :filter
-    end
-  end
-
-  resources :media_files # TODO remove ??
+#NOTE first media_entries and then media_sets
 
   resources :media_entries, :except => :index do
     collection do
@@ -64,10 +53,11 @@ MAdeK::Application.routes.draw do
       post :edit_multiple
       put :update_multiple
       post :edit_multiple_permissions
+      post :media_sets
+      delete :media_sets
     end
 
     member do
-      post :toggle_favorites
       post :media_sets
       delete :media_sets
       get :edit_tms
@@ -94,6 +84,66 @@ MAdeK::Application.routes.draw do
       end
     end
   end
+  
+###############################################
+
+  resources :media_sets do #-# TODO , :except => :index # the index is only used to create new sets
+    collection do
+      post :parents
+      delete :parents
+    end
+    member do
+      get :abstract
+      get :browse
+      get :inheritable_contexts
+      post :parents # TODO: remove
+      delete :parents # TODO: remove
+    end
+    
+    resources :media_sets #-# only used for FeaturedSet 
+    
+    resources :permissions do
+      collection do
+        get :edit_multiple
+        put :update_multiple
+      end
+    end
+    
+    resources :meta_data do
+      collection do
+        get :edit_multiple
+        put :update_multiple
+      end
+    end
+    
+    resources :media_entries do
+      collection do
+        delete :remove_multiple
+        
+      end
+      member do
+        delete :media_sets
+      end
+    end
+  end
+  
+###############################################
+
+  # TODO only [:index, :show] methods
+
+  resources :resources, :only => [:index, :show] do
+    collection do
+      get :favorites, :to => "resources#index"
+      get :filter
+      post :filter
+    end
+    
+    member do
+      post :toggle_favorites
+    end
+  end
+
+  resources :media_files # TODO remove ??
 
   resources :snapshots do
     collection do
@@ -144,42 +194,7 @@ MAdeK::Application.routes.draw do
   end
 
 ###############################################
-
-  resources :media_sets do #-# TODO , :except => :index # the index is only used to create new sets
-    member do
-      delete :parents
-      get :abstract
-      get :browse
-      get :inheritable_contexts
-      post :parents
-    end
-    
-    resources :media_sets #-# only used for FeaturedSet 
-    
-    resources :permissions do
-      collection do
-        get :edit_multiple
-        put :update_multiple
-      end
-    end
-    
-    resources :meta_data do
-      collection do
-        get :edit_multiple
-        put :update_multiple
-      end
-    end
-    
-    resources :media_entries do
-      collection do
-        delete :remove_multiple
-      end
-      member do
-        delete :media_sets
-      end
-    end
-  end
-
+  
   #working here#4 plural resources nesting upload_session:id
   resource :upload, :controller => 'upload' do
     member do
@@ -191,6 +206,12 @@ MAdeK::Application.routes.draw do
   end
   
   resource :session
+
+  resources :meta_contexts, :only => [:index, :show] do
+    member do
+      get :abstract
+    end
+  end
 
 #__ Admin namespace __##############################################################
 ####################################################################################
@@ -249,8 +270,8 @@ MAdeK::Application.routes.draw do
 
     resources :media_sets do
       collection do
-        get :featured
-        post :featured
+        get :special
+        post :special
       end
     end
   end

@@ -73,6 +73,8 @@ Here are some examples of userAgent outputs
       
     else if agent.match(/MSIE \d*\.*\d*/)
       return "Internet Explorer"
+      
+    return "UKNOWN"
               
   version: ()->
     agent = navigator.userAgent

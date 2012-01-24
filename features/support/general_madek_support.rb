@@ -128,7 +128,7 @@ end
 def find_media_entry_titled(title)
   wait_for_css_element("div.item_box")
   found_item = nil
-  wait_for_css_element("#results.item_box")
+  wait_for_css_element("#results .item_box")
   all(".item_box").each do |item|
     if !item.find(".item_title").text.match(/#{title}/).nil?
       found_item = item
@@ -333,7 +333,7 @@ def upload_some_picture(title = "Untitled")
                                         "Copyright" => 'some dude' })
 
     click_button("Metadaten speichern und weiter…")
-    click_link_or_button("Weiter ohne Hinzufügen zu einem Set/Projekt…")
+    click_link_or_button("Weiter ohne Hinzufügen zu einem Set…")
 
     visit "/"
    
@@ -343,7 +343,8 @@ end
 
 # Creates a new set
 def create_set(set_title = "Untitled Set")
-  visit "/media_sets"
+  visit user_resources_path(@current_user, :type => "media_sets")
+  click_link_or_button "Neues Set erstellen"
   fill_in "media_set_meta_data_attributes_0_value", :with => set_title
   click_link_or_button "Erstellen"
 end
@@ -354,10 +355,10 @@ end
 def add_to_set(set_title = "Untitled Set", picture_title = "Untitled", owner = "No one")
   visit "/resources"
   click_media_entry_titled(picture_title)
-  find(".has-selection-widget").click
+  find(".has-set-widget").click
   wait_for_css_element(".widget .list")
   find("input##{set_title.gsub(/\s/, "_")}").click
   find(".widget .submit").click
-  wait_for_css_element(".has-selection-widget:not(.open)")
+  wait_for_css_element(".has-set-widget:not(.open)")
 end
 

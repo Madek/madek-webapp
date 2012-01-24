@@ -4,11 +4,11 @@ class Admin::MediaSetsController < Admin::AdminController
   before_filter :pre_load
 
   def index
-    @sets = Media::Set.all
+    @sets = MediaSet.all
   end
 
   def new
-    @set = Media::Set.new
+    @set = MediaSet.new
     respond_to do |format|
       format.js
     end
@@ -32,15 +32,7 @@ class Admin::MediaSetsController < Admin::AdminController
       @set.individual_contexts = MetaContext.find(params[:individual_contexts])
     end
     
-    type = params[:media_set].delete(:type)
-    if type == "Media::Project" && !@set.respond_to?(:individual_contexts)
-      # here we are allowing for a one-way conversion of Media::Set into Media::Project
-      @set.type = type # can't usually mass assign the type attribute
-      @set.attributes = params[:media_set]
-      @set.save
-    else
-      @set.update_attributes(params[:media_set])
-    end
+    @set.update_attributes(params[:media_set])
     
     unless params[:new_manager_user_id].blank?
       user = User.find(params[:new_manager_user_id])
@@ -57,16 +49,15 @@ class Admin::MediaSetsController < Admin::AdminController
 
 #####################################################
 
-  def featured
-    @set = Media::Set.featured_set || Media::Set.new(:user => current_user)
+  def special
     if request.post?
-      if @set.new_record?
-        @set.save
-        @set.default_permission.set_actions({:view => true})
-        Media::Set.featured_set = @set
-      end
-      @set.child_sets.delete_all
-      @set.child_sets << Media::Set.find(params[:children]) unless params[:children].blank?
+      AppSettings.featured_set_id = params[:featured_set_id].to_i
+      AppSettings.splashscreen_slideshow_set_id = params[:splashscreen_slideshow_set_id].to_i
+      redirect_to special_admin_media_sets_path
+    else
+      @featured_set_id = AppSettings.featured_set_id
+      @splashscreen_slideshow_set_id = AppSettings.splashscreen_slideshow_set_id
+      @media_sets = MediaSet.accessible_by_public
     end
   end
 
@@ -76,7 +67,7 @@ class Admin::MediaSetsController < Admin::AdminController
 
   def pre_load
       params[:media_set_id] ||= params[:id]
-      @set = Media::Set.find(params[:media_set_id]) unless params[:media_set_id].blank?
+      @set = MediaSet.find(params[:media_set_id]) unless params[:media_set_id].blank?
   end
   
 end

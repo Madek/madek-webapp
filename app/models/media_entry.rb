@@ -4,34 +4,33 @@
 # This class could just as easily also be known as MediaObject..
 # and one day might become so.
 
-class MediaEntry < ActiveRecord::Base
-
-  include Resource
+class MediaEntry < MediaResource
   
   belongs_to                :media_file #, :include => :previews # TODO validates_presence # TODO on destroy, also destroy the media_file if this is the only related media_entry and snapshot
   belongs_to                :upload_session
-  has_and_belongs_to_many   :media_sets, :class_name => "Media::Set",
-                                         :join_table => "media_entries_media_sets",
-                                         :association_foreign_key => "media_set_id" # TODO validate_uniqueness
+  belongs_to                :user # NOTE this redundant with upload_session.user_id
   has_many                  :snapshots
+
+  has_and_belongs_to_many   :media_sets, :join_table => "media_entries_media_sets",
+                                         :association_foreign_key => "media_set_id" # TODO validate_uniqueness
+  alias :parent_sets :media_sets
 
   before_create :extract_subjective_metadata, :set_copyright
 
+  before_validation(:on => :create) do
+    self.user = upload_session.user
+  end
+    
   after_create do |record|
-    descr_author_value = record.meta_data.get("description author").value
+    descr_author_value = record.meta_data.get("description author", false).try(:value)
     record.meta_data.get("description author before import").update_attributes(:value => descr_author_value) if descr_author_value
   end
-
-  # TODO remove and go through permissions ??
-  delegate :user, :user_id, :to => :upload_session
-
-  default_scope order("media_entries.updated_at DESC") #-# .includes(:media_file)
 
 ########################################################
 
   # OPTIMIZE
   def individual_contexts
-    media_sets.projects.collect {|project| project.individual_contexts }.flatten.uniq
+    media_sets.collect {|set| set.individual_contexts }.flatten.uniq
   end
 
 ########################################################
@@ -50,8 +49,7 @@ class MediaEntry < ActiveRecord::Base
 
   def as_json(options={})
     h = { :is_set => false,
-          :can_maybe_browse => !meta_data.for_meta_terms.blank?,
-          :is_favorite => user.favorite_ids.include?(id) #,
+          :can_maybe_browse => !meta_data.for_meta_terms.blank? #,
           #:thumb_base64 => media_file.try(:thumb_base64, :small_125)
         }
     super(options).merge(h)
@@ -81,9 +79,9 @@ class MediaEntry < ActiveRecord::Base
    new_blank_media_entry = self.new
    meta_data_for_context.inject([]) do |meta_data, md_bare|
       meta_data << if other_entries.any? {|me| not me.meta_data.get(md_bare[:meta_key_id]).same_value?(md_bare[:value])}
-        MetaDatum.new(:resource => new_blank_media_entry, :meta_key_id => md_bare[:meta_key_id], :value => nil, :keep_original_value => true)
+        MetaDatum.new(:media_resource => new_blank_media_entry, :meta_key_id => md_bare[:meta_key_id], :value => nil, :keep_original_value => true)
       else
-        MetaDatum.new(:resource => new_blank_media_entry, :meta_key_id => md_bare[:meta_key_id], :value => md_bare[:value])
+        MetaDatum.new(:media_resource => new_blank_media_entry, :meta_key_id => md_bare[:meta_key_id], :value => md_bare[:value])
       end
       meta_data
    end

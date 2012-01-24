@@ -1,0 +1,21 @@
+%section#content_head
+  .container_12.clearfix
+    #page_head
+      .grid_3
+        %h4= @context
+        
+      .grid_9
+        #detail_specification.tabs
+          %ul
+            %li
+              = link_to _("Vokabular"), "#vocabulary_tab"
+            %li
+              = link_to _("Auszug"), "#abstract_tab"
+
+          = render :partial => "media_entries/browsing"
+          #vocabulary_tab.clearfix
+            = display_contexts_vocabulary(@vocabulary_json)
+          #abstract_tab.clearfix
+            %p= _("Diese Metadaten wurden am häufigsten vergeben. Sie zeigen den thematischen Schwerpunkt des Projekts an.")
+            = display_context_abstract_slider(@abstract_slider_json)
+            = display_context_abstract(@abstract_json)

@@ -28,13 +28,13 @@ Feature: Upload images and manage media entries based on images
      |Titel    |berlin wall for a set|
      |Copyright|some other dude      |
      And I press "Metadaten speichern und weiter…"
-     And I press "Neu"
+     And I open the selection widget for this page
      And I wait for the CSS element "#text_media_set"
-     And I fill in the set title with "Mauerstücke"
-     And I press "Hinzufügen"
-     And I press "Zu ausgewähltem Set/Projekt hinzufügen…"
+     And I create a new set named "Mauerstücke"
+     And I submit the selection widget
      And I go to the home page
      Then I should see "berlin wall for a set"
+      And I should see "Mauerstücke"
 
   @javascript
   Scenario: Upload an image file for another user to see
@@ -50,7 +50,7 @@ Feature: Upload images and manage media entries based on images
      |Titel    |A beautiful piece of the Berlin Wall|
      |Copyright|Kohl, Helmut                        |
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
+     And I follow "Weiter ohne Hinzufügen zu einem Set…"
      And I go to the home page
      And I click the media entry titled "A beautiful piece of the Berl"
      And I follow "Zugriffsberechtigung"
@@ -82,7 +82,7 @@ Feature: Upload images and manage media entries based on images
       |Titel    |A second piece of the Berlin Wall|
       |Copyright|Kohl, Helmut                     |
       And I press "Metadaten speichern und weiter…"
-      And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
+      And I follow "Weiter ohne Hinzufügen zu einem Set…"
       And I go to the home page
       And I click the media entry titled "A second piece of the Berlin"
       And I follow "Zugriffsberechtigung"
@@ -239,7 +239,7 @@ Feature: Upload images and manage media entries based on images
      And I wait for the CSS element "#submit_to_3"
      And I press "Einstellungen speichern und weiter…"
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
+     And I follow "Weiter ohne Hinzufügen zu einem Set…"
      And I go to the home page
      And I click the media entry titled "Grumpy Cat"
     Then I should see "30.05.2011"
@@ -255,7 +255,7 @@ Feature: Upload images and manage media entries based on images
      And I wait for the CSS element "#submit_to_3"
      And I press "Einstellungen speichern und weiter…"
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
+     And I follow "Weiter ohne Hinzufügen zu einem Set…"
      And I go to the home page
      And I click the media entry titled "Frau-Sein"
     # The below stuff would better be done with a Cucumber table, so you can do e.g.:
@@ -279,7 +279,7 @@ Feature: Upload images and manage media entries based on images
      And I wait for the CSS element "#submit_to_3"
      And I press "Einstellungen speichern und weiter…"
      And I press "Metadaten speichern und weiter…"
-     And I follow "Weiter ohne Hinzufügen zu einem Set/Projekt…"
+     And I follow "Weiter ohne Hinzufügen zu einem Set…"
      And I go to the home page
      And I click the media entry titled "Frau-Sein"
     # The below stuff would better be done with a Cucumber table, so you can do e.g.:

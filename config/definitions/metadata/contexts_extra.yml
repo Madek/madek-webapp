@@ -36,7 +36,7 @@
     name: media_set
     is_user_interface: 1
     meta_field:
-        label: Media::Set
+        label: MediaSet
 - 
     name: copyright
     is_user_interface: 1

@@ -19,7 +19,7 @@ Given /^I have set up the world$/ do
 #       And the user with username "bruce_willis" is member of the group "Admin"
 #       And I log in as "bruce_willis" with password "fluffyKittens"
 #     }
-    
+
     step 'a user called "Bruce Willis" with username "bruce_willis" and password "fluffyKittens" exists'
     step 'a group called "Admin" exists'
     step 'the user with username "bruce_willis" is member of the group "Admin"'
@@ -30,7 +30,7 @@ Given /^I have set up the world$/ do
     click_link("Import")
     attach_file("uploaded_data", Rails.root + "features/data/minimal_meta.yml")
     click_button("Import »")
-    
+
   end
 
   MetaKey.count.should == 89
@@ -43,7 +43,7 @@ Given /^I have set up the world$/ do
   Copyright.init
   Permission.init
 
-  Meta::Department.fetch_from_ldap
+  Meta::Department.setup_ldapdata_from_localfile
   Meta::Date.parse_all
 
 end
@@ -71,6 +71,7 @@ Given /^the user with username "([^"]*)" is member of the group "([^"]*)"/ do |u
   user.save.should == true
 end
 
+# Uses the browser to log in
 Given /^I log in as "(\w+)" with password "(\w+)"$/ do |username, password|
   visit "/logout"
   visit "/db/login"
@@ -80,14 +81,36 @@ Given /^I log in as "(\w+)" with password "(\w+)"$/ do |username, password|
   page.should_not have_content "Invalid username/password"
 end
 
+# Gives you a user object
+Given /^I am logged in as "(\w+)"$/ do |username|
+  @current_user = User.find_by_login(username)
+  @current_user ||= FactoryGirl.create(:user, {:login => username})
+end
+
 Given /^a group called "([^"]*)" exists$/ do |groupname|
   create_group(groupname)
 end
 
-Given /^a set titled "(.+)" created by "(.+)" exists$/ do |title, username|
+Given /^a set titled "(.+?)" created by "(.+?)" exists$/ do |title, username|
   user = User.where(:login => username).first
   meta_data = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
   set = user.media_sets.create(meta_data)
+end
+
+Given /^a set was created at "(.+?)" titled "(.+?)" by "(.+?)"$/ do |date, title, username|
+  user = User.where(:login => username).first
+  meta_data = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
+  set = user.media_sets.create(meta_data)
+  set.created_at = Date.parse(date)
+end
+
+Given /^a public set titled "(.+)" created by "(.+)" exists$/ do |title, username|
+  user = User.where(:login => username).first
+  meta_data = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
+  set = user.media_sets.create(meta_data)
+  permission = set.permissions.create
+  permission.set_actions({:view => true})
+  set.permissions << permission
 end
 
 Given /^a entry titled "(.+)" created by "(.+)" exists$/ do |title, username|
@@ -98,22 +121,21 @@ Given /^a entry titled "(.+)" created by "(.+)" exists$/ do |title, username|
                     :tempfile=> File.new(f, "r"),
                     :filename=> File.basename(f)}
   media_file = MediaFile.create(:uploaded_data => uploaded_data)
-  entry = upload_session.media_entries.create(:media_file => media_file)
-  upload_session.update_attributes(:is_complete => true)
-
+  entry = upload_session.incomplete_media_entries.create(:media_file => media_file)
   h = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
   entry.reload.update_attributes(h, user)
+  upload_session.set_as_complete
 end
 
 Given /^the last entry is child of the last set/ do
-  parent_set = Media::Set.all.sort_by(&:id).last
+  parent_set = MediaSet.all.sort_by(&:id).last
   entry = MediaEntry.all.sort_by(&:id).last
   parent_set.media_entries.push_uniq entry
 end
 
 Given /^the last set is parent of the (.+) set$/ do |offset|
-  parent_set = Media::Set.all.sort_by(&:id).last
-  child_set = Media::Set.all.sort_by(&:id)[offset.to_i-1]
+  parent_set = MediaSet.all.sort_by(&:id).last
+  child_set = MediaSet.all.sort_by(&:id)[offset.to_i-1]
   parent_set.child_sets << child_set
 end
 
@@ -123,7 +145,7 @@ end
 
 When /^I use pry$/ do
   binding.pry
-end 
+end
 
 When /^I upload some picture titled "([^"]*)"$/ do |title|
   upload_some_picture(title)
@@ -184,13 +206,13 @@ When "I fill in the metadata form as follows:" do |table|
         list.all("textarea").each do |ele|
           fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil? and ele[:id].match(/meta_data_attributes_.+_keep_original_value$/).nil?
         end
-        
+
         list.all("input").each do |ele|
           fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil? and ele[:id].match(/meta_data_attributes_.+_keep_original_value$/).nil?
         end
-        
+
       end
-      
+
     end
 
   end
@@ -250,21 +272,42 @@ end
 
 When /^I click the edit icon on the media entry titled "([^"]*)"$/ do |title|
   entry = find_media_entry_titled(title)
-  entry.all("a").each do |link|
-    link.click if link[:title] == "Editieren"
-  end
+  entry.find(".button_edit_active").click
   sleep(0.5)
 end
 
 When /^I click the delete icon on the media entry titled "([^"]*)"$/ do |title|
   entry = find_media_entry_titled(title)
-   entry.all("a").each do |link|
-     # Fake some functions so that we automatically accept the confirmation dialog
-     page.evaluate_script("window.alert = function(msg) { return true; }")
-     page.evaluate_script("window.confirm = function(msg) { return true; }")
-     link.click if link[:title] == "Löschen"
-   end
+   # Fake some functions so that we automatically accept the confirmation dialog
+   page.evaluate_script("window.alert = function(msg) { return true; }")
+   page.evaluate_script("window.confirm = function(msg) { return true; }")
+   entry.find(".delete_me").click
   sleep(0.5)
+end
+
+When /^I click the delete icon on the set titled "([^"]*)"$/ do |title|
+  entry = find_media_entry_titled(title)
+  # show controls
+  page.execute_script '$(".item_box *:hidden").show();'
+  sleep 0.5
+  # click delete
+  entry.find(".delete_me").click
+  sleep(0.5)
+  page.driver.browser.switch_to.alert.accept #accept confirm message
+  sleep(5.5)
+end
+
+When /^I reload the page$/ do
+  case Capybara::current_driver
+    when :selenium
+    visit page.driver.browser.current_url
+    when :racktest
+    visit [ current_path, page.driver.last_request.env['QUERY_STRING'] ].reject(&:blank?).join('?')
+    when :culerity
+    page.driver.browser.refresh
+    else
+    raise "unsupported driver, use rack::test or selenium/webdriver"
+  end
 end
 
 When /^I press enter in the input field "([^"]*)"$/ do |field|
@@ -291,7 +334,7 @@ When "I make sure I'm logged out" do
 end
 
 When /I filter by "([^"]*)" in "([^"]*)"$/ do |choice, category|
-  header = find("h3.filter_category", :text => category)  
+  header = find("h3.filter_category", :text => category)
   header.find("a.filter_category_link").click
   # Finds the div underneath the h3 title, so that we can manipulate the form there (e.g. click some checkboxes to
   # filter by controlled vocabulary)
@@ -305,7 +348,7 @@ When /I filter by "([^"]*)" in "([^"]*)"$/ do |choice, category|
       cb.click unless cb[:checked] == "true"
     end
   end
-  
+
 end
 
 When /I choose the set "([^"]*)" from the media entry$/ do |set_name|
@@ -338,4 +381,9 @@ When "I click the download button for ZIP with metadata" do
 #         tr.all("a").first.click
 #       end
 #     end
+end
+
+When /^I see the set-box "(.+)"$/ do |title|
+  sleep(0.5)
+  assert find(:xpath, "//div[contains(@oldtitle,'#{title}')]")
 end

@@ -1,12 +1,12 @@
 <%#old# ?? %>
 
-<h2>Select Media::Set:</h2>
+<h2>Select MediaSet:</h2>
 
 <%= content_tag :div, :id => "detail-affiliation" do %>
 	
 	<div style="display: inline-block; width: 30em; margin: 1em; vertical-align: top;">
 		<h3 style="margin-top: 1em;">Sets
-		<% Media::Set.sets.each do |set| %>
+		<% MediaSet.sets.each do |set| %>
 			<%= content_tag :div, :class => "sidebar-box" do
 				content_tag :h4 do
 					"#{link_to(set.title, add_member_media_set_path(set, :params => params), :method => :post)} von #{set.user}"

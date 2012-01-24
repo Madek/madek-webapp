@@ -31,7 +31,7 @@
                       = definition.meta_field.label.to_s
                     = render :partial => "meta_data/show", :locals => { :meta_datum => meta_datum, :resource => media_entry, :context => context }
                 = render :partial => "media_entries/browsing"
-                
+
           #tab-permission.clearfix.tab-hide
             .tab-content
               .detail-image.grid_3.alpha
@@ -40,7 +40,7 @@
                 %h2
                   = _("Zugriffsberechtigungen")
           #tab-activity.clearfix.tab-hide
-            .tab-content              
+            .tab-content
               .detail-image.grid_3.alpha
                 = thumb_for(media_entry, :small)
               %table.metadata-table.grid_9.omega
@@ -56,7 +56,7 @@
                     = link_to media_entry.user, resources_path(:query => media_entry.user.fullname)
                 %tr
                   %td
-                    = _("Hochgeladen am") 
+                    = _("Hochgeladen am")
                   %td
                     = _("%s Uhr") % media_entry.created_at.to_formatted_s(:date_time)
                 - edit_sessions = media_entry.edit_sessions.limit(5)
@@ -70,7 +70,7 @@
                           %li
                             = link_to edit_session.user, edit_session.user
                             = " / #{_("%s Uhr") % edit_session.created_at.to_formatted_s(:date_time)}"
-                - description_author_before_import = media_entry.meta_data.get_value_for("description author before import") 
+                - description_author_before_import = media_entry.meta_data.get_value_for("description author before import")
                 - unless description_author_before_import.blank?
                   %tr
                     %td
@@ -78,12 +78,12 @@
                     %td= description_author_before_import
                   - unless media_entry.snapshots.empty?
                     %tr
-                      %td{:style => "text-align: right; font-weight: bold;"}= _("MIZ-Archiv Kopie") 
+                      %td{:style => "text-align: right; font-weight: bold;"}= _("MIZ-Archiv Kopie")
                       %td= "#{_("%s Uhr") % media_entry.snapshots.first.created_at.to_formatted_s(:date_time)}"
 
                 - if is_expert
                   %tr
-                    %td{:colspan => 2} 
+                    %td{:colspan => 2}
                       - unless media_entry.snapshots.empty?
                         .notice_tms
                           - date = media_entry.snapshots.first.created_at.to_formatted_s(:date)
@@ -97,7 +97,7 @@
           - sets = media_entry.media_sets.select {|media_set| Permission.authorized?(current_user, :view, media_set) }
           - unless sets.empty?
             = media_sets_list(sets, true)
-   
+
         #detail-action-bar
           %ul#toggle-panel
             - if is_expert and media_entry.snapshotable?
@@ -113,7 +113,7 @@
                 .button_edit_active.ghost
             %li
               %span.favorite_link{:id => "fav_#{media_entry.id}", :title => "Favorit"}
-                = render :partial => "media_entries/favorite_link", :locals => {:media_entry => media_entry}
+                = render :partial => "resources/favorite_link", :locals => {:media_resource => media_entry}
             - unless media_entry.meta_data.for_meta_terms.blank?
               %li
                 = link_to browse_media_entry_path(media_entry), :title => "Erkunden" do
@@ -125,15 +125,16 @@
               = link_to "#", :panel => "download", :title => "Exportieren" do
                 .button_download
             %li
-              = link_to " ", :title => "Zu Set/Projekt hinzufügen",
-                :class=>"has-selection-widget",
-                :"data-id" => "#{@media_entry.id}",
+              = link_to " ", :title => "Zu Set hinzufügen/entfernen",
+                :class=>"has-set-widget",
+                :"data-selected_ids" => "[#{@media_entry.id}]",
+                :"data-user" => "#{current_user.to_json(:only => {}, :methods => :name)}",
                 :"data-after_submit" => "window.location.reload();",
-                :"data-index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit"}}.to_json}",
-                :"data-linked_index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "child" => {"id" => @media_entry.id, "type" => "entry"}}}.to_json}",
-                :"data-create" => "#{{"path" => "/media_sets", "method" => "POST", "data" => {"media_set" => "{:array}"}, "array" => {"meta_data_attributes" => {0 => {"meta_key_id" => 3, "value" => "{:title}"}}}}.to_json}",
-                :"data-link" => "#{{"path" => "/media_entries/"+@media_entry.id.to_s+"/media_sets", "method" => "POST", "data" => {"media_set_ids" => "{:array}"}, "array" => "{:id}"}.to_json}",
-                :"data-unlink" => "#{{"path" => "/media_entries/"+@media_entry.id.to_s+"/media_sets", "method" => "DELETE", "data" => {"media_set_ids" => "{:array}"}, "array" => "{:id}"}.to_json}" do
+                :"data-index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "with" => {"set" => {"creator" => 1, "created_at" => 1, "title" => 1}}}}.to_json}",
+                :"data-linked_index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "child_ids" => [@media_entry.id]}}.to_json}",
+                :"data-create" => "#{{"path" => "/media_sets", "method" => "POST", "data" => {"media_sets" => ":created_items"}, "created_item" => {"meta_data_attributes" => {0 => {"meta_key_id" => "3", "value" => ":title"}}}}.to_json}",
+                :"data-link" => "#{{"path" => "/media_entries/media_sets", "method" => "POST", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_entry_ids" => ":media_entry_ids"}}.to_json}",
+                :"data-unlink" => "#{{"path" => "/media_entries/media_sets", "method" => "DELETE", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_entry_ids" => ":media_entry_ids"}}.to_json}" do
                 .button_addto
             - if current_user && Permission.authorized?(current_user, :manage, media_entry)
               %li
@@ -149,26 +150,20 @@
         #download-panel.actionbar-panel{:style => "display: none"}
           .actionbar-inner-panel
             = render :partial => "download", :object => media_entry, :as => :media_entry
-        #media_set-panel.actionbar-panel{:style => "display: none"}
-          .actionbar-inner-panel
-            - if logged_in?
-              = media_sets_setter(media_sets_media_entry_path(media_entry))
-            - else
-              = _("Bitte anmelden.")
         .clear
-    
+
 %section#meta_data
   = meta_data(media_entry, is_expert)
   .clear
 
 :javascript
   $(document).ready(function () {
-  
+
     /* FIXME: Remove me completly later on
     $(".scrollable").each(function(){
       // enable the jquery tools scrollable plugin only on elements wich are higher then their content
       if($(this).find(".items").height() > $(this).height()) {
-        $(this).scrollable({ vertical: true, mousewheel: true }); 
+        $(this).scrollable({ vertical: true, mousewheel: true });
         // disable the next button when the last seeked element whas the last element in the list
         $(this).bind("onSeek", function() {
           if(parseInt($(this).find(".items").height())+parseInt($(this).find(".items").css("top")) <= $(this).height()) {
@@ -177,7 +172,7 @@
         });
         // stops the plugin from scrolling when the last element is visible already
          $(this).bind("onBeforeSeek", function(event, index) {
-         
+
           if(parseInt($(this).find(".items").height())+parseInt($(this).find(".items").css("top")) <= $(this).height()) {
             // only prevent from scrolling if the direction is forward
             if(index > $(this).data("scrollable").getIndex()) {
@@ -190,13 +185,13 @@
       }
     });
     */
-    
+
     $("ul.tab-nav a").click(function(event) {
       var that = $(this);
-    
+
       $("ul.tab-nav li").removeClass("ir");
       that.closest("li").addClass("ir");
-    
+
       var target = $("#" + that.attr("rel"));
       $(".head-tabs > div").hide();
       if(that.attr("href") != "#"){
@@ -213,7 +208,7 @@
       target.show();
       return false;
     });
-  
+
     // OPTIMIZE
     $('a#delete_me').bind('confirm:complete', function(){
       var media_entries_json = get_media_entries_json();
@@ -223,5 +218,5 @@
         set_media_entries_json(media_entries_json);
       };
     })
-  
+
   });

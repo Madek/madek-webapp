@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Media::SetArc do
+describe MediaSetArc do
 
   before :each do
     @set1 = FactoryGirl.create :media_set
@@ -17,7 +17,7 @@ describe Media::SetArc do
     
     it "should cause the arc to be deleted if one of either parent/child set is deleted" do
       @set1.destroy
-      Media::SetArc.all.should be_empty
+      MediaSetArc.all.should be_empty
     end
 
   end

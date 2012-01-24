@@ -62,9 +62,9 @@ class UploadController < ApplicationController
 
   def update
     pre_load
-    @upload_session.update_attributes(:is_complete => true)
+    @upload_session.set_as_complete
 
-    params[:resources][:media_entry].each_pair do |key, value|
+    params[:resources][:media_entry_incomplete].each_pair do |key, value|
       media_entry = @media_entries.detect{|me| me.id == key.to_i } #old# .find(key)
       media_entry.update_attributes(value)
     end
@@ -83,16 +83,19 @@ class UploadController < ApplicationController
       params[:media_set_ids].delete_if {|x| x.blank?}
 
       pre_load # OPTIMIZE
-
-      media_sets = Media::Set.find_by_id_or_create_by_title(params[:media_set_ids], current_user)
+      media_sets = MediaSet.find_by_id_or_create_by_title(params[:media_set_ids], current_user)
       media_sets.each do |media_set|
-        media_set.media_entries.push_uniq @media_entries
+        media_set.media_entries.push_uniq @upload_session.media_entries
       end
     
       redirect_to root_path
     else
       # TODO is the get method really needed ??
       pre_load # OPTIMIZE
+      
+          #FIXME NOTE TODO REMOVE
+          @media_entries = @upload_session.media_entries
+
     end
   end
 
@@ -102,7 +105,7 @@ class UploadController < ApplicationController
     pre_load
     @context = MetaContext.upload
     @all_valid = @media_entries.all? {|me| me.context_valid?(@context) }
-    @upload_session.update_attributes(:is_complete => true) if @all_valid
+    @upload_session.set_as_complete if @all_valid
   end
   
 ##################################################
@@ -115,7 +118,7 @@ class UploadController < ApplicationController
                       else
                         current_user.upload_sessions.latest
                       end
-    @media_entries = @upload_session.media_entries
+    @media_entries = @upload_session.incomplete_media_entries
   end
 
 end

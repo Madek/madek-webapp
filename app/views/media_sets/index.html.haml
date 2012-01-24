@@ -1,41 +1,35 @@
 :ruby
-  icon_class = case params[:type]
-    when "projects"
-      "icon_project"
-    else
-      "icon_set"
-  end
+  icon_class = "icon_set"
 
 -#-# .filter_area
-  =#-# render :partial => 'resources/filter_form', :locals => {:resource_ids => @_media_set_ids, :type => "Media::Set" }
+  =#-# render :partial => 'resources/filter_form', :locals => {:resource_ids => @_media_set_ids, :type => "MediaSet" }
 
 - unless @media_set
-  - if params[:type] != "projects"
-    .container_12.clearfix
-      %section#page_head_newset.clearfix
-        .grid_12
-          #set_info
-            %div.item_box_set
-              %div.thumb_box_set
-          #set_meta
-            %small
-              &nbsp;
-            %h5
-              = _("Neues Set erstellen")
-            - context = MetaContext.media_set
-            - media_set = current_user.media_sets.build # (:type => "Media::Set")
-            = form_for [current_user, media_set] do |f|
-              %table.label
-                = f.fields_for :meta_data, media_set.meta_data.get("title") do |meta_datum|
-                  - definition = meta_datum.object.meta_key.meta_key_definitions.for_context(context)
-                  %tr
-                    %td
-                      %p
-                        = "#{definition.meta_field.label}:"
-                    %td{:style => "float: left;"}
-                      = field_tag(meta_datum, context)
-                    %td{:style => "float: left;"}
-                      = f.submit _("Erstellen")
+  .container_12.clearfix
+    %section#page_head_newset.clearfix
+      .grid_12
+        #set_info
+          %div.item_box_set
+            %div.thumb_box_set
+        #set_meta
+          %small
+            &nbsp;
+          %h5
+            = _("Neues Set erstellen")
+          - context = MetaContext.media_set
+          - media_set = current_user.media_sets.build
+          = form_for [current_user, media_set] do |f|
+            %table.label
+              = f.fields_for :meta_data, media_set.meta_data.get("title") do |meta_datum|
+                - definition = meta_datum.object.meta_key.meta_key_definitions.for_context(context)
+                %tr
+                  %td
+                    %p
+                      = "#{definition.meta_field.label}:"
+                  %td{:style => "float: left;"}
+                    = field_tag(meta_datum, context)
+                  %td{:style => "float: left;"}
+                    = f.submit _("Erstellen")
 
   .container_12.clearfix
     %section#content_body.clearfix

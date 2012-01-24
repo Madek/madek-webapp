@@ -3,7 +3,7 @@ class MediaEntriesController < ApplicationController
 
   before_filter :pre_load, :except => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions]
   before_filter :pre_load_for_batch, :only => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions]
-  before_filter :authorized?, :except => [:index, :media_sets, :favorites, :toggle_favorites, :keywords] #old# :only => [:show, :edit, :update, :destroy]
+  before_filter :authorized?, :except => [:index, :media_sets, :favorites, :keywords] #old# :only => [:show, :edit, :update, :destroy]
 
   def show
     respond_to do |format|
@@ -78,13 +78,14 @@ class MediaEntriesController < ApplicationController
   ##
   # Manage parent media sets from a specific media entry.
   # 
-  # @url [POST] /media_entries/:id/media_sets?[arguments]
-  # @url [DELETE] /media_entries/:id/media_sets?[arguments]
+  # @url [POST] /media_entries/media_sets?[arguments]
+  # @url [DELETE] /media_entries/media_sets?[arguments]
   # 
-  # @argument [media_set_ids] array The ids of the parent media sets to remove/add
+  # @argument [parent_media_set_ids] array The ids of the parent media sets to remove/add
+  # @argument [media_entry_ids] array The ids of the entries that have to be added to the sets given as "parent_media_set_ids"
   #
   # @example_request
-  #   {"media_set_ids": [1,2,3]}
+  #   {"parent_media_set_ids": [1,2,3], "media_entry_ids": [5,6,7]}
   #
   # @request_field [Array] media_set_ids The ids of the parent media sets to remove/add  
   #
@@ -93,32 +94,23 @@ class MediaEntriesController < ApplicationController
   # 
   # @response_field [Integer] id The id of a removed or an added parent set 
   # 
-  def media_sets(media_set_ids = params[:media_set_ids])
-    # OPTIMIZE media_set ACL
-    media_sets = []
-    Media::Set.find(media_set_ids).each do |media_set|
-      next unless Permission.authorized?(current_user, :edit, media_set) # (Media::Set ACL!)
+  def media_sets(parent_media_set_ids = params[:parent_media_set_ids])
+    parent_media_sets = MediaSet.accessible_by_user(current_user, :edit).where(:id => parent_media_set_ids.map(&:to_i))
+
+    parent_media_sets.each do |media_set|
       if request.post?
         media_set.media_entries.push_uniq @media_entry
       else
         media_set.media_entries.delete(@media_entry)
       end
-      media_sets << media_set
     end
     
     respond_to do |format|
-      format.html {redirect_to @media_entry}
-      format.js { render :json => media_sets.as_json() }
+      #format.html {redirect_to @media_entry}
+      format.js { render :json => parent_media_sets.as_json }
     end
   end
   
-  def toggle_favorites
-    current_user.favorites.toggle(@media_entry)
-    respond_to do |format|
-      format.js { render :partial => "favorite_link", :locals => {:media_entry => @media_entry} }
-    end
-  end
-
   def keywords
 #old#
 ##select *, count(*) from keywords group by term_id;
@@ -151,7 +143,7 @@ class MediaEntriesController < ApplicationController
 
   def remove_multiple
     @media_set.media_entries.delete(@media_entries)
-    flash[:notice] = "Die Medieneinträge wurden aus dem Set/Projekt gelöscht."
+    flash[:notice] = "Die Medieneinträge wurden aus dem Set gelöscht."
     redirect_to media_set_url(@media_set)
   end
   
@@ -221,13 +213,13 @@ class MediaEntriesController < ApplicationController
       params.delete_if {|k,v| v.blank? }
       action = request[:action].to_sym
 
-      params[:media_entry_id] ||= params[:id] unless params[:id].blank?
+      params[:media_entry_id] ||= params[:id] ||= params[:media_entry_ids]
       
       @user = User.find(params[:user_id]) unless params[:user_id].blank?
       @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
-      @media_set = (@user? @user.media_sets : Media::Set).find(params[:media_set_id]) unless params[:media_set_id].blank? # TODO shallow
+      @media_set = (@user? @user.media_sets : MediaSet).find(params[:media_set_id]) unless params[:media_set_id].blank? # TODO shallow
 
-      if not params[:media_entry_id].blank?
+      unless params[:media_entry_id].blank?
         @media_entry =  if @media_set
                           @media_set.media_entries.find(params[:media_entry_id])
                         elsif @user
@@ -243,7 +235,7 @@ class MediaEntriesController < ApplicationController
     params.delete_if {|k,v| v.blank? }
     action = request[:action].to_sym
     
-    @media_set = Media::Set.find(params[:media_set_id]) unless params[:media_set_id].blank?
+    @media_set = MediaSet.find(params[:media_set_id]) unless params[:media_set_id].blank?
     
      unless params[:media_entry_ids].blank?
         selected_ids = params[:media_entry_ids].split(",").map{|e| e.to_i }

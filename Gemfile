@@ -47,8 +47,9 @@ gem 'ledermann-rails-settings', :require => 'rails-settings' # alternatives: 'se
 
 gem 'will_paginate', '~> 3.0' 
 
-gem "yard", "~> 0.7.4"
-#gem "yard-rest-plugin", "~> 0.2.5" FIXME this plugin is not working
+# FIXME
+#  gem "yard", "~> 0.7.4"
+#  gem "yard-rest-plugin", :git => "git://github.com/kanevski/yard-rest-plugin.git"
 
 gem 'zip', '~> 2.0.2' # alternatives: 'rubyzip', 'zipruby', 'zippy'
 gem 'rgl', '~> 0.4.0', :require => 'rgl/adjacency'
@@ -67,6 +68,8 @@ gem 'mini_exiftool', '~> 1.3.1'
 gem 'irwi', :git => 'git://github.com/alno/irwi.git', :ref => 'b78694'
 gem 'RedCloth'
 
+gem 'newrelic_rpm', '~> 3.3'
+
 group :test, :development do
   gem 'autotest'
   gem 'database_cleaner'
@@ -78,13 +81,23 @@ group :test, :development do
   gem 'statsample'
   gem 'watchr'
   gem 'spork'
+  gem "jasmine-rails", "~> 0.0.2" # javascript test environment
+  gem "jasmine-headless-webkit", "~> 0.8.4" # needed for "headless" running of jasmine tests (needed for CI)
+  gem "jasminerice", "~> 0.0.8" # needed for implement coffeescript, fixtures and asset pipeline serverd css into jasmine
+  gem "guard", "~> 0.10.0"
+  gem "rb-fsevent", "~> 0.4.3.1"
+  gem "guard-rspec", "~> 0.6.0"
+  gem "guard-spork", "~> 0.5.1"
+  gem "guard-cucumber", "~> 0.7.4"
+  gem "growl", "~> 1.0.3"
+  gem "ruby_gntp", "~> 0.3.4"
 end
+
 
 group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
   #tmp# gem 'peterhoeg-railroad'
-  #tmp# gem 'newrelic_rpm', '~> 3.1'
 end
 
 group :test do
