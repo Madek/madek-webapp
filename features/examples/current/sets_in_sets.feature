@@ -59,12 +59,3 @@ Feature: Sets in Sets
       And I can add all of them to one set
       And I can remove all of them from one set
 
-  # https://www.pivotaltracker.com/story/show/22576523
-  # Pts: 20
-  # Includes refactoring the view, moving to the API
-  Scenario: Viewing a context
-    Given a context
-     When I look at a page describing this context
-     Then I see all the keys that can be used in this context
-      And I see all the values those keys can have
-      And I see an abstract of the most assigned values from media entries using this context
