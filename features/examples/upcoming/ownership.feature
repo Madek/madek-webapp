@@ -81,3 +81,9 @@ Feature: Ownership
     Then I am the owner of the snapshot
      And "Susanne Schumacher" is still the original media entry's owner
 
+  @glossary
+  Scenario: Owner
+  Given I am a user in the system
+   When I have ownership of a resource
+   Then I am the owner of that resource
+
