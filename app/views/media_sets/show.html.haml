@@ -18,18 +18,18 @@
           - if @can_edit_set
             = display_edit_icon(@media_set, current_user)
             = display_delete_icon(@media_set, current_user)
-          = link_to "", :title => "Zu Set hinzufügen/entfernen",
-            :class=>"has-set-widget",
-            :"data-selected_ids" => "[#{@media_set.id}]",
-            :"data-user" => "#{current_user.to_json(:only => {}, :methods => :name)}",
-            :"data-detach_selected" => "true",
-            :"data-after_submit" => "window.location.reload();",
-            :"data-index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "with" => {"set" => {"creator" => 1, "created_at" => 1, "title" => 1}}}}.to_json}",
-            :"data-linked_index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "child_ids" => [@media_set.id]}}.to_json}",
-            :"data-create" => "#{{"path" => "/media_sets", "method" => "POST", "data" => {"media_sets" => ":created_items"}, "created_item" => {"meta_data_attributes" => {0 => {"meta_key_id" => "3", "value" => ":title"}}}}.to_json}",
-            :"data-link" => "#{{"path" => "/media_sets/parents", "method" => "POST", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_set_ids" => ":media_set_ids"}}.to_json}",
-            :"data-unlink" => "#{{"path" => "/media_sets/parents", "method" => "DELETE", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_set_ids" => ":media_set_ids"}}.to_json}" do
-            .button_addto
+            = link_to "", :title => "Zu Set hinzufügen/entfernen",
+              :class=>"has-set-widget",
+              :"data-selected_ids" => "[#{@media_set.id}]",
+              :"data-user" => "#{current_user.to_json(:only => {}, :methods => :name)}",
+              :"data-detach_selected" => "true",
+              :"data-after_submit" => "window.location.reload();",
+              :"data-index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "with" => {"set" => {"creator" => 1, "created_at" => 1, "title" => 1}}}}.to_json}",
+              :"data-linked_index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "child_ids" => [@media_set.id]}}.to_json}",
+              :"data-create" => "#{{"path" => "/media_sets", "method" => "POST", "data" => {"media_sets" => ":created_items"}, "created_item" => {"meta_data_attributes" => {0 => {"meta_key_id" => "3", "value" => ":title"}}}}.to_json}",
+              :"data-link" => "#{{"path" => "/media_sets/parents", "method" => "POST", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_set_ids" => ":media_set_ids"}}.to_json}",
+              :"data-unlink" => "#{{"path" => "/media_sets/parents", "method" => "DELETE", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_set_ids" => ":media_set_ids"}}.to_json}" do
+              .button_addto
 
       .grid_9
         #detail_specification.tabs
