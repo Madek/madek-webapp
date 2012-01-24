@@ -226,29 +226,26 @@ end
 Then /^I see the sets all of them are in$/ do
   all_of_them_are_in_parents = @possible_parents.reduce(:&) - [@selected_set]
   all_of_them_are_in_parents.each do |parent|
-    binding.pry
     assert find("label[title='#{parent.title}']").has_xpath?('./..[@class="selected"]')
   end
 end
 
 Then /^I can add all of them to one set$/ do
-  target = ((@possible_parents.flatten.uniq! - @possible_parents.reduce(:&)).first - [@selected_set])
+  target = (@possible_parents.flatten.uniq! - @possible_parents.reduce(:&)).first
   steps %Q{
      And I select "#{target.title}" as parent set
      And I submit the selection widget
      And I open the selection widget for this batchedit
-     Then I should see the "#{target.title}" set inside the widget
      And the "#{target.title}" checkbox should be checked
   }
 end
 
 Then /^I can remove all of them from one set$/ do
-  target = ((@possible_parents.flatten.uniq! - @possible_parents.reduce(:&)).first - [@selected_set])
+  target = (@possible_parents.flatten.uniq! - @possible_parents.reduce(:&)).first
   steps %Q{
      And I deselect "#{target.title}" as parent set
      And I submit the selection widget
      And I open the selection widget for this batchedit
-     Then I should not see the "#{target.title}" set inside the widget
      And the "#{target.title}" checkbox should not be checked
   }
 end
