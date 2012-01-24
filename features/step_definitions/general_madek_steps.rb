@@ -384,5 +384,6 @@ When "I click the download button for ZIP with metadata" do
 end
 
 When /^I see the set-box "(.+)"$/ do |title|
+  sleep(0.5)
   assert find(:xpath, "//div[@oldtitle='#{title} - MediaSet (1)']")
 end
