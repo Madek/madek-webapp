@@ -35,7 +35,6 @@ function SetWidget() {
         }
       },
       error: function(request, status, error){
-        console.log("ERROR");
         if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
           SetWidget.setup_widget(target);
         }
@@ -350,6 +349,7 @@ function SetWidget() {
     var data_as_string = JSON.stringify($(target).data("link").data);
     data_as_string = data_as_string.replace(/":parent_media_set_ids"/g, JSON.stringify(linked_items));
     data_as_string = data_as_string.replace(/":media_entry_ids"/g, JSON.stringify($(target).data("selected_ids")));
+    data_as_string = data_as_string.replace(/":media_resource_ids"/g, JSON.stringify($(target).data("selected_ids")));
     data_as_string = data_as_string.replace(/":media_set_ids"/g, JSON.stringify($(target).data("selected_ids")));
     var data = JSON.parse(data_as_string);
     
@@ -393,6 +393,7 @@ function SetWidget() {
     var data_as_string = JSON.stringify($(target).data("unlink").data);
     data_as_string = data_as_string.replace(/":parent_media_set_ids"/g, JSON.stringify(unlinked_items));
     data_as_string = data_as_string.replace(/":media_set_ids"/g, JSON.stringify($(target).data("selected_ids")));
+    data_as_string = data_as_string.replace(/":media_resource_ids"/g, JSON.stringify($(target).data("selected_ids")));
     data_as_string = data_as_string.replace(/":media_entry_ids"/g, JSON.stringify($(target).data("selected_ids")));
     var data = JSON.parse(data_as_string);
     
