@@ -198,6 +198,7 @@ class MediaResource < ActiveRecord::Base
         core_info[md.meta_key.label.gsub(' ', '_')] = md.to_s
       end
       
+            
       if with_thumb
         mf = if self.is_a?(MediaSet)
           media_entries.accessible_by_user(current_user).first.try(:media_file)
@@ -207,12 +208,7 @@ class MediaResource < ActiveRecord::Base
         core_info["thumb_base64"] = mf.thumb_base64(:small_125) if mf
       else
         #1+n http-requests#
-        me = if self.is_a?(MediaSet)
-          media_entries.accessible_by_user(current_user).first
-        else
-          self
-        end
-        core_info["thumb_base64"] = "/media_entries/%d/image?size=small_125" % me.id if me
+        core_info["thumb_base64"] = "/resources/%d/image?size=small_125" % id
       end
       
       core_info
