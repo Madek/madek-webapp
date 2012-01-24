@@ -50,9 +50,9 @@ Feature: Sets in Sets
   # Pts: 13
   @javascript
   Scenario: Moving resources into or out of multiple sets at the same time
-    Given multiple resources are in my selection
+    Given some entries and sets are in my selection
       And they are in various different sets
-     When I open the sets in sets tool
+     When I open inside the badge edit the sets in sets widget
      Then I see the sets none of them are in
       And I see the sets some of them are in
       And I see the sets all of them are in

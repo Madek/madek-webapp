@@ -31,10 +31,7 @@ Feature: Do things to and with sets
      And I open the selection widget for this entry
      And I create a new set named "After-Upload Set"
      And I submit the selection widget
-     And I go to the home page
-    Then I should see "into the set after uploading"
-    When I click the media entry titled "into the set after uploading"
-     And I see the set-box "After-Upload Set"
+    Then I see the set-box "After-Upload Set"
      And I should not see "Ohne Titel"
 
  @javascript 

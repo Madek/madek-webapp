@@ -81,11 +81,13 @@ Given /^are some sets and entries$/ do
       
     And a set titled "My Public Images" created by "max" exists
     And a entry titled "My Profile Pic" created by "max" exists
+    And the last entry is child of the 2nd set
     And the last entry is child of the last set
     
     And a set titled "Football Pics" created by "max" exists
     And a entry titled "Me and my Balls" created by "max" exists
     And the last entry is child of the last set
+    And the last entry is child of the 2nd set
     And the last set is parent of the 3rd set
     
     And a set titled "Images from School" created by "max" exists
@@ -95,6 +97,7 @@ Given /^are some sets and entries$/ do
     And a set titled "This is a extreme long set title reaaaaaaly looooooong" created by "max" exists
     
     And a set was created at "18.01.1987" titled "Long time ago" by "max"
+    And the last set is child of the 2nd set
   }
 end
 
@@ -128,13 +131,13 @@ end
 
 Then /^I can see that selected sets are already highlighted$/ do
   @parent_sets.each do |set|
-    assert find("[title='#{set.title}']").has_xpath?('./..[@class="selected"]')
+    assert find("label[title='#{set.title}']").has_xpath?('./..[@class="selected"]')
   end
 end
 
 Then /^I can choose to see additional information$/ do
   @parent_sets.each do |set|
-    assert find("[title='#{set.title}']")
+    assert find("label[title='#{set.title}']")
   end
 end
 
@@ -154,7 +157,7 @@ Then /^I can see enough information to differentiate between similar sets$/ do
       And I can see the owner of each set
       And I can choose to see additional information
     }
-    date_container = find("[title='#{set.title}'] .created_at")
+    date_container = find("label[title='#{set.title}'] .created_at")
     unless set.created_at.strftime("%d.%m.%Y") == Date.today.strftime("%d.%m.%Y")
       date_container.should have_content(set.created_at.strftime("%d"))
       date_container.should have_content(set.created_at.strftime("%m"))
@@ -163,41 +166,89 @@ Then /^I can see enough information to differentiate between similar sets$/ do
   end
 end
       
-Given /^multiple resources are in my selection$/ do
+Given /^some entries and sets are in my selection$/ do
   steps %Q{
     Given are some sets and entries
     When I go to the media entries
     And I check the media entry titled "My Profile Pic"
     And I check the media entry titled "Me and my Balls"
-    And I open the selection widget for this batchedit
+    And I check the media set titled "Long time ago"
   }
+  @selected_entries = []
+  MediaResource.all.each do |resource|
+    if resource.title == "My Profile Pic" || resource.title == "Me and my Balls"
+      @selected_entries << resource
+    end
+  end
+  
+  @selected_set = MediaSet.find(12)
+  @possible_parents = @selected_entries.map do |entry|
+    entry.media_sets - [@selected_set]
+  end
 end
 
 Given /^they are in various different sets$/ do
-  # check if the sets in selection are in different sets
+  all_have_same_parents = true
+  @possible_parents.each_with_index do |parent_group, index|
+    (@possible_parents-parent_group).each do |other_parent_group|
+      all_have_same_parents = false if (parent_group == other_parent_group) 
+    end
+  end
+  
+  assert all_have_same_parents==false
+end
+
+Then /^I open inside the badge edit the sets in sets widget$/ do
+  steps %Q{
+    And I open the selection widget for this batchedit
+  }
+  
+  @current_set = MediaSet.find 1
+  @user = User.last
+  @accsible_sets = MediaSet.accessible_by_user(@user, :edit)
+  @parent_sets = @current_set.parent_sets.accessible_by_user(@user, :edit)
 end
 
 Then /^I see the sets none of them are in$/ do
-  # not checked
-  # not selected
+  (@accsible_sets-@possible_parents.flatten.uniq!-[@selected_set]).each do |set|
+    assert_nil find("label[title='#{set.title}'] input")["checked"]
+  end
 end
 
 Then /^I see the sets some of them are in$/ do
-  # is intermdiate state
-  # has intermediate pipe
+  intermediate_parents = @possible_parents.flatten.uniq! - @possible_parents.reduce(:&)
+  intermediate_parents.each do |parent|
+    assert find("label[title='#{parent.title}']").has_xpath?('./..[@class="intermediate"]')
+    assert find("label[title='#{parent.title}'] .intermediate_pipe")
+  end
 end
 
 Then /^I see the sets all of them are in$/ do
-  # checked
-  # selected 
+  all_of_them_are_in_parents = @possible_parents.reduce(:&) - [@selected_set]
+  all_of_them_are_in_parents.each do |parent|
+    binding.pry
+    assert find("label[title='#{parent.title}']").has_xpath?('./..[@class="selected"]')
+  end
 end
 
 Then /^I can add all of them to one set$/ do
-   # link
-   # submit
-   # check
+  target = ((@possible_parents.flatten.uniq! - @possible_parents.reduce(:&)).first - [@selected_set])
+  steps %Q{
+     And I select "#{target.title}" as parent set
+     And I submit the selection widget
+     And I open the selection widget for this batchedit
+     Then I should see the "#{target.title}" set inside the widget
+     And the "#{target.title}" checkbox should be checked
+  }
 end
 
 Then /^I can remove all of them from one set$/ do
-   # revert
+  target = ((@possible_parents.flatten.uniq! - @possible_parents.reduce(:&)).first - [@selected_set])
+  steps %Q{
+     And I deselect "#{target.title}" as parent set
+     And I submit the selection widget
+     And I open the selection widget for this batchedit
+     Then I should not see the "#{target.title}" set inside the widget
+     And the "#{target.title}" checkbox should not be checked
+  }
 end
