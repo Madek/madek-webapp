@@ -76,7 +76,8 @@ Feature: Ownership
     Then I am the owner of that resource
 
   Scenario: Ownership on snapshots
-    When I create a snapshot of a resource
+   Given I am member of the group "Expert"
+    When I create a snapshot of a media entry owned by "Susanne Schumacher"
     Then I am the owner of the snapshot
-     And the resource's owner is still the original owner
+     And "Susanne Schumacher" is still the original media entry's owner
 
