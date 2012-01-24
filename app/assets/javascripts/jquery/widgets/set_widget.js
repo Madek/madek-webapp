@@ -210,15 +210,41 @@ function SetWidget() {
       $.each($(target).data("linked_items"), function(i_link, linked_item){
         // check if the ellement is already linked
         if(linked_item.id == $(item).tmplItem().data.id) {
+
+          // remove not selected media_entries from the linked_item
+          var all_possible_selected_media_entries_linked = [];
+          if(linked_item.media_entries != undefined) {
+            $.each(linked_item.media_entries, function(i, entry){
+              if($(target).data("selected_ids").indexOf(entry.id) != -1){
+                all_possible_selected_media_entries_linked.push(entry);
+              }
+            });
+          }
+          
+          // remove not selected child sets from the linked_item
+          var all_possible_selected_child_sets_linked = [];
+          if(linked_item.child_sets != undefined) {
+            $.each(linked_item.child_sets, function(i, set){
+              if($(target).data("selected_ids").indexOf(set.id) != -1){
+                all_possible_selected_child_sets_linked.push(set);
+              }
+            });
+          }
           
           // prepare all possible linked ids for this linked item
           var all_possible_linked_ids = [];
-          if(linked_item.media_entries != undefined) $.each(linked_item.media_entries, function(i_me, me){all_possible_linked_ids.push(me.id)});
-          if(linked_item.child_sets != undefined) $.each(linked_item.child_sets, function(i_me, me){all_possible_linked_ids.push(me.id)});
+          $.each(all_possible_selected_media_entries_linked, function(i_me, me){all_possible_linked_ids.push(me.id)});
+          $.each(all_possible_selected_child_sets_linked, function(i_me, me){all_possible_linked_ids.push(me.id)});
+          
+          console.log("linked_item:");
+          console.log(linked_item);
+          console.log("all_possible_linked_ids: " + all_possible_linked_ids);
           
           var all_selected_items_are_linked = true;
           if(all_possible_linked_ids.length > 0) {
             $.each($(target).data("selected_ids"), function(i_selected_id, selected_id){
+              console.log("selected_id: " + selected_id);
+              console.log(all_possible_linked_ids.indexOf(selected_id));
               if(all_possible_linked_ids.indexOf(selected_id) == -1) {
                 all_selected_items_are_linked = false;
               }
