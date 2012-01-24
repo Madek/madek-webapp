@@ -41,6 +41,10 @@ class ResourcesController < ApplicationController
       format.js { render :json => @resources }
     end
   end
+
+  def show
+    redirect_to @media_resource
+  end
   
   # TODO merge search and filter methods ??
   def filter

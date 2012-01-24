@@ -70,3 +70,20 @@ Feature: Ownership
      When I go to the admin interface
       And I assign the resources to "Susanne Schumacher"
      Then both resources are owned by "Susanne Schumacher"
+
+  Scenario: A resource's creator is automatically its owner
+    When I create a resource
+    Then I am the owner of that resource
+
+  Scenario: Ownership on snapshots
+   Given I am member of the group "Expert"
+    When I create a snapshot of a media entry owned by "Susanne Schumacher"
+    Then I am the owner of the snapshot
+     And "Susanne Schumacher" is still the original media entry's owner
+
+  @glossary
+  Scenario: Owner
+  Given I am a user in the system
+   When I have ownership of a resource
+   Then I am the owner of that resource
+

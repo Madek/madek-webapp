@@ -25,6 +25,13 @@ Then /^they are in my favorites$/ do
   all(".item_box").size.should == 3
 end
 
+Then /^I can open them$/ do
+  @current_user.favorites.each do |f|
+    visit resource_path(f)
+    page.should have_content("Set enthält")
+  end
+end
+
 Given /^a context$/ do
   name = "Landschaftsvisualisierung"
   @context = MetaContext.send(name)

@@ -134,11 +134,7 @@ class MetaContext < ActiveRecord::Base
   end
 
   def self.method_missing(*args)
-    # TODO identity_map for MetaContext similar to MetaKey ??
-    # @contexts ||= {} # doesn't reflect updated meta_keys position order
-    @contexts = {}
-    @contexts[args.first] ||= where(:name => args.first.to_s).first
-    @contexts[args.first] || super
+    where(:name => args.first.to_s).first || super
   end
 
 end

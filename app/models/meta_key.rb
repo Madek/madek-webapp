@@ -8,8 +8,7 @@ class MetaKey < ActiveRecord::Base
   has_many :media_entries, :through => :meta_data, :uniq => true
   has_many :meta_key_definitions do
     def for_context(context)
-      @meta_key_definitions ||= {}
-      @meta_key_definitions[context.id] ||= scoped_by_meta_context_id(context).first
+      scoped_by_meta_context_id(context).first
     end
   end
   has_many :meta_contexts, :through => :meta_key_definitions

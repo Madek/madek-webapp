@@ -191,19 +191,17 @@ class MetaDatum < ActiveRecord::Base
 ##########################################################
 
   def context_warnings(context = MetaContext.core)
-    @context_warnings ||= {}
-    unless @context_warnings[context.id]
-      @context_warnings[context.id] = []
+    r = []
 
-      definition = meta_key.meta_key_definitions.for_context(context)
-      meta_field = definition.meta_field
+    definition = meta_key.meta_key_definitions.for_context(context)
+    meta_field = definition.meta_field
 
-      @context_warnings[context.id] << "can't be blank" if value.blank? and meta_field.is_required
-      @context_warnings[context.id] << "is too short (min is #{meta_field.length_min} characters)" if meta_field.length_min and (value.blank? or value.size < meta_field.length_min)
-      @context_warnings[context.id] << "is too long (maximum is #{meta_field.length_max} characters)" if value and meta_field.length_max and value.size > meta_field.length_max
-      # TODO options
-    end
-    return @context_warnings[context.id]
+    r << "can't be blank" if value.blank? and meta_field.is_required
+    r << "is too short (min is #{meta_field.length_min} characters)" if meta_field.length_min and (value.blank? or value.size < meta_field.length_min)
+    r << "is too long (maximum is #{meta_field.length_max} characters)" if value and meta_field.length_max and value.size > meta_field.length_max
+    # TODO options
+    
+    r
   end
 
   def context_valid?(context = MetaContext.core)

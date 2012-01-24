@@ -48,10 +48,11 @@ class MediaSet < MediaResource
 
   def to_s
     return "Beispielhafte Sets" if is_featured_set?
-
-    s = "#{title} " 
-    s += "- %s " % self.class.name.split('::').last # OPTIMIZE get class name without module name
-    s += "(#{media_entries.count})" # TODO filter accessible ?? "(#{media_entries.accessible_by_user(current_user).count})"
+    title_and_count
+  end
+  
+  def title_and_count
+    "#{title} (#{media_entries.count})" # TODO filter accessible ?? "(#{media_entries.accessible_by_user(current_user).count})"
   end
 
 ########################################################
