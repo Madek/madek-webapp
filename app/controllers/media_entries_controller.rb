@@ -12,22 +12,6 @@ class MediaEntriesController < ApplicationController
       format.xml { render :xml=> @media_entry.to_xml(:include => {:meta_data => {:include => :meta_key}} ) }
     end
   end
-
-  def image(size = params[:size] || :large)
-    # TODO dry => Resource#thumb_base64 and Download audio/video
-    media_file = @media_entry.media_file
-    preview = media_file.get_preview(size)
-    file = File.join(THUMBNAIL_STORAGE_DIR, media_file.shard, preview.filename)
-    if File.exist?(file)
-      output = File.read(file)
-      send_data output, :type => preview.content_type, :disposition => 'inline'
-    else
-      # OPTIMIZE dry => MediaFile#thumb_base64
-      size = (size == :large ? :medium : :small)
-      output = File.read("#{Rails.root}/app/assets/images/Image_#{size}.png")
-      send_data output, :type => "image/png", :disposition => 'inline'
-    end
-  end
   
   def map
     meta_data = @media_entry.media_file.meta_data

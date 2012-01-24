@@ -98,8 +98,59 @@ class ResourcesController < ApplicationController
 
 ###################################################################################
 
+  def parents(parent_media_set_ids = params[:parent_media_set_ids])
+    parent_media_sets = MediaSet.accessible_by_user(current_user, :edit).where(:id => parent_media_set_ids.map(&:to_i))
+    child_resources = Array(@media_resource)
+    
+    child_resources.each do |resource|
+      if request.post?
+        (parent_media_sets - resource.parent_sets).each do |parent_media_set|
+          resource.parent_sets << parent_media_set 
+        end
+      elsif request.delete?
+        parent_media_sets.each do |parent_media_set|
+          resource.parent_sets.delete(parent_media_set)
+        end
+      end
+    end
+    
+    respond_to do |format|
+      #format.html { redirect_to @media_set }
+      format.js { 
+        render :json => child_resources.as_json(:user => current_user, :methods => :parent_ids) 
+      }
+    end
+  end
+
+###################################################################################
+
+  def image(size = params[:size] || :large)
+    # TODO dry => Resource#thumb_base64 and Download audio/video
+    media_file = if @media_resource.is_a? MediaSet
+      @media_resource.media_entries.accessible_by_user(current_user).first.try(:media_file)
+    else
+      @media_resource.media_file
+    end
+    
+    return unless media_file
+    
+    preview = media_file.get_preview(size)
+    file = File.join(THUMBNAIL_STORAGE_DIR, media_file.shard, preview.filename)
+    if File.exist?(file)
+      output = File.read(file)
+      send_data output, :type => preview.content_type, :disposition => 'inline'
+    else
+      # OPTIMIZE dry => MediaFile#thumb_base64
+      size = (size == :large ? :medium : :small)
+      output = File.read("#{Rails.root}/app/assets/images/Image_#{size}.png")
+      send_data output, :type => "image/png", :disposition => 'inline'
+    end
+  end  
+
+###################################################################################
+
   def pre_load
-    params[:media_resource_id] ||= params[:id]
+    params[:media_resource_id] ||= params[:id] ||= params[:media_resource_ids]
     @media_resource = MediaResource.find(params[:media_resource_id]) unless params[:media_resource_id].blank?
   end
 
