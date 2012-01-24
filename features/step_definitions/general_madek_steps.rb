@@ -19,7 +19,7 @@ Given /^I have set up the world$/ do
 #       And the user with username "bruce_willis" is member of the group "Admin"
 #       And I log in as "bruce_willis" with password "fluffyKittens"
 #     }
-    
+
     step 'a user called "Bruce Willis" with username "bruce_willis" and password "fluffyKittens" exists'
     step 'a group called "Admin" exists'
     step 'the user with username "bruce_willis" is member of the group "Admin"'
@@ -30,7 +30,7 @@ Given /^I have set up the world$/ do
     click_link("Import")
     attach_file("uploaded_data", Rails.root + "features/data/minimal_meta.yml")
     click_button("Import »")
-    
+
   end
 
   MetaKey.count.should == 89
@@ -157,7 +157,7 @@ end
 
 When /^I use pry$/ do
   binding.pry
-end 
+end
 
 When /^I upload some picture titled "([^"]*)"$/ do |title|
   upload_some_picture(title)
@@ -218,13 +218,13 @@ When "I fill in the metadata form as follows:" do |table|
         list.all("textarea").each do |ele|
           fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil? and ele[:id].match(/meta_data_attributes_.+_keep_original_value$/).nil?
         end
-        
+
         list.all("input").each do |ele|
           fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil? and ele[:id].match(/meta_data_attributes_.+_keep_original_value$/).nil?
         end
-        
+
       end
-      
+
     end
 
   end
@@ -350,7 +350,7 @@ When "I make sure I'm logged out" do
 end
 
 When /I filter by "([^"]*)" in "([^"]*)"$/ do |choice, category|
-  header = find("h3.filter_category", :text => category)  
+  header = find("h3.filter_category", :text => category)
   header.find("a.filter_category_link").click
   # Finds the div underneath the h3 title, so that we can manipulate the form there (e.g. click some checkboxes to
   # filter by controlled vocabulary)
@@ -364,7 +364,7 @@ When /I filter by "([^"]*)" in "([^"]*)"$/ do |choice, category|
       cb.click unless cb[:checked] == "true"
     end
   end
-  
+
 end
 
 When /I choose the set "([^"]*)" from the media entry$/ do |set_name|
@@ -400,5 +400,6 @@ When "I click the download button for ZIP with metadata" do
 end
 
 When /^I see the set-box "(.+)"$/ do |title|
-  assert find(:xpath, "//div[contains(@oldtitle, '#{title}')]")
+  sleep(0.5)
+  assert find(:xpath, "//div[contains(@oldtitle,'#{title}')]")
 end
