@@ -1,0 +1,18 @@
+= form_tag special_admin_media_sets_path do
+  %table.datatable
+    %thead
+      %tr
+        - [_("Featured"), _("Children"), _("ID"), _("Set"), _("MediaEntries"), _("Splashscreen")].collect do |s|
+          %th= s
+
+    %tbody
+      - @media_sets.each do |set|
+        %tr
+          %td= radio_button_tag "featured_set_id", set.id, (@featured_set_id == set.id)
+          %td= set.child_sets.count
+          %td= set.id
+          %td= "#{set.title_and_count} (#{set.user})"
+          %td= set.media_entries.count
+          %td= radio_button_tag "splashscreen_slideshow_set_id", set.id, (@splashscreen_slideshow_set_id == set.id)
+
+  = submit_tag _("Submit")
