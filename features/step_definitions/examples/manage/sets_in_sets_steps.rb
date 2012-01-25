@@ -18,7 +18,7 @@ When /^I add them to my favorites$/ do
 end
 
 Then /^they are in my favorites$/ do
-  @current_user.favorites.reload.should == @current_user.media_sets.reload
+  (@current_user.favorites.reload.to_a <=> @current_user.media_sets.to_a).zero?.should == true
 
   visit favorites_resources_path
   wait_for_css_element("div.page div.item_box")
