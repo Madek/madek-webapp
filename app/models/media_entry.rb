@@ -48,11 +48,23 @@ class MediaEntry < MediaResource
 ########################################################
 
   def as_json(options={})
+    options ||= {}
     h = { :is_set => false,
           :can_maybe_browse => !meta_data.for_meta_terms.blank? #,
           #:thumb_base64 => media_file.try(:thumb_base64, :small_125)
         }
-    super(options).merge(h)
+     
+    json = super(options)
+    
+    if(with = options[:with])
+      if(with[:media_entry])
+        if with[:media_entry].has_key?(:creator) and (with[:media_entry][:creator].is_a?(Hash) or not with[:media_entry][:creator].to_i.zero?)
+          json[:creator] = user.to_s
+        end
+      end
+    end
+    
+    json
   end
 
 ########################################################
