@@ -95,7 +95,7 @@
   			<!-- Login -->
   			<div id="login" class="sidebar-box">
   				<p>Gleich einsteigen oder <a href="http://demo.medienarchiv.zhdk.ch/login">Demo testen</a></p>
-  				<p><%= link_to _("Los geht's"), (Rails.env == "development" ? db_login_path : login_path), :class => "actionbutton button yellow" %></p>
+  				<p><%= link_to _("Los geht's"), login_path, :class => "actionbutton button yellow" %></p>
   				<p class="disclaimer">Bis Ende 2012 ist das Medienarchiv nur für ZHdK-Angehörige zugänglich.</p>
   			</div> <!-- #login -->
 
@@ -225,7 +225,7 @@
                 $.each(randomElements, function(i, entry){
                   // image
                   var entry_image = $(image_clone).clone();
-                  $(entry_image).attr("src", "/media_entries/"+entry.id+"/image?size=large");
+                  $(entry_image).attr("src", "/resources/"+entry.id+"/image?size=large");
                   $(entry_image).attr("title", "#htmlcaption"+(i+1));
                   $("#slider-wrapper #slider").append(entry_image);
 

@@ -80,7 +80,11 @@ class MediaSet < MediaResource
     if(with = options[:with])
       if(with[:set])
         if with[:set].has_key?(:child_sets) and (with[:set][:child_sets].is_a?(Hash) or not with[:set][:child_sets].to_i.zero?)
-          json[:child_sets] = child_sets.as_json(options)
+          # dont forward child_sets option to the child sets
+          # this will end up in a loop
+          child_sets_options = options
+          child_sets_options[:child_sets] = 0
+          json[:child_sets] = child_sets.as_json(child_sets_options)
         end
         if with[:set].has_key?(:media_entries) and (with[:set][:media_entries].is_a?(Hash) or not with[:set][:media_entries].to_i.zero?)
           json[:media_entries] = media_entries.as_json(options)

@@ -35,10 +35,12 @@ When /^(?:|I )open the selection widget for this (.+)$/ do |type|
 end
 
 When /^(?:|I )select "(.+)" as parent set$/ do |label|
+  label.gsub!(/\s/, "_")
   find("input##{label}:not(selected)").click
 end
 
 When /^(?:|I )deselect "(.+)" as parent set$/ do |label|
+  label.gsub!(/\s/, "_")
   raise "#{label} is not selected so you can not deselect it" unless find("input##{label}").checked?
   find("input##{label}").click
 end

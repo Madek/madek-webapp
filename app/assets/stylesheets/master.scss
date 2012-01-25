@@ -1900,7 +1900,7 @@ form.new_person {
 	z-index: 1000;
 	padding-left: 10px;
 	padding-right: 25px;
-	padding-top: 5px;
+	padding-top: 10px;
 	overflow-x: hidden;
 	overflow-y: auto;
 	max-height: 280px;
@@ -1965,11 +1965,27 @@ form.new_person {
 	box-shadow: 0 0 1px rgba(100, 100, 100, 0.6);
 	margin: 3px 6px 3px 0;
 
-	img {
+	img, .noimage {
+	  display: inline-block;
 		margin-top: expression(( 60 - this.height ) / 2);
 		vertical-align: middle;
 		max-height: 50px;
 		max-width: 50px;
+		&.noimage {
+		 height: 50px;
+		 width: 50px; 
+		}
+	}
+	
+	.set_tab {
+	  background: white;
+	  display: block;
+	  height: 15px;
+	  left: 0;
+	  position: absolute;
+	  top: -6px;
+	  width: 26px;
+	  @include border-radius(6px);
 	}
 }
 

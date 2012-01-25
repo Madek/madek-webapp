@@ -64,7 +64,7 @@ MAdeK::Application.routes.draw do
       get :to_snapshot
       #temp# :graph_nodes => :get,
       #temp# :index_browser => :get
-      get :image
+      get :image, :to => "resources#image"
       get :map
       get :browse
     end
@@ -133,6 +133,8 @@ MAdeK::Application.routes.draw do
 
   resources :resources, :only => [:index, :show] do
     collection do
+      post :parents
+      delete :parents
       get :favorites, :to => "resources#index"
       get :filter
       post :filter
@@ -140,6 +142,7 @@ MAdeK::Application.routes.draw do
     
     member do
       post :toggle_favorites
+      get :image
     end
   end
 

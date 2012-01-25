@@ -277,9 +277,9 @@ function displayCount() {
 		$('#selected_items').hide();
 	};
 
-	if($('#selected_items .edit').length){ $("#batch-edit").show(); }else{ $("#batch-edit").hide(); }
-	if($('#selected_items .manage').length){ $("#batch-permissions").show(); }else{ $("#batch-permissions").hide(); }
-	if($("#batch-edit:visible").length || $("#batch-permissions:visible").length) { $(".task_bar .seperator.edit").show(); }else{ $(".task_bar .seperator.edit").hide(); }
+	if($('#selected_items .edit').length && !$('#selected_items > .set').length){ $("#batch-edit").show(); }else{ $("#batch-edit").hide(); }
+	if($('#selected_items .manage').length && !$('#selected_items > .set').length){ $("#batch-permissions").show(); }else{ $("#batch-permissions").hide(); }
+	if(($("#batch-edit:visible").length || $("#batch-permissions:visible").length) && !$('#selected_items > .set').length) { $(".task_bar .seperator.edit").show(); }else{ $(".task_bar .seperator.edit").hide(); }
 	if($('#selected_items .thumb_mini').length){ 
 	  $("#batch-add-to-set").show(); 
 	  if($("#batch-select-all:visible").length) $('.task_bar .seperator:first').show(); 
@@ -327,5 +327,8 @@ function update_selection(){
   $.each(get_media_entries_json(), function(i, element){
     selected_ids.push(element.id);
   });
+  $($(".task_bar .has-set-widget").data("widget")).remove();
+  $(".task_bar .has-set-widget").removeClass("open created");
+  $(".task_bar .has-set-widget").removeData();
   $(".task_bar .has-set-widget").data("selected_ids", selected_ids);
 }

@@ -127,15 +127,27 @@ Given /^a entry titled "(.+)" created by "(.+)" exists$/ do |title, username|
   upload_session.set_as_complete
 end
 
-Given /^the last entry is child of the last set/ do
-  parent_set = MediaSet.all.sort_by(&:id).last
+Given /^the last entry is child of the (.+) set/ do |offset|
+  if offset == "last"
+    parent_set = MediaSet.all.sort_by(&:id).last
   entry = MediaEntry.all.sort_by(&:id).last
   parent_set.media_entries.push_uniq entry
+  else
+    parent_set = MediaSet.all.sort_by(&:id)[offset.to_i-1]
+    entry = MediaEntry.all.sort_by(&:id).last
+    parent_set.media_entries.push_uniq entry
+  end
 end
 
 Given /^the last set is parent of the (.+) set$/ do |offset|
   parent_set = MediaSet.all.sort_by(&:id).last
   child_set = MediaSet.all.sort_by(&:id)[offset.to_i-1]
+  parent_set.child_sets << child_set
+end
+
+Given /^the last set is child of the (.+) set$/ do |offset|
+  child_set = MediaSet.all.sort_by(&:id).last
+  parent_set = MediaSet.all.sort_by(&:id)[offset.to_i-1]
   parent_set.child_sets << child_set
 end
 
@@ -253,6 +265,10 @@ When /^I click the media entry titled "([^"]*)"/ do |title|
 end
 
 When /^I check the media entry titled "([^"]*)"/ do |title|
+  check_media_entry_titled(title)
+end
+
+When /^I check the media set titled "([^"]*)"/ do |title|
   check_media_entry_titled(title)
 end
 
