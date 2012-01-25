@@ -207,48 +207,50 @@
         var set_id = "<%= AppSettings.splashscreen_slideshow_set_id %>";
         if(set_id.length) {
           $.ajax("/media_sets/"+set_id+".js", {
-            data: {options_for_media_entries: {show: true}},
+            data: {options_for_media_entries: {show: true},
+                  with:{media_entries:{author:1} }},
             dataType: "json",
             beforeSend: function(request, settings){
             },
             success: function(data, status, request) {
-              $("#slider").fadeOut(1000, function(){
-                // setup splashscreen images
-                var image_clone = $("#slider-wrapper #slider img").clone();
-                $("#slider-wrapper #slider img").remove();
-                var caption_clone = $("#slider-wrapper #htmlcaption1").clone();
-                $("#slider-wrapper #htmlcaption1").remove();
-                
-                randomElements = data.entries.sort(function(){ 
-                  return Math.round(Math.random())-0.5
-                }).slice(0,5)
-                
-                $.each(randomElements, function(i, entry){
-                  // image
-                  var entry_image = $(image_clone).clone();
-                  $(entry_image).attr("src", "/resources/"+entry.id+"/image?size=large");
-                  $(entry_image).attr("title", "#htmlcaption"+(i+1));
-                  $("#slider-wrapper #slider").append(entry_image);
+              window.setTimeout(function(){
+                $("#slider").fadeOut(1000, function(){
+                  // setup splashscreen images
+                  var image_clone = $("#slider-wrapper #slider img").clone();
+                  $("#slider-wrapper #slider img").remove();
+                  var caption_clone = $("#slider-wrapper #htmlcaption1").clone();
+                  $("#slider-wrapper #htmlcaption1").remove();
                   
-                  // caption
-                  var entry_caption = $(caption_clone).clone();
-                  $(entry_caption).attr("id", "htmlcaption"+(i+1));
-                  $(entry_caption).html("<strong>"+entry.title+"</strong><br/>");
-                  $("#slider-wrapper").append(entry_caption);
+                  randomElements = data.entries.sort(function(){ 
+                    return Math.round(Math.random())-0.5
+                  }).slice(0,5)
+                  
+                  $.each(randomElements, function(i, entry){
+                    // image
+                    var entry_image = $(image_clone).clone();
+                    $(entry_image).attr("src", "/resources/"+entry.id+"/image?size=large");
+                    $(entry_image).attr("title", "#htmlcaption"+(i+1));
+                    $("#slider-wrapper #slider").append(entry_image);
+                    
+                    // caption
+                    var entry_caption = $(caption_clone).clone();
+                    $(entry_caption).attr("id", "htmlcaption"+(i+1));
+                    $(entry_caption).html("<strong>"+entry.title+"</strong><br/>"+entry.author);
+                    $("#slider-wrapper").append(entry_caption);
+                  });
+                  
+                  // setup nivo slider
+                  $('#slider').nivoSlider({
+                    pauseTime:5000,
+                    captionOpacity: 0.8,
+                    effect: 'fade',
+                    directionNav:false,
+                    controlNav: false
+                  });
+                  
+                  $("#slider").fadeIn();
                 });
-                
-                // setup nivo slider
-                $('#slider').nivoSlider({
-                  pauseTime:4000,
-                  captionOpacity: 0.8,
-                  effect: 'fade',
-                  directionNav:false,
-                  controlNav: false
-                });
-                
-                $("#slider").fadeIn();
-              });
-              
+              },1500);
             },
             error: function(request, status, error){
               console.log(error);
