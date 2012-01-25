@@ -6,6 +6,8 @@ class ChangeMediaResourceModel < ActiveRecord::Migration
 
     change_table :media_resources do |t| 
 
+      execute_sql "ALTER TABLE media_resources ALTER COLUMN type DROP NOT NULL;"
+
       Actions.each do |action|
         t.boolean action, null: false, default: false, index: true
       end

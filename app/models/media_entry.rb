@@ -9,9 +9,11 @@ class MediaEntry < MediaResource
   belongs_to                :media_file #, :include => :previews # TODO validates_presence # TODO on destroy, also destroy the media_file if this is the only related media_entry and snapshot
   belongs_to                :upload_session
   belongs_to                :user # NOTE this redundant with upload_session.user_id
+  has_many                  :snapshots
+
   has_and_belongs_to_many   :media_sets, :join_table => "media_entries_media_sets",
                                          :association_foreign_key => "media_set_id" # TODO validate_uniqueness
-  has_many                  :snapshots
+  alias :parent_sets :media_sets
 
   before_create :extract_subjective_metadata, :set_copyright
 
@@ -20,7 +22,7 @@ class MediaEntry < MediaResource
   end
     
   after_create do |record|
-    descr_author_value = record.meta_data.get("description author").value
+    descr_author_value = record.meta_data.get("description author", false).try(:value)
     record.meta_data.get("description author before import").update_attributes(:value => descr_author_value) if descr_author_value
   end
 

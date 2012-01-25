@@ -1,3 +1,3 @@
 default:  -r features --format pretty --format junit --out tmp/junit --format html --out tmp/html/cucumber.html -e 'features/examples' features
-current_examples: -r features --format pretty --format junit --out tmp/junit --format html --out tmp/html/current_examples.html features/examples/current.feature
-examples: -r features --format pretty --format junit --out tmp/junit --format html --out tmp/html/examples.html features/examples
+current_examples: -r features --format pretty --format junit --out tmp/junit --format html --out tmp/html/current_examples.html features/examples/current
+examples: -r features --format pretty --format junit --out tmp/junit --format html --out tmp/html/examples.html -e 'features/examples/current' features/examples

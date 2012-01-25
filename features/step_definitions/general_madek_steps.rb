@@ -19,7 +19,7 @@ Given /^I have set up the world$/ do
 #       And the user with username "bruce_willis" is member of the group "Admin"
 #       And I log in as "bruce_willis" with password "fluffyKittens"
 #     }
-    
+
     step 'a user called "Bruce Willis" with username "bruce_willis" and password "fluffyKittens" exists'
     step 'a group called "Admin" exists'
     step 'the user with username "bruce_willis" is member of the group "Admin"'
@@ -30,7 +30,7 @@ Given /^I have set up the world$/ do
     click_link("Import")
     attach_file("uploaded_data", Rails.root + "features/data/minimal_meta.yml")
     click_button("Import »")
-    
+
   end
 
   MetaKey.count.should == 89
@@ -90,10 +90,17 @@ Given /^a group called "([^"]*)" exists$/ do |groupname|
   create_group(groupname)
 end
 
-Given /^a set titled "(.+)" created by "(.+)" exists$/ do |title, username|
+Given /^a set titled "(.+?)" created by "(.+?)" exists$/ do |title, username|
   user = User.where(:login => username).first
   meta_data = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
   set = user.media_sets.create(meta_data)
+end
+
+Given /^a set was created at "(.+?)" titled "(.+?)" by "(.+?)"$/ do |date, title, username|
+  user = User.where(:login => username).first
+  meta_data = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
+  set = user.media_sets.create(meta_data)
+  set.created_at = Date.parse(date)
 end
 
 Given /^a public set titled "(.+)" created by "(.+)" exists$/ do |title, username|
@@ -118,15 +125,27 @@ Given /^a entry titled "(.+)" created by "(.+)" exists$/ do |title, username|
   upload_session.set_as_complete
 end
 
-Given /^the last entry is child of the last set/ do
-  parent_set = MediaSet.all.sort_by(&:id).last
+Given /^the last entry is child of the (.+) set/ do |offset|
+  if offset == "last"
+    parent_set = MediaSet.all.sort_by(&:id).last
   entry = MediaEntry.all.sort_by(&:id).last
   parent_set.media_entries.push_uniq entry
+  else
+    parent_set = MediaSet.all.sort_by(&:id)[offset.to_i-1]
+    entry = MediaEntry.all.sort_by(&:id).last
+    parent_set.media_entries.push_uniq entry
+  end
 end
 
 Given /^the last set is parent of the (.+) set$/ do |offset|
   parent_set = MediaSet.all.sort_by(&:id).last
   child_set = MediaSet.all.sort_by(&:id)[offset.to_i-1]
+  parent_set.child_sets << child_set
+end
+
+Given /^the last set is child of the (.+) set$/ do |offset|
+  child_set = MediaSet.all.sort_by(&:id).last
+  parent_set = MediaSet.all.sort_by(&:id)[offset.to_i-1]
   parent_set.child_sets << child_set
 end
 
@@ -136,7 +155,7 @@ end
 
 When /^I use pry$/ do
   binding.pry
-end 
+end
 
 When /^I upload some picture titled "([^"]*)"$/ do |title|
   upload_some_picture(title)
@@ -197,13 +216,13 @@ When "I fill in the metadata form as follows:" do |table|
         list.all("textarea").each do |ele|
           fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil? and ele[:id].match(/meta_data_attributes_.+_keep_original_value$/).nil?
         end
-        
+
         list.all("input").each do |ele|
           fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil? and ele[:id].match(/meta_data_attributes_.+_keep_original_value$/).nil?
         end
-        
+
       end
-      
+
     end
 
   end
@@ -244,6 +263,10 @@ When /^I click the media entry titled "([^"]*)"/ do |title|
 end
 
 When /^I check the media entry titled "([^"]*)"/ do |title|
+  check_media_entry_titled(title)
+end
+
+When /^I check the media set titled "([^"]*)"/ do |title|
   check_media_entry_titled(title)
 end
 
@@ -325,7 +348,7 @@ When "I make sure I'm logged out" do
 end
 
 When /I filter by "([^"]*)" in "([^"]*)"$/ do |choice, category|
-  header = find("h3.filter_category", :text => category)  
+  header = find("h3.filter_category", :text => category)
   header.find("a.filter_category_link").click
   # Finds the div underneath the h3 title, so that we can manipulate the form there (e.g. click some checkboxes to
   # filter by controlled vocabulary)
@@ -339,7 +362,7 @@ When /I filter by "([^"]*)" in "([^"]*)"$/ do |choice, category|
       cb.click unless cb[:checked] == "true"
     end
   end
-  
+
 end
 
 When /I choose the set "([^"]*)" from the media entry$/ do |set_name|
@@ -372,4 +395,9 @@ When "I click the download button for ZIP with metadata" do
 #         tr.all("a").first.click
 #       end
 #     end
+end
+
+When /^I see the set-box "(.+)"$/ do |title|
+  sleep(0.5)
+  assert find(:xpath, "//div[contains(@oldtitle,'#{title}')]")
 end

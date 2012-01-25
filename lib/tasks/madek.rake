@@ -24,7 +24,11 @@ namespace :madek do
     system "bundle exec cucumber -p examples"
     exit_code = $? >> 8 # magic brainfuck
     raise "Tests failed with: #{exit_code}" if exit_code != 0
-end
+
+    system "bundle exec cucumber -p current_examples"
+    exit_code = $? >> 8 # magic brainfuck
+    raise "Tests failed with: #{exit_code}" if exit_code != 0
+  end
 
   desc "Back up images and database before doing anything silly"
   task :backup do

@@ -4,8 +4,8 @@
     =_("Meine Medieneinträge")
   .clear
   #results
-    - unless @my_media_entries[:pagination][:total_entries].zero?
-      - if @my_media_entries[:pagination][:total_pages] > 1
+    - unless @my_media_entries[:entries].empty?
+      - unless @my_media_entries[:entries].size < params[:per_page]
         .buttons
           = link_to "Alle meine Medieneinträge", user_resources_path(current_user)
     - else
@@ -17,8 +17,8 @@
     =_("Medieneinträge anderer")
   .clear
   #results_others
-    - unless @other_media_entries[:pagination][:total_entries].zero?
-      - if @other_media_entries[:pagination][:total_pages] > 1
+    - unless @other_media_entries[:entries].empty?
+      - unless @other_media_entries[:entries].size < params[:per_page]
         .buttons
           = link_to "Weitere Medieneinträge", resources_path(:not_by_current_user => true)
     - else

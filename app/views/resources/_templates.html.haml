@@ -22,10 +22,15 @@
   .clear
 
 %script#thumbnail_mini{:type => "text/x-jquery-tmpl"}
-  %div{:class => "thumb_mini {{if is_editable}}edit{{/if}} {{if is_manageable}}manage{{/if}}", :rel => "${id}"}
+  %div{:class => "thumb_mini {{if is_editable}}edit{{/if}} {{if is_manageable}}manage{{/if}}{{if is_set}} set{{/if}}", :rel => "${id}", :title => "${title}"}
+    {{if is_set}}
+    .set_tab
+    {{/if}}
     = image_tag("icons/button_remove_action.png", :class => "thumb_remove")
     {{if thumb_base64}}
     %img{:src => "${thumb_base64}"}
+    {{else}}
+    .noimage
     {{/if}}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -63,7 +68,7 @@
       {{/if}}
     .actions
       .action_left
-        {{if !is_set && ($item.with_checkbox == null || $item.with_checkbox)}}
+        {{if ($item.with_checkbox == null || $item.with_checkbox)}}
         .check_box
         {{/if}}
         %span.favorite_link{:id => "fav_${id}", :title => "Favorit"}

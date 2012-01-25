@@ -2,6 +2,7 @@
 # More info at https://github.com/guard/guard#readme
 
 guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAILS_ENV' => 'test' }, :bundler => true do
+  watch /app\/models\/.+\.rb/
   watch /config\/.+\.(rb|yml)/
   watch /lib\/.+\.rb/
   watch(%r{^config/environments/.+\.rb$})

@@ -14,7 +14,7 @@ class Snapshot < MediaResource
     media_entry.meta_data.each do |md|
       meta_data.create(:meta_key_id => md.meta_key_id, :value => md.value )
     end
-    descr_author_value = meta_data.get("description author").value
+    descr_author_value = meta_data.get("description author", false).try(:value)
     meta_data.get("description author before snapshot").update_attributes(:value => descr_author_value) if descr_author_value
   end
 

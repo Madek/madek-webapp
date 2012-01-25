@@ -12,22 +12,6 @@ class MediaEntriesController < ApplicationController
       format.xml { render :xml=> @media_entry.to_xml(:include => {:meta_data => {:include => :meta_key}} ) }
     end
   end
-
-  def image(size = params[:size] || :large)
-    # TODO dry => Resource#thumb_base64 and Download audio/video
-    media_file = @media_entry.media_file
-    preview = media_file.get_preview(size)
-    file = File.join(THUMBNAIL_STORAGE_DIR, media_file.shard, preview.filename)
-    if File.exist?(file)
-      output = File.read(file)
-      send_data output, :type => preview.content_type, :disposition => 'inline'
-    else
-      # OPTIMIZE dry => MediaFile#thumb_base64
-      size = (size == :large ? :medium : :small)
-      output = File.read("#{Rails.root}/app/assets/images/Image_#{size}.png")
-      send_data output, :type => "image/png", :disposition => 'inline'
-    end
-  end
   
   def map
     meta_data = @media_entry.media_file.meta_data
@@ -78,13 +62,14 @@ class MediaEntriesController < ApplicationController
   ##
   # Manage parent media sets from a specific media entry.
   # 
-  # @url [POST] /media_entries/:id/media_sets?[arguments]
-  # @url [DELETE] /media_entries/:id/media_sets?[arguments]
+  # @url [POST] /media_entries/media_sets?[arguments]
+  # @url [DELETE] /media_entries/media_sets?[arguments]
   # 
-  # @argument [media_set_ids] array The ids of the parent media sets to remove/add
+  # @argument [parent_media_set_ids] array The ids of the parent media sets to remove/add
+  # @argument [media_entry_ids] array The ids of the entries that have to be added to the sets given as "parent_media_set_ids"
   #
   # @example_request
-  #   {"media_set_ids": [1,2,3]}
+  #   {"parent_media_set_ids": [1,2,3], "media_entry_ids": [5,6,7]}
   #
   # @request_field [Array] media_set_ids The ids of the parent media sets to remove/add  
   #
@@ -93,22 +78,20 @@ class MediaEntriesController < ApplicationController
   # 
   # @response_field [Integer] id The id of a removed or an added parent set 
   # 
-  def media_sets(media_set_ids = params[:media_set_ids])
-    # OPTIMIZE media_set ACL
-    media_sets = []
-    MediaSet.find(media_set_ids).each do |media_set|
-      next unless Permissions.authorized?(current_user, :edit, media_set) # (MediaSet ACL!)
+  def media_sets(parent_media_set_ids = params[:parent_media_set_ids])
+    parent_media_sets = MediaSet.accessible_by_user(current_user, :edit).where(:id => parent_media_set_ids.map(&:to_i))
+
+    parent_media_sets.each do |media_set|
       if request.post?
         media_set.media_entries.push_uniq @media_entry
       else
         media_set.media_entries.delete(@media_entry)
       end
-      media_sets << media_set
     end
     
     respond_to do |format|
-      format.html {redirect_to @media_entry}
-      format.js { render :json => media_sets.as_json() }
+      #format.html {redirect_to @media_entry}
+      format.js { render :json => parent_media_sets.as_json }
     end
   end
   
@@ -214,13 +197,13 @@ class MediaEntriesController < ApplicationController
       params.delete_if {|k,v| v.blank? }
       action = request[:action].to_sym
 
-      params[:media_entry_id] ||= params[:id] unless params[:id].blank?
+      params[:media_entry_id] ||= params[:id] ||= params[:media_entry_ids]
       
       @user = User.find(params[:user_id]) unless params[:user_id].blank?
       @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
       @media_set = (@user? @user.media_sets : MediaSet).find(params[:media_set_id]) unless params[:media_set_id].blank? # TODO shallow
 
-      if not params[:media_entry_id].blank?
+      unless params[:media_entry_id].blank?
         @media_entry =  if @media_set
                           @media_set.media_entries.find(params[:media_entry_id])
                         elsif @user

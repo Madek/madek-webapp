@@ -342,7 +342,8 @@ end
 
 # Creates a new set
 def create_set(set_title = "Untitled Set")
-  visit "/media_sets"
+  visit user_resources_path(@current_user, :type => "media_sets")
+  click_link_or_button "Neues Set erstellen"
   fill_in "media_set_meta_data_attributes_0_value", :with => set_title
   click_link_or_button "Erstellen"
 end

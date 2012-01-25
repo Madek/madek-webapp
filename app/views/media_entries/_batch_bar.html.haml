@@ -18,14 +18,17 @@
       = button_to _("Zugriffsberechtigungen editieren"), edit_multiple_permissions_media_entries_path, :method => :post
     %li.seperator.edit
     %li#batch-add-to-set.action_btn
-      - # TODO ajax request on click
-      -#= form_tag add_member_media_set_url(@media_set || 1) do
-      -#  - editable_sets = MediaResource.accessible_by_user(current_user, :edit).media_sets
-      -#  = select_tag "media_set_id", options_for_select([["Set auswählen…", ""]] + editable_sets.collect {|set| [set.title_and_user, set.id]})
-      -#  = submit_tag "Zu Set hinzufügen"
-    - if @can_edit_set
-      %li#batch-remove.action_btn
-        = button_to _("Aus Set entfernen"), remove_multiple_media_set_media_entries_path(@media_set), :method => :delete
+      = button_to _("Zu Set hinzufügen/entfernen"), "", :title=>_("Zu Set hinzufügen/entfernen"), 
+        :class => "has-set-widget",
+        :"data-selected_ids" => "",
+        :"data-detach_selected" => "true",
+        :"data-user" => "#{current_user.to_json(:only => {}, :methods => :name)}",
+        :"data-after_submit" => "window.location.reload();",
+        :"data-index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "with" => {"set" => {"creator" => 1, "created_at" => 1, "title" => 1}}}}.to_json}",
+        :"data-linked_index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "child_ids" => ":selected_ids", "with" => {"set" => {"media_entries" => 1, "child_sets" => 1}}}}.to_json}",
+        :"data-create" => "#{{"path" => "/media_sets", "method" => "POST", "data" => {"media_sets" => ":created_items"}, "created_item" => {"meta_data_attributes" => {0 => {"meta_key_id" => "3", "value" => ":title"}}}}.to_json}",
+        :"data-link" => "#{{"path" => "/resources/parents", "method" => "POST", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_resource_ids" => ":media_resource_ids"}}.to_json}",
+        :"data-unlink" => "#{{"path" => "/resources/parents", "method" => "DELETE", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_resource_ids" => ":media_resource_ids"}}.to_json}"
     .clear
   #selected_items.clearfix
 

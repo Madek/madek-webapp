@@ -10,7 +10,7 @@
   position: absolute;
   width: 400px;
   z-index: 9999;
-  @include box-shadow(0 0 2px #AAA);
+  @include box-shadow(0 0 12px rgba(0,0,0,0.3));
   @include border-radius(4px);
   
   &>h5 {
@@ -251,7 +251,7 @@
   
   &>.list {
     display: block;
-    max-height: 240px;
+    height: 240px;
     overflow-y: scroll;
     padding-bottom: 39px;
     position: relative;   
@@ -294,6 +294,20 @@
           .delete {
             display: inline-block;
           }          
+        }
+        
+        &.intermediate {
+          background: white url("/assets/intermediate.png");
+          border-bottom: 1px solid white;
+          
+          .intermediate_pipe {
+            background: black;
+            height: 2px;
+            position: absolute;
+            top: 18px;
+            left: 14px;
+            width: 6px;
+          }
         }
         
         &.selected {

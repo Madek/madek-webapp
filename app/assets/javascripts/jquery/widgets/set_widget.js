@@ -35,7 +35,6 @@ function SetWidget() {
         }
       },
       error: function(request, status, error){
-        console.log("ERROR");
         if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
           SetWidget.setup_widget(target);
         }
@@ -45,6 +44,9 @@ function SetWidget() {
     });
     
     // call ajax for linked_index
+    var linked_index_data_as_string = JSON.stringify($(target).data("linked_index").data);
+    linked_index_data_as_string = linked_index_data_as_string.replace(/":selected_ids"/g, JSON.stringify($(target).data("selected_ids")));
+    
     $.ajax({
       url: $(target).data("linked_index").path,
       beforeSend: function(request, settings){
@@ -65,7 +67,7 @@ function SetWidget() {
           SetWidget.setup_widget(target);
         }
       },
-      data: $(target).data("linked_index").data,
+      data: JSON.parse(linked_index_data_as_string),
       type: $(target).data("linked_index").method
     }); 
   }
@@ -97,58 +99,74 @@ function SetWidget() {
   
   this.setup_selection_actions = function(target, elements) {
     $(elements).each(function(i, element){
-      $(element).bind("change", function(){     
-        if($(this).is(":checked")) { // checkbox was activated
-          $(this).closest("li").addClass("selected");
-          if($(this).data("unlinked")) {
-            var item = $(this).closest("li").tmplItem().data;
+      $(element).bind("change", function(){
+        var item_data = $(this).closest("li").tmplItem().data;
+        
+        if($(this).closest("li").is(".intermediate")) { // clicked on an element which was in intermediate state
+          $(this).closest("li").addClass("selected").removeClass("intermediate");
+          $(this).data("intermediate", true);
+          $(target).data("link_stack").push(item_data);
+        } else if($(this).is(":checked")) { // clicked on an element which is now linked
+          $(this).closest("li").addClass("selected").removeClass("intermediate");
+          if($(this).data("intermediate")) { // clicked on an element which was initaly intermediate
+            // RESET INTERMEDIATE BACK TO BE INTERMEDIATE
+            SetWidget.remove_from_unlink_stack($(this),target);
+            SetWidget.remove_from_link_stack($(this),target);
+            $(this).removeAttr("checked");
+            $(this).closest("li").addClass("intermediate").removeClass("selected");
+          } else if($(this).data("unlinked")) { // clicked on an element which was initaly unlinked
             $(this).removeData("unlinked");
-            // remove from stack
-            for(var i = 0; i < $(target).data("unlink_stack").length; i++) {
-              var link = $(target).data("unlink_stack")[i];
-              if(link.id == item.id) {
-                $(target).data("unlink_stack").splice(i, 1);
-                break;
-              }
-            }
-          } else {
+            SetWidget.remove_from_unlink_stack($(this),target);
+          } else { // clicked on an element which was initaly linked
             $(this).data("linked", true);
-            // add to stack
-            var item_data = $(this).closest("li").tmplItem().data;
             $(target).data("link_stack").push(item_data);
           }
-        } else { // checkbox was deactivated
+        } else { // clicked on a element which is now unlinked
           $(this).closest("li").removeClass("selected");
-          // check if current item was linked inside of the widget
-          if($(this).data("linked")) {
-            var item_data = $(this).closest("li").tmplItem().data;
+          if($(this).data("intermediate")) { // clicked on an element which was initaly intermediate
+            SetWidget.remove_from_link_stack($(this),target);
+            $(target).data("unlink_stack").push(item_data);
+          } else if($(this).data("linked")) { // clicked on an element which was initaly linked
             $(this).removeData("linked");
-            // remove from stack
-            for(var i = 0; i < $(target).data("link_stack").length; i++) {
-              var link = $(target).data("link_stack")[i];
-              // check id and uid for items not yet created
-              if(link.uid == undefined ) {
-                if(link.id == item_data.id) {
-                  $(target).data("link_stack").splice(i, 1);
-                  break;
-                }
-              } else {
-                if(link.uid == item_data.uid) {
-                  $(target).data("link_stack").splice(i, 1);
-                  break;
-                }
-              }
-            }
-          } else { // the item was already linked
+            SetWidget.remove_from_link_stack($(this),target);
+          } else { // clicked on an element which was initaly unlinked
             $(this).data("unlinked", true);
-            var item_data = $(this).closest("li").tmplItem().data;
             $(target).data("unlink_stack").push(item_data);
           }
         }
-        
         SetWidget.check_stack_state(target);
       });
     });
+  }
+  
+  this.remove_from_unlink_stack = function(item, target) {
+    var item_data = $(item).closest("li").tmplItem().data;
+    for(var i = 0; i < $(target).data("unlink_stack").length; i++) {
+      var link = $(target).data("unlink_stack")[i];
+      if(link.id == item_data.id) {
+        $(target).data("unlink_stack").splice(i, 1);
+        break;
+      }
+    }
+  }
+  
+  this.remove_from_link_stack = function(item, target) {
+    var item_data = $(item).closest("li").tmplItem().data;
+    for(var i = 0; i < $(target).data("link_stack").length; i++) {
+      var link = $(target).data("link_stack")[i];
+      // check id and uid for items not yet created
+      if(link.uid == undefined) {
+        if(link.id == item_data.id) {
+          $(target).data("link_stack").splice(i, 1);
+          break;
+        }
+      } else {
+        if(link.uid == item_data.uid) {
+          $(target).data("link_stack").splice(i, 1);
+          break;
+        }
+      }
+    }
   }
   
   this.setup_widget = function(target) {
@@ -184,7 +202,7 @@ function SetWidget() {
     $(target).data("widget").find(".list li").each(function(i_item, item){
       
       // detach the element of the list if the element is the current opened one
-      if(parseInt($(target).data("id")) == $(this).tmplItem().data.id && $(target).data("detach_my_self") == true) {
+      if($(target).data("selected_ids").indexOf($(this).tmplItem().data.id) > -1 && $(target).data("detach_selected") == true) {
         $(this).detach();
       }
       
@@ -192,8 +210,56 @@ function SetWidget() {
       $.each($(target).data("linked_items"), function(i_link, linked_item){
         // check if the ellement is already linked
         if(linked_item.id == $(item).tmplItem().data.id) {
-          $(item).addClass("selected");
-          $(item).find("input").attr("checked", "checked");
+
+          // remove not selected media_entries from the linked_item
+          var all_possible_selected_media_entries_linked = [];
+          if(linked_item.media_entries != undefined) {
+            $.each(linked_item.media_entries, function(i, entry){
+              if($(target).data("selected_ids").indexOf(entry.id) != -1){
+                all_possible_selected_media_entries_linked.push(entry);
+              }
+            });
+          }
+          
+          // remove not selected child sets from the linked_item
+          var all_possible_selected_child_sets_linked = [];
+          if(linked_item.child_sets != undefined) {
+            $.each(linked_item.child_sets, function(i, set){
+              if($(target).data("selected_ids").indexOf(set.id) != -1){
+                all_possible_selected_child_sets_linked.push(set);
+              }
+            });
+          }
+          
+          // prepare all possible linked ids for this linked item
+          var all_possible_linked_ids = [];
+          $.each(all_possible_selected_media_entries_linked, function(i_me, me){all_possible_linked_ids.push(me.id)});
+          $.each(all_possible_selected_child_sets_linked, function(i_me, me){all_possible_linked_ids.push(me.id)});
+          
+          console.log("linked_item:");
+          console.log(linked_item);
+          console.log("all_possible_linked_ids: " + all_possible_linked_ids);
+          
+          var all_selected_items_are_linked = true;
+          if(all_possible_linked_ids.length > 0) {
+            $.each($(target).data("selected_ids"), function(i_selected_id, selected_id){
+              console.log("selected_id: " + selected_id);
+              console.log(all_possible_linked_ids.indexOf(selected_id));
+              if(all_possible_linked_ids.indexOf(selected_id) == -1) {
+                all_selected_items_are_linked = false;
+              }
+            });
+          }
+          
+          // if not all selected items are linked the linke element is INTERMEDIATE linked
+          if(all_selected_items_are_linked == false) {
+            // setup up intermidiate checkbox
+            $(item).addClass("intermediate");
+            $(item).find("input").after("<div class='intermediate_pipe'></div>");
+          } else {
+            $(item).addClass("selected");
+            $(item).find("input").attr("checked", "checked");
+          }
         }
       });
     });
@@ -237,18 +303,19 @@ function SetWidget() {
     // if create stack is empty go on with submiting the link stack
     if($(target).data("create_stack").length == 0){
       SetWidget.submit_link_stack(target);
-      return false;     
+      return false;
     }
     
-    var array = [];
-    for(var i = 0; i < $(target).data("create_stack").length; i++) {
-      var array_as_string = JSON.stringify($(target).data("create").array);
-      array_as_string = array_as_string.replace(/\{:title\}/g, $(target).data("create_stack")[i].title)
-      array.push(JSON.parse(array_as_string));
-    }
+    var created_items = [];
+    $.each($(target).data("create_stack"), function(i, element){
+      var created_item_as_string = JSON.stringify($(target).data("create").created_item);
+      created_item_as_string = created_item_as_string.replace(/:title/g, $(target).data("create_stack")[i].title);
+      created_items.push(JSON.parse(created_item_as_string));
+    });
     
     var data_as_string = JSON.stringify($(target).data("create").data);
-    var data = JSON.parse(data_as_string.replace(/"\{:array\}"/g, JSON.stringify(array)));
+    data_as_string = data_as_string.replace(/":created_items"/g, JSON.stringify(created_items));
+    var data = JSON.parse(data_as_string);
     
     $.ajax({
       url: $(target).data("create").path,
@@ -300,15 +367,17 @@ function SetWidget() {
       return false;
     }     
     
-    var array = [];
-    for(var i = 0; i < $(target).data("link_stack").length; i++) {
-      var array_as_string = JSON.stringify($(target).data("link").array);
-      array_as_string = array_as_string.replace(/\{:id\}/g, $(target).data("link_stack")[i].id)
-      array.push(JSON.parse(array_as_string));
-    }
-
+    var linked_items = [];
+    $.each($(target).data("link_stack"), function(i, element){
+      linked_items.push(element.id);
+    });
+    
     var data_as_string = JSON.stringify($(target).data("link").data);
-    var data = JSON.parse(data_as_string.replace(/"\{:array\}"/g, JSON.stringify(array)));
+    data_as_string = data_as_string.replace(/":parent_media_set_ids"/g, JSON.stringify(linked_items));
+    data_as_string = data_as_string.replace(/":media_entry_ids"/g, JSON.stringify($(target).data("selected_ids")));
+    data_as_string = data_as_string.replace(/":media_resource_ids"/g, JSON.stringify($(target).data("selected_ids")));
+    data_as_string = data_as_string.replace(/":media_set_ids"/g, JSON.stringify($(target).data("selected_ids")));
+    var data = JSON.parse(data_as_string);
     
     $.ajax({
       url: $(target).data("link").path,
@@ -341,16 +410,18 @@ function SetWidget() {
       SetWidget.finish_submitting(target);
       return false;
     }
-        
-    var array = [];
-    for(var i = 0; i < $(target).data("unlink_stack").length; i++) {
-      var array_as_string = JSON.stringify($(target).data("unlink").array);
-      array_as_string = array_as_string.replace(/\{:id\}/g, $(target).data("unlink_stack")[i].id)
-      array.push(JSON.parse(array_as_string));
-    }
     
+    var unlinked_items = [];
+    $.each($(target).data("unlink_stack"), function(i, element){
+      unlinked_items.push(element.id);
+    });
+            
     var data_as_string = JSON.stringify($(target).data("unlink").data);
-    var data = JSON.parse(data_as_string.replace(/"\{:array\}"/g, JSON.stringify(array)));
+    data_as_string = data_as_string.replace(/":parent_media_set_ids"/g, JSON.stringify(unlinked_items));
+    data_as_string = data_as_string.replace(/":media_set_ids"/g, JSON.stringify($(target).data("selected_ids")));
+    data_as_string = data_as_string.replace(/":media_resource_ids"/g, JSON.stringify($(target).data("selected_ids")));
+    data_as_string = data_as_string.replace(/":media_entry_ids"/g, JSON.stringify($(target).data("selected_ids")));
+    var data = JSON.parse(data_as_string);
     
     $.ajax({
       url: $(target).data("unlink").path,
@@ -420,6 +491,9 @@ function SetWidget() {
     
     $(target).data("widget").find(".create_new .create.button").bind("click", function(event) {
        SetWidget.create_new(target, $(target).data("widget").find(".create_new input").val());
+       
+       // connect create new field with search
+      $(target).data("widget").find("input#widget_search").val($(this).val()).change();
     });
   }
   
@@ -433,21 +507,10 @@ function SetWidget() {
     // sort list
     SetWidget.sort_list(target);
     
-    // scroll to new entry which is append to list
-    $(target).data("widget").find(".list").animate({
-      scrollTop: ($(new_item).offset().top-$(target).data("widget").find(".list li:first").offset().top)
-    }, function(){
-      $(new_item).animate({
-        "background-color": "#EEE"
-      }, function(){
-        $(this).removeAttr("css");
-      });
-    });
-    
     // new is activated per default
     $(new_item).find("input").attr("checked", true);
     $(new_item).find("input").data("linked", true);
-    $(new_item).addClass("selected");
+    $(new_item).addClass("selected").removeClass("intermediate");
     SetWidget.setup_selection_actions(target, $(new_item).find("input"));
     
     // add new created to stack
@@ -461,6 +524,20 @@ function SetWidget() {
     
     // check stack state
     SetWidget.check_stack_state(target);
+    
+    // scroll to new entry which is append to list
+    // with a delay, because the create is coupled to the search, first the search has to be resetted
+    window.setTimeout(function(){
+      $(target).data("widget").find(".list").animate({
+        scrollTop: ($(new_item).offset().top-$(target).data("widget").find(".list li:first").offset().top)
+      }, function(){
+        $(new_item).animate({
+          "background-color": "#EEE"
+        }, function(){
+          $(this).removeAttr("css");
+        });
+      });      
+    }, 150);
   }
   
   this.setup_create_hint = function(target) {
@@ -550,8 +627,9 @@ function SetWidget() {
   }
   
   this.search = function(target, val) {
-    if (val.length > 0) {
+    if (val.replace(/\s+/g, "").length > 0) {
       val = val.replace(/\s+$/, "");
+      val = val.replace(/^\s+/, "");
       var search_elements = val.split(/[\s+]/g);
       // each list element
       $(target).data("widget").find(".list li").each(function(i, element){
@@ -678,7 +756,11 @@ function SetWidget() {
       if($(line).find("input").data("unlinked")) {
         $(line).find("input").removeData("unlinked");
         $(line).find("input").attr("checked", true);
-        $(line).addClass("selected"); 
+        $(line).addClass("selected").removeClass("intermediate"); 
+      }
+      if($(line).find("input").data("intermediate")) {
+        $(line).addClass("intermediate").removeClass("selected"); 
+        $(line).find("input").removeAttr("checked");
       }
     });
     
@@ -744,6 +826,7 @@ function SetWidget() {
           SetWidget.create_widget(target);
           $(target).addClass("created");
           $(target).addClass("open");
+          SetWidget.align_widget(target);
         }
       }
       

@@ -11,22 +11,22 @@ class MediaResource < ActiveRecord::Base
 
  # TODO observe bulk changes and reindex once
   has_many :meta_data, :dependent => :destroy do #working here#7 :include => :meta_key
-    def get(key_id)
+    def get(key_id, build_if_not_found = true)
       # unless ... and !!v.match(/\A[+-]?\d+\Z/) # TODO path to String#is_numeric? method
       #TODO: handle the case when key_id is a MetaKey object
       key_id = MetaKey.find_by_label(key_id.downcase).id unless key_id.is_a?(Fixnum)
       r = where(:meta_key_id => key_id).first # OPTIMIZE prevent find if is_dynamic meta_key
-      r ||= build(:meta_key_id => key_id)
+      r ||= build(:meta_key_id => key_id) if build_if_not_found
+      r
     end
 
     def get_value_for(key_id)
       get(key_id).to_s
     end
 
-    #wip#
-    #def get_for_labels(labels)
-    #  joins(:meta_key).where(:meta_keys => {:label => labels})
-    #end
+    def get_for_labels(labels)
+      joins(:meta_key).where(:meta_keys => {:label => labels})
+    end
 
     #def with_labels
     #  h = {}
@@ -71,7 +71,7 @@ class MediaResource < ActiveRecord::Base
 
   def update_attributes_with_pre_validation(attributes, current_user = nil)
     # we need to deep copy the attributes for batch edit (multiple resources)
-    dup_attributes = Marshal.load(Marshal.dump(attributes))
+    dup_attributes = Marshal.load(Marshal.dump(attributes)).deep_symbolize_keys
 
     # To avoid overriding at batch update: remove from attribute hash if :keep_original_value and value is blank
     dup_attributes[:meta_data_attributes].delete_if { |key, attr| attr[:keep_original_value] and attr[:value].blank? }
@@ -82,8 +82,15 @@ class MediaResource < ActiveRecord::Base
       end
 
       # find existing meta_datum, if it exists
-      if attr[:id].blank? and (md = meta_data.where(:meta_key_id => attr[:meta_key_id]).first)
-        attr[:id] = md.id
+      if attr[:id].blank?
+        if attr[:meta_key_label]
+          attr[:meta_key_id] ||= MetaKey.find_by_label(attr.delete(:meta_key_label)).try(:id)
+        end
+        if (md = meta_data.where(:meta_key_id => attr[:meta_key_id]).first)
+          attr[:id] = md.id
+        end
+      else
+        attr.delete(:meta_key_label)
       end
 
       # get rid of meta_datum if value is blank
@@ -101,7 +108,6 @@ class MediaResource < ActiveRecord::Base
 
   has_one :full_text, :dependent => :destroy
   after_save { reindex } # OPTIMIZE
-
 
 
   def default_permission
@@ -191,17 +197,14 @@ class MediaResource < ActiveRecord::Base
       core_info = Hash.new
       
       labels = core_keys + extended_keys
-      (labels).each do |key|
-        core_info[key.gsub(' ', '_')] = meta_data.get_value_for(key)
+      labels.each do |label|
+        core_info[label.gsub(' ', '_')] = ""
       end
-      #wip#
-      #labels.each do |label|
-      #  core_info[label.gsub(' ', '_')] = ""
-      #end
-      #meta_data.get_for_labels(labels).each do |md|
-      #  core_info[md.meta_key.label.gsub(' ', '_')] = md.to_s
-      #end
+      meta_data.get_for_labels(labels).each do |md|
+        core_info[md.meta_key.label.gsub(' ', '_')] = md.to_s
+      end
       
+            
       if with_thumb
         mf = if self.is_a?(MediaSet)
           media_entries.accessible_by_user(current_user).first.try(:media_file)
@@ -211,12 +214,7 @@ class MediaResource < ActiveRecord::Base
         core_info["thumb_base64"] = mf.thumb_base64(:small_125) if mf
       else
         #1+n http-requests#
-        me = if self.is_a?(MediaSet)
-          media_entries.accessible_by_user(current_user).first
-        else
-          self
-        end
-        core_info["thumb_base64"] = "/media_entries/%d/image?size=small_125" % me.id if me
+        core_info["thumb_base64"] = "/resources/%d/image?size=small_125" % id
       end
       
       core_info
@@ -248,10 +246,12 @@ class MediaResource < ActiveRecord::Base
     
     if user = options[:user]
       #TODO Dont do this behaviour on default
-      flags = { :is_private => acl?(:view, :only, user),
-                :is_public => acl?(:view, :all),
-                :is_editable => Permissions.authorized?(user, :edit, self),
-                :is_manageable => Permissions.authorized?(user, :manage, self),
+      is_public = acl?(:view, :all)
+      permissions_merged_actions = Permission.merged_actions(user, self)
+      flags = { :is_public => is_public,
+                :is_private => (is_public ? false : acl?(:view, :only, user)),
+                :is_editable => !!permissions_merged_actions[:edit],
+                :is_manageable => !!permissions_merged_actions[:manage],
                 :is_favorite => user.favorite_ids.include?(id) }
       more_json.merge! flags         
       more_json.merge!(self.get_basic_info(user, [], with_thumb))
@@ -289,39 +289,35 @@ class MediaResource < ActiveRecord::Base
   end
 
 ########################################################
-# TODO cache methods results
 
   def meta_data_for_context(context = MetaContext.core, build_if_not_exists = true)
-    @meta_data_for_context ||= {}
-    # OPTIMIZE cache for build_if_not_exists
-    #unless @meta_data_for_context[context.id]
-      @meta_data_for_context[context.id] = []
+    meta_keys = context.meta_keys
 
-      context.meta_keys.each do |key|
-        md = key.meta_data.scoped_by_media_resource_id(self.id).first  # OPTIMIZE eager loading
-        if md
-          @meta_data_for_context[context.id] << md
-        elsif build_if_not_exists or key.is_dynamic?
-          @meta_data_for_context[context.id] << meta_data.build(:meta_key => key)
-        end
-      end if context
-    #end
-    return @meta_data_for_context[context.id]
+    mds = meta_data.where(:meta_key_id => meta_keys)
+    
+    meta_keys.select{|x| x.is_dynamic? }.each do |key|
+      mds << meta_data.build(:meta_key => key) 
+    end
+
+    (context.meta_key_ids - mds.map(&:meta_key_id)).each do |key_id|
+      mds << meta_data.build(:meta_key_id => key_id)
+    end if build_if_not_exists
+    
+    mds.sort_by {|md| context.meta_key_ids.index(md.meta_key_id) } 
   end
 
   def context_warnings(context = MetaContext.core)
-    @context_warnings ||= {}
-    unless @context_warnings[context.id]
-      @context_warnings[context.id] = {}
-      meta_data_for_context(context).each do |meta_datum|
-        w = meta_datum.context_warnings(context)
-        unless w.blank?
-          @context_warnings[context.id][meta_datum.meta_key.label] ||= []
-          @context_warnings[context.id][meta_datum.meta_key.label] << w
-        end
+    r = {}
+    
+    meta_data_for_context(context).each do |meta_datum|
+      w = meta_datum.context_warnings(context)
+      unless w.blank?
+        r[meta_datum.meta_key.label] ||= []
+        r[meta_datum.meta_key.label] << w
       end
     end
-    return @context_warnings[context.id]
+
+    r
   end
 
   def context_valid?(context = MetaContext.core)
@@ -423,13 +419,11 @@ public
     #joins("INNER JOIN media_entries_media_sets ON media_resources.id = media_entries_media_sets.media_entry_id").
     #where(:media_entries_media_sets => {:media_set_id => media_set})
 
-    where("(media_resources.id, media_resources.type) IN " \
-            "(SELECT media_entry_id AS id, 'MediaEntry' AS type FROM media_entries_media_sets " \
-              "WHERE media_set_id = ? " \
+    where("media_resources.id IN " \
+            "(SELECT media_entry_id AS id FROM media_entries_media_sets WHERE media_set_id = :id " \
             "UNION " \
-              "SELECT child_id AS id, 'MediaSet' AS type FROM media_set_arcs " \
-                "WHERE parent_id = ? )",
-          media_set.id, media_set.id);
+              "SELECT child_id AS id FROM media_set_arcs WHERE parent_id = :id )",
+          :id => media_set.id);
   }
 
   ################################################################
@@ -504,6 +498,20 @@ public
     sql    
   end
 
+  # OPTIMIZE merge to accessible_by_user
+  def self.accessible_by_public(action = :view)
+    i = 2 ** Permission::ACTIONS.index(action)
+
+    if SQLHelper::adapter_is_mysql? 
+      where("media_resources.id IN " \
+              "(SELECT media_resource_id FROM permissions " \
+                "USE INDEX (index_permissions_on_resource_and_subject) " \
+                "WHERE subject_type IS NULL " \
+                  "AND #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)})");
+    else
+      # TODO
+    end
+  end
 
   def self.accessible_by_user(user, action = :view)
     Permissions.resources_permissible_for_user user, action
