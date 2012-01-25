@@ -10,9 +10,9 @@
 </head>
 
 <body>
-  
+
   <div id="sticky-footer-wrapper">
-  
+
   	<header>
   		<%= flash_helper %>
   		<div class='container_12 clearfix'>
@@ -25,11 +25,11 @@
   					<div id="beta"><p>In Entwicklung<br /> Version <%= "#{RELEASE_VERSION}" %><br/><small>Beta</small></p></div>
   		</div>
   	</header>
-  	
+
   	<div id="wrapper">
   	<div id="container" class="container_12">
   		<div id="content" class="grid_8 alpha">
-  			
+
   			<!-- Teaser -->
         <div id="slider-wrapper">
   				<div id="slider" class="nivoSlider">
@@ -39,7 +39,7 @@
               <strong>Medienarchiv der Künste</strong><br />Mediales Arbeiten an der Zürcher Hochschule der Künste
           </div>
   			</div>
-  			
+
   			<!-- Short About & Statistics -->
   			<div>
   				<div id="about" class="grid_4 alpha">
@@ -64,7 +64,7 @@
   					</div>
   				</div> <!-- #stats -->
   			</div>
-  			
+
   			<div id="funcs" class="stopfloating">
   				<div class="grid_2 alpha">
   					<div class="madekfuncs"><img src="/assets/root/archiving-02.png" alt="" /></div>
@@ -87,43 +87,42 @@
   					<p>Im wachsenden Medienpool kann man stöbern und sich inspirieren lassen.</p>
   				</div>
   			</div>
-  			
+
   		</div> <!-- #content -->
-  	
+
   		<div id="sidebar" class="grid_4 omega">
-  			
+
   			<!-- Login -->
   			<div id="login" class="sidebar-box">
   				<p>Gleich einsteigen oder <a href="http://demo.medienarchiv.zhdk.ch/login">Demo testen</a></p>
   				<p><%= link_to _("Los geht's"), (Rails.env == "development" ? db_login_path : login_path), :class => "actionbutton button yellow" %></p>
   				<p class="disclaimer">Bis Ende 2012 ist das Medienarchiv nur für ZHdK-Angehörige zugänglich.</p>
   			</div> <!-- #login -->
-  			
+
   			<!-- News -->
   			<div id="news" class="sidebar-box">
   				<h4>Neu mit Version <small><%= RELEASE_VERSION %></small></i></h4>
   				<p class="sidebar-box-claim">Rund um die Entwicklung</p>
   				<div class="newsitem">
+            <p><span>Sets zu Favoriten hinzufügen</span></p>
+            <p>Nun können auch Sets als Favoriten markiert werden. Das vereinfacht den Zugang zu häufig genutzten Sets.</p>
+          </div>
+  				<div class="newsitem">
+            <p><span>Anleitung zum Ablegen von Abschlussarbeiten</span></p>
+            <p>In der Hilfe werden die verschiedenen Schritte zum Ablegen von Abschlussarbeiten an der ZHdK erklärt.</p>
+          </div>
+  				<div class="newsitem">
             <p><span>Organisieren mit Sets</span></p>
             <p>Zur besseren Verwaltung der eigenen Medieneinträge können nun die Sets auch in Sets gelegt werden. Dies verhilft zu einer besseren Übersicht bei grossen Sammlungen von verschiedenen Medien. Die Medieneinträge und Sets können neu über ein Widget gleichzeitig in ein oder mehrere Sets gelegt bzw. daraus entfern werden.</p>
           </div>
-          <div class="newsitem">
-  					<p><span>Metadaten: ZHdK-Bereich</span></p>
-            <p>Die Zuweisung eines Medieneintrages zu einem Bereich der ZHdK wurde erheblich vereinfacht.</p>
-  				</div>
-          <div class="newsitem">
-            <p><span>Suchen, Editieren und Löschen</span><br/>Die Geschwindigkeit des Systems wurde markant verbessert.</p>
-          </div>
-           <div class="newsitem">
-            <p><span>Zwischenablage</span><br/>Mit der Zwischenablage können nun bis zu 1500 Medieneinträge ausgewählt und anschliessend gleichzeitig bearbeitet werden.</p>
-          </div>
+
   			</div> <!-- #news -->
-  			
+
   			<!-- Users -->
   			<div id="users" class="sidebar-box">
           <h4>Pilotanwendungen</h4>
   				<p class="sidebar-box-claim">Bereits in Betrieb</p>
-            
+
   		    <div class="inline-tabs">
   		      <div class="container">
   		        <span class="tab active" data-items_class="tab1">
@@ -131,10 +130,10 @@
   		        </span>
   		        <span class="tab" data-items_class="tab2">
   		          Archiv & Hochschul&shy;kommunikation
-              </span>  
+              </span>
   		      </div>
   			  </div>
-  				
+
   				<div class="pilotitem tab1">
   					<div class="portrait"><img src="/assets/root/oliver-emch-portrait.png" alt="Oliver Emch" /></div>
   					<p><span>Oliver Emch</span> nutzt das Medienarchiv für den Forschungsschwerpunkt Landschaftsvisualisierung.</p>
@@ -147,7 +146,7 @@
   					<div class="portrait"><img src="/assets/root/vmk-portrait.png" alt="Birk Weiberg" /></div>
   					<p><span>Birk Weiberg</span> dokumentiert die Projekte der Vertiefung Mediale Künste im Medienarchiv.</p>
   				</div>
-  				
+
   				<div class="pilotitem tab2">
             <div class="portrait"><img src="/assets/root/rolf-wolfensberger-portrait.png" alt="Rolf Wolfensberger" /></div>
             <p><span>Rolf Wolfensberger</span>, Leiter Archiv ZHdK, schätzt das Medienarchiv als Werkzeug für die aktive Dokumentation vergänglicher Werke.</p>
@@ -184,14 +183,14 @@
 					<li><a href="http://www.zhdk.ch/index.php?id=12970">Team</a></li>
 				</ul>
 			</div>
-			
+
 			<div id="copyright" class="grid_12">
 				<p>2009-2011 <a href="http://www.zhdk.ch">Zürcher Hochschule der Künste</a><br /><%= render :partial => "layouts/deploy_info" %></p>
 			</div>
-			
+
 		</div>
 	</div>
-		
+
     <script type="text/javascript">
       $(function(){
         // tabs for pilotitems
@@ -202,7 +201,7 @@
             $("#users.sidebar-box").find(".pilotitem."+$(this).data("items_class")).show();
           }
         });
-        
+
         // get splash screen images from splash_screen_set
         var set_id = "<%= AppSettings.splashscreen_slideshow_set_id %>";
         if(set_id.length) {
@@ -218,25 +217,25 @@
                 $("#slider-wrapper #slider img").remove();
                 var caption_clone = $("#slider-wrapper #htmlcaption1").clone();
                 $("#slider-wrapper #htmlcaption1").remove();
-                
-                randomElements = data.entries.sort(function(){ 
+
+                randomElements = data.entries.sort(function(){
                   return Math.round(Math.random())-0.5
                 }).slice(0,5)
-                
+
                 $.each(randomElements, function(i, entry){
                   // image
                   var entry_image = $(image_clone).clone();
                   $(entry_image).attr("src", "/media_entries/"+entry.id+"/image?size=large");
                   $(entry_image).attr("title", "#htmlcaption"+(i+1));
                   $("#slider-wrapper #slider").append(entry_image);
-                  
+
                   // caption
                   var entry_caption = $(caption_clone).clone();
                   $(entry_caption).attr("id", "htmlcaption"+(i+1));
                   $(entry_caption).html("<strong>"+entry.title+"</strong><br/>"+entry.author);
                   $("#slider-wrapper").append(entry_caption);
                 });
-                
+
                 // setup nivo slider
                 $('#slider').nivoSlider({
                   pauseTime:4000,
@@ -245,15 +244,15 @@
                   directionNav:false,
                   controlNav: false
                 });
-                
+
                 $("#slider").fadeIn();
               });
-              
+
             },
             error: function(request, status, error){
               console.log(error);
             }
-          });    
+          });
         }
       });
     </script>

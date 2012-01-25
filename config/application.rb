@@ -31,7 +31,7 @@ module MAdeK
 
     # Activate observers that should always be running.
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
-    # FIXME not working yet!!! config.active_record.identity_map = true 
+    # FIXME not working yet!!! config.active_record.identity_map = true
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
@@ -80,7 +80,7 @@ EXIFTOOL_CONFIG = "#{METADATA_CONFIG_DIR}/ExifTool_config.pl"
 EXIFTOOL_PATH = "exiftool -config #{EXIFTOOL_CONFIG}"
 # Ideally, this would work under script/server AND passenger, but it doesn't.
 # Under passenger, it has no idea. Maybe substitute as part of the Capistrano deploy?
-# EXIFTOOL_PATH = `/usr/bin/which exiftool`.gsub(/\n/,"") 
+# EXIFTOOL_PATH = `/usr/bin/which exiftool`.gsub(/\n/,"")
 
 # yes, this could be optimised..
 tmp_ext = `exiftool -listf`.downcase.split("\n") # a list of file extensions that exiftool knows about. If it's here, its a good chance it's file we can understand
@@ -107,4 +107,4 @@ DEFAULT_LANGUAGE = :de_CH
 ENCODING_BASE_URL = "http://test:MAdeK@test.madek.zhdk.ch"
 ENCODING_TEST_MODE = 1 # 1 for true, 0 for false
 
-RELEASE_VERSION = "0.4.2"
+RELEASE_VERSION = "0.4.3"
