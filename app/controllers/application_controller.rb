@@ -107,7 +107,7 @@ class ApplicationController < ActionController::Base
 
     # TODO remove this when public open
     elsif (request[:controller] == "media_sets" and request[:action] == "show") or
-          (request[:controller] == "media_entries" and request[:action] == "image")
+          (request[:controller] == "resources" and request[:action] == "image")
       @current_user = user = User.new
 
     end
