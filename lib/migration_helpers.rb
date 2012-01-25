@@ -73,6 +73,24 @@ module MigrationHelpers
     end
   end
 
+  def drop_not_null_constraint table, col, colinfo=nil
+    table_name = infer_table_name table
+    col_name = infer_column_name col
+    puts col
+    puts col_name
+    if adapter_is_postgresql?
+      execute_sql "ALTER TABLE #{table_name} ALTER COLUMN #{col_name} DROP NOT NULL;"
+    elsif adapter_is_mysql?
+      unless colinfo
+        rails "mysql usese MODIFY, you need to specify the full column information for mysql"
+      else
+        execute_sql "ALTER TABLE #{table_name} MODIFY #{col_name} #{coltype};"
+      end
+    else
+      raise "your adapter is not supported yet"
+    end
+  end
+
   def add_unique_constraint table, col
     # if required make col optionally an array, because unique can refer to multiple cols
      
@@ -176,7 +194,7 @@ module MigrationHelpers
   def infer_column_name col
     if col.is_a? Class # col is a model that is referenced, i.e. a fkey
       fkey_name col
-    elsif
+    else
       col.to_s
     end
   end

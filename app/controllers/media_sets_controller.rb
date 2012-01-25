@@ -84,7 +84,7 @@ class MediaSetsController < ApplicationController
         else
           MediaSet.accessible_by_user(current_user, accessible_action.to_sym)
         end
-        
+
         render :json => sets.as_json(:with => with, :with_thumb => false) # TODO drop with_thum merge with with
       }
     end

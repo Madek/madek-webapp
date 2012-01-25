@@ -6,7 +6,7 @@ class ChangeMediaResourceModel < ActiveRecord::Migration
 
     change_table :media_resources do |t| 
 
-      execute_sql "ALTER TABLE media_resources ALTER COLUMN type DROP NOT NULL;"
+      drop_not_null_constraint MediaResource, :type, "varchar(255)"
 
       Actions.each do |action|
         t.boolean action, null: false, default: false, index: true

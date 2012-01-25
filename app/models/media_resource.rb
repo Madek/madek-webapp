@@ -246,12 +246,10 @@ class MediaResource < ActiveRecord::Base
     
     if user = options[:user]
       #TODO Dont do this behaviour on default
-      is_public = acl?(:view, :all)
-      permissions_merged_actions = Permission.merged_actions(user, self)
-      flags = { :is_public => is_public,
-                :is_private => (is_public ? false : acl?(:view, :only, user)),
-                :is_editable => !!permissions_merged_actions[:edit],
-                :is_manageable => !!permissions_merged_actions[:manage],
+      flags = { :is_private => acl?(:view, :only, user),
+                :is_public => acl?(:view, :all),
+                :is_editable => Permissions.authorized?(user, :edit, self),
+                :is_manageable => Permissions.authorized?(user, :manage, self),
                 :is_favorite => user.favorite_ids.include?(id) }
       more_json.merge! flags         
       more_json.merge!(self.get_basic_info(user, [], with_thumb))
@@ -514,7 +512,23 @@ public
   end
 
   def self.accessible_by_user(user, action = :view)
-    Permissions.resources_permissible_for_user user, action
+
+      resource_ids_by_userpermission = Userpermission.select("media_resource_id").where(action => true).where("user_id = #{user.id} ")
+      resource_ids_by_userpermission_disallowed= Userpermission.select("media_resource_id").where(action => false).where("user_id = #{user.id} ")
+      resource_ids_by_grouppermission_but_not_disallowed = Grouppermission.select("media_resource_id").where(action => true).joins(:group).joins("INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id ").where("groups_users.user_id = #{user.id}").where(" media_resource_id NOT IN ( #{resource_ids_by_userpermission_disallowed.to_sql} )")
+      resource_ids_by_ownership = MediaResource.select("media_resources.id").where(user_id: user)
+      resource_ids_by_public_permissoin = MediaResource.select("media_resources.id").where(action => true)
+
+      where " media_resources.id IN  (
+            #{resource_ids_by_userpermission.to_sql} 
+        UNION
+            #{resource_ids_by_grouppermission_but_not_disallowed.to_sql} 
+        UNION
+            #{resource_ids_by_ownership.to_sql}
+        UNION 
+            #{resource_ids_by_public_permissoin.to_sql}
+              )" 
+
   end
 
 end

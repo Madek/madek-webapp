@@ -5,24 +5,26 @@ module Permissions
 
 
 
-    def authorized?(user, action, resource)
+    def authorized?(user, action, resource_or_resources)
 
       # the old authorized accepted subjects 
       raise "authorized? can only be called with a user" if user.class != User
 
-      if resource.user == user
-        true
-      elsif resource.send(action) == true
-        true
-      elsif userpermission_disallows action, resource, user
-        false
-      elsif userpermission_allows action, resource, user
-        true
-      elsif grouppermission_allows action, resource, user
-        true
-      else
-        false
-      end
+      Array(resource_or_resources).all? do |resource|
+        if resource.user == user
+          true
+        elsif resource.send(action) == true
+          true
+        elsif userpermission_disallows action, resource, user
+          false
+        elsif userpermission_allows action, resource, user
+          true
+        elsif grouppermission_allows action, resource, user
+          true
+        else
+          false
+        end
+      end 
 
     end
 
@@ -57,23 +59,7 @@ module Permissions
 
 
     def resources_permissible_for_user  user, action 
-
-      resource_ids_by_userpermission = Userpermission.select("media_resource_id").where(action => true).where("user_id = #{user.id} ")
-      resource_ids_by_userpermission_disallowed= Userpermission.select("media_resource_id").where(action => false).where("user_id = #{user.id} ")
-      resource_ids_by_grouppermission_but_not_disallowed = Grouppermission.select("media_resource_id").where(action => true).joins(:group).joins("INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id ").where("groups_users.user_id = #{user.id}").where(" media_resource_id NOT IN ( #{resource_ids_by_userpermission_disallowed.to_sql} )")
-      resource_ids_by_ownership = MediaResource.select("media_resources.id").where(user_id: user)
-      resource_ids_by_public_permissoin = MediaResource.select("media_resources.id").where(action => true)
-
-      MediaResource.where " media_resources.id IN  (
-            #{resource_ids_by_userpermission.to_sql} 
-        UNION
-            #{resource_ids_by_grouppermission_but_not_disallowed.to_sql} 
-        UNION
-            #{resource_ids_by_ownership.to_sql}
-        UNION 
-            #{resource_ids_by_public_permissoin.to_sql}
-              )" 
-
+      MediaResource.accessible_by_user user, action
     end
 
 
