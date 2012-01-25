@@ -207,7 +207,8 @@
         var set_id = "<%= AppSettings.splashscreen_slideshow_set_id %>";
         if(set_id.length) {
           $.ajax("/media_sets/"+set_id+".js", {
-            data: {options_for_media_entries: {show: true}},
+            data: {options_for_media_entries: {show: true},
+                   with: {media_entry: {creator: 1}}},
             dataType: "json",
             beforeSend: function(request, settings){
             },
@@ -233,7 +234,7 @@
                   // caption
                   var entry_caption = $(caption_clone).clone();
                   $(entry_caption).attr("id", "htmlcaption"+(i+1));
-                  $(entry_caption).html("<strong>"+entry.title+"</strong><br/>"+entry.author);
+                  $(entry_caption).html("<strong>"+entry.title+"</strong><br/>"+entry.creator);
                   $("#slider-wrapper").append(entry_caption);
                 });
                 
