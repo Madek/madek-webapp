@@ -42,7 +42,7 @@ class MediaEntry < MediaResource
   # compares two objects in order to sort them
   # required by dot
   def <=>(other)
-    self.updated_at <=> other.updated_a_t
+    self.updated_at <=> other.updated_at
   end
 
 ########################################################
