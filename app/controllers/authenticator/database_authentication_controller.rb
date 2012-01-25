@@ -9,12 +9,8 @@ class Authenticator::DatabaseAuthenticationController < ApplicationController
 
   def login
     if request.post?
-      if Rails.env == "development"
-        user = User.where(:login => params[:login]).first
-      else
-        crypted_password = Digest::SHA1.hexdigest(params[:password])
-        user = User.where(:login => params[:login], :password => crypted_password).first
-      end 
+      crypted_password = Digest::SHA1.hexdigest(params[:password])
+      user = User.where(:login => params[:login], :password => crypted_password).first
       if user
         session[:user_id] = user.id
         redirect_to root_path
