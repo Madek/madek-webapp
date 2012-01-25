@@ -17,7 +17,7 @@ set :ldap_config, "/home/rails/madek-demo/LDAP.yml"
 set :zencoder_config, "/home/rails/madek-demo/zencoder.yml"
 set :checkout, :export
 
-set :use_sudo, false 
+set :use_sudo, false
 set :rails_env, "production"
 
 set :deploy_to, "/home/rails/madek-demo"
@@ -42,13 +42,14 @@ end
 
 task :link_config do
   on_rollback { run "rm #{release_path}/config/database.yml" }
-  run "rm #{release_path}/config/database.yml"
+  run "rm -f #{release_path}/config/database.yml"
   run "ln -s #{db_config} #{release_path}/config/database.yml"
   run "ln -s #{ldap_config} #{release_path}/config/LDAP.yml"
 
-  run "rm #{release_path}/config/zencoder.yml"
+  run "rm -f #{release_path}/config/zencoder.yml"
   run "ln -s #{zencoder_config} #{release_path}/config/zencoder.yml"
 end
+
 
 task :remove_htaccess do
   # Kill the .htaccess file as we are using mongrel, so this file
@@ -67,7 +68,7 @@ namespace :deploy do
   end
 
   task :restart do
-    run "touch #{latest_release}/tmp/restart.txt" 
+    run "touch #{latest_release}/tmp/restart.txt"
   end
 
 end
@@ -79,7 +80,7 @@ task :link_attachments do
   run "ln -s #{deploy_to}/#{shared_dir}/attachments #{release_path}/db/media_files/production/attachments"
 
   run "ln -s #{deploy_to}/#{shared_dir}/uploads #{release_path}/tmp/uploads"
-  
+
   run "ln -sf #{deploy_to}/#{shared_dir}/previews #{release_path}/public/previews"
 end
 
@@ -102,7 +103,7 @@ task :migrate_database do
   run "mysqldump -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -r #{dump_path} #{sql_database}"
   run "bzip2 #{dump_path}"
 
-  # Migration here 
+  # Migration here
   # deploy.migrate should work, but is buggy and is run in the _previous_ release's
   # directory, thus never runs anything? Strange.
   #deploy.migrate
@@ -118,10 +119,10 @@ task :load_seed_data do
     run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:seed"
 end
 
-task :record_deploy_info do 
-  deploy_date = DateTime.parse(release_path.split("/").last) 
-  run "echo 'Deployed on #{deploy_date}' > #{release_path}/app/views/layouts/_deploy_info.erb" 
-end 
+task :record_deploy_info do
+  deploy_date = DateTime.parse(release_path.split("/").last)
+  run "echo 'Deployed on #{deploy_date}' > #{release_path}/app/views/layouts/_deploy_info.erb"
+end
 
 task :clear_cache do
   # We have to run it this way (in a subshell) because Rails.cache is not available
@@ -135,7 +136,7 @@ before "deploy:symlink", :make_tmp
 after "deploy:symlink", :link_config
 after "deploy:symlink", :link_attachments
 after "deploy:symlink", :configure_environment
-after "deploy:symlink", :record_deploy_info 
+after "deploy:symlink", :record_deploy_info
 
 after "link_config", :migrate_database
 after "link_config", "precompile_assets"
