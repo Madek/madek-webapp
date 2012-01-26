@@ -26,7 +26,11 @@ db/sphinx/
 log/*.log
 log/searchd.development.pid
 log/searchd.test.pid
-
+/coverage/
+/coverage/**
+/coverage/**/*
+coverage/**
+coverage/**/*
 coverage.data
 .yardoc
 .jhw-cache
