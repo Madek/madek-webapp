@@ -33,7 +33,7 @@ class Authenticator::ZhdkController < ApplicationController
 
   def logout
     reset_session
-    flash[:notice] = "Du hast dich abgemeldet." #"You have been logged out."
+    flash[:notice] = "Sie haben sich abgemeldet." #"You have been logged out."
     redirect_to root_path
   end
       
