@@ -168,7 +168,7 @@ class MediaEntriesController < ApplicationController
     case action
       when :new
         action = :create
-      when :show, :image, :map, :browse
+      when :show, :map, :browse
         action = :view
       when :edit, :update
         action = :edit
