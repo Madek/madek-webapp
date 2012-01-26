@@ -52,6 +52,20 @@ Feature: Permissions
       |Susanne Schumacher|owner            |yes  |
      Then "Susanne Schumacher" can the owner of the resource
 
+  # We can add things to a set if we have "view" on the thing we want to add and "edit"
+  # on the thing we are adding it to.
+  Scenario: Permission to add things to a set
+    Given a set called "Editable Set" owned by "Susanne Schumacher"
+      And the set has the following permissions:
+      |user              |permission       |value|
+      |Susanne Schumacher|edit             |yes  |
+      And a set called "Viewable Set" owned by "Ramon Cahenzli"
+      And the set has the following permissions:
+      |user              |permission       |value|
+      |Susanne Schumacher|view             |yes  |
+     When "Susanne Schumacher" adds "Viewable Set" to "Editable Set"
+     Then "Editable Set" is in "Viewable Set"
+
   Scenario: Group permissions
     Given a group called "MAdeK Managers" with the following members:
     |user              |
