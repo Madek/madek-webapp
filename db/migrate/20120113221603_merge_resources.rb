@@ -44,6 +44,7 @@ class MergeResources < ActiveRecord::Migration
     remove_fkey_constraint :media_set_arcs, :parent_id, :media_sets 
     remove_fkey_constraint :media_set_arcs, :child_id, :media_sets 
     remove_index :media_set_arcs, [:parent_id, :child_id]
+    remove_index :favorites, [:user_id, :media_entry_id] 
     remove_index :media_entries_media_sets, :name => :index_albums_media_entries_on_album_id_and_media_entry_id 
 
     create_table    :media_resources do |t|
@@ -191,6 +192,7 @@ class MergeResources < ActiveRecord::Migration
     drop_table :media_sets
 
     add_index :media_set_arcs, [:parent_id, :child_id], :unique => true
+    add_index :favorites, [:user_id, :media_resource_id], :unique => true
     add_index :media_entries_media_sets, [:media_set_id, :media_entry_id], :unique => true, :name => :index_on_media_set_id_and_media_entry_id 
 
     ############################################################################

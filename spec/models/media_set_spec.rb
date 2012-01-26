@@ -5,13 +5,9 @@ describe MediaSet do
   before :all do
     @media_set = FactoryGirl.create :media_set
   end
-
-  it "should contain sets" do
-    @media_set.should respond_to :child_sets
-  end
   
-  pending "should contain media entries" do
-    
+  it "should contain media entries" do
+    @media_set.should respond_to :media_entries
   end
 
   it "should be producible by a factory" do
@@ -69,10 +65,57 @@ describe MediaSet do
         end
 
       end
-      
 
     end
 
+    context "child sets" do
+      it "could contain sets" do
+        @media_set.should respond_to :child_sets
+      end
+    end
+
+    context "parent sets" do
+      it "could be contained in sets" do
+        @media_set.should respond_to :parent_sets
+      end
+
+      it "doesn't have parents, when it's a top-level set" do
+        @media_set.parent_sets.should be_empty
+        MediaSet.top_level.include?(@media_set).should == true
+        (FactoryGirl.create :media_set).child_sets << @media_set
+        MediaSet.top_level.include?(@media_set).should == false
+      end
+      
+      context "many set relationships" do
+        before :all do
+          existing_sets_count = MediaSet.count
+          existing_top_level_count = MediaSet.top_level.count
+          
+          sets = 10.times.map do
+            FactoryGirl.create :media_set
+          end
+          sets[0].child_sets << sets[1, 2]
+          sets[2].child_sets << sets[3, 2]
+          
+          (MediaSet.count - existing_sets_count).should == 10
+          (MediaSet.top_level.count - existing_top_level_count).should == 6
+        end
+        
+        it "all top-level sets do not have parents" do
+          MediaSet.top_level.each do |set|
+            set.parent_sets.should be_empty
+          end
+        end
+  
+        it "all non top-level sets have parents" do
+          # TODO non_top_level scope ??
+          (MediaSet.all - MediaSet.top_level).each do |set|
+            set.parent_sets.should_not be_empty
+          end
+        end
+      end
+      
+    end
   end
   
 

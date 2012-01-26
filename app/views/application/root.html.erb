@@ -95,7 +95,7 @@
   			<!-- Login -->
   			<div id="login" class="sidebar-box">
   				<p>Gleich einsteigen oder <a href="http://demo.medienarchiv.zhdk.ch/login">Demo testen</a></p>
-  				<p><%= link_to _("Los geht's"), (Rails.env == "development" ? db_login_path : login_path), :class => "actionbutton button yellow" %></p>
+  				<p><%= link_to _("Los geht's"), login_path, :class => "actionbutton button yellow" %></p>
   				<p class="disclaimer">Bis Ende 2012 ist das Medienarchiv nur für ZHdK-Angehörige zugänglich.</p>
   			</div> <!-- #login -->
   			
@@ -103,14 +103,19 @@
   			<div id="news" class="sidebar-box">
   				<h4>Neu mit Version <small><%= RELEASE_VERSION %></small></i></h4>
   				<p class="sidebar-box-claim">Rund um die Entwicklung</p>
-  				<div class="newsitem">
+
+          <div class="newsitem">
+            <p><span>Sets mit Vokabular</span></p>
+            <p>Die Unterscheidung zwischen Sets und Projekten wurde aufgehoben. Neu gibt es nur noch Sets im Medienarchiv - solche mit und solche ohne ein zusätzliches Vokabular. An einer Unterscheidung zwischen den beiden wird noch gearbeitet.</p>
+          </div>
+  	   <div class="newsitem">
             <p><span>Organisieren mit Sets</span></p>
             <p>Zur besseren Verwaltung der eigenen Medieneinträge können nun die Sets auch in Sets gelegt werden. Dies verhilft zu einer besseren Übersicht bei grossen Sammlungen von verschiedenen Medien. Die Medieneinträge und Sets können neu über ein Widget gleichzeitig in ein oder mehrere Sets gelegt bzw. daraus entfern werden.</p>
           </div>
           <div class="newsitem">
-  					<p><span>Metadaten: ZHdK-Bereich</span></p>
+  	    <p><span>Metadaten: ZHdK-Bereich</span></p>
             <p>Die Zuweisung eines Medieneintrages zu einem Bereich der ZHdK wurde erheblich vereinfacht.</p>
-  				</div>
+  	  </div>
           <div class="newsitem">
             <p><span>Suchen, Editieren und Löschen</span><br/>Die Geschwindigkeit des Systems wurde markant verbessert.</p>
           </div>
@@ -207,48 +212,50 @@
         var set_id = "<%= AppSettings.splashscreen_slideshow_set_id %>";
         if(set_id.length) {
           $.ajax("/media_sets/"+set_id+".js", {
-            data: {options_for_media_entries: {show: true}},
+            data: {options_for_media_entries: {show: true},
+                  with:{media_entries:{author:1} }},
             dataType: "json",
             beforeSend: function(request, settings){
             },
             success: function(data, status, request) {
-              $("#slider").fadeOut(1000, function(){
-                // setup splashscreen images
-                var image_clone = $("#slider-wrapper #slider img").clone();
-                $("#slider-wrapper #slider img").remove();
-                var caption_clone = $("#slider-wrapper #htmlcaption1").clone();
-                $("#slider-wrapper #htmlcaption1").remove();
-                
-                randomElements = data.entries.sort(function(){ 
-                  return Math.round(Math.random())-0.5
-                }).slice(0,5)
-                
-                $.each(randomElements, function(i, entry){
-                  // image
-                  var entry_image = $(image_clone).clone();
-                  $(entry_image).attr("src", "/resources/"+entry.id+"/image?size=large");
-                  $(entry_image).attr("title", "#htmlcaption"+(i+1));
-                  $("#slider-wrapper #slider").append(entry_image);
+              window.setTimeout(function(){
+                $("#slider").fadeOut(1000, function(){
+                  // setup splashscreen images
+                  var image_clone = $("#slider-wrapper #slider img").clone();
+                  $("#slider-wrapper #slider img").remove();
+                  var caption_clone = $("#slider-wrapper #htmlcaption1").clone();
+                  $("#slider-wrapper #htmlcaption1").remove();
                   
-                  // caption
-                  var entry_caption = $(caption_clone).clone();
-                  $(entry_caption).attr("id", "htmlcaption"+(i+1));
-                  $(entry_caption).html("<strong>"+entry.title+"</strong><br/>"+entry.author);
-                  $("#slider-wrapper").append(entry_caption);
+                  randomElements = data.entries.sort(function(){ 
+                    return Math.round(Math.random())-0.5
+                  }).slice(0,5)
+                  
+                  $.each(randomElements, function(i, entry){
+                    // image
+                    var entry_image = $(image_clone).clone();
+                    $(entry_image).attr("src", "/resources/"+entry.id+"/image?size=large");
+                    $(entry_image).attr("title", "#htmlcaption"+(i+1));
+                    $("#slider-wrapper #slider").append(entry_image);
+                    
+                    // caption
+                    var entry_caption = $(caption_clone).clone();
+                    $(entry_caption).attr("id", "htmlcaption"+(i+1));
+                    $(entry_caption).html("<strong>"+entry.title+"</strong><br/>"+entry.author);
+                    $("#slider-wrapper").append(entry_caption);
+                  });
+                  
+                  // setup nivo slider
+                  $('#slider').nivoSlider({
+                    pauseTime:5000,
+                    captionOpacity: 0.8,
+                    effect: 'fade',
+                    directionNav:false,
+                    controlNav: false
+                  });
+                  
+                  $("#slider").fadeIn();
                 });
-                
-                // setup nivo slider
-                $('#slider').nivoSlider({
-                  pauseTime:4000,
-                  captionOpacity: 0.8,
-                  effect: 'fade',
-                  directionNav:false,
-                  controlNav: false
-                });
-                
-                $("#slider").fadeIn();
-              });
-              
+              },1500);
             },
             error: function(request, status, error){
               console.log(error);

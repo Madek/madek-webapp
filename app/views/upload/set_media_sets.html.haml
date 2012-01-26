@@ -10,10 +10,11 @@
               %br
               = media_entry.meta_data.get_value_for("title")
         =link_to _("Weiter ohne Hinzufügen zu einem Set…"), root_path, :class => "upload_buttons"
+        =link_to _("Weiter…"), root_path, :class => "upload_buttons continue", :style => "display: none;"
         =link_to _("Einträge zu einem Set hinzufügen"), "", :title => "Zu einem Set hinzufügen/entfernen",:class => "upload_buttons has-set-widget",
         :"data-selected_ids" => "",
         :"data-user" => "#{current_user.to_json(:only => {}, :methods => :name)}",
-        :"data-after_submit" => "",
+        :"data-after_submit" => 'window.setTimeout(function(){$(target).data("widget").remove(); $(target).remove(); $(".upload_buttons").hide(); $(".upload_buttons.continue").show(); $("#modal_overlay").remove();}, 400);',
         :"data-index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "with" => {"set" => {"creator" => 1, "created_at" => 1, "title" => 1}}}}.to_json}",
         :"data-linked_index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "child_ids" => ":selected_ids", "with" => {"set" => {"media_entries" => 1, "child_sets" => 1}}}}.to_json}",
         :"data-create" => "#{{"path" => "/media_sets", "method" => "POST", "data" => {"media_sets" => ":created_items"}, "created_item" => {"meta_data_attributes" => {0 => {"meta_key_id" => "3", "value" => ":title"}}}}.to_json}",
@@ -24,6 +25,5 @@
   $(document).ready(function () {
     activate_step(4);
     
-    $(".has-set-widget").data("selected_ids", "#{@media_entries.map(&:id).to_json}");
-    console.log($(".has-set-widget").data("selected_ids"));
+    $(".has-set-widget").data("selected_ids", #{@media_entries.map(&:id).to_json});
   });

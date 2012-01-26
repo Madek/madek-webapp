@@ -333,9 +333,9 @@ class MediaSetsController < ApplicationController
     case action
 #      when :new
 #        action = :create
-      when :show, :browse, :abstract, :inheritable_contexts
+      when :show, :browse, :abstract, :inheritable_contexts, :parents
         action = :view
-      when :edit, :update, :add_member, :parents
+      when :edit, :update, :add_member
         action = :edit
       when :destroy
         action = :edit # TODO :delete
