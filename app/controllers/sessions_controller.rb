@@ -29,7 +29,7 @@ class SessionsController < ApplicationController
 
   def destroy
     logout_killing_session!
-    flash[:notice] = "Du hast dich abgemeldet." #"You have been logged out."
+    flash[:notice] = "Sie haben sich abgemeldet." #"You have been logged out."
     redirect_back_or_default('/')
   end
 
