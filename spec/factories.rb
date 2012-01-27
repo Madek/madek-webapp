@@ -112,7 +112,7 @@ FactoryGirl.define do
     download { view and FactoryHelper.rand_bool}
     edit {FactoryHelper.rand_bool 1/10.0}
     manage {edit and FactoryHelper.rand_bool}
-
+    
   end
 
   ### Permissions ...

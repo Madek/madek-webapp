@@ -1,13 +1,19 @@
+# coding: UTF-8
+
 module PersonaFactory 
   extend self
 
   def create(persona)
-    case persona
-      when "Normin"
-        name = "Normin"
-        person = Factory(:person, :firstname => name)
-        user = Factory(:user, :person => person, :login => name)
-        sets = [] << Factory(:media_set, :user => user)
+    
+    if FileTest.exist? "features/data/persona/#{persona.downcase}.rb"
+      if Persona.get(persona).blank?
+        require Rails.root+"features/data/persona/#{persona.downcase}.rb"
+        Persona.const_get persona.camelize
+      else
+        puts "#{persona} was already created"
+      end
+    else 
+      raise "Persona #{persona} does not exist"
     end
   end
 end
