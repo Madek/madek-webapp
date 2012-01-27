@@ -495,16 +495,7 @@ public
   # OPTIMIZE merge to accessible_by_user
   def self.accessible_by_public(action = :view)
     i = 2 ** Permission::ACTIONS.index(action)
-
-    if SQLHelper::adapter_is_mysql? 
-      where("media_resources.id IN " \
-              "(SELECT media_resource_id FROM permissions " \
-                "USE INDEX (index_permissions_on_resource_and_subject) " \
-                "WHERE subject_type IS NULL " \
-                  "AND #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)})");
-    else
-      # TODO
-    end
+    joins(:permissions).where("subject_type IS NULL AND action_bits & #{i} AND action_mask & #{i}")
   end
 
   def self.accessible_by_user(user, action = :view)
