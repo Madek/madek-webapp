@@ -48,15 +48,6 @@ namespace :app do
     puts MetaHelper.import_initial_metadata
   end
 
-
-
-  desc "Build Railroad diagrams (requires peterhoeg-railroad 0.5.8 gem)"
-  task :railroad do
-    `railroad -iv -o doc/diagrams/railroad/controllers.dot -C`
-    # `railroad -iv -o doc/diagrams/railroad/models.dot -M`
-    `bundle viz -V -f doc/diagrams/gem_graph.png`
-  end
-
   namespace :db do
     desc "export application settings and data to json"
     task :export_with_data  => :environment do

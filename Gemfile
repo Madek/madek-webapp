@@ -97,7 +97,6 @@ end
 group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
-  #tmp# gem 'peterhoeg-railroad'
 end
 
 group :test do
