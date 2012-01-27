@@ -492,12 +492,6 @@ public
     sql    
   end
 
-  # OPTIMIZE merge to accessible_by_user
-  def self.accessible_by_public(action = :view)
-    i = 2 ** Permission::ACTIONS.index(action)
-    joins(:permissions).where("subject_type IS NULL AND action_bits & #{i} AND action_mask & #{i}")
-  end
-
   def self.accessible_by_user(user, action = :view)
 
       resource_ids_by_userpermission = Userpermission.select("media_resource_id").where(action => true).where("user_id = #{user.id} ")

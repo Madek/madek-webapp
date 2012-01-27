@@ -57,7 +57,7 @@ class Admin::MediaSetsController < Admin::AdminController
     else
       @featured_set_id = AppSettings.featured_set_id
       @splashscreen_slideshow_set_id = AppSettings.splashscreen_slideshow_set_id
-      @media_sets = MediaSet.accessible_by_public
+      @media_sets = MediaSet.where(:view => true)
     end
   end
 
