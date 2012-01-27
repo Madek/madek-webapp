@@ -1,13 +1,13 @@
 # coding: UTF-8
+
 Given /^a few sets and entries$/ do
   # sets and entries are there thanks to the example data!
-  #assert MediaSet.count > 0
-  #assert MediaEntry.count > 0
-  user = Persona.get("Normin")
-  binding.pry
+  assert MediaSet.count > 0
+  assert MediaEntry.count > 0
 end
 
 When /^I view a grid of these sets$/ do
+  
 end
 
 When /^I examine one of the sets more closely$/ do

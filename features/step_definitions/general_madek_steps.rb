@@ -365,7 +365,6 @@ When /I filter by "([^"]*)" in "([^"]*)"$/ do |choice, category|
 end
 
 When /I choose the set "([^"]*)" from the media entry$/ do |set_name|
-#   binding.pry
   element = find(:xpath, "//div[@class='set-box' and @oldtitle]")
   unless element.nil?
     if element[:oldtitle] =~ /^#{set_name}/
