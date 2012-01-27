@@ -1,14 +1,9 @@
 Feature: Sets in Sets II
 
-  Background: Set up the world with a user and logging in
-    Given I have set up the world
-      And a user called "Max" with username "max" and password "moritz" exists
-      And I log in as "max" with password "moritz"
-      And I am logged in as "max"
-
   # https://www.pivotaltracker.com/story/show/23825307
+  @commited
   Scenario: Preview of content and relationships of a set in the grid view
-    Given a few sets
+    Given a few sets and entries
      When I view a grid of these sets
       And I examine one of the sets more closely
      Then I see relationships for this set
@@ -17,6 +12,7 @@ Feature: Sets in Sets II
       And I see how many sets that that are viewable for me are parents of this set
 
   # https://www.pivotaltracker.com/story/show/22394303
+  @commited
   Scenario: Choosing which contexts are valid for a set
    Given a context called "Landschaftsvisualisierung"
      And a context called "Zett"
@@ -34,6 +30,7 @@ Feature: Sets in Sets II
      And the set still has its other contexts as well
 
   # https://www.pivotaltracker.com/story/show/22464659
+  @commited
   Scenario: Viewing which contexts a set could have
    Given a context called "Landschaftsvisualisierung"
      And a context called "Zett"
@@ -47,16 +44,14 @@ Feature: Sets in Sets II
      And I can choose to see more details about the context "Games"
 
   # https://www.pivotaltracker.com/story/show/23825857
-  @glossary
+  @glossary @commited
   Scenario: Top-level set
     Given a few sets
      When a set has no parents
      Then it is a top-level set
 
-
   # https://www.pivotaltracker.com/story/show/22576523
   # https://www.pivotaltracker.com/story/show/23800945
-  @not_committed
   Scenario: Viewing a context
     Given a context
      When I look at a page describing this context
@@ -65,9 +60,7 @@ Feature: Sets in Sets II
       And I see all the values those keys can have
       And I see an abstract of the most assigned values from media entries using this context
 
-
   # https://www.pivotaltracker.com/story/show/23825857
- @not_committed
   Scenario: Switch between all sets and main sets on the page 'my sets'
     Given a few sets
      When I view a list of my sets

@@ -44,7 +44,6 @@ Given /^I have set up the world$/ do
 
   Meta::Department.setup_ldapdata_from_localfile
   Meta::Date.parse_all
-
 end
 
 Given /^a user called "([^"]*)" with username "([^"]*)" and password "([^"]*)" exists$/ do |person_name, username, password|
