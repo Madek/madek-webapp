@@ -55,7 +55,7 @@ class MediaSetsController < ApplicationController
   #
   def index(accessible_action = params[:accessible_action] || :view,
             with = params[:with], child_ids = params[:child_ids] || nil)
-            
+
     respond_to do |format|
       #-# only used for FeaturedSet
       format.html {
@@ -84,7 +84,7 @@ class MediaSetsController < ApplicationController
         else
           MediaSet.accessible_by_user(current_user, accessible_action.to_sym)
         end
-        
+
         render :json => sets.as_json(:with => with, :with_thumb => false) # TODO drop with_thum merge with with
       }
     end
@@ -101,7 +101,7 @@ class MediaSetsController < ApplicationController
     paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
     resources = MediaResource.accessible_by_user(current_user).by_media_set(@media_set).paginate(paginate_options)
     
-    @can_edit_set = Permission.authorized?(current_user, :edit, @media_set)
+    @can_edit_set = Permissions.authorized?(current_user, :edit, @media_set)
     @parents = @media_set.parent_sets.as_json(:user => current_user)
     
     respond_to do |format|
@@ -342,7 +342,7 @@ class MediaSetsController < ApplicationController
     end
     if @media_set
       resource = @media_set
-      not_authorized! unless Permission.authorized?(current_user, action, resource) # TODO super ??
+      not_authorized! unless Permissions.authorized?(current_user, action, resource) # TODO super ??
     else
       flash[:error] = "Kein Medienset ausgewählt."
       redirect_to :back

@@ -184,11 +184,11 @@ class MediaEntriesController < ApplicationController
         not_authorized! if @media_entries.empty?
         return
       when :remove_multiple
-        not_authorized! unless Permission.authorized?(current_user, :edit, @media_set)
+        not_authorized! unless Permissions.authorized?(current_user, :edit, @media_set)
         return
     end
     resource = @media_entry
-    not_authorized! unless Permission.authorized?(current_user, action, resource) and conditions.all?
+    not_authorized! unless Permissions.authorized?(current_user, Constants::Actions.old2new(action), resource) and conditions.all?
     # TODO super ??
   end
   

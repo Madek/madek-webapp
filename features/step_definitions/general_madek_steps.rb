@@ -41,7 +41,6 @@ Given /^I have set up the world$/ do
   # they drop the database even if we seed it before running
   # the tests. Therefore we recreate our world in this step.
   Copyright.init
-  Permission.init
 
   Meta::Department.setup_ldapdata_from_localfile
   Meta::Date.parse_all
@@ -108,9 +107,8 @@ Given /^a public set titled "(.+)" created by "(.+)" exists$/ do |title, usernam
   user = User.where(:login => username).first
   meta_data = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
   set = user.media_sets.create(meta_data)
-  permission = set.permissions.create
-  permission.set_actions({:view => true})
-  set.permissions << permission
+  set.view= true
+  set.save!
 end
 
 Given /^a entry titled "(.+)" created by "(.+)" exists$/ do |title, username|

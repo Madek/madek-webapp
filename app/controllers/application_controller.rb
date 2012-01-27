@@ -48,7 +48,6 @@ class ApplicationController < ActionController::Base
         other_resources = resources.not_by_user(current_user).limit(params[:per_page].to_i)
         @other_media_entries = { :entries => other_resources.as_json(:user => current_user, :with_thumb => true) } 
 
-        #binding.pry
         respond_to do |format|
           format.html { render :template => "/users/show" }
         end

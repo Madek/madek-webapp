@@ -1,4 +1,4 @@
-- can_edit = Permission.authorized?(current_user, :edit, media_entry)
+- can_edit = Permissions.authorized?(current_user, :edit, media_entry)
 - is_expert = current_user.groups.is_member?("Expert")
 
 %section#content_head
@@ -94,7 +94,7 @@
                           = _("Diese Kopie wird gegenwärtig durch das MIZ-Archiv bearbeitet.")
 
         #detail-set-bar
-          - sets = media_entry.media_sets.select {|media_set| Permission.authorized?(current_user, :view, media_set) }
+          - sets = media_entry.media_sets.select {|media_set| Permissions.authorized?(current_user, :view, media_set) }
           - unless sets.empty?
             = media_sets_list(sets, true)
 
@@ -104,7 +104,7 @@
               %li= link_to _("Metadaten für MIZ-Archiv editieren"), edit_tms_media_entry_path(@media_entry)
               - if can_edit
                 %li= link_to _("Kopie für MIZ-Archiv erstellen"), to_snapshot_media_entry_path(media_entry)
-            - if current_user && Permission.authorized?(current_user, :edit, media_entry)
+            - if current_user && Permissions.authorized?(current_user, :edit, media_entry)
               %li
                 = link_to edit_media_entry_path(media_entry), :title => "Editieren" do
                   .button_edit_active
@@ -136,7 +136,7 @@
                 :"data-link" => "#{{"path" => "/media_entries/media_sets", "method" => "POST", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_entry_ids" => ":media_entry_ids"}}.to_json}",
                 :"data-unlink" => "#{{"path" => "/media_entries/media_sets", "method" => "DELETE", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_entry_ids" => ":media_entry_ids"}}.to_json}" do
                 .button_addto
-            - if current_user && Permission.authorized?(current_user, :manage, media_entry)
+            - if current_user && Permissions.authorized?(current_user, :manage, media_entry)
               %li
                 = link_to "#", :panel => "delete", :title => "Löschen" do
                   .button_delete_active

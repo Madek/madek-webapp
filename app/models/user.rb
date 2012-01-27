@@ -11,6 +11,10 @@ class User < ActiveRecord::Base
   delegate :name, :to => :person
   delegate :fullname, :to => :person
 
+  has_many :userpermissions
+
+  has_many :media_resources
+
   has_many :upload_sessions do
     def latest
       first
