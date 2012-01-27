@@ -207,7 +207,7 @@ class MediaResource < ActiveRecord::Base
             
       if with_thumb
         mf = if self.is_a?(MediaSet)
-          media_entries.accessible_by_user(current_user).first.try(:media_file)
+          media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
         else
           self.media_file
         end
@@ -384,10 +384,6 @@ public
 ##########################################################################################################################
 ##########################################################################################################################
   
-  #default_scope order("media_resources.updated_at DESC")
-
-  ################################################################
-
   scope :media_entries_and_media_sets, where(:type => ["MediaEntry", "MediaSet"])
   scope :media_entries, where(:type => "MediaEntry")
   scope :media_sets, where(:type => "MediaSet")
