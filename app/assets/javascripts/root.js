@@ -2,7 +2,7 @@
 
 /////////// Vendor /////////////
 //= require jquery.min
-//= require jquery/jquery.nivo.slider.pack
+//= require jquery.nivo.slider.pack
 
 // type or global formating/accepting of ajax requestes
 $.ajaxSetup({
