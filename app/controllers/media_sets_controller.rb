@@ -99,7 +99,7 @@ class MediaSetsController < ApplicationController
     params[:per_page] ||= PER_PAGE.first
 
     paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
-    resources = MediaResource.accessible_by_user(current_user).by_media_set(@media_set).paginate(paginate_options)
+    resources = MediaResource.accessible_by_user(current_user).order("media_resources.updated_at DESC").by_media_set(@media_set).paginate(paginate_options)
     
     @can_edit_set = Permissions.authorized?(current_user, :edit, @media_set)
     @parents = @media_set.parent_sets.as_json(:user => current_user)

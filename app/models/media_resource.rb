@@ -207,7 +207,7 @@ class MediaResource < ActiveRecord::Base
             
       if with_thumb
         mf = if self.is_a?(MediaSet)
-          media_entries.accessible_by_user(current_user).first.try(:media_file)
+          media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
         else
           self.media_file
         end
@@ -384,10 +384,6 @@ public
 ##########################################################################################################################
 ##########################################################################################################################
   
-  #default_scope order("media_resources.updated_at DESC")
-
-  ################################################################
-
   scope :media_entries_and_media_sets, where(:type => ["MediaEntry", "MediaSet"])
   scope :media_entries, where(:type => "MediaEntry")
   scope :media_sets, where(:type => "MediaSet")
@@ -494,21 +490,6 @@ public
     end
 
     sql    
-  end
-
-  # OPTIMIZE merge to accessible_by_user
-  def self.accessible_by_public(action = :view)
-    i = 2 ** Permission::ACTIONS.index(action)
-
-    if SQLHelper::adapter_is_mysql? 
-      where("media_resources.id IN " \
-              "(SELECT media_resource_id FROM permissions " \
-                "USE INDEX (index_permissions_on_resource_and_subject) " \
-                "WHERE subject_type IS NULL " \
-                  "AND #{SQLHelper.bitwise_is('action_bits',i)} AND #{SQLHelper.bitwise_is('action_mask',i)})");
-    else
-      # TODO
-    end
   end
 
   def self.accessible_by_user(user, action = :view)

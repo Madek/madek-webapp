@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
         # TODO refactor to UsersController#show and dry with ResourcesController#index
         params[:per_page] ||= PER_PAGE.first
 
-        resources = MediaResource.accessible_by_user(current_user).media_entries_and_media_sets
+        resources = MediaResource.accessible_by_user(current_user).order("media_resources.updated_at DESC").media_entries_and_media_sets
         
         my_resources = resources.by_user(current_user).limit(params[:per_page].to_i)
         @my_media_entries = { :entries => my_resources.as_json(:user => current_user, :with_thumb => true) } 
