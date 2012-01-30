@@ -1,7 +1,7 @@
 Feature: Sets in Sets II
 
   # https://www.pivotaltracker.com/story/show/23825307
-  @commited
+  @commited @wip
   Scenario: Preview of content and relationships of a set in the grid view
     Given a few sets and entries
      When I view a grid of these sets
@@ -30,7 +30,7 @@ Feature: Sets in Sets II
      And the set still has its other contexts as well
 
   # https://www.pivotaltracker.com/story/show/22464659
-  @commited
+  @commited @wip
   Scenario: Viewing which contexts a set could have
    Given a context called "Landschaftsvisualisierung"
      And a context called "Zett"
