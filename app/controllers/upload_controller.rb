@@ -94,10 +94,7 @@ class UploadController < ApplicationController
     else
       # TODO is the get method really needed ??
       pre_load # OPTIMIZE
-      
-          #FIXME NOTE TODO REMOVE
-          @media_entries = @upload_session.media_entries
-
+      @media_entries = @upload_session.media_entries
     end
   end
 
