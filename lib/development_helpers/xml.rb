@@ -1,7 +1,7 @@
 module DevelopmentHelpers
   module Xml
 
-    class SchemaMigration < ActiveRecord::Base
+    class ::SchemaMigration < ActiveRecord::Base
     end
 
     class MediaEntriesMediaSet < ActiveRecord::Base
@@ -25,31 +25,28 @@ module DevelopmentHelpers
     # now, filter and oder appropriately
 
     TablesModels =  { \
-        schema_migrations: :SchemaMigration \
-      , type_vocabularies: :TypeVocabulary \
-      , media_entries_media_sets: :MediaEntriesMediaSet \
-      , previews: :Preview \
-      , copyrights: :Copyright \
-      , favorites: :Favorite \
-      , groups_users: :GroupsUser \
-      , users: :User \
-      , people: :Person \
+        people: :Person \
       , groups: :Group \
-      , upload_sessions: :UploadSession \
-      , usage_terms: :UsageTerm \
-      , keywords: :Keyword \
+      , users: :User \
+      , groups_users: :GroupsUser \
+      , media_resources: :MediaResource \
+      , favorites: :Favorite \
+      , media_set_arcs: :MediaSetArc \
       , media_sets_meta_contexts: :MediaSetsMetaContext \
-      , edit_sessions: :EditSession \
+      , userpermissions: :Userpermission \
+      , grouppermissions: :Grouppermission \
+      , media_entries_media_sets: :MediaEntriesMediaSet \
       , media_files: :MediaFile \
+      , previews: :Preview \
+      , usage_terms: :UsageTerm \
+      , edit_sessions: :EditSession \
+      , upload_sessions: :UploadSession \
       , wiki_pages: :WikiPage \
       , wiki_page_versions: :WikiPageVersion \
-      , permissions: :Permission \
-      , settings: :Setting \
-      , media_set_arcs: :MediaSetArc \
+      , type_vocabularies: :TypeVocabulary \
+      , keywords: :Keyword \
       , full_texts: :FullText \
-      , userpermissions: :Userpermission \
-      , media_resources: :MediaResource \
-      , grouppermissions: :Grouppermission \
+      , copyrights: :Copyright \
     }
 
 #      , meta_terms: :MetaTerm \
@@ -66,15 +63,22 @@ module DevelopmentHelpers
       xml = Builder::XmlMarkup.new(:indent => 2)
       xml.instruct!
 
-      xml.data do 
-        TablesModels.each do |table_name,model|
-          eval " 
+      xml.madek do
+
+        xml.meta do |meta|
+            meta << SchemaMigration.order("VERSION DESC").limit(1).to_xml(skip_instruct: true).gsub(/^/, '      ')
+        end
+
+        xml.data do 
+          TablesModels.each do |table_name,model|
+            eval " 
           xml.#{table_name} do |table|
             #{model}.all.each do |instance|
-              table << instance.to_xml(skip_instruct: true).gsub(/^/, '    ')
+              table << instance.to_xml(skip_instruct: true).gsub(/^/, '      ')
             end
           end
-          "
+            "
+          end
         end
       end
 
