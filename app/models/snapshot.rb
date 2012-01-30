@@ -64,7 +64,7 @@ class Snapshot < MediaResource
 
 #temp#
             case meta_datum.meta_key.object_type
-              when "Meta::Term"
+              when "MetaTerm"
                 xml.tag!(name, attrs) do
                   meta_datum.deserialized_value.each do |dv|
                     xml.tag!("term", dv.to_s)

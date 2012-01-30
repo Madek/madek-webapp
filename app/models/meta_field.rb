@@ -7,10 +7,10 @@ class MetaField
   attr_accessor :is_required, # boolean
                 :length_min,  # integer
                 :length_max,  # integer
-                :options,     # Meta::Term ids array ## TODO remove after migration 20100610103525
-                :label,       # Meta::Term id
-                :description, # Meta::Term id
-                :hint         # Meta::Term id
+                :options,     # MetaTerm ids array ## TODO remove after migration 20100610103525
+                :label,       # MetaTerm id
+                :description, # MetaTerm id
+                :hint         # MetaTerm id
 
   def update_attributes(attributes)
     attributes.each_pair do |key, value|
@@ -50,7 +50,7 @@ class MetaField
       h = {:en_GB => h, :de_CH => h} if h.is_a? String
       
       id = h.delete(:id)
-      term = Meta::Term.where(:id => id).first if id
+      term = MetaTerm.where(:id => id).first if id
       if term
         term.update_attributes(h)
         term.id
@@ -64,30 +64,30 @@ class MetaField
   # OPTIMIZE 2210 uniqueness
   def get_term(h)
     if h.is_a? Integer
-      Meta::Term.where(:id => h).first
+      MetaTerm.where(:id => h).first
     elsif h.values.any? {|x| not x.blank? }
-      Meta::Term.find_or_create_by_en_GB_and_de_CH(h)
+      MetaTerm.find_or_create_by_en_GB_and_de_CH(h)
     end
   end
 
 ### OPTIMIZE
   def label
-    @label = Meta::Term.find(@label) if @label.is_a? Integer
+    @label = MetaTerm.find(@label) if @label.is_a? Integer
     @label
   end
 
   def description
-    @description = Meta::Term.find(@description) if @description.is_a? Integer
+    @description = MetaTerm.find(@description) if @description.is_a? Integer
     @description
   end
 
   def hint
-    @hint = Meta::Term.find(@hint) if @hint.is_a? Integer
+    @hint = MetaTerm.find(@hint) if @hint.is_a? Integer
     @hint
   end
 
   def options ## TODO remove after migration 20100610103525
-    @options = Meta::Term.find(@options) if @options.is_a? Array and @options.all? {|x| x.is_a? Integer }
+    @options = MetaTerm.find(@options) if @options.is_a? Array and @options.all? {|x| x.is_a? Integer }
     @options
   end
 

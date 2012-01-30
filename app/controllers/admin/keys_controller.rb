@@ -47,7 +47,7 @@ class Admin::KeysController < Admin::AdminController # TODO rename to Admin::Met
 
     meta_terms_attributes.each_value do |h|
       if h[:id].nil? and LANGUAGES.any? {|l| not h[l].blank? }
-        term = Meta::Term.find_or_create_by_en_GB_and_de_CH(h)
+        term = MetaTerm.find_or_create_by_en_GB_and_de_CH(h)
         @key.meta_terms << term
         #old??# h[:id] = term.id
       elsif h[:_destroy].to_i == 1

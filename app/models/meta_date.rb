@@ -1,4 +1,4 @@
-class Meta::Date # TODO rename to Meta::DateTime ??
+class MetaDate # TODO rename to Meta::DateTime ??
   
   attr_accessor :timestamp, #old# :parsed # TODO enforce to DateTime ??
                 :timezone,
@@ -36,11 +36,11 @@ class Meta::Date # TODO rename to Meta::DateTime ??
 
     def where(args)
       Array(args[:id]).collect do |x|
-        if x.respond_to?(:ivars) and x.class == "Meta::Date"
+        if x.respond_to?(:ivars) and x.class == "MetaDate"
           new(x.ivars)
         else
           case x.class.name
-            when "Meta::Date"
+            when "MetaDate"
               x
             when "String"
               parse(x)
@@ -85,7 +85,7 @@ class Meta::Date # TODO rename to Meta::DateTime ??
     end
 
     def parse_all
-      MetaKey.where(:object_type => "Meta::Date").each do |key|
+      MetaKey.where(:object_type => "MetaDate").each do |key|
         key.meta_data.each do |md|
           md.update_attributes(:value => md.value)
         end

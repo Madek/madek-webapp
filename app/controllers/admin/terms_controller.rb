@@ -4,18 +4,18 @@ class Admin::TermsController < Admin::AdminController # TODO rename to Admin::Me
   before_filter :pre_load
 
   def index
-    @terms = Meta::Term.order(LANGUAGES.first)
+    @terms = MetaTerm.order(LANGUAGES.first)
   end
 
   def new
-    @term = Meta::Term.new
+    @term = MetaTerm.new
     respond_to do |format|
       format.js
     end
   end
 
   def create
-    Meta::Term.create(params[:meta_term])
+    MetaTerm.create(params[:meta_term])
     redirect_to admin_terms_path    
   end
 
@@ -41,7 +41,7 @@ class Admin::TermsController < Admin::AdminController # TODO rename to Admin::Me
 
   def pre_load
     params[:term_id] ||= params[:id]
-    @term = Meta::Term.find(params[:term_id]) unless params[:term_id].blank?
+    @term = MetaTerm.find(params[:term_id]) unless params[:term_id].blank?
   end
 
 end

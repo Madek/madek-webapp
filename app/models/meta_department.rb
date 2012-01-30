@@ -1,4 +1,4 @@
-class Meta::Department < Group
+class MetaDepartment < Group
 
   default_scope order(:name)
 

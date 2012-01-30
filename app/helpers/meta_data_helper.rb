@@ -82,11 +82,11 @@ module MetaDataHelper
           link_to v, resources_path(:query => v.to_s)
         end
         s.join(', ').html_safe
-      when "Meta::Date"
+      when "MetaDate"
         meta_datum.to_s.html_safe
       when "Date"
         _("%s Uhr") % meta_datum.deserialized_value.to_formatted_s(:date_time)
-      when "Meta::Term"
+      when "MetaTerm"
         meta_datum.deserialized_value.map do |dv|
           #old# link_to dv, filter_resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :method => :post, :"data-meta_term_id" => dv.id #old# , :remote => true
           link_to dv, resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :"data-meta_term_id" => dv.id
@@ -159,18 +159,18 @@ module MetaDataHelper
   # NEW generic multi select plugin
   def widget_meta_terms_multiselect(meta_datum, meta_key)
     case meta_key.object_type.constantize.name
-      when "Meta::Department"
+      when "MetaDepartment"
         selected = Array(meta_datum.object.value)
         departments_without_semester = 
           if SQLHelper.adapter_is_mysql?
-            Meta::Department.where("ldap_name NOT REGEXP '_[0-9]{2}[A-Za-z]\.studierende'")
+            MetaDepartment.where("ldap_name NOT REGEXP '_[0-9]{2}[A-Za-z]\.studierende'")
           elsif SQLHelper.adapter_is_postgresql?
-            Meta::Department.where("ldap_name NOT SIMILAR TO '%_[0-9]{2}[A-Za-z]\.studierende'")
+            MetaDepartment.where("ldap_name NOT SIMILAR TO '%_[0-9]{2}[A-Za-z]\.studierende'")
           else
             raise "you are fucked!"
           end
         all_options = departments_without_semester.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)} }
-      when "Meta::Term"
+      when "MetaTerm"
         selected = Array(meta_datum.object.value)
         all_options = meta_key.meta_terms.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}
       when "Person"
@@ -292,7 +292,7 @@ module MetaDataHelper
     #key_id = meta_datum.object.meta_key_id
     object_id = meta_datum.object.object_id
 
-    if meta_key.object_type == "Meta::Country"
+    if meta_key.object_type == "MetaCountry"
       h += widget_meta_countries(meta_datum, meta_key)
 
     elsif meta_key.object_type
@@ -306,7 +306,7 @@ module MetaDataHelper
           h += widget_meta_terms_multiselect(meta_datum, meta_key)
           h += link_to icon_tag("button_add_keyword"), keywords_media_entries_path, :class => "dialog_link", :style => "margin-top: .5em;"
 
-        when "Meta::Term"
+        when "MetaTerm"
           meta_terms = meta_key.meta_terms
           ui = (definition.meta_field.length_max and definition.meta_field.length_max == 1 ? :radio_button : :check_box )
           h += widget_meta_terms(meta_datum, meta_key, meta_terms, ui)
@@ -315,7 +315,7 @@ module MetaDataHelper
           h += widget_meta_terms_multiselect(meta_datum, meta_key)
           h += link_to icon_tag("button_add_person"), new_person_path, :class => "dialog_link", :style => "margin-top: .5em;"
           
-        when "Meta::Date"
+        when "MetaDate"
           meta_datum.object.value ||= [] # OPTIMIZE
           at = from = to = at_time = ""
           selected_option = "freetext"
@@ -413,7 +413,7 @@ module MetaDataHelper
             end
           end
 
-        when "Meta::Department"
+        when "MetaDepartment"
           h += widget_meta_terms_multiselect(meta_datum, meta_key)
 
         when "Copyright"

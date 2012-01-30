@@ -2,7 +2,7 @@ class MetaKeyMetaTerm < ActiveRecord::Base
   set_table_name 'meta_keys_meta_terms'
 
   belongs_to    :meta_key
-  belongs_to    :meta_term, :class_name => "Meta::Term"
+  belongs_to    :meta_term, :class_name => "MetaTerm"
 
   before_validation do
     self.position = self.next_position if self.position.zero?

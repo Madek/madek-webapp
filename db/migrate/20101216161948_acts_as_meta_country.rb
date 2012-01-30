@@ -1,6 +1,6 @@
 class ActsAsMetaCountry < ActiveRecord::Migration
   def self.up
-    MetaKey.update_all({:object_type => "Meta::Country"}, {:label => "portrayed object country code"})    
+    MetaKey.update_all({:object_type => "MetaCountry"}, {:label => "portrayed object country code"})    
   end
 
   def self.down

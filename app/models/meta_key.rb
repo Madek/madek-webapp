@@ -14,7 +14,7 @@ class MetaKey < ActiveRecord::Base
   has_many :meta_contexts, :through => :meta_key_definitions
 
 #old#
-#  has_and_belongs_to_many :meta_terms, :class_name => "Meta::Term",  # TODO enforce object_type="Meta::Term" if meta_terms
+#  has_and_belongs_to_many :meta_terms, :class_name => "MetaTerm",  # TODO enforce object_type="Meta::Term" if meta_terms
 #                                       :join_table => :meta_keys_meta_terms,
 #                                       :association_foreign_key => :meta_term_id
   has_many :meta_key_meta_terms
@@ -25,7 +25,7 @@ class MetaKey < ActiveRecord::Base
 
   #old#precedence problem# default_scope order(:label)
   scope :with_meta_data, joins(:meta_data).group(:id)
-  scope :for_meta_terms, where(:object_type => "Meta::Term") 
+  scope :for_meta_terms, where(:object_type => "MetaTerm") 
   
 ########################################################
 
@@ -34,7 +34,7 @@ class MetaKey < ActiveRecord::Base
       self.object_type = nil
     elsif object_type_changed?
       case object_type
-        when "Meta::Term"
+        when "MetaTerm"
           self.is_extensible_list = true
           meta_data.each {|md| md.update_attributes(:value => md.value) }
         # TODO when... else
@@ -114,7 +114,7 @@ class MetaKey < ActiveRecord::Base
 
   # TODO refactor to association has_many :used_meta_terms, :through ...
   def used_term_ids
-    meta_data.collect(&:value).flatten.uniq.compact if object_type == "Meta::Term"
+    meta_data.collect(&:value).flatten.uniq.compact if object_type == "MetaTerm"
   end
 
 end

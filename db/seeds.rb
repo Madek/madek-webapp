@@ -8,5 +8,5 @@
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 
 Copyright.init
-Meta::Department.setup_ldapdata_from_localfile
-Meta::Date.parse_all
+MetaDepartment.setup_ldapdata_from_localfile
+MetaDate.parse_all

@@ -15,11 +15,11 @@ class MetaDatum < ActiveRecord::Base
   
   attr_accessor :keep_original_value
 
-  scope :for_meta_terms, joins(:meta_key).where(:meta_keys => {:object_type => "Meta::Term"})
+  scope :for_meta_terms, joins(:meta_key).where(:meta_keys => {:object_type => "MetaTerm"})
 
   before_save do
     case meta_key.object_type
-      when nil, "Meta::Country"
+      when nil, "MetaCountry"
       #working here# TODO set String for 'subject' key
       #when "String"
       #  self.value = value.split(',')
@@ -28,7 +28,7 @@ class MetaDatum < ActiveRecord::Base
         values = case klass.name # NOTE comparing directly the class doesn't work
                     when "Person"
                       klass.split(Array(value))
-                    when "Meta::Date"
+                    when "MetaDate"
                       value.to_s.split(' - ') # Needs to be a string because other objects might not have .split, which breaks
                                               # parsing the date. Mostly a safety measure, but also to make migration from 0.1.2 to 0.1.3 work.
                     else
@@ -54,14 +54,14 @@ class MetaDatum < ActiveRecord::Base
                                 #end
                                 #conditions[0] = conditions.first.join(" OR ")
                                 conditions = {DEFAULT_LANGUAGE => v}
-                                term = Meta::Term.where(conditions).first
+                                term = MetaTerm.where(conditions).first
 
                                 term ||= begin
                                   h = {}
                                   LANGUAGES.each do |lang|
                                     h[lang] = v
                                   end
-                                  Meta::Term.create(h)
+                                  MetaTerm.create(h)
                                 end
 
                                 r = Keyword.where(:meta_term_id => term, :user_id => user).first
@@ -69,7 +69,7 @@ class MetaDatum < ActiveRecord::Base
                                 # TODO delete keywords records anymore referenced by any meta_data (it could be the same keyword is referenced to a Snapshot)
                               end
                             end
-                          elsif klass == Meta::Term
+                          elsif klass == MetaTerm
                             #2603# TODO dry
                             if v.is_a?(Fixnum) or (v.respond_to?(:match) and !!v.match(/\A[+-]?\d+\Z/)) # TODO patch to String#is_numeric? method
                               # TODO check if is member of meta_key.meta_terms
@@ -79,7 +79,7 @@ class MetaDatum < ActiveRecord::Base
                               LANGUAGES.each do |lang|
                                 h[lang] = v
                               end
-                              term = Meta::Term.find_or_create_by_en_GB_and_de_CH(h)
+                              term = MetaTerm.find_or_create_by_en_GB_and_de_CH(h)
                               meta_key.meta_terms << term unless meta_key.meta_terms.include?(term)
                               r = term
                             end
@@ -90,7 +90,7 @@ class MetaDatum < ActiveRecord::Base
                           elsif klass == Person
                             firstname, lastname = klass.parse(v)
                             r = klass.find_or_create_by_firstname_and_lastname(:firstname => firstname, :lastname => lastname) if firstname or lastname
-                          elsif klass == Meta::Date
+                          elsif klass == MetaDate
                             r = klass.parse(v)
                           end
 
@@ -116,7 +116,7 @@ class MetaDatum < ActiveRecord::Base
     v = deserialized_value
     s = if v.is_a?(Array)
       case meta_key.object_type
-        when "Meta::Date"
+        when "MetaDate"
           v.join(' - ')
         else
           v.join(', ')
@@ -156,7 +156,7 @@ class MetaDatum < ActiveRecord::Base
       end
     else
       case meta_key.object_type
-        when nil, "Meta::Country"
+        when nil, "MetaCountry"
           return read_attribute(:value)
         else
           klass = meta_key.object_type.constantize
@@ -174,8 +174,8 @@ class MetaDatum < ActiveRecord::Base
         value == other_value
       when Array
         return false unless other_value.is_a?(Array)
-        if value.first.is_a?(Meta::Date)
-          other_value.first.is_a?(Meta::Date) && (other_value.first.free_text == value.first.free_text)
+        if value.first.is_a?(MetaDate)
+          other_value.first.is_a?(MetaDate) && (other_value.first.free_text == value.first.free_text)
         elsif meta_key.object_type == "Keyword"
           referenced_meta_term_ids = Keyword.where(:id => other_value).all.map(&:meta_term_id)
           deserialized_value.map(&:meta_term_id).uniq.sort.eql?(referenced_meta_term_ids.uniq.sort)

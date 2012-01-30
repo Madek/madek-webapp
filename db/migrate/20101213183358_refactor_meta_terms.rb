@@ -1,6 +1,6 @@
 class RefactorMetaTerms < ActiveRecord::Migration
   def self.up
-    MetaKey.update_all({:object_type => "Meta::Term"}, {:object_type => "Term"})
+    MetaKey.update_all({:object_type => "MetaTerm"}, {:object_type => "Term"})
     rename_table :terms, :meta_terms
     rename_table :meta_keys_terms, :meta_keys_meta_terms
     rename_column :meta_keys_meta_terms, :term_id, :meta_term_id
@@ -23,6 +23,6 @@ class RefactorMetaTerms < ActiveRecord::Migration
     rename_column :keywords, :meta_term_id, :term_id
     rename_column :meta_keys_meta_terms, :meta_term_id, :term_id
     rename_table :meta_keys_meta_terms, :meta_keys_terms
-    MetaKey.update_all({:object_type => "Term"}, {:object_type => "Meta::Term"})
+    MetaKey.update_all({:object_type => "Term"}, {:object_type => "MetaTerm"})
   end
 end

@@ -2,7 +2,7 @@ class CreateMetaDepartments < ActiveRecord::Migration
   def self.up
     key = MetaKey.where(:label => "institutional affiliation").first
     if key
-      key.update_attributes(:object_type => "Meta::Department")
+      key.update_attributes(:object_type => "MetaDepartment")
       File.open("#{Rails.root}/config/definitions/helpers/old_department_meta_data.yml", 'w') do |f|
         YAML.dump(key.meta_data, f)
       end
