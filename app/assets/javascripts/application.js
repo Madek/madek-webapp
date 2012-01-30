@@ -14,21 +14,21 @@
 //= require batch_actions
 //= require madek_ajax_upload
 //= require madek11
-//= require jquery/browser-check/browser-check
-//= require jquery/highlight/highlight
-//= require jquery/video-js/video
-//= require jquery/department-selection/department-selection
-//= require_tree ./jquery/widgets/ 
+//= require browser-check/browser-check
+//= require highlight/highlight
+//= require video-js/video
+//= require department-selection/department-selection
+//= require_tree ./widgets/ 
 //= require resources/item-box
 
 /////////// Tmpl /////////////
 //= require_tree ./tmpl/
 
 /////////// Lib /////////////
-//= require jquery/browser-detection/browser-detection
+//= require browser-detection/browser-detection
 
 /////////// Vendor /////////////
-//= require_tree ../../../vendor/assets/javascripts/jquery/.
+//= require_tree ../../../vendor/assets/javascripts/.
 //= require modernizr.min
 //= require video
 
