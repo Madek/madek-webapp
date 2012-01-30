@@ -66,6 +66,14 @@ class MetaKey < ActiveRecord::Base
 
 ########################################################
 
+  def object_class
+    klass = object_type.constantize
+    klass = Meta::Date if klass == Date # fix for "Meta::Date".constantize doesn't work in development mode
+    klass
+  end
+
+########################################################
+
 # Return a meta_key matching the provided key-map
 #
 # args: a keymap (fully namespaced)

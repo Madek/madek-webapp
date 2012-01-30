@@ -16,7 +16,7 @@ class Admin::MediaSetsController < Admin::AdminController
 
   def create
     type = params[:media_set].delete(:type)
-    set = type.constantize.create(:user => current_user)
+    set = MediaSet.create(:user => current_user)
     set.update_attributes(params[:media_set])
     redirect_to admin_media_sets_path
   end
