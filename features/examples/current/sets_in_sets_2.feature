@@ -22,6 +22,7 @@ Feature: Sets in Sets II
      And a set called "Landschaften" that has the context "Landschaftsvisualisierung"
      And a set called "Zett" that has the context "Zett"
      And a set called "Zett über Landschaften" which is child of "Landschaften" and "Zett"
+     And I am logged in as "Adam"
      And I can edit the set "Zett über Landschaften"
     When I view the set "Zett über Landschaften"
     Then I see the available contexts "Landschaftsvisualisierung" and "Zett"

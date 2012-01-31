@@ -13,9 +13,9 @@ module Persona
       context = MetaContext.send(name) || Factory(:meta_context, :name => name)
 
       title = "Landschaften"
-      media_set = Factory(:media_set, :user => user)
-      media_set.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title}}})
-      media_set.individual_contexts << context
+      media_set1 = Factory(:media_set, :user => user)
+      media_set1.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title}}})
+      media_set1.individual_contexts << context
 
 
 
@@ -24,10 +24,14 @@ module Persona
       context = MetaContext.send(name) || Factory(:meta_context, :name => name)
 
       title = "Zett"
-      media_set = Factory(:media_set, :user => user)
-      media_set.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title}}})
-      media_set.individual_contexts << context
+      media_set2 = Factory(:media_set, :user => user)
+      media_set2.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title}}})
+      media_set2.individual_contexts << context
 
+      title = "Zett über Landschaften"
+      media_set3 = Factory(:media_set, :user => user)
+      media_set3.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title}}})
+      media_set3.parent_sets << [media_set1, media_set2]
 
 
       # TODO create with meta_keys
