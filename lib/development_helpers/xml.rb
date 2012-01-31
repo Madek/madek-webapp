@@ -1,22 +1,20 @@
 module DevelopmentHelpers
   module Xml
 
+    # adhoc models for joint tables; good for now, check if doesn't create problems 
     class ::SchemaMigration < ActiveRecord::Base
     end
-
-    class MediaEntriesMediaSet < ActiveRecord::Base
+    class ::MediaEntriesMediaSet < ActiveRecord::Base
     end
-
-    class Favorite < ActiveRecord::Base
+    class ::Favorite < ActiveRecord::Base
     end
-
-    class GroupsUser < ActiveRecord::Base
+    class ::GroupsUser < ActiveRecord::Base
     end
-
-    class MediaSetsMetaContext < ActiveRecord::Base
+    class ::MediaSetsMetaContext < ActiveRecord::Base
     end
-
-    class Setting < ActiveRecord::Base
+    class ::Setting < ActiveRecord::Base
+    end
+    class ::MetaKeysMetaTerm < ActiveRecord::Base
     end
 
 
@@ -47,20 +45,19 @@ module DevelopmentHelpers
       , keywords: :Keyword \
       , full_texts: :FullText \
       , copyrights: :Copyright \
+      , meta_terms: :MetaTerm \
+      , meta_key_definitions: :MetaKeyDefinition \
+      , meta_contexts: :MetaContext \
+      , meta_keys: :MetaKey \
+      , meta_data: :MetaDatum \
+      , meta_keys_meta_terms: :MetaKeysMetaTerm \
     }
 
-#      , meta_terms: :MetaTerm \
-#      , meta_key_definitions: :MetaKeyDefinition \
-#      , meta_contexts: :MetaContext \
-#      , meta_keys: :MetaKey \
-#      , meta_data: :MetaDatum \
-#      , meta_keys_meta_terms: :MetaKeysMetaTerm \
 
-
-    def self.to_xml
+    def self.db_dump_to_xml target = $stdout
       require 'builder' unless defined? ::Builder
 
-      xml = Builder::XmlMarkup.new(:indent => 2)
+      xml = Builder::XmlMarkup.new(target: target, indent: 2)
       xml.instruct!
 
       xml.madek do
@@ -72,11 +69,11 @@ module DevelopmentHelpers
         xml.data do 
           TablesModels.each do |table_name,model|
             eval " 
-          xml.#{table_name} do |table|
-            #{model}.all.each do |instance|
-              table << instance.to_xml(skip_instruct: true).gsub(/^/, '      ')
-            end
-          end
+              xml.#{table_name} do |table|
+                #{model}.all.each do |instance|
+                  table << instance.to_xml(skip_instruct: true).gsub(/^/, '      ')
+                end
+              end
             "
           end
         end

@@ -65,6 +65,16 @@ namespace :madek do
 
   end
 
+  desc "Dump the whole database into a xml file."
+  task :dump_db_to_xml => :environment do
+    date_string = DateTime.now.to_s.gsub(":","-")
+    dump_path = "tmp/db_dump-madek_#{Rails.env}-#{date_string}.xml"
+    file = File.new(dump_path, "w")
+    puts "dumping db to #{dump_path}"
+    DevelopmentHelpers::Xml.db_dump_to_xml file
+  end
+
+
   desc "Fetch meta information from ldap and store it into db/ldap.json"
   task :fetch_ldap => :environment do
     DevelopmentHelpers.fetch_from_ldap
