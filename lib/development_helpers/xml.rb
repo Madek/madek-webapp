@@ -47,6 +47,8 @@ module DevelopmentHelpers
     }
 
 
+    
+
     def self.define_models
 
       Relations.merge(UndefinedModels).each do |table_name, model_name|
@@ -108,6 +110,9 @@ module DevelopmentHelpers
 
     class MadekXmlDoc < ::Nokogiri::XML::SAX::Document
 
+      SerializedFields = [:meta_field].to_s
+
+
       def initialize
         @state_stack = []
         @value = ""
@@ -139,6 +144,9 @@ module DevelopmentHelpers
 
       def set_property name, value
         puts "set_property #{name} (size #{value.size}) to #{value}"
+        #somehow this doesn't work
+        value = YAML.parse(value) if SerializedFields.include? name
+        puts "value: #{value}"
         @current_model.send "#{name}=", value
       end
 
