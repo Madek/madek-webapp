@@ -2,7 +2,9 @@ require 'rubygems'
 require 'spork'
 
 require 'simplecov'
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  merge_timeout 3600
+end
 
 # Code coverage tool that supports Ruby 1.9 and Rails 3
 
