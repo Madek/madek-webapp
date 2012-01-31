@@ -1,30 +1,6 @@
 module DevelopmentHelpers
   module Xml
 
-    # adhoc models for joint tables; good for now, check if doesn't create problems 
-    class ::SchemaMigration < ActiveRecord::Base
-    end
-    class ::MediaEntriesMediaSet < ActiveRecord::Base
-    end
-    class ::Favorite < ActiveRecord::Base
-    end
-    class ::GroupsUser < ActiveRecord::Base
-    end
-    class ::MediaSetsMetaContext < ActiveRecord::Base
-    end
-    class ::Setting < ActiveRecord::Base
-    end
-    class ::MetaKeysMetaTerm < ActiveRecord::Base
-    end
-
-
-    # and stuff have to patch
-     
-    class ::Copyright < ActiveRecord::Base
-      attr_accessor :lft
-      attr_accessor :rgt
-    end
-
 
     # get superlist of the following with 
     #   ActiveRecord::Base.connection.tables.each { |t| puts ", #{t}: :#{t.to_s.camelize.singularize} \\" }
@@ -65,12 +41,31 @@ module DevelopmentHelpers
       , media_sets_meta_contexts: :MediaSetsMetaContext \
     }
 
+    UndefinedModels= { \
+        schema_migrations: :SchemaMigration \
+      , meta_keys_meta_terms: :MetaKeysMetaTerm \
+    }
+
+
+    def self.define_models
+
+      Relations.merge(UndefinedModels).each do |table_name, model_name|
+          klass = Class.new ActiveRecord::Base do 
+            set_table_name table_name
+          end
+          Object.const_set model_name, klass
+      end
+
+    end
+
 
 
     ### EXPORT
 
     def self.db_export_to_xml target = $stdout
       require 'builder' unless defined? ::Builder
+      ::DevelopmentHelpers::Xml.define_models
+
 
       xml = Builder::XmlMarkup.new(target: target, indent: 2)
       xml.instruct!
@@ -78,7 +73,7 @@ module DevelopmentHelpers
       xml.madek do
 
         xml.meta do |meta|
-            meta << SchemaMigration.order("VERSION DESC").limit(1).to_xml(skip_instruct: true).gsub(/^/, '      ')
+            meta << SchemaMigration.order("VERSION DESC").limit(1).to_xml(skip_instruct: true)
         end
 
         xml.data do 
@@ -86,7 +81,7 @@ module DevelopmentHelpers
             eval " 
               xml.#{table_name} do |table|
                 #{model}.all.each do |instance|
-                  table << instance.to_xml(skip_instruct: true).gsub(/^/, '      ')
+                  table << instance.to_xml(skip_instruct: true)
                 end
               end
             "
@@ -98,7 +93,7 @@ module DevelopmentHelpers
             eval " 
               xml.#{table_name} do |table|
                 #{model}.all.each do |instance|
-                  table << instance.to_xml(skip_instruct: true).gsub(/^/, '      ')
+                  table << instance.to_xml(skip_instruct: true)
                 end
               end
             "
@@ -117,6 +112,10 @@ module DevelopmentHelpers
         @state_stack = []
         @value = ""
         @current_model = nil
+
+        Copyright.send :attr_accessor, :lft
+        Copyright.send :attr_accessor, :rgt
+
       end
 
       def skip_all_callbacks(klass)
