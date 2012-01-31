@@ -10,7 +10,11 @@ module Persona
       
       # TODO create with meta_keys
       name = "Landschaftsvisualisierung"
-      context = MetaContext.send(name) || Factory(:meta_context, :name => name)
+      context = if MetaContext.exists?(:name => name)
+        MetaContext.send(name)
+      else
+        Factory(:meta_context, :name => name)
+      end
 
       title = "Landschaften"
       media_set1 = Factory(:media_set, :user => user)
@@ -21,7 +25,11 @@ module Persona
 
       # TODO create with meta_keys
       name = "Zett"
-      context = MetaContext.send(name) || Factory(:meta_context, :name => name)
+      context = if MetaContext.exists?(:name => name)
+        MetaContext.send(name)
+      else
+        Factory(:meta_context, :name => name)
+      end
 
       title = "Zett"
       media_set2 = Factory(:media_set, :user => user)
@@ -36,7 +44,11 @@ module Persona
 
       # TODO create with meta_keys
       name = "Games"
-      context = Factory(:meta_context, :name => name) unless MetaContext.exists?(:name => name)
+      context = if MetaContext.exists?(:name => name)
+        MetaContext.send(name)
+      else
+        Factory(:meta_context, :name => name)
+      end
 
 
     end

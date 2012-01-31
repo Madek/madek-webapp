@@ -8,6 +8,7 @@ module PersonaFactory
       if Persona.get(persona).blank?
         require Rails.root+"features/data/persona/#{persona.downcase}.rb"
         Persona.const_get(persona.camelize).new
+        puts "#{persona} was created"
       else
         puts "#{persona} was already created"
       end
