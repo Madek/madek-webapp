@@ -18,6 +18,14 @@ module DevelopmentHelpers
     end
 
 
+    # and stuff have to patch
+     
+    class ::Copyright < ActiveRecord::Base
+      attr_accessor :lft
+      attr_accessor :rgt
+    end
+
+
     # get superlist of the following with 
     #   ActiveRecord::Base.connection.tables.each { |t| puts ", #{t}: :#{t.to_s.camelize.singularize} \\" }
     # now, filter and oder appropriately
@@ -111,8 +119,35 @@ module DevelopmentHelpers
         @current_model = nil
       end
 
+      def skip_all_callbacks(klass)
+        [:validation, :save, :create, :commit].each do |name|
+          klass.send("_#{name}_callbacks").each do |_callback|
+            # HACK - the oracle_enhanced_adapter write LOBs through an after_save callback (:enhanced_write_lobs)
+            if (_callback.filter != :enhanced_write_lobs)
+              klass.skip_callback(name, _callback.kind, _callback.filter)
+            end
+          end
+        end
+      end
+
       def new_model table_name, model_name
-        puts "setting current_model to new instance of #{table_name.singularize.camelize}"
+        model = Module.const_get table_name.singularize.camelize
+        skip_all_callbacks model
+        puts "\n\n\n################################################"
+        puts "setting current_model to new instance of #{model}"
+        @current_model = model.new
+      end
+
+      def set_property name, value
+        puts "set_property #{name} (size #{value.size}) to #{value}"
+        @current_model.send "#{name}=", value
+      end
+
+      def save_current_model
+        puts "saving #{@current_model.class} "
+        @current_model.save!(validate: false)
+        puts "saved #{@current_model.class} #{@current_model.id}"
+        @current_model=nil
       end
 
       def start_element name, attrs = []
@@ -135,14 +170,10 @@ module DevelopmentHelpers
 
       def end_element name
         if @state_stack.size == 4 and @state_stack[1] == "data"
-          puts; puts
+          save_current_model 
         elsif @state_stack.size == 5 and @state_stack[1] == "data"
-          _,_,table_name,model_name = @state_stack 
-          puts "end of proverty value STATE #{@state_stack}"
-          puts "---- end of element ----"
-          puts @value
-          puts "---- end of element ----"
-          puts 
+          _,_,table_name,model_name,property_name= @state_stack 
+          set_property property_name.gsub("-","_"), @value
         end
         @state_stack.pop
       end
@@ -152,8 +183,11 @@ module DevelopmentHelpers
 
 
     def self.db_import_from_xml source 
-      parser = Nokogiri::XML::SAX::Parser.new(MadekXmlDoc.new)
-      parser.parse(source)
+      ActiveRecord::Base.transaction do
+        parser = Nokogiri::XML::SAX::Parser.new(MadekXmlDoc.new)
+        parser.parse(source)
+        raise "don't import just yet"
+      end
     end
 
   end
