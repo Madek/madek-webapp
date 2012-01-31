@@ -1,7 +1,10 @@
 Feature: Sets in Sets II
 
+  Background: Load the example data and personas
+    Given personas are loaded
+
   # https://www.pivotaltracker.com/story/show/23825307
-  @commited @wip
+  @committed @wip
   Scenario: Preview of content and relationships of a set in the grid view
     Given a few sets and entries
      When I view a grid of these sets
@@ -12,10 +15,10 @@ Feature: Sets in Sets II
       And I see how many sets that that are viewable for me are parents of this set
 
   # https://www.pivotaltracker.com/story/show/22394303
-  @commited
+  @committed
   Scenario: Choosing which contexts are valid for a set
-   Given a context called "Landschaftsvisualisierung"
-     And a context called "Zett"
+   Given a context called "Landschaftsvisualisierung" exists
+     And a context called "Zett" exists
      And a set called "Landschaften" that has the context "Landschaftsvisualisierung"
      And a set called "Zett" that has the context "Zett"
      And a set called "Zett über Landschaften" which is child of "Landschaften" and "Zett"
@@ -30,7 +33,7 @@ Feature: Sets in Sets II
      And the set still has its other contexts as well
 
   # https://www.pivotaltracker.com/story/show/22464659
-  @commited @wip
+  @committed @wip
   Scenario: Viewing which contexts a set could have
    Given a context called "Landschaftsvisualisierung" exists
      And a context called "Zett" exists
@@ -44,7 +47,7 @@ Feature: Sets in Sets II
      And I can choose to see more details about the context "Games"
 
   # https://www.pivotaltracker.com/story/show/23825857
-  @glossary @commited
+  @glossary @committed
   Scenario: Top-level set
     Given a few sets
      When a set has no parents

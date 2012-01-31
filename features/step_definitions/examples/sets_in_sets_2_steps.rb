@@ -24,3 +24,12 @@ end
 
 Then /^I see how many sets that that are viewable for me are parents of this set$/ do
 end
+
+
+Given /^a set called "([^"]*)" that has the context "([^"]*)"$/ do |set_title, context_name|
+  @set = MediaSet.find_by_title(set_title)
+  @set.title.should == set_title
+
+  @context = MetaContext.send(context_name)
+  @set.individual_contexts.include?(@context).should == true 
+end

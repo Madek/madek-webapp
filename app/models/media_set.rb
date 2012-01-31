@@ -32,6 +32,13 @@ class MediaSet < MediaResource
     records.compact
   end
 
+  # FIXME this only fetches the first set with that title,
+  # but there could be many sets with the same title 
+  def self.find_by_title(title)
+    MediaSet.joins(:meta_data => :meta_key).
+      where(:meta_data => {:meta_keys => {:label => "title"}, :value => title.to_yaml}).first
+  end
+
 ########################################################
 
   has_and_belongs_to_many :individual_contexts, :class_name => "MetaContext",
