@@ -58,6 +58,14 @@ FactoryGirl.define do
   factory :meta_context do
     name {Faker::Lorem.words.join("_")}
     is_user_interface true
+
+    meta_field {
+      h = {:label => {}}
+      LANGUAGES.each do |lang|
+        h[:label][lang] = name
+      end
+      h
+    }
   end
 
   ### Media ....

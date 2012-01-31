@@ -34,8 +34,7 @@ Then /^I can open them$/ do
   end
 end
 
-Given /^a context$/ do
-  name = "Landschaftsvisualisierung"
+Given /^a context called "(.*)" exists$/ do |name|
   @context = MetaContext.send(name)
   @context.should_not be_nil
   @context.name.should == name

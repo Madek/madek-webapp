@@ -32,9 +32,9 @@ Feature: Sets in Sets II
   # https://www.pivotaltracker.com/story/show/22464659
   @commited @wip
   Scenario: Viewing which contexts a set could have
-   Given a context called "Landschaftsvisualisierung"
-     And a context called "Zett"
-     And a context called "Games"
+   Given a context called "Landschaftsvisualisierung" exists
+     And a context called "Zett" exists
+     And a context called "Games" exists
      And a set called "Landschaften" that has the context "Landschaftsvisualisierung"
      And a set called "Zett" that has the context "Zett"
      And a set called "Zett über Landschaften" which is child of "Landschaften" and "Zett"
