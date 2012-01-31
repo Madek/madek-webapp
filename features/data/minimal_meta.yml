@@ -41,12 +41,12 @@
   is_dynamic: 
   is_extensible_list: 
   id: 7
-  object_type: Meta::Department
+  object_type: MetaDepartment
 - label: portrayed object dates
   is_dynamic: 
   is_extensible_list: 
   id: 8
-  object_type: Meta::Date
+  object_type: MetaDate
 - label: keywords
   is_dynamic: 
   is_extensible_list: 
@@ -81,7 +81,7 @@
   is_dynamic: 
   is_extensible_list: 
   id: 15
-  object_type: Meta::Country
+  object_type: MetaCountry
 - label: portrayed person
   is_dynamic: 
   is_extensible_list: 
@@ -133,7 +133,7 @@
   - 341
   is_extensible_list: false
   id: 22
-  object_type: Meta::Term
+  object_type: MetaTerm
 - label: project leader
   is_dynamic: 
   is_extensible_list: 
@@ -151,7 +151,7 @@
   - 91
   is_extensible_list: false
   id: 24
-  object_type: Meta::Term
+  object_type: MetaTerm
 - label: description
   is_dynamic: 
   is_extensible_list: 
@@ -196,7 +196,7 @@
   - 83
   is_extensible_list: false
   id: 31
-  object_type: Meta::Term
+  object_type: MetaTerm
 - label: scene
   is_dynamic: 
   is_extensible_list: 
@@ -366,7 +366,7 @@
   is_dynamic: 
   is_extensible_list: 
   id: 65
-  object_type: Meta::Date
+  object_type: MetaDate
 - label: transmission reference
   is_dynamic: 
   is_extensible_list: 
@@ -456,7 +456,7 @@
   - 1243
   is_extensible_list: true
   id: 81
-  object_type: Meta::Term
+  object_type: MetaTerm
 - label: LV_Verwendungszweck
   is_dynamic: 
   meta_terms: 
@@ -475,7 +475,7 @@
   - 1115
   is_extensible_list: true
   id: 83
-  object_type: Meta::Term
+  object_type: MetaTerm
 - label: LV_Bildwirkung
   is_dynamic: 
   is_extensible_list: 
@@ -498,7 +498,7 @@
   - 1197
   is_extensible_list: false
   id: 87
-  object_type: Meta::Term
+  object_type: MetaTerm
 - label: LV_Farbe
   is_dynamic: 
   is_extensible_list: 
@@ -527,7 +527,7 @@
   - 1159
   is_extensible_list: true
   id: 93
-  object_type: Meta::Term
+  object_type: MetaTerm
 - label: LV_Horizontlinie
   is_dynamic: 
   meta_terms: 
@@ -537,7 +537,7 @@
   - 1199
   is_extensible_list: false
   id: 95
-  object_type: Meta::Term
+  object_type: MetaTerm
 - label: "LV_Ra\xCC\x88umliche Wahrnehmung"
   is_dynamic: 
   meta_terms: 
@@ -550,7 +550,7 @@
   - 1201
   is_extensible_list: false
   id: 97
-  object_type: Meta::Term
+  object_type: MetaTerm
 - label: LV_Abstraktionsgrad
   is_dynamic: 
   meta_terms: 
@@ -562,7 +562,7 @@
   - 1031
   is_extensible_list: false
   id: 99
-  object_type: Meta::Term
+  object_type: MetaTerm
 :meta_contexts: 
 - name: core
   meta_field: 

@@ -1,4 +1,4 @@
-class MetaDate # TODO rename to Meta::DateTime ??
+class MetaDate # TODO rename to MetaDateTime ??
   
   attr_accessor :timestamp, #old# :parsed # TODO enforce to DateTime ??
                 :timezone,

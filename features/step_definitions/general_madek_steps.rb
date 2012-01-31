@@ -206,7 +206,7 @@ When "I fill in the metadata form as follows:" do |table|
           puts "Unknown MetaTerm interface element when trying to set '#{text}'"
         end
       elsif list[:class] == "MetaDepartment"
-        puts "Sorry, can't set MetaDepartment to '#{text}', the Meta::Department widget is too hard to test right now."
+        puts "Sorry, can't set MetaDepartment to '#{text}', the MetaDepartment widget is too hard to test right now."
 
         #select_from_multiselect_widget(list, hash['value'])
       else

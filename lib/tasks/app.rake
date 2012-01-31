@@ -3,7 +3,7 @@ require 'metahelper'
 def minimal_export
     #####################################################
     puts "Exporting meta_terms..."
-    meta_terms = Meta::Term.all.as_json
+    meta_terms = MetaTerm.all.as_json
 
     #####################################################
     puts "Exporting meta_keys..."

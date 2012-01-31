@@ -14,7 +14,7 @@ class MetaKey < ActiveRecord::Base
   has_many :meta_contexts, :through => :meta_key_definitions
 
 #old#
-#  has_and_belongs_to_many :meta_terms, :class_name => "MetaTerm",  # TODO enforce object_type="Meta::Term" if meta_terms
+#  has_and_belongs_to_many :meta_terms, :class_name => "MetaTerm",  # TODO enforce object_type="MetaTerm" if meta_terms
 #                                       :join_table => :meta_keys_meta_terms,
 #                                       :association_foreign_key => :meta_term_id
   has_many :meta_key_meta_terms

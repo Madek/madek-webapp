@@ -16,7 +16,7 @@ module MetaHelper
 
           # OPTIMIZE
           case meta_datum.meta_key.object_type
-          when "MetaTerm", "Meta::Date" 
+          when "MetaTerm", "MetaDate" 
             if meta_datum.value.empty?
               meta_datum.destroy
               next
