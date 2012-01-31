@@ -70,6 +70,8 @@ gem 'RedCloth'
 
 gem 'newrelic_rpm', '~> 3.3'
 
+gem 'nokogiri'
+
 group :test, :development do
   gem "growl", "~> 1.0.3"
   gem "guard", "~> 0.10.0"

@@ -355,6 +355,7 @@ DEPENDENCIES
   nested_set (~> 1.6.8)
   net-ldap
   newrelic_rpm (~> 3.3)
+  nokogiri
   pg
   pry
   railroady

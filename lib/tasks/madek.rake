@@ -65,13 +65,13 @@ namespace :madek do
 
   end
 
-  desc "Dump the whole database into a xml file."
-  task :dump_db_to_xml => :environment do
+  desc "Export the whole database into a xml file."
+  task :db_export_to_xml => :environment do
     date_string = DateTime.now.to_s.gsub(":","-")
-    dump_path = "tmp/db_dump-madek_#{Rails.env}-#{date_string}.xml"
+    dump_path = "tmp/db_export-madek_#{Rails.env}-#{date_string}.xml"
     file = File.new(dump_path, "w")
-    puts "dumping db to #{dump_path}"
-    DevelopmentHelpers::Xml.db_dump_to_xml file
+    puts "exporting db to #{dump_path}"
+    DevelopmentHelpers::Xml.db_export_to_xml file
   end
 
 
