@@ -1,6 +1,11 @@
 require 'rubygems'
 require 'spork'
 
+require 'simplecov'
+SimpleCov.start 'rails' do
+  merge_timeout 3600
+end
+
 Spork.prefork do
   # Loading more in this block will cause your tests to run faster. However, 
   # if you change any configuration or code from libraries loaded here, you'll
