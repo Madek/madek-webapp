@@ -51,6 +51,7 @@ class MediaEntry < MediaResource
     options ||= {}
     json = super(options)
     
+    # TODO shouldnt be set per default
     json[:is_set] = false
     json[:can_maybe_browse] = !meta_data.for_meta_terms.blank?
     

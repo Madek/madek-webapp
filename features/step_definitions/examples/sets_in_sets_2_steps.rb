@@ -2,8 +2,8 @@
 
 Given /^a few sets and entries$/ do
   # sets and entries are there thanks to the example data!
-  assert MediaSet.count > 0
-  assert MediaEntry.count > 0
+  #assert MediaSet.count > 0
+  #assert MediaEntry.count > 0
 end
 
 Given /^a few sets$/ do

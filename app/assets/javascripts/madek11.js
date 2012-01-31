@@ -1,7 +1,6 @@
 jQuery.ajaxSetup({
-	data: {'format':'js'}
+  data: {'format':'js'}
 });
-
 $(document).ready(function () { 
 	
 	$(document).ajaxStart(function(){ $("body").css('cursor', 'progress'); });

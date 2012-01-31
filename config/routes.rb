@@ -46,7 +46,7 @@ MAdeK::Application.routes.draw do
 ###############################################
 #NOTE first media_entries and then media_sets
 
-  resources :media_entries, :except => :index do
+  resources :media_entries do
     collection do
       #temp# get :graph
       get :keywords

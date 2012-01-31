@@ -15,9 +15,7 @@ class MediaSetsController < ApplicationController
   #
   # @argument [with] hash Options forwarded to the results which will be inside of the respond 
   # 
-  # @argument [children] array An array with child objects {:id, :type} which shall be used for scoping the media sets
-  #
-  # @argument [user] hash An object {:id} which shall be used for scoping the media sets for a specific user
+  # @argument [child_ids] array An array with child ids which shall be used for scoping the media sets
   #
   # @example_request
   #   {"accessible_action": "edit", "with": {"set": {"media_entries": 1}}}
@@ -38,8 +36,7 @@ class MediaSetsController < ApplicationController
   #   to include their media_entries forwarding the options. When "media_entries" is just setted to 1, then 
   #   they are include but without forwarding any options.
   # @request_field [Integer] with.set.title When this hash of options is setted, provide the set title in the results
-  # @request_field [Hash] child A child object which shall be used for scoping the media sets
-  # @request_field [Hash] user A user object which shall be used for scoping the media sets for a specific user
+  # @request_field [Array] child_ids A list of childs which shall be used for scoping the result of media sets
   #
   # @example_response
   #   [{"id":422, "media_entries": [{"id":2}, {"id":3}]}, {"id":423, "media_entries": [{"id":1}, {"id":4}]}]

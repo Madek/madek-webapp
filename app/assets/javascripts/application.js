@@ -20,6 +20,7 @@
 //= require department-selection/department-selection
 //= require_tree ./widgets/ 
 //= require resources/item-box
+//= require mediaset-popup/mediaset-popup
 
 /////////// Tmpl /////////////
 //= require_tree ./tmpl/

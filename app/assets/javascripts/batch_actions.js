@@ -38,12 +38,15 @@ $(document).ready(function () {
     $(".item_box:not(.tmp)").live({
       mouseenter: function() {
         $(this).find('.actions').show();
-		$(this).stop(true, true).delay(400).animate({ backgroundColor: "#f1f1f1" }, 500);
+        if(!$(this).hasClass("popup")) {
+          $(this).css("background-color", "#f1f1f1");
+        }
        },
       mouseleave: function() {
         $(this).find('.actions').hide();
-		// only remove bg color if not selected in batch context
-		if (!($(this).hasClass('selected'))) $(this).stop(true, false).animate({ backgroundColor: "white" }, 1000);
+		    if(!$(this).hasClass('selected') && !$(this).hasClass("popup")) {
+		      $(this).css("background-color", "white");
+		    } 
        }
      });
 
