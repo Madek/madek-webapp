@@ -1,4 +1,36 @@
 # coding: UTF-8
+
+# Persona:  Normin
+# Job:      Student
+# Age:      21
+#
+#
+# == Responsibilities
+# 
+# * Turning in work results during his studies.
+# * Working on art or design.
+#
+# == Biography
+#
+# Normin has been studying Fine Arts at the Zürich University the of the Arts 
+# one year. He has completed several courses on the way to his diploma.
+#
+# He is extraordinarily lazy and will not work with any of the university's
+# systems unless forced to do so by a lecturer. 
+# 
+# == Goals
+#
+# 1. Spend as little time as possible uploading things to university systems.
+# 2. Entering only the vaguest metadata required to finish a hand-in of
+#    his university projects.
+# 
+# == Frustrations
+#
+# 1. Forgetting his username/password when trying to log in to university
+#    systems.
+# 2. Not finding the right place in the system to submit his work to.
+
+
 module Persona
   class Normin
     def initialize
