@@ -87,14 +87,35 @@ class MediaSetsController < ApplicationController
     end
   end
 
-  # API #
-  # get nested media_entries:
-  # GET "/media_sets/:id.js"
+  ##
+  # Get a specific media set
+  # 
+  # @url [GET] /media_sets/:id?[arguments]
+  # 
+  # @argument [id] integer The id of the specific media_set 
+  # 
+  # @argument [with] hash Options forwarded to the results which will be inside of the respond 
+  # 
+  # @example_request
+  #   {"id": 34, "with": {"set": {"media_entries": 1}}}
+  #
+  # @request_field [Integer] id The id of the requested media_set
+  # @request_field [Hash] with Options forwarded to the results which will be inside of the respond
+  # @request_field [Hash] with.set Options forwarded to all resulting models from type set
+  # @request_field [Hash] with.set.media_entries When this hash of options is setted, it forces all result sets
+  #   to include their media_entries forwarding the options. When "media_entries" is just setted to 1, then 
+  #   they are include but without forwarding any options.
+  #
+  # @example_response
+  #   [{"id":422, "media_entries": [{"id":2}, {"id":3}]}, {"id":423, "media_entries": [{"id":1}, {"id":4}]}]
+  #
+  # @response_field [Integer] id The id of a set 
+  # @response_field [Hash] media_entries Media entries of the set
+  # @response_field [Integer] media_entries[].id The id of a media entry
+  #
   def show( options_for_media_entries = params[:options_for_media_entries],
             thumb = params[:thumb])
-            
     params[:per_page] ||= PER_PAGE.first
-
     paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
     resources = MediaResource.accessible_by_user(current_user).order("media_resources.updated_at DESC").by_media_set(@media_set).paginate(paginate_options)
     
@@ -110,8 +131,8 @@ class MediaSetsController < ApplicationController
                                             :total_pages => resources.total_pages },
                            :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
       }
+      
       format.js {
-        
         # OPTIMIZE this is a quick-fix for the inview-pagination
         if params[:page]
           with_thumb = true
@@ -120,15 +141,16 @@ class MediaSetsController < ApplicationController
                                     :total_entries => resources.total_entries,
                                     :total_pages => resources.total_pages },
                    :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
-        else
-          #FE# render :json => @media_set.as_json(:user => current_user)
-          json = {:id => @media_set.id, :title => @media_set.title}
-          if options_for_media_entries and options_for_media_entries.is_a? Hash
-            options_for_media_entries.reverse_merge!(:only => :id, :methods => :title, :user => current_user)
-            json.merge!(:entries => resources.as_json(options_for_media_entries))
-          end
         end
-        
+        render :json => json
+      }
+      
+      format.json {
+        json = {:id => @media_set.id, :title => @media_set.title}
+        if options_for_media_entries and options_for_media_entries.is_a? Hash
+          options_for_media_entries.reverse_merge!(:only => :id, :methods => :title, :user => current_user)
+          json.merge!(:entries => resources.as_json(options_for_media_entries))
+        end
         render :json => json
       }
     end
