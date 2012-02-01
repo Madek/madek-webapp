@@ -1,0 +1,60 @@
+@import "../mixins.scss";
+
+.set_popup {
+  
+  .popup {
+    background: #f1f1f1;
+  }
+  
+  .background {
+    background: #f1f1f1;
+    border: 2px solid #f1f1f1;
+    @include box-shadow(0 0 9px rgba(0, 0, 0, 0.3));  
+  }
+  
+  .arrow {
+    &.white polygon { fill: white; } 
+    &.grey polygon { fill: #f1f1f1; } 
+  }
+  
+  .parent_sets {
+    background: white;
+    display: block;
+    height: 135px;
+    top: 0;
+    position: absolute;
+    width: 100%;    
+    
+    .arrow {
+      bottom: -2px;
+      height: 23px;
+      left: 87px;
+      position: absolute;
+      width: 25px;
+    }
+  }
+  
+  .child_entries {
+    background: white;
+    bottom: 0;
+    display: block;
+    height: 275px;
+    position: absolute;
+    width: 100%;
+    
+    .bar {
+      background: #f1f1f1;
+      height: 23px;
+      display: block;
+      width: 100%;
+      
+      .arrow {
+        top: 2px;
+        height: 23px;
+        left: 87px;
+        position: absolute;
+        width: 25px;
+      }
+    }
+  }
+}
