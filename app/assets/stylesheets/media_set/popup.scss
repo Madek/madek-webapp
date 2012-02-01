@@ -13,6 +13,11 @@
   }
   
   .arrow {
+    height: 23px;
+    left: 80px;
+    margin: 0 auto;
+    position: absolute;
+    width: 40px;
     &.white polygon { fill: white; } 
     &.grey polygon { fill: #f1f1f1; } 
   }
@@ -26,11 +31,7 @@
     width: 100%;    
     
     .arrow {
-      bottom: -2px;
-      height: 23px;
-      left: 87px;
-      position: absolute;
-      width: 25px;
+      bottom: -3px;
     }
   }
   
@@ -49,11 +50,7 @@
       width: 100%;
       
       .arrow {
-        top: 2px;
-        height: 23px;
-        left: 87px;
-        position: absolute;
-        width: 25px;
+        top: 3px;
       }
     }
   }
