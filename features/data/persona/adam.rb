@@ -4,7 +4,8 @@ module Persona
     def initialize
       name = "Adam"
       person = Factory(:person, :firstname => name)
-      user = Factory(:user, :person => person, :login => name)
+      crypted_password = Digest::SHA1.hexdigest("password")
+      user = Factory(:user, :person => person, :login => name, :password => crypted_password)
 
       # TODO is it correct that the admin creates all these contexts?
       
