@@ -18,10 +18,13 @@ $.extend $.fn,
       regexp = new RegExp("\(\^\|\\s\)\("+sorted_terms.join("\|")+"\)", "gi")
       matches = $(this).html().match(regexp)
       if matches?
+        # make the matches unique
+        matches = matches.unique()
+        console.log matches
         sorted_matches = matches.sort (a,b) -> b.length - a.length
         $(sorted_matches).each (i, match) ->
           if (match != "")
-            match_reg_exp = new RegExp(match, "gi")
+            match_reg_exp = new RegExp(match, "g")
             new_html = $(element).html().replace(match_reg_exp, "<span class='highlighted'>"+match+"</span>")
             $(element).html(new_html)
 
@@ -31,4 +34,8 @@ $.extend $.fn,
         content = $(element).html().replace(/<span class='highlighted'>/g,"").replace(/<\/span>/g,"")
         $(element).before(content)
         $(element).remove()
-         
+ 
+Array::unique = ->
+  output = {}
+  output[@[key]] = @[key] for key in [0...@length]
+  value for key, value of output
