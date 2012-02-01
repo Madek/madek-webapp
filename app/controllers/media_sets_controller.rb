@@ -18,16 +18,16 @@ class MediaSetsController < ApplicationController
   # @argument [child_ids] array An array with child ids which shall be used for scoping the media sets
   #
   # @example_request
-  #   {"accessible_action": "edit", "with": {"set": {"media_entries": 1}}}
+  #   {"accessible_action": "edit", "with": {"media_set": {"media_entries": 1}}}
   #
   # @example_request
   #   {"accessible_action": "edit", "child_ids": [1]}
   #
   # @example_request
-  #   {"accessible_action": "edit", "child_ids": [1,2], "with": {"set": {"media_entries": 1, "child_sets": 1}}
+  #   {"accessible_action": "edit", "child_ids": [1,2], "with": {"media_set": {"media_entries": 1, "child_sets": 1}}
   #
   # @example_request
-  #   {"accessible_action": "edit", "with": {"set": {"creator": 1, "created_at": 1, "title": 1}}}
+  #   {"accessible_action": "edit", "with": {"media_set": {"creator": 1, "created_at": 1, "title": 1}}}
   #
   # @request_field [String] accessible_action The accessible action the user can perform on a set
   # @request_field [Hash] with Options forwarded to the results which will be inside of the respond
@@ -97,7 +97,7 @@ class MediaSetsController < ApplicationController
   # @argument [with] hash Options forwarded to the results which will be inside of the respond 
   # 
   # @example_request
-  #   {"id": 34, "with": {"set": {"media_entries": 1}}}
+  #   {"id": 34, "with": {"media_set": {"media_entries": 1}}}
   #
   # @request_field [Integer] id The id of the requested media_set
   # @request_field [Hash] with Options forwarded to the results which will be inside of the respond
@@ -113,8 +113,7 @@ class MediaSetsController < ApplicationController
   # @response_field [Hash] media_entries Media entries of the set
   # @response_field [Integer] media_entries[].id The id of a media entry
   #
-  def show( options_for_media_entries = params[:options_for_media_entries],
-            thumb = params[:thumb])
+  def show(thumb = params[:thumb], with = params[:with])
     params[:per_page] ||= PER_PAGE.first
     paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
     resources = MediaResource.accessible_by_user(current_user).order("media_resources.updated_at DESC").by_media_set(@media_set).paginate(paginate_options)
@@ -146,12 +145,7 @@ class MediaSetsController < ApplicationController
       }
       
       format.json {
-        json = {:id => @media_set.id, :title => @media_set.title}
-        if options_for_media_entries and options_for_media_entries.is_a? Hash
-          options_for_media_entries.reverse_merge!(:only => :id, :methods => :title, :user => current_user)
-          json.merge!(:entries => resources.as_json(options_for_media_entries))
-        end
-        render :json => json
+        render :json => @media_set.as_json(:with => with, :current_user =>current_user)
       }
     end
   end
@@ -342,7 +336,7 @@ class MediaSetsController < ApplicationController
       }
     end
   end
-
+  
 #####################################################
 
   private

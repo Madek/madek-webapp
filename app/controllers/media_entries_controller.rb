@@ -22,15 +22,13 @@ class MediaEntriesController < ApplicationController
   #   {"parent_ids": [1,5,7], "with": {"media_resource": {"image": {"as": "base64", "size": "small"}}}}
   #
   # @example_request
-  #   {"parent_ids": [1,5,7], "with": {"media_resource": {"image": {"as": "url", "size": "medium"}}}}
-  #
-  # @example_request
-  #   {"accessible_action": "edit"}
+  #   {"parent_ids": [1,5,7], "with": {"media_resource": {"image": {"size": "medium"}}}}
   #
   # @request_field [String] accessible_action The accessible action the user can perform on a set
   # @request_field [Hash] with Options forwarded to the results which will be inside of the respond
   # @request_field [Hash] with.media_resources Options forwarded to the results of media_resources
   # @request_field [Hash] with.media_resources.image Options requesting an image for the returning media_resources
+  # @request_field [Hash] with.media_resources.image.as Request a format of the returning image object (default is a url to the image)  
   # @request_field [Hash] with Options forwarded to the results which will be inside of the respond
   # @request_field [Hash] with Options forwarded to the results which will be inside of the respond
   # @request_field [Hash] parent_ids A list of parent ids which shall be used for scoping the requested media entries
@@ -48,7 +46,7 @@ class MediaEntriesController < ApplicationController
     
     respond_to do |format|
       
-      format.js {
+      format.json {
                 
         entries = unless parent_ids.blank?
           MediaSet.where(:id => parent_ids).flat_map do |parent|
@@ -57,7 +55,7 @@ class MediaEntriesController < ApplicationController
         else
           MediaEntry.accessible_by_user(current_user, accessible_action.to_sym)
         end
-
+        
         render :json => entries.as_json(:with => with, :with_thumb => false) # TODO drop with_thum merge with with
       }
     end

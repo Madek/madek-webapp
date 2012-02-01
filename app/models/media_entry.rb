@@ -60,6 +60,25 @@ class MediaEntry < MediaResource
         if with[:media_entry].has_key?(:author) and (with[:media_entry][:author].is_a?(Hash) or not with[:media_entry][:author].to_i.zero?)
           json[:author] = meta_data.find_by_meta_key_id MetaKey.find_by_label("author")
         end
+        if with[:media_entry].has_key?(:image) and (with[:media_entry][:image].is_a?(Hash) or not with[:media_entry][:image].to_i.zero?)
+          
+          size = if with[:media_entry][:image].is_a?(Hash) and with[:media_entry][:image].has_key?(:size)
+              with[:media_entry][:image][:size]
+            else
+              :small
+          end
+          
+          json[:image] = if with[:media_entry][:image].is_a?(Hash) and with[:media_entry][:image].has_key?(:as)
+              case with[:media_entry][:image][:as]
+                when "base64"
+                  self.media_file.thumb_base64(size)
+                else # default return is a url to the image
+                  "/resources/%d/image?size=%s" % [id, size]
+              end
+            else
+              "/resources/%d/image?size=%s" % [id, size]
+          end            
+        end
       end
     end
     

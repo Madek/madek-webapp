@@ -212,14 +212,12 @@
         var set_id = "<%= AppSettings.splashscreen_slideshow_set_id %>";
         if(set_id.length) {
           $.ajax("/media_sets/"+set_id, {
-            data: {options_for_media_entries: {show: true},
-                  with:{media_entries:{author:1}},
-                  format: "json"},
+            data: {with:{media_set:{media_entries:{author:1, image:{size:"large"}}}},
+                   format: "json"},
             dataType: "json",
             beforeSend: function(request, settings){
             },
             success: function(data, status, request) {
-              console.log("SUCCESS");
               window.setTimeout(function(){
                 $("#slider").fadeOut(1000, function(){
                   // setup splashscreen images
@@ -228,6 +226,7 @@
                   var caption_clone = $("#slider-wrapper #htmlcaption1").clone();
                   $("#slider-wrapper #htmlcaption1").remove();
                   
+                  console.log(data);
                   randomElements = data.entries.sort(function(){ 
                     return Math.round(Math.random())-0.5
                   }).slice(0,5)

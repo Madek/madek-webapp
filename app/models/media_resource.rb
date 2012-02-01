@@ -258,7 +258,29 @@ class MediaResource < ActiveRecord::Base
     default_options = {:only => :id}
     json = super(default_options.deep_merge(options))
     
-    # add relationships for a given parent
+    if(with = options[:with])
+      if(with[:media_resource])
+        if with[:media_resource].has_key?(:image) and (with[:media_resource][:image].is_a?(Hash) or not with[:media_resource][:image].to_i.zero?)
+          size = with[:media_resource][:image][:size] || :small
+          
+          json[:image] = case with[:media_resource][:image][:as]
+            when "base64"
+              mf = if self.is_a?(MediaSet)
+                media_entries.accessible_by_user(options[:current_user]).order("media_resources.updated_at DESC").first.try(:media_file)
+              else
+                self.media_file
+              end
+              mf ? mf.thumb_base64(size) : nil
+            else # default return is a url to the image
+              "/resources/%d/image?size=%s" % [id, size]
+          end            
+        end
+        
+        if with[:media_resource].has_key?(:type) and (with[:media_resource][:type].is_a?(Hash) or not with[:media_resource][:type].to_i.zero?)
+          json[:type] = type.underscore
+        end
+      end
+    end
     
     json.merge(more_json)
   end
