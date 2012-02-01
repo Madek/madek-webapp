@@ -33,16 +33,28 @@ load_data = (target)->
   console.log "LOAD DATA"
   console.log $(target)
   $.ajax {
-    url: "/media_entries"
+    url: "/media_sets/"+target.tmplItem().data.id
     beforeSend: (request, settings) ->
       #before
     success: (data, status, request) ->
       console.log "SUCCESS LOADING"
+      setup_childs(data)
     error: (request, status, error) ->
       console.log "ERROR LOADING"
-    data: {parent_ids: [target.tmplItem().data.id]}
+    data:
+      format: "json"
+      with: 
+        media_set:
+          media_resources:
+            type: 1
+            image:
+              as:"base64"
+              size:"small"
     type: "GET"
   }
+  
+setup_childs = (data)->
+  
   
 open_popup = (target)->
   console.log("OPEN POPUP")
