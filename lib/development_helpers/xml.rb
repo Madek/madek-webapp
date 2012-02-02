@@ -145,7 +145,7 @@ module DevelopmentHelpers
       def set_property name, value
         puts "set_property #{name} (size #{value.size}) to #{value}"
         #somehow this doesn't work
-        value = YAML.parse(value) if SerializedFields.include? name
+        value = YAML::load(value) if SerializedFields.include? name
         puts "value: #{value}"
         @current_model.send "#{name}=", value
       end
