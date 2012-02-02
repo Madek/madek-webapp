@@ -73,7 +73,7 @@ class MediaSetsController < ApplicationController
       }
       
       format.js {
-                
+        
         sets = unless child_ids.blank?
           MediaResource.where(:id => child_ids).flat_map do |child|
             child.parent_sets.accessible_by_user(current_user, accessible_action.to_sym)
@@ -82,7 +82,7 @@ class MediaSetsController < ApplicationController
           MediaSet.accessible_by_user(current_user, accessible_action.to_sym)
         end
 
-        render :json => sets.as_json(:with => with, :with_thumb => false) # TODO drop with_thum merge with with
+        render :json => sets.as_json(:current_user => current_user, :with => with, :with_thumb => false) # TODO drop with_thum merge with with
       }
     end
   end
