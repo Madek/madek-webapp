@@ -20,6 +20,11 @@ class MetaContext < ActiveRecord::Base
   end
   serialize     :meta_field, MetaField
 
+  # compares two objects in order to sort them
+  def <=>(other)
+    self.name <=> other.name
+  end
+
 ##################################################################
 
   scope :for_interface, where(:is_user_interface => true)
@@ -113,7 +118,7 @@ class MetaContext < ActiveRecord::Base
       MetaDatum.where(:meta_key_id => meta_key_ids)
     end
 
-    mds.collect(&:value).flatten.uniq.compact
+    mds.flat_map(&:value).uniq.compact
   end
 
   # chainable query
