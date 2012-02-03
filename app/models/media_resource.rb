@@ -365,46 +365,6 @@ class MediaResource < ActiveRecord::Base
     end    
   end
 
-########################################################
-# ACL
-
-
-  def acl?(action, scope, subject = nil)
-    case scope
-    when :all
-      self.send(action)
-    when :only
-      Permissions.is_private?(subject,self,:view)
-    end
-  end
-
-
-  def managers
-    Permissions.users_permitted_to_act_on_resouce self, :manage
-  end
-
-
-  private
-
-
-  def generate_permissions
-    if self.class == Snapshot
-      group = Group.find_or_create_by_name("MIZ-Archiv") 
-      gp = Grouppermission.create  \
-        group: group, 
-        media_resource: self,
-        download: true,
-        edit: true,
-        manage: true,
-        view: true
-    end
-  end
-
-
-
-public
-
-
 ##########################################################################################################################
 ##########################################################################################################################
   
@@ -516,9 +476,19 @@ public
     sql    
   end
 
-  
-  def self.accessible_by_user(user, action = :view)
+########################################################
+# Permissions
 
+  def acl?(action, scope, subject = nil)
+    case scope
+    when :all
+      self.send(action)
+    when :only
+      is_private?(subject, :view)
+    end
+  end
+
+  def self.accessible_by_user(user, action = :view)
     unless user.try(:id)
       where(action => true)
     else
@@ -535,7 +505,51 @@ public
             #{resource_ids_by_ownership_or_public_permission.to_sql}
               )" 
     end
-
   end
+
+  def users_permitted_to_act(action)
+    # do not optimize away this query as resource.user can be null
+    owner_id = User.select("users.id").joins(:media_resources).where("media_resources.id" => id)
+    user_ids_by_userpermission= Userpermission.select("user_id").where("media_resource_id" => id).where("userpermissions.#{action}" => true)
+    user_ids_dissallowed_by_userpermission = Userpermission.select("user_id").where("media_resource_id" => id).where("userpermissions.#{action}" => false)
+    user_ids_by_grouppermission_but_not_dissallowed= Grouppermission.select("groups_users.user_id as user_id").joins(:group).joins("INNER JOIN groups_users ON groups_users.group_id = groups.id").where("media_resource_id" => id).where("grouppermissions.#{action}" => true).where(" user_id NOT IN ( #{user_ids_dissallowed_by_userpermission.to_sql} )")
+    user_ids_by_publicpermission= User.select("users.id").joins("CROSS JOIN media_resources").where("media_resources.#{action}" => true)
+
+    User.where " users.id IN (
+          #{owner_id.to_sql}
+        UNION
+          #{user_ids_by_userpermission.to_sql}
+        UNION
+          #{user_ids_by_grouppermission_but_not_dissallowed.to_sql}
+        UNION
+          #{user_ids_by_publicpermission.to_sql})"
+  end
+
+  def managers
+    users_permitted_to_act :manage
+  end
+
+  def is_private?(user, action)
+    new_action = Constants::Actions.old2new action
+    (users_permitted_to_act new_action).where(["users.id <> ?", user]).empty?
+  end
+
+
+  private
+
+
+  def generate_permissions
+    if self.class == Snapshot
+      group = Group.find_or_create_by_name("MIZ-Archiv") 
+      gp = Grouppermission.create  \
+        group: group, 
+        media_resource: self,
+        download: true,
+        edit: true,
+        manage: true,
+        view: true
+    end
+  end
+
 
 end

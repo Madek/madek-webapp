@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Permissions.resources_permissible_for_user" do
+describe "MediaResource.accessible_by_user" do
 
   describe "A public viewable MediaResource" do
 
@@ -11,7 +11,7 @@ describe "Permissions.resources_permissible_for_user" do
     end
 
     it "should be included in the users viewable media_resources" do
-     (Permissions.resources_permissible_for_user @user, :view).should include @media_resource
+     (MediaResource.accessible_by_user @user, :view).should include @media_resource
     end
 
     context "the user is not allowed by user permissions" do
@@ -21,7 +21,7 @@ describe "Permissions.resources_permissible_for_user" do
       end
 
       it "should be included in the users viewable media_resources" do
-        (Permissions.resources_permissible_for_user @user, :view).should include @media_resource
+        (MediaResource.accessible_by_user @user, :view).should include @media_resource
       end
 
     end
@@ -37,17 +37,17 @@ describe "Permissions.resources_permissible_for_user" do
     end
 
     it "should be included in the owners viewable media_resources" do
-      (Permissions.resources_permissible_for_user @owner, :view).should include @media_resource
+      (MediaResource.accessible_by_user @owner, :view).should include @media_resource
     end
 
     it "should be included in the viewable_media_resources even if the owner is disallowed by media_resourceuserpermissions"  do
       FactoryGirl.create :userpermission, user: @owner, media_resource: @media_resource, view: false
-      (Permissions.resources_permissible_for_user @owner, :view).should include @media_resource
+      (MediaResource.accessible_by_user @owner, :view).should include @media_resource
     end
 
 
     it "should not be included for an user without any permissions" do
-      (Permissions.resources_permissible_for_user @user, :view).should_not include @media_resource
+      (MediaResource.accessible_by_user @user, :view).should_not include @media_resource
     end
 
     context "when a userpermission allows the user" do
@@ -57,7 +57,7 @@ describe "Permissions.resources_permissible_for_user" do
       end
 
       it "the media_resource should be included" do
-        (Permissions.resources_permissible_for_user @user, :view).should include @media_resource
+        (MediaResource.accessible_by_user @user, :view).should include @media_resource
       end
 
     end
@@ -71,7 +71,7 @@ describe "Permissions.resources_permissible_for_user" do
       end
 
       it "should be be included for the user" do
-        (Permissions.resources_permissible_for_user @user, :view).should include @media_resource
+        (MediaResource.accessible_by_user @user, :view).should include @media_resource
       end
 
       context "when a mediaresourceuserpermission denies the user to view" do
@@ -80,8 +80,7 @@ describe "Permissions.resources_permissible_for_user" do
         end
 
         it "should not be included for the user" do
-        (Permissions.resources_permissible_for_user @user, :view).should_not include @media_resource
-
+          (MediaResource.accessible_by_user @user, :view).should_not include @media_resource
         end
       end
     end
