@@ -74,8 +74,7 @@ FactoryGirl.define do
   end
 
   factory :media_entry do
-    upload_session {FactoryGirl.create :upload_session}
-    user {upload_session.user}
+    upload_session {FactoryGirl.create :upload_session }
     media_file {FactoryGirl.create :media_file}
 
     view {FactoryHelper.rand_bool 1/10.0}

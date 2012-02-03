@@ -35,57 +35,102 @@ module Persona
   class Normin
     def initialize
       name = "Normin"
-      person = Factory(:person, :firstname => name)
-      user = Factory(:user, :person => person, :login => name)
+      user = User.find_by_login(name)
+      user ||= begin
+        person = Factory(:person, :firstname => name)
+        crypted_password = Digest::SHA1.hexdigest("password")
+        Factory(:user, :person => person, :login => name, :password => crypted_password)
+      end
       
-      ## Diplomarbeit 2012
-      set1 = Factory(:media_set, :user => user)
-      set1.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Diplomarbeit 2012"}}})
-        entry = Factory(:media_entry, :user => user)
-        entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Präsentation"}}})
-        set1.media_entries << entry
-        
-        ## Ausstellung
-        set2 = Factory(:media_set, :user => user)
-        set2.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Ausstellung"}}})
-        set1.child_sets << set2
-        entry = Factory(:media_entry, :user => user)
-        entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Austellung Sihlquai 1"}}})
-        set2.media_entries << entry
-        entry = Factory(:media_entry, :user => user)
-        entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Austellung Sihlquai 2"}}})
-        set2.media_entries << entry
-      
-        ## Konzepte
-        set2 = Factory(:media_set, :user => user)
-        set2.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Konzepte"}}})
-        set1.child_sets << set2
-        entry = Factory(:media_entry, :user => user)
-        entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Erster Entwurf"}}})
-        set2.media_entries << entry
-        entry = Factory(:media_entry, :user => user)
-        entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Bedinungskonzept"}}})
-        set2.media_entries << entry
+      upload_session = FactoryGirl.create :upload_session, :user => user
       
       ## Abgabe zum Kurs Product Design
       set = Factory(:media_set, :user => user)
       set.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Abgabe zum Kurs Product Design"}}})
-        entry = Factory(:media_entry, :user => user)
+        entry = Factory(:media_entry, :upload_session => upload_session)
         entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Abgabe"}}})
         set.media_entries << entry
-        entry = Factory(:media_entry, :user => user)
+        entry = Factory(:media_entry, :upload_session => upload_session)
         entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Konzept"}}})
         set.media_entries << entry
         
       ## Fotografie Kurs HS 2010
       set = Factory(:media_set, :user => user)
       set.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Fotografie Kurs HS 2010"}}})
-        entry = Factory(:media_entry, :user => user)
+        entry = Factory(:media_entry, :upload_session => upload_session)
         entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Portrait"}}})
         set.media_entries << entry
-        entry = Factory(:media_entry, :user => user)
+        entry = Factory(:media_entry, :upload_session => upload_session)
         entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Stilleben"}}})
-        set.media_entries << entry 
+        set.media_entries << entry
+      
+      # Meine Ausstellungen
+      meine_ausstellungen = Factory(:media_set, :user => user)
+      meine_ausstellungen.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Meine Ausstellungen"}}})
+      
+      # Meine Highlights 2012
+      meine_highlights = Factory(:media_set, :user => user)
+      meine_highlights.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Meine Highlights 2012"}}})
+      
+      ## Diplomarbeit 2012
+      diplomarbeit_2012 = Factory(:media_set, :user => user)
+      diplomarbeit_2012.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Diplomarbeit 2012"}}})
+      
+      ## Dropbox
+      dropbox = Factory(:media_set, :user => user)
+      dropbox.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Dropbox"}}})
+        
+        # Präsentation
+        praesentation = Factory(:media_entry, :upload_session => upload_session)
+        praesentation.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Präsentation"}}})
+        diplomarbeit_2012.media_entries << praesentation
+        
+        ## Ausstellungen
+        ausstellungen = Factory(:media_set, :user => user)
+        ausstellungen.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Ausstellungen"}}})
+        ausstellungen.parent_sets << [diplomarbeit_2012, meine_highlights, meine_ausstellungen, dropbox]
+          
+          ## Ausstellung Photos 1 bis 4
+          4.times do |i|
+            entry = Factory(:media_entry, :upload_session => upload_session)
+            entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Ausstellung Photo #{i}"}}})
+            ausstellungen.media_entries << entry
+          end
+          
+          ## Ausstellung ZHdK
+          ausstellung_zhdk = Factory(:media_set, :user => user)
+          ausstellung_zhdk.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Ausstellung ZHdK"}}})
+          ausstellungen.child_sets << ausstellung_zhdk
+          
+          ## Ausstellung Museum Zürich
+          ausstellung_museum = Factory(:media_set, :user => user)
+          ausstellung_museum.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Ausstellung Museum Zürich"}}})
+          ausstellungen.child_sets << ausstellung_museum
+          
+          ## Ausstellung Photo 5
+          entry = Factory(:media_entry, :upload_session => upload_session)
+          entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Ausstellung Photo 5"}}})
+          ausstellungen.media_entries << entry
+          
+          ## Ausstellung Gallerie Limatquai
+          ausstellung_limatquai = Factory(:media_set, :user => user)
+          ausstellung_limatquai.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Ausstellung Gallerie Limatquai"}}})
+          ausstellungen.child_sets << ausstellung_limatquai
+          
+        ## Konzepte
+        konzepte = Factory(:media_set, :user => user)
+        konzepte.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Konzepte"}}})
+        diplomarbeit_2012.child_sets << konzepte
+          
+          ## Erster Entwurf
+          entry = Factory(:media_entry, :upload_session => upload_session)
+          entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Erster Entwurf"}}})
+          konzepte.media_entries << entry
+          
+          ## Bedinungskonzept
+          entry = Factory(:media_entry, :upload_session => upload_session)
+          entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Bedinungskonzept"}}})
+          konzepte.media_entries << entry 
     end
   end  
 end

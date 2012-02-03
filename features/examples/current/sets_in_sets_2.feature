@@ -3,24 +3,23 @@ Feature: Sets in Sets II
   Background: Load the example data and personas
 	Given I have set up the world
       And personas are loaded
-      And I log in as "Adam" with password "password"
-      And I am logged in as "Adam"
 
   # https://www.pivotaltracker.com/story/show/23825307
-  @committed @wip
+  @committed @javascript
   Scenario: Preview of content and relationships of a set in the grid view
-    Given a few sets and entries
+    Given I am "Normin"
      When I view a grid of these sets
-      And I examine one of the sets more closely
+      And I examine my "Ausstellungen" sets more closely
      Then I see relationships for this set
       And I see how many media entries that are viewable for me in this set
       And I see how many sets that are viewable for me in this set
-      And I see how many sets that that are viewable for me are parents of this set
+      And I see how many sets that are viewable for me are parents of this set
 
   # https://www.pivotaltracker.com/story/show/22394303
   @committed @javascript
   Scenario: Choosing which contexts are valid for a set
-   Given a context called "Landschaftsvisualisierung" exists
+   Given I am "Adam"
+     And a context called "Landschaftsvisualisierung" exists
      And a context called "Zett" exists
      And a context called "Games" exists
      And a set called "Landschaften" that has the context "Landschaftsvisualisierung"
@@ -38,9 +37,10 @@ Feature: Sets in Sets II
      And the set still has the context called "Games"
 
   # https://www.pivotaltracker.com/story/show/22464659
-  @committed @javascript @wip
+  @committed @javascript
   Scenario: Viewing which contexts a set could have
-   Given a context called "Landschaftsvisualisierung" exists
+   Given I am "Adam"
+     And a context called "Landschaftsvisualisierung" exists
      And a context called "Zett" exists
      And a context called "Games" exists
      And a set called "Landschaften" that has the context "Landschaftsvisualisierung"
