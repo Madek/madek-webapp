@@ -45,7 +45,7 @@
                 = link_to _("Vokabular"), "#vocabulary_tab"
               -# %li
               -#    = link_to _("Vokabular Browser"), browse_media_set_path(@media_set), :class => "vocabulary_tab_browse"
-            - if @can_edit_set
+            - if @can_edit_set and !@media_set.individual_and_inheritable_contexts.empty?
               %li
                 = link_to _("Kontexte"), "#contexts_tab"
 
@@ -60,7 +60,7 @@
               = display_set_abstract(@media_set, (@media_entries[:pagination][:total_entries] * 30 / 100), current_user)
             #vocabulary_tab.clearfix
               = display_set_vocabulary(@media_set, current_user)
-          - if @can_edit_set
+          - if @can_edit_set and !@media_set.individual_and_inheritable_contexts.empty?
             #contexts_tab.clearfix
               %p= _("Diesem Set sind zusätzliche Kontexte mit Metadaten zugewiesen.")
               = form_for @media_set, :html => {:style => "margin: 2em;"} do |f|
