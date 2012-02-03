@@ -7,8 +7,9 @@ class DropLoggedInUsersAndBitwisePermissions < ActiveRecord::Migration
       t.integer :action_mask, :null => false, :default => 0
       t.index [:action_bits, :action_mask]
     end
-
+  
 #    group = Group.find_or_create_by_name(:name => "ZHdK (Zürcher Hochschule der Künste)")    
+    #    this group is created through the db:seed  task
 #
 #    Permission.where("actions_object LIKE '%:logged_in_users%'").each do |p|
 #      q = group.permissions.build(:media_resource => p.media_resource)
