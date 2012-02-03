@@ -11,7 +11,7 @@ describe "Permissions" do
     end
 
     it "should be viewalbe by an unrelated user" do
-      (Permissions.authorized? @user, :view , @media_resource).should == true
+      @user.authorized?(:view , @media_resource).should == true
     end
 
     context "the user is not allowed by user permissions" do
@@ -21,7 +21,7 @@ describe "Permissions" do
       end
 
       it "should be viewable by the user" do
-        (Permissions.authorized? @user, :view, @media_resource).should == true
+        @user.authorized?(:view, @media_resource).should == true
       end
 
     end
@@ -38,16 +38,16 @@ describe "Permissions" do
     end
 
     it "can be viewed by its owner"  do
-      (Permissions.authorized? @owner, :view , @media_resource).should == true
+      @owner.authorized?(:view , @media_resource).should == true
     end
 
     it "can be viewed by its owner even if the owner is disallowed by a userpermission"  do
       FactoryGirl.create :userpermission, user: @owner, media_resource: @media_resource, view: false
-      (Permissions.authorized? @owner, :view , @media_resource).should == true
+      @owner.authorized?(:view , @media_resource).should == true
     end
 
     it "should not be viewable by an user without any permissions" do
-      (Permissions.authorized? @user, :view , @media_resource).should == false
+      @user.authorized?(:view , @media_resource).should == false
     end
 
     context "when a userpermission allows the user" do
@@ -57,7 +57,7 @@ describe "Permissions" do
       end
 
       it "should be be viewable by the user" do
-        (Permissions.authorized? @user, :view , @media_resource).should == true
+        @user.authorized?(:view , @media_resource).should == true
       end
 
     end
@@ -71,7 +71,7 @@ describe "Permissions" do
       end
 
       it "should be be viewable for the user" do
-        (Permissions.authorized? @user, :view , @media_resource).should == true
+        @user.authorized?(:view , @media_resource).should == true
       end
 
       context "when a userpermission denies the user to view" do
@@ -80,7 +80,7 @@ describe "Permissions" do
         end
 
         it "should not be viewable for the user" do
-          (Permissions.authorized? @user, :view , @media_resource).should == false
+          @user.authorized?(:view , @media_resource).should == false
         end
       end
     end

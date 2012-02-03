@@ -100,7 +100,7 @@ class PermissionsController < ApplicationController
         not_authorized! if @resources.empty?
         return
     end
-    not_authorized! unless Permissions.authorized?(current_user, Constants::Actions.old2new(action), @resource) 
+    not_authorized! unless current_user.authorized?(Constants::Actions.old2new(action), @resource) 
   end
 
 
