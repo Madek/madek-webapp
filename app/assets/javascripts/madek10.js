@@ -1,3 +1,4 @@
+// TODO REMOVE THIS WHEN FORMAT JSON BECOMES DEFAULT
 jQuery.ajaxSetup({
 	//dataType: 'html', //'script',
   	//ifModified: true,

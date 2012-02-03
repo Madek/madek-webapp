@@ -104,8 +104,8 @@ class ApplicationController < ActionController::Base
       self.current_user = user = User.where(:id => session[:user_id]).first
       check_usage_terms_accepted
 
-    # TODO remove this when public open
-    elsif (request[:controller] == "media_sets" and request[:action] == "show") or
+    # TODO remove this when public open OR logged in through API
+    elsif (request[:controller] == "media_sets" and request[:action] == "show" and request[:id].to_i == AppSettings.splashscreen_slideshow_set_id) or
           (request[:controller] == "resources" and request[:action] == "image")
       @current_user = user = User.new
 

@@ -3,10 +3,6 @@ class MetaContextsController < ApplicationController
 
   before_filter :pre_load
 
-  def index
-    @contexts = MetaContext.all
-  end
-
   def show
     @vocabulary_json = @context.vocabulary(current_user).as_json
     @abstract_json = @context.abstract(current_user).as_json

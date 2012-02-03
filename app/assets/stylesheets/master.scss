@@ -744,7 +744,7 @@ ul li { float: left; }
 	font-weight: bold;
 	letter-spacing: -0.05ex;
 	font-size: 1.9em;
-	padding: 15px 0 20px 20px;
+	padding: 15px 0 35px 20px;
 	float: left;
 }
 
@@ -1063,8 +1063,8 @@ ul li { float: left; }
 	margin-bottom: 7px;
 }
 
-.item_box.selected {
-	background: #f1f1f1;
+.item_box.selected, .item_box.popup_target, .item_box.popup {
+	background: #f1f1f1 !important;
 }
 
 .item_box_set {
@@ -1188,13 +1188,13 @@ ul li { float: left; }
 .thumb_box_set {
 	float: left;
 	text-align: center;
-	width: 150px;
 	height: 140px;
 	font-size: 1em;
 	line-height: 150px;
 	background: url(icons/icon_tn_project.png) no-repeat 0 -8px;
-	margin: 0 25px 10px 0;
+	margin: 0 12px 10px 0;
 	position: relative;
+	width: 142px;
 	
 	img {
 	  border: 1px solid #f2f2f2;
@@ -1215,6 +1215,10 @@ ul li { float: left; }
 	a:hover {
 		text-decoration: none;
 	}
+}
+
+.item_box.popup_target .actions, .item_box.popup .actions {
+  display: block !important;
 }
 
 .action_left {

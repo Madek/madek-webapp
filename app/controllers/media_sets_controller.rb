@@ -15,21 +15,19 @@ class MediaSetsController < ApplicationController
   #
   # @argument [with] hash Options forwarded to the results which will be inside of the respond 
   # 
-  # @argument [children] array An array with child objects {:id, :type} which shall be used for scoping the media sets
-  #
-  # @argument [user] hash An object {:id} which shall be used for scoping the media sets for a specific user
+  # @argument [child_ids] array An array with child ids which shall be used for scoping the media sets
   #
   # @example_request
-  #   {"accessible_action": "edit", "with": {"set": {"media_entries": 1}}}
+  #   {"accessible_action": "edit", "with": {"media_set": {"media_entries": 1}}}
   #
   # @example_request
   #   {"accessible_action": "edit", "child_ids": [1]}
   #
   # @example_request
-  #   {"accessible_action": "edit", "child_ids": [1,2], "with": {"set": {"media_entries": 1, "child_sets": 1}}
+  #   {"accessible_action": "edit", "child_ids": [1,2], "with": {"media_set": {"media_entries": 1, "child_sets": 1}}
   #
   # @example_request
-  #   {"accessible_action": "edit", "with": {"set": {"creator": 1, "created_at": 1, "title": 1}}}
+  #   {"accessible_action": "edit", "with": {"media_set": {"creator": 1, "created_at": 1, "title": 1}}}
   #
   # @request_field [String] accessible_action The accessible action the user can perform on a set
   # @request_field [Hash] with Options forwarded to the results which will be inside of the respond
@@ -38,8 +36,7 @@ class MediaSetsController < ApplicationController
   #   to include their media_entries forwarding the options. When "media_entries" is just setted to 1, then 
   #   they are include but without forwarding any options.
   # @request_field [Integer] with.set.title When this hash of options is setted, provide the set title in the results
-  # @request_field [Hash] child A child object which shall be used for scoping the media sets
-  # @request_field [Hash] user A user object which shall be used for scoping the media sets for a specific user
+  # @request_field [Array] child_ids A list of childs which shall be used for scoping the result of media sets
   #
   # @example_response
   #   [{"id":422, "media_entries": [{"id":2}, {"id":3}]}, {"id":423, "media_entries": [{"id":1}, {"id":4}]}]
@@ -76,7 +73,7 @@ class MediaSetsController < ApplicationController
       }
       
       format.js {
-                
+        
         sets = unless child_ids.blank?
           MediaResource.where(:id => child_ids).flat_map do |child|
             child.parent_sets.accessible_by_user(current_user, accessible_action.to_sym)
@@ -85,54 +82,56 @@ class MediaSetsController < ApplicationController
           MediaSet.accessible_by_user(current_user, accessible_action.to_sym)
         end
 
-        render :json => sets.as_json(:with => with, :with_thumb => false) # TODO drop with_thum merge with with
+        render :json => sets.as_json(:current_user => current_user, :with => with, :with_thumb => false) # TODO drop with_thum merge with with
       }
     end
   end
 
-  # API #
-  # get nested media_entries:
-  # GET "/media_sets/:id.js"
-  def show( options_for_media_entries = params[:options_for_media_entries],
-            thumb = params[:thumb])
-            
-    params[:per_page] ||= PER_PAGE.first
-
-    paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
-    resources = MediaResource.accessible_by_user(current_user).order("media_resources.updated_at DESC").by_media_set(@media_set).paginate(paginate_options)
-    
-    @can_edit_set = Permissions.authorized?(current_user, :edit, @media_set)
-    @parents = @media_set.parent_sets.as_json(:user => current_user)
-    
+  ##
+  # Get a specific media set
+  # 
+  # @url [GET] /media_sets/:id?[arguments]
+  # 
+  # @argument [id] integer The id of the specific media_set 
+  # 
+  # @argument [with] hash Options forwarded to the results which will be inside of the respond 
+  # 
+  # @example_request
+  #   {"id": 34, "with": {"media_set": {"media_entries": 1}}}
+  #
+  # @request_field [Integer] id The id of the requested media_set
+  # @request_field [Hash] with Options forwarded to the results which will be inside of the respond
+  # @request_field [Hash] with.set Options forwarded to all resulting models from type set
+  # @request_field [Hash] with.set.media_entries When this hash of options is setted, it forces all result sets
+  #   to include their media_entries forwarding the options. When "media_entries" is just setted to 1, then 
+  #   they are include but without forwarding any options.
+  #
+  # @example_response
+  #   [{"id":422, "media_entries": [{"id":2}, {"id":3}]}, {"id":423, "media_entries": [{"id":1}, {"id":4}]}]
+  #
+  # @response_field [Integer] id The id of a set 
+  # @response_field [Hash] media_entries Media entries of the set
+  # @response_field [Integer] media_entries[].id The id of a media entry
+  #
+  def show(thumb = params[:thumb], with = params[:with])
     respond_to do |format|
       format.html {
+        params[:per_page] ||= PER_PAGE.first
+        paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
+        resources = MediaResource.accessible_by_user(current_user).order("media_resources.updated_at DESC").by_media_set(@media_set).paginate(paginate_options)
         with_thumb = true
+        
+        @can_edit_set = Permissions.authorized?(current_user, :edit, @media_set)
+        @parents = @media_set.parent_sets.as_json(:user => current_user)
         @media_entries = { :pagination => { :current_page => resources.current_page,
                                             :per_page => resources.per_page,
                                             :total_entries => resources.total_entries,
                                             :total_pages => resources.total_pages },
                            :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
       }
-      format.js {
-        
-        # OPTIMIZE this is a quick-fix for the inview-pagination
-        if params[:page]
-          with_thumb = true
-          json = { :pagination => { :current_page => resources.current_page,
-                                    :per_page => resources.per_page,
-                                    :total_entries => resources.total_entries,
-                                    :total_pages => resources.total_pages },
-                   :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
-        else
-          #FE# render :json => @media_set.as_json(:user => current_user)
-          json = {:id => @media_set.id, :title => @media_set.title}
-          if options_for_media_entries and options_for_media_entries.is_a? Hash
-            options_for_media_entries.reverse_merge!(:only => :id, :methods => :title, :user => current_user)
-            json.merge!(:entries => resources.as_json(options_for_media_entries))
-          end
-        end
-        
-        render :json => json
+      
+      format.json {
+        render :json => @media_set.as_json(:with => with, :current_user =>current_user)
       }
     end
   end
@@ -222,21 +221,30 @@ class MediaSetsController < ApplicationController
     end
   end
   
-  
-  
   def edit
   end
 
- def destroy
-   # TODO ACL
-   if params[:media_set_id]
-     @media_set.destroy
-   end
+  def update
+    if params[:individual_context_ids]
+      params[:individual_context_ids].delete_if &:blank? # NOTE receiving params[:individual_context_ids] even if no checkbox is checked
+      @media_set.individual_contexts.clear
+      @media_set.individual_contexts = MetaContext.find(params[:individual_context_ids])
+      @media_set.save
+    end
+    
+    redirect_to @media_set
+  end
+
+  def destroy
+    # TODO ACL
+    if params[:media_set_id]
+      @media_set.destroy
+    end
     respond_to do |format|
       format.html { redirect_to user_resources_path(current_user, :type => "media_sets") }
       format.js { render :json => {:id => @media_set.id} }
     end
- end
+  end
 
 
 #####################################################
@@ -323,7 +331,7 @@ class MediaSetsController < ApplicationController
       }
     end
   end
-
+  
 #####################################################
 
   private

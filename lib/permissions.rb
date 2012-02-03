@@ -28,43 +28,6 @@ module Permissions
 
     end
 
-    def is_private? user, resource, action
-      new_action = Constants::Actions.old2new action
-      (users_permitted_to_act_on_resouce resource, new_action).where("users.id <> #{user.id}").first.nil?
-    end
-
-
-    def users_permitted_to_act_on_resouce resource, action
-
-      # do not optimize away this query as resource.user can be null
-      owner_id = User.select("users.id").joins(:media_resources).where("media_resources.id" => resource.id)
-      user_ids_by_userpermission= Userpermission.select("user_id").where("media_resource_id" => resource.id).where("userpermissions.#{action}" => true)
-      user_ids_dissallowed_by_userpermission = Userpermission.select("user_id").where("media_resource_id" => resource.id).where("userpermissions.#{action}" => false)
-      user_ids_by_grouppermission_but_not_dissallowed= Grouppermission.select("groups_users.user_id as user_id").joins(:group).joins("INNER JOIN groups_users ON groups_users.group_id = groups.id").where("media_resource_id" => resource.id).where("grouppermissions.#{action}" => true).where(" user_id NOT IN ( #{user_ids_dissallowed_by_userpermission.to_sql} )")
-      user_ids_by_publicpermission= User.select("users.id").joins("CROSS JOIN media_resources").where("media_resources.#{action}" => true)
-
-      User.where " users.id IN (
-            #{owner_id.to_sql}
-          UNION
-            #{user_ids_by_userpermission.to_sql}
-          UNION
-            #{user_ids_by_grouppermission_but_not_dissallowed.to_sql}
-          UNION
-            #{user_ids_by_publicpermission.to_sql})"
-
-    
-    end
-
-
-
-
-    def resources_permissible_for_user  user, action 
-      MediaResource.accessible_by_user user, action
-    end
-
-
-
-
     ### private
 
     def userpermission_disallows action, resource, user
