@@ -507,8 +507,8 @@
 			<integer>718</integer>
 			<key>Points</key>
 			<array>
-				<string>{957.70471, 263.6344}</string>
-				<string>{844.88226, 144.24739}</string>
+				<string>{922.16046, 241.38519}</string>
+				<string>{842.2887, 144.2701}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -577,8 +577,8 @@
 			<integer>714</integer>
 			<key>Points</key>
 			<array>
-				<string>{964.25586, 298.2334}</string>
-				<string>{918.98254, 378.62274}</string>
+				<string>{930.16553, 276.04208}</string>
+				<string>{893.495, 378.58731}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -600,7 +600,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{900.72437, 263.9978}, {146.589, 33.799927}}</string>
+			<string>{{863.08289, 241.77138}, {146.589, 33.799927}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -3433,7 +3433,7 @@ belongs_to}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2012-02-03 15:00:13 +0000</string>
+	<string>2012-02-03 15:45:05 +0000</string>
 	<key>Modifier</key>
 	<string>Thomas Schank</string>
 	<key>NotesVisible</key>
@@ -3516,7 +3516,7 @@ belongs_to}</string>
 		<key>FitInWindow</key>
 		<true/>
 		<key>Frame</key>
-		<string>{{738, 286}, {1115, 892}}</string>
+		<string>{{791, 286}, {1115, 892}}</string>
 		<key>ListView</key>
 		<false/>
 		<key>OutlineWidth</key>
