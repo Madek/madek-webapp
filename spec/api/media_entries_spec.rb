@@ -11,11 +11,15 @@ describe "/media_entries", :type => :api do
       user = FactoryGirl.create :user, :login => "spec", :password => Digest::SHA1.hexdigest("spec")
       post "/db/login", {:login => user.login, :password => "spec"}
       get "/"
+      # don't test in let, before .... 
       last_response.body.should_not match /Invalid username\/password/
       user
     }
     
     it "should return media entries scoped trough a given parent set together with images as base 64"  do
+      # never create data directly inside it, context .... 
+      # this can have strange side effects, in particular w.r.t. cleaning 
+      # use before ...
       media_set = Factory(:media_set, :view => true, :user => user)
       (1..5).each { media_set.media_entries << Factory(:media_entry, :view => true, :user => user) }
       
