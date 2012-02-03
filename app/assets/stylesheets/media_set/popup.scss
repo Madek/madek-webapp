@@ -84,6 +84,20 @@
     }
   }
   
+   
+  .loading {
+    display: block;
+    position: absolute;
+    text-align: center;
+    top: 45px;
+    width: 100%;
+    
+    img {
+      height: auto;
+      width: 15px;
+    }
+  }
+  
   .parents {
     background: white;
     display: block;
@@ -92,10 +106,6 @@
     padding-top: 3px;
     position: absolute;
     width: 100%;    
-    
-    .loading {
-      position: absolute;
-    }
     
     .resources {
       margin-bottom: 7px;
@@ -128,10 +138,6 @@
     padding-top: 5px;
     position: absolute;
     width: 100%;
-    
-    .loading {
-      position: absolute;
-    }
     
     .text {
       display: block;
