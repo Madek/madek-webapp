@@ -121,7 +121,7 @@ class MediaSetsController < ApplicationController
         resources = MediaResource.accessible_by_user(current_user).order("media_resources.updated_at DESC").by_media_set(@media_set).paginate(paginate_options)
         with_thumb = true
         
-        @can_edit_set = Permissions.authorized?(current_user, :edit, @media_set)
+        @can_edit_set = current_user.authorized?(:edit, @media_set)
         @parents = @media_set.parent_sets.as_json(:user => current_user)
         @media_entries = { :pagination => { :current_page => resources.current_page,
                                             :per_page => resources.per_page,
@@ -350,7 +350,7 @@ class MediaSetsController < ApplicationController
     end
     if @media_set
       resource = @media_set
-      not_authorized! unless Permissions.authorized?(current_user, action, resource) # TODO super ??
+      not_authorized! unless current_user.authorized?(action, resource) # TODO super ??
     else
       flash[:error] = "Kein Medienset ausgewählt."
       redirect_to :back

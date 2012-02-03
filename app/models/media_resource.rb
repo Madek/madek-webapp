@@ -1,13 +1,9 @@
 # -*- encoding : utf-8 -*-
 class MediaResource < ActiveRecord::Base
 
-  has_many :userpermissions, :dependent => :destroy
-  has_many :grouppermissions, :dependent => :destroy
-
   belongs_to :user 
   belongs_to :media_file
   belongs_to :upload_session
-
 
  # TODO observe bulk changes and reindex once
   has_many :meta_data, :dependent => :destroy do #working here#7 :include => :meta_key
@@ -111,10 +107,6 @@ class MediaResource < ActiveRecord::Base
   has_one :full_text, :dependent => :destroy
   after_save { reindex } # OPTIMIZE
 
-
-  def default_permission
-    Permission.resource_default(self)
-  end
 
   # returns the meta_data for a particular resource, so that it can written into a media file that is to be exported.
   # NB: this is exiftool specific at present, but can be refactored to take account of other tools if necessary.
@@ -250,8 +242,8 @@ class MediaResource < ActiveRecord::Base
       #TODO Dont do this behaviour on default
       flags = { :is_private => acl?(:view, :only, user),
                 :is_public => acl?(:view, :all),
-                :is_editable => Permissions.authorized?(user, :edit, self),
-                :is_manageable => Permissions.authorized?(user, :manage, self),
+                :is_editable => user.authorized?(:edit, self),
+                :is_manageable => user.authorized?(:manage, self),
                 :is_favorite => user.favorite_ids.include?(id) }
       more_json.merge! flags         
       more_json.merge!(self.get_basic_info(user, [], with_thumb))
@@ -478,6 +470,21 @@ class MediaResource < ActiveRecord::Base
 
 ########################################################
 # Permissions
+
+  has_many :userpermissions, :dependent => :destroy do
+    def allows(user, action)
+      where(:user_id => user, action => true).first
+    end
+    def disallows(user, action)
+      where(:user_id => user, action => false).first
+    end
+  end
+  
+  has_many :grouppermissions, :dependent => :destroy do
+    def allows(user, action)
+      joins(:group => :users).where(action => true, :groups_users => {:user_id => user}).first
+    end
+  end
 
   def acl?(action, scope, subject = nil)
     case scope
