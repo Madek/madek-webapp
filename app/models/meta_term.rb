@@ -64,6 +64,4 @@ class MetaTerm < ActiveRecord::Base
       errors.add_to_base("A term cannot be blank") if LANGUAGES.all? {|lang| send(lang).blank? }
     end
 
-  end
-
 end
