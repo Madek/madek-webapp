@@ -46,7 +46,11 @@ class MediaSet < MediaResource
                                                 :foreign_key => :media_set_id
   
   def inheritable_contexts
-    parent_sets.map(&:individual_contexts).flatten.to_set.to_a # removes duplicates, I don't know how efficient .to_a.uniq is
+    parent_sets.flat_map(&:individual_contexts).to_set.to_a # removes duplicates, I don't know how efficient .to_a.uniq is
+  end
+
+  def individual_and_inheritable_contexts
+    (individual_contexts | inheritable_contexts).sort
   end
   
 ########################################################
@@ -142,7 +146,7 @@ end
     else
       media_entry_ids
     end
-    meta_key_ids = individual_contexts.map(&:meta_key_ids).flatten
+    meta_key_ids = individual_contexts.flat_map(&:meta_key_ids)
     h = {} #1005# TODO upgrade to Ruby 1.9 and use ActiveSupport::OrderedHash.new
     mds = MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids)
     mds.each do |md|
@@ -165,9 +169,9 @@ end
     else
       media_entry_ids
     end
-    meta_key_ids = individual_contexts.map{|ic| ic.meta_keys.for_meta_terms.map(&:id) }.flatten
+    meta_key_ids = individual_contexts.flat_map{|ic| ic.meta_keys.for_meta_terms.map(&:id) }
     mds = MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids)
-    mds.collect(&:value).flatten.uniq.compact
+    mds.flat_map(&:value).uniq.compact
   end
 
 end

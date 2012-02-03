@@ -27,5 +27,12 @@ Feature: Upload
      And I add the media entry to a set called "Test Set"
 
   Scenario: Uploading large files
-    When I upload a file larger than 2 GB
-    Then the file is stored in the system
+    When I upload files totalling more than 1.5 GB
+    Then the system gives me a warning telling me it's impossible to upload so much through the browser
+     And the warning includes instructions for an FTP upload
+
+
+  Scenario: Uploading via FTP
+    When I have uploaded some files to my FTP dropbox
+     And I start a new upload process
+    Then I can choose files from my FTP dropbox instead of uploading them through the browser

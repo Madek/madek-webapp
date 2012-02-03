@@ -210,7 +210,7 @@ MAdeK::Application.routes.draw do
   
   resource :session
 
-  resources :meta_contexts, :only => [:index, :show] do
+  resources :meta_contexts, :only => :show do
     member do
       get :abstract
     end

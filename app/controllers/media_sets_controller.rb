@@ -235,21 +235,30 @@ class MediaSetsController < ApplicationController
     end
   end
   
-  
-  
   def edit
   end
 
- def destroy
-   # TODO ACL
-   if params[:media_set_id]
-     @media_set.destroy
-   end
+  def update
+    if params[:individual_context_ids]
+      params[:individual_context_ids].delete_if &:blank? # NOTE receiving params[:individual_context_ids] even if no checkbox is checked
+      @media_set.individual_contexts.clear
+      @media_set.individual_contexts = MetaContext.find(params[:individual_context_ids])
+      @media_set.save
+    end
+    
+    redirect_to @media_set
+  end
+
+  def destroy
+    # TODO ACL
+    if params[:media_set_id]
+      @media_set.destroy
+    end
     respond_to do |format|
       format.html { redirect_to user_resources_path(current_user, :type => "media_sets") }
       format.js { render :json => {:id => @media_set.id} }
     end
- end
+  end
 
 
 #####################################################

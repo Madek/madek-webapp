@@ -30,7 +30,7 @@ end
 Then /^I can open them$/ do
   @current_user.favorites.each do |f|
     visit resource_path(f)
-    page.should have_content("Set enthält")
+    step 'I should see "Set enthält"'
   end
 end
 
@@ -44,7 +44,7 @@ end
 
 When /^I look at a page describing this context$/ do
   visit meta_context_path(@context)
-  page.should have_content(@context.to_s)
+  step 'I should see "%s"' % @context
 end
 
 Then /^I see all the keys that can be used in this context$/ do
@@ -52,14 +52,14 @@ Then /^I see all the keys that can be used in this context$/ do
   @context.meta_keys.for_meta_terms.each do |meta_key|
     definition = meta_key.meta_key_definitions.for_context(@context)
     label = definition.meta_field.label
-    page.should have_content(label)
+    step 'I should see "%s"' % label
   end
 end
 
 Then /^I see all the values those keys can have$/ do
   @context.meta_keys.for_meta_terms.each do |meta_key|
     meta_key.meta_terms.each do |meta_term|
-      page.should have_content(meta_term.to_s)
+      step 'I should see "%s"' % meta_term
     end
   end
 end

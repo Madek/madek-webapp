@@ -112,7 +112,7 @@ class Permission < ActiveRecord::Base
     
     def compare(resources)
       combined_permissions = {"User" => [], "Group" => [], "public" => {}}
-      permissions = resources.map(&:permissions).flatten
+      permissions = resources.flat_map(&:permissions)
 
       combined_permissions.keys.each do |type|
         case type

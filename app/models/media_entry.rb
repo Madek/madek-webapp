@@ -30,7 +30,7 @@ class MediaEntry < MediaResource
 
   # OPTIMIZE
   def individual_contexts
-    media_sets.collect {|set| set.individual_contexts }.flatten.uniq
+    media_sets.flat_map {|set| set.individual_contexts }.uniq
   end
 
 ########################################################
