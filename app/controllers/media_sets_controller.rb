@@ -73,7 +73,7 @@ class MediaSetsController < ApplicationController
       }
       
       format.js {
-                
+        
         sets = unless child_ids.blank?
           MediaResource.where(:id => child_ids).flat_map do |child|
             child.parent_sets.accessible_by_user(current_user, accessible_action.to_sym)
@@ -82,7 +82,7 @@ class MediaSetsController < ApplicationController
           MediaSet.accessible_by_user(current_user, accessible_action.to_sym)
         end
 
-        render :json => sets.as_json(:with => with, :with_thumb => false) # TODO drop with_thum merge with with
+        render :json => sets.as_json(:current_user => current_user, :with => with, :with_thumb => false) # TODO drop with_thum merge with with
       }
     end
   end
@@ -235,21 +235,30 @@ class MediaSetsController < ApplicationController
     end
   end
   
-  
-  
   def edit
   end
 
- def destroy
-   # TODO ACL
-   if params[:media_set_id]
-     @media_set.destroy
-   end
+  def update
+    if params[:individual_context_ids]
+      params[:individual_context_ids].delete_if &:blank? # NOTE receiving params[:individual_context_ids] even if no checkbox is checked
+      @media_set.individual_contexts.clear
+      @media_set.individual_contexts = MetaContext.find(params[:individual_context_ids])
+      @media_set.save
+    end
+    
+    redirect_to @media_set
+  end
+
+  def destroy
+    # TODO ACL
+    if params[:media_set_id]
+      @media_set.destroy
+    end
     respond_to do |format|
       format.html { redirect_to user_resources_path(current_user, :type => "media_sets") }
       format.js { render :json => {:id => @media_set.id} }
     end
- end
+  end
 
 
 #####################################################

@@ -43,8 +43,12 @@
                 = link_to _("Auszug"), "#abstract_tab"
               %li
                 = link_to _("Vokabular"), "#vocabulary_tab"
+              -# %li
+              -#    = link_to _("Vokabular Browser"), browse_media_set_path(@media_set), :class => "vocabulary_tab_browse"
+            - if @can_edit_set
               %li
-                / = link_to _("Vokabular Browser"), browse_media_set_path(@media_set), :class => "vocabulary_tab_browse"
+                = link_to _("Kontexte"), "#contexts_tab"
+
           #info_tab.clearfix
             - context = MetaContext.media_set
             = display_meta_data_for_context(@media_set, context)
@@ -56,6 +60,20 @@
               = display_set_abstract(@media_set, (@media_entries[:pagination][:total_entries] * 30 / 100), current_user)
             #vocabulary_tab.clearfix
               = display_set_vocabulary(@media_set, current_user)
+          - if @can_edit_set
+            #contexts_tab.clearfix
+              %p= _("Diesem Set sind zusätzliche Kontexte mit Metadaten zugewiesen.")
+              = form_for @media_set, :html => {:style => "margin: 2em;"} do |f|
+                %ul
+                = hidden_field_tag "individual_context_ids[]", nil # NOTE sending params[:individual_context_ids] even if no checkbox is checked
+                - @media_set.individual_and_inheritable_contexts.each do |context|
+                  %li
+                    = check_box_tag "individual_context_ids[]", context.id, @media_set.individual_contexts.include?(context)
+                    = link_to context, context, :target => :_blank
+                %br
+                = f.submit _("Update")
+        
+              %p= _("So können für alle Medieneinträge, die in diesem Set enthalten sind, weitere inhaltliche Angaben gemacht werden. Darüber hinaus können alle Sets, die diesem Set zugewiesen werden, ebenfalls die ausgewählten zusätzlichen Kontexte erhalten.")
 
 %section#content_body_set
   -if(@parents.size > 0)

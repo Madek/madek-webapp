@@ -1,7 +1,10 @@
 Feature: Sets in Sets II
 
   Background: Load the example data and personas
-    Given personas are loaded
+	Given I have set up the world
+      And personas are loaded
+      And I log in as "Adam" with password "password"
+      And I am logged in as "Adam"
 
   # https://www.pivotaltracker.com/story/show/23825307
   @committed @wip
@@ -15,14 +18,13 @@ Feature: Sets in Sets II
       And I see how many sets that that are viewable for me are parents of this set
 
   # https://www.pivotaltracker.com/story/show/22394303
-  @committed
+  @committed @javascript
   Scenario: Choosing which contexts are valid for a set
    Given a context called "Landschaftsvisualisierung" exists
      And a context called "Zett" exists
      And a set called "Landschaften" that has the context "Landschaftsvisualisierung"
      And a set called "Zett" that has the context "Zett"
      And a set called "Zett über Landschaften" which is child of "Landschaften" and "Zett"
-     And I am logged in as "Adam"
      And I can edit the set "Zett über Landschaften"
     When I view the set "Zett über Landschaften"
     Then I see the available contexts "Landschaftsvisualisierung" and "Zett"

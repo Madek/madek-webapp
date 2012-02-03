@@ -46,7 +46,11 @@ class MediaSet < MediaResource
                                                 :foreign_key => :media_set_id
   
   def inheritable_contexts
-    parent_sets.map(&:individual_contexts).flatten.to_set.to_a # removes duplicates, I don't know how efficient .to_a.uniq is
+    parent_sets.flat_map(&:individual_contexts).to_set.to_a # removes duplicates, I don't know how efficient .to_a.uniq is
+  end
+
+  def individual_and_inheritable_contexts
+    (individual_contexts | inheritable_contexts).sort
   end
   
 ########################################################
@@ -88,15 +92,10 @@ class MediaSet < MediaResource
     json = super(options)
     
     json[:is_set] = true # TODO use :type instead of :is_set  # TODO drop as default
-    
     if(with = options[:with])
-      if(with[:media_set])
+      if(with[:media_set] and with[:media_set].is_a?(Hash))
         if with[:media_set].has_key?(:child_sets) and (with[:media_set][:child_sets].is_a?(Hash) or not with[:media_set][:child_sets].to_i.zero?)
-          # dont forward child_sets option to the child sets
-          # this will end up in a loop
-          child_sets_options = options
-          child_sets_options[:child_sets] = 0
-          json[:child_sets] = child_sets.accessible_by_user(options[:current_user]).as_json(child_sets_options)
+          json[:child_sets] = child_sets.accessible_by_user(options[:current_user]).as_json(:with => {:media_set => with[:media_set][:media_sets]})
         end
         if with[:media_set].has_key?(:media_entries) and (with[:media_set][:media_entries].is_a?(Hash) or not with[:media_set][:media_entries].to_i.zero?)
           json[:media_entries] = media_entries.accessible_by_user(options[:current_user]).as_json(:with => {:media_entry => with[:media_set][:media_entries]})
@@ -130,7 +129,7 @@ end
     else
       media_entry_ids
     end
-    meta_key_ids = individual_contexts.map(&:meta_key_ids).flatten
+    meta_key_ids = individual_contexts.flat_map(&:meta_key_ids)
     h = {} #1005# TODO upgrade to Ruby 1.9 and use ActiveSupport::OrderedHash.new
     mds = MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids)
     mds.each do |md|
@@ -153,9 +152,9 @@ end
     else
       media_entry_ids
     end
-    meta_key_ids = individual_contexts.map{|ic| ic.meta_keys.for_meta_terms.map(&:id) }.flatten
+    meta_key_ids = individual_contexts.flat_map{|ic| ic.meta_keys.for_meta_terms.map(&:id) }
     mds = MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids)
-    mds.collect(&:value).flatten.uniq.compact
+    mds.flat_map(&:value).uniq.compact
   end
 
 end
