@@ -1,0 +1,9 @@
+%div{:class => "resource ${type}"}
+  {{if type=="media_set"}}
+  .set_bg
+  .set_label_shadow
+  .set_label
+  {{/if}}
+  {{if image}}
+  %img{:src => "${image}"}
+  {{/if}}
