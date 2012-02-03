@@ -10,14 +10,20 @@ end
 class UploadUtility
   def self.detect_type(path)
     file_result = self.type_using_file(path)
-    exiftool_result = self.type_using_exiftool(path)
-    # If "file" and Exiftool disagree, trust Exiftool
-    if [file_result, exiftool_result].compact.uniq.size > 1
-      detected_type = exiftool_result
-    else
-      detected_type = file_result
-    end
+
+    # This leads to a LOT of 'invalid byte sequence in UTF_8' problems since we started using Ruby 1.9.2.
+    # Disabling for now. FIXME
+    #exiftool_result = self.type_using_exiftool(path)
+
+    # If "file" and Exiftool d# isagree, trust Exiftool
+    # if [file_result, exiftool_result].compact.uniq.size > 1
+    #   detected_type = exiftool_result
+    # else
+    #   detected_type = file_result
+    # end
     
+    detected_type = file_result
+
     return detected_type
   end
   
