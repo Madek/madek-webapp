@@ -516,8 +516,12 @@ public
     sql    
   end
 
+  
   def self.accessible_by_user(user, action = :view)
 
+    unless user and user.id
+      where(action => true)
+    else
       resource_ids_by_userpermission = Userpermission.select("media_resource_id").where(action => true).where("user_id = #{user.id} ")
       resource_ids_by_userpermission_disallowed= Userpermission.select("media_resource_id").where(action => false).where("user_id = #{user.id} ")
       resource_ids_by_grouppermission_but_not_disallowed = Grouppermission.select("media_resource_id").where(action => true).joins(:group).joins("INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id ").where("groups_users.user_id = #{user.id}").where(" media_resource_id NOT IN ( #{resource_ids_by_userpermission_disallowed.to_sql} )")
@@ -533,6 +537,7 @@ public
         UNION 
             #{resource_ids_by_public_permissoin.to_sql}
               )" 
+    end
 
   end
 
