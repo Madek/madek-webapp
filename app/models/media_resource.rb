@@ -309,7 +309,7 @@ class MediaResource < ActiveRecord::Base
 
     mds = meta_data.where(:meta_key_id => meta_keys)
     
-    meta_keys.select{|x| x.is_dynamic? }.each do |key|
+    (meta_keys - mds.map(&:meta_key)).select{|x| x.is_dynamic? }.each do |key|
       mds << meta_data.build(:meta_key => key) 
     end
 
