@@ -519,23 +519,20 @@ public
   
   def self.accessible_by_user(user, action = :view)
 
-    unless user and user.id
+    unless user.try(:id)
       where(action => true)
     else
-      resource_ids_by_userpermission = Userpermission.select("media_resource_id").where(action => true).where("user_id = #{user.id} ")
-      resource_ids_by_userpermission_disallowed= Userpermission.select("media_resource_id").where(action => false).where("user_id = #{user.id} ")
-      resource_ids_by_grouppermission_but_not_disallowed = Grouppermission.select("media_resource_id").where(action => true).joins(:group).joins("INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id ").where("groups_users.user_id = #{user.id}").where(" media_resource_id NOT IN ( #{resource_ids_by_userpermission_disallowed.to_sql} )")
-      resource_ids_by_ownership = MediaResource.select("media_resources.id").where(user_id: user)
-      resource_ids_by_public_permissoin = MediaResource.select("media_resources.id").where(action => true)
+      resource_ids_by_userpermission = Userpermission.select("media_resource_id").where(action => true, :user_id => user)
+      resource_ids_by_userpermission_disallowed= Userpermission.select("media_resource_id").where(action => false, :user_id => user)
+      resource_ids_by_grouppermission_but_not_disallowed = Grouppermission.select("media_resource_id").where(action => true).joins("INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id ").where("groups_users.user_id = #{user.id}").where(" media_resource_id NOT IN ( #{resource_ids_by_userpermission_disallowed.to_sql} )")
+      resource_ids_by_ownership_or_public_permission = MediaResource.select("media_resources.id").where(["user_id = ? OR #{action} = ?", user, true])
 
       where " media_resources.id IN  (
             #{resource_ids_by_userpermission.to_sql} 
         UNION
             #{resource_ids_by_grouppermission_but_not_disallowed.to_sql} 
         UNION
-            #{resource_ids_by_ownership.to_sql}
-        UNION 
-            #{resource_ids_by_public_permissoin.to_sql}
+            #{resource_ids_by_ownership_or_public_permission.to_sql}
               )" 
     end
 

@@ -97,6 +97,9 @@ class MediaSet < MediaResource
         if with[:media_set].has_key?(:child_sets) and (with[:media_set][:child_sets].is_a?(Hash) or not with[:media_set][:child_sets].to_i.zero?)
           json[:child_sets] = child_sets.accessible_by_user(options[:current_user]).as_json(:with => {:media_set => with[:media_set][:media_sets]})
         end
+        if with[:media_set].has_key?(:parent_sets) and (with[:media_set][:parent_sets].is_a?(Hash) or not with[:media_set][:parent_sets].to_i.zero?)
+          json[:parent_sets] = parent_sets.accessible_by_user(options[:current_user]).as_json({:with => {:media_set => with[:media_set][:parent_sets]}}.merge(:current_user => options[:current_user]))
+        end
         if with[:media_set].has_key?(:media_entries) and (with[:media_set][:media_entries].is_a?(Hash) or not with[:media_set][:media_entries].to_i.zero?)
           json[:media_entries] = media_entries.accessible_by_user(options[:current_user]).as_json(:with => {:media_entry => with[:media_set][:media_entries]})
         end
@@ -112,6 +115,20 @@ class MediaSet < MediaResource
         end
         if with[:media_set].has_key?(:title) and (with[:media_set][:title].is_a?(Hash) or not with[:media_set][:title].to_i.zero?)
           json[:title] = meta_data.get_value_for("title")
+        end
+        if with[:media_set].has_key?(:image) and (with[:media_set][:image].is_a?(Hash) or not with[:media_set][:image].to_i.zero?)
+          size = with[:media_set][:image][:size] || :small
+          
+          json[:image] = case with[:media_set][:image][:as]
+            when "base64"
+              mf = media_entries.accessible_by_user(options[:current_user]).order("media_resources.updated_at DESC").first.try(:media_file)
+              mf ? mf.thumb_base64(size) : nil
+            else # default return is a url to the image
+              "/resources/%d/image?size=%s" % [id, size]
+          end            
+        end
+        if with[:media_set].has_key?(:type) and (with[:media_set][:type].is_a?(Hash) or not with[:media_set][:type].to_i.zero?)
+          json[:type] = type.underscore
         end
       end
     end

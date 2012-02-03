@@ -10,52 +10,120 @@ jQuery ->
   setup()
 
 setup = ->
-  $(".item_box.set:not(.popup_target)").live "mouseenter", -> enter_target $(this)
-  $(".item_box.set:not(.popup)").live "mouseleave", -> leave_target $(this)
-  $(".item_box.set.popup").live "mouseleave", -> leave_popup $(this)
-  
+  $(".item_box.set:not(.popup_target) .thumb_box_set").live "mouseenter", -> enter_target $(this)
+  $(".item_box.set.popup_target:not(.popup) .thumb_box_set").live "mouseenter", -> enter_target $(this)
+  $(".item_box.set:not(.popup) .thumb_box_set").live "mouseleave", -> leave_target $(this)
+  $(".item_box.set.popup .thumb_box_set").live "mouseleave", -> leave_popup $(this)
+  $(".item_box.set:not(.popup_target) .thumb_box_set").live "click", -> stop_target_popup $(this)
+
+stop_target_popup = (target) ->
+  target = $(target).closest(".item_box")
+  window.clearTimeout($(target).data "popup_timeout")
+
 enter_target = (target)->
+  target = $(target).closest(".item_box")
   console.log("ENTER TARGET")
   # clear timeout
   window.clearTimeout($(target).data "popup_timeout")
   # set popup with timeout
   timeout = window.setTimeout -> 
     open_popup target
-  , 600
+  , 300
   $(target).data "popup_timeout", timeout
   # set load data with timeout
   timeout = window.setTimeout ->
-    load_data target
-  , 200
+    load_children target
+    load_parents target
+  , 100
   $(target).data "load_timeout", timeout
   
-load_data = (target)->
-  console.log "LOAD DATA"
-  console.log $(target)
-  $.ajax {
-    url: "/media_sets/"+target.tmplItem().data.id
-    beforeSend: (request, settings) ->
-      #before
-    success: (data, status, request) ->
-      console.log "SUCCESS LOADING"
-      setup_childs(data)
-    error: (request, status, error) ->
-      console.log "ERROR LOADING"
-    data:
-      format: "json"
-      with: 
-        media_set:
-          media_resources:
-            type: 1
-            image:
-              as:"base64"
-              size:"small"
-    type: "GET"
-  }
+load_children = (target)->
+  console.log "LOAD CHILDREN"
+  if $(target).data("loaded_children")?
+    setup_children(target, $(target).data("loaded_children"))
+  else
+    $.ajax
+      url: "/media_sets/"+target.tmplItem().data.id
+      beforeSend: (request, settings) ->
+        #before
+      success: (data, status, request) ->
+        console.log "SUCCESS LOADING"
+        $(target).data "loaded_children", data
+        setup_children(target, data)
+      error: (request, status, error) ->
+        console.log "ERROR LOADING"
+      data:
+        format: "json"
+        with: 
+          media_set:
+            media_resources:
+              type: 1
+              image:
+                as:"base64"
+                size:"small"
+      type: "GET"
+    
+load_parents = (target)->
+  console.log "LOAD PARENTS"
+  if $(target).data("loaded_parents")?
+    setup_parents(target, $(target).data("loaded_parents"))
+  else
+    $.ajax
+      url: "/media_sets/"+target.tmplItem().data.id
+      beforeSend: (request, settings) ->
+        #before
+      success: (data, status, request) ->
+        console.log "SUCCESS LOADING"
+        $(target).data "loaded_parents", data
+        setup_parents(target, data)
+      error: (request, status, error) ->
+        console.log "ERROR LOADING"
+      data:
+        format: "json"
+        with: 
+          media_set:
+            parent_sets:
+              type: 1
+              image:
+                as:"base64"
+                size:"small"
+      type: "GET"
   
-setup_childs = (data)->
-  
-  
+setup_children = (target, data)->
+  console.log "SETUP CHILDREN"
+  if $(target).data("popup")?
+    # remove loading
+    $($(target).data("popup")).find(".children .loading").remove()
+    # setup resources
+    media_entries = (resource for resource in data.media_resources when resource.type is "media_entry")
+    console.log media_entries
+    media_sets = (resource for resource in data.media_resources when resource.type is "media_set")
+    resources = data.media_resources[0...6]
+    displayed_media_entries = (resource for resource in resources when resource.type is "media_entry")
+    displayed_media_sets = (resource for resource in resources when resource.type is "media_set")
+    for resource in resources
+      do (resource) ->
+        $($(target).data("popup")).find(".children").append $.tmpl("tmpl/mediaset-popup/resource", resource)
+    # setup text
+    $($(target).data("popup")).find(".children").append $("<div class='text'></div>")
+    if media_entries? then $($(target).data("popup")).find(".children .text").append("<p>"+(media_entries.length-displayed_media_entries.length)+" weitere Medieneinträge</p>")
+    if media_sets? then $($(target).data("popup")).find(".children .text").append("<p>"+(media_sets.length-displayed_media_sets.length)+" weitere Sets</p>")
+      
+setup_parents = (target, data)->
+  console.log "SETUP PARENTS"
+  if $(target).data("popup")?
+    # remove loading
+    $($(target).data("popup")).find(".parents .loading").remove()
+    # setup resources
+    resources = data.parent_sets[0...3]
+    displayed_media_sets = (resource for resource in resources when resource.type is "media_set")
+    for resource in resources
+      do (resource) ->
+        $($(target).data("popup")).find(".parents").append $.tmpl("tmpl/mediaset-popup/resource", resource)
+    # setup text
+    $($(target).data("popup")).find(".parents").append $("<div class='text'></div>")
+    if resources? then $($(target).data("popup")).find(".parents .text").append("<p>"+(resources.length-displayed_media_sets.length)+" weitere Sets</p>")
+      
 open_popup = (target)->
   console.log("OPEN POPUP")
   # mark target
@@ -64,20 +132,17 @@ open_popup = (target)->
   if($(target).data("popup") == undefined) 
     create_popup target
   # fadein childs and parents
-  $($(target).data("popup")).find(".child_entries").fadeIn(300, ->
-    $(this).find(".arrow").show()
-  )
-  $($(target).data("popup")).find(".parent_sets").fadeIn(300, ->
-    $(this).find(".arrow").show()
-  )
+  $($(target).data("popup")).find(".children").find(".arrow").show()
+  $($(target).data("popup")).find(".children").delay(150).fadeIn(300)
+  $($(target).data("popup")).find(".parents").find(".arrow").show()
+  $($(target).data("popup")).find(".parents").delay(150).fadeIn(300)
   # animate opening
   $($(target).data("popup")).find(".background").animate {
     left: 0,
-    height: "650px",
-    top: "-130px",
+    height: "665px",
+    top: "-145px",
     width: "200px"
-  }
-    
+  }, 200
   
 create_popup = (target)->
   console.log("CREATE POPUP")
@@ -88,17 +153,19 @@ create_popup = (target)->
   arrow_grey = $.tmpl "tmpl/svg/arrow", classname: "grey"
   arrow_white = $.tmpl "tmpl/svg/arrow", classname: "white"
   background = $("<div class='background'></div>")
-  background.append $("<div class='parent_sets'></div>")
+  background.append $("<div class='parents'></div>")
   # create parent sets container
-  parent_sets = $(background).find ".parent_sets"
-  parent_sets.hide() 
-  parent_sets.append arrow_grey
-  background.append $("<div class='child_entries'></div>")
+  parents = $(background).find ".parents"
+  parents.append $("<div class='loading'><img src='/assets/loading.gif'/></div>")
+  parents.hide() 
+  parents.append arrow_grey
+  background.append $("<div class='children'></div>")
   # create child entries container
-  child_entries = $(background).find ".child_entries"
-  child_entries.append $("<div class='bar'></div>")
-  child_entries.find(".bar").append arrow_white
-  child_entries.hide()
+  children = $(background).find ".children"
+  children.append $("<div class='bar'></div>")
+  children.append $("<div class='loading'><img src='/assets/loading.gif'/></div>")
+  children.find(".bar").append arrow_white
+  children.hide()
   # hide arrows
   $(background).find(".arrow").hide() 
   background.css("width", "140px").css("height", "235px").css("position", "absolute").css("top", "6px").css("left", "25px")
@@ -124,6 +191,12 @@ create_popup = (target)->
     at: "top left",
     of: $(target)
   }
+  # put children inside if already exist
+  if $(target).data("loaded_children")?
+    setup_children target, $(target).data("loaded_children")
+  # put parents inside if already exist
+  if $(target).data("loaded_parents")?
+    setup_parents target, $(target).data("loaded_parents")
   
 close_popup = (popup_container)->
   console.log("CLOSE POPUP")
@@ -139,23 +212,27 @@ close_popup = (popup_container)->
     top: "0",
     height: "235px",
     width: "140px"
-  }, ->
+  }, 300, ->
     # remove popup from dom
     remove_popup popup_container
   
 remove_popup = (popup_container)->
   console.log("REMOVE POPUP")
   target = $(popup_container).data("target")
-  $(target).removeClass("popup_target")
   $(target).removeData("popup")
   $(popup_container).remove()
+  window.setTimeout ->
+    $(target).removeClass("popup_target")
+  , 200
 
 leave_target = (target)->
+  target = $(target).closest(".item_box")
   console.log("LEAVE TARGET")
   if $(target).data("popup") == undefined
     close_popup target
   
 leave_popup = (popup)->
+  target = $(target).closest(".item_box")
   console.log("LEAVE POPUP")
   target = $(popup).closest(".set_popup")
   close_popup target
