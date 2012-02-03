@@ -74,7 +74,7 @@ module MediaSetsHelper
       else
         haml_tag :h4, _("Enthalten in")
         media_sets.each do |media_set|
-          #2001# media_entries = media_set.media_entries.select {|media_entry| Permissions.authorized?(current_user, :view, media_entry)}
+          #2001# media_entries = media_set.media_entries.select {|media_entry| current_user.authorized?(:view, media_entry)}
           #2001# media_set_title(media_set, media_entries, true)
           haml_concat media_set_title(media_set, true, true)
         end

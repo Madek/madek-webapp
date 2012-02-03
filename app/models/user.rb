@@ -79,6 +79,27 @@ class User < ActiveRecord::Base
 
 #############################################################
 
+  # TODO refactor up to Subject ??
+  def authorized?(action, resource_or_resources)
+    Array(resource_or_resources).all? do |resource|
+      if resource.user == self
+        true
+      elsif resource.send(action) == true
+        true
+      elsif resource.userpermissions.disallows(self, action)
+        false
+      elsif resource.userpermissions.allows(self, action)
+        true
+      elsif resource.grouppermissions.allows(self, action)
+        true
+      else
+        false
+      end
+    end 
+  end
+
+#############################################################
+
   # TODO check against usage_terms version ??
   def usage_terms_accepted?
     usage_terms_accepted_at.to_i >= UsageTerm.current.updated_at.to_i

@@ -114,34 +114,20 @@ class MediaSetsController < ApplicationController
   # @response_field [Integer] media_entries[].id The id of a media entry
   #
   def show(thumb = params[:thumb], with = params[:with])
-    params[:per_page] ||= PER_PAGE.first
-    paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
-    resources = MediaResource.accessible_by_user(current_user).order("media_resources.updated_at DESC").by_media_set(@media_set).paginate(paginate_options)
-    
-    @can_edit_set = Permissions.authorized?(current_user, :edit, @media_set)
-    @parents = @media_set.parent_sets.as_json(:user => current_user)
-    
     respond_to do |format|
       format.html {
+        params[:per_page] ||= PER_PAGE.first
+        paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
+        resources = MediaResource.accessible_by_user(current_user).order("media_resources.updated_at DESC").by_media_set(@media_set).paginate(paginate_options)
         with_thumb = true
+        
+        @can_edit_set = current_user.authorized?(:edit, @media_set)
+        @parents = @media_set.parent_sets.as_json(:user => current_user)
         @media_entries = { :pagination => { :current_page => resources.current_page,
                                             :per_page => resources.per_page,
                                             :total_entries => resources.total_entries,
                                             :total_pages => resources.total_pages },
                            :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
-      }
-      
-      format.js {
-        # OPTIMIZE this is a quick-fix for the inview-pagination
-        if params[:page]
-          with_thumb = true
-          json = { :pagination => { :current_page => resources.current_page,
-                                    :per_page => resources.per_page,
-                                    :total_entries => resources.total_entries,
-                                    :total_pages => resources.total_pages },
-                   :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
-        end
-        render :json => json
       }
       
       format.json {
@@ -364,7 +350,7 @@ class MediaSetsController < ApplicationController
     end
     if @media_set
       resource = @media_set
-      not_authorized! unless Permissions.authorized?(current_user, action, resource) # TODO super ??
+      not_authorized! unless current_user.authorized?(action, resource) # TODO super ??
     else
       flash[:error] = "Kein Medienset ausgewählt."
       redirect_to :back

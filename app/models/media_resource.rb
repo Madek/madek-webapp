@@ -1,13 +1,9 @@
 # -*- encoding : utf-8 -*-
 class MediaResource < ActiveRecord::Base
 
-  has_many :userpermissions, :dependent => :destroy
-  has_many :grouppermissions, :dependent => :destroy
-
   belongs_to :user 
   belongs_to :media_file
   belongs_to :upload_session
-
 
  # TODO observe bulk changes and reindex once
   has_many :meta_data, :dependent => :destroy do #working here#7 :include => :meta_key
@@ -111,10 +107,6 @@ class MediaResource < ActiveRecord::Base
   has_one :full_text, :dependent => :destroy
   after_save { reindex } # OPTIMIZE
 
-
-  def default_permission
-    Permission.resource_default(self)
-  end
 
   # returns the meta_data for a particular resource, so that it can written into a media file that is to be exported.
   # NB: this is exiftool specific at present, but can be refactored to take account of other tools if necessary.
@@ -250,8 +242,8 @@ class MediaResource < ActiveRecord::Base
       #TODO Dont do this behaviour on default
       flags = { :is_private => acl?(:view, :only, user),
                 :is_public => acl?(:view, :all),
-                :is_editable => Permissions.authorized?(user, :edit, self),
-                :is_manageable => Permissions.authorized?(user, :manage, self),
+                :is_editable => user.authorized?(:edit, self),
+                :is_manageable => user.authorized?(:manage, self),
                 :is_favorite => user.favorite_ids.include?(id) }
       more_json.merge! flags         
       more_json.merge!(self.get_basic_info(user, [], with_thumb))
@@ -317,7 +309,7 @@ class MediaResource < ActiveRecord::Base
 
     mds = meta_data.where(:meta_key_id => meta_keys)
     
-    meta_keys.select{|x| x.is_dynamic? }.each do |key|
+    (meta_keys - mds.map(&:meta_key)).select{|x| x.is_dynamic? }.each do |key|
       mds << meta_data.build(:meta_key => key) 
     end
 
@@ -364,46 +356,6 @@ class MediaResource < ActiveRecord::Base
       self.type.gsub(/Media/, '')
     end    
   end
-
-########################################################
-# ACL
-
-
-  def acl?(action, scope, subject = nil)
-    case scope
-    when :all
-      self.send(action)
-    when :only
-      Permissions.is_private?(subject,self,:view)
-    end
-  end
-
-
-  def managers
-    Permissions.users_permitted_to_act_on_resouce self, :manage
-  end
-
-
-  private
-
-
-  def generate_permissions
-    if self.class == Snapshot
-      group = Group.find_or_create_by_name("MIZ-Archiv") 
-      gp = Grouppermission.create  \
-        group: group, 
-        media_resource: self,
-        download: true,
-        edit: true,
-        manage: true,
-        view: true
-    end
-  end
-
-
-
-public
-
 
 ##########################################################################################################################
 ##########################################################################################################################
@@ -516,29 +468,95 @@ public
     sql    
   end
 
-  
-  def self.accessible_by_user(user, action = :view)
+########################################################
+# Permissions
 
-    unless user and user.id
+  has_many :userpermissions, :dependent => :destroy do
+    def allows(user, action)
+      where(:user_id => user, action => true).first
+    end
+    def disallows(user, action)
+      where(:user_id => user, action => false).first
+    end
+  end
+  
+  has_many :grouppermissions, :dependent => :destroy do
+    def allows(user, action)
+      joins(:group => :users).where(action => true, :groups_users => {:user_id => user}).first
+    end
+  end
+
+  def acl?(action, scope, subject = nil)
+    case scope
+    when :all
+      self.send(action)
+    when :only
+      is_private?(subject, :view)
+    end
+  end
+
+  def self.accessible_by_user(user, action = :view)
+    unless user.try(:id)
       where(action => true)
     else
-      resource_ids_by_userpermission = Userpermission.select("media_resource_id").where(action => true).where("user_id = #{user.id} ")
-      resource_ids_by_userpermission_disallowed= Userpermission.select("media_resource_id").where(action => false).where("user_id = #{user.id} ")
-      resource_ids_by_grouppermission_but_not_disallowed = Grouppermission.select("media_resource_id").where(action => true).joins(:group).joins("INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id ").where("groups_users.user_id = #{user.id}").where(" media_resource_id NOT IN ( #{resource_ids_by_userpermission_disallowed.to_sql} )")
-      resource_ids_by_ownership = MediaResource.select("media_resources.id").where(user_id: user)
-      resource_ids_by_public_permissoin = MediaResource.select("media_resources.id").where(action => true)
+      resource_ids_by_userpermission = Userpermission.select("media_resource_id").where(action => true, :user_id => user)
+      resource_ids_by_userpermission_disallowed= Userpermission.select("media_resource_id").where(action => false, :user_id => user)
+      resource_ids_by_grouppermission_but_not_disallowed = Grouppermission.select("media_resource_id").where(action => true).joins("INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id ").where("groups_users.user_id = #{user.id}").where(" media_resource_id NOT IN ( #{resource_ids_by_userpermission_disallowed.to_sql} )")
+      resource_ids_by_ownership_or_public_permission = MediaResource.select("media_resources.id").where(["user_id = ? OR #{action} = ?", user, true])
 
       where " media_resources.id IN  (
             #{resource_ids_by_userpermission.to_sql} 
         UNION
             #{resource_ids_by_grouppermission_but_not_disallowed.to_sql} 
         UNION
-            #{resource_ids_by_ownership.to_sql}
-        UNION 
-            #{resource_ids_by_public_permissoin.to_sql}
+            #{resource_ids_by_ownership_or_public_permission.to_sql}
               )" 
     end
-
   end
+
+  def users_permitted_to_act(action)
+    # do not optimize away this query as resource.user can be null
+    owner_id = User.select("users.id").joins(:media_resources).where("media_resources.id" => id)
+    user_ids_by_userpermission= Userpermission.select("user_id").where("media_resource_id" => id).where("userpermissions.#{action}" => true)
+    user_ids_dissallowed_by_userpermission = Userpermission.select("user_id").where("media_resource_id" => id).where("userpermissions.#{action}" => false)
+    user_ids_by_grouppermission_but_not_dissallowed= Grouppermission.select("groups_users.user_id as user_id").joins(:group).joins("INNER JOIN groups_users ON groups_users.group_id = groups.id").where("media_resource_id" => id).where("grouppermissions.#{action}" => true).where(" user_id NOT IN ( #{user_ids_dissallowed_by_userpermission.to_sql} )")
+    user_ids_by_publicpermission= User.select("users.id").joins("CROSS JOIN media_resources").where("media_resources.#{action}" => true)
+
+    User.where " users.id IN (
+          #{owner_id.to_sql}
+        UNION
+          #{user_ids_by_userpermission.to_sql}
+        UNION
+          #{user_ids_by_grouppermission_but_not_dissallowed.to_sql}
+        UNION
+          #{user_ids_by_publicpermission.to_sql})"
+  end
+
+  def managers
+    users_permitted_to_act :manage
+  end
+
+  def is_private?(user, action)
+    new_action = Constants::Actions.old2new action
+    (users_permitted_to_act new_action).where(["users.id <> ?", user]).empty?
+  end
+
+
+  private
+
+
+  def generate_permissions
+    if self.class == Snapshot
+      group = Group.find_or_create_by_name("MIZ-Archiv") 
+      gp = Grouppermission.create  \
+        group: group, 
+        media_resource: self,
+        download: true,
+        edit: true,
+        manage: true,
+        view: true
+    end
+  end
+
 
 end

@@ -16,12 +16,12 @@ describe MediaSetsController do
     end
 
     it "assigns inheritable_contexts" do
-      get :inheritable_contexts,{ :id => @media_set.id, :format => 'json'}, {:user_id => @user.id, :format => 'json'}
+      get :inheritable_contexts,{ :id => @media_set.id, :format => 'json'}, {:user_id => @user.id}
       assigns(:inheritable_contexts).should == []
     end
 
 
-    context "with iherited context" do
+    context "with inherited context" do
 
       before :each do
         @media_set.parent_sets << (@parent1 = FactoryGirl.create :media_set)

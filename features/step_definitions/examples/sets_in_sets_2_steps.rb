@@ -57,7 +57,7 @@ end
 
 Given /^I can edit the set "([^"]*)"$/ do |set_title|
   @set = MediaSet.find_by_title(set_title)
-  Permissions.authorized?(@current_user, :edit, @set).should be_true
+  @current_user.authorized?(:edit, @set).should be_true
 end
 
 When /^I view the set "([^"]*)"$/ do |set_title|
