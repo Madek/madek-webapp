@@ -70,12 +70,6 @@ module Persona
       media_set2.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title}}})
       media_set2.individual_contexts << context
 
-      title = "Zett über Landschaften"
-      media_set3 = Factory(:media_set, :user => user)
-      media_set3.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title}}})
-      media_set3.parent_sets << [media_set1, media_set2]
-
-
       # TODO create with meta_keys
       name = "Games"
       context = if MetaContext.exists?(:name => name)
@@ -83,6 +77,12 @@ module Persona
       else
         Factory(:meta_context, :name => name)
       end
+
+      title = "Zett über Landschaften"
+      media_set3 = Factory(:media_set, :user => user)
+      media_set3.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title}}})
+      media_set3.individual_contexts << context
+      media_set3.parent_sets << [media_set1, media_set2]
 
 
     end

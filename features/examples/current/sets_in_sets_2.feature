@@ -22,9 +22,11 @@ Feature: Sets in Sets II
   Scenario: Choosing which contexts are valid for a set
    Given a context called "Landschaftsvisualisierung" exists
      And a context called "Zett" exists
+     And a context called "Games" exists
      And a set called "Landschaften" that has the context "Landschaftsvisualisierung"
      And a set called "Zett" that has the context "Zett"
-     And a set called "Zett über Landschaften" which is child of "Landschaften" and "Zett"
+     And a set called "Zett über Landschaften" that has the context "Games"
+     And the set called "Zett über Landschaften" is child of "Landschaften" and "Zett"
      And I can edit the set "Zett über Landschaften"
     When I view the set "Zett über Landschaften"
     Then I see the available contexts "Landschaftsvisualisierung" and "Zett"
@@ -33,17 +35,18 @@ Feature: Sets in Sets II
     Then the set "Zett über Landschaften" has the context "Zett"
     When I assign the context "Landschaftsvisualisierung" to the set "Zett über Landschaften"
     Then the set "Zett über Landschaften" has the context "Landschaftsvisualisierung"
-     And the set still has its other contexts as well
+     And the set still has the context called "Games"
 
   # https://www.pivotaltracker.com/story/show/22464659
-  @committed @wip
+  @committed @javascript @wip
   Scenario: Viewing which contexts a set could have
    Given a context called "Landschaftsvisualisierung" exists
      And a context called "Zett" exists
      And a context called "Games" exists
      And a set called "Landschaften" that has the context "Landschaftsvisualisierung"
      And a set called "Zett" that has the context "Zett"
-     And a set called "Zett über Landschaften" which is child of "Landschaften" and "Zett"
+     And a set called "Zett über Landschaften" that has the context "Games"
+     And the set called "Zett über Landschaften" is child of "Landschaften" and "Zett"
     When I view the set "Zett über Landschaften"
     Then I can choose to see more details about the context "Zett"
      And I can choose to see more details about the context "Landschaftsvisualisierung"

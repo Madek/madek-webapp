@@ -47,7 +47,7 @@ Given /^a set called "([^"]*)" that has the context "([^"]*)"$/ do |set_title, c
   step 'the set "%s" has the context "%s"' % [set_title, context_name]
 end
 
-Given /^a set called "([^"]*)" which is child of "([^"]*)" and "([^"]*)"$/ do |set_title, parent_set_title_1, parent_set_title_2|
+Given /^the set called "([^"]*)" is child of "([^"]*)" and "([^"]*)"$/ do |set_title, parent_set_title_1, parent_set_title_2|
   @set = MediaSet.find_by_title(set_title)
   
   @parent_set_1 = MediaSet.find_by_title(parent_set_title_1)
@@ -89,10 +89,22 @@ When /^I assign the context "([^"]*)" to the set "([^"]*)"$/ do |context_name, s
   find('#contexts_tab input[@type="submit"]').click
 end
 
+Then /^I can choose to see more details about the context "([^"]*)"$/ do |context_name|
+  context_label = MetaContext.send(context_name).to_s
+  
+  step 'I follow "Kontexte"'
+  wait_for_css_element('#contexts_tab input[@type="submit"]')
+  find(:xpath, '//a[contains(., "%s")]' % context_label)
+end
+
 Then /^the set "([^"]*)" has the context "([^"]*)"$/ do |set_title, context_name|
-  set = MediaSet.find_by_title(set_title)
-  set.title.should == set_title
+  @set = MediaSet.find_by_title(set_title)
+  @set.title.should == set_title
 
   context = MetaContext.send(context_name)
-  set.individual_contexts.include?(context).should be_true 
+  @set.individual_contexts.include?(context).should be_true 
+end
+
+Then /^the set still has the context called "([^"]*)"$/ do |context_name|
+  step 'the set "%s" has the context "%s"' % [@set.title, context_name]
 end
