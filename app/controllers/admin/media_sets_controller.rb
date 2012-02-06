@@ -66,8 +66,9 @@ class Admin::MediaSetsController < Admin::AdminController
   private
 
   def pre_load
-      params[:media_set_id] ||= params[:id]
-      @set = MediaSet.find(params[:media_set_id]) unless params[:media_set_id].blank?
+    unless (params[:media_set_id] ||= params[:id]).blank?
+      @set = MediaSet.find(params[:media_set_id])
+    end
   end
   
 end

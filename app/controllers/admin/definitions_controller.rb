@@ -62,9 +62,10 @@ class Admin::DefinitionsController < Admin::AdminController
   private
 
   def pre_load
-      params[:definition_id] ||= params[:id]
-      @context = MetaContext.find(params[:context_id])
-      @definition = @context.meta_key_definitions.find(params[:definition_id]) unless params[:definition_id].blank?
+    @context = MetaContext.find(params[:context_id])
+    unless (params[:definition_id] ||= params[:id]).blank?
+      @definition = @context.meta_key_definitions.find(params[:definition_id])
+    end
   end
 
 end

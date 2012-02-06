@@ -254,13 +254,11 @@ class MediaEntriesController < ApplicationController
       params.delete_if {|k,v| v.blank? }
       action = request[:action].to_sym
 
-      params[:media_entry_id] ||= params[:id] ||= params[:media_entry_ids]
-      
       @user = User.find(params[:user_id]) unless params[:user_id].blank?
       @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
       @media_set = (@user? @user.media_sets : MediaSet).find(params[:media_set_id]) unless params[:media_set_id].blank? # TODO shallow
 
-      unless params[:media_entry_id].blank?
+      unless (params[:media_entry_id] ||= params[:id] || params[:media_entry_ids]).blank?
         @media_entry =  if @media_set
                           @media_set.media_entries.find(params[:media_entry_id])
                         elsif @user

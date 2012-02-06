@@ -26,8 +26,9 @@ class Admin::PeopleController < Admin::AdminController
   private
 
   def pre_load
-      params[:person_id] ||= params[:id]
-      @person = Person.find(params[:person_id]) unless params[:person_id].blank?
+    unless (params[:person_id] ||= params[:id]).blank?
+      @person = Person.find(params[:person_id])
+    end
   end
 
 end

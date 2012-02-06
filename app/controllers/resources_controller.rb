@@ -151,9 +151,10 @@ class ResourcesController < ApplicationController
 ###################################################################################
 
   def pre_load
-    params[:media_resource_id] ||= params[:id] ||= params[:media_resource_ids]
     begin
-      @media_resource = MediaResource.accessible_by_user(current_user).find(params[:media_resource_id]) unless params[:media_resource_id].blank?
+      unless (params[:media_resource_id] ||= params[:id] || params[:media_resource_ids]).blank?
+        @media_resource = MediaResource.accessible_by_user(current_user).find(params[:media_resource_id])
+      end
     rescue
       not_authorized!
     end
