@@ -53,7 +53,7 @@ class MediaEntry < MediaResource
     
     # TODO shouldnt be set per default
     json[:is_set] = false
-    json[:can_maybe_browse] = !meta_data.for_meta_terms.blank?
+    json[:can_maybe_browse] = meta_data.for_meta_terms.exists?
     
     if(with = options[:with])
       if(with[:media_entry] and with[:media_entry].is_a?(Hash))
