@@ -58,7 +58,15 @@ class MediaEntry < MediaResource
     if(with = options[:with])
       if(with[:media_entry] and with[:media_entry].is_a?(Hash))
         if with[:media_entry].has_key?(:author) and (with[:media_entry][:author].is_a?(Hash) or not with[:media_entry][:author].to_i.zero?)
-          json[:author] = meta_data.find_by_meta_key_id MetaKey.find_by_label("author")
+          author = meta_data.get("author").deserialized_value.first # FIXME get all if many
+          json[:author] = {}
+          json[:author][:id] = author.id
+          if with[:media_entry][:author].has_key?(:name) and (with[:media_entry][:author][:name].is_a?(Hash) or not with[:media_entry][:author][:name].to_i.zero?)
+            json[:author][:name] = author.to_s
+          end 
+        end
+        if with[:media_entry].has_key?(:title) and (with[:media_entry][:title].is_a?(Hash) or not with[:media_entry][:title].to_i.zero?)
+          json[:title] = meta_data.get_value_for("title")
         end
         if with[:media_entry].has_key?(:image) and (with[:media_entry][:image].is_a?(Hash) or not with[:media_entry][:image].to_i.zero?)
           
