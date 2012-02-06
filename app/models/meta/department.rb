@@ -7,6 +7,8 @@ class Meta::Department < Group
   end
 
   def to_limited_s(n = 80)
+    n = n.to_i
+    
     if to_s.mb_chars.size > n
       "#{to_s.mb_chars.limit(n)}..."
     else

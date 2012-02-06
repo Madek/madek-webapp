@@ -488,6 +488,8 @@ class MediaResource < ActiveRecord::Base
   end
 
   def self.accessible_by_user(user, action = :view)
+    action = action.to_sym
+    
     unless user.try(:id)
       where(action => true)
     else

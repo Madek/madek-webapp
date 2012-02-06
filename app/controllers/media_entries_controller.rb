@@ -41,8 +41,9 @@ class MediaEntriesController < ApplicationController
   # @response_field [String] title The title of the media set 
   # @response_field [Hash] author The author of the media set 
   #
-  def index(accessible_action = params[:accessible_action] || :view,
-            with = params[:with], parent_ids = params[:parent_ids] || nil)
+  def index(accessible_action = (params[:accessible_action] || :view).to_sym,
+            with = params[:with],
+            parent_ids = params[:parent_ids] || nil)
     
     respond_to do |format|
       
@@ -50,10 +51,10 @@ class MediaEntriesController < ApplicationController
                 
         entries = unless parent_ids.blank?
           MediaSet.where(:id => parent_ids).flat_map do |parent|
-            parent.media_entries.accessible_by_user(current_user, accessible_action.to_sym)
+            parent.media_entries.accessible_by_user(current_user, accessible_action)
           end.uniq
         else
-          MediaEntry.accessible_by_user(current_user, accessible_action.to_sym)
+          MediaEntry.accessible_by_user(current_user, accessible_action)
         end
         
         render :json => entries.as_json(:with => with, :with_thumb => false) # TODO drop with_thum merge with with

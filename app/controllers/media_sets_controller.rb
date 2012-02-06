@@ -50,8 +50,9 @@ class MediaSetsController < ApplicationController
   # @response_field [String] title The title of the media set 
   # @response_field [Hash] author The author of the media set 
   #
-  def index(accessible_action = params[:accessible_action] || :view,
-            with = params[:with], child_ids = params[:child_ids] || nil)
+  def index(accessible_action = (params[:accessible_action] || :view).to_sym,
+            with = params[:with],
+            child_ids = params[:child_ids] || nil)
 
     respond_to do |format|
       #-# only used for FeaturedSet
@@ -76,10 +77,10 @@ class MediaSetsController < ApplicationController
         
         sets = unless child_ids.blank?
           MediaResource.where(:id => child_ids).flat_map do |child|
-            child.parent_sets.accessible_by_user(current_user, accessible_action.to_sym)
+            child.parent_sets.accessible_by_user(current_user, accessible_action)
           end.uniq
         else
-          MediaSet.accessible_by_user(current_user, accessible_action.to_sym)
+          MediaSet.accessible_by_user(current_user, accessible_action)
         end
 
         render :json => sets.as_json(:current_user => current_user, :with => with, :with_thumb => false) # TODO drop with_thum merge with with
@@ -189,7 +190,7 @@ class MediaSetsController < ApplicationController
   #
   # @response_field [Integer] title The title of the created set
   # 
-  def create(attr = params[:media_sets] ||= params[:media_set])
+  def create(attr = params[:media_sets] || params[:media_set])
     
     is_saved = true
     if not attr.blank? and attr.has_key? "0" # CREATE MULTIPLE

@@ -125,7 +125,7 @@ class ResourcesController < ApplicationController
 
 ###################################################################################
 
-  def image(size = params[:size] || :large)
+  def image(size = (params[:size] || :large).to_sym)
     # TODO dry => Resource#thumb_base64 and Download audio/video
     media_file = if @media_resource.is_a? MediaSet
       @media_resource.media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
