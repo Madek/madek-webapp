@@ -230,7 +230,7 @@ class MediaEntriesController < ApplicationController
 
     unless (params[:media_entry_id] ||= params[:id] || params[:media_entry_ids]).blank?
       action = case request[:action].to_sym
-        when :show, :map, :browse
+        when :show, :map, :browse, :media_sets
           :view
         when :edit, :update, :edit_tms, :destroy
           :edit
