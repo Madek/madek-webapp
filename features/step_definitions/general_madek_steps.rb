@@ -231,7 +231,7 @@ end
 When /^(?:|I )attach the file "([^"]*)" relative to the Rails directory to "([^"]*)"(?: within "([^"]*)")?$/ do |path, field, selector|
   path = Rails.root + path
   within_string = selector.blank? ? "" : " within \"#{selector}\""
-  When "I attach the file \"#{path}\" to \"#{field}\"" + within_string
+  step "I attach the file \"#{path}\" to \"#{field}\"" + within_string
 end
 
 # Can use "user" or "group" field name
@@ -342,7 +342,7 @@ end
 
 When "I make sure I'm logged out" do
   if page.has_content?("Abmelden")
-    Then 'I follow "Abmelden"'
+    step 'I follow "Abmelden"'
   end
 end
 

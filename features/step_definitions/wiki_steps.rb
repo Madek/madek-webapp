@@ -1,5 +1,5 @@
 Then /^I should be told I have no access and I need to log in$/ do
-  Then 'I should see "Bitte anmelden"'
+  step 'I should see "Bitte anmelden"'
 end
 
 Given /^there is a wiki page "([^"]*)"$/ do |name|
