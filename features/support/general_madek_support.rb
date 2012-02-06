@@ -126,7 +126,6 @@ end
 # the .item_box that contains the title. Returns the whole .item_box element
 # if successful, nil otherwise.
 def find_media_entry_titled(title)
-  wait_for_css_element("div.item_box")
   found_item = nil
   wait_for_css_element("#results .item_box")
   all(".item_box").each do |item|

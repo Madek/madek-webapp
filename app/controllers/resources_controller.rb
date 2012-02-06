@@ -7,12 +7,13 @@ class ResourcesController < ApplicationController
   def index
     params[:per_page] ||= PER_PAGE.first
 
-    resources = MediaResource.accessible_by_user(current_user)
+    resources = MediaResource.accessible_by_user(current_user).order("media_resources.updated_at DESC")
     if params[:type]
       resources = resources.send(params[:type])
     else
       resources = resources.media_entries_and_media_sets
     end
+
     resources = resources.by_user(@user) if params[:user_id] and (@user = User.find(params[:user_id]))
     resources = resources.not_by_user(current_user) if params[:not_by_current_user]
     resources = resources.favorites_for_user(current_user) if request.fullpath =~ /favorites/
@@ -127,7 +128,7 @@ class ResourcesController < ApplicationController
   def image(size = params[:size] || :large)
     # TODO dry => Resource#thumb_base64 and Download audio/video
     media_file = if @media_resource.is_a? MediaSet
-      @media_resource.media_entries.accessible_by_user(current_user).first.try(:media_file)
+      @media_resource.media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
     else
       @media_resource.media_file
     end

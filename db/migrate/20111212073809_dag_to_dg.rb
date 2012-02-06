@@ -12,7 +12,7 @@ class Media::SetLink < ActiveRecord::Base
   end
 
   # TODO use dagnabit gem instead ??
-  acts_as_dag_links :node_class_name => 'Media::Set'  
+  acts_as_dag_links :node_class_name => 'MediaSet'  
 end
 
 class DagToDg < ActiveRecord::Migration
@@ -29,10 +29,9 @@ class DagToDg < ActiveRecord::Migration
     add_index :media_set_arcs, :child_id
     add_index :media_set_arcs, [:parent_id, :child_id], :unique => true
 
-    fkey_cascade_on_delete :media_set_arcs, :parent_id, :media_sets 
-    fkey_cascade_on_delete :media_set_arcs, :child_id, :media_sets 
+    fkey_cascade_on_delete :media_set_arcs,  :media_sets, :parent_id
+    fkey_cascade_on_delete :media_set_arcs, :media_sets, :child_id
     add_check :media_set_arcs, "(parent_id <> child_id)"
-
 
     Media::SetLink.where(direct: true).each do |link|
       if (MediaSet.exists? link.descendant_id) \

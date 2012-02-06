@@ -2,7 +2,7 @@
   original_file = media_entry.media_file
   x_large_file = media_entry.media_file.get_preview(:x_large)
   format_original_file = file_format_for(original_file)
-  can_download_hi_res = Permission.authorized?(current_user, :hi_res, media_entry)
+  can_download_hi_res = current_user.authorized?(:download, media_entry)
   x_large_file_available = x_large_file && File.exist?(x_large_file.full_path)
 
 %table#download-table

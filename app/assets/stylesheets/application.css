@@ -7,7 +7,7 @@
  *= require reset 
  *= require jquery/jquery-ui-1.8.12.custom
  *= require jquery.tools
- *= require ../../../vendor/assets/javascripts/jquery/qtip/jquery.qtip.min.css
+ *= require ../../../vendor/assets/javascripts/qtip/jquery.qtip.min.css
  *= require master
  *= require video-js
  * 
@@ -17,4 +17,5 @@
  *= require widgets/set_widget
  *= require button/button
  *= require modal_overlay/modal_overlay
+ *= require media_set/popup
 */

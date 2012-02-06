@@ -4,6 +4,23 @@ module MigrationHelpers
   include ::SQLHelper
   extend ::SQLHelper
   extend self
+
+
+  # view
+  def create_view view_name, sql
+
+    sql = (sql.class == ActiveRecord::Relation)? sql.to_sql : sql.to_s
+
+    cmd = "CREATE VIEW #{view_name} AS #{sql} ;"
+    #puts "#{cmd}\n"
+    execute_sql cmd
+  end
+
+  def drop_view view_name
+    cmd = "DROP VIEW #{view_name};"
+    execute_sql cmd 
+  end
+
  
 
   # we are patching the index_name function here, 
@@ -32,15 +49,62 @@ module MigrationHelpers
     model.table_name.singularize + "_id"
   end
 
+
+
+######################################################################
+# general constraints
+######################################################################
+
   def add_check table_name, check
     execute_sql "ALTER TABLE #{table_name} ADD CHECK #{check} ;"
   end
 
-  def fkey_cascade_on_delete from_table, from_column, to_table
-    name = "#{from_table}_#{from_column}_#{to_table}_fkey"
-    execute_sql "ALTER TABLE #{from_table} ADD CONSTRAINT #{name} FOREIGN KEY (#{from_column}) REFERENCES #{to_table} (id) ON DELETE CASCADE;"
+  def add_not_null_constraint table, col
+    table_name = infer_table_name table
+    col_name = infer_column_name col
+    constraint_name = "#{table_name}_#{col_name}_not_null"
+    if adapter_is_mysql?
+      raise "add_not_null_constraint will only work for foreign_keys and models with mysql " if not (col.is_a? Class)
+      execute_sql "ALTER TABLE #{table_name} Modify #{col_name} INTEGER NOT NULL; "
+    elsif adapter_is_postgresql?
+      execute_sql "ALTER TABLE #{table_name} ALTER COLUMN #{col_name} SET NOT NULL;"
+    else
+      raise "sorry! your db-adapter is not supported"
+    end
   end
+
+  def drop_not_null_constraint table, col, colinfo=nil
+    table_name = infer_table_name table
+    col_name = infer_column_name col
+    if adapter_is_postgresql?
+      execute_sql "ALTER TABLE #{table_name} ALTER COLUMN #{col_name} DROP NOT NULL;"
+    elsif adapter_is_mysql?
+      unless colinfo
+        rails "mysql usese MODIFY, you need to specify the full column information for mysql"
+      else
+        execute_sql "ALTER TABLE #{table_name} MODIFY #{col_name} #{colinfo};"
+      end
+    else
+      raise "your adapter is not supported yet"
+    end
+  end
+
+  def add_unique_constraint table, col
+    # if required make col optionally an array, because unique can refer to multiple cols
+     
+    table_name = infer_table_name table
+    col_name = infer_column_name col
+    constraint_name = "#{table_name}_#{col_name}_unique"
+    execute_sql "ALTER TABLE #{table_name} ADD CONSTRAINT #{constraint_name} UNIQUE (#{col_name});"
+  end
+
+######################################################################
+# Foreign key constraints
+######################################################################
   
+  # TODO make the next ones more DRY
+   
+
   def remove_fkey_constraint from_table, from_column, to_table
     name = "#{from_table}_#{from_column}_#{to_table}_fkey"
     if adapter_is_mysql? 
@@ -49,6 +113,39 @@ module MigrationHelpers
       execute_sql "ALTER TABLE #{from_table} DROP CONSTRAINT #{name};"
     end
   end
+    
+  def add_fkey_referrence_constraint from_table, to_table, from_column=nil 
+
+    from_table_name = infer_table_name from_table
+    to_table_name = infer_table_name to_table
+    from_column ||= fkey_name to_table_name
+    contraint_name = "#{from_table_name}_#{from_column}_#{to_table_name}_fkey"
+
+    execute_sql "ALTER TABLE #{from_table_name} ADD CONSTRAINT #{contraint_name} FOREIGN KEY (#{from_column}) REFERENCES #{to_table_name} (id) ;"
+
+  end
+
+  def add_fkey_referrence_constraint from_table, to_table, from_column=nil 
+
+    from_table_name = infer_table_name from_table
+    to_table_name = infer_table_name to_table
+    from_column ||= fkey_name to_table_name
+    contraint_name = "#{from_table_name}_#{from_column}_#{to_table_name}_fkey"
+
+    execute_sql "ALTER TABLE #{from_table_name} ADD CONSTRAINT #{contraint_name} FOREIGN KEY (#{from_column}) REFERENCES #{to_table_name} (id) ;"
+
+  end
+
+  def fkey_cascade_on_delete from_table, to_table, from_column=nil 
+
+    from_table_name = infer_table_name from_table
+    to_table_name = infer_table_name to_table
+    from_column ||= fkey_name to_table_name
+    contraint_name = "#{from_table_name}_#{from_column}_#{to_table_name}_fkey"
+
+    execute_sql "ALTER TABLE #{from_table_name} ADD CONSTRAINT #{contraint_name} FOREIGN KEY (#{from_column}) REFERENCES #{to_table_name} (id) ON DELETE CASCADE;"
+  end
+
 
   def create_del_referenced_trigger source, target
     source_table_name = source.class == String ? source : source.table_name
@@ -80,7 +177,40 @@ module MigrationHelpers
     end
   end
 
-#  private 
+######################################################################
+# misc pulic helpers
+######################################################################
+
+  def infer_table_name table
+    if table.is_a? Class
+      table.table_name
+    else
+      table.to_s
+    end
+  end
+
+  def infer_column_name col
+    if col.is_a? Class # col is a model that is referenced, i.e. a fkey
+      fkey_name col
+    else
+      col.to_s
+    end
+  end
+
+  def fkey_name table
+    table_name = 
+      if table.is_a? Class
+        table.table_name
+      else
+        table.to_s
+      end
+    (ActiveSupport::Inflector.singularize table_name)+ "_id"
+  end
+
+
+######################################################################
+# misc private helpers
+######################################################################
 
   def shorten_schema_names fun_name
     if fun_name.size > 63
@@ -108,7 +238,7 @@ module MigrationHelpers
       AS $$
       DECLARE
       BEGIN
-        PERFORM DELETE FROM #{target_table} WHERE id = OLD.#{fkey};
+        DELETE FROM #{target_table} WHERE id = OLD.#{fkey};
         RETURN OLD;
       END $$
       LANGUAGE PLPGSQL;

@@ -1,6 +1,13 @@
 require 'rubygems'
 require 'spork'
 
+require 'simplecov'
+SimpleCov.start 'rails' do
+  merge_timeout 3600
+end
+
+# Code coverage tool that supports Ruby 1.9 and Rails 3
+
 Spork.prefork do
   # Loading more in this block will cause your tests to run faster. However, 
   # if you change any configuration or code from libraries loaded here, you'll
@@ -19,8 +26,6 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 
-# Code coverage tool that supports Ruby 1.9 and Rails 3
-require 'cover_me'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.

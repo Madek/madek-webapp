@@ -47,7 +47,6 @@ Feature: Batch edit media entries
      And I wait for 2 seconds
      And all the hidden items become visible
      And I press "Metadaten editieren"
-     And I wait for 2 seconds
      And I fill in the metadata form as follows:
      |label    |value                 |
      |Titel    |We are all individuals|

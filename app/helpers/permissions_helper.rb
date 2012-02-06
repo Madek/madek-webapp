@@ -27,7 +27,7 @@ module PermissionsHelper
   end
     
   def display_edit_icon(resource, user)
-    if user && Permission.authorized?(user, :edit, resource) 
+    if user and user.authorized?(:edit, resource) 
       url = resource.is_a?(MediaEntry) ? edit_media_entry_path(resource) : edit_media_set_path(resource)
       link_to url, :title => "Editieren" do
         content_tag :div, :class => "button_edit_active" do end
@@ -38,7 +38,7 @@ module PermissionsHelper
   end
   
   def display_delete_icon(resource, user)
-    if user && Permission.authorized?(user, :manage, resource) 
+    if user and user.authorized?(:manage, resource) 
       if resource.is_a?(MediaEntry)
         url = media_entry_path(resource)
         confirm = "Sind Sie sicher?"

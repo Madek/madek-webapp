@@ -41,11 +41,9 @@ Given /^I have set up the world$/ do
   # they drop the database even if we seed it before running
   # the tests. Therefore we recreate our world in this step.
   Copyright.init
-  Permission.init
 
   Meta::Department.setup_ldapdata_from_localfile
   Meta::Date.parse_all
-
 end
 
 Given /^a user called "([^"]*)" with username "([^"]*)" and password "([^"]*)" exists$/ do |person_name, username, password|
@@ -108,9 +106,8 @@ Given /^a public set titled "(.+)" created by "(.+)" exists$/ do |title, usernam
   user = User.where(:login => username).first
   meta_data = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
   set = user.media_sets.create(meta_data)
-  permission = set.permissions.create
-  permission.set_actions({:view => true})
-  set.permissions << permission
+  set.view= true
+  set.save!
 end
 
 Given /^a entry titled "(.+)" created by "(.+)" exists$/ do |title, username|
@@ -368,7 +365,6 @@ When /I filter by "([^"]*)" in "([^"]*)"$/ do |choice, category|
 end
 
 When /I choose the set "([^"]*)" from the media entry$/ do |set_name|
-#   binding.pry
   element = find(:xpath, "//div[@class='set-box' and @oldtitle]")
   unless element.nil?
     if element[:oldtitle] =~ /^#{set_name}/

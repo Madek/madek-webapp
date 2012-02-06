@@ -34,7 +34,9 @@ class UploadController < ApplicationController
     
     pre_load # OPTIMIZE
     @media_entries.each do |media_entry|
-      media_entry.default_permission.set_actions(:view => view_action, :edit => edit_action, :hi_res => hi_res_download)
+      media_entry.download = hi_res_download
+      media_entry.edit = edit_action
+      media_entry.view = view_action
     end
 
     if params[:view].to_sym == :zhdk_users
@@ -92,10 +94,7 @@ class UploadController < ApplicationController
     else
       # TODO is the get method really needed ??
       pre_load # OPTIMIZE
-      
-          #FIXME NOTE TODO REMOVE
-          @media_entries = @upload_session.media_entries
-
+      @media_entries = @upload_session.media_entries
     end
   end
 

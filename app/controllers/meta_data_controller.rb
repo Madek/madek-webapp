@@ -58,7 +58,7 @@ class MetaDataController < ApplicationController
         action = :edit
     end
     resource = @resource
-    not_authorized! unless Permission.authorized?(current_user, action, resource) # TODO super ??
+    not_authorized! unless current_user.authorized?(Constants::Actions.old2new(action), resource) # TODO super ??
   end
 
   def pre_load

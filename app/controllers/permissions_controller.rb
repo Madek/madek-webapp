@@ -11,54 +11,64 @@ class PermissionsController < ApplicationController
       format.js { render :layout => (params[:layout] != "false") }
     end
   end
-  
-#################################################################
+
 
   def edit_multiple
-    permissions = Permission.cached_permissions_by(@resource)
-    keys = Permission::ACTIONS
-    @permissions_json = {}
     
-    permissions.group_by {|p| p.subject_type }.collect do |type, type_permissions|
-      unless type.nil?
-        @permissions_json[type] = type_permissions.map do |p|
-          h = {:id => p.subject.id, :name => p.subject.to_s, :type => type}
-          keys.each {|key| h[key] = p.actions[key] } #1504#
-          h
-        end
-      else
-        p = type_permissions.first
-        @permissions_json["public"] = begin
-          h = {:name => "Öffentlich", :type => 'nil'}
-          keys.each {|key| h[key] = p.actions[key] } #1504#
-          h
-        end
-      end
+    permissions =  {}
+
+    permissions[:public] = {:name => "Öffentlich", :type => 'nil'}.merge(
+      Constants::Actions.inject({}) do |acc,action|
+      acc.merge( (Constants::Actions.new2old action) => (@resource.send action))
+      end)
+
+    permissions["Group"] = @resource.grouppermissions.map do |grouppermission|
+      {name: grouppermission.group.name, id: grouppermission.group.id, type: "Group"}.merge(
+      Constants::Actions.inject({}) do |acc,action|
+        acc.merge( (Constants::Actions.new2old action) => (grouppermission.send action))
+      end)
     end
-    @permissions_json = @permissions_json.to_json
-    
+
+    permissions["User"] = @resource.userpermissions.map do |userpermission|
+      {name: userpermission.user.name, id: userpermission.user.id, type: "User"}.merge(
+        Constants::Actions.inject(Hash.new) do |acc,action|
+        acc.merge( (Constants::Actions.new2old action) => (userpermission.send action))
+        end)
+    end
+
+    @permissions_json = permissions.to_json
+
     respond_to do |format|
       format.html
       format.js { render :partial => "edit_multiple" }
     end
   end
 
+
+  # NOTE by Tom: we delete everything and recreated it with new permissions,
+  # this is apparently not very smart; However, the clientside is involved and
+  # I just keep it this way for now
   def update_multiple
     ActiveRecord::Base.transaction do
       @resources.each do |resource|
-        resource.permissions.delete_all
-    
-        actions = params[:subject]["nil"]
-        resource.permissions.build(:subject => nil).set_actions(actions)
-  
-        ["User", "Group"].each do |key|
-          params[:subject][key].each_pair do |subject_id, actions|
-            resource.permissions.build(:subject_type => key, :subject_id => subject_id).set_actions(actions)
-          end if params[:subject][key]
+
+        params[:subject]["nil"].each do |s_action,s_bool| 
+          resource.send("#{Constants::Actions.old2new(s_action)}=",s_bool == "true")
         end
-        
-        # OPTIMIZE it's not sure that the current_user is the owner (manager) of the current resource # TODO use Permission.assign_manage_to ?? 
-        resource.permissions.where(:subject_type => current_user.class.base_class.name, :subject_id => current_user.id).first.set_actions({:manage => true})
+        resource.save!
+
+        resource.userpermissions.destroy_all
+        params[:subject][:User] and  params[:subject][:User].each do |s_id,s_actions|
+          Userpermission.create media_resource: resource, user: (User.find s_id), 
+            view: (s_actions[:view] == "true"), download: (s_actions[:hi_res] == "true"), edit: (s_actions[:edit] == "true")
+        end
+
+        resource.grouppermissions.destroy_all
+        params[:subject][:Group] and  params[:subject][:Group].each do |s_id,s_actions|
+          Grouppermission.create media_resource: resource, group: (Group.find s_id),  
+            view: (s_actions[:view] == "true"), download: (s_actions[:hi_res] == "true"), edit: (s_actions[:edit] == "true")
+        end
+
       end
       flash[:notice] = "Die Zugriffsberechtigungen wurden erfolgreich gespeichert."  
     end
@@ -70,7 +80,7 @@ class PermissionsController < ApplicationController
     end
   end
 
-#################################################################
+
 
   private
 
@@ -90,15 +100,12 @@ class PermissionsController < ApplicationController
         not_authorized! if @resources.empty?
         return
     end
-
-    # OPTIMIZE if member of a group
-    resource = @resource
-    not_authorized! unless Permission.authorized?(current_user, action, resource) # TODO super ??
+    not_authorized! unless current_user.authorized?(Constants::Actions.old2new(action), @resource) 
   end
+
 
   def pre_load
     # OPTIMIZE remove blank params
-    
     if (not params[:media_entry_id].blank?) and (not params[:media_entry_id].to_i.zero?)
       @resource = MediaEntry.find(params[:media_entry_id])
     elsif not params[:media_entry_ids].blank?

@@ -30,7 +30,7 @@ class MediaEntry < MediaResource
 
   # OPTIMIZE
   def individual_contexts
-    media_sets.collect {|set| set.individual_contexts }.flatten.uniq
+    media_sets.flat_map {|set| set.individual_contexts }.uniq
   end
 
 ########################################################
@@ -51,13 +51,33 @@ class MediaEntry < MediaResource
     options ||= {}
     json = super(options)
     
+    # TODO shouldnt be set per default
     json[:is_set] = false
     json[:can_maybe_browse] = !meta_data.for_meta_terms.blank?
     
     if(with = options[:with])
-      if(with[:media_entry])
+      if(with[:media_entry] and with[:media_entry].is_a?(Hash))
         if with[:media_entry].has_key?(:author) and (with[:media_entry][:author].is_a?(Hash) or not with[:media_entry][:author].to_i.zero?)
           json[:author] = meta_data.find_by_meta_key_id MetaKey.find_by_label("author")
+        end
+        if with[:media_entry].has_key?(:image) and (with[:media_entry][:image].is_a?(Hash) or not with[:media_entry][:image].to_i.zero?)
+          
+          size = if with[:media_entry][:image].is_a?(Hash) and with[:media_entry][:image].has_key?(:size)
+              with[:media_entry][:image][:size]
+            else
+              :small
+          end
+          
+          json[:image] = if with[:media_entry][:image].is_a?(Hash) and with[:media_entry][:image].has_key?(:as)
+              case with[:media_entry][:image][:as]
+                when "base64"
+                  self.media_file.thumb_base64(size)
+                else # default return is a url to the image
+                  "/resources/%d/image?size=%s" % [id, size]
+              end
+            else
+              "/resources/%d/image?size=%s" % [id, size]
+          end            
         end
       end
     end

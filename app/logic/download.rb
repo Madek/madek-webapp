@@ -32,7 +32,7 @@ class Download
           filename = CGI::unescape(@media_entry.media_file.filename.gsub(/\+/, '_'))
           is_preview = (!params['size'].nil? or !params['video_thumbnail'].nil? or !params['audio_preview'].nil?)
           if is_preview
-            return [500, {"Content-Type" => "text/html"}, ["Sie haben nicht die notwendige Zugriffsberechtigung."]] unless Permission.authorized?(current_user, :view, @media_entry) 
+            return [500, {"Content-Type" => "text/html"}, ["Sie haben nicht die notwendige Zugriffsberechtigung."]] unless current_user.authorized?(:view, @media_entry) 
             
             size = params['size'].try(:to_sym)
                         
@@ -74,7 +74,7 @@ class Download
             end
           else
             content_type = @media_entry.media_file.content_type
-            return [500, {"Content-Type" => "text/html"}, ["Sie haben nicht die notwendige Zugriffsberechtigung."]] unless Permission.authorized?(current_user, :hi_res, @media_entry) 
+            return [500, {"Content-Type" => "text/html"}, ["Sie haben nicht die notwendige Zugriffsberechtigung."]] unless current_user.authorized?(:download, @media_entry) 
           end
 
 

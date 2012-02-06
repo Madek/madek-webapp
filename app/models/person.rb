@@ -24,7 +24,7 @@ class Person < ActiveRecord::Base
     # OPTIMIZE
     ids = MetaDatum.joins(:meta_key).
             where(:meta_keys => {:object_type => self.name}).
-            collect(&:value).flatten.uniq
+            flat_map(&:value).uniq
     find(ids)
   end
 
@@ -103,7 +103,7 @@ class Person < ActiveRecord::Base
   end
 
   def self.split(values)
-    values.map {|v| v.respond_to?(:split) ? v.split(';') : v }.flatten
+    values.flat_map {|v| v.respond_to?(:split) ? v.split(';') : v }
   end
 
 #######################################

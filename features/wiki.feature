@@ -44,11 +44,11 @@ Feature: Help wiki
     When I follow "Foo"
     Then I should land on the newly to be created "Foo" page
 
-  @javascript @broken
+  @javascript
   Scenario: Admins should be able to add media links
     When I log in as "admin" with password "aadmin"
    Given there is a media entry
-    When I add a link "[media=xxx |Das Huhn]" to it on the wiki front page and save
+    When I add a link "[media=xxx | Das Huhn ]" to it on the wiki front page and save
     Then I should see a "Das Huhn" link on the page
     When I follow "Das Huhn"
     Then I should see the media entry
@@ -57,7 +57,7 @@ Feature: Help wiki
   Scenario: Admins should be able to add video links
     When I log in as "admin" with password "aadmin"
    Given there is a media entry
-    When I add a link "[video=xxx |Das Huhn]" to it on the wiki front page and save
+    When I add a link "[video=xxx | Das Huhn ]" to it on the wiki front page and save
     Then I should see "Das Huhn" within "video"
 
 # Test is broken right now

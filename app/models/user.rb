@@ -11,6 +11,10 @@ class User < ActiveRecord::Base
   delegate :name, :to => :person
   delegate :fullname, :to => :person
 
+  has_many :userpermissions
+
+  has_many :media_resources
+
   has_many :upload_sessions do
     def latest
       first
@@ -71,6 +75,27 @@ class User < ActiveRecord::Base
 
   def email=(value)
     write_attribute :email, (value ? value.downcase : nil)
+  end
+
+#############################################################
+
+  # TODO refactor up to Subject ??
+  def authorized?(action, resource_or_resources)
+    Array(resource_or_resources).all? do |resource|
+      if resource.user == self
+        true
+      elsif resource.send(action) == true
+        true
+      elsif resource.userpermissions.disallows(self, action)
+        false
+      elsif resource.userpermissions.allows(self, action)
+        true
+      elsif resource.grouppermissions.allows(self, action)
+        true
+      else
+        false
+      end
+    end 
   end
 
 #############################################################

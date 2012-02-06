@@ -66,6 +66,14 @@ class MetaKey < ActiveRecord::Base
 
 ########################################################
 
+  def object_class
+    klass = object_type.constantize
+    klass = Meta::Date if klass == Date # fix for "Meta::Date".constantize doesn't work in development mode
+    klass
+  end
+
+########################################################
+
 # Return a meta_key matching the provided key-map
 #
 # args: a keymap (fully namespaced)
@@ -114,7 +122,7 @@ class MetaKey < ActiveRecord::Base
 
   # TODO refactor to association has_many :used_meta_terms, :through ...
   def used_term_ids
-    meta_data.collect(&:value).flatten.uniq.compact if object_type == "Meta::Term"
+    meta_data.flat_map(&:value).uniq.compact if object_type == "Meta::Term"
   end
 
 end

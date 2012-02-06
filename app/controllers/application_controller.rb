@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
         # TODO refactor to UsersController#show and dry with ResourcesController#index
         params[:per_page] ||= PER_PAGE.first
 
-        resources = MediaResource.accessible_by_user(current_user).media_entries_and_media_sets
+        resources = MediaResource.accessible_by_user(current_user).order("media_resources.updated_at DESC").media_entries_and_media_sets
         
         my_resources = resources.by_user(current_user).limit(params[:per_page].to_i)
         @my_media_entries = { :entries => my_resources.as_json(:user => current_user, :with_thumb => true) } 
@@ -48,7 +48,6 @@ class ApplicationController < ActionController::Base
         other_resources = resources.not_by_user(current_user).limit(params[:per_page].to_i)
         @other_media_entries = { :entries => other_resources.as_json(:user => current_user, :with_thumb => true) } 
 
-        #binding.pry
         respond_to do |format|
           format.html { render :template => "/users/show" }
         end
@@ -105,8 +104,8 @@ class ApplicationController < ActionController::Base
       self.current_user = user = User.where(:id => session[:user_id]).first
       check_usage_terms_accepted
 
-    # TODO remove this when public open
-    elsif (request[:controller] == "media_sets" and request[:action] == "show") or
+    # TODO remove this when public open OR logged in through API
+    elsif (request[:controller] == "media_sets" and request[:action] == "show" and request[:id].to_i == AppSettings.splashscreen_slideshow_set_id) or
           (request[:controller] == "resources" and request[:action] == "image")
       @current_user = user = User.new
 
