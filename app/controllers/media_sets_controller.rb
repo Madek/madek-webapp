@@ -343,10 +343,8 @@ class MediaSetsController < ApplicationController
         action = case request[:action].to_sym
           when :show, :browse, :abstract, :inheritable_contexts, :parents
             :view
-          when :edit, :update, :add_member
+          when :edit, :update, :add_member, :destroy
             :edit
-          when :destroy
-            :edit # TODO :delete
         end
 
         begin
