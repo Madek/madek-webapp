@@ -7,7 +7,6 @@ class MetaField
   attr_accessor :is_required, # boolean
                 :length_min,  # integer
                 :length_max,  # integer
-                :options,     # Meta::Term ids array ## TODO remove after migration 20100610103525
                 :label,       # Meta::Term id
                 :description, # Meta::Term id
                 :hint         # Meta::Term id
@@ -34,32 +33,6 @@ class MetaField
     @hint = get_term(h).try(:id)
     remove_instance_variable(:@hint) if @hint.blank?
   end
-
-  # expected
-  # {:id1 => {:en_GB => ..., :de_CH => ...}, :id2 => {:en_GB => ..., :de_CH => ..., :id => ...}, ...}
-  # ["string 1", "string 2", ...]
-  def options=(values) ## TODO remove after migration 20100610103525
-    #old# values = values.split(/\n/) if values.is_a? String
-
-    if values.is_a? Hash
-      values.each_pair {|k,v| v[:id] = k.to_i if k.to_i > 0 } # add id to hash values
-      values = values.values # ignore the hash keys
-    end
-    
-    @options = Array(values).collect do |h|
-      h = {:en_GB => h, :de_CH => h} if h.is_a? String
-      
-      id = h.delete(:id)
-      term = Meta::Term.where(:id => id).first if id
-      if term
-        term.update_attributes(h)
-        term.id
-      else
-        get_term(h).try(:id)
-      end
-    end.compact
-    remove_instance_variable(:@options) if @options.blank?
-  end
   
   # OPTIMIZE 2210 uniqueness
   def get_term(h)
@@ -84,11 +57,6 @@ class MetaField
   def hint
     @hint = Meta::Term.find(@hint) if @hint.is_a? Integer
     @hint
-  end
-
-  def options ## TODO remove after migration 20100610103525
-    @options = Meta::Term.find(@options) if @options.is_a? Array and @options.all? {|x| x.is_a? Integer }
-    @options
   end
 
 end

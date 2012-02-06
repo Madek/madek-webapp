@@ -32,16 +32,12 @@ class MetaContext < ActiveRecord::Base
 
 ##################################################################
 
+  delegate :label, :description, :to => :meta_field
+
+##################################################################
+
   def to_s
-    label
-  end
-
-  def label
-    "#{meta_field.try(:label)}"
-  end
-
-  def description
-    "#{meta_field.try(:description)}"
+    "#{label}"
   end
 
   def next_position

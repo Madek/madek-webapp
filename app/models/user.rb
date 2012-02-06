@@ -8,8 +8,7 @@ class User < ActiveRecord::Base
   include Subject
 
   belongs_to :person
-  delegate :name, :to => :person
-  delegate :fullname, :to => :person
+  delegate :name, :fullname, :to => :person
 
   has_many :userpermissions
 
