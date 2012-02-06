@@ -148,7 +148,7 @@ class MetaDatum < ActiveRecord::Base
           copyright = media_resource.meta_data.get("copyright status").deserialized_value.first  || Copyright.default # OPTIMIZE array or single element
           return copyright.url(read_attribute(:value))
         when "public access"
-          return media_resource.acl?(:view, :all)
+          return media_resource.is_public?
         when "media type"
           return media_resource.media_type
         #when "gps"
