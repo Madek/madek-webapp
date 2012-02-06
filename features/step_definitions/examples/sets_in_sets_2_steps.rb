@@ -1,11 +1,5 @@
 # coding: UTF-8
 
-Given /^a few sets and entries$/ do
-  # sets and entries are there thanks to the example data!
-  #assert MediaSet.count > 0
-  #assert MediaEntry.count > 0
-end
-
 Given /^a few sets$/ do
   assert MediaSet.count > 0
 end
@@ -19,29 +13,33 @@ Then /^it is a top\-level set$/ do
 end
 
 When /^I view a grid of these sets$/ do
-  pending
+  visit resources_path()
 end
 
-When /^I examine one of the sets more closely$/ do
-  pending
+When /^I examine my "([^"]*)" sets more closely$/ do |title|
+  wait_for_css_element('.thumb_box')
+  @media_set = MediaSet.find_by_title title
+  page.execute_script "$(\".item_title[title='#{title}']\").parent().find(\".thumb_box_set\").trigger(\"mouseenter\")"
+  wait_for_css_element('.set_popup')
 end
 
 Then /^I see relationships for this set$/ do
-  pending
+  @displayed_parent_sets = all(".set_popup .parents .resource")
+  @display_child_entries = all(".set_popup .children .resource.media_entry")
+  @display_child_sets = all(".set_popup .children .resource.media_set")
 end
 
 Then /^I see how many media entries that are viewable for me in this set$/ do
-  pending
+  find(".set_popup .children .text", :text => "#{(@media_set.media_entries.size-@display_child_entries.size)} weitere Medieneinträge")
 end
 
 Then /^I see how many sets that are viewable for me in this set$/ do
-  pending
+  find(".set_popup .children .text", :text => "#{(@media_set.child_sets.size-@display_child_sets.size)} weitere Sets")
 end
 
-Then /^I see how many sets that that are viewable for me are parents of this set$/ do
-  pending
+Then /^I see how many sets that are viewable for me are parents of this set$/ do
+  find(".set_popup .parents .text", :text => "#{(@media_set.parent_sets.size-@displayed_parent_sets.size)} weitere Sets")
 end
-
 
 Given /^a set called "([^"]*)" that has the context "([^"]*)"$/ do |set_title, context_name|
   step 'the set "%s" has the context "%s"' % [set_title, context_name]

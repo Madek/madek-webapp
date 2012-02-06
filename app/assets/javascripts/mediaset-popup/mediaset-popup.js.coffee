@@ -22,7 +22,6 @@ stop_target_popup = (target) ->
 
 enter_target = (target)->
   target = $(target).closest(".item_box")
-  console.log("ENTER TARGET")
   # clear timeout
   window.clearTimeout($(target).data "popup_timeout")
   # set popup with timeout
@@ -38,7 +37,6 @@ enter_target = (target)->
   $(target).data "load_timeout", timeout
   
 load_children = (target)->
-  console.log "LOAD CHILDREN"
   if $(target).data("loaded_children")?
     setup_children(target, $(target).data("loaded_children"))
   else
@@ -47,7 +45,6 @@ load_children = (target)->
       beforeSend: (request, settings) ->
         #before
       success: (data, status, request) ->
-        console.log "SUCCESS LOADING"
         $(target).data "loaded_children", data
         setup_children(target, data)
       error: (request, status, error) ->
@@ -64,7 +61,6 @@ load_children = (target)->
       type: "GET"
     
 load_parents = (target)->
-  console.log "LOAD PARENTS"
   if $(target).data("loaded_parents")?
     setup_parents(target, $(target).data("loaded_parents"))
   else
@@ -73,7 +69,6 @@ load_parents = (target)->
       beforeSend: (request, settings) ->
         #before
       success: (data, status, request) ->
-        console.log "SUCCESS LOADING"
         $(target).data "loaded_parents", data
         setup_parents(target, data)
       error: (request, status, error) ->
@@ -90,13 +85,11 @@ load_parents = (target)->
       type: "GET"
   
 setup_children = (target, data)->
-  console.log "SETUP CHILDREN"
   if $(target).data("popup")?
     # remove loading
     $($(target).data("popup")).find(".children .loading").remove()
     # setup resources
     media_entries = (resource for resource in data.media_resources when resource.type is "media_entry")
-    console.log media_entries
     media_sets = (resource for resource in data.media_resources when resource.type is "media_set")
     resources = data.media_resources[0...6]
     displayed_media_entries = (resource for resource in resources when resource.type is "media_entry")
@@ -110,7 +103,6 @@ setup_children = (target, data)->
     if media_sets? then $($(target).data("popup")).find(".children .text").append("<p>"+(media_sets.length-displayed_media_sets.length)+" weitere Sets</p>")
       
 setup_parents = (target, data)->
-  console.log "SETUP PARENTS"
   if $(target).data("popup")?
     # remove loading
     $($(target).data("popup")).find(".parents .loading").remove()
@@ -122,10 +114,12 @@ setup_parents = (target, data)->
         $($(target).data("popup")).find(".parents").append $.tmpl("tmpl/mediaset-popup/resource", resource)
     # setup text
     $($(target).data("popup")).find(".parents").append $("<div class='text'></div>")
-    if resources? then $($(target).data("popup")).find(".parents .text").append("<p>"+(resources.length-displayed_media_sets.length)+" weitere Sets</p>")
+    if resources? then $($(target).data("popup")).find(".parents .text").append("<p>"+(data.parent_sets.length-displayed_media_sets.length)+" weitere Sets</p>")
       
 open_popup = (target)->
-  console.log("OPEN POPUP")
+  # close all other mediaset popups
+  $(".set_popup").each (i, element)->
+    close_popup element
   # mark target
   $(target).addClass("popup_target")
   # create if not exist
@@ -145,7 +139,6 @@ open_popup = (target)->
   }, 200
   
 create_popup = (target)->
-  console.log("CREATE POPUP")
   # create copy of target
   copy = $(target).clone(false)
   copy.addClass("popup")
@@ -199,7 +192,6 @@ create_popup = (target)->
     setup_parents target, $(target).data("loaded_parents")
   
 close_popup = (popup_container)->
-  console.log("CLOSE POPUP")
   # clear timeouts
   window.clearTimeout($(popup_container).data("popup_timeout"))
   window.clearTimeout($(popup_container).data("load_timeout"))
@@ -217,7 +209,6 @@ close_popup = (popup_container)->
     remove_popup popup_container
   
 remove_popup = (popup_container)->
-  console.log("REMOVE POPUP")
   target = $(popup_container).data("target")
   $(target).removeData("popup")
   $(popup_container).remove()
@@ -227,13 +218,11 @@ remove_popup = (popup_container)->
 
 leave_target = (target)->
   target = $(target).closest(".item_box")
-  console.log("LEAVE TARGET")
   if $(target).data("popup") == undefined
     close_popup target
   
 leave_popup = (popup)->
   target = $(target).closest(".item_box")
-  console.log("LEAVE POPUP")
   target = $(popup).closest(".set_popup")
   close_popup target
       
