@@ -1,9 +1,7 @@
 # -*- encoding : utf-8 -*-
 class MediaSetsController < ApplicationController
 
-
   before_filter :pre_load
-  before_filter :authorized?, :except => [:index, :create]
 
   ##
   # Get media sets
@@ -337,33 +335,26 @@ class MediaSetsController < ApplicationController
 
   private
 
-  def authorized?
-    action = request[:action].to_sym
-    case action
-#      when :new
-#        action = :create
-      when :show, :browse, :abstract, :inheritable_contexts, :parents
-        action = :view
-      when :edit, :update, :add_member
-        action = :edit
-      when :destroy
-        action = :edit # TODO :delete
-    end
-    if @media_set
-      resource = @media_set
-      not_authorized! unless current_user.authorized?(action, resource) # TODO super ??
-    else
-      flash[:error] = "Kein Medienset ausgewählt."
-      redirect_to :back
-    end
-  end
-
   def pre_load
       @user = User.find(params[:user_id]) unless params[:user_id].blank?
       @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
       
-      params[:media_set_id] ||= params[:id] ||= params[:media_set_ids]
-      @media_set = (@user? @user.media_sets : MediaSet).find(params[:media_set_id]) unless params[:media_set_id].blank?
+      unless (params[:media_set_id] ||= params[:id] ||= params[:media_set_ids]).blank?
+        action = case request[:action].to_sym
+          when :show, :browse, :abstract, :inheritable_contexts, :parents
+            :view
+          when :edit, :update, :add_member
+            :edit
+          when :destroy
+            :edit # TODO :delete
+        end
+
+        begin
+          @media_set = (@user? @user.media_sets : MediaSet).accessible_by_user(current_user, action).find(params[:media_set_id])
+        rescue
+          not_authorized!
+        end
+      end
   end
 
 end
