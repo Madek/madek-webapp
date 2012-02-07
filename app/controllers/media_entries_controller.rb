@@ -207,7 +207,59 @@ class MediaEntriesController < ApplicationController
   end
   
   def edit_multiple_permissions
-    @permissions_json = Permission.compare(@media_entries).to_json
+    @permissions_json = begin 
+      actions = [:view, :edit, :download, :manage]
+      combined_permissions = {"User" => [], "Group" => [], "public" => {}}
+      combined_permissions.keys.each do |type|
+        case type
+          when "User"
+            subject_permissions = @media_entries.flat_map(&:userpermissions)
+            subject_permissions.map(&:user).uniq.each do |subject|
+              subject_info = {:id => subject.id, :name => subject.to_s, :type => type}
+              actions.each do |key|
+                subject_info[key] = case subject_permissions.select {|p| p.user_id == subject.id and p.send(key) }.size #1504#
+                  when @media_entries.size
+                    true
+                  when 0
+                    false
+                  else
+                    :mixed
+                end  
+              end
+              combined_permissions[type] << subject_info
+            end
+          when "Group"
+            subject_permissions = @media_entries.flat_map(&:grouppermissions)
+            subject_permissions.map(&:group).uniq.each do |subject|
+              subject_info = {:id => subject.id, :name => subject.to_s, :type => type}
+              actions.each do |key|
+                subject_info[key] = case subject_permissions.select {|p| p.group_id == subject.id and p.send(key) }.size #1504#
+                  when @media_entries.size
+                    true
+                  when 0
+                    false
+                  else
+                    :mixed
+                end  
+              end
+              combined_permissions[type] << subject_info
+            end
+          else
+            combined_permissions[type][:type] = "nil"
+            combined_permissions[type][:name] = "Öffentlich"
+            actions.each do |key|
+              combined_permissions[type][key] = if @media_entries.all? {|x| x.send(key) }
+                true
+              elsif @media_entries.any? {|x| x.send(key) }    
+                :mixed
+              else
+                false
+              end  
+            end
+        end
+      end
+      combined_permissions.to_json
+    end
 
     @media_entries_json = @media_entries.map do |me|
       me.attributes.merge!(me.get_basic_info(current_user))

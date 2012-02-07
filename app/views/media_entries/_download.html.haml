@@ -2,7 +2,7 @@
   original_file = media_entry.media_file
   x_large_file = media_entry.media_file.get_preview(:x_large)
   format_original_file = file_format_for(original_file)
-  can_download_hi_res = current_user.authorized?(:download, media_entry)
+  can_download = current_user.authorized?(:download, media_entry)
   x_large_file_available = x_large_file && File.exist?(x_large_file.full_path)
 
 %table#download-table
@@ -24,8 +24,8 @@
           \~
           = number_to_human_size(original_file.size)
         %td.align-right
-          = link_to _("Download"), "/download?id=#{media_entry.id}&naked=1" if can_download_hi_res
-          =# render :partial => "download_links", :locals => {:hi_res => can_download_hi_res, :downlaod_type => "naked", :media_entry => media_entry}
+          = link_to _("Download"), "/download?id=#{media_entry.id}&naked=1" if can_download
+          =# render :partial => "download_links", :locals => {:download => can_download, :downlaod_type => "naked", :media_entry => media_entry}
       %tr
         - if x_large_file #and x_large_file.width < original_file.width  
           %td.align-right= "#{dimensions_for(x_large_file)} (jpeg)"
@@ -47,7 +47,7 @@
           \~
           = number_to_human_size(original_file.size)
         %td.align-right
-          = link_to _("Download"), "/download?id=#{media_entry.id}&update=1" if can_download_hi_res
+          = link_to _("Download"), "/download?id=#{media_entry.id}&update=1" if can_download
       %tr
         - if x_large_file #and x_large_file.width < original_file.width
           %td.align-right= "#{dimensions_for(x_large_file)} (jpeg)"
@@ -69,7 +69,7 @@
           \~
           = number_to_human_size(original_file.size)
         %td.align-right
-          = link_to _("Download"), "/download?id=#{media_entry.id}&zip=1" if can_download_hi_res
+          = link_to _("Download"), "/download?id=#{media_entry.id}&zip=1" if can_download
       %tr
         - if x_large_file #and x_large_file.width < original_file.width
           %td.align-right= "#{dimensions_for(x_large_file)} (jpeg)"
@@ -91,7 +91,7 @@
       %td.align-right
         \~
         = number_to_human_size(original_file.size)
-      %td.align-right= link_to _("Download"),"/download?id=#{media_entry.id}" if can_download_hi_res
+      %td.align-right= link_to _("Download"),"/download?id=#{media_entry.id}" if can_download
     %tr
       - if x_large_file_available #old# x_large_file #and x_large_file.width < original_file.width  
         %td.align-right= "#{dimensions_for(x_large_file)} (jpeg)"

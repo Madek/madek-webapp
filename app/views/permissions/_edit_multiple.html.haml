@@ -4,7 +4,7 @@
     = _("Zugriffsberechtigungen editieren")
   .clear
 
-- @display_hi_res_action = true
+- @display_download_action = true
 
 - if @media_entries
   = form_tag update_multiple_media_entry_permissions_path(0), :method => :put do
@@ -15,7 +15,7 @@
     = hidden_field_tag :media_entry_ids, @resource.id
     = render :partial => "permissions/table", :locals => {:cancel_path => media_entry_path(@resource) }
 - else
-  - @display_hi_res_action = false
+  - @display_download_action = false
   = form_tag update_multiple_media_set_permissions_path(@resource), :method => :put do
     = render :partial => "permissions/table", :locals => {:cancel_path => media_set_path(@resource) }
 
@@ -30,10 +30,10 @@
     %td{:style => "{{if (edit == 'mixed')}}background: url(/assets/stripe_1.png){{/if}}"}
       %input{:name => "{{if (type == 'nil')}}subject[${type}][edit]{{else}}subject[${type}][${id}][edit]{{/if}}", :type => "hidden", :value => "false"}
       <input name="{{if (type == 'nil')}}subject[${type}][edit]{{else}}subject[${type}][${id}][edit]{{/if}}" type="checkbox" value="true" {{if edit}}checked="checked"{{/if}}>
-    - if @display_hi_res_action
-      %td{:style => "{{if (hi_res == 'mixed')}}background: url(/assets/stripe_1.png){{/if}}"}
-        %input{:name => "{{if (type == 'nil')}}subject[${type}][hi_res]{{else}}subject[${type}][${id}][hi_res]{{/if}}", :type => "hidden", :value => "false"}
-        <input name="{{if (type == 'nil')}}subject[${type}][hi_res]{{else}}subject[${type}][${id}][hi_res]{{/if}}" type="checkbox" value="true" {{if hi_res}}checked="checked"{{/if}}>
+    - if @display_download_action
+      %td{:style => "{{if (download == 'mixed')}}background: url(/assets/stripe_1.png){{/if}}"}
+        %input{:name => "{{if (type == 'nil')}}subject[${type}][download]{{else}}subject[${type}][${id}][download]{{/if}}", :type => "hidden", :value => "false"}
+        <input name="{{if (type == 'nil')}}subject[${type}][download]{{else}}subject[${type}][${id}][download]{{/if}}" type="checkbox" value="true" {{if download}}checked="checked"{{/if}}>
     %td
       {{if manage}}
       %input{:type => :checkbox, :checked => :checked, :disabled => :disabled}
@@ -74,7 +74,7 @@
       },
       minLength: 3,
       select: function(event, ui) {
-        var data = {type: 'User', id: ui.item.id, name: ui.item.label, view: false, edit: false, hi_res: false }
+        var data = {type: 'User', id: ui.item.id, name: ui.item.label, view: false, edit: false, download: false }
         $('#user_permissions').append($("#new_permission").tmpl(data)).effect('highlight');
         selected_user_ids.push(ui.item.id);
       }, 
@@ -101,7 +101,7 @@
       },
       minLength: 3,
       select: function(event, ui) {
-        var data = {type: 'Group', id: ui.item.id, name: ui.item.label, view: false, edit: false, hi_res: false }
+        var data = {type: 'Group', id: ui.item.id, name: ui.item.label, view: false, edit: false, download: false }
         $('#group_permissions').append($("#new_permission").tmpl(data)).effect('highlight');
         selected_group_ids.push(ui.item.id);
       }, 

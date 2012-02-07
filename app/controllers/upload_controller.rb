@@ -20,32 +20,32 @@ class UploadController < ApplicationController
 
   # TODO dry with PermissionsController#update_multiple
   def set_permissions
-    default_params = {:view => false, :edit => false, :hi_res => false}
+    default_params = {:view => false, :edit => false, :download => false}
     params.reverse_merge!(default_params)
 
-    view_action, edit_action, hi_res_download = case params[:view].to_sym
+    view_action, edit_action, download_action = case params[:view].to_sym
                                   when :private
-                                    [default_params[:view], default_params[:edit], default_params[:hi_res]]
+                                    [default_params[:view], default_params[:edit], default_params[:download]]
                                   when :public
                                     [true, !!params[:edit], true]
                                   else
-                                    [default_params[:view], default_params[:edit], default_params[:hi_res]]
+                                    [default_params[:view], default_params[:edit], default_params[:download]]
                                 end
     
     pre_load # OPTIMIZE
     @media_entries.each do |media_entry|
-      media_entry.download = hi_res_download
+      media_entry.download = download_action
       media_entry.edit = edit_action
       media_entry.view = view_action
     end
 
     if params[:view].to_sym == :zhdk_users
       zhdk_group = Group.where(:name => "ZHdK (Zürcher Hochschule der Künste)").first
-      view_action, edit_action, hi_res_download = [true, !!params[:edit], true]
+      view_action, edit_action, download_action = [true, !!params[:edit], true]
       @media_entries.each do |media_entry|
         p = media_entry.permissions.where(:subject_type => zhdk_group.class.base_class.name, :subject_id => zhdk_group.id).first
         p ||= media_entry.permissions.build(:subject => zhdk_group)
-        p.set_actions(:view => view_action, :edit => edit_action, :hi_res => hi_res_download)
+        p.set_actions(:view => view_action, :edit => edit_action, :download => download_action)
       end
     end
 
