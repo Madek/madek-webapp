@@ -66,7 +66,7 @@ class Authenticator::ZhdkController < ApplicationController
     end
     if user
       g = xml['memberof']['group'].map {|x| x.gsub("zhdk/", "") }
-      new_groups = Meta::Department.where(:ldap_name => g)
+      new_groups = MetaDepartment.where(:ldap_name => g)
       to_add = (new_groups - user.groups.departments)
       to_remove = (user.groups.departments - new_groups)
       user.groups << to_add

@@ -1,22 +1,21 @@
 # -*- encoding : utf-8 -*-
-module Meta
-  def self.table_name_prefix
-    "meta_"
+
+
+
+
+class MetaTerm < ActiveRecord::Base
+  has_many :meta_key_meta_terms, :foreign_key => :meta_term_id
+  has_many :meta_keys, :through => :meta_key_meta_terms
+
+  #tmp# has_many :keywords, :foreign_key => :meta_term_id
+
+  validate :validations
+
+  def to_s(lang = nil)
+    lang ||= DEFAULT_LANGUAGE
+    self.send(lang)
   end
 
-  class Term < ActiveRecord::Base
-    has_many :meta_key_meta_terms, :foreign_key => :meta_term_id
-    has_many :meta_keys, :through => :meta_key_meta_terms
-
-    #tmp# has_many :keywords, :foreign_key => :meta_term_id
-    
-    validate :validations
-    
-    def to_s(lang = nil)
-      lang ||= DEFAULT_LANGUAGE
-      self.send(lang)
-    end
-  
   ######################################################
 
     # TODO refactor to has_many through association ??
@@ -64,7 +63,5 @@ module Meta
     def validations
       errors.add_to_base("A term cannot be blank") if LANGUAGES.all? {|lang| send(lang).blank? }
     end
-
-  end
 
 end

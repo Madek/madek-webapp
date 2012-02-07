@@ -42,8 +42,8 @@ Given /^I have set up the world$/ do
   # the tests. Therefore we recreate our world in this step.
   Copyright.init
 
-  Meta::Department.setup_ldapdata_from_localfile
-  Meta::Date.parse_all
+  MetaDepartment.setup_ldapdata_from_localfile
+  MetaDate.parse_all
 end
 
 Given /^a user called "([^"]*)" with username "([^"]*)" and password "([^"]*)" exists$/ do |person_name, username, password|
@@ -197,16 +197,16 @@ When "I fill in the metadata form as follows:" do |table|
         fill_in_person_widget(list, hash['value'], hash['options'])
       elsif list[:class] == "Keyword"
         fill_in_keyword_widget(list, hash['value'], hash['options'])
-      elsif list[:class] == "Meta::Term"
+      elsif list[:class] == "MetaTerm"
         if list.has_css?("ul.meta_terms")
           set_term_checkbox(list, hash['value'])
         elsif list.has_css?(".madek_multiselect_container")
           select_from_multiselect_widget(list, hash['value'])
         else
-          puts "Unknown Meta::Term interface element when trying to set '#{text}'"
+          puts "Unknown MetaTerm interface element when trying to set '#{text}'"
         end
-      elsif list[:class] == "Meta::Department"
-        puts "Sorry, can't set Meta::Department to '#{text}', the Meta::Department widget is too hard to test right now."
+      elsif list[:class] == "MetaDepartment"
+        puts "Sorry, can't set MetaDepartment to '#{text}', the MetaDepartment widget is too hard to test right now."
 
         #select_from_multiselect_widget(list, hash['value'])
       else

@@ -16,13 +16,13 @@ module MetaHelper
 
           # OPTIMIZE
           case meta_datum.meta_key.object_type
-          when "Meta::Term", "Meta::Date" 
+          when "MetaTerm", "MetaDate" 
             if meta_datum.value.empty?
               meta_datum.destroy
               next
             end
-            if meta_datum.meta_key.object_type == "Meta::Term"
-              @meta_data[meta_datum.id][:meta_terms] = Meta::Term.find(meta_datum.value).collect do |term|
+            if meta_datum.meta_key.object_type == "MetaTerm"
+              @meta_data[meta_datum.id][:meta_terms] = MetaTerm.find(meta_datum.value).collect do |term|
                 b = {}
                 LANGUAGES.each do |lang|
                   s = term.send(lang)
@@ -46,10 +46,10 @@ module MetaHelper
 
         if meta[:meta_terms] and meta[:meta_keys] and meta[:meta_contexts] and meta[:meta_key_definitions]   
 
-          [MetaKey, MetaContext, MetaKeyDefinition, Meta::Term, UsageTerm].each {|a| a.destroy_all }
+          [MetaKey, MetaContext, MetaKeyDefinition, MetaTerm, UsageTerm].each {|a| a.destroy_all }
 
           meta[:meta_terms].each do |term|
-            k = Meta::Term.new(term)
+            k = MetaTerm.new(term)
             k.id = term["id"]
             k.save
             #            buffer << k.inspect
@@ -60,7 +60,7 @@ module MetaHelper
             k = MetaKey.new(meta_key)
             k.id = meta_key["id"]
             k.save
-            k.meta_terms << Meta::Term.find(meta_terms) if meta_terms
+            k.meta_terms << MetaTerm.find(meta_terms) if meta_terms
             #            buffer << k.inspect
           end
 
@@ -94,7 +94,7 @@ module MetaHelper
           k = @meta_keys[@meta_data[meta_datum.id][:meta_key_label]] ||= MetaKey.find_by_label(@meta_data[meta_datum.id][:meta_key_label])
           meta_datum.meta_key = k
 
-          if k.object_type == "Meta::Term"
+          if k.object_type == "MetaTerm"
             meta_datum.value = if @meta_data[meta_datum.id][:meta_terms]
                                  @meta_data[meta_datum.id][:meta_terms].map {|h| k.meta_terms.where(h).first.try(:id) }
                                else
@@ -131,7 +131,7 @@ module MetaHelper
       SQLHelper.reset_autoinc_sequence_to_max MetaDatum
       SQLHelper.reset_autoinc_sequence_to_max MetaKey
       SQLHelper.reset_autoinc_sequence_to_max MetaKeyDefinition
-      SQLHelper.reset_autoinc_sequence_to_max Meta::Term
+      SQLHelper.reset_autoinc_sequence_to_max MetaTerm
 
     rescue 
       buffer << $!

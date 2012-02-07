@@ -22,7 +22,7 @@
   object_type: Person
 - 
   label: institutional affiliation
-  object_type: Meta::Department
+  object_type: MetaDepartment
 - 
   label: portrayed object dates
 - 
@@ -40,7 +40,7 @@
   label: portrayed object country
 - 
   label: portrayed object country code
-  object_type: Meta::Country
+  object_type: MetaCountry
 - 
   label: portrayed person
 - 
@@ -55,7 +55,7 @@
   label: patron
 - 
   label: academic year
-  object_type: Meta::Term
+  object_type: MetaTerm
   meta_terms: 
   -
     de_CH: 1. Semester Bachelor
@@ -89,7 +89,7 @@
   label: project leader
 - 
   label: project type
-  object_type: Meta::Term
+  object_type: MetaTerm
   meta_terms: 
   -
     de_CH: Abschlussarbeit
@@ -119,7 +119,7 @@
   label: tags
 - 
   label: type
-  object_type: Meta::Term
+  object_type: MetaTerm
   meta_terms: 
   -
     de_CH: Architektur

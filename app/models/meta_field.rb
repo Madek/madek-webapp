@@ -7,9 +7,9 @@ class MetaField
   attr_accessor :is_required, # boolean
                 :length_min,  # integer
                 :length_max,  # integer
-                :label,       # Meta::Term id
-                :description, # Meta::Term id
-                :hint         # Meta::Term id
+                :label,       # MetaTerm id
+                :description, # MetaTerm id
+                :hint         # MetaTerm id
 
   def update_attributes(attributes)
     attributes.each_pair do |key, value|
@@ -37,25 +37,25 @@ class MetaField
   # OPTIMIZE 2210 uniqueness
   def get_term(h)
     if h.is_a? Integer
-      Meta::Term.where(:id => h).first
+      MetaTerm.where(:id => h).first
     elsif h.values.any? {|x| not x.blank? }
-      Meta::Term.find_or_create_by_en_GB_and_de_CH(h)
+      MetaTerm.find_or_create_by_en_GB_and_de_CH(h)
     end
   end
 
 ### OPTIMIZE
   def label
-    @label = Meta::Term.find(@label) if @label.is_a? Integer
+    @label = MetaTerm.find(@label) if @label.is_a? Integer
     @label
   end
 
   def description
-    @description = Meta::Term.find(@description) if @description.is_a? Integer
+    @description = MetaTerm.find(@description) if @description.is_a? Integer
     @description
   end
 
   def hint
-    @hint = Meta::Term.find(@hint) if @hint.is_a? Integer
+    @hint = MetaTerm.find(@hint) if @hint.is_a? Integer
     @hint
   end
 

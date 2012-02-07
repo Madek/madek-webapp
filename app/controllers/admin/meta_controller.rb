@@ -13,11 +13,11 @@ class Admin::MetaController < Admin::AdminController
   def export
       h = {}
 
-      h[:meta_terms] = Meta::Term.all.collect(&:attributes)
+      h[:meta_terms] = MetaTerm.all.collect(&:attributes)
 
       h[:meta_keys] = MetaKey.all.collect do |meta_key|
         a = meta_key.attributes
-        a["meta_terms"] = meta_key.meta_terms.collect(&:id) if meta_key.object_type == "Meta::Term"
+        a["meta_terms"] = meta_key.meta_terms.collect(&:id) if meta_key.object_type == "MetaTerm"
         a
       end
 

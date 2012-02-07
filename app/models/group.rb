@@ -9,7 +9,7 @@ class Group < ActiveRecord::Base
 
   validates_presence_of :name
 
-  scope :departments, where(:type => "Meta::Department")
+  scope :departments, where(:type => "MetaDepartment")
 
   def to_s
     name

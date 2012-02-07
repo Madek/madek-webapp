@@ -7,6 +7,8 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 
+
+Group.find_or_create_by_name(:name => "ZHdK (Zürcher Hochschule der Künste)")    
 Copyright.init
-Meta::Department.setup_ldapdata_from_localfile
-Meta::Date.parse_all
+MetaDepartment.setup_ldapdata_from_localfile
+MetaDate.parse_all
