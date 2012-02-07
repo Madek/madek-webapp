@@ -120,6 +120,7 @@ class MetaKeyDefinition < ActiveRecord::Base
 #          end
         end
 
+        # FIXME THIS FOR POSTGRESQL GROUPING
         group(:key_map).where("key_map IS NOT NULL").each do |definition|
           definition.key_map.split(',').collect do |km|
             km.strip!
