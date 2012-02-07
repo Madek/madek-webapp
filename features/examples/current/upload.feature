@@ -31,8 +31,18 @@ Feature: Upload
     Then the system gives me a warning telling me it's impossible to upload so much through the browser
      And the warning includes instructions for an FTP upload
 
-
-  Scenario: Uploading via FTP
-    When I have uploaded some files to my FTP dropbox
+  Scenario: Uploading via a dropbox
+    When I have uploaded some files to my dropbox
      And I start a new upload process
-    Then I can choose files from my FTP dropbox instead of uploading them through the browser
+    Then I can choose files from my dropbox instead of uploading them through the browser
+
+  Scenario: Recursively searching for importable files in my dropbox
+    When I have uploaded a directory with some files to my dropbox
+     And that directory contains another directory with files
+     And I start a new upload process
+    Then I can choose all the files from all those directories from my dropbox instead of uploading them through the browser
+
+  Scenario: Extracting the file name into metadata
+    When I upload a file
+    Then I want to have its original file name inside its metadata
+
