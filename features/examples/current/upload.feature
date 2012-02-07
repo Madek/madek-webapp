@@ -7,6 +7,7 @@ Feature: Upload
   So that I can share my files with everyone
 
   # https://www.pivotaltracker.com/story/show/24559407 -> Zugriffsberechtigungen beim Upload: Gleich wie bei Medieneintrag editieren
+  @committed
   Scenario: Setting permissions during upload
     When I upload a file
     Then the file is attached to a media entry
@@ -45,18 +46,21 @@ Feature: Upload
      And I add the media entry to a set called "Test Set"
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
+  @committed
   Scenario: Uploading large files
     When I upload files totalling more than 1.5 GB
     Then the system gives me a warning telling me it's impossible to upload so much through the browser
      And the warning includes instructions for an FTP upload
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
+  @committed
   Scenario: Uploading via a dropbox
     When I have uploaded some files to my dropbox
      And I start a new upload process
     Then I can choose files from my dropbox instead of uploading them through the browser
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
+  @committed
   Scenario: Recursively searching for importable files in my dropbox
     When I have uploaded a directory with some files to my dropbox
      And that directory contains another directory with files
@@ -64,6 +68,7 @@ Feature: Upload
     Then I can choose all the files from all those directories from my dropbox instead of uploading them through the browser
   
   # https://www.pivotaltracker.com/story/show/24564545 -> Upload abbrechen können   
+  @committed
   Scenario: Cancelling my upload
     When I have started uploading some files
      And I cancel the upload
@@ -71,6 +76,7 @@ Feature: Upload
      And the upload process ends
   
   # https://www.pivotaltracker.com/story/show/24564505 -> Dateien nach Upload aber vor Import löschen   
+  @committed
   Scenario: Deleting files after upload without completing the import
     When I have uploaded some files
      And I delete some of those files during the import

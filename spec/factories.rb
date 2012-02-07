@@ -129,7 +129,7 @@ FactoryGirl.define do
     subject {FactoryHelper.rand_bool ? User.find_random : Group.find_random }
     media_resource { MediaResource.find_random }
     after_build do |perm| 
-      permissions = {:view => FactoryHelper.rand_bool, :edit => FactoryHelper.rand_bool, :manage => FactoryHelper.rand_bool, :hi_res => FactoryHelper.rand_bool}
+      permissions = {:view => FactoryHelper.rand_bool, :edit => FactoryHelper.rand_bool, :manage => FactoryHelper.rand_bool, :download => FactoryHelper.rand_bool}
       perm.set_actions permissions 
     end
   end
