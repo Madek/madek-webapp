@@ -2,7 +2,6 @@
 class PermissionsController < ApplicationController
 
   before_filter :pre_load
-  before_filter :authorized?
 
   layout "meta_data"
 
@@ -84,44 +83,35 @@ class PermissionsController < ApplicationController
 
   private
 
-  def authorized?
-    action = request[:action].to_sym
-    case action
-      when :index
-        action = :view
-      when :edit_multiple
-        if @resources and @resources.empty?
-          not_authorized!
-          return
-        else
-          action = :manage
-        end
-      when :update_multiple
-        not_authorized! if @resources.empty?
-        return
-    end
-    not_authorized! unless current_user.authorized?(Constants::Actions.old2new(action), @resource) 
-  end
-
-
   def pre_load
-    # OPTIMIZE remove blank params
-    if (not params[:media_entry_id].blank?) and (not params[:media_entry_id].to_i.zero?)
-      @resource = MediaEntry.find(params[:media_entry_id])
-    elsif not params[:media_entry_ids].blank?
-      selected_ids = params[:media_entry_ids].split(",").map{|e| e.to_i }
-      @resources = MediaResource.accessible_by_user(current_user, :manage).media_entries.where(:id => selected_ids)
-    elsif not params[:media_set_id].blank? # TODO accept multiple media_set_ids ?? 
-      selected_ids = [params[:media_set_id].to_i]
-      @resources = MediaResource.accessible_by_user(current_user, :manage).media_sets.where(:id => selected_ids)
-      @resource = @resources.first # OPTIMIZE
-    else
-      flash[:error] = "Sie haben keine Medieneinträge ausgewählt."
-      redirect_to :back
+    action = case request[:action].to_sym
+      when :index
+        :view
+      when :edit_multiple, :update_multiple
+        :manage
     end
 
-    params[:permission_id] ||= params[:id]
-    @permission = @resource.permissions.find(params[:permission_id]) unless params[:permission_id].blank?
+    begin
+      if (not params[:media_entry_id].blank?) and (not params[:media_entry_id].to_i.zero?)
+        @resource = MediaEntry.accessible_by_user(current_user, action).find(params[:media_entry_id])
+      elsif not params[:media_entry_ids].blank?
+        selected_ids = params[:media_entry_ids].split(",").map{|e| e.to_i }
+        @resources = MediaEntry.accessible_by_user(current_user, action).find(selected_ids)
+      elsif not params[:media_set_id].blank? # TODO accept multiple media_set_ids ?? 
+        selected_ids = [params[:media_set_id].to_i]
+        @resources = MediaSet.accessible_by_user(current_user, action).find(selected_ids)
+        @resource = @resources.first # OPTIMIZE
+      else
+        flash[:error] = "Sie haben keine Medieneinträge ausgewählt."
+        redirect_to :back
+      end
+    rescue
+      not_authorized!
+    end
+
+    unless (params[:permission_id] ||= params[:id]).blank?
+      @permission = @resource.permissions.find(params[:permission_id])
+    end
   end
 
 end

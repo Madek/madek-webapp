@@ -240,8 +240,9 @@ class MediaResource < ActiveRecord::Base
     
     if user = options[:user]
       #TODO Dont do this behaviour on default
-      flags = { :is_private => acl?(:view, :only, user),
-                :is_public => acl?(:view, :all),
+      is_public = is_public?
+      flags = { :is_public => is_public,
+                :is_private => (is_public ? false : is_private?(user)),
                 :is_editable => user.authorized?(:edit, self),
                 :is_manageable => user.authorized?(:manage, self),
                 :is_favorite => user.favorite_ids.include?(id) }
@@ -486,16 +487,9 @@ class MediaResource < ActiveRecord::Base
     end
   end
 
-  def acl?(action, scope, subject = nil)
-    case scope
-    when :all
-      self.send(action)
-    when :only
-      is_private?(subject, :view)
-    end
-  end
-
   def self.accessible_by_user(user, action = :view)
+    action = action.to_sym
+    
     unless user.try(:id)
       where(action => true)
     else
@@ -536,11 +530,16 @@ class MediaResource < ActiveRecord::Base
     users_permitted_to_act :manage
   end
 
-  def is_private?(user, action)
-    new_action = Constants::Actions.old2new action
-    (users_permitted_to_act new_action).where(["users.id <> ?", user]).empty?
+  def is_public?
+    view?
   end
 
+  def is_private?(user)
+    (user_id == user.id and
+      not is_public? and
+      not userpermissions.where(:view => true).where(["user_id != ?", user]).exists? and
+      not grouppermissions.where(:view => true).exists?)
+  end
 
   private
 

@@ -8,14 +8,6 @@ class CreateTerms < ActiveRecord::Migration
     change_table    :terms do |t|
       t.index       [:en_GB, :de_CH]
     end
-
-    MetaKeyDefinition.all.each do |mkd|
-      [:label, :description, :hint].each do |attr|
-        mkd.field.send("#{attr}=", mkd.field.send(attr).ivars) if mkd.field.send(attr).respond_to? :ivars
-      end
-      mkd.field.options = mkd.field.options unless mkd.field.options.nil?
-      mkd.save
-    end
   end
 
   def self.down

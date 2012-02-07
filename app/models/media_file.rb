@@ -259,6 +259,8 @@ class MediaFile < ActiveRecord::Base
   end
 
   def thumb_base64(size = :small)
+    size = size.to_sym
+
     # TODO give access to the original one?
     # available_sizes = THUMBNAILS.keys #old# ['small', 'medium']
     # size = 'small' unless available_sizes.include?(size)

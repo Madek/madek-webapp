@@ -80,8 +80,9 @@ class Admin::KeysController < Admin::AdminController # TODO rename to Admin::Met
   private
 
   def pre_load
-      params[:key_id] ||= params[:id]
-      @key = MetaKey.find(params[:key_id]) unless params[:key_id].blank?
+    unless (params[:key_id] ||= params[:id]).blank?
+      @key = MetaKey.find(params[:key_id])
+    end
   end
 
 end

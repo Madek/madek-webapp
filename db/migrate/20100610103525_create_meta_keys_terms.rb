@@ -8,17 +8,6 @@ class CreateMetaKeysTerms < ActiveRecord::Migration
     change_table :meta_keys_terms do |t|
       t.index [:meta_key_id, :term_id], :unique => true
     end
-
-    MetaKeyDefinition.all.each do |mkd|
-      if mkd.field.options
-        mkd.field.options.each do |option|
-          mkd.meta_key.terms << option
-        end
-        mkd.field.options = nil
-        mkd.save
-        mkd.meta_key.update_attributes(:object_type => "Term")
-      end
-    end
   end
 
   def self.down

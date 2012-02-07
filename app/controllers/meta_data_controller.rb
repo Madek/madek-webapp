@@ -2,7 +2,6 @@
 class MetaDataController < ApplicationController
 
   before_filter :pre_load
-  before_filter :authorized?
 
   layout "meta_data"
 
@@ -48,30 +47,24 @@ class MetaDataController < ApplicationController
 
   private
 
-  def authorized?
-    true
-    action = request[:action].to_sym
-    case action
-      when :index, :objective
-        action = :view
-      when :edit, :update, :edit_multiple, :update_multiple
-        action = :edit
-    end
-    resource = @resource
-    not_authorized! unless current_user.authorized?(Constants::Actions.old2new(action), resource) # TODO super ??
-  end
-
   def pre_load
-      @resource = if not params[:media_entry_id].blank?
-                    MediaEntry.find(params[:media_entry_id])
-                  elsif not params[:media_set_id].blank?
-                    MediaSet.find(params[:media_set_id])
-                  elsif not params[:snapshot_id].blank?
-                    Snapshot.find(params[:snapshot_id])
-                  end
+    unless (params[:media_resource_id] ||= params[:media_entry_id] || params[:media_set_id] || params[:snapshot_id]).blank?
+      action = case request[:action].to_sym
+        when :index, :objective
+          :view
+        when :edit, :update, :edit_multiple, :update_multiple
+          :edit
+      end
       
-      @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
-      @context ||= MetaContext.core
+      begin
+        @resource = MediaResource.accessible_by_user(current_user, action).find(params[:media_resource_id])
+      rescue
+        not_authorized!
+      end
+    end
+    
+    @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
+    @context ||= MetaContext.core
   end
 
 end

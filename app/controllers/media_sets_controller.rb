@@ -1,9 +1,7 @@
 # -*- encoding : utf-8 -*-
 class MediaSetsController < ApplicationController
 
-
   before_filter :pre_load
-  before_filter :authorized?, :except => [:index, :create]
 
   ##
   # Get media sets
@@ -50,8 +48,9 @@ class MediaSetsController < ApplicationController
   # @response_field [String] title The title of the media set 
   # @response_field [Hash] author The author of the media set 
   #
-  def index(accessible_action = params[:accessible_action] || :view,
-            with = params[:with], child_ids = params[:child_ids] || nil)
+  def index(accessible_action = (params[:accessible_action] || :view).to_sym,
+            with = params[:with],
+            child_ids = params[:child_ids] || nil)
 
     respond_to do |format|
       #-# only used for FeaturedSet
@@ -76,10 +75,10 @@ class MediaSetsController < ApplicationController
         
         sets = unless child_ids.blank?
           MediaResource.where(:id => child_ids).flat_map do |child|
-            child.parent_sets.accessible_by_user(current_user, accessible_action.to_sym)
+            child.parent_sets.accessible_by_user(current_user, accessible_action)
           end.uniq
         else
-          MediaSet.accessible_by_user(current_user, accessible_action.to_sym)
+          MediaSet.accessible_by_user(current_user, accessible_action)
         end
 
         render :json => sets.as_json(:current_user => current_user, :with => with, :with_thumb => false) # TODO drop with_thum merge with with
@@ -189,7 +188,7 @@ class MediaSetsController < ApplicationController
   #
   # @response_field [Integer] title The title of the created set
   # 
-  def create(attr = params[:media_sets] ||= params[:media_set])
+  def create(attr = params[:media_sets] || params[:media_set])
     
     is_saved = true
     if not attr.blank? and attr.has_key? "0" # CREATE MULTIPLE
@@ -336,33 +335,24 @@ class MediaSetsController < ApplicationController
 
   private
 
-  def authorized?
-    action = request[:action].to_sym
-    case action
-#      when :new
-#        action = :create
-      when :show, :browse, :abstract, :inheritable_contexts, :parents
-        action = :view
-      when :edit, :update, :add_member
-        action = :edit
-      when :destroy
-        action = :edit # TODO :delete
-    end
-    if @media_set
-      resource = @media_set
-      not_authorized! unless current_user.authorized?(action, resource) # TODO super ??
-    else
-      flash[:error] = "Kein Medienset ausgewählt."
-      redirect_to :back
-    end
-  end
-
   def pre_load
       @user = User.find(params[:user_id]) unless params[:user_id].blank?
       @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
       
-      params[:media_set_id] ||= params[:id] ||= params[:media_set_ids]
-      @media_set = (@user? @user.media_sets : MediaSet).find(params[:media_set_id]) unless params[:media_set_id].blank?
+      unless (params[:media_set_id] ||= params[:id] ||= params[:media_set_ids]).blank?
+        action = case request[:action].to_sym
+          when :show, :browse, :abstract, :inheritable_contexts, :parents
+            :view
+          when :edit, :update, :add_member, :destroy
+            :edit
+        end
+
+        begin
+          @media_set = (@user? @user.media_sets : MediaSet).accessible_by_user(current_user, action).find(params[:media_set_id])
+        rescue
+          not_authorized!
+        end
+      end
   end
 
 end

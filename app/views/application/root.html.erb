@@ -212,7 +212,7 @@
         var set_id = "<%= AppSettings.splashscreen_slideshow_set_id %>";
         if(set_id.length) {
           $.ajax("/media_sets/"+set_id, {
-            data: {with:{media_set:{media_entries:{author:1, image:{size:"large"}}}},
+            data: {with: {media_set: {media_entries: {author: {name: 1}, title: 1, image: {size:"large"}}}},
                    format: "json"},
             dataType: "json",
             beforeSend: function(request, settings){
@@ -227,7 +227,7 @@
                   $("#slider-wrapper #htmlcaption1").remove();
                   
                   console.log(data);
-                  randomElements = data.entries.sort(function(){ 
+                  randomElements = data.media_entries.sort(function(){ 
                     return Math.round(Math.random())-0.5
                   }).slice(0,5)
                   
@@ -241,7 +241,7 @@
                     // caption
                     var entry_caption = $(caption_clone).clone();
                     $(entry_caption).attr("id", "htmlcaption"+(i+1));
-                    $(entry_caption).html("<strong>"+entry.title+"</strong><br/>"+entry.author);
+                    $(entry_caption).html("<strong>"+entry.title+"</strong><br/>"+entry.author.name);
                     $("#slider-wrapper").append(entry_caption);
                   });
                   

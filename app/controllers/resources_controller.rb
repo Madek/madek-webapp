@@ -125,7 +125,7 @@ class ResourcesController < ApplicationController
 
 ###################################################################################
 
-  def image(size = params[:size] || :large)
+  def image(size = (params[:size] || :large).to_sym)
     # TODO dry => Resource#thumb_base64 and Download audio/video
     media_file = if @media_resource.is_a? MediaSet
       @media_resource.media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
@@ -151,8 +151,13 @@ class ResourcesController < ApplicationController
 ###################################################################################
 
   def pre_load
-    params[:media_resource_id] ||= params[:id] ||= params[:media_resource_ids]
-    @media_resource = MediaResource.accessible_by_user(current_user).find(params[:media_resource_id]) unless params[:media_resource_id].blank?
+    begin
+      unless (params[:media_resource_id] ||= params[:id] || params[:media_resource_ids]).blank?
+        @media_resource = MediaResource.accessible_by_user(current_user).find(params[:media_resource_id])
+      end
+    rescue
+      not_authorized!
+    end
   end
 
 end

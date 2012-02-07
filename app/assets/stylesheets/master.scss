@@ -1233,7 +1233,9 @@ ul li { float: left; }
 
 a {
 	color: #424242;
-	text-decoration: none;
+	/* text-decoration: none;*/
+	/* Trying something that SUS suggested. */
+	text-decoration: underline;
 	&:hover {
 		color: #000000;
 		text-decoration: underline;

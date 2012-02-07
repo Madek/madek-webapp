@@ -57,9 +57,10 @@ class Admin::UsersController < Admin::AdminController
   private
 
   def pre_load
-      params[:user_id] ||= params[:id]
-      @user = User.find(params[:user_id]) unless params[:user_id].blank?
-      @group = Group.find(params[:group_id]) unless params[:group_id].blank?
+    unless (params[:user_id] ||= params[:id]).blank?
+      @user = User.find(params[:user_id])
+    end
+    @group = Group.find(params[:group_id]) unless params[:group_id].blank?
   end
 
 end

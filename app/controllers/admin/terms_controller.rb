@@ -40,8 +40,9 @@ class Admin::TermsController < Admin::AdminController # TODO rename to Admin::Me
   private
 
   def pre_load
-    params[:term_id] ||= params[:id]
-    @term = MetaTerm.find(params[:term_id]) unless params[:term_id].blank?
+    unless (params[:term_id] ||= params[:id]).blank?
+      @term = MetaTerm.find(params[:term_id])
+    end
   end
 
 end

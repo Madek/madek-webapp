@@ -41,8 +41,9 @@ class Admin::ContextsController < Admin::AdminController
   private
 
   def pre_load
-      params[:context_id] ||= params[:id]
-      @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
+    unless (params[:context_id] ||= params[:id]).blank?
+      @context = MetaContext.find(params[:context_id])
+    end
   end
 
 end
