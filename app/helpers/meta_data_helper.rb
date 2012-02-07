@@ -167,7 +167,7 @@ module MetaDataHelper
           elsif SQLHelper.adapter_is_postgresql?
             MetaDepartment.where("ldap_name NOT SIMILAR TO '%_[0-9]{2}[A-Za-z]\.studierende'")
           else
-            raise "you are fucked!"
+            raise "adapter is not supported"
           end
         all_options = departments_without_semester.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)} }
       when "MetaTerm"
