@@ -2,9 +2,8 @@
 # require 'digest'
 
 class MediaFile < ActiveRecord::Base
-  # before_create :set_filename
-  before_create :assign_access_hash
-  before_create :validate_file
+
+  before_create :assign_access_hash, :validate_file
   after_create  :store_file
   after_destroy :delete_file
 
