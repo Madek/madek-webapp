@@ -63,7 +63,7 @@ function upload_estimation(){
 		var data = "";
 		for (var i = 0; i <= test_size; i++){ data += "0"; }
 		$.ajax({
-			url: "/upload_estimation.js",
+			url: "/upload/estimation.js",
 			type: "POST",
 			data: data,
 			beforeSend: function(response){
@@ -86,7 +86,11 @@ function startXHR(upload_form){
 
 	var formData = new FormData();
 	formData.append("xhr", 1);
-
+	
+	csrf_param = $('meta[name=csrf-param]').attr('content');
+	csrf_token = $('meta[name=csrf-token]').attr('content');
+	formData.append(csrf_param, csrf_token);
+        
 	var h = "<div class='progressbar'><p style='margin: 0pt; padding: 0.5em; text-align: left; color: rgb(114, 114, 114);' class='ui-state-default ui-corner-all'>Uploading...</p></div>";
 
 	$("#upload-table tr[media_entry_id]").each(function(){

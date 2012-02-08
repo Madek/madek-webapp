@@ -38,9 +38,6 @@ MAdeK::Application.routes.draw do
 
   match '/download', :controller => 'download', :action => 'download'
   
-  match '/import', :to => Upload
-  match '/upload.js', :to => Upload
-  match '/upload_estimation.js', :to => UploadEstimation
   match '/nagiosstat', :to => Nagiosstat
 
 ###############################################
@@ -197,14 +194,15 @@ MAdeK::Application.routes.draw do
   end
 
 ###############################################
-  
-  #working here#4 plural resources nesting upload_session:id
+
+  # TODO plural resources nesting upload_session:id ??
   resource :upload, :controller => 'upload' do
     member do
-      post :set_permissions #working here#4 use update method for all ??
+      post :set_permissions # TODO use update method for all ??
       post :set_media_sets
-      get :set_media_sets #working here#4 :get as well ??
+      get :set_media_sets # TODO needed :get as well ??
       get :import_summary
+      post :estimation
     end
   end
   
