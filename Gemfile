@@ -16,6 +16,7 @@ gem 'json', '~> 1.6'
 gem 'haml', '~> 3.1'
 gem 'sass', '~> 3.1'
 gem 'coffee-script', '~> 2.2'
+gem "coffee-filter", "~> 0.1.1"
 
 #                          _             
 #                         (_)            
@@ -33,6 +34,7 @@ gem 'jquery-rails', '= 1.0.16'
 gem 'rails_autolink', '~> 1.0'
 gem 'jquery-tmpl-rails'
 gem 'haml_assets'
+gem "plupload-rails", "~> 1.0.6"
 
 # Gems used only for assets and not required in production environments by default.
 group :assets do
@@ -61,7 +63,7 @@ gem 'net-ldap', :require => 'net/ldap'
 
 gem 'zencoder', '2.4.0'
 gem 'uuidtools', '~> 2.1.2'
-gem 'mini_exiftool', '~> 1.3.1'
+#not used anymore# gem 'mini_exiftool', '~> 1.3.1'
 # gem 'mini_magick', '~> 3.3'
 # gem 'streamio-ffmpeg'
 

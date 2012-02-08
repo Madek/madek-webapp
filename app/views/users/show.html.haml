@@ -1,7 +1,7 @@
 %section#content_body
   %div.page_title_left
     .icon_me
-    =_("Meine Medieneinträge")
+    =_("Mein Medienarchiv")
   .clear
   #results
     - unless @my_media_entries[:entries].empty?
@@ -29,10 +29,10 @@
 :javascript
   // TODO dry => batch_actions.js
   $(document).ready(function () {
-  	function display_entries(entries, container){
-  	  $(container).prepend($("#thumbnail").tmpl(entries, {with_checkbox: false}));
-  	}
-  	display_entries(#{@my_media_entries.to_json}.entries, "#results");
-  	display_entries(#{@other_media_entries.to_json}.entries, "#results_others");
+    function display_entries(entries, container){
+      $(container).prepend($("#thumbnail").tmpl(entries, {with_checkbox: false}));
+    }
+    display_entries(#{@my_media_entries.to_json}.entries, "#results");
+    display_entries(#{@other_media_entries.to_json}.entries, "#results_others");
   });
 

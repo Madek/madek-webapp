@@ -4,7 +4,7 @@ class Nagiosstat
   def self.call(env)
       # test to see if we can communicate with the database
       db_status = "database:" + begin
-        MediaFile.count
+        MediaResource.count
         0
       rescue
         2

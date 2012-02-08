@@ -7,13 +7,71 @@ class UploadController < ApplicationController
   def new
   end
 
+  def estimation
+    respond_to do |format|
+      format.js { render :status => 200 }
+    end
+  end
+
   def show
     pre_load # OPTIMIZE
   end
   
-### metal/upload.rb ###    
-#  def create
-#  end
+  def create
+      files = if !params[:uploaded_data].blank?
+        params[:uploaded_data]
+      elsif !params[:import_path].blank?
+        Dir.glob(File.join(params[:import_path], '**', '*')).select {|x| not File.directory?(x) }
+      else
+        nil
+      end
+
+      unless files.blank?
+        # OPTIMIZE append if already exists (multiple grouped posts)
+        #temp# upload_session = current_user.upload_sessions.latest
+        upload_session = current_user.upload_sessions.create
+
+        files.each do |f|
+          uploaded_data = if params[:uploaded_data]
+            f
+          else
+            ActionDispatch::Http::UploadedFile.new(
+              { :type=> Rack::Mime.mime_type(File.extname(f)),
+                :tempfile=> File.new(f, "r"),
+                :filename=> File.basename(f)} )
+          end
+
+          media_entry = upload_session.incomplete_media_entries.create(:uploaded_data => uploaded_data)
+          
+          # If this is a path-based upload for e.g. video files, it's almost impossible that we've imported the title
+          # correctly because some file formats don't give us that metadata. Let's overwrite with an auto-import default then.
+          # TODO: We should get this information from a YAML/XML file that's uploaded with the media file itself instead.
+          unless params[:import_path].blank?
+            # TODO: Extract metadata from separate YAML file here, along with refactoring MediaEntry#process_metadata_blob and friends
+            mandatory_key_ids = MetaKey.where(:label => ['title', 'copyright notice']).collect(&:id)
+            if media_entry.meta_data.where(:meta_key_id => mandatory_key_ids).empty?
+              mandatory_key_ids.each do |key_id|
+                media_entry.meta_data.create(:meta_key_id => key_id, :value => 'Auto-created default during import')
+              end
+            end
+          end
+
+        end
+      end
+
+      # TODO check if all media_entries successfully saved
+    respond_to do |format|
+      format.html {
+        if params[:import_path]
+          redirect_to import_summary_upload_path
+        else
+          redirect_to upload_path
+        end
+      }
+      format.js { render :json => {} }
+    end
+
+  end
 
 ##################################################
 # step 2
@@ -39,6 +97,7 @@ class UploadController < ApplicationController
       media_entry.view = view_action
     end
 
+    # FIXME
     if params[:view].to_sym == :zhdk_users
       zhdk_group = Group.where(:name => "ZHdK (Zürcher Hochschule der Künste)").first
       view_action, edit_action, download_action = [true, !!params[:edit], true]

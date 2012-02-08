@@ -6,6 +6,12 @@
 
 class MediaEntryIncomplete < MediaEntry
 
+  attr_accessor :uploaded_data
+
+  before_create do |record|
+    create_media_file(:uploaded_data => uploaded_data)
+  end
+
   before_create :extract_and_process_subjective_metadata, :set_copyright
 
   before_validation(:on => :create) do
