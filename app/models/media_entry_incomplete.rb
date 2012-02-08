@@ -6,7 +6,7 @@
 
 class MediaEntryIncomplete < MediaEntry
 
-  before_create :extract_subjective_metadata, :set_copyright
+  before_create :extract_and_process_subjective_metadata, :set_copyright
 
   before_validation(:on => :create) do
     self.user = upload_session.user
@@ -33,37 +33,23 @@ class MediaEntryIncomplete < MediaEntry
   # TODO - IFD0 tags will contain a camera manufacturer, possibly followed by that manufacturers own data. Parse or not to parse..
   # NOTE - java jar files are zipped, hence the group tag in application
   #++
-  def extract_subjective_metadata
-    return unless ["image", "audio", "video"].any? {|w| self.media_file.content_type.include? w }
+  def extract_and_process_subjective_metadata
+      return unless ["image", "audio", "video"].any? {|w| self.media_file.content_type.include? w }
+      blob = Exiftool.extract_madek_subjective_metadata self.media_file.file_storage_location, self.media_file.content_type
 
-     fct = self.media_file.content_type
-     group_tags = case fct
-                    when /image/ 
-                      #NOTE - these two really don't bring much to the party, except broken character encodings.. # 'IPTC:', 'IPTC2']
-                      ['XMP-madek', 'XMP-dc', 'XMP-photoshop', 'XMP-iptcCore', 'XMP-xmpRights', 'XMP-expressionmedia', 'XMP-mediapro']
-                    when /video/
-                      ['QuickTime', 'Track', 'Composite', 'RIFF', 'BMP', 'Flash', 'M2TS', 'AC3', 'H264' ] # OPTIMIZE - some of these may move to Objective Metadata
-                    when /audio/ 
-                      ['MPEG', 'ID3', 'Track', 'Composite', 'ASF', 'FLAC', 'Vorbis' ] # OPTIMIZE - some of these may move to Objective Metadata
-                    when /application/
-                      ['FlashPix', 'PDF', 'XMP-', 'PostScript', 'Photoshop', 'EXE', 'ZIP' ] # OPTIMIZE - some of these may move to Objective Metadata
-                    when /text/
-                      ['HTML' ]  # and inevitably more..
-                  end
-      ignore_fields = case fct
-                        when /image/
-                           [/^XMP-photoshop:ICCProfileName$/,/^XMP-photoshop:LegacyIPTCDigest$/, /^XMP-expressionmedia:(?!UserFields)/, /^XMP-mediapro:(?!UserFields)/]
-                        when /video/
-                          []
-                        when /audio/
-                          []
-                        when /application/
-                          []
-                        when /text/
-                          []
+      ignore_fields = case self.media_file.content_type
+                      when /image/
+                        [/^XMP-photoshop:ICCProfileName$/,/^XMP-photoshop:LegacyIPTCDigest$/, /^XMP-expressionmedia:(?!UserFields)/, /^XMP-mediapro:(?!UserFields)/]
+                      when /video/
+                        []
+                      when /audio/
+                        []
+                      when /application/
+                        []
+                      when /text/
+                        []
                       end
 
-      blob = Exiftool.parse_metadata(self.media_file.file_storage_location, group_tags)
       process_metadata_blob(blob, ignore_fields)
   end
 

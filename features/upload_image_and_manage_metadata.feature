@@ -244,7 +244,7 @@ Feature: Upload images and manage media entries based on images
      And I click the media entry titled "Grumpy Cat"
     Then I should see "30.05.2011"
 
-  @javascript @work
+  @javascript @ts
   Scenario: Upload an image that has MAdeK metadata with a from/to date in its EXIF/IPTC metadata
     When I log in as "helmi" with password "saumagen"
      And I go to the home page
@@ -268,7 +268,7 @@ Feature: Upload images and manage media entries based on images
      And I should see "Buser, Monika"
      And I should see "Diplomarbeit, Porträt, Selbstporträt, Schweiz"
 
-  @javascript 
+  @javascript @ts
   Scenario: Upload an image that has MAdeK metadata with a string instead of a date its EXIF/IPTC metadata
     When I log in as "helmi" with password "saumagen"
      And I go to the home page
