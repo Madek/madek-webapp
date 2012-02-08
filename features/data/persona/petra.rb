@@ -36,7 +36,7 @@
 #   werden sollen.
 #
 # - Sie schaut sich im Medienarchiv um, ob sie dort spannende Inhalte
-#   finden kann.
+#   finden kann. Zuerst schaut sie, was aus ihrem Departement im Medienarchiv zu finden sind. Wie sehen denn eigentlich die Masterarbeiten von früheren Jahrgängen aus? Dann stöbert sie nach Inhalten, die mit ihrer gegenwärtigen Abschlussarbeit zu tun haben. Sie tippt ein "weiss" und erhält doch einige Ergebnisse. Bei ein paar frägt sie sich: Was hat den das jetzt mit weiss zu tun? Warum wird das hier angezeigt? Andere Beispiele führen sie zur Ausstellung "Schwarz-weiss", die an der ZHdK zu sehen war. Sie setzt erstmal ein paar Favoriten. Dann will sie ihre Recherche fortsetzen und startet eine neue Suchanfrage "rauschen". Keine Ergebnisse. Nun, sie erstellt ein Set mit dem Titel "Weisses Rauschen". Dort legt sie die Bilder und Videos rein, die sie vorhin favorisiert hat. Sie stöbert noch ein weilchen im Medienarchiv und findet ein paar weitere für sie interessante Beispiele, die sie ebenfalls in ihr Set legt.
 #
 # - Sie versucht herauszufinden, wie das angekündigte kollaborative
 #   Arbeiten funktionieren soll.  Dazu lädt sie ein paar Medien, die sie
