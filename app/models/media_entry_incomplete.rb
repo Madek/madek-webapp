@@ -34,32 +34,18 @@ class MediaEntryIncomplete < MediaEntry
   # NOTE - java jar files are zipped, hence the group tag in application
   #++
   def extract_and_process_subjective_metadata
-      return unless ["image", "audio", "video"].any? {|w| self.media_file.content_type.include? w }
-      blob = Exiftool.extract_madek_subjective_metadata self.media_file.file_storage_location, self.media_file.content_type
-
-      ignore_fields = case self.media_file.content_type
-                      when /image/
-                        [/^XMP-photoshop:ICCProfileName$/,/^XMP-photoshop:LegacyIPTCDigest$/, /^XMP-expressionmedia:(?!UserFields)/, /^XMP-mediapro:(?!UserFields)/]
-                      when /video/
-                        []
-                      when /audio/
-                        []
-                      when /application/
-                        []
-                      when /text/
-                        []
-                      end
-
-      process_metadata_blob(blob, ignore_fields)
+    content_type = self.media_file.content_type
+    return unless ["image", "audio", "video"].any? {|w| content_type.include? w }
+    meta_arr = Exiftool.extract_madek_subjective_metadata self.media_file.file_storage_location, content_type 
+    process_metadata Exiftool.filter_unwanted_fields(meta_arr,content_type)
   end
 
 
-  def process_metadata_blob(blob, ignore_fields = [])
-    blob.each do |tag_array_entry|
+  def process_metadata meta_arr
+    meta_arr.each do |tag_array_entry|
       tag_array_entry.each do |entry|
         entry_key = entry[0]
         entry_value = entry[1]
-        next if ignore_fields.detect {|e| entry_key =~ e}
 
         if entry_key =~ /^XMP-(expressionmedia|mediapro):UserFields/
           Array(entry_value).each do |s|

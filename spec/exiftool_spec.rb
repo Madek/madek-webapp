@@ -1,4 +1,6 @@
+# -*- encoding : utf-8 -*-
 require 'spec_helper'
+
 
 describe Exiftool do
 
@@ -21,6 +23,26 @@ describe Exiftool do
     res[0][0][1].match(/Buser/).should be
   end
 
+
+  it "should respond to filter_unwanted_fields" do
+    Exiftool.respond_to?(:filter_unwanted_fields).should == true
+  end
+
+
+  it "should effectively filter" do
+
+    arr =  [ 
+      [["XMP-madek:Author", "Buser, Monika"], ["XMP-madek:PortrayedObjectDates", "01.05.2011 - 31.05.2011"] ], 
+      [["XMP-dc:Creator", "Buser, Monika"], ["XMP-dc:Description", "Diplomarbeit Vertiefung Fotografie, \"Frau-Sein\""], ["XMP-dc:Rights", "Zürcher Hochschule der Künste"], ["XMP-dc:Subject", ["Diplomarbeit", "Porträt", "Selbstporträt", "Schweiz"]], ["XMP-dc:Title", "Frau-Sein"] ], 
+      [["XMP-photoshop:CaptionWriter", "Armbruster, Linda"], ["XMP-photoshop:Credit", "Departement Kunst & Medien, Vertiefung Fotografie"]], 
+      [], 
+      [["XMP-xmpRights:Marked", true], ["XMP-xmpRights:UsageTerms", "Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden."], ["XMP-xmpRights:WebStatement", "http://www.copyright.ch"]], 
+      [], 
+      [["XMP-photoshop:ICCProfileName","DELETE_ME"] ] ]
+
+      (Exiftool.filter_unwanted_fields arr,"image").flatten.find{ |f| f =~ /DELETE_ME/ }.should_not be
+
+  end
 
 end
 

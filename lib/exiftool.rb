@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Exiftool
 
   class << self
@@ -17,8 +18,35 @@ module Exiftool
                    when /text/
                      ['HTML' ]  # and inevitably more..
                    end
-      res = Exiftool.parse_metadata(file, group_tags)
-      res
+      Exiftool.parse_metadata(file, group_tags)
+    end
+
+    def filter_unwanted_fields meta_data_array, content_type
+
+      ignore_fields = case content_type
+                      when /image/
+                        [/^XMP-photoshop:ICCProfileName$/,/^XMP-photoshop:LegacyIPTCDigest$/, /^XMP-expressionmedia:(?!UserFields)/, /^XMP-mediapro:(?!UserFields)/]
+                      when /video/
+                        []
+                      when /audio/
+                        []
+                      when /application/
+                        []
+                      when /text/
+                        []
+                      end
+
+      meta_data_array.map do |l1|
+        l1.map do |entry|
+          key,value = entry
+          if ignore_fields.find {|m| key =~ m}
+            []
+          else
+            entry
+          end
+        end
+      end
+
     end
 
 
