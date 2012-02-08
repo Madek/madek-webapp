@@ -19,20 +19,20 @@ class PermissionsController < ApplicationController
 
     permissions[:public] = {:name => "Öffentlich", :type => 'nil'}.merge(
       Constants::Actions.inject({}) do |acc,action|
-      acc.merge( (Constants::Actions.new2old action) => (@resource.send action))
+        acc.merge( action => (@resource.send action))
       end)
 
     permissions["Group"] = @resource.grouppermissions.map do |grouppermission|
       {name: grouppermission.group.name, id: grouppermission.group.id, type: "Group"}.merge(
       Constants::Actions.inject({}) do |acc,action|
-        acc.merge( (Constants::Actions.new2old action) => (grouppermission.send action))
+        acc.merge( action => (grouppermission.send action))
       end)
     end
 
     permissions["User"] = @resource.userpermissions.map do |userpermission|
       {name: userpermission.user.name, id: userpermission.user.id, type: "User"}.merge(
         Constants::Actions.inject(Hash.new) do |acc,action|
-        acc.merge( (Constants::Actions.new2old action) => (userpermission.send action))
+          acc.merge( action => (userpermission.send action))
         end)
     end
 
