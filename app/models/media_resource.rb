@@ -283,7 +283,7 @@ class MediaResource < ActiveRecord::Base
 ########################################################
 
   def self.to_tms_doc(resources, context = MetaContext.tms)
-    xml = Builder::XmlMarkup.new
+    xml = ::Builder::XmlMarkup.new
     xml.instruct!
     xml.madek(:version => RELEASE_VERSION) do
       Array(resources).each do |resource|

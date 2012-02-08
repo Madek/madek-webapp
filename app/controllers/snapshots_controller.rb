@@ -14,7 +14,7 @@ class SnapshotsController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      format.tms { render :xml => Resource.to_tms_doc(@snapshot) }
+      format.tms { render :xml => MediaResource.to_tms_doc(@snapshot) }
     end
   end
   
@@ -34,7 +34,7 @@ class SnapshotsController < ApplicationController
     clxn = []
 
     @snapshots.each do |snapshot|
-      xml = Resource.to_tms_doc(snapshot)
+      xml = MediaResource.to_tms_doc(snapshot)
 
       # not providing the full filename of the media_file to be zipped,
       # since it will be provided to the 3rd party receiving system in the accompanying XML
