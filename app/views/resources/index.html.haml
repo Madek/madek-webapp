@@ -17,11 +17,11 @@
         = render :partial => "all_sets"
     -else
       - if my_user
-        = render :partial => "my_entries"
+        = render :partial => "my_resources"
       - elsif @user    
         = render :partial => "user_entries"
       - else
-        = render :partial => "all_entries"    
+        = render :partial => "all_resources"    
        
   = render :partial => "media_entries/batch_bar"
 
