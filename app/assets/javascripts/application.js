@@ -33,6 +33,9 @@
 //= require modernizr.min
 //= require video
 
+/////////// PLUPLOAD /////////////
+//= require plupload
+
 function document_ready(){
 	$("textarea").elastic();
 

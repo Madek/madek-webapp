@@ -70,6 +70,9 @@ GEM
       ffi (~> 1.0.6)
     clbustos-rtf (0.4.2)
     coderay (1.0.5)
+    coffee-filter (0.1.1)
+      coffee-script (>= 2.2.0)
+      haml (>= 3.0.18)
     coffee-rails (3.1.1)
       coffee-script (>= 2.2.0)
       railties (~> 3.1.0)
@@ -104,7 +107,7 @@ GEM
       i18n (~> 0.4)
     fastercsv (1.5.4)
     ffi (1.0.11)
-    gherkin (2.7.6)
+    gherkin (2.7.7)
       json (>= 1.4.6)
     growl (1.0.3)
     guard (0.10.0)
@@ -177,6 +180,8 @@ GEM
     newrelic_rpm (3.3.1)
     nokogiri (1.5.0)
     pg (0.12.2)
+    plupload-rails (1.0.6)
+      rails (~> 3.1)
     polyglot (0.3.3)
     prawn (0.8.4)
       prawn-core (>= 0.8.4, < 0.9)
@@ -266,7 +271,7 @@ GEM
       multi_json (~> 1.0.3)
       simplecov-html (~> 0.5.3)
     simplecov-html (0.5.3)
-    slop (2.4.3)
+    slop (2.4.4)
     spork (0.9.0)
     spreadsheet (0.6.8)
       ruby-ole (>= 1.0)
@@ -319,6 +324,7 @@ DEPENDENCIES
   capistrano
   capistrano-ext
   capybara (~> 1.1)
+  coffee-filter (~> 0.1.1)
   coffee-rails (~> 3.1)
   coffee-script (~> 2.2)
   cucumber
@@ -350,6 +356,7 @@ DEPENDENCIES
   newrelic_rpm (~> 3.3)
   nokogiri
   pg
+  plupload-rails (~> 1.0.6)
   pry
   railroady
   rails (= 3.1.3)
