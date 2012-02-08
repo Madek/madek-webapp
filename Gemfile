@@ -63,7 +63,7 @@ gem 'net-ldap', :require => 'net/ldap'
 
 gem 'zencoder', '2.4.0'
 gem 'uuidtools', '~> 2.1.2'
-gem 'mini_exiftool', '~> 1.3.1'
+#not used anymore# gem 'mini_exiftool', '~> 1.3.1'
 # gem 'mini_magick', '~> 3.3'
 # gem 'streamio-ffmpeg'
 

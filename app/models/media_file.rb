@@ -59,7 +59,7 @@ class MediaFile < ActiveRecord::Base
 
 # Write the file out to storage
   def store_file
-    FileUtils.cp uploaded_data[:tempfile].path, file_storage_location
+    FileUtils.cp uploaded_data.tempfile.path, file_storage_location
 
     # TODO in background?
     import if meta_data.blank?
@@ -88,16 +88,9 @@ class MediaFile < ActiveRecord::Base
   # NB Depending on if we are being called from a rake task or the webserver, we either get a tempfile or an array.
   def set_filename
     self.guid = get_guid 
-    # Same issue as above, we get a hash or an object, depending on appserver or rake task call.
-    if uploaded_data.kind_of? Hash
-      self.filename = CGI::escape(uploaded_data[:filename])
-      self.size = File.size(uploaded_data[:tempfile].path)
-      self.content_type = uploaded_data[:type]
-    else
-      self.filename = CGI::escape(uploaded_data.original_filename)
-      self.size = uploaded_data.size
-      self.content_type = uploaded_data.content_type
-    end
+    self.filename = CGI::escape(uploaded_data.original_filename)
+    self.size = uploaded_data.size
+    self.content_type = uploaded_data.content_type
   end
 
   # the cornerstone of identity..
@@ -305,12 +298,7 @@ class MediaFile < ActiveRecord::Base
 ######################################################################
 
   def importable_zipfile?
-    if uploaded_data.kind_of? Hash
-      ret = uploaded_data[:filename].include?('__IMPORT__') and uploaded_data[:filename].include?('.zip')
-    else
-      ret = uploaded_data.original_filename.include?('__IMPORT__') and uploaded_data.original_filename.include?('.zip')
-    end
-    ret
+    uploaded_data.original_filename.include?('__IMPORT__') and uploaded_data.original_filename.include?('.zip')
   end
 
 

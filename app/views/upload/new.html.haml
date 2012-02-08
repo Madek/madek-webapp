@@ -5,7 +5,7 @@
     #upload-container{:style => "margin-top: 2em"}
       %div{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
         .upload_step_1b
-          = form_tag upload_path(:format => :js), :multipart => true do
+          = form_tag upload_path, :multipart => true do
             %span{:style => "float: right;"}
               =# link_to_function _("Advanced Uploader") + " »", "activate_step('1')"
             %label= _("Medien für den Upload auswählen:")
