@@ -1,34 +1,70 @@
+# -*- coding: utf-8 -*-
 # Persona:  Beat
-# Job:      Publishing assistant
-# Age:      57
+# Beruf:    Bildredaktor bei der Universitätszeitschrift
+# Alter:    57
 #
 #
-# == Responsibilities
+# == Verantwortung
 # 
-# * Picking photographs for the next issue of the in-house university magazine.
+# * Sucht und verwaltet Bilder für die nächste Ausgabe der Uni-Zeitschrift.
 #
-# == Biography
+# == Biograpie
 #
-# Beat likes going to concerts and doing amateur photography. He has a good eye
-# for photographic quality, that's why he is part of a team choosing the photo-
-# graphs that are printed in each issue of the organization's in-house magazine.
+# Beat hat ein gutes Auge für Fotografie und die Qualität von Fotos. Deshalb
+# ist er Teil der Bildredaktion der Uni-Zeitschrift.
 #
-# He doesn't like technology very much and would prefer an analog workflow. Since
-# he doesn't spend too much time on the web, most user interface standards from
-# popular web applications aren't known to him.
+# Er mag Technologie nicht besonders und hätte lieber einen analogen Arbeits-
+# ablauf. Weil er nicht sehr viel Zeit im Web verbringt, kennt er viele
+# der gängigen Interaktionsformen nicht.
 #
-# During his work, he mostly has to do with photographers. His position is
-# between photography and layout, preparing the right photos for layouters
-# to use.
-# 
-# == Goals
+# Er arbeitet oft mit Fotografen zusammen, seine Position ist zwischen Foto-
+# grafen und Layoutern.
 #
-# 1. Picking the best photos for ten different magazine articles each month.
-# 2. Quickly getting an overview of the photos submitted by photographers.
-# 3. Assembling photographs into different sets, one set per issue of the maga-
-#    zine, one set for each article in each set.
+# == Anforderungen an diese Persona
 #
-# == Frustrations
+# - Im Hochschulmagazin gibt es 20 Artikel. Fast alle Autoren geben eine
+#   Auswahl an Bilder in Medienarchivs, aus denen Beat diejenigen
+#   auswählt, die aus seiner Sicht und nach Absprache mit der
+#   Redakteurin ins Heft kommen. Von dieser Redakteurin werden die
+#   Bilder pro Artikel in ein Set gegeben, das die interne
+#   Artikelbildnummer als Titel hat.
 #
-# 1. Not finding the photographers' work in the system.
-# 2. Getting confused about how to handle the system.
+# - Beat wählt pro Artikel eins bis fünf Bilder aus
+#
+# - Beat und die Redakteurin und weitere Mitglieder des Proktionsteams
+#   nutzen einen separten Metadatenkontext, der die für sie wichtigen
+#   Informationen verwaltet
+#
+# == Frust
+#
+# - Beat kann im Moment die Bilder nur einzeln aus dem Medienarchiv
+#   exportieren, er würde gerne alle Bilder pro Artikel auf einmal
+#   exportieren.
+#
+# - Beat würde gerne die Reihenfolge der Bilder pro Set von Hand per
+#   drag and drop ändern können
+#
+# - Beat würde gerne die für ihn wichtigen Informationen aus dem
+#   spezifischen Metadatenkontext auf der Übersichtsseite des Sets sehen
+#
+# - Beat ist manchmal ungeduldig, da sich mit dem Medienarchiv seine
+#   gewohnten Abläufe verändert haben. Früher wurden Bilder über einen
+#   Server geteilt, die notwendigen Infos wurden in den Filename
+#   geschrieben. Er sieht nicht immer den Benefit in der Arbeit mit dem
+#   Medienarchiv.
+#
+# == Verhaltensweise
+#
+# - Beat will am liebsten direkt zu den Medieneinträgen, die für ihn
+#   bereitgestellt sind.
+#
+# - Beat muss immer mal wieder einen Überblick haben zu Bilder, die er
+#   früher mal genutzt hat.
+#
+# - Beat teilt sich seinen Job mit einem Kollegen, der dann ebenfalls
+#   auf die gemeinsamen Medieneinträge und Sets zugriff hat.
+#
+# - Die Verantwortlichen seiner Abteilung wollen zukünftig manche von
+#   den Medieneinträgen, die Beat bearbeitet, als Beigabe zum gedruckten
+#   Hochschulmagazin freischalten für die ZHdK bzw. für die
+#   Öffentlichkeit.
