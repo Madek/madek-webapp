@@ -25,7 +25,7 @@
 #
 # - Er kann seine inhaltliche Sicht auf die Arbeiten nicht abbilden im
 #   Medienarchiv. So hat er Schwierigkeiten, eine Unterscheidung zwischen Autor/in und Medienersteller/in zu treffen. Das ist doch in der Kunst dasselbe!
-#
+# - Er arbeitet gerne zu hause und ist extrem frustiert, dass es dort mit dem Import von grossen Dateien nicht richtig funktioniert und das System sich überhaupt nur sehr langsam bedienen lässt.
 # == Verhaltensweise
 #
 # - Pro Semester hat Norbert die Abschlussarbeiten von ca. 15 Studierende
