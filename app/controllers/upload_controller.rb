@@ -97,14 +97,13 @@ class UploadController < ApplicationController
       media_entry.view = view_action
     end
 
-    # FIXME
     if params[:view].to_sym == :zhdk_users
       zhdk_group = Group.where(:name => "ZHdK (Zürcher Hochschule der Künste)").first
       view_action, edit_action, download_action = [true, !!params[:edit], true]
       @media_entries.each do |media_entry|
-        p = media_entry.permissions.where(:subject_type => zhdk_group.class.base_class.name, :subject_id => zhdk_group.id).first
-        p ||= media_entry.permissions.build(:subject => zhdk_group)
-        p.set_actions(:view => view_action, :edit => edit_action, :download => download_action)
+        p = media_entry.grouppermissions.where(:group_id => zhdk_group.id).first
+        p ||= media_entry.grouppermissions.build(:group => zhdk_group)
+        p.update_attributes(:view => view_action, :edit => edit_action, :download => download_action)
       end
     end
 
