@@ -42,25 +42,23 @@ module Persona
         Factory(:user, :person => person, :login => name, :password => crypted_password)
       end
       
-      upload_session = FactoryGirl.create :upload_session, :user => user
-      
       ## Abgabe zum Kurs Product Design
       set = Factory(:media_set, :user => user)
       set.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Abgabe zum Kurs Product Design"}}})
-        entry = Factory(:media_entry, :upload_session => upload_session)
+        entry = Factory(:media_entry, :user => user)
         entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Abgabe"}}})
         set.media_entries << entry
-        entry = Factory(:media_entry, :upload_session => upload_session)
+        entry = Factory(:media_entry, :user => user)
         entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Konzept"}}})
         set.media_entries << entry
         
       ## Fotografie Kurs HS 2010
       set = Factory(:media_set, :user => user)
       set.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Fotografie Kurs HS 2010"}}})
-        entry = Factory(:media_entry, :upload_session => upload_session)
+        entry = Factory(:media_entry, :user => user)
         entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Portrait"}}})
         set.media_entries << entry
-        entry = Factory(:media_entry, :upload_session => upload_session)
+        entry = Factory(:media_entry, :user => user)
         entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Stilleben"}}})
         set.media_entries << entry
       
@@ -81,7 +79,7 @@ module Persona
       dropbox.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Dropbox"}}})
         
         # Präsentation
-        praesentation = Factory(:media_entry, :upload_session => upload_session)
+        praesentation = Factory(:media_entry, :user => user)
         praesentation.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Präsentation"}}})
         diplomarbeit_2012.media_entries << praesentation
         
@@ -92,7 +90,7 @@ module Persona
           
           ## Ausstellung Photos 1 bis 4
           4.times do |i|
-            entry = Factory(:media_entry, :upload_session => upload_session)
+            entry = Factory(:media_entry, :user => user)
             entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Ausstellung Photo #{i}"}}})
             ausstellungen.media_entries << entry
           end
@@ -108,7 +106,7 @@ module Persona
           ausstellungen.child_sets << ausstellung_museum
           
           ## Ausstellung Photo 5
-          entry = Factory(:media_entry, :upload_session => upload_session)
+          entry = Factory(:media_entry, :user => user)
           entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Ausstellung Photo 5"}}})
           ausstellungen.media_entries << entry
           
@@ -123,12 +121,12 @@ module Persona
         diplomarbeit_2012.child_sets << konzepte
           
           ## Erster Entwurf
-          entry = Factory(:media_entry, :upload_session => upload_session)
+          entry = Factory(:media_entry, :user => user)
           entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Erster Entwurf"}}})
           konzepte.media_entries << entry
           
           ## Bedinungskonzept
-          entry = Factory(:media_entry, :upload_session => upload_session)
+          entry = Factory(:media_entry, :user => user)
           entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Bedinungskonzept"}}})
           konzepte.media_entries << entry 
     end

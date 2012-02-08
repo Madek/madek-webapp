@@ -74,19 +74,13 @@ FactoryGirl.define do
   end
 
   factory :media_entry do
-    upload_session {FactoryGirl.create :upload_session }
+    user {User.find_random || (FactoryGirl.create :user)}
     media_file {FactoryGirl.create :media_file}
 
     view {FactoryHelper.rand_bool 1/10.0}
     download { view and FactoryHelper.rand_bool}
     edit {FactoryHelper.rand_bool 1/10.0}
     manage {edit and FactoryHelper.rand_bool}
-
-    after_build do |me|
-      def me.extract_subjective_metadata; end
-      def me.set_copyright; end
-      def me.set_descr_author_value record; end
-    end
   end
 
   factory :media_file  do 

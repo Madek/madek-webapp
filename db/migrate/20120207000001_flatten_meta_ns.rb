@@ -1,10 +1,10 @@
 class FlattenMetaNs < ActiveRecord::Migration
 
   def up
-    MetaKey.where("object_type like 'Meta::%' ").each do |mk|
-      mk.object_type = mk.object_type.gsub /^Meta::/, "Meta"
-      mk.save!
-    end
+
+    Group.update_all("type = REPLACE(type, 'Meta::', 'Meta')")
+    MetaKey.update_all("object_type = REPLACE(object_type, 'Meta::', 'Meta')")
+
   end
 
   def down

@@ -101,12 +101,14 @@ task :migrate_database do
   # Produce a string like 2010-07-15T09-16-35+02-00
   date_string = DateTime.now.to_s.gsub(":","-")
   dump_dir = "#{deploy_to}/#{shared_dir}/db_backups"
-  dump_path =  "#{dump_dir}/#{sql_database}-#{date_string}.sql"
+  backup_dump_path =  "#{dump_dir}/#{sql_database}-#{date_string}.sql"
+  current_dump_path =  "#{dump_dir}/#{sql_database}-current.sql"
+
   run "mkdir -p #{dump_dir}"
   # If mysqldump fails for any reason, Capistrano will stop here
   # because run catches the exit code of mysqldump
-  run "mysqldump -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -r #{dump_path} #{sql_database}"
-  run "bzip2 #{dump_path}"
+  run "mysqldump -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -r #{backup_dump_path} #{sql_database}"
+  run "bzip2 #{backup_dump_path}"
 
   # Migration here
   # deploy.migrate should work, but is buggy and is run in the _previous_ release's
@@ -114,6 +116,8 @@ task :migrate_database do
   #deploy.migrate
   run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:migrate"
 
+  run "mysqldump -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -r #{current_dump_path} #{sql_database}"
+  run "bzip2 #{current_dump_path}"
 end
 
 task :precompile_assets do

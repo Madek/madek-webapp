@@ -67,9 +67,7 @@ class MetaKey < ActiveRecord::Base
 ########################################################
 
   def object_class
-    klass = object_type.constantize
-    klass = Meta::Date if klass == Date # fix for "Meta::Date".constantize doesn't work in development mode
-    klass
+    object_type.constantize
   end
 
 ########################################################
