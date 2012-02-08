@@ -24,7 +24,7 @@
 # == Frust
 #
 # - Er kann seine inhaltliche Sicht auf die Arbeiten nicht abbilden im
-#   Medienarchiv.
+#   Medienarchiv. So hat er Schwierigkeiten, eine Unterscheidung zwischen Autor/in und Medienersteller/in zu treffen. Das ist doch in der Kunst dasselbe!
 #
 # == Verhaltensweise
 #
