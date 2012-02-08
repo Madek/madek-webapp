@@ -59,8 +59,7 @@ module Exiftool
     def parse_metadata(file, tags = nil)
       result_set = []
       parse_hash = JSON.parse(`#{EXIFTOOL_PATH} -s "#{file}" -a -u -G1 -D -j`).first
-      # TODO ?? parse_hash.delete_if {|k,v| v.is_a?(String) and not v.valid_encoding? }
-      #binding.pry
+      parse_hash.delete_if {|k,v| v.is_a?(String) and not v.valid_encoding? }
       tags.each do |tag_group|
         result_set << parse_hash.select {|k,v| k.include?(tag_group)}.sort
       end
