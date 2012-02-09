@@ -1,15 +1,13 @@
 # -*- encoding : utf-8 -*-
-
-
-
-
 class MetaTerm < ActiveRecord::Base
   has_many :meta_key_meta_terms, :foreign_key => :meta_term_id
   has_many :meta_keys, :through => :meta_key_meta_terms
 
   #tmp# has_many :keywords, :foreign_key => :meta_term_id
 
-  validate :validations
+  validate do
+    errors.add_to_base("A term cannot be blank") if LANGUAGES.all? {|lang| send(lang).blank? }
+  end
 
   def to_s(lang = nil)
     lang ||= DEFAULT_LANGUAGE
@@ -48,7 +46,7 @@ class MetaTerm < ActiveRecord::Base
       @used_ids ||= begin
         ids = (MetaContext.all + MetaKeyDefinition.all).collect do |x|
           # TODO fetch id directly
-          [x.meta_field.label.try(:id), x.meta_field.description.try(:id), x.meta_field.hint.try(:id)]
+          [x.label.try(:id), x.description.try(:id), x.hint.try(:id)]
         end
         ids += MetaKey.for_meta_terms.collect(&:used_term_ids)
         ids += Keyword.select(:meta_term_id).group(:meta_term_id).collect(&:meta_term_id)
@@ -57,11 +55,14 @@ class MetaTerm < ActiveRecord::Base
     end
   
   ######################################################
-  
-    private
-  
-    def validations
-      errors.add_to_base("A term cannot be blank") if LANGUAGES.all? {|lang| send(lang).blank? }
+
+  # OPTIMIZE 2210 uniqueness
+  def self.find_or_create(h)
+    if h.is_a? Integer
+      where(:id => h).first
+    elsif h.values.any? {|x| not x.blank? }
+      find_or_create_by_en_GB_and_de_CH(h)
     end
+  end
 
 end

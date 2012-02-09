@@ -2,7 +2,7 @@
 
 <%= content_tag :div do %>
 	<%= error_messages_for :resource %>
-	<%= @context.meta_field.description %>
+	<%= @context.description %>
 <% end
 
 form_for @resource, :as => :resource,
@@ -36,10 +36,10 @@ form_for @resource, :as => :resource,
 	
 				content_tag :ul, :"data-meta_key" => meta_datum.object.meta_key.label.gsub(/\W+/, '_'), :class => meta_datum.object.meta_key.object_type do
 					content_tag :li, :class => "label", :style => "width: 18%;" do %>
-						<%= definition.meta_field.label %>
+						<%= definition.label %>
 						<%= content_tag :span, :class => "hint" do %>
-							<%= definition.meta_field.hint %> 
-						<% end if definition.meta_field.hint
+							<%= definition.hint %> 
+						<% end if definition.hint
 					end
 					content_tag :li, :style => "width: 65%;" do %>
 						<%= field_tag(meta_datum, @context) %>

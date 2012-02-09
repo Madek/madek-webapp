@@ -194,11 +194,10 @@ class MetaDatum < ActiveRecord::Base
     r = []
 
     definition = meta_key.meta_key_definitions.for_context(context)
-    meta_field = definition.meta_field
 
-    r << "can't be blank" if value.blank? and meta_field.is_required
-    r << "is too short (min is #{meta_field.length_min} characters)" if meta_field.length_min and (value.blank? or value.size < meta_field.length_min)
-    r << "is too long (maximum is #{meta_field.length_max} characters)" if value and meta_field.length_max and value.size > meta_field.length_max
+    r << "can't be blank" if value.blank? and definition.is_required
+    r << "is too short (min is #{definition.length_min} characters)" if definition.length_min and (value.blank? or value.size < definition.length_min)
+    r << "is too long (maximum is #{definition.length_max} characters)" if value and definition.length_max and value.size > definition.length_max
     # TODO options
     
     r

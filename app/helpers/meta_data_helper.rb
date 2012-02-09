@@ -31,7 +31,7 @@ module MetaDataHelper
     meta_data.each do |meta_datum|
       next if meta_datum.to_s.blank? #tmp# OPTIMIZE 2007
       definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
-      h[definition.meta_field.label.to_s] = formatted_value(meta_datum) 
+      h[definition.label.to_s] = formatted_value(meta_datum) 
     end
     display_meta_data_helper(context, h)
   end
@@ -48,7 +48,7 @@ module MetaDataHelper
       uploader_info, other_info = resource.meta_data_for_context(context).partition {|md| ["uploaded by", "uploaded at"].include?(md.meta_key.label) }
       other_info.each do |meta_datum|
         definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
-        haml_tag :h4, definition.meta_field.label.to_s
+        haml_tag :h4, definition.label.to_s
         if meta_datum.meta_key.label == "title"
           haml_tag :h3, formatted_value(meta_datum)
         else
@@ -288,7 +288,7 @@ module MetaDataHelper
     meta_key = meta_datum.object.meta_key
     field_id = "#{sanitize_to_id(meta_datum.object_name)}_value"
     definition = meta_key.meta_key_definitions.for_context(context)
-    is_required = (definition.meta_field.is_required ? true : nil)
+    is_required = (definition.is_required ? true : nil)
     #key_id = meta_datum.object.meta_key_id
     object_id = meta_datum.object.object_id
 
@@ -308,7 +308,7 @@ module MetaDataHelper
 
         when "MetaTerm"
           meta_terms = meta_key.meta_terms
-          ui = (definition.meta_field.length_max and definition.meta_field.length_max == 1 ? :radio_button : :check_box )
+          ui = (definition.length_max and definition.length_max == 1 ? :radio_button : :check_box )
           h += widget_meta_terms(meta_datum, meta_key, meta_terms, ui)
 
         when "Person"
@@ -493,7 +493,7 @@ module MetaDataHelper
           end unless @js_2
       end
 
-    elsif definition.meta_field.length_max and definition.meta_field.length_max <= 255
+    elsif definition.length_max and definition.length_max <= 255
       #tmp# h += meta_datum.text_field :value, :class => "value", :"data-required" => is_required
       h += text_field_tag "#{meta_datum.object_name}[value]", meta_datum.object.to_s, :class => "value", :"data-required" => is_required
       h += content_tag :span, :class => "with_actions" do
@@ -520,7 +520,7 @@ module MetaDataHelper
   end
 
   def description_toggler(definition)
-    d = definition.meta_field.description.try(:to_s)
+    d = definition.description.try(:to_s)
     unless d.blank?
       content_tag :span, "?", :class => "description_toggler", :title => d #old# auto_link(d, :all, :target => "_blank")
     end

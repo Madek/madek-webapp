@@ -28,7 +28,7 @@
                   - media_entry.meta_data_for_context(context).collect do |meta_datum|
                     - definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
                     %h4
-                      = definition.meta_field.label.to_s
+                      = definition.label.to_s
                     = render :partial => "meta_data/show", :locals => { :meta_datum => meta_datum, :resource => media_entry, :context => context }
                 = render :partial => "media_entries/browsing"
 
