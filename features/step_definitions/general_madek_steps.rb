@@ -114,9 +114,9 @@ Given /^a entry titled "(.+)" created by "(.+)" exists$/ do |title, username|
   user = User.where(:login => username).first
   upload_session = UploadSession.create(:user => user)
   f = "#{Rails.root}/features/data/images/berlin_wall_01.jpg"
-  uploaded_data = { :type=> "image/jpeg",
-                    :tempfile=> File.new(f, "r"),
-                    :filename=> File.basename(f)}
+  uploaded_data = ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
+                                                         :tempfile=> File.new(f, "r"),
+                                                         :filename=> File.basename(f))
   entry = upload_session.incomplete_media_entries.create(:uploaded_data => uploaded_data)
   h = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
   entry.reload.update_attributes(h, user)

@@ -35,10 +35,9 @@ class UploadController < ApplicationController
           uploaded_data = if params[:uploaded_data]
             f
           else
-            ActionDispatch::Http::UploadedFile.new(
-              { :type=> Rack::Mime.mime_type(File.extname(f)),
-                :tempfile=> File.new(f, "r"),
-                :filename=> File.basename(f)} )
+            ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
+                                                   :tempfile=> File.new(f, "r"),
+                                                   :filename=> File.basename(f))
           end
 
           media_entry = upload_session.incomplete_media_entries.create(:uploaded_data => uploaded_data)
@@ -97,14 +96,13 @@ class UploadController < ApplicationController
       media_entry.view = view_action
     end
 
-    # FIXME
     if params[:view].to_sym == :zhdk_users
       zhdk_group = Group.where(:name => "ZHdK (Zürcher Hochschule der Künste)").first
       view_action, edit_action, download_action = [true, !!params[:edit], true]
       @media_entries.each do |media_entry|
-        p = media_entry.permissions.where(:subject_type => zhdk_group.class.base_class.name, :subject_id => zhdk_group.id).first
-        p ||= media_entry.permissions.build(:subject => zhdk_group)
-        p.set_actions(:view => view_action, :edit => edit_action, :download => download_action)
+        p = media_entry.grouppermissions.where(:group_id => zhdk_group.id).first
+        p ||= media_entry.grouppermissions.build(:group => zhdk_group)
+        p.update_attributes(:view => view_action, :edit => edit_action, :download => download_action)
       end
     end
 

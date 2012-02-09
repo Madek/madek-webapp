@@ -187,7 +187,7 @@ class MediaFile < ActiveRecord::Base
         paths.each do |path|
           if File.extname(path) == ".webm"
             # Must have Exiftool with Image::ExifTool::Matroska to support WebM!
-            w, h = exiftool_obj(path, ["Composite:ImageSize"])[0][0][1].split("x")
+            w, h = Exiftool.parse_metadata(path, ["Composite:ImageSize"])[0][0][1].split("x")
             if previews.create(:content_type => content_type, :filename => File.basename(path), :width => w.to_i, :height => h.to_i, :thumbnail => 'large')
               # Link the file to a symlink inside of public/ so that Apache serves the preview file, otherwise
               # it would become far too hard to support partial content (status 206) and ranges (for seeking in media files)
@@ -309,7 +309,7 @@ class MediaFile < ActiveRecord::Base
     ignore_fields = ['UserComment','ImageDescription', 'ProfileCopyright', 'System:']
     exif_hash = {}
 
-    blob = exiftool_obj(full_path_file, group_tags)
+    blob = Exiftool.parse_metadata(full_path_file, group_tags)
     blob.each do |tag_array_entry|
       tag_array_entry.each do |entry|
         exif_hash[entry[0]]=entry[1] unless ignore_fields.any? {|w| entry[0].include? w }
@@ -339,7 +339,7 @@ class MediaFile < ActiveRecord::Base
     ignore_fields = ['UserComment','ImageDescription', 'ProfileCopyright', 'System:']
     exif_hash = {}
 
-    blob = exiftool_obj(full_path_file, group_tags)
+    blob = Exiftool.parse_metadata(full_path_file, group_tags)
     blob.each do |tag_array_entry|
       tag_array_entry.each do |entry|
         exif_hash[entry[0]]=entry[1] unless ignore_fields.any? {|w| entry[0].include? w }
@@ -478,20 +478,5 @@ class MediaFile < ActiveRecord::Base
     r.map {|x| x.map{|y| y.to_s.dup.force_encoding('utf-8') } }
   end
   
-  private
-
-
- # parses the passed in file reference for the requested tag groups (using exiftool)
- # returns an array of arrays of meta-data for the group tags requested
-  def exiftool_obj(full_path_file, tags = nil)
-    result_set = []
-    parse_hash = JSON.parse(`#{EXIFTOOL_PATH} -s "#{full_path_file}" -a -u -G1 -D -j`).first
-    parse_hash.delete_if {|k,v| v.is_a?(String) and not v.valid_encoding? }
-    tags.each do |tag_group|
-      result_set << parse_hash.select {|k,v| k.include?(tag_group)}.sort
-    end
-    result_set
-  end
-
   
 end

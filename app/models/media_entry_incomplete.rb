@@ -11,7 +11,8 @@ class MediaEntryIncomplete < MediaEntry
   before_create do |record|
     create_media_file(:uploaded_data => uploaded_data)
   end
-  before_create :extract_subjective_metadata, :set_copyright
+
+  before_create :extract_and_process_subjective_metadata, :set_copyright
 
   before_validation(:on => :create) do
     self.user = upload_session.user
@@ -38,47 +39,19 @@ class MediaEntryIncomplete < MediaEntry
   # TODO - IFD0 tags will contain a camera manufacturer, possibly followed by that manufacturers own data. Parse or not to parse..
   # NOTE - java jar files are zipped, hence the group tag in application
   #++
-  def extract_subjective_metadata
-    return unless ["image", "audio", "video"].any? {|w| self.media_file.content_type.include? w }
-
-     fct = self.media_file.content_type
-     group_tags = case fct
-                    when /image/ 
-                      #NOTE - these two really don't bring much to the party, except broken character encodings.. # 'IPTC:', 'IPTC2']
-                      ['XMP-madek', 'XMP-dc', 'XMP-photoshop', 'XMP-iptcCore', 'XMP-xmpRights', 'XMP-expressionmedia', 'XMP-mediapro']
-                    when /video/
-                      ['QuickTime', 'Track', 'Composite', 'RIFF', 'BMP', 'Flash', 'M2TS', 'AC3', 'H264' ] # OPTIMIZE - some of these may move to Objective Metadata
-                    when /audio/ 
-                      ['MPEG', 'ID3', 'Track', 'Composite', 'ASF', 'FLAC', 'Vorbis' ] # OPTIMIZE - some of these may move to Objective Metadata
-                    when /application/
-                      ['FlashPix', 'PDF', 'XMP-', 'PostScript', 'Photoshop', 'EXE', 'ZIP' ] # OPTIMIZE - some of these may move to Objective Metadata
-                    when /text/
-                      ['HTML' ]  # and inevitably more..
-                  end
-      ignore_fields = case fct
-                        when /image/
-                           [/^XMP-photoshop:ICCProfileName$/,/^XMP-photoshop:LegacyIPTCDigest$/, /^XMP-expressionmedia:(?!UserFields)/, /^XMP-mediapro:(?!UserFields)/]
-                        when /video/
-                          []
-                        when /audio/
-                          []
-                        when /application/
-                          []
-                        when /text/
-                          []
-                      end
-
-      blob = exiftool_subjective(self.media_file.file_storage_location, group_tags)
-      process_metadata_blob(blob, ignore_fields)
+  def extract_and_process_subjective_metadata
+    content_type = self.media_file.content_type
+    return unless ["image", "audio", "video"].any? {|w| content_type.include? w }
+    meta_arr = Exiftool.extract_madek_subjective_metadata self.media_file.file_storage_location, content_type 
+    process_metadata Exiftool.filter_unwanted_fields(meta_arr,content_type)
   end
 
 
-  def process_metadata_blob(blob, ignore_fields = [])
-    blob.each do |tag_array_entry|
+  def process_metadata meta_arr
+    meta_arr.each do |tag_array_entry|
       tag_array_entry.each do |entry|
         entry_key = entry[0]
         entry_value = entry[1]
-        next if ignore_fields.detect {|e| entry_key =~ e}
 
         if entry_key =~ /^XMP-(expressionmedia|mediapro):UserFields/
           Array(entry_value).each do |s|
@@ -132,21 +105,5 @@ class MediaEntryIncomplete < MediaEntry
     end
   end
 
-
-# parses the passed in file reference for the requested tag groups
-# returns an array of arrays of meta-data for the group tags requested
-
-#==== Depends on:
-# [external] exiftool meta-data manipulation perl library.
-
-  def exiftool_subjective(media, tags = nil)
-    result_set = []
-    parse_hash = JSON.parse(`#{EXIFTOOL_PATH} -s "#{media}" -a -u -G1 -D -j`).first
-    # TODO ?? parse_hash.delete_if {|k,v| v.is_a?(String) and not v.valid_encoding? }
-    tags.each do |tag_group|
-      result_set << parse_hash.select {|k,v| k.include?(tag_group)}.sort
-    end
-    result_set
-  end
 
 end

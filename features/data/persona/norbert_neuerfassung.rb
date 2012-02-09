@@ -24,8 +24,18 @@
 # == Frust
 #
 # - Er kann seine inhaltliche Sicht auf die Arbeiten nicht abbilden im
-#   Medienarchiv. So hat er Schwierigkeiten, eine Unterscheidung zwischen Autor/in und Medienersteller/in zu treffen. Das ist doch in der Kunst dasselbe!
-# - Er arbeitet gerne zu hause und ist extrem frustiert, dass es dort mit dem Import von grossen Dateien nicht richtig funktioniert und das System sich überhaupt nur sehr langsam bedienen lässt.
+#   Medienarchiv. So hat er Schwierigkeiten, eine Unterscheidung
+#   zwischen Autor/in und Medienersteller/in zu treffen. Das ist doch
+#   in der Kunst dasselbe!
+#
+# - Er arbeitet gerne zu hause und ist extrem frustiert, dass es dort
+#   mit dem Import von grossen Dateien nicht richtig funktioniert und
+#   das System sich überhaupt nur sehr langsam bedienen lässt.
+#
+# - Er bedauert, dass man im Medienarchiv die Websites und die
+#   Flash-Animationen nicht sehen kann. Versteht aber, warum das so
+#   ist. (RCA: Welche Websites sind gemeint?)
+#
 # == Verhaltensweise
 #
 # - Pro Semester hat Norbert die Abschlussarbeiten von ca. 15 Studierende
@@ -33,7 +43,7 @@
 #   verschiedenen Medieneinträgen. Sie werden entweder von den Studis ins
 #   Medienarchiv geladen oder von ihm importiert. Die Studis weissen ihm
 #   ihre ME und Sets zu, er kontrolliert und überarbeitet diese. Norbert
-#   erstellt nach der Vorbereitung einen Snaphot fürs Archiv ZHdK. Die
+#   erstellt nach der Vorbereitung einen Snapshot fürs Archiv ZHdK. Die
 #   Daten sind weiterhin im Medienarchiv sichtbar.  Im Medienarchiv hat er
 #   die Rolle des "Experten".
 #
