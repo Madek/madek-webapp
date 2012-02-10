@@ -105,7 +105,7 @@ class MetaContext < ActiveRecord::Base
     meta_key_ids = meta_keys.for_meta_terms.map(&:id)
 
     mds = if current_user
-      accessible_media_entry_ids = MediaResource.accessible_by_user(current_user).media_entries.map(&:id)
+      accessible_media_entry_ids = MediaEntry.accessible_by_user(current_user).map(&:id)
       MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids)
     else
       MetaDatum.where(:meta_key_id => meta_key_ids)
@@ -117,8 +117,7 @@ class MetaContext < ActiveRecord::Base
   # chainable query
   def media_entries(current_user = nil)
     sql = if current_user
-      MediaResource.accessible_by_user(current_user).media_entries.
-        joins("INNER JOIN meta_data ON media_resources.id = meta_data.media_resource_id")
+      MediaEntry.accessible_by_user(current_user).joins("INNER JOIN meta_data ON media_resources.id = meta_data.media_resource_id")
     else
       MediaEntry.joins(:meta_data)
     end

@@ -1,9 +1,9 @@
 # -*- encoding : utf-8 -*-
 class MediaResource < ActiveRecord::Base
 
-  belongs_to :user 
-  belongs_to :media_file
-  belongs_to :upload_session
+  belongs_to :user   # TODO remove down
+  belongs_to :media_file  # TODO remove
+  belongs_to :upload_session   # TODO remove
 
  # TODO observe bulk changes and reindex once
   has_many :meta_data, :dependent => :destroy do #working here#7 :include => :meta_key
@@ -265,6 +265,7 @@ class MediaResource < ActiveRecord::Base
 
 ########################################################
 
+  # TODO move down to Snapshot class
   def self.to_tms_doc(resources, context = MetaContext.tms)
     xml = ::Builder::XmlMarkup.new
     xml.instruct!
@@ -345,9 +346,6 @@ class MediaResource < ActiveRecord::Base
 ##########################################################################################################################
   
   scope :media_entries_and_media_sets, where(:type => ["MediaEntry", "MediaSet"])
-  scope :media_entries, where(:type => "MediaEntry")
-  scope :media_sets, where(:type => "MediaSet")
-  scope :snapshots, where(:type => "Snapshot")
 
   ################################################################
 
