@@ -19,14 +19,13 @@ describe UploadSessionsController do
     end
 
     it "should respond with success" do
-      delete :destroy, {format: 'json', id: @upload_session.id}, {user_id: @user.id}
+      delete :destroy, {format: 'json', id: @us.id}, {user_id: @user.id}
       response.should  be_success
     end
 
     it "should have deleted the upload_session instance" do
-      delete :destroy, {format: 'json', id: @upload_session.id}, {user_id: @user.id}
-      binding.pry
-      UploadSession.find(@us.id).should == nil
+      delete :destroy, {format: 'json', id: @us.id}, {user_id: @user.id}
+      UploadSession.exists?(@us.id).should == false
     end
   end
 
