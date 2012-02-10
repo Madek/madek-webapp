@@ -154,6 +154,7 @@ class MediaResource < ActiveRecord::Base
       tags = cleaner_tags + (blank_all_tags ? "" : to_metadata_tags)
 
       path = File.join(DOWNLOAD_STORAGE_DIR, File.basename(source_filename))
+      # TODO Tom ask: why is this called from here and not when the meta_key_definitions are updated? 
       Exiftool.generate_exiftool_config if MetaContext.io_interface.meta_key_definitions.maximum("updated_at").to_i > File.stat(EXIFTOOL_CONFIG).mtime.to_i
 
       resout = `#{EXIFTOOL_PATH} #{tags} "#{path}"`

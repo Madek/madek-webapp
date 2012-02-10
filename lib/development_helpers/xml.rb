@@ -21,7 +21,6 @@ module DevelopmentHelpers
       , upload_sessions: :UploadSession \
       , wiki_pages: :WikiPage \
       , wiki_page_versions: :WikiPageVersion \
-      , type_vocabularies: :TypeVocabulary \
       , keywords: :Keyword \
       , full_texts: :FullText \
       , copyrights: :Copyright \
@@ -30,7 +29,7 @@ module DevelopmentHelpers
       , meta_contexts: :MetaContext \
       , meta_keys: :MetaKey \
       , meta_data: :MetaDatum \
-      , meta_keys_meta_terms: :MetaKeysMetaTerm \
+      , meta_keys_meta_terms: :MetaKeyMetaTerm \
     }
 
     # this contains all the join tables
@@ -42,8 +41,7 @@ module DevelopmentHelpers
     }
 
     UndefinedModels= { \
-        schema_migrations: :SchemaMigration \
-      , meta_keys_meta_terms: :MetaKeysMetaTerm \
+        schema_migrations: :SchemaMigration 
     }
 
 
@@ -82,7 +80,7 @@ module DevelopmentHelpers
           TablesModels.each do |table_name,model|
             eval " 
               xml.#{table_name} do |table|
-                #{model}.all.each do |instance|
+                #{model}.all.each do|instance|
                   table << instance.to_xml(skip_instruct: true)
                 end
               end
@@ -110,7 +108,7 @@ module DevelopmentHelpers
 
     class MadekXmlDoc < ::Nokogiri::XML::SAX::Document
 
-      SerializedFields = [:meta_field].to_s
+      SerializedFields = []
 
 
       def initialize
@@ -135,7 +133,7 @@ module DevelopmentHelpers
       end
 
       def new_model table_name, model_name
-        model = Module.const_get table_name.singularize.camelize
+        model = Module.const_get model_name.gsub(/-/,"_").camelize
         skip_all_callbacks model
         puts "\n\n\n################################################"
         puts "setting current_model to new instance of #{model}"
@@ -145,7 +143,7 @@ module DevelopmentHelpers
       def set_property name, value
         puts "set_property #{name} (size #{value.size}) to #{value}"
         #somehow this doesn't work
-        value = YAML::load(value) if SerializedFields.include? name
+        value = YAML::load(value) if SerializedFields.include? name.to_sym
         puts "value: #{value}"
         @current_model.send "#{name}=", value
       end
@@ -190,6 +188,7 @@ module DevelopmentHelpers
 
 
     def self.db_import_from_xml source 
+      ::DevelopmentHelpers::Xml.define_models
       ActiveRecord::Base.transaction do
         parser = Nokogiri::XML::SAX::Parser.new(MadekXmlDoc.new)
         parser.parse(source)
