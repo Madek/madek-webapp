@@ -83,6 +83,8 @@ FactoryGirl.define do
     manage {edit and FactoryHelper.rand_bool}
   end
 
+  # TODO create media entry incomplete
+
   factory :media_file  do 
     uploaded_data  {{ :type=> "image/png", :tempfile=> File.new("#{Rails.root}/app/assets/images/icons/eye.png", "r"), :filename=> "eye.png"}} 
     content_type "image/png"
