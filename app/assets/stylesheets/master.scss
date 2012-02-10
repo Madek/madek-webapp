@@ -3415,6 +3415,50 @@ table.permissions {
 	}
 }
 
+#detail_specification #contexts_tab {
+  margin-bottom: 12px;
+    
+  input[type=checkbox] {
+    margin-right: 5px;
+    position: relative;
+    top: -1px;
+  }
+  
+  li {
+    float: none;
+    display: block;
+    margin-bottom: 6px;
+  }
+  
+  label {
+    margin-bottom: 6px;
+  }
+    
+  a {
+    color: #888;
+    
+    .external_link {
+      background: red;
+      display: inline;
+      height: 10px;
+      width: 10px;
+    }
+    
+    &:hover {
+      color: #222;
+      text-decoration: underline;
+    }
+  }
+  
+  .save_buttons {
+    margin: 1.8em 0 1.2em;
+  }
+  
+  hr {
+    margin-bottom: 1em;
+  }
+}
+
 
 #user_permissions, #group_permissions, #anyone_permissions {
 	background-color: #e7e7e7;
