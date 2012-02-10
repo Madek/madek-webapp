@@ -74,6 +74,10 @@ namespace :madek do
     DevelopmentHelpers::Xml.db_export_to_xml file
   end
 
+  task :db_import_from_xml => :environment do
+    DevelopmentHelpers::Xml.db_import_from_xml File.new(ENV['FILE'])
+  end
+
 
   desc "Fetch meta information from ldap and store it into db/ldap.json"
   task :fetch_ldap => :environment do
