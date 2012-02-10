@@ -272,6 +272,8 @@ MAdeK::Application.routes.draw do
     resources :media_entries do
       collection do
         get :import
+        get :dropbox
+        post :dropbox
       end
     end
 

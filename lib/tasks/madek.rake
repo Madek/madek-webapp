@@ -117,7 +117,6 @@ namespace :madek do
       
      Rake::Task["log:clear"].invoke
      Rake::Task["db:migrate:reset"].invoke
-     Rake::Task["madek:init"].invoke
 
       # workaround for realoading Models
      ActiveRecord::Base.subclasses.each { |a| a.reset_column_information }
@@ -125,14 +124,6 @@ namespace :madek do
      Rake::Task["db:seed"].invoke
      Rake::Task["app:import_initial_metadata"].invoke
 
-  end
-
-  desc "Init"
-  task :init => :environment do
-#    Copyright.init true
-#    Permission.init true
-#old#    MetaKey.init true
-#old#    MetaContext.init true
   end
   
   namespace :meta_data do

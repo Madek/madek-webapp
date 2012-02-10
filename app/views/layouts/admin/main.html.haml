@@ -37,13 +37,14 @@
     
   %body
     %header.container_12.clearfix
-      %h1= link_to "Medienarchiv der KÃ¼nste", root_path
+      %h1= link_to "Medienarchiv der Künste", root_path
       = render :partial => "layouts/admin/menu"
       #ajaxLoading
         = image_tag("spinner.gif")
         = _("Loading")
         \...
     %section.container_12.clearfix
+      = flash_helper
       = yield
     %footer.container_12.clearfix{:style => "padding-top: 4em;"}
       = link_to _("Export"), export_admin_meta_path
