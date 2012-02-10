@@ -260,6 +260,10 @@ When /^I click the media entry titled "([^"]*)"/ do |title|
   click_media_entry_titled(title)
 end
 
+When /^I click the mediaset titled "([^"]*)"/ do |title|
+  click_media_entry_titled(title)
+end
+
 When /^I check the media entry titled "([^"]*)"/ do |title|
   check_media_entry_titled(title)
 end

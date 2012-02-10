@@ -97,6 +97,7 @@ end
 def click_media_entry_titled(title)
   entry = find_media_entry_titled(title)
   entry.find("a").click
+  sleep 1.0
 end
 
 def oldschool_click_media_entry_titled(title)
