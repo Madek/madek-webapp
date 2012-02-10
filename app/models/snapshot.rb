@@ -124,7 +124,7 @@ class Snapshot < MediaResource
 #      xml.id id
 #      xml.owner user.to_s
 #      meta_data.each do |meta_datum|
-#        xml.tag!(meta_datum.object.meta_key.meta_key_definitions.for_context(context).meta_field.label.parameterize('_'), meta_datum)
+#        xml.tag!(meta_datum.object.meta_key.meta_key_definitions.for_context(context).label.parameterize('_'), meta_datum)
 #      end
 #      media_entries.each do |media_entry|
 #        media_entry.to_tms(xml, context)

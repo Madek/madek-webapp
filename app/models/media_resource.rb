@@ -154,8 +154,7 @@ class MediaResource < ActiveRecord::Base
       tags = cleaner_tags + (blank_all_tags ? "" : to_metadata_tags)
 
       path = File.join(DOWNLOAD_STORAGE_DIR, File.basename(source_filename))
-      # TODO - robustification
-      generate_exiftool_config if MetaContext.io_interface.meta_key_definitions.maximum("updated_at").to_i > File.stat(EXIFTOOL_CONFIG).mtime.to_i
+      Exiftool.generate_exiftool_config if MetaContext.io_interface.meta_key_definitions.maximum("updated_at").to_i > File.stat(EXIFTOOL_CONFIG).mtime.to_i
 
       resout = `#{EXIFTOOL_PATH} #{tags} "#{path}"`
       FileUtils.rm("#{path}_original") if resout.include?("1 image files updated") # Exiftool backs up the original before editing. We don't need the backup.
@@ -167,23 +166,6 @@ class MediaResource < ActiveRecord::Base
     end
   end
 
-  # ad-hoc method that generates a new exiftool config file, when it is sensed that there are new keys/key_defs that should be saved in a file
-  # using the XMP-madek metadata namespace.
-  # TODO refactor the use of exiftool, so that for each media file/entry it is only called once, 
-  # entrys' contents cached, and obj/subj meta-data extracted as necessary  
-    def generate_exiftool_config
-      exiftool_keys = MetaContext.io_interface.meta_key_definitions.collect {|e| "#{e.key_map.split(":").last} => {#{e.key_map_type == "Array" ? " List => 'Bag'" : nil} },"}
-  
-      skels = Dir.glob("#{METADATA_CONFIG_DIR}/ExifTool_config.skeleton.*")
-  
-      exif_conf = File.open(EXIFTOOL_CONFIG, 'w')
-      exif_conf.puts IO.read(skels.first)
-      exiftool_keys.sort.each do |k|
-        exif_conf.puts "\t#{k}\n"
-      end
-      exif_conf.puts IO.read(skels.last)
-      exif_conf.close
-    end
     
     # TODO merge to as_json
     def get_basic_info(current_user, extended_keys = [], with_thumb = false)

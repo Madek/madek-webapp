@@ -10,19 +10,19 @@
 	Label:
 	%br
 	- LANGUAGES.each do |lang|
-		- value = (@context.meta_field and @context.meta_field.label ? @context.meta_field.label.to_s(lang) : nil)
+		- value = (@context.label ? @context.label.to_s(lang) : nil)
 		= lang
 		\:
-		= text_field_tag "meta_context[meta_field][label][#{lang}]", value
+		= text_field_tag "meta_context[label][#{lang}]", value
 		%br
 
 	Description:
 	%br
 	- LANGUAGES.each do |lang|
-		- value = (@context.meta_field and @context.meta_field.description ? @context.meta_field.description.to_s(lang) : nil)
+		- value = (@context.description ? @context.description.to_s(lang) : nil)
 		= lang
 		\:
-		= text_area_tag "meta_context[meta_field][description][#{lang}]", value
+		= text_area_tag "meta_context[description][#{lang}]", value
 		%br
 
 	%br

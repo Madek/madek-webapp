@@ -51,7 +51,7 @@ Then /^I see all the keys that can be used in this context$/ do
   find_link("Vokabular").click
   @context.meta_keys.for_meta_terms.each do |meta_key|
     definition = meta_key.meta_key_definitions.for_context(@context)
-    label = definition.meta_field.label
+    label = definition.label
     step 'I should see "%s"' % label
   end
 end

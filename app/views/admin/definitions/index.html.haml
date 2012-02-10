@@ -4,9 +4,9 @@
       %td{:colspan => 4}
         = "Name: #{@context.name}"
         %br
-        = "Label: #{@context.meta_field.label}"
+        = "Label: #{@context.label}"
         %br
-        != "Description: #{simple_format(@context.meta_field.description.to_s)}"
+        != "Description: #{simple_format(@context.description.to_s)}"
         %br
         = "#{_("For user interface")}: #{@context.is_user_interface?}"
       %td{:colspan => 2, :style => "text-align: right; white-space: nowrap;"}
@@ -38,11 +38,11 @@
             %br
             = definition.key_map_type.to_s
         %td
-          = definition.meta_field.label.to_s
+          = definition.label.to_s
         %td
-          = definition.meta_field.description.to_s
+          = definition.description.to_s
         %td
-          = definition.meta_field.hint.to_s
+          = definition.hint.to_s
         %td.with_actions
           = link_to _("Edit"), edit_admin_context_definition_path(@context, definition), :class => "buttons", :remote => true, :"data-type" => "html"
           %br

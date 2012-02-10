@@ -23,7 +23,7 @@
       = f.fields_for :meta_data, media_set.meta_data.get("title") do |meta_datum|
         - definition = meta_datum.object.meta_key.meta_key_definitions.for_context(context)
         = field_tag(meta_datum, context)
-        .hint= definition.meta_field.label
+        .hint= definition.label
         = f.submit _("Erstellen")
 
 - if @resources[:entries].any?
