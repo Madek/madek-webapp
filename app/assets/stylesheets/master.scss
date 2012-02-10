@@ -2058,6 +2058,10 @@ form.new_person {
     .columns_3 {
     	padding-bottom: 10px;
     	border-bottom: 1px solid silver;  
+    	
+    	&:nth-last-child(0) {
+    	  border-bottom: none;
+    	}
     }
     
     .disabled {
@@ -2931,6 +2935,7 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
 #vocabulary_tab h3 {
     font-size: 1.4em;
     margin-bottom: 1em;
+    margin-top: 1em;
     letter-spacing: 0;
 }
 
