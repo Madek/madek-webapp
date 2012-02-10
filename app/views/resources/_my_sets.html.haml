@@ -1,6 +1,10 @@
 .page_title_left
   .icon_set
   =_("Meine Sets")
+.page_navigation
+  = link_to _("Alle meine Sets"), user_resources_path(current_user, :type => "media_sets"), :class => (params[:top_level]!="true") ? "active" : "" 
+  = " | "
+  = link_to _("Alle meine obersten Sets"), user_resources_path(current_user, :type => "media_sets", :top_level => true), :class => (params[:top_level]=="true") ? "active" : "" 
 .clear
 
 = button_tag(:id => "new_button", :class => "new_set", :style => "float: left;") do
@@ -19,7 +23,7 @@
       = f.fields_for :meta_data, media_set.meta_data.get("title") do |meta_datum|
         - definition = meta_datum.object.meta_key.meta_key_definitions.for_context(context)
         = field_tag(meta_datum, context)
-        .hint= definition.meta_field.label
+        .hint= definition.label
         = f.submit _("Erstellen")
 
 - if @resources[:entries].any?

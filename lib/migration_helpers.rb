@@ -8,7 +8,6 @@ module MigrationHelpers
 
   # view
   def create_view view_name, sql
-
     sql = (sql.class == ActiveRecord::Relation)? sql.to_sql : sql.to_s
 
     cmd = "CREATE VIEW #{view_name} AS #{sql} ;"
@@ -115,29 +114,15 @@ module MigrationHelpers
   end
     
   def add_fkey_referrence_constraint from_table, to_table, from_column=nil 
-
     from_table_name = infer_table_name from_table
     to_table_name = infer_table_name to_table
     from_column ||= fkey_name to_table_name
     contraint_name = "#{from_table_name}_#{from_column}_#{to_table_name}_fkey"
 
     execute_sql "ALTER TABLE #{from_table_name} ADD CONSTRAINT #{contraint_name} FOREIGN KEY (#{from_column}) REFERENCES #{to_table_name} (id) ;"
-
-  end
-
-  def add_fkey_referrence_constraint from_table, to_table, from_column=nil 
-
-    from_table_name = infer_table_name from_table
-    to_table_name = infer_table_name to_table
-    from_column ||= fkey_name to_table_name
-    contraint_name = "#{from_table_name}_#{from_column}_#{to_table_name}_fkey"
-
-    execute_sql "ALTER TABLE #{from_table_name} ADD CONSTRAINT #{contraint_name} FOREIGN KEY (#{from_column}) REFERENCES #{to_table_name} (id) ;"
-
   end
 
   def fkey_cascade_on_delete from_table, to_table, from_column=nil 
-
     from_table_name = infer_table_name from_table
     to_table_name = infer_table_name to_table
     from_column ||= fkey_name to_table_name
@@ -163,7 +148,6 @@ module MigrationHelpers
 
 
   def drop_del_referenced_trigger source, target
-
     source_table_name = source.class == String ? source : source.table_name
     target_table_name = target.class == String ? target : target.table_name
     fkey = target_table_name.singularize + "_id"

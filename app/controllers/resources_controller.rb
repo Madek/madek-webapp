@@ -7,7 +7,9 @@ class ResourcesController < ApplicationController
   def index
     params[:per_page] ||= PER_PAGE.first
 
-    resources = MediaResource.accessible_by_user(current_user).order("media_resources.updated_at DESC")
+    resources = (params[:top_level] == "true" and params[:type] == "media_sets") ? MediaSet.top_level.accessible_by_user(current_user).order("media_resources.updated_at DESC") :
+                                       MediaResource.accessible_by_user(current_user).order("media_resources.updated_at DESC")
+    
     if params[:type]
       resources = resources.send(params[:type])
     else

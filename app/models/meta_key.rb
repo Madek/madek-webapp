@@ -47,13 +47,13 @@ class MetaKey < ActiveRecord::Base
   end
 
   def all_context_labels
-    #meta_key_definitions.collect {|d| "#{d.meta_context}: #{d.meta_field.label}" if d.key_map.blank? }.compact.join(', ')
-    meta_key_definitions.collect {|d| d.meta_field.label if d.key_map.blank? }.compact.uniq.join(', ')
+    #meta_key_definitions.collect {|d| "#{d.meta_context}: #{d.label}" if d.key_map.blank? }.compact.join(', ')
+    meta_key_definitions.collect {|d| d.label if d.key_map.blank? }.compact.uniq.join(', ')
   end
 
   # OPTIMIZE with context argument
   def first_context_label
-    meta_key_definitions.collect {|d| d.meta_field.label if d.key_map.blank? }.compact.uniq.first.to_s
+    meta_key_definitions.collect {|d| d.label if d.key_map.blank? }.compact.uniq.first.to_s
   end
 
 ########################################################
@@ -97,14 +97,9 @@ class MetaKey < ActiveRecord::Base
     if mk.nil?
       mk = MetaKey.find_or_create_by_label(entry_name)
       mc = MetaContext.io_interface
-
-      # Would be nice to build some useful info into the meta_field for this new creation.. but we know nothing about it apart from its namespace:tagname
-      meta_field = { :label => {:en_GB => "", :de_CH => ""},
-                :description => {:en_GB => "", :de_CH => ""}
-              }
-
       mk.meta_key_definitions.create( :meta_context => mc,
-                                      :meta_field => meta_field,
+                                      :label => {:en_GB => "", :de_CH => ""},
+                                      :description => {:en_GB => "", :de_CH => ""},
                                       :key_map => key_map,
                                       :key_map_type => nil,
                                       :position => mc.meta_key_definitions.maximum("position") + 1 )

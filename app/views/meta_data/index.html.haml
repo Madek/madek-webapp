@@ -9,7 +9,7 @@
       %tr
         %td
           %label
-            = definition.meta_field.label
+            = definition.label
         %td
           =# render :partial => "meta_data/show", :locals => { :meta_datum => meta_datum, :resource => @resource, :context => @context }
           != formatted_value(meta_datum)

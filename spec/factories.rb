@@ -59,10 +59,10 @@ FactoryGirl.define do
     name {Faker::Lorem.words.join("_")}
     is_user_interface true
 
-    meta_field {
-      h = {:label => {}}
+    label {
+      h = {}
       LANGUAGES.each do |lang|
-        h[:label][lang] = name
+        h[lang] = name
       end
       h
     }

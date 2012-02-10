@@ -35,10 +35,9 @@ class UploadController < ApplicationController
           uploaded_data = if params[:uploaded_data]
             f
           else
-            ActionDispatch::Http::UploadedFile.new(
-              { :type=> Rack::Mime.mime_type(File.extname(f)),
-                :tempfile=> File.new(f, "r"),
-                :filename=> File.basename(f)} )
+            ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
+                                                   :tempfile=> File.new(f, "r"),
+                                                   :filename=> File.basename(f))
           end
 
           media_entry = upload_session.incomplete_media_entries.create(:uploaded_data => uploaded_data)

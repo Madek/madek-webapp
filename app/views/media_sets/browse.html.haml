@@ -8,7 +8,7 @@
   %div
     - context.meta_keys.for_meta_terms.each do |meta_key|
       - definition = meta_key.meta_key_definitions.for_context(context)
-      %h4= definition.meta_field.label
+      %h4= definition.label
       .accordion
         - meta_key.meta_terms.each do |meta_term|
           - media_entries = meta_term.meta_data(meta_key).select{|md| media_entry_ids.include?(md.media_resource_id) }.collect(&:resource)

@@ -22,6 +22,9 @@ module NavigationHelpers
 
     when /the wiki edit page/
       '/wiki/edit?path='
+      
+    when /my sets page/
+      user_resources_path(@current_user, :type => "media_sets", :top_level => true)
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

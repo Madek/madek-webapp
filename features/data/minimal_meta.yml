@@ -565,56 +565,45 @@
   object_type: MetaTerm
 :meta_contexts: 
 - name: core
-  meta_field: 
-    label: 284
+  label: 284
   id: 1
   is_user_interface: true
 - name: tms
-  meta_field: 
-    label: 292
+  label: 292
   id: 2
 - name: io_interface
-  meta_field: 
-    label: 286
+  label: 286
   id: 3
 - name: media_content
-  meta_field: 
-    label: 293
+  label: 293
   id: 4
   is_user_interface: true
 - name: media_object
-  meta_field: 
-    label: 294
+  label: 294
   id: 5
   is_user_interface: true
 - name: media_set
-  meta_field: 
-    label: 299
+  label: 299
   id: 6
   is_user_interface: true
 - name: copyright
-  meta_field: 
-    label: 298
+  label: 298
   id: 7
   is_user_interface: true
 - name: upload
-  meta_field: 
-    label: 290
+  label: 290
   id: 8
   is_user_interface: true
 - name: zhdk_bereich
-  meta_field: 
-    label: 297
+  label: 297
   id: 9
   is_user_interface: true
 - name: Projekte ZHdK
-  meta_field: 
-    label: 919
+  label: 919
   id: 11
   is_user_interface: true
 - name: Landschaftsvisualisierung
-  meta_field: 
-    label: 977
+  label: 977
   id: 15
   is_user_interface: true
 :meta_terms: 
@@ -3139,1456 +3128,1264 @@
   en_GB: "Z\xC3\xBCrcher Hochschule der K\xC3\xBCnste"
 :meta_key_definitions: 
 - position: 1
-  meta_field: 
-    label: 1
-    description: 276
+  label: 1
+  description: 276
   meta_key_id: 3
   id: 1
   meta_context_id: 1
 - position: 3
-  meta_field: 
-    label: 274
-    length_max: 255
-    description: 275
+  label: 274
+  length_max: 255
+  description: 275
   meta_key_id: 8
   id: 3
   meta_context_id: 1
 - position: 4
-  meta_field: 
-    label: 7
-    description: 278
+  label: 7
+  description: 278
   meta_key_id: 9
   id: 4
   meta_context_id: 1
 - position: 5
-  meta_field: 
-    label: 9
-    description: 279
+  label: 9
+  description: 279
   meta_key_id: 52
   id: 5
   meta_context_id: 1
 - position: 6
-  meta_field: 
-    label: 11
+  label: 11
   meta_key_id: 60
   id: 6
   meta_context_id: 1
 - position: 7
-  meta_field: 
-    label: 347
+  label: 347
   meta_key_id: 61
   id: 7
   meta_context_id: 1
 - position: 36
-  meta_field: 
-    label: 304
-    hint: 13
+  label: 304
+  hint: 13
   meta_key_id: 67
   id: 8
   meta_context_id: 2
   key_map: objects.objectnumber
 - position: 38
-  meta_field: 
-    label: 304
-    hint: 14
+  label: 304
+  hint: 14
   meta_key_id: 68
   id: 9
   meta_context_id: 2
   key_map: objects.objectname
 - position: 1
-  meta_field: 
-    label: 1
-    hint: 1
+  label: 1
+  hint: 1
   meta_key_id: 3
   id: 10
   meta_context_id: 2
   key_map: objtitles.title titletypID=1
 - position: 2
-  meta_field: 
-    label: 16
-    hint: 196
+  label: 16
+  hint: 196
   meta_key_id: 4
   id: 11
   meta_context_id: 2
   key_map: objtitles.title titletypID=6
 - position: 8
-  meta_field: 
-    label: 18
-    hint: 314
+  label: 18
+  hint: 314
   meta_key_id: 25
   id: 12
   meta_context_id: 2
   key_map: objects.chat
 - position: 10
-  meta_field: 
-    label: 21
-    hint: 212
+  label: 21
+  hint: 212
   meta_key_id: 28
   id: 14
   meta_context_id: 2
   key_map: objects.notes
 - position: 5
-  meta_field: 
-    label: 254
-    length_max: 255
-    hint: 315
+  label: 254
+  length_max: 255
+  hint: 315
   meta_key_id: 8
   id: 15
   meta_context_id: 2
   key_map: objects.dated
 - position: 29
-  meta_field: 
-    label: 9
-    hint: 327
+  label: 9
+  hint: 327
   meta_key_id: 52
   id: 17
   meta_context_id: 2
   key_map: objects.copyright typ=creditlinerepro
 - position: 34
-  meta_field: 
-    label: 108
-    hint: 331
+  label: 108
+  hint: 331
   meta_key_id: 57
   id: 18
   meta_context_id: 2
   key_map: objects.dimensions
 - position: 35
-  meta_field: 
-    label: 332
-    hint: 333
+  label: 332
+  hint: 333
   meta_key_id: 58
   id: 19
   meta_context_id: 2
   key_map: objects.medium
 - position: 1
-  meta_field: 
-    is_required: true
+  is_required: true
   meta_key_id: 5
   id: 20
   meta_context_id: 3
   key_map: XMP-madek:Author
 - key_map_type: Array
   position: 2
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 6
   id: 21
   meta_context_id: 3
   key_map: XMP-madek:AdditionalAuthors
 - position: 3
-  meta_field: 
-    is_required: true
+  is_required: true
   meta_key_id: 52
   id: 22
   meta_context_id: 3
   key_map: XMP-dc:Rights
 - position: 4
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 53
   id: 23
   meta_context_id: 3
   key_map: XMP-xmpRights:Marked
 - position: 5
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 54
   id: 24
   meta_context_id: 3
   key_map: XMP-xmpRights:UsageTerms
 - position: 6
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 55
   id: 25
   meta_context_id: 3
   key_map: XMP-xmpRights:WebStatement
 - position: 7
-  meta_field: 
-    is_required: true
+  is_required: true
   meta_key_id: 62
   id: 26
   meta_context_id: 3
   key_map: XMP-photoshop:CaptionWriter
 - position: 8
-  meta_field: 
-    is_required: true
-    length_max: 255
-    length_min: 2
+  is_required: true
+  length_max: 255
+  length_min: 2
   meta_key_id: 34
   id: 27
   meta_context_id: 3
   key_map: XMP-madek:Coverage
 - position: 9
-  meta_field: 
-    is_required: true
+  is_required: true
   meta_key_id: 37
   id: 28
   meta_context_id: 3
   key_map: XMP-dc:Creator
 - position: 10
-  meta_field: 
-    is_required: true
+  is_required: true
   meta_key_id: 46
   id: 29
   meta_context_id: 3
   key_map: XMP-photoshop:AuthorsPosition
 - position: 11
-  meta_field: 
-    is_required: true
-    length_max: 32
-    length_min: 1
+  is_required: true
+  length_max: 32
+  length_min: 1
   meta_key_id: 38
   id: 30
   meta_context_id: 3
   key_map: XMP-iptcCore:CreatorAddress
 - position: 12
-  meta_field: 
-    is_required: true
-    length_max: 32
-    length_min: 1
+  is_required: true
+  length_max: 32
+  length_min: 1
   meta_key_id: 39
   id: 31
   meta_context_id: 3
   key_map: XMP-iptcCore:CreatorCity
 - position: 13
-  meta_field: 
-    is_required: true
-    length_max: 32
-    length_min: 1
+  is_required: true
+  length_max: 32
+  length_min: 1
   meta_key_id: 40
   id: 32
   meta_context_id: 3
   key_map: XMP-iptcCore:CreatorRegion
 - position: 14
-  meta_field: 
-    is_required: true
-    length_max: 32
-    length_min: 1
+  is_required: true
+  length_max: 32
+  length_min: 1
   meta_key_id: 42
   id: 33
   meta_context_id: 3
   key_map: XMP-iptcCore:CreatorCountry
 - position: 15
-  meta_field: 
-    is_required: true
-    length_max: 32
-    length_min: 1
+  is_required: true
+  length_max: 32
+  length_min: 1
   meta_key_id: 41
   id: 34
   meta_context_id: 3
   key_map: XMP-iptcCore:CreatorPostalCode
 - position: 16
-  meta_field: 
-    is_required: true
-    length_max: 32
-    length_min: 1
+  is_required: true
+  length_max: 32
+  length_min: 1
   meta_key_id: 43
   id: 35
   meta_context_id: 3
   key_map: XMP-iptcCore:CreatorWorkTelephone
 - position: 17
-  meta_field: 
-    is_required: true
-    length_max: 32
-    length_min: 1
+  is_required: true
+  length_max: 32
+  length_min: 1
   meta_key_id: 44
   id: 36
   meta_context_id: 3
   key_map: XMP-iptcCore:CreatorWorkEmail
 - position: 18
-  meta_field: 
-    is_required: true
-    length_max: 32
-    length_min: 1
+  is_required: true
+  length_max: 32
+  length_min: 1
   meta_key_id: 45
   id: 37
   meta_context_id: 3
   key_map: XMP-iptcCore:CreatorWorkURL
 - position: 19
-  meta_field: 
-    is_required: true
-    length_max: 4096
-    length_min: 1
+  is_required: true
+  length_max: 4096
+  length_min: 1
   meta_key_id: 25
   id: 38
   meta_context_id: 3
   key_map: XMP-dc:Description
 - position: 20
-  meta_field: 
-    is_required: true
+  is_required: true
   meta_key_id: 64
   id: 39
   meta_context_id: 3
   key_map: XMP-madek:Format
 - position: 21
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 29
   id: 40
   meta_context_id: 3
   key_map: XMP-madek:Hyperlinks
 - position: 22
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 7
   id: 41
   meta_context_id: 3
   key_map: XMP-madek:InstitutionalAffiliation
 - position: 23
-  meta_field: 
-    is_required: true
-    length_max: 255
-    length_min: 1
+  is_required: true
+  length_max: 255
+  length_min: 1
   meta_key_id: 1
   id: 42
   meta_context_id: 3
   key_map: XMP-dc:Identifier
 - key_map_type: Array
   position: 24
-  meta_field: 
-    is_required: true
+  is_required: true
   meta_key_id: 9
   id: 43
   meta_context_id: 3
   key_map: XMP-dc:Subject
 - position: 25
-  meta_field: 
-    is_required: true
+  is_required: true
   meta_key_id: 35
   id: 44
   meta_context_id: 3
   key_map: XMP-madek:Language
 - position: 26
-  meta_field: 
-    length_max: 255
-    length_min: 1
+  length_max: 255
+  length_min: 1
   meta_key_id: 18
   id: 45
   meta_context_id: 3
   key_map: XMP-madek:OtherCreativeParticipants
 - position: 27
-  meta_field: 
-    length_max: 255
-    length_min: 1
+  length_max: 255
+  length_min: 1
   meta_key_id: 19
   id: 46
   meta_context_id: 3
   key_map: XMP-madek:OtherDocumentParticipants
 - position: 28
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 21
   id: 47
   meta_context_id: 3
   key_map: XMP-madek:patron
 - position: 29
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 16
   id: 48
   meta_context_id: 3
   key_map: XMP-madek:PortrayedPerson
 - position: 30
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 17
   id: 49
   meta_context_id: 3
   key_map: XMP-madek:PortrayedInstitution
 - position: 31
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 23
   id: 50
   meta_context_id: 3
   key_map: XMP-madek:ProjectLeader
 - position: 32
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 27
   id: 51
   meta_context_id: 3
   key_map: XMP-madek:PublicCaption
 - position: 33
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 57
   id: 52
   meta_context_id: 3
   key_map: XMP-madek:PortrayedObjectDimensions
 - position: 34
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 58
   id: 53
   meta_context_id: 3
   key_map: XMP-madek:PortrayedObjectMaterials
 - position: 35
-  meta_field: 
-    is_required: true
-    length_max: 255
+  is_required: true
+  length_max: 255
   meta_key_id: 8
   id: 54
   meta_context_id: 3
   key_map: XMP-madek:PortrayedObjectDates
 - position: 36
-  meta_field: 
-    is_required: true
-    length_max: 32
-    length_min: 1
+  is_required: true
+  length_max: 32
+  length_min: 1
   meta_key_id: 15
   id: 55
   meta_context_id: 3
   key_map: XMP-iptcCore:CountryCode
 - position: 37
-  meta_field: 
-    is_required: true
-    length_max: 32
-    length_min: 1
+  is_required: true
+  length_max: 32
+  length_min: 1
   meta_key_id: 11
   id: 56
   meta_context_id: 3
   key_map: XMP-iptcCore:Location
 - position: 38
-  meta_field: 
-    is_required: true
-    length_max: 32
-    length_min: 1
+  is_required: true
+  length_max: 32
+  length_min: 1
   meta_key_id: 12
   id: 57
   meta_context_id: 3
   key_map: XMP-photoshop:City
 - position: 39
-  meta_field: 
-    is_required: true
-    length_max: 32
-    length_min: 1
+  is_required: true
+  length_max: 32
+  length_min: 1
   meta_key_id: 13
   id: 58
   meta_context_id: 3
   key_map: XMP-photoshop:State
 - position: 40
-  meta_field: 
-    is_required: true
-    length_max: 32
-    length_min: 1
+  is_required: true
+  length_max: 32
+  length_min: 1
   meta_key_id: 14
   id: 59
   meta_context_id: 3
   key_map: XMP-photoshop:Country
 - position: 41
-  meta_field: 
-    is_required: true
+  is_required: true
   meta_key_id: 56
   id: 60
   meta_context_id: 3
   key_map: XMP-photoshop:Credit
 - position: 42
-  meta_field: 
-    is_required: true
+  is_required: true
   meta_key_id: 59
   id: 61
   meta_context_id: 3
   key_map: XMP-xmp:Rating
 - position: 43
-  meta_field: 
-    is_required: true
+  is_required: true
   meta_key_id: 36
   id: 62
   meta_context_id: 3
   key_map: XMP-madek:Relation
 - position: 44
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 28
   id: 63
   meta_context_id: 3
   key_map: XMP-madek:Remark
 - position: 45
-  meta_field: 
-    is_required: true
+  is_required: true
   meta_key_id: 47
   id: 64
   meta_context_id: 3
   key_map: XMP-photoshop:Source
 - position: 46
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 49
   id: 65
   meta_context_id: 3
   key_map: XMP-madek:SourceImage
 - position: 47
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 50
   id: 66
   meta_context_id: 3
   key_map: XMP-madek:SourcePlate
 - position: 48
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 48
   id: 67
   meta_context_id: 3
   key_map: XMP-madek:SourceSide
 - position: 49
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 51
   id: 68
   meta_context_id: 3
   key_map: XMP-madek:SourceIsbn
 - position: 50
-  meta_field: 
-    is_required: true
-    length_max: 32
-    length_min: 1
+  is_required: true
+  length_max: 32
+  length_min: 1
   meta_key_id: 32
   id: 69
   meta_context_id: 3
   key_map: XMP-iptcCore:Scene
 - position: 51
-  meta_field: 
-    is_required: true
-    length_max: 32
-    length_min: 1
+  is_required: true
+  length_max: 32
+  length_min: 1
   meta_key_id: 33
   id: 70
   meta_context_id: 3
   key_map: XMP-iptcCore:SubjectCode
 - position: 52
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 26
   id: 71
   meta_context_id: 3
   key_map: XMP-madek:ShortDescription
 - position: 53
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 4
   id: 72
   meta_context_id: 3
   key_map: XMP-photoshop:Headline
 - position: 54
-  meta_field: 
-    is_required: true
-    length_max: 4096
-    length_min: 1
+  is_required: true
+  length_max: 4096
+  length_min: 1
   meta_key_id: 3
   id: 73
   meta_context_id: 3
   key_map: XMP-dc:Title
 - position: 55
-  meta_field: 
-    is_required: true
+  is_required: true
   meta_key_id: 31
   id: 74
   meta_context_id: 3
   key_map: XMP-dc:Type
 - position: 56
-  meta_field: 
-    is_required: true
+  is_required: true
   meta_key_id: 24
   id: 75
   meta_context_id: 3
   key_map: XMP-madek:ProjectType
 - position: 57
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 22
   id: 76
   meta_context_id: 3
   key_map: XMP-madek:AcademicYear
 - position: 58
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 20
   id: 77
   meta_context_id: 3
   key_map: XMP-madek:ParticipatingInstitution
 - position: 59
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 63
   id: 78
   meta_context_id: 3
   key_map: XMP-madek:Publisher
 - position: 60
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 66
   id: 79
   meta_context_id: 3
   key_map: XMP-madek:TransmissionReference
 - position: 61
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 2
   id: 80
   meta_context_id: 3
   key_map: XMP-madek:Urn
 - position: 62
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 30
   id: 81
   meta_context_id: 3
   key_map: XMP-madek:Tags
 - position: 63
-  meta_field: 
-    is_required: false
+  is_required: false
   meta_key_id: 65
   id: 82
   meta_context_id: 3
   key_map: XMP-madek:DateCreated, XMP-photoshop:DateCreated
 - position: 1
-  meta_field: 
-    label: 1
-    description: 187
+  label: 1
+  description: 187
   meta_key_id: 3
   id: 83
   meta_context_id: 4
 - position: 2
-  meta_field: 
-    label: 16
-    description: 154
+  label: 16
+  description: 154
   meta_key_id: 4
   id: 84
   meta_context_id: 4
 - position: 5
-  meta_field: 
-    label: 7
-    hint: 138
-    description: 248
+  label: 7
+  hint: 138
+  description: 248
   meta_key_id: 9
   id: 85
   meta_context_id: 4
 - position: 3
-  meta_field: 
-    label: 3
-    hint: 139
-    description: 917
+  label: 3
+  hint: 139
+  description: 917
   meta_key_id: 5
   id: 86
   meta_context_id: 4
 - position: 4
-  meta_field: 
-    label: 254
-    length_max: 255
-    description: 935
+  label: 254
+  length_max: 255
+  description: 935
   meta_key_id: 8
   id: 89
   meta_context_id: 4
 - position: 11
-  meta_field: 
-    label: 255
-    description: 256
+  label: 255
+  description: 256
   meta_key_id: 11
   id: 90
   meta_context_id: 4
 - position: 12
-  meta_field: 
-    label: 35
-    description: 161
+  label: 35
+  description: 161
   meta_key_id: 12
   id: 91
   meta_context_id: 4
 - position: 13
-  meta_field: 
-    label: 37
-    description: 162
+  label: 37
+  description: 162
   meta_key_id: 13
   id: 92
   meta_context_id: 4
 - position: 14
-  meta_field: 
-    label: 39
-    description: 163
+  label: 39
+  description: 163
   meta_key_id: 14
   id: 93
   meta_context_id: 4
 - position: 15
-  meta_field: 
-    label: 41
-    description: 164
+  label: 41
+  description: 164
   meta_key_id: 15
   id: 94
   meta_context_id: 4
 - position: 17
-  meta_field: 
-    label: 43
-    description: 133
+  label: 43
+  description: 133
   meta_key_id: 16
   id: 95
   meta_context_id: 4
 - position: 16
-  meta_field: 
-    label: 46
-    hint: 167
-    description: 168
+  label: 46
+  hint: 167
+  description: 168
   meta_key_id: 18
   id: 97
   meta_context_id: 4
 - position: 19
-  meta_field: 
-    label: 48
-    description: 142
+  label: 48
+  description: 142
   meta_key_id: 20
   id: 98
   meta_context_id: 4
 - position: 20
-  meta_field: 
-    label: 49
-    description: 141
+  label: 49
+  description: 141
   meta_key_id: 21
   id: 99
   meta_context_id: 4
 - position: 7
-  meta_field: 
-    label: 66
-    description: 271
+  label: 66
+  description: 271
   meta_key_id: 27
   id: 102
   meta_context_id: 4
 - position: 8
-  meta_field: 
-    label: 18
-    hint: 158
-    description: 272
+  label: 18
+  hint: 158
+  description: 272
   meta_key_id: 25
   id: 103
   meta_context_id: 4
 - position: 9
-  meta_field: 
-    label: 21
-    description: 273
+  label: 21
+  description: 273
   meta_key_id: 28
   id: 104
   meta_context_id: 4
 - position: 10
-  meta_field: 
-    label: 70
-    hint: 359
-    description: 360
+  label: 70
+  hint: 359
+  description: 360
   meta_key_id: 29
   id: 105
   meta_context_id: 4
 - position: 6
-  meta_field: 
-    label: 71
-    hint: 149
-    description: 270
+  label: 71
+  hint: 149
+  description: 270
   meta_key_id: 31
   id: 106
   meta_context_id: 4
 - position: 1
-  meta_field: 
-    label: 184
-    hint: 139
-    description: 260
+  label: 184
+  hint: 139
+  description: 260
   meta_key_id: 37
   id: 108
   meta_context_id: 5
 - position: 2
-  meta_field: 
-    is_required: true
-    label: 94
-    length_max: 32
-    length_min: 1
+  is_required: true
+  label: 94
+  length_max: 32
+  length_min: 1
   meta_key_id: 38
   id: 109
   meta_context_id: 5
 - position: 3
-  meta_field: 
-    is_required: true
-    label: 35
-    length_max: 32
-    length_min: 1
+  is_required: true
+  label: 35
+  length_max: 32
+  length_min: 1
   meta_key_id: 39
   id: 110
   meta_context_id: 5
 - position: 4
-  meta_field: 
-    is_required: true
-    label: 37
-    length_max: 32
-    length_min: 1
+  is_required: true
+  label: 37
+  length_max: 32
+  length_min: 1
   meta_key_id: 40
   id: 111
   meta_context_id: 5
 - position: 5
-  meta_field: 
-    is_required: true
-    label: 95
-    length_max: 32
-    length_min: 1
+  is_required: true
+  label: 95
+  length_max: 32
+  length_min: 1
   meta_key_id: 41
   id: 112
   meta_context_id: 5
 - position: 6
-  meta_field: 
-    is_required: true
-    label: 39
-    length_max: 32
-    length_min: 1
+  is_required: true
+  label: 39
+  length_max: 32
+  length_min: 1
   meta_key_id: 42
   id: 113
   meta_context_id: 5
 - position: 7
-  meta_field: 
-    is_required: true
-    label: 96
-    length_max: 32
-    length_min: 1
+  is_required: true
+  label: 96
+  length_max: 32
+  length_min: 1
   meta_key_id: 43
   id: 114
   meta_context_id: 5
 - position: 8
-  meta_field: 
-    is_required: true
-    label: 97
-    length_max: 32
-    length_min: 1
+  is_required: true
+  label: 97
+  length_max: 32
+  length_min: 1
   meta_key_id: 44
   id: 115
   meta_context_id: 5
 - position: 9
-  meta_field: 
-    is_required: true
-    label: 98
-    length_max: 32
-    length_min: 1
+  is_required: true
+  label: 98
+  length_max: 32
+  length_min: 1
   meta_key_id: 45
   id: 116
   meta_context_id: 5
 - position: 10
-  meta_field: 
-    label: 99
-    length_max: 32
-    length_min: 1
+  label: 99
+  length_max: 32
+  length_min: 1
   meta_key_id: 46
   id: 117
   meta_context_id: 5
 - position: 11
-  meta_field: 
-    label: 100
-    hint: 177
-    description: 178
+  label: 100
+  hint: 177
+  description: 178
   meta_key_id: 19
   id: 118
   meta_context_id: 5
 - position: 12
-  meta_field: 
-    label: 102
-    hint: 937
-    description: 267
+  label: 102
+  hint: 937
+  description: 267
   meta_key_id: 65
   id: 119
   meta_context_id: 5
 - position: 15
-  meta_field: 
-    label: 108
-    hint: 185
-    description: 175
+  label: 108
+  hint: 185
+  description: 175
   meta_key_id: 57
   id: 122
   meta_context_id: 5
 - position: 16
-  meta_field: 
-    label: 266
-    hint: 362
-    description: 363
+  label: 266
+  hint: 362
+  description: 363
   meta_key_id: 58
   id: 123
   meta_context_id: 5
 - position: 1
-  meta_field: 
-    is_required: true
-    label: 303
-    length_max: 255
-    description: 395
+  is_required: true
+  label: 303
+  length_max: 255
+  description: 395
   meta_key_id: 3
   id: 124
   meta_context_id: 6
 - position: 1
-  meta_field: 
-    label: 9
-    hint: 364
-    description: 361
+  label: 9
+  hint: 364
+  description: 361
   meta_key_id: 52
   id: 127
   meta_context_id: 7
 - position: 2
-  meta_field: 
-    label: 116
-    description: 117
+  label: 116
+  description: 117
   meta_key_id: 53
   id: 128
   meta_context_id: 7
 - position: 3
-  meta_field: 
-    label: 118
-    description: 365
+  label: 118
+  description: 365
   meta_key_id: 54
   id: 129
   meta_context_id: 7
 - position: 4
-  meta_field: 
-    label: 119
-    hint: 359
-    description: 367
+  label: 119
+  hint: 359
+  description: 367
   meta_key_id: 55
   id: 130
   meta_context_id: 7
 - position: 1
-  meta_field: 
-    is_required: true
-    label: 1
-    length_max: 255
-    length_min: 1
-    description: 153
+  is_required: true
+  label: 1
+  length_max: 255
+  length_min: 1
+  description: 153
   meta_key_id: 3
   id: 131
   meta_context_id: 8
 - position: 2
-  meta_field: 
-    label: 3
-    hint: 139
-    description: 909
+  label: 3
+  hint: 139
+  description: 909
   meta_key_id: 5
   id: 132
   meta_context_id: 8
 - position: 3
-  meta_field: 
-    label: 274
-    length_max: 255
-    description: 935
+  label: 274
+  length_max: 255
+  description: 935
   meta_key_id: 8
   id: 133
   meta_context_id: 8
 - position: 4
-  meta_field: 
-    label: 7
-    hint: 138
-    description: 248
+  label: 7
+  hint: 138
+  description: 248
   meta_key_id: 9
   id: 134
   meta_context_id: 8
 - position: 5
-  meta_field: 
-    is_required: true
-    label: 9
-    length_max: 255
-    length_min: 1
-    hint: 364
-    description: 361
+  is_required: true
+  label: 9
+  length_max: 255
+  length_min: 1
+  hint: 364
+  description: 361
   meta_key_id: 52
   id: 135
   meta_context_id: 8
 - position: 6
-  meta_field: 
-    label: 116
-    description: 121
+  label: 116
+  description: 121
   meta_key_id: 53
   id: 136
   meta_context_id: 8
 - position: 7
-  meta_field: 
-    label: 118
-    description: 365
+  label: 118
+  description: 365
   meta_key_id: 54
   id: 137
   meta_context_id: 8
 - position: 8
-  meta_field: 
-    label: 119
-    hint: 359
-    description: 367
+  label: 119
+  hint: 359
+  description: 367
   meta_key_id: 55
   id: 138
   meta_context_id: 8
 - position: 64
-  meta_field: {}
-
   meta_key_id: 69
   id: 140
   meta_context_id: 3
   key_map: XMP-photoshop:ColorMode
 - position: 65
-  meta_field: {}
-
   meta_key_id: 70
   id: 141
   meta_context_id: 3
   key_map: XMP-photoshop:History
 - position: 66
-  meta_field: {}
-
   meta_key_id: 71
   id: 142
   meta_context_id: 3
   key_map: XMP-iptcCore:IntellectualGenre
 - position: 67
-  meta_field: {}
-
   meta_key_id: 72
   id: 145
   meta_context_id: 3
   key_map: XMP-iptcCore:CreatorContactInfo
 - position: 1
-  meta_field: 
-    label: 30
-    hint: 975
-    description: 188
+  label: 30
+  hint: 975
+  description: 188
   meta_key_id: 7
   id: 146
   meta_context_id: 9
 - position: 2
-  meta_field: 
-    label: 189
-    hint: 149
-    description: 358
+  label: 189
+  hint: 149
+  description: 358
   meta_key_id: 24
   id: 147
   meta_context_id: 9
 - position: 3
-  meta_field: 
-    label: 50
-    hint: 151
-    description: 169
+  label: 50
+  hint: 151
+  description: 169
   meta_key_id: 22
   id: 148
   meta_context_id: 9
 - position: 5
-  meta_field: 
-    label: 65
-    description: 146
+  label: 65
+  description: 146
   meta_key_id: 23
   id: 149
   meta_context_id: 9
 - position: 5
-  meta_field: 
-    label: 104
-    hint: 192
-    description: 262
+  label: 104
+  hint: 192
+  description: 262
   meta_key_id: 47
   id: 150
   meta_context_id: 7
 - position: 6
-  meta_field: 
-    label: 106
-    hint: 366
-    description: 193
+  label: 106
+  hint: 366
+  description: 193
   meta_key_id: 56
   id: 152
   meta_context_id: 7
 - position: 4
-  meta_field: 
-    label: 300
-    description: 301
+  label: 300
+  description: 301
   meta_key_id: 73
   id: 180
   meta_context_id: 9
 - position: 6
-  meta_field: 
-    label: 302
-    hint: 138
-    description: 400
+  label: 302
+  hint: 138
+  description: 400
   meta_key_id: 9
   id: 181
   meta_context_id: 6
 - position: 7
-  meta_field: 
-    label: 208
-    hint: 158
-    description: 399
+  label: 208
+  hint: 158
+  description: 399
   meta_key_id: 25
   id: 182
   meta_context_id: 6
 - position: 2
-  meta_field: 
-    label: 3
+  label: 3
   meta_key_id: 5
   id: 185
   meta_context_id: 1
 - position: 2
-  meta_field: 
-    label: 396
-    hint: 139
-    description: 401
+  label: 396
+  hint: 139
+  description: 401
   meta_key_id: 5
   id: 186
   meta_context_id: 6
 - position: 3
-  meta_field: 
-    label: 305
-    hint: 313
+  label: 305
+  hint: 313
   meta_key_id: 73
   id: 187
   meta_context_id: 2
   key_map: objtitles.title titletypID=99||sites.sitename
 - position: 4
-  meta_field: 
-    label: 198
-    hint: 307
+  label: 198
+  hint: 307
   meta_key_id: 5
   id: 188
   meta_context_id: 2
   key_map: person RoleTypeID=1 RoleID=150
 - position: 33
-  meta_field: 
-    label: 308
-    hint: 346
+  label: 308
+  hint: 346
   meta_key_id: 74
   id: 189
   meta_context_id: 2
   key_map: objects.publicaccess
 - position: 24
-  meta_field: 
-    label: 200
-    hint: 310
+  label: 200
+  hint: 310
   meta_key_id: 7
   id: 190
   meta_context_id: 2
   key_map: person RoleTypeID=1 RoleID=251
 - position: 6
-  meta_field: 
-    label: 302
-    hint: 316
+  label: 302
+  hint: 316
   meta_key_id: 9
   id: 191
   meta_context_id: 2
   key_map: textentries textart=Stichworte
 - position: 7
-  meta_field: 
-    label: 317
-    hint: 206
+  label: 317
+  hint: 206
   meta_key_id: 31
   id: 192
   meta_context_id: 2
   key_map: textentries textart=Gattung
 - position: 9
-  meta_field: 
-    label: 210
-    hint: 318
+  label: 210
+  hint: 318
   meta_key_id: 27
   id: 193
   meta_context_id: 2
   key_map: objtitles.titel titeltyp=Legende
 - position: 11
-  meta_field: 
-    label: 214
-    hint: 319
+  label: 214
+  hint: 319
   meta_key_id: 29
   id: 194
   meta_context_id: 2
   key_map: textentries textart="Web-Link"
 - position: 20
-  meta_field: 
-    label: 216
-    hint: 320
+  label: 216
+  hint: 320
   meta_key_id: 16
   id: 195
   meta_context_id: 2
   key_map: person RoleTypeID=1 RoleID=155
 - position: 21
-  meta_field: 
-    label: 218
-    hint: 218
+  label: 218
+  hint: 218
   meta_key_id: 17
   id: 196
   meta_context_id: 2
   key_map: person RoleTypeID=1 RoleID=156
 - position: 17
-  meta_field: 
-    label: 220
-    hint: 321
+  label: 220
+  hint: 321
   meta_key_id: 18
   id: 197
   meta_context_id: 2
   key_map: person RoleTypeID=1 RoleID=86
 - position: 18
-  meta_field: 
-    label: 222
-    hint: 322
+  label: 222
+  hint: 322
   meta_key_id: 20
   id: 198
   meta_context_id: 2
   key_map: person RoleTypeID=1 RoleID=87
 - position: 19
-  meta_field: 
-    label: 224
-    hint: 323
+  label: 224
+  hint: 323
   meta_key_id: 21
   id: 199
   meta_context_id: 2
   key_map: person RoleTypeID=1 RoleID=22
 - position: 26
-  meta_field: 
-    label: 226
-    hint: 226
+  label: 226
+  hint: 226
   meta_key_id: 22
   id: 200
   meta_context_id: 2
   key_map: textentries textart=Studienjahr
 - position: 27
-  meta_field: 
-    label: 229
-    hint: 324
+  label: 229
+  hint: 324
   meta_key_id: 23
   id: 201
   meta_context_id: 2
   key_map: person RoleTypeID=1 RoleID=61
 - position: 22
-  meta_field: 
-    label: 231
-    hint: 325
+  label: 231
+  hint: 325
   meta_key_id: 37
   id: 202
   meta_context_id: 2
   key_map: person RoleTypeID=1 RoleID=21
 - position: 23
-  meta_field: 
-    label: 233
-    hint: 326
+  label: 233
+  hint: 326
   meta_key_id: 19
   id: 203
   meta_context_id: 2
   key_map: textentries textart="Weitere Personen"
 - position: 30
-  meta_field: 
-    label: 237
-    hint: 328
+  label: 237
+  hint: 328
   meta_key_id: 53
   id: 204
   meta_context_id: 2
   key_map: objects.copyright typ="Art der Objektrechte"
 - position: 31
-  meta_field: 
-    label: 239
-    hint: 329
+  label: 239
+  hint: 329
   meta_key_id: 54
   id: 205
   meta_context_id: 2
   key_map: objects.copyright typ=restrictions
 - position: 32
-  meta_field: 
-    label: 241
-    hint: 329
+  label: 241
+  hint: 329
   meta_key_id: 55
   id: 206
   meta_context_id: 2
   key_map: objects.copyright typ=restrictions
 - position: 28
-  meta_field: 
-    label: 242
-    hint: 330
+  label: 242
+  hint: 330
   meta_key_id: 56
   id: 207
   meta_context_id: 2
   key_map: objects.creditline
 - position: 12
-  meta_field: 
-    label: 334
-    hint: 335
+  label: 334
+  hint: 335
   meta_key_id: 11
   id: 208
   meta_context_id: 2
   key_map: "textentries textart=Geografie typ=\"Standort/Auff\xC3\xBChrungsort\""
 - position: 13
-  meta_field: 
-    label: 336
-    hint: 335
+  label: 336
+  hint: 335
   meta_key_id: 12
   id: 209
   meta_context_id: 2
   key_map: textentries textart=Geografie typ=Stadt
 - position: 14
-  meta_field: 
-    label: 337
-    hint: 335
+  label: 337
+  hint: 335
   meta_key_id: 13
   id: 210
   meta_context_id: 2
   key_map: textentries textart=Geografie typ="Kanton/Bundesland"
 - position: 15
-  meta_field: 
-    label: 338
-    hint: 335
+  label: 338
+  hint: 335
   meta_key_id: 14
   id: 211
   meta_context_id: 2
   key_map: textentries textart=Geografie typ=Land
 - position: 16
-  meta_field: 
-    label: 339
-    hint: 335
+  label: 339
+  hint: 335
   meta_key_id: 15
   id: 212
   meta_context_id: 2
   key_map: "textentries textart=Geografie typ=\"ISO-L\xC3\xA4ndercode\""
 - position: 39
-  meta_field: 
-    label: 344
-    hint: 344
+  label: 344
+  hint: 344
   meta_key_id: 76
   id: 215
   meta_context_id: 2
   key_map: mediafile.formatID
 - position: 25
-  meta_field: 
-    label: 189
-    hint: 189
+  label: 189
+  hint: 189
   meta_key_id: 24
   id: 216
   meta_context_id: 2
   key_map: textentries textart="ZHdK-Projekttyp"
 - position: 7
-  meta_field: 
-    label: 348
-    hint: 139
-    description: 368
+  label: 348
+  hint: 139
+  description: 368
   meta_key_id: 62
   id: 217
   meta_context_id: 7
 - position: 40
-  meta_field: 
-    label: 349
-    hint: 350
-    description: 371
+  label: 349
+  hint: 350
+  description: 371
   meta_key_id: 62
   id: 218
   meta_context_id: 2
   key_map: textentries textart="Erfasser/in"
 - position: 41
-  meta_field: 
-    label: 355
-    hint: 356
-    description: 369
+  label: 355
+  hint: 356
+  description: 369
   meta_key_id: 77
   id: 219
   meta_context_id: 2
   key_map: textentries textart="Erfasser/in vor dem Hochladen ins Medienarchiv"
 - position: 42
-  meta_field: 
-    label: 353
-    hint: 354
-    description: 370
+  label: 353
+  hint: 354
+  description: 370
   meta_key_id: 78
   id: 220
   meta_context_id: 2
   key_map: "textentries textart=\"Erfasser/in vor dem Kopieren f\xC3\xBCrs MIZ-Achiv\""
 - position: 8
-  meta_field: 
-    label: 355
-    hint: 139
-    description: 369
+  label: 355
+  hint: 139
+  description: 369
   meta_key_id: 77
   id: 221
   meta_context_id: 7
 - position: 8
-  meta_field: 
-    label: 393
+  label: 393
   meta_key_id: 60
   id: 223
   meta_context_id: 6
 - position: 9
-  meta_field: 
-    label: 394
+  label: 394
   meta_key_id: 61
   id: 224
   meta_context_id: 6
 - position: 68
-  meta_field: {}
-
   meta_key_id: 79
   id: 225
   meta_context_id: 3
   key_map: XMP-photoshop:SidecarForExtension
 - position: 1
-  meta_field: 
-    label: 979
-    hint: 981
+  label: 979
+  hint: 981
   meta_key_id: 81
   id: 227
   meta_context_id: 15
 - position: 2
-  meta_field: 
-    label: 983
-    hint: 981
+  label: 983
+  hint: 981
   meta_key_id: 83
   id: 229
   meta_context_id: 15
 - position: 3
-  meta_field: 
-    label: 985
-    hint: 987
-    description: 989
+  label: 985
+  hint: 987
+  description: 989
   meta_key_id: 85
   id: 231
   meta_context_id: 15
 - position: 4
-  meta_field: 
-    label: 991
-    description: 993
+  label: 991
+  description: 993
   meta_key_id: 87
   id: 233
   meta_context_id: 15
 - position: 5
-  meta_field: 
-    label: 995
-    hint: 987
-    description: 1015
+  label: 995
+  hint: 987
+  description: 1015
   meta_key_id: 89
   id: 235
   meta_context_id: 15
 - position: 6
-  meta_field: 
-    label: 999
-    hint: 987
-    description: 1001
+  label: 999
+  hint: 987
+  description: 1001
   meta_key_id: 91
   id: 237
   meta_context_id: 15
 - position: 7
-  meta_field: 
-    label: 1003
-    hint: 981
+  label: 1003
+  hint: 981
   meta_key_id: 93
   id: 239
   meta_context_id: 15
 - position: 8
-  meta_field: 
-    label: 1005
-    length_max: 1
-    description: 1007
+  label: 1005
+  length_max: 1
+  description: 1007
   meta_key_id: 95
   id: 241
   meta_context_id: 15
 - position: 9
-  meta_field: 
-    label: 1009
-    hint: 149
-    description: 1203
+  label: 1009
+  hint: 149
+  description: 1203
   meta_key_id: 97
   id: 243
   meta_context_id: 15
 - position: 10
-  meta_field: 
-    label: 1011
-    length_max: 1
-    description: 1013
+  label: 1011
+  length_max: 1
+  description: 1013
   meta_key_id: 99
   id: 245
   meta_context_id: 15
 - position: 0
-  meta_field: 
-    label: 1187
-    hint: 1189
-    description: 208
+  label: 1187
+  hint: 1189
+  description: 208
   meta_key_id: 97
   id: 247
   meta_context_id: 11

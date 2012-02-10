@@ -15,6 +15,7 @@ setup = ->
   $(".item_box.set:not(.popup) .thumb_box_set").live "mouseleave", -> leave_target $(this)
   $(".item_box.set.popup .thumb_box_set").live "mouseleave", -> leave_popup $(this)
   $(".item_box.set:not(.popup_target) .thumb_box_set").live "click", -> stop_target_popup $(this)
+  $(window).bind "click", -> handle_click $(this)
 
 stop_target_popup = (target) ->
   target = $(target).closest(".item_box")
@@ -27,7 +28,7 @@ enter_target = (target)->
   # set popup with timeout
   timeout = window.setTimeout -> 
     open_popup target
-  , 300
+  , 900
   $(target).data "popup_timeout", timeout
   # set load data with timeout
   timeout = window.setTimeout ->
@@ -226,3 +227,8 @@ leave_popup = (popup)->
   target = $(popup).closest(".set_popup")
   close_popup target
       
+handle_click = (target) ->
+  if $(target).closest(".set_popup").length < 1
+    # close all other mediaset popups
+    $(".set_popup").each (i, element)->
+      close_popup element
