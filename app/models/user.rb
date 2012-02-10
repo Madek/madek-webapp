@@ -5,8 +5,6 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
 
-  include Subject
-
   belongs_to :person
   delegate :name, :fullname, :to => :person
 
