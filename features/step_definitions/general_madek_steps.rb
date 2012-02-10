@@ -190,7 +190,7 @@ When "I fill in the metadata form as follows:" do |table|
 
     list = find("ul", :text => /^#{text}/)
     if list.nil?
-      puts "Can't find any input fields with the text '#{text}'"
+      raise "Can't find any input fields with the text '#{text}'"
     else
       if list[:class] == "Person"
         fill_in_person_widget(list, hash['value'], hash['options'])
@@ -202,7 +202,7 @@ When "I fill in the metadata form as follows:" do |table|
         elsif list.has_css?(".madek_multiselect_container")
           select_from_multiselect_widget(list, hash['value'])
         else
-          puts "Unknown MetaTerm interface element when trying to set '#{text}'"
+          raise "Unknown MetaTerm interface element when trying to set '#{text}'"
         end
       elsif list[:class] == "MetaDepartment"
         puts "Sorry, can't set MetaDepartment to '#{text}', the MetaDepartment widget is too hard to test right now."

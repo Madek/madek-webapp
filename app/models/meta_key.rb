@@ -30,9 +30,11 @@ class MetaKey < ActiveRecord::Base
 ########################################################
 
   before_save do
-    if object_type.blank?
-      self.object_type = nil
-    elsif object_type_changed?
+    self.object_type = nil if object_type.blank?
+  end
+
+  before_update do
+    if object_type_changed?
       case object_type
         when "MetaTerm"
           self.is_extensible_list = true
