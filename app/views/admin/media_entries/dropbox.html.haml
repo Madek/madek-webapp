@@ -1,0 +1,7 @@
+%h3
+  = _("Dropbox")
+
+= form_tag dropbox_admin_media_entries_path do
+  Dropbox root directory path:
+  = text_field_tag :root_dir, @dropbox_root_dir
+  = submit_tag

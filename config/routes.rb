@@ -40,6 +40,7 @@ MAdeK::Application.routes.draw do
   
   match '/nagiosstat', :to => Nagiosstat
 
+
 ###############################################
 #NOTE first media_entries and then media_sets
 
@@ -206,6 +207,11 @@ MAdeK::Application.routes.draw do
     end
   end
   
+
+  resources :upload_sessions
+
+###################
+   
   resource :session
 
   resources :meta_contexts, :only => :show do
@@ -266,6 +272,8 @@ MAdeK::Application.routes.draw do
     resources :media_entries do
       collection do
         get :import
+        get :dropbox
+        post :dropbox
       end
     end
 

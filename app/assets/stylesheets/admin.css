@@ -142,3 +142,26 @@ ul.columns_3 {
 	-moz-column-count: 3;
 	-moz-column-width: 6em;	
 }
+
+.notice, .error {
+	font-weight: bold;
+	line-height: 1.4em;
+	text-align: center;
+	padding: 10px;
+	margin-left: 0;
+	-webkit-box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
+	-moz-box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
+	box-shadow: 0 0 4px rgba(150, 150, 150, 0.5);
+}
+
+.notice, .notice_sidebar {
+	background: #FEFFD7;
+}
+
+.error {
+	background:none repeat scroll 0 0 #FFBBAA;
+}
+
+.notice label, .error label {
+	font-weight: bold;
+}
