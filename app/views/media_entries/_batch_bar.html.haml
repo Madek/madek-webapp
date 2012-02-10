@@ -18,6 +18,7 @@
       = button_to _("Zugriffsberechtigungen editieren"), edit_multiple_permissions_media_entries_path, :method => :post
     %li.seperator.edit
     %li#batch-add-to-set.action_btn
+      -# FIXME: The request for the linked index (scoped index trough selected elements) is causing an errors when there are mor then ca. 50 ids (ERROR: "The Requested URI is to large") 
       = button_to _("Zu Set hinzufügen/entfernen"), "", :title=>_("Zu Set hinzufügen/entfernen"), 
         :class => "has-set-widget",
         :"data-selected_ids" => "",
