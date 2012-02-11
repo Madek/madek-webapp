@@ -34,7 +34,7 @@
     #upload-container{:style => "margin-top: 2em;"}
       .clearfix{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
         - with_actions = (@media_entries.size > 1)
-        = form_tag upload_path(:upload_session_id => params[:upload_session_id]), :method => :put do
+        = form_tag upload_path, :method => :put do
           - @media_entries.each do |media_entry|
             .upload-me-metadata-container
               .upload-me-autodata

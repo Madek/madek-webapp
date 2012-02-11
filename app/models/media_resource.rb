@@ -1,9 +1,8 @@
 # -*- encoding : utf-8 -*-
 class MediaResource < ActiveRecord::Base
 
-  belongs_to :user   # TODO remove down
-  belongs_to :media_file  # TODO remove
-  belongs_to :upload_session   # TODO remove
+  belongs_to :user   # TODO remove down and set missing user for snapshots
+  belongs_to :media_file  # TODO remove 
 
  # TODO observe bulk changes and reindex once
   has_many :meta_data, :dependent => :destroy do #working here#7 :include => :meta_key

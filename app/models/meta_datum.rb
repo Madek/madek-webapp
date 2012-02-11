@@ -140,7 +140,7 @@ class MetaDatum < ActiveRecord::Base
         when "uploaded by"
           return media_resource.user
         when "uploaded at"
-          return media_resource.created_at #old# .to_formatted_s(:date_time) # TODO media_resource.upload_session.created_at ??
+          return media_resource.created_at #old# .to_formatted_s(:date_time)
         when "copyright usage"
           copyright = media_resource.meta_data.get("copyright status").deserialized_value.first || Copyright.default # OPTIMIZE array or single element
           return copyright.usage(read_attribute(:value))

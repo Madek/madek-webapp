@@ -52,8 +52,9 @@ class ResourcesController < ApplicationController
   
   # TODO merge search and filter methods ??
   def filter
-    resources = MediaResource.accessible_by_user(current_user)
-
+    # TODO generic search for both MediaResource.media_entries_and_media_sets
+    resources = MediaEntry.accessible_by_user(current_user)
+ 
     if request.post?
       if params[:meta_key_id] and params[:meta_term_id]
         meta_key = MetaKey.find(params[:meta_key_id])
@@ -68,7 +69,7 @@ class ResourcesController < ApplicationController
   
       with_thumb = true #FE# (params[:thumb].to_i > 0)
 
-      resources = resources.media_entries.where(:id => media_resource_ids).paginate(:page => params[:page], :per_page => (params[:per_page] ||= PER_PAGE.first).to_i)
+      resources = resources.where(:id => media_resource_ids).paginate(:page => params[:page], :per_page => (params[:per_page] ||= PER_PAGE.first).to_i)
       @resources = { :pagination => { :current_page => resources.current_page,
                                      :per_page => resources.per_page,
                                      :total_entries => resources.total_entries,
@@ -81,7 +82,7 @@ class ResourcesController < ApplicationController
 
     else
 
-      @_media_entry_ids = resources.search(params[:query]).media_entries.map(&:id)
+      @_media_entry_ids = resources.search(params[:query]).map(&:id)
   
       respond_to do |format|
         format.js { render :layout => false}

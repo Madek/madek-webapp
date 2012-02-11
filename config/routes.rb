@@ -196,20 +196,16 @@ MAdeK::Application.routes.draw do
 
 ###############################################
 
-  # TODO plural resources nesting upload_session:id ??
+  # TODO rename :import
   resource :upload, :controller => 'upload' do
     member do
       post :set_permissions # TODO use update method for all ??
       post :set_media_sets
-      get :set_media_sets # TODO needed :get as well ??
       get :import_summary
       post :estimation
     end
   end
   
-
-  resources :upload_sessions
-
 ###################
    
   resource :session
