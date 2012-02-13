@@ -41,13 +41,11 @@ class MetaTerm < ActiveRecord::Base
       self.class.used_ids.include?(self.id)
     end
   
-    # TODO method cache
+    # OPTIMIZE method cache
     def self.used_ids
       @used_ids ||= begin
-        ids = (MetaContext.all + MetaKeyDefinition.all).collect do |x|
-          # TODO fetch id directly
-          [x.label.try(:id), x.description.try(:id), x.hint.try(:id)]
-        end
+        ids = MetaContext.all.map {|x| [x.label_id, x.description_id] }
+        ids += MetaKeyDefinition.all.map {|x| [x.label_id, x.description_id, x.hint_id] }
         ids += MetaKey.for_meta_terms.collect(&:used_term_ids)
         ids += Keyword.select(:meta_term_id).group(:meta_term_id).collect(&:meta_term_id)
         ids.flatten.uniq.compact
