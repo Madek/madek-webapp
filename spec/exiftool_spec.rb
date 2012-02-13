@@ -44,5 +44,14 @@ describe Exiftool do
 
   end
 
+  it "should extract metadata from PDF files" do
+    res = Exiftool.parse_metadata "features/data/files/test_pdf_for_metadata.pdf", ["PDF"]
+    fields_that_should_exist = ["PDF:Creator", "PDF:Keywords", "PDF:Title"]
+    fields_that_should_exist.each do |f|
+      res.flatten.grep(f).should_not be_empty
+    end
+  end
+
+
 end
 
