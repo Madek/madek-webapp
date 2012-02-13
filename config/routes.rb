@@ -44,6 +44,7 @@ MAdeK::Application.routes.draw do
 
 
   resources :media_entry_incompletes
+  resources :userpermissions
 
 ###############################################
 #NOTE first media_entries and then media_sets
