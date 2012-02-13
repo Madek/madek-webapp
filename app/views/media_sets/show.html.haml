@@ -64,15 +64,20 @@
             #contexts_tab.clearfix
               %p= _("Diesem Set sind zusätzliche Kontexte mit Metadaten zugewiesen.")
               = form_for @media_set, :html => {:style => "margin: 2em;"} do |f|
-                %ul
                 = hidden_field_tag "individual_context_ids[]", nil # NOTE sending params[:individual_context_ids] even if no checkbox is checked
-                - @media_set.individual_and_inheritable_contexts.each do |context|
-                  %li
-                    = check_box_tag "individual_context_ids[]", context.id, @media_set.individual_contexts.include?(context)
-                    = link_to context, context, :target => :_blank
-                %br
-                = f.submit _("Update")
-        
+                %ul
+                  - @media_set.individual_and_inheritable_contexts.each do |context|
+                    %li
+                      %label
+                        = check_box_tag "individual_context_ids[]", context.id, @media_set.individual_contexts.include?(context), :class => "individual_context", :autocomplete => "off"
+                        %strong= context
+                      = link_to context, :target => :_blank, :title => context.description do
+                        ="Kontext anzeigen"    
+                %div{:class => "save_buttons"}   
+                  = link_to _("Abbrechen"), "", :id => "revert_context_change"
+                  = submit_tag _("Speichern")
+              .clear
+              %hr
               %p= _("So können für alle Medieneinträge, die in diesem Set enthalten sind, weitere inhaltliche Angaben gemacht werden. Darüber hinaus können alle Sets, die diesem Set zugewiesen werden, ebenfalls die ausgewählten zusätzlichen Kontexte erhalten.")
 
 %section#content_body_set
@@ -113,4 +118,19 @@
       $(".icon_set_parents").toggleClass("open");
     });
   });
+  
+:coffeescript
+  jQuery ->
+    $(".individual_context").change ->
+      $(this).toggleClass("changed")
+      
+    $("#revert_context_change").click (event)->
+      event.preventDefault()
+      $("input.changed[type=checkbox]").each ->
+        if $(this).attr("checked")?
+          $(this).attr("checked", "checked")
+        else
+          $(this).removeAttr("checked")
+        $(this).removeClass("changed")
+      return false
   

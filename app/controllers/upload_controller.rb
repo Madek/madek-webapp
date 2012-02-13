@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 class UploadController < ApplicationController
 
+  before_filter :pre_load, :only => [:show, :set_permissions, :edit, :update, :set_media_sets, :import_summary, :destroy]
+
 ##################################################
 # step 1
 
@@ -14,49 +16,44 @@ class UploadController < ApplicationController
   end
 
   def show
-    pre_load # OPTIMIZE
   end
-  
+    
   def create
-      files = if !params[:uploaded_data].blank?
-        params[:uploaded_data]
-      elsif !params[:import_path].blank?
-        Dir.glob(File.join(params[:import_path], '**', '*')).select {|x| not File.directory?(x) }
+    files = if !params[:uploaded_data].blank?
+      params[:uploaded_data]
+    elsif !params[:import_path].blank?
+      Dir.glob(File.join(params[:import_path], '**', '*')).select {|x| not File.directory?(x) }
+    elsif params[:read_dropbox]
+      # TODO create dropbox for user with permissions
+      Dir.glob(File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir, '**', '*')).select {|x| not File.directory?(x) }
+    else
+      raise "No files to import!"
+    end
+
+    files.each do |f|
+      uploaded_data = if params[:uploaded_data]
+        f
       else
-        nil
+        ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
+                                               :tempfile=> File.new(f, "r"),
+                                               :filename=> File.basename(f))
       end
 
-      unless files.blank?
-        # OPTIMIZE append if already exists (multiple grouped posts)
-        #temp# upload_session = current_user.upload_sessions.latest
-        upload_session = current_user.upload_sessions.create
-
-        files.each do |f|
-          uploaded_data = if params[:uploaded_data]
-            f
-          else
-            ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
-                                                   :tempfile=> File.new(f, "r"),
-                                                   :filename=> File.basename(f))
+      media_entry = current_user.incomplete_media_entries.create(:uploaded_data => uploaded_data)
+      
+      # If this is a path-based upload for e.g. video files, it's almost impossible that we've imported the title
+      # correctly because some file formats don't give us that metadata. Let's overwrite with an auto-import default then.
+      # TODO: We should get this information from a YAML/XML file that's uploaded with the media file itself instead.
+      unless params[:import_path].blank?
+        # TODO: Extract metadata from separate YAML file here, along with refactoring MediaEntry#process_metadata_blob and friends
+        mandatory_key_ids = MetaKey.where(:label => ['title', 'copyright notice']).collect(&:id)
+        if media_entry.meta_data.where(:meta_key_id => mandatory_key_ids).empty?
+          mandatory_key_ids.each do |key_id|
+            media_entry.meta_data.create(:meta_key_id => key_id, :value => 'Auto-created default during import')
           end
-
-          media_entry = upload_session.incomplete_media_entries.create(:uploaded_data => uploaded_data)
-          
-          # If this is a path-based upload for e.g. video files, it's almost impossible that we've imported the title
-          # correctly because some file formats don't give us that metadata. Let's overwrite with an auto-import default then.
-          # TODO: We should get this information from a YAML/XML file that's uploaded with the media file itself instead.
-          unless params[:import_path].blank?
-            # TODO: Extract metadata from separate YAML file here, along with refactoring MediaEntry#process_metadata_blob and friends
-            mandatory_key_ids = MetaKey.where(:label => ['title', 'copyright notice']).collect(&:id)
-            if media_entry.meta_data.where(:meta_key_id => mandatory_key_ids).empty?
-              mandatory_key_ids.each do |key_id|
-                media_entry.meta_data.create(:meta_key_id => key_id, :value => 'Auto-created default during import')
-              end
-            end
-          end
-
         end
       end
+    end
 
       # TODO check if all media_entries successfully saved
     respond_to do |format|
@@ -89,7 +86,6 @@ class UploadController < ApplicationController
                                     [default_params[:view], default_params[:edit], default_params[:download]]
                                 end
     
-    pre_load # OPTIMIZE
     @media_entries.each do |media_entry|
       media_entry.download = download_action
       media_entry.edit = edit_action
@@ -115,24 +111,18 @@ class UploadController < ApplicationController
 # step 3
 
   def edit
-    pre_load
     @context = MetaContext.upload
   end
 
   def update
-    pre_load
-    @upload_session.set_as_complete
-
     params[:resources][:media_entry_incomplete].each_pair do |key, value|
       media_entry = @media_entries.detect{|me| me.id == key.to_i } #old# .find(key)
       media_entry.update_attributes(value)
+      media_entry.set_as_complete
     end
-
-    # TODO delta index if new Person 
 
     render :action => :set_media_sets
   end
-
 
 ##################################################
 # step 4
@@ -141,40 +131,42 @@ class UploadController < ApplicationController
     if request.post?
       params[:media_set_ids].delete_if {|x| x.blank?}
 
-      pre_load # OPTIMIZE
+      media_entries = current_user.media_entries.find(params[:media_entry_ids])
       media_sets = MediaSet.find_by_id_or_create_by_title(params[:media_set_ids], current_user)
       media_sets.each do |media_set|
-        media_set.media_entries.push_uniq @upload_session.media_entries
+        media_set.media_entries.push_uniq media_entries
       end
     
       redirect_to root_path
-    else
-      # TODO is the get method really needed ??
-      pre_load # OPTIMIZE
-      @media_entries = @upload_session.media_entries
     end
   end
 
 ##################################################
 
   def import_summary
-    pre_load
     @context = MetaContext.upload
     @all_valid = @media_entries.all? {|me| me.context_valid?(@context) }
-    @upload_session.set_as_complete if @all_valid
+    @media_entries.each {|me| me.set_as_complete } if @all_valid
   end
   
+##################################################
+
+  def destroy
+    respond_to do |format|
+      format.html{ render :text => "JSON only API", :status => 406 }
+      format.json{
+        @media_entries.destroy_all
+        render :json => {}
+      }
+    end
+  end
+
 ##################################################
 
   private
   
   def pre_load
-    @upload_session = if params[:upload_session_id]
-                        current_user.upload_sessions.find(params[:upload_session_id])
-                      else
-                        current_user.upload_sessions.latest
-                      end
-    @media_entries = @upload_session.incomplete_media_entries
+    @media_entries = current_user.incomplete_media_entries
   end
 
 end

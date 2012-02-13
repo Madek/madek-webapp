@@ -112,15 +112,14 @@ end
 
 Given /^a entry titled "(.+)" created by "(.+)" exists$/ do |title, username|
   user = User.where(:login => username).first
-  upload_session = UploadSession.create(:user => user)
   f = "#{Rails.root}/features/data/images/berlin_wall_01.jpg"
   uploaded_data = ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
                                                          :tempfile=> File.new(f, "r"),
                                                          :filename=> File.basename(f))
-  entry = upload_session.incomplete_media_entries.create(:uploaded_data => uploaded_data)
+  entry = user.incomplete_media_entries.create(:uploaded_data => uploaded_data)
   h = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
   entry.reload.update_attributes(h, user)
-  upload_session.set_as_complete
+  entry.set_as_complete
 end
 
 Given /^the last entry is child of the (.+) set/ do |offset|
@@ -190,7 +189,7 @@ When "I fill in the metadata form as follows:" do |table|
 
     list = find("ul", :text => /^#{text}/)
     if list.nil?
-      puts "Can't find any input fields with the text '#{text}'"
+      raise "Can't find any input fields with the text '#{text}'"
     else
       if list[:class] == "Person"
         fill_in_person_widget(list, hash['value'], hash['options'])
@@ -202,7 +201,7 @@ When "I fill in the metadata form as follows:" do |table|
         elsif list.has_css?(".madek_multiselect_container")
           select_from_multiselect_widget(list, hash['value'])
         else
-          puts "Unknown MetaTerm interface element when trying to set '#{text}'"
+          raise "Unknown MetaTerm interface element when trying to set '#{text}'"
         end
       elsif list[:class] == "MetaDepartment"
         puts "Sorry, can't set MetaDepartment to '#{text}', the MetaDepartment widget is too hard to test right now."

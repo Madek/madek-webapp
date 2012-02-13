@@ -83,17 +83,14 @@ FactoryGirl.define do
     manage {edit and FactoryHelper.rand_bool}
   end
 
+
   factory :media_file  do 
-    uploaded_data  {{ :type=> "image/png", :tempfile=> File.new("#{Rails.root}/app/assets/images/icons/eye.png", "r"), :filename=> "eye.png"}} 
-    content_type "image/png"
-    guid  (Digest::SHA1.hexdigest Time.now.to_f.to_s)
-    filename  "dummy.png"
-    access_hash  UUIDTools::UUID.random_create.to_s
-    after_build do |mf|
-      def mf.assign_access_hash; end
-      def mf.validate_file; end
-      def mf.store_file; end
-    end
+    uploaded_data  {
+      f = "#{Rails.root}/app/assets/images/icons/eye.png"
+      ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
+                                             :tempfile=> File.new(f, "r"),
+                                             :filename=> File.basename(f))
+    } 
   end
 
   factory :media_resource do
@@ -182,11 +179,6 @@ FactoryGirl.define do
   factory :person do
     lastname {Faker::Name.last_name}
     firstname {Faker::Name.first_name}
-  end
-
-  factory :upload_session do
-    user {User.find_random || (FactoryGirl.create :user)}
-    is_complete true
   end
 
   factory :user do |n| 

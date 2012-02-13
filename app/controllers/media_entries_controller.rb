@@ -82,7 +82,7 @@ class MediaEntriesController < ApplicationController
   
   def browse
     # TODO merge with index
-    @viewable_ids = MediaResource.accessible_by_user(current_user).media_entries.map(&:id)
+    @viewable_ids = MediaEntry.accessible_by_user(current_user).map(&:id)
   end
   
 #####################################################

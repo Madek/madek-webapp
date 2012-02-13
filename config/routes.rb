@@ -40,6 +40,11 @@ MAdeK::Application.routes.draw do
   
   match '/nagiosstat', :to => Nagiosstat
 
+
+
+
+  resources :media_entry_incompletes
+
 ###############################################
 #NOTE first media_entries and then media_sets
 
@@ -195,17 +200,18 @@ MAdeK::Application.routes.draw do
 
 ###############################################
 
-  # TODO plural resources nesting upload_session:id ??
+  # TODO rename :import
   resource :upload, :controller => 'upload' do
     member do
       post :set_permissions # TODO use update method for all ??
       post :set_media_sets
-      get :set_media_sets # TODO needed :get as well ??
       get :import_summary
       post :estimation
     end
   end
   
+###################
+   
   resource :session
 
   resources :meta_contexts, :only => :show do
@@ -266,6 +272,8 @@ MAdeK::Application.routes.draw do
     resources :media_entries do
       collection do
         get :import
+        get :dropbox
+        post :dropbox
       end
     end
 

@@ -1,28 +1,31 @@
 # -*- encoding : utf-8 -*-
 #= MediaEntryIncomplete
 #
-# This class is a subclass of MediaEntry, referring to the uploading media_entries,
-# which the upload_session is not yet completed.
+# This class is a subclass of MediaEntry, referring to the uploading media_entries.
 
 class MediaEntryIncomplete < MediaEntry
 
   attr_accessor :uploaded_data
 
-  before_create do |record|
+  before_create do
     create_media_file(:uploaded_data => uploaded_data)
+    extract_and_process_subjective_metadata
+    set_copyright
   end
 
-  before_create :extract_and_process_subjective_metadata, :set_copyright
-
-  before_validation(:on => :create) do
-    self.user = upload_session.user
-  end
-    
   after_create do |record|
     descr_author_value = record.meta_data.get("description author", false).try(:value)
     record.meta_data.get("description author before import").update_attributes(:value => descr_author_value) if descr_author_value
   end
 
+########################################################
+
+  def set_as_complete
+    becomes MediaEntry
+    update_column(:type, type)
+    
+    # TODO remove file from dropbox
+  end
 
 ########################################################
 

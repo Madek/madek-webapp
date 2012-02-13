@@ -56,8 +56,7 @@ namespace :app do
       puts "Exporting people..."
       people = Person.all.as_json(:except => [:delta, :created_at, :updated_at],
                                   :include => {:user => {:except => :person_id,
-                                                         :methods => :favorite_ids,
-                                                         :include => {:upload_sessions => {:except => [:user_id, :updated_at]}} }})
+                                                         :methods => :favorite_ids }})
       
       #####################################################
       puts "Exporting groups..."

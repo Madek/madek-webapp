@@ -2,7 +2,8 @@ class AppSettings < Settings
 
   ACCEPTED_VARS = {
     :featured_set_id                => {:type => Integer,   :description => "Set id used for retrieve the FeaturedSet"},
-    :splashscreen_slideshow_set_id  => {:type => Integer,   :description => "Set id used for retrieve the Set to display on the splash screen"}
+    :splashscreen_slideshow_set_id  => {:type => Integer,   :description => "Set id used for retrieve the Set to display on the splash screen"},
+    :dropbox_root_dir               => {:type => String,    :description => "Dropbox root directory path for FTP upload"}
   }
 
   def self.method_missing(method, *args)

@@ -5,26 +5,16 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
 
-  include Subject
-
   belongs_to :person
   delegate :name, :fullname, :to => :person
 
   has_many :userpermissions
 
   has_many :media_resources
-
-  has_many :upload_sessions do
-    def latest
-      first
-    end
-    def most_recents(limit = 3)
-      all(:limit => limit)
-    end
-  end
-  has_many :media_entries, :through => :upload_sessions
-# TODO ??  has_many :media_files, :through => :media_entries
   has_many :media_sets
+  has_many :media_entries
+  has_many :incomplete_media_entries, :class_name => "MediaEntryIncomplete", :dependent => :destroy
+
   has_and_belongs_to_many :favorites, :class_name => "MediaResource", :join_table => "favorites" do
     def toggle(media_resource)
       if exists?(media_resource)
@@ -76,9 +66,17 @@ class User < ActiveRecord::Base
     write_attribute :email, (value ? value.downcase : nil)
   end
 
+  def dropbox_dir
+    if new_record?
+      raise "The user record has to be persistent."
+    else
+      sha = Digest::SHA1.hexdigest("#{id}#{created_at}")
+      "#{id}_#{sha}"    
+    end
+  end
+
 #############################################################
 
-  # TODO refactor up to Subject ??
   def authorized?(action, resource_or_resources)
     Array(resource_or_resources).all? do |resource|
       if resource.user == self

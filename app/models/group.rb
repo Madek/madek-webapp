@@ -1,7 +1,5 @@
 # -*- encoding : utf-8 -*-
 class Group < ActiveRecord::Base
-  include Subject
-  # FIXME breaking permissions # include Resource
 
   has_many :grouppermissions
   has_and_belongs_to_many :users

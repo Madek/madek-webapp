@@ -67,7 +67,7 @@ class MediaSetsController < ApplicationController
           # all media sets I can see that have not been created by me
           other = resources.not_by_user(current_user)
           my = resources.by_user(current_user)
-          [other.media_sets, my.media_sets, "Meine Sets", "Weitere Sets"]
+          [other, my, "Meine Sets", "Weitere Sets"]
         end
       }
       
