@@ -1,13 +1,12 @@
 # -*- encoding : utf-8 -*-
 class UploadController < ApplicationController
 
-  before_filter :pre_load, :only => [:show, :set_permissions, :edit, :update, :set_media_sets, :import_summary, :destroy]
+  before_filter :only => [:show, :set_permissions, :edit, :update, :set_media_sets, :import_summary, :destroy] do
+    @media_entries = current_user.incomplete_media_entries
+  end
 
 ##################################################
 # step 1
-
-  def new
-  end
 
   def estimation
     respond_to do |format|
@@ -24,7 +23,6 @@ class UploadController < ApplicationController
     elsif params[:import_path]
       Dir.glob(File.join(params[:import_path], '**', '*')).select {|x| not File.directory?(x) }
     elsif params[:read_dropbox]
-      # TODO create dropbox for user with permissions
       Dir.glob(File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir, '**', '*')).select {|x| not File.directory?(x) }
     else
       raise "No files to import!"
@@ -67,6 +65,14 @@ class UploadController < ApplicationController
       format.js { render :json => {} }
     end
 
+  end
+
+  #working here#
+  def dropbox_dir
+    # TODO create dropbox for user with permissions
+    respond_to do |format|
+      format.js { render :json => {:dropbox_dir => current_user.dropbox_dir} }
+    end
   end
 
 ##################################################
@@ -165,8 +171,5 @@ class UploadController < ApplicationController
 
   private
   
-  def pre_load
-    @media_entries = current_user.incomplete_media_entries
-  end
 
 end

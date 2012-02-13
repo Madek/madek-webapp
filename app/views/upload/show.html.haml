@@ -1,13 +1,41 @@
 .container_12.clearfix
   %section#content_body.clearfix
     = render :partial => "steps"
-    :javascript
-      $(document).ready(function () {
-        activate_step(2);
-      });
 
-    #upload-container{:style => "margin-top: 1.5em"}
+    #upload-container{:style => "margin-top: 2em"}
       %div{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
-        = render :partial => "files"
-        %h3= _("Zugriffsberechtigungen")
+
+        .upload_step_1
+          = render :partial => "step1"
+
+          %p#submit_to_2{:style => "margin: 3em 0 1em 0; display: none;"}
+            %a#submit_upload_form.upload_buttons{:href => "#"}
+              /<span class="ui-icon ui-icon-circle-arrow-n"></span>
+              = _("Ausgewählte Medien hochladen und weiter…")
+
+        %h3.upload_step_2
+          = _("Zugriffsberechtigungen")
         = render :partial => "permissions/edit_multiple_on_upload"
+
+:javascript
+  $(document).ready(function () {
+  
+    activate_step(1);
+    
+    $('#upload_form').submit(function() {
+      startXHR($(this));
+      return false;
+    });
+    
+    $('#submit_upload_form').click(function() {
+      $('#upload_form').trigger('submit');
+      return false;
+    });
+    
+    $('input#uploaded_data').change(function() {
+      append_to_queue(this);
+    });
+    
+    $('#upload_form label').click(function(){
+    });
+  });

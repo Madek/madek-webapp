@@ -201,7 +201,7 @@ MAdeK::Application.routes.draw do
 ###############################################
 
   # TODO rename :import
-  resource :upload, :controller => 'upload' do
+  resource :upload, :controller => 'upload', :except => :new do
     member do
       post :set_permissions # TODO use update method for all ??
       post :set_media_sets
