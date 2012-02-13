@@ -19,9 +19,9 @@ class UploadController < ApplicationController
   end
     
   def create
-    files = if !params[:uploaded_data].blank?
-      params[:uploaded_data]
-    elsif !params[:import_path].blank?
+    files = if params[:file]
+      Array(params[:file])
+    elsif params[:import_path]
       Dir.glob(File.join(params[:import_path], '**', '*')).select {|x| not File.directory?(x) }
     elsif params[:read_dropbox]
       # TODO create dropbox for user with permissions
@@ -31,7 +31,7 @@ class UploadController < ApplicationController
     end
 
     files.each do |f|
-      uploaded_data = if params[:uploaded_data]
+      uploaded_data = if params[:file]
         f
       else
         ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
