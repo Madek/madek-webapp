@@ -17,6 +17,7 @@ pg: &pg
   adapter: postgresql
   encoding: unicode
   username: postgres
+  host: localhost
   password:
   
 my: &my

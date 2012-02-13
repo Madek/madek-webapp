@@ -165,6 +165,11 @@ module DevelopmentHelpers
         elsif @state_stack.size == 5 and @state_stack[1] == "data"
           puts "> property #{name} #{attrs}" 
           @value = ""
+
+        elsif @state_stack.size == 4 and @state_stack[1] == "relations"
+          # TODO start with new relation
+        elsif @state_stack.size == 5 and @state_stack[1] == "relations"
+          # TODO store relation property
         end
 
       end
