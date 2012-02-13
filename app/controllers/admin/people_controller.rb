@@ -1,7 +1,13 @@
 # -*- encoding : utf-8 -*-
 class Admin::PeopleController < Admin::AdminController
 
-  before_filter :pre_load
+  before_filter do
+    unless (params[:person_id] ||= params[:id]).blank?
+      @person = Person.find(params[:person_id])
+    end
+  end
+
+#####################################################
 
   def index
     @people = Person.order(:firstname)
@@ -21,14 +27,4 @@ class Admin::PeopleController < Admin::AdminController
     redirect_to admin_people_path
   end
   
-#####################################################
-
-  private
-
-  def pre_load
-    unless (params[:person_id] ||= params[:id]).blank?
-      @person = Person.find(params[:person_id])
-    end
-  end
-
 end

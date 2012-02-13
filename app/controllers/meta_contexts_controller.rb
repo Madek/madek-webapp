@@ -1,7 +1,13 @@
 # -*- encoding : utf-8 -*-
 class MetaContextsController < ApplicationController
 
-  before_filter :pre_load
+  before_filter do
+    unless (params[:context_id] ||= params[:id]).blank?
+      @context = MetaContext.find(params[:context_id])
+    end
+  end
+
+#################################################################
 
   def show
     @vocabulary_json = @context.vocabulary(current_user).as_json
@@ -19,16 +25,6 @@ class MetaContextsController < ApplicationController
     @abstract_json = @context.abstract(current_user, params[:value].to_i).as_json
     respond_to do |format|
       format.js { render :layout => false }
-    end
-  end
-
-#################################################################
-
-  private
-
-  def pre_load
-    unless (params[:context_id] ||= params[:id]).blank?
-      @context = MetaContext.find(params[:context_id])
     end
   end
 

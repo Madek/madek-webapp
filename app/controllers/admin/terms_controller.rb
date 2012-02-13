@@ -1,7 +1,13 @@
 # -*- encoding : utf-8 -*-
 class Admin::TermsController < Admin::AdminController # TODO rename to Admin::MetaTermsController ??
 
-  before_filter :pre_load
+  before_filter do
+    unless (params[:term_id] ||= params[:id]).blank?
+      @term = MetaTerm.find(params[:term_id])
+    end
+  end
+
+#####################################################
 
   def index
     @terms = MetaTerm.order(LANGUAGES.first)
@@ -33,16 +39,6 @@ class Admin::TermsController < Admin::AdminController # TODO rename to Admin::Me
   def destroy
     @term.destroy unless @term.is_used?
     redirect_to admin_terms_path
-  end
-
-#####################################################
-
-  private
-
-  def pre_load
-    unless (params[:term_id] ||= params[:id]).blank?
-      @term = MetaTerm.find(params[:term_id])
-    end
   end
 
 end
