@@ -1,2 +1,2 @@
 # -*- encoding : utf-8 -*-
-json.userpermission userpermission, :id, :view
+json.extract! userpermission, :id, :view
