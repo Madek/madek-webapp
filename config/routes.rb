@@ -54,7 +54,6 @@ MAdeK::Application.routes.draw do
       get :keywords
       post :edit_multiple
       put :update_multiple
-      post :edit_multiple_permissions
       post :media_sets
       delete :media_sets
     end
@@ -71,9 +70,10 @@ MAdeK::Application.routes.draw do
       get :browse
     end
     
-    resources :permissions do
+    resources :permissions, :except => :index do
       collection do
         get :edit_multiple
+        post :edit_multiple
         put :update_multiple
       end
     end
@@ -104,7 +104,7 @@ MAdeK::Application.routes.draw do
     
     resources :media_sets #-# only used for FeaturedSet 
     
-    resources :permissions do
+    resources :permissions, :except => :index do
       collection do
         get :edit_multiple
         put :update_multiple
@@ -203,7 +203,8 @@ MAdeK::Application.routes.draw do
   # TODO rename :import
   resource :upload, :controller => 'upload', :except => :new do
     member do
-      post :set_permissions # TODO use update method for all ??
+      get :permissions, :to => "permissions#edit_multiple"
+      put :permissions, :to => "permissions#update_multiple"
       post :set_media_sets
       get :import_summary
       post :estimation

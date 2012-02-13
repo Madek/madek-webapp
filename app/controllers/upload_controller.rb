@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class UploadController < ApplicationController
 
-  before_filter :only => [:show, :set_permissions, :edit, :update, :set_media_sets, :import_summary, :destroy] do
+  before_filter :only => [:show, :permissions, :edit, :update, :set_media_sets, :import_summary, :destroy] do
     @media_entries = current_user.incomplete_media_entries
   end
 
@@ -77,41 +77,7 @@ class UploadController < ApplicationController
 
 ##################################################
 # step 2
-
-  # TODO dry with PermissionsController#update_multiple
-  def set_permissions
-    default_params = {:view => false, :edit => false, :download => false}
-    params.reverse_merge!(default_params)
-
-    view_action, edit_action, download_action = case params[:view].to_sym
-                                  when :private
-                                    [default_params[:view], default_params[:edit], default_params[:download]]
-                                  when :public
-                                    [true, !!params[:edit], true]
-                                  else
-                                    [default_params[:view], default_params[:edit], default_params[:download]]
-                                end
-    
-    @media_entries.each do |media_entry|
-      media_entry.download = download_action
-      media_entry.edit = edit_action
-      media_entry.view = view_action
-    end
-
-    if params[:view].to_sym == :zhdk_users
-      zhdk_group = Group.where(:name => "ZHdK (Zürcher Hochschule der Künste)").first
-      view_action, edit_action, download_action = [true, !!params[:edit], true]
-      @media_entries.each do |media_entry|
-        p = media_entry.grouppermissions.where(:group_id => zhdk_group.id).first
-        p ||= media_entry.grouppermissions.build(:group => zhdk_group)
-        p.update_attributes(:view => view_action, :edit => edit_action, :download => download_action)
-      end
-    end
-
-    edit
-    render :action => :edit
-  end
-
+# NOTE get permissions_upload_path
 
 ##################################################
 # step 3

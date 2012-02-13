@@ -4,34 +4,45 @@
     = _("Zugriffsberechtigungen editieren")
   .clear
 
-- @display_download_action = true
+- if @resources
+  - path = request.fullpath == "/upload/permissions" ? permissions_upload_path : update_multiple_media_entry_permissions_path(0) 
+  = form_tag path, :method => :put do
+    = hidden_field_tag :media_entry_ids, @resources.map(&:id).join(',')
+    = render :partial => "permissions/table", :locals => {:display_download_action => true }
+    %div{:class => "save_buttons"}   
+      = link_to _("Abbrechen"), "javascript:history.back(1);"
+      = submit_tag _("Speichern")
 
-- if @media_entries
-  = form_tag update_multiple_media_entry_permissions_path(0), :method => :put do
-    = hidden_field_tag :media_entry_ids, @media_entries.map(&:id).join(',')
-    = render :partial => "permissions/table", :locals => {:cancel_path => "javascript:history.back(1);"}
-- elsif @resource and @resource.is_a?(MediaEntry)
-  = form_tag update_multiple_media_entry_permissions_path(0), :method => :put do
-    = hidden_field_tag :media_entry_ids, @resource.id
-    = render :partial => "permissions/table", :locals => {:cancel_path => media_entry_path(@resource) }
+- elsif @resource
+  - if @resource.is_a?(MediaEntry)
+    = form_tag update_multiple_media_entry_permissions_path(0), :method => :put do
+      = hidden_field_tag :media_entry_ids, @resource.id
+      = render :partial => "permissions/table", :locals => {:display_download_action => true }
+      %div{:class => "save_buttons"}   
+        = link_to _("Abbrechen"), media_entry_path(@resource)
+        = submit_tag _("Speichern")
+  - elsif @resource.is_a?(MediaSet)
+    = form_tag update_multiple_media_set_permissions_path(@resource), :method => :put do
+      = render :partial => "permissions/table", :locals => {:display_download_action => false }
+      %div{:class => "save_buttons"}   
+        = link_to _("Abbrechen"), media_set_path(@resource)
+        = submit_tag _("Speichern")
+
 - else
-  - @display_download_action = false
-  = form_tag update_multiple_media_set_permissions_path(@resource), :method => :put do
-    = render :partial => "permissions/table", :locals => {:cancel_path => media_set_path(@resource) }
-
+  - raise "multiple media_entries or a single media_resource is missing"
 
 %script{:type => "text/x-jquery-tmpl", :id => "new_permission"}
   %tr
     %td
       ${name}    
-    %td{:style => "{{if (view == 'mixed')}}background: url(/assets/stripe_1.png){{/if}}"}
+    %td{:class => "{{if (view == 'mixed')}}different_values{{/if}}"}
       %input{:name => "{{if (type == 'nil')}}subject[${type}][view]{{else}}subject[${type}][${id}][view]{{/if}}", :type => "hidden", :value => "false"}
       <input name="{{if (type == 'nil')}}subject[${type}][view]{{else}}subject[${type}][${id}][view]{{/if}}" type="checkbox" value="true" {{if view}}checked="checked"{{/if}}>
-    %td{:style => "{{if (edit == 'mixed')}}background: url(/assets/stripe_1.png){{/if}}"}
+    %td{:class => "{{if (edit == 'mixed')}}different_values{{/if}}"}
       %input{:name => "{{if (type == 'nil')}}subject[${type}][edit]{{else}}subject[${type}][${id}][edit]{{/if}}", :type => "hidden", :value => "false"}
       <input name="{{if (type == 'nil')}}subject[${type}][edit]{{else}}subject[${type}][${id}][edit]{{/if}}" type="checkbox" value="true" {{if edit}}checked="checked"{{/if}}>
-    - if @display_download_action
-      %td{:style => "{{if (download == 'mixed')}}background: url(/assets/stripe_1.png){{/if}}"}
+    - if @resources or (@resource and @resource.is_a?(MediaEntry))
+      %td{:class => "{{if (download == 'mixed')}}different_values{{/if}}"}
         %input{:name => "{{if (type == 'nil')}}subject[${type}][download]{{else}}subject[${type}][${id}][download]{{/if}}", :type => "hidden", :value => "false"}
         <input name="{{if (type == 'nil')}}subject[${type}][download]{{else}}subject[${type}][${id}][download]{{/if}}" type="checkbox" value="true" {{if download}}checked="checked"{{/if}}>
     %td

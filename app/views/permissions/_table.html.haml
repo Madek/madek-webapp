@@ -13,7 +13,7 @@
         Sehen
       %td
         Editieren
-      - if @display_download_action
+      - if display_download_action
         %td
           Download volle Auflösung
       %td
@@ -37,7 +37,7 @@
         Sehen
       %td
         Editieren
-      - if @display_download_action
+      - if display_download_action
         %td
           Download volle Auflösung
   %tbody#group_permissions
@@ -55,11 +55,8 @@
         Sehen
       %td
         Editieren
-      - if @display_download_action
+      - if display_download_action
         %td
           Download volle Auflösung
   %tbody#anyone_permissions
     //
-%div{:class => "save_buttons"}   
-  = link_to _("Abbrechen"), cancel_path
-  = submit_tag _("Speichern")
