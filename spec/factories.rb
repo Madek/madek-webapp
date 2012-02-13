@@ -83,20 +83,6 @@ FactoryGirl.define do
     manage {edit and FactoryHelper.rand_bool}
   end
 
-  factory :media_entry_incomplete do
-    user {User.find_random || (FactoryGirl.create :user)}
-    uploaded_data  {
-      f = "#{Rails.root}/app/assets/images/icons/eye.png"
-      ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
-                                             :tempfile=> File.new(f, "r"),
-                                             :filename=> File.basename(f))
-    } 
-
-    view {FactoryHelper.rand_bool 1/10.0}
-    download { view and FactoryHelper.rand_bool}
-    edit {FactoryHelper.rand_bool 1/10.0}
-    manage {edit and FactoryHelper.rand_bool}
-  end
 
   factory :media_file  do 
     uploaded_data  {
