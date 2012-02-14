@@ -10,12 +10,6 @@ class UploadController < ApplicationController
 ##################################################
 # step 1
 
-  def estimation
-    respond_to do |format|
-      format.js { render :status => 200 }
-    end
-  end
-
   def show
   end
     
