@@ -88,7 +88,8 @@ class DownloadController < ApplicationController
     send_file(path,
               :filename => @filename,
               :type          =>  @content_type,
-              :disposition  =>  'attachment')
+              :disposition  =>  'attachment',
+              :x_sendfile => true)
 
   end
   
@@ -119,7 +120,8 @@ class DownloadController < ApplicationController
         send_file("#{ZIP_STORAGE_DIR}/#{race_free_filename}.zip",
                   :filename => "#{race_free_filename}.zip",
                   :type          =>  @content_type,
-                  :disposition  =>  'attachment')  
+                  :disposition  =>  'attachment',
+                  :x_sendfile => true)  
     else
       render :status => 500
     end
@@ -138,7 +140,8 @@ class DownloadController < ApplicationController
       send_file(path,
                 :filename => @filename,
                 :type          =>  @content_type,
-                :disposition  =>  'attachment')            
+                :disposition  =>  'attachment',
+                :x_sendfile => true)            
     else
       render :status => 500
     end
@@ -153,7 +156,8 @@ class DownloadController < ApplicationController
         send_file(path,
                   :filename => @filename,
                   :type          =>  @content_type,
-                  :disposition  =>  'attachment')            
+                  :disposition  =>  'attachment',
+                  :x_sendfile => true)            
     else
       render :status => 500
     end    
@@ -165,14 +169,16 @@ class DownloadController < ApplicationController
     send_file(path,
               :filename => @filename,
               :type          =>  @content_type,
-              :disposition  =>  'attachment')
+              :disposition  =>  'attachment',
+              :x_sendfile => true)
   end
   
   def send_multimedia_preview
     send_file(@path,
           :filename => @filename,
           :type          =>  @content_type,
-          :disposition  =>  'attachment')
+          :disposition  =>  'attachment',
+          :x_sendfile => true)
   end
   
 end # class
