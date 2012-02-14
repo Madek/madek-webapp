@@ -16,13 +16,8 @@ Feature: Upload images and manage media entries based on images
   @javascript
   Scenario: Upload an image and add it to a set
     When I log in as "helmi" with password "saumagen"
-     And I go to the home page
-     And I follow "Hochladen"
-     And I follow "Basic Uploader"
-     And I attach the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory to "uploaded_data[]"
-     And I press "Ausgewählte Medien hochladen und weiter…"
-     And I wait for the CSS element "#submit_to_3"
-     And I press "Einstellungen speichern und weiter…"
+     And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
+     And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
      |label    |value                |
      |Titel    |berlin wall for a set|
@@ -39,12 +34,8 @@ Feature: Upload images and manage media entries based on images
   @javascript
   Scenario: Upload an image file for another user to see
     When I log in as "helmi" with password "saumagen"
-     And I follow "Hochladen"
-     And I follow "Basic Uploader"
-     And I attach the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory to "uploaded_data[]"
-     And I press "Ausgewählte Medien hochladen und weiter…"
-     And I wait for the CSS element "#submit_to_3"
-     And I press "Einstellungen speichern und weiter…"
+     And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
+     And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
      |label    |value                               |
      |Titel    |A beautiful piece of the Berlin Wall|
@@ -70,13 +61,8 @@ Feature: Upload images and manage media entries based on images
       And the user with username "helmi" is member of the group "Mauerfäller"
       And the user with username "gorbi" is member of the group "Mauerfäller"
       And I log in as "helmi" with password "saumagen"
-      And I go to the home page
-      And I follow "Hochladen"
-      And I follow "Basic Uploader"
-      And I attach the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory to "uploaded_data[]"
-      And I press "Ausgewählte Medien hochladen und weiter…"
-      And I wait for the CSS element "#submit_to_3"
-      And I press "Einstellungen speichern und weiter…"
+      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
+      And I go to the upload edit
       And I fill in the metadata for entry number 1 as follows:
       |label    |value                            |
       |Titel    |A second piece of the Berlin Wall|
@@ -231,13 +217,8 @@ Feature: Upload images and manage media entries based on images
   @javascript
   Scenario: Upload an image that has MAdeK title and date information (specific date) its EXIF/IPTC metadata
     When I log in as "helmi" with password "saumagen"
-     And I go to the home page
-     And I follow "Hochladen"
-     And I follow "Basic Uploader"
-     And I attach the file "features/data/images/date_should_be_2011-05-30.jpg" relative to the Rails directory to "uploaded_data[]"
-     And I press "Ausgewählte Medien hochladen und weiter…"
-     And I wait for the CSS element "#submit_to_3"
-     And I press "Einstellungen speichern und weiter…"
+     And I upload the file "features/data/images/date_should_be_2011-05-30.jpg" relative to the Rails directory
+     And I go to the upload edit
      And I press "Metadaten speichern und weiter…"
      And I follow "Weiter ohne Hinzufügen zu einem Set…"
      And I go to the home page
@@ -247,13 +228,8 @@ Feature: Upload images and manage media entries based on images
   @javascript @ts
   Scenario: Upload an image that has MAdeK metadata with a from/to date in its EXIF/IPTC metadata
     When I log in as "helmi" with password "saumagen"
-     And I go to the home page
-     And I follow "Hochladen"
-     And I follow "Basic Uploader"
-     And I attach the file "features/data/images/date_should_be_from_to_may.jpg" relative to the Rails directory to "uploaded_data[]"
-     And I press "Ausgewählte Medien hochladen und weiter…"
-     And I wait for the CSS element "#submit_to_3"
-     And I press "Einstellungen speichern und weiter…"
+     And I upload the file "features/data/images/date_should_be_from_to_may.jpg" relative to the Rails directory
+     And I go to the upload edit
      And I press "Metadaten speichern und weiter…"
      And I follow "Weiter ohne Hinzufügen zu einem Set…"
      And I go to the home page
@@ -271,13 +247,8 @@ Feature: Upload images and manage media entries based on images
   @javascript @ts
   Scenario: Upload an image that has MAdeK metadata with a string instead of a date its EXIF/IPTC metadata
     When I log in as "helmi" with password "saumagen"
-     And I go to the home page
-     And I follow "Hochladen"
-     And I follow "Basic Uploader"
-     And I attach the file "features/data/images/date_should_be_1990.jpg" relative to the Rails directory to "uploaded_data[]"
-     And I press "Ausgewählte Medien hochladen und weiter…"
-     And I wait for the CSS element "#submit_to_3"
-     And I press "Einstellungen speichern und weiter…"
+     And I upload the file "features/data/images/date_should_be_1990.jpg" relative to the Rails directory
+     And I go to the upload edit
      And I press "Metadaten speichern und weiter…"
      And I follow "Weiter ohne Hinzufügen zu einem Set…"
      And I go to the home page

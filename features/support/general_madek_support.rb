@@ -313,17 +313,21 @@ HERE
   page.execute_script(enter_script)
 end
 
+def mock_media_entry(user, title, copyright_notice = "copyright notice")
+  media_entry = FactoryGirl.create :media_entry, :user => user
+  params = {:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title},
+                                      "1" => {:meta_key_label => "copyright notice", :value => copyright_notice} }}
+  media_entry.update_attributes(params)
+  media_entry.reload.title.should == title
+end
+
 # Uploads a picture with a given title and a fixed copyright string.
 # It's always the same picture, no way to change the image file yet.
 def upload_some_picture(title = "Untitled")
     visit "/"
     page.should_not have_content(title)
-
-    media_entry = FactoryGirl.create :media_entry, :user => @current_user
-    params = {:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title},
-                                        "1" => {:meta_key_label => "copyright notice", :value => "some dude"} }}
-    media_entry.update_attributes(params)
-    media_entry.reload.title.should == title
+  
+    mock_media_entry(@current_user, title, "some dude")
 
     visit "/"
     page.should have_content(title)

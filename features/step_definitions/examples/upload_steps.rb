@@ -1,5 +1,5 @@
-When /^I upload a file$/ do
-  @file = f = "#{Rails.root}/features/data/images/berlin_wall_01.jpg"
+When /^I upload the file "([^"]*)" relative to the Rails directory$/ do |path|
+  f = "#{Rails.root}/#{path}"
   uploaded_data = ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
                                                          :tempfile=> File.new(f, "r"),
                                                          :filename=> File.basename(f))
@@ -9,10 +9,40 @@ When /^I upload a file$/ do
   @media_entry_incomplete.is_a?(MediaEntryIncomplete).should be_true
 end
 
+When /^I upload a file$/ do
+
+=begin
+    visit "/"
+
+    # The upload itself
+    click_link("Hochladen")
+    click_link("Basic Uploader")
+    attach_file("uploaded_data[]", Rails.root + "features/data/images/berlin_wall_01.jpg")
+    click_button("Ausgewählte Medien hochladen und weiter…")
+    wait_for_css_element("#submit_to_3") # This is the "Einstellungen speichern..." button
+    click_button("Einstellungen speichern und weiter…")
+
+    # Entering metadata
+
+    fill_in_for_media_entry_number(1, { "Titel"     => title,
+                                        "Copyright" => 'some dude' })
+
+    click_button("Metadaten speichern und weiter…")
+    click_link_or_button("Weiter ohne Hinzufügen zu einem Set…")
+
+    visit "/"
+   
+    page.should have_content(title)
+=end  
+  
+  @path = "features/data/images/berlin_wall_01.jpg"
+  step 'I upload the file "#{@path}" relative to the Rails directory'
+end
+
 Then /^the file is attached to a media entry$/ do
   @media_entry_incomplete.media_file.valid?.should be_true
   @media_entry_incomplete.media_file.persisted?.should be_true
-  @media_entry_incomplete.media_file.filename.should == File.basename(@file)  
+  @media_entry_incomplete.media_file.filename.should == File.basename("#{Rails.root}/#{@path}")  
 end
 
 Then /^I can set the permissions for the media entry during the upload process$/ do
