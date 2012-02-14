@@ -13,6 +13,6 @@
   %body#basic-layout.home
     %header= render :partial => "layouts/header"
     = flash_helper
-    = yield
+    = content_for?(:content) ? yield(:content) : yield
     %footer.container_12.clearfix
       = render :partial => "layouts/footer"

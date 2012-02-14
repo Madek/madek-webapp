@@ -14,6 +14,7 @@ class PermissionsController < ApplicationController
     begin
       if request.fullpath == "/upload/permissions"
         @resources = current_user.incomplete_media_entries
+        @layout = "upload"
       elsif (not params[:media_entry_id].blank?) and (not params[:media_entry_id].to_i.zero?)
         @resource = MediaEntry.accessible_by_user(current_user, action).find(params[:media_entry_id])
       elsif not params[:media_entry_ids].blank?
@@ -136,7 +137,7 @@ class PermissionsController < ApplicationController
       end.to_json
 
       respond_to do |format|
-        format.html { render :action => "edit_batch"}
+        format.html { render :action => "edit_batch", :layout => (@layout || true) }
       end
     end
   end

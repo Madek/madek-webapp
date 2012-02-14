@@ -1,19 +1,15 @@
-.container_12.clearfix
-  %section#content_body.clearfix
-    = render :partial => "steps"
+#upload-container{:style => "margin-top: 2em"}
+  %div{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
 
-    #upload-container{:style => "margin-top: 2em"}
-      %div{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
+    .upload_step_1
+      = render :partial => "step1"
 
-        .upload_step_1
-          = render :partial => "step1"
+      %p#submit_to_2{:style => "margin: 3em 0 1em 0; display: none;"}
+        %a#submit_upload_form.upload_buttons{:href => "#"}
+          /<span class="ui-icon ui-icon-circle-arrow-n"></span>
+          = _("Ausgewählte Medien hochladen und weiter…")
 
-          %p#submit_to_2{:style => "margin: 3em 0 1em 0; display: none;"}
-            %a#submit_upload_form.upload_buttons{:href => "#"}
-              /<span class="ui-icon ui-icon-circle-arrow-n"></span>
-              = _("Ausgewählte Medien hochladen und weiter…")
-
-        %h3.upload_step_2
+    %h3.upload_step_2
 
 :javascript
   $(document).ready(function () {

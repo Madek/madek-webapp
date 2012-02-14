@@ -1,18 +1,14 @@
 # -*- encoding : utf-8 -*-
 class UploadController < ApplicationController
 
-  before_filter :only => [:show, :permissions, :edit, :update, :set_media_sets, :import_summary, :destroy] do
+  layout "upload"
+
+  before_filter :only => [:show, :permissions, :edit, :update, :import_summary, :destroy] do
     @media_entries = current_user.incomplete_media_entries
   end
 
 ##################################################
 # step 1
-
-  def estimation
-    respond_to do |format|
-      format.js { render :status => 200 }
-    end
-  end
 
   def show
   end

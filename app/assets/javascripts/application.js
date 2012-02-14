@@ -12,7 +12,6 @@
 
 /////////// App /////////////
 //= require batch_actions
-//= require madek_ajax_upload
 //= require madek11
 //= require browser-check/browser-check
 //= require highlight/highlight

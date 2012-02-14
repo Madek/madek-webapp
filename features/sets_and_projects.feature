@@ -12,13 +12,8 @@ Feature: Do things to and with sets
   @javascript
   Scenario: Upload an image, then go to the detail page and add it to a set
     When I log in as "helmi" with password "saumagen"
-     And I go to the home page
-     And I follow "Hochladen"
-     And I follow "Basic Uploader"
-     And I attach the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory to "uploaded_data[]"
-     And I press "Ausgewählte Medien hochladen und weiter…"
-     And I wait for the CSS element "#submit_to_3"
-     And I press "Einstellungen speichern und weiter…"
+     And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
+     And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
      |label    |value                       |
      |Titel    |into the set after uploading|
@@ -37,13 +32,8 @@ Feature: Do things to and with sets
  @javascript 
   Scenario: Rename a set
     When I log in as "helmi" with password "saumagen"
-     And I go to the home page
-     And I follow "Hochladen"
-     And I follow "Basic Uploader"
-     And I attach the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory to "uploaded_data[]"
-     And I press "Ausgewählte Medien hochladen und weiter…"
-     And I wait for the CSS element "#submit_to_3"
-     And I press "Einstellungen speichern und weiter…"
+     And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
+     And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
      |label    |value                       |
      |Titel    |into the set after uploading|
@@ -71,13 +61,8 @@ Feature: Do things to and with sets
   @javascript
   Scenario: Use a URL in a set description and expect it to turn into a link
     When I log in as "helmi" with password "saumagen"
-     And I go to the home page
-     And I follow "Hochladen"
-     And I follow "Basic Uploader"
-     And I attach the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory to "uploaded_data[]"
-     And I press "Ausgewählte Medien hochladen und weiter…"
-     And I wait for the CSS element "#submit_to_3"
-     And I press "Einstellungen speichern und weiter…"
+     And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
+     And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
      |label    |value                       |
      |Titel    |Link test|

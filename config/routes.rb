@@ -207,7 +207,6 @@ MAdeK::Application.routes.draw do
       put :permissions, :to => "permissions#update_multiple"
       post :set_media_sets
       get :import_summary
-      post :estimation
     end
   end
   

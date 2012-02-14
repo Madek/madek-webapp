@@ -9,10 +9,13 @@ module NavigationHelpers
     case page_name
 
     when /the home\s?page/
-      '/'
+      root_path
 
     when /the media entries/
-      '/resources'
+      resources_path
+      
+    when /the upload edit/
+      edit_upload_path
       
     when /^the wiki$/
       '/wiki'
