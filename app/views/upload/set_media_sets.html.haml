@@ -1,25 +1,22 @@
-.container_12.clearfix
-  %section#content_body.clearfix
-    = render :partial => "steps"
-    #upload-main{:style => "margin-top: 2em;"}
-      .clearfix{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
-        %ul.items{:style => "margin: 0; min-height: 10em;"}
-          - @media_entries.each do |media_entry|
-            %li
-              = thumb_for(media_entry, :small)
-              %br
-              = media_entry.meta_data.get_value_for("title")
-        =link_to _("Weiter ohne Hinzufügen zu einem Set…"), root_path, :class => "upload_buttons"
-        =link_to _("Weiter…"), root_path, :class => "upload_buttons continue", :style => "display: none;"
-        =link_to _("Einträge zu einem Set hinzufügen"), "", :title => "Zu einem Set hinzufügen/entfernen",:class => "upload_buttons has-set-widget",
-        :"data-selected_ids" => "",
-        :"data-user" => "#{current_user.to_json(:only => {}, :methods => :name)}",
-        :"data-after_submit" => 'window.setTimeout(function(){$(target).data("widget").remove(); $(target).remove(); $(".upload_buttons").hide(); $(".upload_buttons.continue").show(); $("#modal_overlay").remove();}, 400);',
-        :"data-index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "with" => {"media_set" => {"creator" => 1, "created_at" => 1, "title" => 1}}}}.to_json}",
-        :"data-linked_index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "child_ids" => ":selected_ids", "with" => {"media_set" => {"media_entries" => 1, "child_sets" => 1}}}}.to_json}",
-        :"data-create" => "#{{"path" => "/media_sets", "method" => "POST", "data" => {"media_sets" => ":created_items"}, "created_item" => {"meta_data_attributes" => {0 => {"meta_key_id" => "3", "value" => ":title"}}}}.to_json}",
-        :"data-link" => "#{{"path" => "/media_entries/media_sets", "method" => "POST", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_entry_ids" => ":media_entry_ids"}}.to_json}",
-        :"data-unlink" => "#{{"path" => "/media_entries/media_sets", "method" => "DELETE", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_entry_ids" => ":media_entry_ids"}}.to_json}"
+#upload-main{:style => "margin-top: 2em;"}
+  .clearfix{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
+    %ul.items{:style => "margin: 0; min-height: 10em;"}
+      - @media_entries.each do |media_entry|
+        %li
+          = thumb_for(media_entry, :small)
+          %br
+          = media_entry.meta_data.get_value_for("title")
+    =link_to _("Weiter ohne Hinzufügen zu einem Set…"), root_path, :class => "upload_buttons"
+    =link_to _("Weiter…"), root_path, :class => "upload_buttons continue", :style => "display: none;"
+    =link_to _("Einträge zu einem Set hinzufügen"), "", :title => "Zu einem Set hinzufügen/entfernen",:class => "upload_buttons has-set-widget",
+    :"data-selected_ids" => "",
+    :"data-user" => "#{current_user.to_json(:only => {}, :methods => :name)}",
+    :"data-after_submit" => 'window.setTimeout(function(){$(target).data("widget").remove(); $(target).remove(); $(".upload_buttons").hide(); $(".upload_buttons.continue").show(); $("#modal_overlay").remove();}, 400);',
+    :"data-index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "with" => {"media_set" => {"creator" => 1, "created_at" => 1, "title" => 1}}}}.to_json}",
+    :"data-linked_index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "child_ids" => ":selected_ids", "with" => {"media_set" => {"media_entries" => 1, "child_sets" => 1}}}}.to_json}",
+    :"data-create" => "#{{"path" => "/media_sets", "method" => "POST", "data" => {"media_sets" => ":created_items"}, "created_item" => {"meta_data_attributes" => {0 => {"meta_key_id" => "3", "value" => ":title"}}}}.to_json}",
+    :"data-link" => "#{{"path" => "/media_entries/media_sets", "method" => "POST", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_entry_ids" => ":media_entry_ids"}}.to_json}",
+    :"data-unlink" => "#{{"path" => "/media_entries/media_sets", "method" => "DELETE", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_entry_ids" => ":media_entry_ids"}}.to_json}"
 
 :javascript
   $(document).ready(function () {

@@ -1,7 +1,9 @@
 # -*- encoding : utf-8 -*-
 class UploadController < ApplicationController
 
-  before_filter :only => [:show, :permissions, :edit, :update, :set_media_sets, :import_summary, :destroy] do
+  layout "upload"
+
+  before_filter :only => [:show, :permissions, :edit, :update, :import_summary, :destroy] do
     @media_entries = current_user.incomplete_media_entries
   end
 
