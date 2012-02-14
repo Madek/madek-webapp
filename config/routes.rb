@@ -41,10 +41,7 @@ MAdeK::Application.routes.draw do
   match '/nagiosstat', :to => Nagiosstat
 
 
-
-
   resources :media_entry_incompletes
-  resources :userpermissions
 
 ###############################################
 #NOTE first media_entries and then media_sets
