@@ -10,11 +10,6 @@ FactoryGirl.define do
                                              :tempfile=> File.new(f, "r"),
                                              :filename=> File.basename(f))
     end
-
-    view {FactoryHelper.rand_bool 1/10.0}
-    download { view and FactoryHelper.rand_bool}
-    edit {FactoryHelper.rand_bool 1/10.0}
-    manage {edit and FactoryHelper.rand_bool}
   end
 
 end

@@ -73,17 +73,6 @@ FactoryGirl.define do
   factory :media_set_arc , :class => MediaSetArc do
   end
 
-  factory :media_entry do
-    user {User.find_random || (FactoryGirl.create :user)}
-    media_file {FactoryGirl.create :media_file}
-
-    view {FactoryHelper.rand_bool 1/10.0}
-    download { view and FactoryHelper.rand_bool}
-    edit {FactoryHelper.rand_bool 1/10.0}
-    manage {edit and FactoryHelper.rand_bool}
-  end
-
-
   factory :media_file  do 
     uploaded_data  {
       f = "#{Rails.root}/features/data/images/berlin_wall_01.jpg"
@@ -93,25 +82,6 @@ FactoryGirl.define do
     } 
   end
 
-  factory :media_resource do
-    user {User.find_random || (FactoryGirl.create :user)}
-
-    view {FactoryHelper.rand_bool 1/10.0}
-    download { view and FactoryHelper.rand_bool}
-    edit {FactoryHelper.rand_bool 1/10.0}
-    manage {edit and FactoryHelper.rand_bool}
-  end
-
-  factory :media_set do
-
-    user {User.find_random || (FactoryGirl.create :user)}
-
-    view {FactoryHelper.rand_bool 1/10.0}
-    download { view and FactoryHelper.rand_bool}
-    edit {FactoryHelper.rand_bool 1/10.0}
-    manage {edit and FactoryHelper.rand_bool}
-    
-  end
 
   ### Permissions ...
 
