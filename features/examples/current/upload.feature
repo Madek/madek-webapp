@@ -6,6 +6,11 @@ Feature: Upload
   I want to upload files to the system
   So that I can share my files with everyone
 
+  Background: Load the example data and personas
+	Given I have set up the world
+      And personas are loaded
+      And I am "Normin"
+
   # https://www.pivotaltracker.com/story/show/24559407 -> Zugriffsberechtigungen beim Upload: Gleich wie bei Medieneintrag editieren
   @committed
   Scenario: Setting permissions during upload
