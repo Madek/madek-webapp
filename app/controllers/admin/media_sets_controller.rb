@@ -1,7 +1,13 @@
 # -*- encoding : utf-8 -*-
 class Admin::MediaSetsController < Admin::AdminController
   
-  before_filter :pre_load
+  before_filter do
+    unless (params[:media_set_id] ||= params[:id]).blank?
+      @set = MediaSet.find(params[:media_set_id])
+    end
+  end
+
+#####################################################
 
   def index
     @sets = MediaSet.all
@@ -58,16 +64,6 @@ class Admin::MediaSetsController < Admin::AdminController
       @featured_set_id = AppSettings.featured_set_id
       @splashscreen_slideshow_set_id = AppSettings.splashscreen_slideshow_set_id
       @media_sets = MediaSet.where(:view => true)
-    end
-  end
-
-#####################################################
-
-  private
-
-  def pre_load
-    unless (params[:media_set_id] ||= params[:id]).blank?
-      @set = MediaSet.find(params[:media_set_id])
     end
   end
   

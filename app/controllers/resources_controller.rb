@@ -2,7 +2,17 @@
 class ResourcesController < ApplicationController
 
   # TODO cancan # load_resource #:class => "MediaResource"
-  before_filter :pre_load, :except => [:index, :filter]
+  before_filter :except => [:index, :filter] do
+    begin
+      unless (params[:media_resource_id] ||= params[:id] || params[:media_resource_ids]).blank?
+        @media_resource = MediaResource.accessible_by_user(current_user).find(params[:media_resource_id])
+      end
+    rescue
+      not_authorized!
+    end
+  end
+
+###################################################################################
 
   def index
     resources = if params[:type] == "media_sets"
@@ -149,17 +159,5 @@ class ResourcesController < ApplicationController
       send_data output, :type => "image/png", :disposition => 'inline'
     end
   end  
-
-###################################################################################
-
-  def pre_load
-    begin
-      unless (params[:media_resource_id] ||= params[:id] || params[:media_resource_ids]).blank?
-        @media_resource = MediaResource.accessible_by_user(current_user).find(params[:media_resource_id])
-      end
-    rescue
-      not_authorized!
-    end
-  end
 
 end

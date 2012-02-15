@@ -37,7 +37,7 @@ describe Person do
   it "should leave the casing alone even when using a person in a meta data field" do
     user = FactoryGirl.create(:user)
     me = FactoryGirl.create(:media_entry)
-    h = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("author").id, :value => "Van Den Berg, Hans-Friedrich"}}}
+    h = {:meta_data_attributes => {0 => {:meta_key_label => "author", :value => "Van Den Berg, Hans-Friedrich"}}}
     me.reload.update_attributes(h, user)
     me.reload.meta_data.get_value_for("author").should == "Van Den Berg, Hans-Friedrich"
     me.reload.meta_data.get_value_for("author").should_not == "Van den berg, Hans-friedrich"

@@ -77,6 +77,11 @@ Given /^I log in as "(\w+)" with password "(\w+)"$/ do |username, password|
   fill_in "password", :with => password
   click_link_or_button "Log in"
   page.should_not have_content "Invalid username/password"
+  
+  # NOTE needed for "upload_some_picture" method # TODO merge with "I am logged in as ..." step
+  crypted_password = Digest::SHA1.hexdigest(password)
+  @current_user = User.where(:login => username, :password => crypted_password).first
+  @current_user.should_not be_nil
 end
 
 # Gives you a user object
@@ -112,14 +117,7 @@ end
 
 Given /^a entry titled "(.+)" created by "(.+)" exists$/ do |title, username|
   user = User.where(:login => username).first
-  f = "#{Rails.root}/features/data/images/berlin_wall_01.jpg"
-  uploaded_data = ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
-                                                         :tempfile=> File.new(f, "r"),
-                                                         :filename=> File.basename(f))
-  entry = user.incomplete_media_entries.create(:uploaded_data => uploaded_data)
-  h = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
-  entry.reload.update_attributes(h, user)
-  entry.set_as_complete
+  mock_media_entry(user, title)
 end
 
 Given /^the last entry is child of the (.+) set/ do |offset|
@@ -223,13 +221,6 @@ When "I fill in the metadata form as follows:" do |table|
     end
 
   end
-end
-
-
-When /^(?:|I )attach the file "([^"]*)" relative to the Rails directory to "([^"]*)"(?: within "([^"]*)")?$/ do |path, field, selector|
-  path = Rails.root + path
-  within_string = selector.blank? ? "" : " within \"#{selector}\""
-  step "I attach the file \"#{path}\" to \"#{field}\"" + within_string
 end
 
 # Can use "user" or "group" field name

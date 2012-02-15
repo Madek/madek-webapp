@@ -13,6 +13,7 @@ Feature: Batch edit selection
     Given I am "Normin"
       And I am on the homepage
      When I click the mediaset titled "Konzepte"
+      And I use batch's deselect all
       And I use batch's select all
      Then I should see that all visible resources are in my batch bar
     

@@ -1,8 +1,17 @@
 # -*- encoding : utf-8 -*-
 class SnapshotsController < ApplicationController
 
-  before_filter :pre_load
-  before_filter :group_required
+  before_filter do
+    # OPTIMIZE
+    unless current_user.groups.is_member?("MIZ-Archiv")
+      flash[:error] = "The function you wish to use is only available to archivist users"
+      redirect_to root_path
+    else
+      @snapshot = Snapshot.find(params[:id]) unless params[:id].blank?
+    end
+  end
+
+###########################################################
 
   def index
     @snapshots = Snapshot.all
@@ -72,22 +81,6 @@ class SnapshotsController < ApplicationController
       flash[:error] = "There was a problem creating the files(s) for export"
       redirect_to snapshots_path # TODO correct redirect path.
     end
-  end
-
-###########################################################
-
-  private
-
-  def group_required
-    # OPTIMIZE
-    unless current_user.groups.is_member?("MIZ-Archiv")
-      flash[:error] = "The function you wish to use is only available to archivist users"
-      redirect_to root_path
-    end
-  end
-
-  def pre_load
-    @snapshot = Snapshot.find(params[:id]) unless params[:id].blank?
   end
 
 end

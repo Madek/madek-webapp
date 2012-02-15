@@ -1,9 +1,29 @@
 # -*- encoding : utf-8 -*-
 class MetaDataController < ApplicationController
 
-  before_filter :pre_load
-
   layout "meta_data"
+
+  before_filter do
+    unless (params[:media_resource_id] ||= params[:media_entry_id] || params[:media_set_id] || params[:snapshot_id]).blank?
+      action = case request[:action].to_sym
+        when :index, :objective
+          :view
+        when :edit, :update, :edit_multiple, :update_multiple
+          :edit
+      end
+      
+      begin
+        @resource = MediaResource.accessible_by_user(current_user, action).find(params[:media_resource_id])
+      rescue
+        not_authorized!
+      end
+    end
+    
+    @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
+    @context ||= MetaContext.core
+  end
+
+#################################################################
 
   def index
     @meta_data = @resource.meta_data_for_context(@context, false)
@@ -41,30 +61,6 @@ class MetaDataController < ApplicationController
         end
       }
     end
-  end
-
-#################################################################
-
-  private
-
-  def pre_load
-    unless (params[:media_resource_id] ||= params[:media_entry_id] || params[:media_set_id] || params[:snapshot_id]).blank?
-      action = case request[:action].to_sym
-        when :index, :objective
-          :view
-        when :edit, :update, :edit_multiple, :update_multiple
-          :edit
-      end
-      
-      begin
-        @resource = MediaResource.accessible_by_user(current_user, action).find(params[:media_resource_id])
-      rescue
-        not_authorized!
-      end
-    end
-    
-    @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
-    @context ||= MetaContext.core
   end
 
 end

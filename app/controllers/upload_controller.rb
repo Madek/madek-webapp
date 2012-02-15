@@ -1,37 +1,31 @@
 # -*- encoding : utf-8 -*-
 class UploadController < ApplicationController
 
-  before_filter :pre_load, :only => [:show, :set_permissions, :edit, :update, :set_media_sets, :import_summary, :destroy]
+  layout "upload"
+
+  before_filter :only => [:show, :permissions, :edit, :update, :import_summary, :destroy] do
+    @media_entries = current_user.incomplete_media_entries
+  end
 
 ##################################################
 # step 1
-
-  def new
-  end
-
-  def estimation
-    respond_to do |format|
-      format.js { render :status => 200 }
-    end
-  end
 
   def show
   end
     
   def create
-    files = if !params[:uploaded_data].blank?
-      params[:uploaded_data]
-    elsif !params[:import_path].blank?
+    files = if params[:file]
+      Array(params[:file])
+    elsif params[:import_path]
       Dir.glob(File.join(params[:import_path], '**', '*')).select {|x| not File.directory?(x) }
     elsif params[:read_dropbox]
-      # TODO create dropbox for user with permissions
       Dir.glob(File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir, '**', '*')).select {|x| not File.directory?(x) }
     else
       raise "No files to import!"
     end
 
     files.each do |f|
-      uploaded_data = if params[:uploaded_data]
+      uploaded_data = if params[:file]
         f
       else
         ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
@@ -69,43 +63,17 @@ class UploadController < ApplicationController
 
   end
 
-##################################################
-# step 2
-
-  # TODO dry with PermissionsController#update_multiple
-  def set_permissions
-    default_params = {:view => false, :edit => false, :download => false}
-    params.reverse_merge!(default_params)
-
-    view_action, edit_action, download_action = case params[:view].to_sym
-                                  when :private
-                                    [default_params[:view], default_params[:edit], default_params[:download]]
-                                  when :public
-                                    [true, !!params[:edit], true]
-                                  else
-                                    [default_params[:view], default_params[:edit], default_params[:download]]
-                                end
-    
-    @media_entries.each do |media_entry|
-      media_entry.download = download_action
-      media_entry.edit = edit_action
-      media_entry.view = view_action
+  #working here#
+  def dropbox_dir
+    # TODO create dropbox for user with permissions
+    respond_to do |format|
+      format.js { render :json => {:dropbox_dir => current_user.dropbox_dir} }
     end
-
-    if params[:view].to_sym == :zhdk_users
-      zhdk_group = Group.where(:name => "ZHdK (Zürcher Hochschule der Künste)").first
-      view_action, edit_action, download_action = [true, !!params[:edit], true]
-      @media_entries.each do |media_entry|
-        p = media_entry.grouppermissions.where(:group_id => zhdk_group.id).first
-        p ||= media_entry.grouppermissions.build(:group => zhdk_group)
-        p.update_attributes(:view => view_action, :edit => edit_action, :download => download_action)
-      end
-    end
-
-    edit
-    render :action => :edit
   end
 
+##################################################
+# step 2
+# NOTE get permissions_upload_path
 
 ##################################################
 # step 3
@@ -165,8 +133,5 @@ class UploadController < ApplicationController
 
   private
   
-  def pre_load
-    @media_entries = current_user.incomplete_media_entries
-  end
 
 end

@@ -32,7 +32,6 @@
     %th
       %span#total_size= @media_entries ? number_with_delimiter((@media_entries.collect(&:media_file).collect(&:size).sum / 1024).to_i, :delimiter => "'") : 0
       KB
-      %span#upload_estimation_time
     %th
       %span.upload_step_2
         %span#uploaded_files= @media_entries ? @media_entries.size : 0

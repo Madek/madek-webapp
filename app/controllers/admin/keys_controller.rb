@@ -1,7 +1,13 @@
 # -*- encoding : utf-8 -*-
 class Admin::KeysController < Admin::AdminController # TODO rename to Admin::MetaKeysController ??
 
-  before_filter :pre_load
+  before_filter do
+    unless (params[:key_id] ||= params[:id]).blank?
+      @key = MetaKey.find(params[:key_id])
+    end
+  end
+
+#####################################################
 
   def index
     @keys = MetaKey.order(:label)
@@ -72,16 +78,6 @@ class Admin::KeysController < Admin::AdminController # TODO rename to Admin::Met
     respond_to do |format|
       format.html
       format.js { render :layout => false }
-    end
-  end
-
-#####################################################
-
-  private
-
-  def pre_load
-    unless (params[:key_id] ||= params[:id]).blank?
-      @key = MetaKey.find(params[:key_id])
     end
   end
 

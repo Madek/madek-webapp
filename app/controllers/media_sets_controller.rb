@@ -1,7 +1,27 @@
 # -*- encoding : utf-8 -*-
 class MediaSetsController < ApplicationController
 
-  before_filter :pre_load
+  before_filter do
+      @user = User.find(params[:user_id]) unless params[:user_id].blank?
+      @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
+      
+      unless (params[:media_set_id] ||= params[:id] ||= params[:media_set_ids]).blank?
+        action = case request[:action].to_sym
+          when :show, :browse, :abstract, :inheritable_contexts, :parents
+            :view
+          when :edit, :update, :add_member, :destroy
+            :edit
+        end
+
+        begin
+          @media_set = (@user? @user.media_sets : MediaSet).accessible_by_user(current_user, action).find(params[:media_set_id])
+        rescue
+          not_authorized!
+        end
+      end
+  end
+
+#####################################################
 
   ##
   # Get media sets
@@ -337,28 +357,4 @@ class MediaSetsController < ApplicationController
     end
   end
   
-#####################################################
-
-  private
-
-  def pre_load
-      @user = User.find(params[:user_id]) unless params[:user_id].blank?
-      @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
-      
-      unless (params[:media_set_id] ||= params[:id] ||= params[:media_set_ids]).blank?
-        action = case request[:action].to_sym
-          when :show, :browse, :abstract, :inheritable_contexts, :parents
-            :view
-          when :edit, :update, :add_member, :destroy
-            :edit
-        end
-
-        begin
-          @media_set = (@user? @user.media_sets : MediaSet).accessible_by_user(current_user, action).find(params[:media_set_id])
-        rescue
-          not_authorized!
-        end
-      end
-  end
-
 end

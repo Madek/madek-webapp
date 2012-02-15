@@ -1,7 +1,13 @@
 # -*- encoding : utf-8 -*-
 class Admin::GroupsController < Admin::AdminController
 
-  before_filter :pre_load
+  before_filter do
+    unless (params[:group_id] ||= params[:id]).blank?
+      @group = Group.find(params[:group_id])
+    end
+  end
+
+#####################################################
 
   def index
     @groups = Group.all
@@ -36,16 +42,6 @@ class Admin::GroupsController < Admin::AdminController
   def destroy
     @group.destroy if @group.users.empty?
     redirect_to admin_groups_path
-  end
-
-#####################################################
-
-  private
-
-  def pre_load
-    unless (params[:group_id] ||= params[:id]).blank?
-      @group = Group.find(params[:group_id])
-    end
   end
 
 end

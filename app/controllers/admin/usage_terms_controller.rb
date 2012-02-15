@@ -1,7 +1,11 @@
 # -*- encoding : utf-8 -*-
 class Admin::UsageTermsController < Admin::AdminController
 
-  before_filter :pre_load
+  before_filter do
+    @usage_term = UsageTerm.current
+  end
+
+#####################################################
 
   def show
   end
@@ -13,15 +17,6 @@ class Admin::UsageTermsController < Admin::AdminController
     @usage_term.update_attributes(params[:usage_term])
     current_user.usage_terms_accepted!
     redirect_to :action => :show
-  end
-
-
-#####################################################
-
-  private
-
-  def pre_load
-      @usage_term = UsageTerm.current
   end
 
 end

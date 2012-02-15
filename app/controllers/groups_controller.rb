@@ -1,7 +1,13 @@
 # -*- encoding : utf-8 -*-
 class GroupsController < ApplicationController
 
-  before_filter :pre_load
+  before_filter do
+    unless (params[:group_id] ||= params[:id]).blank?
+      @group = current_user.groups.find(params[:group_id])
+    end
+  end
+
+######################################################
   
   def index
     # OPTIMIZE
@@ -72,16 +78,6 @@ class GroupsController < ApplicationController
       respond_to do |format|
         format.js { render :nothing => true } # TODO check if successfully deleted
       end
-    end
-  end
-
-######################################################
-
-  private
-
-  def pre_load
-    unless (params[:group_id] ||= params[:id]).blank?
-      @group = current_user.groups.find(params[:group_id])
     end
   end
 

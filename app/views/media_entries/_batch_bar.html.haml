@@ -15,7 +15,7 @@
     %li#batch-edit.action_btn
       = button_to _("Metadaten editieren"), edit_multiple_media_entries_path, :method => :post
     %li#batch-permissions.action_btn
-      = button_to _("Zugriffsberechtigungen editieren"), edit_multiple_permissions_media_entries_path, :method => :post
+      = button_to _("Zugriffsberechtigungen editieren"), edit_multiple_media_entry_permissions_path(0), :method => :post
     %li.seperator.edit
     %li#batch-add-to-set.action_btn
       -# FIXME: The request for the linked index (scoped index trough selected elements) is causing an errors when there are mor then ca. 50 ids (ERROR: "The Requested URI is to large") 
