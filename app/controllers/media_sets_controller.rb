@@ -103,8 +103,6 @@ class MediaSetsController < ApplicationController
 
         render :json => sets.as_json(:current_user => current_user, :with => with, :with_thumb => false) # TODO drop with_thum merge with with
       }
-
-      
     end
   end
 
@@ -135,7 +133,6 @@ class MediaSetsController < ApplicationController
   # @response_field [Integer] media_entries[].id The id of a media entry
   #
   def show(thumb = params[:thumb], with = params[:with])
-    @media_set = MediaSet.find params[:id]
     respond_to do |format|
       format.html {
         params[:per_page] ||= PER_PAGE.first
@@ -151,12 +148,15 @@ class MediaSetsController < ApplicationController
                                             :total_pages => resources.total_pages },
                            :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
       }
+      
+      format.json {
+        render :json => @media_set.as_json(:with => with, :current_user =>current_user)
+      }
 
-      puts "############\nWITH #{with}\n##############"
-
-      @media_entries = @media_set.media_entries.accessible_by_user(current_user)
-
-      format.json # { render :json => @media_set.as_json(:with => with, :current_user =>current_user) }
+      # TODO disable the above and enable blow for json emplated rendering 
+      # @media_entries = @media_set.media_entries.accessible_by_user(current_user)
+      # @media_set = MediaSet.find params[:id]
+      # format.json 
 
     end
   end

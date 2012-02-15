@@ -3,7 +3,6 @@ source 'http://gems.github.com'
 
 gem 'rails', '3.1.3'
 gem 'builder', '~> 3.0'   
-gem 'jbuilder'
 gem 'rabl'
 gem 'i18n' # Need this explicitly, otherwise can't deploy
 
