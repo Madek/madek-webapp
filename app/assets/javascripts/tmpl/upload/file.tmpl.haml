@@ -1,0 +1,12 @@
+%li.plupload_dropbox
+  .plupload_file_name
+    %span
+      ${filename}
+      = "(Dropbox)"
+  .plupload_file_action
+    %a{:href => "#", :style => "display: block;"}
+  .plupload_file_status= "0%"
+  .plupload_file_size
+    ${Number(size/1024).toFixed()} KB
+  .plupload_clearer
+  
