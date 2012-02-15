@@ -2525,7 +2525,30 @@ form#set_media_sets input[type="submit"] {
 
 #upload-container {
   
+  #upload_navigation {
+    display: block;
+    position:absolute;
+    width: 93%;
+    
+    .right {
+      float: right;
+    }
+  }
+  
+  .upload_buttons.disabled, .upload_buttons.disabled:hover, .plupload_disabled, .plupload_disabled:hover {
+    color: #737373;
+    border-color: #c5c5c5;
+    background: #ededed no-repeat 0 center;
+    cursor: default;
+  }
+  
   .upload_step_1 {
+    
+    #upload_navigation {
+      right: 40px;
+      width: 300px;
+      z-index: 1001;
+    }
     
     #upload_form {
       position: relative;
@@ -2569,11 +2592,7 @@ form#set_media_sets input[type="submit"] {
     }    
   }
   
-	a {
-	  text-decoration: underline;
-	}
-	
-	.upload_buttons:hover {
+	.upload_buttons:not(.plupload_disabled):not(.disabled):hover {
 	  text-decoration: none;
 	  background: #e3e3e3;
 	}

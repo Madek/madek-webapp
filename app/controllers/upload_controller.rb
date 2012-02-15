@@ -11,6 +11,19 @@ class UploadController < ApplicationController
 # step 1
 
   def show
+    
+    respond_to do |format|
+      dropbox_files = Dir.glob(File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir, '**', '*')).select {|x| not File.directory?(x) }.
+                          map {|f| ActionDispatch::Http::UploadedFile.new(:tempfile=> File.new(f, "r"), :filename=> File.basename(f)) }
+      dropbox_files.map! {|f| {:filename => f.original_filename, :size => f.size}} 
+      @dropbox_files_json = dropbox_files.to_json
+      
+      format.html
+      
+      format.json {
+        render :json => dropbox_files
+      }
+    end
   end
     
   def create
@@ -18,8 +31,8 @@ class UploadController < ApplicationController
       Array(params[:file])
     elsif params[:import_path]
       Dir.glob(File.join(params[:import_path], '**', '*')).select {|x| not File.directory?(x) }
-    elsif params[:read_dropbox]
-      Dir.glob(File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir, '**', '*')).select {|x| not File.directory?(x) }
+    #elsif params[:read_dropbox]
+    #  Dir.glob(File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir, '**', '*')).select {|x| not File.directory?(x) }
     else
       raise "No files to import!"
     end
@@ -38,7 +51,7 @@ class UploadController < ApplicationController
       # If this is a path-based upload for e.g. video files, it's almost impossible that we've imported the title
       # correctly because some file formats don't give us that metadata. Let's overwrite with an auto-import default then.
       # TODO: We should get this information from a YAML/XML file that's uploaded with the media file itself instead.
-      unless params[:import_path].blank?
+     unless params[:import_path].blank?
         # TODO: Extract metadata from separate YAML file here, along with refactoring MediaEntry#process_metadata_blob and friends
         mandatory_key_ids = MetaKey.where(:label => ['title', 'copyright notice']).collect(&:id)
         if media_entry.meta_data.where(:meta_key_id => mandatory_key_ids).empty?

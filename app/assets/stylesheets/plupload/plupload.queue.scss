@@ -26,13 +26,6 @@
 	text-decoration: none;
 }
 
-.plupload_disabled, a.plupload_disabled:hover {
-    color: #737373;
-    border-color: #c5c5c5;
-    background: #ededed url('jquery.plupload.queue/buttons-disabled.png') no-repeat 0 center;
-	cursor: default;
-}
-
 .plupload_add {
 	background-position: -181px center;
 }
@@ -47,7 +40,6 @@
 
 .plupload_container {
 	padding: 8px;
-	background: url('jquery.plupload.queue/transp50.png');
 	/*-moz-border-radius: 5px;*/
 }
 
@@ -147,7 +139,7 @@ li.plupload_uploading {background: #ECF3DC url('jquery.plupload.queue/background
 li.plupload_done {color:#AAA}
 
 li.plupload_delete a {
-	background: url('jquery.plupload.queue/delete.gif');
+	background: url('jquery.plupload.queue/delete.gif') no-repeat;
 }
 
 li.plupload_failed a {

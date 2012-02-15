@@ -1,5 +1,10 @@
 = javascript_include_tag "plupload/i18n/de.js"
 
+#upload_navigation
+  .right
+    %a.upload_buttons.next.disabled{:href => "#"}
+      = _("weiter...") 
+
 #uploader
 
 %p
@@ -10,11 +15,14 @@
 %p
   %strong= "Akzeptierte Dateiformate:"
   = "Bilder (TIFF, JPEG, PNG) sowie Audio- und Videofiles in den gängigsten Formaten werden direkt verarbeitet und dargestellt. Weitere Dateitypen (PDFs, PSDs, Webarchive) können ebenfalls hochgeladen werden, sind vorerst jedoch nur als ZIP-Datei verfügbar."
-
+  
 :coffeescript
+  
+  window.dropbox_files = #{@dropbox_files_json}
   
   jQuery ->
     
+    # initalize plupload uploader
     $("#uploader").pluploadQueue
       runtimes: 'html5,gears,flash,silverlight,browserplus'
       url: "#{upload_path(:format => :js)}"
@@ -24,6 +32,42 @@
     
     uploader = $("#uploader").pluploadQueue()
     
+    # reaction when an upload is complete
     uploader.bind "UploadComplete", (uploader) ->
-      console.log "UPLOAD COMPLETED"
       $("#uploader .plupload_progress").show()
+      $("#upload_navigation .next").removeClass("disabled")
+      
+    # remove wrapper title for upload container
+    $("#uploader_container").removeAttr("title")
+    
+    # reaction when a file was added
+    uploader.bind "FilesAdded", (uploader, files) ->
+    
+    # setup dropbox files list
+    if dropbox_files.length > 0
+      $("#uploader li.plupload_dropbox").remove()
+      $("#uploader .plupload_droptext").remove()
+      for file in dropbox_files
+        setup_dropbox_file file
+    
+    # load dropbox files with an interval
+    window.setInterval ->
+      $.ajax({
+        url: "upload"
+        success: (data, status, request) ->
+          dropbox_files = data
+          if data.length > 0
+            $("#uploader li.plupload_dropbox").remove()
+            $("#uploader .plupload_droptext").remove()
+            for file in data
+              setup_dropbox_file file
+        type: "GET"
+        data: format:"json"
+      })
+    , 5000
+  
+  setup_dropbox_file = (file)->
+    template = $.tmpl("tmpl/upload/file", file)
+    console.log template
+    $("#uploader #uploader_filelist").append template 
+    
