@@ -152,6 +152,12 @@ class MediaSetsController < ApplicationController
       format.json {
         render :json => @media_set.as_json(:with => with, :current_user =>current_user)
       }
+
+      # TODO disable the above and enable blow for json emplated rendering 
+      # @media_entries = @media_set.media_entries.accessible_by_user(current_user)
+      # @media_set = MediaSet.find params[:id]
+      # format.json 
+
     end
   end
 

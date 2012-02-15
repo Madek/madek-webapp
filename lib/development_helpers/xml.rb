@@ -18,7 +18,6 @@ module DevelopmentHelpers
       , previews: :Preview \
       , usage_terms: :UsageTerm \
       , edit_sessions: :EditSession \
-      , upload_sessions: :UploadSession \
       , wiki_pages: :WikiPage \
       , wiki_page_versions: :WikiPageVersion \
       , keywords: :Keyword \
@@ -140,6 +139,10 @@ module DevelopmentHelpers
         @current_model = model.new
       end
 
+      def new_relation name
+        @current_relation = {}
+      end
+
       def set_property name, value
         puts "set_property #{name} (size #{value.size}) to #{value}"
         #somehow this doesn't work
@@ -155,15 +158,29 @@ module DevelopmentHelpers
         @current_model=nil
       end
 
+      def insert_relation
+        names =  " ( #{@current_relation.keys.join(", ")} )".gsub /-/,"_"
+        values = " ( #{@current_relation.values.join(", ")} )"
+        sql = " INSERT INTO #{@current_table} #{names} VALUES #{values}; " 
+        puts sql
+        SQLHelper.execute_sql sql
+      end
+
       def start_element name, attrs = []
         #puts "starting: #{name}"
         @state_stack.push name
-        if @state_stack.size == 4 and @state_stack[1] == "data"
+        if @state_stack.size == 3
+          @current_table = name.gsub /-/, "_"
+        elsif @state_stack.size == 4 and @state_stack[1] == "data"
           _,_,table_name,model_name = @state_stack 
           #puts "new model element STATE #{@state_stack}"
           new_model table_name, model_name
         elsif @state_stack.size == 5 and @state_stack[1] == "data"
           puts "> property #{name} #{attrs}" 
+          @value = ""
+        elsif @state_stack.size == 4 and @state_stack[1] == "relations"
+          new_relation name
+        elsif @state_stack.size == 5 and @state_stack[1] == "relations"
           @value = ""
         end
 
@@ -179,6 +196,11 @@ module DevelopmentHelpers
         elsif @state_stack.size == 5 and @state_stack[1] == "data"
           _,_,table_name,model_name,property_name= @state_stack 
           set_property property_name.gsub("-","_"), @value
+        elsif  @state_stack.size == 4 and @state_stack[1] == "relations"
+          puts "CREATE RELATION #{@current_table}: #{@current_relation}"
+          insert_relation
+        elsif  @state_stack.size == 5 and @state_stack[1] == "relations"
+          @current_relation[name] = @value
         end
         @state_stack.pop
       end
@@ -192,7 +214,7 @@ module DevelopmentHelpers
       ActiveRecord::Base.transaction do
         parser = Nokogiri::XML::SAX::Parser.new(MadekXmlDoc.new)
         parser.parse(source)
-        raise "don't import just yet"
+        #raise "don't import just yet"
       end
     end
 
