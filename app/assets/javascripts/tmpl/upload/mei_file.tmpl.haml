@@ -1,12 +1,13 @@
-%li.plupload_dropbox
+%li.plupload_dropbox.plupload_done
   .plupload_file_name
     %span
-      ${filename}
-      = "(Dropbox)"
+      ${file_name}
   .plupload_file_action
     %a{:href => "#", :style => "display: block;"}
-  .plupload_file_status= "0%"
+  .plupload_file_status= "100%"
   .plupload_file_size
     ${Number(size/1024).toFixed()} KB
+  .plupload_location
+    = "bereits übertragen"
   .plupload_clearer
   
