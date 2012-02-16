@@ -1,8 +1,17 @@
 #upload {
   
+  #upload-container {
+    z-index: 1;
+    
+    p {
+      margin-bottom: 18px;
+    }
+  }
+  
   #upload_navigation {
     left: 38px;
-    width: 900px;
+    width: 872px;
+    position: relative;
     z-index: 10001;
   }
   

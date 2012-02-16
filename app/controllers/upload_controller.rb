@@ -14,7 +14,9 @@ class UploadController < ApplicationController
     dropbox_files = unless AppSettings.dropbox_root_dir
       []
     else
-      user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir)
+      user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name)
+      @dropbox_exists = File.directory?(user_dropbox_root_dir)
+      @dropbox_info = dropbox_info 
       Dir.glob(File.join(user_dropbox_root_dir, '**', '*')).
                   select {|x| not File.directory?(x) }.
                   map {|f| {:dirname=> File.dirname(f).gsub(user_dropbox_root_dir, ''),
@@ -36,7 +38,7 @@ class UploadController < ApplicationController
     files = if params[:file]
       Array(params[:file])
     elsif params[:dropbox_file]
-      user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir)
+      user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name)
       Array(Dir.glob(File.join(user_dropbox_root_dir, '**', '*')).detect {|x| File.path(x) == File.join(user_dropbox_root_dir, params[:dropbox_file][:dirname], params[:dropbox_file][:filename]) })
     elsif params[:import_path]
       Dir.glob(File.join(params[:import_path], '**', '*')).select {|x| not File.directory?(x) }
@@ -92,14 +94,22 @@ class UploadController < ApplicationController
   def dropbox
     if request.post?
       if AppSettings.dropbox_root_dir
-        user_dropbox_root_dir = Dir.mkdir(File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir))
+        user_dropbox_root_dir = Dir.mkdir(File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name))
       else
         raise "The dropbox root directory is not yet defined. Contact the administrator."
       end
     end
     respond_to do |format|
-      format.js { render :json => {:dropbox => {:dir => current_user.dropbox_dir} } }
+      format.json { render :json => dropbox_info }
     end
+  end
+  
+  # NOTE helper method
+  def dropbox_info
+    {:ftp_dropbox => { :server => AppSettings.ftp_dropbox_server,
+                       :login => AppSettings.ftp_dropbox_login,
+                       :password => AppSettings.ftp_dropbox_password,
+                       :dir_name => current_user.dropbox_dir_name} }
   end
 
 ##################################################
