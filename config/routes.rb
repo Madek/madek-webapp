@@ -206,6 +206,8 @@ MAdeK::Application.routes.draw do
       get :set_media_sets
       get :import_summary
       put :complete
+      get :dropbox
+      post :dropbox
     end
   end
   

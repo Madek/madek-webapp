@@ -11,12 +11,16 @@ class UploadController < ApplicationController
 # step 1
 
   def show
-    user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir)
-    dropbox_files = Dir.glob(File.join(user_dropbox_root_dir, '**', '*')).
-                      select {|x| not File.directory?(x) }.
-                      map {|f| {:dirname=> File.dirname(f).gsub(user_dropbox_root_dir, ''),
-                                :filename=> File.basename(f),
-                                :size => File.size(f) } }
+    dropbox_files = unless AppSettings.dropbox_root_dir
+      []
+    else
+      user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir)
+      Dir.glob(File.join(user_dropbox_root_dir, '**', '*')).
+                  select {|x| not File.directory?(x) }.
+                  map {|f| {:dirname=> File.dirname(f).gsub(user_dropbox_root_dir, ''),
+                            :filename=> File.basename(f),
+                            :size => File.size(f) } }
+    end
     
     respond_to do |format|
       format.html {
@@ -85,11 +89,16 @@ class UploadController < ApplicationController
 
   end
 
-  #working here#
-  def dropbox_dir
-    # TODO create dropbox for user with permissions
+  def dropbox
+    if request.post?
+      if AppSettings.dropbox_root_dir
+        user_dropbox_root_dir = Dir.mkdir(File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir))
+      else
+        raise "The dropbox root directory is not yet defined. Contact the administrator."
+      end
+    end
     respond_to do |format|
-      format.js { render :json => {:dropbox_dir => current_user.dropbox_dir} }
+      format.js { render :json => {:dropbox => {:dir => current_user.dropbox_dir} } }
     end
   end
 

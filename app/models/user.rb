@@ -67,11 +67,11 @@ class User < ActiveRecord::Base
   end
 
   def dropbox_dir
-    if new_record?
-      raise "The user record has to be persistent."
-    else
+    if persisted?
       sha = Digest::SHA1.hexdigest("#{id}#{created_at}")
       "#{id}_#{sha}"    
+    else
+      raise "The user record has to be persisted."
     end
   end
 
