@@ -165,12 +165,17 @@ class DownloadController < ApplicationController
   
   def send_original_file
     # Provide a copy of the original file, not updated or nuffin'
-    path = @media_entry.media_file.file_storage_location
-    send_file(path,
-              :filename => @filename,
-              :type          =>  @content_type,
-              :disposition  =>  'attachment',
-              :x_sendfile => true)
+    path = @media_entry.media_file.file_storage_location.to_s
+    path = Pathname.new(path)
+
+    #send_file(path,
+    #           :filename => @filename,
+    #           :type          =>  @content_type,
+    #           :disposition  =>  'attachment')
+    fixed_send_file(path,
+               :filename => @filename,
+               :type          =>  @content_type,
+               :disposition  =>  'attachment')
   end
   
   def send_multimedia_preview
@@ -179,6 +184,17 @@ class DownloadController < ApplicationController
           :type          =>  @content_type,
           :disposition  =>  'attachment',
           :x_sendfile => true)
+  end
+
+  # send_file() as above seems to be broken in Rails 3.1.3 and onwards?
+  # The Rack::Sendfile#call method never seems to receive a body that respons to :to_path, even though it SHOULD,
+  # therefore Sendfile is never triggered (!!), that's why we need this hacked Sendfile header implementation
+  def fixed_send_file(path, options = {})
+    headers["Content-Type"] = options[:type]
+    headers["Content-Disposition"] = "attachment; filename=\"#{options[:filename]}\""
+    headers["X-Sendfile"] = path.to_s
+    headers["Content-Length"] = '0'
+    render :nothing => true
   end
   
 end # class
