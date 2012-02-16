@@ -23,8 +23,6 @@ class MediaEntryIncomplete < MediaEntry
   def set_as_complete
     becomes MediaEntry
     update_column(:type, type)
-    
-    # TODO remove file from dropbox
   end
 
 ########################################################

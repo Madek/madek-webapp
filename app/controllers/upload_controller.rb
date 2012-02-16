@@ -4,22 +4,24 @@ class UploadController < ApplicationController
   layout "upload"
 
   before_filter :only => [:show, :permissions, :edit, :update, :import_summary, :destroy] do
-    @media_entries = current_user.incomplete_media_entries
+    @media_entry_incompletes =  @media_entries = current_user.incomplete_media_entries
   end
 
 ##################################################
 # step 1
 
   def show
+    user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir)
+    dropbox_files = Dir.glob(File.join(user_dropbox_root_dir, '**', '*')).
+                      select {|x| not File.directory?(x) }.
+                      map {|f| {:dirname=> File.dirname(f).gsub(user_dropbox_root_dir, ''),
+                                :filename=> File.basename(f),
+                                :size => File.size(f) } }
     
     respond_to do |format|
-      dropbox_files = Dir.glob(File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir, '**', '*')).select {|x| not File.directory?(x) }.
-                          map {|f| ActionDispatch::Http::UploadedFile.new(:tempfile=> File.new(f, "r"), :filename=> File.basename(f)) }
-      dropbox_files.map! {|f| {:filename => f.original_filename, :size => f.size}} 
-      @dropbox_files_json = dropbox_files.to_json
-      
-      format.html
-      
+      format.html {
+        @dropbox_files_json = dropbox_files.to_json
+      }
       format.json {
         render :json => dropbox_files
       }
@@ -29,13 +31,15 @@ class UploadController < ApplicationController
   def create
     files = if params[:file]
       Array(params[:file])
+    elsif params[:dropbox_file]
+      user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir)
+      Array(Dir.glob(File.join(user_dropbox_root_dir, '**', '*')).detect {|x| File.path(x) == File.join(user_dropbox_root_dir, params[:dropbox_file][:dirname], params[:dropbox_file][:filename]) })
     elsif params[:import_path]
       Dir.glob(File.join(params[:import_path], '**', '*')).select {|x| not File.directory?(x) }
-    #elsif params[:read_dropbox]
-    #  Dir.glob(File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir, '**', '*')).select {|x| not File.directory?(x) }
     else
       raise "No files to import!"
     end
+
 
     files.each do |f|
       uploaded_data = if params[:file]
@@ -51,7 +55,7 @@ class UploadController < ApplicationController
       # If this is a path-based upload for e.g. video files, it's almost impossible that we've imported the title
       # correctly because some file formats don't give us that metadata. Let's overwrite with an auto-import default then.
       # TODO: We should get this information from a YAML/XML file that's uploaded with the media file itself instead.
-     unless params[:import_path].blank?
+      if params[:import_path]
         # TODO: Extract metadata from separate YAML file here, along with refactoring MediaEntry#process_metadata_blob and friends
         mandatory_key_ids = MetaKey.where(:label => ['title', 'copyright notice']).collect(&:id)
         if media_entry.meta_data.where(:meta_key_id => mandatory_key_ids).empty?
@@ -59,7 +63,10 @@ class UploadController < ApplicationController
             media_entry.meta_data.create(:meta_key_id => key_id, :value => 'Auto-created default during import')
           end
         end
+      elsif params[:dropbox_file]
+        File.delete(f)
       end
+
     end
 
       # TODO check if all media_entries successfully saved
@@ -68,10 +75,12 @@ class UploadController < ApplicationController
         if params[:import_path]
           redirect_to import_summary_upload_path
         else
+          # NOTE we need this for the Plupload html fallback
           redirect_to upload_path
         end
       }
-      format.js { render :json => {} }
+      format.js { render :json => {} } # NOTE this is used by Plupload
+      format.json { render :json => {"dropbox_file" => params[:dropbox_file] } }
     end
 
   end
@@ -110,14 +119,6 @@ class UploadController < ApplicationController
 
   def set_media_sets
     if request.post?
-      params[:media_set_ids].delete_if {|x| x.blank?}
-
-      media_entries = current_user.media_entries.find(params[:media_entry_ids])
-      media_sets = MediaSet.find_by_id_or_create_by_title(params[:media_set_ids], current_user)
-      media_sets.each do |media_set|
-        media_set.media_entries.push_uniq media_entries
-      end
-    
       redirect_to root_path
     end
   end
