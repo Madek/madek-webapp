@@ -203,8 +203,11 @@ MAdeK::Application.routes.draw do
     member do
       get :permissions, :to => "permissions#edit_multiple"
       put :permissions, :to => "permissions#update_multiple"
-      post :set_media_sets
+      get :set_media_sets
       get :import_summary
+      put :complete
+      get :dropbox
+      post :dropbox
     end
   end
   

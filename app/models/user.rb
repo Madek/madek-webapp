@@ -66,12 +66,12 @@ class User < ActiveRecord::Base
     write_attribute :email, (value ? value.downcase : nil)
   end
 
-  def dropbox_dir
-    if new_record?
-      raise "The user record has to be persistent."
-    else
+  def dropbox_dir_name
+    if persisted?
       sha = Digest::SHA1.hexdigest("#{id}#{created_at}")
       "#{id}_#{sha}"    
+    else
+      raise "The user record has to be persisted."
     end
   end
 

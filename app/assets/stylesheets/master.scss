@@ -2525,6 +2525,13 @@ form#set_media_sets input[type="submit"] {
 
 #upload-container {
   
+  .upload_buttons.disabled, .upload_buttons.disabled:hover, .plupload_disabled:not(.dropbox_enabled), .plupload_disabled:not(.dropbox_enabled):hover {
+    color: #737373;
+    border-color: #c5c5c5;
+    background: #ededed no-repeat 0 center;
+    cursor: default;
+  }
+  
   .upload_step_1 {
     
     #upload_form {
@@ -2569,11 +2576,7 @@ form#set_media_sets input[type="submit"] {
     }    
   }
   
-	a {
-	  text-decoration: underline;
-	}
-	
-	.upload_buttons:hover {
+	.upload_buttons:not(.plupload_disabled):not(.disabled):hover {
 	  text-decoration: none;
 	  background: #e3e3e3;
 	}

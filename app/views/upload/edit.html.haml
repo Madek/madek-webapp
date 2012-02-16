@@ -1,34 +1,4 @@
-:javascript
-  $(document).ready(function () {
-    activate_step(3);
-    $("#required_message").hide();
-    $("form").submit(function(event){
-      // OPTIMIZE nested form problem
-      if(this != event.target) return true;
-      var valid = true;
-      $(this).find("input[data-required]").each(function(){
-        if($(this).val() == "") valid = false;
-      });
-      if(!valid){
-      // doesn't work anymore ??!!
-      //if($(this).find("input[data-required][value='']").length > 0){
-        $("#ajaxLoading").hide();
-        $("#required_message").show();
-        return false;
-      }else{
-        $("#required_message").hide();
-      }
-    });
-    $("[data-meta_key] .with_actions > a").click(function(){
-      var value = $(this).closest("li").find("input.value").val();
-      var parent_container = $(this).closest("[data-meta_key]");
-      var target = $("[data-meta_key='"+ parent_container.attr('data-meta_key') +"']").not(parent_container).find("input.value");
-      target.val(value);
-      return false;
-    });
-  });
-
-#upload-container{:style => "margin-top: 2em;"}
+#upload-container
   .clearfix{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
     - with_actions = (@media_entries.size > 1)
     = form_tag upload_path, :method => :put do
@@ -58,3 +28,33 @@
         #required_message.grid_11.omega
           %p{:style => "float:right; color: red;"}
             = _("Bitte füllen Sie die Pflichtfelder aus (\"Titel\" und \"Copyright\").")
+
+
+:javascript
+  $(document).ready(function () {
+    $("#required_message").hide();
+    $("form").submit(function(event){
+      // OPTIMIZE nested form problem
+      if(this != event.target) return true;
+      var valid = true;
+      $(this).find("input[data-required]").each(function(){
+        if($(this).val() == "") valid = false;
+      });
+      if(!valid){
+      // doesn't work anymore ??!!
+      //if($(this).find("input[data-required][value='']").length > 0){
+        $("#ajaxLoading").hide();
+        $("#required_message").show();
+        return false;
+      }else{
+        $("#required_message").hide();
+      }
+    });
+    $("[data-meta_key] .with_actions > a").click(function(){
+      var value = $(this).closest("li").find("input.value").val();
+      var parent_container = $(this).closest("[data-meta_key]");
+      var target = $("[data-meta_key='"+ parent_container.attr('data-meta_key') +"']").not(parent_container).find("input.value");
+      target.val(value);
+      return false;
+    });
+  });

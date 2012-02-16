@@ -7,7 +7,7 @@
 
 %section#content_body.clearfix
   - @media_entries.collect do |media_entry|
-    #upload-container{:style => "margin-top: 2em;"}
+    #upload-container
       .clearfix{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
         = thumb_for(media_entry, :medium, :style => "")
         = "#{media_entry.media_file.filename}"

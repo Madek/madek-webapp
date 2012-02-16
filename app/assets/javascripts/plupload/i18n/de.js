@@ -1,6 +1,6 @@
 // German
 plupload.addI18n({
-    'Select files' : 'Dateien hochladen',
+    'Select files' : 'Dateien auswählen',
     'Add files to the upload queue and click the start button.' : 'Dateien hinzuf&uuml;gen und auf \'Hochladen\' klicken.',
     'Filename' : 'Dateiname',
     'Status' : 'Status',
@@ -8,7 +8,7 @@ plupload.addI18n({
     'Add files' : 'Medien auswählen',
     'Stop current upload' : 'Aktuelles Hochladen stoppen',
     'Start uploading queue' : 'Hochladen starten',
-    'Uploaded %d/%d files': '%d/%d Dateien sind hochgeladen',
+    'Uploaded %d/%d files': '%d/%d Dateien sind übertragen',
     'N/A' : 'Nicht verf&uuml;gbar',
     'Drag files here.' : 'Sie können Dateien auch per Drag&Drop hinzufügen',
     'File extension error.': 'Fehler bei Dateiendung',
@@ -19,6 +19,6 @@ plupload.addI18n({
     'Generic error.': 'Typischer Fehler',
     'IO error.': 'Ein/Ausgabe-Fehler',
     'Stop Upload': 'Hochladen stoppen',
-    'Start upload': 'Hochladen',
+    'Start upload': 'Medien übertragen',
     '%d files queued': '%d Dateien in der Warteschlange'
 });

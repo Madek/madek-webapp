@@ -1,0 +1,16 @@
+#edit_multiple_permissions {
+  
+  &.without_legend {
+    .grid_2 {
+      display: none;
+    }
+    
+    .grid_9 {
+      width: 920px;
+    }
+    
+    .permissions {
+      width: 100%;
+    }
+  }
+}

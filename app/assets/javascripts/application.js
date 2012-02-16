@@ -31,6 +31,7 @@
 //= require_tree ../../../vendor/assets/javascripts/.
 //= require modernizr.min
 //= require video
+//= require image_resample/image_resample
 
 /////////// PLUPLOAD /////////////
 //= require plupload
