@@ -8,7 +8,7 @@ plupload.addI18n({
     'Add files' : 'Medien auswählen',
     'Stop current upload' : 'Aktuelles Hochladen stoppen',
     'Start uploading queue' : 'Hochladen starten',
-    'Uploaded %d/%d files': '%d/%d Dateien sind hochgeladen',
+    'Uploaded %d/%d files': '%d/%d Dateien sind übertragen',
     'N/A' : 'Nicht verf&uuml;gbar',
     'Drag files here.' : 'Sie können Dateien auch per Drag&Drop hinzufügen',
     'File extension error.': 'Fehler bei Dateiendung',
