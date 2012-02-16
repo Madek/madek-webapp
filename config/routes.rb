@@ -40,9 +40,7 @@ MAdeK::Application.routes.draw do
   
   match '/nagiosstat', :to => Nagiosstat
 
-
-
-
+  resources :media_resources
   resources :media_entry_incompletes
 
 ###############################################
