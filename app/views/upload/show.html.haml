@@ -1,4 +1,4 @@
-#upload-container{:style => "margin-top: 2em"}
+#upload-container
   %div{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
 
     .upload_step_1
@@ -8,26 +8,3 @@
         %a#submit_upload_form.upload_buttons{:href => "#"}
           /<span class="ui-icon ui-icon-circle-arrow-n"></span>
           = _("Ausgewählte Medien hochladen und weiter…")
-
-:javascript
-  $(document).ready(function () {
-  
-    activate_step(1);
-    
-    $('#upload_form').submit(function() {
-      startXHR($(this));
-      return false;
-    });
-    
-    $('#submit_upload_form').click(function() {
-      $('#upload_form').trigger('submit');
-      return false;
-    });
-    
-    $('input#uploaded_data').change(function() {
-      append_to_queue(this);
-    });
-    
-    $('#upload_form label').click(function(){
-    });
-  });

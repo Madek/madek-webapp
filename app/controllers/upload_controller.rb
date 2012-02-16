@@ -3,7 +3,7 @@ class UploadController < ApplicationController
 
   layout "upload"
 
-  before_filter :only => [:show, :permissions, :edit, :update, :import_summary, :destroy] do
+  before_filter :except => [:create, :dropbox_dir] do
     @media_entry_incompletes =  @media_entries = current_user.incomplete_media_entries
   end
 
@@ -108,22 +108,23 @@ class UploadController < ApplicationController
     params[:resources][:media_entry_incomplete].each_pair do |key, value|
       media_entry = @media_entries.detect{|me| me.id == key.to_i } #old# .find(key)
       media_entry.update_attributes(value)
-      media_entry.set_as_complete
     end
 
-    render :action => :set_media_sets
+    redirect_to set_media_sets_upload_path
   end
 
 ##################################################
 # step 4
 
   def set_media_sets
-    if request.post?
-      redirect_to root_path
-    end
   end
 
 ##################################################
+
+  def complete
+    @media_entries.each {|me| me.set_as_complete }
+    redirect_to root_path
+  end
 
   def import_summary
     @context = MetaContext.upload

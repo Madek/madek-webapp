@@ -20,7 +20,5 @@
 
 :javascript
   $(document).ready(function () {
-    activate_step(4);
-    
     $(".has-set-widget").data("selected_ids", #{@media_entries.map(&:id).to_json});
   });

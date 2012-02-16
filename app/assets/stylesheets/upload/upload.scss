@@ -1,8 +1,22 @@
-#upload_container {
+#upload {
   
   #upload_navigation {
     left: 38px;
     width: 900px;
     z-index: 10001;
+  }
+  
+  #step_arrow {
+    display: none;
+    position: absolute;
+    left: 45%;
+    bottom: -14px;
+    background: transparent url('/assets/icons/arrow_down_gray.png') top left no-repeat;
+    width: 18px;
+    height: 10px;
+  }
+  
+  #uploader {
+    top: -40px;
   }
 }

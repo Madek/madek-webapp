@@ -1,5 +1,5 @@
 - content_for :content do
-  #upload_container.container_12.clearfix
+  #upload.container_12.clearfix
     %section#content_body.clearfix
   
       #content-header.clearfix
@@ -8,32 +8,32 @@
       
       #uploader-subnavigation.clearfix{:style => "margin-bottom: 3em;"}
         %ol#upload_steps.clearfix
-          %li.step_1.container_12.grid_3{:style => "position: relative"}
+          %li.step_1.container_12.grid_3{:class => (current_page?(:controller => :upload, :action => :show) ? "active" : nil)}
             %p
               1. Medien übertragen
               %br
               %span
                 Fotos, Videos und Audiofiles bereitstellen
-          %li.step_2.container_12.grid_3
+          %li.step_2.container_12.grid_3{:class => (current_page?(:controller => :permissions, :action => :edit_multiple) ? "active" : nil)}
             %p
               2. Berechtigungen setzen
               %br
               %span
                 Zugriff und Sichtbarkeit festlegen
-          %li.step_3.container_12.grid_3
+          %li.step_3.container_12.grid_3{:class => (current_page?(:controller => :upload, :action => :edit) ? "active" : nil)}
             %p
               3. Metadaten ergänzen
               %br
               %span
                 Titel, Beschreibung und Rechte hinzufügen
-          %li.step_4.container_12.grid_3
+          %li.step_4.container_12.grid_3{:class => (current_page?(:controller => :upload, :action => :set_media_sets) ? "active" : nil)}
             %p
               4. Medien zusammenstellen
               %br
               %span
                 Fotos, Videos und Audiofiles in Sets verwalten (optional)
       
-      %span#green-arrow{:style => "display: block; position: absolute; left: 45%; bottom: -14px;  background: transparent url('/assets/icons/arrow_down_gray.png') top left no-repeat; width: 18px; height: 10px"}
+      %span#step_arrow
       
       #upload_navigation
         .right
@@ -44,20 +44,7 @@
 
 = render :template => 'layouts/main'
 
-:javascript
-  function activate_step(n){
-    $(".grid_3").removeClass("active");
-    current_step_header = $("#upload_steps .step_" + n)
-    current_step_header.addClass("active");
-    $("#green-arrow").appendTo(current_step_header);
-    $("[class*='upload_step_']").hide();
-    $(".upload_step_" + n).show();
-    //temp// if(n == 2) $('html, body').animate({ scrollTop: $("#uploader-subnavigation").offset().top}, 2000);
-    $("form").submit(function(){
-      $("#ajaxLoading").show();
-    });		
-  }
-
-  $(document).ready(function () {
-    if(location.pathname == "/upload/permissions") activate_step(2);
-  });
+:coffeescript
+  jQuery ->
+    $("#step_arrow").appendTo("#upload_steps li.active").show()
+     
