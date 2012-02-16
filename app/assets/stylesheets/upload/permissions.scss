@@ -1,0 +1,22 @@
+@import "../mixins.scss";
+
+#upload_container #edit_multiple_permissions {
+  padding-bottom: 20px;
+  
+  .page_title_left {display: none;}
+  
+  #page_head_edit, #content_body2 {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 920px !important;
+    @include box-shadow(none);
+  }
+  
+  .save_buttons {
+    display: none;
+  }
+  
+  .container_12 {
+    border: none !important;
+  }
+}

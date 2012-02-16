@@ -2525,17 +2525,7 @@ form#set_media_sets input[type="submit"] {
 
 #upload-container {
   
-  #upload_navigation {
-    display: block;
-    position:absolute;
-    width: 93%;
-    
-    .right {
-      float: right;
-    }
-  }
-  
-  .upload_buttons.disabled, .upload_buttons.disabled:hover, .plupload_disabled, .plupload_disabled:hover {
+  .upload_buttons.disabled, .upload_buttons.disabled:hover, .plupload_disabled:not(.dropbox_enabled), .plupload_disabled:not(.dropbox_enabled):hover {
     color: #737373;
     border-color: #c5c5c5;
     background: #ededed no-repeat 0 center;
@@ -2543,12 +2533,6 @@ form#set_media_sets input[type="submit"] {
   }
   
   .upload_step_1 {
-    
-    #upload_navigation {
-      right: 40px;
-      width: 300px;
-      z-index: 1001;
-    }
     
     #upload_form {
       position: relative;

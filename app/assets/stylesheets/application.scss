@@ -18,6 +18,7 @@
  *= require modal_overlay/modal_overlay
  *= require media_set/popup
  * 
- *= require_tree ./plupload
+ *= require_tree ./upload
+ *= require_tree ./permissions
  * 
 */
