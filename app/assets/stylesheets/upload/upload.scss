@@ -18,7 +18,7 @@
       float: right;
       
       
-      #cancle_import {
+      #cancel_import {
         color: #888;
         position: relative;
         text-decoration: none;
@@ -53,5 +53,11 @@
     border-color: #c5c5c5;
     background: #ededed no-repeat 0 center;
     cursor: default;
+  }
+  
+  .delete_mei {
+   background: red;
+   height: 16px;
+   width: 16px; 
   }
 }

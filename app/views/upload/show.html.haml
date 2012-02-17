@@ -166,15 +166,17 @@
       set_custom_progress()
   
   set_custom_progress = ->
-    amount_not_transfered = $("#uploader_filelist li:not(.plupload_done):visible").length + $("#dropbox_filelist li:not(.plupload_done):visible").length
-    amount_transfered = $("#uploader_filelist li.plupload_done").length + $("#dropbox_filelist li.plupload_done").length
-    amount_total =  $("#uploader_filelist li:visible").length + $("#dropbox_filelist li:visible").length
-    # customize progress status text
-    upload_status_text = $("#uploader .plupload_upload_status").html().replace(/\d+\/\d+/, (amount_total-amount_not_transfered)+"/"+amount_total)
-    $("#uploader .plupload_upload_status").html(upload_status_text)
-    # customize progress bar
-    progress_bar_width = 100-(amount_not_transfered/amount_total*100) 
-    $("#uploader .plupload_progress_bar").width(progress_bar_width+"%")
+    window.setTimeout ->
+      amount_not_transfered = $("#uploader_filelist li:not(.plupload_done):visible").length + $("#dropbox_filelist li:not(.plupload_done):visible").length
+      amount_transfered = $("#uploader_filelist li.plupload_done").length + $("#dropbox_filelist li.plupload_done").length
+      amount_total =  $("#uploader_filelist li:visible").length + $("#dropbox_filelist li:visible").length
+      # customize progress status text
+      upload_status_text = $("#uploader .plupload_upload_status").html().replace(/\d+\/\d+/, (amount_total-amount_not_transfered)+"/"+amount_total)
+      $("#uploader .plupload_upload_status").html(upload_status_text)
+      # customize progress bar
+      progress_bar_width = 100-(amount_not_transfered/amount_total*100) 
+      $("#uploader .plupload_progress_bar").width(progress_bar_width+"%")
+    , 200
   
   bind_upload_complete = ->
     uploader.bind "UploadComplete", (uploader) ->
@@ -224,7 +226,7 @@
           validate_continue_button()
           $("#dropbox_filelist li").each (i_element, element) ->
             if($(element).tmplItem().data.dirname == data.dropbox_file.dirname && $(element).tmplItem().data.filename == data.dropbox_file.filename)
-              $(element).removeClass("plupload_uploading").addClass("plupload_done")
+              $(element).removeClass("plupload_uploading plupload_transfer").addClass("plupload_done")
               $(element).find(".plupload_file_status").html("100%")
               $(element).find(".plupload_file_action").show()
         error: (request, status, error) ->
