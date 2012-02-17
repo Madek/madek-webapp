@@ -1,3 +1,5 @@
+# coding: UTF-8
+
 When /^I upload the file "([^"]*)" relative to the Rails directory$/ do |path|
   f = "#{Rails.root}/#{path}"
   uploaded_data = ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
@@ -31,6 +33,19 @@ Then /^I can set the permissions for the media entry during the upload process$/
   step "I follow \"Berechtigungen speichern\""
   @media_entry_incomplete.userpermissions.reload.empty?.should be_false
   @media_entry_incomplete.userpermissions.first.view.should == true
+end
+
+
+
+Then /^I add the media entry to a set called "([^"]*)"$/ do |arg1|
+  @media_entry_incomplete.media_sets.empty?.should be_true
+  visit "/upload/set_media_sets"
+  step 'I follow "Einträge zu einem Set hinzufügen"'
+  step 'I search for "Konzepte"'
+  step 'I should see the "Konzepte" set inside the widget'
+  step 'I select "Konzepte" as parent set'
+  step 'I submit the selection widget'
+  @media_entry_incomplete.reload.media_sets.empty?.should == false
 end
 
 When "I fill in the metadata in the upload form as follows:" do |table|

@@ -46,10 +46,11 @@ Feature: Upload
     Then I can assign the same values to all the other files I just uploaded
 
   # Feature exists already, but needs this test
+  @javascript
   Scenario: Adding to a set during upload
     When I upload a file
     Then the file is attached to a media entry
-     And I add the media entry to a set called "Test Set"
+     And I add the media entry to a set called "Konzepte"
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
   @committed
