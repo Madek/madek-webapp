@@ -85,11 +85,10 @@ class DownloadController < ApplicationController
       `convert "#{path}" -resize "#{THUMBNAILS[@size]}" "#{outfile}"`
       path = outfile
     end
-    send_file(path,
-              :filename => @filename,
+    fixed_send_file(path,
+              {:filename => @filename,
               :type          =>  @content_type,
-              :disposition  =>  'attachment',
-              :x_sendfile => true)
+              :disposition  =>  'attachment')
 
   end
   
@@ -117,11 +116,10 @@ class DownloadController < ApplicationController
     end
 
     if path
-        send_file("#{ZIP_STORAGE_DIR}/#{race_free_filename}.zip",
-                  :filename => "#{race_free_filename}.zip",
-                  :type          =>  @content_type,
-                  :disposition  =>  'attachment',
-                  :x_sendfile => true)  
+        fixed_send_file("#{ZIP_STORAGE_DIR}/#{race_free_filename}.zip",
+                        {:filename => "#{race_free_filename}.zip",
+                         :type          =>  @content_type,
+                         :disposition  =>  'attachment'})  
     else
       render :status => 500
     end
@@ -137,11 +135,10 @@ class DownloadController < ApplicationController
     # path = @media_entry.media_file.update_file_metadata(@media_entry.to_metadata_tags)
     path = @media_entry.updated_resource_file(false, @size) # false means we don't want to blank all the tags
     if path
-      send_file(path,
-                :filename => @filename,
-                :type          =>  @content_type,
-                :disposition  =>  'attachment',
-                :x_sendfile => true)            
+      fixed_send_file(path,
+                      {:filename => @filename,
+                       :type          =>  @content_type,
+                       :disposition  =>  'attachment'})            
     else
       render :status => 500
     end
@@ -153,11 +150,10 @@ class DownloadController < ApplicationController
     path = @media_entry.updated_resource_file(true, @size) # true means we do want to blank all the tags
 
     if path
-        send_file(path,
-                  :filename => @filename,
-                  :type          =>  @content_type,
-                  :disposition  =>  'attachment',
-                  :x_sendfile => true)            
+        fixed_send_file(path,
+                        {:filename => @filename,
+                         :type          =>  @content_type,
+                         :disposition  =>  'attachment'})            
     else
       render :status => 500
     end    
@@ -179,22 +175,11 @@ class DownloadController < ApplicationController
   end
   
   def send_multimedia_preview
-    send_file(@path,
-          :filename => @filename,
-          :type          =>  @content_type,
-          :disposition  =>  'attachment',
-          :x_sendfile => true)
+    fixed_send_file(@path,
+                   {:filename => @filename,
+                    :type          =>  @content_type,
+                    :disposition  =>  'attachment'})
   end
 
-  # send_file() as above seems to be broken in Rails 3.1.3 and onwards?
-  # The Rack::Sendfile#call method never seems to receive a body that respons to :to_path, even though it SHOULD,
-  # therefore Sendfile is never triggered (!!), that's why we need this hacked Sendfile header implementation
-  def fixed_send_file(path, options = {})
-    headers["Content-Type"] = options[:type]
-    headers["Content-Disposition"] = "attachment; filename=\"#{options[:filename]}\""
-    headers["X-Sendfile"] = path.to_s
-    headers["Content-Length"] = '0'
-    render :nothing => true
-  end
   
 end # class
