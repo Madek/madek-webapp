@@ -31,7 +31,7 @@ role :web, "madek-demo@madek-server.zhdk.ch"
 role :db,  "madek-demo@madek-server.zhdk.ch", :primary => true
 
 task :retrieve_db_config do
-  # DB credentials needed by Sphinx, mysqldump etc.
+  # DB credentials needed by mysqldump etc.
   get(db_config, "/tmp/madek_db_config.yml")
   dbconf = YAML::load_file("/tmp/madek_db_config.yml")["production"]
   set :sql_database, dbconf['database']

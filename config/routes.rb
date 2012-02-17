@@ -48,7 +48,6 @@ MAdeK::Application.routes.draw do
 
   resources :media_entries do
     collection do
-      #temp# get :graph
       get :keywords
       post :edit_multiple
       put :update_multiple
@@ -61,8 +60,6 @@ MAdeK::Application.routes.draw do
       delete :media_sets
       get :edit_tms
       get :to_snapshot
-      #temp# :graph_nodes => :get,
-      #temp# :index_browser => :get
       get :image, :to => "resources#image"
       get :map
       get :browse
