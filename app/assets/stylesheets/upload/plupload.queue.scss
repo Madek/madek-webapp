@@ -102,7 +102,7 @@
 .plupload_filelist_footer {
   border-top: 1px solid #FFF; height: 22px; line-height: 20px; vertical-align: middle;
   position: absolute;
-  top: 28px;
+  top: 9px;
 }
 .plupload_file_name {float: left; overflow: hidden}
 .plupload_file_status {color: #777;}
@@ -157,7 +157,7 @@ li.plupload_uploading {
   background: #ECF3DC url('jquery.plupload.queue/backgrounds.gif') repeat-x 0 -238px !important;
   
   a {
-    background: url('jquery.plupload.queue/transfering.gif') no-repeat;
+    background: url('jquery.plupload.queue/transfering.gif') no-repeat !important;
     display: block !important;
   }
 }

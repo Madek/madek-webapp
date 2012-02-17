@@ -36,7 +36,9 @@
       %span#step_arrow
       
       #upload_navigation
+        
         .right
+          = link_to "Import Abbrechen", upload_path, :id => "cancle_import", :method => :delete, :confirm => "Wollen Sie den Import wirklich abbrechen?"
           - if current_page?(:controller => :upload, :action => :show)
             = link_to _("weiter..."), "javascript:void(0)", :"data-link_when_enabled" => permissions_upload_path, :class => "upload_buttons next disabled"
           - elsif current_page?(:controller => :permissions, :action => :edit_multiple)

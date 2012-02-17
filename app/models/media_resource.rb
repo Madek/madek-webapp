@@ -345,6 +345,7 @@ class MediaResource < ActiveRecord::Base
 ##########################################################################################################################
   
   scope :media_entries_and_media_sets, where(:type => ["MediaEntry", "MediaSet"])
+  scope :media_entries_or_media_entry_incompletes, where(:type => ["MediaEntry", "MediaEntryIncomplete"])
 
   ################################################################
 
