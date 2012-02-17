@@ -12,7 +12,7 @@ plupload.addI18n({
     'N/A' : 'Nicht verf&uuml;gbar',
     'Drag files here.' : 'Sie können Dateien auch per Drag&Drop hinzufügen',
     'File extension error.': 'Fehler bei Dateiendung',
-    'File size error.': 'Die ausgew&auml;hlte Datei war zu gross (>1.4GB)',
+    'File size error.': 'Die ausgew&auml;hlte Datei war zu gross',
     'Init error.': 'Initialisierungsfehler',
     'HTTP Error.': 'HTTP-Fehler',
     'Security error.': 'Sicherheitsfehler',
