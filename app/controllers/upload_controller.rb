@@ -78,10 +78,10 @@ class UploadController < ApplicationController
   
   # NOTE helper method
   def dropbox_info
-    {:ftp_dropbox => { :server => AppSettings.ftp_dropbox_server,
-                       :login => AppSettings.ftp_dropbox_login,
-                       :password => AppSettings.ftp_dropbox_password,
-                       :dir_name => current_user.dropbox_dir_name} }
+    {:server => AppSettings.ftp_dropbox_server,
+     :login => AppSettings.ftp_dropbox_login,
+     :password => AppSettings.ftp_dropbox_password,
+     :dir_name => current_user.dropbox_dir_name}
   end
 
 ##################################################

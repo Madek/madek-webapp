@@ -4,10 +4,9 @@
   
   %p
     %strong= "Akzeptierte Dateigrösse:"
-    = "Dateien mit einer Grösse von über 1.5 GB müssen über die FTP-Dropbox in das Medienarchiv geladen werden."
+    = "Dateien mit einer Grösse von über 1.4 GB müssen über die FTP-Dropbox in das Medienarchiv geladen werden."
     %br
     = link_to "So laden Sie Dateien über die FTP-Dropbox ins Medienarchiv.", "javascript:void(0)", :style => "cursor:pointer", :class => "open_dropbox_dialog"
-    = link_to "CREATE DROPBOX", dropbox_upload_path, :remote => true, :method => :post
   %p
     %strong= "Akzeptierte Dateiformate:"
     = "Bilder (TIFF, JPEG, PNG) sowie Audio- und Videofiles in den gängigsten Formaten werden direkt verarbeitet und dargestellt. Weitere Dateitypen (PDFs, PSDs, Webarchive) können ebenfalls hochgeladen werden, sind vorerst jedoch nur als ZIP-Datei verfügbar."
@@ -16,6 +15,7 @@
   
   window.dropbox_exists = #{@dropbox_exists.to_json}
   window.dropbox_files = #{@dropbox_files_json}
+  window.dropbox_info = #{@dropbox_info.to_json}
   window.dropbox_transfer_finished = false
   window.dropbox_sync_interval
   window.dropbox_sync_interval_time = 3000
@@ -34,6 +34,29 @@
     bind_remove_files()
     validate_continue_button()
     validate_droptext()
+    setup_open_dropbox_dialog()
+  
+  setup_open_dropbox_dialog = ->
+    $(".open_dropbox_dialog").live "click", ->
+      open_dropbox_dialog()
+    $("#create_dropbox").live "ajax:beforeSend", ->
+      $(this).html("Dropbox wird erstellt <img class='loading' src='/assets/loading.gif'/>")
+      $(this).bind "click", (event) ->
+        event.stopImmediatePropagation()
+        event.preventDefault()
+    $("#create_dropbox").live "ajax:success", (event, response, settings)->
+      window.dropbox_info = response 
+      $("#no_ftp").hide()
+      $("#ftp_existing").show()
+      $(".dialog").closest(".ui-dialog").css("height", "auto");
+  
+  open_dropbox_dialog = ->
+    Dialog.add {
+      trigger: $(".open_dropbox_dialog")
+      content: $.tmpl("tmpl/upload/dropbox_info")
+      dialogClass: "dropbox_info"
+      closeOnEscape: true
+    }
   
   validate_continue_button = ->
     if $(".plupload_content li:not(.plupload_done):visible").length == 0

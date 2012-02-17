@@ -26,6 +26,7 @@
 
 /////////// Lib /////////////
 //= require browser-detection/browser-detection
+//= require dialog/dialog
 
 /////////// Vendor /////////////
 //= require_tree ../../../vendor/assets/javascripts/.
