@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+
 class UploadController < ApplicationController
 
   layout "upload"
@@ -48,9 +49,9 @@ class UploadController < ApplicationController
       raise "No file to import!"
     end
 
-    media_entry = current_user.incomplete_media_entries.create(:uploaded_data => uploaded_data)
+    media_entry_incomplete = current_user.incomplete_media_entries.create(:uploaded_data => uploaded_data)
 
-    if media_entry.persisted?
+    if media_entry_incomplete.persisted?
       File.delete(f) if params[:dropbox_file]
     else
       # OPTIMIZE
@@ -59,8 +60,8 @@ class UploadController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to upload_path } # NOTE we need this for the Plupload html fallback
-      format.js { render :json => {} } # NOTE this is used by Plupload
-      format.json { render :json => {"dropbox_file" => params[:dropbox_file] } }
+      format.js { render :json => {"media_entry_incomplete" => {"id" => media_entry_incomplete.id} } } # NOTE this is used by Plupload
+      format.json { render :json => {"dropbox_file" => params[:dropbox_file], "media_entry_incomplete" => {"id" => media_entry_incomplete.id} } }
     end
   end
 

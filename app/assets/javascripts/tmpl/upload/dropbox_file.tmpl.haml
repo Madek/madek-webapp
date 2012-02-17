@@ -7,7 +7,8 @@
     %span
       ${filename}
   .plupload_file_action
-    %a{:href => "#", :style => "display: block;"}
+    %a{:href => "#"}
+    = link_to "", upload_path, :class => "delete_dropbox_file"
   .plupload_file_status= "0%"
   .plupload_file_size
     ${Number(size/1024).toFixed()} KB

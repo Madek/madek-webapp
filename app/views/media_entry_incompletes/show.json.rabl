@@ -1,4 +1,4 @@
-collection @media_entry_incompletes
+object @media_entry_incomplete
 attributes :id
 
 node :filename do  |me|

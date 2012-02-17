@@ -168,7 +168,7 @@ class PermissionsController < ApplicationController
         end
 
       end
-      flash[:notice] = "Die Zugriffsberechtigungen wurden erfolgreich gespeichert."  
+      flash[:notice] = "Die Zugriffsberechtigungen wurden erfolgreich gespeichert." unless @resources.any? {|x| x.is_a? MediaEntryIncomplete }
     end
 
     if @resources.any? {|x| x.is_a? MediaEntryIncomplete }

@@ -38,7 +38,7 @@
       #upload_navigation
         
         .right
-          = link_to "Import Abbrechen", upload_path, :id => "cancel_import", :method => :delete, :confirm => "Wollen Sie den Import wirklich abbrechen?"
+          = link_to "Abbrechen", upload_path, :title=> "Import Abbrechen", :id => "cancel_import", :method => :delete, :confirm => "Wollen Sie den Import wirklich abbrechen?"
           - if current_page?(:controller => :upload, :action => :show)
             = link_to _("weiter..."), "javascript:void(0)", :"data-link_when_enabled" => permissions_upload_path, :class => "upload_buttons next disabled"
           - elsif current_page?(:controller => :permissions, :action => :edit_multiple)
@@ -46,8 +46,7 @@
           - elsif current_page?(:controller => :upload, :action => :edit)
             = link_to _("Metadaten speichern und weiter..."), "javascript:void(0)", :onclick => "$('#upload form').submit();", :class => "upload_buttons next", :id => "save_meta_data"
           - elsif current_page?(:controller => :upload, :action => :set_media_sets)
-            = form_tag(complete_upload_path, :method => "put") do
-              = submit_tag _("Import abschliessen"),:class => "upload_buttons next", :id => "complete_import"
+            = link_to _("Import abschliessen"), complete_upload_path, :id => "cancel_import", :method => :put, :class => "upload_buttons next",:id => "complete_import"
             
       = yield
 

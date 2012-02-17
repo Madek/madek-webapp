@@ -24,6 +24,7 @@
   window.max_file_size = "1400mb"
   window.uploader
   window.media_entry_incompletes = #{ render(template:"media_entry_incompletes/index.json.rabl") }
+  window.plupload_files_uploaded = []
   
   jQuery ->
     initalize_plupload()
@@ -35,9 +36,15 @@
     bind_upload_complete()
     bind_add_files()
     bind_remove_files()
+    bind_queue_change()
+    bind_state_changed()
+    bind_file_uploaded()
     validate_continue_button()
     setup_open_dropbox_dialog()
     setup_file_size_error()
+    setup_delete_mei()
+    setup_delete_dropbox_file()
+    setup_delete_plupload_file()
     
   setup_open_dropbox_dialog = ->
     $(".open_dropbox_dialog").live "click", ->
@@ -67,16 +74,12 @@
     }
   
   validate_continue_button = ->
-    console.log "VALIDATE CONTINUE BUTTON"
     window.setTimeout ->
       if $(".plupload_content li:not(.plupload_done):visible").length == 0 and $(".plupload_content li:visible").length > 0
-        console.log "ENABLE"
         enable_continue_button()
       else
-        console.log "DISABLE" 
         disable_continue_button()
     , 200
-   
   
   validate_start_button = ->
     if $("#dropbox_filelist li:visible").length > 0
@@ -164,6 +167,10 @@
   bind_upload_progress = ->
     uploader.bind "UploadProgress", (uploader, file) ->
       set_custom_progress()
+      
+  bind_file_uploaded = ->
+    uploader.bind "FileUploaded", (uploader, file, response) ->
+      window.plupload_files_uploaded.push {file: file, media_entry_incomplete: JSON.parse(response.response).media_entry_incomplete}
   
   set_custom_progress = ->
     window.setTimeout ->
@@ -187,21 +194,42 @@
   bind_add_files = ->
     uploader.bind "FilesAdded", (uploader, files) ->
       validate_continue_button()
-      for element in $("#uploader_filelist li.plupload_delete")
-        prevent_plupload_delete($(element))
+      window.setTimeout ->
+        for element in $("#uploader_filelist li.plupload_delete")
+          prevent_plupload_delete($(element))
+          add_delete_to_plupload($(element))   
+      , 200
       
+  add_delete_to_plupload = (element) ->
+    if $(element).find(".delete_plupload_entry").length == 0
+      $(element).find(".plupload_file_action").append("<span class='delete_plupload_entry'></span>")
+  
   prevent_plupload_delete = (element) ->
-    window.setTimeout ->
-      cloned_action = $(element).find(".plupload_file_action a").clone()
-      $(element).find(".plupload_file_action a").remove()
-      $(element).find(".plupload_file_action").prepend cloned_action
-      $(element).addClass("plupload_transfer").removeClass("plupload_delete")   
-    , 200
+    cloned_action = $(element).find(".plupload_file_action a").clone()
+    $(element).find(".plupload_file_action a").remove()
+    $(element).find(".plupload_file_action").prepend cloned_action
+    $(element).addClass("plupload_transfer").removeClass("plupload_delete")   
     
   bind_remove_files = ->
     uploader.bind "FilesRemoved", (uploader, files) ->
       validate_continue_button()
-              
+ 
+  bind_queue_change = ->
+    uploader.bind "QueueChanged", (uploader) ->
+      window.setTimeout ->
+        for element in $("#uploader_filelist li")
+          prevent_plupload_delete($(element))
+          add_delete_to_plupload($(element))   
+      , 200
+      
+  bind_state_changed = ->
+    uploader.bind "StateChanged", (uploader) ->
+      if uploader.state == plupload.STOPPED
+        window.setTimeout ->
+          for element in $("#uploader_filelist li")
+            add_delete_to_plupload($(element))   
+        , 200
+     
   start_dropbox_transfer = ->
     clearInterval window.dropbox_sync_interval
     finish_transfer() if $("#dropbox_filelist li").length is 0
@@ -212,6 +240,8 @@
     $(".plupload_filelist_footer .plupload_upload_status").html(plupload.translate("Uploaded %d/%d files").replace(/%d/g, "0"))
     $(".plupload_filelist_footer .plupload_progress").show()
     # begin transfer each file seperately
+    # but reverse first so that we have upside done success
+    #dropbox_files = dropbox_files.reverse()
     for dropbox_file in dropbox_files
       # mark file as transfer in progress
       $("#dropbox_filelist li").each (i_element, element) ->
@@ -219,13 +249,14 @@
           $(element).removeClass("plupload_delete").addClass("plupload_uploading")
           $(element).find(".plupload_file_status").html("50%")
       # transfer dropbox file
-      $.ajax({
+      $.ajax {
         url: "/upload"
         success: (data, status, request) ->
           set_custom_progress()
           validate_continue_button()
           $("#dropbox_filelist li").each (i_element, element) ->
             if($(element).tmplItem().data.dirname == data.dropbox_file.dirname && $(element).tmplItem().data.filename == data.dropbox_file.filename)
+              $(element).data("media_entry_incomplete", data.media_entry_incomplete)
               $(element).removeClass("plupload_uploading plupload_transfer").addClass("plupload_done")
               $(element).find(".plupload_file_status").html("100%")
               $(element).find(".plupload_file_action").show()
@@ -237,7 +268,7 @@
           dropbox_file:
             dirname: dropbox_file.dirname
             filename: dropbox_file.filename
-      })
+      }
     
   finish_transfer = ->
     enable_continue_button()
@@ -261,3 +292,72 @@
         open_dropbox_dialog(error.message)
     window.alert = (msg)->
       #prevent plupload error message
+
+  setup_delete_mei = ->
+    $(".delete_mei").live "click", (event)->
+      # prevent normal link behaviour
+      event.preventDefault()
+      return false
+    $(".delete_mei:not(.deleting)").live "click", (event)->
+      return false if !confirm("Sind Sie sicher dass Sie die Datei " + $(this).closest("li").tmplItem().data.filename + " löschen möchten?")
+      delete_mei_file $(this), $(this).tmplItem().data
+
+  delete_mei_file = (element, data)->
+    $(element).addClass "deleting"
+    $.ajax {
+      url: "/upload"
+      success: (data, status, request) ->
+        element.removeClass("deleting")
+        element.closest("li").remove()
+        validate_start_button()
+        validate_continue_button()
+      error: (request, status, error) ->
+        console.log("ERROR")
+      type: "DELETE"
+      data: 
+        format:"json"
+        media_entry_incomplete:
+          data
+    }
+
+  setup_delete_dropbox_file = ->
+    $(".delete_dropbox_file").live "click", (event)->
+      # prevent normal link behaviour
+      event.preventDefault()
+      return false
+    $(".delete_dropbox_file:not(.deleting)").live "click", (event)->
+      return false if !confirm("Sind Sie sicher dass Sie die Datei " + $(this).closest("li").tmplItem().data.filename + " löschen möchten?")
+      if $(this).closest("li").data("media_entry_incomplete")
+        delete_mei_file $(this), $(this).closest("li").data("media_entry_incomplete")
+      else
+        delete_dropbox_file $(this), $(this).tmplItem().data
+
+  delete_dropbox_file = (element, data)->
+    $(element).addClass "deleting"
+    $.ajax {
+      url: "/upload"
+      success: (data, status, request) ->
+        element.removeClass("deleting")
+        element.closest("li").remove()
+        validate_start_button()
+        validate_continue_button()
+      error: (request, status, error) ->
+        console.log("ERROR")
+      type: "DELETE"
+      data: 
+        format:"json"
+        dropbox_file:
+          data
+    }
+
+  setup_delete_plupload_file = ->
+    $(".delete_plupload_entry").live "click", (event)->
+      if $(this).closest("li").hasClass("plupload_done")
+        return false if !confirm("Sind Sie sicher dass Sie die Datei " + $(this).closest("li").tmplItem().data.filename + " löschen möchten?")
+        for element in plupload_files_uploaded
+          if $(this).closest("li").attr("id") == element.file.id
+            delete_mei_file $(this), element.media_entry_incomplete
+            uploader.splice($(this).closest("li").index(), 1)
+      else
+        uploader.splice($(this).closest("li").index(), 1)
+      
