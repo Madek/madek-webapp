@@ -89,8 +89,13 @@ When "I fill in the metadata in the upload form as follows:" do |table|
       end
 
     end
-
   end
+  step "I follow \"Metadaten speichern\""
+
+  # check the simple properties for now
+  @media_entry_incomplete.reload.meta_data.where("meta_key_id = ?",3).first.value.should == "Test image for uploading"
+  @media_entry_incomplete.reload.meta_data.where("meta_key_id = ?",52).first.value.should == "Tester"
+
 end
 
 

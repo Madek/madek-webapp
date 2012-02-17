@@ -35,7 +35,7 @@ Feature: Upload
   Scenario: Assigning one value to all uploaded things
     When I upload several files
      And I enter metadata for the first file
-     And I fill in the metadata form as follows:
+     And I fill in the metadata in the upload form as follows:
      |label                              |value|
      |Titel                              |Test image for mass assignment of values|
      |Autor/in                           |Hans Franzfriedrich|
@@ -104,7 +104,7 @@ Feature: Upload
   Scenario: Fields that don't validate should be highlighted
     When I upload a file
      And I enter metadata for the file
-     And I fill in the metadata form as follows:
+     And I fill in the metadata in the upload form as follows:
      |label                              |value|
      |Titel                              |Test image for highlighting|
      And I try to continue in the import process
