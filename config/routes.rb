@@ -204,7 +204,6 @@ MAdeK::Application.routes.draw do
       get :permissions, :to => "permissions#edit_multiple"
       put :permissions, :to => "permissions#update_multiple"
       get :set_media_sets
-      get :import_summary
       put :complete
       get :dropbox
       post :dropbox
@@ -272,7 +271,6 @@ MAdeK::Application.routes.draw do
 
     resources :media_entries do
       collection do
-        get :import
         get :dropbox
         post :dropbox
       end

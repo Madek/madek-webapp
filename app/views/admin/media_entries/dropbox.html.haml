@@ -2,6 +2,18 @@
   = _("Dropbox")
 
 = form_tag dropbox_admin_media_entries_path do
-  Dropbox root directory path:
-  = text_field_tag :root_dir, @dropbox_root_dir
+
+  %p
+    Dropbox root directory path:
+    = text_field_tag :dropbox_root_dir, AppSettings.dropbox_root_dir
+  %p
+    FTP Dropbox Server:
+    = text_field_tag :ftp_dropbox_server, AppSettings.ftp_dropbox_server
+  %p
+    FTP Dropbox Login:
+    = text_field_tag :ftp_dropbox_login, AppSettings.ftp_dropbox_login
+  %p
+    FTP Dropbox Password:
+    = text_field_tag :ftp_dropbox_password, AppSettings.ftp_dropbox_password
+
   = submit_tag
