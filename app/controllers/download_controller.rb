@@ -86,9 +86,9 @@ class DownloadController < ApplicationController
       path = outfile
     end
     fixed_send_file(path,
-              {:filename => @filename,
-              :type          =>  @content_type,
-              :disposition  =>  'attachment')
+                   {:filename => @filename,
+                    :type          =>  @content_type,
+                    :disposition  =>  'attachment'})
 
   end
   
@@ -169,9 +169,9 @@ class DownloadController < ApplicationController
     #           :type          =>  @content_type,
     #           :disposition  =>  'attachment')
     fixed_send_file(path,
-               :filename => @filename,
-               :type          =>  @content_type,
-               :disposition  =>  'attachment')
+                    {:filename => @filename,
+                     :type          =>  @content_type,
+                     :disposition  =>  'attachment'})
   end
   
   def send_multimedia_preview
