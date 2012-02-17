@@ -67,13 +67,9 @@ class UploadController < ApplicationController
   def dropbox
     if request.post?
       if File.directory?(AppSettings.dropbox_root_dir) and
-        (user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name)) and
-        (uid = Etc.getpwnam(AppSettings.ftp_dropbox_user).uid) and
-        (gid = Etc.getgrnam(AppSettings.ftp_dropbox_group).gid)
+        (user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name))
         Dir.mkdir(user_dropbox_root_dir)
-        dir = File.new(user_dropbox_root_dir)
-        dir.chmod(0770)
-        dir.chown(uid, gid)
+        File.new(user_dropbox_root_dir).chmod(0770)
       else
         raise "The dropbox root directory is not yet defined. Contact the administrator."
       end
@@ -146,7 +142,7 @@ class UploadController < ApplicationController
         format.json do
           # we deleting a single media_entry_incomplete or dropbox file
           if params[:media_entry_incomplete]
-            if (media_entry_incomplete = current_user.media_entry_incompletes.find params[:media_entry_incomplete][:id])
+            if (media_entry_incomplete = current_user.incomplete_media_entries.find params[:media_entry_incomplete][:id])
               media_entry_incomplete.destroy
               render :json => params[:media_entry_incomplete]
             else
