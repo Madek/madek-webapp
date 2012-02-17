@@ -11,7 +11,7 @@ class UploadController < ApplicationController
 # step 1
 
   def show
-    dropbox_files = unless File.directory?(AppSettings.dropbox_root_dir)
+    dropbox_files = unless AppSettings.dropbox_root_dir and File.directory?(AppSettings.dropbox_root_dir)
       @dropbox_exists = false
       []
     else
