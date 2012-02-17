@@ -10,33 +10,8 @@ When /^I upload the file "([^"]*)" relative to the Rails directory$/ do |path|
 end
 
 When /^I upload a file$/ do
-
-=begin
-    visit "/"
-
-    # The upload itself
-    click_link("Hochladen")
-    click_link("Basic Uploader")
-    attach_file("uploaded_data[]", Rails.root + "features/data/images/berlin_wall_01.jpg")
-    click_button("Ausgewählte Medien hochladen und weiter…")
-    wait_for_css_element("#submit_to_3") # This is the "Einstellungen speichern..." button
-    click_button("Einstellungen speichern und weiter…")
-
-    # Entering metadata
-
-    fill_in_for_media_entry_number(1, { "Titel"     => title,
-                                        "Copyright" => 'some dude' })
-
-    click_button("Metadaten speichern und weiter…")
-    click_link_or_button("Weiter ohne Hinzufügen zu einem Set…")
-
-    visit "/"
-   
-    page.should have_content(title)
-=end  
-  
   @path = "features/data/images/berlin_wall_01.jpg"
-  step 'I upload the file "#{@path}" relative to the Rails directory'
+  step "I upload the file \"#{@path}\" relative to the Rails directory"
 end
 
 Then /^the file is attached to a media entry$/ do
@@ -48,7 +23,61 @@ end
 Then /^I can set the permissions for the media entry during the upload process$/ do
   @media_entry_incomplete.userpermissions.empty?.should be_true
   @media_entry_incomplete.grouppermissions.empty?.should be_true
+  visit "/upload"
+  step "I follow \"weiter...\""
+  step 'I type "Adam" into the "user" autocomplete field'
+  step 'I pick "Admin, Adam" from the autocomplete field'
+  step 'I give "view" permission to "Admin, Adam" without saving'
+  step "I follow \"Berechtigungen speichern\""
+  @media_entry_incomplete.userpermissions.reload.empty?.should be_false
+  @media_entry_incomplete.userpermissions.first.view.should == true
 end
+
+When "I fill in the metadata in the upload form as follows:" do |table|
+  visit "/upload/edit"
+  table.hashes.each do |hash|
+    # Fills in the "_value" field it finds in the UL that contains
+    # the "key" text. e.g. "Titel*" or "Copyright"
+    text = filter_string_for_regex(hash['label'])
+
+    list = find("ul", :text => /^#{text}/)
+    if list.nil?
+      raise "Can't find any input fields with the text '#{text}'"
+    else
+      if list[:class] == "Person"
+        fill_in_person_widget(list, hash['value'], hash['options'])
+      elsif list[:class] == "Keyword"
+        fill_in_keyword_widget(list, hash['value'], hash['options'])
+      elsif list[:class] == "MetaTerm"
+        if list.has_css?("ul.meta_terms")
+          set_term_checkbox(list, hash['value'])
+        elsif list.has_css?(".madek_multiselect_container")
+          select_from_multiselect_widget(list, hash['value'])
+        else
+          raise "Unknown MetaTerm interface element when trying to set '#{text}'"
+        end
+      elsif list[:class] == "MetaDepartment"
+        puts "Sorry, can't set MetaDepartment to '#{text}', the MetaDepartment widget is too hard to test right now."
+
+        #select_from_multiselect_widget(list, hash['value'])
+      else
+        # These can be either textareas or input fields, let's fill in both. It's a bit brute force,
+        # can be done more elegantly by finding out whether we're dealing with a textarea or an input field.
+        list.all("textarea").each do |ele|
+          fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil? and ele[:id].match(/meta_data_attributes_.+_keep_original_value$/).nil?
+        end
+
+        list.all("input").each do |ele|
+          fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil? and ele[:id].match(/meta_data_attributes_.+_keep_original_value$/).nil?
+        end
+
+      end
+
+    end
+
+  end
+end
+
 
 When /^I upload files totalling more than (\d+)\.(\d+) GB$/ do |arg1, arg2|
   pending # express the regexp above with the code you wish you had

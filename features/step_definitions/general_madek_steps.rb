@@ -148,6 +148,10 @@ When /^I debug$/ do
   debugger; puts "lala"
 end
 
+When /^I pry/ do
+   binding.pry
+end 
+
 When /^I use pry$/ do
   binding.pry
 end
@@ -185,6 +189,7 @@ When "I fill in the metadata form as follows:" do |table|
     # the "key" text. e.g. "Titel*" or "Copyright"
     text = filter_string_for_regex(hash['label'])
 
+    binding.pry
     list = find("ul", :text => /^#{text}/)
     if list.nil?
       raise "Can't find any input fields with the text '#{text}'"
@@ -231,6 +236,13 @@ end
 When /^I pick "([^"]*)" from the autocomplete field$/ do |choice|
   pick_from_autocomplete(choice)
 end
+
+When /^I give "([^"]*)" permission to "([^"]*)" without saving$/ do |permission, subject|
+  subject = :everybody if subject == "everybody"
+  give_permission_to(permission, subject,false)
+end
+
+
 
 When /^I give "([^"]*)" permission to "([^"]*)"$/ do |permission, subject|
   subject = :everybody if subject == "everybody"
