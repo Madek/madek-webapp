@@ -67,20 +67,23 @@
     }
   
   validate_continue_button = ->
-    console.log "VALIDATE CONTINUE BUTTON"
-    if $(".plupload_content li:not(.plupload_done):visible").length == 0
+    if $(".plupload_content li:not(.plupload_done):visible").length == 0 and $(".plupload_content li:visible").length > 0
       enable_continue_button()
     else 
       disable_continue_button()
-      
+  
+  validate_start_button = ->
+    if $("#dropbox_filelist li:visible").length > 0
+      $(".plupload_button.plupload_start").addClass "dropbox_enabled"
+    else
+      $(".plupload_button.plupload_start").removeClass "dropbox_enabled"
+   
   enable_continue_button = ->
-    console.log "ENABLE"
     button = $("#upload_navigation .next")
     button.removeClass("disabled")
     button.attr("href", button.data("link_when_enabled"))
     
   disable_continue_button = ->
-    console.log "DISABLE"
     button = $("#upload_navigation .next")
     button.addClass("disabled")
     button.attr("href", "javascript:void(0)")
@@ -123,7 +126,7 @@
       if not file_exists
         $(dropbox_element).remove()
     
-    # validate continue
+    validate_start_button()
     validate_continue_button()
     
   setup_dropbox_file = (file)->
@@ -135,8 +138,7 @@
     if not already_existing
       template = $.tmpl("tmpl/upload/dropbox_file", file)
       $("#uploader #dropbox_filelist").prepend template
-    # setup dropbox transfer button
-    $(".plupload_button.plupload_start").addClass "dropbox_enabled"
+    validate_start_button()
 
   initalize_plupload = ->
     $("#uploader").pluploadQueue
@@ -216,7 +218,7 @@
         success: (data, status, request) ->
           set_custom_progress()
           $("#dropbox_filelist li").each (i_element, element) ->
-            if($(element).tmplItem().data.dirname == dropbox_file.dirname && $(element).tmplItem().data.filename == dropbox_file.filename)
+            if($(element).tmplItem().data.dirname == data.dropbox_file.dirname && $(element).tmplItem().data.filename == data.dropbox_file.filename)
               $(element).removeClass("plupload_uploading").addClass("plupload_done")
               $(element).find(".plupload_file_status").html("100%")
               $(element).find(".plupload_file_action").show()
