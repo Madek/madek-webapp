@@ -51,7 +51,7 @@ class MediaEntriesController < ApplicationController
                             @user.media_entries.accessible_by_user(current_user, action).find(params[:media_entry_id])
                           # TODO if @user and @media_set ??
                           else
-                            MediaEntry.accessible_by_user(current_user, action).find(params[:media_entry_id])
+                            MediaResource.media_entries_or_media_entry_incompletes.accessible_by_user(current_user, action).find(params[:media_entry_id])
                           end
         rescue
           not_authorized!
