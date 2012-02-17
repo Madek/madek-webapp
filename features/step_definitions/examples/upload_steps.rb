@@ -33,6 +33,52 @@ Then /^I can set the permissions for the media entry during the upload process$/
   @media_entry_incomplete.userpermissions.first.view.should == true
 end
 
+When "I fill in the metadata in the upload form as follows:" do |table|
+  visit "/upload/edit"
+  table.hashes.each do |hash|
+    # Fills in the "_value" field it finds in the UL that contains
+    # the "key" text. e.g. "Titel*" or "Copyright"
+    text = filter_string_for_regex(hash['label'])
+
+    list = find("ul", :text => /^#{text}/)
+    if list.nil?
+      raise "Can't find any input fields with the text '#{text}'"
+    else
+      if list[:class] == "Person"
+        fill_in_person_widget(list, hash['value'], hash['options'])
+      elsif list[:class] == "Keyword"
+        fill_in_keyword_widget(list, hash['value'], hash['options'])
+      elsif list[:class] == "MetaTerm"
+        if list.has_css?("ul.meta_terms")
+          set_term_checkbox(list, hash['value'])
+        elsif list.has_css?(".madek_multiselect_container")
+          select_from_multiselect_widget(list, hash['value'])
+        else
+          raise "Unknown MetaTerm interface element when trying to set '#{text}'"
+        end
+      elsif list[:class] == "MetaDepartment"
+        puts "Sorry, can't set MetaDepartment to '#{text}', the MetaDepartment widget is too hard to test right now."
+
+        #select_from_multiselect_widget(list, hash['value'])
+      else
+        # These can be either textareas or input fields, let's fill in both. It's a bit brute force,
+        # can be done more elegantly by finding out whether we're dealing with a textarea or an input field.
+        list.all("textarea").each do |ele|
+          fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil? and ele[:id].match(/meta_data_attributes_.+_keep_original_value$/).nil?
+        end
+
+        list.all("input").each do |ele|
+          fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil? and ele[:id].match(/meta_data_attributes_.+_keep_original_value$/).nil?
+        end
+
+      end
+
+    end
+
+  end
+end
+
+
 When /^I upload files totalling more than (\d+)\.(\d+) GB$/ do |arg1, arg2|
   pending # express the regexp above with the code you wish you had
 end

@@ -18,10 +18,11 @@ Feature: Upload
     Then the file is attached to a media entry
      And I can set the permissions for the media entry during the upload process
 
+  @javascript
   Scenario: Filling in core metadata during upload
     When I upload a file
     Then the file is attached to a media entry
-     And I fill in the metadata form as follows:
+     And I fill in the metadata in the upload form as follows:
      |label                              |value|
      |Titel                              |Test image for uploading|
      |Autor/in                           |Hans Franz|
