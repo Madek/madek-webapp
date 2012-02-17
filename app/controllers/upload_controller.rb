@@ -11,7 +11,8 @@ class UploadController < ApplicationController
 # step 1
 
   def show
-    dropbox_files = unless AppSettings.dropbox_root_dir
+    dropbox_files = unless File.directory?(AppSettings.dropbox_root_dir)
+      @dropbox_exists = false
       []
     else
       user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name)
@@ -65,8 +66,14 @@ class UploadController < ApplicationController
 
   def dropbox
     if request.post?
-      if AppSettings.dropbox_root_dir
-        user_dropbox_root_dir = Dir.mkdir(File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name))
+      if File.directory?(AppSettings.dropbox_root_dir) and
+        (user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name)) and
+        (uid = Etc.getpwnam(AppSettings.ftp_dropbox_user).uid) and
+        (gid = Etc.getgrnam(AppSettings.ftp_dropbox_group).gid)
+        Dir.mkdir(user_dropbox_root_dir)
+        dir = File.new(user_dropbox_root_dir)
+        dir.chmod(0770)
+        dir.chown(uid, gid)
       else
         raise "The dropbox root directory is not yet defined. Contact the administrator."
       end
@@ -79,7 +86,7 @@ class UploadController < ApplicationController
   # NOTE helper method
   def dropbox_info
     {:server => AppSettings.ftp_dropbox_server,
-     :login => AppSettings.ftp_dropbox_login,
+     :login => AppSettings.ftp_dropbox_user,
      :password => AppSettings.ftp_dropbox_password,
      :dir_name => current_user.dropbox_dir_name}
   end
