@@ -132,10 +132,40 @@ class UploadController < ApplicationController
 
 ##################################################
 
+  
   def destroy
-    # @media_entries.destroy_all # NOTE: the user is not excepting that anything is getting deleted just redirect
-    flash[:notice] = "Import abgebrochen"
-    redirect_to root_path  
+     respond_to do |format|
+       
+        format.html do
+          # we are canceling the full import, but not deleting
+          # @media_entries.destroy_all # NOTE: the user is not excepting that anything is getting deleted just redirect
+          flash[:notice] = "Import abgebrochen"
+          redirect_to root_path 
+        end
+        
+        format.json do
+          # we deleting a single media_entry_incomplete or dropbox file
+          if params[:media_entry_incomplete]
+            if (media_entry_incomplete = current_user.media_entry_incompletes.find params[:media_entry_incomplete][:id])
+              media_entry_incomplete.destroy
+              render :json => params[:media_entry_incomplete]
+            else
+              render :json => "MediaEntryIncomplete not found", :status => 500
+            end
+          elsif params[:dropbox_file]
+            # TODO Franco: merge with create method and direct file selector
+            user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name)
+            if (f = Dir.glob(File.join(user_dropbox_root_dir, '**', '*')).detect {|x| File.path(x) == File.join(user_dropbox_root_dir, params[:dropbox_file][:dirname], params[:dropbox_file][:filename]) })
+              File.delete(f)
+              render :json => params[:dropbox_file]
+            else
+              render :json => "File not found", :status => 500
+            end
+          else
+            render :json => {}, :status => 500
+          end
+        end
+      end
   end
 
 ##################################################
