@@ -1,0 +1,12 @@
+%h3= "Validierung fehlgeschlagen"
+
+%p
+  Bitte füllen Sie für alle zu importierenden Medieneinträge die Pflichtfelder 
+  %strong= "Titel"
+  und
+  %strong= "Rechte"
+  aus.
+    
+
+.navigation
+  = link_to "Ok, zurück", "javascript:void(0)", :class => "upload_buttons", :onclick => "$('.dialog').dialog('close');"

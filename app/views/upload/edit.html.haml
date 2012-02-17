@@ -24,7 +24,6 @@
 
 :javascript
   $(document).ready(function () {
-    $("#required_message").hide();
     $("form").submit(function(event){
       // OPTIMIZE nested form problem
       if(this != event.target) return true;
@@ -36,7 +35,11 @@
       // doesn't work anymore ??!!
       //if($(this).find("input[data-required][value='']").length > 0){
         $("#ajaxLoading").hide();
-        $("#required_message").show();
+        Dialog.add({
+          trigger: $("#upload_navigation .next"),
+          content: $.tmpl("tmpl/upload/validation_failed"),
+          closeOnEscape: true
+        })
         return false;
       }else{
         $("#required_message").hide();
