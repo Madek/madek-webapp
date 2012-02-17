@@ -1,6 +1,6 @@
 # coding: UTF-8
 
-# Persona:  Adam
+# Persona:  Adam Admin
 # Job:      System administrator
 # Age:      24
 #
@@ -36,7 +36,7 @@ module Persona
   class Adam
     def initialize
       name = "Adam"
-      person = Factory(:person, :firstname => name)
+      person = Factory(:person, firstname: name, lastname: "Admin")
       crypted_password = Digest::SHA1.hexdigest("password")
 
       user = Factory(:user, :person => person, :login => name, :password => crypted_password)

@@ -148,6 +148,10 @@ When /^I debug$/ do
   debugger; puts "lala"
 end
 
+When /^I pry/ do
+   binding.pry
+end 
+
 When /^I use pry$/ do
   binding.pry
 end
@@ -231,6 +235,13 @@ end
 When /^I pick "([^"]*)" from the autocomplete field$/ do |choice|
   pick_from_autocomplete(choice)
 end
+
+When /^I give "([^"]*)" permission to "([^"]*)" without saving$/ do |permission, subject|
+  subject = :everybody if subject == "everybody"
+  give_permission_to(permission, subject,false)
+end
+
+
 
 When /^I give "([^"]*)" permission to "([^"]*)"$/ do |permission, subject|
   subject = :everybody if subject == "everybody"

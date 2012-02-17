@@ -12,7 +12,7 @@ Feature: Upload
       And I am "Normin"
 
   # https://www.pivotaltracker.com/story/show/24559407 -> Zugriffsberechtigungen beim Upload: Gleich wie bei Medieneintrag editieren
-  @committed
+  @committed @javascript
   Scenario: Setting permissions during upload
     When I upload a file
     Then the file is attached to a media entry

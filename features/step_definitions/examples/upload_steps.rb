@@ -10,33 +10,8 @@ When /^I upload the file "([^"]*)" relative to the Rails directory$/ do |path|
 end
 
 When /^I upload a file$/ do
-
-=begin
-    visit "/"
-
-    # The upload itself
-    click_link("Hochladen")
-    click_link("Basic Uploader")
-    attach_file("uploaded_data[]", Rails.root + "features/data/images/berlin_wall_01.jpg")
-    click_button("Ausgewählte Medien hochladen und weiter…")
-    wait_for_css_element("#submit_to_3") # This is the "Einstellungen speichern..." button
-    click_button("Einstellungen speichern und weiter…")
-
-    # Entering metadata
-
-    fill_in_for_media_entry_number(1, { "Titel"     => title,
-                                        "Copyright" => 'some dude' })
-
-    click_button("Metadaten speichern und weiter…")
-    click_link_or_button("Weiter ohne Hinzufügen zu einem Set…")
-
-    visit "/"
-   
-    page.should have_content(title)
-=end  
-  
   @path = "features/data/images/berlin_wall_01.jpg"
-  step 'I upload the file "#{@path}" relative to the Rails directory'
+  step "I upload the file \"#{@path}\" relative to the Rails directory"
 end
 
 Then /^the file is attached to a media entry$/ do
@@ -48,6 +23,14 @@ end
 Then /^I can set the permissions for the media entry during the upload process$/ do
   @media_entry_incomplete.userpermissions.empty?.should be_true
   @media_entry_incomplete.grouppermissions.empty?.should be_true
+  visit "/upload"
+  step "I follow \"weiter...\""
+  step 'I type "Adam" into the "user" autocomplete field'
+  step 'I pick "Admin, Adam" from the autocomplete field'
+  step 'I give "view" permission to "Admin, Adam" without saving'
+  step "I follow \"Berechtigungen speichern\""
+  @media_entry_incomplete.userpermissions.reload.empty?.should be_false
+  @media_entry_incomplete.userpermissions.first.view.should == true
 end
 
 When /^I upload files totalling more than (\d+)\.(\d+) GB$/ do |arg1, arg2|
