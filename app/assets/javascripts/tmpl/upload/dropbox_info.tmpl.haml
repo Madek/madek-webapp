@@ -1,6 +1,12 @@
 %h3= "FTP-DROPBOX"
+
+{{if error}}
+%p.error
+  ${error}
+{{/if}}
+
 %p= "Bitte benutzen Sie die FTP-Dropbox wenn Sie Dateien mit einer Dateigrösse von mehr als 1.4GB hochladen möchten."
-  
+
 %p.info
   = "Sie benötigen auf Ihrem Computer einen"
   = link_to('FTP-Client', 'http://de.wikipedia.org/wiki/Kategorie:FTP-Client', :target => '_blank')

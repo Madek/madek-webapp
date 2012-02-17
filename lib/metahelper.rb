@@ -121,8 +121,6 @@ module MetaHelper
           ActiveRecord::Base.connection.rollback_db_transaction
           buffer << "--- The import has been aborted with rollback ---"
         else
-          # Sphinx is not needed anymore
-          #buffer << `rake ts:reindex`
           buffer << "--- Import completed successfully ---"
         end
       end

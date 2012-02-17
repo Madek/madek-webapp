@@ -10,8 +10,17 @@
     FTP Dropbox Server:
     = text_field_tag :ftp_dropbox_server, AppSettings.ftp_dropbox_server
   %p
-    FTP Dropbox Login:
-    = text_field_tag :ftp_dropbox_login, AppSettings.ftp_dropbox_login
+    FTP Dropbox User Login:
+    = text_field_tag :ftp_dropbox_user, AppSettings.ftp_dropbox_user
+    - if (u = AppSettings.ftp_dropbox_user)
+      UID:
+      = Etc.getpwnam(u).uid
+  %p
+    FTP Dropbox User Group:
+    = text_field_tag :ftp_dropbox_group, AppSettings.ftp_dropbox_group
+    - if (g = AppSettings.ftp_dropbox_group)
+      GID:
+      = Etc.getgrnam(g).gid
   %p
     FTP Dropbox Password:
     = text_field_tag :ftp_dropbox_password, AppSettings.ftp_dropbox_password

@@ -249,11 +249,10 @@ def find_permission_checkbox(type, to_or_from)
 end
 
 
-def give_permission_to(type, to)
-
+def give_permission_to(type, to, save=true)
   cb = find_permission_checkbox(type, to)
   cb.click unless cb[:checked] == "true" # a string, not a bool!
-  click_button("Speichern")
+  click_button("Speichern") if save
 end
 
 

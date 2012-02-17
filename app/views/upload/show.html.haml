@@ -1,3 +1,5 @@
+= javascript_include_tag "plupload/i18n/de.js"
+
 #upload-container
   
   #uploader
@@ -18,7 +20,8 @@
   window.dropbox_info = #{@dropbox_info.to_json}
   window.dropbox_transfer_finished = false
   window.dropbox_sync_interval
-  window.dropbox_sync_interval_time = 3000
+  window.dropbox_sync_interval_time = 2000
+  window.max_file_size = "1400mb"
   window.uploader
   window.media_entry_incompletes = #{ render(template:"media_entry_incompletes/index.json.rabl") }
   
@@ -26,59 +29,63 @@
     initalize_plupload()
     remove_not_needed_plupload_elements()
     setup_media_entry_incomplete_files(media_entry_incompletes)
-    setup_dropbox()
+    setup_dropbox_sync()
     setup_dropbox_transfer_trigger()
     bind_upload_progress()
     bind_upload_complete()
     bind_add_files()
     bind_remove_files()
     validate_continue_button()
-    validate_droptext()
     setup_open_dropbox_dialog()
-  
+    setup_file_size_error()
+    
   setup_open_dropbox_dialog = ->
     $(".open_dropbox_dialog").live "click", ->
-      open_dropbox_dialog()
+      open_dropbox_dialog(false)
     $("#create_dropbox").live "ajax:beforeSend", ->
       $(this).html("Dropbox wird erstellt <img class='loading' src='/assets/loading.gif'/>")
       $(this).bind "click", (event) ->
         event.stopImmediatePropagation()
         event.preventDefault()
     $("#create_dropbox").live "ajax:success", (event, response, settings)->
-      window.dropbox_info = response 
+      window.dropbox_info = response
+      window.dropbox_exists = true 
       $("#no_ftp").hide()
       $("#ftp_existing").show()
-      $(".dialog").closest(".ui-dialog").css("height", "auto");
+      $(".dialog").closest(".ui-dialog").css("height", "auto")
+      setup_dropbox_sync()
   
-  open_dropbox_dialog = ->
+  open_dropbox_dialog = (error)->
+    content = if !error then $.tmpl("tmpl/upload/dropbox_info") else $.tmpl("tmpl/upload/dropbox_info", {error:error})  
+    trigger = if !error then $(".open_dropbox_dialog") else $(".plupload_add")
+  
     Dialog.add {
-      trigger: $(".open_dropbox_dialog")
-      content: $.tmpl("tmpl/upload/dropbox_info")
+      trigger: trigger
+      content: content
       dialogClass: "dropbox_info"
       closeOnEscape: true
     }
   
   validate_continue_button = ->
+    console.log "VALIDATE CONTINUE BUTTON"
     if $(".plupload_content li:not(.plupload_done):visible").length == 0
       enable_continue_button()
     else 
       disable_continue_button()
       
-  validate_droptext = ->
-    if $(".plupload_content li:visible").length == 0
-      $("#uploader .plupload_droptext").show()
-    
   enable_continue_button = ->
+    console.log "ENABLE"
     button = $("#upload_navigation .next")
     button.removeClass("disabled")
     button.attr("href", button.data("link_when_enabled"))
     
   disable_continue_button = ->
+    console.log "DISABLE"
     button = $("#upload_navigation .next")
     button.addClass("disabled")
     button.attr("href", "javascript:void(0)")
   
-  setup_dropbox = ->
+  setup_dropbox_sync = ->
     return false if dropbox_exists is false
     setup_dopbox_files dropbox_files if dropbox_files.length > 0
     # load dropbox files with an interval
@@ -119,7 +126,6 @@
     # validate continue
     validate_continue_button()
     
-    
   setup_dropbox_file = (file)->
     # if file list-element is not already exisiting create
     already_existing = false
@@ -136,6 +142,8 @@
     $("#uploader").pluploadQueue
       runtimes: 'html5,html4'
       url: "#{upload_path(:format => :js)}"
+      drop_element: "uploader"
+      max_file_size: window.max_file_size
       multipart_params:
         '#{request_forgery_protection_token}': '#{form_authenticity_token}',
         '#{request.session_options[:key]}': '#{request.session_options[:id]}'
@@ -168,11 +176,23 @@
   
   bind_add_files = ->
     uploader.bind "FilesAdded", (uploader, files) ->
-      window.setTimeout validate_continue_button, 200
+      window.setTimeout ->
+        validate_continue_button()
+        for element in $("#uploader_filelist li.plupload_delete")
+          prevent_plupload_delete($(element))
+      , 200
+      
+  prevent_plupload_delete = (element) ->
+    cloned_action = $(element).find(".plupload_file_action a").clone()
+    $(element).find(".plupload_file_action a").remove()
+    $(element).find(".plupload_file_action").prepend cloned_action
+    $(element).addClass("plupload_transfer").removeClass("plupload_delete")    
   
   bind_remove_files = ->
     uploader.bind "FilesRemoved", (uploader, files) ->
-      window.setTimeout validate_continue_button, 200
+      window.setTimeout ->
+        validate_continue_button()
+      , 200
               
   start_dropbox_transfer = ->
     clearInterval window.dropbox_sync_interval
@@ -225,3 +245,10 @@
   setup_media_entry_incomplete_file = (file)->
     template = $.tmpl("tmpl/upload/mei_file", file)
     $("#uploader #mei_filelist").prepend template 
+
+  setup_file_size_error = ->
+    uploader.bind "error", (uploader, error) ->
+      if error.code = -600
+        open_dropbox_dialog(error.message)
+    window.alert = (msg)->
+      #prevent plupload error message
