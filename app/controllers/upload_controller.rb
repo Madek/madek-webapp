@@ -40,7 +40,7 @@ class UploadController < ApplicationController
       params[:file]
     elsif params[:dropbox_file]
       user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name)
-      f = Dir.glob(File.join(user_dropbox_root_dir, '**', '*')).detect {|x| File.path(x) == File.join(user_dropbox_root_dir, params[:dropbox_file][:dirname], params[:dropbox_file][:filename]) }
+      f = File.join(user_dropbox_root_dir, params[:dropbox_file][:dirname], params[:dropbox_file][:filename])
       ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
                                              :tempfile=> File.new(f, "r"),
                                              :filename=> File.basename(f))
@@ -149,9 +149,8 @@ class UploadController < ApplicationController
               render :json => "MediaEntryIncomplete not found", :status => 500
             end
           elsif params[:dropbox_file]
-            # TODO Franco: merge with create method and direct file selector
             user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name)
-            if (f = Dir.glob(File.join(user_dropbox_root_dir, '**', '*')).detect {|x| File.path(x) == File.join(user_dropbox_root_dir, params[:dropbox_file][:dirname], params[:dropbox_file][:filename]) })
+            if (f = File.join(user_dropbox_root_dir, params[:dropbox_file][:dirname], params[:dropbox_file][:filename]))
               File.delete(f)
               render :json => params[:dropbox_file]
             else
