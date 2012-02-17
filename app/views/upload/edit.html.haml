@@ -1,4 +1,4 @@
-#upload-container
+#upload-container.edit_metadata
   .clearfix{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
     - with_actions = (@media_entries.size > 1)
     = form_tag upload_path, :method => :put do
@@ -21,14 +21,6 @@
           .upload-me-metadata
             .meta_data_block.meta_data
               = render :partial => "meta_data/bulk_edit", :locals => { :resource => media_entry, :context => @context, :with_actions => with_actions }
-
-      .container_12
-        .grid_11.omega
-          = submit_tag _("Metadaten speichern und weiter…"), :class => "upload_buttons"
-        #required_message.grid_11.omega
-          %p{:style => "float:right; color: red;"}
-            = _("Bitte füllen Sie die Pflichtfelder aus (\"Titel\" und \"Copyright\").")
-
 
 :javascript
   $(document).ready(function () {

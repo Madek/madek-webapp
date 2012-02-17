@@ -28,4 +28,11 @@
   #uploader {
     top: -40px;
   }
+  
+  .upload_buttons.disabled, .upload_buttons.disabled:hover, .plupload_disabled:not(.dropbox_enabled), .plupload_disabled:not(.dropbox_enabled):hover {
+    color: #737373;
+    border-color: #c5c5c5;
+    background: #ededed no-repeat 0 center;
+    cursor: default;
+  }
 }

@@ -155,13 +155,24 @@
 
 li.plupload_uploading {
   background: #ECF3DC url('jquery.plupload.queue/backgrounds.gif') repeat-x 0 -238px !important;
+  
+  a {
+    background: url('jquery.plupload.queue/transfering.gif') no-repeat;
+    display: block !important;
+  }
 }
 li.plupload_done {
   background: #c6ffbd url('jquery.plupload.queue/backgrounds.gif') repeat-x 0 -365px !important;
 }
 
 li.plupload_delete a {
+  display: none !important;
   background: url('jquery.plupload.queue/delete.gif') no-repeat;
+}
+
+li.plupload_transfer a {
+  background: url('jquery.plupload.queue/transfer.gif') no-repeat;
+  cursor: default;
 }
 
 li.plupload_failed a {
