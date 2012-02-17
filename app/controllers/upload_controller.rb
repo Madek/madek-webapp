@@ -125,7 +125,7 @@ class UploadController < ApplicationController
       redirect_to root_path
     else
       # OPTIMIZE
-      flash[:error] = "Some media_entries is not valid."
+      flash[:error] = "Einige Medieneinträge sind ungültig"
       redirect_to set_media_sets_upload_path
     end
   end
@@ -133,13 +133,9 @@ class UploadController < ApplicationController
 ##################################################
 
   def destroy
-    respond_to do |format|
-      format.html{ render :text => "JSON only API", :status => 406 }
-      format.json{
-        @media_entries.destroy_all
-        render :json => {}
-      }
-    end
+    # @media_entries.destroy_all # NOTE: the user is not excepting that anything is getting deleted just redirect
+    flash[:notice] = "Import abgebrochen"
+    redirect_to root_path  
   end
 
 ##################################################
