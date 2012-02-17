@@ -6,7 +6,6 @@ class AppSettings < Settings
     :dropbox_root_dir               => {:type => String,    :description => "Dropbox root directory path for FTP upload"},
     :ftp_dropbox_server             => {:type => String,    :description => "Dropbox: ftp server name"},
     :ftp_dropbox_user               => {:type => String,    :description => "Dropbox: ftp user name"},
-    :ftp_dropbox_group              => {:type => String,    :description => "Dropbox: ftp user group"},
     :ftp_dropbox_password           => {:type => String,    :description => "Dropbox: ftp password"}
   }
 

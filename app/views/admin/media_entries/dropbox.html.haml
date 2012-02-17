@@ -19,15 +19,6 @@
       - rescue
         = _("Not Valid!")
   %p
-    FTP Dropbox User Group:
-    = text_field_tag :ftp_dropbox_group, AppSettings.ftp_dropbox_group
-    - if (g = AppSettings.ftp_dropbox_group)
-      GID:
-      - begin
-        = Etc.getgrnam(g).gid
-      - rescue
-        = _("Not Valid!")
-  %p
     FTP Dropbox Password:
     = text_field_tag :ftp_dropbox_password, AppSettings.ftp_dropbox_password
 
