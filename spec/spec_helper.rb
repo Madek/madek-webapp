@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'spork'
-require 'active_record_monkey_patch'
 
 require 'simplecov'
 SimpleCov.start 'rails' do
