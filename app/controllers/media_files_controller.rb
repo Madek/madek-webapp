@@ -1,5 +1,7 @@
 class MediaFilesController < ApplicationController
 
+  skip_before_filter :login_required
+
   # The +show+ method only actually shows the requested media file if the request includes a
   # hash that is set on the media file. This is useful when we want to e.g. refer external
   # services such as Zencoder to one of our files via HTTP.
