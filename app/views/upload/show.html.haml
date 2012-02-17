@@ -67,10 +67,16 @@
     }
   
   validate_continue_button = ->
-    if $(".plupload_content li:not(.plupload_done):visible").length == 0 and $(".plupload_content li:visible").length > 0
-      enable_continue_button()
-    else 
-      disable_continue_button()
+    console.log "VALIDATE CONTINUE BUTTON"
+    window.setTimeout ->
+      if $(".plupload_content li:not(.plupload_done):visible").length == 0 and $(".plupload_content li:visible").length > 0
+        console.log "ENABLE"
+        enable_continue_button()
+      else
+        console.log "DISABLE" 
+        disable_continue_button()
+    , 200
+   
   
   validate_start_button = ->
     if $("#dropbox_filelist li:visible").length > 0
@@ -178,23 +184,21 @@
   
   bind_add_files = ->
     uploader.bind "FilesAdded", (uploader, files) ->
-      window.setTimeout ->
-        validate_continue_button()
-        for element in $("#uploader_filelist li.plupload_delete")
-          prevent_plupload_delete($(element))
-      , 200
+      validate_continue_button()
+      for element in $("#uploader_filelist li.plupload_delete")
+        prevent_plupload_delete($(element))
       
   prevent_plupload_delete = (element) ->
-    cloned_action = $(element).find(".plupload_file_action a").clone()
-    $(element).find(".plupload_file_action a").remove()
-    $(element).find(".plupload_file_action").prepend cloned_action
-    $(element).addClass("plupload_transfer").removeClass("plupload_delete")    
-  
+    window.setTimeout ->
+      cloned_action = $(element).find(".plupload_file_action a").clone()
+      $(element).find(".plupload_file_action a").remove()
+      $(element).find(".plupload_file_action").prepend cloned_action
+      $(element).addClass("plupload_transfer").removeClass("plupload_delete")   
+    , 200
+    
   bind_remove_files = ->
     uploader.bind "FilesRemoved", (uploader, files) ->
-      window.setTimeout ->
-        validate_continue_button()
-      , 200
+      validate_continue_button()
               
   start_dropbox_transfer = ->
     clearInterval window.dropbox_sync_interval
@@ -217,6 +221,7 @@
         url: "/upload"
         success: (data, status, request) ->
           set_custom_progress()
+          validate_continue_button()
           $("#dropbox_filelist li").each (i_element, element) ->
             if($(element).tmplItem().data.dirname == data.dropbox_file.dirname && $(element).tmplItem().data.filename == data.dropbox_file.filename)
               $(element).removeClass("plupload_uploading").addClass("plupload_done")
