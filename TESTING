@@ -1,20 +1,45 @@
 = Testing policy for MAdeK =
 
-- Whenever a new feature is implemented, it must be accompanied by
-  tests.
+== General policy ==
 
-- We prefer tests in the following order:
-  
-  1. Rspec specifications (also used as unit tests)
-  2. Cucumber feature tests
-  3. Cucumber examples (as in Specification by Example)
+- A feature only counts as implemented when it has tests.
 
-- Rspec tests are to be preferred over higher-level tests.
+- Spec descriptions and feature files should describe what is actually
+  going on in the test, so that we know what the test is for.
 
 - If you touch it, test it: Whenever someone changes something that
   had no test before, that person needs to write a test for it.
 
-- UI integration tests are done when there is a high chance of
-  regression.
+
+== What to test ==
+
+  1. On the model level:
+
+     Test whether the model can be instantiated and persisted by a factory. 
+     This also exercises all model validation code and before/after callbacks.
+
+     Test whether the validations work ("should have a name").
+
+  2. On the controller level:
+       
+     The controller's actions should be invoked.
+
+     It should be verified that they set the right variables to the
+     expected values.
+     
+  3. On the view level:
+
+  4. In the examples (the business view):
+
+     Examples might call multiple different controllers to reach
+     their goal. The examples contain the data they enter into the
+     system as well as the expected outputs.
+
+     Examples contain reasons why something happens in a certain way 
+     according to the business rules.
+
+== When to test ==
+
+
 
 
