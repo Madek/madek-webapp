@@ -189,7 +189,6 @@ When "I fill in the metadata form as follows:" do |table|
     # the "key" text. e.g. "Titel*" or "Copyright"
     text = filter_string_for_regex(hash['label'])
 
-    binding.pry
     list = find("ul", :text => /^#{text}/)
     if list.nil?
       raise "Can't find any input fields with the text '#{text}'"
