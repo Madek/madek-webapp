@@ -103,7 +103,15 @@ $(document).ready(function () {
 				      	$(this).tabs('select', ui.index); //'#' + ui.panel.id
 				      },
 					  fx: { opacity: 'toggle' },
-					  ajaxOptions: { dataType: 'html' }
+					  ajaxOptions: { 
+					  	dataType: 'html',
+					  	error: function(data){
+					  		response = JSON.parse(data.responseText);
+					  		setTimeout(function(){
+						  		$(".ui-tabs-panel:visible").html(response.error);
+					  		}, 200);
+					  	} 
+					  }
 					});
 					
 	// For closing all open autocompletes in old tabs
