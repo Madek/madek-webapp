@@ -20,6 +20,8 @@
 
      Test whether the validations work ("should have a name").
 
+     Test whether model methods perform what they are meant to.
+
   2. On the controller level:
        
      The controller's actions should be invoked.
@@ -28,6 +30,8 @@
      expected values.
      
   3. On the view level:
+
+     We have no specific requirements for view tests.
 
   4. In the examples (the business view):
 
@@ -40,6 +44,8 @@
 
 == When to test ==
 
+- Before starting work on a new feature.
 
+- Before committing.
 
 
