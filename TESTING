@@ -50,6 +50,10 @@
 
 - When a model is changed.
 
+- When a new bug is reported, a test involving data that triggers
+  the bug is written, before fixing the bug. After the fix, the test
+  should automatically be green.
+
 - Examples are written at the start of a new iteration/feature.
 
 - Examples must pass green at the end of an iteration, before merge to master.
