@@ -1,0 +1,20 @@
+= Testing policy for MAdeK =
+
+- Whenever a new feature is implemented, it must be accompanied by
+  tests.
+
+- We prefer tests in the following order:
+  
+  1. Rspec specifications (also used as unit tests)
+  2. Cucumber feature tests
+  3. Cucumber examples (as in Specification by Example)
+
+- Rspec tests are to be preferred over higher-level tests.
+
+- If you touch it, test it: Whenever someone changes something that
+  had no test before, that person needs to write a test for it.
+
+- UI integration tests are done when there is a high chance of
+  regression.
+
+
