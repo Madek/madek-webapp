@@ -107,34 +107,6 @@ class MediaResource < ActiveRecord::Base
   after_save { reindex } # OPTIMIZE
 
 
-  # returns the meta_data for a particular resource, so that it can written into a media file that is to be exported.
-  # NB: this is exiftool specific at present, but can be refactored to take account of other tools if necessary.
-  # NB: In this case the 'export' in 'get_data_for_export' also means 'download' 
-  #     (since we write meta-data to the file anyway regardless of if we do a download or an export)
-  def to_metadata_tags
-    MetaContext.io_interface.meta_key_definitions.collect do |definition|
-      # OPTIMIZE
-      value = if definition.meta_key.object_type == "MetaDate"
-                meta_data.get(definition.meta_key_id).to_s
-              else
-                meta_data.get(definition.meta_key_id).deserialized_value
-              end
-      
-      definition.key_map.split(',').collect do |km|
-        km.strip!
-        case definition.key_map_type
-          when "Array"
-            vo = ["-#{km}= "]
-            vo += value.collect {|m| "-#{km}='#{(m.respond_to?(:strip) ? m.strip : m)}'" } if value
-            vo
-          else
-            "-#{km}='#{value}'"          
-        end
-      end
-      
-    end.join(" ")
-  end
-
   # Instance method to update a copy (referenced by path) of a media file with the meta_data tags provided
   # args: blank_all_tags = flag indicating whether we clean all the tags from the file, or update the tags in the file
   # returns: the path and filename of the updated copy or nil (if the copy failed)
@@ -161,7 +133,7 @@ class MediaResource < ActiveRecord::Base
       return path.to_s
     rescue 
       # "No such file or directory" ?
-      logger.error "MediaFile#update_file_metadata, copy failed with #{$!}"
+      logger.error "copy failed with #{$!}"
       return nil
     end
   end
@@ -522,8 +494,9 @@ class MediaResource < ActiveRecord::Base
       not grouppermissions.where(:view => true).exists?)
   end
 
-  private
+##########################################################################
 
+  private
 
   def generate_permissions
     if self.class == Snapshot
@@ -538,5 +511,26 @@ class MediaResource < ActiveRecord::Base
     end
   end
 
+  # returns the meta_data for a particular resource, so that it can written into a media file that is to be exported.
+  # NB: this is exiftool specific at present, but can be refactored to take account of other tools if necessary.
+  # NB: In this case the 'export' in 'get_data_for_export' also means 'download' 
+  #     (since we write meta-data to the file anyway regardless of if we do a download or an export)
+  def to_metadata_tags
+    MetaContext.io_interface.meta_key_definitions.collect do |definition|
+      definition.key_map.split(',').collect do |km|
+        km.strip!
+        case definition.key_map_type
+          when "Array"
+            value = meta_data.get(definition.meta_key_id).deserialized_value
+            vo = ["-#{km}= "]
+            vo += value.collect {|m| "-#{km}='#{(m.respond_to?(:strip) ? m.strip : m)}'" } if value
+            vo
+          else
+            value = meta_data.get(definition.meta_key_id).to_s
+            "-#{km}='#{value}'"          
+        end
+      end
+    end.join(" ")
+  end
 
 end

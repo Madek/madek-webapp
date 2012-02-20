@@ -4,7 +4,7 @@
     = _("Zugriffsberechtigungen editieren")
   .clear
 
-- if @resources
+- if @resources and  (not @resources.detect{ |r| r.is_a? MediaSet })
   - path = request.fullpath == "/upload/permissions" ? permissions_upload_path : update_multiple_media_entry_permissions_path(0) 
   = form_tag path, :method => :put do
     = hidden_field_tag :media_entry_ids, @resources.map(&:id).join(',')
