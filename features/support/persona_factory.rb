@@ -1,4 +1,5 @@
 # coding: UTF-8
+require Rails.root+'features/support/persona'
 
 module PersonaFactory 
   extend self
@@ -9,6 +10,7 @@ module PersonaFactory
         require Rails.root+"features/data/persona/#{persona.downcase}.rb"
         Persona.const_get(persona.camelize).new
         puts "#{persona} was created"
+        return Persona.get(persona)
       else
         puts "#{persona} was already created"
       end
