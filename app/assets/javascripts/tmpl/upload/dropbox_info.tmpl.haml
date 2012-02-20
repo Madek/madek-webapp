@@ -5,12 +5,12 @@
   ${error}
 {{/if}}
 
-%p= "Bitte benutzen Sie die FTP-Dropbox wenn Sie Dateien mit einer Dateigrösse von mehr als 1.4GB hochladen möchten."
+%p= "Bitte benutzen Sie die FTP-Dropbox, wenn Sie Dateien mit einer Dateigrösse von mehr als 1.4GB hochladen möchten."
 
 %p.info
   = "Sie benötigen auf Ihrem Computer einen"
   = link_to('FTP-Client', 'http://de.wikipedia.org/wiki/Kategorie:FTP-Client', :target => '_blank')
-  = "mit dem Sie Ihre Datein zum Medienarchiv-Server übertragen können."
+  = ", mit dem Sie Ihre Dateien zum Medienarchiv-Server übertragen können."
 
 #no_ftp.ftp_informations{:style => "display:{{if dropbox_exists}}none{{else}}block{{/if}}"}
   %p= "Sie haben noch keine FTP-Dropbox erstellt:"
