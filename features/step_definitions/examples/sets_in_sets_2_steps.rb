@@ -83,7 +83,7 @@ When /^I assign the context "([^"]*)" to the set "([^"]*)"$/ do |context_name, s
   
   step 'I follow "Kontexte"'
   wait_for_css_element('#contexts_tab input[@type="submit"]')
-  find(:xpath, '//a[contains(., "%s")]/../input[@type="checkbox"]' % context_label).click 
+  find(:xpath, '//strong[contains(., "%s")]' % context_label).click 
   find('#contexts_tab input[@type="submit"]').click
 end
 
@@ -92,7 +92,7 @@ Then /^I can choose to see more details about the context "([^"]*)"$/ do |contex
   
   step 'I follow "Kontexte"'
   wait_for_css_element('#contexts_tab input[@type="submit"]')
-  find(:xpath, '//a[contains(., "%s")]' % context_label)
+  find(:xpath, "//strong[contains(., '#{context_label}')]/../../a")
 end
 
 Then /^the set "([^"]*)" has the context "([^"]*)"$/ do |set_title, context_name|

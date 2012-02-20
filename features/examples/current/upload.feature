@@ -1,6 +1,4 @@
 # https://www.pivotaltracker.com/story/show/24559683 -> Plupload statt eigenes Upload-Widget
-
-
 Feature: Upload
   As a user
   I want to upload files to the system
