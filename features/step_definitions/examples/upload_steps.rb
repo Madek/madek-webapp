@@ -30,7 +30,7 @@ Then /^I can set the permissions for the media entry during the upload process$/
   step 'I type "Adam" into the "user" autocomplete field'
   step 'I pick "Admin, Adam" from the autocomplete field'
   step 'I give "view" permission to "Admin, Adam" without saving'
-  step "I follow \"Berechtigungen speichern\""
+  step "I follow \"Berechtigungen speichern und weiter...\""
   @media_entry_incomplete.userpermissions.reload.empty?.should be_false
   @media_entry_incomplete.userpermissions.first.view.should == true
 end
