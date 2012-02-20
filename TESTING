@@ -42,10 +42,17 @@
      Examples contain reasons why something happens in a certain way 
      according to the business rules.
 
-== When to test ==
+== When to write tests ==
 
-- Before starting work on a new feature.
+- When a controller method is changed or created.
 
-- Before committing.
+- When a new model is created.
+
+- When a model is changed.
+
+- Examples are written at the start of a new iteration/feature.
+
+- Examples must pass green at the end of an iteration, before merge to master.
+
 
 
