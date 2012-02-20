@@ -101,7 +101,6 @@ class UploadController < ApplicationController
 
   def update
     params[:resources][:media_entry_incomplete].each_pair do |key, value|
-      binding.pry
       media_entry = @media_entries.detect{|me| me.id == key.to_i } #old# .find(key)
       media_entry.update_attributes(value)
     end
