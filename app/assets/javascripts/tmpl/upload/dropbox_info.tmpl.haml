@@ -13,10 +13,15 @@
   = ", mit dem Sie Ihre Dateien zum Medienarchiv-Server übertragen können."
 
 #no_ftp.ftp_informations{:style => "display:{{if dropbox_exists}}none{{else}}block{{/if}}"}
+  {{if dropbox_info == null}}
+  %p= "Im Admin-Bereich des Medienarchives wurde noch keine FTP-Dropbox eingerichtet!"
+  {{else}}
   %p= "Sie haben noch keine FTP-Dropbox erstellt:"
   = link_to "Dropbox erstellen", dropbox_upload_path, :class => "upload_buttons", :id => "create_dropbox",:remote => true, :method => :post
+  {{/if}}
   
 #ftp_existing.ftp_informations{:style => "display:{{if dropbox_exists}}block{{else}}none{{/if}}"}
+  {{if dropbox_info != null}}
   %p= "Verwenden Sie folgende Verbindungsdaten:"
   %dl 
     %dt= "Server bzw. Hostname"
@@ -45,6 +50,7 @@
     
     %dt= "Verzeichnis bzw. Pfad"
     %dd= "${dropbox_info.dir_name}"
+  {{/if}}
       
 .navigation
   = link_to "Ok, zurück", "javascript:void(0)", :class => "upload_buttons", :onclick => "$('.dialog').dialog('close');"
