@@ -26,6 +26,7 @@ Then /^I can set the permissions for the media entry during the upload process$/
   @media_entry_incomplete.userpermissions.empty?.should be_true
   @media_entry_incomplete.grouppermissions.empty?.should be_true
   visit "/upload"
+  sleep (1)
   step "I follow \"weiter...\""
   step 'I type "Adam" into the "user" autocomplete field'
   step 'I pick "Admin, Adam" from the autocomplete field'
