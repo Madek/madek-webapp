@@ -119,20 +119,57 @@ Feature: Ownership
   Scenario: Permission presets
     Given the following permission presets are available:
     |name                  |permissions|
-    |Gesperrt              ||
+    |Gesperrt              | |
     |Betrachter/in         |view|
     |Betrachter/in Original|view, download original|
-    |Redaktor/in|view, edit|
+    |Redaktor/in           |view, edit|
     |Bevollmächtigte/r     |view, edit, download original, manage permissions|
     When I edit permissions to a media entry
     Then those presets are available for choosing
 
-    Gesperrt: keine Berechtigungen
-Betrachter/in: view
-Betrachter/in Original: view, download original
-Redaktor/in: view, edit
-Bevollmächtigte/r: view, edit, download original, manage permissions
-
+  # https://www.pivotaltracker.com/story/show/23723319
+  Scenario: Limiting what other users' permissions I can see
+    Given a resource owned by "Susanne Schumacher"
+      And the resource has the following permissions:
+      |user |permission |value|
+      |Susanne Schumacher|view |yes |
+      |Susanne Schumacher|download original|yes |
+      |Susanne Schumacher|edit |yes |
+      |Susanne Schumacher|manage |yes |
+      |Ramon Cahenzli|view|yes|
+      |Franco Sellitto|edit|yes|
+      |Franco Sellitto|download original|yes|
+      |Sebastian Pape|edit|yes|
+      |Sebastian Pape|download original|yes|
+    When the resource is viewed by "Susanne Schumacher"
+    Then he or she sees the following permissions:
+      |user |permission |value|
+      |Susanne Schumacher|view |yes |
+      |Susanne Schumacher|download original|yes |
+      |Susanne Schumacher|edit |yes |
+      |Susanne Schumacher|manage |yes |
+      |Ramon Cahenzli|view|yes|
+      |Franco Sellitto|edit|yes|
+      |Franco Sellitto|download original|yes|
+      |Sebastian Pape|edit|yes|
+      |Sebastian Pape|download original|yes|
+    When the resource is viewed by "Franco Sellitto"
+    Then he or she sees the following permissions:
+      |user |permission |value|
+      |Susanne Schumacher|view |yes |
+      |Ramon Cahenzli|view|yes|
+    When the resource is viewed by "Sebastian Pape"
+    Then he or she sees the following permissions:
+      |user |permission |value|      
+      |Susanne Schumacher|edit |yes |
+      |Franco Sellitto|edit|yes|      
+      |Sebastian Pape|edit|yes|
+    When the resource is viewed by "Ramon Cahenzli"
+    Then he or she sees the following permissions:
+      |user |permission |value|
+      |Susanne Schumacher|view |yes |      
+      |Ramon Cahenzli|view|yes|
+    
 
   @glossary
   Scenario: Owner
