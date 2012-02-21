@@ -26,7 +26,7 @@ until 2012):
    the settings.
  * cd into your MAdeK directory
  * bundle install
- * rake db:migrate db:seed ts:reindex ts:start
+ * rake madek:reset
 
 That should get you up and running.
 
