@@ -118,38 +118,45 @@ Then /^the warning includes instructions for an FTP upload$/ do
 end
 
 When /^I have uploaded some files to my dropbox$/ do
-  pending # express the regexp above with the code you wish you had
+  user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, @current_user.dropbox_dir_name)
+  FileUtils.cp_r(Dir.glob("#{Rails.root}/features/data/images/*.jpg"), user_dropbox_root_dir)
 end
 
 When /^I start a new upload process$/ do
-  pending # express the regexp above with the code you wish you had
+  visit "/upload"
 end
 
 Then /^I can choose files from my dropbox instead of uploading them through the browser$/ do
-  pending # express the regexp above with the code you wish you had
+  user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, @current_user.dropbox_dir_name)
+  #TODO perhaps merge this logic to @user.dropbox_files
+  dropbox_files = Dir.glob(File.join(user_dropbox_root_dir, '**', '*')).
+                  select {|x| not File.directory?(x) }.
+                  map {|f| {:dirname=> File.dirname(f).gsub(user_dropbox_root_dir, ''),
+                            :filename=> File.basename(f),
+                            :size => File.size(f) } }
+  dropbox_files.each do |file|
+    page.should have_content file[:filename]
+    page.should have_content file[:dirname]
+  end
 end
 
-When /^I have uploaded a directory with some files to my dropbox$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-When /^that directory contains another directory with files$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^I can choose all the files from all those directories from my dropbox instead of uploading them through the browser$/ do
-  pending # express the regexp above with the code you wish you had
+When /^I have uploaded a directory containing files to my dropbox$/ do
+  @user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, @current_user.dropbox_dir_name)
+  FileUtils.cp_r(Dir.glob("#{Rails.root}/features/data/images"), @user_dropbox_root_dir)
 end
 
 When /^I have started uploading some files$/ do
-  pending # express the regexp above with the code you wish you had
+  visit "/upload"
+  attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/berlin_wall_01.jpg") )
+  attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/berlin_wall_02.jpg") )
+  binding.pry
 end
 
 When /^I cancel the upload$/ do
   pending # express the regexp above with the code you wish you had
 end
 
-Then /^the uploaded files are deleted$/ do
+Then /^the uploaded files are still there$/ do
   pending # express the regexp above with the code you wish you had
 end
 
@@ -167,6 +174,7 @@ end
 
 Then /^those files are deleted$/ do
   pending # express the regexp above with the code you wish you had
+  File.exists?(File.join(@user_dropbox_root_dir, "..."))
 end
 
 Then /^only the rest of the files are imported$/ do

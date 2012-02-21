@@ -1,7 +1,7 @@
 Given /^personas are loaded$/ do
   MediaResource.count.zero?.should be_true
 
-  PersonaFactory.create("Adam")
+  PersonaFactory.create("Adam") # Admin should be created first, he setting up the application
   PersonaFactory.create("Normin")
 
   MediaResource.count.zero?.should be_false
