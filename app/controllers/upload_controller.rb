@@ -18,7 +18,8 @@ class UploadController < ApplicationController
     else
       user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name)
       @dropbox_exists = File.directory?(user_dropbox_root_dir)
-      @dropbox_info = dropbox_info 
+      @dropbox_info = dropbox_info
+      #TODO perhaps merge this logic to @user.dropbox_files 
       Dir.glob(File.join(user_dropbox_root_dir, '**', '*')).
                   select {|x| not File.directory?(x) }.
                   map {|f| {:dirname=> File.dirname(f).gsub(user_dropbox_root_dir, ''),
@@ -61,7 +62,7 @@ class UploadController < ApplicationController
     respond_to do |format|
       format.html { redirect_to upload_path } # NOTE we need this for the Plupload html fallback
       format.js { render :json => {"media_entry_incomplete" => {"id" => media_entry_incomplete.id} } } # NOTE this is used by Plupload
-      format.json { render :json => {"dropbox_file" => params[:dropbox_file], "media_entry_incomplete" => {"id" => media_entry_incomplete.id} } }
+      format.json { render :json => {"dropbox_file" => params[:dropbox_file], "media_entry_incomplete" => {"id" => media_entry_incomplete.id, "filename" => media_entry_incomplete.media_file.filename} } }
     end
   end
 

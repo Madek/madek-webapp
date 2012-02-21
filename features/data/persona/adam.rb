@@ -36,28 +36,41 @@ module Persona
   
   class Adam
     
-    @@name = "Adam"
-    @@lastname = "Admin"
-    @@password = "password"
+    NAME = "Adam"
+    LASTNAME = "Admin"
+    PASSWORD = "password"
+    
+    DROPBOX_ROOT_DIR = "#{Rails.root}/tmp/dropbox"
+    FTP_DROPBOX_SERVER = "ftp.dropbox.test"
+    FTP_DROPBOX_USER = "test"
+    FTP_DROPBOX_PASSWORD  = "password"
     
     def initialize
-      create_person()
-      create_user()
-      create_contexts()
+      create_person
+      create_user
+      setup_dropbox
+      create_contexts
     end
     
     def create_person
-      @name = @@name
-      @lastname = @@lastname  
+      @name = NAME
+      @lastname = LASTNAME  
       @person = Factory(:person, firstname: @name, lastname: @lastname)
     end
     
     def create_user
-      @crypted_password = Digest::SHA1.hexdigest(@@password)
+      @crypted_password = Digest::SHA1.hexdigest(PASSWORD)
       @user = Factory(:user, :person => @person, :login => @name.downcase, :password => @crypted_password)
     end
-
-    def create_contexts()
+    
+    def setup_dropbox
+      AppSettings.dropbox_root_dir = DROPBOX_ROOT_DIR
+      AppSettings.ftp_dropbox_server = FTP_DROPBOX_SERVER
+      AppSettings.ftp_dropbox_user = FTP_DROPBOX_USER
+      AppSettings.ftp_dropbox_password = FTP_DROPBOX_PASSWORD
+    end
+    
+    def create_contexts
       # TODO is it correct that the admin creates all these contexts?
       # TODO create with meta_keys
       name = "Landschaftsvisualisierung"

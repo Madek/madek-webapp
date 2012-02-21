@@ -189,7 +189,7 @@
     uploader.bind "UploadComplete", (uploader) ->
       set_custom_progress()
       $("#uploader .plupload_progress").show()
-      start_dropbox_transfer()
+      validate_continue_button()
   
   bind_add_files = ->
     uploader.bind "FilesAdded", (uploader, files) ->
@@ -353,7 +353,8 @@
   setup_delete_plupload_file = ->
     $(".delete_plupload_entry").live "click", (event)->
       if $(this).closest("li").hasClass("plupload_done")
-        return false if !confirm("Sind Sie sicher dass Sie die Datei " + $(this).closest("li").tmplItem().data.filename + " löschen möchten?")
+        filename = if ($(this).closest("li").tmplItem().data.filename == undefined) then $(this).closest("li").find(".plupload_file_name span").html() else $(this).closest("li").tmplItem().data.filename
+        return false if !confirm("Sind Sie sicher dass Sie die Datei " + filename + " löschen möchten?")
         for element in plupload_files_uploaded
           if $(this).closest("li").attr("id") == element.file.id
             delete_mei_file $(this), element.media_entry_incomplete

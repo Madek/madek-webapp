@@ -34,25 +34,32 @@ module Persona
   
   class Normin
     
-    @@name = "Normin"
-    @@lastname = "Normalo"
-    @@password = "password"
+    NAME = "Normin"
+    LASTNAME = "Normalo"
+    PASSWORD = "password"
     
     def initialize
-      create_person()
-      create_user()
-      create_resources()
+      create_person
+      create_user
+      create_dropbox_dir
+      create_resources
     end
     
     def create_person
-      @name = @@name
-      @lastname = @@lastname  
+      @name = NAME
+      @lastname = LASTNAME  
       @person = Factory(:person, firstname: @name, lastname: @lastname)
     end
     
     def create_user
-      @crypted_password = Digest::SHA1.hexdigest(@@password)
+      @crypted_password = Digest::SHA1.hexdigest(PASSWORD)
       @user = Factory(:user, :person => @person, :login => @name.downcase, :password => @crypted_password)
+    end
+    
+    def create_dropbox_dir
+      user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, @user.dropbox_dir_name)
+      FileUtils.mkdir_p(user_dropbox_root_dir)
+      File.new(user_dropbox_root_dir).chmod(0770)
     end
     
     def create_resources
