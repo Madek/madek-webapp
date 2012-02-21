@@ -98,9 +98,14 @@ When "I fill in the metadata in the upload form as follows:" do |table|
 end
 
 When /^I upload a file with a file size greater than 1.4 GB$/ do
-  visit "/upload"
-  path = File.join(::Rails.root, "features/data/files/file_biger_then_1_4_GB.mov") 
-  attach_file(find("input[type='file']")[:id], path)
+  begin
+    path = File.join(::Rails.root, "tmp/file_biger_then_1_4_GB.mov") 
+    `dd if=/dev/zero of=#{path} count=3000000` 
+    visit "/upload"
+    attach_file(find("input[type='file']")[:id], path)
+  ensure
+    File.delete path
+  end
 end
 
 Then /^the system gives me a warning telling me it's impossible to upload so much through the browser$/ do
