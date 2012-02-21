@@ -83,7 +83,7 @@ Feature: Upload
   @committed @javascript
   Scenario: Deleting files before, during and after upload without completing the import
     When I uploading some files from the dropbox and from the filesystem
-     And I delete some of those files during the upload
+     ### And I delete some of those files during the upload ### we cannot test deleting a element during the upload. capybara waits until the ajax requestes are finished
      And I delete some fo those after the upload
     Then those files are deleted
      And only the rest of the files are available for import

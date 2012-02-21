@@ -177,20 +177,28 @@ When /^I uploading some files from the dropbox and from the filesystem$/ do
   find(".plupload_start").click
 end
 
-When /^I delete some of those files during the upload$/ do
-  binding.pry
-end
-
 When /^I delete some fo those after the upload$/ do
-  pending # express the regexp above with the code you wish you had
+  deleted_plupload_file_element_after_upload = find("#uploader_filelist li span",:text => "berlin_wall_01.jpg").find(:xpath, "../..")
+  deleted_plupload_file_element_after_upload.find(".delete_plupload_entry").click
+  page.driver.browser.switch_to.alert.accept
+  
+  deleted_dropbox_file_element_after_upload = find("#dropbox_filelist li span",:text => "berlin_wall_01.jpg").find(:xpath, "../..")
+  deleted_dropbox_file_element_after_upload.find(".delete_dropbox_file").click
+  page.driver.browser.switch_to.alert.accept
 end
 
 Then /^those files are deleted$/ do
-  pending # express the regexp above with the code you wish you had
+  @current_user.incomplete_media_entries.each do |element|
+    element.media_file.filename.should_not == "berlin_wall_01.jpg"
+  end
 end
 
 Then /^only the rest of the files are available for import$/ do
-  pending # express the regexp above with the code you wish you had
+  visit upload_path
+  page.should_not have_content "berlin_wall_01.jpg"
+  page.should have_content "berlin_wall_02.jpg"
+  page.should have_content "date_should_be_1990.jpg"
+  page.should have_content "date_should_be_2011-05-30.jpg"
 end
 
 When /^I import a file$/ do
