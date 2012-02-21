@@ -39,12 +39,7 @@ class Admin::MediaSetsController < Admin::AdminController
     end
     
     @set.update_attributes(params[:media_set])
-    
-    unless params[:new_manager_user_id].blank?
-      user = User.find(params[:new_manager_user_id])
-      Permission.assign_manage_to(user, @set, !!params[:with_media_entries])
-    end
-    
+
     redirect_to admin_media_sets_path
   end
 

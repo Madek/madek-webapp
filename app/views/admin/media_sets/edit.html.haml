@@ -16,31 +16,5 @@
                 = context
 
     %tr
-      %td Manage Permission
-      %td
-        User:
-        = text_field_tag :new_manager_user
-        = hidden_field_tag :new_manager_user_id
-        = check_box_tag :with_media_entries
-        with media_entries
-
-    %tr
       %td.right{:colspan => 2}
         = f.submit _("Update")
-        
-
-:javascript
-  $(function() {
-    var new_manager_user_id_field = $("input#new_manager_user_id"); 
-  
-    $("input#new_manager_user").autocomplete({
-      source: "/users",
-      minLength: 3,
-      select: function( event, ui ) {
-        new_manager_user_id_field.val(ui.item.id);
-      },
-      change: function( event, ui ) {
-        if(ui.item == null) new_manager_user_id_field.val("");
-      }
-    });
-  });
