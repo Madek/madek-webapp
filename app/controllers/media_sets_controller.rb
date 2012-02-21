@@ -152,6 +152,23 @@ class MediaSetsController < ApplicationController
       format.json {
         render :json => @media_set.as_json(:with => with, :current_user =>current_user)
       }
+      
+      # TODO drop js and use json only, this is currently only used for the inview-pagination
+      format.js {
+        # OPTIMIZE this is a quick-fix for the inview-pagination
+        if params[:page]
+          params[:per_page] ||= PER_PAGE.first
+          paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
+          resources = MediaResource.accessible_by_user(current_user).order("media_resources.updated_at DESC").by_media_set(@media_set).paginate(paginate_options)
+          with_thumb = true
+          json = { :pagination => { :current_page => resources.current_page,
+                                    :per_page => resources.per_page,
+                                    :total_entries => resources.total_entries,
+                                    :total_pages => resources.total_pages },
+                   :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
+        end
+        render :json => json
+      }
 
       # TODO disable the above and enable blow for json emplated rendering 
       # @media_entries = @media_set.media_entries.accessible_by_user(current_user)
