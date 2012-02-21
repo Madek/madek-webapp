@@ -618,8 +618,8 @@ de_CH: ANewKeyword\
 			<integer>727</integer>
 			<key>Points</key>
 			<array>
-				<string>{538.15723, 268.61237}</string>
-				<string>{538.64886, 367.32306}</string>
+				<string>{538.05353, 268.61237}</string>
+				<string>{538.06927, 367.32306}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -804,8 +804,8 @@ de_CH: ANewKeyword\
 			<integer>720</integer>
 			<key>Points</key>
 			<array>
-				<string>{846.68353, 393.32791}</string>
-				<string>{600.75592, 389.7301}</string>
+				<string>{846.68347, 393.33002}</string>
+				<string>{600.05011, 389.72803}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -879,8 +879,8 @@ de_CH: ANewKeyword\
 			<integer>718</integer>
 			<key>Points</key>
 			<array>
-				<string>{538.7561, 499.9136}</string>
-				<string>{538.75598, 410.32303}</string>
+				<string>{538.62341, 499.9136}</string>
+				<string>{538.18677, 410.32303}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -902,7 +902,7 @@ de_CH: ANewKeyword\
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{477.25601, 367.82306}, {123, 42}}</string>
+			<string>{{476.55011, 367.82306}, {123, 42}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -2046,7 +2046,7 @@ belongs_to}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2012-02-20 09:04:41 +0000</string>
+	<string>2012-02-20 09:31:36 +0000</string>
 	<key>Modifier</key>
 	<string>Thomas Schank</string>
 	<key>NotesVisible</key>
@@ -2139,7 +2139,7 @@ belongs_to}</string>
 		<key>FitInWindow</key>
 		<true/>
 		<key>Frame</key>
-		<string>{{334, 286}, {1115, 892}}</string>
+		<string>{{68, 0}, {1115, 778}}</string>
 		<key>ListView</key>
 		<false/>
 		<key>OutlineWidth</key>
@@ -2151,9 +2151,9 @@ belongs_to}</string>
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{2, 1}, {1115, 782}}</string>
+		<string>{{-92.659195, 1.1704036}, {1305, 781.82965}}</string>
 		<key>Zoom</key>
-		<real>1</real>
+		<real>0.85440611839294434</real>
 		<key>ZoomValues</key>
 		<array>
 			<array>

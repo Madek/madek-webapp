@@ -30,7 +30,7 @@ Then /^I can set the permissions for the media entry during the upload process$/
   step 'I type "Adam" into the "user" autocomplete field'
   step 'I pick "Admin, Adam" from the autocomplete field'
   step 'I give "view" permission to "Admin, Adam" without saving'
-  step "I follow \"Berechtigungen speichern\""
+  step "I follow \"Berechtigungen speichern und weiter...\""
   @media_entry_incomplete.userpermissions.reload.empty?.should be_false
   @media_entry_incomplete.userpermissions.first.view.should == true
 end
@@ -95,20 +95,20 @@ When "I fill in the metadata in the upload form as follows:" do |table|
   # check the simple properties for now
   @media_entry_incomplete.reload.meta_data.where("meta_key_id = ?",3).first.value.should == "Test image for uploading"
   @media_entry_incomplete.reload.meta_data.where("meta_key_id = ?",52).first.value.should == "Tester"
-
 end
 
-
-When /^I upload files totalling more than (\d+)\.(\d+) GB$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+When /^I upload a file with a file size greater than 1.4 GB$/ do
+  visit "/upload"
+  path = File.join(::Rails.root, "features/data/files/file_biger_then_1_4_GB.mov") 
+  attach_file(find("input[type='file']")[:id], path)
 end
 
 Then /^the system gives me a warning telling me it's impossible to upload so much through the browser$/ do
-  pending # express the regexp above with the code you wish you had
+  find(".dialog").should have_content "Die ausgewählte Datei war zu gross"
 end
 
 Then /^the warning includes instructions for an FTP upload$/ do
-  pending # express the regexp above with the code you wish you had
+  find(".dialog").should have_content "FTP"
 end
 
 When /^I have uploaded some files to my dropbox$/ do

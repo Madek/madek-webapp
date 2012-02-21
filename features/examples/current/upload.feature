@@ -1,6 +1,4 @@
 # https://www.pivotaltracker.com/story/show/24559683 -> Plupload statt eigenes Upload-Widget
-
-
 Feature: Upload
   As a user
   I want to upload files to the system
@@ -53,9 +51,9 @@ Feature: Upload
      And I add the media entry to a set called "Konzepte"
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
-  @committed
+  @committed @javascript
   Scenario: Uploading large files
-    When I upload files totalling more than 1.5 GB
+    When I upload a file with a file size greater than 1.4 GB
     Then the system gives me a warning telling me it's impossible to upload so much through the browser
      And the warning includes instructions for an FTP upload
 
