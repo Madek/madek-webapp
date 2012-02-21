@@ -17,12 +17,17 @@ Feature: Permissions
   I want to have different permissions on resources
   So that I can decide who has what kind of access to my data
 
+#  Background: Load the example data and personas
+#	Given I have set up the world
+#    And personas are loaded
+#    And I am "Normin"
+
   Scenario: View permission
-    Given a resource owned by "Susanne Schumacher"
+    Given a resource owned by "Normin"
       And the resource has the following permissions:
       |user              |permission       |value|
-      |Susanne Schumacher|view             |yes  |
-     Then "Susanne Schumacher" can view the resource
+      |Normin            |view             |true |
+     Then "Normin" can view the resource
 
   Scenario: Edit permission
     Given a resource owned by "Susanne Schumacher"
