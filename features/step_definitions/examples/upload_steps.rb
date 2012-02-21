@@ -149,35 +149,47 @@ When /^I have started uploading some files$/ do
   visit "/upload"
   attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/berlin_wall_01.jpg") )
   attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/berlin_wall_02.jpg") )
-  binding.pry
+  find(".plupload_start").click
 end
 
 When /^I cancel the upload$/ do
-  pending # express the regexp above with the code you wish you had
+  wait_for_css_element(".next:not(.disabled)")
+  step 'follow "Abbrechen"'
+  page.driver.browser.switch_to.alert.accept
 end
 
 Then /^the uploaded files are still there$/ do
-  pending # express the regexp above with the code you wish you had
+  MediaEntryIncomplete.all[0].media_file.filename.should == "berlin_wall_01.jpg"
+  MediaEntryIncomplete.all[1].media_file.filename.should == "berlin_wall_02.jpg"
 end
 
 Then /^the upload process ends$/ do
-  pending # express the regexp above with the code you wish you had
+  page.should have_content("Import abgebrochen")
 end
 
-When /^I have uploaded some files$/ do
-  pending # express the regexp above with the code you wish you had
+When /^I uploading some files from the dropbox and from the filesystem$/ do
+  step 'I have uploaded some files to my dropbox'
+  visit "/upload"
+  attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/berlin_wall_01.jpg") )
+  attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/berlin_wall_02.jpg") )
+  attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/date_should_be_1990.jpg") )
+  attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/date_should_be_2011-05-30.jpg") )
+  find(".plupload_start").click
 end
 
-When /^I delete some of those files during the import$/ do
+When /^I delete some of those files during the upload$/ do
+  binding.pry
+end
+
+When /^I delete some fo those after the upload$/ do
   pending # express the regexp above with the code you wish you had
 end
 
 Then /^those files are deleted$/ do
   pending # express the regexp above with the code you wish you had
-  File.exists?(File.join(@user_dropbox_root_dir, "..."))
 end
 
-Then /^only the rest of the files are imported$/ do
+Then /^only the rest of the files are available for import$/ do
   pending # express the regexp above with the code you wish you had
 end
 

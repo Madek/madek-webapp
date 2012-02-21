@@ -80,12 +80,13 @@ Feature: Upload
      And the uploaded files are still there
   
   # https://www.pivotaltracker.com/story/show/24564505 -> Dateien nach Upload aber vor Import löschen   
-  @committed
-  Scenario: Deleting files after upload without completing the import
-    When I have uploaded some files
-     And I delete some of those files during the import
+  @committed @javascript
+  Scenario: Deleting files before, during and after upload without completing the import
+    When I uploading some files from the dropbox and from the filesystem
+     And I delete some of those files during the upload
+     And I delete some fo those after the upload
     Then those files are deleted
-     And only the rest of the files are imported
+     And only the rest of the files are available for import
     
   # https://www.pivotaltracker.com/story/show/14696355 -> Angabe des Original-Dateinamens bei einem Medieneintrag
   @javascript
