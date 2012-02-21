@@ -37,7 +37,8 @@ module MetaDataHelper
   end
   
   def display_objective_meta_data_for(resource)
-    meta_data = resource.media_file.meta_data_without_binary.sort
+    meta_data = [["Filename", resource.media_file.filename]]
+    meta_data += resource.media_file.meta_data_without_binary.sort
     display_meta_data_helper(_("Datei"), meta_data)
   end
   
