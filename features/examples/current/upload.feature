@@ -89,8 +89,9 @@ Feature: Upload
      And only the rest of the files are imported
     
   # https://www.pivotaltracker.com/story/show/14696355 -> Angabe des Original-Dateinamens bei einem Medieneintrag
+  @javascript
   Scenario: Extracting the file name into metadata
-    When I upload a file
+    When I import a file
     Then I want to have its original file name inside its metadata
 
   # https://www.pivotaltracker.com/story/show/24559359 -> Datierung aus Kameradatum (EXIF/IPTC) übernehmen (Erstellungsdatum)

@@ -172,3 +172,28 @@ end
 Then /^only the rest of the files are imported$/ do
   pending # express the regexp above with the code you wish you had
 end
+
+When /^I import a file$/ do
+  @path = "features/data/images/berlin_wall_01.jpg"
+  steps %Q{
+   When I upload the file "#{@path}" relative to the Rails directory
+   And I go to the upload edit 
+   And I fill in the metadata for entry number 1 as follows:
+   |label    |value                       |
+   |Titel    |into the set after uploading|
+   |Copyright|some other dude             |
+   And I follow "Metadaten speichern und weiter..."
+   And I follow "Import abschliessen"
+  }
+end
+
+Then /^I want to have its original file name inside its metadata$/ do
+  visit media_entry_path(@media_entry_incomplete)
+  find("#meta_data .meta_group .meta_vocab_name", :text => "Filename")
+  find("#meta_data .meta_group .meta_terms", :text => File.basename(@path))
+end
+
+Then /^I want to have the date the camera took the picture on as the creation date$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
