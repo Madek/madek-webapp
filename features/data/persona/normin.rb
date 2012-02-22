@@ -41,7 +41,7 @@ module Persona
     def initialize
       create_person
       create_user
-      create_dropbox_dir
+      create_dropbox_dir if  AppSettings.dropbox_root_dir
       create_resources
     end
     
@@ -61,7 +61,7 @@ module Persona
       FileUtils.mkdir_p(user_dropbox_root_dir)
       File.new(user_dropbox_root_dir).chmod(0770)
     end
-    
+
     def create_resources
       ## Abgabe zum Kurs Product Design
       set = Factory(:media_set, :user => @user)
