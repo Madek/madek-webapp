@@ -26,6 +26,7 @@ Then /^I can set the permissions for the media entry during the upload process$/
   @media_entry_incomplete.userpermissions.empty?.should be_true
   @media_entry_incomplete.grouppermissions.empty?.should be_true
   visit "/upload"
+  sleep (1)
   step "I follow \"weiter...\""
   step 'I type "Adam" into the "user" autocomplete field'
   step 'I pick "Admin, Adam" from the autocomplete field'
@@ -98,9 +99,14 @@ When "I fill in the metadata in the upload form as follows:" do |table|
 end
 
 When /^I upload a file with a file size greater than 1.4 GB$/ do
-  visit "/upload"
-  path = File.join(::Rails.root, "features/data/files/file_biger_then_1_4_GB.mov") 
-  attach_file(find("input[type='file']")[:id], path)
+  begin
+    path = File.join(::Rails.root, "tmp/file_biger_then_1_4_GB.mov") 
+    `dd if=/dev/zero of=#{path} count=3000000` 
+    visit "/upload"
+    attach_file(find("input[type='file']")[:id], path)
+  ensure
+    File.delete path
+  end
 end
 
 Then /^the system gives me a warning telling me it's impossible to upload so much through the browser$/ do
@@ -112,57 +118,111 @@ Then /^the warning includes instructions for an FTP upload$/ do
 end
 
 When /^I have uploaded some files to my dropbox$/ do
-  pending # express the regexp above with the code you wish you had
+  user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, @current_user.dropbox_dir_name)
+  FileUtils.cp_r(Dir.glob("#{Rails.root}/features/data/images/*.jpg"), user_dropbox_root_dir)
 end
 
 When /^I start a new upload process$/ do
-  pending # express the regexp above with the code you wish you had
+  visit "/upload"
 end
 
 Then /^I can choose files from my dropbox instead of uploading them through the browser$/ do
-  pending # express the regexp above with the code you wish you had
+  user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, @current_user.dropbox_dir_name)
+  #TODO perhaps merge this logic to @user.dropbox_files
+  dropbox_files = Dir.glob(File.join(user_dropbox_root_dir, '**', '*')).
+                  select {|x| not File.directory?(x) }.
+                  map {|f| {:dirname=> File.dirname(f).gsub(user_dropbox_root_dir, ''),
+                            :filename=> File.basename(f),
+                            :size => File.size(f) } }
+  dropbox_files.each do |file|
+    page.should have_content file[:filename]
+    page.should have_content file[:dirname]
+  end
 end
 
-When /^I have uploaded a directory with some files to my dropbox$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-When /^that directory contains another directory with files$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^I can choose all the files from all those directories from my dropbox instead of uploading them through the browser$/ do
-  pending # express the regexp above with the code you wish you had
+When /^I have uploaded a directory containing files to my dropbox$/ do
+  @user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, @current_user.dropbox_dir_name)
+  FileUtils.cp_r(Dir.glob("#{Rails.root}/features/data/images"), @user_dropbox_root_dir)
 end
 
 When /^I have started uploading some files$/ do
-  pending # express the regexp above with the code you wish you had
+  visit "/upload"
+  attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/berlin_wall_01.jpg") )
+  attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/berlin_wall_02.jpg") )
+  find(".plupload_start").click
 end
 
 When /^I cancel the upload$/ do
-  pending # express the regexp above with the code you wish you had
+  wait_for_css_element(".next:not(.disabled)")
+  step 'follow "Abbrechen"'
+  page.driver.browser.switch_to.alert.accept
 end
 
-Then /^the uploaded files are deleted$/ do
-  pending # express the regexp above with the code you wish you had
+Then /^the uploaded files are still there$/ do
+  MediaEntryIncomplete.all[0].media_file.filename.should == "berlin_wall_01.jpg"
+  MediaEntryIncomplete.all[1].media_file.filename.should == "berlin_wall_02.jpg"
 end
 
 Then /^the upload process ends$/ do
-  pending # express the regexp above with the code you wish you had
+  page.should have_content("Import abgebrochen")
 end
 
-When /^I have uploaded some files$/ do
-  pending # express the regexp above with the code you wish you had
+When /^I uploading some files from the dropbox and from the filesystem$/ do
+  step 'I have uploaded some files to my dropbox'
+  visit "/upload"
+  attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/berlin_wall_01.jpg") )
+  attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/berlin_wall_02.jpg") )
+  attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/date_should_be_1990.jpg") )
+  attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/date_should_be_2011-05-30.jpg") )
+  find(".plupload_start").click
 end
 
-When /^I delete some of those files during the import$/ do
-  pending # express the regexp above with the code you wish you had
+When /^I delete some fo those after the upload$/ do
+  deleted_plupload_file_element_after_upload = find("#uploader_filelist li span",:text => "berlin_wall_01.jpg").find(:xpath, "../..")
+  deleted_plupload_file_element_after_upload.find(".delete_plupload_entry").click
+  page.driver.browser.switch_to.alert.accept
+  
+  deleted_dropbox_file_element_after_upload = find("#dropbox_filelist li span",:text => "berlin_wall_01.jpg").find(:xpath, "../..")
+  deleted_dropbox_file_element_after_upload.find(".delete_dropbox_file").click
+  page.driver.browser.switch_to.alert.accept
 end
 
 Then /^those files are deleted$/ do
+  sleep(2)
+  @current_user.incomplete_media_entries.each do |element|
+    element.media_file.filename.should_not == "berlin_wall_01.jpg"
+  end
+end
+
+Then /^only the rest of the files are available for import$/ do
+  visit upload_path
+  page.should_not have_content "berlin_wall_01.jpg"
+  page.should have_content "berlin_wall_02.jpg"
+  page.should have_content "date_should_be_1990.jpg"
+  page.should have_content "date_should_be_2011-05-30.jpg"
+end
+
+When /^I import a file$/ do
+  @path = "features/data/images/berlin_wall_01.jpg"
+  steps %Q{
+   When I upload the file "#{@path}" relative to the Rails directory
+   And I go to the upload edit 
+   And I fill in the metadata for entry number 1 as follows:
+   |label    |value                       |
+   |Titel    |into the set after uploading|
+   |Copyright|some other dude             |
+   And I follow "Metadaten speichern und weiter..."
+   And I follow "Import abschliessen"
+  }
+end
+
+Then /^I want to have its original file name inside its metadata$/ do
+  visit media_entry_path(@media_entry_incomplete)
+  find("#meta_data .meta_group .meta_vocab_name", :text => "Filename")
+  find("#meta_data .meta_group .meta_terms", :text => File.basename(@path))
+end
+
+Then /^I want to have the date the camera took the picture on as the creation date$/ do
   pending # express the regexp above with the code you wish you had
 end
 
-Then /^only the rest of the files are imported$/ do
-  pending # express the regexp above with the code you wish you had
-end

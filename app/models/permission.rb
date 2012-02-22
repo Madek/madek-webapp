@@ -178,24 +178,6 @@ class Permission < ActiveRecord::Base
       actions
     end
 
-    def assign_manage_to(subject, resource, recursive = false)
-      @subject = subject
-      @i = 2 ** ACTIONS.index(:manage)
-      
-      def assign_for(resource)
-        resource.permissions.where(" #{SQLHelper.bitwise_is('action_bits',@i)} AND #{SQLHelper.bitwise_is('action_mask',@i)}").first.set_actions({:manage => false})
-        h = {:view => true, :edit => true, :manage => true}
-        h[:hi_res] = true if resource.is_a?(MediaEntry)
-        resource.permissions.find_or_create_by_subject_type_and_subject_id(@subject.class.base_class.name, @subject.id).set_actions(h)
-      end
-      
-      assign_for(resource) # TODO only in case of MediaEntry or MediaSet ??  
-      
-      resource.media_entries.each do |me|
-        assign_for(me)
-      end if resource.is_a?(MediaSet) and recursive
-    end
-
   end
 
 

@@ -58,39 +58,39 @@ Feature: Upload
      And the warning includes instructions for an FTP upload
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
-  @committed
+  @committed @javascript
   Scenario: Uploading via a dropbox
     When I have uploaded some files to my dropbox
      And I start a new upload process
     Then I can choose files from my dropbox instead of uploading them through the browser
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
-  @committed
+  @committed @javascript
   Scenario: Recursively searching for importable files in my dropbox
-    When I have uploaded a directory with some files to my dropbox
-     And that directory contains another directory with files
+    When I have uploaded a directory containing files to my dropbox
      And I start a new upload process
-    Then I can choose all the files from all those directories from my dropbox instead of uploading them through the browser
+    Then I can choose files from my dropbox instead of uploading them through the browser
   
   # https://www.pivotaltracker.com/story/show/24564545 -> Upload abbrechen können   
-  @committed
+  @committed @javascript
   Scenario: Cancelling my upload
     When I have started uploading some files
      And I cancel the upload
-    Then the uploaded files are deleted
-     And the upload process ends
+    Then the upload process ends
+     And the uploaded files are still there
   
   # https://www.pivotaltracker.com/story/show/24564505 -> Dateien nach Upload aber vor Import löschen   
-  @committed
-  Scenario: Deleting files after upload without completing the import
-    When I have uploaded some files
-     And I delete some of those files during the import
+  @committed @javascript
+  Scenario: Deleting files before, during and after upload without completing the import
+    When I uploading some files from the dropbox and from the filesystem
+     And I delete some fo those after the upload
     Then those files are deleted
-     And only the rest of the files are imported
+     And only the rest of the files are available for import
     
   # https://www.pivotaltracker.com/story/show/14696355 -> Angabe des Original-Dateinamens bei einem Medieneintrag
+  @javascript
   Scenario: Extracting the file name into metadata
-    When I upload a file
+    When I import a file
     Then I want to have its original file name inside its metadata
 
   # https://www.pivotaltracker.com/story/show/24559359 -> Datierung aus Kameradatum (EXIF/IPTC) übernehmen (Erstellungsdatum)
