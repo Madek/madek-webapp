@@ -11,7 +11,11 @@ class Authenticator::ZhdkController < ApplicationController
     
   def login
     if Rails.env.development? and params["bypass"]
-      session[:user_id] = create_or_update_user(DevelopmentHelpers::AUTH_XML) # self.current_user =
+      if user = User.where("login = ?",params["bypass"]).first
+        session[:user_id] = user.id
+      else 
+        session[:user_id] = create_or_update_user(DevelopmentHelpers::AUTH_XML)
+      end
       (User.find session[:user_id]).usage_terms_accepted!
       redirect_to root_path
     else
