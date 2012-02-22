@@ -12,7 +12,7 @@
           = f.select :object_type, MetaKey.object_types.collect {|o| [o, o]}, { :include_blank => true }
         - else
           = f.object.object_type
-    - if f.object.object_type == "Meta::Term"
+    - if f.object.object_type == "MetaTerm"
       %tr
         %th
           Terms

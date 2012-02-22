@@ -2,13 +2,13 @@
 module PermissionsHelper
 
   def display_permission(resource, type = :icon)
-    if resource.acl?(:view, :all)
+    if resource.is_public?
       if type == :icon
         content_tag :div, :class => "icon_status_perm_public" do end
       else
         "(#{_("Öffentlich")})"
       end
-    elsif resource.acl?(:view, :only, current_user)
+    elsif resource.is_private?(current_user)
       if type == :icon
         content_tag :div, :class => "icon_status_perm_private" do end
       else

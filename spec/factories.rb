@@ -40,6 +40,50 @@ module DataFactory
 
 end
 
+class ActiveRecord::Base
+
+
+  if SQLHelper.adapter_is_mysql? 
+
+    # general strategy:
+    # 1. see if there is something to find, if not return nil
+    # 2. select a random row return and return it if not nil (i.e. hit a gap) otherwise recurse
+
+    def self.find_random 
+      if not (find_by_sql "SELECT * FROM #{table_name} LIMIT 1").first 
+        nil
+      else
+        (find_by_sql "SELECT t.* FROM #{table_name} t, (SELECT @id := (FLOOR((MAX(id) - MIN(id) + 1) * RAND()) + MIN(id)) FROM #{table_name} ) t2 WHERE t.id = @id;").first  
+      end
+    end
+
+  elsif SQLHelper.adapter_is_postgresql? 
+
+    def self.find_random 
+      if not (find_by_sql "SELECT * FROM #{table_name} LIMIT 1").first 
+        nil
+      else
+        (find_by_sql "SELECT * from #{table_name} WHERE id = (SELECT floor((max(id) - min(id) + 1) * random())::int  + min(id) from #{table_name});").first 
+      end
+    end
+
+  else
+
+    def self.find_random
+      raise "this function is not implemented for the currently used db adapter"
+    end
+
+  end
+
+
+  # this is in O(n) and hence not very efficient, there seems to be no way to make this better 
+  def self.find_nth num
+    (find_by_sql "SELECT * from #{table_name} LIMIT 1 OFFSET #{num};").first
+  end
+
+
+end
+
 
 module FactoryHelper
 
@@ -59,10 +103,10 @@ FactoryGirl.define do
     name {Faker::Lorem.words.join("_")}
     is_user_interface true
 
-    meta_field {
-      h = {:label => {}}
+    label {
+      h = {}
       LANGUAGES.each do |lang|
-        h[:label][lang] = name
+        h[lang] = name
       end
       h
     }
@@ -73,54 +117,15 @@ FactoryGirl.define do
   factory :media_set_arc , :class => MediaSetArc do
   end
 
-  factory :media_entry do
-    upload_session {FactoryGirl.create :upload_session }
-    media_file {FactoryGirl.create :media_file}
-
-    view {FactoryHelper.rand_bool 1/10.0}
-    download { view and FactoryHelper.rand_bool}
-    edit {FactoryHelper.rand_bool 1/10.0}
-    manage {edit and FactoryHelper.rand_bool}
-
-    after_build do |me|
-      def me.extract_subjective_metadata; end
-      def me.set_copyright; end
-      def me.set_descr_author_value record; end
-    end
-  end
-
   factory :media_file  do 
-    uploaded_data  {{ :type=> "image/png", :tempfile=> File.new("#{Rails.root}/app/assets/images/icons/eye.png", "r"), :filename=> "eye.png"}} 
-    content_type "image/png"
-    guid  (Digest::SHA1.hexdigest Time.now.to_f.to_s)
-    filename  "dummy.png"
-    access_hash  UUIDTools::UUID.random_create.to_s
-    after_build do |mf|
-      def mf.assign_access_hash; end
-      def mf.validate_file; end
-      def mf.store_file; end
-    end
+    uploaded_data  {
+      f = "#{Rails.root}/features/data/images/berlin_wall_01.jpg"
+      ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
+                                             :tempfile=> File.new(f, "r"),
+                                             :filename=> File.basename(f))
+    } 
   end
 
-  factory :media_resource do
-    user {User.find_random || (FactoryGirl.create :user)}
-
-    view {FactoryHelper.rand_bool 1/10.0}
-    download { view and FactoryHelper.rand_bool}
-    edit {FactoryHelper.rand_bool 1/10.0}
-    manage {edit and FactoryHelper.rand_bool}
-  end
-
-  factory :media_set do
-
-    user {User.find_random || (FactoryGirl.create :user)}
-
-    view {FactoryHelper.rand_bool 1/10.0}
-    download { view and FactoryHelper.rand_bool}
-    edit {FactoryHelper.rand_bool 1/10.0}
-    manage {edit and FactoryHelper.rand_bool}
-    
-  end
 
   ### Permissions ...
 
@@ -188,11 +193,6 @@ FactoryGirl.define do
   factory :person do
     lastname {Faker::Name.last_name}
     firstname {Faker::Name.first_name}
-  end
-
-  factory :upload_session do
-    user {User.find_random || (FactoryGirl.create :user)}
-    is_complete true
   end
 
   factory :user do |n| 

@@ -3,7 +3,7 @@ class RefactorMetaDate2 < ActiveRecord::Migration
 
     key = MetaKey.where(:label => "date created").first
     if key
-      key.update_attributes(:object_type => "Meta::Date")
+      key.update_attributes(:object_type => "MetaDate")
       key.meta_data.each do |md|
         md.update_attributes(:value => md.value)
       end

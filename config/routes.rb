@@ -38,21 +38,18 @@ MAdeK::Application.routes.draw do
 
   match '/download', :controller => 'download', :action => 'download'
   
-  match '/import', :to => Upload
-  match '/upload.js', :to => Upload
-  match '/upload_estimation.js', :to => UploadEstimation
   match '/nagiosstat', :to => Nagiosstat
+
+  resources :media_resources
 
 ###############################################
 #NOTE first media_entries and then media_sets
 
   resources :media_entries do
     collection do
-      #temp# get :graph
       get :keywords
       post :edit_multiple
       put :update_multiple
-      post :edit_multiple_permissions
       post :media_sets
       delete :media_sets
     end
@@ -62,16 +59,15 @@ MAdeK::Application.routes.draw do
       delete :media_sets
       get :edit_tms
       get :to_snapshot
-      #temp# :graph_nodes => :get,
-      #temp# :index_browser => :get
       get :image, :to => "resources#image"
       get :map
       get :browse
     end
     
-    resources :permissions do
+    resources :permissions, :except => :index do
       collection do
         get :edit_multiple
+        post :edit_multiple
         put :update_multiple
       end
     end
@@ -102,7 +98,7 @@ MAdeK::Application.routes.draw do
     
     resources :media_sets #-# only used for FeaturedSet 
     
-    resources :permissions do
+    resources :permissions, :except => :index do
       collection do
         get :edit_multiple
         put :update_multiple
@@ -197,17 +193,21 @@ MAdeK::Application.routes.draw do
   end
 
 ###############################################
-  
-  #working here#4 plural resources nesting upload_session:id
-  resource :upload, :controller => 'upload' do
+
+  # TODO rename :import
+  resource :upload, :controller => 'upload', :except => :new do
     member do
-      post :set_permissions #working here#4 use update method for all ??
-      post :set_media_sets
-      get :set_media_sets #working here#4 :get as well ??
-      get :import_summary
+      get :permissions, :to => "permissions#edit_multiple"
+      put :permissions, :to => "permissions#update_multiple"
+      get :set_media_sets
+      put :complete
+      get :dropbox
+      post :dropbox
     end
   end
   
+###################
+   
   resource :session
 
   resources :meta_contexts, :only => :show do
@@ -267,7 +267,8 @@ MAdeK::Application.routes.draw do
 
     resources :media_entries do
       collection do
-        get :import
+        get :dropbox
+        post :dropbox
       end
     end
 

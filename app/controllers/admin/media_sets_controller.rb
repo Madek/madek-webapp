@@ -1,7 +1,13 @@
 # -*- encoding : utf-8 -*-
 class Admin::MediaSetsController < Admin::AdminController
   
-  before_filter :pre_load
+  before_filter do
+    unless (params[:media_set_id] ||= params[:id]).blank?
+      @set = MediaSet.find(params[:media_set_id])
+    end
+  end
+
+#####################################################
 
   def index
     @sets = MediaSet.all
@@ -33,12 +39,7 @@ class Admin::MediaSetsController < Admin::AdminController
     end
     
     @set.update_attributes(params[:media_set])
-    
-    unless params[:new_manager_user_id].blank?
-      user = User.find(params[:new_manager_user_id])
-      Permission.assign_manage_to(user, @set, !!params[:with_media_entries])
-    end
-    
+
     redirect_to admin_media_sets_path
   end
 
@@ -59,15 +60,6 @@ class Admin::MediaSetsController < Admin::AdminController
       @splashscreen_slideshow_set_id = AppSettings.splashscreen_slideshow_set_id
       @media_sets = MediaSet.where(:view => true)
     end
-  end
-
-#####################################################
-
-  private
-
-  def pre_load
-      params[:media_set_id] ||= params[:id]
-      @set = MediaSet.find(params[:media_set_id]) unless params[:media_set_id].blank?
   end
   
 end

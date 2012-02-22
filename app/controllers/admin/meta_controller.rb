@@ -13,32 +13,20 @@ class Admin::MetaController < Admin::AdminController
   def export
       h = {}
 
-      h[:meta_terms] = Meta::Term.all.collect(&:attributes)
+      h[:meta_terms] = MetaTerm.all.collect(&:attributes)
 
       h[:meta_keys] = MetaKey.all.collect do |meta_key|
         a = meta_key.attributes
-        a["meta_terms"] = meta_key.meta_terms.collect(&:id) if meta_key.object_type == "Meta::Term"
+        a["meta_terms"] = meta_key.meta_terms.collect(&:id) if meta_key.object_type == "MetaTerm"
         a
       end
 
-      h[:meta_contexts] = MetaContext.all.collect do |meta_contexts|
-        a = {}
-        ["id", "name", "is_user_interface"].each do |b|
-          v = meta_contexts.send(b)
-          a[b] = v unless v.blank?
-        end
-        a["meta_field"] = meta_contexts.meta_field.instance_values
-        a
+      h[:meta_contexts] = MetaContext.all.collect do |meta_context|
+        meta_context.attributes.select {|k,v| not v.blank? }
       end
 
       h[:meta_key_definitions] = MetaKeyDefinition.all.collect do |meta_key_definition|
-        a = {}
-        ["id", "meta_key_id", "meta_context_id", "position", "key_map", "key_map_type"].each do |b|
-          v = meta_key_definition.send(b)
-          a[b] = v unless v.blank?
-        end
-        a["meta_field"] = meta_key_definition.meta_field.instance_values
-        a
+        meta_key_definition.attributes.select {|k,v| not v.blank? and not k =~ /ated_at$/ }
       end
 
 #future#

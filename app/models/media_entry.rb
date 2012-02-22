@@ -7,24 +7,12 @@
 class MediaEntry < MediaResource
   
   belongs_to                :media_file #, :include => :previews # TODO validates_presence # TODO on destroy, also destroy the media_file if this is the only related media_entry and snapshot
-  belongs_to                :upload_session
-  belongs_to                :user # NOTE this redundant with upload_session.user_id
+  belongs_to                :user
   has_many                  :snapshots
 
   has_and_belongs_to_many   :media_sets, :join_table => "media_entries_media_sets",
                                          :association_foreign_key => "media_set_id" # TODO validate_uniqueness
   alias :parent_sets :media_sets
-
-  before_create :extract_subjective_metadata, :set_copyright
-
-  before_validation(:on => :create) do
-    self.user = upload_session.user
-  end
-    
-  after_create do |record|
-    descr_author_value = record.meta_data.get("description author", false).try(:value)
-    record.meta_data.get("description author before import").update_attributes(:value => descr_author_value) if descr_author_value
-  end
 
 ########################################################
 
@@ -53,12 +41,20 @@ class MediaEntry < MediaResource
     
     # TODO shouldnt be set per default
     json[:is_set] = false
-    json[:can_maybe_browse] = !meta_data.for_meta_terms.blank?
+    json[:can_maybe_browse] = meta_data.for_meta_terms.exists?
     
     if(with = options[:with])
       if(with[:media_entry] and with[:media_entry].is_a?(Hash))
         if with[:media_entry].has_key?(:author) and (with[:media_entry][:author].is_a?(Hash) or not with[:media_entry][:author].to_i.zero?)
-          json[:author] = meta_data.find_by_meta_key_id MetaKey.find_by_label("author")
+          author = meta_data.get("author").deserialized_value.first # FIXME get all if many
+          json[:author] = {}
+          json[:author][:id] = author.id
+          if with[:media_entry][:author].has_key?(:name) and (with[:media_entry][:author][:name].is_a?(Hash) or not with[:media_entry][:author][:name].to_i.zero?)
+            json[:author][:name] = author.to_s
+          end 
+        end
+        if with[:media_entry].has_key?(:title) and (with[:media_entry][:title].is_a?(Hash) or not with[:media_entry][:title].to_i.zero?)
+          json[:title] = meta_data.get_value_for("title")
         end
         if with[:media_entry].has_key?(:image) and (with[:media_entry][:image].is_a?(Hash) or not with[:media_entry][:image].to_i.zero?)
           
@@ -116,131 +112,5 @@ class MediaEntry < MediaResource
       meta_data
    end
  end
-
-########################################################
-
-  private
-
-  # - used by metal/download.rb to collect the key_map tags and their values for writing into the 
-  # copy of the original media file that the user is about to download.
-
-  # Handler for extracting some subjective meta-data from whatever file has been handed to us
-  #
-  #--
-  # TODO - more sophisticated importing validations.. some files have a key with a blank entry.. useful! (ie the import will fail if we allow blanks through)
-  # TODO - generally everything we get via exiftool will have File and System tags.. do we really want this in subjective MD?
-  # TODO - IFD0 tags will contain a camera manufacturer, possibly followed by that manufacturers own data. Parse or not to parse..
-  # NOTE - java jar files are zipped, hence the group tag in application
-  #++
-  def extract_subjective_metadata
-    return unless ["image", "audio", "video"].any? {|w| self.media_file.content_type.include? w }
-
-     fct = self.media_file.content_type
-     group_tags = case fct
-                    when /image/ 
-                      #NOTE - these two really don't bring much to the party, except broken character encodings.. # 'IPTC:', 'IPTC2']
-                      ['XMP-madek', 'XMP-dc', 'XMP-photoshop', 'XMP-iptcCore', 'XMP-xmpRights', 'XMP-expressionmedia', 'XMP-mediapro']
-                    when /video/
-                      ['QuickTime', 'Track', 'Composite', 'RIFF', 'BMP', 'Flash', 'M2TS', 'AC3', 'H264' ] # OPTIMIZE - some of these may move to Objective Metadata
-                    when /audio/ 
-                      ['MPEG', 'ID3', 'Track', 'Composite', 'ASF', 'FLAC', 'Vorbis' ] # OPTIMIZE - some of these may move to Objective Metadata
-                    when /application/
-                      ['FlashPix', 'PDF', 'XMP-', 'PostScript', 'Photoshop', 'EXE', 'ZIP' ] # OPTIMIZE - some of these may move to Objective Metadata
-                    when /text/
-                      ['HTML' ]  # and inevitably more..
-                  end
-      ignore_fields = case fct
-                        when /image/
-                           [/^XMP-photoshop:ICCProfileName$/,/^XMP-photoshop:LegacyIPTCDigest$/, /^XMP-expressionmedia:(?!UserFields)/, /^XMP-mediapro:(?!UserFields)/]
-                        when /video/
-                          []
-                        when /audio/
-                          []
-                        when /application/
-                          []
-                        when /text/
-                          []
-                      end
-
-      blob = exiftool_subjective(self.media_file.file_storage_location, group_tags)
-      process_metadata_blob(blob, ignore_fields)
-  end
-
-
-  def process_metadata_blob(blob, ignore_fields = [])
-    blob.each do |tag_array_entry|
-      tag_array_entry.each do |entry|
-        entry_key = entry[0]
-        entry_value = entry[1]
-        next if ignore_fields.detect {|e| entry_key =~ e}
-
-        if entry_key =~ /^XMP-(expressionmedia|mediapro):UserFields/
-          Array(entry_value).each do |s|
-            entry_key, entry_value = s.split('=', 2)
-
-            # TODO priority ??
-            case entry_key
-              when "Datum", "Datierung"
-                meta_key = MetaKey.find_by_label("portrayed object dates")
-              when "Autor/in"
-                meta_key = MetaKey.find_by_label("author")
-              else
-                next
-            end
-
-            # TODO dry
-            next if entry_value.blank? or entry_value == "-" or meta_data.detect {|md| md.meta_key == meta_key } # we do sometimes receive a blank value in metadata, hence the check.
-            entry_value.gsub!(/\\n/,"\n") if entry_value.is_a?(String) # OPTIMIZE line breaks in text are broken somehow
-            meta_data.build(:meta_key => meta_key, :value => entry_value )
-          end
-        else
-          meta_key = MetaKey.meta_key_for(entry_key) #working here#10 , MetaContext.file_embedded)
-
-          next if entry_value.blank? or meta_data.detect {|md| md.meta_key == meta_key } # we do sometimes receive a blank value in metadata, hence the check.
-          entry_value.gsub!(/\\n/,"\n") if entry_value.is_a?(String) # OPTIMIZE line breaks in text are broken somehow
-          meta_data.build(:meta_key => meta_key, :value => entry_value )
-        end
-
-      end
-    end
-  end
-  
-#temp#
-#  def extract_mediapro_userfields
-#  end
-
-  # see mapping table on http://code.zhdk.ch/projects/madek/wiki/Copyright
-  def set_copyright
-    copyright_status = meta_data.detect {|md| ["copyright status"].include?(md.meta_key.label) }
-    are_usage_or_url_defined = meta_data.detect {|md| ["copyright usage", "copyright url"].include?(md.meta_key.label) }
-
-    if !copyright_status
-      value = (are_usage_or_url_defined ? Copyright.custom : Copyright.default)
-      meta_data.build(:meta_key => MetaKey.find_by_label("copyright status"), :value => value)
-    elsif copyright_status.value.class == TrueClass or are_usage_or_url_defined 
-      copyright_status.value = Copyright.custom
-    elsif copyright_status.value.class == FalseClass
-      copyright_status.value = Copyright.public
-    else
-      copyright_status.value = Copyright.default
-    end
-  end
-
-
-# parses the passed in file reference for the requested tag groups
-# returns an array of arrays of meta-data for the group tags requested
-
-#==== Depends on:
-# [external] exiftool meta-data manipulation perl library.
-
-  def exiftool_subjective(media, tags = nil)
-    result_set = []
-    parse_hash = JSON.parse(`#{EXIFTOOL_PATH} -s "#{media}" -a -u -G1 -D -j`).first
-    # TODO ?? parse_hash.delete_if {|k,v| v.is_a?(String) and not v.valid_encoding? }
-    tags.each do |tag_group|
-      result_set << parse_hash.select {|k,v| k.include?(tag_group)}.sort
-    end
-    result_set
-  end
 
 end

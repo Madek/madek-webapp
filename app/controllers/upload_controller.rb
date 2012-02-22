@@ -1,123 +1,173 @@
 # -*- encoding : utf-8 -*-
+
 class UploadController < ApplicationController
+
+  layout "upload"
+
+  before_filter :except => [:create, :dropbox_dir] do
+    @media_entry_incompletes =  @media_entries = current_user.incomplete_media_entries
+  end
 
 ##################################################
 # step 1
 
-  def new
+  def show
+    dropbox_files = unless AppSettings.dropbox_root_dir and File.directory?(AppSettings.dropbox_root_dir)
+      @dropbox_exists = false
+      []
+    else
+      user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name)
+      @dropbox_exists = File.directory?(user_dropbox_root_dir)
+      @dropbox_info = dropbox_info
+      #TODO perhaps merge this logic to @user.dropbox_files 
+      Dir.glob(File.join(user_dropbox_root_dir, '**', '*')).
+                  select {|x| not File.directory?(x) }.
+                  map {|f| {:dirname=> File.dirname(f).gsub(user_dropbox_root_dir, ''),
+                            :filename=> File.basename(f),
+                            :size => File.size(f) } }
+    end
+    
+    respond_to do |format|
+      format.html {
+        @dropbox_files_json = dropbox_files.to_json
+      }
+      format.json {
+        render :json => dropbox_files
+      }
+    end
+  end
+    
+  def create
+    uploaded_data = if params[:file]
+      params[:file]
+    elsif params[:dropbox_file]
+      user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name)
+      f = File.join(user_dropbox_root_dir, params[:dropbox_file][:dirname], params[:dropbox_file][:filename])
+      ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
+                                             :tempfile=> File.new(f, "r"),
+                                             :filename=> File.basename(f))
+    else
+      raise "No file to import!"
+    end
+
+    media_entry_incomplete = current_user.incomplete_media_entries.create(:uploaded_data => uploaded_data)
+
+    if media_entry_incomplete.persisted?
+      File.delete(f) if params[:dropbox_file]
+    else
+      # OPTIMIZE
+      raise "Import failed!"
+    end
+
+    respond_to do |format|
+      format.html { redirect_to upload_path } # NOTE we need this for the Plupload html fallback
+      format.js { render :json => {"media_entry_incomplete" => {"id" => media_entry_incomplete.id} } } # NOTE this is used by Plupload
+      format.json { render :json => {"dropbox_file" => params[:dropbox_file], "media_entry_incomplete" => {"id" => media_entry_incomplete.id, "filename" => media_entry_incomplete.media_file.filename} } }
+    end
   end
 
-  def show
-    pre_load # OPTIMIZE
+  def dropbox
+    if request.post?
+      if File.directory?(AppSettings.dropbox_root_dir) and
+        (user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name))
+        Dir.mkdir(user_dropbox_root_dir)
+        File.new(user_dropbox_root_dir).chmod(0770)
+      else
+        raise "The dropbox root directory is not yet defined. Contact the administrator."
+      end
+    end
+    respond_to do |format|
+      format.json { render :json => dropbox_info }
+    end
   end
   
-### metal/upload.rb ###    
-#  def create
-#  end
+  # NOTE helper method
+  def dropbox_info
+    {:server => AppSettings.ftp_dropbox_server,
+     :login => AppSettings.ftp_dropbox_user,
+     :password => AppSettings.ftp_dropbox_password,
+     :dir_name => current_user.dropbox_dir_name}
+  end
 
 ##################################################
 # step 2
-
-  # TODO dry with PermissionsController#update_multiple
-  def set_permissions
-    default_params = {:view => false, :edit => false, :download => false}
-    params.reverse_merge!(default_params)
-
-    view_action, edit_action, download_action = case params[:view].to_sym
-                                  when :private
-                                    [default_params[:view], default_params[:edit], default_params[:download]]
-                                  when :public
-                                    [true, !!params[:edit], true]
-                                  else
-                                    [default_params[:view], default_params[:edit], default_params[:download]]
-                                end
-    
-    pre_load # OPTIMIZE
-    @media_entries.each do |media_entry|
-      media_entry.download = download_action
-      media_entry.edit = edit_action
-      media_entry.view = view_action
-    end
-
-    if params[:view].to_sym == :zhdk_users
-      zhdk_group = Group.where(:name => "ZHdK (Zürcher Hochschule der Künste)").first
-      view_action, edit_action, download_action = [true, !!params[:edit], true]
-      @media_entries.each do |media_entry|
-        p = media_entry.grouppermissions.where(:group_id => zhdk_group.id).first
-        p ||= media_entry.grouppermissions.build(:group => zhdk_group)
-        p.update_attributes(:view => view_action, :edit => edit_action, :download => download_action)
-      end
-    end
-
-    edit
-    render :action => :edit
-  end
-
+# NOTE get permissions_upload_path
 
 ##################################################
 # step 3
 
   def edit
-    pre_load
     @context = MetaContext.upload
   end
 
   def update
-    pre_load
-    @upload_session.set_as_complete
-
     params[:resources][:media_entry_incomplete].each_pair do |key, value|
       media_entry = @media_entries.detect{|me| me.id == key.to_i } #old# .find(key)
       media_entry.update_attributes(value)
     end
 
-    # TODO delta index if new Person 
-
-    render :action => :set_media_sets
+    redirect_to set_media_sets_upload_path
   end
-
 
 ##################################################
 # step 4
 
   def set_media_sets
-    if request.post?
-      params[:media_set_ids].delete_if {|x| x.blank?}
+  end
 
-      pre_load # OPTIMIZE
-      media_sets = MediaSet.find_by_id_or_create_by_title(params[:media_set_ids], current_user)
-      media_sets.each do |media_set|
-        media_set.media_entries.push_uniq @upload_session.media_entries
-      end
-    
+##################################################
+
+  def complete
+    if @media_entries.all? {|me| me.context_valid?(MetaContext.upload) }
+      @media_entries.each {|me| me.set_as_complete }
       redirect_to root_path
     else
-      # TODO is the get method really needed ??
-      pre_load # OPTIMIZE
-      @media_entries = @upload_session.media_entries
+      # OPTIMIZE
+      flash[:error] = "Einige Medieneinträge sind ungültig"
+      redirect_to set_media_sets_upload_path
     end
   end
 
 ##################################################
 
-  def import_summary
-    pre_load
-    @context = MetaContext.upload
-    @all_valid = @media_entries.all? {|me| me.context_valid?(@context) }
-    @upload_session.set_as_complete if @all_valid
-  end
   
+  def destroy
+     respond_to do |format|
+       
+        format.html do
+          # we are canceling the full import, but not deleting
+          # @media_entries.destroy_all # NOTE: the user is not excepting that anything is getting deleted just redirect
+          flash[:notice] = "Import abgebrochen"
+          redirect_to root_path 
+        end
+        
+        format.json do
+          # we deleting a single media_entry_incomplete or dropbox file
+          if params[:media_entry_incomplete]
+            if (media_entry_incomplete = current_user.incomplete_media_entries.find params[:media_entry_incomplete][:id])
+              media_entry_incomplete.destroy
+              render :json => params[:media_entry_incomplete]
+            else
+              render :json => "MediaEntryIncomplete not found", :status => 500
+            end
+          elsif params[:dropbox_file]
+            user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name)
+            if (f = File.join(user_dropbox_root_dir, params[:dropbox_file][:dirname], params[:dropbox_file][:filename]))
+              File.delete(f)
+              render :json => params[:dropbox_file]
+            else
+              render :json => "File not found", :status => 500
+            end
+          else
+            render :json => {}, :status => 500
+          end
+        end
+      end
+  end
+
 ##################################################
 
   private
   
-  def pre_load
-    @upload_session = if params[:upload_session_id]
-                        current_user.upload_sessions.find(params[:upload_session_id])
-                      else
-                        current_user.upload_sessions.latest
-                      end
-    @media_entries = @upload_session.incomplete_media_entries
-  end
 
 end

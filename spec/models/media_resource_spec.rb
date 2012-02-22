@@ -11,43 +11,58 @@ describe MediaResource do
       @media_set_child =  FactoryGirl.create :media_set
     end
 
-    it "should be possible to add a media_entry as a child to media_set" do
-      expect {@media_set_parent.media_entries << @media_entry}.not_to raise_error 
+    context "relationships" do
+      
+      it "should be possible to add a media_entry as a child to media_set" do
+        expect {@media_set_parent.media_entries << @media_entry}.not_to raise_error 
+      end
+  
+      context "a media_set has a media_entry as child " do
+        before :each do
+          @media_set_parent.media_entries << @media_entry
+        end
+  
+        it "should be included in the media_entries of the set" do
+          @media_set_parent.media_entries.should include @media_entry
+        end
+  
+        it "the media_set should be included in the parents of the media_entry" do
+          @media_entry.parents.should include @media_set_parent
+        end
+      end
+      
+      it "should be possible to add a media_sets to the child_sets of a media_set " do
+        expect { @media_set_parent.child_sets << @media_set_child }.not_to raise_error
+      end
+  
+      context "a media_set has a media_set as child " do
+        before :each do
+          @media_set_parent.child_sets << @media_set_child
+        end
+  
+        it "should be included in the child_sets of the parents " do
+          @media_set_parent.child_sets.should include @media_set_child
+        end
+  
+        it "the media_set_parent should be included in the parents of the media_set_child" do
+          @media_set_child.parents.should include @media_set_parent
+        end
+      end
+
     end
 
-    context "a media_set has a media_entry as child " do
-      before :each do
-        @media_set_parent.media_entries << @media_entry
+    context "meta_data" do
+      before :all do
+        @media_entry.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => "Pablo Picasso"}}})
       end
-
-      it "should be included in the media_entries of the set" do
-        @media_set_parent.media_entries.should include @media_entry
+      
+      it "exports person meta_data as string for exiftool, not as ruby object" do
+        s = @media_entry.send :to_metadata_tags
+        s.include?("-XMP-madek:Author='Picasso, Pablo'").should be_true
+        s.include?("#<").should be_false
       end
-
-      it "the media_set should be included in the parents of the media_entry" do
-        @media_entry.parents.should include @media_set_parent
-      end
+      
     end
-    
-    it "should be possible to add a media_sets to the child_sets of a media_set " do
-      expect { @media_set_parent.child_sets << @media_set_child }.not_to raise_error
-    end
-
-    context "a media_set has a media_set as child " do
-      before :each do
-        @media_set_parent.child_sets << @media_set_child
-      end
-
-      it "should be included in the child_sets of the parents " do
-        @media_set_parent.child_sets.should include @media_set_child
-      end
-
-      it "the media_set_parent should be included in the parents of the media_set_child" do
-        @media_set_child.parents.should include @media_set_parent
-      end
-    end
-
-
 
     ####### INTERNAL Permissions
 

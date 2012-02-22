@@ -10,7 +10,7 @@ class MetaKeyDefinition < ActiveRecord::Base
   belongs_to    :meta_context
   belongs_to    :meta_key
 
-  validates_presence_of :meta_field, :meta_key
+  validates_presence_of :meta_key 
   validate do |record|
     # FIXME undefined method `add_to_base' for #<MetaKeyDefinition:0x20d8b24>
     if record.meta_context.is_user_interface?
@@ -20,15 +20,26 @@ class MetaKeyDefinition < ActiveRecord::Base
     end
   end
 
-  before_validation {|record| record.meta_field = {} unless record.meta_field }
+#########################
 
-  # NOTE the overridden method MUST come BEFORE the serialize statement or IT WILL FAIL ON LINUX!!
-  def meta_field=(hash = {})
-    f = meta_field || MetaField.new
-    f.update_attributes(hash)
-    write_attribute(:meta_field, f)
+  [:label, :description, :hint].each do |name|
+    belongs_to name, :class_name => "MetaTerm"
+    define_method "#{name}=" do |h|
+      write_attribute("#{name}_id", MetaTerm.find_or_create(h).try(:id))
+    end
   end
-  serialize     :meta_field, MetaField
+
+  # TODO Rails 3.2
+  # store :settings, accessors: [:is_required, :length_min, :length_max]
+  serialize :settings, Hash
+  [:is_required, :length_min, :length_max].each do |name|
+    define_method name do
+      self.settings[name]
+    end
+    define_method "#{name}=" do |i|
+      self.settings[name] = i
+    end
+  end
 
 ###################################################
 
@@ -120,7 +131,14 @@ class MetaKeyDefinition < ActiveRecord::Base
 #          end
         end
 
-        group(:key_map).where("key_map IS NOT NULL").each do |definition|
+        disinct_key_map =
+          if SQLHelper.adapter_is_postgresql? 
+            select " DISTINCT ON (key_map) * " 
+          elsif SQLHelper.adapter_is_mysql?
+            group :key_map 
+          end
+
+        disinct_key_map.where("key_map IS NOT NULL").each do |definition|
           definition.key_map.split(',').collect do |km|
             km.strip!
 

@@ -1,9 +1,17 @@
 # -*- encoding : utf-8 -*-
 class MediaResource < ActiveRecord::Base
 
-  belongs_to :user 
-  belongs_to :media_file
-  belongs_to :upload_session
+  after_create do
+    if is_a? Snapshot
+      group = Group.find_or_create_by_name("MIZ-Archiv") 
+      grouppermissions.create(group: group, view: true, edit: true, download: true, manage: true)
+    end
+  end
+
+###############################################################
+
+  belongs_to :user   # TODO remove down and set missing user for snapshots
+  belongs_to :media_file  # TODO remove 
 
  # TODO observe bulk changes and reindex once
   has_many :meta_data, :dependent => :destroy do #working here#7 :include => :meta_key
@@ -53,8 +61,6 @@ class MediaResource < ActiveRecord::Base
 #        end
 #      end
 #    end
-
-  after_create :generate_permissions
 
   has_many  :edit_sessions, :dependent => :destroy, :readonly => true
   has_many  :editors, :through => :edit_sessions, :source => :user do
@@ -108,34 +114,6 @@ class MediaResource < ActiveRecord::Base
   after_save { reindex } # OPTIMIZE
 
 
-  # returns the meta_data for a particular resource, so that it can written into a media file that is to be exported.
-  # NB: this is exiftool specific at present, but can be refactored to take account of other tools if necessary.
-  # NB: In this case the 'export' in 'get_data_for_export' also means 'download' 
-  #     (since we write meta-data to the file anyway regardless of if we do a download or an export)
-  def to_metadata_tags
-    MetaContext.io_interface.meta_key_definitions.collect do |definition|
-      # OPTIMIZE
-      value = if definition.meta_key.object_type == "Meta::Date"
-                meta_data.get(definition.meta_key_id).to_s
-              else
-                meta_data.get(definition.meta_key_id).deserialized_value
-              end
-      
-      definition.key_map.split(',').collect do |km|
-        km.strip!
-        case definition.key_map_type
-          when "Array"
-            vo = ["-#{km}= "]
-            vo += value.collect {|m| "-#{km}='#{(m.respond_to?(:strip) ? m.strip : m)}'" } if value
-            vo
-          else
-            "-#{km}='#{value}'"          
-        end
-      end
-      
-    end.join(" ")
-  end
-
   # Instance method to update a copy (referenced by path) of a media file with the meta_data tags provided
   # args: blank_all_tags = flag indicating whether we clean all the tags from the file, or update the tags in the file
   # returns: the path and filename of the updated copy or nil (if the copy failed)
@@ -154,36 +132,19 @@ class MediaResource < ActiveRecord::Base
       tags = cleaner_tags + (blank_all_tags ? "" : to_metadata_tags)
 
       path = File.join(DOWNLOAD_STORAGE_DIR, File.basename(source_filename))
-      # TODO - robustification
-      generate_exiftool_config if MetaContext.io_interface.meta_key_definitions.maximum("updated_at").to_i > File.stat(EXIFTOOL_CONFIG).mtime.to_i
+      # TODO Tom ask: why is this called from here and not when the meta_key_definitions are updated? 
+      Exiftool.generate_exiftool_config if MetaContext.io_interface.meta_key_definitions.maximum("updated_at").to_i > File.stat(EXIFTOOL_CONFIG).mtime.to_i
 
       resout = `#{EXIFTOOL_PATH} #{tags} "#{path}"`
       FileUtils.rm("#{path}_original") if resout.include?("1 image files updated") # Exiftool backs up the original before editing. We don't need the backup.
       return path.to_s
     rescue 
       # "No such file or directory" ?
-      logger.error "MediaFile#update_file_metadata, copy failed with #{$!}"
+      logger.error "copy failed with #{$!}"
       return nil
     end
   end
 
-  # ad-hoc method that generates a new exiftool config file, when it is sensed that there are new keys/key_defs that should be saved in a file
-  # using the XMP-madek metadata namespace.
-  # TODO refactor the use of exiftool, so that for each media file/entry it is only called once, 
-  # entrys' contents cached, and obj/subj meta-data extracted as necessary  
-    def generate_exiftool_config
-      exiftool_keys = MetaContext.io_interface.meta_key_definitions.collect {|e| "#{e.key_map.split(":").last} => {#{e.key_map_type == "Array" ? " List => 'Bag'" : nil} },"}
-  
-      skels = Dir.glob("#{METADATA_CONFIG_DIR}/ExifTool_config.skeleton.*")
-  
-      exif_conf = File.open(EXIFTOOL_CONFIG, 'w')
-      exif_conf.puts IO.read(skels.first)
-      exiftool_keys.sort.each do |k|
-        exif_conf.puts "\t#{k}\n"
-      end
-      exif_conf.puts IO.read(skels.last)
-      exif_conf.close
-    end
     
     # TODO merge to as_json
     def get_basic_info(current_user, extended_keys = [], with_thumb = false)
@@ -240,8 +201,9 @@ class MediaResource < ActiveRecord::Base
     
     if user = options[:user]
       #TODO Dont do this behaviour on default
-      flags = { :is_private => acl?(:view, :only, user),
-                :is_public => acl?(:view, :all),
+      is_public = is_public?
+      flags = { :is_public => is_public,
+                :is_private => (is_public ? false : is_private?(user)),
                 :is_editable => user.authorized?(:edit, self),
                 :is_manageable => user.authorized?(:manage, self),
                 :is_favorite => user.favorite_ids.include?(id) }
@@ -281,6 +243,7 @@ class MediaResource < ActiveRecord::Base
 
 ########################################################
 
+  # TODO move down to Snapshot class
   def self.to_tms_doc(resources, context = MetaContext.tms)
     xml = ::Builder::XmlMarkup.new
     xml.instruct!
@@ -361,9 +324,7 @@ class MediaResource < ActiveRecord::Base
 ##########################################################################################################################
   
   scope :media_entries_and_media_sets, where(:type => ["MediaEntry", "MediaSet"])
-  scope :media_entries, where(:type => "MediaEntry")
-  scope :media_sets, where(:type => "MediaSet")
-  scope :snapshots, where(:type => "Snapshot")
+  scope :media_entries_or_media_entry_incompletes, where(:type => ["MediaEntry", "MediaEntryIncomplete"])
 
   ################################################################
 
@@ -486,16 +447,9 @@ class MediaResource < ActiveRecord::Base
     end
   end
 
-  def acl?(action, scope, subject = nil)
-    case scope
-    when :all
-      self.send(action)
-    when :only
-      is_private?(subject, :view)
-    end
-  end
-
   def self.accessible_by_user(user, action = :view)
+    action = action.to_sym
+    
     unless user.try(:id)
       where(action => true)
     else
@@ -536,27 +490,41 @@ class MediaResource < ActiveRecord::Base
     users_permitted_to_act :manage
   end
 
-  def is_private?(user, action)
-    new_action = Constants::Actions.old2new action
-    (users_permitted_to_act new_action).where(["users.id <> ?", user]).empty?
+  def is_public?
+    view?
   end
 
+  def is_private?(user)
+    (user_id == user.id and
+      not is_public? and
+      not userpermissions.where(:view => true).where(["user_id != ?", user]).exists? and
+      not grouppermissions.where(:view => true).exists?)
+  end
+
+##########################################################################
 
   private
 
-
-  def generate_permissions
-    if self.class == Snapshot
-      group = Group.find_or_create_by_name("MIZ-Archiv") 
-      gp = Grouppermission.create  \
-        group: group, 
-        media_resource: self,
-        download: true,
-        edit: true,
-        manage: true,
-        view: true
-    end
+  # returns the meta_data for a particular resource, so that it can written into a media file that is to be exported.
+  # NB: this is exiftool specific at present, but can be refactored to take account of other tools if necessary.
+  # NB: In this case the 'export' in 'get_data_for_export' also means 'download' 
+  #     (since we write meta-data to the file anyway regardless of if we do a download or an export)
+  def to_metadata_tags
+    MetaContext.io_interface.meta_key_definitions.collect do |definition|
+      definition.key_map.split(',').collect do |km|
+        km.strip!
+        case definition.key_map_type
+          when "Array"
+            value = meta_data.get(definition.meta_key_id).deserialized_value
+            vo = ["-#{km}= "]
+            vo += value.collect {|m| "-#{km}='#{(m.respond_to?(:strip) ? m.strip : m)}'" } if value
+            vo
+          else
+            value = meta_data.get(definition.meta_key_id).to_s
+            "-#{km}='#{value}'"          
+        end
+      end
+    end.join(" ")
   end
-
 
 end

@@ -1,0 +1,15 @@
+#upload {
+  #upload-main.set_media_sets {
+    border-top: 1px solid #DDD;
+    position: relative;
+    top: 38px;
+    margin-bottom: 45px;
+    
+    
+    .upload_buttons.has-set-widget {
+      position: absolute;
+      top: -44px;
+      left: -4px;
+    }
+  }
+}

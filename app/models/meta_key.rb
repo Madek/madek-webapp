@@ -14,7 +14,7 @@ class MetaKey < ActiveRecord::Base
   has_many :meta_contexts, :through => :meta_key_definitions
 
 #old#
-#  has_and_belongs_to_many :meta_terms, :class_name => "Meta::Term",  # TODO enforce object_type="Meta::Term" if meta_terms
+#  has_and_belongs_to_many :meta_terms, :class_name => "MetaTerm",  # TODO enforce object_type="MetaTerm" if meta_terms
 #                                       :join_table => :meta_keys_meta_terms,
 #                                       :association_foreign_key => :meta_term_id
   has_many :meta_key_meta_terms
@@ -25,16 +25,18 @@ class MetaKey < ActiveRecord::Base
 
   #old#precedence problem# default_scope order(:label)
   scope :with_meta_data, joins(:meta_data).group(:id)
-  scope :for_meta_terms, where(:object_type => "Meta::Term") 
+  scope :for_meta_terms, where(:object_type => "MetaTerm") 
   
 ########################################################
 
   before_save do
-    if object_type.blank?
-      self.object_type = nil
-    elsif object_type_changed?
+    self.object_type = nil if object_type.blank?
+  end
+
+  before_update do
+    if object_type_changed?
       case object_type
-        when "Meta::Term"
+        when "MetaTerm"
           self.is_extensible_list = true
           meta_data.each {|md| md.update_attributes(:value => md.value) }
         # TODO when... else
@@ -47,13 +49,13 @@ class MetaKey < ActiveRecord::Base
   end
 
   def all_context_labels
-    #meta_key_definitions.collect {|d| "#{d.meta_context}: #{d.meta_field.label}" if d.key_map.blank? }.compact.join(', ')
-    meta_key_definitions.collect {|d| d.meta_field.label if d.key_map.blank? }.compact.uniq.join(', ')
+    #meta_key_definitions.collect {|d| "#{d.meta_context}: #{d.label}" if d.key_map.blank? }.compact.join(', ')
+    meta_key_definitions.collect {|d| d.label if d.key_map.blank? }.compact.uniq.join(', ')
   end
 
   # OPTIMIZE with context argument
   def first_context_label
-    meta_key_definitions.collect {|d| d.meta_field.label if d.key_map.blank? }.compact.uniq.first.to_s
+    meta_key_definitions.collect {|d| d.label if d.key_map.blank? }.compact.uniq.first.to_s
   end
 
 ########################################################
@@ -67,9 +69,7 @@ class MetaKey < ActiveRecord::Base
 ########################################################
 
   def object_class
-    klass = object_type.constantize
-    klass = Meta::Date if klass == Date # fix for "Meta::Date".constantize doesn't work in development mode
-    klass
+    object_type.constantize
   end
 
 ########################################################
@@ -99,14 +99,9 @@ class MetaKey < ActiveRecord::Base
     if mk.nil?
       mk = MetaKey.find_or_create_by_label(entry_name)
       mc = MetaContext.io_interface
-
-      # Would be nice to build some useful info into the meta_field for this new creation.. but we know nothing about it apart from its namespace:tagname
-      meta_field = { :label => {:en_GB => "", :de_CH => ""},
-                :description => {:en_GB => "", :de_CH => ""}
-              }
-
       mk.meta_key_definitions.create( :meta_context => mc,
-                                      :meta_field => meta_field,
+                                      :label => {:en_GB => "", :de_CH => ""},
+                                      :description => {:en_GB => "", :de_CH => ""},
                                       :key_map => key_map,
                                       :key_map_type => nil,
                                       :position => mc.meta_key_definitions.maximum("position") + 1 )
@@ -122,7 +117,7 @@ class MetaKey < ActiveRecord::Base
 
   # TODO refactor to association has_many :used_meta_terms, :through ...
   def used_term_ids
-    meta_data.flat_map(&:value).uniq.compact if object_type == "Meta::Term"
+    meta_data.flat_map(&:value).uniq.compact if object_type == "MetaTerm"
   end
 
 end

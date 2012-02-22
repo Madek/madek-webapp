@@ -170,7 +170,7 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
     event.preventDefault();
     var media_entries_json = get_media_entries_json();
     // select all the visible and not already selected items
-    $(".item_box").has(".check_box").each(function(i, elem) { 
+    $(".item_box:visible").has(".check_box").each(function(i, elem) { 
       var me = $(elem).tmplItem().data;
       var i = is_Selected(media_entries_json, me.id);
       // if not yet selected
@@ -262,17 +262,39 @@ function listSelected() {
 
 function displayCount() {
 	var media_entries_json = get_media_entries_json();
-	var count_checked = media_entries_json.length;
+	
+	// count media entries
+	var count_checked_media_entries = 0;
+	$.each(media_entries_json, function(i_resource, resource){
+    if(!resource.is_set) count_checked_media_entries++;	  
+	});
+	
+	// count media sets
+	var count_checked_media_sets = 0;
+  $.each(media_entries_json, function(i_resource, resource){
+    if(resource.is_set) count_checked_media_sets++;   
+  });
+	
 	var display_count = $('li#number_selected');
 	//don't show action buttons until something is actually selected
-	if (count_checked) {
+	if (count_checked_media_entries) {
 		$('#selected_items').show();
 		$('.task_bar .action_btn').show();
-    if (count_checked > 1) {
-			display_count.html(count_checked + " Medieneinträge ausgewählt");
+    if (count_checked_media_entries > 1) {
+			display_count.html(count_checked_media_entries + " Medieneinträge ausgewählt");
 		}else{
 	        display_count.html("1 Medieneintrag ausgewählt");
 		}
+		
+		// add media sets count
+		if (count_checked_media_sets > 1) {
+		  display_count.html(display_count.html().replace("ausgewählt", ""));
+		  display_count.append(" und "+ count_checked_media_sets + " Sets ausgewählt");
+		} else if(count_checked_media_sets == 1) {
+		  display_count.html(display_count.html().replace("ausgewählt", ""));
+		  display_count.append(" und 1 Set ausgewählt");
+		}
+		
 	} else {
 		$('.task_bar .action_btn').hide();
 		$('.task_bar .seperator').hide();
@@ -280,6 +302,7 @@ function displayCount() {
 		$('#selected_items').hide();
 	};
 
+  console.log($('#selected_items > .set').length);
 	if($('#selected_items .edit').length && !$('#selected_items > .set').length){ $("#batch-edit").show(); }else{ $("#batch-edit").hide(); }
 	if($('#selected_items .manage').length && !$('#selected_items > .set').length){ $("#batch-permissions").show(); }else{ $("#batch-permissions").hide(); }
 	if(($("#batch-edit:visible").length || $("#batch-permissions:visible").length) && !$('#selected_items > .set').length) { $(".task_bar .seperator.edit").show(); }else{ $(".task_bar .seperator.edit").hide(); }

@@ -1,0 +1,62 @@
+= Testing policy for MAdeK =
+
+== General policy ==
+
+- A feature only counts as implemented when it has tests.
+
+- Spec descriptions and feature files should describe what is actually
+  going on in the test, so that we know what the test is for.
+
+- If you touch it, test it: Whenever someone changes something that
+  had no test before, that person needs to write a test for it.
+
+
+== What to test ==
+
+  1. On the model level:
+
+     Test whether the model can be instantiated and persisted by a factory. 
+     This also exercises all model validation code and before/after callbacks.
+
+     Test whether the validations work ("should have a name").
+
+     Test whether model methods perform what they are meant to.
+
+  2. On the controller level:
+       
+     The controller's actions should be invoked.
+
+     It should be verified that they set the right variables to the
+     expected values.
+     
+  3. On the view level:
+
+     We have no specific requirements for view tests.
+
+  4. In the examples (the business view):
+
+     Examples might call multiple different controllers to reach
+     their goal. The examples contain the data they enter into the
+     system as well as the expected outputs.
+
+     Examples contain reasons why something happens in a certain way 
+     according to the business rules.
+
+== When to write tests ==
+
+- When a controller method is changed or created.
+
+- When a new model is created.
+
+- When a model is changed.
+
+- When a new bug is reported, a test involving data that triggers
+  the bug is written, before fixing the bug. After the fix, the test
+  should automatically be green.
+
+- Examples are written at the start of a new iteration/feature.
+
+- Examples must pass green at the end of an iteration, before merge to master.
+
+
+

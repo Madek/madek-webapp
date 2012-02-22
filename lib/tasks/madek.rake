@@ -65,6 +65,20 @@ namespace :madek do
 
   end
 
+  desc "Export the whole database into a xml file."
+  task :db_export_to_xml => :environment do
+    date_string = DateTime.now.to_s.gsub(":","-")
+    dump_path = "tmp/db_export-madek_#{Rails.env}-#{date_string}.xml"
+    file = File.new(dump_path, "w")
+    puts "exporting db to #{dump_path}"
+    DevelopmentHelpers::Xml.db_export_to_xml file
+  end
+
+  task :db_import_from_xml => :environment do
+    DevelopmentHelpers::Xml.db_import_from_xml File.new(ENV['FILE'])
+  end
+
+
   desc "Fetch meta information from ldap and store it into db/ldap.json"
   task :fetch_ldap => :environment do
     DevelopmentHelpers.fetch_from_ldap
@@ -103,7 +117,6 @@ namespace :madek do
       
      Rake::Task["log:clear"].invoke
      Rake::Task["db:migrate:reset"].invoke
-     Rake::Task["madek:init"].invoke
 
       # workaround for realoading Models
      ActiveRecord::Base.subclasses.each { |a| a.reset_column_information }
@@ -111,14 +124,6 @@ namespace :madek do
      Rake::Task["db:seed"].invoke
      Rake::Task["app:import_initial_metadata"].invoke
 
-  end
-
-  desc "Init"
-  task :init => :environment do
-#    Copyright.init true
-#    Permission.init true
-#old#    MetaKey.init true
-#old#    MetaContext.init true
   end
   
   namespace :meta_data do
@@ -136,7 +141,7 @@ namespace :madek do
         meta_key.meta_data.each do |meta_datum|
           keywords[meta_key.id][meta_datum.id] = meta_datum.deserialized_value
         end
-        meta_key.update_attributes(:object_type => "Meta::Term", :is_extensible_list => true)
+        meta_key.update_attributes(:object_type => "MetaTerm", :is_extensible_list => true)
       end
       # we need to fetch again the meta_keys, 'cause inside the first iteration,
       # the meta_datum still keeps the reference to the old object_type
@@ -145,7 +150,7 @@ namespace :madek do
         meta_key.meta_data.each do |meta_datum|
           value = keywords[meta_key.id][meta_datum.id]
           meta_term_ids = value.collect(&:meta_term_id)
-          meta_key.meta_terms << Meta::Term.find(meta_term_ids - meta_key.meta_term_ids)
+          meta_key.meta_terms << MetaTerm.find(meta_term_ids - meta_key.meta_term_ids)
           meta_datum.update_attributes(:value => meta_term_ids)
           Keyword.delete(value)
         end

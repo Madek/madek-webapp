@@ -2,23 +2,36 @@
 class ResourcesController < ApplicationController
 
   # TODO cancan # load_resource #:class => "MediaResource"
-  before_filter :pre_load, :except => [:index, :filter]
+  before_filter :except => [:index, :filter] do
+    begin
+      unless (params[:media_resource_id] ||= params[:id] || params[:media_resource_ids]).blank?
+        @media_resource = MediaResource.accessible_by_user(current_user).find(params[:media_resource_id])
+      end
+    rescue
+      not_authorized!
+    end
+  end
+
+###################################################################################
 
   def index
-    params[:per_page] ||= PER_PAGE.first
-
-    resources = MediaResource.accessible_by_user(current_user).order("media_resources.updated_at DESC")
-    if params[:type]
-      resources = resources.send(params[:type])
+    resources = if params[:type] == "media_sets"
+      if params[:top_level]
+        MediaSet.top_level
+      else
+        MediaSet
+      end 
+    elsif params[:type] == "media_entries"
+      MediaEntry
     else
-      resources = resources.media_entries_and_media_sets
-    end
+      MediaResource.media_entries_and_media_sets
+    end.accessible_by_user(current_user).order("media_resources.updated_at DESC")
 
     resources = resources.by_user(@user) if params[:user_id] and (@user = User.find(params[:user_id]))
     resources = resources.not_by_user(current_user) if params[:not_by_current_user]
     resources = resources.favorites_for_user(current_user) if request.fullpath =~ /favorites/
     resources = resources.search(params[:query]) unless params[:query].blank?
-    resources = resources.paginate(:page => params[:page], :per_page => params[:per_page].to_i)
+    resources = resources.paginate(:page => params[:page], :per_page => (params[:per_page] ||= PER_PAGE.first).to_i)
 
     # TODO ?? resources = resources.includes(:meta_data, :permissions)
 
@@ -49,11 +62,10 @@ class ResourcesController < ApplicationController
   
   # TODO merge search and filter methods ??
   def filter
-    resources = MediaResource.accessible_by_user(current_user)
-
+    # TODO generic search for both MediaResource.media_entries_and_media_sets
+    resources = MediaEntry.accessible_by_user(current_user)
+ 
     if request.post?
-      params[:per_page] ||= PER_PAGE.first
-  
       if params[:meta_key_id] and params[:meta_term_id]
         meta_key = MetaKey.find(params[:meta_key_id])
         meta_term = meta_key.meta_terms.find(params[:meta_term_id])
@@ -67,7 +79,7 @@ class ResourcesController < ApplicationController
   
       with_thumb = true #FE# (params[:thumb].to_i > 0)
 
-      resources = resources.media_entries.where(:id => media_resource_ids).paginate(:page => params[:page], :per_page => params[:per_page].to_i)
+      resources = resources.where(:id => media_resource_ids).paginate(:page => params[:page], :per_page => (params[:per_page] ||= PER_PAGE.first).to_i)
       @resources = { :pagination => { :current_page => resources.current_page,
                                      :per_page => resources.per_page,
                                      :total_entries => resources.total_entries,
@@ -80,7 +92,7 @@ class ResourcesController < ApplicationController
 
     else
 
-      @_media_entry_ids = resources.search(params[:query]).media_entries.map(&:id)
+      @_media_entry_ids = resources.search(params[:query]).map(&:id)
   
       respond_to do |format|
         format.js { render :layout => false}
@@ -125,7 +137,7 @@ class ResourcesController < ApplicationController
 
 ###################################################################################
 
-  def image(size = params[:size] || :large)
+  def image(size = (params[:size] || :large).to_sym)
     # TODO dry => Resource#thumb_base64 and Download audio/video
     media_file = if @media_resource.is_a? MediaSet
       @media_resource.media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
@@ -147,12 +159,5 @@ class ResourcesController < ApplicationController
       send_data output, :type => "image/png", :disposition => 'inline'
     end
   end  
-
-###################################################################################
-
-  def pre_load
-    params[:media_resource_id] ||= params[:id] ||= params[:media_resource_ids]
-    @media_resource = MediaResource.accessible_by_user(current_user).find(params[:media_resource_id]) unless params[:media_resource_id].blank?
-  end
 
 end

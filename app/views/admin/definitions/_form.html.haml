@@ -23,7 +23,7 @@
 				Field
 			%td{:colspan => 2}
 				- [:is_required, :length_min, :length_max].each do |k|
-					= "#{k}: #{@definition.meta_field.try(k)}"
+					= "#{k}: #{@definition.try(k)}"
 					%br
 		%tr
 			%td
@@ -34,22 +34,22 @@
 				Label
 			- LANGUAGES.each do |lang|
 				%td
-					- value = (@definition.meta_field.try(:label) ? @definition.meta_field.label.to_s(lang) : nil)
-					= text_field_tag "meta_key_definition[meta_field][label][#{lang}]", value
+					- value = (@definition.try(:label) ? @definition.label.to_s(lang) : nil)
+					= text_field_tag "meta_key_definition[label][#{lang}]", value
 		%tr
 			%th
 				Description
 			- LANGUAGES.each do |lang|
 				%td
-					- value = (@definition.meta_field.try(:description) ? @definition.meta_field.description.to_s(lang) : nil)
-					= text_area_tag "meta_key_definition[meta_field][description][#{lang}]", value
+					- value = (@definition.try(:description) ? @definition.description.to_s(lang) : nil)
+					= text_area_tag "meta_key_definition[description][#{lang}]", value
 		%tr
 			%th
 				Hint
 			- LANGUAGES.each do |lang|
 				%td
-					- value = (@definition.meta_field.try(:hint) ? @definition.meta_field.hint.to_s(lang) : nil)
-					= text_field_tag "meta_key_definition[meta_field][hint][#{lang}]", value
+					- value = (@definition.try(:hint) ? @definition.hint.to_s(lang) : nil)
+					= text_field_tag "meta_key_definition[hint][#{lang}]", value
 		%tr
 			%td{:colspan => 3}
 				= f.submit submit

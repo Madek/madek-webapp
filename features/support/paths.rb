@@ -9,10 +9,13 @@ module NavigationHelpers
     case page_name
 
     when /the home\s?page/
-      '/'
+      root_path
 
     when /the media entries/
-      '/resources'
+      resources_path
+      
+    when /the upload edit/
+      edit_upload_path
       
     when /^the wiki$/
       '/wiki'
@@ -22,6 +25,9 @@ module NavigationHelpers
 
     when /the wiki edit page/
       '/wiki/edit?path='
+      
+    when /my sets page/
+      user_resources_path(@current_user, :type => "media_sets", :top_level => true)
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

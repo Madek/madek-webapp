@@ -34,11 +34,11 @@ labels.delete_if {|k, v| v.size < 2 }
 		classes.compact!
 		content_tag :ul, :"data-meta_key" => underscored_label, :"data-parent_meta_key" => parent_underscored_label, :class => (classes.blank? ? nil : classes.join(' ')) do
 			a = content_tag :li, :class => "label", :style => "width: 24%;" do
-				b = definition.meta_field.label.to_s.html_safe
-				b += "*" if definition.meta_field.is_required
+				b = definition.label.to_s.html_safe
+				b += "*" if definition.is_required
 				b += content_tag :span, :class => "hint" do
-					definition.meta_field.hint.to_s
-				end if definition.meta_field.hint
+					definition.hint.to_s
+				end if definition.hint
 				b += content_tag :div, :class => "expander" do
 					link_to _("+ Weitere Angaben"), "#"
 				end if is_parent

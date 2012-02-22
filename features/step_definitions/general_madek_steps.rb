@@ -42,8 +42,8 @@ Given /^I have set up the world$/ do
   # the tests. Therefore we recreate our world in this step.
   Copyright.init
 
-  Meta::Department.setup_ldapdata_from_localfile
-  Meta::Date.parse_all
+  MetaDepartment.setup_ldapdata_from_localfile
+  MetaDate.parse_all
 end
 
 Given /^a user called "([^"]*)" with username "([^"]*)" and password "([^"]*)" exists$/ do |person_name, username, password|
@@ -77,6 +77,11 @@ Given /^I log in as "(\w+)" with password "(\w+)"$/ do |username, password|
   fill_in "password", :with => password
   click_link_or_button "Log in"
   page.should_not have_content "Invalid username/password"
+  
+  # NOTE needed for "upload_some_picture" method # TODO merge with "I am logged in as ..." step
+  crypted_password = Digest::SHA1.hexdigest(password)
+  @current_user = User.where(:login => username, :password => crypted_password).first
+  @current_user.should_not be_nil
 end
 
 # Gives you a user object
@@ -112,16 +117,7 @@ end
 
 Given /^a entry titled "(.+)" created by "(.+)" exists$/ do |title, username|
   user = User.where(:login => username).first
-  upload_session = UploadSession.create(:user => user)
-  f = "#{Rails.root}/features/data/images/berlin_wall_01.jpg"
-  uploaded_data = { :type=> "image/jpeg",
-                    :tempfile=> File.new(f, "r"),
-                    :filename=> File.basename(f)}
-  media_file = MediaFile.create(:uploaded_data => uploaded_data)
-  entry = upload_session.incomplete_media_entries.create(:media_file => media_file)
-  h = {:meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => title}}}
-  entry.reload.update_attributes(h, user)
-  upload_session.set_as_complete
+  mock_media_entry(user, title)
 end
 
 Given /^the last entry is child of the (.+) set/ do |offset|
@@ -151,6 +147,10 @@ end
 When /^I debug$/ do
   debugger; puts "lala"
 end
+
+When /^I pry/ do
+   binding.pry
+end 
 
 When /^I use pry$/ do
   binding.pry
@@ -191,22 +191,22 @@ When "I fill in the metadata form as follows:" do |table|
 
     list = find("ul", :text => /^#{text}/)
     if list.nil?
-      puts "Can't find any input fields with the text '#{text}'"
+      raise "Can't find any input fields with the text '#{text}'"
     else
       if list[:class] == "Person"
         fill_in_person_widget(list, hash['value'], hash['options'])
       elsif list[:class] == "Keyword"
         fill_in_keyword_widget(list, hash['value'], hash['options'])
-      elsif list[:class] == "Meta::Term"
+      elsif list[:class] == "MetaTerm"
         if list.has_css?("ul.meta_terms")
           set_term_checkbox(list, hash['value'])
         elsif list.has_css?(".madek_multiselect_container")
           select_from_multiselect_widget(list, hash['value'])
         else
-          puts "Unknown Meta::Term interface element when trying to set '#{text}'"
+          raise "Unknown MetaTerm interface element when trying to set '#{text}'"
         end
-      elsif list[:class] == "Meta::Department"
-        puts "Sorry, can't set Meta::Department to '#{text}', the Meta::Department widget is too hard to test right now."
+      elsif list[:class] == "MetaDepartment"
+        puts "Sorry, can't set MetaDepartment to '#{text}', the MetaDepartment widget is too hard to test right now."
 
         #select_from_multiselect_widget(list, hash['value'])
       else
@@ -227,13 +227,6 @@ When "I fill in the metadata form as follows:" do |table|
   end
 end
 
-
-When /^(?:|I )attach the file "([^"]*)" relative to the Rails directory to "([^"]*)"(?: within "([^"]*)")?$/ do |path, field, selector|
-  path = Rails.root + path
-  within_string = selector.blank? ? "" : " within \"#{selector}\""
-  When "I attach the file \"#{path}\" to \"#{field}\"" + within_string
-end
-
 # Can use "user" or "group" field name
 When /^I type "([^"]*)" into the "([^"]*)" autocomplete field$/ do |string, field|
   type_into_autocomplete(field.to_sym, string)
@@ -242,6 +235,13 @@ end
 When /^I pick "([^"]*)" from the autocomplete field$/ do |choice|
   pick_from_autocomplete(choice)
 end
+
+When /^I give "([^"]*)" permission to "([^"]*)" without saving$/ do |permission, subject|
+  subject = :everybody if subject == "everybody"
+  give_permission_to(permission, subject,false)
+end
+
+
 
 When /^I give "([^"]*)" permission to "([^"]*)"$/ do |permission, subject|
   subject = :everybody if subject == "everybody"
@@ -258,6 +258,10 @@ When /^I click(?: | on )the arrow next to "([^"]*)"/ do |string|
 end
 
 When /^I click the media entry titled "([^"]*)"/ do |title|
+  click_media_entry_titled(title)
+end
+
+When /^I click the mediaset titled "([^"]*)"/ do |title|
   click_media_entry_titled(title)
 end
 
@@ -342,7 +346,7 @@ end
 
 When "I make sure I'm logged out" do
   if page.has_content?("Abmelden")
-    Then 'I follow "Abmelden"'
+    step 'I follow "Abmelden"'
   end
 end
 

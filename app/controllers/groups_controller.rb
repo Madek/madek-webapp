@@ -1,8 +1,13 @@
 # -*- encoding : utf-8 -*-
 class GroupsController < ApplicationController
 
-  before_filter :pre_load
-  before_filter :authorized?, :only => [:edit, :update, :destroy]
+  before_filter do
+    unless (params[:group_id] ||= params[:id]).blank?
+      @group = current_user.groups.find(params[:group_id])
+    end
+  end
+
+######################################################
   
   def index
     # OPTIMIZE
@@ -38,10 +43,12 @@ class GroupsController < ApplicationController
   end
 
   def edit
+    not_authorized! and return if @group.is_readonly?
     # TODO authorized?
   end
 
   def update
+    not_authorized! and return if @group.is_readonly?
     # TODO authorized?
     @group.update_attributes(params[:group])
     respond_to do |format|
@@ -51,6 +58,7 @@ class GroupsController < ApplicationController
   end
 
   def destroy
+    not_authorized! and return if @group.is_readonly?
     @group.destroy
     redirect_to groups_path
   end
@@ -71,19 +79,6 @@ class GroupsController < ApplicationController
         format.js { render :nothing => true } # TODO check if successfully deleted
       end
     end
-  end
-
-######################################################
-
-  private
-
-  def authorized?
-    not_authorized! if @group.is_readonly?
-  end
-
-  def pre_load
-    params[:group_id] ||= params[:id]
-    @group = current_user.groups.find(params[:group_id]) unless params[:group_id].blank?
   end
 
 end

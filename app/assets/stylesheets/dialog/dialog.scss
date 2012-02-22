@@ -1,0 +1,19 @@
+@import "../mixins";
+
+.ui-dialog {
+  height: auto !important;
+  width: 400px !important;
+  @include box-shadow(0 0 8px rgba(150, 150, 150, 1));
+  
+  h3 {
+    margin-bottom: 14px;
+    position: relative;
+    top: -2px;
+  }
+  
+  p {
+    display: block;
+    margin-bottom: 22px;
+    position: relative;
+  }
+}

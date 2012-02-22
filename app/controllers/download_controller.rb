@@ -13,30 +13,30 @@ class DownloadController < ApplicationController
 #####################################################################################################################
 #####################################################################################################################
 
-      unless params['id'].blank? 
+      unless params[:id].blank? 
 
-        @media_entry = MediaEntry.where(:id => params['id']).first
-        # This is broken, presumably because of ruby 1.8.x not having any native idea of character encodings.
-        # If we move the gsub to execute after the unescape has processed, we can easily lose part of the 
-        # filename if it contains diacritics and spaces.       
-        @filename = CGI::unescape(@media_entry.media_file.filename.gsub(/\+/, '_'))
-        @content_type = "text/plain"
-        
-        unless @media_entry.nil?
+        @media_entry = MediaEntry.accessible_by_user(current_user).where(:id => params[:id]).first
 
-          render :text => 'Sie haben nicht die notwendige Zugriffsberechtigung.', :status => 500 unless current_user.authorized?(:view, @media_entry) 
-          @size = params['size'].try(:to_sym)           
+        if @media_entry.nil?
+          not_authorized!
+        else
+          # This is broken, presumably because of ruby 1.8.x not having any native idea of character encodings.
+          # If we move the gsub to execute after the unescape has processed, we can easily lose part of the 
+          # filename if it contains diacritics and spaces.       
+          @filename = CGI::unescape(@media_entry.media_file.filename.gsub(/\+/, '_'))
+
+          @size = params[:size].try(:to_sym)           
           @content_type = @media_entry.media_file.content_type
 
-          if !params['zip'].blank?
+          if !params[:zip].blank?
             send_as_zip
-          elsif !params['update'].blank?
+          elsif !params[:update].blank?
             send_updated_file
-          elsif !params['naked'].blank?
+          elsif !params[:naked].blank?
             send_naked_file
             
           # Video files get a WebM preview file
-          elsif !params['video_thumbnail'].blank?
+          elsif !params[:video_thumbnail].blank?
             @content_type = "video/webm"
             preview = @media_entry.media_file.previews.where(:content_type => @content_type).last
             if preview.nil?
@@ -48,7 +48,7 @@ class DownloadController < ApplicationController
             end
             
           # Audio files get an Ogg Vorbis preview file            
-          elsif !params['audio_preview'].blank?
+          elsif !params[:audio_preview].blank?
             @content_type = "audio/ogg"
             preview = @media_entry.media_file.previews.where(:content_type => @content_type).last
             if preview.nil?
@@ -85,10 +85,10 @@ class DownloadController < ApplicationController
       `convert "#{path}" -resize "#{THUMBNAILS[@size]}" "#{outfile}"`
       path = outfile
     end
-    send_file(path,
-              :filename => @filename,
-              :type          =>  @content_type,
-              :disposition  =>  'attachment')
+    fixed_send_file(path,
+                   {:filename => @filename,
+                    :type          =>  @content_type,
+                    :disposition  =>  'attachment'})
 
   end
   
@@ -116,10 +116,10 @@ class DownloadController < ApplicationController
     end
 
     if path
-        send_file("#{ZIP_STORAGE_DIR}/#{race_free_filename}.zip",
-                  :filename => "#{race_free_filename}.zip",
-                  :type          =>  @content_type,
-                  :disposition  =>  'attachment')  
+        fixed_send_file("#{ZIP_STORAGE_DIR}/#{race_free_filename}.zip",
+                        {:filename => "#{race_free_filename}.zip",
+                         :type          =>  @content_type,
+                         :disposition  =>  'attachment'})  
     else
       render :status => 500
     end
@@ -135,10 +135,10 @@ class DownloadController < ApplicationController
     # path = @media_entry.media_file.update_file_metadata(@media_entry.to_metadata_tags)
     path = @media_entry.updated_resource_file(false, @size) # false means we don't want to blank all the tags
     if path
-      send_file(path,
-                :filename => @filename,
-                :type          =>  @content_type,
-                :disposition  =>  'attachment')            
+      fixed_send_file(path,
+                      {:filename => @filename,
+                       :type          =>  @content_type,
+                       :disposition  =>  'attachment'})            
     else
       render :status => 500
     end
@@ -150,10 +150,10 @@ class DownloadController < ApplicationController
     path = @media_entry.updated_resource_file(true, @size) # true means we do want to blank all the tags
 
     if path
-        send_file(path,
-                  :filename => @filename,
-                  :type          =>  @content_type,
-                  :disposition  =>  'attachment')            
+        fixed_send_file(path,
+                        {:filename => @filename,
+                         :type          =>  @content_type,
+                         :disposition  =>  'attachment'})            
     else
       render :status => 500
     end    
@@ -161,18 +161,25 @@ class DownloadController < ApplicationController
   
   def send_original_file
     # Provide a copy of the original file, not updated or nuffin'
-    path = @media_entry.media_file.file_storage_location
-    send_file(path,
-              :filename => @filename,
-              :type          =>  @content_type,
-              :disposition  =>  'attachment')
+    path = @media_entry.media_file.file_storage_location.to_s
+    path = Pathname.new(path)
+
+    #send_file(path,
+    #           :filename => @filename,
+    #           :type          =>  @content_type,
+    #           :disposition  =>  'attachment')
+    fixed_send_file(path,
+                    {:filename => @filename,
+                     :type          =>  @content_type,
+                     :disposition  =>  'attachment'})
   end
   
   def send_multimedia_preview
-    send_file(@path,
-          :filename => @filename,
-          :type          =>  @content_type,
-          :disposition  =>  'attachment')
+    fixed_send_file(@path,
+                   {:filename => @filename,
+                    :type          =>  @content_type,
+                    :disposition  =>  'attachment'})
   end
+
   
 end # class

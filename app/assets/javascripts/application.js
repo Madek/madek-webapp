@@ -12,7 +12,6 @@
 
 /////////// App /////////////
 //= require batch_actions
-//= require madek_ajax_upload
 //= require madek11
 //= require browser-check/browser-check
 //= require highlight/highlight
@@ -27,11 +26,24 @@
 
 /////////// Lib /////////////
 //= require browser-detection/browser-detection
+//= require dialog/dialog
 
 /////////// Vendor /////////////
 //= require_tree ../../../vendor/assets/javascripts/.
 //= require modernizr.min
 //= require video
+//= require image_resample/image_resample
+
+/////////// PLUPLOAD /////////////
+//= require plupload
+//= require plupload.settings
+//= require jquery.plupload.queue
+//= require plupload.flash
+//= require plupload.silverlight
+//= require plupload.html4
+//= require plupload.html5
+//= require plupload.gears 
+//= require plupload.browserplus
 
 function document_ready(){
 	$("textarea").elastic();
@@ -91,7 +103,15 @@ $(document).ready(function () {
 				      	$(this).tabs('select', ui.index); //'#' + ui.panel.id
 				      },
 					  fx: { opacity: 'toggle' },
-					  ajaxOptions: { dataType: 'html' }
+					  ajaxOptions: { 
+					  	dataType: 'html',
+					  	error: function(data){
+					  		response = JSON.parse(data.responseText);
+					  		setTimeout(function(){
+						  		$(".ui-tabs-panel:visible").html(response.error);
+					  		}, 200);
+					  	} 
+					  }
 					});
 					
 	// For closing all open autocompletes in old tabs

@@ -1,0 +1,80 @@
+@import "../mixins";
+
+#upload {
+  
+  #upload-container {
+    z-index: 1;
+    
+    p {
+      margin-bottom: 18px;
+    }
+  }
+  
+  #upload_navigation {
+    left: 38px;
+    width: 872px;
+    position: relative;
+    z-index: 1001;
+    
+    .right {
+      float: right;
+      
+      
+      #cancel_import {
+        color: #888;
+        position: relative;
+        text-decoration: none;
+        
+        &:hover {
+          color: #333;
+        }
+      }
+      
+      .next {
+        float: none;
+      }
+    }
+  }
+  
+  #step_arrow {
+    display: none;
+    position: absolute;
+    left: 45%;
+    bottom: -14px;
+    background: transparent url('/assets/icons/arrow_down_gray.png') top left no-repeat;
+    width: 18px;
+    height: 10px;
+  }
+  
+  #uploader {
+    top: -25px;
+  }
+  
+  .upload_buttons.disabled, .upload_buttons.disabled:hover, .plupload_disabled:not(.dropbox_enabled), .plupload_disabled:not(.dropbox_enabled):hover {
+    color: #737373;
+    border-color: #c5c5c5;
+    background: #ededed no-repeat 0 center;
+    cursor: default;
+  }
+  
+  .delete_mei, .delete_dropbox_file, .delete_plupload_entry {
+    background: url('jquery.plupload.queue/delete.gif') no-repeat;
+    cursor: pointer;
+    display: inline;
+    height: 16px;
+    position: relative;
+    top: 1px;
+    margin-left: 8px;
+    width: 16px; 
+    @include opacity(0.6);    
+    
+    &.deleting {
+      background: url('/assets/loading.gif') no-repeat;
+      @include opacity(1.0);  
+    }
+    
+    &:hover {
+      @include opacity(1.0);
+    }
+  }
+}

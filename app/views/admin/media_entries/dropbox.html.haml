@@ -1,0 +1,25 @@
+%h3
+  = _("Dropbox")
+
+= form_tag dropbox_admin_media_entries_path do
+
+  %p
+    Dropbox root directory path:
+    = text_field_tag :dropbox_root_dir, AppSettings.dropbox_root_dir
+  %p
+    FTP Dropbox Server:
+    = text_field_tag :ftp_dropbox_server, AppSettings.ftp_dropbox_server
+  %p
+    FTP Dropbox User Login:
+    = text_field_tag :ftp_dropbox_user, AppSettings.ftp_dropbox_user
+    - if (u = AppSettings.ftp_dropbox_user)
+      UID:
+      - begin
+        = Etc.getpwnam(u).uid
+      - rescue
+        = _("Not Valid!")
+  %p
+    FTP Dropbox Password:
+    = text_field_tag :ftp_dropbox_password, AppSettings.ftp_dropbox_password
+
+  = submit_tag

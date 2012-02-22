@@ -20,7 +20,6 @@ $.extend $.fn,
       if matches?
         # make the matches unique
         matches = matches.unique()
-        console.log matches
         sorted_matches = matches.sort (a,b) -> b.length - a.length
         $(sorted_matches).each (i, match) ->
           if (match != "")

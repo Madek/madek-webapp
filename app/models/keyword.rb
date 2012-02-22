@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Keyword < ActiveRecord::Base
   
-  belongs_to :meta_term, :class_name => "Meta::Term"
+  belongs_to :meta_term, :class_name => "MetaTerm"
   belongs_to :user # TODO person ??
   #belongs_to :media_entry
 

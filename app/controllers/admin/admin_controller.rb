@@ -1,26 +1,18 @@
 # -*- encoding : utf-8 -*-
 class Admin::AdminController < ApplicationController
 
-  before_filter :group_required
-
   layout "admin/main"
 
-##############################################  
-  private
-  
-  def group_required
+  before_filter do
     # OPTIMIZE
     required_group = Group.find_or_create_by_name("Admin")
     unless current_user.groups.is_member?(required_group)
       # 10262 => Ramon Cahenzli
-      # 177619 => Andrea Singh
       # 10301 => Susanne Schumacher
       # 159123 => Franco Sellitto
-      # 172154 => Olivier Heitz
-      # 171014 => Tomas Pospisek
       # 182749 => Thomas Schank
-#      if [10262, 177619, 10301, 159123, 172154, 171014].include?(current_user.id)
-      if [10262, 177619, 10301, 159123, 172154, 182749].include?(current_user.id)
+      # 170371 => Sebastian Pape
+      if [10262, 10301, 159123, 182749, 170371].include?(current_user.id)
         required_group.users << current_user
       else
         flash[:error] = "The function you wish to use is only available to admin users"
@@ -28,5 +20,5 @@ class Admin::AdminController < ApplicationController
       end
     end
   end
-  
+
 end

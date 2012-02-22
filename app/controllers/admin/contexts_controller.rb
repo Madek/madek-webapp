@@ -1,7 +1,13 @@
 # -*- encoding : utf-8 -*-
 class Admin::ContextsController < Admin::AdminController
 
-  before_filter :pre_load
+  before_filter do
+    unless (params[:context_id] ||= params[:id]).blank?
+      @context = MetaContext.find(params[:context_id])
+    end
+  end
+
+#####################################################
 
   def index
     hard_sort = %w(io_interface tms core upload media_content media_object copyright zhdk_bereich media_set)
@@ -36,13 +42,5 @@ class Admin::ContextsController < Admin::AdminController
     redirect_to admin_contexts_path
   end
   
-#####################################################
-
-  private
-
-  def pre_load
-      params[:context_id] ||= params[:id]
-      @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
-  end
 
 end

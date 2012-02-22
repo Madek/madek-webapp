@@ -1,9 +1,67 @@
 # -*- encoding : utf-8 -*-
 class MediaEntriesController < ApplicationController
 
-  before_filter :pre_load, :except => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions]
-  before_filter :pre_load_for_batch, :only => [:edit_multiple, :update_multiple, :remove_multiple, :edit_multiple_permissions]
-  before_filter :authorized?, :except => [:index, :media_sets, :favorites, :keywords] #old# :only => [:show, :edit, :update, :destroy]
+  before_filter do
+    # TODO test; useful for will_paginate and forwarding links; refactor to application_controller?
+    params.delete_if {|k,v| v.blank? }
+
+    if [:edit_multiple, :update_multiple, :remove_multiple].include? request[:action].to_sym
+      begin
+        if !params[:media_set_id].blank?
+          action = case request[:action].to_sym
+            when :remove_multiple
+              :edit
+          end
+          @media_set = MediaSet.accessible_by_user(current_user, action).find(params[:media_set_id])
+        elsif !params[:media_entry_ids].blank?
+          selected_ids = params[:media_entry_ids].split(",").map{|e| e.to_i }
+          action = case request[:action].to_sym
+            when :edit_multiple, :update_multiple
+              :edit
+            when :remove_multiple
+              :view
+          end
+          @media_entries = MediaEntry.accessible_by_user(current_user, action).find(selected_ids)
+        else
+          flash[:error] = "Sie haben keine Medieneinträge ausgewählt."
+          redirect_to :back
+        end
+      rescue
+        not_authorized!
+      end
+
+    else
+
+      @user = User.find(params[:user_id]) unless params[:user_id].blank?
+      @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
+      @media_set = (@user? @user.media_sets : MediaSet).find(params[:media_set_id]) unless params[:media_set_id].blank? # TODO shallow
+  
+      unless (params[:media_entry_id] ||= params[:id] || params[:media_entry_ids]).blank?
+        action = case request[:action].to_sym
+          when :show, :map, :browse, :media_sets
+            :view
+          when :edit, :update, :edit_tms, :destroy
+            :edit
+        end
+  
+        begin
+          @media_entry =  if @media_set
+                            @media_set.media_entries.accessible_by_user(current_user, action).find(params[:media_entry_id])
+                          elsif @user
+                            @user.media_entries.accessible_by_user(current_user, action).find(params[:media_entry_id])
+                          # TODO if @user and @media_set ??
+                          else
+                            MediaResource.media_entries_or_media_entry_incompletes.accessible_by_user(current_user, action).find(params[:media_entry_id])
+                          end
+        rescue
+          not_authorized!
+        end
+      end
+    end
+
+  end
+
+#####################################################
 
   ##
   # Get media entries
@@ -41,8 +99,9 @@ class MediaEntriesController < ApplicationController
   # @response_field [String] title The title of the media set 
   # @response_field [Hash] author The author of the media set 
   #
-  def index(accessible_action = params[:accessible_action] || :view,
-            with = params[:with], parent_ids = params[:parent_ids] || nil)
+  def index(accessible_action = (params[:accessible_action] || :view).to_sym,
+            with = params[:with],
+            parent_ids = params[:parent_ids] || nil)
     
     respond_to do |format|
       
@@ -50,10 +109,10 @@ class MediaEntriesController < ApplicationController
                 
         entries = unless parent_ids.blank?
           MediaSet.where(:id => parent_ids).flat_map do |parent|
-            parent.media_entries.accessible_by_user(current_user, accessible_action.to_sym)
+            parent.media_entries.accessible_by_user(current_user, accessible_action)
           end.uniq
         else
-          MediaEntry.accessible_by_user(current_user, accessible_action.to_sym)
+          MediaEntry.accessible_by_user(current_user, accessible_action)
         end
         
         render :json => entries.as_json(:with => with, :with_thumb => false) # TODO drop with_thum merge with with
@@ -65,6 +124,7 @@ class MediaEntriesController < ApplicationController
     respond_to do |format|
       format.html
       format.js { render @media_entry } #FE# render :json => @media_entry.as_json(:user => current_user)
+      format.json
       format.xml { render :xml=> @media_entry.to_xml(:include => {:meta_data => {:include => :meta_key}} ) }
     end
   end
@@ -82,7 +142,7 @@ class MediaEntriesController < ApplicationController
   
   def browse
     # TODO merge with index
-    @viewable_ids = MediaResource.accessible_by_user(current_user).media_entries.map(&:id)
+    @viewable_ids = MediaEntry.accessible_by_user(current_user).map(&:id)
   end
   
 #####################################################
@@ -106,10 +166,12 @@ class MediaEntriesController < ApplicationController
 #####################################################
 
   def edit_tms
+    not_authorized! and return unless current_user.groups.is_member?("Expert")
   end
 
   def to_snapshot
-    @media_entry.to_snapshot if current_user.groups.is_member?("Expert")
+    not_authorized! and return unless current_user.groups.is_member?("Expert")
+    @media_entry.to_snapshot
     redirect_to @media_entry
   end
 
@@ -206,145 +268,4 @@ class MediaEntriesController < ApplicationController
     redirect_back_or_default(resources_path)
   end
   
-  def edit_multiple_permissions
-    @permissions_json = begin 
-      actions = [:view, :edit, :download, :manage]
-      combined_permissions = {"User" => [], "Group" => [], "public" => {}}
-      combined_permissions.keys.each do |type|
-        case type
-          when "User"
-            subject_permissions = @media_entries.flat_map(&:userpermissions)
-            subject_permissions.map(&:user).uniq.each do |subject|
-              subject_info = {:id => subject.id, :name => subject.to_s, :type => type}
-              actions.each do |key|
-                subject_info[key] = case subject_permissions.select {|p| p.user_id == subject.id and p.send(key) }.size #1504#
-                  when @media_entries.size
-                    true
-                  when 0
-                    false
-                  else
-                    :mixed
-                end  
-              end
-              combined_permissions[type] << subject_info
-            end
-          when "Group"
-            subject_permissions = @media_entries.flat_map(&:grouppermissions)
-            subject_permissions.map(&:group).uniq.each do |subject|
-              subject_info = {:id => subject.id, :name => subject.to_s, :type => type}
-              actions.each do |key|
-                subject_info[key] = case subject_permissions.select {|p| p.group_id == subject.id and p.send(key) }.size #1504#
-                  when @media_entries.size
-                    true
-                  when 0
-                    false
-                  else
-                    :mixed
-                end  
-              end
-              combined_permissions[type] << subject_info
-            end
-          else
-            combined_permissions[type][:type] = "nil"
-            combined_permissions[type][:name] = "Öffentlich"
-            actions.each do |key|
-              combined_permissions[type][key] = if @media_entries.all? {|x| x.send(key) }
-                true
-              elsif @media_entries.any? {|x| x.send(key) }    
-                :mixed
-              else
-                false
-              end  
-            end
-        end
-      end
-      combined_permissions.to_json
-    end
-
-    @media_entries_json = @media_entries.map do |me|
-      me.attributes.merge!(me.get_basic_info(current_user))
-    end.to_json
-  end
-  
-#####################################################
-
-  private
-
-  def authorized?
-    conditions = [] # OPTIMIZE
-    action = request[:action].to_sym
-    case action
-      when :new
-        action = :create
-      when :show, :map, :browse
-        action = :view
-      when :edit, :update
-        action = :edit
-      when :destroy
-        action = :edit # TODO :delete
-      when :edit_tms
-        conditions << current_user.groups.is_member?("Expert")
-        action = :edit
-      when :to_snapshot
-        not_authorized! unless current_user.groups.is_member?("Expert")
-        return
-      when :edit_multiple, :update_multiple, :edit_multiple_permissions
-        not_authorized! if @media_entries.empty?
-        return
-      when :remove_multiple
-        not_authorized! unless current_user.authorized?(:edit, @media_set)
-        return
-    end
-    resource = @media_entry
-    not_authorized! unless current_user.authorized?(Constants::Actions.old2new(action), resource) and conditions.all?
-    # TODO super ??
-  end
-  
-  def pre_load
-      # TODO test; useful for will_paginate and forwarding links; refactor to application_controller?
-      params.delete_if {|k,v| v.blank? }
-      action = request[:action].to_sym
-
-      params[:media_entry_id] ||= params[:id] ||= params[:media_entry_ids]
-      
-      @user = User.find(params[:user_id]) unless params[:user_id].blank?
-      @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
-      @media_set = (@user? @user.media_sets : MediaSet).find(params[:media_set_id]) unless params[:media_set_id].blank? # TODO shallow
-
-      unless params[:media_entry_id].blank?
-        @media_entry =  if @media_set
-                          @media_set.media_entries.find(params[:media_entry_id])
-                        elsif @user
-                          @user.media_entries.find(params[:media_entry_id])
-                        # TODO if @user and @media_set ??
-                        else
-                          MediaEntry.find(params[:media_entry_id])
-                        end
-      end
-  end
-  
-  def pre_load_for_batch
-    params.delete_if {|k,v| v.blank? }
-    action = request[:action].to_sym
-    
-    @media_set = MediaSet.find(params[:media_set_id]) unless params[:media_set_id].blank?
-    
-     unless params[:media_entry_ids].blank?
-        selected_ids = params[:media_entry_ids].split(",").map{|e| e.to_i }
-        @media_entries = case action
-          when :edit_multiple, :update_multiple
-            MediaResource.accessible_by_user(current_user, :edit)
-          when :edit_multiple_permissions
-            MediaResource.accessible_by_user(current_user, :manage)
-          when :remove_multiple
-            MediaResource.accessible_by_user(current_user, :view)
-        end.media_entries.where(:id => selected_ids)
-     else
-       flash[:error] = "Sie haben keine Medieneinträge ausgewählt."
-       redirect_to :back
-     end
-    
-  end
-
-
 end

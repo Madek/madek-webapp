@@ -1,7 +1,14 @@
 # -*- encoding : utf-8 -*-
 class Admin::DefinitionsController < Admin::AdminController
 
-  before_filter :pre_load
+  before_filter do
+    @context = MetaContext.find(params[:context_id])
+    unless (params[:definition_id] ||= params[:id]).blank?
+      @definition = @context.meta_key_definitions.find(params[:definition_id])
+    end
+  end
+
+#####################################################
 
   def index
     respond_to do |format|
@@ -55,16 +62,6 @@ class Admin::DefinitionsController < Admin::AdminController
     respond_to do |format|
       format.js { render :nothing => true }
     end
-  end
-
-#####################################################
-
-  private
-
-  def pre_load
-      params[:definition_id] ||= params[:id]
-      @context = MetaContext.find(params[:context_id])
-      @definition = @context.meta_key_definitions.find(params[:definition_id]) unless params[:definition_id].blank?
   end
 
 end

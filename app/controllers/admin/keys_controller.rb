@@ -1,7 +1,13 @@
 # -*- encoding : utf-8 -*-
 class Admin::KeysController < Admin::AdminController # TODO rename to Admin::MetaKeysController ??
 
-  before_filter :pre_load
+  before_filter do
+    unless (params[:key_id] ||= params[:id]).blank?
+      @key = MetaKey.find(params[:key_id])
+    end
+  end
+
+#####################################################
 
   def index
     @keys = MetaKey.order(:label)
@@ -47,7 +53,7 @@ class Admin::KeysController < Admin::AdminController # TODO rename to Admin::Met
 
     meta_terms_attributes.each_value do |h|
       if h[:id].nil? and LANGUAGES.any? {|l| not h[l].blank? }
-        term = Meta::Term.find_or_create_by_en_GB_and_de_CH(h)
+        term = MetaTerm.find_or_create_by_en_GB_and_de_CH(h)
         @key.meta_terms << term
         #old??# h[:id] = term.id
       elsif h[:_destroy].to_i == 1
@@ -73,15 +79,6 @@ class Admin::KeysController < Admin::AdminController # TODO rename to Admin::Met
       format.html
       format.js { render :layout => false }
     end
-  end
-
-#####################################################
-
-  private
-
-  def pre_load
-      params[:key_id] ||= params[:id]
-      @key = MetaKey.find(params[:key_id]) unless params[:key_id].blank?
   end
 
 end

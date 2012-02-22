@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'spork'
+require 'pry'
 
 require 'simplecov'
 SimpleCov.start 'rails' do
@@ -53,4 +54,9 @@ begin
   DatabaseCleaner.strategy = :transaction
 rescue NameError
   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
+end
+
+at_exit do
+  # remove dropbox 
+  FileUtils.rm_rf("#{Rails.root}/tmp/dropbox")
 end

@@ -1,6 +1,6 @@
 # coding: UTF-8
 
-# Persona:  Adam
+# Persona:  Adam Admin
 # Job:      System administrator
 # Age:      24
 #
@@ -33,16 +33,45 @@
 #    because they're impossible to configure. 
 
 module Persona
+  
   class Adam
+    
+    NAME = "Adam"
+    LASTNAME = "Admin"
+    PASSWORD = "password"
+    
+    DROPBOX_ROOT_DIR = "#{Rails.root}/tmp/dropbox"
+    FTP_DROPBOX_SERVER = "ftp.dropbox.test"
+    FTP_DROPBOX_USER = "test"
+    FTP_DROPBOX_PASSWORD  = "password"
+    
     def initialize
-      name = "Adam"
-      person = Factory(:person, :firstname => name)
-      crypted_password = Digest::SHA1.hexdigest("password")
-
-      user = Factory(:user, :person => person, :login => name, :password => crypted_password)
-
+      create_person
+      create_user
+      setup_dropbox
+      create_contexts
+    end
+    
+    def create_person
+      @name = NAME
+      @lastname = LASTNAME  
+      @person = Factory(:person, firstname: @name, lastname: @lastname)
+    end
+    
+    def create_user
+      @crypted_password = Digest::SHA1.hexdigest(PASSWORD)
+      @user = Factory(:user, :person => @person, :login => @name.downcase, :password => @crypted_password)
+    end
+    
+    def setup_dropbox
+      AppSettings.dropbox_root_dir = DROPBOX_ROOT_DIR
+      AppSettings.ftp_dropbox_server = FTP_DROPBOX_SERVER
+      AppSettings.ftp_dropbox_user = FTP_DROPBOX_USER
+      AppSettings.ftp_dropbox_password = FTP_DROPBOX_PASSWORD
+    end
+    
+    def create_contexts
       # TODO is it correct that the admin creates all these contexts?
-      
       # TODO create with meta_keys
       name = "Landschaftsvisualisierung"
       context = if MetaContext.exists?(:name => name)
@@ -52,7 +81,7 @@ module Persona
       end
 
       title = "Landschaften"
-      media_set1 = Factory(:media_set, :user => user)
+      media_set1 = Factory(:media_set, :user => @user)
       media_set1.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title}}})
       media_set1.individual_contexts << context
 
@@ -66,7 +95,7 @@ module Persona
       end
 
       title = "Zett"
-      media_set2 = Factory(:media_set, :user => user)
+      media_set2 = Factory(:media_set, :user => @user)
       media_set2.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title}}})
       media_set2.individual_contexts << context
 
@@ -79,12 +108,11 @@ module Persona
       end
 
       title = "Zett über Landschaften"
-      media_set3 = Factory(:media_set, :user => user)
+      media_set3 = Factory(:media_set, :user => @user)
       media_set3.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title}}})
       media_set3.individual_contexts << context
-      media_set3.parent_sets << [media_set1, media_set2]
-
-
+      media_set3.parent_sets << [media_set1, media_set2]      
     end
+
   end  
 end

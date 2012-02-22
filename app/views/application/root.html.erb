@@ -104,6 +104,10 @@
   				<h4>Neu mit Version <small><%= RELEASE_VERSION %></small></i></h4>
   				<p class="sidebar-box-claim">Rund um die Entwicklung</p>
           <div class="newsitem">
+            <p><span>Upload und Import überarbeitet</span></p>
+            <p>Der Upload-Prozess und der dahinterliegende Import von Dateien wurde grundlegend überarbeitet. Neu können hunderte von Dateien leicht und übersichtlich über den Browser hochgeladen werden. Auch sehr grosse Dateien (Dutzende GB) können dank FTP-Dropbox jetzt ins Medienarchiv.</p>
+          </div>
+          <div class="newsitem">
             <p><span>Sets mit Vokabular</span></p>
             <p>Die Unterscheidung zwischen Sets und Projekten wurde aufgehoben. Neu gibt es nur noch Sets im Medienarchiv - solche mit und solche ohne ein zusätzliches Vokabular. An einer Unterscheidung zwischen den beiden wird noch gearbeitet.</p>
           </div>
@@ -114,10 +118,6 @@
   				<div class="newsitem">
             <p><span>Anleitung zum Ablegen von Abschlussarbeiten</span></p>
             <p>In der Hilfe werden die verschiedenen Schritte zum Ablegen von Abschlussarbeiten an der ZHdK erklärt.</p>
-          </div>
-  				<div class="newsitem">
-            <p><span>Organisieren mit Sets</span></p>
-            <p>Zur besseren Verwaltung der eigenen Medieneinträge können nun die Sets auch in Sets gelegt werden. Dies verhilft zu einer besseren Übersicht bei grossen Sammlungen von verschiedenen Medien. Die Medieneinträge und Sets können neu über ein Widget gleichzeitig in ein oder mehrere Sets gelegt bzw. daraus entfern werden.</p>
           </div>
 
   			</div> <!-- #news -->
@@ -210,7 +210,7 @@
         var set_id = "<%= AppSettings.splashscreen_slideshow_set_id %>";
         if(set_id.length) {
           $.ajax("/media_sets/"+set_id, {
-            data: {with:{media_set:{media_entries:{author:1, image:{size:"large"}}}},
+            data: {with: {media_set: {media_entries: {author: {name: 1}, title: 1, image: {size:"large"}}}},
                    format: "json"},
             dataType: "json",
             beforeSend: function(request, settings){
@@ -225,7 +225,7 @@
                   $("#slider-wrapper #htmlcaption1").remove();
                   
                   console.log(data);
-                  randomElements = data.entries.sort(function(){ 
+                  randomElements = data.media_entries.sort(function(){ 
                     return Math.round(Math.random())-0.5
                   }).slice(0,5)
                   
@@ -239,7 +239,7 @@
                     // caption
                     var entry_caption = $(caption_clone).clone();
                     $(entry_caption).attr("id", "htmlcaption"+(i+1));
-                    $(entry_caption).html("<strong>"+entry.title+"</strong><br/>"+entry.author);
+                    $(entry_caption).html("<strong>"+entry.title+"</strong><br/>"+entry.author.name);
                     $("#slider-wrapper").append(entry_caption);
                   });
                   

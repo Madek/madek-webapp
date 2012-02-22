@@ -11,6 +11,8 @@ MAdeK::Application.configure do
 
   # Specifies the header that your server uses for sending files
   ### NOTE doesn't work with passenger! ### config.action_dispatch.x_sendfile_header = "X-Sendfile"
+  # Yes it DOES work with passenger!
+  config.action_dispatch.x_sendfile_header = "X-Sendfile"
 
   # For nginx:
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'

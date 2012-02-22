@@ -756,6 +756,19 @@ ul li { float: left; }
 	text-decoration: none;
 }
 
+.page_navigation {
+  left: 16px;
+  position: relative;
+  top: 19px;
+  
+  .active {
+    font-weight: bold;
+    &:hover {
+      color: #424242 !important;
+    }
+  }
+}
+
 /************************************************** Pagination */
 
 .pagination {
@@ -1212,6 +1225,10 @@ ul li { float: left; }
 	padding: 2px;
 	display: none;
 	
+	a {
+  	text-decoration: none !important;
+	}
+	
 	a:hover {
 		text-decoration: none;
 	}
@@ -1233,7 +1250,9 @@ ul li { float: left; }
 
 a {
 	color: #424242;
-	text-decoration: none;
+	/* text-decoration: none;*/
+	/* Trying something that SUS suggested. */
+	text-decoration: underline;
 	&:hover {
 		color: #000000;
 		text-decoration: underline;
@@ -1717,7 +1736,7 @@ button.dark:hover {
 		font-weight: normal;
 		word-spacing: 0.1ex;
 		padding-left: 5px;
-		padding-top: 3px;
+		padding-top: 2px;
 	}
 
 	table img {
@@ -2043,6 +2062,14 @@ form.new_person {
     .columns_3 {
     	padding-bottom: 10px;
     	border-bottom: 1px solid silver;  
+    	
+    	&:nth-last-child(0) {
+    	  border-bottom: none;
+    	}
+    }
+    
+    .disabled {
+      color: #AAA;
     }
 }
 
@@ -2063,7 +2090,7 @@ form.new_person {
 }
 
 
-li.different_values {
+.different_values {
     background: red url(stripe_1.png);
 }
   	
@@ -2546,11 +2573,7 @@ form#set_media_sets input[type="submit"] {
     }    
   }
   
-	a {
-	  text-decoration: underline;
-	}
-	
-	.upload_buttons:hover {
+	.upload_buttons:not(.plupload_disabled):not(.disabled):hover {
 	  text-decoration: none;
 	  background: #e3e3e3;
 	}
@@ -2912,6 +2935,7 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
 #vocabulary_tab h3 {
     font-size: 1.4em;
     margin-bottom: 1em;
+    margin-top: 1em;
     letter-spacing: 0;
 }
 
@@ -3066,6 +3090,7 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
     padding: 0;
     .ui-slider {
     	padding: 0;
+    	margin-bottom: 14px;
     }
 }
 
@@ -3388,6 +3413,50 @@ table.permissions {
 	.adder td {
 		font-weight: normal;
 	}
+}
+
+#detail_specification #contexts_tab {
+  margin-bottom: 12px;
+    
+  input[type=checkbox] {
+    margin-right: 5px;
+    position: relative;
+    top: -1px;
+  }
+  
+  li {
+    float: none;
+    display: block;
+    margin-bottom: 6px;
+  }
+  
+  label {
+    margin-bottom: 6px;
+  }
+    
+  a {
+    color: #888;
+    
+    .external_link {
+      background: red;
+      display: inline;
+      height: 10px;
+      width: 10px;
+    }
+    
+    &:hover {
+      color: #222;
+      text-decoration: underline;
+    }
+  }
+  
+  .save_buttons {
+    margin: 1.8em 0 1.2em;
+  }
+  
+  hr {
+    margin-bottom: 1em;
+  }
 }
 
 

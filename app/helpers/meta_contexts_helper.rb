@@ -73,13 +73,16 @@ module MetaContextsHelper
     
     capture_haml do
       haml_tag :br
-      haml_tag :a, "Zeige die bereits vergebenen Werte", :href => "#", :id => "terms_toggler"
+      haml_tag :label, :style => "cursor: pointer;" do
+        haml_tag :input, :type => "checkbox", :id => "terms_toggler", :checked => "false"
+        haml_tag :strong, "Die bereits vergeben Werte hervorheben", :style => "position:relative;top:1px;left:2px;font-size:0.9em;letter-spacing:0;"
+      end
       haml_tag :br
       haml_tag :br
 
       vocabulary_json.each do |context|
-        haml_tag :h3, context["label"]
-        haml_tag :p, context["description"]
+        haml_tag :h3, context["label"][DEFAULT_LANGUAGE.to_s]
+        haml_tag :p, context["description"][DEFAULT_LANGUAGE.to_s]
         context["meta_keys"].each do |meta_key|
           haml_tag :h4, meta_key["label"]
           haml_tag :div, :class => "columns_3" do
@@ -95,20 +98,14 @@ module MetaContextsHelper
         <<-HERECODE
           $(document).ready(function () {
             var unused_terms = $("p[data-meta_term_id][data-used='0']");
-            var terms_toggler = $("a#terms_toggler");
-            terms_toggler.data("active", false);             
-            terms_toggler.click(function(){
-              var that = $(this);
-              if(that.data("active")){
-                unused_terms.removeClass("disabled");
-                that.html("Zeige die bereits vergebenen Werte");
-                that.data("active", false);
-              }else{
+            var terms_toggler = $("#terms_toggler");
+            $(terms_toggler).removeAttr("checked");
+            terms_toggler.change(function(){
+              if ($(this).attr("checked") == "checked") {
                 unused_terms.addClass("disabled");
-                that.html("Zeige das gesamte Vokabular");
-                that.data("active", true);
+              } else {
+                unused_terms.removeClass("disabled");
               }
-              return false;
             });
           });
         HERECODE

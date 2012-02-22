@@ -1,0 +1,76 @@
+.ui-dialog.dropbox_info {
+  padding-bottom: 12px;
+  width: 600px !important;
+  
+  p {
+    
+    a {
+      color: #888;
+      
+      &:hover {
+        color: #333;
+      }
+    }
+    
+    &.info {
+      background: #EEE;
+      padding: 10px 12px 6px;
+    }
+    
+    &.error {
+      top: 0;
+      position: relative;
+    }
+  }  
+  
+  hr {
+    margin-bottom: 18px;
+  }
+  
+  .ftp_informations {
+    background: #424242;
+    border: 1px solid #777;
+    color: white;
+    display: block;
+    padding: 14px 16px 8px;
+    position: relative;
+    margin-top: 40px;
+    width: 400px;
+    
+    .upload_buttons {
+      display: inline-block;
+      float: none;
+      position: relative;
+      margin: 4px 0 5px 0;
+    }
+    
+    dl {
+      dt {
+        color: #EEE;
+        font-size: 0.9em;
+        font-weight: bold;
+      }      
+      
+      dd {
+        margin-bottom: 6px;
+        
+        em {
+          color: #EEE;
+          font-style: italic;
+        }
+      }
+    }
+  }
+  
+  .navigation {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 150px;
+    
+    .upload_buttons {
+      right: 12px;
+      position: relative;
+    }
+  }
+}

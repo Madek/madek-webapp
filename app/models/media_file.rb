@@ -2,11 +2,31 @@
 # require 'digest'
 
 class MediaFile < ActiveRecord::Base
-  # before_create :set_filename
-  before_create :assign_access_hash
-  before_create :validate_file
-  after_create  :store_file
-  after_destroy :delete_file
+
+  before_create do
+    self.access_hash = UUIDTools::UUID.random_create.to_s
+    
+    #TODO - check for zip files and process accordingly
+    unless importable_zipfile?
+      set_filename
+    else
+      explode_and_import(uploaded_data)
+      # do the explode and import in the background
+    end
+  end
+  
+  after_create do
+    # Write the file out to storage
+    FileUtils.cp uploaded_data.tempfile.path, file_storage_location
+    import if meta_data.blank? # TODO in background?
+  end
+
+  after_destroy do
+    # TODO ensure that the media file is not still being used by another media_entry or snapshot
+    File.delete(file_storage_location)
+  end
+
+#########################################################
 
   validates_presence_of :uploaded_data
 
@@ -57,21 +77,6 @@ class MediaFile < ActiveRecord::Base
     update_attributes(:meta_data => meta_data)
   end
 
-
-# Write the file out to storage
-  def store_file
-    FileUtils.cp uploaded_data[:tempfile].path, file_storage_location
-
-    # TODO in background?
-    import if meta_data.blank?
-  end
-
-# We need to ensure that the media file is not still being used by another media_entry.
-  def delete_file
-    File.delete(file_storage_location)
-  end
-
-
 # The final resting place of the media file. consider it permanent storage.
 # basing the shard on (some non-zero) part of the guid gives us a trivial 'storage balancer' which completely ignores
 # any size attributes of the file, and distributes amongst directories pseudorandomly (which in practice averages out in the long-term).
@@ -89,16 +94,9 @@ class MediaFile < ActiveRecord::Base
   # NB Depending on if we are being called from a rake task or the webserver, we either get a tempfile or an array.
   def set_filename
     self.guid = get_guid 
-    # Same issue as above, we get a hash or an object, depending on appserver or rake task call.
-    if uploaded_data.kind_of? Hash
-      self.filename = CGI::escape(uploaded_data[:filename])
-      self.size = File.size(uploaded_data[:tempfile].path)
-      self.content_type = uploaded_data[:type]
-    else
-      self.filename = CGI::escape(uploaded_data.original_filename)
-      self.size = uploaded_data.size
-      self.content_type = uploaded_data.content_type
-    end
+    self.filename = CGI::escape(uploaded_data.original_filename)
+    self.size = uploaded_data.size
+    self.content_type = uploaded_data.content_type
   end
 
   # the cornerstone of identity..
@@ -195,7 +193,7 @@ class MediaFile < ActiveRecord::Base
         paths.each do |path|
           if File.extname(path) == ".webm"
             # Must have Exiftool with Image::ExifTool::Matroska to support WebM!
-            w, h = exiftool_obj(path, ["Composite:ImageSize"])[0][0][1].split("x")
+            w, h = Exiftool.parse_metadata(path, ["Composite:ImageSize"])[0][0][1].split("x")
             if previews.create(:content_type => content_type, :filename => File.basename(path), :width => w.to_i, :height => h.to_i, :thumbnail => 'large')
               # Link the file to a symlink inside of public/ so that Apache serves the preview file, otherwise
               # it would become far too hard to support partial content (status 206) and ranges (for seeking in media files)
@@ -235,7 +233,7 @@ class MediaFile < ActiveRecord::Base
       tmparr = thumbnail_storage_location
       tmparr += "_#{thumb_size.to_s}"
       outfile = [tmparr, 'jpg'].join('.')
-      `convert -verbose "#{file}" -auto-orient -thumbnail "#{value}" -flatten -unsharp 0x.5 "#{outfile}"`
+      `convert "#{file}" -auto-orient -thumbnail "#{value}" -flatten -unsharp 0x.5 "#{outfile}"`
       if File.exists?(outfile)
         x,y = `identify -format "%wx%h" "#{outfile}"`.split('x')
         if x and y
@@ -248,17 +246,9 @@ class MediaFile < ActiveRecord::Base
     end
   end
 
-  def validate_file
-    #TODO - check for zip files and process accordingly
-      unless importable_zipfile?
-        set_filename
-      else
-        explode_and_import(uploaded_data)
-        # do the explode and import in the background
-      end
-  end
-
   def thumb_base64(size = :small)
+    size = size.to_sym
+
     # TODO give access to the original one?
     # available_sizes = THUMBNAILS.keys #old# ['small', 'medium']
     # size = 'small' unless available_sizes.include?(size)
@@ -304,12 +294,7 @@ class MediaFile < ActiveRecord::Base
 ######################################################################
 
   def importable_zipfile?
-    if uploaded_data.kind_of? Hash
-      ret = uploaded_data[:filename].include?('__IMPORT__') and uploaded_data[:filename].include?('.zip')
-    else
-      ret = uploaded_data.original_filename.include?('__IMPORT__') and uploaded_data.original_filename.include?('.zip')
-    end
-    ret
+    uploaded_data.original_filename.include?('__IMPORT__') and uploaded_data.original_filename.include?('.zip')
   end
 
 
@@ -320,7 +305,7 @@ class MediaFile < ActiveRecord::Base
     ignore_fields = ['UserComment','ImageDescription', 'ProfileCopyright', 'System:']
     exif_hash = {}
 
-    blob = exiftool_obj(full_path_file, group_tags)
+    blob = Exiftool.parse_metadata(full_path_file, group_tags)
     blob.each do |tag_array_entry|
       tag_array_entry.each do |entry|
         exif_hash[entry[0]]=entry[1] unless ignore_fields.any? {|w| entry[0].include? w }
@@ -350,7 +335,7 @@ class MediaFile < ActiveRecord::Base
     ignore_fields = ['UserComment','ImageDescription', 'ProfileCopyright', 'System:']
     exif_hash = {}
 
-    blob = exiftool_obj(full_path_file, group_tags)
+    blob = Exiftool.parse_metadata(full_path_file, group_tags)
     blob.each do |tag_array_entry|
       tag_array_entry.each do |entry|
         exif_hash[entry[0]]=entry[1] unless ignore_fields.any? {|w| entry[0].include? w }
@@ -474,35 +459,11 @@ class MediaFile < ActiveRecord::Base
   end
   
   
-  def assign_access_hash
-    self.access_hash = UUIDTools::UUID.random_create.to_s
-  end
-
-  def reset_access_hash
-    assign_access_hash
-    return save
-  end
-
   # OPTIMIZE
   def meta_data_without_binary
     r = meta_data.reject{|k,v| ["!binary |", "Binary data"].any?{|x| v.to_yaml.include?(x)}}
     r.map {|x| x.map{|y| y.to_s.dup.force_encoding('utf-8') } }
   end
   
-  private
-
-
- # parses the passed in file reference for the requested tag groups (using exiftool)
- # returns an array of arrays of meta-data for the group tags requested
-  def exiftool_obj(full_path_file, tags = nil)
-    result_set = []
-    parse_hash = JSON.parse(`#{EXIFTOOL_PATH} -s "#{full_path_file}" -a -u -G1 -D -j`).first
-    parse_hash.delete_if {|k,v| v.is_a?(String) and not v.valid_encoding? }
-    tags.each do |tag_group|
-      result_set << parse_hash.select {|k,v| k.include?(tag_group)}.sort
-    end
-    result_set
-  end
-
   
 end

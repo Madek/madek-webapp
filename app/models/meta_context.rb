@@ -10,15 +10,7 @@ class MetaContext < ActiveRecord::Base
   has_many :meta_key_definitions, :dependent => :destroy
   has_many :meta_keys, :through => :meta_key_definitions, :order => :position
 
-  validates_presence_of :name
-
-  # NOTE the overridden method MUST come BEFORE the serialize statement or IT WILL FAIL ON LINUX!!
-  def meta_field=(hash = {})
-    f = meta_field || MetaField.new
-    f.update_attributes(hash)
-    write_attribute(:meta_field, f)
-  end
-  serialize     :meta_field, MetaField
+  validates_presence_of :name, :label
 
   # compares two objects in order to sort them
   def <=>(other)
@@ -32,16 +24,17 @@ class MetaContext < ActiveRecord::Base
 
 ##################################################################
 
+  [:label, :description].each do |name|
+    belongs_to name, :class_name => "MetaTerm"
+    define_method "#{name}=" do |h|
+      write_attribute("#{name}_id", MetaTerm.find_or_create(h).try(:id))
+    end
+  end
+
+##################################################################
+
   def to_s
-    label
-  end
-
-  def label
-    "#{meta_field.try(:label)}"
-  end
-
-  def description
-    "#{meta_field.try(:description)}"
+    "#{label}"
   end
 
   def next_position
@@ -62,7 +55,7 @@ class MetaContext < ActiveRecord::Base
     used_meta_term_ids ||= used_meta_term_ids(user)
     r[:meta_keys] = meta_keys.for_meta_terms.map do |meta_key|
       definition = meta_key.meta_key_definitions.for_context(self)
-      { :label => definition.meta_field.label.to_s,
+      { :label => definition.label.to_s,
         :meta_terms => meta_key.meta_terms.map do |meta_term|
           { :id => meta_term.id,
             :label => meta_term.to_s,
@@ -97,7 +90,7 @@ class MetaContext < ActiveRecord::Base
       meta_datum.meta_key.reload #tmp# TODO remove this line, is an Identity Map problem ??
       definition = meta_datum.meta_key.meta_key_definitions.for_context(self)
       { :meta_key_id => meta_datum.meta_key_id,
-        :meta_key_label => definition.meta_field.label.to_s,
+        :meta_key_label => definition.label.to_s,
         :meta_terms => meta_datum.deserialized_value.map do |meta_term|
           { :id => meta_term.id,
             :label => meta_term.to_s
@@ -112,7 +105,7 @@ class MetaContext < ActiveRecord::Base
     meta_key_ids = meta_keys.for_meta_terms.map(&:id)
 
     mds = if current_user
-      accessible_media_entry_ids = MediaResource.accessible_by_user(current_user).media_entries.map(&:id)
+      accessible_media_entry_ids = MediaEntry.accessible_by_user(current_user).map(&:id)
       MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids)
     else
       MetaDatum.where(:meta_key_id => meta_key_ids)
@@ -124,8 +117,7 @@ class MetaContext < ActiveRecord::Base
   # chainable query
   def media_entries(current_user = nil)
     sql = if current_user
-      MediaResource.accessible_by_user(current_user).media_entries.
-        joins("INNER JOIN meta_data ON media_resources.id = meta_data.media_resource_id")
+      MediaEntry.accessible_by_user(current_user).joins("INNER JOIN meta_data ON media_resources.id = meta_data.media_resource_id")
     else
       MediaEntry.joins(:meta_data)
     end

@@ -1,7 +1,14 @@
 # -*- encoding : utf-8 -*-
 class Admin::UsersController < Admin::AdminController
 
-  before_filter :pre_load
+  before_filter do
+    unless (params[:user_id] ||= params[:id]).blank?
+      @user = User.find(params[:user_id])
+    end
+    @group = Group.find(params[:group_id]) unless params[:group_id].blank?
+  end
+
+#####################################################
 
   def index
     @users = User.all
@@ -50,16 +57,6 @@ class Admin::UsersController < Admin::AdminController
         format.js { render :nothing => true } # TODO check if successfully deleted
       end
     end
-  end
-
-#####################################################
-
-  private
-
-  def pre_load
-      params[:user_id] ||= params[:id]
-      @user = User.find(params[:user_id]) unless params[:user_id].blank?
-      @group = Group.find(params[:group_id]) unless params[:group_id].blank?
   end
 
 end

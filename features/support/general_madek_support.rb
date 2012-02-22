@@ -97,6 +97,7 @@ end
 def click_media_entry_titled(title)
   entry = find_media_entry_titled(title)
   entry.find("a").click
+  sleep 1.0
 end
 
 def oldschool_click_media_entry_titled(title)
@@ -176,6 +177,7 @@ def fill_in_person_widget(list_element, value, options = "")
     lastname, firstname = value, value
     lastname, firstname = value.split(",") if value.include?(",")
     list_element.find(:css, ".dialog_link").click
+    sleep 3.0
     fill_in "Nachname", :with => lastname
     fill_in "Vorname", :with => firstname
     click_link_or_button("Personendaten einfügen")
@@ -248,11 +250,10 @@ def find_permission_checkbox(type, to_or_from)
 end
 
 
-def give_permission_to(type, to)
-
+def give_permission_to(type, to, save=true)
   cb = find_permission_checkbox(type, to)
   cb.click unless cb[:checked] == "true" # a string, not a bool!
-  click_button("Speichern")
+  click_button("Speichern") if save
 end
 
 
@@ -312,32 +313,24 @@ HERE
   page.execute_script(enter_script)
 end
 
+def mock_media_entry(user, title, copyright_notice = "copyright notice")
+  media_entry = FactoryGirl.create :media_entry, :user => user
+  params = {:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title},
+                                      "1" => {:meta_key_label => "copyright notice", :value => copyright_notice} }}
+  media_entry.update_attributes(params)
+  media_entry.reload.title.should == title
+end
+
 # Uploads a picture with a given title and a fixed copyright string.
 # It's always the same picture, no way to change the image file yet.
 def upload_some_picture(title = "Untitled")
+    visit "/"
+    page.should_not have_content(title)
+  
+    mock_media_entry(@current_user, title, "some dude")
 
     visit "/"
-
-    # The upload itself
-    click_link("Hochladen")
-    click_link("Basic Uploader")
-    attach_file("uploaded_data[]", Rails.root + "features/data/images/berlin_wall_01.jpg")
-    click_button("Ausgewählte Medien hochladen und weiter…")
-    wait_for_css_element("#submit_to_3") # This is the "Einstellungen speichern..." button
-    click_button("Einstellungen speichern und weiter…")
-
-    # Entering metadata
-
-    fill_in_for_media_entry_number(1, { "Titel"     => title,
-                                        "Copyright" => 'some dude' })
-
-    click_button("Metadaten speichern und weiter…")
-    click_link_or_button("Weiter ohne Hinzufügen zu einem Set…")
-
-    visit "/"
-   
     page.should have_content(title)
-
 end
 
 # Creates a new set

@@ -5,8 +5,6 @@ class ChangeUploadSessions < ActiveRecord::Migration
       t.boolean :is_complete, :default => false
       t.index   :is_complete
     end
-
-    UploadSession.update_all({:is_complete => true})
   end
 
   def self.down

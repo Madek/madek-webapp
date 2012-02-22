@@ -31,13 +31,14 @@ module MetaDataHelper
     meta_data.each do |meta_datum|
       next if meta_datum.to_s.blank? #tmp# OPTIMIZE 2007
       definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
-      h[definition.meta_field.label.to_s] = formatted_value(meta_datum) 
+      h[definition.label.to_s] = formatted_value(meta_datum) 
     end
     display_meta_data_helper(context, h)
   end
   
   def display_objective_meta_data_for(resource)
-    meta_data = resource.media_file.meta_data_without_binary.sort
+    meta_data = [["Filename", resource.media_file.filename]]
+    meta_data += resource.media_file.meta_data_without_binary.sort
     display_meta_data_helper(_("Datei"), meta_data)
   end
   
@@ -48,7 +49,7 @@ module MetaDataHelper
       uploader_info, other_info = resource.meta_data_for_context(context).partition {|md| ["uploaded by", "uploaded at"].include?(md.meta_key.label) }
       other_info.each do |meta_datum|
         definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
-        haml_tag :h4, definition.meta_field.label.to_s
+        haml_tag :h4, definition.label.to_s
         if meta_datum.meta_key.label == "title"
           haml_tag :h3, formatted_value(meta_datum)
         else
@@ -82,11 +83,11 @@ module MetaDataHelper
           link_to v, resources_path(:query => v.to_s)
         end
         s.join(', ').html_safe
-      when "Meta::Date"
+      when "MetaDate"
         meta_datum.to_s.html_safe
       when "Date"
         _("%s Uhr") % meta_datum.deserialized_value.to_formatted_s(:date_time)
-      when "Meta::Term"
+      when "MetaTerm"
         meta_datum.deserialized_value.map do |dv|
           #old# link_to dv, filter_resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :method => :post, :"data-meta_term_id" => dv.id #old# , :remote => true
           link_to dv, resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :"data-meta_term_id" => dv.id
@@ -158,19 +159,19 @@ module MetaDataHelper
   
   # NEW generic multi select plugin
   def widget_meta_terms_multiselect(meta_datum, meta_key)
-    case meta_key.object_class.name
-      when "Meta::Department"
+    case meta_key.object_type.constantize.name
+      when "MetaDepartment"
         selected = Array(meta_datum.object.value)
         departments_without_semester = 
           if SQLHelper.adapter_is_mysql?
-            Meta::Department.where("ldap_name NOT REGEXP '_[0-9]{2}[A-Za-z]\.studierende'")
+            MetaDepartment.where("ldap_name NOT REGEXP '_[0-9]{2}[A-Za-z]\.studierende'")
           elsif SQLHelper.adapter_is_postgresql?
-            Meta::Department.where("ldap_name NOT SIMILAR TO '%_[0-9]{2}[A-Za-z]\.studierende'")
+            MetaDepartment.where("ldap_name NOT SIMILAR TO '%_[0-9]{2}[A-Za-z]\.studierende'")
           else
-            raise "you are fucked!"
+            raise "adapter is not supported"
           end
         all_options = departments_without_semester.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)} }
-      when "Meta::Term"
+      when "MetaTerm"
         selected = Array(meta_datum.object.value)
         all_options = meta_key.meta_terms.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}
       when "Person"
@@ -288,11 +289,11 @@ module MetaDataHelper
     meta_key = meta_datum.object.meta_key
     field_id = "#{sanitize_to_id(meta_datum.object_name)}_value"
     definition = meta_key.meta_key_definitions.for_context(context)
-    is_required = (definition.meta_field.is_required ? true : nil)
+    is_required = (definition.is_required ? true : nil)
     #key_id = meta_datum.object.meta_key_id
     object_id = meta_datum.object.object_id
 
-    if meta_key.object_type == "Meta::Country"
+    if meta_key.object_type == "MetaCountry"
       h += widget_meta_countries(meta_datum, meta_key)
 
     elsif meta_key.object_type
@@ -306,16 +307,16 @@ module MetaDataHelper
           h += widget_meta_terms_multiselect(meta_datum, meta_key)
           h += link_to icon_tag("button_add_keyword"), keywords_media_entries_path, :class => "dialog_link", :style => "margin-top: .5em;"
 
-        when "Meta::Term"
+        when "MetaTerm"
           meta_terms = meta_key.meta_terms
-          ui = (definition.meta_field.length_max and definition.meta_field.length_max == 1 ? :radio_button : :check_box )
+          ui = (definition.length_max and definition.length_max == 1 ? :radio_button : :check_box )
           h += widget_meta_terms(meta_datum, meta_key, meta_terms, ui)
 
         when "Person"
           h += widget_meta_terms_multiselect(meta_datum, meta_key)
           h += link_to icon_tag("button_add_person"), new_person_path, :class => "dialog_link", :style => "margin-top: .5em;"
           
-        when "Meta::Date"
+        when "MetaDate"
           meta_datum.object.value ||= [] # OPTIMIZE
           at = from = to = at_time = ""
           selected_option = "freetext"
@@ -413,7 +414,7 @@ module MetaDataHelper
             end
           end
 
-        when "Meta::Department"
+        when "MetaDepartment"
           h += widget_meta_terms_multiselect(meta_datum, meta_key)
 
         when "Copyright"
@@ -493,7 +494,7 @@ module MetaDataHelper
           end unless @js_2
       end
 
-    elsif definition.meta_field.length_max and definition.meta_field.length_max <= 255
+    elsif definition.length_max and definition.length_max <= 255
       #tmp# h += meta_datum.text_field :value, :class => "value", :"data-required" => is_required
       h += text_field_tag "#{meta_datum.object_name}[value]", meta_datum.object.to_s, :class => "value", :"data-required" => is_required
       h += content_tag :span, :class => "with_actions" do
@@ -520,7 +521,7 @@ module MetaDataHelper
   end
 
   def description_toggler(definition)
-    d = definition.meta_field.description.try(:to_s)
+    d = definition.description.try(:to_s)
     unless d.blank?
       content_tag :span, "?", :class => "description_toggler", :title => d #old# auto_link(d, :all, :target => "_blank")
     end
