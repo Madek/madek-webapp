@@ -20,7 +20,7 @@ require 'spec_helper'
 
 describe Admin::PermissionPresetsController do
 
-  before :all do
+  before :each do
     @adam = PersonaFactory.create :adam
   end
 
