@@ -3,9 +3,30 @@
 
 class MediaFile < ActiveRecord::Base
 
-  before_create :assign_access_hash, :validate_file
-  after_create  :store_file
-  after_destroy :delete_file
+  before_create do
+    self.access_hash = UUIDTools::UUID.random_create.to_s
+    
+    #TODO - check for zip files and process accordingly
+    unless importable_zipfile?
+      set_filename
+    else
+      explode_and_import(uploaded_data)
+      # do the explode and import in the background
+    end
+  end
+  
+  after_create do
+    # Write the file out to storage
+    FileUtils.cp uploaded_data.tempfile.path, file_storage_location
+    import if meta_data.blank? # TODO in background?
+  end
+
+  after_destroy do
+    # TODO ensure that the media file is not still being used by another media_entry or snapshot
+    File.delete(file_storage_location)
+  end
+
+#########################################################
 
   validates_presence_of :uploaded_data
 
@@ -55,21 +76,6 @@ class MediaFile < ActiveRecord::Base
     end
     update_attributes(:meta_data => meta_data)
   end
-
-
-# Write the file out to storage
-  def store_file
-    FileUtils.cp uploaded_data.tempfile.path, file_storage_location
-
-    # TODO in background?
-    import if meta_data.blank?
-  end
-
-# We need to ensure that the media file is not still being used by another media_entry.
-  def delete_file
-    File.delete(file_storage_location)
-  end
-
 
 # The final resting place of the media file. consider it permanent storage.
 # basing the shard on (some non-zero) part of the guid gives us a trivial 'storage balancer' which completely ignores
@@ -238,16 +244,6 @@ class MediaFile < ActiveRecord::Base
         # but for the moment, lets just imply no-thumbnail need be made for this size
       end
     end
-  end
-
-  def validate_file
-    #TODO - check for zip files and process accordingly
-      unless importable_zipfile?
-        set_filename
-      else
-        explode_and_import(uploaded_data)
-        # do the explode and import in the background
-      end
   end
 
   def thumb_base64(size = :small)
@@ -463,15 +459,6 @@ class MediaFile < ActiveRecord::Base
   end
   
   
-  def assign_access_hash
-    self.access_hash = UUIDTools::UUID.random_create.to_s
-  end
-
-  def reset_access_hash
-    assign_access_hash
-    return save
-  end
-
   # OPTIMIZE
   def meta_data_without_binary
     r = meta_data.reject{|k,v| ["!binary |", "Binary data"].any?{|x| v.to_yaml.include?(x)}}

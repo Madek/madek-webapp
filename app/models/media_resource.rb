@@ -1,6 +1,15 @@
 # -*- encoding : utf-8 -*-
 class MediaResource < ActiveRecord::Base
 
+  after_create do
+    if is_a? Snapshot
+      group = Group.find_or_create_by_name("MIZ-Archiv") 
+      grouppermissions.create(group: group, view: true, edit: true, download: true, manage: true)
+    end
+  end
+
+###############################################################
+
   belongs_to :user   # TODO remove down and set missing user for snapshots
   belongs_to :media_file  # TODO remove 
 
@@ -52,8 +61,6 @@ class MediaResource < ActiveRecord::Base
 #        end
 #      end
 #    end
-
-  after_create :generate_permissions
 
   has_many  :edit_sessions, :dependent => :destroy, :readonly => true
   has_many  :editors, :through => :edit_sessions, :source => :user do
@@ -497,19 +504,6 @@ class MediaResource < ActiveRecord::Base
 ##########################################################################
 
   private
-
-  def generate_permissions
-    if self.class == Snapshot
-      group = Group.find_or_create_by_name("MIZ-Archiv") 
-      gp = Grouppermission.create  \
-        group: group, 
-        media_resource: self,
-        download: true,
-        edit: true,
-        manage: true,
-        view: true
-    end
-  end
 
   # returns the meta_data for a particular resource, so that it can written into a media file that is to be exported.
   # NB: this is exiftool specific at present, but can be refactored to take account of other tools if necessary.
