@@ -46,10 +46,13 @@ module Persona
     FTP_DROPBOX_PASSWORD  = "password"
     
     def initialize
-      create_person
-      create_user
-      setup_dropbox
-      create_contexts
+      ActiveRecord::Base.transaction do 
+        create_person
+        create_user
+        add_to_admin_group
+        setup_dropbox
+        create_contexts
+      end
     end
     
     def create_person
@@ -62,7 +65,13 @@ module Persona
       @crypted_password = Digest::SHA1.hexdigest(PASSWORD)
       @user = Factory(:user, :person => @person, :login => @name.downcase, :password => @crypted_password)
     end
+
+    def add_to_admin_group
+      Group.find_or_create_by_name("Admin")
+      Group.where("name = ?", :Admin).first.users << @user
+    end
     
+
     def setup_dropbox
       AppSettings.dropbox_root_dir = DROPBOX_ROOT_DIR
       AppSettings.ftp_dropbox_server = FTP_DROPBOX_SERVER
