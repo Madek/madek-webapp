@@ -34,7 +34,6 @@ class MetaDatum < ActiveRecord::Base
                     else
                       Array(value)
                  end
-        # TODO Person.suspend_delta
         self.value = values.map do |v|
                           if klass == Keyword
                             user = media_resource.editors.latest || (media_resource.respond_to?(:user) ? media_resource.user : nil)
@@ -87,6 +86,8 @@ class MetaDatum < ActiveRecord::Base
                             r = klass.where(:id => v).first
                           elsif klass == Copyright
                             r = value
+                          elsif klass == User
+                            r = value
                           elsif klass == Person
                             firstname, lastname = klass.parse(v)
                             r = klass.find_or_create_by_firstname_and_lastname(:firstname => firstname, :lastname => lastname) if firstname or lastname
@@ -137,7 +138,7 @@ class MetaDatum < ActiveRecord::Base
   def deserialized_value
     if meta_key.is_dynamic?
       case meta_key.label
-        when "uploaded by"
+        when "owner"
           return media_resource.user
         when "uploaded at"
           return media_resource.created_at #old# .to_formatted_s(:date_time)
