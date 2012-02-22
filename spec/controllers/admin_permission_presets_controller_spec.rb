@@ -20,18 +20,22 @@ require 'spec_helper'
 
 describe Admin::PermissionPresetsController do
 
+  before :all do
+    @adam = PersonaFactory.create :adam
+  end
+
   # This should return the minimal set of attributes required to create a valid
   # PermissionPreset. As you add validations to PermissionPreset, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {}
+    {name: "Nobody", view: false, download: false, edit: false, manage:false}
   end
   
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # PermissionPresetsController. Be sure to keep this updated too.
   def valid_session
-    {}
+    {user_id: @adam.id}
   end
 
   describe "GET index" do
@@ -81,7 +85,7 @@ describe Admin::PermissionPresetsController do
 
       it "redirects to the created permission_preset" do
         post :create, {:permission_preset => valid_attributes}, valid_session
-        response.should redirect_to(PermissionPreset.last)
+        response.should redirect_to(admin_permission_preset_url PermissionPreset.last)
       end
     end
 
@@ -123,7 +127,7 @@ describe Admin::PermissionPresetsController do
       it "redirects to the permission_preset" do
         permission_preset = PermissionPreset.create! valid_attributes
         put :update, {:id => permission_preset.to_param, :permission_preset => valid_attributes}, valid_session
-        response.should redirect_to(permission_preset)
+        response.should redirect_to(admin_permission_preset_url(permission_preset))
       end
     end
 
@@ -157,7 +161,7 @@ describe Admin::PermissionPresetsController do
     it "redirects to the permission_presets list" do
       permission_preset = PermissionPreset.create! valid_attributes
       delete :destroy, {:id => permission_preset.to_param}, valid_session
-      response.should redirect_to(permission_presets_url)
+      response.should redirect_to(admin_permission_presets_url)
     end
   end
 
