@@ -1,37 +1,4 @@
-<%= form_for(@permission_preset) do |f| %>
-  <% if @permission_preset.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@permission_preset.errors.count, "error") %> prohibited this permission_preset from being saved:</h2>
-
-      <ul>
-      <% @permission_preset.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :download %><br />
-    <%= f.check_box :download %>
-  </div>
-  <div class="field">
-    <%= f.label :view %><br />
-    <%= f.check_box :view %>
-  </div>
-  <div class="field">
-    <%= f.label :edit %><br />
-    <%= f.check_box :edit %>
-  </div>
-  <div class="field">
-    <%= f.label :manage %><br />
-    <%= f.check_box :manage %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<%= semantic_form_for @permission_preset, url: admin_permission_presets_path do |f| %>
+  <%= f.inputs %>
+  <%= f.buttons %>
 <% end %>

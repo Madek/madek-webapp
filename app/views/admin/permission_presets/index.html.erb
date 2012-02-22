@@ -19,9 +19,9 @@
     <td><%= permission_preset.view %></td>
     <td><%= permission_preset.edit %></td>
     <td><%= permission_preset.manage %></td>
-    <td><%= link_to 'Show', permission_preset %></td>
+    <td><%= link_to 'Show', admin_permission_preset_path(permission_preset) %></td>
     <td><%= link_to 'Edit', edit_admin_permission_preset_path(permission_preset) %></td>
-    <td><%= link_to 'Destroy', permission_preset, confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= link_to 'Destroy', admin_permission_preset_path(permission_preset), confirm: 'Are you sure?', method: :delete %></td>
   </tr>
 <% end %>
 </table>

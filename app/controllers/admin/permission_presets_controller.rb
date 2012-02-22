@@ -44,7 +44,7 @@ class Admin::PermissionPresetsController < Admin::AdminController
 
     respond_to do |format|
       if @permission_preset.save
-        format.html { redirect_to @permission_preset, notice: 'Permission preset was successfully created.' }
+        format.html { redirect_to admin_permission_presets_path, notice: 'Permission preset was successfully created.' }
         format.json { render json: @permission_preset, status: :created, location: @permission_preset }
       else
         format.html { render action: "new" }
@@ -76,7 +76,7 @@ class Admin::PermissionPresetsController < Admin::AdminController
     @permission_preset.destroy
 
     respond_to do |format|
-      format.html { redirect_to permission_presets_url }
+      format.html { redirect_to admin_permission_presets_url }
       format.json { head :ok }
     end
   end
