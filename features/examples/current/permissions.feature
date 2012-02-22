@@ -17,11 +17,12 @@ Feature: Permissions
   I want to have different permissions on resources
   So that I can decide who has what kind of access to my data
 
-#  Background: Load the example data and personas
-#	Given I have set up the world
-#    And personas are loaded
-#    And I am "Normin"
+  Background: Load the example data and personas
+	Given I have set up the world
+    And personas are loaded
+    And I am "Normin"
 
+  @javascript
   Scenario: View permission
     Given a resource owned by "Normin"
       And the resource has the following permissions:

@@ -15,5 +15,11 @@ Given /^the resource has the following permissions:$/ do |table|
 end
 
 Then /^"([^"]*)" can view the resource$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  case @resource.class.name 
+  when MediaSet.name
+    visit "/media_sets/#{@resource.id}/"
+  when MediaEntry.name
+    visit "/media_entry/#{@resource.id}/"
+  end
+  page.should have_content "Titel des Sets"
 end
