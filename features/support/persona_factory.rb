@@ -4,7 +4,8 @@ require Rails.root+'features/support/persona'
 module PersonaFactory 
   extend self
 
-  def create(persona)
+  def create(_persona)
+    persona = _persona.to_s
     if FileTest.exist? "features/data/persona/#{persona.downcase}.rb"
       if Persona.get(persona).blank?
         require Rails.root+"features/data/persona/#{persona.downcase}.rb"
