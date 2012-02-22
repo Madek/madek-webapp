@@ -1,4 +1,4 @@
-class PermissionPresetsController < ApplicationController
+class Admin::PermissionPresetsController < Admin::AdminController
   # GET /permission_presets
   # GET /permission_presets.json
   def index

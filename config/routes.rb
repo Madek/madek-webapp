@@ -1,7 +1,6 @@
 # -*- encoding : utf-8 -*-
 MAdeK::Application.routes.draw do
 
-  resources :permission_presets
 
 =begin #FE#
   resources :resources, :only => :index
@@ -223,6 +222,8 @@ MAdeK::Application.routes.draw do
 
   namespace :admin do
     root :to => "keys#index"
+
+    resources :permission_presets
     
     resource :meta, :controller => 'meta' do
       member do
