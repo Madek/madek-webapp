@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 MAdeK::Application.routes.draw do
 
+  resources :permission_presets
+
 =begin #FE#
   resources :resources, :only => :index
   resources :media_sets, :only => :show
