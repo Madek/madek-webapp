@@ -188,6 +188,7 @@ When /^I delete some fo those after the upload$/ do
 end
 
 Then /^those files are deleted$/ do
+  sleep(2)
   @current_user.incomplete_media_entries.each do |element|
     element.media_file.filename.should_not == "berlin_wall_01.jpg"
   end
