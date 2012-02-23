@@ -338,10 +338,10 @@
   id: 59
   object_type: 
 - label: uploaded by
-  is_dynamic: true
+  is_dynamic: false
   is_extensible_list: 
   id: 60
-  object_type: Person
+  object_type: User
 - label: uploaded at
   is_dynamic: true
   is_extensible_list: 
@@ -563,6 +563,11 @@
   is_extensible_list: false
   id: 99
   object_type: MetaTerm
+- label: owner
+  is_dynamic: true
+  is_extensible_list: 
+  id: 100
+  object_type: User
 :meta_contexts: 
 - name: core
   label: 284

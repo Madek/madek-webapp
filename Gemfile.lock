@@ -107,6 +107,8 @@ GEM
       i18n (~> 0.4)
     fastercsv (1.5.4)
     ffi (1.0.11)
+    formtastic (2.0.2)
+      rails (~> 3.0)
     gherkin (2.7.7)
       json (>= 1.4.6)
     growl (1.0.3)
@@ -336,6 +338,7 @@ DEPENDENCIES
   factory_girl (~> 2.1.0)
   factory_girl_rails (~> 1.2)
   faker
+  formtastic
   growl (~> 1.0.3)
   guard (~> 0.10.0)
   guard-cucumber (~> 0.7.4)
