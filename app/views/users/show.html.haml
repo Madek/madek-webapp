@@ -30,7 +30,7 @@
   // TODO dry => batch_actions.js
   $(document).ready(function () {
     function display_entries(entries, container){
-      $(container).prepend($("#thumbnail").tmpl(entries, {with_checkbox: false}));
+      $(container).prepend($.tmpl("tmpl/media_resources/thumb_box", entries, {with_checkbox: false}));
     }
     display_entries(#{@my_media_entries.to_json}.entries, "#results");
     display_entries(#{@other_media_entries.to_json}.entries, "#results_others");

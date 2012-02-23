@@ -74,6 +74,12 @@ module Persona
         entry = Factory(:media_entry, :user => @user)
         entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Konzept"}}})
         set.media_entries << entry
+      permission = Factory(:userpermission, :media_resource => set, :user => Factory(:user))
+      permission.view = true 
+      permission.edit = false 
+      permission.manage = false 
+      permission.download = false
+      permission.save 
         
       ## Fotografie Kurs HS 2010
       set = Factory(:media_set, :user => @user)
@@ -84,6 +90,8 @@ module Persona
         entry = Factory(:media_entry, :user => @user)
         entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Stilleben"}}})
         set.media_entries << entry
+      set.view = true
+      set.save
       
       # Meine Ausstellungen
       meine_ausstellungen = Factory(:media_set, :user => @user)

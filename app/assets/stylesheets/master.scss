@@ -259,12 +259,29 @@ div#ajaxLoading {
 	background: url(icons/madek_icon_sprites.png) -100px -1038px no-repeat;
 	width: 30px;
 	height: 30px;
+	@include opacity(0.7);
 }
 
 .icon_status_perm_public {
-	background: url(icons/madek_icon_sprites.png) -100px -1106px no-repeat;
+	background: url(icons/madek_icon_sprites.png) -168px -1037px no-repeat;
 	width: 30px;
 	height: 30px;
+	@include opacity(0.7);
+}
+
+.item_box.set {
+  .item_permission {
+    left: 8px;
+    position: absolute;
+    top: 35px;
+  }
+}
+
+.icon_status_perm_shared {
+	background: url(icons/madek_icon_sprites.png) -168px -1107px no-repeat;
+	width: 30px;
+	height: 30px;
+	@include opacity(0.7);
 }
 
 .check_box {

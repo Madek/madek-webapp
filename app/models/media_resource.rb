@@ -202,8 +202,10 @@ class MediaResource < ActiveRecord::Base
     if user = options[:user]
       #TODO Dont do this behaviour on default
       is_public = is_public?
+      is_private = (is_public ? false : is_private?(user))
       flags = { :is_public => is_public,
-                :is_private => (is_public ? false : is_private?(user)),
+                :is_private => is_private,
+                :is_shared => (not is_public and not is_private),
                 :is_editable => user.authorized?(:edit, self),
                 :is_manageable => user.authorized?(:manage, self),
                 :is_favorite => user.favorite_ids.include?(id) }

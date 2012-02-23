@@ -95,7 +95,9 @@ Feature: Ownership
      And "Susanne Schumacher" is still the original media entry's owner
 
   # https://www.pivotaltracker.com/story/show/23670991
+  @javascript
   Scenario: Visible representation of ownership
+  Given I am "Normin"
    When I see a list of resources
    Then I can see if a resource is only visible for me
     And I can see if a resource is visible for multiple other users
