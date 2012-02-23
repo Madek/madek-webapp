@@ -1,0 +1,12 @@
+%h3= "Problem mit der ausgewählten Datei"
+
+%p.error
+  = "Dateigrösse ist Null"
+
+%p= "Die von Ihnen ausgewählte Datei \"${filename}\" hat eine Dateigrösse von 0 Bytes und kann nicht hochgeladen werden."
+
+%br
+%br
+
+.navigation
+  = link_to "Ok, zurück", "javascript:void(0)", :class => "upload_buttons", :onclick => "$('.dialog').dialog('close');"
