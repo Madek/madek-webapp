@@ -9,6 +9,8 @@ Given /^I have set up the world$/ do
   #    we set our own driver here.
   old_driver = Capybara.current_driver
   Capybara.use_default_driver
+  
+  meta_filepath = "#{Rails.root}/features/data/minimal_meta.yml"
 
   if MetaKey.count == 0 # TODO: Test for more stuff, just having more than 0
                         # keys doesn't guarantee the YAML file has already been
@@ -28,12 +30,18 @@ Given /^I have set up the world$/ do
     click_on_arrow_next_to("Willis, Bruce")
     click_link("Admin")
     click_link("Import")
-    attach_file("uploaded_data", Rails.root + "features/data/minimal_meta.yml")
+    attach_file("uploaded_data", meta_filepath)
     click_button("Import »")
 
   end
 
-  MetaKey.count.should == 89
+  minimal_meta = YAML::load_file(meta_filepath)
+  MetaKey.count.should == minimal_meta[:meta_keys].count
+  MetaContext.count.should == minimal_meta[:meta_contexts].count
+  MetaKeyDefinition.count.should == minimal_meta[:meta_key_definitions].count
+  MetaTerm.count.should == minimal_meta[:meta_terms].count
+  UsageTerm.count.should == 1
+
   Capybara.current_driver = old_driver
 
   # This is actually normally called in the seeds, but
