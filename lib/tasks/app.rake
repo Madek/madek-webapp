@@ -49,6 +49,30 @@ namespace :app do
   end
 
   namespace :db do
+
+    desc "Sync local application instance with production server's most recent database dump"
+    task :sync do
+      puts "Syncing database with production server's..."
+      
+      commands = []
+      commands << "mkdir ./db/backups/"
+      commands << "scp madek@madek-server:/home/rails/madek/shared/db_backups/rails_madek_prod-current.sql.bz2 ./db/backups/"
+      commands << "bunzip2 -f ./db/backups/rails_madek_prod-current.sql.bz2"
+      commands << "rake db:drop db:create"
+      commands << "mysql -h localhost -u root madek_dev < ./db/backups/rails_madek_prod-current.sql"
+      commands << "rake db:migrate"
+
+      commands.each do |command|
+        puts command
+        Open3.popen3(command) do |i,o,e,t|
+          puts o.read.chomp
+        end
+      end
+      
+      puts " DONE"
+    end
+
+
     desc "export application settings and data to json"
     task :export_with_data  => :environment do
 
