@@ -1,0 +1,12 @@
+%h3= "Problem"
+
+%p.error
+  = "${errormsg}"
+
+%p= "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder wenden Sie sich an Ihre IT-Abteilung."
+
+%br
+%br
+
+.navigation
+  = link_to "Ok, zurück", "javascript:void(0)", :class => "upload_buttons", :onclick => "$('.dialog').dialog('close');"

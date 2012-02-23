@@ -39,9 +39,9 @@
     bind_queue_change()
     bind_state_changed()
     bind_file_uploaded()
+    bind_errors()
     validate_continue_button()
     setup_open_dropbox_dialog()
-    setup_file_size_error()
     setup_delete_mei()
     setup_delete_dropbox_file()
     setup_delete_plupload_file()
@@ -193,6 +193,14 @@
   
   bind_add_files = ->
     uploader.bind "FilesAdded", (uploader, files) ->
+      for file in files
+        if file.size == 0
+          uploader.removeFile file
+          Dialog.add 
+            trigger: $("#uploader_browse")
+            content: $.tmpl("tmpl/upload/zero_bytes_error", {filename:file.name})
+            dialogClass: "zero_bytes_error"
+            closeOnEscape: true
       validate_continue_button()
       window.setTimeout ->
         for element in $("#uploader_filelist li.plupload_delete")
@@ -286,12 +294,18 @@
     template = $.tmpl("tmpl/upload/mei_file", file)
     $("#uploader #mei_filelist").prepend template 
 
-  setup_file_size_error = ->
-    uploader.bind "error", (uploader, error) ->
-      if error.code = -600
-        open_dropbox_dialog(error.message)
+  bind_errors = ->
     window.alert = (msg)->
       #prevent plupload error message
+    uploader.bind "error", (uploader, error) ->
+      if error.code == -600
+        open_dropbox_dialog(error.message)
+      else
+        Dialog.add 
+          trigger: $("#uploader_browse")
+          content: $.tmpl("tmpl/upload/error", {errormsg:error.message})
+          dialogClass: "plupload_error"
+          closeOnEscape: true
 
   setup_delete_mei = ->
     $(".delete_mei").live "click", (event)->
