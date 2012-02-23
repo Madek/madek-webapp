@@ -33,3 +33,4 @@ coverage/**/*
 coverage.data
 .yardoc
 .jhw-cache
+db/backups
