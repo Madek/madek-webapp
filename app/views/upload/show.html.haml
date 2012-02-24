@@ -105,8 +105,9 @@
       $.ajax({
         url: "upload"
         success: (data, status, request) ->
-          window.dropbox_files = data
-          setup_dopbox_files data
+          console.log status
+          #window.dropbox_files = data
+          #setup_dopbox_files data
         type: "GET"
         data: format:"json"
       })
@@ -121,7 +122,6 @@
     # if container is gone create the container again
     if $("#uploader #dropbox_filelist").length == 0
       $("#uploader #uploader_filelist").after $("<ul id='dropbox_filelist'></ul>")
-    
     # add files
     for file in files
       setup_dropbox_file file
