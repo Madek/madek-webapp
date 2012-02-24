@@ -104,10 +104,10 @@
     window.dropbox_sync_interval = window.setInterval ->
       $.ajax({
         url: "upload"
-        success: (data, status, request) ->
-          console.log status
-          #window.dropbox_files = data
-          #setup_dopbox_files data
+        success: (data, status, response) ->
+          if JSON.stringify(window.dropbox_files) != JSON.stringify(data)  
+            setup_dopbox_files data
+          window.dropbox_files = data
         type: "GET"
         data: format:"json"
       })
