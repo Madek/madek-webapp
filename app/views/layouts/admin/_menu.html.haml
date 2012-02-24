@@ -27,4 +27,10 @@
         = link_to _("Sets"), admin_media_sets_path 
     %li{:style => "margin-left: 1em;"}
       %span.head_menu
+        = link_to _("Permissions"), "#", :class => "arrow"
+        = image_tag "icons/arrow_user.png", :width => 18, :height => 15, :align => "top", :class => "arrow"
+      .sub_menu
+        = link_to _("Permission Presets"), admin_permission_presets_path
+    %li{:style => "margin-left: 1em;"}
+      %span.head_menu
         = link_to _("Usage Terms"), admin_usage_term_path
