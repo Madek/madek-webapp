@@ -16,12 +16,22 @@
       - else
         = render :partial => "all_sets"
     -else
-      - if my_user
-        = render :partial => "my_resources"
-      - elsif @user    
-        = render :partial => "user_entries"
+      - title_str, no_media_str = if my_user
+        - [_("Meine Medieneinträge"), _("Keine Medieneinträge vorhanden")]
+      - elsif @user
+        - [_("Alle Medieneinträge"), _("Keine Medieneinträge vorhanden")]
       - else
-        = render :partial => "all_resources"    
+        - [_("Alle Medien"), _("Keine Medien vorhanden")]
+
+      .page_title_left
+        .icon_me
+        = title_str
+      .clear
+      - if @resources[:entries].any?
+        #results
+      - else 
+        = no_media_str
+
        
   = render :partial => "media_entries/batch_bar"
 
