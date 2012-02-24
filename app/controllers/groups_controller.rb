@@ -24,7 +24,8 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @users = @group.type == "MetaDepartment" ? [] : @group.users
+    @include_users = params[:include_users] and params[:include_users] == 'true'
+    @users = @group.type != "MetaDepartment" ?  @group.users : []
   end
 
   def new

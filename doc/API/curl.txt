@@ -10,6 +10,8 @@ Groups
 ------
 
 curl -X GET -i -b /tmp/cookies.txt -c /tmp/cookies.txt -H "Accept: application/json" 'localhost:3000/groups/2'
+curl -X GET -i -b /tmp/cookies.txt -c /tmp/cookies.txt -H "Accept: application/json" 'localhost:3000/groups/2?include_users=true'
+
 
 Permission Presets
 ------------------
