@@ -23,8 +23,9 @@ class GroupsController < ApplicationController
     end
   end
 
-#  def show
-#  end
+  def show
+    @users = @group.type == "MetaDepartment" ? [] : @group.users
+  end
 
   def new
     @group = current_user.groups.build
