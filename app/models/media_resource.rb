@@ -334,13 +334,6 @@ class MediaResource < ActiveRecord::Base
   scope :not_by_user, lambda {|user| where(["media_resources.user_id <> ?", user]) }
 
   ################################################################
-  
-  scope :favorites_for_user, lambda {|user|
-    joins("RIGHT JOIN favorites ON media_resources.id = favorites.media_resource_id").
-    where(:favorites => {:user_id => user})
-  }
-
-  ################################################################
 
   scope :by_media_set, lambda {|media_set|
     #tmp#
@@ -458,7 +451,7 @@ class MediaResource < ActiveRecord::Base
       resource_ids_by_userpermission = Userpermission.select("media_resource_id").where(action => true, :user_id => user)
       resource_ids_by_userpermission_disallowed= Userpermission.select("media_resource_id").where(action => false, :user_id => user)
       resource_ids_by_grouppermission_but_not_disallowed = Grouppermission.select("media_resource_id").where(action => true).joins("INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id ").where("groups_users.user_id = #{user.id}").where(" media_resource_id NOT IN ( #{resource_ids_by_userpermission_disallowed.to_sql} )")
-      resource_ids_by_ownership_or_public_permission = MediaResource.select("media_resources.id").where(["user_id = ? OR #{action} = ?", user, true])
+      resource_ids_by_ownership_or_public_permission = MediaResource.select("media_resources.id").where(["media_resources.user_id = ? OR media_resources.#{action} = ?", user, true])
 
       where " media_resources.id IN  (
             #{resource_ids_by_userpermission.to_sql} 
