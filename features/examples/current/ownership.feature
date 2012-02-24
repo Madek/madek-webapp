@@ -104,7 +104,9 @@ Feature: Ownership
     And I can see if a resource is visible for the public
 
   # https://www.pivotaltracker.com/story/show/24869787
+  @javascript
   Scenario: My content, content I manage, other people's content
+	Given I am "Normin"
     When I am on the dashboard
     Then I see a list of content owned by me
      And I see a list of content that can be managed by me
