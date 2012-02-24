@@ -8,6 +8,13 @@ describe MediaSetsController do
     @media_set = FactoryGirl.create :media_set, :user => @user
   end
 
+  describe "GET nested sets index in HTML format" do
+    it "should respond with success" do
+      get :index, {:media_set_id => @media_set.id}, {:user_id => @user.id}
+      response.should  be_success
+    end
+  end
+
   describe "GET inheritable_contexts in JSON format" do
 
     it "should respond with success" do
