@@ -233,7 +233,12 @@ class MediaResource < ActiveRecord::Base
               "/resources/%d/image?size=%s" % [id, size]
           end            
         end
-        
+        if with[:media_resource].has_key?(:title) and (with[:media_resource][:title].is_a?(Hash) or not with[:media_resource][:title].to_i.zero?)
+          json[:title] = meta_data.get_value_for("title")
+        end
+        if with[:media_resource].has_key?(:author) and (with[:media_resource][:author].is_a?(Hash) or not with[:media_resource][:author].to_i.zero?)
+          json[:author] = meta_data.get_value_for("author")
+        end
         if with[:media_resource].has_key?(:type) and (with[:media_resource][:type].is_a?(Hash) or not with[:media_resource][:type].to_i.zero?)
           json[:type] = type.underscore
         end
