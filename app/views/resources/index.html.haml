@@ -3,9 +3,7 @@
 
   - my_user = (@user and @user == current_user)
 
-  - if request.fullpath =~ /favorites/
-    = render :partial => "favorites"
-  - elsif !params[:query].blank?
+  - if !params[:query].blank?
     = render :partial => "search"  
   - else #elsif request.fullpath =~ /resources/ and params[:query].blank?
     -if params[:type] == "media_sets"
@@ -16,16 +14,22 @@
       - else
         = render :partial => "all_sets"
     -else
-      - title_str, no_media_str = if my_user
-        - [_("Meine Medieneinträge"), _("Keine Medieneinträge vorhanden")]
+      - title_str, no_media_str, icon_class = if request.fullpath =~ /favorites/
+        - [_("Meine Favoriten"), _("Keine Medien vorhanden"), "icon_favorite"]
+      - elsif my_user
+        - [_("Meine Medieneinträge"), _("Keine Medieneinträge vorhanden"), "icon_me"]
       - elsif @user
-        - [_("Alle Medieneinträge"), _("Keine Medieneinträge vorhanden")]
+        - [_("Alle Medieneinträge"), _("Keine Medieneinträge vorhanden"), "icon_me"]
       - else
-        - [_("Alle Medien"), _("Keine Medien vorhanden")]
+        - [_("Alle Medien"), _("Keine Medien vorhanden"), "icon_me"]
 
       .page_title_left
-        .icon_me
+        %div{:class => icon_class}
         = title_str
+      .page_navigation
+        = link_to _("nur Medieneinträge"), url_for(params.merge(:type => "media_entries")), :class => (params[:type] == "media_entries" ? "active" : nil)
+        = " | "
+        = link_to _("nur Sets"), url_for(params.merge(:type => "media_sets")), :class => (params[:type] == "media_sets" ? "active" : nil)
       .clear
       - if @resources[:entries].any?
         #results

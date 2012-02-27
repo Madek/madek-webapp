@@ -210,6 +210,13 @@ div#ajaxLoading {
 
 /************************************************** CSS image sprites generated with http://spritegen.website-performance.org and edited with http://www.spritebox.net/ */
 
+.icon_favorite {
+	background: url(icons/icon_favorites.png);
+	width: 18px;
+	height: 18px;
+	display: inline-block;
+}
+
 .icon_me {
 	background: url(icons/madek_icon_sprites.png) -100px -381px no-repeat;
 	width: 13px;

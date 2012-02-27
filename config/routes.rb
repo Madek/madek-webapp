@@ -126,21 +126,20 @@ MAdeK::Application.routes.draw do
   
 ###############################################
 
-  # TODO only [:index, :show] methods
-
-  resources :resources, :only => [:index, :show] do
-    collection do
-      post :parents
-      delete :parents
-      get :favorites, :to => "resources#index"
-      get :filter
-      post :filter
+  constraints(:id => /\d+/) do
+    resources :resources, :only => [:index, :show] do
+      collection do
+        post :parents
+        delete :parents
+        get :filter
+        post :filter
+      end
+      member do
+        post :toggle_favorites
+        get :image
+      end
     end
-    
-    member do
-      post :toggle_favorites
-      get :image
-    end
+    match "resources/favorites", :to => "resources#index"
   end
 
   resources :media_files # TODO remove ??

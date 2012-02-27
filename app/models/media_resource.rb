@@ -340,6 +340,12 @@ class MediaResource < ActiveRecord::Base
 
   ################################################################
 
+  # TODO move down to MediaSet, it's currently here because the favorites
+  scope :top_level, joins("LEFT JOIN media_set_arcs ON media_set_arcs.child_id = media_resources.id").
+                    where(:media_set_arcs => {:parent_id => nil})
+
+  ################################################################
+
   scope :by_media_set, lambda {|media_set|
     #tmp#
     #SELECT `media_resources`.* FROM `media_resources`

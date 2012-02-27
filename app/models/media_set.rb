@@ -55,8 +55,9 @@ class MediaSet < MediaResource
   
 ########################################################
 
-  scope :top_level, joins("LEFT JOIN media_set_arcs ON media_set_arcs.child_id = media_resources.id").
-                    where(:media_set_arcs => {:parent_id => nil})
+  #tmp# this is currently up on MediaResource
+  #scope :top_level, joins("LEFT JOIN media_set_arcs ON media_set_arcs.child_id = media_resources.id").
+  #                  where(:media_set_arcs => {:parent_id => nil})
 
   #tmp# FIXME count.size # scope :not_top_level, joins(:in_arcs).group("media_set_arcs.child_id")
 
