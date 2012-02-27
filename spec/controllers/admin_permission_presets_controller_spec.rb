@@ -21,7 +21,7 @@ require 'spec_helper'
 describe Admin::PermissionPresetsController do
 
   before :each do
-    @adam = PersonaFactory.create :adam
+    @adam = Persona.create :adam
   end
 
   # This should return the minimal set of attributes required to create a valid
