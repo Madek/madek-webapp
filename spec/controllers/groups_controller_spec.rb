@@ -3,8 +3,8 @@ require 'spec_helper'
 describe GroupsController do
 
   before :all do
-    @normin = PersonaFactory.create :normin
-    @adam= PersonaFactory.create :adam
+    @normin = Persona.create :normin
+    @adam= Persona.create :adam
 
     @meta_dep = MetaDepartment.create name: "LDAP Group"
     @meta_dep.users << @adam
