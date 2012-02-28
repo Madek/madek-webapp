@@ -1,54 +1,17 @@
 require 'metahelper'
 
-def minimal_export
-    #####################################################
-    puts "Exporting meta_terms..."
-    meta_terms = MetaTerm.all.as_json
-
-    #####################################################
-    puts "Exporting meta_keys..."
-    meta_keys = MetaKey.all.as_json(:methods => :meta_term_ids)
-
-    #####################################################
-    puts "Exporting meta_contexts..."
-    meta_contexts = MetaContext.all.as_json(:include => {:meta_key_definitions => {:except => [:id, :created_at, :updated_at]}})
-
-    #####################################################
-    puts "Exporting copyrights..."
-    copyrights = Copyright.all.as_json(:except => [:lft, :rgt])
-
-    #####################################################
-    puts "Exporting usage_terms..."
-    usage_terms = UsageTerm.all.as_json(:except => :id)
-
-    #####################################################
-
-    # TODO
-    #3 wiki_pages + wiki_page_versions
-
-    { :meta_terms => meta_terms,
-      :meta_keys => meta_keys,
-      :meta_contexts => meta_contexts,
-      :copyrights => copyrights,
-      :usage_terms => usage_terms }
-end
-
-def write_to_file(export)
-  file_path = "#{Rails.root}/db/madek_0.3.9.json" 
-  File.open(file_path, 'w') do |f|
-    f << export.to_json # << "\n"
-  end
-end
-
-
 namespace :app do
 
   desc "import initial metadata" 
   task :import_initial_metadata=> :environment do
     puts MetaHelper.import_initial_metadata
   end
+  
+########## DB
 
   namespace :db do
+    
+    ########## SYNC
 
     desc "Sync local application instance with production server's most recent database dump"
     task :sync do
@@ -72,6 +35,7 @@ namespace :app do
       puts " DONE"
     end
 
+    ########## EXPORT WITH DATA
 
     desc "export application settings and data to json"
     task :export_with_data  => :environment do
@@ -144,11 +108,58 @@ namespace :app do
       write_to_file(export)
     end
     
+    ########## EXPORT SETTINGS
+    
     desc "export application settings to json"
     task :export => :environment do
       export = minimal_export
       write_to_file(export)
     end
+    
   end
   
 end
+
+########## HELPERS
+
+def minimal_export
+    #####################################################
+    puts "Exporting meta_terms..."
+    meta_terms = MetaTerm.all.as_json
+
+    #####################################################
+    puts "Exporting meta_keys..."
+    meta_keys = MetaKey.all.as_json(:methods => :meta_term_ids)
+
+    #####################################################
+    puts "Exporting meta_contexts..."
+    meta_contexts = MetaContext.all.as_json(:include => {:meta_key_definitions => {:except => [:id, :created_at, :updated_at]}})
+
+    #####################################################
+    puts "Exporting copyrights..."
+    copyrights = Copyright.all.as_json(:except => [:lft, :rgt])
+
+    #####################################################
+    puts "Exporting usage_terms..."
+    usage_terms = UsageTerm.all.as_json(:except => :id)
+
+    #####################################################
+
+    # TODO
+    #3 wiki_pages + wiki_page_versions
+
+    { :meta_terms => meta_terms,
+      :meta_keys => meta_keys,
+      :meta_contexts => meta_contexts,
+      :copyrights => copyrights,
+      :usage_terms => usage_terms }
+end
+
+def write_to_file(export)
+  file_path = "#{Rails.root}/db/madek_0.3.9.json" 
+  File.open(file_path, 'w') do |f|
+    f << export.to_json # << "\n"
+  end
+end
+
+

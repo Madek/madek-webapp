@@ -318,7 +318,6 @@ GEM
       execjs (>= 0.3.0)
       multi_json (>= 1.0.2)
     uuidtools (2.1.2)
-    watchr (0.7)
     will_paginate (3.0.3)
     xpath (0.1.4)
       nokogiri (~> 1.3)
@@ -391,7 +390,6 @@ DEPENDENCIES
   statsample
   uglifier (~> 1.1)
   uuidtools (~> 2.1.2)
-  watchr
   will_paginate (~> 3.0)
   yard (~> 0.7.4)
   yard-rest!

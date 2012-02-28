@@ -93,7 +93,6 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'spork'
   gem 'statsample'
-  gem 'watchr'
 end
 
 group :development do
