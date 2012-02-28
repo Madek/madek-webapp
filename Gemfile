@@ -51,10 +51,6 @@ gem 'ledermann-rails-settings', :require => 'rails-settings' # alternatives: 'se
 
 gem 'will_paginate', '~> 3.0' 
 
-# FIXME
-#  gem "yard", "~> 0.7.4"
-#  gem "yard-rest-plugin", :git => "git://github.com/kanevski/yard-rest-plugin.git"
-
 gem 'zip', '~> 2.0.2' # alternatives: 'rubyzip', 'zipruby', 'zippy'
 gem 'rgl', '~> 0.4.0', :require => 'rgl/adjacency'
 
@@ -100,10 +96,12 @@ group :test, :development do
   gem 'watchr'
 end
 
-
 group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
+  gem "yard", "~> 0.7.4"
+  gem "yard-rest", :git => "git://github.com/dwaynemac/yard-rest-plugin.git"
+  gem 'redcarpet' # yard-rest dependency
 end
 
 group :test do
