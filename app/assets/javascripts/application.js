@@ -45,6 +45,15 @@
 //= require plupload.gears 
 //= require plupload.browserplus
 
+$(document).ready(function(){
+    $(".iframe").each(function(){
+	console.log($(this));
+	var iframe = $("<iframe></iframe>");
+	$(iframe).attr("src", $(this).attr("src"));
+	$(this).append(iframe);
+    });
+});
+
 function document_ready(){
 	$("textarea").elastic();
 

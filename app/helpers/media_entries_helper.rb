@@ -71,6 +71,16 @@ module MediaEntriesHelper
       media_file.assign_audio_previews
       tag :audio,  options.merge({:src => "/download?id=#{resource.id}&audio_preview=true",
                                   :autoplay => 'autoplay', :controls => 'controls'})
+    # All kinds of office documents (and PDF). Maybe put this mess somewhere separate?
+    elsif size == :large && ["application/pdf","application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
+           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+           "application/vnd.openxmlformats-officedocument.presentationml.presentation", 
+           "application/vnd.ms-powerpoint", "application/msword", "application/vnd.oasis.opendocument.text", 
+           "application/vnd.oasis.opendocument.presentation"].include?(media_file.content_type)
+      # ENCODING_BASE_URL isn't just for encoding in this case, it's also to allow the Google Docs Viewer access
+      # to the file without authenticating.
+      url = "#{ENCODING_BASE_URL}/media_files/#{media_file.id}?access_hash=#{media_file.access_hash}"
+      tag :div, :class => 'iframe', :type => 'text/html', :width => 620, :height => 463, :src => "http://docs.google.com/viewer?url=#{CGI::escape(url)}&embedded=true" #{:type => 'text/html', :width => 620, :height => 463, :src => "http://docs.google.com/viewer?url=#{CGI::escape(url)}&embedded=true"}
     else
       tag :img, options.merge({:src => media_file.thumb_base64(size)})
     end
