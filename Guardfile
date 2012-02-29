@@ -30,9 +30,14 @@ guard 'rspec', :version => 2, :cli => "--drb", :all_on_start => false do
   watch(%r{^app/views/(.+)/.*\.(erb|haml)$})          { |m| "spec/requests/#{m[1]}_spec.rb" }
 end
 
-
 guard 'cucumber', :cli => "--drb", :all_on_start => false do
   watch(%r{^features/.+\.feature$})
   watch(%r{^features/support/.+$})          { 'features' }
   watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'features' }
 end
+
+guard 'jasmine-headless-webkit', :all_on_start => false, :valid_extensions => %w{js coffee} do
+  watch(%r{^(app|lib|vendor)/assets/javascripts/(.*)$}) { "spec/javascripts/" }
+  watch(%r{^spec/javascripts/(.*)$}) { "spec/javascripts/" }
+end
+
