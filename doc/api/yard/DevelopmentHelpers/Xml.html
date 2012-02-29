@@ -1,0 +1,359 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: DevelopmentHelpers::Xml
+  
+    &mdash; MAdeK-API
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/rest_plugin.js"></script>
+
+
+	<style type="text/css">
+		#toc {top: 24px;}
+		#toc .title {display: none;}
+		#toc a:link, #content a:visited { text-decoration: none; color: #05a; }
+		#toc a:hover { background: #ffffa5; }
+	</style>
+	<script type="text/javascript">
+		//<![CDATA[
+			function setup_toc() {
+	 		  if ($('#wrapper').length === 0) return;
+			  var _toc = $('<ol class="top"></ol>');
+			  var show = false;
+			  var toc = _toc;
+			  var counter = 0;
+			  var tags = ['h2', 'h3', 'h4', 'h5', 'h6'];
+			  var i;
+			  if ($('#wrapper h1').length > 1) tags.unshift('h1');
+			  for (i = 0; i < tags.length; i++) { tags[i] = '#wrapper ' + tags[i]; }
+			  var lastTag = parseInt(tags[0][1], 10);
+			  $(tags.join(', ')).each(function() {
+			    if (this.id == "wrapper") return;
+			    show = true;
+			    var thisTag = parseInt(this.tagName[1], 10);
+			    if (this.id.length === 0) {
+			      var proposedId = $(this).text().replace(/[^a-z0-9-]/ig, '_');
+			      if ($('#' + proposedId).length > 0) { proposedId += counter; counter++; }
+			      this.id = proposedId;
+			    }
+			    if (thisTag > lastTag) { 
+			      for (i = 0; i < thisTag - lastTag; i++) { 
+			        var tmp = $('<ol/>'); toc.append(tmp); toc = tmp; 
+			      } 
+			    }
+			    if (thisTag < lastTag) { 
+			      for (i = 0; i < lastTag - thisTag; i++) toc = toc.parent(); 
+			    }
+			    toc.append('<li><a href="#' + this.id + '">' + $(this).text() + '</a></li>');
+			    lastTag = thisTag;
+			  });
+			  if (!show) return;
+			  html = '<div id="toc"><p class="title"><a class="hide_toc" href="#"><strong>Table of Contents</strong></a> <small>(<a href="#" class="float_toc">left</a>)</small></p></div>';
+			  $('#wrapper').prepend(html);
+			  $('#toc').append(_toc);
+			  $('#toc .hide_toc').toggle(function() { 
+			    $('#toc .top').slideUp('fast');
+			    $('#toc').toggleClass('hidden');
+			    $('#toc .title small').toggle();
+			  }, function() {
+			    $('#toc .top').slideDown('fast');
+			    $('#toc').toggleClass('hidden');
+			    $('#toc .title small').toggle();
+			  });
+			  $('#toc .float_toc').toggle(function() { 
+			    $(this).text('float');
+			    $('#toc').toggleClass('nofloat');
+			  }, function() {
+			    $(this).text('left');
+			    $('#toc').toggleClass('nofloat');
+			  });
+			}
+			$(document).ready(setup_toc);
+		//]]>
+	</script>
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="search">
+  <!-- <a id="topic_list_link" href="#">Topic List</a> -->
+  <a id="resource_list_link" href="#">Resources</a>
+</div>
+
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="wrapper" style="padding-top: 12px;">
+		<h1>Module: DevelopmentHelpers::Xml
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/development_helpers/xml.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Xml/MadekXmlDoc.html" title="DevelopmentHelpers::Xml::MadekXmlDoc (class)">MadekXmlDoc</a></span>
+    
+  
+</p>
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="TablesModels-constant" class="">TablesModels =
+          
+<p>get superlist of the following with</p>
+
+<pre class="ruby"><span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">tables</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span> <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;, #{t}: :#{t.to_s.camelize.singularize} \\&quot;</span> }
+</pre>
+
+<p>now, filter and oder appropriately</p>
+
+<div class="tags">
+  
+
+</div><div class="tags">
+  
+
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span> \
+    <span class='label'>people:</span> <span class='symbol'>:Person</span> \
+  <span class='comma'>,</span> <span class='label'>groups:</span> <span class='symbol'>:Group</span> \
+  <span class='comma'>,</span> <span class='label'>users:</span> <span class='symbol'>:User</span> \
+  <span class='comma'>,</span> <span class='label'>media_resources:</span> <span class='symbol'>:MediaResource</span> \
+  <span class='comma'>,</span> <span class='label'>media_set_arcs:</span> <span class='symbol'>:MediaSetArc</span> \
+  <span class='comma'>,</span> <span class='label'>userpermissions:</span> <span class='symbol'>:Userpermission</span> \
+  <span class='comma'>,</span> <span class='label'>grouppermissions:</span> <span class='symbol'>:Grouppermission</span> \
+  <span class='comma'>,</span> <span class='label'>media_files:</span> <span class='symbol'>:MediaFile</span> \
+  <span class='comma'>,</span> <span class='label'>previews:</span> <span class='symbol'>:Preview</span> \
+  <span class='comma'>,</span> <span class='label'>usage_terms:</span> <span class='symbol'>:UsageTerm</span> \
+  <span class='comma'>,</span> <span class='label'>edit_sessions:</span> <span class='symbol'>:EditSession</span> \
+  <span class='comma'>,</span> <span class='label'>wiki_pages:</span> <span class='symbol'>:WikiPage</span> \
+  <span class='comma'>,</span> <span class='label'>wiki_page_versions:</span> <span class='symbol'>:WikiPageVersion</span> \
+  <span class='comma'>,</span> <span class='label'>keywords:</span> <span class='symbol'>:Keyword</span> \
+  <span class='comma'>,</span> <span class='label'>full_texts:</span> <span class='symbol'>:FullText</span> \
+  <span class='comma'>,</span> <span class='label'>copyrights:</span> <span class='symbol'>:Copyright</span> \
+  <span class='comma'>,</span> <span class='label'>meta_terms:</span> <span class='symbol'>:MetaTerm</span> \
+  <span class='comma'>,</span> <span class='label'>meta_key_definitions:</span> <span class='symbol'>:MetaKeyDefinition</span> \
+  <span class='comma'>,</span> <span class='label'>meta_contexts:</span> <span class='symbol'>:MetaContext</span> \
+  <span class='comma'>,</span> <span class='label'>meta_keys:</span> <span class='symbol'>:MetaKey</span> \
+  <span class='comma'>,</span> <span class='label'>meta_data:</span> <span class='symbol'>:MetaDatum</span> \
+  <span class='comma'>,</span> <span class='label'>meta_keys_meta_terms:</span> <span class='symbol'>:MetaKeyMetaTerm</span> \
+<span class='rbrace'>}</span></pre></dd>
+      
+        <dt id="Relations-constant" class="">Relations =
+          
+<p>this contains all the join tables</p>
+
+<div class="tags">
+  
+
+</div><div class="tags">
+  
+
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span> \
+    <span class='label'>favorites:</span> <span class='symbol'>:Favorite</span> \
+  <span class='comma'>,</span> <span class='label'>groups_users:</span> <span class='symbol'>:GroupsUser</span> \
+  <span class='comma'>,</span> <span class='label'>media_entries_media_sets:</span> <span class='symbol'>:MediaEntriesMediaSet</span> \
+  <span class='comma'>,</span> <span class='label'>media_sets_meta_contexts:</span> <span class='symbol'>:MediaSetsMetaContext</span> \
+<span class='rbrace'>}</span></pre></dd>
+      
+        <dt id="UndefinedModels-constant" class="">UndefinedModels =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span> \
+    <span class='label'>schema_migrations:</span> <span class='symbol'>:SchemaMigration</span> 
+<span class='rbrace'>}</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#db_export_to_xml-class_method" title="db_export_to_xml (class method)">+ (Object) <strong>db_export_to_xml</strong>(target = $stdout) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>EXPORT.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#db_import_from_xml-class_method" title="db_import_from_xml (class method)">+ (Object) <strong>db_import_from_xml</strong>(source) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#define_models-class_method" title="define_models (class method)">+ (Object) <strong>define_models</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="db_export_to_xml-class_method">
+  
+    + (<tt>Object</tt>) <strong>db_export_to_xml</strong>(target = $stdout) 
+  
+
+  
+</p>
+
+<p>EXPORT</p>
+
+<div class="tags">
+  
+
+</div><div class="tags">
+  
+
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="db_import_from_xml-class_method">
+  
+    + (<tt>Object</tt>) <strong>db_import_from_xml</strong>(source) 
+  
+
+  
+</p>
+
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="define_models-class_method">
+  
+    + (<tt>Object</tt>) <strong>define_models</strong> 
+  
+
+  
+</p>
+
+</div>
+    
+  </div>
+
+
+	</div>
+    
+    <div id="footer">
+  Generated on Wed Feb 29 11:27:54 2012 with ruby-1.9.3
+</div>
+
+  </body>
+</html>

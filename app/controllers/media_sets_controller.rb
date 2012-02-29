@@ -26,14 +26,16 @@ class MediaSetsController < ApplicationController
   ##
   # Get media sets
   # 
-  # @url [GET] /media_sets?[arguments]
+  # @resource /media_sets
+  #
+  # @action GET
   # 
-  # @argument [accessible_action] string Limit the list of media sets by the accessible action
+  # @optional [accessible_action] string Limit the list of media sets by the accessible action
   #   show, browse, abstract, inheritable_contexts, edit, update, add_member, parents, destroy
   #
-  # @argument [with] hash Options forwarded to the results which will be inside of the respond 
+  # @optional [with] hash Options forwarded to the results which will be inside of the respond 
   # 
-  # @argument [child_ids] array An array with child ids which shall be used for scoping the media sets
+  # @optional [child_ids] array An array with child ids which shall be used for scoping the media sets
   #
   # @example_request
   #   {"accessible_action": "edit", "with": {"media_set": {"media_entries": 1}}}

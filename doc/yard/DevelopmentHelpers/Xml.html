@@ -1,0 +1,462 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: DevelopmentHelpers::Xml
+  
+    &mdash; Documentation by YARD 0.7.5
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (X)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../DevelopmentHelpers.html" title="DevelopmentHelpers (module)">DevelopmentHelpers</a></span></span>
+     &raquo; 
+    <span class="title">Xml</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Module: DevelopmentHelpers::Xml
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/development_helpers/xml.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Xml/MadekXmlDoc.html" title="DevelopmentHelpers::Xml::MadekXmlDoc (class)">MadekXmlDoc</a></span>
+    
+  
+</p>
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="TablesModels-constant" class="">TablesModels =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>get superlist of the following with</p>
+
+<pre class="ruby"><span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">tables</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span> <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;, #{t}: :#{t.to_s.camelize.singularize} \\&quot;</span> }
+</pre>
+
+<p>now, filter and oder appropriately</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span> \
+    <span class='label'>people:</span> <span class='symbol'>:Person</span> \
+  <span class='comma'>,</span> <span class='label'>groups:</span> <span class='symbol'>:Group</span> \
+  <span class='comma'>,</span> <span class='label'>users:</span> <span class='symbol'>:User</span> \
+  <span class='comma'>,</span> <span class='label'>media_resources:</span> <span class='symbol'>:MediaResource</span> \
+  <span class='comma'>,</span> <span class='label'>media_set_arcs:</span> <span class='symbol'>:MediaSetArc</span> \
+  <span class='comma'>,</span> <span class='label'>userpermissions:</span> <span class='symbol'>:Userpermission</span> \
+  <span class='comma'>,</span> <span class='label'>grouppermissions:</span> <span class='symbol'>:Grouppermission</span> \
+  <span class='comma'>,</span> <span class='label'>media_files:</span> <span class='symbol'>:MediaFile</span> \
+  <span class='comma'>,</span> <span class='label'>previews:</span> <span class='symbol'>:Preview</span> \
+  <span class='comma'>,</span> <span class='label'>usage_terms:</span> <span class='symbol'>:UsageTerm</span> \
+  <span class='comma'>,</span> <span class='label'>edit_sessions:</span> <span class='symbol'>:EditSession</span> \
+  <span class='comma'>,</span> <span class='label'>wiki_pages:</span> <span class='symbol'>:WikiPage</span> \
+  <span class='comma'>,</span> <span class='label'>wiki_page_versions:</span> <span class='symbol'>:WikiPageVersion</span> \
+  <span class='comma'>,</span> <span class='label'>keywords:</span> <span class='symbol'>:Keyword</span> \
+  <span class='comma'>,</span> <span class='label'>full_texts:</span> <span class='symbol'>:FullText</span> \
+  <span class='comma'>,</span> <span class='label'>copyrights:</span> <span class='symbol'>:Copyright</span> \
+  <span class='comma'>,</span> <span class='label'>meta_terms:</span> <span class='symbol'>:MetaTerm</span> \
+  <span class='comma'>,</span> <span class='label'>meta_key_definitions:</span> <span class='symbol'>:MetaKeyDefinition</span> \
+  <span class='comma'>,</span> <span class='label'>meta_contexts:</span> <span class='symbol'>:MetaContext</span> \
+  <span class='comma'>,</span> <span class='label'>meta_keys:</span> <span class='symbol'>:MetaKey</span> \
+  <span class='comma'>,</span> <span class='label'>meta_data:</span> <span class='symbol'>:MetaDatum</span> \
+  <span class='comma'>,</span> <span class='label'>meta_keys_meta_terms:</span> <span class='symbol'>:MetaKeyMetaTerm</span> \
+<span class='rbrace'>}</span></pre></dd>
+      
+        <dt id="Relations-constant" class="">Relations =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>this contains all the join tables</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span> \
+    <span class='label'>favorites:</span> <span class='symbol'>:Favorite</span> \
+  <span class='comma'>,</span> <span class='label'>groups_users:</span> <span class='symbol'>:GroupsUser</span> \
+  <span class='comma'>,</span> <span class='label'>media_entries_media_sets:</span> <span class='symbol'>:MediaEntriesMediaSet</span> \
+  <span class='comma'>,</span> <span class='label'>media_sets_meta_contexts:</span> <span class='symbol'>:MediaSetsMetaContext</span> \
+<span class='rbrace'>}</span></pre></dd>
+      
+        <dt id="UndefinedModels-constant" class="">UndefinedModels =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span> \
+    <span class='label'>schema_migrations:</span> <span class='symbol'>:SchemaMigration</span> 
+<span class='rbrace'>}</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#db_export_to_xml-class_method" title="db_export_to_xml (class method)">+ (Object) <strong>db_export_to_xml</strong>(target = $stdout) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>EXPORT.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#db_import_from_xml-class_method" title="db_import_from_xml (class method)">+ (Object) <strong>db_import_from_xml</strong>(source) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#define_models-class_method" title="define_models (class method)">+ (Object) <strong>define_models</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="db_export_to_xml-class_method">
+  
+    + (<tt>Object</tt>) <strong>db_export_to_xml</strong>(target = $stdout) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>EXPORT</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/development_helpers/xml.rb', line 64</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_db_export_to_xml'>db_export_to_xml</span> <span class='id identifier rubyid_target'>target</span> <span class='op'>=</span> <span class='gvar'>$stdout</span>
+  <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>builder</span><span class='tstring_end'>'</span></span> <span class='kw'>unless</span> <span class='kw'>defined?</span> <span class='op'>::</span><span class='const'>Builder</span>
+  <span class='op'>::</span><span class='const'>DevelopmentHelpers</span><span class='op'>::</span><span class='const'>Xml</span><span class='period'>.</span><span class='id identifier rubyid_define_models'>define_models</span>
+
+
+  <span class='id identifier rubyid_xml'>xml</span> <span class='op'>=</span> <span class='const'>Builder</span><span class='op'>::</span><span class='const'>XmlMarkup</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>target:</span> <span class='id identifier rubyid_target'>target</span><span class='comma'>,</span> <span class='label'>indent:</span> <span class='int'>2</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_xml'>xml</span><span class='period'>.</span><span class='id identifier rubyid_instruct!'>instruct!</span>
+
+  <span class='id identifier rubyid_xml'>xml</span><span class='period'>.</span><span class='id identifier rubyid_madek'>madek</span> <span class='kw'>do</span>
+
+    <span class='id identifier rubyid_xml'>xml</span><span class='period'>.</span><span class='id identifier rubyid_meta'>meta</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_meta'>meta</span><span class='op'>|</span>
+        <span class='id identifier rubyid_meta'>meta</span> <span class='op'>&lt;&lt;</span> <span class='const'>SchemaMigration</span><span class='period'>.</span><span class='id identifier rubyid_order'>order</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>VERSION DESC</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_limit'>limit</span><span class='lparen'>(</span><span class='int'>1</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_xml'>to_xml</span><span class='lparen'>(</span><span class='label'>skip_instruct:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_xml'>xml</span><span class='period'>.</span><span class='id identifier rubyid_data'>data</span> <span class='kw'>do</span> 
+      <span class='const'>TablesModels</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_table_name'>table_name</span><span class='comma'>,</span><span class='id identifier rubyid_model'>model</span><span class='op'>|</span>
+        <span class='id identifier rubyid_eval'>eval</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> 
+          xml.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_table_name'>table_name</span><span class='rbrace'>}</span><span class='tstring_content'> do |table|
+            </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_model'>model</span><span class='rbrace'>}</span><span class='tstring_content'>.all.each do|instance|
+              table &lt;&lt; instance.to_xml(skip_instruct: true)
+            end
+          end
+        </span><span class='tstring_end'>&quot;</span></span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_xml'>xml</span><span class='period'>.</span><span class='id identifier rubyid_relations'>relations</span> <span class='kw'>do</span>
+      <span class='const'>Relations</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_table_name'>table_name</span><span class='comma'>,</span><span class='id identifier rubyid_model'>model</span><span class='op'>|</span>
+        <span class='id identifier rubyid_eval'>eval</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> 
+          xml.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_table_name'>table_name</span><span class='rbrace'>}</span><span class='tstring_content'> do |table|
+            </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_model'>model</span><span class='rbrace'>}</span><span class='tstring_content'>.all.each do |instance|
+              table &lt;&lt; instance.to_xml(skip_instruct: true)
+            end
+          end
+        </span><span class='tstring_end'>&quot;</span></span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="db_import_from_xml-class_method">
+  
+    + (<tt>Object</tt>) <strong>db_import_from_xml</strong>(source) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+212
+213
+214
+215
+216
+217
+218
+219</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/development_helpers/xml.rb', line 212</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_db_import_from_xml'>db_import_from_xml</span> <span class='id identifier rubyid_source'>source</span> 
+  <span class='op'>::</span><span class='const'>DevelopmentHelpers</span><span class='op'>::</span><span class='const'>Xml</span><span class='period'>.</span><span class='id identifier rubyid_define_models'>define_models</span>
+  <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Base</span><span class='period'>.</span><span class='id identifier rubyid_transaction'>transaction</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_parser'>parser</span> <span class='op'>=</span> <span class='const'>Nokogiri</span><span class='op'>::</span><span class='const'>XML</span><span class='op'>::</span><span class='const'>SAX</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>MadekXmlDoc</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_parser'>parser</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
+    <span class='comment'>#raise &quot;don't import just yet&quot;
+</span>  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="define_models-class_method">
+  
+    + (<tt>Object</tt>) <strong>define_models</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/development_helpers/xml.rb', line 49</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_define_models'>define_models</span>
+
+  <span class='const'>Relations</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='const'>UndefinedModels</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_table_name'>table_name</span><span class='comma'>,</span> <span class='id identifier rubyid_model_name'>model_name</span><span class='op'>|</span>
+      <span class='id identifier rubyid_klass'>klass</span> <span class='op'>=</span> <span class='const'>Class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Base</span> <span class='kw'>do</span> 
+        <span class='id identifier rubyid_set_table_name'>set_table_name</span> <span class='id identifier rubyid_table_name'>table_name</span>
+      <span class='kw'>end</span>
+      <span class='const'>Object</span><span class='period'>.</span><span class='id identifier rubyid_const_set'>const_set</span> <span class='id identifier rubyid_model_name'>model_name</span><span class='comma'>,</span> <span class='id identifier rubyid_klass'>klass</span>
+  <span class='kw'>end</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Tue Feb 28 17:17:06 2012 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.5 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>
