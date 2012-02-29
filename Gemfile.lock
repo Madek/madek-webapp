@@ -12,8 +12,8 @@ GIT
       rails_autolink (>= 1.0)
 
 GIT
-  remote: git://github.com/dwaynemac/yard-rest-plugin.git
-  revision: 71beba5f2d4fab530ecf862a53948a53b201d1f6
+  remote: git://github.com/spape/yard-rest-plugin.git
+  revision: 2f53ca6c814335edc6e20855916d43f5f662e770
   specs:
     yard-rest (0.3.0)
       yard (~> 0.7.4)
