@@ -31,22 +31,38 @@
 		#toc .title {display: none;}
 		#toc a:link, #content a:visited { text-decoration: none; color: #05a; }
 		#toc a:hover { background: #ffffa5; }
+		pre code {
+			display: block;
+			background: #EAF0FF;
+			padding: 12px;
+			line-height: 1.9em;
+		}
+		h2 {
+			margin: 2.4em 0 0.5em;
+		}
+		h3 {
+			font-size: 1.2em;
+			font-weight: normal;
+			padding-top: 22px;
+			margin-bottom: -6px;
+		}
 	</style>
 	<script type="text/javascript">
 		//<![CDATA[
 			function setup_toc() {
-	 		  if ($('#wrapper').length === 0) return;
+		 	  console.log("SETUP TOC");
+	 		  if ($('#content').length === 0) return;
 			  var _toc = $('<ol class="top"></ol>');
 			  var show = false;
 			  var toc = _toc;
 			  var counter = 0;
 			  var tags = ['h2', 'h3', 'h4', 'h5', 'h6'];
 			  var i;
-			  if ($('#wrapper h1').length > 1) tags.unshift('h1');
-			  for (i = 0; i < tags.length; i++) { tags[i] = '#wrapper ' + tags[i]; }
+			  if ($('#content h1').length > 1) tags.unshift('h1');
+			  for (i = 0; i < tags.length; i++) { tags[i] = '#content ' + tags[i]; }
 			  var lastTag = parseInt(tags[0][1], 10);
 			  $(tags.join(', ')).each(function() {
-			    if (this.id == "wrapper") return;
+			    if (this.id == "content") return;
 			    show = true;
 			    var thisTag = parseInt(this.tagName[1], 10);
 			    if (this.id.length === 0) {
@@ -67,7 +83,7 @@
 			  });
 			  if (!show) return;
 			  html = '<div id="toc"><p class="title"><a class="hide_toc" href="#"><strong>Table of Contents</strong></a> <small>(<a href="#" class="float_toc">left</a>)</small></p></div>';
-			  $('#wrapper').prepend(html);
+			  $('#content').prepend(html);
 			  $('#toc').append(_toc);
 			  $('#toc .hide_toc').toggle(function() { 
 			    $('#toc .top').slideUp('fast');
@@ -105,10 +121,10 @@
     
     <iframe id="search_frame"></iframe>
     
-    <div id="wrapper" style="padding-top: 12px;">
+    <div id="content" style="padding-top: 12px;">
 		<div class="service">
 	<h1 class="noborder title">MAdeK-API</h1>
-  	<a href="_index.html" title="back to the overview">&laquo; Overview</a>
+  	<a href="index.html" title="back to the overview">&laquo; Overview</a>
   	
 </div>
 
@@ -127,7 +143,7 @@
 	</div>
     
     <div id="footer">
-  Generated on Wed Feb 29 11:27:54 2012 with ruby-1.9.3
+  Generated on Wed Feb 29 18:30:48 2012 with ruby-1.9.3
 </div>
 
   </body>
