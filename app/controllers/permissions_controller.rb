@@ -15,14 +15,22 @@ class PermissionsController < ApplicationController
   # 
   # @required [Array] media_resource_ids The collection of resources you want to fetch the permissios for
   #
-  # @example_request Fetching the setted permissions for the media resources with id 1,2 and 3
-  #   {media_resources_ids: [1,2,3]}
-  #   
-  # @example_response 
+  # @optional [Hash] with[users] 
   #
-  # @response_field [Integer] id The id of a set 
-  # @response_field [Hash] media_entries Media entries of the set
-  # @response_field [Integer] media_entries[].id The id of a media entry
+  # @example_request {"media_resources_ids": [1,2,3]} Fetching the setted permissions for the media resources with id 1,2 and 3
+  #   
+  # @example_response {"public":{"view":[],"edit":[],"download":[]},"you":{"view":[1],"edit":[1],"download":[1],"manage":[1]}} This response asserts that the public cannot view the MediaResources (with id 1,2 and three) but that you can view the MediaResource with id 1
+  #   
+  # @response_field [Hash] public The object containing permission-actions for the public 
+  # @response_field [Array] public.view The MediaResourceIds that the public can view  
+  # @response_field [Array] public.edit The MediaResourceIds that the public can edit  
+  # @response_field [Array] public.download The MediaResourceIds that the public can download
+  #
+  # @response_field [Hash] you The object containing permission-actions for you 
+  # @response_field [Array] you.view The MediaResourceIds that you can view  
+  # @response_field [Array] you.edit The MediaResourceIds that you can edit  
+  # @response_field [Array] you.download The MediaResourceIds that you can download  
+  # @response_field [Array] you.manage The MediaResourceIds that you can manage  
   #
   def index(media_resource_ids = params[:media_resource_ids])
     begin
