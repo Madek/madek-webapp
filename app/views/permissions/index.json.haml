@@ -1,6 +1,6 @@
 :ruby
   h = {:public => {},
-      :you => {}}
+       :you => {}}
 
   # PUBLIC  
   [:view, :edit, :download].each do |action|
@@ -9,9 +9,35 @@
  
   # YOU
   [:view, :edit, :download, :manage].each do |action|
-    h[:you][action] = @media_resources.select do |me|
-      current_user.authorized?(action, me)
+    h[:you][action] = @media_resources.select do |media_resource|
+      current_user.authorized?(action, media_resource)
     end.map(&:id)
+  end
+
+  # USERS
+  if params[:with] and params[:with][:users] and params[:with][:users] == "true"
+    h[:users] = {} 
+    @media_resources.flat_map(&:userpermissions).map(&:user).uniq.each do |user|
+      h[:users][user.id] = {:name => user.to_s}
+      [:view, :edit, :download, :manage].each do |action|
+        h[:users][user.id][action] = @media_resources.select do |media_resource|
+          !!media_resource.userpermissions.detect {|x| x.user_id == user.id and x.send(action) }
+        end.map(&:id)
+      end
+    end
+  end
+
+  # GROUPS
+  if params[:with] and params[:with][:groups] and params[:with][:groups] == "true"
+    h[:groups] = {} 
+    @media_resources.flat_map(&:grouppermissions).map(&:group).uniq.each do |group|
+      h[:groups][group.id] = {:name => group.to_s}
+      [:view, :edit, :download].each do |action|
+        h[:groups][group.id][action] = @media_resources.select do |media_resource|
+          !!media_resource.grouppermissions.detect {|x| x.group_id == group.id and x.send(action) }
+        end.map(&:id)
+      end
+    end
   end
   
 != h.to_json
