@@ -20,6 +20,7 @@
 //= require_tree ./widgets/ 
 //= require resources/item-box
 //= require mediaset-popup/mediaset-popup
+//= require permission-preset/permission-preset
 
 /////////// Tmpl /////////////
 //= require_tree ./tmpl/
