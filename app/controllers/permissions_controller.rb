@@ -1,6 +1,39 @@
 # -*- encoding : utf-8 -*-
+
+##
+# Permissions are actions that specify if or if not a subject can perform those actions on a specific resource.
+# Possible actions are: view, edit, manage, download
+# 
 class PermissionsController < ApplicationController
 
+  ##
+  # Get permissions for a collection of resources
+  # 
+  # @resource /permissions
+  #
+  # @action GET
+  # 
+  # @required [Array] media_resource_ids The collection of resources you want to fetch the permissios for
+  #
+  # @example_request Fetching the setted permissions for the media resources with id 1,2 and 3
+  #   {media_resources_ids: [1,2,3]}
+  #   
+  # @example_response 
+  #
+  # @response_field [Integer] id The id of a set 
+  # @response_field [Hash] media_entries Media entries of the set
+  # @response_field [Integer] media_entries[].id The id of a media entry
+  #
+  def index(media_resource_ids = params[:media_resource_ids])
+    begin
+      @media_resources = MediaResource.accessible_by_user(current_user, :view).find(media_resource_ids)
+    rescue
+      not_authorized!
+    end
+  end
+
+
+=begin oldcode      
 #old#  layout "meta_data"
 
   before_filter do
@@ -35,17 +68,12 @@ class PermissionsController < ApplicationController
     unless (params[:permission_id] ||= params[:id]).blank?
       @permission = @resource.permissions.find(params[:permission_id])
     end
+
   end
 
 #########################################################
 
-  def index
-    respond_to do |format|
-      format.js { render :layout => (params[:layout] != "false") }
-    end
-  end
-
-
+  # TODO refactor to index action
   def edit_multiple
     if @resource
       permissions =  {}
@@ -179,5 +207,6 @@ class PermissionsController < ApplicationController
       redirect_back_or_default(resources_path)
     end
   end
+=end
 
 end

@@ -41,8 +41,6 @@ MAdeK::Application.routes.draw do
   
   match '/nagiosstat', :to => Nagiosstat
 
-  resources :media_resources
-
 ###############################################
 #NOTE first media_entries and then media_sets
 
@@ -127,6 +125,8 @@ MAdeK::Application.routes.draw do
 ###############################################
 
   constraints(:id => /\d+/) do
+
+    # TODO merge :resources into :media_resources 
     resources :resources, :only => [:index, :show] do
       collection do
         post :parents
@@ -140,7 +140,15 @@ MAdeK::Application.routes.draw do
       end
     end
     match "resources/favorites", :to => "resources#index"
+    
+    # TODO merge :resources into :media_resources 
+    resources :media_resources
+
+    resources :permissions, :only => :index, :format => true, :constraints => {:format => /json/}
+    
   end
+
+###############################################
 
   resources :media_files # TODO remove ??
 
