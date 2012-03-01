@@ -15,7 +15,10 @@
             %li.tab-info.ir
               = link_to _("Information"), "#", :class => "tab-info ir", :rel => "tab-info"
             %li.tab-permission
-              = link_to _("Zugriffsberechtigungen"), edit_multiple_media_entry_permissions_path(media_entry), :class => "tab-permission ir", :rel => "tab-permission"
+              = link_to _("Zugriffsberechtigungen"), "#",
+                :class => "tab-permission ir open_permission_lightbox", 
+                :"data-media_resource_ids" => "[#{@media_entry.id}]",
+                :"data-media_resources" => "[#{@media_entry.as_json(:with => {:media_resource => {:title => 1, :image => {:size => :small}}})}]"
             %li.tab-activity
               = link_to _("Aktivitäten"), "#", :class => "tab-activity ir", :rel => "tab-activity"
           #tab-info.clearfix
@@ -188,6 +191,10 @@
 
     $("ul.tab-nav a").click(function(event) {
       var that = $(this);
+      
+      if($(this).hasClass("open_permission_lightbox")) {
+        return true;
+      }
 
       $("ul.tab-nav li").removeClass("ir");
       that.closest("li").addClass("ir");

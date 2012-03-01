@@ -15,11 +15,17 @@ class PermissionsController < ApplicationController
   # 
   # @required [Array] media_resource_ids The collection of resources you want to fetch the permissios for
   #
-  # @optional [Hash] with[users] 
+  # @optional [Hash] with[users] Adds all users to the respond that have the same permissions than you 
+  # @optional [Hash] with[groups] Adds all groups to the respond that have the same permissions than you 
   #
-  # @example_request {"media_resources_ids": [1,2,3]} Fetching the setted permissions for the media resources with id 1,2 and 3
-  #   
+  # @example_request {"media_resources_ids": [1,2,3]} Request the setted permissions for the media resources with id 1,2 and 3
   # @example_response {"public":{"view":[],"edit":[],"download":[]},"you":{"view":[1],"edit":[1],"download":[1],"manage":[1]}} This response asserts that the public cannot view the MediaResources (with id 1,2 and three) but that you can view the MediaResource with id 1
+  #
+  # @example_request {"media_resources_ids": [1,2,3], "with": {"users": true}} Request the setted permissions for the media resources with id 1,2 and 3. This Request adds all users to the respond that have the same permissions than you 
+  # @example_response
+  # 
+  # @example_request {"media_resources_ids": [1,2,3], "with": {"users": true, "groups": true}} Request the setted permissions for the media resources with id 1,2 and 3. This Request adds all users to the respond that have the same permissions than you 
+  # @example_response 
   #   
   # @response_field [Hash] public The object containing permission-actions for the public 
   # @response_field [Array] public.view The MediaResourceIds that the public can view  

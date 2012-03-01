@@ -1,0 +1,19 @@
+@import "../mixins";
+
+.ui-dialog.permission_lightbox {
+  height: auto !important;
+  width: 900px !important;
+  
+  .ui-dialog-titlebar {
+    display: none;
+  }
+  
+  h2 {
+    padding-bottom: 6px;
+    margin-top: 14px;
+  }
+  
+  .media_resources {
+    
+  }
+}
