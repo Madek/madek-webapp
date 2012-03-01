@@ -10,8 +10,8 @@ class Person < ActiveRecord::Base
 
   default_scope order(:lastname)
 
-  validate do |record|
-    errors.add(:base, "Name cannot be blank") if [record.firstname, record.lastname, record.pseudonym].all? {|x| x.blank? }
+  validate do
+    errors.add(:base, "Name cannot be blank") if [firstname, lastname, pseudonym].all? {|x| x.blank? }
   end
   
   # TODO has_many :media_entries (where the person is related through meta_data)

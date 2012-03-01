@@ -12,11 +12,10 @@ class MetaKeyDefinition < ActiveRecord::Base
 
   validates_presence_of :meta_key 
   validate do |record|
-    # FIXME undefined method `add_to_base' for #<MetaKeyDefinition:0x20d8b24>
     if record.meta_context.is_user_interface?
-      record.errors.add_to_base("key_map has to be blank") unless record.key_map.blank? 
+      record.errors.add(:base, "key_map has to be blank") unless record.key_map.blank? 
     else
-      record.errors.add_to_base("key_map can't be blank") if record.key_map.blank?
+      record.errors.add(:base, "key_map can't be blank") if record.key_map.blank?
     end
   end
 
