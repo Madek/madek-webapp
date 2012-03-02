@@ -19,26 +19,26 @@
   if (with = params[:with])
     # USERS
     if with[:users] and with[:users] == "true"
-      h[:users] = {} 
-      @media_resources.flat_map(&:userpermissions).map(&:user).uniq.each do |user|
-        h[:users][user.id] = {:name => user.to_s}
+      h[:users] = @media_resources.flat_map(&:userpermissions).map(&:user).uniq.map do |user|
+        x = {:id => user.id, :name => user.to_s}
         user_actions.each do |action|
-          h[:users][user.id][action] = @media_resources.select do |media_resource|
+          x[action] = @media_resources.select do |media_resource|
             !!media_resource.userpermissions.detect {|x| x.user_id == user.id and x.send(action) }
           end.map(&:id)
         end
+        x
       end
     end
     # GROUPS
     if with[:groups] and with[:groups] == "true"
-      h[:groups] = {} 
-      @media_resources.flat_map(&:grouppermissions).map(&:group).uniq.each do |group|
-        h[:groups][group.id] = {:name => group.to_s}
+      h[:groups] = @media_resources.flat_map(&:grouppermissions).map(&:group).uniq.map do |group|
+        x = {:id => group.id, :name => group.to_s}
         group_actions.each do |action|
-          h[:groups][group.id][action] = @media_resources.select do |media_resource|
+          x[action] = @media_resources.select do |media_resource|
             !!media_resource.grouppermissions.detect {|x| x.group_id == group.id and x.send(action) }
           end.map(&:id)
         end
+        x
       end
     end
   end
