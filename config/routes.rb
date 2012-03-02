@@ -41,6 +41,13 @@ MAdeK::Application.routes.draw do
   
   match '/nagiosstat', :to => Nagiosstat
 
+
+
+################################################
+
+  resources :permissions
+
+
 ###############################################
 #NOTE first media_entries and then media_sets
 
@@ -61,14 +68,6 @@ MAdeK::Application.routes.draw do
       get :image, :to => "resources#image"
       get :map
       get :browse
-    end
-    
-    resources :permissions, :except => :index do
-      collection do
-        get :edit_multiple
-        post :edit_multiple
-        put :update_multiple
-      end
     end
     
     resources :meta_data do
@@ -96,13 +95,6 @@ MAdeK::Application.routes.draw do
     end
     
     resources :media_sets #-# only used for FeaturedSet 
-    
-    resources :permissions, :except => :index do
-      collection do
-        get :edit_multiple
-        put :update_multiple
-      end
-    end
     
     resources :meta_data do
       collection do
@@ -144,8 +136,6 @@ MAdeK::Application.routes.draw do
     # TODO merge :resources into :media_resources 
     resources :media_resources
 
-    resources :permissions, :only => :index, :format => true, :constraints => {:format => /json/}
-    
   end
 
 ###############################################
@@ -205,8 +195,6 @@ MAdeK::Application.routes.draw do
   # TODO rename :import
   resource :upload, :controller => 'upload', :except => :new do
     member do
-      get :permissions, :to => "permissions#edit_multiple"
-      put :permissions, :to => "permissions#update_multiple"
       get :set_media_sets
       put :complete
       get :dropbox
