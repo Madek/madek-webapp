@@ -52,6 +52,7 @@ describe MediaResource do
     end
 
     context "meta_data" do
+
       before :all do
         @media_entry.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => "Pablo Picasso"}}})
       end
