@@ -16,8 +16,9 @@ describe MediaSetArc do
   context "referential inegrity" do
     
     it "should cause the arc to be deleted if one of either parent/child set is deleted" do
+      MediaSetArc.where("parent_id = ?",@set1.id).where("child_id = ? ", @set2.id).count.should >= 1
       @set1.destroy
-      MediaSetArc.all.should be_empty
+      MediaSetArc.where("parent_id = ?",@set1.id).where("child_id = ? ", @set2.id).count.should == 0
     end
 
   end
