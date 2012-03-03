@@ -1,0 +1,82 @@
+.line
+  .subject{:title => "${name}"}
+    {{if name}}
+    = "${Underscore.truncate(name, 30)}"
+    {{/if}}
+    {{if $item.is_public}}
+    = "Öffentlichkeit"
+    {{/if}}
+  .owner
+    {{if $item.with_owner}}
+    %label
+      %input{:type => "radio", :id => "owner_${id}", :name => "owner_${id}"}
+    {{/if}}
+  .preset
+    .select
+      = "(Angepasst)"
+    .arrow
+    %select
+      %option= "(Angepasst)"
+      
+      
+  .permissions
+  
+    {{if view}}
+    {{if JSON.stringify(view)==JSON.stringify($item.media_resource_ids)}}
+    %label.view.permission{:title => "Betrachten"}
+      = check_box_tag 'view_${id}', "true", true
+    {{else}}
+    {{if view.length>0}}
+    %label.view.permission.mixed{:title => "Betrachten"}
+      = check_box_tag 'view_${id}'
+    {{else}}
+    %label.view.permission{:title => "Betrachten"}
+      = check_box_tag 'view_${id}'
+    {{/if}}
+    {{/if}}
+    {{/if}}
+    
+    {{if download}}
+    {{if JSON.stringify(download)==JSON.stringify($item.media_resource_ids)}}
+    %label.download.permission{:title => "Volle Auflösung herunterladen"}
+      = check_box_tag 'download_${id}', "true", true
+    {{else}}
+    {{if download.length>0}}
+    %label.download.permission.mixed{:title => "Volle Auflösung herunterladen"}
+      = check_box_tag 'download_${id}'
+    {{else}}
+    %label.download.permission{:title => "Volle Auflösung herunterladen"}
+      = check_box_tag 'download_${id}'
+    {{/if}}
+    {{/if}}
+    {{/if}}
+    
+    {{if edit}}
+    {{if JSON.stringify(edit)==JSON.stringify($item.media_resource_ids)}}
+    %label.edit.permission{:title => "Editieren"}
+      = check_box_tag 'edit_${id}', "true", true
+    {{else}}
+    {{if edit.length>0}}
+    %label.edit.permission.mixed{:title => "Editieren"}
+      = check_box_tag 'edit_${id}'
+    {{else}}
+    %label.edit.permission{:title => "Editieren"}
+      = check_box_tag 'edit_${id}'
+    {{/if}}
+    {{/if}}
+    {{/if}}
+    
+    {{if manage}}
+    {{if JSON.stringify(manage)==JSON.stringify($item.media_resource_ids)}}
+    %label.manage.permission{:title => "Manage"}
+      = check_box_tag 'manage_${id}', "true", true
+    {{else}}
+    {{if manage.length>0}}
+    %label.manage.permission.mixed{:title => "Manage"}
+      = check_box_tag 'manage_${id}'
+    {{else}}   
+    %label.manage.permission{:title => "Manage"}
+      = check_box_tag 'manage_${id}'   
+    {{/if}}
+    {{/if}}
+    {{/if}}

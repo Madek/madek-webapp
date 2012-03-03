@@ -145,6 +145,7 @@ MAdeK::Application.routes.draw do
     resources :media_resources
 
     resources :permissions, :only => :index, :format => true, :constraints => {:format => /json/}
+    resources :permission_presets, :only => :index, :format => true, :constraints => {:format => /json/}
     
   end
 

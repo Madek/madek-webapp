@@ -19,14 +19,17 @@ class PermissionsController < ApplicationController
   # @optional [Hash] with[groups] Adds all groups to the respond that have the same permissions than you 
   #
   # @example_request {"media_resources_ids": [1,2,3]} Request the setted permissions for the media resources with id 1,2 and 3
-  # @example_response {"public":{"view":[],"edit":[],"download":[]},"you":{"view":[1],"edit":[1],"download":[1],"manage":[1]}} This response asserts that the public cannot view the MediaResources (with id 1,2 and three) but that you can view the MediaResource with id 1
+  # @example_response {"public":{"view":[],"edit":[],"download":[]},"you":{"name":"Muster,Max","id":31,"view":[1],"edit":[1],"download":[1],"manage":[1]}} This response asserts that the public cannot view the MediaResources (with id 1,2 and three) but that you can view the MediaResource with id 1
   #
   # @example_request {"media_resources_ids": [1,2,3], "with": {"users": true}} Request the setted permissions for the media resources with id 1,2 and 3. This Request adds all users to the respond that have the same permissions than you 
-  # @example_response
+  # @example_response {"public":{"view":[],"edit":[],"download":[]},"you":{"name":"Muster,Max","id":31,"view":[1],"edit":[1],"download":[1],"manage":[1]},"users":[{"id":31, "name": "Muster, Max", "view": [1], "edit": [1], "download": [], "edit": [1]}]}
   # 
   # @example_request {"media_resources_ids": [1,2,3], "with": {"users": true, "groups": true}} Request the setted permissions for the media resources with id 1,2 and 3. This Request adds all users to the respond that have the same permissions than you 
-  # @example_response 
+  # @example_response {"public":{"view":[],"edit":[],"download":[]},"you":{"name":"Muster,Max","id":31,"view":[1],"edit":[1],"download":[1],"manage":[1]},"users":[{"id":31, "name": "Muster, Max", "view": [1], "edit": [1], "download": [], "edit": [1]}],"groups":[{"id":31, "name": "Group of Users", "view": [1], "edit": [1], "download": [], "edit": [1]}]}
   #   
+  # @example_request {"media_resources_ids": [1,2,3]} Request the setted permissions for the media resources with id 1,2 and 3 and add additionally the owners of the provided MediaResources to the respond.
+  # @example_response {"public":{"view":[],"edit":[],"download":[]},"you":{"name":"Muster,Max","id":31,"view":[1],"edit":[1],"download":[1],"manage":[1]},"owners":[{"id":170371,"name":"Muster, Max","media_resource_ids":[1]}]}
+  #
   # @response_field [Hash] public The object containing permission-actions for the public 
   # @response_field [Array] public.view The MediaResourceIds that the public can view  
   # @response_field [Array] public.edit The MediaResourceIds that the public can edit  
@@ -44,6 +47,13 @@ class PermissionsController < ApplicationController
     rescue
       not_authorized!
     end
+  end
+  
+  ##
+  # Update the permissions for a collection of resources
+  #
+  def update
+    
   end
 
 

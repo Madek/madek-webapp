@@ -35,6 +35,7 @@
 //= require modernizr.min
 //= require video
 //= require image_resample/image_resample
+//= require underscore
 
 /////////// PLUPLOAD /////////////
 //= require plupload
