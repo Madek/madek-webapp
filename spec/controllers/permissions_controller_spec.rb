@@ -130,6 +130,23 @@ describe PermissionsController do
       end
     end
 
+
+    describe "updating public permissions with put" do
+      it "should update the view view permission to true" do
+        MediaResource.find(@mr1.id).view.should == false
+        put :update, {format: 'json',media_resource_ids: [@mr1.id],public: {view: true, download: nil, manage:""}}, {user_id: @user_a.id}
+        MediaResource.find(@mr1.id).view.should == true
+      end
+    end
+
+    describe "setting a new owner" do
+      it "should belong to the new owner afterwards" do
+        MediaResource.find(@mr1.id).user_id.should == @user_a.id
+        put :update, {format: 'json',media_resource_ids: [@mr1.id],owner: @user_b.id}, {user_id: @user_a.id}
+        MediaResource.find(@mr1.id).user_id.should == @user_b.id
+      end
+    end
+
   end
 
 end

@@ -97,7 +97,6 @@ class PermissionsController < ApplicationController
 
     require 'set'
 
-
     ActiveRecord::Base.transaction do
 
       params[:users]= (params[:users] or [])
@@ -136,11 +135,26 @@ class PermissionsController < ApplicationController
       media_resource_ids.each do |mr_id| 
         params[:groups].each do |newup| 
           uid= newup[:id].to_i
-          up = Grouppermission.where("media_resource_id= ?",mr_id).where("group_id = ?",uid).first || (Grouppermission.new group_id: uid, media_resource_id: mr_id)
+          up = Grouppermission.where("media_resource_id= ?",mr_id) \
+            .where("group_id = ?",uid).first || (Grouppermission.new group_id: uid, media_resource_id: mr_id)
           up.update_attributes! newup.select{|k,v| v == true || v == false}
         end
       end
 
+      #update public permissions
+      if params[:public] 
+        media_resource_ids.each do |mr_id|
+          MediaResource.find(mr_id).update_attributes! \
+            params[:public].select{|k,v| (Constants::ACTIONS.include? k.to_sym) and (v == true or v == false)}
+        end
+      end
+
+      #update owner
+      if owner_id= (params[:owner] and params[:owner].to_i)
+        media_resource_ids.each do |mr_id|
+          MediaResource.find(mr_id).update_attributes! user_id: owner_id
+        end
+      end
 
 
     end
