@@ -70,18 +70,22 @@ class PermissionsController < ApplicationController
 
     require 'set'
 
-    media_resource_ids = Set.new params[:media_resource_ids].map{|i| i.to_i}
-    affected_user_ids= Set.new params[:users].map{|up| up["id"].to_i}
 
-    # destroy deleted or no more wanted user_permissions
-    media_resource_ids.each do |mr_id| 
-      existing_up_user_ids = Set.new Userpermission.where("media_resource_id= ?",mr_id).map(&:user_id)
-      (existing_up_user_ids - affected_user_ids).each do |uid|
-        Userpermission.where("media_resource_id= ?",mr_id).where("user_id = ?",uid).first.destroy
+    ActiveRecord::Base.transaction do
+
+      media_resource_ids = Set.new params[:media_resource_ids].map{|i| i.to_i}
+      affected_user_ids= Set.new params[:users].map{|up| up["id"].to_i}
+
+      # destroy deleted or no more wanted user_permissions
+      media_resource_ids.each do |mr_id| 
+        existing_up_user_ids = Set.new Userpermission.where("media_resource_id= ?",mr_id).map(&:user_id)
+        (existing_up_user_ids - affected_user_ids).each do |uid|
+          Userpermission.where("media_resource_id= ?",mr_id).where("user_id = ?",uid).first.destroy
+        end
+
       end
 
     end
-
 
     respond_to do |format|
       format.html 
