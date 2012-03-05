@@ -37,7 +37,11 @@
             %li
               = link_to tab_title, "#info_tab"
             %li
-              = link_to _("Zugriffsberechtigungen"), edit_multiple_media_set_permissions_path(@media_set)
+              = link_to _("Zugriffsberechtigungen"), "#p",
+                :class => "open_permission_lightbox", 
+                :"data-media_resource_ids" => "[#{@media_set.id}]",
+                :"data-current_user" => "#{current_user.to_json(:only=>:id, :include => :groups)}",
+                :"data-media_resources" => "[#{@media_set.to_json(:with => {:media_resource => {:title => 1, :author => 1, :image => {:size => :small}}})}]"
             - unless @media_set.individual_contexts.empty?
               %li
                 = link_to _("Auszug"), "#abstract_tab"

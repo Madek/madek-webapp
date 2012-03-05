@@ -1,0 +1,311 @@
+@import "../mixins";
+
+.ui-dialog.permission_lightbox {
+  height: auto !important;
+  width: 900px !important;
+  
+  .ui-dialog-titlebar {
+    display: none;
+  }
+  
+  h2 {
+    padding-bottom: 6px;
+    margin-top: 14px;
+  }
+  
+  h3 {
+    margin: 0;
+  }
+  
+  h4 {
+    font-size: 1.0em;
+  }   
+  
+  label.mixed {
+    background: url("stripe_1.png") repeat scroll 0 0 red;
+    @include border-radius(4px);
+  }
+  
+  .media_resources {
+    background: #EEE;
+    display: block;
+    height: 250px;
+    margin-bottom: 22px;
+    padding: 4px 4px 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    @include box-shadow(inset 0 1px 4px rgba(0,0,0,0.2));
+    @include border-radius(4px);
+    
+    .item_box {
+      background: #FFF !important;
+      border: 1px solid rgba(0,0,0,0);
+      @include border-radius(4px);
+    }
+  }
+  
+  .upload_buttons.disabled {
+    color: #737373;
+    border-color: #c5c5c5;
+    background: #ededed no-repeat 0 center;
+    cursor: default;
+  }
+  
+  section {
+    position: relative;
+  }
+  
+  .loading {
+    background: #EEE;
+    border: 1px solid #DDD;
+    display: block;
+    position: relative;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    @include border-radius(4px);
+    
+    img {
+      margin-left: 6px;
+      margin-right: 4px;
+      position: relative;
+      top: 3px;  
+    }
+  }
+  
+  .line {
+    background: #EEE;
+    border: 1px solid #DDD;
+    display: block;
+    height: 25px;
+    margin: 1px 0 2px;
+    position: relative;
+    width: 100%;
+    @include border-radius(4px);
+    
+    input {
+      position: relative;
+      top: -2px;
+    }
+    
+    .subject {
+      display: inline-block;
+      height: 17px;
+      padding-left: 22px;
+      width: 250px;
+    }
+    
+    .owner {
+      display: inline-block;
+      text-align: center;
+      width: 105px;
+      
+      label {
+        margin: 0;
+        padding-left: 1px;
+        width: 28px;  
+      }
+    }
+    
+    .preset {
+      display: inline-block;
+      position: relative;
+      width: 190px;
+      
+      select {
+        background: #FAFAFA;
+        border: 1px solid #DDD;
+        display: block;
+        height: 24px;
+        position: absolute;
+        top: 0;
+        width: 185px;
+        @include border-radius(3px);
+        @include opacity(0.0);        
+      }
+      
+      .select {
+        background: #FAFAFA;
+        border: 1px solid #AAA;
+        display: block;
+        padding: 3px 4px 0 5px;
+        height: 18px;
+        width: 175px;
+        @include border-radius(3px);
+        @include vertical-gradient(#EFEFEF, #F9F9F9, 50%, 50%);
+        
+        &[disabled=disabled] {
+          background: #f4f4f4;
+          border: 1px solid #F9F9F9;
+          +.arrow { display: none; }
+        }
+      }
+      
+      .arrow {
+        background: url(icons/madek_icon_sprites.png) -409px -559px no-repeat;
+        display: block;
+        position: absolute;
+        right: 9px;
+        top: 9px;
+        height: 7px;
+        width: 11px;
+        @include opacity(0.8);
+      }
+      
+      &:hover {
+        .arrow {
+          @include opacity(1.0);
+        }
+      }
+    }
+    
+    label {
+      display: inline-block;
+      height: 21px;
+      margin-right: 24px;
+      padding-left: 7px;
+      padding-top: 3px;
+      vertical-align: bottom;
+      width: 21px;
+    }
+    
+    .permissions {
+      display: inline-block;
+      padding-left: 24px;
+      width: 250px;
+    }
+   
+    &.head { 
+      background: none;
+      border: none;
+      font-weight: bold;
+      margin-top: 20px;
+      
+      .icon {
+        //background: #FAFAFA;
+        //border: 1px solid #DADADA;
+        display: inline-block;
+        height: 24px;
+        left: 2px;
+        margin-right: 28px;
+        position: relative;
+        top: 8px;
+        width: 24px;
+        @include border-radius(3px);
+        //@include box-shadow(0 0 2px rgba(0,0,0,0.2));
+        
+        &.view {
+          background: url(icons/madek_icon_sprites.png) -276px -1122px no-repeat;
+        }
+        
+        &.download {
+          background: url(icons/madek_icon_sprites.png) -332px -1122px no-repeat;
+        }
+        
+        &.edit {
+          background: url(icons/madek_icon_sprites.png) -388px -1122px no-repeat;
+        }
+        
+        &.manage {
+          background: url(icons/madek_icon_sprites.png) -444px -1122px no-repeat;
+        }
+      }
+    }
+  }
+  
+  section {
+    padding-top: 4px;
+    padding-bottom: 10px;
+  }
+  
+  section.me {
+    
+    .me.icon {
+      background: url(icons/madek_icon_sprites.png) -308px -1039px no-repeat;
+      display: inline-block;
+      height: 15px;
+      margin-right: 5px;
+      width: 12px;
+    }
+  }
+  
+  section.groups_with_me {
+    
+    .groups_with_me.icon {
+      background: url(icons/madek_icon_sprites.png) -338px -1039px no-repeat;
+      display: inline-block;
+      height: 15px;
+      left: -4px;
+      position: relative;
+      top: 2px;
+      width: 18px;
+    } 
+  }
+  
+  section.others {
+    margin-top: 10px;
+    
+    h3 {
+      margin-bottom: 6px;
+    }
+    
+    section.users {
+      
+      .user.icon {
+        background: url(icons/madek_icon_sprites.png) -282px -1039px no-repeat;
+        display: inline-block;
+        height: 15px;
+        margin-right: 5px;
+        position: relative;
+        top: 2px;
+        width: 12px;
+      } 
+    }
+    
+    section.groups {
+      
+      .groups.icon {
+        background: url(icons/madek_icon_sprites.png) -370px -1039px no-repeat;
+        display: inline-block;
+        height: 15px;
+        left: -4px;
+        position: relative;
+        top: 2px;
+        width: 18px;
+      } 
+    }
+    
+    section.public {
+      margin-bottom: 12px;
+      
+      .public.icon {
+        background: url(icons/madek_icon_sprites.png) -252px -1039px no-repeat;
+        display: inline-block;
+        height: 15px;
+        left: -2px;
+        margin-right: 2px;
+        position: relative;
+        top: 2px;
+        width: 15px;
+      } 
+    }
+  }
+  
+  section.actions {
+    display: block;
+    text-align: right;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    width: 100%;
+    
+    a {
+      cursor: pointer;
+      
+      &.cancel {
+        position: relative;
+        top: 8px;
+        margin-right: 4px;
+      }
+    }
+  }
+}

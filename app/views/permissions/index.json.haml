@@ -14,9 +14,21 @@
     h[:you][action] = @media_resources.select do |media_resource|
       current_user.authorized?(action, media_resource)
     end.map(&:id)
+    h[:you][:name] = current_user.to_s
+    h[:you][:id] = current_user.id
   end
 
   if (with = params[:with])
+    # OWNERS
+    if with[:owners] and with[:owners] == "true"
+      h[:owners] = @media_resources.map(&:user).uniq.map do |user|
+        x = {:id => user.id, :name => user.to_s}
+        x[:media_resource_ids] = @media_resources.select do |media_resource|
+          media_resource.user_id == user.id
+        end.map(&:id)
+        x
+      end
+    end
     # USERS
     if with[:users] and with[:users] == "true"
       h[:users] = @media_resources.flat_map(&:userpermissions).map(&:user).uniq.map do |user|

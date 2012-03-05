@@ -71,7 +71,6 @@ function DepartmentSelection() {
       // before touching check if current element is on ignore list
       var ldap_prefix = option.ldap.split(".")[0].toLowerCase();
       if($.inArray(ldap_prefix, DepartmentSelection.ignore_list) > -1) {
-        console.log(ldap_prefix);
         return; // continue loop
       }
           
