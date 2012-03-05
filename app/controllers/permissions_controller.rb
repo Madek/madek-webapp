@@ -48,15 +48,35 @@ class PermissionsController < ApplicationController
       not_authorized!
     end
   end
+
+
+  # SCHREIBEN
+  # [PUT] /permissions?media_resource_ids=[1,2,3,4,345,999] 
+  # [
+  # "media_resource_ids": [1,2,3,4,345,999]
+  # "owner": 5
+  # "users": [
+  #   {"id":1, view: nil, edit:false, manage:true, download:false},
+  #     {"id":2, view: true, edit:nil, manage:false, download:true}],
+  #       {"id":34, view: nil, edit:nil, manage:nil, download:nil}],
+#   "groups": [
+#         {"id":14, view: nil, edit:false, download:false},
+#           {"id":24, view: true, edit:nil, download:true}]
+#           "public": {view:nil, edit:nil, download:nil}
+#           ]
   
   ##
-  # Update the permissions for a collection of resources
+  # Update/set permissions for a collection of resources
+  # 
+  # @resource /permissions
   #
-  def update
-    
-  end
-
-
+  # @action PUT
+  # 
+  # @required [Array] media_resource_ids The collection of resources you want to fetch the permissios for
+  #
+  # @optional [Integer] owner The user-id that will be set as owner for all resources inside the media_resources_ids collection   
+  # @optional [Hash] users A collection of users that get...
+  #
   def update
 
     require 'set'
