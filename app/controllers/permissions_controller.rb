@@ -55,14 +55,18 @@ class PermissionsController < ApplicationController
   # [
   # "media_resource_ids": [1,2,3,4,345,999]
   # "owner": 5
+  #
   # "users": [
   #   {"id":1, view: nil, edit:false, manage:true, download:false},
   #     {"id":2, view: true, edit:nil, manage:false, download:true}],
   #       {"id":34, view: nil, edit:nil, manage:nil, download:nil}],
-  #       "groups": [
-  #         {"id":14, view: nil, edit:false, download:false},
-  #           {"id":24, view: true, edit:nil, download:true}]
-  #           "public": {view:nil, edit:nil, download:nil}
+  #
+  # "groups": [
+  #   {"id":14, view: nil, edit:false, download:false},
+  #     {"id":24, view: true, edit:nil, download:true}]
+  #
+  # "public": {view:nil, edit:nil, download:nil}
+  #
   #           ]
   
   
@@ -82,8 +86,17 @@ class PermissionsController < ApplicationController
         (existing_up_user_ids - affected_user_ids).each do |uid|
           Userpermission.where("media_resource_id= ?",mr_id).where("user_id = ?",uid).first.destroy
         end
-
       end
+
+      # update userpermission 
+      media_resource_ids.each do |mr_id| 
+        params[:users].each do |newup| 
+          uid= newup[:id].to_i
+          up = Userpermission.where("media_resource_id= ?",mr_id).where("user_id = ?",uid).first || (Userpermission.new user_id: uid, media_resource_id: mr_id)
+          up.update_attributes! newup.select{|k,v| v == true || v == false}
+        end
+      end
+
 
     end
 

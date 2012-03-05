@@ -67,13 +67,35 @@ describe PermissionsController do
       end
 
       it "should delete the up of @user_a" do
-
         Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_a.id).size.should >= 1
-
         put :update, {format: 'json',media_resource_ids: [@mr1.id],users: [{id: @user_b.id,view: nil, download: true, manage:false  }]}, {user_id: @user_a.id}
-
         Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_a.id).size.should == 0
+      end
 
+    end
+
+    describe "creating a new userpermissions " do
+
+      it "should create a new userpermission if none exists" do
+        Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_b.id).size.should == 0
+        put :update, {format: 'json',media_resource_ids: [@mr1.id],users: [{id: @user_b.id,view: nil, download: true, manage:false  }]}, {user_id: @user_a.id}
+        Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_b.id).size.should >= 1
+      end
+
+    end
+
+    describe "updating a new userpermission " do
+
+      before :each do
+        Userpermission.create user: @user_b, media_resource: @mr1
+      end
+
+      it "should update a uerspermission " do
+        Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_b.id).size.should == 1
+        Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_b.id).first.view.should == false
+        put :update, {format: 'json',media_resource_ids: [@mr1.id],users: [{id: @user_b.id, view: true, download: nil, manage:""}]}, {user_id: @user_a.id}
+        Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_b.id).size.should == 1
+        Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_b.id).first.view.should == true
       end
 
     end
