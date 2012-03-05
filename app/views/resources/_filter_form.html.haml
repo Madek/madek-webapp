@@ -95,7 +95,10 @@
         parent_form.data("tmp_intersected_ids", intersected_ids);
       });
   
-      $(".filter_content form").live('ajax:before', function(){
+      var filter_form = $(".filter_content form");
+      filter_form.data("tmp_intersected_ids", filter_form.data("item_ids"));
+
+      filter_form.live('ajax:before', function(){
         var _this = $(this); 
         _this.find("input#filter_ids").val(_this.data("tmp_intersected_ids").join(','));
       }).live('ajax:complete.rails', function(xhr, response){ // TODO ajax:success ??
