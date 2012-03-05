@@ -18,6 +18,22 @@ Feature: Use the search filters on my search results
      And I press "Suchen"
     Then I should not see "The Necronomicon"
 
+
+ # We had a problem with this earlier, this is to prevent a regression.
+ # The error was that users were logged out when pressing "Filter anwenden" without
+ # selecting any options.
+ @javascript @foofoo
+  Scenario: Searching without parameters should not raise an error
+    When I log in as "evil" with password "books"
+     And I upload some picture titled "Random Nonsense"
+     And I fill in "query" with "nonsense"
+     And I press "Suchen"
+    Then I should see "Random Nonsense"
+    When I press "Filter anwenden"
+     And I wait for 2 seconds
+    Then I should not see "Bitte anmelden"
+     And I should see "Suchergebnisse"
+
   @javascript
   Scenario: Filtering by keyword: Finding both media entries that have a common word, but showing just one when only one's keyword is selected
     When I log in as "evil" with password "books"
@@ -59,7 +75,7 @@ Feature: Use the search filters on my search results
     Then the search results should not contain "The Necronomicon"
      And the search results should contain "Klaatu Barata Nicto"
 
-  @javascript @work
+  @javascript
   Scenario: Filtering three different media entries
     When I log in as "evil" with password "books"
      And I upload some picture titled "Pure Evil"
