@@ -22,18 +22,20 @@ class MediaSetsController < ApplicationController
   end
 
 #####################################################
-
+  
   ##
   # Get media sets
   # 
-  # @url [GET] /media_sets?[arguments]
+  # @resource /media_sets
+  #
+  # @action GET
   # 
-  # @argument [accessible_action] string Limit the list of media sets by the accessible action
+  # @optional [accessible_action] string Limit the list of media sets by the accessible action
   #   show, browse, abstract, inheritable_contexts, edit, update, add_member, parents, destroy
   #
-  # @argument [with] hash Options forwarded to the results which will be inside of the respond 
+  # @optional [with] hash Options forwarded to the results which will be inside of the respond 
   # 
-  # @argument [child_ids] array An array with child ids which shall be used for scoping the media sets
+  # @optional [child_ids] array An array with child ids which shall be used for scoping the media sets
   #
   # @example_request
   #   {"accessible_action": "edit", "with": {"media_set": {"media_entries": 1}}}
@@ -46,27 +48,6 @@ class MediaSetsController < ApplicationController
   #
   # @example_request
   #   {"accessible_action": "edit", "with": {"media_set": {"creator": 1, "created_at": 1, "title": 1}}}
-  #
-  # @request_field [String] accessible_action The accessible action the user can perform on a set
-  # @request_field [Hash] with Options forwarded to the results which will be inside of the respond
-  # @request_field [Hash] with.set Options forwarded to all resulting models from type set
-  # @request_field [Hash] with.set.media_entries When this hash of options is setted, it forces all result sets
-  #   to include their media_entries forwarding the options. When "media_entries" is just setted to 1, then 
-  #   they are include but without forwarding any options.
-  # @request_field [Integer] with.set.title When this hash of options is setted, provide the set title in the results
-  # @request_field [Array] child_ids A list of childs which shall be used for scoping the result of media sets
-  #
-  # @example_response
-  #   [{"id":422, "media_entries": [{"id":2}, {"id":3}]}, {"id":423, "media_entries": [{"id":1}, {"id":4}]}]
-  #
-  # @example_response
-  #   [{"id":422, "title": "My Private Set", "creator": {"id": 142, "name": "Max Muster"}}]
-  #
-  # @response_field [Integer] id The id of a set 
-  # @response_field [Hash] media_entries Media entries of the set
-  # @response_field [Integer] media_entries[].id The id of a media entry
-  # @response_field [String] title The title of the media set 
-  # @response_field [Hash] author The author of the media set 
   #
   def index(accessible_action = (params[:accessible_action] || :view).to_sym,
             with = params[:with],

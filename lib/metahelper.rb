@@ -81,6 +81,12 @@ module MetaHelper
           k = UsageTerm.new(meta[:usage_terms])
           k.id = meta[:usage_terms]["id"]
           k.save
+
+          meta[:permission_presets].each do |permission_preset|
+            k = PermissionPreset.create(permission_preset)
+            #            buffer << k.inspect
+          end
+
         end
 
         ###################################################

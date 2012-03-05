@@ -1,0 +1,466 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: MetaContextsHelper
+  
+    &mdash; Documentation by YARD 0.7.5
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (M)</a> &raquo; 
+    
+    
+    <span class="title">MetaContextsHelper</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Module: MetaContextsHelper
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">app/helpers/meta_contexts_helper.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#display_context_abstract-instance_method" title="#display_context_abstract (instance method)">- (Object) <strong>display_context_abstract</strong>(abstract_json) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#display_context_abstract_slider-instance_method" title="#display_context_abstract_slider (instance method)">- (Object) <strong>display_context_abstract_slider</strong>(abstract_slider_json) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#display_contexts_vocabulary-instance_method" title="#display_contexts_vocabulary (instance method)">- (Object) <strong>display_contexts_vocabulary</strong>(vocabulary_json) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="display_context_abstract-instance_method">
+  
+    - (<tt>Object</tt>) <strong>display_context_abstract</strong>(abstract_json) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/helpers/meta_contexts_helper.rb', line 52</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_display_context_abstract'>display_context_abstract</span><span class='lparen'>(</span><span class='id identifier rubyid_abstract_json'>abstract_json</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_capture_haml'>capture_haml</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_haml_tag'>haml_tag</span> <span class='symbol'>:div</span><span class='comma'>,</span> <span class='symbol'>:class</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>meta_data</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_abstract_json'>abstract_json</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+        <span class='id identifier rubyid_haml_concat'>haml_concat</span> <span class='id identifier rubyid__'>_</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Es sind nicht genügend Werte für einen Set-Auszug vorhanden.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_abstract_json'>abstract_json</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_meta_datum'>meta_datum</span><span class='op'>|</span>
+          <span class='id identifier rubyid_haml_tag'>haml_tag</span> <span class='symbol'>:h4</span><span class='comma'>,</span> <span class='id identifier rubyid_meta_datum'>meta_datum</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>meta_key_label</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+          <span class='id identifier rubyid_haml_tag'>haml_tag</span> <span class='symbol'>:p</span> <span class='kw'>do</span>
+            <span class='id identifier rubyid_meta_datum'>meta_datum</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>meta_terms</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_meta_term'>meta_term</span><span class='op'>|</span>
+              <span class='id identifier rubyid_haml_concat'>haml_concat</span> <span class='id identifier rubyid_link_to'>link_to</span><span class='lparen'>(</span><span class='id identifier rubyid_meta_term'>meta_term</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>label</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_resources_path'>resources_path</span><span class='lparen'>(</span><span class='symbol'>:meta_key_id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_meta_datum'>meta_datum</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>meta_key_id</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:meta_term_id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_meta_term'>meta_term</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>id</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='symbol'>:data-meta_term_id</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_meta_term'>meta_term</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>id</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+            <span class='kw'>end</span>
+          <span class='kw'>end</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="display_context_abstract_slider-instance_method">
+  
+    - (<tt>Object</tt>) <strong>display_context_abstract_slider</strong>(abstract_slider_json) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/helpers/meta_contexts_helper.rb', line 4</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_display_context_abstract_slider'>display_context_abstract_slider</span><span class='lparen'>(</span><span class='id identifier rubyid_abstract_slider_json'>abstract_slider_json</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_total_entries'>total_entries</span> <span class='op'>=</span> <span class='id identifier rubyid_abstract_slider_json'>abstract_slider_json</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>total_entries</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='id identifier rubyid_abstract_meta_context_path'>abstract_meta_context_path</span><span class='lparen'>(</span><span class='id identifier rubyid_abstract_slider_json'>abstract_slider_json</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>context_id</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  
+  <span class='id identifier rubyid_capture_haml'>capture_haml</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_haml_tag'>haml_tag</span> <span class='symbol'>:p</span><span class='comma'>,</span> <span class='symbol'>:style</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>padding: 1.8em;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_haml_tag'>haml_tag</span> <span class='symbol'>:span</span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>amount</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:style</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>color: #444444; font-weight: bold; position: absolute;</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_haml_tag'>haml_tag</span> <span class='symbol'>:div</span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>slider</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:style</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>border: 1px solid #DDDDDD;</span><span class='tstring_end'>&quot;</span></span>
+    
+    <span class='id identifier rubyid_script'>script</span> <span class='op'>=</span> <span class='id identifier rubyid_javascript_tag'>javascript_tag</span> <span class='kw'>do</span>
+      <span class='kw'>begin</span>
+      <span class='heredoc_beg'>&lt;&lt;-HERECODE</span>
+<span class='tstring_content'>        $(document).ready(function () {
+</span><span class='embexpr_beg'>          var total_entries = #{</span><span class='id identifier rubyid_total_entries'>total_entries</span><span class='rbrace'>}</span><span class='tstring_content'>; 
+          function update_amount(ui){
+            var l = ui.find(&quot;a&quot;).css('left');
+            var v = ui.slider( &quot;value&quot; ) + &quot; von &quot; + total_entries;
+            $(&quot;#amount&quot;).html(v).css('left', l);
+          }
+          $(&quot;#slider&quot;).slider({
+</span><span class='embexpr_beg'>            value: #{</span><span class='id identifier rubyid_total_entries'>total_entries</span> <span class='op'>*</span> <span class='int'>30</span> <span class='op'>/</span> <span class='int'>100</span><span class='rbrace'>}</span><span class='tstring_content'>,
+            min: 1,
+            max: total_entries,
+            step: 1,
+            create: function( event, ui ) { update_amount($(this)); },
+            slide: function( event, ui ) { update_amount($(this)); },
+            change: function( event, ui ) {
+              update_amount($(this));
+              $.ajax({
+</span><span class='embexpr_beg'>                url: &quot;#{</span><span class='id identifier rubyid_url'>url</span><span class='rbrace'>}</span><span class='tstring_content'>&quot;,
+                data: {value: ui.value},
+                complete: function(response){
+                  $(&quot;#slider&quot;).nextAll(&quot;.meta_data:first&quot;).replaceWith(response.responseText);
+                  browsing_document_ready();
+                }
+              });
+            }
+          });
+        });
+</span><span class='heredoc_end'>      HERECODE
+</span>      <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_html_safe'>html_safe</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_haml_concat'>haml_concat</span> <span class='id identifier rubyid_script'>script</span>
+
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="display_contexts_vocabulary-instance_method">
+  
+    - (<tt>Object</tt>) <strong>display_contexts_vocabulary</strong>(vocabulary_json) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/helpers/meta_contexts_helper.rb', line 71</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_display_contexts_vocabulary'>display_contexts_vocabulary</span><span class='lparen'>(</span><span class='id identifier rubyid_vocabulary_json'>vocabulary_json</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_vocabulary_json'>vocabulary_json</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_vocabulary_json'>vocabulary_json</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_vocabulary_json'>vocabulary_json</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
+  
+  <span class='id identifier rubyid_capture_haml'>capture_haml</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_haml_tag'>haml_tag</span> <span class='symbol'>:br</span>
+    <span class='id identifier rubyid_haml_tag'>haml_tag</span> <span class='symbol'>:label</span><span class='comma'>,</span> <span class='symbol'>:style</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>cursor: pointer;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_haml_tag'>haml_tag</span> <span class='symbol'>:input</span><span class='comma'>,</span> <span class='symbol'>:type</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>checkbox</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>terms_toggler</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:checked</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>false</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_haml_tag'>haml_tag</span> <span class='symbol'>:strong</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Die bereits vergeben Werte hervorheben</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:style</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>position:relative;top:1px;left:2px;font-size:0.9em;letter-spacing:0;</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_haml_tag'>haml_tag</span> <span class='symbol'>:br</span>
+    <span class='id identifier rubyid_haml_tag'>haml_tag</span> <span class='symbol'>:br</span>
+
+    <span class='id identifier rubyid_vocabulary_json'>vocabulary_json</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_context'>context</span><span class='op'>|</span>
+      <span class='id identifier rubyid_haml_tag'>haml_tag</span> <span class='symbol'>:h3</span><span class='comma'>,</span> <span class='id identifier rubyid_context'>context</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>label</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='const'>DEFAULT_LANGUAGE</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_haml_tag'>haml_tag</span> <span class='symbol'>:p</span><span class='comma'>,</span> <span class='id identifier rubyid_context'>context</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>description</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='const'>DEFAULT_LANGUAGE</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_context'>context</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>meta_keys</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_meta_key'>meta_key</span><span class='op'>|</span>
+        <span class='id identifier rubyid_haml_tag'>haml_tag</span> <span class='symbol'>:h4</span><span class='comma'>,</span> <span class='id identifier rubyid_meta_key'>meta_key</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>label</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_haml_tag'>haml_tag</span> <span class='symbol'>:div</span><span class='comma'>,</span> <span class='symbol'>:class</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>columns_3</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+          <span class='id identifier rubyid_meta_key'>meta_key</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>meta_terms</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_meta_term'>meta_term</span><span class='op'>|</span>
+            <span class='id identifier rubyid_haml_tag'>haml_tag</span> <span class='symbol'>:p</span><span class='comma'>,</span> <span class='id identifier rubyid_meta_term'>meta_term</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>label</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:data-meta_term_id</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_meta_term'>meta_term</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>id</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:data-used</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_meta_term'>meta_term</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>is_used</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+          <span class='kw'>end</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_script'>script</span> <span class='op'>=</span> <span class='id identifier rubyid_javascript_tag'>javascript_tag</span> <span class='kw'>do</span>
+      <span class='kw'>begin</span>
+      <span class='heredoc_beg'>&lt;&lt;-HERECODE</span>
+<span class='tstring_content'>        $(document).ready(function () {
+          var unused_terms = $(&quot;p[data-meta_term_id][data-used='0']&quot;);
+          var terms_toggler = $(&quot;#terms_toggler&quot;);
+          $(terms_toggler).removeAttr(&quot;checked&quot;);
+          terms_toggler.change(function(){
+            if ($(this).attr(&quot;checked&quot;) == &quot;checked&quot;) {
+              unused_terms.addClass(&quot;disabled&quot;);
+            } else {
+              unused_terms.removeClass(&quot;disabled&quot;);
+            }
+          });
+        });
+</span><span class='heredoc_end'>      HERECODE
+</span>      <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_html_safe'>html_safe</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_haml_concat'>haml_concat</span> <span class='id identifier rubyid_script'>script</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Tue Feb 28 17:17:07 2012 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.5 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

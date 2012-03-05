@@ -1,0 +1,45 @@
+%section.me
+  %h3
+    .me.icon
+    ="Ich"
+  {{tmpl(you, {with_owner:true, media_resource_ids: $item.media_resource_ids}) "tmpl/permission/_line"}}
+  
+  {{if groups.length>0}}
+  %section.groups_with_me
+    %h4
+      .groups_with_me.icon
+      ="Gruppen mit mir"
+    {{each(i,current_user_group) $item.current_user.groups}}
+    {{each(i2, group) groups}}
+    {{if current_user_group.id == group.id}}
+    {{tmpl(group, {is_group:true, media_resource_ids: $item.media_resource_ids}) "tmpl/permission/_line"}}
+    {{/if}}
+    {{/each}}
+    {{/each}}
+  {{/if}}
+
+%section.others      
+  %h3
+    ="Andere"
+    
+  {{if users.length>0}}  
+  %section.users
+    %h4
+      .user.icon
+      ="Personen"
+    {{tmpl(users, {with_owner:true, media_resource_ids: $item.media_resource_ids}) "tmpl/permission/_line"}}
+  {{/if}}
+  
+  {{if groups.length>0}}  
+  %section.groups
+    %h4
+      .groups.icon
+      ="Gruppen"
+    {{tmpl(groups, {is_group:true, media_resource_ids: $item.media_resource_ids}) "tmpl/permission/_line"}}
+  {{/if}}
+    
+  %section.public
+    %h4
+      .public.icon
+      ="Öffentlichkeit"
+    {{tmpl(public, {is_public:true, media_resource_ids: $item.media_resource_ids}) "tmpl/permission/_line"}}

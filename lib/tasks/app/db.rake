@@ -2,14 +2,16 @@ require 'metahelper'
 
 namespace :app do
 
-  desc "import initial metadata" 
-  task :import_initial_metadata=> :environment do
-    puts MetaHelper.import_initial_metadata
-  end
-  
 ########## DB
 
   namespace :db do
+    
+    ########## IMPORT INITAL METADATA
+    
+    desc "import initial metadata" 
+    task :import_initial_metadata=> :environment do
+      puts MetaHelper.import_initial_metadata
+    end
     
     ########## SYNC
 

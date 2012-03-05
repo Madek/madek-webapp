@@ -1,0 +1,22 @@
+## Introduction
+Welcome to the MAdeK-API documentation.
+
+## Quick Examples
+### List of the most recent MediaEntries
+    /media_resources.json?with[type]=media_entry
+This returns a list of the most recently edited MediaEntries of MAdeK - limited to 36 entries (pagination).
+
+## JSON as Standard Format
+Our standard format for the API is JSON. To communicate to the API you have to set the format explicitly on each request.  
+### How to send JSON-Requests
+    /media_resources.json
+    /media_resources (with Header: "Accept: application/json")
+
+## RESTfull API-Desgin
+GET, POST, PUT and DELETE...
+
+## Authentication
+...
+
+## Pagination
+...

@@ -12,8 +12,8 @@ GIT
       rails_autolink (>= 1.0)
 
 GIT
-  remote: git://github.com/dwaynemac/yard-rest-plugin.git
-  revision: 71beba5f2d4fab530ecf862a53948a53b201d1f6
+  remote: git://github.com/spape/yard-rest-plugin.git
+  revision: 2f53ca6c814335edc6e20855916d43f5f662e770
   specs:
     yard-rest (0.3.0)
       yard (~> 0.7.4)
@@ -118,13 +118,15 @@ GEM
       rails (~> 3.0)
     gherkin (2.7.7)
       json (>= 1.4.6)
-    growl (1.0.3)
     guard (0.10.0)
       ffi (>= 0.5.0)
       thor (~> 0.14.6)
     guard-cucumber (0.7.5)
       cucumber (>= 0.10)
       guard (>= 0.8.3)
+    guard-jasmine-headless-webkit (0.3.2)
+      guard (>= 0.4.0)
+      jasmine-headless-webkit (>= 0.7.0)
     guard-rspec (0.6.0)
       guard (>= 0.10.0)
     guard-spork (0.5.2)
@@ -347,9 +349,9 @@ DEPENDENCIES
   factory_girl_rails (~> 1.2)
   faker
   formtastic
-  growl (~> 1.0.3)
   guard (~> 0.10.0)
   guard-cucumber (~> 0.7.4)
+  guard-jasmine-headless-webkit (~> 0.3.2)
   guard-rspec (~> 0.6.0)
   guard-spork (~> 0.5.1)
   haml (~> 3.1)

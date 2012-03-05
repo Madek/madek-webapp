@@ -1,0 +1,872 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: MigrationHelpers
+  
+    &mdash; MAdeK-API
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/rest_plugin.js"></script>
+
+
+	<style type="text/css">
+		#toc {top: 24px;}
+		#toc .title {display: none;}
+		#toc a:link, #content a:visited { text-decoration: none; color: #05a; }
+		#toc a:hover { background: #ffffa5; }
+		pre code {
+			display: block;
+			background: #EAF0FF;
+			padding: 12px;
+			line-height: 1.9em;
+		}
+		h2 {
+			margin: 2.4em 0 0.5em;
+		}
+		h3 {
+			font-size: 1.2em;
+			font-weight: normal;
+			padding-top: 22px;
+			margin-bottom: -6px;
+		}
+	</style>
+	<script type="text/javascript">
+		//<![CDATA[
+			function setup_toc() {
+		 	  console.log("SETUP TOC");
+	 		  if ($('#content').length === 0) return;
+			  var _toc = $('<ol class="top"></ol>');
+			  var show = false;
+			  var toc = _toc;
+			  var counter = 0;
+			  var tags = ['h2', 'h3', 'h4', 'h5', 'h6'];
+			  var i;
+			  if ($('#content h1').length > 1) tags.unshift('h1');
+			  for (i = 0; i < tags.length; i++) { tags[i] = '#content ' + tags[i]; }
+			  var lastTag = parseInt(tags[0][1], 10);
+			  $(tags.join(', ')).each(function() {
+			    if (this.id == "content") return;
+			    show = true;
+			    var thisTag = parseInt(this.tagName[1], 10);
+			    if (this.id.length === 0) {
+			      var proposedId = $(this).text().replace(/[^a-z0-9-]/ig, '_');
+			      if ($('#' + proposedId).length > 0) { proposedId += counter; counter++; }
+			      this.id = proposedId;
+			    }
+			    if (thisTag > lastTag) { 
+			      for (i = 0; i < thisTag - lastTag; i++) { 
+			        var tmp = $('<ol/>'); toc.append(tmp); toc = tmp; 
+			      } 
+			    }
+			    if (thisTag < lastTag) { 
+			      for (i = 0; i < lastTag - thisTag; i++) toc = toc.parent(); 
+			    }
+			    toc.append('<li><a href="#' + this.id + '">' + $(this).text() + '</a></li>');
+			    lastTag = thisTag;
+			  });
+			  if (!show) return;
+			  html = '<div id="toc"><p class="title"><a class="hide_toc" href="#"><strong>Table of Contents</strong></a> <small>(<a href="#" class="float_toc">left</a>)</small></p></div>';
+			  $('#content').prepend(html);
+			  $('#toc').append(_toc);
+			  $('#toc .hide_toc').toggle(function() { 
+			    $('#toc .top').slideUp('fast');
+			    $('#toc').toggleClass('hidden');
+			    $('#toc .title small').toggle();
+			  }, function() {
+			    $('#toc .top').slideDown('fast');
+			    $('#toc').toggleClass('hidden');
+			    $('#toc .title small').toggle();
+			  });
+			  $('#toc .float_toc').toggle(function() { 
+			    $(this).text('float');
+			    $('#toc').toggleClass('nofloat');
+			  }, function() {
+			    $(this).text('left');
+			    $('#toc').toggleClass('nofloat');
+			  });
+			}
+			$(document).ready(setup_toc);
+		//]]>
+	</script>
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="search">
+  <!-- <a id="topic_list_link" href="#">Topic List</a> -->
+  <a id="resource_list_link" href="#">Resources</a>
+</div>
+
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content" style="padding-top: 12px;">
+		<h1>Module: MigrationHelpers
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+      <dt class="r1">Extended by:</dt>
+      <dd class="r1"><span class='object_link'><a href="" title="MigrationHelpers (module)">MigrationHelpers</a></span>, <span class='object_link'><a href="SQLHelper.html" title="SQLHelper (module)">SQLHelper</a></span></dd>
+      
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="SQLHelper.html" title="SQLHelper (module)">SQLHelper</a></span></dd>
+      
+    
+  
+  
+    <dt class="r1">Included in:</dt>
+    <dd class="r1"><span class='object_link'><a href="" title="MigrationHelpers (module)">MigrationHelpers</a></span></dd>
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/migration_helpers.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_check-instance_method" title="#add_check (instance method)">- (Object) <strong>add_check</strong>(table_name, check) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>general constraints.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_fkey_referrence_constraint-instance_method" title="#add_fkey_referrence_constraint (instance method)">- (Object) <strong>add_fkey_referrence_constraint</strong>(from_table, to_table, from_column = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_not_null_constraint-instance_method" title="#add_not_null_constraint (instance method)">- (Object) <strong>add_not_null_constraint</strong>(table, col) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_unique_constraint-instance_method" title="#add_unique_constraint (instance method)">- (Object) <strong>add_unique_constraint</strong>(table, col) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_del_referenced_trigger-instance_method" title="#create_del_referenced_trigger (instance method)">- (Object) <strong>create_del_referenced_trigger</strong>(source, target) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_del_referenced_trigger_pgsql-instance_method" title="#create_del_referenced_trigger_pgsql (instance method)">- (Object) <strong>create_del_referenced_trigger_pgsql</strong>(source_table, target_table, fkey, fun_name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_view-instance_method" title="#create_view (instance method)">- (Object) <strong>create_view</strong>(view_name, sql) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>view.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#drop_del_referenced_trigger-instance_method" title="#drop_del_referenced_trigger (instance method)">- (Object) <strong>drop_del_referenced_trigger</strong>(source, target) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#drop_del_referenced_trigger_pgsql-instance_method" title="#drop_del_referenced_trigger_pgsql (instance method)">- (Object) <strong>drop_del_referenced_trigger_pgsql</strong>(fun_name, table_name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#drop_not_null_constraint-instance_method" title="#drop_not_null_constraint (instance method)">- (Object) <strong>drop_not_null_constraint</strong>(table, col, colinfo = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#drop_view-instance_method" title="#drop_view (instance method)">- (Object) <strong>drop_view</strong>(view_name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fkey_cascade_on_delete-instance_method" title="#fkey_cascade_on_delete (instance method)">- (Object) <strong>fkey_cascade_on_delete</strong>(from_table, to_table, from_column = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fkey_name-instance_method" title="#fkey_name (instance method)">- (Object) <strong>fkey_name</strong>(table) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#infer_column_name-instance_method" title="#infer_column_name (instance method)">- (Object) <strong>infer_column_name</strong>(col) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#infer_table_name-instance_method" title="#infer_table_name (instance method)">- (Object) <strong>infer_table_name</strong>(table) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>misc pulic helpers.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#patch_index_name-instance_method" title="#patch_index_name (instance method)">- (Object) <strong>patch_index_name</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>we are patching the index_name function here,  do it explicitly so limit
+the impact to only when it is needed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ref_id-instance_method" title="#ref_id (instance method)">- (Object) <strong>ref_id</strong>(model) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove_fkey_constraint-instance_method" title="#remove_fkey_constraint (instance method)">- (Object) <strong>remove_fkey_constraint</strong>(from_table, from_column, to_table) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#shorten_schema_names-instance_method" title="#shorten_schema_names (instance method)">- (Object) <strong>shorten_schema_names</strong>(fun_name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>misc private helpers.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="SQLHelper.html" title="SQLHelper (module)">SQLHelper</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="SQLHelper.html#actionable_media_resources_users_by_grouppermission-instance_method" title="SQLHelper#actionable_media_resources_users_by_grouppermission (method)">actionable_media_resources_users_by_grouppermission</a></span>, <span class='object_link'><a href="SQLHelper.html#actionable_media_resources_users_by_ownership-instance_method" title="SQLHelper#actionable_media_resources_users_by_ownership (method)">actionable_media_resources_users_by_ownership</a></span>, <span class='object_link'><a href="SQLHelper.html#actionable_media_resources_users_by_publicpermission-instance_method" title="SQLHelper#actionable_media_resources_users_by_publicpermission (method)">actionable_media_resources_users_by_publicpermission</a></span>, <span class='object_link'><a href="SQLHelper.html#actionable_media_resources_users_by_userpermission-instance_method" title="SQLHelper#actionable_media_resources_users_by_userpermission (method)">actionable_media_resources_users_by_userpermission</a></span>, <span class='object_link'><a href="SQLHelper.html#actionable_media_resources_users_disallowed_by_userpermission-instance_method" title="SQLHelper#actionable_media_resources_users_disallowed_by_userpermission (method)">actionable_media_resources_users_disallowed_by_userpermission</a></span>, <span class='object_link'><a href="SQLHelper.html#adapter_is_mysql%3F-instance_method" title="SQLHelper#adapter_is_mysql? (method)">adapter_is_mysql?</a></span>, <span class='object_link'><a href="SQLHelper.html#adapter_is_postgresql%3F-instance_method" title="SQLHelper#adapter_is_postgresql? (method)">adapter_is_postgresql?</a></span>, <span class='object_link'><a href="SQLHelper.html#adapter_name-instance_method" title="SQLHelper#adapter_name (method)">adapter_name</a></span>, <span class='object_link'><a href="SQLHelper.html#bitwise_is-instance_method" title="SQLHelper#bitwise_is (method)">bitwise_is</a></span>, <span class='object_link'><a href="SQLHelper.html#database_name-instance_method" title="SQLHelper#database_name (method)">database_name</a></span>, <span class='object_link'><a href="SQLHelper.html#execute_sql-instance_method" title="SQLHelper#execute_sql (method)">execute_sql</a></span>, <span class='object_link'><a href="SQLHelper.html#reset_autoinc_sequence_to_max-instance_method" title="SQLHelper#reset_autoinc_sequence_to_max (method)">reset_autoinc_sequence_to_max</a></span>, <span class='object_link'><a href="SQLHelper.html#table_names-instance_method" title="SQLHelper#table_names (method)">table_names</a></span></p>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="add_check-instance_method">
+  
+    - (<tt>Object</tt>) <strong>add_check</strong>(table_name, check) 
+  
+
+  
+</p>
+
+<p>general constraints</p>
+
+<div class="tags">
+  
+
+</div><div class="tags">
+  
+
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="add_fkey_referrence_constraint-instance_method">
+  
+    - (<tt>Object</tt>) <strong>add_fkey_referrence_constraint</strong>(from_table, to_table, from_column = nil) 
+  
+
+  
+</p>
+
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="add_not_null_constraint-instance_method">
+  
+    - (<tt>Object</tt>) <strong>add_not_null_constraint</strong>(table, col) 
+  
+
+  
+</p>
+
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="add_unique_constraint-instance_method">
+  
+    - (<tt>Object</tt>) <strong>add_unique_constraint</strong>(table, col) 
+  
+
+  
+</p>
+
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="create_del_referenced_trigger-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_del_referenced_trigger</strong>(source, target) 
+  
+
+  
+</p>
+
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="create_del_referenced_trigger_pgsql-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_del_referenced_trigger_pgsql</strong>(source_table, target_table, fkey, fun_name) 
+  
+
+  
+</p>
+
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="create_view-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_view</strong>(view_name, sql) 
+  
+
+  
+</p>
+
+<p>view</p>
+
+<div class="tags">
+  
+
+</div><div class="tags">
+  
+
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="drop_del_referenced_trigger-instance_method">
+  
+    - (<tt>Object</tt>) <strong>drop_del_referenced_trigger</strong>(source, target) 
+  
+
+  
+</p>
+
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="drop_del_referenced_trigger_pgsql-instance_method">
+  
+    - (<tt>Object</tt>) <strong>drop_del_referenced_trigger_pgsql</strong>(fun_name, table_name) 
+  
+
+  
+</p>
+
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="drop_not_null_constraint-instance_method">
+  
+    - (<tt>Object</tt>) <strong>drop_not_null_constraint</strong>(table, col, colinfo = nil) 
+  
+
+  
+</p>
+
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="drop_view-instance_method">
+  
+    - (<tt>Object</tt>) <strong>drop_view</strong>(view_name) 
+  
+
+  
+</p>
+
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="fkey_cascade_on_delete-instance_method">
+  
+    - (<tt>Object</tt>) <strong>fkey_cascade_on_delete</strong>(from_table, to_table, from_column = nil) 
+  
+
+  
+</p>
+
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="fkey_name-instance_method">
+  
+    - (<tt>Object</tt>) <strong>fkey_name</strong>(table) 
+  
+
+  
+</p>
+
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="infer_column_name-instance_method">
+  
+    - (<tt>Object</tt>) <strong>infer_column_name</strong>(col) 
+  
+
+  
+</p>
+
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="infer_table_name-instance_method">
+  
+    - (<tt>Object</tt>) <strong>infer_table_name</strong>(table) 
+  
+
+  
+</p>
+
+<p>misc pulic helpers</p>
+
+<div class="tags">
+  
+
+</div><div class="tags">
+  
+
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="patch_index_name-instance_method">
+  
+    - (<tt>Object</tt>) <strong>patch_index_name</strong> 
+  
+
+  
+</p>
+
+<p>we are patching the index_name function here,  do it explicitly so limit
+the impact to only when it is needed</p>
+
+<div class="tags">
+  
+
+</div><div class="tags">
+  
+
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="ref_id-instance_method">
+  
+    - (<tt>Object</tt>) <strong>ref_id</strong>(model) 
+  
+
+  
+</p>
+
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="remove_fkey_constraint-instance_method">
+  
+    - (<tt>Object</tt>) <strong>remove_fkey_constraint</strong>(from_table, from_column, to_table) 
+  
+
+  
+</p>
+
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="shorten_schema_names-instance_method">
+  
+    - (<tt>Object</tt>) <strong>shorten_schema_names</strong>(fun_name) 
+  
+
+  
+</p>
+
+<p>misc private helpers</p>
+
+<div class="tags">
+  
+
+</div><div class="tags">
+  
+
+
+</div>
+</div>
+    
+  </div>
+
+
+	</div>
+    
+    <div id="footer">
+  Generated on Wed Feb 29 18:30:47 2012 with ruby-1.9.3
+</div>
+
+  </body>
+</html>

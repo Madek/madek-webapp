@@ -17,9 +17,11 @@
 //= require highlight/highlight
 //= require video-js/video
 //= require department-selection/department-selection
-//= require_tree ./widgets/ 
+//= require set-widget/set-widget 
 //= require resources/item-box
 //= require mediaset-popup/mediaset-popup
+//= require permission-preset/permission-preset
+//= require permission/permission
 
 /////////// Tmpl /////////////
 //= require_tree ./tmpl/
@@ -33,6 +35,7 @@
 //= require modernizr.min
 //= require video
 //= require image_resample/image_resample
+//= require underscore
 
 /////////// PLUPLOAD /////////////
 //= require plupload

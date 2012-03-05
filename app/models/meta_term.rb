@@ -6,7 +6,7 @@ class MetaTerm < ActiveRecord::Base
   #tmp# has_many :keywords, :foreign_key => :meta_term_id
 
   validate do
-    errors.add_to_base("A term cannot be blank") if LANGUAGES.all? {|lang| send(lang).blank? }
+    errors.add(:base, "A term cannot be blank") if LANGUAGES.all? {|lang| send(lang).blank? }
   end
 
   def to_s(lang = nil)

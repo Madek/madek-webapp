@@ -41,7 +41,12 @@ MAdeK::Application.routes.draw do
   
   match '/nagiosstat', :to => Nagiosstat
 
-  resources :media_resources
+
+
+################################################
+
+  resources :permissions, :only => :index, :format => true, :constraints => {:format => /json/}
+  resource :permissions, :only => :update
 
 ###############################################
 #NOTE first media_entries and then media_sets
@@ -63,14 +68,6 @@ MAdeK::Application.routes.draw do
       get :image, :to => "resources#image"
       get :map
       get :browse
-    end
-    
-    resources :permissions, :except => :index do
-      collection do
-        get :edit_multiple
-        post :edit_multiple
-        put :update_multiple
-      end
     end
     
     resources :meta_data do
@@ -99,13 +96,6 @@ MAdeK::Application.routes.draw do
     
     resources :media_sets #-# only used for FeaturedSet 
     
-    resources :permissions, :except => :index do
-      collection do
-        get :edit_multiple
-        put :update_multiple
-      end
-    end
-    
     resources :meta_data do
       collection do
         get :edit_multiple
@@ -127,6 +117,8 @@ MAdeK::Application.routes.draw do
 ###############################################
 
   constraints(:id => /\d+/) do
+
+    # TODO merge :resources into :media_resources 
     resources :resources, :only => [:index, :show] do
       collection do
         post :parents
@@ -140,7 +132,16 @@ MAdeK::Application.routes.draw do
       end
     end
     match "resources/favorites", :to => "resources#index"
+    
+    # TODO merge :resources into :media_resources 
+    resources :media_resources
+
+    resources :permissions, :only => :index, :format => true, :constraints => {:format => /json/}
+    resources :permission_presets, :only => :index, :format => true, :constraints => {:format => /json/}
+    
   end
+
+###############################################
 
   resources :media_files # TODO remove ??
 
@@ -197,8 +198,6 @@ MAdeK::Application.routes.draw do
   # TODO rename :import
   resource :upload, :controller => 'upload', :except => :new do
     member do
-      get :permissions, :to => "permissions#edit_multiple"
-      put :permissions, :to => "permissions#update_multiple"
       get :set_media_sets
       put :complete
       get :dropbox

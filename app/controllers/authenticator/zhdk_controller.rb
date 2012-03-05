@@ -11,7 +11,7 @@ class Authenticator::ZhdkController < ApplicationController
     
   def login
     if Rails.env.development? and params["bypass"]
-      if user = User.where("login = ?",params["bypass"]).first || (PersonaFactory.create params["bypass"])
+      if user = User.where("login = ?",params["bypass"]).first || (Persona.create params["bypass"])
         session[:user_id] = user.id
       else 
         session[:user_id] = create_or_update_user(DevelopmentHelpers::AUTH_XML)

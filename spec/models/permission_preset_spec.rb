@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe PermissionPreset do
 
+  before :all do
+    PermissionPreset.destroy_all
+  end
+
   it "should be createable " do
     expect {PermissionPreset.create name: "Some Preset Name"}.not_to raise_error
   end
