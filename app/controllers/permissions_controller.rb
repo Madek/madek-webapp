@@ -59,13 +59,24 @@ class PermissionsController < ApplicationController
   #   {"id":1, view: nil, edit:false, manage:true, download:false},
   #     {"id":2, view: true, edit:nil, manage:false, download:true}],
   #       {"id":34, view: nil, edit:nil, manage:nil, download:nil}],
-  #       "groups": [
-  #         {"id":14, view: nil, edit:false, download:false},
-  #           {"id":24, view: true, edit:nil, download:true}]
-  #           "public": {view:nil, edit:nil, download:nil}
-  #           ]
+#   "groups": [
+#         {"id":14, view: nil, edit:false, download:false},
+#           {"id":24, view: true, edit:nil, download:true}]
+#           "public": {view:nil, edit:nil, download:nil}
+#           ]
   
-  
+  ##
+  # Update/set permissions for a collection of resources
+  # 
+  # @resource /permissions
+  #
+  # @action PUT
+  # 
+  # @required [Array] media_resource_ids The collection of resources you want to fetch the permissios for
+  #
+  # @optional [Integer] owner The user-id that will be set as owner for all resources inside the media_resources_ids collection   
+  # @optional [Hash] users A collection of users that get...
+  #
   def update
 
     require 'set'
