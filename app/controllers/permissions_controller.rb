@@ -48,15 +48,24 @@ class PermissionsController < ApplicationController
       not_authorized!
     end
   end
+
+
+  # SCHREIBEN
+  # [PUT] /permissions?media_resource_ids=[1,2,3,4,345,999] 
+  # [
+  # "media_resource_ids": [1,2,3,4,345,999]
+  # "owner": 5
+  # "users": [
+  #   {"id":1, view: nil, edit:false, manage:true, download:false},
+  #     {"id":2, view: true, edit:nil, manage:false, download:true}],
+  #       {"id":34, view: nil, edit:nil, manage:nil, download:nil}],
+  #       "groups": [
+  #         {"id":14, view: nil, edit:false, download:false},
+  #           {"id":24, view: true, edit:nil, download:true}]
+  #           "public": {view:nil, edit:nil, download:nil}
+  #           ]
   
-  ##
-  # Update the permissions for a collection of resources
-  #
-  def update
-    
-  end
-
-
+  
   def update
 
     require 'set'
