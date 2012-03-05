@@ -22,6 +22,7 @@
 //= require mediaset-popup/mediaset-popup
 //= require permission-preset/permission-preset
 //= require permission/permission
+//= require iframe-wrapper/iframe-wrapper
 
 /////////// Tmpl /////////////
 //= require_tree ./tmpl/
@@ -47,6 +48,9 @@
 //= require plupload.html5
 //= require plupload.gears 
 //= require plupload.browserplus
+
+
+
 
 function document_ready(){
 	$("textarea").elastic();
