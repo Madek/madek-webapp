@@ -22,6 +22,7 @@
 //= require mediaset-popup/mediaset-popup
 //= require permission-preset/permission-preset
 //= require permission/permission
+//= require iframe-wrapper/iframe-wrapper
 
 /////////// Tmpl /////////////
 //= require_tree ./tmpl/
@@ -48,17 +49,8 @@
 //= require plupload.gears 
 //= require plupload.browserplus
 
-$(document).ready(function(){
-    $(".iframe").each(function(){
-//	console.log($(this));
-	var iframe = $("<iframe></iframe>");
-	$(iframe).attr("src", $(this).attr("src"));
-	$(iframe).attr("width", $(this).attr("width"));
-	$(iframe).attr("height", $(this).attr("height"));
-	$(iframe).attr("type", $(this).attr("type"));
-	$(this).append(iframe);
-    });
-});
+
+
 
 function document_ready(){
 	$("textarea").elastic();

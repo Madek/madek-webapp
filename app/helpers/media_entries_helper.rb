@@ -80,7 +80,9 @@ module MediaEntriesHelper
       # ENCODING_BASE_URL isn't just for encoding in this case, it's also to allow the Google Docs Viewer access
       # to the file without authenticating.
       url = "#{ENCODING_BASE_URL}/media_files/#{media_file.id}?access_hash=#{media_file.access_hash}"
-      tag :div, :class => 'iframe', :type => 'text/html', :width => 620, :height => 463, :src => "http://docs.google.com/viewer?url=#{CGI::escape(url)}&embedded=true"
+      # This does NOT work! We seem to have found a bug in HAML or in the 'tag' method
+      #tag :div, :class => 'iframe', :type => 'text/html', :width => 620, :height => 463, :src => "http://docs.google.com/viewer?url=#{CGI::escape(url)}&embedded=true"
+      "<div class='iframe' type='text/html' width='620' height='463' src='http://docs.google.com/viewer?url=#{CGI::escape(url)}&embedded=true'></div>"
     else
       tag :img, options.merge({:src => media_file.thumb_base64(size)})
     end
