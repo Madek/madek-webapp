@@ -36,14 +36,14 @@ module Persona
   
   class Adam
     
-    NAME = "Adam"
-    LASTNAME = "Admin"
-    PASSWORD = "password"
+    @@name = "Adam"
+    @@lastname = "Admin"
+    @@password = "password"
     
-    DROPBOX_ROOT_DIR = "#{Rails.root}/tmp/dropbox"
-    FTP_DROPBOX_SERVER = "ftp.dropbox.test"
-    FTP_DROPBOX_USER = "test"
-    FTP_DROPBOX_PASSWORD  = "password"
+    @@ftp_dropbox_root_dir = "#{Rails.root}/tmp/dropbox"
+    @@ftp_dropbox_server = "ftp.dropbox.test"
+    @@ftp_dropbox_user = "test"
+    @@ftp_dropbox_password  = "password"
     
     def initialize
       ActiveRecord::Base.transaction do 
@@ -56,13 +56,13 @@ module Persona
     end
     
     def create_person
-      @name = NAME
-      @lastname = LASTNAME  
+      @name = @@name
+      @lastname = @@lastname  
       @person = Factory(:person, firstname: @name, lastname: @lastname)
     end
     
     def create_user
-      @crypted_password = Digest::SHA1.hexdigest(PASSWORD)
+      @crypted_password = Digest::SHA1.hexdigest(@@password)
       @user = Factory(:user, :person => @person, :login => @name.downcase, :password => @crypted_password)
     end
 
@@ -73,10 +73,10 @@ module Persona
     
 
     def setup_dropbox
-      AppSettings.dropbox_root_dir = DROPBOX_ROOT_DIR
-      AppSettings.ftp_dropbox_server = FTP_DROPBOX_SERVER
-      AppSettings.ftp_dropbox_user = FTP_DROPBOX_USER
-      AppSettings.ftp_dropbox_password = FTP_DROPBOX_PASSWORD
+      AppSettings.dropbox_root_dir = @@ftp_dropbox_root_dir
+      AppSettings.ftp_dropbox_server = @@ftp_dropbox_server
+      AppSettings.ftp_dropbox_user = @@ftp_dropbox_user
+      AppSettings.ftp_dropbox_password = @@ftp_dropbox_password
     end
     
     def create_contexts

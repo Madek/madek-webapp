@@ -34,9 +34,9 @@ module Persona
   
   class Normin
     
-    NAME = "Normin"
-    LASTNAME = "Normalo"
-    PASSWORD = "password"
+    @@name = "Normin"
+    @@lastname = "Normalo"
+    @@password = "password"
     
     def initialize
       ActiveRecord::Base.transaction do 
@@ -44,7 +44,10 @@ module Persona
         create_user
         create_dropbox_dir if  AppSettings.dropbox_root_dir
         
-        # CREATE NORMINS RESOURCES
+        # NORMINS'S GROUPS
+        create_diplomarbeitsgruppe
+        
+        # NORMIN'S RESOURCES
         create_abgabe_zum_kurs_product_design
         create_fotografie_kurs_hs_2010
         create_meine_ausstellungen
@@ -55,13 +58,13 @@ module Persona
     end
 
     def create_person
-      @name = NAME
-      @lastname = LASTNAME  
+      @name = @@name
+      @lastname = @@lastname  
       @person = Factory(:person, firstname: @name, lastname: @lastname)
     end
 
     def create_user
-      @crypted_password = Digest::SHA1.hexdigest(PASSWORD)
+      @crypted_password = Digest::SHA1.hexdigest(@@password)
       @user = Factory(:user, :person => @person, :login => @name.downcase, :password => @crypted_password)
     end
 
@@ -69,6 +72,13 @@ module Persona
       user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, @user.dropbox_dir_name)
       FileUtils.mkdir_p(user_dropbox_root_dir)
       File.new(user_dropbox_root_dir).chmod(0770)
+    end
+    
+    def create_diplomarbeitsgruppe
+      @diplomarbeitsgruppe = Factory(:group,
+                                     :name => "Diplomarbeitsgruppe",
+                                     :type => "Group",
+                                     :users => [@user])
     end
     
     def create_abgabe_zum_kurs_product_design # Abgabe zum Kurs Product Design
@@ -129,6 +139,12 @@ module Persona
       @diplomarbeiten_2012_set = Factory(:media_set, 
                                          :user => @user,
                                          :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Diplomarbeit 2012"}})
+      Factory(:grouppermission, 
+              :media_resource => @diplomarbeiten_2012_set, 
+              :group => @diplomarbeitsgruppe, 
+              :view => true, 
+              :edit => false, 
+              :download => false)
       @diplomarbeiten_2012_prasentation = Factory(:media_entry, 
                                                   :user => @user, 
                                                   :media_sets => [@diplomarbeiten_2012_set], 
