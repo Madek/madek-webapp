@@ -13,13 +13,13 @@ describe PermissionsController do
     end
 
     it "should respond with success, only with public and you keys" do
+      pending
       get :index, {format: 'json', media_resource_ids: [@media_resource.id] }, {user_id: @user.id}
       response.should be_success
       json = JSON.parse(response.body)
       expected = {"public"=>{"view"=>[], "edit"=>[], "download"=>[]},
         "you"=>{"view"=>[@media_resource.id], "edit"=>[@media_resource.id], "download"=>[@media_resource.id], "manage"=>[@media_resource.id]}}
       json.eql?(expected).should be_true
-      pending
     end
 
   end
@@ -34,6 +34,7 @@ describe PermissionsController do
     end
 
     it "should respond with success" do
+      pending
       get :index, {format: 'json', media_resource_ids: @media_resources.map(&:id) }, {user_id: @user.id}
       response.should be_success
       json = JSON.parse(response.body)
@@ -42,7 +43,6 @@ describe PermissionsController do
         "users"=>[{"id"=>159123, "name"=>"Sellitto, Franco", "view"=>[6179], "edit"=>[6179], "download"=>[6179], "manage"=>[6179]}],
         "groups"=>[{"id"=>1519, "name"=>"MAdeK-Team", "view"=>[6179], "edit"=>[6179], "download"=>[6179]}]}
       json.eql?(expected).should be_true
-      pending
     end
 
   end
