@@ -198,6 +198,7 @@ MAdeK::Application.routes.draw do
   # TODO rename :import
   resource :upload, :controller => 'upload', :except => :new do
     member do
+      get :permissions
       get :set_media_sets
       put :complete
       get :dropbox
