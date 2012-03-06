@@ -97,18 +97,67 @@ class PermissionsController < ApplicationController
 
     require 'set'
 
-    media_resource_ids = Set.new params[:media_resource_ids].map{|i| i.to_i}
-    affected_user_ids= Set.new params[:users].map{|up| up["id"].to_i}
+    ActiveRecord::Base.transaction do
 
-    # destroy deleted or no more wanted user_permissions
-    media_resource_ids.each do |mr_id| 
-      existing_up_user_ids = Set.new Userpermission.where("media_resource_id= ?",mr_id).map(&:user_id)
-      (existing_up_user_ids - affected_user_ids).each do |uid|
-        Userpermission.where("media_resource_id= ?",mr_id).where("user_id = ?",uid).first.destroy
+      params[:users]= (params[:users] or [])
+      params[:groups]= (params[:groups] or [])
+
+      media_resource_ids = Set.new params[:media_resource_ids].map{|i| i.to_i}
+      affected_user_ids=  Set.new params[:users].map{|up| up["id"].to_i}
+      affected_group_ids=  Set.new params[:groups].map{|gp| gp["id"].to_i}
+
+      # destroy deleted or no more wanted user_permissions
+      media_resource_ids.each do |mr_id| 
+        existing_up_user_ids = Set.new Userpermission.where("media_resource_id= ?",mr_id).map(&:user_id)
+        (existing_up_user_ids - affected_user_ids).each do |uid|
+          Userpermission.where("media_resource_id= ?",mr_id).where("user_id = ?",uid).first.destroy
+        end
       end
 
-    end
+      # create or update userpermission 
+      media_resource_ids.each do |mr_id| 
+        params[:users].each do |newup| 
+          uid= newup[:id].to_i
+          up = Userpermission.where("media_resource_id= ?",mr_id).where("user_id = ?",uid).first || (Userpermission.new user_id: uid, media_resource_id: mr_id)
+          up.update_attributes! newup.select{|k,v| v == true || v == false}
+        end
+      end
 
+      # destroy deleted or no more wanted group_permissions
+      media_resource_ids.each do |mr_id| 
+        existing_gp_group_ids = Set.new Grouppermission.where("media_resource_id= ?",mr_id).map(&:group_id)
+        (existing_gp_group_ids - affected_group_ids).each do |gid|
+          Grouppermission.where("media_resource_id= ?",mr_id).where("group_id = ?",gid).first.destroy
+        end
+      end
+
+      # create or update grouppermission 
+      media_resource_ids.each do |mr_id| 
+        params[:groups].each do |newup| 
+          uid= newup[:id].to_i
+          up = Grouppermission.where("media_resource_id= ?",mr_id) \
+            .where("group_id = ?",uid).first || (Grouppermission.new group_id: uid, media_resource_id: mr_id)
+          up.update_attributes! newup.select{|k,v| v == true || v == false}
+        end
+      end
+
+      #update public permissions
+      if params[:public] 
+        media_resource_ids.each do |mr_id|
+          MediaResource.find(mr_id).update_attributes! \
+            params[:public].select{|k,v| (Constants::ACTIONS.include? k.to_sym) and (v == true or v == false)}
+        end
+      end
+
+      #update owner
+      if owner_id= (params[:owner] and params[:owner].to_i)
+        media_resource_ids.each do |mr_id|
+          MediaResource.find(mr_id).update_attributes! user_id: owner_id
+        end
+      end
+
+
+    end
 
     respond_to do |format|
       format.html 
