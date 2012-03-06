@@ -28,3 +28,4 @@ Then /^I see a list of other people's content that is visible to me$/ do
   find("#content_body2 .page_title_left", :text => "Öffentliche Inhalte")
 end
 
+

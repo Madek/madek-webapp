@@ -43,7 +43,14 @@ module Persona
         create_person
         create_user
         create_dropbox_dir if  AppSettings.dropbox_root_dir
-        create_resources
+        
+        # CREATE NORMINS RESOURCES
+        create_abgabe_zum_kurs_product_design
+        create_fotografie_kurs_hs_2010
+        create_meine_ausstellungen
+        create_meine_highlights
+        create_dropbox_set
+        create_diplomarbeit_2012
       end
     end
 
@@ -63,104 +70,117 @@ module Persona
       FileUtils.mkdir_p(user_dropbox_root_dir)
       File.new(user_dropbox_root_dir).chmod(0770)
     end
-
-    def create_resources
-      ## Abgabe zum Kurs Product Design
-      set = Factory(:media_set, :user => @user)
-      set.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Abgabe zum Kurs Product Design"}}})
-        entry = Factory(:media_entry, :user => @user)
-        entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Abgabe"}}})
-        set.media_entries << entry
-        entry = Factory(:media_entry, :user => @user)
-        entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Konzept"}}})
-        set.media_entries << entry
-      permission = Factory(:userpermission, :media_resource => set, :user => Factory(:user))
-      permission.view = true 
-      permission.edit = false 
-      permission.manage = false 
-      permission.download = false
-      permission.save 
-        
-      ## Fotografie Kurs HS 2010
-      set = Factory(:media_set, :user => @user)
-      set.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Fotografie Kurs HS 2010"}}})
-        entry = Factory(:media_entry, :user => @user)
-        entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Portrait"}}})
-        set.media_entries << entry
-        entry = Factory(:media_entry, :user => @user)
-        entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Stilleben"}}})
-        set.media_entries << entry
-      set.view = true
-      set.save
-      
-      # Meine Ausstellungen
-      meine_ausstellungen = Factory(:media_set, :user => @user)
-      meine_ausstellungen.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Meine Ausstellungen"}}})
-      
-      # Meine Highlights 2012
-      meine_highlights = Factory(:media_set, :user => @user)
-      meine_highlights.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Meine Highlights 2012"}}})
-      
-      ## Diplomarbeit 2012
-      diplomarbeit_2012 = Factory(:media_set, :user => @user)
-      diplomarbeit_2012.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Diplomarbeit 2012"}}})
-      
-      ## Dropbox
-      dropbox = Factory(:media_set, :user => @user)
-      dropbox.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Dropbox"}}})
-        
-        # Präsentation
-        praesentation = Factory(:media_entry, :user => @user)
-        praesentation.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Präsentation"}}})
-        diplomarbeit_2012.media_entries << praesentation
-        
-        ## Ausstellungen
-        ausstellungen = Factory(:media_set, :user => @user)
-        ausstellungen.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Ausstellungen"}}})
-        ausstellungen.parent_sets << [diplomarbeit_2012, meine_highlights, meine_ausstellungen, dropbox]
-          
-          ## Ausstellung Photos 1 bis 4
-          4.times do |i|
-            entry = Factory(:media_entry, :user => @user)
-            entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Ausstellung Photo #{i}"}}})
-            ausstellungen.media_entries << entry
-          end
-          
-          ## Ausstellung ZHdK
-          ausstellung_zhdk = Factory(:media_set, :user => @user)
-          ausstellung_zhdk.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Ausstellung ZHdK"}}})
-          ausstellungen.child_sets << ausstellung_zhdk
-          
-          ## Ausstellung Museum Zürich
-          ausstellung_museum = Factory(:media_set, :user => @user)
-          ausstellung_museum.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Ausstellung Museum Zürich"}}})
-          ausstellungen.child_sets << ausstellung_museum
-          
-          ## Ausstellung Photo 5
-          entry = Factory(:media_entry, :user => @user)
-          entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Ausstellung Photo 5"}}})
-          ausstellungen.media_entries << entry
-          
-          ## Ausstellung Gallerie Limatquai
-          ausstellung_limatquai = Factory(:media_set, :user => @user)
-          ausstellung_limatquai.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Ausstellung Gallerie Limatquai"}}})
-          ausstellungen.child_sets << ausstellung_limatquai
-          
-        ## Konzepte
-        konzepte = Factory(:media_set, :user => @user)
-        konzepte.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Konzepte"}}})
-        diplomarbeit_2012.child_sets << konzepte
-          
-          ## Erster Entwurf
-          entry = Factory(:media_entry, :user => @user)
-          entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Erster Entwurf"}}})
-          konzepte.media_entries << entry
-          
-          ## Bedinungskonzept
-          entry = Factory(:media_entry, :user => @user)
-          entry.update_attributes({:meta_data_attributes => {0 => {:meta_key_label => "title", :value => "Bedinungskonzept"}}})
-          konzepte.media_entries << entry 
-    end    
-      
+    
+    def create_abgabe_zum_kurs_product_design # Abgabe zum Kurs Product Design
+      @abgabe_zum_kurs_product_design_set = Factory(:media_set,
+                                                    :user => @user, 
+                                                    :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Abgabe zum Kurs Product Design"}})
+      Factory(:userpermission, 
+              :media_resource => @abgabe_zum_kurs_product_design_set, 
+              :user => Factory(:user), 
+              :view => true, 
+              :edit => false, 
+              :manage => false, 
+              :download => false)
+      @abgabe_zum_kurs_product_design_abgabe = Factory(:media_entry, 
+                                                       :user => @user, 
+                                                       :media_sets => [@abgabe_zum_kurs_product_design_set], 
+                                                       :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Abgabe"}})
+      @abgabe_zum_kurs_product_design_konzepte = Factory(:media_entry, 
+                                                         :user => @user, 
+                                                         :media_sets => [@abgabe_zum_kurs_product_design_set], 
+                                                         :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Konzepte"}})    
+    end
+    
+    def create_fotografie_kurs_hs_2010 # Fotografie Kurs HS 2010
+      @fotografie_kurs_hs_2010_set = Factory(:media_set, 
+                                             :user => @user,
+                                             :view => true,
+                                             :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Fotografie Kurs HS 2010"}})
+      @fotografie_kurs_hs_2010_portrait = Factory(:media_entry,
+                                                  :user => @user, 
+                                                  :media_sets => [@fotografie_kurs_hs_2010_set], 
+                                                  :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Portrait"}})
+      @fotografie_kurs_hs_2010_stillleben = Factory(:media_entry, 
+                                                    :user => @user, 
+                                                    :media_sets => [@fotografie_kurs_hs_2010_set], 
+                                                    :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Stilleben"}})
+    end
+    
+    def create_meine_ausstellungen # Meine Ausstellungen
+      @meine_ausstellungen_set = Factory(:media_set, 
+                                         :user => @user,
+                                         :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Meine Ausstellungen"}})
+    end
+    
+    def create_meine_highlights # Meine Highlights
+      @meine_highlights_set = Factory(:media_set, 
+                                      :user => @user,
+                                      :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Meine Highlights 2012"}})
+    end
+    
+    def create_dropbox_set
+      @dropbox_set = Factory(:media_set, 
+                             :user => @user,
+                             :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Dropbox"}})
+    end
+    
+    def create_diplomarbeit_2012
+      @diplomarbeiten_2012_set = Factory(:media_set, 
+                                         :user => @user,
+                                         :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Diplomarbeit 2012"}})
+      @diplomarbeiten_2012_prasentation = Factory(:media_entry, 
+                                                  :user => @user, 
+                                                  :media_sets => [@diplomarbeiten_2012_set], 
+                                                  :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Präsentation"}})
+      @diplomarbeiten_2012_ausstellungen = Factory(:media_set, 
+                                                   :user => @user, 
+                                                   :parent_sets => [@diplomarbeiten_2012_set, @meine_highlights_set, @meine_ausstellungen_set, @dropbox_set], 
+                                                   :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Ausstellungen"}})
+      @diplomarbeiten_2012_austellung_photo_1 = Factory(:media_entry, 
+                                                        :user => @user, 
+                                                        :media_sets => [@diplomarbeiten_2012_ausstellungen], 
+                                                        :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Ausstellung Photo 1"}})    
+      @diplomarbeiten_2012_austellung_photo_2 = Factory(:media_entry, 
+                                                        :user => @user, 
+                                                        :media_sets => [@diplomarbeiten_2012_ausstellungen], 
+                                                        :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Ausstellung Photo 2"}})    
+      @diplomarbeiten_2012_austellung_photo_3 = Factory(:media_entry, 
+                                                        :user => @user, 
+                                                        :media_sets => [@diplomarbeiten_2012_ausstellungen], 
+                                                        :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Ausstellung Photo 3"}})    
+      @diplomarbeiten_2012_austellung_photo_4 = Factory(:media_entry, 
+                                                        :user => @user, 
+                                                        :media_sets => [@diplomarbeiten_2012_ausstellungen], 
+                                                        :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Ausstellung Photo 4"}})    
+      @diplomarbeiten_2012_ausstellungen_zhdk_set = Factory(:media_set, 
+                                                            :user => @user, 
+                                                            :parent_sets => [@diplomarbeiten_2012_ausstellungen], 
+                                                            :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Ausstellung ZHdK"}})                                                  
+      @diplomarbeiten_2012_ausstellungen_museum_zuerich_set = Factory(:media_set, 
+                                                                      :user => @user, 
+                                                                      :parent_sets => [@diplomarbeiten_2012_ausstellungen], 
+                                                                      :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Ausstellung Museum Zürich"}})
+      @diplomarbeiten_2012_austellung_photo_5 = Factory(:media_entry, 
+                                                        :user => @user, 
+                                                        :media_sets => [@diplomarbeiten_2012_ausstellungen], 
+                                                        :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Ausstellung Photo 5"}})
+      @diplomarbeiten_2012_ausstellungen_limatquai_set = Factory(:media_set, 
+                                                                 :user => @user, 
+                                                                 :parent_sets => [@diplomarbeiten_2012_ausstellungen], 
+                                                                 :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Ausstellung Gallerie Limatquai"}})                                              
+      @diplomarbeiten_2012_konzepte = Factory(:media_set, 
+                                              :user => @user, 
+                                              :parent_sets => [@diplomarbeiten_2012_set], 
+                                              :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Konzepte"}})
+      @diplomarbeiten_2012_konzepte_erster_entwurf = Factory(:media_entry, 
+                                                             :user => @user, 
+                                                             :media_sets => [@diplomarbeiten_2012_konzepte], 
+                                                             :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Erster Entwurf"}})
+      @diplomarbeiten_2012_konzepte_zweiter_entwurf = Factory(:media_entry, 
+                                                              :user => @user, 
+                                                              :media_sets => [@diplomarbeiten_2012_konzepte], 
+                                                              :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Zweiter Entwurf"}})
+    end
   end  
 end
