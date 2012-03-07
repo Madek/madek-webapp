@@ -20,20 +20,21 @@ Feature: Ownership
   Background: Load the example data and personas
    Given I have set up the world
      And personas are loaded
+     And I am "Normin"
 
   # https://www.pivotaltracker.com/story/show/23669443
   Scenario: Only one owner per resource
-    Given a resource owned by me
-     When I change the owner to "Susanne Schumacher" # TODO: Use personas here
+     When I change the owner to "Adam"
      Then I am no longer the owner
-      And the resource is owned by "Susanne Schumacher"
+      And the resource is owned by "Adam"
  
   # https://www.pivotaltracker.com/story/show/23669443
+  @javascript
   Scenario: Groups cannot be owners
-    Given a resource owned by me
-     When I want to change the owner
-     Then I can choose only users
-      And I can not choose any groups
+     When I open the set called "Diplomarbeit 2012"
+      And I want to change the owner
+     Then I can choose only users as owner
+      And I can not choose any groups as owner
 
   # https://www.pivotaltracker.com/story/show/23669443
   Scenario: Interface for changing owners
@@ -42,22 +43,17 @@ Feature: Ownership
      Then I can use some interface to change the resource's owner to "Susanne Schumacher"
 
   # https://www.pivotaltracker.com/story/show/23669443
+  @javascript
   Scenario: Only owners can change ownership
-    Given a resource owned by "Susanne Schumacher"
-     When I want to change the owner
-     Then I get an error message
-      And the resource is owned by "Susanne Schumacher"
+    When I open a media resource owned by someone else
+    Then I cannot change the owner 
 
   # https://www.pivotaltracker.com/story/show/23669443
+  @javascript
   Scenario: Owners have all permissions on a resource
-    Given a resource owned by "Susanne Schumacher"
-     When I look at the permissions on that resource
-     Then the resource has the following permissions:
-     |user              |permission       |value|
-     |Susanne Schumacher|view             |yes  |
-     |Susanne Schumacher|download original|yes  |
-     |Susanne Schumacher|edit             |yes  |
-     |Susanne Schumacher|manage           |yes  |
+    When I open a one of my resources
+    When I open the permission lightbox
+    Then I should have all permissions
 
   # https://www.pivotaltracker.com/story/show/23669443
   Scenario: Owners can assign permissions to other people
@@ -83,6 +79,7 @@ Feature: Ownership
      Then both resources are owned by "Susanne Schumacher"
 
   # https://www.pivotaltracker.com/story/show/23669443
+  @javascript
   Scenario: A resource's creator is automatically its owner
     When I create a resource
     Then I am the owner of that resource
@@ -113,11 +110,13 @@ Feature: Ownership
      And I see a list of other people's content that is visible to me
 
   # https://www.pivotaltracker.com/story/show/24839993
+  @javascript
   Scenario: Seeing the owner of content
-    When I view a media entry
-    Then I see who is the owner of the media entry
-    When I view a media set
-    Then I see who is the owner of the media set
+    Given I am "Normin"
+     When I open a media entry
+     Then I see who is the owner
+     When I open a media set
+     Then I see who is the owner
 
   @glossary
   Scenario: Owner
