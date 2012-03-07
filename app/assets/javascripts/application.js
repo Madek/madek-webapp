@@ -18,11 +18,11 @@
 //= require video-js/video
 //= require department-selection/department-selection
 //= require set-widget/set-widget 
-//= require resources/item-box
 //= require mediaset-popup/mediaset-popup
 //= require permission-preset/permission-preset
 //= require permission/permission
 //= require iframe-wrapper/iframe-wrapper
+//= require_tree ./media_resource
 
 /////////// Tmpl /////////////
 //= require_tree ./tmpl/
