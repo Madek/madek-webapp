@@ -18,8 +18,7 @@
               = link_to _("Zugriffsberechtigungen"), "#",
                 :class => "tab-permission ir open_permission_lightbox", 
                 :"data-media_resource_ids" => "[#{@media_entry.id}]",
-                :"data-current_user" => "#{current_user.to_json(:only=>:id, :include => :groups)}",
-                :"data-media_resources" => "[#{@media_entry.to_json(:with => {:media_resource => {:title => 1, :author => 1, :image => {:size => :small}}})}]"
+                :"data-current_user" => "#{current_user.to_json(:only=>:id, :include => :groups)}"
             %li.tab-activity
               = link_to _("Aktivitäten"), "#", :class => "tab-activity ir", :rel => "tab-activity"
           #tab-info.clearfix
