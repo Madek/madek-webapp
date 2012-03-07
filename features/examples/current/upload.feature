@@ -10,7 +10,7 @@ Feature: Upload
       And I am "Normin"
 
   # https://www.pivotaltracker.com/story/show/24559407 -> Zugriffsberechtigungen beim Upload: Gleich wie bei Medieneintrag editieren
-  @committed @javascript
+  @javascript
   Scenario: Setting permissions during upload
     When I upload a file
     Then the file is attached to a media entry
@@ -51,28 +51,28 @@ Feature: Upload
      And I add the media entry to a set called "Konzepte"
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
-  @committed @javascript
+  @javascript
   Scenario: Uploading large files
     When I upload a file with a file size greater than 1.4 GB
     Then the system gives me a warning telling me it's impossible to upload so much through the browser
      And the warning includes instructions for an FTP upload
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
-  @committed @javascript
+  @javascript
   Scenario: Uploading via a dropbox
     When I have uploaded some files to my dropbox
      And I start a new upload process
     Then I can choose files from my dropbox instead of uploading them through the browser
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
-  @committed @javascript
+  @javascript
   Scenario: Recursively searching for importable files in my dropbox
     When I have uploaded a directory containing files to my dropbox
      And I start a new upload process
     Then I can choose files from my dropbox instead of uploading them through the browser
   
   # https://www.pivotaltracker.com/story/show/24564545 -> Upload abbrechen können   
-  @committed @javascript
+  @javascript
   Scenario: Cancelling my upload
     When I have started uploading some files
      And I cancel the upload
@@ -80,7 +80,7 @@ Feature: Upload
      And the uploaded files are still there
   
   # https://www.pivotaltracker.com/story/show/24564505 -> Dateien nach Upload aber vor Import löschen   
-  @committed @javascript
+  @javascript
   Scenario: Deleting files before, during and after upload without completing the import
     When I uploading some files from the dropbox and from the filesystem
      And I delete some fo those after the upload
