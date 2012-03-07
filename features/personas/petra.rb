@@ -58,3 +58,53 @@
 #   wenn eigene Medien dort sind. Sie gruppiert diese in einem
 #   "Test-Set" und nimmt sich vor, das Medienarchiv beim nächsten
 #   Projekt zur Verwaltung ihrer eigenen Medien zu verwenden
+
+
+module Persona
+  
+  class Petra
+    
+    @@name = "Petra"
+    @@lastname = "Paula"
+    @@password = "password"
+    
+    def initialize
+      ActiveRecord::Base.transaction do 
+        create_person
+        create_user
+        
+        # PETRAS'S RESOURCES
+        create_test_set
+      end
+    end
+
+    def create_person
+      @name = @@name
+      @lastname = @@lastname  
+      @person = Factory(:person, firstname: @name, lastname: @lastname)
+    end
+
+    def create_user
+      @crypted_password = Digest::SHA1.hexdigest(@@password)
+      @user = Factory(:user, :person => @person, :login => @name.downcase, :password => @crypted_password)
+    end
+
+    def create_test_set # Test Set
+      @mein_test_set = Factory(:media_set,
+                               :user => @user, 
+                               :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Mein Test Set"}})
+      Factory(:userpermission, 
+              :media_resource => @mein_test_set, 
+              :user => Persona.get(:normin), 
+              :view => true, 
+              :edit => false, 
+              :manage => false, 
+              :download => false)
+      @mein_erstes_photo = Factory(:media_entry, 
+                                   :user => @user, 
+                                   :view => true,
+                                   :media_sets => [@mein_test_set], 
+                                   :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Mein Erstes Photo (mit der neuen Nikon)"}})
+    end
+  end  
+end
