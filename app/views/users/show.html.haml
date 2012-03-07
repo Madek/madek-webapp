@@ -28,7 +28,7 @@
   // TODO dry => batch_actions.js
   $(document).ready(function () {
     function display_entries(entries, container){
-      $(container).html($.tmpl("tmpl/media_resources/thumb_box", entries, {with_checkbox: false}));
+      $(container).html($.tmpl("tmpl/media_resource/thumb_box", entries, {with_checkbox: false}));
     }
     
     var per_page = 10;
