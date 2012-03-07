@@ -91,7 +91,10 @@ class UploadController < ApplicationController
 
 ##################################################
 # step 2
-# NOTE get permissions_upload_path
+
+  def permissions
+    
+  end 
 
 ##################################################
 # step 3
