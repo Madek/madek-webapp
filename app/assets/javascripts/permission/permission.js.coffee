@@ -24,17 +24,19 @@ class Permission
       $(this).data("media_resources", media_resources)
       
     # OPEN DIALOG
-    dialog = Dialog.add
+    container = Dialog.add
       trigger: event.currentTarget
       dialogClass: "permission_lightbox"
-      content: $.tmpl("tmpl/permission/lightbox", {media_resource_ids: $(this).data("media_resource_ids") ,media_resources: $(this).data("media_resources")})
+      content: $.tmpl("tmpl/permission/container", {media_resource_ids: $(this).data("media_resource_ids"), media_resources: $(this).data("media_resources")})
       closeOnEscape: false
-    $(dialog).data("current_user", $(this).data("current_user"))
-    $(dialog).data("media_resource_ids", $(this).data("media_resource_ids"))
+    $(container).data("current_user", $(this).data("current_user"))
+    $(container).data("media_resource_ids", $(this).data("media_resource_ids"))
     
-    # LOAD/GET PERMISSION PRESETS
+    Permission.load_permission_presets container, event.currentTarget
+  
+  @load_permission_presets = (container, trigger) ->
     if sessionStorage.permission_presets?
-      Permission.load_permissions dialog, $(event.currentTarget).data("media_resource_ids")
+      Permission.load_permissions container, $(trigger).data("media_resource_ids")
     else
       $.ajax
         url: "/permission_presets.json"
@@ -43,9 +45,13 @@ class Permission
           format: "json"
         success: (data)->
           sessionStorage.permission_presets = JSON.stringify(data)
-          Permission.load_permissions dialog, $(event.currentTarget).data("media_resource_ids")
+          Permission.load_permissions container, $(trigger).data("media_resource_ids")
+          
+  @display = (container, media_resource_ids, media_resources)->
+    $(container).replaceWith $.tmpl("tmpl/permission/container", {media_resource_ids: media_resource_ids, media_resources: media_resources})
+    Permission.load_permissions $(container).find(".container"), media_resource_ids   
       
-  @load_permissions = (dialog, media_resource_ids)->
+  @load_permissions = (container, media_resource_ids)->
     $.ajax
       url: "/permissions.json"
       type: "GET"
@@ -57,48 +63,48 @@ class Permission
           groups: true
           owners: true
       success: (data)->
-        Permission.setup_permission_view dialog, data
-        Permission.setup_owners dialog, data
-        Permission.setup_permission_presets dialog
-        Permission.setup_read_only dialog, data
+        Permission.setup_permission_view container, data
+        #Permission.setup_owners container, data
+        #Permission.setup_permission_presets container
+        #Permission.setup_read_only container, data
         
-  @setup_permission_view = (dialog, data) ->
-    $(dialog).find(".permission_view").html $.tmpl("tmpl/permission/_permission_view", data, {current_user: $(dialog).data("current_user"), media_resource_ids: $(dialog).data("media_resource_ids")})
-    Dialog.checkScale(dialog)
-    Dialog.checkPosition(dialog)
+  @setup_permission_view = (container, data) ->
+    $(container).find(".permission_view").html $.tmpl("tmpl/permission/_permission_view", data, {current_user: $(container).data("current_user"), media_resource_ids: $(container).data("media_resource_ids")})
+    Dialog.checkScale(container)
+    Dialog.checkPosition(container)
     
-  @setup_read_only = (dialog, data) ->
+  @setup_read_only = (container, data) ->
     # Permissions Read Only
-    if JSON.stringify(data.you.manage) != JSON.stringify($(dialog).data("media_resource_ids"))
-      $(dialog).find("input, select, .select").attr("disabled", "disabled")
+    if JSON.stringify(data.you.manage) != JSON.stringify($(container).data("media_resource_ids"))
+      $(container).find("input, select, .select").attr("disabled", "disabled")
     
     # Ownership Read Only
-    if data.owners.length != 1 or data.owners[0].id != $(dialog).data("current_user").id
-      $(dialog).find(".owner input").attr("disabled", "disabled")
+    if data.owners.length != 1 or data.owners[0].id != $(container).data("current_user").id
+      $(container).find(".owner input").attr("disabled", "disabled")
     
-  @setup_owners = (dialog, data) ->
+  @setup_owners = (container, data) ->
     # setup a single owner
     if data.owners.length == 1
-      if $(dialog).find(".me .line").tmplItem().data.id == data.owners[0].id
-        $(dialog).find(".me .line:first .owner input").attr("checked", "checked")
-        $(dialog).find(".me .line:first div:not(.owner) input, .me .line:first select, .me .line:first .select").attr("disabled", "disabled")
+      if $(container).find(".me .line").tmplItem().data.id == data.owners[0].id
+        $(container).find(".me .line:first .owner input").attr("checked", "checked")
+        $(container).find(".me .line:first div:not(.owner) input, .me .line:first select, .me .line:first .select").attr("disabled", "disabled")
       else 
-        $(dialog).find(".users .line").each (i, user_line)->
+        $(container).find(".users .line").each (i, user_line)->
           if $(user_line).tmplItem().data.id == data.owners[0].id
             $(user_line).find(".owner input").attr("checked", "checked")
             $(user_line).find("div:not(.owner) input, div:not(.owner) select, div:not(.owner) .select").attr("disabled", "disabled")
     else # setup multiple owners (multiple selected resources)
       for owner in data.owners
-        if $(dialog).find(".me .line").tmplItem().data.id == owner.id
-          $(dialog).find(".me .line:first .owner label").addClass("mixed")
-          $(dialog).find(".me .line:first div:not(.owner) input, .me .line:first select, .me .line:first .select").attr("disabled", "disabled")
-        $(dialog).find(".users .line").each (i, user_line)->
+        if $(container).find(".me .line").tmplItem().data.id == owner.id
+          $(container).find(".me .line:first .owner label").addClass("mixed")
+          $(container).find(".me .line:first div:not(.owner) input, .me .line:first select, .me .line:first .select").attr("disabled", "disabled")
+        $(container).find(".users .line").each (i, user_line)->
           if $(user_line).tmplItem().data.id == owner.id
             $(user_line).find(".owner label").addClass("mixed")
             $(user_line).find("div:not(.owner) input, div:not(.owner) select, div:not(.owner) .select").attr("disabled", "disabled")
             
-  @setup_permission_presets = (dialog) ->
-    $(dialog).find("section .line").each (i, line)->
+  @setup_permission_presets = (container) ->
+    $(container).find("section .line").each (i, line)->
       line_settings = {}
       line_settings.view = if $(line).find(".view input:checked").length>0 then true else false
       line_settings.download = if $(line).find(".download input:checked").length>0 then true else false
