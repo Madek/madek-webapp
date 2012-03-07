@@ -61,25 +61,25 @@ class PermissionsController < ApplicationController
   # @optional [Integer] owner The user-id that will be set as owner for the defined MediaResources
   #
   # @optional [Array] users A collection of users that get the defined access for the defined MediaResources
-  # @optional [Hash] users[x] A hash representing a user-permission
-  # @optional [Integer] users[x].id The id of a specific user
-  # @optional [Boolean] users[x].view The view permission to set for the specified user and the defined MediaResources
-  # @optional [Boolean] users[x].download The download permission to set for the specified user and the defined MediaResources
-  # @optional [Boolean] users[x].edit The edit permission to set for the specified user and the defined MediaResources
-  # @optional [Boolean] users[x].manage The manage permission to set for the specified user and the defined MediaResources
+  # @optional [Hash] users[] A hash representing a user-permission
+  # @optional [Integer] users[].id The id of a specific user
+  # @optional [Boolean] users[].view The view permission to set for the specified user and the defined MediaResources
+  # @optional [Boolean] users[].download The download permission to set for the specified user and the defined MediaResources
+  # @optional [Boolean] users[].edit The edit permission to set for the specified user and the defined MediaResources
+  # @optional [Boolean] users[].manage The manage permission to set for the specified user and the defined MediaResources
   #
   # @optional [Array] groups A collection of groups that get the defined access for the defined MediaResources
-  # @optional [Hash] group[x] A hash representing a group-permission
-  # @optional [Integer] groups[x].id The id of a specific group
-  # @optional [Boolean] groups[x].view The view permission to set for the specified group and the defined MediaResources
-  # @optional [Boolean] groups[x].download The download permission to set for the specified group and the defined MediaResources
-  # @optional [Boolean] groups[x].edit The edit permission to set for the specified group and the defined MediaResources
-  # @optional [Boolean] groups[x].manage The manage permission to set for the specified group and the defined MediaResourc
+  # @optional [Hash] group[] A hash representing a group-permission
+  # @optional [Integer] groups[].id The id of a specific group
+  # @optional [Boolean] groups[].view The view permission to set for the specified group and the defined MediaResources
+  # @optional [Boolean] groups[].download The download permission to set for the specified group and the defined MediaResources
+  # @optional [Boolean] groups[].edit The edit permission to set for the specified group and the defined MediaResources
+  # @optional [Boolean] groups[].manage The manage permission to set for the specified group and the defined MediaResourc
   #
   # @optional [Hash] public The permission hash to set for public.
-  # @optional [Boolean] public[x].view The public view permission to set for the defined MediaResources
-  # @optional [Boolean] public[x].download The public download permission to set for the defined MediaResources
-  # @optional [Boolean] public[x].edit The public edit permission to set for the defined MediaResources
+  # @optional [Boolean] public[].view The public view permission to set for the defined MediaResources
+  # @optional [Boolean] public[].download The public download permission to set for the defined MediaResources
+  # @optional [Boolean] public[].edit The public edit permission to set for the defined MediaResources
   #
   # @example_request {"media_resources_ids": [1,2,3], "owner": 15} Sets the owner for the MediaResources 1,2 and 3 to the user with id 15
   # @example_response "" (empty response body with status: 200 OK)
