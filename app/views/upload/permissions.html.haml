@@ -1,0 +1,9 @@
+#upload-container.edit_metadata
+  .clearfix{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
+    #permissions
+    
+:javascript
+  
+  $(document).ready(function(){
+    Permission.display($("#permissions"), #{@media_entries.map(&:id).to_json}, [#{@media_entry.to_json(:with => {:media_resource => {:title => 1, :author => 1, :image => {:size => :small}}})}]);
+  });
