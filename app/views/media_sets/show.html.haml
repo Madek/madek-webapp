@@ -114,7 +114,7 @@
     $("#parents").hide();
         
     // setup parents of current sets
-    $("#parents").append($.tmpl("tmpl/media_resources/thumb_box", #{@parents.to_json}));
+    $("#parents").append($.tmpl("tmpl/media_resource/thumb_box", #{@parents.to_json}));
     
     // show parents toggle
     $(".set_parents_title").click(function(){
