@@ -1,16 +1,16 @@
 @import "../mixins";
 
-.ui-dialog.permission_lightbox {
-  height: auto !important;
-  width: 900px !important;
-  
-  .ui-dialog-titlebar {
-    display: none;
-  }
+#permissions {
   
   h2 {
     padding-bottom: 6px;
     margin-top: 14px;
+  }
+  
+  p { 
+    float: left;
+    margin-bottom: 0;
+    width: 50%; 
   }
   
   h3 {
@@ -26,21 +26,24 @@
     @include border-radius(4px);
   }
   
-  .media_resources {
+  .media_resource_selection {
     background: #EEE;
     display: block;
-    height: 250px;
-    margin-bottom: 22px;
+    height: 163px;
+    margin-bottom: 28px;
+    margin-top: 10px;
     padding: 4px 4px 0;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: auto;
     @include box-shadow(inset 0 1px 4px rgba(0,0,0,0.2));
     @include border-radius(4px);
     
     .item_box {
-      background: #FFF !important;
-      border: 1px solid rgba(0,0,0,0);
+      background: transparent !important;
+      border: none !important;
+      height: 140px;
       @include border-radius(4px);
+      
+      .item_title, .item_author { display: none; }
     }
   }
   
@@ -91,7 +94,7 @@
       display: inline-block;
       height: 17px;
       padding-left: 22px;
-      width: 250px;
+      width: 200px;
     }
     
     .owner {
@@ -162,8 +165,9 @@
       display: inline-block;
       height: 21px;
       margin-right: 24px;
+      margin-left: 21px;
       padding-left: 7px;
-      padding-top: 3px;
+      padding-top: 4px;
       vertical-align: bottom;
       width: 21px;
     }
@@ -171,7 +175,7 @@
     .permissions {
       display: inline-block;
       padding-left: 24px;
-      width: 250px;
+      width: 318px;
     }
    
     &.head { 
@@ -180,33 +184,21 @@
       font-weight: bold;
       margin-top: 20px;
       
-      .icon {
-        //background: #FAFAFA;
-        //border: 1px solid #DADADA;
-        display: inline-block;
-        height: 24px;
-        left: 2px;
-        margin-right: 28px;
-        position: relative;
-        top: 8px;
-        width: 24px;
-        @include border-radius(3px);
-        //@include box-shadow(0 0 2px rgba(0,0,0,0.2));
-        
-        &.view {
-          background: url(icons/madek_icon_sprites.png) -276px -1122px no-repeat;
+      &>div {
+        vertical-align: middle;
+      }
+      
+      .permissions {
+        &>div {
+          font-size: 0.8em;
+          float: left;
+          text-align: center;
+          width: 77px;
+          line-height: 1em;
         }
         
-        &.download {
-          background: url(icons/madek_icon_sprites.png) -332px -1122px no-repeat;
-        }
-        
-        &.edit {
-          background: url(icons/madek_icon_sprites.png) -388px -1122px no-repeat;
-        }
-        
-        &.manage {
-          background: url(icons/madek_icon_sprites.png) -444px -1122px no-repeat;
+        .view, .edit {
+          padding-top: 4px;
         }
       }
     }
@@ -309,3 +301,4 @@
     }
   }
 }
+  

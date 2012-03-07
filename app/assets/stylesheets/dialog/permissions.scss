@@ -1,0 +1,10 @@
+@import "../mixins";
+
+.ui-dialog.permission_lightbox {
+  height: auto !important;
+  width: 900px !important;
+  
+  .ui-dialog-titlebar {
+    display: none;
+  }
+}
