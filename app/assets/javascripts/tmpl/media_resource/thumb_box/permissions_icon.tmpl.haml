@@ -1,0 +1,10 @@
+.item_permission
+  {{if is_public}}
+  .icon_status_perm_public{:title => "Diese Medienresource ist öffentlich zugänglich."}
+  {{/if}}
+  {{if is_private}}
+  .icon_status_perm_private{:title => "Diese Medienresource ist nur für Sie zugänglich."}
+  {{/if}}
+  {{if is_shared}}
+  .icon_status_perm_shared{:title => "Diese Medienresource wurde mit Anderen geteilt."}
+  {{/if}}
