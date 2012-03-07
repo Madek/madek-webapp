@@ -1,7 +1,7 @@
 .line
   .subject{:title => "${name}"}
     {{if name}}
-    = "${Underscore.truncate(name, 30)}"
+    = "${Underscore.truncate(name, 22)}"
     {{/if}}
     {{if $item.is_public}}
     = "Öffentlichkeit"
@@ -38,14 +38,14 @@
     
     {{if download}}
     {{if JSON.stringify(download)==JSON.stringify($item.media_resource_ids)}}
-    %label.download.permission{:title => "Volle Auflösung herunterladen"}
+    %label.download.permission{:title => "Download Original"}
       = check_box_tag 'download_${id}', "true", true
     {{else}}
     {{if download.length>0}}
-    %label.download.permission.mixed{:title => "Volle Auflösung herunterladen"}
+    %label.download.permission.mixed{:title => "Download Original"}
       = check_box_tag 'download_${id}'
     {{else}}
-    %label.download.permission{:title => "Volle Auflösung herunterladen"}
+    %label.download.permission{:title => "Download Original"}
       = check_box_tag 'download_${id}'
     {{/if}}
     {{/if}}
@@ -68,14 +68,14 @@
     
     {{if manage}}
     {{if JSON.stringify(manage)==JSON.stringify($item.media_resource_ids)}}
-    %label.manage.permission{:title => "Manage"}
+    %label.manage.permission{:title => "Berechtigung verwalten"}
       = check_box_tag 'manage_${id}', "true", true
     {{else}}
     {{if manage.length>0}}
-    %label.manage.permission.mixed{:title => "Manage"}
+    %label.manage.permission.mixed{:title => "Berechtigung verwalten"}
       = check_box_tag 'manage_${id}'
     {{else}}   
-    %label.manage.permission{:title => "Manage"}
+    %label.manage.permission{:title => "Berechtigung verwalten"}
       = check_box_tag 'manage_${id}'   
     {{/if}}
     {{/if}}

@@ -1,0 +1,57 @@
+#permissions
+  .container
+    %h2= "Zugriffsberechtigungen"
+    %p
+      {{if media_resources.length == 1}}
+      = "1 Medieneintrag ausgewählt"
+      {{else}}
+      = "${media_resources.length} Medieneinträge ausgewählt"
+      {{/if}}
+    .media_resource_selection_view_switch
+      %a.active{:"data-switch_target" => ".media_resource_selection.switchable .media"}= "Medienansicht"
+      %a{:"data-switch_target" => ".media_resource_selection.switchable .table"}= "Tabellenansicht"
+    
+    .clear
+    
+    %section.media_resource_selection.switchable
+      .media.active
+        {{tmpl(media_resources) "tmpl/media_resource/image"}}
+      .table
+        %table
+          %tr.head
+            %td.image
+            %td.title_author= "Titel und Autor/in"
+            %td.date= "Datierung"
+            %td.tags= "Schlagworte"
+            %td.credits= "Rechte"
+            %td.upload= "Hochgeladen"
+          {{tmpl(media_resources) "tmpl/media_resource/table_row"}}  
+  
+    .line.head
+      .subject
+      .owner= "Besitzer"
+      .preset= "Berechtigung"
+      .permissions
+        .view{:title => "Betrachten"}
+          = "Betrachten"
+        .download{:title => "Download Original"}
+          = "Download"
+          %br
+          = "Original"
+        .edit{:title => "Editieren"}
+          = "Editieren"
+        .manage.icon{:title => "Berechtigung verwalten"}
+          = "Berechtigung"
+          %br
+          = "verwalten"
+  
+    %section.permission_view
+      .loading
+        = image_tag "loading.gif"
+        = "Lade Berechtigungen"
+    
+    %section.actions
+      %a.cancel
+        = "Abbrechen"
+      %a.upload_buttons.save.disabled{:tabindex => 1}
+        = "Speichern"
