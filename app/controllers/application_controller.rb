@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
       format.html { flash[:error] = msg
                     redirect_to (request.env["HTTP_REFERER"] ? :back : root_path)
                   } 
-      format.js { render :json => {error: msg}, :status => 500}
+      format.json { render :json => {error: msg}, :status => 500}
     end
   end
 
@@ -95,7 +95,7 @@ class ApplicationController < ActionController::Base
       check_usage_terms_accepted
 
     # TODO remove this when public open OR logged in through API
-    elsif (request[:controller] == "media_sets" and request[:action] == "show" and request[:id].to_i == AppSettings.splashscreen_slideshow_set_id) or
+    elsif request.format.to_sym == :json or
           (request[:controller] == "resources" and request[:action] == "image")
       @current_user = user = User.new
 

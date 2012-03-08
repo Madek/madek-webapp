@@ -75,7 +75,7 @@ class ResourcesController < ApplicationController
                    
     respond_to do |format|
       format.html
-      format.js { render :json => @resources }
+      format.json { render :json => @resources }
     end
   end
 
@@ -116,7 +116,7 @@ class ResourcesController < ApplicationController
                     :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
   
       respond_to do |format|
-        format.js { render :json => @resources.to_json }
+        format.json { render :json => @resources.to_json }
       end
 
     else
@@ -158,7 +158,7 @@ class ResourcesController < ApplicationController
     
     respond_to do |format|
       #format.html { redirect_to @media_set }
-      format.js { 
+      format.json { 
         render :json => child_resources.as_json(:user => current_user, :methods => :parent_ids) 
       }
     end

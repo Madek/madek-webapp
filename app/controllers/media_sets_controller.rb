@@ -72,7 +72,7 @@ class MediaSetsController < ApplicationController
         end
       }
       
-      format.js {
+      format.json {
         
         sets = unless child_ids.blank?
           MediaResource.where(:id => child_ids).flat_map do |child|
@@ -177,9 +177,6 @@ class MediaSetsController < ApplicationController
   def inheritable_contexts
     @inheritable_contexts = @media_set.inheritable_contexts
     respond_to do |format|
-      #format.js { render :json => @inheritable_contexts}
-      #format.html{render :text => "Use JSON", :status => 406}
-      #format.html{render :text => "Use JSON"}
       format.json{render :json => @inheritable_contexts}
     end
 
@@ -237,7 +234,7 @@ class MediaSetsController < ApplicationController
           redirect_to :back
         end
       }
-      format.js {
+      format.json {
         r = @media_sets ? @media_sets : @media_set
         render :json => r.as_json(:user => current_user), :status => (is_saved ? 200 : 500)
       }
@@ -265,7 +262,7 @@ class MediaSetsController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_to user_resources_path(current_user, :type => "media_sets") }
-      format.js { render :json => {:id => @media_set.id} }
+      format.json { render :json => {:id => @media_set.id} }
     end
   end
 
@@ -297,12 +294,6 @@ class MediaSetsController < ApplicationController
             redirect_to @media_set
           end
           } # OPTIMIZE
-#temp3#
-#        format.js { 
-#          render :update do |page|
-#            page.replace_html 'flash', flash_content
-#          end
-#        }
       end
     else
       @media_sets = @user.media_sets
@@ -349,7 +340,7 @@ class MediaSetsController < ApplicationController
     
     respond_to do |format|
       #format.html { redirect_to @media_set }
-      format.js { 
+      format.json { 
         render :json => child_media_sets.as_json(:user => current_user, :methods => :parent_ids) 
       }
     end

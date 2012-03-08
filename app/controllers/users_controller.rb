@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.js { render :json => users.map {|x| {:id => x.id, :value => x.to_s} } }
+      format.json { render :json => users.map {|x| {:id => x.id, :value => x.to_s} } }
     end
   end
 

@@ -25,7 +25,7 @@ function SetWidget() {
       },
       success: function(data, status, request) {
         if(data.length > 0) {
-          $(target).data("items", JSON.parse(data));
+          $(target).data("items", data);
         } else {
           $(target).data("items", null);
         }
@@ -53,7 +53,7 @@ function SetWidget() {
       },
       success: function(data, status, request) {
         if(data.length > 0) {
-          $(target).data("linked_items", JSON.parse(data));
+          $(target).data("linked_items", data);
         } else {
           $(target).data("linked_items", null);
         }
@@ -313,10 +313,7 @@ function SetWidget() {
     
     $.ajax({
       url: $(target).data("create").path,
-      beforeSend: function(request, settings){
-      },
-      success: function(data, status, request) {
-        var returned_items = JSON.parse(data);
+      success: function(returned_items, status, request) {
         for(var i_returned = 0; i_returned < returned_items.length; i_returned++) {
           // add id to linked items in the link_stack which where created with the widget, because these just got ids after they are created on the server
           for(var i_linked = 0; i_linked < $(target).data("link_stack").length; i_linked++) {

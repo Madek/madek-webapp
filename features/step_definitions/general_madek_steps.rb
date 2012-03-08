@@ -2,6 +2,9 @@
 
 
 Given /^I have set up the world$/ do
+  # OPTIMIZE
+  DatabaseCleaner.clean
+  
   # Set this to a non-JS driver because:
   # 1. The Selenium driver times out during this step
   # 2. This step may be called in backgrounds of tests that have
