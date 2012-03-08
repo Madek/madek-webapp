@@ -14,5 +14,5 @@ Feature: File picker for uploading files
     When I go to the upload page
      And I atach a file with a size of 0 bytes
     Then I should see "Problem mit der ausgewählten Datei"
-     And I should see "Die von Ihnen ausgewählte Datei hat eine Dateigrösse von 0 Bytes und kann nicht hochgeladen werden."
+     And I should see "Dateigrösse ist Null"
      And I the file of 0 bytes was not added to the upload queue 
