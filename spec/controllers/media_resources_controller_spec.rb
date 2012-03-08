@@ -18,7 +18,7 @@ describe MediaResourcesController do
     end
     
     describe "as JSON" do
-      binding.pry
+      #binding.pry
       # TODO GO ON HERE TOMORRRROOOOOOOOOOW
     end
   end

@@ -56,10 +56,6 @@ end
 RSpec.configure do |config|
 
   config.before(:suite) do
-
-    # TODO do we still need this here: 
-    MetaHelper.import_initial_metadata
-
     DatabaseCleaner.strategy = :transaction
   end
 
