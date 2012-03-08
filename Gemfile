@@ -98,9 +98,12 @@ end
 group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
+  gem 'redcarpet' # yard-rest dependency
+end
+
+group :development, :production do
   gem "yard", "~> 0.7.4"
   gem "yard-rest", :git => "git://github.com/spape/yard-rest-plugin.git"
-  gem 'redcarpet' # yard-rest dependency
 end
 
 group :test do
