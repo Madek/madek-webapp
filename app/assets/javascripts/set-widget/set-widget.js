@@ -21,23 +21,12 @@ function SetWidget() {
     // call ajax for index
     $.ajax({
       url: $(target).data("index").path,
-      beforeSend: function(request, settings){
-      },
       success: function(data, status, request) {
-        if(data.length > 0) {
-          $(target).data("items", data);
-        } else {
-          $(target).data("items", null);
-        }
-        
-        if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
-          SetWidget.setup_widget(target);
-        }
+        $(target).data("items", data);
+        SetWidget.setup_widget(target);
       },
       error: function(request, status, error){
-        if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
-          SetWidget.setup_widget(target);
-        }
+        SetWidget.setup_widget(target);
       },
       data: $(target).data("index").data,
       type: $(target).data("index").method
@@ -49,23 +38,12 @@ function SetWidget() {
     
     $.ajax({
       url: $(target).data("linked_index").path,
-      beforeSend: function(request, settings){
-      },
       success: function(data, status, request) {
-        if(data.length > 0) {
-          $(target).data("linked_items", data);
-        } else {
-          $(target).data("linked_items", null);
-        }
-        
-        if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
-          SetWidget.setup_widget(target);
-        }
+        $(target).data("linked_items", data);
+        SetWidget.setup_widget(target);
       },
       error: function(request, status, error){
-        if($(target).data("linked_items") != undefined && $(target).data("items") != undefined && $(target).data("widget") != undefined) {
-          SetWidget.setup_widget(target);
-        }
+		SetWidget.setup_widget(target);
       },
       data: JSON.parse(linked_index_data_as_string),
       type: $(target).data("linked_index").method
@@ -86,10 +64,7 @@ function SetWidget() {
       .data("link_stack", [])
       .data("unlink_stack", []);
     
-    // check if data is already there
-    if($(target).data("items") != undefined && $(target).data("items") != null) {
-      SetWidget.setup_widget(target);
-    }
+	SetWidget.setup_widget(target);
     
     // bind window events resize and scroll to align widget method
     $(window).bind("resize scroll",function(){
@@ -155,21 +130,19 @@ function SetWidget() {
     for(var i = 0; i < $(target).data("link_stack").length; i++) {
       var link = $(target).data("link_stack")[i];
       // check id and uid for items not yet created
-      if(link.uid == undefined) {
-        if(link.id == item_data.id) {
-          $(target).data("link_stack").splice(i, 1);
-          break;
-        }
-      } else {
-        if(link.uid == item_data.uid) {
-          $(target).data("link_stack").splice(i, 1);
-          break;
-        }
+      if((link.uid == undefined && link.id == item_data.id) || link.uid == item_data.uid) {
+		$(target).data("link_stack").splice(i, 1);
+		break;
       }
     }
   }
   
   this.setup_widget = function(target) {
+    // check if data is already there
+    if($(target).data("linked_items") == undefined || $(target).data("items") == undefined || $(target).data("widget") == undefined) {
+    	return false;
+    }
+
     // remove start loading indicator
     $(target).data("widget").find(".loading").remove();
     
@@ -287,9 +260,9 @@ function SetWidget() {
   }
   
   this.disable_search = function(target) {
-    $(target).data("widget").find(".seach").attr("disabled", true);
-    $(target).data("widget").find(".seach input").attr("disabled", true);
-    $(target).data("widget").find(".seach .hint").hide();
+    $(target).data("widget").find(".search").attr("disabled", true);
+    $(target).data("widget").find(".search input").attr("disabled", true);
+    $(target).data("widget").find(".search .hint").hide();
   }
   
   this.submit_create_stack = function(target) {
