@@ -42,7 +42,7 @@ load_children = (target)->
     setup_children(target, $(target).data("loaded_children"))
   else
     $.ajax
-      url: "/media_sets/"+target.tmplItem().data.id
+      url: "/media_sets/"+target.tmplItem().data.id+".json"
       beforeSend: (request, settings) ->
         #before
       success: (data, status, request) ->
@@ -51,7 +51,6 @@ load_children = (target)->
       error: (request, status, error) ->
         console.log "ERROR LOADING"
       data:
-        format: "json"
         with: 
           media_set:
             media_resources:
@@ -66,7 +65,7 @@ load_parents = (target)->
     setup_parents(target, $(target).data("loaded_parents"))
   else
     $.ajax
-      url: "/media_sets/"+target.tmplItem().data.id
+      url: "/media_sets/"+target.tmplItem().data.id+".json"
       beforeSend: (request, settings) ->
         #before
       success: (data, status, request) ->
@@ -75,7 +74,6 @@ load_parents = (target)->
       error: (request, status, error) ->
         console.log "ERROR LOADING"
       data:
-        format: "json"
         with: 
           media_set:
             parent_sets:

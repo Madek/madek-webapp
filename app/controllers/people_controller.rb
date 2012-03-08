@@ -6,7 +6,7 @@ class PeopleController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.js { render :json => people.map {|x| {:caption => x.to_s, :value => x.id} } }
+      format.json { render :json => people.map {|x| {:caption => x.to_s, :value => x.id} } }
     end
   end
 
@@ -31,7 +31,7 @@ class PeopleController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.js { render :json => {:label => person.to_s, :id => person.id} }
+      format.json { render :json => {:label => person.to_s, :id => person.id} }
     end
   end
 end

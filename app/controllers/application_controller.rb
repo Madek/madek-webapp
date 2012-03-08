@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
       format.html { flash[:error] = msg
                     redirect_to (request.env["HTTP_REFERER"] ? :back : root_path)
                   } 
-      format.js { render :json => {error: msg}, :status => 500}
+      format.json { render :json => {error: msg}, :status => 500}
     end
   end
 

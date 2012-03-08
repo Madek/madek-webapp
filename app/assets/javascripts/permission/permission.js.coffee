@@ -41,8 +41,6 @@ class Permission
       $.ajax
         url: "/permission_presets.json"
         type: "GET"
-        data:
-          format: "json"
         success: (data)->
           sessionStorage.permission_presets = JSON.stringify(data)
           Permission.load_permissions container, $(trigger).data("media_resource_ids")
@@ -56,7 +54,6 @@ class Permission
       url: "/permissions.json"
       type: "GET"
       data:
-        format: "json"
         media_resource_ids: media_resource_ids
         with: 
           users: true
