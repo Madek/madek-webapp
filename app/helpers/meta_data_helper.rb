@@ -247,6 +247,7 @@ module MetaDataHelper
               }else{
                 $.ajax({
                   url: source.attr("href"),
+                  data: {format: 'js'},
                   dataType: 'html',
                   success: function(response){
                     source.children("img:last").toggleClass("expanded");
