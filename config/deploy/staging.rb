@@ -126,6 +126,11 @@ task :record_deploy_info do
   run "echo 'Deployed on #{deploy_date}' > #{release_path}/app/views/layouts/_deploy_info.erb" 
 end 
 
+task :generate_documentation do
+  run "cd #{release_path} && RAILS_ENV=production bundle exec rake app:doc:api"
+end
+
+
 task :clear_cache do
   # We have to run it this way (in a subshell) because Rails.cache is not available
   # in Rake tasks, otherwise we could stick a task into lib/tasks/madek.bundle exec rake
@@ -139,6 +144,7 @@ after "deploy:symlink", :link_config
 after "deploy:symlink", :link_attachments
 after "deploy:symlink", :configure_environment
 after "deploy:symlink", :record_deploy_info 
+after "deploy:symlink", :generate_documentation 
 
 after "link_config", :migrate_database
 after "link_config", "precompile_assets"
