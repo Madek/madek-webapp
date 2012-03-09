@@ -129,6 +129,10 @@ task :load_seed_data do
     run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:seed"
 end
 
+task :generate_documentation do
+  run "cd #{release_path} && RAILS_ENV=production bundle exec rake app:doc:api"
+end
+
 task :record_deploy_info do
   deploy_date = DateTime.parse(release_path.split("/").last)
   run "echo 'Deployed on #{deploy_date}' > #{release_path}/app/views/layouts/_deploy_info.erb"
@@ -147,6 +151,7 @@ after "deploy:symlink", :link_config
 after "deploy:symlink", :link_attachments
 after "deploy:symlink", :configure_environment
 after "deploy:symlink", :record_deploy_info
+after "deploy:symlink", :generate_documentation 
 
 after "link_config", :migrate_database
 after "link_config", "precompile_assets"
