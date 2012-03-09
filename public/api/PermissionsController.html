@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>
-  Class: MediaSetsController
+  Class: PermissionsController
   
     &mdash; MAdeK-API
   
@@ -79,6 +79,10 @@
 	</style>
 	<script type="text/javascript">
 		//<![CDATA[
+		  if (! window.location.href.match(/\/$/) && ! window.location.href.match(/\./)) {
+		    window.location.href = window.location.href+"/";
+		  }
+		
 			function setup_toc() {
 	 		  if ($('#content').length === 0) return;
 			  var _toc = $('<ol class="top"></ol>');
@@ -152,19 +156,89 @@
     
     <div id="content" style="padding-top: 12px;">
 		<div class="service">
-	<h1 class="noborder title">MAdeK-API</h1>
-  	<a href="index.html" title="back to the overview">&laquo; Overview</a>
-  	
-  <div id="Services" class="method_details_list">
-    <h2>MediaSets</h2>
+  <h1 class="noborder title">MAdeK-API</h1>
+    <a href="index.html" title="back to the overview">&laquo; Overview</a>
     
-		<h3 class="resource_url"><strong>/media_sets</strong> [GET]</h3>
-		<p>Get media sets</p>
+<p>Permissions are actions that specify if or if not a subject can perform
+those actions on a specific resource. Possible actions are: view, edit,
+manage, download</p>
+
+<div class="tags">
+  
+
+</div><div class="tags">
+  
+
+
+</div>
+  <div id="Services" class="method_details_list">
+    <h2>Permissions</h2>
+
+    
+		<h3 class="resource_url"><strong>/permissions</strong> [GET]</h3>
+		<p>Get permissions for a collection of resources</p>
 		
 		<div class="parameters">
 			<div class="required">
 				
 					<h4>Required Parameters</h4>
+					
+					<pre class="example_code required">required.text</pre>
+					
+				
+			</div>
+		
+			<div class="optional">
+				
+					<h4>Optional Parameters</h4>
+					
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+				
+			</div>
+		<div class="clear"></div>
+		</div>
+		
+		<div class="request_response">
+			<div class="requests">
+				
+					<h4>Required Parameters</h4>
+					
+					<pre class="example_code required">required.text</pre>
+					
+				
+			</div>
+			
+			<div class="responses">
+				
+					<h4>Optional Parameters</h4>
+					
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+				
+			</div>
+		<div class="clear"></div>
+		</div>
+		
+		<div class="response_fields">
+			
+		<div class="clear"></div>
+		</div>
+		
+    
+		<h3 class="resource_url"><strong>/permissions</strong> [PUT]</h3>
+		<p>Update/set permissions for a collection of resources</p>
+		
+		<div class="parameters">
+			<div class="required">
+				
+					<h4>Required Parameters</h4>
+					
+					<pre class="example_code required">required.text</pre>
 					
 				
 			</div>
@@ -179,8 +253,102 @@
 						
 						<pre class="example_code">optional.text</pre>
 						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
 				
 			</div>
+		<div class="clear"></div>
+		</div>
+		
+		<div class="request_response">
+			<div class="requests">
+				
+					<h4>Required Parameters</h4>
+					
+					<pre class="example_code required">required.text</pre>
+					
+				
+			</div>
+			
+			<div class="responses">
+				
+					<h4>Optional Parameters</h4>
+					
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+				
+			</div>
+		<div class="clear"></div>
+		</div>
+		
+		<div class="response_fields">
+			
 		<div class="clear"></div>
 		</div>
 		
@@ -204,7 +372,7 @@
 	</div>
     
     <div id="footer">
-  Generated on Thu Mar  1 09:10:45 2012 with ruby-1.9.3
+  Generated on Fri Mar  9 11:16:13 2012 with ruby-1.9.3
 </div>
 
   </body>

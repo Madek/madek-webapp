@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>
-  Class: ApplicationController
+  Class: MediaResourcesController
   
     &mdash; MAdeK-API
   
@@ -46,11 +46,44 @@
 			padding-top: 22px;
 			margin-bottom: -6px;
 		}
+		#resources {
+			padding: 14px 20px 52px;
+		}
+		#resources li {
+			display: block;
+			font-size: 1.3em;
+			float: left;
+			width: 140px;
+		}
+		.resource_url {
+			display: block;
+			background: #EAF0FF;
+			padding: 12px;
+		}
+		#search_frame #search {
+			display: none;
+		}
+		.parameters {
+			
+		}
+		.parameters .required {
+			float: left;
+			min-width: 300px;
+			width: 50%;
+		}
+		.parameters .optional {
+			float: left;
+			min-width: 300px;
+			width: 50%;
+		}
 	</style>
 	<script type="text/javascript">
 		//<![CDATA[
+		  if (! window.location.href.match(/\/$/) && ! window.location.href.match(/\./)) {
+		    window.location.href = window.location.href+"/";
+		  }
+		
 			function setup_toc() {
-		 	  console.log("SETUP TOC");
 	 		  if ($('#content').length === 0) return;
 			  var _toc = $('<ol class="top"></ol>');
 			  var show = false;
@@ -123,9 +156,74 @@
     
     <div id="content" style="padding-top: 12px;">
 		<div class="service">
-	<h1 class="noborder title">MAdeK-API</h1>
-  	<a href="index.html" title="back to the overview">&laquo; Overview</a>
-  	
+  <h1 class="noborder title">MAdeK-API</h1>
+    <a href="index.html" title="back to the overview">&laquo; Overview</a>
+    
+  <div id="Services" class="method_details_list">
+    <h2>MediaResources</h2>
+
+    
+		<h3 class="resource_url"><strong>/media_resources</strong> [GET]</h3>
+		<p>Get a collection of MediaResources</p>
+		
+		<div class="parameters">
+			<div class="required">
+				
+					<h4>Required Parameters</h4>
+					
+				
+			</div>
+		
+			<div class="optional">
+				
+					<h4>Optional Parameters</h4>
+					
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+				
+			</div>
+		<div class="clear"></div>
+		</div>
+		
+		<div class="request_response">
+			<div class="requests">
+				
+					<h4>Required Parameters</h4>
+					
+				
+			</div>
+			
+			<div class="responses">
+				
+					<h4>Optional Parameters</h4>
+					
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+						<pre class="example_code">optional.text</pre>
+						
+				
+			</div>
+		<div class="clear"></div>
+		</div>
+		
+		<div class="response_fields">
+			
+		<div class="clear"></div>
+		</div>
+		
+    
+  </div>
+
 </div>
 
 
@@ -143,7 +241,7 @@
 	</div>
     
     <div id="footer">
-  Generated on Wed Feb 29 18:30:48 2012 with ruby-1.9.3
+  Generated on Fri Mar  9 11:16:13 2012 with ruby-1.9.3
 </div>
 
   </body>

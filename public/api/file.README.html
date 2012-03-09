@@ -2,11 +2,9 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>
-  Class: GroupsController
-  
-    &mdash; MAdeK-API
+  MAdeK-API
   
 </title>
 
@@ -46,11 +44,44 @@
 			padding-top: 22px;
 			margin-bottom: -6px;
 		}
+		#resources {
+			padding: 14px 20px 52px;
+		}
+		#resources li {
+			display: block;
+			font-size: 1.3em;
+			float: left;
+			width: 140px;
+		}
+		.resource_url {
+			display: block;
+			background: #EAF0FF;
+			padding: 12px;
+		}
+		#search_frame #search {
+			display: none;
+		}
+		.parameters {
+			
+		}
+		.parameters .required {
+			float: left;
+			min-width: 300px;
+			width: 50%;
+		}
+		.parameters .optional {
+			float: left;
+			min-width: 300px;
+			width: 50%;
+		}
 	</style>
 	<script type="text/javascript">
 		//<![CDATA[
+		  if (! window.location.href.match(/\/$/) && ! window.location.href.match(/\./)) {
+		    window.location.href = window.location.href+"/";
+		  }
+		
 			function setup_toc() {
-		 	  console.log("SETUP TOC");
 	 		  if ($('#content').length === 0) return;
 			  var _toc = $('<ol class="top"></ol>');
 			  var show = false;
@@ -122,28 +153,68 @@
     <iframe id="search_frame"></iframe>
     
     <div id="content" style="padding-top: 12px;">
-		<div class="service">
-	<h1 class="noborder title">MAdeK-API</h1>
-  	<a href="index.html" title="back to the overview">&laquo; Overview</a>
-  	
+		<div id="start">
+  <h1 class="noborder title">MAdeK-API</h1>
+
+  
+	<h2>Introduction</h2>
+
+<p>Welcome to the MAdeK-API documentation.</p>
+
+<h2>Quick Examples</h2>
+
+<h3>List of the most recent MediaEntries</h3>
+
+<pre class="code ruby"><code><span class='tstring'><span class='regexp_beg'>/</span><span class='regexp_end'>media_resources.json?with[type]=media_entry
+</span></span></code></pre>
+
+<p>This returns a list of the most recently edited MediaEntries of MAdeK - limited to 36 entries (pagination).</p>
+
+<h2>JSON as Standard Format</h2>
+
+<p>Our standard format for the API is JSON. To communicate to the API you have to set the format explicitly on each request.  </p>
+
+<h3>How to send JSON-Requests</h3>
+
+<pre class="code ruby"><code>/media_resources.json
+/media_resources (with Header: &quot;Accept: application/json&quot;)
+</code></pre>
+
+<h2>RESTfull API-Desgin</h2>
+
+<p>GET, POST, PUT and DELETE...</p>
+
+<h2>Authentication</h2>
+
+<p>...</p>
+
+<h2>Pagination</h2>
+
+<p>...</p>
+
+  
+  
+  <h2>All Resources</h2>
+  <ul id="resources">
+	
+    	
+      		<li><span class='object_link'><a href="MediaResourcesController.html" title="MediaResourcesController (class)">MediaResources</a></span></li>
+    	
+      		<li><span class='object_link'><a href="MediaSetsController.html" title="MediaSetsController (class)">MediaSets</a></span></li>
+    	
+      		<li><span class='object_link'><a href="PermissionsController.html" title="PermissionsController (class)">Permissions</a></span></li>
+    	
+    
+  </ul>
+
+  <div class="clear"></div>
+
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 	</div>
     
     <div id="footer">
-  Generated on Wed Feb 29 18:30:48 2012 with ruby-1.9.3
+  Generated on Fri Mar  9 11:16:13 2012 with ruby-1.9.3
 </div>
 
   </body>

@@ -34,3 +34,4 @@ coverage.data
 .yardoc
 .jhw-cache
 db/backups
+doc/api/yard
