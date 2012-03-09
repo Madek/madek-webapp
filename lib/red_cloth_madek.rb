@@ -8,8 +8,8 @@ class RedClothMadek
   ActionView::Base.sanitized_allowed_attributes << 'autoplay'
   ActionView::Base.sanitized_allowed_attributes << 'poster'
   ActionView::Base.sanitized_allowed_attributes << 'style'
-
-  
+  ActionView::Base.sanitized_allowed_attributes << 'id'
+  ActionView::Base.sanitized_allowed_attributes << 'name'
   
   def initialize
     require 'redcloth'
