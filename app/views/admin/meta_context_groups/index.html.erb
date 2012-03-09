@@ -1,0 +1,23 @@
+<h1>Listing meta_context_groups</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @meta_context_groups.each do |meta_context_group| %>
+  <tr>
+    <td><%= meta_context_group.name %></td>
+    <td><%= link_to 'Show', admin_meta_context_group_path(meta_context_group)%></td>
+    <td><%= link_to 'Edit', edit_admin_meta_context_group_path(meta_context_group) %></td>
+    <td><%= link_to 'Destroy',admin_meta_context_group_path(meta_context_group), confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Meta context group', new_admin_meta_context_group_path %>

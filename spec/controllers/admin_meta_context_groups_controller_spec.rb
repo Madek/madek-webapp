@@ -18,20 +18,26 @@ require 'spec_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-describe MetaContextGroupsController do
+describe Admin::MetaContextGroupsController do
+
+  before :each do
+    MetaContextGroup.destroy_all
+    @adam = Persona.create :adam
+  end
+
 
   # This should return the minimal set of attributes required to create a valid
   # MetaContextGroup. As you add validations to MetaContextGroup, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {}
+    {name: "MetaContextGroup-Name"}
   end
   
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # MetaContextGroupsController. Be sure to keep this updated too.
   def valid_session
-    {}
+    {user_id: @adam.id}
   end
 
   describe "GET index" do
@@ -45,7 +51,7 @@ describe MetaContextGroupsController do
   describe "GET show" do
     it "assigns the requested meta_context_group as @meta_context_group" do
       meta_context_group = MetaContextGroup.create! valid_attributes
-      get :show, {:id => meta_context_group.to_param}, valid_session
+      get :show, {id: meta_context_group.id}, valid_session
       assigns(:meta_context_group).should eq(meta_context_group)
     end
   end
@@ -81,7 +87,7 @@ describe MetaContextGroupsController do
 
       it "redirects to the created meta_context_group" do
         post :create, {:meta_context_group => valid_attributes}, valid_session
-        response.should redirect_to(MetaContextGroup.last)
+        response.should redirect_to(admin_meta_context_group_url(MetaContextGroup.last))
       end
     end
 
@@ -157,7 +163,7 @@ describe MetaContextGroupsController do
     it "redirects to the meta_context_groups list" do
       meta_context_group = MetaContextGroup.create! valid_attributes
       delete :destroy, {:id => meta_context_group.to_param}, valid_session
-      response.should redirect_to(meta_context_groups_url)
+      response.should redirect_to(admin_meta_context_groups_url)
     end
   end
 
