@@ -129,7 +129,7 @@ describe Admin::MetaContextGroupsController do
       it "redirects to the meta_context_group" do
         meta_context_group = MetaContextGroup.create! valid_attributes
         put :update, {:id => meta_context_group.to_param, :meta_context_group => valid_attributes}, valid_session
-        response.should redirect_to(meta_context_group)
+        response.should redirect_to(admin_meta_context_group_url(meta_context_group))
       end
     end
 
@@ -156,13 +156,13 @@ describe Admin::MetaContextGroupsController do
     it "destroys the requested meta_context_group" do
       meta_context_group = MetaContextGroup.create! valid_attributes
       expect {
-        delete :destroy, {:id => meta_context_group.to_param}, valid_session
+        delete :destroy, {id: meta_context_group.id}, valid_session
       }.to change(MetaContextGroup, :count).by(-1)
     end
 
     it "redirects to the meta_context_groups list" do
       meta_context_group = MetaContextGroup.create! valid_attributes
-      delete :destroy, {:id => meta_context_group.to_param}, valid_session
+      delete :destroy, {id: meta_context_group.id}, valid_session
       response.should redirect_to(admin_meta_context_groups_url)
     end
   end
