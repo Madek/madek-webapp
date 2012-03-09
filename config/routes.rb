@@ -2,6 +2,8 @@
 MAdeK::Application.routes.draw do
 
 
+  resources :meta_context_groups
+
 =begin #FE#
   resources :resources, :only => :index
   resources :media_sets, :only => :show
