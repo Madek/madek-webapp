@@ -24,8 +24,9 @@ describe MediaResourcesController do
           json.keys.sort.should == ["media_resources", "pagination"]
           json["pagination"].keys.sort.should == ["page", "per_page", "total", "total_pages"]
           json["media_resources"].is_a?(Array).should be_true
-          json["media_resources"].size.should == 0
-          json["pagination"]["total"].should == 0 
+          json["media_resources"].size.should <= json["pagination"]["per_page"]
+          n = MediaResource.accessible_by_user(User.new).count
+          json["pagination"]["total"].should == n
         end
       end
       describe "as logged in user" do
@@ -36,8 +37,9 @@ describe MediaResourcesController do
           json.keys.sort.should == ["media_resources", "pagination"]
           json["pagination"].keys.sort.should == ["page", "per_page", "total", "total_pages"]
           json["media_resources"].is_a?(Array).should be_true
-          json["media_resources"].size.should == json["pagination"]["per_page"]
-          json["pagination"]["total"].should == 40 
+          json["media_resources"].size.should <= json["pagination"]["per_page"]
+          n = MediaResource.accessible_by_user(@user).count
+          json["pagination"]["total"].should == n
         end
       end
     end
