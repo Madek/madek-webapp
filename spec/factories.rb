@@ -5,13 +5,12 @@ module DataFactory
 
   def clear_data 
     ActiveRecord::Base.transaction do
-      MediaEntry.all.each {|e| e.destroy}
-      MediaSet.all.each {|e| e.destroy}
-      MediaResource.all.each {|e| e.destroy}
-      Grouppermission.all.each {|e| e.destroy}
-      Userpermission.all.each {|e| e.destroy}
-      User.all.each {|e| e.destroy}
+      MediaResource.destroy_all
+      Grouppermission.destroy_all
+      Userpermission.destroy_all
+      User.destroy_all
     end
+    MetaHelper.import_initial_metadata
   end
 
   def create_permission_migration_dataset

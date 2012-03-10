@@ -1,25 +1,45 @@
 require 'spec_helper'
 
 describe MediaResourcesController do
+  render_views
 
   before :all do
     @user = FactoryGirl.create :user
   end
 
   context "fetch an index of media resources" do
-    before :each do
-      100.times do
-        if rand > 0.5
-          Factory :media_entry, user: @user
-        else
-          Factory :media_set, user: @user
-        end
+    before :all do
+      40.times do
+        type = rand > 0.5 ? :media_entry : :media_set
+        Factory type, user: @user
       end
     end
     
     describe "as JSON" do
-      #binding.pry
-      # TODO GO ON HERE TOMORRRROOOOOOOOOOW
+      describe "as guest user" do
+        it "should respond with success" do
+          get :index, {format: 'json'}
+          response.should  be_success
+          json = JSON.parse(response.body)
+          json.keys.sort.should == ["media_resources", "pagination"]
+          json["pagination"].keys.sort.should == ["page", "per_page", "total", "total_pages"]
+          json["media_resources"].is_a?(Array).should be_true
+          json["media_resources"].size.should == 0
+          json["pagination"]["total"].should == 0 
+        end
+      end
+      describe "as logged in user" do
+        it "should respond with success" do
+          get :index, {format: 'json'}, {user_id: @user.id}
+          response.should  be_success
+          json = JSON.parse(response.body)
+          json.keys.sort.should == ["media_resources", "pagination"]
+          json["pagination"].keys.sort.should == ["page", "per_page", "total", "total_pages"]
+          json["media_resources"].is_a?(Array).should be_true
+          json["media_resources"].size.should == json["pagination"]["per_page"]
+          json["pagination"]["total"].should == 40 
+        end
+      end
     end
   end
 

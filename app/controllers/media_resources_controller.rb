@@ -22,17 +22,16 @@ class MediaResourcesController < ApplicationController
   #
   # @response_field [Integer] [].id The id of the MediaResource  
   #
-  # @response_field [Hash] [].meta_data The MetaData of the MediaResource  
-  # @response_field [String] [].meta_data.title The title of the MediaResource
-  # @response_field [String] [].meta_data.author The author of the MediaResource
-  # @response_field [String] [].meta_data.portrayed_object_dates The dates for the portrayed object
-  # @response_field [String] [].meta_data.keywords The keywords for the MediaResource
-  # @response_field [String] [].meta_data.copyright_notice The copyright_notice for the MediaResource
-  # @response_field [String] [].meta_data.uploaded_by The name of the uploader of the MediaResource
-  # @response_field [String] [].meta_data.uploaded_at The date when the MediaResource was uploaded
+  # @response_field [Hash] [].meta_data The MetaData of the MediaResource (To get a list of possible MetaData you have to consider the MetaDatum resource)  
   #
-  def index(ids = params[:ids])
-    @media_resources = MediaResource.media_entries_and_media_sets.accessible_by_user(current_user).order("media_resources.updated_at DESC")
+  def index(ids = params[:ids],
+            page = params[:page],
+            per_page = (params[:per_page] || PER_PAGE.first).to_i )
+            
+    @media_resources = MediaResource.media_entries_and_media_sets.
+                        accessible_by_user(current_user).
+                        order("media_resources.updated_at DESC").
+                        paginate(:page => page, :per_page => per_page)
     @media_resources = @media_resources.find(ids) if ids
     
     respond_to do |format|

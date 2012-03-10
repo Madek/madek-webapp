@@ -1,5 +1,5 @@
 class MetaKeyMetaTerm < ActiveRecord::Base
-  set_table_name 'meta_keys_meta_terms'
+  self.table_name = 'meta_keys_meta_terms'
 
   belongs_to    :meta_key
   belongs_to    :meta_term, :class_name => "MetaTerm"

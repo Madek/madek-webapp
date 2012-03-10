@@ -14,6 +14,7 @@ gem 'pg'
 gem 'require_relative'
 
 gem 'json', '~> 1.6'
+gem 'rjson'
 gem 'haml', '~> 3.1'
 gem 'formtastic'
 gem 'sass', '~> 3.1'
@@ -90,8 +91,6 @@ group :test, :development do
   gem 'faker'
   gem 'pry'
   gem 'railroady'
-  gem 'rspec-rails'
-  gem 'spork'
   gem 'statsample'
 end
 
@@ -111,7 +110,7 @@ group :test do
   gem 'simplecov' 
   gem 'capybara', '~> 1.1'
   gem 'cucumber'#, '~> 1.0.3'
-  gem 'cucumber-rails'#, '~> 1.0.2'
+  gem 'cucumber-rails', '~> 1.3', :require => false
   gem 'launchy'  
   gem 'rspec-rails'
   gem 'selenium-webdriver', '~> 2.12'

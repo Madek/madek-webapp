@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe PermissionsController do
+  render_views
 
   before :all do
     @user = Factory :user

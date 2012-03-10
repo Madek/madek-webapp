@@ -24,6 +24,7 @@ class MediaEntryIncomplete < MediaEntry
   def set_as_complete
     becomes MediaEntry
     update_column(:type, type)
+    # TODO should we also update the created_at ?? 
   end
 
 ########################################################
