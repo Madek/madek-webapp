@@ -27,10 +27,11 @@ Then /^they are in my favorites$/ do
   all(".item_box").size.should == 3
 end
 
-Then /^I can open them$/ do
+Then /^I can open them and see that are set as favorite$/ do
   @current_user.favorites.each do |f|
     visit resource_path(f)
     step 'I should see "Set enthält"'
+    find(".favorite_link .button_favorit_on")
   end
 end
 

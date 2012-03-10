@@ -30,6 +30,8 @@
             :"data-link" => "#{{"path" => "/media_sets/parents.json", "method" => "POST", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_set_ids" => ":media_set_ids"}}.to_json}",
             :"data-unlink" => "#{{"path" => "/media_sets/parents.json", "method" => "DELETE", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_set_ids" => ":media_set_ids"}}.to_json}" do
             .button_addto
+          %span.favorite_link{:id => "fav_#{@media_set.id}", :title => "Favorit"}
+            = render :partial => "resources/favorite_link", :locals => {:media_resource => @media_set}
 
       .grid_9
         #detail_specification.tabs
