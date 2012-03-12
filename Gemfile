@@ -91,6 +91,8 @@ group :test, :development do
   gem 'faker'
   gem 'pry'
   gem 'railroady'
+  gem 'rspec-rails'
+  gem 'spork'
   gem 'statsample'
 end
 
@@ -107,13 +109,11 @@ end
 
 group :test do
   # gem 'cover_me' # CAUSING ERRORS FIXME
-  gem 'simplecov' 
   gem 'capybara', '~> 1.1'
   gem 'cucumber'#, '~> 1.0.3'
   gem 'cucumber-rails', '~> 1.3', :require => false
   gem 'launchy'  
-  gem 'rspec-rails'
   gem 'selenium-webdriver', '~> 2.12'
+  gem 'simplecov' 
   gem 'simplecov' # for Ruby 1.8.x:  gem 'rcov'
-  gem 'spork'
 end

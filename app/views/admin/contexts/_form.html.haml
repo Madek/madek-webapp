@@ -1,33 +1,39 @@
 = form_for @context, :url => path do |f|
-	= f.label :name
-	\:
-	- if @context.new_record?
-		= f.text_field :name
-	- else
-		= @context.name
-	%br
 
-	Label:
-	%br
-	- LANGUAGES.each do |lang|
-		- value = (@context.label ? @context.label.to_s(lang) : nil)
-		= lang
-		\:
-		= text_field_tag "meta_context[label][#{lang}]", value
-		%br
+  = f.label "Meta Context Group"
+  \:
+  = select("meta_context","meta_context_group_id", MetaContextGroup.all.collect {|mcg| [ mcg.name, mcg.id ] }, {include_blank: :true, selected: @context.meta_context_group_id})
+  %br
 
-	Description:
-	%br
-	- LANGUAGES.each do |lang|
-		- value = (@context.description ? @context.description.to_s(lang) : nil)
-		= lang
-		\:
-		= text_area_tag "meta_context[description][#{lang}]", value
-		%br
+  = f.label :name
+  \:
+  - if @context.new_record?
+    = f.text_field :name
+  - else
+    = @context.name
+  %br
 
-	%br
-	= f.label :is_user_interface
-	\:
-	= f.check_box :is_user_interface
-	%br
-	= f.submit submit
+  Label:
+  %br
+  - LANGUAGES.each do |lang|
+    - value = (@context.label ? @context.label.to_s(lang) : nil)
+    = lang
+    \:
+    = text_field_tag "meta_context[label][#{lang}]", value
+    %br
+
+  Description:
+  %br
+  - LANGUAGES.each do |lang|
+    - value = (@context.description ? @context.description.to_s(lang) : nil)
+    = lang
+    \:
+    = text_area_tag "meta_context[description][#{lang}]", value
+    %br
+
+  %br
+  = f.label :is_user_interface
+  \:
+  = f.check_box :is_user_interface
+  %br
+  = f.submit submit
