@@ -49,6 +49,8 @@ MAdeK::Application.routes.draw do
   resources :permissions, :only => :index, :format => true, :constraints => {:format => /json/}
   resource :permissions, :only => :update
 
+  resources :meta_context_groups, only: :index
+
 ###############################################
 #NOTE first media_entries and then media_sets
 
