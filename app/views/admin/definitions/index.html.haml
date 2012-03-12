@@ -4,6 +4,8 @@
       %td{:colspan => 4}
         = "Name: #{@context.name}"
         %br
+        = "Group: #{@context.meta_context_group.try(:name)}"
+        %br
         = "Label: #{@context.label}"
         %br
         != "Description: #{simple_format(@context.description.to_s)}"
