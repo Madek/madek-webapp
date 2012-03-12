@@ -96,21 +96,6 @@ end
 
 FactoryGirl.define do
 
-  ### Meta
-
-  factory :meta_context do
-    name {Faker::Lorem.words.join("_")}
-    is_user_interface true
-
-    label {
-      h = {}
-      LANGUAGES.each do |lang|
-        h[lang] = name
-      end
-      h
-    }
-  end
-
   ### Media ....
 
   factory :media_set_arc , :class => MediaSetArc do
