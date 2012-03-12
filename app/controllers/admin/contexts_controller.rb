@@ -33,6 +33,7 @@ class Admin::ContextsController < Admin::AdminController
   end
 
   def update
+    binding.pry
     @context.update_attributes(params[:meta_context])
     redirect_to admin_contexts_path
   end
