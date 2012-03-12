@@ -42,8 +42,6 @@ module MetaHelper
         uploaded_data ||= File.read("#{Rails.root}/features/data/minimal_meta.yml")
         meta = YAML.load(uploaded_data)
 
-        #binding.pry
-
         if meta[:meta_terms] and meta[:meta_keys] and meta[:meta_contexts] and meta[:meta_key_definitions]   
 
           [MetaKey, MetaContext, MetaKeyDefinition, MetaTerm, UsageTerm].each {|a| a.destroy_all }

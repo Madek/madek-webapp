@@ -82,7 +82,7 @@ When /^I create a resource$/ do
 end
 
 Then /^I am the owner of that resource$/ do
-  binding.pry
+  pending
 end
 
 When /^I open a media entry$/ do
