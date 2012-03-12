@@ -91,6 +91,8 @@ group :test, :development do
   gem 'faker'
   gem 'pry'
   gem 'railroady'
+  gem 'rspec-rails'
+  gem 'spork'
   gem 'statsample'
 end
 
