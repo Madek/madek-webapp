@@ -6,6 +6,7 @@ class CreateMetaContextGroups < ActiveRecord::Migration
       t.string :name
     end
     add_column :meta_contexts, :meta_context_group_id, :integer
+    add_index :meta_context_groups, :name, unique: true
     add_fkey_referrence_constraint MetaContext, MetaContextGroup
   end
 

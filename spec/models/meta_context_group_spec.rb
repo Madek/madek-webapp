@@ -6,6 +6,11 @@ describe MetaContextGroup do
     (FactoryGirl.create :meta_context_group).should_not == nil
   end
 
+  it "should only alow unique names" do
+    expect {MetaContextGroup.create name: "TheName"}.not_to raise_error 
+    expect {MetaContextGroup.create name: "TheName"}.to raise_error 
+  end
+
   context "existing context_group and context" do
 
     before :all do
