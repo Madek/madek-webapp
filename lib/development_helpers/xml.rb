@@ -26,9 +26,12 @@ module DevelopmentHelpers
       , meta_terms: :MetaTerm \
       , meta_key_definitions: :MetaKeyDefinition \
       , meta_contexts: :MetaContext \
+      , meta_context_groups: :MetaContextGroup \
       , meta_keys: :MetaKey \
       , meta_data: :MetaDatum \
       , meta_keys_meta_terms: :MetaKeyMetaTerm \
+      , settings: :Setting \
+      , permission_presets: :PermissionPreset \
     }
 
     # this contains all the join tables
@@ -43,8 +46,6 @@ module DevelopmentHelpers
         schema_migrations: :SchemaMigration 
     }
 
-
-    
 
     def self.define_models
 
