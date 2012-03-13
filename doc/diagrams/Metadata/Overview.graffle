@@ -69,7 +69,7 @@
 			<key>Points</key>
 			<array>
 				<string>{821.00281, 74.690117}</string>
-				<string>{908.84131, 73.797325}</string>
+				<string>{908.84131, 73.797318}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -80,7 +80,7 @@
 					<key>LineType</key>
 					<integer>1</integer>
 					<key>TailArrow</key>
-					<string>FilledBall</string>
+					<string>Ball</string>
 				</dict>
 			</dict>
 			<key>Tail</key>
@@ -186,7 +186,7 @@ media_resouce_id: 1}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{617.72052, 273.95605}, {79.942101, 28}}</string>
+			<string>{{617.72131, 273.95609}, {79.942101, 28}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -265,8 +265,8 @@ media_resouce_id: 1}</string>
 			<integer>741</integer>
 			<key>Points</key>
 			<array>
-				<string>{713.22943, 338.43661}</string>
-				<string>{439.5968, 89.721062}</string>
+				<string>{713.22974, 338.43665}</string>
+				<string>{439.59952, 89.721077}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -504,8 +504,8 @@ media_resouce_id: 1}</string>
 			<integer>734</integer>
 			<key>Points</key>
 			<array>
-				<string>{170.09462, 94.448997}</string>
-				<string>{170.09465, 144.86604}</string>
+				<string>{170.0946, 94.448997}</string>
+				<string>{170.0946, 144.86604}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -537,8 +537,8 @@ media_resouce_id: 1}</string>
 			<integer>733</integer>
 			<key>Points</key>
 			<array>
-				<string>{232.09451, 71.753296}</string>
-				<string>{354.12595, 69.399864}</string>
+				<string>{232.09451, 71.79364}</string>
+				<string>{354.12598, 69.519608}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -2068,7 +2068,7 @@ belongs_to}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2012-03-09 07:37:47 +0000</string>
+	<string>2012-03-13 09:43:32 +0000</string>
 	<key>Modifier</key>
 	<string>Thomas Schank</string>
 	<key>NotesVisible</key>
@@ -2151,7 +2151,7 @@ belongs_to}</string>
 		<key>FitInWindow</key>
 		<true/>
 		<key>Frame</key>
-		<string>{{82, 4}, {1115, 774}}</string>
+		<string>{{401, 400}, {1113, 778}}</string>
 		<key>ListView</key>
 		<false/>
 		<key>OutlineWidth</key>
@@ -2163,9 +2163,9 @@ belongs_to}</string>
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{-96.645119, 1.1774436}, {1312.8497, 781.82257}}</string>
+		<string>{{-91.659203, 1.1704036}, {1302.6593, 781.82965}}</string>
 		<key>Zoom</key>
-		<real>0.84929758310317993</real>
+		<real>0.85440611839294434</real>
 		<key>ZoomValues</key>
 		<array>
 			<array>
