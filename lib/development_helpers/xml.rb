@@ -30,7 +30,6 @@ module DevelopmentHelpers
       , meta_keys: :MetaKey \
       , meta_data: :MetaDatum \
       , meta_keys_meta_terms: :MetaKeyMetaTerm \
-      , settings: :Setting \
       , permission_presets: :PermissionPreset \
     }
 
@@ -43,7 +42,8 @@ module DevelopmentHelpers
     }
 
     UndefinedModels= { \
-        schema_migrations: :SchemaMigration 
+        schema_migrations: :SchemaMigration \
+      , settings: :Setting \
     }
 
 
@@ -104,6 +104,98 @@ module DevelopmentHelpers
     end
 
 
+    class NewMadekXmlDoc < ::Nokogiri::XML::SAX::Document
+      def initialize
+        @stack= []
+
+        Copyright.send :attr_accessor, :lft
+        Copyright.send :attr_accessor, :rgt
+      end
+
+      def skip_all_callbacks(klass)
+        [:validation, :save, :create, :commit].each do |name|
+          klass.send("_#{name}_callbacks").each do |_callback|
+            # HACK - the oracle_enhanced_adapter write LOBs through an after_save callback (:enhanced_write_lobs)
+            if (_callback.filter != :enhanced_write_lobs)
+              klass.skip_callback(name, _callback.kind, _callback.filter) end
+          end
+        end
+      end
+
+
+      def get_type attrs
+        if arr = attrs.find{|x| x[0]=="type"}
+          arr[1].to_sym
+        else
+          :unknown
+        end
+      end
+
+      def new_model  model_name
+        model = Module.const_get model_name.gsub(/-/,"_").camelize
+        skip_all_callbacks model
+        model.new
+      end
+
+      def start_element name, attrs = []
+        puts "\n=== START_ELEMENT ==="
+        type= get_type attrs
+        obj = 
+          if @stack.size == 3
+            new_model name
+          elsif @stack.size >= 4
+            case type
+            when :array
+              []
+            end
+          end
+        @stack.push name: name.gsub(/-/,"_"), type: type, attrs: attrs, chars: "" , depth: @stack.size, obj: obj
+        puts @stack
+      end
+
+      def characters s
+        current = @stack.pop
+        current[:chars]= current[:chars] + s
+        @stack.push current
+      end
+
+      def end_element name
+        puts "\n=== END_ELEMENT ==="
+        puts @stack
+        current = @stack.pop
+        parent = @stack.pop
+
+        value= 
+          case current[:type]
+          when :integer
+            current[:chars].to_i
+          else
+            current[:chars]
+          end
+
+        if pobj = parent[:obj]
+          if pobj.is_a? Array
+            pobj << value
+          elsif pobj.is_a? ActiveRecord::Base
+            pobj.send "#{current[:name]}=", value
+          end
+        end
+        @stack.push parent
+
+        if cobj = current[:obj] 
+          cobj.save! if cobj.is_a? ActiveRecord::Base
+        end
+
+      end
+
+    end
+
+
+
+
+
+
+
     ### IMPORT
 
     class MadekXmlDoc < ::Nokogiri::XML::SAX::Document
@@ -126,8 +218,7 @@ module DevelopmentHelpers
           klass.send("_#{name}_callbacks").each do |_callback|
             # HACK - the oracle_enhanced_adapter write LOBs through an after_save callback (:enhanced_write_lobs)
             if (_callback.filter != :enhanced_write_lobs)
-              klass.skip_callback(name, _callback.kind, _callback.filter)
-            end
+              klass.skip_callback(name, _callback.kind, _callback.filter) end
           end
         end
       end
@@ -213,9 +304,9 @@ module DevelopmentHelpers
     def self.db_import_from_xml source 
       ::DevelopmentHelpers::Xml.define_models
       ActiveRecord::Base.transaction do
-        parser = Nokogiri::XML::SAX::Parser.new(MadekXmlDoc.new)
+        parser = Nokogiri::XML::SAX::Parser.new(NewMadekXmlDoc.new)
         parser.parse(source)
-        #raise "don't import just yet"
+        raise "don't import just yet"
       end
     end
 
