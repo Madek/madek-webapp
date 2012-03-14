@@ -1,0 +1,27 @@
+def get_node(media_set, parent_nodes)
+  h = {
+    id: media_set.id,
+    name: media_set.to_s,
+    size: 1 + (media_set.media_entries.count * 0.1) #+ (media_set.child_sets.count * 0.01)
+  }
+  
+  mf = media_set.media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
+  h[:thumb] = mf.thumb_base64(:small_125) if mf
+  
+  unless media_set.child_sets.empty? or parent_nodes.include?(media_set.id)
+    parent_nodes.add media_set.id
+    h[:children] = media_set.child_sets.accessible_by_user(current_user).map do |child|
+      get_node(child, parent_nodes)
+    end
+    parent_nodes.delete media_set.id
+  end
+  
+  h
+end
+
+{
+  name: current_user.to_s,
+  children: @media_sets.map do |media_set|
+    get_node(media_set, Set.new)
+  end
+}

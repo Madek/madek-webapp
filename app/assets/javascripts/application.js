@@ -9,6 +9,7 @@
 //= require jquery-ui.min
 //= require jquery_ujs
 //= require jquery-tmpl
+//= require d3.v2
 
 /////////// App /////////////
 //= require batch_actions

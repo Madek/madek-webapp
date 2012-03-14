@@ -345,5 +345,17 @@ class MediaSetsController < ApplicationController
       }
     end
   end
-  
+
+  # TODO merge to index ??
+  def graph
+    respond_to do |format|
+      format.html
+      format.json {
+        # FIXME these are actually absolute_top_level, we need top_level against what I can actually see !!
+        #@media_sets = MediaSet.accessible_by_user(current_user).top_level
+        @media_sets = current_user.media_sets.top_level
+      }
+    end
+  end
+      
 end
