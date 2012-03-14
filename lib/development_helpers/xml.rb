@@ -24,11 +24,13 @@ module DevelopmentHelpers
       , full_texts: :FullText \
       , copyrights: :Copyright \
       , meta_terms: :MetaTerm \
-      , meta_key_definitions: :MetaKeyDefinition \
+      , meta_context_groups: :MetaContextGroup \
       , meta_contexts: :MetaContext \
       , meta_keys: :MetaKey \
+      , meta_key_definitions: :MetaKeyDefinition \
       , meta_data: :MetaDatum \
       , meta_keys_meta_terms: :MetaKeyMetaTerm \
+      , permission_presets: :PermissionPreset \
     }
 
     # this contains all the join tables
@@ -40,11 +42,10 @@ module DevelopmentHelpers
     }
 
     UndefinedModels= { \
-        schema_migrations: :SchemaMigration 
+        schema_migrations: :SchemaMigration \
+      , settings: :Setting \
     }
 
-
-    
 
     def self.define_models
 
@@ -103,6 +104,126 @@ module DevelopmentHelpers
     end
 
 
+    class NewMadekXmlDoc < ::Nokogiri::XML::SAX::Document
+      def initialize
+        @stack= []
+        Copyright.send :attr_accessor, :lft
+        Copyright.send :attr_accessor, :rgt
+      end
+
+      def skip_all_callbacks(klass)
+        puts ">>>>> skip_all_callbacks for #{klass}"
+        [:validation, :save, :create, :commit].each do |name|
+          klass.send("_#{name}_callbacks").each do |_callback|
+            # HACK - the oracle_enhanced_adapter write LOBs through an after_save callback (:enhanced_write_lobs)
+            if (_callback.filter != :enhanced_write_lobs)
+              klass.skip_callback(name, _callback.kind, _callback.filter) end
+          end
+        end
+      end
+
+
+      def get_attr attrs, name
+        if arr = attrs.find{|x| x[0]== (name.to_s)}
+          arr[1]
+        else
+          nil
+        end
+      end
+
+      def get_type attrs
+        if type = get_attr(attrs, :type)
+          type 
+        else
+          :unknown
+        end
+      end
+
+      def new_model  model_name
+        model = Module.const_get model_name.gsub(/-/,"_").camelize
+        skip_all_callbacks model
+        model.new
+      end
+
+      def save_model obj
+        #puts "\n>>>>>>>>> saving #{obj.class} "
+        obj.save!(validate: false)
+        #puts "<<<<<<<<<< saved #{obj.class} #{obj.id}"
+      end
+
+
+
+      def start_element name, attrs = []
+        #puts "\n=== START_ELEMENT ==="
+        type= get_type attrs
+        obj = 
+          if @stack.size == 3
+            new_model name
+          elsif @stack.size >= 4
+            case type
+            when :array
+              []
+            end
+          end
+        @stack.push name: name.gsub(/-/,"_"), type: type, attrs: attrs, chars: "" , depth: @stack.size, obj: obj
+        #puts @stack
+      end
+
+      def characters s
+        current = @stack.pop
+        current[:chars]= current[:chars] + s
+        @stack.push current
+      end
+
+      def end_element name
+        puts "\n=== END_ELEMENT ==="
+        puts @stack
+        current = @stack.pop
+        parent = @stack.pop
+
+
+        # step1 get current value
+        value= 
+          if get_attr(current[:attrs], :nil) and get_attr(current[:attrs], :nil) == "true"
+            nil
+          else
+            case current[:type]
+            when "integer"
+              current[:chars].to_i
+            else
+              current[:chars]
+            end
+          end
+
+        #binding.pry if current[:name] == "description_id"
+
+        # step2 integrate the last object in its parent object
+        if parent
+          if pobj = parent[:obj]
+            if pobj.is_a? Array
+              pobj << value
+            elsif pobj.is_a? ActiveRecord::Base
+              pobj.send "#{current[:name]}=", value
+            end
+          end
+          @stack.push parent
+        end
+
+        # step3 save the current object if it is a model
+        if cobj = current[:obj] 
+          save_model cobj if cobj.is_a? ActiveRecord::Base
+        end
+
+      end
+
+    end
+
+
+
+
+
+
+
     ### IMPORT
 
     class MadekXmlDoc < ::Nokogiri::XML::SAX::Document
@@ -125,8 +246,7 @@ module DevelopmentHelpers
           klass.send("_#{name}_callbacks").each do |_callback|
             # HACK - the oracle_enhanced_adapter write LOBs through an after_save callback (:enhanced_write_lobs)
             if (_callback.filter != :enhanced_write_lobs)
-              klass.skip_callback(name, _callback.kind, _callback.filter)
-            end
+              klass.skip_callback(name, _callback.kind, _callback.filter) end
           end
         end
       end
@@ -212,9 +332,8 @@ module DevelopmentHelpers
     def self.db_import_from_xml source 
       ::DevelopmentHelpers::Xml.define_models
       ActiveRecord::Base.transaction do
-        parser = Nokogiri::XML::SAX::Parser.new(MadekXmlDoc.new)
+        parser = Nokogiri::XML::SAX::Parser.new(NewMadekXmlDoc.new)
         parser.parse(source)
-        #raise "don't import just yet"
       end
     end
 
