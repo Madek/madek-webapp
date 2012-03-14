@@ -24,10 +24,10 @@ module DevelopmentHelpers
       , full_texts: :FullText \
       , copyrights: :Copyright \
       , meta_terms: :MetaTerm \
-      , meta_key_definitions: :MetaKeyDefinition \
-      , meta_contexts: :MetaContext \
       , meta_context_groups: :MetaContextGroup \
+      , meta_contexts: :MetaContext \
       , meta_keys: :MetaKey \
+      , meta_key_definitions: :MetaKeyDefinition \
       , meta_data: :MetaDatum \
       , meta_keys_meta_terms: :MetaKeyMetaTerm \
       , permission_presets: :PermissionPreset \
@@ -107,12 +107,12 @@ module DevelopmentHelpers
     class NewMadekXmlDoc < ::Nokogiri::XML::SAX::Document
       def initialize
         @stack= []
-
         Copyright.send :attr_accessor, :lft
         Copyright.send :attr_accessor, :rgt
       end
 
       def skip_all_callbacks(klass)
+        puts ">>>>> skip_all_callbacks for #{klass}"
         [:validation, :save, :create, :commit].each do |name|
           klass.send("_#{name}_callbacks").each do |_callback|
             # HACK - the oracle_enhanced_adapter write LOBs through an after_save callback (:enhanced_write_lobs)
@@ -123,9 +123,17 @@ module DevelopmentHelpers
       end
 
 
+      def get_attr attrs, name
+        if arr = attrs.find{|x| x[0]== (name.to_s)}
+          arr[1]
+        else
+          nil
+        end
+      end
+
       def get_type attrs
-        if arr = attrs.find{|x| x[0]=="type"}
-          arr[1].to_sym
+        if type = get_attr(attrs, :type)
+          type 
         else
           :unknown
         end
@@ -137,8 +145,16 @@ module DevelopmentHelpers
         model.new
       end
 
+      def save_model obj
+        #puts "\n>>>>>>>>> saving #{obj.class} "
+        obj.save!(validate: false)
+        #puts "<<<<<<<<<< saved #{obj.class} #{obj.id}"
+      end
+
+
+
       def start_element name, attrs = []
-        puts "\n=== START_ELEMENT ==="
+        #puts "\n=== START_ELEMENT ==="
         type= get_type attrs
         obj = 
           if @stack.size == 3
@@ -150,7 +166,7 @@ module DevelopmentHelpers
             end
           end
         @stack.push name: name.gsub(/-/,"_"), type: type, attrs: attrs, chars: "" , depth: @stack.size, obj: obj
-        puts @stack
+        #puts @stack
       end
 
       def characters s
@@ -165,25 +181,37 @@ module DevelopmentHelpers
         current = @stack.pop
         parent = @stack.pop
 
+
+        # step1 get current value
         value= 
-          case current[:type]
-          when :integer
-            current[:chars].to_i
+          if get_attr(current[:attrs], :nil) and get_attr(current[:attrs], :nil) == "true"
+            nil
           else
-            current[:chars]
+            case current[:type]
+            when "integer"
+              current[:chars].to_i
+            else
+              current[:chars]
+            end
           end
 
-        if pobj = parent[:obj]
-          if pobj.is_a? Array
-            pobj << value
-          elsif pobj.is_a? ActiveRecord::Base
-            pobj.send "#{current[:name]}=", value
+        #binding.pry if current[:name] == "description_id"
+
+        # step2 integrate the last object in its parent object
+        if parent
+          if pobj = parent[:obj]
+            if pobj.is_a? Array
+              pobj << value
+            elsif pobj.is_a? ActiveRecord::Base
+              pobj.send "#{current[:name]}=", value
+            end
           end
+          @stack.push parent
         end
-        @stack.push parent
 
+        # step3 save the current object if it is a model
         if cobj = current[:obj] 
-          cobj.save! if cobj.is_a? ActiveRecord::Base
+          save_model cobj if cobj.is_a? ActiveRecord::Base
         end
 
       end
@@ -306,7 +334,6 @@ module DevelopmentHelpers
       ActiveRecord::Base.transaction do
         parser = Nokogiri::XML::SAX::Parser.new(NewMadekXmlDoc.new)
         parser.parse(source)
-        raise "don't import just yet"
       end
     end
 
