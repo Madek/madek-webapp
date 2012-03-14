@@ -8,17 +8,30 @@ class GroupsController < ApplicationController
   end
 
 ######################################################
-  
-  def index
-    # OPTIMIZE
+
+  ##
+  # Get a collection of Groups
+  # 
+  # @resource /groups
+  #
+  # @action GET
+  # 
+  # @optional [String] query The search query to find matching groups 
+  #
+  # @example_request {}
+  # @example_response [{"id":1,"name":"Editors"},{"id":2,"name":"Archiv"},{"id":3,"name":"Experts"}] 
+  #
+  # @example_request {"query": "editors"}
+  # @example_response [{"id":1,"name":"Editors"}] 
+  #
+  def index(query = params[:query])
     respond_to do |format|
       format.html {
         @groups = current_user.groups
       }
       format.json {
         # OPTIMIZE index groups to fulltext ??
-        groups = Group.where("name LIKE :term OR ldap_name LIKE :term", {:term => "%#{params[:term]}%"})
-        render :json => groups.map {|x| {:id => x.id, :value => x.to_s} }
+        @groups = Group.where("name LIKE :query OR ldap_name LIKE :query", {:query => "%#{query}%"})
       }
     end
   end
