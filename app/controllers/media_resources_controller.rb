@@ -17,8 +17,8 @@ class MediaResourcesController < ApplicationController
   # @example_request {"ids": [1,2,3]}
   # @example_response {"media_resources:": [{"id":1}, {"id":2}, {"id":3}], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
   #
-  # @example_request {"with": {"meta_data": {"meta_contexts": [{name: "core"}]}}} Requests MediaResources with all nested MetaData for the MetaContext with the name "core". 
-  # @example_response 
+  # @example_request {"with": {"meta_data": {"meta_context_names": ["core"]}}} Requests MediaResources with all nested MetaData for the MetaContext with the name "core". 
+  # @example_response {{"media_resources:": [{"id":1, "meta_data": {"title": "My new Picture", "author": "Musterman, Max", "portrayed_object_dates": null, "keywords": "picture, portrait", "copryright_notice"}}, ...], "pagination": {"total": 100, "page": 1, "per_page": 36, "total_pages": 2}}}
   #
   # @response_field [Integer] [].id The id of the MediaResource  
   #
@@ -26,16 +26,14 @@ class MediaResourcesController < ApplicationController
   #
   def index(ids = params[:ids],
             page = params[:page],
-            per_page = (params[:per_page] || PER_PAGE.first).to_i,
-            meta_contexts = (params[:meta_data]) ? params[:meta_data][:meta_contexts] : nil)
+            per_page = (params[:per_page] || PER_PAGE.first).to_i)
     
     @media_resources = MediaResource.media_entries_and_media_sets.
                         accessible_by_user(current_user).
                         order("media_resources.updated_at DESC").
                         paginate(:page => page, :per_page => per_page)
-    @media_resources = @media_resources.find(ids) if ids
-    
-    @meta_contexts = meta_contexts
+                        
+    @media_resources = @media_resources.where(:id => ids) if ids
     
     respond_to do |format|
       format.json

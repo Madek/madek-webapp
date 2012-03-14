@@ -3,7 +3,7 @@
 module DataFactory 
   extend self
 
-  def clear_data 
+  def reset_data 
     ActiveRecord::Base.transaction do
       MediaResource.destroy_all
       Grouppermission.destroy_all

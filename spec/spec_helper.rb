@@ -59,7 +59,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
-    DataFactory.clear_data
+    DataFactory.reset_data
   end
 
   config.before(:each) do

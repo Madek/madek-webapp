@@ -16,23 +16,21 @@ class Permission
     # PREPARE BADGE OPENING
     if $(event.currentTarget).hasClass("batch")
       media_resource_ids = []
-      media_resources = []
       $(".task_bar .thumb_mini").each (i,element)->
         media_resource_ids.push($(element).tmplItem().data.id)
-        media_resources.push({id:$(element).tmplItem().data.id, author:$(element).tmplItem().data.author, title:$(element).tmplItem().data.title, image:$(element).tmplItem().data.thumb_base64 })
       $(this).data("media_resource_ids", media_resource_ids)
-      $(this).data("media_resources", media_resources)
       
     # OPEN DIALOG
     container = Dialog.add
       trigger: event.currentTarget
       dialogClass: "permission_lightbox"
-      content: $.tmpl("tmpl/permission/container", {media_resource_ids: $(this).data("media_resource_ids"), media_resources: $(this).data("media_resources")})
+      content: $.tmpl("tmpl/permission/container", {media_resource_ids: $(this).data("media_resource_ids")})
       closeOnEscape: false
     $(container).data("current_user", $(this).data("current_user"))
     $(container).data("media_resource_ids", $(this).data("media_resource_ids"))
     
     Permission.load_permission_presets container, event.currentTarget
+    Permission.load_media_resources container, event.currentTarget
   
   @load_permission_presets = (container, trigger) ->
     if sessionStorage.permission_presets?
@@ -44,9 +42,21 @@ class Permission
         success: (data)->
           sessionStorage.permission_presets = JSON.stringify(data)
           Permission.load_permissions container, $(trigger).data("media_resource_ids")
+   
+  @load_media_resources = (container, trigger)->
+    $.ajax
+      url: "/media_resources.json"
+      type: "GET"
+      data: 
+        ids: $(container).data("media_resource_ids") 
+        with:
+          meta_data:
+            meta_context_names: ["core"]
+      success: (data)->
+        console.log data
           
-  @display = (container, media_resource_ids, media_resources)->
-    $(container).replaceWith $.tmpl("tmpl/permission/container", {media_resource_ids: media_resource_ids, media_resources: media_resources})
+  @display = (container, media_resource_ids)->
+    $(container).replaceWith $.tmpl("tmpl/permission/container", {media_resource_ids: media_resource_ids})
     Permission.load_permissions $(container).find(".container"), media_resource_ids   
       
   @load_permissions = (container, media_resource_ids)->
