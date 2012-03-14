@@ -14,35 +14,43 @@ describe PermissionsController do
     end
 
     it "should respond with success, only with public and you keys" do
-      pending
       get :index, {format: 'json', media_resource_ids: [@media_resource.id] }, {user_id: @user.id}
       response.should be_success
       json = JSON.parse(response.body)
       expected = {"public"=>{"view"=>[], "edit"=>[], "download"=>[]},
-        "you"=>{"view"=>[@media_resource.id], "edit"=>[@media_resource.id], "download"=>[@media_resource.id], "manage"=>[@media_resource.id]}}
+                  "you"=>{"id"=> @user.id, "name"=>"#{@user.to_s}",
+                          "view"=>[@media_resource.id], "edit"=>[@media_resource.id], "download"=>[@media_resource.id], "manage"=>[@media_resource.id]}
+                  }
       json.eql?(expected).should be_true
     end
 
   end
 
-  describe "an index of permissions for multiple resources" do
+  describe "an index of permissions for multiple resources, with users and groups" do
 
     before :each do
-      @media_resources = []
-      @media_resources << (Factory :media_resource, :user => @user)
-      @media_resources << (Factory :media_resource, :user => @user)
-      @media_resources << (Factory :media_resource, :user => @user)
+      @user_a = Factory :user
+      @group_a = Factory :group
+      @media_resources = 3.times.map do
+        mr = Factory :media_resource, :user => @user
+        mr.userpermissions.create(user: @user_a, view: true, edit: true, download: true, manage: false)
+        mr.grouppermissions.create(group: @group_a, view: true, edit: false, download: false, manage: false)
+        mr
+      end
     end
 
     it "should respond with success" do
-      pending
-      get :index, {format: 'json', media_resource_ids: @media_resources.map(&:id) }, {user_id: @user.id}
+      get :index, {format: 'json', media_resource_ids: @media_resources.map(&:id), with: {users: true, groups: true} }, {user_id: @user.id}
       response.should be_success
       json = JSON.parse(response.body)
       expected = {"public"=>{"view"=>[], "edit"=>[], "download"=>[]},
-        "you"=>{"view"=>[6179], "edit"=>[6179], "download"=>[6179], "manage"=>[6179]},
-        "users"=>[{"id"=>159123, "name"=>"Sellitto, Franco", "view"=>[6179], "edit"=>[6179], "download"=>[6179], "manage"=>[6179]}],
-        "groups"=>[{"id"=>1519, "name"=>"MAdeK-Team", "view"=>[6179], "edit"=>[6179], "download"=>[6179]}]}
+                  "you"=> {"id"=> @user.id, "name"=>"#{@user.to_s}",
+                           "view"=> @media_resources.map(&:id), "edit"=> @media_resources.map(&:id), "download"=> @media_resources.map(&:id), "manage"=> @media_resources.map(&:id)},
+                  "users"=>[{"id"=> @user_a.id, "name"=>"#{@user_a.to_s}",
+                             "view"=> @media_resources.map(&:id), "edit"=> @media_resources.map(&:id), "download"=> @media_resources.map(&:id), "manage"=>[]}],
+                  "groups"=>[{"id"=> @group_a.id, "name"=>"#{@group_a.to_s}",
+                             "view"=> @media_resources.map(&:id), "edit"=> [], "download"=> []}]
+                  }
       json.eql?(expected).should be_true
     end
 
