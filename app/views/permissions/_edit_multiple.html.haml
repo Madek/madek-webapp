@@ -71,7 +71,7 @@
       source: function(request, response){
         $.ajax({
     			url: '/users',
-    			data: {term: request.term},
+    			data: {query: request.term},
     			dataType: 'json',
     			type: "get",
     			success: function(data){
@@ -79,6 +79,7 @@
     			    var i = selected_user_ids.indexOf(elem.id);
     			    if (i == -1) return elem;
     			  });
+    			  unselected_options = $.map(unselected_options, function(elem) { return { id: elem.id, value: elem.name }; });
             response($.ui.autocomplete.filter(unselected_options, request.term));
     			}
     		});
@@ -98,7 +99,7 @@
       source: function(request, response){
         $.ajax({
     			url: '/groups',
-    			data: {term: request.term},
+    			data: {query: request.term},
     			dataType: 'json',
     			type: "get",
     			success: function(data){
@@ -106,6 +107,7 @@
     			    var i = selected_group_ids.indexOf(elem.id);
     			    if (i == -1) return elem;
     			  });
+            unselected_options = $.map(unselected_options, function(elem) { return { id: elem.id, value: elem.name }; });
             response($.ui.autocomplete.filter(unselected_options, request.term));
     			}
     		});
