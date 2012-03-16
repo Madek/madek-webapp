@@ -1,5 +1,5 @@
-.item_box
-  {{if is_set}}
+.item_box{:title => "${meta_data.title}"}
+  {{if type == "media_set"}}
   .thumb_box_set
     %img{:src => "${image}"}
   {{else}}

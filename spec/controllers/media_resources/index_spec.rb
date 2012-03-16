@@ -39,6 +39,17 @@ describe MediaResourcesController do
       end
     end
     
+    describe "a response with images" do
+      it "respond with a collection of resources with images as base 64 when requested" do
+       get :index, {format: 'json', ids: ids, with: {image: {as: "base64"}}}, session
+        response.should be_success
+        json = JSON.parse(response.body)
+        json["media_resources"].each do |mr|
+          mr.keys.should include("image")
+        end    
+      end
+    end
+    
     describe "a response with nested meta date" do
       
       describe "through meta contexts" do

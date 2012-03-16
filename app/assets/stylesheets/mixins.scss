@@ -11,6 +11,12 @@
   box-shadow: $value;
 }
 
+@mixin box-shadows($value, $value2) {
+  -moz-box-shadow: $value, $value2;
+  -webkit-box-shadow: $value, $value2;
+  box-shadow: $value, $value2;
+}
+
 @mixin opacity($value) {
   filter: alpha(opacity=$value); // IE5-7
   -moz-opacity: $value; // NETSCAPE & MOZILLA
