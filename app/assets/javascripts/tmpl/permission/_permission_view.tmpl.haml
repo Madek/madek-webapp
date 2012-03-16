@@ -4,7 +4,6 @@
     ="Ich"
   {{tmpl(you, {with_owner:true, media_resource_ids: $item.media_resource_ids}) "tmpl/permission/_line"}}
   
-  {{if groups.length>0}}
   %section.groups_with_me
     %h4
       .groups_with_me.icon
@@ -16,7 +15,6 @@
     {{/if}}
     {{/each}}
     {{/each}}
-  {{/if}}
   
 %section.others      
   %h3
