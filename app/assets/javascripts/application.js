@@ -9,6 +9,7 @@
 //= require jquery-ui.min
 //= require jquery_ujs
 //= require jquery-tmpl
+//= require d3.v2
 
 /////////// App /////////////
 //= require batch_actions
@@ -19,7 +20,6 @@
 //= require department-selection/department-selection
 //= require set-widget/set-widget 
 //= require mediaset-popup/mediaset-popup
-//= require permission-preset/permission-preset
 //= require permission/permission
 //= require iframe-wrapper/iframe-wrapper
 //= require_tree ./media_resource

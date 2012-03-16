@@ -1,4 +1,51 @@
+@import "../mixins";
+
 .media_resource_selection {
+  background: #EEE;
+  display: block;
+  height: 170px;
+  margin-bottom: 28px;
+  margin-top: 10px;
+  padding: 4px 4px 0;
+  overflow: hidden;
+  @include box-shadow(inset 0 1px 4px rgba(0,0,0,0.2));
+  @include border-radius(4px);
+  
+  .loading {
+    display: block !important;
+    height: 16px;
+    position: relative;
+    margin: 0 auto;
+    top: 44px;
+    width: 16px;
+  }
+  
+  .item_box {
+    background: transparent !important;
+    border: none !important;
+    height: 140px;
+    margin-bottom: -4px;
+    @include border-radius(4px);
+    
+    .item_title, .item_author { display: none; }
+  }
+  
+  .media {
+    height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    width: 100%;
+  }
+  
+  .table {
+    &>div.media_resources {
+      height: 144px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      width: 100%;
+    }
+  }
   
   .table {
     width: 100%;
@@ -7,19 +54,39 @@
       width: 100%;
       font-size: 0.9em;
       
-      td { vertical-align: middle; }
-      
-      tr:nth-child(even) {
-        td {background: #FAFAFA;}
-      }      
-      
-      td.image {
-        .thumb {
-          position: relative;
-          top: 2px;
+      td { 
+        vertical-align: middle;
+        line-height: 1em;
+        
+        &.image {
+          width: 34px;
+          
+          .thumb {
+            position: relative;
+            top: 1px;
+          }
         }
-      }  
-    }    
+        
+        &.title_author {width: 170px;}
+        &.date {width: 110px;}
+        &.tags {width: 110px;}
+        &.credits {width: 110px;}
+        &.upload {width: 155px;}
+      }
+    }
+    
+    table:not(.head) {
+      tr:nth-child(odd) {
+        td {background: #FAFAFA;}
+      }
+    }   
+    
+    table.head {
+      margin: 2px 0 4px;
+      td {
+        color: #888;
+      }
+    } 
   }
 }
 
