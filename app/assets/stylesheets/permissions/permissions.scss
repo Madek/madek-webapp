@@ -79,6 +79,15 @@
       top: -2px;
     }
     
+    .loading_image {
+      display: inline-block;
+      height: 13px;
+      left: -20px;
+      top: 6px;
+      position: relative;
+      width: 13px;
+    }
+    
     &.without_remove {
       .remove {
         display: none;
@@ -106,10 +115,11 @@
     }
     
     .subject {
+      cursor: default;
       display: inline-block;
       height: 17px;
       padding-left: 8px;
-      width: 185px;
+      width: 207px;
     }
     
     .owner {
@@ -183,13 +193,24 @@
       margin-left: 21px;
       padding-left: 7px;
       padding-top: 4px;
+      position: relative;
       vertical-align: bottom;
       width: 21px;
+      
+      .public.icon {
+        background: url(icons/madek_icon_sprites.png) -252px -1039px no-repeat;
+        height: 15px;
+        position: relative;
+        left: -3px;
+        margin: 0 auto;
+        width: 15px;
+        @include opacity(0.4);
+      }
     }
     
     .permissions {
       display: inline-block;
-      padding-left: 24px;
+      padding-left: 2px;
       width: 308px;
     }
    
@@ -204,7 +225,7 @@
       }
       
       .subject {
-        width: 195px;
+        width: 217px;
       }
       
       .permissions {
@@ -244,9 +265,10 @@
       display: none;
       height: 19px;
       margin: 3px 0 0 -5px;
-      padding: 2px 0 0 6px;
+      padding: 2px 22px 0 6px;
       position: relative;
       top: 1px;
+      width: 130px;
       @include box-shadow(inset 0 1px 2px #E3E3E3);
       @include border-radius(2px);
       
@@ -271,12 +293,12 @@
       width: 12px;
     }
     
-    .subject {
+    &>.line .subject {
       padding-right: 19px;
-      width: 195px;
+      width: 217px;
     }
     
-    .remove {display: none;}
+    &>.line .remove {display: none;}
   }
   
   section.groups_with_me {
@@ -289,6 +311,10 @@
       position: relative;
       top: 2px;
       width: 18px;
+    }
+    
+    .line .subject {
+      padding-right: 10px;
     }
   }
   
