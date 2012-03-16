@@ -1,4 +1,6 @@
 .line
+  .remove
+    .button{:title => "Entfernen"}= "—"
   .subject{:title => "${name}"}
     {{if name}}
     = "${Underscore.truncate(name, 22)}"
@@ -11,27 +13,29 @@
     %label
       %input{:type => "radio", :id => "owner_${id}", :name => "owner_${id}"}
     {{/if}}
+    
   .preset
     .select
       = "(Angepasst)"
     .arrow
     %select
-      %option= "(Angepasst)"
-      
+      {{each(i, preset) JSON.parse(sessionStorage.permission_presets)}}
+      %option{:value => "${preset.name}", :"data-preset" => "${JSON.stringify(preset)}"}= "${preset.name}"
+      {{/each}}
       
   .permissions
   
     {{if view}}
     {{if JSON.stringify(view)==JSON.stringify($item.media_resource_ids)}}
     %label.view.permission{:title => "Betrachten"}
-      = check_box_tag 'view_${id}', "true", true
+      = check_box_tag 'view', "true", true
     {{else}}
     {{if view.length>0}}
     %label.view.permission.mixed{:title => "Betrachten"}
-      = check_box_tag 'view_${id}'
+      = check_box_tag 'view'
     {{else}}
     %label.view.permission{:title => "Betrachten"}
-      = check_box_tag 'view_${id}'
+      = check_box_tag 'view'
     {{/if}}
     {{/if}}
     {{/if}}
@@ -39,14 +43,14 @@
     {{if download}}
     {{if JSON.stringify(download)==JSON.stringify($item.media_resource_ids)}}
     %label.download.permission{:title => "Download Original"}
-      = check_box_tag 'download_${id}', "true", true
+      = check_box_tag 'download', "true", true
     {{else}}
     {{if download.length>0}}
     %label.download.permission.mixed{:title => "Download Original"}
-      = check_box_tag 'download_${id}'
+      = check_box_tag 'download'
     {{else}}
     %label.download.permission{:title => "Download Original"}
-      = check_box_tag 'download_${id}'
+      = check_box_tag 'download'
     {{/if}}
     {{/if}}
     {{/if}}
@@ -54,14 +58,14 @@
     {{if edit}}
     {{if JSON.stringify(edit)==JSON.stringify($item.media_resource_ids)}}
     %label.edit.permission{:title => "Editieren"}
-      = check_box_tag 'edit_${id}', "true", true
+      = check_box_tag 'edit', "true", true
     {{else}}
     {{if edit.length>0}}
     %label.edit.permission.mixed{:title => "Editieren"}
-      = check_box_tag 'edit_${id}'
+      = check_box_tag 'edit'
     {{else}}
     %label.edit.permission{:title => "Editieren"}
-      = check_box_tag 'edit_${id}'
+      = check_box_tag 'edit'
     {{/if}}
     {{/if}}
     {{/if}}
@@ -69,14 +73,14 @@
     {{if manage}}
     {{if JSON.stringify(manage)==JSON.stringify($item.media_resource_ids)}}
     %label.manage.permission{:title => "Berechtigung verwalten"}
-      = check_box_tag 'manage_${id}', "true", true
+      = check_box_tag 'manage', "true", true
     {{else}}
     {{if manage.length>0}}
     %label.manage.permission.mixed{:title => "Berechtigung verwalten"}
-      = check_box_tag 'manage_${id}'
+      = check_box_tag 'manage'
     {{else}}   
     %label.manage.permission{:title => "Berechtigung verwalten"}
-      = check_box_tag 'manage_${id}'   
+      = check_box_tag 'manage'   
     {{/if}}
     {{/if}}
     {{/if}}

@@ -14,11 +14,6 @@
           %ul.tab-nav
             %li.tab-info.ir
               = link_to _("Information"), "#", :class => "tab-info ir", :rel => "tab-info"
-            %li.tab-permission
-              = link_to _("Zugriffsberechtigungen"), "#",
-                :class => "tab-permission ir open_permission_lightbox", 
-                :"data-media_resource_ids" => "[#{@media_entry.id}]",
-                :"data-current_user" => "#{current_user.to_json(:only=>:id, :include => :groups)}"
             %li.tab-activity
               = link_to _("Aktivitäten"), "#", :class => "tab-activity ir", :rel => "tab-activity"
           #tab-info.clearfix
@@ -114,6 +109,13 @@
             - else
               %li
                 .button_edit_active.ghost
+            %li
+              = link_to "",
+              :title => "Zugriffsberechtigung",
+              :class => "open_permission_lightbox", 
+              :"data-media_resource_ids" => "[#{@media_entry.id}]",
+              :"data-current_user" => "#{current_user.to_json(:only=>:id, :include => :groups)}" do
+                .button_permissions
             %li
               %span.favorite_link{:id => "fav_#{media_entry.id}", :title => "Favorit"}
                 = render :partial => "resources/favorite_link", :locals => {:media_resource => media_entry}

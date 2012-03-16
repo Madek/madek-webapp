@@ -20,7 +20,6 @@
 //= require department-selection/department-selection
 //= require set-widget/set-widget 
 //= require mediaset-popup/mediaset-popup
-//= require permission-preset/permission-preset
 //= require permission/permission
 //= require iframe-wrapper/iframe-wrapper
 //= require_tree ./media_resource

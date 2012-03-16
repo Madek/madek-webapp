@@ -5,7 +5,15 @@
   position: relative;
   top: 11px;
   
-  h2 { display: none; }
-  .container>p { display: none; }
+  .container {
+    padding-top: 18px;
     
+    &>h2 { display: none; }
+    &>p { display: none; }
+    
+    .media_resource_selection_view_switch {
+      position: absolute;
+      right: 0;
+    }
+  }  
 }
