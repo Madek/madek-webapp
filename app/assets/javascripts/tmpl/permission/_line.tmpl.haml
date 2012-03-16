@@ -3,7 +3,11 @@
     .button{:title => "Entfernen"}= "—"
   .subject{:title => "${name}"}
     {{if name}}
-    = "${Underscore.truncate(name, 22)}"
+    {{if name.length>27}}
+    ${name.slice(0,17)}...${name.slice(name.length-12,name.length-1)}
+    {{else}}
+    ${name}
+    {{/if}}
     {{/if}}
     {{if $item.is_public}}
     = "Öffentlichkeit"

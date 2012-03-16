@@ -41,11 +41,9 @@ When /^I open the permission lightbox$/ do
   wait_for_css_element(".permission_lightbox .line")
 end
 
-Then /^I can choose only users as owner$/ do
-  find(".me .owner input")
-  all(".users .line").each do |line|
-    line.find(".owner input")
-  end
+Then /^I can choose a user as owner$/ do
+  page.has_css?(".permission_view .users .line .owner input").should == true
+  all(".groups .line .owner input").size >= 0
 end
 
 Then /^I can not choose any groups as owner$/ do
