@@ -39,6 +39,8 @@ gem 'jquery-tmpl-rails'
 gem 'haml_assets'
 gem "plupload-rails", "~> 1.0.6"
 
+gem "d3_rails", "~> 2.8.0"
+
 # Gems used only for assets and not required in production environments by default.
 group :assets do
   gem 'sass-rails', '~> 3.1'

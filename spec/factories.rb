@@ -3,12 +3,14 @@
 module DataFactory 
   extend self
 
-  def clear_data 
+  def reset_data 
     ActiveRecord::Base.transaction do
       MediaResource.destroy_all
       Grouppermission.destroy_all
+      Group.destroy_all
       Userpermission.destroy_all
       User.destroy_all
+      MetaContextGroup.destroy_all
     end
     MetaHelper.import_initial_metadata
   end

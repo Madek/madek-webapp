@@ -88,6 +88,7 @@ MAdeK::Application.routes.draw do
     collection do
       post :parents
       delete :parents
+      get :graph
     end
     member do
       get :abstract

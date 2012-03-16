@@ -47,8 +47,10 @@ class Person < ActiveRecord::Base
   end
 =end
 
-  def self.search(s)
-    w = s.split.map do |q|
+  def self.search(query)
+    return scoped unless query
+
+    w = query.split.map do |q|
       "firstname LIKE '%#{q}%' OR lastname LIKE '%#{q}%' OR pseudonym LIKE '%#{q}%'"
     end
     where(w.join(' OR '))

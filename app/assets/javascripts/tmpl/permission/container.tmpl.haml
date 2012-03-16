@@ -2,10 +2,10 @@
   .container
     %h2= "Zugriffsberechtigungen"
     %p
-      {{if media_resources.length == 1}}
+      {{if media_resource_ids.length == 1}}
       = "1 Medieneintrag ausgewählt"
       {{else}}
-      = "${media_resources.length} Medieneinträge ausgewählt"
+      = "${media_resource_ids.length} Medieneinträge ausgewählt"
       {{/if}}
     .media_resource_selection_view_switch
       %a.active{:"data-switch_target" => ".media_resource_selection.switchable .media"}= "Medienansicht"
@@ -15,7 +15,6 @@
     
     %section.media_resource_selection.switchable
       .media.active
-        {{tmpl(media_resources) "tmpl/media_resource/image"}}
       .table
         %table
           %tr.head
@@ -25,7 +24,6 @@
             %td.tags= "Schlagworte"
             %td.credits= "Rechte"
             %td.upload= "Hochgeladen"
-          {{tmpl(media_resources) "tmpl/media_resource/table_row"}}  
   
     .line.head
       .subject

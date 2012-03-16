@@ -1,19 +1,36 @@
 # -*- encoding : utf-8 -*-
 class UsersController < ApplicationController
 
-  # only used for jquery-autocomplete ?? 
-  def index
-    people = Person.search(params[:term])
-    users = people.map(&:user).compact
-    
-    if params[:group_id]
-      group = Group.find(params[:group_id])
-      users -= group.users
-    end
-    
+  ##
+  # Get a collection of Users
+  # 
+  # @resource /users
+  #
+  # @action GET
+  # 
+  # @optional [String] query The search query to find matching users 
+  # @optional [Integer] exclude_group_id The id of the group to exclude the members from the result 
+  #
+  # @example_request {}
+  # @example_response [{"id":1,"name":"Sellitto, Franco"},{"id":2,"name":"Pape, Sebastian"}] 
+  #
+  # @example_request {"query": "franco"}
+  # @example_response [{"id":1,"name":"Sellitto, Franco"}] 
+  #
+  # @example_request {"exclude_group_id": 1} assuming that Franco is member of group_id 1
+  # @example_response [{"id":2,"name":"Pape, Sebastian"}] 
+  #
+  def index(query = params[:query],
+            exclude_group_id = params[:exclude_group_id])
     respond_to do |format|
-      format.html
-      format.json { render :json => users.map {|x| {:id => x.id, :value => x.to_s} } }
+      format.json {
+        @users = Person.search(query).map(&:user).compact
+        
+        if exclude_group_id
+          group = Group.find(exclude_group_id)
+          @users -= group.users
+        end
+      }
     end
   end
 

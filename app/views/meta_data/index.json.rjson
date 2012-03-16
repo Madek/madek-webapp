@@ -1,0 +1,4 @@
+@meta_data.map do |md|
+  @meta_datum = md
+  render :template => "meta_data/show"
+end

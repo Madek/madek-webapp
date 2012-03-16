@@ -1,16 +1,15 @@
-{
+h = {}
 
-pagination: {
-	total: @media_resources.total_entries,
-	page: @media_resources.current_page,
-	per_page: @media_resources.per_page,
-	total_pages: @media_resources.total_pages
-},
+h["pagination"] = {
+  total: @media_resources.total_entries,
+  page: @media_resources.current_page,
+  per_page: @media_resources.per_page,
+  total_pages: @media_resources.total_pages
+}
 
-media_resources: @media_resources.map do |mr|
-	{
-	  id: mr.id
-	}
+h["media_resources"] = @media_resources.map do |mr|
+  @media_resource = mr
+  render :template => "media_resources/show"
 end
 
-}
+h
