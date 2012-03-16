@@ -31,9 +31,9 @@ Feature: Ownership
   # https://www.pivotaltracker.com/story/show/23669443
   @javascript
   Scenario: Groups cannot be owners
-     When I open the set called "Diplomarbeit 2012"
+     When I open the set called "Abgabe zum Kurs Product Design"
       And I want to change the owner
-     Then I can choose only users as owner
+     Then I can choose a user as owner
       And I can not choose any groups as owner
 
   # https://www.pivotaltracker.com/story/show/23669443

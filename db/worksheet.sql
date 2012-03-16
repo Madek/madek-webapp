@@ -1,5 +1,23 @@
 
 
+-- top level sets of the user with id = 999999 
+
+SELECT * from media_resources
+    WHERE type = 'MediaSet'
+    AND user_id = 999999
+    AND id NOT IN 
+      (SELECT child_id FROM media_set_arcs 
+          WHERE parent_id in
+          (SELECT id from media_resources
+            WHERE type = 'MediaSet'
+            AND user_id = 999999)
+          AND child_id in
+          (SELECT id from media_resources
+              WHERE type = 'MediaSet'
+              AND user_id = 999999));
+
+-- 
+
 SELECT "users".* FROM "users" 
   INNER JOIN "groups_users" ON "groups_users"."user_id" = "users"."id" 
   INNER JOIN "groups" ON "groups"."id" = "groups_users"."group_id" 
