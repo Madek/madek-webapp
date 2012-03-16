@@ -1,5 +1,25 @@
 h = {id: @media_resource.id}
 
+## IMAGE
+
+if params[:with] and params[:with][:image]
+  size = params[:with][:image][:size] || :small
+  
+  h["image"] = case params[:with][:image][:as]
+    when "base64"
+      mf = if @media_resource.is_a?(MediaSet)
+            @media_resource.media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
+           else
+            @media_resource.media_file
+           end
+      mf ? mf.thumb_base64(size) : nil
+    else # default return is a url to the image
+      "/resources/%d/image?size=%s" % [id, size]
+  end            
+end
+
+## META DATA
+
 if params[:with] and params[:with][:meta_data]
   h["meta_data"] = {}
   
@@ -13,5 +33,13 @@ if params[:with] and params[:with][:meta_data]
     end
   end
 end
+
+## TYPE
+
+if params[:with] and params[:with][:type]
+  h["type"] = @media_resource.class.to_s.underscore
+end
+
+## 
 
 h

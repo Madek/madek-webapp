@@ -17,26 +17,32 @@
     {{/each}}
     {{/each}}
   {{/if}}
-
+  
 %section.others      
   %h3
     ="Andere"
     
-  {{if users.length>0}}  
   %section.users
     %h4
       .user.icon
       ="Personen"
     {{tmpl(users, {with_owner:true, media_resource_ids: $item.media_resource_ids}) "tmpl/permission/_line"}}
-  {{/if}}
+    .line.add
+      .button= "+ Person hinzufügen"
+      %input{:type => "text",
+             :"data-url" => "/users.json",
+             :placeholder => "Person hinzufügen"}
   
-  {{if groups.length>0}}  
   %section.groups
     %h4
       .groups.icon
       ="Gruppen"
     {{tmpl(groups, {is_group:true, media_resource_ids: $item.media_resource_ids}) "tmpl/permission/_line"}}
-  {{/if}}
+    .line.add
+      .button= "+ Gruppe hinzufügen"
+      %input{:type => "text",
+             :"data-url" => "/groups.json",
+             :placeholder => "Gruppe hinzufügen"}
     
   %section.public
     %h4

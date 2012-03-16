@@ -13,20 +13,24 @@
     
     .clear
     
-    %section.media_resource_selection.switchable
+    .media_resource_selection.switchable
+      .loading= image_tag "loading.gif"
       .media.active
       .table
-        %table
-          %tr.head
+        %table.head
+          %tr
             %td.image
             %td.title_author= "Titel und Autor/in"
             %td.date= "Datierung"
             %td.tags= "Schlagworte"
             %td.credits= "Rechte"
             %td.upload= "Hochgeladen"
+        .media_resources
+          %table.media_resources
   
     .line.head
       .subject
+      .remove
       .owner= "Besitzer"
       .preset= "Berechtigung"
       .permissions

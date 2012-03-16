@@ -2,7 +2,7 @@
 
 .button {
   cursor: pointer;
-  display: block;
+  display: inline-block;
   font-weight: bold;
   font-size: 1em;
   text-decoration: none !important;
@@ -38,14 +38,14 @@
   border-left: 1px solid $border-color-left;
   border-right: 1px solid $border-color-right;
   border-bottom: 1px solid $border-color-bottom;
-  @include vertical-gradient($color2, $color3, 0%, 100%);
+  @include vertical-gradient($color2, $color3, 50%, 50%);
   
   &:hover {
     border-top: 1px solid #f0eee0;
     border-bottom: none;
     border-right: 1px solid #f0eee0;
     border-left: 1px solid #f0eee0;
-    @include vertical-gradient($color2, $color3, 0%, 100%);
+    @include vertical-gradient($color2, $color3, 50%, 50%);
   }
   
   &:active {
@@ -53,7 +53,8 @@
     border-bottom: none;
     border-right: 1px solid #f0eee0;
     border-left: 1px solid #f0eee0;
-    @include vertical-gradient($color2, $color2, 0%, 100%);
+    @include vertical-gradient($color2, $color3, 50%, 50%);
+    @include box-shadow(inset 0 1px 4px rgba(0,0,0,0.1));
   }
   
    &[disabled=disabled] {
@@ -63,7 +64,7 @@
       border-left: 1px solid $border-color-left;
       border-right: 1px solid $border-color-right;
       border-bottom: 1px solid $border-color-bottom;
-      @include vertical-gradient($color2, $color3, 0%, 100%);
+      @include vertical-gradient($color2, $color3, 50%, 50%);
     }
   }
   
@@ -73,13 +74,13 @@
       border-left: 1px solid $border-color-left;
       border-right: 1px solid $border-color-right;
       border-bottom: 1px solid $border-color-bottom;
-      @include vertical-gradient($color2, $color3, 0%, 100%); 
+      @include vertical-gradient($color2, $color3, 50%, 50%); 
     }
   }
 }
 
 .button, .button.white {
-  @include button(#444, #e1e1e1, #d7d7d7, #fdfdfd, #CCC, #AAA, #999);
+  @include button(#444, #d7d7d7, #ededed, #fdfdfd, #CCC, #AAA, #999);
 }
 
 .button.yellow {

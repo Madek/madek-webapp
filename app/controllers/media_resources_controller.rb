@@ -20,8 +20,10 @@ class MediaResourcesController < ApplicationController
   # @example_request {"with": {"meta_data": {"meta_context_names": ["core"]}}} Requests MediaResources with all nested MetaData for the MetaContext with the name "core". 
   # @example_response {"media_resources:": [{"id":1, "meta_data": {"title": "My new Picture", "author": "Musterman, Max", "portrayed_object_dates": null, "keywords": "picture, portrait", "copryright_notice"}}, ...], "pagination": {"total": 100, "page": 1, "per_page": 36, "total_pages": 2}}
   #
-  # @response_field [Integer] [].id The id of the MediaResource  
+  # @example_request {"ids": [1,2,3], "with": {"image": {"as": "base64"}}} Is requesting MediaResources with id 1,2 and 3. Adds an image as base64 to the respond.
+  # @example_response {"media_resources:": [{"id":1, "image": ""data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/4gxYSUNDX1BST0ZJTEUAAQEAAAxITGlu bwIQAABtbnRyUkdCIFhZWiAHzgACAAkABgAxAABhY3NwTVNG"}, ...], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
   #
+  # @response_field [Integer] [].id The id of the MediaResource  
   # @response_field [Hash] [].meta_data The MetaData of the MediaResource (To get a list of possible MetaData - or the schema - you have to consider the MetaDatum resource)  
   #
   def index(ids = params[:ids],
