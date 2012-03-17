@@ -40,6 +40,7 @@
         .right
           - if current_page?(:controller => :upload, :action => :show)
             = link_to _("weiter..."), "javascript:void(0)", :"data-link_when_enabled" => permissions_upload_path, :class => "upload_buttons next disabled"
+            = link_to _("Medien übertragen..."), "javascript:void(0)", :class => "upload_buttons plupload_start plupload_disabled"
           - elsif current_page?(:controller => :upload, :action => :permissions)
             = link_to _("Berechtigungen speichern und weiter..."), "javascript:void(0)", :onclick => "$('#upload form').submit();", :class => "upload_buttons next", :id => "save_permissions"
           - elsif current_page?(:controller => :upload, :action => :edit)
