@@ -82,72 +82,46 @@ module MediaSetsHelper
     end
   end
 
-  def media_sets_setter(form_path, with_cancel_button = false)
-    editable_sets = MediaSet.accessible_by_user(current_user, :edit)
-    form_tag form_path, :id => "set_media_sets" do
-      b = content_tag :h3, :style => "clear: both" do
-        _("Zu Set hinzufügen:")
-      end
-
-      b += content_tag :span, :style => "margin-right: 1em;" do
-        select_tag "media_set_ids[]", options_for_select({_("- Auswählen -") => nil}) + options_from_collection_for_select(editable_sets, :id, :title_and_user), :style => "width: 100%;"
-      end
-
-      b += content_tag :button, :id => "new_button", :style => "float: left;" do
-            _("Neues Set erstellen")
-      end
-
-      b += content_tag :span, :id => "text_media_set", :style => "display: none;" do
-        c = text_field_tag nil, nil, :style => "width: 20em; margin-top: 0; float: left;"
-        c += content_tag :button, :style => "margin: 0 0 0 10px;" do
-              _("Hinzufügen")
+  def media_sets_widget(resources = nil, linked_content = nil, more_class = nil, linked_index_with = {})
+    resources = Array(resources)
+    capture_haml do
+      if resources.empty?
+        selected_ids = ""
+        detach_selected = "true"
+        link = {path: "/resources/parents.json", method: "POST", data: {parent_media_set_ids: ":parent_media_set_ids", media_resource_ids: ":media_resource_ids"}}
+        unlink = {path: "/resources/parents.json", method: "DELETE", data: {parent_media_set_ids: ":parent_media_set_ids", media_resource_ids: ":media_resource_ids"}}
+      else
+        selected_ids = resources.map(&:id).to_json
+        if resources.first.is_a?(MediaSet)
+          detach_selected = "true"
+          link = {path: "/media_sets/parents.json", method: "POST", data: {parent_media_set_ids: ":parent_media_set_ids", media_set_ids: ":media_set_ids"}}
+          unlink = {path: "/media_sets/parents.json", method: "DELETE", data: {parent_media_set_ids: ":parent_media_set_ids", media_set_ids: ":media_set_ids"}}
+        else
+          detach_selected = nil
+          link = {path: "/media_entries/media_sets.json", method: "POST", data: {parent_media_set_ids: ":parent_media_set_ids", media_entry_ids: ":media_entry_ids"}}
+          unlink = {path: "/media_entries/media_sets.json", method: "DELETE", data: {parent_media_set_ids: ":parent_media_set_ids", media_entry_ids: ":media_entry_ids"}}
         end
       end
-
-      b += content_tag :p, :style => "clear: right; margin-bottom: 15px; font-size:1.2em;", :class => "save" do
-        submit_tag _("Zu ausgewähltem Set hinzufügen…"), :style => "display: none; float: right; margin: 20px 0;"
+      args = {title: _("Zu Set hinzufügen/entfernen"),
+              class: ("has-set-widget"+" #{more_class}"),
+              :"data-selected_ids" => selected_ids,
+              :"data-user" => current_user.to_json(only: {}, methods: :name),
+              :"data-after_submit" => "window.location.reload();",
+              :"data-detach_selected" => detach_selected,
+              :"data-index" => {path: "/media_sets.json", method: "GET", data: {accessible_action: "edit", with: {media_set: {creator: 1, created_at: 1, title: 1}}}}.to_json,
+              :"data-linked_index" => {path: "/media_sets.json", method: "GET", data: {accessible_action: "edit", child_ids: ":selected_ids"}.merge(linked_index_with)}.to_json,
+              :"data-create" => {path: "/media_sets.json", method: "POST", data: {media_sets: ":created_items"}, created_item: {meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: ":title"}}}}.to_json,
+              :"data-link" => link.to_json,
+              :"data-unlink" => unlink.to_json}
+  
+      haml_tag :button, args do
+        if linked_content
+          haml_concat linked_content
+        else
+          haml_tag :div, :class => "button_addto"
+        end
       end
-      
-      b += content_tag :p, :style => "clear: both;" do
-        link_to _("Weiter ohne Hinzufügen zu einem Set…"), root_path, :class => "upload_buttons"
-      end if with_cancel_button
-
-      b += javascript_tag do
-        begin
-        <<-HERECODE
-        $(document).ready(function () {
-          $("button#new_button").click(function() {
-            $(this).hide();
-            $(this).closest("form").find("input:submit").hide();
-            $("#text_media_set input").val("");
-            $("#text_media_set").fadeIn();
-            return false;
-          });
-          $("#text_media_set button").click(function() {
-            var v = $("#text_media_set input").val();
-            $("#media_set_ids_").append("<option value='"+v+"' selected='selected'>"+v+"</option>");
-            $("#text_media_set").hide();
-            $("button#new_button").fadeIn();
-            $("form#set_media_sets").trigger('change');
-            return false;
-          });
-          $("#text_media_set input").keypress(function(event) {
-            if(event.keyCode == 13){ // 13 is Enter
-              $("#text_media_set button").trigger('click');
-              return false;
-            }
-          });
-          
-          $("form#set_media_sets").change(function() {
-            $(this).find("input:submit").show();
-          });
-        });
-        HERECODE
-        end.html_safe
-      end
-
     end
-
   end
 
 ####################################################################

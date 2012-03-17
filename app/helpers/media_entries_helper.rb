@@ -2,37 +2,51 @@
 module MediaEntriesHelper
  
   def meta_data(media_entry, is_expert)
-    
-    meta_data = []
-    # TODO check permissions for individual contexts (through media_sets)
-    (MetaContext.defaults + media_entry.individual_contexts).collect do |meta_context|
-      meta_data << display_meta_data_for(media_entry, meta_context)
-    end
-    meta_data << display_objective_meta_data_for(media_entry)
-    if false #media_entry.media_file.meta_data and media_entry.media_file.meta_data["GPS:GPSLatitude"] and media_entry.media_file.meta_data["GPS:GPSLongitude"]
-      meta_data << (link_to _("Karte"), [:map, media_entry])
-    end
-    if is_expert
-      meta_context = MetaContext.tms
-      meta_data << display_meta_data_for(media_entry, meta_context)
-    end
-    
-    meta_data_output = [[],[],[],[]]
-    meta_data.each_slice(4) do |slice|
-      slice.each_with_index do |entry, index|
-        meta_data_output[index] << entry
+
+    meta_context_group_data= []
+
+    MetaContextGroup.all.each do |meta_context_group|
+
+      meta_data = []
+      # TODO check permissions for individual contexts (through media_sets)
+      meta_context_group.meta_contexts.collect do |meta_context|
+        meta_data << display_meta_data_for(media_entry, meta_context)
       end
+      meta_data << display_objective_meta_data_for(media_entry)
+      if false #media_entry.media_file.meta_data and media_entry.media_file.meta_data["GPS:GPSLatitude"] and media_entry.media_file.meta_data["GPS:GPSLongitude"]
+        meta_data << (link_to _("Karte"), [:map, media_entry])
+      end
+      if is_expert
+        meta_context = MetaContext.tms
+        meta_data << display_meta_data_for(media_entry, meta_context)
+      end
+
+      meta_data_output = [[],[],[],[]]
+      meta_data.each_slice(4) do |slice|
+        slice.each_with_index do |entry, index|
+          meta_data_output[index] << entry
+        end
+      end
+
+      meta_context_group_data << {meta_context_group: meta_context_group, meta_data_output: meta_data_output} 
     end
-    
+
     capture_haml do
-      meta_data_output.each_with_index do |entry, index|
-        haml_tag :div, :class => "col" do
-          meta_data_output[index].each do |entry|
-            haml_concat entry
+      meta_context_group_data.each do |mcgd|
+        meta_context_group = mcgd[:meta_context_group]
+        meta_data_output= mcgd[:meta_data_output]
+        haml_tag :div, class: "meta_context_group", id:  meta_context_group.id.to_s, "data-name" => meta_context_group.name.to_s do
+          meta_data_output.each_with_index do |entry, index|
+            haml_tag :div, :class => "col" do
+              meta_data_output[index].each do |entry|
+                haml_concat entry
+              end
+            end
           end
         end
       end
     end
+
   end
  
   def thumb_for(resource, size = :small_125, options = {})
