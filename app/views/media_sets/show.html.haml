@@ -99,7 +99,7 @@
 
 :javascript
   $(document).ready(function () {
-    setupBatch(#{@media_entries.to_json}, #{@media_set.id}, #{@media_set.media_entry_ids.to_json});
+    setupBatch(#{@media_entries.to_json}, #{@media_set.media_entry_ids.to_json});
     
     // hide parents at start
     $("#parents").hide();
