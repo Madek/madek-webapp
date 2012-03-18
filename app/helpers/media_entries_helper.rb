@@ -36,6 +36,10 @@ module MediaEntriesHelper
         meta_context_group = mcgd[:meta_context_group]
         meta_data_output= mcgd[:meta_data_output]
         haml_tag :div, class: "meta_context_group", id:  meta_context_group.id.to_s, "data-name" => meta_context_group.name.to_s do
+          haml_tag :h5 do
+            haml_tag :div, :class => "toggler-arrow"
+            haml_tag :span, meta_context_group.name.to_s
+          end
           meta_data_output.each_with_index do |entry, index|
             haml_tag :div, :class => "col" do
               meta_data_output[index].each do |entry|
@@ -43,6 +47,7 @@ module MediaEntriesHelper
               end
             end
           end
+          haml_tag :div, :class => "clear"
         end
       end
     end

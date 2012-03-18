@@ -148,11 +148,14 @@
         .clear
 
 %section#meta_data
-  = #tmp FIXME meta_data(media_entry, is_expert)
+  = meta_data(media_entry, is_expert)
   .clear
 
 :javascript
+  
   $(document).ready(function () {
+  
+    MetaDataToggler.setup();
 
     /* FIXME: Remove me completly later on
     $(".scrollable").each(function(){
@@ -219,3 +222,15 @@
     })
 
   });
+
+  
+  var MetaDataToggler = new MetaDataToggler();
+  
+  function MetaDataToggler() {
+  
+    this.setup = function () {
+      $(".meta_context_group>h5").bind("click",function(){
+        $(this).closest(".meta_context_group").toggleClass("open");
+      });
+    }
+  }

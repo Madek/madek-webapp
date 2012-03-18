@@ -368,6 +368,10 @@
       @include border-radius(4px);
     }
     
+    .line.without_remove .subject {
+      width: 210px;
+    }
+    
     section.users {
       
       .user.icon {
@@ -379,10 +383,6 @@
         top: 2px;
         width: 12px;
       } 
-      
-      .line.without_remove .subject {
-        width: 210px;
-      }
     }
     
     section.groups {

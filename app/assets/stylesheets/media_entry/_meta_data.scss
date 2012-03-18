@@ -29,6 +29,51 @@
     }
   }
   
+  .meta_context_group {
+    background-color: #F4F4F4;
+    margin-bottom: 4px;
+    
+    &>h5 {
+      background-color: #E9E9E9;
+      cursor: pointer;
+      display: inline-block;
+      margin-bottom: 7px;
+      padding: 8px 0 7px;
+      position: relative;
+      width: 100%;
+      
+      &:hover {
+        background-color: #D7D7D7;
+      }
+            
+      .toggler-arrow {
+        margin-top: 5px;
+      }
+      
+      span {
+        font-size: 1.2em;
+      }
+    }
+    
+   .meta_group {
+      &>ul {
+        display: none;
+      }
+    }
+    
+    &.open {
+      .toggler-arrow {
+        background: url("/assets/icons/toggler-arrow.png") no-repeat scroll -11px 0 transparent !important;
+      }
+      
+      .meta_group {
+        &>ul {
+          display: block;
+        }
+      }
+    }
+  }
+  
   h4.meta_group_name {
     font-size: 1.1em;
     padding: 5px 0 8px;
