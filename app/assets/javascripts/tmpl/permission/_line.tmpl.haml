@@ -23,9 +23,11 @@
       = "(Angepasst)"
     .arrow
     %select
+      {{if sessionStorage.permission_presets}}
       {{each(i, preset) JSON.parse(sessionStorage.permission_presets)}}
       %option{:value => "${preset.name}", :"data-preset" => "${JSON.stringify(preset)}"}= "${preset.name}"
       {{/each}}
+      {{/if}}
       
   .permissions
   

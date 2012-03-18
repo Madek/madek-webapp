@@ -56,7 +56,7 @@ class PermissionsController < ApplicationController
   #
   # @action PUT
   # 
-  # @required [Array] media_resource_ids The collection of resources you want to fetch the permissios for
+  # @required [Array] media_resource_ids The collection of resources you want to change the permissios for
   #
   # @optional [Integer] owner The user-id that will be set as owner for the defined MediaResources
   #
@@ -74,7 +74,6 @@ class PermissionsController < ApplicationController
   # @optional [Boolean] groups[].view The view permission to set for the specified group and the defined MediaResources
   # @optional [Boolean] groups[].download The download permission to set for the specified group and the defined MediaResources
   # @optional [Boolean] groups[].edit The edit permission to set for the specified group and the defined MediaResources
-  # @optional [Boolean] groups[].manage The manage permission to set for the specified group and the defined MediaResourc
   #
   # @optional [Hash] public The permission hash to set for public.
   # @optional [Boolean] public[].view The public view permission to set for the defined MediaResources
@@ -93,18 +92,19 @@ class PermissionsController < ApplicationController
   # @example_request {"media_resources_ids": [1,2,3], "public": {"view": true}} Sets the public-permissions for the MediaResources with id 1,2 and 3. It just sets the view-permission to true and doesnt touch the other pemissions.
   # @example_response "" (empty response body with status: 200 OK)
   #
-  def update
-
+  def update(groups = Array(params[:groups].is_a?(Hash) ? params[:groups].values : params[:groups]),
+             users = Array(params[:users].is_a?(Hash) ? params[:users].values : params[:users]),
+             media_resource_ids = Array(params[:media_resource_ids].is_a?(Hash) ? params[:media_resource_ids].values : params[:media_resource_ids]),
+             public = params[:public],
+             owner = params[:owner])
+    
     require 'set'
 
     ActiveRecord::Base.transaction do
 
-      params[:users]= (params[:users] or [])
-      params[:groups]= (params[:groups] or [])
-
-      media_resource_ids = Set.new params[:media_resource_ids].map{|i| i.to_i}
-      affected_user_ids=  Set.new params[:users].map{|up| up["id"].to_i}
-      affected_group_ids=  Set.new params[:groups].map{|gp| gp["id"].to_i}
+      media_resource_ids = Set.new media_resource_ids.map{|i| i.to_i}
+      affected_user_ids=  Set.new users.map{|up| up["id"].to_i}
+      affected_group_ids=  Set.new groups.map{|gp| gp["id"].to_i}
 
       # destroy deleted or no more wanted user_permissions
       media_resource_ids.each do |mr_id| 
@@ -116,7 +116,7 @@ class PermissionsController < ApplicationController
 
       # create or update userpermission 
       media_resource_ids.each do |mr_id| 
-        params[:users].each do |newup| 
+        users.each do |newup| 
           uid= newup[:id].to_i
           up = Userpermission.where("media_resource_id= ?",mr_id).where("user_id = ?",uid).first || (Userpermission.new user_id: uid, media_resource_id: mr_id)
           up.update_attributes! newup.select{|k,v| v == true || v == false}
@@ -133,7 +133,7 @@ class PermissionsController < ApplicationController
 
       # create or update grouppermission 
       media_resource_ids.each do |mr_id| 
-        params[:groups].each do |newup| 
+        groups.each do |newup| 
           uid= newup[:id].to_i
           up = Grouppermission.where("media_resource_id= ?",mr_id) \
             .where("group_id = ?",uid).first || (Grouppermission.new group_id: uid, media_resource_id: mr_id)
@@ -141,16 +141,16 @@ class PermissionsController < ApplicationController
         end
       end
 
-      #update public permissions
-      if params[:public] 
+      # update public permissions
+      if public
         media_resource_ids.each do |mr_id|
           MediaResource.find(mr_id).update_attributes! \
-            params[:public].select{|k,v| (Constants::ACTIONS.include? k.to_sym) and (v == true or v == false)}
+            public.select{|k,v| (Constants::ACTIONS.include? k.to_sym) and (v == true || v == "true" or v == false || v == "false")}
         end
       end
 
-      #update owner
-      if owner_id= (params[:owner] and params[:owner].to_i)
+      # update owner
+      if owner_id= (owner and owner.to_i)
         media_resource_ids.each do |mr_id|
           MediaResource.find(mr_id).update_attributes! user_id: owner_id
         end

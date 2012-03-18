@@ -1,4 +1,5 @@
 @import "../mixins";
+@import "../variables";
 
 .permission_lightbox {
   overflow: visible !important;
@@ -32,6 +33,10 @@
   label.mixed {
     background: url("stripe_1.png") repeat scroll 0 0 red;
     @include border-radius(4px);
+    
+    &.overwritten {
+      background: none !important;
+    }
   }
   
   .upload_buttons.disabled {
@@ -39,6 +44,27 @@
     border-color: #c5c5c5;
     background: #ededed no-repeat 0 center;
     cursor: default;
+  }
+  
+  .upload_buttons.loading {
+    cursor: default;
+    
+    img {
+      position: relative;
+      top: 2px;
+    }
+    
+    &>.success.icon {
+      background: url($sprite) no-repeat -17px 0;
+      display: block;
+      height: 15px;
+      margin: 3px auto;
+      width: 16px;
+    }
+    
+    &:hover {
+      background: white;
+    }
   }
   
   section {
@@ -131,6 +157,10 @@
         margin: 0;
         padding-left: 1px;
         width: 28px;  
+        
+        &.mixed {
+          background: none;
+        }
       }
     }
     
@@ -186,7 +216,7 @@
       }
     }
     
-    label {
+    label, .label {
       display: inline-block;
       height: 21px;
       margin-right: 24px;
@@ -283,15 +313,15 @@
     padding-bottom: 10px;
   }
   
+  .me.icon {
+    background: url(icons/madek_icon_sprites.png) -308px -1039px no-repeat;
+    display: inline-block;
+    height: 15px;
+    margin-right: 5px;
+    width: 12px;
+  }
+  
   section.me {
-    
-    .me.icon {
-      background: url(icons/madek_icon_sprites.png) -308px -1039px no-repeat;
-      display: inline-block;
-      height: 15px;
-      margin-right: 5px;
-      width: 12px;
-    }
     
     &>.line .subject {
       padding-right: 19px;
@@ -315,6 +345,11 @@
     
     .line .subject {
       padding-right: 10px;
+    }
+    
+    .line.without_remove .subject {
+      width: 217px;
+      padding-right: 19px;
     }
   }
   
@@ -344,6 +379,10 @@
         top: 2px;
         width: 12px;
       } 
+      
+      .line.without_remove .subject {
+        width: 210px;
+      }
     }
     
     section.groups {

@@ -30,7 +30,7 @@ class MediaResourcesController < ApplicationController
             page = params[:page],
             per_page = (params[:per_page] || PER_PAGE.first).to_i)
     
-    @media_resources = MediaResource.media_entries_and_media_sets.
+    @media_resources = MediaResource.media_entries_or_media_entry_incompletes_or_media_sets.
                         accessible_by_user(current_user).
                         order("media_resources.updated_at DESC").
                         paginate(:page => page, :per_page => per_page)

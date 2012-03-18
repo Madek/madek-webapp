@@ -1,12 +1,18 @@
 @import "../mixins.scss";
+@import "../variables.scss";
 
 #upload-container #permissions {
   border-top: 1px solid #D2D2D2;
   position: relative;
   top: 11px;
   
+  .media_resource_selection_view_switch {
+    display: none;
+  }
+  
   .container {
-    padding-top: 18px;
+    position: relative;
+    top: -26px;
     
     &>h2 { display: none; }
     &>p { display: none; }
@@ -16,4 +22,36 @@
       right: 0;
     }
   }  
+  
+  .actions { display: none; }
+  
+  .line {
+    .subject {
+      padding-top: 2px;
+      vertical-align: top;
+    }
+    .preset {
+      vertical-align: top;
+      
+      .select {
+        height: 20px;
+        padding-top: 1px;
+        margin-top: 1px;
+      }
+    }
+    .remove {
+      position: relative;
+      top: -2px;
+    }
+  }
+}
+
+#save_permissions {
+  .success.icon {
+    background: url($sprite) no-repeat -17px 0;
+    display: block;
+    height: 14px;
+    margin: 3px auto;
+    width: 16px;
+  }
 }

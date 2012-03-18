@@ -5,5 +5,18 @@
 :javascript
   
   $(document).ready(function(){
-    Permission.display($("#permissions"), #{@media_entries.map(&:id).to_json}, [#{@media_entry.to_json(:with => {:media_resource => {:title => 1, :author => 1, :image => {:size => :small}}})}]);
+    Permission.display_inline({ 
+      container: $("#permissions"), 
+      media_resource_ids: #{@media_entries.map(&:id).to_json},
+      current_user: #{current_user.to_json(:only=>:id, :include => :groups)}
+    });
+    
+    $("#save_permissions").bind("click", function(){
+      $(this).unbind("click");
+      Permission.save($(this), $("#permissions"), function(){
+        window.setTimeout(function(){
+          window.location = "http:\/\/"+window.location.host+"#{edit_upload_path}"
+        }, 100);
+      });
+    });
   });
