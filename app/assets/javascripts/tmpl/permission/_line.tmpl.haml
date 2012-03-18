@@ -4,7 +4,7 @@
   .subject{:title => "${name}"}
     {{if name}}
     {{if name.length>27}}
-    ${name.slice(0,17)}...${name.slice(name.length-12,name.length-1)}
+    ${name.slice(0,16)}...${name.slice(name.length-12,name.length)}
     {{else}}
     ${name}
     {{/if}}
