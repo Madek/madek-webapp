@@ -124,7 +124,7 @@ function removeItems(array, item) {
 
 /////////////////////////////////////////////////////
 
-function setupBatch(json, media_set_id, media_entry_ids_in_set) {
+function setupBatch(json, media_entry_ids_in_set) {
 	if(json != undefined) display_results(json);
     listSelected();
     displayCount();
@@ -142,7 +142,7 @@ function setupBatch(json, media_set_id, media_entry_ids_in_set) {
 	}
 
 	// when remove from set is hovered we only want to highlight those media_entries that are part of the current set
-	if(media_set_id && media_entry_ids_in_set){
+	if(media_entry_ids_in_set){
 		var media_entry_ids = get_selected_media_entry_ids();
 		var media_entries_in_set = intersection_destructive(media_entry_ids_in_set, media_entry_ids);
 	}
