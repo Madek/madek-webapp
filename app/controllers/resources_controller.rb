@@ -174,18 +174,22 @@ class ResourcesController < ApplicationController
       @media_resource.media_file
     end
     
-    return unless media_file
-    
-    preview = media_file.get_preview(size)
-    file = File.join(THUMBNAIL_STORAGE_DIR, media_file.shard, preview.filename)
-    if File.exist?(file)
-      output = File.read(file)
-      send_data output, :type => preview.content_type, :disposition => 'inline'
+    unless media_file
+      # empty gif pixel
+      output = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==\n"
+      send_data Base64.decode64(output), :type => "image/gif", :disposition => 'inline'
     else
-      # OPTIMIZE dry => MediaFile#thumb_base64
-      size = (size == :large ? :medium : :small)
-      output = File.read("#{Rails.root}/app/assets/images/Image_#{size}.png")
-      send_data output, :type => "image/png", :disposition => 'inline'
+      preview = media_file.get_preview(size)
+      file = File.join(THUMBNAIL_STORAGE_DIR, media_file.shard, preview.filename)
+      if File.exist?(file)
+        output = File.read(file)
+        send_data output, :type => preview.content_type, :disposition => 'inline'
+      else
+        # OPTIMIZE dry => MediaFile#thumb_base64
+        size = (size == :large ? :medium : :small)
+        output = File.read("#{Rails.root}/app/assets/images/Image_#{size}.png")
+        send_data output, :type => "image/png", :disposition => 'inline'
+      end
     end
   end  
 

@@ -52,6 +52,7 @@ module Persona
         add_to_admin_group
         setup_dropbox
         create_contexts
+        create_zhdk_group
       end
     end
     
@@ -122,6 +123,10 @@ module Persona
       media_set3.individual_contexts << context
       media_set3.parent_sets << [media_set1, media_set2]      
     end
-
+    
+    def create_zhdk_group
+      Group.find_or_create_by_name("ZHdK")
+    end
+    
   end  
 end

@@ -13,116 +13,94 @@
 
 
 Feature: Permissions
-  As the user "Susanne Schumacher"
+  As a user
   I want to have different permissions on resources
   So that I can decide who has what kind of access to my data
 
   Background: Load the example data and personas
 	Given I have set up the world
     And personas are loaded
-    And I am "Normin"
 
   @javascript
   Scenario: View permission
-    Given a resource owned by "Normin"
+    Given a resource
+      And I am "Normin"
       And the resource has the following permissions:
       |user              |permission       |value|
       |Normin            |view             |true |
      Then "Normin" can view the resource
 
+  @javascript
   Scenario: Edit permission
-    Given a resource owned by "Susanne Schumacher"
+    Given a resource
+      And I am "Normin"
       And the resource has the following permissions:
       |user              |permission       |value|
-      |Susanne Schumacher|edit             |yes  |
-     Then "Susanne Schumacher" can edit the resource
+      |Normin            |edit             |true |
+     Then "Normin" can edit the resource
 
+  @javascript
   Scenario: Download original permission
-    Given a resource owned by "Susanne Schumacher"
+    Given a resource
+      And I am "Normin"
       And the resource has the following permissions:
       |user              |permission       |value|
-      |Susanne Schumacher|download original|yes  |
-     Then "Susanne Schumacher" can download the original file of the resource
-
+      |Normin            |download         |true |
+     Then "Normin" can download the resource
+     
+  @javascript
   Scenario: Manage permission
-    Given a resource owned by "Susanne Schumacher"
+    Given a resource
+      And I am "Normin"
       And the resource has the following permissions:
       |user              |permission       |value|
-      |Susanne Schumacher|manage           |yes  |
-     Then "Susanne Schumacher" can manage permissions on the resource
+      |Normin            |manage           |true |
+     Then "Normin" can manage the resource
 
+  @javascript
   Scenario: Owner permission
-    Given a resource owned by "Susanne Schumacher"
+    Given a resource
+      And I am "Normin"
+     Then "Normin" is the owner of the resource
+  
+  @javascript
+  Scenario: Permission which allows a user to add MediaResources to a MediaSet  
+    Given a set named "Editable Set"
+      And I am "Normin"
       And the resource has the following permissions:
       |user              |permission       |value|
-      |Susanne Schumacher|owner            |yes  |
-     Then "Susanne Schumacher" can the owner of the resource
-
-  # We can add things to a set if we have "view" on the thing we want to add and "edit"
-  # on the thing we are adding it to.
-  Scenario: Permission to add things to a set
-    Given a set called "Editable Set" owned by "Susanne Schumacher"
-      And the set has the following permissions:
+      |Normin            |edit             |true |
+      And a set named "Viewable Set"
+      And the resource has the following permissions:
       |user              |permission       |value|
-      |Susanne Schumacher|edit             |yes  |
-      And a set called "Viewable Set" owned by "Ramon Cahenzli"
-      And the set has the following permissions:
-      |user              |permission       |value|
-      |Susanne Schumacher|view             |yes  |
-     When "Susanne Schumacher" adds "Viewable Set" to "Editable Set"
-     Then "Editable Set" is in "Viewable Set"
+      |Normin            |view             |true |
+     When "Normin" adds the set "Viewable Set" to the set "Editable Set"
+     Then "Viewable Set" is in "Editable Set"
 
-  Scenario: Group permissions
-    Given a group called "MAdeK Managers" with the following members:
-    |user              |
-    |Susanne Schumacher|
-    |Ramon Cahenzli    |
-    And a resource owned by "Susanne Schumacher"
-    And the resource has the following permissions:
-    |user              |permission       |value|
-    |MAdeK Managers    |view             |yes  |
-    |MAdeK Managers    |edit             |yes  |
-    |MAdeK Managers    |manage           |yes  |
-    Then "Susanne Schumacher" can edit the resource
-     And "Ramon Cahenzli" can edit the resource
-     And "Susanne Schumacher" can manage permissions on the resource
-     And "Ramon Cahenzli" can manage permissions on the resource
-     And "Susanne Schumacher" can view the resource
-     And "Ramon Cahenzli" can view the resource
+  @javascript
+  Scenario: Permissions through groups
+  # Petra and Normin are members of the ZHdK Group.
+  # Normin's Diplomarbeit (Set) is viewable by Petra, because Normin granted view permissions
+  # for the ZHdK Group and Petra is member of that group. 
+    Given I am "Petra"
+      And I can view "Diplomarbeit 2012" by "Normin"
 
-   Scenario: People without permissions are explicitly excluded even when they would have group permissions
-    Given a group called "MAdeK Managers" with the following members:
-    |user              |
-    |Susanne Schumacher|
-    |Ramon Cahenzli    |
-    And a resource owned by "Susanne Schumacher"
-    And the resource has the following permissions:
-    |user              |permission       |value|
-    |MAdeK Managers    |view             |yes  |
-    |MAdeK Managers    |edit             |yes  |
-    |MAdeK Managers    |manage           |yes  |
-    |Ramon Cahenzli    |manage           |no|
-    |Ramon Cahenzli    |view             |no|
-    |Ramon Cahenzli    |edit             |no|
-    Then "Susanne Schumacher" can edit the resource
-     And "Ramon Cahenzli" can not edit the resource
-     And "Susanne Schumacher" can manage permissions on the resource
-     And "Ramon Cahenzli" can not manage permissions on the resource
-     And "Susanne Schumacher" can view the resource
-     And "Ramon Cahenzli" can not view the resource   
-
+  @javascript
+  Scenario: Users with explicit user permissions are explicitly excluded even when they would have group permissions
+    # Petra and Normin are members of the ZHdK Group.
+    # Normin's MediaSet "Meine Highlights 2012" is viewable by the ZHdK Group,
+    # but he excluded Petra with explicit UserPermissions,
+    # because he discovered that she is copy pasting his images from there to share them with others
+    Given I am "Petra"
+      And I can not view "Meine Highlights 2012" by "Normin"
 
   # https://www.pivotaltracker.com/story/show/25238301
+  @javascript
   Scenario: Permission presets
-    Given the following permission presets are available:
-    |name                  |permissions|
-    |Gesperrt              | |
-    |Betrachter/in         |view|
-    |Betrachter/in Original|view, download original|
-    |Redaktor/in           |view, edit|
-    |Bevollmächtigte/r     |view, edit, download original, manage permissions|
-    When I edit permissions to a media entry
-    Then those presets are available for choosing
+    Given I am "Normin"
+     When I open one of my resources
+      And I open the permission lightbox
+     Then I can choose from a set of labeled permissions presets instead of grant permissions explicitly    
   
   # https://www.pivotaltracker.com/story/show/23723319
   Scenario: Limiting what other users' permissions I can see

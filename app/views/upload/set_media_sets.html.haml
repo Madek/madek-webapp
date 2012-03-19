@@ -6,4 +6,4 @@
           = thumb_for(media_entry, :small)
           %br
           = media_entry.meta_data.get_value_for("title")
-    = media_sets_widget(@media_entries, _("Einträge zu einem Set hinzufügen"), "upload_buttons", {media_set: {media_entries: 1, child_sets: 1}})
+    = media_sets_widget(@media_entries, _("Einträge zu einem Set hinzufügen"), "upload_buttons", {with: {media_set: {media_entries: 1, child_sets: 1}}})

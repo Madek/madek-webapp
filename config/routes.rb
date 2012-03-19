@@ -84,11 +84,13 @@ MAdeK::Application.routes.draw do
   
 ###############################################
 
+  match '/media_sets/graph/:type', :to => "media_sets#graph"
+
   resources :media_sets do #-# TODO , :except => :index # the index is only used to create new sets
     collection do
       post :parents
       delete :parents
-      get :graph
+      #get :graph
     end
     member do
       get :abstract

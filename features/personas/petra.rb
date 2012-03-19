@@ -73,7 +73,10 @@ module Persona
         create_person
         create_user
         
-        # PETRAS'S RESOURCES
+        # PETRA'S GROUPS
+        join_zhdk_group
+        
+        # PETRA'S RESOURCES
         create_test_set
       end
     end
@@ -87,6 +90,10 @@ module Persona
     def create_user
       @crypted_password = Digest::SHA1.hexdigest(@@password)
       @user = Factory(:user, :person => @person, :login => @name.downcase, :password => @crypted_password)
+    end
+    
+    def join_zhdk_group
+      Group.find_by_name("ZHdK").users << @user
     end
 
     def create_test_set # Test Set
