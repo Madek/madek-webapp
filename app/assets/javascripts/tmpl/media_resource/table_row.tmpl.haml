@@ -7,7 +7,7 @@
     %br
     = "${meta_data.author}"
   %td.date= "${meta_data.portrayed_object_dates}"
-  %td.tags{:title => "${meta_data.keywords}")}= "${Underscore.str.truncate(meta_data.keywords,30)}"
+  %td.tags{:title => "${meta_data.keywords}"}= "${Underscore.str.truncate(meta_data.keywords,30)}"
   %td.credits{:title => "${meta_data.copyright_notice}"}= "${Underscore.str.truncate(meta_data.copyright_notice, 18)}"
   %td.upload
     = "${meta_data.uploaded_by}"
