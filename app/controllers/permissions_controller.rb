@@ -95,7 +95,7 @@ class PermissionsController < ApplicationController
   def update(groups = Array(params[:groups].is_a?(Hash) ? params[:groups].values : params[:groups]),
              users = Array(params[:users].is_a?(Hash) ? params[:users].values : params[:users]),
              media_resource_ids = Array(params[:media_resource_ids].is_a?(Hash) ? params[:media_resource_ids].values : params[:media_resource_ids]),
-             public = params[:public],
+             public_permission= params[:public],
              owner = params[:owner])
     
     require 'set'
@@ -119,7 +119,7 @@ class PermissionsController < ApplicationController
         users.each do |newup| 
           uid= newup[:id].to_i
           up = Userpermission.where("media_resource_id= ?",mr_id).where("user_id = ?",uid).first || (Userpermission.new user_id: uid, media_resource_id: mr_id)
-          up.update_attributes! newup.select{|k,v| v == true || v == false}
+          up.update_attributes! newup.select{|k,v| v.to_s == "true" || v.to_s == "false"}
         end
       end
 
@@ -137,15 +137,15 @@ class PermissionsController < ApplicationController
           uid= newup[:id].to_i
           up = Grouppermission.where("media_resource_id= ?",mr_id) \
             .where("group_id = ?",uid).first || (Grouppermission.new group_id: uid, media_resource_id: mr_id)
-          up.update_attributes! newup.select{|k,v| v == true || v == false}
+          up.update_attributes! newup.select{|k,v| v.to_s == "true" || v.to_s == "false"}
         end
       end
 
       # update public permissions
-      if public
+      if public_permission
         media_resource_ids.each do |mr_id|
           MediaResource.find(mr_id).update_attributes! \
-            public.select{|k,v| (Constants::ACTIONS.include? k.to_sym) and (v == true || v == "true" or v == false || v == "false")}
+            public_permission.select{|k,v| v.to_s == "true" or  v.to_s == "false"}
         end
       end
 
