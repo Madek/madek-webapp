@@ -2,12 +2,25 @@
 
 
 
-When /^I change the owner to "([^"]*)"$/ do |arg1|
+When /^I change the owner to "([^"]*)"$/ do |new_owner|
   @media_set = FactoryGirl.create :media_set, user: @current_user
   visit media_set_path @media_set
   step 'I open the permission lightbox'
-  step %{And I want to change the owner}
-  step %{Then I can choose a user as owner}
+  find(".users .line.add .button").click()
+  find(".users .line.add input").set(new_owner)
+  wait_for_css_element(".ui-autocomplete li a")
+  find(".ui-autocomplete li a").click()
+  find(".users .line .owner input").click()
+  find("a.save").click()
+end
+
+
+Then /^I am no longer the owner$/ do
+  @media_set.reload.user.should_not == @current_user
+end
+
+Then /^the resource is owned by "([^"]*)"$/ do |owner|
+  @media_set.reload.user.should == (User.find_by_login owner.downcase)
 end
 
 When /^I see a list of resources$/ do

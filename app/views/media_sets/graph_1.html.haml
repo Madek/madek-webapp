@@ -1,0 +1,63 @@
+#chart
+  
+:css
+  rect {
+    stroke: #fff;
+    fill-opacity: 1;
+  }
+  g[is_hover] rect {
+    fill-opacity: .5;
+  }
+  
+:javascript
+  $(document).ready(function () {
+    var w = window.innerWidth,
+        h = window.innerHeight,
+        color = d3.scale.category20c();
+    
+    var vis = d3.select("#chart").append("svg")
+        .attr("width", w)
+        .attr("height", h);
+    
+    var partition = d3.layout.partition()
+        .size([w, h])
+        .value(function(d) { return d.size; });
+    
+    d3.json(document.location.href + ".json", function(json) {
+      var node = vis.data([json]).selectAll("rect")
+          .data(partition.nodes)
+        .enter()
+        .append("g")
+          .attr("class", function(d) { return "g_"+d.id; })
+          .attr("title", function(d) { return d.name; })
+          .on("mouseover", function(d) { $(this).qtip({
+              position: { my: 'bottom center', at: 'top center', viewport: $(window) },
+              content: { attr: 'title' },
+              style: { classes: 'ui-tooltip-youtube ui-tooltip-shadow' }
+            });
+            $(this).qtip("show");
+            $(".g_"+d.id).attr("is_hover", "true"); })
+          .on("mouseout", function(d) { $(".g_"+d.id).removeAttr("is_hover"); });
+
+      node.filter(function(d) { return d.thumb; })
+        .append("defs")
+        .append("pattern")
+          .attr("id", function(d) { return d.id; })
+          .attr("patternUnits", "userSpaceOnUse")
+          .attr("width", 100)
+          .attr("height", 100)
+        .append("image")
+          .attr("width", 100)
+          .attr("height", 100)
+          .attr("preserveAspectRatio", "xMinYMin slice")
+          .attr("xlink:href", function(d) { return d.thumb; });
+        
+      node.append("rect")
+          .attr("x", function(d) { return d.x; })
+          .attr("y", function(d) { return d.y; })
+          .attr("width", function(d) { return d.dx; })
+          .attr("height", function(d) { return d.dy; })
+          .style("fill", function(d) { if(d.id) { return "url(#"+d.id+")"; }else{ return "transparent"; } });
+    });
+
+  }); 

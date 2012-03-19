@@ -1,0 +1,11 @@
+
+h = {nodes: [], links: []}
+@media_sets.each do |media_set|
+  #h[:nodes] << {:id => media_set.id, :name => media_set.title}
+  h[:nodes] << {:name => media_set.title}
+  media_set.child_sets.each do |child_set|
+    h[:links] << {source: media_set.title, target: child_set.title, type: "suit"}
+    #h[:links] << {source_id: media_set.id, target_id: child_set.id}
+  end
+end
+h

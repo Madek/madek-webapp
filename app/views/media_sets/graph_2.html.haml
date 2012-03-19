@@ -32,7 +32,7 @@
         .innerRadius(function(d) { return Math.max(0, y(d.y)); })
         .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
     
-    d3.json("/media_sets/graph.json", function(json) {
+    d3.json(document.location.href + ".json", function(json) {
       var node = vis.data([json]).selectAll("path")
           .data(partition.nodes)
         .enter()
