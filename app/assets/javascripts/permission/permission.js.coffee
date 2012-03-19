@@ -260,6 +260,9 @@ class Permission
       # remove mixed values from new and old owner
       $(new_owner_line).find(".mixed").removeClass("mixed")
       $(current_owner_line).find(".mixed").removeClass("mixed")
+      # remove delete line from new user 
+      $(new_owner_line).addClass("without_remove")
+      $(current_owner_line).removeClass("without_remove")
       
   @setup_add_line = (container)->
     # CLICK BUTTON
@@ -439,19 +442,16 @@ class Permission
     media_resource_ids = $(container).data("media_resource_ids")
     permissions = {}
     permissions.public = Permission.compute_permissions_for $(container).find(".public .line .permissions")
-    # TODO EXCLUDE OWNER HERE
-    # user_lines_without_owners = $(container).find("section.users .line:not(.add)").filter (user_line)->
-      # console.log  $(user_line)
-      # console.log  $(user_line).find(".owner input")
-      # console.log $(user_line).find(".owner input").is ":not(:checked)"
-      # $(user_line).find(".owner input").is ":not(:checked)"
-    permissions.users = $.map $(container).find("section.users .line:not(.add)"), (line)->
+    user_lines_without_owners = $(container).find("section.users .line:not(.add)").filter (i, user_line)->
+      $(user_line).find(".owner input").is ":not(:checked)"
+    permissions.users = $.map user_lines_without_owners, (line)->
       Permission.compute_permissions_for $(line).find(".permissions")
     permissions.groups = $.map $(container).find("section.groups .line:not(.add), .groups_with_me .line"), (line)->
       Permission.compute_permissions_for $(line).find(".permissions")
     
     # add current_user to the users when he is not setted as owner
-    permissions.users.push Permission.compute_permissions_for $(container).find(".me .line:first .permissions")
+    if $(container).find(".me .line:first .owner input").is ":not(:checked)"
+      permissions.users.push Permission.compute_permissions_for $(container).find(".me .line:first .permissions")
     
     # add owner to the new permissions if there is an owner explicitly set
     if $(".owner label.mixed").length == 0 and $(".owner input:checked").length == 1
