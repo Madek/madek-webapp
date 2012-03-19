@@ -23,6 +23,22 @@ Then /^the resource is owned by "([^"]*)"$/ do |owner|
   @media_set.reload.user.should == (User.find_by_login owner.downcase)
 end
 
+
+Given /^a resource owned by me$/ do
+  @media_set = FactoryGirl.create :media_set, user: @current_user
+end
+
+Then /^I can use some interface to change the resource's owner to "([^"]*)"$/ do |arg1|
+  visit media_set_path(@media_set)
+  step 'I open the permission lightbox'
+  find(".users .line.add .button").click()
+  find(".users .line.add input").set(new_owner)
+  wait_for_css_element(".ui-autocomplete li a")
+  find(".ui-autocomplete li a").click()
+  find(".users .line .owner input").should_not be_nil
+end
+
+
 When /^I see a list of resources$/ do
   visit root_path
 end

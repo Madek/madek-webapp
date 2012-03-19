@@ -38,10 +38,11 @@ Feature: Ownership
       And I can not choose any groups as owner
 
   # https://www.pivotaltracker.com/story/show/23669443
+  @javascript
   Scenario: Interface for changing owners
     Given a resource owned by me
      When I go to that resource's page
-     Then I can use some interface to change the resource's owner to "Susanne Schumacher"
+     Then I can use some interface to change the resource's owner to "Adam"
 
   # https://www.pivotaltracker.com/story/show/23669443
   @javascript
