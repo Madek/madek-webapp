@@ -99,15 +99,17 @@ class Permission
         $(container).find("section .line").each (i, line)-> Permission.setup_remove_line line
         
   @setup_permission_view = (container, data) ->
+    # filter list of users remove current_user and owners (prevend duplicates!)
+    owner_ids = data.owners.map (owner)-> owner.id
+    data.users = data.users.filter (user)-> user.id != data.you.id and owner_ids.indexOf(user.id) == -1
     # add all owners to the list of users
     for owner in data.owners
-      owner.view = owner.media_resource_ids
-      owner.download = owner.media_resource_ids
-      owner.edit = owner.media_resource_ids
-      owner.manage = owner.media_resource_ids
-      data.users.unshift owner
-    # filter current user list of users (prevend duplicates!)
-    data.users = data.users.filter (element)-> element.id != data.you.id
+      if owner.id != data.you.id
+        owner.view = owner.media_resource_ids
+        owner.download = owner.media_resource_ids
+        owner.edit = owner.media_resource_ids
+        owner.manage = owner.media_resource_ids
+        data.users.unshift owner
     # setup permissions view
     template = $.tmpl("tmpl/permission/_permission_view", data, {current_user: $(container).data("current_user"), media_resource_ids:  $(container).data("media_resource_ids")})
     $(container).find(".permission_view").html template
@@ -417,6 +419,7 @@ class Permission
         users: new_permissions.users
         groups: new_permissions.groups
         public: new_permissions.public
+        owner: new_permissions.owner
       success: (data)->
         $(button).find("img").remove()
         $(button).append "<div class='success icon'></div>"
@@ -436,6 +439,12 @@ class Permission
     media_resource_ids = $(container).data("media_resource_ids")
     permissions = {}
     permissions.public = Permission.compute_permissions_for $(container).find(".public .line .permissions")
+    # TODO EXCLUDE OWNER HERE
+    # user_lines_without_owners = $(container).find("section.users .line:not(.add)").filter (user_line)->
+      # console.log  $(user_line)
+      # console.log  $(user_line).find(".owner input")
+      # console.log $(user_line).find(".owner input").is ":not(:checked)"
+      # $(user_line).find(".owner input").is ":not(:checked)"
     permissions.users = $.map $(container).find("section.users .line:not(.add)"), (line)->
       Permission.compute_permissions_for $(line).find(".permissions")
     permissions.groups = $.map $(container).find("section.groups .line:not(.add), .groups_with_me .line"), (line)->
@@ -443,6 +452,10 @@ class Permission
     
     # add current_user to the users when he is not setted as owner
     permissions.users.push Permission.compute_permissions_for $(container).find(".me .line:first .permissions")
+    
+    # add owner to the new permissions if there is an owner explicitly set
+    if $(".owner label.mixed").length == 0 and $(".owner input:checked").length == 1
+      permissions.owner = $(".owner input:checked").tmplItem().data.id
     
     return permissions
     
