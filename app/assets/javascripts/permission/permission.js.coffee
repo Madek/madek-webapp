@@ -444,9 +444,7 @@ class Permission
     # add current_user to the users when he is not setted as owner
     permissions.users.push Permission.compute_permissions_for $(container).find(".me .line:first .permissions")
     
-    # TODO OPEN WHEN BACKEND IS READY
-    console.log permissions
-    #return permissions
+    return permissions
     
   @close_lightbox = ->
     $(".permission_lightbox .dialog").dialog("close")
