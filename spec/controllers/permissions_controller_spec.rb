@@ -33,8 +33,8 @@ describe PermissionsController do
       @group_a = Factory :group
       @media_resources = 3.times.map do
         mr = Factory :media_resource, :user => @user
-        mr.userpermissions.create(user: @user_a, view: true, edit: true, download: true, manage: false)
-        mr.grouppermissions.create(group: @group_a, view: true, edit: false, download: false, manage: false)
+        mr.userpermissions.create(user: @user_a, view: "true", edit: true, download: true, manage: false)
+        mr.grouppermissions.create(group: @group_a, view: true, edit: "false", download: false, manage: false)
         mr
       end
     end

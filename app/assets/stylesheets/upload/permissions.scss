@@ -6,6 +6,14 @@
   position: relative;
   top: 11px;
   
+  .owner {
+    @include opacity(0.0);
+    
+    label {
+      display: none;
+    }
+  }
+  
   .media_resource_selection_view_switch {
     display: none;
   }
