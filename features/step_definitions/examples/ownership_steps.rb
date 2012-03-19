@@ -1,5 +1,15 @@
 # coding: UTF-8
 
+
+
+When /^I change the owner to "([^"]*)"$/ do |arg1|
+  @media_set = FactoryGirl.create :media_set, user: @current_user
+  visit media_set_path @media_set
+  step 'I open the permission lightbox'
+  step %{And I want to change the owner}
+  step %{Then I can choose a user as owner}
+end
+
 When /^I see a list of resources$/ do
   visit root_path
 end
@@ -30,6 +40,7 @@ end
 
 When /^I open the set called "([^"]*)"$/ do |set_title|
   visit media_set_path(@current_user.media_sets.find_by_title(set_title))
+
 end
 
 When /^I want to change the owner$/ do

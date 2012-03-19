@@ -23,6 +23,7 @@ Feature: Ownership
      And I am "Normin"
 
   # https://www.pivotaltracker.com/story/show/23669443
+  @javascript
   Scenario: Only one owner per resource
      When I change the owner to "Adam"
      Then I am no longer the owner
