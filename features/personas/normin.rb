@@ -83,7 +83,7 @@ module Persona
     end
     
     def join_zhdk_group
-      @zhdk_group = Group.find_by_name("ZHdK")
+      @zhdk_group = Group.find 1
       @zhdk_group.users << @user
     end
     

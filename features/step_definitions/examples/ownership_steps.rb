@@ -108,6 +108,17 @@ Then /^I cannot change the owner$/ do
   end
 end
 
+When /^"([^"]*)" changes the resource's permissions for "([^"]*)" as follows:$/ do |owner, new_owner, table|
+  visit resource_path(@resource)
+  step 'I open the permission lightbox'
+  find(".users .line.add .button").click()
+  find(".users .line.add input").set(new_owner)
+  wait_for_css_element(".ui-autocomplete li a")
+  find(".ui-autocomplete li a").click()
+  binding.pry
+  #   pending # express the regexp above with the code you wish you had
+end
+
 When /^I open one of my resources$/ do
   wait_for_css_element("#content_body .thumb_box")
   find("#content_body .thumb_box").click

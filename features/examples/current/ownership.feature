@@ -58,19 +58,20 @@ Feature: Ownership
     Then I should have all permissions
 
   # https://www.pivotaltracker.com/story/show/23669443
+  @javascript
   Scenario: Owners can assign permissions to other people
     Given a resource owned by "Normin"
-     When "Normin" changes the resource's permissions as follows:
-     |user          |permission       |value|
-     |Petra|view             |yes  |
-     |Petra|download original|no   |
-     |Petra|edit             |yes  |
-     |Petra|manage           |yes  |
-     Then the resource has the following permissions:
-     |Petra|view             |yes  |
-     |Petra|download original|no   |
-     |Petra|edit             |yes  |
-     |Petra|manage           |yes  |
+     When "Normin" changes the resource's permissions for "Petra" as follows:
+     |permission       |value|
+     |view             |yes  |
+     |download original|no   |
+     |edit             |yes  |
+     |manage           |yes  |
+     Then the resource has the following permissions for "Petra":
+     |view             |yes  |
+     |download original|no   |
+     |edit             |yes  |
+     |manage           |yes  |
 
   # https://www.pivotaltracker.com/story/show/23669443
   Scenario: The admin interface allows assigning permissions
