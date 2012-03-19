@@ -27,9 +27,10 @@
     {{tmpl(users, {with_owner:true, media_resource_ids: $item.media_resource_ids}) "tmpl/permission/_line"}}
     .line.add
       .button= "+ Person hinzufügen"
-      %input{:type => "text",
+      %input{type:  "text",
              :"data-url" => "/users.json",
-             :placeholder => "Person hinzufügen"}
+             id: "add_user",
+             placeholder:  "Person hinzufügen"}
   
   %section.groups
     %h4
@@ -38,9 +39,10 @@
     {{tmpl(groups, {is_group:true, media_resource_ids: $item.media_resource_ids}) "tmpl/permission/_line"}}
     .line.add
       .button= "+ Gruppe hinzufügen"
-      %input{:type => "text",
+      %input{type:  "text",
              :"data-url" => "/groups.json",
-             :placeholder => "Gruppe hinzufügen"}
+             id: "add_group",
+             placeholder:  "Gruppe hinzufügen"}
     
   %section.public
     %h4
