@@ -115,6 +115,12 @@ When /^"([^"]*)" changes the resource's permissions for "([^"]*)" as follows:$/ 
   find(".users .line.add input").set(new_owner)
   wait_for_css_element(".ui-autocomplete li a")
   find(".ui-autocomplete li a").click()
+
+  table.hashes.each do |perm| 
+    if perm["value"] == true
+        find(%Q@.users .line input##{perm["permission"]}@).click()
+    end
+  end
   binding.pry
   #   pending # express the regexp above with the code you wish you had
 end

@@ -63,15 +63,15 @@ Feature: Ownership
     Given a resource owned by "Normin"
      When "Normin" changes the resource's permissions for "Petra" as follows:
      |permission       |value|
-     |view             |yes  |
-     |download original|no   |
-     |edit             |yes  |
-     |manage           |yes  |
+     |view             |true  |
+     |download         |false |
+     |edit             |true  |
+     |manage           |true  |
      Then the resource has the following permissions for "Petra":
-     |view             |yes  |
-     |download original|no   |
-     |edit             |yes  |
-     |manage           |yes  |
+     |view             |true  |
+     |download         |false |
+     |edit             |true  |
+     |manage           |true  |
 
   # https://www.pivotaltracker.com/story/show/23669443
   Scenario: The admin interface allows assigning permissions
