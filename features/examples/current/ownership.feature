@@ -41,7 +41,7 @@ Feature: Ownership
   @javascript
   Scenario: Interface for changing owners
     Given a resource owned by me
-     When I go to that resource's page
+     When I vist that resource's page
      Then I can use some interface to change the resource's owner to "Adam"
 
   # https://www.pivotaltracker.com/story/show/23669443

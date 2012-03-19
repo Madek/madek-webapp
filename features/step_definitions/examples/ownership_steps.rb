@@ -28,7 +28,7 @@ Given /^a resource owned by me$/ do
   @media_set = FactoryGirl.create :media_set, user: @current_user
 end
 
-Then /^I can use some interface to change the resource's owner to "([^"]*)"$/ do |arg1|
+Then /^I can use some interface to change the resource's owner to "([^"]*)"$/ do |new_owner|
   visit media_set_path(@media_set)
   step 'I open the permission lightbox'
   find(".users .line.add .button").click()
@@ -38,6 +38,10 @@ Then /^I can use some interface to change the resource's owner to "([^"]*)"$/ do
   find(".users .line .owner input").should_not be_nil
 end
 
+
+When /^I vist that resource's page$/ do
+  visit resource_path(@media_set)
+end
 
 When /^I see a list of resources$/ do
   visit root_path
