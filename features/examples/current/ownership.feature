@@ -59,18 +59,18 @@ Feature: Ownership
 
   # https://www.pivotaltracker.com/story/show/23669443
   Scenario: Owners can assign permissions to other people
-    Given a resource owned by "Susanne Schumacher"
-     When "Susanne Schumacher" changes the resource's permissions as follows:
+    Given a resource owned by "Normin"
+     When "Normin" changes the resource's permissions as follows:
      |user          |permission       |value|
-     |Ramon Cahenzli|view             |yes  |
-     |Ramon Cahenzli|download original|no   |
-     |Ramon Cahenzli|edit             |yes  |
-     |Ramon Cahenzli|manage           |yes  |
+     |Petra|view             |yes  |
+     |Petra|download original|no   |
+     |Petra|edit             |yes  |
+     |Petra|manage           |yes  |
      Then the resource has the following permissions:
-     |Ramon Cahenzli|view             |yes  |
-     |Ramon Cahenzli|download original|no   |
-     |Ramon Cahenzli|edit             |yes  |
-     |Ramon Cahenzli|manage           |yes  |
+     |Petra|view             |yes  |
+     |Petra|download original|no   |
+     |Petra|edit             |yes  |
+     |Petra|manage           |yes  |
 
   # https://www.pivotaltracker.com/story/show/23669443
   Scenario: The admin interface allows assigning permissions

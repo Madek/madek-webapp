@@ -16,6 +16,7 @@ end
 
 
 Then /^I am no longer the owner$/ do
+  sleep 1
   @media_set.reload.user.should_not == @current_user
 end
 
