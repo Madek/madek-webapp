@@ -1,11 +1,11 @@
 #chart
   
 :css
-  path {
+  rect {
     stroke: #fff;
     fill-opacity: 1;
   }
-  g[is_hover] path {
+  g[is_hover] rect {
     fill-opacity: .5;
   }
   
@@ -13,34 +13,25 @@
   $(document).ready(function () {
     var w = window.innerWidth,
         h = window.innerHeight,
-        r = Math.min(w, h) / 2,
-        x = d3.scale.linear().range([0, 2 * Math.PI]),
-        y = d3.scale.sqrt().range([0, r]);
+        color = d3.scale.category20c();
     
     var vis = d3.select("#chart").append("svg")
         .attr("width", w)
-        .attr("height", h)
-      .append("g")
-        .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")");
+        .attr("height", h);
     
     var partition = d3.layout.partition()
+        .size([w, h])
         .value(function(d) { return d.size; });
     
-    var arc = d3.svg.arc()
-        .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
-        .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
-        .innerRadius(function(d) { return Math.max(0, y(d.y)); })
-        .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
-    
-    d3.json("/media_sets/graph.json", function(json) {
-      var node = vis.data([json]).selectAll("path")
+    d3.json(document.location.href + ".json", function(json) {
+      var node = vis.data([json]).selectAll("rect")
           .data(partition.nodes)
         .enter()
         .append("g")
           .attr("class", function(d) { return "g_"+d.id; })
           .attr("title", function(d) { return d.name; })
           .on("mouseover", function(d) { $(this).qtip({
-              position: { my: 'center left', at: 'center right', viewport: $(window) },
+              position: { my: 'bottom center', at: 'top center', viewport: $(window) },
               content: { attr: 'title' },
               style: { classes: 'ui-tooltip-youtube ui-tooltip-shadow' }
             });
@@ -48,41 +39,25 @@
             $(".g_"+d.id).attr("is_hover", "true"); })
           .on("mouseout", function(d) { $(".g_"+d.id).removeAttr("is_hover"); });
 
-        node.filter(function(d) { return d.thumb; })
-          .append("defs")
-          .append("pattern")
-            .attr("id", function(d) { return d.id; })
-            .attr("patternUnits", "userSpaceOnUse")
-            .attr("width", 100)
-            .attr("height", 100)
-          .append("image")
-            .attr("width", 100)
-            .attr("height", 100)
-            .attr("preserveAspectRatio", "xMinYMin slice")
-            .attr("xlink:href", function(d) { return d.thumb; });
-          
-       var path = node.append("path")
-          .attr("d", arc)
-          .style("fill", function(d) { if(d.id) { return "url(#"+d.id+")"; }else{ return "transparent"; } })
-          .on("click", click);
-    
-      function click(d) {
-        path.transition()
-          .duration(750)
-          .attrTween("d", arcTween(d));
-      }
+      node.filter(function(d) { return d.thumb; })
+        .append("defs")
+        .append("pattern")
+          .attr("id", function(d) { return d.id; })
+          .attr("patternUnits", "userSpaceOnUse")
+          .attr("width", 100)
+          .attr("height", 100)
+        .append("image")
+          .attr("width", 100)
+          .attr("height", 100)
+          .attr("preserveAspectRatio", "xMinYMin slice")
+          .attr("xlink:href", function(d) { return d.thumb; });
+        
+      node.append("rect")
+          .attr("x", function(d) { return d.x; })
+          .attr("y", function(d) { return d.y; })
+          .attr("width", function(d) { return d.dx; })
+          .attr("height", function(d) { return d.dy; })
+          .style("fill", function(d) { if(d.id) { return "url(#"+d.id+")"; }else{ return "transparent"; } });
     });
-    
-    // Interpolate the scales!
-    function arcTween(d) {
-      var xd = d3.interpolate(x.domain(), [d.x, d.x + d.dx]),
-          yd = d3.interpolate(y.domain(), [d.y, 1]),
-          yr = d3.interpolate(y.range(), [d.y ? 20 : 0, r]);
-      return function(d, i) {
-        return i
-            ? function(t) { return arc(d); }
-            : function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); return arc(d); };
-      };
-    }
-    
+
   }); 
