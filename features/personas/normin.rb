@@ -46,6 +46,7 @@ module Persona
         
         # NORMINS'S GROUPS
         create_diplomarbeitsgruppe
+        join_zhdk_group
         
         # NORMIN'S RESOURCES
         create_abgabe_zum_kurs_product_design
@@ -79,6 +80,11 @@ module Persona
                                      name: "Diplomarbeitsgruppe",
                                      type: "Group",
                                      users: [@user])
+    end
+    
+    def join_zhdk_group
+      @zhdk_group = Group.find_by_name("ZHdK")
+      @zhdk_group.users << @user
     end
     
     def create_abgabe_zum_kurs_product_design # Abgabe zum Kurs Product Design
@@ -130,6 +136,16 @@ module Persona
       @meine_highlights_set = Factory(:media_set, 
                                       user: @user,
                                       meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Meine Highlights 2012"}})
+      Factory(:grouppermission, 
+              media_resource: @meine_highlights_set, 
+              group: @zhdk_group, 
+              view: true, 
+              edit: false, 
+              download: false)
+              
+      Factory(:userpermission, 
+              media_resource: @meine_highlights_set, 
+              user: Persona.create(:petra), view: false, edit: false, manage: false, download: false)
     end
     
     def create_dropbox_set
@@ -145,6 +161,12 @@ module Persona
       Factory(:grouppermission, 
               media_resource: @diplomarbeiten_2012_set, 
               group: @diplomarbeitsgruppe, 
+              view: true, 
+              edit: false, 
+              download: false)
+      Factory(:grouppermission, 
+              media_resource: @diplomarbeiten_2012_set, 
+              group: @zhdk_group, 
               view: true, 
               edit: false, 
               download: false)

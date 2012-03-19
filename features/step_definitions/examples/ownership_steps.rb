@@ -74,7 +74,7 @@ Then /^I cannot change the owner$/ do
   end
 end
 
-When /^I open a one of my resources$/ do
+When /^I open one of my resources$/ do
   wait_for_css_element("#content_body .thumb_box")
   find("#content_body .thumb_box").click
 end

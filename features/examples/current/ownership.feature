@@ -52,7 +52,7 @@ Feature: Ownership
   # https://www.pivotaltracker.com/story/show/23669443
   @javascript
   Scenario: Owners have all permissions on a resource
-    When I open a one of my resources
+    When I open one of my resources
     When I open the permission lightbox
     Then I should have all permissions
 
