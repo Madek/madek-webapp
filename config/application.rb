@@ -101,8 +101,8 @@ DEFAULT_ACTION_PERMISSIONS = {  :view => false, # read
                                 # TODO :delete => false
                               }
 
-LANGUAGES = [:de_CH, :en_GB]
-DEFAULT_LANGUAGE = :de_CH
+LANGUAGES = [:de_ch, :en_gb]
+DEFAULT_LANGUAGE = :de_ch
 
 ENCODING_BASE_URL = "http://test:MAdeK@test.madek.zhdk.ch"
 ENCODING_TEST_MODE = 1 # 1 for true, 0 for false
