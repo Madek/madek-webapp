@@ -62,11 +62,11 @@ RSpec.configure do |config|
     DataFactory.reset_data
   end
 
-  config.before(:each) do
+  config.before :each  do
     DatabaseCleaner.start
   end
 
-  config.after(:each) do
+  config.after :each  do
     DatabaseCleaner.clean
   end
 

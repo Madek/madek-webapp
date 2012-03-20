@@ -20,11 +20,10 @@ require 'spec_helper'
 
 describe Admin::MetaContextGroupsController do
 
-  before :all do
+  before :each do
     @adam = FactoryGirl.create :user, login: "adam"
     Group.find_or_create_by_name("Admin").users << @adam
   end
-
 
   # This should return the minimal set of attributes required to create a valid
   # MetaContextGroup. As you add validations to MetaContextGroup, be sure to
