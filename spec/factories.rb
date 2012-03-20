@@ -10,7 +10,6 @@ module DataFactory
       Group.destroy_all
       Userpermission.destroy_all
       User.destroy_all
-      MetaContextGroup.destroy_all
     end
     MetaHelper.import_initial_metadata
   end

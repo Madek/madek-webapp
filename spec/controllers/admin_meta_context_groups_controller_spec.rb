@@ -25,10 +25,6 @@ describe Admin::MetaContextGroupsController do
     Group.find_or_create_by_name("Admin").users << @adam
   end
 
-  before :each do
-    MetaContextGroup.destroy_all
-  end
-
 
   # This should return the minimal set of attributes required to create a valid
   # MetaContextGroup. As you add validations to MetaContextGroup, be sure to
@@ -47,8 +43,9 @@ describe Admin::MetaContextGroupsController do
   describe "GET index" do
     it "assigns all meta_context_groups as @meta_context_groups" do
       meta_context_group = MetaContextGroup.create! valid_attributes
+      meta_context_groups = MetaContextGroup.all
       get :index, {}, valid_session
-      assigns(:meta_context_groups).should eq([meta_context_group])
+      assigns(:meta_context_groups).should eq(meta_context_groups)
     end
   end
 

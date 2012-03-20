@@ -6,7 +6,8 @@ describe MetaContextGroupsController do
 
   before :all do
     @user = Factory :user
-    @meta_context_group = FactoryGirl.create :meta_context_group
+    meta_context_group = FactoryGirl.create :meta_context_group
+    @meta_context_groups = MetaContextGroup.all
   end
 
   def valid_session
@@ -27,14 +28,14 @@ describe MetaContextGroupsController do
 
     it "should assign @meta_context_groups" do
       get_index
-      assigns(:meta_context_groups).should eq([@meta_context_group])
+      assigns(:meta_context_groups).should eq(@meta_context_groups)
     end
 
     it "should set the correct json content" do
       get_index
       json = JSON.parse response.body
-      json[0]["id"].should == @meta_context_group.id
-      json[0]["name"].should == @meta_context_group.name
+      expected = MetaContextGroup.all.as_json
+      json.eql?(expected).should be_true
     end
 
   end
