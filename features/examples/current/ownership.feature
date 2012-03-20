@@ -75,25 +75,18 @@ Feature: Ownership
      |manage           |true  |
 
   # https://www.pivotaltracker.com/story/show/23669443
-  Scenario: The admin interface allows assigning permissions
-    Given a resource owned by "Susanne Schumacher"
-      And a resource owned by "Ramon Cahenzli"
-     When I go to the admin interface
-      And I assign the resources to "Susanne Schumacher"
-     Then both resources are owned by "Susanne Schumacher"
-
-  # https://www.pivotaltracker.com/story/show/23669443
   @javascript
   Scenario: A resource's creator is automatically its owner
     When I create a resource
     Then I am the owner of that resource
 
   # https://www.pivotaltracker.com/story/show/23669443
+  @javascript
   Scenario: Ownership on snapshots
-   Given I am member of the group "Expert"
-    When I create a snapshot of a media entry owned by "Susanne Schumacher"
+   Given I am "Norbert"
+    When I create a snapshot of a media entry owned by "Normin"
     Then I am the owner of the snapshot
-     And "Susanne Schumacher" is still the original media entry's owner
+     And "Normin" is still the original media entry's owner
 
   # https://www.pivotaltracker.com/story/show/23670991
   @javascript
@@ -116,15 +109,22 @@ Feature: Ownership
   # https://www.pivotaltracker.com/story/show/24839993
   @javascript
   Scenario: Seeing the owner of content
-    Given I am "Normin"
-     When I open a media entry
+    Given I am "Petra"
+     When I open a media entry owned by someone else
      Then I see who is the owner
-     When I open a media set
+     When I open a media set owned by someone else
      Then I see who is the owner
 
   @glossary
   Scenario: Owner
-  Given I am a user in the system
-   When I have ownership of a resource
-   Then I am the owner of that resource
+  Given I am a user that has ownership for a resource
+   Then I am figured as owner
 
+  # https://www.pivotaltracker.com/story/show/23669443
+  Scenario: The admin interface allows assigning permissions
+    Given I am pending
+    # Given a resource owned by "Susanne Schumacher"
+      # And a resource owned by "Ramon Cahenzli"
+     # When I go to the admin interface
+      # And I assign the resources to "Susanne Schumacher"
+     # Then both resources are owned by "Susanne Schumacher"

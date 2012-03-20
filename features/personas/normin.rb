@@ -166,9 +166,13 @@ module Persona
               edit: false, 
               download: false)
       @diplomarbeiten_2012_prasentation = Factory(:media_entry, 
+                                                  view: true,
                                                   user: @user, 
                                                   media_sets: [@diplomarbeiten_2012_set], 
                                                   meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Präsentation"}})
+      Factory(:userpermission, 
+              media_resource: @diplomarbeiten_2012_prasentation, 
+              user: Persona.create(:norbert), view: true, edit: true, manage: false, download: false)
       @diplomarbeiten_2012_ausstellungen = Factory(:media_set, 
                                                    user: @user, 
                                                    parent_sets: [@diplomarbeiten_2012_set, @meine_highlights_set, @meine_ausstellungen_set, @dropbox_set], 

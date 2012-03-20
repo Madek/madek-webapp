@@ -3142,6 +3142,9 @@
 - de_CH: "Z\xC3\xBCrcher Hochschule der K\xC3\xBCnste"
   id: 759
   en_GB: "Z\xC3\xBCrcher Hochschule der K\xC3\xBCnste"
+- de_CH: "Eigent\xC3\xBCmer/in"
+  id: 760
+  en_GB: "Eigent\xC3\xBCmer/in"
 :meta_key_definitions: 
 - position: 1
   label: 1
@@ -3169,14 +3172,9 @@
   id: 5
   meta_context_id: 1
 - position: 6
-  label: 11
-  meta_key_id: 60
+  label: 760
+  meta_key_id: 100
   id: 6
-  meta_context_id: 1
-- position: 7
-  label: 347
-  meta_key_id: 61
-  id: 7
   meta_context_id: 1
 - position: 36
   label: 304
@@ -4318,8 +4316,8 @@
   id: 221
   meta_context_id: 7
 - position: 8
-  label: 393
-  meta_key_id: 60
+  label: 760
+  meta_key_id: 100
   id: 223
   meta_context_id: 6
 - position: 9

@@ -6,6 +6,7 @@ Given /^personas are loaded$/ do
   Persona.create("Petra")
   Persona.create("Beat")
   Persona.create("Liselotte")
+  Persona.create("Norbert")
 
   MediaResource.count.zero?.should be_false
 end
