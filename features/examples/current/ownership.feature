@@ -68,6 +68,7 @@ Feature: Ownership
      |edit             |true  |
      |manage           |true  |
      Then the resource has the following permissions for "Petra":
+     |permission       |value|
      |view             |true  |
      |download         |false |
      |edit             |true  |

@@ -122,6 +122,17 @@ When /^"([^"]*)" changes the resource's permissions for "([^"]*)" as follows:$/ 
         find(%Q@.users .line input##{perm["permission"]}@).click()
     end
   end
+  find("a.save").click()
+  sleep 1
+end
+
+
+Then /^the resource has the following permissions for "([^"]*)":$/ do |user_login, table|
+  user = User.where("login = ?", user_login.downcase).first
+  userpermission = Userpermission.where("user_id = ?",user.id).where("media_resource_id = ?",@resource.id).first
+  table.hashes.each do |perm| 
+    userpermission.send(perm["permission"]).to_s.should == perm["value"]
+  end
 end
 
 When /^I open one of my resources$/ do
