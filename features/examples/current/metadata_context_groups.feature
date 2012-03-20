@@ -43,10 +43,10 @@ Feature: Metadata context groups
       |     2 | Zett                      |
 
   # https://www.pivotaltracker.com/story/show/26706147
-  Scenario: Context groups are only displayed if they have contexts assigned to them
+  Scenario: Context groups are only displayed if the media entry is in a set that is assigned to a context that is in the admin interface assigned to the metadata context group
     Given a media entry with a full set of metadata in all available contexts
       And a set called "Planets" with the context "Astronomical Metadata"
       And the media entry is in the set "Planets"      
      When I view the media entry
-     Then I see the metadata context group "Natural Science"
+     Then I see the metadata context group "Scientific Metadata"
       And I do not see the metadata context group "Humanities"
