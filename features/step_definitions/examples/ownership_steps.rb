@@ -16,11 +16,32 @@ end
 
 
 Then /^I am no longer the owner$/ do
+  sleep 1
   @media_set.reload.user.should_not == @current_user
 end
 
 Then /^the resource is owned by "([^"]*)"$/ do |owner|
   @media_set.reload.user.should == (User.find_by_login owner.downcase)
+end
+
+
+Given /^a resource owned by me$/ do
+  @media_set = FactoryGirl.create :media_set, user: @current_user
+end
+
+Then /^I can use some interface to change the resource's owner to "([^"]*)"$/ do |new_owner|
+  visit media_set_path(@media_set)
+  step 'I open the permission lightbox'
+  find(".users .line.add .button").click()
+  find(".users .line.add input").set(new_owner)
+  wait_for_css_element(".ui-autocomplete li a")
+  find(".ui-autocomplete li a").click()
+  find(".users .line .owner input").should_not be_nil
+end
+
+
+When /^I vist that resource's page$/ do
+  visit resource_path(@media_set)
 end
 
 When /^I see a list of resources$/ do
@@ -87,7 +108,34 @@ Then /^I cannot change the owner$/ do
   end
 end
 
-When /^I open a one of my resources$/ do
+When /^"([^"]*)" changes the resource's permissions for "([^"]*)" as follows:$/ do |owner, new_owner, table|
+  visit resource_path(@resource)
+  step 'I open the permission lightbox'
+  find(".users .line.add .button").click()
+  find(".users .line.add input").set(new_owner)
+  wait_for_css_element(".ui-autocomplete li a")
+  find(".ui-autocomplete li a").click()
+
+  table.hashes.each do |perm| 
+    if (perm["value"] == "false" and find(%Q@.users .line input##{perm["permission"]}@).selected?) \
+      or (perm["value"] == "true" and (not find(%Q@.users .line input##{perm["permission"]}@).selected?))
+        find(%Q@.users .line input##{perm["permission"]}@).click()
+    end
+  end
+  find("a.save").click()
+  sleep 1
+end
+
+
+Then /^the resource has the following permissions for "([^"]*)":$/ do |user_login, table|
+  user = User.where("login = ?", user_login.downcase).first
+  userpermission = Userpermission.where("user_id = ?",user.id).where("media_resource_id = ?",@resource.id).first
+  table.hashes.each do |perm| 
+    userpermission.send(perm["permission"]).to_s.should == perm["value"]
+  end
+end
+
+When /^I open one of my resources$/ do
   wait_for_css_element("#content_body .thumb_box")
   find("#content_body .thumb_box").click
 end

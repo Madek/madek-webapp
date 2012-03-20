@@ -38,10 +38,11 @@ Feature: Ownership
       And I can not choose any groups as owner
 
   # https://www.pivotaltracker.com/story/show/23669443
+  @javascript
   Scenario: Interface for changing owners
     Given a resource owned by me
-     When I go to that resource's page
-     Then I can use some interface to change the resource's owner to "Susanne Schumacher"
+     When I vist that resource's page
+     Then I can use some interface to change the resource's owner to "Adam"
 
   # https://www.pivotaltracker.com/story/show/23669443
   @javascript
@@ -52,24 +53,26 @@ Feature: Ownership
   # https://www.pivotaltracker.com/story/show/23669443
   @javascript
   Scenario: Owners have all permissions on a resource
-    When I open a one of my resources
+    When I open one of my resources
     When I open the permission lightbox
     Then I should have all permissions
 
   # https://www.pivotaltracker.com/story/show/23669443
+  @javascript
   Scenario: Owners can assign permissions to other people
-    Given a resource owned by "Susanne Schumacher"
-     When "Susanne Schumacher" changes the resource's permissions as follows:
-     |user          |permission       |value|
-     |Ramon Cahenzli|view             |yes  |
-     |Ramon Cahenzli|download original|no   |
-     |Ramon Cahenzli|edit             |yes  |
-     |Ramon Cahenzli|manage           |yes  |
-     Then the resource has the following permissions:
-     |Ramon Cahenzli|view             |yes  |
-     |Ramon Cahenzli|download original|no   |
-     |Ramon Cahenzli|edit             |yes  |
-     |Ramon Cahenzli|manage           |yes  |
+    Given a resource owned by "Normin"
+     When "Normin" changes the resource's permissions for "Petra" as follows:
+     |permission       |value|
+     |view             |true  |
+     |download         |false |
+     |edit             |true  |
+     |manage           |true  |
+     Then the resource has the following permissions for "Petra":
+     |permission       |value|
+     |view             |true  |
+     |download         |false |
+     |edit             |true  |
+     |manage           |true  |
 
   # https://www.pivotaltracker.com/story/show/23669443
   Scenario: The admin interface allows assigning permissions

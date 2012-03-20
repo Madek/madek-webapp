@@ -48,6 +48,11 @@ class MediaResource < ActiveRecord::Base
                                              :reject_if => proc { |attributes| attributes['value'].blank? and attributes['_destroy'].blank? }
                                              # NOTE the check on _destroy should be automatic, check Rails > 3.0.3
 
+  def self.find_by_title(title)
+    MediaResource.joins(:meta_data => :meta_key).
+      where(:meta_data => {:meta_keys => {:label => "title"}, :value => title.to_yaml})
+  end
+  
 #temp#
 #    # enforce meta_key uniqueness updating existing meta_datum
 #    # also useful for bulk meta_data updates such as Copyright, Organizer forms,...
