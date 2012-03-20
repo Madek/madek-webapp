@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class GroupsController < ApplicationController
+  include SQLHelper
 
   before_filter do
     unless (params[:group_id] ||= params[:id]).blank?
@@ -31,7 +32,14 @@ class GroupsController < ApplicationController
       }
       format.json {
         # OPTIMIZE index groups to fulltext ??
-        @groups = Group.where("name LIKE :query OR ldap_name LIKE :query", {:query => "%#{query}%"})
+        @groups = 
+          if  adapter_is_mysql?
+            Group.where("name LIKE :query OR ldap_name LIKE :query", {:query => "%#{query}%"})
+          elsif adapter_is_postgresql?
+            Group.where("name ILIKE :query OR ldap_name ILIKE :query", {:query => "%#{query}%"})
+          else 
+            raise "sql adapter is not supported"
+          end
       }
     end
   end

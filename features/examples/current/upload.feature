@@ -5,7 +5,7 @@ Feature: Upload
   So that I can share my files with everyone
 
   Background: Load the example data and personas
-	Given I have set up the world
+    Given I have set up the world
       And personas are loaded
       And I am "Normin"
 
@@ -21,26 +21,26 @@ Feature: Upload
     When I upload a file
     Then the file is attached to a media entry
      And I fill in the metadata in the upload form as follows:
-     |label                              |value|
-     |Titel                              |Test image for uploading|
-     |Autor/in                           |Hans Franz|
-     |Datierung                          |2011-08-08|
-     |Schlagworte zu Inhalt und Motiv    |some|
-     |Schlagworte zu Inhalt und Motiv    |test|
-     |Copyright                          |Tester|
+     | label                           | value                    |
+     | Titel                           | Test image for uploading |
+     | Autor/in                        | Hans Franz               |
+     | Datierung                       | 2011-08-08               |
+     | Schlagworte zu Inhalt und Motiv | some                     |
+     | Schlagworte zu Inhalt und Motiv | test                     |
+     | Copyright                       | Tester                   |
      
   # https://www.pivotaltracker.com/story/show/24559377 -> User kann beim Upload beim Vergeben der Metadaten die Werte zu Titel, Autor, Datierung, Schlagworte und Rechten von einem auf alle Medieneinträge übertrage
   Scenario: Assigning one value to all uploaded things
     When I upload several files
      And I enter metadata for the first file
      And I fill in the metadata in the upload form as follows:
-     |label                              |value|
-     |Titel                              |Test image for mass assignment of values|
-     |Autor/in                           |Hans Franzfriedrich|
-     |Datierung                          |2011-08-09|
-     |Schlagworte zu Inhalt und Motiv    |other|
-     |Schlagworte zu Inhalt und Motiv    |example|
-     |Copyright                          |Tester Two|
+     | label                           | value                                    |
+     | Titel                           | Test image for mass assignment of values |
+     | Autor/in                        | Hans Franzfriedrich                      |
+     | Datierung                       | 2011-08-09                               |
+     | Schlagworte zu Inhalt und Motiv | other                                    |
+     | Schlagworte zu Inhalt und Motiv | example                                  |
+     | Copyright                       | Tester Two                               |
     Then I can assign the same values to all the other files I just uploaded
 
   # Feature exists already, but needs this test
@@ -103,8 +103,32 @@ Feature: Upload
     When I upload a file
      And I enter metadata for the file
      And I fill in the metadata in the upload form as follows:
-     |label                              |value|
-     |Titel                              |Test image for highlighting|
+     | label | value                       |
+     | Titel | Test image for highlighting |
      And I try to continue in the import process
     Then I see an error message
      And the field "Copyright" is highlighted as invalid
+
+  # https://www.pivotaltracker.com/story/show/25923269
+  Scenario: Sequential batch editor for uploading many (20+) files
+    When I upload 5 files
+     And I edit metadata for the first file
+    Then I see a list of my uploaded files
+     And I fill in the metadata in the upload form as follows:
+     | label     | value       |
+     | Titel     | Test image  |
+     | Copyright | Some Person |
+    Then I can save the metadata
+     And I can jump to the next file
+    When I edit metadata for the second file
+    Then I can jump to the previous file
+
+  # https://www.pivotaltracker.com/story/show/25923269
+  Scenario: Filtering only media entries with missing metadata in the sequential batch editor
+    When I upload 5 files
+     And I enter metadata for the first file
+    Then I see a list of my uploaded files
+     And the files with missing metadata are highlighted
+     And I can choose to list only files with missing metadata
+    When I choose to list only files with missing metadata
+    Then only files with missing metadata are listed
