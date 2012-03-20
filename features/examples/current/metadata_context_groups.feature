@@ -1,7 +1,7 @@
 Feature: Metadata context groups
   As an administrator of the system
   I want to create and manage metadata contexts
-  So that metadata is grouped into logical entities (metadata groups).
+  So that metadata context is grouped into logical entities (metadata groups).
 
   Example: We group "Astronomical Metadata" and "Physics Metadata" into a metadata
   context group called "Scientific Metadata". Then these two contexts appear under the
