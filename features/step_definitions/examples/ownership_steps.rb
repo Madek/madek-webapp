@@ -117,12 +117,11 @@ When /^"([^"]*)" changes the resource's permissions for "([^"]*)" as follows:$/ 
   find(".ui-autocomplete li a").click()
 
   table.hashes.each do |perm| 
-    if perm["value"] == true
+    if (perm["value"] == "false" and find(%Q@.users .line input##{perm["permission"]}@).selected?) \
+      or (perm["value"] == "true" and (not find(%Q@.users .line input##{perm["permission"]}@).selected?))
         find(%Q@.users .line input##{perm["permission"]}@).click()
     end
   end
-  binding.pry
-  #   pending # express the regexp above with the code you wish you had
 end
 
 When /^I open one of my resources$/ do
