@@ -12,11 +12,11 @@ When /^I change the owner to "([^"]*)"$/ do |new_owner|
   find(".ui-autocomplete li a").click()
   find(".users .line .owner input").click()
   find("a.save").click()
+  wait_for_css_element(".icon.success")
 end
 
 
 Then /^I am no longer the owner$/ do
-  sleep 1
   @media_set.reload.user.should_not == @current_user
 end
 
@@ -123,7 +123,7 @@ When /^"([^"]*)" changes the resource's permissions for "([^"]*)" as follows:$/ 
     end
   end
   find("a.save").click()
-  sleep 1
+  wait_for_css_element(".icon.success")
 end
 
 

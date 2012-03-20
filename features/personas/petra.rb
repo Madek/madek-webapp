@@ -93,7 +93,8 @@ module Persona
     end
     
     def join_zhdk_group
-      Group.find(1).users << @user
+      @zhdk_group= Group.find_or_create_by_name("ZHdK")
+      @zhdk_group.users << @user
     end
 
     def create_test_set # Test Set
