@@ -134,7 +134,7 @@ class Permission
       $(container).find("input, select, .select").attr("disabled", "disabled")
     
   @remove_duplicated_groups = (container)->
-    $(container).find(".me .groups_with_me .line").each (i_with_me, line_with_me)->
+    $(container).find(".me .groups.with_me .line").each (i_with_me, line_with_me)->
       for line in $(container).find(".groups .line:not(.add)")
         if $(line).tmplItem().data.id == $(line_with_me).tmplItem().data.id
           $(line).remove()
@@ -301,7 +301,7 @@ class Permission
             existing_user_ids = $.map $("#permissions .users .line:not(.add)"), (element)-> $(element).tmplItem().data.id
             entries = entries.filter (element)-> ! ($("#permissions .me .line:first").tmplItem().data.id == element.id || existing_user_ids.indexOf(element.id)>-1)
           else if type == "group"
-            existing_group_ids = $.map $("#permissions .groups .line:not(.add), #permissions section.groups_with_me .line"), (element)-> $(element).tmplItem().data.id
+            existing_group_ids = $.map $("#permissions .groups .line:not(.add)"), (element)-> $(element).tmplItem().data.id
             entries = entries.filter (element)-> ! (existing_group_ids.indexOf(element.id)>-1)
           response entries
       minLength: 1
@@ -345,17 +345,17 @@ class Permission
           # if user is in that group add to groups with me
           current_user_group_ids = $("#permissions").tmplItem().data.current_user.groups.map (element)-> element.id
           if current_user_group_ids.indexOf(selection.item.id)>-1
-            $("#permissions section.groups_with_me").append line
+            $("#permissions section.groups.with_me").append line
           else
             $(event.target).closest(".line").before line
           # Check groups with me visibility
           Permission.check_groups_with_me_visibility $(line).closest("#permissions")
   
   @check_groups_with_me_visibility = (container)->
-    if $(container).find(".me section.groups_with_me .line").length
-      $(container).find(".me section.groups_with_me").show()
+    if $(container).find(".me section.groups.with_me .line").length
+      $(container).find(".me section.groups.with_me").show()
     else
-      $(container).find(".me section.groups_with_me").hide()
+      $(container).find(".me section.groups.with_me").hide()
   
   @setup_public_cascading = (container)->
     # search for already public permissions setted
@@ -446,7 +446,7 @@ class Permission
       $(user_line).find(".owner input").is ":not(:checked)"
     permissions.users = $.map user_lines_without_owners, (line)->
       Permission.compute_permissions_for $(line).find(".permissions")
-    permissions.groups = $.map $(container).find("section.groups .line:not(.add), .groups_with_me .line"), (line)->
+    permissions.groups = $.map $(container).find("section.groups .line:not(.add), .groups.with_me .line"), (line)->
       Permission.compute_permissions_for $(line).find(".permissions")
     
     # add current_user to the users when he is not setted as owner

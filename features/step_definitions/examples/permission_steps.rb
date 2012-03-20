@@ -32,7 +32,9 @@ Given /^the resource has the following permissions:$/ do |table|
     persona = hash[:user]
     permission = hash[:permission]
     bool_value = hash[:value] == "true"
-    up = Userpermission.create media_resource: @resource, user:  User.where("login=?",persona.downcase).first
+    user = User.where("login=?",persona.downcase).first
+    up = Userpermission.scoped.where(:user_id => user.id, :media_resource_id => @resource.id).first
+    up = Userpermission.create media_resource: @resource, user: user if up.blank?  
     up.update_attributes permission => bool_value
   end
 end
@@ -80,4 +82,54 @@ Given /^I can not view "([^"]*)" by "([^"]*)"$/ do |resource_title, user_name|
   visit resource_path(resource)
   
   URI.parse(current_url).path.should == root_path
+end
+
+Then /^I can not view that resource$/ do
+  visit resource_path(@resource)
+  URI.parse(current_url).path.should == root_path
+end
+
+Given /^"([^"]*)" changes the resource's groupermissions for "([^"]*)" as follows:$/ do |user, group_name, table|
+  visit resource_path(@resource)
+  step 'I open the permission lightbox'
+  find(".groups .line.add .button").click()
+  find(".groups .line.add input").set(group_name)
+  wait_for_css_element(".ui-autocomplete li a")
+  find(".ui-autocomplete li a").click()
+
+  table.hashes.each do |perm| 
+    if (perm["value"] == "false" and find(%Q@.groups .line input##{perm["permission"]}@).selected?) \
+      or (perm["value"] == "true" and (not find(%Q@.groups .line input##{perm["permission"]}@).selected?))
+        find(%Q@.groups .line input##{perm["permission"]}@).click()
+    end
+  end
+  find("a.save").click()
+  wait_for_css_element(".icon.success")
+end
+
+When /^I add "([^"]*)" to grant user permissions$/ do |user|
+  find(".users .line.add .button").click()
+  find(".users .line.add input").set(user)
+  wait_for_css_element(".ui-autocomplete li a")
+  find(".ui-autocomplete li a").click()
+end
+
+Then /^I can choose from a set of labeled permissions presets instead of grant permissions explicitly$/ do
+  find(".preset select").all("option").map(&:text).each do |preset_name|
+    PermissionPreset.all.map(&:name).include?(preset_name).should be_true
+  end
+end
+
+When /^the resource is viewed by "([^"]*)"$/ do |user_name|
+  step 'I am "%s"' % user_name
+  visit resource_path(@resource)
+end
+
+Then /^he or she sees the following permissions:$/ do |table|
+  step 'I open the permission lightbox'
+  table.hashes.each do |entry|
+    user = User.find_by_login(entry["user"].downcase) 
+    permissions_container = find(".subject", :text => user.to_s).find(:xpath, './..').find(".permissions")
+    permissions_container.find(".#{entry[:permission]} input").checked?.should be_true
+  end
 end
