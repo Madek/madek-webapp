@@ -157,3 +157,33 @@ Feature: Permissions
       | user   | permission |
       | Normin | view       |
       | Petra  | view       |
+      
+  # https://www.pivotaltracker.com/story/show/25238371
+  @javascript
+  Scenario: Cascading of public permissions
+    Given a resource owned by "Normin"
+      And I am "Normin"
+      And the resource has the following permissions:
+      | user      | permission | value |
+      | Normin    | view       | true  |
+      | Normin    | download   | true  |
+      | Normin    | edit       | true  |
+      | Normin    | manage     | true  |
+      | Petra     | view       | true  |
+      | Beat      | view       | true  |
+      | Beat      | edit       | true  |
+      | Beat      | download   | true  |
+      | Liselotte | view       | true  |
+      | Liselotte | edit       | true  |
+      | Liselotte | download   | true  |
+    When I change the resource's public permissions as follows:
+      | permission | value |
+      | view       | true  |
+      | download   | true  |
+    Then I cannot edit the following permissions any more:
+      | permission |
+      | view       |
+      | download   |
+
+
+    

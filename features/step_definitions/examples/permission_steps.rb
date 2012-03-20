@@ -133,3 +133,35 @@ Then /^he or she sees the following permissions:$/ do |table|
     permissions_container.find(".#{entry[:permission]} input").checked?.should be_true
   end
 end
+
+When /^I change the resource's public permissions as follows:$/ do |table|
+  visit resource_path(@resource)
+  step 'I open the permission lightbox'
+  
+  table.hashes.each do |perm| 
+    if (perm["value"] == "false" and find(%Q@.public .line input##{perm["permission"]}@).selected?) \
+      or (perm["value"] == "true" and (not find(%Q@.public .line input##{perm["permission"]}@).selected?))
+        find(%Q@.public .line input##{perm["permission"]}@).click()
+    end
+  end
+  
+  find("a.save").click()
+  wait_for_css_element(".icon.success")
+end
+
+Then /^I cannot edit the following permissions any more:$/ do |table|
+  visit resource_path(@resource)
+  step 'I open the permission lightbox'
+  
+  table.hashes.each do |entry|
+    sections = []
+    sections << find("section.me")
+    sections << find("section.users")
+    sections << find("section.groups")
+    sections.each do |section|
+      section.all(".#{entry[:permission]}").each do |label|
+        label.visible?.should be_false
+      end
+    end 
+  end
+end
