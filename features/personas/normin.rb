@@ -1,5 +1,4 @@
 # coding: UTF-8
-
 # Persona:  Normin
 # Job:      Student
 # Age:      21
@@ -142,10 +141,6 @@ module Persona
               view: true, 
               edit: false, 
               download: false)
-              
-      Factory(:userpermission, 
-              media_resource: @meine_highlights_set, 
-              user: Persona.create(:petra), view: false, edit: false, manage: false, download: false)
     end
     
     def create_dropbox_set

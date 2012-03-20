@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Persona:  Beat
+# Persona:  Beat Raktor
 # Beruf:    Bildredaktor bei der Universitätszeitschrift
 # Alter:    57
 #
@@ -68,3 +68,39 @@
 #   den Medieneinträgen, die Beat bearbeitet, als Beigabe zum gedruckten
 #   Hochschulmagazin freischalten für die ZHdK bzw. für die
 #   Öffentlichkeit.
+
+module Persona
+  
+  class Beat
+    
+    @@name = "Beat"
+    @@lastname = "Raktor"
+    @@password = "password"
+    
+    def initialize
+      ActiveRecord::Base.transaction do 
+        create_person
+        create_user
+        
+        # LISELOTTE'S GROUPS
+        join_zhdk_group
+      end
+    end
+
+    def create_person
+      @name = @@name
+      @lastname = @@lastname  
+      @person = Factory(:person, firstname: @name, lastname: @lastname)
+    end
+
+    def create_user
+      @crypted_password = Digest::SHA1.hexdigest(@@password)
+      @user = Factory(:user, :person => @person, :login => @name.downcase, :password => @crypted_password)
+    end
+    
+    def join_zhdk_group
+      @zhdk_group= Group.find_or_create_by_name("ZHdK")
+      @zhdk_group.users << @user
+    end
+  end  
+end
