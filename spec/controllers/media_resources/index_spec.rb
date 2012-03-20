@@ -58,7 +58,7 @@ describe MediaResourcesController do
           response.should  be_success
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
-            mr["meta_data"].keys.should == @meta_context.meta_keys.map(&:label)       
+            mr["meta_data"].keys.should == @meta_context.meta_keys.map(&:underscored_label)
           end
         end        
       end
@@ -69,7 +69,7 @@ describe MediaResourcesController do
           response.should  be_success
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
-            mr["meta_data"].keys.should == @meta_context.meta_keys.map(&:label)       
+            mr["meta_data"].keys.should == @meta_context.meta_keys.map(&:underscored_label)
           end
         end        
       end
@@ -80,7 +80,7 @@ describe MediaResourcesController do
           response.should  be_success
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
-            mr["meta_data"].keys.should == @meta_context.meta_keys.map(&:label)       
+            mr["meta_data"].keys.should == @meta_context.meta_keys.map(&:underscored_label)
           end
         end        
       end
