@@ -249,14 +249,6 @@ def find_permission_checkbox(type, to_or_from)
   cb = find(:css, "table.permissions").find("tr", :text => text).all("input")[index]
 end
 
-
-def give_permission_to(type, to, save=true)
-  cb = find_permission_checkbox(type, to)
-  cb.click unless cb[:checked] == "true" # a string, not a bool!
-  click_button("Speichern") if save
-end
-
-
 def remove_permission_to(type, from)
   cb = find_permission_checkbox(type, from)
   cb.click if cb[:checked] == "true" # a string, not a bool!
@@ -271,15 +263,13 @@ end
 # so, breaking many of our tests. Needs more investigation.
 def type_into_autocomplete(type, text)
   if type == :user
-    wait_for_css_element("table.permissions")
-    wait_for_css_element("#new_user")
-    fill_in("new_user", :with => text)
-    sleep(1.5)
+    wait_for_css_element(".users .add.line .button")
+    find(".users .add.line .button").click
+    find(".users .add.line input").set text
   elsif type == :group
-    wait_for_css_element("table.permissions")
-    wait_for_css_element("#new_group")
-    fill_in("new_group", :with => text)
-    sleep(1.5)
+    wait_for_css_element(".groups .add.line .button")
+    find(".groups .add.line .button").click
+    find(".groups .add.line input").set text
   elsif type == :add_member_to_group
     wait_for_css_element("#new_user")
     fill_in("new_user", :with => text)

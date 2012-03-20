@@ -90,7 +90,7 @@ Feature: Upload images and manage media entries based on images
      And I go to the home page
      And I click the media entry titled "baustelle osten"
      And I follow "Zugriffsberechtigung"
-     And I give "view" permission to "everybody"
+     And I give "view" permission to "Öffentlichkeit"
      And I log in as "raissa" with password "novodevichy"
      And I go to the home page
     Then I should see "baustelle osten"
@@ -104,14 +104,14 @@ Feature: Upload images and manage media entries based on images
      And I go to the home page
      And I click the media entry titled "geheimsache"
      And I follow "Zugriffsberechtigung"
-     And I give "view" permission to "everybody"
+     And I give "view" permission to "Öffentlichkeit"
      And I log in as "raissa" with password "novodevichy"
      And I go to the home page
     Then I should see "geheimsache"
     When I log in as "helmi" with password "saumagen"
      And I click the media entry titled "geheimsache"
      And I follow "Zugriffsberechtigung"
-     And I remove "view" permission from "everybody"
+     And I remove "view" permission from "Öffentlichkeit"
      And I log in as "raissa" with password "novodevichy"
      And I go to the home page
     Then I should not see "geheimsache"
@@ -128,7 +128,7 @@ Feature: Upload images and manage media entries based on images
      And I pick "Wurst, Hans" from the autocomplete field
      And I give "view" permission to "Wurst, Hans"
      And I follow "Zugriffsberechtigung"
-     And I give "download_hires" permission to "Wurst, Hans"
+     And I give "download" permission to "Wurst, Hans"
      And I log in as "hanswurst" with password "hansi"
      And I go to the home page
     Then I should see "hochaufgelöste geheimbünde"
@@ -147,7 +147,7 @@ Feature: Upload images and manage media entries based on images
      And I pick "Wurst, Hans" from the autocomplete field
      And I give "view" permission to "Wurst, Hans"
      And I follow "Zugriffsberechtigung"
-     And I give "download_hires" permission to "Wurst, Hans"
+     And I give "download" permission to "Wurst, Hans"
      And I log in as "hanswurst" with password "hansi"
      And I go to the home page
     Then I should see "hochaufgelöste geheimbünde"
@@ -157,7 +157,7 @@ Feature: Upload images and manage media entries based on images
     When I log in as "helmi" with password "saumagen"
      And I click the media entry titled "hochaufgelöste geheimbünde"
      And I follow "Zugriffsberechtigung"
-     And I remove "download_hires" permission from "Wurst, Hans"
+     And I remove "download" permission from "Wurst, Hans"
      And I log in as "hanswurst" with password "hansi"
      And I go to the home page
     Then I should see "hochaufgelöste geheimbünde"

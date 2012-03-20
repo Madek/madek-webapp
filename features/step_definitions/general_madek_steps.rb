@@ -249,14 +249,18 @@ end
 
 When /^I give "([^"]*)" permission to "([^"]*)" without saving$/ do |permission, subject|
   subject = :everybody if subject == "everybody"
-  give_permission_to(permission, subject,false)
+  give_permission_to(permission, subject, false)
 end
 
-
-
 When /^I give "([^"]*)" permission to "([^"]*)"$/ do |permission, subject|
-  subject = :everybody if subject == "everybody"
-  give_permission_to(permission, subject)
+  wait_for_css_element(".public .line")
+  permissions_container = find(".subject", :text => subject).find(:xpath, './..').find(".permissions")
+  if not permissions_container.find(".#{permission} input").checked?
+    permissions_container.find(".#{permission} input").click
+  end
+  
+  find("a.save").click()
+  wait_for_css_element(".icon.success")
 end
 
 When /^I remove "([^"]*)" permission from "([^"]*)"$/ do |permission, subject|
@@ -413,4 +417,8 @@ end
 When /^I see the set-box "(.+)"$/ do |title|
   sleep(0.5)
   assert find(:xpath, "//div[contains(@oldtitle,'#{title}')]")
+end
+
+When /^I expand the "(.+)" context group$/ do |name|
+  find(:css, ".meta_context_group span", :text => name).click
 end

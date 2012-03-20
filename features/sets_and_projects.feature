@@ -82,6 +82,7 @@ Feature: Do things to and with sets
      |label|value|
      |Beschreibung|Here is a wonderful link http://www.zhdk.ch|
      And I press "Speichern"
+     And I expand the "Metadaten" context group
     Then I should see "http://www.zhdk.ch"
     When I follow "http://www.zhdk.ch"
      
