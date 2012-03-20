@@ -26,6 +26,35 @@ describe MediaResourcesController do
     let :ids do
       MediaResource.all.shuffle[1..3].map(&:id)
     end
+
+    describe "as JSON" do
+      describe "as guest user" do
+        it "should respond with success" do
+          get :index, {format: 'json'}
+          response.should  be_success
+          json = JSON.parse(response.body)
+          json.keys.sort.should == ["media_resources", "pagination"]
+          json["pagination"].keys.sort.should == ["page", "per_page", "total", "total_pages"]
+          json["media_resources"].is_a?(Array).should be_true
+          json["media_resources"].size.should <= json["pagination"]["per_page"]
+          n = MediaResource.accessible_by_user(User.new).count
+          json["pagination"]["total"].should == n
+        end
+      end
+      describe "as logged in user" do
+        it "should respond with success" do
+          get :index, {format: 'json'}, session
+          response.should  be_success
+          json = JSON.parse(response.body)
+          json.keys.sort.should == ["media_resources", "pagination"]
+          json["pagination"].keys.sort.should == ["page", "per_page", "total", "total_pages"]
+          json["media_resources"].is_a?(Array).should be_true
+          json["media_resources"].size.should <= json["pagination"]["per_page"]
+          n = MediaResource.accessible_by_user(@user).count
+          json["pagination"]["total"].should == n
+        end
+      end
+    end
     
     describe "a plain response" do
       it "should respond only with a collection of id's if there is not more requested" do
