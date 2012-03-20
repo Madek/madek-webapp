@@ -100,8 +100,8 @@ class MetaKey < ActiveRecord::Base
       mk = MetaKey.find_or_create_by_label(entry_name)
       mc = MetaContext.io_interface
       mk.meta_key_definitions.create( :meta_context => mc,
-                                      :label => {:en_GB => "", :de_CH => ""},
-                                      :description => {:en_GB => "", :de_CH => ""},
+                                      :label => {:en_gb => "", :de_ch => ""},
+                                      :description => {:en_gb => "", :de_ch => ""},
                                       :key_map => key_map,
                                       :key_map_type => nil,
                                       :position => mc.meta_key_definitions.maximum("position") + 1 )

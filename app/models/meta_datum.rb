@@ -78,7 +78,7 @@ class MetaDatum < ActiveRecord::Base
                               LANGUAGES.each do |lang|
                                 h[lang] = v
                               end
-                              term = MetaTerm.find_or_create_by_en_GB_and_de_CH(h)
+                              term = MetaTerm.find_or_create_by_en_gb_and_de_ch(h)
                               meta_key.meta_terms << term unless meta_key.meta_terms.include?(term)
                               r = term
                             end

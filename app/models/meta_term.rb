@@ -59,7 +59,7 @@ class MetaTerm < ActiveRecord::Base
     if h.is_a? Integer
       where(:id => h).first
     elsif h.values.any? {|x| not x.blank? }
-      find_or_create_by_en_GB_and_de_CH(h)
+      find_or_create_by_en_gb_and_de_ch(h)
     end
   end
 
