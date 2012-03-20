@@ -107,7 +107,7 @@ Feature: Upload
      | Titel | Test image for highlighting |
      And I try to continue in the import process
     Then I see an error message
-     And the field "Copyright" is highlighted as invalid
+     And the field "Rechte" is highlighted as invalid
 
   # https://www.pivotaltracker.com/story/show/25923269
   Scenario: Sequential batch editor for uploading many (20+) files
@@ -117,7 +117,7 @@ Feature: Upload
      And I fill in the metadata in the upload form as follows:
      | label     | value       |
      | Titel     | Test image  |
-     | Copyright | Some Person |
+     | Rechte | Some Person |
     Then I can save the metadata
      And I can jump to the next file
     When I edit metadata for the second file
