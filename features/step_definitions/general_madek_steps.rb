@@ -236,13 +236,17 @@ When /^I give "([^"]*)" permission to "([^"]*)"$/ do |permission, subject|
     permissions_container.find(".#{permission} input").click
   end
   
-  find("a.save").click()
-  wait_for_css_element(".icon.success")
+  step 'I save the permissions'
 end
 
 When /^I remove "([^"]*)" permission from "([^"]*)"$/ do |permission, subject|
-  subject = :everybody if subject == "everybody"
-  remove_permission_to(permission, subject)
+  wait_for_css_element(".public .line")
+  permissions_container = find(".subject", :text => subject).find(:xpath, './..').find(".permissions")
+  if permissions_container.find(".#{permission} input").checked?
+    permissions_container.find(".#{permission} input").click
+  end
+  
+  step 'I save the permissions'
 end
 
 When /^I click(?: | on )the arrow next to "([^"]*)"/ do |string|

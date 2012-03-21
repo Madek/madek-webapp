@@ -11,8 +11,7 @@ When /^I change the owner to "([^"]*)"$/ do |new_owner|
   wait_for_css_element(".ui-autocomplete li a")
   find(".ui-autocomplete li a").click()
   find(".users .line .owner input").click()
-  find("a.save").click()
-  wait_for_css_element(".icon.success")
+  step 'I save the permissions'
 end
 
 
@@ -138,8 +137,8 @@ When /^"([^"]*)" changes the resource's permissions for "([^"]*)" as follows:$/ 
         find(%Q@.users .line input##{perm["permission"]}@).click()
     end
   end
-  find("a.save").click()
-  wait_for_css_element(".icon.success")
+  
+  step 'I save the permissions'
 end
 
 Then /^the resource has the following permissions for "([^"]*)":$/ do |user_login, table|
