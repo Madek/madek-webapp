@@ -35,7 +35,7 @@ gem 'jquery-rails', '= 1.0.16'
 # OTHER THINGS STOP WORKING ALSO
 #
 gem 'rails_autolink', '~> 1.0'
-gem 'jquery-tmpl-rails'
+gem 'jquery-tmpl-rails', '~> 0.1.2'
 gem 'haml_assets'
 gem "plupload-rails", "~> 1.0.6"
 
