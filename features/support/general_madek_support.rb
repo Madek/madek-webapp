@@ -266,10 +266,10 @@ def type_into_autocomplete(type, text)
   elsif type == :add_member_to_group
     wait_for_css_element("#new_user")
     fill_in("new_user", :with => text)
-    sleep(1.5)
   else
     puts "Unknown autocomplete type '#{type}', please add this type to the method type_into_autocomplete()"
   end
+    sleep(1.5)
 end
 
 # Picks the given text string from an autocomplete text input box

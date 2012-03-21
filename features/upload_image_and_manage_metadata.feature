@@ -45,7 +45,7 @@ Feature: Upload images and manage media entries based on images
      And I follow "Import abschliessen"
      And I go to the home page
      And I click the media entry titled "A beautiful piece of the Berl"
-     And I follow "Zugriffsberechtigung"
+     And I open the permission lightbox
      And I type "Gorba" into the "user" autocomplete field
      And I pick "Gorbachev, Mikhail" from the autocomplete field
      And I give "view" permission to "Gorbachev, Mikhail"
@@ -72,7 +72,7 @@ Feature: Upload images and manage media entries based on images
       And I follow "Import abschliessen"
       And I go to the home page
       And I click the media entry titled "A second piece of the Berlin"
-      And I follow "Zugriffsberechtigung"
+      And I open the permission lightbox
       And I type "Mauer" into the "group" autocomplete field
       And I pick "Mauerfäller" from the autocomplete field
       And I give "view" permission to "Mauerfäller"
@@ -89,7 +89,7 @@ Feature: Upload images and manage media entries based on images
      And I upload some picture titled "baustelle osten"
      And I go to the home page
      And I click the media entry titled "baustelle osten"
-     And I follow "Zugriffsberechtigung"
+     And I open the permission lightbox
      And I give "view" permission to "Öffentlichkeit"
      And I log in as "raissa" with password "novodevichy"
      And I go to the home page
@@ -103,14 +103,14 @@ Feature: Upload images and manage media entries based on images
      And I upload some picture titled "geheimsache"
      And I go to the home page
      And I click the media entry titled "geheimsache"
-     And I follow "Zugriffsberechtigung"
+     And I open the permission lightbox
      And I give "view" permission to "Öffentlichkeit"
      And I log in as "raissa" with password "novodevichy"
      And I go to the home page
     Then I should see "geheimsache"
     When I log in as "helmi" with password "saumagen"
      And I click the media entry titled "geheimsache"
-     And I follow "Zugriffsberechtigung"
+     And I open the permission lightbox
      And I remove "view" permission from "Öffentlichkeit"
      And I log in as "raissa" with password "novodevichy"
      And I go to the home page
@@ -123,11 +123,11 @@ Feature: Upload images and manage media entries based on images
     When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "hochaufgelöste geheimbünde"
      And I click the media entry titled "hochaufgelöste geheimbünde"
-     And I follow "Zugriffsberechtigung"
+     And I open the permission lightbox
      And I type "Wurs" into the "user" autocomplete field
      And I pick "Wurst, Hans" from the autocomplete field
      And I give "view" permission to "Wurst, Hans"
-     And I follow "Zugriffsberechtigung"
+     And I open the permission lightbox
      And I give "download" permission to "Wurst, Hans"
      And I log in as "hanswurst" with password "hansi"
      And I go to the home page
@@ -142,11 +142,11 @@ Feature: Upload images and manage media entries based on images
     When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "hochaufgelöste geheimbünde"
      And I click the media entry titled "hochaufgelöste geheimbünde"
-     And I follow "Zugriffsberechtigung"
+     And I open the permission lightbox
      And I type "Wurs" into the "user" autocomplete field
      And I pick "Wurst, Hans" from the autocomplete field
      And I give "view" permission to "Wurst, Hans"
-     And I follow "Zugriffsberechtigung"
+     And I open the permission lightbox
      And I give "download" permission to "Wurst, Hans"
      And I log in as "hanswurst" with password "hansi"
      And I go to the home page
@@ -156,7 +156,7 @@ Feature: Upload images and manage media entries based on images
     Then the box should have a hires download link
     When I log in as "helmi" with password "saumagen"
      And I click the media entry titled "hochaufgelöste geheimbünde"
-     And I follow "Zugriffsberechtigung"
+     And I open the permission lightbox
      And I remove "download" permission from "Wurst, Hans"
      And I log in as "hanswurst" with password "hansi"
      And I go to the home page

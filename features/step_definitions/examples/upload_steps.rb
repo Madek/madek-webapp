@@ -149,8 +149,8 @@ When /^I cancel the upload$/ do
 end
 
 Then /^the uploaded files are still there$/ do
-  MediaEntryIncomplete.all[0].media_file.filename.should == "berlin_wall_01.jpg"
-  MediaEntryIncomplete.all[1].media_file.filename.should == "berlin_wall_02.jpg"
+  visit "/upload"
+  find("li.plupload_done")
 end
 
 Then /^the upload process ends$/ do
