@@ -62,6 +62,11 @@ RSpec.configure do |config|
     DataFactory.reset_data
   end
 
+  # we have to clean everything after spec testing
+  config.after(:suite) do
+    DatabaseCleaner.clean_with :truncation
+  end
+
   config.before :each  do
     DatabaseCleaner.start
   end
