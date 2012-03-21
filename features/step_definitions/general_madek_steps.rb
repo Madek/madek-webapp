@@ -9,38 +9,27 @@ Given /^I have set up the world$/ do
   #    we set our own driver here.
   old_driver = Capybara.current_driver
   Capybara.use_default_driver
-  
-  meta_filepath = "#{Rails.root}/features/data/minimal_meta.yml"
+  Capybara.current_driver = old_driver
 
-  # FORCE DATA CLEAN NOTE PLEASE DONT TOUCH!
+  # TODO: REFACTOR OUT
+  # step 'a user called "Bruce Willis" with username "bruce_willis" and password "fluffyKittens" exists'
+  # step 'a group called "Admin" exists'
+  # step 'the user with username "bruce_willis" is member of the group "Admin"'
+  # step 'I log in as "bruce_willis" with password "fluffyKittens"'
+  
+  # FORCE DATA CLEAN AND RESET (SETUP MINIMAL META)
   DataFactory.reset_data
   
-  step 'a user called "Bruce Willis" with username "bruce_willis" and password "fluffyKittens" exists'
-  step 'a group called "Admin" exists'
-  step 'the user with username "bruce_willis" is member of the group "Admin"'
-  step 'I log in as "bruce_willis" with password "fluffyKittens"'
-
-  click_on_arrow_next_to("Willis, Bruce")
-  click_link("Admin")
-  click_link("Import")
-  attach_file("uploaded_data", meta_filepath)
-  click_button("Import »")
-
+  # Check setted minimal meta 
+  meta_filepath = "#{Rails.root}/features/data/minimal_meta.yml"
   minimal_meta = YAML::load_file(meta_filepath)
   MetaKey.count.should == minimal_meta[:meta_keys].count
   MetaContext.count.should == minimal_meta[:meta_contexts].count
   MetaKeyDefinition.count.should == minimal_meta[:meta_key_definitions].count
   MetaTerm.count.should == minimal_meta[:meta_terms].count
   UsageTerm.count.should == 1
-
-  Capybara.current_driver = old_driver
-
-  # This is actually normally called in the seeds, but
-  # the RSpec developers don't believe in using seeds, so
-  # they drop the database even if we seed it before running
-  # the tests. Therefore we recreate our world in this step.
-  Copyright.init
-
+ 
+  Copyright.init # This is actually normally called in the seeds, but the RSpec developers don't believe in using seeds, so they drop the database even if we seed it before running the tests. Therefore we recreate our world in this step.
   MetaDepartment.setup_ldapdata_from_localfile
   MetaDate.parse_all
 end
