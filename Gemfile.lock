@@ -400,7 +400,7 @@ DEPENDENCIES
   ruby_gntp (~> 0.3.4)
   sass (~> 3.1)
   sass-rails (~> 3.1)
-  selenium-webdriver (~> 2.12)
+  selenium-webdriver (> 2.15.0)
   simplecov
   spork
   statsample

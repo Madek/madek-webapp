@@ -115,7 +115,7 @@ group :test do
   gem 'cucumber'#, '~> 1.0.3'
   gem 'cucumber-rails', '~> 1.3', :require => false
   gem 'launchy'  
-  gem 'selenium-webdriver', '~> 2.12'
+  gem 'selenium-webdriver', '> 2.15.0'
   gem 'simplecov' 
   gem 'simplecov' # for Ruby 1.8.x:  gem 'rcov'
 end
