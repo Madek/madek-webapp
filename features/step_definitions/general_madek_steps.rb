@@ -12,28 +12,19 @@ Given /^I have set up the world$/ do
   
   meta_filepath = "#{Rails.root}/features/data/minimal_meta.yml"
 
-  if MetaKey.count == 0 # TODO: Test for more stuff, just having more than 0
-                        # keys doesn't guarantee the YAML file has already been
-                        # loaded.
-#     steps %Q{
-#       Given a user called "Bruce Willis" with username "bruce_willis" and password "fluffyKittens" exists
-#       And a group called "Admin" exists
-#       And the user with username "bruce_willis" is member of the group "Admin"
-#       And I log in as "bruce_willis" with password "fluffyKittens"
-#     }
+  # FORCE DATA CLEAN NOTE PLEASE DONT TOUCH!
+  DataFactory.reset_data
+  
+  step 'a user called "Bruce Willis" with username "bruce_willis" and password "fluffyKittens" exists'
+  step 'a group called "Admin" exists'
+  step 'the user with username "bruce_willis" is member of the group "Admin"'
+  step 'I log in as "bruce_willis" with password "fluffyKittens"'
 
-    step 'a user called "Bruce Willis" with username "bruce_willis" and password "fluffyKittens" exists'
-    step 'a group called "Admin" exists'
-    step 'the user with username "bruce_willis" is member of the group "Admin"'
-    step 'I log in as "bruce_willis" with password "fluffyKittens"'
-
-    click_on_arrow_next_to("Willis, Bruce")
-    click_link("Admin")
-    click_link("Import")
-    attach_file("uploaded_data", meta_filepath)
-    click_button("Import »")
-
-  end
+  click_on_arrow_next_to("Willis, Bruce")
+  click_link("Admin")
+  click_link("Import")
+  attach_file("uploaded_data", meta_filepath)
+  click_button("Import »")
 
   minimal_meta = YAML::load_file(meta_filepath)
   MetaKey.count.should == minimal_meta[:meta_keys].count
