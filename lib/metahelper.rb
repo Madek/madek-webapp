@@ -137,6 +137,7 @@ module MetaHelper
       end
 
       SQLHelper.reset_autoinc_sequence_to_max MetaContext
+      SQLHelper.reset_autoinc_sequence_to_max MetaContextGroup
       SQLHelper.reset_autoinc_sequence_to_max MetaDatum
       SQLHelper.reset_autoinc_sequence_to_max MetaKey
       SQLHelper.reset_autoinc_sequence_to_max MetaKeyDefinition
