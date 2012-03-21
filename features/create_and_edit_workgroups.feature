@@ -32,7 +32,7 @@ Feature: Create and edit workgroups
      And I press "Gruppe erstellen"
     Then I should see "Looney Tunes"
      And I should see "Pig, Porky"
-    When I type "Daff" into the "user" autocomplete field
+    When I type "Daff" into the "add_member_to_group" autocomplete field
      And I pick "Duck, Daffy" from the autocomplete field
     Then I should see "Pig, Porky"
      And I should see "Duck, Daffy"
@@ -50,7 +50,7 @@ Feature: Create and edit workgroups
      And I press "Gruppe erstellen"
     Then I should see "Looney Tunes"
      And I should see "Pig, Porky"
-    When I type "Daff" into the "user" autocomplete field
+    When I type "Daff" into the "add_member_to_group" autocomplete field
      And I pick "Duck, Daffy" from the autocomplete field
     Then I should see "Pig, Porky"
      And I should see "Duck, Daffy"

@@ -103,8 +103,8 @@ Given /^"([^"]*)" changes the resource's groupermissions for "([^"]*)" as follow
         find(%Q@.groups .line input##{perm["permission"]}@).click()
     end
   end
-  find("a.save").click()
-  wait_for_css_element(".icon.success")
+  
+  step 'I save the permissions'
 end
 
 When /^I add "([^"]*)" to grant user permissions$/ do |user|
@@ -145,8 +145,13 @@ When /^I change the resource's public permissions as follows:$/ do |table|
     end
   end
   
+  step 'I save the permissions'
+end
+
+When /^I save the permissions$/ do 
   find("a.save").click()
   wait_for_css_element(".icon.success")
+  sleep(0.5)
 end
 
 Then /^I cannot edit the following permissions any more:$/ do |table|

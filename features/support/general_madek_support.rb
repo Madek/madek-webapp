@@ -249,13 +249,6 @@ def find_permission_checkbox(type, to_or_from)
   cb = find(:css, "table.permissions").find("tr", :text => text).all("input")[index]
 end
 
-def remove_permission_to(type, from)
-  cb = find_permission_checkbox(type, from)
-  cb.click if cb[:checked] == "true" # a string, not a bool!
-  click_button("Speichern")
-end
-
-
 
 # DANGER: This is now (March 15, 2011) broken due to the way
 # Capybara handles fill_in. I believe it used to trigger the keyUp event
