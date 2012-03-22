@@ -12,6 +12,7 @@ module DataFactory
       User.destroy_all
     end
     MetaHelper.import_initial_metadata
+    Copyright.init(true)
   end
 
   def create_permission_migration_dataset
