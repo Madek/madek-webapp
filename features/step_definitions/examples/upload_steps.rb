@@ -150,7 +150,8 @@ end
 
 Then /^the uploaded files are still there$/ do
   visit "/upload"
-  find("li.plupload_done")
+  sleep(0.5)
+  wait_for_css_element("li.plupload_done")
 end
 
 Then /^the upload process ends$/ do

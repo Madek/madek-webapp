@@ -11,18 +11,9 @@ Feature: Metadata context groups
     Given I have set up the world
       And personas are loaded
       And I am "Normin"
-      And the following metadata context groups exist:
-      | name             | order |
-      | Metadaten        |     1 |
-      | Kontexte         |     2 |
-      And the following metadata contexts exist:
-      | name                      | order | context group |
-      | Landschaftsvisualisierung |     1 | Kontexte      |
-      | Zett                      |     2 | Kontexte      |
-      | Werk                      |     1 | Metadaten     |
-      | Medium                    |     2 | Metadaten     |
 
-  # https://www.pivotaltracker.com/story/show/26706147    
+  # https://www.pivotaltracker.com/story/show/26706147
+  @wip    
   Scenario: Specific order in which metadata context groups appear in the interface
     When I view a media entry
     Then the metadata context groups are in the following order:
@@ -31,6 +22,7 @@ Feature: Metadata context groups
       |     2 | Kontexte  |
 
   # https://www.pivotaltracker.com/story/show/26706147
+  @wip
   Scenario: Specific order in which metadata contexts appear inside of metadata context groups in the interface
     When I view a media entry
     Then the metadata contexts inside of "Metadaten" are in the following order:
@@ -43,6 +35,7 @@ Feature: Metadata context groups
       |     2 | Zett                      |
 
   # https://www.pivotaltracker.com/story/show/26706147
+  @wip
   Scenario: Context groups are only displayed if the media entry is in a set that is assigned to a context and that context is in the admin interface assigned to the metadata context group
     Given a media entry with a full set of metadata in all available contexts
       And a set called "Planets" with the context "Astronomical Metadata"
