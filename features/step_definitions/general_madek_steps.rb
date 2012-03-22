@@ -231,18 +231,12 @@ end
 
 When /^I give "([^"]*)" permission to "([^"]*)"$/ do |permission, subject|
   wait_for_css_element(".public .line")
-  puts "1"
   permissions_container = find(".subject", :text => subject).find(:xpath, './..').find(".permissions")
-  puts "2"
   if not permissions_container.find(".#{permission} input").checked?
-    puts "3"
     permissions_container.find(".#{permission} input").click
-    puts "4"
   end
   
-  puts "5"
   step 'I save the permissions'
-  puts "6"
 end
 
 When /^I remove "([^"]*)" permission from "([^"]*)"$/ do |permission, subject|

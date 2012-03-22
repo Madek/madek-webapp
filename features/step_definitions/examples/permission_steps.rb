@@ -150,7 +150,6 @@ end
 
 When /^I save the permissions$/ do 
   find("a.save").click()
-  wait_for_css_element(".icon.success")
   sleep(1.5)
 end
 
