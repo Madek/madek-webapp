@@ -81,6 +81,8 @@ When /^I want to change the owner$/ do
 end
 
 When /^I open the permission lightbox$/ do
+  wait_for_css_element(".open_permission_lightbox")
+  sleep(1)
   find(".open_permission_lightbox").click
   wait_for_css_element(".permission_lightbox .line")
 end
