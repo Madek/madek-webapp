@@ -29,7 +29,6 @@ Given /^I have set up the world$/ do
   MetaTerm.count.should == minimal_meta[:meta_terms].count
   UsageTerm.count.should == 1
  
-  Copyright.init # This is actually normally called in the seeds, but the RSpec developers don't believe in using seeds, so they drop the database even if we seed it before running the tests. Therefore we recreate our world in this step.
   MetaDepartment.setup_ldapdata_from_localfile
   MetaDate.parse_all
 end
