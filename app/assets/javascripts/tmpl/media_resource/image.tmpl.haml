@@ -1,0 +1,9 @@
+.item_box{:title => "${meta_data.title}"}
+  {{if type == "media_set"}}
+  .thumb_box_set
+    %img{:src => "${image}"}
+  {{else}}
+  .thumb_box
+    %img{:src => "${image}"}
+  {{/if}}
+  .clear

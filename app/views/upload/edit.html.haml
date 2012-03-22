@@ -21,6 +21,10 @@
           .upload-me-metadata
             .meta_data_block.meta_data
               = render :partial => "meta_data/bulk_edit", :locals => { :resource => media_entry, :context => @context, :with_actions => with_actions }
+      %hr
+      %br
+      = link_to _("Metadaten speichern und weiter..."), "javascript:void(0)", :onclick => "$('#upload form').submit();", :class => "upload_buttons next", :id => "save_meta_data"
+      = link_to "Abbrechen", upload_path, :title=> "Import Abbrechen", :id => "cancel_import", :method => :delete, :confirm => "Wollen Sie den Import wirklich abbrechen?"        
 
 :javascript
   $(document).ready(function () {

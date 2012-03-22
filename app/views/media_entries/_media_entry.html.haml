@@ -14,8 +14,6 @@
           %ul.tab-nav
             %li.tab-info.ir
               = link_to _("Information"), "#", :class => "tab-info ir", :rel => "tab-info"
-            %li.tab-permission
-              = link_to _("Zugriffsberechtigungen"), edit_multiple_media_entry_permissions_path(media_entry), :class => "tab-permission ir", :rel => "tab-permission"
             %li.tab-activity
               = link_to _("Aktivitäten"), "#", :class => "tab-activity ir", :rel => "tab-activity"
           #tab-info.clearfix
@@ -112,6 +110,13 @@
               %li
                 .button_edit_active.ghost
             %li
+              = link_to "",
+              :title => "Zugriffsberechtigung",
+              :class => "open_permission_lightbox", 
+              :"data-media_resource_ids" => "[#{@media_entry.id}]",
+              :"data-current_user" => "#{current_user.to_json(:only=>:id, :include => :groups)}" do
+                .button_permissions
+            %li
               %span.favorite_link{:id => "fav_#{media_entry.id}", :title => "Favorit"}
                 = render :partial => "resources/favorite_link", :locals => {:media_resource => media_entry}
             - if media_entry.meta_data.for_meta_terms.exists?
@@ -125,17 +130,7 @@
               = link_to "#", :panel => "download", :title => "Exportieren" do
                 .button_download
             %li
-              = link_to " ", :title => "Zu Set hinzufügen/entfernen",
-                :class=>"has-set-widget",
-                :"data-selected_ids" => "[#{@media_entry.id}]",
-                :"data-user" => "#{current_user.to_json(:only => {}, :methods => :name)}",
-                :"data-after_submit" => "window.location.reload();",
-                :"data-index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "with" => {"media_set" => {"creator" => 1, "created_at" => 1, "title" => 1}}}}.to_json}",
-                :"data-linked_index" => "#{{"path" => "/media_sets", "method" => "GET", "data" => {"accessible_action" => "edit", "child_ids" => [@media_entry.id]}}.to_json}",
-                :"data-create" => "#{{"path" => "/media_sets", "method" => "POST", "data" => {"media_sets" => ":created_items"}, "created_item" => {"meta_data_attributes" => {0 => {"meta_key_id" => "3", "value" => ":title"}}}}.to_json}",
-                :"data-link" => "#{{"path" => "/media_entries/media_sets", "method" => "POST", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_entry_ids" => ":media_entry_ids"}}.to_json}",
-                :"data-unlink" => "#{{"path" => "/media_entries/media_sets", "method" => "DELETE", "data" => {"parent_media_set_ids" => ":parent_media_set_ids", "media_entry_ids" => ":media_entry_ids"}}.to_json}" do
-                .button_addto
+              = media_sets_widget(@media_entry)
             - if current_user and current_user.authorized?(:manage, media_entry)
               %li
                 = link_to "#", :panel => "delete", :title => "Löschen" do
@@ -157,7 +152,10 @@
   .clear
 
 :javascript
+  
   $(document).ready(function () {
+  
+    MetaDataToggler.setup();
 
     /* FIXME: Remove me completly later on
     $(".scrollable").each(function(){
@@ -188,6 +186,10 @@
 
     $("ul.tab-nav a").click(function(event) {
       var that = $(this);
+      
+      if($(this).hasClass("open_permission_lightbox")) {
+        return true;
+      }
 
       $("ul.tab-nav li").removeClass("ir");
       that.closest("li").addClass("ir");
@@ -220,3 +222,15 @@
     })
 
   });
+
+  
+  var MetaDataToggler = new MetaDataToggler();
+  
+  function MetaDataToggler() {
+  
+    this.setup = function () {
+      $(".meta_context_group>h5").bind("click",function(){
+        $(this).closest(".meta_context_group").toggleClass("open");
+      });
+    }
+  }

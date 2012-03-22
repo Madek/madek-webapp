@@ -75,7 +75,7 @@ module MetaDataHelper
   # TODO merge with MetaDatum#to_s
   def formatted_value(meta_datum)
     case meta_datum.meta_key.object_type
-      when "Person"
+      when "Person", "User"
         formatted_value_for_people(Array(meta_datum.deserialized_value))
       when "Keyword"
         s = Array(meta_datum.deserialized_value).map do |v|
@@ -247,6 +247,7 @@ module MetaDataHelper
               }else{
                 $.ajax({
                   url: source.attr("href"),
+                  data: {format: 'js'},
                   dataType: 'html',
                   success: function(response){
                     source.children("img:last").toggleClass("expanded");

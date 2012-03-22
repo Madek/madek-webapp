@@ -127,6 +127,10 @@ div.plupload div.plupload_header {border-width: 0 0 1px 0; position: relative;}
   left: -9px;
 }
 
+.plupload .plupload_start {
+  display: none;   
+}
+
 .plupload_upload_status {
   font-size: 1.2em;
   position: relative;

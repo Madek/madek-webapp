@@ -1,28 +1,26 @@
 %section#content_body
   %div.page_title_left
     .icon_me
-    =_("Mein Medienarchiv")
+    =_("Meine Inhalte")
   .clear
   #results
-    - unless @my_media_entries[:entries].empty?
-      - unless @my_media_entries[:entries].size < params[:per_page]
-        .buttons
-          = link_to "Alle meine Medieneinträge", user_resources_path(current_user)
-    - else
-      = _("Sie haben noch keine Medien hochgeladen.")
+    Loading...
 
 %section#content_body2      
   %div.page_title_left
     .icon_me
-    =_("Medieneinträge anderer")
+    =_("Mir anvertraute Inhalte")
   .clear
-  #results_others
-    - unless @other_media_entries[:entries].empty?
-      - unless @other_media_entries[:entries].size < params[:per_page]
-        .buttons
-          = link_to "Weitere Medieneinträge", resources_path(:not_by_current_user => true)
-    - else
-      = _("Es gibt keine weiteren Medieneinträge.")
+  #results_others.not_public
+    Loading...
+
+%section#content_body2      
+  %div.page_title_left
+    .icon_me
+    =_("Öffentliche Inhalte")
+  .clear
+  #results_others.public
+    Loading...
 
 = render :partial => "resources/templates"
 
@@ -30,9 +28,67 @@
   // TODO dry => batch_actions.js
   $(document).ready(function () {
     function display_entries(entries, container){
-      $(container).prepend($("#thumbnail").tmpl(entries, {with_checkbox: false}));
+      $(container).html($.tmpl("tmpl/media_resource/thumb_box", entries, {with_checkbox: false}));
     }
-    display_entries(#{@my_media_entries.to_json}.entries, "#results");
-    display_entries(#{@other_media_entries.to_json}.entries, "#results_others");
+    
+    var per_page = 10;
+    
+    var url_1 = "#{user_resources_path(current_user)}"; 
+    $.ajax({
+      url: url_1,
+      data: {per_page: per_page},
+      dataType: 'json',
+      complete: function(response){
+        var data = JSON.parse(response.responseText);
+        var container_str = "#results";
+        if(data.entries.length){
+          display_entries(data.entries, container_str);
+          if(data.pagination.total_entries > per_page){
+            $(container_str).append("<div class='buttons'><a href=\""+url_1+"\">Alle meine Inhalte</a></div>");
+          }
+        }else{
+          $(container_str).html("Keine Medien vorhanden");
+        }
+      }
+    });
+
+    var url_2 = "#{resources_path(not_by_current_user: true, public: false)}"; 
+    $.ajax({
+      url: url_2,
+      data: {per_page: per_page},
+      dataType: 'json',
+      complete: function(response){
+        var data = JSON.parse(response.responseText);
+        var container_str = "#results_others.not_public";  
+        if(data.entries.length){
+          display_entries(data.entries, container_str);
+          if(data.pagination.total_entries > per_page){
+            $(container_str).append("<div class='buttons'><a href=\""+url_2+"\">Alle mir anvertraute Inhalte</a></div>");
+          }
+        }else{
+          $(container_str).html("Keine Medien vorhanden");
+        }
+      }
+    });
+
+    var url_3 = "#{resources_path(not_by_current_user: true, public: true)}"; 
+    $.ajax({
+      url: url_3,
+      data: {per_page: per_page},
+      dataType: 'json',
+      complete: function(response){
+        var data = JSON.parse(response.responseText);
+        var container_str = "#results_others.public";  
+        if(data.entries.length){
+          display_entries(data.entries, container_str);
+          if(data.pagination.total_entries > per_page){
+            $(container_str).append("<div class='buttons'><a href=\""+url_3+"\">Alle öffentlichen Inhalte</a></div>");
+          }
+        }else{
+          $(container_str).html("Keine Medien vorhanden");
+        }
+      }
+    });
+
   });
 

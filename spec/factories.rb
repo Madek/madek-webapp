@@ -3,15 +3,16 @@
 module DataFactory 
   extend self
 
-  def clear_data 
+  def reset_data 
     ActiveRecord::Base.transaction do
-      MediaEntry.all.each {|e| e.destroy}
-      MediaSet.all.each {|e| e.destroy}
-      MediaResource.all.each {|e| e.destroy}
-      Grouppermission.all.each {|e| e.destroy}
-      Userpermission.all.each {|e| e.destroy}
-      User.all.each {|e| e.destroy}
+      MediaResource.destroy_all
+      Grouppermission.destroy_all
+      Group.destroy_all
+      Userpermission.destroy_all
+      User.destroy_all
     end
+    MetaHelper.import_initial_metadata
+    Copyright.init(true)
   end
 
   def create_permission_migration_dataset
@@ -96,21 +97,6 @@ module FactoryHelper
 end
 
 FactoryGirl.define do
-
-  ### Meta
-
-  factory :meta_context do
-    name {Faker::Lorem.words.join("_")}
-    is_user_interface true
-
-    label {
-      h = {}
-      LANGUAGES.each do |lang|
-        h[lang] = name
-      end
-      h
-    }
-  end
 
   ### Media ....
 

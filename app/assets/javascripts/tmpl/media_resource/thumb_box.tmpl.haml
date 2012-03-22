@@ -1,0 +1,70 @@
+%div{:id => "thumb_${id}", :class => "item_box{{if is_set}} set{{/if}}"}
+  {{tmpl($item.data) "tmpl/media_resource/thumb_box/permissions_icon"}}
+  {{if is_set}}
+  %a{:href => "/media_sets/${id}"}
+    .thumb_box_set
+      {{if thumb_base64}}
+      %img{:src => "${thumb_base64}"}
+      {{/if}}
+  {{else}}
+  %a{:href => "/media_entries/${id}"}
+    .thumb_box
+      {{if thumb_base64}}
+      %img{:src => "${thumb_base64}"}
+      {{/if}}
+  {{/if}}
+  .clear
+  %p.item_title{:title => "${title}"}
+    ${title.substring(0,34)}
+    {{if title.length > 34}}
+    = "..."
+    {{/if}}
+  %p.item_author{:title => "${author}"} 
+    ${author.substring(0,42)}
+    {{if author.length > 42}}
+    = "..."
+    {{/if}}
+  .actions
+    .action_left
+      {{if ($item.with_checkbox == null || $item.with_checkbox)}}
+      .check_box
+      {{/if}}
+      %span.favorite_link{:id => "fav_${id}", :title => "Favorit"}
+        %a{:href => "/resources/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
+          {{if is_favorite}}
+          .button_favorit_on
+          {{else}}
+          .button_favorit_off
+          {{/if}}
+      {{if !is_set}}
+      {{if can_maybe_browse}}    
+      %span.explore_link{:id => "exp_${id}"}
+        %a{:href => "/media_entries/${id}/browse", :title => "Erkunden"}
+          .button_explore
+      {{else}}
+      .button_explore.ghost
+      {{/if}}
+      {{/if}}
+    .action_right
+      {{if is_editable}}
+      {{if is_set}}
+      %a{:href => "/media_sets/${id}/edit", :title => "Editieren"}
+        .button_edit_active
+      {{else}}
+      %a{:href => "/media_entries/${id}/edit", :title => "Editieren"}
+        .button_edit_active
+      {{/if}}
+      {{else}}
+      .button_edit_active.ghost
+      {{/if}}
+      {{if is_manageable}}
+      {{if is_set}}
+      %a{:href => "/media_sets/${id}", :title => "Löschen", :"data-method" => "delete", :"data-remote" => true, :class => "delete_me", :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher dass Sie diesen Set löschen möchten?"}
+        .button_delete_active
+      {{else}}
+      %a{:href => "/media_entries/${id}", :title => "Löschen", :"data-method" => "delete", :"data-remote" => true, :class => "delete_me", :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher dass Sie diesen Medien-Eintrag löschen möchten?"}
+        .button_delete_active
+      {{/if}}
+      {{else}}
+      .button_delete_active.ghost
+      {{/if}}

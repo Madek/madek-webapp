@@ -7,7 +7,7 @@ class MediaSetsController < ApplicationController
       
       unless (params[:media_set_id] ||= params[:id] ||= params[:media_set_ids]).blank?
         action = case request[:action].to_sym
-          when :show, :browse, :abstract, :inheritable_contexts, :parents
+          when :index, :show, :browse, :abstract, :inheritable_contexts, :parents
             :view
           when :edit, :update, :add_member, :destroy
             :edit
@@ -22,18 +22,20 @@ class MediaSetsController < ApplicationController
   end
 
 #####################################################
-
+  
   ##
   # Get media sets
   # 
-  # @url [GET] /media_sets?[arguments]
+  # @resource /media_sets
+  #
+  # @action GET
   # 
-  # @argument [accessible_action] string Limit the list of media sets by the accessible action
+  # @optional [accessible_action] string Limit the list of media sets by the accessible action
   #   show, browse, abstract, inheritable_contexts, edit, update, add_member, parents, destroy
   #
-  # @argument [with] hash Options forwarded to the results which will be inside of the respond 
+  # @optional [with] hash Options forwarded to the results which will be inside of the respond 
   # 
-  # @argument [child_ids] array An array with child ids which shall be used for scoping the media sets
+  # @optional [child_ids] array An array with child ids which shall be used for scoping the media sets
   #
   # @example_request
   #   {"accessible_action": "edit", "with": {"media_set": {"media_entries": 1}}}
@@ -46,27 +48,6 @@ class MediaSetsController < ApplicationController
   #
   # @example_request
   #   {"accessible_action": "edit", "with": {"media_set": {"creator": 1, "created_at": 1, "title": 1}}}
-  #
-  # @request_field [String] accessible_action The accessible action the user can perform on a set
-  # @request_field [Hash] with Options forwarded to the results which will be inside of the respond
-  # @request_field [Hash] with.set Options forwarded to all resulting models from type set
-  # @request_field [Hash] with.set.media_entries When this hash of options is setted, it forces all result sets
-  #   to include their media_entries forwarding the options. When "media_entries" is just setted to 1, then 
-  #   they are include but without forwarding any options.
-  # @request_field [Integer] with.set.title When this hash of options is setted, provide the set title in the results
-  # @request_field [Array] child_ids A list of childs which shall be used for scoping the result of media sets
-  #
-  # @example_response
-  #   [{"id":422, "media_entries": [{"id":2}, {"id":3}]}, {"id":423, "media_entries": [{"id":1}, {"id":4}]}]
-  #
-  # @example_response
-  #   [{"id":422, "title": "My Private Set", "creator": {"id": 142, "name": "Max Muster"}}]
-  #
-  # @response_field [Integer] id The id of a set 
-  # @response_field [Hash] media_entries Media entries of the set
-  # @response_field [Integer] media_entries[].id The id of a media entry
-  # @response_field [String] title The title of the media set 
-  # @response_field [Hash] author The author of the media set 
   #
   def index(accessible_action = (params[:accessible_action] || :view).to_sym,
             with = params[:with],
@@ -91,7 +72,7 @@ class MediaSetsController < ApplicationController
         end
       }
       
-      format.js {
+      format.json {
         
         sets = unless child_ids.blank?
           MediaResource.where(:id => child_ids).flat_map do |child|
@@ -150,13 +131,8 @@ class MediaSetsController < ApplicationController
       }
       
       format.json {
-        render :json => @media_set.as_json(:with => with, :current_user =>current_user)
-      }
-      
-      # TODO drop js and use json only, this is currently only used for the inview-pagination
-      format.js {
-        # OPTIMIZE this is a quick-fix for the inview-pagination
         if params[:page]
+          # TODO drop this, it's currently only used for the inview-pagination
           params[:per_page] ||= PER_PAGE.first
           paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
           resources = MediaResource.accessible_by_user(current_user).order("media_resources.updated_at DESC").by_media_set(@media_set).paginate(paginate_options)
@@ -166,15 +142,12 @@ class MediaSetsController < ApplicationController
                                     :total_entries => resources.total_entries,
                                     :total_pages => resources.total_pages },
                    :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
+        else
+          # TODO keep this, for the API
+          json = @media_set.as_json(:with => with, :current_user =>current_user)
         end
         render :json => json
       }
-
-      # TODO disable the above and enable blow for json emplated rendering 
-      # @media_entries = @media_set.media_entries.accessible_by_user(current_user)
-      # @media_set = MediaSet.find params[:id]
-      # format.json 
-
     end
   end
 
@@ -196,9 +169,6 @@ class MediaSetsController < ApplicationController
   def inheritable_contexts
     @inheritable_contexts = @media_set.inheritable_contexts
     respond_to do |format|
-      #format.js { render :json => @inheritable_contexts}
-      #format.html{render :text => "Use JSON", :status => 406}
-      #format.html{render :text => "Use JSON"}
       format.json{render :json => @inheritable_contexts}
     end
 
@@ -256,7 +226,7 @@ class MediaSetsController < ApplicationController
           redirect_to :back
         end
       }
-      format.js {
+      format.json {
         r = @media_sets ? @media_sets : @media_set
         render :json => r.as_json(:user => current_user), :status => (is_saved ? 200 : 500)
       }
@@ -284,7 +254,7 @@ class MediaSetsController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_to user_resources_path(current_user, :type => "media_sets") }
-      format.js { render :json => {:id => @media_set.id} }
+      format.json { render :json => {:id => @media_set.id} }
     end
   end
 
@@ -316,12 +286,6 @@ class MediaSetsController < ApplicationController
             redirect_to @media_set
           end
           } # OPTIMIZE
-#temp3#
-#        format.js { 
-#          render :update do |page|
-#            page.replace_html 'flash', flash_content
-#          end
-#        }
       end
     else
       @media_sets = @user.media_sets
@@ -368,10 +332,25 @@ class MediaSetsController < ApplicationController
     
     respond_to do |format|
       #format.html { redirect_to @media_set }
-      format.js { 
+      format.json { 
         render :json => child_media_sets.as_json(:user => current_user, :methods => :parent_ids) 
       }
     end
   end
-  
+
+  # TODO merge to index ??
+  def graph(type = params[:type].to_i)
+    respond_to do |format|
+      format.html {
+        render :action => "graph_#{type}"
+      }
+      format.json {
+        # FIXME these are actually absolute_top_level, we need top_level against what I can actually see !!
+        #@media_sets = MediaSet.accessible_by_user(current_user).top_level
+        @media_sets = current_user.media_sets.relative_top_level
+        render :action => "graph_#{type}" if type == 4
+      }
+    end
+  end
+      
 end

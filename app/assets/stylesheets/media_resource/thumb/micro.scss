@@ -1,0 +1,17 @@
+@import "../../mixins";
+
+.media_resource.thumb.micro {
+  background-color: #fff;
+  display: inline-block;
+  height: 30px;
+  padding: 2px;
+  position: relative;
+  text-align: center;
+  width: 30px;
+  @include box-shadow(0 0 3px rgba(100, 100, 100, 0.6));
+  
+  img {
+    height: 30px;
+    width: 30px;
+  }
+}

@@ -40,11 +40,12 @@
     bind_state_changed()
     bind_file_uploaded()
     bind_errors()
-    validate_continue_button()
+    validate_buttons()
     setup_open_dropbox_dialog()
     setup_delete_mei()
     setup_delete_dropbox_file()
     setup_delete_plupload_file()
+    setup_start_button()
     
   setup_open_dropbox_dialog = ->
     $(".open_dropbox_dialog").live "click", ->
@@ -73,20 +74,31 @@
       closeOnEscape: true
     }
   
-  validate_continue_button = ->
+  validate_buttons = ->
     window.setTimeout ->
+      # If files are in the uploader filelist
+      if $(".plupload_content li:not(.plupload_done):visible").length > 0
+        enable_start_button()
+      else
+        disable_start_button()
+    
+      # If Dropbox has files enable plupload start and mark as "dropbox enabled"
+      if $("#dropbox_filelist li:visible").length > 0
+        $("#upload_navigation .plupload_start").addClass "dropbox_enabled"
+      else
+        $("#upload_navigation .plupload_start").removeClass "dropbox_enabled"
+      
+      # Everything is transfered so show continue button
       if $(".plupload_content li:not(.plupload_done):visible").length == 0 and $(".plupload_content li:visible").length > 0
         enable_continue_button()
+        show_continue_button()
+        hide_start_button()
       else
         disable_continue_button()
+        hide_continue_button()
+        show_start_button()
     , 200
   
-  validate_start_button = ->
-    if $("#dropbox_filelist li:visible").length > 0
-      $(".plupload_button.plupload_start").addClass "dropbox_enabled"
-    else
-      $(".plupload_button.plupload_start").removeClass "dropbox_enabled"
-   
   enable_continue_button = ->
     button = $("#upload_navigation .next")
     button.removeClass("disabled")
@@ -96,6 +108,30 @@
     button = $("#upload_navigation .next")
     button.addClass("disabled")
     button.attr("href", "javascript:void(0)")
+    
+  show_continue_button = ->
+    button = $("#upload_navigation .next")
+    button.show()
+    
+  hide_continue_button = ->
+    button = $("#upload_navigation .next")
+    button.hide()   
+  
+  enable_start_button = ->
+    button = $("#upload_navigation .plupload_start")
+    button.removeClass("plupload_disabled")
+    
+  disable_start_button = ->
+    button = $("#upload_navigation .plupload_start")
+    button.addClass("plupload_disabled")
+    
+  show_start_button = ->
+    button = $("#upload_navigation .plupload_start")
+    button.show()
+    
+  hide_start_button = ->
+    button = $("#upload_navigation .plupload_start")
+    button.hide()
   
   setup_dropbox_sync = ->
     return false if dropbox_exists is false
@@ -104,9 +140,10 @@
     window.dropbox_sync_interval = window.setInterval ->
       $.ajax({
         url: "upload"
-        success: (data, status, request) ->
+        success: (data, status, response) ->
+          if JSON.stringify(window.dropbox_files) != JSON.stringify(data)  
+            setup_dopbox_files data
           window.dropbox_files = data
-          setup_dopbox_files data
         type: "GET"
         data: format:"json"
       })
@@ -121,7 +158,6 @@
     # if container is gone create the container again
     if $("#uploader #dropbox_filelist").length == 0
       $("#uploader #uploader_filelist").after $("<ul id='dropbox_filelist'></ul>")
-    
     # add files
     for file in files
       setup_dropbox_file file
@@ -135,8 +171,7 @@
       if not file_exists
         $(dropbox_element).remove()
     
-    validate_start_button()
-    validate_continue_button()
+    validate_buttons()
     
   setup_dropbox_file = (file)->
     # if file list-element is not already exisiting create
@@ -147,7 +182,7 @@
     if not already_existing
       template = $.tmpl("tmpl/upload/dropbox_file", file)
       $("#uploader #dropbox_filelist").prepend template
-    validate_start_button()
+    validate_buttons()
 
   initalize_plupload = ->
     $("#uploader").pluploadQueue
@@ -189,7 +224,7 @@
     uploader.bind "UploadComplete", (uploader) ->
       set_custom_progress()
       $("#uploader .plupload_progress").show()
-      validate_continue_button()
+      validate_buttons()
   
   bind_add_files = ->
     uploader.bind "FilesAdded", (uploader, files) ->
@@ -201,7 +236,7 @@
             content: $.tmpl("tmpl/upload/zero_bytes_error", {filename:file.name})
             dialogClass: "zero_bytes_error"
             closeOnEscape: true
-      validate_continue_button()
+      validate_buttons()
       window.setTimeout ->
         for element in $("#uploader_filelist li.plupload_delete")
           prevent_plupload_delete($(element))
@@ -220,7 +255,7 @@
     
   bind_remove_files = ->
     uploader.bind "FilesRemoved", (uploader, files) ->
-      validate_continue_button()
+      validate_buttons()
  
   bind_queue_change = ->
     uploader.bind "QueueChanged", (uploader) ->
@@ -237,19 +272,30 @@
           for element in $("#uploader_filelist li")
             add_delete_to_plupload($(element))   
         , 200
-     
-  start_dropbox_transfer = ->
-    clearInterval window.dropbox_sync_interval
-    finish_transfer() if $("#dropbox_filelist li").length is 0
-    # show progress
+  
+  validate_progress_bar = ->
+    if $(".plupload_content li:visible").length == 0
+      hide_transfer_progress()
+  
+  show_transfer_progress = ->
     $(".plupload_filelist_footer .plupload_buttons").hide()
     $(".plupload_filelist_footer .plupload_file_name").show()
     $(".plupload_filelist_footer .plupload_upload_status").show()
     $(".plupload_filelist_footer .plupload_upload_status").html(plupload.translate("Uploaded %d/%d files").replace(/%d/g, "0"))
     $(".plupload_filelist_footer .plupload_progress").show()
+  
+  hide_transfer_progress = ->
+    $(".plupload_filelist_footer .plupload_buttons").show()
+    $(".plupload_filelist_footer .plupload_file_name").show()
+    $(".plupload_filelist_footer .plupload_upload_status").hide()
+    $(".plupload_filelist_footer .plupload_upload_status").html(plupload.translate("Uploaded %d/%d files").replace(/%d/g, "0"))
+    $(".plupload_filelist_footer .plupload_progress").hide()
+    
+  start_dropbox_transfer = ->
+    clearInterval window.dropbox_sync_interval
+    finish_transfer() if $("#dropbox_filelist li").length is 0
+    show_transfer_progress()
     # begin transfer each file seperately
-    # but reverse first so that we have upside done success
-    #dropbox_files = dropbox_files.reverse()
     for dropbox_file in dropbox_files
       # mark file as transfer in progress
       $("#dropbox_filelist li").each (i_element, element) ->
@@ -261,7 +307,7 @@
         url: "/upload"
         success: (data, status, request) ->
           set_custom_progress()
-          validate_continue_button()
+          validate_buttons()
           $("#dropbox_filelist li").each (i_element, element) ->
             if($(element).tmplItem().data.dirname == data.dropbox_file.dirname && $(element).tmplItem().data.filename == data.dropbox_file.filename)
               $(element).data("media_entry_incomplete", data.media_entry_incomplete)
@@ -323,8 +369,8 @@
       success: (data, status, request) ->
         element.removeClass("deleting")
         element.closest("li").remove()
-        validate_start_button()
-        validate_continue_button()
+        validate_buttons()
+        validate_progress_bar()
       error: (request, status, error) ->
         console.log("ERROR")
       type: "DELETE"
@@ -353,8 +399,8 @@
       success: (data, status, request) ->
         element.removeClass("deleting")
         element.closest("li").remove()
-        validate_start_button()
-        validate_continue_button()
+        validate_buttons()
+        validate_progress_bar()
       error: (request, status, error) ->
         console.log("ERROR")
       type: "DELETE"
@@ -375,4 +421,10 @@
             uploader.splice($(this).closest("li").index(), 1)
       else
         uploader.splice($(this).closest("li").index(), 1)
-      
+
+  setup_start_button = ->
+    $("#upload_navigation .plupload_start").bind "click", ()->
+      if $(this).is(":not(.plupload_disabled)")
+        $(".plupload .plupload_buttons .plupload_start").trigger("click")
+        hide_start_button()
+        show_continue_button()

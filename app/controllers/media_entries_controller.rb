@@ -40,7 +40,7 @@ class MediaEntriesController < ApplicationController
         action = case request[:action].to_sym
           when :show, :map, :browse, :media_sets
             :view
-          when :edit, :update, :edit_tms, :destroy
+          when :edit, :update, :edit_tms, :to_snapshot, :destroy
             :edit
         end
   
@@ -123,7 +123,6 @@ class MediaEntriesController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      format.js { render @media_entry } #FE# render :json => @media_entry.as_json(:user => current_user)
       format.json
       format.xml { render :xml=> @media_entry.to_xml(:include => {:meta_data => {:include => :meta_key}} ) }
     end
@@ -159,7 +158,7 @@ class MediaEntriesController < ApplicationController
         flash[:notice] = "Der Medieneintrag wurde gelöscht."
         redirect_back_or_default(resources_path) 
       }
-      format.js { render :json => {:id => @media_entry.id} }
+      format.json { render :json => {:id => @media_entry.id} }
     end
   end
 
@@ -171,7 +170,7 @@ class MediaEntriesController < ApplicationController
 
   def to_snapshot
     not_authorized! and return unless current_user.groups.is_member?("Expert")
-    @media_entry.to_snapshot
+    @media_entry.to_snapshot(current_user)
     redirect_to @media_entry
   end
 
@@ -209,7 +208,7 @@ class MediaEntriesController < ApplicationController
     
     respond_to do |format|
       #format.html {redirect_to @media_entry}
-      format.js { render :json => parent_media_sets.as_json }
+      format.json { render :json => parent_media_sets.as_json }
     end
   end
   

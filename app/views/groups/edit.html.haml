@@ -46,9 +46,11 @@
         $("input#new_user").autocomplete({
           source: function( request, response ) {
             $.getJSON( "/users", {
-              term: request.term,
+              query: request.term,
               group_id: #{@group.id}
-            }, response );
+            }, function(data){
+              response($.map(data, function(elem) { return { id: elem.id, value: elem.name }; })); 
+            })
           },
           minLength: 3,
           select: function( event, ui ) {

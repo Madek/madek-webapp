@@ -1,3 +1,5 @@
+# DOC: http://rubydoc.info/gems/rspec-rails/frames
+
 require 'rubygems'
 require 'spork'
 
@@ -56,18 +58,20 @@ end
 RSpec.configure do |config|
 
   config.before(:suite) do
-
-    # TODO do we still need this here: 
-    MetaHelper.import_initial_metadata
-
     DatabaseCleaner.strategy = :transaction
+    DataFactory.reset_data
   end
 
-  config.before(:each) do
+  # we have to clean everything after spec testing
+  config.after(:suite) do
+    DatabaseCleaner.clean_with :truncation
+  end
+
+  config.before :each  do
     DatabaseCleaner.start
   end
 
-  config.after(:each) do
+  config.after :each  do
     DatabaseCleaner.clean
   end
 

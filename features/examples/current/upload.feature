@@ -5,12 +5,12 @@ Feature: Upload
   So that I can share my files with everyone
 
   Background: Load the example data and personas
-	Given I have set up the world
+    Given I have set up the world
       And personas are loaded
       And I am "Normin"
 
   # https://www.pivotaltracker.com/story/show/24559407 -> Zugriffsberechtigungen beim Upload: Gleich wie bei Medieneintrag editieren
-  @committed @javascript
+  @javascript
   Scenario: Setting permissions during upload
     When I upload a file
     Then the file is attached to a media entry
@@ -21,26 +21,26 @@ Feature: Upload
     When I upload a file
     Then the file is attached to a media entry
      And I fill in the metadata in the upload form as follows:
-     |label                              |value|
-     |Titel                              |Test image for uploading|
-     |Autor/in                           |Hans Franz|
-     |Datierung                          |2011-08-08|
-     |Schlagworte zu Inhalt und Motiv    |some|
-     |Schlagworte zu Inhalt und Motiv    |test|
-     |Copyright                          |Tester|
+     | label                           | value                    |
+     | Titel                           | Test image for uploading |
+     | Autor/in                        | Hans Franz               |
+     | Datierung                       | 2011-08-08               |
+     | Schlagworte zu Inhalt und Motiv | some                     |
+     | Schlagworte zu Inhalt und Motiv | test                     |
+     | Copyright                       | Tester                   |
      
   # https://www.pivotaltracker.com/story/show/24559377 -> User kann beim Upload beim Vergeben der Metadaten die Werte zu Titel, Autor, Datierung, Schlagworte und Rechten von einem auf alle Medieneinträge übertrage
   Scenario: Assigning one value to all uploaded things
     When I upload several files
      And I enter metadata for the first file
      And I fill in the metadata in the upload form as follows:
-     |label                              |value|
-     |Titel                              |Test image for mass assignment of values|
-     |Autor/in                           |Hans Franzfriedrich|
-     |Datierung                          |2011-08-09|
-     |Schlagworte zu Inhalt und Motiv    |other|
-     |Schlagworte zu Inhalt und Motiv    |example|
-     |Copyright                          |Tester Two|
+     | label                           | value                                    |
+     | Titel                           | Test image for mass assignment of values |
+     | Autor/in                        | Hans Franzfriedrich                      |
+     | Datierung                       | 2011-08-09                               |
+     | Schlagworte zu Inhalt und Motiv | other                                    |
+     | Schlagworte zu Inhalt und Motiv | example                                  |
+     | Copyright                       | Tester Two                               |
     Then I can assign the same values to all the other files I just uploaded
 
   # Feature exists already, but needs this test
@@ -51,28 +51,28 @@ Feature: Upload
      And I add the media entry to a set called "Konzepte"
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
-  @committed @javascript
+  @javascript
   Scenario: Uploading large files
     When I upload a file with a file size greater than 1.4 GB
     Then the system gives me a warning telling me it's impossible to upload so much through the browser
      And the warning includes instructions for an FTP upload
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
-  @committed @javascript
+  @javascript
   Scenario: Uploading via a dropbox
     When I have uploaded some files to my dropbox
      And I start a new upload process
     Then I can choose files from my dropbox instead of uploading them through the browser
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
-  @committed @javascript
+  @javascript
   Scenario: Recursively searching for importable files in my dropbox
     When I have uploaded a directory containing files to my dropbox
      And I start a new upload process
     Then I can choose files from my dropbox instead of uploading them through the browser
   
   # https://www.pivotaltracker.com/story/show/24564545 -> Upload abbrechen können   
-  @committed @javascript
+  @javascript
   Scenario: Cancelling my upload
     When I have started uploading some files
      And I cancel the upload
@@ -80,7 +80,7 @@ Feature: Upload
      And the uploaded files are still there
   
   # https://www.pivotaltracker.com/story/show/24564505 -> Dateien nach Upload aber vor Import löschen   
-  @committed @javascript
+  @javascript
   Scenario: Deleting files before, during and after upload without completing the import
     When I uploading some files from the dropbox and from the filesystem
      And I delete some fo those after the upload
@@ -103,8 +103,32 @@ Feature: Upload
     When I upload a file
      And I enter metadata for the file
      And I fill in the metadata in the upload form as follows:
-     |label                              |value|
-     |Titel                              |Test image for highlighting|
+     | label | value                       |
+     | Titel | Test image for highlighting |
      And I try to continue in the import process
     Then I see an error message
-     And the field "Copyright" is highlighted as invalid
+     And the field "Rechte" is highlighted as invalid
+
+  # https://www.pivotaltracker.com/story/show/25923269
+  Scenario: Sequential batch editor for uploading many (20+) files
+    When I upload 5 files
+     And I edit metadata for the first file
+    Then I see a list of my uploaded files
+     And I fill in the metadata in the upload form as follows:
+     | label     | value       |
+     | Titel     | Test image  |
+     | Rechte | Some Person |
+    Then I can save the metadata
+     And I can jump to the next file
+    When I edit metadata for the second file
+    Then I can jump to the previous file
+
+  # https://www.pivotaltracker.com/story/show/25923269
+  Scenario: Filtering only media entries with missing metadata in the sequential batch editor
+    When I upload 5 files
+     And I enter metadata for the first file
+    Then I see a list of my uploaded files
+     And the files with missing metadata are highlighted
+     And I can choose to list only files with missing metadata
+    When I choose to list only files with missing metadata
+    Then only files with missing metadata are listed

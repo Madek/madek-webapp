@@ -23,25 +23,15 @@ Then /^the file is attached to a media entry$/ do
 end
 
 Then /^I can set the permissions for the media entry during the upload process$/ do
-  @media_entry_incomplete.userpermissions.empty?.should be_true
-  @media_entry_incomplete.grouppermissions.empty?.should be_true
-  visit "/upload"
-  sleep (1)
-  step "I follow \"weiter...\""
-  step 'I type "Adam" into the "user" autocomplete field'
-  step 'I pick "Admin, Adam" from the autocomplete field'
-  step 'I give "view" permission to "Admin, Adam" without saving'
-  step "I follow \"Berechtigungen speichern und weiter...\""
-  @media_entry_incomplete.userpermissions.reload.empty?.should be_false
-  @media_entry_incomplete.userpermissions.first.view.should == true
+  step 'I upload a file'
+  visit permissions_upload_path
+  wait_for_css_element("#permissions .line")
 end
-
-
 
 Then /^I add the media entry to a set called "([^"]*)"$/ do |arg1|
   @media_entry_incomplete.media_sets.empty?.should be_true
   visit "/upload/set_media_sets"
-  step 'I follow "Einträge zu einem Set hinzufügen"'
+  find("button", :text => "Einträge zu einem Set hinzufügen").click
   step 'I search for "Konzepte"'
   step 'I should see the "Konzepte" set inside the widget'
   step 'I select "Konzepte" as parent set'
@@ -159,8 +149,9 @@ When /^I cancel the upload$/ do
 end
 
 Then /^the uploaded files are still there$/ do
-  MediaEntryIncomplete.all[0].media_file.filename.should == "berlin_wall_01.jpg"
-  MediaEntryIncomplete.all[1].media_file.filename.should == "berlin_wall_02.jpg"
+  visit "/upload"
+  sleep(0.5)
+  wait_for_css_element("li.plupload_done")
 end
 
 Then /^the upload process ends$/ do
@@ -218,6 +209,7 @@ end
 
 Then /^I want to have its original file name inside its metadata$/ do
   visit media_entry_path(@media_entry_incomplete)
+  step 'I expand the "Weitere Daten" context group'
   find("#meta_data .meta_group .meta_vocab_name", :text => "Filename")
   find("#meta_data .meta_group .meta_terms", :text => File.basename(@path))
 end

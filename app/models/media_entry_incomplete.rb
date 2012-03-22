@@ -13,9 +13,10 @@ class MediaEntryIncomplete < MediaEntry
     set_copyright
   end
 
-  after_create do |record|
-    descr_author_value = record.meta_data.get("description author", false).try(:value)
-    record.meta_data.get("description author before import").update_attributes(:value => descr_author_value) if descr_author_value
+  after_create do
+    descr_author_value = meta_data.get("description author", false).try(:value)
+    meta_data.get("description author before import").update_attributes(:value => descr_author_value) if descr_author_value
+    meta_data.get("uploaded by").update_attributes(:value => user)
   end
 
 ########################################################
@@ -23,6 +24,7 @@ class MediaEntryIncomplete < MediaEntry
   def set_as_complete
     becomes MediaEntry
     update_column(:type, type)
+    # TODO should we also update the created_at ?? 
   end
 
 ########################################################

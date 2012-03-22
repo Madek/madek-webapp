@@ -9,6 +9,7 @@
 //= require jquery-ui.min
 //= require jquery_ujs
 //= require jquery-tmpl
+//= require d3.v2
 
 /////////// App /////////////
 //= require batch_actions
@@ -17,9 +18,11 @@
 //= require highlight/highlight
 //= require video-js/video
 //= require department-selection/department-selection
-//= require_tree ./widgets/ 
-//= require resources/item-box
+//= require set-widget/set-widget 
 //= require mediaset-popup/mediaset-popup
+//= require permission/permission
+//= require iframe-wrapper/iframe-wrapper
+//= require_tree ./media_resource
 
 /////////// Tmpl /////////////
 //= require_tree ./tmpl/
@@ -33,6 +36,7 @@
 //= require modernizr.min
 //= require video
 //= require image_resample/image_resample
+//= require underscore
 
 /////////// PLUPLOAD /////////////
 //= require plupload
@@ -44,6 +48,9 @@
 //= require plupload.html5
 //= require plupload.gears 
 //= require plupload.browserplus
+
+
+
 
 function document_ready(){
 	$("textarea").elastic();

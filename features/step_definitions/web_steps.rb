@@ -47,6 +47,7 @@ end
 
 When /^(?:|I )go to (.+)$/ do |page_name|
   visit path_to(page_name)
+  sleep(1)
 end
 
 When /^(?:|I )press "([^"]*)"$/ do |button|

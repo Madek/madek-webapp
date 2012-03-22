@@ -48,6 +48,11 @@ class MediaResource < ActiveRecord::Base
                                              :reject_if => proc { |attributes| attributes['value'].blank? and attributes['_destroy'].blank? }
                                              # NOTE the check on _destroy should be automatic, check Rails > 3.0.3
 
+  def self.find_by_title(title)
+    MediaResource.joins(:meta_data => :meta_key).
+      where(:meta_data => {:meta_keys => {:label => "title"}, :value => title.to_yaml})
+  end
+  
 #temp#
 #    # enforce meta_key uniqueness updating existing meta_datum
 #    # also useful for bulk meta_data updates such as Copyright, Organizer forms,...
@@ -202,8 +207,10 @@ class MediaResource < ActiveRecord::Base
     if user = options[:user]
       #TODO Dont do this behaviour on default
       is_public = is_public?
+      is_private = (is_public ? false : is_private?(user))
       flags = { :is_public => is_public,
-                :is_private => (is_public ? false : is_private?(user)),
+                :is_private => is_private,
+                :is_shared => (not is_public and not is_private),
                 :is_editable => user.authorized?(:edit, self),
                 :is_manageable => user.authorized?(:manage, self),
                 :is_favorite => user.favorite_ids.include?(id) }
@@ -231,7 +238,12 @@ class MediaResource < ActiveRecord::Base
               "/resources/%d/image?size=%s" % [id, size]
           end            
         end
-        
+        if with[:media_resource].has_key?(:title) and (with[:media_resource][:title].is_a?(Hash) or not with[:media_resource][:title].to_i.zero?)
+          json[:title] = meta_data.get_value_for("title")
+        end
+        if with[:media_resource].has_key?(:author) and (with[:media_resource][:author].is_a?(Hash) or not with[:media_resource][:author].to_i.zero?)
+          json[:author] = meta_data.get_value_for("author")
+        end
         if with[:media_resource].has_key?(:type) and (with[:media_resource][:type].is_a?(Hash) or not with[:media_resource][:type].to_i.zero?)
           json[:type] = type.underscore
         end
@@ -325,6 +337,7 @@ class MediaResource < ActiveRecord::Base
   
   scope :media_entries_and_media_sets, where(:type => ["MediaEntry", "MediaSet"])
   scope :media_entries_or_media_entry_incompletes, where(:type => ["MediaEntry", "MediaEntryIncomplete"])
+  scope :media_entries_or_media_entry_incompletes_or_media_sets, where(:type => ["MediaEntry", "MediaSet", "MediaEntryIncomplete"])
 
   ################################################################
 
@@ -332,11 +345,15 @@ class MediaResource < ActiveRecord::Base
   scope :not_by_user, lambda {|user| where(["media_resources.user_id <> ?", user]) }
 
   ################################################################
+
+  # TODO move down to MediaSet, it's currently here because the favorites
+  scope :top_level, joins("LEFT JOIN media_set_arcs ON media_set_arcs.child_id = media_resources.id").
+                    where(:media_set_arcs => {:parent_id => nil})
   
-  scope :favorites_for_user, lambda {|user|
-    joins("RIGHT JOIN favorites ON media_resources.id = favorites.media_resource_id").
-    where(:favorites => {:user_id => user})
-  }
+  scope :relative_top_level, select("DISTINCT media_resources.*").
+                              joins("LEFT JOIN media_set_arcs msa ON msa.child_id = media_resources.id").
+                              joins("LEFT JOIN media_resources mr2 ON msa.parent_id = mr2.id AND mr2.user_id = media_resources.user_id").
+                              where(:mr2 => {:id => nil})
 
   ################################################################
 
@@ -456,7 +473,7 @@ class MediaResource < ActiveRecord::Base
       resource_ids_by_userpermission = Userpermission.select("media_resource_id").where(action => true, :user_id => user)
       resource_ids_by_userpermission_disallowed= Userpermission.select("media_resource_id").where(action => false, :user_id => user)
       resource_ids_by_grouppermission_but_not_disallowed = Grouppermission.select("media_resource_id").where(action => true).joins("INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id ").where("groups_users.user_id = #{user.id}").where(" media_resource_id NOT IN ( #{resource_ids_by_userpermission_disallowed.to_sql} )")
-      resource_ids_by_ownership_or_public_permission = MediaResource.select("media_resources.id").where(["user_id = ? OR #{action} = ?", user, true])
+      resource_ids_by_ownership_or_public_permission = MediaResource.select("media_resources.id").where(["media_resources.user_id = ? OR media_resources.#{action} = ?", user, true])
 
       where " media_resources.id IN  (
             #{resource_ids_by_userpermission.to_sql} 

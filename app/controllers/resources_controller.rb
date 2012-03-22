@@ -14,32 +14,55 @@ class ResourcesController < ApplicationController
 
 ###################################################################################
 
-  def index
-    resources = if params[:type] == "media_sets"
-      if params[:top_level]
-        MediaSet.top_level
-      else
-        MediaSet
-      end 
-    elsif params[:type] == "media_entries"
-      MediaEntry
+  def index(type = params[:type],
+            top_level = params[:top_level],
+            user_id = params[:user_id],
+            not_by_current_user = params[:not_by_current_user],
+            public = params[:public],
+            query = params[:query],
+            page = params[:page],
+            per_page = (params[:per_page] || PER_PAGE.first).to_i,
+            meta_key_id = params[:meta_key_id],
+            meta_term_id = params[:meta_term_id] )
+            
+    resources = if request.fullpath =~ /favorites/
+      current_user.favorites
     else
-      MediaResource.media_entries_and_media_sets
+      MediaResource
+    end
+
+    resources = case type
+      when "media_sets"
+        r = resources.where(:type => "MediaSet")
+        r = r.top_level if top_level
+        r
+      when "media_entries"
+        resources.where(:type => "MediaEntry")
+      else
+        resources.media_entries_and_media_sets
     end.accessible_by_user(current_user).order("media_resources.updated_at DESC")
 
-    resources = resources.by_user(@user) if params[:user_id] and (@user = User.find(params[:user_id]))
-    resources = resources.not_by_user(current_user) if params[:not_by_current_user]
-    resources = resources.favorites_for_user(current_user) if request.fullpath =~ /favorites/
-    resources = resources.search(params[:query]) unless params[:query].blank?
-    resources = resources.paginate(:page => params[:page], :per_page => (params[:per_page] ||= PER_PAGE.first).to_i)
+    resources = resources.by_user(@user) if user_id and (@user = User.find(user_id))
+    if not_by_current_user
+      resources = resources.not_by_user(current_user)
+      case public
+        when "true"
+          resources = resources.where(:view => true)
+        when "false"
+          resources = resources.where(:view => false)
+      end
+    end
+    
+    resources = resources.search(query) unless query.blank?
+    resources = resources.paginate(:page => page, :per_page => per_page)
 
     # TODO ?? resources = resources.includes(:meta_data, :permissions)
 
-    if params[:meta_key_id] and params[:meta_term_id]
-      meta_key = MetaKey.find(params[:meta_key_id])
-      meta_term = meta_key.meta_terms.find(params[:meta_term_id])
+    if meta_key_id and meta_term_id
+      meta_key = MetaKey.find(meta_key_id)
+      meta_term = meta_key.meta_terms.find(meta_term_id)
       media_resource_ids = meta_term.meta_data(meta_key).collect(&:media_resource_id)
-      resources = resources.media_entries.where(:id => media_resource_ids)
+      resources = resources.where(:id => media_resource_ids)
     end
     
     with_thumb = true #FE# (params[:thumb].to_i > 0)
@@ -52,7 +75,7 @@ class ResourcesController < ApplicationController
                    
     respond_to do |format|
       format.html
-      format.js { render :json => @resources }
+      format.json { render :json => @resources }
     end
   end
 
@@ -61,25 +84,31 @@ class ResourcesController < ApplicationController
   end
   
   # TODO merge search and filter methods ??
-  def filter
+  def filter(query = params[:query],
+             page = params[:page],
+             per_page = (params[:per_page] || PER_PAGE.first).to_i,
+             meta_key_id = params[:meta_key_id],
+             meta_term_id = params[:meta_term_id],
+             filter = params[:filter] )
+             
     # TODO generic search for both MediaResource.media_entries_and_media_sets
     resources = MediaEntry.accessible_by_user(current_user)
  
     if request.post?
-      if params[:meta_key_id] and params[:meta_term_id]
-        meta_key = MetaKey.find(params[:meta_key_id])
-        meta_term = meta_key.meta_terms.find(params[:meta_term_id])
+      if meta_key_id and meta_term_id
+        meta_key = MetaKey.find(meta_key_id)
+        meta_term = meta_key.meta_terms.find(meta_term_id)
         media_resource_ids = meta_term.meta_data(meta_key).collect(&:media_resource_id)
       else
         if params["MediaEntry"] and params["MediaEntry"]["media_type"]
           resources = resources.filter_media_file(params["MediaEntry"])
         end
-        media_resource_ids = params[:filter][:ids].split(',').map(&:to_i) 
+        media_resource_ids = filter[:ids].split(',').map(&:to_i) 
       end
   
       with_thumb = true #FE# (params[:thumb].to_i > 0)
 
-      resources = resources.where(:id => media_resource_ids).paginate(:page => params[:page], :per_page => (params[:per_page] ||= PER_PAGE.first).to_i)
+      resources = resources.where(:id => media_resource_ids).paginate(:page => page, :per_page => per_page)
       @resources = { :pagination => { :current_page => resources.current_page,
                                      :per_page => resources.per_page,
                                      :total_entries => resources.total_entries,
@@ -87,12 +116,12 @@ class ResourcesController < ApplicationController
                     :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
   
       respond_to do |format|
-        format.js { render :json => @resources.to_json }
+        format.json { render :json => @resources.to_json }
       end
 
     else
 
-      @_media_entry_ids = resources.search(params[:query]).map(&:id)
+      @_media_entry_ids = resources.search(query).map(&:id)
   
       respond_to do |format|
         format.js { render :layout => false}
@@ -129,7 +158,7 @@ class ResourcesController < ApplicationController
     
     respond_to do |format|
       #format.html { redirect_to @media_set }
-      format.js { 
+      format.json { 
         render :json => child_resources.as_json(:user => current_user, :methods => :parent_ids) 
       }
     end
@@ -145,18 +174,22 @@ class ResourcesController < ApplicationController
       @media_resource.media_file
     end
     
-    return unless media_file
-    
-    preview = media_file.get_preview(size)
-    file = File.join(THUMBNAIL_STORAGE_DIR, media_file.shard, preview.filename)
-    if File.exist?(file)
-      output = File.read(file)
-      send_data output, :type => preview.content_type, :disposition => 'inline'
+    unless media_file
+      # empty gif pixel
+      output = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==\n"
+      send_data Base64.decode64(output), :type => "image/gif", :disposition => 'inline'
     else
-      # OPTIMIZE dry => MediaFile#thumb_base64
-      size = (size == :large ? :medium : :small)
-      output = File.read("#{Rails.root}/app/assets/images/Image_#{size}.png")
-      send_data output, :type => "image/png", :disposition => 'inline'
+      preview = media_file.get_preview(size)
+      file = File.join(THUMBNAIL_STORAGE_DIR, media_file.shard, preview.filename)
+      if File.exist?(file)
+        output = File.read(file)
+        send_data output, :type => preview.content_type, :disposition => 'inline'
+      else
+        # OPTIMIZE dry => MediaFile#thumb_base64
+        size = (size == :large ? :medium : :small)
+        output = File.read("#{Rails.root}/app/assets/images/Image_#{size}.png")
+        send_data output, :type => "image/png", :disposition => 'inline'
+      end
     end
   end  
 

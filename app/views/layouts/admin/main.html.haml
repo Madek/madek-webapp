@@ -11,6 +11,10 @@
     = yield :head
 
     :javascript
+      jQuery.ajaxSetup({
+        data: {format:'js'}
+      });
+      
       $(document).ready(function () {
         $("a[data-remote]:not(a[data-method='delete'])").live('ajax:complete', function(xhr, response){
           var row = $(this).closest("tr");

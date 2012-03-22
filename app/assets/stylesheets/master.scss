@@ -210,6 +210,13 @@ div#ajaxLoading {
 
 /************************************************** CSS image sprites generated with http://spritegen.website-performance.org and edited with http://www.spritebox.net/ */
 
+.icon_favorite {
+	background: url(icons/icon_favorites.png);
+	width: 18px;
+	height: 18px;
+	display: inline-block;
+}
+
 .icon_me {
 	background: url(icons/madek_icon_sprites.png) -100px -381px no-repeat;
 	width: 13px;
@@ -259,12 +266,29 @@ div#ajaxLoading {
 	background: url(icons/madek_icon_sprites.png) -100px -1038px no-repeat;
 	width: 30px;
 	height: 30px;
+	@include opacity(0.9);
 }
 
 .icon_status_perm_public {
-	background: url(icons/madek_icon_sprites.png) -100px -1106px no-repeat;
+	background: url(icons/madek_icon_sprites.png) -168px -1037px no-repeat;
 	width: 30px;
 	height: 30px;
+	@include opacity(0.9);
+}
+
+.item_box.set {
+  .item_permission {
+    left: 8px;
+    position: absolute;
+    top: 35px;
+  }
+}
+
+.icon_status_perm_shared {
+	background: url(icons/madek_icon_sprites.png) -168px -1107px no-repeat;
+	width: 30px;
+	height: 30px;
+	@include opacity(0.9);
 }
 
 .check_box {
@@ -299,6 +323,13 @@ div#ajaxLoading {
 
 .button_explore {
 	background: url(icons/madek_icon_sprites.png) 0 -926px no-repeat;
+	width: 18px;
+	height: 18px;
+	display: inline-block;
+}
+
+.button_permissions {
+	background: url(icons/madek_icon_sprites.png) -447px -1172px no-repeat;
 	width: 18px;
 	height: 18px;
 	display: inline-block;
@@ -358,6 +389,7 @@ header {
 	background: -webkit-gradient(linear, 0% 0%, 0% 80%, from(#444444), to(#222222));
 	overflow-x: hidden;
 	overflow-x: visible;
+	min-width: 961px;
 }
 
 nav {
@@ -1568,6 +1600,10 @@ button.dark:hover {
 	padding: 20px 70px 30px 0;
 	display: block;
 	float: right;
+  
+  a {
+    text-decoration: none;
+  }
 	
 	.button_edit_active {
 		background: url(icons/madek_icon_sprites.png) 6px -716px no-repeat;
@@ -1585,9 +1621,27 @@ button.dark:hover {
 		background: url(icons/madek_icon_sprites.png) 6px -579px no-repeat;
 	}
 
-	.button_addto {
-		background: url(icons/madek_icon_sprites.png) 6px -240px no-repeat;
+  button {
+    padding: 1px;
+    background: transparent;
+    border: 1px solid transparent;    
+    
+  	.button_addto {
+  		background: url(icons/madek_icon_sprites.png) 6px -240px no-repeat;
+  	}
+  }
+
+	.button_favorit_on {
+		background: url(icons/madek_icon_sprites.png) 6px -1056px no-repeat;
 	}
+	
+	.button_favorit_off {
+		background: url(icons/madek_icon_sprites.png) 6px -988px no-repeat;
+	}
+	
+	.button_permissions {
+    background: url(icons/madek_icon_sprites.png) -441px -1166px  no-repeat;
+  }
 	
 	div {
 		background-color: #fff;
@@ -1743,7 +1797,7 @@ button.dark:hover {
 		border: 1px solid #e4e4e4;
 	}
 	
-	input[type="submit"], #media_set_submit[type="submit"] {
+	input[type="submit"], #media_set_submit[type="submit"], button {
 		font-weight: bold;
 		padding: 3px 6px;
 		text-align: center;
@@ -1754,6 +1808,15 @@ button.dark:hover {
 		border-radius: 3px;
 		background: #e3e3e3;
 		margin-right: 10px;
+	}
+	
+	button {
+	  color: #444;
+    font-size: 87.5%;
+    left: 2px;
+    padding: 5px 6px;
+    position: relative;
+    top: 2px;
 	}
 	
 	input[type="submit"]:hover, #media_set_submit[type="submit"]:hover, .save_buttons input[type="submit"]:hover {
@@ -2187,7 +2250,7 @@ table td {
 			margin: 10px 10px 0 0;
 		}
 	}
-	a {
+	a, button {
 		display: block;
 		float: left;
 		font-weight: bold;
@@ -2195,12 +2258,8 @@ table td {
 		padding: 9px 10px;
 		text-align: center;
 		text-shadow: 0 1px 0 #fff;
-		-moz-box-shadow: 0 0 1px 1px #eaeaea;
-		-webkit-box-shadow: 0 0 1px 1px #eaeaea;
-		box-shadow: 0 0 1px 1px #eaeaea;
-		-moz-border-radius: 3px;
-		-webkit-border-radius: 3px;
-		border-radius: 3px;
+		-moz-box-shadow: 0 0 1px 1px #eaeaea; -webkit-box-shadow: 0 0 1px 1px #eaeaea; box-shadow: 0 0 1px 1px #eaeaea;
+		-moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px;
 		background: white;
 		border: 1px solid #d6d6d6;
 		height: 20px;
@@ -2222,6 +2281,10 @@ table td {
 			text-decoration: none;
 		}
 	}
+
+  button {
+    height: 40px;
+  }
 	
 	.actionbar-inner-panel {
 		background: #F2F2F2;

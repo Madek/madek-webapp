@@ -77,7 +77,8 @@ namespace :deploy do
 end
 
 task :link_attachments do
-  run "rm -rf #{release_path}/db/media_files/production/attachments"
+  # DANGER: The attachments directory is only a symlink, so no rm -r please!
+  run "rm -f #{release_path}/db/media_files/production/attachments"
   run "rm -rf #{release_path}/doc/Testbilder"
   run "mkdir -p #{release_path}/db/media_files/production/"
   run "ln -s #{deploy_to}/#{shared_dir}/attachments #{release_path}/db/media_files/production/attachments"
@@ -91,7 +92,7 @@ task :configure_environment do
   run "sed -i 's:DOT_PATH = \"/usr/local/bin/dot\":DOT_PATH = \"/usr/bin/dot\":' #{release_path}/config/application.rb"
   run "sed -i 's:EXIFTOOL_PATH = \"/opt/local/bin/exiftool\":EXIFTOOL_PATH = \"/usr/local/bin/exiftool\":' #{release_path}/config/application.rb"
   run "sed -i 's,ENCODING_BASE_URL.*,ENCODING_BASE_URL = \"http://test:MAdeK@test.madek.zhdk.ch\",'  #{release_path}/config/application.rb"
-
+  run "sed -i 's,config.consider_all_requests_local.*,config.consider_all_requests_local = true,'  #{release_path}/config/environments/production.rb"
 end
 
 task :migrate_database do
@@ -126,6 +127,11 @@ task :record_deploy_info do
   run "echo 'Deployed on #{deploy_date}' > #{release_path}/app/views/layouts/_deploy_info.erb" 
 end 
 
+task :generate_documentation do
+  run "cd #{release_path} && RAILS_ENV=production bundle exec rake app:doc:api"
+end
+
+
 task :clear_cache do
   # We have to run it this way (in a subshell) because Rails.cache is not available
   # in Rake tasks, otherwise we could stick a task into lib/tasks/madek.bundle exec rake
@@ -139,6 +145,7 @@ after "deploy:symlink", :link_config
 after "deploy:symlink", :link_attachments
 after "deploy:symlink", :configure_environment
 after "deploy:symlink", :record_deploy_info 
+after "deploy:symlink", :generate_documentation 
 
 after "link_config", :migrate_database
 after "link_config", "precompile_assets"

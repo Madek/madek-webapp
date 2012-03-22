@@ -79,7 +79,8 @@ namespace :deploy do
 end
 
 task :link_attachments do
-  run "rm -rf #{release_path}/db/media_files/production/attachments"
+  # DANGER: The attachments directory is only a symlink, so no rm -r please!
+  run "rm -f #{release_path}/db/media_files/production/attachments"
   run "rm -rf #{release_path}/doc/Testbilder"
   run "mkdir -p #{release_path}/db/media_files/production/"
   run "ln -s #{deploy_to}/#{shared_dir}/attachments #{release_path}/db/media_files/production/attachments"
@@ -129,6 +130,10 @@ task :load_seed_data do
     run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:seed"
 end
 
+task :generate_documentation do
+  run "cd #{release_path} && RAILS_ENV=production bundle exec rake app:doc:api"
+end
+
 task :record_deploy_info do
   deploy_date = DateTime.parse(release_path.split("/").last)
   run "echo 'Deployed on #{deploy_date}' > #{release_path}/app/views/layouts/_deploy_info.erb"
@@ -147,6 +152,7 @@ after "deploy:symlink", :link_config
 after "deploy:symlink", :link_attachments
 after "deploy:symlink", :configure_environment
 after "deploy:symlink", :record_deploy_info
+after "deploy:symlink", :generate_documentation 
 
 after "link_config", :migrate_database
 after "link_config", "precompile_assets"

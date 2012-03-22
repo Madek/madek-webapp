@@ -1,5 +1,28 @@
 
 
+-- relative top level sets of the user with id = 999999 
+
+SELECT * from media_resources
+    WHERE type = 'MediaSet'
+    AND user_id = 999999
+    AND id NOT IN 
+      (SELECT child_id FROM media_set_arcs 
+          WHERE parent_id in
+          (SELECT id from media_resources
+            WHERE type = 'MediaSet'
+            AND user_id = 999999)
+          AND child_id in
+          (SELECT id from media_resources
+              WHERE type = 'MediaSet'
+              AND user_id = 999999));
+
+SELECT DISTINCT mr1.* FROM media_resources mr1
+  LEFT JOIN media_set_arcs msa ON msa.child_id = mr1.id
+  LEFT JOIN media_resources mr2 ON msa.parent_id = mr2.id AND mr2.user_id = mr1.user_id
+WHERE mr1.type IN ('MediaSet') AND mr1.user_id = 999999 AND mr2.id IS NULL;
+
+-- 
+
 SELECT "users".* FROM "users" 
   INNER JOIN "groups_users" ON "groups_users"."user_id" = "users"."id" 
   INNER JOIN "groups" ON "groups"."id" = "groups_users"."group_id" 

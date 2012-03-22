@@ -10,6 +10,8 @@ class MetaContext < ActiveRecord::Base
   has_many :meta_key_definitions, :dependent => :destroy
   has_many :meta_keys, :through => :meta_key_definitions, :order => :position
 
+  belongs_to :meta_context_group
+
   validates_presence_of :name, :label
 
   # compares two objects in order to sort them

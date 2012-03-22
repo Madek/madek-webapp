@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 MAdeK::Application.routes.draw do
 
+
+
 =begin #FE#
   resources :resources, :only => :index
   resources :media_sets, :only => :show
@@ -40,7 +42,14 @@ MAdeK::Application.routes.draw do
   
   match '/nagiosstat', :to => Nagiosstat
 
-  resources :media_resources
+
+
+################################################
+
+  resources :permissions, :only => :index, :format => true, :constraints => {:format => /json/}
+  resource :permissions, :only => :update
+
+  resources :meta_context_groups, only: :index
 
 ###############################################
 #NOTE first media_entries and then media_sets
@@ -64,14 +73,6 @@ MAdeK::Application.routes.draw do
       get :browse
     end
     
-    resources :permissions, :except => :index do
-      collection do
-        get :edit_multiple
-        post :edit_multiple
-        put :update_multiple
-      end
-    end
-    
     resources :meta_data do
       collection do
         get :objective
@@ -83,10 +84,13 @@ MAdeK::Application.routes.draw do
   
 ###############################################
 
+  match '/media_sets/graph/:type', :to => "media_sets#graph"
+
   resources :media_sets do #-# TODO , :except => :index # the index is only used to create new sets
     collection do
       post :parents
       delete :parents
+      #get :graph
     end
     member do
       get :abstract
@@ -97,13 +101,6 @@ MAdeK::Application.routes.draw do
     end
     
     resources :media_sets #-# only used for FeaturedSet 
-    
-    resources :permissions, :except => :index do
-      collection do
-        get :edit_multiple
-        put :update_multiple
-      end
-    end
     
     resources :meta_data do
       collection do
@@ -125,22 +122,32 @@ MAdeK::Application.routes.draw do
   
 ###############################################
 
-  # TODO only [:index, :show] methods
+  constraints(:id => /\d+/) do
 
-  resources :resources, :only => [:index, :show] do
-    collection do
-      post :parents
-      delete :parents
-      get :favorites, :to => "resources#index"
-      get :filter
-      post :filter
+    # TODO merge :resources into :media_resources 
+    resources :resources, :only => [:index, :show] do
+      collection do
+        post :parents
+        delete :parents
+        get :filter
+        post :filter
+      end
+      member do
+        post :toggle_favorites
+        get :image
+      end
     end
+    match "resources/favorites", :to => "resources#index"
     
-    member do
-      post :toggle_favorites
-      get :image
-    end
+    # TODO merge :resources into :media_resources 
+    resources :media_resources
+
+    resources :permissions, :only => :index, :format => true, :constraints => {:format => /json/}
+    resources :permission_presets, :only => :index, :format => true, :constraints => {:format => /json/}
+    
   end
+
+###############################################
 
   resources :media_files # TODO remove ??
 
@@ -197,8 +204,7 @@ MAdeK::Application.routes.draw do
   # TODO rename :import
   resource :upload, :controller => 'upload', :except => :new do
     member do
-      get :permissions, :to => "permissions#edit_multiple"
-      put :permissions, :to => "permissions#update_multiple"
+      get :permissions
       get :set_media_sets
       put :complete
       get :dropbox
@@ -221,6 +227,9 @@ MAdeK::Application.routes.draw do
 
   namespace :admin do
     root :to => "keys#index"
+
+    resources :meta_context_groups
+    resources :permission_presets
     
     resource :meta, :controller => 'meta' do
       member do

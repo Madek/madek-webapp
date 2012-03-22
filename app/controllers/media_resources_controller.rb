@@ -1,6 +1,48 @@
 # -*- encoding : utf-8 -*-
 class MediaResourcesController < ApplicationController
 
+  ##
+  # Get a collection of MediaResources
+  # 
+  # @resource /media_resources
+  #
+  # @action GET
+  # 
+  # @optional [Array] ids A collection of MediaResources you want to fetch informations for 
+  #
+  # @optional [Hash] with[meta_data] Adds MetaData to the responding collection of MediaResources and forwards the hash as options to the MetaData.
+  # @optional [Array] with[meta_data][meta_contexts] Adds all requested MetaContexts as MetaData to the responding MediaResources. 
+  # @optional [Hash] with[meta_data][meta_contexts][].name The name of the MetaContext which MetaData should be added to the responding MediaResources. 
+  #
+  # @example_request {"ids": [1,2,3]}
+  # @example_response {"media_resources:": [{"id":1}, {"id":2}, {"id":3}], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
+  #
+  # @example_request {"with": {"meta_data": {"meta_context_names": ["core"]}}} Requests MediaResources with all nested MetaData for the MetaContext with the name "core". 
+  # @example_response {"media_resources:": [{"id":1, "meta_data": {"title": "My new Picture", "author": "Musterman, Max", "portrayed_object_dates": null, "keywords": "picture, portrait", "copryright_notice"}}, ...], "pagination": {"total": 100, "page": 1, "per_page": 36, "total_pages": 2}}
+  #
+  # @example_request {"ids": [1,2,3], "with": {"image": {"as": "base64"}}} Is requesting MediaResources with id 1,2 and 3. Adds an image as base64 to the respond.
+  # @example_response {"media_resources:": [{"id":1, "image": ""data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/4gxYSUNDX1BST0ZJTEUAAQEAAAxITGlu bwIQAABtbnRyUkdCIFhZWiAHzgACAAkABgAxAABhY3NwTVNG"}, ...], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
+  #
+  # @response_field [Integer] [].id The id of the MediaResource  
+  # @response_field [Hash] [].meta_data The MetaData of the MediaResource (To get a list of possible MetaData - or the schema - you have to consider the MetaDatum resource)  
+  #
+  def index(ids = params[:ids],
+            page = params[:page],
+            per_page = (params[:per_page] || PER_PAGE.first).to_i)
+    
+    @media_resources = MediaResource.media_entries_or_media_entry_incompletes_or_media_sets.
+                        accessible_by_user(current_user).
+                        order("media_resources.updated_at DESC").
+                        paginate(:page => page, :per_page => per_page)
+                        
+    @media_resources = @media_resources.where(:id => ids) if ids
+    
+    respond_to do |format|
+      format.json
+    end
+  end
+
+
   def update
 
     ActiveRecord::Base.transaction do

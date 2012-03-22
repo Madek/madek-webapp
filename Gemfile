@@ -14,7 +14,9 @@ gem 'pg'
 gem 'require_relative'
 
 gem 'json', '~> 1.6'
+gem 'rjson'
 gem 'haml', '~> 3.1'
+gem 'formtastic'
 gem 'sass', '~> 3.1'
 gem 'coffee-script', '~> 2.2'
 gem "coffee-filter", "~> 0.1.1"
@@ -33,9 +35,11 @@ gem 'jquery-rails', '= 1.0.16'
 # OTHER THINGS STOP WORKING ALSO
 #
 gem 'rails_autolink', '~> 1.0'
-gem 'jquery-tmpl-rails'
+gem 'jquery-tmpl-rails', '~> 0.1.2'
 gem 'haml_assets'
 gem "plupload-rails", "~> 1.0.6"
+
+gem "d3_rails", "~> 2.8.0"
 
 # Gems used only for assets and not required in production environments by default.
 group :assets do
@@ -49,10 +53,6 @@ end
 gem 'ledermann-rails-settings', :require => 'rails-settings' # alternatives: 'settingslogic', 'settler', 'rails_config', 'settings', 'simpleconfig' 
 
 gem 'will_paginate', '~> 3.0' 
-
-# FIXME
-#  gem "yard", "~> 0.7.4"
-#  gem "yard-rest-plugin", :git => "git://github.com/kanevski/yard-rest-plugin.git"
 
 gem 'zip', '~> 2.0.2' # alternatives: 'rubyzip', 'zipruby', 'zippy'
 gem 'rgl', '~> 0.4.0', :require => 'rgl/adjacency'
@@ -76,11 +76,11 @@ gem 'newrelic_rpm', '~> 3.3'
 gem 'nokogiri'
 
 group :test, :development do
-  gem "growl", "~> 1.0.3"
   gem "guard", "~> 0.10.0"
   gem "guard-cucumber", "~> 0.7.4"
   gem "guard-rspec", "~> 0.6.0"
   gem "guard-spork", "~> 0.5.1"
+  gem "guard-jasmine-headless-webkit", "~> 0.3.2"
   gem "jasmine-headless-webkit", "~> 0.8.4" # needed for "headless" running of jasmine tests (needed for CI)
   gem "jasmine-rails", "~> 0.0.2" # javascript test environment
   gem "jasminerice", "~> 0.0.8" # needed for implement coffeescript, fixtures and asset pipeline serverd css into jasmine
@@ -96,24 +96,26 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'spork'
   gem 'statsample'
-  gem 'watchr'
 end
-
 
 group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
 end
 
+group :development, :production do
+  gem "yard", "~> 0.7.4"
+  gem "yard-rest", :git => "git://github.com/spape/yard-rest-plugin.git"
+  gem 'redcarpet' # yard-rest dependency
+end
+
 group :test do
   # gem 'cover_me' # CAUSING ERRORS FIXME
-  gem 'simplecov' 
   gem 'capybara', '~> 1.1'
   gem 'cucumber'#, '~> 1.0.3'
-  gem 'cucumber-rails'#, '~> 1.0.2'
+  gem 'cucumber-rails', '~> 1.3', :require => false
   gem 'launchy'  
-  gem 'rspec-rails'
-  gem 'selenium-webdriver', '~> 2.12'
+  gem 'selenium-webdriver', '> 2.15.0'
+  gem 'simplecov' 
   gem 'simplecov' # for Ruby 1.8.x:  gem 'rcov'
-  gem 'spork'
 end

@@ -14,7 +14,7 @@
               %br
               %span
                 Fotos, Videos und Audiofiles bereitstellen
-          %li.step_2.container_12.grid_3{:class => (current_page?(:controller => :permissions, :action => :edit_multiple) ? "active" : nil)}
+          %li.step_2.container_12.grid_3{:class => (current_page?(:controller => :upload, :action => :permissions) ? "active" : nil)}
             %p
               2. Berechtigungen setzen
               %br
@@ -38,15 +38,16 @@
       #upload_navigation
         
         .right
-          = link_to "Abbrechen", upload_path, :title=> "Import Abbrechen", :id => "cancel_import", :method => :delete, :confirm => "Wollen Sie den Import wirklich abbrechen?"
           - if current_page?(:controller => :upload, :action => :show)
             = link_to _("weiter..."), "javascript:void(0)", :"data-link_when_enabled" => permissions_upload_path, :class => "upload_buttons next disabled"
-          - elsif current_page?(:controller => :permissions, :action => :edit_multiple)
+            = link_to _("Medien übertragen..."), "javascript:void(0)", :class => "upload_buttons plupload_start plupload_disabled"
+          - elsif current_page?(:controller => :upload, :action => :permissions)
             = link_to _("Berechtigungen speichern und weiter..."), "javascript:void(0)", :onclick => "$('#upload form').submit();", :class => "upload_buttons next", :id => "save_permissions"
           - elsif current_page?(:controller => :upload, :action => :edit)
             = link_to _("Metadaten speichern und weiter..."), "javascript:void(0)", :onclick => "$('#upload form').submit();", :class => "upload_buttons next", :id => "save_meta_data"
           - elsif current_page?(:controller => :upload, :action => :set_media_sets)
             = link_to _("Import abschliessen"), complete_upload_path, :id => "cancel_import", :method => :put, :class => "upload_buttons next",:id => "complete_import"
+          = link_to "Abbrechen", upload_path, :title=> "Import Abbrechen", :id => "cancel_import", :method => :delete, :confirm => "Wollen Sie den Import wirklich abbrechen?"
             
       = yield
 

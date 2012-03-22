@@ -1,8 +1,3 @@
-// TODO REMOVE THIS WHEN FORMAT JSON BECOMES DEFAULT
-jQuery.ajaxSetup({
-  data: {'format':'js'}
-});
-
 $(document).ready(function () { 
 	
 	$(document).ajaxStart(function(){ $("body").css('cursor', 'progress'); });

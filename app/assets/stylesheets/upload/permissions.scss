@@ -1,24 +1,65 @@
 @import "../mixins.scss";
+@import "../variables.scss";
 
-#upload #edit_multiple_permissions {
-  padding-bottom: 20px;
+#upload-container #permissions {
+  border-top: 1px solid #D2D2D2;
   position: relative;
-  top: 15px;
+  top: 11px;
   
-  .page_title_left {display: none;}
-  
-  #page_head_edit, #content_body2 {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 920px !important;
-    @include box-shadow(none);
+  .owner {
+    @include opacity(0.0);
+    
+    label {
+      display: none;
+    }
   }
   
-  .save_buttons {
+  .media_resource_selection_view_switch {
     display: none;
   }
   
-  .container_12 {
-    border: none !important;
+  .container {
+    position: relative;
+    top: -26px;
+    
+    &>h2 { display: none; }
+    &>p { display: none; }
+    
+    .media_resource_selection_view_switch {
+      position: absolute;
+      right: 0;
+    }
+  }  
+  
+  .actions { display: none; }
+  
+  .line {
+    .subject {
+      padding-top: 2px;
+      vertical-align: top;
+    }
+    .preset {
+      vertical-align: top;
+      
+      .select {
+        height: 20px;
+        padding-top: 1px;
+        margin-top: 1px;
+      }
+    }
+    .remove {
+      position: relative;
+      top: -2px;
+    }
+  }
+}
+
+#save_permissions {
+  .success.icon {
+    background: url($sprite) no-repeat -17px 0;
+    display: block;
+    height: 14px;
+    margin: 3px auto;
+    width: 16px;
   }
 }

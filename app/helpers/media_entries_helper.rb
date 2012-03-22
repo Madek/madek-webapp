@@ -2,37 +2,68 @@
 module MediaEntriesHelper
  
   def meta_data(media_entry, is_expert)
-    
-    meta_data = []
-    # TODO check permissions for individual contexts (through media_sets)
-    (MetaContext.defaults + media_entry.individual_contexts).collect do |meta_context|
-      meta_data << display_meta_data_for(media_entry, meta_context)
-    end
-    meta_data << display_objective_meta_data_for(media_entry)
-    if false #media_entry.media_file.meta_data and media_entry.media_file.meta_data["GPS:GPSLatitude"] and media_entry.media_file.meta_data["GPS:GPSLongitude"]
-      meta_data << (link_to _("Karte"), [:map, media_entry])
-    end
-    if is_expert
-      meta_context = MetaContext.tms
-      meta_data << display_meta_data_for(media_entry, meta_context)
-    end
-    
-    meta_data_output = [[],[],[],[]]
-    meta_data.each_slice(4) do |slice|
-      slice.each_with_index do |entry, index|
-        meta_data_output[index] << entry
+
+    meta_context_group_data = []
+
+    MetaContextGroup.all.each do |meta_context_group|
+      meta_data = []
+      # TODO check permissions for individual contexts (through media_sets)
+      meta_context_group.meta_contexts.collect do |meta_context|
+        meta_data << display_meta_data_for(media_entry, meta_context)
       end
+
+      if false #media_entry.media_file.meta_data and media_entry.media_file.meta_data["GPS:GPSLatitude"] and media_entry.media_file.meta_data["GPS:GPSLongitude"]
+        meta_data << (link_to _("Karte"), [:map, media_entry])
+      end
+
+      meta_data_output = [[],[],[],[]]
+      meta_data.each_slice(4) do |slice|
+        slice.each_with_index do |entry, index|
+          meta_data_output[index] << entry
+        end
+      end
+
+      meta_context_group_data << {meta_context_group: meta_context_group, meta_data_output: meta_data_output} 
     end
-    
+
+    # OPTIMIZE this is now hardcoded
+    # TODO includes activities (edit_sessions) 
+    [MetaContextGroup.new(name: _("Weitere Daten"))].each do |meta_context_group|
+      meta_data = []
+      meta_data << display_objective_meta_data_for(media_entry)
+      meta_data << display_meta_data_for(media_entry, MetaContext.tms) if is_expert
+
+      meta_data_output = [[],[],[],[]]
+      meta_data.each_slice(4) do |slice|
+        slice.each_with_index do |entry, index|
+          meta_data_output[index] << entry
+        end
+      end
+      
+      meta_context_group_data << {meta_context_group: meta_context_group, meta_data_output: meta_data_output}
+    end
+
     capture_haml do
-      meta_data_output.each_with_index do |entry, index|
-        haml_tag :div, :class => "col" do
-          meta_data_output[index].each do |entry|
-            haml_concat entry
+      meta_context_group_data.each do |mcgd|
+        meta_context_group = mcgd[:meta_context_group]
+        meta_data_output= mcgd[:meta_data_output]
+        haml_tag :div, class: "meta_context_group", id:  meta_context_group.id.to_s, "data-name" => meta_context_group.name.to_s do
+          haml_tag :h5 do
+            haml_tag :div, :class => "toggler-arrow"
+            haml_tag :span, meta_context_group.name.to_s
           end
+          meta_data_output.each_with_index do |entry, index|
+            haml_tag :div, :class => "col" do
+              meta_data_output[index].each do |entry|
+                haml_concat entry
+              end
+            end
+          end
+          haml_tag :div, :class => "clear"
         end
       end
     end
+
   end
  
   def thumb_for(resource, size = :small_125, options = {})
@@ -71,6 +102,18 @@ module MediaEntriesHelper
       media_file.assign_audio_previews
       tag :audio,  options.merge({:src => "/download?id=#{resource.id}&audio_preview=true",
                                   :autoplay => 'autoplay', :controls => 'controls'})
+    # All kinds of office documents (and PDF). Maybe put this mess somewhere separate?
+    elsif size == :large && ["application/pdf","application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
+           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+           "application/vnd.openxmlformats-officedocument.presentationml.presentation", 
+           "application/vnd.ms-powerpoint", "application/msword", "application/vnd.oasis.opendocument.text", 
+           "application/vnd.oasis.opendocument.presentation"].include?(media_file.content_type)
+      # ENCODING_BASE_URL isn't just for encoding in this case, it's also to allow the Google Docs Viewer access
+      # to the file without authenticating.
+      url = "#{ENCODING_BASE_URL}/media_files/#{media_file.id}?access_hash=#{media_file.access_hash}"
+      # This does NOT work! We seem to have found a bug in HAML or in the 'tag' method
+      #tag :div, :class => 'iframe', :type => 'text/html', :width => 620, :height => 463, :src => "http://docs.google.com/viewer?url=#{CGI::escape(url)}&embedded=true"
+      "<div class='iframe' type='text/html' width='620' height='463' src='http://docs.google.com/viewer?url=#{CGI::escape(url)}&embedded=true'></div>"
     else
       tag :img, options.merge({:src => media_file.thumb_base64(size)})
     end

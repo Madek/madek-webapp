@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class GroupsController < ApplicationController
+  include SQLHelper
 
   before_filter do
     unless (params[:group_id] ||= params[:id]).blank?
@@ -8,23 +9,45 @@ class GroupsController < ApplicationController
   end
 
 ######################################################
-  
-  def index
-    # OPTIMIZE
+
+  ##
+  # Get a collection of Groups
+  # 
+  # @resource /groups
+  #
+  # @action GET
+  # 
+  # @optional [String] query The search query to find matching groups 
+  #
+  # @example_request {}
+  # @example_response [{"id":1,"name":"Editors"},{"id":2,"name":"Archiv"},{"id":3,"name":"Experts"}] 
+  #
+  # @example_request {"query": "editors"}
+  # @example_response [{"id":1,"name":"Editors"}] 
+  #
+  def index(query = params[:query])
     respond_to do |format|
       format.html {
         @groups = current_user.groups
       }
-      format.js {
+      format.json {
         # OPTIMIZE index groups to fulltext ??
-        groups = Group.where("name LIKE :term OR ldap_name LIKE :term", {:term => "%#{params[:term]}%"})
-        render :json => groups.map {|x| {:id => x.id, :value => x.to_s} }
+        @groups = 
+          if  adapter_is_mysql?
+            Group.where("name LIKE :query OR ldap_name LIKE :query", {:query => "%#{query}%"})
+          elsif adapter_is_postgresql?
+            Group.where("name ILIKE :query OR ldap_name ILIKE :query", {:query => "%#{query}%"})
+          else 
+            raise "sql adapter is not supported"
+          end
       }
     end
   end
 
-#  def show
-#  end
+  def show
+    @include_users = params[:include_users] and params[:include_users] == 'true'
+    @users = @group.type != "MetaDepartment" ?  @group.users : []
+  end
 
   def new
     @group = current_user.groups.build

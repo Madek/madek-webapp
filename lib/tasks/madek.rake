@@ -122,7 +122,7 @@ namespace :madek do
      ActiveRecord::Base.subclasses.each { |a| a.reset_column_information }
 
      Rake::Task["db:seed"].invoke
-     Rake::Task["app:import_initial_metadata"].invoke
+     Rake::Task["app:db:import_initial_metadata"].invoke
 
   end
   

@@ -22,15 +22,16 @@ Then /^they are in my favorites$/ do
     @current_user.favorites.reload.include?(set).should == true
   end
 
-  visit favorites_resources_path
+  visit resources_favorites_path
   wait_for_css_element("div.page div.item_box")
   all(".item_box").size.should == 3
 end
 
-Then /^I can open them$/ do
+Then /^I can open them and see that are set as favorite$/ do
   @current_user.favorites.each do |f|
     visit resource_path(f)
     step 'I should see "Set enthält"'
+    find(".favorite_link .button_favorit_on")
   end
 end
 

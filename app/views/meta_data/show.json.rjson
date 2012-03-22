@@ -1,0 +1,3 @@
+{
+  "#{@meta_datum.meta_key.underscored_label}" => ((s = @meta_datum.to_s).blank? ? nil : s)  
+}
