@@ -41,7 +41,6 @@ task :retrieve_db_config do
 end
 
 task :link_config do
-  on_rollback { run "rm #{release_path}/config/database.yml" }
   run "rm -f #{release_path}/config/database.yml"
   run "ln -s #{db_config} #{release_path}/config/database.yml"
   run "ln -s #{ldap_config} #{release_path}/config/LDAP.yml"
@@ -74,7 +73,8 @@ namespace :deploy do
 end
 
 task :link_attachments do
-  run "rm -rf #{release_path}/db/media_files/production/attachments"
+  # DANGER: The attachments directory is only a symlink, so no rm -r please!
+  run "rm -f #{release_path}/db/media_files/production/attachments"
   run "rm -rf #{release_path}/doc/Testbilder"
   run "mkdir -p #{release_path}/db/media_files/production/"
   run "ln -s #{deploy_to}/#{shared_dir}/attachments #{release_path}/db/media_files/production/attachments"
