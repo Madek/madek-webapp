@@ -2,9 +2,6 @@
 
 
 Given /^I have set up the world$/ do
-  # OPTIMIZE
-  DatabaseCleaner.clean
-  
   # Set this to a non-JS driver because:
   # 1. The Selenium driver times out during this step
   # 2. This step may be called in backgrounds of tests that have
@@ -12,47 +9,26 @@ Given /^I have set up the world$/ do
   #    we set our own driver here.
   old_driver = Capybara.current_driver
   Capybara.use_default_driver
+  Capybara.current_driver = old_driver
+
+  # TODO: REFACTOR OUT
+  # step 'a user called "Bruce Willis" with username "bruce_willis" and password "fluffyKittens" exists'
+  # step 'a group called "Admin" exists'
+  # step 'the user with username "bruce_willis" is member of the group "Admin"'
+  # step 'I log in as "bruce_willis" with password "fluffyKittens"'
   
+  # FORCE DATA CLEAN AND RESET (SETUP MINIMAL META)
+  DataFactory.reset_data
+  
+  # Check setted minimal meta 
   meta_filepath = "#{Rails.root}/features/data/minimal_meta.yml"
-
-  if MetaKey.count == 0 # TODO: Test for more stuff, just having more than 0
-                        # keys doesn't guarantee the YAML file has already been
-                        # loaded.
-#     steps %Q{
-#       Given a user called "Bruce Willis" with username "bruce_willis" and password "fluffyKittens" exists
-#       And a group called "Admin" exists
-#       And the user with username "bruce_willis" is member of the group "Admin"
-#       And I log in as "bruce_willis" with password "fluffyKittens"
-#     }
-
-    step 'a user called "Bruce Willis" with username "bruce_willis" and password "fluffyKittens" exists'
-    step 'a group called "Admin" exists'
-    step 'the user with username "bruce_willis" is member of the group "Admin"'
-    step 'I log in as "bruce_willis" with password "fluffyKittens"'
-
-    click_on_arrow_next_to("Willis, Bruce")
-    click_link("Admin")
-    click_link("Import")
-    attach_file("uploaded_data", meta_filepath)
-    click_button("Import »")
-
-  end
-
   minimal_meta = YAML::load_file(meta_filepath)
   MetaKey.count.should == minimal_meta[:meta_keys].count
   MetaContext.count.should == minimal_meta[:meta_contexts].count
   MetaKeyDefinition.count.should == minimal_meta[:meta_key_definitions].count
   MetaTerm.count.should == minimal_meta[:meta_terms].count
   UsageTerm.count.should == 1
-
-  Capybara.current_driver = old_driver
-
-  # This is actually normally called in the seeds, but
-  # the RSpec developers don't believe in using seeds, so
-  # they drop the database even if we seed it before running
-  # the tests. Therefore we recreate our world in this step.
-  Copyright.init
-
+ 
   MetaDepartment.setup_ldapdata_from_localfile
   MetaDate.parse_all
 end
@@ -249,19 +225,27 @@ end
 
 When /^I give "([^"]*)" permission to "([^"]*)" without saving$/ do |permission, subject|
   subject = :everybody if subject == "everybody"
-  give_permission_to(permission, subject,false)
+  give_permission_to(permission, subject, false)
 end
 
-
-
 When /^I give "([^"]*)" permission to "([^"]*)"$/ do |permission, subject|
-  subject = :everybody if subject == "everybody"
-  give_permission_to(permission, subject)
+  wait_for_css_element(".public .line")
+  permissions_container = find(".subject", :text => subject).find(:xpath, './..').find(".permissions")
+  if not permissions_container.find(".#{permission} input").checked?
+    permissions_container.find(".#{permission} input").click
+  end
+  
+  step 'I save the permissions'
 end
 
 When /^I remove "([^"]*)" permission from "([^"]*)"$/ do |permission, subject|
-  subject = :everybody if subject == "everybody"
-  remove_permission_to(permission, subject)
+  wait_for_css_element(".public .line")
+  permissions_container = find(".subject", :text => subject).find(:xpath, './..').find(".permissions")
+  if permissions_container.find(".#{permission} input").checked?
+    permissions_container.find(".#{permission} input").click
+  end
+  
+  step 'I save the permissions'
 end
 
 When /^I click(?: | on )the arrow next to "([^"]*)"/ do |string|
@@ -413,4 +397,12 @@ end
 When /^I see the set-box "(.+)"$/ do |title|
   sleep(0.5)
   assert find(:xpath, "//div[contains(@oldtitle,'#{title}')]")
+end
+
+When /^I expand the "(.+)" context group$/ do |name|
+  find(:css, ".meta_context_group span", :text => name).click
+end
+
+Given "I am pending" do
+  pending
 end

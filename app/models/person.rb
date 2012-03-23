@@ -51,11 +51,17 @@ class Person < ActiveRecord::Base
     return scoped unless query
 
     w = query.split.map do |q|
-      "firstname LIKE '%#{q}%' OR lastname LIKE '%#{q}%' OR pseudonym LIKE '%#{q}%'"
+      if SQLHelper.adapter_is_mysql?
+        "firstname LIKE '%#{q}%' OR lastname LIKE '%#{q}%' OR pseudonym LIKE '%#{q}%'"
+      elsif SQLHelper.adapter_is_postgresql?
+        "firstname ILIKE '%#{q}%' OR lastname ILIKE '%#{q}%' OR pseudonym ILIKE '%#{q}%'"
+      else
+        raise "this db adapter is not supported"
+      end
     end
     where(w.join(' OR '))
   end
-  
+
 
 #######################################
 

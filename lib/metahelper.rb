@@ -42,9 +42,9 @@ module MetaHelper
         uploaded_data ||= File.read("#{Rails.root}/features/data/minimal_meta.yml")
         meta = YAML.load(uploaded_data)
 
-        if meta[:meta_terms] and meta[:meta_keys] and meta[:meta_contexts] and meta[:meta_key_definitions]   
+        if meta[:meta_terms] and meta[:meta_keys] and meta[:meta_context_groups] and meta[:meta_contexts] and meta[:meta_key_definitions]   
 
-          [MetaKey, MetaContext, MetaKeyDefinition, MetaTerm, UsageTerm].each {|a| a.destroy_all }
+          [MetaKey, MetaContext, MetaContextGroup, MetaKeyDefinition, MetaTerm, UsageTerm].each {|a| a.destroy_all }
 
           meta[:meta_terms].each do |term|
             k = MetaTerm.new(term)
@@ -59,6 +59,13 @@ module MetaHelper
             k.id = meta_key["id"]
             k.save
             k.meta_terms << MetaTerm.find(meta_terms) if meta_terms
+            #            buffer << k.inspect
+          end
+
+          meta[:meta_context_groups].each do |meta_context_group|
+            k = MetaContextGroup.new(meta_context_group)
+            k.id = meta_context_group["id"]
+            k.save
             #            buffer << k.inspect
           end
 
@@ -130,6 +137,7 @@ module MetaHelper
       end
 
       SQLHelper.reset_autoinc_sequence_to_max MetaContext
+      SQLHelper.reset_autoinc_sequence_to_max MetaContextGroup
       SQLHelper.reset_autoinc_sequence_to_max MetaDatum
       SQLHelper.reset_autoinc_sequence_to_max MetaKey
       SQLHelper.reset_autoinc_sequence_to_max MetaKeyDefinition

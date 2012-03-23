@@ -8,7 +8,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
       And a user called "Obi-Wan Kenobi" with username "obi" and password "sabers" exists
       And a user called "Lando Calrissian" with username "lando" and password "bounty" exists
 
-  @javascript @work
+  @javascript
   Scenario: Changing the core text fields of a media entry
     When I log in as "hansolo" with password "leia"
      And I upload some picture titled "Millenium Falcon, Front View"
@@ -32,21 +32,21 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      |Gattung|Design|
      |Gattung|Fotografie|
      And I follow "Medium"
-     And I wait for 3 seconds
+     And I wait for the CSS element "#media_object"
      And I fill in the metadata form as follows:
      |label|value|
      |Weitere Personen Medienerstellung|Rebel United Photo Developers|
      |Dimensionen|2380x1200px|
      |Material/Format|Holo-Recording|
      And I follow "Credits"
-     And I wait for 3 seconds
+     And I wait for the CSS element "#copyright"
      And I fill in the metadata form as follows:
      |label|value|
      |Copyright|(C) 4233 Han Solo|
      |Quelle|My own digital camera|
      |Angeboten durch|Rebel Photography Syndicate|
      And I follow "ZHdK" within ".tabs"
-     And I wait for 3 seconds
+     And I wait for the CSS element "#zhdk_bereich"
      And I fill in the metadata form as follows:
      |label|value|
      |Projekttitel|Photographs of Han's rides|
@@ -98,7 +98,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I press "Speichern"
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
-     And I wait for 3 seconds
+     And I wait for 5 seconds
      And I click the media entry titled "Me and Leia Organa"
      And I wait for the CSS element "#detail-excerpt"
      Then I should see "(Yoda)"
@@ -117,7 +117,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I press "Speichern"
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
-     And I wait for 3 seconds
+     And I wait for 5 seconds
      And I click the media entry titled "Me and Leia Organa"
      And I wait for the CSS element "#detail-excerpt"
      Then I should see "The Rebel Alliance"
@@ -136,7 +136,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I press "Speichern"
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
-     And I wait for 3 seconds
+     And I wait for 5 seconds
      And I click the media entry titled "Me and Leia Organa"
      And I wait for the CSS element "#detail-excerpt"
      Then I should see "Furter, Frank"
@@ -159,7 +159,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I press "Speichern"
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
-     And I wait for 3 seconds
+     And I wait for 5 seconds
      And I click the media entry titled "Me and Leia Organa on the beach"
      And I wait for the CSS element "#detail-excerpt"
      Then I should see "leia, beach, sun, fun"
@@ -177,7 +177,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      |label|value|
      |Titel|My great ship|
      And I follow "ZHdK" within ".tabs"
-     And I wait for 3 seconds
+     And I wait for 5 seconds
 # Testing this widget is too hard to do right now, let's skip using it.
 #     And I fill in the metadata form as follows:
 #     |label|value|

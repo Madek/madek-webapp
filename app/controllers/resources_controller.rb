@@ -62,7 +62,7 @@ class ResourcesController < ApplicationController
       meta_key = MetaKey.find(meta_key_id)
       meta_term = meta_key.meta_terms.find(meta_term_id)
       media_resource_ids = meta_term.meta_data(meta_key).collect(&:media_resource_id)
-      resources = resources.media_entries.where(:id => media_resource_ids)
+      resources = resources.where(:id => media_resource_ids)
     end
     
     with_thumb = true #FE# (params[:thumb].to_i > 0)

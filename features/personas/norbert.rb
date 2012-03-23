@@ -4,6 +4,7 @@
 #           Ausserhalb der ZHdK: Jung-Galerist in Winterthur
 # Alter:    37
 #
+# User_Id:  164737
 #
 # == Verantwortung
 # 
@@ -60,3 +61,39 @@
 #   erklärt ist. Da er nicht ständig im Medienarchiv arbeitet, braucht er
 #   immer wieder eine kleine Auffrischung der Abläufe und eine Art
 #   Checkliste, damit er keinen Schritt vergisst.
+
+module Persona
+  
+  class Norbert
+    
+    @@name = "Norbert"
+    @@lastname = "Neuerfassung"
+    @@password = "password"
+    
+    def initialize
+      ActiveRecord::Base.transaction do 
+        create_person
+        create_user
+        
+        # NORBERT'S GROUPS
+        join_expert_group
+      end
+    end
+
+    def create_person
+      @name = @@name
+      @lastname = @@lastname  
+      @person = Factory(:person, firstname: @name, lastname: @lastname)
+    end
+
+    def create_user
+      @crypted_password = Digest::SHA1.hexdigest(@@password)
+      @user = Factory(:user, :person => @person, :login => @name.downcase, :password => @crypted_password)
+    end
+    
+    def join_expert_group
+      @zhdk_group= Group.find_or_create_by_name("Expert")
+      @zhdk_group.users << @user
+    end
+  end  
+end

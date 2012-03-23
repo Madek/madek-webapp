@@ -3,9 +3,9 @@ require 'spec_helper'
 describe GroupsController do
   render_views
   
-  before :all do
-    @normin = Persona.create :normin
-    @adam= Persona.create :adam
+  before :each do
+    @normin = FactoryGirl.create :user, login: "normin"
+    @adam= FactoryGirl.create :user, login: "adam"
 
     @meta_dep = MetaDepartment.create name: "LDAP Group"
     @meta_dep.users << @adam

@@ -250,43 +250,26 @@ def find_permission_checkbox(type, to_or_from)
 end
 
 
-def give_permission_to(type, to, save=true)
-  cb = find_permission_checkbox(type, to)
-  cb.click unless cb[:checked] == "true" # a string, not a bool!
-  click_button("Speichern") if save
-end
-
-
-def remove_permission_to(type, from)
-  cb = find_permission_checkbox(type, from)
-  cb.click if cb[:checked] == "true" # a string, not a bool!
-  click_button("Speichern")
-end
-
-
-
 # DANGER: This is now (March 15, 2011) broken due to the way
 # Capybara handles fill_in. I believe it used to trigger the keyUp event
 # that is necessary for the autocomplete to kick in, but it no longer does
 # so, breaking many of our tests. Needs more investigation.
 def type_into_autocomplete(type, text)
   if type == :user
-    wait_for_css_element("table.permissions")
-    wait_for_css_element("#new_user")
-    fill_in("new_user", :with => text)
-    sleep(1.5)
+    wait_for_css_element(".users .add.line .button")
+    find(".users .add.line .button").click
+    find(".users .add.line input").set text
   elsif type == :group
-    wait_for_css_element("table.permissions")
-    wait_for_css_element("#new_group")
-    fill_in("new_group", :with => text)
-    sleep(1.5)
+    wait_for_css_element(".groups .add.line .button")
+    find(".groups .add.line .button").click
+    find(".groups .add.line input").set text
   elsif type == :add_member_to_group
     wait_for_css_element("#new_user")
     fill_in("new_user", :with => text)
-    sleep(1.5)
   else
     puts "Unknown autocomplete type '#{type}', please add this type to the method type_into_autocomplete()"
   end
+    sleep(1.5)
 end
 
 # Picks the given text string from an autocomplete text input box

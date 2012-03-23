@@ -1,9 +1,9 @@
 # coding: UTF-8
-
 # Persona:  Normin
 # Job:      Student
 # Age:      21
 #
+# User_Id:  113868
 #
 # == Responsibilities
 # 
@@ -83,7 +83,7 @@ module Persona
     end
     
     def join_zhdk_group
-      @zhdk_group = Group.find 1
+      @zhdk_group= Group.find_or_create_by_name("ZHdK")
       @zhdk_group.users << @user
     end
     
@@ -142,10 +142,6 @@ module Persona
               view: true, 
               edit: false, 
               download: false)
-              
-      Factory(:userpermission, 
-              media_resource: @meine_highlights_set, 
-              user: Persona.create(:petra), view: false, edit: false, manage: false, download: false)
     end
     
     def create_dropbox_set
@@ -171,9 +167,13 @@ module Persona
               edit: false, 
               download: false)
       @diplomarbeiten_2012_prasentation = Factory(:media_entry, 
+                                                  view: true,
                                                   user: @user, 
                                                   media_sets: [@diplomarbeiten_2012_set], 
                                                   meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Präsentation"}})
+      Factory(:userpermission, 
+              media_resource: @diplomarbeiten_2012_prasentation, 
+              user: Persona.create(:norbert), view: true, edit: true, manage: false, download: false)
       @diplomarbeiten_2012_ausstellungen = Factory(:media_set, 
                                                    user: @user, 
                                                    parent_sets: [@diplomarbeiten_2012_set, @meine_highlights_set, @meine_ausstellungen_set, @dropbox_set], 

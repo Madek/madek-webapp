@@ -568,6 +568,11 @@
   is_extensible_list: 
   id: 100
   object_type: User
+:meta_context_groups: 
+- name: "Metadaten"
+  id: 1
+- name: "Kontexte"
+  id: 2
 :meta_contexts: 
 - name: core
   label: 284
@@ -582,10 +587,12 @@
 - name: media_content
   label: 293
   id: 4
+  meta_context_group_id: 1
   is_user_interface: true
 - name: media_object
   label: 294
   id: 5
+  meta_context_group_id: 1
   is_user_interface: true
 - name: media_set
   label: 299
@@ -594,6 +601,7 @@
 - name: copyright
   label: 298
   id: 7
+  meta_context_group_id: 1
   is_user_interface: true
 - name: upload
   label: 290
@@ -602,14 +610,17 @@
 - name: zhdk_bereich
   label: 297
   id: 9
+  meta_context_group_id: 1
   is_user_interface: true
 - name: Projekte ZHdK
   label: 919
   id: 11
+  meta_context_group_id: 2
   is_user_interface: true
 - name: Landschaftsvisualisierung
   label: 977
   id: 15
+  meta_context_group_id: 2
   is_user_interface: true
 :meta_terms: 
 - de_ch: "Ist das Werk urheberrechtlich gesch\xC3\xBCtzt oder gemeinfrei?"
@@ -3131,6 +3142,9 @@
 - de_ch: "Z\xC3\xBCrcher Hochschule der K\xC3\xBCnste"
   id: 759
   en_gb: "Z\xC3\xBCrcher Hochschule der K\xC3\xBCnste"
+- de_ch: "Eigent\xC3\xBCmer/in"
+  id: 760
+  en_gb: "Eigent\xC3\xBCmer/in"
 :meta_key_definitions: 
 - position: 1
   label: 1
@@ -3158,14 +3172,9 @@
   id: 5
   meta_context_id: 1
 - position: 6
-  label: 11
-  meta_key_id: 60
+  label: 760
+  meta_key_id: 100
   id: 6
-  meta_context_id: 1
-- position: 7
-  label: 347
-  meta_key_id: 61
-  id: 7
   meta_context_id: 1
 - position: 36
   label: 304
@@ -4307,8 +4316,8 @@
   id: 221
   meta_context_id: 7
 - position: 8
-  label: 393
-  meta_key_id: 60
+  label: 760
+  meta_key_id: 100
   id: 223
   meta_context_id: 6
 - position: 9

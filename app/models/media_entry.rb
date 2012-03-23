@@ -83,10 +83,10 @@ class MediaEntry < MediaResource
 
 ########################################################
 
-  def to_snapshot
+  def to_snapshot(user)
     if snapshotable?
       snapshots.first.destroy unless snapshots.empty?
-      snapshots.create
+      snapshots.create(user: user)
     end
   end
 

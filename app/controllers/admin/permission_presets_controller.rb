@@ -25,6 +25,7 @@ class Admin::PermissionPresetsController < Admin::AdminController
   # GET /permission_presets/new.json
   def new
     @permission_preset = PermissionPreset.new
+    @form_path= admin_permission_presets_path
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,6 +36,7 @@ class Admin::PermissionPresetsController < Admin::AdminController
   # GET /permission_presets/1/edit
   def edit
     @permission_preset = PermissionPreset.find(params[:id])
+    @form_path= admin_permission_preset_path(@permission_preset)
   end
 
   # POST /permission_presets

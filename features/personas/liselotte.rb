@@ -5,6 +5,7 @@
 #           Scientific Visualization
 # Alter:    32
 #
+# User_Id:  5452
 #
 # == Verantwortung
 # 
@@ -71,3 +72,41 @@
 #   User-Interface und den Interaktionsformen des Medienarchivs. Sie
 #   artikuliert fundiert, was für sie hilfreiche Funktionen im
 #   Medienarchiv wären.
+
+
+module Persona
+  
+  class Liselotte
+    
+    @@name = "Liselotte"
+    @@lastname = "Landschaft"
+    @@password = "password"
+    
+    def initialize
+      ActiveRecord::Base.transaction do 
+        create_person
+        create_user
+        
+        # LISELOTTE'S GROUPS
+        join_zhdk_group
+      end
+    end
+
+    def create_person
+      @name = @@name
+      @lastname = @@lastname  
+      @person = Factory(:person, firstname: @name, lastname: @lastname)
+    end
+
+    def create_user
+      @crypted_password = Digest::SHA1.hexdigest(@@password)
+      @user = Factory(:user, :person => @person, :login => @name.downcase, :password => @crypted_password)
+    end
+    
+    def join_zhdk_group
+      @zhdk_group= Group.find_or_create_by_name("ZHdK")
+      @zhdk_group.users << @user
+    end
+
+  end  
+end

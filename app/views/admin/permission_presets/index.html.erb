@@ -3,8 +3,8 @@
 <table>
   <tr>
     <th>Name</th>
-    <th>Download</th>
     <th>View</th>
+    <th>Download</th>
     <th>Edit</th>
     <th>Manage</th>
     <th></th>
@@ -15,8 +15,8 @@
 <% @permission_presets.each do |permission_preset| %>
   <tr>
     <td><%= permission_preset.name %></td>
-    <td><%= permission_preset.download %></td>
     <td><%= permission_preset.view %></td>
+    <td><%= permission_preset.download %></td>
     <td><%= permission_preset.edit %></td>
     <td><%= permission_preset.manage %></td>
     <td><%= link_to 'Show', admin_permission_preset_path(permission_preset) %></td>

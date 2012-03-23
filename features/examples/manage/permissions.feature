@@ -36,6 +36,7 @@ Feature: Permissions
       And I am "Normin"
       And the resource has the following permissions:
       |user              |permission       |value|
+      |Normin            |view             |true |
       |Normin            |edit             |true |
      Then "Normin" can edit the resource
 
@@ -45,6 +46,7 @@ Feature: Permissions
       And I am "Normin"
       And the resource has the following permissions:
       |user              |permission       |value|
+      |Normin            |view             |true |
       |Normin            |download         |true |
      Then "Normin" can download the resource
      
@@ -54,12 +56,13 @@ Feature: Permissions
       And I am "Normin"
       And the resource has the following permissions:
       |user              |permission       |value|
+      |Normin            |view             |true |
       |Normin            |manage           |true |
      Then "Normin" can manage the resource
 
   @javascript
   Scenario: Owner permission
-    Given a resource
+    Given a resource owned by "Normin"
       And I am "Normin"
      Then "Normin" is the owner of the resource
   
@@ -69,6 +72,7 @@ Feature: Permissions
       And I am "Normin"
       And the resource has the following permissions:
       |user              |permission       |value|
+      |Normin            |view             |true |
       |Normin            |edit             |true |
       And a set named "Viewable Set"
       And the resource has the following permissions:
@@ -87,12 +91,17 @@ Feature: Permissions
 
   @javascript
   Scenario: Users with explicit user permissions are explicitly excluded even when they would have group permissions
-    # Petra and Normin are members of the ZHdK Group.
-    # Normin's MediaSet "Meine Highlights 2012" is viewable by the ZHdK Group,
-    # but he excluded Petra with explicit UserPermissions,
-    # because he discovered that she is copy pasting his images from there to share them with others
-    Given I am "Petra"
-      And I can not view "Meine Highlights 2012" by "Normin"
+  # Normin and Petra are both in the Group ZHdK
+    Given a resource owned by "Normin"
+    And I am "Normin"
+    And "Normin" changes the resource's groupermissions for "ZHdK" as follows:
+    |permission       |value|
+    |view             |true |
+    And "Normin" changes the resource's permissions for "Petra" as follows:
+    |permission       |value|
+    |view             |false|
+    When I am "Petra"
+    Then I can not view that resource
 
   # https://www.pivotaltracker.com/story/show/25238301
   @javascript
@@ -100,61 +109,81 @@ Feature: Permissions
     Given I am "Normin"
      When I open one of my resources
       And I open the permission lightbox
+      And I add "Petra" to grant user permissions
      Then I can choose from a set of labeled permissions presets instead of grant permissions explicitly    
   
   # https://www.pivotaltracker.com/story/show/23723319
+  @javascript
   Scenario: Limiting what other users' permissions I can see
-    Given a resource owned by "Susanne Schumacher"
+    Given a resource owned by "Normin"
       And the resource has the following permissions:
-      |user |permission |value|
-      |Susanne Schumacher|view |yes |
-      |Susanne Schumacher|download original|yes |
-      |Susanne Schumacher|edit |yes |
-      |Susanne Schumacher|manage |yes |
-      |Ramon Cahenzli|view|yes|
-      |Franco Sellitto|edit|yes|
-      |Franco Sellitto|download original|yes|
-      |Sebastian Pape|edit|yes|
-      |Sebastian Pape|download original|yes|
-    When the resource is viewed by "Susanne Schumacher"
+      | user      | permission | value |
+      | Normin    | view       | true  |
+      | Normin    | download   | true  |
+      | Normin    | edit       | true  |
+      | Normin    | manage     | true  |
+      | Petra     | view       | true  |
+      | Beat      | view       | true  |
+      | Beat      | edit       | true  |
+      | Beat      | download   | true  |
+      | Liselotte | view       | true  |
+      | Liselotte | edit       | true  |
+      | Liselotte | download   | true  |
+    When the resource is viewed by "Normin"
     Then he or she sees the following permissions:
-      |user |permission |value|
-      |Susanne Schumacher|view |yes |
-      |Susanne Schumacher|download original|yes |
-      |Susanne Schumacher|edit |yes |
-      |Susanne Schumacher|manage |yes |
-      |Ramon Cahenzli|view|yes|
-      |Franco Sellitto|edit|yes|
-      |Franco Sellitto|download original|yes|
-      |Sebastian Pape|edit|yes|
-      |Sebastian Pape|download original|yes|
-    When the resource is viewed by "Franco Sellitto"
+      | user      | permission |
+      | Normin    | view       |
+      | Normin    | download   |
+      | Normin    | edit       |
+      | Normin    | manage     |
+      | Petra     | view       |
+      | Beat      | edit       |
+      | Beat      | download   |
+      | Liselotte | edit       |
+      | Liselotte | download   |
+    When the resource is viewed by "Beat"
     Then he or she sees the following permissions:
-      |user |permission |value|
-      |Susanne Schumacher|view |yes |
-      |Ramon Cahenzli|view|yes|
-    When the resource is viewed by "Sebastian Pape"
+      | user   | permission |
+      | Normin | view       |
+      | Petra  | view       |
+    When the resource is viewed by "Liselotte"
     Then he or she sees the following permissions:
-      |user |permission |value|      
-      |Susanne Schumacher|edit |yes |
-      |Franco Sellitto|edit|yes|      
-      |Sebastian Pape|edit|yes|
-    When the resource is viewed by "Ramon Cahenzli"
+      | user      | permission |
+      | Normin    | edit       |
+      | Beat      | edit       |
+      | Liselotte | edit       |
+    When the resource is viewed by "Petra"
     Then he or she sees the following permissions:
-      |user |permission |value|
-      |Susanne Schumacher|view |yes |      
-      |Ramon Cahenzli|view|yes|
+      | user   | permission |
+      | Normin | view       |
+      | Petra  | view       |
+      
+  # https://www.pivotaltracker.com/story/show/25238371
+  @javascript
+  Scenario: Cascading of public permissions
+    Given a resource owned by "Normin"
+      And I am "Normin"
+      And the resource has the following permissions:
+      | user      | permission | value |
+      | Normin    | view       | true  |
+      | Normin    | download   | true  |
+      | Normin    | edit       | true  |
+      | Normin    | manage     | true  |
+      | Petra     | view       | true  |
+      | Beat      | view       | true  |
+      | Beat      | edit       | true  |
+      | Beat      | download   | true  |
+      | Liselotte | view       | true  |
+      | Liselotte | edit       | true  |
+      | Liselotte | download   | true  |
+    When I change the resource's public permissions as follows:
+      | permission | value |
+      | view       | true  |
+      | download   | true  |
+    Then I cannot edit the following permissions any more:
+      | permission |
+      | view       |
+      | download   |
+
+
     
-  # https://www.pivotaltracker.com/story/show/23723319
-  Scenario: Viewing the members of a group
-    Given a group "Some People" with the members:
-    |member|
-    |Person A|
-    |Person B|
-    When I edit the permissions of a media entry
-     And I give view permission to the group "Some People"
-    Then I can choose to view a list of members of this group
-     And the list contains:
-    |members|
-    |Person A|
-    |Person B|

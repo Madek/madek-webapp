@@ -3,9 +3,10 @@ require 'spec_helper'
 describe UsersController do
   render_views
   
-  before :all do
-    @normin = Persona.create :normin
-    @adam= Persona.create :adam
+  before :each do
+    @normin = FactoryGirl.create :user, login: "normin"
+    @adam= FactoryGirl.create :user, login: "adam", 
+      person: FactoryGirl.create(:person, firstname: "Adam"  )
 
     @group = Group.create name: "Some Group"
     @group.users << @adam

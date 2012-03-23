@@ -11,12 +11,11 @@ When /^I change the owner to "([^"]*)"$/ do |new_owner|
   wait_for_css_element(".ui-autocomplete li a")
   find(".ui-autocomplete li a").click()
   find(".users .line .owner input").click()
-  find("a.save").click()
+  step 'I save the permissions'
 end
 
 
 Then /^I am no longer the owner$/ do
-  sleep 1
   @media_set.reload.user.should_not == @current_user
 end
 
@@ -82,6 +81,8 @@ When /^I want to change the owner$/ do
 end
 
 When /^I open the permission lightbox$/ do
+  wait_for_css_element(".open_permission_lightbox")
+  sleep(1)
   find(".open_permission_lightbox").click
   wait_for_css_element(".permission_lightbox .line")
 end
@@ -97,8 +98,24 @@ Then /^I can not choose any groups as owner$/ do
 end
 
 When /^I open a media resource owned by someone else$/ do
+  visit root_path
   wait_for_css_element("#results_others .thumb_box")
   find("#results_others .thumb_box").click
+  sleep(1)
+end
+
+When /^I open a media entry owned by someone else$/ do
+  visit root_path
+  wait_for_css_element("#results_others .thumb_box")
+  find("#results_others .thumb_box").click
+  sleep(1)
+end
+
+When /^I open a media set owned by someone else$/ do
+  visit root_path
+  wait_for_css_element("#results_others .thumb_box_set")
+  find("#results_others .thumb_box_set").click
+  sleep(1)
 end
 
 Then /^I cannot change the owner$/ do
@@ -122,10 +139,9 @@ When /^"([^"]*)" changes the resource's permissions for "([^"]*)" as follows:$/ 
         find(%Q@.users .line input##{perm["permission"]}@).click()
     end
   end
-  find("a.save").click()
-  sleep 1
+  
+  step 'I save the permissions'
 end
-
 
 Then /^the resource has the following permissions for "([^"]*)":$/ do |user_login, table|
   user = User.where("login = ?", user_login.downcase).first
@@ -136,6 +152,7 @@ Then /^the resource has the following permissions for "([^"]*)":$/ do |user_logi
 end
 
 When /^I open one of my resources$/ do
+  visit root_path
   wait_for_css_element("#content_body .thumb_box")
   find("#content_body .thumb_box").click
 end
@@ -152,17 +169,36 @@ When /^I create a resource$/ do
 end
 
 Then /^I am the owner of that resource$/ do
-  pending
+  find(".me .line .owner input").checked?
 end
 
-When /^I open a media entry$/ do
-  pending # express the regexp above with the code you wish you had
+When /^I create a snapshot of a media entry owned by "([^"]*)"$/ do |user_login|
+  user = User.find_by_login user_login
+  @resource = user.media_entries.accessible_by_user(@current_user).first
+  visit resource_path @resource
+  find("a", :text => "Kopie für MIZ-Archiv erstellen").click
+end
+
+Then /^I am the owner of the snapshot$/ do
+  @resource.snapshots.count.should == 1
+  snapshot = @resource.snapshots.first
+  snapshot.user.should == @current_user
+end
+
+Then /^"([^"]*)" is still the original media entry's owner$/ do |user_login|
+  user = User.find_by_login user_login
+  @resource.user.should == user
 end
 
 Then /^I see who is the owner$/ do
-  pending # express the regexp above with the code you wish you had
+  page.should have_content("Eigentümer/in")
 end
 
-When /^I open a media set$/ do
-  pending # express the regexp above with the code you wish you had
+Given /^I am a user that has ownership for a resource$/ do
+  @user = User.select{|x| x.media_entries.count > 0}.first
+  @resource = @user.media_entries.first
+end
+
+When /^I am figured as owner$/ do
+  @resource.meta_data.get_value_for("owner").should == @user.to_s
 end
