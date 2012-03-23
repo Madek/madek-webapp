@@ -8,7 +8,7 @@ module MediaEntriesHelper
     MetaContextGroup.all.each do |meta_context_group|
       meta_data = []
       # TODO check permissions for individual contexts (through media_sets)
-      meta_context_group.meta_contexts.collect do |meta_context|
+      (meta_context_group.meta_contexts & (MetaContext.defaults + media_entry.individual_contexts)).collect do |meta_context|
         meta_data << display_meta_data_for(media_entry, meta_context)
       end
 
@@ -22,8 +22,8 @@ module MediaEntriesHelper
           meta_data_output[index] << entry
         end
       end
-
-      meta_context_group_data << {meta_context_group: meta_context_group, meta_data_output: meta_data_output} 
+      
+      meta_context_group_data << {meta_context_group: meta_context_group, meta_data_output: meta_data_output} unless meta_data.empty?
     end
 
     # OPTIMIZE this is now hardcoded
