@@ -21,14 +21,15 @@ end
 ## META DATA
 
 if params[:with] and params[:with][:meta_data]
-  h["meta_data"] = {}
+  h["meta_data"] = []
   
   if meta_contexts = params[:with][:meta_data][:meta_context_names]
     meta_contexts.each do |mc|
       mc = MetaContext.find_by_name(mc)
       @media_resource.meta_data_for_context(mc).each do |md|
+        #binding.pry
         @meta_datum = md
-        h["meta_data"].merge! JSON.parse(render :template => "meta_data/show")
+        h["meta_data"].push JSON.parse(render :template => "meta_data/show")
       end
     end
   end

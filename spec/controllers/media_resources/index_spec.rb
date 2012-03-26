@@ -87,7 +87,7 @@ describe MediaResourcesController do
           response.should  be_success
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
-            mr["meta_data"].keys.should == @meta_context.meta_keys.map(&:underscored_label)
+            mr["meta_data"].map{|x| x["key"]}.sort.should == @meta_context.meta_keys.map(&:underscored_label).sort
           end
         end        
       end
@@ -98,7 +98,7 @@ describe MediaResourcesController do
           response.should  be_success
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
-            mr["meta_data"].keys.should == @meta_context.meta_keys.map(&:underscored_label)
+            mr["meta_data"].map{|x| x["key"]}.sort.should == @meta_context.meta_keys.map(&:underscored_label).sort
           end
         end        
       end
@@ -109,7 +109,7 @@ describe MediaResourcesController do
           response.should  be_success
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
-            mr["meta_data"].keys.should == @meta_context.meta_keys.map(&:underscored_label)
+            mr["meta_data"].map{|x| x["key"]}.sort.should == @meta_context.meta_keys.map(&:underscored_label).sort
           end
         end        
       end

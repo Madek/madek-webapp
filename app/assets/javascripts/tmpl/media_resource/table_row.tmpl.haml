@@ -3,7 +3,7 @@
     .media_resource.thumb.micro
       %image{:src => "${image}"}
   %td.title_author
-    %strong= "${meta_data.title}"
+    %strong= "${MetaDatum.select(meta_data,'title').value}"
     %br
     = "${meta_data.author}"
   %td.date= "${meta_data.portrayed_object_dates}"

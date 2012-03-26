@@ -23,6 +23,7 @@
 //= require permission/permission
 //= require iframe-wrapper/iframe-wrapper
 //= require_tree ./media_resource
+//= require_tree ./meta_datum
 
 /////////// Tmpl /////////////
 //= require_tree ./tmpl/
