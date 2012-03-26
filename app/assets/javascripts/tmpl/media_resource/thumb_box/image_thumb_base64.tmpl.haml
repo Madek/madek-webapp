@@ -1,0 +1,11 @@
+{{if is_set}}
+.thumb_box_set
+  {{if thumb_base64}}
+  %img{:src => "${thumb_base64}"}
+  {{/if}}
+{{else}}
+.thumb_box
+  {{if thumb_base64}}
+  %img{:src => "${thumb_base64}"}
+  {{/if}}
+{{/if}}
