@@ -16,6 +16,7 @@ module MediaEntriesHelper
         meta_data << (link_to _("Karte"), [:map, media_entry])
       end
 
+      # DRY
       meta_data_output = [[],[],[],[]]
       meta_data.each_slice(4) do |slice|
         slice.each_with_index do |entry, index|
@@ -31,8 +32,10 @@ module MediaEntriesHelper
     [MetaContextGroup.new(name: _("Weitere Daten"))].each do |meta_context_group|
       meta_data = []
       meta_data << display_objective_meta_data_for(media_entry)
+      meta_data << display_activities_for(media_entry, is_expert)
       meta_data << display_meta_data_for(media_entry, MetaContext.tms) if is_expert
 
+      # DRY
       meta_data_output = [[],[],[],[]]
       meta_data.each_slice(4) do |slice|
         slice.each_with_index do |entry, index|

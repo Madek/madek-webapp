@@ -3,14 +3,14 @@ require 'spec_helper'
 describe MediaResourcesController do
   render_views
   
-  before :all do
+  before :each do
     @user = FactoryGirl.create :user
   end
   
   context "fetch an index of media resources" do
-    before :all do
+    before :each do
       # MediaResources
-      40.times do
+      5.times do
         type = rand > 0.5 ? :media_entry : :media_set
         mr = Factory type, :user => @user
         mr.meta_data.create(:meta_key => MetaKey.find_by_label("title"), :value => Faker::Lorem.words(4).join(' '))
