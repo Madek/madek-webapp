@@ -181,10 +181,10 @@ class Permission
   @set_matched_preset_permissions = (line, preset)->
     if $(line).find(".owner label.mixed").length>0
       # set mixed owner as preset
-      $(line).find(".preset .select").html("Teilweise Besitzer/in")
+      $(line).find(".preset .select").html("Teilweise Eigentümer/in")
     else if $(line).find(".owner input:checked").length>0
       # set owner as preset
-      $(line).find(".preset .select").html("Besitzer/in")
+      $(line).find(".preset .select").html("Eigentümer/in")
     else if $(line).find(".mixed:not(.overwritten)").length>0
       # set mixed if values are mixed
       #$(line).find(".preset .select").html("Gemischte Werte")
@@ -254,7 +254,7 @@ class Permission
       preset = Permission.match_preset(Permission.compute_line_permission(current_owner_line))
       Permission.set_matched_preset_permissions(current_owner_line, preset)
       # switch new_owner_line to owner
-      $(new_owner_line).find(".preset .select").html("Besitzer")
+      $(new_owner_line).find(".preset .select").html("Eigentümer/in")
       $(new_owner_line).find(".permissions input").attr("checked", true)
       $(new_owner_line).find(".permissions input, select, .select").attr("disabled", true)
       # remove mixed values from new and old owner
