@@ -1,3 +1,5 @@
-{
-  "#{@meta_datum.meta_key.underscored_label}" => ((s = @meta_datum.to_s).blank? ? nil : s)  
+{ 
+  key: "#{@meta_datum.meta_key.underscored_label}",
+  value: ((s = @meta_datum.to_s).blank? ? nil : s),
+  type: ((t = @meta_datum.try(&:meta_key).try(&:object_type)) ? t : "String")
 }
