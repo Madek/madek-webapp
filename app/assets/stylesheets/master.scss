@@ -3060,7 +3060,6 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
 
 /************************************************** New Design ME view */
 
-
 #page_head .detail-image {
 	margin-bottom: 20px;
 
@@ -3075,73 +3074,7 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
 	}
 }
 
-#page_head ul.tab-nav {
-	float: right;
-	margin-right:-10px;
-	display: inline-block;
-	li {
-		background-color: white;
-	}
-	a {
-		font-weight: normal;
-		text-decoration: underline;
-		&:hover {
-			background-color: #d5d5d5;
-		}
-	}
-}
-
-#page_head .tab-info {
-	background: url(icons/madek_icon_sprites.png) -285px -701px no-repeat;
-	background-color: silver;
-	border-style: none;
-	margin-left: 1px;
-	width: 50px;
-	height: 50px;
-	display: inline-block;
-	position:relative;
-	top: 0;
-	right: 0;
-}
-#page_head .tab-permission {
-	background: url(icons/madek_icon_sprites.png) -348px -762px no-repeat;
-	background-color: silver;
-	border-style: none;
-	margin-left: 1px;
-	width: 50px;
-	height: 50px;
-	display: inline-block;
-	position:relative;
-	top: 0;
-	right: 0;
-}
-#page_head .tab-activity {
-	background: url(icons/madek_icon_sprites.png) -285px -827px no-repeat;
-	background-color: silver;
-	border-style: none;
-	margin-left: 1px;
-	width: 50px;
-	height: 50px;
-	display: inline-block;
-	position:relative;
-	top: 0;
-	right: 0;
-}
-
-#page_head #tab-info {
-	/*background-color: red;*/
-}
-#page_head #tab-permission {
-	/*background-color: blue;*/
-}
-#page_head #tab-activity{
-	/*background-color: green;*/
-}
-#page_head .tab-hide {
-	display: none;
-}
-
-#page_head .tab-content {
+#page_head .core {
 	padding-top: 70px;
 	min-height: 200px;
 }
@@ -3156,12 +3089,6 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
     	margin-bottom: 14px;
     }
 }
-
-
-
-
-
-
 
 table.metadata-table {
 	a {

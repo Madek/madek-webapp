@@ -1,9 +1,15 @@
 #upload-main.set_media_sets{:style => "margin-top: 2em;"}
   .clearfix{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
-    %ul.items{:style => "margin: 0; min-height: 10em;"}
-      - @media_entries.each do |media_entry|
-        %li
-          = thumb_for(media_entry, :small)
-          %br
-          = media_entry.meta_data.get_value_for("title")
+    #results
     = media_sets_widget(@media_entries, _("Einträge zu einem Set hinzufügen"), "upload_buttons", {with: {media_set: {media_entries: 1, child_sets: 1}}})
+
+:javascript
+  $(document).ready(function () {
+    json = #{begin
+              #r = @media_entries.as_json(with: {media_resource: {title: 1, author: 1, image: {}}})
+              #r.each {|h| h[:thumb_base64] = h.delete(:image) } 
+              #r
+              @media_entries.as_json(user: current_user, with_thumb: true)
+            end.to_json}
+    $("#results").html($.tmpl("tmpl/media_resource/thumb_box", json, {with_actions: false, with_link: false}));
+  });
