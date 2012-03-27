@@ -60,7 +60,7 @@
 #   "Test-Set" und nimmt sich vor, das Medienarchiv beim nächsten
 #   Projekt zur Verwaltung ihrer eigenen Medien zu verwenden
 
-require './persona_helper'
+require Rails.root + 'features/personas/persona_helper'
 
 module Persona
   
@@ -110,6 +110,7 @@ module Persona
               :edit => false, 
               :manage => false, 
               :download => false)
+      binding.pry
       @mein_erstes_photo = Factory(:media_entry, 
                                    :user => @user, 
                                    :view => true,
