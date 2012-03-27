@@ -23,6 +23,7 @@
           :title => "Zugriffsberechtigung",
           :class => "open_permission_lightbox", 
           :"data-media_resource_ids" => "[#{@media_set.id}]",
+          :"data-redirect_url" => "#{root_path}",
           :"data-current_user" => "#{current_user.to_json(:only=>:id, :include => :groups)}" do
             .button_permissions
           %span.favorite_link{:id => "fav_#{@media_set.id}", :title => "Favorit"}

@@ -15,6 +15,7 @@ gem 'require_relative'
 
 gem 'json', '~> 1.6'
 gem 'rjson'
+gem 'jbuilder'
 gem 'haml', '~> 3.1'
 gem 'formtastic'
 gem 'sass', '~> 3.1'
