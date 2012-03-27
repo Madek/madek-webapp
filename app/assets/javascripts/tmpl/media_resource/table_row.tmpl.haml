@@ -1,15 +1,16 @@
+${$meta_data = MetaDatum.flatten(meta_data), ""}
 %tr
   %td.image
     .media_resource.thumb.micro
       %image{:src => "${image}"}
   %td.title_author
-    %strong= "${MetaDatum.select(meta_data,'title').value}"
+    %strong ${$meta_data.title}
     %br
-    = "${MetaDatum.select(meta_data,'author').value}"
-  %td.date= "${MetaDatum.select(meta_data,'portrayed_object_dates').value}"
-  %td.tags{:title => "${MetaDatum.select(meta_data,'keywords').value}"} ${Underscore.str.truncate(MetaDatum.select(meta_data,"keywords").value,30)}
-  %td.credits{:title => "${MetaDatum.select(meta_data,'copyright_notice').value}"} ${Underscore.str.truncate(MetaDatum.select(meta_data,"copyright_notice").value, 18)}
+    ${$meta_data.author}
+  %td.date ${$meta_data.portrayed_object_dates}
+  %td.tags{:title => "${$meta_data.keywords}"} ${Underscore.truncate($meta_data.keywords,30)}
+  %td.credits{:title => "${$meta_data.copyright_notice}"} ${Underscore.truncate($meta_data.copyright_notice,18)}
   %td.upload
-    = "${MetaDatum.select(meta_data,'uploaded_by').value}"
+    ${$meta_data.uploaded_by}
     %br
-    = "${MetaDatum.select(meta_data,'uploaded_at').value}"
+    ${$meta_data.uploaded_at}
