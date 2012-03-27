@@ -2,6 +2,14 @@
 
 -- metadata
 
+SELECT meta_terms.*, meta_key_definitions.label_id as label_id
+  FROM meta_terms, meta_key_definitions, meta_contexts
+  WHERE true
+  AND meta_key_definitions.meta_context_id = meta_contexts.id
+  AND meta_key_definitions.label_id = meta_terms.id
+  AND meta_context.name = 'core'
+  ;
+
 SELECT media_resources.id as media_resource_id 
      , meta_data.id as meta_datum_id 
      , meta_data.value as meta_datum_value
