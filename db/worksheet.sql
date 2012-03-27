@@ -1,5 +1,26 @@
 
 
+-- metadata
+
+SELECT media_resources.id as media_resource_id 
+     , meta_data.id as meta_datum_id 
+     , meta_data.value as meta_datum_value
+     , meta_keys.id as meta_key_id
+     , meta_contexts.id as meta_context_id
+     , meta_contexts.name as meta_contex_name
+     , meta_key_definitions.id as meta_key_definition_id
+     , meta_key_definitions.label_id as label_id
+     , meta_terms.en_gb as meta_term_en
+  FROM media_resources 
+  INNER JOIN meta_data ON meta_data.media_resource_id = media_resources.id
+  INNER JOIN meta_keys ON meta_data.meta_key_id = meta_keys.id
+  INNER JOIN meta_key_definitions ON meta_key_definitions.meta_key_id = meta_keys.id
+  INNER JOIN meta_contexts ON meta_key_definitions.meta_context_id = meta_contexts.id
+  INNER JOIN meta_terms ON meta_key_definitions.label_id = meta_terms.id
+  where true
+  AND media_resources.id = 4
+  ;
+
 -- relative top level sets of the user with id = 999999 
 
 SELECT * from media_resources
