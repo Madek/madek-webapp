@@ -1,4 +1,16 @@
 
+-- permission check
+
+SELECT DISTINCT m.* FROM `media_resources` AS m
+  LEFT JOIN `userpermissions` AS up
+    ON m.id = up.media_resource_id AND up.user_id = 999999 AND up.view = 1
+  LEFT JOIN (`grouppermissions` AS gp
+        INNER JOIN `groups_users` AS gu ON gp.group_id = gu.group_id AND gu.user_id = 999999
+        LEFT JOIN `userpermissions` AS up2 ON gp.media_resource_id = up2.media_resource_id)
+    ON m.id = gp.media_resource_id AND gp.view = 1
+WHERE (up.id IS NOT NULL OR gp.id IS NOT NULL)
+  AND (up2.view = 1 OR up2.view IS NULL); # (up2.view != 0) doesn't work, alternative: (IFNULL(up2.view, -1) != 0) 
+
 
 -- relative top level sets of the user with id = 999999 
 
