@@ -57,6 +57,7 @@ GEM
     arel (2.2.3)
     autotest (4.4.6)
       ZenTest (>= 4.4.1)
+    blankslate (2.1.2.4)
     builder (3.0.0)
     capistrano (2.11.2)
       highline
@@ -160,6 +161,9 @@ GEM
       rails (>= 3.1.0)
     jasminerice (0.0.8)
       haml
+    jbuilder (0.4.0)
+      activesupport (>= 3.0.0)
+      blankslate (>= 2.1.2.4)
     jeweler (1.8.3)
       bundler (~> 1.0)
       git (>= 1.2.5)
@@ -374,6 +378,7 @@ DEPENDENCIES
   jasmine-headless-webkit (~> 0.8.4)
   jasmine-rails (~> 0.0.2)
   jasminerice (~> 0.0.8)
+  jbuilder
   jquery-rails (= 1.0.16)
   jquery-tmpl-rails (~> 0.1.2)
   json (~> 1.6)

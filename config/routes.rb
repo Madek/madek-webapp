@@ -23,6 +23,9 @@ MAdeK::Application.routes.draw do
   root :to => "application#root"
 
 ###############################################
+  #
+
+  match '/meta_contexts/:name/meta_key_definitions/meta_terms', to: "meta_term#context_keys_terms"
   
   match '/help', :to => "application#help"
   match '/feedback', :to => "application#feedback"
@@ -50,6 +53,7 @@ MAdeK::Application.routes.draw do
   resource :permissions, :only => :update
 
   resources :meta_context_groups, only: :index
+  resources :meta_terms, only: :index
 
 ###############################################
 #NOTE first media_entries and then media_sets
