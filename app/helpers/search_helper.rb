@@ -1,8 +1,6 @@
 module SearchHelper
   
-  def display_meta_data_checkboxes(resource_ids, type)
-    resources = type.constantize.find(resource_ids) # TODO ?? include(:meta_data)
-
+  def display_meta_data_checkboxes(resources)
     meta_key_labels = ["keywords", "type", "academic year", "project type", "institutional affiliation"]
 
     capture_haml do
@@ -13,7 +11,7 @@ module SearchHelper
             when "keywords"
               r.meta_data.get(label).deserialized_value.collect(&:meta_term)
             else
-              case type
+              case r.type
                 when "MediaEntry"
                   r.meta_data.get(label).deserialized_value
                 else

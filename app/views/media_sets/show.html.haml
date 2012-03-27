@@ -100,7 +100,15 @@
 
 :javascript
   $(document).ready(function () {
-    setupBatch(#{@media_entries.to_json}, #{@media_set.media_entry_ids.to_json});
+    setupBatch();
+    var url = "/resources.json?media_set_id=#{@media_set.id}";
+    $.ajax({
+      url: url,
+      success: function(data){
+        data.url = url;
+        display_results(data);
+      }
+    });
     
     // hide parents at start
     $("#parents").hide();

@@ -1,3 +1,4 @@
+- resource_ids = resources.map(&:id)
 - unless resource_ids.empty?
   .filter_box
     %h3.filter_category.filter_header.clearfix
@@ -46,7 +47,7 @@
                       %span
                         Pixel
   
-            = display_meta_data_checkboxes(resource_ids, type)
+            = display_meta_data_checkboxes(resources)
           .filter_footer
             = button_tag nil, :title => "Filtern", :id => 'filter-submit', :name => nil do
               = _("Filter anwenden")
