@@ -14,15 +14,17 @@ jQuery ->
 
 class Permission
   
+  @collection_id
+  
   @open_lightbox = (target)->
-    # PREPARE BADGE OPENING
+    # prepare badge
     if $(target).hasClass("batch")
       media_resource_ids = []
       $(".task_bar .thumb_mini").each (i,element)->
         media_resource_ids.push($(element).tmplItem().data.id)
       $(target).data("media_resource_ids", media_resource_ids)
       
-    # OPEN DIALOG
+    # open dialog
     container = Dialog.add
       trigger: target
       dialogClass: "permission_lightbox"
@@ -32,11 +34,22 @@ class Permission
     $(container).data("media_resource_ids", $(target).data("media_resource_ids"))
     $(container).data("redirect_url", $(target).data("redirect_url"))
     
-    # LOAD
-    Permission.load_permission_presets container, target
-    Permission.load_media_resources container
+    # create collection
+    Permission.create_collection container, target
   
-  @load_permission_presets = (container, trigger) ->
+  @create_collection = (container, target)->
+    $.ajax
+      url: "/media_resources/collection.json"
+      type: "POST"
+      data: 
+        ids: $(container).data("media_resource_ids")
+      success: (data)->
+        Permission.collection_id = data.collection_id
+        # load resources & permissions
+        Permission.load_permission_presets container, target
+        Permission.load_media_resources container
+        
+  @load_permission_presets = (container, trigger)->
     $.ajax
       url: "/permission_presets.json"
       type: "GET"
@@ -49,7 +62,7 @@ class Permission
       url: "/media_resources.json"
       type: "GET"
       data: 
-        ids: $(container).data("media_resource_ids") 
+        collection_id: Permission.collection_id
         with:
           image:
             as: "base64"
@@ -60,7 +73,7 @@ class Permission
         $(container).find(".media_resource_selection .loading").remove()
         $(container).find(".media_resource_selection .media").append $.tmpl("tmpl/media_resource/image", data.media_resources) 
         $(container).find(".media_resource_selection table.media_resources").append $.tmpl("tmpl/media_resource/table_row", data.media_resources)  
-          
+              
   @display_inline = (options)->
     current_user = options.current_user
     media_resource_ids = options.media_resource_ids
@@ -71,15 +84,14 @@ class Permission
     $(container).data("current_user", current_user)
     $(container).data("media_resource_ids", media_resource_ids)
     $(container).data("external_submit_button", button)
-    Permission.load_media_resources $(container)
-    Permission.load_permission_presets $(container), $(container)
+    Permission.create_collection $(container), $(container)
       
   @load_permissions = (container, media_resource_ids)->
     $.ajax
       url: "/permissions.json"
       type: "GET"
       data:
-        media_resource_ids: media_resource_ids
+        collection_id: Permission.collection_id
         with: 
           users: true
           groups: true

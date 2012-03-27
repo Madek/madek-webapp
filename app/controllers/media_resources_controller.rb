@@ -26,15 +26,15 @@ class MediaResourcesController < ApplicationController
   # @response_field [Integer] [].id The id of the MediaResource  
   # @response_field [Hash] [].meta_data The MetaData of the MediaResource (To get a list of possible MetaData - or the schema - you have to consider the MetaDatum resource)  
   #
-  def index(ids = params[:ids],
+  def index(ids = (params[:collection_id] ? Rails.cache.read(user: current_user.id, collection: params[:collection_id]) : params[:ids]),
             page = params[:page],
-            per_page = (params[:per_page] || PER_PAGE.first).to_i)
+            per_page = [(params[:per_page] || PER_PAGE.first).to_i, PER_PAGE.first].min)
     
     @media_resources = MediaResource.media_entries_or_media_entry_incompletes_or_media_sets.
                         accessible_by_user(current_user).
                         order("media_resources.updated_at DESC").
                         paginate(:page => page, :per_page => per_page)
-                        
+
     @media_resources = @media_resources.where(:id => ids) if ids
     
     respond_to do |format|
@@ -73,6 +73,25 @@ class MediaResourcesController < ApplicationController
 
     end
 
+  end
+
+########################################################################
+
+  def collection(ids = params[:ids],
+                 collection_id = params[:collection_id])
+    if request.post? and ids
+      collection_id = Time.now.to_i
+      Rails.cache.write({user: current_user.id, collection: collection_id}, ids, expires_in: 1.week)
+    #elsif request.delete? and collection_id
+    #  collection_id = session[:media_resource_ids][collection_id] = nil
+    #elsif request.get? and collection_id
+    else
+      raise "error"
+    end
+
+    respond_to do |format|
+      format.json { render json: {collection_id: collection_id} }
+    end
   end
 
 end

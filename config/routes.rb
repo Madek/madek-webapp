@@ -144,7 +144,13 @@ MAdeK::Application.routes.draw do
     match "resources/favorites", :to => "resources#index"
     
     # TODO merge :resources into :media_resources 
-    resources :media_resources
+    resources :media_resources do
+      collection do
+        #get :collection
+        post :collection
+        #delete :collection
+      end
+    end
 
     resources :permissions, :only => :index, :format => true, :constraints => {:format => /json/}
     resources :permission_presets, :only => :index, :format => true, :constraints => {:format => /json/}

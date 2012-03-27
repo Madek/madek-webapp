@@ -8,7 +8,7 @@ gem 'i18n' # Need this explicitly, otherwise can't deploy
 
 gem 'mysql2', '~> 0.3.8'  
 gem 'pg'
-#tmp# gem 'memcache-client' #gem 'dalli' #gem 'redis-store'
+gem 'memcache-client' #gem 'dalli' #gem 'redis-store'
 
 #tmp# dependency for linecache
 gem 'require_relative'
