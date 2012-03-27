@@ -30,6 +30,7 @@ class Permission
       closeOnEscape: false
     $(container).data("current_user", $(target).data("current_user"))
     $(container).data("media_resource_ids", $(target).data("media_resource_ids"))
+    $(container).data("redirect_url", $(target).data("redirect_url"))
     
     # LOAD
     Permission.load_permission_presets container, target
@@ -65,9 +66,11 @@ class Permission
     media_resource_ids = options.media_resource_ids
     view_template = $.tmpl("tmpl/permission/container", {media_resource_ids: media_resource_ids, current_user: current_user})
     container = view_template
+    button = options.button
     $(options.container).replaceWith container
     $(container).data("current_user", current_user)
     $(container).data("media_resource_ids", media_resource_ids)
+    $(container).data("external_submit_button", button)
     Permission.load_media_resources $(container)
     Permission.load_permission_presets $(container), $(container)
       
@@ -389,16 +392,20 @@ class Permission
       Permission.check_groups_with_me_visibility container
   
   @setup_actions = (container)->
-    template = $.tmpl "tmpl/permission/_actions"
-    if $(container).find("input:not([disabled=disabled])").length > 0
-      # User has permission to change something 
-      $(template).find(".close_dialog").remove()
-    else
-      $(template).find(".close_dialog").bind "click", ()->
-        # User has no permission to change something
-        $(this).closest(".dialog").dialog "close"
-      $(template).find(".cancel, .save").remove()
-    $(container).find("section.actions").replaceWith template
+    if $(container).data("external_submit_button")?
+      # displayed inline with external submit button
+      $(container).data("external_submit_button").removeClass("disabled")
+    else # displayed in a lightbox
+      template = $.tmpl "tmpl/permission/_actions"
+      if $(container).find("input:not([disabled=disabled])").length > 0
+        # User has permission to change something 
+        $(template).find(".close_dialog").remove()
+      else
+        $(template).find(".close_dialog").bind "click", ()->
+          # User has no permission to change something
+          $(this).closest(".dialog").dialog "close"
+        $(template).find(".cancel, .save").remove()
+      $(container).find("section.actions").replaceWith template
   
   @setup_save = (container)->
     $(container).find(".save").removeClass("disabled")
@@ -426,6 +433,10 @@ class Permission
       success: (data)->
         $(button).find("img").remove()
         $(button).append "<div class='success icon'></div>"
+        # redirect when user has no view permissions any longer
+        if $(container).find(".me .line:first .view input").is(":checked") == false
+          window.location = window.location.protocol+"//"+window.location.host+$(container).data("redirect_url")
+        # callback
         callback() if callback?
   
   @compute_permissions_for = (permissions_container)->
@@ -454,12 +465,13 @@ class Permission
       permissions.users.push Permission.compute_permissions_for $(container).find(".me .line:first .permissions")
     
     # add owner to the new permissions if there is an owner explicitly set
-    if $(".owner label.mixed").length == 0 and $(".owner input:checked").length == 1
-      permissions.owner = $(".owner input:checked").tmplItem().data.id
+    if $(container).find(".owner label.mixed").length == 0 and $(container).find(".line .owner input:checked").length == 1
+      permissions.owner = $(container).find(".line .owner input:checked").tmplItem().data.id
     
     return permissions
     
   @close_lightbox = ->
+    
     $(".permission_lightbox .dialog").dialog("close")
    
 window.Permission = Permission
