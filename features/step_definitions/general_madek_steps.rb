@@ -1,6 +1,5 @@
 # coding: UTF-8
 
-
 Given /^I have set up the world$/ do
   # Set this to a non-JS driver because:
   # 1. The Selenium driver times out during this step
@@ -11,13 +10,6 @@ Given /^I have set up the world$/ do
   Capybara.use_default_driver
   Capybara.current_driver = old_driver
 
-  # TODO: REFACTOR OUT
-  # step 'a user called "Bruce Willis" with username "bruce_willis" and password "fluffyKittens" exists'
-  # step 'a group called "Admin" exists'
-  # step 'the user with username "bruce_willis" is member of the group "Admin"'
-  # step 'I log in as "bruce_willis" with password "fluffyKittens"'
-  
-  # FORCE DATA CLEAN AND RESET (SETUP MINIMAL META)
   DataFactory.reset_data
   
   # Check setted minimal meta 
@@ -29,6 +21,8 @@ Given /^I have set up the world$/ do
   MetaTerm.count.should == minimal_meta[:meta_terms].count
   UsageTerm.count.should == 1
  
+  # This is actually normally called in the seeds, but the RSpec developers don't believe in using seeds,
+  # so they drop the database even if we seed it before running the tests. Therefore we recreate our world in this step. 
   MetaDepartment.setup_ldapdata_from_localfile
   MetaDate.parse_all
 end
