@@ -114,6 +114,12 @@
       width: 13px;
     }
     
+    &.owner {
+      .mixed {
+        background: none;
+      }
+    }
+    
     &.without_remove {
       .remove {
         display: none;

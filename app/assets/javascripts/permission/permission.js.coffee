@@ -145,12 +145,15 @@ class Permission
     if data.owners.length == 1
       if $(container).find(".me .line").tmplItem().data.id == data.owners[0].id
         $(container).find(".me .line:first .owner input").attr("checked", true)
+        $(container).find(".me .line:first .permissions input").attr("checked", true)
+        $(container).find(".me .line:first").addClass("owner")
         $(container).find(".me .line:first div:not(.owner) input, .me .line:first select, .me .line:first .select").attr("disabled", "disabled")
       else 
         $(container).find(".users .line").each (i, user_line)->
           if $(user_line).tmplItem().data.id == data.owners[0].id
             $(user_line).find(".owner input").attr("checked", true)
-            $(user_line).addClass("without_remove")
+            $(user_line).find(".permissions input").attr("checked", true)
+            $(user_line).addClass("without_remove owner")
             $(user_line).find("div:not(.owner) input, div:not(.owner) select, div:not(.owner) .select").attr("disabled", "disabled")
     else # setup multiple owners (multiple selected resources)
       for owner in data.owners
@@ -257,12 +260,9 @@ class Permission
       $(new_owner_line).find(".preset .select").html("Eigentümer/in")
       $(new_owner_line).find(".permissions input").attr("checked", true)
       $(new_owner_line).find(".permissions input, select, .select").attr("disabled", true)
-      # remove mixed values from new and old owner
-      $(new_owner_line).find(".mixed").removeClass("mixed")
-      $(current_owner_line).find(".mixed").removeClass("mixed")
       # remove delete line from new user 
-      $(new_owner_line).addClass("without_remove")
-      $(current_owner_line).removeClass("without_remove")
+      $(new_owner_line).addClass("without_remove owner")
+      $(current_owner_line).removeClass("without_remove owner")
       
   @setup_add_line = (container)->
     # CLICK BUTTON

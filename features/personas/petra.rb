@@ -60,7 +60,6 @@
 #   "Test-Set" und nimmt sich vor, das Medienarchiv beim nächsten
 #   Projekt zur Verwaltung ihrer eigenen Medien zu verwenden
 
-require Rails.root + 'features/personas/persona_helper'
 
 module Persona
   
@@ -102,7 +101,7 @@ module Persona
     def create_test_set # Test Set
       @mein_test_set = Factory(:media_set,
                                :user => @user, 
-                               :meta_data_attributes => md_attributes( md_attribute("title", "Mein Test Set")))
+                               :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Mein Test Set"}})
       Factory(:userpermission, 
               :media_resource => @mein_test_set, 
               :user => Persona.get(:normin), 
@@ -110,13 +109,11 @@ module Persona
               :edit => false, 
               :manage => false, 
               :download => false)
-      binding.pry
       @mein_erstes_photo = Factory(:media_entry, 
                                    :user => @user, 
                                    :view => true,
                                    :media_sets => [@mein_test_set], 
-                                   :meta_data_attributes => md_attributes( md_attribute("title","Mein Erstes Photo (mit der neuen Nikon)")))
-
+                                   :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Mein Erstes Photo (mit der neuen Nikon)"}})
     end
   end  
 end
