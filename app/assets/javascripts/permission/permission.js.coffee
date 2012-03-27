@@ -149,14 +149,14 @@ class Permission
       if $(container).find(".me .line").tmplItem().data.id == data.owners[0].id
         $(container).find(".me .line:first .owner input").attr("checked", true)
         $(container).find(".me .line:first .permissions input").attr("checked", true)
-        $(container).find(".me .line:first").addClass("owner")
+        $(container).find(".me .line:first").addClass("is_single_owner")
         $(container).find(".me .line:first div:not(.owner) input, .me .line:first select, .me .line:first .select").attr("disabled", "disabled")
       else 
         $(container).find(".users .line").each (i, user_line)->
           if $(user_line).tmplItem().data.id == data.owners[0].id
             $(user_line).find(".owner input").attr("checked", true)
             $(user_line).find(".permissions input").attr("checked", true)
-            $(user_line).addClass("without_remove owner")
+            $(user_line).addClass("without_remove is_single_owner")
             $(user_line).find("div:not(.owner) input, div:not(.owner) select, div:not(.owner) .select").attr("disabled", "disabled")
     else # setup multiple owners (multiple selected resources)
       for owner in data.owners
