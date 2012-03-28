@@ -73,6 +73,7 @@ describe MetaTermsController do
     @hint.destroy
     @label.destroy
     @user.destroy
+    @user.person.destroy
   end
 end
 
