@@ -4,10 +4,10 @@ describe MetaDataController do
   render_views
 
 
-  before :each do
+  before :all do
     @user = FactoryGirl.create :user
-    @media_resource= FactoryGirl.create :media_set
-    @media_resource.meta_data.create(:meta_key => MetaKey.find_by_label("title"), :value => Faker::Lorem.words(4).join(' '))
+    @media_set= FactoryGirl.create :media_set
+    @media_set.meta_data.create(:meta_key => MetaKey.find_by_label("title"), :value => Faker::Lorem.words(4).join(' '))
   end
 
   let :session do
@@ -15,19 +15,39 @@ describe MetaDataController do
   end
 
 
-  describe "as JSON" do
-    it "" do
-      get :index, {format: 'json', media_set_id: @media_resource.id}, session
+  let :get_json_as_hash do
+    get :index, {format: 'json', media_set_id: @media_set.id}, session
+    JSON.parse(response.body)
+  end
+
+
+  describe "JSON Response" do
+
+    it "should be successful" do
+      get :index, {format: 'json', media_set_id: @media_set.id}, session
       response.should  be_success
-      json = JSON.parse(response.body)
-
-      json.detect{|e| e["key"] == "title"}.should be
-      json.detect{|e| e["key"] == "title"}["type"].should == "String"
-
-      json.detect{|e| e["key"] == "owner"}.should be
-      json.detect{|e| e["key"] == "owner"}["type"].should == "User"
     end
 
+    it "should contain the correct title meta_datum" do
+      json = get_json_as_hash
+      json.detect{|e| e["key"] == "title"}.should be
+      json.detect{|e| e["key"] == "title"}["type"].should == "String"
+      json.detect{|e| e["key"] == "title"}["id"].should_not be_nil
+    end
+
+    it "should contain the correct owner meta_datum" do
+      json = get_json_as_hash
+      json.detect{|e| e["key"] == "owner"}.should be
+      json.detect{|e| e["key"] == "owner"}["type"].should == "User"
+      json.detect{|e| e["key"] == "owner"}["id"].should be_nil
+    end
+
+  end
+
+  after :all do
+    @user.destroy
+    @user.person.destroy
+    @media_set.destroy
   end
 
 end

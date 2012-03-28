@@ -24,6 +24,7 @@ class MetaDataController < ApplicationController
   end
 
 #################################################################
+  
 
   def index
     @meta_data = @resource.meta_data_for_context(@context, false)
@@ -35,6 +36,11 @@ class MetaDataController < ApplicationController
 
   def objective
     @meta_data = @resource.media_file.meta_data_without_binary.sort
+  end
+
+### 
+  
+  def update 
   end
 
 #################################################################
