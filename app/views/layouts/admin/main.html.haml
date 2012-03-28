@@ -31,8 +31,14 @@
           row.remove();
           return false;
         });
-        // TODO
-        //$("form[data-remote]").live('ajax:complete', function(xhr, response){});
+        
+        $("form[data-remote]").live('ajax:complete', function(xhr, response){
+          var row = $(this).closest("tr");
+          row.prev().remove();
+          row.replaceWith(response.responseText);
+          return false;
+        });
+        
         $('.datatable').dataTable({
           "sPaginationType": "full_numbers",
           "sDom": '<"top"fi>rt<"bottom"lp><"clear">'

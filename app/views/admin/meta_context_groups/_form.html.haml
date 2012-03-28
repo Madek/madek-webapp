@@ -1,0 +1,10 @@
+- remote ||= false
+= form_for @meta_context_group, :url => url, :remote => remote do |f|
+  = hidden_field_tag :term_positions
+  %table
+    %tr
+      %th= f.label :name
+      %td= f.text_field :name
+    %tr
+      %td
+      %td= f.submit submit

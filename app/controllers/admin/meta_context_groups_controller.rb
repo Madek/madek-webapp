@@ -1,36 +1,29 @@
 class Admin::MetaContextGroupsController < Admin::AdminController
 
-  def index
-    @meta_context_groups = MetaContextGroup.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @meta_context_groups }
-    end
+  before_filter do
+    @meta_context_group = MetaContextGroup.find(params[:id]) unless params[:id].blank?
   end
 
-  def show
-    @meta_context_group = MetaContextGroup.find(params[:id])
+#####################################################
 
+  def index
+    @meta_context_groups = MetaContextGroup.all
     respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @meta_context_group }
+      format.html # index.html.erb
     end
   end
 
   def new
     @meta_context_group = MetaContextGroup.new
-    @path=admin_meta_context_groups_path
-
     respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @meta_context_group }
+      format.js
     end
   end
 
   def edit
-    @meta_context_group = MetaContextGroup.find(params[:id])
-    @path=admin_meta_context_group_path(@meta_context_group)
+    respond_to do |format|
+      format.js
+    end
   end
 
   def create
@@ -38,36 +31,27 @@ class Admin::MetaContextGroupsController < Admin::AdminController
 
     respond_to do |format|
       if @meta_context_group.save
-        format.html { redirect_to admin_meta_context_group_path(@meta_context_group), notice: 'Meta context group was successfully created.' }
-        format.json { render json: @meta_context_group, status: :created, location: admin_meta_context_group_path(@meta_context_group) }
+        format.html { redirect_to admin_meta_context_groups_url, notice: 'Meta context group was successfully created.' }
       else
-        format.html { render action: "new" }
-        format.json { render json: @meta_context_group.errors, status: :unprocessable_entity }
+        format.html { render action: "new.js.erb" }
       end
     end
   end
 
   def update
-    @meta_context_group = MetaContextGroup.find(params[:id])
-
     respond_to do |format|
       if @meta_context_group.update_attributes(params[:meta_context_group])
-        format.html { redirect_to admin_meta_context_group_path(@meta_context_group), notice: 'Meta context group was successfully updated.' }
-        format.json { head :ok }
+        format.js { render partial: "show", locals: {meta_context_group: @meta_context_group} }
       else
-        format.html { render action: "edit" }
-        format.json { render json: @meta_context_group.errors, status: :unprocessable_entity }
+        format.js { render action: "edit" }
       end
     end
   end
 
   def destroy
-    @meta_context_group = MetaContextGroup.find(params[:id])
     @meta_context_group.destroy
-
     respond_to do |format|
       format.html { redirect_to admin_meta_context_groups_url }
-      format.json { head :ok }
     end
   end
 end
