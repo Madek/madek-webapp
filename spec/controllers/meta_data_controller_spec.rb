@@ -23,9 +23,9 @@ describe MetaDataController do
 
   describe "update" do
 
-    it "" do
-      #put :update, id: @title_meta_datum.id , meta_datum: {value: "BLAH"}, session
-      #binding.pry
+    it "should update" do
+      put :update, {id: @title_meta_datum.id, meta_datum: {value: "BLAH"}}, session
+      @title_meta_datum.reload.value.should == "BLAH"
     end
 
   end
