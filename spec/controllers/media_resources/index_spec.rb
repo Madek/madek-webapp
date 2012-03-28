@@ -10,7 +10,7 @@ describe MediaResourcesController do
   context "fetch an index of media resources" do
     before :each do
       # MediaResources
-      5.times do
+      40.times do
         type = rand > 0.5 ? :media_entry : :media_set
         mr = Factory type, :user => @user
         mr.meta_data.create(:meta_key => MetaKey.find_by_label("title"), :value => Faker::Lorem.words(4).join(' '))

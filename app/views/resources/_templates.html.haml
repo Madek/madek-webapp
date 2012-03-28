@@ -6,7 +6,7 @@
     .thumb_box
 
 %script#empty_result_page{:type => "text/x-jquery-tmpl"}
-  .page{:"data-page" => "${pagination.current_page}"}
+  .page{:"data-page" => "${pagination.current_page}", :"data-url" => "${url}"}
     {{tmpl(pagination) "#pagination"}}
     {{tmpl(entries) "#empty_index"}}
 

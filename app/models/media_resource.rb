@@ -357,7 +357,7 @@ class MediaResource < ActiveRecord::Base
 
   ################################################################
 
-  scope :by_media_set, lambda {|media_set|
+  scope :by_media_set, lambda {|media_set_id|
     #tmp#
     #SELECT `media_resources`.* FROM `media_resources`
     #left JOIN media_entries_media_sets ON media_resources.id = media_entries_media_sets.media_entry_id and `media_entries_media_sets`.`media_set_id` = 347
@@ -366,12 +366,14 @@ class MediaResource < ActiveRecord::Base
     #old#
     #joins("INNER JOIN media_entries_media_sets ON media_resources.id = media_entries_media_sets.media_entry_id").
     #where(:media_entries_media_sets => {:media_set_id => media_set})
+    
+    media_set_id = media_set_id.id if media_set_id.is_a?(MediaSet)
 
     where("media_resources.id IN " \
             "(SELECT media_entry_id AS id FROM media_entries_media_sets WHERE media_set_id = :id " \
             "UNION " \
               "SELECT child_id AS id FROM media_set_arcs WHERE parent_id = :id )",
-          :id => media_set.id);
+          :id => media_set_id);
   }
 
   ################################################################

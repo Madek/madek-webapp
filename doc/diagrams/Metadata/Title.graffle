@@ -68,8 +68,8 @@
 			<integer>803</integer>
 			<key>Points</key>
 			<array>
-				<string>{131.24205, 553.61877}</string>
-				<string>{222.1765, 596.66882}</string>
+				<string>{131.24207, 553.60852}</string>
+				<string>{222.17657, 596.64209}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -314,8 +314,8 @@ de_CH: "Titel des Werkes"}</string>
 			<integer>798</integer>
 			<key>Points</key>
 			<array>
-				<string>{935.89227, 140.49182}</string>
-				<string>{542.27753, 129.64902}</string>
+				<string>{917.41052, 146.53546}</string>
+				<string>{542.27734, 130.40488}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -412,8 +412,8 @@ de_CH: "Upload"}</string>
 			<integer>796</integer>
 			<key>Points</key>
 			<array>
-				<string>{978.69818, 383.20355}</string>
-				<string>{999.43732, 170.81654}</string>
+				<string>{974.90216, 383.20154}</string>
+				<string>{982.67609, 177.88716}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -446,7 +446,7 @@ de_CH: "Upload"}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{936.39209, 114.31892}, {131.65588, 56}}</string>
+			<string>{{917.91003, 121.38753}, {131.65588, 56}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -654,7 +654,7 @@ settings:\{:is_required=&gt;true, :length_max=&gt;255, :length_min=&gt;1}</strin
 			<key>Points</key>
 			<array>
 				<string>{865.63458, 534.42163}</string>
-				<string>{533.55383, 315.89078}</string>
+				<string>{533.55371, 315.89078}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1038,8 +1038,8 @@ label_id: 299}</string>
 			<integer>782</integer>
 			<key>Points</key>
 			<array>
-				<string>{801.06128, 554.18402}</string>
-				<string>{318.18509, 451.99182}</string>
+				<string>{801.0614, 554.18402}</string>
+				<string>{318.185, 451.99179}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1235,7 +1235,7 @@ de_CH: "Titel des Werkes"}</string>
 			<key>Points</key>
 			<array>
 				<string>{693.12396, 437.31949}</string>
-				<string>{365.11771, 283.45367}</string>
+				<string>{365.11765, 283.45367}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1867,8 +1867,8 @@ settings: \{:is_required=&gt;true, :length_max=&gt;4096, :length_min=&gt;1\}}</s
 			<integer>763</integer>
 			<key>Points</key>
 			<array>
-				<string>{684.17096, 118.10265}</string>
-				<string>{459.79828, 94.877731}</string>
+				<string>{684.17096, 118.10263}</string>
+				<string>{459.79828, 94.87764}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -2061,8 +2061,8 @@ label_id: 292}</string>
 			<integer>756</integer>
 			<key>Points</key>
 			<array>
-				<string>{433.97745, 438.134}</string>
-				<string>{318.1951, 444.48785}</string>
+				<string>{433.97745, 438.13388}</string>
+				<string>{318.1951, 444.48758}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -2105,8 +2105,8 @@ label_id: 292}</string>
 			<integer>755</integer>
 			<key>Points</key>
 			<array>
-				<string>{471.33505, 383.38882}</string>
-				<string>{346.53864, 283.55368}</string>
+				<string>{471.33511, 383.38882}</string>
+				<string>{346.53882, 283.55368}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -2208,7 +2208,7 @@ hint_id: 1}</string>
 			<key>Points</key>
 			<array>
 				<string>{695.26758, 245.63741}</string>
-				<string>{353.11481, 154.51003}</string>
+				<string>{353.11481, 154.50999}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -2443,8 +2443,8 @@ de_CH: "Titel"}</string>
 			<integer>748</integer>
 			<key>Points</key>
 			<array>
-				<string>{131.25819, 505.68091}</string>
-				<string>{261.89493, 456.60663}</string>
+				<string>{131.25819, 505.67978}</string>
+				<string>{261.89493, 456.60284}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -2708,7 +2708,7 @@ media_resouce_id: 1}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{496.45605, 345.01904}, {79.942101, 28}}</string>
+			<string>{{495.16095, 345.02023}, {79.942101, 28}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -2787,8 +2787,8 @@ media_resouce_id: 1}</string>
 			<integer>741</integer>
 			<key>Points</key>
 			<array>
-				<string>{539.62463, 361.19394}</string>
-				<string>{491.34973, 328.35788}</string>
+				<string>{538.34875, 361.1951}</string>
+				<string>{489.78329, 328.35934}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -2821,7 +2821,7 @@ media_resouce_id: 1}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{622.9209, 190.55426}, {79.942101, 14}}</string>
+			<string>{{622.9209, 191.19016}, {79.942101, 14}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -2900,8 +2900,8 @@ media_resouce_id: 1}</string>
 			<integer>739</integer>
 			<key>Points</key>
 			<array>
-				<string>{672.99774, 197.73083}</string>
-				<string>{553.77856, 195.64783}</string>
+				<string>{672.99774, 198.33536}</string>
+				<string>{553.77856, 196.62245}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -2934,7 +2934,7 @@ media_resouce_id: 1}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{609.57001, 190.321}, {79.942101, 14}}</string>
+			<string>{{609.57001, 190.99834}, {79.942101, 14}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -3015,8 +3015,8 @@ media_resouce_id: 1}</string>
 			<integer>737</integer>
 			<key>Points</key>
 			<array>
-				<string>{672.99774, 197.73083}</string>
-				<string>{553.77856, 195.64783}</string>
+				<string>{672.99774, 198.33536}</string>
+				<string>{553.77856, 196.62245}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -3059,8 +3059,8 @@ media_resouce_id: 1}</string>
 			<integer>728</integer>
 			<key>Points</key>
 			<array>
-				<string>{110.80007, 353.44736}</string>
-				<string>{137.64322, 328.41977}</string>
+				<string>{111.21153, 353.44919}</string>
+				<string>{138.3277, 328.42062}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -3101,8 +3101,8 @@ media_resouce_id: 1}</string>
 			<integer>727</integer>
 			<key>Points</key>
 			<array>
-				<string>{118.72713, 401.32758}</string>
-				<string>{220.48564, 421.84543}</string>
+				<string>{118.72713, 401.32861}</string>
+				<string>{220.48564, 421.84854}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -3223,8 +3223,8 @@ media_resouce_id: 1}</string>
 			<integer>722</integer>
 			<key>Points</key>
 			<array>
-				<string>{806.63708, 361.00793}</string>
-				<string>{826.09198, 309.94269}</string>
+				<string>{806.68042, 361.00797}</string>
+				<string>{826.15063, 309.94278}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -3307,8 +3307,8 @@ media_resouce_id: 1}</string>
 			<integer>720</integer>
 			<key>Points</key>
 			<array>
-				<string>{398.50549, 452.54794}</string>
-				<string>{353.12546, 445.75638}</string>
+				<string>{398.50555, 452.32901}</string>
+				<string>{353.12573, 445.50934}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -3393,8 +3393,8 @@ media_resouce_id: 1}</string>
 			<integer>718</integer>
 			<key>Points</key>
 			<array>
-				<string>{155.30173, 482.70407}</string>
-				<string>{220.50584, 459.31598}</string>
+				<string>{155.30156, 482.62173}</string>
+				<string>{220.50549, 459.16086}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -3475,8 +3475,8 @@ media_resouce_id: 1}</string>
 			<integer>714</integer>
 			<key>Points</key>
 			<array>
-				<string>{155.28226, 544.39282}</string>
-				<string>{197.47557, 564.54944}</string>
+				<string>{155.28185, 544.56274}</string>
+				<string>{197.47504, 564.81665}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -4539,7 +4539,7 @@ belongs_to}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2012-02-20 15:24:21 +0000</string>
+	<string>2012-03-27 12:33:11 +0000</string>
 	<key>Modifier</key>
 	<string>Thomas Schank</string>
 	<key>NotesVisible</key>
@@ -4632,7 +4632,7 @@ belongs_to}</string>
 		<key>FitInWindow</key>
 		<true/>
 		<key>Frame</key>
-		<string>{{165, 4}, {1115, 774}}</string>
+		<string>{{805, 184}, {1091, 994}}</string>
 		<key>ListView</key>
 		<false/>
 		<key>OutlineWidth</key>
@@ -4644,9 +4644,9 @@ belongs_to}</string>
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{-96.645119, 1.1774436}, {1312.8497, 781.82257}}</string>
+		<string>{{2.0438757, -58.978054}, {1114.9342, 903.39307}}</string>
 		<key>Zoom</key>
-		<real>0.84929758310317993</real>
+		<real>0.97853308916091919</real>
 		<key>ZoomValues</key>
 		<array>
 			<array>
