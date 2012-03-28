@@ -63,7 +63,10 @@ class Admin::KeysController < Admin::AdminController # TODO rename to Admin::Met
     end if meta_terms_attributes
  
     @key.update_attributes(params[:meta_key])
-    redirect_to admin_keys_path
+    
+    respond_to do |format|
+      format.js { render partial: "show", locals: {key: @key} }
+    end
   end
 
   def destroy
