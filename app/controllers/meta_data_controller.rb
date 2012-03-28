@@ -41,10 +41,10 @@ class MetaDataController < ApplicationController
 ### 
   
   def update 
-    @meta_datum = MetaData.find(params[:id])
+    @meta_datum = MetaDatum.find(params[:id])
 
     respond_to do |format|
-      if @meta_data.update_attributes(params[:meta_datum])
+      if @meta_datum.update_attributes(params[:meta_datum])
         format.json { head :ok }
       else
         format.json { render json: @meta_datum.errors, status: :unprocessable_entity }

@@ -21,9 +21,9 @@ describe MetaDataController do
     JSON.parse(response.body)
   end
 
-  describe "update" do
+  describe "PUT" do
 
-    it "should update" do
+    it "should update a title value" do
       put :update, {id: @title_meta_datum.id, meta_datum: {value: "BLAH"}}, session
       @title_meta_datum.reload.value.should == "BLAH"
     end
