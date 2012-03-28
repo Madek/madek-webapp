@@ -1,0 +1,10 @@
+%tr
+  %td= meta_context_group.name
+  %td
+    %ul
+      - meta_context_group.meta_contexts.each do |meta_context|
+        %li= meta_context.to_s
+  %td.with_actions
+    = link_to _("Edit"), edit_admin_meta_context_group_path(meta_context_group), :class => "buttons", :remote => true, :"data-type" => "html"
+    %br
+    = link_to _("Delete"), admin_meta_context_group_path(meta_context_group), :class => "buttons", :method => :delete, :confirm => _("Sind Sie sicher?") if meta_context_group.meta_contexts.empty?

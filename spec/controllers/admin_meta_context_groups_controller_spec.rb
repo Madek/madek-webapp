@@ -41,18 +41,8 @@ describe Admin::MetaContextGroupsController do
 
   describe "GET index" do
     it "assigns all meta_context_groups as @meta_context_groups" do
-      meta_context_group = MetaContextGroup.create! valid_attributes
-      meta_context_groups = MetaContextGroup.all
       get :index, {}, valid_session
-      assigns(:meta_context_groups).should eq(meta_context_groups)
-    end
-  end
-
-  describe "GET show" do
-    it "assigns the requested meta_context_group as @meta_context_group" do
-      meta_context_group = MetaContextGroup.create! valid_attributes
-      get :show, {id: meta_context_group.id}, valid_session
-      assigns(:meta_context_group).should eq(meta_context_group)
+      assigns(:meta_context_groups).should eq(MetaContextGroup.all)
     end
   end
 
@@ -66,7 +56,7 @@ describe Admin::MetaContextGroupsController do
   describe "GET edit" do
     it "assigns the requested meta_context_group as @meta_context_group" do
       meta_context_group = MetaContextGroup.create! valid_attributes
-      get :edit, {:id => meta_context_group.to_param}, valid_session
+      get :edit, {:format => :js, :id => meta_context_group.to_param}, valid_session
       assigns(:meta_context_group).should eq(meta_context_group)
     end
   end
@@ -87,7 +77,7 @@ describe Admin::MetaContextGroupsController do
 
       it "redirects to the created meta_context_group" do
         post :create, {:meta_context_group => valid_attributes}, valid_session
-        response.should redirect_to(admin_meta_context_group_url(MetaContextGroup.last))
+        response.should redirect_to(admin_meta_context_groups_url)
       end
     end
 
@@ -117,19 +107,19 @@ describe Admin::MetaContextGroupsController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         MetaContextGroup.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => meta_context_group.to_param, :meta_context_group => {'these' => 'params'}}, valid_session
+        put :update, {:format => :js, :id => meta_context_group.to_param, :meta_context_group => {'these' => 'params'}}, valid_session
       end
 
       it "assigns the requested meta_context_group as @meta_context_group" do
         meta_context_group = MetaContextGroup.create! valid_attributes
-        put :update, {:id => meta_context_group.to_param, :meta_context_group => valid_attributes}, valid_session
+        put :update, {:format => :js, :id => meta_context_group.to_param, :meta_context_group => valid_attributes}, valid_session
         assigns(:meta_context_group).should eq(meta_context_group)
       end
 
       it "redirects to the meta_context_group" do
         meta_context_group = MetaContextGroup.create! valid_attributes
-        put :update, {:id => meta_context_group.to_param, :meta_context_group => valid_attributes}, valid_session
-        response.should redirect_to(admin_meta_context_group_url(meta_context_group))
+        put :update, {:format => :js, :id => meta_context_group.to_param, :meta_context_group => valid_attributes}, valid_session
+        response.should render_template("show")
       end
     end
 
@@ -138,7 +128,7 @@ describe Admin::MetaContextGroupsController do
         meta_context_group = MetaContextGroup.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         MetaContextGroup.any_instance.stub(:save).and_return(false)
-        put :update, {:id => meta_context_group.to_param, :meta_context_group => {}}, valid_session
+        put :update, {:format => :js, :id => meta_context_group.to_param, :meta_context_group => {}}, valid_session
         assigns(:meta_context_group).should eq(meta_context_group)
       end
 
@@ -146,7 +136,7 @@ describe Admin::MetaContextGroupsController do
         meta_context_group = MetaContextGroup.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         MetaContextGroup.any_instance.stub(:save).and_return(false)
-        put :update, {:id => meta_context_group.to_param, :meta_context_group => {}}, valid_session
+        put :update, {:format => :js, :id => meta_context_group.to_param, :meta_context_group => {}}, valid_session
         response.should render_template("edit")
       end
     end
@@ -156,13 +146,13 @@ describe Admin::MetaContextGroupsController do
     it "destroys the requested meta_context_group" do
       meta_context_group = MetaContextGroup.create! valid_attributes
       expect {
-        delete :destroy, {id: meta_context_group.id}, valid_session
+        delete :destroy, {id: meta_context_group.to_param}, valid_session
       }.to change(MetaContextGroup, :count).by(-1)
     end
 
     it "redirects to the meta_context_groups list" do
       meta_context_group = MetaContextGroup.create! valid_attributes
-      delete :destroy, {id: meta_context_group.id}, valid_session
+      delete :destroy, {id: meta_context_group.to_param}, valid_session
       response.should redirect_to(admin_meta_context_groups_url)
     end
   end
