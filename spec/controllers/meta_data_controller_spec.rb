@@ -8,6 +8,7 @@ describe MetaDataController do
     @user = FactoryGirl.create :user
     @media_set= FactoryGirl.create :media_set
     @media_set.meta_data.create(:meta_key => MetaKey.find_by_label("title"), :value => Faker::Lorem.words(4).join(' '))
+    @title_meta_datum =  @media_set.meta_data.joins(:meta_key).where("meta_keys.label = ?","title").first
   end
 
   let :session do
@@ -20,8 +21,16 @@ describe MetaDataController do
     JSON.parse(response.body)
   end
 
+  describe "update" do
 
-  describe "JSON Response" do
+    it "" do
+      #put :update, id: @title_meta_datum.id , meta_datum: {value: "BLAH"}, session
+      #binding.pry
+    end
+
+  end
+
+  describe "JSON GET Response" do
 
     it "should be successful" do
       get :index, {format: 'json', media_set_id: @media_set.id}, session

@@ -41,6 +41,7 @@ class MetaDataController < ApplicationController
 ### 
   
   def update 
+    binding.pry
   end
 
 #################################################################

@@ -52,6 +52,8 @@ MAdeK::Application.routes.draw do
 
   resources :meta_context_groups, only: :index
 
+  resources :meta_data, only: [:update]
+
 ###############################################
 #NOTE first media_entries and then media_sets
 
