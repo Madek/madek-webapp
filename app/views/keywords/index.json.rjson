@@ -1,0 +1,6 @@
+@all_grouped_keywords.map do |k|
+  {
+    id: k.meta_term_id,
+    label: k.to_s
+  }
+end.sort {|a,b| a[:label].downcase <=> b[:label].downcase}
