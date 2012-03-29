@@ -1,0 +1,3 @@
+@people.map do |person|
+  render person
+end
