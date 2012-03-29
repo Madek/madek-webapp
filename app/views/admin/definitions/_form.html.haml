@@ -1,4 +1,5 @@
-= form_for @definition, :url => path do |f|
+- remote ||= false
+= form_for @definition, :url => url, :remote => remote do |f|
 	%table
 		%tr
 			%th

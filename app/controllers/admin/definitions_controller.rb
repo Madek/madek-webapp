@@ -38,7 +38,10 @@ class Admin::DefinitionsController < Admin::AdminController
 
   def update
     @definition.update_attributes(params[:meta_key_definition])
-    redirect_to admin_contexts_path
+
+    respond_to do |format|
+      format.js { render partial: "show", locals: {definition: @definition} }
+    end
   end
 
   def destroy

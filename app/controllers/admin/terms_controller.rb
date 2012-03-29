@@ -33,7 +33,10 @@ class Admin::TermsController < Admin::AdminController # TODO rename to Admin::Me
 
   def update
     @term.update_attributes(params[:meta_term])
-    redirect_to admin_terms_path
+
+    respond_to do |format|
+      format.js { render partial: "show", locals: {term: @term} }
+    end
   end
 
   def destroy
