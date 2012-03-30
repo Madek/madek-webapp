@@ -53,7 +53,7 @@ class MetaDataController < ApplicationController
 
     respond_to do |format|
       if @resource.update_attributes(attrs, current_user)
-        format.json { head :ok }
+        format.json { render json: {} }
       else
         format.json { render json: @resource.errors, status: :unprocessable_entity }
       end

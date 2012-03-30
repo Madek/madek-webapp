@@ -23,12 +23,9 @@ class AutoComplete
       query: request.term
     , (data)->
       entries = []
-      console.log field_type
-      switch field_type
-        when "person" then ()->
-          entries = $.map data, (element)-> { id: element.id, value: Underscore.str.truncate(element.name, 65), name: element.name }
-        when "keyword" then ()->
-          entries = $.map data, (element)-> { id: element.id, value: element.label, name: element.label }
+      entries = switch field_type
+        when "person" then $.map(data, (element)-> { id: element.id, value: Underscore.str.truncate(element.name, 65), name: element.name })
+        when "keyword" then $.map(data, (element)-> { id: element.id, value: element.label, name: element.label })
       response entries
       
   @select = (event, element)->

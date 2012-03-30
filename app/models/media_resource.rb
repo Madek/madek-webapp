@@ -281,7 +281,7 @@ class MediaResource < ActiveRecord::Base
 
   def meta_data_for_context(context = MetaContext.core, build_if_not_exists = true)
     meta_keys = context.meta_keys
-
+    
     mds = meta_data.where(:meta_key_id => meta_keys)
     
     (meta_keys - mds.map(&:meta_key)).select{|x| x.is_dynamic? }.each do |key|

@@ -8,7 +8,7 @@ h = {
 if params[:with] and params[:with][:meta_keys]
   h[:meta_keys] = meta_context.meta_key_definitions.map do |mkd|
     {
-      name: mkd.meta_key.label, # TODO td: translate .label to .name
+      name: mkd.meta_key.label.gsub(/\s/, "_"), # TODO td: translate .label to .name
       label: mkd.label.to_s,
       hint: mkd.hint.to_s,
       description: mkd.description.to_s,

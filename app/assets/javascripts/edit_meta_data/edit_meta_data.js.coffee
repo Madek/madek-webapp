@@ -41,22 +41,52 @@ class EditMetaData
     field_value = $(field).data("value")
     media_resource_id = $(field).data("media_resource_id")
     media_resource_element = $(EditMetaData.container).find("[data-media_resource_id="+media_resource_id+"]")
-    meta_data = $(media_resource_element).tmplItem().data.meta_data 
+    meta_data = $(media_resource_element).tmplItem().data.meta_data
+    flatten_meta_data = MetaDatum.flatten meta_data
+    # dont save value if it was not changing
+    return false if field_value == flatten_meta_data[field_name]
+    # show loading status
+    $(field).find(".status .loading").show()
+    # save via ajax
+    $.ajax 
+      url: "/media_resources/"+media_resource_id+"/meta_data/"+field_name+".json"
+      type: "PUT"
+      data:
+        value: field_value
+      complete: ()->
+        $(field).find(".status > div").hide()
+      success: (data)->
+        EditMetaData.save_locally meta_data, field_name, field_value
+        $(field).find(".status .ok").show()
+        if field_name == "title" then EditMetaData.update_title(field)        
+      error: (data)->
+        $(field).find(".status .error").show()
+        $(field).find(".status .error").attr "title", data
+  
+  @save_locally = (meta_data, field_name, field_value)->
     for meta_datum in meta_data
-      if meta_datum.key == field_name
-        meta_datum.value = if (field_value == "") then undefined else field_value
-      
+      if meta_datum.name == field_name
+        meta_datum.value = field_value
+    
+  @update_title = (field)->
+    $(EditMetaData.navigation).find(".current .name").html($(field).data("value"))
+          
   @compute_value = (field)->
-    $(field).data "value", $(field).find("input").val()
+    field_value = $(field).find("input").val()
+    # set to null if empty string
+    field_value = null if field_value == ""
+    # save to "value" data
+    $(field).data "value", field_value
     return field
       
   @setup_element_for_editing = (element)->
-    meta_data = MetaDatum.flatten($(element).tmplItem().data.meta_data)
+    meta_data = $(element).tmplItem().data.meta_data
+    flatten_meta_data = MetaDatum.flatten($(element).tmplItem().data.meta_data)
     edit_meta_data = []
     edit_meta_data_field = $(EditMetaData.container).find(".edit_meta_datum")
     edit_meta_data_field.each (i, edit_field)->
-      data = $(edit_field).tmplItem().data
-      data["value"] = meta_data[data.name]
+      field_data = $(edit_field).tmplItem().data
+      field_data["value"] = flatten_meta_data[field_data.name]
       new_field = $.tmpl("tmpl/meta_data/edit/meta_datum", $(edit_field).tmplItem().data)
       EditField.setup(new_field)
       $(new_field).data "media_resource_id", $(element).tmplItem().data.id
@@ -71,19 +101,35 @@ class EditMetaData
     $(field).qtip
       position:
         target: $(field).find(".tip_target")
-        my: 'center left'
-        at: 'center right'
+        my: 'center right'
+        at: 'center left'
         viewport: $(window)
       content:
         attr: 'data-title'
       style:
         classes: 'ui-tooltip-meta_data_description'
         tip:
-          height: 20
+          height: 18
           width: 12
+      show:
+        solo: true
+      hide:
+        fixed: true
       events:
-        show: (event, api)->
-          tip = event.currentTarget
+        toggle: (event,api)-> EditMetaData.positioning_qtip event, api, field
+    # show on focus change
+    $(field).delegate "select, input, textfield", "focus", (event)->
+      $(field).qtip("show")
+    
+  @positioning_qtip = (event,api,field)->
+    tip = event.currentTarget
+    if $(field).offset().left < $(tip).outerWidth()
+      # tip is overlaying field
+      $(tip).qtip("options", "position.my", "bottom left")
+      $(tip).qtip("options", "position.at", "top right")
+    else
+      $(tip).qtip("options", "position.my", "center right")
+      $(tip).qtip("options", "position.at", "center left")
   
   @prepare_field_for_saving = (field)->
     $(field).find("input").bind "blur", (event)->
@@ -149,7 +195,7 @@ class EditMetaData
     # scroll to item
     media_resource_selection = $(EditMetaData.container).find(".media_resource_selection .media")
     media_resource_selection.stop(true,true).animate
-      scrollLeft: (media_resource_selection.scrollLeft() + $(".selected").offset().left - media_resource_selection.width()/2 + $(".selected").outerWidth()/2 - 32)
+      scrollLeft: (media_resource_selection.scrollLeft() + $(".selected").offset().left - media_resource_selection.width()/2 + $(".selected").outerWidth()/2 - media_resource_selection.offset().left)
     # setup the form for editing this item
     EditMetaData.setup_element_for_editing element
     

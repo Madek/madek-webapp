@@ -13,10 +13,10 @@
   }
   
   .tip_target {
-    height: 14px;
+    height: 20px;
     position: absolute;
-    right: 14px;
-    top: 34px;
+    left: 14px;
+    top: 27px;
     width: 14px;
   }
   
@@ -76,6 +76,24 @@
         border: 1px solid #AAA;
         @include box-shadows(0 0 5px #E3E3E3, 0 0 1px 1px #E3E3E3 inset);
       }
+    }
+  }
+  
+  .status {
+    position: absolute;
+    right: 22px;
+    top: 38px;
+    
+    &>div {
+      display: none;
+    }
+    
+    &>.success.icon {
+      background: url($sprite) no-repeat -17px 0;
+      display: block;
+      height: 15px;
+      margin: 3px auto;
+      width: 16px;
     }
   }
 }
