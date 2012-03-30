@@ -6,6 +6,18 @@
 
 ###
 
+jQuery ->
+  $('.filter input[type=checkbox]').live "change", (event)->
+    if $('.filter input[type=checkbox]').is(':checked')
+      $('.media').removeClass('all')
+      $('.media').addClass('only_incomplete')
+    else
+      $('.media').addClass('all')
+      $('.media').removeClass('only_incomplete')
+
+  
+
+
 class EditMetaData
   
   @container
