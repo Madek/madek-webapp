@@ -1,0 +1,10 @@
+.info
+  {{tmpl "tmpl/meta_data/edit/cell/label"}}
+  {{tmpl "tmpl/meta_data/edit/cell/hint"}}
+.input
+  %section.entries
+  %input.autocomplete{:type => "text",
+         :"data-type" => "${type}",
+         :"data-url" => "/people.json"}
+  .button.create_person
+    ="Neue Person erstellen"

@@ -24,6 +24,9 @@
 //= require iframe-wrapper/iframe-wrapper
 //= require_tree ./media_resource
 //= require_tree ./meta_datum
+//= require_tree ./edit_meta_data
+//= require_tree ./str
+//= require_tree ./autocomplete
 
 /////////// Tmpl /////////////
 //= require_tree ./tmpl/

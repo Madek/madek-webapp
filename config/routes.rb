@@ -25,8 +25,6 @@ MAdeK::Application.routes.draw do
 ###############################################
   #
 
-  match '/meta_contexts/:name/meta_key_definitions/meta_terms', to: "meta_terms#context_keys_terms"
-  
   match '/help', :to => "application#help"
   match '/feedback', :to => "application#feedback"
   #old??# match '/catalog', :to => "application#catalog"

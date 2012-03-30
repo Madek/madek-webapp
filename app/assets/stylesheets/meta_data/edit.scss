@@ -1,0 +1,153 @@
+@import "../mixins";
+@import "../variables";
+
+#edit_meta_data {
+  border-top: 1px solid #D2D2D2;
+  position: relative;
+  top: 11px;
+  
+  .navigation {
+    display: block;
+    height: 60px;
+    position: relative;
+    z-index: 1000;
+    width: 100%;
+    
+    &>div {
+      float: left;
+      height: 60px;
+      width: 290px;
+      @include unselectable();
+      
+      &.button:not([disabled=disabled]) {
+        cursor: pointer;        
+      }
+      
+      &:not(.button) {
+        background: #F5F5F5;
+        border: 1px solid #EAEAEA;
+      }     
+
+      &.button {
+        padding: 0;
+      }      
+    }
+    
+    .arrow {
+      background: url(icons/madek_icon_sprites.png) no-repeat;
+      height: 36px;
+      position: absolute;
+      width: 36px;
+    }
+    
+    .text {
+      width: 78%;
+      
+      span {
+        display: block;
+        width: 100%;
+      }
+      
+      span.label {
+        font-weight: normal;
+      }
+      
+      span.name {
+        border: none;
+        padding: 0;
+      }
+    }
+        
+    .current {
+      border-bottom: none !important;
+      cursor: default;
+      height: 72px;
+      font-weight: bold;
+      margin: 0 12px;
+      @include top-border-radius(4px);
+      
+      .text {
+        margin: 0 auto;
+        padding: 8px 0;
+        text-align: center;
+        width: 90%;
+        
+        .name {
+          position: relative;
+        }
+      }
+    }
+    
+    .previous {
+      display: none;
+      @include border-radius(4px);
+      
+      .arrow {
+        left: 8px;
+        top: 14px;
+        background-position: -342px -1266px;
+        @include opacity(0.5);
+      }
+      
+      &:hover:not([disabled=disabled]) .arrow {
+        top: 15px; 
+        @include opacity(1.0); 
+      }
+      
+      .text {
+        float: right;
+        padding: 8px 8px 0 0;
+        text-align: left;
+      }
+    }
+    
+    .next {
+      display: none;
+      @include border-radius(4px);
+      
+      .arrow {
+        right: 8px;
+        top: 14px;
+        background-position: -342px -1317px;
+        @include opacity(0.5);
+      }
+      
+      &:hover:not([disabled=disabled]) .arrow {
+        top: 15px; 
+        @include opacity(1.0); 
+      }
+      
+      .text {
+        float: left;
+        padding: 8px 0 0 8px;
+        text-align: right;
+      }
+    }
+  }
+  
+  .meta_keys {
+    background: none repeat scroll 0 0 #F5F5F5;
+    border: 1px solid #EAEAEA;
+    padding: 0;
+    position: relative;
+    margin: 12px 0;
+    min-height: 200px;
+    @include border-radius(4px);
+    
+    &>.loading {
+      display: block;
+      margin-top: 10px;
+      position: relative;
+      margin-left: 14px;
+      text-align: left;
+      width: 100%;     
+      
+      img {
+        position: relative;
+        top: 2px;
+        left: 4px;
+        margin-right: 8px;
+      } 
+    }
+  }
+}

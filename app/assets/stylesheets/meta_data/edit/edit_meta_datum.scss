@@ -1,0 +1,81 @@
+@import "../../mixins";
+@import "../../variables";
+
+.edit_meta_datum {
+  border-bottom: 1px solid #D2D2D2;
+  padding: 0 0 12px 0;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  
+  &:nth-last-child(1) {
+    border-bottom: none;
+  }
+  
+  .tip_target {
+    height: 14px;
+    position: absolute;
+    right: 14px;
+    top: 34px;
+    width: 14px;
+  }
+  
+  .info {
+    float: left;
+    width: 40%;
+    
+    h3.label {
+      padding: 0 22px;
+      
+      .is_required {
+        cursor: help;
+      }
+    }
+    
+    p.hint {
+      padding: 0 22px;
+      font-size: 1em !important;
+      line-height: 1.2em !important;
+      margin: none !important;
+    }
+  }
+  
+  .button {
+    font-size: 0.9em;
+    margin-bottom: 8px;
+  }
+  
+  .input {
+    float: left;
+    padding-top: 32px;
+    margin-left: 22px;
+    width: 50%;
+    
+    .entries {
+      border-bottom: 1px solid #D2D2D2;
+      background: white;
+      display: block;
+      padding: 0 8px;
+      width: 430px;
+    }
+    
+    input {
+      background-color: #FFFFFF;
+      border: 1px solid #D2D2D2;
+      color: #424242;
+      display: block;
+      font-weight: bold;
+      font-size: 1em;
+      height: 28px;
+      margin-bottom: 12px;
+      padding: 0 8px;
+      width: 430px;
+      @include box-shadow(0 0 1px 1px #E3E3E3 inset);
+      
+      &:hover, &:focus {
+        border: 1px solid #AAA;
+        @include box-shadows(0 0 5px #E3E3E3, 0 0 1px 1px #E3E3E3 inset);
+      }
+    }
+  }
+}

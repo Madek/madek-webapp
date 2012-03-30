@@ -1,0 +1,7 @@
+.info
+  {{tmpl "tmpl/meta_data/edit/cell/label"}}
+  {{tmpl "tmpl/meta_data/edit/cell/hint"}}
+.input
+  %input.autocomplete{:type => "text",
+    :"data-type" => "${type}",
+    :"data-url" => "/keywords.json"}

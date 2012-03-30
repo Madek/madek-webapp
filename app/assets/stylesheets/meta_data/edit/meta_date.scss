@@ -1,0 +1,37 @@
+@import "../../mixins";
+@import "../../variables";
+
+.edit_meta_datum.meta_date {
+  
+  .at, .from_to { display: none; }
+  
+  select {
+    float: left;
+    font-size: 1.0em;
+    height: 31px;
+    width: 125px;
+  }
+  
+  section {
+    float: left;
+    width: 323px;
+    
+    input {
+      float: left;
+      width: 304px;
+    }
+    
+    &.from_to {
+      span.dash {
+        float: left;
+        height: 27px;
+        padding: 4px 4px 0 4px;
+      }
+      
+      input {
+        float: left;
+        width: 136px;
+      }
+    }
+  }
+}
