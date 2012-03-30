@@ -54,4 +54,21 @@ class Admin::MetaContextGroupsController < Admin::AdminController
       format.html { redirect_to admin_meta_context_groups_url }
     end
   end
+
+#####################################################
+
+  def reorder(order_by_ids = params[:meta_context_group])
+    MetaContextGroup.transaction do
+      # using update_all (instead of update) to avoid instantiating (and validating) the object
+      order_by_ids.each_with_index do |id, index|
+        MetaContextGroup.update_all({position: (index+1)}, {id: id})
+      end
+    end
+
+    respond_to do |format|
+      format.js { render :nothing => true }
+    end
+  end
+
+
 end

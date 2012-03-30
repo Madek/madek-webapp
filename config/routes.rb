@@ -239,7 +239,12 @@ MAdeK::Application.routes.draw do
   namespace :admin do
     root :to => "keys#index"
 
-    resources :meta_context_groups
+    resources :meta_context_groups do
+      collection do
+        put :reorder
+      end
+    end
+    
     resources :permission_presets
     
     resource :meta, :controller => 'meta' do
@@ -299,5 +304,13 @@ MAdeK::Application.routes.draw do
       end
     end
   end
+
+# TODO ??
+#__ Schema namespace __##############################################################
+####################################################################################
+#  namespace :schema do
+#    resources :copyrights, only: :index
+#  end
+####################################################################################
 
 end
