@@ -96,6 +96,9 @@ class Permission
           users: true
           groups: true
           owners: true
+      error: (data)->
+        error = JSON.parse(data.responseText).error
+        $(container).find(".loading").html("<strong>"+error+"</strong>")
       success: (data)->
         $(container).data("permissions_on_start", data)
         Permission.setup_permission_view container, data

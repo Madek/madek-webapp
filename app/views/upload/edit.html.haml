@@ -1,59 +1,12 @@
 #upload-container.edit_metadata
   .clearfix{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
-    - with_actions = (@media_entries.size > 1)
-    = form_tag upload_path, :method => :put do
-      - @media_entries.each do |media_entry|
-        .upload-me-metadata-container
-          .upload-me-autodata
-            %p= thumb_for(media_entry, :medium, :style => "")
-            %p
-              %strong= _("Filename:")
-              %br
-              = media_entry.media_file.filename
-            %p
-              %strong= _("Hochgeladen von:")
-              %br
-              = media_entry.meta_data.get_value_for("uploaded by")
-            %p
-              %strong= _("Hochgeladen am:")
-              %br
-              = formatted_value(media_entry.meta_data.get("uploaded at"))
-          .upload-me-metadata
-            .meta_data_block.meta_data
-              = render :partial => "meta_data/bulk_edit", :locals => { :resource => media_entry, :context => @context, :with_actions => with_actions }
-      %hr
-      %br
-      = link_to _("Metadaten speichern und weiter..."), "javascript:void(0)", :onclick => "$('#upload form').submit();", :class => "upload_buttons next", :id => "save_meta_data"
-      = link_to "Abbrechen", upload_path, :title=> "Import Abbrechen", :id => "cancel_import", :method => :delete, :confirm => "Wollen Sie den Import wirklich abbrechen?"        
+    #edit_meta_data
 
-:javascript
-  $(document).ready(function () {
-    $("form").submit(function(event){
-      // OPTIMIZE nested form problem
-      if(this != event.target) return true;
-      var valid = true;
-      $(this).find("input[data-required]").each(function(){
-        if($(this).val() == "") valid = false;
-      });
-      if(!valid){
-      // doesn't work anymore ??!!
-      //if($(this).find("input[data-required][value='']").length > 0){
-        $("#ajaxLoading").hide();
-        Dialog.add({
-          trigger: $("#upload_navigation .next"),
-          content: $.tmpl("tmpl/upload/validation_failed"),
-          closeOnEscape: true
-        })
-        return false;
-      }else{
-        $("#required_message").hide();
-      }
-    });
-    $("[data-meta_key] .with_actions > a").click(function(){
-      var value = $(this).closest("li").find("input.value").val();
-      var parent_container = $(this).closest("[data-meta_key]");
-      var target = $("[data-meta_key='"+ parent_container.attr('data-meta_key') +"']").not(parent_container).find("input.value");
-      target.val(value);
-      return false;
-    });
-  });
+:coffeescript
+  
+  jQuery ->
+    EditMetaData.display_inline
+      container: $("#edit_meta_data")
+      media_resource_ids: #{@media_entries.map(&:id).to_json}
+      context_name: "upload"
+      button: $("#save_meta_data")

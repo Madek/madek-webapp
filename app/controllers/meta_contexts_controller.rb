@@ -29,7 +29,7 @@ class MetaContextsController < ApplicationController
   # @example_response {"name": "upload", "label": "Upload", "description": "Context needed for fill in MetaData during upload."}
   #
   # @example_request {"name": "upload", "with": {"meta_keys": true}} Request the MetaContext "upload" with MetaKeys.
-  # @example_response {"name": "upload", "label": "Upload", "description": "Context needed for fill in MetaData during upload." "meta_keys":[{"name": "title", "position": 1, "is_required": true, "label": "Title", "hint": null, "description": "The title of the media entry"},...]}
+  # @example_response {"name": "upload", "label": "Upload", "description": "Context needed for fill in MetaData during upload." "meta_keys":[{"name": "title", "position": 1, "settings": {"is_required":true, "min_length": 0, "max_length": 255}, "label": "Title", "hint": null, "description": "The title of the media entry"},...]}
   #
   # @response_field [String] name The name of the MetaContext.
   # @response_field [String] label The label of the MetaContext.
@@ -37,10 +37,10 @@ class MetaContextsController < ApplicationController
   # @response_field [Array] meta_keys A collection of MetaKeys of the requested MetaContext.
   # @response_field [String] meta_keys[].name The name of the MetaKey.   
   # @response_field [String] meta_keys[].position The position of the MetaKey.   
-  # @response_field [String] meta_keys[].is_required The information if a MetaKey is required.   
   # @response_field [String] meta_keys[].label The label of the MetaKey.   
   # @response_field [String] meta_keys[].hint A hint for set a MetaKey.   
-  # @response_field [String] meta_keys[].description A description of a MetaKey.   
+  # @response_field [String] meta_keys[].description A description of a MetaKey.
+  # @response_field [String] meta_keys[].settings Otional settings of the MetaKey.
   #
   def show
     respond_to do |format|

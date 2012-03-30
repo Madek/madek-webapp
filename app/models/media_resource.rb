@@ -392,6 +392,12 @@ class MediaResource < ActiveRecord::Base
   }
 
   ################################################################
+
+  def self.by_collection(user_id, cid)
+    Rails.cache.read(user: user_id, collection: cid) || raise("Collection not found")
+  end
+
+  ################################################################
   
   def parents 
     case type

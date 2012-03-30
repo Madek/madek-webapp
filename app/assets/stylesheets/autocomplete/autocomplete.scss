@@ -1,0 +1,16 @@
+@import "../mixins";
+@import "../variables";
+
+.ui-autocomplete {
+  border: 1px solid #AAA;
+  border-top: none;
+  max-height: 300px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  @include box-shadows(0 3px 5px #E3E3E3, 0 0 1px 1px #E3E3E3 inset);
+  @include border-radius(0);  
+  
+  .ui-corner-all {
+    @include border-radius(0);  
+  }
+}

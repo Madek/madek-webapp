@@ -85,14 +85,6 @@ describe MetaContextsController do
           get_first_meta_key_definition["name"].should_not be_nil
         end
 
-        it "should have a position" do
-          get_first_meta_key_definition["position"].should_not be_nil
-        end
-
-        it "should have a information if the key is required" do
-          get_first_meta_key_definition["is_required"].should_not be_nil
-        end
-
         it "should have a label" do
           get_first_meta_key_definition["label"].should_not be_nil
         end
@@ -103,6 +95,10 @@ describe MetaContextsController do
         
         it "should have a description" do
           get_first_meta_key_definition["description"].should_not be_nil
+        end
+        
+        it "should have a type" do
+          get_first_meta_key_definition["type"].should_not be_nil
         end
       end
     end

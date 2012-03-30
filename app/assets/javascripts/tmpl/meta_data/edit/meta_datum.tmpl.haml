@@ -1,0 +1,7 @@
+%div{:class=> "edit_meta_datum ${type}", :"data-title" => "${description}"}
+  {{if typeof($.template("tmpl/meta_data/edit/"+type)) == "function"}}
+  {{tmpl "tmpl/meta_data/edit/"+type}}
+  {{else}}
+  template not found
+  {{/if}}
+  .tip_target
