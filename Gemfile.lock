@@ -286,6 +286,8 @@ GEM
     ruby_gntp (0.3.4)
     rubyvis (0.5.1)
     rubyzip (0.9.6.1)
+    rvm-capistrano (1.0.2)
+      capistrano (>= 2.0.0)
     sass (3.1.15)
     sass-rails (3.1.6)
       actionpack (~> 3.1.0)
@@ -403,6 +405,7 @@ DEPENDENCIES
   rjson
   rspec-rails
   ruby_gntp (~> 0.3.4)
+  rvm-capistrano
   sass (~> 3.1)
   sass-rails (~> 3.1)
   selenium-webdriver (> 2.15.0)

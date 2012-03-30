@@ -102,6 +102,7 @@ end
 group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
+  gem 'rvm-capistrano'
 end
 
 group :development, :production do
