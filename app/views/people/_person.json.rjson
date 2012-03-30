@@ -1,0 +1,4 @@
+{
+  id: person.id,
+  name: person.to_s
+}

@@ -56,6 +56,8 @@ MAdeK::Application.routes.draw do
 
   resources :meta_data, only: [:update]
 
+  resources :keywords, only: :index
+
 ###############################################
 #NOTE first media_entries and then media_sets
 
