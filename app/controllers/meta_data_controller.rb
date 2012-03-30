@@ -40,15 +40,22 @@ class MetaDataController < ApplicationController
 
 ### 
   
-  def update 
-    @meta_datum = MetaDatum.find(params[:id])
+  # PUT /media_resources/1/meta_data/title {value: "My new title"}
+  #
+  def update(meta_key_name = params[:id],
+             value = params[:value])
+             
+    attrs = {"meta_data_attributes"=>
+                            {
+                              "0"=>{"meta_key_label" => meta_key_name, "value" => value}
+                            }
+                        }
 
     respond_to do |format|
-      if current_user.authorized?(:manage,@meta_datum.media_resource)  \
-      and @meta_datum.update_attributes(params[:meta_datum])
+      if @resource.update_attributes(attrs, current_user)
         format.json { head :ok }
       else
-        format.json { render json: @meta_datum.errors, status: :unprocessable_entity }
+        format.json { render json: @resource.errors, status: :unprocessable_entity }
       end
     end
 

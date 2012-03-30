@@ -52,8 +52,6 @@ MAdeK::Application.routes.draw do
 
   resources :meta_context_groups, only: :index
 
-  resources :meta_data, only: [:update]
-
   resources :keywords, only: :index
 
 ###############################################
@@ -127,7 +125,7 @@ MAdeK::Application.routes.draw do
   
 ###############################################
 
-  constraints(:id => /\d+/) do
+#tmp#  constraints(:id => /\d+/) do
 
     # TODO merge :resources into :media_resources 
     resources :resources, :only => [:index, :show] do
@@ -151,12 +149,14 @@ MAdeK::Application.routes.draw do
         post :collection
         #delete :collection
       end
+
+      resources :meta_data, only: [:update]
     end
 
     resources :permissions, :only => :index, :format => true, :constraints => {:format => /json/}
     resources :permission_presets, :only => :index, :format => true, :constraints => {:format => /json/}
     
-  end
+#tmp#  end
 
 ###############################################
 

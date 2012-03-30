@@ -4,7 +4,7 @@ describe MetaDataController do
   render_views
 
 
-  before :all do
+  before :each do
     @user = FactoryGirl.create :user
     @media_set= FactoryGirl.create :media_set, user: @user
     @media_set.meta_data.create(:meta_key => MetaKey.find_by_label("title"), :value => Faker::Lorem.words(4).join(' '))
@@ -15,17 +15,12 @@ describe MetaDataController do
     {:user_id => @user.id}
   end
 
-
-  let :get_json_as_hash do
-    get :index, {format: 'json', media_set_id: @media_set.id}, valid_session
-    JSON.parse(response.body)
-  end
-
   describe "PUT" do
 
     it "should update a title value" do
-      put :update, {id: @title_meta_datum.id, meta_datum: {value: "BLAH"}}, valid_session
-      @title_meta_datum.reload.value.should == "BLAH"
+      put :update, {media_resource_id: @media_set.id, id: "title", value: "My new title"}, valid_session
+      response.should be_success
+      @media_set.title.should == "My new title"
     end
 
     it "should not update meta_data if the user doesn't have manage permissions" do
@@ -52,6 +47,11 @@ describe MetaDataController do
 
   describe "JSON GET Response" do
 
+    let :get_json_as_hash do
+      get :index, {format: 'json', media_set_id: @media_set.id}, valid_session
+      JSON.parse(response.body)
+    end
+
     it "should be successful" do
       get :index, {format: 'json', media_set_id: @media_set.id}, valid_session
       response.should  be_success
@@ -68,12 +68,6 @@ describe MetaDataController do
       json.detect{|e| e["name"] == "owner"}.should be
       json.detect{|e| e["name"] == "owner"}["type"].should == "User"
     end
-  end
-
-  after :all do
-    @user.destroy
-    @user.person.destroy
-    @media_set.destroy
   end
 
 end
