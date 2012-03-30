@@ -83,15 +83,23 @@ module Persona
     @@password = "password"
     
     def initialize
+      setup_dependencies
+      
       ActiveRecord::Base.transaction do 
         create_person
         create_user
         
         # LISELOTTE'S GROUPS
         join_zhdk_group
+
+        create_public_media_entries_and_nest_them_to_media_sets_with_individual_contexts
       end
     end
 
+    def setup_dependencies 
+      Persona.create :adam
+    end
+    
     def create_person
       @name = @@name
       @lastname = @@lastname  
@@ -106,6 +114,17 @@ module Persona
     def join_zhdk_group
       @zhdk_group= Group.find_or_create_by_name("ZHdK")
       @zhdk_group.users << @user
+    end
+    
+    def create_public_media_entries_and_nest_them_to_media_sets_with_individual_contexts
+      landschaften_set = MediaSet.all.detect {|x| x.title == "Landschaften" }
+      
+      media_entry = Factory(:media_entry, 
+                       user: @user,
+                       view: true,
+                       media_sets: [landschaften_set],
+                       meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Schweizer Panorama"}})
+
     end
 
   end  
