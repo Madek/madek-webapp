@@ -6,7 +6,7 @@ describe MetaDataController do
 
   before :all do
     @user = FactoryGirl.create :user
-    @media_set= FactoryGirl.create :media_set
+    @media_set= FactoryGirl.create :media_set, user: @user
     @media_set.meta_data.create(:meta_key => MetaKey.find_by_label("title"), :value => Faker::Lorem.words(4).join(' '))
     @title_meta_datum =  @media_set.meta_data.joins(:meta_key).where("meta_keys.label = ?","title").first
   end
@@ -28,25 +28,24 @@ describe MetaDataController do
       @title_meta_datum.reload.value.should == "BLAH"
     end
 
-    context "a resource not owned by the current user" do
+    it "should not update meta_data if the user doesn't have manage permissions" do
+      other_user = FactoryGirl.create :user
+      other_media_set= FactoryGirl.create :media_set, user: other_user
+      other_media_set.meta_data.create(:meta_key => MetaKey.find_by_label("title"), :value => Faker::Lorem.words(4).join(' '))
+      other_title_meta_datum =  other_media_set.meta_data.joins(:meta_key).where("meta_keys.label = ?","title").first
 
-      before :each do 
-        @user = FactoryGirl.create :user
-        @media_set= FactoryGirl.create :media_set
-        @media_set.meta_data.create(:meta_key => MetaKey.find_by_label("title"), :value => Faker::Lorem.words(4).join(' '))
-        @title_meta_datum =  @media_set.meta_data.joins(:meta_key).where("meta_keys.label = ?","title").first
-      end
+      put :update, {id: other_title_meta_datum.id, meta_datum: {value: "BLAH"}}, valid_session
+      response.should_not  be_success
+      other_title_meta_datum.reload.value.should_not  == "BLAH"
 
-      it "should not update meta_data if the user doesn't have manage permissions" do
-        other_user = FactoryGirl.create :user
-        other_media_set= FactoryGirl.create :media_set
-        other_media_set.meta_data.create(:meta_key => MetaKey.find_by_label("title"), :value => Faker::Lorem.words(4).join(' '))
-        other_title_meta_datum =  other_media_set.meta_data.joins(:meta_key).where("meta_keys.label = ?","title").first
+    end
 
-        put :update, {id: other_title_meta_datum.id, meta_datum: {value: "BLAH"}}, valid_session
-        other_title_meta_datum.reload.value.should_not  == "BLAH"
-      end
-
+    it "should not be possible to change the media_resource_id " do
+      other_user = FactoryGirl.create :user
+      other_media_set= FactoryGirl.create :media_set, user: other_user
+      put :update, {id: @title_meta_datum.id, meta_datum: {media_resource_id: other_media_set.id}}, valid_session
+      response.should_not  be_success
+      @title_meta_datum.reload.media_resource_id.should_not == @media_set.id
     end
 
   end

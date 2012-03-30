@@ -43,7 +43,6 @@ class MetaDataController < ApplicationController
   def update 
     @meta_datum = MetaDatum.find(params[:id])
 
-
     respond_to do |format|
       if current_user.authorized?(:manage,@meta_datum.media_resource)  \
       and @meta_datum.update_attributes(params[:meta_datum])
