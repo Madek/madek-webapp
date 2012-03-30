@@ -59,18 +59,15 @@ describe MetaDataController do
 
     it "should contain the correct title meta_datum" do
       json = get_json_as_hash
-      json.detect{|e| e["key"] == "title"}.should be
-      json.detect{|e| e["key"] == "title"}["type"].should == "String"
-      json.detect{|e| e["key"] == "title"}["id"].should_not be_nil
+      json.detect{|e| e["name"] == "title"}.should be
+      json.detect{|e| e["name"] == "title"}["type"].should == "String"
     end
 
     it "should contain the correct owner meta_datum" do
       json = get_json_as_hash
-      json.detect{|e| e["key"] == "owner"}.should be
-      json.detect{|e| e["key"] == "owner"}["type"].should == "User"
-      json.detect{|e| e["key"] == "owner"}["id"].should be_nil
+      json.detect{|e| e["name"] == "owner"}.should be
+      json.detect{|e| e["name"] == "owner"}["type"].should == "User"
     end
-
   end
 
   after :all do
