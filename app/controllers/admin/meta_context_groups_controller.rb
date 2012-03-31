@@ -39,6 +39,13 @@ class Admin::MetaContextGroupsController < Admin::AdminController
   end
 
   def update
+    if params[:meta_context_positions]
+      positions = CGI.parse(params[:meta_context_positions])["position[]"]
+      positions.each_with_index do |id, i|
+        @meta_context_group.meta_contexts.find(id).update_attributes(:position => i+1)
+      end
+    end
+
     respond_to do |format|
       if @meta_context_group.update_attributes(params[:meta_context_group])
         format.js { render partial: "show", locals: {meta_context_group: @meta_context_group} }
