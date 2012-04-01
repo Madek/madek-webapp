@@ -17,6 +17,14 @@
   box-shadow: $value, $value2;
 }
 
+@mixin text-shadow($value) {
+  -moz-text-shadow: $value;
+  -webkit-text-shadow: $value;
+  -o-text-shadow: $value;
+  -ms-text-shadow: $value;
+  text-shadow: $value;
+}
+
 @mixin opacity($value) {
   filter: alpha(opacity=$value); // IE5-7
   -moz-opacity: $value; // NETSCAPE & MOZILLA

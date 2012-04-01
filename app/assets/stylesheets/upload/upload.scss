@@ -3,11 +3,25 @@
 #upload {
   
   #upload-container {
+    clear: both;
+    position: relative;
     z-index: 1;
     
     p {
       margin-bottom: 18px;
     }
+  }
+  
+  #call2action {
+    color: #999999;
+    display: block;
+    font-size: 1.2em;
+    font-weight: bold;
+    position: absolute;
+    text-align: center;
+    top: 88px;
+    width: 100%;
+    @include text-shadow(1px 1px 0 white);
   }
   
   #cancel_import {
@@ -23,10 +37,12 @@
   }
   
   #upload_navigation {
-    left: 38px;
-    width: 872px;
-    position: relative;
+    display: inline-block;
+    float: right;
+    right: 9px;
+    width: 500px;
     top: -5px;
+    position: relative;
     z-index: 1001;
     
     .right {
