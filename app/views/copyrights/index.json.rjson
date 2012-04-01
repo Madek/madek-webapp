@@ -1,0 +1,10 @@
+result = []
+@copyright_roots.each do |copyright|
+  copyright_json = copyright.as_json
+  copyright_json["children"] = copyright.children
+  copyright_json["children"].each do |child|
+    child["children"] = child.children
+  end
+  result << copyright_json
+end
+result

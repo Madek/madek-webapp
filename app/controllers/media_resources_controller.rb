@@ -48,7 +48,7 @@ class MediaResourcesController < ApplicationController
 
 
   def update
-
+    
     ActiveRecord::Base.transaction do
 
       begin

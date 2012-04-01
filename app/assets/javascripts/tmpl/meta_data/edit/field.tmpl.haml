@@ -1,4 +1,4 @@
-%div{:class=> "edit_meta_datum ${type}", :"data-title" => "${description}"}
+%div{:class=> "edit_meta_datum_field ${type}", :"data-field_name" => "${name}", :"data-title" => "${description}"}
   {{if typeof($.template("tmpl/meta_data/edit/"+type)) == "function"}}
   {{tmpl "tmpl/meta_data/edit/"+type}}
   {{else}}

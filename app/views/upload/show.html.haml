@@ -196,7 +196,8 @@
       runtimes: 'html5,html4'
       url: "#{upload_path(:format => :js)}"
       max_file_size: window.max_file_size
-      drop_element: "uploader_filelist"
+      dragdrop: true
+      drop_element: "plupload_filelist"
       multipart_params:
         '#{request_forgery_protection_token}': '#{form_authenticity_token}',
         '#{request.session_options[:key]}': '#{request.session_options[:id]}'

@@ -2,5 +2,14 @@
   {{tmpl "tmpl/meta_data/edit/cell/label"}}
   {{tmpl "tmpl/meta_data/edit/cell/hint"}}
 .input
+  {{if settings.length_max == 255}}
   %input{:type => "text", :value => "${value}"}
+  {{else}}
+  %textarea
+    ${value}
+  {{/if}}
+  {{if settings.is_required}}
+  .button.overwrite_all{:title => "Den Wert dieses Feldes auf alle Inhalte übertragen. Diese Aktion überschreibt den Wert der anderen Inhalte!"}
+    = "Auf alle Inhalte übertragen"
+  {{/if}}
 {{tmpl "tmpl/meta_data/edit/cell/status"}}

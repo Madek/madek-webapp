@@ -1,12 +1,12 @@
 ###
 
-  Edit Field
+  Edit Meta Datum Field
   
-  Extends EditField for MetaData with logic like validation etc.
+  Extends a Meta Datum Edit Field with logic like validation, interaction etc.
 
 ###
 
-class EditField
+class EditMetaDatumField
   
   @setup = (field)->
     type = $(field).tmplItem().data.type    
@@ -28,5 +28,9 @@ class EditField
      $(field).find("select").bind "change", (event)->
        $(field).find("section").hide()
        $(field).find("section."+$(this).val()).show()
+     $(field).find(".at input, .from_to input:last").bind "change", (event)->
+       value = Underscore.map $(field).find("input:visible"), (input)-> $(input).val()
+       value = value.join(" - ")
+       $(field).find(".freetext input").val(value).trigger("change").trigger("blur")
    
-window.EditField = EditField
+window.EditMetaDatumField = EditMetaDatumField

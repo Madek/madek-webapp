@@ -48,10 +48,6 @@ class MetaKey < ActiveRecord::Base
     label #.capitalize
   end
 
-  def underscored_label
-    label.gsub(/\s/, "_")
-  end
-
   def all_context_labels
     #meta_key_definitions.collect {|d| "#{d.meta_context}: #{d.label}" if d.key_map.blank? }.compact.join(', ')
     meta_key_definitions.collect {|d| d.label if d.key_map.blank? }.compact.uniq.join(', ')

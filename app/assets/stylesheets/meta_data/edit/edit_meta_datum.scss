@@ -1,7 +1,7 @@
 @import "../../mixins";
 @import "../../variables";
 
-.edit_meta_datum {
+.edit_meta_datum_field {
   border-bottom: 1px solid #D2D2D2;
   padding: 0 0 12px 0;
   position: relative;
@@ -48,18 +48,57 @@
   .input {
     float: left;
     padding-top: 32px;
+    position:relative;
     margin-left: 22px;
     width: 50%;
     
-    .entries {
-      border-bottom: 1px solid #D2D2D2;
+    .values {
+      border: 1px solid #D2D2D2;
       background: white;
-      display: block;
-      padding: 0 8px;
+      display: inline-block;
+      padding: 2px 8px;
+      position: relative;
+      top: -6px;
       width: 430px;
+      z-index: 1;
+      @include top-border-radius(4px);
+      
+      .entry {
+        background: none repeat scroll 0 0 #DFDFDF;
+        border: 1px solid #CFCFCF;
+        border-radius: 4px 4px 4px 4px;
+        display: inline-block;
+        float: left;
+        padding: 1px 1px 1px 6px;
+        margin-bottom: 3px;
+        margin-top: 1px;
+        margin-right: 3px;
+        
+        .delete {
+          background: none repeat scroll 0 0 white;
+          border-radius: 4px 4px 4px 4px;
+          cursor: pointer;
+          display: inline-block;
+          height: 19px;
+          line-height: 18px;
+          padding: 0 5px;
+          position: relative;
+          top: -1px;
+          @include opacity(0.6);
+          
+          &:hover {
+            @include opacity(0.9);
+          }
+        }
+      }
+      
+      &+input {
+        position: relative;
+        top: -12px; 
+      }
     }
     
-    input {
+    input, textarea {
       background-color: #FFFFFF;
       border: 1px solid #D2D2D2;
       color: #424242;
@@ -69,7 +108,9 @@
       height: 28px;
       margin-bottom: 12px;
       padding: 0 8px;
+      position: relative; 
       width: 430px;
+      z-index: 100;
       @include box-shadow(0 0 1px 1px #E3E3E3 inset);
       
       &:hover, &:focus {
@@ -77,23 +118,58 @@
         @include box-shadows(0 0 5px #E3E3E3, 0 0 1px 1px #E3E3E3 inset);
       }
     }
+    
+    textarea {
+      font-weight: normal;
+      padding-top: 6px;
+      padding-bottom: 6px;
+      resize: none;
+    }
+    
+    select {
+      background-color: #FFFFFF;
+      border: 1px solid #D2D2D2;
+      color: #424242;
+      font-size: 1.0em;
+      height: 31px;
+      padding: 4px;
+      width: 100%;
+      @include box-shadow(0 0 1px 1px #E3E3E3 inset);
+    }
   }
   
   .status {
     position: absolute;
-    right: 22px;
+    right: 14px;
     top: 38px;
+    width: 30px;
     
     &>div {
       display: none;
     }
     
-    &>.success.icon {
+    .success.icon {
       background: url($sprite) no-repeat -17px 0;
       display: block;
       height: 15px;
-      margin: 3px auto;
       width: 16px;
+    }
+    
+    .bang.icon {
+      background: url($sprite) no-repeat -34px 0;
+      display: block;
+      height: 26px;
+      position: relative;
+      top: -6px;
+      width: 16px;
+      @include opacity(0.6);
+      
+    }
+    
+    &:hover .bang.icon { @include opacity(1.0); }
+    
+    .not_required {
+      @include opacity(0.4);
     }
   }
 }

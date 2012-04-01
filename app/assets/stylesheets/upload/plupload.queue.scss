@@ -38,12 +38,15 @@
   width: 907px;
 }
 
-#uploader_filelist {
+.plupload_content {
+  background: rgba(200,200,200,0.2);
   border: 2px dashed #CCC;
+  display: inline-block;
   min-height: 215px;
   padding: 0;
   position: relative;
-  top: 5px;
+  top: 10px;
+   width: 906px;
 }
 
 .plupload_container input {
@@ -100,13 +103,13 @@
 }
 .plupload_filelist_header {
   height: 8px;
-  margin-top: -13px;
+  margin-top: -24px;
 }
 
 .plupload_filelist_footer {
   border-top: 1px solid #FFF; height: 22px; line-height: 20px; vertical-align: middle;
   position: absolute;
-  top: -35px;
+  top: -60px;
 }
 .plupload_file_name {float: left; overflow: hidden}
 .plupload_file_status {color: #777;}

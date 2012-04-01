@@ -8,10 +8,12 @@
     %option{:value => "from_to"}= "von - bis"
     
   %section.freetext
-    %input{:type => "text", :name => "freetext"}
+    %input{:type => "text", :name => "freetext", :value => "${value}"}
   %section.at
     %input.datepicker{:type => "text", :name => "at"}
   %section.from_to
     %input.datepicker{:type => "text", :name => "from"}
     %span.dash -
     %input.datepicker{:type => "text", :name => "to"}
+    
+{{tmpl "tmpl/meta_data/edit/cell/status"}}

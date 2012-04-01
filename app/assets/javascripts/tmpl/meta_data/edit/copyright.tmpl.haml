@@ -2,4 +2,9 @@
   {{tmpl "tmpl/meta_data/edit/cell/label"}}
   {{tmpl "tmpl/meta_data/edit/cell/hint"}}
 .input
-  %input{:type => "text"}
+  %select
+    {{each(i,copyright) Copyrights.get()}}
+    %option
+      ${copyright.label}
+    {{/each}}
+{{tmpl "tmpl/meta_data/edit/cell/status"}}

@@ -4,7 +4,7 @@ class MetaDataController < ApplicationController
   layout "meta_data"
 
   before_filter do
-    unless (params[:media_resource_id] ||= params[:media_entry_id] || params[:media_set_id] || params[:snapshot_id]).blank?
+    unless (params[:media_resource_id] ||= params[:media_entry_id] || params[:media_set_id] || params[:snapshot_id] || params[:collection_id]).blank?
       action = case request[:action].to_sym
         when :index, :objective
           :view
@@ -13,7 +13,8 @@ class MetaDataController < ApplicationController
       end
       
       begin
-        @resource = MediaResource.accessible_by_user(current_user, action).find(params[:media_resource_id])
+        media_resource_ids = (params[:collection_id] ? MediaResource.by_collection(current_user.id, params[:collection_id]) : params[:media_resource_id])
+        @resource = MediaResource.accessible_by_user(current_user, action).find(media_resource_ids)
       rescue
         not_authorized!
       end
@@ -38,27 +39,33 @@ class MetaDataController < ApplicationController
     @meta_data = @resource.media_file.meta_data_without_binary.sort
   end
 
-### 
-  
+  ### 
   # PUT /media_resources/1/meta_data/title {value: "My new title"}
   #
   def update(meta_key_name = params[:id],
              value = params[:value])
-             
+    
     attrs = {"meta_data_attributes"=>
-                            {
-                              "0"=>{"meta_key_label" => meta_key_name, "value" => value}
-                            }
-                        }
-
-    respond_to do |format|
-      if @resource.update_attributes(attrs, current_user)
+                {
+                  "0"=>{"meta_key_label" => meta_key_name, "value" => value}
+                }
+            }
+    
+    media_resources = Array(@resource)
+    
+    begin
+      media_resources.each do |media_resource|
+        media_resource.update_attributes(attrs, current_user)
+      end      
+      
+      respond_to do |format|
         format.json { render json: {} }
-      else
+      end
+    rescue
+      respond_to do |format|
         format.json { render json: @resource.errors, status: :unprocessable_entity }
       end
     end
-
   end
 
 #################################################################

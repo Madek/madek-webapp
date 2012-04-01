@@ -27,6 +27,7 @@
 //= require_tree ./edit_meta_data
 //= require_tree ./str
 //= require_tree ./autocomplete
+//= require_tree ./copyrights
 
 /////////// Tmpl /////////////
 //= require_tree ./tmpl/

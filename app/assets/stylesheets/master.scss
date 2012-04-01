@@ -1194,6 +1194,10 @@ ul li { float: left; }
 		vertical-align: middle;
 		max-width: 120px;
 		max-height: 120px;
+		
+		&.loading {
+		  border: none;
+		}
 	}
 }
 

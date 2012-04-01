@@ -1,14 +1,12 @@
 @import "../../mixins";
 @import "../../variables";
 
-.edit_meta_datum.meta_date {
+.edit_meta_datum_field.meta_date {
   
   .at, .from_to { display: none; }
   
   select {
     float: left;
-    font-size: 1.0em;
-    height: 31px;
     width: 125px;
   }
   

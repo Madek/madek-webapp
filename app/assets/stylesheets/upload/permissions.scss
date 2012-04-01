@@ -2,9 +2,8 @@
 @import "../variables.scss";
 
 #upload-container #permissions {
-  border-top: 1px solid #D2D2D2;
   position: relative;
-  top: 11px;
+  top: -24px;
   
   .owner {
     @include opacity(0.0);
@@ -20,7 +19,6 @@
   
   .container {
     position: relative;
-    top: -26px;
     
     &>h2 { display: none; }
     &>p { display: none; }

@@ -1,6 +1,11 @@
 .status
   .loading{:title => "Wert wird gespeichert."}
     = image_tag "loading.gif"
-  .ok
+  .ok{:title => "Diese Feld wurde erfolgreich gespeichert."}
     .success.icon
+  .not_required{:title => "Diese Feld ist kein Pflichtfeld."}
+    .success.icon
+  .required{:title => "Diese Feld ist ein Pflichtfeld."}
+    .bang.icon
   .error
+    .error.icon
