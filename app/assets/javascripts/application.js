@@ -45,18 +45,9 @@
 //= require underscore
 
 /////////// PLUPLOAD /////////////
-//= require plupload
-//= require plupload.settings
-//= require jquery.plupload.queue
-//= require plupload.flash
-//= require plupload.silverlight
-//= require plupload.html4
-//= require plupload.html5
-//= require plupload.gears 
-//= require plupload.browserplus
-
-
-
+//= require plupload/plupload
+//= require plupload/jquery.plupload.queue
+//= require plupload/plupload.html5
 
 function document_ready(){
 	$("textarea").elastic();
