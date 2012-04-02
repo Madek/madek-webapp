@@ -23,7 +23,7 @@ class MediaSet < MediaResource
   
   def self.find_by_id_or_create_by_title(values, user)
     records = Array(values).map do |v|
-                      if v.is_a?(Numeric) or !!v.match(/\A[+-]?\d+\Z/) # TODO path to String#is_numeric? method
+                      if v.is_a?(Numeric) or v.is_integer?
                         where(:id => v).first
                       else
                         user.media_sets.create(:meta_data_attributes => [{:meta_key_label => "title", :value => v}])
