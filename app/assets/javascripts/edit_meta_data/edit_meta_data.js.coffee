@@ -173,7 +173,8 @@ class EditMetaData
         # rerender the field after its coming back  if its still visible
         if $(field).is(":visible")
           new_media_resource_element = $(EditMetaData.container).find(".media_resource_selection [data-media_resource_id="+media_resource_id+"]")
-          EditMetaData.setup_field(field, new_media_resource_element)      
+          new_field = EditMetaData.setup_field(field, new_media_resource_element)
+          EditMetaData.show_if_field_is_ok(new_field)
       error: (data)->
         EditMetaData.set_status field, "error"
         $(field).find(".status .error").attr "title", data
@@ -255,18 +256,27 @@ class EditMetaData
     EditMetaData.setup_qtip new_field
     # listen to blur to save changes
     EditMetaData.prepare_field_for_saving(new_field)
+    # mark the status of the field
+    EditMetaData.show_if_field_is_required(new_field)
+    # replace old field with new field
+    $(field).replaceWith new_field
+    return new_field
+  
+  @show_if_field_is_required = (field)->
+    field_data = $(field).tmplItem().data
+    if not field_data["value"]? and field_data.settings.is_required == true
+      # mark as required
+      EditMetaData.set_status field, "required"
+      
+  @show_if_field_is_ok = (field)->
+    field_data = $(field).tmplItem().data
     # mark the status of that field
     if field_data["value"]?
       # already mark as okay when value is there
-      EditMetaData.set_status new_field, "ok"
-    else if field_data.settings.is_required == false or not field_data.settings.is_required?
-      # mark as not required 
-      EditMetaData.set_status new_field, "not_required"
+      EditMetaData.set_status field, "ok"
     else if field_data.settings.is_required == true
       # mark as required
-      EditMetaData.set_status new_field, "required"
-    # replace old field with new field
-    $(field).replaceWith new_field
+      EditMetaData.set_status field, "required"
   
   @setup_qtip = (field)->
     $(field).qtip
@@ -284,20 +294,19 @@ class EditMetaData
           width: 12
       show:
         solo: true
-        delay: 750
+        delay: 150
+        event: "focus"
       hide:
         fixed: true
+        event: "blur"
       events:
         toggle: (event,api)-> EditMetaData.positioning_qtip event, api, field
     # show on focus change
-    $(field).delegate "select, input, textfield", "focus", (event)->
-      $('.qtip').qtip('disable')
-      window.setTimeout ()->
-        $(field).qtip("show")
-        window.setTimeout ()->
-          $('.qtip').qtip('enable')
-        , 200
-      , 250
+    $(field).delegate "select, input, textarea", "focus", (event)->
+      $(field).trigger("focus")
+    # hide on blur change
+    $(field).delegate "select, input, textarea", "blur", (event)->
+      $(field).trigger("blur")
     
   @positioning_qtip = (event,api,field)->
     tip = event.currentTarget
