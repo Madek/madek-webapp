@@ -12,12 +12,12 @@ module MediaEntriesHelper
         meta_contexts << display_meta_data_for(media_entry, meta_context)
       end
 
-      if false #media_entry.media_file.meta_data and media_entry.media_file.meta_data["GPS:GPSLatitude"] and media_entry.media_file.meta_data["GPS:GPSLongitude"]
-        meta_contexts << (link_to _("Karte"), [:map, media_entry])
-      end
-
       meta_context_group_data << {meta_context_group: meta_context_group, meta_contexts: meta_contexts} unless meta_contexts.empty?
     end
+
+    [MetaContextGroup.new(name: _("Karte"))].each do |meta_context_group|
+      meta_context_group_data << {meta_context_group: meta_context_group, link: url_for([:map, media_entry])}
+    end if media_entry.media_file.meta_data and media_entry.media_file.meta_data["GPS:GPSLatitude"] and media_entry.media_file.meta_data["GPS:GPSLongitude"]
 
     # OPTIMIZE this is now hardcoded
     # TODO includes activities (edit_sessions) 
@@ -33,9 +33,11 @@ module MediaEntriesHelper
     capture_haml do
       meta_context_group_data.each do |mcgd|
         meta_context_group = mcgd[:meta_context_group]
-        meta_contexts= mcgd[:meta_contexts]
+        meta_contexts = mcgd[:meta_contexts] || []
+        link = mcgd[:link]
+        
         haml_tag :div, class: "meta_context_group", id:  meta_context_group.id.to_s, "data-name" => meta_context_group.name.to_s do
-          haml_tag :h5 do
+          haml_tag :h5, :"data-link" => link do
             haml_tag :div, :class => "toggler-arrow"
             haml_tag :span, meta_context_group.name.to_s
           end
