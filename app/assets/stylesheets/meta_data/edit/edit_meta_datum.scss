@@ -8,7 +8,7 @@
   display: inline-block;
   width: 100%;
   
-  &:nth-last-child(1) {
+  &:last-child {
     border-bottom: none;
   }
   
@@ -105,7 +105,6 @@
       display: block;
       font-weight: bold;
       font-size: 1em;
-      height: 28px;
       margin-bottom: 12px;
       padding: 0 8px;
       position: relative; 
@@ -117,6 +116,10 @@
         border: 1px solid #AAA;
         @include box-shadows(0 0 5px #E3E3E3, 0 0 1px 1px #E3E3E3 inset);
       }
+    }
+    
+    input {
+      height: 28px;
     }
     
     textarea {

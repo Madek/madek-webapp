@@ -112,7 +112,7 @@ class EditMetaData
           # save localy for each entry
           $(EditMetaData.container).find(".item_box").each (i, media_resource_element)->
             meta_data = $(media_resource_element).tmplItem().data.meta_data
-            EditMetaData.save_locally meta_data, field_name, field_value
+            EditMetaData.save_locally meta_data, field
           # show ok
           EditMetaData.set_status field, "ok"
           # update title
@@ -163,7 +163,7 @@ class EditMetaData
         EditMetaData.enable_complete_field field
       success: (data)->
         # save localy
-        EditMetaData.save_locally meta_data, field_name, field_value
+        EditMetaData.save_locally meta_data, field
         # show / hide icons
         EditMetaData.set_status field, "ok"
         # update title if needed
@@ -194,10 +194,17 @@ class EditMetaData
     $(element).removeClass("saving")
     $(element).find(".saving.icon").remove()
   
-  @save_locally = (meta_data, field_name, field_value)->
-    for meta_datum in meta_data
-      if meta_datum.name == field_name
-        meta_datum.value = field_value
+  @save_locally = (meta_data, field)->
+    field_name = $(field).tmplItem().data.name
+    field_data = $(field).tmplItem().data
+    field_value = EditMetaData.compute_value field
+    field_type = field_data.type
+    meta_datum = Underscore.find meta_data, (meta_datum)-> (meta_datum.name == field_name)
+    if field_type == "copyright"
+      meta_datum.raw_value = Array($(field).find("option:selected:last").tmplItem().data)
+    else
+      meta_datum.value = field_value
+    return true
     
   @update_all_titles = (field_value)->
     $(EditMetaData.navigation).find(">div:not(:disabled)").each (i, element)->
@@ -226,6 +233,8 @@ class EditMetaData
       field_value = $(field).find(".freetext input").val()
       if field_value.length == 0
         field_value = undefined
+    else if field_type == "copyright"
+      field_value = $(field).find("select:visible:last option:selected").tmplItem().data.id
     else # string
       if $(field).find("input").length
         field_value = $(field).find("input").val()
@@ -250,8 +259,12 @@ class EditMetaData
     field_meta_datum_data = MetaDatum.detect_by_name(meta_data, field_name)
     field_data["raw_value"] = field_meta_datum_data.raw_value
     new_field = $.tmpl("tmpl/meta_data/edit/field", field_data)
-    EditMetaDatumField.setup(new_field)
     $(new_field).data "media_resource_id", $(media_resource_element).tmplItem().data.id
+    # hide field if it was initaly hided
+    if $(field).is(":not(:visible)")
+      $(new_field).hide()
+    # setup custom field behaviour 
+    EditMetaDatumField.setup(new_field)
     # prepare qtip
     EditMetaData.setup_qtip new_field
     # listen to blur to save changes
@@ -331,6 +344,9 @@ class EditMetaData
     else if field_type == "meta_date"
       # save when freetext is blured
       $(field).find(".freetext input").bind "blur", (event)->
+        EditMetaData.save_field(field)
+    else if field_type == "copyright"
+      $(field).delegate "select", "change", (event)->
         EditMetaData.save_field(field)
     else # inlcuding type == "string"
       # save on blur 
