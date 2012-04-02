@@ -1,2 +1,2 @@
 collection @meta_context_groups
-attributes :id, :name
+attributes :id, :name, :position

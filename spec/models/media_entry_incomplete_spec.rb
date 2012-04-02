@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe MediaEntryIncomplete do
 
-  before :each do 
+  before :all do 
     @mei = FactoryGirl.create :media_entry_incomplete
   end
 

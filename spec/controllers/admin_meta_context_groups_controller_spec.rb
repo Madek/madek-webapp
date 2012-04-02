@@ -20,7 +20,7 @@ require 'spec_helper'
 
 describe Admin::MetaContextGroupsController do
 
-  before :each do
+  before :all do
     @adam = FactoryGirl.create :user, login: "adam"
     Group.find_or_create_by_name("Admin").users << @adam
   end

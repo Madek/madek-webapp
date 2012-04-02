@@ -3,12 +3,12 @@ require 'spec_helper'
 describe MediaResourcesController do
   render_views
   
-  before :each do
+  before :all do
     @user = FactoryGirl.create :user
   end
   
   context "fetch an index of media resources" do
-    before :each do
+    before :all do
       # MediaResources
       40.times do
         type = rand > 0.5 ? :media_entry : :media_set
@@ -88,7 +88,7 @@ describe MediaResourcesController do
       end
     end
     
-    describe "a response with nested meta date" do
+    describe "a response with nested meta data" do
       
       describe "through meta contexts" do
         it "should respond with a collection of media resources with nested meta data for the core meta context" do
@@ -96,7 +96,7 @@ describe MediaResourcesController do
           response.should  be_success
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
-            mr["meta_data"].map{|x| x["key"]}.sort.should == @meta_context.meta_keys.map(&:underscored_label).sort
+            mr["meta_data"].map{|x| x["name"]}.sort.should == @meta_context.meta_keys.map(&:label).sort
           end
         end        
       end
@@ -107,7 +107,7 @@ describe MediaResourcesController do
           response.should  be_success
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
-            mr["meta_data"].map{|x| x["key"]}.sort.should == @meta_context.meta_keys.map(&:underscored_label).sort
+            mr["meta_data"].map{|x| x["name"]}.sort.should == @meta_context.meta_keys.map(&:label).sort
           end
         end        
       end
@@ -118,7 +118,7 @@ describe MediaResourcesController do
           response.should  be_success
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
-            mr["meta_data"].map{|x| x["key"]}.sort.should == @meta_context.meta_keys.map(&:underscored_label).sort
+            mr["meta_data"].map{|x| x["name"]}.sort.should == @meta_context.meta_keys.map(&:label).sort
           end
         end        
       end
