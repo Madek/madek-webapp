@@ -13,8 +13,10 @@
     {{tmpl({label: $label}) "tmpl/meta_data/edit/multiple_entries/person"}}
     {{/each}}
     {{/if}}
-    
   %input.autocomplete{:type => "text",
          :"data-type" => "${type}",
          :"data-url" => "/people.json"}
+  .button.add_person.open_helper
+    .add_person.icon
+  {{tmpl "tmpl/meta_data/edit/helper/add_person"}}  
 {{tmpl "tmpl/meta_data/edit/cell/status"}}

@@ -43,6 +43,8 @@
   .button {
     font-size: 0.9em;
     margin-bottom: 8px;
+    position: relative;
+    z-index: 1000;
   }
   
   .input {
@@ -92,12 +94,13 @@
       }
       
       &+input {
-        position: relative;
-        top: -39px; 
+        position: relative !important;
+        top: -39px !important; 
+        margin-bottom: -21px !important;
       }
     }
     
-    input, textarea {
+    input[type=text], textarea {
       background-color: #FFFFFF;
       border: 1px solid #D2D2D2;
       color: #424242;

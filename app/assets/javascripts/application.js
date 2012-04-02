@@ -28,6 +28,7 @@
 //= require_tree ./str
 //= require_tree ./autocomplete
 //= require_tree ./copyrights
+//= require_tree ./keywords
 
 /////////// Tmpl /////////////
 //= require_tree ./tmpl/

@@ -13,7 +13,7 @@
   @include border-radius(4px);
   
   &.only_incomplete_required_fields {
-    .item_box:not(.required_fields_not_complete):not(.loading):not(.saving):not(.selected) {
+    .item_box:not(.required_fields_not_complete):not(.loading):not(.saving) {
       display: none;
     }
   }

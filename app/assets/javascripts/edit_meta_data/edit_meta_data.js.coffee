@@ -18,6 +18,7 @@ class EditMetaData
   @display_inline = (options)->
     @container = EditMetaData.setup_container(options.container)
     Copyrights.load()
+    Keywords.load()
     EditMetaData.setup_single_or_multiple(options)
     EditMetaData.setup_finish_button()
     EditMetaData.setup_only_incomplete_filter()
@@ -223,7 +224,8 @@ class EditMetaData
       if field_value.length == 0
         field_value = undefined
     else if field_type == "copyright"
-      field_value = $(field).find("select:visible:last option:selected").tmplItem().data.id
+      copyright_id = $(field).find("select:visible:last option:selected").tmplItem().data.id
+      field_value = [copyright_id]
     else # string
       if $(field).find("input").length
         field_value = $(field).find("input").val()
@@ -427,6 +429,14 @@ class EditMetaData
       else
         $(element).removeClass("required_fields_not_complete")
         $(element).find(".attention_flag").remove()
+    # if there is no invalid ... disable filter
+    if $(EditMetaData.container).find(".media_resource_selection .item_box.required_fields_not_complete").length == 0
+      $(EditMetaData.container).find(".filter input, .filter label").attr("disabled", true).attr("checked", false)
+      $(EditMetaData.container).find(".filter input").trigger("change")
+      $('.media_resource_selection').removeClass('only_incomplete_required_fields')
+      $('.media_resource_selection .filter label').removeClass('active')
+    else
+      $(EditMetaData.container).find(".filter label, .filter input").attr("disabled", false)
 
   @setup_selection = ()->
     # select first media entry
