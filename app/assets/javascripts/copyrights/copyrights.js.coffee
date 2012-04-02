@@ -16,6 +16,9 @@ class Copyrights
   
   @get = ()->
     if sessionStorage.copyrights?
-      JSON.parse sessionStorage.copyrights
+      result = JSON.parse sessionStorage.copyrights
+      sorted_result = Underscore.sortBy result, (element)->
+        element.children.length
+      return sorted_result
    
 window.Copyrights = Copyrights

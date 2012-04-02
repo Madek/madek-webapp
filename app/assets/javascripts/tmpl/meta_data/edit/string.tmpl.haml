@@ -5,7 +5,7 @@
   {{if settings.length_max == 255}}
   %input{:type => "text", :value => "${value}"}
   {{else}}
-  %textarea
+  %textarea{:rows => 2}
     ${value}
   {{/if}}
   {{if settings.is_required}}
