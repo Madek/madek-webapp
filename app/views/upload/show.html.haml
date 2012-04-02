@@ -1,7 +1,10 @@
 = javascript_include_tag "plupload/i18n/de.js"
 
 #upload-container
-  #call2action= "Sie habe noch keine Medien ausgewählt."
+  #call2action
+    = "Sie habe noch keine Medien ausgewählt."
+    %br
+    %small= "(Drag & Drop)"
   #uploader
   
   %p
