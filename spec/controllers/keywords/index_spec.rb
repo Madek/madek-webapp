@@ -3,7 +3,7 @@ require 'spec_helper'
 describe KeywordsController do
   render_views
   
-  before :each do
+  before :all do
     @normin = FactoryGirl.create :user, login: "normin"
     @keyword1 = FactoryGirl.create :keyword, user: @normin
     @keyword2 = FactoryGirl.create :keyword, user: @normin

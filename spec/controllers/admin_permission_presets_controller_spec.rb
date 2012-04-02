@@ -20,7 +20,7 @@ require 'spec_helper'
 
 describe Admin::PermissionPresetsController do
 
-  before :each do
+  before :all do
     PermissionPreset.destroy_all
     @adam = Persona.create :adam
   end

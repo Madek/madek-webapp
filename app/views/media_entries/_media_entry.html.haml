@@ -136,8 +136,23 @@
   function MetaDataToggler() {
   
     this.setup = function () {
-      $(".meta_context_group>h5").bind("click",function(){
-        $(this).closest(".meta_context_group").toggleClass("open");
+      $(".meta_context_group > h5").bind("click",function(){
+        var _this = $(this); 
+        _this.closest(".meta_context_group").toggleClass("open");
+        
+        if(_this.data("link"))
+          $.ajax({
+            url: _this.data("link"),
+            data: {format: 'js'},
+            dataType: 'html',
+            success: function(data){
+              var new_div = $("<div class='meta_group'></div>");
+              new_div.append(data);
+              _this.after(new_div);
+            }
+          });
+          _this.removeAttr("data-link").removeData("link");
+        end
       });
     }
   }

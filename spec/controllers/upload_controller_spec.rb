@@ -21,7 +21,7 @@ describe UploadController do
     end
 
     describe "a single media_entry_incomplete with json format" do
-      before :each do
+      before :all do
         @mei = FactoryGirl.create :media_entry_incomplete, user: @user
       end
 

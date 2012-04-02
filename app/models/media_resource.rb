@@ -16,7 +16,6 @@ class MediaResource < ActiveRecord::Base
  # TODO observe bulk changes and reindex once
   has_many :meta_data, :dependent => :destroy do #working here#7 :include => :meta_key
     def get(key_id, build_if_not_found = true)
-      # unless ... and !!v.match(/\A[+-]?\d+\Z/) # TODO path to String#is_numeric? method
       #TODO: handle the case when key_id is a MetaKey object
       key_id = MetaKey.find_by_label(key_id.downcase).id unless key_id.is_a?(Fixnum)
       r = where(:meta_key_id => key_id).first # OPTIMIZE prevent find if is_dynamic meta_key

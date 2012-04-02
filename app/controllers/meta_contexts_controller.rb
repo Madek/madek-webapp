@@ -3,7 +3,7 @@ class MetaContextsController < ApplicationController
 
   before_filter do
     unless (context_id = params[:id]).blank?
-      @context = if context_id.is_number?
+      @context = if (context_id.respond_to?(:is_integer?) and context_id.is_integer?)
         MetaContext.find(context_id)
       else
         MetaContext.find_by_name(context_id)

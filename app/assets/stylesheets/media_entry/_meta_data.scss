@@ -56,7 +56,7 @@
     }
     
    .meta_group {
-      &>ul {
+      &>*:not(.meta_group_name) {
         display: none;
       }
     }
@@ -67,7 +67,7 @@
       }
       
       .meta_group {
-        &>ul {
+        &>* {
           display: block;
         }
       }

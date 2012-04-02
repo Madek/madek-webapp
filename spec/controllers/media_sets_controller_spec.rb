@@ -3,7 +3,7 @@ require 'pry'
 
 describe MediaSetsController do
 
-  before :each do
+  before :all do
     @user = FactoryGirl.create :user
     @media_set = FactoryGirl.create :media_set, :user => @user
   end
@@ -30,7 +30,7 @@ describe MediaSetsController do
 
     context "with inherited context" do
 
-      before :each do
+      before :all do
         @media_set.parent_sets << (@parent1 = FactoryGirl.create :media_set)
         @parent1.individual_contexts << (@meta_context11 = FactoryGirl.create :meta_context)
       end
