@@ -90,8 +90,6 @@ class EditMetaData
       # save value for complete collection
       field_value = EditMetaData.compute_value field
       field_name = $(field).tmplItem().data.name
-      # disable complete field
-      EditMetaData.disable_complete_field field
       # show loading status
       EditMetaData.set_status field, "loading"
       # show saving indicator when save starts
@@ -107,7 +105,6 @@ class EditMetaData
           # hide saving indicator when save starts
           $(EditMetaData.container).find(".media_resource_selection .item_box").each (i, media_resource_element)->
             EditMetaData.hide_saving_indicator media_resource_element
-          EditMetaData.enable_complete_field field
         success: (data)->
           # save localy for each entry
           $(EditMetaData.container).find(".item_box").each (i, media_resource_element)->
@@ -121,8 +118,8 @@ class EditMetaData
           EditMetaData.container.find(".item_box:not(.loading)").each (i, element)->
             EditMetaData.validate_element(element)
         error: (data)->
-          EditMetaData.set_status field, "error"
-          $(field).find(".status .error").attr "title", data
+          EditMetaData.set_status field, "server_error"
+          $(field).find(".status .error").attr "title", JSON.stringify data
   
   @set_status = (field, status)->
     $(field).find(".status > div").hide()
@@ -146,8 +143,6 @@ class EditMetaData
     flatten_meta_data = MetaDatum.flatten meta_data
     # dont save value if it was not changing
     return false if field_value == flatten_meta_data[field_name] or (not field_value? and not flatten_meta_data[field_name]?)
-    # disable complete field
-    EditMetaData.disable_complete_field field
     # show loading status
     EditMetaData.set_status field, "loading"
     # show saving indicator when save starts
@@ -160,7 +155,6 @@ class EditMetaData
         value: field_value
       complete: (data)->
         EditMetaData.hide_saving_indicator media_resource_element
-        EditMetaData.enable_complete_field field
       success: (data)->
         # save localy
         EditMetaData.save_locally meta_data, field
@@ -173,17 +167,12 @@ class EditMetaData
         # rerender the field after its coming back  if its still visible
         if $(field).is(":visible")
           new_media_resource_element = $(EditMetaData.container).find(".media_resource_selection [data-media_resource_id="+media_resource_id+"]")
-          new_field = EditMetaData.setup_field(field, new_media_resource_element)
-          EditMetaData.show_if_field_is_ok(new_field)
+          #new_field = EditMetaData.setup_field(field, new_media_resource_element)
+          EditMetaData.update_field(field, new_media_resource_element)
+          EditMetaData.show_if_field_is_ok(field)
       error: (data)->
-        EditMetaData.set_status field, "error"
+        EditMetaData.set_status field, "server_error"
         $(field).find(".status .error").attr "title", data
-  
-  @disable_complete_field = (field)->
-    $(field).find("input, select, textarea").attr("disabled", true)
-    
-  @enable_complete_field = (field)->
-    $(field).find("input, select, textarea").removeAttr("disabled")
     
   @show_saving_indicator = (element)->
     $(element).addClass("saving")
@@ -234,7 +223,7 @@ class EditMetaData
       if field_value.length == 0
         field_value = undefined
     else if field_type == "copyright"
-      field_value = $(field).find("select:visible:last option:selected").tmplItem().data.id
+      field_value = Array($(field).find("select:visible:last option:selected").tmplItem().data.id)
     else # string
       if $(field).find("input").length
         field_value = $(field).find("input").val()
@@ -274,6 +263,17 @@ class EditMetaData
     # replace old field with new field
     $(field).replaceWith new_field
     return new_field
+  
+  @update_field = (field, media_resource_element)->
+    meta_data = $(media_resource_element).tmplItem().data.meta_data
+    flatten_meta_data = MetaDatum.flatten(meta_data)
+    new_field_data = $(field).tmplItem().data
+    field_name = new_field_data.name
+    new_field_data["value"] = flatten_meta_data[field_name]
+    field_meta_datum_data = MetaDatum.detect_by_name(meta_data, field_name)
+    new_field_data["raw_value"] = field_meta_datum_data.raw_value
+    # update field
+    field.tmplItem().data = new_field_data 
   
   @show_if_field_is_required = (field)->
     field_data = $(field).tmplItem().data
