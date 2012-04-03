@@ -43,6 +43,7 @@ class EditMetaData
         EditMetaData.required_meta_keys = Underscore.filter EditMetaData.meta_keys, (meta_key)->
           meta_key.settings.is_required == true
         EditMetaData.setup_form(data)
+        EditMetaData.setup_collapsing()
         EditMetaData.container.find(".item_box:not(.loading)").each (i, element)-> EditMetaData.validate_element(element)
   
   @setup_delete_a_values_entry = ()->
@@ -134,6 +135,35 @@ class EditMetaData
       meta_keys_container.append $.tmpl("tmpl/meta_data/edit/field", meta_key)
     EditMetaData.setup_element_for_editing $(EditMetaData.container).find(".item_box.selected")
   
+  @setup_collapsing = ()->
+    collection = [{parent: undefined, children: []}]
+    $(EditMetaData.container).find(".edit_meta_datum_field").each (i, field)->
+      last_collection = Underscore.last collection
+      field_prefix = $(field).tmplItem().data.name.match(/^\w+/)[0]
+      if last_collection.parent and (field_prefix == $(last_collection.parent).tmplItem().data.name.match(/^\w+/)[0])  
+        last_collection.children.push field
+      else  
+        collection.push {parent: field, children: []}
+    collection = Underscore.filter collection, (element)-> element.children.length
+    $.each collection, (i, group)->
+      $(group.parent).append $.tmpl "tmpl/meta_data/edit/collapsible/button"
+      $(group.children).addClass "collapsed collapsible"
+    
+    $(".collapsible_button").live "click", (event)->
+      $(this).toggleClass("expanded")
+      parent_field = $(this).closest(".edit_meta_datum_field")
+      next_fields = $(parent_field).nextAll(".edit_meta_datum_field")
+      for field in next_fields
+        if $(field).hasClass("collapsible")
+          if $(this).hasClass "expanded"
+            $(field).removeClass("collapsed")
+          else
+            $(field).addClass("collapsed")
+        else
+          break
+          
+    
+            
   @save_field = (field)->
     field_name = $(field).tmplItem().data.name
     field_data = $(field).tmplItem().data
@@ -168,6 +198,7 @@ class EditMetaData
         # rerender the field after its coming back  if its still visible
         if $(field).is(":visible")
           new_media_resource_element = $(EditMetaData.container).find(".media_resource_selection [data-media_resource_id="+media_resource_id+"]")
+          #new_field = EditMetaData.setup_field(field, new_media_resource_element)
           EditMetaData.update_field(field, new_media_resource_element)
           EditMetaData.show_if_field_is_ok(field)
       error: (data)->
@@ -240,15 +271,6 @@ class EditMetaData
     edit_meta_data_field.each (i, edit_field)->
       EditMetaData.setup_field(edit_field, element)
   
-  @setup_revoke_ok_on_change = (field)->
-    $(field).delegate "input, textarea", "keydown", (event)->
-      $(this).data("val_on_keydown", $(this).val())
-    
-    $(field).delegate "input, textarea", "keyup", (event)->
-      field = $(this).closest(".edit_meta_datum_field")
-      if $(field).find(".ok:visible").length && $(this).val() != $(this).data("val_on_keydown")
-        $(field).find(".ok:visible").hide()
-  
   @setup_field = (field, media_resource_element)->
     meta_data = $(media_resource_element).tmplItem().data.meta_data
     flatten_meta_data = MetaDatum.flatten(meta_data)
@@ -270,8 +292,6 @@ class EditMetaData
     EditMetaData.prepare_field_for_saving(new_field)
     # mark the status of the field
     EditMetaData.show_if_field_is_required(new_field)
-    # revoke ok on change 
-    EditMetaData.setup_revoke_ok_on_change(new_field)
     # replace old field with new field
     $(field).replaceWith new_field
     return new_field
