@@ -62,7 +62,8 @@ class MetaDatum < ActiveRecord::Base
                                   end
                                   MetaTerm.create(h)
                                 end
-
+                                
+                                # TODO FRANCO FIXME CAN WE SHARE KEYWORDS BETWEEN MEDIA RESOURCES .... WHATS WITH COUNTING ??
                                 r = Keyword.where(:meta_term_id => term, :user_id => user).first
                                 r ||= Keyword.create(:meta_term => term, :user => user)
                                 # TODO delete keywords records anymore referenced by any meta_data (it could be the same keyword is referenced to a Snapshot)

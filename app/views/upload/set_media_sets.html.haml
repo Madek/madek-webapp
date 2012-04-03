@@ -6,10 +6,7 @@
 :javascript
   $(document).ready(function () {
     json = #{begin
-              #r = @media_entries.as_json(with: {media_resource: {title: 1, author: 1, image: {}}})
-              #r.each {|h| h[:thumb_base64] = h.delete(:image) } 
-              #r
-              @media_entries.as_json(user: current_user, with_thumb: true)
+              @media_entries.as_json(user: current_user, with_thumb: true, with: {media_resource: {type: 1, image:{as:"base64"}}})
             end.to_json}
-    $("#results").html($.tmpl("tmpl/media_resource/thumb_box", json, {with_actions: false, with_link: false}));
+    $("#results").html($.tmpl("tmpl/media_resource/image", json));
   });

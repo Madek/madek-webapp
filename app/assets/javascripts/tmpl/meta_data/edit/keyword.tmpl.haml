@@ -17,7 +17,8 @@
     {{/if}}
     {{/if}}
     
-  %input.autocomplete{:type => "text",
+  %input{:type => "text",
+    :"data-autocomplete" => true,
     :"data-type" => "${type}",
     :"data-url" => "/keywords.json"}
     

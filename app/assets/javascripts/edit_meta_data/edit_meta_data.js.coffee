@@ -168,7 +168,6 @@ class EditMetaData
         # rerender the field after its coming back  if its still visible
         if $(field).is(":visible")
           new_media_resource_element = $(EditMetaData.container).find(".media_resource_selection [data-media_resource_id="+media_resource_id+"]")
-          #new_field = EditMetaData.setup_field(field, new_media_resource_element)
           EditMetaData.update_field(field, new_media_resource_element)
           EditMetaData.show_if_field_is_ok(field)
       error: (data)->
@@ -241,6 +240,15 @@ class EditMetaData
     edit_meta_data_field.each (i, edit_field)->
       EditMetaData.setup_field(edit_field, element)
   
+  @setup_revoke_ok_on_change = (field)->
+    $(field).delegate "input, textarea", "keydown", (event)->
+      $(this).data("val_on_keydown", $(this).val())
+    
+    $(field).delegate "input, textarea", "keyup", (event)->
+      field = $(this).closest(".edit_meta_datum_field")
+      if $(field).find(".ok:visible").length && $(this).val() != $(this).data("val_on_keydown")
+        $(field).find(".ok:visible").hide()
+  
   @setup_field = (field, media_resource_element)->
     meta_data = $(media_resource_element).tmplItem().data.meta_data
     flatten_meta_data = MetaDatum.flatten(meta_data)
@@ -262,6 +270,8 @@ class EditMetaData
     EditMetaData.prepare_field_for_saving(new_field)
     # mark the status of the field
     EditMetaData.show_if_field_is_required(new_field)
+    # revoke ok on change 
+    EditMetaData.setup_revoke_ok_on_change(new_field)
     # replace old field with new field
     $(field).replaceWith new_field
     return new_field
