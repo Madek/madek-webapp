@@ -10,21 +10,25 @@ Feature: Metadata context groups
   Background: Load the example data and personas
     Given I have set up the world
       And personas are loaded
-      And I am "Normin"
+      And I am "Liselotte"
 
   # https://www.pivotaltracker.com/story/show/26706147
-  @wip    
+  @javascript
   Scenario: Specific order in which metadata context groups appear in the interface
-    When I view a media entry
+    When I visit a media entry with individual contexts
     Then the metadata context groups are in the following order:
-      | order | name      |
-      |     1 | Metadaten |
-      |     2 | Kontexte  |
+      | order | name          |
+      |     1 | Metadaten     |
+      |     2 | Kontexte      |
+      |     3 | Weitere Daten |
 
   # https://www.pivotaltracker.com/story/show/26706147
-  @wip
+  @javascript
   Scenario: Specific order in which metadata contexts appear inside of metadata context groups in the interface
-    When I view a media entry
+    When I visit a media entry with the following individual contexts: 
+      | order | name                      |
+      |     1 | Landschaftsvisualisierung |
+      |     2 | Zett                      |
     Then the metadata contexts inside of "Metadaten" are in the following order:
       | order | name   |
       |     1 | Werk   |
@@ -37,7 +41,17 @@ Feature: Metadata context groups
   # https://www.pivotaltracker.com/story/show/26706147
   @javascript
   Scenario: Context groups are only displayed if they have contexts that are associated to a set which the media entry is inheritancing the meta context from
-    When I visit a public media entry with individual contexts
+    When I visit a media entry with individual contexts
     Then I see the context group "Kontexte"
      And I see the context "Landschaftsvisualisierung"
      And I do not see the context "Zett"
+
+  # https://www.pivotaltracker.com/story/show/24969841
+  @javascript
+  Scenario: Display google map when a media entry has GPS meta data 
+    When I visit a media entry without GPS meta data
+    Then I do not see the context group "Karte"
+    When I visit a media entry with GPS meta data
+    Then I see the context group "Karte"
+    When I expande the context group "Karte"
+    Then I see the the google map

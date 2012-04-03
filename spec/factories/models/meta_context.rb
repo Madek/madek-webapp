@@ -12,6 +12,7 @@ FactoryGirl.define do
       h
     end
 
+    meta_context_group {}
   end
 
 
