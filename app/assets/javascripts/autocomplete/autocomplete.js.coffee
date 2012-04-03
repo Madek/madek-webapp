@@ -6,7 +6,7 @@
 ###
 
 jQuery ->
-  $("input.autocomplete").live "focus", (event)->
+  $("input[data-autocomplete]").live "focus", (event)->
     AutoComplete.setup $(this)
     
 class AutoComplete
