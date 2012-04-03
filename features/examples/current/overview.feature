@@ -64,26 +64,4 @@ Feature: Overview I
   # https://www.pivotaltracker.com/story/show/21438575
   Scenario: Displaying the appropriate placeholder icon for a file that can't be previewed
     Given the system is set up
-    Then each of the following media types has its own representing icon:
-    | mime type                                                                 | extension | base icon filename  |
-    | video/*                                                                   | *         | base_video.png      |
-    | audio/*                                                                   | *         | base_audio.png      |
-    | application/zip                                                           | zip       | base_compressed.png |
-    | application/rar                                                           | rar       | base_compressed.png |
-    | application/x-7z-compressed                                               | 7z        | base_compressed.png |
-    | application/pdf                                                           | pdf       | base_document.png   |
-    | application/msword                                                        | doc       | base_document.png   |
-    | application/msword                                                        | dot       | base_document.png   |
-    | application/vnd.openxmlformats-officedocument.wordprocessingml.document   | docx      | base_document.png   |
-    | application/vnd.openxmlformats-officedocument.wordprocessingml.document   | dotx      | base_document.png   |
-    | application/vnd.ms-powerpoint                                             | ppt       | base_document.png   |
-    | application/vnd.ms-powerpoint                                             | pps       | base_document.png   |
-    | application/vnd.openxmlformats-officedocument.presentationml.presentation | pptx      | base_document.png   |
-    | application/vnd.openxmlformats-officedocument.presentationml.presentation | ppsx      | base_document.png   |
-    | application/vnd.ms-excel                                                  | xls       | base_document.png   |
-    | application/vnd.ms-excel                                                  | xlt       | base_document.png   |
-    | application/vnd.openxmlformats-officedocument.spreadsheetml.sheet         | xlsx      | base_document.png   |
-    | application/vnd.openxmlformats-officedocument.spreadsheetml.sheet         | xltx      | base_document.png   |
-    | application/vnd.oasis.opendocument.text                                   | odt       | base_document.png   |
-    | application/vnd.oasis.opendocument.spreadsheet                            | ods       | base_document.png   |
-    | application/vnd.oasis.opendocument.presentation                           | odp       | base_document.png   |
+    Then each of the following media types has its own representing icon according to the mappings in the file "config/mime_icons.yml"
