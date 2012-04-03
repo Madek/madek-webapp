@@ -21,7 +21,10 @@ class AutoComplete
       $(input_field).bind "keydown", (event)->
         if event.keyCode == 13
           return false if $(this).val() == ""
-          element = {item: {id: null, value: $(this).val(), label: $(this).val(), name: $(this).val() }}
+          if field_type == "person"
+            element = {item: {data: {firstname: $(this).val()}, value: $(this).val(), label: $(this).val(), name: $(this).val() }}
+          else
+            element = {item: {id: null, value: $(this).val(), label: $(this).val(), name: $(this).val() }}
           AutoComplete.select event, element
           $(this).trigger("autocompleteselect")
   
@@ -33,23 +36,21 @@ class AutoComplete
     , (data)->
       entries = []
       entries = switch field_type
-        when "person" then $.map(data, (element)-> { id: element.id, value: Underscore.str.truncate(element.name, 65), name: element.name })
+        when "person" then $.map(data, (element)-> { data: element, id: element.id, value: Underscore.str.truncate(PersonMetaDatum.flatten_name(element), 65), name: PersonMetaDatum.flatten_name(element)})
         when "keyword" then $.map(data, (element)-> { id: element.id, value: element.label, name: element.label })
       response entries
       
   @select = (event, element)->
     target = event.target
     field_type = $(target).closest(".edit_meta_datum_field").tmplItem().data.type
+    values_container = $(target).siblings(".values")
     # select puts entry to a multiple selection container when field is from a specific type 
-    if field_type == "person" or field_type == "keyword"
-      AutoComplete.select_for_multiple_values event, element, field_type
+    if field_type == "person" 
+      $(values_container).append $.tmpl("tmpl/meta_data/edit/multiple_entries/"+field_type, element.item.data)
+    else if field_type == "keyword"
+      $(values_container).append $.tmpl("tmpl/meta_data/edit/multiple_entries/"+field_type, element.item)
     # clear input field
     $(target).val("")
     return false
 
-  @select_for_multiple_values = (event, element, field_type)->
-    target = event.target
-    values_container = $(target).siblings(".values")
-    $(values_container).append $.tmpl("tmpl/meta_data/edit/multiple_entries/"+field_type, element.item)
-  
 window.AutoComplete = AutoComplete

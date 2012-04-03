@@ -36,12 +36,30 @@ jQuery ()->
       value = value+" ("+pseudonym+")" if pseudonym.length
       helper_container.hide()
       helper_container.find("input[type=text]").val("")
-    # append to values container
-    if value.length
-      $(values_container).append $.tmpl("tmpl/meta_data/edit/multiple_entries/"+field_type, {label: value})
-      # save through trigger autocompleteselect 
-      $(input).trigger("autocompleteselect")
-    
+    if $(this).hasClass("group")
+    # if form is from class group create group first
+      $.ajax 
+        url: "/people.json"
+        type: "POST"
+        data:
+          person:
+            firstname: value
+            is_group: 1
+        success: (data)->
+          # append to values container
+          if value.length
+            $(values_container).append $.tmpl("tmpl/meta_data/edit/multiple_entries/"+field_type, data)
+            # save through trigger autocompleteselect 
+            $(input).trigger("autocompleteselect")
+    else
+      # append to values container
+      if value.length
+        if field_type == "person"
+          $(values_container).append $.tmpl("tmpl/meta_data/edit/multiple_entries/"+field_type, {firstname: firstname, lastname: lastname, pseudonym: pseudonym})
+        else
+          $(values_container).append $.tmpl("tmpl/meta_data/edit/multiple_entries/"+field_type, {label: value})
+        # save through trigger autocompleteselect 
+        $(input).trigger("autocompleteselect")
     # prevend default submit
     event.preventDefault()
     return false
@@ -49,11 +67,12 @@ jQuery ()->
   $(".add_keyword.open_helper").live "click", (event)->
     helper_container = $(this).next(".helper")
     if helper_container.is(":visible")
-      my_keywords = Underscore.filter Keywords.get(), (keyword)-> keyword.yours
+      my_keywords = Underscore.filter(Keywords.get(), (keyword)-> keyword.yours)
+      my_keywords = Underscore.sortBy(my_keywords, (keyword)-> (new Date(keyword.created_at)).getTime()).reverse()
       helper_container.find(".my").html $.tmpl("tmpl/meta_data/edit/helper/keywords/list", {keywords: my_keywords})
-      popular_keywords = Underscore.sortBy Keywords.get(), (keyword)-> keyword.count
+      popular_keywords = Underscore.sortBy(Keywords.get(), (keyword)-> keyword.count).reverse()
       helper_container.find(".popular").html $.tmpl("tmpl/meta_data/edit/helper/keywords/list", {keywords: popular_keywords})
-      latest_keywords = Underscore.sortBy Keywords.get(), (keyword)-> new Date(keyword.created_at)
+      latest_keywords = Underscore.sortBy(Keywords.get(), (keyword)-> (new Date(keyword.created_at)).getTime()).reverse()
       helper_container.find(".latest").html $.tmpl("tmpl/meta_data/edit/helper/keywords/list", {keywords: latest_keywords})
       
   $(".helper .list .entry").live "click", (event)->
@@ -62,13 +81,10 @@ jQuery ()->
     field_type = $(this).closest(".edit_meta_datum_field").tmplItem().data.type
     keyword_data = $(this).tmplItem().data
     helper_container = $(this).closest(".helper")
-    
     # append to value list
     $(values_container).append $.tmpl("tmpl/meta_data/edit/multiple_entries/"+field_type, {label: keyword_data.label})
-    
     # save through trigger autocompleteselect 
     $(input).trigger("autocompleteselect")
-    
     # remove keyword from helper
     helper_container.find(".entry[data-keyword_id="+keyword_data.id+"]").remove()
     

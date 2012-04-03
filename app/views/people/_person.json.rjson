@@ -1,4 +1,12 @@
 {
+  birthdate: person.birthdate,
+  created_at: person.created_at,
+  deathdate: person.deathdate,
+  firstname: person.firstname,
   id: person.id,
-  name: person.to_s
+  is_group: person.is_group,
+  lastname: person.lastname,
+  nationality: person.nationality,
+  pseudonym: person.pseudonym,
+  updated_at: person.updated_at
 }

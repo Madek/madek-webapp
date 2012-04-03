@@ -43,10 +43,9 @@ class PeopleController < ApplicationController
                                                                            :lastname => params[:person][:lastname],
                                                                            :pseudonym => params[:person][:pseudonym],
                                                                            :is_group => params[:person][:is_group] || false)
-    
     respond_to do |format|
       format.html
-      format.json { render :json => {:label => person.to_s, :id => person.id} }
+      format.json { render :partial => "person", :object => person }
     end
   end
 end

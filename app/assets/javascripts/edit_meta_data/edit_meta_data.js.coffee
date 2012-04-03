@@ -43,7 +43,6 @@ class EditMetaData
         EditMetaData.required_meta_keys = Underscore.filter EditMetaData.meta_keys, (meta_key)->
           meta_key.settings.is_required == true
         EditMetaData.setup_form(data)
-        EditMetaData.setup_collapsing()
         EditMetaData.container.find(".item_box:not(.loading)").each (i, element)-> EditMetaData.validate_element(element)
   
   @setup_delete_a_values_entry = ()->
@@ -148,8 +147,7 @@ class EditMetaData
     $.each collection, (i, group)->
       $(group.parent).append $.tmpl "tmpl/meta_data/edit/collapsible/button"
       $(group.children).addClass "collapsed collapsible"
-    
-    $(".collapsible_button").live "click", (event)->
+    $(".collapsible_button").bind "click", (event)->
       $(this).toggleClass("expanded")
       parent_field = $(this).closest(".edit_meta_datum_field")
       next_fields = $(parent_field).nextAll(".edit_meta_datum_field")
@@ -162,11 +160,10 @@ class EditMetaData
         else
           break
           
-    
-            
   @save_field = (field)->
-    field_name = $(field).tmplItem().data.name
     field_data = $(field).tmplItem().data
+    field_name = field_data.name
+    field_type = field_data.type
     field_value = EditMetaData.compute_value field
     media_resource_id = $(field).data("media_resource_id")
     media_resource_element = $(EditMetaData.container).find(".media_resource_selection [data-media_resource_id="+media_resource_id+"]")
@@ -195,12 +192,14 @@ class EditMetaData
         if field_name == "title" then EditMetaData.update_title(media_resource_id)
         # validate element again
         EditMetaData.validate_element media_resource_element  
-        # rerender the field after its coming back  if its still visible
+        # rerender the field after its coming back if its still visible
         if $(field).is(":visible")
           new_media_resource_element = $(EditMetaData.container).find(".media_resource_selection [data-media_resource_id="+media_resource_id+"]")
-          #new_field = EditMetaData.setup_field(field, new_media_resource_element)
           EditMetaData.update_field(field, new_media_resource_element)
           EditMetaData.show_if_field_is_ok(field)
+        if field_type == "keyword"
+          # load the keywords again, now that we have perhaps a new one
+          Keywords.load()
       error: (data)->
         EditMetaData.set_status field, "server_error"
         $(field).find(".status .error").attr "title", data
@@ -222,6 +221,9 @@ class EditMetaData
     meta_datum = Underscore.find meta_data, (meta_datum)-> (meta_datum.name == field_name)
     if field_type == "copyright"
       meta_datum.raw_value = Array($(field).find("option:selected:last").tmplItem().data)
+    else if field_type == "person"
+      meta_datum.raw_value = Underscore.map $(field).find(".values .entry"), (element)->
+        $(element).tmplItem().data
     else
       meta_datum.value = field_value
     return true
@@ -244,7 +246,15 @@ class EditMetaData
     # compute value depending on field type
     field_value = undefined
     field_type = $(field).tmplItem().data.type
-    if field_type == "person" or field_type == "keyword"
+    if field_type == "person"
+      field_value = Underscore.map $(field).find(".entry"), (entry)->
+        if $(entry).tmplItem().data.id?
+          $(entry).tmplItem().data.id
+        else
+          PersonMetaDatum.flatten_name $(entry).tmplItem().data
+      if field_value.length == 0
+        field_value = undefined
+    else if field_type == "keyword"
       field_value = Underscore.map $(field).find(".entry"), (entry)->
         $(entry).data("value")
       if field_value.length == 0
@@ -270,6 +280,8 @@ class EditMetaData
     edit_meta_data_field = $(EditMetaData.container).find(".edit_meta_datum_field")
     edit_meta_data_field.each (i, edit_field)->
       EditMetaData.setup_field(edit_field, element)
+    # collapse meta data from the same name prefix
+    EditMetaData.setup_collapsing()
   
   @setup_field = (field, media_resource_element)->
     meta_data = $(media_resource_element).tmplItem().data.meta_data
@@ -281,9 +293,6 @@ class EditMetaData
     field_data["raw_value"] = field_meta_datum_data.raw_value
     new_field = $.tmpl("tmpl/meta_data/edit/field", field_data)
     $(new_field).data "media_resource_id", $(media_resource_element).tmplItem().data.id
-    # hide field if it was initaly hided
-    if $(field).is(":not(:visible)")
-      $(new_field).hide()
     # setup custom field behaviour 
     EditMetaDatumField.setup(new_field)
     # prepare qtip

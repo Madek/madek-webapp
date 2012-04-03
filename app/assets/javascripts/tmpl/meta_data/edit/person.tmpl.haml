@@ -3,16 +3,9 @@
   {{tmpl "tmpl/meta_data/edit/cell/hint"}}
 .input
   %section.values
-    {{if typeof(value) == "object"}}
-    {{each(i, element) value}}
-    {{tmpl({label: element}) "tmpl/meta_data/edit/multiple_entries/person"}}
-    {{/each}}
-    {{else}}
     {{each(i, value) raw_value}}
-    ${$label = PersonMetaDatum.flatten_name(value), ""}
-    {{tmpl({label: $label, id: value.id}) "tmpl/meta_data/edit/multiple_entries/person"}}
+    {{tmpl(value) "tmpl/meta_data/edit/multiple_entries/person"}}
     {{/each}}
-    {{/if}}
   %input{:type => "text",
          :"data-autocomplete" => true,
          :"data-type" => "${type}",
