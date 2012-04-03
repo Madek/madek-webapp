@@ -8,7 +8,7 @@
   display: inline-block;
   width: 100%;
   
-  &:nth-last-child(1) {
+  &:last-child {
     border-bottom: none;
   }
   
@@ -43,6 +43,8 @@
   .button {
     font-size: 0.9em;
     margin-bottom: 8px;
+    position: relative;
+    z-index: 1000;
   }
   
   .input {
@@ -53,15 +55,14 @@
     width: 50%;
     
     .values {
+      background: none repeat scroll 0 0 white;
       border: 1px solid #D2D2D2;
-      background: white;
       display: inline-block;
-      padding: 2px 8px;
+      left: -5px;
+      padding: 2px 8px 36px;
       position: relative;
-      top: -6px;
-      width: 430px;
+      width: 440px;
       z-index: 1;
-      @include top-border-radius(4px);
       
       .entry {
         background: none repeat scroll 0 0 #DFDFDF;
@@ -93,19 +94,19 @@
       }
       
       &+input {
-        position: relative;
-        top: -12px; 
+        position: relative !important;
+        top: -39px !important; 
+        margin-bottom: -21px !important;
       }
     }
     
-    input, textarea {
+    input[type=text], textarea {
       background-color: #FFFFFF;
       border: 1px solid #D2D2D2;
       color: #424242;
       display: block;
       font-weight: bold;
       font-size: 1em;
-      height: 28px;
       margin-bottom: 12px;
       padding: 0 8px;
       position: relative; 
@@ -117,6 +118,10 @@
         border: 1px solid #AAA;
         @include box-shadows(0 0 5px #E3E3E3, 0 0 1px 1px #E3E3E3 inset);
       }
+    }
+    
+    input {
+      height: 28px;
     }
     
     textarea {
@@ -167,7 +172,13 @@
       top: -6px;
       width: 16px;
       @include opacity(0.6);
-      
+    }
+    
+    .server_error.icon {
+      background: url($sprite) no-repeat -17px -16px;
+      display: block;
+      height: 15px;
+      width: 16px;
     }
     
     &:hover .bang.icon { @include opacity(1.0); }

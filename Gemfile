@@ -38,7 +38,6 @@ gem 'jquery-rails', '= 1.0.16'
 gem 'rails_autolink', '~> 1.0'
 gem 'jquery-tmpl-rails', '~> 0.1.2'
 gem 'haml_assets'
-gem "plupload-rails", "~> 1.0.6"
 
 gem "d3_rails", "~> 2.8.0"
 

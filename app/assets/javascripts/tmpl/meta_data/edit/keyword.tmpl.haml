@@ -20,4 +20,8 @@
   %input.autocomplete{:type => "text",
     :"data-type" => "${type}",
     :"data-url" => "/keywords.json"}
+    
+  .button.add_keyword.open_helper
+    .add_keyword.icon
+  {{tmpl "tmpl/meta_data/edit/helper/add_keyword"}}  
 {{tmpl "tmpl/meta_data/edit/cell/status"}}

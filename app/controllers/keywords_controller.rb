@@ -19,6 +19,7 @@ class KeywordsController< ApplicationController
   # @response_field [string] label  The name of the Keyword.
   #
   def index(query = params[:query])
+    
     @all_grouped_keywords = 
       if SQLHelper.adapter_is_mysql?
         Keyword.search(query).group(:meta_term_id)
@@ -32,5 +33,5 @@ class KeywordsController< ApplicationController
       format.json
     end
   end
-
+    
 end

@@ -23,7 +23,10 @@
       display: block;
       font-size: 0.9em;
       float: left;
-      &:hover, &.active { color: #444 }
+      
+      &:hover:not([disabled=disabled]), &.active {
+        color: #444 
+      }
       
       input {
         position: relative;

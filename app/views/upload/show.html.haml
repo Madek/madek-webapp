@@ -1,7 +1,10 @@
 = javascript_include_tag "plupload/i18n/de.js"
 
 #upload-container
-  #call2action= "Sie habe noch keine Medien ausgewählt."
+  #call2action
+    = "Sie habe noch keine Medien ausgewählt."
+    %br
+    %small= "(Drag & Drop)"
   #uploader
   
   %p
@@ -193,14 +196,17 @@
 
   initalize_plupload = ->
     $("#uploader").pluploadQueue
-      runtimes: 'html5,html4'
+      runtimes: 'html5'
       url: "#{upload_path(:format => :js)}"
       max_file_size: window.max_file_size
       dragdrop: true
-      drop_element: "plupload_filelist"
+      drop_element: "plupload_content"
       multipart_params:
         '#{request_forgery_protection_token}': '#{form_authenticity_token}',
         '#{request.session_options[:key]}': '#{request.session_options[:id]}'
+      preinit :
+        Init: (up, info)->
+          $("#uploader").find(".plupload_content").attr("id", "plupload_content")
     window.uploader = $("#uploader").pluploadQueue()
   
   remove_not_needed_plupload_elements = ->

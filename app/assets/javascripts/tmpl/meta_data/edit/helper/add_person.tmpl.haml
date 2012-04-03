@@ -1,0 +1,25 @@
+.helper.add_person
+  .tabs
+    .tab.active{:"data-content" => "person"}= "Person"
+    .tab{:"data-content" => "group"}= "Gruppe"
+  .content
+  
+    .person.active
+      %form
+        %label{:for => "person_lastname"}
+          = "Nachname:"
+        %input{:type => "text", :id => "person_lastname", :name => "person_lastname"}
+        %label{:for => "person_firstname"}
+          = "Vorname:"
+        %input{:type => "text", :id => "person_firstname", :name => "person_firstname"}
+        %label{:for => "person_pseudonym"}
+          = "Pseudonym:"
+        %input{:type => "text", :id => "person_pseudonym", :name => "person_pseudonym"}
+        %input{:type => "submit", :value => "Personendaten einfügen", :class => "button create_person"}
+        
+    .group
+      %form
+        %label{:for => "person_firstname"}
+          = "Name:"
+        %input{:type => "text",:id => "person_firstname", :name => "person_firstname"}
+        %input{:type => "submit", :value => "Gruppendaten einfügen", :class => "button create_person"}
