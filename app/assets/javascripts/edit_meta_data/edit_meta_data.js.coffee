@@ -301,6 +301,8 @@ class EditMetaData
     EditMetaData.prepare_field_for_saving(new_field)
     # mark the status of the field
     EditMetaData.show_if_field_is_required(new_field)
+    # revoke ok on change
+    EditMetaData.revoke_ok_on_change(new_field)
     # replace old field with new field
     $(field).replaceWith new_field
     return new_field
@@ -331,6 +333,14 @@ class EditMetaData
     else if field_data.settings.is_required == true
       # mark as required
       EditMetaData.set_status field, "required"
+  
+  @revoke_ok_on_change = (field)->
+    $(field).find("input, textarea").bind "keydown", (event)->
+      $(this).data("value_on_keydown", $(this).val())
+    $(field).find("input, textarea").bind "keyup", (event)->
+      if $(this).val() != $(this).data("value_on_keydown")
+        if $(field).find(".ok:visible")
+          $(field).find(".ok:visible").hide()
   
   @setup_qtip = (field)->
     $(field).qtip
