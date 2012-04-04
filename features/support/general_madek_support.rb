@@ -50,7 +50,9 @@ def create_group(groupname)
 end
 
 def wait_for_css_element(element)
-  page.has_css?(element, :visible => true)
+  wait_until {
+    page.has_css?(element, :visible => true)
+  }
 end
 
 def set_term_checkbox(node, text)

@@ -7,7 +7,6 @@ Feature: Upload images and manage media entries based on images
       And a user called "Helmut Kohl" with username "helmi" and password "saumagen" exists
       And a user called "Mikhail Gorbachev" with username "gorbi" and password "glasnost" exists
 
-
   @javascript
   Scenario: Upload one image file without any special metatada
     When I log in as "helmi" with password "saumagen"
@@ -25,7 +24,6 @@ Feature: Upload images and manage media entries based on images
      And I follow "weiter..."
      And I wait for the CSS element ".has-set-widget"
      And I open the selection widget for this page
-     And I wait for the CSS element "#text_media_set"
      And I create a new set named "Mauerstücke"
      And I submit the selection widget
      And I follow "Import abschliessen"
@@ -56,7 +54,6 @@ Feature: Upload images and manage media entries based on images
      And I log in as "gorbi" with password "glasnost"
      And I go to the home page
      Then I should see "A beautiful piece of the Berl"
-
 
   @javascript
   Scenario: Upload an image file for my group to see
@@ -97,7 +94,6 @@ Feature: Upload images and manage media entries based on images
      And I log in as "raissa" with password "novodevichy"
      And I go to the home page
     Then I should see "baustelle osten"
-     
 
   @javascript
   Scenario: Upload a public file and then make it un-public again
@@ -118,7 +114,6 @@ Feature: Upload images and manage media entries based on images
      And I log in as "raissa" with password "novodevichy"
      And I go to the home page
     Then I should not see "geheimsache"
-
 
   @javascript
   Scenario: Give hi-resolution download permission on a file
