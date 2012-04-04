@@ -9,11 +9,19 @@
 class EditMetaDatumField
   
   @setup = (field)->
-    type = $(field).tmplItem().data.type    
-    switch type
-      when "string" then @setup_string(field)
-      when "meta_date" then @setup_meta_date(field)
-      when "copyright" then @setup_copyright(field)
+    field_data = $(field).tmplItem().data
+    type = field_data.type
+    field_name = field_data.name
+    if type is "string"
+      if field_name.match "copyright"
+        @setup_string field
+        @setup_copyright_relevant_field field
+      else
+        @setup_string field
+    else if type is "meta_date"
+      @setup_meta_date field
+    else if type is "copyright"
+      @setup_copyright field
       
   @setup_string = (field)->
     settings = $(field).tmplItem().data.settings
@@ -24,7 +32,23 @@ class EditMetaDatumField
     if settings.length_min
       $(field).find("input").attr("minlength", settings.length_min)
     $(field).find("textarea").elastic()
-   
+
+  @setup_copyright_relevant_field = (field)->
+    field_textarea = $(field).find "textarea"
+    textarea_start_val = $(field_textarea).val()
+    $(field_textarea).bind "keydown", (event)->
+      textarea_start_val = $(this).val()
+    $(field_textarea).bind "keyup", (event)->
+      if $(this).val() != textarea_start_val
+        # find dependend copyright fields
+        this_field = $(this).closest ".edit_meta_datum_field"
+        prev_copyright = $($(this_field).prev(".edit_meta_datum_field.copyright")[0])
+        # only involve copyright when its directly connected
+        custom_option = Underscore.find $(prev_copyright).find("option"), (element)-> $(element).tmplItem().data.is_custom
+        if $(custom_option).is(":not(:selected)")
+          $(custom_option).attr("selected", true)
+          $(custom_option).closest("select").trigger("change")
+        
    @setup_meta_date = (field)->
      $(field).find("input.datepicker").datepicker()
      $(field).find("select").bind "change", (event)->
@@ -94,11 +118,12 @@ class EditMetaDatumField
     $(field).find("select.root").after select
                 
   @set_copyright_text = (field, data)->
-    usage = $("[data-field_name='copyright usage'] textarea")
-    usage.val(data.usage)
-    usage.trigger("blur")
-    url = $("[data-field_name='copyright url'] textarea") 
-    url.val(data.url)
-    url.trigger("blur")
+    if not data.is_custom
+      usage = $("[data-field_name='copyright usage'] textarea")
+      usage.val(data.usage)
+      usage.trigger("blur")
+      url = $("[data-field_name='copyright url'] textarea") 
+      url.val(data.url)
+      url.trigger("blur")
         
 window.EditMetaDatumField = EditMetaDatumField
