@@ -111,6 +111,9 @@ end
 
 # Sets the checkbox of the media entry with the given title to true.
 def check_media_entry_titled(title)
+  wait_until {
+    find(".thumb_box")
+  }
   # Crutch so we can check the otherwise invisible checkboxes (they only appear on hover,
   # which Capybara can't do)
   make_hidden_items_visible

@@ -100,13 +100,13 @@
 
 :javascript
   $(document).ready(function () {
-    setupBatch();
+    $('.task_bar').hide();
     var url = "/resources.json?media_set_id=#{@media_set.id}";
     $.ajax({
       url: url,
       success: function(data){
         data.url = url;
-        display_results(data);
+        setupBatch(data);
       }
     });
     

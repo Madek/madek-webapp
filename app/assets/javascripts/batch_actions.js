@@ -102,6 +102,8 @@ function setupBatch(json) {
 	if(get_media_entries_json().length == 0 && $(".item_box").has(".check_box").length == 0){
 		$('.task_bar').hide();
 		return false;
+	}else{
+	  $('.task_bar').show();
 	}
 	// hide the select_deselect_all checkbox on the browse page
 	if($(".item_box .check_box").length < 2) {
