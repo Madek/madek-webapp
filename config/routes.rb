@@ -129,6 +129,7 @@ MAdeK::Application.routes.draw do
 
 #tmp#  constraints(:id => /\d+/) do
 
+    match "resources/favorites", :to => "resources#index"
     # TODO merge :resources into :media_resources 
     resources :resources, :only => [:index, :show] do
       collection do
@@ -142,7 +143,6 @@ MAdeK::Application.routes.draw do
         get :image
       end
     end
-    match "resources/favorites", :to => "resources#index"
     
     # TODO merge :resources into :media_resources 
     resources :media_resources do
