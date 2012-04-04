@@ -20,13 +20,14 @@ class ResourcesController < ApplicationController
             media_set_id = params[:media_set_id],
             not_by_current_user = params[:not_by_current_user],
             public = params[:public],
+            favorites = params[:favorites],
             query = params[:query],
             page = params[:page],
             per_page = (params[:per_page] || PER_PAGE.first).to_i,
             meta_key_id = params[:meta_key_id],
             meta_term_id = params[:meta_term_id] )
             
-    resources = if request.fullpath =~ /favorites/
+    resources = if favorites == "true"
       current_user.favorites
     else
       MediaResource
