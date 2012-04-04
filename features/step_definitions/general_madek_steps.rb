@@ -168,8 +168,13 @@ When /I fill in the metadata for entry number (\d+) as follows:/ do |num, table|
   end
   
   wait_until {
-    page.evaluate_script('window.running_ajax_calls').to_i.zero?
-  }
+    begin
+      find(".saving")
+      return false
+    rescue
+      true
+    end
+  }  
 end
 
 When "I fill in the metadata form as follows:" do |table|
