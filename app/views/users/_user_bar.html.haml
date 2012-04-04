@@ -6,7 +6,7 @@
     .sub_menu
       = link_to _("Meine Medieneinträge"), user_resources_path(current_user, :type => "media_entries"), :class => "item_line_me"
       = link_to _("Meine Sets"), user_resources_path(current_user, :type => "media_sets", :top_level => true), :class => "item_line_set"
-      = link_to _("Meine Favoriten"), resources_favorites_path, :class => "item_line_fav"
+      = link_to _("Meine Favoriten"), resources_path(:favorites => true), :class => "item_line_fav"
       = link_to _("Kopien für MIZ-Archiv"), snapshots_path if current_user.groups.is_member?("MIZ-Archiv")
       = link_to _("Meine Arbeitsgruppen"), groups_path, :class => "item_line", :class => "item_line_workgroup"
       = link_to _("Admin"), admin_root_path, :class => "item_line" if current_user.groups.is_member?("Admin")

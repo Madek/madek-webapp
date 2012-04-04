@@ -22,7 +22,7 @@ Then /^they are in my favorites$/ do
     @current_user.favorites.reload.include?(set).should == true
   end
 
-  visit resources_favorites_path
+  visit resources_path(favorites: true)
   wait_for_css_element("div.page div.item_box")
   all(".item_box").size.should == 3
 end
