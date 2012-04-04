@@ -20,9 +20,10 @@ Feature: Upload images and manage media entries based on images
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
      |label    |value                |
-     |Titel    |berlin wall for a set|
-     |Copyright|some other dude      |
+     |title    |berlin wall for a set|
+     |copyright notice|some other dude      |
      And I follow "weiter..."
+     And I wait for the CSS element ".has-set-widget"
      And I open the selection widget for this page
      And I wait for the CSS element "#text_media_set"
      And I create a new set named "Mauerstücke"
@@ -39,9 +40,10 @@ Feature: Upload images and manage media entries based on images
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
      |label    |value                               |
-     |Titel    |A beautiful piece of the Berlin Wall|
-     |Copyright|Kohl, Helmut                        |
+     |title    |A beautiful piece of the Berlin Wall|
+     |copyright notice|Kohl, Helmut                        |
      And I follow "weiter..."
+     And I wait for the CSS element ".has-set-widget"
      And I follow "Import abschliessen"
      And I go to the home page
      And I click the media entry titled "A beautiful piece of the Berl"
@@ -66,9 +68,10 @@ Feature: Upload images and manage media entries based on images
       And I go to the upload edit
       And I fill in the metadata for entry number 1 as follows:
       |label    |value                            |
-      |Titel    |A second piece of the Berlin Wall|
-      |Copyright|Kohl, Helmut                     |
+      |title    |A second piece of the Berlin Wall|
+      |copyright notice|Kohl, Helmut                     |
       And I follow "weiter..."
+      And I wait for the CSS element ".has-set-widget"
       And I follow "Import abschliessen"
       And I go to the home page
       And I click the media entry titled "A second piece of the Berlin"
@@ -221,6 +224,7 @@ Feature: Upload images and manage media entries based on images
      And I upload the file "features/data/images/date_should_be_2011-05-30.jpg" relative to the Rails directory
      And I go to the upload edit
      And I follow "weiter..."
+     And I wait for the CSS element ".has-set-widget"
      And I follow "Import abschliessen"
      And I go to the home page
      And I click the media entry titled "Grumpy Cat"
@@ -232,6 +236,7 @@ Feature: Upload images and manage media entries based on images
      And I upload the file "features/data/images/date_should_be_from_to_may.jpg" relative to the Rails directory
      And I go to the upload edit
      And I follow "weiter..."
+     And I wait for the CSS element ".has-set-widget"
      And I follow "Import abschliessen"
      And I go to the home page
      And I click the media entry titled "Frau-Sein"
@@ -251,6 +256,7 @@ Feature: Upload images and manage media entries based on images
      And I upload the file "features/data/images/date_should_be_1990.jpg" relative to the Rails directory
      And I go to the upload edit
      And I follow "weiter..."
+     And I wait for the CSS element ".has-set-widget"
      And I follow "Import abschliessen"
      And I go to the home page
      And I click the media entry titled "Frau-Sein"

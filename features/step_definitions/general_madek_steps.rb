@@ -163,18 +163,14 @@ When /I fill in the metadata for entry number (\d+) as follows:/ do |num, table|
   all(".thumb_box")[media_entry_num].click()
   
   table.hashes.each do |hash|
-    page.fill_in hash['label'].downcase, :with => hash['value']
+    label = hash["label"]
+    page.fill_in label.downcase, :with => hash['value']
+    find("body").click # makes sure that we are leaving the field again
     page.execute_script("$('*:focus').blur()")
+    wait_until {
+      find(".edit_meta_datum_field[data-field_name='#{label}'] .status .ok")
+    }  
   end
-  
-  wait_until {
-    begin
-      find(".saving")
-      return false
-    rescue
-      true
-    end
-  }  
 end
 
 When "I fill in the metadata form as follows:" do |table|
