@@ -6,6 +6,7 @@ Feature: Overview I
       And personas are loaded
 
   # https://www.pivotaltracker.com/story/show/27418863
+  @wip
   Scenario: Locations where the action bar appears
     Given I am "Normin"
     When I look at one of these pages:
@@ -22,6 +23,7 @@ Feature: Overview I
   # This scenario includes actually clicking each of the actions and trying
   # each of the behaviors.
   # https://www.pivotaltracker.com/story/show/27418863
+  @wip
   Scenario: Elements of the action bar
     Given I am "Normin"
     When I see the action bar
@@ -48,6 +50,7 @@ Feature: Overview I
     | Mini-grid |
 
   # https://www.pivotaltracker.com/story/show/27418863
+  @wip
   Scenario: Picking any action from the action bar changes the page I am on
     When I am on a page with an action bar
     And I change any of the settings in the bar
@@ -55,6 +58,7 @@ Feature: Overview I
     And I cannot make multiple changes in one go
 
   # https://www.pivotaltracker.com/story/show/27418863
+  @wip
   Scenario: Content counter
     When I look at a set
     Then the counter is formatted as "n von m für Sie sichtbar"
@@ -62,6 +66,7 @@ Feature: Overview I
     Then the counter is formatted as "n Resultate"
 
   # https://www.pivotaltracker.com/story/show/21438575
+  @wip
   Scenario: Displaying the appropriate placeholder icon for a file that can't be previewed
     Given the system is set up
     Then each of the following media types has its own representing icon according to the mappings in the file "config/mime_icons.yml"

@@ -18,9 +18,9 @@ Feature: Upload images and manage media entries based on images
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
-     |label    |value                |
-     |title    |berlin wall for a set|
-     |copyright notice|some other dude      |
+     | label     | value                 |
+     | Titel     | berlin wall for a set |
+     | Copyright | some other dude       |
      And I follow "weiter..."
      And I wait for the CSS element ".has-set-widget"
      And I open the selection widget for this page
@@ -37,9 +37,9 @@ Feature: Upload images and manage media entries based on images
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
-     |label    |value                               |
-     |title    |A beautiful piece of the Berlin Wall|
-     |copyright notice|Kohl, Helmut                        |
+     | label     | value                                |
+     | Titel     | A beautiful piece of the Berlin Wall |
+     | Copyright | Kohl, Helmut                         |
      And I follow "weiter..."
      And I wait for the CSS element ".has-set-widget"
      And I follow "Import abschliessen"
@@ -64,9 +64,9 @@ Feature: Upload images and manage media entries based on images
       And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
       And I go to the upload edit
       And I fill in the metadata for entry number 1 as follows:
-      |label    |value                            |
-      |title    |A second piece of the Berlin Wall|
-      |copyright notice|Kohl, Helmut                     |
+      | label     | value                             |
+      | Titel     | A second piece of the Berlin Wall |
+      | Copyright | Kohl, Helmut                      |
       And I follow "weiter..."
       And I wait for the CSS element ".has-set-widget"
       And I follow "Import abschliessen"

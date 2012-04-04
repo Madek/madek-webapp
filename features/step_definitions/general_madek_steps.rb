@@ -164,11 +164,13 @@ When /I fill in the metadata for entry number (\d+) as follows:/ do |num, table|
   
   table.hashes.each do |hash|
     label = hash["label"]
-    page.fill_in label.downcase, :with => hash['value']
+    field = find(".label", :text => label).find(:xpath, "./../..")
+    input = field.find("input, textarea")
+    input.set hash['value']
     find("body").click # makes sure that we are leaving the field again
     page.execute_script("$('*:focus').blur()")
     wait_until {
-      find(".edit_meta_datum_field[data-field_name='#{label}'] .status .ok")
+      field.find(".status .ok")
     }  
   end
 end

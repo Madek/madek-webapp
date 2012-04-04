@@ -15,9 +15,9 @@ Feature: Do things to and with sets
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
-     |label    |value                       |
-     |title    |into the set after uploading|
-     |copyright notice|some other dude             |
+     | label     | value                        |
+     | Titel     | into the set after uploading |
+     | Copyright | some other dude              |
      And I follow "weiter..."
      And I follow "Import abschliessen"
      And I go to the media entries
@@ -35,9 +35,9 @@ Feature: Do things to and with sets
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
-     |label    |value                       |
-     |title    |into the set after uploading|
-     |copyright notice|some other dude      |
+     | label     | value                        |
+     | Titel     | into the set after uploading |
+     | Copyright | some other dude              |
      And I follow "weiter..."
      And I follow "Import abschliessen"
      And I go to the media entries
@@ -64,9 +64,9 @@ Feature: Do things to and with sets
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
-     | label            | value           |
-     | title            | Link test       |
-     | copyright notice | some other dude |
+     | label     | value           |
+     | Titel     | Link test       |
+     | Copyright | some other dude |
      And I follow "weiter..."
      And I follow "Import abschliessen"
      And I go to the media entries

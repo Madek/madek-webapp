@@ -143,7 +143,9 @@ When /^I have started uploading some files$/ do
 end
 
 When /^I cancel the upload$/ do
-  wait_for_css_element(".next:not(.disabled)")
+  wait_until {
+    find(".next:not(.disabled)")
+  }
   step 'follow "Abbrechen"'
   page.driver.browser.switch_to.alert.accept
 end
