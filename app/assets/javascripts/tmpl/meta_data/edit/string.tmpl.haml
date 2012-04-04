@@ -3,7 +3,7 @@
   {{tmpl "tmpl/meta_data/edit/cell/hint"}}
 .input
   {{if settings.length_max == 255}}
-  %input{:type => "text", :value => "${value}"}
+  %input{:type => "text", :value => "${value}", :name => "${name}"}
   {{else}}
   %textarea{:rows => 2}
     ${value}

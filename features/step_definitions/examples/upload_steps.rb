@@ -202,7 +202,7 @@ When /^I import a file$/ do
    |label    |value                       |
    |Titel    |into the set after uploading|
    |Copyright|some other dude             |
-   And I follow "Metadaten speichern und weiter..."
+   And I follow "weiter..."
    And I follow "Import abschliessen"
   }
 end

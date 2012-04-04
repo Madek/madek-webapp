@@ -151,17 +151,25 @@ end
 
 
 When /I fill in the metadata for entry number (\d+) as follows:/ do |num, table|
+  wait_until {
+    find(".edit_meta_datum_field") and find(".thumb_box")
+  }
+  
   # Makes the text more human-readable, don't have to specify 0 to fill in
   # for the first entry
   media_entry_num = num.to_i - 1
-  # Fills in the "_value" field it finds in the UL that contains
-  # the "key" text. e.g. "Titel*" or "Copyright"
+  
+  # select media_entry wanted
+  all(".thumb_box")[media_entry_num].click()
+  
   table.hashes.each do |hash|
-    text = filter_string_for_regex(hash['label'])
-    all("ul", :text => /^#{text}/)[media_entry_num].all("input").each do |ele|
-      fill_in ele[:id], :with => hash['value'] if ele[:id] =~ /_value$/
-    end
+    page.fill_in hash['label'].downcase, :with => hash['value']
+    page.execute_script("$('*:focus').blur()")
   end
+  
+  wait_until {
+    page.evaluate_script('window.running_ajax_calls').to_i.zero?
+  }
 end
 
 When "I fill in the metadata form as follows:" do |table|
