@@ -143,12 +143,9 @@ When /^I have started uploading some files$/ do
 end
 
 When /^I cancel the upload$/ do
-  # we have to sleep, the wait until is timeing out, when the upload process is taking to long
-  sleep(10)
-  ##
-  wait_until {
-    find(".next:not(.disabled)")
-  }
+  wait_until(10) do
+    all(".next:not(.disabled)").size == 1
+  end
   step 'follow "Abbrechen"'
   page.driver.browser.switch_to.alert.accept
 end
