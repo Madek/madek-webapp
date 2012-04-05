@@ -4,7 +4,7 @@
       = link_to "Medienarchiv der Künste", root_path, :class => "logo_left ir"
       = render :partial => "layouts/search" unless @disable_search
       #nav_links
-        = link_to _(@set), media_set_media_sets_path(@set), :title => "Inhalte erkunden", :class => "main_nav_browse ir" if (@set = MediaSet.featured_set) and !@set.child_sets.empty?
+        = link_to _(@set), media_sets_path(:media_set_id => @set), :title => "Inhalte erkunden", :class => "main_nav_browse ir" if (@set = MediaSet.featured_set) and !@set.child_sets.empty?
         = link_to _("Hochladen"), upload_path, :title => "Medien importieren", :class => "main_nav_upload ir"
         = render :partial => "layouts/menu"
         = link_to _("Hilfe"), "/wiki", :title => _("Hilfe Wiki anzeigen"), :class => "main_nav_help ir" #TODO: add wiki path here

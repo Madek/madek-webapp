@@ -2,9 +2,9 @@
   .icon_set
   =_("Meine Sets")
 .page_navigation
-  = link_to _("Alle meine Sets"), user_resources_path(current_user, :type => "media_sets"), :class => (!params[:top_level] ? "active" : nil)
+  = link_to _("Alle meine Sets"), resources_path(:user_id => current_user, :type => "media_sets"), :class => (!params[:top_level] ? "active" : nil)
   = " | "
-  = link_to _("Alle meine obersten Sets"), user_resources_path(current_user, :type => "media_sets", :top_level => true), :class => (params[:top_level] ? "active" : nil) 
+  = link_to _("Alle meine obersten Sets"), resources_path(:user_id => current_user, :type => "media_sets", :top_level => true), :class => (params[:top_level] ? "active" : nil) 
 .clear
 
 = button_tag(:id => "new_button", :class => "new_set", :style => "float: left;") do

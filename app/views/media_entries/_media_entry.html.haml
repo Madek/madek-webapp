@@ -52,7 +52,7 @@
                 .button_permissions
             %li
               %span.favorite_link{:id => "fav_#{media_entry.id}", :title => "Favorit"}
-                = render :partial => "resources/favorite_link", :locals => {:media_resource => media_entry}
+                = render :partial => "media_resources/favorite_link", :locals => {:media_resource => media_entry}
             - if media_entry.meta_data.for_meta_terms.exists?
               %li
                 = link_to browse_media_entry_path(media_entry), :title => "Erkunden" do

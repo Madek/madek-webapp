@@ -13,7 +13,7 @@ if params[:with] and params[:with][:image]
            end
       mf ? mf.thumb_base64(size) : nil
     else # default return is a url to the image
-      "/resources/%d/image?size=%s" % [id, size]
+      "/media_resources/%d/image?size=%s" % [id, size]
   end            
 end
 

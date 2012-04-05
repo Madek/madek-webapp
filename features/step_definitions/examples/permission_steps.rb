@@ -40,13 +40,13 @@ Given /^the resource has the following permissions:$/ do |table|
 end
 
 Then /^"([^"]*)" can ([^"]*) the resource$/ do |user, permission|
-  visit "/resources/#{@resource.id}/"
+  visit "/media_resources/#{@resource.id}/"
   open_permissions
   find(".me .line .permissions .#{permission} input").checked?
 end
 
 Then /^"([^"]*)" is the owner of the resource$/ do |user|
-  visit "/resources/#{@resource.id}/"
+  visit "/media_resources/#{@resource.id}/"
   open_permissions
   find(".me .line .owner input").checked?
 end

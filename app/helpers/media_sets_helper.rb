@@ -88,8 +88,8 @@ module MediaSetsHelper
       if resources.empty?
         selected_ids = ""
         detach_selected = "true"
-        link = {path: "/resources/parents.json", method: "POST", data: {parent_media_set_ids: ":parent_media_set_ids", media_resource_ids: ":media_resource_ids"}}
-        unlink = {path: "/resources/parents.json", method: "DELETE", data: {parent_media_set_ids: ":parent_media_set_ids", media_resource_ids: ":media_resource_ids"}}
+        link = {path: "/media_resources/parents.json", method: "POST", data: {parent_media_set_ids: ":parent_media_set_ids", media_resource_ids: ":media_resource_ids"}}
+        unlink = {path: "/media_resources/parents.json", method: "DELETE", data: {parent_media_set_ids: ":parent_media_set_ids", media_resource_ids: ":media_resource_ids"}}
       else
         selected_ids = resources.map(&:id).to_json
         if resources.first.is_a?(MediaSet)
