@@ -56,7 +56,7 @@
       .action_left
         .check_box
         %span.favorite_link{:id => "fav_${id}", :title => "Favorit"}
-          %a{:href => "/resources/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
+          %a{:href => "/media_resources/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
             {{if is_favorite}}
             .button_favorit_on
             {{else}}

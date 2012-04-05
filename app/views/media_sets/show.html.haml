@@ -27,7 +27,7 @@
           :"data-current_user" => "#{current_user.to_json(:only=>:id, :include => :groups)}" do
             .button_permissions
           %span.favorite_link{:id => "fav_#{@media_set.id}", :title => "Favorit"}
-            = render :partial => "resources/favorite_link", :locals => {:media_resource => @media_set}
+            = render :partial => "media_resources/favorite_link", :locals => {:media_resource => @media_set}
 
       .grid_9
         #detail_specification.tabs
@@ -52,8 +52,8 @@
             = render :partial => "media_entries/browsing"
             #abstract_tab.clearfix
               %p= _("Diese Metadaten wurden am häufigsten vergeben. Sie zeigen den thematischen Schwerpunkt des Projekts an.")
-              = display_set_abstract_slider(@media_set, @media_entries[:pagination][:total_entries])
-              = display_set_abstract(@media_set, (@media_entries[:pagination][:total_entries] * 30 / 100), current_user)
+              = display_set_abstract_slider(@media_set, @pagination[:total_entries])
+              = display_set_abstract(@media_set, (@pagination[:total_entries] * 30 / 100), current_user)
             #vocabulary_tab.clearfix
               = display_set_vocabulary(@media_set, current_user)
           - if @can_edit_set and !@media_set.individual_and_inheritable_contexts.empty?
@@ -90,26 +90,12 @@
     %div{:class => icon_class}
     = _("Set enthält")
     %span
-      =#old# "#{@media_entries[:pagination][:total_entries]} von #{@media_set.media_entries.count} Medieneinträge für Sie sichtbar"
-      = "#{@media_entries[:pagination][:total_entries]} von #{MediaResource.by_media_set(@media_set).count} für Sie sichtbar"
+      = "#{@pagination[:total_entries]} von #{MediaResource.by_media_set(@media_set).count} für Sie sichtbar"
   .clear
   = render :partial => "media_entries/index"
-  
-  
-=#Rails3.1# javascript_include_tag "batch_actions"
 
 :javascript
   $(document).ready(function () {
-    $('.task_bar').hide();
-    var url = "/resources.json?media_set_id=#{@media_set.id}";
-    $.ajax({
-      url: url,
-      success: function(data){
-        data.url = url;
-        setupBatch(data);
-      }
-    });
-    
     // hide parents at start
     $("#parents").hide();
         

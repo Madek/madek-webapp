@@ -6,7 +6,7 @@ Given /^I see some sets$/ do
   end
   @current_user.media_sets.count.should == 3
   
-  visit user_resources_path(@current_user, :type => "media_sets")
+  visit resources_path(:user_id => @current_user, :type => "media_sets")
   wait_for_css_element("div.page div.item_box")
   all(".item_box").size.should == 3
 end

@@ -323,14 +323,14 @@ end
 
 # Creates a new set
 def create_set(set_title = "Untitled Set")
-  visit user_resources_path(@current_user, :type => "media_sets")
+  visit resources_path(:user_id => @current_user, :type => "media_sets")
   click_link_or_button "Neues Set erstellen"
   fill_in "media_set_meta_data_attributes_0_value", :with => set_title
   click_link_or_button "Erstellen"
 end
 
 # Adds a media entry to a set. Only works if the media entry
-# has a title, so that it shows up under /media_entries. The set
+# has a title, so that it shows up under /resources. The set
 # also needs a title.
 def add_to_set(set_title = "Untitled Set", picture_title = "Untitled", owner = "No one")
   visit "/resources"
