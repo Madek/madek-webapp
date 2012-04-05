@@ -1,6 +1,19 @@
 # -*- encoding : utf-8 -*-
 class MediaResourcesController < ApplicationController
 
+  # TODO cancan # load_resource #:class => "MediaResource"
+  before_filter :except => [:index, :collection] do
+    begin
+      unless (params[:media_resource_id] ||= params[:id] || params[:media_resource_ids]).blank?
+        @media_resource = MediaResource.accessible_by_user(current_user).find(params[:media_resource_id])
+      end
+    rescue
+      not_authorized!
+    end
+  end
+
+###################################################################################
+
   ##
   # Get a collection of MediaResources
   # 
@@ -46,7 +59,11 @@ class MediaResourcesController < ApplicationController
     end
   end
 
+  def show
+    redirect_to @media_resource
+  end
 
+=begin
   def update
     
     ActiveRecord::Base.transaction do
@@ -78,6 +95,7 @@ class MediaResourcesController < ApplicationController
     end
 
   end
+=end
 
 ########################################################################
 
@@ -97,6 +115,70 @@ class MediaResourcesController < ApplicationController
       format.json { render json: {collection_id: collection_id} }
     end
   end
+
+###################################################################################
+
+  def toggle_favorites
+    current_user.favorites.toggle(@media_resource)
+    respond_to do |format|
+      format.js { render :partial => "favorite_link", :locals => {:media_resource => @media_resource} }
+    end
+  end
+
+###################################################################################
+
+  def parents(parent_media_set_ids = params[:parent_media_set_ids])
+    parent_media_sets = MediaSet.accessible_by_user(current_user, :edit).where(:id => parent_media_set_ids.map(&:to_i))
+    child_resources = Array(@media_resource)
+    
+    child_resources.each do |resource|
+      if request.post?
+        (parent_media_sets - resource.parent_sets).each do |parent_media_set|
+          resource.parent_sets << parent_media_set 
+        end
+      elsif request.delete?
+        parent_media_sets.each do |parent_media_set|
+          resource.parent_sets.delete(parent_media_set)
+        end
+      end
+    end
+    
+    respond_to do |format|
+      #format.html { redirect_to @media_set }
+      format.json { 
+        render :json => child_resources.as_json(:user => current_user, :methods => :parent_ids) 
+      }
+    end
+  end
+
+###################################################################################
+
+  def image(size = (params[:size] || :large).to_sym)
+    # TODO dry => Resource#thumb_base64 and Download audio/video
+    media_file = if @media_resource.is_a? MediaSet
+      @media_resource.media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
+    else
+      @media_resource.media_file
+    end
+    
+    unless media_file
+      # empty gif pixel
+      output = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==\n"
+      send_data Base64.decode64(output), :type => "image/gif", :disposition => 'inline'
+    else
+      preview = media_file.get_preview(size)
+      file = File.join(THUMBNAIL_STORAGE_DIR, media_file.shard, preview.filename)
+      if File.exist?(file)
+        output = File.read(file)
+        send_data output, :type => preview.content_type, :disposition => 'inline'
+      else
+        # OPTIMIZE dry => MediaFile#thumb_base64
+        size = (size == :large ? :medium : :small)
+        output = File.read("#{Rails.root}/app/assets/images/Image_#{size}.png")
+        send_data output, :type => "image/png", :disposition => 'inline'
+      end
+    end
+  end  
 
 end
 

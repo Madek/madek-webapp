@@ -125,7 +125,7 @@ class MediaSet < MediaResource
               mf = media_entries.accessible_by_user(options[:current_user]).order("media_resources.updated_at DESC").first.try(:media_file)
               mf ? mf.thumb_base64(size) : nil
             else # default return is a url to the image
-              "/resources/%d/image?size=%s" % [id, size]
+              "/media_resources/%d/image?size=%s" % [id, size]
           end            
         end
         if with[:media_set].has_key?(:type) and (with[:media_set][:type].is_a?(Hash) or not with[:media_set][:type].to_i.zero?)

@@ -1,4 +1,0 @@
-<% if changing_own_permission %>
-  var new_download_panel = "<%=escape_javascript(render(:partial => '/media_entries/download', :object => @permission.media_resource, :as => :media_entry))%>";
-  $("#download-panel").html(new_download_panel);
-<% end %>

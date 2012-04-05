@@ -69,10 +69,10 @@ class MediaEntry < MediaResource
                 when "base64"
                   self.media_file.thumb_base64(size)
                 else # default return is a url to the image
-                  "/resources/%d/image?size=%s" % [id, size]
+                  "/media_resources/%d/image?size=%s" % [id, size]
               end
             else
-              "/resources/%d/image?size=%s" % [id, size]
+              "/media_resources/%d/image?size=%s" % [id, size]
           end            
         end
       end

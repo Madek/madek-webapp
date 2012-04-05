@@ -1,41 +1,20 @@
 # -*- encoding : utf-8 -*-
 MAdeK::Application.routes.draw do
 
-
-
-=begin #FE#
-  resources :resources, :only => :index
-  resources :media_sets, :only => :show
-  resources :media_entries, :only => :show do
-    member do
-      get :image
-    end
-    resources :meta_data do
-      collection do
-        put :update_multiple
-      end
-    end
-  end
-=end  
-
   wiki_root '/wiki'
 
   root :to => "application#root"
 
 ###############################################
-  #
 
   match '/help', :to => "application#help"
   match '/feedback', :to => "application#feedback"
-  #old??# match '/catalog', :to => "application#catalog"
 
   match '/login', :to => "authenticator/zhdk#login"
   match '/logout', :to => "authenticator/zhdk#logout"
   match '/db/login', :to => "authenticator/database_authentication#login"
   match '/db/logout', :to => "authenticator/database_authentication#logout"
   match '/authenticator/zhdk/login_successful/:id', :to => "authenticator/zhdk#login_successful"
-  # TODO 0306 remove this method!!! used only for test purposes
-  #test_login '/test_login', :controller => 'application', :action => 'test_login'
   
 ###############################################
 
@@ -43,22 +22,26 @@ MAdeK::Application.routes.draw do
   
   match '/nagiosstat', :to => Nagiosstat
 
-
-
 ################################################
 
-  resources :permissions, :only => :index, :format => true, :constraints => {:format => /json/}
-  resource :permissions, :only => :update
+  resources :permissions, :only => :index, :format => true, :constraints => {:format => /json/} do
+    collection do
+      put :update # TODO merge to media_resources#update ??
+    end
+  end
+
+  resources :permission_presets, :only => :index, :format => true, :constraints => {:format => /json/}
 
   resources :meta_context_groups, only: :index
 
   resources :keywords, only: :index
-  resources :meta_data, only: [:update]
+  resources :meta_data, only: [:update] # TODO merge to media_resources#update ??
   resources :copyrights, only: :index
 
 ###############################################
 #NOTE first media_entries and then media_sets
 
+  # TODO merge to :media_resources ?? 
   resources :media_entries do
     collection do
       get :keywords
@@ -73,7 +56,7 @@ MAdeK::Application.routes.draw do
       delete :media_sets
       get :edit_tms
       get :to_snapshot
-      get :image, :to => "resources#image"
+      get :image, :to => "media_resources#image"
       get :map
       get :browse
     end
@@ -91,6 +74,7 @@ MAdeK::Application.routes.draw do
 
   match '/media_sets/graph/:type', :to => "media_sets#graph"
 
+  # TODO merge to :media_resources ?? 
   resources :media_sets do #-# TODO , :except => :index # the index is only used to create new sets
     collection do
       post :parents
@@ -104,8 +88,6 @@ MAdeK::Application.routes.draw do
       post :parents # TODO: remove
       delete :parents # TODO: remove
     end
-    
-    resources :media_sets #-# only used for FeaturedSet 
     
     resources :meta_data do
       collection do
@@ -130,32 +112,28 @@ MAdeK::Application.routes.draw do
 #tmp#  constraints(:id => /\d+/) do
 
     # TODO merge :resources into :media_resources 
-    resources :resources, :only => [:index, :show] do
+    resources :resources, :only => [:index] do
       collection do
-        post :parents
-        delete :parents
         get :filter
         post :filter
       end
-      member do
-        post :toggle_favorites
-        get :image
-      end
     end
     
-    # TODO merge :resources into :media_resources 
     resources :media_resources do
       collection do
         #get :collection
         post :collection
         #delete :collection
+        post :parents
+        delete :parents
+      end
+      member do
+        post :toggle_favorites
+        get :image
       end
 
       resources :meta_data, only: [:update]
     end
-
-    resources :permissions, :only => :index, :format => true, :constraints => {:format => /json/}
-    resources :permission_presets, :only => :index, :format => true, :constraints => {:format => /json/}
     
 #tmp#  end
 
@@ -179,7 +157,7 @@ MAdeK::Application.routes.draw do
 ###############################################
 # TODO refactor nested resources to people and make user as single resource
 
-  resources :users, :shallow => true do
+  resources :users do
     member do
       get :usage_terms
       post :usage_terms
@@ -188,17 +166,14 @@ MAdeK::Application.routes.draw do
       get :usage_terms
     end
     
-    resources :resources # TODO shallow
-    resources :media_sets, :except => :index do
+    resources :media_sets, :except => :index do # TODO remove
       member do
         post :add_member # TODO
       end
-      
       collection do
         get :add_member
       end
-      
-      resources :media_entries # TODO shallow
+      resources :media_entries
     end 
   end
 

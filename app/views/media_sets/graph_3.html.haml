@@ -50,7 +50,7 @@
           .data(pack.nodes)
           .enter()
           .append("a")
-            .attr("xlink:href", function(d) { if(d.id){ return "/resources/" + d.id; }else{ return "#"; } })
+            .attr("xlink:href", function(d) { if(d.id){ return "/media_resources/" + d.id; }else{ return "#"; } })
           .append("g")
             .attr("class", "node")
             .attr("title", function(d) { return d.name; })
