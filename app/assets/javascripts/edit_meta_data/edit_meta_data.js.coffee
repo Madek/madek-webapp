@@ -90,12 +90,14 @@ class EditMetaData
     else
       # save value for complete collection
       field_value = EditMetaData.compute_value field
-      field_name = $(field).tmplItem().data.name
+      field_data = $(field).tmplItem().data
+      field_name = field_data.name
+      field_type = field_data.type
       # show loading status
       EditMetaData.set_status field, "loading"
       # show saving indicator when save starts
       $(EditMetaData.container).find(".media_resource_selection .item_box").each (i, media_resource_element)->
-        EditMetaData.show_saving_indicator media_resource_element
+        EditMetaData.show_saving_indicator media_resource_element, field_name
       $.ajax 
         url: "/meta_data/"+field_name+".json"
         type: "PUT"
@@ -105,12 +107,12 @@ class EditMetaData
         complete: (data)->
           # hide saving indicator when save starts
           $(EditMetaData.container).find(".media_resource_selection .item_box").each (i, media_resource_element)->
-            EditMetaData.hide_saving_indicator media_resource_element
+            EditMetaData.hide_saving_indicator media_resource_element, field_name
         success: (data)->
           # save localy for each entry
           $(EditMetaData.container).find(".item_box").each (i, media_resource_element)->
             meta_data = $(media_resource_element).tmplItem().data.meta_data
-            EditMetaData.save_locally meta_data, field
+            EditMetaData.save_locally field, meta_data, field_name, field_data, field_value, field_type
           # show ok
           EditMetaData.set_status field, "ok"
           # update title
@@ -118,6 +120,10 @@ class EditMetaData
           # validate all entries again
           EditMetaData.container.find(".item_box:not(.loading)").each (i, element)->
             EditMetaData.validate_element(element)
+          # update envolved field from the form
+          envolved_field = $(EditMetaData.container).find(".edit_meta_datum_field[data-field_name='"+field_name+"']")
+          if JSON.stringify(field_value) != JSON.stringify(EditMetaData.compute_value(envolved_field)) # to json because it can be arrays also       
+            EditMetaData.rerender_field envolved_field
         error: (data)->
           EditMetaData.set_status field, "server_error"
           $(field).find(".status .error").attr "title", JSON.stringify data
@@ -174,7 +180,7 @@ class EditMetaData
     # show loading status
     EditMetaData.set_status field, "loading"
     # show saving indicator when save starts
-    EditMetaData.show_saving_indicator media_resource_element
+    EditMetaData.show_saving_indicator media_resource_element, field_name
     # save via ajax
     $.ajax 
       url: "/media_resources/"+media_resource_id+"/meta_data/"+field_name+".json"
@@ -182,21 +188,26 @@ class EditMetaData
       data:
         value: field_value
       complete: (data)->
-        EditMetaData.hide_saving_indicator media_resource_element
+        EditMetaData.hide_saving_indicator media_resource_element, field_name
       success: (data)->
         # save localy
-        EditMetaData.save_locally meta_data, field
+        EditMetaData.save_locally field, meta_data, field_name, field_data, field_value, field_type
         # show / hide icons
         EditMetaData.set_status field, "ok"
         # update title if needed
         if field_name == "title" then EditMetaData.update_title(media_resource_id)
         # validate element again
         EditMetaData.validate_element media_resource_element  
-        # rerender the field after its coming back if its still visible
-        if $(field).is(":visible")
-          new_media_resource_element = $(EditMetaData.container).find(".media_resource_selection [data-media_resource_id="+media_resource_id+"]")
-          EditMetaData.update_field(field, new_media_resource_element)
-          EditMetaData.show_if_field_is_ok(field)
+        # update the field after its coming back if its connected media resource element is still selected 
+        refetched_field = $(EditMetaData.container).find(".edit_meta_datum_field[data-field_name='"+field_name+"']")
+        if refetched_field.data("media_resource_id") == media_resource_id
+          #EditMetaData.rerender_field(refetched_field)
+          EditMetaData.update_field(refetched_field, media_resource_element)
+          # show if field is ok
+          EditMetaData.show_if_field_is_ok(refetched_field)
+          # rerender the fiel if the refetched_field has a different value
+          if JSON.stringify(field_value) != JSON.stringify(EditMetaData.compute_value(refetched_field)) # to json because it can be arrays also       
+            EditMetaData.rerender_field refetched_field
         if field_type == "keyword"
           # load the keywords again, now that we have perhaps a new one
           Keywords.load()
@@ -204,20 +215,21 @@ class EditMetaData
         EditMetaData.set_status field, "server_error"
         $(field).find(".status .error").attr "title", data
     
-  @show_saving_indicator = (element)->
+  @rerender_field = (field)->
+    media_resource_id = $(field).data("media_resource_id")
+    media_resource_element = $(EditMetaData.container).find(".media_resource_selection [data-media_resource_id="+media_resource_id+"]")
+    EditMetaData.setup_field(field, media_resource_element)
+    
+  @show_saving_indicator = (element, field_name)->
     $(element).addClass("saving")
     $(element).find(".saving.icon").remove()
     $(element).append $.tmpl("tmpl/media_resource/thumb_box/saving_icon")
     
-  @hide_saving_indicator = (element)->
+  @hide_saving_indicator = (element, field_name)->
     $(element).removeClass("saving")
     $(element).find(".saving.icon").remove()
   
-  @save_locally = (meta_data, field)->
-    field_name = $(field).tmplItem().data.name
-    field_data = $(field).tmplItem().data
-    field_value = EditMetaData.compute_value field
-    field_type = field_data.type
+  @save_locally = (field, meta_data, field_name, field_data, field_value, field_type)->
     meta_datum = Underscore.find meta_data, (meta_datum)-> (meta_datum.name == field_name)
     if field_type == "copyright"
       meta_datum.raw_value = Array($(field).find("option:selected:last").tmplItem().data)
@@ -226,6 +238,7 @@ class EditMetaData
         $(element).tmplItem().data
     else
       meta_datum.value = field_value
+      meta_datum.raw_value = field_value
     return true
     
   @update_all_titles = (field_value)->
@@ -370,7 +383,7 @@ class EditMetaData
       $(field).trigger("focus")
     # hide on blur change
     $(field).delegate "select, input, textarea", "blur", (event)->
-      $(field).trigger("blur")
+      $(field).qtip("hide")
     
   @positioning_qtip = (event,api,field)->
     tip = event.currentTarget
