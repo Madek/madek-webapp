@@ -14,7 +14,7 @@
       - else
         = render :partial => "all_sets"
     -else
-      - title_str, no_media_str, icon_class = if request.fullpath =~ /favorites/
+      - title_str, no_media_str, icon_class = if params[:favorites] == "true"
         - [_("Meine Favoriten"), _("Keine Medien vorhanden"), "icon_favorite"]
       - elsif my_user
         - [_("Meine Medieneinträge"), _("Keine Medieneinträge vorhanden"), "icon_me"]

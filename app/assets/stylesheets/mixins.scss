@@ -17,6 +17,14 @@
   box-shadow: $value, $value2;
 }
 
+@mixin text-shadow($value) {
+  -moz-text-shadow: $value;
+  -webkit-text-shadow: $value;
+  -o-text-shadow: $value;
+  -ms-text-shadow: $value;
+  text-shadow: $value;
+}
+
 @mixin opacity($value) {
   filter: alpha(opacity=$value); // IE5-7
   -moz-opacity: $value; // NETSCAPE & MOZILLA
@@ -37,11 +45,33 @@
   border-radius: $value; /* CSS3 */
 }
 
+@mixin top-border-radius($value) {
+  -moz-border-top-left-radius: $value;
+  -moz-border-top-right-radius: $value;
+  -webkit-border-top-left-radius: $value;
+  -webkit-border-top-right-radius: $value;
+  -o-border-top-left-radius: $value;
+  -o-border-top-right-radius: $value;
+  -ms-border-top-left-radius: $value;
+  -ms-border-top-right-radius: $value;
+  border-top-left-radius: $value;
+  border-top-right-radius: $value;
+}
+
 @mixin transition($value) {
   -moz-transition: $value;
   -webkit-transition: $value;
   -o-transition: $value;
   transition: $value;
+}
+
+@mixin unselectable() {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 @mixin vertical-gradient($color1, $color2, $start1, $start2) {

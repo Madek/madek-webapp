@@ -51,8 +51,8 @@ module Persona
         create_user
         add_to_admin_group
         setup_dropbox
-        create_contexts
         create_zhdk_group
+        create_contexts
       end
     end
     
@@ -68,8 +68,7 @@ module Persona
     end
 
     def add_to_admin_group
-      Group.find_or_create_by_name("Admin")
-      Group.where("name = ?", :Admin).first.users << @user
+      Group.find_or_create_by_name("Admin").users << @user
     end
     
 
@@ -87,11 +86,11 @@ module Persona
       context = if MetaContext.exists?(:name => name)
         MetaContext.send(name)
       else
-        Factory(:meta_context, :name => name)
+        Factory(:meta_context, :name => name, :meta_context_group => MetaContextGroup.find_by_name("Kontexte"))
       end
 
       title = "Landschaften"
-      media_set1 = Factory(:media_set, :user => @user)
+      media_set1 = Factory(:media_set, :user => @user, :view => true)
       media_set1.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title}}})
       media_set1.individual_contexts << context
 
@@ -101,20 +100,21 @@ module Persona
       context = if MetaContext.exists?(:name => name)
         MetaContext.send(name)
       else
-        Factory(:meta_context, :name => name)
+        Factory(:meta_context, :name => name, :meta_context_group => MetaContextGroup.find_by_name("Kontexte"))
       end
 
       title = "Zett"
       media_set2 = Factory(:media_set, :user => @user)
       media_set2.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title}}})
       media_set2.individual_contexts << context
+      media_set2.grouppermissions.create(group: Group.find_by_name("ZHdK"), view: true)
 
       # TODO create with meta_keys
       name = "Games"
       context = if MetaContext.exists?(:name => name)
         MetaContext.send(name)
       else
-        Factory(:meta_context, :name => name)
+        Factory(:meta_context, :name => name, :meta_context_group => MetaContextGroup.find_by_name("Kontexte"))
       end
 
       title = "Zett über Landschaften"

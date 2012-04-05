@@ -83,15 +83,24 @@ module Persona
     @@password = "password"
     
     def initialize
+      setup_dependencies
+      
       ActiveRecord::Base.transaction do 
         create_person
         create_user
         
         # LISELOTTE'S GROUPS
         join_zhdk_group
+
+        create_media_entries_and_nest_them_to_media_sets_with_individual_contexts
+        create_media_entries_with_gps
       end
     end
 
+    def setup_dependencies 
+      Persona.create :adam
+    end
+    
     def create_person
       @name = @@name
       @lastname = @@lastname  
@@ -107,6 +116,33 @@ module Persona
       @zhdk_group= Group.find_or_create_by_name("ZHdK")
       @zhdk_group.users << @user
     end
+    
+    def create_media_entries_and_nest_them_to_media_sets_with_individual_contexts
+      landschaften_set = MediaSet.accessible_by_user(@user).detect {|x| x.title == "Landschaften" }
+      zett_set = MediaSet.accessible_by_user(@user).detect {|x| x.title == "Zett" }
 
+      media_entry = Factory(:media_entry, 
+                       user: @user,
+                       media_sets: [landschaften_set],
+                       meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Schweizer Panorama"}})
+
+      media_entry = Factory(:media_entry, 
+                       user: @user,
+                       media_sets: [landschaften_set, zett_set],
+                       meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Deutsches Panorama"}})
+    end
+
+    def create_media_entries_with_gps
+      media_entry = Factory(:media_entry, 
+                       user: @user,
+                       media_file: FactoryGirl.create(:media_file, :uploaded_data => begin
+                        f = "#{Rails.root}/features/data/images/gg_gps.jpg"
+                        ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
+                                                               :tempfile=> File.new(f, "r"),
+                                                               :filename=> File.basename(f))
+                       end),
+                       meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Chinese Temple"}})
+    end
+    
   end  
 end

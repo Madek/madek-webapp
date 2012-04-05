@@ -81,6 +81,10 @@
       margin-bottom: 40px;
       @include border-radius(4px);
       
+      strong {
+        padding-left: 6px;
+      }
+      
       img {
         margin-left: 6px;
         margin-right: 4px;
@@ -112,6 +116,12 @@
       top: 6px;
       position: relative;
       width: 13px;
+    }
+    
+    &.is_single_owner {
+      .mixed {
+        background: none;
+      }
     }
     
     &.without_remove {

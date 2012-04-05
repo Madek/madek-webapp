@@ -53,7 +53,7 @@ class Admin::KeysController < Admin::AdminController # TODO rename to Admin::Met
 
     meta_terms_attributes.each_value do |h|
       if h[:id].nil? and LANGUAGES.any? {|l| not h[l].blank? }
-        term = MetaTerm.find_or_create_by_en_GB_and_de_CH(h)
+        term = MetaTerm.find_or_create_by_en_gb_and_de_ch(h)
         @key.meta_terms << term
         #old??# h[:id] = term.id
       elsif h[:_destroy].to_i == 1
@@ -63,7 +63,10 @@ class Admin::KeysController < Admin::AdminController # TODO rename to Admin::Met
     end if meta_terms_attributes
  
     @key.update_attributes(params[:meta_key])
-    redirect_to admin_keys_path
+    
+    respond_to do |format|
+      format.js { render partial: "show", locals: {key: @key} }
+    end
   end
 
   def destroy

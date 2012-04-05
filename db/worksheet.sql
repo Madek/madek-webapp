@@ -1,4 +1,45 @@
 
+-- permission check
+
+SELECT DISTINCT m.* FROM `media_resources` AS m
+  LEFT JOIN `userpermissions` AS up
+    ON m.id = up.media_resource_id AND up.user_id = 999999 AND up.view = 1
+  LEFT JOIN (`grouppermissions` AS gp
+        INNER JOIN `groups_users` AS gu ON gp.group_id = gu.group_id AND gu.user_id = 999999
+        LEFT JOIN `userpermissions` AS up2 ON gp.media_resource_id = up2.media_resource_id)
+    ON m.id = gp.media_resource_id AND gp.view = 1
+WHERE (up.id IS NOT NULL OR gp.id IS NOT NULL)
+  AND (up2.view = 1 OR up2.view IS NULL); # (up2.view != 0) doesn't work, alternative: (IFNULL(up2.view, -1) != 0) 
+
+
+-- metadata
+
+SELECT meta_terms.*, meta_key_definitions.label_id as label_id
+  FROM meta_terms, meta_key_definitions, meta_contexts
+  WHERE true
+  AND meta_key_definitions.meta_context_id = meta_contexts.id
+  AND meta_key_definitions.label_id = meta_terms.id
+  AND meta_context.name = 'core'
+  ;
+
+SELECT media_resources.id as media_resource_id 
+     , meta_data.id as meta_datum_id 
+     , meta_data.value as meta_datum_value
+     , meta_keys.id as meta_key_id
+     , meta_contexts.id as meta_context_id
+     , meta_contexts.name as meta_contex_name
+     , meta_key_definitions.id as meta_key_definition_id
+     , meta_key_definitions.label_id as label_id
+     , meta_terms.en_gb as meta_term_en
+  FROM media_resources 
+  INNER JOIN meta_data ON meta_data.media_resource_id = media_resources.id
+  INNER JOIN meta_keys ON meta_data.meta_key_id = meta_keys.id
+  INNER JOIN meta_key_definitions ON meta_key_definitions.meta_key_id = meta_keys.id
+  INNER JOIN meta_contexts ON meta_key_definitions.meta_context_id = meta_contexts.id
+  INNER JOIN meta_terms ON meta_key_definitions.label_id = meta_terms.id
+  where true
+  AND media_resources.id = 4
+  ;
 
 -- relative top level sets of the user with id = 999999 
 

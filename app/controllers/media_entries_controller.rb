@@ -211,12 +211,15 @@ class MediaEntriesController < ApplicationController
       format.json { render :json => parent_media_sets.as_json }
     end
   end
-  
+
+  # TODO refactor to KeywordsController#index
   def keywords
 #old#
 ##select *, count(*) from keywords group by term_id;
 ##select *, count(*) from keywords where user_id = 159123 group by term_id;
 ##select *, count(*) from keywords where exists (select * from keywords as t2 where t2.term_id = keywords.term_id AND t2.user_id = 159123) group by term_id;
+
+    # FIXME all fetch keywords associated to media_resources I can see ??   
     @all_keywords = Keyword.select("*, COUNT(*) AS q").group(:meta_term_id).order("q DESC")
     @my_keywords = Keyword.select("*, COUNT(*) AS q").where(:user_id => current_user).group(:meta_term_id).order("q DESC")
     

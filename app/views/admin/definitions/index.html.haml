@@ -28,27 +28,7 @@
       %th Hint
       %th
   %tbody.sortable
-    - @context.meta_key_definitions.each_with_index do |definition, index|
-      %tr{:class => ((index % 2).zero? ? "even" : "odd"), :id => "definition_#{definition.id}"}
-        %td.handler
-          %span.ui-icon.ui-icon-arrowthick-2-n-s
-        %td
-          = definition.meta_key.to_s
-          %br
-          %i
-            = definition.key_map.to_s
-            %br
-            = definition.key_map_type.to_s
-        %td
-          = definition.label.to_s
-        %td
-          = definition.description.to_s
-        %td
-          = definition.hint.to_s
-        %td.with_actions
-          = link_to _("Edit"), edit_admin_context_definition_path(@context, definition), :class => "buttons", :remote => true, :"data-type" => "html"
-          %br
-          = link_to _("Delete"), admin_context_definition_path(@context, definition), :class => "buttons", :method => :delete, :confirm => _("Sind Sie sicher?")
+    = render :partial => "show", :collection => @context.meta_key_definitions, :as => :definition
   
 :javascript
   $(document).ready(function(){

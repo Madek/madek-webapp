@@ -7,7 +7,6 @@ Feature: Upload images and manage media entries based on images
       And a user called "Helmut Kohl" with username "helmi" and password "saumagen" exists
       And a user called "Mikhail Gorbachev" with username "gorbi" and password "glasnost" exists
 
-
   @javascript
   Scenario: Upload one image file without any special metatada
     When I log in as "helmi" with password "saumagen"
@@ -19,12 +18,12 @@ Feature: Upload images and manage media entries based on images
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
-     |label    |value                |
-     |Titel    |berlin wall for a set|
-     |Copyright|some other dude      |
-     And I follow "Metadaten speichern und weiter..."
+     | label     | value                 |
+     | Titel     | berlin wall for a set |
+     | Copyright | some other dude       |
+     And I follow "weiter..."
+     And I wait for the CSS element ".has-set-widget"
      And I open the selection widget for this page
-     And I wait for the CSS element "#text_media_set"
      And I create a new set named "Mauerstücke"
      And I submit the selection widget
      And I follow "Import abschliessen"
@@ -38,10 +37,11 @@ Feature: Upload images and manage media entries based on images
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
-     |label    |value                               |
-     |Titel    |A beautiful piece of the Berlin Wall|
-     |Copyright|Kohl, Helmut                        |
-     And I follow "Metadaten speichern und weiter..."
+     | label     | value                                |
+     | Titel     | A beautiful piece of the Berlin Wall |
+     | Copyright | Kohl, Helmut                         |
+     And I follow "weiter..."
+     And I wait for the CSS element ".has-set-widget"
      And I follow "Import abschliessen"
      And I go to the home page
      And I click the media entry titled "A beautiful piece of the Berl"
@@ -55,7 +55,6 @@ Feature: Upload images and manage media entries based on images
      And I go to the home page
      Then I should see "A beautiful piece of the Berl"
 
-
   @javascript
   Scenario: Upload an image file for my group to see
     Given a group called "Mauerfäller" exists
@@ -65,10 +64,11 @@ Feature: Upload images and manage media entries based on images
       And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
       And I go to the upload edit
       And I fill in the metadata for entry number 1 as follows:
-      |label    |value                            |
-      |Titel    |A second piece of the Berlin Wall|
-      |Copyright|Kohl, Helmut                     |
-      And I follow "Metadaten speichern und weiter..."
+      | label     | value                             |
+      | Titel     | A second piece of the Berlin Wall |
+      | Copyright | Kohl, Helmut                      |
+      And I follow "weiter..."
+      And I wait for the CSS element ".has-set-widget"
       And I follow "Import abschliessen"
       And I go to the home page
       And I click the media entry titled "A second piece of the Berlin"
@@ -94,7 +94,6 @@ Feature: Upload images and manage media entries based on images
      And I log in as "raissa" with password "novodevichy"
      And I go to the home page
     Then I should see "baustelle osten"
-     
 
   @javascript
   Scenario: Upload a public file and then make it un-public again
@@ -115,7 +114,6 @@ Feature: Upload images and manage media entries based on images
      And I log in as "raissa" with password "novodevichy"
      And I go to the home page
     Then I should not see "geheimsache"
-
 
   @javascript
   Scenario: Give hi-resolution download permission on a file
@@ -220,7 +218,8 @@ Feature: Upload images and manage media entries based on images
     When I log in as "helmi" with password "saumagen"
      And I upload the file "features/data/images/date_should_be_2011-05-30.jpg" relative to the Rails directory
      And I go to the upload edit
-     And I follow "Metadaten speichern und weiter..."
+     And I follow "weiter..."
+     And I wait for the CSS element ".has-set-widget"
      And I follow "Import abschliessen"
      And I go to the home page
      And I click the media entry titled "Grumpy Cat"
@@ -231,7 +230,8 @@ Feature: Upload images and manage media entries based on images
     When I log in as "helmi" with password "saumagen"
      And I upload the file "features/data/images/date_should_be_from_to_may.jpg" relative to the Rails directory
      And I go to the upload edit
-     And I follow "Metadaten speichern und weiter..."
+     And I follow "weiter..."
+     And I wait for the CSS element ".has-set-widget"
      And I follow "Import abschliessen"
      And I go to the home page
      And I click the media entry titled "Frau-Sein"
@@ -250,7 +250,8 @@ Feature: Upload images and manage media entries based on images
     When I log in as "helmi" with password "saumagen"
      And I upload the file "features/data/images/date_should_be_1990.jpg" relative to the Rails directory
      And I go to the upload edit
-     And I follow "Metadaten speichern und weiter..."
+     And I follow "weiter..."
+     And I wait for the CSS element ".has-set-widget"
      And I follow "Import abschliessen"
      And I go to the home page
      And I click the media entry titled "Frau-Sein"

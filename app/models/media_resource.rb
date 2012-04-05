@@ -16,7 +16,6 @@ class MediaResource < ActiveRecord::Base
  # TODO observe bulk changes and reindex once
   has_many :meta_data, :dependent => :destroy do #working here#7 :include => :meta_key
     def get(key_id, build_if_not_found = true)
-      # unless ... and !!v.match(/\A[+-]?\d+\Z/) # TODO path to String#is_numeric? method
       #TODO: handle the case when key_id is a MetaKey object
       key_id = MetaKey.find_by_label(key_id.downcase).id unless key_id.is_a?(Fixnum)
       r = where(:meta_key_id => key_id).first # OPTIMIZE prevent find if is_dynamic meta_key
@@ -281,7 +280,7 @@ class MediaResource < ActiveRecord::Base
 
   def meta_data_for_context(context = MetaContext.core, build_if_not_exists = true)
     meta_keys = context.meta_keys
-
+    
     mds = meta_data.where(:meta_key_id => meta_keys)
     
     (meta_keys - mds.map(&:meta_key)).select{|x| x.is_dynamic? }.each do |key|
@@ -357,7 +356,7 @@ class MediaResource < ActiveRecord::Base
 
   ################################################################
 
-  scope :by_media_set, lambda {|media_set|
+  scope :by_media_set, lambda {|media_set_id|
     #tmp#
     #SELECT `media_resources`.* FROM `media_resources`
     #left JOIN media_entries_media_sets ON media_resources.id = media_entries_media_sets.media_entry_id and `media_entries_media_sets`.`media_set_id` = 347
@@ -366,12 +365,14 @@ class MediaResource < ActiveRecord::Base
     #old#
     #joins("INNER JOIN media_entries_media_sets ON media_resources.id = media_entries_media_sets.media_entry_id").
     #where(:media_entries_media_sets => {:media_set_id => media_set})
+    
+    media_set_id = media_set_id.id if media_set_id.is_a?(MediaSet)
 
     where("media_resources.id IN " \
             "(SELECT media_entry_id AS id FROM media_entries_media_sets WHERE media_set_id = :id " \
             "UNION " \
               "SELECT child_id AS id FROM media_set_arcs WHERE parent_id = :id )",
-          :id => media_set.id);
+          :id => media_set_id);
   }
 
   ################################################################
@@ -388,6 +389,12 @@ class MediaResource < ActiveRecord::Base
       end
     sql.where(where_clause)
   }
+
+  ################################################################
+
+  def self.by_collection(user_id, cid)
+    Rails.cache.read(user: user_id, collection: cid) || raise("Collection not found")
+  end
 
   ################################################################
   

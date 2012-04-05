@@ -1,0 +1,190 @@
+@import "../../mixins";
+@import "../../variables";
+
+.edit_meta_datum_field {
+  border-bottom: 1px solid #D2D2D2;
+  padding: 0 0 12px 0;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  .tip_target {
+    height: 20px;
+    position: absolute;
+    left: 14px;
+    top: 27px;
+    width: 14px;
+  }
+  
+  .info {
+    float: left;
+    width: 40%;
+    
+    h3.label {
+      padding: 0 22px;
+      
+      .is_required {
+        cursor: help;
+      }
+    }
+    
+    p.hint {
+      padding: 0 22px;
+      font-size: 1em !important;
+      line-height: 1.2em !important;
+      margin: none !important;
+    }
+  }
+  
+  .button {
+    font-size: 0.9em;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1000;
+  }
+  
+  .input {
+    float: left;
+    padding-top: 32px;
+    position:relative;
+    margin-left: 22px;
+    width: 50%;
+    
+    .values {
+      background: none repeat scroll 0 0 white;
+      border: 1px solid #D2D2D2;
+      display: inline-block;
+      left: -5px;
+      padding: 2px 8px 36px;
+      position: relative;
+      width: 440px;
+      z-index: 1;
+      
+      .entry {
+        background: none repeat scroll 0 0 #DFDFDF;
+        border: 1px solid #CFCFCF;
+        border-radius: 4px 4px 4px 4px;
+        display: inline-block;
+        float: left;
+        padding: 1px 1px 1px 6px;
+        margin-bottom: 3px;
+        margin-top: 1px;
+        margin-right: 3px;
+        
+        .delete {
+          background: none repeat scroll 0 0 white;
+          border-radius: 4px 4px 4px 4px;
+          cursor: pointer;
+          display: inline-block;
+          height: 19px;
+          line-height: 18px;
+          padding: 0 5px;
+          position: relative;
+          top: -1px;
+          @include opacity(0.6);
+          
+          &:hover {
+            @include opacity(0.9);
+          }
+        }
+      }
+      
+      &+input {
+        position: relative !important;
+        top: -39px !important; 
+        margin-bottom: -21px !important;
+      }
+    }
+    
+    input[type=text], textarea {
+      background-color: #FFFFFF;
+      border: 1px solid #D2D2D2;
+      color: #424242;
+      display: block;
+      font-weight: bold;
+      font-size: 1em;
+      margin-bottom: 12px;
+      padding: 0 8px;
+      position: relative; 
+      width: 430px;
+      z-index: 100;
+      @include box-shadow(0 0 1px 1px #E3E3E3 inset);
+      
+      &:hover, &:focus {
+        border: 1px solid #AAA;
+        @include box-shadows(0 0 5px #E3E3E3, 0 0 1px 1px #E3E3E3 inset);
+      }
+    }
+    
+    input {
+      height: 28px;
+    }
+    
+    textarea {
+      font-weight: normal;
+      padding-top: 6px;
+      padding-bottom: 6px;
+      resize: none;
+    }
+    
+    select {
+      background-color: #FFFFFF;
+      border: 1px solid #D2D2D2;
+      color: #424242;
+      font-size: 1.0em;
+      height: 31px;
+      padding: 4px;
+      width: 100%;
+      @include box-shadow(0 0 1px 1px #E3E3E3 inset);
+      
+      &.root + select {
+        border-top: 1px solid white;
+      }
+    }
+  }
+  
+  .status {
+    position: absolute;
+    right: 14px;
+    top: 38px;
+    width: 30px;
+    
+    &>div {
+      display: none;
+    }
+    
+    .success.icon {
+      background: url($sprite) no-repeat -17px 0;
+      display: block;
+      height: 15px;
+      width: 16px;
+    }
+    
+    .bang.icon {
+      background: url($sprite) no-repeat -34px 0;
+      display: block;
+      height: 26px;
+      position: relative;
+      top: -6px;
+      width: 16px;
+      @include opacity(0.6);
+    }
+    
+    .server_error.icon {
+      background: url($sprite) no-repeat -17px -16px;
+      display: block;
+      height: 15px;
+      width: 16px;
+    }
+    
+    &:hover .bang.icon { @include opacity(1.0); }
+    
+    .not_required {
+      @include opacity(0.4);
+    }
+  }
+}

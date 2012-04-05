@@ -1,0 +1,23 @@
+@import "variables.scss";
+
+.icon {
+  background: url($sprite) no-repeat 100px 100px;
+  display: inline-block;
+  position: relative;
+  vertical-align: text-bottom;
+  
+  &.add_person {
+    background-position: 0 -16px;
+    height: 16px;
+    width: 16px;
+  }
+  
+  &.add_keyword {
+    background-position: 0 -33px;
+    height: 16px;
+    position: relative;
+    top: 2px;
+    left: -1px;
+    width: 16px;
+  }
+}

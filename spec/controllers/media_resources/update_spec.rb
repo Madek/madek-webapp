@@ -7,7 +7,7 @@ describe MediaResourcesController do
   end
 
   describe "a PUT json request on a single resource" do
-    before :each do
+    before :all do
       @mei= FactoryGirl.create :media_entry_incomplete, user: @user
     end
     

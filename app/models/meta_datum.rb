@@ -41,7 +41,7 @@ class MetaDatum < ActiveRecord::Base
                               # the Snapshot has just been created, so we take exactly the MediaEntry's keyword
                               r = klass.find(v)
                             else
-                              if v.is_a?(Fixnum) or (v.respond_to?(:match) and !!v.match(/\A[+-]?\d+\Z/)) # TODO patch to String#is_numeric? method
+                              if v.is_a?(Fixnum) or (v.respond_to?(:is_integer?) and v.is_integer?)
                                 r = klass.where(:meta_term_id => v, :id => value_was).first
                                 r ||= klass.create(:meta_term_id => v, :user => user)
                               else
@@ -62,7 +62,8 @@ class MetaDatum < ActiveRecord::Base
                                   end
                                   MetaTerm.create(h)
                                 end
-
+                                
+                                # TODO FRANCO FIXME CAN WE SHARE KEYWORDS BETWEEN MEDIA RESOURCES .... WHATS WITH COUNTING ??
                                 r = Keyword.where(:meta_term_id => term, :user_id => user).first
                                 r ||= Keyword.create(:meta_term => term, :user => user)
                                 # TODO delete keywords records anymore referenced by any meta_data (it could be the same keyword is referenced to a Snapshot)
@@ -70,7 +71,7 @@ class MetaDatum < ActiveRecord::Base
                             end
                           elsif klass == MetaTerm
                             #2603# TODO dry
-                            if v.is_a?(Fixnum) or (v.respond_to?(:match) and !!v.match(/\A[+-]?\d+\Z/)) # TODO patch to String#is_numeric? method
+                            if v.is_a?(Fixnum) or (v.respond_to?(:is_integer?) and v.is_integer?)
                               # TODO check if is member of meta_key.meta_terms
                               r = klass.where(:id => v).first
                             elsif meta_key.is_extensible_list?
@@ -78,11 +79,11 @@ class MetaDatum < ActiveRecord::Base
                               LANGUAGES.each do |lang|
                                 h[lang] = v
                               end
-                              term = MetaTerm.find_or_create_by_en_GB_and_de_CH(h)
+                              term = MetaTerm.find_or_create_by_en_gb_and_de_ch(h)
                               meta_key.meta_terms << term unless meta_key.meta_terms.include?(term)
                               r = term
                             end
-                          elsif v.is_a?(Fixnum) or (v.respond_to?(:match) and !!v.match(/\A[+-]?\d+\Z/)) # TODO patch to String#is_numeric? method
+                          elsif v.is_a?(Fixnum) or (v.respond_to?(:is_integer?) and v.is_integer?)
                             r = klass.where(:id => v).first
                           elsif klass == Copyright
                             r = value

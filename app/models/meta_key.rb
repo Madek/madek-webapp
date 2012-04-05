@@ -48,10 +48,6 @@ class MetaKey < ActiveRecord::Base
     label #.capitalize
   end
 
-  def underscored_label
-    label.gsub(/\s/, "_")
-  end
-
   def all_context_labels
     #meta_key_definitions.collect {|d| "#{d.meta_context}: #{d.label}" if d.key_map.blank? }.compact.join(', ')
     meta_key_definitions.collect {|d| d.label if d.key_map.blank? }.compact.uniq.join(', ')
@@ -104,8 +100,8 @@ class MetaKey < ActiveRecord::Base
       mk = MetaKey.find_or_create_by_label(entry_name)
       mc = MetaContext.io_interface
       mk.meta_key_definitions.create( :meta_context => mc,
-                                      :label => {:en_GB => "", :de_CH => ""},
-                                      :description => {:en_GB => "", :de_CH => ""},
+                                      :label => {:en_gb => "", :de_ch => ""},
+                                      :description => {:en_gb => "", :de_ch => ""},
                                       :key_map => key_map,
                                       :key_map_type => nil,
                                       :position => mc.meta_key_definitions.maximum("position") + 1 )

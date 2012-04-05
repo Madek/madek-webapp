@@ -7,10 +7,14 @@
 # However, they are quite flexible, and may also be used for managing meta-data upon import.
 class MetaContext < ActiveRecord::Base
   
+  belongs_to :meta_context_group
+
   has_many :meta_key_definitions, :dependent => :destroy
   has_many :meta_keys, :through => :meta_key_definitions, :order => :position
 
-  belongs_to :meta_context_group
+  has_and_belongs_to_many :media_sets
+
+##################################################################
 
   validates_presence_of :name, :label
 

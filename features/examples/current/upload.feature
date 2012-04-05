@@ -20,7 +20,8 @@ Feature: Upload
   Scenario: Filling in core metadata during upload
     When I upload a file
     Then the file is attached to a media entry
-     And I fill in the metadata in the upload form as follows:
+    When I go to the upload edit
+     And I fill in the metadata for entry number 1 as follows:
      | label                           | value                    |
      | Titel                           | Test image for uploading |
      | Autor/in                        | Hans Franz               |
@@ -32,8 +33,8 @@ Feature: Upload
   # https://www.pivotaltracker.com/story/show/24559377 -> User kann beim Upload beim Vergeben der Metadaten die Werte zu Titel, Autor, Datierung, Schlagworte und Rechten von einem auf alle Medieneinträge übertrage
   Scenario: Assigning one value to all uploaded things
     When I upload several files
-     And I enter metadata for the first file
-     And I fill in the metadata in the upload form as follows:
+     When I go to the upload edit
+     And I fill in the metadata for entry number 1 as follows:
      | label                           | value                                    |
      | Titel                           | Test image for mass assignment of values |
      | Autor/in                        | Hans Franzfriedrich                      |

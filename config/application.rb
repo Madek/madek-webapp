@@ -7,6 +7,13 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env) if defined?(Bundler)
 
+if defined?(Bundler)
+  # If you precompile assets before deploying to production, use this line
+  Bundler.require(*Rails.groups(:assets => %w(development test)))
+  # If you want your assets lazily compiled in production, use this line
+  # Bundler.require(:default, :assets, Rails.env)
+end
+
 module MAdeK
   class Application < Rails::Application
 
@@ -54,6 +61,8 @@ module MAdeK
     # So that the Content-Length header is sent, so that e.g. video files
     # can be seeked and that mobile clients know how much data is coming
     config.middleware.use Rack::ContentLength
+
+    config.cache_store = :mem_cache_store
   end
 end
 
@@ -101,10 +110,10 @@ DEFAULT_ACTION_PERMISSIONS = {  :view => false, # read
                                 # TODO :delete => false
                               }
 
-LANGUAGES = [:de_CH, :en_GB]
-DEFAULT_LANGUAGE = :de_CH
+LANGUAGES = [:de_ch, :en_gb]
+DEFAULT_LANGUAGE = :de_ch
 
 ENCODING_BASE_URL = "http://test:MAdeK@test.madek.zhdk.ch"
 ENCODING_TEST_MODE = 1 # 1 for true, 0 for false
 
-RELEASE_VERSION = "0.5.2.2"
+RELEASE_VERSION = "0.5.3"

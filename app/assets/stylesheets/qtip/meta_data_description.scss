@@ -1,0 +1,14 @@
+@import "../mixins.scss";
+@import "../variables.scss";
+
+.ui-tooltip-meta_data_description {
+  @include box-shadows(0 2px 6px rgba(0,0,0,0.2), 0 0 1px 1px #E3E3E3 inset);
+  
+  .ui-tooltip-content {
+    background: white !important;
+    border: 1px solid #AAA;
+    font-size: 1.3em !important;
+    padding: 9px 10px 10px 10px;
+    line-height: 1.2em;    
+  }
+}

@@ -14,15 +14,17 @@ jQuery ->
 
 class Permission
   
+  @collection_id
+  
   @open_lightbox = (target)->
-    # PREPARE BADGE OPENING
+    # prepare badge
     if $(target).hasClass("batch")
       media_resource_ids = []
       $(".task_bar .thumb_mini").each (i,element)->
         media_resource_ids.push($(element).tmplItem().data.id)
       $(target).data("media_resource_ids", media_resource_ids)
       
-    # OPEN DIALOG
+    # open dialog
     container = Dialog.add
       trigger: target
       dialogClass: "permission_lightbox"
@@ -30,12 +32,24 @@ class Permission
       closeOnEscape: false
     $(container).data("current_user", $(target).data("current_user"))
     $(container).data("media_resource_ids", $(target).data("media_resource_ids"))
+    $(container).data("redirect_url", $(target).data("redirect_url"))
     
-    # LOAD
-    Permission.load_permission_presets container, target
-    Permission.load_media_resources container
+    # create collection
+    Permission.create_collection container, target
   
-  @load_permission_presets = (container, trigger) ->
+  @create_collection = (container, target)->
+    $.ajax
+      url: "/media_resources/collection.json"
+      type: "POST"
+      data: 
+        ids: $(container).data("media_resource_ids")
+      success: (data)->
+        Permission.collection_id = data.collection_id
+        # load resources & permissions
+        Permission.load_permission_presets container, target
+        Permission.load_media_resources container
+        
+  @load_permission_presets = (container, trigger)->
     $.ajax
       url: "/permission_presets.json"
       type: "GET"
@@ -48,7 +62,7 @@ class Permission
       url: "/media_resources.json"
       type: "GET"
       data: 
-        ids: $(container).data("media_resource_ids") 
+        collection_id: Permission.collection_id
         with:
           image:
             as: "base64"
@@ -59,28 +73,32 @@ class Permission
         $(container).find(".media_resource_selection .loading").remove()
         $(container).find(".media_resource_selection .media").append $.tmpl("tmpl/media_resource/image", data.media_resources) 
         $(container).find(".media_resource_selection table.media_resources").append $.tmpl("tmpl/media_resource/table_row", data.media_resources)  
-          
+              
   @display_inline = (options)->
     current_user = options.current_user
     media_resource_ids = options.media_resource_ids
     view_template = $.tmpl("tmpl/permission/container", {media_resource_ids: media_resource_ids, current_user: current_user})
     container = view_template
+    button = options.button
     $(options.container).replaceWith container
     $(container).data("current_user", current_user)
     $(container).data("media_resource_ids", media_resource_ids)
-    Permission.load_media_resources $(container)
-    Permission.load_permission_presets $(container), $(container)
+    $(container).data("external_submit_button", button)
+    Permission.create_collection $(container), $(container)
       
   @load_permissions = (container, media_resource_ids)->
     $.ajax
       url: "/permissions.json"
       type: "GET"
       data:
-        media_resource_ids: media_resource_ids
+        collection_id: Permission.collection_id
         with: 
           users: true
           groups: true
           owners: true
+      error: (data)->
+        error = JSON.parse(data.responseText).error
+        $(container).find(".loading").html("<strong>"+error+"</strong>")
       success: (data)->
         $(container).data("permissions_on_start", data)
         Permission.setup_permission_view container, data
@@ -145,12 +163,15 @@ class Permission
     if data.owners.length == 1
       if $(container).find(".me .line").tmplItem().data.id == data.owners[0].id
         $(container).find(".me .line:first .owner input").attr("checked", true)
+        $(container).find(".me .line:first .permissions input").attr("checked", true)
+        $(container).find(".me .line:first").addClass("is_single_owner")
         $(container).find(".me .line:first div:not(.owner) input, .me .line:first select, .me .line:first .select").attr("disabled", "disabled")
       else 
         $(container).find(".users .line").each (i, user_line)->
           if $(user_line).tmplItem().data.id == data.owners[0].id
             $(user_line).find(".owner input").attr("checked", true)
-            $(user_line).addClass("without_remove")
+            $(user_line).find(".permissions input").attr("checked", true)
+            $(user_line).addClass("without_remove is_single_owner")
             $(user_line).find("div:not(.owner) input, div:not(.owner) select, div:not(.owner) .select").attr("disabled", "disabled")
     else # setup multiple owners (multiple selected resources)
       for owner in data.owners
@@ -181,10 +202,10 @@ class Permission
   @set_matched_preset_permissions = (line, preset)->
     if $(line).find(".owner label.mixed").length>0
       # set mixed owner as preset
-      $(line).find(".preset .select").html("Teilweise Besitzer/in")
+      $(line).find(".preset .select").html("Teilweise Eigentümer/in")
     else if $(line).find(".owner input:checked").length>0
       # set owner as preset
-      $(line).find(".preset .select").html("Besitzer/in")
+      $(line).find(".preset .select").html("Eigentümer/in")
     else if $(line).find(".mixed:not(.overwritten)").length>0
       # set mixed if values are mixed
       #$(line).find(".preset .select").html("Gemischte Werte")
@@ -254,15 +275,12 @@ class Permission
       preset = Permission.match_preset(Permission.compute_line_permission(current_owner_line))
       Permission.set_matched_preset_permissions(current_owner_line, preset)
       # switch new_owner_line to owner
-      $(new_owner_line).find(".preset .select").html("Besitzer")
+      $(new_owner_line).find(".preset .select").html("Eigentümer/in")
       $(new_owner_line).find(".permissions input").attr("checked", true)
       $(new_owner_line).find(".permissions input, select, .select").attr("disabled", true)
-      # remove mixed values from new and old owner
-      $(new_owner_line).find(".mixed").removeClass("mixed")
-      $(current_owner_line).find(".mixed").removeClass("mixed")
       # remove delete line from new user 
-      $(new_owner_line).addClass("without_remove")
-      $(current_owner_line).removeClass("without_remove")
+      $(new_owner_line).addClass("without_remove owner")
+      $(current_owner_line).removeClass("without_remove owner")
       
   @setup_add_line = (container)->
     # CLICK BUTTON
@@ -389,16 +407,20 @@ class Permission
       Permission.check_groups_with_me_visibility container
   
   @setup_actions = (container)->
-    template = $.tmpl "tmpl/permission/_actions"
-    if $(container).find("input:not([disabled=disabled])").length > 0
-      # User has permission to change something 
-      $(template).find(".close_dialog").remove()
-    else
-      $(template).find(".close_dialog").bind "click", ()->
-        # User has no permission to change something
-        $(this).closest(".dialog").dialog "close"
-      $(template).find(".cancel, .save").remove()
-    $(container).find("section.actions").replaceWith template
+    if $(container).data("external_submit_button")?
+      # displayed inline with external submit button
+      $(container).data("external_submit_button").removeClass("disabled")
+    else # displayed in a lightbox
+      template = $.tmpl "tmpl/permission/_actions"
+      if $(container).find("input:not([disabled=disabled])").length > 0
+        # User has permission to change something 
+        $(template).find(".close_dialog").remove()
+      else
+        $(template).find(".close_dialog").bind "click", ()->
+          # User has no permission to change something
+          $(this).closest(".dialog").dialog "close"
+        $(template).find(".cancel, .save").remove()
+      $(container).find("section.actions").replaceWith template
   
   @setup_save = (container)->
     $(container).find(".save").removeClass("disabled")
@@ -426,6 +448,10 @@ class Permission
       success: (data)->
         $(button).find("img").remove()
         $(button).append "<div class='success icon'></div>"
+        # redirect when user has no view permissions any longer
+        if $(container).find(".me .line:first .view input").is(":checked") == false
+          window.location = window.location.protocol+"//"+window.location.host+$(container).data("redirect_url")
+        # callback
         callback() if callback?
   
   @compute_permissions_for = (permissions_container)->
@@ -454,12 +480,13 @@ class Permission
       permissions.users.push Permission.compute_permissions_for $(container).find(".me .line:first .permissions")
     
     # add owner to the new permissions if there is an owner explicitly set
-    if $(".owner label.mixed").length == 0 and $(".owner input:checked").length == 1
-      permissions.owner = $(".owner input:checked").tmplItem().data.id
+    if $(container).find(".owner label.mixed").length == 0 and $(container).find(".line .owner input:checked").length == 1
+      permissions.owner = $(container).find(".line .owner input:checked").tmplItem().data.id
     
     return permissions
     
   @close_lightbox = ->
+    
     $(".permission_lightbox .dialog").dialog("close")
    
 window.Permission = Permission

@@ -8,13 +8,14 @@ gem 'i18n' # Need this explicitly, otherwise can't deploy
 
 gem 'mysql2', '~> 0.3.8'  
 gem 'pg'
-#tmp# gem 'memcache-client' #gem 'dalli' #gem 'redis-store'
+gem 'memcache-client' #gem 'dalli' #gem 'redis-store'
 
 #tmp# dependency for linecache
 gem 'require_relative'
 
 gem 'json', '~> 1.6'
 gem 'rjson'
+gem 'jbuilder'
 gem 'haml', '~> 3.1'
 gem 'formtastic'
 gem 'sass', '~> 3.1'
@@ -37,7 +38,6 @@ gem 'jquery-rails', '= 1.0.16'
 gem 'rails_autolink', '~> 1.0'
 gem 'jquery-tmpl-rails', '~> 0.1.2'
 gem 'haml_assets'
-gem "plupload-rails", "~> 1.0.6"
 
 gem "d3_rails", "~> 2.8.0"
 
@@ -101,6 +101,7 @@ end
 group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
+  gem 'rvm-capistrano'
 end
 
 group :development, :production do

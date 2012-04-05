@@ -69,6 +69,8 @@ $(document).ready(function () {
 			options.data = f.serializeArray();
 			options.data.push({name: 'page', value: next_page});
 		}else{
+		  var url = $this.data('url');
+		  if(url) options.url = url;
 			options.data = {page: next_page};
 		}
 	    $.ajax(options);
@@ -76,39 +78,6 @@ $(document).ready(function () {
 
 });
 
-
-/////////////////////////////////////////////////////////
-// UTILITY ARRAY FUNCTIONS
-
-/* destructively finds the intersection of 
- * two arrays in a simple fashion.  
- *
- * PARAMS
- *  a - first array
- *  b - second array
- *
- * NOTES
- *  State of input arrays is undefined when
- *  the function returns.  They should be 
- *  (prolly) be dumped.
- *
- *  Should have O(n) operations, where n is 
- *    n = MIN(a.length(), b.length())
- */
-function intersection_destructive(a, b) {
-  var a = a.sort();
-  var b = b.sort();
-  var result = new Array();
-  while( a.length > 0 && b.length > 0 ) {  
-     if      (a[0] < b[0] ){ a.shift(); }
-     else if (a[0] > b[0] ){ b.shift(); }
-     else { /* they're equal */
-       result.push(a.shift());
-       b.shift();
-     }
-  }
-  return result;
-}
 
 function removeItems(array, item) {
 	var i = 0;
@@ -124,29 +93,24 @@ function removeItems(array, item) {
 
 /////////////////////////////////////////////////////
 
-function setupBatch(json, media_entry_ids_in_set) {
+function setupBatch(json) {
 	if(json != undefined) display_results(json);
-    listSelected();
-    displayCount();
+  listSelected();
+  displayCount();
 
 	// display the task_bar only whether there is something selectable or something is already selected
 	if(get_media_entries_json().length == 0 && $(".item_box").has(".check_box").length == 0){
 		$('.task_bar').hide();
 		return false;
+	}else{
+	  $('.task_bar').show();
 	}
 	// hide the select_deselect_all checkbox on the browse page
 	if($(".item_box .check_box").length < 2) {
 		$("#batch-select-all").hide();
-		$("#batch-deselect-all").hide();
-		$("#batch-deselect-all").next().hide();
+		$("#batch-deselect-all").hide().next().hide();
 	}
 
-	// when remove from set is hovered we only want to highlight those media_entries that are part of the current set
-	if(media_entry_ids_in_set){
-		var media_entry_ids = get_selected_media_entry_ids();
-		var media_entries_in_set = intersection_destructive(media_entry_ids_in_set, media_entry_ids);
-	}
-	
 	// make thumbnails removable from the selected items bar
     $('#selected_items .thumb_mini').live("hover", function() {
         $(this).children('img.thumb_remove').toggle();
@@ -162,7 +126,7 @@ function setupBatch(json, media_entry_ids_in_set) {
     });
 
     $(".check_box").live("click", function(){
-		toggleSelected($(this).closest(".item_box").tmplItem().data);
+      toggleSelected($(this).closest(".item_box").tmplItem().data);
     });
 
   // select all function
@@ -178,7 +142,6 @@ function setupBatch(json, media_entry_ids_in_set) {
             media_entries_json.push(me);
             $(elem).addClass('selected');
             $('#selected_items').append($("#thumbnail_mini").tmpl(me));
-        if (media_entries_in_set != undefined){ media_entries_in_set.push(me.id) };
       };  
     });
     set_media_entries_json(media_entries_json);
@@ -195,32 +158,11 @@ function setupBatch(json, media_entry_ids_in_set) {
       $('#thumb_' + me.id).removeClass('selected').removeAttr("style");
       $('#selected_items [rel="'+me.id+'"]').remove();
       sessionStorage.removeItem("selected_media_entries");
-      if (media_entries_in_set != undefined) media_entries_in_set = new Array();
     });
     displayCount();
     return false;
   });
   
-	////
-
-    $("#batch-remove").hover(
-      function () { 
-	 	$.each(media_entries_in_set, function(i, id){
-		  $('#selected_items [rel="'+id+'"]').css("background-color", "#FEFFD7");
-		});
-	   }, 
-      function () { 
-		$.each(media_entries_in_set, function(i, id){
-		  $('#selected_items [rel="'+id+'"]').css("background-color", "white");
-		});
-	  }
-    );
-
-	// remove from set
-    $("#batch-remove form").submit(function() {
-      $(this).append("<input type='hidden' name='media_entry_ids' value='"+media_entries_in_set+"'>");
-    });
-
 	function toggleSelected(me) {
 		var media_entries_json = get_media_entries_json();
 		var id = (typeof(me) == "object" ? me.id : parseInt(me));
@@ -230,13 +172,11 @@ function setupBatch(json, media_entry_ids_in_set) {
 			media_entries_json.splice(i, 1);
 			$('#thumb_' + id).removeClass('selected').removeAttr("style");
 			$('#selected_items [rel="'+id+'"]').remove();
-			if (media_entries_in_set != undefined){ removeItems(media_entries_in_set, id) };
 			$("#positionable").fadeOut(); // only on browse page
 		} else {
 	        media_entries_json.push(me);
 	        $('#thumb_' + id).addClass('selected');
 	        $('#selected_items').append($("#thumbnail_mini").tmpl(me));
-			if (media_entries_in_set != undefined){ media_entries_in_set.push(id) };
 		};
 
 		set_media_entries_json(media_entries_json);
@@ -339,9 +279,6 @@ function display_page(json, container){
 
 function display_results(json, container){
 	var container = container ? (typeof(container) === "string" ? $("#" + container) : container) : $("#results");
-	var pagination = json.pagination;
-	var loaded_page = 1;
-  		
 	display_page(json, container);
 };
 

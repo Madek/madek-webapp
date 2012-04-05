@@ -1,4 +1,4 @@
-#upload-container.edit_metadata
+#upload-container
   .clearfix{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
     #permissions
     
@@ -8,7 +8,8 @@
     Permission.display_inline({ 
       container: $("#permissions"), 
       media_resource_ids: #{@media_entries.map(&:id).to_json},
-      current_user: #{current_user.to_json(:only=>:id, :include => :groups)}
+      current_user: #{current_user.to_json(:only=>:id, :include => :groups)},
+      button: $("#save_permissions")
     });
     
     $("#save_permissions").bind("click", function(){

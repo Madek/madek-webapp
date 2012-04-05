@@ -41,6 +41,38 @@ module MetaDataHelper
     meta_data += resource.media_file.meta_data_without_binary.sort
     display_meta_data_helper(_("Datei"), meta_data)
   end
+
+  def display_activities_for(media_entry, is_expert = false)
+    meta_data = []
+    meta_data << [_("Hochgeladen von"), link_to(media_entry.user, resources_path(:query => media_entry.user.fullname))]
+    meta_data << [_("Hochgeladen am"), _("%s Uhr") % media_entry.created_at.to_formatted_s(:date_time)]
+
+    unless (edit_sessions = media_entry.edit_sessions.limit(5)).empty?
+      meta_data << [_("Letzte Aktualisierung"), edit_sessions.map do |edit_session|
+                                                  "#{link_to(edit_session.user, edit_session.user)} / #{_("%s Uhr") % edit_session.created_at.to_formatted_s(:date_time)}"
+                                                end.join('<br>') ]
+    end
+
+    unless (description_author_before_import = media_entry.meta_data.get_value_for("description author before import")).blank?
+      meta_data << [_("Beschreibung durch (vor dem Hochladen ins Medienarchiv)"), description_author_before_import]
+      unless media_entry.snapshots.empty?
+        meta_data << [_("MIZ-Archiv Kopie"), "#{_("%s Uhr") % media_entry.snapshots.first.created_at.to_formatted_s(:date_time)}"]
+      end
+    end
+
+    if is_expert
+      unless media_entry.snapshots.empty?
+        date = media_entry.snapshots.first.created_at.to_formatted_s(:date)
+        time = media_entry.snapshots.first.created_at.to_formatted_s(:time)
+        meta_data << ["", "Eine Kopie dieses Medieneintrages wurde am #{date} um #{time} Uhr für das MIZ-Archiv erstellt."]
+      end
+      unless media_entry.snapshotable?
+        meta_data << ["", _("Diese Kopie wird gegenwärtig durch das MIZ-Archiv bearbeitet.")]
+      end
+    end
+    
+    display_meta_data_helper( _("Aktivitäten"), meta_data)
+  end
   
   #####################################################################################
   
@@ -367,7 +399,7 @@ module MetaDataHelper
           unless @js_1
             @js_1 = true
             locale = "de-CH"
-            h += javascript_include_tag "jquery/i18n/jquery.ui.datepicker-#{locale}"
+            h += javascript_include_tag "i18n/jquery.ui.datepicker-#{locale}"
             h += javascript_tag do
               begin
               <<-HERECODE

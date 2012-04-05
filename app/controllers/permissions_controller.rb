@@ -41,7 +41,7 @@ class PermissionsController < ApplicationController
   # @response_field [Array] you.download The MediaResourceIds that you can download  
   # @response_field [Array] you.manage The MediaResourceIds that you can manage  
   #
-  def index(media_resource_ids = params[:media_resource_ids])
+  def index(media_resource_ids = (params[:collection_id] ? MediaResource.by_collection(current_user.id, params[:collection_id]) : params[:media_resource_ids]))
     begin
       @media_resources = MediaResource.accessible_by_user(current_user, :view).find(media_resource_ids)
     rescue

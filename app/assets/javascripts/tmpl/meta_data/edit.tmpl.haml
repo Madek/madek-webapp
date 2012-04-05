@@ -1,0 +1,31 @@
+
+
+#edit_meta_data
+  
+  .filter
+    %label
+      %input{:type => "checkbox"}
+      = "Nur Inhalte mit unvollständigen Pflichtfeldern anzeigen"
+  
+  {{tmpl "tmpl/media_resource/selection"}}
+  
+  .navigation
+    .previous.button{:disabled => :disabled}
+      .arrow
+      .text
+        %span.label= "Vorheriger Inhalt"
+        %span.name
+    .current
+      .text
+        %span.label= "Aktueller Inhalt"
+        %span.name
+    .next.button{:disabled => :disabled}
+      .arrow
+      .text
+        %span.label= "Nächster Inhalt"
+        %span.name
+
+  .meta_keys
+    .loading
+      = image_tag "loading.gif"
+      = "Lade Meta-Daten Formular"

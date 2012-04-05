@@ -129,24 +129,8 @@ class MediaSetsController < ApplicationController
                                             :total_pages => resources.total_pages },
                            :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
       }
-      
       format.json {
-        if params[:page]
-          # TODO drop this, it's currently only used for the inview-pagination
-          params[:per_page] ||= PER_PAGE.first
-          paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
-          resources = MediaResource.accessible_by_user(current_user).order("media_resources.updated_at DESC").by_media_set(@media_set).paginate(paginate_options)
-          with_thumb = true
-          json = { :pagination => { :current_page => resources.current_page,
-                                    :per_page => resources.per_page,
-                                    :total_entries => resources.total_entries,
-                                    :total_pages => resources.total_pages },
-                   :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
-        else
-          # TODO keep this, for the API
-          json = @media_set.as_json(:with => with, :current_user =>current_user)
-        end
-        render :json => json
+        render :json => @media_set.as_json(:with => with, :current_user =>current_user)
       }
     end
   end
@@ -345,8 +329,7 @@ class MediaSetsController < ApplicationController
         render :action => "graph_#{type}"
       }
       format.json {
-        # FIXME these are actually absolute_top_level, we need top_level against what I can actually see !!
-        #@media_sets = MediaSet.accessible_by_user(current_user).top_level
+        #@media_sets = MediaSet.accessible_by_user(current_user).relative_top_level
         @media_sets = current_user.media_sets.relative_top_level
         render :action => "graph_#{type}" if type == 4
       }

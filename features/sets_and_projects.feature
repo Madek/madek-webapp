@@ -15,10 +15,10 @@ Feature: Do things to and with sets
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
-     |label    |value                       |
-     |Titel    |into the set after uploading|
-     |Copyright|some other dude             |
-     And I follow "Metadaten speichern und weiter..."
+     | label     | value                        |
+     | Titel     | into the set after uploading |
+     | Copyright | some other dude              |
+     And I follow "weiter..."
      And I follow "Import abschliessen"
      And I go to the media entries
      And I wait for the CSS element "div.page div.item_box"
@@ -35,10 +35,10 @@ Feature: Do things to and with sets
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
-     |label    |value                       |
-     |Titel    |into the set after uploading|
-     |Copyright|some other dude             |
-     And I follow "Metadaten speichern und weiter..."
+     | label     | value                        |
+     | Titel     | into the set after uploading |
+     | Copyright | some other dude              |
+     And I follow "weiter..."
      And I follow "Import abschliessen"
      And I go to the media entries
      And I click the media entry titled "into the set after uploading"
@@ -64,10 +64,10 @@ Feature: Do things to and with sets
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
-     |label    |value                       |
-     |Titel    |Link test|
-     |Copyright|some other dude             |
-     And I follow "Metadaten speichern und weiter..."
+     | label     | value           |
+     | Titel     | Link test       |
+     | Copyright | some other dude |
+     And I follow "weiter..."
      And I follow "Import abschliessen"
      And I go to the media entries
      And I click the media entry titled "Link test"
@@ -79,8 +79,8 @@ Feature: Do things to and with sets
     When I click the media entry titled "Link test"
      And I follow "Editieren"
      And I fill in the metadata form as follows:
-     |label|value|
-     |Beschreibung|Here is a wonderful link http://www.zhdk.ch|
+     | label        | value                                       |
+     | Beschreibung | Here is a wonderful link http://www.zhdk.ch |
      And I press "Speichern"
      And I expand the "Metadaten" context group
     Then I should see "http://www.zhdk.ch"

@@ -143,7 +143,9 @@ When /^I have started uploading some files$/ do
 end
 
 When /^I cancel the upload$/ do
-  wait_for_css_element(".next:not(.disabled)")
+  wait_until(10) do
+    all(".next:not(.disabled)").size == 1
+  end
   step 'follow "Abbrechen"'
   page.driver.browser.switch_to.alert.accept
 end
@@ -202,7 +204,7 @@ When /^I import a file$/ do
    |label    |value                       |
    |Titel    |into the set after uploading|
    |Copyright|some other dude             |
-   And I follow "Metadaten speichern und weiter..."
+   And I follow "weiter..."
    And I follow "Import abschliessen"
   }
 end

@@ -23,7 +23,8 @@ MAdeK::Application.routes.draw do
   root :to => "application#root"
 
 ###############################################
-  
+  #
+
   match '/help', :to => "application#help"
   match '/feedback', :to => "application#feedback"
   #old??# match '/catalog', :to => "application#catalog"
@@ -50,6 +51,10 @@ MAdeK::Application.routes.draw do
   resource :permissions, :only => :update
 
   resources :meta_context_groups, only: :index
+
+  resources :keywords, only: :index
+  resources :meta_data, only: [:update]
+  resources :copyrights, only: :index
 
 ###############################################
 #NOTE first media_entries and then media_sets
@@ -122,7 +127,7 @@ MAdeK::Application.routes.draw do
   
 ###############################################
 
-  constraints(:id => /\d+/) do
+#tmp#  constraints(:id => /\d+/) do
 
     # TODO merge :resources into :media_resources 
     resources :resources, :only => [:index, :show] do
@@ -137,15 +142,22 @@ MAdeK::Application.routes.draw do
         get :image
       end
     end
-    match "resources/favorites", :to => "resources#index"
     
     # TODO merge :resources into :media_resources 
-    resources :media_resources
+    resources :media_resources do
+      collection do
+        #get :collection
+        post :collection
+        #delete :collection
+      end
+
+      resources :meta_data, only: [:update]
+    end
 
     resources :permissions, :only => :index, :format => true, :constraints => {:format => /json/}
     resources :permission_presets, :only => :index, :format => true, :constraints => {:format => /json/}
     
-  end
+#tmp#  end
 
 ###############################################
 
@@ -228,7 +240,12 @@ MAdeK::Application.routes.draw do
   namespace :admin do
     root :to => "keys#index"
 
-    resources :meta_context_groups
+    resources :meta_context_groups do
+      collection do
+        put :reorder
+      end
+    end
+    
     resources :permission_presets
     
     resource :meta, :controller => 'meta' do
@@ -288,5 +305,13 @@ MAdeK::Application.routes.draw do
       end
     end
   end
+
+# TODO ??
+#__ Schema namespace __##############################################################
+####################################################################################
+#  namespace :schema do
+#    resources :copyrights, only: :index
+#  end
+####################################################################################
 
 end

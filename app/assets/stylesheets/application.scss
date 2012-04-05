@@ -10,9 +10,9 @@
  *= require ../../../vendor/assets/javascripts/qtip/jquery.qtip.min.css
  *= require master
  *= require video-js
+ *= require icons
  * 
  *= require media_entry/_meta_data
- *= require meta_data/edit/multiselect/_department-selection
  *= require widgets/set_widget
  *= require button/button
  *= require modal_overlay/modal_overlay
@@ -22,5 +22,8 @@
  *= require_tree ./permissions
  *= require_tree ./dialog
  *= require_tree ./media_resource
+ *= require_tree ./meta_data
+ *= require_tree ./autocomplete
+ *= require_tree ./qtip
  * 
 */

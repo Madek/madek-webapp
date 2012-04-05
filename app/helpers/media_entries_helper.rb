@@ -6,60 +6,49 @@ module MediaEntriesHelper
     meta_context_group_data = []
 
     MetaContextGroup.all.each do |meta_context_group|
-      meta_data = []
+      meta_contexts = []
       # TODO check permissions for individual contexts (through media_sets)
       (meta_context_group.meta_contexts & (MetaContext.defaults + media_entry.individual_contexts)).collect do |meta_context|
-        meta_data << display_meta_data_for(media_entry, meta_context)
+        meta_contexts << display_meta_data_for(media_entry, meta_context)
       end
 
-      if false #media_entry.media_file.meta_data and media_entry.media_file.meta_data["GPS:GPSLatitude"] and media_entry.media_file.meta_data["GPS:GPSLongitude"]
-        meta_data << (link_to _("Karte"), [:map, media_entry])
-      end
-
-      meta_data_output = [[],[],[],[]]
-      meta_data.each_slice(4) do |slice|
-        slice.each_with_index do |entry, index|
-          meta_data_output[index] << entry
-        end
-      end
-      
-      meta_context_group_data << {meta_context_group: meta_context_group, meta_data_output: meta_data_output} unless meta_data.empty?
+      meta_context_group_data << {meta_context_group: meta_context_group, meta_contexts: meta_contexts} unless meta_contexts.empty?
     end
+
+    [MetaContextGroup.new(name: _("Karte"))].each do |meta_context_group|
+      meta_context_group_data << {meta_context_group: meta_context_group, link: url_for([:map, media_entry])}
+    end if media_entry.media_file.meta_data and media_entry.media_file.meta_data["GPS:GPSLatitude"] and media_entry.media_file.meta_data["GPS:GPSLongitude"]
 
     # OPTIMIZE this is now hardcoded
     # TODO includes activities (edit_sessions) 
     [MetaContextGroup.new(name: _("Weitere Daten"))].each do |meta_context_group|
-      meta_data = []
-      meta_data << display_objective_meta_data_for(media_entry)
-      meta_data << display_meta_data_for(media_entry, MetaContext.tms) if is_expert
+      meta_contexts = []
+      meta_contexts << display_objective_meta_data_for(media_entry)
+      meta_contexts << display_activities_for(media_entry, is_expert)
+      meta_contexts << display_meta_data_for(media_entry, MetaContext.tms) if is_expert
 
-      meta_data_output = [[],[],[],[]]
-      meta_data.each_slice(4) do |slice|
-        slice.each_with_index do |entry, index|
-          meta_data_output[index] << entry
-        end
-      end
-      
-      meta_context_group_data << {meta_context_group: meta_context_group, meta_data_output: meta_data_output}
+      meta_context_group_data << {meta_context_group: meta_context_group, meta_contexts: meta_contexts}
     end
 
     capture_haml do
       meta_context_group_data.each do |mcgd|
         meta_context_group = mcgd[:meta_context_group]
-        meta_data_output= mcgd[:meta_data_output]
+        meta_contexts = mcgd[:meta_contexts] || []
+        link = mcgd[:link]
+        
         haml_tag :div, class: "meta_context_group", id:  meta_context_group.id.to_s, "data-name" => meta_context_group.name.to_s do
-          haml_tag :h5 do
+          haml_tag :h5, :"data-link" => link do
             haml_tag :div, :class => "toggler-arrow"
             haml_tag :span, meta_context_group.name.to_s
           end
-          meta_data_output.each_with_index do |entry, index|
-            haml_tag :div, :class => "col" do
-              meta_data_output[index].each do |entry|
-                haml_concat entry
+          meta_contexts.each_slice(4) do |slice|
+            slice.each_with_index do |entry, index|
+              haml_tag :div, :class => "col" do
+                haml_concat slice[index]
               end
             end
+            haml_tag :hr
           end
-          haml_tag :div, :class => "clear"
         end
       end
     end

@@ -1,0 +1,16 @@
+.info
+  {{tmpl "tmpl/meta_data/edit/cell/label"}}
+  {{tmpl "tmpl/meta_data/edit/cell/hint"}}
+.input
+  %section.values
+    {{each(i, value) raw_value}}
+    {{tmpl(value) "tmpl/meta_data/edit/multiple_entries/person"}}
+    {{/each}}
+  %input{:type => "text",
+         :"data-autocomplete" => true,
+         :"data-type" => "${type}",
+         :"data-url" => "/people.json"}
+  .button.add_person.open_helper
+    .add_person.icon
+  {{tmpl "tmpl/meta_data/edit/helper/add_person"}}  
+{{tmpl "tmpl/meta_data/edit/cell/status"}}

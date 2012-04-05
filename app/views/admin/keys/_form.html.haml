@@ -1,5 +1,6 @@
 - used_term_ids = @key.used_term_ids
-= form_for @key, :url => path do |f|
+- remote ||= false
+= form_for @key, :url => url, :remote => remote do |f|
   = hidden_field_tag :term_positions
   %table
     %tr

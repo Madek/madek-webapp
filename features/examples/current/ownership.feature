@@ -119,12 +119,3 @@ Feature: Ownership
   Scenario: Owner
   Given I am a user that has ownership for a resource
    Then I am figured as owner
-
-  # https://www.pivotaltracker.com/story/show/23669443
-  Scenario: The admin interface allows assigning permissions
-    Given I am pending
-    # Given a resource owned by "Susanne Schumacher"
-      # And a resource owned by "Ramon Cahenzli"
-     # When I go to the admin interface
-      # And I assign the resources to "Susanne Schumacher"
-     # Then both resources are owned by "Susanne Schumacher"

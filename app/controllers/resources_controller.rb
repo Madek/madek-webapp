@@ -17,15 +17,17 @@ class ResourcesController < ApplicationController
   def index(type = params[:type],
             top_level = params[:top_level],
             user_id = params[:user_id],
+            media_set_id = params[:media_set_id],
             not_by_current_user = params[:not_by_current_user],
             public = params[:public],
+            favorites = params[:favorites],
             query = params[:query],
             page = params[:page],
             per_page = (params[:per_page] || PER_PAGE.first).to_i,
             meta_key_id = params[:meta_key_id],
             meta_term_id = params[:meta_term_id] )
             
-    resources = if request.fullpath =~ /favorites/
+    resources = if favorites == "true"
       current_user.favorites
     else
       MediaResource
@@ -42,6 +44,7 @@ class ResourcesController < ApplicationController
         resources.media_entries_and_media_sets
     end.accessible_by_user(current_user).order("media_resources.updated_at DESC")
 
+    resources = resources.by_media_set(media_set_id) if media_set_id
     resources = resources.by_user(@user) if user_id and (@user = User.find(user_id))
     if not_by_current_user
       resources = resources.not_by_user(current_user)
@@ -121,7 +124,7 @@ class ResourcesController < ApplicationController
 
     else
 
-      @_media_entry_ids = resources.search(query).map(&:id)
+      @resources = resources.search(query)
   
       respond_to do |format|
         format.js { render :layout => false}

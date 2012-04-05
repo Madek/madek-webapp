@@ -1,0 +1,25 @@
+collection = []
+@all_grouped_keywords.each do |k|
+  key = {}
+  key[:id] = k.meta_term_id 
+  key[:label] = k.to_s
+  
+  ## WITH MINE
+  if params[:with] and params[:with][:mine]
+    key[:yours] = (current_user == k.user) ? true : false
+  end
+  
+  ## WITH CREATED AT
+  if params[:with] and params[:with][:created_at]
+    key[:created_at] = k.created_at
+  end
+  
+  ## WITH COUNT
+  if params[:with] and params[:with][:count]
+    key[:count] = Keyword.where(:meta_term_id => k.meta_term_id).count
+  end
+  
+  collection << key
+end
+collection.sort! {|a,b| a[:label].downcase <=> b[:label].downcase}
+collection

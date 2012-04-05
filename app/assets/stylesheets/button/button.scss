@@ -19,9 +19,10 @@
   &[disabled=disabled] {
     cursor: default;
     @include opacity(0.6);
+    @include box-shadow(0 0 0 rgba(50, 50, 50, 0.1));
     
     &:hover {
-      @include box-shadow(0 0 1px rgba(0, 0, 0, 0.3));
+      @include box-shadow(0 0 0 rgba(50, 50, 50, 0.1));
     }
   }
   
@@ -80,7 +81,7 @@
 }
 
 .button, .button.white {
-  @include button(#444, #d7d7d7, #ededed, #fdfdfd, #CCC, #AAA, #999);
+  @include button(#444, #d7d7d7, #f3f3f3, #fdfdfd, #CCC, #AAA, #999);
 }
 
 .button.yellow {

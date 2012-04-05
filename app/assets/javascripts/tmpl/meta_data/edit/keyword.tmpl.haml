@@ -1,0 +1,28 @@
+.info
+  {{tmpl "tmpl/meta_data/edit/cell/label"}}
+  {{tmpl "tmpl/meta_data/edit/cell/hint"}}
+.input
+  %section.values
+    {{if value}}
+    {{if typeof(value) == "object"}}
+    {{each(i, element) value}}
+    {{tmpl({label: element}) "tmpl/meta_data/edit/multiple_entries/keyword"}}
+    {{/each}}
+    {{else}}
+    ${$splitted_keywords = value.split(", "),""}
+    {{each(i, keyword) $splitted_keywords}}
+    ${$label = keyword, ""}
+    {{tmpl({label: $label}) "tmpl/meta_data/edit/multiple_entries/keyword"}}
+    {{/each}}
+    {{/if}}
+    {{/if}}
+    
+  %input{:type => "text",
+    :"data-autocomplete" => true,
+    :"data-type" => "${type}",
+    :"data-url" => "/keywords.json"}
+    
+  .button.add_keyword.open_helper
+    .add_keyword.icon
+  {{tmpl "tmpl/meta_data/edit/helper/add_keyword"}}  
+{{tmpl "tmpl/meta_data/edit/cell/status"}}

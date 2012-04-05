@@ -1,0 +1,13 @@
+.info
+  {{tmpl "tmpl/meta_data/edit/cell/label"}}
+  {{tmpl "tmpl/meta_data/edit/cell/hint"}}
+.input
+  %select.root
+    {{each(i,copyright) Copyrights.get()}}
+    {{if copyright.children.length>0}}
+    {{tmpl(copyright) "tmpl/meta_data/edit/copyright/option_group"}}
+    {{else}}
+    {{tmpl(copyright) "tmpl/meta_data/edit/copyright/option"}}
+    {{/if}}
+    {{/each}}
+{{tmpl "tmpl/meta_data/edit/cell/status"}}

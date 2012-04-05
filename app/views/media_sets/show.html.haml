@@ -23,6 +23,7 @@
           :title => "Zugriffsberechtigung",
           :class => "open_permission_lightbox", 
           :"data-media_resource_ids" => "[#{@media_set.id}]",
+          :"data-redirect_url" => "#{root_path}",
           :"data-current_user" => "#{current_user.to_json(:only=>:id, :include => :groups)}" do
             .button_permissions
           %span.favorite_link{:id => "fav_#{@media_set.id}", :title => "Favorit"}
@@ -99,7 +100,15 @@
 
 :javascript
   $(document).ready(function () {
-    setupBatch(#{@media_entries.to_json}, #{@media_set.media_entry_ids.to_json});
+    $('.task_bar').hide();
+    var url = "/resources.json?media_set_id=#{@media_set.id}";
+    $.ajax({
+      url: url,
+      success: function(data){
+        data.url = url;
+        setupBatch(data);
+      }
+    });
     
     // hide parents at start
     $("#parents").hide();
