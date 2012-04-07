@@ -120,7 +120,7 @@ task :migrate_database do
   run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:migrate"
 
   run "rm -f #{current_dump_path}.bz2"
-  run "mysqldump --user=#{sql_username} --password=#{sql_password} -r #{current_dump_path} #{sql_database}"
+  run "mysqldump -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -r #{current_dump_path} #{sql_database}"
   run "bzip2 #{current_dump_path}"
 end
 
