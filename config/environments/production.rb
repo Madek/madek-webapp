@@ -1,8 +1,6 @@
 MAdeK::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
-  config.cache_store = :mem_cache_store
-
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests
   config.cache_classes = true
@@ -29,7 +27,7 @@ MAdeK::Application.configure do
   # config.logger = SyslogLogger.new
 
   # Use a different cache store in production
-  # config.cache_store = :mem_cache_store
+  config.cache_store = :mem_cache_store
 
   # Disable Rails's static asset server
   # In production, Apache or nginx will already do this
