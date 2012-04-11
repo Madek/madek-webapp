@@ -102,15 +102,16 @@ Feature: Upload
     Then I want to have the date the camera took the picture on as the creation date
     
   # https://www.pivotaltracker.com/story/show/24559317 -> Highlighting für Felder, die nicht validieren (required)
+  @javascript
   Scenario: Fields that don't validate should be highlighted
     When I upload a file
-     And I enter metadata for the file
-     And I fill in the metadata in the upload form as follows:
-     | label | value                       |
-     | Titel | Test image for highlighting |
-     And I try to continue in the import process
-    Then I see an error message
-     And the field "Rechte" is highlighted as invalid
+      When I go to the upload edit
+      And I fill in the metadata for entry number 1 as follows:
+      | label | value                       |
+      | Titel | Test image for highlighting |
+      And I try to continue in the import process
+      Then I see an error message "Inhalte mit unvollständigen Metadaten!"
+      And the field "Rechte" is highlighted as invalid
 
   # https://www.pivotaltracker.com/story/show/25923269
   Scenario: Sequential batch editor for uploading many (20+) files
