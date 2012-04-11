@@ -326,15 +326,12 @@ class MediaSetsController < ApplicationController
   end
 
   # TODO merge to index ??
-  def graph(type = params[:type].to_i)
+  def graph
     respond_to do |format|
-      format.html {
-        render :action => "graph_#{type}"
-      }
+      format.html
       format.json {
         #@media_sets = MediaSet.accessible_by_user(current_user).relative_top_level
         @media_sets = current_user.media_sets.relative_top_level
-        render :action => "graph_#{type}" if type == 4
       }
     end
   end
