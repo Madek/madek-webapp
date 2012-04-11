@@ -62,7 +62,6 @@ module MAdeK
     # can be seeked and that mobile clients know how much data is coming
     config.middleware.use Rack::ContentLength
 
-    config.cache_store = :mem_cache_store
   end
 end
 
