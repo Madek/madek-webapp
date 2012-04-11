@@ -262,10 +262,10 @@ function display_page(json, container){
 		container.replaceWith(rp.fadeIn('slow'));
 	}else{
 		container.append(rp.fadeIn('slow'));
-		//var $max_pages = page.pagination.current_page + 4;
-		//while(page.pagination.current_page < Math.min(pagination.total_pages, $max_pages)){
-		while(json.pagination.current_page < json.pagination.total_pages){
-			json.pagination.current_page++;
+		//var $max_pages = page.pagination.page + 4;
+		//while(page.pagination.page < Math.min(pagination.total_pages, $max_pages)){
+		while(json.pagination.page < json.pagination.total_pages){
+			json.pagination.page++;
 			container.append($("#empty_result_page").tmpl(json, {empty: true}).fadeIn('slow'));
 		}
 	}

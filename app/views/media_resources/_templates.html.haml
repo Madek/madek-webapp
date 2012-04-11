@@ -6,7 +6,7 @@
     .thumb_box
 
 %script#empty_result_page{:type => "text/x-jquery-tmpl"}
-  .page{:"data-page" => "${pagination.current_page}", :"data-url" => "${url}"}
+  .page{:"data-page" => "${pagination.page}", :"data-url" => "${url}"}
     {{tmpl(pagination) "#pagination"}}
     {{tmpl(entries) "#empty_index"}}
 
@@ -17,8 +17,8 @@
 
 %script#pagination{:type => "text/x-jquery-tmpl"}
   .pagination
-    ${total_entries} Einträge,
-    Seite ${current_page} von ${total_pages}
+    ${total} Einträge,
+    Seite ${page} von ${total_pages}
   .clear
 
 %script#thumbnail_mini{:type => "text/x-jquery-tmpl"}

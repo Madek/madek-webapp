@@ -56,7 +56,7 @@ describe MediaResourcesController do
     
     describe "a plain response" do
       it "should respond only with a collection of id's if there is not more requested" do
-        get :index, {format: 'json'}, session
+        get :index, {format: 'json', ids: ids}, session
         response.should be_success
         json = JSON.parse(response.body)
         json["media_resources"].each do |mr|
@@ -92,7 +92,7 @@ describe MediaResourcesController do
       
       describe "through meta contexts" do
         it "should respond with a collection of media resources with nested meta data for the core meta context" do
-          get :index, {format: 'json', with: {meta_data: {meta_context_names: [@meta_context.name]}}}, session
+          get :index, {format: 'json', ids: ids, with: {meta_data: {meta_context_names: [@meta_context.name]}}}, session
           response.should  be_success
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|

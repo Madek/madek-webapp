@@ -6,7 +6,7 @@ Given /^I see some sets$/ do
   end
   @current_user.media_sets.count.should == 3
   
-  visit resources_path(:user_id => @current_user, :type => "media_sets")
+  visit media_resources_path(:user_id => @current_user, :type => "media_sets")
   wait_for_css_element("div.page div.item_box")
   all(".item_box").size.should == 3
 end
@@ -22,7 +22,7 @@ Then /^they are in my favorites$/ do
     @current_user.favorites.reload.include?(set).should == true
   end
 
-  visit resources_path(favorites: true)
+  visit media_resources_path(favorites: true)
   wait_for_css_element("div.page div.item_box")
   all(".item_box").size.should == 3
 end

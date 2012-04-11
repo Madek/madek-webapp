@@ -127,9 +127,9 @@ class MediaSetsController < ApplicationController
         
         @can_edit_set = current_user.authorized?(:edit, @media_set)
         @parents = @media_set.parent_sets.as_json(:user => current_user)
-        @pagination = { :current_page => resources.current_page,
+        @pagination = { :page => resources.current_page,
                         :per_page => resources.per_page,
-                        :total_entries => resources.total_entries,
+                        :total => resources.total_entries,
                         :total_pages => resources.total_pages } 
       }
       format.json {
@@ -207,7 +207,7 @@ class MediaSetsController < ApplicationController
     respond_to do |format|
       format.html {
         if is_saved
-          redirect_to resources_path(:user_id => current_user, :type => "media_sets")
+          redirect_to media_resources_path(:user_id => current_user, :type => "media_sets")
         else
           flash[:notice] = @media_set.errors.full_messages
           redirect_to :back
@@ -240,7 +240,7 @@ class MediaSetsController < ApplicationController
       @media_set.destroy
     end
     respond_to do |format|
-      format.html { redirect_to resources_path(:user_id => current_user, :type => "media_sets") }
+      format.html { redirect_to media_resources_path(:user_id => current_user, :type => "media_sets") }
       format.json { render :json => {:id => @media_set.id} }
     end
   end

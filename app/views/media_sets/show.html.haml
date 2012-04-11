@@ -52,8 +52,8 @@
             = render :partial => "media_entries/browsing"
             #abstract_tab.clearfix
               %p= _("Diese Metadaten wurden am häufigsten vergeben. Sie zeigen den thematischen Schwerpunkt des Projekts an.")
-              = display_set_abstract_slider(@media_set, @pagination[:total_entries])
-              = display_set_abstract(@media_set, (@pagination[:total_entries] * 30 / 100), current_user)
+              = display_set_abstract_slider(@media_set, @pagination[:total])
+              = display_set_abstract(@media_set, (@pagination[:total] * 30 / 100), current_user)
             #vocabulary_tab.clearfix
               = display_set_vocabulary(@media_set, current_user)
           - if @can_edit_set and !@media_set.individual_and_inheritable_contexts.empty?
@@ -90,7 +90,7 @@
     %div{:class => icon_class}
     = _("Set enthält")
     %span
-      = "#{@pagination[:total_entries]} von #{MediaResource.by_media_set(@media_set).count} für Sie sichtbar"
+      = "#{@pagination[:total]} von #{MediaResource.by_media_set(@media_set).count} für Sie sichtbar"
   .clear
   = render :partial => "media_entries/index"
 

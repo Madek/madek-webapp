@@ -127,7 +127,7 @@ module MediaSetsHelper
 ####################################################################
 # TODO merge with meta_contexts_helper ?? 
 
-  def display_set_abstract_slider(set, total_entries)
+  def display_set_abstract_slider(set, total)
     capture_haml do
       haml_tag :p, :style => "padding: 1.8em;" do
         haml_tag :span, :id => "amount", :style => "color: #444444; font-weight: bold; position: absolute;"
@@ -138,16 +138,16 @@ module MediaSetsHelper
         begin
         <<-HERECODE
           $(document).ready(function () {
-            var total_entries = #{total_entries}; 
+            var total = #{total}; 
             function update_amount(ui){
               var l = ui.find("a").css('left');
-              var v = ui.slider( "value" ) + " von " + total_entries;
+              var v = ui.slider( "value" ) + " von " + total;
               $("#amount").html(v).css('left', l);
             }
             $("#slider").slider({
-              value: #{total_entries * 30 / 100},
+              value: #{total * 30 / 100},
               min: 1,
-              max: total_entries,
+              max: total,
               step: 1,
               create: function( event, ui ) { update_amount($(this)); },
               slide: function( event, ui ) { update_amount($(this)); },

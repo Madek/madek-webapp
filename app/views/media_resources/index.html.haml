@@ -8,7 +8,7 @@
     if(!#{params[:query].blank?}){
       var filter_area = $("#content_body_result .filter_area");
       $.ajax({
-        url: "#{filter_resources_path}",
+        url: "#{filter_media_resources_path}",
         type: 'GET',
         dataType: 'html',
         data: {query: "#{params[:query]}"},

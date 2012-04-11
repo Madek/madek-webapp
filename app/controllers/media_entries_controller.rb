@@ -156,7 +156,7 @@ class MediaEntriesController < ApplicationController
     respond_to do |format|
       format.html { 
         flash[:notice] = "Der Medieneintrag wurde gelöscht."
-        redirect_back_or_default(resources_path) 
+        redirect_back_or_default(media_resources_path) 
       }
       format.json { render :json => {:id => @media_entry.id} }
     end
@@ -267,7 +267,7 @@ class MediaEntriesController < ApplicationController
       end
     end
     
-    redirect_back_or_default(resources_path)
+    redirect_back_or_default(media_resources_path)
   end
   
 end

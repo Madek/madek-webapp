@@ -6,7 +6,7 @@
       = link_to "Suchergebnisse filtern", "#", :class => "filter_category_link"
     .filter_content{:style => "display: block;"}
       -# %form{:action => request.fullpath.gsub( /\?.*/, "" ), :method => :get, :"data-remote" => "true", :"data-type" => :json, :"data-item_ids" => resource_ids.to_json}
-      %form{:action => filter_resources_path, :method => :post, :"data-remote" => "true", :"data-type" => :json, :"data-item_ids" => resource_ids.to_json}
+      %form{:action => filter_media_resources_path, :method => :post, :"data-remote" => "true", :"data-type" => :json, :"data-item_ids" => resource_ids.to_json}
         = hidden_field_tag "filter[type]", type
         = hidden_field_tag "filter[ids]", resource_ids.join(',')
         #filter-query.basic

@@ -2,7 +2,7 @@
 module MetaContextsHelper
 
   def display_context_abstract_slider(abstract_slider_json)
-    total_entries = abstract_slider_json["total_entries"]
+    total = abstract_slider_json["total"]
     url = abstract_meta_context_path(abstract_slider_json["context_id"])
     
     capture_haml do
@@ -15,16 +15,16 @@ module MetaContextsHelper
         begin
         <<-HERECODE
           $(document).ready(function () {
-            var total_entries = #{total_entries}; 
+            var total = #{total}; 
             function update_amount(ui){
               var l = ui.find("a").css('left');
-              var v = ui.slider( "value" ) + " von " + total_entries;
+              var v = ui.slider( "value" ) + " von " + total;
               $("#amount").html(v).css('left', l);
             }
             $("#slider").slider({
-              value: #{total_entries * 30 / 100},
+              value: #{total * 30 / 100},
               min: 1,
-              max: total_entries,
+              max: total,
               step: 1,
               create: function( event, ui ) { update_amount($(this)); },
               slide: function( event, ui ) { update_amount($(this)); },
@@ -59,7 +59,7 @@ module MetaContextsHelper
             haml_tag :h4, meta_datum["meta_key_label"]
             haml_tag :p do
               meta_datum["meta_terms"].each do |meta_term|
-                haml_concat link_to(meta_term["label"], resources_path(:meta_key_id => meta_datum["meta_key_id"], :meta_term_id => meta_term["id"]), :"data-meta_term_id" => meta_term["id"])
+                haml_concat link_to(meta_term["label"], media_resources_path(:meta_key_id => meta_datum["meta_key_id"], :meta_term_id => meta_term["id"]), :"data-meta_term_id" => meta_term["id"])
               end
             end
           end

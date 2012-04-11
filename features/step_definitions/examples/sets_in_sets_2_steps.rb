@@ -13,7 +13,7 @@ Then /^it is a top\-level set$/ do
 end
 
 When /^I view a grid of these sets$/ do
-  visit resources_path()
+  visit media_resources_path()
 end
 
 When /^I examine my "([^"]*)" sets more closely$/ do |title|

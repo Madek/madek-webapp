@@ -48,7 +48,7 @@ class MetaContextsController < ApplicationController
         @vocabulary_json = @context.vocabulary(current_user).as_json
         @abstract_json = @context.abstract(current_user).as_json
         @abstract_slider_json = { :context_id => @context.id,
-                                  :total_entries => begin
+                                  :total => begin
                                                       # OPTIMIZE @context.media_entries(current_user).count
                                                       me = @context.media_entries(current_user)
                                                       me.to_a.size

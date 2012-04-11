@@ -12,7 +12,7 @@ module NavigationHelpers
       root_path
 
     when /the media entries/
-      resources_path
+      media_resources_path
       
     when /the upload edit/
       edit_upload_path
@@ -27,7 +27,7 @@ module NavigationHelpers
       '/wiki/edit?path='
       
     when /my sets page/
-      resources_path(:user_id => @current_user, :type => "media_sets", :top_level => true)
+      media_resources_path(:user_id => @current_user, :type => "media_sets", :top_level => true)
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

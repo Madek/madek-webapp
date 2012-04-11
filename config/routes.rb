@@ -108,20 +108,12 @@ MAdeK::Application.routes.draw do
 ###############################################
 
 #tmp#  constraints(:id => /\d+/) do
-
-    # TODO merge :resources into :media_resources 
-    resources :resources, :only => [:index] do
-      collection do
-        get :filter
-        post :filter
-      end
-    end
     
     resources :media_resources do
       collection do
-        #get :collection
+        get :filter
+        post :filter
         post :collection
-        #delete :collection
         post :parents
         delete :parents
       end
