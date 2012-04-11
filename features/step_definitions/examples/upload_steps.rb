@@ -62,54 +62,6 @@ Then /^I add the media entry to a set called "([^"]*)"$/ do |arg1|
   @media_entry_incomplete.reload.media_sets.empty?.should == false
 end
 
-When "I fill in the metadata in the upload form as follows:" do |table|
-  visit "/upload/edit"
-  table.hashes.each do |hash|
-    # Fills in the "_value" field it finds in the UL that contains
-    # the "key" text. e.g. "Titel*" or "Copyright"
-    text = filter_string_for_regex(hash['label'])
-
-    list = find("ul", :text => /^#{text}/)
-    if list.nil?
-      raise "Can't find any input fields with the text '#{text}'"
-    else
-      if list[:class] == "Person"
-        fill_in_person_widget(list, hash['value'], hash['options'])
-      elsif list[:class] == "Keyword"
-        fill_in_keyword_widget(list, hash['value'], hash['options'])
-      elsif list[:class] == "MetaTerm"
-        if list.has_css?("ul.meta_terms")
-          set_term_checkbox(list, hash['value'])
-        elsif list.has_css?(".madek_multiselect_container")
-          select_from_multiselect_widget(list, hash['value'])
-        else
-          raise "Unknown MetaTerm interface element when trying to set '#{text}'"
-        end
-      elsif list[:class] == "MetaDepartment"
-        puts "Sorry, can't set MetaDepartment to '#{text}', the MetaDepartment widget is too hard to test right now."
-
-        #select_from_multiselect_widget(list, hash['value'])
-      else
-        # These can be either textareas or input fields, let's fill in both. It's a bit brute force,
-        # can be done more elegantly by finding out whether we're dealing with a textarea or an input field.
-        list.all("textarea").each do |ele|
-          fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil? and ele[:id].match(/meta_data_attributes_.+_keep_original_value$/).nil?
-        end
-
-        list.all("input").each do |ele|
-          fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil? and ele[:id].match(/meta_data_attributes_.+_keep_original_value$/).nil?
-        end
-
-      end
-
-    end
-  end
-  step "I follow \"Metadaten speichern\""
-
-  # check the simple properties for now
-  @media_entry_incomplete.reload.meta_data.where("meta_key_id = ?",3).first.value.should == "Test image for uploading"
-  @media_entry_incomplete.reload.meta_data.where("meta_key_id = ?",52).first.value.should == "Tester"
-end
 
 When /^I upload a file with a file size greater than 1.4 GB$/ do
   begin
@@ -242,4 +194,18 @@ end
 Then /^I want to have the date the camera took the picture on as the creation date$/ do
   pending # express the regexp above with the code you wish you had
 end
+
+And /^I try to continue in the import process$/ do
+  find("#finish_meta_data").click()
+end
+
+Then /^I see an error message "([^"]*)"$/ do |msg|
+  page.should have_content msg
+end
+
+And /^the field "Rechte" is highlighted as invalid/ do
+  find(".edit_meta_datum_field[data-field_name='copyright notice'] .status .required").should be_true
+end
+
+
 
