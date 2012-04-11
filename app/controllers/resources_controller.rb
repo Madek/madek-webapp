@@ -36,10 +36,16 @@ class ResourcesController < ApplicationController
         end.accessible_by_user(current_user)
 
         case sort
-          when "updated_at", "created_at"
-            resources = resources.order("media_resources.#{sort} DESC")
-          when "random"
+        when "updated_at", "created_at"
+          resources = resources.order("media_resources.#{sort} DESC")
+        when "random"
+          if SQLHelper.adapter_is_mysql?
             resources = resources.order("RAND()")
+          elsif SQLHelper.adapter_is_postgresql? 
+            resources = resources.order("RANDOM()")
+          else
+            raise "SQL Adapter is not supported" 
+          end
         end
 
         resources = resources.by_media_set(media_set_id) if media_set_id

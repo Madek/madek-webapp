@@ -16,6 +16,29 @@ When /^I upload a file$/ do
   step "I upload the file \"#{@path}\" relative to the Rails directory"
 end
 
+When /^I upload several files$/ do
+  @path = "features/data/images/berlin_wall_01.jpg"
+  step "I upload the file \"#{@path}\" relative to the Rails directory"
+  @path2 = "features/data/images/berlin_wall_02.jpg"
+  step "I upload the file \"#{@path2}\" relative to the Rails directory"
+end
+
+
+Then /^I can assign the Title to all the other files I just uploaded$/ do
+  find(".edit_meta_datum_field[data-field_name='title'] .button").click
+  wait_until { all(".media_resource_selection .saving").size == 0 }
+  MediaResource.find_by_title("Test image for mass assignment of values").size.should == 2
+end
+
+
+Then /^I can assign the Copyright to all the other files I just uploaded$/ do
+  find(".edit_meta_datum_field[data-field_name='copyright notice'] .button").click
+  wait_until { all(".media_resource_selection .saving").size == 0 }
+  # TODO rather use the SQL query once we have normalized the schema
+  # MediaResource.joins(:meta_data => :meta_key).select("meta_data.*").where("meta_keys.label = ?", "copyright notice").where("meta_data.value = ?","Tester Two").size.should == 2
+  MetaDatum.all.select{|md| md.value == "Tester Two"}.size.should == 2
+end
+
 Then /^the file is attached to a media entry$/ do
   @media_entry_incomplete.media_file.valid?.should be_true
   @media_entry_incomplete.media_file.persisted?.should be_true
