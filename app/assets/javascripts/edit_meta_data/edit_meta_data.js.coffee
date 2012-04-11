@@ -243,7 +243,7 @@ class EditMetaData
     
   @update_all_titles = (field_value)->
     $(EditMetaData.navigation).find(">div:not(:disabled)").each (i, element)->
-      $(element).find(".name").html(field_value)
+      $(element).find(".name").html(Str.sliced_trunc(field_value, 26))
       
   @update_title = (media_resource_id)->
     navigation_element = $(EditMetaData.navigation).find("[data-media_resource_id="+media_resource_id+"] .name")
@@ -251,9 +251,9 @@ class EditMetaData
     element_data = $(media_resource_element).tmplItem().data
     flatten_meta_data = MetaDatum.flatten element_data.meta_data
     if flatten_meta_data["title"]?
-      navigation_element.html(flatten_meta_data["title"])
+      navigation_element.html(Str.sliced_trunc(flatten_meta_data["title"], 26))
     else
-      navigation_element.html(element_data.filename)
+      navigation_element.html(Str.sliced_trunc(element_data.filename, 26))
           
   @compute_value = (field)->
     # compute value depending on field type

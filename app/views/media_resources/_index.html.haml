@@ -1,0 +1,60 @@
+= media_resources_index_title
+
+- h = current_settings
+.page_navigation
+  = link_to _("Alle"), url_for(params.merge(:type => nil)),
+    :class => "type all"
+  = " | "
+  = link_to _("Medieneinträge"), url_for(params.merge(:type => "media_entries")),
+    :class => "type media_entries"
+  = " | "
+  = link_to _("Sets"), url_for(params.merge(:type => "media_sets")),
+    :class => "type media_sets"
+.page_navigation
+  = link_to _("Meine"), url_for(params.merge(:user_id => current_user, :not_by_current_user => nil, :public => nil)), 
+    :class => "permission mine"
+  = " | "
+  = link_to _("Mir anvertraute"), url_for(params.merge(:user_id => nil, :not_by_current_user => true, :public => false)), 
+    :class => "permission entrusted"
+  = " | "
+  = link_to _("Öffentliche"), url_for(params.merge(:user_id => nil, :not_by_current_user => true, :public => true)), 
+    :class => "permission public"
+  = " | "
+  = link_to _("Jegliche Berechtigungen"), url_for(params.merge(:user_id => nil, :not_by_current_user => nil, :public => nil)), 
+    :class => "permission all"
+.page_navigation
+  = link_to _("Erstelldatum"), url_for(params.merge(:sort => :created_at)), 
+    :class => (params[:sort] == "created_at" ? "active" : nil)
+  = " | "
+  = link_to _("Änderungsdatum"), url_for(params.merge(:sort => :updated_at)), 
+    :class => (params[:sort] == "updated_at" ? "active" : nil)
+  = " | "
+  = link_to _("Zufällig"), url_for(params.merge(:sort => :random)), 
+  :class => (params[:sort] == "random" ? "active" : nil)
+  = " | "
+.page_navigation
+  = link_to _("Graph"), graph_media_sets_path if params[:type] == "media_sets" and params[:user_id] == "#{current_user.id}" 
+%hr
+
+#results
+  Loading...
+  
+= render :partial => "media_entries/batch_bar"
+  
+:javascript
+  $(document).ready(function () {
+    $('.task_bar').hide();
+    var url = "#{resources_path(params.select {|k,v| not [:id, :action, :controller].include?(k.to_sym) })}";
+    $.ajax({
+      url: url,
+      data: {format: 'json'},
+      success: function(data){
+        $("#results").html("");
+        data.url = url;
+        setupBatch(data);
+      }
+    });
+    
+    $(".page_navigaion .type."+#{h[:type]}).addClass("active")
+    $(".page_navigaion .permission."+#{h[:permission]}).addClass("active")
+  });
