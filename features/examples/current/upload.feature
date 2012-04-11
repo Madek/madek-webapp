@@ -31,6 +31,7 @@ Feature: Upload
      | Copyright                       | Tester                   |
      
   # https://www.pivotaltracker.com/story/show/24559377 -> User kann beim Upload beim Vergeben der Metadaten die Werte zu Titel, Autor, Datierung, Schlagworte und Rechten von einem auf alle Medieneinträge übertrage
+  @javascript
   Scenario: Assigning one value to all uploaded things
     When I upload several files
      When I go to the upload edit
@@ -42,7 +43,8 @@ Feature: Upload
      | Schlagworte zu Inhalt und Motiv | other                                    |
      | Schlagworte zu Inhalt und Motiv | example                                  |
      | Copyright                       | Tester Two                               |
-    Then I can assign the same values to all the other files I just uploaded
+    Then I can assign the Title to all the other files I just uploaded
+    Then I can assign the Copyright to all the other files I just uploaded
 
   # Feature exists already, but needs this test
   @javascript
