@@ -2,35 +2,41 @@
 module MediaResourcesHelper
   
   def media_resources_index_title
+
+    # TODO
+    # _("Suchergebnisse") "für “#{params[:query]}”"
+    #_("Keine Einträge gefunden")
+    #_("Favoriten")
+
     case current_settings
       
       when {:type => :all, :permissions => :all}
-        "Alle Inhalte"
+        _("Alle Inhalte")
       when {:type => :media_entries, :permissions => :all}
-        "Alle Medieneinträge"
+        _("Alle Medieneinträge")
       when {:type => :media_sets, :permissions => :all}
-        "Alle Sets"
+        _("Alle Sets")
         
       when {:type => :all, :permissions => :mine}
-        "Meine Inhalte"
+        _("Meine Inhalte")
       when {:type => :media_entries, :permissions => :mine}
-        "Meine Medieneinträge"
+        _("Meine Medieneinträge")
       when {:type => :media_sets, :permissions => :mine}
-        "Meine Sets"
+        _("Meine Sets")
         
       when {:type => :all, :permissions => :entrusted}
-        "Mir anvertraute Inhalte"
+        _("Mir anvertraute Inhalte")
       when {:type => :media_entries, :permissions => :entrusted}
-        "Mir anvertraute Medieneinträge"
+        _("Mir anvertraute Medieneinträge")
       when {:type => :media_sets, :permissions => :entrusted}
-        "Mir anvertraute Sets"
+        _("Mir anvertraute Sets")
         
       when {:type => :all, :permissions => :public}
-        "Öffentliche Inhalte"
+        _("Öffentliche Inhalte")
       when {:type => :media_entries, :permissions => :public}
-        "Öffentliche Medieneinträge"
+        _("Öffentliche Medieneinträge")
       when {:type => :media_sets, :permissions => :public}
-        "Öffentliche Sets"
+        _("Öffentliche Sets")
         
       else
         ""
