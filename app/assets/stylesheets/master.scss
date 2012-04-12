@@ -824,7 +824,12 @@ ul li { float: left; }
 
 #content_body_set .set_parents_title {
   display: block;
+  margin-bottom: 6px;
   width: 100%;
+}
+
+#content_body_set #bar > .icon {
+  display: none;
 }
 
 .disabled {
