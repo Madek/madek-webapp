@@ -12,7 +12,7 @@ Feature: Making top level sets visible (highlight)
   Scenario: Viewing my sets
     Given I am "Normin"
      When I visit my sets
-     Then I only see my top level sets
+     Then I see all my sets
 
   @javascript
   Scenario: Switch between all my sets and all my top level sets

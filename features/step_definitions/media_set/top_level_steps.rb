@@ -5,6 +5,7 @@ end
 
 Then /^I only see my top level sets$/ do
   all_my_top_level_sets = @current_user.media_sets.top_level
+  wait_until { all(".item_box.set").size > 0 }
   all(".item_box.set").size.should eql all_my_top_level_sets.size
   all_my_top_level_sets.each do |set|
     page.should have_content(set.title)
@@ -13,6 +14,7 @@ end
 
 Then /^I see all my sets$/ do
   all_my_sets = @current_user.media_sets
+  wait_until { all(".item_box.set").size > 0 }
   all(".item_box.set").size.should eql all_my_sets.size
   all_my_sets.each do |set|
     page.should have_content(set.title)
