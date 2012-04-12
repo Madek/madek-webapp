@@ -782,11 +782,10 @@ ul li { float: left; }
 }
 
 .page_title_left span, .section_title a {
-	font-size: 0.55em;
-	font-weight: normal;
-	letter-spacing: 0.1ex;
-	padding-left: 0.2em;
-	text-decoration: none;
+	color: #7F7F7F;
+  font-size: 0.65em;
+  letter-spacing: 0em;
+  margin-left: 6px;
 }
 
 .page_navigation {
@@ -823,8 +822,9 @@ ul li { float: left; }
 	margin-top: 15px;
 }
 
-#content_body_set .pagination {
-	margin-top: -43px;
+#content_body_set .set_parents_title {
+  display: block;
+  width: 100%;
 }
 
 .disabled {

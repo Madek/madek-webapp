@@ -1,8 +1,11 @@
 - h = current_settings
+- t = media_resources_index_title
 
 #bar
-  %div{:class => "icon #{h.values.join(" ")}"}
-  %h1= media_resources_index_title
+  .icon
+  %h1
+    = t.first
+    %small= t.second if t.second 
   
   .selection
     .types
@@ -44,8 +47,9 @@
         $("#results").html("");
         data.url = url;
         setupBatch(data);
+        if(#{not params[:media_set_id].blank?}) $("#bar h1 small").prepend(data.pagination.total);
       }
     });
     
-    Bar.setup("#{h[:type]}", "#{h[:permissions]}", "#{params[:sort]}");
+    Bar.setup("#{h[:type]}", "#{h[:permissions]}", "#{params[:sort]}", "#{params[:favorites]}", "#{params[:query]}");
   });

@@ -86,12 +86,6 @@
     .clear
     #parents
   
-  %div.page_title_left
-    %div{:class => icon_class}
-    = _("Set enthält")
-    %span
-      = "#{@pagination[:total]} von #{MediaResource.by_media_set(@media_set).count} für Sie sichtbar"
-  .clear
   = render :partial => "media_entries/index"
 
 :javascript

@@ -3,12 +3,15 @@ module MediaResourcesHelper
   
   def media_resources_index_title
 
-    # TODO
-    # _("Suchergebnisse") "für “#{params[:query]}”"
-    #_("Favoriten")
+    r = if params[:favorites] == "true"
+      _("Favoriten")
+    elsif not params[:query].blank?
+      [_("Suchergebnisse"), _("für \"%s\"") % params[:query]] 
+    elsif params[:media_set_id]
+      [_("Set enthält"), _(" von %d für Sie sichtbar") % MediaResource.by_media_set(params[:media_set_id]).count]
+    end 
 
-    case current_settings
-      
+    r ||= case current_settings
       when {:type => :all, :permissions => :all}
         _("Alle Inhalte")
       when {:type => :media_entries, :permissions => :all}
@@ -39,7 +42,9 @@ module MediaResourcesHelper
         
       else
         ""
-    end
+    end 
+    
+    Array(r)
   end
   
   def current_settings

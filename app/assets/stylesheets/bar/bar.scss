@@ -16,6 +16,16 @@
   z-index: 999;
   @include box-shadows(0 1px 0 white, 0 2px 24px rgba(0,0,0,0.1));
   
+  >.icon {
+    display: block;
+    height: 15px;
+    left: 13px;
+    position: absolute;
+    top: 11px;
+    width: 15px;
+    @include opacity(0.4);
+  }
+  
   h1 {
     float: left;
     font-size: 1.9em;
@@ -24,6 +34,13 @@
     position: absolute;
     top: 35px;
     left: 42px;
+    
+    small {
+      color: #7F7F7F;
+      font-size: 0.65em;
+      letter-spacing: 0em;
+      margin-left: 6px;
+    }
   }
   
   .selection {
@@ -162,7 +179,7 @@
       }
       
       &:hover {
-        @include box-shadow(0 1px 2px rgba(0,0,0,0.3));
+        @include box-shadow(0 0 2px rgba(0,0,0,0.5));
         
         a {
           border-bottom: 1px solid #CCC;
@@ -184,7 +201,7 @@
       display: inline-block;
       
       a {
-        margin-left: 4px;
+        margin-left: 7px;
         @include opacity(0.6);
         
         &:hover, &.active {
