@@ -30,6 +30,7 @@
 //= require_tree ./copyrights
 //= require_tree ./keywords
 //= require_tree ./bar
+//= require_tree ./media_set
 
 /////////// Tmpl /////////////
 //= require_tree ./tmpl/

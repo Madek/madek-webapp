@@ -1,0 +1,57 @@
+@import "../mixins.scss";
+
+.thumb_box_set.create_new {
+  cursor: pointer;
+  display: inline-block;
+  height: 220px;
+  position: relative;
+  top: 9px;
+  
+  .plus.icon {
+    left: 62px;
+    position: absolute;
+    top: 71px;
+    @include opacity(0.6);
+  }
+  
+  img {
+    border: none;
+  }
+  
+  &:hover .plus.icon { @include opacity(0.9); }
+  
+  form {
+    display: none;
+    line-height: 16px;
+    position: relative;
+    top: 150px;
+    
+    input {
+      background-color: #FFFFFF;
+      border: 1px solid #D2D2D2;
+      color: #424242;
+      display: block;
+      font-weight: bold;
+      font-size: 1em;
+      margin-bottom: 12px;
+      padding: 2px 4px;
+      position: relative;
+      width: 134px;
+      @include box-shadow(0 0 1px 1px #E3E3E3 inset);
+      
+     &:hover, &:focus {
+        border: 1px solid #AAA;
+        @include box-shadows(0 0 5px #E3E3E3, 0 0 1px 1px #E3E3E3 inset);
+      }
+    }
+    
+   .button {
+      line-height: 16px;
+      padding-left: 0;
+      padding-right: 0;
+      position: relative;
+      display: block;
+      width: 144px;
+    }
+  }
+}

@@ -799,11 +799,20 @@ ul li { float: left; }
 
 /************************************************** Pagination */
 
+.page {
+  position: relative;
+}
+
 .pagination {
-	margin: -6px 16px 10px 0;
-	float: right;
 	color: #999999;
+	display: block;
+	float: right;
 	letter-spacing: 0.1ex;
+	margin: -6px 16px 10px 0;
+	position: relative;
+	text-align: right;
+	width: 100%;
+	
 	em {
 		font-size: 1.5em;
 		font-weight: bold;

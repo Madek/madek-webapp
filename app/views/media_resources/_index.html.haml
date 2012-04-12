@@ -54,6 +54,9 @@
         data.url = url;
         setupBatch(data);
         if(#{not params[:media_set_id].blank?}) $("#bar h1 small").prepend(data.pagination.total);
+        if(#{(params[:type] == "media_sets" and params[:user_id].to_i == current_user.id)}) {
+          $("#results .page:first .pagination").after($.tmpl("tmpl/media_set/create_new_thumb_box"));
+        }
       }
     });
     

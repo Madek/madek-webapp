@@ -195,13 +195,14 @@ class MediaSetsController < ApplicationController
       # TODO ?? find_by_id_or_create_by_title
       @media_sets = [] 
       attr.each_pair do |k,v|
-        media_set = current_user.media_sets.build(v)
+        media_set = current_user.media_sets.create
+        media_set.update_attributes(v)
         @media_sets << media_set
         is_saved = (is_saved and media_set.save)
       end
     else # CREATE SINGLE
-      @media_set = current_user.media_sets.build(attr)
-      is_saved = @media_set.save
+      @media_set = current_user.media_sets.create
+      is_saved = @media_set.update_attributes(attr)
     end
 
     respond_to do |format|
