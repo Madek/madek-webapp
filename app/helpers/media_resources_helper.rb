@@ -5,7 +5,6 @@ module MediaResourcesHelper
 
     # TODO
     # _("Suchergebnisse") "für “#{params[:query]}”"
-    #_("Keine Einträge gefunden")
     #_("Favoriten")
 
     case current_settings

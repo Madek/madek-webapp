@@ -20,4 +20,24 @@
     left: -1px;
     width: 16px;
   }
+  
+  &.graph {
+    background-position: -89px -18px;
+    height: 17px;
+    width: 17px;
+  }
+  
+  &.grid {
+    background-position: -107px 0;
+    height: 17px;
+    width: 17px;
+  }
+  
+  &.arrow {
+    &.down {
+      background-position: -17px -32px;
+      height: 6px;
+      width: 9px;
+    }
+  }
 }
