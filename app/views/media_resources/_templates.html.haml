@@ -8,12 +8,12 @@
 %script#empty_result_page{:type => "text/x-jquery-tmpl"}
   .page{:"data-page" => "${pagination.page}", :"data-url" => "${url}"}
     {{tmpl(pagination) "#pagination"}}
-    {{tmpl(entries) "#empty_index"}}
+    {{tmpl(media_resources) "#empty_index"}}
 
 %script#result_page{:type => "text/x-jquery-tmpl"}
   .page
     {{tmpl(pagination) "#pagination"}}
-    {{tmpl(entries) "tmpl/media_resource/thumb_box"}}
+    {{tmpl(media_resources) "tmpl/media_resource/thumb_box"}}
 
 %script#pagination{:type => "text/x-jquery-tmpl"}
   .pagination
