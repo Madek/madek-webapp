@@ -8,13 +8,15 @@
 
 class Bar
   
-  @setup = (type, permission, sort_by, favorites, search)->
+  @setup = (type, permission, sort_by, favorites, search, top_level, media_set)->
     @setup_type type
     @setup_permissions permission
     @setup_sort_by sort_by
     @setup_layout()    
     @setup_interactivity()
     @setup_icon type, favorites, search
+    if type == "media_sets" and permission == "mine" and favorites != "true" and search == "" and media_set == ""
+      @setup_media_set_scope(top_level) 
 
   @setup_type = (type)->
     $("#bar .selection .types ."+type).addClass("active").addClass("current")
@@ -50,17 +52,22 @@ class Bar
     else
       $("#bar > .icon").addClass(type)
   
+  @setup_media_set_scope = (top_level)->
+    $("#bar .scope_sets").css("display", "inline-block")
+    if top_level == "true"
+      $("#bar .scope_sets .top_level").addClass("active")
+    else
+      $("#bar .scope_sets .not_top_level").addClass("active")
+    $("#bar .scope_sets").prepend $("#bar .scope_sets .active")
+  
   @set_href_selection_for = (active_element)->
     active_type = $(active_element).data "type"
     $("#bar .selection .permissions a").each (i, current_element)->
       href = $(current_element).attr("href")
-      console.log "----"
-      console.log href
       if href.match("type=")
         href = href.replace(/type=(\w+|\w?)/, "type="+active_type)
       else
         href = href+"&type="+active_type
       $(current_element).attr("href", href)
-      console.log $(current_element).attr("href")
   
 window.Bar = Bar

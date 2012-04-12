@@ -3,9 +3,15 @@
 
 #bar
   .icon
-  %h1
-    = t.first
-    %small= t.second if t.second 
+  
+  .left
+    %h1
+      = t.first
+      %small= t.second if t.second
+    .scope_sets
+      = link_to _("Alle meine obersten Sets"), url_for(params.merge(:top_level => true)), :class => "top_level"
+      = link_to _("Alle meine Sets"), url_for(params.merge(:top_level => nil)), :class => "not_top_level"
+      .arrow.down.icon
   
   .selection
     .types
@@ -51,5 +57,12 @@
       }
     });
     
-    Bar.setup("#{h[:type]}", "#{h[:permissions]}", "#{params[:sort]}", "#{params[:favorites]}", "#{params[:query]}");
+    Bar.setup(
+      "#{h[:type]}", 
+      "#{h[:permissions]}", 
+      "#{params[:sort]}", 
+      "#{params[:favorites]}", 
+      "#{params[:query]}", 
+      "#{params[:top_level]}",
+      "#{params[:media_set_id]}");
   });
