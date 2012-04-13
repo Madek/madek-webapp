@@ -19,7 +19,6 @@
   .pagination
     ${total} Einträge,
     Seite ${page} von ${total_pages}
-  .clear
 
 %script#thumbnail_mini{:type => "text/x-jquery-tmpl"}
   %div{:class => "thumb_mini {{if is_editable}}edit{{/if}} {{if is_manageable}}manage{{/if}}{{if is_set}} set{{/if}}", :rel => "${id}", :title => "${title}"}

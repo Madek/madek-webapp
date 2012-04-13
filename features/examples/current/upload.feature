@@ -96,10 +96,6 @@ Feature: Upload
     When I import a file
     Then I want to have its original file name inside its metadata
 
-  # https://www.pivotaltracker.com/story/show/24559359 -> Datierung aus Kameradatum (EXIF/IPTC) übernehmen (Erstellungsdatum)
-  Scenario: Extracting the camera date into metadata
-    When I upload a file
-    Then I want to have the date the camera took the picture on as the creation date
     
   # https://www.pivotaltracker.com/story/show/24559317 -> Highlighting für Felder, die nicht validieren (required)
   @javascript
@@ -114,18 +110,13 @@ Feature: Upload
       And the field "Rechte" is highlighted as invalid
 
   # https://www.pivotaltracker.com/story/show/25923269
-  Scenario: Sequential batch editor for uploading many (20+) files
-    When I upload 5 files
-     And I edit metadata for the first file
-    Then I see a list of my uploaded files
-     And I fill in the metadata in the upload form as follows:
-     | label     | value       |
-     | Titel     | Test image  |
-     | Rechte | Some Person |
-    Then I can save the metadata
-     And I can jump to the next file
-    When I edit metadata for the second file
-    Then I can jump to the previous file
+  @javascript
+  Scenario: Sequential batch editor for uploading many files
+    When I upload several files
+      When I go to the upload edit
+      Then I see a list of my uploaded files
+       And I can jump to the next file
+       And I can jump to the previous file
 
   # https://www.pivotaltracker.com/story/show/25923269
   Scenario: Filtering only media entries with missing metadata in the sequential batch editor
