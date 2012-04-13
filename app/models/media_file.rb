@@ -156,6 +156,7 @@ class MediaFile < ActiveRecord::Base
           path = "#{prefix}_#{filename}"
           `wget "#{f}" -O "#{path}"`
           if $? == 0
+            FileUtils.chmod(0644, path) # Otherwise Apache's X-Sendfile cannot access the file, as Apache runs as another user, e.g. 'www-data'
             paths << path
           end
         end
@@ -168,6 +169,7 @@ class MediaFile < ActiveRecord::Base
           path = "#{prefix}_#{filename}"
           `wget "#{f}" -O "#{path}"`
           if $? == 0
+            FileUtils.chmod(0644, path) # Otherwise Apache's X-Sendfile cannot access the file, as Apache runs as another user, e.g. 'www-data'
             thumbnail_paths << path
           end
         end
