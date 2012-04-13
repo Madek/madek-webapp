@@ -301,7 +301,7 @@ class MediaResourcesController < ApplicationController
       @resources = resources.search(query)
   
       respond_to do |format|
-        format.js { render :layout => false}
+        format.html { render :layout => false}
       end
     end
   end

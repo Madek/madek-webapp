@@ -27,14 +27,23 @@ module NavigationHelpers
       '/wiki/edit?path='
       
     when /my sets page/
-      media_resources_path(:user_id => @current_user, :type => "media_sets", :top_level => true)
-
-    # Add more mappings here.
-    # Here is an example that pulls values out of the Regexp:
-    #
-    #   when /^(.*)'s profile page$/i
-    #     user_profile_path(User.find_by_login($1))
-
+      media_resources_path(:user_id => @current_user, :type => "media_sets")
+    
+    when /my media entries/
+      media_resources_path(:user_id => @current_user, :type => "media_entries")
+      
+    when /my favorites/
+      media_resources_path(:favorites => true)
+      
+    when /content assigned to me/
+      media_resources_path(:not_by_current_user => true)
+      
+    when /public content/
+      media_resources_path(:not_by_current_user => true, :public => true)
+      
+    when /set view/
+      
+    
     else
       begin
         page_name =~ /the (.*) page/
