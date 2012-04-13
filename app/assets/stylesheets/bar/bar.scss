@@ -26,20 +26,79 @@
     @include opacity(0.4);
   }
   
-  h1 {
-    float: left;
-    font-size: 1.9em;
-    font-weight: bold;
-    letter-spacing: -0.05ex;
+  .left {
     position: absolute;
     top: 35px;
     left: 42px;
     
-    small {
-      color: #7F7F7F;
-      font-size: 0.65em;
-      letter-spacing: 0em;
-      margin-left: 6px;
+    h1 {
+      float: left;
+      font-size: 1.9em;
+      font-weight: bold;
+      letter-spacing: -0.05ex;
+      
+      small {
+        color: #7F7F7F;
+        font-size: 0.65em;
+        letter-spacing: 0em;
+        margin-left: 6px;
+      }
+    }
+    
+    .scope_sets {
+      display: none;
+      left: 5px;
+      top: -2px;
+    }
+  }
+  
+  .sort, .scope_sets {
+    background: white;
+    display: inline-block;
+    position: relative;
+    z-index: 1001;
+    @include border-radius(4px);
+    
+    a {
+      color: #777;
+      display: none;
+      text-decoration: none;
+      padding: 6px 14px 6px 24px;
+      text-align: left;
+      
+      &.active {
+        display: inline-block;
+      }
+      
+      &:hover {
+        color: #444;  
+      }
+    }
+    
+    .icon {
+      display: inline-block;
+      float: left;
+      top: 14px;
+      left: 8px;
+      position: absolute;
+      @include opacity(0.7);
+    }
+    
+    &:hover {
+      @include box-shadow(0 0 2px rgba(0,0,0,0.5));
+      
+      a {
+        border-bottom: 1px solid #CCC;
+        display: block;
+      }
+      
+      &.active {
+        color: #444;
+      }
+      
+      .icon {
+        @include opacity(1.0);
+      }
     }
   }
   
@@ -48,6 +107,7 @@
     position: absolute;
     margin-left: -146px;
     top: 70px;
+    z-index: 999;
     
     .types {
       
@@ -141,59 +201,12 @@
   .right {
     display: inline-block;
     position: absolute;
-    top: 36px;
+    top: 38px;
     right: 34px;
     
     .sort {
-      background: white;
       float: left;
-      display: inline-block;
-      margin-right: 16px;
-      position: relative;
-      top: -6px;
-      @include border-radius(4px);
-      
-      a {
-        color: #777;
-        display: none;
-        text-decoration: none;
-        padding: 6px 24px 6px 14px;
-        text-align: right;
-        
-        &.active {
-          display: inline-block;
-        }
-        
-        &:hover {
-          color: #444;  
-        }
-      }
-      
-      .icon {
-        display: inline-block;
-        float: left;
-        top: 14px;
-        right: 8px;
-        position: absolute;
-        @include opacity(0.7);
-      }
-      
-      &:hover {
-        @include box-shadow(0 0 2px rgba(0,0,0,0.5));
-        
-        a {
-          border-bottom: 1px solid #CCC;
-          display: block;
-        }
-        
-        &.active {
-          color: #444;
-        }
-        
-        .icon {
-          @include opacity(1.0);
-        }
-      }
+      top: -4px;
     }
     
     .layout {

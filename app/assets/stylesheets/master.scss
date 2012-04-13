@@ -656,7 +656,7 @@ nav {
   background: url(icons/madek_icon_sprites.png) -100px -432px no-repeat;
 }
 .item_line_set {
-  background: url(icons/madek_icon_sprites.png) -100px -967px no-repeat;
+  background: url(icons/madek_icon_sprites.png) -100px -775px no-repeat;
 }
 .item_line_fav {
   background: url(icons/madek_icon_sprites.png) -100px -1959px no-repeat;
@@ -799,11 +799,20 @@ ul li { float: left; }
 
 /************************************************** Pagination */
 
+.page {
+  position: relative;
+}
+
 .pagination {
-	margin: -6px 16px 10px 0;
-	float: right;
 	color: #999999;
+	display: block;
+	float: right;
 	letter-spacing: 0.1ex;
+	margin: -6px 16px 10px 0;
+	position: relative;
+	text-align: right;
+	width: 100%;
+	
 	em {
 		font-size: 1.5em;
 		font-weight: bold;
@@ -824,7 +833,12 @@ ul li { float: left; }
 
 #content_body_set .set_parents_title {
   display: block;
+  margin-bottom: 6px;
   width: 100%;
+}
+
+#content_body_set #bar > .icon {
+  display: none;
 }
 
 .disabled {
