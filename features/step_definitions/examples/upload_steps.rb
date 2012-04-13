@@ -208,4 +208,20 @@ And /^the field "Rechte" is highlighted as invalid/ do
 end
 
 
+Then /^I see a list of my uploaded files$/ do
+  all('.media_resource_selection .media .item_box').size.should be >= 2
+end
+
+
+And /^I can jump to the next file$/ do
+  next_name= find(".navigation .next").find(".name").text
+  find(".navigation .next").click
+  find(".navigation .current").find(".name").text.should == next_name
+end
+
+And /^I can jump to the previous file$/ do
+  previous_name= find(".navigation .previous").find(".name").text
+  find(".navigation .previous").click
+  find(".navigation .current").find(".name").text.should == previous_name
+end
 
