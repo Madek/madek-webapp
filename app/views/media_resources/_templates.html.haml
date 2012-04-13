@@ -17,7 +17,8 @@
 
 %script#pagination{:type => "text/x-jquery-tmpl"}
   .pagination
-    ${total} Einträge,
+    ${total}
+    = "#{_('Resultate')},"
     Seite ${page} von ${total_pages}
 
 %script#thumbnail_mini{:type => "text/x-jquery-tmpl"}

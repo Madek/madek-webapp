@@ -42,7 +42,11 @@ module NavigationHelpers
       media_resources_path(:not_by_current_user => true, :public => true)
       
     when /set view/
+      media_set_path(MediaSet.accessible_by_user(@current_user).first)
       
+    when /search results/
+      term = MediaResource.accessible_by_user(@current_user).first.title[0..2]
+      media_resources_path(:query => term)
     
     else
       begin

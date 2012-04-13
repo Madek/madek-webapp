@@ -1104,7 +1104,18 @@ ul li { float: left; }
 
 #results, #results_mine, #results_others {
 	padding: 5px 0 20px 13px;
+	position: relative;
 	text-align: left;
+}
+
+#results h2.empty_results {
+  color: #AAA;
+  display: block;
+  left: -2px;
+  position: absolute;
+  text-align: center;
+  top: 102px;
+  width: 100%;
 }
 
 .item_box {
