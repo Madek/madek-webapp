@@ -15,7 +15,7 @@
     %li#batch-edit.action_btn
       = button_to _("Metadaten editieren"), edit_multiple_media_entries_path, :method => :post
     %li#batch-permissions.action_btn
-      = button_to _("Zugriffsberechtigungen editieren"), "javascript:void(0)",
+      = button_to _("Zugriffsberechtigungen lesen/bearbeiten"), "javascript:void(0)",
         :class => "open_permission_lightbox batch", 
         :"data-media_resource_ids" => "[]",
         :"data-current_user" => "#{current_user.to_json(:only=>:id, :include => :groups)}",

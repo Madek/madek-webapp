@@ -48,14 +48,14 @@
     
     {{if download}}
     {{if JSON.stringify(download)==JSON.stringify($item.media_resource_ids)}}
-    %label.download.permission{:title => "Download Original"}
+    %label.download.permission{:title => "Exportieren Original"}
       = check_box_tag 'download', "true", true
     {{else}}
     {{if download.length>0}}
-    %label.download.permission.mixed{:title => "Download Original"}
+    %label.download.permission.mixed{:title => "Exportieren Original"}
       = check_box_tag 'download'
     {{else}}
-    %label.download.permission{:title => "Download Original"}
+    %label.download.permission{:title => "Exportieren Original"}
       = check_box_tag 'download'
     {{/if}}
     {{/if}}
@@ -78,14 +78,14 @@
     
     {{if manage}}
     {{if JSON.stringify(manage)==JSON.stringify($item.media_resource_ids)}}
-    %label.manage.permission{:title => "Berechtigung verwalten"}
+    %label.manage.permission{:title => "Berechtigungen verwalten"}
       = check_box_tag 'manage', "true", true
     {{else}}
     {{if manage.length>0}}
-    %label.manage.permission.mixed{:title => "Berechtigung verwalten"}
+    %label.manage.permission.mixed{:title => "Berechtigungen verwalten"}
       = check_box_tag 'manage'
     {{else}}   
-    %label.manage.permission{:title => "Berechtigung verwalten"}
+    %label.manage.permission{:title => "Berechtigungen verwalten"}
       = check_box_tag 'manage'   
     {{/if}}
     {{/if}}
