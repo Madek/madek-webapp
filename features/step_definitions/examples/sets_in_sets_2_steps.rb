@@ -62,7 +62,7 @@ end
 
 When /^I view the set "([^"]*)"$/ do |set_title|
   @set = MediaSet.find_by_title(set_title)
-  visit resource_path(@set)
+  visit media_resource_path(@set)
   step 'I should see "Set enthält"'
   step 'I should see "%s"' % @set.title
 end

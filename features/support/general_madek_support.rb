@@ -330,7 +330,7 @@ def create_set(set_title = "Untitled Set")
 end
 
 # Adds a media entry to a set. Only works if the media entry
-# has a title, so that it shows up under /resources. The set
+# has a title, so that it shows up under /media_resources. The set
 # also needs a title.
 def add_to_set(set_title = "Untitled Set", picture_title = "Untitled", owner = "No one")
   visit "/media_resources"
