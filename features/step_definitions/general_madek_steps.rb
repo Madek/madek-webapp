@@ -290,7 +290,7 @@ end
 When /^I click the edit icon on the media entry titled "([^"]*)"$/ do |title|
   entry = find_media_entry_titled(title)
   entry.find(".button_edit_active").click
-  sleep(0.5)
+  wait_until { find("#resource_edit") }
 end
 
 When /^I click the delete icon on the media entry titled "([^"]*)"$/ do |title|
