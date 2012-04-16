@@ -288,6 +288,8 @@ When /^I toggle the favorite star on the media entry titled "([^"]*)"$/ do |titl
 end
 
 When /^I click the edit icon on the media entry titled "([^"]*)"$/ do |title|
+  wait_until { find(".item_box") }
+  page.execute_script("$('.actions').show()")
   entry = find_media_entry_titled(title)
   entry.find(".button_edit_active").click
   wait_until { find("#resource_edit") }
