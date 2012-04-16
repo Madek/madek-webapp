@@ -21,3 +21,8 @@ Then /^I see all my sets$/ do
   end
 end
 
+When /^I switch the scope to all my top level sets$/ do
+  page.execute_script("$('.scope_sets a').show()")
+  find("#bar .scope_sets .top_level").click
+  wait_until { find(".item_box.set") }
+end
