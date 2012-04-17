@@ -62,7 +62,6 @@ module MAdeK
     # can be seeked and that mobile clients know how much data is coming
     config.middleware.use Rack::ContentLength
 
-    config.cache_store = :mem_cache_store
   end
 end
 
@@ -116,4 +115,4 @@ DEFAULT_LANGUAGE = :de_ch
 ENCODING_BASE_URL = "http://test:MAdeK@test.madek.zhdk.ch"
 ENCODING_TEST_MODE = 1 # 1 for true, 0 for false
 
-RELEASE_VERSION = "0.5.3"
+RELEASE_VERSION = "0.5.4"

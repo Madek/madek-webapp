@@ -6,20 +6,20 @@
     .thumb_box
 
 %script#empty_result_page{:type => "text/x-jquery-tmpl"}
-  .page{:"data-page" => "${pagination.current_page}", :"data-url" => "${url}"}
+  .page{:"data-page" => "${pagination.page}", :"data-url" => "${url}"}
     {{tmpl(pagination) "#pagination"}}
-    {{tmpl(entries) "#empty_index"}}
+    {{tmpl(media_resources) "#empty_index"}}
 
 %script#result_page{:type => "text/x-jquery-tmpl"}
   .page
     {{tmpl(pagination) "#pagination"}}
-    {{tmpl(entries) "tmpl/media_resource/thumb_box"}}
+    {{tmpl(media_resources) "tmpl/media_resource/thumb_box"}}
 
 %script#pagination{:type => "text/x-jquery-tmpl"}
   .pagination
-    ${total_entries} Einträge,
-    Seite ${current_page} von ${total_pages}
-  .clear
+    ${total}
+    = "#{_('Resultate')},"
+    Seite ${page} von ${total_pages}
 
 %script#thumbnail_mini{:type => "text/x-jquery-tmpl"}
   %div{:class => "thumb_mini {{if is_editable}}edit{{/if}} {{if is_manageable}}manage{{/if}}{{if is_set}} set{{/if}}", :rel => "${id}", :title => "${title}"}
@@ -56,7 +56,7 @@
       .action_left
         .check_box
         %span.favorite_link{:id => "fav_${id}", :title => "Favorit"}
-          %a{:href => "/resources/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
+          %a{:href => "/media_resources/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
             {{if is_favorite}}
             .button_favorit_on
             {{else}}

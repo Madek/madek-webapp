@@ -88,8 +88,8 @@ module MediaSetsHelper
       if resources.empty?
         selected_ids = ""
         detach_selected = "true"
-        link = {path: "/resources/parents.json", method: "POST", data: {parent_media_set_ids: ":parent_media_set_ids", media_resource_ids: ":media_resource_ids"}}
-        unlink = {path: "/resources/parents.json", method: "DELETE", data: {parent_media_set_ids: ":parent_media_set_ids", media_resource_ids: ":media_resource_ids"}}
+        link = {path: "/media_resources/parents.json", method: "POST", data: {parent_media_set_ids: ":parent_media_set_ids", media_resource_ids: ":media_resource_ids"}}
+        unlink = {path: "/media_resources/parents.json", method: "DELETE", data: {parent_media_set_ids: ":parent_media_set_ids", media_resource_ids: ":media_resource_ids"}}
       else
         selected_ids = resources.map(&:id).to_json
         if resources.first.is_a?(MediaSet)
@@ -110,7 +110,7 @@ module MediaSetsHelper
               :"data-detach_selected" => detach_selected,
               :"data-index" => {path: "/media_sets.json", method: "GET", data: {accessible_action: "edit", with: {media_set: {creator: 1, created_at: 1, title: 1}}}}.to_json,
               :"data-linked_index" => {path: "/media_sets.json", method: "GET", data: {accessible_action: "edit", child_ids: ":selected_ids"}.merge(linked_index_with)}.to_json,
-              :"data-create" => {path: "/media_sets.json", method: "POST", data: {media_sets: ":created_items"}, created_item: {meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: ":title"}}}}.to_json,
+              :"data-create" => {path: "/media_sets.json", method: "POST", data: {media_sets: ":created_items"}, created_item: {meta_data_attributes: {0 => {meta_key_label: "title", value: ":title"}}}}.to_json,
               :"data-link" => link.to_json,
               :"data-unlink" => unlink.to_json}
   
@@ -127,7 +127,7 @@ module MediaSetsHelper
 ####################################################################
 # TODO merge with meta_contexts_helper ?? 
 
-  def display_set_abstract_slider(set, total_entries)
+  def display_set_abstract_slider(set, total)
     capture_haml do
       haml_tag :p, :style => "padding: 1.8em;" do
         haml_tag :span, :id => "amount", :style => "color: #444444; font-weight: bold; position: absolute;"
@@ -138,16 +138,16 @@ module MediaSetsHelper
         begin
         <<-HERECODE
           $(document).ready(function () {
-            var total_entries = #{total_entries}; 
+            var total = #{total}; 
             function update_amount(ui){
               var l = ui.find("a").css('left');
-              var v = ui.slider( "value" ) + " von " + total_entries;
+              var v = ui.slider( "value" ) + " von " + total;
               $("#amount").html(v).css('left', l);
             }
             $("#slider").slider({
-              value: #{total_entries * 30 / 100},
+              value: #{total * 30 / 100},
               min: 1,
-              max: total_entries,
+              max: total,
               step: 1,
               create: function( event, ui ) { update_amount($(this)); },
               slide: function( event, ui ) { update_amount($(this)); },

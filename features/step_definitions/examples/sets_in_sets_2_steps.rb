@@ -13,7 +13,7 @@ Then /^it is a top\-level set$/ do
 end
 
 When /^I view a grid of these sets$/ do
-  visit resources_path()
+  visit media_resources_path()
 end
 
 When /^I examine my "([^"]*)" sets more closely$/ do |title|
@@ -62,7 +62,7 @@ end
 
 When /^I view the set "([^"]*)"$/ do |set_title|
   @set = MediaSet.find_by_title(set_title)
-  visit resource_path(@set)
+  visit media_resource_path(@set)
   step 'I should see "Set enthält"'
   step 'I should see "%s"' % @set.title
 end

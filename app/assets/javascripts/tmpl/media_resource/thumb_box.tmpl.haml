@@ -1,7 +1,7 @@
 %div{:id => "thumb_${id}", :class => "item_box{{if is_set}} set{{/if}}"}
   {{tmpl($item.data) "tmpl/media_resource/thumb_box/permissions_icon"}}
   {{if ($item.with_link == null || $item.with_link)}}
-  %a{:href => "/resources/${id}"}
+  %a{:href => "/media_resources/${id}"}
     {{tmpl($item.data) "tmpl/media_resource/thumb_box/image_thumb_base64"}}
   {{else}}
   {{tmpl($item.data) "tmpl/media_resource/thumb_box/image_thumb_base64"}}
@@ -24,7 +24,7 @@
       .check_box
       {{/if}}
       %span.favorite_link{:id => "fav_${id}", :title => "Favorit"}
-        %a{:href => "/resources/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
+        %a{:href => "/media_resources/${id}/toggle_favorites", :"data-remote" => true, :"data-type" => "html", :"data-method" => :post}
           {{if is_favorite}}
           .button_favorit_on
           {{else}}

@@ -12,7 +12,7 @@ Feature: Making top level sets visible (highlight)
   Scenario: Viewing my sets
     Given I am "Normin"
      When I visit my sets
-     Then I only see my top level sets
+     Then I see all my sets
 
   @javascript
   Scenario: Switch between all my sets and all my top level sets
@@ -20,5 +20,5 @@ Feature: Making top level sets visible (highlight)
       And I am on my sets page
       And I follow "Alle meine Sets"
      Then I see all my sets
-     When I follow "Alle meine obersten Sets"
+     When I switch the scope to all my top level sets
      Then I only see my top level sets

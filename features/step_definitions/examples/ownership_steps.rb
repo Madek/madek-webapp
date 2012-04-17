@@ -40,7 +40,7 @@ end
 
 
 When /^I vist that resource's page$/ do
-  visit resource_path(@media_set)
+  visit media_resource_path(@media_set)
 end
 
 When /^I see a list of resources$/ do
@@ -60,14 +60,18 @@ Then /^I can see if a resource is visible for the public$/ do
 end
 
 Then /^I see a list of content owned by me$/ do
+  # TODO real test using presets (in rspec ??)
   find("#content_body .page_title_left", :text => "Meine Inhalte")
 end
 
 Then /^I see a list of content that can be managed by me$/ do
+  # FIXME the current implementation is wrong!
+  # TODO real test using presets (in rspec ??)
   find("#content_body2 .page_title_left", :text => "Mir anvertraute Inhalte")
 end
 
 Then /^I see a list of other people's content that is visible to me$/ do
+  # TODO real test using presets (in rspec ??)
   find("#content_body2 .page_title_left", :text => "Öffentliche Inhalte")
 end
 
@@ -126,7 +130,7 @@ Then /^I cannot change the owner$/ do
 end
 
 When /^"([^"]*)" changes the resource's permissions for "([^"]*)" as follows:$/ do |owner, new_owner, table|
-  visit resource_path(@resource)
+  visit media_resource_path(@resource)
   step 'I open the permission lightbox'
   find(".users .line.add .button").click()
   find(".users .line.add input").set(new_owner)
@@ -175,7 +179,7 @@ end
 When /^I create a snapshot of a media entry owned by "([^"]*)"$/ do |user_login|
   user = User.find_by_login user_login
   @resource = user.media_entries.accessible_by_user(@current_user).first
-  visit resource_path @resource
+  visit media_resource_path @resource
   find("a", :text => "Kopie für MIZ-Archiv erstellen").click
 end
 

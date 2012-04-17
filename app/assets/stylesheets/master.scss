@@ -394,6 +394,7 @@ header {
 
 nav {
 	position: relative;
+	z-index: 1001;
 }
 
 .main_nav_upload {
@@ -655,7 +656,7 @@ nav {
   background: url(icons/madek_icon_sprites.png) -100px -432px no-repeat;
 }
 .item_line_set {
-  background: url(icons/madek_icon_sprites.png) -100px -967px no-repeat;
+  background: url(icons/madek_icon_sprites.png) -100px -775px no-repeat;
 }
 .item_line_fav {
   background: url(icons/madek_icon_sprites.png) -100px -1959px no-repeat;
@@ -781,18 +782,13 @@ ul li { float: left; }
 }
 
 .page_title_left span, .section_title a {
-	font-size: 0.55em;
-	font-weight: normal;
-	letter-spacing: 0.1ex;
-	padding-left: 0.2em;
-	text-decoration: none;
+	color: #7F7F7F;
+  font-size: 0.65em;
+  letter-spacing: 0em;
+  margin-left: 6px;
 }
 
 .page_navigation {
-  left: 16px;
-  position: relative;
-  top: 19px;
-  
   .active {
     font-weight: bold;
     &:hover {
@@ -803,11 +799,20 @@ ul li { float: left; }
 
 /************************************************** Pagination */
 
+.page {
+  position: relative;
+}
+
 .pagination {
-	margin: -6px 16px 10px 0;
-	float: right;
 	color: #999999;
+	display: block;
+	float: right;
 	letter-spacing: 0.1ex;
+	margin: -6px 16px 10px 0;
+	position: relative;
+	text-align: right;
+	width: 100%;
+	
 	em {
 		font-size: 1.5em;
 		font-weight: bold;
@@ -826,8 +831,14 @@ ul li { float: left; }
 	margin-top: 15px;
 }
 
-#content_body_set .pagination {
-	margin-top: -43px;
+#content_body_set .set_parents_title {
+  display: block;
+  margin-bottom: 6px;
+  width: 100%;
+}
+
+#content_body_set #bar > .icon {
+  display: none;
 }
 
 .disabled {
@@ -1093,7 +1104,18 @@ ul li { float: left; }
 
 #results, #results_mine, #results_others {
 	padding: 5px 0 20px 13px;
+	position: relative;
 	text-align: left;
+}
+
+#results h2.empty_results {
+  color: #AAA;
+  display: block;
+  left: -2px;
+  position: absolute;
+  text-align: center;
+  top: 102px;
+  width: 100%;
 }
 
 .item_box {

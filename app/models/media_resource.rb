@@ -173,7 +173,7 @@ class MediaResource < ActiveRecord::Base
         core_info["thumb_base64"] = mf.thumb_base64(:small_125) if mf
       else
         #1+n http-requests#
-        core_info["thumb_base64"] = "/resources/%d/image?size=small_125" % id
+        core_info["thumb_base64"] = "/media_resources/%d/image?size=small_125" % id
       end
       
       core_info
@@ -234,7 +234,7 @@ class MediaResource < ActiveRecord::Base
               end
               mf ? mf.thumb_base64(size) : nil
             else # default return is a url to the image
-              "/resources/%d/image?size=%s" % [id, size]
+              "/media_resources/%d/image?size=%s" % [id, size]
           end            
         end
         if with[:media_resource].has_key?(:title) and (with[:media_resource][:title].is_a?(Hash) or not with[:media_resource][:title].to_i.zero?)
@@ -334,9 +334,7 @@ class MediaResource < ActiveRecord::Base
 ##########################################################################################################################
 ##########################################################################################################################
   
-  scope :media_entries_and_media_sets, where(:type => ["MediaEntry", "MediaSet"])
   scope :media_entries_or_media_entry_incompletes, where(:type => ["MediaEntry", "MediaEntryIncomplete"])
-  scope :media_entries_or_media_entry_incompletes_or_media_sets, where(:type => ["MediaEntry", "MediaSet", "MediaEntryIncomplete"])
 
   ################################################################
 

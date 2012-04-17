@@ -11,12 +11,12 @@
         content: {
           text: 'Loading...',
           ajax: {
-             url: that.attr('href').replace("/resources", "/resources/filter"),
+             url: that.attr('href').replace("/media_resources", "/media_resources/filter"),
              type: 'POST',
              dataType: 'json',
              success: function(json, status) {
                var container = $("<div id='' style='max-height: 200px; overflow: auto;'></div>");
-               container.append($("#browsing_thumbnail_mini").tmpl(json.entries));
+               container.append($("#browsing_thumbnail_mini").tmpl(json.media_resources));
                this.set('content.text', container);
              }
           }

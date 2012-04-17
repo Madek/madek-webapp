@@ -113,21 +113,24 @@ class MediaSetsController < ApplicationController
   # @response_field [Hash] media_entries Media entries of the set
   # @response_field [Integer] media_entries[].id The id of a media entry
   #
-  def show(thumb = params[:thumb], with = params[:with])
+  def show(thumb = params[:thumb],
+           with = params[:with],
+           page = params[:page],
+           per_page = (params[:per_page] || PER_PAGE.first).to_i)
     respond_to do |format|
       format.html {
-        params[:per_page] ||= PER_PAGE.first
-        paginate_options = {:page => params[:page], :per_page => params[:per_page].to_i}
-        resources = MediaResource.accessible_by_user(current_user).order("media_resources.updated_at DESC").by_media_set(@media_set).paginate(paginate_options)
-        with_thumb = true
+        # TODO remove ??
+        resources = MediaResource.accessible_by_user(current_user).
+                        order("media_resources.updated_at DESC").
+                        by_media_set(@media_set).
+                        paginate({:page => page, :per_page => per_page})
         
         @can_edit_set = current_user.authorized?(:edit, @media_set)
         @parents = @media_set.parent_sets.as_json(:user => current_user)
-        @media_entries = { :pagination => { :current_page => resources.current_page,
-                                            :per_page => resources.per_page,
-                                            :total_entries => resources.total_entries,
-                                            :total_pages => resources.total_pages },
-                           :entries => resources.as_json(:user => current_user, :with_thumb => with_thumb) } 
+        @pagination = { :page => resources.current_page,
+                        :per_page => resources.per_page,
+                        :total => resources.total_entries,
+                        :total_pages => resources.total_pages } 
       }
       format.json {
         render :json => @media_set.as_json(:with => with, :current_user =>current_user)
@@ -192,19 +195,20 @@ class MediaSetsController < ApplicationController
       # TODO ?? find_by_id_or_create_by_title
       @media_sets = [] 
       attr.each_pair do |k,v|
-        media_set = current_user.media_sets.build(v)
+        media_set = current_user.media_sets.create
+        media_set.update_attributes(v)
         @media_sets << media_set
         is_saved = (is_saved and media_set.save)
       end
     else # CREATE SINGLE
-      @media_set = current_user.media_sets.build(attr)
-      is_saved = @media_set.save
+      @media_set = current_user.media_sets.create
+      is_saved = @media_set.update_attributes(attr)
     end
 
     respond_to do |format|
       format.html {
         if is_saved
-          redirect_to user_resources_path(current_user, :type => "media_sets")
+          redirect_to media_resources_path(:user_id => current_user, :type => "media_sets")
         else
           flash[:notice] = @media_set.errors.full_messages
           redirect_to :back
@@ -237,7 +241,7 @@ class MediaSetsController < ApplicationController
       @media_set.destroy
     end
     respond_to do |format|
-      format.html { redirect_to user_resources_path(current_user, :type => "media_sets") }
+      format.html { redirect_to media_resources_path(:user_id => current_user, :type => "media_sets") }
       format.json { render :json => {:id => @media_set.id} }
     end
   end
@@ -323,15 +327,12 @@ class MediaSetsController < ApplicationController
   end
 
   # TODO merge to index ??
-  def graph(type = params[:type].to_i)
+  def graph
     respond_to do |format|
-      format.html {
-        render :action => "graph_#{type}"
-      }
+      format.html
       format.json {
         #@media_sets = MediaSet.accessible_by_user(current_user).relative_top_level
         @media_sets = current_user.media_sets.relative_top_level
-        render :action => "graph_#{type}" if type == 4
       }
     end
   end

@@ -6,7 +6,7 @@ Given /^I see some sets$/ do
   end
   @current_user.media_sets.count.should == 3
   
-  visit user_resources_path(@current_user, :type => "media_sets")
+  visit media_resources_path(:user_id => @current_user, :type => "media_sets")
   wait_for_css_element("div.page div.item_box")
   all(".item_box").size.should == 3
 end
@@ -22,14 +22,14 @@ Then /^they are in my favorites$/ do
     @current_user.favorites.reload.include?(set).should == true
   end
 
-  visit resources_path(favorites: true)
+  visit media_resources_path(favorites: true)
   wait_for_css_element("div.page div.item_box")
   all(".item_box").size.should == 3
 end
 
 Then /^I can open them and see that are set as favorite$/ do
   @current_user.favorites.each do |f|
-    visit resource_path(f)
+    visit media_resource_path(f)
     step 'I should see "Set enthält"'
     find(".favorite_link .button_favorit_on")
   end
@@ -234,12 +234,14 @@ end
 
 Then /^I can add all of them to one set$/ do
   target = (@possible_parents.flatten.uniq! - @possible_parents.reduce(:&)).first
-  steps %Q{
-     And I select "#{target.title}" as parent set
-     And I submit the selection widget
-     And I open the selection widget for this batchedit
-     And the "#{target.title}" checkbox should be checked
-  }
+  wait_until { find(".set.widget .list li") }
+  step 'I select "%s" as parent set' % target.title
+  step 'I submit the selection widget'
+  puts 3  
+  step 'I open the selection widget for this batchedit'
+  puts 4  
+  step 'the "%s" checkbox should be checked' % target.title
+  puts 5  
 end
 
 Then /^I can remove all of them from one set$/ do

@@ -40,13 +40,13 @@ Given /^the resource has the following permissions:$/ do |table|
 end
 
 Then /^"([^"]*)" can ([^"]*) the resource$/ do |user, permission|
-  visit "/resources/#{@resource.id}/"
+  visit "/media_resources/#{@resource.id}/"
   open_permissions
   find(".me .line .permissions .#{permission} input").checked?
 end
 
 Then /^"([^"]*)" is the owner of the resource$/ do |user|
-  visit "/resources/#{@resource.id}/"
+  visit "/media_resources/#{@resource.id}/"
   open_permissions
   find(".me .line .owner input").checked?
 end
@@ -67,7 +67,7 @@ end
 Given /^I can view "([^"]*)" by "([^"]*)"$/ do |resource_title, user_name|
   owner = User.where("login=?",user_name.downcase).first
   resource = MediaResource.find_by_title(resource_title).first
-  visit resource_path(resource)
+  visit media_resource_path(resource)
   
   if resource.is_a? MediaSet
     page.should have_css("#info_tab h3", :text => resource_title)
@@ -79,18 +79,18 @@ end
 Given /^I can not view "([^"]*)" by "([^"]*)"$/ do |resource_title, user_name|
   owner = User.where("login=?",user_name.downcase).first
   resource = MediaResource.find_by_title(resource_title).first
-  visit resource_path(resource)
+  visit media_resource_path(resource)
   
   URI.parse(current_url).path.should == root_path
 end
 
 Then /^I can not view that resource$/ do
-  visit resource_path(@resource)
+  visit media_resource_path(@resource)
   URI.parse(current_url).path.should == root_path
 end
 
 Given /^"([^"]*)" changes the resource's groupermissions for "([^"]*)" as follows:$/ do |user, group_name, table|
-  visit resource_path(@resource)
+  visit media_resource_path(@resource)
   step 'I open the permission lightbox'
   find(".groups .line.add .button").click()
   find(".groups .line.add input").set(group_name)
@@ -122,7 +122,7 @@ end
 
 When /^the resource is viewed by "([^"]*)"$/ do |user_name|
   step 'I am "%s"' % user_name
-  visit resource_path(@resource)
+  visit media_resource_path(@resource)
 end
 
 Then /^he or she sees the following permissions:$/ do |table|
@@ -135,7 +135,7 @@ Then /^he or she sees the following permissions:$/ do |table|
 end
 
 When /^I change the resource's public permissions as follows:$/ do |table|
-  visit resource_path(@resource)
+  visit media_resource_path(@resource)
   step 'I open the permission lightbox'
   
   table.hashes.each do |perm| 
@@ -154,7 +154,7 @@ When /^I save the permissions$/ do
 end
 
 Then /^I cannot edit the following permissions any more:$/ do |table|
-  visit resource_path(@resource)
+  visit media_resource_path(@resource)
   step 'I open the permission lightbox'
   
   table.hashes.each do |entry|

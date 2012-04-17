@@ -231,7 +231,7 @@
                   $.each(randomElements, function(i, entry){
                     // image
                     var entry_image = $(image_clone).clone();
-                    $(entry_image).attr("src", "/resources/"+entry.id+"/image?size=large");
+                    $(entry_image).attr("src", "/media_resources/"+entry.id+"/image?size=large");
                     $(entry_image).attr("title", "#htmlcaption"+(i+1));
                     $("#slider-wrapper #slider").append(entry_image);
                     

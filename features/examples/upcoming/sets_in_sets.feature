@@ -18,7 +18,7 @@ Feature: Sets in Sets III
   Scenario: Switch between all sets and main sets on the page 'my sets'
     Given a few sets
      When I view a list of my sets
-     Then I see a list of my top-level sets
-      And I can switch to a list of all my sets
+     Then I see a list of all my sets
+      And I can switch to a list of my top-level sets
      When I view a list of all my sets
      Then I see all my sets

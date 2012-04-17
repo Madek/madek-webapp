@@ -1,6 +1,19 @@
 # -*- encoding : utf-8 -*-
 class MediaResourcesController < ApplicationController
 
+  # TODO cancan # load_resource #:class => "MediaResource"
+  before_filter :except => [:index, :collection] do
+    begin
+      unless (params[:media_resource_id] ||= params[:id] || params[:media_resource_ids]).blank?
+        @media_resource = MediaResource.accessible_by_user(current_user).find(params[:media_resource_id])
+      end
+    rescue
+      not_authorized!
+    end
+  end
+
+###################################################################################
+
   ##
   # Get a collection of MediaResources
   # 
@@ -31,22 +44,106 @@ class MediaResourcesController < ApplicationController
   # @response_field [String] [].filename The Filename of a MediaEntry's MediaFile (in case of MediaSets its null) 
   #
   def index(ids = (params[:collection_id] ? MediaResource.by_collection(current_user.id, params[:collection_id]) : params[:ids]),
+            type = params[:type],
+            top_level = params[:top_level],
+            user_id = params[:user_id],
+            media_set_id = params[:media_set_id],
+            not_by_current_user = params[:not_by_current_user],
+            public = params[:public],
+            favorites = params[:favorites],
+            sort = params[:sort] ||= "updated_at",
+            query = params[:query],
             page = params[:page],
-            per_page = [(params[:per_page] || PER_PAGE.first).to_i, PER_PAGE.first].min)
+            per_page = [(params[:per_page] || PER_PAGE.first).to_i, PER_PAGE.first].min,
+            meta_key_id = params[:meta_key_id],
+            meta_term_id = params[:meta_term_id] )
 
-    @media_resources = MediaResource.media_entries_or_media_entry_incompletes_or_media_sets.
-                        accessible_by_user(current_user).
-                        order("media_resources.updated_at DESC").
-                        paginate(:page => page, :per_page => per_page)
-
-    @media_resources = @media_resources.where(:id => ids) if ids
-    
     respond_to do |format|
-      format.json
+      format.html
+      format.json {
+        resources = if favorites == "true"
+          current_user.favorites
+        else
+          MediaResource
+        end
+
+        resources = resources.where(:id => ids) if ids
+    
+        resources = case type
+          when "media_sets"
+            r = resources.where(:type => "MediaSet")
+            r = r.top_level if top_level
+            r
+          when "media_entries"
+            resources.where(:type => "MediaEntry")
+          when "media_entry_incompletes"
+            resources.where(:type => "MediaEntryIncomplete")
+          else
+            if ids
+              resources.where(:type => ["MediaEntry", "MediaSet", "MediaEntryIncomplete"])
+            else
+              resources.where(:type => ["MediaEntry", "MediaSet"])
+            end
+        end.accessible_by_user(current_user)
+
+        case sort
+          when "updated_at", "created_at"
+            resources = resources.order("media_resources.#{sort} DESC")
+          when "random"
+            if SQLHelper.adapter_is_mysql?
+              resources = resources.order("RAND()")
+            elsif SQLHelper.adapter_is_postgresql? 
+              resources = resources.order("RANDOM()")
+            else
+              raise "SQL Adapter is not supported" 
+            end
+        end
+
+        resources = resources.by_media_set(media_set_id) if media_set_id
+        resources = resources.by_user(@user) if user_id and (@user = User.find(user_id))
+        # FIXME use presets and :manage permission
+        if not_by_current_user
+          resources = resources.not_by_user(current_user)
+          case public
+            when "true"
+              resources = resources.where(:view => true)
+            when "false"
+              resources = resources.where(:view => false)
+          end
+        end
+        
+        resources = resources.search(query) unless query.blank?
+        resources = resources.paginate(:page => page, :per_page => per_page)
+    
+        # TODO ?? resources = resources.includes(:meta_data, :permissions)
+    
+        if meta_key_id and meta_term_id
+          meta_key = MetaKey.find(meta_key_id)
+          meta_term = meta_key.meta_terms.find(meta_term_id)
+          media_resource_ids = meta_term.meta_data(meta_key).collect(&:media_resource_id)
+          resources = resources.where(:id => media_resource_ids)
+        end
+        
+        # FIXME merge json response
+        if ids # using API for meta_data and permissions
+          @media_resources = resources
+        else
+          # TODO drop this 
+          render :json => { :pagination => { :page => resources.current_page,
+                                             :per_page => resources.per_page,
+                                             :total => resources.total_entries,
+                                             :total_pages => resources.total_pages },
+                            :media_resources => resources.as_json(:user => current_user, :with_thumb => true) }
+        end
+      }
     end
   end
 
+  def show
+    redirect_to @media_resource
+  end
 
+=begin
   def update
     
     ActiveRecord::Base.transaction do
@@ -78,6 +175,7 @@ class MediaResourcesController < ApplicationController
     end
 
   end
+=end
 
 ########################################################################
 
@@ -95,6 +193,116 @@ class MediaResourcesController < ApplicationController
 
     respond_to do |format|
       format.json { render json: {collection_id: collection_id} }
+    end
+  end
+
+###################################################################################
+
+  def toggle_favorites
+    current_user.favorites.toggle(@media_resource)
+    respond_to do |format|
+      format.js { render :partial => "favorite_link", :locals => {:media_resource => @media_resource} }
+    end
+  end
+
+###################################################################################
+
+  def parents(parent_media_set_ids = params[:parent_media_set_ids])
+    parent_media_sets = MediaSet.accessible_by_user(current_user, :edit).where(:id => parent_media_set_ids.map(&:to_i))
+    child_resources = Array(@media_resource)
+    
+    child_resources.each do |resource|
+      if request.post?
+        (parent_media_sets - resource.parent_sets).each do |parent_media_set|
+          resource.parent_sets << parent_media_set 
+        end
+      elsif request.delete?
+        parent_media_sets.each do |parent_media_set|
+          resource.parent_sets.delete(parent_media_set)
+        end
+      end
+    end
+    
+    respond_to do |format|
+      #format.html { redirect_to @media_set }
+      format.json { 
+        render :json => child_resources.as_json(:user => current_user, :methods => :parent_ids) 
+      }
+    end
+  end
+
+###################################################################################
+
+  def image(size = (params[:size] || :large).to_sym)
+    # TODO dry => Resource#thumb_base64 and Download audio/video
+    media_file = if @media_resource.is_a? MediaSet
+      @media_resource.media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
+    else
+      @media_resource.media_file
+    end
+    
+    unless media_file
+      # empty gif pixel
+      output = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==\n"
+      send_data Base64.decode64(output), :type => "image/gif", :disposition => 'inline'
+    else
+      preview = media_file.get_preview(size)
+      file = File.join(THUMBNAIL_STORAGE_DIR, media_file.shard, preview.filename)
+      if File.exist?(file)
+        output = File.read(file)
+        send_data output, :type => preview.content_type, :disposition => 'inline'
+      else
+        # OPTIMIZE dry => MediaFile#thumb_base64
+        size = (size == :large ? :medium : :small)
+        output = File.read("#{Rails.root}/app/assets/images/Image_#{size}.png")
+        send_data output, :type => "image/png", :disposition => 'inline'
+      end
+    end
+  end  
+
+###################################################################################
+
+  # TODO merge search and filter methods ??
+  def filter(query = params[:query],
+             page = params[:page],
+             per_page = (params[:per_page] || PER_PAGE.first).to_i,
+             meta_key_id = params[:meta_key_id],
+             meta_term_id = params[:meta_term_id],
+             filter = params[:filter] )
+             
+    # TODO generic search for both MediaResource.media_entries_and_media_sets
+    resources = MediaEntry.accessible_by_user(current_user)
+ 
+    if request.post?
+      if meta_key_id and meta_term_id
+        meta_key = MetaKey.find(meta_key_id)
+        meta_term = meta_key.meta_terms.find(meta_term_id)
+        media_resource_ids = meta_term.meta_data(meta_key).collect(&:media_resource_id)
+      else
+        if params["MediaEntry"] and params["MediaEntry"]["media_type"]
+          resources = resources.filter_media_file(params["MediaEntry"])
+        end
+        media_resource_ids = filter[:ids].split(',').map(&:to_i) 
+      end
+  
+      resources = resources.where(:id => media_resource_ids).paginate(:page => page, :per_page => per_page)
+      @resources = { :pagination => { :page => resources.current_page,
+                                     :per_page => resources.per_page,
+                                     :total => resources.total_entries,
+                                     :total_pages => resources.total_pages },
+                    :media_resources => resources.as_json(:user => current_user, :with_thumb => true) } 
+  
+      respond_to do |format|
+        format.json { render :json => @resources.to_json }
+      end
+
+    else
+
+      @resources = resources.search(query)
+  
+      respond_to do |format|
+        format.html { render :layout => false}
+      end
     end
   end
 

@@ -27,6 +27,8 @@ When /^(?:|I )open the selection widget for this (.+)$/ do |type|
     when "entry"
       find("#detail-action-bar .has-set-widget").click
     when "batchedit"
+      sleep(2)
+      wait_until { find(".task_bar .has-set-widget") }
       find(".task_bar .has-set-widget").click
     when "page"
       find(".has-set-widget").click

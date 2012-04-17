@@ -1,3 +1,8 @@
+%button.zoom_in
+  Zoom In
+%button.zoom_out
+  Zoom Out
+
 #chart
 
 :css
@@ -32,12 +37,18 @@
 	
     var force = d3.layout.force()
         .size([w, h])
-        .linkDistance(150)
+        .linkDistance(120)
+        .gravity(0.05)
+        .friction(0.4)
         .charge(-300);
 	
     var svg = d3.select("#chart").append("svg")
         .attr("width", w)
-        .attr("height", h);
+        .attr("height", h)
+        .call(d3.behavior.zoom()
+          .on("zoom", redraw))
+        .append("g")
+        .attr("scale", 1);
 	
     d3.json(document.location.href + ".json", function(json) {
       /*
@@ -80,8 +91,7 @@
       var circle = svg.append("g").selectAll("circle")
           .data(force.nodes())
         .enter().append("circle")
-          .attr("r", marker_size)
-          .call(force.drag);
+          .attr("r", marker_size);
       
       var text = svg.append("g").selectAll("g")
           .data(force.nodes())
@@ -118,5 +128,19 @@
       });
 	
     });
+
+    function redraw() {
+      svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+    }
+
+    $("button.zoom_in").click(function(){
+      svg.attr("scale", parseFloat(svg.attr("scale")) * 1.1);
+      svg.attr("transform", "scale(" + svg.attr("scale") + ")");
+    });
+    $("button.zoom_out").click(function(){
+      svg.attr("scale", parseFloat(svg.attr("scale")) * 0.9);
+      svg.attr("transform", "scale(" + svg.attr("scale") + ")");
+    });
+
   });
     
