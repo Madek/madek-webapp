@@ -113,3 +113,21 @@ Then /^the counter is formatted as "([^"]*)"$/ do |string|
   string.gsub!(/[N,M]/,'\d')
   find("*", :text => eval(string))
 end
+
+Given /^the system is set up$/ do
+  [MetaKey, MetaContext, MetaContextGroup, MetaKeyDefinition, MetaTerm, UsageTerm].each do |x|
+    x.count.should > 0
+  end
+end
+
+Then /^each of the following media types has its own representing icon according to the mappings in the file "([^"]*)"$/ do |file_path|
+  dir = File.join(Rails.root, "app/assets/images/thumbnails")
+  types = YAML.load File.read(File.join(Rails.root, file_path))
+  types["icons"].each do |type|
+    type["extensions"].each do |extension|
+      base_extension = File.extname(type["icon"])
+      target_file = File.join(dir, [File.basename(type["icon"], base_extension), ".", extension, base_extension].join)
+      File.exists?(target_file).should be_true
+    end
+  end
+end
