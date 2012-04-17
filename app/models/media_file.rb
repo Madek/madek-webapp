@@ -281,17 +281,28 @@ class MediaFile < ActiveRecord::Base
 
     # nothing found, we show then a placeholder icon
     case Rails.env
-      when "development"
+      when false # "development"
         w, h = THUMBNAILS[size].split('x').map(&:to_i)
         categories = %w(abstract food people technics animals nightlife nature transport city fashion sports)
         cat = categories[id % categories.size]
         n = (id % 10) + 1
         return "http://lorempixum.com/#{w}/#{h}/#{cat}/#{n}"
       else
-        size = (size == :large ? :medium : :small)
-        output = File.read("#{Rails.root}/app/assets/images/#{preview}_#{size}.png")
+        # TODO remove code related to preview as string
+        #size = (size == :large ? :medium : :small)
+        #output = File.read("#{Rails.root}/app/assets/images/#{preview}_#{size}.png")
+        output = thumb_placeholder
         return "data:#{content_type};base64,#{Base64.encode64(output)}"
     end
+  end
+  
+  def thumb_placeholder
+    dir = File.join(Rails.root, "app/assets/images/thumbnails")
+    @@placeholders ||= Dir.glob(File.join(dir, "*"))
+    extension = File.extname(filename)
+    file_path = @@placeholders.detect {|x| x =~ /#{extension}\.png$/ }
+    file_path ||= File.join(dir, "base_document.png")
+    File.read file_path
   end
     
 ######################################################################

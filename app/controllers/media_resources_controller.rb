@@ -252,9 +252,7 @@ class MediaResourcesController < ApplicationController
         output = File.read(file)
         send_data output, :type => preview.content_type, :disposition => 'inline'
       else
-        # OPTIMIZE dry => MediaFile#thumb_base64
-        size = (size == :large ? :medium : :small)
-        output = File.read("#{Rails.root}/app/assets/images/Image_#{size}.png")
+        output = media_file.thumb_placeholder
         send_data output, :type => "image/png", :disposition => 'inline'
       end
     end
