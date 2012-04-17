@@ -259,14 +259,14 @@ function displayCount() {
 function display_page(json, container){
 	var rp = $("#result_page").tmpl(json);
 	if(container.hasClass("page")){
-		container.replaceWith(rp.fadeIn('slow'));
+		container.replaceWith(rp.show());
 	}else{
-		container.append(rp.fadeIn('slow'));
+		container.append(rp.show());
 		//var $max_pages = page.pagination.page + 4;
 		//while(page.pagination.page < Math.min(pagination.total_pages, $max_pages)){
 		while(json.pagination.page < json.pagination.total_pages){
 			json.pagination.page++;
-			container.append($("#empty_result_page").tmpl(json, {empty: true}).fadeIn('slow'));
+			container.append($("#empty_result_page").tmpl(json, {empty: true}).show());
 		}
 	}
 

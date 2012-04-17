@@ -1,6 +1,9 @@
 - h = current_settings
 - t = media_resources_index_title
 
+- if !params[:query].blank?
+  .filter_area
+
 #bar
   .icon
   
@@ -56,6 +59,9 @@
         if(#{not params[:media_set_id].blank?}) $("#bar h1 small").prepend(data.pagination.total);
         if(#{(params[:type] == "media_sets" and params[:user_id].to_i == current_user.id)}) {
           $("#results .page:first .pagination").after($.tmpl("tmpl/media_set/create_new_thumb_box"));
+        }
+        if (data.media_resources.length == 0) {
+          $("#results").append($.tmpl("tmpl/media_resource/empty_results"));
         }
       }
     });

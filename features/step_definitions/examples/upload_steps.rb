@@ -225,3 +225,28 @@ And /^I can jump to the previous file$/ do
   find(".navigation .current").find(".name").text.should == previous_name
 end
 
+And /^the files with missing metadata are marked$/ do
+  MediaEntryIncomplete.all.select{|me| not me.context_valid?(MetaContext.upload)}.map(&:id).each do |id| 
+    find(".item_box[data-media_resource_id='#{id}'] .attention_flag").should_not be_false
+  end 
+end
+
+And /^I can choose to list only files with missing metadata$/ do
+   find(".filter input").should_not be_false
+end
+
+When /^I choose to list only files with missing metadata$/ do
+  find(".filter input").click
+end
+
+Then /^only files with missing metadata are listed$/ do
+  
+  MediaEntryIncomplete.all.select{|me| not me.context_valid?(MetaContext.upload)}.map(&:id).each do |id| 
+    find(".item_box[data-media_resource_id='#{id}'] .attention_flag").should_not be_false
+  end 
+
+ MediaEntryIncomplete.all.select{|me| me.context_valid?(MetaContext.upload)}.map(&:id).each do |id| 
+    all(".item_box[data-media_resource_id='#{id}']",visible: true).size.should == 0
+  end 
+
+end

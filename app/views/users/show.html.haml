@@ -60,7 +60,7 @@
         if(data.media_resources.length){
           display_entries(data.media_resources, container_str);
           if(data.pagination.total > per_page){
-            $(container_str).append("<div class='buttons'><a href=\""+url_2+"\">Alle mir anvertraute Inhalte</a></div>");
+            $(container_str).append("<div class='buttons'><a href=\""+url_2+"\">Alle mir anvertrauten Inhalte</a></div>");
           }
         }else{
           $(container_str).html("Keine Medien vorhanden");

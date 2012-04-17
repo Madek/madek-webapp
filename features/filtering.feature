@@ -69,7 +69,7 @@ Feature: Use the search filters on my search results
      And I press "Suchen"
     Then the search results should contain "The Necronomicon"
      And the search results should contain "Klaatu Barata Nicto"
-     When I filter by "nasty" in "Schlagworte"
+     When I filter by "nasty" in "Schlagworte zu Inhalt und Motiv"
      And I press "Filter anwenden"
      And I wait for 4 seconds
     Then the search results should not contain "The Necronomicon"
@@ -119,7 +119,7 @@ Feature: Use the search filters on my search results
      And the search results should contain "Slightly less pure evil"
      And the search results should contain "Completely unpure evil"
      And I wait for 16 seconds
-    When I filter by "evil" in "Schlagworte"
+    When I filter by "evil" in "Schlagworte zu Inhalt und Motiv"
      And I press "Filter anwenden"
     Then the search results should contain "Pure Evil"
      And the search results should contain "Slightly less pure evil"
@@ -130,7 +130,7 @@ Feature: Use the search filters on my search results
     Then the search results should contain "Pure Evil"
      And I wait for 16 seconds
 
-    When I filter by "unpure" in "Schlagworte"
+    When I filter by "unpure" in "Schlagworte zu Inhalt und Motiv"
      And I press "Filter anwenden"
      And I wait for 2 seconds
     Then the search results should not contain "Pure Evil"
@@ -141,7 +141,7 @@ Feature: Use the search filters on my search results
      And I press "Suchen"
     Then the search results should contain "Pure Evil"
      And I wait for 16 seconds
-    When I filter by "good" in "Schlagworte"
+    When I filter by "good" in "Schlagworte zu Inhalt und Motiv"
      And I press "Filter anwenden"
      And I wait for 2 seconds
     Then the search results should not contain "Pure Evil"

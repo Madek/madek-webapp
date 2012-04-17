@@ -130,3 +130,26 @@ icons:
     extensions:
       - doc
       - doc
+
+  - mime-type: application/zip
+    icon: base_compressed.png
+    extensions:
+      - zip
+
+  - mime-type: application/x-7z-compressed
+    icon: base_compressed.png
+    extensions:
+      - 7z
+
+  - mime-type: application/rar
+    icon: base_compressed.png
+    extensions:
+      - rar
+
+
+  - mime-type: application/x-gtar-compressed
+    icon: base_compressed.png
+    extensions:
+      - tgz
+      - taz
+

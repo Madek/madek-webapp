@@ -1104,7 +1104,18 @@ ul li { float: left; }
 
 #results, #results_mine, #results_others {
 	padding: 5px 0 20px 13px;
+	position: relative;
 	text-align: left;
+}
+
+#results h2.empty_results {
+  color: #AAA;
+  display: block;
+  left: -2px;
+  position: absolute;
+  text-align: center;
+  top: 102px;
+  width: 100%;
 }
 
 .item_box {
@@ -1200,7 +1211,6 @@ ul li { float: left; }
 	margin-bottom: 10px;
 
 	img {
-		border: 1px solid #f2f2f2;
 		margin-top: expression(( 140 - this.height ) / 2);
 		vertical-align: middle;
 		max-width: 120px;
@@ -1257,7 +1267,6 @@ ul li { float: left; }
 	width: 142px;
 	
 	img {
-	  border: 1px solid #f2f2f2;
 	  margin-top: expression(( 110 - this.height ) / 2);
 	  vertical-align: middle;
 	  max-width: 90px;

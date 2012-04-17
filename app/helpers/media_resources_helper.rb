@@ -15,7 +15,7 @@ module MediaResourcesHelper
       when {:type => :all, :permissions => :all}
         _("Alle Inhalte")
       when {:type => :media_entries, :permissions => :all}
-        _("Alle Medieneinträge")
+        _("Alle Inhalte")
       when {:type => :media_sets, :permissions => :all}
         _("Alle Sets")
         

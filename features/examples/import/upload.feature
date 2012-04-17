@@ -119,11 +119,16 @@ Feature: Upload
        And I can jump to the previous file
 
   # https://www.pivotaltracker.com/story/show/25923269
+  @javascript
   Scenario: Filtering only media entries with missing metadata in the sequential batch editor
-    When I upload 5 files
-     And I enter metadata for the first file
+    When I upload several files
+     When I go to the upload edit
+     And I fill in the metadata for entry number 1 as follows:
+     | label                           | value                    |
+     | Titel                           | Test image for uploading |
+     | Copyright                       | Tester                   |
     Then I see a list of my uploaded files
-     And the files with missing metadata are highlighted
+     And the files with missing metadata are marked
      And I can choose to list only files with missing metadata
     When I choose to list only files with missing metadata
     Then only files with missing metadata are listed

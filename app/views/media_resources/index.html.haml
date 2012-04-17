@@ -5,19 +5,19 @@
 
 :javascript
   $(document).ready(function () {
-    if(!#{params[:query].blank?}){
+    if(#{not params[:query].blank?}){
       var filter_area = $("#content_body_result .filter_area");
       $.ajax({
         url: "#{filter_media_resources_path}",
         type: 'GET',
         dataType: 'html',
-        data: {query: "#{params[:query]}"},
+        data: {format:"html", query: "#{params[:query]}"},
         beforeSend: function(){
           filter_area.html("Loading...");
         },
-        complete: function(response){
-          filter_area.html(response.responseText);
-        }
+        success: function(response){
+          filter_area.html(response);
+        } 
       });
     }
   });
