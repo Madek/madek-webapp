@@ -12,7 +12,7 @@ namespace :app do
           base_extension = File.extname(type["icon"])
           target_file = File.join(dir, [File.basename(type["icon"], base_extension), ".", extension, base_extension].join)
           pointsize = extension.size > 4 ? 100 / extension.size : 25
-          `convert "#{source_file}" -pointsize #{pointsize} -gravity Center -fill DarkGrey -annotate 0 '#{extension}' "#{target_file}"`
+          `convert "#{source_file}" -pointsize #{pointsize} -gravity North -fill '#777777' -annotate +0+15 '#{extension}' "#{target_file}"`
         end
       end
 
