@@ -234,12 +234,14 @@ end
 
 Then /^I can add all of them to one set$/ do
   target = (@possible_parents.flatten.uniq! - @possible_parents.reduce(:&)).first
-  steps %Q{
-     And I select "#{target.title}" as parent set
-     And I submit the selection widget
-     And I open the selection widget for this batchedit
-     And the "#{target.title}" checkbox should be checked
-  }
+  wait_until { find(".set.widget .list li") }
+  step 'I select "%s" as parent set' % target.title
+  step 'I submit the selection widget'
+  puts 3  
+  step 'I open the selection widget for this batchedit'
+  puts 4  
+  step 'the "%s" checkbox should be checked' % target.title
+  puts 5  
 end
 
 Then /^I can remove all of them from one set$/ do
