@@ -1,6 +1,6 @@
 When /^I visit a media entry with individual contexts$/ do
   media_entry = MediaEntry.accessible_by_user(@current_user).detect {|x| x.title == "Schweizer Panorama"}
-  visit resource_path(media_entry)
+  visit media_resource_path(media_entry)
 end
 
 Then /^I see the context group "([^"]*)"$/ do |name|
@@ -34,7 +34,7 @@ When /^I visit a media entry with the following individual contexts:$/ do |table
     media_entry.individual_contexts.map(&:to_s).include?(row["name"]).should be_true
   end
 
-  visit resource_path(media_entry)
+  visit media_resource_path(media_entry)
 end
 
 Then /^the metadata contexts inside of "([^"]*)" are in the following order:$/ do |arg1, table|
@@ -49,7 +49,7 @@ end
 
 When /^I visit a media entry without GPS meta data$/ do
   media_entry = MediaEntry.accessible_by_user(@current_user).detect {|x| x.title == "Schweizer Panorama"}
-  visit resource_path(media_entry)
+  visit media_resource_path(media_entry)
 end
 
 Then /^I do not see the context group "([^"]*)"$/ do |arg1|
@@ -59,7 +59,7 @@ end
 
 When /^I visit a media entry with GPS meta data$/ do
   media_entry = MediaEntry.accessible_by_user(@current_user).detect {|x| x.title == "Chinese Temple"}
-  visit resource_path(media_entry)
+  visit media_resource_path(media_entry)
 end
 
 When /^I expande the context group "([^"]*)"$/ do |arg1|

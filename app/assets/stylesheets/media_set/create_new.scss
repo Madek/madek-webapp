@@ -1,14 +1,22 @@
 @import "../mixins.scss";
 
 .thumb_box_set.create_new {
+  background-color: #EEE;
+  border: 1px solid #CCC;
+  background-position: 12px -6px;
   cursor: pointer;
   display: inline-block;
   height: 220px;
+  left: -4px;
+  margin-right: -5px;
+  padding: 6px 12px;
   position: relative;
   top: 9px;
+  @include box-shadow(0 0 6px rgba(0,0,0,0.2));
+  @include border-radius(4px);
   
   .plus.icon {
-    left: 62px;
+    left: 75px;
     position: absolute;
     top: 71px;
     @include opacity(0.6);
@@ -21,7 +29,6 @@
   &:hover .plus.icon { @include opacity(0.9); }
   
   form {
-    display: none;
     line-height: 16px;
     position: relative;
     top: 150px;

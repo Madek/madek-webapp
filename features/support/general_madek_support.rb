@@ -133,7 +133,8 @@ end
 # if successful, nil otherwise.
 def find_media_entry_titled(title)
   found_item = nil
-  wait_for_css_element(".item_box")
+  wait_until { find(".item_box") }
+  
   all(".item_box").each do |item|
     if !item.find(".item_title").text.match(/#{title}/).nil?
       found_item = item
@@ -145,7 +146,6 @@ def find_media_entry_titled(title)
   end
 
   return found_item
-
 end
 
 
@@ -330,7 +330,7 @@ def create_set(set_title = "Untitled Set")
 end
 
 # Adds a media entry to a set. Only works if the media entry
-# has a title, so that it shows up under /resources. The set
+# has a title, so that it shows up under /media_resources. The set
 # also needs a title.
 def add_to_set(set_title = "Untitled Set", picture_title = "Untitled", owner = "No one")
   visit "/media_resources"
