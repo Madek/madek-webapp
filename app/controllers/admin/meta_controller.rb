@@ -21,6 +21,10 @@ class Admin::MetaController < Admin::AdminController
         a
       end
 
+      h[:meta_context_groups] = MetaContextGroup.all.collect do |meta_context_group|
+        meta_context_group.attributes.select {|k,v| not v.blank? }
+      end
+
       h[:meta_contexts] = MetaContext.all.collect do |meta_context|
         meta_context.attributes.select {|k,v| not v.blank? }
       end
