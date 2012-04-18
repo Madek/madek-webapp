@@ -100,7 +100,7 @@ FactoryGirl.define do
 
   ### Media ....
 
-  factory :media_set_arc , :class => MediaSetArc do
+  factory :media_resource_arc , :class => MediaResourceArc do
   end
 
   factory :media_file  do 

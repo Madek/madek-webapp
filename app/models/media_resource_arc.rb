@@ -1,4 +1,4 @@
-class MediaSetArc < ActiveRecord::Base
+class MediaResourceArc < ActiveRecord::Base
 
   validate :no_self_reference
   validates_uniqueness_of :child_id, :scope => :parent_id

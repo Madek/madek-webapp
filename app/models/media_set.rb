@@ -1,8 +1,8 @@
 # -*- encoding : utf-8 -*-
 class MediaSet < MediaResource
 
-  has_many :out_arcs, :class_name => "MediaSetArc", :foreign_key => :parent_id
-  has_many :in_arcs, :class_name => "MediaSetArc", :foreign_key => :child_id
+  has_many :out_arcs, :class_name => "MediaResourceArc", :foreign_key => :parent_id
+  has_many :in_arcs, :class_name => "MediaResourceArc", :foreign_key => :child_id
 
   has_many :child_sets, :through => :out_arcs, :source => :child
   has_many :parent_sets, :through => :in_arcs, :source => :parent
@@ -56,10 +56,10 @@ class MediaSet < MediaResource
 ########################################################
 
   #tmp# this is currently up on MediaResource
-  #scope :top_level, joins("LEFT JOIN media_set_arcs ON media_set_arcs.child_id = media_resources.id").
-  #                  where(:media_set_arcs => {:parent_id => nil})
+  #scope :top_level, joins("LEFT JOIN media_resource_arcs ON media_resource_arcs.child_id = media_resources.id").
+  #                  where(:media_resource_arcs => {:parent_id => nil})
 
-  #tmp# FIXME count.size # scope :not_top_level, joins(:in_arcs).group("media_set_arcs.child_id")
+  #tmp# FIXME count.size # scope :not_top_level, joins(:in_arcs).group("media_resource_arcs.child_id")
 
 ########################################################
 

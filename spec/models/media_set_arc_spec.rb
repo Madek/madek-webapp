@@ -1,24 +1,24 @@
 require 'spec_helper'
 
-describe MediaSetArc do
+describe MediaResourceArc do
 
   before :each do
     @set1 = FactoryGirl.create :media_set
     @set2 = FactoryGirl.create :media_set
-    @arc = (FactoryGirl.create :media_set_arc, :parent => @set1 , :child => @set2)
+    @arc = (FactoryGirl.create :media_resource_arc, :parent => @set1 , :child => @set2)
   end
 
 
   it "should be producible by a factory" do
-    (FactoryGirl.create :media_set_arc, :parent => @set1 , :child => (FactoryGirl.create :media_set)).should_not == nil
+    (FactoryGirl.create :media_resource_arc, :parent => @set1 , :child => (FactoryGirl.create :media_set)).should_not == nil
   end
 
   context "referential inegrity" do
     
     it "should cause the arc to be deleted if one of either parent/child set is deleted" do
-      MediaSetArc.where("parent_id = ?",@set1.id).where("child_id = ? ", @set2.id).count.should >= 1
+      MediaResourceArc.where("parent_id = ?",@set1.id).where("child_id = ? ", @set2.id).count.should >= 1
       @set1.destroy
-      MediaSetArc.where("parent_id = ?",@set1.id).where("child_id = ? ", @set2.id).count.should == 0
+      MediaResourceArc.where("parent_id = ?",@set1.id).where("child_id = ? ", @set2.id).count.should == 0
     end
 
   end
@@ -36,11 +36,11 @@ describe MediaSetArc do
       end
 
       it "should raise an error if a double arc is inserted " do
-        ->(){ FactoryGirl.create :media_set_arc, :parent => @set1 , :child => @set2}.should raise_error
+        ->(){ FactoryGirl.create :media_resource_arc, :parent => @set1 , :child => @set2}.should raise_error
       end
 
       it "should raise an error if a self reference is insteted " do
-        ->(){ FactoryGirl.create :media_set_arc, :parent => @set1 , :child => @set1}.should raise_error
+        ->(){ FactoryGirl.create :media_resource_arc, :parent => @set1 , :child => @set1}.should raise_error
       end
 
     end
