@@ -5,6 +5,7 @@ describe MediaResourceArc do
   before :each do
     @set1 = FactoryGirl.create :media_set
     @set2 = FactoryGirl.create :media_set
+    @media_entry = FactoryGirl.create :media_entry
     @arc = (FactoryGirl.create :media_resource_arc, :parent => @set1 , :child => @set2)
   end
 
@@ -19,6 +20,20 @@ describe MediaResourceArc do
       MediaResourceArc.where("parent_id = ?",@set1.id).where("child_id = ? ", @set2.id).count.should >= 1
       @set1.destroy
       MediaResourceArc.where("parent_id = ?",@set1.id).where("child_id = ? ", @set2.id).count.should == 0
+    end
+
+  end
+
+  context "resources in resources" do
+
+    context "media_entry as parent" do
+
+      it "should not be possible" do
+        arc = MediaResourceArc.create child: @set1, parent: @media_entry
+        arc.should_not be_persisted
+        arc.errors.should_not be_empty
+      end
+
     end
 
   end
