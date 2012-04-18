@@ -120,9 +120,8 @@ class MediaSetsController < ApplicationController
     respond_to do |format|
       format.html {
         # TODO remove ??
-        resources = MediaResource.accessible_by_user(current_user).
+        resources = @media_set.children.accessible_by_user(current_user).
                         order("media_resources.updated_at DESC").
-                        by_media_set(@media_set).
                         paginate({:page => page, :per_page => per_page})
         
         @can_edit_set = current_user.authorized?(:edit, @media_set)
@@ -256,7 +255,7 @@ class MediaSetsController < ApplicationController
       if params[:media_entry_ids] && !(params[:media_entry_ids] == "null") #check for blank submission from select
         ids = params[:media_entry_ids].is_a?(String) ? params[:media_entry_ids].split(",") : params[:media_entry_ids]
         media_entries = MediaEntry.find(ids)
-        new_members = @media_set.media_entries.push_uniq(media_entries)
+        new_members = @media_set.media_entries << media_entries
       end
       flash[:notice] = if new_members > 1
          "#{new_members} neue Medieneinträge wurden dem Set #{@media_set.title} hinzugefügt" 
