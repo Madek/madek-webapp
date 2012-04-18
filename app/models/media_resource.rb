@@ -1,6 +1,11 @@
 # -*- encoding : utf-8 -*-
 class MediaResource < ActiveRecord::Base
 
+  has_many :out_arcs, :class_name => "MediaResourceArc", :foreign_key => :parent_id
+  has_many :in_arcs, :class_name => "MediaResourceArc", :foreign_key => :child_id
+
+  has_many :parent_sets, :through => :in_arcs, :source => :parent
+
   after_create do
     if is_a? Snapshot
       group = Group.find_or_create_by_name("MIZ-Archiv") 
@@ -354,26 +359,6 @@ class MediaResource < ActiveRecord::Base
 
   ################################################################
 
-  scope :by_media_set, lambda {|media_set_id|
-    #tmp#
-    #SELECT `media_resources`.* FROM `media_resources`
-    #left JOIN media_entries_media_sets ON media_resources.id = media_entries_media_sets.media_entry_id and `media_entries_media_sets`.`media_set_id` = 347
-    #inner JOIN `media_set_links` ON media_resources.id = `media_set_links`.`descendant_id` and `media_set_links`.`ancestor_id` = 347 AND `media_set_links`.`direct` = 1;
-
-    #old#
-    #joins("INNER JOIN media_entries_media_sets ON media_resources.id = media_entries_media_sets.media_entry_id").
-    #where(:media_entries_media_sets => {:media_set_id => media_set})
-    
-    media_set_id = media_set_id.id if media_set_id.is_a?(MediaSet)
-
-    where("media_resources.id IN " \
-            "(SELECT media_entry_id AS id FROM media_entries_media_sets WHERE media_set_id = :id " \
-            "UNION " \
-              "SELECT child_id AS id FROM media_resource_arcs WHERE parent_id = :id )",
-          :id => media_set_id);
-  }
-
-  ################################################################
 
   scope :search, lambda {|q|
     sql = joins("LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id")

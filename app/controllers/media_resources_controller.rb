@@ -61,11 +61,14 @@ class MediaResourcesController < ApplicationController
     respond_to do |format|
       format.html
       format.json {
+
         resources = if favorites == "true"
-          current_user.favorites
-        else
-          MediaResource
-        end
+            current_user.favorites
+          elsif media_set_id
+            MediaSet.find(media_set_id).children
+          else
+            MediaResource
+          end
 
         resources = resources.where(:id => ids) if ids
     
@@ -99,7 +102,6 @@ class MediaResourcesController < ApplicationController
             end
         end
 
-        resources = resources.by_media_set(media_set_id) if media_set_id
         resources = resources.by_user(@user) if user_id and (@user = User.find(user_id))
         # FIXME use presets and :manage permission
         if not_by_current_user

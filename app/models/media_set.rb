@@ -1,25 +1,11 @@
 # -*- encoding : utf-8 -*-
 class MediaSet < MediaResource
 
-  has_many :out_arcs, :class_name => "MediaResourceArc", :foreign_key => :parent_id
-  has_many :in_arcs, :class_name => "MediaResourceArc", :foreign_key => :child_id
-
-  has_many :child_sets, :through => :out_arcs, :source => :child
-  has_many :parent_sets, :through => :in_arcs, :source => :parent
+  has_many :children, :through => :out_arcs, :source => :child
+  has_many :child_sets, :through => :out_arcs, :source => :child, conditions: "media_resources.type = 'MediaSet'"
+  has_many :media_entries, :through => :out_arcs, :source => :child,  conditions: "media_resources.type = 'MediaEntry'"
 
   belongs_to :user
-  has_and_belongs_to_many :media_entries, :join_table => "media_entries_media_sets",
-                                          :foreign_key => "media_set_id" do
-    def push_uniq(members)
-      i = 0
-      Array(members).each do |member|
-        next if exists? member
-        push member
-        i += 1
-      end
-      i
-    end
-  end
   
   def self.find_by_id_or_create_by_title(values, user)
     records = Array(values).map do |v|

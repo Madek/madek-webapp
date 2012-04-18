@@ -36,11 +36,11 @@ describe MediaResourceArc do
       end
 
       it "should raise an error if a double arc is inserted " do
-        ->(){ FactoryGirl.create :media_resource_arc, :parent => @set1 , :child => @set2}.should raise_error
+        expect{ FactoryGirl.create :media_resource_arc, :parent => @set1 , :child => @set2}.to raise_error
       end
 
       it "should raise an error if a self reference is insteted " do
-        ->(){ FactoryGirl.create :media_resource_arc, :parent => @set1 , :child => @set1}.should raise_error
+        expect{ FactoryGirl.create :media_resource_arc, :parent => @set1 , :child => @set1}.to raise_error
       end
 
     end
@@ -49,11 +49,11 @@ describe MediaResourceArc do
 
       it "should be appendable " do
         @set3 = FactoryGirl.create :media_set
-        ->(){@set1.child_sets << @set3}.should_not raise_error
+        expect {@set1.child_sets << @set3}.not_to raise_error
       end
 
-      it "the set2 should be included in by_media_set" do
-        by_ms = MediaResource.by_media_set(@set1)
+      it "the set2 should be included in children" do
+        by_ms = @set1.children
         by_ms.first.should == @set2
       end
 
