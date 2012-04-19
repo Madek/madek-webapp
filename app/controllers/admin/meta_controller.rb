@@ -33,6 +33,10 @@ class Admin::MetaController < Admin::AdminController
         meta_key_definition.attributes.select {|k,v| not v.blank? and not k =~ /ated_at$/ }
       end
 
+      h[:permission_presets] = PermissionPreset.all.collect do |permission_preset|
+        permission_preset.attributes.select {|k,v| not v.blank? and not k =~ /ated_at$/ }
+      end
+
 #future#
 #      h[:copyrights] = Copyright.all.collect(&:attributes)
 
