@@ -23,8 +23,12 @@ end
 When /^(?:|I )open the selection widget for this (.+)$/ do |type|
   case type
     when "set"
+      sleep(2)
+      wait_until { find("#set_actions .has-set-widget") }
       find("#set_actions .has-set-widget").click
     when "entry"
+      sleep(2)
+      wait_until { find("#detail-action-bar .has-set-widget") }
       find("#detail-action-bar .has-set-widget").click
     when "batchedit"
       sleep(2)

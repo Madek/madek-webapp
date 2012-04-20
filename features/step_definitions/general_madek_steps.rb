@@ -105,11 +105,11 @@ Given /^the last entry is child of the (.+) set/ do |offset|
   if offset == "last"
     parent_set = MediaSet.all.sort_by(&:id).last
   entry = MediaEntry.all.sort_by(&:id).last
-  parent_set.media_entries.push_uniq entry
+  parent_set.media_entries << entry
   else
     parent_set = MediaSet.all.sort_by(&:id)[offset.to_i-1]
     entry = MediaEntry.all.sort_by(&:id).last
-    parent_set.media_entries.push_uniq entry
+    parent_set.media_entries << entry
   end
 end
 

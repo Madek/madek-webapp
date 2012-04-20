@@ -91,8 +91,7 @@ task :configure_environment do
 
 end
 
-
-task :migrate_database do
+task :backup_database do
   # Produce a string like 2010-07-15T09-16-35+02-00
   date_string = DateTime.now.to_s.gsub(":","-")
   dump_dir = "#{deploy_to}/#{shared_dir}/db_backups"
@@ -102,13 +101,14 @@ task :migrate_database do
   # because run catches the exit code of mysqldump
   run "mysqldump -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -r #{dump_path} #{sql_database}"
   run "bzip2 #{dump_path}"
+end
 
+task :migrate_database do
   # Migration here 
   # deploy.migrate should work, but is buggy and is run in the _previous_ release's
   # directory, thus never runs anything? Strange.
   #deploy.migrate
-  run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:migrate"
-
+  run "cd #{release_path} && RAILS_ENV='production'  bundle exec rake db:migrate"
 end
 
 task :precompile_assets do
@@ -143,7 +143,9 @@ after "deploy:symlink", :configure_environment
 after "deploy:symlink", :record_deploy_info 
 after "deploy:symlink", :generate_documentation 
 
+before "migrate_database", :backup_database
 after "link_config", :migrate_database
+
 after "link_config", "precompile_assets"
 after "migrate_database", :clear_cache
 

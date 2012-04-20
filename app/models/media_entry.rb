@@ -10,9 +10,7 @@ class MediaEntry < MediaResource
   belongs_to                :user
   has_many                  :snapshots
 
-  has_and_belongs_to_many   :media_sets, :join_table => "media_entries_media_sets",
-                                         :association_foreign_key => "media_set_id" # TODO validate_uniqueness
-  alias :parent_sets :media_sets
+  alias :media_sets :parent_sets 
 
 ########################################################
 

@@ -96,7 +96,7 @@ class ApplicationController < ActionController::Base
 
     # TODO remove this when public open OR logged in through API
     elsif request.format.to_sym == :json or
-          (request[:controller] == "resources" and request[:action] == "image")
+          (request[:controller] == "media_resources" and request[:action] == "image")
       @current_user = user = User.new
 
     end

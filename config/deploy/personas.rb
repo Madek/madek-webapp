@@ -5,37 +5,35 @@ set :rvm_type, :system
 
 require "bundler/capistrano"
 
-set :application, "madek"
+set :application, "madek-personas"
 
 set :scm, :git
 set :repository, "git://github.com/zhdk/madek.git"
 set :branch, "next"
 set :deploy_via, :remote_cache
 
-set :db_config, "/home/rails/madek-test/database.yml"
-set :ldap_config, "/home/rails/madek-test/LDAP.yml"
-set :zencoder_config, "/home/rails/madek-test/zencoder.yml"
-set :newrelic_config, "/home/rails/madek-test/newrelic.yml"
+set :db_config, "/home/rails/madek-personas/database.yml"
+set :ldap_config, "/home/rails/madek-personas/LDAP.yml"
 set :checkout, :export
 
 
 set :use_sudo, false 
 set :rails_env, "production"
 
-set :deploy_to, "/home/rails/madek-test"
+set :deploy_to, "/home/rails/madek-personas"
 
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
 # set :scm, :subversion
 
-role :app, "madek-test@madek-server.zhdk.ch"
-role :web, "madek-test@madek-server.zhdk.ch"
-role :db,  "madek-test@madek-server.zhdk.ch", :primary => true
+role :app, "madek-personas@madek-server.zhdk.ch"
+role :web, "madek-personas@madek-server.zhdk.ch"
+role :db,  "madek-personas@madek-server.zhdk.ch", :primary => true
 
 task :retrieve_db_config do
   # DB credentials needed by mysqldump etc.
-  get(db_config, "/tmp/madek_db_config.yml")
-  dbconf = YAML::load_file("/tmp/madek_db_config.yml")["production"]
+  get(db_config, "/tmp/madek_personas_db_config.yml")
+  dbconf = YAML::load_file("/tmp/madek_personas_db_config.yml")["production"]
   set :sql_database, dbconf['database']
   set :sql_host, dbconf['host']
   set :sql_username, dbconf['username']
@@ -47,12 +45,6 @@ task :link_config do
   run "rm -f #{release_path}/config/database.yml"
   run "ln -s #{db_config} #{release_path}/config/database.yml"
   run "ln -s #{ldap_config} #{release_path}/config/LDAP.yml"
-
-  run "rm -f #{release_path}/config/zencoder.yml"
-  run "ln -s #{zencoder_config} #{release_path}/config/zencoder.yml"
-
-  run "rm -f #{release_path}/config/newrelic.yml"
-  run "ln -s #{newrelic_config} #{release_path}/config/newrelic.yml"
 end
 
 task :remove_htaccess do
@@ -91,12 +83,11 @@ end
 task :configure_environment do
   run "sed -i 's:DOT_PATH = \"/usr/local/bin/dot\":DOT_PATH = \"/usr/bin/dot\":' #{release_path}/config/application.rb"
   run "sed -i 's:EXIFTOOL_PATH = \"/opt/local/bin/exiftool\":EXIFTOOL_PATH = \"/usr/local/bin/exiftool\":' #{release_path}/config/application.rb"
-  run "sed -i 's,ENCODING_BASE_URL.*,ENCODING_BASE_URL = \"http://test:MAdeK@test.madek.zhdk.ch\",'  #{release_path}/config/application.rb"
   run "sed -i 's,config.consider_all_requests_local.*,config.consider_all_requests_local = true,'  #{release_path}/config/environments/production.rb"
 end
 
 task :load_empty_instance_with_personas do
-  run "mysql --user=#{sql_username} --pasword=#{sql_password} #{sql_database} < #{Rails.root + '/db/empty_medienarchiv_instance_with_personas.sql'}"
+  run "mysql -h #{sql_host} --user=#{sql_username} --password=#{sql_password} #{sql_database} < \"#{release_path + '/db/empty_medienarchiv_instance_with_personas.mysql.sql'}\""
 end
 
 task :backup_database do
@@ -144,6 +135,8 @@ task :clear_cache do
 end
 
 before "deploy", "retrieve_db_config"
+before "deploy:cold", "retrieve_db_config"
+
 before "deploy:symlink", :make_tmp
 
 after "deploy:symlink", :link_config
@@ -153,8 +146,8 @@ after "deploy:symlink", :record_deploy_info
 after "deploy:symlink", :generate_documentation 
 
 before "migrate_database", :backup_database
-# Enable this once we have a complete persona data set in /db/empty_medienarchiv_instance_with_personas.sql
-#after "backup_database", :load_empty_instance_with_personas
+# Enable this once we have a complete persona data set in /db/empty_medienarchiv_instance_with_personas.mysql.sql
+after "backup_database", :load_empty_instance_with_personas
 after "link_config", :migrate_database
 
 after "link_config", "precompile_assets"

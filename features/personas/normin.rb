@@ -103,11 +103,11 @@ module Persona
 
       @abgabe_zum_kurs_product_design_abgabe = Factory(:media_entry, 
                                                        user: @user, 
-                                                       media_sets: [@abgabe_zum_kurs_product_design_set], 
+                                                       parent_sets: [@abgabe_zum_kurs_product_design_set], 
                                                        meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Abgabe"}})
       @abgabe_zum_kurs_product_design_konzepte = Factory(:media_entry, 
                                                          user: @user, 
-                                                         media_sets: [@abgabe_zum_kurs_product_design_set], 
+                                                         parent_sets: [@abgabe_zum_kurs_product_design_set], 
                                                          meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Konzepte"}})    
     end
     
@@ -118,11 +118,11 @@ module Persona
                                              meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Fotografie Kurs HS 2010"}})
       @fotografie_kurs_hs_2010_portrait = Factory(:media_entry,
                                                   user: @user, 
-                                                  media_sets: [@fotografie_kurs_hs_2010_set], 
+                                                  parent_sets: [@fotografie_kurs_hs_2010_set], 
                                                   meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Portrait"}})
       @fotografie_kurs_hs_2010_stillleben = Factory(:media_entry, 
                                                     user: @user, 
-                                                    media_sets: [@fotografie_kurs_hs_2010_set], 
+                                                    parent_sets: [@fotografie_kurs_hs_2010_set], 
                                                     meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Stilleben"}})
     end
     
@@ -169,7 +169,7 @@ module Persona
       @diplomarbeiten_2012_prasentation = Factory(:media_entry, 
                                                   view: true,
                                                   user: @user, 
-                                                  media_sets: [@diplomarbeiten_2012_set], 
+                                                  parent_sets: [@diplomarbeiten_2012_set], 
                                                   meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Präsentation"}})
       Factory(:userpermission, 
               media_resource: @diplomarbeiten_2012_prasentation, 
@@ -180,19 +180,19 @@ module Persona
                                                    meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Ausstellungen"}})
       @diplomarbeiten_2012_austellung_photo_1 = Factory(:media_entry, 
                                                         user: @user, 
-                                                        media_sets: [@diplomarbeiten_2012_ausstellungen], 
+                                                        parent_sets: [@diplomarbeiten_2012_ausstellungen], 
                                                         meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Ausstellung Photo 1"}})    
       @diplomarbeiten_2012_austellung_photo_2 = Factory(:media_entry, 
                                                         user: @user, 
-                                                        media_sets: [@diplomarbeiten_2012_ausstellungen], 
+                                                        parent_sets: [@diplomarbeiten_2012_ausstellungen], 
                                                         meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Ausstellung Photo 2"}})    
       @diplomarbeiten_2012_austellung_photo_3 = Factory(:media_entry, 
                                                         user: @user, 
-                                                        media_sets: [@diplomarbeiten_2012_ausstellungen], 
+                                                        parent_sets: [@diplomarbeiten_2012_ausstellungen], 
                                                         meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Ausstellung Photo 3"}})    
       @diplomarbeiten_2012_austellung_photo_4 = Factory(:media_entry, 
                                                         user: @user, 
-                                                        media_sets: [@diplomarbeiten_2012_ausstellungen], 
+                                                        parent_sets: [@diplomarbeiten_2012_ausstellungen], 
                                                         meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Ausstellung Photo 4"}})    
       @diplomarbeiten_2012_ausstellungen_zhdk_set = Factory(:media_set, 
                                                             user: @user, 
@@ -204,7 +204,7 @@ module Persona
                                                                       meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Ausstellung Museum Zürich"}})
       @diplomarbeiten_2012_austellung_photo_5 = Factory(:media_entry, 
                                                         user: @user, 
-                                                        media_sets: [@diplomarbeiten_2012_ausstellungen], 
+                                                        parent_sets: [@diplomarbeiten_2012_ausstellungen], 
                                                         meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Ausstellung Photo 5"}})
       @diplomarbeiten_2012_ausstellungen_limatquai_set = Factory(:media_set, 
                                                                  user: @user, 
@@ -216,11 +216,11 @@ module Persona
                                               meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Konzepte"}})
       @diplomarbeiten_2012_konzepte_erster_entwurf = Factory(:media_entry, 
                                                              user: @user, 
-                                                             media_sets: [@diplomarbeiten_2012_konzepte], 
+                                                             parent_sets: [@diplomarbeiten_2012_konzepte], 
                                                              meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Erster Entwurf"}})
       @diplomarbeiten_2012_konzepte_zweiter_entwurf = Factory(:media_entry, 
                                                               user: @user, 
-                                                              media_sets: [@diplomarbeiten_2012_konzepte], 
+                                                              parent_sets: [@diplomarbeiten_2012_konzepte], 
                                                               meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Zweiter Entwurf"}})
     end
   end  
