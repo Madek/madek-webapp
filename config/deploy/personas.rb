@@ -146,7 +146,7 @@ after "deploy:symlink", :record_deploy_info
 after "deploy:symlink", :generate_documentation 
 
 before "migrate_database", :backup_database
-# Enable this once we have a complete persona data set in /db/empty_medienarchiv_instance_with_personas.sql
+# Enable this once we have a complete persona data set in /db/empty_medienarchiv_instance_with_personas.mysql.sql
 after "backup_database", :load_empty_instance_with_personas
 after "link_config", :migrate_database
 
