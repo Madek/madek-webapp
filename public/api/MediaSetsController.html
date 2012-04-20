@@ -37,51 +37,107 @@
 			padding: 12px;
 			line-height: 1.9em;
 		}
+		a.back {
+			font-size: 1.2em;
+			padding: 4px;
+		}
+		p.method_desc {
+			padding: 16px 0 0 14px;
+			font-size: 1.2em;
+		}
 		h2 {
 			margin: 2.4em 0 0.5em;
+		}
+		h2 + p {
+			font-size: 1.2em;
+			margin-bottom: 62px;
+		}
+		.method {
+			display: block;
+			margin-top: 40px;
+			padding-top: 0;
+			position: relative;
+			box-shadow: 0 -6px 12px rgba(0,0,0,0.1);
 		}
 		h3 {
 			font-size: 1.2em;
 			font-weight: normal;
-			padding-top: 22px;
+			padding-top: 6px;
 			margin-bottom: -6px;
+		}
+		h4 {
+			margin: 0;
 		}
 		#resources {
 			padding: 14px 20px 52px;
 		}
 		#resources li {
+			border-right: 1px solid #0055AA;
 			display: block;
-			font-size: 1.3em;
+			font-size: 1.4em;
 			float: left;
-			width: 140px;
+			padding-right: 14px;
+			padding-left: 12px;
 		}
 		.resource_url {
+			border: 1px solid white;
 			display: block;
 			background: #EAF0FF;
-			padding: 12px;
+			margin-top: 11px;
+			padding: 12px 12px 18px;
 		}
 		#search_frame #search {
 			display: none;
 		}
-		.parameters {
-			
+		.parameters, .response_fields {
+			background: none repeat scroll 0 0 #EAF0FF;
 		}
 		.parameters .required {
-			float: left;
-			min-width: 300px;
-			width: 50%;
+			background: #d5e1ff;
+			padding: 12px;
+			border: 1px solid white;
 		}
-		.parameters .optional {
-			float: left;
-			min-width: 300px;
-			width: 50%;
+		.parameters .optional, .response_fields {
+			padding: 18px 12px 12px 12px;
+			border: 1px solid white;
+		}
+		.parameters .optional ul li, .parameters .required li, .response_fields li {
+			display: block;
+			padding: 4px 0 0 6px;
+		}
+		.parameters .optional ul li .name, .parameters .required li .name, .response_fields li .name {
+			font-weight: bold;
+		}
+		.parameters .optional ul li .text, .parameters .required li .text, .response_fields li .text {
+			display: block;
+		}
+		.examples {
+			padding: 12px;
+		}
+		.example {			
+			border-bottom: 1px solid #BBB;
+			display: block;
+			padding: 8px;
+			margin-bottom: 14px;
+			margin-top: 8px;
+		}
+		.example .description {
+			display: block;
+			font-size: 1.2em;
+		}
+		
+		.example .hash {
+			display: block;
+			background: #EEF;
+			font-size: 1.1em;
+			border-radius: 4px;
+			box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+			padding: 12px;
+			margin-top: 6px;
 		}
 	</style>
 	<script type="text/javascript">
 		//<![CDATA[
-		  if (! window.location.href.match(/\/$/) && ! window.location.href.match(/\./)) {
-		    window.location.href = window.location.href+"/";
-		  }
 		
 			function setup_toc() {
 	 		  if ($('#content').length === 0) return;
@@ -157,66 +213,95 @@
     <div id="content" style="padding-top: 12px;">
 		<div class="service">
   <h1 class="noborder title">MAdeK-API</h1>
-    <a href="index.html" title="back to the overview">&laquo; Overview</a>
-    
-  <div id="Services" class="method_details_list">
+    <a class="back" href="index.html" title="back to the overview">&laquo; back to overview</a>
     <h2>MediaSets</h2>
-
     
-		<h3 class="resource_url"><strong>/media_sets</strong> [GET]</h3>
-		<p>Get media sets</p>
-		
-		<div class="parameters">
-			<div class="required">
+
+  <div id="Services" class="method_details_list">
+    
+		<div class="method">
+			<p class="method_desc">Get media sets</p>
+			<h3 class="resource_url"><strong>/media_sets</strong> [GET]</h3>
+
+			<div class="parameters">	
 				
-					<h4>Required Parameters</h4>
-					
-				
-			</div>
-		
-			<div class="optional">
-				
-					<h4>Optional Parameters</h4>
-					
-						<pre class="example_code">optional.text</pre>
+					<div class="required">
+						<h4>Required Parameters</h4>
 						
-						<pre class="example_code">optional.text</pre>
+					</div>
+				
+
+				
+					<div class="optional">
+						<h4>Optional Parameters</h4>
 						
-						<pre class="example_code">optional.text</pre>
+							<ul>
+								<li>
+									<span class="name">string</span>
+									<span class="type">accessible_action</span>
+									<span class="text">Limit the list of media sets by the accessible action
+show, browse, abstract, inheritable_contexts, edit, update, add_member, parents, destroy</span>
+								</li>
+							</ul>
 						
+							<ul>
+								<li>
+									<span class="name">hash</span>
+									<span class="type">with</span>
+									<span class="text">Options forwarded to the results which will be inside of the respond</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">array</span>
+									<span class="type">child_ids</span>
+									<span class="text">An array with child ids which shall be used for scoping the media sets</span>
+								</li>
+							</ul>
+						
+					</div>
 				
-			</div>
-		<div class="clear"></div>
-		</div>
-		
-		<div class="request_response">
-			<div class="requests">
-				
-					<h4>Required Parameters</h4>
-					
-				
-			</div>
+			</div><!-- parameters -->
 			
-			<div class="responses">
-				
-					<h4>Optional Parameters</h4>
-					
-						<pre class="example_code">optional.text</pre>
-						
-						<pre class="example_code">optional.text</pre>
-						
-						<pre class="example_code">optional.text</pre>
-						
-				
-			</div>
-		<div class="clear"></div>
-		</div>
-		
-		<div class="response_fields">
 			
-		<div class="clear"></div>
-		</div>
-		
+				<div class="response_fields">
+					<h4>Response Fields</h4>
+					
+				</div>
+			
+			
+			
+				<div class="examples">
+					<h4>Examples</h4>
+					
+						<div class="example">
+							
+							<span class="description"></span>
+							<span class="hash">{"accessible_action": "edit", "with": {"media_set": {"media_entries": 1}}}</span>
+						</div>
+					
+						<div class="example">
+							
+							<span class="description"></span>
+							<span class="hash">{"accessible_action": "edit", "child_ids": [1]}</span>
+						</div>
+					
+						<div class="example">
+							
+							<span class="description"></span>
+							<span class="hash">{"accessible_action": "edit", "child_ids": [1,2], "with": {"media_set": {"media_entries": 1, "child_sets": 1}}</span>
+						</div>
+					
+						<div class="example">
+							
+							<span class="description"></span>
+							<span class="hash">{"accessible_action": "edit", "with": {"media_set": {"creator": 1, "created_at": 1, "title": 1}}}</span>
+						</div>
+					
+				</div>
+			
+		</div>	
     
   </div>
 
@@ -237,7 +322,7 @@
 	</div>
     
     <div id="footer">
-  Generated on Wed Mar 14 11:39:26 2012 with ruby-1.9.3
+  Generated on Fri Apr 20 15:46:14 2012 with ruby-1.9.3
 </div>
 
   </body>

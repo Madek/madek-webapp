@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>
-  Class: MediaResourcesController
+  Class: KeywordsController
   
     &mdash; MAdeK-API
   
@@ -232,14 +232,14 @@
 		<div class="service">
   <h1 class="noborder title">MAdeK-API</h1>
     <a class="back" href="index.html" title="back to the overview">&laquo; back to overview</a>
-    <h2>MediaResources</h2>
+    <h2>Keywords</h2>
     
 
   <div id="Services" class="method_details_list">
     
 		<div class="method">
-			<p class="method_desc">Get a collection of MediaResources:</p>
-			<h3 class="resource_url"><strong>/media_resources</strong> [GET]</h3>
+			<p class="method_desc">returns a list of Keywords</p>
+			<h3 class="resource_url"><strong>/keywords</strong> [GET]</h3>
 
 			<div class="parameters">	
 				
@@ -255,33 +255,9 @@
 						
 							<ul>
 								<li>
-									<span class="name">ids</span>
-									<span class="type">Array</span>
-									<span class="text">A collection of MediaResources you want to fetch informations for</span>
-								</li>
-							</ul>
-						
-							<ul>
-								<li>
-									<span class="name">with[meta_data]</span>
-									<span class="type">Hash</span>
-									<span class="text">Adds MetaData to the responding collection of MediaResources and forwards the hash as options to the MetaData.</span>
-								</li>
-							</ul>
-						
-							<ul>
-								<li>
-									<span class="name">with[meta_data][meta_contexts]</span>
-									<span class="type">Array</span>
-									<span class="text">Adds all requested MetaContexts as MetaData to the responding MediaResources.</span>
-								</li>
-							</ul>
-						
-							<ul>
-								<li>
-									<span class="name">with[meta_data][meta_contexts][].name</span>
-									<span class="type">Hash</span>
-									<span class="text">The name of the MetaContext which MetaData should be added to the responding MediaResources.</span>
+									<span class="name">query</span>
+									<span class="type">String</span>
+									<span class="text">The search query to find matching keywords</span>
 								</li>
 							</ul>
 						
@@ -295,25 +271,17 @@
 					
 						<ul>
 							<li>
-								<span class="name">[].id</span>
-								<span class="type">Integer</span>
-								<span class="text">The id of the MediaResource</span>
+								<span class="name">id</span>
+								<span class="type">integer</span>
+								<span class="text">The id of the Keyword.</span>
 							</li>
 						</ul>
 					
 						<ul>
 							<li>
-								<span class="name">[].meta_data</span>
-								<span class="type">Hash</span>
-								<span class="text">The MetaData of the MediaResource (To get a list of possible MetaData - or the schema - you have to consider the MetaDatum resource)</span>
-							</li>
-						</ul>
-					
-						<ul>
-							<li>
-								<span class="name">[].filename</span>
-								<span class="type">String</span>
-								<span class="text">The Filename of a MediaEntry's MediaFile (in case of MediaSets its null)</span>
+								<span class="name">label</span>
+								<span class="type">string</span>
+								<span class="text">The name of the Keyword.</span>
 							</li>
 						</ul>
 					
@@ -329,55 +297,27 @@
 							<span class="description"></span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{"ids": [1,2,3]}
+								{}
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								{"media_resources:": [{"id":1}, {"id":2}, {"id":3}], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
+								{"id":1,"label":"Architekturtraktat"}
 							</span>
-							<span class="description"></span>
+							<span class="description">[]</span>
 						</div>
 					
 						<div class="example">
 							
-							<span class="description"> Requests MediaResources with all nested MetaData for the MetaContext with the name "core".</span>
+							<span class="description"></span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{"with": {"meta_data": {"meta_context_names": ["core"]}}}
+								{"query": "architektur"}
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								{"media_resources:": [{"id":1, "meta_data": {"title": "My new Picture", "author": "Musterman, Max", "portrayed_object_dates": null, "keywords": "picture, portrait", "copryright_notice"}}, ...], "pagination": {"total": 100, "page": 1, "per_page": 36, "total_pages": 2}}
+								{"id":1,"label":"Architekturtraktat"},{"id":2,"label":"Architektur"},{"id":3,"label":"Landschaftsarchitektur"}
 							</span>
-							<span class="description"></span>
-						</div>
-					
-						<div class="example">
-							
-							<span class="description"> Is requesting MediaResources with id 1,2 and 3. Adds an image as base64 to the respond.</span>
-							<span class="hash request">
-								<strong class="type">Request</strong>
-								{"ids": [1,2,3], "with": {"image": {"as": "base64"}}}
-							</span>
-							<span class="hash response">
-								<strong class="type">Response</strong>
-								{"media_resources:": [{"id":1, "image": ""data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/4gxYSUNDX1BST0ZJTEUAAQEAAAxITGlu bwIQAABtbnRyUkdCIFhZWiAHzgACAAkABgAxAABhY3NwTVNG"}, ...], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
-							</span>
-							<span class="description"></span>
-						</div>
-					
-						<div class="example">
-							
-							<span class="description"> Request MediaResources with filenames</span>
-							<span class="hash request">
-								<strong class="type">Request</strong>
-								{"ids": [1,2,3], "with": {"filename": true}}
-							</span>
-							<span class="hash response">
-								<strong class="type">Response</strong>
-								{"media_resources:": [{"id":1, "filename": "my_file_name.jpg"}, {"id":2, "filename": "my_2_file_name.jpg"}, {"id":3, "filename": "my_3_file_name.jpg"}], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
-							</span>
-							<span class="description"></span>
+							<span class="description">[]</span>
 						</div>
 					
 				</div>
