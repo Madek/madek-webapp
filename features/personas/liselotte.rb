@@ -123,12 +123,12 @@ module Persona
 
       media_entry = Factory(:media_entry, 
                        user: @user,
-                       media_sets: [landschaften_set],
+                       parent_sets: [landschaften_set],
                        meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Schweizer Panorama"}})
 
       media_entry = Factory(:media_entry, 
                        user: @user,
-                       media_sets: [landschaften_set, zett_set],
+                       parent_sets: [landschaften_set, zett_set],
                        meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Deutsches Panorama"}})
     end
 
