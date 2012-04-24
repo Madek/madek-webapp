@@ -41,7 +41,7 @@ describe MediaResourceArcsController do
 
       it "should include two children" do
         get_arcs_by_parent_id
-        data = JSON.parse(response.body)
+        data = JSON.parse(response.body)["media_resource_arcs"]
         data.size.should == 2
       end
 
@@ -50,44 +50,11 @@ describe MediaResourceArcsController do
   end
 
 
-  describe "Getting one arc " do
-
-    def get_arc
-      get :get_arc, {parent_id: @parent_set.id, child_id: @child1.id, format: 'json'}, valid_session
-    end
-
-    it "should succedd" do
-      get_arc
-      response.should be_success
-    end
-
-    it "should assign @arc" do
-      get_arc
-      assigns(:arc).should_not be_nil
-    end
-
-    describe "the assinged @arc " do
-
-      it "should have been set with the parend_id " do 
-        get_arc
-        assigns(:arc).parent_id.should == @parent_set.id
-      end
-
-      it "should have been set with the child_id" do 
-        get_arc
-        assigns(:arc).child_id.should == @child1.id
-      end
-
-    end
-
-  end
-
-
   describe "Updating arcs via PUT " do
 
     def update_child1_arc 
       arcs = [{ parent_id: @parent_set.id, child_id: @child1.id, highlight: true}]
-      put :update_arcs, {arcs: arcs,format: 'json'}, valid_session
+      put :update_arcs, {media_resource_arcs: arcs,format: 'json'}, valid_session
     end
     
     it "should succeed" do

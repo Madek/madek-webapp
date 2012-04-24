@@ -25,8 +25,8 @@ MAdeK::Application.routes.draw do
 
 ### media_resource_arcs ###############################
    
-  match "/media_resource_arcs/:parent_id/:child_id", controller: "media_resource_arcs", action: "get_arc", via: [:get]
   match "/media_resource_arcs/:parent_id", controller: "media_resource_arcs", action: "get_arcs_by_parent_id", via: [:get]
+  match "/media_resource_arcs/", controller: "media_resource_arcs", action: "get_arcs_by_parent_id", via: [:get]
   match "/media_resource_arcs/", controller: "media_resource_arcs", action: "update_arcs", via: [:put]
 
 ################################################
