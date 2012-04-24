@@ -112,18 +112,19 @@
 			display: block;
 		}
 		.examples {
-			padding: 12px;
+			padding: 32px 12px 12px 12px;
 		}
 		.example {			
 			border-bottom: 1px solid #BBB;
 			display: block;
-			padding: 8px;
+			padding: 18px 0 26px;
 			margin-bottom: 14px;
 			margin-top: 8px;
 		}
 		.example .description {
 			display: block;
 			font-size: 1.2em;
+			margin: 8px 0;
 		}
 		
 		.example .hash {
@@ -133,7 +134,24 @@
 			border-radius: 4px;
 			box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
 			padding: 12px;
-			margin-top: 6px;
+		}
+		
+		.example .hash .type {
+			display: block;
+			font-size: 0.8em;
+			color: #99A;
+			padding-bottom: 6px;
+		}
+		
+		.example .hash.request {
+			border-bottom-left-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+		
+		.example .hash.response {
+			border-top: 1px solid white;
+			border-top-left-radius: 0;
+			border-top-right-radius: 0;
 		}
 	</style>
 	<script type="text/javascript">
@@ -277,26 +295,66 @@ show, browse, abstract, inheritable_contexts, edit, update, add_member, parents,
 					
 						<div class="example">
 							
+							
+							
 							<span class="description"></span>
-							<span class="hash">{"accessible_action": "edit", "with": {"media_set": {"media_entries": 1}}}</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								{"accessible_action": "edit", "with": {"media_set": {"media_entries": 1}}}
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								
+							</span>
+							<span class="description"></span>
 						</div>
 					
 						<div class="example">
 							
+							
+							
 							<span class="description"></span>
-							<span class="hash">{"accessible_action": "edit", "child_ids": [1]}</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								{"accessible_action": "edit", "child_ids": [1]}
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								
+							</span>
+							<span class="description"></span>
 						</div>
 					
 						<div class="example">
 							
+							
+							
 							<span class="description"></span>
-							<span class="hash">{"accessible_action": "edit", "child_ids": [1,2], "with": {"media_set": {"media_entries": 1, "child_sets": 1}}</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								{"accessible_action": "edit", "child_ids": [1,2], "with": {"media_set": {"media_entries": 1, "child_sets": 1}}
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								
+							</span>
+							<span class="description"></span>
 						</div>
 					
 						<div class="example">
 							
+							
+							
 							<span class="description"></span>
-							<span class="hash">{"accessible_action": "edit", "with": {"media_set": {"creator": 1, "created_at": 1, "title": 1}}}</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								{"accessible_action": "edit", "with": {"media_set": {"creator": 1, "created_at": 1, "title": 1}}}
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								
+							</span>
+							<span class="description"></span>
 						</div>
 					
 				</div>
@@ -322,7 +380,7 @@ show, browse, abstract, inheritable_contexts, edit, update, add_member, parents,
 	</div>
     
     <div id="footer">
-  Generated on Fri Apr 20 15:46:14 2012 with ruby-1.9.3
+  Generated on Tue Apr 24 16:11:13 2012 with ruby-1.9.3
 </div>
 
   </body>
