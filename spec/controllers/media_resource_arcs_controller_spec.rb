@@ -21,7 +21,7 @@ describe MediaResourceArcsController do
       get :get_arcs_by_parent_id, {parent_id: @parent_set.id, format: 'json'}, valid_session
     end
 
-    it "should succedd" do
+    it "should succeed" do
       get_arcs_by_parent_id
       response.should be_success
     end
@@ -78,6 +78,32 @@ describe MediaResourceArcsController do
         assigns(:arcs).child_id.should == @child1.id
       end
 
+    end
+
+  end
+
+
+  describe "Updating arcs via PUT " do
+
+    def update_child1_arc 
+      put update_arcs \
+        {arcs: [{ parent_id: @parent_set.id, 
+                  child_id: @child1.id, 
+                  highlight: true}]}, 
+        valid_session
+    end
+    
+    it "should succeed" do
+      update_child1_arc
+      response.should be_success
+    end
+
+    it "should updated the highlight parameter to true" do
+      update_child1_arc
+      MediaResourceArc \
+        .where(parent_id: @parent_set.id) \
+        .where(child_id: @child1.id) \
+        .first.highlight.should be_true
     end
 
   end
