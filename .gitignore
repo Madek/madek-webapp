@@ -35,3 +35,4 @@ coverage.data
 .jhw-cache
 db/backups
 doc/api/yard
+.git
