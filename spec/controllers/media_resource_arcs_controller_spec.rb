@@ -15,7 +15,7 @@ describe MediaResourceArcsController do
     {user_id: @user.id}
   end
 
-  context "API GET get_arcs_by_parent_id"  do
+  describe "Getting the arcs by parent_id"  do
 
     def get_arcs_by_parent_id
       get :get_arcs_by_parent_id, {parent_id: @parent_set.id, format: 'json'}, valid_session
@@ -26,18 +26,18 @@ describe MediaResourceArcsController do
       response.should be_success
     end
 
-    it "assigns @arcs" do
+    it "should assign @arcs" do
        get_arcs_by_parent_id
        assigns(:arcs).should_not be_nil
     end
 
-    it "@arcs should include the children" do
+    it "should put children into the @arcs" do
        get_arcs_by_parent_id
        assigns(:arcs).map(&:child_id).should include @child1.id
        assigns(:arcs).map(&:child_id).should include @child2.id
     end
 
-    context "the response" do
+    describe "The response" do
 
       it "should include two children" do
         get_arcs_by_parent_id
@@ -46,6 +46,39 @@ describe MediaResourceArcsController do
       end
 
     end 
+
+  end
+
+
+  describe "Getting one arc " do
+
+    def get_arc
+      get :get_arc, {parent_id: @parent_set.id, child_id: @child1.id, format: 'json'}, valid_session
+    end
+
+    it "should succedd" do
+      get_arc
+      response.should be_success
+    end
+
+    it "should assign @arc" do
+      get_arc
+      assigns(:arcs).should_not be_nil
+    end
+
+    describe "the assinged @arc " do
+
+      it "should have been set with the parend_id " do 
+        get_arc
+        assigns(:arcs).parent_id.should == @parent_set.id
+      end
+
+      it "should have been set with the child_id" do 
+        get_arc
+        assigns(:arcs).child_id.should == @child1.id
+      end
+
+    end
 
   end
   
