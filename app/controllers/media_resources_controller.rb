@@ -30,13 +30,16 @@ class MediaResourcesController < ApplicationController
   # @example_request {"ids": [1,2,3]}
   # @example_response {"media_resources:": [{"id":1}, {"id":2}, {"id":3}], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
   #
-  # @example_request {"with": {"meta_data": {"meta_context_names": ["core"]}}} Requests MediaResources with all nested MetaData for the MetaContext with the name "core". 
+  # @example_request {"with": {"meta_data": {"meta_context_names": ["core"]}}}
+  # @example_request_description Requests MediaResources with all nested MetaData for the MetaContext with the name "core". 
   # @example_response {"media_resources:": [{"id":1, "meta_data": {"title": "My new Picture", "author": "Musterman, Max", "portrayed_object_dates": null, "keywords": "picture, portrait", "copryright_notice"}}, ...], "pagination": {"total": 100, "page": 1, "per_page": 36, "total_pages": 2}}
   #
-  # @example_request {"ids": [1,2,3], "with": {"image": {"as": "base64"}}} Is requesting MediaResources with id 1,2 and 3. Adds an image as base64 to the respond.
+  # @example_request {"ids": [1,2,3], "with": {"image": {"as": "base64"}}} 
+  # @example_request_description Is requesting MediaResources with id 1,2 and 3. Adds an image as base64 to the respond.
   # @example_response {"media_resources:": [{"id":1, "image": ""data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/4gxYSUNDX1BST0ZJTEUAAQEAAAxITGlu bwIQAABtbnRyUkdCIFhZWiAHzgACAAkABgAxAABhY3NwTVNG"}, ...], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
   #
-  # @example_request {"ids": [1,2,3], "with": {"filename": true}} Request MediaResources with filenames
+  # @example_request {"ids": [1,2,3], "with": {"filename": true}}
+  # @example_request_description Request MediaResources with filenames
   # @example_response {"media_resources:": [{"id":1, "filename": "my_file_name.jpg"}, {"id":2, "filename": "my_2_file_name.jpg"}, {"id":3, "filename": "my_3_file_name.jpg"}], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
   #
   # @response_field [Integer] [].id The id of the MediaResource  
