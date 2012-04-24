@@ -63,19 +63,19 @@ describe MediaResourceArcsController do
 
     it "should assign @arc" do
       get_arc
-      assigns(:arcs).should_not be_nil
+      assigns(:arc).should_not be_nil
     end
 
     describe "the assinged @arc " do
 
       it "should have been set with the parend_id " do 
         get_arc
-        assigns(:arcs).parent_id.should == @parent_set.id
+        assigns(:arc).parent_id.should == @parent_set.id
       end
 
       it "should have been set with the child_id" do 
         get_arc
-        assigns(:arcs).child_id.should == @child1.id
+        assigns(:arc).child_id.should == @child1.id
       end
 
     end
@@ -86,11 +86,8 @@ describe MediaResourceArcsController do
   describe "Updating arcs via PUT " do
 
     def update_child1_arc 
-      put update_arcs \
-        {arcs: [{ parent_id: @parent_set.id, 
-                  child_id: @child1.id, 
-                  highlight: true}]}, 
-        valid_session
+      arcs = [{ parent_id: @parent_set.id, child_id: @child1.id, highlight: true}]
+      put :update_arcs, {arcs: arcs,format: 'json'}, valid_session
     end
     
     it "should succeed" do
