@@ -6,7 +6,7 @@ class MediaResourceArcsController < ApplicationController
   ##
   # Get media resource arcs:
   # 
-  # @resource /media_resource_arcs/:parent_id(/:child_id)
+  # @resource /media_resource_arcs
   #
   # @action GET
   # 
@@ -14,8 +14,13 @@ class MediaResourceArcsController < ApplicationController
   #
   # @optional [Integer] child_id The id of the child media resource (set/entry). 
   #
-  # @example_request /media_resource_arcs/1
+  # @example_request {"parent_id":1}
   # @example_request_description Request the media resources arcs for the media set with the id 1.
+  # @example_response {"media_resource_arcs": [{"parent_id": 1, "child_id": 23, "highlight": false}, {"parent_id": 1, "child_id": 12, "highlight": true}]}
+  # @example_response_description Returns two media resources arcs one is highlighted the other isnt.
+  #
+  # @example_request /media_resource_arcs/1
+  # @example_request_description Request the media resources arcs for the media set with the id 1. Requesting through plain urls is also possible (/media_resource_arcs/:parent_id).
   # @example_response {"media_resource_arcs": [{"parent_id": 1, "child_id": 23, "highlight": false}, {"parent_id": 1, "child_id": 12, "highlight": true}]}
   # @example_response_description Returns two media resources arcs one is highlighted the other isnt.
   #

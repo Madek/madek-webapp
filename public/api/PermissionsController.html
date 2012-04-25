@@ -378,9 +378,7 @@ manage, download</p>
 					
 						<div class="example">
 							
-							
-							
-							<span class="description">Request the setted permissions for the media resources with id 1,2 and 3</span>
+							<span class="description"></span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
 								{"media_resources_ids": [1,2,3]}
@@ -389,14 +387,12 @@ manage, download</p>
 								<strong class="type">Response</strong>
 								{"public":{"view":[],"edit":[],"download":[]},"you":{"name":"Muster,Max","id":31,"view":[1],"edit":[1],"download":[1],"manage":[1]}}
 							</span>
-							<span class="description">This response asserts that the public cannot view the MediaResources (with id 1,2 and three) but that you can view the MediaResource with id 1</span>
+							<span class="description"></span>
 						</div>
 					
 						<div class="example">
 							
-							
-							
-							<span class="description">Request the setted permissions for the media resources with id 1,2 and 3. This Request adds all users to the respond that have the same permissions than you</span>
+							<span class="description"></span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
 								{"media_resources_ids": [1,2,3], "with": {"users": true}}
@@ -410,9 +406,7 @@ manage, download</p>
 					
 						<div class="example">
 							
-							
-							
-							<span class="description">Request the setted permissions for the media resources with id 1,2 and 3. This Request adds all users to the respond that have the same permissions than you</span>
+							<span class="description"></span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
 								{"media_resources_ids": [1,2,3], "with": {"users": true, "groups": true}}
@@ -426,9 +420,7 @@ manage, download</p>
 					
 						<div class="example">
 							
-							
-							
-							<span class="description">Request the setted permissions for the media resources with id 1,2 and 3 and add additionally the owners of the provided MediaResources to the respond.</span>
+							<span class="description"></span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
 								{"media_resources_ids": [1,2,3]}
@@ -629,66 +621,58 @@ manage, download</p>
 					
 						<div class="example">
 							
-							
-							
-							<span class="description">Sets the owner for the MediaResources 1,2 and 3 to the user with id 15</span>
+							<span class="description"></span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
 								{"media_resources_ids": [1,2,3], "owner": 15}
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								"" (empty response body with status: 200 OK)
+								
 							</span>
-							<span class="description"></span>
+							<span class="description">"" (empty response body with status: 200 OK)</span>
 						</div>
 					
 						<div class="example">
 							
-							
-							
-							<span class="description">Sets the permissions for the user with id 191 for the MediaResources with id 1,2 and 3. It doent touches the view permissions (because the information is not delivered) and sets edit and manage to false, but download to true.</span>
+							<span class="description"></span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
 								{"media_resources_ids": [1,2,3], "users": [{"id": 191, "edit": false, "manage": false, "download": true}]}
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								"" (empty response body with status: 200 OK)
+								
 							</span>
-							<span class="description"></span>
+							<span class="description">"" (empty response body with status: 200 OK)</span>
 						</div>
 					
 						<div class="example">
 							
-							
-							
-							<span class="description">Sets the permissions for the group with id 231 for the MediaResources with id 1,2 and 3. It just sets the view-permission to true and doesnt touch the other pemissions.</span>
+							<span class="description"></span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
 								{"media_resources_ids": [1,2,3], "groups": [{"id": 231, "view": true}]}
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								"" (empty response body with status: 200 OK)
+								
 							</span>
-							<span class="description"></span>
+							<span class="description">"" (empty response body with status: 200 OK)</span>
 						</div>
 					
 						<div class="example">
 							
-							
-							
-							<span class="description">Sets the public-permissions for the MediaResources with id 1,2 and 3. It just sets the view-permission to true and doesnt touch the other pemissions.</span>
+							<span class="description"></span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
 								{"media_resources_ids": [1,2,3], "public": {"view": true}}
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								"" (empty response body with status: 200 OK)
+								
 							</span>
-							<span class="description"></span>
+							<span class="description">"" (empty response body with status: 200 OK)</span>
 						</div>
 					
 				</div>
@@ -714,7 +698,7 @@ manage, download</p>
 	</div>
     
     <div id="footer">
-  Generated on Tue Apr 24 16:11:13 2012 with ruby-1.9.3
+  Generated on Wed Apr 25 11:28:22 2012 with ruby-1.9.3
 </div>
 
   </body>
