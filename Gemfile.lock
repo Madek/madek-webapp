@@ -13,7 +13,7 @@ GIT
 
 GIT
   remote: git://github.com/spape/yard-rest-plugin.git
-  revision: 5d488949ed3b325886c0f7ea09e5c0320b7cd7d9
+  revision: 4ca9c068fd29e6b0dc8ba4b59e7226ba1b67c3e4
   specs:
     yard-rest (0.3.0)
       yard (~> 0.7.4)
@@ -203,7 +203,7 @@ GEM
     net-ssh (2.3.0)
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
-    newrelic_rpm (3.3.4)
+    newrelic_rpm (3.3.4.1)
     nokogiri (1.5.2)
     pg (0.13.2)
     polyglot (0.3.3)
@@ -289,7 +289,7 @@ GEM
     rubyzip (0.9.7)
     rvm-capistrano (1.1.0)
       capistrano (>= 2.0.0)
-    sass (3.1.15)
+    sass (3.1.16)
     sass-rails (3.1.2)
       actionpack (~> 3.1.0)
       railties (~> 3.1.0)
