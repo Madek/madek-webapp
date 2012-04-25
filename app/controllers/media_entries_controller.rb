@@ -200,7 +200,7 @@ class MediaEntriesController < ApplicationController
 
     parent_media_sets.each do |media_set|
       if request.post?
-        media_set.media_entries.push_uniq @media_entry
+        media_set.media_entries << @media_entry
       else
         media_set.media_entries.delete(@media_entry)
       end
