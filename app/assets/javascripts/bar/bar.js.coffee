@@ -28,6 +28,8 @@ class Bar
     if sort_by? and not (sort_by == "")
       $("#bar .sort ."+sort_by).addClass("active")
       $("#bar .sort").prepend $("#bar .sort ."+sort_by)
+    else
+      $("#bar .sort a:first").addClass("active")
   
   @setup_layout = ()->
     $("#bar .layout a:first").addClass "active"
