@@ -322,7 +322,9 @@ has multiple media entries and a media entry can have multiple parent sets
 					
 						<div class="example">
 							
-							<span class="description"></span>
+							
+							
+							<span class="description">Request the media resources arcs for the media set with the id 1.</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
 								{"parent_id":1}
@@ -331,21 +333,23 @@ has multiple media entries and a media entry can have multiple parent sets
 								<strong class="type">Response</strong>
 								{"media_resource_arcs": [{"parent_id": 1, "child_id": 23, "highlight": false}, {"parent_id": 1, "child_id": 12, "highlight": true}]}
 							</span>
-							<span class="description"></span>
+							<span class="description">Returns two media resources arcs one is highlighted the other isnt.</span>
 						</div>
 					
 						<div class="example">
 							
-							<span class="description">/media_resource_arcs/1</span>
+							
+							
+							<span class="description">Request the media resources arcs for the media set with the id 1. Requesting through plain urls is also possible (/media_resource_arcs/:parent_id).</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								
+								/media_resource_arcs/1
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
 								{"media_resource_arcs": [{"parent_id": 1, "child_id": 23, "highlight": false}, {"parent_id": 1, "child_id": 12, "highlight": true}]}
 							</span>
-							<span class="description"></span>
+							<span class="description">Returns two media resources arcs one is highlighted the other isnt.</span>
 						</div>
 					
 				</div>
@@ -417,7 +421,9 @@ has multiple media entries and a media entry can have multiple parent sets
 					
 						<div class="example">
 							
-							<span class="description"></span>
+							
+							
+							<span class="description">Set the highlight status for the arc between parent id 1 and child id 23 to true.</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
 								{"media_resource_arcs": [{"parent_id": 1, "child_id": 23, "higlight": true}]}
@@ -426,7 +432,7 @@ has multiple media entries and a media entry can have multiple parent sets
 								<strong class="type">Response</strong>
 								{}
 							</span>
-							<span class="description"></span>
+							<span class="description">Returns a Status: 200 (empty Hash).</span>
 						</div>
 					
 				</div>
@@ -452,7 +458,7 @@ has multiple media entries and a media entry can have multiple parent sets
 	</div>
     
     <div id="footer">
-  Generated on Wed Apr 25 11:28:22 2012 with ruby-1.9.3
+  Generated on Wed Apr 25 11:33:35 2012 with ruby-1.9.3
 </div>
 
   </body>

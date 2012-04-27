@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>
-  Class: PeopleController
+  Class: MediaSetsController
   
     &mdash; MAdeK-API
   
@@ -232,14 +232,14 @@
 		<div class="service">
   <h1 class="noborder title">MAdeK-API</h1>
     <a class="back" href="index.html" title="back to the overview">&laquo; back to overview</a>
-    <h2>People</h2>
+    <h2>MediaSets</h2>
     
 
   <div id="Services" class="method_details_list">
     
 		<div class="method">
-			<p class="method_desc">Get a collection of People</p>
-			<h3 class="resource_url"><strong>/people</strong> [GET]</h3>
+			<p class="method_desc">Get media sets</p>
+			<h3 class="resource_url"><strong>/media_sets</strong> [GET]</h3>
 
 			<div class="parameters">	
 				
@@ -255,9 +255,26 @@
 						
 							<ul>
 								<li>
-									<span class="name">query</span>
-									<span class="type">String</span>
-									<span class="text">The search query to find matching users</span>
+									<span class="name">string</span>
+									<span class="type">accessible_action</span>
+									<span class="text">Limit the list of media sets by the accessible action
+show, browse, abstract, inheritable_contexts, edit, update, add_member, parents, destroy</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">hash</span>
+									<span class="type">with</span>
+									<span class="text">Options forwarded to the results which will be inside of the respond</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">array</span>
+									<span class="type">child_ids</span>
+									<span class="text">An array with child ids which shall be used for scoping the media sets</span>
 								</li>
 							</ul>
 						
@@ -283,11 +300,11 @@
 							<span class="description"></span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{}
+								{"accessible_action": "edit", "with": {"media_set": {"media_entries": 1}}}
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								[{"id":1,"name":"Sellitto, Franco"},{"id":2,"name":"Pape, Sebastian"}]
+								
 							</span>
 							<span class="description"></span>
 						</div>
@@ -299,11 +316,43 @@
 							<span class="description"></span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{"query": "franco"}
+								{"accessible_action": "edit", "child_ids": [1]}
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								[{"id":1,"name":"Sellitto, Franco"}]
+								
+							</span>
+							<span class="description"></span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description"></span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								{"accessible_action": "edit", "child_ids": [1,2], "with": {"media_set": {"media_entries": 1, "child_sets": 1}}
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								
+							</span>
+							<span class="description"></span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description"></span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								{"accessible_action": "edit", "with": {"media_set": {"creator": 1, "created_at": 1, "title": 1}}}
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								
 							</span>
 							<span class="description"></span>
 						</div>
