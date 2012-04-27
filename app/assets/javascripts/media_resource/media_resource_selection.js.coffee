@@ -18,8 +18,17 @@ jQuery ->
 
 class MediaResourceSelection
   
+  @request_parameters
+  
   @setup = (options)->
-    MediaResourceSelection.create_collection options, MediaResourceSelection.load_media_resources
+    @setup_request_parameters options
+    @create_collection options, MediaResourceSelection.load_media_resources
+  
+  @setup_request_parameters = (options)->
+    options.contexts = ["core"] if not options.contexts?
+    request_parameters = {image: {as: "base64"}, meta_data: {meta_context_names: options.contexts}, type: true}
+    $.extend true, request_parameters, options.additional_parameters if options.additional_parameters
+    MediaResourceSelection.request_parameters = request_parameters
     
   @create_collection = (options, callback)->
     $.ajax
@@ -32,21 +41,13 @@ class MediaResourceSelection
         callback(data.collection_id, options.container, options.callback, options.contexts, options.table_row_template) if callback?
         options.collection_created_callback(data.collection_id) if options.collection_created_callback?
                 
-  @load_media_resources = (collection_id, container, callback, contexts, table_row_template)->
-    if not contexts?
-      contexts = ["core"]
+  @load_media_resources = (collection_id, container, callback, contexts, table_row_template, additional_parameters)->
     $.ajax
       url: "/media_resources.json"
       type: "GET"
       data: 
         collection_id: collection_id
-        with:
-          image:
-            as: "base64"
-          meta_data:
-            meta_context_names: contexts
-          type: true
-          filename: true
+        with: MediaResourceSelection.request_parameters
       success: (data)->
         $(container).addClass("first_page_loaded")
         # setup media view
@@ -88,13 +89,7 @@ class MediaResourceSelection
         type: "GET"
         data: 
           collection_id: collection_id
-          with:
-            image:
-              as: "base64"
-            meta_data:
-              meta_context_names: contexts
-            type: true
-            filename: true
+          with: MediaResourceSelection.request_parameters
           page: page
         success: (data)->
           # render returning page
@@ -112,6 +107,5 @@ class MediaResourceSelection
           $(container).addClass("completly_loaded") if data.pagination.page == data.pagination.total_pages
           # run callback if defined
           callback(data) if callback?
-          
             
 window.MediaResourceSelection = MediaResourceSelection 
