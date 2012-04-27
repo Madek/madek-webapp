@@ -11,7 +11,6 @@
   margin-bottom: 10px;
   padding-left: 40px;
   position: relative;
-  text-align: center;
   width: 100%;
   z-index: 999;
   @include box-shadows(0 1px 0 white, 0 2px 24px rgba(0,0,0,0.1));
@@ -112,8 +111,9 @@
   .selection {
     display: inline-block;
     position: absolute;
-    margin-left: -146px;
+    left: 50%;
     top: 70px;
+    margin-left: -130px;
     z-index: 999;
     
     .types {
