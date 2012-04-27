@@ -1,0 +1,15 @@
+h = { 
+  name: "#{meta_datum.meta_key.label}",
+  value: ((s = meta_datum.to_s).blank? ? nil : s),
+  raw_value: meta_datum.deserialized_value,
+  type: ((t = meta_datum.try(&:meta_key).try(&:object_type)) ? t : "String"),
+}
+
+if with ||= nil
+  if with[:label] and with[:label][:context] and (context = MetaContext.send(with[:label][:context]))
+    definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
+    h[:label] = definition.label.to_s 
+  end
+end
+
+h

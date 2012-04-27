@@ -1,6 +1,1 @@
-{ 
-  name: "#{@meta_datum.meta_key.label}",
-  value: ((s = @meta_datum.to_s).blank? ? nil : s),
-  raw_value: @meta_datum.deserialized_value,
-  type: ((t = @meta_datum.try(&:meta_key).try(&:object_type)) ? t : "String"),
-}
+render :partial => "meta_data/show.json.rjson", :locals => {:meta_datum => @meta_datum, :with => {:label => {:context => @context.name}}} 

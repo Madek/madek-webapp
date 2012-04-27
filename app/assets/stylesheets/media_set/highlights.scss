@@ -1,0 +1,117 @@
+@import "../mixins.scss";
+
+#media_set_highlights {
+  display: none;
+  
+  &.any {
+    display: block;
+  }
+    
+  .container {
+    display: block;
+    height: 215px;
+    left: -20px;
+    padding-right: 40px;
+    padding-bottom: 10px;
+    overflow: hidden;
+    overflow-x: auto;
+    position: relative;
+    top: -19px;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .media_set_highlights_shadow {
+    background: white;
+    height: 200px;
+    position: absolute;
+    top: 5px;
+    width: 1px;
+    
+    &.left {
+      left: 0;
+      @include box-shadow(5px 0 8px 2px rgba(0,0,0,0.1));
+    }
+    
+    &.right {
+      right: 0;
+      @include box-shadow(-5px 0 8px 2px rgba(0,0,0,0.1));
+    }
+  }
+  
+  .inner {
+    display: inline-block;
+    height: 192px;
+    margin: 0 auto;
+    padding: 0 20px;
+    white-space: nowrap;
+  }
+  
+  &+.set_parents_title {
+    position: relative;
+    left: -20px;
+    padding-left: 40px;
+    padding-top: 28px;
+    position: relative;
+    width: 100%;
+    @include box-shadows(0 1px 0 white, 0 -11px 14px rgba(150, 150, 150, 0.1));
+  }      
+  
+  .highlight_entry {
+    float: left;
+    display: inline-block;
+    padding: 12px 11px 4px;
+    position: relative;
+    text-decoration: none !important;
+    
+    &:hover {
+      background: rgba(241,241,241, 1);
+    }
+    
+    &:last-child {
+      padding-right: 0;
+    }
+    
+    &>.table {
+      height: 152px;
+      display: table;
+      width: 100%;
+      
+      &>.cell {
+        display: table-cell;
+        vertical-align: bottom;   
+      }
+    }
+    
+    img {
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      display: block;
+      margin: 0 auto;
+      max-width: 160px;
+      max-height: 150px;
+      @include box-shadow(0 0 6px -1px rgba(0, 0, 0, 0.3));
+    }
+    
+    .text {
+      display: block;
+      height: 40px;
+      left: 0;
+      text-align: left;
+      padding-left: 4px;
+      top: 4px;
+      position: relative;
+      
+      .title {
+        color: black;
+      }
+      
+      .author {
+        font-size: 0.8em;
+        position: relative;
+        top: -6px;
+      }
+    }
+    
+    &:hover .author {color:#424242}
+  }
+}

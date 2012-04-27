@@ -23,7 +23,6 @@ class Permission
       $(".task_bar .thumb_mini").each (i,element)->
         media_resource_ids.push($(element).tmplItem().data.id)
       $(target).data("media_resource_ids", media_resource_ids)
-      
     # open dialog
     container = Dialog.add
       trigger: target
@@ -33,21 +32,21 @@ class Permission
     $(container).data("current_user", $(target).data("current_user"))
     $(container).data("media_resource_ids", $(target).data("media_resource_ids"))
     $(container).data("redirect_url", $(target).data("redirect_url"))
-    
     # create collection
     Permission.create_collection container, target
   
   @create_collection = (container, target)->
-    $.ajax
-      url: "/media_resources/collection.json"
-      type: "POST"
-      data: 
-        ids: $(container).data("media_resource_ids")
-      success: (data)->
-        Permission.collection_id = data.collection_id
-        # load resources & permissions
-        Permission.load_permission_presets container, target
-        Permission.load_media_resources container
+    # TODO GO ON HERE
+    MediaResourceSelection.setup 
+      container: $(container).find(".media_resource_selection")
+      media_resource_ids: $(container).data("media_resource_ids")
+      contexts: ["core"]
+      callback: ()->
+        $(".media_resource_selection .loading").remove()
+      collection_created_callback: (collection_id)->
+        Permission.collection_id = collection_id
+        Permission.load_permission_presets container, target if not sessionStorage.permission_presets? 
+        Permission.load_permissions container, $(container).data("media_resource_ids")
         
   @load_permission_presets = (container, trigger)->
     $.ajax
@@ -57,23 +56,6 @@ class Permission
         sessionStorage.permission_presets = JSON.stringify(data)
         Permission.load_permissions container, $(trigger).data("media_resource_ids")
    
-  @load_media_resources = (container)->
-    $.ajax
-      url: "/media_resources.json"
-      type: "GET"
-      data: 
-        collection_id: Permission.collection_id
-        with:
-          image:
-            as: "base64"
-          meta_data:
-            meta_context_names: ["core"]
-          type: true
-      success: (data)->
-        $(container).find(".media_resource_selection .loading").remove()
-        $(container).find(".media_resource_selection .media").append $.tmpl("tmpl/media_resource/image", data.media_resources) 
-        $(container).find(".media_resource_selection table.media_resources").append $.tmpl("tmpl/media_resource/table_row", data.media_resources)  
-              
   @display_inline = (options)->
     current_user = options.current_user
     media_resource_ids = options.media_resource_ids
@@ -486,7 +468,6 @@ class Permission
     return permissions
     
   @close_lightbox = ->
-    
     $(".permission_lightbox .dialog").dialog("close")
    
 window.Permission = Permission

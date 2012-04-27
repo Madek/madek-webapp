@@ -1,0 +1,21 @@
+#media_set_highlights_lightbox
+  .container
+    %h2= "Inhalte hervorheben"
+    %p= "Bitte wählen Sie die hervorzuhebenden Inhalte aus"
+    
+    .clear
+    
+    .media_resource_selection
+      .loading= image_tag "loading.gif"
+      .table.active
+        %table.head
+          %tr
+            %td.image.selection= "Auswahl"
+        .scrollable
+          %table.media_resources
+
+    %section.actions
+      %a.upload_buttons.save.disabled{:tabindex => 1}
+        = "Speichern"
+      %a.cancel
+        = "Abbrechen"

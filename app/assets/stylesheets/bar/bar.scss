@@ -63,7 +63,6 @@
       color: #777;
       display: none;
       text-decoration: none;
-      padding: 6px 14px 6px 24px;
       text-align: left;
       
       &.active {
@@ -77,11 +76,19 @@
     
     .icon {
       display: inline-block;
-      float: left;
       top: 14px;
-      left: 8px;
       position: absolute;
       @include opacity(0.7);
+    }
+    
+    &.sort {
+      a{ padding: 6px 20px 6px 14px; }
+      .icon { right: 8px; }
+    }
+    
+    &.scope_sets { 
+      a{ padding: 6px 14px 6px 20px; }
+      .icon { left: 8px; }
     }
     
     &:hover {
@@ -207,6 +214,10 @@
     .sort {
       float: left;
       top: -4px;
+      
+      a {
+        text-align: right;
+      }
     }
     
     .layout {

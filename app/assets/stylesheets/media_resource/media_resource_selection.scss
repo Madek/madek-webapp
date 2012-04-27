@@ -89,11 +89,11 @@
   .table {
     padding: 4px 4px 0;
     
-    &>div.media_resources {
+    &>div.scrollable {
       height: 144px;
       overflow-x: hidden;
       overflow-y: auto;
-      width: 100%;
+      width: 99%;
     }
   }
   
@@ -107,6 +107,7 @@
       td { 
         vertical-align: middle;
         line-height: 1em;
+        min-width: 55px;
         
         &.image {
           width: 34px;
@@ -117,24 +118,37 @@
           }
         }
         
-        &.title_author {width: 170px;}
-        &.date {width: 110px;}
-        &.tags {width: 110px;}
-        &.credits {width: 110px;}
-        &.upload {width: 155px;}
+        &.selection {
+          padding-right: 0;
+          width: 80px;
+          
+          label {
+            cursor: pointer;
+            display: block;
+            
+            input[type=checkbox] {
+              margin-right: 10px;
+              padding-right: 0;
+              position: relative;
+              top: -11px;
+            }
+          }
+        }
       }
     }
     
-    table:not(.head) {
+   table:not(.head) {
       tr:nth-child(odd) {
         td {background: #FAFAFA;}
       }
-    }   
+    }
     
     table.head {
       margin: 2px 0 4px;
       td {
         color: #888;
+        cursor: default;
+        overflow: hidden;
       }
     } 
   }

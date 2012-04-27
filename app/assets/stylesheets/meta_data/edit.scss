@@ -159,6 +159,8 @@
     }
   }
   
+  .media_resource_selection.first_page_loaded>.loading { display: none !important; }
+  
   .meta_keys {
     background: none repeat scroll 0 0 #F5F5F5;
     border: 1px solid #EAEAEA;

@@ -56,27 +56,21 @@ class MediaResourceArcsController < ApplicationController
   # @example_response {}
   # @example_response_description Returns a Status: 200 (empty Hash).
   #
-  def update_arcs
+  def update_arcs(media_resource_arcs = Array(params[:media_resource_arcs].is_a?(Hash) ? params[:media_resource_arcs].values : params[:media_resource_arcs]))
     ActiveRecord::Base.transaction do
-
       begin 
-        params[:media_resource_arcs].each do |arc_params| 
-          MediaResourceArc \
-            .where(parent_id: arc_params[:parent_id])
-            .where(child_id: arc_params[:child_id])
-            .first.update_attributes!(arc_params)
+        media_resource_arcs.each do |arc_params| 
+          arc = MediaResourceArc.where(parent_id: arc_params[:parent_id], child_id: arc_params[:child_id]).first
+          arc.update_attributes!(arc_params)
         end
-
         respond_to do |format|
           format.json { render json: {} }
         end
-
       rescue  Exception => e
         respond_to do |format|
           format.json { render json: e, status: :unprocessable_entity }
         end
       end
-
     end
   end
 

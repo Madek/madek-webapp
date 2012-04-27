@@ -378,6 +378,13 @@ div#ajaxLoading {
 	display: inline-block;	
 }
 
+.button_highlights {
+	background: url(icons/madek_icon_sprites.png) -273px -1155px no-repeat;
+	width: 18px;
+	height: 18px;
+	display: inline-block;	
+}
+
 
 
 /************************************************** Header */
@@ -1668,7 +1675,6 @@ button.dark:hover {
   }
 	
 	div {
-		background-color: #fff;
 		padding: 6px;
 		margin-left: 10px;
 		-webkit-border-radius: 3px;
@@ -1684,6 +1690,18 @@ button.dark:hover {
 			-moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
 			box-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
 		}
+	}
+	
+	.button_addto {
+	  margin-left: 6px;
+	}
+	
+	button:hover {
+	   .button_addto {
+      -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
+      -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
+    }
 	}
 	
 	.open {  background: url("/assets/icons/arrow-up-04.png") no-repeat scroll 72% 72% transparent; }
@@ -2604,9 +2622,15 @@ form#set_media_sets input[type="submit"] {
 	text-decoration: none;
   float: right;
 	
-	&:hover {
+	&:not(.loading):not(.plupload_disabled):not(.disabled):hover {
 	  text-decoration: none;
 	  background: #e3e3e3;
+	}
+	
+	&.disabled {
+	  cursor: default;
+	  background: #EEE;
+	  color: #888;
 	}
 }
 
@@ -2660,11 +2684,6 @@ form#set_media_sets input[type="submit"] {
     }    
   }
   
-	.upload_buttons:not(.plupload_disabled):not(.disabled):hover {
-	  text-decoration: none;
-	  background: #e3e3e3;
-	}
-	
 	p {
 	  font-size: 0.9em;
 		line-height: 1.3em;
@@ -2934,7 +2953,7 @@ ul.holder li.bit-box, #apple-list ul.holder li.bit-box { z-index: 0;}
     a {
     	color: #424242;
     	text-decoration: none;
-		&:hover {
+		&:not(.disabled):hover {
 			color: black;
 		}
     }
