@@ -106,7 +106,7 @@ end
 
 group :development, :production do
   gem "yard", "~> 0.7.4"
-  gem "yard-rest", :git => "git://github.com/spape/yard-rest-plugin.git"
+  gem "yard-rest", "~> 1.0" 
   gem 'redcarpet' # yard-rest dependency
 end
 
