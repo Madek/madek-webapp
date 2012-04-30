@@ -230,9 +230,8 @@ end
 
 And /^the files with missing metadata are marked$/ do
   wait_until {find(".item_box[data-media_resource_id]")}
-  sleep(0.5)
-  MediaEntryIncomplete.all.select{|me| not me.context_valid?(MetaContext.upload)}.map(&:id).each do |id| 
-    find(".item_box[data-media_resource_id='#{id}'] .attention_flag").should_not be_false
+  MediaEntryIncomplete.all.select{|me| not me.context_valid?(MetaContext.upload)}.map(&:id).each do |id|
+    wait_until {find(".item_box[data-media_resource_id='#{id}'] .attention_flag")}
   end 
 end
 
@@ -245,13 +244,10 @@ When /^I choose to list only files with missing metadata$/ do
 end
 
 Then /^only files with missing metadata are listed$/ do
-  
   MediaEntryIncomplete.all.select{|me| not me.context_valid?(MetaContext.upload)}.map(&:id).each do |id| 
-    find(".item_box[data-media_resource_id='#{id}'] .attention_flag").should_not be_false
+    wait_until {find(".item_box[data-media_resource_id='#{id}'] .attention_flag")}
   end 
-
- MediaEntryIncomplete.all.select{|me| me.context_valid?(MetaContext.upload)}.map(&:id).each do |id| 
-    all(".item_box[data-media_resource_id='#{id}']",visible: true).size.should == 0
+  MediaEntryIncomplete.all.select{|me| me.context_valid?(MetaContext.upload)}.map(&:id).each do |id| 
+    wait_until {all(".item_box[data-media_resource_id='#{id}']",visible: true).size.should == 0}
   end 
-
 end
