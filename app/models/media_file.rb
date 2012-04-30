@@ -148,38 +148,43 @@ class MediaFile < ActiveRecord::Base
     thumbnail_paths = []
 
     unless self.job_id.blank?
-      job = EncodeJob.new(self.job_id)
-      if job.finished?
-        # Get the encoded files via FTP
-        job.encoded_file_urls.each do |f|
-          filename = File.basename(f)
-          prefix = "#{thumbnail_storage_location}_encoded"
-          path = "#{prefix}_#{filename}"
-          `wget "#{f}" -O "#{path}"`
-          if $? == 0
-            FileUtils.chmod(0644, path) # Otherwise Apache's X-Sendfile cannot access the file, as Apache runs as another user, e.g. 'www-data'
-            paths << path
+
+      begin
+        job = EncodeJob.new(self.job_id)
+        if job.finished?
+          # Get the encoded files via FTP
+          job.encoded_file_urls.each do |f|
+            filename = File.basename(f)
+            prefix = "#{thumbnail_storage_location}_encoded"
+            path = "#{prefix}_#{filename}"
+            `wget "#{f}" -O "#{path}"`
+            if $? == 0
+              FileUtils.chmod(0644, path) # Otherwise Apache's X-Sendfile cannot access the file, as Apache runs as another user, e.g. 'www-data'
+              paths << path
+            end
           end
-        end
-        
-        job.thumbnail_file_urls.each do |f|
-          filename = File.basename(f).split("?")[0] # Take the first part of the name before the query string only
-                                                    # example basename otherwise:
-                                                    # frame_0000.png?AWSAccessKeyId=AKIAI456JQ76GBU7FECA&Signature=VpkFCcIwn77IucCkaDG7pERJieM%3D&Expires=1325862058
-          prefix = "#{thumbnail_storage_location}_encoded"
-          path = "#{prefix}_#{filename}"
-          `wget "#{f}" -O "#{path}"`
-          if $? == 0
-            FileUtils.chmod(0644, path) # Otherwise Apache's X-Sendfile cannot access the file, as Apache runs as another user, e.g. 'www-data'
-            thumbnail_paths << path
+          
+          job.thumbnail_file_urls.each do |f|
+            filename = File.basename(f).split("?")[0] # Take the first part of the name before the query string only
+            # example basename otherwise:
+            # frame_0000.png?AWSAccessKeyId=AKIAI456JQ76GBU7FECA&Signature=VpkFCcIwn77IucCkaDG7pERJieM%3D&Expires=1325862058
+            prefix = "#{thumbnail_storage_location}_encoded"
+            path = "#{prefix}_#{filename}"
+            `wget "#{f}" -O "#{path}"`
+            if $? == 0
+              FileUtils.chmod(0644, path) # Otherwise Apache's X-Sendfile cannot access the file, as Apache runs as another user, e.g. 'www-data'
+              thumbnail_paths << path
+            end
           end
+          
+          # If any of the encoding jobs resulted in a PNG screenshot of the film, use
+          # that as a thumbnail
+          pngs = thumbnail_paths.select{|path| path.match(/\.png$/)}
+          thumbnail_jpegs_for(pngs[0]) unless pngs.empty?
+          
         end
-        
-        # If any of the encoding jobs resulted in a PNG screenshot of the film, use
-        # that as a thumbnail
-        pngs = thumbnail_paths.select{|path| path.match(/\.png$/)}
-        thumbnail_jpegs_for(pngs[0]) unless pngs.empty?
-        
+      rescue Exception => e
+        logger.error("Retrieving encoded files failed with exception: #{e.message}" 
       end
     end
         
@@ -430,23 +435,30 @@ class MediaFile < ActiveRecord::Base
     if force == true or job_id.blank?
       # submit http://this_host/download?media_file_id=foo&access_hash=bar
       require Rails.root + 'lib/encode_job'
-      job = EncodeJob.new
-      if content_type.include?('video')
-        job.job_type = "video"
-      elsif content_type.include?('audio')
-        job.job_type = "audio"
+
+      begin
+        job = EncodeJob.new
+        if content_type.include?('video')
+          job.job_type = "video"
+        elsif content_type.include?('audio')
+          job.job_type = "audio"
+        else
+          raise ArgumentError, "Can only handle encoding jobs for content types video/* and audio/*, not #{content_type}"
+        end
+        # Note: We cannot use media_entry_url(self.id) here because ENCODING_BASE_URL may include
+        # a username/password (e.g. http://test:foo@www.blah.com) for Zencoder or other encoding
+        # services to reach the file by.
+        job.start_by_url("#{ENCODING_BASE_URL}/media_files/#{self.id}?access_hash=#{self.access_hash}")
+        # Save Zencoder job ID so we can use it in subsequent requests
+        update_attributes(:job_id => job.details['id'])
+        return job
       else
-        raise ArgumentError, "Can only handle encoding jobs for content types video/* and audio/*, not #{content_type}"
+        logger.error("Won't encode -- this file already has a job_id, so it's probably already been encoded. Use submit_encoding_job(force = true) to override.")
+        return false
       end
-      # Note: We cannot use media_entry_url(self.id) here because ENCODING_BASE_URL may include
-      # a username/password (e.g. http://test:foo@www.blah.com) for Zencoder or other encoding
-      # services to reach the file by.
-      job.start_by_url("#{ENCODING_BASE_URL}/media_files/#{self.id}?access_hash=#{self.access_hash}")
-      # Save Zencoder job ID so we can use it in subsequent requests
-      update_attributes(:job_id => job.details['id'])
-      return job
-    else
-      logger.error("Won't encode -- this file already has a job_id, so it's probably already been encoded. Use submit_encoding_job(force = true) to override.")
+
+    rescue Exception => e
+      logger.error("Encode job handling failed with exception: #{e.message}"
       return false
     end
   end

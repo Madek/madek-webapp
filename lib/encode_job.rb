@@ -20,10 +20,10 @@ class EncodeJob
 
   
   def initialize(job_id = nil)
-    config_path = File.join(Rails.root,"config/zencoder.yml")
+    @config_path = File.join(Rails.root,"config/zencoder.yml")
 
-    return nil unless File.exists?(config_path)
-
+    raise 'Configuration @config_path not found or malformed.' unless configured?
+   
     @job_id = job_id unless job_id.nil?
     config = YAML::load(File.open(config_path))
     api_key = config['zencoder']['api_key']
@@ -45,6 +45,19 @@ class EncodeJob
     Zencoder.api_key = api_key
   end
 
+
+  def configured?
+    configured = false
+    if File.exists?(@config_path)
+      config = YAML::load(File.open(@config_path))
+      if !config['zencoder'].blank?
+        if (!config['zencoder']['api_key'].blank? && !config['zencoder']['ftp_base_url'].blank?)
+          configured = true          
+        end
+      end
+    end
+    return configured
+  end
 
   # TODO: Add notification callback URLs
   # :notifications => ["http://medienarchiv.zhdk.ch/encode_jobs/notification"]
