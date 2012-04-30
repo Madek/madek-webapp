@@ -200,6 +200,7 @@ And /^I try to continue in the import process$/ do
 end
 
 Then /^I see an error message "([^"]*)"$/ do |msg|
+  wait_until { find(".dialog") }
   page.should have_content msg
 end
 
@@ -216,16 +217,20 @@ end
 And /^I can jump to the next file$/ do
   next_name= find(".navigation .next").find(".name").text
   find(".navigation .next").click
+  sleep(0.5)
   find(".navigation .current").find(".name").text.should == next_name
 end
 
 And /^I can jump to the previous file$/ do
   previous_name= find(".navigation .previous").find(".name").text
   find(".navigation .previous").click
+  sleep(0.5)
   find(".navigation .current").find(".name").text.should == previous_name
 end
 
 And /^the files with missing metadata are marked$/ do
+  wait_until {find(".item_box[data-media_resource_id]")}
+  sleep(0.5)
   MediaEntryIncomplete.all.select{|me| not me.context_valid?(MetaContext.upload)}.map(&:id).each do |id| 
     find(".item_box[data-media_resource_id='#{id}'] .attention_flag").should_not be_false
   end 

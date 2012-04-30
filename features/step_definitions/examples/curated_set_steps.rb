@@ -4,12 +4,12 @@ When /^I open a set that I can edit which has children$/ do
 end
 
 Then /^I see the the option to edit the highlights for this set$/ do
-  find(".open_media_set_highlights_lightbox", :visible => true)
+  wait_until {find(".open_media_set_highlights_lightbox", :visible => true)}
 end
 
 Then /^I can select which children to highlight$/ do
   find(".open_media_set_highlights_lightbox").click
-  wait_until{ find("#media_set_highlights_lightbox table.media_resources tr") }
+  wait_until(10){ find("#media_set_highlights_lightbox table.media_resources tr") }
 end
 
 When /^I open a set that I can not edit which has children$/ do
@@ -25,11 +25,11 @@ When /^I select a resource to be highlighted$/ do
   @highlight = @media_set.out_arcs.first.child
   find("table.media_resources tr", :text => @highlight.title).find(".selection input").click
   find("#media_set_highlights_lightbox .save").click
-  wait_until(10) { all("#media_set_highlights_lightbox .loading", :visible => true).size == 0 }
+  wait_until(15) { all("#media_set_highlights_lightbox .loading", :visible => true).size == 0 }
 end
 
 Then /^the resource is highlighted$/ do
-  find("#media_set_highlights .highlight", :text => @highlight.title)
+  wait_until { find("#media_set_highlights .highlight", :text => @highlight.title) }
 end
 
 When /^I view a set with highlighted resources$/ do
