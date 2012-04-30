@@ -141,7 +141,7 @@ after "deploy:create_symlink", :link_config
 after "deploy:create_symlink", :link_attachments
 after "deploy:create_symlink", :configure_environment
 after "deploy:create_symlink", :record_deploy_info 
-after "deploy:create_symlink", :generate_documentation 
+#after "deploy:create_symlink", :generate_documentation 
 
 before "migrate_database", :backup_database
 after "link_config", :migrate_database
