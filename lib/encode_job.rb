@@ -10,6 +10,8 @@ require 'zencoder'
 
 class EncodeJob
 
+  @@config_path = File.join(Rails.root,"config/zencoder.yml")
+
   attr_accessor :job_id # Unique job ID that the encoder system (e.g. Zencoder) should assign to us
   attr_accessor :base_url # Output location where finished encodes should be stored
                           # (FTP or SFTP URL including username/password)
@@ -17,15 +19,13 @@ class EncodeJob
   attr_accessor :video_codec  # Usually 'vp8'
   attr_accessor :audio_codec # Usually 'vorbis'
   attr_accessor :job_type # video or audio
-
   
   def initialize(job_id = nil)
-    @config_path = File.join(Rails.root,"config/zencoder.yml")
 
-    raise 'Configuration @config_path not found or malformed.' unless configured?
+    raise 'Configuration @@config_path not found or malformed.' unless configured?
    
     @job_id = job_id unless job_id.nil?
-    config = YAML::load(File.open(config_path))
+    config = YAML::load(File.open(@@config_path))
     api_key = config['zencoder']['api_key']
     @base_url = config['zencoder']['ftp_base_url']
     begin
@@ -45,15 +45,12 @@ class EncodeJob
     Zencoder.api_key = api_key
   end
 
-
   def configured?
     configured = false
-    if File.exists?(@config_path)
-      config = YAML::load(File.open(@config_path))
-      if !config['zencoder'].blank?
-        if (!config['zencoder']['api_key'].blank? && !config['zencoder']['ftp_base_url'].blank?)
-          configured = true          
-        end
+    if File.exists?(@@config_path)
+      config = YAML::load(File.open(@@config_path))
+      if config['zencoder'] && config['zencoder']['api_key'] && config['zencoder']['ftp_base_url']
+        configured = true
       end
     end
     return configured
