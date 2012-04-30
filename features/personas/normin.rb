@@ -124,6 +124,7 @@ module Persona
                                                     user: @user, 
                                                     parent_sets: [@fotografie_kurs_hs_2010_set], 
                                                     meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Stilleben"}})
+      arc = @fotografie_kurs_hs_2010_set.out_arcs.where(:child_id => @fotografie_kurs_hs_2010_stillleben.id).first.update_attributes({:highlight => true})
     end
     
     def create_meine_ausstellungen # Meine Ausstellungen

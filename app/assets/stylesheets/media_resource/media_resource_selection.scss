@@ -119,8 +119,18 @@
         }
         
         &.selection {
-          padding-right: 0;
           width: 80px;
+          
+          .container {
+            position: relative;
+          }
+          
+          .media_set.icon {
+            position: absolute;
+            right: -12px;
+            top: 4px;
+            @include opacity(0.5);
+          }
           
           label {
             cursor: pointer;

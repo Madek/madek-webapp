@@ -36,14 +36,14 @@ class MediaSetHighlights
     for media_resource in MediaSetHighlights.highlighted_resources
       meta_data = MetaDatum.flatten media_resource.meta_data
       media_resource = $.extend media_resource, meta_data
-      $("#media_set_highlights .inner").append $.tmpl "tmpl/media_resource/highlight_entry", media_resource 
+      $("#media_set_highlights .inner").append $.tmpl "tmpl/media_resource/highlight", media_resource 
   
   @setup_positioning: ->
     # set the width of the inner container
-    max_width = _.reduce $("#media_set_highlights .inner .highlight_entry"), (mem, el)->
+    max_width = _.reduce $("#media_set_highlights .inner .highlight"), (mem, el)->
         mem+$(el).outerWidth()
       , 0
-    $("#media_set_highlights .inner").outerWidth max_width+$("#media_set_highlights .inner").outerWidth()-$("#media_set_highlights .inner").width()
+    $("#media_set_highlights .inner").outerWidth max_width+$("#media_set_highlights .inner").outerWidth()-$("#media_set_highlights .inner").width() + 20 # 20 as security spacer
     # scroll to the center
     $("#media_set_highlights .container").scrollLeft(($("#media_set_highlights .inner").outerWidth()-$("#media_set_highlights .container").outerWidth())/2)
   
