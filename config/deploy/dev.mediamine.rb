@@ -128,13 +128,13 @@ task :clear_cache do
   run "cd #{release_path} && RAILS_ENV=production  bundle exec rails runner 'Rails.cache.clear'"
 end
 
-before "deploy:symlink", :make_tmp
+before "deploy:create_symlink", :make_tmp
 
-after "deploy:symlink", :link_config
-after "deploy:symlink", :link_attachments
-after "deploy:symlink", :configure_environment
-after "deploy:symlink", :record_deploy_info 
-after "deploy:symlink", :generate_documentation 
+after "deploy:create_symlink", :link_config
+after "deploy:create_symlink", :link_attachments
+after "deploy:create_symlink", :configure_environment
+after "deploy:create_symlink", :record_deploy_info 
+#after "deploy:create_symlink", :generate_documentation 
 
 after "link_config", :migrate_database
 after "link_config", "precompile_assets"
