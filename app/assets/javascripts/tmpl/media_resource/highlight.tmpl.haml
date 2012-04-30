@@ -1,4 +1,4 @@
-%a.highlight_entry{:href => "/media_resources/${id}", :title => "${title} - ${author}"}
+%a{:class => "highlight ${type}",:href => "/media_resources/${id}", :title => "${title} {{if author}}-{{/if}} ${author}"}
   .table
     .cell
       %img{:src => "${image}"}

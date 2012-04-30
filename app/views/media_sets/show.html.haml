@@ -28,10 +28,11 @@
             .button_permissions
           %span.favorite_link{:id => "fav_#{@media_set.id}", :title => "Favorit"}
             = render :partial => "media_resources/favorite_link", :locals => {:media_resource => @media_set}
-          = link_to "",
-          :title => "Inhalte hervorheben",
-          :class => "open_media_set_highlights_lightbox" do
-            .button_highlights
+          - if @can_edit_set
+            = link_to "",
+            :title => "Inhalte hervorheben",
+            :class => "open_media_set_highlights_lightbox" do
+              .button_highlights
 
       .grid_9
         #detail_specification.tabs
@@ -114,7 +115,7 @@
   
 :coffeescript
   jQuery ->
-    MediaSetHighlights.setup #{render(:partial => "media_resources/index.json.rjson", :locals => {:with => {:image=>{:as=>"base64", :size=>"large"}, :meta_data => {:meta_context_names => ["core"]}}, :media_resources => @media_set.out_arcs.select(&:highlight).map(&:child)})}
+    MediaSetHighlights.setup #{render(:partial => "media_resources/index.json.rjson", :locals => {:with => {:type => true, :image=>{:as=>"base64", :size=>"large"}, :meta_data => {:meta_context_names => ["core"]}}, :media_resources => @media_set.out_arcs.select(&:highlight).map(&:child)})}
   
     $(".individual_context").change ->
       $(this).toggleClass("changed")
