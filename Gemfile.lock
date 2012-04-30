@@ -11,13 +11,6 @@ GIT
       diff-lcs (>= 1.1.2)
       rails_autolink (>= 1.0)
 
-GIT
-  remote: git://github.com/spape/yard-rest-plugin.git
-  revision: 4ca9c068fd29e6b0dc8ba4b59e7226ba1b67c3e4
-  specs:
-    yard-rest (0.3.0)
-      yard (~> 0.7.4)
-
 GEM
   remote: http://rubygems.org/
   remote: http://gems.github.com/
@@ -344,6 +337,8 @@ GEM
     xpath (0.1.4)
       nokogiri (~> 1.3)
     yard (0.7.5)
+    yard-rest (1.0.5)
+      yard (~> 0.7.4)
     zencoder (2.4.0)
       multi_json
     zip (2.0.2)
@@ -418,6 +413,6 @@ DEPENDENCIES
   uuidtools (~> 2.1.2)
   will_paginate (~> 3.0)
   yard (~> 0.7.4)
-  yard-rest!
+  yard-rest (~> 1.0.5)
   zencoder (= 2.4.0)
   zip (~> 2.0.2)
