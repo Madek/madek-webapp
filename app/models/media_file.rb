@@ -429,48 +429,51 @@ class MediaFile < ActiveRecord::Base
   def import_document_metadata(full_path_file)
     #TODO - specifically for other non-zipped documents (e.g. source code, application binary, etc)
   end
-
-  
+ 
   def submit_encoding_job(force = false)
     if force == true or job_id.blank?
-      # submit http://this_host/download?media_file_id=foo&access_hash=bar
-      require Rails.root + 'lib/encode_job'
-
       begin
+        # submit http://this_host/download?media_file_id=foo&access_hash=bar
+        require Rails.root + 'lib/encode_job'
         job = EncodeJob.new
-        if content_type.include?('video')
-          job.job_type = "video"
-        elsif content_type.include?('audio')
-          job.job_type = "audio"
-        else
-          raise ArgumentError, "Can only handle encoding jobs for content types video/* and audio/*, not #{content_type}"
-        end
-        # Note: We cannot use media_entry_url(self.id) here because ENCODING_BASE_URL may include
-        # a username/password (e.g. http://test:foo@www.blah.com) for Zencoder or other encoding
-        # services to reach the file by.
-        job.start_by_url("#{ENCODING_BASE_URL}/media_files/#{self.id}?access_hash=#{self.access_hash}")
-        # Save Zencoder job ID so we can use it in subsequent requests
-        update_attributes(:job_id => job.details['id'])
-        return job
-      else
-        logger.error("Won't encode -- this file already has a job_id, so it's probably already been encoded. Use submit_encoding_job(force = true) to override.")
+      rescue Exception => e  
+        logger.error("Encode job handling failed with exception: #{e.message}"
         return false
       end
 
-    rescue Exception => e
-      logger.error("Encode job handling failed with exception: #{e.message}"
+      if content_type.include?('video')
+        job.job_type = "video"
+      elsif content_type.include?('audio')
+        job.job_type = "audio"
+      else
+        raise ArgumentError, "Can only handle encoding jobs for content types video/* and audio/*, not #{content_type}"
+      end
+      # Note: We cannot use media_entry_url(self.id) here because ENCODING_BASE_URL may include
+      # a username/password (e.g. http://test:foo@www.blah.com) for Zencoder or other encoding
+      # services to reach the file by.
+      job.start_by_url("#{ENCODING_BASE_URL}/media_files/#{self.id}?access_hash=#{self.access_hash}")
+      # Save Zencoder job ID so we can use it in subsequent requests
+      update_attributes(:job_id => job.details['id'])
+      return job
+    else
+      logger.error("Won't encode -- this file already has a job_id, so it's probably already been encoded. Use submit_encoding_job(force = true) to override.")
       return false
     end
   end
-  
+
+ 
   # TODO: Refactor into something like MediaFile#encode_job ?
   def encode_job_finished?
     if self.job_id.blank?
       return false
     else
       require Rails.root + 'lib/encode_job'
-      job = EncodeJob.new(self.job_id)
-      return job.finished?
+      begin
+        job = EncodeJob.new(self.job_id)
+        return job.finished?
+      rescue
+        return false
+      end
     end
   end
   
