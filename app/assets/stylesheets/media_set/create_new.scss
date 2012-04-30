@@ -4,7 +4,6 @@
   background-color: #EEE;
   border: 1px solid #CCC;
   background-position: 12px -6px;
-  cursor: pointer;
   display: inline-block;
   height: 220px;
   left: -4px;
@@ -14,13 +13,6 @@
   top: 9px;
   @include box-shadow(0 0 6px rgba(0,0,0,0.2));
   @include border-radius(4px);
-  
-  .plus.icon {
-    left: 75px;
-    position: absolute;
-    top: 71px;
-    @include opacity(0.6);
-  }
   
   img {
     border: none;
