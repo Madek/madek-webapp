@@ -481,9 +481,14 @@ class MediaFile < ActiveRecord::Base
     if self.job_id.blank?
       return 0
     else
-      require Rails.root + 'lib/encode_job'
-      job = EncodeJob.new(self.job_id)
-      return job.progress['progress'].to_f
+      begin
+        require Rails.root + 'lib/encode_job'
+        job = EncodeJob.new(self.job_id)
+        return job.progress['progress'].to_f
+      rescue Exception => e  
+        logger.error("Encode job handling failed with exception: #{e.message}")
+        return 0
+      end
     end
   end
   
