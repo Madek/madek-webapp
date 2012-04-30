@@ -184,7 +184,7 @@ class MediaFile < ActiveRecord::Base
           
         end
       rescue Exception => e
-        logger.error("Retrieving encoded files failed with exception: #{e.message}" 
+        logger.error("Retrieving encoded files failed with exception: #{e.message}")
       end
     end
         
@@ -437,7 +437,7 @@ class MediaFile < ActiveRecord::Base
         require Rails.root + 'lib/encode_job'
         job = EncodeJob.new
       rescue Exception => e  
-        logger.error("Encode job handling failed with exception: #{e.message}"
+        logger.error("Encode job handling failed with exception: #{e.message}")
         return false
       end
 
