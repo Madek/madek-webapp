@@ -20,8 +20,12 @@ class EncodeJob
 
   
   def initialize(job_id = nil)
+    config_path = File.join(Rails.root,"config/zencoder.yml")
+
+    return nil unless File.exists?(config_path)
+
     @job_id = job_id unless job_id.nil?
-    config = YAML::load(File.open(Rails.root + "config/zencoder.yml"))
+    config = YAML::load(File.open(config_path))
     api_key = config['zencoder']['api_key']
     @base_url = config['zencoder']['ftp_base_url']
     begin

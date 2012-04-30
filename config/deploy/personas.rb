@@ -87,7 +87,10 @@ task :configure_environment do
 end
 
 task :load_empty_instance_with_personas do
+  run "mysql -h #{sql_host} --user=#{sql_username} --password=#{sql_password} #{sql_database} -e 'drop database #{sql_database}'"
+  run "mysql -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -e 'create database #{sql_database}'"
   run "mysql -h #{sql_host} --user=#{sql_username} --password=#{sql_password} #{sql_database} < \"#{release_path + '/db/empty_medienarchiv_instance_with_personas.mysql.sql'}\""
+
 end
 
 task :backup_database do
