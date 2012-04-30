@@ -153,37 +153,7 @@ class MediaResource < ActiveRecord::Base
       return nil
     end
   end
-
     
-    # TODO merge to as_json
-    def get_basic_info(current_user, extended_keys = [], with_thumb = false)
-      core_keys = ["title", "author"]
-      core_info = Hash.new
-      
-      labels = core_keys + extended_keys
-      labels.each do |label|
-        core_info[label.gsub(' ', '_')] = ""
-      end
-      meta_data.get_for_labels(labels).each do |md|
-        core_info[md.meta_key.label.gsub(' ', '_')] = md.to_s
-      end
-      
-            
-      if with_thumb
-        mf = if self.is_a?(MediaSet)
-          media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
-        else
-          self.media_file
-        end
-        core_info["thumb_base64"] = mf.thumb_base64(:small_125) if mf
-      else
-        #1+n http-requests#
-        core_info["thumb_base64"] = "/media_resources/%d/image?size=small_125" % id
-      end
-      
-      core_info
-    end
-
 ########################################################
 
   # OPTIMIZE
@@ -218,8 +188,30 @@ class MediaResource < ActiveRecord::Base
                 :is_editable => user.authorized?(:edit, self),
                 :is_manageable => user.authorized?(:manage, self),
                 :is_favorite => user.favorite_ids.include?(id) }
-      more_json.merge! flags         
-      more_json.merge!(self.get_basic_info(user, [], with_thumb))
+      more_json.merge! flags
+      
+      ##################
+      core_info = Hash.new
+      labels = ["title", "author"]
+      labels.each do |label|
+        core_info[label.gsub(' ', '_')] = ""
+      end
+      meta_data.get_for_labels(labels).each do |md|
+        core_info[md.meta_key.label.gsub(' ', '_')] = md.to_s
+      end
+      if with_thumb
+        mf = if self.is_a?(MediaSet)
+          media_entries.accessible_by_user(user).order("media_resources.updated_at DESC").first.try(:media_file)
+        else
+          self.media_file
+        end
+        core_info["thumb_base64"] = mf.thumb_base64(:small_125) if mf
+      else
+        #1+n http-requests#
+        core_info["thumb_base64"] = "/media_resources/%d/image?size=small_125" % id
+      end
+      ##################
+      more_json.merge! core_info
     end
 
     default_options = {:only => :id}
