@@ -216,16 +216,14 @@ And /^I can jump to the next file$/ do
   wait_until { find(".navigation .next:not([disabled=disabled])") }
   next_name= find(".navigation .next").find(".name").text
   find(".navigation .next").click
-  wait_until { find(".navigation .current .name", :text => next_name) }
-  sleep(0.5)
+  wait_until(15){ find(".navigation .current .name", :text => next_name) }
 end
 
 And /^I can jump to the previous file$/ do
   wait_until { find(".navigation .previous:not([disabled=disabled])") }
   previous_name= find(".navigation .previous").find(".name").text
   find(".navigation .previous").click
-  wait_until { find(".navigation .current .name", :text => previous_name) }
-  sleep(0.5)
+  wait_until(15){ find(".navigation .current .name", :text => previous_name) }
 end
 
 And /^the files with missing metadata are marked$/ do
