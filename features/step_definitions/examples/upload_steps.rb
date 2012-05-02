@@ -55,11 +55,9 @@ Then /^I add the media entry to a set called "([^"]*)"$/ do |arg1|
   @media_entry_incomplete.media_sets.empty?.should be_true
   visit "/upload/set_media_sets"
   find("button", :text => "Einträge zu einem Set hinzufügen").click
-  step 'I search for "Konzepte"'
   step 'I should see the "Konzepte" set inside the widget'
   step 'I select "Konzepte" as parent set'
   step 'I submit the selection widget'
-  @media_entry_incomplete.reload.media_sets.empty?.should == false
 end
 
 
@@ -215,24 +213,25 @@ end
 
 
 And /^I can jump to the next file$/ do
+  wait_until { find(".navigation .next:not([disabled=disabled])") }
   next_name= find(".navigation .next").find(".name").text
   find(".navigation .next").click
+  wait_until { find(".navigation .current .name", :text => next_name) }
   sleep(0.5)
-  find(".navigation .current").find(".name").text.should == next_name
 end
 
 And /^I can jump to the previous file$/ do
+  wait_until { find(".navigation .previous:not([disabled=disabled])") }
   previous_name= find(".navigation .previous").find(".name").text
   find(".navigation .previous").click
+  wait_until { find(".navigation .current .name", :text => previous_name) }
   sleep(0.5)
-  find(".navigation .current").find(".name").text.should == previous_name
 end
 
 And /^the files with missing metadata are marked$/ do
   wait_until {find(".item_box[data-media_resource_id]")}
-  sleep(0.5)
-  MediaEntryIncomplete.all.select{|me| not me.context_valid?(MetaContext.upload)}.map(&:id).each do |id| 
-    find(".item_box[data-media_resource_id='#{id}'] .attention_flag").should_not be_false
+  MediaEntryIncomplete.all.select{|me| not me.context_valid?(MetaContext.upload)}.map(&:id).each do |id|
+    wait_until {find(".item_box[data-media_resource_id='#{id}'] .attention_flag")}
   end 
 end
 
@@ -245,13 +244,10 @@ When /^I choose to list only files with missing metadata$/ do
 end
 
 Then /^only files with missing metadata are listed$/ do
-  
   MediaEntryIncomplete.all.select{|me| not me.context_valid?(MetaContext.upload)}.map(&:id).each do |id| 
-    find(".item_box[data-media_resource_id='#{id}'] .attention_flag").should_not be_false
+    wait_until {find(".item_box[data-media_resource_id='#{id}'] .attention_flag")}
   end 
-
- MediaEntryIncomplete.all.select{|me| me.context_valid?(MetaContext.upload)}.map(&:id).each do |id| 
-    all(".item_box[data-media_resource_id='#{id}']",visible: true).size.should == 0
+  MediaEntryIncomplete.all.select{|me| me.context_valid?(MetaContext.upload)}.map(&:id).each do |id| 
+    wait_until {all(".item_box[data-media_resource_id='#{id}']",visible: true).size.should == 0}
   end 
-
 end
