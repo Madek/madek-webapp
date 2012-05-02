@@ -116,9 +116,7 @@ When /^I have started uploading some files$/ do
 end
 
 When /^I cancel the upload$/ do
-  wait_until(10) do
-    all(".next:not(.disabled)").size == 1
-  end
+  sleep(1)
   step 'follow "Abbrechen"'
   page.driver.browser.switch_to.alert.accept
 end
@@ -208,24 +206,24 @@ end
 
 
 Then /^I see a list of my uploaded files$/ do
+  wait_until(15){ all(".loading", :visible => true).size == 0 }
   all('.media_resource_selection .media .item_box').size.should be >= 2
 end
 
 
 And /^I can jump to the next file$/ do
+  wait_until(15){ all(".loading", :visible => true).size == 0 }
   wait_until { find(".navigation .next:not([disabled=disabled])") }
-  next_name= find(".navigation .next").find(".name").text
+  next_id= find(".navigation .next")[:"data-media_resource_id"]
   find(".navigation .next").click
-  wait_until { find(".navigation .current .name", :text => next_name) }
-  sleep(0.5)
+  wait_until { find(".navigation .current")[:"data-media_resource_id"] == next_id }
 end
 
 And /^I can jump to the previous file$/ do
-  wait_until { find(".navigation .previous:not([disabled=disabled])") }
-  previous_name= find(".navigation .previous").find(".name").text
+  wait_until(){ find(".navigation .previous:not([disabled=disabled])") }
+  previous_id= find(".navigation .previous")[:"data-media_resource_id"]
   find(".navigation .previous").click
-  wait_until { find(".navigation .current .name", :text => previous_name) }
-  sleep(0.5)
+  wait_until { find(".navigation .current")[:"data-media_resource_id"] == previous_id }
 end
 
 And /^the files with missing metadata are marked$/ do
