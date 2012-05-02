@@ -252,9 +252,17 @@ class MediaEntriesController < ApplicationController
   end
   
   def edit_multiple
+    labels = ["title", "author", "uploaded at", "uploaded by", "keywords", "copyright notice", "portrayed object dates"]
     # custom hash for jQuery json templates
     @info_to_json = @media_entries.map do |me|
-      me.attributes.merge!(me.get_basic_info(current_user, ["uploaded at", "uploaded by", "keywords", "copyright notice", "portrayed object dates"]))
+      core_info = Hash.new
+      labels.each do |label|
+        core_info[label.gsub(' ', '_')] = ""
+      end
+      me.meta_data.get_for_labels(labels).each do |md|
+        core_info[md.meta_key.label.gsub(' ', '_')] = md.to_s
+      end
+      me.attributes.merge!(core_info)
     end.to_json
   end
   
