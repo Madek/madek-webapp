@@ -17,7 +17,7 @@ function SetWidget() {
     $(window).bind("click", SetWidget.handle_click_on_window);
   }
   
-  this.load_content = function(target) {
+  this.load = function(target) {
     // call ajax for index
     $.ajax({
       url: $(target).data("index").path,
@@ -32,22 +32,26 @@ function SetWidget() {
       type: $(target).data("index").method
     });
     
-    // call ajax for linked_index
-    var linked_index_data_as_string = JSON.stringify($(target).data("linked_index").data);
-    linked_index_data_as_string = linked_index_data_as_string.replace(/":selected_ids"/g, JSON.stringify($(target).data("selected_ids")));
     
+    // create collection first before trying to get linked index
     $.ajax({
-      url: $(target).data("linked_index").path,
-      success: function(data, status, request) {
-        $(target).data("linked_items", data);
-        SetWidget.setup_widget(target);
-      },
-      error: function(request, status, error){
-		SetWidget.setup_widget(target);
-      },
-      data: JSON.parse(linked_index_data_as_string),
-      type: $(target).data("linked_index").method
-    }); 
+      url: "/media_resources/collection",
+      type: "POST",
+      data: { ids: $(target).data("selected_ids") },
+      success: function(data) {
+        $.ajax({
+          url: $(target).data("linked_index").path,
+          success: function(data, status, request) {
+            $(target).data("linked_items", data);
+            SetWidget.setup_widget(target);
+          },
+          error: function(request, status, error){
+            SetWidget.setup_widget(target);
+          },
+          data: {collection_id: data.collection_id},
+          type: $(target).data("linked_index").method
+        });         
+    }});
   }
   
   this.create_widget = function(target){
@@ -786,7 +790,7 @@ function SetWidget() {
         if($(target).hasClass("created")) {
           SetWidget.open_widget(target);
         } else {
-          SetWidget.load_content(target);
+          SetWidget.load(target);
           SetWidget.create_widget(target);
           $(target).addClass("created");
           $(target).addClass("open");

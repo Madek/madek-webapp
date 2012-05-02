@@ -51,8 +51,9 @@ class MediaSetsController < ApplicationController
   #
   def index(accessible_action = (params[:accessible_action] || :view).to_sym,
             with = params[:with],
+            collection_id = params[:collection_id] || nil,
             child_ids = params[:child_ids] || nil)
-
+    
     respond_to do |format|
       #-# only used for FeaturedSet
       format.html {
@@ -73,6 +74,8 @@ class MediaSetsController < ApplicationController
       }
       
       format.json {
+        
+        child_ids = MediaResource.by_collection(current_user.id, collection_id) unless collection_id.blank?
         
         sets = unless child_ids.blank?
           MediaResource.where(:id => child_ids).flat_map do |child|
