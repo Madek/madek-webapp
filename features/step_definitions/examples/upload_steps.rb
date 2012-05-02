@@ -215,12 +215,23 @@ And /^I can jump to the next file$/ do
   wait_until(15){ all(".loading", :visible => true).size == 0 }
   wait_until { find(".navigation .next:not([disabled=disabled])") }
   next_id= find(".navigation .next")[:"data-media_resource_id"]
+  puts "next_id: #{next_id}"
+  puts "??? BEFORE CLICK"
+  puts "PREVIOUS #{find(".navigation .previous")[:"data-media_resource_id"]}"
+  puts "CURRENT #{find(".navigation .current")[:"data-media_resource_id"]}"
+  puts "NEXT #{find(".navigation .next")[:"data-media_resource_id"]}"
   find(".navigation .next").click
-  wait_until { find(".navigation .current")[:"data-media_resource_id"] == next_id }
+  wait_until {
+    puts "??? LOOP"
+    puts "PREVIOUS #{find(".navigation .previous")[:"data-media_resource_id"]}"
+    puts "CURRENT #{find(".navigation .current")[:"data-media_resource_id"]}"
+    puts "NEXT #{find(".navigation .next")[:"data-media_resource_id"]}"
+    find(".navigation .current")[:"data-media_resource_id"] == next_id 
+  }
 end
 
 And /^I can jump to the previous file$/ do
-  wait_until(){ find(".navigation .previous:not([disabled=disabled])") }
+  wait_until(15){ find(".navigation .previous:not([disabled=disabled])") }
   previous_id= find(".navigation .previous")[:"data-media_resource_id"]
   find(".navigation .previous").click
   wait_until { find(".navigation .current")[:"data-media_resource_id"] == previous_id }
@@ -228,7 +239,17 @@ end
 
 And /^the files with missing metadata are marked$/ do
   wait_until {find(".item_box[data-media_resource_id]")}
+  all(".item_box[data-media_resource_id]").each do |el|
+    puts "??? VISIBLE ELEMENTS"
+    puts el[:"data-media_resource_id"]
+    puts "attention_flag?"
+    puts el.all(".attention_flag").size
+  end
   MediaEntryIncomplete.all.select{|me| not me.context_valid?(MetaContext.upload)}.map(&:id).each do |id|
+    puts "??? invalid for context"
+    puts "id #{id}"
+    puts "attention flags"
+    puts all(".item_box[data-media_resource_id='#{id}'] .attention_flag").size
     wait_until {find(".item_box[data-media_resource_id='#{id}'] .attention_flag")}
   end 
 end
