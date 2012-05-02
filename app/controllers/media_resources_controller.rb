@@ -293,7 +293,7 @@ class MediaResourcesController < ApplicationController
   
       resources = resources.where(:id => media_resource_ids)
 
-      unless params[:owner_id].empty?
+      if params[:owner_id] and (not params[:owner_id].empty?)
         resources = resources.where("user_id in (?) ", params[:owner_id].map(&:to_i))
       end
 
