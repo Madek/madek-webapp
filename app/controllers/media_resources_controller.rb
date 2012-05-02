@@ -278,6 +278,8 @@ class MediaResourcesController < ApplicationController
     resources = MediaEntry.accessible_by_user(current_user)
  
     if request.post?
+
+
       if meta_key_id and meta_term_id
         meta_key = MetaKey.find(meta_key_id)
         meta_term = meta_key.meta_terms.find(meta_term_id)
@@ -289,7 +291,14 @@ class MediaResourcesController < ApplicationController
         media_resource_ids = filter[:ids].split(',').map(&:to_i) 
       end
   
-      resources = resources.where(:id => media_resource_ids).paginate(:page => page, :per_page => per_page)
+      resources = resources.where(:id => media_resource_ids)
+
+      unless params[:owner_id].empty?
+        resources = resources.where("user_id in (?) ", params[:owner_id].map(&:to_i))
+      end
+
+      resources= resources.paginate(:page => page, :per_page => per_page)
+
       @resources = { :pagination => { :page => resources.current_page,
                                      :per_page => resources.per_page,
                                      :total => resources.total_entries,
@@ -307,7 +316,8 @@ class MediaResourcesController < ApplicationController
       @owners = User.joins(:person)
         .select("users.id as user_id, people.lastname as lastname, people.firstname as firstname")
         .where("users.id in (#{resources.search(query).select("media_resources.user_id").to_sql}) ")
-      
+        .order("lastname, firstname DESC")
+
       respond_to do |format|
         format.html { render :layout => false}
       end

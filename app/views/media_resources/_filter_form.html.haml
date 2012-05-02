@@ -15,6 +15,11 @@
               = hidden_field_tag "query", params[:query]
               %h3.filter_category.clearfix
                 = link_to "Eigentümer", "#", :class => "filter_category_link"
+                %ul
+                  - @owners.each do |owner|
+                    %li
+                      = label_tag "#{owner.lastname}, #{owner.firstname}"
+                      = check_box_tag "owner_id[]", owner.user_id
               %h3.filter_category.clearfix
                 = link_to "Medientyp und Format", "#", :class => "filter_category_link"
                 %span.ui-icon.ui-icon-triangle-1-e
