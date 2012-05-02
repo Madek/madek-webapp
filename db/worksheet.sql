@@ -9,7 +9,38 @@ SELECT DISTINCT m.* FROM `media_resources` AS m
         LEFT JOIN `userpermissions` AS up2 ON gp.media_resource_id = up2.media_resource_id)
     ON m.id = gp.media_resource_id AND gp.view = 1
 WHERE (up.id IS NOT NULL OR gp.id IS NOT NULL)
-  AND (up2.view = 1 OR up2.view IS NULL); # (up2.view != 0) doesn't work, alternative: (IFNULL(up2.view, -1) != 0) 
+  AND (up2.view = 1 OR up2.view IS NULL); -- (up2.view != 0) doesn't work, alternative: (IFNULL(up2.view, -1) != 0) 
+
+
+
+SELECT users.id as user_id, people.lastname as lastname, people.firstname as firstname 
+  FROM users, people
+  WHERE true
+  AND users.person_id = people.id
+  AND users.id in
+    (SELECT media_resources.user_id FROM "media_resources" LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id WHERE "media_resources"."type" IN ('MediaEntry') AND ( media_resources.id IN  (
+                SELECT media_resource_id FROM "userpermissions"  WHERE "userpermissions"."view" = 't' AND "userpermissions"."user_id" = 1 
+            UNION
+                SELECT media_resource_id FROM "grouppermissions" INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id WHERE "grouppermissions"."view" = 't' AND (groups_users.user_id = 1) AND ( media_resource_id NOT IN ( SELECT media_resource_id FROM "userpermissions"  WHERE "userpermissions"."view" = 'f' AND "userpermissions"."user_id" = 1 )) 
+            UNION
+                SELECT media_resources.id FROM "media_resources"  WHERE (media_resources.user_id = 1 OR media_resources.view = 't')
+                  )) AND (text ILIKE '%au%')
+              )
+              ;
+
+
+
+SELECT users.id as user_id, people.lastname as lastname, people.firstname as firstname 
+    FROM "users" 
+    INNER JOIN "people" ON "people"."id" = "users"."person_id" 
+    WHERE ( users.id in SELECT "media_resources".* FROM "media_resources" LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id WHERE "media_resources"."type" IN ('MediaEntry') AND ( media_resources.id IN  (
+            SELECT media_resource_id FROM "userpermissions"  WHERE "userpermissions"."view" = 't' AND "userpermissions"."user_id" = 1 
+        UNION
+            SELECT media_resource_id FROM "grouppermissions" INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id WHERE "grouppermissions"."view" = 't' AND (groups_users.user_id = 1) AND ( media_resource_id NOT IN ( SELECT media_resource_id FROM "userpermissions"  WHERE "userpermissions"."view" = 'f' AND "userpermissions"."user_id" = 1 )) 
+        UNION
+            SELECT media_resources.id FROM "media_resources"  WHERE (media_resources.user_id = 1 OR media_resources.view = 't')
+              )) AND (text ILIKE '%au%') )
+          ;
 
 
 -- metadata

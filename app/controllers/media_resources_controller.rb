@@ -272,6 +272,7 @@ class MediaResourcesController < ApplicationController
              meta_key_id = params[:meta_key_id],
              meta_term_id = params[:meta_term_id],
              filter = params[:filter] )
+
              
     # TODO generic search for both MediaResource.media_entries_and_media_sets
     resources = MediaEntry.accessible_by_user(current_user)
@@ -302,7 +303,11 @@ class MediaResourcesController < ApplicationController
     else
 
       @resources = resources.search(query)
-  
+
+      @owners = User.joins(:person)
+        .select("users.id as user_id, people.lastname as lastname, people.firstname as firstname")
+        .where("users.id in (#{resources.search(query).select("media_resources.user_id").to_sql}) ")
+      
       respond_to do |format|
         format.html { render :layout => false}
       end
