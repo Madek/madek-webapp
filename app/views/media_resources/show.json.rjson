@@ -37,6 +37,11 @@ if params[:with] and params[:with][:type]
   h["type"] = @media_resource.class.to_s.underscore
 end
 
+## MEDIATYPE
+if params[:with] and params[:with][:media_type]
+  h["media_type"] = @media_resource.media_type
+end
+
 ## FILENAME
 if params[:with] and params[:with][:filename]
   h["filename"] = @media_resource.is_a?(MediaSet) ? nil : @media_resource.media_file.filename
