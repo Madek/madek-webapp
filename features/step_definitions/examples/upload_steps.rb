@@ -204,30 +204,17 @@ And /^the field "Rechte" is highlighted as invalid/ do
   find(".edit_meta_datum_field[data-field_name='copyright notice'] .status .required").should be_true
 end
 
-
 Then /^I see a list of my uploaded files$/ do
   wait_until(15){ all(".loading", :visible => true).size == 0 }
   all('.media_resource_selection .media .item_box').size.should be >= 2
 end
 
-
 And /^I can jump to the next file$/ do
   wait_until(15){ all(".loading", :visible => true).size == 0 }
   wait_until { find(".navigation .next:not([disabled=disabled])") }
   next_id= find(".navigation .next")[:"data-media_resource_id"]
-  puts "next_id: #{next_id}"
-  puts "??? BEFORE CLICK"
-  puts "PREVIOUS #{find(".navigation .previous")[:"data-media_resource_id"]}"
-  puts "CURRENT #{find(".navigation .current")[:"data-media_resource_id"]}"
-  puts "NEXT #{find(".navigation .next")[:"data-media_resource_id"]}"
   find(".navigation .next").click
-  wait_until {
-    puts "??? LOOP"
-    puts "PREVIOUS #{find(".navigation .previous")[:"data-media_resource_id"]}"
-    puts "CURRENT #{find(".navigation .current")[:"data-media_resource_id"]}"
-    puts "NEXT #{find(".navigation .next")[:"data-media_resource_id"]}"
-    find(".navigation .current")[:"data-media_resource_id"] == next_id 
-  }
+  wait_until { find(".navigation .current")[:"data-media_resource_id"] == next_id }
 end
 
 And /^I can jump to the previous file$/ do
@@ -239,17 +226,7 @@ end
 
 And /^the files with missing metadata are marked$/ do
   wait_until {find(".item_box[data-media_resource_id]")}
-  all(".item_box[data-media_resource_id]").each do |el|
-    puts "??? VISIBLE ELEMENTS"
-    puts el[:"data-media_resource_id"]
-    puts "attention_flag?"
-    puts el.all(".attention_flag").size
-  end
   MediaEntryIncomplete.all.select{|me| not me.context_valid?(MetaContext.upload)}.map(&:id).each do |id|
-    puts "??? invalid for context"
-    puts "id #{id}"
-    puts "attention flags"
-    puts all(".item_box[data-media_resource_id='#{id}'] .attention_flag").size
     wait_until {find(".item_box[data-media_resource_id='#{id}'] .attention_flag")}
   end 
 end
