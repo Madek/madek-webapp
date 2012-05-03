@@ -207,6 +207,8 @@ end
 Then /^I see a list of my uploaded files$/ do
   wait_until(15){ all(".loading", :visible => true).size == 0 }
   all('.media_resource_selection .media .item_box').size.should be >= 2
+  wait_until(15){ all(".edit_meta_datum_field", :visible => true).size > 0 }
+  wait_until(15){ find(".attention_flag") } if MediaEntryIncomplete.any? {|me| not me.context_valid?(MetaContext.upload)}  
 end
 
 And /^I can jump to the next file$/ do
@@ -225,7 +227,6 @@ And /^I can jump to the previous file$/ do
 end
 
 And /^the files with missing metadata are marked$/ do
-  wait_until {find(".item_box[data-media_resource_id]")}
   MediaEntryIncomplete.all.select{|me| not me.context_valid?(MetaContext.upload)}.map(&:id).each do |id|
     wait_until {find(".item_box[data-media_resource_id='#{id}'] .attention_flag")}
   end 

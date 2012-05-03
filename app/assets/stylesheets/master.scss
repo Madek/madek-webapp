@@ -703,6 +703,14 @@ ul li { float: left; }
 	  width: 960px;
 	}
 }
+#content_body_set {
+  padding-top: 0;
+  
+  #bar {
+    margin-top: 20px;
+  }
+}
+
 #content_body_fav .page_title_left {
   margin-bottom: -35px;
 }
