@@ -163,6 +163,7 @@ Then /^the "([^"]*)" field(?: within (.*))? should not contain "([^"]*)"$/ do |f
   end
 end
 
+=begin depricated
 Then /^the "([^"]*)" checkbox(?: within (.*))? should be checked$/ do |label, parent|
   with_scope(parent) do
     field_checked = find_field(label)['checked']
@@ -172,6 +173,11 @@ Then /^the "([^"]*)" checkbox(?: within (.*))? should be checked$/ do |label, pa
       assert field_checked
     end
   end
+end
+=end
+
+Then /^the "([^"]*)" checkbox should be checked$/ do |label|
+  find("input##{label}").checked?.should be_true
 end
 
 Then /^the "([^"]*)" checkbox(?: within (.*))? should not be checked$/ do |label, parent|

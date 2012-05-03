@@ -17,7 +17,7 @@
     overflow: hidden;
     overflow-x: auto;
     position: relative;
-    top: -19px;
+    top: 1px;
     text-align: center;
     width: 100%;
   }
@@ -50,6 +50,7 @@
   &+.set_parents_title {
     position: relative;
     left: -20px;
+    padding-bottom: 14px;
     padding-left: 40px;
     padding-top: 28px;
     position: relative;
