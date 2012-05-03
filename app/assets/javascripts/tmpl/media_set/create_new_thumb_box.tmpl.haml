@@ -1,5 +1,4 @@
 .thumb_box_set.create_new{:title => "Neues Set erstellen"}
-  .plus.icon
   = form_tag media_sets_path, :remote => true do
     = hidden_field_tag "media_set[meta_data_attributes][0][meta_key_label]", "title"
     = text_field_tag "media_set[meta_data_attributes][0][value]", nil, :title => "Titel des Sets"

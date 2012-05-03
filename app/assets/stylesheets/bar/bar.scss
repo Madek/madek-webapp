@@ -11,7 +11,6 @@
   margin-bottom: 10px;
   padding-left: 40px;
   position: relative;
-  text-align: center;
   width: 100%;
   z-index: 999;
   @include box-shadows(0 1px 0 white, 0 2px 24px rgba(0,0,0,0.1));
@@ -63,7 +62,6 @@
       color: #777;
       display: none;
       text-decoration: none;
-      padding: 6px 14px 6px 24px;
       text-align: left;
       
       &.active {
@@ -77,11 +75,19 @@
     
     .icon {
       display: inline-block;
-      float: left;
       top: 14px;
-      left: 8px;
       position: absolute;
       @include opacity(0.7);
+    }
+    
+    &.sort {
+      a{ padding: 6px 20px 6px 14px; }
+      .icon { right: 8px; }
+    }
+    
+    &.scope_sets { 
+      a{ padding: 6px 14px 6px 20px; }
+      .icon { left: 8px; }
     }
     
     &:hover {
@@ -105,8 +111,9 @@
   .selection {
     display: inline-block;
     position: absolute;
-    margin-left: -146px;
+    left: 50%;
     top: 70px;
+    margin-left: -130px;
     z-index: 999;
     
     .types {
@@ -207,6 +214,10 @@
     .sort {
       float: left;
       top: -4px;
+      
+      a {
+        text-align: right;
+      }
     }
     
     .layout {

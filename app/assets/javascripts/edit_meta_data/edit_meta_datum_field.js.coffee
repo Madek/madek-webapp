@@ -100,6 +100,7 @@ class EditMetaDatumField
   @setup_copyright_selection = (field)->
     # set setted copyright as selected
     copyright = field.tmplItem().data.raw_value[0]
+    return false unless copyright? 
     if copyright.parent_id?
       # its a leave option
       # select root first

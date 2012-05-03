@@ -3,14 +3,7 @@ ${$meta_data = MetaDatum.flatten(meta_data), ""}
   %td.image
     .media_resource.thumb.micro
       %image{:src => "${image}"}
-  %td.title_author
-    %strong ${$meta_data.title}
-    %br
-    ${$meta_data.author}
-  %td.date ${$meta_data.portrayed_object_dates}
-  %td.tags{:title => "${$meta_data.keywords}"} ${Underscore.truncate($meta_data.keywords,30)}
-  %td.credits{:title => "${$meta_data.copyright_notice}"} ${Underscore.truncate($meta_data.copyright_notice,18)}
-  %td.upload
-    ${$meta_data.uploaded_by}
-    %br
-    ${$meta_data.uploaded_at}
+  {{each(i, meta_datum) meta_data}}
+  %td{:class => "${Underscore.string.underscored(meta_datum.name)}", :title => "${meta_datum.value}"}
+    ${Str.sliced_trunc(meta_datum.value,30)}
+  {{/each}}

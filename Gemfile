@@ -106,7 +106,7 @@ end
 
 group :development, :production do
   gem "yard", "~> 0.7.4"
-  gem "yard-rest", :git => "git://github.com/spape/yard-rest-plugin.git"
+  gem "yard-rest", "~> 1.0.5"
   gem 'redcarpet' # yard-rest dependency
 end
 
@@ -119,4 +119,5 @@ group :test do
   gem 'selenium-webdriver', '> 2.15.0'
   gem 'simplecov' 
   gem 'simplecov' # for Ruby 1.8.x:  gem 'rcov'
+  gem 'capybara-screenshot'
 end

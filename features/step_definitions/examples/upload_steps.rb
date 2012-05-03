@@ -55,11 +55,9 @@ Then /^I add the media entry to a set called "([^"]*)"$/ do |arg1|
   @media_entry_incomplete.media_sets.empty?.should be_true
   visit "/upload/set_media_sets"
   find("button", :text => "Einträge zu einem Set hinzufügen").click
-  step 'I search for "Konzepte"'
   step 'I should see the "Konzepte" set inside the widget'
   step 'I select "Konzepte" as parent set'
   step 'I submit the selection widget'
-  @media_entry_incomplete.reload.media_sets.empty?.should == false
 end
 
 
@@ -118,9 +116,7 @@ When /^I have started uploading some files$/ do
 end
 
 When /^I cancel the upload$/ do
-  wait_until(10) do
-    all(".next:not(.disabled)").size == 1
-  end
+  sleep(1)
   step 'follow "Abbrechen"'
   page.driver.browser.switch_to.alert.accept
 end
@@ -200,6 +196,7 @@ And /^I try to continue in the import process$/ do
 end
 
 Then /^I see an error message "([^"]*)"$/ do |msg|
+  wait_until { find(".dialog") }
   page.should have_content msg
 end
 
@@ -207,27 +204,31 @@ And /^the field "Rechte" is highlighted as invalid/ do
   find(".edit_meta_datum_field[data-field_name='copyright notice'] .status .required").should be_true
 end
 
-
 Then /^I see a list of my uploaded files$/ do
+  wait_until(15){ all(".loading", :visible => true).size == 0 }
   all('.media_resource_selection .media .item_box').size.should be >= 2
+  wait_until(15){ all(".edit_meta_datum_field", :visible => true).size > 0 }
+  wait_until(15){ find(".attention_flag") } if MediaEntryIncomplete.any? {|me| not me.context_valid?(MetaContext.upload)}  
 end
 
-
 And /^I can jump to the next file$/ do
-  next_name= find(".navigation .next").find(".name").text
+  wait_until(15){ all(".loading", :visible => true).size == 0 }
+  wait_until { find(".navigation .next:not([disabled=disabled])") }
+  next_id= find(".navigation .next")[:"data-media_resource_id"]
   find(".navigation .next").click
-  find(".navigation .current").find(".name").text.should == next_name
+  wait_until { find(".navigation .current")[:"data-media_resource_id"] == next_id }
 end
 
 And /^I can jump to the previous file$/ do
-  previous_name= find(".navigation .previous").find(".name").text
+  wait_until(15){ find(".navigation .previous:not([disabled=disabled])") }
+  previous_id= find(".navigation .previous")[:"data-media_resource_id"]
   find(".navigation .previous").click
-  find(".navigation .current").find(".name").text.should == previous_name
+  wait_until { find(".navigation .current")[:"data-media_resource_id"] == previous_id }
 end
 
 And /^the files with missing metadata are marked$/ do
-  MediaEntryIncomplete.all.select{|me| not me.context_valid?(MetaContext.upload)}.map(&:id).each do |id| 
-    find(".item_box[data-media_resource_id='#{id}'] .attention_flag").should_not be_false
+  MediaEntryIncomplete.all.select{|me| not me.context_valid?(MetaContext.upload)}.map(&:id).each do |id|
+    wait_until {find(".item_box[data-media_resource_id='#{id}'] .attention_flag")}
   end 
 end
 
@@ -240,13 +241,10 @@ When /^I choose to list only files with missing metadata$/ do
 end
 
 Then /^only files with missing metadata are listed$/ do
-  
   MediaEntryIncomplete.all.select{|me| not me.context_valid?(MetaContext.upload)}.map(&:id).each do |id| 
-    find(".item_box[data-media_resource_id='#{id}'] .attention_flag").should_not be_false
+    wait_until {find(".item_box[data-media_resource_id='#{id}'] .attention_flag")}
   end 
-
- MediaEntryIncomplete.all.select{|me| me.context_valid?(MetaContext.upload)}.map(&:id).each do |id| 
-    all(".item_box[data-media_resource_id='#{id}']",visible: true).size.should == 0
+  MediaEntryIncomplete.all.select{|me| me.context_valid?(MetaContext.upload)}.map(&:id).each do |id| 
+    wait_until {all(".item_box[data-media_resource_id='#{id}']",visible: true).size.should == 0}
   end 
-
 end

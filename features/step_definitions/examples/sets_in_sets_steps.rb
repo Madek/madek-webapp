@@ -237,11 +237,8 @@ Then /^I can add all of them to one set$/ do
   wait_until { find(".set.widget .list li") }
   step 'I select "%s" as parent set' % target.title
   step 'I submit the selection widget'
-  puts 3  
   step 'I open the selection widget for this batchedit'
-  puts 4  
-  step 'the "%s" checkbox should be checked' % target.title
-  puts 5  
+  step 'the "%s" checkbox should be checked' % target.title.gsub(/\s/, "_")
 end
 
 Then /^I can remove all of them from one set$/ do

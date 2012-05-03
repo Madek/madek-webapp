@@ -22,6 +22,13 @@ MAdeK::Application.routes.draw do
   
   match '/nagiosstat', :to => Nagiosstat
 
+
+### media_resource_arcs ###############################
+   
+  match "/media_resource_arcs/:parent_id", controller: "media_resource_arcs", action: "get_arcs_by_parent_id", via: [:get]
+  match "/media_resource_arcs/", controller: "media_resource_arcs", action: "get_arcs_by_parent_id", via: [:get]
+  match "/media_resource_arcs/", controller: "media_resource_arcs", action: "update_arcs", via: [:put]
+
 ################################################
 
   resources :permissions, :only => :index, :format => true, :constraints => {:format => /json/} do
@@ -37,6 +44,7 @@ MAdeK::Application.routes.draw do
   resources :keywords, only: :index
   resources :meta_data, only: [:update] # TODO merge to media_resources#update ??
   resources :copyrights, only: :index
+
 
 ###############################################
 #NOTE first media_entries and then media_sets

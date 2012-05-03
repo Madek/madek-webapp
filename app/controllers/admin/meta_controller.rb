@@ -21,12 +21,20 @@ class Admin::MetaController < Admin::AdminController
         a
       end
 
+      h[:meta_context_groups] = MetaContextGroup.all.collect do |meta_context_group|
+        meta_context_group.attributes.select {|k,v| not v.blank? }
+      end
+
       h[:meta_contexts] = MetaContext.all.collect do |meta_context|
         meta_context.attributes.select {|k,v| not v.blank? }
       end
 
       h[:meta_key_definitions] = MetaKeyDefinition.all.collect do |meta_key_definition|
         meta_key_definition.attributes.select {|k,v| not v.blank? and not k =~ /ated_at$/ }
+      end
+
+      h[:permission_presets] = PermissionPreset.all.collect do |permission_preset|
+        permission_preset.attributes.select {|k,v| not v.blank? and not k =~ /ated_at$/ }
       end
 
 #future#

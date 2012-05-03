@@ -8,7 +8,7 @@ module MediaResourcesHelper
     elsif not params[:query].blank?
       [_("Suchergebnisse"), _("für \"%s\"") % params[:query]] 
     elsif params[:media_set_id]
-      [_("Set enthält"), _(" von %d für Sie sichtbar") % MediaResource.by_media_set(params[:media_set_id]).count]
+      [_("Set enthält"), _(" von %d für Sie sichtbar") % MediaSet.find(params[:media_set_id]).children.count]
     end 
 
     r ||= case current_settings

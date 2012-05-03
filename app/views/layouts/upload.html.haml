@@ -44,7 +44,7 @@
           - elsif current_page?(:controller => :upload, :action => :permissions)
             = link_to _("Berechtigungen speichern und weiter..."), "javascript:void(0)", :onclick => "$('#upload form').submit();", :class => "upload_buttons next disabled", :id => "save_permissions"
           - elsif current_page?(:controller => :upload, :action => :edit)
-            = link_to _("weiter..."), "javascript:void(0)", :onclick => "$('#upload form').submit();", :class => "upload_buttons next disabled", :id => "finish_meta_data"
+            = link_to _("weiter..."), "javascript:void(0)", :class => "upload_buttons next disabled", :id => "finish_meta_data"
           - elsif current_page?(:controller => :upload, :action => :set_media_sets)
             = link_to _("Import abschliessen"), complete_upload_path, :id => "cancel_import", :method => :put, :class => "upload_buttons next",:id => "complete_import"
           = link_to "Abbrechen", upload_path, :title=> "Import Abbrechen", :id => "cancel_import", :method => :delete, :confirm => "Wollen Sie den Import wirklich abbrechen?"

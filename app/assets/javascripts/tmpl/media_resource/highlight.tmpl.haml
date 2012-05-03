@@ -1,0 +1,8 @@
+%a{:class => "highlight ${type}",:href => "/media_resources/${id}", :title => "${title} {{if author}}-{{/if}} ${author}"}
+  .table
+    .cell
+      %img{:src => "${image}"}
+  .text
+    .title ${Str.sliced_trunc(title, 22)}
+    .author ${Str.sliced_trunc(author, 22)} 
+    

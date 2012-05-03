@@ -25,10 +25,12 @@ class MetaContextsController < ApplicationController
   #
   # @optional [Hash] with[keys] Adds MetaKeys to the responding MetaContext. 
   #
-  # @example_request {} Request the "upload" MetaContext (/meta_contexts/upload.json)
+  # @example_request /meta_contexts/upload.json
+  # @example_request_description Request the "upload" MetaContext.
   # @example_response {"name": "upload", "label": "Upload", "description": "Context needed for fill in MetaData during upload."}
   #
-  # @example_request {"name": "upload", "with": {"meta_keys": true}} Request the MetaContext "upload" with MetaKeys.
+  # @example_request {"name": "upload", "with": {"meta_keys": true}} 
+  # @example_request_description Request the MetaContext "upload" with MetaKeys.
   # @example_response {"name": "upload", "label": "Upload", "description": "Context needed for fill in MetaData during upload." "meta_keys":[{"name": "title", "position": 1, "settings": {"is_required":true, "min_length": 0, "max_length": 255}, "label": "Title", "hint": null, "description": "The title of the media entry"},...]}
   #
   # @response_field [String] name The name of the MetaContext.

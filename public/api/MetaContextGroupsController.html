@@ -37,51 +37,125 @@
 			padding: 12px;
 			line-height: 1.9em;
 		}
+		a.back {
+			font-size: 1.2em;
+			padding: 4px;
+		}
+		p.method_desc {
+			padding: 16px 0 0 14px;
+			font-size: 1.2em;
+		}
 		h2 {
 			margin: 2.4em 0 0.5em;
+		}
+		h2 + p {
+			font-size: 1.2em;
+			margin-bottom: 62px;
+		}
+		.method {
+			display: block;
+			margin-top: 40px;
+			padding-top: 0;
+			position: relative;
+			box-shadow: 0 -6px 12px rgba(0,0,0,0.1);
 		}
 		h3 {
 			font-size: 1.2em;
 			font-weight: normal;
-			padding-top: 22px;
+			padding-top: 6px;
 			margin-bottom: -6px;
+		}
+		h4 {
+			margin: 0;
 		}
 		#resources {
 			padding: 14px 20px 52px;
 		}
 		#resources li {
+			border-right: 1px solid #0055AA;
 			display: block;
-			font-size: 1.3em;
+			font-size: 1.4em;
 			float: left;
-			width: 140px;
+			padding-right: 14px;
+			padding-left: 12px;
 		}
 		.resource_url {
+			border: 1px solid white;
 			display: block;
 			background: #EAF0FF;
-			padding: 12px;
+			margin-top: 11px;
+			padding: 12px 12px 18px;
 		}
 		#search_frame #search {
 			display: none;
 		}
-		.parameters {
-			
+		.parameters, .response_fields {
+			background: none repeat scroll 0 0 #EAF0FF;
 		}
 		.parameters .required {
-			float: left;
-			min-width: 300px;
-			width: 50%;
+			background: #d5e1ff;
+			padding: 12px;
+			border: 1px solid white;
 		}
-		.parameters .optional {
-			float: left;
-			min-width: 300px;
-			width: 50%;
+		.parameters .optional, .response_fields {
+			padding: 18px 12px 12px 12px;
+			border: 1px solid white;
+		}
+		.parameters .optional ul li, .parameters .required li, .response_fields li {
+			display: block;
+			padding: 4px 0 0 6px;
+		}
+		.parameters .optional ul li .name, .parameters .required li .name, .response_fields li .name {
+			font-weight: bold;
+		}
+		.parameters .optional ul li .text, .parameters .required li .text, .response_fields li .text {
+			display: block;
+		}
+		.examples {
+			padding: 32px 12px 12px 12px;
+		}
+		.example {			
+			border-bottom: 1px solid #BBB;
+			display: block;
+			padding: 18px 0 26px;
+			margin-bottom: 14px;
+			margin-top: 8px;
+		}
+		.example .description {
+			display: block;
+			font-size: 1.2em;
+			margin: 8px 0;
+		}
+		
+		.example .hash {
+			display: block;
+			background: #EEF;
+			font-size: 1.1em;
+			border-radius: 4px;
+			box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+			padding: 12px;
+		}
+		
+		.example .hash .type {
+			display: block;
+			font-size: 0.8em;
+			color: #99A;
+			padding-bottom: 6px;
+		}
+		
+		.example .hash.request {
+			border-bottom-left-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+		
+		.example .hash.response {
+			border-top: 1px solid white;
+			border-top-left-radius: 0;
+			border-top-right-radius: 0;
 		}
 	</style>
 	<script type="text/javascript">
 		//<![CDATA[
-		  if (! window.location.href.match(/\/$/) && ! window.location.href.match(/\./)) {
-		    window.location.href = window.location.href+"/";
-		  }
 		
 			function setup_toc() {
 	 		  if ($('#content').length === 0) return;
@@ -157,54 +231,77 @@
     <div id="content" style="padding-top: 12px;">
 		<div class="service">
   <h1 class="noborder title">MAdeK-API</h1>
-    <a href="index.html" title="back to the overview">&laquo; Overview</a>
+    <a class="back" href="index.html" title="back to the overview">&laquo; back to overview</a>
+    <h2>MetaContextGroups</h2>
     
   <div id="Services" class="method_details_list">
-    <h2>MetaContextGroups</h2>
-
     
-		<h3 class="resource_url"><strong>/meta_context_groups</strong> [GET]</h3>
-		<p>returns a list of all MetaContextGroups</p>
-		
-		<div class="parameters">
-			<div class="required">
+		<div class="method">
+			<p class="method_desc">returns a list of all MetaContextGroups</p>
+			<h3 class="resource_url"><strong>/meta_context_groups</strong> [GET]</h3>
+
+			<div class="parameters">	
 				
-					<h4>Required Parameters</h4>
-					
+					<div class="required">
+						<h4>Required Parameters</h4>
+						
+					</div>
 				
-			</div>
-		
-			<div class="optional">
+
 				
-					<h4>Optional Parameters</h4>
-					
+					<div class="optional">
+						<h4>Optional Parameters</h4>
+						
+					</div>
 				
-			</div>
-		<div class="clear"></div>
-		</div>
-		
-		<div class="request_response">
-			<div class="requests">
-				
-					<h4>Required Parameters</h4>
-					
-				
-			</div>
+			</div><!-- parameters -->
 			
-			<div class="responses">
-				
-					<h4>Optional Parameters</h4>
-					
-				
-			</div>
-		<div class="clear"></div>
-		</div>
-		
-		<div class="response_fields">
 			
-		<div class="clear"></div>
-		</div>
-		
+				<div class="response_fields">
+					<h4>Response Fields</h4>
+					
+						<ul>
+							<li>
+								<span class="name">id</span>
+								<span class="type">integer</span>
+								<span class="text">The id of the MetaContextGroup.</span>
+							</li>
+						</ul>
+					
+						<ul>
+							<li>
+								<span class="name">name</span>
+								<span class="type">string</span>
+								<span class="text">The name of the MetaContextGroup.</span>
+							</li>
+						</ul>
+					
+				</div>
+			
+			
+			
+				<div class="examples">
+					<h4>Examples</h4>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description"></span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								{}
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								[{"id":1,"name":"TheGroupName"}]
+							</span>
+							<span class="description"></span>
+						</div>
+					
+				</div>
+			
+		</div>	
     
   </div>
 
@@ -225,7 +322,7 @@
 	</div>
     
     <div id="footer">
-  Generated on Wed Mar 14 11:39:26 2012 with ruby-1.9.3
+  Generated on Mon Apr 30 15:40:09 2012 with ruby-1.9.3
 </div>
 
   </body>

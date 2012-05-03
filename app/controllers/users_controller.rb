@@ -17,7 +17,8 @@ class UsersController < ApplicationController
   # @example_request {"query": "franco"}
   # @example_response [{"id":1,"name":"Sellitto, Franco"}] 
   #
-  # @example_request {"exclude_group_id": 1} assuming that Franco is member of group_id 1
+  # @example_request {"exclude_group_id": 1} 
+  # @example_request_description Assuming that Franco is member of group_id 1
   # @example_response [{"id":2,"name":"Pape, Sebastian"}] 
   #
   def index(query = params[:query],

@@ -1,0 +1,15 @@
+${$meta_data = MetaDatum.flatten(meta_data), ""}
+%tr{:"data-media_resource_id" => "${id}"}
+  %td.image.selection
+    .container
+      %label{:for => "selected_${id}"}
+        %input{:type => "checkbox", :id => "selected_${id}"}
+        .media_resource.thumb.micro
+          %image{:src => "${image}"}
+      {{if type == "media_set"}}
+      .media_set.icon{:title => "Set"}
+      {{/if}}
+  {{each(i, meta_datum) meta_data}}
+  %td{:class => "${Underscore.string.underscored(meta_datum.name)}", :title => "${meta_datum.value}"}
+    ${Str.sliced_trunc(meta_datum.value,30)}
+  {{/each}}

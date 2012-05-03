@@ -66,14 +66,14 @@ task :make_tmp do
 end
 
 namespace :deploy do
-	task :start do
-	# we do absolutely nothing here, as we currently aren't
-	# using a spinner script or anything of that sort.
-	end
+  task :start do
+    # we do absolutely nothing here, as we currently aren't
+    # using a spinner script or anything of that sort.
+  end
 
-	task :restart do
+  task :restart do
     run "touch #{latest_release}/tmp/restart.txt"
-	end
+  end
 end
 
 task :link_attachments do
@@ -95,7 +95,11 @@ task :configure_environment do
   run "sed -i 's,config.consider_all_requests_local.*,config.consider_all_requests_local = true,'  #{release_path}/config/environments/production.rb"
 end
 
-task :migrate_database do
+task :load_empty_instance_with_personas do
+  run "mysql --user=#{sql_username} --pasword=#{sql_password} #{sql_database} < #{Rails.root + '/db/empty_medienarchiv_instance_with_personas.sql'}"
+end
+
+task :backup_database do
   # Produce a string like 2010-07-15T09-16-35+02-00
   date_string = DateTime.now.to_s.gsub(":","-")
   dump_dir = "#{deploy_to}/#{shared_dir}/db_backups"
@@ -105,13 +109,14 @@ task :migrate_database do
   # because run catches the exit code of mysqldump
   run "mysqldump -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -r #{dump_path} #{sql_database}"
   run "bzip2 #{dump_path}"
+end
 
+task :migrate_database do
   # Migration here 
   # deploy.migrate should work, but is buggy and is run in the _previous_ release's
   # directory, thus never runs anything? Strange.
   #deploy.migrate
   run "cd #{release_path} && RAILS_ENV='production'  bundle exec rake db:migrate"
-
 end
 
 task :precompile_assets do
@@ -139,15 +144,19 @@ task :clear_cache do
 end
 
 before "deploy", "retrieve_db_config"
-before "deploy:symlink", :make_tmp
+before "deploy:create_symlink", :make_tmp
 
-after "deploy:symlink", :link_config
-after "deploy:symlink", :link_attachments
-after "deploy:symlink", :configure_environment
-after "deploy:symlink", :record_deploy_info 
-after "deploy:symlink", :generate_documentation 
+after "deploy:create_symlink", :link_config
+after "deploy:create_symlink", :link_attachments
+after "deploy:create_symlink", :configure_environment
+after "deploy:create_symlink", :record_deploy_info 
+#after "deploy:create_symlink", :generate_documentation 
 
+before "migrate_database", :backup_database
+# Enable this once we have a complete persona data set in /db/empty_medienarchiv_instance_with_personas.sql
+#after "backup_database", :load_empty_instance_with_personas
 after "link_config", :migrate_database
+
 after "link_config", "precompile_assets"
 after "migrate_database", :clear_cache
 

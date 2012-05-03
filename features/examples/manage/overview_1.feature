@@ -60,8 +60,3 @@ Feature: Overview I
     Then the counter is formatted as "N von M für Sie sichtbar"
     When I go to search results
     Then the counter is formatted as "N Resultate"
-
-  # https://www.pivotaltracker.com/story/show/21438575
-  Scenario: Displaying the appropriate placeholder icon for a file that can't be previewed
-    Given the system is set up
-    Then each of the following media types has its own representing icon according to the mappings in the file "config/mime_icons.yml"

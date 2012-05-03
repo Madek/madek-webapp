@@ -432,6 +432,7 @@ class EditMetaData
       media_resource_ids: media_resource_ids
       callback: EditMetaData.setup_media_resources
       contexts: ["upload"]
+      additional_parameters: {filename: true}
   
   @setup_media_resources = ()->
     if ! @initalized

@@ -112,7 +112,7 @@ module Persona
       @mein_erstes_photo = Factory(:media_entry, 
                                    :user => @user, 
                                    :view => true,
-                                   :media_sets => [@mein_test_set], 
+                                   :parent_sets => [@mein_test_set], 
                                    :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Mein Erstes Photo (mit der neuen Nikon)"}})
     end
   end  
