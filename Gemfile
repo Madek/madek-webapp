@@ -119,4 +119,5 @@ group :test do
   gem 'selenium-webdriver', '> 2.15.0'
   gem 'simplecov' 
   gem 'simplecov' # for Ruby 1.8.x:  gem 'rcov'
+  gem 'capybara-screenshot'
 end
