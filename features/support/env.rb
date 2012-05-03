@@ -60,3 +60,11 @@ at_exit do
   # remove dropbox 
   FileUtils.rm_rf("#{Rails.root}/tmp/dropbox")
 end
+
+Before do
+  DatabaseCleaner.start
+end
+
+After do |scenario|
+  DatabaseCleaner.clean
+end

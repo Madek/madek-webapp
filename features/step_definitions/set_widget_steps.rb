@@ -42,13 +42,16 @@ end
 
 When /^(?:|I )select "(.+)" as parent set$/ do |label|
   label.gsub!(/\s/, "_")
+  raise "#{label} is already selected so you can not select it again" if find("input##{label}").checked?
   find("input##{label}:not(selected)").click
+  raise "#{label} was not selected" unless find("input##{label}").checked?
 end
 
 When /^(?:|I )deselect "(.+)" as parent set$/ do |label|
   label.gsub!(/\s/, "_")
   raise "#{label} is not selected so you can not deselect it" unless find("input##{label}").checked?
   find("input##{label}").click
+  raise "#{label} was not deselected" if find("input##{label}").checked?
 end
 
 When /^(?:|I )submit the selection widget$/ do
