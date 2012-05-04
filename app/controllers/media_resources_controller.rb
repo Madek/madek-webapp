@@ -318,6 +318,8 @@ class MediaResourcesController < ApplicationController
         .where("users.id in (#{resources.search(query).select("media_resources.user_id").to_sql}) ")
         .order("lastname, firstname DESC")
 
+
+
       respond_to do |format|
         format.html { render :layout => false}
       end

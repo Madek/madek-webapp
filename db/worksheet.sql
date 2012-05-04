@@ -12,6 +12,13 @@ WHERE (up.id IS NOT NULL OR gp.id IS NOT NULL)
   AND (up2.view = 1 OR up2.view IS NULL); -- (up2.view != 0) doesn't work, alternative: (IFNULL(up2.view, -1) != 0) 
 
 
+SELECT * 
+  FROM "grouppermissions" INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id 
+  WHERE "grouppermissions"."view" = 't' 
+  AND (groups_users.user_id = 1) 
+  AND ( media_resource_id NOT IN ( SELECT media_resource_id FROM "userpermissions"  WHERE "userpermissions"."view" = 'f' AND "userpermissions"."user_id" = 1 )) 
+
+
 
 SELECT users.id as user_id, people.lastname as lastname, people.firstname as firstname 
   FROM users, people
