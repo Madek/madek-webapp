@@ -163,3 +163,8 @@ icons:
     icon: base_document.png 
     extensions:
       - txt
+
+  - mime-type: application/pdf 
+    icon: base_document.png
+    extensions:
+      - pdf 
