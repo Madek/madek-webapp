@@ -8,7 +8,7 @@ class MergeMsmeJointableIntoMra < ActiveRecord::Migration
   def up
 
     MediaEntriesMediaSets.all.each do |con| 
-      MediaSet.find(con.media_set_id).media_entries << MediaEntry.find(con.media_entry_id)
+      MediaSet.find(con.media_set_id).media_entries << MediaResource.find(con.media_entry_id)
     end
 
     drop_table :media_entries_media_sets
