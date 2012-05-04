@@ -297,6 +297,14 @@ class MediaResourcesController < ApplicationController
         resources = resources.where("user_id in (?) ", params[:owner_id].map(&:to_i))
       end
 
+      if params[:group_id] and (not params[:group_id].empty?)
+        resources = resources.where( %Q< media_resources.id  in (
+          #{MediaResource
+             .grouppermissions_not_disallowed(current_user, :view)
+             .where("grouppermissions.group_id in ( ? )",params[:group_id].map(&:to_i))
+             .select("media_resource_id").to_sql})>)
+      end
+
       resources= resources.paginate(:page => page, :per_page => per_page)
 
       @resources = { :pagination => { :page => resources.current_page,
@@ -318,7 +326,10 @@ class MediaResourcesController < ApplicationController
         .where("users.id in (#{resources.search(query).select("media_resources.user_id").to_sql}) ")
         .order("lastname, firstname DESC")
 
-
+      @groups = Group.where( %Q< groups.id in ( 
+          #{MediaResource.grouppermissions_not_disallowed(current_user, :view).select("grouppermissions.group_id").to_sql}
+          )>) 
+        .order("name ASC")
 
       respond_to do |format|
         format.html { render :layout => false}
