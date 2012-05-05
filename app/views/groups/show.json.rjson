@@ -1,5 +1,5 @@
 {
-  id: @group.id
+  id: @group.id,
   name: @group.name,
   type: @group.type,
 
