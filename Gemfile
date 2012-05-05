@@ -3,7 +3,6 @@ source 'http://gems.github.com'
 
 gem 'rails', '3.1.3'
 gem 'builder', '~> 3.0'   
-gem 'rabl'
 gem 'i18n' # Need this explicitly, otherwise can't deploy
 
 gem 'mysql2', '~> 0.3.8'  
@@ -84,7 +83,7 @@ group :test, :development do
   gem "jasmine-headless-webkit", "~> 0.8.4" # needed for "headless" running of jasmine tests (needed for CI)
   gem "jasmine-rails", "~> 0.0.2" # javascript test environment
   gem "jasminerice", "~> 0.0.8" # needed for implement coffeescript, fixtures and asset pipeline serverd css into jasmine
-  gem "rb-fsevent", "~> 0.4.3.1"
+  gem "rb-fsevent", "~> 0.9"
   gem "ruby_gntp", "~> 0.3.4"
   gem 'autotest'
   gem 'database_cleaner'

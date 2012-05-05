@@ -1,0 +1,7 @@
+@meta_context_groups.map do |meta_context_group|
+  {
+    id: meta_context_group.id
+    name: meta_context_group.name,
+    position: meta_context_group.position
+  }
+end
