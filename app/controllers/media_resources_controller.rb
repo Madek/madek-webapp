@@ -309,19 +309,34 @@ class MediaResourcesController < ApplicationController
 
         presets = PermissionPreset.where(" id in ( ? )",  params[:permission_preset].map(&:to_i))
 
-        # filtering by userpermissions
+        # filtering by grouppermissions
         resources = resources.where(" media_resources.id in ( " +
           presets.reduce("( SELECT NULL) \n") do |query,preset|
           query +
             "UNION (" +
-            Constants::Actions.reduce(Userpermission) do |up,action|
+            Constants::Actions.reduce(Grouppermission) do |up,action|
               up.where(action => preset[action])
             end
-              .where(user_id: current_user)
+              .joins(group: :users)
+              .where("users.id = ?", current_user.id)
               .joins(:media_resource)
               .select("media_resources.id as media_resource_id")
               .to_sql + ") \n"
           end + " ) \n")
+
+        # filtering by userpermissions
+#        resources = resources.where(" media_resources.id in ( " +
+#          presets.reduce("( SELECT NULL) \n") do |query,preset|
+#          query +
+#            "UNION (" +
+#            Constants::Actions.reduce(Userpermission) do |up,action|
+#              up.where(action => preset[action])
+#            end
+#              .where(user_id: current_user)
+#              .joins(:media_resource)
+#              .select("media_resources.id as media_resource_id")
+#              .to_sql + ") \n"
+#          end + " ) \n")
 
       end
 
