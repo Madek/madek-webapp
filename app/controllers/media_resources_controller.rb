@@ -279,7 +279,6 @@ class MediaResourcesController < ApplicationController
  
     if request.post?
 
-
       if meta_key_id and meta_term_id
         meta_key = MetaKey.find(meta_key_id)
         meta_term = meta_key.meta_terms.find(meta_term_id)
@@ -303,6 +302,23 @@ class MediaResourcesController < ApplicationController
              .grouppermissions_not_disallowed(current_user, :view)
              .where("grouppermissions.group_id in ( ? )",params[:group_id].map(&:to_i))
              .select("media_resource_id").to_sql})>)
+      end
+
+
+      if params[:permission_preset] and (not params[:permission_preset].empty?)
+        presets = PermissionPreset.where(" id in ( ? )",  params[:permission_preset].map(&:to_i))
+
+        presets.each do |preset|
+
+          #Constants::Actions.reduce(Userpermission) 
+
+
+          up = Userpermission.where(true)
+          Constants::Actions.each do |action|
+            up = up.where(action => preset[action])
+          end
+            up = up.where(user_id: current_user)
+        end
       end
 
       resources= resources.paginate(:page => page, :per_page => per_page)
@@ -330,6 +346,8 @@ class MediaResourcesController < ApplicationController
           #{MediaResource.grouppermissions_not_disallowed(current_user, :view).select("grouppermissions.group_id").to_sql}
           )>) 
         .order("name ASC")
+
+      @permission_presets = PermissionPreset.all
 
       respond_to do |format|
         format.html { render :layout => false}
