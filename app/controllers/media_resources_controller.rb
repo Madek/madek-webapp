@@ -306,20 +306,25 @@ class MediaResourcesController < ApplicationController
 
 
       if params[:permission_preset] and (not params[:permission_preset].empty?)
+
         presets = PermissionPreset.where(" id in ( ? )",  params[:permission_preset].map(&:to_i))
 
-        presets.each do |preset|
+        # filtering by userpermissions
+        resources = resources.where(" media_resources.id in ( " +
+          presets.reduce("( SELECT NULL) \n") do |query,preset|
+          query +
+            "UNION (" +
+            Constants::Actions.reduce(Userpermission) do |up,action|
+              up.where(action => preset[action])
+            end
+              .where(user_id: current_user)
+              .joins(:media_resource)
+              .select("media_resources.id as media_resource_id")
+              .to_sql + ") \n"
+          end + " ) \n")
 
-          #Constants::Actions.reduce(Userpermission) 
-
-
-          up = Userpermission.where(true)
-          Constants::Actions.each do |action|
-            up = up.where(action => preset[action])
-          end
-            up = up.where(user_id: current_user)
-        end
       end
+
 
       resources= resources.paginate(:page => page, :per_page => per_page)
 
