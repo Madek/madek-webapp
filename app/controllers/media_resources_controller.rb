@@ -313,7 +313,7 @@ class MediaResourcesController < ApplicationController
         resources = resources.where(" media_resources.id in ( " +
           presets.reduce("( SELECT NULL) \n") do |query,preset|
           query +
-            "UNION (" +
+            "UNION ((" +
             Constants::Actions.reduce(Grouppermission) do |up,action|
               up.where(action => preset[action])
             end
@@ -321,7 +321,12 @@ class MediaResourcesController < ApplicationController
               .where("users.id = ?", current_user.id)
               .joins(:media_resource)
               .select("media_resources.id as media_resource_id")
-              .to_sql + ") \n"
+              .to_sql + ") " +
+                if SQLHelper.adapter_is_postgresql? 
+                  "EXCEPT ( " + (MediaResource.joins(:userpermissions).where("userpermissions.user_id = ?",current_user.id).select("media_resources.id").to_sql) + "))"
+                else
+                  ")"
+                end
           end + " ) \n")
 
         # filtering by userpermissions
