@@ -54,7 +54,7 @@ load_children = (target)->
         with: 
           media_set:
             media_resources:
-              type: 1
+              type: true
               image:
                 as:"base64"
                 size:"small"
@@ -77,7 +77,7 @@ load_parents = (target)->
         with: 
           media_set:
             parent_sets:
-              type: 1
+              type: true
               image:
                 as:"base64"
                 size:"small"

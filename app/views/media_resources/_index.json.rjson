@@ -1,16 +1,3 @@
-h = {
-  media_resources: media_resources.map do |media_resource|
-    render :partial => "media_resources/show.json.rjson", :locals => {media_resource: media_resource, with: (with || nil)}
-  end
-}
-
-if (with || nil)
-  if with[:pagination]
-    h[:pagination] = {total: media_resources.total_entries,
-                      page: media_resources.current_page,
-                      per_page: media_resources.per_page,
-                      total_pages: media_resources.total_pages}
-  end
+media_resources.map do |media_resource|
+  render :partial => "media_resources/show.json.rjson", :locals => {media_resource: media_resource, with: (with || nil)}
 end
-
-h

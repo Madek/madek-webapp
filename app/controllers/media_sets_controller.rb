@@ -91,33 +91,27 @@ class MediaSetsController < ApplicationController
   end
 
   ##
-  # Get a specific media set
+  # Get a specific media set:
   # 
-  # @url [GET] /media_sets/:id?[arguments]
-  # 
-  # @argument [id] integer The id of the specific media_set 
-  # 
-  # @argument [with] hash Options forwarded to the results which will be inside of the respond 
-  # 
-  # @example_request
-  #   {"id": 34, "with": {"media_set": {"media_entries": 1}}}
+  # @resource /media_sets/:id
   #
-  # @request_field [Integer] id The id of the requested media_set
-  # @request_field [Hash] with Options forwarded to the results which will be inside of the respond
-  # @request_field [Hash] with.set Options forwarded to all resulting models from type set
-  # @request_field [Hash] with.set.media_entries When this hash of options is setted, it forces all result sets
-  #   to include their media_entries forwarding the options. When "media_entries" is just setted to 1, then 
-  #   they are include but without forwarding any options.
+  # @action GET
   #
-  # @example_response
-  #   [{"id":422, "media_entries": [{"id":2}, {"id":3}]}, {"id":423, "media_entries": [{"id":1}, {"id":4}]}]
+  # @required [Integer] id The id of the specific MediaSet.
   #
-  # @response_field [Integer] id The id of a set 
-  # @response_field [Hash] media_entries Media entries of the set
-  # @response_field [Integer] media_entries[].id The id of a media entry
+  # @optional [Hash] with You can use all "with" parameters that are valid for MediaResources.
+  # @optional [Hash/Boolean] with[children] Adds the children to the responding MediaSet. You can define either the type (media_set or media_entry) or just include all childrens with true.
   #
-  def show(thumb = params[:thumb],
-           with = params[:with],
+  # @example_request {"id": 1, "with": {"children": true}}
+  # @example_request_description Request the MediaSet with id 1 including children of all kinds.
+  # @example_response {"id":1, "type":"media_set" "children": [{"id": 3, "type": "media_entry"}, {"id": 4, "type": "media_set"}]}
+  # @example_request_description The MediaSet with id 1 is containing a MediaEntry (id: 3) and a MediaSet (id: 4).
+  #
+  # @response_field [Integer] id The id of the MediaSet.
+  # @response_field [Integer] type The type of the MediaSet (in this case always "media_set").
+  # @response_field [Array] children The children of the specific MediaSet.
+  #
+  def show(with = params[:with],
            page = params[:page],
            per_page = (params[:per_page] || PER_PAGE.first).to_i)
     respond_to do |format|
@@ -135,7 +129,7 @@ class MediaSetsController < ApplicationController
                         :total_pages => resources.total_pages } 
       }
       format.json {
-        render :json => @media_set.as_json(:with => with, :current_user =>current_user)
+        render :partial => "media_sets/show.json.rjson", :locals => {:media_set => @media_set, :with => with}
       }
     end
   end

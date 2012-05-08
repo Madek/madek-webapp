@@ -51,7 +51,7 @@ describe MediaSetsController do
           parent_media_set.child_sets << media_set
         end
 
-        context "when i get a set with nested resourches, the json response"  do
+        context "when i get a set with nested resources, the json response"  do
 
           let :json_body do
             get_params= {id: @parent_media_set.id, format: :json, with: {media_set: {media_resources: {type: 1, image: {as: "base64", size: "small"}}}}} 

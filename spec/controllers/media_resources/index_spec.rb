@@ -13,6 +13,7 @@ describe MediaResourcesController do
       40.times do
         type = rand > 0.5 ? :media_entry : :media_set
         mr = Factory type, :user => @user
+        mr.parents << FactoryGirl.create(:media_set, :user => @user)
         mr.meta_data.create(:meta_key => MetaKey.find_by_label("title"), :value => Faker::Lorem.words(4).join(' '))
       end
       # MetaContext
@@ -55,13 +56,14 @@ describe MediaResourcesController do
       end
     
     describe "a plain response" do
-      it "should respond only with a collection of id's if there is not more requested" do
+      it "should respond only with a collection of id's and type's if there is not more requested" do
         get :index, {format: 'json', ids: ids}, session
         response.should be_success
         json = JSON.parse(response.body)
         json["media_resources"].each do |mr|
-          mr.keys.size.should == 1
-          mr.keys.first == "id"
+          mr.keys.size.should == 2
+          mr.keys.include?("id").should be_true
+          mr.keys.include?("type").should be_true
         end     
       end
     end
@@ -84,6 +86,17 @@ describe MediaResourcesController do
         json = JSON.parse(response.body)
         json["media_resources"].each do |mr|
           mr.keys.should include("filename")
+        end    
+      end
+    end
+    
+    describe "a response with parents" do
+      it "respond with a collection of resources and their parents" do
+       get :index, {format: 'json', ids: ids, with: {parents: true}}, session
+        response.should be_success
+        json = JSON.parse(response.body)
+        json["media_resources"].each do |mr|
+          mr.keys.should include("parents")
         end    
       end
     end

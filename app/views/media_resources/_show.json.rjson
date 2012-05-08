@@ -46,6 +46,11 @@ if (with || nil)
     h[:is_manageable] = current_user.authorized?(:manage, media_resource)
     h[:is_favorite] = current_user.favorite_ids.include?(media_resource.id)
   end
+  
+  if with[:parents]
+    forward_with = with.select{|k,v| k != :parents}
+    h[:parents] = render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => media_resource.parents, :with => forward_with}
+  end
 end
 
 h

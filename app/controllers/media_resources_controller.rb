@@ -149,8 +149,8 @@ class MediaResourcesController < ApplicationController
           resources = resources.where(:id => media_resource_ids)
         end
 
-        with[:pagination] = true
-        render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => resources, :with => with}
+        @media_resources = resources
+        @with = with
       }
     end
   end
@@ -290,8 +290,9 @@ class MediaResourcesController < ApplicationController
 
       respond_to do |format|
         format.json {
-          with[:pagination] = true
-          render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => resources, :with => with}
+          @media_resources = resources
+          @with = with
+          render :template => "index.json.rjson"
         }
       end
 
