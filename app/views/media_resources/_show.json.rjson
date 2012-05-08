@@ -40,6 +40,11 @@ if with and with[:filename]
   h["filename"] = media_resource.is_a?(MediaSet) ? nil : media_resource.media_file.filename
 end
 
+## MEDIATYPE
+if with and with[:media_type]
+  h["media_type"] = media_resource.media_type
+end
+
 ## 
 
 h

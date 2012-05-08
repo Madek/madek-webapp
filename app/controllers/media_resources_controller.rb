@@ -42,9 +42,14 @@ class MediaResourcesController < ApplicationController
   # @example_request_description Request MediaResources with filenames
   # @example_response {"media_resources:": [{"id":1, "filename": "my_file_name.jpg"}, {"id":2, "filename": "my_2_file_name.jpg"}, {"id":3, "filename": "my_3_file_name.jpg"}], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
   #
-  # @response_field [Integer] [].id The id of the MediaResource  
-  # @response_field [Hash] [].meta_data The MetaData of the MediaResource (To get a list of possible MetaData - or the schema - you have to consider the MetaDatum resource)
-  # @response_field [String] [].filename The Filename of a MediaEntry's MediaFile (in case of MediaSets its null) 
+  # @example_request {"ids": [1,2,3], "with": {"media_type": true}}
+  # @example_request_description Request MediaResources with MediaTypes
+  # @example_response {"media_resources:": [{"id":1, "media_type": "Image"}, {"id":2, "media_type": "Image"}, {"id":3, "media_type": "Image"}], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
+  #
+  # @response_field [Integer] media_resources[..].id The id of the MediaResource  
+  # @response_field [Hash] media_resources[..].meta_data The MetaData of the MediaResource (To get a list of possible MetaData - or the schema - you have to consider the MetaDatum resource)
+  # @response_field [String] media_resources[..].filename The Filename of a MediaEntry's MediaFile (in case of MediaSets its null) 
+  # @response_field [String] media_resources[..].media_type The Mediatype of a Media Resource (Video, Audio, Image or Doc;in case of MediaSets its Set) 
   #
   def index(ids = (params[:collection_id] ? MediaResource.by_collection(current_user.id, params[:collection_id]) : params[:ids]),
             type = params[:type],

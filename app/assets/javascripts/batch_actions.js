@@ -54,15 +54,14 @@ $(document).ready(function () {
 		var $this = $(this);
 		var next_page = $this.data('page');
 		$this.removeAttr("data-page");
-
+    var f = $(".filter_content form:first");
 		var options = {
 				dataType: 'json',
-				//data: {page: next_page},
 				success: function(response){
 					display_page(response, $this);
 				}
-			}; 
-		var f = $(".filter_content form:first");
+			};
+			 
 		if(f.length && f.data("paginate_using_filter")){
 			options.url = f.attr('action');
 			options.type = f.attr('method');
@@ -73,7 +72,11 @@ $(document).ready(function () {
 		  if(url) options.url = url;
 			options.data = {page: next_page};
 		}
-	    $.ajax(options);
+		
+		// merge default
+		options.data.push({'with': {'media_type': true}});
+		
+    $.ajax(options);
 	});
 
 });
