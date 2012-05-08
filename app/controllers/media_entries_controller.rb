@@ -63,6 +63,7 @@ class MediaEntriesController < ApplicationController
 
 #####################################################
 
+=begin
   ##
   # Get media entries
   # 
@@ -104,22 +105,19 @@ class MediaEntriesController < ApplicationController
             parent_ids = params[:parent_ids] || nil)
     
     respond_to do |format|
-      
       format.json {
-                
-        entries = unless parent_ids.blank?
+        @media_entries = unless parent_ids.blank?
           MediaSet.where(:id => parent_ids).flat_map do |parent|
             parent.media_entries.accessible_by_user(current_user, accessible_action)
           end.uniq
         else
           MediaEntry.accessible_by_user(current_user, accessible_action)
         end
-        
-        render :json => entries.as_json(:with => with, :with_thumb => false) # TODO drop with_thum merge with with
+        render :json => @media_entries.as_json(:with => with, :with_thumb => false) # TODO drop with_thumb merge with with
       }
     end
   end
-
+=end
   def show
     respond_to do |format|
       format.html

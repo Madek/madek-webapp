@@ -12,7 +12,6 @@ class Bar
     @setup_type type
     @setup_permissions permission
     @setup_sort_by sort_by
-    @setup_layout()    
     @setup_interactivity()
     @setup_icon type, favorites, search
     if type == "media_sets" and permission == "mine" and favorites != "true" and search == "" and media_set == ""
@@ -31,9 +30,6 @@ class Bar
     else
       $("#bar .sort a:first").addClass("active")
   
-  @setup_layout = ()->
-    $("#bar .layout a:first").addClass "active"
-    
   @setup_interactivity = ()->
     # mousenter types a
     $("#bar .selection .types a").bind "mouseenter", ()->

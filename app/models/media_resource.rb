@@ -174,6 +174,7 @@ class MediaResource < ActiveRecord::Base
   
 ########################################################
 
+=begin
   def as_json(options={})
     with_thumb = options[:with_thumb]
     more_json = {}
@@ -248,6 +249,7 @@ class MediaResource < ActiveRecord::Base
     
     json.merge(more_json)
   end
+=end
 
 ########################################################
 
@@ -312,7 +314,7 @@ class MediaResource < ActiveRecord::Base
 ########################################################
 
   def media_type
-    if respond_to?(:media_file)
+    if respond_to?(:media_file) and media_file
       case media_file.content_type
         when /video/ then 
           "Video"

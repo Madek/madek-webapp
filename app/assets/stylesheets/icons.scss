@@ -27,8 +27,14 @@
     width: 17px;
   }
   
-  &.grid {
+  &[data-type=grid] {
     background-position: -107px 0;
+    height: 17px;
+    width: 17px;
+  }
+  
+  &[data-type=miniature] {
+    background-position: -89px 0;
     height: 17px;
     width: 17px;
   }

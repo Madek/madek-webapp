@@ -31,6 +31,7 @@
 //= require_tree ./keywords
 //= require_tree ./bar
 //= require_tree ./media_set
+//= require app/app
 
 /////////// Tmpl /////////////
 //= require_tree ./tmpl/

@@ -35,7 +35,6 @@
       .arrow.down.icon
     
     .layout
-      = link_to "", "", class: "grid icon", title: _("Grid-Ansicht")
       -if params[:type] == "media_sets" and params[:user_id] == "#{current_user.id}"
         = link_to "", graph_media_sets_path, class: "graph icon", title: _("Graph-Ansicht") 
 
@@ -49,9 +48,8 @@
   $(document).ready(function () {
     $('.task_bar').hide();
     var url = "#{media_resources_path(params.select {|k,v| not [:id, :action, :controller].include?(k.to_sym) })}";
-    $.ajax({
+    App.MediaResources.fetch({
       url: url,
-      data: {format: 'json'},
       success: function(data){
         $("#results").html("");
         data.url = url;
@@ -75,3 +73,5 @@
       "#{params[:top_level]}",
       "#{params[:media_set_id]}");
   });
+  
+  new App.MediaResources;

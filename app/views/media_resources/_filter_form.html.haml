@@ -6,7 +6,7 @@
       = link_to "Suchergebnisse filtern", "#", :class => "filter_category_link"
     .filter_content{:style => "display: block;"}
       -# %form{:action => request.fullpath.gsub( /\?.*/, "" ), :method => :get, :"data-remote" => "true", :"data-type" => :json, :"data-item_ids" => resource_ids.to_json}
-      %form{:action => filter_media_resources_path, :method => :post, :"data-remote" => "true", :"data-type" => :json, :"data-item_ids" => resource_ids.to_json}
+      %form{:action => filter_media_resources_path, :method => :post, :"data-type" => :json, :"data-item_ids" => resource_ids.to_json}
         = hidden_field_tag "filter[type]", type
         = hidden_field_tag "filter[ids]", resource_ids.join(',')
         #filter-query.basic
@@ -121,15 +121,26 @@
       var filter_form = $(".filter_content form");
       filter_form.data("tmp_intersected_ids", filter_form.data("item_ids"));
 
-      filter_form.live('ajax:before', function(){
-        var _this = $(this); 
-        _this.find("input#filter_ids").val(_this.data("tmp_intersected_ids").join(','));
-      }).live('ajax:complete.rails', function(xhr, response){ // TODO ajax:success ??
-        $(this).data("paginate_using_filter", true);
-        var json = JSON.parse(response.responseText);
-        var container = $("#results");
-        container.empty();
-        display_results(json, container)      
+      filter_form.live('submit', function(e){
+        e.preventDefault();
+        var $this = $(this); 
+        $this.find("input#filter_ids").val($this.data("tmp_intersected_ids").join(','));
+        var params = {};
+        $.each($this.serializeArray(), function(i, field){
+          params[field.name] = field.value;
+        });
+        App.MediaResources.fetch({
+          url: $this.attr('action'),
+          type: $this.attr('method'),
+          data: params,
+          success: function(data){ 
+            $this.data("paginate_using_filter", true);
+            var container = $("#results");
+            container.empty();
+            display_results(data, container);      
+          }
+        });
+        return false;
       });
       
       $("input#MediaEntry_media_type_").change(function(){
