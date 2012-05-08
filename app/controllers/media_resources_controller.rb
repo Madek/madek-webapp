@@ -388,7 +388,7 @@ class MediaResourcesController < ApplicationController
           )>) 
         .order("name ASC")
 
-      @permission_presets = PermissionPreset.all
+      @permission_presets = PermissionPreset.where("name <> 'Gesperrt'")
 
       respond_to do |format|
         format.html { render :layout => false}
