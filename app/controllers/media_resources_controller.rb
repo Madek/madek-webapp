@@ -309,39 +309,36 @@ class MediaResourcesController < ApplicationController
 
         presets = PermissionPreset.where(" id in ( ? )",  params[:permission_preset].map(&:to_i))
 
-        # filtering by grouppermissions
-        resources = resources.where(" media_resources.id in ( " +
+        by_grouppermission = 
           presets.reduce("( SELECT NULL) \n") do |query,preset|
           query +
             "UNION ((" +
             Constants::Actions.reduce(Grouppermission) do |up,action|
               up.where(action => preset[action])
             end
-              .joins(group: :users)
-              .where("users.id = ?", current_user.id)
-              .joins(:media_resource)
-              .select("media_resources.id as media_resource_id")
-              .to_sql + ") " +
-                if SQLHelper.adapter_is_postgresql? 
-                  "EXCEPT ( " + (MediaResource.joins(:userpermissions).where("userpermissions.user_id = ?",current_user.id).select("media_resources.id").to_sql) + "))"
-                else
-                  ")"
-                end
-          end + " ) \n")
+          .joins(group: :users)
+          .where("users.id = ?", current_user.id)
+          .joins(:media_resource)
+          .select("media_resources.id as media_resource_id")
+          .to_sql + ") " +
+            if SQLHelper.adapter_is_postgresql? 
+              "EXCEPT ( " + (MediaResource.joins(:userpermissions).where("userpermissions.user_id = ?",current_user.id).select("media_resources.id").to_sql) + ")"
+            end + ")"
+          end 
 
-        # filtering by userpermissions
-#        resources = resources.where(" media_resources.id in ( " +
-#          presets.reduce("( SELECT NULL) \n") do |query,preset|
-#          query +
-#            "UNION (" +
-#            Constants::Actions.reduce(Userpermission) do |up,action|
-#              up.where(action => preset[action])
-#            end
-#              .where(user_id: current_user)
-#              .joins(:media_resource)
-#              .select("media_resources.id as media_resource_id")
-#              .to_sql + ") \n"
-#          end + " ) \n")
+        by_userpermission =
+          presets.reduce("( SELECT NULL) \n") do |query,preset|
+          query + "UNION (" +
+            Constants::Actions.reduce(Userpermission) do |up,action|
+            up.where(action => preset[action])
+            end
+          .where(user_id: current_user)
+          .joins(:media_resource)
+          .select("media_resources.id as media_resource_id")
+          .to_sql + ") \n"
+          end 
+
+        resources = MediaResource.where " media_resources.id in (  (#{by_grouppermission}) UNION (#{by_userpermission}) )"
 
       end
 

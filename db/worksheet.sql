@@ -1,4 +1,30 @@
 
+
+SELECT "media_resources".* FROM "media_resources"  
+WHERE ( media_resources.id in 
+         (  (
+            ( SELECT NULL) 
+           UNION 
+            (
+            (SELECT media_resources.id as media_resource_id 
+              FROM "grouppermissions" 
+              INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id" INNER JOIN "groups_users" ON "groups_users"."group_id" = "groups"."id" 
+              INNER JOIN "users" ON "users"."id" = "groups_users"."user_id" INNER JOIN "media_resources" ON "media_resources"."id" = "grouppermissions"."media_resource_id" 
+              WHERE "grouppermissions"."download" = 'f' AND "grouppermissions"."view" = 't' AND "grouppermissions"."edit" = 't' AND "grouppermissions"."manage" = 'f' 
+              AND (users.id = 2)) 
+          EXCEPT 
+            ( SELECT media_resources.id 
+              FROM "media_resources" 
+              INNER JOIN "userpermissions" ON "userpermissions"."media_resource_id" = "media_resources"."id" 
+              WHERE (userpermissions.user_id = 2))
+          ) 
+        ) 
+    UNION 
+      ( ( SELECT NULL) UNION (SELECT media_resources.id as media_resource_id FROM "userpermissions" INNER JOIN "media_resources" ON "media_resources"."id" = "userpermissions"."media_resource_id" WHERE "userpermissions"."download" = 'f' AND "userpermissions"."view" = 't' AND "userpermissions"."edit" = 't' AND "userpermissions"."manage" = 'f' AND "userpermissions"."user_id" = 2) ) 
+    )
+    );
+
+
 -- permission check
 
 SELECT DISTINCT m.* FROM `media_resources` AS m
