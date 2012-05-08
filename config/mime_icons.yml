@@ -27,6 +27,11 @@ icons:
       - oga
       - spx
 
+  - mime-type: audio/x-wav
+    icon: base_audio.png
+    extensions:
+      - wav
+
   - mime-type: audio/x-wma
     icon: base_audio.png
     extensions:
