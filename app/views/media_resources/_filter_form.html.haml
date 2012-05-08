@@ -14,6 +14,14 @@
             - if type == "MediaEntry"
               = hidden_field_tag "query", params[:query]
               %h3.filter_category.clearfix
+                = link_to "Berechtigungsmaksen", "#", :class => "filter_category_link"
+                %ul
+                  - @permission_presets.each do |pp| 
+                    %li
+                      = label_tag "#{pp.name}"
+                      = check_box_tag "permission_preset[]", pp.id
+
+              %h3.filter_category.clearfix
                 = link_to "Eigentümer", "#", :class => "filter_category_link"
                 %ul
                   - @owners.each do |owner|

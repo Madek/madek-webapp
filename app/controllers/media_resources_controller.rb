@@ -284,7 +284,6 @@ class MediaResourcesController < ApplicationController
  
     if request.post?
 
-
       if meta_key_id and meta_term_id
         meta_key = MetaKey.find(meta_key_id)
         meta_term = meta_key.meta_terms.find(meta_term_id)
@@ -309,6 +308,64 @@ class MediaResourcesController < ApplicationController
              .where("grouppermissions.group_id in ( ? )",params[:group_id].map(&:to_i))
              .select("media_resource_id").to_sql})>)
       end
+
+
+      if params[:permission_preset] and (not params[:permission_preset].empty?)
+
+        presets = PermissionPreset.where(" id in ( ? )",  params[:permission_preset].map(&:to_i))
+
+        by_grouppermission = 
+
+          presets.reduce("( SELECT NULL) \n") do |query,preset|
+
+            except_userperm_exists = "EXCEPT ( " + (MediaResource.joins(:userpermissions).where("userpermissions.user_id = ?",current_user.id).select("media_resources.id").to_sql) + ")"
+
+            # EXCEPT clause for preselected grouppermissions
+            #  all those media entries the user is allowed for the current preset by grouppermission but denied by some userpermission
+            true_actions = Constants::Actions.select{|action| preset[action]}
+            except_denied = 
+              "EXCEPT ("+
+              true_actions.reduce("(SELECT NULL)") do |query,action|
+                query + "UNION (" + 
+                  Userpermission
+                    .where(action => false)
+                    .where(user_id: current_user)
+                    .joins(:media_resource)
+                    .select("media_resources.id").to_sql +
+                      ")"
+              end +")"
+
+            query +
+              "UNION ((" +
+              Constants::Actions.reduce(Grouppermission) do |up,action|
+                up.where(action => preset[action])
+              end
+            .joins(group: :users)
+            .where("users.id = ?", current_user.id)
+            .joins(:media_resource)
+            .select("media_resources.id as media_resource_id")
+            .to_sql + ") " +
+              if SQLHelper.adapter_is_postgresql? 
+                except_userperm_exists
+              end + ")"
+          end 
+
+        by_userpermission =
+          presets.reduce("( SELECT NULL) \n") do |query,preset|
+          query + "UNION (" +
+            Constants::Actions.reduce(Userpermission) do |up,action|
+            up.where(action => preset[action])
+            end
+          .where(user_id: current_user)
+          .joins(:media_resource)
+          .select("media_resources.id as media_resource_id")
+          .to_sql + ") \n"
+          end 
+
+        resources = resources.where " media_resources.id in (  (#{by_grouppermission}) UNION (#{by_userpermission}) )"
+
+      end
+
 
       resources= resources.paginate(:page => page, :per_page => per_page)
 
@@ -335,6 +392,8 @@ class MediaResourcesController < ApplicationController
           #{MediaResource.grouppermissions_not_disallowed(current_user, :view).select("grouppermissions.group_id").to_sql}
           )>) 
         .order("name ASC")
+
+      @permission_presets = PermissionPreset.where("name <> 'Gesperrt'")
 
       respond_to do |format|
         format.html { render :layout => false}
