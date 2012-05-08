@@ -310,9 +310,25 @@ class MediaResourcesController < ApplicationController
         presets = PermissionPreset.where(" id in ( ? )",  params[:permission_preset].map(&:to_i))
 
         by_grouppermission = 
+
           presets.reduce("( SELECT NULL) \n") do |query,preset|
 
-            except = "EXCEPT ( " + (MediaResource.joins(:userpermissions).where("userpermissions.user_id = ?",current_user.id).select("media_resources.id").to_sql) + ")"
+            except_userperm_exists = "EXCEPT ( " + (MediaResource.joins(:userpermissions).where("userpermissions.user_id = ?",current_user.id).select("media_resources.id").to_sql) + ")"
+
+            # EXCEPT clause for preselected grouppermissions
+            #  all those media entries the user is allowed for the current preset by grouppermission but denied by some userpermission
+            true_actions = Constants::Actions.select{|action| preset[action]}
+            except_denied = 
+              "EXCEPT ("+
+              true_actions.reduce("(SELECT NULL)") do |query,action|
+                query + "UNION (" + 
+                  Userpermission
+                    .where(action => false)
+                    .where(user_id: current_user)
+                    .joins(:media_resource)
+                    .select("media_resources.id").to_sql +
+                      ")"
+              end +")"
 
             query +
               "UNION ((" +
@@ -325,9 +341,8 @@ class MediaResourcesController < ApplicationController
             .select("media_resources.id as media_resource_id")
             .to_sql + ") " +
               if SQLHelper.adapter_is_postgresql? 
-                except
+                except_userperm_exists
               end + ")"
-
           end 
 
         by_userpermission =
@@ -342,7 +357,7 @@ class MediaResourcesController < ApplicationController
           .to_sql + ") \n"
           end 
 
-        resources = MediaResource.where " media_resources.id in (  (#{by_grouppermission}) UNION (#{by_userpermission}) )"
+        resources = resources.where " media_resources.id in (  (#{by_grouppermission}) UNION (#{by_userpermission}) )"
 
       end
 
