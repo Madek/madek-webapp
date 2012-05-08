@@ -15,7 +15,7 @@ if (with || nil)
              end
         mf ? mf.thumb_base64(size) : nil
       else # default return is a url to the image
-        "/media_resources/%d/image?size=%s" % [id, size]
+        "/media_resources/%d/image?size=%s" % [media_resource.id, size]
     end            
   end
   
@@ -48,7 +48,8 @@ if (with || nil)
   end
   
   if with[:parents]
-    forward_with = with.select{|k,v| k != :parents}
+    forward_with = {}
+    with.each_pair{|k,v| forward_with[k.to_sym] = v unless k.to_sym == :parents}
     h[:parents] = render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => media_resource.parents, :with => forward_with}
   end
 end

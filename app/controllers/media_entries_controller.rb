@@ -63,61 +63,6 @@ class MediaEntriesController < ApplicationController
 
 #####################################################
 
-=begin
-  ##
-  # Get media entries
-  # 
-  # @url [GET] /media_entries?[arguments]
-  # 
-  # @argument [accessible_action] string Limit the list of media entries by the accessible action (view is default)
-  #   show, browse, abstract, inheritable_contexts, edit, update, add_member, parents, destroy
-  # @argument [with] hash Options forwarded to the results which will be inside of the respond 
-  # @argument [parent_ids] array An array with parent ids (of MediaSets) which shall be used for scoping the media entries
-  #
-  # @example_request
-  #   {}
-  #
-  # @example_request
-  #   {"parent_ids": [1,5,7], "with": {"media_resource": {"image": {"as": "base64", "size": "small"}}}}
-  #
-  # @example_request
-  #   {"parent_ids": [1,5,7], "with": {"media_resource": {"image": {"size": "medium"}}}}
-  #
-  # @request_field [String] accessible_action The accessible action the user can perform on a set
-  # @request_field [Hash] with Options forwarded to the results which will be inside of the respond
-  # @request_field [Hash] with.media_resources Options forwarded to the results of media_resources
-  # @request_field [Hash] with.media_resources.image Options requesting an image for the returning media_resources
-  # @request_field [Hash] with.media_resources.image.as Request a format of the returning image object (default is a url to the image)  
-  # @request_field [Hash] with Options forwarded to the results which will be inside of the respond
-  # @request_field [Hash] with Options forwarded to the results which will be inside of the respond
-  # @request_field [Hash] parent_ids A list of parent ids which shall be used for scoping the requested media entries
-  #
-  # @example_response
-  #
-  # @response_field [Integer] id The id of a set 
-  # @response_field [Hash] media_entries Media entries of the set
-  # @response_field [Integer] media_entries[].id The id of a media entry
-  # @response_field [String] title The title of the media set 
-  # @response_field [Hash] author The author of the media set 
-  #
-  def index(accessible_action = (params[:accessible_action] || :view).to_sym,
-            with = params[:with],
-            parent_ids = params[:parent_ids] || nil)
-    
-    respond_to do |format|
-      format.json {
-        @media_entries = unless parent_ids.blank?
-          MediaSet.where(:id => parent_ids).flat_map do |parent|
-            parent.media_entries.accessible_by_user(current_user, accessible_action)
-          end.uniq
-        else
-          MediaEntry.accessible_by_user(current_user, accessible_action)
-        end
-        render :json => @media_entries.as_json(:with => with, :with_thumb => false) # TODO drop with_thumb merge with with
-      }
-    end
-  end
-=end
   def show
     respond_to do |format|
       format.html

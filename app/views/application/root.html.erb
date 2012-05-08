@@ -7,6 +7,7 @@
 	<%= stylesheet_link_tag "root" %>
 	<%= stylesheet_link_tag "button/button" %>
 	<%= javascript_include_tag "root.js" %>
+	<%= javascript_include_tag "meta_datum/meta_datum" %>
 </head>
 
 <body>
@@ -214,11 +215,10 @@
         var set_id = "<%= AppSettings.splashscreen_slideshow_set_id %>";
         if(set_id.length) {
           $.ajax("/media_sets/"+set_id, {
-            data: {with: {media_set: {media_entries: {author: {name: 1}, title: 1, image: {size:"large"}}}},
+            data: {with: {children:"media_entries", 
+                          meta_data: {meta_context_names:["core"]}},
                    format: "json"},
             dataType: "json",
-            beforeSend: function(request, settings){
-            },
             success: function(data, status, request) {
               window.setTimeout(function(){
                 $("#slider").fadeOut(1000, function(){
@@ -228,34 +228,36 @@
                   var caption_clone = $("#slider-wrapper #htmlcaption1").clone();
                   $("#slider-wrapper #htmlcaption1").remove();
                   
-                  randomElements = data.media_entries.sort(function(){ 
-                    return Math.round(Math.random())-0.5
-                  }).slice(0,5)
-                  
-                  $.each(randomElements, function(i, entry){
-                    // image
-                    var entry_image = $(image_clone).clone();
-                    $(entry_image).attr("src", "/media_resources/"+entry.id+"/image?size=large");
-                    $(entry_image).attr("title", "#htmlcaption"+(i+1));
-                    $("#slider-wrapper #slider").append(entry_image);
+                  if(data.children != null) {
+                    randomElements = data.children.sort(function(){ 
+                      return Math.round(Math.random())-0.5;
+                    }).slice(0,5);
                     
-                    // caption
-                    var entry_caption = $(caption_clone).clone();
-                    $(entry_caption).attr("id", "htmlcaption"+(i+1));
-                    $(entry_caption).html("<strong>"+entry.title+"</strong><br/>"+entry.author.name);
-                    $("#slider-wrapper").append(entry_caption);
-                  });
+                    $.each(randomElements, function(i, entry){
+                      // image
+                      var entry_image = $(image_clone).clone();
+                      $(entry_image).attr("src", "/media_resources/"+entry.id+"/image?size=large").attr("title", "#htmlcaption"+(i+1));
+                      $("#slider-wrapper #slider").append(entry_image);
+                      
+                      // caption
+                      var meta_data = MetaDatum.flatten(entry.meta_data);
+                      var entry_caption = $(caption_clone).clone();
+                      $(entry_caption).attr("id", "htmlcaption"+(i+1)).html("<strong>"+meta_data.title+"</strong><br/>"+meta_data.author);
+                      $("#slider-wrapper").append(entry_caption);
+                    });
+                    
+                    // setup nivo slider
+                    $('#slider').nivoSlider({
+                      pauseTime:5000,
+                      captionOpacity: 0.8,
+                      effect: 'fade',
+                      directionNav:false,
+                      controlNav: false
+                    });
+                    
+                    $("#slider").fadeIn();                    
+                  }
                   
-                  // setup nivo slider
-                  $('#slider').nivoSlider({
-                    pauseTime:5000,
-                    captionOpacity: 0.8,
-                    effect: 'fade',
-                    directionNav:false,
-                    controlNav: false
-                  });
-                  
-                  $("#slider").fadeIn();
                 });
               },1500);
             },
