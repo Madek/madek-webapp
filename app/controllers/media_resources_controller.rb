@@ -311,19 +311,23 @@ class MediaResourcesController < ApplicationController
 
         by_grouppermission = 
           presets.reduce("( SELECT NULL) \n") do |query,preset|
-          query +
-            "UNION ((" +
-            Constants::Actions.reduce(Grouppermission) do |up,action|
-              up.where(action => preset[action])
-            end
-          .joins(group: :users)
-          .where("users.id = ?", current_user.id)
-          .joins(:media_resource)
-          .select("media_resources.id as media_resource_id")
-          .to_sql + ") " +
-            if SQLHelper.adapter_is_postgresql? 
-              "EXCEPT ( " + (MediaResource.joins(:userpermissions).where("userpermissions.user_id = ?",current_user.id).select("media_resources.id").to_sql) + ")"
-            end + ")"
+
+            except = "EXCEPT ( " + (MediaResource.joins(:userpermissions).where("userpermissions.user_id = ?",current_user.id).select("media_resources.id").to_sql) + ")"
+
+            query +
+              "UNION ((" +
+              Constants::Actions.reduce(Grouppermission) do |up,action|
+                up.where(action => preset[action])
+              end
+            .joins(group: :users)
+            .where("users.id = ?", current_user.id)
+            .joins(:media_resource)
+            .select("media_resources.id as media_resource_id")
+            .to_sql + ") " +
+              if SQLHelper.adapter_is_postgresql? 
+                except
+              end + ")"
+
           end 
 
         by_userpermission =
