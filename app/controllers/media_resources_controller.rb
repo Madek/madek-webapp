@@ -304,11 +304,9 @@ class MediaResourcesController < ApplicationController
              .select("media_resource_id").to_sql})>)
       end
 
-
       unless params[:permission_preset].blank? 
         presets = PermissionPreset.where(" id in ( ? )",  params[:permission_preset].map(&:to_i))
-        by_permission_presets_and_user =  MediaResource.by_permission_presets_and_user presets, current_user
-        resources = resources.where %Q< media_resources.id in ( #{by_permission_presets_and_user.select("id").to_sql} ) >
+        resources = resources.where_permission_presets_and_user presets, current_user
       end
 
 

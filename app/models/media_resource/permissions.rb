@@ -55,8 +55,7 @@ class MediaResource < ActiveRecord::Base
       end
     end
 
-
-    def by_permission_presets_and_user presets, user 
+    def where_permission_presets_and_user presets, user 
 
         by_grouppermission = 
 
@@ -106,10 +105,9 @@ class MediaResource < ActiveRecord::Base
           .to_sql + ") \n"
           end 
 
-        self.where "id in ((#{by_grouppermission}) UNION (#{by_userpermission}))" 
+        where "id in ((#{by_grouppermission}) UNION (#{by_userpermission}))" 
 
     end
-
 
   end
 
