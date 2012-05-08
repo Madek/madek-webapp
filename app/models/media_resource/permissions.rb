@@ -55,6 +55,62 @@ class MediaResource < ActiveRecord::Base
       end
     end
 
+
+    def by_permission_presets_and_user presets, user 
+
+        by_grouppermission = 
+
+          presets.reduce("( SELECT NULL) \n") do |query,preset|
+
+            except_userperm_exists = "EXCEPT ( " + (MediaResource.joins(:userpermissions).where("userpermissions.user_id = ?",user.id).select("media_resources.id").to_sql) + ")"
+
+            # EXCEPT clause for preselected grouppermissions
+            #  all those media entries the user is allowed for the current preset by grouppermission but denied by some userpermission
+            true_actions = Constants::Actions.select{|action| preset[action]}
+            except_denied = 
+              "EXCEPT ("+
+              true_actions.reduce("(SELECT NULL)") do |query,action|
+                query + "UNION (" + 
+                  Userpermission
+                    .where(action => false)
+                    .where(user_id: user)
+                    .joins(:media_resource)
+                    .select("media_resources.id").to_sql +
+                      ")"
+              end +")"
+
+            query +
+              "UNION ((" +
+              Constants::Actions.reduce(Grouppermission) do |up,action|
+                up.where(action => preset[action])
+              end
+            .joins(group: :users)
+            .where("users.id = ?", user.id)
+            .joins(:media_resource)
+            .select("media_resources.id as media_resource_id")
+            .to_sql + ") " +
+              if SQLHelper.adapter_is_postgresql? 
+                except_userperm_exists
+              end + ")"
+          end 
+
+        by_userpermission =
+          presets.reduce("( SELECT NULL) \n") do |query,preset|
+          query + "UNION (" +
+            Constants::Actions.reduce(Userpermission) do |up,action|
+            up.where(action => preset[action])
+            end
+          .where(user_id: user)
+          .joins(:media_resource)
+          .select("media_resources.id as media_resource_id")
+          .to_sql + ") \n"
+          end 
+
+        self.where "id in ((#{by_grouppermission}) UNION (#{by_userpermission}))" 
+
+    end
+
+
   end
 
 
