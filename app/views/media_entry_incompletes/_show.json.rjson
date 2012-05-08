@@ -1,0 +1,5 @@
+{
+  id: media_entry.id,
+  filename: media_entry.media_file.filename,  
+  size: media_entry.media_file.size
+}

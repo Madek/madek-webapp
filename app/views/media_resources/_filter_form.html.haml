@@ -23,6 +23,10 @@
               %h3.filter_category.clearfix
                 = link_to "Arbeitsgruppen", "#", :class => "filter_category_link"
                 %ul
+                  - @groups.each do |group|
+                    %li
+                      = label_tag "#{group.name}"
+                      = check_box_tag "group_id[]", group.id
               %h3.filter_category.clearfix
                 = link_to "Medientyp und Format", "#", :class => "filter_category_link"
                 %span.ui-icon.ui-icon-triangle-1-e

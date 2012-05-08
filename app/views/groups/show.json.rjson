@@ -1,0 +1,14 @@
+{
+  id: @group.id,
+  name: @group.name,
+  type: @group.type,
+
+  users: @users.map do |user|
+    {
+      id: user.id,
+      login: user.login,
+      lastname: user.person.lastname,
+      firstname: user.person.firstname
+    }
+  end
+}

@@ -1,0 +1,1 @@
+render :partial => "media_entries/show.json.rjson", :locals => {:media_entry => @media_entry}

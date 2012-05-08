@@ -153,3 +153,18 @@ icons:
       - tgz
       - taz
 
+  - mime-type: application/x-shockwave-flash 
+    icon: base_document.png 
+    extensions:
+      - swf
+      - swfl 
+
+  - mime-type: text/plain 
+    icon: base_document.png 
+    extensions:
+      - txt
+
+  - mime-type: application/pdf 
+    icon: base_document.png
+    extensions:
+      - pdf 
