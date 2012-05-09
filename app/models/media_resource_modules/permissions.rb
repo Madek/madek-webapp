@@ -1,27 +1,29 @@
 # -*- encoding : utf-8 -*-
-#class MediaResource < ActiveRecord::Base
 
 module MediaResourceModules
   module Permissions
 
     def self.included(base)
-      base.extend(ClassMethods)
+      base.class_eval do
 
-      base.has_many :userpermissions, :dependent => :destroy do
-        def allows(user, action)
-          where(:user_id => user, action => true).first
-        end
-        def disallows(user, action)
-          where(:user_id => user, action => false).first
-        end
-      end
-      
-      base.has_many :grouppermissions, :dependent => :destroy do
-        def allows(user, action)
-          joins(:group => :users).where(action => true, :groups_users => {:user_id => user}).first
-        end
-      end
+        extend(ClassMethods) # look way below
 
+        has_many :userpermissions, :dependent => :destroy do
+          def allows(user, action)
+            where(:user_id => user, action => true).first
+          end
+          def disallows(user, action)
+            where(:user_id => user, action => false).first
+          end
+        end
+        
+        has_many :grouppermissions, :dependent => :destroy do
+          def allows(user, action)
+            joins(:group => :users).where(action => true, :groups_users => {:user_id => user}).first
+          end
+        end
+
+      end
     end
 
 
@@ -165,11 +167,8 @@ module MediaResourceModules
 
     end
 
-
-
-
-
   end
+
 end
 
 
