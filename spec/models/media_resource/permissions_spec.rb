@@ -38,6 +38,7 @@ describe MediaResource do
     end
 
     it "should not contain the resouce if there is a matching grouppermission but there is a overwriting userpermission" do
+      pending "Replace Mysql with Postgresql" if SQLHelper.adapter_is_mysql?
       Userpermission.create media_resource: @ms2, view: true, user: @viewer
       MediaResource.where_permission_presets_and_user([@dl_preset],@viewer).should_not include @ms2
     end
