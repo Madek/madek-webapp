@@ -87,7 +87,7 @@
       .inner
     .media_set_highlights_shadow.left
     .media_set_highlights_shadow.right
-  -if(@parents.size > 0)
+  - unless (@parents = @media_set.parent_sets).empty?
     %div.page_title_left.set_parents_title
       .icon_set_parents
       = _("Set enthalten in")
@@ -98,14 +98,21 @@
   
   = render :partial => "media_entries/index"
 
+:ruby
+  with = {:type => true,
+          :image=>{:as=>"base64", :size=>"large"},
+          :meta_data => {:meta_context_names => ["core"]}}
+
 :javascript
   $(document).ready(function () {
     // hide parents at start
     $("#parents").hide();
         
     // setup parents of current sets
-    $("#parents").append($.tmpl("tmpl/media_resource/thumb_box", #{@parents.to_json}));
-    
+    $("#parents").append($.tmpl("tmpl/media_resource/thumb_box", #{render(:partial => "media_resources/index.json.rjson",
+                                                                          :locals => {:media_resources => @parents,
+                                                                                      :with => with})}));
+
     // show parents toggle
     $(".set_parents_title").click(function(){
       $("#parents").toggle();
@@ -115,7 +122,9 @@
   
 :coffeescript
   jQuery ->
-    MediaSetHighlights.setup #{render(:partial => "media_resources/index.json.rjson", :locals => {:with => {:type => true, :image=>{:as=>"base64", :size=>"large"}, :meta_data => {:meta_context_names => ["core"]}}, :media_resources => @media_set.out_arcs.select(&:highlight).map(&:child)})}
+    MediaSetHighlights.setup #{render(:partial => "media_resources/index.json.rjson",
+                                      :locals => {:with => with,
+                                                  :media_resources => @media_set.out_arcs.select(&:highlight).map(&:child)})}
   
     $(".individual_context").change ->
       $(this).toggleClass("changed")
