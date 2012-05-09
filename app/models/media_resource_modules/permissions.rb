@@ -109,7 +109,7 @@ module MediaResourceModules
 
           # BEGIN BY_GROUPPERMISSION
           by_grouppermission = 
-            presets.reduce("( SELECT NULL) \n") do |grouppermission_query,preset|
+            presets.reduce(" SELECT NULL \n") do |grouppermission_query,preset|
 
               # BEGIN EXCEPT clause for preselected grouppermissions
               #  all those media entries the user is allowed for the current preset by grouppermission but denied by some userpermission
@@ -120,7 +120,7 @@ module MediaResourceModules
                 preset_true_actions.reduce("(SELECT NULL)") do |denied_query, action|
                   media_resource_ids_deniedby_userpermission =
                     Userpermission.where(action => false).where(user_id: user).joins(:media_resource).select("media_resources.id")
-                  denied_query + "UNION ( #{media_resource_ids_deniedby_userpermission.to_sql} )"
+                  denied_query + "UNION  #{media_resource_ids_deniedby_userpermission.to_sql} "
                 end
 
               except_denied = "EXCEPT ( #{denied_mediaresource_ids} )"
@@ -143,26 +143,26 @@ module MediaResourceModules
                   .joins(:media_resource)
                   .select("media_resources.id as media_resource_id")
 
-              grouppermission_query + "UNION ( ( #{media_resource_ids_by_grouppermissions.to_sql} )\n    #{except_denied_db_adapter_dependent}  )\n"
+              grouppermission_query + "UNION  ( #{media_resource_ids_by_grouppermissions.to_sql} )\n    #{except_denied_db_adapter_dependent}  \n"
               #END GROUPPERMISSIONS_PRESET
             end 
           # END BY_GROUPPERMISSION
 
           # BEGIN BY_USERPERMISSION
           by_userpermission =
-            presets.reduce("( SELECT NULL) \n") do |up_query,preset|
+            presets.reduce(" SELECT NULL \n") do |up_query,preset|
             userpermission_by_action =
               Constants::Actions.reduce(Userpermission) do |up,action|
                 up.where(action => preset[action])
               end
              media_resource_ids_by_userpermission =
                userpermission_by_action.where(user_id: user).joins(:media_resource).select("media_resources.id as media_resource_id")
-            up_query + "UNION ( #{media_resource_ids_by_userpermission.to_sql} ) \n"
+            up_query + "UNION  #{media_resource_ids_by_userpermission.to_sql}  \n"
             end 
           # END BY_USERPERMISSION
 
           # now put user and grouppermissions together in chainable query
-          where "id in ((#{by_grouppermission}) UNION (#{by_userpermission}))" 
+          where "id in (#{by_grouppermission} UNION #{by_userpermission})" 
 
       end
 

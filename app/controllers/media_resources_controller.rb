@@ -283,7 +283,8 @@ class MediaResourcesController < ApplicationController
 
       unless params[:permission_preset].blank? 
         presets = PermissionPreset.where(" id in ( ? )",  params[:permission_preset].map(&:to_i))
-        resources = resources.where_permission_presets_and_user presets, current_user
+        resources = MediaResource.where_permission_presets_and_user presets, current_user
+        binding.pry
       end
 
       resources = resources.paginate(:page => page, :per_page => per_page)
