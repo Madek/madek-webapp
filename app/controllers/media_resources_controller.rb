@@ -292,7 +292,7 @@ class MediaResourcesController < ApplicationController
         format.json {
           @media_resources = resources
           @with = with
-          render :template => "index.json.rjson"
+          render :template => "media_resources/index.json.rjson"
         }
       end
 

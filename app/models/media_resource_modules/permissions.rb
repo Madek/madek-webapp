@@ -4,6 +4,7 @@ module MediaResourceModules
   module Permissions
 
     def self.included(base)
+
       base.class_eval do
 
         extend(ClassMethods) # look way below
