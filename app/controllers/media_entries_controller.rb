@@ -150,8 +150,9 @@ class MediaEntriesController < ApplicationController
     end
     
     respond_to do |format|
-      #format.html {redirect_to @media_entry}
-      format.json { render :json => parent_media_sets.as_json }
+      format.json {
+        render :partial => "media_sets/index.json.rjson", :locals => {:media_sets => parent_media_sets}
+      }
     end
   end
 

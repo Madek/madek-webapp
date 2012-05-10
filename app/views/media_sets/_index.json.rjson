@@ -1,0 +1,3 @@
+media_sets.map do |media_set|
+  render :partial => "media_sets/show.json.rjson", :locals => {media_set: media_set, with: (with || nil)}
+end

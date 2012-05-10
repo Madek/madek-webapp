@@ -152,6 +152,9 @@ function SetWidget() {
     
     // data
     var items = $(target).data("items");
+    $(items).each(function(i, item){
+      item.meta_data = MetaDatum.flatten(item.meta_data);
+    });
     var widget = $(target).data("widget");
     
     // templating
@@ -556,7 +559,7 @@ function SetWidget() {
   }
   
   this.sort_title_alphabeticaly = function(a,b){
-    return $(a).tmplItem().data.title.toUpperCase() > $(b).tmplItem().data.title.toUpperCase() ? 1 : -1;
+    return $(a).tmplItem().data.meta_data.title.toUpperCase() > $(b).tmplItem().data.meta_data.title.toUpperCase() ? 1 : -1;
   }
   
   this.reset_create_new = function(target) {
@@ -605,7 +608,7 @@ function SetWidget() {
         // each search element
         $.each(search_elements, function(i_search_element, search_element){
           var regexp = new RegExp("\(\^\|\\s\)"+search_element, 'i');
-          if($(element).tmplItem().data.title.search(regexp) == -1 && $(element).tmplItem().data.creator.name.search(regexp) == -1 && $(element).find(".created_at").data("search").search(regexp) == -1){
+          if($(element).tmplItem().data.meta_data.title.search(regexp) == -1 && $(element).tmplItem().data.meta_data.creator.search(regexp) == -1 && $(element).find(".created_at").data("search").search(regexp) == -1){
             found = false;
             return false;
           } else {

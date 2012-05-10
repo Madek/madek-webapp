@@ -28,6 +28,12 @@ if (with || nil)
         end
       end
     end
+    if meta_key_names = with[:meta_data][:meta_key_names]
+      meta_key_names.each do |name|
+        md = media_resource.meta_data.get(name)
+        h[:meta_data].push render(:partial => "meta_data/show.json.rjson", :locals => {:meta_datum => md})
+      end
+    end
   end
   
   if with[:media_type]
