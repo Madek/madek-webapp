@@ -244,18 +244,25 @@ class MediaResourcesController < ApplicationController
 
   # TODO merge search and filter methods ??
   def filter(query = params[:query],
+             type = params[:type],
              with = params[:with] || {},
              page = params[:page],
              per_page = (params[:per_page] || PER_PAGE.first).to_i,
              meta_key_id = params[:meta_key_id],
              meta_term_id = params[:meta_term_id],
              filter = params[:filter] )
-             
-    # TODO generic search for both MediaResource.media_entries_and_media_sets
-    resources = MediaEntry.accessible_by_user(current_user)
+
+    where_type = case type
+      when "media_sets"
+        "MediaSet"
+      when "media_entries"
+        "MediaEntry"
+      else
+        ["MediaEntry", "MediaSet"]
+    end
+    resources = MediaResource.accessible_by_user(current_user).where(:type => where_type)
  
     if request.post?
-
       if meta_key_id and meta_term_id
         meta_key = MetaKey.find(meta_key_id)
         meta_term = meta_key.meta_terms.find(meta_term_id)
