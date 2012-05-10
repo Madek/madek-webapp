@@ -24,7 +24,7 @@
     %li.seperator.edit
     %li#batch-add-to-set.action_btn
       -# FIXME: The request for the linked index (scoped index trough selected elements) is causing an errors when there are mor then ca. 50 ids (ERROR: "The Requested URI is to large") 
-      = media_sets_widget(nil, _("Zu Set hinzufügen/entfernen"), nil, {with: {media_set: {media_entries: 1, child_sets: 1}}})
+      = media_sets_widget(nil, _("Zu Set hinzufügen/entfernen"), nil, {with: {children: true}})
     .clear
   #selected_items.clearfix
 
