@@ -122,7 +122,7 @@ class MediaSetsController < ApplicationController
         @parents = @media_set.parent_sets.accessible_by_user(current_user)
       }
       format.json {
-        render :partial => "media_sets/show.json.rjson", :locals => {:media_set => @media_set, :with => with}
+        render @media_set, :locals => {:with => with}
       }
     end
   end

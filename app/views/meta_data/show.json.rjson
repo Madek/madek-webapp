@@ -1,1 +1,1 @@
-render :partial => "meta_data/show.json.rjson", :locals => {:meta_datum => @meta_datum, :with => {:label => {:context => @context.name}}} 
+render @meta_datum, :locals => {:with => {:label => {:context => @context.name}}} 

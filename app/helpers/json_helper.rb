@@ -10,6 +10,8 @@ module JsonHelper
         { :media_type => true,
           :image=>{:as=>"base64", :size=>"large"},
           :meta_data => {:meta_context_names => ["core"]}}
+      else
+        {}
     end
     
     render(:partial => "#{partial}.json.rjson", :locals => {type => source, :with => with})

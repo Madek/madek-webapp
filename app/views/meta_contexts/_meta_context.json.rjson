@@ -4,7 +4,7 @@ h = {
   description: meta_context.description.to_s
 }
 
-if (with || nil)  
+if with ||= nil  
   if with[:meta_keys]
     h[:meta_keys] = meta_context.meta_key_definitions.map do |mkd|
       {

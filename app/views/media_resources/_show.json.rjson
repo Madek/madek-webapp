@@ -3,7 +3,7 @@ h = {
   type: media_resource.class.to_s.underscore # TODO .type ??
 }
 
-if (with || nil)
+if with ||= nil
   if with[:image]
     size = with[:image][:size] || :small # TODO :small_125 ??
     h[:image] = case with[:image][:as]
@@ -23,15 +23,19 @@ if (with || nil)
     h[:meta_data] = []
     if meta_context_names = with[:meta_data][:meta_context_names]
       meta_context_names.each do |name|
-        media_resource.meta_data_for_context(MetaContext.find_by_name(name)).each do |md|
-          h[:meta_data].push render(:partial => "meta_data/show.json.rjson", :locals => {:meta_datum => md})
+        h[:meta_data] += media_resource.meta_data_for_context(MetaContext.find_by_name(name)).map do |md|
+          # this doesn't work because formats is frozen as [:html] only
+          # render(md)
+          render(:partial => "meta_data/meta_datum.json.rjson", :locals => {:meta_datum => md})
         end
       end
     end
     if meta_key_names = with[:meta_data][:meta_key_names]
-      meta_key_names.each do |name|
+      h[:meta_data] += meta_key_names.map do |name|
         md = media_resource.meta_data.get(name)
-        h[:meta_data].push render(:partial => "meta_data/show.json.rjson", :locals => {:meta_datum => md})
+        # this doesn't work because formats is frozen as [:html] only
+        # render(md)
+        render(:partial => "meta_data/meta_datum.json.rjson", :locals => {:meta_datum => md})
       end
     end
   end

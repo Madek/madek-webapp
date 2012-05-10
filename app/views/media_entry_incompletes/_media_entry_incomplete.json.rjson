@@ -1,0 +1,5 @@
+{
+  id: media_entry_incomplete.id,
+  filename: media_entry_incomplete.media_file.filename,  
+  size: media_entry_incomplete.media_file.size
+}

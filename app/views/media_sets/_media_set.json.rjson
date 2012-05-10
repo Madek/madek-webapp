@@ -1,7 +1,7 @@
 # OPTIMIZE do we really want to json parse ??
-h = JSON.parse(render(:partial => "media_resources/show.json.rjson", :locals => {:media_resource => media_set, :with => with}))
+h = JSON.parse(render(:partial => "media_resources/show.json.rjson", :locals => {:media_resource => media_set, :with => (with ||= nil)}))
 
-if (with || nil)
+if with ||= nil
   if with[:children]
     forward_with = {}
     with.each_pair{|k,v| forward_with[k.to_sym] = v unless k.to_sym == :children}
