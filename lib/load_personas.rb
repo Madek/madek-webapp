@@ -1,4 +1,3 @@
-#!/usr/bin/ruby
 require 'rubygems'
 require 'persona'
 Persona.create("Adam") # Admin should be created first, he setting up the application
