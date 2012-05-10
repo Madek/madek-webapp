@@ -1,3 +1,3 @@
 media_sets.map do |media_set|
-  render media_set, :locals => {with: (with || nil)}
+  render partial: media_set, locals: {with: (with ||= nil)}
 end

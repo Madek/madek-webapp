@@ -58,7 +58,7 @@ class MetaContextsController < ApplicationController
                                 }.as_json
       }
       format.json {
-        render @context, :locals => {:with => with}
+        render :partial => @context, :locals => {:with => with}
       }
     end
   end

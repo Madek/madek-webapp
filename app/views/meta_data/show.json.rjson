@@ -1,1 +1,1 @@
-render @meta_datum, :locals => {:with => {:label => {:context => @context.name}}} 
+render :partial => @meta_datum, :locals => {:with => {:label => {:context => @context.name}}} 
