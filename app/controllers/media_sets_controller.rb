@@ -23,7 +23,7 @@ class MediaSetsController < ApplicationController
 
 #####################################################
   
-  ##
+  ################### FIXME this is deprecated !! merge to media_resources#index ###############
   # Get media sets
   # 
   # @resource /media_sets
