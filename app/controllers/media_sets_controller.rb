@@ -101,15 +101,22 @@ class MediaSetsController < ApplicationController
   #
   # @optional [Hash] with You can use all "with" parameters that are valid for MediaResources.
   # @optional [Hash/Boolean] with[children] Adds the children to the responding MediaSet. You can define either the type (media_set or media_entry) or just include all childrens with true.
+  # @optional [Hash/Boolean] with[parents] Adds the parents to the responding MediaSet.
   #
   # @example_request {"id": 1, "with": {"children": true}}
   # @example_request_description Request the MediaSet with id 1 including children of all kinds.
   # @example_response {"id":1, "type":"media_set" "children": [{"id": 3, "type": "media_entry"}, {"id": 4, "type": "media_set"}]}
   # @example_request_description The MediaSet with id 1 is containing a MediaEntry (id: 3) and a MediaSet (id: 4).
   #
+  # @example_request {"id": 1, "with": {"parents": true}}
+  # @example_request_description Request the MediaSet with id 1 including parents of all kinds.
+  # @example_response {"id":1, "type":"media_set" "parents": [{"id": 6, "type": "media_set"}, {"id": 8, "type": "media_set"}]}
+  # @example_request_description The MediaSet with id 1 is child of media_set with id 6 and media_set with id 8.
+  #
   # @response_field [Integer] id The id of the MediaSet.
   # @response_field [Integer] type The type of the MediaSet (in this case always "media_set").
   # @response_field [Array] children The children of the specific MediaSet.
+  # @response_field [Array] parents The parents of the specific MediaSet.
   #
   def show(with = params[:with],
            page = params[:page],

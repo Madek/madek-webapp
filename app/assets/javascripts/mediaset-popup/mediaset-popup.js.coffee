@@ -43,13 +43,6 @@ load_children = (target)->
   else
     $.ajax
       url: "/media_sets/"+target.tmplItem().data.id+".json"
-      beforeSend: (request, settings) ->
-        #before
-      success: (data, status, request) ->
-        $(target).data "loaded_children", data
-        setup_children(target, data)
-      error: (request, status, error) ->
-        console.log "ERROR LOADING"
       data:
         with: 
           children: true
@@ -57,27 +50,30 @@ load_children = (target)->
             as:"base64"
             size:"small"
       type: "GET"
+      success: (data, status, request) ->
+        $(target).data "loaded_children", data
+        setup_children(target, data)
+      error: (request, status, error) ->
+        console.log "ERROR LOADING"
     
 load_parents = (target)->
   if $(target).data("loaded_parents")?
     setup_parents(target, $(target).data("loaded_parents"))
   else
     $.ajax
-      url: "/media_resources/"+target.tmplItem().data.id+".json"
-      beforeSend: (request, settings) ->
-        #before
-      success: (data, status, request) ->
-        $(target).data "loaded_parents", data
-        setup_parents(target, data)
-      error: (request, status, error) ->
-        console.log "ERROR LOADING"
+      url: "/media_sets/"+target.tmplItem().data.id+".json"
       data:
-        with: 
+        with:
           parents: true
           image:
             as:"base64"
             size:"small"
       type: "GET"
+      success: (data, status, request) ->
+        $(target).data "loaded_parents", data
+        setup_parents(target, data)
+      error: (request, status, error) ->
+        console.log "ERROR LOADING"
   
 setup_children = (target, data)->
   if $(target).data("popup")?
@@ -159,7 +155,7 @@ create_popup = (target)->
   background.css("width", "140px").css("height", "235px").css("position", "absolute").css("top", "6px").css("left", "25px")
   # create container
   container = $("<div class='set_popup'></div>")
-  container.css("width", "200px").css("position", "absolute").css("z-index", "1000")
+  container.css("width", "200px").css("position", "absolute").css("z-index", "9999")
   # add pop up to target
   $(target).data "popup", container
   # add target to data
