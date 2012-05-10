@@ -123,11 +123,6 @@ class MediaSetsController < ApplicationController
            per_page = (params[:per_page] || PER_PAGE.first).to_i)
     respond_to do |format|
       format.html {
-        # TODO remove ??
-        resources = @media_set.children.accessible_by_user(current_user).
-                        order("media_resources.updated_at DESC").
-                        paginate({:page => page, :per_page => per_page})
-        @total_children = resources.total_entries
         @parents = @media_set.parent_sets.accessible_by_user(current_user)
       }
       format.json {
