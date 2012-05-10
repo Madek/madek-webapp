@@ -5,8 +5,6 @@
 
 :javascript
   $(document).ready(function () {
-    json = #{begin
-              @media_entries.as_json(user: current_user, with_thumb: true, with: {media_resource: {type: 1, image:{as:"base64"}}})
-            end.to_json}
+    json = #{@media_entries.as_json(user: current_user, with_thumb: true, with: {media_resource: {type: 1, image:{as:"base64"}}}).to_json}
     $("#results").html($.tmpl("tmpl/media_resource/image", json));
   });

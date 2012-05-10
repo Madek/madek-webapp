@@ -122,6 +122,7 @@ class MediaSetsController < ApplicationController
                         paginate({:page => page, :per_page => per_page})
         
         @can_edit_set = current_user.authorized?(:edit, @media_set)
+        @parents = @media_set.parent_sets.accessible_by_user(current_user)
         @pagination = { :page => resources.current_page,
                         :per_page => resources.per_page,
                         :total => resources.total_entries,

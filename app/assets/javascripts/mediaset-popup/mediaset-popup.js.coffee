@@ -52,12 +52,10 @@ load_children = (target)->
         console.log "ERROR LOADING"
       data:
         with: 
-          media_set:
-            media_resources:
-              type: true
-              image:
-                as:"base64"
-                size:"small"
+          children: true
+          image:
+            as:"base64"
+            size:"small"
       type: "GET"
     
 load_parents = (target)->
@@ -65,7 +63,7 @@ load_parents = (target)->
     setup_parents(target, $(target).data("loaded_parents"))
   else
     $.ajax
-      url: "/media_sets/"+target.tmplItem().data.id+".json"
+      url: "/media_resources/"+target.tmplItem().data.id+".json"
       beforeSend: (request, settings) ->
         #before
       success: (data, status, request) ->
@@ -75,12 +73,10 @@ load_parents = (target)->
         console.log "ERROR LOADING"
       data:
         with: 
-          media_set:
-            parent_sets:
-              type: true
-              image:
-                as:"base64"
-                size:"small"
+          parents: true
+          image:
+            as:"base64"
+            size:"small"
       type: "GET"
   
 setup_children = (target, data)->
@@ -88,9 +84,9 @@ setup_children = (target, data)->
     # remove loading
     $($(target).data("popup")).find(".children .loading").remove()
     # setup resources
-    media_entries = (resource for resource in data.media_resources when resource.type is "media_entry")
-    media_sets = (resource for resource in data.media_resources when resource.type is "media_set")
-    resources = data.media_resources[0...6]
+    media_entries = (resource for resource in data.children when resource.type is "media_entry")
+    media_sets = (resource for resource in data.children when resource.type is "media_set")
+    resources = data.children[0...6]
     displayed_media_entries = (resource for resource in resources when resource.type is "media_entry")
     displayed_media_sets = (resource for resource in resources when resource.type is "media_set")
     for resource in resources
@@ -106,14 +102,14 @@ setup_parents = (target, data)->
     # remove loading
     $($(target).data("popup")).find(".parents .loading").remove()
     # setup resources
-    resources = data.parent_sets[0...3]
+    resources = data.parents[0...3]
     displayed_media_sets = (resource for resource in resources when resource.type is "media_set")
     for resource in resources
       do (resource) ->
         $($(target).data("popup")).find(".parents").append $.tmpl("tmpl/mediaset-popup/resource", resource)
     # setup text
     $($(target).data("popup")).find(".parents").append $("<div class='text'></div>")
-    if resources? then $($(target).data("popup")).find(".parents .text").append("<p>"+(data.parent_sets.length-displayed_media_sets.length)+" weitere Sets</p>")
+    if resources? then $($(target).data("popup")).find(".parents .text").append("<p>"+(data.parents.length-displayed_media_sets.length)+" weitere Sets</p>")
       
 open_popup = (target)->
   # close all other mediaset popups

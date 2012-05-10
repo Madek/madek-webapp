@@ -87,7 +87,7 @@
       .inner
     .media_set_highlights_shadow.left
     .media_set_highlights_shadow.right
-  - unless (@parents = @media_set.parent_sets).empty?
+  - unless @parents.empty?
     %div.page_title_left.set_parents_title
       .icon_set_parents
       = _("Set enthalten in")
@@ -99,7 +99,7 @@
   = render :partial => "media_entries/index"
 
 :ruby
-  with = {:type => true,
+  with = {:media_type => true,
           :image=>{:as=>"base64", :size=>"large"},
           :meta_data => {:meta_context_names => ["core"]}}
 
