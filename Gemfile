@@ -12,7 +12,7 @@ gem 'memcache-client' #gem 'dalli' #gem 'redis-store'
 #tmp# dependency for linecache
 gem 'require_relative'
 
-gem 'json', '~> 1.6'
+gem 'json', '~> 1.7'
 gem 'rjson'
 gem 'jbuilder'
 gem 'haml', '~> 3.1'
@@ -112,11 +112,10 @@ end
 group :test do
   # gem 'cover_me' # CAUSING ERRORS FIXME
   gem 'capybara', '~> 1.1'
-  gem 'cucumber'#, '~> 1.0.3'
+  gem 'cucumber', '~> 1.2'
   gem 'cucumber-rails', '~> 1.3', :require => false
   gem 'launchy'  
   gem 'selenium-webdriver', '> 2.15.0'
-  gem 'simplecov' 
-  gem 'simplecov' # for Ruby 1.8.x:  gem 'rcov'
+  gem 'simplecov', '~> 0.6'
   gem 'capybara-screenshot'
 end
