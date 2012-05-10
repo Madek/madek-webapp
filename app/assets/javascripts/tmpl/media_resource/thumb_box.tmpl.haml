@@ -3,7 +3,7 @@ ${$meta_data = MetaDatum.flatten(meta_data), ""}
 ${is_set = (type=="media_set")?true:false, ""}
 ///////////////////////////////////
 
-%div{:id => "thumb_${id}", :class => "item_box ${media_type}{{if is_set}} set{{/if}}"}
+%div{:id => "thumb_${id}", :class => "item_box ${media_type.toLowerCase()}{{if is_set}} set{{/if}}"}
   {{tmpl($item.data) "tmpl/media_resource/thumb_box/permissions_icon"}}
   {{if ($item.with_link == null || $item.with_link)}}
   %a{:href => "/media_resources/${id}"}

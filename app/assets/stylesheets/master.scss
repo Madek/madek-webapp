@@ -1191,30 +1191,7 @@ ul li { float: left; }
   height: 18px;
 }
 
-.thumb_box {
-	float: left;
-	text-align: center;
-	width: 140px;
-	height: 140px;
-	font-size: 0.8em;
-	line-height: 140px;
-	background-color: #fff;
-	-webkit-box-shadow: 0 0 4px rgba(100, 100, 100, 0.3);
-	-moz-box-shadow: 0 0 4px rgba(100, 100, 100, 0.3);
-	box-shadow: 0 0 4px rgba(100, 100, 100, 0.3);
-	margin-bottom: 10px;
 
-	img {
-		margin-top: expression(( 140 - this.height ) / 2);
-		vertical-align: middle;
-		max-width: 120px;
-		max-height: 120px;
-		
-		&.loading {
-		  border: none;
-		}
-	}
-}
 
 #list_as_thumbnails .thumb_box {
 	float: left;
