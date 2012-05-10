@@ -88,10 +88,6 @@ module MetaDataHelper
           haml_tag :p, preserve(formatted_value(meta_datum))
         end
       end
-      haml_tag :h4, _("Erstellt von/am")
-      haml_tag :p, formatted_value(uploader_info.first) + " / " + formatted_value(uploader_info.last)
-      haml_tag :h4, _("Verwaltet durch")
-      haml_tag :p, formatted_value_for_people(resource.managers)
     end
   end
 
