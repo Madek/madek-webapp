@@ -132,16 +132,13 @@ end
 # the .item_box that contains the title. Returns the whole .item_box element
 # if successful, nil otherwise.
 def find_media_entry_titled(title)
-  found_item = nil
   wait_until { find(".item_box") }
   
-  all(".item_box").each do |item|
-    if !item.find(".item_title").text.match(/#{title}/).nil?
-      found_item = item
-    end
+  found_item = all(".item_box").detect do |item|
+    item.find(".item_title")["title"].match(/#{title}/)
   end
 
-  if found_item == nil
+  unless found_item
     puts "No media entry found with title '#{title}'"
   end
 
