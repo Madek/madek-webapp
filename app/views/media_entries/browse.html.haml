@@ -47,7 +47,11 @@
             c = media_entries.count
             next if c.zero?
             nothing_found = false
-            media_entries_data = media_entries.as_json({:user => current_user})
+            media_entries_data = render(:partial => "media_resources/index.json.rjson",
+                                        :locals => {:media_resources => media_entries,
+                                                    :with => {:image => {:as => "base64"},
+                                                              :flags => true,
+                                                              :meta_data => {:meta_key_names => ["title", "author"]}}}) 
           %li
             %a.toggler{:href => "#"}
               .browse_key
@@ -59,10 +63,8 @@
                     = meta_term
                     = "(#{c})"
               .clear
-            .browse_thumbs
-              - media_entries_data.each do |me|
-                .thumb_mini{:"data-media_entry" => me.to_json}
-                  %img{:src => me["thumb_base64"]}
+            .browse_thumbs{:"data-media_entries" => media_entries_data}
+
           %clear
       %clear
     - if nothing_found
@@ -76,6 +78,10 @@
 :javascript
   $(document).ready(function () {
     setupBatch();    
+
+    $(".browse_thumbs").each(function(){
+      $(this).html($.tmpl("tmpl/media_resource/thumb_box_mini", $(this).data('media_entries')));
+    });
 
     $("ul.browse a.toggler").click(function(event) {
       var that = $(this);
@@ -92,7 +98,7 @@
       var _this = $(this);
       clearTimeout(delayed);
       delayed = setTimeout(function(){
-        $('#positionable').html($("#thumbnail_browse").tmpl(_this.data("media_entry")));
+        $('#positionable').html($.tmpl("tmpl/media_resource/thumb_browse", _this.tmplItem().data));
         var final_offset = $("#positionable")
           .show()
           .position({

@@ -66,7 +66,6 @@ class MediaEntriesController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      format.json
       format.xml { render :xml=> @media_entry.to_xml(:include => {:meta_data => {:include => :meta_key}} ) }
     end
   end
@@ -151,7 +150,7 @@ class MediaEntriesController < ApplicationController
     
     respond_to do |format|
       format.json {
-        render :partial => "media_sets/index.json.rjson", :locals => {:media_sets => parent_media_sets}
+        render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => parent_media_sets}
       }
     end
   end
