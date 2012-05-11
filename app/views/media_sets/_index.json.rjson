@@ -1,3 +1,0 @@
-media_sets.map do |media_set|
-  render partial: media_set, locals: {with: (with ||= nil)}
-end
