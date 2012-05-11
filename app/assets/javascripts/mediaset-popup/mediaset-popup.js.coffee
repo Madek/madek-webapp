@@ -12,10 +12,7 @@ jQuery ->
 setup = ->
   $(".item_box.set:not(.popup_target) .thumb_box_set").live "mouseenter", -> enter_target $(this)
   $(".item_box.set.popup_target:not(.popup) .thumb_box_set").live "mouseenter", -> enter_target $(this)
-  $(".item_box.set:not(.popup) .thumb_box_set").live "mouseleave", -> leave_target $(this)
-  $(".item_box.set.popup .thumb_box_set").live "mouseleave", -> leave_popup $(this)
   $(".item_box.set:not(.popup_target) .thumb_box_set").live "click", -> stop_target_popup $(this)
-  $(window).bind "click", -> handle_click $(this)
 
 stop_target_popup = (target) ->
   target = $(target).closest(".item_box")
@@ -28,7 +25,7 @@ enter_target = (target)->
   # set popup with timeout
   timeout = window.setTimeout -> 
     open_popup target
-  , 900
+  , 500
   $(target).data "popup_timeout", timeout
   # set load data with timeout
   timeout = window.setTimeout ->
@@ -181,6 +178,7 @@ create_popup = (target)->
   # put parents inside if already exist
   if $(target).data("loaded_parents")?
     setup_parents target, $(target).data("loaded_parents")
+  $(".set_popup").bind "mouseleave", -> leave_popup $(this)
   
 close_popup = (popup_container)->
   # clear timeouts
@@ -217,8 +215,4 @@ leave_popup = (popup)->
   target = $(popup).closest(".set_popup")
   close_popup target
       
-handle_click = (target) ->
-  if $(target).closest(".set_popup").length < 1
-    # close all other mediaset popups
-    $(".set_popup").each (i, element)->
-      close_popup element
+
