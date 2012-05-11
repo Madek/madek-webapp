@@ -1,0 +1,48 @@
+@import "../mixins"
+
+#groups.index
+  
+  .group
+    display: block
+    margin-bottom: 24px
+    overflow: hidden
+    padding: 0 21px
+    position: relative
+    
+    ul
+      border: 1px solid #EAEAEA
+      background: #F5F5F5
+      display: block
+      overflow: hidden
+      margin: 8px 0 6px 0
+      padding: 6px 8px 2px
+      position: relative
+      @include border-radius(4px)
+      
+      li
+        background: #DFDFDF
+        border: 1px solid #CFCFCF
+        display: block
+        height: 26px
+        float: none
+        margin: 1px 0 2px
+        padding: 3px 8px 0 54px
+        position: relative
+        @include border-radius(4px)
+        
+        &.without_actions
+          padding-left: 8px
+        
+        .button
+          padding: 3px
+          position: absolute
+          top: 1px
+        
+          &.delete
+            left: 3px
+            .icon 
+              top: -2px
+              left: 1px
+          
+          &.edit
+            left: 24px 

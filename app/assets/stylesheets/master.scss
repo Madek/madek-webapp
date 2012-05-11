@@ -777,6 +777,18 @@ ul li { float: left; }
 	font-size: 1.9em;
 	padding: 15px 0 35px 20px;
 	float: left;
+	
+	.icon {
+	  display: block;
+    left: 13px;
+    opacity: 0.4;
+    position: absolute;
+    top: 12px;
+    
+    &.groups {
+      top: 15px      
+    }
+	}
 }
 
 .page_title_left span, .section_title a {
@@ -3620,9 +3632,6 @@ h2.groups, .name {
 	border-bottom: 1px solid rgb(200, 200, 200);
 	padding: 0.5em 0pt;
 }
-ul.groups {
-	line-height: 2em;
-}
 #members {
 	margin-top: 2em;
 	a {
@@ -3634,42 +3643,6 @@ ul.groups {
 			font-size: 0.8em;
 			color: #47788D;
 		}
-	}
-}
-.groups li, #members li {
-	border-bottom: 1px solid rgb(235, 235, 235);
-	float: none;
-	margin-left: 10px;
-	margin-right: 10px;
-}
-.groups .buttons {
-	margin: 2em 0;
-	text-decoration: none;
-	padding: 6px 14px;
-	color: #444;
-	border: none;
-	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.85);
-	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#bbb));
-	background-image: -moz-linear-gradient(0% 100% 90deg, #bbb, #fff);
-	background-color: #fff;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	-o-border-radius: 3px;
-	border-radius: 3px;
-	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-	font: 1.1em/1em 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-table.groups {
-	margin: 1em 0;
-	width: 60%;
-	th {
-		color: #999999;
-    	font-size: 0.8em;
-	}
-	input[type="text"] {
-		width: 400px;
 	}
 }
 
@@ -3688,11 +3661,6 @@ table.groups {
 
 #group_submit {
 	margin-top: 0;
-}
-
-.groups label {
-	font-size: 1.2em;
-	color: #424242;
 }
 
 /************************************************** temporary styles batch edit *****/

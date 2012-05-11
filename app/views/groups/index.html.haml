@@ -1,23 +1,37 @@
-.container_12.clearfix              
+.container_12.clearfix#groups.index        
   %section#content_body
     %div.page_title_left
-      %div{:class => "icon_workgroup"}
+      .icon.groups
       =_("Meine Arbeitsgruppen")
     .clear
-
-    %table.groups
-      %tbody
-        %tr
-          %th
-            
-    %ul.groups
-      - @groups.each do |group|
-        %li
-          = group
-          - unless group.is_readonly?
-            = link_to _("Bearbeiten"), edit_group_path(group), :class => "meta_data_label1"
-            = link_to _("Löschen"), group_path(group), :class => "meta_data_label2", :method => :delete, :confirm => _("Sind Sie sicher?")
+    
+    %section.group
+      %h3= _("MAdeK Arbeitsgruppen")
+      %ul
+        - @private_groups.each do |group|
+          %li
+            = link_to group_path(group), :title => _("Löschen"),:class => "delete button", :method => :delete, :confirm => _("Sind Sie sicher?") do
+              .trash.icon
+            = link_to edit_group_path(group), :title => _("Bearbeiten"), :class => "edit button" do
+              .edit.icon
+            = group
+      = link_to _("Neue Arbeitsgruppe erstellen"), new_group_path, :class => "button create"
+             
+    %section.group     
+      %h3= _("System Gruppen")
+      %ul
+        - @system_groups.each do |group|
+          %li.without_actions
+            = group
+    
+    %section.group     
+      %h3= _("Abteilungs-Arbeitsgruppen")
+      %ul
+        - @department_groups.each do |group|
+          %li.without_actions
+            = group
           
-      %li
-        %br
-        = link_to _("Neue Arbeitsgruppe erstellen"), new_group_path, :class => "buttons"
+:coffeescript
+  
+  jQuery ->
+    new App.Groups

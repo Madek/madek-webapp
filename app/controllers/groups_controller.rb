@@ -29,10 +29,13 @@ class GroupsController < ApplicationController
     respond_to do |format|
       format.html {
         @groups = current_user.groups
+        @private_groups = @groups.select{|g| g.type == "Group" and not g.is_readonly?}
+        @system_groups = @groups.select{|g| g.type == "Group" and g.is_readonly?}
+        @department_groups = @groups.select{|g| g.type == "MetaDepartment"}
       }
       format.json {
         # OPTIMIZE index groups to fulltext ??
-        @groups = 
+        groups = 
           if  adapter_is_mysql?
             Group.where("name LIKE :query OR ldap_name LIKE :query", {:query => "%#{query}%"})
           elsif adapter_is_postgresql?
@@ -40,6 +43,7 @@ class GroupsController < ApplicationController
           else 
             raise "sql adapter is not supported"
           end
+        render :partial => "groups/index.json.rjson", :locals => {:groups => groups}
       }
     end
   end
@@ -52,16 +56,35 @@ class GroupsController < ApplicationController
   def new
     @group = current_user.groups.build
   end
-
-  def create
-    group = current_user.groups.build(params[:group])
-    if group.save
-      # FIXME Rails 3.0.7 build: the association isn't saved properly
-      current_user.groups << group unless current_user.groups(true).exists?(group)
-      redirect_to edit_group_path(group)
-    else
-      flash[:error] = group.errors.full_messages
-      redirect_to :back
+  
+  ##
+  # Create group:
+  # 
+  # @resource /groups
+  #
+  # @action POST
+  # 
+  # @required [String] name The name of the group that has to be created. 
+  #
+  # @example_request {"name": "Librarian-Workgroup"}
+  # @example_request_description This creates a group with the name "Librarian-Workgroup"
+  # @example_respons {"id": 6, "name": "Librarian-Workgroup"}
+  # @example_response_description The response contains the new created group.
+  # 
+  # @response_field [Integer] id The id of the new group.
+  # @response_field [Sgtring] name The name of the new group.
+  # 
+  def create(name = params[:name] || raise("Name has to be present."))
+    group = current_user.groups.create(params[:group])
+    
+    respond_to do
+      format.json{
+        if group.persisted?
+          render :partial => group
+        else
+          render :json => {:error => group.errors.full_messages}, :status => :bad_request 
+        end        
+      }
     end
   end
 
