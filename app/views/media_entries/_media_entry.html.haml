@@ -140,7 +140,7 @@
         var _this = $(this); 
         _this.closest(".meta_context_group").toggleClass("open");
         
-        if(_this.data("link"))
+        if(_this.data("link")){
           $.ajax({
             url: _this.data("link"),
             data: {format: 'js'},
@@ -152,7 +152,7 @@
             }
           });
           _this.removeAttr("data-link").removeData("link");
-        end
+        }
       });
     }
   }

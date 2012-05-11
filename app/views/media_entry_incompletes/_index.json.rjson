@@ -1,0 +1,5 @@
+media_entry_incompletes.map do |media_entry_incomplete|
+  # this doesn't work because formats is frozen as [:html] only
+  # render media_entry_incomplete
+  render :partial => "media_entry_incompletes/media_entry_incomplete.json.rjson", :locals => {:media_entry_incomplete => media_entry_incomplete}
+end

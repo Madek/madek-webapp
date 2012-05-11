@@ -23,7 +23,7 @@ class MediaSetsController < ApplicationController
 
 #####################################################
   
-  ##
+  ################### FIXME this is deprecated !! merge to media_resources#index ###############
   # Get media sets
   # 
   # @resource /media_sets
@@ -44,7 +44,7 @@ class MediaSetsController < ApplicationController
   #   {"accessible_action": "edit", "child_ids": [1]}
   #
   # @example_request
-  #   {"accessible_action": "edit", "child_ids": [1,2], "with": {"media_set": {"media_entries": 1, "child_sets": 1}}
+  #   {"accessible_action": "edit", "child_ids": [1,2], "with": {"media_set": {"media_entries": 1, "child_sets": 1}} // FIXME {"children": 1}
   #
   # @example_request
   #   {"accessible_action": "edit", "with": {"media_set": {"creator": 1, "created_at": 1, "title": 1}}}
@@ -72,20 +72,16 @@ class MediaSetsController < ApplicationController
           [other, my, "Meine Sets", "Weitere Sets"]
         end
       }
-      
       format.json {
-        
         child_ids = MediaResource.by_collection(current_user.id, collection_id) unless collection_id.blank?
-        
-        sets = unless child_ids.blank?
+        media_sets = unless child_ids.blank?
           MediaResource.where(:id => child_ids).flat_map do |child|
             child.parent_sets.accessible_by_user(current_user, accessible_action)
           end.uniq
         else
           MediaSet.accessible_by_user(current_user, accessible_action)
         end
-
-        render :json => sets.as_json(:current_user => current_user, :with => with, :with_thumb => false) # TODO drop with_thum merge with with
+        render :partial => "media_sets/index.json.rjson", :locals => {:media_sets => media_sets, :with => with}
       }
     end
   end
@@ -126,7 +122,7 @@ class MediaSetsController < ApplicationController
         @parents = @media_set.parent_sets.accessible_by_user(current_user)
       }
       format.json {
-        render :partial => "media_sets/show.json.rjson", :locals => {:media_set => @media_set, :with => with}
+        render :partial => @media_set, :locals => {:with => with}
       }
     end
   end
@@ -312,9 +308,8 @@ class MediaSetsController < ApplicationController
     end
     
     respond_to do |format|
-      #format.html { redirect_to @media_set }
       format.json { 
-        render :json => child_media_sets.as_json(:user => current_user, :methods => :parent_ids) 
+        render :partial => "media_sets/index.json.rjson", :locals => {:media_resources => child_media_sets, :with => {:parents => true}}
       }
     end
   end

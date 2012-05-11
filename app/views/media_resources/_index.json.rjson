@@ -1,3 +1,3 @@
 media_resources.map do |media_resource|
-  render :partial => "media_resources/show.json.rjson", :locals => {media_resource: media_resource, with: (with || nil)}
+  render :partial => "media_resources/show.json.rjson", :locals => {media_resource: media_resource, with: (with ||= nil)}
 end

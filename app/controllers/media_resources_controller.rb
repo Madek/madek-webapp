@@ -24,8 +24,8 @@ class MediaResourcesController < ApplicationController
   # @optional [Array] ids A collection of MediaResources you want to fetch informations for 
   #
   # @optional [Hash] with[meta_data] Adds MetaData to the responding collection of MediaResources and forwards the hash as options to the MetaData.
-  # @optional [Array] with[meta_data][meta_contexts] Adds all requested MetaContexts as MetaData to the responding MediaResources. 
-  # @optional [Hash] with[meta_data][meta_contexts][].name The name of the MetaContext which MetaData should be added to the responding MediaResources. 
+  # @optional [Array] with[meta_data][meta_context_names] Adds all requested MetaContexts in the format: ["context_name1", "context_name2", ...] as MetaData to the responding MediaResources. 
+  # @optional [Array] with[meta_data][meta_key_names] Adds all requested MetaKeys in the format: ["key_name1", "key_name2", ...] as MetaData to the responding MediaResources. 
   # @optional [Boolean] with[filename] Request the filename of the MediaResources.
   # @optional [Boolean] with[media_type] Request the media_type of the MediaResources.
   # @optional [Boolean] with[flags] Request status indicator informations (about permissions and favorites related to the current user) for the responding MediaResources.
@@ -36,6 +36,10 @@ class MediaResourcesController < ApplicationController
   # @example_request {"with": {"meta_data": {"meta_context_names": ["core"]}}}
   # @example_request_description Requests MediaResources with all nested MetaData for the MetaContext with the name "core". 
   # @example_response {"media_resources:": [{"id":1, "meta_data": {"title": "My new Picture", "author": "Musterman, Max", "portrayed_object_dates": null, "keywords": "picture, portrait", "copryright_notice"}}, ...], "pagination": {"total": 100, "page": 1, "per_page": 36, "total_pages": 2}}
+  #
+  # @example_request {"with": {"meta_data": {"meta_key_names": ["title", "author"]}}}
+  # @example_request_description Requests MediaResources with all nested MetaData for the MetaKeys with the name "title" and "author". 
+  # @example_response {"media_resources:": [{"id":1, "meta_data": {"title": "My new Picture", "author": "Musterman, Max"}, ...]}
   #
   # @example_request {"ids": [1,2,3], "with": {"image": {"as": "base64"}}} 
   # @example_request_description Is requesting MediaResources with id 1,2 and 3. Adds an image as base64 to the respond.
@@ -206,9 +210,8 @@ class MediaResourcesController < ApplicationController
     end
     
     respond_to do |format|
-      #format.html { redirect_to @media_set }
       format.json { 
-        render :json => child_resources.as_json(:user => current_user, :methods => :parent_ids) 
+        render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => child_resources, :with => {:parents => true}}
       }
     end
   end
@@ -291,7 +294,6 @@ class MediaResourcesController < ApplicationController
       unless params[:permission_preset].blank? 
         presets = PermissionPreset.where(" id in ( ? )",  params[:permission_preset].map(&:to_i))
         resources = MediaResource.where_permission_presets_and_user presets, current_user
-        binding.pry
       end
 
       resources = resources.paginate(:page => page, :per_page => per_page)

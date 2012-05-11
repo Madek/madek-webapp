@@ -1,3 +1,0 @@
-@media_entry_incompletes.map do |media_entry|
-  render :partial => "media_entry_incompletes/show.json.rjson", :locals => {:media_entry => media_entry}
-end

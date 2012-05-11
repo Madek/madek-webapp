@@ -1,9 +1,0 @@
-h = {}
-
-[:id, :user_id, :created_at, :updated_at, :media_file_id].each do |k|
-  h[k] = media_entry.send(k)
-end
-
-h[:owner_id] = media_entry.user_id
-
-h
