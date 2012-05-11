@@ -49,8 +49,13 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @include_users = params[:include_users] and params[:include_users] == 'true'
-    @users = @group.type != "MetaDepartment" ?  @group.users : []
+    respond_to do |format|
+      format.json { 
+        @include_users = params[:include_users] and params[:include_users] == 'true'
+        @users = @group.type != "MetaDepartment" ?  @group.users : []
+        render :partial => "groups/group.json.rjson", :locals => {:group => @group, :users => @users}
+      }
+    end
   end
 
   def new

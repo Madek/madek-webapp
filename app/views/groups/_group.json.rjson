@@ -1,9 +1,11 @@
-{
-  id: @group.id,
-  name: @group.name,
-  type: @group.type,
+h = {
+  type: group.type,
+  id: group.id,
+  name: group.name
+}
 
-  users: @users.map do |user|
+if users ||= nil
+  h[:users] = users.map do |user|
     {
       id: user.id,
       login: user.login,
@@ -11,4 +13,6 @@
       firstname: user.person.firstname
     }
   end
-}
+end
+
+h
