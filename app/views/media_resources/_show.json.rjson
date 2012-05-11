@@ -62,6 +62,32 @@ if with ||= nil
     with.each_pair{|k,v| forward_with[k.to_sym] = v unless k.to_sym == :parents}
     h[:parents] = render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => media_resource.parents, :with => forward_with}
   end
+
+  case media_resource.type
+    when "MediaSet"
+      if with[:children]
+        forward_with = {}
+        with.each_pair{|k,v| forward_with[k.to_sym] = v unless k.to_sym == :children}
+        h[:children] = begin
+          media_resources = if with[:children] == "media_entry"
+            media_resource.media_entries
+          elsif with[:children] == "media_set"
+            media_resource.child_sets
+          else # respond with media_resources children
+            media_resource.children
+          end
+          render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => media_resources, :with => forward_with}  
+        end
+      end
+    
+    when "MediaEntry"
+      [:user_id, :created_at, :updated_at, :media_file_id].each do |k|
+        h[k] = media_resource.send(k) if with[k]
+      end
+      if with[:flags]
+        h[:can_maybe_browse] = media_resource.meta_data.for_meta_terms.exists?
+      end
+  end
 end
 
 h

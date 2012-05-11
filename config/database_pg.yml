@@ -34,7 +34,7 @@ default: &default
 
 development: 
   <<: *default
-  database: madek_dev
+  database: madek_prod
 
 test: 
   <<: *default

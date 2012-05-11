@@ -469,7 +469,7 @@ function SetWidget() {
   }
   
   this.create_new = function(target, val) {
-    var new_item = $.tmpl("tmpl/widgets/_line", {title: val, creator: $(target).data("user"), created_at: new Date()});
+    var new_item = $.tmpl("tmpl/widgets/_line", {meta_data: {title: val, creator: $(target).data("user"), created_at: new Date()}});
     $(new_item).addClass("created");
     $(new_item).css("background-color", "#CCC");
     $(target).data("widget").find(".list ul").append(new_item);
@@ -608,11 +608,14 @@ function SetWidget() {
         // each search element
         $.each(search_elements, function(i_search_element, search_element){
           var regexp = new RegExp("\(\^\|\\s\)"+search_element, 'i');
-          if($(element).tmplItem().data.meta_data.title.search(regexp) == -1 && $(element).tmplItem().data.meta_data.creator.search(regexp) == -1 && $(element).find(".created_at").data("search").search(regexp) == -1){
+          var meta_data = $(element).tmplItem().data.meta_data; 
+          if( (meta_data.title && meta_data.title.search(regexp) != -1) ||
+              (meta_data.creator && meta_data.creator.search(regexp) != -1) ||
+              ($(element).find(".created_at").data("search") && $(element).find(".created_at").data("search").search(regexp) != -1) ){
+            found = true;
+          } else {
             found = false;
             return false;
-          } else {
-            found = true;
           }
         });
       if(found) {

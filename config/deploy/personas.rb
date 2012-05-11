@@ -87,10 +87,9 @@ task :configure_environment do
 end
 
 task :load_empty_instance_with_personas do
-  run "cd #{release_path} && RAILS_ENV=production bundle exec rake madek:reset"  
-  run "cd #{release_path} && RAILS_ENV=production bundle exec rails runner '#{release_path}/script/load_personas.rb'"  
-
-#  require "#{release_path}/lib/load_personas"
+  run "mysql -h #{sql_host} --user=#{sql_username} --password=#{sql_password} #{sql_database} -e 'drop database #{sql_database}'"
+  run "mysql -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -e 'create database #{sql_database}'"
+  run "mysql -h #{sql_host} --user=#{sql_username} --password=#{sql_password} #{sql_database} < \"#{release_path + '/db/empty_medienarchiv_instance_with_personas.mysql.sql'}\""
 end
 
 task :backup_database do
