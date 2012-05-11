@@ -71,6 +71,27 @@ load_parents = (target)->
         setup_parents(target, data)
       error: (request, status, error) ->
         console.log "ERROR LOADING"
+
+pluralize_resource_by_type = (type) ->
+  switch type
+    when "media_set" then "media_sets"
+    when "media_entry" then "media_entries"
+
+
+resource_setdiv_template= ->
+  """   <div class="set_bg"> </div>
+        <div class="set_label_shadow"> </div>
+        <div class="set_label"> </div>
+  """
+  
+resource_template= (resource)->
+  """<a href="#{pluralize_resource_by_type(resource.type)}/#{resource.id}">
+      <div class="resource #{resource.type}">
+        #{if resource.type is 'media_set' then resource_setdiv_template() else ''}
+        <img src="#{resource.image}" />
+      </div>
+     </a>
+     """
   
 setup_children = (target, data)->
   if $(target).data("popup")?
@@ -83,8 +104,9 @@ setup_children = (target, data)->
     displayed_media_entries = (resource for resource in resources when resource.type is "media_entry")
     displayed_media_sets = (resource for resource in resources when resource.type is "media_set")
     for resource in resources
+      console.log resource
       do (resource) ->
-        $($(target).data("popup")).find(".children").append $.tmpl("tmpl/mediaset-popup/resource", resource)
+        $($(target).data("popup")).find(".children").append resource_template(resource) 
     # setup text
     $($(target).data("popup")).find(".children").append $("<div class='text'></div>")
     if media_entries? then $($(target).data("popup")).find(".children .text").append("<p>"+(media_entries.length-displayed_media_entries.length)+" weitere Medieneinträge</p>")
@@ -99,7 +121,7 @@ setup_parents = (target, data)->
     displayed_media_sets = (resource for resource in resources when resource.type is "media_set")
     for resource in resources
       do (resource) ->
-        $($(target).data("popup")).find(".parents").append $.tmpl("tmpl/mediaset-popup/resource", resource)
+        $($(target).data("popup")).find(".parents").append resource_template(resource)
     # setup text
     $($(target).data("popup")).find(".parents").append $("<div class='text'></div>")
     if resources? then $($(target).data("popup")).find(".parents .text").append("<p>"+(data.parents.length-displayed_media_sets.length)+" weitere Sets</p>")
