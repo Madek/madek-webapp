@@ -13,6 +13,7 @@ setup = ->
   $(".item_box.set:not(.popup_target) .thumb_box_set").live "mouseenter", -> enter_target $(this)
   $(".item_box.set.popup_target:not(.popup) .thumb_box_set").live "mouseenter", -> enter_target $(this)
   $(".item_box.set:not(.popup_target) .thumb_box_set").live "click", -> stop_target_popup $(this)
+  $(".item_box.set:not(.popup) .thumb_box_set").live "mouseleave", -> leave_target $(this)
 
 stop_target_popup = (target) ->
   target = $(target).closest(".item_box")
@@ -20,19 +21,14 @@ stop_target_popup = (target) ->
 
 enter_target = (target)->
   target = $(target).closest(".item_box")
-  # clear timeout
   window.clearTimeout($(target).data "popup_timeout")
-  # set popup with timeout
-  timeout = window.setTimeout -> 
+  $(target).data "popup_timeout", window.setTimeout -> 
     open_popup target
-  , 500
-  $(target).data "popup_timeout", timeout
-  # set load data with timeout
-  timeout = window.setTimeout ->
+  , 800
+  $(target).data "load_timeout", window.setTimeout ->
     load_children target
     load_parents target
   , 100
-  $(target).data "load_timeout", timeout
   
 load_children = (target)->
   if $(target).data("loaded_children")?
@@ -77,7 +73,6 @@ pluralize_resource_by_type = (type) ->
     when "media_set" then "media_sets"
     when "media_entry" then "media_entries"
 
-
 resource_setdiv_template= ->
   """   <div class="set_bg"> </div>
         <div class="set_label_shadow"> </div>
@@ -92,7 +87,6 @@ resource_template= (resource)->
       </div>
      </a>
      """
-  
 setup_children = (target, data)->
   if $(target).data("popup")?
     # remove loading
@@ -104,7 +98,6 @@ setup_children = (target, data)->
     displayed_media_entries = (resource for resource in resources when resource.type is "media_entry")
     displayed_media_sets = (resource for resource in resources when resource.type is "media_set")
     for resource in resources
-      console.log resource
       do (resource) ->
         $($(target).data("popup")).find(".children").append resource_template(resource) 
     # setup text
@@ -127,20 +120,13 @@ setup_parents = (target, data)->
     if resources? then $($(target).data("popup")).find(".parents .text").append("<p>"+(data.parents.length-displayed_media_sets.length)+" weitere Sets</p>")
       
 open_popup = (target)->
-  # close all other mediaset popups
-  $(".set_popup").each (i, element)->
-    close_popup element
-  # mark target
+  $(".set_popup").each (i, element)-> close_popup element
   $(target).addClass("popup_target")
-  # create if not exist
-  if($(target).data("popup") == undefined) 
-    create_popup target
-  # fadein childs and parents
+  create_popup target if($(target).data("popup") == undefined) 
   $($(target).data("popup")).find(".children").find(".arrow").show()
   $($(target).data("popup")).find(".children").delay(150).fadeIn(300)
   $($(target).data("popup")).find(".parents").find(".arrow").show()
   $($(target).data("popup")).find(".parents").delay(150).fadeIn(300)
-  # animate opening
   $($(target).data("popup")).find(".background").animate {
     left: 0,
     height: "665px",
