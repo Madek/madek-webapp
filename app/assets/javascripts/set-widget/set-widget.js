@@ -41,6 +41,7 @@ function SetWidget() {
       success: function(data) {
         $.ajax({
           url: $(target).data("linked_index").path,
+          data: $.extend(true, $(target).data("linked_index").data, {collection_id: data.collection_id}),
           success: function(data, status, request) {
             $(target).data("linked_items", data);
             SetWidget.setup_widget(target);
@@ -48,7 +49,6 @@ function SetWidget() {
           error: function(request, status, error){
             SetWidget.setup_widget(target);
           },
-          data: {collection_id: data.collection_id},
           type: $(target).data("linked_index").method
         });         
     }});
@@ -146,17 +146,14 @@ function SetWidget() {
     if($(target).data("linked_items") == undefined || $(target).data("items") == undefined || $(target).data("widget") == undefined) {
     	return false;
     }
-
     // remove start loading indicator
     $(target).data("widget").find(".loading").remove();
-    
     // data
-    var items = $(target).data("items");
-    $(items).each(function(i, item){
+    var items = _.map($(target).data("items"), function(item){
       item.meta_data = MetaDatum.flatten(item.meta_data);
+      return item;
     });
     var widget = $(target).data("widget");
-    
     // templating
     $(widget).append($.tmpl("tmpl/widgets/_search"));
     $(widget).append($.tmpl("tmpl/widgets/_list", {items: items}));
@@ -191,30 +188,10 @@ function SetWidget() {
         // check if the ellement is already linked
         if(linked_item.id == $(item).tmplItem().data.id) {
 
-          // remove not selected media_entries from the linked_item
-          var all_possible_selected_media_entries_linked = [];
-          if(linked_item.media_entries != undefined) {
-            $.each(linked_item.media_entries, function(i, entry){
-              if($(target).data("selected_ids").indexOf(entry.id) != -1){
-                all_possible_selected_media_entries_linked.push(entry);
-              }
-            });
-          }
-          
-          // remove not selected child sets from the linked_item
-          var all_possible_selected_child_sets_linked = [];
-          if(linked_item.child_sets != undefined) {
-            $.each(linked_item.child_sets, function(i, set){
-              if($(target).data("selected_ids").indexOf(set.id) != -1){
-                all_possible_selected_child_sets_linked.push(set);
-              }
-            });
-          }
-          
           // prepare all possible linked ids for this linked item
-          var all_possible_linked_ids = [];
-          $.each(all_possible_selected_media_entries_linked, function(i_me, me){all_possible_linked_ids.push(me.id)});
-          $.each(all_possible_selected_child_sets_linked, function(i_me, me){all_possible_linked_ids.push(me.id)});
+          var all_possible_linked_ids = _.map(linked_item.children, function(resource){
+            return resource.id
+          });
           
           var all_selected_items_are_linked = true;
           if(all_possible_linked_ids.length > 0) {
@@ -555,11 +532,18 @@ function SetWidget() {
   this.sort_list = function(target) {
     var items = $(target).data("widget").find(".list li");
         items = items.sort(SetWidget.sort_title_alphabeticaly);
+        
     $(target).data("widget").find(".list ul").append(items);
   }
   
   this.sort_title_alphabeticaly = function(a,b){
-    return $(a).tmplItem().data.meta_data.title.toUpperCase() > $(b).tmplItem().data.meta_data.title.toUpperCase() ? 1 : -1;
+    if($(a).tmplItem().data.meta_data.title == undefined) {
+      return -1;
+    } else if ($(b).tmplItem().data.meta_data.title == undefined) {
+      return 1;
+    } else {
+      return $(a).tmplItem().data.meta_data.title.toUpperCase() > $(b).tmplItem().data.meta_data.title.toUpperCase() ? 1 : -1;
+    }
   }
   
   this.reset_create_new = function(target) {

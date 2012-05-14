@@ -1,7 +1,11 @@
 %li
   %label{:title => "${meta_data.title}"}
-    ${$item.title = meta_data.title.replace(/\s/g,'_'), ""}
-    %input{:id => "${$item.title}", :type => "checkbox", :value => 1, :name => "${$item.title}"}
+    {{if meta_data.title}}
+    ${$identifier = meta_data.title.replace(/\s/g,'_'), ""}
+    {{else}}
+    ${$identifier = id, ""}
+    {{/if}}
+    %input{:id => "${$identifier}", :type => "checkbox", :value => 1, :name => "${$identifier}"}
     %span.title
       {{if meta_data.title}}
       ${Str.sliced_trunc(meta_data.title, 40)}
