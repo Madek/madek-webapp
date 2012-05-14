@@ -77,6 +77,12 @@
     height: 17px;
     width: 21px;
   }
+  
+  &.snag {
+    background-position: -17px 0;
+    height: 16px;
+    width: 15px;
+  }
 }
 
 #bar > .icon {

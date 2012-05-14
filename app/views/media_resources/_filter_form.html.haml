@@ -15,26 +15,32 @@
               = hidden_field_tag "query", params[:query]
               %h3.filter_category.clearfix
                 = link_to "Berechtigungsmaksen", "#", :class => "filter_category_link"
+              .filter_content{:style => "display: none;"}
                 %ul
                   - @permission_presets.each do |pp| 
                     %li
-                      = label_tag "#{pp.name}"
-                      = check_box_tag "permission_preset[]", pp.id
+                      %label
+                        = check_box_tag "permission_preset[]", pp.id
+                        = "#{pp.name}"
 
               %h3.filter_category.clearfix
                 = link_to "Eigentümer", "#", :class => "filter_category_link"
+              .filter_content{:style => "display: none;"}
                 %ul
                   - @owners.each do |owner|
                     %li
-                      = label_tag "#{owner.lastname}, #{owner.firstname}"
-                      = check_box_tag "owner_id[]", owner.user_id
+                      %label
+                        = check_box_tag "owner_id[]", owner.id
+                        = owner
               %h3.filter_category.clearfix
                 = link_to "Arbeitsgruppen", "#", :class => "filter_category_link"
+              .filter_content{:style => "display: none;"}
                 %ul
                   - @groups.each do |group|
                     %li
-                      = label_tag "#{group.name}"
-                      = check_box_tag "group_id[]", group.id
+                      %label
+                        = check_box_tag "group_id[]", group.id
+                        = group
               %h3.filter_category.clearfix
                 = link_to "Medientyp und Format", "#", :class => "filter_category_link"
                 %span.ui-icon.ui-icon-triangle-1-e
@@ -69,7 +75,7 @@
                       %span
                         Pixel
   
-            = display_meta_data_checkboxes(resources)
+            = display_meta_data_checkboxes(resources) # OPTIMIZE this is really slow, consider optimize the performance during the filtering iteration and meta_data normalization
           .filter_footer
             = button_tag nil, :title => "Filtern", :id => 'filter-submit', :name => nil do
               = _("Filter anwenden")

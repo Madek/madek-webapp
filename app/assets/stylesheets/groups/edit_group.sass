@@ -1,0 +1,94 @@
+@import "../mixins"
+
+.ui-dialog.edit_group
+  width: 900px !important
+  
+  .ui-dialog-titlebar-close
+    display: none
+  
+  p
+    margin: 0
+  
+  input.change_name
+    color: #333 !important
+    display: none
+    font-size: 1.4em
+    font-weight: bold
+    width: 96%
+  
+  a.change_name
+  
+  input 
+    background: white
+    border: 1px solid #D2D2D2
+    color: #999
+    height: 24px
+    margin: -2px 0 0 4px
+    padding: 2px 22px 0 6px
+    position: relative
+    width: 190px
+    @include box-shadow(inset 0 1px 2px #E3E3E3)
+    @include border-radius(2px)
+    
+    &:hover, &:focus 
+      color: #666
+  
+  .actions
+    display: block
+    height: 31px
+    margin: 18px 0 0 0
+    padding: 0
+    position: relative
+    text-align: right
+    width: 100%
+    
+    .cancel
+      cursor: pointer
+      position: relative
+      top: 8px
+      margin-right: 4px
+  
+  .info, .group
+    background: none repeat scroll 0 0 #F5F5F5
+    border: 1px solid #EAEAEA
+    border-radius: 4px 4px 4px 4px
+    margin: 4px 0 6px
+    padding: 6px 8px 2px
+  
+  .member, .add
+    background: none repeat scroll 0 0 #DFDFDF
+    border: 1px solid #CFCFCF
+    border-radius: 4px 4px 4px 4px
+    display: block
+    height: 25px
+    margin: 1px 0 2px
+    position: relative
+    width: 100%
+    
+  .add
+    height: 38px
+    margin-bottom: 8px
+    
+  .add .inner
+    padding: 7px 0 0 7px
+    
+  .member
+  
+    .button.remove
+      display: inline-block
+      float: left
+      padding: 2px 2px
+      
+    .fullname
+      padding: 4px 0 0 22px        
+   
+  button.save
+    font-size: 1.25em
+
+.ui-autocomplete
+  .existing_member
+    display: block
+    line-height: 1.5
+    padding: 0.2em 0.4em
+    .icon
+      margin-left: 8px
