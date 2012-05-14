@@ -56,9 +56,9 @@ class GroupsController
         id: element.id
         name: element.name
       dialog.find("section.group").append $.tmpl("app/views/groups/_member", user)
-    dialog.delegate "form", "submit", (e)=>
+    dialog.delegate ".save", "click", (e)=>
       do e.preventDefault
-      @save_group dialog
+      @save_group dialog, group
       return false
     dialog.delegate "a.change_name", "click", (e)=>
       dialog.find("h2").hide()
@@ -73,19 +73,21 @@ class GroupsController
         if existing_ids.indexOf(id) > -1
           element = $("<div class='existing_member'>#{$(item).html()}<div class='snag icon'></div></div>")
           $(item).replaceWith element
+    dialog.delegate ".button.remove", "click", (e)->
+      $(this).closest(".member").remove()
     return false
   
-  save_group: (container)->
+  save_group: (container, group)->
     name = container.find("input.change_name").val()
     user_ids = _.map(container.find(".group .member"), (member)-> $(member).data("id"))
     button = container.find("button.save")
     $(button).width($(button).width()).html("").append("<img src='/assets/loading.gif'/>").addClass("loading")
     $.ajax
-      url: "/groups.json"
+      url: "/groups/#{group.id}.json"
       type: "PUT"
-      data: 
+      data:
         name: name
-        users: user_ids
+        user_ids: user_ids
       success: ->
         window.location = window.location
       

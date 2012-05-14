@@ -3,7 +3,7 @@
 %input.change_name{:type => :text, :value => "${name}"}
 %a.change_name= "Gruppennamen ändern"
 
-%form#edit_group
+#edit_group
   
   %section.group
     {{each(i, user) users}}
@@ -23,5 +23,5 @@
   %section.actions
     %a.cancel
       = "Abbrechen"
-    %button.upload_buttons.save{:tabindex => 1, :type => :submit}
+    %button.upload_buttons.save
       = "Speichern"

@@ -11,12 +11,13 @@ Feature: Create and edit workgroups
       And a user called "Porky Pig" with username "porky" and password "piggy" exists
       And a user called "Daffy Duck" with username "daffy" and password "ducky" exists
 
-  Scenario: Create a group
+  @javascript
+  Scenario: Just create a group
     When I log in as "porky" with password "piggy"
      And I click the arrow next to "Pig, Porky"
      And I follow "Meine Arbeitsgruppen"
-     And I follow "Neue Arbeitsgruppe erstellen"
-     And I fill in "group_name" with "Looney Tunes"
+     And I press "Neue Arbeitsgruppe erstellen"
+     And I fill in "#create_group .name" with "Looney Tunes"
      And I press "Gruppe erstellen"
     Then I should see "Looney Tunes"
      And I should see "Pig, Porky"
@@ -27,7 +28,7 @@ Feature: Create and edit workgroups
     When I log in as "porky" with password "piggy"
      And I click the arrow next to "Pig, Porky"
      And I follow "Meine Arbeitsgruppen"
-     And I follow "Neue Arbeitsgruppe erstellen"
+     And I press "Neue Arbeitsgruppe erstellen"
      And I fill in "group_name" with "Looney Tunes"
      And I press "Gruppe erstellen"
     Then I should see "Looney Tunes"
@@ -45,7 +46,7 @@ Feature: Create and edit workgroups
     When I log in as "porky" with password "piggy"
      And I click the arrow next to "Pig, Porky"
      And I follow "Meine Arbeitsgruppen"
-     And I follow "Neue Arbeitsgruppe erstellen"
+     And I press "Neue Arbeitsgruppe erstellen"
      And I fill in "group_name" with "Looney Tunes"
      And I press "Gruppe erstellen"
     Then I should see "Looney Tunes"
@@ -67,7 +68,7 @@ Feature: Create and edit workgroups
     When I log in as "porky" with password "piggy"
      And I click the arrow next to "Pig, Porky"
      And I follow "Meine Arbeitsgruppen"
-     And I follow "Neue Arbeitsgruppe erstellen"
+     And I press "Neue Arbeitsgruppe erstellen"
      And I fill in "group_name" with ""
      And I press "Gruppe erstellen"    
     Then I should see "Name can't be blank"
