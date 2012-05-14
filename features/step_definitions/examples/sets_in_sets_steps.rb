@@ -118,7 +118,7 @@ end
 Then /^I see all sets I can edit$/ do
   @accsible_sets.each do |set|
     steps %Q{
-      Then I can read the first 30 characters of each set title
+      Then I can read the first 10 characters of each set title
     }
   end
 end
@@ -143,10 +143,10 @@ Then /^I can choose to see additional information$/ do
   end
 end
 
-Then /^I can read the first 30 characters of each set title$/ do
+Then /^I can read the first 10 characters of each set title$/ do
   @accsible_sets.each do |set|
     steps %Q{
-      Then I should see "#{set.title[0..30]}"
+      Then I should see "#{set.title[0..10]}"
     }
   end
 end
@@ -155,7 +155,7 @@ Then /^I can see enough information to differentiate between similar sets$/ do
   @accsible_sets.each do |set|
     next if set = @current_set
     steps %Q{
-      Then I can read the first 30 characters of each set title
+      Then I can read the first 10 characters of each set title
       And I can see the owner of each set
       And I can choose to see additional information
     }
