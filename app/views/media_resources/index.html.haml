@@ -1,4 +1,4 @@
-%section#content_body{:class => params[:query].blank? ? nil : "search"}
+%section#content_body.media_resources.index{:class => params[:query].blank? ? nil : "search"}
 
   = render :partial => "media_resources/index"
 

@@ -9,7 +9,7 @@
       %h3= _("MAdeK Arbeitsgruppen")
       %ul
         - @private_groups.each do |group|
-          %li
+          %li.group{:"data-group" => render(:partial => "groups/group.json.rjson", :locals => {:group => group, :users => group.users})}
             = link_to group_path(group), :title => _("Löschen"),:class => "delete button", :method => :delete, :confirm => _("Sind Sie sicher?") do
               .trash.icon
             = link_to edit_group_path(group), :title => _("Bearbeiten"), :class => "edit button" do
@@ -25,7 +25,7 @@
             = group
     
     %section.group     
-      %h3= _("Abteilungs-Arbeitsgruppen")
+      %h3= _("Abteilungs Gruppen")
       %ul
         - @department_groups.each do |group|
           %li.without_actions
