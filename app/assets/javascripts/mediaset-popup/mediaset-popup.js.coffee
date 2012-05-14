@@ -170,14 +170,17 @@ create_popup = (target)->
   container.append copy
   $("body").append container
   # positioning
+  offset = if $(".media_resources.index.miniature").length then 15 else 0 
   $(container).position {
     my: "top left",
     at: "top left",
+    offset: offset,
     of: $(target)
   }
   $(copy).position {
     my: "top left",
     at: "top left",
+    offset: offset,
     of: $(target)
   }
   # put children inside if already exist

@@ -1,0 +1,51 @@
+@import "../mixins"
+
+section.media_resources.index
+
+  &.miniature #bar .layout .icon[data-type="miniature"], &.grid #bar .layout .icon[data-type="grid"]
+    @include opacity(1.0)
+
+  &.miniature
+    
+    .pagination
+      display: none
+    
+    .page
+      display: inline
+      
+    #results
+      margin-top: 18px
+    
+    .item_box
+      display: inline-block
+      height: auto
+      margin: 0
+      width: auto
+      
+      &.video .thumb_box
+        background-position: -23px -183px
+        top: 1px
+        
+        img
+          max-height: 38px
+          max-width: 50px
+          position: relative
+          top: 5px
+        
+      &.set .thumb_box_set
+        background-position: -83px -183px
+      
+      .thumb_box, .thumb_box_set
+        height: 60px
+        line-height: 57px
+        margin: 0
+        width: 60px
+      
+        img
+          max-height: 50px
+          max-width: 50px
+        
+      .item_title, .item_author, .actions, .item_permission
+        display: none !important
+        
+      
