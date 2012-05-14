@@ -31,6 +31,7 @@ class AutoComplete
   @source = (request, response)->
     trigger = $(this.element)
     field_type = $(trigger).closest(".edit_meta_datum_field").tmplItem().data.type
+    field_type = $(trigger).data("type") unless field_type?
     $.getJSON $(trigger).data("url"),
       query: request.term
     , (data)->
@@ -38,6 +39,8 @@ class AutoComplete
       entries = switch field_type
         when "person" then $.map(data, (element)-> { data: element, id: element.id, value: Underscore.str.truncate(PersonMetaDatum.flatten_name(element), 65), name: PersonMetaDatum.flatten_name(element)})
         when "keyword" then $.map(data, (element)-> { id: element.id, value: element.label, name: element.label })
+        when "user" then $.map(data, (element)-> { id: element.id, value: element.name, name: element.name })
+        else $.map(data, (element)-> { id: element.id, value: element.label, name: element.label })
       response entries
       
   @select = (event, element)->
@@ -51,6 +54,7 @@ class AutoComplete
       $(values_container).append $.tmpl("tmpl/meta_data/edit/multiple_entries/"+field_type, element.item)
     # clear input field
     $(target).val("")
+    $(this).trigger("select_from_autocomplete", element.item)
     return false
 
 window.AutoComplete = AutoComplete

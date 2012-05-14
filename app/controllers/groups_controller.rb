@@ -80,8 +80,7 @@ class GroupsController < ApplicationController
   # @response_field [Sgtring] name The name of the new group.
   # 
   def create(name = params[:name] || raise("Name has to be present."))
-    group = current_user.groups.create(params[:group])
-    
+    group = current_user.groups.create(:name => name)
     respond_to do
       format.json{
         if group.persisted?

@@ -1,0 +1,29 @@
+%h2
+  ${name}
+%a.change_name= "Gruppennamen ändern"
+
+%form#edit_group
+  
+  %section.group
+    {{each(i, user) users}}
+    .member
+      .button.remove
+        .trash.icon
+      .fullname ${user.lastname}, ${user.firstname} 
+    {{/each}}
+    
+  %section.info
+    .add
+      .inner
+        %strong= "Person hinzufügen"
+        %input{:type => "text",
+          :"data-autocomplete" => true,
+          :"data-type" => "user",
+          :"data-url" => "/users.json"}
+    %p= "Es können nur Personen ausgewählt werden, die sich schon einmal im Medienarchiv eingeloggt haben."
+    
+  %section.actions
+    %a.cancel
+      = "Abbrechen"
+    %button.upload_buttons.save{:tabindex => 1, :type => :submit}
+      = "Speichern"

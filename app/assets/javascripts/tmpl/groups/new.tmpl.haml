@@ -1,0 +1,15 @@
+%h3
+  = "Neue Gruppe erstellen"
+
+%form#create_group
+  
+  %strong= "Name"
+  %input.name{:type => :text, :name => "name"}
+
+  %br
+  %br
+  %section.actions
+    %a.cancel
+      = "Abbrechen"
+    %button.upload_buttons.create{:tabindex => 1, :type => :submit}
+      = "Erstellen"
