@@ -15,6 +15,7 @@
               = hidden_field_tag "query", params[:query]
               %h3.filter_category.clearfix
                 = link_to "Berechtigungsmaksen", "#", :class => "filter_category_link"
+              .filter_content{:style => "display: none;"}
                 %ul
                   - @permission_presets.each do |pp| 
                     %li
@@ -23,6 +24,7 @@
 
               %h3.filter_category.clearfix
                 = link_to "Eigentümer", "#", :class => "filter_category_link"
+              .filter_content{:style => "display: none;"}
                 %ul
                   - @owners.each do |owner|
                     %li
@@ -30,6 +32,7 @@
                       = check_box_tag "owner_id[]", owner.user_id
               %h3.filter_category.clearfix
                 = link_to "Arbeitsgruppen", "#", :class => "filter_category_link"
+              .filter_content{:style => "display: none;"}
                 %ul
                   - @groups.each do |group|
                     %li
