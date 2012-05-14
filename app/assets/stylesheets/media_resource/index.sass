@@ -1,4 +1,5 @@
 @import "../mixins"
+@import "../variables"
 
 section.media_resources.index
 
@@ -33,7 +34,14 @@ section.media_resources.index
           top: 5px
         
       &.set .thumb_box_set
+        background: url($sprite) no-repeat
         background-position: -83px -183px
+        
+        img
+          max-height: 38px
+          max-width: 50px
+          position: relative
+          top: 5px
       
       .thumb_box, .thumb_box_set
         height: 60px
