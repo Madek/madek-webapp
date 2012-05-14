@@ -73,7 +73,8 @@ class MediaResourcesController < ApplicationController
             type = params[:type],
             with = params[:with] || {},
             top_level = params[:top_level],
-            user_id = params[:user_id],
+            user = (params[:user_id] ? User.find(params[:user_id]) : nil),
+            group = (params[:group_id] ? Group.find(params[:group_id]) : nil),
             media_set_id = params[:media_set_id],
             not_by_current_user = params[:not_by_current_user],
             public = params[:public],
@@ -129,7 +130,9 @@ class MediaResourcesController < ApplicationController
             end
         end
 
-        resources = resources.by_user(@user) if user_id and (@user = User.find(user_id))
+        resources = resources.accessible_by_group(group) if group
+        
+        resources = resources.by_user(user) if user
         # FIXME use presets and :manage permission
         if not_by_current_user
           resources = resources.not_by_user(current_user)
