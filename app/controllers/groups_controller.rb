@@ -73,7 +73,7 @@ class GroupsController < ApplicationController
   #
   # @example_request {"name": "Librarian-Workgroup"}
   # @example_request_description This creates a group with the name "Librarian-Workgroup"
-  # @example_respons {"id": 6, "name": "Librarian-Workgroup"}
+  # @example_response {"id": 6, "name": "Librarian-Workgroup"}
   # @example_response_description The response contains the new created group.
   # 
   # @response_field [Integer] id The id of the new group.
@@ -96,14 +96,38 @@ class GroupsController < ApplicationController
     not_authorized! and return if @group.is_readonly?
     # TODO authorized?
   end
-
-  def update
+  
+  ##
+  # Update group:
+  # 
+  # @resource /groups
+  #
+  # @action PUT
+  # 
+  # @required [Integer] id The id of the group. 
+  # @optional [String] name The new name of the group. 
+  # @optional [Array] users The collection of new users of that group. 
+  #
+  # @example_request {"id": 6, "name": "Master-Workgroup", "users": [1,7,12]}
+  # @example_request_description Rename the group to "Master-Workgroup", the new users of that group are the users with id 1, 7 and 12. 
+  # @example_response {} 
+  # @example_response_description Status: 200 (OK)
+  # 
+  def update(name = params[:name], users = params[:users])
     not_authorized! and return if @group.is_readonly?
     # TODO authorized?
-    @group.update_attributes(params[:group])
+    @group.name = name unless name.blank?        
+    @group.users = User.where(:id => users) unless users.blank?
+        
     respond_to do |format|
       format.html { redirect_to edit_group_path(@group) }
-      format.js { render :text => @group.name } # OPTIMIZE
+      format.json {
+        if @group.save
+          render :partial => @group
+        else
+          render :json => {:error => group.errors.full_messages}, :status => :bad_request 
+        end
+      }
     end
   end
 

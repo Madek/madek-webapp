@@ -15,7 +15,7 @@ class GroupsController
     dialog = Dialog.add
       trigger: e.currentTarget
       dialogClass: "create_group"
-      content: $.tmpl "tmpl/groups/new"
+      content: $.tmpl "app/views/groups/new"
       closeOnEscape: false
     dialog.delegate "#create_group", "submit", (e)=>
       do e.preventDefault
@@ -32,11 +32,11 @@ class GroupsController
     button = form.find("button.create")
     $(button).width($(button).width()).html("").append("<img src='/assets/loading.gif'/>").addClass("loading")
     $.ajax
-      url: "groups.json"
+      url: "/groups.json"
       type: "POST"
       data: 
         name: name
-      complete: ->
+      success: ->
         window.location = window.location
     
   open_edit_dialog: (e)=>
@@ -45,15 +45,48 @@ class GroupsController
     dialog = Dialog.add
       trigger: e.currentTarget
       dialogClass: "edit_group"
-      content: $.tmpl "tmpl/groups/edit", group
+      content: $.tmpl "app/views/groups/edit", group
       closeOnEscape: false
     dialog.delegate ".actions .cancel", "click", (e)=>
       do e.preventDefault
       $(dialog).dialog("close")
       return false
     dialog.delegate "input", "select_from_autocomplete", (event, element)=>
-      console.log arguments
-      console.log element
+      user =
+        id: element.id
+        name: element.name
+      dialog.find("section.group").append $.tmpl("app/views/groups/_member", user)
+    dialog.delegate "form", "submit", (e)=>
+      do e.preventDefault
+      @save_group dialog
+      return false
+    dialog.delegate "a.change_name", "click", (e)=>
+      dialog.find("h2").hide()
+      dialog.find("a.change_name").hide()
+      dialog.find("input.change_name").show()
+      dialog.find("input.change_name").focus().select()
+    dialog.delegate "input", "autocompleteopen", (event, ui)=>
+      target = $(".ui-autocomplete")
+      existing_ids = _.map(dialog.find(".group .member"), (member)-> $(member).data("id"))
+      target.find(".ui-menu-item").each (i, item)->
+        id = $(item).data("item.autocomplete").id
+        if existing_ids.indexOf(id) > -1
+          element = $("<div class='existing_member'>#{$(item).html()}<div class='snag icon'></div></div>")
+          $(item).replaceWith element
     return false
   
+  save_group: (container)->
+    name = container.find("input.change_name").val()
+    user_ids = _.map(container.find(".group .member"), (member)-> $(member).data("id"))
+    button = container.find("button.save")
+    $(button).width($(button).width()).html("").append("<img src='/assets/loading.gif'/>").addClass("loading")
+    $.ajax
+      url: "/groups.json"
+      type: "PUT"
+      data: 
+        name: name
+        users: user_ids
+      success: ->
+        window.location = window.location
+      
 window.App.Groups = GroupsController

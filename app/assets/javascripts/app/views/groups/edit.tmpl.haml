@@ -1,15 +1,13 @@
-%h2
+%h2.group_name
   ${name}
+%input.change_name{:type => :text, :value => "${name}"}
 %a.change_name= "Gruppennamen ändern"
 
 %form#edit_group
   
   %section.group
     {{each(i, user) users}}
-    .member
-      .button.remove
-        .trash.icon
-      .fullname ${user.lastname}, ${user.firstname} 
+    {{tmpl(user) "app/views/groups/_member"}}
     {{/each}}
     
   %section.info
