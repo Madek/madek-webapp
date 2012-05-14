@@ -136,7 +136,7 @@ open_popup = (target)->
   
 create_popup = (target)->
   # create copy of target
-  copy = $(target).clone(false)
+  copy = $(target).clone()
   copy.addClass("popup")
   # create a background
   arrow_grey = $.tmpl "tmpl/svg/arrow", classname: "grey"
@@ -170,7 +170,7 @@ create_popup = (target)->
   container.append copy
   $("body").append container
   # positioning
-  offset = if $(".media_resources.index.miniature").length then 15 else 0 
+  offset = if $(".media_resources.index.miniature").length then "0 48" else 0 
   $(container).position {
     my: "top left",
     at: "top left",
