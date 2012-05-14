@@ -310,10 +310,9 @@ class MediaResourcesController < ApplicationController
 
       @resources = resources.search(query)
 
-      @owners = User.joins(:person)
-        .select("users.id as user_id, people.lastname as lastname, people.firstname as firstname")
+      @owners = User.includes(:person)
         .where("users.id in (#{resources.search(query).select("media_resources.user_id").to_sql}) ")
-        .order("lastname, firstname DESC")
+        .order("people.lastname, people.firstname DESC")
 
       @groups = Group.where( %Q< groups.id in ( 
           #{MediaResource.grouppermissions_not_disallowed(current_user, :view).select("grouppermissions.group_id").to_sql}
