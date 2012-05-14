@@ -57,10 +57,6 @@ class GroupsController < ApplicationController
       }
     end
   end
-
-  def new
-    @group = current_user.groups.build
-  end
   
   ##
   # Create group:
@@ -81,8 +77,8 @@ class GroupsController < ApplicationController
   # 
   def create(name = params[:name] || raise("Name has to be present."))
     group = current_user.groups.create(:name => name)
-    respond_to do
-      format.json{
+    respond_to do |format|
+      format.json {
         if group.persisted?
           render :partial => group
         else
@@ -92,11 +88,6 @@ class GroupsController < ApplicationController
     end
   end
 
-  def edit
-    not_authorized! and return if @group.is_readonly?
-    # TODO authorized?
-  end
-  
   ##
   # Update group:
   # 
@@ -113,11 +104,10 @@ class GroupsController < ApplicationController
   # @example_response {} 
   # @example_response_description Status: 200 (OK)
   # 
-  def update(name = params[:name], users = params[:users])
+  def update(name = params[:name], user_ids = params[:user_ids])
     not_authorized! and return if @group.is_readonly?
-    # TODO authorized?
     @group.name = name unless name.blank?        
-    @group.users = User.where(:id => users) unless users.blank?
+    @group.users = User.where(:id => user_ids) unless user_ids.blank? # FIXME can we delete all members ??
         
     respond_to do |format|
       format.html { redirect_to edit_group_path(@group) }
@@ -135,24 +125,6 @@ class GroupsController < ApplicationController
     not_authorized! and return if @group.is_readonly?
     @group.destroy
     redirect_to groups_path
-  end
-
-######################################################
-
-  # TODO refactor to update method and use accepted_nested_attributes ?? 
-  def membership
-    @user = User.find(params[:user_id])
-    if request.post?
-      @group.users << @user
-      respond_to do |format|
-        format.js { render :partial => "user", :object => @user }
-      end
-    elsif request.delete?
-      @group.users.delete(@user)
-      respond_to do |format|
-        format.js { render :nothing => true } # TODO check if successfully deleted
-      end
-    end
   end
 
 end

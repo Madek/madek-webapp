@@ -12,10 +12,10 @@
           %li.group{:"data-group" => render(:partial => "groups/group.json.rjson", :locals => {:group => group, :users => group.users})}
             = link_to group_path(group), :title => _("Löschen"),:class => "delete button", :method => :delete, :confirm => _("Sind Sie sicher?") do
               .trash.icon
-            = link_to edit_group_path(group), :title => _("Bearbeiten"), :class => "edit button" do
+            %button.button.edit{:title => _("Bearbeiten")}
               .edit.icon
             = group
-      = link_to _("Neue Arbeitsgruppe erstellen"), new_group_path, :class => "button create"
+      %button.button.create= _("Neue Arbeitsgruppe erstellen")
              
     %section.group     
       %h3= _("System Gruppen")
