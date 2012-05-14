@@ -14,7 +14,7 @@
               .trash.icon
             %button.button.edit{:title => _("Bearbeiten")}
               .edit.icon
-            = group
+            %p= group
             = link_to _("%d Inhalte") % MediaResource.accessible_by_group(group).count, media_resources_path(:group_id => group.id), :title => _("Inhalte diese Gruppe anzeigen")
       %button.button.create= _("Neue Arbeitsgruppe erstellen")
              
