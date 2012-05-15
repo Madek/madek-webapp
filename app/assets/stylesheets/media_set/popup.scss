@@ -1,5 +1,10 @@
 @import "../mixins.scss";
 
+.entry_popup .item_box {
+  border: 2px solid #f1f1f1;
+  @include box-shadow(0 0 9px rgba(0, 0, 0, 0.3));  
+}
+
 .set_popup {
   
   .popup {

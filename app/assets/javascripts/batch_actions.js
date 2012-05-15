@@ -102,6 +102,9 @@ function setupBatch(json) {
       if($(this).closest(".set_popup").length) {
         // if target is a popup forward original
         toggleSelected($(this).closest(".set_popup").data("target").tmplItem().data);
+      } else if($(this).closest(".entry_popup").length) {
+        // if target is a popup forward original
+        toggleSelected($(this).closest(".entry_popup").data("target").tmplItem().data);
       } else {
         toggleSelected($(this).closest(".item_box").tmplItem().data);
       }

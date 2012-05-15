@@ -85,7 +85,7 @@ class MediaResourcesController < ApplicationController
             per_page = [(params[:per_page] || PER_PAGE.first).to_i, PER_PAGE.first].min,
             meta_key_id = params[:meta_key_id],
             meta_term_id = params[:meta_term_id] )
-
+            
     respond_to do |format|
       format.html
       format.json {
