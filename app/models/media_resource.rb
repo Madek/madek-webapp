@@ -1,10 +1,11 @@
 # -*- encoding : utf-8 -*-
+
+# require 'media_resource/arcs' # for arcs, parents, and children 
+# require 'media_resource/permissions'
+
 class MediaResource < ActiveRecord::Base
-
-  has_many :out_arcs, :class_name => "MediaResourceArc", :foreign_key => :parent_id
-  has_many :in_arcs, :class_name => "MediaResourceArc", :foreign_key => :child_id
-
-  has_many :parent_sets, :through => :in_arcs, :source => :parent
+  include MediaResourceModules::Permissions
+  include MediaResourceModules::Arcs
 
   after_create do
     if is_a? Snapshot
@@ -153,37 +154,7 @@ class MediaResource < ActiveRecord::Base
       return nil
     end
   end
-
     
-    # TODO merge to as_json
-    def get_basic_info(current_user, extended_keys = [], with_thumb = false)
-      core_keys = ["title", "author"]
-      core_info = Hash.new
-      
-      labels = core_keys + extended_keys
-      labels.each do |label|
-        core_info[label.gsub(' ', '_')] = ""
-      end
-      meta_data.get_for_labels(labels).each do |md|
-        core_info[md.meta_key.label.gsub(' ', '_')] = md.to_s
-      end
-      
-            
-      if with_thumb
-        mf = if self.is_a?(MediaSet)
-          media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
-        else
-          self.media_file
-        end
-        core_info["thumb_base64"] = mf.thumb_base64(:small_125) if mf
-      else
-        #1+n http-requests#
-        core_info["thumb_base64"] = "/media_resources/%d/image?size=small_125" % id
-      end
-      
-      core_info
-    end
-
 ########################################################
 
   # OPTIMIZE
@@ -202,61 +173,6 @@ class MediaResource < ActiveRecord::Base
     s += "#{title} (#{user})"
   end
   
-########################################################
-
-  def as_json(options={})
-    with_thumb = options[:with_thumb]
-    more_json = {}
-    
-    if user = options[:user]
-      #TODO Dont do this behaviour on default
-      is_public = is_public?
-      is_private = (is_public ? false : is_private?(user))
-      flags = { :is_public => is_public,
-                :is_private => is_private,
-                :is_shared => (not is_public and not is_private),
-                :is_editable => user.authorized?(:edit, self),
-                :is_manageable => user.authorized?(:manage, self),
-                :is_favorite => user.favorite_ids.include?(id) }
-      more_json.merge! flags         
-      more_json.merge!(self.get_basic_info(user, [], with_thumb))
-    end
-
-    default_options = {:only => :id}
-    json = super(default_options.deep_merge(options))
-    
-    if(with = options[:with])
-      if(with[:media_resource])
-        if with[:media_resource].has_key?(:image) and (with[:media_resource][:image].is_a?(Hash) or not with[:media_resource][:image].to_i.zero?)
-          size = with[:media_resource][:image][:size] || :small
-          
-          json[:image] = case with[:media_resource][:image][:as]
-            when "base64"
-              mf = if self.is_a?(MediaSet)
-                media_entries.accessible_by_user(options[:current_user]).order("media_resources.updated_at DESC").first.try(:media_file)
-              else
-                self.media_file
-              end
-              mf ? mf.thumb_base64(size) : nil
-            else # default return is a url to the image
-              "/media_resources/%d/image?size=%s" % [id, size]
-          end            
-        end
-        if with[:media_resource].has_key?(:title) and (with[:media_resource][:title].is_a?(Hash) or not with[:media_resource][:title].to_i.zero?)
-          json[:title] = meta_data.get_value_for("title")
-        end
-        if with[:media_resource].has_key?(:author) and (with[:media_resource][:author].is_a?(Hash) or not with[:media_resource][:author].to_i.zero?)
-          json[:author] = meta_data.get_value_for("author")
-        end
-        if with[:media_resource].has_key?(:type) and (with[:media_resource][:type].is_a?(Hash) or not with[:media_resource][:type].to_i.zero?)
-          json[:type] = type.underscore
-        end
-      end
-    end
-    
-    json.merge(more_json)
-  end
-
 ########################################################
 
   # TODO move down to Snapshot class
@@ -320,7 +236,7 @@ class MediaResource < ActiveRecord::Base
 ########################################################
 
   def media_type
-    if respond_to?(:media_file)
+    if respond_to?(:media_file) and media_file
       case media_file.content_type
         when /video/ then 
           "Video"
@@ -348,17 +264,6 @@ class MediaResource < ActiveRecord::Base
 
   ################################################################
 
-  # TODO move down to MediaSet, it's currently here because the favorites
-  scope :top_level, joins("LEFT JOIN media_resource_arcs ON media_resource_arcs.child_id = media_resources.id").
-                    where(:media_resource_arcs => {:parent_id => nil})
-  
-  scope :relative_top_level, select("DISTINCT media_resources.*").
-                              joins("LEFT JOIN media_resource_arcs msa ON msa.child_id = media_resources.id").
-                              joins("LEFT JOIN media_resources mr2 ON msa.parent_id = mr2.id AND mr2.user_id = media_resources.user_id").
-                              where(:mr2 => {:id => nil})
-
-  ################################################################
-
 
   scope :search, lambda {|q|
     sql = joins("LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id")
@@ -381,16 +286,6 @@ class MediaResource < ActiveRecord::Base
 
   ################################################################
   
-  def parents 
-    case type
-    when "MediaSet"
-      parent_sets
-    when "MediaEntry"
-      media_sets
-    else
-      raise "parents is not supported (yet) for your type"
-    end
-  end
 
   def self.reindex
     all.map(&:reindex).uniq
@@ -436,79 +331,6 @@ class MediaResource < ActiveRecord::Base
     sql    
   end
 
-########################################################
-# Permissions
-
-  has_many :userpermissions, :dependent => :destroy do
-    def allows(user, action)
-      where(:user_id => user, action => true).first
-    end
-    def disallows(user, action)
-      where(:user_id => user, action => false).first
-    end
-  end
-  
-  has_many :grouppermissions, :dependent => :destroy do
-    def allows(user, action)
-      joins(:group => :users).where(action => true, :groups_users => {:user_id => user}).first
-    end
-  end
-
-  def self.accessible_by_user(user, action = :view)
-    action = action.to_sym
-    
-    unless user.try(:id)
-      where(action => true)
-    else
-      resource_ids_by_userpermission = Userpermission.select("media_resource_id").where(action => true, :user_id => user)
-      resource_ids_by_userpermission_disallowed= Userpermission.select("media_resource_id").where(action => false, :user_id => user)
-      resource_ids_by_grouppermission_but_not_disallowed = Grouppermission.select("media_resource_id").where(action => true).joins("INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id ").where("groups_users.user_id = #{user.id}").where(" media_resource_id NOT IN ( #{resource_ids_by_userpermission_disallowed.to_sql} )")
-      resource_ids_by_ownership_or_public_permission = MediaResource.select("media_resources.id").where(["media_resources.user_id = ? OR media_resources.#{action} = ?", user, true])
-
-      where " media_resources.id IN  (
-            #{resource_ids_by_userpermission.to_sql} 
-        UNION
-            #{resource_ids_by_grouppermission_but_not_disallowed.to_sql} 
-        UNION
-            #{resource_ids_by_ownership_or_public_permission.to_sql}
-              )" 
-    end
-  end
-
-  def users_permitted_to_act(action)
-    # do not optimize away this query as resource.user can be null
-    owner_id = User.select("users.id").joins(:media_resources).where("media_resources.id" => id)
-    user_ids_by_userpermission= Userpermission.select("user_id").where("media_resource_id" => id).where("userpermissions.#{action}" => true)
-    user_ids_dissallowed_by_userpermission = Userpermission.select("user_id").where("media_resource_id" => id).where("userpermissions.#{action}" => false)
-    user_ids_by_grouppermission_but_not_dissallowed= Grouppermission.select("groups_users.user_id as user_id").joins(:group).joins("INNER JOIN groups_users ON groups_users.group_id = groups.id").where("media_resource_id" => id).where("grouppermissions.#{action}" => true).where(" user_id NOT IN ( #{user_ids_dissallowed_by_userpermission.to_sql} )")
-    user_ids_by_publicpermission= User.select("users.id").joins("CROSS JOIN media_resources").where("media_resources.#{action}" => true)
-
-    User.where " users.id IN (
-          #{owner_id.to_sql}
-        UNION
-          #{user_ids_by_userpermission.to_sql}
-        UNION
-          #{user_ids_by_grouppermission_but_not_dissallowed.to_sql}
-        UNION
-          #{user_ids_by_publicpermission.to_sql})"
-  end
-
-  def managers
-    users_permitted_to_act :manage
-  end
-
-  def is_public?
-    view?
-  end
-
-  def is_private?(user)
-    (user_id == user.id and
-      not is_public? and
-      not userpermissions.where(:view => true).where(["user_id != ?", user]).exists? and
-      not grouppermissions.where(:view => true).exists?)
-  end
-
-##########################################################################
 
   private
 

@@ -1,12 +1,8 @@
 #upload-container.set_media_sets
   .clearfix{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
     #results
-    = media_sets_widget(@media_entries, _("Einträge zu einem Set hinzufügen"), "upload_buttons", {with: {media_set: {media_entries: 1, child_sets: 1}}})
+    = media_sets_widget(@media_entries, _("Einträge zu einem Set hinzufügen"), "upload_buttons", {with: {children: true}})
 
-:javascript
-  $(document).ready(function () {
-    json = #{begin
-              @media_entries.as_json(user: current_user, with_thumb: true, with: {media_resource: {type: 1, image:{as:"base64"}}})
-            end.to_json}
-    $("#results").html($.tmpl("tmpl/media_resource/image", json));
-  });
+:coffeescript
+  jQuery ->
+    $("#results").html($.tmpl("tmpl/media_resource/thumb_box", #{render_json(@media_entries, :media_resources)}, {with_actions: false, with_link: false}))

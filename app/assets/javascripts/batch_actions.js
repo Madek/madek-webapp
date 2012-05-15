@@ -33,7 +33,6 @@ $(document).ready(function () {
       });
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+managable_ids+"'>");
     });
-  
 	
     $(".item_box:not(.tmp)").live({
       mouseenter: function() {
@@ -49,32 +48,6 @@ $(document).ready(function () {
 		    } 
        }
      });
-
-	$(".page[data-page]").live("inview", function() {
-		var $this = $(this);
-		var next_page = $this.data('page');
-		$this.removeAttr("data-page");
-
-		var options = {
-				dataType: 'json',
-				//data: {page: next_page},
-				success: function(response){
-					display_page(response, $this);
-				}
-			}; 
-		var f = $(".filter_content form:first");
-		if(f.length && f.data("paginate_using_filter")){
-			options.url = f.attr('action');
-			options.type = f.attr('method');
-			options.data = f.serializeArray();
-			options.data.push({name: 'page', value: next_page});
-		}else{
-		  var url = $this.data('url');
-		  if(url) options.url = url;
-			options.data = {page: next_page};
-		}
-	    $.ajax(options);
-	});
 
 });
 
@@ -126,7 +99,12 @@ function setupBatch(json) {
     });
 
     $(".check_box").live("click", function(){
-      toggleSelected($(this).closest(".item_box").tmplItem().data);
+      if($(this).closest(".set_popup").length) {
+        // if target is a popup forward original
+        toggleSelected($(this).closest(".set_popup").data("target").tmplItem().data);
+      } else {
+        toggleSelected($(this).closest(".item_box").tmplItem().data);
+      }
     });
 
   // select all function
@@ -170,13 +148,17 @@ function setupBatch(json) {
 		
 		if(i > -1) {
 			media_entries_json.splice(i, 1);
-			$('#thumb_' + id).removeClass('selected').removeAttr("style");
+			$(".item_box[data-id="+id+"]").each(function(i, el){
+			  $(el).removeClass('selected').css("background", "transparent");
+			});
 			$('#selected_items [rel="'+id+'"]').remove();
 			$("#positionable").fadeOut(); // only on browse page
 		} else {
-	        media_entries_json.push(me);
-	        $('#thumb_' + id).addClass('selected');
-	        $('#selected_items').append($("#thumbnail_mini").tmpl(me));
+      media_entries_json.push(me);
+      $(".item_box[data-id="+id+"]").each(function(i, el){
+        $(el).addClass('selected');
+      });
+      $('#selected_items').append($("#thumbnail_mini").tmpl(me));
 		};
 
 		set_media_entries_json(media_entries_json);

@@ -1,45 +1,93 @@
-h = {id: media_resource.id}
+h = {
+  id: media_resource.id,
+  type: media_resource.class.to_s.underscore # TODO .type ??
+}
 
-## IMAGE
-if with and with[:image]
-  size = with[:image][:size] || :small
+if with ||= nil
+  if with[:image]
+    size = with[:image][:size] || :small # TODO :small_125 ??
+    h[:image] = case with[:image][:as]
+      when "base64"
+        mf = if media_resource.is_a?(MediaSet)
+              media_resource.media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
+             else
+              media_resource.media_file
+             end
+        mf ? mf.thumb_base64(size) : nil
+      else # default return is a url to the image
+        "/media_resources/%d/image?size=%s" % [media_resource.id, size]
+    end            
+  end
   
-  h["image"] = case with[:image][:as]
-    when "base64"
-      mf = if media_resource.is_a?(MediaSet)
-            media_resource.media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
-           else
-            media_resource.media_file
-           end
-      mf ? mf.thumb_base64(size) : nil
-    else # default return is a url to the image
-      "/media_resources/%d/image?size=%s" % [id, size]
-  end            
-end
-
-## META DATA
-if with and with[:meta_data]
-  h["meta_data"] = []
-  
-  if meta_context_names = with[:meta_data][:meta_context_names]
-    meta_context_names.each do |name|
-      media_resource.meta_data_for_context(MetaContext.find_by_name(name)).each do |md|
-        h["meta_data"].push render(:partial => "meta_data/show.json.rjson", :locals => {:meta_datum => md})
+  if with[:meta_data]
+    h[:meta_data] = []
+    if meta_context_names = with[:meta_data][:meta_context_names]
+      meta_context_names.each do |name|
+        h[:meta_data] += media_resource.meta_data_for_context(MetaContext.find_by_name(name)).map do |md|
+          # this doesn't work because formats is frozen as [:html] only
+          # render(md)
+          render(:partial => "meta_data/meta_datum.json.rjson", :locals => {:meta_datum => md})
+        end
+      end
+    end
+    if meta_key_names = with[:meta_data][:meta_key_names]
+      h[:meta_data] += meta_key_names.map do |name|
+        md = media_resource.meta_data.get(name)
+        # this doesn't work because formats is frozen as [:html] only
+        # render(md)
+        render(:partial => "meta_data/meta_datum.json.rjson", :locals => {:meta_datum => md})
       end
     end
   end
-end
+  
+  if with[:media_type]
+    h[:media_type] = media_resource.media_type
+  end
+  
+  if with[:filename]
+    h[:filename] = media_resource.is_a?(MediaSet) ? nil : media_resource.media_file.filename
+  end
 
-## TYPE
-if with and with[:type]
-  h["type"] = media_resource.class.to_s.underscore
-end
+  if with[:flags]
+    h[:is_public] = media_resource.is_public?
+    h[:is_private] = h[:is_public] ? false : media_resource.is_private?(current_user)
+    h[:is_shared] = (not h[:is_public] and not h[:is_private]) # TODO drop and move to frontend
+    h[:is_editable] = current_user.authorized?(:edit, media_resource)
+    h[:is_manageable] = current_user.authorized?(:manage, media_resource)
+    h[:is_favorite] = current_user.favorite_ids.include?(media_resource.id)
+  end
+  
+  if with[:parents]
+    forward_with = {}
+    with.each_pair{|k,v| forward_with[k.to_sym] = v unless k.to_sym == :parents}
+    h[:parents] = render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => media_resource.parents, :with => forward_with}
+  end
 
-## FILENAME
-if with and with[:filename]
-  h["filename"] = media_resource.is_a?(MediaSet) ? nil : media_resource.media_file.filename
+  case media_resource.type
+    when "MediaSet"
+      if with[:children]
+        forward_with = {}
+        with.each_pair{|k,v| forward_with[k.to_sym] = v unless k.to_sym == :children}
+        h[:children] = begin
+          media_resources = if with[:children] == "media_entry"
+            media_resource.media_entries
+          elsif with[:children] == "media_set"
+            media_resource.child_sets
+          else # respond with media_resources children
+            media_resource.children
+          end
+          render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => media_resources, :with => forward_with}  
+        end
+      end
+    
+    when "MediaEntry"
+      [:user_id, :created_at, :updated_at, :media_file_id].each do |k|
+        h[k] = media_resource.send(k) if with[k]
+      end
+      if with[:flags]
+        h[:can_maybe_browse] = media_resource.meta_data.for_meta_terms.exists?
+      end
+  end
 end
-
-## 
 
 h

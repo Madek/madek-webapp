@@ -23,7 +23,7 @@ class MediaSetsController < ApplicationController
 
 #####################################################
   
-  ##
+  ################### FIXME this is deprecated !! merge to media_resources#index ###############
   # Get media sets
   # 
   # @resource /media_sets
@@ -44,15 +44,16 @@ class MediaSetsController < ApplicationController
   #   {"accessible_action": "edit", "child_ids": [1]}
   #
   # @example_request
-  #   {"accessible_action": "edit", "child_ids": [1,2], "with": {"media_set": {"media_entries": 1, "child_sets": 1}}
+  #   {"accessible_action": "edit", "child_ids": [1,2], "with": {"media_set": {"media_entries": 1, "child_sets": 1}} // FIXME {"children": 1}
   #
   # @example_request
   #   {"accessible_action": "edit", "with": {"media_set": {"creator": 1, "created_at": 1, "title": 1}}}
   #
   def index(accessible_action = (params[:accessible_action] || :view).to_sym,
             with = params[:with],
+            collection_id = params[:collection_id] || nil,
             child_ids = params[:child_ids] || nil)
-
+    
     respond_to do |format|
       #-# only used for FeaturedSet
       format.html {
@@ -71,68 +72,57 @@ class MediaSetsController < ApplicationController
           [other, my, "Meine Sets", "Weitere Sets"]
         end
       }
-      
       format.json {
-        
-        sets = unless child_ids.blank?
+        child_ids = MediaResource.by_collection(current_user.id, collection_id) unless collection_id.blank?
+        media_sets = unless child_ids.blank?
           MediaResource.where(:id => child_ids).flat_map do |child|
             child.parent_sets.accessible_by_user(current_user, accessible_action)
           end.uniq
         else
           MediaSet.accessible_by_user(current_user, accessible_action)
         end
-
-        render :json => sets.as_json(:current_user => current_user, :with => with, :with_thumb => false) # TODO drop with_thum merge with with
+        render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => media_sets, :with => with}
       }
     end
   end
 
   ##
-  # Get a specific media set
+  # Get a specific media set:
   # 
-  # @url [GET] /media_sets/:id?[arguments]
-  # 
-  # @argument [id] integer The id of the specific media_set 
-  # 
-  # @argument [with] hash Options forwarded to the results which will be inside of the respond 
-  # 
-  # @example_request
-  #   {"id": 34, "with": {"media_set": {"media_entries": 1}}}
+  # @resource /media_sets/:id
   #
-  # @request_field [Integer] id The id of the requested media_set
-  # @request_field [Hash] with Options forwarded to the results which will be inside of the respond
-  # @request_field [Hash] with.set Options forwarded to all resulting models from type set
-  # @request_field [Hash] with.set.media_entries When this hash of options is setted, it forces all result sets
-  #   to include their media_entries forwarding the options. When "media_entries" is just setted to 1, then 
-  #   they are include but without forwarding any options.
+  # @action GET
   #
-  # @example_response
-  #   [{"id":422, "media_entries": [{"id":2}, {"id":3}]}, {"id":423, "media_entries": [{"id":1}, {"id":4}]}]
+  # @required [Integer] id The id of the specific MediaSet.
   #
-  # @response_field [Integer] id The id of a set 
-  # @response_field [Hash] media_entries Media entries of the set
-  # @response_field [Integer] media_entries[].id The id of a media entry
+  # @optional [Hash] with You can use all "with" parameters that are valid for MediaResources.
+  # @optional [Hash/Boolean] with[children] Adds the children to the responding MediaSet. You can define either the type (media_set or media_entry) or just include all childrens with true.
+  # @optional [Hash/Boolean] with[parents] Adds the parents to the responding MediaSet.
   #
-  def show(thumb = params[:thumb],
-           with = params[:with],
+  # @example_request {"id": 1, "with": {"children": true}}
+  # @example_request_description Request the MediaSet with id 1 including children of all kinds.
+  # @example_response {"id":1, "type":"media_set" "children": [{"id": 3, "type": "media_entry"}, {"id": 4, "type": "media_set"}]}
+  # @example_request_description The MediaSet with id 1 is containing a MediaEntry (id: 3) and a MediaSet (id: 4).
+  #
+  # @example_request {"id": 1, "with": {"parents": true}}
+  # @example_request_description Request the MediaSet with id 1 including parents of all kinds.
+  # @example_response {"id":1, "type":"media_set" "parents": [{"id": 6, "type": "media_set"}, {"id": 8, "type": "media_set"}]}
+  # @example_request_description The MediaSet with id 1 is child of media_set with id 6 and media_set with id 8.
+  #
+  # @response_field [Integer] id The id of the MediaSet.
+  # @response_field [Integer] type The type of the MediaSet (in this case always "media_set").
+  # @response_field [Array] children The children of the specific MediaSet.
+  # @response_field [Array] parents The parents of the specific MediaSet.
+  #
+  def show(with = params[:with],
            page = params[:page],
            per_page = (params[:per_page] || PER_PAGE.first).to_i)
     respond_to do |format|
       format.html {
-        # TODO remove ??
-        resources = @media_set.children.accessible_by_user(current_user).
-                        order("media_resources.updated_at DESC").
-                        paginate({:page => page, :per_page => per_page})
-        
-        @can_edit_set = current_user.authorized?(:edit, @media_set)
-        @parents = @media_set.parent_sets.as_json(:user => current_user)
-        @pagination = { :page => resources.current_page,
-                        :per_page => resources.per_page,
-                        :total => resources.total_entries,
-                        :total_pages => resources.total_pages } 
+        @parents = @media_set.parent_sets.accessible_by_user(current_user)
       }
       format.json {
-        render :json => @media_set.as_json(:with => with, :current_user =>current_user)
+        render :partial => "media_resources/show.json.rjson", :locals => {:media_resource => @media_set, :with => with}
       }
     end
   end
@@ -214,8 +204,11 @@ class MediaSetsController < ApplicationController
         end
       }
       format.json {
-        r = @media_sets ? @media_sets : @media_set
-        render :json => r.as_json(:user => current_user), :status => (is_saved ? 200 : 500)
+        if @media_sets
+          render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => @media_sets}, :status => (is_saved ? 200 : 500)
+        else
+          render :partial => "media_resources/show.json.rjson", :locals => {:media_resource => @media_set}, :status => (is_saved ? 200 : 500)
+        end
       }
     end
   end
@@ -318,9 +311,8 @@ class MediaSetsController < ApplicationController
     end
     
     respond_to do |format|
-      #format.html { redirect_to @media_set }
       format.json { 
-        render :json => child_media_sets.as_json(:user => current_user, :methods => :parent_ids) 
+        render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => child_media_sets, :with => {:parents => true}}
       }
     end
   end

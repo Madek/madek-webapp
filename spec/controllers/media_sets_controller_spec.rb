@@ -44,10 +44,6 @@ describe MediaSetsController do
         get :inheritable_contexts,{ :id => @media_set.id, :format => 'json'}, {:user_id => @user.id}
         assigns(:inheritable_contexts).should include{@meta_context11}
       end
-
     end
-
   end
-
-
 end

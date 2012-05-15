@@ -1,17 +1,16 @@
--# OPTIMIZE merge content_body_result css to content_body
-%section{:id => params[:query].blank? ? "content_body" : "content_body_result"}
+%section#content_body.media_resources.index{:class => params[:query].blank? ? nil : "search"}
 
-  = render :partial => "media_entries/index"
+  = render :partial => "media_resources/index"
 
 :javascript
-  $(document).ready(function () {
+  $(document).ready(function () { 
     if(#{not params[:query].blank?}){
-      var filter_area = $("#content_body_result .filter_area");
+      var filter_area = $("#content_body .filter_area");
+      var url = "#{filter_media_resources_path(params.select {|k,v| not [:id, :action, :controller].include?(k.to_sym) })}";
       $.ajax({
-        url: "#{filter_media_resources_path}",
+        url: url,
         type: 'GET',
         dataType: 'html',
-        data: {format:"html", query: "#{params[:query]}"},
         beforeSend: function(){
           filter_area.html("Loading...");
         },

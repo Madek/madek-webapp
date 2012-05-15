@@ -9,13 +9,16 @@ module MediaResourcesHelper
       [_("Suchergebnisse"), _("für \"%s\"") % params[:query]] 
     elsif params[:media_set_id]
       [_("Set enthält"), _(" von %d für Sie sichtbar") % MediaSet.find(params[:media_set_id]).children.count]
+    elsif group_id = params[:group_id]
+      Group.find group_id
     end 
-
+    
     r ||= case current_settings
+      
       when {:type => :all, :permissions => :all}
         _("Alle Inhalte")
       when {:type => :media_entries, :permissions => :all}
-        _("Alle Inhalte")
+        _("Alle Medieneinträge")
       when {:type => :media_sets, :permissions => :all}
         _("Alle Sets")
         

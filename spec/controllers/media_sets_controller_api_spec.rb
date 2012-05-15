@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'pry'
 
 describe MediaSetsController do
+  render_views
 
   context "API Tests" do
 
@@ -21,7 +22,7 @@ describe MediaSetsController do
       context  "accesses splashscreen"  do
 
         let(:get_params) do
-          {id: @media_set.id, format: :json, with: {media_set: {media_entries: {author: true, title: true, image: {size: "large"}}}}}
+          {id: @media_set.id, format: :json, with: {children: true, meta_data:{meta_context_names: ["core"]}, image: {size: "large"}}}
         end
 
         it  "should not redirect" do
@@ -33,8 +34,8 @@ describe MediaSetsController do
           get :show, get_params
           json = JSON.parse(response.body)
           json["id"].should == @media_set.id
-          json["is_set"].should == true
-          json["media_entries"].should be
+          json["type"].should == "media_set"
+          json["children"].should be
         end
       end
     end
@@ -51,7 +52,7 @@ describe MediaSetsController do
           parent_media_set.child_sets << media_set
         end
 
-        context "when i get a set with nested resourches, the json response"  do
+        context "when i get a set with nested resources, the json response"  do
 
           let :json_body do
             get_params= {id: @parent_media_set.id, format: :json, with: {media_set: {media_resources: {type: 1, image: {as: "base64", size: "small"}}}}} 

@@ -47,13 +47,6 @@ class MetaContext < ActiveRecord::Base
     meta_key_definitions.maximum(:position).try(:next).to_i
   end
   
-  def as_json(options={})
-    default_options = {:only => :id,
-                       :methods => [:label, :description]}
-                       
-    super(default_options.merge(options))
-  end
-
 ##################################################################
 
   def vocabulary(user, used_meta_term_ids = nil)

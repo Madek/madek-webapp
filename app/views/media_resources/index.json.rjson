@@ -1,15 +1,5 @@
-h = {}
-
-h["pagination"] = {
-  total: @media_resources.total_entries,
-  page: @media_resources.current_page,
-  per_page: @media_resources.per_page,
-  total_pages: @media_resources.total_pages
+{
+  media_resources: render(:partial => "media_resources/index.json.rjson", :locals => {media_resources: @media_resources, with: (@with || nil)}),
+  pagination: render(:partial => "media_resources/pagination.json.rjson", :locals => {media_resources: @media_resources})
 }
 
-h["media_resources"] = @media_resources.map do |mr|
-  @media_resource = mr
-  render :template => "media_resources/show"
-end
-
-h

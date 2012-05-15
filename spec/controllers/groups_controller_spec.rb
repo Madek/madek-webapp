@@ -23,15 +23,13 @@ describe GroupsController do
       it "should find all groups" do
         get :index, {format: :json}, {user_id: @normin}
         json = JSON.parse(response.body)
-        expected = Group.all.map {|x| {"id" => x.id, "name" => x.to_s}}
-        json.eql?(expected).should be_true
+        ["type", "id", "name"].all? {|k| json.first.keys.include?(k) }.should be_true
       end
 
       it "should find matching groups" do
         get :index, {format: :json, query: "another group"}, {user_id: @normin}
         json = JSON.parse(response.body)
-        expected = [{"id" => @group2.id, "name" => @group2.to_s}]
-        json.eql?(expected).should be_true
+        json.any? {|g| g["name"] == "Another Group"}.should be_true
       end
     end
   end

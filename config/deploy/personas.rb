@@ -90,7 +90,6 @@ task :load_empty_instance_with_personas do
   run "mysql -h #{sql_host} --user=#{sql_username} --password=#{sql_password} #{sql_database} -e 'drop database #{sql_database}'"
   run "mysql -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -e 'create database #{sql_database}'"
   run "mysql -h #{sql_host} --user=#{sql_username} --password=#{sql_password} #{sql_database} < \"#{release_path + '/db/empty_medienarchiv_instance_with_personas.mysql.sql'}\""
-
 end
 
 task :backup_database do
@@ -149,7 +148,6 @@ after "deploy:create_symlink", :record_deploy_info
 #after "deploy:create_symlink", :generate_documentation 
 
 before "migrate_database", :backup_database
-# Enable this once we have a complete persona data set in /db/empty_medienarchiv_instance_with_personas.mysql.sql
 after "backup_database", :load_empty_instance_with_personas
 after "link_config", :migrate_database
 
