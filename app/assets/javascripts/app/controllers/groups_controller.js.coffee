@@ -30,7 +30,8 @@ class GroupsController
   create_group: (form)->
     name = form.find(".name").val()
     button = form.find("button.create")
-    $(button).width($(button).width()).html("").append("<img src='/assets/loading.gif'/>").addClass("loading")
+    button.data("text", button.html())
+    button.width(button.width()).html("").append("<img src='/assets/loading.gif'/>").addClass("loading")
     $.ajax
       url: "/groups.json"
       type: "POST"
@@ -38,7 +39,13 @@ class GroupsController
         name: name
       success: ->
         window.location = window.location
-    
+      error: (xhr)->
+        text = JSON.parse(xhr.responseText).error.join(", ")
+        $(form).find(".errors").append(text).show()
+        button.find(".loading").remove()
+        button.html button.data("text")
+        button.width "auto"
+
   open_edit_dialog: (e)=>
     do e.preventDefault
     group = $(e.currentTarget).closest("li").data "group"

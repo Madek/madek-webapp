@@ -1,8 +1,7 @@
 # coding: UTF-8
 
 When /^I remove "([^"]*)" from the group$/ do |member|
-  find(:css, "#members").find("li", :text => member).find("a", :text => 'Löschen').click
-  sleep 0.8
+  find(".member .fullname", :text => member).find(:xpath, "..").find(".button.remove").click
 end
 
 When /^I wait for (\d+) seconds$/ do |num|
@@ -15,4 +14,8 @@ Then /^"([^"]*)" should (not )?be a member of the "([^"]*)" group$/ do |member_n
   user = person.user
   group = Group.where(:name => group_name).first
   group.users.include?(user).should == (shouldnt_they.blank? ? true : false)
+end
+
+When /^I edit the "(.*?)" group$/ do |name|
+  find("li.group p", :text => name).find(:xpath, "..").find("button.edit").click
 end
