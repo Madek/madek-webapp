@@ -14,7 +14,7 @@
             - if type == "MediaEntry"
               = hidden_field_tag "query", params[:query]
               %h3.filter_category.clearfix
-                = link_to "Berechtigungsmaksen", "#", :class => "filter_category_link"
+                = link_to "Berechtigungen, Ich bin ...", "#", :class => "filter_category_link"
               .filter_content{:style => "display: none;"}
                 %ul
                   - @permission_presets.each do |pp| 
@@ -24,7 +24,7 @@
                         = "#{pp.name}"
 
               %h3.filter_category.clearfix
-                = link_to "Eigentümer", "#", :class => "filter_category_link"
+                = link_to "Eigentümer/in", "#", :class => "filter_category_link"
               .filter_content{:style => "display: none;"}
                 %ul
                   - @owners.each do |owner|
