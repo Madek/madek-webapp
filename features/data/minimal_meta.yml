@@ -571,8 +571,10 @@
 :meta_context_groups: 
 - name: "Metadaten"
   id: 1
+  position: 1
 - name: "Kontexte"
   id: 2
+  position: 2
 :meta_contexts: 
 - name: core
   label: 284

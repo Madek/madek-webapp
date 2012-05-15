@@ -6,7 +6,7 @@
     .clear
     
     %section.group
-      %h3= _("MAdeK Arbeitsgruppen")
+      %h3= _("Arbeits-Gruppen")
       %ul
         - @private_groups.each do |group|
           %li.group{:"data-group" => render(:partial => "groups/group.json.rjson", :locals => {:group => group, :users => group.users})}
@@ -14,18 +14,20 @@
               .trash.icon
             %button.button.edit{:title => _("Bearbeiten")}
               .edit.icon
-            = group
+            %p= group
+            - total_accessible_by_group = MediaResource.accessible_by_group(group).where(:type => ["MediaEntry", "MediaSet"]).count
+            = link_to _("%d Inhalte") % total_accessible_by_group, media_resources_path(:group_id => group.id), :title => _("Inhalte diese Gruppe anzeigen")
       %button.button.create= _("Neue Arbeitsgruppe erstellen")
              
     %section.group     
-      %h3= _("System Gruppen")
+      %h3= _("System-Gruppen")
       %ul
         - @system_groups.each do |group|
           %li.without_actions
             = group
     
-    %section.group     
-      %h3= _("Abteilungs Gruppen")
+    %section.group
+      %h3= _("Abteilungs-Gruppen")
       %ul
         - @department_groups.each do |group|
           %li.without_actions
