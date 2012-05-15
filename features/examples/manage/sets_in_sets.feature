@@ -44,7 +44,7 @@ Feature: Sets in Sets
       And I can see the owner of each set
       And I can see that selected sets are already highlighted
       And I can choose to see additional information
-      And I can read the first 30 characters of each set title
+      And I can read the sliced title of each set
       And I can see enough information to differentiate between similar sets
 
   # https://www.pivotaltracker.com/story/show/22421449

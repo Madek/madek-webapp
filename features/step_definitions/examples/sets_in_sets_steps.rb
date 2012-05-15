@@ -111,20 +111,20 @@ When /^I open the sets in sets tool$/ do
   
   @current_set = MediaSet.find 1
   @user = User.last
-  @accsible_sets = MediaSet.accessible_by_user(@user, :edit)
+  @accesible_sets = MediaSet.accessible_by_user(@user, :edit)
   @parent_sets = @current_set.parent_sets.accessible_by_user(@user, :edit)
 end
 
 Then /^I see all sets I can edit$/ do
-  @accsible_sets.each do |set|
+  @accesible_sets.each do |set|
     steps %Q{
-      Then I can read the first 10 characters of each set title
+      Then I can read the sliced title of each set
     }
   end
 end
 
 Then /^I can see the owner of each set$/ do
-  @accsible_sets.each do |set|
+  @accesible_sets.each do |set|
     steps %Q{
       Then I should see "#{set.user.name}"
     }
@@ -143,19 +143,22 @@ Then /^I can choose to see additional information$/ do
   end
 end
 
-Then /^I can read the first 10 characters of each set title$/ do
-  @accsible_sets.each do |set|
-    steps %Q{
-      Then I should see "#{set.title[0..10]}"
-    }
+Then /^I can read the sliced title of each set$/ do
+  @accesible_sets.each do |set|
+    match_string = if set.title.length > 40
+      "#{set.title.slice(0, 20)}...#{set.title.slice(set.title.length - 20, set.title.length)}"
+    else
+      set.title
+    end
+    steps 'Then I should see "%s"' % match_string
   end
 end
 
 Then /^I can see enough information to differentiate between similar sets$/ do
-  @accsible_sets.each do |set|
+  @accesible_sets.each do |set|
     next if set = @current_set
     steps %Q{
-      Then I can read the first 10 characters of each set title
+      Then I can read the sliced title of each set
       And I can see the owner of each set
       And I can choose to see additional information
     }
@@ -207,12 +210,12 @@ Then /^I open inside the badge edit the sets in sets widget$/ do
   
   @current_set = MediaSet.find 1
   @user = User.last
-  @accsible_sets = MediaSet.accessible_by_user(@user, :edit)
+  @accesible_sets = MediaSet.accessible_by_user(@user, :edit)
   @parent_sets = @current_set.parent_sets.accessible_by_user(@user, :edit)
 end
 
 Then /^I see the sets none of them are in$/ do
-  (@accsible_sets-@possible_parents.flatten.uniq!-[@selected_set]).each do |set|
+  (@accesible_sets-@possible_parents.flatten.uniq!-[@selected_set]).each do |set|
     assert_nil find("label[title='#{set.title}'] input")["checked"]
   end
 end
