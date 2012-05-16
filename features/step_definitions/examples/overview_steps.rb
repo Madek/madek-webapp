@@ -108,7 +108,7 @@ end
 Then /^the counter is formatted as "([^"]*)"$/ do |string|
   string = "/#{string}/"
   string.gsub!(/[N,M]/,'\d')
-  find("*", :text => eval(string))
+  wait_until { find("*", :text => eval(string)) }
 end
 
 Given /^the system is set up$/ do
