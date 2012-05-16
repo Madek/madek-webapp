@@ -177,10 +177,11 @@ Then /^I am the owner of that resource$/ do
 end
 
 When /^I create a snapshot of a media entry owned by "([^"]*)"$/ do |user_login|
-  user = User.find_by_login user_login
+  user = User.find_by_login user_login.downcase
   @resource = user.media_entries.accessible_by_user(@current_user).first
   visit media_resource_path @resource
   find("a", :text => "Kopie für MIZ-Archiv erstellen").click
+  sleep(1)
 end
 
 Then /^I am the owner of the snapshot$/ do
@@ -190,7 +191,7 @@ Then /^I am the owner of the snapshot$/ do
 end
 
 Then /^"([^"]*)" is still the original media entry's owner$/ do |user_login|
-  user = User.find_by_login user_login
+  user = User.find_by_login user_login.downcase
   @resource.user.should == user
 end
 
