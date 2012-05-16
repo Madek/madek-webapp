@@ -43,7 +43,7 @@ Feature: Overview I
     Given I am "Normin"
      When I see the action bar
       And I can switch the layout of the results to the grid view
-      And I can switch the layout of the results to the list view 
+      #And I can switch the layout of the results to the list view 
       And I can switch the layout of the results to the miniature view 
 
   # https://www.pivotaltracker.com/story/show/27418863
