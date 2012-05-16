@@ -32,11 +32,9 @@ class MediaResourcesController
       success: (data)->
         display_page(data, $this)
     if filter_form.length and filter_form.data "paginate_using_filter"
-      params = {}
-      $.each filter_form.serializeArray(), (i, field)-> params[field.name] = field.value
       options.url = filter_form.attr('action')
       options.type = filter_form.attr('method')
-      $.extend true, options.data, params 
+      $.extend true, options.data, filter_form.serializeObject() 
     else
       options.url = $this.data('url') if $this.data('url')?
     App.MediaResources.fetch options
