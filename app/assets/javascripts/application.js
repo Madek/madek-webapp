@@ -19,7 +19,8 @@
 //= require video-js/video
 //= require department-selection/department-selection
 //= require set-widget/set-widget 
-//= require mediaset-popup/mediaset-popup
+//= require media_set_popup/media_set_popup
+//= require media_entry_popup/media_entry_popup
 //= require permission/permission
 //= require iframe-wrapper/iframe-wrapper
 //= require_tree ./media_resource
@@ -31,6 +32,7 @@
 //= require_tree ./keywords
 //= require_tree ./bar
 //= require_tree ./media_set
+//= require app/app
 
 /////////// Tmpl /////////////
 //= require_tree ./tmpl/

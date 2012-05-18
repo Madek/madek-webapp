@@ -237,7 +237,8 @@
   <div id="Services" class="method_details_list">
     
 		<div class="method">
-			<p class="method_desc">Get media sets</p>
+			<p class="method_desc">FIXME this is deprecated !! merge to media_resources#index ###############
+Get media sets</p>
 			<h3 class="resource_url"><strong>/media_sets</strong> [GET]</h3>
 
 			<div class="parameters">	
@@ -331,7 +332,7 @@ show, browse, abstract, inheritable_contexts, edit, update, add_member, parents,
 							<span class="description"></span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{"accessible_action": "edit", "child_ids": [1,2], "with": {"media_set": {"media_entries": 1, "child_sets": 1}}
+								{"accessible_action": "edit", "child_ids": [1,2], "with": {"media_set": {"media_entries": 1, "child_sets": 1}} // FIXME {"children": 1}
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
@@ -360,6 +361,137 @@ show, browse, abstract, inheritable_contexts, edit, update, add_member, parents,
 			
 		</div>	
     
+		<div class="method">
+			<p class="method_desc">Get a specific media set:</p>
+			<h3 class="resource_url"><strong>/media_sets/:id</strong> [GET]</h3>
+
+			<div class="parameters">	
+				
+					<div class="required">
+						<h4>Required Parameters</h4>
+						
+							<ul>
+								<li>
+									<span class="name">id</span>
+									<span class="type">Integer</span>
+									<span class="text">The id of the specific MediaSet.</span>
+								</li>
+							</ul>
+						
+					</div>
+				
+
+				
+					<div class="optional">
+						<h4>Optional Parameters</h4>
+						
+							<ul>
+								<li>
+									<span class="name">with</span>
+									<span class="type">Hash</span>
+									<span class="text">You can use all "with" parameters that are valid for MediaResources.</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">with[children]</span>
+									<span class="type">Hash/Boolean</span>
+									<span class="text">Adds the children to the responding MediaSet. You can define either the type (media_set or media_entry) or just include all childrens with true.</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">with[parents]</span>
+									<span class="type">Hash/Boolean</span>
+									<span class="text">Adds the parents to the responding MediaSet.</span>
+								</li>
+							</ul>
+						
+					</div>
+				
+			</div><!-- parameters -->
+			
+			
+				<div class="response_fields">
+					<h4>Response Fields</h4>
+					
+						<ul>
+							<li>
+								<span class="name">id</span>
+								<span class="type">Integer</span>
+								<span class="text">The id of the MediaSet.</span>
+							</li>
+						</ul>
+					
+						<ul>
+							<li>
+								<span class="name">type</span>
+								<span class="type">Integer</span>
+								<span class="text">The type of the MediaSet (in this case always "media_set").</span>
+							</li>
+						</ul>
+					
+						<ul>
+							<li>
+								<span class="name">children</span>
+								<span class="type">Array</span>
+								<span class="text">The children of the specific MediaSet.</span>
+							</li>
+						</ul>
+					
+						<ul>
+							<li>
+								<span class="name">parents</span>
+								<span class="type">Array</span>
+								<span class="text">The parents of the specific MediaSet.</span>
+							</li>
+						</ul>
+					
+				</div>
+			
+			
+			
+				<div class="examples">
+					<h4>Examples</h4>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">Request the MediaSet with id 1 including children of all kinds.</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								{"id": 1, "with": {"children": true}}
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								{"id":1, "type":"media_set" "children": [{"id": 3, "type": "media_entry"}, {"id": 4, "type": "media_set"}]}
+							</span>
+							<span class="description"></span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">The MediaSet with id 1 is containing a MediaEntry (id: 3) and a MediaSet (id: 4).</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								{"id": 1, "with": {"parents": true}}
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								{"id":1, "type":"media_set" "parents": [{"id": 6, "type": "media_set"}, {"id": 8, "type": "media_set"}]}
+							</span>
+							<span class="description"></span>
+						</div>
+					
+				</div>
+			
+		</div>	
+    
   </div>
 
 </div>
@@ -379,7 +511,7 @@ show, browse, abstract, inheritable_contexts, edit, update, add_member, parents,
 	</div>
     
     <div id="footer">
-  Generated on Mon Apr 30 15:40:09 2012 with ruby-1.9.3
+  Generated on Fri May 11 12:44:57 2012 with ruby-1.9.3
 </div>
 
   </body>

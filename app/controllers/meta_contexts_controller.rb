@@ -44,7 +44,7 @@ class MetaContextsController < ApplicationController
   # @response_field [String] meta_keys[].description A description of a MetaKey.
   # @response_field [String] meta_keys[].settings Otional settings of the MetaKey.
   #
-  def show
+  def show(with = params[:with] || {})
     respond_to do |format|
       format.html {
         @vocabulary_json = @context.vocabulary(current_user).as_json
@@ -58,7 +58,7 @@ class MetaContextsController < ApplicationController
                                 }.as_json
       }
       format.json {
-        render @context
+        render :partial => @context, :locals => {:with => with}
       }
     end
   end

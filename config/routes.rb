@@ -177,12 +177,7 @@ MAdeK::Application.routes.draw do
 
   resources :people
 
-  resources :groups do
-    member do
-      post :membership
-      delete :membership
-    end
-  end
+  resources :groups, :only => [:index, :show, :create, :update, :destroy]
 
 ###############################################
 

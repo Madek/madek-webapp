@@ -270,17 +270,41 @@
 						
 							<ul>
 								<li>
-									<span class="name">with[meta_data][meta_contexts]</span>
+									<span class="name">with[meta_data][meta_context_names]</span>
 									<span class="type">Array</span>
-									<span class="text">Adds all requested MetaContexts as MetaData to the responding MediaResources.</span>
+									<span class="text">Adds all requested MetaContexts in the format: ["context_name1", "context_name2", ...] as MetaData to the responding MediaResources.</span>
 								</li>
 							</ul>
 						
 							<ul>
 								<li>
-									<span class="name">with[meta_data][meta_contexts][].name</span>
-									<span class="type">Hash</span>
-									<span class="text">The name of the MetaContext which MetaData should be added to the responding MediaResources.</span>
+									<span class="name">with[meta_data][meta_key_names]</span>
+									<span class="type">Array</span>
+									<span class="text">Adds all requested MetaKeys in the format: ["key_name1", "key_name2", ...] as MetaData to the responding MediaResources.</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">with[filename]</span>
+									<span class="type">Boolean</span>
+									<span class="text">Request the filename of the MediaResources.</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">with[media_type]</span>
+									<span class="type">Boolean</span>
+									<span class="text">Request the media_type of the MediaResources.</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">with[flags]</span>
+									<span class="type">Boolean</span>
+									<span class="text">Request status indicator informations (about permissions and favorites related to the current user) for the responding MediaResources.</span>
 								</li>
 							</ul>
 						
@@ -294,7 +318,7 @@
 					
 						<ul>
 							<li>
-								<span class="name">[].id</span>
+								<span class="name">id</span>
 								<span class="type">Integer</span>
 								<span class="text">The id of the MediaResource</span>
 							</li>
@@ -302,7 +326,7 @@
 					
 						<ul>
 							<li>
-								<span class="name">[].meta_data</span>
+								<span class="name">meta_data</span>
 								<span class="type">Hash</span>
 								<span class="text">The MetaData of the MediaResource (To get a list of possible MetaData - or the schema - you have to consider the MetaDatum resource)</span>
 							</li>
@@ -310,9 +334,65 @@
 					
 						<ul>
 							<li>
-								<span class="name">[].filename</span>
+								<span class="name">filename</span>
 								<span class="type">String</span>
 								<span class="text">The Filename of a MediaEntry's MediaFile (in case of MediaSets its null)</span>
+							</li>
+						</ul>
+					
+						<ul>
+							<li>
+								<span class="name">media_type</span>
+								<span class="type">String</span>
+								<span class="text">The Mediatype of a Media Resource (Video, Audio, Image or Doc;in case of MediaSets its Set)</span>
+							</li>
+						</ul>
+					
+						<ul>
+							<li>
+								<span class="name">is_public</span>
+								<span class="type">Boolean</span>
+								<span class="text">The is_public status.</span>
+							</li>
+						</ul>
+					
+						<ul>
+							<li>
+								<span class="name">is_private</span>
+								<span class="type">Boolean</span>
+								<span class="text">The is_private status.</span>
+							</li>
+						</ul>
+					
+						<ul>
+							<li>
+								<span class="name">is_shared</span>
+								<span class="type">Boolean</span>
+								<span class="text">The is_shared status.</span>
+							</li>
+						</ul>
+					
+						<ul>
+							<li>
+								<span class="name">is_editable</span>
+								<span class="type">Boolean</span>
+								<span class="text">The is_editable status.</span>
+							</li>
+						</ul>
+					
+						<ul>
+							<li>
+								<span class="name">is_managable</span>
+								<span class="type">Boolean</span>
+								<span class="text">The is_managable status.</span>
+							</li>
+						</ul>
+					
+						<ul>
+							<li>
+								<span class="name">is_favorite</span>
+								<span class="type">Boolean</span>
+								<span class="text">The is_fa status.</span>
 							</li>
 						</ul>
 					
@@ -343,7 +423,7 @@
 							
 							
 							
-							<span class="description">Is requesting MediaResources with id 1,2 and 3. Adds an image as base64 to the respond.</span>
+							<span class="description">Requests MediaResources with all nested MetaData for the MetaKeys with the name "title" and "author".</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
 								{"with": {"meta_data": {"meta_context_names": ["core"]}}}
@@ -351,6 +431,22 @@
 							<span class="hash response">
 								<strong class="type">Response</strong>
 								{"media_resources:": [{"id":1, "meta_data": {"title": "My new Picture", "author": "Musterman, Max", "portrayed_object_dates": null, "keywords": "picture, portrait", "copryright_notice"}}, ...], "pagination": {"total": 100, "page": 1, "per_page": 36, "total_pages": 2}}
+							</span>
+							<span class="description"></span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">Is requesting MediaResources with id 1,2 and 3. Adds an image as base64 to the respond.</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								{"with": {"meta_data": {"meta_key_names": ["title", "author"]}}}
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								{"media_resources:": [{"id":1, "meta_data": {"title": "My new Picture", "author": "Musterman, Max"}, ...]}
 							</span>
 							<span class="description"></span>
 						</div>
@@ -375,7 +471,7 @@
 							
 							
 							
-							<span class="description"></span>
+							<span class="description">Request MediaResources with MediaTypes</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
 								{"ids": [1,2,3], "with": {"filename": true}}
@@ -383,6 +479,38 @@
 							<span class="hash response">
 								<strong class="type">Response</strong>
 								{"media_resources:": [{"id":1, "filename": "my_file_name.jpg"}, {"id":2, "filename": "my_2_file_name.jpg"}, {"id":3, "filename": "my_3_file_name.jpg"}], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
+							</span>
+							<span class="description"></span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">Request MediaResources with flags.</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								{"ids": [1,2,3], "with": {"media_type": true}}
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								{"media_resources:": [{"id":1, "media_type": "Image"}, {"id":2, "media_type": "Image"}, {"id":3, "media_type": "Image"}], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
+							</span>
+							<span class="description"></span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">The responding MediaResource with id 1 is accesible by everyone and is editable, managable by the current user. The MediaResource is not part of the current user's favorites.</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								{"ids": [1,2,3], "with": {"flags": true}}
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								{"media_resources:": [{"id":1, "is_public": true, "is_private": false, "is_shared": false, "is_editable": true, "is_managable": true, "is_favorite": false}, ...], "pagination": ...}
 							</span>
 							<span class="description"></span>
 						</div>
@@ -410,7 +538,7 @@
 	</div>
     
     <div id="footer">
-  Generated on Mon Apr 30 15:40:09 2012 with ruby-1.9.3
+  Generated on Fri May 11 12:44:57 2012 with ruby-1.9.3
 </div>
 
   </body>

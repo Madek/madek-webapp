@@ -223,9 +223,10 @@
     .layout {
       float: left;
       display: inline-block;
+      margin-left: 7px;
       
       a {
-        margin-left: 7px;
+        margin-left: 3px;
         @include opacity(0.6);
         
         &:hover, &.active {

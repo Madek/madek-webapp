@@ -1,4 +1,76 @@
 
+SELECT `media_resources`.* FROM `media_resources`  WHERE (id in ((( SELECT NULL) 
+      UNION ( ( SELECT media_resources.id as media_resource_id FROM `grouppermissions` INNER JOIN `groups` ON `groups`.`id` = `grouppermissions`.`group_id` INNER JOIN `groups_users` ON `groups_users`.`group_id` = `groups`.`id` INNER JOIN `users` ON `users`.`id` = `groups_users`.`user_id` INNER JOIN `media_resources` ON `media_resources`.`id` = `grouppermissions`.`media_resource_id` WHERE `grouppermissions`.`download` = 0 AND `grouppermissions`.`view` = 1 AND `grouppermissions`.`edit` = 0 AND `grouppermissions`.`manage` = 0 AND (users.id = 2) )
+              )
+            ) UNION (( SELECT NULL) 
+            UNION ( SELECT media_resources.id as media_resource_id FROM `userpermissions` INNER JOIN `media_resources` ON `media_resources`.`id` = `userpermissions`.`media_resource_id` WHERE `userpermissions`.`download` = 0 AND `userpermissions`.`view` = 1 AND `userpermissions`.`edit` = 0 AND `userpermissions`.`manage` = 0 AND `userpermissions`.`user_id` = 2 ) 
+          )));
+
+SELECT `media_resources`.* FROM `media_resources`  WHERE (id in 
+  (  SELECT media_resources.id as media_resource_id 
+          FROM `grouppermissions` 
+          INNER JOIN `groups` ON `groups`.`id` = `grouppermissions`.`group_id` INNER JOIN `groups_users` ON `groups_users`.`group_id` = `groups`.`id` 
+          INNER JOIN `users` ON `users`.`id` = `groups_users`.`user_id` INNER JOIN `media_resources` ON `media_resources`.`id` = `grouppermissions`.`media_resource_id` 
+          WHERE `grouppermissions`.`download` = 0 AND `grouppermissions`.`view` = 1 AND `grouppermissions`.`edit` = 0 AND `grouppermissions`.`manage` = 0 AND (users.id = 2) 
+       UNION 
+         SELECT media_resources.id as media_resource_id FROM `userpermissions` 
+          INNER JOIN `media_resources` ON `media_resources`.`id` = `userpermissions`.`media_resource_id` 
+          WHERE `userpermissions`.`download` = 0 AND `userpermissions`.`view` = 1 
+          AND `userpermissions`.`edit` = 0 AND `userpermissions`.`manage` = 0 AND `userpermissions`.`user_id` = 2 )) ;
+
+
+SELECT `media_resources`.* FROM `media_resources`  WHERE (id in ( 
+      ( SELECT media_resources.id as media_resource_id FROM `userpermissions` 
+        INNER JOIN `media_resources` ON `media_resources`.`id` = `userpermissions`.`media_resource_id` 
+          WHERE `userpermissions`.`download` = 0 
+          AND `userpermissions`.`view` = 1 
+          AND `userpermissions`.`edit` = 0 
+          AND `userpermissions`.`manage` = 0 
+          AND `userpermissions`.`user_id` = 2 ) 
+          )) ;
+
+SELECT `media_resources`.* FROM `media_resources`  WHERE (id in ( 
+      (SELECT NULL)
+    UNION
+      ( SELECT media_resources.id as media_resource_id FROM `userpermissions` 
+        INNER JOIN `media_resources` ON `media_resources`.`id` = `userpermissions`.`media_resource_id` 
+          WHERE `userpermissions`.`download` = 0 
+          AND `userpermissions`.`view` = 1 
+          AND `userpermissions`.`edit` = 0 
+          AND `userpermissions`.`manage` = 0 
+          AND `userpermissions`.`user_id` = 2 ) 
+          ))
+      ;
+
+
+(SELECT Null) UNION (SELECT NULL);
+
+SELECT `media_resources`.* FROM `media_resources`  WHERE (id in ((( SELECT NULL) ) UNION (( SELECT NULL) UNION 
+      ( SELECT media_resources.id as media_resource_id FROM `userpermissions` 
+        INNER JOIN `media_resources` ON `media_resources`.`id` = `userpermissions`.`media_resource_id` 
+          WHERE `userpermissions`.`download` = 0 
+          AND `userpermissions`.`view` = 1 
+          AND `userpermissions`.`edit` = 0 
+          AND `userpermissions`.`manage` = 0 
+          AND `userpermissions`.`user_id` = 2 ) 
+          )))
+      ;
+
+
+SELECT `media_resources`.* FROM `media_resources`  WHERE (id in (( SELECT NULL)) ) ;
+
+
+-- filtering Betrachter and "Betrachter original" on prod for susanneschuhmacher
+
+SELECT "media_resources".* FROM "media_resources"  WHERE ( media_resources.id in (  (( SELECT NULL) 
+      UNION ((SELECT media_resources.id as media_resource_id FROM "grouppermissions" INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id" INNER JOIN "groups_users" ON "groups_users"."group_id" = "groups"."id" INNER JOIN "users" ON "users"."id" = "groups_users"."user_id" INNER JOIN "media_resources" ON "media_resources"."id" = "grouppermissions"."media_resource_id" WHERE "grouppermissions"."download" = 'f' AND "grouppermissions"."view" = 't' AND "grouppermissions"."edit" = 'f' AND "grouppermissions"."manage" = 'f' AND (users.id = 10301)) EXCEPT ((SELECT NULL)UNION (SELECT media_resources.id FROM "userpermissions" INNER JOIN "media_resources" ON "media_resources"."id" = "userpermissions"."media_resource_id" WHERE "userpermissions"."view" = 'f' AND "userpermissions"."user_id" = 10301)))UNION ((SELECT media_resources.id as media_resource_id FROM "grouppermissions" INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id" INNER JOIN "groups_users" ON "groups_users"."group_id" = "groups"."id" INNER JOIN "users" ON "users"."id" = "groups_users"."user_id" INNER JOIN "media_resources" ON "media_resources"."id" = "grouppermissions"."media_resource_id" WHERE "grouppermissions"."download" = 't' AND "grouppermissions"."view" = 't' AND "grouppermissions"."edit" = 'f' AND "grouppermissions"."manage" = 'f' AND (users.id = 10301)) EXCEPT ((SELECT NULL)UNION (SELECT media_resources.id FROM "userpermissions" INNER JOIN "media_resources" ON "media_resources"."id" = "userpermissions"."media_resource_id" WHERE "userpermissions"."download" = 'f' AND "userpermissions"."user_id" = 10301)UNION (SELECT media_resources.id FROM "userpermissions" INNER JOIN "media_resources" ON "media_resources"."id" = "userpermissions"."media_resource_id" WHERE "userpermissions"."view" = 'f' AND "userpermissions"."user_id" = 10301)))) UNION (( SELECT NULL) 
+      UNION (SELECT media_resources.id as media_resource_id FROM "userpermissions" INNER JOIN "media_resources" ON "media_resources"."id" = "userpermissions"."media_resource_id" WHERE "userpermissions"."download" = 'f' AND "userpermissions"."view" = 't' AND "userpermissions"."edit" = 'f' AND "userpermissions"."manage" = 'f' AND "userpermissions"."user_id" = 10301) 
+      UNION (SELECT media_resources.id as media_resource_id FROM "userpermissions" INNER JOIN "media_resources" ON "media_resources"."id" = "userpermissions"."media_resource_id" WHERE "userpermissions"."download" = 't' AND "userpermissions"."view" = 't' AND "userpermissions"."edit" = 'f' AND "userpermissions"."manage" = 'f' AND "userpermissions"."user_id" = 10301) 
+    ) ))
+;
+
+
+
 -- permission check
 
 SELECT DISTINCT m.* FROM `media_resources` AS m
@@ -9,7 +81,45 @@ SELECT DISTINCT m.* FROM `media_resources` AS m
         LEFT JOIN `userpermissions` AS up2 ON gp.media_resource_id = up2.media_resource_id)
     ON m.id = gp.media_resource_id AND gp.view = 1
 WHERE (up.id IS NOT NULL OR gp.id IS NOT NULL)
-  AND (up2.view = 1 OR up2.view IS NULL); # (up2.view != 0) doesn't work, alternative: (IFNULL(up2.view, -1) != 0) 
+  AND (up2.view = 1 OR up2.view IS NULL); -- (up2.view != 0) doesn't work, alternative: (IFNULL(up2.view, -1) != 0) 
+
+
+SELECT * 
+  FROM "grouppermissions" INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id 
+  WHERE "grouppermissions"."view" = 't' 
+  AND (groups_users.user_id = 1) 
+  AND ( media_resource_id NOT IN ( SELECT media_resource_id FROM "userpermissions"  WHERE "userpermissions"."view" = 'f' AND "userpermissions"."user_id" = 1 )) 
+
+
+
+SELECT users.id as user_id, people.lastname as lastname, people.firstname as firstname 
+  FROM users, people
+  WHERE true
+  AND users.person_id = people.id
+  AND users.id in
+    (SELECT media_resources.user_id FROM "media_resources" LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id WHERE "media_resources"."type" IN ('MediaEntry') AND ( media_resources.id IN  (
+                SELECT media_resource_id FROM "userpermissions"  WHERE "userpermissions"."view" = 't' AND "userpermissions"."user_id" = 1 
+            UNION
+                SELECT media_resource_id FROM "grouppermissions" INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id WHERE "grouppermissions"."view" = 't' AND (groups_users.user_id = 1) AND ( media_resource_id NOT IN ( SELECT media_resource_id FROM "userpermissions"  WHERE "userpermissions"."view" = 'f' AND "userpermissions"."user_id" = 1 )) 
+            UNION
+                SELECT media_resources.id FROM "media_resources"  WHERE (media_resources.user_id = 1 OR media_resources.view = 't')
+                  )) AND (text ILIKE '%au%')
+              )
+              ;
+
+
+
+SELECT users.id as user_id, people.lastname as lastname, people.firstname as firstname 
+    FROM "users" 
+    INNER JOIN "people" ON "people"."id" = "users"."person_id" 
+    WHERE ( users.id in SELECT "media_resources".* FROM "media_resources" LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id WHERE "media_resources"."type" IN ('MediaEntry') AND ( media_resources.id IN  (
+            SELECT media_resource_id FROM "userpermissions"  WHERE "userpermissions"."view" = 't' AND "userpermissions"."user_id" = 1 
+        UNION
+            SELECT media_resource_id FROM "grouppermissions" INNER JOIN groups_users ON groups_users.group_id = grouppermissions.group_id WHERE "grouppermissions"."view" = 't' AND (groups_users.user_id = 1) AND ( media_resource_id NOT IN ( SELECT media_resource_id FROM "userpermissions"  WHERE "userpermissions"."view" = 'f' AND "userpermissions"."user_id" = 1 )) 
+        UNION
+            SELECT media_resources.id FROM "media_resources"  WHERE (media_resources.user_id = 1 OR media_resources.view = 't')
+              )) AND (text ILIKE '%au%') )
+          ;
 
 
 -- metadata

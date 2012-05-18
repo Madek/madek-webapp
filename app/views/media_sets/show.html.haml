@@ -3,6 +3,7 @@
   tab_title = _("Set")
   content_title = _("Set")
   icon_class = "icon_set"
+  can_edit = current_user.authorized?(:edit, @media_set)
 
 %section#content_head
   .container_12.clearfix
@@ -15,7 +16,7 @@
             %div{:class => thumb_class}
               = thumb_for(@media_set, :small_125)
         #set_actions
-          - if @can_edit_set
+          - if can_edit
             = display_edit_icon(@media_set, current_user)
             = display_delete_icon(@media_set, current_user)
           = media_sets_widget(@media_set)
@@ -28,7 +29,7 @@
             .button_permissions
           %span.favorite_link{:id => "fav_#{@media_set.id}", :title => "Favorit"}
             = render :partial => "media_resources/favorite_link", :locals => {:media_resource => @media_set}
-          - if @can_edit_set
+          - if can_edit
             = link_to "",
             :title => "Inhalte hervorheben",
             :class => "open_media_set_highlights_lightbox" do
@@ -46,7 +47,7 @@
                 = link_to _("Vokabular"), "#vocabulary_tab"
               -# %li
               -#    = link_to _("Vokabular Browser"), browse_media_set_path(@media_set), :class => "vocabulary_tab_browse"
-            - if @can_edit_set and !@media_set.individual_and_inheritable_contexts.empty?
+            - if can_edit and !@media_set.individual_and_inheritable_contexts.empty?
               %li
                 = link_to _("Kontexte"), "#contexts_tab"
 
@@ -57,11 +58,12 @@
             = render :partial => "media_entries/browsing"
             #abstract_tab.clearfix
               %p= _("Diese Metadaten wurden am häufigsten vergeben. Sie zeigen den thematischen Schwerpunkt des Projekts an.")
-              = display_set_abstract_slider(@media_set, @pagination[:total])
-              = display_set_abstract(@media_set, (@pagination[:total] * 30 / 100), current_user)
+              - total_children = @media_set.children.accessible_by_user(current_user).count
+              = display_set_abstract_slider(@media_set, total_children)
+              = display_set_abstract(@media_set, (total_children * 30 / 100), current_user)
             #vocabulary_tab.clearfix
               = display_set_vocabulary(@media_set, current_user)
-          - if @can_edit_set and !@media_set.individual_and_inheritable_contexts.empty?
+          - if can_edit and !@media_set.individual_and_inheritable_contexts.empty?
             #contexts_tab.clearfix
               %p= _("Diesem Set sind zusätzliche Kontexte mit Metadaten zugewiesen.")
               = form_for @media_set, :html => {:style => "margin: 2em;"} do |f|
@@ -87,7 +89,7 @@
       .inner
     .media_set_highlights_shadow.left
     .media_set_highlights_shadow.right
-  -if(@parents.size > 0)
+  - unless @parents.empty?
     %div.page_title_left.set_parents_title
       .icon_set_parents
       = _("Set enthalten in")
@@ -96,7 +98,12 @@
     .clear
     #parents
   
-  = render :partial => "media_entries/index"
+  = render :partial => "media_resources/index"
+
+:ruby
+  with = {:media_type => true,
+          :image=>{:as=>"base64", :size=>"large"},
+          :meta_data => {:meta_context_names => ["core"]}}
 
 :javascript
   $(document).ready(function () {
@@ -104,8 +111,10 @@
     $("#parents").hide();
         
     // setup parents of current sets
-    $("#parents").append($.tmpl("tmpl/media_resource/thumb_box", #{@parents.to_json}));
-    
+    $("#parents").append($.tmpl("tmpl/media_resource/thumb_box", #{render(:partial => "media_resources/index.json.rjson",
+                                                                          :locals => {:media_resources => @parents,
+                                                                                      :with => with})}));
+
     // show parents toggle
     $(".set_parents_title").click(function(){
       $("#parents").toggle();
@@ -115,7 +124,9 @@
   
 :coffeescript
   jQuery ->
-    MediaSetHighlights.setup #{render(:partial => "media_resources/index.json.rjson", :locals => {:with => {:type => true, :image=>{:as=>"base64", :size=>"large"}, :meta_data => {:meta_context_names => ["core"]}}, :media_resources => @media_set.out_arcs.select(&:highlight).map(&:child)})}
+    MediaSetHighlights.setup #{render(:partial => "media_resources/index.json.rjson",
+                                      :locals => {:with => with,
+                                                  :media_resources => @media_set.out_arcs.select(&:highlight).map(&:child)})}
   
     $(".individual_context").change ->
       $(this).toggleClass("changed")

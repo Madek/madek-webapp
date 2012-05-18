@@ -81,8 +81,8 @@ module MetaContextsHelper
       haml_tag :br
 
       vocabulary_json.each do |context|
-        haml_tag :h3, context["label"][DEFAULT_LANGUAGE.to_s]
-        haml_tag :p, context["description"][DEFAULT_LANGUAGE.to_s]
+        haml_tag :h3, context["label"][DEFAULT_LANGUAGE.to_s] if context["label"]
+        haml_tag :p, context["description"][DEFAULT_LANGUAGE.to_s] if context["description"]
         context["meta_keys"].each do |meta_key|
           haml_tag :h4, meta_key["label"]
           haml_tag :div, :class => "columns_3" do

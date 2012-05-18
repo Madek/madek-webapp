@@ -68,12 +68,9 @@ end
 
 When /^I can switch the layout of the results to the (.*) view$/ do |layout|
   wait_until { find("#bar") }
-  case layout
-    when "grid"
-      find("#bar .layout .grid").click
-      wait_until { find("#bar") }
-      find("#bar .layout .grid.active")
-  end
+  find("section.media_resources.index #bar .layout").find(:xpath, "a[@data-type = '#{layout}']").click
+  wait_until { find("#bar") }
+  find("section.media_resources.index.#{layout} #bar .layout").find(:xpath, "a[@data-type = '#{layout}']")
 end
 
 When /^I change any of the settings in the bar then i am forwarded to a different page url$/ do
@@ -109,9 +106,8 @@ When /^I change any of the settings in the bar then i am forwarded to a differen
 end
 
 Then /^the counter is formatted as "([^"]*)"$/ do |string|
-  string = "/#{string}/"
-  string.gsub!(/[N,M]/,'\d')
-  find("*", :text => eval(string))
+  re = Regexp.new(string.gsub(/[N,M]/,'\d')) 
+  wait_until { find("*", :text => re) }
 end
 
 Given /^the system is set up$/ do

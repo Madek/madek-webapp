@@ -1,0 +1,6 @@
+{
+  total: media_resources.total_entries,
+  page: media_resources.current_page,
+  per_page: media_resources.per_page,
+  total_pages: media_resources.total_pages
+}

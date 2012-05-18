@@ -132,16 +132,13 @@ end
 # the .item_box that contains the title. Returns the whole .item_box element
 # if successful, nil otherwise.
 def find_media_entry_titled(title)
-  found_item = nil
   wait_until { find(".item_box") }
   
-  all(".item_box").each do |item|
-    if !item.find(".item_title").text.match(/#{title}/).nil?
-      found_item = item
-    end
+  found_item = all(".item_box").detect do |item|
+    item.find(".item_title")["title"].match(/#{title}/)
   end
 
-  if found_item == nil
+  unless found_item
     puts "No media entry found with title '#{title}'"
   end
 
@@ -269,8 +266,8 @@ def type_into_autocomplete(type, text)
     find(".groups .add.line .button").click
     find(".groups .add.line input").set text
   elsif type == :add_member_to_group
-    wait_for_css_element("#new_user")
-    fill_in("new_user", :with => text)
+    wait_for_css_element("#edit_group .add input")
+    find("#edit_group .add input").set text
   else
     puts "Unknown autocomplete type '#{type}', please add this type to the method type_into_autocomplete()"
   end

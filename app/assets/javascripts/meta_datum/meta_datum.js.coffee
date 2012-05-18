@@ -6,9 +6,8 @@ class MetaDatum
 
   @flatten= (meta_data)->
     h={}
-    meta_data.forEach (meta_datum)->
+    for meta_datum in meta_data
       h[meta_datum.name]= meta_datum.value
-      null
     h
     
 window.MetaDatum= MetaDatum

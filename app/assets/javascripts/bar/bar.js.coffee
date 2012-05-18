@@ -8,13 +8,12 @@
 
 class Bar
   
-  @setup = (type, permission, sort_by, favorites, search, top_level, media_set)->
+  @setup = (type, permission, sort_by, favorites, search, top_level, media_set, group)->
     @setup_type type
     @setup_permissions permission
     @setup_sort_by sort_by
-    @setup_layout()    
     @setup_interactivity()
-    @setup_icon type, favorites, search
+    @setup_icon type, favorites, search, group
     if type == "media_sets" and permission == "mine" and favorites != "true" and search == "" and media_set == ""
       @setup_media_set_scope(top_level) 
 
@@ -31,9 +30,6 @@ class Bar
     else
       $("#bar .sort a:first").addClass("active")
   
-  @setup_layout = ()->
-    $("#bar .layout a:first").addClass "active"
-    
   @setup_interactivity = ()->
     # mousenter types a
     $("#bar .selection .types a").bind "mouseenter", ()->
@@ -46,11 +42,13 @@ class Bar
       $(this).find(".types .current").addClass("active")
       Bar.set_href_selection_for $(this).find(".types .current")
   
-  @setup_icon = (type, favorites, search)->
+  @setup_icon = (type, favorites, search, group)->
     if favorites? and favorites != ""
       $("#bar > .icon").addClass("favorites")
     else if search? and search != ""
       $("#bar > .icon").addClass("search")
+    else if group? and group != ""
+      $("#bar > .icon").addClass("groups")
     else
       $("#bar > .icon").addClass(type)
   

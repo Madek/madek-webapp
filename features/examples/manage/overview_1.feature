@@ -38,13 +38,13 @@ Feature: Overview I
   # This scenario includes actually clicking each of the actions and trying
   # each of the behaviors.
   # https://www.pivotaltracker.com/story/show/27418863
-  @javascript
+  @javascript @wip
   Scenario: Layout i can set in the action bar
     Given I am "Normin"
      When I see the action bar
       And I can switch the layout of the results to the grid view
-      # And I can switch the layout of the results to the list view # NOTE: not yet implemented/commited  
-      # And I can switch the layout of the results to the miniature view # NOTE: not yet implemented/commited
+      #And I can switch the layout of the results to the list view 
+      And I can switch the layout of the results to the miniature view 
 
   # https://www.pivotaltracker.com/story/show/27418863
   @javascript
