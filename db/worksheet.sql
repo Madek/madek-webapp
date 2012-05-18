@@ -1,4 +1,7 @@
 
+select * from meta_data
+;
+
 select * from meta_data 
 where true
 AND meta_data.media_resource_id = 25
