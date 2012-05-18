@@ -4,8 +4,9 @@
 # require 'media_resource/permissions'
 
 class MediaResource < ActiveRecord::Base
-  include MediaResourceModules::Permissions
   include MediaResourceModules::Arcs
+  include MediaResourceModules::MetaData
+  include MediaResourceModules::Permissions
 
   after_create do
     if is_a? Snapshot
@@ -19,36 +20,6 @@ class MediaResource < ActiveRecord::Base
   belongs_to :user   # TODO remove down and set missing user for snapshots
   belongs_to :media_file  # TODO remove 
 
- # TODO observe bulk changes and reindex once
-  has_many :meta_data, :dependent => :destroy do #working here#7 :include => :meta_key
-    def get(key_id, build_if_not_found = true)
-      #TODO: handle the case when key_id is a MetaKey object
-      key_id = MetaKey.find_by_label(key_id.downcase).id unless key_id.is_a?(Fixnum)
-      r = where(:meta_key_id => key_id).first # OPTIMIZE prevent find if is_dynamic meta_key
-      r ||= build(:meta_key_id => key_id) if build_if_not_found
-      r
-    end
-
-    def get_value_for(key_id)
-      get(key_id).to_s
-    end
-
-    def get_for_labels(labels)
-      joins(:meta_key).where(:meta_keys => {:label => labels})
-    end
-
-    #def with_labels
-    #  h = {}
-    #  all.each do |meta_datum|
-    #    next unless meta_datum.meta_key # FIXME inconsistency: there are meta_data referencing to not existing meta_key_ids [131, 135]
-    #    h[meta_datum.meta_key.label] = meta_datum.to_s
-    #  end
-    #  h
-    #end
-    def concatenated
-      all.map(&:to_s).join('; ')
-    end
-  end
   accepts_nested_attributes_for :meta_data, :allow_destroy => true,
                                              :reject_if => proc { |attributes| attributes['value'].blank? and attributes['_destroy'].blank? }
                                              # NOTE the check on _destroy should be automatic, check Rails > 3.0.3
