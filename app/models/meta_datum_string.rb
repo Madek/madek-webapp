@@ -1,8 +1,14 @@
 # -*- encoding : utf-8 -*-
  
-class MetaDatumString < ActiveRecord::Base
+class MetaDatumString < MetaDatum
 
-  def set_value
+  alias_attribute :value, :string
+
+  def set_value_before_save
+  end
+
+  def to_s
+    string
   end
 
 end
