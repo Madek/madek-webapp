@@ -17,7 +17,9 @@ class MetaDatum < ActiveRecord::Base
 
   scope :for_meta_terms, joins(:meta_key).where(:meta_keys => {:object_type => "MetaTerm"})
 
-  before_save do
+  before_save :set_value
+  
+  def set_value
     case meta_key.object_type
       when nil, "MetaCountry"
       #working here# TODO set String for 'subject' key
