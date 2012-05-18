@@ -20,14 +20,6 @@ class MediaResource < ActiveRecord::Base
   belongs_to :user   # TODO remove down and set missing user for snapshots
   belongs_to :media_file  # TODO remove 
 
-  accepts_nested_attributes_for :meta_data, :allow_destroy => true,
-                                             :reject_if => proc { |attributes| attributes['value'].blank? and attributes['_destroy'].blank? }
-                                             # NOTE the check on _destroy should be automatic, check Rails > 3.0.3
-
-  def self.find_by_title(title)
-    MediaResource.joins(:meta_data => :meta_key).
-      where(:meta_data => {:meta_keys => {:label => "title"}, :value => title.to_yaml})
-  end
   
 #temp#
 #    # enforce meta_key uniqueness updating existing meta_datum
@@ -52,43 +44,6 @@ class MediaResource < ActiveRecord::Base
 
   validates_presence_of :user, :unless => Proc.new { |record| record.is_a?(Snapshot) }
 
-  def update_attributes_with_pre_validation(attributes, current_user = nil)
-    # we need to deep copy the attributes for batch edit (multiple resources)
-    dup_attributes = Marshal.load(Marshal.dump(attributes)).deep_symbolize_keys
-
-    if dup_attributes[:meta_data_attributes]
-      # To avoid overriding at batch update: remove from attribute hash if :keep_original_value and value is blank
-      dup_attributes[:meta_data_attributes].delete_if { |key, attr| attr[:keep_original_value] and attr[:value].blank? }
-  
-      dup_attributes[:meta_data_attributes].each_pair do |key, attr|
-        if attr[:value].is_a? Array and attr[:value].all? {|x| x.blank? }
-          attr[:value] = nil
-        end
-  
-        # find existing meta_datum, if it exists
-        if attr[:id].blank?
-          if attr[:meta_key_label]
-            attr[:meta_key_id] ||= MetaKey.find_by_label(attr.delete(:meta_key_label)).try(:id)
-          end
-          if (md = meta_data.where(:meta_key_id => attr[:meta_key_id]).first)
-            attr[:id] = md.id
-          end
-        else
-          attr.delete(:meta_key_label)
-        end
-  
-        # get rid of meta_datum if value is blank
-        if !attr[:id].blank? and attr[:value].blank?
-          attr[:_destroy] = true
-          #old# attr[:value] = "." # NOTE bypass the validation
-        end
-      end
-    end
-
-    self.editors << current_user if current_user # OPTIMIZE group by user ??
-    self.updated_at = Time.now # OPTIMIZE touch
-    update_attributes_without_pre_validation(dup_attributes)
-  end
   alias_method_chain :update_attributes, :pre_validation
 
   has_one :full_text, :dependent => :destroy
@@ -126,23 +81,6 @@ class MediaResource < ActiveRecord::Base
     end
   end
     
-########################################################
-
-  # OPTIMIZE
-#  scope :without_meta_data, :select => "media_entries.*",
-#                                  #:joins => "LEFT JOIN items ON items.model_id = models.id",
-#                                  #:conditions => ['items.model_id IS NULL']
-
-  def title
-    t = meta_data.get_value_for("title")
-    t = "Ohne Titel" if t.blank?
-    t
-  end
-
-  def title_and_user
-    s = ""
-    s += "#{title} (#{user})"
-  end
   
 ########################################################
 
