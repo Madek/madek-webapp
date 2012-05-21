@@ -22,9 +22,9 @@ namespace :madek do
     raise "Tests failed with: #{exit_code}" if exit_code != 0
 
     # Skip this so we can see if the red stuff in is in there
-    #system "bundle exec cucumber -p examples"
-    #exit_code = $? >> 8 # magic brainfuck
-    #raise "Tests failed with: #{exit_code}" if exit_code != 0
+    system "bundle exec cucumber -p examples"
+    exit_code = $? >> 8 # magic brainfuck
+    raise "Tests failed with: #{exit_code}" if exit_code != 0
 
     system "bundle exec cucumber -p current_examples"
     exit_code = $? >> 8 # magic brainfuck
