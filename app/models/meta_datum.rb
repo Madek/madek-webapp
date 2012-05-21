@@ -11,18 +11,26 @@ class MetaDatum < ActiveRecord::Base
   serialize :value
 
   validates_uniqueness_of :meta_key_id, :scope => :media_resource_id
-  validates_presence_of :meta_key, :value #old# :media_resource_id 
+  validates_presence_of :meta_key
   
   attr_accessor :keep_original_value
 
   scope :for_meta_terms, joins(:meta_key).where(:meta_keys => {:object_type => "MetaTerm"})
 
-  before_save do
+  before_save :set_value_before_save
+
+  after_save do
+    #if type.blank? or type != "MetaDatum"
+    #  SQLHelper.execute_sql "UPDATE meta_data SET value = NULL where id = #{id}"
+    #end
+  end
+ 
+  def set_value_before_save
     case meta_key.object_type
       when nil, "MetaCountry"
-      #working here# TODO set String for 'subject' key
-      #when "String"
-      #  self.value = value.split(',')
+        self.type = "MetaDatumString"
+        self.string = self.value
+        self.value = nil
       else
         klass = meta_key.object_class
         values = case klass.name # NOTE comparing directly the class doesn't work
