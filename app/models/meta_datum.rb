@@ -20,7 +20,9 @@ class MetaDatum < ActiveRecord::Base
   before_save :set_value_before_save
 
   after_save do
-    reload
+    if type.blank? or type != "MetaDatum"
+      SQLHelper.execute_sql "UPDATE meta_data SET value = NULL where id = #{id}"
+    end
   end
  
   def set_value_before_save
