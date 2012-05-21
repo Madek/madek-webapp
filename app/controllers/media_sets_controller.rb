@@ -9,7 +9,7 @@ class MediaSetsController < ApplicationController
         action = case request[:action].to_sym
           when :index, :show, :browse, :abstract, :inheritable_contexts, :parents
             :view
-          when :edit, :update, :add_member
+          when :update, :add_member
             :edit
         end
 
@@ -213,9 +213,6 @@ class MediaSetsController < ApplicationController
     end
   end
   
-  def edit
-  end
-
   def update
     if params[:individual_context_ids]
       params[:individual_context_ids].delete_if &:blank? # NOTE receiving params[:individual_context_ids] even if no checkbox is checked

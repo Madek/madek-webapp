@@ -40,7 +40,7 @@ class MediaEntriesController < ApplicationController
         action = case request[:action].to_sym
           when :show, :map, :browse, :media_sets
             :view
-          when :edit, :update, :edit_tms, :to_snapshot
+          when :update, :edit_tms, :to_snapshot
             :edit
         end
   
@@ -86,12 +86,6 @@ class MediaEntriesController < ApplicationController
     @viewable_ids = MediaEntry.accessible_by_user(current_user).map(&:id)
   end
   
-#####################################################
-# Authenticated Area
-
-  def edit
-  end
-
 #####################################################
 
   def edit_tms

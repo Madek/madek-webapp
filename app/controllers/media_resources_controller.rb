@@ -6,7 +6,7 @@ class MediaResourcesController < ApplicationController
     begin
       unless (params[:media_resource_id] ||= params[:id] || params[:media_resource_ids]).blank?
         action = case request[:action].to_sym
-          when :destroy
+          when :edit, :destroy
             :edit
           else
             :view
@@ -170,6 +170,10 @@ class MediaResourcesController < ApplicationController
 
   def show
     redirect_to @media_resource
+  end
+
+  def edit
+    render :template => "/#{@media_resource.type.pluralize.underscore}/edit"
   end
 
   def destroy
