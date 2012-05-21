@@ -50,7 +50,7 @@ MAdeK::Application.routes.draw do
 #NOTE first media_entries and then media_sets
 
   # TODO merge to :media_resources ?? 
-  resources :media_entries do
+  resources :media_entries, :except => :destroy do
     collection do
       get :keywords
       post :edit_multiple
@@ -81,7 +81,7 @@ MAdeK::Application.routes.draw do
 ###############################################
 
   # TODO merge to :media_resources ?? 
-  resources :media_sets do #-# TODO , :except => :index # the index is only used to create new sets
+  resources :media_sets, :except => :destroy do #-# TODO , :except => :index # the index is only used to create new sets
     collection do
       post :parents
       delete :parents
@@ -102,10 +102,9 @@ MAdeK::Application.routes.draw do
       end
     end
     
-    resources :media_entries do
+    resources :media_entries, :except => :destroy do
       collection do
         delete :remove_multiple
-        
       end
       member do
         delete :media_sets
@@ -164,14 +163,14 @@ MAdeK::Application.routes.draw do
       get :usage_terms
     end
     
-    resources :media_sets, :except => :index do # TODO remove
+    resources :media_sets, :except => [:index, :destroy] do # TODO remove
       member do
         post :add_member # TODO
       end
       collection do
         get :add_member
       end
-      resources :media_entries
+      resources :media_entries, :except => :destroy
     end 
   end
 

@@ -5,7 +5,13 @@ class MediaResourcesController < ApplicationController
   before_filter :except => [:index, :collection] do
     begin
       unless (params[:media_resource_id] ||= params[:id] || params[:media_resource_ids]).blank?
-        @media_resource = MediaResource.accessible_by_user(current_user).find(params[:media_resource_id])
+        action = case request[:action].to_sym
+          when :destroy
+            :edit
+          else
+            :view
+        end
+        @media_resource = MediaResource.accessible_by_user(current_user, action).find(params[:media_resource_id])
       end
     rescue
       not_authorized!
@@ -164,6 +170,20 @@ class MediaResourcesController < ApplicationController
 
   def show
     redirect_to @media_resource
+  end
+
+  def destroy
+    @media_resource.destroy
+
+    respond_to do |format|
+      format.html { 
+        flash[:notice] = "Der Inhalt wurde gelöscht."
+        redirect_back_or_default(media_resources_path) 
+      }
+      format.json {
+        render :json => {:id => @media_resource.id}
+      }
+    end
   end
 
 ########################################################################
