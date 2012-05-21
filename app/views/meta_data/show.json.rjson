@@ -1,1 +1,6 @@
-render :partial => @meta_datum, :locals => {:with => {:label => {:context => @context.name}}} 
+# TODO review: either it was breaking all conventions before, or I did now
+if @meta_datum.class == MetaDatum
+  render :partial => @meta_datum, :locals => {:with => {:label => {:context => @context.name}}} 
+elsif @meta_datum.class == MetaDatumString
+  render :partial => "meta_datum_string", :locals => {:with => {:label => {:context => @context.name}}} 
+end
