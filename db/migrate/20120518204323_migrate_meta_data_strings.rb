@@ -2,6 +2,7 @@ class MigrateMetaDataStrings < ActiveRecord::Migration
 
   def migrate_to_string_meta_datum md
     md.string = md.value
+    md.value = nil
     md.save!
     md.update_column :type, "MetaDatumString"
   end
