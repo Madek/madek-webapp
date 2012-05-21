@@ -2,7 +2,6 @@ class MigrateMetaDataStrings < ActiveRecord::Migration
 
   def migrate_to_string_meta_datum md
     md.string = md.value
-    md.value = nil
     md.save!
     md.update_column :type, "MetaDatumString"
   end
@@ -16,6 +15,12 @@ class MigrateMetaDataStrings < ActiveRecord::Migration
     MetaDatum.select("meta_data.*").joins(:meta_key).where(meta_keys: {object_type: 'MetaCountry'}).each do |md|
       migrate_to_string_meta_datum md
     end
+
+    execute "
+      UPDATE meta_data
+        SET value = NULL
+        WHERE type = 'MetaDatumString';
+    "
 
 
 #    execute <<-SQL
