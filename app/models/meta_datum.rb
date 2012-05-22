@@ -7,23 +7,16 @@ class MetaDatum < ActiveRecord::Base
 
 
   class << self
-
-    alias_method :new_orig, :new
-
-    def new *args
-      if args[0] and args[0][:meta_key_id] and meta_key_id = args[0][:meta_key_id].to_i
-        if meta_key_id == 8
-          MetaDatumDate.new_orig *args
-        else
-          self.new_orig *args
-        end
-      else
-        self.new_orig *args
+    def new_with_cast(*a, &b)
+      if (h = a.first).is_a? Hash and (type = h[:type] || h['type']) and (klass = type.constantize) != self
+        raise "wtF hax!!"  unless klass < self  # klass should be a descendant of us
+        return klass.new(*a, &b)
       end
+
+      new_without_cast(*a, &b)
     end
-
+    alias_method_chain :new, :cast
   end
-
 
 
   belongs_to :media_resource
@@ -38,20 +31,6 @@ class MetaDatum < ActiveRecord::Base
 
   scope :for_meta_terms, joins(:meta_key).where(:meta_keys => {:object_type => "MetaTerm"})
 
-=begin #Thomas#
-  class << self
-    def new_with_cast(*a, &b)
-      if (h = a.first).is_a? Hash and (type = h[:type] || h['type']) and (klass = type.constantize) != self
-        raise "wtF hax!!"  unless klass < self  # klass should be a descendant of us
-        return klass.new(*a, &b)
-      end
-
-      new_without_cast(*a, &b)
-    end
-    alias_method_chain :new, :cast
-  end
-=end
-
   before_save :set_value_before_save
 
   after_save do
@@ -64,6 +43,7 @@ class MetaDatum < ActiveRecord::Base
   def set_value_before_save
     case meta_key.object_type
       when nil, "MetaCountry"
+        binding.pry
         self.type = "MetaDatumString"
         self.string = self.value
         self.value = nil

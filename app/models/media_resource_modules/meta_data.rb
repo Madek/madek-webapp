@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 #
-
 module MediaResourceModules
   module MetaData
     def self.included(base)
@@ -82,9 +81,8 @@ module MediaResourceModules
                   attr[:id] = md.id
                 end
 
-=begin #Thomas#
                 attr[:type] = MetaKey.find(attr[:meta_key_id]).try(:object_type) || "MetaDatumString"
-=end
+
               else
                 attr.delete(:meta_key_label)
               end
