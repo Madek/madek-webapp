@@ -81,6 +81,10 @@ module MediaResourceModules
                 if (md = meta_data.where(:meta_key_id => attr[:meta_key_id]).first)
                   attr[:id] = md.id
                 end
+
+=begin #Thomas#
+                attr[:type] = MetaKey.find(attr[:meta_key_id]).try(:object_type) || "MetaDatumString"
+=end
               else
                 attr.delete(:meta_key_label)
               end
