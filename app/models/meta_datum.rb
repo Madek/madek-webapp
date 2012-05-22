@@ -4,7 +4,28 @@
 #
 # Values are serialized objects (but should we be using composed_of instead?)
 class MetaDatum < ActiveRecord::Base
-  
+
+
+  class << self
+
+    alias_method :new_orig, :new
+
+    def new *args
+      if args[0] and args[0][:meta_key_id] and meta_key_id = args[0][:meta_key_id].to_i
+        if meta_key_id == 8
+          MetaDatumDate.new_orig *args
+        else
+          self.new_orig *args
+        end
+      else
+        self.new_orig *args
+      end
+    end
+
+  end
+
+
+
   belongs_to :media_resource
   belongs_to :meta_key
 
@@ -32,6 +53,8 @@ class MetaDatum < ActiveRecord::Base
         self.type = "MetaDatumString"
         self.string = self.value
         self.value = nil
+      when "MetaDate"
+        binding.pry
       else
         klass = meta_key.object_class
         values = case klass.name # NOTE comparing directly the class doesn't work

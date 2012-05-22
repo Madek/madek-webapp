@@ -78,6 +78,7 @@ class MetaDataController < ApplicationController
   end
 
   def update_multiple
+    binding.pry
     if @resource.update_attributes(params[:resource], current_user)
       flash[:notice] = "Die Änderungen wurden gespeichert."
     else

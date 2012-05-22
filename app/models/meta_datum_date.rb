@@ -5,6 +5,7 @@ class MetaDatumDate < MetaDatum
   belongs_to :meta_date_from, class_name: MetaDate.name
   belongs_to :meta_date_to, class_name: MetaDate.name
 
+
   alias :meta_date :meta_date_to
 
   def value= *args
