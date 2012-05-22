@@ -8,13 +8,35 @@ class MetaDatum < ActiveRecord::Base
 
   class << self
     def new_with_cast(*a, &b)
+
+      #binding.pry
+      
       if (h = a.first).is_a? Hash and (type = h[:type] || h['type']) and (klass = type.constantize) != self
         raise "wtF hax!!"  unless klass < self  # klass should be a descendant of us
         return klass.new(*a, &b)
       end
+      new_without_cast(*a,&b)
 
-      new_without_cast(*a, &b)
+#      if (h = a.first).is_a? Hash and (meta_key_id= h[:meta_key_id] || h['meta_key_id']) 
+#        case MetaKey.find(meta_key_id).try(:object_type) 
+#        when nil 
+#          puts "nil MetaDatumString.new(*a,&b)"
+#          MetaDatumString.new(*a,&b)
+#        when "MetaCountry"
+#          puts "MetaCountry MetaDatumString.new(*a,&b)"
+#          MetaDatumString.new(*a,&b)
+#        when "MetaDate"
+#          puts "MetaDate MetaDatumDate.new(*a,&b)"
+#          MetaDatumDate.new(*a,&b)
+#        else
+#          new_without_cast(*a, &b)
+#        end
+#      else
+#        new_without_cast(*a, &b)
+#      end
+
     end
+
     alias_method_chain :new, :cast
   end
 
@@ -43,7 +65,7 @@ class MetaDatum < ActiveRecord::Base
   def set_value_before_save
     case meta_key.object_type
       when nil, "MetaCountry"
-        binding.pry
+        #binding.pry
         self.type = "MetaDatumString"
         self.string = self.value
         self.value = nil
