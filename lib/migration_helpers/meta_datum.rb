@@ -9,6 +9,30 @@ module MigrationHelpers
 
     class << self
 
+      def migrate_meta_string raw_meta_datum
+        s = YAML.load raw_meta_datum.value
+        raw_meta_datum.update_attributes ({ 
+          string: s, 
+          value: nil
+        })
+        raw_meta_datum.update_column :type, "MetaDatumString"
+      end
+
+
+      def migrate_meta_strings
+
+        ids = RawMetaDatum
+          .select("meta_data.id")
+          .joins(:meta_key).where("meta_keys.object_type = 'MetaCountry' OR meta_keys.object_type is NULL")
+          .where("type is NULL")
+
+        RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
+          migrate_meta_string rmd
+        end
+
+      end
+
+
       def migrate_meta_date raw_meta_datum
         obj = YAML.load raw_meta_datum.value.gsub /^-\s+.*\n/, ""
         new_string_value=  
