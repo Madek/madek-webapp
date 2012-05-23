@@ -41,6 +41,7 @@ describe MediaResourcesController do
         json["pagination"]["total"].should == n
       end
     end
+    
     describe "as logged in user" do
       it "should respond with success" do
         get :index, {format: 'json'}, session
@@ -132,6 +133,25 @@ describe MediaResourcesController do
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
             mr["meta_data"].map{|x| x["name"]}.sort.should == @meta_context.meta_keys.map(&:label).sort
+          end
+        end        
+      end
+    
+      describe "a response filtered by media resource type" do
+        it "should respond only with media entries when requested" do
+          get :index, {format: 'json', type: "media_entries"}, session
+          response.should be_success
+          json = JSON.parse(response.body)
+          json["media_resources"].each do |mr|
+            mr["type"].should == "media_entry"
+          end
+        end        
+        it "should respond only with media sets when requested" do
+          get :index, {format: 'json', type: "media_sets"}, session
+          response.should be_success
+          json = JSON.parse(response.body)
+          json["media_resources"].each do |mr|
+            mr["type"].should == "media_set"
           end
         end        
       end

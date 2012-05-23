@@ -29,6 +29,8 @@ class MediaResourcesController < ApplicationController
   # 
   # @optional [Array] ids A collection of MediaResources you want to fetch informations for 
   #
+  # @optional [String] type Filter the response by MediaResource types: "media_sets" | "media_entries".
+  #
   # @optional [Hash] with[meta_data] Adds MetaData to the responding collection of MediaResources and forwards the hash as options to the MetaData.
   # @optional [Array] with[meta_data][meta_context_names] Adds all requested MetaContexts in the format: ["context_name1", "context_name2", ...] as MetaData to the responding MediaResources. 
   # @optional [Array] with[meta_data][meta_key_names] Adds all requested MetaKeys in the format: ["key_name1", "key_name2", ...] as MetaData to the responding MediaResources. 
@@ -55,6 +57,14 @@ class MediaResourcesController < ApplicationController
   # @example_request {"ids": [1,2,3], "with": {"filename": true}}
   # @example_request_description Request MediaResources with filenames
   # @example_response {"media_resources:": [{"id":1, "filename": "my_file_name.jpg"}, {"id":2, "filename": "my_2_file_name.jpg"}, {"id":3, "filename": "my_3_file_name.jpg"}], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
+  #
+  # @example_request {"type": "media_entries"}
+  # @example_request_description Request MediaResources but only media_entries.
+  # @example_response {"media_resources:": [{"id":12, "type": "media_entry"}, {"id":13, "type": "media_entry"}, {"id":18, "type": "media_entry"}, ...]}
+  #
+  # @example_request {"type": "media_sets"}
+  # @example_request_description Request MediaResources but only media_sets.
+  # @example_response {"media_resources:": [{"id":22, "type": "media_set"}, {"id":23, "type": "media_set"}, {"id":28, "type": "media_set"}, ...]}
   #
   # @example_request {"ids": [1,2,3], "with": {"media_type": true}}
   # @example_request_description Request MediaResources with MediaTypes
