@@ -19,7 +19,7 @@ describe "MetaDatum MetaDate Migration" do
 
   let :create_and_migrate_ugly do
     mdd = create_ugly_meta_date_entry
-    MigrationHelpers::MetaDatum::RawMetaDatum.migrate_meta_date mdd
+    MigrationHelpers::MetaDatum.migrate_meta_date mdd
     mdd.reload
     mdd
   end
@@ -63,7 +63,7 @@ describe "MetaDatum MetaDate Migration" do
 
   let :create_and_migrate_empty do
     mdd = create_empty_meta_date_entry
-    MigrationHelpers::MetaDatum::RawMetaDatum.migrate_meta_date mdd
+    MigrationHelpers::MetaDatum.migrate_meta_date mdd
     mdd.reload
     mdd
   end
@@ -92,6 +92,25 @@ describe "MetaDatum MetaDate Migration" do
         create_and_migrate_empty.type.should == "MetaDatumDate"
       end
 
+    end
+
+  end
+
+  describe "Complete Migration" do
+
+    before :each do
+      create_empty_meta_date_entry
+      create_ugly_meta_date_entry
+    end
+
+    it "should not raise an error" do
+      expect { MigrationHelpers::MetaDatum.migrate_meta_dates}.not_to raise_error
+    end
+
+    it "should migrate the two entries" do
+      MigrationHelpers::MetaDatum::RawMetaDatum.where("type = 'MetaDatumDate'").size.should == 0
+      MigrationHelpers::MetaDatum.migrate_meta_dates
+      MigrationHelpers::MetaDatum::RawMetaDatum.where("type = 'MetaDatumDate'").size.should == 2
     end
 
   end
