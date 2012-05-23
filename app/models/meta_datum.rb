@@ -55,13 +55,7 @@ class MetaDatum < ActiveRecord::Base
 
   before_save :set_value_before_save
 
-  after_save do
-    reload
-    if type == "MetaDatumString"
-      SQLHelper.execute_sql "UPDATE meta_data SET value = NULL where id = #{id}"
-    end
-  end
- 
+
   def set_value_before_save
     case meta_key.object_type
       when nil, "MetaCountry"

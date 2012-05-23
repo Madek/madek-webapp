@@ -11,6 +11,10 @@ class MetaDatumString < MetaDatum
   def set_value_before_save
   end
 
+  def deserialized_value
+    string
+  end
+
   def to_s
     string
   end
