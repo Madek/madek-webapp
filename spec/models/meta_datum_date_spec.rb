@@ -30,6 +30,18 @@ describe MetaDatumDate do
         expect{ @mdd.value= "18Jhd"}.not_to raise_error
       end
 
+      it "should have a meta_date_from field" do
+        @mdd.value= "18Jhd"
+        @mdd.reload
+        @mdd.meta_date_from.should_not be_nil
+      end
+
+      it "should have set free_textaccordingly" do
+        @mdd.value= "18Jhd"
+        @mdd.reload
+        @mdd.meta_date_from.free_text.should == "18Jhd"
+      end
+
     end
 
     it "should not raise an error" do
