@@ -5,7 +5,13 @@ class MediaResourcesController < ApplicationController
   before_filter :except => [:index, :collection] do
     begin
       unless (params[:media_resource_id] ||= params[:id] || params[:media_resource_ids]).blank?
-        @media_resource = MediaResource.accessible_by_user(current_user).find(params[:media_resource_id])
+        action = case request[:action].to_sym
+          when :edit, :destroy
+            :edit
+          else
+            :view
+        end
+        @media_resource = MediaResource.accessible_by_user(current_user, action).find(params[:media_resource_id])
       end
     rescue
       not_authorized!
@@ -23,9 +29,12 @@ class MediaResourcesController < ApplicationController
   # 
   # @optional [Array] ids A collection of MediaResources you want to fetch informations for 
   #
+  # @optional [String] type Filter the response by MediaResource types: "media_sets" | "media_entries".
+  #
   # @optional [Hash] with[meta_data] Adds MetaData to the responding collection of MediaResources and forwards the hash as options to the MetaData.
   # @optional [Array] with[meta_data][meta_context_names] Adds all requested MetaContexts in the format: ["context_name1", "context_name2", ...] as MetaData to the responding MediaResources. 
   # @optional [Array] with[meta_data][meta_key_names] Adds all requested MetaKeys in the format: ["key_name1", "key_name2", ...] as MetaData to the responding MediaResources. 
+  # @optional [Hash] with[image] Request the image of the MediaResources. You can define the responding image format like {"image": {"as": "base64" | "url"}}. A custom image size can be requested with {"image": {"size": "small"(100x100) | "small_125"(125x125) | "medium"(300x300) | "large"(620x500) | "x-large"(1024x768) }}
   # @optional [Boolean] with[filename] Request the filename of the MediaResources.
   # @optional [Boolean] with[media_type] Request the media_type of the MediaResources.
   # @optional [Boolean] with[flags] Request status indicator informations (about permissions and favorites related to the current user) for the responding MediaResources.
@@ -48,6 +57,14 @@ class MediaResourcesController < ApplicationController
   # @example_request {"ids": [1,2,3], "with": {"filename": true}}
   # @example_request_description Request MediaResources with filenames
   # @example_response {"media_resources:": [{"id":1, "filename": "my_file_name.jpg"}, {"id":2, "filename": "my_2_file_name.jpg"}, {"id":3, "filename": "my_3_file_name.jpg"}], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
+  #
+  # @example_request {"type": "media_entries"}
+  # @example_request_description Request MediaResources but only media_entries.
+  # @example_response {"media_resources:": [{"id":12, "type": "media_entry"}, {"id":13, "type": "media_entry"}, {"id":18, "type": "media_entry"}, ...]}
+  #
+  # @example_request {"type": "media_sets"}
+  # @example_request_description Request MediaResources but only media_sets.
+  # @example_response {"media_resources:": [{"id":22, "type": "media_set"}, {"id":23, "type": "media_set"}, {"id":28, "type": "media_set"}, ...]}
   #
   # @example_request {"ids": [1,2,3], "with": {"media_type": true}}
   # @example_request_description Request MediaResources with MediaTypes
@@ -164,6 +181,24 @@ class MediaResourcesController < ApplicationController
 
   def show
     redirect_to @media_resource
+  end
+
+  def edit
+    render :template => "/#{@media_resource.type.pluralize.underscore}/edit"
+  end
+
+  def destroy
+    @media_resource.destroy
+
+    respond_to do |format|
+      format.html { 
+        flash[:notice] = "Der Inhalt wurde gelöscht."
+        redirect_back_or_default(media_resources_path) 
+      }
+      format.json {
+        render :json => {:id => @media_resource.id}
+      }
+    end
   end
 
 ########################################################################

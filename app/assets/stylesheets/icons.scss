@@ -38,6 +38,12 @@
     height: 17px;
     width: 17px;
   }
+
+  &[data-type=list] {
+    background-position: -125px 0;
+    height: 17px;
+    width: 17px;
+  }
   
   &.arrow {
     &.down {

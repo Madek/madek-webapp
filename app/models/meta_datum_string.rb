@@ -9,6 +9,9 @@ class MetaDatumString < MetaDatum
   end
 
   def set_value_before_save
+=begin #Thomas#
+    puts "****** MetaDatumString#set_value_before_save ********"
+=end
   end
 
   def deserialized_value

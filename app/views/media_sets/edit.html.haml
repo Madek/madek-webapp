@@ -6,10 +6,10 @@
       %img{:src => "/assets/icons/icon_edit.png"}
       =_("Metadaten editieren")
     .clear
-    = form_for @media_set, :as => :resource, :url => [:update_multiple, @media_set, :meta_data], :html => {:method => :put} do |resource|
+    = form_for @media_resource, :as => :resource, :url => [:update_multiple, @media_resource, :meta_data], :html => {:method => :put} do |resource|
       - content_for :buttons do
         %div{:class => "save_buttons"}
-          = link_to _("Abbrechen"), @media_set, :class => "buttons"
+          = link_to _("Abbrechen"), @media_resource, :class => "buttons"
           = resource.submit _("Speichern")
           .error.required_message{:style => "display: none;"}
             = _("Bitte füllen Sie die Pflichtfelder aus (\"Titel\").")
