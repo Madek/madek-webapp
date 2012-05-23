@@ -51,21 +51,24 @@
         .attr("scale", 1);
 	
     d3.json(document.location.href + ".json", function(json) {
-      /*
+      //
       var nodes = {};
       var links = [];
       json.nodes.forEach(function(node) {
         nodes[node.id] = {name: node.name};
       });
-      */
+      //
       json.links.forEach(function(link) {
-        link.source = json.nodes[link.source] || (json.nodes[link.source] = {name: link.source});
-        link.target = json.nodes[link.target] || (json.nodes[link.target] = {name: link.target});
-        //links.push({source: nodes[link.source_id], target: nodes[link.target_id], type: "suit"});
+        //link.source = json.nodes[link.source] || (json.nodes[link.source] = {name: link.source});
+        //link.target = json.nodes[link.target] || (json.nodes[link.target] = {name: link.target});
+        //
+        links.push({source: nodes[link.source_id], target: nodes[link.target_id], type: "suit"});
       });
       force
-      .nodes(d3.values(json.nodes)) //.nodes(d3.values(nodes))
-      .links(json.links) //.links(links)
+      //.nodes(d3.values(json.nodes))
+      .nodes(d3.values(nodes))
+      //.links(json.links)
+      .links(links)
       .start();
 
       // Per-type markers, as they don't inherit styles.
