@@ -2,6 +2,10 @@
  * Set Widget
  *
  * This script provides functionalities for a set organizing widget
+ * Dependencies:
+ * - jQuery
+ * - jQuery Template
+ * - Underscore
  * 
 */
 
