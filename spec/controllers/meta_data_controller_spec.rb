@@ -3,8 +3,7 @@ require 'spec_helper'
 describe MetaDataController do
   render_views
 
-
-  before :all do
+  before :each do
     @user = FactoryGirl.create :user
     @other_user = FactoryGirl.create :user
     @media_set= FactoryGirl.create :media_set, user: @user

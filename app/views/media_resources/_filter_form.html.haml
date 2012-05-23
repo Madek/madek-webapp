@@ -131,14 +131,10 @@
         e.preventDefault();
         var $this = $(this); 
         $this.find("input#filter_ids").val($this.data("tmp_intersected_ids").join(','));
-        var params = {};
-        $.each($this.serializeArray(), function(i, field){
-          params[field.name] = field.value;
-        });
         App.MediaResources.fetch({
           url: $this.attr('action'),
           type: $this.attr('method'),
-          data: params,
+          data: $this.serializeObject(),
           success: function(data){ 
             $this.data("paginate_using_filter", true);
             var container = $("#results");

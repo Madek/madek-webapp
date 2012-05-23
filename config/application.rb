@@ -57,6 +57,8 @@ module MAdeK
 
     # Enable the asset pipeline
     config.assets.enabled = true
+    config.assets.version = '0.5.6'
+
 
     # So that the Content-Length header is sent, so that e.g. video files
     # can be seeked and that mobile clients know how much data is coming
@@ -115,4 +117,4 @@ DEFAULT_LANGUAGE = :de_ch
 ENCODING_BASE_URL = "http://test:MAdeK@test.madek.zhdk.ch"
 ENCODING_TEST_MODE = 1 # 1 for true, 0 for false
 
-RELEASE_VERSION = "0.5.5"
+RELEASE_VERSION = "0.5.6"

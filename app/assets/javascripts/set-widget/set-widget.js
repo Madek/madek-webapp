@@ -446,7 +446,7 @@ function SetWidget() {
   }
   
   this.create_new = function(target, val) {
-    var new_item = $.tmpl("tmpl/widgets/_line", {meta_data: {title: val, creator: $(target).data("user"), created_at: new Date()}});
+    var new_item = $.tmpl("tmpl/widgets/_line", {meta_data: {title: val, owner: $(target).data("user").name}, created_at: new Date()});
     $(new_item).addClass("created");
     $(new_item).css("background-color", "#CCC");
     $(target).data("widget").find(".list ul").append(new_item);
@@ -594,7 +594,7 @@ function SetWidget() {
           var regexp = new RegExp("\(\^\|\\s\)"+search_element, 'i');
           var meta_data = $(element).tmplItem().data.meta_data; 
           if( (meta_data.title && meta_data.title.search(regexp) != -1) ||
-              (meta_data.creator && meta_data.creator.search(regexp) != -1) ||
+              (meta_data.owner && meta_data.owner.search(regexp) != -1) ||
               ($(element).find(".created_at").data("search") && $(element).find(".created_at").data("search").search(regexp) != -1) ){
             found = true;
           } else {
@@ -608,7 +608,7 @@ function SetWidget() {
         $(element).removeHighlights();
         // highlight all matches
         $(element).find(".title").highlight(search_elements);
-        $(element).find(".creator").highlight(search_elements);
+        $(element).find(".owner").highlight(search_elements);
         $(element).find(".created_at").highlight(search_elements);
       } else {
         $(this).hide();

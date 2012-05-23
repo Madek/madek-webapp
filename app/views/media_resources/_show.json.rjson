@@ -4,6 +4,10 @@ h = {
 }
 
 if with ||= nil
+  [:user_id, :created_at, :updated_at].each do |k|
+    h[k] = media_resource.send(k) if with[k]
+  end
+
   if with[:image]
     size = with[:image][:size] || :small # TODO :small_125 ??
     h[:image] = case with[:image][:as]
@@ -81,7 +85,7 @@ if with ||= nil
       end
     
     when "MediaEntry"
-      [:user_id, :created_at, :updated_at, :media_file_id].each do |k|
+      [:media_file_id].each do |k|
         h[k] = media_resource.send(k) if with[k]
       end
       if with[:flags]

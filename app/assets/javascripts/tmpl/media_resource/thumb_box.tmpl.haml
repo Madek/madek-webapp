@@ -40,24 +40,14 @@ ${is_set = (type=="media_set")?true:false, ""}
       {{/if}}
     .action_right
       {{if is_editable}}
-      {{if is_set}}
-      %a{:href => "/media_sets/${id}/edit", :title => "Editieren"}
+      %a{:href => "/media_resources/${id}/edit", :title => "Editieren"}
         .button_edit_active
-      {{else}}
-      %a{:href => "/media_entries/${id}/edit", :title => "Editieren"}
-        .button_edit_active
-      {{/if}}
       {{else}}
       .button_edit_active.ghost
       {{/if}}
       {{if is_manageable}}
-      {{if is_set}}
-      %a{:href => "/media_sets/${id}", :title => "Löschen", :"data-method" => "delete", :"data-remote" => true, :class => "delete_me", :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher dass Sie diesen Set löschen möchten?"}
+      %a{:href => "/media_resources/${id}", :title => "Löschen", :"data-method" => "delete", :"data-remote" => true, :class => "delete_me", :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher dass Sie diesen Inhalt löschen möchten?"}
         .button_delete_active
-      {{else}}
-      %a{:href => "/media_entries/${id}", :title => "Löschen", :"data-method" => "delete", :"data-remote" => true, :class => "delete_me", :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher dass Sie diesen Medien-Eintrag löschen möchten?"}
-        .button_delete_active
-      {{/if}}
       {{else}}
       .button_delete_active.ghost
       {{/if}}

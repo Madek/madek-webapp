@@ -12,15 +12,15 @@
       {{else}}
       = "-"
       {{/if}}
-    %span.creator
-      ${meta_data.creator}
-    {{if meta_data.created_at}}
-    ${$created_at = new Date(meta_data.created_at), ""}
+    %span.owner
+      ${meta_data.owner}
+    {{if created_at}}
+    ${$created_at = new Date(created_at), ""}
     ${$is_today = ($created_at.getDate() == new Date().getDate() && $created_at.getMonth() == new Date().getMonth() && $created_at.getFullYear() == new Date().getFullYear()), ""}
     {{if $is_today}}
     ${$created_at = "Heute", ""}
     {{else}}
-    ${$created_at = $.datepicker.formatDate('dd.mm.yy', new Date(meta_data.created_at)), ""}
+    ${$created_at = $.datepicker.formatDate('dd.mm.yy', new Date(created_at)), ""}
     {{/if}}
     %span.created_at{:"data-search" => "${$created_at}"}
       ${$created_at}

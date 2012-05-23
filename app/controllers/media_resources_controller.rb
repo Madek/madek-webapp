@@ -5,7 +5,13 @@ class MediaResourcesController < ApplicationController
   before_filter :except => [:index, :collection] do
     begin
       unless (params[:media_resource_id] ||= params[:id] || params[:media_resource_ids]).blank?
-        @media_resource = MediaResource.accessible_by_user(current_user).find(params[:media_resource_id])
+        action = case request[:action].to_sym
+          when :edit, :destroy
+            :edit
+          else
+            :view
+        end
+        @media_resource = MediaResource.accessible_by_user(current_user, action).find(params[:media_resource_id])
       end
     rescue
       not_authorized!
@@ -167,6 +173,24 @@ class MediaResourcesController < ApplicationController
     redirect_to @media_resource
   end
 
+  def edit
+    render :template => "/#{@media_resource.type.pluralize.underscore}/edit"
+  end
+
+  def destroy
+    @media_resource.destroy
+
+    respond_to do |format|
+      format.html { 
+        flash[:notice] = "Der Inhalt wurde gelöscht."
+        redirect_back_or_default(media_resources_path) 
+      }
+      format.json {
+        render :json => {:id => @media_resource.id}
+      }
+    end
+  end
+
 ########################################################################
 
   def collection(ids = params[:ids],
@@ -270,6 +294,7 @@ class MediaResourcesController < ApplicationController
     resources = MediaResource.accessible_by_user(current_user).where(:type => where_type)
  
     if request.post?
+
       if meta_key_id and meta_term_id
         meta_key = MetaKey.find(meta_key_id)
         meta_term = meta_key.meta_terms.find(meta_term_id)
@@ -283,11 +308,11 @@ class MediaResourcesController < ApplicationController
   
       resources = resources.where(:id => media_resource_ids)
 
-      if params[:owner_id] and (not params[:owner_id].empty?)
+      unless params[:owner_id].blank? 
         resources = resources.where("user_id in (?) ", params[:owner_id].map(&:to_i))
       end
 
-      if params[:group_id] and (not params[:group_id].empty?)
+      unless params[:group_id].blank?
         resources = resources.where( %Q< media_resources.id  in (
           #{MediaResource
              .grouppermissions_not_disallowed(current_user, :view)

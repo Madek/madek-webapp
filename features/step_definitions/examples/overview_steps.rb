@@ -106,9 +106,8 @@ When /^I change any of the settings in the bar then i am forwarded to a differen
 end
 
 Then /^the counter is formatted as "([^"]*)"$/ do |string|
-  string = "/#{string}/"
-  string.gsub!(/[N,M]/,'\d')
-  find("*", :text => eval(string))
+  re = Regexp.new(string.gsub(/[N,M]/,'\d')) 
+  wait_until(15){ find("section", :text => re) }
 end
 
 Given /^the system is set up$/ do

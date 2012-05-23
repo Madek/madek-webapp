@@ -6,7 +6,7 @@
     .clear
     
     %section.group
-      %h3= _("Arbeits-Gruppen")
+      %h3= _("Arbeitsgruppen")
       %ul
         - @private_groups.each do |group|
           %li.group{:"data-group" => render(:partial => "groups/group.json.rjson", :locals => {:group => group, :users => group.users})}
@@ -20,14 +20,14 @@
       %button.button.create= _("Neue Arbeitsgruppe erstellen")
              
     %section.group     
-      %h3= _("System-Gruppen")
+      %h3= _("Systemgruppen")
       %ul
         - @system_groups.each do |group|
           %li.without_actions
             = group
     
     %section.group
-      %h3= _("Abteilungs-Gruppen")
+      %h3= _("Abteilungsgruppen")
       %ul
         - @department_groups.each do |group|
           %li.without_actions
