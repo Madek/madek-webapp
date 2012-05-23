@@ -81,18 +81,9 @@ module MediaResourceModules
                   attr[:id] = md.id
                 end
 
-                # TODO, we dispach in the meta_datum new method for now
-                attr[:type] = 
-                  if not MetaKey.find(attr[:meta_key_id]).try(:object_type) 
-                    "MetaDatumString"
-                  elsif MetaKey.find(attr[:meta_key_id]).try(:object_type) == "MetaCountry"
-                    "MetaDatumString"
-                  elsif MetaKey.find(attr[:meta_key_id]).try(:object_type) == "MetaDate"
-                    "MetaDatumDate"
-                  else
-                    "MetaDatum"
-                  end
-
+                if objtype = MetaKey.find(attr[:meta_key_id]).try(:meta_datum_object_type) 
+                  attr[:type] = objtype
+                end
 
               else
                 attr.delete(:meta_key_label)
