@@ -1279,6 +1279,10 @@ ul li { float: left; }
 
 .action_left {
 	float: left;
+	
+	a {
+	  text-decoration: none !important;
+	}
 }
 
 .action_right {
