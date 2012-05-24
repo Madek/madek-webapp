@@ -127,3 +127,7 @@ Then /^each of the following media types has its own representing icon according
     end
   end
 end
+
+When /^the grid layout is active$/ do
+  find("#bar .layout a[data-type='grid']").click
+end

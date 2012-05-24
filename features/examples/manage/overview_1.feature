@@ -59,4 +59,5 @@ Feature: Overview I
     When I go to set view
     Then the counter is formatted as "N von M für Sie sichtbar"
     When I go to search results
+     And the grid layout is active
     Then the counter is formatted as "N Resultate"
