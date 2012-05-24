@@ -57,15 +57,17 @@ end
 When /^(?:|I )submit the selection widget$/ do
   widget = find(".widget .submit") 
   widget.click
-  wait_until { !page.evaluate_script(%{$('.widget:visible')==0}) }
+  wait_until(15){ all(".widget", :visible => true).size == 0 }
 end
 
 When /^(?:|I )create a new set named "(.+)"$/ do |name|
+  wait_until{ find(".widget .create_new a") }
   find(".widget .create_new a").click
-  wait_for_css_element("#create_name")
+  wait_until{ find("#create_name") }
   fill_in("create_name", :with => name)
+  wait_until{ find(".widget .create_new .button") }
   find(".widget .create_new .button").click
-  wait_for_css_element(".create_new a")
+  wait_until{ find(".widget .create_new a") }
 end
 
 When /^(?:|I )create a new set$/ do
