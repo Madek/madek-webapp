@@ -204,7 +204,7 @@ module MetaDataHelper
         all_options = meta_key.meta_terms.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}
       when "Person"
         selected = Array(meta_datum.object.value)
-        @people ||= meta_key.object_class.with_media_entries
+        @people ||= meta_key.object_type.constantize.with_media_entries
         all_options = @people.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}
       when "Keyword"
         keywords = meta_datum.object.deserialized_value
@@ -326,7 +326,7 @@ module MetaDataHelper
       h += widget_meta_countries(meta_datum, meta_key)
 
     elsif meta_key.object_type
-      klass = meta_key.object_class
+      klass = meta_key.object_type.constantize
             
       case klass.name
         # TODO set String for 'subject' key, TODO multiple fields for array 
