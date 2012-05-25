@@ -1,5 +1,3 @@
-///////////////////////////////////
-${$meta_data = MetaDatum.flatten(meta_data), ""}
 ${is_set = (type=="media_set")?true:false, ""}
 ///////////////////////////////////
 
@@ -12,10 +10,7 @@ ${is_set = (type=="media_set")?true:false, ""}
   {{tmpl($item.data) "tmpl/media_resource/thumb_box/image_thumb"}}
   {{/if}}
   .clear
-  %p.item_title{:title => "${$meta_data.title}"}
-    ${Str.sliced_trunc($meta_data.title, 34)}
-  %p.item_author{:title => "${$meta_data.author}"} 
-    ${Str.sliced_trunc($meta_data.author, 42)}
+  {{tmpl($item.data) "tmpl/media_resource/thumb_box/meta_data"}}
   {{if ($item.with_actions == null || $item.with_actions)}}
   .actions
     .action_left
