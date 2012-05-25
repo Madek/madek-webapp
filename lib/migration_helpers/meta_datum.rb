@@ -11,7 +11,7 @@ module MigrationHelpers
 
       def migrate_meta_string raw_meta_datum
         s = YAML.load raw_meta_datum.value
-        raw_meta_datum.update_attributes ({ 
+        raw_meta_datum.update_attributes({ 
           string: s, 
           value: nil
         })
@@ -45,7 +45,7 @@ module MigrationHelpers
           else
             ""
           end
-        raw_meta_datum.update_attributes ({ 
+        raw_meta_datum.update_attributes({ 
           string: new_string_value, 
           value: nil
         })
