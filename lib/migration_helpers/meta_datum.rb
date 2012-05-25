@@ -70,7 +70,13 @@ module MigrationHelpers
       end
 
 
-      def migrate_meta_person
+      def migrate_meta_person rmd
+        rmd.update_column :type, "MetaDatumPerson"
+        mdp = MetaDatumPerson.find rmd.id
+        YAML.load(rmd.value).each do |pid|
+          mdp.people << Person.find(pid)
+        end
+        rmd.update_column :value, nil
       end
 
       def migrate_meta_people
@@ -78,6 +84,11 @@ module MigrationHelpers
           .select("meta_data.id")
           .joins(:meta_key).where("meta_keys.object_type = 'Person'")
           .where("type is NULL")
+
+        RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
+          migrate_meta_person rmd
+        end
+
       end
 
     end
