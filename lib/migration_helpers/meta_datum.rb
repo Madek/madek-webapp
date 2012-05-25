@@ -24,7 +24,7 @@ module MigrationHelpers
         ids = RawMetaDatum
           .select("meta_data.id")
           .joins(:meta_key).where("meta_keys.object_type = 'MetaCountry' OR meta_keys.object_type is NULL")
-          .where("type is NULL")
+          .where("type is NULL or type = 'MetaDatum' ")
 
         RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
           migrate_meta_string rmd
@@ -57,7 +57,7 @@ module MigrationHelpers
         ids = RawMetaDatum
           .select("meta_data.id")
           .joins(:meta_key).where("meta_keys.object_type = 'MetaDate'")
-          .where("type is NULL")
+          .where("type is NULL or type = 'MetaDatum'")
 
         RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
           migrate_meta_date rmd
@@ -83,11 +83,17 @@ module MigrationHelpers
         ids = RawMetaDatum
           .select("meta_data.id")
           .joins(:meta_key).where("meta_keys.object_type = 'Person'")
-          .where("type is NULL")
+          .where("type is NULL OR type = 'MetaDatum'")
 
         RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
           migrate_meta_person rmd
         end
+
+        MetaKey.where("object_type = 'Person'").each do |mkp|
+          mkp.update_column :object_type, nil
+          mkp.update_column :meta_datum_object_type, 'MetaDatumPerson'
+        end
+
 
       end
 

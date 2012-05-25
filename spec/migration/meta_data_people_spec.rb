@@ -42,6 +42,12 @@ describe "MetaDatum People Migration" do
       MetaDatumPerson.find(@rmd.id).people.should include @person2
     end
 
+    it "should migrate the meta_key object type " do
+      MigrationHelpers::MetaDatum.migrate_meta_people
+      MetaKey.where("object_type = 'Person'").size.should == 0
+      MetaKey.where("meta_datum_object_type = 'MetaDatumPerson'").size.should > 0
+    end
+
   end
   
 end
