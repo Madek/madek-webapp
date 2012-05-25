@@ -69,6 +69,17 @@ module MigrationHelpers
 
       end
 
+
+      def migrate_meta_person
+      end
+
+      def migrate_meta_people
+        ids = RawMetaDatum
+          .select("meta_data.id")
+          .joins(:meta_key).where("meta_keys.object_type = 'Person'")
+          .where("type is NULL")
+      end
+
     end
   end
 end
