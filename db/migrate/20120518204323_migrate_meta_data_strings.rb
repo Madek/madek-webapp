@@ -6,7 +6,7 @@ class MigrateMetaDataStrings < ActiveRecord::Migration
   end
 
   def down
-    raise "this is a irreversible migration"
+    # raise "this is a irreversible migration"
   end
 
 
