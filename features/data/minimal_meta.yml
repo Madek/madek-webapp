@@ -51,7 +51,7 @@
   meta_datum_object_type: 
 - id: 8
   label: portrayed object dates
-  object_type: MetaDate
+  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumDate
@@ -93,7 +93,7 @@
   meta_datum_object_type: MetaDatumString
 - id: 15
   label: portrayed object country code
-  object_type: MetaCountry
+  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
@@ -141,21 +141,21 @@
   meta_datum_object_type: 
   meta_terms: 
   - 51
-  - 57
   - 52
-  - 58
   - 53
-  - 59
   - 54
   - 55
   - 56
-  - 62
+  - 57
+  - 58
+  - 59
+  - 60
   - 61
+  - 62
   - 63
+  - 64
   - 340
   - 341
-  - 60
-  - 64
 - id: 23
   label: project leader
   object_type: 
@@ -223,11 +223,11 @@
   - 74
   - 75
   - 76
+  - 77
+  - 78
   - 79
   - 80
   - 83
-  - 77
-  - 78
 - id: 32
   label: scene
   object_type: 
@@ -428,7 +428,7 @@
   meta_datum_object_type: MetaDatumString
 - id: 65
   label: date created
-  object_type: MetaDate
+  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumDate
@@ -523,6 +523,7 @@
   is_extensible_list: true
   meta_datum_object_type: 
   meta_terms: 
+  - 613
   - 1063
   - 1065
   - 1081
@@ -534,9 +535,8 @@
   - 1093
   - 1095
   - 1097
-  - 1243
-  - 613
   - 1191
+  - 1243
 - id: 83
   label: LV_Verwendungszweck
   object_type: MetaTerm
@@ -544,19 +544,19 @@
   is_extensible_list: true
   meta_datum_object_type: 
   meta_terms: 
+  - 79
+  - 1017
   - 1019
   - 1067
-  - 1017
+  - 1069
   - 1071
   - 1073
   - 1075
   - 1077
-  - 1069
   - 1079
   - 1111
   - 1113
   - 1115
-  - 79
 - id: 85
   label: LV_Bildwirkung
   object_type: Keyword
@@ -570,18 +570,18 @@
   is_extensible_list: false
   meta_datum_object_type: 
   meta_terms: 
-  - 1051
   - 1033
-  - 1037
-  - 1047
-  - 1043
-  - 1049
-  - 1053
   - 1035
+  - 1037
+  - 1039
+  - 1043
+  - 1045
+  - 1047
+  - 1049
+  - 1051
+  - 1053
   - 1195
   - 1197
-  - 1045
-  - 1039
 - id: 89
   label: LV_Farbe
   object_type: Keyword
@@ -621,10 +621,10 @@
   is_extensible_list: false
   meta_datum_object_type: 
   meta_terms: 
-  - 1059
   - 1057
-  - 1199
+  - 1059
   - 1061
+  - 1199
 - id: 97
   label: "LV_Ra\xCC\x88umliche Wahrnehmung"
   object_type: MetaTerm
@@ -632,13 +632,13 @@
   is_extensible_list: false
   meta_datum_object_type: 
   meta_terms: 
-  - 1105
-  - 1103
-  - 1109
-  - 1201
-  - 1107
   - 1099
   - 1101
+  - 1103
+  - 1105
+  - 1107
+  - 1109
+  - 1201
 - id: 99
   label: LV_Abstraktionsgrad
   object_type: MetaTerm
@@ -647,11 +647,11 @@
   meta_datum_object_type: 
   meta_terms: 
   - 1021
-  - 1031
-  - 1029
-  - 1027
   - 1023
   - 1025
+  - 1027
+  - 1029
+  - 1031
 - id: 100
   label: owner
   object_type: User

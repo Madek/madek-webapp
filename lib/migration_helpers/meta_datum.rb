@@ -30,6 +30,10 @@ module MigrationHelpers
           migrate_meta_string rmd
         end
 
+        MetaKey.where("object_type = 'MetaCountry'").each do |mk|
+          mk.update_attributes object_type: nil
+        end
+
       end
 
 
@@ -57,6 +61,10 @@ module MigrationHelpers
 
         RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
           migrate_meta_date rmd
+        end
+
+        MetaKey.where("object_type = 'MetaDate'").each do |mk|
+          mk.update_attributes object_type: nil
         end
 
       end
