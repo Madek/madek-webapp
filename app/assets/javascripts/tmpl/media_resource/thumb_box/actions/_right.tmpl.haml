@@ -1,0 +1,13 @@
+.action_right
+  {{if is_editable}}
+  %a{:href => "/media_resources/${id}/edit", :title => "Editieren"}
+    .button_edit_active
+  {{else}}
+  .button_edit_active.ghost
+  {{/if}}
+  {{if is_manageable}}
+  %a{:href => "/media_resources/${id}", :title => "Löschen", :"data-method" => "delete", :"data-remote" => true, :class => "delete_me", :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher dass Sie diesen Inhalt löschen möchten?"}
+    .button_delete_active
+  {{else}}
+  .button_delete_active.ghost
+  {{/if}}

@@ -33,22 +33,6 @@ $(document).ready(function () {
       });
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+managable_ids+"'>");
     });
-	
-    $(".item_box:not(.tmp)").live({
-      mouseenter: function() {
-        $(this).find('.actions').show();
-        if(!$(this).hasClass("popup")) {
-          $(this).css("background-color", "#f1f1f1");
-        }
-       },
-      mouseleave: function() {
-        $(this).find('.actions').hide();
-		    if(!$(this).hasClass('selected') && !$(this).hasClass("popup")) {
-		      $(this).css("background-color", "white");
-		    } 
-       }
-     });
-
 });
 
 

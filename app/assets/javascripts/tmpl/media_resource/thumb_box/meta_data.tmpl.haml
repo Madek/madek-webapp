@@ -1,8 +1,13 @@
 %dl.meta_data
-  {{each(i, meta_datum) MetaDatum.flatten(meta_data)}}
+  {{each(i, meta_datum) meta_data}}
+  {{if meta_datum.value}}
   ${$class = Underscore.string.underscored(meta_datum.name), ""}
-  %dt{:class => "${$class}"} 
-    ${meta_datum.name}
-  %dd{:class => "${$class}", :title => "${meta_datum.value}"} 
-    ${meta_datum.value}
+  .meta_datum
+    %dt{:class => "${$class}"} 
+      ${meta_datum.label}
+    %dd{:class => "${$class} full"} 
+      ${meta_datum.value}
+    %dd{:class => "${$class} truncated", :title => "${meta_datum.value}"} 
+      ${Str.sliced_trunc(meta_datum.value, 34)}
+  {{/if}}
   {{/each}}
