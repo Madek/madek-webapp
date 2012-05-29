@@ -12,12 +12,7 @@ if with ||= nil
     size = with[:image][:size] || :small # TODO :small_125 ??
     h[:image] = case with[:image][:as]
       when "base64"
-        mf = if media_resource.is_a?(MediaSet)
-              media_resource.media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
-             else
-              media_resource.media_file
-             end
-        mf ? mf.thumb_base64(size) : nil
+        media_resource.get_media_file(current_user).try(:thumb_base64, size)
       else # default return is a url to the image
         "/media_resources/%d/image?size=%s" % [media_resource.id, size]
     end            

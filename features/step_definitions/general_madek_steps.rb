@@ -24,7 +24,6 @@ Given /^I have set up the world$/ do
   # This is actually normally called in the seeds, but the RSpec developers don't believe in using seeds,
   # so they drop the database even if we seed it before running the tests. Therefore we recreate our world in this step. 
   MetaDepartment.setup_ldapdata_from_localfile
-  MetaDate.parse_all
 end
 
 Given /^a user called "([^"]*)" with username "([^"]*)" and password "([^"]*)" exists$/ do |person_name, username, password|
@@ -263,6 +262,7 @@ When /^I click the mediaset titled "([^"]*)"/ do |title|
 end
 
 When /^I check the media entry titled "([^"]*)"/ do |title|
+  find("#bar .layout a[data-type='grid']")
   check_media_entry_titled(title)
 end
 

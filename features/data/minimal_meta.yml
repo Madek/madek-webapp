@@ -33,16 +33,16 @@
   meta_datum_object_type: MetaDatumString
 - id: 5
   label: author
-  object_type: Person
+  object_type: 
   is_dynamic: 
   is_extensible_list: 
-  meta_datum_object_type: 
+  meta_datum_object_type: MetaDatumPerson
 - id: 6
   label: additional authors
-  object_type: Person
+  object_type: 
   is_dynamic: 
   is_extensible_list: 
-  meta_datum_object_type: 
+  meta_datum_object_type: MetaDatumPerson
 - id: 7
   label: institutional affiliation
   object_type: MetaDepartment
@@ -260,10 +260,10 @@
   meta_datum_object_type: MetaDatumString
 - id: 37
   label: creator
-  object_type: Person
+  object_type: 
   is_dynamic: 
   is_extensible_list: 
-  meta_datum_object_type: 
+  meta_datum_object_type: MetaDatumPerson
 - id: 38
   label: creator address
   object_type: 
@@ -410,10 +410,10 @@
   meta_datum_object_type: 
 - id: 62
   label: description author
-  object_type: Person
+  object_type: 
   is_dynamic: 
   is_extensible_list: 
-  meta_datum_object_type: 
+  meta_datum_object_type: MetaDatumPerson
 - id: 63
   label: publisher
   object_type: 
@@ -500,16 +500,16 @@
   meta_datum_object_type: MetaDatumString
 - id: 77
   label: description author before import
-  object_type: Person
+  object_type: 
   is_dynamic: 
   is_extensible_list: 
-  meta_datum_object_type: 
+  meta_datum_object_type: MetaDatumPerson
 - id: 78
   label: description author before snapshot
-  object_type: Person
+  object_type: 
   is_dynamic: 
   is_extensible_list: 
-  meta_datum_object_type: 
+  meta_datum_object_type: MetaDatumPerson
 - id: 79
   label: sidecar for extension
   object_type: 
