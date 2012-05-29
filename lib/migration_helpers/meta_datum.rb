@@ -15,7 +15,7 @@ module MigrationHelpers
           string: s, 
           value: nil
         })
-        raw_meta_datum.update_column :type, "MetaDatumString"
+        raw_meta_datum.save!
       end
 
 
@@ -28,10 +28,17 @@ module MigrationHelpers
 
         RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
           migrate_meta_string rmd
+          rmd.update_column :type, "MetaDatumString"
+        end
+
+        MetaKey.where("object_type is NULL").each do |mk|
+          mk.update_attributes object_type: nil
+          mk.update_attributes meta_datum_object_type: 'MetaDatumString'
         end
 
         MetaKey.where("object_type = 'MetaCountry'").each do |mk|
           mk.update_attributes object_type: nil
+          mk.update_attributes meta_datum_object_type: 'MetaDatumString'
         end
 
       end
