@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.1.61, for debian-linux-gnu (i486)
+-- MySQL dump 10.13  Distrib 5.1.61, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: madek_dev
+-- Host: db.zhdk.ch    Database: rails_madek_personas
 -- ------------------------------------------------------
--- Server version	5.1.61-3
+-- Server version	5.1.61-0+squeeze1-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -152,8 +152,8 @@ CREATE TABLE `grouppermissions` (
   UNIQUE KEY `index_grouppermissions_on_group_id_and_media_resource_id` (`group_id`,`media_resource_id`),
   KEY `index_grouppermissions_on_group_id` (`group_id`),
   KEY `index_grouppermissions_on_media_resource_id` (`media_resource_id`),
-  CONSTRAINT `grouppermissions_media_resource_id_media_resources_fkey` FOREIGN KEY (`media_resource_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `grouppermissions_group_id_groups_fkey` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE
+  CONSTRAINT `grouppermissions_group_id_groups_fkey` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `grouppermissions_media_resource_id_media_resources_fkey` FOREIGN KEY (`media_resource_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -184,7 +184,7 @@ CREATE TABLE `groups` (
   KEY `index_groups_on_ldap_id` (`ldap_id`),
   KEY `index_groups_on_ldap_name` (`ldap_name`),
   KEY `index_groups_on_type` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -193,7 +193,7 @@ CREATE TABLE `groups` (
 
 LOCK TABLES `groups` WRITE;
 /*!40000 ALTER TABLE `groups` DISABLE KEYS */;
-INSERT INTO `groups` VALUES (1,'ZHdK (Zürcher Hochschule der Künste)',NULL,NULL,'Group'),(2,'Admin',NULL,NULL,'Group'),(3,'ZHdK',NULL,NULL,'Group'),(4,'Diplomarbeitsgruppe',NULL,NULL,'Group'),(5,'Expert',NULL,NULL,'Group');
+INSERT INTO `groups` VALUES (1,'ZHdK (Zürcher Hochschule der Künste)',NULL,NULL,'Group'),(2,'Admin',NULL,NULL,'Group'),(3,'ZHdK',NULL,NULL,'Group'),(4,'Diplomarbeitsgruppe',NULL,NULL,'Group'),(5,'Expert',NULL,NULL,'Group'),(7,'MIZ-Archiv',NULL,NULL,'Group');
 /*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,8 +209,8 @@ CREATE TABLE `groups_users` (
   `user_id` int(11) DEFAULT NULL,
   UNIQUE KEY `index_groups_users_on_group_id_and_user_id` (`group_id`,`user_id`),
   KEY `index_groups_users_on_user_id` (`user_id`),
-  CONSTRAINT `groups_users_user_id_users_fkey` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `groups_users_group_id_groups_fkey` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE
+  CONSTRAINT `groups_users_group_id_groups_fkey` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `groups_users_user_id_users_fkey` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -253,33 +253,6 @@ LOCK TABLES `keywords` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `media_entries_media_sets`
---
-
-DROP TABLE IF EXISTS `media_entries_media_sets`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `media_entries_media_sets` (
-  `media_set_id` int(11) DEFAULT NULL,
-  `media_entry_id` int(11) DEFAULT NULL,
-  UNIQUE KEY `index_on_media_set_id_and_media_entry_id` (`media_set_id`,`media_entry_id`),
-  KEY `index_media_entries_media_sets_on_media_entry_id` (`media_entry_id`),
-  CONSTRAINT `media_entries_media_sets_media_entry_id_media_resources_fkey` FOREIGN KEY (`media_entry_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `media_entries_media_sets_media_set_id_media_resources_fkey` FOREIGN KEY (`media_set_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `media_entries_media_sets`
---
-
-LOCK TABLES `media_entries_media_sets` WRITE;
-/*!40000 ALTER TABLE `media_entries_media_sets` DISABLE KEYS */;
-INSERT INTO `media_entries_media_sets` VALUES (1,29),(1,30),(2,30),(4,7),(4,8),(5,6),(9,10),(9,11),(15,16),(17,18),(17,19),(17,20),(17,21),(17,24),(26,27),(26,28);
-/*!40000 ALTER TABLE `media_entries_media_sets` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `media_files`
 --
 
@@ -311,6 +284,37 @@ LOCK TABLES `media_files` WRITE;
 /*!40000 ALTER TABLE `media_files` DISABLE KEYS */;
 INSERT INTO `media_files` VALUES (1,'83d62ab97f1946e6ae2797af0576e0ce','--- \nFile:BitsPerSample: 8\nFile:ColorComponents: 3\nFile:EncodingProcess: Baseline DCT, Huffman coding\nFile:FileType: JPEG\nFile:ImageHeight: 429\nFile:ImageWidth: 640\nFile:MIMEType: image/jpeg\nFile:YCbCrSubSampling: YCbCr4:4:4 (1 1)\nComposite:ImageSize: 640x429\nJFIF:JFIFVersion: 1.01\nJFIF:ResolutionUnit: inches\nJFIF:XResolution: 72\nJFIF:YResolution: 72\n','image/jpeg','berlin_wall_01.jpg',96330,429,640,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:18','9f652d08-f3c6-4c67-aa46-eb40ca5b19ec'),(2,'3682e9a5212b49a7927a5e197c7bb4a9','--- \nFile:BitsPerSample: 8\nFile:ColorComponents: 3\nFile:EncodingProcess: Baseline DCT, Huffman coding\nFile:FileType: JPEG\nFile:ImageHeight: 429\nFile:ImageWidth: 640\nFile:MIMEType: image/jpeg\nFile:YCbCrSubSampling: YCbCr4:4:4 (1 1)\nComposite:ImageSize: 640x429\nJFIF:JFIFVersion: 1.01\nJFIF:ResolutionUnit: inches\nJFIF:XResolution: 72\nJFIF:YResolution: 72\n','image/jpeg','berlin_wall_01.jpg',96330,429,640,NULL,'2012-04-20 12:04:18','2012-04-20 12:04:18','e0ba8d3e-ea81-4595-a167-3f83207bc7ed'),(3,'27462e6b17274d20b46b6652c6178d18','--- \nFile:BitsPerSample: 8\nFile:ColorComponents: 3\nFile:EncodingProcess: Baseline DCT, Huffman coding\nFile:FileType: JPEG\nFile:ImageHeight: 429\nFile:ImageWidth: 640\nFile:MIMEType: image/jpeg\nFile:YCbCrSubSampling: YCbCr4:4:4 (1 1)\nComposite:ImageSize: 640x429\nJFIF:JFIFVersion: 1.01\nJFIF:ResolutionUnit: inches\nJFIF:XResolution: 72\nJFIF:YResolution: 72\n','image/jpeg','berlin_wall_01.jpg',96330,429,640,NULL,'2012-04-20 12:04:18','2012-04-20 12:04:19','f285c39f-abad-405f-9c9d-b3ecbf1322f0'),(4,'93df27ec55ae4c5aa394fe0d8161a35a','--- \nFile:BitsPerSample: 8\nFile:ColorComponents: 3\nFile:EncodingProcess: Baseline DCT, Huffman coding\nFile:FileType: JPEG\nFile:ImageHeight: 429\nFile:ImageWidth: 640\nFile:MIMEType: image/jpeg\nFile:YCbCrSubSampling: YCbCr4:4:4 (1 1)\nComposite:ImageSize: 640x429\nJFIF:JFIFVersion: 1.01\nJFIF:ResolutionUnit: inches\nJFIF:XResolution: 72\nJFIF:YResolution: 72\n','image/jpeg','berlin_wall_01.jpg',96330,429,640,NULL,'2012-04-20 12:04:19','2012-04-20 12:04:19','51607bd7-5595-465e-ae44-f7900ac12f47'),(5,'de929612d8f9403d97e4f88c30087dca','--- \nFile:BitsPerSample: 8\nFile:ColorComponents: 3\nFile:EncodingProcess: Baseline DCT, Huffman coding\nFile:FileType: JPEG\nFile:ImageHeight: 429\nFile:ImageWidth: 640\nFile:MIMEType: image/jpeg\nFile:YCbCrSubSampling: YCbCr4:4:4 (1 1)\nComposite:ImageSize: 640x429\nJFIF:JFIFVersion: 1.01\nJFIF:ResolutionUnit: inches\nJFIF:XResolution: 72\nJFIF:YResolution: 72\n','image/jpeg','berlin_wall_01.jpg',96330,429,640,NULL,'2012-04-20 12:04:19','2012-04-20 12:04:20','2df736d8-ba07-4c4f-b4a4-a51b9d8b3ebe'),(6,'797417767e0744cb86cd32ffe5f06dda','--- \nFile:BitsPerSample: 8\nFile:ColorComponents: 3\nFile:EncodingProcess: Baseline DCT, Huffman coding\nFile:FileType: JPEG\nFile:ImageHeight: 429\nFile:ImageWidth: 640\nFile:MIMEType: image/jpeg\nFile:YCbCrSubSampling: YCbCr4:4:4 (1 1)\nComposite:ImageSize: 640x429\nJFIF:JFIFVersion: 1.01\nJFIF:ResolutionUnit: inches\nJFIF:XResolution: 72\nJFIF:YResolution: 72\n','image/jpeg','berlin_wall_01.jpg',96330,429,640,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20','b3657715-db00-4ec1-ba80-66891ab35b1d'),(7,'d7eedd16bbcb4bccb38fec9d94a5edb3','--- \nFile:BitsPerSample: 8\nFile:ColorComponents: 3\nFile:EncodingProcess: Baseline DCT, Huffman coding\nFile:FileType: JPEG\nFile:ImageHeight: 429\nFile:ImageWidth: 640\nFile:MIMEType: image/jpeg\nFile:YCbCrSubSampling: YCbCr4:4:4 (1 1)\nComposite:ImageSize: 640x429\nJFIF:JFIFVersion: 1.01\nJFIF:ResolutionUnit: inches\nJFIF:XResolution: 72\nJFIF:YResolution: 72\n','image/jpeg','berlin_wall_01.jpg',96330,429,640,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:21','ed220124-8e75-448a-aec0-9b4ed1200fe9'),(8,'91129f3af6ef4431bfa3691ae440ac56','--- \nFile:BitsPerSample: 8\nFile:ColorComponents: 3\nFile:EncodingProcess: Baseline DCT, Huffman coding\nFile:FileType: JPEG\nFile:ImageHeight: 429\nFile:ImageWidth: 640\nFile:MIMEType: image/jpeg\nFile:YCbCrSubSampling: YCbCr4:4:4 (1 1)\nComposite:ImageSize: 640x429\nJFIF:JFIFVersion: 1.01\nJFIF:ResolutionUnit: inches\nJFIF:XResolution: 72\nJFIF:YResolution: 72\n','image/jpeg','berlin_wall_01.jpg',96330,429,640,NULL,'2012-04-20 12:04:21','2012-04-20 12:04:21','c17de0aa-2db7-4880-9a59-eb23765610c3'),(9,'efa28250a9234a6e9a6c98215497212e','--- \nFile:BitsPerSample: 8\nFile:ColorComponents: 3\nFile:EncodingProcess: Baseline DCT, Huffman coding\nFile:FileType: JPEG\nFile:ImageHeight: 429\nFile:ImageWidth: 640\nFile:MIMEType: image/jpeg\nFile:YCbCrSubSampling: YCbCr4:4:4 (1 1)\nComposite:ImageSize: 640x429\nJFIF:JFIFVersion: 1.01\nJFIF:ResolutionUnit: inches\nJFIF:XResolution: 72\nJFIF:YResolution: 72\n','image/jpeg','berlin_wall_01.jpg',96330,429,640,NULL,'2012-04-20 12:04:21','2012-04-20 12:04:21','75bf464a-86b1-43d3-b50b-46a5f9994630'),(10,'9a1cb3d1b4cb41edaa402f753d318839','--- \nFile:BitsPerSample: 8\nFile:ColorComponents: 3\nFile:EncodingProcess: Baseline DCT, Huffman coding\nFile:FileType: JPEG\nFile:ImageHeight: 429\nFile:ImageWidth: 640\nFile:MIMEType: image/jpeg\nFile:YCbCrSubSampling: YCbCr4:4:4 (1 1)\nComposite:ImageSize: 640x429\nJFIF:JFIFVersion: 1.01\nJFIF:ResolutionUnit: inches\nJFIF:XResolution: 72\nJFIF:YResolution: 72\n','image/jpeg','berlin_wall_01.jpg',96330,429,640,NULL,'2012-04-20 12:04:21','2012-04-20 12:04:22','4e0ac22c-32f4-41ff-8c4f-5da45b6a139a'),(11,'00e09e95462e45ecb8f18b8f8b6af9c8','--- \nFile:BitsPerSample: 8\nFile:ColorComponents: 3\nFile:EncodingProcess: Baseline DCT, Huffman coding\nFile:FileType: JPEG\nFile:ImageHeight: 429\nFile:ImageWidth: 640\nFile:MIMEType: image/jpeg\nFile:YCbCrSubSampling: YCbCr4:4:4 (1 1)\nComposite:ImageSize: 640x429\nJFIF:JFIFVersion: 1.01\nJFIF:ResolutionUnit: inches\nJFIF:XResolution: 72\nJFIF:YResolution: 72\n','image/jpeg','berlin_wall_01.jpg',96330,429,640,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:22','5e3589b1-a465-437b-9595-2fa2c7b57631'),(12,'e4f9eea907c1439badf8e60cf6491d23','--- \nFile:BitsPerSample: 8\nFile:ColorComponents: 3\nFile:EncodingProcess: Baseline DCT, Huffman coding\nFile:FileType: JPEG\nFile:ImageHeight: 429\nFile:ImageWidth: 640\nFile:MIMEType: image/jpeg\nFile:YCbCrSubSampling: YCbCr4:4:4 (1 1)\nComposite:ImageSize: 640x429\nJFIF:JFIFVersion: 1.01\nJFIF:ResolutionUnit: inches\nJFIF:XResolution: 72\nJFIF:YResolution: 72\n','image/jpeg','berlin_wall_01.jpg',96330,429,640,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:23','7de0f60d-48b9-41e7-aaef-4c6c91e2b86c'),(13,'541786d3aee34e9c886c0d89468e15a3','--- \nFile:BitsPerSample: 8\nFile:ColorComponents: 3\nFile:EncodingProcess: Baseline DCT, Huffman coding\nFile:FileType: JPEG\nFile:ImageHeight: 429\nFile:ImageWidth: 640\nFile:MIMEType: image/jpeg\nFile:YCbCrSubSampling: YCbCr4:4:4 (1 1)\nComposite:ImageSize: 640x429\nJFIF:JFIFVersion: 1.01\nJFIF:ResolutionUnit: inches\nJFIF:XResolution: 72\nJFIF:YResolution: 72\n','image/jpeg','berlin_wall_01.jpg',96330,429,640,NULL,'2012-04-20 12:04:23','2012-04-20 12:04:23','599ab05a-fb38-40c2-a4f4-eb1b7dd37fcc'),(14,'c34ef180441d486397779528617c4d86','--- \nFile:BitsPerSample: 8\nFile:ColorComponents: 3\nFile:EncodingProcess: Baseline DCT, Huffman coding\nFile:FileType: JPEG\nFile:ImageHeight: 429\nFile:ImageWidth: 640\nFile:MIMEType: image/jpeg\nFile:YCbCrSubSampling: YCbCr4:4:4 (1 1)\nComposite:ImageSize: 640x429\nJFIF:JFIFVersion: 1.01\nJFIF:ResolutionUnit: inches\nJFIF:XResolution: 72\nJFIF:YResolution: 72\n','image/jpeg','berlin_wall_01.jpg',96330,429,640,NULL,'2012-04-20 12:04:23','2012-04-20 12:04:24','7f087415-a888-4674-a127-23644f475d32'),(15,'7006f71d28934c83b16192787d6066a7','--- \nFile:BitsPerSample: 8\nFile:ColorComponents: 3\nFile:EncodingProcess: Baseline DCT, Huffman coding\nFile:FileType: JPEG\nFile:ImageHeight: 429\nFile:ImageWidth: 640\nFile:MIMEType: image/jpeg\nFile:YCbCrSubSampling: YCbCr4:4:4 (1 1)\nComposite:ImageSize: 640x429\nJFIF:JFIFVersion: 1.01\nJFIF:ResolutionUnit: inches\nJFIF:XResolution: 72\nJFIF:YResolution: 72\n','image/jpeg','berlin_wall_01.jpg',96330,429,640,NULL,'2012-04-20 12:04:24','2012-04-20 12:04:24','24933ff8-aa5f-4f63-b826-256c667db252'),(16,'d023b834979043b68400f2ce9f9529c0','--- \nFile:BitsPerSample: 8\nFile:ColorComponents: 3\nFile:EncodingProcess: Baseline DCT, Huffman coding\nFile:ExifByteOrder: Little-endian (Intel, II)\nFile:FileType: JPEG\nFile:ImageHeight: 375\nFile:ImageWidth: 500\nFile:MIMEType: image/jpeg\nFile:YCbCrSubSampling: YCbCr4:4:4 (1 1)\nComposite:Aperture: 4.5\nComposite:CircleOfConfusion: 0.020 mm\nComposite:FOV: 54.4 deg\nComposite:FocalLength35efl: \"23.3 mm (35 mm equivalent: 35.0 mm)\"\nComposite:GPSDateTime: 2003:11:23 18:07:37Z\nComposite:GPSLatitude: 39.915556 N\nComposite:GPSLongitude: 116.390833 E\nComposite:GPSPosition: 39.915556 N, 116.390833 E\nComposite:HyperfocalDistance: 6.04 m\nComposite:ImageSize: 500x375\nComposite:ScaleFactor35efl: 1.5\nComposite:ShutterSpeed: 1/125\nComposite:SubSecCreateDate: 2003:11:23 18:07:37.63\nComposite:SubSecDateTimeOriginal: 2003:11:23 18:07:37.63\nComposite:SubSecModifyDate: 2005:07:02 10:38:28.63\nComposite:ThumbnailImage: (Binary data 4034 bytes)\nExifIFD:CFAPattern: \"[Green,Blue][Red,Green]\"\nExifIFD:ColorSpace: Uncalibrated\nExifIFD:CompressedBitsPerPixel: 4\nExifIFD:Contrast: Low\nExifIFD:CreateDate: 2003:11:23 18:07:37\nExifIFD:CustomRendered: Normal\nExifIFD:DateTimeOriginal: 2003:11:23 18:07:37\nExifIFD:DigitalZoomRatio: 1\nExifIFD:ExifImageHeight: 375\nExifIFD:ExifImageWidth: 500\nExifIFD:ExifVersion: \"0220\"\nExifIFD:ExposureCompensation: 0\nExifIFD:ExposureMode: Auto\nExifIFD:ExposureProgram: Aperture-priority AE\nExifIFD:ExposureTime: 1/125\nExifIFD:FNumber: 4.5\nExifIFD:FileSource: Digital Camera\nExifIFD:Flash: No Flash\nExifIFD:FlashpixVersion: \"0100\"\nExifIFD:FocalLength: 23.3 mm\nExifIFD:FocalLengthIn35mmFormat: 35 mm\nExifIFD:GainControl: Low gain up\nExifIFD:LightSource: Unknown\nExifIFD:MaxApertureValue: 2.8\nExifIFD:MeteringMode: Spot\nExifIFD:RelatedSoundFile: \"            \"\nExifIFD:Saturation: Normal\nExifIFD:SceneCaptureType: Standard\nExifIFD:SceneType: Directly photographed\nExifIFD:SensingMethod: One-chip color area\nExifIFD:Sharpness: Normal\nExifIFD:SubSecTime: 63\nExifIFD:SubSecTimeDigitized: 63\nExifIFD:SubSecTimeOriginal: 63\nExifIFD:SubjectDistanceRange: Unknown\nExifIFD:WhiteBalance: Auto\nIFD0:Make: NIKON CORPORATION\nIFD0:Model: NIKON D2H\nIFD0:ModifyDate: 2005:07:02 10:38:28\nIFD0:Orientation: Horizontal (normal)\nIFD0:ResolutionUnit: inches\nIFD0:Software: Opanda PowerExif\nIFD0:XResolution: 256\nIFD0:YResolution: 256\nIFD1:Compression: JPEG (old-style)\nIFD1:ResolutionUnit: inches\nIFD1:ThumbnailLength: 4034\nIFD1:ThumbnailOffset: 1118\nIFD1:XResolution: 72\nIFD1:YResolution: 72\nXMP-xmpMM:DocumentID: adobe:docid:photoshop:48361733-eaa2-11d9-a6e9-a8189497d9c2\nPhotoshop:CopyrightFlag: false\nPhotoshop:DisplayedUnitsX: inches\nPhotoshop:DisplayedUnitsY: inches\nPhotoshop:GlobalAltitude: 30\nPhotoshop:GlobalAngle: 30\nPhotoshop:GridGuidesInfo: !binary |\n  AAAAAQAAAkAAAAJAAAAAAA==\n\nPhotoshop:ICC_Untagged: !binary |\n  AQ==\n\nPhotoshop:IDsBaseValue: !binary |\n  AAAAAQ==\n\nPhotoshop:IPTCDigest: \"00000000000000000000000000000000\"\nPhotoshop:PhotoshopFormat: Standard\nPhotoshop:PhotoshopQuality: 8\nPhotoshop:PhotoshopThumbnail: (Binary data 4782 bytes)\nPhotoshop:PrintFlags: !binary |\n  AAAAAAAAAAAB\n\nPhotoshop:PrintFlagsInfo: !binary |\n  AAEAAAAAAAAAAg==\n\nPhotoshop:ProgressiveScans: 3 Scans\nPhotoshop:URL_List: !binary |\n  AAAAAA==\n\nPhotoshop:VersionInfo: !binary |\n  AAAAAQEAAAAPAEEAZABvAGIAZQAgAFAAaABvAHQAbwBzAGgAbwBwAAAAEwBB\n  AGQAbwBiAGUAIABQAGgAbwB0AG8AcwBoAG8AcAAgADcALgAwAAAAAQ==\n\nPhotoshop:XResolution: 256\nPhotoshop:YResolution: 256\nJFIF:JFIFVersion: 1.02\nJFIF:ResolutionUnit: inches\nJFIF:XResolution: 256\nJFIF:YResolution: 256\nGPS:GPSDateStamp: \"2003:11:23\"\nGPS:GPSLatitude: 39.915556\nGPS:GPSLatitudeRef: North\nGPS:GPSLongitude: 116.390833\nGPS:GPSLongitudeRef: East\nGPS:GPSTimeStamp: \"18:07:37\"\nGPS:GPSVersionID: 2.2.0.0\n','image/jpeg','gg_gps.jpg',80603,375,500,NULL,'2012-04-20 12:04:24','2012-04-20 12:04:25','c7132511-745e-44c3-9b4e-5e91987e629d');
 /*!40000 ALTER TABLE `media_files` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `media_resource_arcs`
+--
+
+DROP TABLE IF EXISTS `media_resource_arcs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `media_resource_arcs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) NOT NULL,
+  `child_id` int(11) NOT NULL,
+  `highlight` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index_media_set_arcs_on_parent_id_and_child_id` (`parent_id`,`child_id`),
+  KEY `index_media_set_arcs_on_parent_id` (`parent_id`),
+  KEY `index_media_set_arcs_on_child_id` (`child_id`),
+  CONSTRAINT `media_set_arcs_child_id_media_resources_fkey` FOREIGN KEY (`child_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `media_set_arcs_parent_id_media_resources_fkey` FOREIGN KEY (`parent_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `media_resource_arcs`
+--
+
+LOCK TABLES `media_resource_arcs` WRITE;
+/*!40000 ALTER TABLE `media_resource_arcs` DISABLE KEYS */;
+INSERT INTO `media_resource_arcs` VALUES (1,1,3,0),(2,2,3,0),(3,15,17,0),(4,13,17,0),(5,12,17,0),(6,14,17,0),(7,17,22,0),(8,17,23,0),(9,17,25,0),(10,15,26,0),(11,1,29,0),(13,1,30,0),(15,2,30,0),(17,4,7,0),(19,4,8,0),(21,5,6,0),(23,9,10,0),(25,9,11,0),(27,15,16,0),(29,17,18,0),(31,17,19,0),(33,17,20,0),(35,17,21,0),(37,17,24,0),(39,26,27,0),(41,26,28,0);
+/*!40000 ALTER TABLE `media_resource_arcs` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -349,36 +353,6 @@ LOCK TABLES `media_resources` WRITE;
 /*!40000 ALTER TABLE `media_resources` DISABLE KEYS */;
 INSERT INTO `media_resources` VALUES (1,'MediaSet',1,NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17',0,1,0,0),(2,'MediaSet',1,NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17',0,0,0,0),(3,'MediaSet',1,NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17',0,0,0,0),(4,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17',0,0,0,0),(5,'MediaSet',3,NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17',0,0,0,0),(6,'MediaEntry',3,1,NULL,'2012-04-20 12:04:18','2012-04-20 12:04:18',0,1,0,0),(7,'MediaEntry',2,2,NULL,'2012-04-20 12:04:18','2012-04-20 12:04:18',0,0,0,0),(8,'MediaEntry',2,3,NULL,'2012-04-20 12:04:19','2012-04-20 12:04:19',0,0,0,0),(9,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:19','2012-04-20 12:04:19',0,1,0,0),(10,'MediaEntry',2,4,NULL,'2012-04-20 12:04:19','2012-04-20 12:04:19',0,0,0,0),(11,'MediaEntry',2,5,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,0,0,0),(12,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,0,0,0),(13,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,0,0,0),(14,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,0,0,0),(15,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,0,0,0),(16,'MediaEntry',2,6,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,1,0,0),(17,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,0,0,0),(18,'MediaEntry',2,7,NULL,'2012-04-20 12:04:21','2012-04-20 12:04:21',0,0,0,0),(19,'MediaEntry',2,8,NULL,'2012-04-20 12:04:21','2012-04-20 12:04:21',0,0,0,0),(20,'MediaEntry',2,9,NULL,'2012-04-20 12:04:21','2012-04-20 12:04:21',0,0,0,0),(21,'MediaEntry',2,10,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:22',0,0,0,0),(22,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:22',0,0,0,0),(23,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:22',0,0,0,0),(24,'MediaEntry',2,11,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:22',0,0,0,0),(25,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:22',0,0,0,0),(26,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:22',0,0,0,0),(27,'MediaEntry',2,12,NULL,'2012-04-20 12:04:23','2012-04-20 12:04:23',0,0,0,0),(28,'MediaEntry',2,13,NULL,'2012-04-20 12:04:23','2012-04-20 12:04:23',0,0,0,0),(29,'MediaEntry',6,14,NULL,'2012-04-20 12:04:24','2012-04-20 12:04:24',0,0,0,0),(30,'MediaEntry',6,15,NULL,'2012-04-20 12:04:24','2012-04-20 12:04:24',0,0,0,0),(31,'MediaEntry',6,16,NULL,'2012-04-20 12:04:25','2012-04-20 12:04:25',0,0,0,0);
 /*!40000 ALTER TABLE `media_resources` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `media_set_arcs`
---
-
-DROP TABLE IF EXISTS `media_set_arcs`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `media_set_arcs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) NOT NULL,
-  `child_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `index_media_set_arcs_on_parent_id_and_child_id` (`parent_id`,`child_id`),
-  KEY `index_media_set_arcs_on_parent_id` (`parent_id`),
-  KEY `index_media_set_arcs_on_child_id` (`child_id`),
-  CONSTRAINT `media_set_arcs_child_id_media_resources_fkey` FOREIGN KEY (`child_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `media_set_arcs_parent_id_media_resources_fkey` FOREIGN KEY (`parent_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `media_set_arcs`
---
-
-LOCK TABLES `media_set_arcs` WRITE;
-/*!40000 ALTER TABLE `media_set_arcs` DISABLE KEYS */;
-INSERT INTO `media_set_arcs` VALUES (1,1,3),(2,2,3),(5,12,17),(4,13,17),(6,14,17),(3,15,17),(10,15,26),(7,17,22),(8,17,23),(9,17,25);
-/*!40000 ALTER TABLE `media_set_arcs` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -429,7 +403,7 @@ CREATE TABLE `meta_context_groups` (
 
 LOCK TABLES `meta_context_groups` WRITE;
 /*!40000 ALTER TABLE `meta_context_groups` DISABLE KEYS */;
-INSERT INTO `meta_context_groups` VALUES (1,'1. Metadaten',0),(3,'2. Kontexte',0);
+INSERT INTO `meta_context_groups` VALUES (1,'Metadaten',0),(3,'Kontexte',0);
 /*!40000 ALTER TABLE `meta_context_groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -466,7 +440,7 @@ CREATE TABLE `meta_contexts` (
 
 LOCK TABLES `meta_contexts` WRITE;
 /*!40000 ALTER TABLE `meta_contexts` DISABLE KEYS */;
-INSERT INTO `meta_contexts` VALUES (1,1,'core',284,NULL,NULL,NULL),(2,0,'tms',292,NULL,NULL,NULL),(3,0,'io_interface',286,NULL,NULL,NULL),(4,1,'media_content',293,NULL,1,NULL),(5,1,'media_object',294,NULL,1,NULL),(6,1,'media_set',299,NULL,NULL,NULL),(7,1,'copyright',298,NULL,1,NULL),(8,1,'upload',290,NULL,NULL,NULL),(9,1,'zhdk_bereich',297,NULL,1,NULL),(11,1,'Projekte ZHdK',919,NULL,NULL,NULL),(15,1,'Landschaftsvisualisierung',977,2263,3,NULL),(17,1,'SupplyLines',1471,1473,3,NULL),(19,1,'Columns',1491,NULL,3,NULL),(21,1,'archhist',1631,NULL,3,NULL),(23,1,'VFO',1809,NULL,3,NULL),(25,1,'Zett',2025,NULL,3,NULL),(27,1,'Toni',2233,NULL,3,NULL),(29,1,'Forschung ZHdK',3371,NULL,3,NULL),(31,1,'Performance-Artefakte',3837,NULL,3,NULL),(32,1,'Games',4558,NULL,NULL,NULL);
+INSERT INTO `meta_contexts` VALUES (1,1,'core',284,NULL,NULL,NULL),(2,0,'tms',292,NULL,NULL,NULL),(3,0,'io_interface',286,NULL,NULL,NULL),(4,1,'media_content',293,NULL,1,1),(5,1,'media_object',294,NULL,1,2),(6,1,'media_set',299,NULL,NULL,NULL),(7,1,'copyright',298,NULL,1,3),(8,1,'upload',290,NULL,NULL,NULL),(9,1,'zhdk_bereich',297,NULL,1,4),(11,1,'Projekte ZHdK',919,NULL,NULL,NULL),(15,1,'Landschaftsvisualisierung',977,2263,3,1),(17,1,'SupplyLines',1471,1473,3,2),(19,1,'Columns',1491,NULL,3,3),(21,1,'archhist',1631,NULL,3,4),(23,1,'VFO',1809,NULL,3,5),(25,1,'Zett',2025,NULL,3,6),(27,1,'Toni',2233,NULL,3,7),(29,1,'Forschung ZHdK',3371,NULL,3,8),(31,1,'Performance-Artefakte',3837,NULL,3,9),(32,1,'Games',4558,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `meta_contexts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -741,7 +715,7 @@ CREATE TABLE `schema_migrations` (
 
 LOCK TABLES `schema_migrations` WRITE;
 /*!40000 ALTER TABLE `schema_migrations` DISABLE KEYS */;
-INSERT INTO `schema_migrations` VALUES ('20090304091402'),('20090304091431'),('20090310150441'),('20090504143011'),('20090505114718'),('20090505120000'),('20090529140042'),('20090826101541'),('20090827124700'),('20090928135809'),('20090930130031'),('20091111170552'),('20091125165700'),('20091209083948'),('20100118200011'),('20100203222610'),('20100223090310'),('20100319183758'),('20100528111406'),('20100610103525'),('20100614160217'),('20100619104047'),('20100623123943'),('20100727160912'),('20100806222042'),('20100811134357'),('20100827095717'),('20101002144342'),('20101025095028'),('20101028135817'),('20101111142814'),('20101118151432'),('20101130155457'),('20101213183358'),('20101216161948'),('20101223133610'),('20110124150835'),('20110128143744'),('20110301125220'),('20110328122446'),('20110330150317'),('20110415133056'),('20110505180606'),('20111114110014'),('20111114110109'),('20111208131742'),('20111212073809'),('20111221132442'),('20111221142909'),('20120111104043'),('20120111133855'),('20120113221603'),('20120119000000'),('20120119000001'),('20120119000002'),('20120119000004'),('20120207000000'),('20120207000001'),('20120208170529'),('20120210163904'),('20120222104414'),('20120222130503'),('20120309092925'),('20120320084327'),('20120329162800');
+INSERT INTO `schema_migrations` VALUES ('20090304091402'),('20090304091431'),('20090310150441'),('20090504143011'),('20090505114718'),('20090505120000'),('20090529140042'),('20090826101541'),('20090827124700'),('20090928135809'),('20090930130031'),('20091111170552'),('20091125165700'),('20091209083948'),('20100118200011'),('20100203222610'),('20100223090310'),('20100319183758'),('20100528111406'),('20100610103525'),('20100614160217'),('20100619104047'),('20100623123943'),('20100727160912'),('20100806222042'),('20100811134357'),('20100827095717'),('20101002144342'),('20101025095028'),('20101028135817'),('20101111142814'),('20101118151432'),('20101130155457'),('20101213183358'),('20101216161948'),('20101223133610'),('20110124150835'),('20110128143744'),('20110301125220'),('20110328122446'),('20110330150317'),('20110415133056'),('20110505180606'),('20111114110014'),('20111114110109'),('20111208131742'),('20111212073809'),('20111221132442'),('20111221142909'),('20120111104043'),('20120111133855'),('20120113221603'),('20120119000000'),('20120119000001'),('20120119000002'),('20120119000004'),('20120207000000'),('20120207000001'),('20120208170529'),('20120210163904'),('20120222104414'),('20120222130503'),('20120309092925'),('20120320084327'),('20120329162800'),('20120418084332'),('20120418100232'),('20120423094303');
 /*!40000 ALTER TABLE `schema_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -942,4 +916,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-04-20 14:04:51
+-- Dump completed on 2012-05-29 17:18:38
