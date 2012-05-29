@@ -26,7 +26,7 @@ When /^I select a resource to be highlighted$/ do
   @highlight = @media_set.out_arcs.first.child
   find("table.media_resources tr", :text => @highlight.title).find(".selection input").click
   find("#media_set_highlights_lightbox .save").click
-  wait_until(15) { all("#media_set_highlights_lightbox .loading", :visible => true).size == 0 }
+  wait_until(30){ all("#media_set_highlights_lightbox", :visible => true).size == 0 }
 end
 
 Then /^the resource is highlighted$/ do
