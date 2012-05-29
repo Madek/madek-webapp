@@ -7,6 +7,10 @@ class CreateMetaDataPeople < ActiveRecord::Migration
       t.belongs_to :meta_datum
       t.belongs_to :person
     end
+
+    change_table :meta_data_people  do |t|
+      t.index [:meta_datum_id, :person_id], unique: true
+    end
     
     fkey_cascade_on_delete  :meta_data_people, ::MetaDatum
     fkey_cascade_on_delete  :meta_data_people, ::Person
