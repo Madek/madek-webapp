@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
  
-class MetaDatumString < MetaDatum
+class MetaDatumString < MetaDatumBase
 
   alias_attribute :value, :string
 
