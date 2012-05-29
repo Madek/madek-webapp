@@ -50,21 +50,23 @@ ActionController::Base.allow_rescue = false
 
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
-begin
-  DatabaseCleaner.strategy = :transaction
-rescue NameError
-  raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
-end
+#begin
+  #DatabaseCleaner.strategy = :transaction
+#rescue NameError
+#  raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
+#end
 
 at_exit do
   # remove dropbox 
   FileUtils.rm_rf("#{Rails.root}/tmp/dropbox")
 end
 
-Before do
-  DatabaseCleaner.start
-end
+#Before do
+  #binding.pry
+  #DatabaseCleaner.start
+#end
 
-After do |scenario|
-  DatabaseCleaner.clean
-end
+#After do |scenario|
+  #binding.pry
+  #DatabaseCleaner.clean
+#end

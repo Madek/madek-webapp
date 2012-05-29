@@ -13,9 +13,47 @@ namespace :madek do
     Rails.env = 'test'
     task :environment
     Rake::Task["madek:reset"].invoke
-    system "bundle exec rspec --format d --format html --out tmp/html/rspec.html spec"
+
+
+    # The rspec part of this whole story gets tested against an empty database, so nothing
+    # to import from a file here
+  #  system "bundle exec rspec --format d --format html --out tmp/html/rspec.html spec"
+  #  exit_code = $? >> 8 # magic brainfuck
+  #  raise "Tests failed with: #{exit_code}" if exit_code != 0
+
+
+    # The Cucumber part of the test gets run against a dump from our persona
+    # MAdeK instance
+
+    config = Rails.configuration.database_configuration[Rails.env]
+    adapter      = config["adapter"]
+    sql_host     = config["host"]
+    sql_database = config["database"]
+    sql_username = config["username"]
+    sql_password = config["password"]
+
+    if ["mysql", "mysql2"].include?(adapter)
+      drop_command = "mysql -u #{sql_username} --password=#{sql_password} -e 'drop database if exists #{sql_database}'"
+      load_command = "mysql -u #{sql_username} --password=#{sql_password} #{sql_database} < #{Rails.root + 'db/empty_medienarchiv_instance_with_personas.mysql.sql'}"
+      create_command = "mysql -u #{sql_username} --password=#{sql_password} -e 'create database #{sql_database}'"
+
+    elsif adapter == "postgresql"
+    else
+      raise "Cannot handle database adapter #{adapter}, sorry! Exiting."
+    end
+
+    # Invoking things like Rake::Task["db:drop"] does NOT work in these tasks (I don't know why)
+    puts "Trying to drop database"
+    system drop_command
+    sleep 5
+    puts "Trying to create database"
+    system create_command
+    puts "Trying to load persona dump into database"
+    system load_command
     exit_code = $? >> 8 # magic brainfuck
-    raise "Tests failed with: #{exit_code}" if exit_code != 0
+    raise "Could not load database file" if exit_code != 0
+
+    Rake::Task["db:migrate"].invoke
 
     system "bundle exec cucumber -p default"
     exit_code = $? >> 8 # magic brainfuck
