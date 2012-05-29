@@ -18,7 +18,7 @@ class MediaResourcesController
     new ActionMenu @el
     
   delegate_events: ->
-    @el.delegate "#bar .layout a", "click", @switch_layout 
+    @el.delegate "#bar .layout a[data-type]", "click", @switch_layout 
     @el.delegate ".page[data-page]", "inview", @render_page
 
   activate_layout: ->
