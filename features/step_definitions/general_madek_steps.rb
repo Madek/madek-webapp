@@ -1,26 +1,30 @@
 # coding: UTF-8
 
+Given "I have set up the world a little" do
+  MetaDepartment.setup_ldapdata_from_localfile
+  MetaDate.parse_all
+end
+
 Given /^I have set up the world$/ do
   # Set this to a non-JS driver because:
   # 1. The Selenium driver times out during this step
   # 2. This step may be called in backgrounds of tests that have
   #    :js => true, so this would break this step. Therefore
   #    we set our own driver here.
-  #old_driver = Capybara.current_driver
-  #Capybara.use_default_driver
-  #Capybara.current_driver = old_driver
+  old_driver = Capybara.current_driver
+  Capybara.use_default_driver
+  Capybara.current_driver = old_driver
 
-  puts "We'll just have to trust that the world is actually set up"
-  #DataFactory.reset_data
+  DataFactory.reset_data
   
   # Check setted minimal meta 
-  #meta_filepath = "#{Rails.root}/features/data/minimal_meta.yml"
-  #minimal_meta = YAML::load_file(meta_filepath)
-  #MetaKey.count.should == minimal_meta[:meta_keys].count
-  #MetaContext.count.should == minimal_meta[:meta_contexts].count
-  #MetaKeyDefinition.count.should == minimal_meta[:meta_key_definitions].count
-  #MetaTerm.count.should == minimal_meta[:meta_terms].count
-  #UsageTerm.count.should == 1
+  meta_filepath = "#{Rails.root}/features/data/minimal_meta.yml"
+  minimal_meta = YAML::load_file(meta_filepath)
+  MetaKey.count.should == minimal_meta[:meta_keys].count
+  MetaContext.count.should == minimal_meta[:meta_contexts].count
+  MetaKeyDefinition.count.should == minimal_meta[:meta_key_definitions].count
+  MetaTerm.count.should == minimal_meta[:meta_terms].count
+  UsageTerm.count.should == 1
  
   # This is actually normally called in the seeds, but the RSpec developers don't believe in using seeds,
   # so they drop the database even if we seed it before running the tests. Therefore we recreate our world in this step. 

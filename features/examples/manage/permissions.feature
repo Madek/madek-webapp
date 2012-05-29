@@ -18,7 +18,7 @@ Feature: Permissions
   So that I can decide who has what kind of access to my data
 
   Background: Load the example data and personas
-	Given I have set up the world
+	Given I have set up the world a little
     And personas are loaded
 
   @javascript

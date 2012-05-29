@@ -5,7 +5,7 @@ Feature: File picker for uploading files
   I want to be able to pick files from my filesystem
   
   Background: Load the example data and personas
-    Given I have set up the world
+    Given I have set up the world a little
       And personas are loaded
       And I am "Normin"
 

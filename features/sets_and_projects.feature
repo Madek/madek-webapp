@@ -17,7 +17,7 @@ Feature: Do things to and with sets
      And I fill in the metadata for entry number 1 as follows:
      | label     | value                        |
      | Titel     | into the set after uploading |
-     | Copyright | some other dude              |
+     | Rechte | some other dude              |
      And I follow "weiter..."
      And I follow "Import abschliessen"
      And I go to the media entries
@@ -37,7 +37,7 @@ Feature: Do things to and with sets
      And I fill in the metadata for entry number 1 as follows:
      | label     | value                        |
      | Titel     | into the set after uploading |
-     | Copyright | some other dude              |
+     | Rechte | some other dude              |
      And I follow "weiter..."
      And I follow "Import abschliessen"
      And I go to the media entries
@@ -66,7 +66,7 @@ Feature: Do things to and with sets
      And I fill in the metadata for entry number 1 as follows:
      | label     | value           |
      | Titel     | Link test       |
-     | Copyright | some other dude |
+     | Rechte | some other dude |
      And I follow "weiter..."
      And I follow "Import abschliessen"
      And I go to the media entries

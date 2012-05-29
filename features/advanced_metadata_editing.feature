@@ -3,7 +3,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
   Foo
 
   Background: Set up the world and some users
-    Given I have set up the world
+    Given I have set up the world a little
       And a user called "Han Solo" with username "hansolo" and password "leia" exists
       And a user called "Obi-Wan Kenobi" with username "obi" and password "sabers" exists
       And a user called "Lando Calrissian" with username "lando" and password "bounty" exists
@@ -42,7 +42,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I wait for the CSS element "#copyright"
      And I fill in the metadata form as follows:
      |label|value|
-     |Copyright|(C) 4233 Han Solo|
+     |Rechte|(C) 4233 Han Solo|
      |Quelle|My own digital camera|
      |Angeboten durch|Rebel Photography Syndicate|
      And I follow "ZHdK" within ".tabs"

@@ -1,7 +1,7 @@
 Feature: Sets in Sets
 
   Background: Set up the world with a user and logging in
-    Given I have set up the world
+    Given I have set up the world a little
       And a user called "Max" with username "max" and password "moritz" exists
       And I log in as "max" with password "moritz"
       And I am logged in as "max"

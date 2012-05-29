@@ -18,7 +18,7 @@ Feature: Ownership
   So that I have a mental connection to them and am not confused by other people's files, or other files I have access to
 
   Background: Load the example data and personas
-   Given I have set up the world
+   Given I have set up the world a little
      And personas are loaded
      And I am "Normin"
 

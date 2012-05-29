@@ -3,7 +3,7 @@ Feature: Help wiki
   Have a wiki for help content. Allow editing articles and linking back and forth.
 
   Background: Set up the world and some users
-    Given I have set up the world
+    Given I have set up the world a little
       And a wiki front page
       And a user called "Admin" with username "admin" and password "aadmin" exists
       And "admin" is an admin
