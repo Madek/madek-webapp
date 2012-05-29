@@ -81,6 +81,11 @@ class MediaResource < ActiveRecord::Base
     end
   end
     
+########################################################
+
+  def get_media_file(user = nil)
+    media_file
+  end
   
 ########################################################
 

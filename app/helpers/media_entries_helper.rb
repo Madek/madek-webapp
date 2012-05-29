@@ -58,12 +58,7 @@ module MediaEntriesHelper
   def thumb_for(resource, size = :small_125, options = {})
     size = size.to_sym
 
-    media_file = if resource.is_a?(MediaSet)
-      resource.media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
-    else
-      resource.media_file
-    end
-    return "" unless media_file
+    return "" unless (media_file = resource.get_media_file(current_user))
     
     # Give a video preview if there is one, otherwise revert to a preview
     # image that was extracted from the video file.
