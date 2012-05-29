@@ -57,3 +57,22 @@ Feature: List view
     When I see a resource in a list view
     And I click the thumbnail of that resource
     Then I am on the resource's view page
+
+  Scenario: Contexts visible in list view
+    When I see a resource in list view
+    Then I see the context "Core"
+    And I see the context "Institution" after some loading
+    And I see the context "Nutzung" after some loading
+
+  Scenario: Information about parent and children
+    When I see a list of resources
+     And I see the "children" meta key of a resource
+    Then I see the number and type of children
+     And the type is shown through an icon
+     And there is one number for media entries
+     And there is one number for sets
+    And one of the resources has parents
+    Then I see the number and type of parents
+     And the type is shown through an icon
+     And there is one number for media entries
+     And there is one number for sets
