@@ -15,7 +15,7 @@ module MigrationHelpers
           string: s, 
           value: nil
         })
-        raw_meta_datum.update_column :type, "MetaDatumString"
+        raw_meta_datum.save!
       end
 
 
@@ -28,10 +28,17 @@ module MigrationHelpers
 
         RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
           migrate_meta_string rmd
+          rmd.update_column :type, "MetaDatumString"
+        end
+
+        MetaKey.where("object_type is NULL").each do |mk|
+          mk.update_attributes object_type: nil
+          mk.update_attributes meta_datum_object_type: 'MetaDatumString'
         end
 
         MetaKey.where("object_type = 'MetaCountry'").each do |mk|
           mk.update_attributes object_type: nil
+          mk.update_attributes meta_datum_object_type: 'MetaDatumString'
         end
 
       end
@@ -49,7 +56,7 @@ module MigrationHelpers
           string: new_string_value, 
           value: nil
         })
-        raw_meta_datum.update_column :type, "MetaDatumDate"
+        raw_meta_datum.save!
       end
 
       def migrate_meta_dates
@@ -61,22 +68,25 @@ module MigrationHelpers
 
         RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
           migrate_meta_date rmd
+          rmd.update_column :type, "MetaDatumDate"
         end
 
         MetaKey.where("object_type = 'MetaDate'").each do |mk|
           mk.update_attributes object_type: nil
+          mk.update_attributes meta_datum_object_type: 'MetaDatumDate'
         end
+
 
       end
 
 
       def migrate_meta_person rmd
-        rmd.update_column :type, "MetaDatumPerson"
         mdp = MetaDatumPerson.find rmd.id
         YAML.load(rmd.value).each do |pid|
           mdp.people << Person.find(pid)
         end
-        rmd.update_column :value, nil
+        mdp.update_column :value, nil
+        mdp.save!
       end
 
       def migrate_meta_people
@@ -86,6 +96,7 @@ module MigrationHelpers
           .where("type is NULL OR type = 'MetaDatum'")
 
         RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
+          rmd.update_column :type, "MetaDatumPerson"
           migrate_meta_person rmd
         end
 
@@ -93,7 +104,6 @@ module MigrationHelpers
           mkp.update_column :object_type, nil
           mkp.update_column :meta_datum_object_type, 'MetaDatumPerson'
         end
-
 
       end
 
