@@ -1,8 +1,6 @@
 require 'digest'
 require 'action_controller'
 
-
-
 namespace :madek do
 
   desc "Set up the environment for testing, then run tests"
@@ -155,6 +153,19 @@ namespace :madek do
   end
   
   namespace :meta_data do
+
+    desc "Export MetaData Preset" 
+    task :export_preset  => :environment do
+
+      data_hash = DevelopmentHelpers::MetaDataPreset.create_hash
+
+      date_string = DateTime.now.to_s.gsub(":","-")
+      file_path = "tmp/#{date_string}_meta_data.yml"
+
+      File.open(file_path, "w"){|f| f.write data_hash.to_yaml } 
+      puts "the file has been saved to #{file_path}"
+    end
+
     desc "Set up Meta_data reference material"
     task :typevocab_data => :environment do
       # TODO replace with something that reads the YML from the config directory

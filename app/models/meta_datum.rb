@@ -80,7 +80,7 @@ class MetaDatum < ActiveRecord::Base
       when "MetaDate"
         binding.pry
       else
-        klass = meta_key.object_class
+        klass = meta_key.object_type.constantize
         values = case klass.name # NOTE comparing directly the class doesn't work
                     when "Person"
                       klass.split(Array(value))
@@ -217,7 +217,7 @@ class MetaDatum < ActiveRecord::Base
         when nil, "MetaCountry"
           return read_attribute(:value)
         else
-          klass = meta_key.object_class
+          klass = meta_key.object_type.constantize
           v = Array(read_attribute(:value)) # OPTIMIZE 0,1,n limits, return single value if it isn't an Array
           return klass.where(:id => v).to_a
       end

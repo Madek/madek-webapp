@@ -99,6 +99,11 @@ describe "MetaDatum MetaDate Migration" do
   describe "Complete Migration" do
 
     before :each do
+      # restore MetaDate types, they have been removed from the minimal setup
+      MetaKey.where("meta_datum_object_type = 'MetaDatumDate'").each do |mk|
+        mk.update_attributes object_type: "MetaDate"
+      end
+
       create_empty_meta_date_entry
       create_ugly_meta_date_entry
     end

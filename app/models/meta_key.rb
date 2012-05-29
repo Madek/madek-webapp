@@ -68,12 +68,6 @@ class MetaKey < ActiveRecord::Base
 
 ########################################################
 
-  def object_class
-    object_type.constantize
-  end
-
-########################################################
-
 # Return a meta_key matching the provided key-map
 #
 # args: a keymap (fully namespaced)

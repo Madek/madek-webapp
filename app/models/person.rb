@@ -8,6 +8,8 @@ class Person < ActiveRecord::Base
 
   has_one :user
 
+  has_and_belongs_to_many :meta_data, join_table: :meta_data_people
+
   default_scope order(:lastname)
 
   validate do
