@@ -263,6 +263,7 @@ When /^I click the mediaset titled "([^"]*)"/ do |title|
 end
 
 When /^I check the media entry titled "([^"]*)"/ do |title|
+  find("#bar .layout a[data-type='grid']")
   check_media_entry_titled(title)
 end
 
