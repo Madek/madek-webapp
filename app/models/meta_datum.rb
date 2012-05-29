@@ -12,7 +12,7 @@ class MetaDatum < ActiveRecord::Base
       #binding.pry
       
       if (h = a.first).is_a? Hash and (type = h[:type] || h['type']) and (klass = type.constantize) != self
-        raise "wtF hax!!"  unless klass < self  # klass should be a descendant of us
+        #raise "wtF hax!!"  unless klass < self  # klass should be a descendant of us
         return klass.new(*a, &b)
       end
       new_without_cast(*a,&b)
