@@ -60,6 +60,12 @@ class MediaSet < MediaResource
 
 ########################################################
 
+  def get_media_file(user)
+    media_entries.accessible_by_user(user).order("media_resources.updated_at DESC").first.try(:media_file)
+  end
+
+########################################################
+
   def is_featured_set?
     !self.id.nil? and self.id == AppSettings.featured_set_id
   end
