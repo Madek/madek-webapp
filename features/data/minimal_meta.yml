@@ -45,10 +45,10 @@
   meta_datum_object_type: MetaDatumPerson
 - id: 7
   label: institutional affiliation
-  object_type: MetaDepartment
+  object_type: 
   is_dynamic: 
   is_extensible_list: 
-  meta_datum_object_type: 
+  meta_datum_object_type: MetaDatumDepartment
 - id: 8
   label: portrayed object dates
   object_type: 

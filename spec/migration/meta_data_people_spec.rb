@@ -3,6 +3,13 @@ require 'migration_helpers/meta_datum'
 
 describe "MetaDatum People Migration" do
 
+  # reset the Person thing
+  before :each do
+    MetaKey.where("meta_datum_object_type = 'MetaDatumPerson'").each do |mk|
+      mk.update_column(:object_type, "Person")
+    end
+  end
+
   context "A MetaDatum with serialized people array" 
 
   before :each do
