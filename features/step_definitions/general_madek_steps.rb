@@ -183,23 +183,42 @@ When "I fill in the metadata form as follows:" do |table|
     # the "key" text. e.g. "Titel*" or "Copyright"
     text = filter_string_for_regex(hash['label'])
 
-    list = find("ul", :text => /^#{text}/)
+    list = nil
+    label = nil # If we don't reset this to nil, it remains set to an earlier value, resulting in filling in the wrong field
+
+    label = find("li.label", :text => /^#{text}/)
+    unless label.nil?
+      list = label.find(:xpath, "..")
+    end
+
     if list.nil?
       raise "Can't find any input fields with the text '#{text}'"
     else
-      if list[:class] == "Person"
+      if !list["class"].match(/Person/).blank?
         fill_in_person_widget(list, hash['value'], hash['options'])
-      elsif list[:class] == "Keyword"
+      elsif !list["class"].match(/Keyword/).blank?
         fill_in_keyword_widget(list, hash['value'], hash['options'])
-      elsif list[:class] == "MetaTerm"
-        if list.has_css?("ul.meta_terms")
+      elsif !list["class"].match(/MetaTerm/).blank?
+        if list.has_css?(".meta_terms")
           set_term_checkbox(list, hash['value'])
         elsif list.has_css?(".madek_multiselect_container")
+
+          # A crude fucking hack because for some reason, the list variable gets redefined to a wrong, earlier state (!!!)
+          # if we don't reassign the whole shit here again. I know it's a completely brainfucked way to do it, but nothing
+          # else worked and we lost an entire afternoon on this already.
+          list = nil
+          label = nil # If we don't reset this to nil, it remains set to an earlier value, resulting in filling in the wrong field
+
+          label = find("li.label", :text => /^#{text}/)
+          unless label.nil?
+            list = label.find(:xpath, "..")
+          end
+
           select_from_multiselect_widget(list, hash['value'])
         else
-          raise "Unknown MetaTerm interface element when trying to set '#{text}'"
+          raise "Unknown MetaTerm interface element when trying to set key labeled '#{text}'"
         end
-      elsif list[:class] == "MetaDepartment"
+      elsif !list["class"].match(/MetaDepartment/).blank?
         puts "Sorry, can't set MetaDepartment to '#{text}', the MetaDepartment widget is too hard to test right now."
 
         #select_from_multiselect_widget(list, hash['value'])
@@ -213,11 +232,8 @@ When "I fill in the metadata form as follows:" do |table|
         list.all("input").each do |ele|
           fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil? and ele[:id].match(/meta_data_attributes_.+_keep_original_value$/).nil?
         end
-
       end
-
     end
-
   end
 end
 

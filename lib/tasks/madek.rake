@@ -47,32 +47,28 @@ namespace :madek do
 
     # The rspec part of this whole story gets tested against an empty database, so nothing
     # to import from a file here
-  #  system "bundle exec rspec --format d --format html --out tmp/html/rspec.html spec"
-  #  exit_code = $? >> 8 # magic brainfuck
-  #  raise "Tests failed with: #{exit_code}" if exit_code != 0
+    system "bundle exec rspec --format d --format html --out tmp/html/rspec.html spec"
+    exit_code = $? >> 8 # magic brainfuck
+    raise "Tests failed with: #{exit_code}" if exit_code != 0
 
     Rake::Task["madek:create_migrated_persona_dump"].invoke
     #system "bundle exec rake madek:create_migrated_persona_dump"
 
     puts "Running default Cucumber profile"
     # Currently working in the default profile:
-    # features/filtering.feature
-    # features/create_and_edit_workgroups.feature
-    # features/export.feature
-    # system "bundle exec cucumber -p default"
-    # exit_code = $? >> 8 # magic brainfuck
-    # raise "Tests failed with: #{exit_code}" if exit_code != 0
+    system "bundle exec cucumber -p default"
+    exit_code = $? >> 8 # magic brainfuck
+    raise "Tests failed with: #{exit_code}" if exit_code != 0
 
     puts "Running examples Cucumber profile"
     system "bundle exec cucumber -p examples"
     exit_code = $? >> 8 # magic brainfuck
     raise "Tests failed with: #{exit_code}" if exit_code != 0
 
-    # puts "Running current_examples Cucumber profile"
-
-    # system "bundle exec cucumber -p current_examples"
-    # exit_code = $? >> 8 # magic brainfuck
-    # raise "Tests failed with: #{exit_code}" if exit_code != 0
+    puts "Running current_examples Cucumber profile"
+    system "bundle exec cucumber -p current_examples"
+    exit_code = $? >> 8 # magic brainfuck
+    raise "Tests failed with: #{exit_code}" if exit_code != 0
   end
 
   desc "Back up images and database before doing anything silly"
