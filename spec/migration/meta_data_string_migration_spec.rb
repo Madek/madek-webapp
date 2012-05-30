@@ -32,10 +32,6 @@ describe "MetaDatum String Migration" do
       create_and_migrate.string.should ==  "The quick brown Fox"
     end
 
-    it "should have the type MetaDatumString" do
-      create_and_migrate.type.should == "MetaDatumString"
-    end
-
   end
 
 
