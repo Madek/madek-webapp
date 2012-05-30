@@ -34,7 +34,6 @@ describe "MetaDatum String Migration" do
 
   end
 
-
   
   describe "Complete Migration" do
 

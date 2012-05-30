@@ -111,9 +111,10 @@ module MigrationHelpers
 
       ############ MetaDepartment ########################################
       def migrate_meta_datum_department rmd
-        mdp = MetaDatumPerson.find rmd.id
-        YAML.load(rmd.value).each do |pid|
-          mdp.people << MetaDepartment.find(pid)
+        mdp = MetaDatumDepartments.find rmd.id
+        YAML.load(rmd.value).each do |id|
+          md = MetaDepartment.find(id)
+          mdp.meta_departments <<  md unless mdp.meta_departments.include?(md)
         end
         mdp.update_column :value, nil
         mdp.save!
@@ -127,7 +128,7 @@ module MigrationHelpers
 
         RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
           rmd.update_column :type, "MetaDatumDepartments"
-          migrate_meta_person rmd
+          migrate_meta_datum_department rmd
         end
 
         MetaKey.where("object_type = 'MetaDepartment'").each do |mkp|
