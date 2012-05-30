@@ -1,8 +1,8 @@
 
-SELECT * FROM meta_data, meta_keys
+SELECT meta_data.value, meta_keys.object_type FROM meta_data, meta_keys
   WHERE true
   AND meta_data.meta_key_id = meta_keys.id
-  AND meta_keys.object_type = 'Person';
+  AND meta_keys.object_type = 'MetaDepartment';
   
 
 select * from meta_data 
