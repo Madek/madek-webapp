@@ -170,6 +170,37 @@ module MigrationHelpers
       end
 
 
+      ############ Terms ########################################
+      def migrate_meta_datum_term rmd
+        mdp = MetaDatumKeyword.find rmd.id
+        YAML.load(rmd.value).each do |id|
+          md = Keyword.find(id)
+          mdp.keywords <<  md unless mdp.keywords.include?(md)
+        end
+        mdp.update_column :value, nil
+        mdp.save!
+      end
+
+      def migrate_meta_datum_terms
+      
+        ids = RawMetaDatum
+          .select("meta_data.id")
+          .joins(:meta_key).where("meta_keys.object_type = 'Keyword'")
+          .where("type is NULL OR type = 'MetaDatum'")
+
+        RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
+          rmd.update_column :type, "MetaDatumKeyword"
+          migrate_meta_datum_keyword rmd
+        end
+
+        MetaKey.where("object_type = 'Keyword'").each do |mkp|
+          mkp.update_column :object_type, nil
+          mkp.update_column :meta_datum_object_type, 'MetaDatumKeyword'
+        end
+
+      end
+
+
 
     end
   end
