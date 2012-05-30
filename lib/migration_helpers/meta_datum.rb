@@ -171,31 +171,31 @@ module MigrationHelpers
 
 
       ############ Terms ########################################
-      def migrate_meta_datum_term rmd
-        mdp = MetaDatumKeyword.find rmd.id
+      def migrate_meta_datum_meta_term rmd
+        mdp = MetaDatumMetaTerm.find rmd.id
         YAML.load(rmd.value).each do |id|
-          md = Keyword.find(id)
-          mdp.keywords <<  md unless mdp.keywords.include?(md)
+          md = MetaTerm.find(id)
+          mdp.meta_terms <<  md unless mdp.meta_terms.include?(md)
         end
         mdp.update_column :value, nil
         mdp.save!
       end
 
-      def migrate_meta_datum_terms
+      def migrate_meta_datum_meta_terms
       
         ids = RawMetaDatum
           .select("meta_data.id")
-          .joins(:meta_key).where("meta_keys.object_type = 'Keyword'")
+          .joins(:meta_key).where("meta_keys.object_type = 'MetaTerm'")
           .where("type is NULL OR type = 'MetaDatum'")
 
         RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
-          rmd.update_column :type, "MetaDatumKeyword"
-          migrate_meta_datum_keyword rmd
+          rmd.update_column :type, "MetaDatumMetaTerm"
+          migrate_meta_datum_meta_term rmd
         end
 
-        MetaKey.where("object_type = 'Keyword'").each do |mkp|
+        MetaKey.where("object_type = 'MetaTerm'").each do |mkp|
           mkp.update_column :object_type, nil
-          mkp.update_column :meta_datum_object_type, 'MetaDatumKeyword'
+          mkp.update_column :meta_datum_object_type, 'MetaDatumMetaTerm'
         end
 
       end
