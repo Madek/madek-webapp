@@ -25,7 +25,7 @@ if with ||= nil
         h[:meta_data] += media_resource.meta_data_for_context(MetaContext.send(name)).map do |md|
           # this doesn't work because formats is frozen as [:html] only
           # render(md)
-          render(:partial => "meta_data/meta_datum.json.rjson", :locals => {:meta_datum => md, :with => {:label => {:context => "core"}}})
+          render(:partial => "meta_data/meta_datum.json.rjson", :locals => {:meta_datum => md, :with => {:label => {:context => name}}})
         end
       end
     end
@@ -34,6 +34,7 @@ if with ||= nil
         md = media_resource.meta_data.get(name)
         # this doesn't work because formats is frozen as [:html] only
         # render(md)
+        # FIXME we don't want to hardcode "core"
         render(:partial => "meta_data/meta_datum.json.rjson", :locals => {:meta_datum => md, :with => {:label => {:context => "core"}}})
       end
     end
