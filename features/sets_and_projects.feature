@@ -5,7 +5,7 @@ Feature: Do things to and with sets
   I want to have functionalities for create and edit sets and manage entries
 
   Background: Set up the world and some users
-    Given I have set up the world
+    Given I have set up the world a little
       And a user called "Helmut Kohl" with username "helmi" and password "saumagen" exists
       And a user called "Mikhail Gorbachev" with username "gorbi" and password "glasnost" exists
 
