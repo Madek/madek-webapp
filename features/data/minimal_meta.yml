@@ -57,10 +57,10 @@
   meta_datum_object_type: MetaDatumDate
 - id: 9
   label: keywords
-  object_type: Keyword
+  object_type: 
   is_dynamic: 
   is_extensible_list: 
-  meta_datum_object_type: 
+  meta_datum_object_type: MetaDatumKeyword
 - id: 10
   label: classification
   object_type: 
@@ -559,10 +559,10 @@
   - 1115
 - id: 85
   label: LV_Bildwirkung
-  object_type: Keyword
+  object_type: 
   is_dynamic: 
   is_extensible_list: 
-  meta_datum_object_type: 
+  meta_datum_object_type: MetaDatumKeyword
 - id: 87
   label: LV_Bildzeit
   object_type: MetaTerm
@@ -584,16 +584,16 @@
   - 1197
 - id: 89
   label: LV_Farbe
-  object_type: Keyword
+  object_type: 
   is_dynamic: 
   is_extensible_list: 
-  meta_datum_object_type: 
+  meta_datum_object_type: MetaDatumKeyword
 - id: 91
   label: LV_Landschaftselemente
-  object_type: Keyword
+  object_type: 
   is_dynamic: 
   is_extensible_list: 
-  meta_datum_object_type: 
+  meta_datum_object_type: MetaDatumKeyword
 - id: 93
   label: LV_Wetter/Klima
   object_type: MetaTerm
