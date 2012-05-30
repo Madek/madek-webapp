@@ -5,6 +5,10 @@ module MigrationHelpers
     class RawMetaDatum < ActiveRecord::Base 
       set_table_name :meta_data
       belongs_to :meta_key
+
+      def to_s
+        {id: id, meta_key_id: meta_key_id, value: value}.to_s
+      end
     end
 
     class << self
@@ -141,10 +145,11 @@ module MigrationHelpers
 
       ############ Keywords ########################################
       def migrate_meta_datum_keyword rmd
-        mdp = MetaDatumKeyword.find rmd.id
-        YAML.load(rmd.value).each do |id|
-          md = Keyword.find(id)
-          mdp.keywords <<  md unless mdp.keywords.include?(md)
+        puts "migrating #{rmd}"
+        mdp = MetaDatumKeywords.find rmd.id
+        YAML.load(rmd.value).find_all{|id| id.to_i != 0}.each do |id|
+            md = Keyword.find_by_id(id)
+            mdp.keywords <<  md unless (not md) or mdp.keywords.include?(md)
         end
         mdp.update_column :value, nil
         mdp.save!
@@ -158,13 +163,13 @@ module MigrationHelpers
           .where("type is NULL OR type = 'MetaDatum'")
 
         RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
-          rmd.update_column :type, "MetaDatumKeyword"
+          rmd.update_column :type, "MetaDatumKeywords"
           migrate_meta_datum_keyword rmd
         end
 
         MetaKey.where("object_type = 'Keyword'").each do |mkp|
           mkp.update_column :object_type, nil
-          mkp.update_column :meta_datum_object_type, 'MetaDatumKeyword'
+          mkp.update_column :meta_datum_object_type, 'MetaDatumKeywords'
         end
 
       end
@@ -172,7 +177,7 @@ module MigrationHelpers
 
       ############ Terms ########################################
       def migrate_meta_datum_meta_term rmd
-        mdp = MetaDatumMetaTerm.find rmd.id
+        mdp = MetaDatumMetaTerms.find rmd.id
         YAML.load(rmd.value).each do |id|
           md = MetaTerm.find(id)
           mdp.meta_terms <<  md unless mdp.meta_terms.include?(md)
@@ -189,13 +194,13 @@ module MigrationHelpers
           .where("type is NULL OR type = 'MetaDatum'")
 
         RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
-          rmd.update_column :type, "MetaDatumMetaTerm"
+          rmd.update_column :type, "MetaDatumMetaTerms"
           migrate_meta_datum_meta_term rmd
         end
 
         MetaKey.where("object_type = 'MetaTerm'").each do |mkp|
           mkp.update_column :object_type, nil
-          mkp.update_column :meta_datum_object_type, 'MetaDatumMetaTerm'
+          mkp.update_column :meta_datum_object_type, 'MetaDatumMetaTerms'
         end
 
       end
