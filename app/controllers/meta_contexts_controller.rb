@@ -6,7 +6,7 @@ class MetaContextsController < ApplicationController
       @context = if (context_id.respond_to?(:is_integer?) and context_id.is_integer?)
         MetaContext.find(context_id)
       else
-        MetaContext.find_by_name(context_id)
+        MetaContext.send(context_id)
       end
     end
   end
