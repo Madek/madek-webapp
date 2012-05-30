@@ -12,6 +12,7 @@ class MetaDatumPerson < MetaDatumBase
   def to_s
     people.map(&:to_s).join("; ")
   end
+
 end
 
 
