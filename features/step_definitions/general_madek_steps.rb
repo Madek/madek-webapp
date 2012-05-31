@@ -62,12 +62,12 @@ Given /^I log in as "(\w+)" with password "(\w+)"$/ do |username, password|
   fill_in "login", :with => username
   fill_in "password", :with => password
   click_link_or_button "Log in"
-  page.should_not have_content "Invalid username/password"
-  
   # NOTE needed for "upload_some_picture" method # TODO merge with "I am logged in as ..." step
   crypted_password = Digest::SHA1.hexdigest(password)
   @current_user = User.where(:login => username, :password => crypted_password).first
   @current_user.should_not be_nil
+  page.should have_content(@current_user.person.firstname)  
+  page.should have_content(@current_user.person.lastname)
 end
 
 # Gives you a user object

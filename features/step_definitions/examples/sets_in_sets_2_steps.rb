@@ -1,7 +1,7 @@
 # coding: UTF-8
 
 Given /^a few sets$/ do
-  assert MediaSet.count > 0
+  MediaSet.count.should > 0
 end
 
 When /^a set has no parents$/ do
@@ -99,7 +99,7 @@ Then /^the set "([^"]*)" has the context "([^"]*)"$/ do |set_title, context_name
   @set = MediaSet.find_by_title(set_title)
   @set.title.should == set_title
 
-  context = MetaContext.send(context_name)
+  context = MetaContext.where(:name => context_name).first
   @set.individual_contexts.include?(context).should be_true 
 end
 

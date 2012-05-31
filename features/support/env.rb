@@ -71,7 +71,7 @@ end
 # https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 # https://github.com/cucumber/cucumber-rails/issues/180
 # There's a summary of the fuckedupness here: https://github.com/cucumber/cucumber-rails/issues/166
-Before('@javascript') do
+Before('@javascript, @persona-dump') do
   DatabaseCleaner.strategy = :truncation
 
   config = Rails.configuration.database_configuration[Rails.env]
@@ -101,7 +101,7 @@ Before('@javascript') do
   raise "Could not load database file" if exit_code != 0
 end
 
-After('@javascript') do
+After('@javascript, @persona-dump') do
    DatabaseCleaner.strategy = our_default_strategy
 end
 

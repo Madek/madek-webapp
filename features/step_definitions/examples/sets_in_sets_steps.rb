@@ -36,11 +36,12 @@ Then /^I can open them and see that are set as favorite$/ do
 end
 
 Given /^a context called "(.*)" exists$/ do |name|
-  @context = MetaContext.send(name)
+  #@context = MetaContext.send(name)
+  @context = MetaContext.where(:name => name).first
   @context.should_not be_nil
   @context.name.should == name
   @context.to_s.should_not be_empty
-  @context.to_s.should == name
+  #@context.to_s.should == name
 end
 
 When /^I look at a page describing this context$/ do
@@ -203,7 +204,7 @@ Given /^they are in various different sets$/ do
   assert all_have_same_parents==false
 end
 
-Then /^I open inside the badge edit the sets in sets widget$/ do
+Then /^I open inside the batch edit the sets in sets widget$/ do
   steps %Q{
     And I open the selection widget for this batchedit
   }

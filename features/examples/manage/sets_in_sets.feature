@@ -25,7 +25,7 @@ Feature: Sets in Sets
   #Ziel:
   #- User kann die Namen der Sets besser lesen
   #- User kann lesen, wer der Owner des Sets ist (wie im Alten Widget)
-  #- User wundert sich nicht über die rosarote Farbe: Widget soll nicht rosarot sein
+  #- User wundert sich nicht über die rosarote Farbe: Widget soll nichttt rosarot sein
   #- Die Angewählten Sets sollen grau hinterlegt sein und die Anzeige des Rollovers. Anstatt wie jetzt, wo alles grau ist und die Angezeigten / Rollovers weiss werden
   #- Die Funktion "Neues Set erstellen" soll als Button gestaltet werden.
   #- User kann nach eigenen Sets filtern durch ein Häkchen im Kopf des Widgets (Meine Sets)
@@ -36,7 +36,7 @@ Feature: Sets in Sets
   # And I can filter for my sets # The "my" is not defined yet!
   #
   # Currently:
-  @javascript
+  @javascript @broken
   Scenario: Information I see when I open the sets in sets tool
     Given are some sets and entries
      When I open the sets in sets tool
@@ -49,11 +49,11 @@ Feature: Sets in Sets
 
   # https://www.pivotaltracker.com/story/show/22421449
   # Pts: 13
-  @javascript
+  @javascript @broken
   Scenario: Moving resources into or out of multiple sets at the same time
     Given some entries and sets are in my selection
       And they are in various different sets
-     When I open inside the badge edit the sets in sets widget
+     When I open inside the batch edit the sets in sets widget
      Then I see the sets none of them are in
       And I see the sets some of them are in
       And I see the sets all of them are in
