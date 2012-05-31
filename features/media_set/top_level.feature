@@ -6,7 +6,6 @@ Feature: Making top level sets visible (highlight)
 
   Background: Loading world
   Given I have set up the world a little
-    And personas are loaded
 
   @javascript
   Scenario: Viewing my sets

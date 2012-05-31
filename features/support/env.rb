@@ -59,6 +59,8 @@ rescue NameError
   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
 end
 
+
+FileUtils.mkdir("#{Rails.root}/tmp/dropbox")
 at_exit do
   # remove dropbox 
   FileUtils.rm_rf("#{Rails.root}/tmp/dropbox")

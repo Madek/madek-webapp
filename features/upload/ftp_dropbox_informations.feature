@@ -6,7 +6,6 @@ Feature: FTP-Dropbox informations on the upload page
   
   Background: Load the example data and personas
     Given I have set up the world a little
-      And personas are loaded
       And I am "Normin"
 
   @javascript

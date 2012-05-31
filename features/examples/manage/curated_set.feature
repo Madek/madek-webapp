@@ -2,7 +2,6 @@ Feature: Curated set / Gallery
 
   Background: Load the example data and personas
     Given I have set up the world a little
-      And personas are loaded
   
   @javascript
   Scenario: Using the set highlight editing option

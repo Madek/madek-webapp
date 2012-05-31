@@ -2,7 +2,6 @@ Feature: Sets in Sets II
 
   Background: Load the example data and personas
 	Given I have set up the world a little
-      And personas are loaded
 
   # https://www.pivotaltracker.com/story/show/23825307
   @committed @javascript

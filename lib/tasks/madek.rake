@@ -1,11 +1,10 @@
 require 'digest'
 require 'action_controller'
 
-
-
 namespace :madek do
 
   task :create_migrated_persona_dump do
+
     # Load the latest dump from personas.madek.zhdk.ch, migrate it to the latest version
     # and then use that migrated dump in further tests (to prevent having to migrate multiple times)
     config = Rails.configuration.database_configuration[Rails.env]
@@ -16,59 +15,92 @@ namespace :madek do
     sql_password = config["password"]
 
     if ["mysql", "mysql2"].include?(adapter)
-      remove_command = "rm -f #{Rails.root + 'db/empty_medienarchiv_instance_with_personas.mysql.migrated.sql'}"
+      unmigrated_file = Rails.root + 'db/empty_medienarchiv_instance_with_personas.mysql.sql'
+      migrated_file = Rails.root + 'db/empty_medienarchiv_instance_with_personas.mysql.migrated.sql'
+      remove_command = "rm -f #{migrated_file}"
       drop_command = "mysql -u #{sql_username} --password=#{sql_password} -e 'drop database if exists #{sql_database}'"
-      load_premigration_command = "mysql -u #{sql_username} --password=#{sql_password} #{sql_database} < #{Rails.root + 'db/empty_medienarchiv_instance_with_personas.mysql.sql'}"
+      load_premigration_command = "mysql -u #{sql_username} --password=#{sql_password} #{sql_database} < #{unmigrated_file}"
       create_command = "mysql -u #{sql_username} --password=#{sql_password} -e 'create database #{sql_database}'"
-      dump_postmigration_command = "mysqldump -u #{sql_username} --password=#{sql_password} #{sql_database} > #{Rails.root + 'db/empty_medienarchiv_instance_with_personas.mysql.migrated.sql'}"
+      dump_postmigration_command = "mysqldump -u #{sql_username} --password=#{sql_password} #{sql_database} > #{migrated_file}"
     elsif adapter == "postgresql"
     else
       raise "Cannot handle database adapter #{adapter}, sorry! Exiting."
     end
 
-    system remove_command
-    system drop_command
-    system create_command
-    system load_premigration_command
-    puts "Trying to migrate the persona database"
-    system "bundle exec rake db:migrate"
-    system dump_postmigration_command
+    # The migrated file is older than the unmigrated one -- we need to migrate
+    if !File.exists?(migrated_file) or (File.mtime(unmigrated_file) > File.mtime(migrated_file))
+      system remove_command
+      system drop_command
+      system create_command
+      system load_premigration_command
+      puts "Trying to migrate the persona database"
+      system "bundle exec rake db:migrate"
+      system dump_postmigration_command
+    else
+      puts "No need to create a new migrated persona SQL file -- the unmigrated file #{unmigrated_file} is older than an existing migrated file #{migrated_file}"
+    end
   end
 
-  desc "Set up the environment for testing, then run tests"
-  task :test do
-    # Rake seems to be very stubborn about where it takes
-    # the RAILS_ENV from, so let's set a lot of options (?)
+  desc "Set up the environment for testing, then run all tests in one block"
+  task :test => 'test:run_all'
 
-    Rails.env = 'test'
-    task :environment
-    Rake::Task["madek:reset"].invoke
+  namespace :test do
+    task :run_all do
+      Rake::Task["madek:test:setup"].invoke
+      Rake::Task["madek:test:rspec"].invoke
+      Rake::Task["madek:test:cucumber:all"].invoke
+    end
 
+    task :run_separate do
+      Rake::Task["madek:test:setup"].invoke
+      Rake::Task["madek:test:rspec"].invoke
+      Rake::Task["madek:test:cucumber:separate"].invoke
+    end
 
-    # The rspec part of this whole story gets tested against an empty database, so nothing
-    # to import from a file here
-    system "bundle exec rspec --format d --format html --out tmp/html/rspec.html spec"
-    exit_code = $? >> 8 # magic brainfuck
-    raise "Tests failed with: #{exit_code}" if exit_code != 0
+    task :setup do
+      # Rake seems to be very stubborn about where it takes
+      # the RAILS_ENV from, so let's set a lot of options (?)
+      Rails.env = 'test'
+      task :environment
+      Rake::Task["madek:create_migrated_persona_dump"].invoke
+      # The rspec part of this whole story gets tested against an empty database, so nothing
+      # to import from a file here. Instead, we reset based on our migrations.
+      Rake::Task["madek:reset"].invoke
+    end
 
-    Rake::Task["madek:create_migrated_persona_dump"].invoke
-    #system "bundle exec rake madek:create_migrated_persona_dump"
+    task :rspec do
+      system "bundle exec rspec --format d --format html --out tmp/html/rspec.html spec"
+      exit_code = $? >> 8 # magic brainfuck
+      raise "Tests failed with: #{exit_code}" if exit_code != 0
+    end
 
-    puts "Running default Cucumber profile"
-    # Currently working in the default profile:
-    system "bundle exec cucumber -p default"
-    exit_code = $? >> 8 # magic brainfuck
-    raise "Tests failed with: #{exit_code}" if exit_code != 0
+    namespace :cucumber do
 
-    puts "Running examples Cucumber profile"
-    system "bundle exec cucumber -p examples"
-    exit_code = $? >> 8 # magic brainfuck
-    raise "Tests failed with: #{exit_code}" if exit_code != 0
+      task :all do 
+        puts "Running all Cucumber tests in one block"
+        system "bundle exec cucumber -p all"
+        exit_code = $? >> 8 # magic brainfuck
+        raise "Tests failed with: #{exit_code}" if exit_code != 0
+      end
 
-    puts "Running current_examples Cucumber profile"
-    system "bundle exec cucumber -p current_examples"
-    exit_code = $? >> 8 # magic brainfuck
-    raise "Tests failed with: #{exit_code}" if exit_code != 0
+      task :seperate do
+        puts "Running 'default' Cucumber profile"
+        system "bundle exec cucumber -p default"
+        exit_code = $? >> 8 # magic brainfuck
+        raise "Tests failed with: #{exit_code}" if exit_code != 0
+
+        puts "Running 'examples' Cucumber profile"
+        system "bundle exec cucumber -p examples"
+        exit_code = $? >> 8 # magic brainfuck
+        raise "Tests failed with: #{exit_code}" if exit_code != 0
+
+        puts "Running 'current_examples' Cucumber profile"
+        system "bundle exec cucumber -p current_examples"
+        exit_code = $? >> 8 # magic brainfuck
+        raise "Tests failed with: #{exit_code}" if exit_code != 0
+      end
+    end
+    
   end
 
   desc "Back up images and database before doing anything silly"

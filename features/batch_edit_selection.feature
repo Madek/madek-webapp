@@ -6,7 +6,6 @@ Feature: Batch edit selection
 
   Background: Set up the world and personas
     Given I have set up the world a little
-      And personas are loaded
 
   @javascript
   Scenario: Use the batch's "Select all" button

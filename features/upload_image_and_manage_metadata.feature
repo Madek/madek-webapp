@@ -7,12 +7,12 @@ Feature: Upload images and manage media entries based on images
       And a user called "Helmut Kohl" with username "helmi" and password "saumagen" exists
       And a user called "Mikhail Gorbachev" with username "gorbi" and password "glasnost" exists
 
-  @javascript @work
+  @javascript 
   Scenario: Upload one image file without any special metatada
     When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "not a special picture"
 
-  @javascript @work
+  @javascript @broken
   Scenario: Upload an image and add it to a set
     When I log in as "helmi" with password "saumagen"
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
@@ -31,7 +31,7 @@ Feature: Upload images and manage media entries based on images
      Then I should see "berlin wall for a set"
       And I should see "Mauerstücke"
 
-  @javascript @work
+  @javascript
   Scenario: Upload an image file for another user to see
     When I log in as "helmi" with password "saumagen"
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
