@@ -179,6 +179,8 @@ class MetaDatum < ActiveRecord::Base
         else
           v.join(', ')
       end
+    elsif v.is_a?(Hash) # NOTE this is not recursive
+      v.map {|x,y| "#{x.to_s.classify}: #{y}"}.join(', ')
     else
       v.to_s
     end
@@ -192,34 +194,39 @@ class MetaDatum < ActiveRecord::Base
   # some meta_keys don't store values,
   # then the returned value could be a stored one or dynamically computed
   #working here# TODO deserialized_value #value
-  def deserialized_value
+  def deserialized_value(user = nil)
     if meta_key.is_dynamic?
       case meta_key.label
         when "owner"
-          return media_resource.user
+          media_resource.user
         when "uploaded at"
-          return media_resource.created_at #old# .to_formatted_s(:date_time)
+          media_resource.created_at #old# .to_formatted_s(:date_time)
         when "copyright usage"
           copyright = media_resource.meta_data.get("copyright status").deserialized_value.first || Copyright.default # OPTIMIZE array or single element
-          return copyright.usage(read_attribute(:value))
+          copyright.usage(read_attribute(:value))
         when "copyright url"
           copyright = media_resource.meta_data.get("copyright status").deserialized_value.first  || Copyright.default # OPTIMIZE array or single element
-          return copyright.url(read_attribute(:value))
+          copyright.url(read_attribute(:value))
         when "public access"
-          return media_resource.is_public?
+          media_resource.is_public?
         when "media type"
-          return media_resource.media_type
+          media_resource.media_type
+        when "parent media_resources"
+          {:media_sets => media_resource.parent_sets.accessible_by_user(user).count}
+        when "child media_resources"
+          {:media_sets => media_resource.child_sets.accessible_by_user(user).count,
+           :media_entries => media_resource.media_entries.accessible_by_user(user).count} if media_resource.is_a?(MediaSet)
         #when "gps"
-        #  return media_resource.media_file.meta_data["GPS"]
+        #  media_resource.media_file.meta_data["GPS"]
       end
     else
       case meta_key.object_type
         when nil, "MetaCountry"
-          return read_attribute(:value)
+          read_attribute(:value)
         else
           klass = meta_key.object_type.constantize
           v = Array(read_attribute(:value)) # OPTIMIZE 0,1,n limits, return single value if it isn't an Array
-          return klass.where(:id => v).to_a
+          klass.where(:id => v).to_a
       end
     end
   end
