@@ -10,7 +10,7 @@ class MetaDatumMetaTerms < MetaDatumBase
   alias_attribute :deserialized_value, :meta_terms
 
   def to_s
-    people.map(&:to_s).join("; ")
+    value.map(&:to_s).join("; ")
   end
 
 end
