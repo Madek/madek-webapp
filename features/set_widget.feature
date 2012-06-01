@@ -81,7 +81,7 @@ Feature: Set Widget for Sets in Sets and Entries in Sets
     And the "My_Private_Images" checkbox should be checked
     And the "My_Public_Images" checkbox should be checked
     
-  @javascript 
+  @javascript
   Scenario: User goes to an entry and add one set and remove another set from the parent sets
     When I open the "My Profile Pic" entry
     And I open the selection widget for this entry
