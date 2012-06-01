@@ -9,541 +9,451 @@
 :meta_keys: 
 - id: 1
   label: identifier
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 2
   label: urn
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 3
   label: title
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 4
   label: subtitle
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 5
   label: author
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumPeople
 - id: 6
   label: additional authors
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumPeople
 - id: 7
   label: institutional affiliation
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumDepartments
 - id: 8
   label: portrayed object dates
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumDate
 - id: 9
   label: keywords
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumKeywords
 - id: 10
   label: classification
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 11
   label: portrayed object location
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 12
   label: portrayed object city
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 13
   label: portrayed object state
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 14
   label: portrayed object country
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 15
   label: portrayed object country code
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 16
   label: portrayed person
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 17
   label: portrayed institution
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 18
   label: other creative participants
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 19
   label: other document participants
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 20
   label: participating institution
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 21
   label: patron
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 22
   label: academic year
-  object_type: 
   is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 23
   label: project leader
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 24
   label: project type
-  object_type: 
   is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 25
   label: description
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 26
   label: short description
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 27
   label: public caption
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 28
   label: remark
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 29
   label: hyperlinks
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 30
   label: tags
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 31
   label: type
-  object_type: 
   is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 32
   label: scene
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 33
   label: subject code
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 34
   label: coverage
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 35
   label: language
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 36
   label: relation
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 37
   label: creator
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumPeople
 - id: 38
   label: creator address
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 39
   label: creator city
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 40
   label: creator state
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 41
   label: creator postal code
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 42
   label: creator country
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 43
   label: creator work telephone
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 44
   label: creator work email
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 45
   label: creator work url
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 46
   label: creator position
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 47
   label: source
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 48
   label: source side
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 49
   label: source image
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 50
   label: source plate
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 51
   label: source isbn
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 52
   label: copyright notice
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 53
   label: copyright status
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumCopyright
 - id: 54
   label: copyright usage
-  object_type: 
   is_dynamic: true
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 55
   label: copyright url
-  object_type: 
   is_dynamic: true
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 56
   label: provider
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 57
   label: portrayed object dimensions
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 58
   label: portrayed object materials
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 59
   label: rating
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 60
   label: uploaded by
-  object_type: 
   is_dynamic: false
   is_extensible_list: 
   meta_datum_object_type: MetaDatumUsers
 - id: 61
   label: uploaded at
-  object_type: Date
   is_dynamic: true
   is_extensible_list: 
-  meta_datum_object_type: 
+  meta_datum_object_type: MetaDatumDate
 - id: 62
   label: description author
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumPeople
 - id: 63
   label: publisher
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 64
   label: format
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 65
   label: date created
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumDate
 - id: 66
   label: transmission reference
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 67
   label: objectnumber
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 68
   label: objectname
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 69
   label: color mode
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 70
   label: history
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 71
   label: intellectual genre
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 72
   label: creator contact info
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 73
   label: project title
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 74
   label: public access
-  object_type: 
   is_dynamic: true
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 75
   label: edited by
-  object_type: 
   is_dynamic: true
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 76
   label: media type
-  object_type: 
   is_dynamic: true
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 77
   label: description author before import
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumPeople
 - id: 78
   label: description author before snapshot
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumPeople
 - id: 79
   label: sidecar for extension
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 81
   label: LV_Landschaftstyp
-  object_type: 
   is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 83
   label: LV_Verwendungszweck
-  object_type: 
   is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 85
   label: LV_Bildwirkung
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumKeywords
 - id: 87
   label: LV_Bildzeit
-  object_type: 
   is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 89
   label: LV_Farbe
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumKeywords
 - id: 91
   label: LV_Landschaftselemente
-  object_type: 
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumKeywords
 - id: 93
   label: LV_Wetter/Klima
-  object_type: 
   is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 95
   label: LV_Horizontlinie
-  object_type: 
   is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 97
   label: "LV_Ra\xCC\x88umliche Wahrnehmung"
-  object_type: 
   is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 99
   label: LV_Abstraktionsgrad
-  object_type: 
   is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 100
   label: owner
-  object_type: 
   is_dynamic: true
   is_extensible_list: 
   meta_datum_object_type: MetaDatumUsers
