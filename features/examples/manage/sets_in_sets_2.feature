@@ -53,7 +53,7 @@ Feature: Sets in Sets II
 
   # https://www.pivotaltracker.com/story/show/23825857
   # Use @persona-dump if you want to load the persona dump and use truncation even in a non-javsacript step
-  @glossary @persona-dump
+  @glossary
   Scenario: Top-level set
     Given a few sets
      When a set has no parents
