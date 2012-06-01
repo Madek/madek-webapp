@@ -363,10 +363,10 @@
   meta_datum_object_type: MetaDatumString
 - id: 60
   label: uploaded by
-  object_type: User
+  object_type: 
   is_dynamic: false
   is_extensible_list: 
-  meta_datum_object_type: 
+  meta_datum_object_type: MetaDatumUsers
 - id: 61
   label: uploaded at
   object_type: Date
@@ -543,10 +543,10 @@
   meta_datum_object_type: MetaDatumMetaTerm
 - id: 100
   label: owner
-  object_type: User
+  object_type: 
   is_dynamic: true
   is_extensible_list: 
-  meta_datum_object_type: 
+  meta_datum_object_type: MetaDatumUsers
 :meta_terms: 
 - id: 1
   en_gb: Title
