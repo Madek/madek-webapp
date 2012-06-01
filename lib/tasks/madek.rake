@@ -5,6 +5,22 @@ namespace :madek do
 
   task :create_migrated_persona_dump do
 
+    def needs_migration?(file_path)
+      if File.exists?(file_path)
+        versions_string = `grep -i "insert into.*schema_migrations.*" #{file_path}`
+        latest_migration = versions_string.split(",").last.gsub(/(\(|\)|\'|;)/, "").to_i # ('20120423094303'); -> 20120423094303
+
+        latest_available_migration = `ls -1 #{Rails.root + 'db/migrate'}`.split("\n").last.split("_").first.to_i
+        if latest_available_migration == 0
+          raise "No migrations available, please verify that db/migrations contains some migrations"
+        else
+          latest_migration < latest_available_migration
+        end  
+      else
+        raise "File #{file_path} does not exist. Cannot determine if it needs migration."        
+      end
+    end
+
     # Load the latest dump from personas.madek.zhdk.ch, migrate it to the latest version
     # and then use that migrated dump in further tests (to prevent having to migrate multiple times)
     config = Rails.configuration.database_configuration[Rails.env]
@@ -28,7 +44,7 @@ namespace :madek do
     end
 
     # The migrated file is older than the unmigrated one -- we need to migrate
-    if !File.exists?(migrated_file) or (File.mtime(unmigrated_file) > File.mtime(migrated_file))
+    if !File.exists?(migrated_file) or (File.mtime(unmigrated_file) > File.mtime(migrated_file)) or needs_migration?(unmigrated_file)
       system remove_command
       system drop_command
       system create_command
