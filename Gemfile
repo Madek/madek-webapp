@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.3'
+gem 'rails', '3.2.5'
 
 gem 'mysql2', '~> 0.3.8'  
 gem 'pg'
@@ -103,7 +103,7 @@ end
 
 group :development, :production do
   gem "yard", "~> 0.7"
-  gem "yard-rest", "~> 1.0"
+  gem "yard-rest", "~> 1.1"
   gem 'redcarpet' # yard-rest dependency
 end
 
@@ -113,7 +113,7 @@ group :test do
   gem 'cucumber', '~> 1.2'
   gem 'cucumber-rails', '~> 1.3', :require => false
   gem 'launchy'  
-  gem 'selenium-webdriver', '> 2.15.0'
+  gem 'selenium-webdriver', '~> 2.22'
   gem 'simplecov', '~> 0.6'
   gem 'capybara-screenshot'
 end
