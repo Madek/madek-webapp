@@ -4,7 +4,7 @@ module MigrationHelpers
 
       def migrate_meta_datum_copyright rmd
         mdp = MetaDatumCopyright.find rmd.id
-        mdp.update_attributes copyright: YAML.load(rmd.value)[0]
+        mdp.update_attributes copyright: Copyright.find(YAML.load(rmd.value)[0])
         mdp.update_column :value, nil
         mdp.save!
       end
@@ -18,7 +18,7 @@ module MigrationHelpers
 
         RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
           rmd.update_column :type, "MetaDatumCopyright"
-          migrate_meta_datum_user rmd
+          migrate_meta_datum_copyright rmd
         end
 
         MetaKey.where("object_type = 'Copyright'").each do |mkp|
