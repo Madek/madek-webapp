@@ -25,7 +25,7 @@ module MigrationHelpers
 
         MetaKey.where("object_type = 'MetaDepartment'").each do |mkp|
           mkp.update_column :object_type, nil
-          mkp.update_column :meta_datum_object_type, 'MetaDatumDepartment'
+          mkp.update_column :meta_datum_object_type, 'MetaDatumDepartments'
         end
 
       end
