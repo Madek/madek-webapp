@@ -40,7 +40,7 @@ Feature: Set Widget for Sets in Sets and Entries in Sets
     Then I should not see the "My Act Photos" set inside the widget
 
   
-  @javascript @broken
+  @javascript
   Scenario: User goes to a set and opens the widget. All editable sets should be visible and parent_sets of the set should already be checked.
     When I open the "My Act Photos" set
     And I open the selection widget for this set
