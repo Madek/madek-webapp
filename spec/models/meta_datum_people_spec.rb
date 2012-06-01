@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MetaDatumPerson do
+describe MetaDatumPeople do
 
   describe "Creation" do
 
@@ -34,16 +34,16 @@ describe MetaDatumPerson do
      it "should have persist added relations" do
       @mdp.people << @person1
       @mdp.people << @person2
-      MetaDatumPerson.find(@mdp.id).people.should include @person1
-      MetaDatumPerson.find(@mdp.id).people.should include @person2
+      MetaDatumPeople.find(@mdp.id).people.should include @person1
+      MetaDatumPeople.find(@mdp.id).people.should include @person2
     end
 
     describe "value interface" do
       it "should be an alias for people" do
         @mdp.people << @person1
         @mdp.people << @person2
-        MetaDatumPerson.find(@mdp.id).value.should include @person1
-        MetaDatumPerson.find(@mdp.id).value.should include @person2
+        MetaDatumPeople.find(@mdp.id).value.should include @person1
+        MetaDatumPeople.find(@mdp.id).value.should include @person2
       end
     end
    

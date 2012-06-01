@@ -5,7 +5,7 @@ describe "MetaDatum People Migration" do
 
   # reset the Person thing
   before :each do
-    MetaKey.where("meta_datum_object_type = 'MetaDatumPerson'").each do |mk|
+    MetaKey.where("meta_datum_object_type = 'MetaDatumPeople'").each do |mk|
       mk.update_column(:object_type, "Person")
     end
   end
@@ -33,9 +33,9 @@ describe "MetaDatum People Migration" do
     end
 
     it "should migratre the entry" do
-      MetaDatumPerson.all.size.should == 0
+      MetaDatumPeople.all.size.should == 0
       MigrationHelpers::MetaDatum.migrate_meta_people
-      MetaDatumPerson.all.size.should == 1
+      MetaDatumPeople.all.size.should == 1
     end
 
     it "should set the value to null" do
@@ -45,14 +45,14 @@ describe "MetaDatum People Migration" do
 
     it "should contain the two person as people" do
       MigrationHelpers::MetaDatum.migrate_meta_people
-      MetaDatumPerson.find(@rmd.id).people.should include @person1
-      MetaDatumPerson.find(@rmd.id).people.should include @person2
+      MetaDatumPeople.find(@rmd.id).people.should include @person1
+      MetaDatumPeople.find(@rmd.id).people.should include @person2
     end
 
     it "should migrate the meta_key object type " do
       MigrationHelpers::MetaDatum.migrate_meta_people
       MetaKey.where("object_type = 'Person'").size.should == 0
-      MetaKey.where("meta_datum_object_type = 'MetaDatumPerson'").size.should > 0
+      MetaKey.where("meta_datum_object_type = 'MetaDatumPeople'").size.should > 0
     end
 
   end
