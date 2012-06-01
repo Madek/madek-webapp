@@ -14,8 +14,8 @@ namespace :madek do
         if latest_available_migration == 0
           raise "No migrations available, please verify that db/migrations contains some migrations"
         else
-          latest_migration < latest_available_migration
-        end  
+          !(latest_migration == latest_available_migration)
+        end
       else
         raise "File #{file_path} does not exist. Cannot determine if it needs migration."        
       end
