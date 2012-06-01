@@ -321,10 +321,10 @@
   meta_datum_object_type: MetaDatumString
 - id: 53
   label: copyright status
-  object_type: Copyright
+  object_type: 
   is_dynamic: 
   is_extensible_list: 
-  meta_datum_object_type: 
+  meta_datum_object_type: MetaDatumCopyright
 - id: 54
   label: copyright usage
   object_type: 
