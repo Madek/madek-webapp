@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-require 'migration_helpers/meta_datum'
-
-
+require Rails.root.join('db','migrate','20120523133512_migrate_meta_dates_data')
 
 describe "MetaDatum MetaDate Migration" do
 
