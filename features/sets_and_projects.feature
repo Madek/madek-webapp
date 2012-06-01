@@ -29,7 +29,7 @@ Feature: Do things to and with sets
     Then I see the set-box "After-Upload Set"
      And I should not see "Ohne Titel"
 
- @javascript 
+ @javascript
   Scenario: Rename a set
     When I log in as "helmi" with password "saumagen"
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
@@ -52,7 +52,7 @@ Feature: Do things to and with sets
      And I follow "Editieren"
      And I fill in the metadata form as follows:
      |label|value|
-     |Titel des Sets|Something new|
+     |Titel|Something new|
      And I press "Speichern" within ".save_buttons"
     Then I should see "Die Änderungen wurden gespeichert"
      And I should see "Something new"

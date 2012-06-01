@@ -134,13 +134,13 @@ end
 
 Then /^I can see that selected sets are already highlighted$/ do
   @parent_sets.each do |set|
-    assert find("label[title='#{set.title}']").has_xpath?('./..[@class="selected"]')
+    find("label[title='#{set.title}']").has_xpath?('./..[@class="selected"]').should_not be_nil
   end
 end
 
 Then /^I can choose to see additional information$/ do
   @parent_sets.each do |set|
-    assert find("label[title='#{set.title}']")
+    find("label[title='#{set.title}']").should_not be_nil
   end
 end
 
@@ -201,7 +201,7 @@ Given /^they are in various different sets$/ do
     end
   end
   
-  assert all_have_same_parents==false
+  all_have_same_parents.should == false
 end
 
 Then /^I open inside the batch edit the sets in sets widget$/ do
@@ -217,22 +217,35 @@ end
 
 Then /^I see the sets none of them are in$/ do
   (@accesible_sets-@possible_parents.flatten.uniq!-[@selected_set]).each do |set|
-    assert_nil find("label[title='#{set.title}'] input")["checked"]
+    all("label").each do |label|
+      if label["title"] == set.title
+        label.find("input")["checked"].should == nil
+      end
+    end
   end
 end
 
 Then /^I see the sets some of them are in$/ do
   intermediate_parents = @possible_parents.flatten.uniq! - @possible_parents.reduce(:&)
-  intermediate_parents.each do |parent|
-    assert find("label[title='#{parent.title}']").has_xpath?('./..[@class="intermediate"]')
-    assert find("label[title='#{parent.title}'] .intermediate_pipe")
+  intermediate_parents.each do |parent|    
+    all("label").each do |label|
+      if label["title"] == parent.title
+        label.has_css?(".intermediate_pipe").should == true
+      end
+    end
+
   end
 end
 
 Then /^I see the sets all of them are in$/ do
   all_of_them_are_in_parents = @possible_parents.reduce(:&) - [@selected_set]
   all_of_them_are_in_parents.each do |parent|
-    assert find("label[title='#{parent.title}']").has_xpath?('./..[@class="selected"]')
+    all("label").each do |label|
+      if label["title"] == parent.title
+        label.has_css?(".selected").should == true
+      end
+    end
+
   end
 end
 

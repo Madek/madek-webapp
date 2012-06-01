@@ -86,6 +86,7 @@ Before('@javascript, ~@transactional') do
     load_command = "mysql -u #{sql_username} --password=#{sql_password} #{sql_database} < #{Rails.root + 'db/empty_medienarchiv_instance_with_personas.mysql.migrated.sql'}"
     create_command = "mysql -u #{sql_username} --password=#{sql_password} -e 'create database #{sql_database}'"
   elsif adapter == "postgresql"
+    raise "Cannot handle database adapter postgresql, sorry! Exiting. Hi, Thomas!"
   else
     raise "Cannot handle database adapter #{adapter}, sorry! Exiting."
   end

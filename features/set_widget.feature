@@ -16,6 +16,7 @@ Feature: Set Widget for Sets in Sets and Entries in Sets
       And a entry titled "Me" created by "max" exists
       And the last entry is child of the last set
       And the last set is parent of the 1st set   
+      And the set titled "My Act Photos" is child of the set titled "My Private Images"
         
       And a set titled "My Public Images" created by "max" exists
       And a entry titled "My Profile Pic" created by "max" exists
@@ -39,7 +40,7 @@ Feature: Set Widget for Sets in Sets and Entries in Sets
     Then I should not see the "My Act Photos" set inside the widget
 
   
-  @javascript
+  @javascript @broken
   Scenario: User goes to a set and opens the widget. All editable sets should be visible and parent_sets of the set should already be checked.
     When I open the "My Act Photos" set
     And I open the selection widget for this set
@@ -52,7 +53,7 @@ Feature: Set Widget for Sets in Sets and Entries in Sets
     And I should see the "Images from School" set inside the widget
     And the "Images_from_School" checkbox should not be checked
     
-  @javascript
+  @javascript 
   Scenario: User goes to an entry and opens the widget. All editable sets should be visible and media_sets of the entry should already be checked.
     When I open the "Me with Nothing" entry
     And I open the selection widget for this entry
@@ -80,7 +81,7 @@ Feature: Set Widget for Sets in Sets and Entries in Sets
     And the "My_Private_Images" checkbox should be checked
     And the "My_Public_Images" checkbox should be checked
     
-  @javascript
+  @javascript 
   Scenario: User goes to an entry and add one set and remove another set from the parent sets
     When I open the "My Profile Pic" entry
     And I open the selection widget for this entry

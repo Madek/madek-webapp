@@ -27,7 +27,7 @@ Feature: Metadata context groups
     When I visit a media entry with the following individual contexts: 
       | order | name                      |
       |     1 | Landschaftsvisualisierung |
-      |     2 | Zett                      |
+      |     2 | Produktion Zett           |
     Then the metadata contexts inside of "Metadaten" are in the following order:
       | order | name   |
       |     1 | Werk   |
@@ -35,7 +35,7 @@ Feature: Metadata context groups
      And the metadata contexts inside of "Kontexte" are in the following order:
       | order | name                      |
       |     1 | Landschaftsvisualisierung |
-      |     2 | Zett                      |
+      |     2 | Produktion Zett           |
 
   # https://www.pivotaltracker.com/story/show/26706147
   @javascript

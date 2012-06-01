@@ -118,6 +118,24 @@ Given /^the last entry is child of the (.+) set/ do |offset|
   end
 end
 
+Given /^the set titled "(.+)" is child of the set titled "(.+)"$/ do |child, parent|
+  child_set = nil
+  parent_set = nil
+  MediaSet.all.each do |ms|
+    child_set = ms if ms.title == child
+  end
+  MediaSet.all.each do |ms|
+    parent_set = ms if ms.title == parent
+  end
+
+  if child_set.nil? or parent_set.nil?
+    raise "Child or parent not found."
+  else
+    parent_set.child_sets << child_set
+    parent_set.save
+  end
+end
+
 Given /^the last set is parent of the (.+) set$/ do |offset|
   parent_set = MediaSet.all.sort_by(&:id).last
   child_set = MediaSet.all.sort_by(&:id)[offset.to_i-1]

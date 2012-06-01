@@ -12,7 +12,7 @@ Feature: Upload images and manage media entries based on images
     When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "not a special picture"
 
-  @javascript @broken
+  @javascript
   Scenario: Upload an image and add it to a set
     When I log in as "helmi" with password "saumagen"
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory

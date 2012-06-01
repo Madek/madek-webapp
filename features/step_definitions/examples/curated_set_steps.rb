@@ -42,8 +42,8 @@ Then /^I see the highlighted resources in bigger size than the other ones$/ do
   wait_until { find(".thumb_box") }
   @highlight = @media_set.out_arcs.where(:highlight => true).first.child
   find(".highlight", :text => @highlight.title)
-  evaluate_script("$('.highlight:first').width()").should > evaluate_script("$('.thumb_box:first').width()") 
-  evaluate_script("$('.highlight:first').height()").should > evaluate_script("$('.thumb_box:first').height()") 
+  evaluate_script("$('.highlight:first img').width()").should > evaluate_script("$('.thumb_box:first img').width()") 
+  evaluate_script("$('.highlight:first img').height()").should > evaluate_script("$('.thumb_box:first img').height()") 
 end
 
 Then /^I see the highlighted resources twice, once in the highlighted area, once in the "([^"]*)" list$/ do |arg1|

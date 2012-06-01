@@ -55,9 +55,9 @@ When /^(?:|I )deselect "(.+)" as parent set$/ do |label|
 end
 
 When /^(?:|I )submit the selection widget$/ do
-  wait_until(25){find(".widget .submit")}
+  wait_until(40){find(".widget .submit")}
   find(".widget .submit").click
-  wait_until(25){ all(".widget", :visible => true).size == 0 }
+  wait_until(40){ all(".widget", :visible => true).size == 0 }
 end
 
 When /^(?:|I )create a new set named "(.+)"$/ do |name|
