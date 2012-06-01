@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
  
-class MetaDatumUsers < MetaDatumBase
+class MetaDatumUsers < MetaDatum
   has_and_belongs_to_many :users, 
     join_table: :meta_data_users, 
     foreign_key: :meta_datum_id, 

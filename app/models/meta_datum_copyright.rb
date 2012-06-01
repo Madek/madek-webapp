@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
  
-class MetaDatumCopyright < MetaDatumBase
+class MetaDatumCopyright < MetaDatum
 
   belongs_to :copyright
 

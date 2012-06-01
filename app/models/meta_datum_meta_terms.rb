@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
  
-class MetaDatumMetaTerms < MetaDatumBase
+class MetaDatumMetaTerms < MetaDatum
   has_and_belongs_to_many :meta_terms, 
     join_table: :meta_data_meta_terms, 
     foreign_key: :meta_datum_id, 

@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 
-class MetaDatumDepartments < MetaDatumBase
+class MetaDatumDepartments < MetaDatum
   has_and_belongs_to_many :meta_departments, 
     class_name: MetaDepartment.name,
     join_table: :meta_data_meta_departments,
