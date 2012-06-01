@@ -3,7 +3,6 @@ module MigrationHelpers
     class << self
 
       def migrate_meta_datum_keyword rmd
-        puts "migrating #{rmd}"
         mdp = MetaDatumKeywords.find rmd.id
         YAML.load(rmd.value).find_all{|id| id.to_i != 0}.each do |id|
             md = Keyword.find_by_id(id)
