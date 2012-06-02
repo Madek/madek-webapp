@@ -43,6 +43,7 @@ end
 When /^(?:|I )select "(.+)" as parent set$/ do |label|
   label.gsub!(/\s/, "_")
   raise "#{label} is already selected so you can not select it again" if find("input##{label}").checked?
+  wait_until(20) { find("input##{label}:not(selected)") }
   find("input##{label}:not(selected)").click
   raise "#{label} was not selected" unless find("input##{label}").checked?
 end
