@@ -59,7 +59,8 @@ When /^(?:|I )submit the selection widget$/ do
   wait_until(40){find(".widget .submit")}
   find(".widget .submit").click
   # This always breaks on CI but works locally -- no idea how to really solve this.
-  #wait_until(40){ all(".widget", :visible => true).size == 0 }
+  #wait_until(40){ all(".set.widget", :visible => true).size == 0 }
+  wait_until(55){ all(".set.widget").size == 0 }
 end
 
 When /^(?:|I )create a new set named "(.+)"$/ do |name|
