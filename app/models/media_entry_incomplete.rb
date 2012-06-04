@@ -16,7 +16,7 @@ class MediaEntryIncomplete < MediaEntry
   after_create do
     descr_author_value = meta_data.get("description author", false).try(:value)
     meta_data.get("description author before import").update_attributes(:value => descr_author_value) if descr_author_value
-    meta_data.get("uploaded by").update_attributes(:value => user)
+    meta_data.get("uploaded by").users <<  user
   end
 
 ########################################################

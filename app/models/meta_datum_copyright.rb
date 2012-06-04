@@ -8,7 +8,7 @@ class MetaDatumCopyright < MetaDatum
   alias_attribute :deserialized_value, :value
 
   def to_s
-    value.map(&:to_s).join("; ")
+    value.to_s
   end
 
 end

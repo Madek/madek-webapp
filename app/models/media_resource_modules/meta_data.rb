@@ -12,7 +12,7 @@ module MediaResourceModules
             #TODO: handle the case when key_id is a MetaKey object
             key_id = MetaKey.find_by_label(key_id.downcase).id unless key_id.is_a?(Fixnum)
             r = where(:meta_key_id => key_id).first # OPTIMIZE prevent find if is_dynamic meta_key
-            r ||= build(:meta_key_id => key_id) if build_if_not_found
+            r ||= build(:meta_key => MetaKey.find_by_id(key_id)) if build_if_not_found
             r
           end
 
