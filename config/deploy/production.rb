@@ -18,6 +18,7 @@ set :db_config, "/home/rails/madek/database.yml"
 set :ldap_config, "/home/rails/madek/LDAP.yml"
 set :zencoder_config, "/home/rails/madek/zencoder.yml"
 set :newrelic_config, "/home/rails/madek/newrelic.yml"
+set :piwik_config, "/home/rails/madek/piwik.html"
 set :checkout, :export
 
 set :use_sudo, false
@@ -54,6 +55,7 @@ task :link_config do
 
   run "rm -f #{release_path}/config/newrelic.yml"
   run "ln -s #{newrelic_config} #{release_path}/config/newrelic.yml"
+  run "ln -s #{piwik_config} #{release_path}/config/piwik.html"
 end
 
 task :remove_htaccess do
@@ -146,6 +148,8 @@ task :clear_cache do
   # in Rake tasks, otherwise we could stick a task into lib/tasks/madek.rake
   run "cd #{release_path} && RAILS_ENV=production bundle exec rails runner 'Rails.cache.clear'"
 end
+
+
 
 before "deploy", "retrieve_db_config"
 before "deploy:create_symlink", :make_tmp
