@@ -25,13 +25,9 @@ class MetaKey < ActiveRecord::Base
 
   #old#precedence problem# default_scope order(:label)
   scope :with_meta_data, joins(:meta_data).group(:id)
-  scope :for_meta_terms, where(:object_type => "MetaTerm") 
+  scope :for_meta_terms, where(:meta_datum_object_type => "MetaDatumMetaTerms") 
   
 ########################################################
-
-  before_save do
-    self.object_type = nil if object_type.blank?
-  end
 
   before_update do
     if object_type_changed?

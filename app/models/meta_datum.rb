@@ -29,8 +29,6 @@ class MetaDatum < ActiveRecord::Base
     raise "MetaDatum is abstract; instatiate a subclass" if self.reload.type == "MetaDatum" or self.reload.type == nil
   end
 
-  set_table_name :meta_data
-
   belongs_to :media_resource
   belongs_to :meta_key
 

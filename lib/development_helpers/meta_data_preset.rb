@@ -1,40 +1,43 @@
 module DevelopmentHelpers
   module MetaDataPreset
+
     class << self 
+      MODELS= ["MetaKey", 
+        "MetaTerm", "MetaKeyMetaTerm", 
+        "MetaContextGroup", "MetaContext", 
+        "MetaKeyDefinition", 
+        "PermissionPreset"]
+
       def create_hash
         h = {}
-
-        h[:usage_terms] = UsageTerm.current.attributes
-
-        h[:meta_keys] = MetaKey.order("id").all.collect do |meta_key|
-          a = meta_key.attributes
+        MODELS.map(&:constantize).each do |model| 
+          h[model.table_name] = model.order(model.primary_key).all.collect(&:attributes)
         end
-
-        h[:meta_terms] = MetaTerm.order("id").all.collect(&:attributes)
-
-
-        h[:meta_contexts] = MetaContext.order("id").all.collect do |meta_context|
-          meta_context.attributes.select {|k,v| not v.blank? }
-        end
-
-        h[:meta_context_groups] = MetaContextGroup.order("id").all.collect do |meta_context_group|
-          meta_context_group.attributes.select {|k,v| not v.blank? }
-        end
-
-        h[:meta_key_definitions] = MetaKeyDefinition.order("id").all.collect do |meta_key_definition|
-          meta_key_definition.attributes.select {|k,v| not v.blank? and not k =~ /ated_at$/ }
-        end
-
-        h[:permission_presets] = PermissionPreset.order("id").all.collect do |permission_preset|
-          permission_preset.attributes.select {|k,v| not v.blank? and not k =~ /ated_at$/ }
-        end
-
-        #future#
-        #      h[:copyrights] = Copyright.all.collect(&:attributes)
-
-
         h
-      end 
+      end
+
+      def import_hash h
+
+        table_names_models = {}
+
+        MODELS.map(&:constantize).each do |model|
+          table_names_models[model.table_name] = model
+        end
+
+
+        ActiveRecord::Base.transaction do
+          h.keys.each do |table_name|
+            puts table_name
+            klass = table_names_models[table_name]
+            puts klass
+            klass.attribute_names.each { |attr| klass.attr_accessible attr}
+            h[table_name].each do |attributes|
+              klass.create attributes
+            end
+            SQLHelper.reset_autoinc_sequence_to_max klass
+          end
+        end
+      end
     end
   end
 end
