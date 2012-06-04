@@ -16,7 +16,7 @@ class MetaDatumBase < ActiveRecord::Base
 
 
 
-  set_table_name :meta_data
+  self.table_name = :meta_data
 
   belongs_to :media_resource
   belongs_to :meta_key

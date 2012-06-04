@@ -1,6 +1,6 @@
 
 class MediaEntriesMediaSets < ActiveRecord::Base 
-  set_table_name :media_entries_media_sets
+  self.table_name = :media_entries_media_sets
 end
 
 class MergeMsmeJointableIntoMra < ActiveRecord::Migration
