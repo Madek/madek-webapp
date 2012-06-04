@@ -45,10 +45,6 @@ describe "MetaDatum MetaDate Migration" do
         create_and_migrate_ugly.string.should == "08.12.2010, 14:28"
       end
 
-      it "should have the type MetaDatumDate" do
-        create_and_migrate_ugly.type.should == "MetaDatumDate"
-      end
-
     end
 
   end
@@ -86,10 +82,6 @@ describe "MetaDatum MetaDate Migration" do
 
       it "should set the string field by contents of the serialized free_text" do 
         create_and_migrate_empty.string.should == ""
-      end
-
-      it "should have the type MetaDatumDate" do
-        create_and_migrate_empty.type.should == "MetaDatumDate"
       end
 
     end

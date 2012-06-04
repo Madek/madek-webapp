@@ -5,10 +5,15 @@ module MigrationHelpers
     class RawMetaDatum < ActiveRecord::Base 
       set_table_name :meta_data
       belongs_to :meta_key
+
+      def to_s
+        {id: id, meta_key_id: meta_key_id, value: value}.to_s
+      end
     end
 
     class << self
 
+      ############ String ########################################
       def migrate_meta_string raw_meta_datum
         s = YAML.load raw_meta_datum.value
         raw_meta_datum.update_attributes({ 
@@ -43,7 +48,7 @@ module MigrationHelpers
 
       end
 
-
+      ############ Date ########################################
       def migrate_meta_date raw_meta_datum
         obj = YAML.load raw_meta_datum.value.gsub /^-\s+.*\n/, ""
         new_string_value=  
@@ -80,6 +85,7 @@ module MigrationHelpers
       end
 
 
+      ############ Person ########################################
       def migrate_meta_person rmd
         mdp = MetaDatumPerson.find rmd.id
         YAML.load(rmd.value).each do |pid|
@@ -106,6 +112,100 @@ module MigrationHelpers
         end
 
       end
+
+      ############ MetaDepartment ########################################
+      def migrate_meta_datum_department rmd
+        mdp = MetaDatumDepartments.find rmd.id
+        YAML.load(rmd.value).each do |id|
+          md = MetaDepartment.find(id)
+          mdp.meta_departments <<  md unless mdp.meta_departments.include?(md)
+        end
+        mdp.update_column :value, nil
+        mdp.save!
+      end
+
+      def migrate_meta_datum_departments
+        ids = RawMetaDatum
+          .select("meta_data.id")
+          .joins(:meta_key).where("meta_keys.object_type = 'MetaDepartment'")
+          .where("type is NULL OR type = 'MetaDatum'")
+
+        RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
+          rmd.update_column :type, "MetaDatumDepartments"
+          migrate_meta_datum_department rmd
+        end
+
+        MetaKey.where("object_type = 'MetaDepartment'").each do |mkp|
+          mkp.update_column :object_type, nil
+          mkp.update_column :meta_datum_object_type, 'MetaDatumDepartment'
+        end
+
+      end
+
+
+      ############ Keywords ########################################
+      def migrate_meta_datum_keyword rmd
+        puts "migrating #{rmd}"
+        mdp = MetaDatumKeywords.find rmd.id
+        YAML.load(rmd.value).find_all{|id| id.to_i != 0}.each do |id|
+            md = Keyword.find_by_id(id)
+            mdp.keywords <<  md unless (not md) or mdp.keywords.include?(md)
+        end
+        mdp.update_column :value, nil
+        mdp.save!
+      end
+
+      def migrate_meta_datum_keywords
+      
+        ids = RawMetaDatum
+          .select("meta_data.id")
+          .joins(:meta_key).where("meta_keys.object_type = 'Keyword'")
+          .where("type is NULL OR type = 'MetaDatum'")
+
+        RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
+          rmd.update_column :type, "MetaDatumKeywords"
+          migrate_meta_datum_keyword rmd
+        end
+
+        MetaKey.where("object_type = 'Keyword'").each do |mkp|
+          mkp.update_column :object_type, nil
+          mkp.update_column :meta_datum_object_type, 'MetaDatumKeywords'
+        end
+
+      end
+
+
+      ############ Terms ########################################
+      def migrate_meta_datum_meta_term rmd
+        mdp = MetaDatumMetaTerms.find rmd.id
+        YAML.load(rmd.value).each do |id|
+          md = MetaTerm.find(id)
+          mdp.meta_terms <<  md unless mdp.meta_terms.include?(md)
+        end
+        mdp.update_column :value, nil
+        mdp.save!
+      end
+
+      def migrate_meta_datum_meta_terms
+      
+        ids = RawMetaDatum
+          .select("meta_data.id")
+          .joins(:meta_key).where("meta_keys.object_type = 'MetaTerm'")
+          .where("type is NULL OR type = 'MetaDatum'")
+
+        RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
+          rmd.update_column :type, "MetaDatumMetaTerms"
+          migrate_meta_datum_meta_term rmd
+        end
+
+        MetaKey.where("object_type = 'MetaTerm'").each do |mkp|
+          mkp.update_column :object_type, nil
+          mkp.update_column :meta_datum_object_type, 'MetaDatumMetaTerms'
+        end
+
+      end
+
+
 
     end
   end

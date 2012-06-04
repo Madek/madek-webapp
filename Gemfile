@@ -38,7 +38,7 @@ gem 'rails_autolink', '~> 1.0'
 gem 'jquery-tmpl-rails', '~> 0.1.2'
 gem 'haml_assets'
 
-gem "d3_rails", "~> 2.8.0"
+gem "d3_rails", "~> 2.9"
 
 # Gems used only for assets and not required in production environments by default.
 group :assets do
@@ -74,6 +74,13 @@ gem 'newrelic_rpm', '~> 3.3'
 
 gem 'nokogiri'
 
+group :development do
+  gem 'thin' # web server (Webrick do not support keep-alive connections)
+  gem 'capistrano'
+  gem 'capistrano-ext'
+  gem 'rvm-capistrano'
+end
+
 group :test, :development do
   gem "guard", "~> 0.10.0"
   gem "guard-cucumber", "~> 0.7.4"
@@ -95,12 +102,6 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'spork'
   gem 'statsample'
-end
-
-group :development do
-  gem 'capistrano'
-  gem 'capistrano-ext'
-  gem 'rvm-capistrano'
 end
 
 group :development, :production do
