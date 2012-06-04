@@ -10,6 +10,11 @@ describe MetaDatum do
     expect {MetaDatum.reate }.to raise_error
   end
 
+  it "should raise an error when instantiated without type and meta_key" do
+    expect {MetaDatum.reate }.to raise_error
+  end
+
+
   it "should not raise an error when created with a type " do
     expect {MetaDatum.create type: "MetaDatumString"}.not_to raise_error
   end

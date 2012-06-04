@@ -13,6 +13,7 @@ class MetaDatum < ActiveRecord::Base
         end
       end
 
+      raise "MetaDatum is abstract; instatiate a subclass" unless self < MetaDatum
       new_without_cast(*args,&block)
     end
 
