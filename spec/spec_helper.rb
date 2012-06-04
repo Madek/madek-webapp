@@ -63,6 +63,7 @@ RSpec.configure do |config|
 
   # we want to reset everything before testing
   config.before :all do
+    # TODO NOOOOOOOOOOOOOOO this is really bad
     DataFactory.reset_data
   end
 
