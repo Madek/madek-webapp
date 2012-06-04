@@ -11,31 +11,20 @@ module MigrationHelpers
           else
             ""
           end
-        raw_meta_datum.update_attributes({ 
-          string: new_string_value, 
-          value: nil
-        })
+        raw_meta_datum.update_attributes(string: new_string_value, value: nil)
         raw_meta_datum.save!
       end
 
       def migrate_meta_dates
-
-        ids = RawMetaDatum
-          .select("meta_data.id")
-          .joins(:meta_key).where("meta_keys.object_type = 'MetaDate'")
-          .where("type is NULL or type = 'MetaDatum'")
-
-        RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
+        RawMetaDatum.joins(:meta_key)
+        .where("meta_keys.object_type = 'MetaDate'")
+        .where("type is NULL or type = 'MetaDatum'").each do |rmd|
           migrate_meta_date rmd
           rmd.update_column :type, "MetaDatumDate"
         end
 
-        MetaKey.where("object_type = 'MetaDate'").each do |mk|
-          mk.update_attributes object_type: nil
-          mk.update_attributes meta_datum_object_type: 'MetaDatumDate'
-        end
-
-
+        MetaKey.update_all({object_type: nil, meta_datum_object_type: 'MetaDatumDate'},
+                           {object_type: 'MetaDate'})
       end
     end
   end

@@ -5,8 +5,8 @@ module MigrationHelpers
 
       def migrate_meta_datum_user rmd
         mdp = MetaDatumUsers.find rmd.id
-        YAML.load(rmd.value).each do |id|
-          md = User.find(id)
+        ids = YAML.load(rmd.value)
+        User.where(:id => ids).each do |md|
           mdp.users <<  md unless mdp.users.include?(md)
         end
         mdp.update_column :value, nil
@@ -14,22 +14,15 @@ module MigrationHelpers
       end
 
       def migrate_meta_datum_users
-      
-        ids = RawMetaDatum
-          .select("meta_data.id")
-          .joins(:meta_key).where("meta_keys.object_type = 'User'")
-          .where("type is NULL OR type = 'MetaDatum'")
-
-        RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
+        RawMetaDatum.joins(:meta_key)
+        .where("meta_keys.object_type = 'User'")
+        .where("type is NULL OR type = 'MetaDatum'").each do |rmd|
           rmd.update_column :type, "MetaDatumUsers"
           migrate_meta_datum_user rmd
         end
 
-        MetaKey.where("object_type = 'User'").each do |mkp|
-          mkp.update_column :object_type, nil
-          mkp.update_column :meta_datum_object_type, 'MetaDatumUsers'
-        end
-
+        MetaKey.update_all({object_type: nil, meta_datum_object_type: 'MetaDatumUsers'},
+                           {object_type: 'User'})
       end
 
     end
