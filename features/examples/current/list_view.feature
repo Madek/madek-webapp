@@ -5,6 +5,12 @@ Feature: List view
   so that I can see a lot of metadata at one glance
   instead of having to click on every resource
 
+  Background: Load the example data and personas
+    Given I have set up the world
+      And personas are loaded
+      And I am "Normin"
+
+  @javascript
   Scenario: What I see when I am on a list view
     Given I see a list of resources
     When I switch to the list view
@@ -12,7 +18,8 @@ Feature: List view
     And for each resource I see meta data from the "core" context
     And for each resource I see a thumbnail image if it is available
     And for each resource I see an icon if no thumbnail is available
-
+  
+  @javascript
   Scenario: Actions available for a resource
     When I see a resource in a list view
     Then the following actions are available for this resource:
@@ -24,7 +31,9 @@ Feature: List view
     | Erkunden nach vergleichbaren Medieneinträgen |
     | Löschen                                      |
     | Zur Auswahl hinzufügen/entfernen             |
-
+  
+  # not commited
+  @wip
   Scenario: Accessing the export function in list view
     Given this scenario is pending
     When I see a resource in a list view
@@ -33,11 +42,13 @@ Feature: List view
     | Exportieren | 
     When I choose "Exportieren"
     Then I see a dialog allowing me to export the resource
-
+  
+  @javascript
   Scenario: Styling of the title in list view
     When I see a resource in a list view
     Then the resource's title is highlighted
   
+  @javascript
   Scenario: Height of a row in list view
     Given I see a list of resources
     When I switch to the list view
