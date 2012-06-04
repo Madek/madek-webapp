@@ -23,7 +23,7 @@ Then /^the metadata context groups are in the following order:$/ do |table|
 end
 
 When /^I visit a media entry with the following individual contexts:$/ do |table|
-  media_sets = table.hashes.flat_map {|r| MetaContext.find_by_name(r["name"]).media_sets.accessible_by_user(@current_user) }
+  media_sets = table.hashes.flat_map {|r| MetaContext.send(r["name"]).media_sets.accessible_by_user(@current_user) }
   
   media_entry = MediaEntry.accessible_by_user(@current_user).detect do |me|
     media_sets.all? {|ms| me.media_sets.include? ms }

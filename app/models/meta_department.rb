@@ -1,5 +1,11 @@
 class MetaDepartment < Group
 
+  has_and_belongs_to_many :meta_data, 
+    join_table: :meta_data_meta_departments,
+    association_foreign_key: :meta_datum_id,
+    foreign_key: :meta_department_id
+ 
+
   default_scope order(:name)
 
   def to_s
