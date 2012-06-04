@@ -16,7 +16,6 @@ gem 'json', '~> 1.7'
 gem 'rjson'
 gem 'jbuilder'
 gem 'haml', '~> 3.1'
-gem 'formtastic'
 gem 'sass', '~> 3.1'
 gem 'coffee-script', '~> 2.2'
 gem "coffee-filter", "~> 0.1.1"
