@@ -11,7 +11,6 @@ module DataFactory
       Userpermission.destroy_all
       User.destroy_all
     end
-    MetaHelper.import_initial_metadata
     Copyright.init(true)
   end
 
