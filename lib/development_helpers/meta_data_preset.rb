@@ -16,6 +16,12 @@ module DevelopmentHelpers
         h
       end
 
+      def load_minimal_yaml
+        file_name = Rails.root.join("features","data","minimal_meta").to_s + ".yml"
+        h = YAML.load File.read file_name
+        import_hash h
+      end
+
       def import_hash h
 
         table_names_models = {}

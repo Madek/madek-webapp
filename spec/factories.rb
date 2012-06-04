@@ -11,6 +11,7 @@ module DataFactory
       Userpermission.destroy_all
       User.destroy_all
     end
+    DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
     Copyright.init(true)
   end
 

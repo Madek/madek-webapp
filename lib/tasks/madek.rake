@@ -170,9 +170,7 @@ namespace :madek do
 
     desc "Import MetaData Presets" 
     task :import_presets => :environment do
-      file_name = Rails.root.join("features","data","minimal_meta").to_s + ".yml"
-      h = YAML.load File.read file_name
-      DevelopmentHelpers::MetaDataPreset.import_hash h
+      DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
     end
 
   end
