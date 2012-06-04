@@ -1,14 +1,17 @@
 # -*- encoding : utf-8 -*-
 class MetaDatum < ActiveRecord::Base
 
+
   class << self
-    def new_with_cast(*a, &b)
-      
-      if (h = a.first).is_a? Hash and (type = h[:type] || h['type']) and (klass = type.constantize) != self
-        raise "wtF hax!!"  unless klass < self  # klass should be a descendant of us
-        return klass.new(*a, &b)
+    def new_with_cast(*args, &block)
+      # TODO it should be possible to give type as a Class
+      if (h = args.first).is_a? Hash and 
+        (type = h[:type] || h['type']) and 
+        (klass = type.constantize) != self
+        raise "#{klass.name} must be a subclass of #{self.name}"  unless klass < self  
+        return klass.new(*args, &block)
       end
-      new_without_cast(*a,&b)
+      new_without_cast(*args,&block)
     end
 
     alias_method_chain :new, :cast
