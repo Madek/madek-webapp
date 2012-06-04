@@ -4,20 +4,29 @@ class MetaDatum < ActiveRecord::Base
 
   class << self
     def new_with_cast(*args, &block)
-      # TODO it should be possible to give type as a Class
-      if (h = args.first).is_a? Hash and 
-        (type = h[:type] || h['type']) and 
-        (klass = type.constantize) != self
-        raise "#{klass.name} must be a subclass of #{self.name}"  unless klass < self  
-        return klass.new(*args, &block)
+
+      if (h = args.first).is_a? Hash 
+        if (type = h[:type] || h['type']) and (klass = type.constantize) != self
+          return call_new_with_subclass_check klass, args, block
+        elsif meta_key = h[:meta_key] || h['meta_key'] and (klass = meta_key.meta_datum_object_type.constantize) != self
+          return call_new_with_subclass_check klass, args, block
+        end
       end
+
       new_without_cast(*args,&block)
+    end
+
+    def call_new_with_subclass_check klass, args, block
+      raise "#{klass.name} must be a subclass of #{self.name}"  unless klass < self  
+      klass.new(*args, &block)
     end
 
     alias_method_chain :new, :cast
   end
 
-
+  after_save do
+    raise "MetaDatum is abstract; instatiate a subclass" if self.reload.type == "MetaDatum" or self.reload.type == nil
+  end
 
   set_table_name :meta_data
 
@@ -35,6 +44,10 @@ class MetaDatum < ActiveRecord::Base
   end
 
   def context_valid?(context = MetaContext.core)
+    raise "this method must be implemented in the derived class"
+  end
+
+  def deserialized_value
     raise "this method must be implemented in the derived class"
   end
 
