@@ -25,6 +25,8 @@ until 2012):
  * Copy config/development.sphinx.conf_with_pipe to config/development.sphinx.conf and adapt
    the settings.
  * cd into your MAdeK directory
+ * Create (or copy from the samples) config/database.yml
+ * rake db:create
  * bundle install
  * rake madek:reset
 
