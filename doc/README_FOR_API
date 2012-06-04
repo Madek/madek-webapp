@@ -12,7 +12,7 @@ Our standard format for the API is JSON. To communicate to the API you have to s
     /media_resources.json
     /media_resources (with Header: "Accept: application/json")
 
-## RESTfull API-Desgin
+## RESTful API-Design
 GET, POST, PUT and DELETE...
 
 ## Authentication
