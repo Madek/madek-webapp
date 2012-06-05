@@ -5,10 +5,8 @@ module MigrationHelpers
       ############ String ########################################
       def migrate_meta_string raw_meta_datum
         s = YAML.load raw_meta_datum.value
-        raw_meta_datum.update_attributes({ 
-          string: s, 
-          value: nil
-        })
+        raw_meta_datum.update_column :string, s 
+        raw_meta_datum.update_column :value, nil
         raw_meta_datum.save!
       end
 
