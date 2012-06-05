@@ -4,6 +4,10 @@ require 'pry'
 describe MediaSetsController do
   render_views
 
+  before :all do
+    FactoryGirl.create :usage_term
+  end
+
   context "API Tests" do
 
     before :all do

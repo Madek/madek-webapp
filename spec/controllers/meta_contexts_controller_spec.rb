@@ -4,7 +4,7 @@ describe MetaContextsController do
   render_views
 
   before :all do
-    #DatabaseCleaner.clean_with :truncation
+    DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
     @user = FactoryGirl.create :user
     @description= FactoryGirl.create :meta_term
     @hint = FactoryGirl.create :meta_term

@@ -18434,6 +18434,92 @@ permission_presets:
   view: true
   edit: true
   manage: false
+usage_terms: 
+- id: 1
+  title: Nutzungsbedingungen
+  version: vom 29. September 2010
+  intro: Bitte lesen, akzeptieren und halten Sie sich an die Nutzungsbedingungen.
+  body: "<h3>1. Gegenstand </h3>\r\n\
+    \r\n\
+    <p>Die Nutzungsbedingungen des Medienarchivs der Z\xC3\xBCricher Hochschule der K\xC3\xBCnste (Betreiberin, nachfolgend\r\n\
+    ZHdK bzw. Medienarchiv) regeln die Bedingungen der Nutzung f\xC3\xBCr die Beteiligten (gem\xC3\xA4ss Ziff.4).</p>\r\n\
+    \r\n\
+    <h3>2. Zweck</h3>\r\n\
+    \r\n\
+    <p>Das Medienarchiv ist die zentrale Arbeitsplattform f\xC3\xBCr digitale Medien an der ZHdK und unterst\xC3\xBCtzt die erste\r\n\
+    Stufe der Archivierung von k\xC3\xBCnstlerischen und wissenschaftlichen Werken und deren Dokumentationen. </p>\r\n\
+    \r\n\
+    <h3>3. Rechtsgrundlagen</h3>\r\n\
+    <p>Die Rechtsgrundlagen f\xC3\xBCr die Nutzung ergeben sich aus den entsprechenden immaterialg\xC3\xBCterrechtlichen Bestimmungen [1] sowie jenen der Fachhochschulgesetzgebung [2].</p>\r\n\
+    \r\n\
+    <h3>4.    Begriffe</h3>\r\n\
+    <p>1) Als Anbieter gelten Personen, welche Medieninhalte in das Medienarchiv laden und deren Zugriffsberechtigungen verwalten. Dabei kommen als Personen sowohl nat\xC3\xBCrliche wie juristische (Institutionen) in Frage.<br />\r\n\
+    <p>2) Als Nutzer gelten Personen, welche die Dienstleistungen des Medienarchivs ben\xC3\xBCtzen und Medieneintr\xC3\xA4ge der Anbieter verwenden. </p>\r\n\
+    <p>3) Unter Medieninhalte werden alle Dateien und die dazugeh\xC3\xB6rigen Metadaten verstanden, die im Medienarchiv digital gespeichert werden. </p>\r\n\
+    <p>4) Als Medienarchiv wird die multimediale Internet-Plattform der ZHdK verstanden.</p>\r\n\
+    \r\n\
+    <h3>5. Rechte </h3>\r\n\
+    <p>\r\n\
+    Bei den zur Verwendung stehenden Rechten geht es haupts\xC3\xA4chlich um Immaterialg\xC3\xBCterrechte (Rechte am Geistigen Eigentum), insbesondere Urheber-, Design-, Marken-, Patent- und Knowhow-Rechte.</p>\r\n\
+    \r\n\
+    <h3>6. Nutzungsrechte</h3>\r\n\
+    <p>Im Rahmen der gesetzlichen oder vertraglichen Bestimmungen sind folgende Nutzungsarten f\xC3\xBCr Nutzer m\xC3\xB6glich:</p>\r\n\
+    <p>- (beschr\xC3\xA4nkte) Nutzung innerhalb der gesetzlichen oder vertraglichen Bedingungen</p>\r\n\
+    <p>- (modifizierte) Nutzung gem\xC3\xA4ss Lizenzierung nach den Creative Commons-Lizenzen [3] oder gem\xC3\xA4ss individuellen Bedingungen (z.B. Studio Publikationen, ZHdK)</p>\r\n\
+    <p>- (unbeschr\xC3\xA4nkte) Nutzung bei Freigabe oder Entfall der Rechte (gemeinfreie Inhalte / public domain)</p>\r\n\
+    \r\n\
+    <h3>7. Zugang</h3>\r\n\
+    <p>1) Das Medienarchiv und dementsprechend deklarierte Medieninhalte sind prinzipiell frei zug\xC3\xA4nglich. </p>\r\n\
+    <p>2) Durch ein Login erhalten die Angeh\xC3\xB6rigen der ZHdK sowie bestimmte definierte Nutzer einen erweiterten Zugang zu den Inhalten und Funktionalit\xC3\xA4ten der Datenbank. </p>\r\n\
+    \r\n\
+    \r\n\
+    <h3>8. Gew\xC3\xA4hrleistungen </h3>\r\n\
+    <p>1) Eine Gew\xC3\xA4hr f\xC3\xBCr Richtigkeit, Vollst\xC3\xA4ndigkeit und Zul\xC3\xA4ssigkeit der im Medienarchiv ver\xC3\xB6ffentlichten Inhalte,\r\n\
+    Informationen und Verweise wird von der ZHdK nicht \xC3\xBCbernommen. Die Verantwortung daf\xC3\xBCr liegt bei den\r\n\
+    Anbietern.</p>\r\n\
+    <p>2)  Die ZHdK haftet nur insoweit f\xC3\xBCr die Inhalte und die Beachtung der vorliegenden Bestimmungen, soweit sie\r\n\
+    von einem widerrechtlichen Inhalt Kenntnis hat und daf\xC3\xBCr gem\xC3\xA4ss dem einschl\xC3\xA4gigen Recht verantwortlich\r\n\
+    gemacht werden kann.</p>\r\n\
+    <p>3) Externe Internet-Plattformen geben den Inhalt und die Meinung der jeweiligen Anbieter wieder, f\xC3\xBCr welche\r\n\
+    keine Haftung \xC3\xBCbernommen werden kann. F\xC3\xBCr den Inhalt dieser verlinkten Seiten sind ausschliesslich deren\r\n\
+    Betreiber verantwortlich.</p>\r\n\
+    <p>4) Da das Medienarchiv keine Datenbank f\xC3\xBCr private Ablagen ist, kann keine Garantie f\xC3\xBCr die Erhaltung der\r\n\
+    ausschliesslich privat einsehbaren Medieneintr\xC3\xA4ge angeboten werden. Es ist Sache der Anbieter, eine eigene\r\n\
+    Sicherungskopie dieser Medieneintr\xC3\xA4ge zu erstellen.</p>\r\n\
+    <p>5) Eine Haftung f\xC3\xBCr Sch\xC3\xA4den, die durch unberechtigte Nutzung entstehen oder sonst gegen diese Bestimmungen verstossen, ist ausgeschlossen.</p>\r\n\
+    \r\n\
+    <h3>9. Pflichten f\xC3\xBCr die Anbieter</h3>\r\n\
+    <p>1) Die Anbieter sind f\xC3\xBCr die Einhaltung der rechtlichen, ethischen und moralischen Grunds\xC3\xA4tze verantwortlich.</p>\r\n\
+    <p>2) F\xC3\xBCr die zur Verf\xC3\xBCgung gestellten Medieneintr\xC3\xA4ge sind die Anbieter selbst verantwortlich. Dies betrifft nebst dien allgemeinen Grunds\xC3\xA4tzen (Abs.1) insbesondere die Beachtung von Rechten Dritter, wie den Hinweis auf Personen, welche Rechteinhaber sind und die genaue Angabe der Nutzungsbedingungen.</p>\r\n\
+    <p>3) Die Anbieter sind ausserdem dazu verpflichtet, die Nutzungsrechte gem\xC3\xA4ss Art.6 zu definieren.</p>\r\n\
+    <p>4) Die Nutzung des Medienarchivs darf nicht kommerziellen Zwecken dienen.</p>\r\n\
+    <p>5) Eine rein private Ablage von Dateien und Informationen ist nicht erlaubt. </p>\r\n\
+    \r\n\
+    <h3>10. Pflichten f\xC3\xBCr die Nutzer</h3>\r\n\
+    <p>1) Die Nutzer haben sich an die definierten Nutzungsrechte gem\xC3\xA4ss Art.6 zu halten. </p>\r\n\
+    <p>2) Die Nutzung ist f\xC3\xBCr den Eigengebrauch zul\xC3\xA4ssig. Dies betrifft den privaten Gebrauch und die Verwendung f\xC3\xBCr Lehre und Forschung. Eine weitergehende Nutzung (wie f\xC3\xBCr kommerzielle Zwecke) bedarf der Zustimmung durch den Anbieter, soweit die Lizenz nicht bereits eine offene Verwendung zul\xC3\xA4sst.</p>\r\n\
+    \r\n\
+    <h3>11. Nutzungen</h3>\r\n\
+    <p>1) Das Medienarchiv erm\xC3\xB6glicht es, f\xC3\xBCr jeden Medieneintrag folgende Nutzungsrechte festzulegen:</p>\r\n\
+    <ul>\r\n  <li>a. Definition der Person bzw. der Nutzergruppe hinsichtlich der Sichtbarkeit.</li>\r\n  <li>b. Definition der Person bzw. der Nutzergruppe hinsichtlich dem Editieren von Metadaten.</li>\r\n  <li>c. Definition der Lizenzierung resp. der Bedingungen f\xC3\xBCr die weitere Nutzung.</li>\r\n\
+    </ul>\r\n\
+    <p>2) Das Medienarchiv bezeichnet den Urheber bzw. Inhaber der Verwertungsrechte in einem daf\xC3\xBCr vorgesehenen Pflichtfeld in der Metadaten-Maske.</p>\r\n\
+    \r\n\
+    <h3>12. Sanktionen bei unerlaubten Verwendungen</h3>\r\n\
+    <p>Eine unerlaubte Verwendung einzelner Inhalte kann sowohl zivil- als auch strafrechtlich verfolgt werden. Die ZHdK kann eine entsprechende Anzeige machen.</p>\r\n\
+    \r\n\
+    <h3>13. Weitere Bestimmungen</h3>\r\n\
+    <p>Als anwendbares Recht gilt Schweizer Recht, insbesondere die Bestimmungen des allgemeinen Vertragsrechts und der immaterialg\xC3\xBCterrechtlichen Sondergesetze.</p>\r\n\
+    \r\n\
+    <h3>14. Inkrafttreten</h3>\r\n\
+    <p>Diese Nutzungsbedingungen wurden von der Hochschulleitung am 29.9.2010 beschlossen und treten per sofort in Kraft.</p>\r\n\
+    <p>Z\xC3\xBCrcher Hochschule der K\xC3\xBCnste</p>\r\n\
+    <p>Im Namen der Hochschulleitung</p>\r\n\
+    <p>Der Rektor</p>\r\n\
+    <p>[1] Vgl. URG, DesG, MSchG, PatG, vgl. die Aufz\xC3\xA4hlung in Art.5<br />\r\n\
+    [2] Insbesondere \xC2\xA7 16 und 22 FaHG<br />\r\n\
+    [3] vgl. http://creativecommons.org<br /></p>"
+  updated_at: 2010-11-23 14:24:44 Z
 copyrights: 
 - id: 1
   is_default: false

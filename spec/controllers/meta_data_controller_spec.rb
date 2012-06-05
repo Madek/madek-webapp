@@ -3,7 +3,9 @@ require 'spec_helper'
 describe MetaDataController do
   render_views
 
-  before :each do
+
+  before :all do
+    DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
     @user = FactoryGirl.create :user
     @other_user = FactoryGirl.create :user
     @media_set= FactoryGirl.create :media_set, user: @user

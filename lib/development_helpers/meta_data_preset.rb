@@ -6,6 +6,7 @@ module DevelopmentHelpers
       "meta_context_groups", "meta_contexts",
       "meta_key_definitions",
       "permission_presets",
+      "usage_terms",
       "copyrights"]
 
     class << self 

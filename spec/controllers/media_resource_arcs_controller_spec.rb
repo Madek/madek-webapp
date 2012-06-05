@@ -4,6 +4,7 @@ describe MediaResourceArcsController do
   render_views
 
   before :all do
+    FactoryGirl.create :usage_term
     @user = FactoryGirl.create :user
     @parent_set = FactoryGirl.create :media_set, user: @user
     @child1 = FactoryGirl.create :media_set, user: @user
