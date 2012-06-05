@@ -4,15 +4,8 @@ module DataFactory
   extend self
 
   def reset_data 
-    ActiveRecord::Base.transaction do
-      MediaResource.destroy_all
-      Grouppermission.destroy_all
-      Group.destroy_all
-      Userpermission.destroy_all
-      User.destroy_all
-    end
+    DatabaseCleaner.clean_with :truncation
     DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
-    Copyright.init(true)
   end
 
   def create_permission_migration_dataset
