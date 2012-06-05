@@ -56,9 +56,32 @@ class MetaDatum < ActiveRecord::Base
     raise "this method must be implemented in the derived class"
   end
 
-  def deserialized_value
-    raise "this method must be implemented in the derived class"
+  def deserialized_value(user=nil)
+    if meta_key.is_dynamic? 
+      case meta_key.label
+        when "owner"
+          return media_resource.user
+        when "uploaded at"
+          return media_resource.created_at #old# .to_formatted_s(:date_time)
+        when "copyright usage"
+          copyright = media_resource.meta_data.get("copyright status").deserialized_value.first || Copyright.default # OPTIMIZE array or single element
+          return copyright.usage(read_attribute(:value))
+        when "copyright url"
+          copyright = media_resource.meta_data.get("copyright status").deserialized_value.first  || Copyright.default # OPTIMIZE array or single element
+          return copyright.url(read_attribute(:value))
+        when "public access"
+          return media_resource.is_public?
+        when "media type"
+          return media_resource.media_type
+        #when "gps"
+        #  return media_resource.media_file.meta_data["GPS"]
+      end
+    else # aliased in the sublcasses
+      value
+    end
   end
+
+
 
 end
 

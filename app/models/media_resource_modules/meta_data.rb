@@ -106,6 +106,7 @@ module MediaResourceModules
         ########################################################
 
         def meta_data_for_context(context = MetaContext.core, build_if_not_exists = true)
+
           meta_keys = context.meta_keys
 
           mds = meta_data.where(:meta_key_id => meta_keys)
@@ -115,7 +116,7 @@ module MediaResourceModules
           end
 
           (context.meta_key_ids - mds.map(&:meta_key_id)).each do |key_id|
-            mds << meta_data.build(:meta_key_id => key_id)
+            mds << meta_data.build(:meta_key => MetaKey.find(key_id))
           end if build_if_not_exists
 
           mds.sort_by {|md| context.meta_key_ids.index(md.meta_key_id) } 

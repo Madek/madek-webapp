@@ -8,8 +8,6 @@ class MetaDatumOld < ActiveRecord::Base
   class << self
     def new_with_cast(*a, &b)
 
-      #binding.pry
-      
       if (h = a.first).is_a? Hash and (type = h[:type] || h['type']) and (klass = type.constantize) != self
         #raise "wtF hax!!"  unless klass < self  # klass should be a descendant of us
         return klass.new(*a, &b)
@@ -72,12 +70,10 @@ class MetaDatumOld < ActiveRecord::Base
   def set_value_before_save
     case meta_key.object_type
       when nil, "MetaCountry"
-        #binding.pry
         self.type = "MetaDatumString"
         self.string = self.value
         self.value = nil
       when "MetaDate"
-        binding.pry
       else
         klass = meta_key.object_type.constantize
         values = case klass.name # NOTE comparing directly the class doesn't work

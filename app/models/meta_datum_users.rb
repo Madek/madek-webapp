@@ -7,10 +7,9 @@ class MetaDatumUsers < MetaDatum
     association_foreign_key: :user_id
 
   alias_attribute :value, :users
-  alias_attribute :deserialized_value, :users
 
   def to_s
-    value.map(&:to_s).join("; ")
+    Array(deserialized_value).map(&:to_s).join("; ")
   end
 
 end
