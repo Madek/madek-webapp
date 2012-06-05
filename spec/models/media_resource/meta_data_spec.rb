@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe "MetaData" do
 
+  before :all do
+    DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
+  end
+
   context "an existing MediaEntry" do
 
     before :each do 

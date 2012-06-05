@@ -3,6 +3,7 @@ require 'spec_helper'
 describe MediaEntryIncomplete do
 
   before :all do 
+    DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
     @mei = FactoryGirl.create :media_entry_incomplete
   end
 
