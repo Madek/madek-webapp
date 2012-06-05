@@ -35,7 +35,8 @@ describe MetaDatumCopyright do
         @md.update_attributes copyright: @copyright1
       end
 
-      it "should have persist added relations" do
+      it "should have persisted added relations" do
+        binding.pry
         MetaDatumCopyright.find(@md.id).copyright.should == @copyright1
       end
 
