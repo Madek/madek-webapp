@@ -165,7 +165,7 @@ namespace :madek do
 
       File.open(file_path, "w"){|f| f.write data_hash.to_yaml } 
       puts "the file has been saved to #{file_path}"
-      puts "you might wish to copy it to features data "
+      puts "you might want to copy it to features/data/minimal_meta.yml"
     end
 
     desc "Import MetaData Presets" 
