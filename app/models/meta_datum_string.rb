@@ -8,6 +8,7 @@ class MetaDatumString < MetaDatum
     SQLHelper.execute_sql "UPDATE meta_data SET value = NULL where id = #{id}"
   end
 
+
   def set_value_before_save
   end
 

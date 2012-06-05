@@ -23,6 +23,16 @@ class MetaDatum < ActiveRecord::Base
     end
 
     alias_method_chain :new, :cast
+
+
+    def value_type_name klass_or_string
+      if klass_or_string.is_a? String
+        klass_or_string
+      else
+        klass_or_string.name
+      end 
+      .gsub(/^MetaDatum/,"").underscore
+    end
   end
 
   after_save do
