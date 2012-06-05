@@ -4,14 +4,10 @@ module MigrationHelpers
 
       def migrate_meta_datum_keyword rmd
         mdp = MetaDatumKeywords.find rmd.id
-        YAML.load(rmd.value).find_all{|id| id.to_i != 0}.each do |id|
-            next unless k = Keyword.where(:id => id).first
-            if k.meta_datum_id.nil?
-              k.update_attributes(:meta_datum => mdp)
-            else
-              new_k = k.dup 
-              new_k.update_attributes(:meta_datum => mdp)
-            end
+        ids = YAML.load(rmd.value)
+        Keyword.where(:id => ids).each do |keyword|
+          keyword = keyword.dup unless keyword.meta_datum_id.nil? 
+          keyword.update_attributes(:meta_datum => mdp)
         end
         mdp.update_column :value, nil
         mdp.save!
@@ -27,10 +23,8 @@ module MigrationHelpers
         
         Keyword.delete_all(:meta_datum_id => nil)
 
-        MetaKey.where("object_type = 'Keyword'").each do |mkp|
-          mkp.update_column :object_type, nil
-          mkp.update_column :meta_datum_object_type, 'MetaDatumKeywords'
-        end
+        MetaKey.update_all({object_type: nil, meta_datum_object_type: 'MetaDatumKeywords'},
+                           {object_type: 'Keyword'})
       end
 
     end
