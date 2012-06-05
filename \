@@ -2,18 +2,30 @@ module DevelopmentHelpers
   module MetaDataPreset
 
     class << self 
+      MODELS= ["MetaKey", 
+        "MetaTerm", "MetaKeyMetaTerm", 
+        "MetaContextGroup", "MetaContext", 
+        "MetaKeyDefinition", 
+        "PermissionPreset"]
 
       TABLES=[ "meta_keys",
         "meta_terms", "meta_keys_meta_terms",
         "meta_context_groups", "meta_contexts",
-        "meta_key_definitions",
-        "permission_presets",
-        "copyrights"]
+        "meta_key_definintions",
+        "permission_presets"]
 
       def create_hash
         h = {}
-        table_name_models.each do |table_name,model| 
-          h[table_name] = model.order(model.primary_key).all.collect(&:attributes)
+        TABLES.map(&:classify).each do |table_name| 
+          eval %Q{
+            class #{klass} < ActiveRecord::Base
+              table_name 
+            end
+          }
+        end
+
+        MODELS.map(&:constantize).each do |model| 
+          h[model.table_name] = model.order(model.primary_key).all.collect(&:attributes)
         end
         h
       end
@@ -25,10 +37,19 @@ module DevelopmentHelpers
       end
 
       def import_hash h
-        tnm = table_name_models
+
+        table_names_models = {}
+
+        MODELS.map(&:constantize).each do |model|
+          table_names_models[model.table_name] = model
+        end
+
+
         ActiveRecord::Base.transaction do
           h.keys.each do |table_name|
-            klass = tnm[table_name]
+            puts table_name
+            klass = table_names_models[table_name]
+            puts klass
             klass.attribute_names.each { |attr| klass.attr_accessible attr}
             h[table_name].each do |attributes|
               klass.create attributes
@@ -37,25 +58,6 @@ module DevelopmentHelpers
           end
         end
       end
-
-      private 
-
-      def table_name_models
-        Hash[
-        ]
-        h = {}
-        TABLES.each do |table_name| 
-          klass = ("raw_"+table_name).classify
-          eval %Q{
-            class ::#{klass} < ActiveRecord::Base
-              set_table_name :#{table_name}
-            end
-          }
-          h[table_name] = klass.constantize
-        end
-        h
-      end
-
     end
   end
 end

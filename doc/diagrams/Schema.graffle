@@ -57,6 +57,41 @@
 	<key>GraphicsList</key>
 	<array>
 		<dict>
+			<key>Class</key>
+			<string>LineGraphic</string>
+			<key>Head</key>
+			<dict>
+				<key>ID</key>
+				<integer>785</integer>
+				<key>Info</key>
+				<integer>8</integer>
+			</dict>
+			<key>ID</key>
+			<integer>806</integer>
+			<key>Points</key>
+			<array>
+				<string>{409.42691, 66.140167}</string>
+				<string>{670.34485, 303.57275}</string>
+			</array>
+			<key>Style</key>
+			<dict>
+				<key>stroke</key>
+				<dict>
+					<key>HeadArrow</key>
+					<string>Arrow</string>
+					<key>LineType</key>
+					<integer>1</integer>
+					<key>TailArrow</key>
+					<string>FilledBall</string>
+				</dict>
+			</dict>
+			<key>Tail</key>
+			<dict>
+				<key>ID</key>
+				<integer>732</integer>
+			</dict>
+		</dict>
+		<dict>
 			<key>Bounds</key>
 			<string>{{589.65771, 724.4032}, {101.2809, 47.097046}}</string>
 			<key>Class</key>
@@ -387,41 +422,6 @@ Database-Relations}</string>
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
 \f0\fs24 \cf0 MetaDatumKeywords}</string>
-			</dict>
-		</dict>
-		<dict>
-			<key>Class</key>
-			<string>LineGraphic</string>
-			<key>Head</key>
-			<dict>
-				<key>ID</key>
-				<integer>785</integer>
-			</dict>
-			<key>ID</key>
-			<integer>805</integer>
-			<key>Points</key>
-			<array>
-				<string>{410.52505, 66.131615}</string>
-				<string>{670.34479, 291.8959}</string>
-			</array>
-			<key>Style</key>
-			<dict>
-				<key>stroke</key>
-				<dict>
-					<key>HeadArrow</key>
-					<string>DoubleArrow</string>
-					<key>LineType</key>
-					<integer>1</integer>
-					<key>Pattern</key>
-					<integer>24</integer>
-					<key>TailArrow</key>
-					<string>FilledBall</string>
-				</dict>
-			</dict>
-			<key>Tail</key>
-			<dict>
-				<key>ID</key>
-				<integer>732</integer>
 			</dict>
 		</dict>
 		<dict>
@@ -3906,7 +3906,7 @@ belongs_to}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2012-06-04 12:31:40 +0000</string>
+	<string>2012-06-05 06:05:49 +0000</string>
 	<key>Modifier</key>
 	<string>Thomas Schank</string>
 	<key>NotesVisible</key>
@@ -3999,7 +3999,7 @@ belongs_to}</string>
 		<key>FitInWindow</key>
 		<true/>
 		<key>Frame</key>
-		<string>{{-0, -0}, {1920, 1178}}</string>
+		<string>{{-0, 4}, {1280, 774}}</string>
 		<key>ListView</key>
 		<false/>
 		<key>OutlineWidth</key>
@@ -4011,9 +4011,9 @@ belongs_to}</string>
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{-143.53508, 0.73246026}, {1406.3237, 782.26752}}</string>
+		<string>{{-193.64511, 1.1774436}, {1507.1281, 781.82257}}</string>
 		<key>Zoom</key>
-		<real>1.3652617931365967</real>
+		<real>0.84929758310317993</real>
 		<key>ZoomValues</key>
 		<array>
 			<array>
