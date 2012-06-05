@@ -123,7 +123,7 @@ class MediaResource < ActiveRecord::Base
     end
 
     (context.meta_key_ids - mds.map(&:meta_key_id)).each do |key_id|
-      mds << meta_data.build(:meta_key_id => key_id)
+      mds << meta_data.build(:meta_key => MetaKey.find_by_id(key_id))
     end if build_if_not_exists
     
     mds.sort_by {|md| context.meta_key_ids.index(md.meta_key_id) } 
