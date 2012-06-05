@@ -150,6 +150,7 @@ When /^I uploading some files from the dropbox and from the filesystem$/ do
 end
 
 When /^I delete some fo those after the upload$/ do
+  wait_until(15) { find("#uploader_filelist li span",:text => "berlin_wall_01.jpg").find(:xpath, "../..") }
   deleted_plupload_file_element_after_upload = find("#uploader_filelist li span",:text => "berlin_wall_01.jpg").find(:xpath, "../..")
   deleted_plupload_file_element_after_upload.find(".delete_plupload_entry").click
   page.driver.browser.switch_to.alert.accept
