@@ -12,9 +12,12 @@ module MigrationHelpers
 
 
       def migrate_meta_strings
-        RawMetaDatum.joins(:meta_key)
-        .where("meta_keys.object_type = 'MetaCountry' OR meta_keys.object_type is NULL")
-        .where("type is NULL or type = 'MetaDatum' ").each do |rmd|
+        ids = RawMetaDatum
+          .select("meta_data.id")
+          .joins(:meta_key).where("meta_keys.object_type = 'MetaCountry' OR meta_keys.object_type is NULL")
+          .where("type is NULL or type = 'MetaDatum' ")
+
+        RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
           migrate_meta_string rmd
           rmd.update_column :type, "MetaDatumString"
         end
