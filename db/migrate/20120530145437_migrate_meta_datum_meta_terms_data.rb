@@ -13,13 +13,16 @@ module MigrationHelpers
       end
 
       def migrate_meta_datum_meta_terms
-        RawMetaDatum.joins(:meta_key)
-        .where("meta_keys.object_type = 'MetaTerm'")
-        .where("type is NULL OR type = 'MetaDatum'").each do |rmd|
+        ids = RawMetaDatum
+          .select("meta_data.id")
+          .joins(:meta_key).where("meta_keys.object_type = 'MetaTerm'")
+          .where("type is NULL OR type = 'MetaDatum'")
+
+        RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
           rmd.update_column :type, "MetaDatumMetaTerms"
           migrate_meta_datum_meta_term rmd
         end
-
+        
         MetaKey.update_all({object_type: nil, meta_datum_object_type: 'MetaDatumMetaTerms'},
                            {object_type: 'MetaTerm'})
 

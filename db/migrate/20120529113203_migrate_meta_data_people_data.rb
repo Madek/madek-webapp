@@ -14,9 +14,12 @@ module MigrationHelpers
       end
 
       def migrate_meta_people
-        RawMetaDatum.joins(:meta_key)
-        .where("meta_keys.object_type = 'Person'")
-        .where("type is NULL OR type = 'MetaDatum'").each do |rmd|
+        ids = RawMetaDatum
+          .select("meta_data.id")
+          .joins(:meta_key).where("meta_keys.object_type = 'Person'")
+          .where("type is NULL OR type = 'MetaDatum'")
+
+        RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
           rmd.update_column :type, "MetaDatumPeople"
           migrate_meta_person rmd
         end

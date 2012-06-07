@@ -10,9 +10,12 @@ module MigrationHelpers
       end
 
       def migrate_meta_datum_copyrights
-        RawMetaDatum.joins(:meta_key)
-        .where("meta_keys.object_type = 'Copyright'")
-        .where("type is NULL OR type = 'MetaDatum'").each do |rmd|
+        ids = RawMetaDatum
+          .select("meta_data.id")
+          .joins(:meta_key).where("meta_keys.object_type = 'Copyright'")
+          .where("type is NULL OR type = 'MetaDatum'")
+
+        RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
           rmd.update_column :type, "MetaDatumCopyright"
           migrate_meta_datum_copyright rmd
         end
