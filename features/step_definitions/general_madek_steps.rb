@@ -2,7 +2,6 @@
 
 Given "I have set up the world a little" do
   MetaDepartment.setup_ldapdata_from_localfile
-  MetaDate.parse_all
 end
 
 Given /^I have set up the world$/ do

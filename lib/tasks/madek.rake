@@ -51,6 +51,9 @@ namespace :madek do
       system "bundle exec rake db:migrate"
       system dump_postmigration_command
     else
+      if needs_migration?(unmigrated_file) == false
+        puts "The migrated file has no newer migrations than the unmigrated file."
+      end
       puts "No need to create a new migrated persona SQL file -- the unmigrated file #{unmigrated_file} is older than an existing migrated file #{migrated_file}"
     end
   end
@@ -103,7 +106,7 @@ namespace :madek do
         system "bundle exec cucumber -p rerun_again"
         exit_code_rerun_again = $? >> 8
 
-        raise "Tests failed with: #{exit_code}" if exit_code_rerun_again != 0
+        raise "Tests failed!" if exit_code_rerun_again != 0
       end
 
       task :seperate do
