@@ -262,6 +262,30 @@
 						
 							<ul>
 								<li>
+									<span class="name">type</span>
+									<span class="type">String</span>
+									<span class="text">Filter the response by MediaResource types: "media_sets" | "media_entries".</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">sort</span>
+									<span class="type">String</span>
+									<span class="text">Sort the response (DESC) by: "updated_at"(Default) | "created_at" | "random".</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">query</span>
+									<span class="type">String</span>
+									<span class="text">Make a search request which searches in all MetaData of all MediaResources responding with matched MediaResources.</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
 									<span class="name">with[meta_data]</span>
 									<span class="type">Hash</span>
 									<span class="text">Adds MetaData to the responding collection of MediaResources and forwards the hash as options to the MetaData.</span>
@@ -281,6 +305,14 @@
 									<span class="name">with[meta_data][meta_key_names]</span>
 									<span class="type">Array</span>
 									<span class="text">Adds all requested MetaKeys in the format: ["key_name1", "key_name2", ...] as MetaData to the responding MediaResources.</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">with[image]</span>
+									<span class="type">Hash</span>
+									<span class="text">Request the image of the MediaResources. You can define the responding image format like {"image": {"as": "base64" | "url"}}. The image size can be requested with {"image": {"size": "small"(100x100) | "small_125"(125x125) | "medium"(300x300) | "large"(620x500) | "x-large"(1024x768) }}</span>
 								</li>
 							</ul>
 						
@@ -471,7 +503,7 @@
 							
 							
 							
-							<span class="description">Request MediaResources with MediaTypes</span>
+							<span class="description">Request MediaResources but only media_entries.</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
 								{"ids": [1,2,3], "with": {"filename": true}}
@@ -479,6 +511,102 @@
 							<span class="hash response">
 								<strong class="type">Response</strong>
 								{"media_resources:": [{"id":1, "filename": "my_file_name.jpg"}, {"id":2, "filename": "my_2_file_name.jpg"}, {"id":3, "filename": "my_3_file_name.jpg"}], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
+							</span>
+							<span class="description"></span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">Request MediaResources but only media_sets.</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								{"type": "media_entries"}
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								{"media_resources:": [{"id":12, "type": "media_entry"}, {"id":13, "type": "media_entry"}, {"id":18, "type": "media_entry"}, ...]}
+							</span>
+							<span class="description"></span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">Request MediaResources sorted by updated_at (DESC) include the DateTime for updated_at.</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								{"type": "media_sets"}
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								{"media_resources:": [{"id":22, "type": "media_set"}, {"id":23, "type": "media_set"}, {"id":28, "type": "media_set"}, ...]}
+							</span>
+							<span class="description"></span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">Request MediaResources sorted by created_at (DESC) include the DateTime for created_at.</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								{"sort": "updated_at", "with": {"updated_at": true}}
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								{"media_resources:": [{"id":22, "type": "media_set", "updated_at": "2012-04-26T11:21:25+02:00"}, {"id":21, "type": "media_set", "updated_at": "2012-04-25T11:21:22+02:00"}, ...]}
+							</span>
+							<span class="description"></span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">Request MediaResources which contain "blue" in their any of their meta_data responding with nested MetaData of the MetaContext "core".</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								{"sort": "created_at", "with": {"created_at": true}}
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								{"media_resources:": [{"id":35, "type": "media_set", "created_at": "2012-04-27T11:21:25+02:00"}, {"id":21, "type": "media_set", "created_at": "2012-04-22T11:21:22+02:00"}, ...]}
+							</span>
+							<span class="description"></span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">Request MediaResources sorted by created_at (DESC) include the DateTime for created_at.</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								{"query": "blue", "with":{"meta_context_names": ["core"]}}
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								{"media_resources:": [{"id":1, "meta_data": {"title": "My blue Picture", "author": "Musterman, Max", "portrayed_object_dates": null, "keywords": "picture, portrait", "copryright_notice"}}, ...]}}
+							</span>
+							<span class="description"></span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">Request MediaResources with MediaTypes</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								{"sort": "created_at", "with": {"created_at": true}}
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								{"media_resources:": [{"id":35, "type": "media_set", "created_at": "2012-04-27T11:21:25+02:00"}, {"id":21, "type": "media_set", "created_at": "2012-04-22T11:21:22+02:00"}, ...]}
 							</span>
 							<span class="description"></span>
 						</div>
@@ -519,6 +647,73 @@
 			
 		</div>	
     
+		<div class="method">
+			<p class="method_desc">Get the image of MediaResource:</p>
+			<h3 class="resource_url"><strong>/media_resources/:id/image</strong> [GET]</h3>
+
+			<div class="parameters">	
+				
+					<div class="required">
+						<h4>Required Parameters</h4>
+						
+							<ul>
+								<li>
+									<span class="name">id</span>
+									<span class="type">Integer</span>
+									<span class="text">The id of the MediaResource you want to fetch the image for.</span>
+								</li>
+							</ul>
+						
+					</div>
+				
+
+				
+					<div class="optional">
+						<h4>Optional Parameters</h4>
+						
+							<ul>
+								<li>
+									<span class="name">size</span>
+									<span class="type">String</span>
+									<span class="text">Set the responding size of the image: "small"(100x100) | "small_125"(125x125) | "medium"(300x300) | "large"(620x500)[DEFAULT] | "x-large"(1024x768).</span>
+								</li>
+							</ul>
+						
+					</div>
+				
+			</div><!-- parameters -->
+			
+			
+				<div class="response_fields">
+					<h4>Response Fields</h4>
+					
+				</div>
+			
+			
+			
+				<div class="examples">
+					<h4>Examples</h4>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">Request the image for MediaResource id 3234.</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								/media_resource/3234/image
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								[BINARY]
+							</span>
+							<span class="description"></span>
+						</div>
+					
+				</div>
+			
+		</div>	
+    
   </div>
 
 </div>
@@ -538,7 +733,7 @@
 	</div>
     
     <div id="footer">
-  Generated on Fri May 11 12:44:57 2012 with ruby-1.9.3
+  Generated on Thu May 24 15:35:11 2012 with ruby-1.9.3
 </div>
 
   </body>

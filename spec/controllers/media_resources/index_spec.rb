@@ -4,6 +4,7 @@ describe MediaResourcesController do
   render_views
   
   before :all do
+    DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
     @user = FactoryGirl.create :user
   end
   
@@ -14,7 +15,8 @@ describe MediaResourcesController do
         type = rand > 0.5 ? :media_entry : :media_set
         mr = Factory type, :user => @user
         mr.parents << FactoryGirl.create(:media_set, :user => @user)
-        mr.meta_data.create(:meta_key => MetaKey.find_by_label("title"), :value => Faker::Lorem.words(4).join(' '))
+        mr.meta_data.create(:meta_key => MetaKey.find_by_label("title"), 
+                            :value => Faker::Lorem.words(4).join(' '))
       end
       # MetaContext
       @meta_context = MetaContext.first
@@ -41,6 +43,7 @@ describe MediaResourcesController do
         json["pagination"]["total"].should == n
       end
     end
+    
     describe "as logged in user" do
       it "should respond with success" do
         get :index, {format: 'json'}, session
@@ -132,6 +135,25 @@ describe MediaResourcesController do
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
             mr["meta_data"].map{|x| x["name"]}.sort.should == @meta_context.meta_keys.map(&:label).sort
+          end
+        end        
+      end
+    
+      describe "a response filtered by media resource type" do
+        it "should respond only with media entries when requested" do
+          get :index, {format: 'json', type: "media_entries"}, session
+          response.should be_success
+          json = JSON.parse(response.body)
+          json["media_resources"].each do |mr|
+            mr["type"].should == "media_entry"
+          end
+        end        
+        it "should respond only with media sets when requested" do
+          get :index, {format: 'json', type: "media_sets"}, session
+          response.should be_success
+          json = JSON.parse(response.body)
+          json["media_resources"].each do |mr|
+            mr["type"].should == "media_set"
           end
         end        
       end

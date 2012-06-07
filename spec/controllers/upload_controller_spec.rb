@@ -3,6 +3,7 @@ require 'spec_helper'
 describe UploadController do
 
   before :all do
+    DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
     @user = FactoryGirl.create :user
   end
 

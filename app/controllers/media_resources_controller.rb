@@ -5,7 +5,13 @@ class MediaResourcesController < ApplicationController
   before_filter :except => [:index, :collection] do
     begin
       unless (params[:media_resource_id] ||= params[:id] || params[:media_resource_ids]).blank?
-        @media_resource = MediaResource.accessible_by_user(current_user).find(params[:media_resource_id])
+        action = case request[:action].to_sym
+          when :edit, :destroy
+            :edit
+          else
+            :view
+        end
+        @media_resource = MediaResource.accessible_by_user(current_user, action).find(params[:media_resource_id])
       end
     rescue
       not_authorized!
@@ -23,9 +29,14 @@ class MediaResourcesController < ApplicationController
   # 
   # @optional [Array] ids A collection of MediaResources you want to fetch informations for 
   #
+  # @optional [String] type Filter the response by MediaResource types: "media_sets" | "media_entries".
+  # @optional [String] sort Sort the response (DESC) by: "updated_at"(Default) | "created_at" | "random".
+  # @optional [String] query Make a search request which searches in all MetaData of all MediaResources responding with matched MediaResources.
+  #
   # @optional [Hash] with[meta_data] Adds MetaData to the responding collection of MediaResources and forwards the hash as options to the MetaData.
   # @optional [Array] with[meta_data][meta_context_names] Adds all requested MetaContexts in the format: ["context_name1", "context_name2", ...] as MetaData to the responding MediaResources. 
   # @optional [Array] with[meta_data][meta_key_names] Adds all requested MetaKeys in the format: ["key_name1", "key_name2", ...] as MetaData to the responding MediaResources. 
+  # @optional [Hash] with[image] Request the image of the MediaResources. You can define the responding image format like {"image": {"as": "base64" | "url"}}. The image size can be requested with {"image": {"size": "small"(100x100) | "small_125"(125x125) | "medium"(300x300) | "large"(620x500) | "x-large"(1024x768) }}
   # @optional [Boolean] with[filename] Request the filename of the MediaResources.
   # @optional [Boolean] with[media_type] Request the media_type of the MediaResources.
   # @optional [Boolean] with[flags] Request status indicator informations (about permissions and favorites related to the current user) for the responding MediaResources.
@@ -48,6 +59,30 @@ class MediaResourcesController < ApplicationController
   # @example_request {"ids": [1,2,3], "with": {"filename": true}}
   # @example_request_description Request MediaResources with filenames
   # @example_response {"media_resources:": [{"id":1, "filename": "my_file_name.jpg"}, {"id":2, "filename": "my_2_file_name.jpg"}, {"id":3, "filename": "my_3_file_name.jpg"}], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
+  #
+  # @example_request {"type": "media_entries"}
+  # @example_request_description Request MediaResources but only media_entries.
+  # @example_response {"media_resources:": [{"id":12, "type": "media_entry"}, {"id":13, "type": "media_entry"}, {"id":18, "type": "media_entry"}, ...]}
+  #
+  # @example_request {"type": "media_sets"}
+  # @example_request_description Request MediaResources but only media_sets.
+  # @example_response {"media_resources:": [{"id":22, "type": "media_set"}, {"id":23, "type": "media_set"}, {"id":28, "type": "media_set"}, ...]}
+  #
+  # @example_request {"sort": "updated_at", "with": {"updated_at": true}}
+  # @example_request_description Request MediaResources sorted by updated_at (DESC) include the DateTime for updated_at.
+  # @example_response {"media_resources:": [{"id":22, "type": "media_set", "updated_at": "2012-04-26T11:21:25+02:00"}, {"id":21, "type": "media_set", "updated_at": "2012-04-25T11:21:22+02:00"}, ...]}
+  #
+  # @example_request {"sort": "created_at", "with": {"created_at": true}}
+  # @example_request_description Request MediaResources sorted by created_at (DESC) include the DateTime for created_at.
+  # @example_response {"media_resources:": [{"id":35, "type": "media_set", "created_at": "2012-04-27T11:21:25+02:00"}, {"id":21, "type": "media_set", "created_at": "2012-04-22T11:21:22+02:00"}, ...]}
+  #
+  # @example_request {"query": "blue", "with":{"meta_context_names": ["core"]}}
+  # @example_request_description Request MediaResources which contain "blue" in their any of their meta_data responding with nested MetaData of the MetaContext "core".
+  # @example_response {"media_resources:": [{"id":1, "meta_data": {"title": "My blue Picture", "author": "Musterman, Max", "portrayed_object_dates": null, "keywords": "picture, portrait", "copryright_notice"}}, ...]}}
+  #
+  # @example_request {"sort": "created_at", "with": {"created_at": true}}
+  # @example_request_description Request MediaResources sorted by created_at (DESC) include the DateTime for created_at.
+  # @example_response {"media_resources:": [{"id":35, "type": "media_set", "created_at": "2012-04-27T11:21:25+02:00"}, {"id":21, "type": "media_set", "created_at": "2012-04-22T11:21:22+02:00"}, ...]}
   #
   # @example_request {"ids": [1,2,3], "with": {"media_type": true}}
   # @example_request_description Request MediaResources with MediaTypes
@@ -166,6 +201,24 @@ class MediaResourcesController < ApplicationController
     redirect_to @media_resource
   end
 
+  def edit
+    render :template => "/#{@media_resource.type.pluralize.underscore}/edit"
+  end
+
+  def destroy
+    @media_resource.destroy
+
+    respond_to do |format|
+      format.html { 
+        flash[:notice] = "Der Inhalt wurde gelöscht."
+        redirect_back_or_default(media_resources_path) 
+      }
+      format.json {
+        render :json => {:id => @media_resource.id}
+      }
+    end
+  end
+
 ########################################################################
 
   def collection(ids = params[:ids],
@@ -221,13 +274,24 @@ class MediaResourcesController < ApplicationController
 
 ###################################################################################
 
+  ##
+  # Get the image of MediaResource:
+  # 
+  # @resource /media_resources/:id/image
+  #
+  # @action GET
+  # 
+  # @required [Integer] id The id of the MediaResource you want to fetch the image for.
+  # @optional [String] size Set the responding size of the image: "small"(100x100) | "small_125"(125x125) | "medium"(300x300) | "large"(620x500)[DEFAULT] | "x-large"(1024x768).
+  #
+  # @example_request /media_resource/3234/image
+  # @example_request_description Request the image for MediaResource id 3234.
+  # @example_response [BINARY]
+  # @example_request_description Responding with the image of that MediaResource or an placeholder image if the application cannot provide an image for that media_type.
+  #
   def image(size = (params[:size] || :large).to_sym)
     # TODO dry => Resource#thumb_base64 and Download audio/video
-    media_file = if @media_resource.is_a? MediaSet
-      @media_resource.media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
-    else
-      @media_resource.media_file
-    end
+    media_file = @media_resource.get_media_file(current_user)
     
     unless media_file
       # empty gif pixel

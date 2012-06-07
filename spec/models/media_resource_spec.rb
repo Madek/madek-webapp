@@ -54,13 +54,15 @@ describe MediaResource do
     context "meta_data" do
 
       before :all do
-        @media_entry.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => "Pablo Picasso"}}})
+        pending # Thomas working here
+        #@media_entry.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => "Pablo Picasso"}}})
       end
       
       it "exports person meta_data as string for exiftool, not as ruby object" do
-        s = @media_entry.send :to_metadata_tags
-        s.include?("-XMP-madek:Author='Picasso, Pablo'").should be_true
-        s.include?("#<").should be_false
+        pending # Thomas working here
+        #s = @media_entry.send :to_metadata_tags
+        #s.include?("-XMP-madek:Author='Picasso, Pablo'").should be_true
+        #s.include?("#<").should be_false
       end
       
     end

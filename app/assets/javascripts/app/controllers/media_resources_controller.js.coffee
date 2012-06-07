@@ -7,15 +7,18 @@ class MediaResourcesController
   constructor: ->
     @el = $(@el)
     do @render
+    do @plugin
     do @activate_layout
     do @delegate_events
     
-  render: ->
-    # we only render the layout controller
+  render: -> # we only render the layout controller till now
     @el.find("#bar .layout").prepend($.tmpl "app/views/media_resources/_layout_controller")
     
+  plugin: ->
+    new ActionMenu @el
+    
   delegate_events: ->
-    @el.delegate "#bar .layout a", "click", @switch_layout 
+    @el.delegate "#bar .layout a[data-type]", "click", @switch_layout 
     @el.delegate ".page[data-page]", "inview", @render_page
 
   activate_layout: ->

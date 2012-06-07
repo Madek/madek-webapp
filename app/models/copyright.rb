@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 class Copyright < ActiveRecord::Base
 
+  has_one :meta_datum_copyright
+
   acts_as_nested_set
   
   validates_presence_of :label

@@ -21,6 +21,7 @@ require 'spec_helper'
 describe Admin::PermissionPresetsController do
 
   before :all do
+    DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
     PermissionPreset.destroy_all
     @adam = Persona.create :adam
   end

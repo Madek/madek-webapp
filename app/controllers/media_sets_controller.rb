@@ -9,7 +9,7 @@ class MediaSetsController < ApplicationController
         action = case request[:action].to_sym
           when :index, :show, :browse, :abstract, :inheritable_contexts, :parents
             :view
-          when :edit, :update, :add_member, :destroy
+          when :update, :add_member
             :edit
         end
 
@@ -31,7 +31,7 @@ class MediaSetsController < ApplicationController
   # @action GET
   # 
   # @optional [accessible_action] string Limit the list of media sets by the accessible action
-  #   show, browse, abstract, inheritable_contexts, edit, update, add_member, parents, destroy
+  #   show, browse, abstract, inheritable_contexts, edit, update, add_member, parents
   #
   # @optional [with] hash Options forwarded to the results which will be inside of the respond 
   # 
@@ -213,9 +213,6 @@ class MediaSetsController < ApplicationController
     end
   end
   
-  def edit
-  end
-
   def update
     if params[:individual_context_ids]
       params[:individual_context_ids].delete_if &:blank? # NOTE receiving params[:individual_context_ids] even if no checkbox is checked
@@ -226,18 +223,6 @@ class MediaSetsController < ApplicationController
     
     redirect_to @media_set
   end
-
-  def destroy
-    # TODO ACL
-    if params[:media_set_id]
-      @media_set.destroy
-    end
-    respond_to do |format|
-      format.html { redirect_to media_resources_path(:user_id => current_user, :type => "media_sets") }
-      format.json { render :json => {:id => @media_set.id} }
-    end
-  end
-
 
 #####################################################
 
@@ -323,7 +308,7 @@ class MediaSetsController < ApplicationController
       format.html
       format.json {
         #@media_sets = MediaSet.accessible_by_user(current_user).relative_top_level
-        @media_sets = current_user.media_sets.relative_top_level
+        @media_sets = current_user.media_sets #.relative_top_level
       }
     end
   end

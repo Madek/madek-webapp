@@ -1,3 +1,70 @@
+SELECT 
+    keywords.id as keyword_id,
+    meta_data.id as meta_data_id, 
+    meta_keys.meta_datum_object_type as object_type
+  FROM meta_data
+  INNER JOIN meta_data_keywords ON meta_data_keywords.meta_datum_id = meta_data.id
+  INNER JOIN keywords ON keywords.id = meta_data_keywords.keyword_id
+  INNER JOIN meta_keys ON  meta_data.meta_key_id = meta_keys.id
+  WHERE true
+  AND meta_keys.meta_datum_object_type = 'MetaDatumKeywords';
+
+--
+
+SELECT keywords.id, count(meta_data.id) as count_meta_data_id
+  FROM meta_data
+  INNER JOIN meta_data_keywords ON meta_data_keywords.meta_datum_id = meta_data.id
+  INNER JOIN keywords ON keywords.id = meta_data_keywords.keyword_id
+  INNER JOIN meta_keys ON  meta_data.meta_key_id = meta_keys.id
+  WHERE true
+  AND meta_keys.meta_datum_object_type = 'MetaDatumKeywords'
+  GROUP BY keywords.id 
+  ORDER BY count_meta_data_id DESC
+  ;
+
+SELECT meta_data.id as meta_datum_id, count(keywords.id) as count_keyword_id
+  FROM meta_data
+  INNER JOIN meta_data_keywords ON meta_data_keywords.meta_datum_id = meta_data.id
+  INNER JOIN keywords ON keywords.id = meta_data_keywords.keyword_id
+  INNER JOIN meta_keys ON  meta_data.meta_key_id = meta_keys.id
+  WHERE true
+  AND meta_keys.meta_datum_object_type = 'MetaDatumKeywords'
+  GROUP BY meta_data.id
+  ORDER BY count_keyword_id DESC
+  ;
+
+
+SELECT keyword_id, count(meta_datum_id) as meta_datum_id_count
+  FROM meta_data_keywords
+  GROUP BY keyword_id
+  ORDER BY meta_datum_id_count DESC
+  ;
+
+
+SELECT meta_datum_id, count(keyword_id) as keyword_id_count
+  FROM meta_data_keywords
+  GROUP BY meta_datum_id
+  ORDER BY keyword_id_count DESC
+  ;
+
+
+
+-- 
+
+
+SELECT meta_data.value, meta_keys.object_type FROM meta_data, meta_keys
+  WHERE true
+  AND meta_data.meta_key_id = meta_keys.id
+  AND meta_keys.object_type = 'MetaDepartment'
+  AND meta_data.value LIKE '%87%';
+  
+
+select * from meta_data 
+where true
+AND meta_data.media_resource_id = 27
+;
+
+--
 
 SELECT `media_resources`.* FROM `media_resources`  WHERE (id in ((( SELECT NULL) 
       UNION ( ( SELECT media_resources.id as media_resource_id FROM `grouppermissions` INNER JOIN `groups` ON `groups`.`id` = `grouppermissions`.`group_id` INNER JOIN `groups_users` ON `groups_users`.`group_id` = `groups`.`id` INNER JOIN `users` ON `users`.`id` = `groups_users`.`user_id` INNER JOIN `media_resources` ON `media_resources`.`id` = `grouppermissions`.`media_resource_id` WHERE `grouppermissions`.`download` = 0 AND `grouppermissions`.`view` = 1 AND `grouppermissions`.`edit` = 0 AND `grouppermissions`.`manage` = 0 AND (users.id = 2) )

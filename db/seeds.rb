@@ -9,6 +9,4 @@
 
 
 Group.find_or_create_by_name(:name => "ZHdK (Zürcher Hochschule der Künste)")    
-Copyright.init
 MetaDepartment.setup_ldapdata_from_localfile
-MetaDate.parse_all

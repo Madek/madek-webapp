@@ -12,12 +12,7 @@ if with ||= nil
     size = with[:image][:size] || :small # TODO :small_125 ??
     h[:image] = case with[:image][:as]
       when "base64"
-        mf = if media_resource.is_a?(MediaSet)
-              media_resource.media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
-             else
-              media_resource.media_file
-             end
-        mf ? mf.thumb_base64(size) : nil
+        media_resource.get_media_file(current_user).try(:thumb_base64, size)
       else # default return is a url to the image
         "/media_resources/%d/image?size=%s" % [media_resource.id, size]
     end            
@@ -27,10 +22,10 @@ if with ||= nil
     h[:meta_data] = []
     if meta_context_names = with[:meta_data][:meta_context_names]
       meta_context_names.each do |name|
-        h[:meta_data] += media_resource.meta_data_for_context(MetaContext.find_by_name(name)).map do |md|
+        h[:meta_data] += media_resource.meta_data_for_context(MetaContext.send(name)).map do |md|
           # this doesn't work because formats is frozen as [:html] only
           # render(md)
-          render(:partial => "meta_data/meta_datum.json.rjson", :locals => {:meta_datum => md})
+          render(:partial => "meta_data/meta_datum.json.rjson", :locals => {:meta_datum => md, :with => {:label => {:context => "core"}}})
         end
       end
     end
@@ -39,7 +34,7 @@ if with ||= nil
         md = media_resource.meta_data.get(name)
         # this doesn't work because formats is frozen as [:html] only
         # render(md)
-        render(:partial => "meta_data/meta_datum.json.rjson", :locals => {:meta_datum => md})
+        render(:partial => "meta_data/meta_datum.json.rjson", :locals => {:meta_datum => md, :with => {:label => {:context => "core"}}})
       end
     end
   end

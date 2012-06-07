@@ -2,6 +2,10 @@
  * Set Widget
  *
  * This script provides functionalities for a set organizing widget
+ * Dependencies:
+ * - jQuery
+ * - jQuery Template
+ * - Underscore
  * 
 */
 
@@ -684,9 +688,9 @@ function SetWidget() {
   this.align_widget = function(target) {
     var widget = $(target).data("widget");
     $(widget).position({
-      of: $(target),
+      of: ($(target).closest(".action_menu").length) ? $(target).closest(".action_menu") : $(target),
       my: "center top",
-      at: "center bottom",
+      at: ($(target).closest(".action_menu").length) ? "center top" : "center top",
       collision: "fit fit"
     });
   }

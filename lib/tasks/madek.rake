@@ -2,9 +2,7 @@ require 'digest'
 require 'action_controller'
 
 namespace :madek do
-
   task :create_migrated_persona_dump do
-
     def needs_migration?(file_path)
       if File.exists?(file_path)
         versions_string = `grep -i "insert into.*schema_migrations.*" #{file_path}`
@@ -252,47 +250,32 @@ namespace :madek do
      ActiveRecord::Base.subclasses.each { |a| a.reset_column_information }
 
      Rake::Task["db:seed"].invoke
-     Rake::Task["app:db:import_initial_metadata"].invoke
+
+     Rake::Task["madek:meta_data:import_presets"].invoke
 
   end
   
   namespace :meta_data do
-    desc "Set up Meta_data reference material"
-    task :typevocab_data => :environment do
-      # TODO replace with something that reads the YML from the config directory
+
+    desc "Export MetaData Presets" 
+    task :export_presets  => :environment do
+
+      data_hash = DevelopmentHelpers::MetaDataPreset.create_hash
+
+      date_string = DateTime.now.to_s.gsub(":","-")
+      file_path = "tmp/#{date_string}_meta_data.yml"
+
+      File.open(file_path, "w"){|f| f.write data_hash.to_yaml } 
+      puts "the file has been saved to #{file_path}"
+      puts "you might want to copy it to features/data/minimal_meta.yml"
     end
 
-    desc "Only the 'keywords' meta_key can have the 'Keyword' object_type"
-    task :fix_keywords => :environment do
-      keywords = {}
-      meta_keys = MetaKey.where(:object_type => "Keyword").where("label != 'keywords'")
-      meta_keys.each do |meta_key|
-        keywords[meta_key.id] = {}
-        meta_key.meta_data.each do |meta_datum|
-          keywords[meta_key.id][meta_datum.id] = meta_datum.deserialized_value
-        end
-        meta_key.update_attributes(:object_type => "MetaTerm", :is_extensible_list => true)
-      end
-      # we need to fetch again the meta_keys, 'cause inside the first iteration,
-      # the meta_datum still keeps the reference to the old object_type
-      reloaded_meta_keys = MetaKey.find(meta_keys.collect(&:id))
-      reloaded_meta_keys.each do |meta_key|
-        meta_key.meta_data.each do |meta_datum|
-          value = keywords[meta_key.id][meta_datum.id]
-          meta_term_ids = value.collect(&:meta_term_id)
-          meta_key.meta_terms << MetaTerm.find(meta_term_ids - meta_key.meta_term_ids)
-          meta_datum.update_attributes(:value => meta_term_ids)
-          Keyword.delete(value)
-        end
-      end
+    desc "Import MetaData Presets" 
+    task :import_presets => :environment do
+      DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
     end
+
   end
 
-  namespace :helpers do
-    desc "set up helper data (country names etc)"
-    task :countries => :environment do
-      # TODO load up the country data
-    end
-  end
 
 end # madek namespace
