@@ -1,11 +1,10 @@
 Feature: Sets in Sets II
 
   Background: Load the example data and personas
-	Given I have set up the world
-      And personas are loaded
+	Given I have set up the world a little
 
   # https://www.pivotaltracker.com/story/show/23825307
-  @committed @javascript
+  @javascript
   Scenario: Preview of content and relationships of a set in the grid view
     Given I am "Normin"
      When I view a grid of these sets
@@ -16,7 +15,7 @@ Feature: Sets in Sets II
       And I see how many sets that are viewable for me are parents of this set
 
   # https://www.pivotaltracker.com/story/show/22394303
-  @committed @javascript
+  @javascript
   Scenario: Choosing which contexts are valid for a set
    Given I am "Adam"
      And a context called "Landschaftsvisualisierung" exists
@@ -37,7 +36,7 @@ Feature: Sets in Sets II
      And the set still has the context called "Games"
 
   # https://www.pivotaltracker.com/story/show/22464659
-  @committed @javascript
+  @javascript
   Scenario: Viewing which contexts a set could have
    Given I am "Adam"
      And a context called "Landschaftsvisualisierung" exists
@@ -53,9 +52,9 @@ Feature: Sets in Sets II
      And I can choose to see more details about the context "Games"
 
   # https://www.pivotaltracker.com/story/show/23825857
-  @glossary @committed
+  # Use @persona-dump if you want to load the persona dump and use truncation even in a non-javsacript step
+  @glossary
   Scenario: Top-level set
     Given a few sets
      When a set has no parents
      Then it is a top-level set
-

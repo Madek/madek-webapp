@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
  
-class MetaDatumMetaTerms < MetaDatumBase
+class MetaDatumMetaTerms < MetaDatum
   has_and_belongs_to_many :meta_terms, 
     join_table: :meta_data_meta_terms, 
     foreign_key: :meta_datum_id, 
@@ -10,7 +10,7 @@ class MetaDatumMetaTerms < MetaDatumBase
   alias_attribute :deserialized_value, :meta_terms
 
   def to_s
-    people.map(&:to_s).join("; ")
+    value.map(&:to_s).join("; ")
   end
 
 end

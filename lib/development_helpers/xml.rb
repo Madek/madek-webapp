@@ -51,7 +51,7 @@ module DevelopmentHelpers
 
       Relations.merge(UndefinedModels).each do |table_name, model_name|
           klass = Class.new ActiveRecord::Base do 
-            set_table_name table_name
+            self.table_name = table_name
           end
           Object.const_set model_name, klass
       end

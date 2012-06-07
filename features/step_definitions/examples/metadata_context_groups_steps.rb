@@ -23,8 +23,20 @@ Then /^the metadata context groups are in the following order:$/ do |table|
 end
 
 When /^I visit a media entry with the following individual contexts:$/ do |table|
-  media_sets = table.hashes.flat_map {|r| MetaContext.send(r["name"]).media_sets.accessible_by_user(@current_user) }
-  
+  # This was wrong, it looked at the name, but we need to look at the *label* of a MetaContext as that's what the UI shows
+  #media_sets = table.hashes.flat_map {|r| MetaContext.find_by_name(r["name"]).media_sets.accessible_by_user(@current_user) }
+  media_sets = []
+  qualifying_contexts = []
+  table.hashes.each do |row|
+    MetaContext.all.each do |mc|
+      qualifying_contexts << mc if (mc.label[:de_ch] == row["name"] or mc.label[:en_gb] == row["name"])
+    end
+    qualifying_contexts.each do |mc|
+      media_sets += mc.media_sets.accessible_by_user(@current_user)
+    end
+  end  
+
+
   media_entry = MediaEntry.accessible_by_user(@current_user).detect do |me|
     media_sets.all? {|ms| me.media_sets.include? ms }
   end
@@ -41,7 +53,6 @@ Then /^the metadata contexts inside of "([^"]*)" are in the following order:$/ d
   expected = table.hashes.map do |row| 
     row["name"]
   end
-
   got = find(".meta_context_group > h5", :text => arg1).find(:xpath, "./..").all(".meta_group_name").map(&:text)
   got.keep_if {|x| expected.include? x }
   got.should == expected

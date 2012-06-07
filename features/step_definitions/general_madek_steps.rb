@@ -1,5 +1,9 @@
 # coding: UTF-8
 
+Given "I have set up the world a little" do
+  MetaDepartment.setup_ldapdata_from_localfile
+end
+
 Given /^I have set up the world$/ do
   # Set this to a non-JS driver because:
   # 1. The Selenium driver times out during this step
@@ -56,12 +60,12 @@ Given /^I log in as "(\w+)" with password "(\w+)"$/ do |username, password|
   fill_in "login", :with => username
   fill_in "password", :with => password
   click_link_or_button "Log in"
-  page.should_not have_content "Invalid username/password"
-  
   # NOTE needed for "upload_some_picture" method # TODO merge with "I am logged in as ..." step
   crypted_password = Digest::SHA1.hexdigest(password)
   @current_user = User.where(:login => username, :password => crypted_password).first
   @current_user.should_not be_nil
+  page.should have_content(@current_user.person.firstname)  
+  page.should have_content(@current_user.person.lastname)
 end
 
 # Gives you a user object
@@ -109,6 +113,24 @@ Given /^the last entry is child of the (.+) set/ do |offset|
     parent_set = MediaSet.all.sort_by(&:id)[offset.to_i-1]
     entry = MediaEntry.all.sort_by(&:id).last
     parent_set.media_entries << entry
+  end
+end
+
+Given /^the set titled "(.+)" is child of the set titled "(.+)"$/ do |child, parent|
+  child_set = nil
+  parent_set = nil
+  MediaSet.all.each do |ms|
+    child_set = ms if ms.title == child
+  end
+  MediaSet.all.each do |ms|
+    parent_set = ms if ms.title == parent
+  end
+
+  if child_set.nil? or parent_set.nil?
+    raise "Child or parent not found."
+  else
+    parent_set.child_sets << child_set
+    parent_set.save
   end
 end
 
@@ -177,23 +199,42 @@ When "I fill in the metadata form as follows:" do |table|
     # the "key" text. e.g. "Titel*" or "Copyright"
     text = filter_string_for_regex(hash['label'])
 
-    list = find("ul", :text => /^#{text}/)
+    list = nil
+    label = nil # If we don't reset this to nil, it remains set to an earlier value, resulting in filling in the wrong field
+
+    label = find("li.label", :text => /^#{text}/)
+    unless label.nil?
+      list = label.find(:xpath, "..")
+    end
+
     if list.nil?
       raise "Can't find any input fields with the text '#{text}'"
     else
-      if list[:class] == "Person"
+      if !list["class"].match(/Person/).blank?
         fill_in_person_widget(list, hash['value'], hash['options'])
-      elsif list[:class] == "Keyword"
+      elsif !list["class"].match(/Keyword/).blank?
         fill_in_keyword_widget(list, hash['value'], hash['options'])
-      elsif list[:class] == "MetaTerm"
-        if list.has_css?("ul.meta_terms")
+      elsif !list["class"].match(/MetaTerm/).blank?
+        if list.has_css?(".meta_terms")
           set_term_checkbox(list, hash['value'])
         elsif list.has_css?(".madek_multiselect_container")
+
+          # A crude fucking hack because for some reason, the list variable gets redefined to a wrong, earlier state (!!!)
+          # if we don't reassign the whole shit here again. I know it's a completely brainfucked way to do it, but nothing
+          # else worked and we lost an entire afternoon on this already.
+          list = nil
+          label = nil # If we don't reset this to nil, it remains set to an earlier value, resulting in filling in the wrong field
+
+          label = find("li.label", :text => /^#{text}/)
+          unless label.nil?
+            list = label.find(:xpath, "..")
+          end
+
           select_from_multiselect_widget(list, hash['value'])
         else
-          raise "Unknown MetaTerm interface element when trying to set '#{text}'"
+          raise "Unknown MetaTerm interface element when trying to set key labeled '#{text}'"
         end
-      elsif list[:class] == "MetaDepartment"
+      elsif !list["class"].match(/MetaDepartment/).blank?
         puts "Sorry, can't set MetaDepartment to '#{text}', the MetaDepartment widget is too hard to test right now."
 
         #select_from_multiselect_widget(list, hash['value'])
@@ -207,11 +248,8 @@ When "I fill in the metadata form as follows:" do |table|
         list.all("input").each do |ele|
           fill_in ele[:id], :with => hash['value'] if !ele[:id].match(/meta_data_attributes_.+_value$/).nil? and ele[:id].match(/meta_data_attributes_.+_keep_original_value$/).nil?
         end
-
       end
-
     end
-
   end
 end
 

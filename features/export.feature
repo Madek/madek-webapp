@@ -3,7 +3,7 @@ Feature: Exporting a file
   Foo
 
   Background: Set up the world and some users
-    Given I have set up the world
+    Given I have set up the world a little
       And a user called "Han Solo" with username "hansolo" and password "leia" exists
       And a user called "Obi-Wan Kenobi" with username "obi" and password "sabers" exists
       And a user called "Lando Calrissian" with username "lando" and password "bounty" exists

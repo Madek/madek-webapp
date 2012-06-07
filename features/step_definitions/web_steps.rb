@@ -177,6 +177,7 @@ end
 =end
 
 Then /^the "([^"]*)" checkbox should be checked$/ do |label|
+  wait_until(20) { find("input##{label}") }
   find("input##{label}").checked?.should be_true
 end
 

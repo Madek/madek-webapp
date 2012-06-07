@@ -12,7 +12,7 @@ if with ||= nil
         label: mkd.label.to_s,
         hint: mkd.hint.to_s,
         description: mkd.description.to_s,
-        type: (mkd.meta_key.object_type || "String").underscore,
+        type: MetaDatum.value_type_name(mkd.meta_key.meta_datum_object_type),
         settings: mkd.settings
       }
     end

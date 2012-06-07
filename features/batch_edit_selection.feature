@@ -5,8 +5,7 @@ Feature: Batch edit selection
   I want to have the possibility to select / add multiple elements to the batch bar
 
   Background: Set up the world and personas
-    Given I have set up the world
-      And personas are loaded
+    Given I have set up the world a little
 
   @javascript
   Scenario: Use the batch's "Select all" button

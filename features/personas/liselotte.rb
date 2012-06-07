@@ -104,12 +104,12 @@ module Persona
     def create_person
       @name = @@name
       @lastname = @@lastname  
-      @person = Factory(:person, firstname: @name, lastname: @lastname)
+      @person = Factory.create(:person, firstname: @name, lastname: @lastname)
     end
 
     def create_user
       @crypted_password = Digest::SHA1.hexdigest(@@password)
-      @user = Factory(:user, :person => @person, :login => @name.downcase, :password => @crypted_password)
+      @user = Factory.create(:user, :person => @person, :login => @name.downcase, :password => @crypted_password)
     end
     
     def join_zhdk_group
@@ -121,19 +121,19 @@ module Persona
       landschaften_set = MediaSet.accessible_by_user(@user).detect {|x| x.title == "Landschaften" }
       zett_set = MediaSet.accessible_by_user(@user).detect {|x| x.title == "Zett" }
 
-      media_entry = Factory(:media_entry, 
+      media_entry = Factory.create(:media_entry, 
                        user: @user,
                        parent_sets: [landschaften_set],
                        meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Schweizer Panorama"}})
 
-      media_entry = Factory(:media_entry, 
+      media_entry = Factory.create(:media_entry, 
                        user: @user,
                        parent_sets: [landschaften_set, zett_set],
                        meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: "Deutsches Panorama"}})
     end
 
     def create_media_entries_with_gps
-      media_entry = Factory(:media_entry, 
+      media_entry = Factory.create(:media_entry, 
                        user: @user,
                        media_file: FactoryGirl.create(:media_file, :uploaded_data => begin
                         f = "#{Rails.root}/features/data/images/gg_gps.jpg"

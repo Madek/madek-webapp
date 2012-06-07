@@ -4,6 +4,7 @@ describe UsersController do
   render_views
   
   before :all do
+    DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
     @normin = FactoryGirl.create :user, login: "normin"
     @adam= FactoryGirl.create :user, login: "adam", 
       person: FactoryGirl.create(:person, firstname: "Adam"  )

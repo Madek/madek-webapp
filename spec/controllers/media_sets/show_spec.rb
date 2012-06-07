@@ -4,6 +4,7 @@ describe MediaSetsController do
   render_views
   
   before :all do
+    FactoryGirl.create :usage_term
     @user = FactoryGirl.create :user
     @media_set = FactoryGirl.create :media_set, :user => @user
     3.times { @media_set.children << FactoryGirl.create(:media_entry, :user => @user) }

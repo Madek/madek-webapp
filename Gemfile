@@ -1,9 +1,7 @@
 source 'http://rubygems.org'
 source 'http://gems.github.com'
 
-gem 'rails', '3.1.3'
-gem 'builder', '~> 3.0'   
-gem 'i18n' # Need this explicitly, otherwise can't deploy
+gem 'rails', '3.2.5'
 
 gem 'mysql2', '~> 0.3.8'  
 gem 'pg'
@@ -41,9 +39,9 @@ gem "d3_rails", "~> 2.9"
 
 # Gems used only for assets and not required in production environments by default.
 group :assets do
-  gem 'sass-rails', '<= 3.1.2'
-  gem 'coffee-rails', '~> 3.1'
-  gem 'uglifier', '~> 1.1'
+  gem 'sass-rails', '~> 3.2'
+  gem 'coffee-rails', '~> 3.2'
+  gem 'uglifier', '~> 1.2'
 end
 
 #tmp# gem 'cancan', '~> 1.6'
@@ -55,12 +53,12 @@ gem 'will_paginate', '~> 3.0'
 gem 'zip', '~> 2.0.2' # alternatives: 'rubyzip', 'zipruby', 'zippy'
 gem 'rgl', '~> 0.4.0', :require => 'rgl/adjacency'
 
-gem 'nested_set', '~> 1.6.8'
+gem 'nested_set', '~> 1.7'
 gem 'acts-as-dag', '~> 2.5.5' # TOOD use instead ?? gem 'dagnabit', '2.2.6'
 
 gem 'net-ldap', :require => 'net/ldap'
 
-gem 'zencoder', '2.4.0'
+gem 'zencoder', '~> 2.4'
 gem 'uuidtools', '~> 2.1.2'
 #not used anymore# gem 'mini_exiftool', '~> 1.3.1'
 # gem 'mini_magick', '~> 3.3'
@@ -81,20 +79,20 @@ group :development do
 end
 
 group :test, :development do
-  gem "guard", "~> 0.10.0"
-  gem "guard-cucumber", "~> 0.7.4"
-  gem "guard-rspec", "~> 0.6.0"
-  gem "guard-spork", "~> 0.5.1"
+  gem "guard", "~> 1.0"
+  gem "guard-cucumber", "~> 0.8"
+  gem "guard-rspec", "~> 0.7"
+  gem "guard-spork", "~> 0.8"
   gem "guard-jasmine-headless-webkit", "~> 0.3.2"
   gem "jasmine-headless-webkit", "~> 0.8.4" # needed for "headless" running of jasmine tests (needed for CI)
-  gem "jasmine-rails", "~> 0.0.2" # javascript test environment
+  gem "jasmine-rails", "~> 0.0.3" # javascript test environment
   gem "jasminerice", "~> 0.0.8" # needed for implement coffeescript, fixtures and asset pipeline serverd css into jasmine
   gem "rb-fsevent", "~> 0.9"
   gem "ruby_gntp", "~> 0.3.4"
   gem 'autotest'
   gem 'database_cleaner'
-  gem 'factory_girl', "~> 2.1.0"
-  gem 'factory_girl_rails', "~> 1.2"
+  gem 'factory_girl', "~> 3.3"
+  gem 'factory_girl_rails', "~> 3.3"
   gem 'faker'
   gem 'pry'
   gem 'railroady'
@@ -115,7 +113,7 @@ group :test do
   gem 'cucumber', '~> 1.2'
   gem 'cucumber-rails', '~> 1.3', :require => false
   gem 'launchy'  
-  gem 'selenium-webdriver', '> 2.15.0'
+  gem 'selenium-webdriver', '~> 2.22'
   gem 'simplecov', '~> 0.6'
   gem 'capybara-screenshot'
 end

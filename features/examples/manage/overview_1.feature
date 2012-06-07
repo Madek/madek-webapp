@@ -1,8 +1,7 @@
 Feature: Overview I
   
   Background: Load the example data and personas
-    Given I have set up the world
-      And personas are loaded
+    Given I have set up the world a little
 
   # https://www.pivotaltracker.com/story/show/27418863
   @javascript

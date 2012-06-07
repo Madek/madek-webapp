@@ -63,7 +63,10 @@ RSpec.configure do |config|
 
   # we want to reset everything before testing
   config.before :all do
-    DataFactory.reset_data
+    # TODO NOOOOOOOOOOOOOOO this is really bad
+    #DataFactory.reset_data
+    DatabaseCleaner.clean_with :truncation
+    #DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
   end
 
   # we have to clean everything after testing
