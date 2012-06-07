@@ -17,7 +17,7 @@ set :ldap_config, "/home/rails/madek-demo/LDAP.yml"
 set :zencoder_config, "/home/rails/madek-demo/zencoder.yml"
 set :checkout, :export
 
-set :use_sudo, false 
+set :use_sudo, false
 set :rails_env, "production"
 
 set :deploy_to, "/home/rails/madek-demo"
@@ -49,6 +49,7 @@ task :link_config do
   run "ln -s #{zencoder_config} #{release_path}/config/zencoder.yml"
 end
 
+
 task :remove_htaccess do
   # Kill the .htaccess file as we are using mongrel, so this file
   # will only confuse the web server if parsed.
@@ -66,7 +67,7 @@ namespace :deploy do
   end
 
   task :restart do
-    run "touch #{latest_release}/tmp/restart.txt" 
+    run "touch #{latest_release}/tmp/restart.txt"
   end
 
 end
@@ -79,7 +80,7 @@ task :link_attachments do
   run "ln -s #{deploy_to}/#{shared_dir}/attachments #{release_path}/db/media_files/production/attachments"
 
   run "ln -s #{deploy_to}/#{shared_dir}/uploads #{release_path}/tmp/uploads"
-  
+
   run "ln -sf #{deploy_to}/#{shared_dir}/previews #{release_path}/public/previews"
 end
 
@@ -103,7 +104,7 @@ task :backup_database do
 end
 
 task :migrate_database do
-  # Migration here 
+  # Migration here
   # deploy.migrate should work, but is buggy and is run in the _previous_ release's
   # directory, thus never runs anything? Strange.
   #deploy.migrate
@@ -117,6 +118,7 @@ end
 task :load_seed_data do
     run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:seed"
 end
+
 
 task :generate_documentation do
   run "cd #{release_path} && RAILS_ENV=production bundle exec rake app:doc:api"
