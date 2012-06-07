@@ -42,7 +42,7 @@ class MetaDatum < ActiveRecord::Base
   belongs_to :media_resource
   belongs_to :meta_key
 
-  scope :for_meta_terms, joins(:meta_key).where(:meta_keys => {:object_type => "MetaTerm"})
+  scope :for_meta_terms, joins(:meta_key).where(:meta_keys => {:meta_datum_object_type => "MetaDatumMetaTerms"})
 
   def same_value? other_value
     raise "this method must be implemented in the derived class"
