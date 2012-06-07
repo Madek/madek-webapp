@@ -13,6 +13,7 @@ GIT
 
 GEM
   remote: http://rubygems.org/
+  remote: http://gems.github.com/
   specs:
     RedCloth (4.2.9)
     ZenTest (4.8.1)
@@ -416,7 +417,7 @@ DEPENDENCIES
   uglifier (~> 1.2)
   uuidtools (~> 2.1.2)
   will_paginate (~> 3.0)
-  yard (~> 0.7)
-  yard-rest (~> 1.1)
+  yard (~> 0.8.1)
+  yard-rest (~> 1.1.0)
   zencoder (~> 2.4)
   zip (~> 2.0.2)
