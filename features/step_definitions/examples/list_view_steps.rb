@@ -5,9 +5,11 @@ When /^I see a list of sets in list view$/ do
   wait_until { find("#bar .layout .icon[data-type='list']") }.click
 end
 
-When /^I see the "(.*?)" meta key of a set/ do |arg1|
-  wait_until { find(".nutzung") }
-  case arg1
+When /^I see the "(.*?)" meta key of a set/ do |meta_key|
+  binding.pry
+  wait_until(45){ find(".context.nutzung .meta_datum") }
+  binding.pry
+  case meta_key
     when"children"
       wait_until { find("dt", :text => "Enthält") }
     when "parents"

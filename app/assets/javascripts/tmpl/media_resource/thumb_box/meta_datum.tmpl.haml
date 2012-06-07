@@ -1,10 +1,8 @@
 {{if value}}
-${$class = Underscore.string.underscored(name), ""}
-.meta_datum
-  %dt{:class => "${$class}"} 
-    ${label}
-  %dd{:class => "${$class} full"} 
-    ${value}
-  %dd{:class => "${$class} truncated", :title => "${value}"} 
-    ${Str.sliced_trunc(value, 34)}
+${$type = Underscore.str.underscored(name),""}
+{{if typeof($.template("tmpl/media_resource/thumb_box/meta_datum/"+$type)) == "function"}}
+{{tmpl "tmpl/media_resource/thumb_box/meta_datum/"+$type}}
+{{else}}
+{{tmpl "tmpl/media_resource/thumb_box/meta_datum/default"}}
+{{/if}}
 {{/if}}

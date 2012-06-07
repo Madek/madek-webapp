@@ -1,0 +1,8 @@
+${$class = Underscore.string.underscored(name), ""}
+.meta_datum
+  %dt{:class => "${$class}"} 
+    ${label}
+  %dd{:class => "${$class} full"} 
+    ${value}
+  %dd{:class => "${$class} truncated", :title => "${value}"} 
+    ${Str.sliced_trunc(value, 34)}

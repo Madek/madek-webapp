@@ -6,7 +6,15 @@
   intro: These are some usage terms. Read them.
   body: Some restrictive stuff
   updated_at: 2010-11-23 14:24:44 Z
-:meta_keys: 
+:meta_keys:
+- id: 111111
+  label: parent_media_resources 
+  is_dynamic: true 
+  meta_datum_object_type: MetaDatumString
+- id: 111112
+  label: child_media_resources 
+  is_dynamic: true 
+  meta_datum_object_type: MetaDatumString
 - id: 1
   label: identifier
   object_type: 
@@ -3153,6 +3161,15 @@
 - id: 1269
   en_gb: "Pf\xC3\xA4hle"
   de_ch: "Pf\xC3\xA4hle"
+- id: 2341
+  en_gb: "Usage"
+  de_ch: "Nutzung"
+- id: 4857
+  en_gb: "Parent Resources"
+  de_ch: "Parent Resources"
+- id: 4858
+  en_gb: "Children Resources"
+  de_ch: "Children Resources"
 :meta_contexts: 
 - id: 1
   is_user_interface: true
@@ -3202,6 +3219,10 @@
   name: Landschaftsvisualisierung
   label_id: 977
   meta_context_group_id: 2
+- id: 16
+  is_user_interface: true
+  name: Nutzung
+  label_id: 2341
 :meta_context_groups: 
 - id: 1
   name: Metadaten
@@ -3210,6 +3231,16 @@
   name: Kontexte
   position: 2
 :meta_key_definitions: 
+- id: 213213
+  meta_context_id: 16
+  meta_key_id: 111111
+  position: 1
+  label_id: 4857
+- id: 213214
+  meta_context_id: 16
+  meta_key_id: 111112
+  position: 2
+  label_id: 4858
 - id: 1
   meta_context_id: 1
   meta_key_id: 3

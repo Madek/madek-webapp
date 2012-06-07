@@ -104,7 +104,7 @@ section.media_resources.index
       float: left
       margin-top: 28px
       width: 78%
-
+      
       .context
         float: left
         width: 420px
@@ -142,3 +142,12 @@ section.media_resources.index
             position: absolute
             top: 21px
             width: 798px
+          
+          dd.parent_media_resources, dd.child_media_resources
+            cursor: default
+          
+          .media_set.icon, .media_entry.icon
+            top: -1px
+            margin-right: 6px
+            position:relative
+            @include opacity(0.3)

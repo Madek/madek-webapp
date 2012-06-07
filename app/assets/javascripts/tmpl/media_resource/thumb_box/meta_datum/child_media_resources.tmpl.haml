@@ -1,0 +1,9 @@
+${$class = Underscore.string.underscored(name), ""}
+.meta_datum
+  %dt{:class => "${$class}"} 
+    ${label}
+  %dd{:class => "${$class} full", :title => "${raw_value.media_sets} MediaSets | ${raw_value.media_entries} MediaEntries"}
+    ${raw_value.media_sets}
+    .media_set.icon
+    ${raw_value.media_entries}
+    .media_entry.icon

@@ -80,15 +80,16 @@ Feature: List view
     And one of the resources has parents
     Then I see the number and type of parents
      And there is one number for sets
-
-#  Scenario: Information about parent and children with icons
-#    When I see a list of resources in list view
-#     And I see the "children" meta key of a set
-#    Then I see the number and type of children
-#     And the type is shown through an icon
-#     And there is one number for media entries
-#     And there is one number for sets
-#    And one of the resources has parents
-#    Then I see the number and type of parents
-#     And the type is shown through an icon
-#     And there is one number for sets
+     
+  @javascript
+  Scenario: Information about parent and children with icons
+   When I see a list of sets in list view
+    And I see the "children" meta key of a set
+   Then I see the number and type of children
+    And the type is shown through an icon
+    And there is one number for media entries
+    And there is one number for sets
+   And one of the resources has parents
+   Then I see the number and type of parents
+    And the type is shown through an icon
+    And there is one number for sets
