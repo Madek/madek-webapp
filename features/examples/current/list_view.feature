@@ -5,6 +5,11 @@ Feature: List view
   so that I can see a lot of metadata at one glance
   instead of having to click on every resource
 
+  Background: Load the example data and personas
+    Given I have set up the world
+      And personas are loaded
+      And I am "Normin"
+
   Scenario: What I see when I am on a list view
     Given I see a list of resources
     When I switch to the list view
@@ -64,15 +69,27 @@ Feature: List view
     And I see the context "Institution" after some loading
     And I see the context "Nutzung" after some loading
 
+  @javascript
   Scenario: Information about parent and children
-    When I see a list of resources
-     And I see the "children" meta key of a resource
+    When I see a list of sets in list view
+     And I see the "children" meta key of a set
+     And I see the "parents" meta key of a set
     Then I see the number and type of children
-     And the type is shown through an icon
      And there is one number for media entries
      And there is one number for sets
     And one of the resources has parents
     Then I see the number and type of parents
-     And the type is shown through an icon
-     And there is one number for media entries
      And there is one number for sets
+     
+  @javascript
+  Scenario: Information about parent and children with icons
+   When I see a list of sets in list view
+    And I see the "children" meta key of a set
+   Then I see the number and type of children
+    And the type is shown through an icon
+    And there is one number for media entries
+    And there is one number for sets
+   And one of the resources has parents
+   Then I see the number and type of parents
+    And the type is shown through an icon
+    And there is one number for sets

@@ -68,8 +68,13 @@
   &.media_set {
     background-position: -126px -18px;
     height: 13px;
-    margin: 6px 0 0 3px;
     width: 16px;
+  }
+  
+  &.media_entry {
+    background-position: -66px -33px;
+    height: 13px;
+    width: 13px;
   }
   
   &.trash {

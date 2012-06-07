@@ -12,9 +12,14 @@ class MetaDatumString < MetaDatum
   def set_value_before_save
   end
 
+  def deserialized_value(user = nil)
+    # TODO super if meta_key.is_dynamic? # when MetaDatum is the superclass
+    string
+  end
 
   def to_s
-     deserialized_value
+    # TODO super # when MetaDatum is the superclass
+    string
   end
 
 end

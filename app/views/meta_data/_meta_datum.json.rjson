@@ -1,7 +1,7 @@
 h = { 
   name: "#{meta_datum.meta_key.label}",
   value: ((s = meta_datum.to_s).blank? ? nil : s),
-  raw_value: meta_datum.deserialized_value,
+  raw_value: meta_datum.deserialized_value(current_user),
   type: MetaDatum.value_type_name(meta_datum.class)
 }
 
