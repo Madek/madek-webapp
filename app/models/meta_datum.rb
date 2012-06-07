@@ -64,10 +64,10 @@ class MetaDatum < ActiveRecord::Base
         when "uploaded at"
           return media_resource.created_at #old# .to_formatted_s(:date_time)
         when "copyright usage"
-          copyright = media_resource.meta_data.get("copyright status").deserialized_value.first || Copyright.default # OPTIMIZE array or single element
+          copyright = media_resource.meta_data.get("copyright status").value || Copyright.default # OPTIMIZE array or single element
           return copyright.usage(read_attribute(:value))
         when "copyright url"
-          copyright = media_resource.meta_data.get("copyright status").deserialized_value.first  || Copyright.default # OPTIMIZE array or single element
+          copyright = media_resource.meta_data.get("copyright status").value  || Copyright.default # OPTIMIZE array or single element
           return copyright.url(read_attribute(:value))
         when "public access"
           return media_resource.is_public?
