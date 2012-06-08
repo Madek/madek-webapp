@@ -27,7 +27,7 @@ module DevelopmentHelpers
       def import_hash h
         ActiveRecord::Base.transaction do
           h.keys.each do |table_name|
-            model = table_name_models[table_name]
+            model = table_name_models[table_name] || table_name_models[table_name.to_s]
             model.attribute_names.each { |attr| model.attr_accessible attr}
             h[table_name].each do |attributes|
               model.create attributes
@@ -47,7 +47,7 @@ module DevelopmentHelpers
               klass = ("raw_"+table_name).classify
               eval %Q{
                 class ::#{klass} < ActiveRecord::Base
-                  set_table_name :#{table_name}
+                  self.table_name = "#{table_name}"
                 end
               }
               [table_name,klass.constantize]
