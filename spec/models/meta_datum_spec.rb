@@ -16,11 +16,11 @@ describe MetaDatum do
 
 
   it "should not raise an error when created with a type " do
-    expect {MetaDatum.create type: "MetaDatumString"}.not_to raise_error
+    expect {MetaDatumString.create }.not_to raise_error
   end
 
   it "should be of correct type when created with a type " do
-    (MetaDatum.create type: "MetaDatumString").class.should == MetaDatumString
+    (MetaDatumString.create ).class.should == MetaDatumString
   end
 
   it "should not raise an error when created with a meta_key" do
