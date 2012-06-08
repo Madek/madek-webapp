@@ -33,6 +33,10 @@ class MetaDatum < ActiveRecord::Base
   belongs_to :media_resource
   belongs_to :meta_key
 
+  validates_uniqueness_of :meta_key_id, :scope => :media_resource_id
+  
+  attr_accessor :keep_original_value
+
   scope :for_meta_terms, joins(:meta_key).where(:meta_keys => {:meta_datum_object_type => "MetaDatumMetaTerms"})
 
   def same_value? other_value
