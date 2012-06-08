@@ -10,7 +10,7 @@ class MetaDatumDepartments < MetaDatum
   alias_attribute :value, :meta_departments
 
   def to_s
-    meta_departments.map(&:to_s).join("; ")
+    deserialized_value.map(&:to_s).join("; ")
   end
 
 end
