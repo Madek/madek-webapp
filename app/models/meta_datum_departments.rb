@@ -8,7 +8,6 @@ class MetaDatumDepartments < MetaDatum
     association_foreign_key: :meta_department_id
  
   alias_attribute :value, :meta_departments
-  alias_attribute :deserialized_value, :meta_departments
 
   def to_s
     meta_departments.map(&:to_s).join("; ")

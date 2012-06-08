@@ -24,16 +24,12 @@ class Person < ActiveRecord::Base
 
   def self.with_media_entries
     # OPTIMIZE
-    ids = MetaDatum.joins(:meta_key).
-            where(:meta_keys => {:object_type => self.name}).
-            flat_map(&:value).uniq
+    ids = MetaDatum.joins(:meta_key).where(:meta_keys => {:meta_datum_object_type => "MetaDatumPeople"}).flat_map(&:value).uniq
     find(ids)
   end
 
   def meta_data
-    MetaDatum.joins(:meta_key).
-      where(:meta_keys => {:object_type => self.class.name}).
-      where(["value REGEXP ?", "-\ #{id}\n" ])
+    MetaDatum.joins(:meta_key).where(:meta_keys => {:meta_datum_object_type => "MetaDatumPeople"}).where(["value REGEXP ?", "-\ #{id}\n" ])
   end
 
 #######################################
