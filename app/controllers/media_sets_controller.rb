@@ -81,7 +81,7 @@ class MediaSetsController < ApplicationController
         else
           MediaSet.accessible_by_user(current_user, accessible_action)
         end
-        render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => media_sets, :with => with}
+        render :partial => "media_resources/index", :formats => [:json], :handlers => [:rjson], :locals => {:media_resources => media_sets, :with => with}
       }
     end
   end
@@ -122,7 +122,7 @@ class MediaSetsController < ApplicationController
         @parents = @media_set.parent_sets.accessible_by_user(current_user)
       }
       format.json {
-        render :partial => "media_resources/show.json.rjson", :locals => {:media_resource => @media_set, :with => with}
+        render :partial => "media_resources/show",:formats => [:json], :handlers => [:rjson], :locals => {:media_resource => @media_set, :with => with}
       }
     end
   end
@@ -205,9 +205,9 @@ class MediaSetsController < ApplicationController
       }
       format.json {
         if @media_sets
-          render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => @media_sets}, :status => (is_saved ? 200 : 500)
+          render :partial => "media_resources/index", :formats => [:json], :handlers => [:rjson], :locals => {:media_resources => @media_sets}, :status => (is_saved ? 200 : 500)
         else
-          render :partial => "media_resources/show.json.rjson", :locals => {:media_resource => @media_set}, :status => (is_saved ? 200 : 500)
+          render :partial => "media_resources/show",  :formats => [:json], :handlers => [:rjson], :locals => {:media_resource => @media_set}, :status => (is_saved ? 200 : 500)
         end
       }
     end
@@ -297,7 +297,7 @@ class MediaSetsController < ApplicationController
     
     respond_to do |format|
       format.json { 
-        render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => child_media_sets, :with => {:parents => true}}
+        render :partial => "media_resources/index",  :formats => [:json], :handlers => [:rjson], :locals => {:media_resources => child_media_sets, :with => {:parents => true}}
       }
     end
   end

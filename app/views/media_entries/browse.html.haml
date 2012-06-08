@@ -47,7 +47,9 @@
             c = media_entries.count
             next if c.zero?
             nothing_found = false
-            media_entries_data = render(:partial => "media_resources/index.json.rjson",
+            media_entries_data = render(:partial => "media_resources/index",
+                                        :formats => [:json], 
+                                        :handlers => [:rjson],
                                         :locals => {:media_resources => media_entries,
                                                     :with => {:image => {:as => "base64"},
                                                               :flags => true,

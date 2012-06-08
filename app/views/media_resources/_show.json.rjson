@@ -25,7 +25,7 @@ if with ||= nil
         h[:meta_data] += media_resource.meta_data_for_context(MetaContext.send(name)).map do |md|
           # this doesn't work because formats is frozen as [:html] only
           # render(md)
-          render(:partial => "meta_data/meta_datum.json.rjson", :locals => {:meta_datum => md, :with => {:label => {:context => name}}})
+          render(:partial => "meta_data/meta_datum", :formats => [:json], :handlers => [:rjson], :locals => {:meta_datum => md, :with => {:label => {:context => name}}})
         end
       end
     end
@@ -35,7 +35,7 @@ if with ||= nil
         # this doesn't work because formats is frozen as [:html] only
         # render(md)
         # FIXME we don't want to hardcode "core"
-        render(:partial => "meta_data/meta_datum.json.rjson", :locals => {:meta_datum => md, :with => {:label => {:context => "core"}}})
+        render(:partial => "meta_data/meta_datum", :formats => [:json], :handlers => [:rjson], :locals => {:meta_datum => md, :with => {:label => {:context => "core"}}})
       end
     end
   end
@@ -60,7 +60,7 @@ if with ||= nil
   if with[:parents]
     forward_with = {}
     with.each_pair{|k,v| forward_with[k.to_sym] = v unless k.to_sym == :parents}
-    h[:parents] = render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => media_resource.parents, :with => forward_with}
+    h[:parents] = render :partial => "media_resources/index", :formats => [:json], :handlers => [:rjson], :locals => {:media_resources => media_resource.parents, :with => forward_with}
   end
 
   case media_resource.type
@@ -76,7 +76,7 @@ if with ||= nil
           else # respond with media_resources children
             media_resource.children
           end
-          render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => media_resources, :with => forward_with}  
+          render :partial => "media_resources/index", :formats => [:json], :handlers => [:rjson], :locals => {:media_resources => media_resources, :with => forward_with}  
         end
       end
     

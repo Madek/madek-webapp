@@ -267,7 +267,7 @@ class MediaResourcesController < ApplicationController
     
     respond_to do |format|
       format.json { 
-        render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => child_resources, :with => {:parents => true}}
+        render :partial => "media_resources/index", :formats => [:json], :handlers => [:rjson], :locals => {:media_resources => child_resources, :with => {:parents => true}}
       }
     end
   end
@@ -370,7 +370,7 @@ class MediaResourcesController < ApplicationController
         format.json {
           @media_resources = resources
           @with = with
-          render :template => "media_resources/index.json.rjson"
+          render :template => "media_resources/index", :formats => [:json], :handlers => [:rjson]
         }
       end
 
