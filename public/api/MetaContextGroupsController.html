@@ -15,9 +15,11 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
   relpath = '';
-  if (relpath != '') relpath += '/';
+  framesUrl = "frames.html#!" + escape(window.location.href);
 </script>
+
 
   <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
 
@@ -153,9 +155,37 @@
 			border-top-left-radius: 0;
 			border-top-right-radius: 0;
 		}
+		
+		pre.code.json {
+		  margin: 0;
+		}
+		
+		pre.code.json code {
+		  position: relative;
+		  border: 1px solid transparent;
+		  border-radius: 6px;
+		}
+		
+		pre.code.json code:hover {
+		  background: #d4e5fe;
+		}
+		
+		pre.code.json code:active {
+		  background: #c1d8fb;
+		}
 	</style>
 	<script type="text/javascript">
 		//<![CDATA[
+		
+		  function setup_log() {
+		    $("pre.code.json").attr("title", "click to inspect in browser debugger: console.log()");
+		    $("pre.code.json").css("cursor", "pointer");
+		    $("pre.code.json").click(function(){
+		      var code = $(this).find("code");
+		      console.log(code.html());
+		      console.log(JSON.parse(code.html()));
+		    });
+		  }
 		
 			function setup_toc() {
 	 		  if ($('#content').length === 0) return;
@@ -209,7 +239,10 @@
 			    $('#toc').toggleClass('nofloat');
 			  });
 			}
-			$(document).ready(setup_toc);
+			$(document).ready(function(){
+			  setup_toc();
+			  setup_log();
+			});
 		//]]>
 	</script>
   </head>
@@ -242,17 +275,7 @@
 
 			<div class="parameters">	
 				
-					<div class="required">
-						<h4>Required Parameters</h4>
-						
-					</div>
-				
 
-				
-					<div class="optional">
-						<h4>Optional Parameters</h4>
-						
-					</div>
 				
 			</div><!-- parameters -->
 			
@@ -287,16 +310,28 @@
 							
 							
 							
-							<span class="description"></span>
+							<span class="description">
+								
+							</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{}
+								
+									
+										{}
+									
+								
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								[{"id":1,"name":"TheGroupName"}]
+								
+									
+										[{"id":1,"name":"TheGroupName"}]
+									
+								
 							</span>
-							<span class="description"></span>
+							<span class="description">
+								
+							</span>
 						</div>
 					
 				</div>
@@ -322,7 +357,7 @@
 	</div>
     
     <div id="footer">
-  Generated on Thu May 24 15:35:11 2012 with ruby-1.9.3
+  Generated on Fri Jun  8 09:52:28 2012 with ruby-1.9.3
 </div>
 
   </body>

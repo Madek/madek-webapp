@@ -13,7 +13,7 @@ describe MediaResourcesController do
       # MediaResources
       40.times do
         type = rand > 0.5 ? :media_entry : :media_set
-        mr = Factory type, :user => @user
+        mr = FactoryGirl.create type, :user => @user
         mr.parents << FactoryGirl.create(:media_set, :user => @user)
         mr.meta_data.create(:meta_key => MetaKey.find_by_label("title"), 
                             :value => Faker::Lorem.words(4).join(' '))
@@ -56,7 +56,7 @@ describe MediaResourcesController do
         n = MediaResource.accessible_by_user(@user).count
         json["pagination"]["total"].should == n
       end
-      end
+    end
     
     describe "a plain response" do
       it "should respond only with a collection of id's and type's if there is not more requested" do
@@ -101,6 +101,133 @@ describe MediaResourcesController do
         json["media_resources"].each do |mr|
           mr.keys.should include("parents")
         end    
+      end
+      
+      it "respond with a collection of resources and their parents with pagination" do
+        get :index, {format: 'json', ids: ids, with: {parents: true}}, session
+        response.should be_success
+        json = JSON.parse(response.body)
+        json["media_resources"].each do |mr|
+          if mr["type"] == "media_set"
+            mr.keys.should include("parents")
+            mr["parents"].keys.should include("pagination")
+            mr["parents"]["pagination"]["total"].should == MediaResource.find(mr["id"]).parents.size            
+          end
+        end 
+      end
+      
+      it "has paginatable parents" do
+        get :index, {format: 'json', ids: ids, with: {parents: true}}, session
+        json = JSON.parse(response.body)
+        mr = json["media_resources"].detect {|mr| mr["type"] == "media_set" }
+        media_resource = MediaResource.find mr["id"]
+        40.times {
+          mr = FactoryGirl.create :media_set, :user => @user
+          media_resource.parents << mr
+        }
+        get :index, {format: 'json', ids: [media_resource.id], with: {parents: true}}, session
+        json = JSON.parse(response.body)
+        mr = json["media_resources"].first
+        parents_pagination = mr["parents"]["pagination"] 
+        mr["parents"]["media_resources"].size.should == parents_pagination["per_page"]
+        parents_pagination["total"].should >= 40
+        parents_pagination["total_pages"].should > 1
+        get :index, {format: 'json', ids: [media_resource.id], with: {parents: {pagination: {page: 2}}}}, session
+        json = JSON.parse(response.body)
+        mr = json["media_resources"].first
+        parents_pagination = mr["parents"]["pagination"] 
+        parents_pagination["page"].should == 2
+        (parents_pagination["total"] - parents_pagination["per_page"]).should == mr["parents"]["media_resources"].size 
+      end
+      
+      it "is forwarding only the explicit with for the parents to responding parents" do
+        get :index, {format: 'json', ids: ids, with: {media_type: true, parents: true}}, session
+        json = JSON.parse(response.body)
+        json["media_resources"].each do |mr|
+          mr.keys.should include("media_type")
+          mr.keys.should include("parents")
+          mr["parents"]["media_resources"].each do |parent|
+            parent.keys.should_not include("media_type")
+          end
+        end
+        get :index, {format: 'json', ids: ids, with: {media_type: true, parents: {with: {media_type: true}}}}, session
+        json = JSON.parse(response.body)
+        json["media_resources"].each do |mr|
+          mr["parents"]["media_resources"].each do |parent|
+            parent.keys.should include("media_type")
+          end
+        end
+      end
+    end
+    
+    describe "a response with children" do
+      it "respond with a collection of resources and their children" do
+        get :index, {format: 'json', ids: ids, with: {children: true}}, session
+        json = JSON.parse(response.body)
+        json["media_resources"].each do |mr|
+          mr.keys.should include("children") if mr["type"] == "media_set"
+        end 
+      end
+      
+      it "respond with a collection of resources and their children with pagination" do
+        get :index, {format: 'json', ids: ids, with: {children: true}}, session
+        response.should be_success
+        json = JSON.parse(response.body)
+        json["media_resources"].each do |mr|
+          if mr["type"] == "media_set"
+            mr.keys.should include("children")
+            mr["children"].keys.should include("pagination")
+            mr["children"]["pagination"]["total"].should == MediaResource.find(mr["id"]).children.size            
+          end
+        end 
+      end
+      
+      it "has paginatable childrens" do
+        get :index, {format: 'json', ids: ids, with: {children: true}}, session
+        json = JSON.parse(response.body)
+        mr = json["media_resources"].detect {|mr| mr["type"] == "media_set" }
+        media_resource = MediaResource.find mr["id"]
+        40.times {
+          type = rand > 0.5 ? :media_entry : :media_set
+          mr = FactoryGirl.create type, :user => @user
+          media_resource.children << mr
+        }
+        get :index, {format: 'json', ids: [media_resource.id], with: {children: true}}, session
+        json = JSON.parse(response.body)
+        mr = json["media_resources"].first
+        children_pagination = mr["children"]["pagination"] 
+        mr["children"]["media_resources"].size.should == children_pagination["per_page"]
+        children_pagination["total"].should >= 40
+        children_pagination["total_pages"].should > 1
+        get :index, {format: 'json', ids: [media_resource.id], with: {children: {pagination: {page: 2}}}}, session
+        json = JSON.parse(response.body)
+        mr = json["media_resources"].first
+        children_pagination = mr["children"]["pagination"] 
+        children_pagination["page"].should == 2
+        (children_pagination["total"] - children_pagination["per_page"]).should == mr["children"]["media_resources"].size 
+      end
+      
+      it "is forwarding only the explicit with for the children to responding children" do
+        get :index, {format: 'json', ids: ids, with: {media_type: true, children: true}}, session
+        json = JSON.parse(response.body)
+        json["media_resources"].each do |mr|
+          mr.keys.should include("media_type")
+          if mr["type"] == "media_set"
+            mr.keys.should include("children")
+            mr["children"]["media_resources"].each do |child|
+              child.keys.should_not include("media_type")
+            end
+          end
+        end
+        get :index, {format: 'json', ids: ids, with: {media_type: true, children: {with: {media_type: true}}}}, session
+        json = JSON.parse(response.body)
+        json["media_resources"].each do |mr|
+          if mr["type"] == "media_set"
+            mr["children"]["media_resources"].each do |child|
+              child.keys.should include("media_type")
+            end
+          end
+        end
       end
     end
     

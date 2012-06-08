@@ -1,5 +1,1 @@
-{
-  media_resources: render(:partial => "media_resources/index", :formats => [:json], :handlers => [:rjson], :locals => {media_resources: @media_resources, with: (@with || nil)}),
-  pagination: render(:partial => "media_resources/pagination", :formats => [:json], :handlers => [:rjson], :locals => {media_resources: @media_resources})
-}
-
+render(:partial => "media_resources/index", :formats => [:json], :handlers => [:rjson], :locals => {pagination: true, media_resources: @media_resources, with: (@with || nil)})

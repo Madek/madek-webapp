@@ -1,3 +1,14 @@
-media_resources.map do |media_resource|
+h = {}
+
+if pagination ||= nil
+  page = (pagination.is_a?(Hash) ? pagination[:page] : nil) || 1
+  per_page = [((pagination.is_a?(Hash) ? pagination[:per_page] : nil) || PER_PAGE.first).to_i, PER_PAGE.first].min 
+  media_resources = media_resources.paginate(:page => page, :per_page => per_page)
+  h[:pagination] = render(:partial => "media_resources/pagination", :formats => [:json], :handlers => [:rjson], :locals => {media_resources: media_resources})
+end
+
+h[:media_resources] = media_resources.map do |media_resource|
   render :partial => "media_resources/show", :formats => [:json], :handlers => [:rjson], :locals => {media_resource: media_resource, with: (with ||= nil)}
 end
+
+h
