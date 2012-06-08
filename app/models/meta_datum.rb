@@ -3,11 +3,9 @@ class MetaDatum < ActiveRecord::Base
 
   class << self
     def new_with_cast(*args, &block)
-      if (h = args.first).is_a?(Hash)
-        type = h[:type] || h['type']
-        meta_key = h[:meta_key] || h['meta_key']
-        meta_key ||= MetaKey.find_by_id(h[:meta_key_id]) if h[:meta_key_id]
-        if (type and (klass = type.constantize)) or (meta_key and (klass = meta_key.meta_datum_object_type.constantize))
+      if (h = args.first.try(:symbolize_keys)).is_a?(Hash)
+        meta_key = h[:meta_key] || (h[:meta_key_id] ? MetaKey.find_by_id(h[:meta_key_id]) : nil)
+        if meta_key and (klass = meta_key.meta_datum_object_type.constantize)
           raise "#{klass.name} must be a subclass of #{self.name}" unless klass < self
           return klass.new_without_cast(*args, &block)
         end

@@ -80,11 +80,6 @@ module MediaResourceModules
                 if (md = meta_data.where(:meta_key_id => attr[:meta_key_id]).first)
                   attr[:id] = md.id
                 end
-
-                if objtype = MetaKey.find(attr[:meta_key_id]).try(:meta_datum_object_type) 
-                  attr[:type] = objtype
-                end
-
               else
                 attr.delete(:meta_key_label)
               end
