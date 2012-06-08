@@ -18,9 +18,10 @@ class ChangeMetaContext < ActiveRecord::Migration
       meta_context.update_attributes(:name => name, :field => field)
     end
 
-    change_table :meta_contexts do |t|
-      t.remove :label
-      t.remove :description
+    remove_column(:meta_contexts, :label)
+    remove_column(:meta_contexts, :description)
+
+    change_table :meta_contexts do |t|      
       t.index :name, :unique => true
     end
   end

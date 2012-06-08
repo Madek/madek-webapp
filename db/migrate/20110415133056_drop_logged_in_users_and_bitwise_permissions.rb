@@ -29,9 +29,7 @@ class DropLoggedInUsersAndBitwisePermissions < ActiveRecord::Migration
 #      permission.set_actions(h)
 #    end
 
-    change_table :permissions do |t|
-      t.remove :actions_object
-    end
+    remove_column(:permissions, :actions_object)
   end
 
   def self.down

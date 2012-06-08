@@ -131,19 +131,16 @@ class MergeResources < ActiveRecord::Migration
         # do nothing
       end 
     end
+
+    remove_column(:edit_sessions, :resource_id)
+    remove_column(:edit_sessions, :resource_type)
+    add_index(:edit_sessions, :media_resource_id)
     
-    change_table    :edit_sessions do |t|
-      t.remove      :resource_id
-      t.remove      :resource_type
-      t.index       :media_resource_id
-    end
-    
-    change_table      :full_texts do |t|
-      t.remove_index  [:resource_id, :resource_type]
-      t.remove        :resource_id
-      t.remove        :resource_type
-      t.index         :media_resource_id
-    end
+    remove_index(:full_texts, [:resource_id, :resource_type])
+    remove_column(:full_texts, :resource_id)
+    remove_column(:full_texts, :resource_type)
+    add_index(:full_texts, :media_resource_id)
+
 
     table_name = :meta_data
     existing_indexes = indexes(table_name).map(&:name)
@@ -151,18 +148,15 @@ class MergeResources < ActiveRecord::Migration
       remove_index table_name, :name => index_name if existing_indexes.include? index_name.to_s 
     end
   
-    change_table      :meta_data do |t|
-      t.remove        :resource_id
-      t.remove        :resource_type
-      t.index         [:media_resource_id, :meta_key_id]
-    end
-    
-    change_table      :permissions do |t|
-      t.remove_index  :name => :index_permissions_on_resource__and_subject
-      t.remove        :resource_id
-      t.remove        :resource_type
-      t.index         [:media_resource_id, :subject_id, :subject_type], :name => :index_permissions_on_resource_and_subject
-    end
+    remove_column(:meta_data, :resource_id)
+    remove_column(:meta_data, :resource_type)
+    add_index(:meta_data, [:media_resource_id, :meta_key_id])
+
+    remove_column(:permissions, :resource_id)
+    remove_column(:permissions, :resource_type)
+    remove_index(:permissions, :name => :index_permissions_on_resource__and_subject)
+    add_index(:permissions, [:media_resource_id, :subject_id, :subject_type], :name => :index_permissions_on_resource_and_subject)
+
 
     ############################################################################
 
@@ -184,8 +178,9 @@ class MergeResources < ActiveRecord::Migration
       t.index       :media_file_id
       t.index       :updated_at
       t.index       [:media_entry_id, :created_at]
-      t.remove      :old_id
     end
+
+    remove_column(:media_resources, :old_id)
   
     drop_table :media_entries
     drop_table :snapshots
