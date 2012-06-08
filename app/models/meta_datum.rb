@@ -1,29 +1,20 @@
 # -*- encoding : utf-8 -*-
 class MetaDatum < ActiveRecord::Base
 
-
   class << self
     def new_with_cast(*args, &block)
-
-      if (h = args.first).is_a? Hash 
-        if (type = h[:type] || h['type']) and (klass = type.constantize) != self
-          return call_new_with_subclass_check klass, args, block
-        elsif meta_key = h[:meta_key] || h['meta_key'] and (klass = meta_key.meta_datum_object_type.constantize) != self
-          return call_new_with_subclass_check klass, args, block
+      if (h = args.first).is_a?(Hash)
+        type = h[:type] || h['type']
+        meta_key = h[:meta_key] || h['meta_key']
+        meta_key ||= MetaKey.find_by_id(h[:meta_key_id]) if h[:meta_key_id]
+        if (type and (klass = type.constantize)) or (meta_key and (klass = meta_key.meta_datum_object_type.constantize))
+          raise "#{klass.name} must be a subclass of #{self.name}" unless klass < self
+          return klass.new_without_cast(*args, &block)
         end
       end
-
       raise "MetaDatum is abstract; instatiate a subclass" unless self < MetaDatum
-      new_without_cast(*args,&block)
     end
-
-    def call_new_with_subclass_check klass, args, block
-      raise "#{klass.name} must be a subclass of #{self.name}"  unless klass < self  
-      klass.new(*args, &block)
-    end
-
     alias_method_chain :new, :cast
-
 
     def value_type_name klass_or_string
       if klass_or_string.is_a? String
