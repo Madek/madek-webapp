@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 
 ##
-# MediaResources are the core content of MAdeK. They are seperate in MediaEntries and MediaSets (Collection of MediaResources).
+# MediaResources are the core content of MAdeK. They are seperated in MediaEntries and MediaSets (Collection of MediaResources).
 # 
 class MediaResourcesController < ApplicationController
 
@@ -91,7 +91,7 @@ class MediaResourcesController < ApplicationController
   #   }
   #   ```
   #
-  # @example_request {"with": {"meta_data": {"meta_context_names": ["core"]}}}
+  # @example_request
   #   ```json
   #   {
   #     "with": {
@@ -101,7 +101,8 @@ class MediaResourcesController < ApplicationController
   #     }
   #   }
   #   ```
-  # @example_request_description Request MediaResources with all nested MetaData for the MetaContext with the name "core". 
+  # @example_request_description Request MediaResources with all nested MetaData for the MetaContext with the name "core".
+  # @example_response
   #   ```json
   #   {
   #     "media_resources": [
@@ -136,8 +137,7 @@ class MediaResourcesController < ApplicationController
   #        "id":1,
   #        "meta_data": {
   #          "title":"My new Picture",
-  #          "author":"Max Muster",
-  #          "keywords":"picture, portrait"
+  #          "author":"Max Muster"
   #        }
   #     ]
   #   }
@@ -155,7 +155,6 @@ class MediaResourcesController < ApplicationController
   #   }
   #   ``` 
   # @example_request_description Request MediaResources with id 1 with nested image as base64.
-  # @example_response {"media_resources:": [{"id":1, "image": ""data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/4gxYSUNDX1BST0ZJTEUAAQEAAAxITGlu bwIQAABtbnRyUkdCIFhZWiAHzgACAAkABgAxAABhY3NwTVNG"}, ...], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
   # @example_response
   #   ```json
   #   {
@@ -237,7 +236,6 @@ class MediaResourcesController < ApplicationController
   #   ```
   #
   # @example_request
-  # @example_request
   #   ```json
   #   {
   #     "sort":"updated_at",
@@ -273,7 +271,7 @@ class MediaResourcesController < ApplicationController
   #   }
   #   ``` 
   # @example_request_description Request MediaResources sorted by created_at (DESC) include the DateTime for created_at.
-  # @example_response {"media_resources:": [{"id":35, "type": "media_set", "created_at": "2012-04-27T11:21:25+02:00"}, {"id":21, "type": "media_set", "created_at": "2012-04-22T11:21:22+02:00"}, ...]}
+  # @example_response
   #   ```json
   #   {
   #     "media_resources": [
@@ -299,7 +297,7 @@ class MediaResourcesController < ApplicationController
   #   }
   #   ``` 
   # @example_request_description Request MediaResources which contain "blue" in any of their meta_data responding with nested MetaData of the MetaContext "core".
-  # @example_response {"media_resources:": [{"id":1, "meta_data": {"title": "My blue Picture", "author": "Musterman, Max", "portrayed_object_dates": null, "keywords": "picture, portrait", "copryright_notice"}}, ...]}}
+  # @example_response
   #   ```json
   #   {
   #     "media_resources": [

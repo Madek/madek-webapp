@@ -1,6 +1,6 @@
 h = {
   id: media_resource.id,
-  type: media_resource.class.to_s.underscore # TODO .type ??
+  type: media_resource.type.underscore
 }
 
 if with ||= nil
