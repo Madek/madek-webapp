@@ -3,14 +3,16 @@ class MetaDatum < ActiveRecord::Base
 
   class << self
     def new_with_cast(*args, &block)
-      if (h = args.first.try(:symbolize_keys)).is_a?(Hash)
-        meta_key = h[:meta_key] || (h[:meta_key_id] ? MetaKey.find_by_id(h[:meta_key_id]) : nil)
-        if meta_key and (klass = meta_key.meta_datum_object_type.constantize)
-          raise "#{klass.name} must be a subclass of #{self.name}" unless klass < self
-          return klass.new_without_cast(*args, &block)
-        end
+      if (h = args.first.try(:symbolize_keys)).is_a?(Hash) and
+          (meta_key = h[:meta_key] || (h[:meta_key_id] ? MetaKey.find_by_id(h[:meta_key_id]) : nil)) and
+          (klass = meta_key.meta_datum_object_type.constantize)
+            raise "#{klass.name} must be a subclass of #{self.name}" unless klass < self
+            klass.new_without_cast(*args, &block)
+      elsif self < MetaDatum
+        new_without_cast(*args, &block)
+      else
+        raise "MetaDatum is abstract; instatiate a subclass"
       end
-      raise "MetaDatum is abstract; instatiate a subclass" unless self < MetaDatum
     end
     alias_method_chain :new, :cast
 

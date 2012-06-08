@@ -31,7 +31,7 @@ class MetaDataController < ApplicationController
     @meta_data = @resource.meta_data_for_context(@context, false)
     respond_to do |format|
       format.js { render :layout => (params[:layout] != "false") }
-      format.json { render :template => 'meta_data/index', :formats => [:json], :handlers => [:rjson] }
+      format.json { render :template => 'meta_data/index.json.rjson' } # NOTE :formats => [:json], :handlers => [:rjson] doesn't work
     end
   end
 
