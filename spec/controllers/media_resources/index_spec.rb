@@ -54,7 +54,7 @@ describe MediaResourcesController do
         n = MediaResource.accessible_by_user(@user).count
         json["pagination"]["total"].should == n
       end
-      end
+    end
     
     describe "a plain response" do
       it "should respond only with a collection of id's and type's if there is not more requested" do
@@ -98,6 +98,17 @@ describe MediaResourcesController do
         json = JSON.parse(response.body)
         json["media_resources"].each do |mr|
           mr.keys.should include("parents")
+        end    
+      end
+    end
+    
+    describe "a response with children" do
+      it "respond with a collection of resources and their children" do
+       get :index, {format: 'json', ids: ids, with: {children: true}}, session
+        response.should be_success
+        json = JSON.parse(response.body)
+        json["media_resources"].each do |mr|
+          mr.keys.should include("children") if mr["type"] == "media_set"
         end    
       end
     end
