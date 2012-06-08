@@ -59,12 +59,12 @@ module Persona
     def create_person
       @name = @@name
       @lastname = @@lastname  
-      @person = Factory.create(:person, firstname: @name, lastname: @lastname)
+      @person = FactoryGirl.create(:person, firstname: @name, lastname: @lastname)
     end
     
     def create_user
       @crypted_password = Digest::SHA1.hexdigest(@@password)
-      @user = Factory.create(:user, :person => @person, :login => @name.downcase, :password => @crypted_password)
+      @user = FactoryGirl.create(:user, :person => @person, :login => @name.downcase, :password => @crypted_password)
     end
 
     def add_to_admin_group
@@ -86,11 +86,11 @@ module Persona
       context = if MetaContext.exists?(:name => name)
         MetaContext.send(name)
       else
-        Factory.create(:meta_context, :name => name, :meta_context_group => MetaContextGroup.find_by_name("Kontexte"))
+        FactoryGirl.create(:meta_context, :name => name, :meta_context_group => MetaContextGroup.find_by_name("Kontexte"))
       end
 
       title = "Landschaften"
-      media_set1 = Factory.create(:media_set, :user => @user, :view => true)
+      media_set1 = FactoryGirl.create(:media_set, :user => @user, :view => true)
       media_set1.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title}}})
       media_set1.individual_contexts << context
 
@@ -100,11 +100,11 @@ module Persona
       context = if MetaContext.exists?(:name => name)
         MetaContext.send(name)
       else
-        Factory.create(:meta_context, :name => name, :meta_context_group => MetaContextGroup.find_by_name("Kontexte"))
+        FactoryGirl.create(:meta_context, :name => name, :meta_context_group => MetaContextGroup.find_by_name("Kontexte"))
       end
 
       title = "Zett"
-      media_set2 = Factory.create(:media_set, :user => @user)
+      media_set2 = FactoryGirl.create(:media_set, :user => @user)
       media_set2.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title}}})
       media_set2.individual_contexts << context
       media_set2.grouppermissions.create(group: Group.find_by_name("ZHdK"), view: true)
@@ -114,11 +114,11 @@ module Persona
       context = if MetaContext.exists?(:name => name)
         MetaContext.send(name)
       else
-        Factory.create(:meta_context, :name => name, :meta_context_group => MetaContextGroup.find_by_name("Kontexte"))
+        FactoryGirl.create(:meta_context, :name => name, :meta_context_group => MetaContextGroup.find_by_name("Kontexte"))
       end
 
       title = "Zett über Landschaften"
-      media_set3 = Factory.create(:media_set, :user => @user)
+      media_set3 = FactoryGirl.create(:media_set, :user => @user)
       media_set3.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title}}})
       media_set3.individual_contexts << context
       media_set3.parent_sets << [media_set1, media_set2]      
