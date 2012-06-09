@@ -26,11 +26,6 @@ class Person < ActiveRecord::Base
     select("DISTINCT people.*").joins("INNER JOIN meta_data_people ON people.id = meta_data_people.person_id")
   end
 
-  def meta_data
-    # FIXME this is old now, see up with_meta_data
-    MetaDatum.joins(:meta_key).where(:meta_keys => {:meta_datum_object_type => "MetaDatumPeople"}).where(["value REGEXP ?", "-\ #{id}\n" ])
-  end
-
 #######################################
 
 =begin #tmp#
