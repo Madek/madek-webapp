@@ -15,15 +15,19 @@ class MetaDatumMetaTerms < MetaDatum
   end
 
   def value=(new_value)
-    values = Person.split(Array(value))
-    values.map do |v|
-        if v.is_a?(Fixnum) or (v.respond_to?(:is_integer?) and v.is_integer?)
-          #tmp# r = Person.where(:id => v).first
-        else
-          firstname, lastname = Person.parse(v)
-          # FIXME find_or_build_by...
-          r = Person.find_or_create_by_firstname_and_lastname(:firstname => firstname, :lastname => lastname) if firstname or lastname
+    Array(value).map do |v|
+      if v.is_a?(Fixnum) or (v.respond_to?(:is_integer?) and v.is_integer?)
+        # TODO check if is member of meta_key.meta_terms
+        MetaTerm.find_by_id(v)
+      elsif meta_key.is_extensible_list?
+        h = {}
+        LANGUAGES.each do |lang|
+          h[lang] = v
         end
+        term = MetaTerm.find_or_build_by_en_gb_and_de_ch(h)
+        meta_key.meta_terms << term unless meta_key.meta_terms.include?(term)
+        term
+      end
     end
   end
 

@@ -19,7 +19,7 @@ class MetaDatumKeywords < MetaDatum
           Keyword.find(v)
         else
           if v.is_a?(Fixnum) or (v.respond_to?(:is_integer?) and v.is_integer?)
-            #tmp# Keyword.where(:meta_term_id => v, :id => value_was).first || Keyword.create(:meta_term_id => v, :user => user)
+            Keyword.where(:meta_term_id => v, :id => value_was).first || Keyword.new(:meta_term_id => v, :user => user)
           else
             # 2210
             #conditions = [[]]
