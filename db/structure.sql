@@ -88,10 +88,13 @@ CREATE TABLE `keywords` (
   `meta_term_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
+  `meta_datum_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_keywords_on_term_id_and_user_id` (`meta_term_id`,`user_id`),
   KEY `index_keywords_on_user_id` (`user_id`),
-  KEY `index_keywords_on_created_at` (`created_at`)
+  KEY `index_keywords_on_created_at` (`created_at`),
+  KEY `index_keywords_on_meta_datum_id` (`meta_datum_id`),
+  CONSTRAINT `keywords_meta_datum_id_meta_data_fkey` FOREIGN KEY (`meta_datum_id`) REFERENCES `meta_data` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `media_files` (
@@ -185,9 +188,12 @@ CREATE TABLE `meta_data` (
   `media_resource_id` int(11) DEFAULT NULL,
   `type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `string` text COLLATE utf8_unicode_ci,
+  `copyright_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_meta_data_on_meta_key_id` (`meta_key_id`),
   KEY `index_meta_data_on_media_resource_id_and_meta_key_id` (`media_resource_id`,`meta_key_id`),
+  KEY `index_meta_data_on_copyright_id` (`copyright_id`),
+  CONSTRAINT `meta_data_copyright_id_copyrights_fkey` FOREIGN KEY (`copyright_id`) REFERENCES `copyrights` (`id`) ON DELETE CASCADE,
   CONSTRAINT `meta_data_media_resource_id_media_resources_fkey` FOREIGN KEY (`media_resource_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -200,6 +206,15 @@ CREATE TABLE `meta_data_meta_departments` (
   CONSTRAINT `meta_data_meta_departments_meta_datum_id_meta_data_fkey` FOREIGN KEY (`meta_datum_id`) REFERENCES `meta_data` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE `meta_data_meta_terms` (
+  `meta_datum_id` int(11) DEFAULT NULL,
+  `meta_term_id` int(11) DEFAULT NULL,
+  UNIQUE KEY `index_meta_data_meta_terms_on_meta_datum_id_and_meta_term_id` (`meta_datum_id`,`meta_term_id`),
+  KEY `meta_data_meta_terms_meta_term_id_meta_terms_fkey` (`meta_term_id`),
+  CONSTRAINT `meta_data_meta_terms_meta_term_id_meta_terms_fkey` FOREIGN KEY (`meta_term_id`) REFERENCES `meta_terms` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `meta_data_meta_terms_meta_datum_id_meta_data_fkey` FOREIGN KEY (`meta_datum_id`) REFERENCES `meta_data` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE `meta_data_people` (
   `meta_datum_id` int(11) DEFAULT NULL,
   `person_id` int(11) DEFAULT NULL,
@@ -207,6 +222,15 @@ CREATE TABLE `meta_data_people` (
   KEY `meta_data_people_person_id_people_fkey` (`person_id`),
   CONSTRAINT `meta_data_people_person_id_people_fkey` FOREIGN KEY (`person_id`) REFERENCES `people` (`id`) ON DELETE CASCADE,
   CONSTRAINT `meta_data_people_meta_datum_id_meta_data_fkey` FOREIGN KEY (`meta_datum_id`) REFERENCES `meta_data` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `meta_data_users` (
+  `meta_datum_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  UNIQUE KEY `index_meta_data_users_on_meta_datum_id_and_user_id` (`meta_datum_id`,`user_id`),
+  KEY `meta_data_users_user_id_users_fkey` (`user_id`),
+  CONSTRAINT `meta_data_users_user_id_users_fkey` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `meta_data_users_meta_datum_id_meta_data_fkey` FOREIGN KEY (`meta_datum_id`) REFERENCES `meta_data` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `meta_key_definitions` (
@@ -236,13 +260,11 @@ CREATE TABLE `meta_key_definitions` (
 CREATE TABLE `meta_keys` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `object_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `is_dynamic` tinyint(1) DEFAULT NULL,
   `is_extensible_list` tinyint(1) DEFAULT NULL,
   `meta_datum_object_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `index_meta_keys_on_label` (`label`),
-  KEY `index_meta_keys_on_object_type` (`object_type`)
+  UNIQUE KEY `index_meta_keys_on_label` (`label`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `meta_keys_meta_terms` (
@@ -547,3 +569,19 @@ INSERT INTO schema_migrations (version) VALUES ('20120529113203');
 INSERT INTO schema_migrations (version) VALUES ('20120530075215');
 
 INSERT INTO schema_migrations (version) VALUES ('20120530092530');
+
+INSERT INTO schema_migrations (version) VALUES ('20120530134100');
+
+INSERT INTO schema_migrations (version) VALUES ('20120530144610');
+
+INSERT INTO schema_migrations (version) VALUES ('20120530145437');
+
+INSERT INTO schema_migrations (version) VALUES ('20120601060411');
+
+INSERT INTO schema_migrations (version) VALUES ('20120601060725');
+
+INSERT INTO schema_migrations (version) VALUES ('20120601112110');
+
+INSERT INTO schema_migrations (version) VALUES ('20120601122143');
+
+INSERT INTO schema_migrations (version) VALUES ('20120601130137');
