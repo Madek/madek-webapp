@@ -18,7 +18,7 @@
       %li
         %a.has-set-widget.close_on_click{:title => "Zu Set hinzufügen/entfernen",
           :"data-selected_ids" => "[${id}]",
-          :"data-user" => "${window.current_user}",
+          :"data-user" => "${JSON.stringify(window.current_user)}",
           :"data-after_submit" => "window.location.reload();",
           :"data-detach_selected" => true,
           :"data-index" => {path: "/media_sets.json", method: "GET", data: {accessible_action: "edit", with: {created_at: true, meta_data: {meta_key_names: ["title", "owner"]}}}}.to_json,

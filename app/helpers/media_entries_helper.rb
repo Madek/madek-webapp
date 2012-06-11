@@ -87,7 +87,7 @@ module MediaEntriesHelper
       tag :audio,  options.merge({:src => "/download?id=#{resource.id}&audio_preview=true",
                                   :autoplay => 'autoplay', :controls => 'controls'})
     # All kinds of office documents (and PDF). Maybe put this mess somewhere separate?
-    elsif size == :large && ["application/pdf","application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
+    elsif size == :large && ["application/pdf","application/x-pdf","application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
            "application/vnd.openxmlformats-officedocument.presentationml.presentation", 
            "application/vnd.ms-powerpoint", "application/msword", "application/vnd.oasis.opendocument.text", 
