@@ -2,10 +2,10 @@
 class Keyword < ActiveRecord::Base
   
   belongs_to :meta_term, :class_name => "MetaTerm"
-  belongs_to :user # TODO person ??
+  belongs_to :user
   belongs_to :meta_datum
 
-  validates_presence_of :meta_term
+  validates_presence_of :meta_term, :meta_datum
 
   default_scope :include => :meta_term
 

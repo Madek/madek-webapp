@@ -11,7 +11,7 @@ class MergeResources < ActiveRecord::Migration
                WHERE q.id IS NULL OR u.is_complete = false;
     SQL
 
-    [:edit_sessions, :full_texts, :meta_data, :permissions].each do |table|
+    [:edit_sessions, :full_texts, :meta_data].each do |table|
       sql << <<-SQL
         DELETE t FROM #{table} AS t LEFT JOIN media_sets AS q ON t.resource_id = q.id
                   WHERE t.resource_type = 'Media::Set' AND q.id IS NULL;
@@ -112,7 +112,7 @@ class MergeResources < ActiveRecord::Migration
 
     ############################################################################
 
-    [:edit_sessions, :full_texts, :meta_data, :permissions].each do |table|
+    [:edit_sessions, :full_texts, :meta_data].each do |table|
       change_table    table do |t|
         t.belongs_to  :media_resource
       end
@@ -151,12 +151,6 @@ class MergeResources < ActiveRecord::Migration
     remove_column(:meta_data, :resource_id)
     remove_column(:meta_data, :resource_type)
     add_index(:meta_data, [:media_resource_id, :meta_key_id])
-
-    remove_column(:permissions, :resource_id)
-    remove_column(:permissions, :resource_type)
-    remove_index(:permissions, :name => :index_permissions_on_resource__and_subject)
-    add_index(:permissions, [:media_resource_id, :subject_id, :subject_type], :name => :index_permissions_on_resource_and_subject)
-
 
     ############################################################################
 
@@ -200,7 +194,7 @@ class MergeResources < ActiveRecord::Migration
     fkey_cascade_on_delete :media_entries_media_sets, :media_resources, :media_entry_id 
     fkey_cascade_on_delete :media_sets_meta_contexts, :media_resources, :media_set_id
 
-    [:edit_sessions, :full_texts, :meta_data, :permissions, :favorites].each do |table|
+    [:edit_sessions, :full_texts, :meta_data, :favorites].each do |table|
       fkey_cascade_on_delete table, :media_resources, :media_resource_id
     end
 
