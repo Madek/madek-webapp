@@ -10,7 +10,7 @@ class MediaSet < MediaResource
   def self.find_by_id_or_create_by_title(values, user)
     records = Array(values).map do |v|
                       if v.is_a?(Numeric) or (v.respond_to?(:is_integer?) and v.is_integer?)
-                        where(:id => v).first
+                        find_by_id(v)
                       else
                         user.media_sets.create(:meta_data_attributes => [{:meta_key_label => "title", :value => v}])
                       end
@@ -71,7 +71,7 @@ class MediaSet < MediaResource
   end
 
   def self.featured_set
-    where(:id => AppSettings.featured_set_id).first
+    find_by_id(AppSettings.featured_set_id)
   end
 
   def self.featured_set=(media_set)

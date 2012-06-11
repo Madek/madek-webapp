@@ -59,7 +59,7 @@ class Authenticator::ZhdkController < ApplicationController
   end
 
   def create_or_update_user(xml)
-    user = User.where(:id => xml["id"]).first # TODO use xml["uniqueid"] ??
+    user = User.find_by_id(xml["id"]) # TODO use xml["uniqueid"] ??
     if user.nil?
       person = Person.find_or_create_by_firstname_and_lastname(:firstname => xml["firstname"],
                                                                :lastname => xml["lastname"])
