@@ -1,6 +1,10 @@
 FactoryGirl.define do
 
-  factory :media_file  do 
+  factory :media_file  do
+    
+    # this is a mock
+    meta_data { {:key => :value} }
+    
     uploaded_data  {
       f = "#{Rails.root}/features/data/images/berlin_wall_01.jpg"
       ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
