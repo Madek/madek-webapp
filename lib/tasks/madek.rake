@@ -3,6 +3,7 @@ require 'action_controller'
 
 namespace :madek do
   task :create_migrated_persona_dump do
+
     def needs_migration?(file_path)
       if File.exists?(file_path)
         versions_string = `grep -i "insert into.*schema_migrations.*" #{file_path}`
@@ -37,6 +38,15 @@ namespace :madek do
       create_command = "mysql -u #{sql_username} --password=#{sql_password} -e 'create database #{sql_database}'"
       dump_postmigration_command = "mysqldump -u #{sql_username} --password=#{sql_password} #{sql_database} > #{migrated_file}"
     elsif adapter == "postgresql"
+      auth_part = " -U #{sql_username} -w "
+      encoding_part = " -E utf-8 "
+      unmigrated_file = Rails.root.join 'db','empty_medienarchiv_instance_with_personas.pgbin'
+      migrated_file = Rails.root.join 'db','empty_medienarchiv_instance_with_personas.pgbin'
+      remove_command = "rm -f #{migrated_file}"
+      drop_command =  "dropdb #{auth_part} #{sql_database} " 
+      load_premigration_command = "pg_restore #{auth_part} -j 2 -d #{sql_database} #{unmigrated_file}"
+      create_command = "createdb -w #{auth_part} #{sql_database}"
+      dump_postmigration_command = "pg_dump #{auth_part} #{encoding_part} -F c -f #{migrated_file} "
     else
       raise "Cannot handle database adapter #{adapter}, sorry! Exiting."
     end
@@ -48,6 +58,7 @@ namespace :madek do
       system create_command
       system load_premigration_command
       puts "Trying to migrate the persona database"
+      # TODO why this called indirectly? 
       system "bundle exec rake db:migrate"
       system dump_postmigration_command
     else
