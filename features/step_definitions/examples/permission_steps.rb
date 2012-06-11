@@ -116,7 +116,7 @@ end
 
 Then /^I can choose from a set of labeled permissions presets instead of grant permissions explicitly$/ do
   find(".preset select").all("option").map(&:text).each do |preset_name|
-    PermissionPreset.all.map(&:name).include?(preset_name).should be_true
+    PermissionPreset.pluck(:name).include?(preset_name).should be_true
   end
 end
 
