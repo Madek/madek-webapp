@@ -26,7 +26,7 @@ function SetWidget() {
     $.ajax({
       url: $(target).data("index").path,
       success: function(data, status, request) {
-        $(target).data("items", data);
+        $(target).data("items", data.media_resources);
         SetWidget.setup_widget(target);
       },
       error: function(request, status, error){
@@ -47,7 +47,7 @@ function SetWidget() {
           url: $(target).data("linked_index").path,
           data: $.extend(true, $(target).data("linked_index").data, {collection_id: data.collection_id}),
           success: function(data, status, request) {
-            $(target).data("linked_items", data);
+            $(target).data("linked_items", data.media_resources);
             SetWidget.setup_widget(target);
           },
           error: function(request, status, error){
@@ -72,7 +72,7 @@ function SetWidget() {
       .data("link_stack", [])
       .data("unlink_stack", []);
     
-	SetWidget.setup_widget(target);
+	  SetWidget.setup_widget(target);
     
     // bind window events resize and scroll to align widget method
     $(window).bind("resize scroll",function(){
@@ -92,7 +92,6 @@ function SetWidget() {
         } else if($(this).is(":checked")) { // clicked on an element which is now linked
           $(this).closest("li").addClass("selected").removeClass("intermediate");
           if($(this).data("intermediate")) { // clicked on an element which was initaly intermediate
-            // RESET INTERMEDIATE BACK TO BE INTERMEDIATE
             SetWidget.remove_from_unlink_stack($(this),target);
             SetWidget.remove_from_link_stack($(this),target);
             $(this).removeAttr("checked");
@@ -191,11 +190,8 @@ function SetWidget() {
       $.each($(target).data("linked_items"), function(i_link, linked_item){
         // check if the ellement is already linked
         if(linked_item.id == $(item).tmplItem().data.id) {
-
-          // prepare all possible linked ids for this linked item
-          var all_possible_linked_ids = _.map(linked_item.children, function(resource){
-            return resource.id
-          });
+          
+          var all_possible_linked_ids = _.map(linked_item.children.media_resources, function(resource){ return resource.id; });
           
           var all_selected_items_are_linked = true;
           if(all_possible_linked_ids.length > 0) {
@@ -275,18 +271,18 @@ function SetWidget() {
     $.ajax({
       url: $(target).data("create").path,
       success: function(returned_items, status, request) {
-        for(var i_returned = 0; i_returned < returned_items.length; i_returned++) {
+        for(var i_returned = 0; i_returned < returned_items.media_resources.length; i_returned++) {
           // add id to linked items in the link_stack which where created with the widget, because these just got ids after they are created on the server
           for(var i_linked = 0; i_linked < $(target).data("link_stack").length; i_linked++) {
             if($(target).data("link_stack")[i_linked].uid != undefined && $(target).data("link_stack")[i_linked].uid == i_returned) {
-              $(target).data("link_stack")[i_linked].id = returned_items[i_returned].id;
+              $(target).data("link_stack")[i_linked].id = returned_items.media_resources[i_returned].id;
             }
           }
           
           // add id to the created item, which is also inside of the dom
           for(var i_item = 0; i_item < $(target).data("widget").find(".list li").length; i_item++) {
             if($($(target).data("widget").find(".list li")[i_item]).tmplItem().data.uid ==  i_returned) {
-              $($(target).data("widget").find(".list li")[i_item]).tmplItem().data.id = returned_items[i_returned].id;
+              $($(target).data("widget").find(".list li")[i_item]).tmplItem().data.id = returned_items.media_resources[i_returned].id;
               delete $($(target).data("widget").find(".list li")[i_item]).tmplItem().data.uid;
             }
           }
@@ -312,24 +308,13 @@ function SetWidget() {
   }
   
   this.submit_link_stack = function(target) {
-    
     // if link stack is empty go on with submiting the unlink stack
     if($(target).data("link_stack").length == 0){
       SetWidget.submit_unlink_stack(target); 
       return false;
     }     
     
-    var linked_items = [];
-    $.each($(target).data("link_stack"), function(i, element){
-      linked_items.push(element.id);
-    });
-    
-    var data_as_string = JSON.stringify($(target).data("link").data);
-    data_as_string = data_as_string.replace(/":parent_media_set_ids"/g, JSON.stringify(linked_items));
-    data_as_string = data_as_string.replace(/":media_entry_ids"/g, JSON.stringify($(target).data("selected_ids")));
-    data_as_string = data_as_string.replace(/":media_resource_ids"/g, JSON.stringify($(target).data("selected_ids")));
-    data_as_string = data_as_string.replace(/":media_set_ids"/g, JSON.stringify($(target).data("selected_ids")));
-    var data = JSON.parse(data_as_string);
+    var linked_items = _.map($(target).data("link_stack"), function(el){return el.id;});
     
     $.ajax({
       url: $(target).data("link").path,
@@ -349,10 +334,20 @@ function SetWidget() {
       },
       error: function(request, status, error){
       },
-      data: data,
+      data: SetWidget.get_data(target, "link", linked_items),
       type: $(target).data("link").method,
       dataType: 'json'
     }); 
+  }
+  
+  this.get_data = function(target, source, items) {
+    var target = $(target);
+    var data_as_string = JSON.stringify(target.data(source).data)
+    .replace(/":parent_media_set_ids"/g, JSON.stringify(items))
+    .replace(/":media_set_ids"/g, JSON.stringify(target.data("selected_ids")))
+    .replace(/":media_resource_ids"/g, JSON.stringify(target.data("selected_ids")))
+    .replace(/":media_entry_ids"/g, JSON.stringify(target.data("selected_ids")));
+    return JSON.parse(data_as_string);
   }
   
   this.submit_unlink_stack = function(target) {
@@ -363,18 +358,8 @@ function SetWidget() {
       return false;
     }
     
-    var unlinked_items = [];
-    $.each($(target).data("unlink_stack"), function(i, element){
-      unlinked_items.push(element.id);
-    });
-            
-    var data_as_string = JSON.stringify($(target).data("unlink").data);
-    data_as_string = data_as_string.replace(/":parent_media_set_ids"/g, JSON.stringify(unlinked_items));
-    data_as_string = data_as_string.replace(/":media_set_ids"/g, JSON.stringify($(target).data("selected_ids")));
-    data_as_string = data_as_string.replace(/":media_resource_ids"/g, JSON.stringify($(target).data("selected_ids")));
-    data_as_string = data_as_string.replace(/":media_entry_ids"/g, JSON.stringify($(target).data("selected_ids")));
-    var data = JSON.parse(data_as_string);
-    
+    var unlinked_items = _.map($(target).data("unlink_stack"), function(el){return el.id;});
+                
     $.ajax({
       url: $(target).data("unlink").path,
       beforeSend: function(request, settings){
@@ -393,7 +378,7 @@ function SetWidget() {
       },
       error: function(request, status, error){
       },
-      data: data,
+      data: SetWidget.get_data(target, "unlink", unlinked_items),
       type: $(target).data("unlink").method,
       dataType: 'json'
     }); 
