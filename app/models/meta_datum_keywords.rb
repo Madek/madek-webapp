@@ -13,7 +13,8 @@ class MetaDatumKeywords < MetaDatum
 
   def value=(new_value)
     user = media_resource.editors.latest || (media_resource.respond_to?(:user) ? media_resource.user : nil)
-    Array(new_value).map do |v|
+    keywords.clear
+    keywords << Array(new_value).map do |v|
         r = if false #FIXME dup keywords# user.nil? and media_resource.is_a?(Snapshot)
           # the Snapshot has just been created, so we take exactly the MediaEntry's keyword
           Keyword.find(v)
