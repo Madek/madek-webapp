@@ -41,7 +41,7 @@ namespace :madek do
       auth_part = " -U #{sql_username} -w "
       encoding_part = " -E utf-8 "
       unmigrated_file = Rails.root.join 'db','empty_medienarchiv_instance_with_personas.pgbin'
-      migrated_file = Rails.root.join 'db','empty_medienarchiv_instance_with_personas.pgbin'
+      migrated_file = Rails.root.join 'db','empty_medienarchiv_instance_with_personas.migrated.pgbin'
       remove_command = "rm -f #{migrated_file}"
       drop_command =  "dropdb #{auth_part} #{sql_database} " 
       load_premigration_command = "pg_restore #{auth_part} -j 2 -d #{sql_database} #{unmigrated_file}"
@@ -181,6 +181,25 @@ namespace :madek do
   end
 
   namespace :db  do
+
+    desc "Dump the database to YAML"
+    task :dump_to_yaml => :environment do
+      date_string = DateTime.now.to_s.gsub(":","-")
+      path = "db/pg-dump-#{Rails.env}-#{date_string}.bin" 
+
+      config = Rails.configuration.database_configuration[Rails.env]
+      sql_host     = config["host"]
+      sql_database = config["database"]
+      sql_username = config["username"]
+      sql_password = config["password"]
+      date_string = DateTime.now.to_s.gsub(":","-")
+      path = "tmp/pg-dump-#{Rails.env}-#{date_string}.bin" 
+      puts "Dumping database to #{path}"
+      cmd = "pg_dump -U #{sql_username} -h #{sql_host} -v -E utf-8 -F c -f #{path} #{sql_database}"
+      puts "executing : #{cmd}"
+      system cmd 
+    end
+
 
     desc "Dump the PostgresDB"
     task :dump do
