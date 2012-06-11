@@ -85,12 +85,12 @@ module Persona
     def create_person
       @name = @@name
       @lastname = @@lastname  
-      @person = Factory(:person, firstname: @name, lastname: @lastname)
+      @person = FactoryGirl.create(:person, firstname: @name, lastname: @lastname)
     end
 
     def create_user
       @crypted_password = Digest::SHA1.hexdigest(@@password)
-      @user = Factory(:user, :person => @person, :login => @name.downcase, :password => @crypted_password)
+      @user = FactoryGirl.create(:user, :person => @person, :login => @name.downcase, :password => @crypted_password)
     end
     
     def join_zhdk_group
@@ -99,17 +99,17 @@ module Persona
     end
 
     def create_test_set # Test Set
-      @mein_test_set = Factory(:media_set,
+      @mein_test_set = FactoryGirl.create(:media_set,
                                :user => @user, 
                                :meta_data_attributes => {0 => {:meta_key_id => MetaKey.find_by_label("title").id, :value => "Mein Test Set"}})
-      Factory(:userpermission, 
+      FactoryGirl.create(:userpermission, 
               :media_resource => @mein_test_set, 
               :user => Persona.get(:normin), 
               :view => true, 
               :edit => false, 
               :manage => false, 
               :download => false)
-      @mein_erstes_photo = Factory(:media_entry, 
+      @mein_erstes_photo = FactoryGirl.create(:media_entry, 
                                    :user => @user, 
                                    :view => true,
                                    :parent_sets => [@mein_test_set], 
