@@ -36,3 +36,4 @@ coverage.data
 db/backups
 doc/api/yard
 .git
+db/empty_medienarchiv_instance_with_personas.mysql.migrated.sql
