@@ -74,6 +74,10 @@ end
 Before('@javascript, ~@transactional') do
   DatabaseCleaner.strategy = :truncation
 
+  # TODO 
+  # there is a lot of duplicate code with :create_migrated_persona_dump
+  # and also with the various db dump / db restore stuff we have
+   
   config = Rails.configuration.database_configuration[Rails.env]
   adapter      = config["adapter"]
   sql_host     = config["host"]

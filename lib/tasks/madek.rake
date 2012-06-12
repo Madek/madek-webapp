@@ -3,6 +3,12 @@ require 'action_controller'
 
 namespace :madek do
   task :create_migrated_persona_dump do
+    
+    # TODO there is a lot of duplicate code with in feature/support/env.rb and
+    # also with the various db dump / db restore stuff we have
+
+    # according to what Franco said a few weeks ago, just looking at the last
+    # migration won't suffice
 
     def needs_migration?(file_path)
       if File.exists?(file_path)
