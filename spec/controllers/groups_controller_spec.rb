@@ -4,6 +4,7 @@ describe GroupsController do
   render_views
   
   before :all do
+    FactoryGirl.create :usage_term
     @normin = FactoryGirl.create :user, login: "normin"
     @adam= FactoryGirl.create :user, login: "adam"
 

@@ -4,6 +4,7 @@ describe MetaContextsController do
   render_views
 
   before :all do
+    FactoryGirl.create :usage_term
     @user = FactoryGirl.create :user
     @description= FactoryGirl.create :meta_term
     @hint = FactoryGirl.create :meta_term
