@@ -19,20 +19,16 @@ module DevelopmentHelpers
 
       def import_hash h, tables
         table_name_models = table_name_to_table_names_models tables
-        begin 
-          ActiveRecord::Base.transaction do
-            h.keys.each do |table_name|
-              model = table_name_models[table_name] || table_name_models[table_name.to_s]
-              model.attribute_names.each { |attr| model.attr_accessible attr}
-              h[table_name].each do |attributes|
-                model.create attributes
-              end
-              SQLHelper.reset_autoinc_sequence_to_max model if model.attribute_names.include? "id"
+        ActiveRecord::Base.transaction do
+          h.keys.each do |table_name|
+            model = table_name_models[table_name] || table_name_models[table_name.to_s]
+            model.attribute_names.each { |attr| model.attr_accessible attr}
+            h[table_name].each do |attributes|
+              model.create attributes
             end
-            puts "the data has been imported" 
+            SQLHelper.reset_autoinc_sequence_to_max model if model.attribute_names.include? "id"
           end
-        rescue Exception => e
-          puts "an error has occured #{e}"
+          puts "the data has been imported" 
         end
       end
 
