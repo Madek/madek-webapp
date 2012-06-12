@@ -6,6 +6,7 @@ describe MediaResource do
   context "there exists resources"  do
 
     before :all do
+      DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
       @media_entry = FactoryGirl.create :media_entry
       @media_set_parent =  FactoryGirl.create :media_set
       @media_set_child =  FactoryGirl.create :media_set
@@ -54,15 +55,13 @@ describe MediaResource do
     context "meta_data" do
 
       before :all do
-        pending # Thomas working here
-        #@media_entry.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => "Pablo Picasso"}}})
+        @media_entry.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => "Pablo Picasso"}}})
       end
       
       it "exports person meta_data as string for exiftool, not as ruby object" do
-        pending # Thomas working here
-        #s = @media_entry.send :to_metadata_tags
-        #s.include?("-XMP-madek:Author='Picasso, Pablo'").should be_true
-        #s.include?("#<").should be_false
+        s = @media_entry.send :to_metadata_tags
+        s.include?("-XMP-madek:Author='Picasso, Pablo'").should be_true
+        s.include?("#<").should be_false
       end
       
     end

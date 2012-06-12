@@ -84,7 +84,7 @@ class MediaSet < MediaResource
   def abstract(min_media_entries = nil, current_user = nil)
     min_media_entries ||= media_entries.count.to_f * 50 / 100
     accessible_media_entry_ids = if current_user
-      media_entries.accessible_by_user(current_user).map(&:id)
+      media_entries.accessible_by_user(current_user).pluck("media_resources.id")
     else
       media_entry_ids
     end
@@ -107,11 +107,11 @@ class MediaSet < MediaResource
   # TODO dry with MetaContext#used_meta_term_ids  
   def used_meta_term_ids(current_user = nil)
     accessible_media_entry_ids = if current_user
-      media_entries.accessible_by_user(current_user).map(&:id)
+      media_entries.accessible_by_user(current_user).pluck("media_resources.id")
     else
       media_entry_ids
     end
-    meta_key_ids = individual_contexts.flat_map{|ic| ic.meta_keys.for_meta_terms.map(&:id) }
+    meta_key_ids = individual_contexts.flat_map{|ic| ic.meta_keys.for_meta_terms.pluck("meta_keys.id") }
     mds = MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids)
     mds.flat_map(&:value).uniq.compact
   end

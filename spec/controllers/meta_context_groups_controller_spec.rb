@@ -6,7 +6,7 @@ describe MetaContextGroupsController do
 
   before :all do
     DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
-    @user = Factory :user
+    @user = FactoryGirl.create :user
     meta_context_group = FactoryGirl.create :meta_context_group
     @meta_context_groups = MetaContextGroup.all
   end

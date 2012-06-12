@@ -15,7 +15,8 @@ class MetaDatumMetaTerms < MetaDatum
   end
 
   def value=(new_value)
-    Array(value).map do |v|
+    meta_terms.clear
+    meta_terms << Array(new_value).map do |v|
       if v.is_a?(Fixnum) or (v.respond_to?(:is_integer?) and v.is_integer?)
         # TODO check if is member of meta_key.meta_terms
         MetaTerm.find_by_id(v)
