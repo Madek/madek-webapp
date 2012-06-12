@@ -4,10 +4,28 @@ namespace :madek do
     desc "Dump the database from whatever DB to YAML"
     task :dump_to_yaml => :environment do
       date_string = DateTime.now.to_s.gsub(":","-")
-      file_path = "db/db-dump-#{Rails.env}-#{date_string}.yaml" 
+      file_path = "tmp/db-dump-#{Rails.env}-#{date_string}.yml" 
       data_hash = DevelopmentHelpers::DumpAndRestoreTables.create_hash Constants::ALL_TABLES
       File.open(file_path, "w"){|f| f.write data_hash.to_yaml } 
       puts "the file has been saved to #{file_path}"
+    end
+
+
+    desc "Restore the DB from YAML" 
+    task :restore_from_yaml => :environment do
+      unless ENV['FILE'] 
+        puts "can't find the FILE env variable, bailing out"
+        exit
+      end
+      puts "dropping the db" 
+      Rake::Task["db:drop"].invoke
+      puts "creating the db"  
+      Rake::Task["db:create"].invoke
+      puts "migrating the db"  
+      Rake::Task["db:migrate"].invoke
+      file= ENV['FILE']
+      h = YAML.load File.read file_name
+      DevelopmentHelpers::DumpAndRestoreTables.import_hash h, Constants::ALL_TABLES
     end
 
 
@@ -20,18 +38,18 @@ namespace :madek do
       sql_username = config["username"]
       sql_password = config["password"]
       date_string = DateTime.now.to_s.gsub(":","-")
-      path = "tmp/pg-dump-#{Rails.env}-#{date_string}.bin" 
+      path = "tmp/db-dump-#{Rails.env}-#{date_string}.pgbin" 
       puts "Dumping database to #{path}"
       cmd = "pg_dump -U #{sql_username} -h #{sql_host} -v -E utf-8 -F c -f #{path} #{sql_database}"
       puts "executing : #{cmd}"
       system cmd 
     end
-    
+
     desc "Restore the PostgresDB" 
-    task :restore_pg do
+    task :restore_pg => :environment do
       unless ENV['FILE'] 
-         puts "can't find the FILE env variable, bailing out"
-         exit
+        puts "can't find the FILE env variable, bailing out"
+        exit
       end
       puts "dropping the db" 
       Rake::Task["db:drop"].invoke
@@ -49,6 +67,4 @@ namespace :madek do
     end
 
   end
-
 end
-

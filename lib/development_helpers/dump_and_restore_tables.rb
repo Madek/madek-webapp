@@ -30,8 +30,9 @@ module DevelopmentHelpers
               SQLHelper.reset_autoinc_sequence_to_max model if model.attribute_names.include? "id"
             end
             puts "the data has been imported" 
-          rescue
           end
+        rescue Exception => e
+          puts "an error has occured #{e}"
         end
       end
 
