@@ -10,24 +10,15 @@ namespace :madek do
       puts "the file has been saved to #{file_path}"
     end
 
-
     desc "Restore the DB from YAML" 
     task :restore_from_yaml => :environment do
-      unless ENV['FILE'] 
-        puts "can't find the FILE env variable, bailing out"
-        exit
+      if file_name= ENV['FILE']
+        h = YAML.load File.read file_name
+        DevelopmentHelpers::DumpAndRestoreTables.import_hash h, Constants::ALL_TABLES
+      else
+        raise "missing FILE env varialbe"
       end
-      puts "dropping the db" 
-      Rake::Task["db:drop"].invoke
-      puts "creating the db"  
-      Rake::Task["db:create"].invoke
-      puts "migrating the db"  
-      Rake::Task["db:migrate"].invoke
-      file= ENV['FILE']
-      h = YAML.load File.read file_name
-      DevelopmentHelpers::DumpAndRestoreTables.import_hash h, Constants::ALL_TABLES
     end
-
 
     desc "Dump the PostgresDB"
     task :dump_pg do
