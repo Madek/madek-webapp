@@ -3,7 +3,7 @@ require 'spec_helper'
 describe MediaEntry do
 
   before :all do
-    DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
+    FactoryGirl.create :meta_key, :label => "title"
   end
 
   describe "Creation" do

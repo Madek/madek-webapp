@@ -4,7 +4,8 @@ describe MediaResourcesController do
   render_views
   
   before :all do
-    DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
+    FactoryGirl.create :usage_term 
+    FactoryGirl.create :meta_context_core
     @user = FactoryGirl.create :user
   end
   
@@ -19,7 +20,7 @@ describe MediaResourcesController do
                             :value => Faker::Lorem.words(4).join(' '))
       end
       # MetaContext
-      @meta_context = MetaContext.first
+      @meta_context = MetaContext.core
     end
     
     let :session do
