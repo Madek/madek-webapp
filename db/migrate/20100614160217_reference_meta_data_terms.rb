@@ -10,7 +10,7 @@ class ReferenceMetaDataTerms < ActiveRecord::Migration
               t ||= Term.where(lang => v).first
             end
           elsif v.is_a? Fixnum
-            t = Term.where(:id => v).first
+            t = Term.find_by_id(v)
           end
           key.terms.include?(t) ? t.id : nil
         end

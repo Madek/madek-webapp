@@ -83,12 +83,12 @@ module Persona
     def create_person
       @name = @@name
       @lastname = @@lastname  
-      @person = Factory(:person, firstname: @name, lastname: @lastname)
+      @person = FactoryGirl.create(:person, firstname: @name, lastname: @lastname)
     end
 
     def create_user
       @crypted_password = Digest::SHA1.hexdigest(@@password)
-      @user = Factory(:user, :person => @person, :login => @name.downcase, :password => @crypted_password)
+      @user = FactoryGirl.create(:user, :person => @person, :login => @name.downcase, :password => @crypted_password)
     end
     
     def join_expert_group

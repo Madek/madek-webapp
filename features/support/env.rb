@@ -86,7 +86,12 @@ Before('@javascript, ~@transactional') do
     load_command = "mysql -u #{sql_username} --password=#{sql_password} #{sql_database} < #{Rails.root + 'db/empty_medienarchiv_instance_with_personas.mysql.migrated.sql'}"
     create_command = "mysql -u #{sql_username} --password=#{sql_password} -e 'create database #{sql_database}'"
   elsif adapter == "postgresql"
-    raise "Cannot handle database adapter postgresql, sorry! Exiting. Hi, Thomas!"
+    migrated_file = Rails.root.join 'db','empty_medienarchiv_instance_with_personas.migrated.pgbin'
+    auth_part = " -U #{sql_username} -w "
+    encoding_part = " -E utf-8 "
+    drop_command =  "dropdb #{auth_part} #{sql_database}" 
+    load_premigration_command = "pg_restore #{auth_part} -j 2 -d #{sql_database} #{migrated_file}"
+    create_command = "createdb -w #{auth_part} #{sql_database}"
   else
     raise "Cannot handle database adapter #{adapter}, sorry! Exiting."
   end
