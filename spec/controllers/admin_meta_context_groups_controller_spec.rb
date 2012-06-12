@@ -21,7 +21,7 @@ require 'spec_helper'
 describe Admin::MetaContextGroupsController do
 
   before :all do
-    DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
+    FactoryGirl.create :usage_term 
     @adam = FactoryGirl.create :user, login: "adam"
     Group.find_or_create_by_name("Admin").users << @adam
   end

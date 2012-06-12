@@ -3,7 +3,10 @@ require 'spec_helper'
 describe MediaEntryIncomplete do
 
   before :all do 
-    DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
+    FactoryGirl.create :meta_key, :label => "copyright status", :meta_datum_object_type => "MetaDatumCopyright"
+    FactoryGirl.create :meta_key, :label => "description author", :meta_datum_object_type => "MetaDatumPeople"
+    FactoryGirl.create :meta_key, :label => "description author before import", :meta_datum_object_type => "MetaDatumPeople"
+    FactoryGirl.create :meta_key, :label => "uploaded by", :meta_datum_object_type => "MetaDatumUsers"
     @mei = FactoryGirl.create :media_entry_incomplete
   end
 
