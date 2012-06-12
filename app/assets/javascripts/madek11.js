@@ -8,9 +8,12 @@ $(document).ready(function () {
 	
 	// toggle favorites
 	$("span.favorite_link a").live('ajax:complete', function(xhr, response){
-      var media_entry_id = $(this).parent().attr("id").slice(4); // TODO $(this).closest(".item_box").attr("rel");
-      $("span#fav_" + media_entry_id).html(response.responseText);
-    });
+    var media_entry_id = $(this).parent().attr("id").slice(4); // TODO $(this).closest(".item_box").attr("rel");
+    $("span#fav_" + media_entry_id).html(response.responseText);
+  }).live("ajax:beforeSend", function() {
+    $(this).parent().find(".button_favorit_off").replaceWith("<img class='loading' src='/assets/loading.gif'>");
+    $(this).parent().find(".button_favorit_on").replaceWith("<img class='loading' src='/assets/loading.gif'>");
+  });
 
 	$("#menu").flickrmenu({ arrowPic: "/assets/icons/arrow.png",
 							arrowPicA: "/assets/icons/arrow_select.png",

@@ -56,13 +56,12 @@ def wait_for_css_element(element)
 end
 
 def set_term_checkbox(node, text)
-#   debugger; puts "lala"
   cb = node.find("ul li ul li", :text => text).find("input")
   cb.click unless cb[:checked] == "true" # a string, not a bool!
 end
 
 def select_from_multiselect_widget(node, text)
-  node.find(".madek_multiselect_container").find(".search_toggler").click
+  node.find(".search_toggler").click
   pick_from_autocomplete(text)
 end
 

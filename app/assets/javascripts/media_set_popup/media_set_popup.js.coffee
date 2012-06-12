@@ -39,6 +39,8 @@ load_children = (target)->
       data:
         with: 
           children: true
+          meta_data:
+            meta_key_names: ["title"]
           image:
             as:"base64"
             size:"small"
@@ -57,6 +59,8 @@ load_parents = (target)->
       url: "/media_sets/"+target.tmplItem().data.id+".json"
       data:
         with:
+          meta_data:
+            meta_key_names: ["title"]
           parents: true
           image:
             as:"base64"
@@ -80,8 +84,9 @@ resource_setdiv_template= ->
   """
   
 resource_template= (resource)->
+  meta_data = MetaDatum.flatten resource.meta_data
   """<a href="#{pluralize_resource_by_type(resource.type)}/#{resource.id}">
-      <div class="resource #{resource.type}">
+      <div class="resource #{resource.type}" title="#{meta_data.title}">
         #{if resource.type is 'media_set' then resource_setdiv_template() else ''}
         <img src="#{resource.image}" />
       </div>
@@ -170,18 +175,17 @@ create_popup = (target)->
   container.append copy
   $("body").append container
   # positioning
-  offset = if $(".media_resources.index.miniature").length then "0 40" else 0 
   $(container).position {
     my: "top left",
     at: "top left",
-    offset: offset,
-    of: $(target)
+    offset: "-1 42",
+    of: $(target).find(".thumb_box_set")
   }
   $(copy).position {
     my: "top left",
     at: "top left",
-    offset: offset,
-    of: $(target)
+    offset: "-1 42",
+    of: $(target).find(".thumb_box_set")
   }
   # put children inside if already exist
   if $(target).data("loaded_children")?
@@ -189,6 +193,7 @@ create_popup = (target)->
   # put parents inside if already exist
   if $(target).data("loaded_parents")?
     setup_parents target, $(target).data("loaded_parents")
+  # bind mouse leave
   $(".set_popup").bind "mouseleave", -> leave_popup $(this)
   
 close_popup = (popup_container)->

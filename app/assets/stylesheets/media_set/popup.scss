@@ -1,5 +1,40 @@
 @import "../mixins.scss";
 
+.entry_popup, .set_popup {
+  
+  .action_menu {
+    display: none;
+  }
+  
+  .meta_data{
+    
+    dd, dt{
+      display: none;
+    }
+    
+    dd.title.truncated, dd.author.truncated {
+      cursor: default;
+      display: block;
+      letter-spacing: 0.1ex;
+      overflow: hidden;
+      padding-left: 1px;
+      
+      &.title{
+        color: black;
+        font-size: 0.9em;
+        line-height: 1.15em;
+        max-height: 30px;
+      }
+      
+      &.author{
+        font-size: 0.7em;
+        line-height: 1.1em;
+        height: 23px;
+      }
+    } 
+  }
+}
+
 .entry_popup .item_box {
   border: 2px solid #f1f1f1;
   @include box-shadow(0 0 9px rgba(0, 0, 0, 0.3));  

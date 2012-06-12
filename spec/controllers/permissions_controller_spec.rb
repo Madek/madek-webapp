@@ -4,6 +4,7 @@ describe PermissionsController do
   render_views
 
   before :all do
+    FactoryGirl.create :usage_term
     @user = Factory :user
   end
 

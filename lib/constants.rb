@@ -1,6 +1,13 @@
 module Constants 
+
   extend self
 
+  MINIMAL_META_TABLES = [ "meta_keys",
+        "meta_terms", "meta_keys_meta_terms",
+        "meta_context_groups", "meta_contexts",
+        "meta_key_definitions",
+        "permission_presets",
+        "copyrights"]
   
   PUBLIC_PREFIX= "perm_public_may_"
  

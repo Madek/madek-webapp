@@ -1,34 +1,137 @@
 require 'digest'
 require 'action_controller'
 
-
-
 namespace :madek do
+  task :create_migrated_persona_dump do
+    def needs_migration?(file_path)
+      if File.exists?(file_path)
+        versions_string = `grep -i "insert into.*schema_migrations.*" #{file_path}`
+        latest_migration = versions_string.split(",").last.gsub(/(\(|\)|\'|;)/, "").to_i # ('20120423094303'); -> 20120423094303
 
-  desc "Set up the environment for testing, then run tests"
-  task :test do
-    # Rake seems to be very stubborn about where it takes
-    # the RAILS_ENV from, so let's set a lot of options (?)
+        latest_available_migration = `ls -1 #{Rails.root + 'db/migrate'}`.split("\n").last.split("_").first.to_i
+        if latest_available_migration == 0
+          raise "No migrations available, please verify that db/migrations contains some migrations"
+        else
+          !(latest_migration == latest_available_migration)
+        end
+      else
+        raise "File #{file_path} does not exist. Cannot determine if it needs migration."        
+      end
+    end
 
-    Rails.env = 'test'
-    task :environment
-    Rake::Task["madek:reset"].invoke
-    system "bundle exec rspec --format d --format html --out tmp/html/rspec.html spec"
-    exit_code = $? >> 8 # magic brainfuck
-    raise "Tests failed with: #{exit_code}" if exit_code != 0
+    # Load the latest dump from personas.madek.zhdk.ch, migrate it to the latest version
+    # and then use that migrated dump in further tests (to prevent having to migrate multiple times)
+    config = Rails.configuration.database_configuration[Rails.env]
+    adapter      = config["adapter"]
+    sql_host     = config["host"]
+    sql_database = config["database"]
+    sql_username = config["username"]
+    sql_password = config["password"]
 
-    system "bundle exec cucumber -p default"
-    exit_code = $? >> 8 # magic brainfuck
-    raise "Tests failed with: #{exit_code}" if exit_code != 0
+    if ["mysql", "mysql2"].include?(adapter)
+      unmigrated_file = Rails.root + 'db/empty_medienarchiv_instance_with_personas.mysql.sql'
+      migrated_file = Rails.root + 'db/empty_medienarchiv_instance_with_personas.mysql.migrated.sql'
+      remove_command = "rm -f #{migrated_file}"
+      drop_command = "mysql -u #{sql_username} --password=#{sql_password} -e 'drop database if exists #{sql_database}'"
+      load_premigration_command = "mysql -u #{sql_username} --password=#{sql_password} #{sql_database} < #{unmigrated_file}"
+      create_command = "mysql -u #{sql_username} --password=#{sql_password} -e 'create database #{sql_database}'"
+      dump_postmigration_command = "mysqldump -u #{sql_username} --password=#{sql_password} #{sql_database} > #{migrated_file}"
+    elsif adapter == "postgresql"
+    else
+      raise "Cannot handle database adapter #{adapter}, sorry! Exiting."
+    end
 
-    # Skip this so we can see if the red stuff in is in there
-    system "bundle exec cucumber -p examples"
-    exit_code = $? >> 8 # magic brainfuck
-    raise "Tests failed with: #{exit_code}" if exit_code != 0
+    # The migrated file is older than the unmigrated one -- we need to migrate
+    if !File.exists?(migrated_file) or (File.mtime(unmigrated_file) > File.mtime(migrated_file)) or needs_migration?(unmigrated_file)
+      system remove_command
+      system drop_command
+      system create_command
+      system load_premigration_command
+      puts "Trying to migrate the persona database"
+      system "bundle exec rake db:migrate"
+      system dump_postmigration_command
+    else
+      if needs_migration?(unmigrated_file) == false
+        puts "The migrated file has no newer migrations than the unmigrated file."
+      end
+      puts "No need to create a new migrated persona SQL file -- the unmigrated file #{unmigrated_file} is older than an existing migrated file #{migrated_file}"
+    end
+  end
 
-    system "bundle exec cucumber -p current_examples"
-    exit_code = $? >> 8 # magic brainfuck
-    raise "Tests failed with: #{exit_code}" if exit_code != 0
+  desc "Set up the environment for testing, then run all tests in one block"
+  task :test => 'test:run_all'
+
+  namespace :test do
+    task :run_all do
+      Rake::Task["madek:test:setup"].invoke
+      Rake::Task["madek:test:rspec"].invoke
+      Rake::Task["madek:test:cucumber:all"].invoke
+    end
+
+    task :run_separate do
+      Rake::Task["madek:test:setup"].invoke
+      Rake::Task["madek:test:rspec"].invoke
+      Rake::Task["madek:test:cucumber:separate"].invoke
+    end
+
+    task :setup do
+      # Rake seems to be very stubborn about where it takes
+      # the RAILS_ENV from, so let's set a lot of options (?)
+      Rails.env = 'test'
+      task :environment
+      Rake::Task["madek:create_migrated_persona_dump"].invoke
+      # The rspec part of this whole story gets tested against an empty database, so nothing
+      # to import from a file here. Instead, we reset based on our migrations.
+      Rake::Task["madek:reset"].invoke
+      File.delete("tmp/rerun.txt") if File.exists?("tmp/rerun.txt")
+      File.delete("tmp/rerun_again.txt") if File.exists?("tmp/rerun_again.txt")
+    end
+
+    task :rspec do
+      system "bundle exec rspec --format d --format html --out tmp/html/rspec.html spec"
+      exit_code = $? >> 8 # magic brainfuck
+      raise "Tests failed with: #{exit_code}" if exit_code != 0
+    end
+
+    namespace :cucumber do
+
+      task :all do
+        puts "Running all Cucumber tests in one block"
+        system "bundle exec cucumber -p all"
+        exit_code_first_run = $? >> 8 # magic brainfuck
+
+        system "bundle exec cucumber -p rerun"
+        exit_code_rerun = $? >> 8
+
+        system "bundle exec cucumber -p rerun_again"
+        exit_code_rerun_again = $? >> 8
+
+        raise "Tests failed!" if exit_code_rerun_again != 0
+      end
+
+      task :seperate do
+        puts "Running 'default' Cucumber profile"
+        system "bundle exec cucumber -p default"
+
+        puts "Running 'examples' Cucumber profile"
+        system "bundle exec cucumber -p examples"
+
+        puts "Running 'current_examples' Cucumber profile"
+        system "bundle exec cucumber -p current_examples"
+
+        system "bundle exec cucumber -p rerun"
+        exit_code_rerun = $? >> 8
+
+        if File.exists?("tmp/rerun_again.txt")
+          system "bundle exec cucumber -p rerun_again"
+          exit_code_rerun = $? >> 8
+        end
+
+        raise "Tests failed with: #{exit_code}" if exit_code_rerun != 0
+
+      end
+    end
+    
   end
 
   desc "Back up images and database before doing anything silly"
@@ -150,47 +253,32 @@ namespace :madek do
      ActiveRecord::Base.subclasses.each { |a| a.reset_column_information }
 
      Rake::Task["db:seed"].invoke
-     Rake::Task["app:db:import_initial_metadata"].invoke
+
+     Rake::Task["madek:meta_data:import_presets"].invoke
 
   end
   
   namespace :meta_data do
-    desc "Set up Meta_data reference material"
-    task :typevocab_data => :environment do
-      # TODO replace with something that reads the YML from the config directory
+
+    desc "Export MetaData Presets" 
+    task :export_presets  => :environment do
+
+      data_hash = DevelopmentHelpers::MetaDataPreset.create_hash
+
+      date_string = DateTime.now.to_s.gsub(":","-")
+      file_path = "tmp/#{date_string}_meta_data.yml"
+
+      File.open(file_path, "w"){|f| f.write data_hash.to_yaml } 
+      puts "the file has been saved to #{file_path}"
+      puts "you might want to copy it to features/data/minimal_meta.yml"
     end
 
-    desc "Only the 'keywords' meta_key can have the 'Keyword' object_type"
-    task :fix_keywords => :environment do
-      keywords = {}
-      meta_keys = MetaKey.where(:object_type => "Keyword").where("label != 'keywords'")
-      meta_keys.each do |meta_key|
-        keywords[meta_key.id] = {}
-        meta_key.meta_data.each do |meta_datum|
-          keywords[meta_key.id][meta_datum.id] = meta_datum.deserialized_value
-        end
-        meta_key.update_attributes(:object_type => "MetaTerm", :is_extensible_list => true)
-      end
-      # we need to fetch again the meta_keys, 'cause inside the first iteration,
-      # the meta_datum still keeps the reference to the old object_type
-      reloaded_meta_keys = MetaKey.find(meta_keys.collect(&:id))
-      reloaded_meta_keys.each do |meta_key|
-        meta_key.meta_data.each do |meta_datum|
-          value = keywords[meta_key.id][meta_datum.id]
-          meta_term_ids = value.collect(&:meta_term_id)
-          meta_key.meta_terms << MetaTerm.find(meta_term_ids - meta_key.meta_term_ids)
-          meta_datum.update_attributes(:value => meta_term_ids)
-          Keyword.delete(value)
-        end
-      end
+    desc "Import MetaData Presets" 
+    task :import_presets => :environment do
+      DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
     end
+
   end
 
-  namespace :helpers do
-    desc "set up helper data (country names etc)"
-    task :countries => :environment do
-      # TODO load up the country data
-    end
-  end
 
 end # madek namespace

@@ -1,8 +1,7 @@
 Feature: Sets in Sets III
 
   Background: Load the example data and personas
-	Given I have set up the world
-      And personas are loaded
+	Given I have set up the world a little
 
   # https://www.pivotaltracker.com/story/show/22576523
   # https://www.pivotaltracker.com/story/show/23800945

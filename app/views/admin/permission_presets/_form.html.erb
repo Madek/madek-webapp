@@ -1,10 +1,8 @@
-<%= semantic_form_for @permission_preset, url: @form_path do |f| %>
-  <%= f.inputs do %>
-    <%= f.input :name %>
-    <%= f.input :view %>
-    <%= f.input :download %>
-    <%= f.input :edit %>
-    <%= f.input :manage %>
-  <% end %>
-  <%= f.buttons %>
+<%= form_for @permission_preset, url: @form_path do |f| %>
+    <p>Name: <%= f.text_field :name %></p>
+    <p><%= f.check_box :view %> View</p>
+    <p><%= f.check_box :download %> Download</p>
+    <p><%= f.check_box :edit %> Edit</p>
+    <p><%= f.check_box :manage %> Manage</p>
+  <p><%= f.submit %></p>
 <% end %>

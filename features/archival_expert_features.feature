@@ -8,7 +8,7 @@ Feature: Exporting for archival experts and using the associated archival expert
 # Currently archival seems totally broken and breaks all subsequent tests as well.
 
 #  Background: Set up the world and some users
-#    Given I have set up the world
+#    Given I have set up the world a little
 #      And a user called "Fred Astaire" with username "fred" and password "tapping" exists
 #      And a user called "Ginger Rogers" with username "ginger" and password "dancing" exists
 #      And a group called "MIZ-Archiv" exists
@@ -43,7 +43,7 @@ Feature: Exporting for archival experts and using the associated archival expert
 #      |Weitere Personen Medienerstellung|Things for archival||
 #      |Dozierende/Projektleitung|Things for archival||
 #      |Angeboten durch|Things for archival||
-#      |Copyright|Things for archival||
+#      |Rechte|Things for archival||
 #      |Dimensionen|Things for archival||
 #      |Material/Format|Things for archival||
 #      |nur MIZ-Archiv\nArchivnummer|Things for archival||

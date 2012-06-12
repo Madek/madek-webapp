@@ -89,6 +89,13 @@ When /^I start a new upload process$/ do
   visit "/upload"
 end
 
+Given /^all users have dropboxes$/ do
+  User.all.each do |user|
+    user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, user.dropbox_dir_name)
+    FileUtils.mkdir_p(user_dropbox_root_dir)
+  end
+end
+
 Then /^I can choose files from my dropbox instead of uploading them through the browser$/ do
   user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, @current_user.dropbox_dir_name)
   #TODO perhaps merge this logic to @user.dropbox_files
@@ -132,6 +139,7 @@ Then /^the upload process ends$/ do
 end
 
 When /^I uploading some files from the dropbox and from the filesystem$/ do
+  @user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, @current_user.dropbox_dir_name)
   step 'I have uploaded some files to my dropbox'
   visit "/upload"
   attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/berlin_wall_01.jpg") )
@@ -142,6 +150,7 @@ When /^I uploading some files from the dropbox and from the filesystem$/ do
 end
 
 When /^I delete some fo those after the upload$/ do
+  wait_until(15) { find("#uploader_filelist li span",:text => "berlin_wall_01.jpg").find(:xpath, "../..") }
   deleted_plupload_file_element_after_upload = find("#uploader_filelist li span",:text => "berlin_wall_01.jpg").find(:xpath, "../..")
   deleted_plupload_file_element_after_upload.find(".delete_plupload_entry").click
   page.driver.browser.switch_to.alert.accept
@@ -174,7 +183,7 @@ When /^I import a file$/ do
    And I fill in the metadata for entry number 1 as follows:
    |label    |value                       |
    |Titel    |into the set after uploading|
-   |Copyright|some other dude             |
+   |Rechte|some other dude             |
    And I follow "weiter..."
    And I follow "Import abschliessen"
   }

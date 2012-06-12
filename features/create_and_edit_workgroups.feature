@@ -7,7 +7,7 @@ Feature: Create and edit workgroups
 
 
   Background: The world and some users exist
-    Given I have set up the world
+    Given I have set up the world a little
       And a user called "Porky Pig" with username "porky" and password "piggy" exists
       And a user called "Daffy Duck" with username "daffy" and password "ducky" exists
 

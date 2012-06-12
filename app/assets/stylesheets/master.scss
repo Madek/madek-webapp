@@ -1161,28 +1161,6 @@ ul li { float: left; }
 	background-color: #f2f2f2;
 }
 	
-.item_title {
-	font-size: 0.9em;
-	line-height: 1.15em;
-	max-height: 30px;
-	padding-bottom: 2px;
-	color: black;
-}
-
-.item_author {
-	font-size: 0.7em;
-	line-height: 1.1em;
-	height: 23px;
-	display: block;
-}
-
-.item_title, .item_author {
-  cursor: default;
-  overflow: hidden;
-  letter-spacing: 0.1ex;
-  padding-left: 1px;
-}
-
 .item_permission {
 	position: absolute;
 	left: 5px;
@@ -1279,6 +1257,10 @@ ul li { float: left; }
 
 .action_left {
 	float: left;
+	
+	a {
+	  text-decoration: none !important;
+	}
 }
 
 .action_right {

@@ -11,6 +11,7 @@ describe ApplicationController do
 
   describe "as logged in user" do
     before :all do
+      FactoryGirl.create :usage_term
       @user = FactoryGirl.create :user
     end
     it "should respond with success and using the users/show template" do

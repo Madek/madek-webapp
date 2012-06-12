@@ -291,11 +291,7 @@ class MediaResourcesController < ApplicationController
   #
   def image(size = (params[:size] || :large).to_sym)
     # TODO dry => Resource#thumb_base64 and Download audio/video
-    media_file = if @media_resource.is_a? MediaSet
-      @media_resource.media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
-    else
-      @media_resource.media_file
-    end
+    media_file = @media_resource.get_media_file(current_user)
     
     unless media_file
       # empty gif pixel

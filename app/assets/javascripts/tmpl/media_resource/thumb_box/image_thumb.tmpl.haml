@@ -1,10 +1,12 @@
-{{if is_set}}
-.thumb_box_set
-  {{if image}}
-  %img{:src => "${image}"}
-  {{/if}}
+${$class = (is_set) ? "thumb_box_set" : "thumb_box", ""}
+{{if ($item.with_link == null || $item.with_link)}}
+%a{:href => "/media_resources/${id}"}
+  %div{:class => "${$class}"}
+    {{if image}}
+    %img{:src => "${image}"}
+    {{/if}}
 {{else}}
-.thumb_box
+%div{:class => "${$class}"}
   {{if image}}
   %img{:src => "${image}"}
   {{/if}}

@@ -81,6 +81,11 @@ class MediaResource < ActiveRecord::Base
     end
   end
     
+########################################################
+
+  def get_media_file(user = nil)
+    media_file
+  end
   
 ########################################################
 
@@ -104,42 +109,6 @@ class MediaResource < ActiveRecord::Base
       new_text << " #{send(method)}" if respond_to?(method)
     end
     ft.update_attributes(:text => new_text)
-  end
-
-########################################################
-
-  def meta_data_for_context(context = MetaContext.core, build_if_not_exists = true)
-    meta_keys = context.meta_keys
-    
-    mds = meta_data.where(:meta_key_id => meta_keys)
-    
-    (meta_keys - mds.map(&:meta_key)).select{|x| x.is_dynamic? }.each do |key|
-      mds << meta_data.build(:meta_key => key) 
-    end
-
-    (context.meta_key_ids - mds.map(&:meta_key_id)).each do |key_id|
-      mds << meta_data.build(:meta_key_id => key_id)
-    end if build_if_not_exists
-    
-    mds.sort_by {|md| context.meta_key_ids.index(md.meta_key_id) } 
-  end
-
-  def context_warnings(context = MetaContext.core)
-    r = {}
-    
-    meta_data_for_context(context).each do |meta_datum|
-      w = meta_datum.context_warnings(context)
-      unless w.blank?
-        r[meta_datum.meta_key.label] ||= []
-        r[meta_datum.meta_key.label] << w
-      end
-    end
-
-    r
-  end
-
-  def context_valid?(context = MetaContext.core)
-    meta_data_for_context(context).all? {|meta_datum| meta_datum.context_valid?(context) }
   end
 
 ########################################################

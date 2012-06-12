@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe MediaEntry do
 
+  before :all do
+    DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
+  end
+
   describe "Creation" do
 
     it "should be producible by a factory" do

@@ -1,8 +1,7 @@
 Feature: Overview I
   
   Background: Load the example data and personas
-    Given I have set up the world
-      And personas are loaded
+    Given I have set up the world a little
 
   # https://www.pivotaltracker.com/story/show/27418863
   @javascript
@@ -59,4 +58,5 @@ Feature: Overview I
     When I go to set view
     Then the counter is formatted as "N von M für Sie sichtbar"
     When I go to search results
+     And the grid layout is active
     Then the counter is formatted as "N Resultate"
