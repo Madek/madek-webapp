@@ -5,8 +5,8 @@ describe MediaSetsController do
   render_views
 
   before :all do
-    DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
     FactoryGirl.create :usage_term
+    FactoryGirl.create :meta_context_core
   end
 
   context "API Tests" do

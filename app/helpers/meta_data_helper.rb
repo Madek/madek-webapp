@@ -322,15 +322,13 @@ module MetaDataHelper
     #key_id = meta_datum.object.meta_key_id
     object_id = meta_datum.object.object_id
 
-    if meta_key.meta_datum_object_type == "MetaDatumMetaCountry" # FIXME this doesn't exist yet!
-      h += widget_meta_countries(meta_datum, meta_key)
-
-    elsif meta_key.meta_datum_object_type
-            
       case meta_key.meta_datum_object_type
         # TODO set String for 'subject' key, TODO multiple fields for array 
         #       when "String"
         #          h += text_area_tag "media_entry[meta_data_attributes][0][value]", meta_datum.object.to_s
+        when "MetaDatumMetaCountry" # FIXME this doesn't exist yet!
+          h += widget_meta_countries(meta_datum, meta_key)
+    
         when "MetaDatumKeywords"
           h += widget_meta_terms_multiselect(meta_datum, meta_key)
           h += link_to icon_tag("button_add_keyword"), keywords_media_entries_path, :class => "dialog_link", :style => "margin-top: .5em;"
@@ -520,18 +518,20 @@ module MetaDataHelper
             HERECODE
             end.html_safe
           end unless @js_2
-      end
 
-    elsif definition.length_max and definition.length_max <= 255
-      #tmp# h += meta_datum.text_field :value, :class => "value", :"data-required" => is_required
-      h += text_field_tag "#{meta_datum.object_name}[value]", meta_datum.object.to_s, :class => "value", :"data-required" => is_required
-      h += content_tag :span, :class => "with_actions" do
-            link_to _("Übertragen auf andere Medien"), "#", :class => "hint"
-           end if with_actions # TODO see _bulk_edit
-    else
-      #tmp# h += meta_datum.text_area :value, :"data-required" => is_required #, :rows => 2
-      h += text_area_tag "#{meta_datum.object_name}[value]", meta_datum.object.to_s, :"data-required" => is_required, :rows => 2
-    end
+        when "MetaDatumString", nil
+          if definition.length_max and definition.length_max <= 255
+            #tmp# h += meta_datum.text_field :value, :class => "value", :"data-required" => is_required
+            h += text_field_tag "#{meta_datum.object_name}[value]", meta_datum.object.to_s, :class => "value", :"data-required" => is_required
+            h += content_tag :span, :class => "with_actions" do
+                  link_to _("Übertragen auf andere Medien"), "#", :class => "hint"
+                 end if with_actions # TODO see _bulk_edit
+          else
+            #tmp# h += meta_datum.text_area :value, :"data-required" => is_required #, :rows => 2
+            h += text_area_tag "#{meta_datum.object_name}[value]", meta_datum.object.to_s, :"data-required" => is_required, :rows => 2
+          end
+
+      end
 
     @js_4 ||= false
     h += javascript_tag do

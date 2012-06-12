@@ -4,7 +4,8 @@ require 'pry'
 describe MediaSetsController do
 
   before :all do
-    DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
+    FactoryGirl.create :usage_term 
+    FactoryGirl.create :meta_context_core
     @user = FactoryGirl.create :user
     @media_set = FactoryGirl.create :media_set, :user => @user
   end

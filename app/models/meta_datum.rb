@@ -55,19 +55,24 @@ class MetaDatum < ActiveRecord::Base
     if meta_key.is_dynamic? 
       case meta_key.label
         when "owner"
-          return media_resource.user
+          media_resource.user
         when "uploaded at"
-          return media_resource.created_at #old# .to_formatted_s(:date_time)
+          media_resource.created_at #old# .to_formatted_s(:date_time)
         when "copyright usage"
           copyright = media_resource.meta_data.get("copyright status").value || Copyright.default # OPTIMIZE array or single element
-          return copyright.usage(read_attribute(:value))
+          copyright.usage(read_attribute(:value))
         when "copyright url"
           copyright = media_resource.meta_data.get("copyright status").value  || Copyright.default # OPTIMIZE array or single element
-          return copyright.url(read_attribute(:value))
+          copyright.url(read_attribute(:value))
         when "public access"
-          return media_resource.is_public?
+          media_resource.is_public?
         when "media type"
-          return media_resource.media_type
+          media_resource.media_type
+        when "parent media_resources"
+          {:media_sets => media_resource.parent_sets.accessible_by_user(user).count}
+        when "child media_resources"
+          {:media_sets => media_resource.child_sets.accessible_by_user(user).count,
+           :media_entries => media_resource.media_entries.accessible_by_user(user).count} if media_resource.is_a?(MediaSet)
         #when "gps"
         #  return media_resource.media_file.meta_data["GPS"]
       end

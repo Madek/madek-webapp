@@ -9,7 +9,12 @@ class MetaDatumString < MetaDatum
   end
 
   def to_s
-    value
+    v = deserialized_value
+    if v.is_a?(Hash) # NOTE this is not recursive
+      v.map {|x,y| "#{x.to_s.classify}: #{y}"}.join(', ')
+    else
+      v
+    end
   end
 
 end
