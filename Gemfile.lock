@@ -418,6 +418,6 @@ DEPENDENCIES
   uuidtools (~> 2.1.2)
   will_paginate (~> 3.0)
   yard (~> 0.8.1)
-  yard-rest (~> 1.1.1)
+  yard-rest (~> 1.1)
   zencoder (~> 2.4)
   zip (~> 2.0.2)
