@@ -5,8 +5,8 @@ module Constants
   # update this when adding/removing tables; order must be such that
   #   later reference to previous, never the other way round
   ALL_TABLES = [
-    "users", 
     "people",
+    "users", 
     "groups",
     "groups_users",
     #

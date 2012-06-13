@@ -3,6 +3,12 @@ require 'action_controller'
 
 namespace :madek do
   task :create_migrated_persona_dump do
+    
+    # TODO there is a lot of duplicate code with in feature/support/env.rb and
+    # also with the various db dump / db restore stuff we have
+
+    # according to what Franco said a few weeks ago, just looking at the last
+    # migration won't suffice
 
     def needs_migration?(file_path)
       if File.exists?(file_path)
@@ -59,6 +65,7 @@ namespace :madek do
       system load_premigration_command
       puts "Trying to migrate the persona database"
       # TODO why this called indirectly? 
+      # Because it reliably and silently fails when run as Rake::Task["db:migrate"].invoke and I couldn't figure out why
       system "bundle exec rake db:migrate"
       system dump_postmigration_command
     else
@@ -152,8 +159,6 @@ namespace :madek do
      ActiveRecord::Base.subclasses.each { |a| a.reset_column_information }
 
      Rake::Task["db:seed"].invoke
-
-     Rake::Task["madek:meta_data:import_presets"].invoke
 
   end
   

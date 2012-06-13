@@ -43,13 +43,27 @@ class MetaDatum < ActiveRecord::Base
     raise "this method must be implemented in the derived class"
   end
 
+########################################
+
   def context_warnings(context = MetaContext.core)
-    raise "this method must be implemented in the derived class"
+    # TODO raise "this method must be implemented in the derived class"
+    
+    definition = meta_key.meta_key_definitions.for_context(context)
+    r = []
+    r << "can't be blank" if value.blank? and definition.is_required
+    r << "is too short (min is #{definition.length_min} characters)" if definition.length_min and (value.blank? or value.size < definition.length_min)
+    r << "is too long (maximum is #{definition.length_max} characters)" if value and definition.length_max and value.size > definition.length_max
+    # TODO options
+    r
   end
 
   def context_valid?(context = MetaContext.core)
-    raise "this method must be implemented in the derived class"
+    # TODO raise "this method must be implemented in the derived class"
+
+    context_warnings(context).empty?
   end
+  
+########################################
 
   def deserialized_value(user=nil)
     if meta_key.is_dynamic? 

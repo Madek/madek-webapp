@@ -6,7 +6,7 @@ module SQLHelper
     include SQLHelper
   end
 
-  def execute_sql query
+    def execute_sql query
     ActiveRecord::Base.connection.execute query 
   end
 
