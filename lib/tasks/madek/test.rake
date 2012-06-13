@@ -18,7 +18,6 @@ namespace :madek do
       # the RAILS_ENV from, so let's set a lot of options (?)
       Rails.env = 'test'
       task :environment
-      Rake::Task["madek:create_migrated_persona_dump"].invoke
       # The rspec part of this whole story gets tested against an empty database, so nothing
       # to import from a file here. Instead, we reset based on our migrations.
       Rake::Task["madek:reset"].invoke
