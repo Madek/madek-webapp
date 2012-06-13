@@ -65,6 +65,7 @@ namespace :madek do
       system load_premigration_command
       puts "Trying to migrate the persona database"
       # TODO why this called indirectly? 
+      # Because it reliably and silently fails when run as Rake::Task["db:migrate"].invoke and I couldn't figure out why
       system "bundle exec rake db:migrate"
       system dump_postmigration_command
     else
