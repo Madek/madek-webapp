@@ -19,10 +19,14 @@ module DBHelper
       end
     end
 
-    def dump_file_path
+    def base_file_name
       date_string = DateTime.now.to_s.gsub(":","-")
       migration_version =  ActiveRecord::Migrator.current_version
-      Rails.root.join "tmp", "db_dump_#{date_string}_#{migration_version}.#{file_extension}"
+      "db_dump_#{date_string}_#{migration_version}"
+    end
+
+    def dump_file_path
+      Rails.root.join "tmp", "#{base_file_name}.#{file_extension}"
     end
 
     def set_pg_env config

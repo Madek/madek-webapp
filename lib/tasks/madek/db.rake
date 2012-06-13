@@ -3,9 +3,8 @@ namespace :madek do
 
     desc "Dump the database from whatever DB to YAML"
     task :dump_to_yaml => :environment do
-      date_string = DateTime.now.to_s.gsub(":","-")
-      file_path = "tmp/db-dump-#{Rails.env}-#{date_string}.yml" 
       data_hash = DBHelper.create_hash Constants::ALL_TABLES
+      file_path = Rails.root.join "tmp", "#{DBHelper.base_file_name}.yml"
       File.open(file_path, "w"){|f| f.write data_hash.to_yaml } 
       puts "the file has been saved to #{file_path}"
     end
