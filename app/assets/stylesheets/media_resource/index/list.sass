@@ -19,9 +19,9 @@ section.media_resources.index
         display: none
       
       .item_box
-        background: white
+        background: white !important
         border-top: 1px solid white
-        border-bottom: 1px solid rgba(0,0,0,0.1)
+        //border-bottom: 1px solid #DDCCCC
         display: block
         float: left
         height: auto
@@ -30,6 +30,16 @@ section.media_resources.index
         margin: 0
         padding: 6px 51px 18px 0
         width: 100%
+        
+        &:nth-child(odd)
+          background: #F4F4F4 !important
+          &:hover
+            background: #F4F4F4 !important
+          .context
+            border-left: 1px solid #DFDFDF
+        
+        &:last-child
+          border-bottom: none
         
         &.popup_target
           background: white !important
@@ -51,8 +61,18 @@ section.media_resources.index
             position: absolute
             top: 35px
             
+        &.video
+          .item_permission
+            left: 45px
+            position: absolute
+            top: 39px
+          .thumb_box
+            top: 0
+          .actions .action_menu
+            top: 140px
+            
       .thumb_box, .thumb_box_set
-        margin: 13px 0 34px 42px
+        margin: 13px 18px 34px 42px
         
       .thumb_box_set
         margin-top: 0
@@ -73,7 +93,7 @@ section.media_resources.index
           
           &.favorite_link
             display: block
-            left: -3px
+            left: -2px
             position: relative
             top: 7px
           
@@ -99,55 +119,77 @@ section.media_resources.index
         width: 108px
       
       .meta_data
-        display: block
-        font-size: 0.9em
-        float: left
-        margin-top: 28px
-        width: 78%
-        
-        .context
-          float: left
-          width: 420px
-        
-          .meta_datum
-            display: inline-block
-            line-height: 1.2em
-            margin-bottom: 8px
-            width: 100%
+        position: relative
+        width: 100%
+      
+        table
+          font-size: 0.93em
+          margin-top: 41px
+          width: 81%
           
-            dt
-              color: #999
-              clear: left
-              display: inline-block
-              float: left
-              margin-left: 27px
-              width: 30%
+          td.context
+            border-left: 1px solid #EEE
+            padding: 0 12px
+            margin: 0
+            width: 300px
             
-            dd.truncated
-              display: none
+            &:first-child
+              border-left: none
             
-            dd.full
-              float: right
-              width: 60%
+            .no_values
+              color: grey
+              font-style: italic
               
-            dt.title
-              display: none
+            .meta_datum
+              display: inline-block
+              line-height: 1.3em
+              margin-bottom: 8px
+              width: 100%
             
-            dd.title.full
-              display: block
-              font-size: 1.1em
-              font-weight: bold
-              left: 210px
-              letter-spacing: 0
-              position: absolute
-              top: 21px
-              width: 798px
-            
-            dd.parent_media_resources, dd.child_media_resources
-              cursor: default
-            
-            .media_set.icon, .media_entry.icon
-              top: -1px
-              margin-right: 6px
-              position:relative
-              @include opacity(0.3)
+              dt
+                color: #999
+                clear: left
+                display: inline-block
+                float: left
+                width: 30%
+              
+              dd.truncated
+                display: none
+              
+              dd.full
+                float: right
+                width: 60%
+                
+              dd.parent_media_resources, dd.child_media_resources
+                cursor: default
+              
+              .media_set.icon, .media_entry.icon
+                top: -1px
+                margin-right: 6px
+                position:relative
+                @include opacity(0.25)
+              
+              &.title
+                display: block
+                left: 211px
+                position: absolute
+                top: -30px
+                width: 798px
+                
+                dt
+                  display: none
+              
+                dd.full
+                  float: left
+                  font-size: 1.1em
+                  font-weight: bold
+                  letter-spacing: 0
+                  width: auto
+                
+@media screen and (max-width: 1500px)
+  section.media_resources.index.list #results .meta_data .context:nth-child(n+3)
+    display: none !important
+
+@media screen and (max-width: 850px)
+  section.media_resources.index.list #results .meta_data .context:nth-child(n+2)
+    display: none !important

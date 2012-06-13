@@ -136,7 +136,7 @@ function setupBatch(json) {
 		if(i > -1) {
 			media_entries_json.splice(i, 1);
 			$(".item_box[data-id="+id+"]").each(function(i, el){
-			  $(el).removeClass('selected').css("background", "transparent");
+			  $(el).removeClass('selected');
 			});
 			$('#selected_items [rel="'+id+'"]').remove();
 			$("#positionable").fadeOut(); // only on browse page
@@ -155,10 +155,10 @@ function setupBatch(json) {
 }
 
 function selected_items_highlight_on(selector){
-  $('#selected_items '+selector).css("background-color", "#FEFFD7");
+  $('#selected_items '+selector).addClass("selected");
 }
 function selected_items_highlight_off(selector){
-  $('#selected_items '+selector).css("background-color", "white");
+  $('#selected_items '+selector).removeClass("selected");
 }
 
 function listSelected() {

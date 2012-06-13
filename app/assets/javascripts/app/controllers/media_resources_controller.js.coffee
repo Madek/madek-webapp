@@ -20,7 +20,7 @@ class MediaResourcesController
   delegate_events: ->
     @el.delegate "#bar .layout a[data-type]", "click", @switch_layout 
     @el.delegate ".page[data-page]", "inview", @render_page
-    @el.delegate "dl.meta_data .context[data-name]", "inview", @render_context
+    @el.delegate ".meta_data .context[data-name]", "inview", @render_context
 
   activate_layout: ->
     @el.addClass @active_layout
@@ -46,6 +46,7 @@ class MediaResourcesController
   render_context: ->
     $this = $(this)
     context_name = $this.data "name"
+    context_label = $this.data "label"
     $this.removeAttr "data-name"
     $this.addClass context_name
     options = 
@@ -55,7 +56,7 @@ class MediaResourcesController
           meta_data: 
             meta_context_names: [context_name]
       success: (data)->
-        $this.html($.tmpl "tmpl/media_resource/thumb_box/meta_data", {meta_data: data.media_resources[0].meta_data})
+        $this.html($.tmpl "tmpl/media_resource/thumb_box/meta_data", {meta_data: data.media_resources[0].meta_data}, {label: context_label})
     App.MediaResources.fetch options, false
 
   switch_layout: (e)=>

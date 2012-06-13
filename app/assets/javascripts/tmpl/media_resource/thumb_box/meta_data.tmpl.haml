@@ -1,3 +1,7 @@
+{{if MetaDatum.any_value_in(meta_data)}}
 {{each(i, meta_datum) meta_data}}
-{{tmpl(meta_datum) "tmpl/media_resource/thumb_box/meta_datum"}}
+{{tmpl(meta_datum, {media_resource_id: $item.media_resource_id}) "tmpl/media_resource/thumb_box/meta_datum"}}
 {{/each}}
+{{else}}
+%span.no_values= "Es sind keine Metadaten zu dem Kontext \"${$item.label}\" bereit gestellt."
+{{/if}}

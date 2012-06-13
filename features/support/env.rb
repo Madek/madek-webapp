@@ -97,11 +97,11 @@ Before('@javascript, ~@transactional') do
   end
 
   # Invoking things like Rake::Task["db:drop"] does NOT work in these tasks (I don't know why)
-  puts "Trying to drop database"
+  #puts "Trying to drop database" # stop flooding the terminal
   system drop_command
-  puts "Trying to create database"
+  #puts "Trying to create database" # stop flooding the terminal
   system create_command
-  puts "Trying to load persona dump into database"
+  #puts "Trying to load persona dump into database" # stop flooding the terminal
   system load_command
   exit_code = $? >> 8 # magic brainfuck
   raise "Could not load database file" if exit_code != 0

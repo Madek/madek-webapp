@@ -31,14 +31,16 @@ enter_target = (target)->
   , 100
   
 load_children = (target)->
-  if $(target).data("loaded_children")?
-    setup_children(target, $(target).data("loaded_children"))
+  if $(target).data("children_data")?
+    setup_children(target, $(target).data("children_data"))
   else
     $.ajax
       url: "/media_sets/"+target.tmplItem().data.id+".json"
       data:
         with: 
-          children: true
+          children: 
+            pagination:
+              per_page: 6
           meta_data:
             meta_key_names: ["title"]
           image:
@@ -46,14 +48,14 @@ load_children = (target)->
             size:"small"
       type: "GET"
       success: (data, status, request) ->
-        $(target).data "loaded_children", data
+        $(target).data "children_data", data
         setup_children(target, data)
       error: (request, status, error) ->
         console.log "ERROR LOADING"
     
 load_parents = (target)->
-  if $(target).data("loaded_parents")?
-    setup_parents(target, $(target).data("loaded_parents"))
+  if $(target).data("parents_data")?
+    setup_parents(target, $(target).data("parents_data"))
   else
     $.ajax
       url: "/media_sets/"+target.tmplItem().data.id+".json"
@@ -67,7 +69,7 @@ load_parents = (target)->
             size:"small"
       type: "GET"
       success: (data, status, request) ->
-        $(target).data "loaded_parents", data
+        $(target).data "parents_data", data
         setup_parents(target, data)
       error: (request, status, error) ->
         console.log "ERROR LOADING"
@@ -97,9 +99,9 @@ setup_children = (target, data)->
     # remove loading
     $($(target).data("popup")).find(".children .loading").remove()
     # setup resources
-    media_entries = (resource for resource in data.children when resource.type is "media_entry")
-    media_sets = (resource for resource in data.children when resource.type is "media_set")
-    resources = data.children[0...6]
+    media_entries = (resource for resource in data.children.media_resources when resource.type is "media_entry")
+    media_sets = (resource for resource in data.children.media_resources when resource.type is "media_set")
+    resources = data.children.media_resources
     displayed_media_entries = (resource for resource in resources when resource.type is "media_entry")
     displayed_media_sets = (resource for resource in resources when resource.type is "media_set")
     for resource in resources
@@ -188,11 +190,11 @@ create_popup = (target)->
     of: $(target).find(".thumb_box_set")
   }
   # put children inside if already exist
-  if $(target).data("loaded_children")?
-    setup_children target, $(target).data("loaded_children")
+  if $(target).data("children_data")?
+    setup_children target, $(target).data("children_data")
   # put parents inside if already exist
-  if $(target).data("loaded_parents")?
-    setup_parents target, $(target).data("loaded_parents")
+  if $(target).data("parents_data")?
+    setup_parents target, $(target).data("parents_data")
   # bind mouse leave
   $(".set_popup").bind "mouseleave", -> leave_popup $(this)
   

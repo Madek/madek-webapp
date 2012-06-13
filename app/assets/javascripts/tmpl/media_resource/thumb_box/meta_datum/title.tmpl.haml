@@ -1,0 +1,9 @@
+${$class = Underscore.string.underscored(name), ""}
+.meta_datum.title
+  %a{:href => "/media_resources/${$item.media_resource_id}"}
+    %dt{:class => "${$class}"} 
+      ${label}
+    %dd{:class => "${$class} full"} 
+      ${value}
+    %dd{:class => "${$class} truncated", :title => "${value}"} 
+      ${Str.sliced_trunc(value, 34)}
