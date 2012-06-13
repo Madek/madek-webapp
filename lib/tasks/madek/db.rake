@@ -5,7 +5,7 @@ namespace :madek do
     task :dump_to_yaml => :environment do
       date_string = DateTime.now.to_s.gsub(":","-")
       file_path = "tmp/db-dump-#{Rails.env}-#{date_string}.yml" 
-      data_hash = DevelopmentHelpers::DumpAndRestoreTables.create_hash Constants::ALL_TABLES
+      data_hash = DBHelper.create_hash Constants::ALL_TABLES
       File.open(file_path, "w"){|f| f.write data_hash.to_yaml } 
       puts "the file has been saved to #{file_path}"
     end
@@ -14,7 +14,7 @@ namespace :madek do
     task :restore_from_yaml => :environment do
       if file_name= ENV['FILE']
         h = YAML.load File.read file_name
-        DevelopmentHelpers::DumpAndRestoreTables.import_hash h, Constants::ALL_TABLES
+        DBHelper.import_hash h, Constants::ALL_TABLES
       else
         raise "missing FILE env varialbe"
       end
