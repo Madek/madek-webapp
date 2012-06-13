@@ -9,6 +9,10 @@ module DBHelper
      Rails.root.join(__FILE__)
   end
 
+  ###########################################################################
+  # database adapter specific import/export
+  ###########################################################################
+
   def file_extension
     if adapter_is_postgresql? 
       "pgbin"
@@ -30,6 +34,7 @@ module DBHelper
     ENV['PGPORT']     = config['port'].to_s     if config['port']
     ENV['PGPASSWORD'] = config['password'].to_s if config['password']
     ENV['PGUSER']     = config['username'].to_s if config['username']
+    ENV['PGDATABASE'] = config['database'].to_s if config['database']
   end
 
   def dump_native options = {}
@@ -40,7 +45,7 @@ module DBHelper
         set_pg_env config
         "pg_dump -E utf-8 -F c -f #{path}"
       elsif adapter_is_mysql? 
-        raise "TODO"
+        "mysqldump -u #{config['username']} --password=#{config['password'].to_s} #{config['database']} > #{path}"
       else
         raise "adapter not supported"
       end
@@ -56,7 +61,7 @@ module DBHelper
         set_pg_env config
         "pg_restore #{path}"
       elsif adapter_is_mysql? 
-        raise "TODO"
+        cmd = "mysql -u #{config['username']} --password=#{config['password'].to_s} #{config['database']} < #{path}"
       else
         raise "adapter not supported"
       end
@@ -65,6 +70,9 @@ module DBHelper
     $?
   end
 
+  ###########################################################################
+  # HASH / YAML import/export
+  ###########################################################################
   def create_hash tables
     table_name_models = table_name_to_table_names_models tables
     Hash[

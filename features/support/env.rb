@@ -90,7 +90,7 @@ Before('@javascript, ~@transactional') do
     load_command = "mysql -u #{sql_username} --password=#{sql_password} #{sql_database} < #{Rails.root + 'db/empty_medienarchiv_instance_with_personas.mysql.migrated.sql'}"
     create_command = "mysql -u #{sql_username} --password=#{sql_password} -e 'create database #{sql_database}'"
   elsif adapter == "postgresql"
-    migrated_file = Rails.root.join 'db','empty_medienarchiv_instance_with_personas.migrated.pgbin'
+    migrated_file = Rails.root.join 'db','empty_medienarchiv_instance_with_personas.pgbin'
     auth_part = " -U #{sql_username} -w "
     encoding_part = " -E utf-8 "
     drop_command =  "dropdb #{auth_part} #{sql_database}" 
