@@ -160,8 +160,6 @@ namespace :madek do
 
      Rake::Task["db:seed"].invoke
 
-     Rake::Task["madek:meta_data:import_presets"].invoke
-
   end
   
 end # madek namespace

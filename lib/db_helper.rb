@@ -89,13 +89,12 @@ module DBHelper
       ActiveRecord::Base.transaction do
         tables.each do |table_name|
           model = table_name_models[table_name] || table_name_models[table_name.to_s]
-          # trick pg to return somthing for join tables
+          # trick pg to return something for join tables
           unless model.attribute_names.include? "id" 
             model.instance_eval{set_primary_key model.attribute_names[0]}
           end
           model.attribute_names.each { |attr| model.attr_accessible attr}
           h[table_name].each do |attributes|
-            puts "creating #{table_name} with #{attributes}"
             model.create attributes
           end
           SQLHelper.reset_autoinc_sequence_to_max model if model.attribute_names.include? "id"
