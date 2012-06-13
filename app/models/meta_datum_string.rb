@@ -2,12 +2,6 @@
  
 class MetaDatumString < MetaDatum
 
-  alias_attribute :value, :string
-
-  after_save do
-    SQLHelper.execute_sql "UPDATE meta_data SET value = NULL where id = #{id}"
-  end
-
   def to_s
     v = deserialized_value
     if v.is_a?(Hash) # NOTE this is not recursive
@@ -17,4 +11,12 @@ class MetaDatumString < MetaDatum
     end
   end
 
+  def value
+    string
+  end
+
+  def value=(new_value)
+    self.string = new_value
+  end
+  
 end

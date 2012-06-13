@@ -13,7 +13,7 @@ class MetaDatumCopyright < MetaDatum
   end
 
   def value=(new_value)
-    copyright = case new_value
+    self.copyright = case new_value
       when true
         Copyright.custom
       when false
