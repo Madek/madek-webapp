@@ -20,46 +20,22 @@ namespace :madek do
       end
     end
 
-    # TODO 
-    # we have a lot of duplication between PG and MY
-    # refactor the core functionallity out to lib/sql_helper
-    desc "Dump the PostgresDB"
-    task :dump_pg do
-      date_string = DateTime.now.to_s.gsub(":","-")
-      config = Rails.configuration.database_configuration[Rails.env]
-      sql_host     = config["host"]
-      sql_database = config["database"]
-      sql_username = config["username"]
-      sql_password = config["password"]
-      date_string = DateTime.now.to_s.gsub(":","-")
-      path = "tmp/db-dump-#{Rails.env}-#{date_string}.pgbin" 
-      puts "Dumping database to #{path}"
-      cmd = "pg_dump -U #{sql_username} -h #{sql_host} -v -E utf-8 -F c -f #{path} #{sql_database}"
-      puts "executing : #{cmd}"
-      system cmd 
+    desc "Dump the database in the native adapter format"
+    task :dump => :environment do
+      DBHelper.dump_native config: Rails.configuration.database_configuration[Rails.env]
     end
 
-    desc "Restore the PostgresDB" 
-    task :restore_pg => :environment do
-      unless ENV['FILE'] 
-        puts "can't find the FILE env variable, bailing out"
-        exit
-      end
+    desc "Restore the database from native adapter format" 
+    task :restore => :environment do
       puts "dropping the db" 
       Rake::Task["db:drop"].invoke
       puts "creating the db"  
       Rake::Task["db:create"].invoke
-      config = Rails.configuration.database_configuration[Rails.env]
-      sql_host     = config["host"]
-      sql_database = config["database"]
-      sql_username = config["username"]
-      sql_password = config["password"]
-      file= ENV['FILE']
-      cmd = "pg_restore -U #{sql_username} -d #{sql_database} #{file}"
-      puts "executing: #{cmd}"
-      system cmd
+      DBHelper.restore_native ENV['FILE'], config: Rails.configuration.database_configuration[Rails.env]
     end
 
+
+    # TODO  remove duplication
     desc "Dump the MySqlDB"
     task :dump_my do
       date_string = DateTime.now.to_s.gsub(":","-")
