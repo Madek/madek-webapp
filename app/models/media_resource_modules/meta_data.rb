@@ -44,7 +44,7 @@ module MediaResourceModules
 
         def self.find_by_title(title)
           MediaResource.joins(:meta_data => :meta_key).
-            where(:meta_data => {:meta_keys => {:label => "title"}, :value => title.to_yaml})
+            where(:meta_data => {:meta_keys => {:label => "title"}, :string => title})
         end
 
         def title
