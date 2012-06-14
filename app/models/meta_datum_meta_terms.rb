@@ -25,9 +25,11 @@ class MetaDatumMetaTerms < MetaDatum
         LANGUAGES.each do |lang|
           h[lang] = v
         end
-        term = MetaTerm.find_or_build_by_en_gb_and_de_ch(h)
+        term = MetaTerm.find_or_initialize_by_en_gb_and_de_ch(h)
         meta_key.meta_terms << term unless meta_key.meta_terms.include?(term)
         term
+      else
+        v
       end
     end
   end
