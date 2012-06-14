@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Forschungsplattform &quot;Gesellschaft und Gebaute Umwelt&quot;</title>
+	<%= stylesheet_link_tag "root" %>
+	<%= stylesheet_link_tag "button/button" %>
+	<%= javascript_include_tag "root.js" %>
+	<%= javascript_include_tag "meta_datum/meta_datum" %>
+</head>
+
+<body>
+
+  <div id="sticky-footer-wrapper">
+
+  	<header>
+  		<%= flash_helper %>
+  		<div class='container_12 clearfix'>
+  			<div class='grid_12'>
+  			<nav class='clearfix'>
+  				<a href="/" class="logo_left ir">Forschungsplattform &quot;Gesellschaft und Gebaute Umwelt&quot;</a>
+  			</nav>
+  				<a href="http://www.wohnforum.arch.ethz.ch" class="logo_right ir" style="margin-right: 22px;">ETH Zürich</a>
+  			</div>
+  					<div id="beta"><p>In Entwicklung<br /> Version <%= "#{RELEASE_VERSION}" %><br/><small>Beta</small></p></div>
+  		</div>
+  	</header>
+
+  	<div id="wrapper">
+  	<div id="container" class="container_12">
+  		<div id="content" class="grid_8 alpha">
+
+  			<!-- Teaser -->
+        <div id="slider-wrapper">
+  				<div id="slider" class="nivoSlider">
+			      <img src="/assets/root/madek.jpg" alt="" title="#htmlcaption1" />
+          </div>
+          <div id="htmlcaption1" class="nivo-html-caption">
+              <strong>Forschungsplattform &quot;Gesellschaft und Gebaute Umwelt&quot;</strong><br />Ein Online-Tool für wissenschaftliches Arbeiten an der Schnittstelle Gesellschaft &amp; gebaute Umwelt.
+          </div>
+  			</div>
+
+  			<!-- Short About & Statistics -->
+  			<div>
+  				<div id="about" class="grid_4 alpha">
+  					<h1>Forschungsplattform &quot;Gesellschaft und Gebaute Umwelt&quot;</h1>
+  					<p class="tagline">Ein Online-Tool für wissenschaftliches Arbeiten an der Schnittstelle Gesellschaft &amp; gebaute Umwelt.</p>
+  					<p class="short_about">Bilder, Fotos, Audio- und Text-Dateien:<br/>Die Forschungsplattform &quot;Gesellschaft und Gebaute Umwelt&quot; ist ein Werkzeug zum kooperativen Arbeiten mit Mediendateien und zum Teilen von Inhalten</p>
+  				</div> <!-- #about -->
+  				<div id="stats" class="grid_4 omega">
+  					<div id="inner-stats">
+  					<div class="statbox">
+  						<div id="media-stat">Media</div>
+  						<p><span><%= MediaEntry.count %></span><br />Medien</p>
+  					</div>
+  					<div class="statbox">
+  						<div id="user-stat">Users</div>
+  						<p><span style="font-weight: bold; font-size: 1.5em;text-shadow: -1px -1px 2px #fff;"><%= User.count %></span><br />Nutzer/innen</p>
+  					</div>
+  					<div class="statbox">
+  						<div style="width: 81px; height: 81px; background: #fff url(/assets/root/icon-tags.png) 50% 50% no-repeat;border-radius: 5px; margin-bottom: 1em; border: 2px solid #929292">&nbsp;</div>
+  						<p><span style="font-weight: bold; font-size: 1.5em;text-shadow: -1px -1px 2px #fff;"><%= Keyword.count(:meta_term_id) %></span><br />Schlagworte</p>
+  					</div>
+  					</div>
+  				</div> <!-- #stats -->
+  			</div>
+
+  			<div id="funcs" class="stopfloating">
+  				<div class="grid_2 alpha">
+  					<div class="madekfuncs"><img src="/assets/root/archiving-02.png" alt="" /></div>
+  					<h3>Wissen entwickeln</h3>
+  					<p>Forscher/-innen können ihr Wissen organisieren und für andere sichtbar machen.</p>
+  				</div>
+  				<div class="grid_2">
+  					<div class="madekfuncs"><img src="/assets/root/sharing-02.png" alt="" /></div>
+  					<h3>Medien teilen</h3>
+  					<p>Die Plattform ermöglicht Forschern und Forscherinnen ihre Daten und Medien zu teilen.</p>
+  				</div>
+  				<div class="grid_2">
+  					<div class="madekfuncs"><img src="/assets/root/learning-02.png" alt="" /></div>
+  					<h3>Inhalte suchen</h3>
+  					<p>Auf der Plattform kann man Informationen aus einzelnen Projekten finden.</p>
+  				</div>
+  				<div class="grid_2 omega">
+  					<div class="madekfuncs"><img src="/assets/root/exploring-02.png" alt="" /></div>
+  					<h3>Dokumente archivieren</h3>
+  					<p>Sie unterstützt die ersten Schritte der Archivierung.</p>
+  				</div>
+  			</div>
+
+  		</div> <!-- #content -->
+
+  		<div id="sidebar" class="grid_4 omega">
+
+  			<!-- Login -->
+  			<div id="login" class="sidebar-box">
+  				<p></p>
+  				<p><%= link_to _("Anmelden"), "/db/login", :class => "actionbutton button yellow" %></p>
+  				<p class="disclaimer"></p>
+  			</div> <!-- #login -->
+
+  			<!-- News -->
+  			<div id="news" class="sidebar-box">
+  				<h4>Willkommen</h4>
+  				<p class="sidebar-box-claim"><!-- untertitel hier --></p>
+          <div class="newsitem">
+            <p>Die Forschungsplattform ist ein Online-Tool zum gemeinschaftlichen Arbeiten mit Medien und zum Teilen von Inhalten an der Schnittstelle &quot;Gesellschaft &amp; gebaute Umwelt&quot;.</p>
+            <p>Die Plattform ist aktuell im Aufbau, die Inhalte gehen vorläufig aus vier am ETH Wohnforum - ETH CASE (Centre for Research on Architecture Society and the Built Environment) angesiedelten Forschungsprojekten hervor. Sie wird von Forschern und Forscherinnen aus den Bereichen Sozial- und Kulturwissenschaften, Geographie, Politikwissenschaften, Planung und Architektur verwendet. Die Plattform &quot;Gesellschaft &amp; gebaute Umwelt&quot; kann projektspezifisch für das Teilen, die Entwicklung, die Suche und die Archivierung von Wissen angepasst und genutzt werden.</p>
+          </div>
+
+  			</div> <!-- #news -->
+
+  			<!-- Users -->
+  			<div id="users" class="sidebar-box">
+          <h4>Übersicht</h4>
+  				<p class="sidebar-box-claim">Bereits in Betrieb</p>
+
+  		    <div class="inline-tabs">
+  		      <div class="container">
+  		        <span class="tab active" data-items_class="tab1">
+  		          Forschungsprojekte
+  		        </span>
+  		        <span class="tab" data-items_class="tab2">
+  		          Nutzer-/innen
+              </span>
+  		      </div>
+  			  </div>
+
+  				<div class="pilotitem tab1">
+  					<div class="portrait"><img src="/assets/root/oliver-emch-portrait.png" alt="Oliver Emch" /></div>
+  					<p><span>Das Wohnhochhaus:</span> Globalisierung einer Gebäudeform.</p>
+  				</div>
+
+  				<div class="pilotitem stopfloating tab1">
+  					<div class="portrait"><img src="/assets/root/vertiefung-fotografie-portrait.png" alt="Vertiefung Fotografie" /></div>
+  					<p><span>Der Hauswart / die Hauswärtin</span></p>
+  				</div>
+
+  				<div class="pilotitem stopfloating tab1">
+  					<div class="portrait"><img src="/assets/root/vmk-portrait.png" alt="Birk Weiberg" /></div>
+  					<p><span>Atlas Urbane Qualität</span></p>
+  				</div>
+
+          <div class="pilotitem stopfloating tab1">
+            <div class="portrait"><img src="/assets/root/vmk-portrait.png" alt="Birk Weiberg" /></div>
+            <p><span>Der Stuhl</span></p>
+          </div>
+
+  				<div class="pilotitem tab2">
+            <div class="portrait"><img src="/assets/root/rolf-wolfensberger-portrait.png" alt="Rolf Wolfensberger" /></div>
+            <p><span>Rolf Wolfensberger</span>, Leiter Archiv ZHdK, schätzt das Medienarchiv als Werkzeug für die aktive Dokumentation vergänglicher Werke.</p>
+          </div>
+
+
+  			</div> <!-- #news -->
+  		</div>
+  	</div> <!-- #container -->
+	</div><!-- #wrapper -->
+	</div><!-- #stick-footer-wrapper -->
+	<div id="footer" class="stopfloating">
+		<div id="innerfooter" class="container_12">
+			<div class="grid_3 alpha">
+				<h4>Projekt</h4>
+				<ul>
+					<li><a href="http://www.zhdk.ch/?madek">Informationen</a></li><br/>
+					<li><a href="http://www.zhdk.ch/index.php?id=10360">Newsletter</a></li>
+				</ul>
+			</div>
+			<div class="grid_3">
+				<h4>Verwendung</h4>
+				<ul>
+					<li><%= link_to "Nutzungsbestimmungen", usage_terms_users_path %></li>
+				</ul>
+			</div>
+			<div class="grid_3">
+				<h4>Entwicklung</h4>
+				<ul>
+					<li><a href="http://www.zhdk.ch/index.php?id=12974">Freie Software</a></li>
+				</ul>
+			</div>
+			<div class="grid_3">
+				<h4>Kontakt</h4>
+				<ul>
+					<li><a href="http://www.zhdk.ch/index.php?id=12970">Team</a></li>
+				</ul>
+			</div>
+
+			<div id="copyright" class="grid_12">
+				<p>2009-2011 <a href="http://www.zhdk.ch">Zürcher Hochschule der Künste</a><br /><%= render :partial => "layouts/deploy_info" %></p>
+			</div>
+
+		</div>
+	</div>
+
+    <script type="text/javascript">
+      $(function(){
+        // tabs for pilotitems
+        $("#users.sidebar-box .inline-tabs .tab").click(function(){
+          if(!$(this).hasClass("active")) {
+            $(this).addClass("active").siblings(".tab").removeClass("active");
+            $("#users.sidebar-box").find(".pilotitem").hide();
+            $("#users.sidebar-box").find(".pilotitem."+$(this).data("items_class")).show();
+          }
+        });
+
+        // get splash screen images from splash_screen_set
+        var set_id = "<%= AppSettings.splashscreen_slideshow_set_id %>";
+        if(set_id.length) {
+          $.ajax("/media_sets/"+set_id, {
+            data: {with: {children:"media_entries", 
+                          meta_data: {meta_context_names:["core"]}},
+                   format: "json"},
+            dataType: "json",
+            success: function(data, status, request) {
+              window.setTimeout(function(){
+                $("#slider").fadeOut(1000, function(){
+                  // setup splashscreen images
+                  var image_clone = $("#slider-wrapper #slider img").clone();
+                  $("#slider-wrapper #slider img").remove();
+                  var caption_clone = $("#slider-wrapper #htmlcaption1").clone();
+                  $("#slider-wrapper #htmlcaption1").remove();
+                  
+                  if(data.children != null) {
+                    randomElements = data.children.sort(function(){ 
+                      return Math.round(Math.random())-0.5;
+                    }).slice(0,5);
+                    
+                    $.each(randomElements, function(i, entry){
+                      // image
+                      var entry_image = $(image_clone).clone();
+                      $(entry_image).attr("src", "/media_resources/"+entry.id+"/image?size=large").attr("title", "#htmlcaption"+(i+1));
+                      $("#slider-wrapper #slider").append(entry_image);
+                      
+                      // caption
+                      var meta_data = MetaDatum.flatten(entry.meta_data);
+                      var entry_caption = $(caption_clone).clone();
+                      $(entry_caption).attr("id", "htmlcaption"+(i+1)).html("<strong>"+meta_data.title+"</strong><br/>"+meta_data.author);
+                      $("#slider-wrapper").append(entry_caption);
+                    });
+                    
+                    // setup nivo slider
+                    $('#slider').nivoSlider({
+                      pauseTime:5000,
+                      captionOpacity: 0.8,
+                      effect: 'fade',
+                      directionNav:false,
+                      controlNav: false
+                    });
+                    
+                    $("#slider").fadeIn();                    
+                  }
+                  
+                });
+              },1500);
+            },
+            error: function(request, status, error){
+              console.log(error);
+            }
+          });
+        }
+      });
+    </script>
+</body>
+</html>
