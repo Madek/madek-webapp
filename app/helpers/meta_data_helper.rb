@@ -102,6 +102,7 @@ module MetaDataHelper
 
   # TODO merge with MetaDatum#to_s
   def formatted_value(meta_datum)
+    
     case meta_datum.meta_key.meta_datum_object_type
       when "MetaDatumPeople", "MetaDatumUsers"
         formatted_value_for_people(Array(meta_datum.deserialized_value))
@@ -112,7 +113,7 @@ module MetaDataHelper
         end
         s.join(', ').html_safe
       when "MetaDatumDate"
-        meta_datum.to_s.html_safe
+        meta_datum.to_s.try(&:html_safe)
       when "Date"
         _("%s Uhr") % meta_datum.deserialized_value.to_formatted_s(:date_time)
       when "MetaDatumMetaTerms"
