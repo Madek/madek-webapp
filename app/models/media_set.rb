@@ -22,7 +22,7 @@ class MediaSet < MediaResource
   # but there could be many sets with the same title 
   def self.find_by_title(title)
     MediaSet.joins(:meta_data => :meta_key).
-      where(:meta_data => {:meta_keys => {:label => "title"}, :value => title.to_yaml}).first
+      where(:meta_data => {:meta_keys => {:label => "title"}, :string => title}).first
   end
 
 ########################################################

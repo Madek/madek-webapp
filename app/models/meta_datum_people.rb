@@ -17,7 +17,9 @@ class MetaDatumPeople < MetaDatum
   def value=(new_value)
     people.clear
     people << Person.split(Array(new_value)).map do |v|
-        if v.is_a?(Fixnum) or (v.respond_to?(:is_integer?) and v.is_integer?)
+        if v.is_a?(Person)
+          v
+        elsif v.is_a?(Fixnum) or (v.respond_to?(:is_integer?) and v.is_integer?)
           Person.find_by_id(v)
         else
           firstname, lastname = Person.parse(v)
