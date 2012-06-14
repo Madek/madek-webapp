@@ -51,10 +51,8 @@ Feature: List view
   
   @javascript
   Scenario: Height of a row in list view
-    Given I see a list of resources
-    When I switch to the list view
-    And one resource has more metadata than another
-    Then the row containing the resource with more metadata is taller than the other
+    When I see a list of resources
+    Then one resource can be taller caused by it's visible meta data
   
   @javascript
   Scenario: Thumbnails in list view
@@ -69,7 +67,7 @@ Feature: List view
 
   @javascript
   Scenario: Contexts visible in list view
-    When I see a resource in list view
+    When I see a resource in a list view
     Then I see the meta data for context "Core"
     And I see the meta data for context "Institution" after some loading
     And I see the meta data for context "Nutzung" after some loading

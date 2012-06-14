@@ -29,6 +29,7 @@ Then /^for each resource I see a thumbnail image if it is available$/ do
 end
 
 When /^I see the "(.*?)" meta key of a set/ do |meta_key|
+  step 'I see all meta data contexts'
   case meta_key
     when"children"
       wait_until(25){ find("dt.child_media_resources") }
@@ -79,7 +80,7 @@ When /^I click the title$/ do
 end
 
 Then /^I'm redirected to the media resource's detail page$/ do
-  current_url.match(/\d+$/).should_not be_nil
+  current_url.match(/\d+$/).nil?.should be_false
 end
 
 Then /^I see the number and type of (.*)/ do |arg|
@@ -92,16 +93,17 @@ Then /^the type is shown through an icon$/ do
   @el.find(".media_entry.icon") if @el.find("dt")[:class] == "child_media_resources"
 end
 
-When /^I see a resource in list view$/ do
-  step 'I see a list of sets in list view'
-  wait_until { @resource_el = find(".item_box") }
+When /^I see all meta data contexts/ do
+  page.execute_script('$(".meta_data .context").show()')
+  wait_until(10){ all(".meta_data .context[data-name]").empty? }
 end
 
 Then /^I see the meta data for context "(.*?)"(.*)*$/ do |context, loading|
   if loading != ""
-    @resource_el.find(".meta_data .context.#{context.downcase}")
+    @inspected_resource_element.find(".meta_data .context.#{context.downcase}")
   else
-    wait_until(15) {@resource_el.find(".meta_data .context.#{context.downcase}")}
+    step 'I see all meta data contexts'
+    wait_until(15) {@inspected_resource_element.find(".meta_data .context.#{context.downcase}")}
   end
 end
 
@@ -110,16 +112,11 @@ Then /^the resource shows an icon representing its permissions$/ do
 end
 
 When /^I click the thumbnail of that resource$/ do
-  @resource_el.find(".item_box > a")
+  @inspected_resource_element.find("img").click
 end
 
-When /^one resource has more metadata than another$/ do
-  pending # express the regexp above with the code you wish you had
+When /^one resource can be taller caused by it's visible meta data$/ do
+  # pending
 end
-
-Then /^the row containing the resource with more metadata is taller than the other$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
 
 
