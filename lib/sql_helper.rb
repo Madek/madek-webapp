@@ -15,11 +15,11 @@ module SQLHelper
   end
 
   def adapter_is_mysql?
-    adapter_name == "Mysql2"
+    ["mysql", "mysql2"].include? Rails.configuration.database_configuration[Rails.env]["adapter"]
   end
 
   def adapter_is_postgresql?
-    adapter_name == "PostgreSQL"
+    "postgresql" == Rails.configuration.database_configuration[Rails.env]["adapter"]
   end
 
   def database_name
