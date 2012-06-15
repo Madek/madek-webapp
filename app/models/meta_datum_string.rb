@@ -7,7 +7,7 @@ class MetaDatumString < MetaDatum
     if v.is_a?(Hash) # NOTE this is not recursive
       v.map {|x,y| "#{x.to_s.classify}: #{y}"}.join(', ')
     else
-      v
+      v.to_s
     end
   end
 
