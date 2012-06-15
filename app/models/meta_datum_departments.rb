@@ -15,14 +15,17 @@ class MetaDatumDepartments < MetaDatum
   end
 
   def value=(new_value)
-    meta_departments.clear
-    meta_departments << Array(new_value).map do |v|
+    new_meta_departments = Array(new_value).map do |v|
       if v.is_a?(Fixnum) or (v.respond_to?(:is_integer?) and v.is_integer?)
         MetaDepartment.find_by_id(v)
+      elsif v.is_a?(String)
+        MetaDepartment.by_string(v).first
       else
         v
       end
     end
+    meta_departments.clear
+    meta_departments << new_meta_departments.compact
   end
 
 end
