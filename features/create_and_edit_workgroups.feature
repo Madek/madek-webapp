@@ -39,6 +39,7 @@ Feature: Create and edit workgroups
     Then I should see "Pig, Porky"
      And I should see "Duck, Daffy"
      And I press "Speichern"
+     And I wait for 3 seconds
      And "Duck, Daffy" should be a member of the "Looney Tunes" group
      And "Pig, Porky" should be a member of the "Looney Tunes" group
 
