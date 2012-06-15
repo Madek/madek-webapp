@@ -97,8 +97,8 @@
         = _("Dieses Set ist in %s enthalten") % pluralize(@parents.size, "Set")
     .clear
     #parents.media_resources.index.grid
-    %section#children.media_resources.index
-      = render :partial => "media_resources/index"
+  %section#children.media_resources.index
+    = render :partial => "media_resources/index"
 
 :ruby
   with = {:media_type => true,
