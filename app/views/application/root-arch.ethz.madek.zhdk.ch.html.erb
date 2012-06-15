@@ -21,8 +21,7 @@
   			<nav class='clearfix'>
   				<a href="/" class="logo_darch_left">Forschungsplattform &quot;Gesellschaft und Gebaute Umwelt&quot;</a>
   			</nav>
-  				<a href="http://www.wohnforum.arch.ethz.ch" class="logo_darch_right ir" style="margin-right: 22px;">ETHZ</a>
-          <a href="http://www.arch.ethz.ch" class="logo_darch_rightmost ir" style="margin-right: 22px;">DARCH</a>
+
 
   			</div>
   					<div id="beta"><p>In Entwicklung<br /> Version <%= "#{RELEASE_VERSION}" %><br/><small>Beta</small></p></div>
@@ -97,7 +96,16 @@
 
   			<!-- Login -->
   			<div id="login" class="sidebar-box">
-  				<p></p>
+  				
+          <div id="logos" class="darch">
+            <a href="http://www.wohnforum.arch.ethz.ch" class="logo_darch_right ir" style="margin-right: 22px;">
+              <%= image_tag "icons/logo_wohnforum_case.png" %>
+            </a>
+            <a href="http://www.arch.ethz.ch" class="logo_darch_rightmost ir" style="margin-right: 22px;">
+              <%= image_tag "icons/logo_darch.png" %>
+            </a>
+          </div>
+
   				<p><%= link_to _("Anmelden"), "/db/login", :class => "actionbutton button yellow" %></p>
   				<p class="disclaimer"></p>
   			</div> <!-- #login -->
