@@ -48,6 +48,7 @@ When /^I see a resource in a list view$/ do
   step 'I see a list of resources'
   step 'I switch to the list view'
   @inspected_resource = MediaResource.accessible_by_user(@current_user).last
+  wait_until {find(".item_box[data-id='#{@inspected_resource.id}']")}
   @inspected_resource_element = find(".item_box[data-id='#{@inspected_resource.id}']")
 end
 
@@ -95,7 +96,8 @@ end
 
 When /^I see all meta data contexts/ do
   page.execute_script('$(".meta_data .context").show()')
-  wait_until(10){ all(".meta_data .context[data-name]").empty? }
+  find("#bar .layout a[data-type=grid]").click
+  find("#bar .layout a[data-type=list]").click
 end
 
 Then /^I see the meta data for context "(.*?)"(.*)*$/ do |context, loading|
@@ -103,7 +105,7 @@ Then /^I see the meta data for context "(.*?)"(.*)*$/ do |context, loading|
     @inspected_resource_element.find(".meta_data .context.#{context.downcase}")
   else
     step 'I see all meta data contexts'
-    wait_until(15) {@inspected_resource_element.find(".meta_data .context.#{context.downcase}")}
+    wait_until(25) {@inspected_resource_element.find(".meta_data .context.#{context.downcase}")}
   end
 end
 
