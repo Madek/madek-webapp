@@ -35,29 +35,17 @@ html, body {
   font-size: 14pt;
 }
 
-a.logo_darch_left, a.logo_darch_left:active, a.logo_darch_left:visited {
+a.logo_darch_left, a.logo_darch_left:active, a.logo_darch_left:visited, a.logo_darch_left:hover {
   color: #dedede;
   text-decoration: none;
 }
 
-
-.logo_darch_right {
-  background: transparent url(../assets/icons/logo_wohnforum_case.png) no-repeat;
-  height: 40px;
-  width: 102px;
-  position: absolute;
-  top:8px;
-  left: 632px;
+#logos {
+  text-decoration: none;
+  margin-bottom: 0.8em;
+  margin-top: 1.2em;
 }
 
-.logo_darch_rightmost {
-  background: transparent url(../assets/icons/logo_darch.png) no-repeat;
-  height: 40px;
-  width: 119px;
-  position: absolute;
-  top:8px;
-  left: 742px;
-}
 /* End special CSS for the ETHZ DARCH/Wohnforum instance arch.ethz.madek.zhdk.ch */
 
 
