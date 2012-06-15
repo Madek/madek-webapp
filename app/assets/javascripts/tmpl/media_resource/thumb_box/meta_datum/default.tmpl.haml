@@ -2,7 +2,11 @@ ${$class = Underscore.string.underscored(name), ""}
 .meta_datum
   %dt{:class => "${$class}"} 
     ${label}
-  %dd{:class => "${$class} full"} 
+  %dd{:class => "${$class} full"}
+    {{if (type == "date")}}
+    ${MetaDatum.parse_date(value)}
+    {{else}}
     ${value}
+    {{/if}}
   %dd{:class => "${$class} truncated", :title => "${value}"} 
     ${Str.sliced_trunc(value, 34)}

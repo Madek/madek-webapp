@@ -3,14 +3,15 @@ require 'spec_helper'
 describe KeywordsController do
   render_views
   
-  before :all do
-    @normin = FactoryGirl.create :user, login: "normin"
-    @keyword1 = FactoryGirl.create :keyword, user: @normin
-    @keyword2 = FactoryGirl.create :keyword, user: @normin
+  before :all do 
+    FactoryGirl.create :usage_term
+    @user = FactoryGirl.create :user
+    @keyword1 = FactoryGirl.create :keyword, user: @user
+    @keyword2 = FactoryGirl.create :keyword, user: @user
   end
 
   let :session do
-    {user_id: @normin.id}
+    {user_id: @user.id}
   end
 
   describe "GET index" do

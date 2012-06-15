@@ -83,7 +83,7 @@ class MediaEntriesController < ApplicationController
   
   def browse
     # TODO merge with index
-    @viewable_ids = MediaEntry.accessible_by_user(current_user).map(&:id)
+    @viewable_ids = MediaEntry.accessible_by_user(current_user).pluck(:id)
   end
   
 #####################################################
@@ -132,7 +132,7 @@ class MediaEntriesController < ApplicationController
     
     respond_to do |format|
       format.json {
-        render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => parent_media_sets}
+        render :partial => "media_resources/index", :formats => [:json], :handlers => [:rjson], :locals => {:media_resources => parent_media_sets}
       }
     end
   end

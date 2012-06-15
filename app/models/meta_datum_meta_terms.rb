@@ -7,10 +7,9 @@ class MetaDatumMetaTerms < MetaDatum
     association_foreign_key: :meta_term_id
 
   alias_attribute :value, :meta_terms
-  alias_attribute :deserialized_value, :meta_terms
 
   def to_s
-    value.map(&:to_s).join("; ")
+    deserialized_value.map(&:to_s).join("; ")
   end
 
 end

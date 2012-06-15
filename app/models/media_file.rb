@@ -97,6 +97,10 @@ class MediaFile < ActiveRecord::Base
     self.guid = get_guid 
     self.filename = CGI::escape(uploaded_data.original_filename)
     self.size = uploaded_data.size
+
+    # NOTE: Force the mimetype here and dont let the user's browser/os providing a possible wrong MimeType 
+    # possibile solution:
+    # self.content_type = Rack::Mime.mime_type(File.extname(filename))
     self.content_type = uploaded_data.content_type
   end
 

@@ -14,7 +14,7 @@ module JsonHelper
         {}
     end
     
-    render(:partial => "#{partial}.json.rjson", :locals => {type => source, :with => with})
+    render(:partial => "#{partial}",:formats => [:json], :handlers => [:rjson], :locals => {type => source, :with => with})
   end
   
 end

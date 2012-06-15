@@ -117,7 +117,7 @@ class PermissionsController < ApplicationController
 
       # destroy deleted or no more wanted user_permissions
       media_resource_ids.each do |mr_id| 
-        existing_up_user_ids = Set.new Userpermission.where("media_resource_id= ?",mr_id).map(&:user_id)
+        existing_up_user_ids = Set.new Userpermission.where("media_resource_id= ?",mr_id).pluck(:user_id)
         (existing_up_user_ids - affected_user_ids).each do |uid|
           Userpermission.where("media_resource_id= ?",mr_id).where("user_id = ?",uid).first.destroy
         end
@@ -134,7 +134,7 @@ class PermissionsController < ApplicationController
 
       # destroy deleted or no more wanted group_permissions
       media_resource_ids.each do |mr_id| 
-        existing_gp_group_ids = Set.new Grouppermission.where("media_resource_id= ?",mr_id).map(&:group_id)
+        existing_gp_group_ids = Set.new Grouppermission.where("media_resource_id= ?",mr_id).pluck(:group_id)
         (existing_gp_group_ids - affected_group_ids).each do |gid|
           Grouppermission.where("media_resource_id= ?",mr_id).where("group_id = ?",gid).first.destroy
         end

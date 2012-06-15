@@ -210,11 +210,11 @@ When "I fill in the metadata form as follows:" do |table|
     if list.nil?
       raise "Can't find any input fields with the text '#{text}'"
     else
-      if !list["class"].match(/Person/).blank?
+      if !list["class"].match(/MetaDatumPeople/).blank?
         fill_in_person_widget(list, hash['value'], hash['options'])
-      elsif !list["class"].match(/Keyword/).blank?
+      elsif !list["class"].match(/MetaDatumKeywords/).blank?
         fill_in_keyword_widget(list, hash['value'], hash['options'])
-      elsif !list["class"].match(/MetaTerm/).blank?
+      elsif !list["class"].match(/MetaDatumMetaTerms/).blank?
         if list.has_css?(".meta_terms")
           set_term_checkbox(list, hash['value'])
         elsif list.has_css?(".madek_multiselect_container")
@@ -234,7 +234,7 @@ When "I fill in the metadata form as follows:" do |table|
         else
           raise "Unknown MetaTerm interface element when trying to set key labeled '#{text}'"
         end
-      elsif !list["class"].match(/MetaDepartment/).blank?
+      elsif !list["class"].match(/MetaDatumDepartments/).blank?
         puts "Sorry, can't set MetaDepartment to '#{text}', the MetaDepartment widget is too hard to test right now."
 
         #select_from_multiselect_widget(list, hash['value'])
@@ -327,7 +327,6 @@ When /^I click the edit icon on the media entry titled "([^"]*)"$/ do |title|
   page.execute_script("$('.actions').show()")
   entry = find_media_entry_titled(title)
   entry.find(".button_edit_active").click
-  wait_until { find("#resource_edit") }
 end
 
 When /^I click the delete icon on the media entry titled "([^"]*)"$/ do |title|

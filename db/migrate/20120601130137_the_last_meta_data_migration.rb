@@ -5,9 +5,11 @@ class TheLastMetaDataMigration < ActiveRecord::Migration
                        {object_type: 'Date'})
 
     remove_column :meta_keys, :object_type
+    remove_column :meta_data, :value
   end
 
   def down
+    add_column :meta_data, :value, :text
     add_column :meta_keys, :object_type, :string
 
     MetaKey.update_all({object_type: 'Date'},

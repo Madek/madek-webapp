@@ -1,5 +1,6 @@
-%dl.meta_data
-  .context.core
-    {{tmpl({meta_data: meta_data}) "tmpl/media_resource/thumb_box/meta_data"}}
-  .context{:"data-name" => "institution"}
-  .context{:"data-name" => "nutzung"}
+.meta_data
+  %table
+    %tr
+      %td.context.core {{tmpl({meta_data: meta_data}, {media_resource_id: id, label: "Core"}) "tmpl/media_resource/thumb_box/meta_data"}}
+      %td.context{:"data-name" => "institution", :"data-label" => "Institution"} 
+      %td.context{:"data-name" => "nutzung", :"data-label" => "Nutzung"}

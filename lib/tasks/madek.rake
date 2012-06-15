@@ -3,6 +3,13 @@ require 'action_controller'
 
 namespace :madek do
   task :create_migrated_persona_dump do
+    
+    # TODO there is a lot of duplicate code with in feature/support/env.rb and
+    # also with the various db dump / db restore stuff we have
+
+    # according to what Franco said a few weeks ago, just looking at the last
+    # migration won't suffice
+
     def needs_migration?(file_path)
       if File.exists?(file_path)
         versions_string = `grep -i "insert into.*schema_migrations.*" #{file_path}`
@@ -37,6 +44,15 @@ namespace :madek do
       create_command = "mysql -u #{sql_username} --password=#{sql_password} -e 'create database #{sql_database}'"
       dump_postmigration_command = "mysqldump -u #{sql_username} --password=#{sql_password} #{sql_database} > #{migrated_file}"
     elsif adapter == "postgresql"
+      auth_part = " -U #{sql_username} -w "
+      encoding_part = " -E utf-8 "
+      unmigrated_file = Rails.root.join 'db','empty_medienarchiv_instance_with_personas.pgbin'
+      migrated_file = Rails.root.join 'db','empty_medienarchiv_instance_with_personas.migrated.pgbin'
+      remove_command = "rm -f #{migrated_file}"
+      drop_command =  "dropdb #{auth_part} #{sql_database} " 
+      load_premigration_command = "pg_restore #{auth_part} -j 2 -d #{sql_database} #{unmigrated_file}"
+      create_command = "createdb -w #{auth_part} #{sql_database}"
+      dump_postmigration_command = "pg_dump #{auth_part} #{encoding_part} -F c -f #{migrated_file} "
     else
       raise "Cannot handle database adapter #{adapter}, sorry! Exiting."
     end
@@ -48,6 +64,8 @@ namespace :madek do
       system create_command
       system load_premigration_command
       puts "Trying to migrate the persona database"
+      # TODO why this called indirectly? 
+      # Because it reliably and silently fails when run as Rake::Task["db:migrate"].invoke and I couldn't figure out why
       system "bundle exec rake db:migrate"
       system dump_postmigration_command
     else
@@ -61,78 +79,6 @@ namespace :madek do
   desc "Set up the environment for testing, then run all tests in one block"
   task :test => 'test:run_all'
 
-  namespace :test do
-    task :run_all do
-      Rake::Task["madek:test:setup"].invoke
-      Rake::Task["madek:test:rspec"].invoke
-      Rake::Task["madek:test:cucumber:all"].invoke
-    end
-
-    task :run_separate do
-      Rake::Task["madek:test:setup"].invoke
-      Rake::Task["madek:test:rspec"].invoke
-      Rake::Task["madek:test:cucumber:separate"].invoke
-    end
-
-    task :setup do
-      # Rake seems to be very stubborn about where it takes
-      # the RAILS_ENV from, so let's set a lot of options (?)
-      Rails.env = 'test'
-      task :environment
-      Rake::Task["madek:create_migrated_persona_dump"].invoke
-      # The rspec part of this whole story gets tested against an empty database, so nothing
-      # to import from a file here. Instead, we reset based on our migrations.
-      Rake::Task["madek:reset"].invoke
-      File.delete("tmp/rerun.txt") if File.exists?("tmp/rerun.txt")
-      File.delete("tmp/rerun_again.txt") if File.exists?("tmp/rerun_again.txt")
-    end
-
-    task :rspec do
-      system "bundle exec rspec --format d --format html --out tmp/html/rspec.html spec"
-      exit_code = $? >> 8 # magic brainfuck
-      raise "Tests failed with: #{exit_code}" if exit_code != 0
-    end
-
-    namespace :cucumber do
-
-      task :all do
-        puts "Running all Cucumber tests in one block"
-        system "bundle exec cucumber -p all"
-        exit_code_first_run = $? >> 8 # magic brainfuck
-
-        system "bundle exec cucumber -p rerun"
-        exit_code_rerun = $? >> 8
-
-        system "bundle exec cucumber -p rerun_again"
-        exit_code_rerun_again = $? >> 8
-
-        raise "Tests failed!" if exit_code_rerun_again != 0
-      end
-
-      task :seperate do
-        puts "Running 'default' Cucumber profile"
-        system "bundle exec cucumber -p default"
-
-        puts "Running 'examples' Cucumber profile"
-        system "bundle exec cucumber -p examples"
-
-        puts "Running 'current_examples' Cucumber profile"
-        system "bundle exec cucumber -p current_examples"
-
-        system "bundle exec cucumber -p rerun"
-        exit_code_rerun = $? >> 8
-
-        if File.exists?("tmp/rerun_again.txt")
-          system "bundle exec cucumber -p rerun_again"
-          exit_code_rerun = $? >> 8
-        end
-
-        raise "Tests failed with: #{exit_code}" if exit_code_rerun != 0
-
-      end
-    end
-    
-  end
 
   desc "Back up images and database before doing anything silly"
   task :backup do
@@ -169,46 +115,6 @@ namespace :madek do
 
   end
 
-  namespace :db  do
-
-    desc "Dump the PostgresDB"
-    task :dump do
-      date_string = DateTime.now.to_s.gsub(":","-")
-      config = Rails.configuration.database_configuration[Rails.env]
-      sql_host     = config["host"]
-      sql_database = config["database"]
-      sql_username = config["username"]
-      sql_password = config["password"]
-      date_string = DateTime.now.to_s.gsub(":","-")
-      path = "tmp/pg-dump-#{Rails.env}-#{date_string}.bin" 
-      puts "Dumping database to #{path}"
-      cmd = "pg_dump -U #{sql_username} -h #{sql_host} -v -E utf-8 -F c -f #{path} #{sql_database}"
-      puts "executing : #{cmd}"
-      system cmd 
-    end
-    
-    desc "Restore the PostgresDB" 
-    task :restore do
-      unless ENV['FILE'] 
-         puts "can't find the FILE env variable, bailing out"
-         exit
-      end
-      puts "dropping the db" 
-      Rake::Task["db:drop"].invoke
-      puts "creating the db"  
-      Rake::Task["db:create"].invoke
-      config = Rails.configuration.database_configuration[Rails.env]
-      sql_host     = config["host"]
-      sql_database = config["database"]
-      sql_username = config["username"]
-      sql_password = config["password"]
-      file= ENV['FILE']
-      cmd = "pg_restore -U #{sql_username} -d #{sql_database} #{file}"
-      puts "executing: #{cmd}"
-      system cmd
-    end
-
-  end
 
   desc "Fetch meta information from ldap and store it into db/ldap.json"
   task :fetch_ldap => :environment do
@@ -254,31 +160,6 @@ namespace :madek do
 
      Rake::Task["db:seed"].invoke
 
-     Rake::Task["madek:meta_data:import_presets"].invoke
-
   end
   
-  namespace :meta_data do
-
-    desc "Export MetaData Presets" 
-    task :export_presets  => :environment do
-
-      data_hash = DevelopmentHelpers::MetaDataPreset.create_hash
-
-      date_string = DateTime.now.to_s.gsub(":","-")
-      file_path = "tmp/#{date_string}_meta_data.yml"
-
-      File.open(file_path, "w"){|f| f.write data_hash.to_yaml } 
-      puts "the file has been saved to #{file_path}"
-      puts "you might want to copy it to features/data/minimal_meta.yml"
-    end
-
-    desc "Import MetaData Presets" 
-    task :import_presets => :environment do
-      DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
-    end
-
-  end
-
-
 end # madek namespace

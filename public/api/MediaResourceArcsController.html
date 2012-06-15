@@ -15,9 +15,11 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
   relpath = '';
-  if (relpath != '') relpath += '/';
+  framesUrl = "frames.html#!" + escape(window.location.href);
 </script>
+
 
   <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
 
@@ -27,7 +29,29 @@
 
 
 	<style type="text/css">
-		#toc {top: 24px;}
+		#toc {
+		  height: 100%;
+		  right: 0;
+		  position: fixed;
+		  top: 0;
+		  width: 230px;
+	  }
+	  #header {
+	    position: fixed;
+	    top: 0;
+	    z-index: 1001;
+	  }
+	  #header #search {
+	    position: fixed;
+	    top: 0;
+	    right: 8px;
+	    z-index: 1001;
+	  }
+	  #content {
+	    margin-right: 254px;
+	    position: relative;
+	    z-index: 1;
+	  }
 		#toc .title {display: none;}
 		#toc a:link, #content a:visited { text-decoration: none; color: #05a; }
 		#toc a:hover { background: #ffffa5; }
@@ -153,9 +177,37 @@
 			border-top-left-radius: 0;
 			border-top-right-radius: 0;
 		}
+		
+		pre.code.json {
+		  margin: 0;
+		}
+		
+		pre.code.json code {
+		  position: relative;
+		  border: 1px solid transparent;
+		  border-radius: 6px;
+		}
+		
+		pre.code.json code:hover {
+		  background: #d4e5fe;
+		}
+		
+		pre.code.json code:active {
+		  background: #c1d8fb;
+		}
 	</style>
 	<script type="text/javascript">
 		//<![CDATA[
+		
+		  function setup_log() {
+		    $("pre.code.json").attr("title", "click to inspect in browser debugger: console.log()");
+		    $("pre.code.json").css("cursor", "pointer");
+		    $("pre.code.json").click(function(){
+		      var code = $(this).find("code");
+		      console.log(code.html());
+		      console.log(JSON.parse(code.html()));
+		    });
+		  }
 		
 			function setup_toc() {
 	 		  if ($('#content').length === 0) return;
@@ -209,7 +261,10 @@
 			    $('#toc').toggleClass('nofloat');
 			  });
 			}
-			$(document).ready(setup_toc);
+			$(document).ready(function(){
+			  setup_toc();
+			  setup_log();
+			});
 		//]]>
 	</script>
   </head>
@@ -323,32 +378,72 @@ has multiple media entries and a media entry can have multiple parent sets
 							
 							
 							
-							<span class="description">Request the media resources arcs for the media set with the id 1.</span>
+							<span class="description">
+								
+									
+										Request the media resources arcs for the media set with the id 1.
+									
+								
+							</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{"parent_id":1}
+								
+									
+										{"parent_id":1}
+									
+								
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								{"media_resource_arcs": [{"parent_id": 1, "child_id": 23, "highlight": false}, {"parent_id": 1, "child_id": 12, "highlight": true}]}
+								
+									
+										{"media_resource_arcs": [{"parent_id": 1, "child_id": 23, "highlight": false}, {"parent_id": 1, "child_id": 12, "highlight": true}]}
+									
+								
 							</span>
-							<span class="description">Returns two media resources arcs one is highlighted the other isnt.</span>
+							<span class="description">
+								
+									
+										Returns two media resources arcs one is highlighted the other isnt.
+									
+								
+							</span>
 						</div>
 					
 						<div class="example">
 							
 							
 							
-							<span class="description">Request the media resources arcs for the media set with the id 1. Requesting through plain urls is also possible (/media_resource_arcs/:parent_id).</span>
+							<span class="description">
+								
+									
+										Request the media resources arcs for the media set with the id 1. Requesting through plain urls is also possible (/media_resource_arcs/:parent_id).
+									
+								
+							</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								/media_resource_arcs/1
+								
+									
+										/media_resource_arcs/1
+									
+								
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								{"media_resource_arcs": [{"parent_id": 1, "child_id": 23, "highlight": false}, {"parent_id": 1, "child_id": 12, "highlight": true}]}
+								
+									
+										{"media_resource_arcs": [{"parent_id": 1, "child_id": 23, "highlight": false}, {"parent_id": 1, "child_id": 12, "highlight": true}]}
+									
+								
 							</span>
-							<span class="description">Returns two media resources arcs one is highlighted the other isnt.</span>
+							<span class="description">
+								
+									
+										Returns two media resources arcs one is highlighted the other isnt.
+									
+								
+							</span>
 						</div>
 					
 				</div>
@@ -400,18 +495,8 @@ has multiple media entries and a media entry can have multiple parent sets
 				
 
 				
-					<div class="optional">
-						<h4>Optional Parameters</h4>
-						
-					</div>
-				
 			</div><!-- parameters -->
 			
-			
-				<div class="response_fields">
-					<h4>Response Fields</h4>
-					
-				</div>
 			
 			
 			
@@ -422,16 +507,36 @@ has multiple media entries and a media entry can have multiple parent sets
 							
 							
 							
-							<span class="description">Set the highlight status for the arc between parent id 1 and child id 23 to true.</span>
+							<span class="description">
+								
+									
+										Set the highlight status for the arc between parent id 1 and child id 23 to true.
+									
+								
+							</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{"media_resource_arcs": [{"parent_id": 1, "child_id": 23, "higlight": true}]}
+								
+									
+										{"media_resource_arcs": [{"parent_id": 1, "child_id": 23, "higlight": true}]}
+									
+								
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								{}
+								
+									
+										{}
+									
+								
 							</span>
-							<span class="description">Returns a Status: 200 (empty Hash).</span>
+							<span class="description">
+								
+									
+										Returns a Status: 200 (empty Hash).
+									
+								
+							</span>
 						</div>
 					
 				</div>
@@ -457,7 +562,7 @@ has multiple media entries and a media entry can have multiple parent sets
 	</div>
     
     <div id="footer">
-  Generated on Thu May 24 15:35:11 2012 with ruby-1.9.3
+  Generated on Thu Jun 14 10:53:02 2012 with ruby-1.9.3
 </div>
 
   </body>

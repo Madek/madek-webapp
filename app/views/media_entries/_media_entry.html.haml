@@ -37,7 +37,7 @@
                 %li= link_to _("Kopie für MIZ-Archiv erstellen"), to_snapshot_media_entry_path(media_entry)
             - if current_user and current_user.authorized?(:edit, media_entry)
               %li
-                = link_to edit_media_entry_path(media_entry), :title => "Editieren" do
+                = link_to edit_media_resource_path(media_entry), :title => "Editieren" do
                   .button_edit_active
             - else
               %li

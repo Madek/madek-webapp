@@ -63,14 +63,14 @@ class Snapshot < MediaResource
             end
 
 #temp#
-            case meta_datum.meta_key.object_type
-              when "MetaTerm"
+            case meta_datum.meta_key.meta_datum_object_type
+              when "MetaDatumMetaTerms"
                 xml.tag!(name, attrs) do
                   meta_datum.deserialized_value.each do |dv|
                     xml.tag!("term", dv.to_s)
                   end
                 end
-              when "Person"
+              when "MetaDatumPeople"
                 xml.tag!(name, attrs) do
                   meta_datum.deserialized_value.each do |dv|
                     xml.person do
@@ -95,8 +95,8 @@ class Snapshot < MediaResource
 
 #            case name
 #              when "person"
-#                case meta_datum.meta_key.object_type
-#                  when "Person"
+#                case meta_datum.meta_key.meta_datum_object_type
+#                  when "MetaDatumPeople"
 #                    meta_datum.deserialized_value.each do |dv|
 #                      xml.person(attrs) do
 #                        xml.tag!("firstname", dv.firstname)

@@ -29,14 +29,13 @@ Then /^for each resource I see a thumbnail image if it is available$/ do
 end
 
 When /^I see the "(.*?)" meta key of a set/ do |meta_key|
-  binding.pry
-  wait_until(45){ find(".context.nutzung .meta_datum") }
-  binding.pry
   case meta_key
     when"children"
-      wait_until { find("dt", :text => "Enthält") }
+      wait_until(25){ find("dt.child_media_resources") }
+      @el = find("dt.child_media_resources").find(:xpath, "..")
     when "parents"
-      wait_until { find("dt", :text => "Enthalten in") }
+      wait_until(25){ find("dt.parent_media_resources") }
+      @el = find("dt.parent_media_resources").find(:xpath, "..")
   end
 end
 
@@ -49,10 +48,6 @@ When /^I see a resource in a list view$/ do
   step 'I switch to the list view'
   @inspected_resource = MediaResource.accessible_by_user(@current_user).last
   @inspected_resource_element = find(".item_box[data-id='#{@inspected_resource.id}']")
-end
-
-Then /^I see the number and type of children$/ do
-  pending # express the regexp above with the code you wish you had
 end
 
 Then /^the following actions are available for this resource:$/ do |table|
@@ -75,28 +70,56 @@ Then /^the following actions are available for this resource:$/ do |table|
   end
 end
 
-Then /^there is one number for media entries$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
 Then /^the resource's title is highlighted$/ do
   page.evaluate_script('$("dd.title.full").css("fontSize")').to_f.should > page.evaluate_script('$("dd:not(.title)").css("fontSize")').to_f
 end
 
-Then /^there is one number for sets$/ do
-  pending # express the regexp above with the code you wish you had
+When /^I click the title$/ do
+  find("dd.title.full").click
+end
+
+Then /^I'm redirected to the media resource's detail page$/ do
+  current_url.match(/\d+$/).should_not be_nil
+end
+
+Then /^I see the number and type of (.*)/ do |arg|
+  @el.find("dd.full")[:title].match(/\d MediaSets/).should be_true
+  @el.find("dd.full")[:title].match(/\d MediaEntries/).should be_true if @el.find("dt")[:class] == "child_media_resources"
+end
+
+Then /^the type is shown through an icon$/ do
+  @el.find(".media_set.icon")
+  @el.find(".media_entry.icon") if @el.find("dt")[:class] == "child_media_resources"
+end
+
+When /^I see a resource in list view$/ do
+  step 'I see a list of sets in list view'
+  wait_until { @resource_el = find(".item_box") }
+end
+
+Then /^I see the meta data for context "(.*?)"(.*)*$/ do |context, loading|
+  if loading != ""
+    @resource_el.find(".meta_data .context.#{context.downcase}")
+  else
+    wait_until(15) {@resource_el.find(".meta_data .context.#{context.downcase}")}
+  end
+end
+
+Then /^the resource shows an icon representing its permissions$/ do
+  find(".item_box .item_permission")
+end
+
+When /^I click the thumbnail of that resource$/ do
+  @resource_el.find(".item_box > a")
 end
 
 When /^one resource has more metadata than another$/ do
-end
-
-Then /^one of the resources has parents$/ do
   pending # express the regexp above with the code you wish you had
 end
 
 Then /^the row containing the resource with more metadata is taller than the other$/ do
-end
-
-Then /^I see the number and type of parents$/ do
   pending # express the regexp above with the code you wish you had
 end
+
+
+

@@ -102,20 +102,21 @@ module MetaDataHelper
 
   # TODO merge with MetaDatum#to_s
   def formatted_value(meta_datum)
-    case meta_datum.meta_key.object_type
-      when "Person", "User"
+    
+    case meta_datum.meta_key.meta_datum_object_type
+      when "MetaDatumPeople", "MetaDatumUsers"
         formatted_value_for_people(Array(meta_datum.deserialized_value))
-      when "Keyword"
+      when "MetaDatumKeywords"
         s = Array(meta_datum.deserialized_value).map do |v|
           next unless v
           link_to v, media_resources_path(:query => v.to_s)
         end
         s.join(', ').html_safe
-      when "MetaDate"
-        meta_datum.to_s.html_safe
+      when "MetaDatumDate"
+        meta_datum.to_s.try(&:html_safe)
       when "Date"
         _("%s Uhr") % meta_datum.deserialized_value.to_formatted_s(:date_time)
-      when "MetaTerm"
+      when "MetaDatumMetaTerms"
         meta_datum.deserialized_value.map do |dv|
           #old# link_to dv, filter_media_resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :method => :post, :"data-meta_term_id" => dv.id #old# , :remote => true
           link_to dv, media_resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :"data-meta_term_id" => dv.id
@@ -187,8 +188,8 @@ module MetaDataHelper
   
   # NEW generic multi select plugin
   def widget_meta_terms_multiselect(meta_datum, meta_key)
-    case meta_key.object_type.constantize.name
-      when "MetaDepartment"
+    case meta_key.meta_datum_object_type
+      when "MetaDatumMetaDepartments"
         selected = Array(meta_datum.object.value)
         departments_without_semester = 
           if SQLHelper.adapter_is_mysql?
@@ -199,14 +200,14 @@ module MetaDataHelper
             raise "adapter is not supported"
           end
         all_options = departments_without_semester.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)} }
-      when "MetaTerm"
+      when "MetaDatumMetaTerms"
         selected = Array(meta_datum.object.value)
         all_options = meta_key.meta_terms.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}
-      when "Person"
+      when "MetaDatumPeople"
         selected = Array(meta_datum.object.value)
-        @people ||= meta_key.object_type.constantize.with_media_entries
+        @people ||= Person.with_meta_data
         all_options = @people.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}
-      when "Keyword"
+      when "MetaDatumKeywords"
         keywords = meta_datum.object.deserialized_value
         meta_term_ids = keywords.collect(&:meta_term_id)
         all_grouped_keywords = 
@@ -223,7 +224,7 @@ module MetaDataHelper
         all_options.sort! {|a,b| a[:label].downcase <=> b[:label].downcase}
     end
 
-    is_extensible = (meta_key.is_extensible_list? or ["Keyword", "Person"].include?(meta_key.object_type))
+    is_extensible = (meta_key.is_extensible_list? or ["MetaDatumKeywords", "MetaDatumPeople"].include?(meta_key.meta_datum_object_type))
     with_toggle = !["keywords", "author", "creator", "description author", "description author before import"].include?(meta_key.label)
 
     h = content_tag :div, :class => "madek_multiselect_container",
@@ -322,30 +323,27 @@ module MetaDataHelper
     #key_id = meta_datum.object.meta_key_id
     object_id = meta_datum.object.object_id
 
-    if meta_key.object_type == "MetaCountry"
-      h += widget_meta_countries(meta_datum, meta_key)
-
-    elsif meta_key.object_type
-      klass = meta_key.object_type.constantize
-            
-      case klass.name
+      case meta_key.meta_datum_object_type
         # TODO set String for 'subject' key, TODO multiple fields for array 
         #       when "String"
         #          h += text_area_tag "media_entry[meta_data_attributes][0][value]", meta_datum.object.to_s
-        when "Keyword"
+        when "MetaDatumMetaCountry" # FIXME this doesn't exist yet!
+          h += widget_meta_countries(meta_datum, meta_key)
+    
+        when "MetaDatumKeywords"
           h += widget_meta_terms_multiselect(meta_datum, meta_key)
           h += link_to icon_tag("button_add_keyword"), keywords_media_entries_path, :class => "dialog_link", :style => "margin-top: .5em;"
 
-        when "MetaTerm"
+        when "MetaDatumMetaTerms"
           meta_terms = meta_key.meta_terms
           ui = (definition.length_max and definition.length_max == 1 ? :radio_button : :check_box )
           h += widget_meta_terms(meta_datum, meta_key, meta_terms, ui)
 
-        when "Person"
+        when "MetaDatumPeople"
           h += widget_meta_terms_multiselect(meta_datum, meta_key)
           h += link_to icon_tag("button_add_person"), new_person_path, :class => "dialog_link", :style => "margin-top: .5em;"
           
-        when "MetaDate"
+        when "MetaDatumDate"
           meta_datum.object.value ||= [] # OPTIMIZE
           at = from = to = at_time = ""
           selected_option = "freetext"
@@ -521,18 +519,20 @@ module MetaDataHelper
             HERECODE
             end.html_safe
           end unless @js_2
-      end
 
-    elsif definition.length_max and definition.length_max <= 255
-      #tmp# h += meta_datum.text_field :value, :class => "value", :"data-required" => is_required
-      h += text_field_tag "#{meta_datum.object_name}[value]", meta_datum.object.to_s, :class => "value", :"data-required" => is_required
-      h += content_tag :span, :class => "with_actions" do
-            link_to _("Übertragen auf andere Medien"), "#", :class => "hint"
-           end if with_actions # TODO see _bulk_edit
-    else
-      #tmp# h += meta_datum.text_area :value, :"data-required" => is_required #, :rows => 2
-      h += text_area_tag "#{meta_datum.object_name}[value]", meta_datum.object.to_s, :"data-required" => is_required, :rows => 2
-    end
+        when "MetaDatumString", nil
+          if definition.length_max and definition.length_max <= 255
+            #tmp# h += meta_datum.text_field :value, :class => "value", :"data-required" => is_required
+            h += text_field_tag "#{meta_datum.object_name}[value]", meta_datum.object.to_s, :class => "value", :"data-required" => is_required
+            h += content_tag :span, :class => "with_actions" do
+                  link_to _("Übertragen auf andere Medien"), "#", :class => "hint"
+                 end if with_actions # TODO see _bulk_edit
+          else
+            #tmp# h += meta_datum.text_area :value, :"data-required" => is_required #, :rows => 2
+            h += text_area_tag "#{meta_datum.object_name}[value]", meta_datum.object.to_s, :"data-required" => is_required, :rows => 2
+          end
+
+      end
 
     @js_4 ||= false
     h += javascript_tag do

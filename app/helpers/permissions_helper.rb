@@ -21,7 +21,7 @@ module PermissionsHelper
   
   def display_edit_icon(resource, user)
     if user and user.authorized?(:edit, resource) 
-      url = resource.is_a?(MediaEntry) ? edit_media_entry_path(resource) : edit_media_set_path(resource)
+      url = edit_media_resource_path(resource)
       link_to url, :title => "Editieren" do
         content_tag :div, :class => "button_edit_active" do end
       end

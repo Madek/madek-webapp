@@ -111,7 +111,9 @@
     $("#parents").hide();
         
     // setup parents of current sets
-    $("#parents").append($.tmpl("tmpl/media_resource/thumb_box", #{render(:partial => "media_resources/index.json.rjson",
+    $("#parents").append($.tmpl("tmpl/media_resource/thumb_box", #{render(:partial => "media_resources/index",
+                                                                          :formats => [:json],
+                                                                          :handlers => [:rjson],
                                                                           :locals => {:media_resources => @parents,
                                                                                       :with => with})}));
 
@@ -124,7 +126,9 @@
   
 :coffeescript
   jQuery ->
-    MediaSetHighlights.setup #{render(:partial => "media_resources/index.json.rjson",
+    MediaSetHighlights.setup #{render(:partial => "media_resources/index",
+                                      :formats => [:json],
+                                      :handlers => [:rjson],
                                       :locals => {:with => with,
                                                   :media_resources => @media_set.out_arcs.select(&:highlight).map(&:child)})}
   

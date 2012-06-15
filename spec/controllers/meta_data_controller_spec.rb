@@ -5,12 +5,13 @@ describe MetaDataController do
 
 
   before :all do
-    DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
+    FactoryGirl.create :usage_term 
+    FactoryGirl.create :meta_context_core
     @user = FactoryGirl.create :user
     @other_user = FactoryGirl.create :user
     @media_set= FactoryGirl.create :media_set, user: @user
-    @media_set.meta_data.create(type: "MetaDatumString", :meta_key => MetaKey.find_by_label("title"), :value => Faker::Lorem.words(4).join(' '))
-    @title_meta_datum =  @media_set.meta_data.joins(:meta_key).where("meta_keys.label = ?","title").first
+    @media_set.meta_data.create(:meta_key => MetaKey.find_by_label("title"), :value => Faker::Lorem.words(4).join(' '))
+    @title_meta_datum =  @media_set.meta_data.joins(:meta_key).where(:meta_keys => {:label => "title"}).first
   end
 
   let :valid_session do

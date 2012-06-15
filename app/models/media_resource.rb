@@ -36,11 +36,7 @@ class MediaResource < ActiveRecord::Base
 #    end
 
   has_many  :edit_sessions, :dependent => :destroy, :readonly => true
-  has_many  :editors, :through => :edit_sessions, :source => :user do
-    def latest
-      first
-    end
-  end
+  has_many  :editors, :through => :edit_sessions, :source => :user
 
   validates_presence_of :user, :unless => Proc.new { |record| record.is_a?(Snapshot) }
 

@@ -22,18 +22,8 @@ class Person < ActiveRecord::Base
 #    # TODO through new method meta_data
 #  end
 
-  def self.with_media_entries
-    # OPTIMIZE
-    ids = MetaDatum.joins(:meta_key).
-            where(:meta_keys => {:object_type => self.name}).
-            flat_map(&:value).uniq
-    find(ids)
-  end
-
-  def meta_data
-    MetaDatum.joins(:meta_key).
-      where(:meta_keys => {:object_type => self.class.name}).
-      where(["value REGEXP ?", "-\ #{id}\n" ])
+  def self.with_meta_data
+    select("DISTINCT people.*").joins("INNER JOIN meta_data_people ON people.id = meta_data_people.person_id")
   end
 
 #######################################
