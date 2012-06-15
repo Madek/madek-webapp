@@ -37,7 +37,7 @@ describe MediaResourcesController do
         response.should  be_success
         json = JSON.parse(response.body)
         json.keys.sort.should == ["media_resources", "pagination"]
-        json["pagination"].keys.sort.should == ["page", "per_page", "total", "total_pages"]
+        json["pagination"].keys.sort.should == ["page", "per_page", "total", "total_media_entries", "total_media_sets", "total_pages"]
         json["media_resources"].is_a?(Array).should be_true
         json["media_resources"].size.should <= json["pagination"]["per_page"]
         n = MediaResource.accessible_by_user(User.new).count
@@ -51,7 +51,7 @@ describe MediaResourcesController do
         response.should  be_success
         json = JSON.parse(response.body)
         json.keys.sort.should == ["media_resources", "pagination"]
-        json["pagination"].keys.sort.should == ["page", "per_page", "total", "total_pages"]
+        json["pagination"].keys.sort.should == ["page", "per_page", "total", "total_media_entries", "total_media_sets", "total_pages"]
         json["media_resources"].is_a?(Array).should be_true
         json["media_resources"].size.should <= json["pagination"]["per_page"]
         n = MediaResource.accessible_by_user(@user).count
