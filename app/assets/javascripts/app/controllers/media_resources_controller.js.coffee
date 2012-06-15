@@ -2,12 +2,13 @@ class MediaResourcesController
 
   el: "section.media_resources.index"
   
-  active_layout: -> if sessionStorage.active_layout? then sessionStorage.active_layout else "grid"
+  active_layout: undefined
   
   constructor: ->
     @el = $(@el)
     do @render
     do @plugin
+    @active_layout = if sessionStorage.active_layout? then sessionStorage.active_layout else "grid"
     do @activate_layout
     do @delegate_events
     
@@ -20,7 +21,6 @@ class MediaResourcesController
   delegate_events: ->
     @el.delegate "#bar .layout a[data-type]", "click", @switch_layout 
     @el.delegate ".page[data-page]", "inview", @render_page
-    @el.delegate ".meta_data .context[data-name]", "inview", @render_context
 
   activate_layout: ->
     @el.addClass @active_layout
@@ -62,10 +62,17 @@ class MediaResourcesController
     App.MediaResources.fetch options, false
 
   switch_layout: (e)=>
+    return true if @active_layout == $(e.currentTarget).data("type")
     do e.preventDefault
     @el.removeClass @active_layout
     sessionStorage.active_layout = $(e.currentTarget).data "type"
+    @active_layout = $(e.currentTarget).data "type"
     @el.addClass @active_layout
+    if @active_layout == "list"
+      @el.delegate ".meta_data .context[data-name]", "inview", @render_context
+    else
+      @el.undelegate ".meta_data .context[data-name]", "inview"
+      
     
   @fetch: (options, with_default)->
     with_default ?= true
