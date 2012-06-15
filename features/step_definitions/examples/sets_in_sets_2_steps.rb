@@ -19,7 +19,7 @@ end
 When /^I examine my "([^"]*)" sets more closely$/ do |title|
   wait_for_css_element('.thumb_box')
   @media_set = MediaSet.find_by_title title
-  page.execute_script "$(\".item_title[title='#{title}']\").parent().find(\".thumb_box_set\").trigger(\"mouseenter\")"
+  page.execute_script "$(\"dd[title='#{title}']\").closest(\".item_box\").find(\".thumb_box_set\").trigger(\"mouseenter\")"
   wait_for_css_element('.set_popup')
 end
 
