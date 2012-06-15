@@ -83,7 +83,7 @@
               %hr
               %p= _("So können für alle Medieneinträge, die in diesem Set enthalten sind, weitere inhaltliche Angaben gemacht werden. Darüber hinaus können alle Sets, die diesem Set zugewiesen werden, ebenfalls die ausgewählten zusätzlichen Kontexte erhalten.")
 
-%section#content_body_set.media_resources.index
+%section#content_body_set
   #media_set_highlights{:class => (@media_set.out_arcs.any?(&:highlight)) ? "any" : nil, :"data-parent_id" => @media_set.id}
     .container
       .inner
@@ -96,9 +96,9 @@
       %span
         = _("Dieses Set ist in %s enthalten") % pluralize(@parents.size, "Set")
     .clear
-    #parents
-  
-  = render :partial => "media_resources/index"
+    #parents.media_resources.index.grid
+    %section#children.media_resources.index
+      = render :partial => "media_resources/index"
 
 :ruby
   with = {:media_type => true,
@@ -111,11 +111,8 @@
     $("#parents").hide();
         
     // setup parents of current sets
-    $("#parents").append($.tmpl("tmpl/media_resource/thumb_box", #{render(:partial => "media_resources/index",
-                                                                          :formats => [:json],
-                                                                          :handlers => [:rjson],
-                                                                          :locals => {:media_resources => @parents,
-                                                                                      :with => with})}));
+    var parents_as_json = #{render(:partial => "media_resources/index",:formats => [:json],:handlers => [:rjson],:locals => {:media_resources => @parents,:with => with})};
+    $("#parents").append($.tmpl("tmpl/media_resource/thumb_box", parents_as_json.media_resources));
 
     // show parents toggle
     $(".set_parents_title").click(function(){

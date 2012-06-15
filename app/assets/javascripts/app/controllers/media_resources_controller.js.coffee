@@ -49,14 +49,16 @@ class MediaResourcesController
     context_label = $this.data "label"
     $this.removeAttr "data-name"
     $this.addClass context_name
-    options = 
+    options =
+      url: "/media_resources.json" 
       data:
         ids: [$this.closest(".item_box").data "id"] 
         with: 
           meta_data: 
             meta_context_names: [context_name]
       success: (data)->
-        $this.html($.tmpl "tmpl/media_resource/thumb_box/meta_data", {meta_data: data.media_resources[0].meta_data}, {label: context_label})
+        if data.media_resources.length
+          $this.html($.tmpl "tmpl/media_resource/thumb_box/meta_data", {meta_data: _.first(data.media_resources).meta_data}, {label: context_label})
     App.MediaResources.fetch options, false
 
   switch_layout: (e)=>
