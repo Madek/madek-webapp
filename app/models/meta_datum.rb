@@ -39,8 +39,27 @@ class MetaDatum < ActiveRecord::Base
 
   scope :for_meta_terms, joins(:meta_key).where(:meta_keys => {:meta_datum_object_type => "MetaDatumMetaTerms"})
 
-  def same_value? other_value
-    raise "this method must be implemented in the derived class"
+########################################
+
+  def same_value?(other_value)
+    # TODO raise "this method must be implemented in the derived class"
+
+    case value
+      when String
+        value == other_value
+      when Array
+        return false unless other_value.is_a?(Array)
+        if value.first.is_a?(MetaDatumDate)
+          other_value.first.is_a?(MetaDatumDate) and (other_value.first.free_text == value.first.free_text)
+        elsif meta_key.meta_datum_object_type == "MetaDatumKeywords"
+          referenced_meta_term_ids = Keyword.where(:id => other_value).all.map(&:meta_term_id)
+          deserialized_value.map(&:meta_term_id).uniq.sort.eql?(referenced_meta_term_ids.uniq.sort)
+        else
+          value.uniq.sort.eql?(other_value.uniq.sort)
+        end
+      when NilClass
+        other_value.blank?
+    end
   end
 
 ########################################

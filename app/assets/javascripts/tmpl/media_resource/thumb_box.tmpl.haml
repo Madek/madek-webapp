@@ -1,4 +1,6 @@
+{{if type}}
 ${is_set = (type=="media_set")?true:false, ""}
+{{/if}}
 
 %div{:id => "thumb_${id}", :class => "item_box ${media_type.toLowerCase()}{{if is_set}} set{{/if}}", :"data-id" => "${id}"}
   {{tmpl($item.data) "tmpl/media_resource/thumb_box/permissions_icon"}}

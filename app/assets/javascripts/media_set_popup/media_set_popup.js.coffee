@@ -63,7 +63,7 @@ load_parents = (target)->
         with:
           meta_data:
             meta_key_names: ["title"]
-          parents: true
+          parents: {pagination: {per_page: 3}}
           image:
             as:"base64"
             size:"small"
@@ -86,9 +86,10 @@ resource_setdiv_template= ->
   """
   
 resource_template= (resource)->
-  meta_data = MetaDatum.flatten resource.meta_data
+  meta_data = MetaDatum.flatten resource.meta_data if resource.meta_data?
+  title = if meta_data? then meta_data.title else "" 
   """<a href="#{pluralize_resource_by_type(resource.type)}/#{resource.id}">
-      <div class="resource #{resource.type}" title="#{meta_data.title}">
+      <div class="resource #{resource.type}" title="#{title}">
         #{if resource.type is 'media_set' then resource_setdiv_template() else ''}
         <img src="#{resource.image}" />
       </div>
@@ -109,22 +110,22 @@ setup_children = (target, data)->
         $($(target).data("popup")).find(".children").append resource_template(resource) 
     # setup text
     $($(target).data("popup")).find(".children").append $("<div class='text'></div>")
-    if media_entries? then $($(target).data("popup")).find(".children .text").append("<p>"+(media_entries.length-displayed_media_entries.length)+" weitere Medieneinträge</p>")
-    if media_sets? then $($(target).data("popup")).find(".children .text").append("<p>"+(media_sets.length-displayed_media_sets.length)+" weitere Sets</p>")
+    if media_entries? then $($(target).data("popup")).find(".children .text").append("<p>"+(data.children.pagination.total_media_entries-displayed_media_entries.length)+" weitere Medieneinträge</p>")
+    if media_sets? then $($(target).data("popup")).find(".children .text").append("<p>"+(data.children.pagination.total_media_sets-displayed_media_sets.length)+" weitere Sets</p>")
       
 setup_parents = (target, data)->
   if $(target).data("popup")?
     # remove loading
     $($(target).data("popup")).find(".parents .loading").remove()
     # setup resources
-    resources = data.parents[0...3]
+    resources = data.parents.media_resources
     displayed_media_sets = (resource for resource in resources when resource.type is "media_set")
     for resource in resources
       do (resource) ->
         $($(target).data("popup")).find(".parents").append resource_template(resource)
     # setup text
     $($(target).data("popup")).find(".parents").append $("<div class='text'></div>")
-    if resources? then $($(target).data("popup")).find(".parents .text").append("<p>"+(data.parents.length-displayed_media_sets.length)+" weitere Sets</p>")
+    if resources? then $($(target).data("popup")).find(".parents .text").append("<p>"+(data.parents.pagination.total-displayed_media_sets.length)+" weitere Sets</p>")
       
 open_popup = (target)->
   $(".set_popup").each (i, element)-> close_popup element
@@ -144,6 +145,9 @@ open_popup = (target)->
 create_popup = (target)->
   # create copy of target
   copy = $(target).clone()
+  # remove unneded elements
+  copy.find(".meta_data .context:not(.core)").remove()
+  copy.find(".meta_data .actions .action_menu").remove()
   copy.addClass("popup")
   # create a background
   arrow_grey = $.tmpl "tmpl/svg/arrow", classname: "grey"

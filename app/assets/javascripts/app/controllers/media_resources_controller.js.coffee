@@ -2,12 +2,13 @@ class MediaResourcesController
 
   el: "section.media_resources.index"
   
-  active_layout: -> if sessionStorage.active_layout? then sessionStorage.active_layout else "grid"
+  active_layout: undefined
   
   constructor: ->
     @el = $(@el)
     do @render
     do @plugin
+    @active_layout = if sessionStorage.active_layout? then sessionStorage.active_layout else "grid"
     do @activate_layout
     do @delegate_events
     
@@ -20,7 +21,6 @@ class MediaResourcesController
   delegate_events: ->
     @el.delegate "#bar .layout a[data-type]", "click", @switch_layout 
     @el.delegate ".page[data-page]", "inview", @render_page
-    @el.delegate ".meta_data .context[data-name]", "inview", @render_context
 
   activate_layout: ->
     @el.addClass @active_layout
@@ -49,21 +49,30 @@ class MediaResourcesController
     context_label = $this.data "label"
     $this.removeAttr "data-name"
     $this.addClass context_name
-    options = 
+    options =
+      url: "/media_resources.json" 
       data:
         ids: [$this.closest(".item_box").data "id"] 
         with: 
           meta_data: 
             meta_context_names: [context_name]
       success: (data)->
-        $this.html($.tmpl "tmpl/media_resource/thumb_box/meta_data", {meta_data: data.media_resources[0].meta_data}, {label: context_label})
+        if data.media_resources.length
+          $this.html($.tmpl "tmpl/media_resource/thumb_box/meta_data", {meta_data: _.first(data.media_resources).meta_data}, {label: context_label})
     App.MediaResources.fetch options, false
 
   switch_layout: (e)=>
+    return true if @active_layout == $(e.currentTarget).data("type")
     do e.preventDefault
     @el.removeClass @active_layout
     sessionStorage.active_layout = $(e.currentTarget).data "type"
+    @active_layout = $(e.currentTarget).data "type"
     @el.addClass @active_layout
+    if @active_layout == "list"
+      @el.delegate ".meta_data .context[data-name]", "inview", @render_context
+    else
+      @el.undelegate ".meta_data .context[data-name]", "inview"
+      
     
   @fetch: (options, with_default)->
     with_default ?= true

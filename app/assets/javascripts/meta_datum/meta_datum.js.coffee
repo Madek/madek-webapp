@@ -17,7 +17,8 @@ class MetaDatum
       date = moment(date_as_string, "YYYY-MM-DDTHH:mm:ss z")
     else if date_as_string.match(/\d{4}:\d{2}:\d{2}\s\d{2}:\d{2}:\d{2}/)?
       date = moment(date_as_string, "YYYY:MM:DD HH:mm:ss")
-      console.log date
+    else if date_as_string.match(/\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s\+\d{2}\d{2}/)?
+      date = moment(date_as_string, "YYYY-MM-DD HH:mm:ss z") 
     if date?
       return date.format("DD.MM.YYYY")
     else

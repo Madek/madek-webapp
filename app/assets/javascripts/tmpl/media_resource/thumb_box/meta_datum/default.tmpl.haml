@@ -9,4 +9,4 @@ ${$class = Underscore.string.underscored(name), ""}
     ${value}
     {{/if}}
   %dd{:class => "${$class} truncated", :title => "${value}"} 
-    ${Str.sliced_trunc(value, 34)}
+    ${Str.sliced_trunc(value, 34, "... ")}
