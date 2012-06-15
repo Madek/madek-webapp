@@ -15,23 +15,26 @@ class MetaDatumMetaTerms < MetaDatum
   end
 
   def value=(new_value)
-    meta_terms.clear
-    meta_terms << Array(new_value).map do |v|
+    new_meta_terms = Array(new_value).map do |v|
       if v.is_a?(Fixnum) or (v.respond_to?(:is_integer?) and v.is_integer?)
         # TODO check if is member of meta_key.meta_terms
         MetaTerm.find_by_id(v)
       elsif meta_key.is_extensible_list?
         h = {}
-        LANGUAGES.each do |lang|
-          h[lang] = v
-        end
+        LANGUAGES.each {|lang| h[lang] = v}
         term = MetaTerm.find_or_initialize_by_en_gb_and_de_ch(h)
         meta_key.meta_terms << term unless meta_key.meta_terms.include?(term)
         term
+      elsif v.is_a?(String) # the meta_key is not extensible list
+        h = {}
+        LANGUAGES.each {|lang| h[lang] = v}
+        meta_key.meta_terms.where(h).first
       else
         v
       end
     end
+    meta_terms.clear
+    meta_terms << new_meta_terms.compact
   end
 
 end

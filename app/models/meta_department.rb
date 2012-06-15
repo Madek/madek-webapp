@@ -8,6 +8,12 @@ class MetaDepartment < Group
 
   default_scope order(:name)
 
+  scope :by_string, lambda {|s|
+    a = /(.*) \((.*)\)/.match(s)
+    name, ldap_name = [a[1], a[2]]
+    where(:name => name, :ldap_name => ldap_name)
+  }
+
   def to_s
     "#{name} (#{ldap_name})"
   end
