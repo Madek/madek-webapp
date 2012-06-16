@@ -82,9 +82,9 @@ class GroupsController < ApplicationController
     respond_to do |format|
       format.json {
         if group.persisted?
-          render :partial => group
+          render json: view_context.json_for(group)
         else
-          render :json => {:error => group.errors.full_messages}, :status => :bad_request 
+          render json: {:error => group.errors.full_messages}, :status => :bad_request 
         end        
       }
     end
@@ -115,9 +115,9 @@ class GroupsController < ApplicationController
       format.html { redirect_to edit_group_path(@group) }
       format.json {
         if @group.save
-          render :partial => @group
+          render json: view_context.json_for(@group)
         else
-          render :json => {:error => group.errors.full_messages}, :status => :bad_request 
+          render json: {:error => group.errors.full_messages}, :status => :bad_request 
         end
       }
     end

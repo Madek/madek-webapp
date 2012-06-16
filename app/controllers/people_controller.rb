@@ -46,7 +46,7 @@ class PeopleController < ApplicationController
                                                                            :is_group => params[:person][:is_group] || false)
     respond_to do |format|
       format.html
-      format.json { render :partial => "person", :object => person }
+      format.json { render json: view_context.json_for(person) }
     end
   end
 end
