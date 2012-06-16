@@ -104,21 +104,21 @@ module Json
       per_page = [((pagination.is_a?(Hash) ? pagination[:per_page] : nil) || PER_PAGE.first).to_i, PER_PAGE.first].min
       paginated_media_resources = media_resources.paginate(:page => page, :per_page => per_page)
       {
-        pagination: hash_for_pagination(paginated_media_resources), 
+        pagination: hash_for_pagination(media_resources, paginated_media_resources), 
         media_resources: hash_for(paginated_media_resources, with)
       }
     end
 
     ###########################################################################
 
-    def hash_for_pagination(media_resources, with = nil)
+    def hash_for_pagination(media_resources, paginated_media_resources)
       h = {}
-      h[:total_media_entries] = media_resources.media_entries.count
-      h[:total_media_sets] = media_resources.media_sets.count
-      h[:total] = media_resources.total_entries 
-      h[:page] = media_resources.current_page 
-      h[:per_page] = media_resources.per_page 
-      h[:total_pages] = media_resources.total_pages
+      h[:total_media_entries] = media_resources.media_entries.count if media_resources.respond_to? :media_entries 
+      h[:total_media_sets] = media_resources.media_sets.count if media_resources.respond_to? :media_sets
+      h[:total] = paginated_media_resources.total_entries 
+      h[:page] = paginated_media_resources.current_page 
+      h[:per_page] = paginated_media_resources.per_page 
+      h[:total_pages] = paginated_media_resources.total_pages
       h    
     end
 
