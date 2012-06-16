@@ -2,7 +2,8 @@
 class PermissionPresetsController < ApplicationController
 
   def index
-    @presets = PermissionPreset.all
+    presets = PermissionPreset.all
+    render :json => view_context.json_for(presets)
   end
   
 end

@@ -19,7 +19,8 @@ class PeopleController < ApplicationController
   def index(query = params[:query])
     respond_to do |format|
       format.json {
-        @people = Person.search(query)
+        people = Person.search(query)
+        render json: view_context.json_for(people)
       }
     end
   end

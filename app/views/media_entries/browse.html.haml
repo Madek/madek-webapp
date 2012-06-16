@@ -47,13 +47,9 @@
             c = media_entries.count
             next if c.zero?
             nothing_found = false
-            media_entries_data = render(:partial => "media_resources/index",
-                                        :formats => [:json], 
-                                        :handlers => [:rjson],
-                                        :locals => {:media_resources => media_entries,
-                                                    :with => {:image => {:as => "base64"},
-                                                              :flags => true,
-                                                              :meta_data => {:meta_key_names => ["title", "author"]}}}) 
+            media_entries_data = json_for(media_entries, {:image => {:as => "base64"},
+                                                          :flags => true,
+                                                          :meta_data => {:meta_key_names => ["title", "author"]}}
           %li
             %a.toggler{:href => "#"}
               .browse_key

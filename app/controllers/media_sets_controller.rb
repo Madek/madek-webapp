@@ -81,7 +81,7 @@ class MediaSetsController < ApplicationController
         else
           MediaSet.accessible_by_user(current_user, accessible_action)
         end
-        render :partial => "media_resources/index", :formats => [:json], :handlers => [:rjson], :locals => {:media_resources => media_sets, :with => with}
+        render json: view_context.json_for(media_sets, with)
       }
     end
   end
@@ -122,7 +122,7 @@ class MediaSetsController < ApplicationController
         @parents = @media_set.parent_sets.accessible_by_user(current_user)
       }
       format.json {
-        render :partial => "media_resources/show",:formats => [:json], :handlers => [:rjson], :locals => {:media_resource => @media_set, :with => with}
+        render json: view_context.json_for(@media_set, with)
       }
     end
   end
@@ -205,9 +205,9 @@ class MediaSetsController < ApplicationController
       }
       format.json {
         if @media_sets
-          render :partial => "media_resources/index", :formats => [:json], :handlers => [:rjson], :locals => {:media_resources => @media_sets}, :status => (is_saved ? 200 : 500)
+          render json: view_context.json_for(@media_sets), :status => (is_saved ? 200 : 500)
         else
-          render :partial => "media_resources/show",  :formats => [:json], :handlers => [:rjson], :locals => {:media_resource => @media_set}, :status => (is_saved ? 200 : 500)
+          render json: view_context.json_for(@media_set), :status => (is_saved ? 200 : 500)
         end
       }
     end
@@ -296,8 +296,8 @@ class MediaSetsController < ApplicationController
     end
     
     respond_to do |format|
-      format.json { 
-        render :partial => "media_resources/index",  :formats => [:json], :handlers => [:rjson], :locals => {:media_resources => child_media_sets, :with => {:parents => true}}
+      format.json {
+        render json: view_context.json_for(child_media_sets, {:parents => true})
       }
     end
   end
@@ -307,8 +307,9 @@ class MediaSetsController < ApplicationController
     respond_to do |format|
       format.html
       format.json {
-        #@media_sets = MediaSet.accessible_by_user(current_user).relative_top_level
-        @media_sets = current_user.media_sets #.relative_top_level
+        #media_sets = MediaSet.accessible_by_user(current_user).relative_top_level
+        media_sets = current_user.media_sets #.relative_top_level
+        render json: view_context.hash_for_graph(media_sets).to_json
       }
     end
   end

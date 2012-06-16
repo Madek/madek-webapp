@@ -43,17 +43,19 @@ class GroupsController < ApplicationController
           else 
             raise "sql adapter is not supported"
           end
-        render :partial => "groups/index", :formats => [:json], :handlers => [:rjson], :locals => {:groups => groups}
+        render :json => view_context.json_for(groups)
       }
     end
   end
 
   def show
     respond_to do |format|
-      format.json { 
+      format.json {
+        # TODO what is this for ???
         @include_users = params[:include_users] and params[:include_users] == 'true'
-        @users = @group.type != "MetaDepartment" ?  @group.users : []
-        render :partial => "groups/group",  :formats => [:json], :handlers => [:rjson], :locals => {:group => @group, :users => @users}
+        
+        with = { users: {} }
+        render :json => view_context.json_for(@group, with)
       }
     end
   end

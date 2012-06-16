@@ -1,4 +1,0 @@
-{
-  id: user.id,
-  name: user.to_s
-}

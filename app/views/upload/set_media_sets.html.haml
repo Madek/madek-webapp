@@ -5,4 +5,4 @@
 
 :coffeescript
   jQuery ->
-    $("#results").html($.tmpl("tmpl/media_resource/thumb_box", #{render_json(@media_entries, :media_resources)}, {with_actions: false, with_link: false}))
+    $("#results").html($.tmpl("tmpl/media_resource/thumb_box", #{old_render_json(@media_entries, :media_resources)}, {with_actions: false, with_link: false}))

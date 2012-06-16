@@ -111,7 +111,7 @@
     $("#parents").hide();
         
     // setup parents of current sets
-    var parents_as_json = #{render(:partial => "media_resources/index",:formats => [:json],:handlers => [:rjson],:locals => {:media_resources => @parents,:with => with})};
+    var parents_as_json = #{ json_for(@parents, with) };
     $("#parents").append($.tmpl("tmpl/media_resource/thumb_box", parents_as_json.media_resources));
 
     // show parents toggle
@@ -123,11 +123,7 @@
   
 :coffeescript
   jQuery ->
-    MediaSetHighlights.setup #{render(:partial => "media_resources/index",
-                                      :formats => [:json],
-                                      :handlers => [:rjson],
-                                      :locals => {:with => with,
-                                                  :media_resources => @media_set.out_arcs.select(&:highlight).map(&:child)})}
+    MediaSetHighlights.setup #{ json_for(@media_set.out_arcs.select(&:highlight).map(&:child), with) }
   
     $(".individual_context").change ->
       $(this).toggleClass("changed")

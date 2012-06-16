@@ -9,7 +9,7 @@
       %h3= _("Arbeitsgruppen")
       %ul
         - @private_groups.each do |group|
-          %li.group{:"data-group" => render(:partial => "groups/group", :formats => [:json], :handlers => [:rjson], :locals => {:group => group, :users => group.users})}
+          %li.group{:"data-group" => render(:json => view_context.json_for(group, { users: {} })) }
             = link_to group_path(group), :title => _("Löschen"),:class => "delete button", :method => :delete, :confirm => _("Sind Sie sicher?") do
               .trash.icon
             %button.button.edit{:title => _("Bearbeiten")}

@@ -8,10 +8,10 @@ class CopyrightsController< ApplicationController
   # @action GET
   #
   def index
-    @copyright_roots = Copyright.roots
+    copyright_roots = Copyright.roots
     
     respond_to do |format|
-      format.json
+      format.json { render :json => view_context.json_for(copyright_roots) }
     end
   end
 

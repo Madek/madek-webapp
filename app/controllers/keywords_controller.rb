@@ -18,9 +18,10 @@ class KeywordsController< ApplicationController
   # @response_field [integer] id    The id of the Keyword.
   # @response_field [string] label  The name of the Keyword.
   #
-  def index(query = params[:query])
+  def index(query = params[:query],
+            with = params[:with])
     
-    @all_grouped_keywords = 
+    keywords = 
       if SQLHelper.adapter_is_mysql?
         Keyword.search(query).group(:meta_term_id)
       elsif SQLHelper.adapter_is_postgresql?
@@ -30,7 +31,12 @@ class KeywordsController< ApplicationController
       end
 
     respond_to do |format|
-      format.json
+      format.json {
+        collection = keywords.flat_map do |keyword|
+          view_context.hash_for(keywords, with)
+        end.uniq
+        render :json => collection.sort{|a,b| a[:label].downcase <=> b[:label].downcase}.to_json
+      }
     end
   end
     
