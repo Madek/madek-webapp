@@ -20,7 +20,7 @@ class KeywordsController< ApplicationController
   #
   def index(query = params[:query],
             with = params[:with])
-    
+
     keywords = 
       if SQLHelper.adapter_is_mysql?
         Keyword.search(query).group(:meta_term_id)
@@ -32,10 +32,8 @@ class KeywordsController< ApplicationController
 
     respond_to do |format|
       format.json {
-        collection = keywords.flat_map do |keyword|
-          view_context.hash_for(keywords, with)
-        end.uniq
-        render :json => collection.sort{|a,b| a[:label].downcase <=> b[:label].downcase}.to_json
+        # TODO sort directly on sql query
+        render :json => view_context.hash_for(keywords, with).sort{|a,b| a[:label].downcase <=> b[:label].downcase}.to_json
       }
     end
   end

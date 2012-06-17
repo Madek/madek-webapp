@@ -47,7 +47,11 @@ module Json
         if with[:filename]
           h[:filename] = media_resource.is_a?(MediaSet) ? nil : media_resource.media_file.filename
         end
-      
+
+        if with[:size]
+          h[:size] = media_resource.is_a?(MediaSet) ? nil : media_resource.media_file.size
+        end
+
         if with[:flags]
           h[:is_public] = media_resource.is_public?
           h[:is_private] = h[:is_public] ? false : media_resource.is_private?(current_user)
@@ -94,6 +98,7 @@ module Json
       h
     end
     
+    alias :hash_for_media_entry_incomplete :hash_for_media_resource 
     alias :hash_for_media_entry :hash_for_media_resource 
     alias :hash_for_media_set :hash_for_media_resource 
 
