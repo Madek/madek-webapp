@@ -731,7 +731,7 @@ class MediaResourcesController < ApplicationController
 
       respond_to do |format|
         format.json {
-          render :json => view_context.json_for(resources, with)
+          render json: view_context.hash_for_media_resources_with_pagination(resources, true, with).to_json
         }
       end
 
