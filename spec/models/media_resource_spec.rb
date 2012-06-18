@@ -6,6 +6,7 @@ describe MediaResource do
   context "there exists resources"  do
 
     before :all do
+      FactoryGirl.create :meta_context_io_interface
       @media_entry = FactoryGirl.create :media_entry
       @media_set_parent =  FactoryGirl.create :media_set
       @media_set_child =  FactoryGirl.create :media_set

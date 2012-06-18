@@ -3,10 +3,6 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-# If you have a Gemfile, require the gems listed there, including any gems
-# you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env) if defined?(Bundler)
-
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
   Bundler.require(*Rails.groups(:assets => %w(development test)))
@@ -16,10 +12,6 @@ end
 
 module MAdeK
   class Application < Rails::Application
-
-
-    config.active_record.schema_format = :sql
-
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -57,8 +49,10 @@ module MAdeK
 
     # Enable the asset pipeline
     config.assets.enabled = true
-    config.assets.version = '0.5.6'
+    config.assets.version = '0.6.0'
 
+    # Please add any files you need precompiled here, otherwise it breaks production
+    config.assets.precompile += %w( jquery/fcbkcomplete.css jquery/fcbkcomplete_custom.css i18n/jquery.ui.datepicker-de-CH.js i18n/jquery.ui.datepicker-en-GB.js i18n/jquery.ui.datepicker-de-CH i18n/jquery.ui.datepicker-en-GB admin.css )
 
     # So that the Content-Length header is sent, so that e.g. video files
     # can be seeked and that mobile clients know how much data is coming
@@ -105,16 +99,10 @@ FILE_UTIL_PATH = "/usr/bin/file -b --mime-type"
 THUMBNAILS = { :x_large => '1024x768>', :large => '620x500>', :medium => '300x300>', :small_125 => '125x125>', :small => '100x100>' }
 PER_PAGE = [36,72,144]
 
-DEFAULT_ACTION_PERMISSIONS = {  :view => false, # read
-                                :edit => false #, # update
-                                # TODO :create => true,
-                                # TODO :delete => false
-                              }
-
 LANGUAGES = [:de_ch, :en_gb]
 DEFAULT_LANGUAGE = :de_ch
 
 ENCODING_BASE_URL = "http://test:MAdeK@test.madek.zhdk.ch"
 ENCODING_TEST_MODE = 1 # 1 for true, 0 for false
 
-RELEASE_VERSION = "0.5.6.1"
+RELEASE_VERSION = "0.6.0"

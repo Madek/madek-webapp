@@ -3,6 +3,11 @@ require 'spec_helper'
 describe UploadController do
 
   before :all do
+    FactoryGirl.create :usage_term
+    FactoryGirl.create :meta_key, :label => "copyright status", :meta_datum_object_type => "MetaDatumCopyright"
+    FactoryGirl.create :meta_key, :label => "description author", :meta_datum_object_type => "MetaDatumPeople"
+    FactoryGirl.create :meta_key, :label => "description author before import", :meta_datum_object_type => "MetaDatumPeople"
+    FactoryGirl.create :meta_key, :label => "uploaded by", :meta_datum_object_type => "MetaDatumUsers"
     @user = FactoryGirl.create :user
   end
 

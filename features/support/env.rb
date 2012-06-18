@@ -50,18 +50,77 @@ ActionController::Base.allow_rescue = false
 
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
+
+our_default_strategy = :transaction
+
 begin
-  DatabaseCleaner.strategy = :transaction
+  DatabaseCleaner.strategy = our_default_strategy
 rescue NameError
   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
 end
 
+
+FileUtils.rm_rf("#{Rails.root}/tmp/dropbox")
+FileUtils.mkdir("#{Rails.root}/tmp/dropbox")
 at_exit do
   # remove dropbox 
   FileUtils.rm_rf("#{Rails.root}/tmp/dropbox")
 end
 
+
+# Override some JavaScript behavior to help against these problems:
+# https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
+# https://github.com/cucumber/cucumber-rails/issues/180
+# There's a summary of the fuckedupness here: https://github.com/cucumber/cucumber-rails/issues/166
+Before('@javascript, ~@transactional') do
+  DatabaseCleaner.strategy = :truncation
+
+  # TODO 
+  # there is a lot of duplicate code with :create_migrated_persona_dump
+  # and also with the various db dump / db restore stuff we have
+   
+  config = Rails.configuration.database_configuration[Rails.env]
+  adapter      = config["adapter"]
+  sql_host     = config["host"]
+  sql_database = config["database"]
+  sql_username = config["username"]
+  sql_password = config["password"]
+
+  if ["mysql", "mysql2"].include?(adapter)
+    drop_command = "mysql -u #{sql_username} --password=#{sql_password} -e 'drop database if exists #{sql_database}'"
+    load_command = "mysql -u #{sql_username} --password=#{sql_password} #{sql_database} < #{Rails.root + 'db/empty_medienarchiv_instance_with_personas.mysql.migrated.sql'}"
+    create_command = "mysql -u #{sql_username} --password=#{sql_password} -e 'create database #{sql_database}'"
+  elsif adapter == "postgresql"
+    migrated_file = Rails.root.join 'db','empty_medienarchiv_instance_with_personas.pgbin'
+    auth_part = " -U #{sql_username} -w "
+    encoding_part = " -E utf-8 "
+    drop_command =  "dropdb #{auth_part} #{sql_database}" 
+    load_premigration_command = "pg_restore #{auth_part} -j 2 -d #{sql_database} #{migrated_file}"
+    create_command = "createdb -w #{auth_part} #{sql_database}"
+  else
+    raise "Cannot handle database adapter #{adapter}, sorry! Exiting."
+  end
+
+  # Invoking things like Rake::Task["db:drop"] does NOT work in these tasks (I don't know why)
+  #puts "Trying to drop database" # stop flooding the terminal
+  system drop_command
+  #puts "Trying to create database" # stop flooding the terminal
+  system create_command
+  #puts "Trying to load persona dump into database" # stop flooding the terminal
+  system load_command
+  exit_code = $? >> 8 # magic brainfuck
+  raise "Could not load database file" if exit_code != 0
+end
+
+After('@javascript, ~@transactional') do
+   DatabaseCleaner.strategy = our_default_strategy
+end
+
 Before do
+  # The path would be wrong, it might point, it might point to some developer's homedir or the
+  # persona server's home dir etc.
+  AppSettings.dropbox_root_dir = (Rails.root + "tmp/dropbox").to_s
+
   DatabaseCleaner.start
 end
 

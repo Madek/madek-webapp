@@ -4,7 +4,7 @@ Feature: Use the search filters on my search results
   more accurately matches what I'm looking for.
 
   Background: Set up the world and some users
-    Given I have set up the world
+    Given I have set up the world a little
       And a user called "Evil Librarian" with username "evil" and password "books" exists
 
   @javascript 

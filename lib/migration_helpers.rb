@@ -128,7 +128,11 @@ module MigrationHelpers
     from_column ||= fkey_name to_table_name
     contraint_name = "#{from_table_name}_#{from_column}_#{to_table_name}_fkey"
 
-    execute_sql "ALTER TABLE #{from_table_name} ADD CONSTRAINT #{contraint_name} FOREIGN KEY (#{from_column}) REFERENCES #{to_table_name} (id) ON DELETE CASCADE;"
+    execute_sql <<-SQL 
+      ALTER TABLE #{from_table_name} 
+        ADD CONSTRAINT #{contraint_name} 
+        FOREIGN KEY (#{from_column}) REFERENCES #{to_table_name} (id) ON DELETE CASCADE;
+      SQL
   end
 
 

@@ -15,7 +15,7 @@ class DownloadController < ApplicationController
 
       unless params[:id].blank? 
 
-        @media_entry = MediaEntry.accessible_by_user(current_user).where(:id => params[:id]).first
+        @media_entry = MediaEntry.accessible_by_user(current_user).find_by_id(params[:id])
 
         if @media_entry.nil?
           not_authorized!

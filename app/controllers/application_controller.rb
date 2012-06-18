@@ -91,7 +91,7 @@ class ApplicationController < ActionController::Base
     user = nil
     if session[:user_id]
       # TODO use find without exception: self.current_user = User.find(session[:user_id])
-      self.current_user = user = User.where(:id => session[:user_id]).first
+      self.current_user = user = User.find_by_id(session[:user_id])
       check_usage_terms_accepted
 
     # TODO remove this when public open OR logged in through API

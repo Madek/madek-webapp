@@ -28,9 +28,9 @@
     input {
       background-color: #FFFFFF;
       border: 1px solid #D2D2D2;
-      color: #424242;
       display: block;
-      font-weight: bold;
+      color: #AAA;
+      font-weight: normal;
       font-size: 1em;
       margin-bottom: 12px;
       padding: 2px 4px;
@@ -38,9 +38,13 @@
       width: 134px;
       @include box-shadow(0 0 1px 1px #E3E3E3 inset);
       
-     &:hover, &:focus {
+      &:hover, &:focus {
         border: 1px solid #AAA;
         @include box-shadows(0 0 5px #E3E3E3, 0 0 1px 1px #E3E3E3 inset);
+      }
+      
+      &:focus {
+        color: #424242;
       }
     }
     

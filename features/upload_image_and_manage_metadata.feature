@@ -3,11 +3,11 @@ Feature: Upload images and manage media entries based on images
   Foo Bar
 
   Background: Set up the world and some users
-    Given I have set up the world
+    Given I have set up the world a little
       And a user called "Helmut Kohl" with username "helmi" and password "saumagen" exists
       And a user called "Mikhail Gorbachev" with username "gorbi" and password "glasnost" exists
 
-  @javascript
+  @javascript 
   Scenario: Upload one image file without any special metatada
     When I log in as "helmi" with password "saumagen"
      And I upload some picture titled "not a special picture"
@@ -20,7 +20,7 @@ Feature: Upload images and manage media entries based on images
      And I fill in the metadata for entry number 1 as follows:
      | label     | value                 |
      | Titel     | berlin wall for a set |
-     | Copyright | some other dude       |
+     | Rechte | some other dude       |
      And I follow "weiter..."
      And I wait for the CSS element ".has-set-widget"
      And I open the selection widget for this page
@@ -39,7 +39,7 @@ Feature: Upload images and manage media entries based on images
      And I fill in the metadata for entry number 1 as follows:
      | label     | value                                |
      | Titel     | A beautiful piece of the Berlin Wall |
-     | Copyright | Kohl, Helmut                         |
+     | Rechte | Kohl, Helmut                         |
      And I follow "weiter..."
      And I wait for the CSS element ".has-set-widget"
      And I follow "Import abschliessen"
@@ -53,7 +53,7 @@ Feature: Upload images and manage media entries based on images
      And I follow "Abmelden"
      And I log in as "gorbi" with password "glasnost"
      And I go to the home page
-     Then I should see "A beautiful piece...f the Berlin Wall"
+     Then I should see "A beautiful piece... f the Berlin Wall"
 
   @javascript
   Scenario: Upload an image file for my group to see
@@ -66,7 +66,7 @@ Feature: Upload images and manage media entries based on images
       And I fill in the metadata for entry number 1 as follows:
       | label     | value                             |
       | Titel     | A second piece of the Berlin Wall |
-      | Copyright | Kohl, Helmut                      |
+      | Rechte | Kohl, Helmut                      |
       And I follow "weiter..."
       And I wait for the CSS element ".has-set-widget"
       And I follow "Import abschliessen"

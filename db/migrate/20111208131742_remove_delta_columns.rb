@@ -1,29 +1,15 @@
 class RemoveDeltaColumns < ActiveRecord::Migration
   def up
-    change_table :media_entries do |t|
-      t.remove :delta
-    end
+    remove_column(:media_entries, :delta)
+    remove_column(:media_sets, :delta)
+    remove_column(:people, :delta)
 
-    change_table :media_sets do |t|
-      t.remove :delta
-    end
-
-    change_table :people do |t|
-      t.remove :delta
-    end
   end
 
   def down
-    change_table :media_entries do |t|
-      t.boolean :delta, :null => false, :default => true 
-    end
-
-    change_table :media_sets do |t|
-      t.boolean :delta, :null => false, :default => true 
-    end
-
-    change_table :people do |t|
-      t.boolean :delta, :null => false, :default => true 
-    end
+    add_column(:media_entries, :delta, :null => false, :default => true)
+    add_column(:media_sets, :delta, :null => false, :default => true)
+    add_column(:people, :delta, :null => false, :default => true)
+    
   end
 end

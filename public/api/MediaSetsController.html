@@ -15,9 +15,11 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
   relpath = '';
-  if (relpath != '') relpath += '/';
+  framesUrl = "frames.html#!" + escape(window.location.href);
 </script>
+
 
   <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
 
@@ -27,7 +29,29 @@
 
 
 	<style type="text/css">
-		#toc {top: 24px;}
+		#toc {
+		  height: 100%;
+		  right: 0;
+		  position: fixed;
+		  top: 0;
+		  width: 230px;
+	  }
+	  #header {
+	    position: fixed;
+	    top: 0;
+	    z-index: 1001;
+	  }
+	  #header #search {
+	    position: fixed;
+	    top: 0;
+	    right: 8px;
+	    z-index: 1001;
+	  }
+	  #content {
+	    margin-right: 254px;
+	    position: relative;
+	    z-index: 1;
+	  }
 		#toc .title {display: none;}
 		#toc a:link, #content a:visited { text-decoration: none; color: #05a; }
 		#toc a:hover { background: #ffffa5; }
@@ -153,9 +177,37 @@
 			border-top-left-radius: 0;
 			border-top-right-radius: 0;
 		}
+		
+		pre.code.json {
+		  margin: 0;
+		}
+		
+		pre.code.json code {
+		  position: relative;
+		  border: 1px solid transparent;
+		  border-radius: 6px;
+		}
+		
+		pre.code.json code:hover {
+		  background: #d4e5fe;
+		}
+		
+		pre.code.json code:active {
+		  background: #c1d8fb;
+		}
 	</style>
 	<script type="text/javascript">
 		//<![CDATA[
+		
+		  function setup_log() {
+		    $("pre.code.json").attr("title", "click to inspect in browser debugger: console.log()");
+		    $("pre.code.json").css("cursor", "pointer");
+		    $("pre.code.json").click(function(){
+		      var code = $(this).find("code");
+		      console.log(code.html());
+		      console.log(JSON.parse(code.html()));
+		    });
+		  }
 		
 			function setup_toc() {
 	 		  if ($('#content').length === 0) return;
@@ -209,7 +261,10 @@
 			    $('#toc').toggleClass('nofloat');
 			  });
 			}
-			$(document).ready(setup_toc);
+			$(document).ready(function(){
+			  setup_toc();
+			  setup_log();
+			});
 		//]]>
 	</script>
   </head>
@@ -243,11 +298,6 @@ Get media sets</p>
 
 			<div class="parameters">	
 				
-					<div class="required">
-						<h4>Required Parameters</h4>
-						
-					</div>
-				
 
 				
 					<div class="optional">
@@ -258,7 +308,7 @@ Get media sets</p>
 									<span class="name">string</span>
 									<span class="type">accessible_action</span>
 									<span class="text">Limit the list of media sets by the accessible action
-show, browse, abstract, inheritable_contexts, edit, update, add_member, parents, destroy</span>
+show, browse, abstract, inheritable_contexts, edit, update, add_member, parents</span>
 								</li>
 							</ul>
 						
@@ -283,11 +333,6 @@ show, browse, abstract, inheritable_contexts, edit, update, add_member, parents,
 			</div><!-- parameters -->
 			
 			
-				<div class="response_fields">
-					<h4>Response Fields</h4>
-					
-				</div>
-			
 			
 			
 				<div class="examples">
@@ -297,64 +342,96 @@ show, browse, abstract, inheritable_contexts, edit, update, add_member, parents,
 							
 							
 							
-							<span class="description"></span>
+							<span class="description">
+								
+							</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{"accessible_action": "edit", "with": {"media_set": {"media_entries": 1}}}
+								
+									
+										{"accessible_action": "edit", "with": {"media_set": {"media_entries": 1}}}
+									
+								
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
 								
 							</span>
-							<span class="description"></span>
+							<span class="description">
+								
+							</span>
 						</div>
 					
 						<div class="example">
 							
 							
 							
-							<span class="description"></span>
+							<span class="description">
+								
+							</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{"accessible_action": "edit", "child_ids": [1]}
+								
+									
+										{"accessible_action": "edit", "child_ids": [1]}
+									
+								
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
 								
 							</span>
-							<span class="description"></span>
+							<span class="description">
+								
+							</span>
 						</div>
 					
 						<div class="example">
 							
 							
 							
-							<span class="description"></span>
+							<span class="description">
+								
+							</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{"accessible_action": "edit", "child_ids": [1,2], "with": {"media_set": {"media_entries": 1, "child_sets": 1}} // FIXME {"children": 1}
+								
+									
+										{"accessible_action": "edit", "child_ids": [1,2], "with": {"media_set": {"media_entries": 1, "child_sets": 1}} // FIXME {"children": 1}
+									
+								
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
 								
 							</span>
-							<span class="description"></span>
+							<span class="description">
+								
+							</span>
 						</div>
 					
 						<div class="example">
 							
 							
 							
-							<span class="description"></span>
+							<span class="description">
+								
+							</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{"accessible_action": "edit", "with": {"media_set": {"creator": 1, "created_at": 1, "title": 1}}}
+								
+									
+										{"accessible_action": "edit", "with": {"media_set": {"creator": 1, "created_at": 1, "title": 1}}}
+									
+								
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
 								
 							</span>
-							<span class="description"></span>
+							<span class="description">
+								
+							</span>
 						</div>
 					
 				</div>
@@ -460,32 +537,64 @@ show, browse, abstract, inheritable_contexts, edit, update, add_member, parents,
 							
 							
 							
-							<span class="description">Request the MediaSet with id 1 including children of all kinds.</span>
+							<span class="description">
+								
+									
+										Request the MediaSet with id 1 including children of all kinds.
+									
+								
+							</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{"id": 1, "with": {"children": true}}
+								
+									
+										{"id": 1, "with": {"children": true}}
+									
+								
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								{"id":1, "type":"media_set" "children": [{"id": 3, "type": "media_entry"}, {"id": 4, "type": "media_set"}]}
+								
+									
+										{"id":1, "type":"media_set" "children": [{"id": 3, "type": "media_entry"}, {"id": 4, "type": "media_set"}]}
+									
+								
 							</span>
-							<span class="description"></span>
+							<span class="description">
+								
+							</span>
 						</div>
 					
 						<div class="example">
 							
 							
 							
-							<span class="description">The MediaSet with id 1 is containing a MediaEntry (id: 3) and a MediaSet (id: 4).</span>
+							<span class="description">
+								
+									
+										The MediaSet with id 1 is containing a MediaEntry (id: 3) and a MediaSet (id: 4).
+									
+								
+							</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{"id": 1, "with": {"parents": true}}
+								
+									
+										{"id": 1, "with": {"parents": true}}
+									
+								
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								{"id":1, "type":"media_set" "parents": [{"id": 6, "type": "media_set"}, {"id": 8, "type": "media_set"}]}
+								
+									
+										{"id":1, "type":"media_set" "parents": [{"id": 6, "type": "media_set"}, {"id": 8, "type": "media_set"}]}
+									
+								
 							</span>
-							<span class="description"></span>
+							<span class="description">
+								
+							</span>
 						</div>
 					
 				</div>
@@ -511,7 +620,7 @@ show, browse, abstract, inheritable_contexts, edit, update, add_member, parents,
 	</div>
     
     <div id="footer">
-  Generated on Fri May 11 12:44:57 2012 with ruby-1.9.3
+  Generated on Thu Jun 14 10:53:02 2012 with ruby-1.9.3
 </div>
 
   </body>

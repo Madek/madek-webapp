@@ -11,7 +11,7 @@ class MergeResources < ActiveRecord::Migration
                WHERE q.id IS NULL OR u.is_complete = false;
     SQL
 
-    [:edit_sessions, :full_texts, :meta_data, :permissions].each do |table|
+    [:edit_sessions, :full_texts, :meta_data].each do |table|
       sql << <<-SQL
         DELETE t FROM #{table} AS t LEFT JOIN media_sets AS q ON t.resource_id = q.id
                   WHERE t.resource_type = 'Media::Set' AND q.id IS NULL;
@@ -112,7 +112,7 @@ class MergeResources < ActiveRecord::Migration
 
     ############################################################################
 
-    [:edit_sessions, :full_texts, :meta_data, :permissions].each do |table|
+    [:edit_sessions, :full_texts, :meta_data].each do |table|
       change_table    table do |t|
         t.belongs_to  :media_resource
       end
@@ -131,19 +131,16 @@ class MergeResources < ActiveRecord::Migration
         # do nothing
       end 
     end
+
+    remove_column(:edit_sessions, :resource_id)
+    remove_column(:edit_sessions, :resource_type)
+    add_index(:edit_sessions, :media_resource_id)
     
-    change_table    :edit_sessions do |t|
-      t.remove      :resource_id
-      t.remove      :resource_type
-      t.index       :media_resource_id
-    end
-    
-    change_table      :full_texts do |t|
-      t.remove_index  [:resource_id, :resource_type]
-      t.remove        :resource_id
-      t.remove        :resource_type
-      t.index         :media_resource_id
-    end
+    remove_index(:full_texts, [:resource_id, :resource_type])
+    remove_column(:full_texts, :resource_id)
+    remove_column(:full_texts, :resource_type)
+    add_index(:full_texts, :media_resource_id)
+
 
     table_name = :meta_data
     existing_indexes = indexes(table_name).map(&:name)
@@ -151,18 +148,9 @@ class MergeResources < ActiveRecord::Migration
       remove_index table_name, :name => index_name if existing_indexes.include? index_name.to_s 
     end
   
-    change_table      :meta_data do |t|
-      t.remove        :resource_id
-      t.remove        :resource_type
-      t.index         [:media_resource_id, :meta_key_id]
-    end
-    
-    change_table      :permissions do |t|
-      t.remove_index  :name => :index_permissions_on_resource__and_subject
-      t.remove        :resource_id
-      t.remove        :resource_type
-      t.index         [:media_resource_id, :subject_id, :subject_type], :name => :index_permissions_on_resource_and_subject
-    end
+    remove_column(:meta_data, :resource_id)
+    remove_column(:meta_data, :resource_type)
+    add_index(:meta_data, [:media_resource_id, :meta_key_id])
 
     ############################################################################
 
@@ -184,8 +172,9 @@ class MergeResources < ActiveRecord::Migration
       t.index       :media_file_id
       t.index       :updated_at
       t.index       [:media_entry_id, :created_at]
-      t.remove      :old_id
     end
+
+    remove_column(:media_resources, :old_id)
   
     drop_table :media_entries
     drop_table :snapshots
@@ -205,7 +194,7 @@ class MergeResources < ActiveRecord::Migration
     fkey_cascade_on_delete :media_entries_media_sets, :media_resources, :media_entry_id 
     fkey_cascade_on_delete :media_sets_meta_contexts, :media_resources, :media_set_id
 
-    [:edit_sessions, :full_texts, :meta_data, :permissions, :favorites].each do |table|
+    [:edit_sessions, :full_texts, :meta_data, :favorites].each do |table|
       fkey_cascade_on_delete table, :media_resources, :media_resource_id
     end
 

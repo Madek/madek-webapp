@@ -1,8 +1,7 @@
 Feature: Overview I
   
   Background: Load the example data and personas
-    Given I have set up the world
-      And personas are loaded
+    Given I have set up the world a little
 
   # https://www.pivotaltracker.com/story/show/27418863
   @javascript
@@ -43,7 +42,7 @@ Feature: Overview I
     Given I am "Normin"
      When I see the action bar
       And I can switch the layout of the results to the grid view
-      #And I can switch the layout of the results to the list view 
+      And I can switch the layout of the results to the list view 
       And I can switch the layout of the results to the miniature view 
 
   # https://www.pivotaltracker.com/story/show/27418863

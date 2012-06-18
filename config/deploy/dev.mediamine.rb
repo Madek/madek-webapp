@@ -9,7 +9,7 @@ set :application, "dev.mediamine"
 
 set :scm, :git
 set :repository, "git://github.com/zhdk/madek.git"
-set :branch, "next"
+set :branch, "master"
 set :deploy_via, :remote_cache
 
 set :db_config, "/home/mediamine/development/database.yml"

@@ -43,7 +43,7 @@ class GroupsController < ApplicationController
           else 
             raise "sql adapter is not supported"
           end
-        render :partial => "groups/index.json.rjson", :locals => {:groups => groups}
+        render :partial => "groups/index", :formats => [:json], :handlers => [:rjson], :locals => {:groups => groups}
       }
     end
   end
@@ -53,7 +53,7 @@ class GroupsController < ApplicationController
       format.json { 
         @include_users = params[:include_users] and params[:include_users] == 'true'
         @users = @group.type != "MetaDepartment" ?  @group.users : []
-        render :partial => "groups/group.json.rjson", :locals => {:group => @group, :users => @users}
+        render :partial => "groups/group",  :formats => [:json], :handlers => [:rjson], :locals => {:group => @group, :users => @users}
       }
     end
   end

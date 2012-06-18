@@ -51,7 +51,7 @@
   "wiki_pages"
   "wiki_page_versions"
 
-  "full_texts"
+;;  "full_texts"
   "settings"
   ]
 

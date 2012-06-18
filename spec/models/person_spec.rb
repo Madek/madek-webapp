@@ -35,6 +35,7 @@ describe Person do
   end
 
   it "should leave the casing alone even when using a person in a meta data field" do
+    FactoryGirl.create :meta_key, :label => "author", :meta_datum_object_type => "MetaDatumPeople"
     user = FactoryGirl.create(:user)
     me = FactoryGirl.create(:media_entry)
     h = {:meta_data_attributes => {0 => {:meta_key_label => "author", :value => "Van Den Berg, Hans-Friedrich"}}}

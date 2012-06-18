@@ -6,6 +6,6 @@ class EditSession < ActiveRecord::Base
 
   validates_presence_of :user
 
-  default_scope order("created_at DESC")
+  default_scope order("edit_sessions.created_at DESC")
 
 end

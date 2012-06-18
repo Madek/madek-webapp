@@ -10,7 +10,7 @@ class MediaSet < MediaResource
   def self.find_by_id_or_create_by_title(values, user)
     records = Array(values).map do |v|
                       if v.is_a?(Numeric) or (v.respond_to?(:is_integer?) and v.is_integer?)
-                        where(:id => v).first
+                        find_by_id(v)
                       else
                         user.media_sets.create(:meta_data_attributes => [{:meta_key_label => "title", :value => v}])
                       end
@@ -22,7 +22,7 @@ class MediaSet < MediaResource
   # but there could be many sets with the same title 
   def self.find_by_title(title)
     MediaSet.joins(:meta_data => :meta_key).
-      where(:meta_data => {:meta_keys => {:label => "title"}, :value => title.to_yaml}).first
+      where(:meta_data => {:meta_keys => {:label => "title"}, :string => title}).first
   end
 
 ########################################################
@@ -60,12 +60,18 @@ class MediaSet < MediaResource
 
 ########################################################
 
+  def get_media_file(user)
+    media_entries.accessible_by_user(user).order("media_resources.updated_at DESC").first.try(:media_file)
+  end
+
+########################################################
+
   def is_featured_set?
     !self.id.nil? and self.id == AppSettings.featured_set_id
   end
 
   def self.featured_set
-    where(:id => AppSettings.featured_set_id).first
+    find_by_id(AppSettings.featured_set_id)
   end
 
   def self.featured_set=(media_set)
@@ -78,7 +84,7 @@ class MediaSet < MediaResource
   def abstract(min_media_entries = nil, current_user = nil)
     min_media_entries ||= media_entries.count.to_f * 50 / 100
     accessible_media_entry_ids = if current_user
-      media_entries.accessible_by_user(current_user).map(&:id)
+      media_entries.accessible_by_user(current_user).pluck("media_resources.id")
     else
       media_entry_ids
     end
@@ -101,11 +107,11 @@ class MediaSet < MediaResource
   # TODO dry with MetaContext#used_meta_term_ids  
   def used_meta_term_ids(current_user = nil)
     accessible_media_entry_ids = if current_user
-      media_entries.accessible_by_user(current_user).map(&:id)
+      media_entries.accessible_by_user(current_user).pluck("media_resources.id")
     else
       media_entry_ids
     end
-    meta_key_ids = individual_contexts.flat_map{|ic| ic.meta_keys.for_meta_terms.map(&:id) }
+    meta_key_ids = individual_contexts.flat_map{|ic| ic.meta_keys.for_meta_terms.pluck("meta_keys.id") }
     mds = MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids)
     mds.flat_map(&:value).uniq.compact
   end

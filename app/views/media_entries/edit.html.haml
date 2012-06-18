@@ -12,26 +12,26 @@
   %section#content_body.clearfix
     #detail-main.grid_2
       #detail-image{:style => "padding: 5px 0 0 0;"}
-        = link_to thumb_for(@media_entry, :small), @media_entry
-      - if is_expert and @media_entry.snapshotable?
+        = link_to thumb_for(@media_resource, :small), @media_resource
+      - if is_expert and @media_resource.snapshotable?
         #detail-action-bar
           %ul
-            %li= link_to _("Metadaten für MIZ-Archiv editieren"), edit_tms_media_entry_path(@media_entry), :style => "line-height: 1em; float: none; padding: 5px 0; font-size: 0.8em;"
+            %li= link_to _("Metadaten für MIZ-Archiv editieren"), edit_tms_media_entry_path(@media_resource), :style => "line-height: 1em; float: none; padding: 5px 0; font-size: 0.8em;"
     .grid_9
       %h3= _("Metadaten editieren")
-      = form_for @media_entry, :as => :resource, :url => [:update_multiple, @media_entry, :meta_data], :html => {:method => :put} do |resource|
-        - meta_contexts = MetaContext.defaults + @media_entry.individual_contexts
+      = form_for @media_resource, :as => :resource, :url => [:update_multiple, @media_resource, :meta_data], :html => {:method => :put} do |resource|
+        - meta_contexts = MetaContext.defaults + @media_resource.individual_contexts
         #detail_specification.tabs
           %ul
             - meta_contexts.each_with_index do |meta_context, index|
               - if index == 0
                 %li= link_to meta_context, "##{meta_context.name}"
               - else
-                %li= link_to meta_context, polymorphic_path([:edit_multiple, @media_entry, :meta_data], :context_id => meta_context)
+                %li= link_to meta_context, polymorphic_path([:edit_multiple, @media_resource, :meta_data], :context_id => meta_context)
           - meta_contexts[0,1].each do |meta_context|
             = render :partial => "meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :resource => resource }
           
         %div{:class => "save_buttons"}
-          = link_to _("Abbrechen"), @media_entry, :class => "buttons"
+          = link_to _("Abbrechen"), @media_resource, :class => "buttons"
           = resource.submit _("Speichern")
 .clear

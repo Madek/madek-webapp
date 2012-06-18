@@ -1,6 +1,10 @@
-{
-  total: media_resources.total_entries,
-  page: media_resources.current_page,
-  per_page: media_resources.per_page,
-  total_pages: media_resources.total_pages
-}
+h = {}
+
+h[:total_media_entries] = media_resources.media_entries.count
+h[:total_media_sets] = media_resources.media_sets.count
+h[:total] = media_resources.total_entries 
+h[:page] = media_resources.current_page 
+h[:per_page] = media_resources.per_page 
+h[:total_pages] = media_resources.total_pages 
+
+h

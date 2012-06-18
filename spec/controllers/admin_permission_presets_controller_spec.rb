@@ -21,6 +21,8 @@ require 'spec_helper'
 describe Admin::PermissionPresetsController do
 
   before :all do
+    FactoryGirl.create :usage_term 
+    FactoryGirl.create :meta_context_core
     PermissionPreset.destroy_all
     @adam = Persona.create :adam
   end

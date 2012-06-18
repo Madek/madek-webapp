@@ -7,7 +7,7 @@ Feature: Create and edit workgroups
 
 
   Background: The world and some users exist
-    Given I have set up the world
+    Given I have set up the world a little
       And a user called "Porky Pig" with username "porky" and password "piggy" exists
       And a user called "Daffy Duck" with username "daffy" and password "ducky" exists
 
@@ -39,6 +39,7 @@ Feature: Create and edit workgroups
     Then I should see "Pig, Porky"
      And I should see "Duck, Daffy"
      And I press "Speichern"
+     And I wait for 3 seconds
      And "Duck, Daffy" should be a member of the "Looney Tunes" group
      And "Pig, Porky" should be a member of the "Looney Tunes" group
 

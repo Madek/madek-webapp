@@ -1,0 +1,196 @@
+@import "../../mixins"
+
+.media_resources.index.list
+
+  #bar .layout .icon[data-type="list"]
+    @include opacity(1.0)
+    
+  #results
+    padding-top: 19px
+    position: relative
+    width: 100%
+    
+    .page
+      display: inline-block
+      position: relative
+      width: 100%
+  
+    .pagination
+      display: none
+    
+    .item_box
+      background: white !important
+      border-top: 1px solid white
+      //border-bottom: 1px solid #DDCCCC
+      display: block
+      float: left
+      height: auto
+      min-height: 150px
+      left: -32px
+      margin: 0
+      padding: 6px 38px 18px 0
+      width: 100%
+      
+      &:nth-child(odd)
+        background: #F4F4F4 !important
+        &:hover
+          background: #F4F4F4 !important
+        .context
+          border-left: 1px solid #DFDFDF
+      
+      &:last-child
+        border-bottom: none
+      
+      &.popup_target
+        background: white !important
+      
+      &>.clear
+        display: none
+      
+      &:hover
+        background: white
+      
+      .item_permission
+        left: 42px
+        position: absolute
+        top: 19px
+        
+      &.set
+        .item_permission
+          left: 45px
+          position: absolute
+          top: 35px
+          
+      &.video
+        .item_permission
+          left: 45px
+          position: absolute
+          top: 39px
+        .thumb_box
+          top: 0
+        .actions .action_menu
+          top: 140px
+          
+    .thumb_box, .thumb_box_set
+      margin: 13px 18px 34px 42px
+      
+    .thumb_box_set
+      margin-top: 0
+      margin-bottom: 25px
+    
+    .actions
+      display: block
+      bottom: auto
+      top: 15px
+      left: 15px
+      width: 19px
+      
+      .action_left > *
+        display: none
+        
+        &.check_box
+          display: block
+        
+        &.favorite_link
+          display: block
+          left: -2px
+          position: relative
+          top: 7px
+        
+        .loading
+          position: relative
+          left: 4px
+          top: 3px
+      
+      .action_right
+        display: none
+        
+      .action_menu
+        display: inline-block
+        
+      .favorite_link .loading
+        display: block
+        height: 12px
+        width: 12px
+    
+    .item_box.set .action_menu
+      left: 30px
+      top: 132px
+      width: 108px
+    
+    .meta_data
+      position: relative
+      width: 100%
+    
+      table
+        font-size: 0.93em
+        margin-top: 41px
+        width: 81%
+        
+        td.context
+          border-left: 1px solid #EEE
+          height: 120px
+          padding: 0 12px
+          margin: 0
+          width: 300px
+          
+          &:first-child
+            border-left: none
+          
+          .no_values
+            color: grey
+            font-style: italic
+            
+          .meta_datum
+            display: inline-block
+            line-height: 1.3em
+            margin-bottom: 8px
+            width: 100%
+          
+            dt
+              color: #999
+              clear: left
+              display: inline-block
+              float: left
+              width: 30%
+            
+            dd.truncated
+              display: none
+            
+            dd.full
+              float: right
+              width: 60%
+              
+            dd.parent_media_resources, dd.child_media_resources
+              cursor: default
+            
+            .media_set.icon, .media_entry.icon
+              top: -1px
+              margin-right: 6px
+              position:relative
+              @include opacity(0.25)
+            
+            &.title
+              display: block
+              left: 211px
+              position: absolute
+              top: -30px
+              width: 80%
+              
+              dt
+                display: none
+            
+              dd.full
+                float: left
+                font-size: 1.1em
+                font-weight: bold
+                letter-spacing: 0
+                width: auto
+                
+@media screen and (max-width: 1500px)
+  section.media_resources.index.list #results .meta_data .context:nth-child(n+3)
+    display: none
+
+@media screen and (max-width: 850px)
+  section.media_resources.index.list #results .meta_data .context:nth-child(n+2)
+    display: none

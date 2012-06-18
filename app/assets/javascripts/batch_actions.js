@@ -33,22 +33,6 @@ $(document).ready(function () {
       });
       $(this).append("<input type='hidden' name='media_entry_ids' value='"+managable_ids+"'>");
     });
-	
-    $(".item_box:not(.tmp)").live({
-      mouseenter: function() {
-        $(this).find('.actions').show();
-        if(!$(this).hasClass("popup")) {
-          $(this).css("background-color", "#f1f1f1");
-        }
-       },
-      mouseleave: function() {
-        $(this).find('.actions').hide();
-		    if(!$(this).hasClass('selected') && !$(this).hasClass("popup")) {
-		      $(this).css("background-color", "white");
-		    } 
-       }
-     });
-
 });
 
 
@@ -152,7 +136,7 @@ function setupBatch(json) {
 		if(i > -1) {
 			media_entries_json.splice(i, 1);
 			$(".item_box[data-id="+id+"]").each(function(i, el){
-			  $(el).removeClass('selected').css("background", "transparent");
+			  $(el).removeClass('selected');
 			});
 			$('#selected_items [rel="'+id+'"]').remove();
 			$("#positionable").fadeOut(); // only on browse page
@@ -171,10 +155,10 @@ function setupBatch(json) {
 }
 
 function selected_items_highlight_on(selector){
-  $('#selected_items '+selector).css("background-color", "#FEFFD7");
+  $('#selected_items '+selector).addClass("selected");
 }
 function selected_items_highlight_off(selector){
-  $('#selected_items '+selector).css("background-color", "white");
+  $('#selected_items '+selector).removeClass("selected");
 }
 
 function listSelected() {

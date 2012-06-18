@@ -4,7 +4,7 @@ Given /^a resource owned by "([^"]*)"$/ do |persona|
 end
 
 Given /^a resource$/ do
-  owner = Factory :user
+  owner = FactoryGirl.create :user
   @resource = FactoryGirl.create :media_entry, user: owner
 end
 
@@ -15,14 +15,14 @@ end
 
 Given /^a set named "([^"]*)" owned by "([^"]*)"$/ do |title, persona|
   owner = User.where("login=?",persona.downcase).first
-  @resource = Factory(:media_set,
+  @resource = FactoryGirl.create(:media_set,
                       user: owner, 
                       meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: title}})
 end
 
 Given /^a set named "([^"]*)"$/ do |title|
-  owner = Factory :user
-  @resource = Factory(:media_set,
+  owner = FactoryGirl.create :user
+  @resource = FactoryGirl.create(:media_set,
                       user: owner, 
                       meta_data_attributes: {0 => {meta_key_id: MetaKey.find_by_label("title").id, value: title}})
 end
@@ -116,7 +116,7 @@ end
 
 Then /^I can choose from a set of labeled permissions presets instead of grant permissions explicitly$/ do
   find(".preset select").all("option").map(&:text).each do |preset_name|
-    PermissionPreset.all.map(&:name).include?(preset_name).should be_true
+    PermissionPreset.pluck(:name).include?(preset_name).should be_true
   end
 end
 

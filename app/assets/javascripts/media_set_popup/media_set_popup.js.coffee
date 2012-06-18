@@ -31,14 +31,16 @@ enter_target = (target)->
   , 100
   
 load_children = (target)->
-  if $(target).data("loaded_children")?
-    setup_children(target, $(target).data("loaded_children"))
+  if $(target).data("children_data")?
+    setup_children(target, $(target).data("children_data"))
   else
     $.ajax
       url: "/media_sets/"+target.tmplItem().data.id+".json"
       data:
         with: 
-          children: true
+          children: 
+            pagination:
+              per_page: 6
           meta_data:
             meta_key_names: ["title"]
           image:
@@ -46,14 +48,14 @@ load_children = (target)->
             size:"small"
       type: "GET"
       success: (data, status, request) ->
-        $(target).data "loaded_children", data
+        $(target).data "children_data", data
         setup_children(target, data)
       error: (request, status, error) ->
         console.log "ERROR LOADING"
     
 load_parents = (target)->
-  if $(target).data("loaded_parents")?
-    setup_parents(target, $(target).data("loaded_parents"))
+  if $(target).data("parents_data")?
+    setup_parents(target, $(target).data("parents_data"))
   else
     $.ajax
       url: "/media_sets/"+target.tmplItem().data.id+".json"
@@ -61,13 +63,13 @@ load_parents = (target)->
         with:
           meta_data:
             meta_key_names: ["title"]
-          parents: true
+          parents: {pagination: {per_page: 3}}
           image:
             as:"base64"
             size:"small"
       type: "GET"
       success: (data, status, request) ->
-        $(target).data "loaded_parents", data
+        $(target).data "parents_data", data
         setup_parents(target, data)
       error: (request, status, error) ->
         console.log "ERROR LOADING"
@@ -84,9 +86,10 @@ resource_setdiv_template= ->
   """
   
 resource_template= (resource)->
-  meta_data = MetaDatum.flatten resource.meta_data
+  meta_data = MetaDatum.flatten resource.meta_data if resource.meta_data?
+  title = if meta_data? then meta_data.title else "" 
   """<a href="#{pluralize_resource_by_type(resource.type)}/#{resource.id}">
-      <div class="resource #{resource.type}" title="#{meta_data.title}">
+      <div class="resource #{resource.type}" title="#{title}">
         #{if resource.type is 'media_set' then resource_setdiv_template() else ''}
         <img src="#{resource.image}" />
       </div>
@@ -97,9 +100,9 @@ setup_children = (target, data)->
     # remove loading
     $($(target).data("popup")).find(".children .loading").remove()
     # setup resources
-    media_entries = (resource for resource in data.children when resource.type is "media_entry")
-    media_sets = (resource for resource in data.children when resource.type is "media_set")
-    resources = data.children[0...6]
+    media_entries = (resource for resource in data.children.media_resources when resource.type is "media_entry")
+    media_sets = (resource for resource in data.children.media_resources when resource.type is "media_set")
+    resources = data.children.media_resources
     displayed_media_entries = (resource for resource in resources when resource.type is "media_entry")
     displayed_media_sets = (resource for resource in resources when resource.type is "media_set")
     for resource in resources
@@ -107,22 +110,22 @@ setup_children = (target, data)->
         $($(target).data("popup")).find(".children").append resource_template(resource) 
     # setup text
     $($(target).data("popup")).find(".children").append $("<div class='text'></div>")
-    if media_entries? then $($(target).data("popup")).find(".children .text").append("<p>"+(media_entries.length-displayed_media_entries.length)+" weitere Medieneinträge</p>")
-    if media_sets? then $($(target).data("popup")).find(".children .text").append("<p>"+(media_sets.length-displayed_media_sets.length)+" weitere Sets</p>")
+    if media_entries? then $($(target).data("popup")).find(".children .text").append("<p>"+(data.children.pagination.total_media_entries-displayed_media_entries.length)+" weitere Medieneinträge</p>")
+    if media_sets? then $($(target).data("popup")).find(".children .text").append("<p>"+(data.children.pagination.total_media_sets-displayed_media_sets.length)+" weitere Sets</p>")
       
 setup_parents = (target, data)->
   if $(target).data("popup")?
     # remove loading
     $($(target).data("popup")).find(".parents .loading").remove()
     # setup resources
-    resources = data.parents[0...3]
+    resources = data.parents.media_resources
     displayed_media_sets = (resource for resource in resources when resource.type is "media_set")
     for resource in resources
       do (resource) ->
         $($(target).data("popup")).find(".parents").append resource_template(resource)
     # setup text
     $($(target).data("popup")).find(".parents").append $("<div class='text'></div>")
-    if resources? then $($(target).data("popup")).find(".parents .text").append("<p>"+(data.parents.length-displayed_media_sets.length)+" weitere Sets</p>")
+    if resources? then $($(target).data("popup")).find(".parents .text").append("<p>"+(data.parents.pagination.total-displayed_media_sets.length)+" weitere Sets</p>")
       
 open_popup = (target)->
   $(".set_popup").each (i, element)-> close_popup element
@@ -142,6 +145,9 @@ open_popup = (target)->
 create_popup = (target)->
   # create copy of target
   copy = $(target).clone()
+  # remove unneded elements
+  copy.find(".meta_data .context:not(.core)").remove()
+  copy.find(".meta_data .actions .action_menu").remove()
   copy.addClass("popup")
   # create a background
   arrow_grey = $.tmpl "tmpl/svg/arrow", classname: "grey"
@@ -175,25 +181,24 @@ create_popup = (target)->
   container.append copy
   $("body").append container
   # positioning
-  offset = if $(".media_resources.index.miniature").length then "0 40" else 0 
   $(container).position {
     my: "top left",
     at: "top left",
-    offset: offset,
-    of: $(target)
+    offset: "-1 42",
+    of: $(target).find(".thumb_box_set")
   }
   $(copy).position {
     my: "top left",
     at: "top left",
-    offset: offset,
-    of: $(target)
+    offset: "-1 42",
+    of: $(target).find(".thumb_box_set")
   }
   # put children inside if already exist
-  if $(target).data("loaded_children")?
-    setup_children target, $(target).data("loaded_children")
+  if $(target).data("children_data")?
+    setup_children target, $(target).data("children_data")
   # put parents inside if already exist
-  if $(target).data("loaded_parents")?
-    setup_parents target, $(target).data("loaded_parents")
+  if $(target).data("parents_data")?
+    setup_parents target, $(target).data("parents_data")
   # bind mouse leave
   $(".set_popup").bind "mouseleave", -> leave_popup $(this)
   

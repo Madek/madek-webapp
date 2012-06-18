@@ -24,7 +24,6 @@ class RefactorMediaSets < ActiveRecord::Migration
     MetaContext.update_all({:name => "media_set"}, {:name => "album"})
     EditSession.update_all({:resource_type => "MediaSet"}, {:resource_type => "Album"})
     MetaDatum.update_all({:resource_type => "MediaSet"}, {:resource_type => "Album"})
-    Permission.update_all({:resource_type => "MediaSet"}, {:resource_type => "Album"})
 
     #######
 

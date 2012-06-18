@@ -4,6 +4,8 @@ require 'pry'
 describe MediaSetsController do
 
   before :all do
+    FactoryGirl.create :usage_term 
+    FactoryGirl.create :meta_context_core
     @user = FactoryGirl.create :user
     @media_set = FactoryGirl.create :media_set, :user => @user
   end

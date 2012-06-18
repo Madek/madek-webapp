@@ -40,7 +40,7 @@ class MediaEntriesController < ApplicationController
         action = case request[:action].to_sym
           when :show, :map, :browse, :media_sets
             :view
-          when :edit, :update, :edit_tms, :to_snapshot, :destroy
+          when :update, :edit_tms, :to_snapshot
             :edit
         end
   
@@ -83,27 +83,9 @@ class MediaEntriesController < ApplicationController
   
   def browse
     # TODO merge with index
-    @viewable_ids = MediaEntry.accessible_by_user(current_user).map(&:id)
+    @viewable_ids = MediaEntry.accessible_by_user(current_user).pluck(:id)
   end
   
-#####################################################
-# Authenticated Area
-
-  def edit
-  end
-
-  def destroy
-    @media_entry.destroy
-
-    respond_to do |format|
-      format.html { 
-        flash[:notice] = "Der Medieneintrag wurde gelöscht."
-        redirect_back_or_default(media_resources_path) 
-      }
-      format.json { render :json => {:id => @media_entry.id} }
-    end
-  end
-
 #####################################################
 
   def edit_tms
@@ -150,7 +132,7 @@ class MediaEntriesController < ApplicationController
     
     respond_to do |format|
       format.json {
-        render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => parent_media_sets}
+        render :partial => "media_resources/index", :formats => [:json], :handlers => [:rjson], :locals => {:media_resources => parent_media_sets}
       }
     end
   end

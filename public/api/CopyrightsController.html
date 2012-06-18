@@ -15,9 +15,11 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
   relpath = '';
-  if (relpath != '') relpath += '/';
+  framesUrl = "frames.html#!" + escape(window.location.href);
 </script>
+
 
   <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
 
@@ -27,7 +29,29 @@
 
 
 	<style type="text/css">
-		#toc {top: 24px;}
+		#toc {
+		  height: 100%;
+		  right: 0;
+		  position: fixed;
+		  top: 0;
+		  width: 230px;
+	  }
+	  #header {
+	    position: fixed;
+	    top: 0;
+	    z-index: 1001;
+	  }
+	  #header #search {
+	    position: fixed;
+	    top: 0;
+	    right: 8px;
+	    z-index: 1001;
+	  }
+	  #content {
+	    margin-right: 254px;
+	    position: relative;
+	    z-index: 1;
+	  }
 		#toc .title {display: none;}
 		#toc a:link, #content a:visited { text-decoration: none; color: #05a; }
 		#toc a:hover { background: #ffffa5; }
@@ -153,9 +177,37 @@
 			border-top-left-radius: 0;
 			border-top-right-radius: 0;
 		}
+		
+		pre.code.json {
+		  margin: 0;
+		}
+		
+		pre.code.json code {
+		  position: relative;
+		  border: 1px solid transparent;
+		  border-radius: 6px;
+		}
+		
+		pre.code.json code:hover {
+		  background: #d4e5fe;
+		}
+		
+		pre.code.json code:active {
+		  background: #c1d8fb;
+		}
 	</style>
 	<script type="text/javascript">
 		//<![CDATA[
+		
+		  function setup_log() {
+		    $("pre.code.json").attr("title", "click to inspect in browser debugger: console.log()");
+		    $("pre.code.json").css("cursor", "pointer");
+		    $("pre.code.json").click(function(){
+		      var code = $(this).find("code");
+		      console.log(code.html());
+		      console.log(JSON.parse(code.html()));
+		    });
+		  }
 		
 			function setup_toc() {
 	 		  if ($('#content').length === 0) return;
@@ -209,7 +261,10 @@
 			    $('#toc').toggleClass('nofloat');
 			  });
 			}
-			$(document).ready(setup_toc);
+			$(document).ready(function(){
+			  setup_toc();
+			  setup_log();
+			});
 		//]]>
 	</script>
   </head>
@@ -242,32 +297,12 @@
 
 			<div class="parameters">	
 				
-					<div class="required">
-						<h4>Required Parameters</h4>
-						
-					</div>
-				
 
-				
-					<div class="optional">
-						<h4>Optional Parameters</h4>
-						
-					</div>
 				
 			</div><!-- parameters -->
 			
 			
-				<div class="response_fields">
-					<h4>Response Fields</h4>
-					
-				</div>
 			
-			
-			
-				<div class="examples">
-					<h4>Examples</h4>
-					
-				</div>
 			
 		</div>	
     
@@ -290,7 +325,7 @@
 	</div>
     
     <div id="footer">
-  Generated on Fri May 11 12:44:57 2012 with ruby-1.9.3
+  Generated on Thu Jun 14 10:53:02 2012 with ruby-1.9.3
 </div>
 
   </body>

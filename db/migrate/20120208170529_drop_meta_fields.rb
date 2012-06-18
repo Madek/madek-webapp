@@ -45,13 +45,9 @@ class DropMetaFields < ActiveRecord::Migration
 
     #####################################################
 
-    change_table :meta_contexts do |t|
-      t.remove :meta_field
-    end
+    remove_column(:meta_contexts, :meta_field)
 
-    change_table :meta_key_definitions do |t|
-      t.remove :meta_field
-    end
+    remove_column(:meta_key_definitions, :meta_field)
 
   end
 

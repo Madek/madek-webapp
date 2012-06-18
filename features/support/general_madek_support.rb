@@ -56,13 +56,12 @@ def wait_for_css_element(element)
 end
 
 def set_term_checkbox(node, text)
-#   debugger; puts "lala"
   cb = node.find("ul li ul li", :text => text).find("input")
   cb.click unless cb[:checked] == "true" # a string, not a bool!
 end
 
 def select_from_multiselect_widget(node, text)
-  node.find(".madek_multiselect_container").find(".search_toggler").click
+  node.find(".search_toggler").click
   pick_from_autocomplete(text)
 end
 
@@ -134,10 +133,18 @@ end
 def find_media_entry_titled(title)
   wait_until { find(".item_box") }
   
-  found_item = all(".item_box").detect do |item|
-    item.find(".item_title")["title"].match(/#{title}/)
+  def find_item_box(title)
+    all(".item_box").detect do |item|
+      not item.all(".meta_datum .title.full", :text => title).empty?
+    end
   end
 
+  found_item = find_item_box(title)
+  found_item ||= begin
+    make_hidden_items_visible
+    find_item_box(title)
+  end
+  
   unless found_item
     puts "No media entry found with title '#{title}'"
   end

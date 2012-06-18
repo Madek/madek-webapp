@@ -5,7 +5,8 @@ describe MetaContextGroupsController do
   render_views
 
   before :all do
-    @user = Factory :user
+    FactoryGirl.create :usage_term
+    @user = FactoryGirl.create :user
     meta_context_group = FactoryGirl.create :meta_context_group
     @meta_context_groups = MetaContextGroup.all
   end

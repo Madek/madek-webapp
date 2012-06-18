@@ -16,7 +16,9 @@ class MediaEntryIncomplete < MediaEntry
   after_create do
     descr_author_value = meta_data.get("description author", false).try(:value)
     meta_data.get("description author before import").update_attributes(:value => descr_author_value) if descr_author_value
-    meta_data.get("uploaded by").update_attributes(:value => user)
+    mdu = meta_data.get("uploaded by")
+    mdu.users << user
+    mdu.save
   end
 
 ########################################################
@@ -99,12 +101,8 @@ class MediaEntryIncomplete < MediaEntry
     if !copyright_status
       value = (are_usage_or_url_defined ? Copyright.custom : Copyright.default)
       meta_data.build(:meta_key => MetaKey.find_by_label("copyright status"), :value => value)
-    elsif copyright_status.value.class == TrueClass or are_usage_or_url_defined 
+    elsif are_usage_or_url_defined 
       copyright_status.value = Copyright.custom
-    elsif copyright_status.value.class == FalseClass
-      copyright_status.value = Copyright.public
-    else
-      copyright_status.value = Copyright.default
     end
   end
 

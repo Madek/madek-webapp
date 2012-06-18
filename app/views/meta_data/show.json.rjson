@@ -1,1 +1,3 @@
-render :partial => @meta_datum, :locals => {:with => {:label => {:context => @context.name}}} 
+# TODO review: either it was breaking all conventions before, or I did now
+render :partial => "meta_data/meta_datum", :formats => [:json], :handlers => [:rjson], :locals => {:meta_datum => @meta_datum, :with => {:label => {:context => @context.name}}} 
+

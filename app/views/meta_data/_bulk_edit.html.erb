@@ -29,7 +29,7 @@ labels.delete_if {|k, v| v.size < 2 }
 		parent_underscored_label = labels.detect {|x| x.last.include?(label) }.try(:first).try(:gsub, /\W+/, '_')
 		is_parent = (!parent_underscored_label and labels.has_key?(label))
 
-		classes = [meta_datum.object.meta_key.object_type]
+		classes = [meta_datum.object.meta_key.meta_datum_object_type]
 		classes << "parent" if is_parent
 		classes.compact!
 		content_tag :ul, :"data-meta_key" => underscored_label, :"data-parent_meta_key" => parent_underscored_label, :class => (classes.blank? ? nil : classes.join(' ')) do

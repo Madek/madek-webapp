@@ -5,7 +5,7 @@ Feature: Do things to and with sets
   I want to have functionalities for create and edit sets and manage entries
 
   Background: Set up the world and some users
-    Given I have set up the world
+    Given I have set up the world a little
       And a user called "Helmut Kohl" with username "helmi" and password "saumagen" exists
       And a user called "Mikhail Gorbachev" with username "gorbi" and password "glasnost" exists
 
@@ -17,7 +17,7 @@ Feature: Do things to and with sets
      And I fill in the metadata for entry number 1 as follows:
      | label     | value                        |
      | Titel     | into the set after uploading |
-     | Copyright | some other dude              |
+     | Rechte | some other dude              |
      And I follow "weiter..."
      And I follow "Import abschliessen"
      And I go to the media entries
@@ -29,7 +29,7 @@ Feature: Do things to and with sets
     Then I see the set-box "After-Upload Set"
      And I should not see "Ohne Titel"
 
- @javascript 
+ @javascript
   Scenario: Rename a set
     When I log in as "helmi" with password "saumagen"
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
@@ -37,7 +37,7 @@ Feature: Do things to and with sets
      And I fill in the metadata for entry number 1 as follows:
      | label     | value                        |
      | Titel     | into the set after uploading |
-     | Copyright | some other dude              |
+     | Rechte | some other dude              |
      And I follow "weiter..."
      And I follow "Import abschliessen"
      And I go to the media entries
@@ -52,7 +52,7 @@ Feature: Do things to and with sets
      And I follow "Editieren"
      And I fill in the metadata form as follows:
      |label|value|
-     |Titel des Sets|Something new|
+     |Titel|Something new|
      And I press "Speichern" within ".save_buttons"
     Then I should see "Die Änderungen wurden gespeichert"
      And I should see "Something new"
@@ -66,7 +66,7 @@ Feature: Do things to and with sets
      And I fill in the metadata for entry number 1 as follows:
      | label     | value           |
      | Titel     | Link test       |
-     | Copyright | some other dude |
+     | Rechte | some other dude |
      And I follow "weiter..."
      And I follow "Import abschliessen"
      And I go to the media entries

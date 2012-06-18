@@ -5,9 +5,9 @@ Feature: Upload
   So that I can share my files with everyone
 
   Background: Load the example data and personas
-    Given I have set up the world
-      And personas are loaded
+    Given I have set up the world a little
       And I am "Normin"
+      And all users have dropboxes
 
   # https://www.pivotaltracker.com/story/show/24559407 -> Zugriffsberechtigungen beim Upload: Gleich wie bei Medieneintrag editieren
   @javascript
@@ -28,7 +28,7 @@ Feature: Upload
      | Datierung                       | 2011-08-08               |
      | Schlagworte zu Inhalt und Motiv | some                     |
      | Schlagworte zu Inhalt und Motiv | test                     |
-     | Copyright                       | Tester                   |
+     | Rechte                       | Tester                   |
      
   # https://www.pivotaltracker.com/story/show/24559377 -> User kann beim Upload beim Vergeben der Metadaten die Werte zu Titel, Autor, Datierung, Schlagworte und Rechten von einem auf alle Medieneinträge übertrage
   @javascript
@@ -42,7 +42,7 @@ Feature: Upload
      | Datierung                       | 2011-08-09                               |
      | Schlagworte zu Inhalt und Motiv | other                                    |
      | Schlagworte zu Inhalt und Motiv | example                                  |
-     | Copyright                       | Tester Two                               |
+     | Rechte                       | Tester Two                               |
     Then I can assign the Title to all the other files I just uploaded
     Then I can assign the Copyright to all the other files I just uploaded
 
@@ -126,7 +126,7 @@ Feature: Upload
      And I fill in the metadata for entry number 1 as follows:
      | label                           | value                    |
      | Titel                           | Test image for uploading |
-     | Copyright                       | Tester                   |
+     | Rechte                       | Tester                   |
     Then I see a list of my uploaded files
      And the files with missing metadata are marked
      And I can choose to list only files with missing metadata

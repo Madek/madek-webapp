@@ -31,4 +31,4 @@ Feature: Filtering by permissions
   Scenario: Filtering by group
     Given there are 20 media entries that belong to 3 different groups
     When those entries appear in search results
-    Then I can filter so taht I see only the media entries that have some permissions relating to each of those groups
+    Then I can filter so that I see only the media entries that have some permissions relating to each of those groups

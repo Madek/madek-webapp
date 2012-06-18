@@ -1,0 +1,39 @@
+.action_menu
+  = "Aktionen"
+  .icon.arrow.up_and_down
+  .action_menu_list
+    %ul
+      {{if is_editable}}
+      %li
+        %a{:href => "/media_resources/${id}/edit", :title => "Editieren"}
+          = "Editieren"
+      {{/if}}
+      %li
+        %a{:title => "Zugriffsberechtigungen lesen/bearbeiten",
+        :class => "open_permission_lightbox",     
+        :"data-media_resource_ids" => "[${id}]",
+        :"data-redirect_url" => "#{root_path}",
+        :"data-current_user" => "${window.current_user}"}
+          = "Zugriffsberechtigungen lesen/bearbeiten"
+      %li
+        %a.has-set-widget.close_on_click{:title => "Zu Set hinzufügen/entfernen",
+          :"data-selected_ids" => "[${id}]",
+          :"data-user" => "${JSON.stringify(window.current_user)}",
+          :"data-after_submit" => "window.location.reload();",
+          :"data-detach_selected" => true,
+          :"data-index" => {path: "/media_sets.json", method: "GET", data: {accessible_action: "edit", with: {created_at: true, meta_data: {meta_key_names: ["title", "owner"]}}}}.to_json,
+          :"data-linked_index" => {path: "/media_sets.json", method: "GET", data: {accessible_action: "edit", child_ids: ":selected_ids", with: {children: 1}}}.to_json,
+          :"data-create" => {path: "/media_sets.json", method: "POST", data: {media_sets: ":created_items"}, created_item: {meta_data_attributes: {0 => {meta_key_label: "title", value: ":title"}}}}.to_json,
+          :"data-link" => {path: "/media_resources/parents.json", method: "POST", data: {parent_media_set_ids: ":parent_media_set_ids", media_resource_ids: ":media_resource_ids"}}.to_json,
+          :"data-unlink" => {path: "/media_resources/parents.json", method: "DELETE", data: {parent_media_set_ids: ":parent_media_set_ids", media_resource_ids: ":media_resource_ids"}}.to_json}
+          = "Zu Set hinzufügen/entfernen"
+      {{if can_maybe_browse}}
+      %li
+        %a{:href => "/media_entries/${id}/browse", :title => "Erkunden"}
+          = "Erkunden nach vergleichbaren Medieneinträgen"
+      {{/if}}
+      {{if is_manageable}}
+      %li
+        %a{:href => "/media_resources/${id}", :title => "Löschen", :"data-method" => "delete", :"data-remote" => true, :class => "delete_me", :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher dass Sie diesen Inhalt löschen möchten?"}
+          = "Löschen"
+      {{/if}}

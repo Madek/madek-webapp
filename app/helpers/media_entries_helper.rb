@@ -58,12 +58,7 @@ module MediaEntriesHelper
   def thumb_for(resource, size = :small_125, options = {})
     size = size.to_sym
 
-    media_file = if resource.is_a?(MediaSet)
-      resource.media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
-    else
-      resource.media_file
-    end
-    return "" unless media_file
+    return "" unless (media_file = resource.get_media_file(current_user))
     
     # Give a video preview if there is one, otherwise revert to a preview
     # image that was extracted from the video file.
@@ -92,7 +87,7 @@ module MediaEntriesHelper
       tag :audio,  options.merge({:src => "/download?id=#{resource.id}&audio_preview=true",
                                   :autoplay => 'autoplay', :controls => 'controls'})
     # All kinds of office documents (and PDF). Maybe put this mess somewhere separate?
-    elsif size == :large && ["application/pdf","application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
+    elsif size == :large && ["application/pdf","application/x-pdf","application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
            "application/vnd.openxmlformats-officedocument.presentationml.presentation", 
            "application/vnd.ms-powerpoint", "application/msword", "application/vnd.oasis.opendocument.text", 

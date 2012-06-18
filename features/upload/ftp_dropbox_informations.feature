@@ -5,8 +5,7 @@ Feature: FTP-Dropbox informations on the upload page
   I want to have those informations available
   
   Background: Load the example data and personas
-    Given I have set up the world
-      And personas are loaded
+    Given I have set up the world a little
       And I am "Normin"
 
   @javascript

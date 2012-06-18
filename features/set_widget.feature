@@ -5,7 +5,7 @@ Feature: Set Widget for Sets in Sets and Entries in Sets
   I want to have a widget which comes a long with features for: link, unlink, search and create sets on the fly
 
   Background: Set up the world some users, some sets and entries
-    Given I have set up the world
+    Given I have set up the world a little
       And a user called "Max" with username "max" and password "moritz" exists
       
       And a set titled "My Act Photos" created by "max" exists
@@ -16,6 +16,7 @@ Feature: Set Widget for Sets in Sets and Entries in Sets
       And a entry titled "Me" created by "max" exists
       And the last entry is child of the last set
       And the last set is parent of the 1st set   
+      And the set titled "My Act Photos" is child of the set titled "My Private Images"
         
       And a set titled "My Public Images" created by "max" exists
       And a entry titled "My Profile Pic" created by "max" exists
@@ -52,7 +53,7 @@ Feature: Set Widget for Sets in Sets and Entries in Sets
     And I should see the "Images from School" set inside the widget
     And the "Images_from_School" checkbox should not be checked
     
-  @javascript
+  @javascript 
   Scenario: User goes to an entry and opens the widget. All editable sets should be visible and media_sets of the entry should already be checked.
     When I open the "Me with Nothing" entry
     And I open the selection widget for this entry

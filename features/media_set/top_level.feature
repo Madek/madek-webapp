@@ -5,8 +5,7 @@ Feature: Making top level sets visible (highlight)
   I want to see top parents with a higher priority
 
   Background: Loading world
-  Given I have set up the world
-    And personas are loaded
+  Given I have set up the world a little
 
   @javascript
   Scenario: Viewing my sets

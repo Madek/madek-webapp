@@ -1,6 +1,6 @@
 h = {
   id: media_resource.id,
-  type: media_resource.class.to_s.underscore # TODO .type ??
+  type: media_resource.type.underscore
 }
 
 if with ||= nil
@@ -12,12 +12,7 @@ if with ||= nil
     size = with[:image][:size] || :small # TODO :small_125 ??
     h[:image] = case with[:image][:as]
       when "base64"
-        mf = if media_resource.is_a?(MediaSet)
-              media_resource.media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").first.try(:media_file)
-             else
-              media_resource.media_file
-             end
-        mf ? mf.thumb_base64(size) : nil
+        media_resource.get_media_file(current_user).try(:thumb_base64, size)
       else # default return is a url to the image
         "/media_resources/%d/image?size=%s" % [media_resource.id, size]
     end            
@@ -27,10 +22,10 @@ if with ||= nil
     h[:meta_data] = []
     if meta_context_names = with[:meta_data][:meta_context_names]
       meta_context_names.each do |name|
-        h[:meta_data] += media_resource.meta_data_for_context(MetaContext.find_by_name(name)).map do |md|
+        h[:meta_data] += media_resource.meta_data_for_context(MetaContext.send(name)).map do |md|
           # this doesn't work because formats is frozen as [:html] only
           # render(md)
-          render(:partial => "meta_data/meta_datum.json.rjson", :locals => {:meta_datum => md})
+          render(:partial => "meta_data/meta_datum", :formats => [:json], :handlers => [:rjson], :locals => {:meta_datum => md, :with => {:label => {:context => name}}})
         end
       end
     end
@@ -39,7 +34,8 @@ if with ||= nil
         md = media_resource.meta_data.get(name)
         # this doesn't work because formats is frozen as [:html] only
         # render(md)
-        render(:partial => "meta_data/meta_datum.json.rjson", :locals => {:meta_datum => md})
+        # FIXME we don't want to hardcode "core"
+        render(:partial => "meta_data/meta_datum", :formats => [:json], :handlers => [:rjson], :locals => {:meta_datum => md, :with => {:label => {:context => "core"}}})
       end
     end
   end
@@ -62,25 +58,26 @@ if with ||= nil
   end
   
   if with[:parents]
-    forward_with = {}
-    with.each_pair{|k,v| forward_with[k.to_sym] = v unless k.to_sym == :parents}
-    h[:parents] = render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => media_resource.parents, :with => forward_with}
+    pagination = ((with[:parents].is_a? Hash) ? with[:parents][:pagination] : nil) || true
+    forwarded_with = (with[:parents].is_a? Hash) ? (with[:parents][:with]||=nil) : nil
+    h[:parents] = render :partial => "media_resources/index", :formats => [:json], :handlers => [:rjson], :locals => {:pagination => pagination, :media_resources => media_resource.parents, :with => forwarded_with }
   end
 
   case media_resource.type
     when "MediaSet"
       if with[:children]
-        forward_with = {}
-        with.each_pair{|k,v| forward_with[k.to_sym] = v unless k.to_sym == :children}
         h[:children] = begin
-          media_resources = if with[:children] == "media_entry"
+          type = with[:children].is_a?(Hash) and with[:children][:type] ? with[:children][:type] : nil 
+          media_resources = if type == "media_entry"
             media_resource.media_entries
-          elsif with[:children] == "media_set"
+          elsif type == "media_set"
             media_resource.child_sets
           else # respond with media_resources children
             media_resource.children
           end
-          render :partial => "media_resources/index.json.rjson", :locals => {:media_resources => media_resources, :with => forward_with}  
+          pagination = ((with[:children].is_a? Hash) ? with[:children][:pagination] : nil) || true
+          forwarded_with = (with[:children].is_a? Hash) ? (with[:children][:with]||=nil) : nil
+          render :partial => "media_resources/index", :formats => [:json], :handlers => [:rjson], :locals => {:pagination => pagination, :media_resources => media_resources, :with => forwarded_with}  
         end
       end
     

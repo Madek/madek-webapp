@@ -1,7 +1,7 @@
 # coding: UTF-8
 
 Given /^a few sets$/ do
-  assert MediaSet.count > 0
+  MediaSet.count.should > 0
 end
 
 When /^a set has no parents$/ do
@@ -19,7 +19,7 @@ end
 When /^I examine my "([^"]*)" sets more closely$/ do |title|
   wait_for_css_element('.thumb_box')
   @media_set = MediaSet.find_by_title title
-  page.execute_script "$(\".item_title[title='#{title}']\").parent().find(\".thumb_box_set\").trigger(\"mouseenter\")"
+  page.execute_script "$(\"dd[title='#{title}']\").closest(\".item_box\").find(\".thumb_box_set\").trigger(\"mouseenter\")"
   wait_for_css_element('.set_popup')
 end
 
@@ -99,7 +99,7 @@ Then /^the set "([^"]*)" has the context "([^"]*)"$/ do |set_title, context_name
   @set = MediaSet.find_by_title(set_title)
   @set.title.should == set_title
 
-  context = MetaContext.send(context_name)
+  context = MetaContext.where(:name => context_name).first
   @set.individual_contexts.include?(context).should be_true 
 end
 

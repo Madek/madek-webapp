@@ -15,9 +15,11 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
   relpath = '';
-  if (relpath != '') relpath += '/';
+  framesUrl = "frames.html#!" + escape(window.location.href);
 </script>
+
 
   <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
 
@@ -27,7 +29,29 @@
 
 
 	<style type="text/css">
-		#toc {top: 24px;}
+		#toc {
+		  height: 100%;
+		  right: 0;
+		  position: fixed;
+		  top: 0;
+		  width: 230px;
+	  }
+	  #header {
+	    position: fixed;
+	    top: 0;
+	    z-index: 1001;
+	  }
+	  #header #search {
+	    position: fixed;
+	    top: 0;
+	    right: 8px;
+	    z-index: 1001;
+	  }
+	  #content {
+	    margin-right: 254px;
+	    position: relative;
+	    z-index: 1;
+	  }
 		#toc .title {display: none;}
 		#toc a:link, #content a:visited { text-decoration: none; color: #05a; }
 		#toc a:hover { background: #ffffa5; }
@@ -153,9 +177,37 @@
 			border-top-left-radius: 0;
 			border-top-right-radius: 0;
 		}
+		
+		pre.code.json {
+		  margin: 0;
+		}
+		
+		pre.code.json code {
+		  position: relative;
+		  border: 1px solid transparent;
+		  border-radius: 6px;
+		}
+		
+		pre.code.json code:hover {
+		  background: #d4e5fe;
+		}
+		
+		pre.code.json code:active {
+		  background: #c1d8fb;
+		}
 	</style>
 	<script type="text/javascript">
 		//<![CDATA[
+		
+		  function setup_log() {
+		    $("pre.code.json").attr("title", "click to inspect in browser debugger: console.log()");
+		    $("pre.code.json").css("cursor", "pointer");
+		    $("pre.code.json").click(function(){
+		      var code = $(this).find("code");
+		      console.log(code.html());
+		      console.log(JSON.parse(code.html()));
+		    });
+		  }
 		
 			function setup_toc() {
 	 		  if ($('#content').length === 0) return;
@@ -209,7 +261,10 @@
 			    $('#toc').toggleClass('nofloat');
 			  });
 			}
-			$(document).ready(setup_toc);
+			$(document).ready(function(){
+			  setup_toc();
+			  setup_log();
+			});
 		//]]>
 	</script>
   </head>
@@ -234,6 +289,17 @@
     <a class="back" href="index.html" title="back to the overview">&laquo; back to overview</a>
     <h2>MediaResources</h2>
     
+<p>MediaResources are the core content of MAdeK. They are seperated in
+MediaEntries and MediaSets (Collection of MediaResources).</p>
+
+<div class="tags">
+  
+
+</div><div class="tags">
+  
+
+
+</div>
   <div id="Services" class="method_details_list">
     
 		<div class="method">
@@ -241,11 +307,6 @@
 			<h3 class="resource_url"><strong>/media_resources</strong> [GET]</h3>
 
 			<div class="parameters">	
-				
-					<div class="required">
-						<h4>Required Parameters</h4>
-						
-					</div>
 				
 
 				
@@ -256,7 +317,31 @@
 								<li>
 									<span class="name">ids</span>
 									<span class="type">Array</span>
-									<span class="text">A collection of MediaResources you want to fetch informations for</span>
+									<span class="text">A collection of MediaResources you want to fetch informations for.</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">type</span>
+									<span class="type">String</span>
+									<span class="text">Filter the response by MediaResource types: "media_sets" | "media_entries".</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">sort</span>
+									<span class="type">String</span>
+									<span class="text">Sort the response (DESC) by: "updated_at"(Default) | "created_at" | "random".</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">query</span>
+									<span class="type">String</span>
+									<span class="text">Make a search request which searches in all MetaData of all MediaResources responding with matched MediaResources.</span>
 								</li>
 							</ul>
 						
@@ -281,6 +366,14 @@
 									<span class="name">with[meta_data][meta_key_names]</span>
 									<span class="type">Array</span>
 									<span class="text">Adds all requested MetaKeys in the format: ["key_name1", "key_name2", ...] as MetaData to the responding MediaResources.</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">with[image]</span>
+									<span class="type">Hash</span>
+									<span class="text">Request the image of the MediaResources. You can define the responding image format like {"image": {"as": "base64" | "url"}}. The image size can be requested with {"image": {"size": "small"(100x100) | "small_125"(125x125) | "medium"(300x300) | "large"(620x500) | "x-large"(1024x768) }}</span>
 								</li>
 							</ul>
 						
@@ -396,6 +489,22 @@
 							</li>
 						</ul>
 					
+						<ul>
+							<li>
+								<span class="name">children</span>
+								<span class="type">Array</span>
+								<span class="text">The children of a MediaResource (only for MediaSets)..</span>
+							</li>
+						</ul>
+					
+						<ul>
+							<li>
+								<span class="name">parents</span>
+								<span class="type">Array</span>
+								<span class="text">The parents of a MediaResource.</span>
+							</li>
+						</ul>
+					
 				</div>
 			
 			
@@ -407,112 +516,881 @@
 							
 							
 							
-							<span class="description">Requests MediaResources with all nested MetaData for the MetaContext with the name "core".</span>
+							<span class="description">
+								
+									
+										Requesting the index of MediaResources without any attributes.
+									
+								
+							</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{"ids": [1,2,3]}
+								
+									
+										media_resources.json
+									
+								
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								{"media_resources:": [{"id":1}, {"id":2}, {"id":3}], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
+								
+									
+										<pre class="code json"><code>{
+  &quot;media_resources&quot;: [
+    {&quot;id&quot;:1},{&quot;id&quot;:2},{&quot;id&quot;:3}],
+  &quot;pagination&quot;: {
+    &quot;total&quot;:3,
+    &quot;page&quot;:1,
+    &quot;per_page&quot;:36,
+    &quot;total_pages&quot;:1
+  }
+}
+</code></pre>
+
+									
+								
 							</span>
-							<span class="description"></span>
+							<span class="description">
+								
+									
+										Responding with the index of media resources. Default sorting at on the update_at attribute latest first. You get 36 elements per page and informations about the current pagination.
+									
+								
+							</span>
 						</div>
 					
 						<div class="example">
 							
 							
 							
-							<span class="description">Requests MediaResources with all nested MetaData for the MetaKeys with the name "title" and "author".</span>
+							<span class="description">
+								
+									
+										Just requesting the MediaResources with id 1,2 and 3.
+									
+								
+							</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{"with": {"meta_data": {"meta_context_names": ["core"]}}}
+								
+									
+										<pre class="code json"><code>{
+  &quot;ids&quot;: [1,2,3]
+}
+</code></pre>
+
+									
+								
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								{"media_resources:": [{"id":1, "meta_data": {"title": "My new Picture", "author": "Musterman, Max", "portrayed_object_dates": null, "keywords": "picture, portrait", "copryright_notice"}}, ...], "pagination": {"total": 100, "page": 1, "per_page": 36, "total_pages": 2}}
+								
+									
+										<pre class="code json"><code>{
+  &quot;media_resources&quot;: [
+    {&quot;id&quot;:1},{&quot;id&quot;:2},{&quot;id&quot;:3}
+  ]
+}
+</code></pre>
+
+									
+								
 							</span>
-							<span class="description"></span>
+							<span class="description">
+								
+									
+										The attributes of the MetaContext "core" might change, you should get the shema of the context by fetching the "core" context through the MetaContext resource.
+									
+								
+							</span>
 						</div>
 					
 						<div class="example">
 							
 							
 							
-							<span class="description">Is requesting MediaResources with id 1,2 and 3. Adds an image as base64 to the respond.</span>
+							<span class="description">
+								
+									
+										Request MediaResources with all nested MetaData for the MetaContext with the name "core".
+									
+								
+							</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{"with": {"meta_data": {"meta_key_names": ["title", "author"]}}}
+								
+									
+										<pre class="code json"><code>{
+  &quot;with&quot;: {
+    &quot;meta_data&quot;:{
+      &quot;meta_context_names&quot;: [&quot;core&quot;]
+    }
+  }
+}
+</code></pre>
+
+									
+								
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								{"media_resources:": [{"id":1, "meta_data": {"title": "My new Picture", "author": "Musterman, Max"}, ...]}
+								
+									
+										<pre class="code json"><code>{
+  &quot;media_resources&quot;: [
+    {
+     &quot;id&quot;:1,
+     &quot;meta_data&quot;: {
+       &quot;title&quot;:&quot;My new Picture&quot;,
+       &quot;author&quot;:&quot;Max Muster&quot;,
+       &quot;keywords&quot;:&quot;picture, portrait&quot;
+     }
+  ]
+}
+</code></pre>
+
+									
+								
 							</span>
-							<span class="description"></span>
+							<span class="description">
+								
+							</span>
 						</div>
 					
 						<div class="example">
 							
 							
 							
-							<span class="description">Request MediaResources with filenames</span>
+							<span class="description">
+								
+									
+										Request MediaResources with nested MetaData for the MetaKeys with the name "title" and "author".
+									
+								
+							</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{"ids": [1,2,3], "with": {"image": {"as": "base64"}}}
+								
+									
+										<pre class="code json"><code>{
+  &quot;with&quot;: {
+    &quot;meta_data&quot;:{
+      &quot;meta_key_names&quot;: [&quot;title&quot;, &quot;author&quot;]
+    }
+  }
+}
+</code></pre>
+
+									
+								
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								{"media_resources:": [{"id":1, "image": ""data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/4gxYSUNDX1BST0ZJTEUAAQEAAAxITGlu bwIQAABtbnRyUkdCIFhZWiAHzgACAAkABgAxAABhY3NwTVNG"}, ...], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
+								
+									
+										<pre class="code json"><code>{
+  &quot;media_resources&quot;: [
+    {
+     &quot;id&quot;:1,
+     &quot;meta_data&quot;: {
+       &quot;title&quot;:&quot;My new Picture&quot;,
+       &quot;author&quot;:&quot;Max Muster&quot;
+     }
+  ]
+}
+</code></pre>
+
+									
+								
 							</span>
-							<span class="description"></span>
+							<span class="description">
+								
+							</span>
 						</div>
 					
 						<div class="example">
 							
 							
 							
-							<span class="description">Request MediaResources with MediaTypes</span>
+							<span class="description">
+								
+									
+										Request MediaResources with id 1 with nested image as base64.
+									
+								
+							</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{"ids": [1,2,3], "with": {"filename": true}}
+								
+									
+										<pre class="code json"><code>{
+  &quot;ids&quot;: [1],
+  &quot;with&quot;:{
+    &quot;image&quot;: {
+      &quot;as&quot;:&quot;base64&quot;
+    }
+  }
+}
+</code></pre>
+
+									
+								
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								{"media_resources:": [{"id":1, "filename": "my_file_name.jpg"}, {"id":2, "filename": "my_2_file_name.jpg"}, {"id":3, "filename": "my_3_file_name.jpg"}], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
+								
+									
+										<pre class="code json"><code>{
+  &quot;media_resources&quot;: [
+    {
+     &quot;id&quot;:1,
+     &quot;image&quot;:&quot;data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/4gxYSUNDX1BST0ZJTEUAAQEAAAxITGlu bwIQAABtbnRyUkdCIFhZWiAHzgACAAkABgAxAABhY3NwTVNG&quot;
+    }
+  ]
+}
+</code></pre>
+
+									
+								
 							</span>
-							<span class="description"></span>
+							<span class="description">
+								
+							</span>
 						</div>
 					
 						<div class="example">
 							
 							
 							
-							<span class="description">Request MediaResources with flags.</span>
+							<span class="description">
+								
+									
+										Request MediaResources with filenames.
+									
+								
+							</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{"ids": [1,2,3], "with": {"media_type": true}}
+								
+									
+										<pre class="code json"><code>{
+  &quot;ids&quot;: [1],
+  &quot;with&quot;:{
+    &quot;filename&quot;:true
+  }
+}
+</code></pre>
+
+									
+								
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								{"media_resources:": [{"id":1, "media_type": "Image"}, {"id":2, "media_type": "Image"}, {"id":3, "media_type": "Image"}], "pagination": {"total": 3, "page": 1, "per_page": 36, "total_pages": 1}}
+								
+									
+										<pre class="code json"><code>{
+  &quot;media_resources&quot;: [
+    {
+     &quot;id&quot;:1,
+     &quot;filename&quot;:&quot;my_file_name.jpg&quot;
+    }
+  ]
+}
+</code></pre>
+
+									
+								
 							</span>
-							<span class="description"></span>
+							<span class="description">
+								
+							</span>
 						</div>
 					
 						<div class="example">
 							
 							
 							
-							<span class="description">The responding MediaResource with id 1 is accesible by everyone and is editable, managable by the current user. The MediaResource is not part of the current user's favorites.</span>
+							<span class="description">
+								
+									
+										Request MediaResources but only MediaEntries.
+									
+								
+							</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
-								{"ids": [1,2,3], "with": {"flags": true}}
+								
+									
+										<pre class="code json"><code>{
+  &quot;type&quot;:&quot;media_entries&quot;
+}
+</code></pre>
+
+									
+								
 							</span>
 							<span class="hash response">
 								<strong class="type">Response</strong>
-								{"media_resources:": [{"id":1, "is_public": true, "is_private": false, "is_shared": false, "is_editable": true, "is_managable": true, "is_favorite": false}, ...], "pagination": ...}
+								
+									
+										<pre class="code json"><code>{
+  &quot;media_resources&quot;: [
+    {
+     &quot;id&quot;:12,
+     &quot;type&quot;:&quot;media_entry&quot;
+    },
+    {
+     &quot;id&quot;:23,
+     &quot;type&quot;:&quot;media_entry&quot;
+    }
+  ]
+}
+</code></pre>
+
+									
+								
 							</span>
-							<span class="description"></span>
+							<span class="description">
+								
+							</span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">
+								
+									
+										Request MediaResources but only MediaSets.
+									
+								
+							</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;type&quot;:&quot;media_sets&quot;
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;media_resources&quot;: [
+    {
+     &quot;id&quot;:24,
+     &quot;type&quot;:&quot;media_set&quot;
+    },
+    {
+     &quot;id&quot;:33,
+     &quot;type&quot;:&quot;media_set&quot;
+    }
+  ]
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="description">
+								
+							</span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">
+								
+									
+										Request MediaResources sorted by updated_at (DESC) include the DateTime for updated_at.
+									
+								
+							</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;sort&quot;:&quot;updated_at&quot;,
+  &quot;with&quot;: {
+    &quot;updated_at&quot;:true
+  }
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;media_resources&quot;: [
+    {
+     &quot;id&quot;:24,
+     &quot;updated_at&quot;: &quot;2012-04-26T11:21:25+02:00&quot;
+    },
+    {
+     &quot;id&quot;:21,
+     &quot;updated_at&quot;: &quot;2012-04-25T11:21:22+02:00&quot;
+    }
+  ]
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="description">
+								
+							</span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">
+								
+									
+										Request MediaResources sorted by created_at (DESC) include the DateTime for created_at.
+									
+								
+							</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;sort&quot;:&quot;created_at&quot;,
+  &quot;with&quot;: {
+    &quot;created_at&quot;:true
+  }
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;media_resources&quot;: [
+    {
+     &quot;id&quot;:35,
+     &quot;created_at&quot;: &quot;2012-04-27T11:21:25+02:00&quot;
+    },
+    {
+     &quot;id&quot;:21,
+     &quot;created_at&quot;: &quot;2012-04-22T11:21:22+02:00&quot;
+    }
+  ]
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="description">
+								
+							</span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">
+								
+									
+										Request MediaResources which contain "blue" in any of their meta_data responding with nested MetaData of the MetaContext "core".
+									
+								
+							</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;query&quot;:&quot;blue&quot;,
+  &quot;with&quot;: {
+    &quot;meta_context_names&quot;:[&quot;core&quot;]
+  }
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;media_resources&quot;: [
+    {
+     &quot;id&quot;:1,
+     &quot;title&quot;:&quot;My blue Picture&quot;,
+     &quot;author&quot;:&quot;Musterman, Max&quot;,
+     &quot;keywords&quot;:&quot;picture, portrait&quot;
+    },
+    {
+     &quot;id&quot;:21,
+     &quot;title&quot;:&quot;Red Woods&quot;,
+     &quot;author&quot;:&quot;Blue, Adam&quot;,
+     &quot;keywords&quot;:&quot;picture, portrait&quot;
+    },
+    {
+     &quot;id&quot;:33,
+     &quot;title&quot;:&quot;Red Woods&quot;,
+     &quot;author&quot;:&quot;Red, Adam&quot;,
+     &quot;keywords&quot;:&quot;blue, portrait&quot;
+    }
+  ]
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="description">
+								
+							</span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">
+								
+									
+										Request MediaResources with MediaTypes.
+									
+								
+							</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;with&quot;: {
+    &quot;media_type&quot;:true
+  }
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;media_resources&quot;: [
+    {
+     &quot;id&quot;:1,
+     &quot;media_type&quot;:&quot;Image&quot;
+    },
+    {
+     &quot;id&quot;:2,
+     &quot;media_type&quot;:&quot;Audio&quot;
+    },
+    {
+     &quot;id&quot;:3,
+     &quot;media_type&quot;:&quot;Video&quot;
+    },
+    {
+     &quot;id&quot;:4,
+     &quot;media_type&quot;:&quot;Set&quot;
+    }
+  ]
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="description">
+								
+							</span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">
+								
+									
+										Request MediaResources with flags.
+									
+								
+							</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;with&quot;: {
+    &quot;flags&quot;:true
+  }
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;media_resources&quot;: [
+    {
+     &quot;id&quot;:1,
+     &quot;is_public&quot;:true,
+     &quot;is_private&quot;:false,
+     &quot;is_shared&quot;:false,
+     &quot;is_editable&quot;:true,
+     &quot;is_manageable&quot;:true,
+     &quot;is_favorite&quot;:false
+    }
+  ]
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="description">
+								
+							</span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">
+								
+									
+										The responding MediaResource with id 1 is accesible by everyone and is editable, managable by the current user. The MediaResource is not part of the current user's favorites.
+									
+								
+							</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;with&quot;: {
+    &quot;children&quot;:true
+  }
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;media_resources&quot;: [
+    {
+     &quot;id&quot;:1,
+     &quot;type&quot;:&quot;media_entry&quot;
+    },{
+      &quot;id&quot;:2,
+      &quot;type&quot;:&quot;media_set&quot;,
+      &quot;children&quot;: {
+        &quot;media_resources&quot;: {[
+          {&quot;id&quot;:123},{&quot;id&quot;:1231},{&quot;id&quot;:4123}
+        ]},
+        &quot;pagination&quot;: {
+          &quot;total&quot;:3,
+          &quot;page&quot;:1,
+          &quot;per_page&quot;:36,
+          &quot;total_pages&quot;:1
+        }
+      }
+    },
+  ]
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="description">
+								
+							</span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">
+								
+									
+										Request MediaResources with children.
+									
+								
+							</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;with&quot;: {
+    &quot;parents&quot;:true
+  }
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;media_resources&quot;: [
+    {
+      &quot;id&quot;:1,
+      &quot;type&quot;:&quot;media_entry&quot;,
+      &quot;parents&quot;: {
+        &quot;media_resources&quot;: {[
+          {&quot;id&quot;:54}
+        ]},
+        &quot;pagination&quot;: {
+          &quot;total&quot;:1,
+          &quot;page&quot;:1,
+          &quot;per_page&quot;:36,
+          &quot;total_pages&quot;:1
+        }
+      }
+    },
+    {
+     &quot;id&quot;:2,
+     &quot;type&quot;:&quot;media_set&quot;,
+     &quot;parents&quot;: {
+       &quot;media_resources&quot;: {[
+         {&quot;id&quot;:62},{&quot;id&quot;:151},{&quot;id&quot;:941}
+       ]},
+       &quot;pagination&quot;: {
+         &quot;total&quot;:3,
+         &quot;page&quot;:1,
+         &quot;per_page&quot;:36,
+         &quot;total_pages&quot;:1
+       }
+     }
+    },
+  ]
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="description">
+								
+							</span>
+						</div>
+					
+				</div>
+			
+		</div>	
+    
+		<div class="method">
+			<p class="method_desc">Get the image of MediaResource:</p>
+			<h3 class="resource_url"><strong>/media_resources/:id/image</strong> [GET]</h3>
+
+			<div class="parameters">	
+				
+					<div class="required">
+						<h4>Required Parameters</h4>
+						
+							<ul>
+								<li>
+									<span class="name">id</span>
+									<span class="type">Integer</span>
+									<span class="text">The id of the MediaResource you want to fetch the image for.</span>
+								</li>
+							</ul>
+						
+					</div>
+				
+
+				
+					<div class="optional">
+						<h4>Optional Parameters</h4>
+						
+							<ul>
+								<li>
+									<span class="name">size</span>
+									<span class="type">String</span>
+									<span class="text">Set the responding size of the image: "small"(100x100) | "small_125"(125x125) | "medium"(300x300) | "large"(620x500)[DEFAULT] | "x-large"(1024x768).</span>
+								</li>
+							</ul>
+						
+					</div>
+				
+			</div><!-- parameters -->
+			
+			
+			
+			
+				<div class="examples">
+					<h4>Examples</h4>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">
+								
+									
+										Request the image for MediaResource id 3234.
+									
+								
+							</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								
+									
+										/media_resource/3234/image
+									
+								
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								
+									
+										[BINARY]
+									
+								
+							</span>
+							<span class="description">
+								
+							</span>
 						</div>
 					
 				</div>
@@ -538,7 +1416,7 @@
 	</div>
     
     <div id="footer">
-  Generated on Fri May 11 12:44:57 2012 with ruby-1.9.3
+  Generated on Thu Jun 14 10:53:02 2012 with ruby-1.9.3
 </div>
 
   </body>

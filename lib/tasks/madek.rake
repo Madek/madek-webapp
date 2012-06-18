@@ -1,35 +1,84 @@
 require 'digest'
 require 'action_controller'
 
-
-
 namespace :madek do
+  task :create_migrated_persona_dump do
+    
+    # TODO there is a lot of duplicate code with in feature/support/env.rb and
+    # also with the various db dump / db restore stuff we have
 
-  desc "Set up the environment for testing, then run tests"
-  task :test do
-    # Rake seems to be very stubborn about where it takes
-    # the RAILS_ENV from, so let's set a lot of options (?)
+    # according to what Franco said a few weeks ago, just looking at the last
+    # migration won't suffice
 
-    Rails.env = 'test'
-    task :environment
-    Rake::Task["madek:reset"].invoke
-    system "bundle exec rspec --format d --format html --out tmp/html/rspec.html spec"
-    exit_code = $? >> 8 # magic brainfuck
-    raise "Tests failed with: #{exit_code}" if exit_code != 0
+    def needs_migration?(file_path)
+      if File.exists?(file_path)
+        versions_string = `grep -i "insert into.*schema_migrations.*" #{file_path}`
+        latest_migration = versions_string.split(",").last.gsub(/(\(|\)|\'|;)/, "").to_i # ('20120423094303'); -> 20120423094303
 
-    system "bundle exec cucumber -p default"
-    exit_code = $? >> 8 # magic brainfuck
-    raise "Tests failed with: #{exit_code}" if exit_code != 0
+        latest_available_migration = `ls -1 #{Rails.root + 'db/migrate'}`.split("\n").last.split("_").first.to_i
+        if latest_available_migration == 0
+          raise "No migrations available, please verify that db/migrations contains some migrations"
+        else
+          !(latest_migration == latest_available_migration)
+        end
+      else
+        raise "File #{file_path} does not exist. Cannot determine if it needs migration."        
+      end
+    end
 
-    # Skip this so we can see if the red stuff in is in there
-    system "bundle exec cucumber -p examples"
-    exit_code = $? >> 8 # magic brainfuck
-    raise "Tests failed with: #{exit_code}" if exit_code != 0
+    # Load the latest dump from personas.madek.zhdk.ch, migrate it to the latest version
+    # and then use that migrated dump in further tests (to prevent having to migrate multiple times)
+    config = Rails.configuration.database_configuration[Rails.env]
+    adapter      = config["adapter"]
+    sql_host     = config["host"]
+    sql_database = config["database"]
+    sql_username = config["username"]
+    sql_password = config["password"]
 
-    system "bundle exec cucumber -p current_examples"
-    exit_code = $? >> 8 # magic brainfuck
-    raise "Tests failed with: #{exit_code}" if exit_code != 0
+    if ["mysql", "mysql2"].include?(adapter)
+      unmigrated_file = Rails.root + 'db/empty_medienarchiv_instance_with_personas.mysql.sql'
+      migrated_file = Rails.root + 'db/empty_medienarchiv_instance_with_personas.mysql.migrated.sql'
+      remove_command = "rm -f #{migrated_file}"
+      drop_command = "mysql -u #{sql_username} --password=#{sql_password} -e 'drop database if exists #{sql_database}'"
+      load_premigration_command = "mysql -u #{sql_username} --password=#{sql_password} #{sql_database} < #{unmigrated_file}"
+      create_command = "mysql -u #{sql_username} --password=#{sql_password} -e 'create database #{sql_database}'"
+      dump_postmigration_command = "mysqldump -u #{sql_username} --password=#{sql_password} #{sql_database} > #{migrated_file}"
+    elsif adapter == "postgresql"
+      auth_part = " -U #{sql_username} -w "
+      encoding_part = " -E utf-8 "
+      unmigrated_file = Rails.root.join 'db','empty_medienarchiv_instance_with_personas.pgbin'
+      migrated_file = Rails.root.join 'db','empty_medienarchiv_instance_with_personas.migrated.pgbin'
+      remove_command = "rm -f #{migrated_file}"
+      drop_command =  "dropdb #{auth_part} #{sql_database} " 
+      load_premigration_command = "pg_restore #{auth_part} -j 2 -d #{sql_database} #{unmigrated_file}"
+      create_command = "createdb -w #{auth_part} #{sql_database}"
+      dump_postmigration_command = "pg_dump #{auth_part} #{encoding_part} -F c -f #{migrated_file} "
+    else
+      raise "Cannot handle database adapter #{adapter}, sorry! Exiting."
+    end
+
+    # The migrated file is older than the unmigrated one -- we need to migrate
+    if !File.exists?(migrated_file) or (File.mtime(unmigrated_file) > File.mtime(migrated_file)) or needs_migration?(unmigrated_file)
+      system remove_command
+      system drop_command
+      system create_command
+      system load_premigration_command
+      puts "Trying to migrate the persona database"
+      # TODO why this called indirectly? 
+      # Because it reliably and silently fails when run as Rake::Task["db:migrate"].invoke and I couldn't figure out why
+      system "bundle exec rake db:migrate"
+      system dump_postmigration_command
+    else
+      if needs_migration?(unmigrated_file) == false
+        puts "The migrated file has no newer migrations than the unmigrated file."
+      end
+      puts "No need to create a new migrated persona SQL file -- the unmigrated file #{unmigrated_file} is older than an existing migrated file #{migrated_file}"
+    end
   end
+
+  desc "Set up the environment for testing, then run all tests in one block"
+  task :test => 'test:run_all'
+
 
   desc "Back up images and database before doing anything silly"
   task :backup do
@@ -66,46 +115,6 @@ namespace :madek do
 
   end
 
-  namespace :db  do
-
-    desc "Dump the PostgresDB"
-    task :dump do
-      date_string = DateTime.now.to_s.gsub(":","-")
-      config = Rails.configuration.database_configuration[Rails.env]
-      sql_host     = config["host"]
-      sql_database = config["database"]
-      sql_username = config["username"]
-      sql_password = config["password"]
-      date_string = DateTime.now.to_s.gsub(":","-")
-      path = "tmp/pg-dump-#{Rails.env}-#{date_string}.bin" 
-      puts "Dumping database to #{path}"
-      cmd = "pg_dump -U #{sql_username} -h #{sql_host} -v -E utf-8 -F c -f #{path} #{sql_database}"
-      puts "executing : #{cmd}"
-      system cmd 
-    end
-    
-    desc "Restore the PostgresDB" 
-    task :restore do
-      unless ENV['FILE'] 
-         puts "can't find the FILE env variable, bailing out"
-         exit
-      end
-      puts "dropping the db" 
-      Rake::Task["db:drop"].invoke
-      puts "creating the db"  
-      Rake::Task["db:create"].invoke
-      config = Rails.configuration.database_configuration[Rails.env]
-      sql_host     = config["host"]
-      sql_database = config["database"]
-      sql_username = config["username"]
-      sql_password = config["password"]
-      file= ENV['FILE']
-      cmd = "pg_restore -U #{sql_username} -d #{sql_database} #{file}"
-      puts "executing: #{cmd}"
-      system cmd
-    end
-
-  end
 
   desc "Fetch meta information from ldap and store it into db/ldap.json"
   task :fetch_ldap => :environment do
@@ -150,47 +159,7 @@ namespace :madek do
      ActiveRecord::Base.subclasses.each { |a| a.reset_column_information }
 
      Rake::Task["db:seed"].invoke
-     Rake::Task["app:db:import_initial_metadata"].invoke
 
   end
   
-  namespace :meta_data do
-    desc "Set up Meta_data reference material"
-    task :typevocab_data => :environment do
-      # TODO replace with something that reads the YML from the config directory
-    end
-
-    desc "Only the 'keywords' meta_key can have the 'Keyword' object_type"
-    task :fix_keywords => :environment do
-      keywords = {}
-      meta_keys = MetaKey.where(:object_type => "Keyword").where("label != 'keywords'")
-      meta_keys.each do |meta_key|
-        keywords[meta_key.id] = {}
-        meta_key.meta_data.each do |meta_datum|
-          keywords[meta_key.id][meta_datum.id] = meta_datum.deserialized_value
-        end
-        meta_key.update_attributes(:object_type => "MetaTerm", :is_extensible_list => true)
-      end
-      # we need to fetch again the meta_keys, 'cause inside the first iteration,
-      # the meta_datum still keeps the reference to the old object_type
-      reloaded_meta_keys = MetaKey.find(meta_keys.collect(&:id))
-      reloaded_meta_keys.each do |meta_key|
-        meta_key.meta_data.each do |meta_datum|
-          value = keywords[meta_key.id][meta_datum.id]
-          meta_term_ids = value.collect(&:meta_term_id)
-          meta_key.meta_terms << MetaTerm.find(meta_term_ids - meta_key.meta_term_ids)
-          meta_datum.update_attributes(:value => meta_term_ids)
-          Keyword.delete(value)
-        end
-      end
-    end
-  end
-
-  namespace :helpers do
-    desc "set up helper data (country names etc)"
-    task :countries => :environment do
-      # TODO load up the country data
-    end
-  end
-
 end # madek namespace

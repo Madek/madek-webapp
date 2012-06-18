@@ -1,0 +1,8 @@
+{{if value}}
+${$type = Underscore.str.underscored(name),""}
+{{if typeof($.template("tmpl/media_resource/thumb_box/meta_datum/"+$type)) == "function"}}
+{{tmpl($item.data, {media_resource_id: $item.media_resource_id}) "tmpl/media_resource/thumb_box/meta_datum/"+$type}}
+{{else}}
+{{tmpl($item.data, {media_resource_id: $item.media_resource_id}) "tmpl/media_resource/thumb_box/meta_datum/default"}}
+{{/if}}
+{{/if}}
