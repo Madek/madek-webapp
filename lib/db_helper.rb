@@ -101,7 +101,7 @@ module DBHelper
       cmd =
         if SQLHelper.adapter_is_postgresql?
           set_pg_env config
-          "pg_restore #{path}"
+          "pg_restore -d #{config['database'].to_s}  #{path}"
         elsif SQLHelper.adapter_is_mysql? 
           cmd = "mysql #{get_mysql_cmd_credentials config} #{config['database']} < #{path}"
         else
