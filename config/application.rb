@@ -49,10 +49,10 @@ module MAdeK
 
     # Enable the asset pipeline
     config.assets.enabled = true
-    config.assets.version = '0.5.6'
+    config.assets.version = '0.6.0'
 
     # Please add any files you need precompiled here, otherwise it breaks production
-    config.assets.precompile += %w( jquery/fcbkcomplete.css )
+    config.assets.precompile += %w( jquery/fcbkcomplete.css jquery/fcbkcomplete_custom.css )
 
     # So that the Content-Length header is sent, so that e.g. video files
     # can be seeked and that mobile clients know how much data is coming
