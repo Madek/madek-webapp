@@ -74,12 +74,12 @@ end
 Before('@javascript, ~@transactional') do
   DatabaseCleaner.strategy = :truncation
 
-  unless File.exist? PersonasDBHelper.path_to_current_version
+  unless File.exist? PersonasDBHelper.path_to_max_migration
     if SQLHelper.adapter_is_mysql?
       DBHelper.drop
       DBHelper.create
     end
-    PersonasDBHelper.create_current_version
+    PersonasDBHelper.create_max_migration
   end
 
   if SQLHelper.adapter_is_mysql?
@@ -87,7 +87,7 @@ Before('@javascript, ~@transactional') do
     DBHelper.create
   end
 
-  DBHelper.restore_native PersonasDBHelper.path_to_current_version
+  DBHelper.restore_native PersonasDBHelper.path_to_max_migration
 
 end
 

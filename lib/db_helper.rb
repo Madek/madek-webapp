@@ -42,6 +42,7 @@ module DBHelper
     end
 
     def drop config = Rails.configuration.database_configuration[Rails.env]
+      puts "DROPPING DATABASE #{config}"
       cmd=
         if SQLHelper.adapter_is_postgresql?
           set_pg_env config
@@ -49,25 +50,32 @@ module DBHelper
         elsif SQLHelper.adapter_is_mysql?
           "mysql #{get_mysql_cmd_credentials config} -e 'drop database if exists #{config['database']}' "
         end
+      puts cmd
+      ActiveRecord::Base.remove_connection
       system cmd
+      ActiveRecord::Base.establish_connection
       raise "#{cmd} failed" unless $?.exitstatus == 0
       $?
     end
 
     def create config = Rails.configuration.database_configuration[Rails.env]
+      puts "CREATING DATABASE #{config}"
       cmd=
         if SQLHelper.adapter_is_postgresql?
           set_pg_env config
           "createdb #{config['database']}"
         elsif SQLHelper.adapter_is_mysql?
-          "mysql #{get_mysql_cmd_credentials config} -e 'create database #{sql_database}'"
-        end
+          "mysql #{get_mysql_cmd_credentials config} -e 'create database #{config['database']}'"
+              end
+      ActiveRecord::Base.remove_connection
       system cmd
+      ActiveRecord::Base.establish_connection
       raise "#{cmd} failed" unless $?.exitstatus == 0
       $?
     end
 
     def dump_native options = {}
+      puts "DUMPING DATABASE #{options}"
       path = options[:path] || dump_file_path
       config = options[:config] || Rails.configuration.database_configuration[Rails.env]
       cmd =
@@ -80,12 +88,15 @@ module DBHelper
           raise "adapter not supported"
         end
       puts "executing : #{cmd}"
+      ActiveRecord::Base.remove_connection
       system cmd
+      ActiveRecord::Base.establish_connection
       raise "#{cmd} failed" unless $?.exitstatus == 0
       {path: path, return_value: $?}
     end
 
     def restore_native path, options = {} 
+      puts "RESTORING DATABASE #{path} #{options}"
       config = options[:config] || Rails.configuration.database_configuration[Rails.env]
       cmd =
         if SQLHelper.adapter_is_postgresql?
@@ -97,7 +108,9 @@ module DBHelper
           raise "adapter not supported"
         end
       puts "executing : #{cmd}"
+      ActiveRecord::Base.remove_connection
       system cmd
+      ActiveRecord::Base.establish_connection
       raise "#{cmd} failed" unless $?.exitstatus == 0
       $?
     end
