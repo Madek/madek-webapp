@@ -26,7 +26,7 @@
   window.dropbox_sync_interval_time = 2000
   window.max_file_size = "1400mb"
   window.uploader
-  window.media_entry_incompletes = #{ json_for(@media_entry_incompletes) }
+  window.media_entry_incompletes = #{ json_for(@media_entry_incompletes, {:filename => true, :size => true}) }
   window.plupload_files_uploaded = []
   
   jQuery ->
