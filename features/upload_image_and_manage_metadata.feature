@@ -53,7 +53,7 @@ Feature: Upload images and manage media entries based on images
      And I follow "Abmelden"
      And I log in as "gorbi" with password "glasnost"
      And I go to the home page
-     Then I should see "A beautiful piece...f the Berlin Wall"
+     Then I should see "A beautiful piece... f the Berlin Wall"
 
   @javascript
   Scenario: Upload an image file for my group to see

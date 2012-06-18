@@ -44,7 +44,7 @@ Feature: Upload
      | Schlagworte zu Inhalt und Motiv | example                                  |
      | Rechte                       | Tester Two                               |
     Then I can assign the Title to all the other files I just uploaded
-    Then I can assign the Rechte to all the other files I just uploaded
+    Then I can assign the Copyright to all the other files I just uploaded
 
   # Feature exists already, but needs this test
   @javascript

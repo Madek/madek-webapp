@@ -4,7 +4,7 @@ describe MetaDatumKeywords do
 
   describe "Creation" do
 
-    it "should not raise an error " do
+    it "should not raise an error" do
       expect {FactoryGirl.create :meta_datum_keywords}.not_to raise_error
     end
 
@@ -17,45 +17,86 @@ describe MetaDatumKeywords do
     end
 
   end
-
-  describe "Linking with MetaDepartements" do
+  
+=begin
+  describe "Linking with Keywords" do
 
     before :each do
-      @mdd = FactoryGirl.create :meta_datum_keywords
+      @mdk = FactoryGirl.create :meta_datum_keywords
       @keyword1 = FactoryGirl.create :keyword
       @keyword2 = FactoryGirl.create :keyword
     end
 
-    it "should be possible to add a department w.o. error" do
-      expect{@mdd.keywords << @keyword1}.not_to raise_error
-    end
-
-    it "should not be possible to add a plain group as a keyword " do
-      expect{@mdd.keywords << (FactoryGirl.create :group)}.to raise_error
+    it "should be possible to associate an existing keyword" do
+      expect{@mdk.keywords << @keyword1}.to_not raise_error
     end
 
     context "added relations" do 
 
       before :each do
-        @mdd.keywords << @keyword1
-        @mdd.keywords<< @keyword2
+        @mdk.keywords << @keyword1
+        @mdk.keywords << @keyword2
       end
 
       it "should have persist added relations" do
-        MetaDatumKeywords.find(@mdd.id).keywords.should include @keyword1
-        MetaDatumKeywords.find(@mdd.id).keywords.should include @keyword2
+        MetaDatumKeywords.find(@mdk.id).keywords.should include @keyword1
+        MetaDatumKeywords.find(@mdk.id).keywords.should include @keyword2
       end
 
       describe "value interface" do
         it "should be an alias for people" do
-          MetaDatumKeywords.find(@mdd.id).value.should include @keyword1
-          MetaDatumKeywords.find(@mdd.id).value.should include @keyword2
+          MetaDatumKeywords.find(@mdk.id).value.should include @keyword1
+          MetaDatumKeywords.find(@mdk.id).value.should include @keyword2
         end
 
       end
 
     end
 
+  end
+=end
+
+  describe "Editing media_entry's meta_data" do
+    before :all do
+      @meta_key = FactoryGirl.create :meta_key, :label => "keywords", :meta_datum_object_type => "MetaDatumKeywords"
+      @user1 = FactoryGirl.create :user
+      @user2 = FactoryGirl.create :user
+    end
+  
+    before :each do
+      @media_entry = FactoryGirl.create :media_entry
+      @media_entry.meta_data.count.should == 0
+      @term1 = FactoryGirl.create :meta_term
+      @term2 = FactoryGirl.create :meta_term
+    end
+    
+    it "should assign new keywords" do
+      params = {meta_data_attributes: {"0" =>  {meta_key_id: @meta_key.id, value: [@term1.to_s, @term2.to_s]}}}
+      @media_entry.update_attributes(params, @user1)
+      @media_entry.reload
+      @media_entry.meta_data.count.should == 1
+      @media_entry.meta_data.flat_map(&:value).map(&:meta_term).should == [@term1, @term2]
+    end
+  
+    it "should keep existing keywords assigning new keywords" do
+      params = {meta_data_attributes: {"0" =>  {meta_key_id: @meta_key.id, value: @term1.to_s}}}
+      @media_entry.update_attributes(params, @user1)
+      @media_entry.reload
+      @media_entry.meta_data.count.should == 1
+      keywords = @media_entry.meta_data.flat_map(&:value) 
+      keywords.map(&:meta_term).should == [@term1]
+      keywords.map(&:user).should == [@user1]
+
+      sleep(1)
+      params = {meta_data_attributes: {"0" =>  {meta_key_id: @meta_key.id, value: [@term1.id, @term2.to_s]}}}
+      @media_entry.update_attributes(params, @user2)
+      @media_entry.reload
+      @media_entry.meta_data.count.should == 1
+      keywords = @media_entry.meta_data.flat_map(&:value) 
+      keywords.map(&:meta_term).should == [@term1, @term2]
+      keywords.map(&:user).should == [@user1, @user2]
+    end
+  
   end
 
 end

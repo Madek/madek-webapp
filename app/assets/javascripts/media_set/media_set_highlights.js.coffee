@@ -13,10 +13,10 @@ class MediaSetHighlights
   @highlighted_resources
   @highlighted_resources_ids
   
-  @setup: (highlighted_resources_data)->
+  @setup: (data)->
     @setup_listener()
-    MediaSetHighlights.highlighted_resources = highlighted_resources_data
-    MediaSetHighlights.highlighted_resources_ids = _.map highlighted_resources_data, (resource)-> resource.id
+    MediaSetHighlights.highlighted_resources = data.media_resources
+    MediaSetHighlights.highlighted_resources_ids = _.map data.media_resources, (resource)-> resource.id
     @render()
     setTimeout ->
       MediaSetHighlights.setup_positioning()

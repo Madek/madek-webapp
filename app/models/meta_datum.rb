@@ -39,17 +39,50 @@ class MetaDatum < ActiveRecord::Base
 
   scope :for_meta_terms, joins(:meta_key).where(:meta_keys => {:meta_datum_object_type => "MetaDatumMetaTerms"})
 
-  def same_value? other_value
-    raise "this method must be implemented in the derived class"
+########################################
+
+  def same_value?(other_value)
+    # TODO raise "this method must be implemented in the derived class"
+
+    case value
+      when String
+        value == other_value
+      when Array
+        return false unless other_value.is_a?(Array)
+        if value.first.is_a?(MetaDatumDate)
+          other_value.first.is_a?(MetaDatumDate) and (other_value.first.free_text == value.first.free_text)
+        elsif meta_key.meta_datum_object_type == "MetaDatumKeywords"
+          referenced_meta_term_ids = Keyword.where(:id => other_value).all.map(&:meta_term_id)
+          deserialized_value.map(&:meta_term_id).uniq.sort.eql?(referenced_meta_term_ids.uniq.sort)
+        else
+          value.uniq.sort.eql?(other_value.uniq.sort)
+        end
+      when NilClass
+        other_value.blank?
+    end
   end
 
+########################################
+
   def context_warnings(context = MetaContext.core)
-    raise "this method must be implemented in the derived class"
+    # TODO raise "this method must be implemented in the derived class"
+    
+    definition = meta_key.meta_key_definitions.for_context(context)
+    r = []
+    r << "can't be blank" if value.blank? and definition.is_required
+    r << "is too short (min is #{definition.length_min} characters)" if definition.length_min and (value.blank? or value.size < definition.length_min)
+    r << "is too long (maximum is #{definition.length_max} characters)" if value and definition.length_max and value.size > definition.length_max
+    # TODO options
+    r
   end
 
   def context_valid?(context = MetaContext.core)
-    raise "this method must be implemented in the derived class"
+    # TODO raise "this method must be implemented in the derived class"
+
+    context_warnings(context).empty?
   end
+  
+########################################
 
   def deserialized_value(user=nil)
     if meta_key.is_dynamic? 

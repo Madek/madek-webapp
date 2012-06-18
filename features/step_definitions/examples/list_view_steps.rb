@@ -29,14 +29,14 @@ Then /^for each resource I see a thumbnail image if it is available$/ do
 end
 
 When /^I see the "(.*?)" meta key of a set/ do |meta_key|
-  binding.pry
-  wait_until(45){ find(".context.nutzung .meta_datum") }
-  binding.pry
+  step 'I see all meta data contexts'
   case meta_key
     when"children"
-      wait_until { find("dt", :text => "Enthält") }
+      wait_until(25){ find("dt.child_media_resources") }
+      @el = find("dt.child_media_resources").find(:xpath, "..")
     when "parents"
-      wait_until { find("dt", :text => "Enthalten in") }
+      wait_until(25){ find("dt.parent_media_resources") }
+      @el = find("dt.parent_media_resources").find(:xpath, "..")
   end
 end
 
@@ -48,11 +48,8 @@ When /^I see a resource in a list view$/ do
   step 'I see a list of resources'
   step 'I switch to the list view'
   @inspected_resource = MediaResource.accessible_by_user(@current_user).last
+  wait_until {find(".item_box[data-id='#{@inspected_resource.id}']")}
   @inspected_resource_element = find(".item_box[data-id='#{@inspected_resource.id}']")
-end
-
-Then /^I see the number and type of children$/ do
-  pending # express the regexp above with the code you wish you had
 end
 
 Then /^the following actions are available for this resource:$/ do |table|
@@ -75,28 +72,53 @@ Then /^the following actions are available for this resource:$/ do |table|
   end
 end
 
-Then /^there is one number for media entries$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
 Then /^the resource's title is highlighted$/ do
   page.evaluate_script('$("dd.title.full").css("fontSize")').to_f.should > page.evaluate_script('$("dd:not(.title)").css("fontSize")').to_f
 end
 
-Then /^there is one number for sets$/ do
-  pending # express the regexp above with the code you wish you had
+When /^I click the title$/ do
+  find("dd.title.full").click
 end
 
-When /^one resource has more metadata than another$/ do
+Then /^I'm redirected to the media resource's detail page$/ do
+  current_url.match(/\d+$/).nil?.should be_false
 end
 
-Then /^one of the resources has parents$/ do
-  pending # express the regexp above with the code you wish you had
+Then /^I see the number and type of (.*)/ do |arg|
+  @el.find("dd.full")[:title].match(/\d MediaSets/).should be_true
+  @el.find("dd.full")[:title].match(/\d MediaEntries/).should be_true if @el.find("dt")[:class] == "child_media_resources"
 end
 
-Then /^the row containing the resource with more metadata is taller than the other$/ do
+Then /^the type is shown through an icon$/ do
+  @el.find(".media_set.icon")
+  @el.find(".media_entry.icon") if @el.find("dt")[:class] == "child_media_resources"
 end
 
-Then /^I see the number and type of parents$/ do
-  pending # express the regexp above with the code you wish you had
+When /^I see all meta data contexts/ do
+  page.execute_script('$(".meta_data .context").show()')
+  find("#bar .layout a[data-type=grid]").click
+  find("#bar .layout a[data-type=list]").click
 end
+
+Then /^I see the meta data for context "(.*?)"(.*)*$/ do |context, loading|
+  if loading != ""
+    @inspected_resource_element.find(".meta_data .context.#{context.downcase}")
+  else
+    step 'I see all meta data contexts'
+    wait_until(25) {@inspected_resource_element.find(".meta_data .context.#{context.downcase}")}
+  end
+end
+
+Then /^the resource shows an icon representing its permissions$/ do
+  find(".item_box .item_permission")
+end
+
+When /^I click the thumbnail of that resource$/ do
+  @inspected_resource_element.find("img").click
+end
+
+When /^one resource can be taller caused by it's visible meta data$/ do
+  # pending
+end
+
+

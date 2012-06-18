@@ -1,5 +1,5 @@
 Given /^personas are loaded$/ do
-  puts "We'll just have to trust that the personas are loaded..."
+  #puts "We'll just have to trust that the personas are loaded..." # (stop flooding the terminal)
   # MediaResource.count.zero?.should be_true
 
   # Persona.create("Adam") # Admin should be created first, he setting up the application

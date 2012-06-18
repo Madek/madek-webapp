@@ -734,7 +734,7 @@ class MediaResourcesController < ApplicationController
         format.json {
           @media_resources = resources
           @with = with
-          render :template => "media_resources/index", :formats => [:json], :handlers => [:rjson]
+          render :template => "media_resources/index.json.rjson"
         }
       end
 
