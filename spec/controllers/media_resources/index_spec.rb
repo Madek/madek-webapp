@@ -8,7 +8,43 @@ describe MediaResourcesController do
     FactoryGirl.create :meta_context_core
     @user = FactoryGirl.create :user
   end
-  
+
+  let :session do
+    {:user_id => @user.id}
+  end
+
+
+  describe "sorting resources" do
+
+    before :each do
+      10.times{FactoryGirl.create :media_set_with_title, user: @user}
+    end
+
+    describe "ordering by title" do
+
+      let :get_ordered_by_title do
+        get :index, {format: "json", sort: "title"}, session
+      end
+
+      it "should be successful" do
+        get_ordered_by_title
+        response.should  be_success
+      end
+
+      it "should assign @media_resources" do
+        get_ordered_by_title
+        assigns(:media_resources).should be
+      end
+
+      it "should be ordered by title" do
+        get_ordered_by_title
+        assigns(:media_resources).map(&:title).sort.should ==  assigns(:media_resources).map(&:title)
+      end
+
+    end
+
+  end
+
   context "fetch an index of media resources" do
     before :all do
       # MediaResources
@@ -21,10 +57,6 @@ describe MediaResourcesController do
       end
       # MetaContext
       @meta_context = MetaContext.core
-    end
-    
-    let :session do
-      {:user_id => @user.id}
     end
     
     let :ids do
