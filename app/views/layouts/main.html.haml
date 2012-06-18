@@ -7,7 +7,7 @@
       = @title || "Medienarchiv - Zürcher Hochschule der Künste"
     = stylesheet_link_tag "application"
     = javascript_include_tag "application"
-    -#= javascript_include_tag "i18n/jquery.ui.datepicker-de-CH.js" # TODO i18n # This isn't working yet, it breaks in production mode
+    = javascript_include_tag "i18n/jquery.ui.datepicker-de-CH.js" # TODO i18n
     = javascript_tag ""
     = csrf_meta_tag
     = yield :head
