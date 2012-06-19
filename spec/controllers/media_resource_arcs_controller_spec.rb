@@ -20,6 +20,7 @@ describe MediaResourceArcsController do
 
     def get_arcs_by_parent_id
       get :get_arcs_by_parent_id, {parent_id: @parent_set.id, format: 'json'}, valid_session
+      @data = JSON.parse(response.body)["media_resource_arcs"]
     end
 
     it "should succeed" do
@@ -27,23 +28,23 @@ describe MediaResourceArcsController do
       response.should be_success
     end
 
-    it "should assign @arcs" do
+    it "should return non empty json" do
        get_arcs_by_parent_id
-       assigns(:arcs).should_not be_nil
+       @data.should_not be_nil
+       @data.should_not be_empty
     end
 
-    it "should put children into the @arcs" do
+    it "should put children into the response" do
        get_arcs_by_parent_id
-       assigns(:arcs).map(&:child_id).should include @child1.id
-       assigns(:arcs).map(&:child_id).should include @child2.id
+       @data.map{|x| x["child_id"] }.should include @child1.id
+       @data.map{|x| x["child_id"] }.should include @child2.id
     end
 
     describe "The response" do
 
       it "should include two children" do
         get_arcs_by_parent_id
-        data = JSON.parse(response.body)["media_resource_arcs"]
-        data.size.should == 2
+        @data.size.should == 2
       end
 
     end 
@@ -55,7 +56,7 @@ describe MediaResourceArcsController do
 
     def update_child1_arc 
       arcs = [{ parent_id: @parent_set.id, child_id: @child1.id, highlight: true}]
-      put :update_arcs, {media_resource_arcs: arcs,format: 'json'}, valid_session
+      put :update_arcs, {media_resource_arcs: arcs, format: 'json'}, valid_session
     end
     
     it "should succeed" do

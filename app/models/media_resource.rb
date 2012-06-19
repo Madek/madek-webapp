@@ -1,8 +1,5 @@
 # -*- encoding : utf-8 -*-
 
-# require 'media_resource/arcs' # for arcs, parents, and children 
-# require 'media_resource/permissions'
-
 class MediaResource < ActiveRecord::Base
   include MediaResourceModules::Arcs
   include MediaResourceModules::MetaData

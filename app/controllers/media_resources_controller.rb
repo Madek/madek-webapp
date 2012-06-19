@@ -558,8 +558,7 @@ class MediaResourcesController < ApplicationController
           resources = resources.where(:id => media_resource_ids)
         end
 
-        @media_resources = resources
-        @with = with
+        render json: view_context.hash_for_media_resources_with_pagination(resources, true, with).to_json
       }
     end
   end
@@ -633,8 +632,8 @@ class MediaResourcesController < ApplicationController
     end
     
     respond_to do |format|
-      format.json { 
-        render :partial => "media_resources/index", :formats => [:json], :handlers => [:rjson], :locals => {:media_resources => child_resources, :with => {:parents => true}}
+      format.json {
+        render :json => view_context.json_for(child_resources, {:parents => true})
       }
     end
   end
@@ -735,9 +734,7 @@ class MediaResourcesController < ApplicationController
 
       respond_to do |format|
         format.json {
-          @media_resources = resources
-          @with = with
-          render :template => "media_resources/index.json.rjson"
+          render json: view_context.hash_for_media_resources_with_pagination(resources, true, with).to_json
         }
       end
 

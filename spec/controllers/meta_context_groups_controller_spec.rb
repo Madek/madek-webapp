@@ -27,15 +27,10 @@ describe MetaContextGroupsController do
       response.should be_success
     end
 
-    it "should assign @meta_context_groups" do
-      get_index
-      assigns(:meta_context_groups).should eq(@meta_context_groups)
-    end
-
     it "should set the correct json content" do
       get_index
-      json = JSON.parse response.body
-      expected = MetaContextGroup.all.as_json
+      json = JSON.parse(response.body)
+      expected = @meta_context_groups.as_json
       json.eql?(expected).should be_true
     end
 

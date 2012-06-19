@@ -158,13 +158,15 @@ describe MediaResourcesController do
           mr = FactoryGirl.create :media_set, :user => @user
           media_resource.parents << mr
         }
+        
         get :index, {format: 'json', ids: [media_resource.id], with: {parents: true}}, session
         json = JSON.parse(response.body)
         mr = json["media_resources"].first
-        parents_pagination = mr["parents"]["pagination"] 
+        parents_pagination = mr["parents"]["pagination"]
         mr["parents"]["media_resources"].size.should == parents_pagination["per_page"]
         parents_pagination["total"].should >= 40
         parents_pagination["total_pages"].should > 1
+        
         get :index, {format: 'json', ids: [media_resource.id], with: {parents: {pagination: {page: 2}}}}, session
         json = JSON.parse(response.body)
         mr = json["media_resources"].first

@@ -1,3 +1,0 @@
-groups.map do |group|
-  render :partial => "groups/group", :formats => [:json], :handlers => [:rjson],  :locals => {:group => group} 
-end
