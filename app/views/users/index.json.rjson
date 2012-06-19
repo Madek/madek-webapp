@@ -1,3 +1,0 @@
-@users.map do |user|
-  render user
-end

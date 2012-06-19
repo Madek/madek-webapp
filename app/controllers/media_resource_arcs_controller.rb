@@ -30,8 +30,8 @@ class MediaResourceArcsController < ApplicationController
   #
   def get_arcs_by_parent_id
     begin
-      @arcs = MediaResourceArc.where(parent_id: params[:parent_id])
-      render :arcs
+      arcs = MediaResourceArc.where(parent_id: params[:parent_id])
+      render json: {media_resource_arcs: arcs.map{|x| view_context.hash_for_media_resource_arc(x)} }.to_json
     rescue  Exception => e
       respond_to do |format|
         format.json { render json: e, status: :unprocessable_entity }

@@ -11,8 +11,6 @@ gem 'memcache-client' #gem 'dalli' #gem 'redis-store'
 gem 'require_relative'
 
 gem 'json', '~> 1.7'
-gem 'rjson'
-gem 'jbuilder'
 gem 'haml', '~> 3.1'
 gem 'sass', '~> 3.1'
 gem 'coffee-script', '~> 2.2'

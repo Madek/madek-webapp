@@ -393,7 +393,7 @@ module MetaDataHelper
           unless @js_1
             @js_1 = true
             locale = "de-CH"
-            h += javascript_include_tag "i18n/jquery.ui.datepicker-#{locale}"
+            #h += javascript_include_tag "i18n/jquery.ui.datepicker-#{locale}"
             h += javascript_tag do
               begin
               <<-HERECODE

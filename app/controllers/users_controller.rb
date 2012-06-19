@@ -25,12 +25,12 @@ class UsersController < ApplicationController
             exclude_group_id = params[:exclude_group_id])
     respond_to do |format|
       format.json {
-        @users = Person.search(query).map(&:user).compact
-        
+        users = Person.search(query).map(&:user).compact
         if exclude_group_id
           group = Group.find(exclude_group_id)
-          @users -= group.users
+          users -= group.users
         end
+        render :json => view_context.json_for(users)
       }
     end
   end
