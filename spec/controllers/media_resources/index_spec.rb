@@ -33,12 +33,13 @@ describe MediaResourcesController do
 
       it "should assign @media_resources" do
         get_ordered_by_title
-        assigns(:media_resources).should be
+        JSON.parse(response.body)["media_resources"].should be
       end
 
       it "should be ordered by title" do
         get_ordered_by_title
-        assigns(:media_resources).map(&:title).sort.should ==  assigns(:media_resources).map(&:title)
+        resources = JSON.parse(response.body)["media_resources"].map{|h| MediaResource.find_by_id(h["id"])}
+        resources.map(&:title).sort.should ==  resources.map(&:title)
       end
 
     end
