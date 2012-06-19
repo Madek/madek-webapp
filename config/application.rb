@@ -52,7 +52,7 @@ module MAdeK
     config.assets.version = '0.6.0'
 
     # Please add any files you need precompiled here, otherwise it breaks production
-    config.assets.precompile += %w( jquery/fcbkcomplete.css jquery/fcbkcomplete_custom.css i18n/jquery.ui.datepicker-de-CH.js i18n/jquery.ui.datepicker-en-GB.js i18n/jquery.ui.datepicker-de-CH i18n/jquery.ui.datepicker-en-GB admin.css root.css button.css )
+    config.assets.precompile += %w( jquery/fcbkcomplete.css jquery/fcbkcomplete_custom.css i18n/jquery.ui.datepicker-de-CH.js i18n/jquery.ui.datepicker-en-GB.js i18n/jquery.ui.datepicker-de-CH i18n/jquery.ui.datepicker-en-GB admin.css root.css button/button.css )
 
     # So that the Content-Length header is sent, so that e.g. video files
     # can be seeked and that mobile clients know how much data is coming
