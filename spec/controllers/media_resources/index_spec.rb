@@ -17,7 +17,7 @@ describe MediaResourcesController do
   describe "sorting resources" do
 
     before :each do
-      10.times{FactoryGirl.create :media_set_with_title, user: @user}
+      @media_sets = 10.times.map{FactoryGirl.create :media_set_with_title, user: @user}
     end
 
     describe "ordering by title" do
@@ -41,6 +41,35 @@ describe MediaResourcesController do
         resources = JSON.parse(response.body)["media_resources"].map{|h| MediaResource.find_by_id(h["id"])}
         resources.map(&:title).sort.should ==  resources.map(&:title)
       end
+
+    end
+
+    describe "ordering by author" do
+
+      before :each do
+        @media_sets[0].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => "Z"}}})
+        @media_sets[1].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => ["B","D"]}}})
+        @media_sets[2].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => "A"}}})
+      end
+
+      let :get_ordered_by_author do
+        get :index, {format: "json", sort: "author"}, session
+      end
+
+       it "should be successful" do
+        get_ordered_by_author
+        response.should  be_success
+      end
+
+       it "should be ordered correctly" do
+         get_ordered_by_author
+         resources = JSON.parse(response.body)["media_resources"].map{|h| MediaResource.find_by_id(h["id"])}
+         resources.size.should == 4 # multiple listing for multiple authors
+         resources[0].should == @media_sets[2]
+         resources[1].should == @media_sets[1]
+         resources[2].should == @media_sets[1]
+         resources[3].should == @media_sets[0]
+       end
 
     end
 
