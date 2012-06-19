@@ -205,7 +205,7 @@ class MediaSetsController < ApplicationController
       }
       format.json {
         if @media_sets
-          render json: view_context.json_for(@media_sets), :status => (is_saved ? 200 : 500)
+          render json: view_context.hash_for_media_resources_with_pagination(@media_sets, true).to_json, :status => (is_saved ? 200 : 500)
         else
           render json: view_context.json_for(@media_set), :status => (is_saved ? 200 : 500)
         end
