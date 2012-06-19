@@ -1,9 +1,0 @@
-@presets.map do |preset|
-  h = {}
-  
-  [:name, :view, :download, :edit, :manage].each do |k|
-    h[k] = preset.send(k)
-  end
-  
-  h
-end

@@ -9,11 +9,11 @@ module SearchHelper
         resources.each do |r|
           terms = case label
             when "keywords"
-              r.meta_data.get(label).deserialized_value.collect(&:meta_term)
+              r.meta_data.get(label).value.collect(&:meta_term)
             else
               case r.type
                 when "MediaEntry"
-                  r.meta_data.get(label).deserialized_value
+                  r.meta_data.get(label).value
                 else
                   next
               end

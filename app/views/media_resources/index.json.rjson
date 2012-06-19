@@ -1,1 +1,0 @@
-render(:partial => "media_resources/index", :formats => [:json], :handlers => [:rjson], :locals => {pagination: true, media_resources: @media_resources, with: (@with || nil)})
