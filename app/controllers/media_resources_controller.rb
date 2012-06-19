@@ -486,6 +486,7 @@ class MediaResourcesController < ApplicationController
             meta_term_id = params[:meta_term_id] )
             
     respond_to do |format|
+
       format.html
       format.json {
 
@@ -517,6 +518,8 @@ class MediaResourcesController < ApplicationController
         end.accessible_by_user(current_user)
 
         case sort
+          when "title"
+            resources = resources.ordered_by_title
           when "updated_at", "created_at"
             resources = resources.order("media_resources.#{sort} DESC")
           when "random"
