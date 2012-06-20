@@ -125,13 +125,19 @@ class MediaResource < ActiveRecord::Base
 
 ##########################################################################################################################
 ##########################################################################################################################
+   
+  # ORDERINGS
   
+  scope :ordered_by_title, joins(meta_data: :meta_key).where("meta_keys.label = ?",:title).order("meta_data.string ASC")
+
+  ################################################################
+
   scope :media_entries_or_media_entry_incompletes, where(:type => ["MediaEntry", "MediaEntryIncomplete"])
   scope :media_entries, where(:type => "MediaEntry")
   scope :media_sets, where(:type => "MediaSet")
 
-  ################################################################
-
+  ###############################################################
+  
   scope :by_user, lambda {|user| where(["media_resources.user_id = ?", user]) }
   scope :not_by_user, lambda {|user| where(["media_resources.user_id <> ?", user]) }
 
