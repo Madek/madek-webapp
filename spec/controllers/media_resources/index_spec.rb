@@ -20,6 +20,10 @@ describe MediaResourcesController do
       @media_sets = 10.times.map{FactoryGirl.create :media_set_with_title, user: @user}
     end
 
+    let :extract_resources do
+      JSON.parse(response.body)["media_resources"].map{|h| MediaResource.find_by_id(h["id"])}
+    end
+
     describe "ordering by title" do
 
       let :get_ordered_by_title do
@@ -38,7 +42,7 @@ describe MediaResourcesController do
 
       it "should be ordered by title" do
         get_ordered_by_title
-        resources = JSON.parse(response.body)["media_resources"].map{|h| MediaResource.find_by_id(h["id"])}
+        resources = extract_resources 
         resources.map(&:title).sort.should ==  resources.map(&:title)
       end
 
@@ -47,9 +51,6 @@ describe MediaResourcesController do
     describe "ordering by author" do
 
       before :each do
-        @media_sets[0].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => "Z"}}})
-        @media_sets[1].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => ["B","D"]}}})
-        @media_sets[2].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => "A"}}})
       end
 
       let :get_ordered_by_author do
@@ -61,14 +62,47 @@ describe MediaResourcesController do
         response.should  be_success
       end
 
-       it "should be ordered correctly" do
-         get_ordered_by_author
-         resources = JSON.parse(response.body)["media_resources"].map{|h| MediaResource.find_by_id(h["id"])}
-         resources.size.should == 4 # multiple listing for multiple authors
-         resources[0].should == @media_sets[2]
-         resources[1].should == @media_sets[1]
-         resources[2].should == @media_sets[1]
-         resources[3].should == @media_sets[0]
+
+       describe "correct ordering" do
+
+         before :each do
+           @aa= Person.create  lastname:"A", firstname: "A"
+           @ab= Person.create  lastname:"A", firstname: "B"
+           @az= Person.create  lastname:"A", firstname: "Z"
+           @bb= Person.create  lastname:"B", firstname: "B"
+           @cc= Person.create  lastname:"C", firstname: "C"
+           @zz= Person.create  lastname:"Z", firstname: "Z"
+         end
+
+         it "should list entries with multiple authors multiply" do
+           @media_sets[0].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => [@bb,@aa]}}})
+           get_ordered_by_author
+           resources = extract_resources
+           resources.size.should == 2
+         end
+
+         it "should use the consider the first name" do
+           @media_sets[0].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @ab}}})
+           @media_sets[1].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @aa}}})
+           get_ordered_by_author
+           resources = extract_resources
+           resources[0].should == @media_sets[1]
+           resources[1].should == @media_sets[0]
+         end
+
+         it "should order them" do
+           @media_sets[0].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @zz}}})
+           @media_sets[1].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @aa}}})
+           @media_sets[2].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @cc}}})
+           @media_sets[3].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @bb}}})
+           get_ordered_by_author
+           resources = extract_resources
+           resources[0].should == @media_sets[1]
+           resources[1].should == @media_sets[3]
+           resources[2].should == @media_sets[2]
+           resources[3].should == @media_sets[0]
+         end
+
        end
 
     end

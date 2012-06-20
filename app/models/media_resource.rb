@@ -132,7 +132,7 @@ class MediaResource < ActiveRecord::Base
   scope :ordered_by_author, joins(meta_data: :meta_key).where("meta_keys.label = ?",:author)
     .joins('INNER JOIN meta_data_people ON meta_data.id = meta_data_people.meta_datum_id')
     .joins('INNER JOIN people ON meta_data_people.person_id = people.id')
-    .order('people.lastname ASC')
+    .order('people.lastname, people.firstname ASC')
 
 
   ################################################################
