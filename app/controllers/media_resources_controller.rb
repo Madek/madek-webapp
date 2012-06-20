@@ -518,6 +518,8 @@ class MediaResourcesController < ApplicationController
         end.accessible_by_user(current_user)
 
         case sort
+          when "author"
+            resources = resources.ordered_by_author
           when "title"
             resources = resources.ordered_by_title
           when "updated_at", "created_at"
