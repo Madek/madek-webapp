@@ -28,8 +28,8 @@
     
     .table { display: none; }
     
-    &.completly_loaded {
-      .table { display: block; }
+    &.completely_loaded {
+      .table { display: block !important; }
       .loading { display: none !important; }
     }
     
