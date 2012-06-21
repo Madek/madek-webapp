@@ -42,6 +42,9 @@ namespace :madek do
    system "mysqldump -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -r #{dump_path} #{sql_database}"
    puts "Compressing database with bzip2"
    system "bzip2 #{dump_path}"
+   
+   # output the pathname at the end
+   puts "#{dump_path}.bz2"
 
   end
 
