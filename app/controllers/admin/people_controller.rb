@@ -16,6 +16,15 @@ class Admin::PeopleController < Admin::AdminController
 #  def show
 #  end
 
+  def new
+    @person = Person.new
+  end
+  
+  def create
+    Person.create(params[:person])
+    redirect_to admin_people_path
+  end
+
   def edit
     respond_to do |format|
       format.js
