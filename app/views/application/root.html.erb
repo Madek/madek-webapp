@@ -230,7 +230,6 @@
                     }).slice(0,5);
                     
                     $.each(randomElements, function(i, entry){
-                      debugger;
                       // image
                       var entry_image = $(image_clone).clone();
                       $(entry_image).attr("src", "/media_resources/"+entry.id+"/image?size=large").attr("title", "#htmlcaption"+(i+1));
