@@ -27,6 +27,66 @@ namespace :app do
       
       puts " DONE"
     end
+    
+    ########### SYNC PERSONA DATABASE
+    
+    namespace :sync do
+      
+      desc "Makes a dump of the personas server database (using rake madek:dump_database) and copies to local"
+      task :personas do
+          
+          puts "1) connecting to madek-personas@madek-server ..."
+          $cmdin, $cmdout, $cmderr = Open3.popen3("ssh madek-personas@madek-server")
+          $cmdin.puts("cd current")
+          $cmdin.puts("RAILS_ENV=production bundle exec rake madek:dump_database")
+          
+          count = 0
+          location = ""
+          $cmdout.each do |line|
+            puts line
+            if line.match /\.bz2$/
+              location = line.gsub(/\n/, "")
+              break     
+            end
+            count += 1 if line.include?("\n")
+            break if count == 100
+          end
+          $cmdin.puts("exit")
+          
+          puts "2) transfer dump to local ..."
+          $cmdin, $cmdout, $cmderr = Open3.popen3("scp madek-personas@madek-server:#{location} ./db")
+          count = 0
+          $cmdout.each do |line|
+            puts line
+            count += 1 if line.include?("\n")
+            break if count == 100
+          end
+          
+          puts "3) unzip ..."
+          location = "./db/#{location.gsub(/^\/(.*)\//, "")}"
+          $cmdin, $cmdout, $cmderr = Open3.popen3("bunzip2 #{location}")
+          count = 0
+          $cmdout.each do |line|
+            puts line
+            count += 1 if line.include?("\n")
+            break if count == 100
+          end
+          location = location.gsub(/\.bz2/, "")
+          
+          puts "3) setup file ..."
+          location = location.gsub(/^\/(.*)\//, "")
+          $cmdin, $cmdout, $cmderr = Open3.popen3("mv #{location} ./db/#{PersonasDBHelper.base_file_name}.#{DBHelper.file_extension}")
+          count = 0
+          $cmdout.each do |line|
+            puts line
+            count += 1 if line.include?("\n")
+            break if count == 100
+          end
+          
+          puts "---------------"
+          puts " DONE"
+      end
+    end
 
     ########## EXPORT WITH DATA
 
