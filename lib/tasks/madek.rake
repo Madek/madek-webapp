@@ -34,7 +34,7 @@ namespace :madek do
    sql_password = config["password"]
    if Rails.env == "production"
     dump_path =  Rails.root.join("..", "..", "shared","db_backups","#{sql_database}-#{date_string}.sql")
-   else Rails.env == "development"
+   else
     dump_path = Rails.root.join("tmp","#{sql_database}-#{date_string}.sql")
    end
 
