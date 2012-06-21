@@ -63,6 +63,14 @@ Then /^I can sort by (.*)$/ do |sort_by|
       find("#bar .sort .updated_at").click
       wait_until { find("#bar") }
       find("#bar .sort .updated_at.active")
+    when "title" 
+      find("#bar .sort .title").click
+      wait_until { find("#bar") }
+      find("#bar .sort .title.active")
+    else
+      find("#bar .sort .#{sort_by}").click
+      wait_until { find("#bar") }
+      find("#bar .sort .#{sort_by}.active")
   end
 end
 

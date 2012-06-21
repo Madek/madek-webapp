@@ -59,14 +59,12 @@ class Authenticator::ZhdkController < ApplicationController
   end
 
   def create_or_update_user(xml)
-    user = User.find_by_id(xml["id"]) # TODO use xml["uniqueid"] ??
+    user = User.find_by_zhdkid(xml["id"]) # TODO use xml["uniqueid"] ??
     if user.nil?
       person = Person.find_or_create_by_firstname_and_lastname(:firstname => xml["firstname"],
                                                                :lastname => xml["lastname"])
-      user = person.build_user(:login => xml["local_username"],
-                               :email => xml["email"])
-      user.id = xml["id"]
-      user.save
+
+      user = person.create_user login: xml["local_username"], email: xml["email"], zhdkid: xml["id"]
     end
     if user
       g = xml['memberof']['group'].map {|x| x.gsub("zhdk/", "") }
