@@ -306,24 +306,42 @@ describe MediaResourcesController do
         (children_pagination["total"] - children_pagination["per_page"]).should == mr["children"]["media_resources"].size 
       end
       
-      it "is forwarding only the explicit with for the children to responding children" do
-        get :index, {format: 'json', ids: ids, with: {media_type: true, children: true}}, session
-        json = JSON.parse(response.body)
-        json["media_resources"].each do |mr|
-          mr.keys.should include("media_type")
-          if mr["type"] == "media_set"
-            mr.keys.should include("children")
-            mr["children"]["media_resources"].each do |child|
-              child.keys.should_not include("media_type")
+      context "is forwarding only the explicit with for the children to responding children" do
+        
+        it "is not forwarding the root with" do
+          get :index, {format: 'json', ids: ids, with: {media_type: true, children: true}}, session
+          json = JSON.parse(response.body)
+          json["media_resources"].each do |mr|
+            mr.keys.should include("media_type")
+            if mr["type"] == "media_set"
+              mr.keys.should include("children")
+              mr["children"]["media_resources"].each do |child|
+                child.keys.should_not include("media_type")
+              end
+            end
+          end
+        end 
+        
+        it "is forwarding the media_type with" do
+          get :index, {format: 'json', ids: ids, with: {media_type: true, children: {with: {media_type: true}}}}, session
+          json = JSON.parse(response.body)
+          json["media_resources"].each do |mr|
+            if mr["type"] == "media_set"
+              mr["children"]["media_resources"].each do |child|
+                child.keys.should include("media_type")
+              end
             end
           end
         end
-        get :index, {format: 'json', ids: ids, with: {media_type: true, children: {with: {media_type: true}}}}, session
-        json = JSON.parse(response.body)
-        json["media_resources"].each do |mr|
-          if mr["type"] == "media_set"
-            mr["children"]["media_resources"].each do |child|
-              child.keys.should include("media_type")
+        
+        it "is forwarding the meta_data with" do
+          get :index, {format: 'json', ids: ids, with: {children: {with: {meta_data: {meta_context_names: [@meta_context.name]}}}}}, session
+          json = JSON.parse(response.body)
+          json["media_resources"].each do |mr|
+            if mr["type"] == "media_set"
+              mr["children"]["media_resources"].each do |child|
+                child.keys.should include("meta_data")
+              end
             end
           end
         end
