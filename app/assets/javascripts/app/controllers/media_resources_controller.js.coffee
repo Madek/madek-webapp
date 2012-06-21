@@ -6,14 +6,10 @@ class MediaResourcesController
   
   constructor: ->
     @el = $(@el)
-    do @render
     do @plugin
     @active_layout = if sessionStorage.active_layout? then sessionStorage.active_layout else "grid"
     do @activate_layout
     do @delegate_events
-    
-  render: -> # we only render the layout controller till now
-    @el.find("#bar .layout").prepend($.tmpl "app/views/media_resources/_layout_controller")
     
   plugin: ->
     new ActionMenu @el
@@ -93,5 +89,22 @@ class MediaResourcesController
       type: if options.type? then options.type else 'GET'
       data: $.extend(data, {format: "json"})
       success: options.success
+
+  @fetch_children: (parent_id, callback)->
+    $.ajax
+      url: "/media_sets/"+parent_id+".json"
+      data:
+        with: 
+          children: 
+            pagination:
+              per_page: 6
+            image:
+              as:"base64"
+              size:"small"
+          meta_data:
+            meta_key_names: ["title"]
+      type: "GET"
+      success: (data, status, request) -> callback(data)
+      error: (request, status, error) -> console.log "ERROR LOADING"
 
 window.App.MediaResources = MediaResourcesController
