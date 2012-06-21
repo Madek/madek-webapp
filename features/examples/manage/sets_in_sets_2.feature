@@ -12,7 +12,11 @@ Feature: Sets in Sets II
      Then I see relationships for this set
       And I see how many media entries that are viewable for me in this set
       And I see how many sets that are viewable for me in this set
+      And I see previews of the resources that are children of this set
+      When I hover those previews of children I see the title of those resources 
       And I see how many sets that are viewable for me are parents of this set
+      And I see previews of the resources that are parent of this set
+      When I hover those previews of parents I see the title of those resources 
 
   # https://www.pivotaltracker.com/story/show/22394303
   @javascript

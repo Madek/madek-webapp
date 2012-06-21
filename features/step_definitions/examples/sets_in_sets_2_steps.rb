@@ -106,3 +106,31 @@ end
 Then /^the set still has the context called "([^"]*)"$/ do |context_name|
   step 'the set "%s" has the context "%s"' % [@set.title, context_name]
 end
+
+Then /^I see previews of the resources that are children of this set$/ do
+  @display_child_entries.each do |child|
+    child.find("img")["src"].should_not == "undefined"
+    child.find("img")["src"].should_not be_nil
+  end
+end
+
+Then /^I see previews of the resources that are parent of this set$/ do
+  @displayed_parent_sets.each do |parent|
+    parent.find("img")["src"].should_not == "undefined"
+    parent.find("img")["src"].should_not be_nil
+  end
+end
+
+When /^I hover those previews of children I see the title of those resources$/ do
+  @display_child_entries.each do |child|
+    child["title"].should_not == "undefined"
+    child["title"].should_not be_nil
+  end
+end
+
+When /^I hover those previews of parents I see the title of those resources$/ do
+  @displayed_parent_sets.each do |parent|
+    parent["title"].should_not == "undefined"
+    parent["title"].should_not be_nil
+  end
+end
