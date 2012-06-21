@@ -1,0 +1,17 @@
+= form_for @person, :url => path do |f| # TODO , :html => {:"data-remote" => true}
+  %table
+    %tr
+      %th= f.label :firstname
+      %th= f.text_field :firstname
+
+    %tr
+      %th= f.label :lastname
+      %th= f.text_field :lastname
+
+    %tr
+      %th= f.label :pseudonym
+      %th= f.text_field :pseudonym
+
+    %tr
+      %td
+      %th= f.submit submit
