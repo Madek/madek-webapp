@@ -6,6 +6,7 @@ When /^I switch to the list view$/ do
 end
 
 Then /^each resource is represented as one row of data$/ do
+  wait_until { find(".item_box") }
   page.evaluate_script('$(".item_box:first").width()').should > page.evaluate_script('$(".item_box:first").height()')
 end
 
