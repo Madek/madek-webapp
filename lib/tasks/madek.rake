@@ -32,12 +32,19 @@ namespace :madek do
    sql_database = config["database"]
    sql_username = config["username"]
    sql_password = config["password"]
-   dump_path =  "/home/rails/madek/shared/db_backups/#{sql_database}-#{date_string}.sql"
+   if Rails.env == "production"
+    dump_path =  Rails.root.join("..", "..", "shared","db_backups","#{sql_database}-#{date_string}.sql")
+   else
+    dump_path = Rails.root.join("tmp","#{sql_database}-#{date_string}.sql")
+   end
 
    puts "Dumping database"
    system "mysqldump -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -r #{dump_path} #{sql_database}"
    puts "Compressing database with bzip2"
    system "bzip2 #{dump_path}"
+   
+   # output the pathname at the end
+   puts "#{dump_path}.bz2"
 
   end
 

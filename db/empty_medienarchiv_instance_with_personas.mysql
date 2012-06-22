@@ -120,7 +120,7 @@ CREATE TABLE `full_texts` (
   PRIMARY KEY (`id`),
   KEY `index_full_texts_on_media_resource_id` (`media_resource_id`),
   CONSTRAINT `full_texts_media_resource_id_media_resources_fkey` FOREIGN KEY (`media_resource_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,7 +129,7 @@ CREATE TABLE `full_texts` (
 
 LOCK TABLES `full_texts` WRITE;
 /*!40000 ALTER TABLE `full_texts` DISABLE KEYS */;
-INSERT INTO `full_texts` VALUES (1,'Landschaften Admin, Adam',1),(2,'Zett Admin, Adam',2),(3,'Zett über Landschaften Admin, Adam',3),(4,'Abgabe zum Kurs Product Design Normalo, Normin',4),(5,'Mein Test Set Paula, Petra',5),(6,'Mein Erstes Photo (mit der neuen Nikon) Paula, Petra',6),(7,'Abgabe Normalo, Normin',7),(8,'Konzepte Normalo, Normin',8),(9,'Fotografie Kurs HS 2010 Normalo, Normin',9),(10,'Portrait Normalo, Normin',10),(11,'Stilleben Normalo, Normin',11),(12,'Meine Ausstellungen Normalo, Normin',12),(13,'Meine Highlights 2012 Normalo, Normin',13),(14,'Dropbox Normalo, Normin',14),(15,'Diplomarbeit 2012 Normalo, Normin',15),(16,'Präsentation Normalo, Normin',16),(17,'Ausstellungen Normalo, Normin',17),(18,'Ausstellung Photo 1 Normalo, Normin',18),(19,'Ausstellung Photo 2 Normalo, Normin',19),(20,'Ausstellung Photo 3 Normalo, Normin',20),(21,'Ausstellung Photo 4 Normalo, Normin',21),(22,'Ausstellung ZHdK Normalo, Normin',22),(23,'Ausstellung Museum Zürich Normalo, Normin',23),(24,'Ausstellung Photo 5 Normalo, Normin',24),(25,'Ausstellung Gallerie Limatquai Normalo, Normin',25),(26,'Konzepte Normalo, Normin',26),(27,'Erster Entwurf Normalo, Normin',27),(28,'Zweiter Entwurf Normalo, Normin',28),(29,'Schweizer Panorama Landschaft, Liselotte',29),(30,'Deutsches Panorama Landschaft, Liselotte',30),(31,'Chinese Temple Landschaft, Liselotte',31);
+INSERT INTO `full_texts` VALUES (1,'Landschaften Admin, Adam',1),(2,'Zett Admin, Adam',2),(3,'Zett über Landschaften Admin, Adam',3),(4,'Abgabe zum Kurs Product Design Normalo, Normin',4),(5,'Mein Test Set Paula, Petra',5),(6,'Mein Erstes Photo (mit der neuen Nikon) Paula, Petra',6),(7,'Abgabe Normalo, Normin',7),(8,'Konzepte Normalo, Normin',8),(9,'Fotografie Kurs HS 2010 Normalo, Normin',9),(10,'Portrait Normalo, Normin',10),(11,'Stilleben Normalo, Normin',11),(12,'Meine Ausstellungen Normalo, Normin',12),(13,'Meine Highlights 2012 Normalo, Normin',13),(14,'Dropbox Normalo, Normin',14),(15,'Diplomarbeit 2012 Normalo, Normin',15),(16,'Präsentation Normalo, Normin',16),(17,'Ausstellungen Normalo, Normin',17),(18,'Ausstellung Photo 1 Normalo, Normin',18),(19,'Ausstellung Photo 2 Normalo, Normin',19),(20,'Ausstellung Photo 3 Normalo, Normin',20),(21,'Ausstellung Photo 4 Normalo, Normin',21),(22,'Ausstellung ZHdK Normalo, Normin',22),(23,'Ausstellung Museum Zürich Normalo, Normin',23),(24,'Ausstellung Photo 5 Normalo, Normin',24),(25,'Ausstellung Gallerie Limatquai Normalo, Normin',25),(26,'Konzepte Normalo, Normin',26),(27,'Erster Entwurf Normalo, Normin',27),(28,'Zweiter Entwurf Normalo, Normin',28),(29,'Schweizer Panorama Landschaft, Liselotte',29),(30,'Deutsches Panorama Landschaft, Liselotte',30),(31,'Chinese Temple Landschaft, Liselotte',31),(32,'Splashscreen Admin, Adam',32);
 /*!40000 ALTER TABLE `full_texts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -304,7 +304,7 @@ CREATE TABLE `media_resource_arcs` (
   KEY `index_media_set_arcs_on_child_id` (`child_id`),
   CONSTRAINT `media_set_arcs_child_id_media_resources_fkey` FOREIGN KEY (`child_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE,
   CONSTRAINT `media_set_arcs_parent_id_media_resources_fkey` FOREIGN KEY (`parent_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -313,7 +313,7 @@ CREATE TABLE `media_resource_arcs` (
 
 LOCK TABLES `media_resource_arcs` WRITE;
 /*!40000 ALTER TABLE `media_resource_arcs` DISABLE KEYS */;
-INSERT INTO `media_resource_arcs` VALUES (1,1,3,0),(2,2,3,0),(3,15,17,0),(4,13,17,0),(5,12,17,0),(6,14,17,0),(7,17,22,0),(8,17,23,0),(9,17,25,0),(10,15,26,0),(11,1,29,0),(13,1,30,0),(15,2,30,0),(17,4,7,0),(19,4,8,0),(21,5,6,0),(23,9,10,0),(25,9,11,0),(27,15,16,0),(29,17,18,0),(31,17,19,0),(33,17,20,0),(35,17,21,0),(37,17,24,0),(39,26,27,0),(41,26,28,0);
+INSERT INTO `media_resource_arcs` VALUES (1,1,3,0),(2,2,3,0),(3,15,17,0),(4,13,17,0),(5,12,17,0),(6,14,17,0),(7,17,22,0),(8,17,23,0),(9,17,25,0),(10,15,26,0),(11,1,29,0),(13,1,30,0),(15,2,30,0),(17,4,7,0),(19,4,8,0),(21,5,6,0),(23,9,10,0),(25,9,11,0),(27,15,16,0),(29,17,18,0),(31,17,19,0),(33,17,20,0),(35,17,21,0),(37,17,24,0),(39,26,27,0),(41,26,28,0),(42,32,16,0),(44,32,6,0);
 /*!40000 ALTER TABLE `media_resource_arcs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -342,7 +342,7 @@ CREATE TABLE `media_resources` (
   KEY `index_media_resources_on_media_file_id` (`media_file_id`),
   KEY `index_media_resources_on_updated_at` (`updated_at`),
   KEY `index_media_resources_on_media_entry_id_and_created_at` (`media_entry_id`,`created_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -351,7 +351,7 @@ CREATE TABLE `media_resources` (
 
 LOCK TABLES `media_resources` WRITE;
 /*!40000 ALTER TABLE `media_resources` DISABLE KEYS */;
-INSERT INTO `media_resources` VALUES (1,'MediaSet',1,NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17',0,1,0,0),(2,'MediaSet',1,NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17',0,0,0,0),(3,'MediaSet',1,NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17',0,0,0,0),(4,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17',0,0,0,0),(5,'MediaSet',3,NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17',0,0,0,0),(6,'MediaEntry',3,1,NULL,'2012-04-20 12:04:18','2012-04-20 12:04:18',0,1,0,0),(7,'MediaEntry',2,2,NULL,'2012-04-20 12:04:18','2012-04-20 12:04:18',0,0,0,0),(8,'MediaEntry',2,3,NULL,'2012-04-20 12:04:19','2012-04-20 12:04:19',0,0,0,0),(9,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:19','2012-04-20 12:04:19',0,1,0,0),(10,'MediaEntry',2,4,NULL,'2012-04-20 12:04:19','2012-04-20 12:04:19',0,0,0,0),(11,'MediaEntry',2,5,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,0,0,0),(12,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,0,0,0),(13,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,0,0,0),(14,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,0,0,0),(15,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,0,0,0),(16,'MediaEntry',2,6,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,1,0,0),(17,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,0,0,0),(18,'MediaEntry',2,7,NULL,'2012-04-20 12:04:21','2012-04-20 12:04:21',0,0,0,0),(19,'MediaEntry',2,8,NULL,'2012-04-20 12:04:21','2012-04-20 12:04:21',0,0,0,0),(20,'MediaEntry',2,9,NULL,'2012-04-20 12:04:21','2012-04-20 12:04:21',0,0,0,0),(21,'MediaEntry',2,10,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:22',0,0,0,0),(22,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:22',0,0,0,0),(23,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:22',0,0,0,0),(24,'MediaEntry',2,11,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:22',0,0,0,0),(25,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:22',0,0,0,0),(26,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:22',0,0,0,0),(27,'MediaEntry',2,12,NULL,'2012-04-20 12:04:23','2012-04-20 12:04:23',0,0,0,0),(28,'MediaEntry',2,13,NULL,'2012-04-20 12:04:23','2012-04-20 12:04:23',0,0,0,0),(29,'MediaEntry',6,14,NULL,'2012-04-20 12:04:24','2012-04-20 12:04:24',0,0,0,0),(30,'MediaEntry',6,15,NULL,'2012-04-20 12:04:24','2012-04-20 12:04:24',0,0,0,0),(31,'MediaEntry',6,16,NULL,'2012-04-20 12:04:25','2012-04-20 12:04:25',0,0,0,0);
+INSERT INTO `media_resources` VALUES (1,'MediaSet',1,NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17',0,1,0,0),(2,'MediaSet',1,NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17',0,0,0,0),(3,'MediaSet',1,NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17',0,0,0,0),(4,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17',0,0,0,0),(5,'MediaSet',3,NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17',0,0,0,0),(6,'MediaEntry',3,1,NULL,'2012-04-20 12:04:18','2012-04-20 12:04:18',0,1,0,0),(7,'MediaEntry',2,2,NULL,'2012-04-20 12:04:18','2012-04-20 12:04:18',0,0,0,0),(8,'MediaEntry',2,3,NULL,'2012-04-20 12:04:19','2012-04-20 12:04:19',0,0,0,0),(9,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:19','2012-04-20 12:04:19',0,1,0,0),(10,'MediaEntry',2,4,NULL,'2012-04-20 12:04:19','2012-04-20 12:04:19',0,0,0,0),(11,'MediaEntry',2,5,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,0,0,0),(12,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,0,0,0),(13,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,0,0,0),(14,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,0,0,0),(15,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,0,0,0),(16,'MediaEntry',2,6,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,1,0,0),(17,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:20','2012-04-20 12:04:20',0,0,0,0),(18,'MediaEntry',2,7,NULL,'2012-04-20 12:04:21','2012-04-20 12:04:21',0,0,0,0),(19,'MediaEntry',2,8,NULL,'2012-04-20 12:04:21','2012-04-20 12:04:21',0,0,0,0),(20,'MediaEntry',2,9,NULL,'2012-04-20 12:04:21','2012-04-20 12:04:21',0,0,0,0),(21,'MediaEntry',2,10,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:22',0,0,0,0),(22,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:22',0,0,0,0),(23,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:22',0,0,0,0),(24,'MediaEntry',2,11,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:22',0,0,0,0),(25,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:22',0,0,0,0),(26,'MediaSet',2,NULL,NULL,'2012-04-20 12:04:22','2012-04-20 12:04:22',0,0,0,0),(27,'MediaEntry',2,12,NULL,'2012-04-20 12:04:23','2012-04-20 12:04:23',0,0,0,0),(28,'MediaEntry',2,13,NULL,'2012-04-20 12:04:23','2012-04-20 12:04:23',0,0,0,0),(29,'MediaEntry',6,14,NULL,'2012-04-20 12:04:24','2012-04-20 12:04:24',0,0,0,0),(30,'MediaEntry',6,15,NULL,'2012-04-20 12:04:24','2012-04-20 12:04:24',0,0,0,0),(31,'MediaEntry',6,16,NULL,'2012-04-20 12:04:25','2012-04-20 12:04:25',0,0,0,0),(32,'MediaSet',1,NULL,NULL,'2012-06-21 10:59:57','2012-06-21 11:00:16',0,1,0,0);
 /*!40000 ALTER TABLE `media_resources` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -431,7 +431,7 @@ CREATE TABLE `meta_contexts` (
   CONSTRAINT `meta_contexts_description_id_meta_terms_fkey` FOREIGN KEY (`description_id`) REFERENCES `meta_terms` (`id`),
   CONSTRAINT `meta_contexts_label_id_meta_terms_fkey` FOREIGN KEY (`label_id`) REFERENCES `meta_terms` (`id`),
   CONSTRAINT `meta_contexts_meta_context_group_id_meta_context_groups_fkey` FOREIGN KEY (`meta_context_group_id`) REFERENCES `meta_context_groups` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -460,7 +460,7 @@ CREATE TABLE `meta_data` (
   KEY `index_meta_data_on_meta_key_id` (`meta_key_id`),
   KEY `index_meta_data_on_media_resource_id_and_meta_key_id` (`media_resource_id`,`meta_key_id`),
   CONSTRAINT `meta_data_media_resource_id_media_resources_fkey` FOREIGN KEY (`media_resource_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -469,7 +469,7 @@ CREATE TABLE `meta_data` (
 
 LOCK TABLES `meta_data` WRITE;
 /*!40000 ALTER TABLE `meta_data` DISABLE KEYS */;
-INSERT INTO `meta_data` VALUES (1,3,'--- Landschaften\n',1),(2,3,'--- Zett\n',2),(3,3,'--- \"Zett \\xC3\\xBCber Landschaften\"\n',3),(4,3,'--- Abgabe zum Kurs Product Design\n',4),(5,3,'--- Mein Test Set\n',5),(6,3,'--- Mein Erstes Photo (mit der neuen Nikon)\n',6),(7,3,'--- Abgabe\n',7),(8,3,'--- Konzepte\n',8),(9,3,'--- Fotografie Kurs HS 2010\n',9),(10,3,'--- Portrait\n',10),(11,3,'--- Stilleben\n',11),(12,3,'--- Meine Ausstellungen\n',12),(13,3,'--- Meine Highlights 2012\n',13),(14,3,'--- Dropbox\n',14),(15,3,'--- Diplomarbeit 2012\n',15),(16,3,'--- \"Pr\\xC3\\xA4sentation\"\n',16),(17,3,'--- Ausstellungen\n',17),(18,3,'--- Ausstellung Photo 1\n',18),(19,3,'--- Ausstellung Photo 2\n',19),(20,3,'--- Ausstellung Photo 3\n',20),(21,3,'--- Ausstellung Photo 4\n',21),(22,3,'--- Ausstellung ZHdK\n',22),(23,3,'--- \"Ausstellung Museum Z\\xC3\\xBCrich\"\n',23),(24,3,'--- Ausstellung Photo 5\n',24),(25,3,'--- Ausstellung Gallerie Limatquai\n',25),(26,3,'--- Konzepte\n',26),(27,3,'--- Erster Entwurf\n',27),(28,3,'--- Zweiter Entwurf\n',28),(29,3,'--- Schweizer Panorama\n',29),(30,3,'--- Deutsches Panorama\n',30),(31,3,'--- Chinese Temple\n',31);
+INSERT INTO `meta_data` VALUES (1,3,'--- Landschaften\n',1),(2,3,'--- Zett\n',2),(3,3,'--- \"Zett \\xC3\\xBCber Landschaften\"\n',3),(4,3,'--- Abgabe zum Kurs Product Design\n',4),(5,3,'--- Mein Test Set\n',5),(6,3,'--- Mein Erstes Photo (mit der neuen Nikon)\n',6),(7,3,'--- Abgabe\n',7),(8,3,'--- Konzepte\n',8),(9,3,'--- Fotografie Kurs HS 2010\n',9),(10,3,'--- Portrait\n',10),(11,3,'--- Stilleben\n',11),(12,3,'--- Meine Ausstellungen\n',12),(13,3,'--- Meine Highlights 2012\n',13),(14,3,'--- Dropbox\n',14),(15,3,'--- Diplomarbeit 2012\n',15),(16,3,'--- \"Pr\\xC3\\xA4sentation\"\n',16),(17,3,'--- Ausstellungen\n',17),(18,3,'--- Ausstellung Photo 1\n',18),(19,3,'--- Ausstellung Photo 2\n',19),(20,3,'--- Ausstellung Photo 3\n',20),(21,3,'--- Ausstellung Photo 4\n',21),(22,3,'--- Ausstellung ZHdK\n',22),(23,3,'--- \"Ausstellung Museum Z\\xC3\\xBCrich\"\n',23),(24,3,'--- Ausstellung Photo 5\n',24),(25,3,'--- Ausstellung Gallerie Limatquai\n',25),(26,3,'--- Konzepte\n',26),(27,3,'--- Erster Entwurf\n',27),(28,3,'--- Zweiter Entwurf\n',28),(29,3,'--- Schweizer Panorama\n',29),(30,3,'--- Deutsches Panorama\n',30),(31,3,'--- Chinese Temple\n',31),(32,3,'--- Splashscreen\n',32);
 /*!40000 ALTER TABLE `meta_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -585,7 +585,7 @@ CREATE TABLE `meta_terms` (
   `de_ch` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_terms_on_en_GB_and_de_CH` (`en_gb`,`de_ch`)
-) ENGINE=InnoDB AUTO_INCREMENT=4573 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4572 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -736,7 +736,7 @@ CREATE TABLE `settings` (
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_settings_on_target_type_and_target_id_and_var` (`target_type`,`target_id`,`var`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -745,7 +745,7 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'dropbox_root_dir','--- /home/rca/work/code/ror/madek/tmp/dropbox\n',NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17'),(2,'ftp_dropbox_server','--- ftp.dropbox.test\n',NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17'),(3,'ftp_dropbox_user','--- test\n',NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17'),(4,'ftp_dropbox_password','--- password\n',NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17');
+INSERT INTO `settings` VALUES (1,'dropbox_root_dir','--- /home/rca/work/code/ror/madek/tmp/dropbox\n',NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17'),(2,'ftp_dropbox_server','--- ftp.dropbox.test\n',NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17'),(3,'ftp_dropbox_user','--- test\n',NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17'),(4,'ftp_dropbox_password','--- password\n',NULL,NULL,'2012-04-20 12:04:17','2012-04-20 12:04:17'),(6,'featured_set_id','--- 0\n',NULL,NULL,'2012-06-21 11:01:11','2012-06-21 11:01:11'),(8,'splashscreen_slideshow_set_id','--- 32\n',NULL,NULL,'2012-06-21 11:01:11','2012-06-21 11:01:11');
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -916,4 +916,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-06-12 15:44:51
+-- Dump completed on 2012-06-21 15:04:21

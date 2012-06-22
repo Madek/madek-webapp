@@ -1,13 +1,13 @@
 - if !params[:query].blank?
   .filter_area
 
-= render partial: "media_resources/bar"
+= render :partial => "media_resources/bar"
 
 #results
   Loading...
   
-= render partial: "media_entries/batch_bar"
-
+= render :partial => "media_entries/batch_bar"
+  
 :javascript
   //old??// window.current_user = #{current_user.to_json(:only=>:id, :include => :groups, :methods => :name)}; 
   

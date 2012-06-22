@@ -239,16 +239,18 @@ MAdeK::Application.routes.draw do
 
     resources :terms
     
-    resources :users do
+    resources :users, :except => [:new, :create] do
       member do
         get :switch_to
       end
     end
 
-    resources :people
+    resources :people do
+      resources :users, :only => [:new, :create]
+    end
 
     resources :groups do
-      resources :users do
+      resources :users, :only => [] do
         member do
           post :membership
           delete :membership

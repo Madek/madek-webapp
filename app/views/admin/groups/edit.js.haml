@@ -9,13 +9,26 @@ Add user:
 :javascript
   $(function() {
     $("input#new_user").autocomplete({
-      source: "/users",
+      source: function( request, response ) {
+        $.ajax({
+          url: "/users.json",
+          data: {
+            format:'json',
+            query: request.term
+          },
+          success: function( data ) {
+            response( $.map(data, function( item ) {
+              return { label: item.name, id: item.id }
+            }));
+          }
+        });
+      },
       minLength: 3,
       select: function( event, ui ) {
     		$.ajax({
-    			url: '#{membership_admin_group_user_path(@group)}',
-    			data: {user_id: ui.item.id},
+    			url: "/admin/groups/#{@group.id}/users/"+ui.item.id+"/membership",
     			type: "post",
+    			dataType: "html",
     			success: function(response){
             $("input#new_user").val("");
             $(response).appendTo('table#members').effect('highlight');

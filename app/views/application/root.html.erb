@@ -209,10 +209,10 @@
 
         // get splash screen images from splash_screen_set
         var set_id = "<%= AppSettings.splashscreen_slideshow_set_id %>";
-        if(set_id.length) {
+        if(set_id != null) {
           $.ajax("/media_sets/"+set_id, {
-            data: {with: {children:"media_entries", 
-                          meta_data: {meta_context_names:["core"]}},
+            data: {with: {children:{type: "media_entries", 
+                                    with:{meta_data: {meta_context_names:["core"]}}}},
                    format: "json"},
             dataType: "json",
             success: function(data, status, request) {
@@ -224,8 +224,8 @@
                   var caption_clone = $("#slider-wrapper #htmlcaption1").clone();
                   $("#slider-wrapper #htmlcaption1").remove();
                   
-                  if(data.children != null) {
-                    randomElements = data.children.sort(function(){ 
+                  if(data.children.media_resources != null && data.children.media_resources.length) {
+                    randomElements = data.children.media_resources.sort(function(){ 
                       return Math.round(Math.random())-0.5;
                     }).slice(0,5);
                     
