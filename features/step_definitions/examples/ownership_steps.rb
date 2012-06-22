@@ -44,7 +44,7 @@ When /^I vist that resource's page$/ do
 end
 
 When /^I see a list of resources$/ do
-  visit root_path
+  visit media_resources_path
 end
 
 Then /^I can see if a resource is only visible for me$/ do

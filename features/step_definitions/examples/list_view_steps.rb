@@ -1,7 +1,6 @@
 # -*- encoding : utf-8 -*-
 
 When /^I switch to the list view$/ do
-  step 'I go to my media entries'
   wait_until { find("#bar") }
   find("#bar .layout a[data-type=list]").click
 end
@@ -48,7 +47,7 @@ When /^I see a resource in a list view$/ do
   step 'I see a list of resources'
   step 'I switch to the list view'
   @inspected_resource = MediaResource.accessible_by_user(@current_user).last
-  wait_until {find(".item_box[data-id='#{@inspected_resource.id}']")}
+  wait_until(25) {find(".item_box[data-id='#{@inspected_resource.id}']")}
   @inspected_resource_element = find(".item_box[data-id='#{@inspected_resource.id}']")
 end
 
@@ -81,7 +80,7 @@ When /^I click the title$/ do
 end
 
 Then /^I'm redirected to the media resource's detail page$/ do
-  current_url.match(/\d+$/).nil?.should be_false
+  wait_until { not current_url.match(/\d+$/).nil? }
 end
 
 Then /^I see the number and type of (.*)/ do |arg|
