@@ -84,7 +84,7 @@ module Exiftool
     # extracted as necessary  
     def generate_exiftool_config
       exiftool_keys = MetaContext.io_interface.meta_key_definitions.collect do |e| 
-        "#{e.key_map.split(":").last} => {#{e.key_map_type == "Array" ? " List => 'Bag'" : nil} },"}
+        "#{e.key_map.split(":").last} => {#{e.key_map_type == "Array" ? " List => 'Bag'" : nil} },"
       end
 
       skels = Dir.glob("#{METADATA_CONFIG_DIR}/ExifTool_config.skeleton.*")
