@@ -6,6 +6,12 @@ class TheLastMetaDataMigration < ActiveRecord::Migration
 
     remove_column :meta_keys, :object_type
     remove_column :meta_data, :value
+
+    MetaDatumString.joins(meta_key: :meta_key_definitions)
+      .where(meta_key_definitions: {meta_context_id: MetaContext.io_interface})
+      .where("string like '%Binary%'")
+      .delete_all
+
   end
 
   def down
