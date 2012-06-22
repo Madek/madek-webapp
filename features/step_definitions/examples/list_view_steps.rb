@@ -1,7 +1,6 @@
 # -*- encoding : utf-8 -*-
 
 When /^I switch to the list view$/ do
-  step 'I go to my media entries'
   wait_until { find("#bar") }
   find("#bar .layout a[data-type=list]").click
 end
