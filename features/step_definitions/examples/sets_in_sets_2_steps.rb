@@ -134,3 +134,20 @@ When /^I hover those previews of parents I see the title of those resources$/ do
     parent["title"].should_not be_nil
   end
 end
+
+Given /^I open a set which has child media entries$/ do
+  @set = MediaResource.accessible_by_user(@current_user).detect{|resource| resource.media_entries.accessible_by_user(@current_user).count > 0}
+  visit media_set_path(@set)
+end
+
+Given /^I switch the list of the childs to the miniature view$/ do
+  find("#bar .layout .icon[data-type='miniature']").click
+end
+
+Given /^I examine one of the child media entry more closely$/ do
+  page.execute_script('$(".thumb_box").trigger("mouseenter")')
+end
+
+Then /^I see more informations about that media entry poping up$/ do
+  find(".entry_popup")
+end
