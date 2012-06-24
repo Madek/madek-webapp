@@ -169,7 +169,7 @@ a:hover {
 	color: #929292;
 }
 
-#login,
+div#login,
 #news,
 #users {
 	font-size: 0.85em;
@@ -179,21 +179,18 @@ a:hover {
 	-webkit-box-shadow: 0 0 4px rgba(100, 100, 100, 0.3);
 	-moz-box-shadow: 0 0 4px rgba(100, 100, 100, 0.3);
 	box-shadow: 0 0 4px rgba(100, 100, 100, 0.3);
-	/*-moz-box-shadow: 5px 5px 5px #d2d2d2;
-	-webkit-box-shadow: 5px 5px 5px #d2d2d2;
-	box-shadow: 5px 5px 5px #d2d2d2;*/
 }
-#login {
+div#login {
 	padding-top: 10px;
 	-webkit-box-shadow: 0 0 3px rgba(100, 100, 100, 0.8);
   -moz-box-shadow: 0 0 3px rgba(100, 100, 100, 0.8);
   box-shadow: 0 0 3px rgba(100, 100, 100, 0.8);
 }
-#login a {
+div#login a {
 	text-decoration: underline;
 }
 
-#login a.actionbutton {
+div#login a.actionbutton {
 	display: block;
 	margin: 1em 0;
 	padding: 10px 14px;
@@ -202,13 +199,19 @@ a:hover {
 	text-align: center;
 }
 
-/*#news {
-	padding: 10px;
+div#login input {
+  font-size: 1em;
 }
 
-#users {
-	padding: 10px;
-}*/
+div#login > div {
+  display: none;
+}
+
+div#login > a {
+  display: none;
+}
+
+
 
 .disclaimer {
 	color: #929292;
