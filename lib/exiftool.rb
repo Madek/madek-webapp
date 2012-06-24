@@ -3,18 +3,22 @@ module Exiftool
 
   class << self
 
-
     def extract_madek_subjective_metadata file, content_type
       group_tags = case content_type
                    when /image/ 
-                     #NOTE - these two really don't bring much to the party, except broken character encodings.. # 'IPTC:', 'IPTC2']
-                     ['XMP-madek', 'XMP-dc', 'XMP-photoshop', 'XMP-iptcCore', 'XMP-xmpRights', 'XMP-expressionmedia', 'XMP-mediapro']
-                   when /video/
-                     ['QuickTime', 'Track', 'Composite', 'RIFF', 'BMP', 'Flash', 'M2TS', 'AC3', 'H264' ] # OPTIMIZE - some of these may move to Objective Metadata
-                   when /audio/ 
-                     ['MPEG', 'ID3', 'Track', 'Composite', 'ASF', 'FLAC', 'Vorbis' ] # OPTIMIZE - some of these may move to Objective Metadata
-                   when /application/
-                     ['FlashPix', 'PDF', 'XMP-', 'PostScript', 'Photoshop', 'EXE', 'ZIP' ] # OPTIMIZE - some of these may move to Objective Metadata
+                     #NOTE - these two really don't bring much to the party,
+                     #except broken character encodings.. # 'IPTC:', 'IPTC2']
+                     ['XMP-madek', 'XMP-dc', 'XMP-photoshop', 'XMP-iptcCore', 
+                       'XMP-xmpRights', 'XMP-expressionmedia', 'XMP-mediapro']
+                   when /video/  # OPTIMIZE - some of these may move to Objective Metadata
+                     ['QuickTime', 'Track', 'Composite', 'RIFF', 
+                       'BMP', 'Flash', 'M2TS', 'AC3', 'H264' ] 
+                   when /audio/ # OPTIMIZE - some of these may move to Objective Metadata
+                     ['MPEG', 'ID3', 'Track', 'Composite', 
+                       'ASF', 'FLAC', 'Vorbis' ] 
+                   when /application/ # OPTIMIZE - some of these may move to Objective Metadata
+                     ['FlashPix', 'PDF', 'XMP-', 'PostScript', 
+                       'Photoshop', 'EXE', 'ZIP' ] 
                    when /text/
                      ['HTML' ]  # and inevitably more..
                    end
@@ -25,7 +29,10 @@ module Exiftool
 
       ignore_fields = case content_type
                       when /image/
-                        [/^XMP-photoshop:ICCProfileName$/,/^XMP-photoshop:LegacyIPTCDigest$/, /^XMP-expressionmedia:(?!UserFields)/, /^XMP-mediapro:(?!UserFields)/]
+                        [/^XMP-photoshop:ICCProfileName$/,
+                          /^XMP-photoshop:LegacyIPTCDigest$/, 
+                          /^XMP-expressionmedia:(?!UserFields)/, 
+                          /^XMP-mediapro:(?!UserFields)/]
                       when /video/
                         []
                       when /audio/
@@ -59,7 +66,9 @@ module Exiftool
     def parse_metadata(file, tags = nil)
       result_set = []
       parse_hash = JSON.parse(`#{EXIFTOOL_PATH} -s "#{file}" -a -u -G1 -D -j`).first
-      parse_hash.delete_if {|k,v| v.is_a?(String) and not v.valid_encoding? }
+      parse_hash.delete_if do |k,v| 
+        v.is_a?(String) and (not v.valid_encoding? or v=~/^\(Binary data/)
+      end
       tags.each do |tag_group|
         result_set << parse_hash.select {|k,v| k.include?(tag_group)}.sort
       end
@@ -67,12 +76,16 @@ module Exiftool
     end
 
 
-    # ad-hoc method that generates a new exiftool config file, when it is sensed that there are new keys/key_defs that should be saved in a file
-    # using the XMP-madek metadata namespace.
-    # TODO refactor the use of exiftool, so that for each media file/entry it is only called once, 
-    # entrys' contents cached, and obj/subj meta-data extracted as necessary  
+    # ad-hoc method that generates a new exiftool config file, when it is
+    # sensed that there are new keys/key_defs that should be saved in a file
+    # using the XMP-madek metadata namespace.  
+    # TODO refactor the use of exiftool, so that for each media file/entry it
+    # is only called once, entrys' contents cached, and obj/subj meta-data
+    # extracted as necessary  
     def generate_exiftool_config
-      exiftool_keys = MetaContext.io_interface.meta_key_definitions.collect {|e| "#{e.key_map.split(":").last} => {#{e.key_map_type == "Array" ? " List => 'Bag'" : nil} },"}
+      exiftool_keys = MetaContext.io_interface.meta_key_definitions.collect do |e| 
+        "#{e.key_map.split(":").last} => {#{e.key_map_type == "Array" ? " List => 'Bag'" : nil} },"
+      end
 
       skels = Dir.glob("#{METADATA_CONFIG_DIR}/ExifTool_config.skeleton.*")
 

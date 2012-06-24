@@ -1,3 +1,29 @@
+
+
+SELECT DISTINCT ON  meta_key_definitions.meta_context_id
+  meta_key_definitions.meta_context_id, meta_data.id as meta_data_id, meta_data.string , meta_keys.* 
+  FROM meta_data,meta_keys,meta_key_definitions 
+  WHERE  true
+  AND meta_key_definitions.meta_key_id = meta_keys.id 
+  AND  meta_data.meta_key_id = meta_keys.id 
+  AND type = 'MetaDatumString' 
+  AND string like '%Binary%'
+  ;
+
+
+SELECT 
+  meta_key_definitions.meta_context_id, meta_data.id as meta_data_id, meta_data.string , meta_keys.* 
+  FROM meta_data,meta_keys,meta_key_definitions 
+  WHERE  true
+  AND meta_key_definitions.meta_key_id = meta_keys.id 
+  AND  meta_data.meta_key_id = meta_keys.id 
+  AND type <> 'MetaDatumString' 
+  AND string like '%Binary%'
+  ;
+
+
+
+
 SELECT 
     keywords.id as keyword_id,
     meta_data.id as meta_data_id, 
