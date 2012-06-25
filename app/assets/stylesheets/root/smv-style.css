@@ -169,7 +169,7 @@ a:hover {
 	color: #929292;
 }
 
-div#login,
+#login.sidebar-box,
 #news,
 #users {
 	font-size: 0.85em;
@@ -180,17 +180,17 @@ div#login,
 	-moz-box-shadow: 0 0 4px rgba(100, 100, 100, 0.3);
 	box-shadow: 0 0 4px rgba(100, 100, 100, 0.3);
 }
-div#login {
+#login.sidebar-box {
 	padding-top: 10px;
 	-webkit-box-shadow: 0 0 3px rgba(100, 100, 100, 0.8);
   -moz-box-shadow: 0 0 3px rgba(100, 100, 100, 0.8);
   box-shadow: 0 0 3px rgba(100, 100, 100, 0.8);
 }
-div#login a {
+#login.sidebar-box a {
 	text-decoration: underline;
 }
 
-div#login a.actionbutton {
+#login.sidebar-box a.actionbutton {
 	display: block;
 	margin: 1em 0;
 	padding: 10px 14px;
@@ -199,31 +199,14 @@ div#login a.actionbutton {
 	text-align: center;
 }
 
-div#login input {
+#login.sidebar-box input {
   font-size: 1em;
-}
-
-div#login > div {
-  display: none;
-}
-
-div#login > a {
-  display: none;
 }
 
 
 
 .disclaimer {
 	color: #929292;
-}
-
-.pilotitem {
-	margin: 1.5em 0;
-	/*font-size: 11px;*/
-}
-
-.pilotitem p span {
-	font-weight: bold;
 }
 
 .newsitem {
