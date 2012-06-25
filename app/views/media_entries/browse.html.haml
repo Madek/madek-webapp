@@ -39,7 +39,7 @@
     - nothing_found = true 
     - @media_entry.meta_data.for_meta_terms.each do |meta_datum|
       %ul.browse
-        - meta_datum.deserialized_value.each do |meta_term|
+        - meta_datum.value.each do |meta_term|
           :ruby
             media_entry_ids = meta_term.meta_data(meta_datum.meta_key).collect(&:media_resource_id)
             media_entry_ids.delete(@media_entry.id)

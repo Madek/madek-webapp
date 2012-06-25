@@ -107,7 +107,7 @@ class MetaKey < ActiveRecord::Base
 
   # TODO refactor to association has_many :used_meta_terms, :through ...
   def used_term_ids
-    meta_data.flat_map(&:value).uniq.compact if meta_datum_object_type == "MetaDatumMetaTerms"
+    meta_data.flat_map(&:value).map(&:id).uniq.compact if meta_datum_object_type == "MetaDatumMetaTerms"
   end
 
 end
