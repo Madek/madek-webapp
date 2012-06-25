@@ -49,7 +49,7 @@
             nothing_found = false
             media_entries_data = json_for(media_entries, {:image => {:as => "base64"},
                                                           :flags => true,
-                                                          :meta_data => {:meta_key_names => ["title", "author"]}}
+                                                          :meta_data => {:meta_key_names => ["title", "author"]}})
           %li
             %a.toggler{:href => "#"}
               .browse_key
