@@ -21,4 +21,4 @@
         %td.with_actions
           = link_to _("Edit"), edit_admin_media_set_path(set), :class => "buttons", :remote => true
           %br
-          = link_to _("Delete"), admin_media_set_path(set), :class => "buttons", :method => :delete, :confirm => _("Sind Sie sicher?") if set.media_entries.empty?
+          = link_to _("Delete"), admin_media_set_path(set), :class => "buttons", :method => :delete, :data => {:confirm => _("Sind Sie sicher?")} if set.media_entries.empty?
