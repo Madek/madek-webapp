@@ -85,7 +85,6 @@ MAdeK::Application.routes.draw do
     collection do
       post :parents
       delete :parents
-      get :graph
     end
     member do
       get :abstract
@@ -169,6 +168,7 @@ MAdeK::Application.routes.draw do
       end
       collection do
         get :add_member
+        get :graph
       end
       resources :media_entries, :except => :destroy
     end 
@@ -260,10 +260,12 @@ MAdeK::Application.routes.draw do
 
     resource :usage_term
 
-    resources :media_entries do
+    resources :settings, :only => [] do
       collection do
         get :dropbox
         post :dropbox
+        get :authentications
+        post :authentications
       end
     end
 

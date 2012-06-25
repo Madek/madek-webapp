@@ -1,0 +1,49 @@
+:ruby
+  active_a = AppSettings.authentication_systems
+  strings = {:zhdk_agw => _("ZHdK Login"),
+             :local_database => _("Externe Benutzer")}
+
+#login.sidebar-box
+
+  - if active_a.size > 1
+    .inline-tabs
+      .container
+        - active_a.each do |alternative_a|
+          %span.tab{:data => {:ref => "#{alternative_a}"}}
+            = strings[alternative_a]
+
+  - if active_a.include?(:zhdk_agw)
+    #zhdk_agw.authentication
+      %p
+        Gleich einsteigen oder
+        %a{:href => "http://demo.medienarchiv.zhdk.ch/login"}
+          Demo testen
+      %p
+        = link_to _("Anmelden"), login_path, :class => "actionbutton button yellow"
+      %p.disclaimer
+        Bis Ende 2012 ist das Medienarchiv nur für ZHdK-Angehörige zugänglich.
+
+  - if active_a.include?(:local_database)
+    #local_database.authentication
+      %p
+        = form_tag '/db/login', :method => :post do
+          %table
+            %tr
+              %td Login
+              %td= text_field_tag :login
+            %tr
+              %td Password
+              %td= password_field_tag :password
+            %tr
+              %td
+              %td= submit_tag 'Log in', :class => "actionbutton button yellow"
+
+:coffeescript
+  jQuery ->
+    $("#login.sidebar-box .inline-tabs .tab").bind "click", (e)->
+      _this = $(this) 
+      if not _this.hasClass("active")
+        _this.addClass("active").siblings(".tab").removeClass("active")
+        $("#login.sidebar-box > .authentication").hide()
+        $("#login.sidebar-box > .authentication#" + _this.data("ref")).show()
+    $("#login.sidebar-box .inline-tabs .tab:first").trigger "click"

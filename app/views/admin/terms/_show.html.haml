@@ -7,4 +7,4 @@
   %td.with_actions
     = link_to _("Edit"), edit_admin_term_path(term), :class => "buttons", :remote => true, :"data-type" => "html"
     %br
-    = link_to _("Delete"), admin_term_path(term), :class => "buttons", :method => :delete, :confirm => _("Sind Sie sicher?") unless term.is_used?
+    = link_to _("Delete"), admin_term_path(term), :class => "buttons", :method => :delete, :data => {:confirm => _("Sind Sie sicher?")} unless term.is_used?

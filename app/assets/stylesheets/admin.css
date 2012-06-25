@@ -96,12 +96,17 @@ header h1 a {
 	width: 325px;
 }
 
-.open {
-    background: transparent url(icons/toggler-arrow-opened.png) left 50% no-repeat;
+header h4 {
+  color: white;
 }
 
-.close {
-    background: transparent url(icons/toggler-arrow-closed.png) left 50% no-repeat;
+header a, header a:visited {
+  color: silver;
+}
+
+header ul {
+  list-style: disc;
+  margin-left: 1.2em;
 }
 
 .with_actions {

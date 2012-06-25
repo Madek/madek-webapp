@@ -67,7 +67,7 @@ margin-top:-32767px;/* thank you Erik J - negate effect of float*/
   width: 609px;
 }
 
-#users.sidebar-box {
+#users.sidebar-box, #login.sidebar-box {
   
   .inline-tabs {
     display: table;
@@ -107,11 +107,17 @@ margin-top:-32767px;/* thank you Erik J - negate effect of float*/
     }
   }
   
-  .pilotitem {
+  .pilotitem, .authentication {
     display: none;
+    margin: 1.5em 0;
     
     &.tab1 {
       display: block;
     }
+    
+    p span {
+      font-weight: bold;
+    }
   }
 }
+

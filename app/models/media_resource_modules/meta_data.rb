@@ -42,9 +42,9 @@ module MediaResourceModules
           :reject_if => proc { |attributes| attributes['value'].blank? and attributes['_destroy'].blank? }
         # NOTE the check on _destroy should be automatic, check Rails > 3.0.3
 
+        # TODO remove, it's used only on tests!
         def self.find_by_title(title)
-          MediaResource.joins(:meta_data => :meta_key).
-            where(:meta_data => {:meta_keys => {:label => "title"}, :string => title})
+          MediaResource.joins(:meta_data => :meta_key).where(:meta_keys => {:label => "title"}, :meta_data => {:string => title})
         end
 
         def title

@@ -75,7 +75,7 @@
         #delete-panel.actionbar-panel{:style => "display: none"}
           .actionbar-inner-panel
             = _("Wollen Sie diesen Medieneintrag und alle zugehörigen Dateien wirklich löschen? Sie können dies nicht rückgängig machen. Die Daten sind unwiederbringlich verloren.")
-            = link_to _("Löschen"), media_entry_path(media_entry), :id => "delete_me", :method => :delete, :confirm => _("Sind Sie sicher?"), :"data-id" => media_entry.id
+            = link_to _("Löschen"), media_entry_path(media_entry), :id => "delete_me", :method => :delete, :data => {:confirm => _("Sind Sie sicher?"), :id => media_entry.id}
         #download-panel.actionbar-panel{:style => "display: none"}
           .actionbar-inner-panel
             = render :partial => "download", :object => media_entry, :as => :media_entry

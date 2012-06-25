@@ -10,7 +10,7 @@
       %ul
         - @private_groups.each do |group|
           %li.group{:"data-group" => json_for(group, { :users => {} }) }
-            = link_to group_path(group), :title => _("Löschen"),:class => "delete button", :method => :delete, :confirm => _("Sind Sie sicher?") do
+            = link_to group_path(group), :title => _("Löschen"), :class => "delete button", :method => :delete, :data => {:confirm => _("Sind Sie sicher?")} do
               .trash.icon
             %button.button.edit{:title => _("Bearbeiten")}
               .edit.icon
