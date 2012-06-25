@@ -1,11 +1,12 @@
+%table
+  %tr
+    %td{:colspan => 5, :style => "text-align: right; white-space: nowrap;"}
+      = link_to _("New Person"), new_admin_person_path, :class => "buttons", :remote => true, :"data-type" => "html"
+
 %table.datatable
   %thead
     %tr
-      - [_("Firstname"), _("Lastname"), ""].each do |s|
+      - [_("Firstname"), _("Lastname"), _("Pseudonym"), _("User"), ""].each do |s|
         %th= s
   %tbody
-    - @people.each do |person|
-      %tr
-        - [person.firstname, person.lastname,
-          link_to(_("Edit"), edit_admin_person_path(person), :class => "buttons", :remote => true, :"data-type" => "html")].each do |s|
-          %td= s
+    = render :partial => "show", :collection => @people, :as => :person

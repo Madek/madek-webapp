@@ -18,9 +18,10 @@ class MediaSetHighlights
     MediaSetHighlights.highlighted_resources = data.media_resources
     MediaSetHighlights.highlighted_resources_ids = _.map data.media_resources, (resource)-> resource.id
     @render()
-    setTimeout ->
-      MediaSetHighlights.setup_positioning()
-    , 100
+    @delegateEvents()
+    
+  @delegateEvents: ->
+    $("#media_set_highlights .inner img").load => @setup_positioning()
   
   @setup_listener: ->
     $(".open_media_set_highlights_lightbox").live "click", (event)->
@@ -107,7 +108,6 @@ class MediaSetHighlights
       child_id: $(arc).tmplItem().data.id
       highlight: $(arc).find(".selection input").is ":checked"
       parent_id: MediaSetHighlights.parent_id
-    console.log changed_arcs
     $.ajax
       url: "/media_resource_arcs.json"
       type: "PUT"

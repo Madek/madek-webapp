@@ -61,8 +61,8 @@ class MediaResourceSelection
         setTimeout ->
           MediaResourceSelection.render_table container
         , 100
-        # flag as completly loaded if last page was rendered
-        $(container).addClass("completly_loaded") if data.pagination.page == data.pagination.total_pages
+        # flag as completely loaded if last page was rendered
+        $(container).addClass("completely_loaded") if data.pagination.page == data.pagination.total_pages
         # run callback if defined
         callback(data) if callback?
         # load all the other resources if the first page is not the only one
@@ -105,8 +105,8 @@ class MediaResourceSelection
             $(container).find(".table .page_"+returning_page).remove()
           # render table
           MediaResourceSelection.render_table container
-          # flag as completly loaded if last page was rendered
-          $(container).addClass("completly_loaded") if data.pagination.page == data.pagination.total_pages
+          # flag as completely loaded if last page was rendered
+          $(container).addClass("completely_loaded") if data.pagination.page == data.pagination.total_pages
           # run callback if defined
           callback(data) if callback?
             
