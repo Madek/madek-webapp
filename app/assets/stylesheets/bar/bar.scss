@@ -137,7 +137,11 @@
           @include left-border-radius(4px);
         }
         
-        &:hover, &.active {
+        &[disabled=disabled] {
+          cursor: default;
+        }
+        
+        &:not([disabled=disabled]):hover, &.active {
           background: #c3c3c3; 
           color: #333333;
           @include box-shadow(inset 0 2px 4px rgba(0,0,0,0.2));
@@ -145,7 +149,7 @@
           @include vertical-gradient(#c3c3c3, #c3c3c3, 50%, 50%);
         }
         
-        &:focus {
+        &:focus:not([disabled=disabled]) {
           background: #b7b7b7; 
           @include vertical-gradient(#b7b7b7, #b7b7b7, 50%, 50%);
         }

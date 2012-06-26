@@ -2,10 +2,16 @@
 @import "../variables"
 
 .item_box
-  &:hover
+  &:hover, &.inspected
     background: #f1f1f1
     .actions
       display: block
+  
+  &.inspected
+    padding: 5px 25px
+
+    .item_permission
+      left: 27px
   
   a
     text-decoration: none

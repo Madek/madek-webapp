@@ -1,4 +1,5 @@
 @import "mixins"
+
 #content_body.media_sets_graph
 
   #bar
@@ -7,3 +8,57 @@
     
     .layout .graph.icon
       @include opacity(1.0)
+     
+    .selection .permissions
+      display: none 
+  
+  #chart
+    background: #F9F9F9
+    border: 1px solid #CCC
+    display: inline-block
+    height: 100%
+    @include box-shadow(0 0 8px rgba(0,0,0,0.1))
+    
+  #zoom_panel
+    position: relative
+    
+    button
+      font-size: 1.2em
+      height: 24px
+      left: 4px
+      text-align: center
+      padding: 0
+      position: absolute
+      width: 28px
+      @include border-radius(6px)
+      
+    .zoom_in
+      top: 6px
+      
+    .zoom_out
+      top: 36px
+    
+  #inspector
+    display: inline-block
+    height: 1000px
+    width: 235px
+    position: absolute
+    right: 0
+    top: 125px
+    
+    .inspected
+      display: block
+      margin: 0 auto
+    
+  .link 
+    stroke: #666
+    stroke-width: 1px
+  
+  .node text 
+    pointer-events: none
+    font: 10px sans-serif
+    
+  .node
+    background: white
+    border: 1px solid rgba(0,0,0,0.4)
+  
