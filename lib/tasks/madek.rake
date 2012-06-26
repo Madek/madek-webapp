@@ -84,7 +84,8 @@ namespace :madek do
         rm_and_mkdir(DOWNLOAD_STORAGE_DIR)
         rm_and_mkdir(ZIP_STORAGE_DIR)
       end
-      
+     
+     system "rm -f tmp/*.mysql" 
      Rake::Task["log:clear"].invoke
      Rake::Task["db:migrate:reset"].invoke
 
