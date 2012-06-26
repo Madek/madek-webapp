@@ -36,7 +36,7 @@
               %td= password_field_tag :password
             %tr
               %td
-              %td= submit_tag 'Log in', :class => "actionbutton button yellow"
+              %td= submit_tag _("Anmelden"), :class => "actionbutton button yellow"
 
 :coffeescript
   jQuery ->
@@ -46,4 +46,7 @@
         _this.addClass("active").siblings(".tab").removeClass("active")
         $("#login.sidebar-box > .authentication").hide()
         $("#login.sidebar-box > .authentication#" + _this.data("ref")).show()
-    $("#login.sidebar-box .inline-tabs .tab:first").trigger "click"
+    if $("#login.sidebar-box > .authentication").length > 1
+      $("#login.sidebar-box .inline-tabs .tab:first").trigger "click"
+    else
+      $("#login.sidebar-box > .authentication:first").show()

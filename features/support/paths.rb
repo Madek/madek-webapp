@@ -8,7 +8,7 @@ module NavigationHelpers
   def path_to(page_name)
     case page_name
 
-    when /the home\s?page/, /the dashboard/
+    when /the home\s?page/, /the dashboard/, /the splash screen/
       root_path
 
     when /the media entries/
