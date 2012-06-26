@@ -20,6 +20,7 @@ class MediaFile < ActiveRecord::Base
     FileUtils.cp uploaded_data.tempfile.path, file_storage_location
     FileUtils.chmod(0644, file_storage_location) # Otherwise Apache's X-Sendfile cannot access the file, as Apache runs as another user, e.g. 'www-data'
     import if meta_data.blank? # TODO in background?
+    make_thumbnails
   end
 
   after_destroy do
@@ -63,13 +64,10 @@ class MediaFile < ActiveRecord::Base
     case content_type
       when /image/ then
         import_image_metadata(file_storage_location) if previews.empty? # TODO why?
-        make_thumbnails
       when /video/ then
         import_audio_video_metadata(file_storage_location)
-        make_thumbnails
       when /audio/ then
         import_audio_metadata(file_storage_location)
-        make_thumbnails
       when /application/ then
         import_document_metadata(file_storage_location)
       else
@@ -126,7 +124,6 @@ class MediaFile < ActiveRecord::Base
     #     g
 
     return UUIDTools::UUID.random_create.hexdigest
-    
   end
 
   def shard
@@ -134,15 +131,16 @@ class MediaFile < ActiveRecord::Base
     self.guid[0..0]
   end
 
+  # OPTIMIZE this should be a background job
   def make_thumbnails(sizes = nil)
-    # this should be a background job
-    if content_type.include?('image')
-      thumbnail_jpegs_for(file_storage_location, sizes)
-    elsif content_type.include?('video')
-      submit_encoding_job
-    elsif content_type.include?('audio')
-      #add_audio_thumbnails   # This might be a future method that constructs some meaningful thumbnail for an audio file?
-      submit_encoding_job
+    case content_type
+      when /image/, /pdf/ then
+        thumbnail_jpegs_for(file_storage_location, sizes)
+      when /video/ then
+        submit_encoding_job
+      when /audio/ then
+        #add_audio_thumbnails   # This might be a future method that constructs some meaningful thumbnail for an audio file?
+        submit_encoding_job
     end
   end
   
@@ -245,7 +243,7 @@ class MediaFile < ActiveRecord::Base
       tmparr = thumbnail_storage_location
       tmparr += "_#{thumb_size.to_s}"
       outfile = [tmparr, 'jpg'].join('.')
-      `convert "#{file}" -auto-orient -thumbnail "#{value}" -flatten -unsharp 0x.5 "#{outfile}"`
+      `convert "#{file}"[0] -auto-orient -thumbnail "#{value}" -flatten -unsharp 0x.5 "#{outfile}"`
       if File.exists?(outfile)
         x,y = `identify -format "%wx%h" "#{outfile}"`.split('x')
         if x and y
@@ -271,7 +269,7 @@ class MediaFile < ActiveRecord::Base
                   get_preview(size) || "Video"
                 when /audio/ then
                   "Audio"
-                when /image/ then
+                when /image/, /pdf/ then
                   get_preview(size) || "Image"
                 else 
                   "Doc"
