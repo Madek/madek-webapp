@@ -105,4 +105,4 @@ DEFAULT_LANGUAGE = :de_ch
 ENCODING_BASE_URL = "http://test:MAdeK@test.madek.zhdk.ch"
 ENCODING_TEST_MODE = 1 # 1 for true, 0 for false
 
-RELEASE_VERSION = "0.6.0"
+RELEASE_VERSION = "0.7.0"
