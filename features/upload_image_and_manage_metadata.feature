@@ -209,6 +209,7 @@ Feature: Upload images and manage media entries based on images
      And I upload some picture titled "mein lieblingsflugzeug"
      And I go to the media entries
      And all the entries controls become visible
+     And I switch to the grid view
      And I click the delete icon on the media entry titled "mein lieblingsflugzeug"
      And I go to the media entries
     Then I should not see "mein lieblingsflugzeug"
