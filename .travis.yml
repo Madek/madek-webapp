@@ -8,6 +8,7 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - "cp config/database_my.yml config/database.yml"
   - "rm -f tmp/*.mysql"
+  - "sudo apt-get install libimage-exiftool-perl imagemagick"
 bundler_args: --without development
 # uncomment this line if your project needs to run something other than `rake`:
 script: bundle exec rake madek:test 
