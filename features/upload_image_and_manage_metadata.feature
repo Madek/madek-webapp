@@ -170,6 +170,7 @@ Feature: Upload images and manage media entries based on images
      And I upload some picture titled "mein lieblingsknödel"
      And I go to the media entries
      And all the entries controls become visible
+     And I switch to the grid view
      And I toggle the favorite star on the media entry titled "mein lieblingsknödel"
      And I click on the arrow next to "Kohl, Helmut"
      And I follow "Meine Favoriten"
@@ -192,6 +193,7 @@ Feature: Upload images and manage media entries based on images
      And I upload some picture titled "mein lieblingsbier"
      And I go to the media entries
      And all the entries controls become visible
+     And I switch to the grid view
      And I toggle the favorite star on the media entry titled "mein lieblingsbier"
      And I click on the arrow next to "Kohl, Helmut"
      And I follow "Meine Favoriten"
