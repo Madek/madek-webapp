@@ -439,7 +439,18 @@ describe MediaResourcesController do
         json["media_resources"].collect {|x| x["type"]}.uniq.should == ["media_entry"]
       end
       it "should filter on orientation" do
-        pending
+        landscape, vertical, square = ["<", ">", "="].map do |operator|
+          MediaEntry.joins(:media_file).where("media_files.height #{operator} media_files.width").count
+        end
+        post :filter, {format: 'json', filter: {ids: media_resource_ids.join(',')}, MediaEntry: {media_type: ["Image"], orientation: 0} }, session
+        json = JSON.parse(response.body)
+        json["pagination"]["total"].should == landscape
+        post :filter, {format: 'json', filter: {ids: media_resource_ids.join(',')}, MediaEntry: {media_type: ["Image"], orientation: 1} }, session
+        json = JSON.parse(response.body)
+        json["pagination"]["total"].should == vertical
+        post :filter, {format: 'json', filter: {ids: media_resource_ids.join(',')}, MediaEntry: {media_type: ["Image"], orientation: [0, 1]} }, session
+        json = JSON.parse(response.body)
+        json["pagination"]["total"].should == square
       end
     end
 
