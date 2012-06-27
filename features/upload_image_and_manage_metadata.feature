@@ -53,7 +53,7 @@ Feature: Upload images and manage media entries based on images
      And I follow "Abmelden"
      And I log in as "gorbi" with password "glasnost"
      And I go to the home page
-     Then I should see "A beautiful piece... f the Berlin Wall"
+     Then I should see "A beautiful piece of the B..."
 
   @javascript
   Scenario: Upload an image file for my group to see
@@ -170,6 +170,7 @@ Feature: Upload images and manage media entries based on images
      And I upload some picture titled "mein lieblingsknödel"
      And I go to the media entries
      And all the entries controls become visible
+     And I switch to the grid view
      And I toggle the favorite star on the media entry titled "mein lieblingsknödel"
      And I click on the arrow next to "Kohl, Helmut"
      And I follow "Meine Favoriten"
@@ -192,6 +193,7 @@ Feature: Upload images and manage media entries based on images
      And I upload some picture titled "mein lieblingsbier"
      And I go to the media entries
      And all the entries controls become visible
+     And I switch to the grid view
      And I toggle the favorite star on the media entry titled "mein lieblingsbier"
      And I click on the arrow next to "Kohl, Helmut"
      And I follow "Meine Favoriten"
