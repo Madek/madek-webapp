@@ -4,6 +4,8 @@ FactoryGirl.define do
     
     # this is a mock
     meta_data { {:key => :value} }
+    height { 640 }
+    width { 429 }
     
     uploaded_data  {
       f = "#{Rails.root}/features/data/images/berlin_wall_01.jpg"

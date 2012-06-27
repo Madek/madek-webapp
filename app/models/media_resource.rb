@@ -177,37 +177,36 @@ class MediaResource < ActiveRecord::Base
   
   def self.filter_media_file(options = {})
     sql = media_entries.joins("RIGHT JOIN media_files ON media_resources.media_file_id = media_files.id")
-    
-    if options[:width] and not options[:width][:value].blank?
-      operator = case options[:width][:operator]
-        when "gt"
-          ">"
-        when "lt"
-          "<"
-        else
-          "="
-      end
-      sql = sql.where("media_files.width #{operator} ?", options[:width][:value])
+  
+    # OPTIMIZE this is mutual exclusive in case of many media_types  
+    options[:media_type].each do |x|
+      sql = sql.where("media_files.content_type LIKE ?", "%#{x}%")
     end
-
-    if options[:height] and not options[:height][:value].blank?
-      operator = case options[:height][:operator]
-        when "gt"
-          ">"
-        when "lt"
-          "<"
-        else
-          "="
+    
+    [:width, :height].each do |x|
+      if options[x] and not options[x][:value].blank?
+        operator = case options[x][:operator]
+          when "gt"
+            ">"
+          when "lt"
+            "<"
+          else
+            "="
+        end
+        sql = sql.where("media_files.#{x} #{operator} ?", options[x][:value])
       end
-      sql = sql.where("media_files.height #{operator} ?", options[:height][:value])
     end
 
     unless options[:orientation].blank?
-      operator = case options[:orientation].to_i
-        when 0
-          "<"
-        when 1
-          ">"
+      operator = if options[:orientation].size == 2
+        "="
+      else
+        case options[:orientation].to_i
+          when 0
+            "<"
+          when 1
+            ">"
+        end
       end
       sql = sql.where("media_files.height #{operator} media_files.width")
     end
