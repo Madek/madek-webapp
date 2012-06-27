@@ -1,0 +1,16 @@
+language: ruby
+rvm:
+  - 1.9.3
+env: DISPLAY=:99.0
+before_script:
+  - mysql -e 'create database madek_test;'
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - "cp config/database_my.yml config/database.yml"
+  - "rm -f tmp/*.mysql"
+before_install:
+  - "sudo apt-get update"
+  - "sudo apt-get install libimage-exiftool-perl imagemagick wget ffmpeg zip unzip memcached"
+bundler_args: --without development
+# uncomment this line if your project needs to run something other than `rake`:
+script: bundle exec rake madek:test 
