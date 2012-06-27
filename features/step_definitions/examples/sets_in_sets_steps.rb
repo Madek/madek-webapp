@@ -146,8 +146,8 @@ end
 
 Then /^I can read the sliced title of each set$/ do
   @accesible_sets.each do |set|
-    match_string = if set.title.length > 26
-      "#{set.title.slice(0, 26)}..."
+    match_string = if set.title.length > 40
+      "#{set.title.slice(0, 20)}...#{set.title.slice(set.title.length - 20, set.title.length)}"
     else
       set.title
     end

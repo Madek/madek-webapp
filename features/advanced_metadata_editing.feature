@@ -15,6 +15,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
      And all the hidden items become visible
+     And I switch to the grid view
      And I click the edit icon on the media entry titled "Millenium Falcon, Front View"
      And I fill in the metadata form as follows:
      |label|value|
@@ -72,6 +73,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
      And all the hidden items become visible
+     And I switch to the grid view
      And I click the edit icon on the media entry titled "Me and Leia Organa"
      And I fill in the metadata form as follows:
      |label   |value   |
@@ -90,6 +92,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
      And all the hidden items become visible
+     And I switch to the grid view
      And I click the edit icon on the media entry titled "Me and Leia Organa"
      And I fill in the metadata form as follows:
      |label   |value      |options           |
@@ -108,6 +111,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
      And all the hidden items become visible
+     And I switch to the grid view
      And I click the edit icon on the media entry titled "Me and Leia Organa"
      And I fill in the metadata form as follows:
      |label   |value             |options  |
@@ -126,6 +130,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
      And all the hidden items become visible
+     And I switch to the grid view
      And I click the edit icon on the media entry titled "Me and Leia Organa"
      And I fill in the metadata form as follows:
      |label   |value             |options  |
@@ -145,6 +150,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
      And all the hidden items become visible
+     And I switch to the grid view
      And I click the edit icon on the media entry titled "Me and Leia Organa on the beach"
      And I fill in the metadata form as follows:
      |label   |value             |
@@ -167,6 +173,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
      And all the hidden items become visible
+     And I switch to the grid view
      And I click the edit icon on the media entry titled "Millenium Falcon, Front View"
      And I fill in the metadata form as follows:
      |label|value|
