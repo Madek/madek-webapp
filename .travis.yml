@@ -8,6 +8,7 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - "cp config/database_my.yml config/database.yml"
   - "rm -f tmp/*.mysql"
+before_install:
   - "sudo apt-get update"
   - "sudo apt-get install libimage-exiftool-perl imagemagick wget ffmpeg zip unzip"
 bundler_args: --without development
