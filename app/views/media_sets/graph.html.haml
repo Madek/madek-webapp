@@ -1,12 +1,15 @@
 %section#content_body.media_sets_graph
   = render partial: "media_resources/bar"
 
-  #zoom_panel  
-    %button.button.zoom_in +
-    %button.button.zoom_out -
-
-  #chart
-  #inspector.media_resources.index.grid
+  .graph
+    .info
+      = _("Graph wird berechnet")
+      = image_tag "loading.gif", :class => "loading"
+    #zoom_panel  
+      %button.button.zoom_in +
+      %button.button.zoom_out -
+    #chart
+    #inspector.media_resources.index.grid
   
 :coffeescript
   
