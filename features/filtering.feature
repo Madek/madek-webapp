@@ -41,6 +41,7 @@ Feature: Use the search filters on my search results
      And I click the arrow next to "Librarian, Evil"
      And I follow "Meine Medien"
      And all the hidden items become visible
+     And I switch to the grid view
      And I click the edit icon on the media entry titled "The Necronomicon"
      And I fill in the metadata form as follows:
      |label                          |value|
@@ -56,6 +57,7 @@ Feature: Use the search filters on my search results
      And I click the arrow next to "Librarian, Evil"
      And I follow "Meine Medien"
      And all the hidden items become visible
+     And I switch to the grid view
      And I click the edit icon on the media entry titled "Klaatu Barata Nicto"
      And I fill in the metadata form as follows:
      |label                          |value|
@@ -94,6 +96,7 @@ Feature: Use the search filters on my search results
      And I click the arrow next to "Librarian, Evil"
      And I follow "Meine Medien"
      And all the hidden items become visible
+     And I switch to the grid view
      And I click the edit icon on the media entry titled "Slightly less pure evil"
      And I fill in the metadata form as follows:
      |label                          |value|
@@ -106,6 +109,7 @@ Feature: Use the search filters on my search results
      And I click the arrow next to "Librarian, Evil"
      And I follow "Meine Medien"
      And all the hidden items become visible
+     And I switch to the grid view
      And I click the edit icon on the media entry titled "Completely unpure evil"
      And I fill in the metadata form as follows:
      |label                          |value|
