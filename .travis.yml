@@ -10,7 +10,7 @@ before_script:
   - "rm -f tmp/*.mysql"
 before_install:
   - "sudo apt-get update"
-  - "sudo apt-get install libimage-exiftool-perl imagemagick wget ffmpeg zip unzip"
+  - "sudo apt-get install libimage-exiftool-perl imagemagick wget ffmpeg zip unzip memcached"
 bundler_args: --without development
 # uncomment this line if your project needs to run something other than `rake`:
 script: bundle exec rake madek:test 
