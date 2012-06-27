@@ -6,12 +6,12 @@ Feature: Do things to and with sets
 
   Background: Set up the world and some users
     Given I have set up the world a little
-      And a user called "Helmut Kohl" with username "helmi" and password "saumagen" exists
-      And a user called "Mikhail Gorbachev" with username "gorbi" and password "glasnost" exists
+      And a user called "Helmut Kohl" with username "helmi" and password "password" exists
+      And a user called "Mikhail Gorbachev" with username "gorbi" and password "password" exists
 
   @javascript
   Scenario: Upload an image, then go to the detail page and add it to a set
-    When I log in as "helmi" with password "saumagen"
+    Given I am "helmi"
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
@@ -31,7 +31,7 @@ Feature: Do things to and with sets
 
  @javascript
   Scenario: Rename a set
-    When I log in as "helmi" with password "saumagen"
+    Given I am "helmi"
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
@@ -60,7 +60,7 @@ Feature: Do things to and with sets
 
   @javascript
   Scenario: Use a URL in a set description and expect it to turn into a link
-    When I log in as "helmi" with password "saumagen"
+    Given I am "helmi"
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:

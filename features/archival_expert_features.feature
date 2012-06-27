@@ -9,8 +9,8 @@ Feature: Exporting for archival experts and using the associated archival expert
 
 #  Background: Set up the world and some users
 #    Given I have set up the world a little
-#      And a user called "Fred Astaire" with username "fred" and password "tapping" exists
-#      And a user called "Ginger Rogers" with username "ginger" and password "dancing" exists
+#      And a user called "Fred Astaire" with username "fred" and password "password" exists
+#      And a user called "Ginger Rogers" with username "ginger" and password "password" exists
 #      And a group called "MIZ-Archiv" exists
 #      And a group called "Expert" exists
 #      And the user with username "fred" is member of the group "Expert"
@@ -18,7 +18,7 @@ Feature: Exporting for archival experts and using the associated archival expert
 
 #  @javascript
 #  Scenario: Enter archival metadata for a media entry and then have an expert look at your copy
-#    Given I log in as "fred" with password "tapping"
+#    Given I am "fred" with password "tapping"
 #      And I upload some picture titled "Tapping for the Archives"
 #      And I go to the home page
 #      And I click the media entry titled "Tapping for the Archives"
@@ -57,7 +57,7 @@ Feature: Exporting for archival experts and using the associated archival expert
 #     When I follow "Kopie für MIZ-Archiv erstellen"
 # This part doesn't work yet because the MIZ-Archiv parts of the system have not yet been redesigned
      #Then I should see "Ein Kopie dieses Medieneintrages wurde am"
-     #When I log in as "ginger" with password "dancing"
+     #Given I am "ginger"
      # And I click the arrow next to "Rogers, Ginger"
      # And I follow "Kopien für MIZ-Archiv"
      # And I click the media entry titled "Tapping for the Archives"

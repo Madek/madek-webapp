@@ -6,12 +6,12 @@ Feature: Batch edit media entries
 
   Background: Set up the world and some users
     Given I have set up the world a little
-      And a user called "Helmut Kohl" with username "helmi" and password "saumagen" exists
-     When I log in as "helmi" with password "saumagen"
+      And a user called "Helmut Kohl" with username "helmi" and password "password" exists
+     Given I am "helmi"
       And I upload some picture titled "Picture One"
       And I upload some picture titled "Picture Two"
       And I upload some picture titled "Picture Three"
-      And I log in as "helmi" with password "saumagen"
+      And I am "helmi" with password "saumagen"
       And I am logged in as "helmi"
 
   @javascript
@@ -44,7 +44,6 @@ Feature: Batch edit media entries
      And I choose the set "Batch Retitle Set" from the media entry
      And I check the media entry titled "Picture One"
      And I check the media entry titled "Picture Two"
-     And I wait for 2 seconds
      And all the hidden items become visible
      And I press "Metadaten editieren"
      And I fill in the metadata form as follows:

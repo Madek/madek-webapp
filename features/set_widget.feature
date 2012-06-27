@@ -6,7 +6,7 @@ Feature: Set Widget for Sets in Sets and Entries in Sets
 
   Background: Set up the world some users, some sets and entries
     Given I have set up the world a little
-      And a user called "Max" with username "max" and password "moritz" exists
+      And a user called "Max" with username "max" and password "password" exists
       
       And a set titled "My Act Photos" created by "max" exists
       And a entry titled "Me with Nothing" created by "max" exists
@@ -31,7 +31,7 @@ Feature: Set Widget for Sets in Sets and Entries in Sets
       And a entry titled "Me with School Uniform" created by "max" exists
       And the last entry is child of the last set
       
-      And I log in as "max" with password "moritz"
+      And I am "max" with password "moritz"
   
   @javascript
   Scenario: User goes to a set and opens the widget. The current set should not be visible.

@@ -4,13 +4,13 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
 
   Background: Set up the world and some users
     Given I have set up the world a little
-      And a user called "Han Solo" with username "hansolo" and password "leia" exists
-      And a user called "Obi-Wan Kenobi" with username "obi" and password "sabers" exists
-      And a user called "Lando Calrissian" with username "lando" and password "bounty" exists
+      And a user called "Han Solo" with username "hansolo" and password "password" exists
+      And a user called "Obi-Wan Kenobi" with username "obi" and password "password" exists
+      And a user called "Lando Calrissian" with username "lando" and password "password" exists
 
   @javascript
   Scenario: Changing the core text fields of a media entry
-    When I log in as "hansolo" with password "leia"
+    Given I am "hansolo"
      And I upload some picture titled "Millenium Falcon, Front View"
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
@@ -67,7 +67,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
 
   @javascript
   Scenario: Changing the author field on a media entry using the firstname/lastname entry form tab
-    When I log in as "hansolo" with password "leia"
+    Given I am "hansolo"
      And I upload some picture titled "Me and Leia Organa"
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
@@ -79,14 +79,13 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I press "Speichern"
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
-     And I wait for 4 seconds
      And I click the media entry titled "Me and Leia Organa"
      And I wait for the CSS element "#detail-excerpt"
      Then I should see "Foo, Bar"
 
   @javascript
   Scenario: Putting a pseudonym into the author field
-    When I log in as "hansolo" with password "leia"
+    Given I am "hansolo"
      And I upload some picture titled "Me and Leia Organa"
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
@@ -98,14 +97,13 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I press "Speichern"
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
-     And I wait for 5 seconds
      And I click the media entry titled "Me and Leia Organa"
      And I wait for the CSS element "#detail-excerpt"
      Then I should see "(Yoda)"
 
   @javascript
   Scenario: Putting a group into the group name field in the group tab
-    When I log in as "hansolo" with password "leia"
+    Given I am "hansolo"
      And I upload some picture titled "Me and Leia Organa"
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
@@ -117,14 +115,13 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I press "Speichern"
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
-     And I wait for 5 seconds
      And I click the media entry titled "Me and Leia Organa"
      And I wait for the CSS element "#detail-excerpt"
      Then I should see "The Rebel Alliance"
 
   @javascript
   Scenario: Putting a name directly into the name input box
-    When I log in as "hansolo" with password "leia"
+    Given I am "hansolo"
      And I upload some picture titled "Me and Leia Organa"
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
@@ -136,7 +133,6 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I press "Speichern"
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
-     And I wait for 5 seconds
      And I click the media entry titled "Me and Leia Organa"
      And I wait for the CSS element "#detail-excerpt"
      Then I should see "Furter, Frank"
@@ -144,7 +140,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
 
   @javascript
   Scenario: Enter some keywords into the JS-based keyword dialog box
-    When I log in as "hansolo" with password "leia"
+    Given I am "hansolo"
      And I upload some picture titled "Me and Leia Organa on the beach"
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
@@ -159,7 +155,6 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I press "Speichern"
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
-     And I wait for 5 seconds
      And I click the media entry titled "Me and Leia Organa on the beach"
      And I wait for the CSS element "#detail-excerpt"
      Then I should see "leia, beach, sun, fun"
@@ -167,7 +162,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
 
   @javascript
   Scenario: Using the MAdeK multi-select widget
-    When I log in as "hansolo" with password "leia"
+    Given I am "hansolo"
      And I upload some picture titled "Millenium Falcon, Front View"
      And I click the arrow next to "Solo, Han"
      And I follow "Meine Medien"
@@ -177,7 +172,6 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      |label|value|
      |Titel|My great ship|
      And I follow "ZHdK" within ".tabs"
-     And I wait for 5 seconds
 # Testing this widget is too hard to do right now, let's skip using it.
 #     And I fill in the metadata form as follows:
 #     |label|value|

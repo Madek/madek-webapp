@@ -99,7 +99,7 @@ Feature: Permissions
     And "Normin" changes the resource's permissions for "Petra" as follows:
     |permission       |value|
     |view             |false|
-    When I am "Petra"
+    Given I am "Petra"
     Then I can not view that resource
 
   # https://www.pivotaltracker.com/story/show/25238301

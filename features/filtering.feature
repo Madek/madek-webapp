@@ -5,11 +5,11 @@ Feature: Use the search filters on my search results
 
   Background: Set up the world and some users
     Given I have set up the world a little
-      And a user called "Evil Librarian" with username "evil" and password "books" exists
+      And a user called "Evil Librarian" with username "evil" and password "password" exists
 
   @javascript 
   Scenario: A simple search, no filtering, that should return a result
-    When I log in as "evil" with password "books"
+    Given I am "evil"
      And I upload some picture titled "The Necronomicon"
      And I fill in "query" with "necronomicon"
      And I press "Suchen"
@@ -24,7 +24,7 @@ Feature: Use the search filters on my search results
  # selecting any options.
  @javascript @foofoo
   Scenario: Searching without parameters should not raise an error
-    When I log in as "evil" with password "books"
+    Given I am "evil"
      And I upload some picture titled "Random Nonsense"
      And I fill in "query" with "nonsense"
      And I press "Suchen"
@@ -36,7 +36,7 @@ Feature: Use the search filters on my search results
 
   @javascript
   Scenario: Filtering by keyword: Finding both media entries that have a common word, but showing just one when only one's keyword is selected
-    When I log in as "evil" with password "books"
+    Given I am "evil"
      And I upload some picture titled "The Necronomicon"
      And I click the arrow next to "Librarian, Evil"
      And I follow "Meine Medien"
@@ -77,7 +77,7 @@ Feature: Use the search filters on my search results
 
   @javascript
   Scenario: Filtering three different media entries
-    When I log in as "evil" with password "books"
+    Given I am "evil"
      And I upload some picture titled "Pure Evil"
      And I click the arrow next to "Librarian, Evil"
      And I follow "Meine Medien"
@@ -118,7 +118,6 @@ Feature: Use the search filters on my search results
     Then the search results should contain "Pure Evil"
      And the search results should contain "Slightly less pure evil"
      And the search results should contain "Completely unpure evil"
-     And I wait for 16 seconds
     When I filter by "evil" in "Schlagworte zu Inhalt und Motiv"
      And I press "Filter anwenden"
     Then the search results should contain "Pure Evil"
@@ -128,11 +127,9 @@ Feature: Use the search filters on my search results
      And I fill in "query" with "evil"
      And I press "Suchen"
     Then the search results should contain "Pure Evil"
-     And I wait for 16 seconds
 
     When I filter by "unpure" in "Schlagworte zu Inhalt und Motiv"
      And I press "Filter anwenden"
-     And I wait for 2 seconds
     Then the search results should not contain "Pure Evil"
      And the search results should contain "Slightly less pure evil"
      And the search results should not contain "Completely unpure evil"
@@ -140,10 +137,8 @@ Feature: Use the search filters on my search results
      And I fill in "query" with "evil"
      And I press "Suchen"
     Then the search results should contain "Pure Evil"
-     And I wait for 16 seconds
     When I filter by "good" in "Schlagworte zu Inhalt und Motiv"
      And I press "Filter anwenden"
-     And I wait for 2 seconds
     Then the search results should not contain "Pure Evil"
      And the search results should not contain "Slightly less pure evil"
      And the search results should contain "Completely unpure evil"

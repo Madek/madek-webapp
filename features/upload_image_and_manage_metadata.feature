@@ -4,17 +4,17 @@ Feature: Upload images and manage media entries based on images
 
   Background: Set up the world and some users
     Given I have set up the world a little
-      And a user called "Helmut Kohl" with username "helmi" and password "saumagen" exists
-      And a user called "Mikhail Gorbachev" with username "gorbi" and password "glasnost" exists
+      And a user called "Helmut Kohl" with username "helmi" and password "password" exists
+      And a user called "Mikhail Gorbachev" with username "gorbi" and password "password" exists
 
   @javascript 
   Scenario: Upload one image file without any special metatada
-    When I log in as "helmi" with password "saumagen"
+    Given I am "helmi"
      And I upload some picture titled "not a special picture"
 
   @javascript
   Scenario: Upload an image and add it to a set
-    When I log in as "helmi" with password "saumagen"
+    Given I am "helmi"
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
@@ -33,7 +33,7 @@ Feature: Upload images and manage media entries based on images
 
   @javascript
   Scenario: Upload an image file for another user to see
-    When I log in as "helmi" with password "saumagen"
+    Given I am "helmi"
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
@@ -51,7 +51,7 @@ Feature: Upload images and manage media entries based on images
      And I give "view" permission to "Gorbachev, Mikhail"
      And I click on the arrow next to "Kohl, Helmut"
      And I follow "Abmelden"
-     And I log in as "gorbi" with password "glasnost"
+     And I am "gorbi" with password "glasnost"
      And I go to the home page
      Then I should see "A beautiful piece of the B..."
 
@@ -60,7 +60,7 @@ Feature: Upload images and manage media entries based on images
     Given a group called "Mauerfäller" exists
       And the user with username "helmi" is member of the group "Mauerfäller"
       And the user with username "gorbi" is member of the group "Mauerfäller"
-      And I log in as "helmi" with password "saumagen"
+      And I am "helmi" with password "saumagen"
       And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
       And I go to the upload edit
       And I fill in the metadata for entry number 1 as follows:
@@ -78,47 +78,47 @@ Feature: Upload images and manage media entries based on images
       And I give "view" permission to "Mauerfäller"
       And I click on the arrow next to "Kohl, Helmut"
       And I follow "Abmelden"
-      And I log in as "gorbi" with password "glasnost"
+      And I am "gorbi" with password "glasnost"
       And I go to the home page
       Then I should see "A second piece of the Berlin"
 
   @javascript
   Scenario: Make an uploaded file public
-   Given a user called "Raissa Gorbacheva" with username "raissa" and password "novodevichy" exists
-    When I log in as "helmi" with password "saumagen"
+   Given a user called "Raissa Gorbacheva" with username "raissa" and password "password" exists
+    Given I am "helmi"
      And I upload some picture titled "baustelle osten"
      And I go to the home page
      And I click the media entry titled "baustelle osten"
      And I open the permission lightbox
      And I give "view" permission to "Öffentlichkeit"
-     And I log in as "raissa" with password "novodevichy"
+     And I am "raissa" with password "novodevichy"
      And I go to the home page
     Then I should see "baustelle osten"
 
   @javascript
   Scenario: Upload a public file and then make it un-public again
-   Given a user called "Raissa Gorbacheva" with username "raissa" and password "novodevichy" exists
-    When I log in as "helmi" with password "saumagen"
+   Given a user called "Raissa Gorbacheva" with username "raissa" and password "password" exists
+    Given I am "helmi"
      And I upload some picture titled "geheimsache"
      And I go to the home page
      And I click the media entry titled "geheimsache"
      And I open the permission lightbox
      And I give "view" permission to "Öffentlichkeit"
-     And I log in as "raissa" with password "novodevichy"
+     And I am "raissa" with password "novodevichy"
      And I go to the home page
     Then I should see "geheimsache"
-    When I log in as "helmi" with password "saumagen"
+    Given I am "helmi"
      And I click the media entry titled "geheimsache"
      And I open the permission lightbox
      And I remove "view" permission from "Öffentlichkeit"
-     And I log in as "raissa" with password "novodevichy"
+     And I am "raissa" with password "novodevichy"
      And I go to the home page
     Then I should not see "geheimsache"
 
   @javascript
   Scenario: Give hi-resolution download permission on a file
-   Given a user called "Hans Wurst" with username "hanswurst" and password "hansi" exists
-    When I log in as "helmi" with password "saumagen"
+   Given a user called "Hans Wurst" with username "hanswurst" and password "password" exists
+    Given I am "helmi"
      And I upload some picture titled "hochaufgelöste geheimbünde"
      And I click the media entry titled "hochaufgelöste geheimbünde"
      And I open the permission lightbox
@@ -127,7 +127,7 @@ Feature: Upload images and manage media entries based on images
      And I give "view" permission to "Wurst, Hans"
      And I open the permission lightbox
      And I give "download" permission to "Wurst, Hans"
-     And I log in as "hanswurst" with password "hansi"
+     And I am "hanswurst" with password "hansi"
      And I go to the home page
     Then I should see "hochaufgelöste geheimbünde"
     When I click the media entry titled "hochaufgelöste geheimbünde"
@@ -136,8 +136,8 @@ Feature: Upload images and manage media entries based on images
 
   @javascript 
   Scenario: Give and then revoke hi-resolution download permission on a file
-   Given a user called "Hans Wurst" with username "hanswurst" and password "hansi" exists
-    When I log in as "helmi" with password "saumagen"
+   Given a user called "Hans Wurst" with username "hanswurst" and password "password" exists
+    Given I am "helmi"
      And I upload some picture titled "hochaufgelöste geheimbünde"
      And I click the media entry titled "hochaufgelöste geheimbünde"
      And I open the permission lightbox
@@ -146,17 +146,17 @@ Feature: Upload images and manage media entries based on images
      And I give "view" permission to "Wurst, Hans"
      And I open the permission lightbox
      And I give "download" permission to "Wurst, Hans"
-     And I log in as "hanswurst" with password "hansi"
+     And I am "hanswurst" with password "hansi"
      And I go to the home page
     Then I should see "hochaufgelöste geheimbünde"
     When I click the media entry titled "hochaufgelöste geheimbünde"
      And I follow "Exportieren"
     Then the box should have a hires download link
-    When I log in as "helmi" with password "saumagen"
+    Given I am "helmi"
      And I click the media entry titled "hochaufgelöste geheimbünde"
      And I open the permission lightbox
      And I remove "download" permission from "Wurst, Hans"
-     And I log in as "hanswurst" with password "hansi"
+     And I am "hanswurst" with password "hansi"
      And I go to the home page
     Then I should see "hochaufgelöste geheimbünde"
     When I click the media entry titled "hochaufgelöste geheimbünde"
@@ -166,7 +166,7 @@ Feature: Upload images and manage media entries based on images
 
   @javascript
   Scenario: Add a single media entry to favorites from the media entry list
-    When I log in as "helmi" with password "saumagen"
+    Given I am "helmi"
      And I upload some picture titled "mein lieblingsknödel"
      And I go to the media entries
      And all the entries controls become visible
@@ -178,7 +178,7 @@ Feature: Upload images and manage media entries based on images
 
   @javascript
   Scenario: Add a single media entry to favorites from the media detail page
-    When I log in as "helmi" with password "saumagen"
+    Given I am "helmi"
      And I upload some picture titled "mein lieblingsdackel"
      And I go to the media entries
      And I click the media entry titled "mein lieblingsdackel"
@@ -189,7 +189,7 @@ Feature: Upload images and manage media entries based on images
 
   @javascript 
   Scenario: Add and remove a single media entry from favorites
-    When I log in as "helmi" with password "saumagen"
+    Given I am "helmi"
      And I upload some picture titled "mein lieblingsbier"
      And I go to the media entries
      And all the entries controls become visible
@@ -207,7 +207,7 @@ Feature: Upload images and manage media entries based on images
 
   @javascript 
   Scenario: Upload an image and delete it afterwards
-    When I log in as "helmi" with password "saumagen"
+    Given I am "helmi"
      And I upload some picture titled "mein lieblingsflugzeug"
      And I go to the media entries
      And all the entries controls become visible
@@ -218,7 +218,7 @@ Feature: Upload images and manage media entries based on images
 
   @javascript
   Scenario: Upload an image that has MAdeK title and date information (specific date) its EXIF/IPTC metadata
-    When I log in as "helmi" with password "saumagen"
+    Given I am "helmi"
      And I upload the file "features/data/images/date_should_be_2011-05-30.jpg" relative to the Rails directory
      And I go to the upload edit
      And I follow "weiter..."
@@ -230,7 +230,7 @@ Feature: Upload images and manage media entries based on images
 
   @javascript @ts
   Scenario: Upload an image that has MAdeK metadata with a from/to date in its EXIF/IPTC metadata
-    When I log in as "helmi" with password "saumagen"
+    Given I am "helmi"
      And I upload the file "features/data/images/date_should_be_from_to_may.jpg" relative to the Rails directory
      And I go to the upload edit
      And I follow "weiter..."
@@ -250,7 +250,7 @@ Feature: Upload images and manage media entries based on images
 
   @javascript @ts
   Scenario: Upload an image that has MAdeK metadata with a string instead of a date its EXIF/IPTC metadata
-    When I log in as "helmi" with password "saumagen"
+    Given I am "helmi"
      And I upload the file "features/data/images/date_should_be_1990.jpg" relative to the Rails directory
      And I go to the upload edit
      And I follow "weiter..."

@@ -4,4 +4,4 @@ current_examples: -r features --tags=~@wip --format progress --format rerun --ou
 examples: -r features --format progress --format rerun --out tmp/rerun.txt --format junit --out tmp/junit --format html --out tmp/html/examples.html -e 'features/examples/(current|upcoming)' features/examples
 rerun: -r features @tmp/rerun.txt --format rerun --out tmp/rerun_again.txt 
 rerun_again: -r features @tmp/rerun_again.txt
-profiling: --no-color -r features --format usage --out tmp/cucumber_usage.txt --format rerun --out tmp/rerun.txt -e 'features/examples/upcoming'  features
+profiling: --no-color -r features --format pretty --format usage --out tmp/cucumber_usage.txt --format rerun --out tmp/rerun.txt -e 'features/examples/upcoming'  features

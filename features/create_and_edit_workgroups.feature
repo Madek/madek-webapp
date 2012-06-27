@@ -8,12 +8,12 @@ Feature: Create and edit workgroups
 
   Background: The world and some users exist
     Given I have set up the world a little
-      And a user called "Porky Pig" with username "porky" and password "piggy" exists
-      And a user called "Daffy Duck" with username "daffy" and password "ducky" exists
+      And a user called "Porky Pig" with username "porky" and password "password" exists
+      And a user called "Daffy Duck" with username "daffy" and password "password" exists
 
   @javascript
   Scenario: Just create a group
-    When I log in as "porky" with password "piggy"
+    Given I am "porky"
      And I click the arrow next to "Pig, Porky"
      And I follow "Meine Arbeitsgruppen"
      And I press "Neue Arbeitsgruppe erstellen"
@@ -25,7 +25,7 @@ Feature: Create and edit workgroups
 
   @javascript
   Scenario: Create a group and assign people to it
-    When I log in as "porky" with password "piggy"
+    Given I am "porky"
      And I click the arrow next to "Pig, Porky"
      And I follow "Meine Arbeitsgruppen"
      And I press "Neue Arbeitsgruppe erstellen"
@@ -39,14 +39,13 @@ Feature: Create and edit workgroups
     Then I should see "Pig, Porky"
      And I should see "Duck, Daffy"
      And I press "Speichern"
-     And I wait for 3 seconds
      And "Duck, Daffy" should be a member of the "Looney Tunes" group
      And "Pig, Porky" should be a member of the "Looney Tunes" group
 
 
   @javascript
   Scenario: Create a group, assign people to it, then remove one person
-    When I log in as "porky" with password "piggy"
+    Given I am "porky"
      And I click the arrow next to "Pig, Porky"
      And I follow "Meine Arbeitsgruppen"
      And I press "Neue Arbeitsgruppe erstellen"
@@ -70,7 +69,7 @@ Feature: Create and edit workgroups
 
   @javascript
   Scenario: Try to create a group without a name and fail
-    When I log in as "porky" with password "piggy"
+    Given I am "porky"
      And I click the arrow next to "Pig, Porky"
      And I follow "Meine Arbeitsgruppen"
      And I press "Neue Arbeitsgruppe erstellen"

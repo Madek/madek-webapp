@@ -314,9 +314,6 @@ end
 # Uploads a picture with a given title and a fixed copyright string.
 # It's always the same picture, no way to change the image file yet.
 def upload_some_picture(title = "Untitled")
-    visit "/"
-    page.should_not have_content(title)
-  
     mock_media_entry(@current_user, title, "some dude")
 
     visit "/"
