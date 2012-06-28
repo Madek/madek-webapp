@@ -3,7 +3,7 @@ Feature: Sets in Sets
   Background: Set up the world with a user and logging in
     Given I have set up the world a little
       And a user called "Max" with username "max" and password "password" exists
-      And I am "max" with password "moritz"
+      And I am "max"and password \"password\" exists "moritz"
       And I am logged in as "max"
 
   # https://www.pivotaltracker.com/story/show/12828561

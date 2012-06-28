@@ -31,8 +31,8 @@ Feature: Set Widget for Sets in Sets and Entries in Sets
       And a entry titled "Me with School Uniform" created by "max" exists
       And the last entry is child of the last set
       
-      And I am "max" with password "moritz"
-  
+      And I am "max"
+      
   @javascript
   Scenario: User goes to a set and opens the widget. The current set should not be visible.
     When I open the "My Act Photos" set

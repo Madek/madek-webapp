@@ -51,7 +51,7 @@ Feature: Upload images and manage media entries based on images
      And I give "view" permission to "Gorbachev, Mikhail"
      And I click on the arrow next to "Kohl, Helmut"
      And I follow "Abmelden"
-     And I am "gorbi" with password "glasnost"
+     And I am "gorbi"and password \"password\" exists "glasnost"
      And I go to the home page
      Then I should see "A beautiful piece of the B..."
 
@@ -60,7 +60,7 @@ Feature: Upload images and manage media entries based on images
     Given a group called "Mauerfäller" exists
       And the user with username "helmi" is member of the group "Mauerfäller"
       And the user with username "gorbi" is member of the group "Mauerfäller"
-      And I am "helmi" with password "saumagen"
+      And I am "helmi"and password \"password\" exists "saumagen"
       And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
       And I go to the upload edit
       And I fill in the metadata for entry number 1 as follows:
@@ -78,7 +78,7 @@ Feature: Upload images and manage media entries based on images
       And I give "view" permission to "Mauerfäller"
       And I click on the arrow next to "Kohl, Helmut"
       And I follow "Abmelden"
-      And I am "gorbi" with password "glasnost"
+      And I am "gorbi"and password \"password\" exists "glasnost"
       And I go to the home page
       Then I should see "A second piece of the Berlin"
 
@@ -91,7 +91,7 @@ Feature: Upload images and manage media entries based on images
      And I click the media entry titled "baustelle osten"
      And I open the permission lightbox
      And I give "view" permission to "Öffentlichkeit"
-     And I am "raissa" with password "novodevichy"
+     And I am "raissa"and password \"password\" exists "novodevichy"
      And I go to the home page
     Then I should see "baustelle osten"
 
@@ -104,14 +104,14 @@ Feature: Upload images and manage media entries based on images
      And I click the media entry titled "geheimsache"
      And I open the permission lightbox
      And I give "view" permission to "Öffentlichkeit"
-     And I am "raissa" with password "novodevichy"
+     And I am "raissa"and password \"password\" exists "novodevichy"
      And I go to the home page
     Then I should see "geheimsache"
     Given I am "helmi"
      And I click the media entry titled "geheimsache"
      And I open the permission lightbox
      And I remove "view" permission from "Öffentlichkeit"
-     And I am "raissa" with password "novodevichy"
+     And I am "raissa"and password \"password\" exists "novodevichy"
      And I go to the home page
     Then I should not see "geheimsache"
 
@@ -127,7 +127,7 @@ Feature: Upload images and manage media entries based on images
      And I give "view" permission to "Wurst, Hans"
      And I open the permission lightbox
      And I give "download" permission to "Wurst, Hans"
-     And I am "hanswurst" with password "hansi"
+     And I am "hanswurst"and password \"password\" exists "hansi"
      And I go to the home page
     Then I should see "hochaufgelöste geheimbünde"
     When I click the media entry titled "hochaufgelöste geheimbünde"
@@ -146,7 +146,7 @@ Feature: Upload images and manage media entries based on images
      And I give "view" permission to "Wurst, Hans"
      And I open the permission lightbox
      And I give "download" permission to "Wurst, Hans"
-     And I am "hanswurst" with password "hansi"
+     And I am "hanswurst"and password \"password\" exists "hansi"
      And I go to the home page
     Then I should see "hochaufgelöste geheimbünde"
     When I click the media entry titled "hochaufgelöste geheimbünde"
@@ -156,7 +156,7 @@ Feature: Upload images and manage media entries based on images
      And I click the media entry titled "hochaufgelöste geheimbünde"
      And I open the permission lightbox
      And I remove "download" permission from "Wurst, Hans"
-     And I am "hanswurst" with password "hansi"
+     And I am "hanswurst"and password \"password\" exists "hansi"
      And I go to the home page
     Then I should see "hochaufgelöste geheimbünde"
     When I click the media entry titled "hochaufgelöste geheimbünde"

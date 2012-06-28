@@ -11,7 +11,7 @@ Feature: Batch edit media entries
       And I upload some picture titled "Picture One"
       And I upload some picture titled "Picture Two"
       And I upload some picture titled "Picture Three"
-      And I am "helmi" with password "saumagen"
+      And I am "helmi"and password \"password\" exists "saumagen"
       And I am logged in as "helmi"
 
   @javascript

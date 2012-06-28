@@ -18,7 +18,7 @@ Feature: Exporting for archival experts and using the associated archival expert
 
 #  @javascript
 #  Scenario: Enter archival metadata for a media entry and then have an expert look at your copy
-#    Given I am "fred" with password "tapping"
+#    Given I am "fred"and password \"password\" exists "tapping"
 #      And I upload some picture titled "Tapping for the Archives"
 #      And I go to the home page
 #      And I click the media entry titled "Tapping for the Archives"
