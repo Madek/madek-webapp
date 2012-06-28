@@ -6,7 +6,8 @@ Feature: Upload images and manage media entries based on images
     Given I have set up the world a little
       And a user called "Helmut Kohl" with username "helmi" and password "password" exists
       And a user called "Mikhail Gorbachev" with username "gorbi" and password "password" exists
- 
+      
+  @javascript
   Scenario: Upload one image file without any special metatada
     Given I am "helmi"
      And I upload some picture titled "not a special picture"
