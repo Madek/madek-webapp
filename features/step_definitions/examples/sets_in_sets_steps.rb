@@ -4,7 +4,8 @@ Given /^I see some sets$/ do
   3.times do
     FactoryGirl.create :media_set, :user => @current_user
   end
-  @current_user.media_sets.count.should == 3
+
+  @current_user.media_sets.count.should == 3 
   
   visit media_resources_path(:user_id => @current_user, :type => "media_sets")
   wait_for_css_element("div.page div.item_box")
