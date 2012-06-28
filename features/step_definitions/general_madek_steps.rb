@@ -380,7 +380,9 @@ When "I make sure I'm logged out" do
   end
 end
 
-When /I filter by "([^"]*)" in "([^"]*)"$/ do |choice, category|
+When /I (do not )?filter by "([^"]*)" in "([^"]*)"$/ do |do_not, choice, category|
+  uncheck = (do_not.blank? ? false : true)
+
   header = find("h3.filter_category", :text => category)
   header.find("a.filter_category_link").click
   # Finds the div underneath the h3 title, so that we can manipulate the form there (e.g. click some checkboxes to
@@ -388,15 +390,19 @@ When /I filter by "([^"]*)" in "([^"]*)"$/ do |choice, category|
   form_div = find("#filter-query").find(:xpath, ".//h3[contains(.,'#{category}')]/following::*")
   lis = form_div.all("li")
 
-#   debugger; puts "lala"
   lis.each do |li|
     unless (li.text =~ /^#{choice} \(\d+\)$/).nil?
       cb = li.find("input")
-      cb.click unless cb[:checked] == "true"
+      if uncheck == true
+        cb.click unless cb[:checked].blank?
+      else
+        cb.click unless cb[:checked] == "true"
+      end
     end
   end
-
 end
+
+
 
 When /I choose the set "([^"]*)" from the media entry$/ do |set_name|
   wait_until {

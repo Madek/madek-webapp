@@ -148,6 +148,6 @@ Given /^I examine one of the child media entry more closely$/ do
   page.execute_script('$(".thumb_box").trigger("mouseenter")')
 end
 
-Then /^I see more informations about that media entry poping up$/ do
-  find(".entry_popup")
+Then /^I see more information about that media entry popping up$/ do
+  wait_until(10) { find(".entry_popup") }
 end

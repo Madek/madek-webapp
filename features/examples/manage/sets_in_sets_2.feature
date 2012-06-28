@@ -24,7 +24,7 @@ Feature: Sets in Sets II
       And I open a set which has child media entries
       And I switch the list of the childs to the miniature view
       And I examine one of the child media entry more closely
-     Then I see more informations about that media entry poping up
+     Then I see more information about that media entry popping up
 
   # https://www.pivotaltracker.com/story/show/22394303
   @javascript

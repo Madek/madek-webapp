@@ -22,7 +22,7 @@ Feature: Use the search filters on my search results
  # We had a problem with this earlier, this is to prevent a regression.
  # The error was that users were logged out when pressing "Filter anwenden" without
  # selecting any options.
- @javascript @foofoo
+ @javascript 
   Scenario: Searching without parameters should not raise an error
     Given I am "evil"
      And I upload some picture titled "Random Nonsense"
@@ -124,6 +124,7 @@ Feature: Use the search filters on my search results
      And the search results should contain "Completely unpure evil"
     When I filter by "evil" in "Schlagworte zu Inhalt und Motiv"
      And I press "Filter anwenden"
+     And I wait for the AJAX magic to happen
     Then the search results should contain "Pure Evil"
      And the search results should contain "Slightly less pure evil"
      And the search results should not contain "Completely unpure evil"
@@ -134,6 +135,7 @@ Feature: Use the search filters on my search results
 
     When I filter by "unpure" in "Schlagworte zu Inhalt und Motiv"
      And I press "Filter anwenden"
+     And I wait for the AJAX magic to happen
     Then the search results should not contain "Pure Evil"
      And the search results should contain "Slightly less pure evil"
      And the search results should not contain "Completely unpure evil"
@@ -143,6 +145,7 @@ Feature: Use the search filters on my search results
     Then the search results should contain "Pure Evil"
     When I filter by "good" in "Schlagworte zu Inhalt und Motiv"
      And I press "Filter anwenden"
+     And I wait for the AJAX magic to happen
     Then the search results should not contain "Pure Evil"
      And the search results should not contain "Slightly less pure evil"
      And the search results should contain "Completely unpure evil"

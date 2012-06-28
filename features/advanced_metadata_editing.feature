@@ -22,14 +22,6 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      |Titel des Werks|My beautiful and proud ship|
      |Untertitel|The Millenium Falcon|
      |Bildlegende|Foreground: A Millenium Falcon. Background: Chewbacca.|
-     |Beschreibung|A lovely, lovely ship, that.|
-     |Bemerkung|I never owned a better ship.|
-     |Internet Links (URL)|http://www.milleniumfalcon.com|
-     |Standort/Aufführungsort|Tatooine|
-     |Mitwirkende / weitere Personen|Obi-Wan Kenobi|
-     |Porträtierte Person/en|Chewbacca|
-     |Partner / beteiligte Institutionen|Rebel Alliance|
-     |Auftrag durch|No one! I am my own boss.|
      |Gattung|Design|
      |Gattung|Fotografie|
      And I follow "Medium"
@@ -37,33 +29,24 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I fill in the metadata form as follows:
      |label|value|
      |Weitere Personen Medienerstellung|Rebel United Photo Developers|
-     |Dimensionen|2380x1200px|
      |Material/Format|Collage|
      And I follow "Credits"
      And I wait for the CSS element "#copyright"
      And I fill in the metadata form as follows:
      |label|value|
      |Rechte|(C) 4233 Han Solo|
-     |Quelle|My own digital camera|
-     |Angeboten durch|Rebel Photography Syndicate|
      And I follow "ZHdK" within ".tabs"
      And I wait for the CSS element "#zhdk_bereich"
      And I fill in the metadata form as follows:
      |label|value|
      |Projekttitel|Photographs of Han's rides|
-     |Dozierende/Projektleitung|No one teaches me!|
 # Testing this widget is too hard to do right now, let's skip using it.
 #     |Bereich ZHdK|Services, Informations-Technologie-Zentrum (SER_SUP_ITZ.alle)|
      And I press "Speichern"
-    Then I should see "My beautiful and proud ship"
-     And I should not see "Millenium Falcon, Front View"
+    Then I should not see "Millenium Falcon, Front View"
      And I should see "The Millenium Falcon"
      And I should see "Foreground: A Millenium Falcon. Background: Chewbacca."
-     And I should see "Rebel United Photo Developers"
      And I should see "Collage"
-     And I should see "Rebel Photography Syndicate"
-     And I should see "My own digital camera"
-     And I should see "No one teaches me!"
      And I should see "Photographs of Han's rides"
 
   @javascript
