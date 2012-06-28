@@ -30,7 +30,7 @@ Feature: Use the search filters on my search results
      And I press "Suchen"
     Then I should see "Random Nonsense"
     When I press "Filter anwenden"
-     And I wait for 2 seconds
+     And I wait for the AJAX magic to happen
     Then I should not see "Bitte anmelden"
      And I should see "Suchergebnisse"
 
@@ -73,7 +73,7 @@ Feature: Use the search filters on my search results
      And the search results should contain "Klaatu Barata Nicto"
      When I filter by "nasty" in "Schlagworte zu Inhalt und Motiv"
      And I press "Filter anwenden"
-     And I wait for 4 seconds
+     And I wait for the AJAX magic to happen
     Then the search results should not contain "The Necronomicon"
      And the search results should contain "Klaatu Barata Nicto"
 
