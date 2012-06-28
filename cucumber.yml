@@ -2,6 +2,6 @@ all: --format progress --format rerun --out tmp/rerun.txt --format junit --out t
 default: --format progress --format rerun --out tmp/rerun.txt --format junit --out tmp/junit --format html --out tmp/html/cucumber.html -e 'features/examples' features
 current_examples: --tags=~@wip --format progress --format rerun --out tmp/rerun.txt --format junit --out tmp/junit --format html --out tmp/html/current_examples.html features/examples/current
 examples: --format progress --format rerun --out tmp/rerun.txt --format junit --out tmp/junit --format html --out tmp/html/examples.html -e 'features/examples/(current|upcoming)' features/examples
-rerun: "@tmp/rerun.txt --format rerun --out tmp/rerun_again.txt"
-rerun_again: "@tmp/rerun_again.txt"
+rerun: "-r features @tmp/rerun.txt --format rerun --out tmp/rerun_again.txt"
+rerun_again: "-r features @tmp/rerun_again.txt"
 profiling: --no-color  --format pretty --format usage --out tmp/cucumber_usage.txt --format rerun --out tmp/rerun.txt -e 'features/examples/upcoming'  features
