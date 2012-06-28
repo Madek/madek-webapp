@@ -11,7 +11,7 @@ Feature: Batch edit media entries
       And I upload some picture titled "Picture Two"
       And I upload some picture titled "Picture Three"
 
-  @javascript
+  @javascript @slow
   Scenario: Remove two media entries from a set using batch edit
     When I create a set titled "Set One"
      And I add the picture "Picture One" to the set "Set One" owned by "Normalo, Normin"
@@ -31,7 +31,7 @@ Feature: Batch edit media entries
     Then I should not see "Picture One"
      And I should not see "Picture Two"
 
-  @javascript
+  @javascript @slow
   Scenario: Change metadata on two media entries using batch edit
     When I create a set titled "Batch Retitle Set"
      And I add the picture "Picture One" to the set "Batch Retitle Set" owned by "Normalo, Normin"
