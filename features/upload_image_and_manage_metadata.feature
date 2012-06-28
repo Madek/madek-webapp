@@ -4,17 +4,15 @@ Feature: Upload images and manage media entries based on images
 
   Background: Set up the world and some users
     Given I have set up the world a little
-      And a user called "Helmut Kohl" with username "helmi" and password "password" exists
-      And a user called "Mikhail Gorbachev" with username "gorbi" and password "password" exists
       
   @javascript
   Scenario: Upload one image file without any special metatada
-    Given I am "helmi"
+    Given I am "normin"
      And I upload some picture titled "not a special picture"
 
   @javascript
   Scenario: Upload an image and add it to a set
-    Given I am "helmi"
+    Given I am "normin"
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
@@ -33,40 +31,40 @@ Feature: Upload images and manage media entries based on images
 
   @javascript
   Scenario: Upload an image file for another user to see
-    Given I am "helmi"
+    Given I am "normin"
      And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
      | label     | value                                |
      | Titel     | A beautiful piece of the Berlin Wall |
-     | Rechte | Kohl, Helmut                         |
+     | Rechte | Normalo, Normin                         |
      And I follow "weiter..."
      And I wait for the CSS element ".has-set-widget"
      And I follow "Import abschliessen"
      And I go to the home page
      And I click the media entry titled "A beautiful piece of the Berlin Wall"
      And I open the permission lightbox
-     And I type "Gorba" into the "user" autocomplete field
-     And I pick "Gorbachev, Mikhail" from the autocomplete field
-     And I give "view" permission to "Gorbachev, Mikhail"
-     And I click on the arrow next to "Kohl, Helmut"
+     And I type "Land" into the "user" autocomplete field
+     And I pick "Landschaft, Liselotte" from the autocomplete field
+     And I give "view" permission to "Landschaft, Liselotte"
+     And I click on the arrow next to "Normalo, Normin"
      And I follow "Abmelden"
-     And I am "gorbi"
+     And I am "liselotte"
      And I go to the home page
      Then I should see "A beautiful piece of the B..."
 
   @javascript
   Scenario: Upload an image file for my group to see
     Given a group called "Mauerfäller" exists
-      And the user with username "helmi" is member of the group "Mauerfäller"
-      And the user with username "gorbi" is member of the group "Mauerfäller"
-      And I am "helmi"
+      And the user with username "normin" is member of the group "Mauerfäller"
+      And the user with username "liselotte" is member of the group "Mauerfäller"
+      And I am "normin"
       And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
       And I go to the upload edit
       And I fill in the metadata for entry number 1 as follows:
       | label     | value                             |
       | Titel     | A second piece of the Berlin Wall |
-      | Rechte | Kohl, Helmut                      |
+      | Rechte | Normalo, Normin                      |
       And I follow "weiter..."
       And I wait for the CSS element ".has-set-widget"
       And I follow "Import abschliessen"
@@ -76,138 +74,56 @@ Feature: Upload images and manage media entries based on images
       And I type "Mauer" into the "group" autocomplete field
       And I pick "Mauerfäller" from the autocomplete field
       And I give "view" permission to "Mauerfäller"
-      And I click on the arrow next to "Kohl, Helmut"
+      And I click on the arrow next to "Normalo, Normin"
       And I follow "Abmelden"
-      And I am "gorbi"
+      And I am "liselotte"
       And I go to the home page
       Then I should see "A second piece of the Berlin"
 
   @javascript
-  Scenario: Make an uploaded file public
-   Given a user called "Raissa Gorbacheva" with username "raissa" and password "password" exists
-    Given I am "helmi"
-     And I upload some picture titled "baustelle osten"
-     And I go to the home page
-     And I click the media entry titled "baustelle osten"
-     And I open the permission lightbox
-     And I give "view" permission to "Öffentlichkeit"
-     And I am "raissa"
-     And I go to the home page
-    Then I should see "baustelle osten"
-
-  @javascript
-  Scenario: Upload a public file and then make it un-public again
-   Given a user called "Raissa Gorbacheva" with username "raissa" and password "password" exists
-    Given I am "helmi"
-     And I upload some picture titled "geheimsache"
-     And I go to the home page
-     And I click the media entry titled "geheimsache"
-     And I open the permission lightbox
-     And I give "view" permission to "Öffentlichkeit"
-     And I am "raissa"
-     And I go to the home page
-    Then I should see "geheimsache"
-    Given I am "helmi"
-     And I click the media entry titled "geheimsache"
-     And I open the permission lightbox
-     And I remove "view" permission from "Öffentlichkeit"
-     And I am "raissa"
-     And I go to the home page
-    Then I should not see "geheimsache"
-
-  @javascript
-  Scenario: Give hi-resolution download permission on a file
-   Given a user called "Hans Wurst" with username "hanswurst" and password "password" exists
-    Given I am "helmi"
-     And I upload some picture titled "hochaufgelöste geheimbünde"
-     And I click the media entry titled "hochaufgelöste geheimbünde"
-     And I open the permission lightbox
-     And I type "Wurs" into the "user" autocomplete field
-     And I pick "Wurst, Hans" from the autocomplete field
-     And I give "view" permission to "Wurst, Hans"
-     And I open the permission lightbox
-     And I give "download" permission to "Wurst, Hans"
-     And I am "hanswurst"
-     And I go to the home page
-    Then I should see "hochaufgelöste geheimbünde"
-    When I click the media entry titled "hochaufgelöste geheimbünde"
-     And I follow "Exportieren"
-    Then the box should have a hires download link
-
-  @javascript 
-  Scenario: Give and then revoke hi-resolution download permission on a file
-   Given a user called "Hans Wurst" with username "hanswurst" and password "password" exists
-    Given I am "helmi"
-     And I upload some picture titled "hochaufgelöste geheimbünde"
-     And I click the media entry titled "hochaufgelöste geheimbünde"
-     And I open the permission lightbox
-     And I type "Wurs" into the "user" autocomplete field
-     And I pick "Wurst, Hans" from the autocomplete field
-     And I give "view" permission to "Wurst, Hans"
-     And I open the permission lightbox
-     And I give "download" permission to "Wurst, Hans"
-     And I am "hanswurst"
-     And I go to the home page
-    Then I should see "hochaufgelöste geheimbünde"
-    When I click the media entry titled "hochaufgelöste geheimbünde"
-     And I follow "Exportieren"
-    Then the box should have a hires download link
-    Given I am "helmi"
-     And I click the media entry titled "hochaufgelöste geheimbünde"
-     And I open the permission lightbox
-     And I remove "download" permission from "Wurst, Hans"
-     And I am "hanswurst"
-     And I go to the home page
-    Then I should see "hochaufgelöste geheimbünde"
-    When I click the media entry titled "hochaufgelöste geheimbünde"
-     And I follow "Exportieren"
-    Then the box should not have a hires download link
-
-
-  @javascript
   Scenario: Add a single media entry to favorites from the media entry list
-    Given I am "helmi"
+    Given I am "normin"
      And I upload some picture titled "mein lieblingsknödel"
      And I go to the media entries
      And all the entries controls become visible
      And I switch to the grid view
      And I toggle the favorite star on the media entry titled "mein lieblingsknödel"
-     And I click on the arrow next to "Kohl, Helmut"
+     And I click on the arrow next to "Normalo, Normin"
      And I follow "Meine Favoriten"
     Then I should see "mein lieblingsknödel"
 
   @javascript
   Scenario: Add a single media entry to favorites from the media detail page
-    Given I am "helmi"
+    Given I am "normin"
      And I upload some picture titled "mein lieblingsdackel"
      And I go to the media entries
      And I click the media entry titled "mein lieblingsdackel"
      And I toggle the favorite star on this media entry
-     And I click on the arrow next to "Kohl, Helmut"
+     And I click on the arrow next to "Normalo, Normin"
      And I follow "Meine Favoriten"
     Then I should see "mein lieblingsdackel"
 
   @javascript 
   Scenario: Add and remove a single media entry from favorites
-    Given I am "helmi"
+    Given I am "normin"
      And I upload some picture titled "mein lieblingsbier"
      And I go to the media entries
      And all the entries controls become visible
      And I switch to the grid view
      And I toggle the favorite star on the media entry titled "mein lieblingsbier"
-     And I click on the arrow next to "Kohl, Helmut"
+     And I click on the arrow next to "Normalo, Normin"
      And I follow "Meine Favoriten"
     Then I should see "mein lieblingsbier"
     When I go to the media entries
      And all the entries controls become visible
      And I toggle the favorite star on the media entry titled "mein lieblingsbier"
-     And I click on the arrow next to "Kohl, Helmut"
+     And I click on the arrow next to "Normalo, Normin"
      And I follow "Meine Favoriten"
     Then I should not see "mein lieblingsbier"
 
   @javascript 
   Scenario: Upload an image and delete it afterwards
-    Given I am "helmi"
+    Given I am "normin"
      And I upload some picture titled "mein lieblingsflugzeug"
      And I go to the media entries
      And all the entries controls become visible
@@ -218,7 +134,7 @@ Feature: Upload images and manage media entries based on images
 
   @javascript
   Scenario: Upload an image that has MAdeK title and date information (specific date) its EXIF/IPTC metadata
-    Given I am "helmi"
+    Given I am "normin"
      And I upload the file "features/data/images/date_should_be_2011-05-30.jpg" relative to the Rails directory
      And I go to the upload edit
      And I follow "weiter..."
@@ -230,7 +146,7 @@ Feature: Upload images and manage media entries based on images
 
   @javascript @ts
   Scenario: Upload an image that has MAdeK metadata with a from/to date in its EXIF/IPTC metadata
-    Given I am "helmi"
+    Given I am "normin"
      And I upload the file "features/data/images/date_should_be_from_to_may.jpg" relative to the Rails directory
      And I go to the upload edit
      And I follow "weiter..."
@@ -238,11 +154,6 @@ Feature: Upload images and manage media entries based on images
      And I follow "Import abschliessen"
      And I go to the home page
      And I click the media entry titled "Frau-Sein"
-    # The below stuff would better be done with a Cucumber table, so you can do e.g.:
-    # |field|value|
-    # |Datierung|1990|
-    # So that we can specify the "should be..." part of a media entry like we specify the
-    # metadata editor part.
     Then I should see "01.05.2011 - 31.05.2011"
      And I should see "Frau-Sein"
      And I should see "Buser, Monika"
@@ -250,7 +161,7 @@ Feature: Upload images and manage media entries based on images
 
   @javascript @ts
   Scenario: Upload an image that has MAdeK metadata with a string instead of a date its EXIF/IPTC metadata
-    Given I am "helmi"
+    Given I am "normin"
      And I upload the file "features/data/images/date_should_be_1990.jpg" relative to the Rails directory
      And I go to the upload edit
      And I follow "weiter..."
@@ -258,11 +169,6 @@ Feature: Upload images and manage media entries based on images
      And I follow "Import abschliessen"
      And I go to the home page
      And I click the media entry titled "Frau-Sein"
-    # The below stuff would better be done with a Cucumber table, so you can do e.g.:
-    # |field|value|
-    # |Datierung|1990|
-    # So that we can specify the "should be..." part of a media entry like we specify the
-    # metadata editor part.
     Then I should see "1990"
      And I should see "Frau-Sein"
      And I should see "Buser, Monika"
