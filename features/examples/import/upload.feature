@@ -87,6 +87,7 @@ Feature: Upload
   Scenario: Deleting files before, during and after upload without completing the import
     When I uploading some files from the dropbox and from the filesystem
      And I delete some fo those after the upload
+     And I wait for the AJAX magic to happen
     Then those files are deleted
      And only the rest of the files are available for import
     
