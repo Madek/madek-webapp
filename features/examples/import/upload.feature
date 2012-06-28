@@ -54,7 +54,7 @@ Feature: Upload
      And I add the media entry to a set called "Konzepte"
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
-  @javascript
+  @javascript @slow
   Scenario: Uploading large files
     When I upload a file with a file size greater than 1.4 GB
     Then the system gives me a warning telling me it's impossible to upload so much through the browser
