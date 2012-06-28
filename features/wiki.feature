@@ -33,7 +33,6 @@ Feature: Help wiki
     When I go to the wiki edit page
     Then I should see a message that I'm not allowed to do that
 
-  @javascript
   Scenario: Admins should be able to edit pages
     Given I am "admin"
      And I go to the wiki
@@ -44,7 +43,6 @@ Feature: Help wiki
     When I follow "Foo"
     Then I should land on the newly to be created "Foo" page
 
-  @javascript
   Scenario: Admins should be able to add media links
     Given I am "admin"
    Given there is a media entry
@@ -54,7 +52,6 @@ Feature: Help wiki
 # This is broken since we moved to the persona SQL file -- it goes to the wrong media entry
 #    Then I should see the media entry
 
-  @javascript
   Scenario: Admins should be able to add video links
     Given I am "admin"
    Given there is a media entry
