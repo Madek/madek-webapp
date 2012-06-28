@@ -47,6 +47,14 @@ namespace :madek do
         raise "Tests failed!" if exit_code_rerun_again != 0
       end
 
+      task :slow do
+        puts "Running Cucumber tests marked as @slow"
+        system "bundle exec cucumber -p slow"
+        exit_code = $? >> 8 # magic brainfuck
+
+        raise "Tests failed!" if exit_code != 0
+      end
+
       task :seperate do
         puts "Running 'default' Cucumber profile"
         system "bundle exec cucumber -p default"
