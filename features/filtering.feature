@@ -5,11 +5,10 @@ Feature: Use the search filters on my search results
 
   Background: Set up the world and some users
     Given I have set up the world a little
-      And a user called "Evil Librarian" with username "evil" and password "password" exists
 
   @javascript 
   Scenario: A simple search, no filtering, that should return a result
-    Given I am "evil"
+    Given I am "normin"
      And I upload some picture titled "The Necronomicon"
      And I fill in "query" with "necronomicon"
      And I press "Suchen"
@@ -24,7 +23,7 @@ Feature: Use the search filters on my search results
  # selecting any options.
  @javascript 
   Scenario: Searching without parameters should not raise an error
-    Given I am "evil"
+    Given I am "normin"
      And I upload some picture titled "Random Nonsense"
      And I fill in "query" with "nonsense"
      And I press "Suchen"
@@ -36,9 +35,9 @@ Feature: Use the search filters on my search results
 
   @javascript
   Scenario: Filtering by keyword: Finding both media entries that have a common word, but showing just one when only one's keyword is selected
-    Given I am "evil"
+    Given I am "normin"
      And I upload some picture titled "The Necronomicon"
-     And I click the arrow next to "Librarian, Evil"
+     And I click the arrow next to "Normalo, Normin"
      And I follow "Meine Medien"
      And all the hidden items become visible
      And I switch to the grid view
@@ -54,7 +53,7 @@ Feature: Use the search filters on my search results
      And I press "Speichern"
 
      And I upload some picture titled "Klaatu Barata Nicto"
-     And I click the arrow next to "Librarian, Evil"
+     And I click the arrow next to "Normalo, Normin"
      And I follow "Meine Medien"
      And all the hidden items become visible
      And I switch to the grid view
@@ -79,9 +78,9 @@ Feature: Use the search filters on my search results
 
   @javascript
   Scenario: Filtering three different media entries
-    Given I am "evil"
+    Given I am "normin"
      And I upload some picture titled "Pure Evil"
-     And I click the arrow next to "Librarian, Evil"
+     And I click the arrow next to "Normalo, Normin"
      And I follow "Meine Medien"
      And all the hidden items become visible
      And I click the edit icon on the media entry titled "Pure Evil"
@@ -93,7 +92,7 @@ Feature: Use the search filters on my search results
      |Schlagworte zu Inhalt und Motiv|pure|
      And I press "Speichern"
      And I upload some picture titled "Slightly less pure evil"
-     And I click the arrow next to "Librarian, Evil"
+     And I click the arrow next to "Normalo, Normin"
      And I follow "Meine Medien"
      And all the hidden items become visible
      And I switch to the grid view
@@ -106,7 +105,7 @@ Feature: Use the search filters on my search results
      |Schlagworte zu Inhalt und Motiv|evil|
      And I press "Speichern"
      And I upload some picture titled "Completely unpure evil"
-     And I click the arrow next to "Librarian, Evil"
+     And I click the arrow next to "Normalo, Normin"
      And I follow "Meine Medien"
      And all the hidden items become visible
      And I switch to the grid view
