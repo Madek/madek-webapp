@@ -10,13 +10,13 @@ Feature: Upload
       And all users have dropboxes
 
   # https://www.pivotaltracker.com/story/show/24559407 -> Zugriffsberechtigungen beim Upload: Gleich wie bei Medieneintrag editieren
-  @javascript
+  @javascript @slow
   Scenario: Setting permissions during upload
     When I upload a file
     Then the file is attached to a media entry
      And I can set the permissions for the media entry during the upload process
-
-  @javascript
+ 
+  @javascript @slow
   Scenario: Filling in core metadata during upload
     When I upload a file
     Then the file is attached to a media entry
@@ -31,7 +31,7 @@ Feature: Upload
      | Rechte                       | Tester                   |
      
   # https://www.pivotaltracker.com/story/show/24559377 -> User kann beim Upload beim Vergeben der Metadaten die Werte zu Titel, Autor, Datierung, Schlagworte und Rechten von einem auf alle Medieneinträge übertrage
-  @javascript
+  @javascript @slow
   Scenario: Assigning one value to all uploaded things
     When I upload several files
      When I go to the upload edit
@@ -47,7 +47,7 @@ Feature: Upload
     Then I can assign the Copyright to all the other files I just uploaded
 
   # Feature exists already, but needs this test
-  @javascript
+  @javascript @slow
   Scenario: Adding to a set during upload
     When I upload a file
     Then the file is attached to a media entry
@@ -61,21 +61,21 @@ Feature: Upload
      And the warning includes instructions for an FTP upload
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
-  @javascript
+  @javascript @slow
   Scenario: Uploading via a dropbox
     When I have uploaded some files to my dropbox
      And I start a new upload process
     Then I can choose files from my dropbox instead of uploading them through the browser
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
-  @javascript
+  @javascript @slow
   Scenario: Recursively searching for importable files in my dropbox
     When I have uploaded a directory containing files to my dropbox
      And I start a new upload process
     Then I can choose files from my dropbox instead of uploading them through the browser
   
   # https://www.pivotaltracker.com/story/show/24564545 -> Upload abbrechen können   
-  @javascript
+  @javascript @slow
   Scenario: Cancelling my upload
     When I have started uploading some files
      And I cancel the upload
@@ -83,7 +83,7 @@ Feature: Upload
      And the uploaded files are still there
   
   # https://www.pivotaltracker.com/story/show/24564505 -> Dateien nach Upload aber vor Import löschen   
-  @javascript
+  @javascript @slow
   Scenario: Deleting files before, during and after upload without completing the import
     When I uploading some files from the dropbox and from the filesystem
      And I delete some fo those after the upload
@@ -99,7 +99,7 @@ Feature: Upload
 
     
   # https://www.pivotaltracker.com/story/show/24559317 -> Highlighting für Felder, die nicht validieren (required)
-  @javascript
+  @javascript @slow
   Scenario: Fields that don't validate should be highlighted
     When I upload a file
       When I go to the upload edit
@@ -111,7 +111,7 @@ Feature: Upload
       And the field "Rechte" is highlighted as invalid
 
   # https://www.pivotaltracker.com/story/show/25923269
-  @javascript
+  @javascript @slow
   Scenario: Sequential batch editor for uploading many files
     When I upload several files
       When I go to the upload edit
@@ -120,7 +120,7 @@ Feature: Upload
        And I can jump to the previous file
 
   # https://www.pivotaltracker.com/story/show/25923269
-  @javascript
+  @javascript @slow
   Scenario: Filtering only media entries with missing metadata in the sequential batch editor
     When I upload several files
      When I go to the upload edit
