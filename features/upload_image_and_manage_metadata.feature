@@ -4,11 +4,11 @@ Feature: Upload images and manage media entries based on images
 
   Background: Set up the world and some users
     Given I have set up the world a little
+      And I am "normin"
       
   @javascript
   Scenario: Upload one image file without any special metatada
-    Given I am "normin"
-     And I upload some picture titled "not a special picture"
+     When I upload some picture titled "not a special picture"
 
   @javascript @slow
   Scenario: Upload an image file for another user to see
