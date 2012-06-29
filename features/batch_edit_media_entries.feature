@@ -54,3 +54,12 @@ Feature: Batch edit media entries
      Then I should see "We are all individuals"
      And I should not see "Picture One"
      And I should not see "Picture Two"
+
+  @javascript @slow
+  Scenario: Use the batch's "Select all" button
+      And I am on the homepage
+     When I click the mediaset titled "Konzepte"
+      And I use batch's deselect all
+      And I use batch's select all
+     Then I should see that all visible resources are in my batch bar
+    
