@@ -74,6 +74,8 @@ group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
   gem 'rvm-capistrano'
+  gem 'railroady'
+  gem 'statsample'
 end
 
 group :test, :development do
@@ -81,10 +83,11 @@ group :test, :development do
   gem "guard-cucumber", "~> 1.2"
   gem "guard-rspec", "~> 1.1"
   gem "guard-spork", "~> 1.0"
-  gem "guard-jasmine-headless-webkit", "~> 0.3.2"
-  gem "jasmine-headless-webkit", "~> 0.8.4" # needed for "headless" running of jasmine tests (needed for CI)
-  gem "jasmine-rails", "~> 0.0.3" # javascript test environment
-  gem "jasminerice", "~> 0.0.8" # needed for implement coffeescript, fixtures and asset pipeline serverd css into jasmine
+# Disabling these gems because we don't do Jasmine at the moment, and loading gems makes our test startup time longer
+#  gem "guard-jasmine-headless-webkit", "~> 0.3.2"
+#  gem "jasmine-headless-webkit", "~> 0.8.4" # needed for "headless" running of jasmine tests (needed for CI)
+#  gem "jasmine-rails", "~> 0.0.3" # javascript test environment
+#  gem "jasminerice", "~> 0.0.8" # needed for implement coffeescript, fixtures and asset pipeline serverd css into jasmine
   gem "rb-fsevent", "~> 0.9"
   gem "ruby_gntp", "~> 0.3.4"
   gem 'autotest'
@@ -93,10 +96,8 @@ group :test, :development do
   gem 'factory_girl_rails', "~> 3.3"
   gem 'faker'
   gem 'pry'
-  gem 'railroady'
   gem 'rspec-rails'
   gem 'spork'
-  gem 'statsample'
 end
 
 group :development, :production do
