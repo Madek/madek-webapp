@@ -13,6 +13,13 @@ namespace :madek do
       Rake::Task["madek:test:cucumber:separate"].invoke
     end
 
+    task :run_slow do
+      Rake::Task["madek:test:setup"].invoke
+      Rake::Task["madek:test:rspec"].invoke
+      Rake::Task["madek:test:cucumber:slow"].invoke
+    end
+
+
     task :setup do
       # Rake seems to be very stubborn about where it takes
       # the RAILS_ENV from, so let's set a lot of options (?)
