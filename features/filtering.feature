@@ -6,7 +6,7 @@ Feature: Use the search filters on my search results
   Background: Set up the world and some users
     Given I have set up the world a little
 
-  @javascript 
+  @javascript @slow
   Scenario: A simple search, no filtering, that should return a result
     Given I am "normin"
      And I upload some picture titled "The Necronomicon"
@@ -21,7 +21,7 @@ Feature: Use the search filters on my search results
  # We had a problem with this earlier, this is to prevent a regression.
  # The error was that users were logged out when pressing "Filter anwenden" without
  # selecting any options.
- @javascript 
+ @javascript @slow
   Scenario: Searching without parameters should not raise an error
     Given I am "normin"
      And I upload some picture titled "Random Nonsense"
@@ -33,7 +33,7 @@ Feature: Use the search filters on my search results
     Then I should not see "Bitte anmelden"
      And I should see "Suchergebnisse"
 
-  @javascript
+  @javascript @slow
   Scenario: Filtering by keyword: Finding both media entries that have a common word, but showing just one when only one's keyword is selected
     Given I am "normin"
      And I upload some picture titled "The Necronomicon"
@@ -76,7 +76,7 @@ Feature: Use the search filters on my search results
     Then the search results should not contain "The Necronomicon"
      And the search results should contain "Klaatu Barata Nicto"
 
-  @javascript
+  @javascript @slow
   Scenario: Filtering three different media entries
     Given I am "normin"
      And I upload some picture titled "Pure Evil"

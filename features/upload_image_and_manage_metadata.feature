@@ -10,29 +10,9 @@ Feature: Upload images and manage media entries based on images
     Given I am "normin"
      And I upload some picture titled "not a special picture"
 
-  @javascript
-  Scenario: Upload an image and add it to a set
-    Given I am "normin"
-     And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
-     And I go to the upload edit
-     And I fill in the metadata for entry number 1 as follows:
-     | label     | value                 |
-     | Titel     | berlin wall for a set |
-     | Rechte | some other dude       |
-     And I follow "weiter..."
-     And I wait for the CSS element ".has-set-widget"
-     And I open the selection widget for this page
-     And I create a new set named "Mauerstücke"
-     And I submit the selection widget
-     And I follow "Import abschliessen"
-     And I go to the home page
-     Then I should see "berlin wall for a set"
-      And I should see "Mauerstücke"
-
-  @javascript
+  @javascript @slow
   Scenario: Upload an image file for another user to see
-    Given I am "normin"
-     And I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
+    When I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
      And I go to the upload edit
      And I fill in the metadata for entry number 1 as follows:
      | label     | value                                |
@@ -53,7 +33,7 @@ Feature: Upload images and manage media entries based on images
      And I go to the home page
      Then I should see "A beautiful piece of the B..."
 
-  @javascript
+  @javascript @slow
   Scenario: Upload an image file for my group to see
     Given a group called "Mauerfäller" exists
       And the user with username "normin" is member of the group "Mauerfäller"
@@ -80,10 +60,9 @@ Feature: Upload images and manage media entries based on images
       And I go to the home page
       Then I should see "A second piece of the Berlin"
 
-  @javascript
+  @javascript @slow
   Scenario: Add a single media entry to favorites from the media entry list
-    Given I am "normin"
-     And I upload some picture titled "mein lieblingsknödel"
+    When I upload some picture titled "mein lieblingsknödel"
      And I go to the media entries
      And all the entries controls become visible
      And I switch to the grid view
@@ -92,10 +71,9 @@ Feature: Upload images and manage media entries based on images
      And I follow "Meine Favoriten"
     Then I should see "mein lieblingsknödel"
 
-  @javascript
+  @javascript @slow
   Scenario: Add a single media entry to favorites from the media detail page
-    Given I am "normin"
-     And I upload some picture titled "mein lieblingsdackel"
+    When I upload some picture titled "mein lieblingsdackel"
      And I go to the media entries
      And I click the media entry titled "mein lieblingsdackel"
      And I toggle the favorite star on this media entry
@@ -103,10 +81,9 @@ Feature: Upload images and manage media entries based on images
      And I follow "Meine Favoriten"
     Then I should see "mein lieblingsdackel"
 
-  @javascript 
+  @javascript @slow
   Scenario: Add and remove a single media entry from favorites
-    Given I am "normin"
-     And I upload some picture titled "mein lieblingsbier"
+    When I upload some picture titled "mein lieblingsbier"
      And I go to the media entries
      And all the entries controls become visible
      And I switch to the grid view
@@ -121,10 +98,9 @@ Feature: Upload images and manage media entries based on images
      And I follow "Meine Favoriten"
     Then I should not see "mein lieblingsbier"
 
-  @javascript 
+  @javascript @slow
   Scenario: Upload an image and delete it afterwards
-    Given I am "normin"
-     And I upload some picture titled "mein lieblingsflugzeug"
+    When I upload some picture titled "mein lieblingsflugzeug"
      And I go to the media entries
      And all the entries controls become visible
      And I switch to the grid view
@@ -134,8 +110,7 @@ Feature: Upload images and manage media entries based on images
 
   @javascript
   Scenario: Upload an image that has MAdeK title and date information (specific date) its EXIF/IPTC metadata
-    Given I am "normin"
-     And I upload the file "features/data/images/date_should_be_2011-05-30.jpg" relative to the Rails directory
+    When I upload the file "features/data/images/date_should_be_2011-05-30.jpg" relative to the Rails directory
      And I go to the upload edit
      And I follow "weiter..."
      And I wait for the CSS element ".has-set-widget"
@@ -146,8 +121,7 @@ Feature: Upload images and manage media entries based on images
 
   @javascript @ts
   Scenario: Upload an image that has MAdeK metadata with a from/to date in its EXIF/IPTC metadata
-    Given I am "normin"
-     And I upload the file "features/data/images/date_should_be_from_to_may.jpg" relative to the Rails directory
+    When I upload the file "features/data/images/date_should_be_from_to_may.jpg" relative to the Rails directory
      And I go to the upload edit
      And I follow "weiter..."
      And I wait for the CSS element ".has-set-widget"
@@ -161,8 +135,7 @@ Feature: Upload images and manage media entries based on images
 
   @javascript @ts
   Scenario: Upload an image that has MAdeK metadata with a string instead of a date its EXIF/IPTC metadata
-    Given I am "normin"
-     And I upload the file "features/data/images/date_should_be_1990.jpg" relative to the Rails directory
+    When I upload the file "features/data/images/date_should_be_1990.jpg" relative to the Rails directory
      And I go to the upload edit
      And I follow "weiter..."
      And I wait for the CSS element ".has-set-widget"
