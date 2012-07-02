@@ -79,7 +79,6 @@ describe MetaDatumKeywords do
     end
   
     it "should keep existing keywords assigning new keywords" do
-
       params = {meta_data_attributes: {"0" =>  {meta_key_id: @meta_key.id, value: @term1.to_s}}}
       @media_entry.update_attributes(params, @user1)
       @media_entry.reload
@@ -88,6 +87,8 @@ describe MetaDatumKeywords do
       keywords.map(&:meta_term).should == [@term1]
       keywords.map(&:user).should == [@user1]
 
+      sleep(1) # wait for the database write
+      
       params = {meta_data_attributes: {"0" =>  {meta_key_id: @meta_key.id, value: [@term1.id, @term2.to_s]}}}
       @media_entry.update_attributes(params, @user2)
       @media_entry.reload
@@ -95,6 +96,17 @@ describe MetaDatumKeywords do
       keywords = @media_entry.meta_data.flat_map(&:value) 
       keywords.map(&:meta_term).should == [@term1, @term2]
       keywords.map(&:user).should == [@user1, @user2]
+
+      # and deletes keywords now
+      sleep(1) # wait for the database write
+      
+      params = {meta_data_attributes: {"0" =>  {meta_key_id: @meta_key.id, value: [@term2.id]}}}
+      @media_entry.update_attributes(params, @user2)
+      @media_entry.reload
+      @media_entry.meta_data.count.should == 1
+      keywords = @media_entry.meta_data.flat_map(&:value) 
+      keywords.map(&:meta_term).should == [@term2]
+      keywords.map(&:user).should == [@user2]
     end
   
   end
