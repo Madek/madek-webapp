@@ -56,9 +56,9 @@ class User < ActiveRecord::Base
   
   def self.find_by_login(login)
     if SQLHelper.adapter_is_mysql?
-      where("login like ?", login)
+      where("login like ?", login).limit(1).first
     elsif SQLHelper.adapter_is_postgresql?
-      where("login ilike ?", login)
+      where("login ilike ?", login).limit(1).first
     else
       raise "adapter not supported"
     end
