@@ -65,7 +65,7 @@ Feature: Permissions
       And I am "Normin"
      Then "Normin" is the owner of the resource
   
-  @javascript
+  @javascript @slow
   Scenario: Permission which allows a user to add MediaResources to a MediaSet  
     Given a set named "Editable Set"
       And I am "Normin"
@@ -99,7 +99,7 @@ Feature: Permissions
     And "Normin" changes the resource's permissions for "Petra" as follows:
     |permission       |value|
     |view             |false|
-    When I am "Petra"
+    Given I am "Petra"
     Then I can not view that resource
 
   # https://www.pivotaltracker.com/story/show/25238301

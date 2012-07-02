@@ -123,14 +123,12 @@ When /^I have started uploading some files$/ do
 end
 
 When /^I cancel the upload$/ do
-  sleep(1)
   step 'follow "Abbrechen"'
   page.driver.browser.switch_to.alert.accept
 end
 
 Then /^the uploaded files are still there$/ do
   visit "/upload"
-  sleep(0.5)
   wait_for_css_element("li.plupload_done")
 end
 
@@ -161,7 +159,6 @@ When /^I delete some fo those after the upload$/ do
 end
 
 Then /^those files are deleted$/ do
-  sleep(2)
   @current_user.incomplete_media_entries.each do |element|
     element.media_file.filename.should_not == "berlin_wall_01.jpg"
   end
