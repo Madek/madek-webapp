@@ -53,6 +53,16 @@ class User < ActiveRecord::Base
 #temp#  attr_accessible :login, :email, :person_id
 
 #############################################################
+  
+  def self.find_by_login(login)
+    if SQLHelper.adapter_is_mysql?
+      where("login like ?", login)
+    elsif SQLHelper.adapter_is_postgresql?
+      where("login ilike ?", login)
+    else
+      raise "adapter not supported"
+    end
+  end
 
   def to_s
     name
