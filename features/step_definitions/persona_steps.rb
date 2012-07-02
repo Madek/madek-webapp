@@ -21,7 +21,6 @@ Given /^I am "(\w+)"$/ do |login|
   fill_in "login", :with => login
   fill_in "password", :with => "password"
   click_link_or_button "Log in"
-
-  @current_user = User.find_by_login(login)
+  @current_user = User.find_by_login(login.downcase)
   @current_user ||= FactoryGirl.create(:user, {:login => login})
 end
