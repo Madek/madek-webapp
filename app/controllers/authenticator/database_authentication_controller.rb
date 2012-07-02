@@ -10,7 +10,7 @@ class Authenticator::DatabaseAuthenticationController < ApplicationController
   def login
     if request.post?
       crypted_password = Digest::SHA1.hexdigest(params[:password])
-      if user = User.where(:login => params[:login], :password => crypted_password).first
+      if user = User.where(:login => params[:login].try(&:downcase), :password => crypted_password).first
         session[:user_id] = user.id
       else
         flash[:error] = _("Invalid username/password")
