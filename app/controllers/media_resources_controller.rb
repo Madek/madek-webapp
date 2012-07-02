@@ -75,6 +75,8 @@ class MediaResourcesController < ApplicationController
   #   ```
   # @example_response_description Responding with the index of media resources. Default sorting at on the update_at attribute latest first. You get 36 elements per page and informations about the current pagination.
   #
+  #####
+  #
   # @example_request
   #   ```json
   #   {
@@ -90,6 +92,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -118,6 +123,8 @@ class MediaResourcesController < ApplicationController
   #   ```
   # @example_response_description The attributes of the MetaContext "core" might change, you should get the shema of the context by fetching the "core" context through the MetaContext resource.
   #
+  #####
+  #
   # @example_request
   #   ```json
   #   {
@@ -142,6 +149,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -166,6 +176,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -188,6 +201,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -211,6 +227,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -234,6 +253,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -260,6 +282,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -286,6 +311,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -322,6 +350,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```  
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -355,6 +386,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```  
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -381,8 +415,10 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```  
-  # @example_request_description The responding MediaResource with id 1 is accesible by everyone and is editable, managable by the current user. The MediaResource is not part of the current user's favorites.
+  # @example_response_description The responding MediaResource with id 1 is accesible by everyone and is editable, managable by the current user. The MediaResource is not part of the current user's favorites.
   #
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -418,7 +454,50 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```  
-  # @example_request_description Children are not responding for MediaEntries. The children uses a "nested" pagination for its own. If you want to controll the pagination inside the children pass a "pagination" attribute to the children value (e.g. {"pagination":{"page":2}}). If you want to forward a "with" to the children to request more nested informations just parse a Hash to the value containing the with informations (e.g. {"with":{"children":{with:{"media_type": true}}}}).
+  # @example_response_description Children are not responding for MediaEntries. The children uses a "nested" pagination for its own. If you want to controll the pagination inside the children pass a "pagination" attribute to the children value (e.g. {"pagination":{"page":2}}). If you want to forward a "with" to the children to request more nested informations just parse a Hash to the value containing the with informations (e.g. {"with":{"children":{with:{"media_type": true}}}}).
+  #
+  #####
+  #
+  # @example_request
+  #   ```json
+  #   {
+  #     "ids": [1],
+  #     "with": {
+  #       "children":{
+  #         "pagination": {
+  #           page: 2,
+  #           per_page: 2
+  #         }
+  #       }
+  #     }
+  #   }
+  #   ``` 
+  # @example_request_description Paginate through children of MediaResource with id 1.
+  # @example_response
+  #   ```json
+  #   {
+  #     "media_resources": [
+  #       {
+  #         "id":1,
+  #         "type":"media_set",
+  #         "children": {
+  #           "media_resources": {[
+  #             {"id":4123}
+  #           ]},
+  #           "pagination": {
+  #             "total":3,
+  #             "page":2,
+  #             "per_page":2,
+  #             "total_pages":2
+  #           }
+  #         }
+  #       },
+  #     ]
+  #   }
+  #   ```  
+  # @example_response_description 
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -466,7 +545,7 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```  
-  # @example_request_description MediaEntries and MediaSets are responding with parents. The parents uses a "nested" pagination for its own. If you want to controll the pagination inside the parents pass a "pagination" attribute to the children value (e.g. {"pagination":{"page":2}}). If you want to forward a "with" to the parents to request more nested informations just parse a Hash to the value containing the with informations (e.g. {"with":{"parents":{"with":{"media_type": true}}}}).
+  # @example_response_description MediaEntries and MediaSets are responding with parents. The parents uses a "nested" pagination for its own. If you want to controll the pagination inside the parents pass a "pagination" attribute to the children value (e.g. {"pagination":{"page":2}}). If you want to forward a "with" to the parents to request more nested informations just parse a Hash to the value containing the with informations (e.g. {"with":{"parents":{"with":{"media_type": true}}}}).
   #
   def index(ids = (params[:collection_id] ? MediaResource.by_collection(current_user.id, params[:collection_id]) : params[:ids]),
             type = params[:type],
