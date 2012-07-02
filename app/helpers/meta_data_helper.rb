@@ -344,30 +344,23 @@ module MetaDataHelper
           h += link_to icon_tag("button_add_person"), new_person_path, :class => "dialog_link", :style => "margin-top: .5em;"
           
         when "MetaDatumDate"
-          meta_datum.object.value ||= [] # OPTIMIZE
+          meta_datum.object.value ||= "" # OPTIMIZE
           at = from = to = at_time = ""
           selected_option = "freetext"
-          case meta_datum.object.value.size
-            when 2
-              f = meta_datum.object.value.first
-              l = meta_datum.object.value.last
-              if f.parsed and l.parsed
-                #old# from = f.to_s
-                #old# to = l.to_s
-                from = f.parsed.to_formatted_s(:date)
-                to = l.parsed.to_formatted_s(:date)
-                selected_option = "from-to"
-              end
-            when 1
-              f = meta_datum.object.value.first
-              if f.parsed
-                #old# at = f.to_s
-                at = f.parsed.to_formatted_s(:date)
-                if f.parsed.seconds_since_midnight > 0
-                  at_time = f.parsed.to_formatted_s(:time_full) + " " + f.parsed.formatted_offset 
-                end
-                selected_option = "at"
-              end
+
+          splitted_value = meta_datum.object.value.split(' - ')
+          begin
+            case splitted_value.size
+              when 2
+                from = splitted_value.first
+                to = splitted_value.last
+                selected_option = "from-to" if Date.parse(from) and Date.parse(to)
+              when 1
+                at = splitted_value.first
+                selected_option = "at" if Date.parse(at)
+            end
+          rescue
+            # let's display the freetext
           end
 
           h += select_tag "dateSelect", options_for_select([["am", "at"], ["von - bis", "from-to"], ["Freie Eingabe", "freetext"]], selected_option)
