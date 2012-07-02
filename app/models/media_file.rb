@@ -146,6 +146,11 @@ class MediaFile < ActiveRecord::Base
     end
   end
   
+  # Need to replace wget call below with a Ruby-native method on top of Net::FTP
+  def ftp_get
+
+  end
+
   def retrieve_encoded_files
     require Rails.root + 'lib/encode_job'
     paths = []
