@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Preview < ActiveRecord::Base
 
-  after_destroy { File.delete(full_path) }
+  after_destroy :delete_file
 
   belongs_to :media_file
 
@@ -11,6 +11,14 @@ class Preview < ActiveRecord::Base
 
   def size
     File.size(full_path)
+  end
+
+  def delete_file
+    begin
+      File.delete(full_path)
+    rescue Errno::ENOENT
+      puts "Can't delete #{full_path}, file does not exist."
+    end
   end
 
 end
