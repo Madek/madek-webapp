@@ -29,7 +29,7 @@ class MediaFile < ActiveRecord::Base
 
 #########################################################
 
-  validates_presence_of :uploaded_data
+  validates_presence_of :uploaded_data, :on => :create
 
   attr_accessor :uploaded_data
 
