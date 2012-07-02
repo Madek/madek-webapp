@@ -146,9 +146,22 @@ class MediaFile < ActiveRecord::Base
     end
   end
   
-  # Need to replace wget call below with a Ruby-native method on top of Net::FTP
-  def ftp_get
+  def ftp_get(source_url, target_filename)
+    uri = URI.parse(source_url)
+    if uri.scheme == "ftp"
+      ftp = Net::FTP.new(uri.host)
+      
+      if uri.user and uri.password
+        ftp.login(uri.user, uri.password)
+      else
+        ftp.login
+      end
 
+      ftp.getbinaryfile(up.path, target_filename, 1024)
+      ftp.close
+    else
+      raise "This method handles only FTP URLs."
+    end
   end
 
   def retrieve_encoded_files
