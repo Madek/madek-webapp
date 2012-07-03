@@ -145,11 +145,7 @@ class MediaFile < ActiveRecord::Base
       submit_encoding_job
     end
   end
-  
-  # Need to replace wget call below with a Ruby-native method on top of Net::FTP
-  def ftp_get
 
-  end
 
   def retrieve_encoded_files
     require Rails.root + 'lib/encode_job'
@@ -166,10 +162,12 @@ class MediaFile < ActiveRecord::Base
             filename = File.basename(f)
             prefix = "#{thumbnail_storage_location}_encoded"
             path = "#{prefix}_#{filename}"
-            `wget "#{f}" -O "#{path}"`
-            if $? == 0
+            result = EncodeJob.ftp_get(f, path)
+            if result == true # Retrieval was a success
               FileUtils.chmod(0644, path) # Otherwise Apache's X-Sendfile cannot access the file, as Apache runs as another user, e.g. 'www-data'
               paths << path
+            else
+              logger.error("Retrieving #{f} and saving to #{path} failed.")
             end
           end
           
@@ -179,10 +177,12 @@ class MediaFile < ActiveRecord::Base
             # frame_0000.png?AWSAccessKeyId=AKIAI456JQ76GBU7FECA&Signature=VpkFCcIwn77IucCkaDG7pERJieM%3D&Expires=1325862058
             prefix = "#{thumbnail_storage_location}_encoded"
             path = "#{prefix}_#{filename}"
-            `wget "#{f}" -O "#{path}"`
-            if $? == 0
+            result = EncodeJob.ftp_get(f, path)
+            if result == true # Retrieval was a success
               FileUtils.chmod(0644, path) # Otherwise Apache's X-Sendfile cannot access the file, as Apache runs as another user, e.g. 'www-data'
-              thumbnail_paths << path
+              paths << path
+            else
+              logger.error("Retrieving #{f} and saving to #{path} failed.")
             end
           end
           

@@ -3,6 +3,7 @@
 require 'rubygems'
 require 'yaml'
 require 'zencoder'
+require 'net/ftp'
 
 # documentation: https://github.com/zencoder/zencoder-rb
 
@@ -120,6 +121,37 @@ class EncodeJob
     return paths
   end
   
+  def self.ftp_get(source_url, target_filename)
+    require 'net/ftp'
+    uri = URI.parse(source_url)
+    if uri.scheme == "ftp"
+      ftp = Net::FTP.new(uri.host)
+      
+      if uri.user and uri.password
+        ftp.login(uri.user, uri.password)
+      else
+        ftp.login
+      end
+
+      begin
+        result = ftp.getbinaryfile(uri.path, target_filename, 1024)
+        ftp.close
+      rescue
+        # Usually some filesystem error happened, can't write to file, or I can't reach the host etc.
+        # We catch all of these here. If we ever want finer-grained errors, we have to implement them error by error.
+        result = false
+      end
+
+      if result == nil
+        return true
+      else
+        return false
+      end
+    else
+      raise "This method handles only FTP URLs."
+    end
+  end
+
 end
 
 
