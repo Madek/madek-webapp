@@ -148,18 +148,9 @@ class MediaResource < ActiveRecord::Base
 
   ################################################################
 
-
-  scope :search, lambda {|q|
-    sql = joins("LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id")
-    where_clause= 
-      if SQLHelper.adapter_is_postgresql?
-        q.split.map{|x| "text ILIKE '%#{x}%'" }.join(' AND ')
-      elsif SQLHelper.adapter_is_mysql? 
-        q.split.map{|x| "text LIKE '%#{x}%'" }.join(' AND ')
-      else
-        raise "you sql adapter is not yet supported"
-      end
-    sql.where(where_clause)
+  scope :search, lambda { |q|
+    joins("LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id") \
+      .where(q.split.map{|x| "text #{SQLHelper.ilike} '%#{x}%'" }.join(' AND '))
   }
 
   ################################################################
@@ -180,7 +171,7 @@ class MediaResource < ActiveRecord::Base
   
     # OPTIMIZE this is mutual exclusive in case of many media_types  
     options[:media_type].each do |x|
-      sql = sql.where("media_files.content_type LIKE ?", "%#{x}%")
+      sql = sql.where("media_files.content_type #{SQLHelper.ilike} ?", "%#{x}%")
     end
     
     [:width, :height].each do |x|

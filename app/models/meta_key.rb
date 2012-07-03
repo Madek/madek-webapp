@@ -79,7 +79,7 @@ class MetaKey < ActiveRecord::Base
 #            context.meta_key_definitions.find_by_key_map(key_map).try(:meta_key)
 #          end
 
-    mk = MetaKeyDefinition.where("key_map LIKE ?", "%#{key_map}%").first.try(:meta_key)
+    mk = MetaKeyDefinition.where("key_map #{SQLHelper.ilike} ?", "%#{key_map}%").first.try(:meta_key)
 
     if mk.nil?
       entry_name = key_map.split(':').last.underscore.gsub(/[_-]/,' ')

@@ -35,14 +35,7 @@ class GroupsController < ApplicationController
       }
       format.json {
         # OPTIMIZE index groups to fulltext ??
-        groups = 
-          if  adapter_is_mysql?
-            Group.where("name LIKE :query OR ldap_name LIKE :query", {:query => "%#{query}%"})
-          elsif adapter_is_postgresql?
-            Group.where("name ILIKE :query OR ldap_name ILIKE :query", {:query => "%#{query}%"})
-          else 
-            raise "sql adapter is not supported"
-          end
+        groups = Group.where("name #{SQLHelper.ilike} :query OR ldap_name #{SQLHelper.ilike} :query", {:query => "%#{query}%"})
         render :json => view_context.json_for(groups)
       }
     end
