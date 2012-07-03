@@ -154,12 +154,15 @@ class EncodeJob
 
   def self.http_get(source_url, target_filename)
     require 'net/http'
-    request = Net::HTTP::Get.new uri.request_uri
+    uri = URI.parse(source_url)
+    Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
 
-    http.request request do |response|
-      open target_filename, 'wb' do |io|
-        response.read_body do |chunk|
-          io.write chunk
+      request = Net::HTTP::Get.new uri.request_uri
+      http.request request do |response|
+        open target_filename, 'wb' do |io|
+          response.read_body do |chunk|
+            io.write chunk
+          end
         end
       end
     end
