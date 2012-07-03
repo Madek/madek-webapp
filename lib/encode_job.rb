@@ -152,20 +152,23 @@ class EncodeJob
     end
   end
 
-end
+  def self.http_get(source_url, target_filename)
+    require 'net/http'
+    request = Net::HTTP::Get.new uri.request_uri
 
-def self.http_get(source_url, target_filename)
-  require 'net/http'
-  request = Net::HTTP::Get.new uri.request_uri
-
-  http.request request do |response|
-    open target_filename, 'wb' do |io|
-      response.read_body do |chunk|
-        io.write chunk
+    http.request request do |response|
+      open target_filename, 'wb' do |io|
+        response.read_body do |chunk|
+          io.write chunk
+        end
       end
     end
   end
+
+
 end
+
+
 
 # Example use follows
 # job = EncodeJob.new
