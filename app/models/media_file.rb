@@ -167,7 +167,7 @@ class MediaFile < ActiveRecord::Base
               FileUtils.chmod(0644, path) # Otherwise Apache's X-Sendfile cannot access the file, as Apache runs as another user, e.g. 'www-data'
               paths << path
             else
-              logger.error("Retrieving #{f} and saving to #{path} failed."
+              logger.error("Retrieving #{f} and saving to #{path} failed.")
             end
           end
           
@@ -182,7 +182,7 @@ class MediaFile < ActiveRecord::Base
               FileUtils.chmod(0644, path) # Otherwise Apache's X-Sendfile cannot access the file, as Apache runs as another user, e.g. 'www-data'
               paths << path
             else
-              logger.error("Retrieving #{f} and saving to #{path} failed."
+              logger.error("Retrieving #{f} and saving to #{path} failed.")
             end
           end
           
