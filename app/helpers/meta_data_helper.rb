@@ -204,9 +204,9 @@ module MetaDataHelper
         selected = Array(meta_datum.object.value)
         all_options = meta_key.meta_terms.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}
       when "MetaDatumPeople"
-        selected = Array(meta_datum.object.value)
+        selected_ids = Array(meta_datum.object.value).map(&:id)
         @people ||= Person.with_meta_data
-        all_options = @people.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}
+        all_options = @people.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected_ids.include?(x.id)}}
       when "MetaDatumKeywords"
         keywords = meta_datum.object.deserialized_value
         meta_term_ids = keywords.collect(&:meta_term_id)
