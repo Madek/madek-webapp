@@ -159,7 +159,7 @@ def self.http_get(source_url, target_filename)
   request = Net::HTTP::Get.new uri.request_uri
 
   http.request request do |response|
-    open target_filename, 'w' do |io|
+    open target_filename, 'wb' do |io|
       response.read_body do |chunk|
         io.write chunk
       end
