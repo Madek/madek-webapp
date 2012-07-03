@@ -162,7 +162,7 @@ class MediaFile < ActiveRecord::Base
             filename = File.basename(f)
             prefix = "#{thumbnail_storage_location}_encoded"
             path = "#{prefix}_#{filename}"
-            result = EncodeJob.http_get(f, path)
+            result = EncodeJob.ftp_get(f, path)
             if result == true # Retrieval was a success
               FileUtils.chmod(0644, path) # Otherwise Apache's X-Sendfile cannot access the file, as Apache runs as another user, e.g. 'www-data'
               paths << path
@@ -177,7 +177,7 @@ class MediaFile < ActiveRecord::Base
             # frame_0000.png?AWSAccessKeyId=AKIAI456JQ76GBU7FECA&Signature=VpkFCcIwn77IucCkaDG7pERJieM%3D&Expires=1325862058
             prefix = "#{thumbnail_storage_location}_encoded"
             path = "#{prefix}_#{filename}"
-            result = EncodeJob.ftp_get(f, path)
+            result = EncodeJob.http_get(f, path)
             if result == true # Retrieval was a success
               FileUtils.chmod(0644, path) # Otherwise Apache's X-Sendfile cannot access the file, as Apache runs as another user, e.g. 'www-data'
               paths << path
