@@ -260,10 +260,12 @@ MAdeK::Application.routes.draw do
 
     resource :usage_term
 
-    resources :media_entries do
+    resources :settings, :only => [] do
       collection do
         get :dropbox
         post :dropbox
+        get :authentications
+        post :authentications
       end
     end
 

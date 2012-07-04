@@ -6,6 +6,7 @@ class Keyword < ActiveRecord::Base
   belongs_to :meta_datum
 
   validates_presence_of :meta_term # FIXME check after, :meta_datum
+  validates_uniqueness_of :meta_term_id, :scope => :meta_datum_id
 
   default_scope :include => :meta_term
 
@@ -22,15 +23,10 @@ class Keyword < ActiveRecord::Base
 
     w = query.split.map do |x|
       "(%s)" % LANGUAGES.map do |l|
-        if SQLHelper.adapter_is_mysql?
-          "meta_terms.#{l} LIKE '%#{x}%'"
-        elsif SQLHelper.adapter_is_postgresql?
-          "meta_terms.#{l} ILIKE '%#{x}%'"
-        else
-          raise "this db adapter is not supported"
-        end
+        "meta_terms.#{l} #{SQLHelper.ilike} '%#{x}%'"
       end.join(' OR ')
     end.join(' AND ')
+
     sql.where(w)
   end
   

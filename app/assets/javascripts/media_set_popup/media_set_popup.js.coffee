@@ -46,12 +46,15 @@ load_parents = (target)->
       url: "/media_sets/"+target.tmplItem().data.id+".json"
       data:
         with:
-          meta_data:
-            meta_key_names: ["title"]
-          parents: {pagination: {per_page: 3}}
-          image:
-            as:"base64"
-            size:"small"
+          parents: 
+            pagination: 
+              per_page: 3
+            with:
+              meta_data:
+                meta_key_names: ["title"]
+              image:
+                as:"base64"
+                size:"small"
       type: "GET"
       success: (data, status, request) ->
         $(target).data "parents_data", data

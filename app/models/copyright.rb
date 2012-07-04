@@ -29,9 +29,8 @@ class Copyright < ActiveRecord::Base
     @custom ||= where(:is_custom => true).first
   end
 
-  # OPTIMIZE
   def self.public
-    @public ||= where(:label => "Public Domain (gemeinfrei)").first
+    where(:label => "Public Domain / Gemeinfrei").first
   end
 
 #######################################

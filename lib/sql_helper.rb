@@ -34,6 +34,14 @@ module SQLHelper
     end
   end
 
+  def ilike
+    if SQLHelper.adapter_is_postgresql?
+      " ilike "
+    else
+      " like "
+    end
+  end
+
   def bitwise_is action,i
     if SQLHelper.adapter_is_mysql?
       " #{action} & #{i} "

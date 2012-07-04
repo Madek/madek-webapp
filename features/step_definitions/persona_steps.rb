@@ -12,7 +12,15 @@ Given /^personas are loaded$/ do
   # MediaResource.count.zero?.should be_false
 end
 
-Given /^I am "(\w+)"$/ do |persona_name|
-  step 'I log in as "%s" with password "password"' % persona_name.downcase
-  step 'I am logged in as "%s"' % persona_name.downcase
+# This fakes a currently logged in user session because that's much faster than going through the login form
+# 2 million times :)
+# The login form itself is tested in a separate scenario.
+Given /^I am "(\w+)"$/ do |login|
+  visit "/logout"
+  visit "/db/login"
+  fill_in "login", :with => login
+  fill_in "password", :with => "password"
+  click_link_or_button "Log in"
+  @current_user = User.find_by_login(login)
+  @current_user ||= FactoryGirl.create(:user, {:login => login})
 end

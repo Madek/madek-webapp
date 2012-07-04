@@ -1,8 +1,8 @@
 # -*- encoding : utf-8 -*-
 
-When /^I switch to the list view$/ do
+When /^I switch to the (.*?) view$/ do |layout|
   wait_until { find("#bar") }
-  find("#bar .layout a[data-type=list]").click
+  find("#bar .layout a[data-type=#{layout.downcase}]").click
 end
 
 Then /^each resource is represented as one row of data$/ do

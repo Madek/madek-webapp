@@ -47,7 +47,7 @@
             = link_to _("weiter..."), "javascript:void(0)", :class => "upload_buttons next disabled", :id => "finish_meta_data"
           - elsif current_page?(:controller => :upload, :action => :set_media_sets)
             = link_to _("Import abschliessen"), complete_upload_path, :id => "cancel_import", :method => :put, :class => "upload_buttons next",:id => "complete_import"
-          = link_to "Abbrechen", upload_path, :title=> "Import Abbrechen", :id => "cancel_import", :method => :delete, :confirm => "Wollen Sie den Import wirklich abbrechen?"
+          = link_to "Abbrechen", upload_path, :title=> "Import Abbrechen", :id => "cancel_import", :method => :delete, :data => {:confirm => "Wollen Sie den Import wirklich abbrechen?"}
             
       = yield
 

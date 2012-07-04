@@ -9,6 +9,7 @@
     = javascript_include_tag "application"
     = javascript_include_tag "i18n/jquery.ui.datepicker-de-CH.js" # TODO i18n
     = javascript_tag ""
+    = javascript_tag '$.fx.off = true;' if Rails.env.test?
     = csrf_meta_tag
     = yield :head
 

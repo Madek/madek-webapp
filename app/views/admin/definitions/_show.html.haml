@@ -17,4 +17,4 @@
   %td.with_actions
     = link_to _("Edit"), edit_admin_context_definition_path(definition.meta_context, definition), :class => "buttons", :remote => true, :"data-type" => "html"
     %br
-    = link_to _("Delete"), admin_context_definition_path(definition.meta_context, definition), :class => "buttons", :method => :delete, :confirm => _("Sind Sie sicher?")
+    = link_to _("Delete"), admin_context_definition_path(definition.meta_context, definition), :class => "buttons", :method => :delete, :data => {:confirm => _("Sind Sie sicher?")}
