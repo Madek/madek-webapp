@@ -63,9 +63,28 @@
       right: 0
       width: 235px
       
-      .inspected
+      .inspector
         display: block
         margin: 0 auto
+
+      .background
+        overflow: hidden
+        padding-bottom: 16px
+        position: relative
+        left: 15px
+        width: 201px
+        @include box-shadow(0 0 0 transparent)
+
+        .children
+          display: inline-block
+          height: auto
+          padding-bottom: 11px
+          position: relative
+          top: 21px
+
+        .arrow
+          position: absolute
+          top: -20px
       
     .link 
       stroke: #666

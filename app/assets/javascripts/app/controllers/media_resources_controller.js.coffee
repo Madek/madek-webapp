@@ -98,11 +98,12 @@ class MediaResourcesController
           children: 
             pagination:
               per_page: 6
-            image:
-              as:"base64"
-              size:"small"
-          meta_data:
-            meta_key_names: ["title"]
+            with:
+              image:
+                as:"base64"
+                size:"small"
+              meta_data:
+                meta_key_names: ["title"]
       type: "GET"
       success: (data, status, request) -> callback(data)
       error: (request, status, error) -> console.log "ERROR LOADING"

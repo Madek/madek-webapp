@@ -2,6 +2,12 @@ class MediaSetsGraphController
 
   el: "section.media_sets_graph"
   start_scale = 1.2
+  ticks = 100
+  @background
+  @children
+  @inspector
+  @chart
+  @layout
   
   constructor: ->
     @el = $(@el)
@@ -15,17 +21,9 @@ class MediaSetsGraphController
     
   delegateEvents: =>
     @chart.delegate ".node", "click", @inspectNode
-    @el.find("button.zoom_in").click @zoomIn
-    @el.find("button.zoom_out").click @zoomOut
     @el.delegate ".node", "mouseenter", @enterNode
     @el.delegate ".node", "mouseleave", @leaveNode
-  
-  zoomIn: =>
-    
-  
-  zoomOut: => 
-    
-  
+
   enterNode: (e)=>
     node = $(e.currentTarget)
     node.attr("data-hover",true)
@@ -43,7 +41,7 @@ class MediaSetsGraphController
     node.attr("transform", translate)
   
   setMetrics: =>
-    @width = @el.innerWidth() - $("#inspector").outerWidth() - (@el.outerWidth()-@el.width())
+    @width = @el.innerWidth() - @inspector.outerWidth() - (@el.outerWidth()-@el.width())
     @height = $(window).height() - @chart.offset().top - $("footer").outerHeight()
     @marker_size = 10
     
@@ -59,7 +57,7 @@ class MediaSetsGraphController
         nodes[node.id] = node
       for link in json.links
         links.push {source: nodes[link.source_id], target: nodes[link.target_id], type: "suit"}
-      @layout = d3.layout.force().gravity(-0.2).friction(0.4).charge(-200).distance(100).size([@width, @height])
+      @layout = d3.layout.force().gravity(0.05).friction(0.4).charge(-300).linkDistance(120).size([@width, @height])
       @layout.nodes(d3.values(nodes)).links(links)
       all_links = @graph.selectAll(".link").data(@layout.links()).enter().append("line").attr("class", "link")
       all_nodes = @graph.selectAll(".node").data(@layout.nodes()).enter().append("g").attr("class", "node").attr("data-id", ((d)-> return d.id))
@@ -73,7 +71,7 @@ class MediaSetsGraphController
         .attr("y2", ((d)-> return d.target.y;))
         all_nodes.attr("transform", (d)-> return "translate(" + d.x + "," + d.y + ")";)
       @layout.start()
-      @layout.tick() for i in [0..10]
+      @layout.tick() for i in [0..ticks]
       @layout.stop()
       @el.find(".graph>.info").remove()
         
@@ -90,8 +88,18 @@ class MediaSetsGraphController
       url: "/media_sets/"+node.data("id")+".json"
       success: (data)=>
         @inspector.html($.tmpl "tmpl/media_set/inspector", data)
-        # FIXME working here
-        #App.MediaResources.fetch_children node.data("id"), (data)=>
-        #  @inspector.append($.tmpl "tmpl/media_resource/thumb_box_mini", data.children.media_resources)
+        @background = $("<div class='background'></div>")
+        @inspector.append @background
+        @loadChildren node.data("id")
+
+  loadChildren: (parent_id)=>
+    App.MediaResources.fetch_children parent_id, (data)=>
+      @setupChildren data.children.media_resources
+      
+  setupChildren: (children)=>
+    @children = $("<div class='children'></div>")
+    @children.append $.tmpl "tmpl/svg/arrow", classname: "white"
+    @background.append @children
+    @children.append $.tmpl("tmpl/media_set/popup/media_resource",children)
 
 window.App.MediaSetsGraph = MediaSetsGraphController

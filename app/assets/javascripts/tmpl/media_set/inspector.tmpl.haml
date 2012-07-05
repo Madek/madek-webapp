@@ -1,6 +1,6 @@
 ${is_set = true, ""}
 
-%div{:id => "thumb_${id}", :class => "item_box set inspected", :"data-id" => "${id}"}
+%div{:id => "thumb_${id}", :class => "item_box set inspector", :"data-id" => "${id}"}
   {{tmpl($item.data) "tmpl/media_resource/thumb_box/permissions_icon"}}
   {{tmpl($item.data) "tmpl/media_resource/thumb_box/image_thumb"}}
   .clear
