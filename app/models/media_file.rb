@@ -180,7 +180,7 @@ class MediaFile < ActiveRecord::Base
             result = EncodeJob.http_get(f, path)
             if result == true # Retrieval was a success
               FileUtils.chmod(0644, path) # Otherwise Apache's X-Sendfile cannot access the file, as Apache runs as another user, e.g. 'www-data'
-              paths << path
+              thumbnail_paths << path
             else
               logger.error("Retrieving #{f} and saving to #{path} failed.")
             end
