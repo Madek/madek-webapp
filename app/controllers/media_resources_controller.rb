@@ -628,10 +628,7 @@ class MediaResourcesController < ApplicationController
         end
         
         resources = resources.search(query) unless query.blank?
-        resources = resources.paginate(:page => page, :per_page => per_page)
-    
-        # TODO ?? resources = resources.includes(:meta_data, :permissions)
-    
+
         if meta_key_id and meta_term_id
           meta_key = MetaKey.find(meta_key_id)
           meta_term = meta_key.meta_terms.find(meta_term_id)
@@ -639,7 +636,7 @@ class MediaResourcesController < ApplicationController
           resources = resources.where(:id => media_resource_ids)
         end
 
-        render json: view_context.hash_for_media_resources_with_pagination(resources, true, with).to_json
+        render json: view_context.hash_for_media_resources_with_pagination(resources, {:page => page, :per_page => per_page}, with).to_json
       }
     end
   end
@@ -811,11 +808,9 @@ class MediaResourcesController < ApplicationController
         resources = resources.where_permission_presets_and_user presets, current_user
       end
 
-      resources = resources.paginate(:page => page, :per_page => per_page)
-
       respond_to do |format|
         format.json {
-          render json: view_context.hash_for_media_resources_with_pagination(resources, true, with).to_json
+          render json: view_context.hash_for_media_resources_with_pagination(resources, {:page => page, :per_page => per_page}, with).to_json
         }
       end
 

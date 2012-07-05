@@ -212,6 +212,14 @@ describe MediaResourcesController do
           end
         end 
       end
+
+      it "is paginatable" do
+        (2..3).each do |page|
+          get :index, {format: 'json', page: page}, session
+          json = JSON.parse(response.body)
+          json["pagination"]["page"].should == page
+        end
+      end
       
       it "has paginatable parents" do
         get :index, {format: 'json', ids: ids, with: {parents: true}}, session
