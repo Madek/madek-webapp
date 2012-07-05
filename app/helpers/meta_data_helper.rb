@@ -437,16 +437,17 @@ module MetaDataHelper
         when "MetaDepartment"
           h += widget_meta_terms_multiselect(meta_datum, meta_key)
 
-        when "Copyright"
+        when "MetaDatumCopyright"
           #old# h += meta_datum.hidden_field :value, :class => "copyright_value"
-          h += hidden_field_tag "#{meta_datum.object_name}[value]", meta_datum.object.value.try(:first), :class => "copyright_value"
-
-          @copyright_all ||= Copyright.all # OPTIMIZE
+          
+          h += hidden_field_tag "#{meta_datum.object_name}[value]", meta_datum.object.value, :class => "copyright_value"
+          @copyright_all ||= Copyright.all 
           @copyright_roots ||= Copyright.roots
-          value = meta_datum.object.deserialized_value.try(:first) # OPTIMIZE
+          value = meta_datum.object.deserialized_value 
           selected = @copyright_roots.detect{|s| (value and s.is_or_is_ancestor_of?(value)) }.try(:id)
           h += select_tag "options_root", options_from_collection_for_select(@copyright_roots, :id, :to_s, selected), :class => "options_root" 
 
+          
           @copyright_roots.each do |s|
             next if s.leaf?
             grouped_options = s.children.collect do |t|

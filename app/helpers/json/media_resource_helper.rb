@@ -34,8 +34,7 @@ module Json
           if meta_key_names = with[:meta_data][:meta_key_names]
             h[:meta_data] += meta_key_names.map do |name|
               md = media_resource.meta_data.get(name)
-              # FIXME we don't want to hardcode "core"
-              hash_for md, {:label => {:context => "core"}}
+              hash_for md # NOTE we do not request labels, because are context related
             end
           end
         end
