@@ -743,8 +743,7 @@ class MediaResourcesController < ApplicationController
       send_data Base64.decode64(output), :type => "image/gif", :disposition => 'inline'
     else
       preview = media_file.get_preview(size)
-      file = File.join(THUMBNAIL_STORAGE_DIR, media_file.shard, preview.filename)
-      if File.exist?(file)
+      if preview and File.exist?(file = File.join(THUMBNAIL_STORAGE_DIR, media_file.shard, preview.filename))
         output = File.read(file)
         send_data output, :type => preview.content_type, :disposition => 'inline'
       else
