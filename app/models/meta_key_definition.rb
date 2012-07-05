@@ -167,15 +167,16 @@ class MetaKeyDefinition < ActiveRecord::Base
 
 
       fmt = 'svg' # 'png'
-      dotfile = "app/assets/images/graphs/meta"
-      src = dotfile + ".dot"
-      dot = dotfile + "." + fmt
+      dir = "public/graphs"
+      FileUtils.mkdir_p(File.join(Rails.root, dir))
+      src = File.join dir, "meta.dot"
+      dot = File.join dir, "meta.#{fmt}"
 
       File.open(src, 'w') do |f|
         f << g.to_s << "\n"
       end
       system( "#{DOT_PATH} -T#{fmt} #{src} -o #{dot}" ) # dot # neato # twopi # circo # fdp # sfdp 
-      dot.gsub('app/assets/images/', '/assets/')
+      dot.gsub('public/', '')
 
     ############ end graph
   end
