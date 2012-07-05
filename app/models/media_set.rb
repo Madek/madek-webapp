@@ -113,7 +113,7 @@ class MediaSet < MediaResource
     end
     meta_key_ids = individual_contexts.flat_map{|ic| ic.meta_keys.for_meta_terms.pluck("meta_keys.id") }
     mds = MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids)
-    mds.flat_map(&:value).uniq.compact
+    mds.flat_map(&:meta_term_ids).uniq
   end
 
 end
