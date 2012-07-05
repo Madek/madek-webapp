@@ -1,7 +1,7 @@
 %script{:type => "text/x-jquery-tmpl", :id => "browsing_thumbnail_mini"}
-  %a{:href => "/media_entries/${id}"}
+  %a{:href => "/media_resources/${id}"}
     %div{:class => "thumb_mini"}
-      %img{:src => "${thumb_base64}"}
+      %img{:src => "${image}"}
 
 :javascript
   function browsing_document_ready(){
@@ -12,6 +12,7 @@
           text: 'Loading...',
           ajax: {
              url: that.attr('href').replace("/media_resources", "/media_resources/filter"),
+             data: {with: {image: {as: "base64"}}},
              type: 'POST',
              dataType: 'json',
              success: function(json, status) {
