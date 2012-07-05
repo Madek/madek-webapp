@@ -218,7 +218,7 @@ class MediaResource < ActiveRecord::Base
         km.strip!
         case definition.key_map_type
           when "Array"
-            value = meta_data.get(definition.meta_key_id).deserialized_value
+            value = meta_data.get(definition.meta_key_id).value
             vo = ["-#{km}= "]
             vo += value.collect {|m| "-#{km}='#{(m.respond_to?(:strip) ? m.strip : m)}'" } if value
             vo

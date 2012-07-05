@@ -120,7 +120,7 @@ namespace :app do
         end
 
       h1 = h2 = {:include => {:meta_data => {:except => [:id, :media_resource_id, :created_at, :updated_at],
-                                             :methods => :deserialized_value },
+                                             :methods => :value },
                               :permissions => {:methods => :actions,
                                                :except => [:id, :media_resource_id, :created_at, :updated_at] },
                               :edit_sessions => {:only => [:created_at, :user_id]}

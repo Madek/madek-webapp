@@ -4,7 +4,7 @@ class MetaDatumKeywords < MetaDatum
   has_many :keywords, foreign_key: :meta_datum_id
 
   def to_s
-    deserialized_value.map(&:to_s).join("; ")
+    value.map(&:to_s).join("; ")
   end
 
   def value

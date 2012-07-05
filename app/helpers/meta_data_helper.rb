@@ -105,9 +105,9 @@ module MetaDataHelper
     
     case meta_datum.meta_key.meta_datum_object_type
       when "MetaDatumPeople", "MetaDatumUsers"
-        formatted_value_for_people(Array(meta_datum.deserialized_value))
+        formatted_value_for_people(Array(meta_datum.value))
       when "MetaDatumKeywords"
-        s = Array(meta_datum.deserialized_value).map do |v|
+        s = Array(meta_datum.value).map do |v|
           next unless v
           link_to v, media_resources_path(:query => v.to_s)
         end
@@ -115,9 +115,9 @@ module MetaDataHelper
       when "MetaDatumDate"
         meta_datum.to_s.try(&:html_safe)
       when "Date"
-        _("%s Uhr") % meta_datum.deserialized_value.to_formatted_s(:date_time)
+        _("%s Uhr") % meta_datum.value.to_formatted_s(:date_time)
       when "MetaDatumMetaTerms"
-        meta_datum.deserialized_value.map do |dv|
+        meta_datum.value.map do |dv|
           #old# link_to dv, filter_media_resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :method => :post, :"data-meta_term_id" => dv.id #old# , :remote => true
           link_to dv, media_resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :"data-meta_term_id" => dv.id
         end.join(' ')
@@ -208,7 +208,7 @@ module MetaDataHelper
         @people ||= Person.with_meta_data
         all_options = @people.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected_ids.include?(x.id)}}
       when "MetaDatumKeywords"
-        keywords = meta_datum.object.deserialized_value
+        keywords = meta_datum.object.value
         meta_term_ids = keywords.collect(&:meta_term_id)
         all_grouped_keywords = 
           if SQLHelper.adapter_is_mysql?
@@ -443,7 +443,7 @@ module MetaDataHelper
           h += hidden_field_tag "#{meta_datum.object_name}[value]", meta_datum.object.value, :class => "copyright_value"
           @copyright_all ||= Copyright.all 
           @copyright_roots ||= Copyright.roots
-          value = meta_datum.object.deserialized_value 
+          value = meta_datum.object.value 
           selected = @copyright_roots.detect{|s| (value and s.is_or_is_ancestor_of?(value)) }.try(:id)
           h += select_tag "options_root", options_from_collection_for_select(@copyright_roots, :id, :to_s, selected), :class => "options_root" 
 
