@@ -98,12 +98,11 @@ class MetaContext < ActiveRecord::Base
 
   # chainable query
   def media_entries(current_user = nil)
-    sql = if current_user
+    if current_user
       MediaEntry.accessible_by_user(current_user).joins("INNER JOIN meta_data ON media_resources.id = meta_data.media_resource_id")
     else
       MediaEntry.joins(:meta_data)
-    end
-    sql.group("meta_data.media_resource_id").where(:meta_data => {:meta_key_id => meta_key_ids})
+    end.select("DISTINCT media_resources.* ").where(:meta_data => {:meta_key_id => meta_key_ids})
   end
 
 ##################################################################
