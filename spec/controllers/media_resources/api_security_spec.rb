@@ -31,7 +31,7 @@ describe MediaResourcesController do
 
 
     it "should be successful" do
-      request()
+      request
       response.should be_success
     end
 
@@ -64,7 +64,7 @@ describe MediaResourcesController do
         describe "the children of the set" do
 
           it "should be empty" do
-            children.should be_empty
+            children['media_resources'].should be_empty
           end
 
         end
