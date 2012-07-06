@@ -189,7 +189,7 @@ module MetaDataHelper
   # NEW generic multi select plugin
   def widget_meta_terms_multiselect(meta_datum, meta_key)
     case meta_key.meta_datum_object_type
-      when "MetaDatumMetaDepartments"
+      when "MetaDatumDepartments"
         selected = Array(meta_datum.object.value)
         departments_without_semester = 
           if SQLHelper.adapter_is_mysql?
@@ -199,14 +199,14 @@ module MetaDataHelper
           else
             raise "adapter is not supported"
           end
-        all_options = departments_without_semester.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)} }
+        all_options = departments_without_semester.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x)} }
       when "MetaDatumMetaTerms"
         selected = Array(meta_datum.object.value)
-        all_options = meta_key.meta_terms.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}
+        all_options = meta_key.meta_terms.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x)}}
       when "MetaDatumPeople"
-        selected_ids = Array(meta_datum.object.value).map(&:id)
+        selected = Array(meta_datum.object.value)
         @people ||= Person.with_meta_data
-        all_options = @people.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected_ids.include?(x.id)}}
+        all_options = @people.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x)}}
       when "MetaDatumKeywords"
         keywords = meta_datum.object.value
         meta_term_ids = keywords.collect(&:meta_term_id)
