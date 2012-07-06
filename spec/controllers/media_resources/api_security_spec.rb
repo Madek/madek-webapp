@@ -8,9 +8,9 @@ describe MediaResourcesController do
     FactoryGirl.create :meta_context_core
     @user_a = FactoryGirl.create :user
     @user_b = FactoryGirl.create :user
-    @set = FactoryGirl.create :media_set
-    @entry_1 = FactoryGirl.create :media_entry
-    @entry_2 = FactoryGirl.create :media_entry
+    @set = FactoryGirl.create :media_set, user: @user_a
+    @entry_1 = FactoryGirl.create :media_entry, user: @user_a
+    @entry_2 = FactoryGirl.create :media_entry, user: @user_a
     @set.children << @entry_1
     @set.children << @entry_2
   end
