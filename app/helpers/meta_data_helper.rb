@@ -434,7 +434,7 @@ module MetaDataHelper
             end
           end
 
-        when "MetaDepartment"
+        when "MetaDatumDepartments"
           h += widget_meta_terms_multiselect(meta_datum, meta_key)
 
         when "MetaDatumCopyright"
