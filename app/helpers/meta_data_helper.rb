@@ -158,7 +158,7 @@ module MetaDataHelper
   end
 
   def checkbox_for_term(term, meta_datum, ui)
-    is_checked = (meta_datum.object.value and meta_datum.object.value.include?(term.id))
+    is_checked = (meta_datum.object.value and meta_datum.object.value.include?(term))
     content_tag :li do
       a = case ui
         when :radio_button
