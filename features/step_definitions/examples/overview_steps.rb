@@ -139,3 +139,63 @@ end
 When /^the grid layout is active$/ do
   find("#bar .layout a[data-type='grid']").click
 end
+
+############
+
+When /^I upload a file with pdf mime type$/ do
+  step 'I upload the file "features/data/files/test_pdf_for_metadata.pdf" relative to the Rails directory'
+  steps %Q{
+   And I go to the upload edit 
+   And I fill in the metadata for entry number 1 as follows:
+   |label    |value                       |
+   |Titel    |A pdf document|
+   |Rechte|myself             |
+   And I follow "weiter..."
+   And I follow "Import abschliessen"
+  }
+end
+
+When /^I see a thumbnail of a media resource with pdf mime type$/ do
+  wait_until { find(".doc") }
+end
+
+Then /^I see the first page of that pdf as thumbnail image$/ do
+  page.evaluate_script('$(".doc img").attr("src").length').should > 0
+end
+
+When /^I upload a broken file with pdf mime type$/ do
+  step 'I upload the file "features/data/files/broken_pdf.pdf" relative to the Rails directory'
+  steps %Q{
+   And I go to the upload edit 
+   And I fill in the metadata for entry number 1 as follows:
+   |label    |value                       |
+   |Titel    |A pdf document|
+   |Rechte|myself             |
+   And I follow "weiter..."
+   And I follow "Import abschliessen"
+  }
+end
+
+Then /^I see a thumbnail placeholder for pdf$/ do
+  page.evaluate_script('$(".doc img").attr("src").length').should > 0
+end
+
+Given /^a pdf resource$/ do
+  step 'I upload the file "features/data/files/test_pdf_for_metadata.pdf" relative to the Rails directory'
+  steps %Q{
+   And I go to the upload edit 
+   And I fill in the metadata for entry number 1 as follows:
+   |label    |value                       |
+   |Titel    |A pdf document|
+   |Rechte|myself             |
+   And I follow "weiter..."
+   And I follow "Import abschliessen"
+  }
+end
+
+Then /^I see that the pdf thumbnail is surrounded by a document frame$/ do
+  wait_until do
+    page.evaluate_script('$(".item_box.doc .thumb_box").css("background-position")') == "0px -243px" ||
+    page.evaluate_script('$(".item_box.doc .thumb_box").css("background-position")') == "-85px -393px"
+  end
+end
