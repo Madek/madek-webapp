@@ -39,3 +39,4 @@ log/searchd.test.pid
 *.swp
 /tmp/
 .yardoc
+
