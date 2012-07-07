@@ -63,7 +63,8 @@ module Json
         if with[:parents]
           pagination = ((with[:parents].is_a? Hash) ? with[:parents][:pagination] : nil) || true
           forwarded_with = (with[:parents].is_a? Hash) ? (with[:parents][:with]||=nil) : nil
-          h[:parents] = hash_for_media_resources_with_pagination(media_resource.parents, pagination, forwarded_with)
+          media_resources= media_resource.parents.accessible_by_user(current_user)
+          h[:parents] = hash_for_media_resources_with_pagination(media_resources, pagination, forwarded_with)
         end
       
         case media_resource.type
@@ -77,7 +78,7 @@ module Json
                   media_resource.child_sets
                 else # respond with media_resources children
                   media_resource.children
-                end
+                end.accessible_by_user(current_user)
                 pagination = ((with[:children].is_a? Hash) ? with[:children][:pagination] : nil) || true
                 forwarded_with = (with[:children].is_a? Hash) ? (with[:children][:with]||=nil) : nil
                 hash_for_media_resources_with_pagination(media_resources, pagination, forwarded_with)

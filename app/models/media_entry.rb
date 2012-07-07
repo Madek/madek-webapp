@@ -54,10 +54,10 @@ class MediaEntry < MediaResource
    
    new_blank_media_entry = self.new
    meta_data_for_context.map do |md_bare|
-      if other_entries.any? {|me| not me.meta_data.get(md_bare[:meta_key_id]).same_value?(md_bare[:value])}
-        new_blank_media_entry.meta_data.build(:meta_key_id => md_bare[:meta_key_id], :keep_original_value => true)
+      if other_entries.any? {|me| not me.meta_data.get(md_bare.meta_key_id).same_value?(md_bare.value)}
+        new_blank_media_entry.meta_data.build(:meta_key_id => md_bare.meta_key_id, :keep_original_value => true)
       else
-        new_blank_media_entry.meta_data.build(:meta_key_id => md_bare[:meta_key_id], :value => md_bare[:value])
+        new_blank_media_entry.meta_data.build(:meta_key_id => md_bare.meta_key_id, :value => md_bare.value)
       end
    end
  end

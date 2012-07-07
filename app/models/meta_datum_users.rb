@@ -6,10 +6,19 @@ class MetaDatumUsers < MetaDatum
     foreign_key: :meta_datum_id, 
     association_foreign_key: :user_id
 
-  alias_attribute :value, :users
-
   def to_s
-    Array(deserialized_value).map(&:to_s).join("; ")
+    Array(value).map(&:to_s).join("; ")
+  end
+  
+  def value
+    if meta_key.is_dynamic? 
+      case meta_key.label
+        when "owner"
+          media_resource.user
+      end
+    else
+      users
+    end
   end
 
 end

@@ -53,7 +53,7 @@ class MetaDatum < ActiveRecord::Base
           other_value.first.is_a?(MetaDatumDate) and (other_value.first.free_text == value.first.free_text)
         elsif meta_key.meta_datum_object_type == "MetaDatumKeywords"
           referenced_meta_term_ids = Keyword.where(:id => other_value).all.map(&:meta_term_id)
-          deserialized_value.map(&:meta_term_id).uniq.sort.eql?(referenced_meta_term_ids.uniq.sort)
+          value.map(&:meta_term_id).uniq.sort.eql?(referenced_meta_term_ids.uniq.sort)
         else
           value.uniq.sort.eql?(other_value.uniq.sort)
         end
@@ -81,40 +81,6 @@ class MetaDatum < ActiveRecord::Base
 
     context_warnings(context).empty?
   end
-  
-########################################
-
-  def deserialized_value(user=nil)
-    if meta_key.is_dynamic? 
-      case meta_key.label
-        when "owner"
-          media_resource.user
-        when "uploaded at"
-          media_resource.created_at #old# .to_formatted_s(:date_time)
-        when "copyright usage"
-          copyright = media_resource.meta_data.get("copyright status").value || Copyright.default # OPTIMIZE array or single element
-          copyright.usage(read_attribute(:value))
-        when "copyright url"
-          copyright = media_resource.meta_data.get("copyright status").value  || Copyright.default # OPTIMIZE array or single element
-          copyright.url(read_attribute(:value))
-        when "public access"
-          media_resource.is_public?
-        when "media type"
-          media_resource.media_type
-        when "parent media_resources"
-          {:media_sets => media_resource.parent_sets.accessible_by_user(user).count}
-        when "child media_resources"
-          {:media_sets => media_resource.child_sets.accessible_by_user(user).count,
-           :media_entries => media_resource.media_entries.accessible_by_user(user).count} if media_resource.is_a?(MediaSet)
-        #when "gps"
-        #  return media_resource.media_file.meta_data["GPS"]
-      end
-    else # aliased in the sublcasses
-      value
-    end
-  end
-
-
 
 end
 

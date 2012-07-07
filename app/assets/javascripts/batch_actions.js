@@ -54,19 +54,7 @@ function setupBatch(json) {
 	if(json != undefined) display_results(json);
   listSelected();
   displayCount();
-
-	// display the task_bar only whether there is something selectable or something is already selected
-	if(get_media_entries_json().length == 0 && $(".item_box").has(".check_box").length == 0){
-		$('.task_bar').hide();
-		return false;
-	}else{
-	  $('.task_bar').show();
-	}
-	// hide the select_deselect_all checkbox on the browse page
-	if($(".item_box .check_box").length < 2) {
-		$("#batch-select-all").hide();
-		$("#batch-deselect-all").hide().next().hide();
-	}
+  displayButtons();
 
 	// make thumbnails removable from the selected items bar
     $('#selected_items .thumb_mini').live("hover", function() {
@@ -125,6 +113,7 @@ function setupBatch(json) {
       sessionStorage.removeItem("selected_media_entries");
     });
     displayCount();
+    displayButtons();
     return false;
   });
   
@@ -224,6 +213,23 @@ function displayCount() {
 	
 	update_selection(); // needed for set widget
 };
+
+function displayButtons(){
+  // display the task_bar only whether there is something selectable or something is already selected
+  if(get_media_entries_json().length == 0 && $(".item_box").has(".check_box").length == 0){
+    $('.task_bar').hide();
+    return false;
+  }else{
+    $('.task_bar').show();
+  }
+  // hide the select_deselect_all checkbox on the browse page
+  if($(".item_box .check_box").length < 2) {
+    $("#batch-select-all").hide();
+    if(get_media_entries_json().length == 0){
+      $("#batch-deselect-all").hide().next().hide();
+    }
+  }
+}
 
 function display_page(json, container){
 	var rp = $("#result_page").tmpl(json);

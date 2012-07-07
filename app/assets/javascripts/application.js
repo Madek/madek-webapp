@@ -200,9 +200,8 @@ function get_media_entries_json(){
 function set_media_entries_json(data){
 	//1+n http-requests//
 	$.each(data, function(i, elem){
-	  if(elem.thum_base64) { // only write path as base64 when there was a base64 image provided, otherwise there is no images
-  		elem.thumb_base64 = "/media_resources/"+elem.id+"/image?size=small_125";
-	  }
+	  // overwrite possible base64 to image path
+		elem.image = "/media_resources/"+elem.id+"/image?size=small_125";
 	});
 
 	sessionStorage.setItem("selected_media_entries", JSON.stringify(data));

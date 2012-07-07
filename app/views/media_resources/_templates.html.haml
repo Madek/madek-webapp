@@ -27,8 +27,8 @@
     .set_tab
     {{/if}}
     = image_tag("icons/button_remove_action.png", :class => "thumb_remove")
-    {{if thumb_base64}}
-    %img{:src => "${thumb_base64}"}
+    {{if image}}
+    %img{:src => "${image}"}
     {{else}}
     .noimage
     {{/if}}
