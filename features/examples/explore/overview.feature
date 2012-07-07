@@ -1,4 +1,4 @@
-Feature: Overview II
+Feature: Overview
   
   Background: Load the example data and personas
     Given I have set up the world a little
