@@ -47,6 +47,19 @@ class MediaSetsGraphController
     
   setupGraph: => 
     @svg = d3.select("#chart").append("svg").attr("height", @height).attr("width", @width).call(d3.behavior.zoom().scale(start_scale).on("zoom", @redrawGraph))
+    $(@svg).addClass(".svg")
+    @svg.append("svg:defs").selectAll("marker")
+        .data(["suit"])
+      .enter().append("svg:marker")
+        .attr("id", String)
+        .attr("viewBox", "0 -5 10 10")
+        .attr("refX", 25)
+        .attr("refY", 0)
+        .attr("markerWidth", @marker_size)
+        .attr("markerHeight", @marker_size)
+        .attr("orient", "auto")
+        .append("svg:path")
+        .attr("d", "M0,-5L10,0L0,5")
     @graph = @svg.append("g").attr("transform", "scale(#{start_scale})")
   
   drawGraph: =>
@@ -59,7 +72,7 @@ class MediaSetsGraphController
         links.push {source: nodes[link.source_id], target: nodes[link.target_id], type: "suit"}
       @layout = d3.layout.force().gravity(0.05).friction(0.4).charge(-300).linkDistance(120).size([@width, @height])
       @layout.nodes(d3.values(nodes)).links(links)
-      all_links = @graph.selectAll(".link").data(@layout.links()).enter().append("line").attr("class", "link")
+      all_links = @graph.selectAll(".link").data(@layout.links()).enter().append("line").attr("class", "link").attr("marker-end", "url(#suit)")
       all_nodes = @graph.selectAll(".node").data(@layout.nodes()).enter().append("g").attr("class", "node").attr("data-id", ((d)-> return d.id))
       all_nodes.append("rect").attr("width", ((d)->return d.name.length*7+24)).attr("height","26px").attr("y", "-13px").attr("x", "-15px").attr("rx", "5px").attr("ry", "5px")
       all_nodes.append("image").attr("xlink:href", ((d)-> return d.img_src)).attr("x", "-10px").attr("y", "-10px").attr("width", "20px").attr("height", "20px")
@@ -78,7 +91,7 @@ class MediaSetsGraphController
   redrawGraph: => 
     @graph.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")")
   
-  disableBar: => $("#bar .selection .types").hide()
+  disableBar: => $("#bar .selection .types a").attr("disabled", true)
     
   inspectNode: (e)=>
     node = $(e.currentTarget)

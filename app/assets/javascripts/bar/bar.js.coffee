@@ -32,12 +32,14 @@ class Bar
   
   @setup_interactivity = ()->
     # mousenter types a
-    $("#bar .selection .types a").bind "mouseenter", ()->
+    $("#bar .selection .types a").bind "mouseenter", (e)->
+      return false if $(e.currentTarget).is("[disabled='disabled']")
       $(this).closest(".types").find(".active").removeClass("active")
       $(this).addClass("active")
       Bar.set_href_selection_for $(this) 
     # mouseleave selection  
-    $("#bar .selection").bind "mouseleave", ()->
+    $("#bar .selection").bind "mouseleave", (e)->
+      return false if $(e.currentTarget).is("[disabled='disabled']")
       $(this).find(".types .active").removeClass("active")
       $(this).find(".types .current").addClass("active")
       Bar.set_href_selection_for $(this).find(".types .current")
