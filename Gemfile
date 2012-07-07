@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 source 'http://gems.github.com'
 
-gem 'rails', '3.2.5'
+gem 'rails', '3.2.6'
 
 gem 'mysql2', '~> 0.3.8'  
 gem 'pg'
@@ -30,7 +30,7 @@ gem 'jquery-rails', '= 1.0.16'
 # OTHER THINGS STOP WORKING ALSO
 #
 gem 'rails_autolink', '~> 1.0'
-gem 'jquery-tmpl-rails', '~> 0.1.2'
+gem 'jquery-tmpl-rails', '~> 1.1'
 gem 'haml_assets'
 
 gem "d3_rails", "~> 2.9"
@@ -74,17 +74,20 @@ group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
   gem 'rvm-capistrano'
+  gem 'railroady'
+  gem 'statsample'
 end
 
 group :test, :development do
   gem "guard", "~> 1.0"
-  gem "guard-cucumber", "~> 0.8"
-  gem "guard-rspec", "~> 0.7"
-  gem "guard-spork", "~> 0.8"
-  gem "guard-jasmine-headless-webkit", "~> 0.3.2"
-  gem "jasmine-headless-webkit", "~> 0.8.4" # needed for "headless" running of jasmine tests (needed for CI)
-  gem "jasmine-rails", "~> 0.0.3" # javascript test environment
-  gem "jasminerice", "~> 0.0.8" # needed for implement coffeescript, fixtures and asset pipeline serverd css into jasmine
+  gem "guard-cucumber", "~> 1.2"
+  gem "guard-rspec", "~> 1.1"
+  gem "guard-spork", "~> 1.0"
+# Disabling these gems because we don't do Jasmine at the moment, and loading gems makes our test startup time longer
+#  gem "guard-jasmine-headless-webkit", "~> 0.3.2"
+#  gem "jasmine-headless-webkit", "~> 0.8.4" # needed for "headless" running of jasmine tests (needed for CI)
+#  gem "jasmine-rails", "~> 0.0.3" # javascript test environment
+#  gem "jasminerice", "~> 0.0.8" # needed for implement coffeescript, fixtures and asset pipeline serverd css into jasmine
   gem "rb-fsevent", "~> 0.9"
   gem "ruby_gntp", "~> 0.3.4"
   gem 'autotest'
@@ -93,10 +96,8 @@ group :test, :development do
   gem 'factory_girl_rails', "~> 3.3"
   gem 'faker'
   gem 'pry'
-  gem 'railroady'
   gem 'rspec-rails'
   gem 'spork'
-  gem 'statsample'
 end
 
 group :development, :production do

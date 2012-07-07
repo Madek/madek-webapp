@@ -34,24 +34,9 @@ load_children = (target)->
   if $(target).data("children_data")?
     setup_children(target, $(target).data("children_data"))
   else
-    $.ajax
-      url: "/media_sets/"+target.tmplItem().data.id+".json"
-      data:
-        with: 
-          children: 
-            pagination:
-              per_page: 6
-          meta_data:
-            meta_key_names: ["title"]
-          image:
-            as:"base64"
-            size:"small"
-      type: "GET"
-      success: (data, status, request) ->
-        $(target).data "children_data", data
-        setup_children(target, data)
-      error: (request, status, error) ->
-        console.log "ERROR LOADING"
+    App.MediaResources.fetch_children target.tmplItem().data.id, (data)->
+      $(target).data "children_data", data
+      setup_children(target, data)
     
 load_parents = (target)->
   if $(target).data("parents_data")?
@@ -61,12 +46,15 @@ load_parents = (target)->
       url: "/media_sets/"+target.tmplItem().data.id+".json"
       data:
         with:
-          meta_data:
-            meta_key_names: ["title"]
-          parents: {pagination: {per_page: 3}}
-          image:
-            as:"base64"
-            size:"small"
+          parents: 
+            pagination: 
+              per_page: 3
+            with:
+              meta_data:
+                meta_key_names: ["title"]
+              image:
+                as:"base64"
+                size:"small"
       type: "GET"
       success: (data, status, request) ->
         $(target).data "parents_data", data

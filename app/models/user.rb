@@ -53,6 +53,10 @@ class User < ActiveRecord::Base
 #temp#  attr_accessible :login, :email, :person_id
 
 #############################################################
+  
+  def self.find_by_login(login)
+    where("login #{SQLHelper.ilike} ?",login).limit(1).first
+  end
 
   def to_s
     name

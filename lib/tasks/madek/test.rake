@@ -13,6 +13,13 @@ namespace :madek do
       Rake::Task["madek:test:cucumber:separate"].invoke
     end
 
+    task :run_slow do
+      Rake::Task["madek:test:setup"].invoke
+      Rake::Task["madek:test:rspec"].invoke
+      Rake::Task["madek:test:cucumber:slow"].invoke
+    end
+
+
     task :setup do
       # Rake seems to be very stubborn about where it takes
       # the RAILS_ENV from, so let's set a lot of options (?)
@@ -45,6 +52,14 @@ namespace :madek do
         exit_code_rerun_again = $? >> 8
 
         raise "Tests failed!" if exit_code_rerun_again != 0
+      end
+
+      task :slow do
+        puts "Running Cucumber tests marked as @slow"
+        system "bundle exec cucumber -p slow"
+        exit_code = $? >> 8 # magic brainfuck
+
+        raise "Tests failed!" if exit_code != 0
       end
 
       task :seperate do

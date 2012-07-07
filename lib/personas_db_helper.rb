@@ -34,5 +34,17 @@ module PersonasDBHelper
       DBHelper.dump_native path:  path_to_max_migration, config: config
     end
 
+    def restore_personas_to_max_migration
+      unless File.exist? PersonasDBHelper.path_to_max_migration
+        DBHelper.drop
+        DBHelper.create
+        PersonasDBHelper.create_max_migration
+      end
+
+      DBHelper.drop
+      DBHelper.create
+      DBHelper.restore_native PersonasDBHelper.path_to_max_migration
+    end
+
   end
 end

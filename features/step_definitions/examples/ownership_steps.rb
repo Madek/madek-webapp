@@ -44,7 +44,7 @@ When /^I vist that resource's page$/ do
 end
 
 When /^I see a list of resources$/ do
-  visit root_path
+  visit media_resources_path
 end
 
 Then /^I can see if a resource is only visible for me$/ do
@@ -86,7 +86,6 @@ end
 
 When /^I open the permission lightbox$/ do
   wait_for_css_element(".open_permission_lightbox")
-  sleep(1)
   find(".open_permission_lightbox").click
   wait_for_css_element(".permission_lightbox .line")
 end
@@ -105,21 +104,18 @@ When /^I open a media resource owned by someone else$/ do
   visit root_path
   wait_for_css_element("#results_others .thumb_box")
   find("#results_others .thumb_box").click
-  sleep(1)
 end
 
 When /^I open a media entry owned by someone else$/ do
   visit root_path
   wait_for_css_element("#results_others .thumb_box")
   find("#results_others .thumb_box").click
-  sleep(1)
 end
 
 When /^I open a media set owned by someone else$/ do
   visit root_path
   wait_for_css_element("#results_others .thumb_box_set")
   find("#results_others .thumb_box_set").click
-  sleep(1)
 end
 
 Then /^I cannot change the owner$/ do
@@ -181,7 +177,6 @@ When /^I create a snapshot of a media entry owned by "([^"]*)"$/ do |user_login|
   @resource = user.media_entries.accessible_by_user(@current_user).first
   visit media_resource_path @resource
   find("a", :text => "Kopie für MIZ-Archiv erstellen").click
-  sleep(1)
 end
 
 Then /^I am the owner of the snapshot$/ do

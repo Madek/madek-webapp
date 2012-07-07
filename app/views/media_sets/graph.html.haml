@@ -1,11 +1,32 @@
-%button.zoom_in
-  Zoom In
-%button.zoom_out
-  Zoom Out
+%section#content_body.media_sets_graph
+  = render partial: "media_resources/bar"
 
-#chart
+  #zoom_panel  
+    %button.zoom_in
+      Zoom In
+    %button.zoom_out
+      Zoom Out
 
+  #chart
+  #inspector.media_resources.index.grid
+  
 :css
+  #inspector {
+    display: inline-block;
+    height: 1000px;
+    width: 200px;
+    position: absolute;
+    margin-left: 10px;
+    right: 0;
+    top: 125px;
+  }
+  
+  #chart {
+    display: inline-block;
+    height: 100%;
+  }
+  
+  /*
   path.link {
     fill: none;
     stroke: #666;
@@ -17,172 +38,90 @@
     stroke: #333;
     stroke-width: 1px;
   }
+  */
   
-  text {
+  .link {
+    stroke: #666;
+    stroke-width: 1px;
+  }
+  
+  .node text {
+    pointer-events: none;
     font: 10px sans-serif;
   }
   
 :javascript
   $(document).ready(function () {
     /*
-    var w = 960,
-        h = 500
-    
-    var vis = d3.select("body").append("svg:svg")
-        .attr("width", w)
-        .attr("height", h);
-    
     d3.json("http://bl.ocks.org/d/950642/graph.json", function(json) {
-        var force = self.force = d3.layout.force()
-            .nodes(json.nodes)
-            .links(json.links)
-            .gravity(.05)
-            .distance(100)
-            .charge(-100)
-            .size([w, h])
-            .start();
+    });
+    */
+
+    var width = $("#content_body").innerWidth() - $("#inspector").outerWidth(),
+        height = window.innerHeight - $("#content_body").offset().top -$("footer").height(),
+        marker_size = 10;
+	
+    var svg = d3.select("#chart").append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .call(d3.behavior.zoom().on("zoom", redraw)).attr("scale", 1).append("g");
+
+  	var force = d3.layout.force()
+      .gravity(0.04)
+      .friction(0.6)
+      .charge(-100)
+      .distance(120)
+      .size([width, height]);
+	
+    d3.json(document.location.href + ".json", function(json) {
+      var nodes = {};
+      var links = [];
+      json.nodes.forEach(function(node) {
+        nodes[node.id] = node; //{name: node.name, img_src: node.img_src};
+      });
+      json.links.forEach(function(link) {
+        //link.source = json.nodes[link.source] || (json.nodes[link.source] = {name: link.source});
+        //link.target = json.nodes[link.target] || (json.nodes[link.target] = {name: link.target});
+        links.push({source: nodes[link.source_id], target: nodes[link.target_id], type: "suit"});
+      });
+      force
+        .nodes(d3.values(nodes))
+        .links(links)
+        .start();
+
+      var link = svg.selectAll(".link")
+          .data(force.links())
+        .enter().append("line")
+          .attr("class", "link");
+
+      var node = svg.selectAll(".node")
+          .data(force.nodes())
+        .enter().append("g")
+          .attr("class", "node")
+          .attr("data-id", function(d) { return d.id; })
+          .call(force.drag);
     
-        var link = vis.selectAll("line.link")
-            .data(json.links)
-            .enter().append("svg:line")
-            .attr("class", "link")
-            .attr("x1", function(d) { return d.source.x; })
+      node.append("image")
+          .attr("xlink:href", function(d) { return d.img_src; })
+          .attr("x", "-20px")
+          .attr("y", "-20px")
+          .attr("width", "40px")
+          .attr("height", "40px");
+    
+      node.append("text")
+          .attr("dx", 12)
+          .attr("dy", ".35em")
+          .text(function(d) { return d.name });
+    
+      force.on("tick", function() {
+        link.attr("x1", function(d) { return d.source.x; })
             .attr("y1", function(d) { return d.source.y; })
             .attr("x2", function(d) { return d.target.x; })
             .attr("y2", function(d) { return d.target.y; });
     
-        var node = vis.selectAll("g.node")
-            .data(json.nodes)
-          .enter().append("svg:g")
-            .attr("class", "node")
-            .call(force.drag);
-    
-        node.append("svg:image")
-            .attr("class", "circle")
-            .attr("xlink:href", "https://d3nwyuy0nl342s.cloudfront.net/images/icons/public.png")
-            .attr("x", "-8px")
-            .attr("y", "-8px")
-            .attr("width", "16px")
-            .attr("height", "16px");
-    
-        node.append("svg:text")
-            .attr("class", "nodetext")
-            .attr("dx", 12)
-            .attr("dy", ".35em")
-            .text(function(d) { return d.name });
-    
-        force.on("tick", function() {
-          link.attr("x1", function(d) { return d.source.x; })
-              .attr("y1", function(d) { return d.source.y; })
-              .attr("x2", function(d) { return d.target.x; })
-              .attr("y2", function(d) { return d.target.y; });
-    
-          node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-        });
-    });
-    */
-    //
-    var w = window.innerWidth,
-        h = window.innerHeight,
-        marker_size = 10;
-	
-    var force = d3.layout.force()
-        .size([w, h])
-        .linkDistance(120)
-        .gravity(0.05)
-        .friction(0.4)
-        .charge(-300);
-	
-    var svg = d3.select("#chart").append("svg")
-        .attr("width", w)
-        .attr("height", h)
-        .call(d3.behavior.zoom()
-          .on("zoom", redraw))
-        .append("g")
-        .attr("scale", 1);
-	
-    d3.json(document.location.href + ".json", function(json) {
-      //
-      var nodes = {};
-      var links = [];
-      json.nodes.forEach(function(node) {
-        nodes[node.id] = {name: node.name, img_src: node.img_src};
+        node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
       });
-      //
-      json.links.forEach(function(link) {
-        //link.source = json.nodes[link.source] || (json.nodes[link.source] = {name: link.source});
-        //link.target = json.nodes[link.target] || (json.nodes[link.target] = {name: link.target});
-        //
-        links.push({source: nodes[link.source_id], target: nodes[link.target_id], type: "suit"});
-      });
-      force
-      //.nodes(d3.values(json.nodes))
-      .nodes(d3.values(nodes))
-      //.links(json.links)
-      .links(links)
-      .start();
-
-      // Per-type markers, as they don't inherit styles.
-      svg.append("defs").selectAll("marker")
-          .data(["suit"])
-        .enter().append("marker")
-          .attr("id", String)
-          .attr("viewBox", "0 -5 10 10")
-          .attr("refX", 30)
-          //.attr("refY", -3.0)
-          .attr("markerWidth", marker_size)
-          .attr("markerHeight", marker_size)
-          .attr("orient", "auto")
-        .append("path")
-        .attr("d", "M0,-5L10,0L0,5");
-	    
-      var path = svg.append("g").selectAll("path")
-          .data(force.links())
-        .enter().append("path")
-          .attr("class", function(d) { return "link " + d.type; })
-          .attr("marker-end", function(d) { return "url(#" + d.type + ")"; });
-      
-      var circle = svg.append("g").selectAll("circle")
-          .data(force.nodes())
-        .enter() //.append("circle")
-          //.attr("r", marker_size);
-        .append("svg:image")
-            .attr("class", "circle")
-            .attr("title", function(d) { return d.name; })
-            .attr("xlink:href", function(d) { return d.img_src; })
-            .attr("x", "-20px")
-            .attr("y", "-20px")
-            .attr("width", "40px")
-            .attr("height", "40px") //;
-          .on("mouseover", function(d) {
-              $(this).qtip({
-                position: { my: 'center left', at: 'center right', viewport: $(window) },
-                content: { attr: 'title' },
-                style: { classes: 'ui-tooltip-youtube ui-tooltip-shadow' }
-              });
-              $(this).qtip("show"); });
-      
-      var text = svg.append("g").selectAll("g")
-          .data(force.nodes())
-        .enter().append("g");
-
-      force.on("tick", function() {
-        path.attr("d", function(d) {
-          var dx = d.target.x - d.source.x,
-              dy = d.target.y - d.source.y,
-              dr = 0; //Math.sqrt(dx * dx + dy * dy); // Use elliptical arc path segments to doubly-encode directionality.
-          return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
-        });
-      
-        circle.attr("transform", function(d) {
-          return "translate(" + d.x + "," + d.y + ")";
-        });
-      
-        text.attr("transform", function(d) {
-          return "translate(" + d.x + "," + d.y + ")";
-        });
-      });
-	
+                     
     });
 
     function redraw() {
@@ -198,5 +137,67 @@
       svg.attr("transform", "scale(" + svg.attr("scale") + ")");
     });
     //
+
+    new App.MediaSetsGraph;
   });
+
+
+
+/
+  :plain  
+    /*
+    // Per-type markers, as they don't inherit styles.
+    svg.append("defs").selectAll("marker")
+        .data(["suit"])
+      .enter().append("marker")
+        .attr("id", String)
+        .attr("viewBox", "0 -5 10 10")
+        .attr("refX", 30)
+        //.attr("refY", -3.0)
+        .attr("markerWidth", marker_size)
+        .attr("markerHeight", marker_size)
+        .attr("orient", "auto")
+      .append("path")
+      .attr("d", "M0,-5L10,0L0,5");
+    
+    var path = svg.append("g").selectAll("path")
+        .data(force.links())
+      .enter().append("path")
+        .attr("class", function(d) { return "link " + d.type; })
+        .attr("marker-end", function(d) { return "url(#" + d.type + ")"; });
+    
+    var circle = svg.append("g").selectAll("circle")
+        .data(force.nodes())
+      .enter() //.append("circle")
+        //.attr("r", marker_size);
+      .append("svg:image")
+          .attr("class", "circle")
+          //.attr("title", function(d) { return d.name; })
+    
+    var text = svg.append("g").selectAll("g")
+        .data(force.nodes())
+      .enter() //.append("g");
+        .append("svg:text")
+          .attr("class", "nodetext")
+          .attr("dx", 12)
+          .attr("dy", ".35em")
+          .text(function(d) { return d.name });        
+    
+    force.on("tick", function() {
+      path.attr("d", function(d) {
+        var dx = d.target.x - d.source.x,
+            dy = d.target.y - d.source.y,
+            dr = 0; //Math.sqrt(dx * dx + dy * dy); // Use elliptical arc path segments to doubly-encode directionality.
+        return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+      });
+    
+      circle.attr("transform", function(d) {
+        return "translate(" + d.x + "," + d.y + ")";
+      });
+    
+      text.attr("transform", function(d) {
+        return "translate(" + d.x + "," + d.y + ")";
+      });
+    });
+    */
     

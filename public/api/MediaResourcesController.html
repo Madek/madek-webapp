@@ -373,7 +373,7 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 								<li>
 									<span class="name">with[image]</span>
 									<span class="type">Hash</span>
-									<span class="text">Request the image of the MediaResources. You can define the responding image format like {"image": {"as": "base64" | "url"}}. The image size can be requested with {"image": {"size": "small"(100x100) | "small_125"(125x125) | "medium"(300x300) | "large"(620x500) | "x-large"(1024x768) }}</span>
+									<span class="text">Request the image of the MediaResources. You can define the responding image format like {"image": {"as": "base64" | "url"}}. The image size can be requested with {"image": {"size": "small"(100x100) | "small_125"(125x125) | "medium"(300x300) | "large"(620x500) | "x_large"(1024x768) }}</span>
 								</li>
 							</ul>
 						
@@ -599,7 +599,7 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 							<span class="description">
 								
 									
-										The attributes of the MetaContext "core" might change, you should get the shema of the context by fetching the "core" context through the MetaContext resource.
+										
 									
 								
 							</span>
@@ -654,6 +654,10 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 							</span>
 							<span class="description">
 								
+									
+										The attributes of the MetaContext "core" might change, you should get the shema of the context by fetching the "core" context through the MetaContext resource.
+									
+								
 							</span>
 						</div>
 					
@@ -705,6 +709,10 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 							</span>
 							<span class="description">
 								
+									
+										
+									
+								
 							</span>
 						</div>
 					
@@ -755,6 +763,10 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 							</span>
 							<span class="description">
 								
+									
+										
+									
+								
 							</span>
 						</div>
 					
@@ -802,6 +814,10 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 								
 							</span>
 							<span class="description">
+								
+									
+										
+									
 								
 							</span>
 						</div>
@@ -852,6 +868,10 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 							</span>
 							<span class="description">
 								
+									
+										
+									
+								
 							</span>
 						</div>
 					
@@ -900,6 +920,10 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 								
 							</span>
 							<span class="description">
+								
+									
+										
+									
 								
 							</span>
 						</div>
@@ -953,6 +977,10 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 							</span>
 							<span class="description">
 								
+									
+										
+									
+								
 							</span>
 						</div>
 					
@@ -1004,6 +1032,10 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 								
 							</span>
 							<span class="description">
+								
+									
+										
+									
 								
 							</span>
 						</div>
@@ -1067,6 +1099,10 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 							</span>
 							<span class="description">
 								
+									
+										
+									
+								
 							</span>
 						</div>
 					
@@ -1126,6 +1162,10 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 							</span>
 							<span class="description">
 								
+									
+										
+									
+								
 							</span>
 						</div>
 					
@@ -1178,6 +1218,10 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 							</span>
 							<span class="description">
 								
+									
+										The responding MediaResource with id 1 is accesible by everyone and is editable, managable by the current user. The MediaResource is not part of the current user's favorites.
+									
+								
 							</span>
 						</div>
 					
@@ -1188,7 +1232,7 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 							<span class="description">
 								
 									
-										The responding MediaResource with id 1 is accesible by everyone and is editable, managable by the current user. The MediaResource is not part of the current user's favorites.
+										Request MediaResources with children.
 									
 								
 							</span>
@@ -1239,6 +1283,10 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 							</span>
 							<span class="description">
 								
+									
+										Children are not responding for MediaEntries. The children uses a "nested" pagination for its own. If you want to controll the pagination inside the children pass a "pagination" attribute to the children value (e.g. {"pagination":{"page":2}}). If you want to forward a "with" to the children to request more nested informations just parse a Hash to the value containing the with informations (e.g. {"with":{"children":{with:{"media_type": true}}}}).
+									
+								
 							</span>
 						</div>
 					
@@ -1249,7 +1297,75 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 							<span class="description">
 								
 									
-										Request MediaResources with children.
+										Paginate through children of MediaResource with id 1.
+									
+								
+							</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;ids&quot;: [1],
+  &quot;with&quot;: {
+    &quot;children&quot;:{
+      &quot;pagination&quot;: {
+        page: 2,
+        per_page: 2
+      }
+    }
+  }
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;media_resources&quot;: [
+    {
+      &quot;id&quot;:1,
+      &quot;type&quot;:&quot;media_set&quot;,
+      &quot;children&quot;: {
+        &quot;media_resources&quot;: {[
+          {&quot;id&quot;:4123}
+        ]},
+        &quot;pagination&quot;: {
+          &quot;total&quot;:3,
+          &quot;page&quot;:2,
+          &quot;per_page&quot;:2,
+          &quot;total_pages&quot;:2
+        }
+      }
+    },
+  ]
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="description">
+								
+									
+										
+									
+								
+							</span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">
+								
+									
+										Request MediaResources with parents.
 									
 								
 							</span>
@@ -1312,6 +1428,10 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 							</span>
 							<span class="description">
 								
+									
+										MediaEntries and MediaSets are responding with parents. The parents uses a "nested" pagination for its own. If you want to controll the pagination inside the parents pass a "pagination" attribute to the children value (e.g. {"pagination":{"page":2}}). If you want to forward a "with" to the parents to request more nested informations just parse a Hash to the value containing the with informations (e.g. {"with":{"parents":{"with":{"media_type": true}}}}).
+									
+								
 							</span>
 						</div>
 					
@@ -1347,7 +1467,7 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 								<li>
 									<span class="name">size</span>
 									<span class="type">String</span>
-									<span class="text">Set the responding size of the image: "small"(100x100) | "small_125"(125x125) | "medium"(300x300) | "large"(620x500)[DEFAULT] | "x-large"(1024x768).</span>
+									<span class="text">Set the responding size of the image: "small"(100x100) | "small_125"(125x125) | "medium"(300x300) | "large"(620x500)[DEFAULT] | "x_large"(1024x768).</span>
 								</li>
 							</ul>
 						
@@ -1416,7 +1536,7 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 	</div>
     
     <div id="footer">
-  Generated on Thu Jun 14 10:53:02 2012 with ruby-1.9.3
+  Generated on Mon Jul  2 11:49:51 2012 with ruby-1.9.3
 </div>
 
   </body>

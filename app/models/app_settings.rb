@@ -6,7 +6,9 @@ class AppSettings < Settings
     :dropbox_root_dir               => {:type => String,    :description => "Dropbox root directory path for FTP upload"},
     :ftp_dropbox_server             => {:type => String,    :description => "Dropbox: ftp server name"},
     :ftp_dropbox_user               => {:type => String,    :description => "Dropbox: ftp user name"},
-    :ftp_dropbox_password           => {:type => String,    :description => "Dropbox: ftp password"}
+    :ftp_dropbox_password           => {:type => String,    :description => "Dropbox: ftp password"},
+    :authentication_systems         => {:type => Array,     :description => "Active authentication systems described as symbols",
+                                        :possible_values => [:zhdk_agw, :local_database], :default => [:local_database]}
   }
 
   def self.method_missing(method, *args)
@@ -23,7 +25,10 @@ class AppSettings < Settings
       raise TypeError, "Expected #{ACCEPTED_VARS[get_method][:type]}, received #{args.first.class}"  
     end
 
-    super
+    # TODO filter possible_values on setter
+
+    r = super
+    (not is_setter and r.blank?) ? ACCEPTED_VARS[method][:default] : r
   end
 
 end

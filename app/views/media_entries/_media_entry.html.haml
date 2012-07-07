@@ -75,7 +75,7 @@
         #delete-panel.actionbar-panel{:style => "display: none"}
           .actionbar-inner-panel
             = _("Wollen Sie diesen Medieneintrag und alle zugehörigen Dateien wirklich löschen? Sie können dies nicht rückgängig machen. Die Daten sind unwiederbringlich verloren.")
-            = link_to _("Löschen"), media_entry_path(media_entry), :id => "delete_me", :method => :delete, :confirm => _("Sind Sie sicher?"), :"data-id" => media_entry.id
+            = link_to _("Löschen"), media_entry_path(media_entry), :id => "delete_me", :method => :delete, :data => {:confirm => _("Sind Sie sicher?"), :id => media_entry.id}
         #download-panel.actionbar-panel{:style => "display: none"}
           .actionbar-inner-panel
             = render :partial => "download", :object => media_entry, :as => :media_entry
@@ -91,7 +91,7 @@
   
     MetaDataToggler.setup();
 
-    /* FIXME: Remove me completly later on
+    /* FIXME: Remove me completely later on
     $(".scrollable").each(function(){
       // enable the jquery tools scrollable plugin only on elements wich are higher then their content
       if($(this).find(".items").height() > $(this).height()) {

@@ -3,6 +3,8 @@ class MetaTerm < ActiveRecord::Base
   has_many :meta_key_meta_terms, :foreign_key => :meta_term_id
   has_many :meta_keys, :through => :meta_key_meta_terms
 
+  # TODO include keywords ??
+  has_and_belongs_to_many :meta_data
   #tmp# has_many :keywords, :foreign_key => :meta_term_id
 
   validate do
@@ -16,21 +18,10 @@ class MetaTerm < ActiveRecord::Base
 
   ######################################################
 
-    # TODO refactor to has_many through association ??
-    # TODO include keywords ??
-    def meta_data(meta_key = nil)
-      meta_keys.flat_map(&:meta_data).select {|x| x.value.include?(self.id) and (meta_key.nil? or x.meta_key == meta_key) }
-    end
-    
     def reassign_meta_data_to_term(term, meta_key = nil)
-      meta_data(meta_key).each do |md|
-        md.value.map! do |x|
-          if x == self.id
-            term.id
-          else
-            x
-          end
-        end
+      meta_data_to_reassign = meta_key ? meta_data.where(:meta_key_id => meta_key) : meta_data
+      meta_data_to_reassign.each do |md|
+        md.value = md.value.map {|x| x == self ? term : x }
         md.save
       end
     end

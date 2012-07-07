@@ -79,7 +79,7 @@ class MetaKey < ActiveRecord::Base
 #            context.meta_key_definitions.find_by_key_map(key_map).try(:meta_key)
 #          end
 
-    mk = MetaKeyDefinition.where("key_map LIKE ?", "%#{key_map}%").first.try(:meta_key)
+    mk = MetaKeyDefinition.where("key_map #{SQLHelper.ilike} ?", "%#{key_map}%").first.try(:meta_key)
 
     if mk.nil?
       entry_name = key_map.split(':').last.underscore.gsub(/[_-]/,' ')
@@ -107,7 +107,7 @@ class MetaKey < ActiveRecord::Base
 
   # TODO refactor to association has_many :used_meta_terms, :through ...
   def used_term_ids
-    meta_data.flat_map(&:value).uniq.compact if meta_datum_object_type == "MetaDatumMetaTerms"
+    meta_data.flat_map(&:value).map(&:id).uniq.compact if meta_datum_object_type == "MetaDatumMetaTerms"
   end
 
 end

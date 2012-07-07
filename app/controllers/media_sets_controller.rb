@@ -305,7 +305,9 @@ class MediaSetsController < ApplicationController
   # TODO merge to index ??
   def graph
     respond_to do |format|
-      format.html
+      format.html {
+        params[:type] = "media_sets" # checked in current_settings view helper 
+      }
       format.json {
         #media_sets = MediaSet.accessible_by_user(current_user).relative_top_level
         media_sets = current_user.media_sets #.relative_top_level

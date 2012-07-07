@@ -3,9 +3,9 @@ Feature: Curated set / Gallery
   Background: Load the example data and personas
     Given I have set up the world a little
   
-  @javascript
+  @javascript @slow
   Scenario: Using the set highlight editing option
-    When I am "Normin"
+    Given I am "Normin"
      And I open a set that I can edit which has children
     Then I see the the option to edit the highlights for this set
      And I can select which children to highlight
@@ -14,13 +14,13 @@ Feature: Curated set / Gallery
   
   @javascript
   Scenario: Not seeing the set highlight editing option
-    When I am "Petra"
+    Given I am "Petra"
      And I open a set that I can not edit which has children
     Then I don't see the option to edit the highlights for this set
   
-  @javascript
+  @javascript @slow
   Scenario: Viewing a set that has highlighted resources
-    When I am "Normin"
+    Given I am "Normin"
      And I open a set that I can edit which has children
     Then I see the the option to edit the highlights for this set
      And I can select which children to highlight

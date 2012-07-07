@@ -204,9 +204,9 @@ module MetaDataHelper
         selected = Array(meta_datum.object.value)
         all_options = meta_key.meta_terms.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}
       when "MetaDatumPeople"
-        selected = Array(meta_datum.object.value)
+        selected_ids = Array(meta_datum.object.value).map(&:id)
         @people ||= Person.with_meta_data
-        all_options = @people.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x.id)}}
+        all_options = @people.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected_ids.include?(x.id)}}
       when "MetaDatumKeywords"
         keywords = meta_datum.object.deserialized_value
         meta_term_ids = keywords.collect(&:meta_term_id)
@@ -344,30 +344,23 @@ module MetaDataHelper
           h += link_to icon_tag("button_add_person"), new_person_path, :class => "dialog_link", :style => "margin-top: .5em;"
           
         when "MetaDatumDate"
-          meta_datum.object.value ||= [] # OPTIMIZE
+          meta_datum.object.value ||= "" # OPTIMIZE
           at = from = to = at_time = ""
           selected_option = "freetext"
-          case meta_datum.object.value.size
-            when 2
-              f = meta_datum.object.value.first
-              l = meta_datum.object.value.last
-              if f.parsed and l.parsed
-                #old# from = f.to_s
-                #old# to = l.to_s
-                from = f.parsed.to_formatted_s(:date)
-                to = l.parsed.to_formatted_s(:date)
-                selected_option = "from-to"
-              end
-            when 1
-              f = meta_datum.object.value.first
-              if f.parsed
-                #old# at = f.to_s
-                at = f.parsed.to_formatted_s(:date)
-                if f.parsed.seconds_since_midnight > 0
-                  at_time = f.parsed.to_formatted_s(:time_full) + " " + f.parsed.formatted_offset 
-                end
-                selected_option = "at"
-              end
+
+          splitted_value = meta_datum.object.value.split(' - ')
+          begin
+            case splitted_value.size
+              when 2
+                from = splitted_value.first
+                to = splitted_value.last
+                selected_option = "from-to" if Date.parse(from) and Date.parse(to)
+              when 1
+                at = splitted_value.first
+                selected_option = "at" if Date.parse(at)
+            end
+          rescue
+            # let's display the freetext
           end
 
           h += select_tag "dateSelect", options_for_select([["am", "at"], ["von - bis", "from-to"], ["Freie Eingabe", "freetext"]], selected_option)
@@ -444,16 +437,17 @@ module MetaDataHelper
         when "MetaDepartment"
           h += widget_meta_terms_multiselect(meta_datum, meta_key)
 
-        when "Copyright"
+        when "MetaDatumCopyright"
           #old# h += meta_datum.hidden_field :value, :class => "copyright_value"
-          h += hidden_field_tag "#{meta_datum.object_name}[value]", meta_datum.object.value.try(:first), :class => "copyright_value"
-
-          @copyright_all ||= Copyright.all # OPTIMIZE
+          
+          h += hidden_field_tag "#{meta_datum.object_name}[value]", meta_datum.object.value, :class => "copyright_value"
+          @copyright_all ||= Copyright.all 
           @copyright_roots ||= Copyright.roots
-          value = meta_datum.object.deserialized_value.try(:first) # OPTIMIZE
+          value = meta_datum.object.deserialized_value 
           selected = @copyright_roots.detect{|s| (value and s.is_or_is_ancestor_of?(value)) }.try(:id)
           h += select_tag "options_root", options_from_collection_for_select(@copyright_roots, :id, :to_s, selected), :class => "options_root" 
 
+          
           @copyright_roots.each do |s|
             next if s.leaf?
             grouped_options = s.children.collect do |t|
