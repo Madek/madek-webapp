@@ -28,7 +28,7 @@
     line-height: 140px
     background-color: #fff
     margin-bottom: 10px
-    @include box-shadow(0 0 1px rgba(100, 100, 100, 0.6))
+    @include box-shadow(0 0 4px rgba(100, 100, 100, 0.4))
     
     img 
       margin-top: expression(( 140 - this.height ) / 2)
@@ -62,7 +62,8 @@
       background: url($sprite) no-repeat 0 -243px
       height: 149px
       position: relative
-      top: -2px
+      margin-bottom: 1px
+      top: -4px
       width: 142px
       @include box-shadow(0 0 0 transparent)
 
@@ -70,7 +71,7 @@
       max-height: 140px
       max-width: 120px
       position: relative
-      top: -1px
+      top: 2px
       left: 1px
 
     .item_permission
