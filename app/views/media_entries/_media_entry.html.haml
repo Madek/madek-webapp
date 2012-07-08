@@ -120,11 +120,11 @@
 
     // OPTIMIZE
     $('a#delete_me').bind('confirm:complete', function(){
-      var media_entries_json = get_media_entries_json();
-      var i = is_Selected(media_entries_json, $(this).data("id"));
+      var media_resources_json = get_media_resources_json();
+      var i = is_Selected(media_resources_json, $(this).data("id"));
       if (i > -1) {
-        media_entries_json.splice(i, 1);
-        set_media_entries_json(media_entries_json);
+        media_resources_json.splice(i, 1);
+        set_media_resources_json(media_resources_json);
       };
     })
 
