@@ -45,6 +45,28 @@
           "sDom": '<"top"fi>rt<"bottom"lp><"clear">'
         });
       });
+
+    :coffeescript
+      jQuery ->
+        $("form#new_user").live "ajax:beforeSend", ()->
+          _this = $(this)
+          r = true
+          em = _this.find("input#user_email")
+          em.next().remove()
+          if em.val() == ""
+            em.after("<span>Email can't be blank.</span>")
+            r = false
+          c = _this.find("input#user_password")
+          c.next().remove()
+          if c.val() == ""
+            c.after("<span>Password can't be blank.</span>")
+            r = false
+          pc = _this.find("input#user_password_confirmation")
+          pc.next().remove()
+          if c.val() != pc.val()
+            pc.after("<span>Password does not match the confirm password.</span>")
+            r = false
+          return r
     
   %body
     %header.container_12.clearfix

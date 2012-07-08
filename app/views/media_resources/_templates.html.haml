@@ -22,6 +22,9 @@
     Seite ${page} von ${total_pages}
 
 %script#thumbnail_mini{:type => "text/x-jquery-tmpl"}
+  {{if type}}
+  ${is_set = (type=="media_set")?true:false, ""}
+  {{/if}}
   %div{:class => "thumb_mini {{if is_editable}}edit{{/if}} {{if is_manageable}}manage{{/if}}{{if is_set}} set{{/if}}", :rel => "${id}", :title => "${title}"}
     {{if is_set}}
     .set_tab

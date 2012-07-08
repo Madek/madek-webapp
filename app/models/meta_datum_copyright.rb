@@ -9,7 +9,7 @@ class MetaDatumCopyright < MetaDatum
   end
 
   def value
-    copyright
+    copyright || Copyright.default
   end
 
   def value=(new_value)

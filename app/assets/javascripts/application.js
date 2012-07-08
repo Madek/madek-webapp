@@ -191,29 +191,29 @@ $(document).ready(function () {
 /////////////////////////////////////////////////////////////
 // Utility functions to read from or write to sessionStorage
 
-function get_media_entries_json(){
-	var media_entries_json = JSON.parse(sessionStorage.getItem("selected_media_entries"));
-	if(media_entries_json == null) media_entries_json = new Array();
-	return media_entries_json;
+function get_media_resources_json(){
+	var media_resources_json = JSON.parse(sessionStorage.getItem("selected_media_resources"));
+	if(media_resources_json == null) media_resources_json = new Array();
+	return media_resources_json;
 }
 
-function set_media_entries_json(data){
+function set_media_resources_json(data){
 	//1+n http-requests//
 	$.each(data, function(i, elem){
 	  // overwrite possible base64 to image path
 		elem.image = "/media_resources/"+elem.id+"/image?size=small_125";
 	});
 
-	sessionStorage.setItem("selected_media_entries", JSON.stringify(data));
+	sessionStorage.setItem("selected_media_resources", JSON.stringify(data));
 }
 
 function get_selected_media_entry_ids() {
-	var media_entries_json = get_media_entries_json();
-	return $.map(media_entries_json, function(elem, i){ if (elem != null) return parseInt(elem.id); });
+	var media_resources_json = get_media_resources_json();
+	return $.map(media_resources_json, function(elem, i){ if (elem != null) return parseInt(elem.id); });
 }
 
-function is_Selected(media_entries_json, id) {
-    var media_entry_ids = $.map(media_entries_json, function(elem, i){ if (elem != null) return parseInt(elem.id); });
+function is_Selected(media_resources_json, id) {
+    var media_entry_ids = $.map(media_resources_json, function(elem, i){ if (elem != null) return parseInt(elem.id); });
     return media_entry_ids.indexOf(id);
 }
 
