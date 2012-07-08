@@ -31,12 +31,12 @@ class Admin::UsersController < Admin::AdminController
   def create
     respond_to do |format|
       format.js {
-        if params[:user].delete(:password_confirmation) == params[:user][:password] and
-          params[:user][:password] = Digest::SHA1.hexdigest(params[:user][:password]) and
-          @person.create_user(params[:user])
-            render partial: "/admin/people/show", locals: {person: @person}
+        params[:user].delete(:password_confirmation)
+        params[:user][:password] = Digest::SHA1.hexdigest(params[:user][:password]) 
+        if @person.create_user(params[:user]).valid?
+          render partial: "/admin/people/show", locals: {person: @person}
         else
-          render text: "error", status: 500
+          render text: @person.user.errors.full_messages.join(', '), status: 500
         end
       }
     end
