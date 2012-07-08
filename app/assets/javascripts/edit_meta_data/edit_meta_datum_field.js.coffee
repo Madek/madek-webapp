@@ -18,7 +18,7 @@ class EditMetaDatumField
         @setup_copyright_relevant_field field
       else
         @setup_string field
-    else if type is "meta_date"
+    else if type is "date"
       @setup_meta_date field
     else if type is "copyright"
       @setup_copyright field
@@ -54,6 +54,7 @@ class EditMetaDatumField
      $(field).find("select").bind "change", (event)->
        $(field).find("section").hide()
        $(field).find("section."+$(this).val()).show()
+     $(field).find("select").trigger "change"
      $(field).find(".at input, .from_to input:last").bind "change", (event)->
        value = Underscore.map $(field).find("input:visible"), (input)-> $(input).val()
        value = value.join(" - ")
