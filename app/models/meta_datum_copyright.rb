@@ -14,7 +14,9 @@ class MetaDatumCopyright < MetaDatum
 
   def value=(new_value)
     self.copyright =
-      if new_value.is_a?(Fixnum) or (new_value.respond_to?(:is_integer?) and new_value.is_integer?)
+      if new_value.is_a?(Copyright)
+        new_value
+      elsif new_value.is_a?(Fixnum) or (new_value.respond_to?(:is_integer?) and new_value.is_integer?)
         Copyright.find(new_value)
       else
         case new_value
