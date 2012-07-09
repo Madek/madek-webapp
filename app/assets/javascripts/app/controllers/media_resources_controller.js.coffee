@@ -10,6 +10,7 @@ class MediaResourcesController
     @active_layout = if sessionStorage.active_layout? then sessionStorage.active_layout else "grid"
     do @activate_layout
     do @delegate_events
+    do @switch_context_fetch
     
   plugin: ->
     new ActionMenu @el
@@ -64,12 +65,14 @@ class MediaResourcesController
     sessionStorage.active_layout = $(e.currentTarget).data "type"
     @active_layout = $(e.currentTarget).data "type"
     @el.addClass @active_layout
+    do @switch_context_fetch
+  
+  switch_context_fetch: =>
     if @active_layout == "list"
       @el.delegate ".meta_data .context[data-name]", "inview", @render_context
     else
       @el.undelegate ".meta_data .context[data-name]", "inview"
       
-    
   @fetch: (options, with_default)->
     with_default ?= true
     default_data =

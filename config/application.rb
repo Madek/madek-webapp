@@ -49,7 +49,7 @@ module MAdeK
 
     # Enable the asset pipeline
     config.assets.enabled = true
-    config.assets.version = '0.7.0'
+    config.assets.version = '0.7.1'
 
     # Please add any files you need precompiled here, otherwise it breaks production
     config.assets.precompile += %w( jquery/fcbkcomplete.css jquery/fcbkcomplete_custom.css i18n/jquery.ui.datepicker-de-CH.js i18n/jquery.ui.datepicker-en-GB.js i18n/jquery.ui.datepicker-de-CH i18n/jquery.ui.datepicker-en-GB admin.css root.css root.js meta_datum/meta_datum.js button/button.css plupload/i18n/de.js feedback.css )

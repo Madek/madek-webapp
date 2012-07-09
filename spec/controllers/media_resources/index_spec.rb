@@ -379,6 +379,21 @@ describe MediaResourcesController do
           end
         end        
       end
+
+      describe "through meta key names" do
+        it "should respond with the requested collection of media resources with nested meta data for the given meta key names of a context beside core" do
+          # a second meta context with keys (beside core)
+          @another_meta_context = FactoryGirl.create(:meta_context)
+          meta_key_definition = FactoryGirl.create(:meta_key_definition, :meta_key => FactoryGirl.create(:meta_key), :meta_context => @another_meta_context)
+          meta_key_name = @another_meta_context.meta_keys.first.to_s
+          get :index, {format: 'json', ids: ids, with: {meta_data: {meta_key_names: ["#{meta_key_name}"]}}}, session
+          response.should be_success
+          json = JSON.parse(response.body)
+          json["media_resources"].each do |mr|
+            mr["meta_data"].first["name"].should == meta_key_name
+          end
+        end        
+      end
       
       describe "through meta contexts with a single id provided" do
         it "should respond with the requested collection of media resources with nested meta data for the core meta context" do
