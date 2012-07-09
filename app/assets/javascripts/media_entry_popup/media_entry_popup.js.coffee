@@ -29,7 +29,7 @@ enter_target = (target)->
 open_popup = (target)->
   $(".entry_popup").each (i, element)-> close_popup element
   $(target).addClass("popup_target")
-  create_popup target if($(target).data("popup") == undefined) 
+  create_popup target if($(target).data("popup") == undefined)
   
 create_popup = (target)->
   # create copy of target
