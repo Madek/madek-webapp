@@ -79,26 +79,30 @@ group :development do
 end
 
 group :test, :development do
-  gem "guard", "~> 1.0"
-  gem "guard-cucumber", "~> 1.2"
-  gem "guard-rspec", "~> 1.1"
-  gem "guard-spork", "~> 1.0"
-  gem "debugger"
+  gem 'autotest'
+  gem 'database_cleaner'
+  gem 'factory_girl', '~> 3.3'
+  gem 'factory_girl_rails', '~> 3.3'
+  gem 'faker'
+  gem 'guard', '~> 1.0'
+  gem 'guard-cucumber', '~> 1.2'
+  gem 'guard-rspec', '~> 1.1'
+  gem 'guard-spork', '~> 1.0'
+  gem 'pry'
+  gem 'rb-fsevent', '~> 0.9'
+  gem 'rspec-rails'
+  gem 'ruby_gntp', '~> 0.3.4'
+  gem 'spork'
+
+#  Debugger works in ruby 1.9.3, however most functionality is in pry already; 
+#  gem 'debugger'
+
 # Disabling these gems because we don't do Jasmine at the moment, and loading gems makes our test startup time longer
 #  gem "guard-jasmine-headless-webkit", "~> 0.3.2"
 #  gem "jasmine-headless-webkit", "~> 0.8.4" # needed for "headless" running of jasmine tests (needed for CI)
 #  gem "jasmine-rails", "~> 0.0.3" # javascript test environment
 #  gem "jasminerice", "~> 0.0.8" # needed for implement coffeescript, fixtures and asset pipeline serverd css into jasmine
-  gem "rb-fsevent", "~> 0.9"
-  gem "ruby_gntp", "~> 0.3.4"
-  gem 'autotest'
-  gem 'database_cleaner'
-  gem 'factory_girl', "~> 3.3"
-  gem 'factory_girl_rails', "~> 3.3"
-  gem 'faker'
-  gem 'pry'
-  gem 'rspec-rails'
-  gem 'spork'
+
 end
 
 group :development, :production do
