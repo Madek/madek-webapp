@@ -303,8 +303,9 @@ class Permission
           response entries
       minLength: 1
       appendTo: $(container)
+      position: 
+        collision: "flip"
       select: (event, selection)->
-        
         # FOCUS INPUT AGAIN AFTER SELECTION
         window.setTimeout ()->
           $(event.target).val("")
