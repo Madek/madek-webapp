@@ -29,6 +29,10 @@
     font-size: 1.0em;
     margin-bottom: 4px;
   }   
+
+  .icon {
+    vertical-align: inherit;
+  }
   
   label.mixed {
     background: url("stripe_1.png") repeat scroll 0 0 red;
@@ -109,6 +113,10 @@
       top: -2px;
     }
     
+    .icon {
+      vertical-align: top;
+    }
+
     .loading_image {
       display: inline-block;
       height: 13px;
