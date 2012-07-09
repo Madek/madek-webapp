@@ -58,6 +58,7 @@ Feature: Batch edit media entries
   @javascript @slow
   Scenario: Use the batch's "Select all" button
       And I am on the homepage
+      And I follow "Alle meine Inhalte"
      When I click the mediaset titled "Konzepte"
       And I use batch's deselect all
       And I use batch's select all
