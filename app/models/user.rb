@@ -6,7 +6,7 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
 
   belongs_to :person
-  delegate :name, :fullname, :to => :person
+  delegate :name, :fullname, :shortname, :to => :person
 
   has_many :userpermissions
 

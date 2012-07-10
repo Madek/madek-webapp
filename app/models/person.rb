@@ -54,6 +54,13 @@ class Person < ActiveRecord::Base
     name
   end
 
+  def shortname
+    r = ""
+    r += "#{firstname[0]}. " unless firstname.blank?
+    r += "#{lastname}"
+    r
+  end
+
   def name
     a = []
     a << lastname unless lastname.blank? 
