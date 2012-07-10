@@ -141,15 +141,12 @@ module Json
 
     def hash_for_graph(media_sets)
       h = {nodes: [], links: []}
+      with = {:meta_data => {:meta_key_names => ["title"]}, :image => {:as => :base64}, :flags => true}
       media_sets.each do |media_set|
-        h[:nodes] << {:id => media_set.id,
-                      :name => media_set.title,
-                      :img_src => media_set.get_media_file(current_user).try(:thumb_base64, :small) }
+        h[:nodes] << hash_for(media_set, with)
         #v2# h[:nodes] << {:name => media_set.title}
         media_set.child_sets.each do |child_set|
-          h[:nodes] << {:id => child_set.id,
-                        :name => child_set.title,
-                        :img_src => child_set.get_media_file(current_user).try(:thumb_base64, :small) } unless h[:nodes].map{|x| x[:id]}.include?(child_set.id)
+          h[:nodes] << hash_for(child_set, with)
           h[:links] << {source_id: media_set.id, target_id: child_set.id}
           #v2# h[:links] << {source: media_set.title, target: child_set.title, type: "suit"}
         end
