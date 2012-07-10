@@ -1,0 +1,16 @@
+%table
+  %tr
+    %td{:colspan => 5, :style => "text-align: right; white-space: nowrap;"}
+      = link_to _("New Copyright"), new_admin_copyright_path, :class => "buttons", :remote => true, :"data-type" => "html"
+
+%table.datatable
+  %thead
+    %tr
+      %th Parent ID
+      %th ID
+      %th Label
+      %th Is Default
+      %th Is Custom
+      %th
+  %tbody
+    = render :partial => "show", :collection => @copyrights, :as => :copyright

@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Copyright < ActiveRecord::Base
 
-  has_one :meta_datum_copyright
+  has_many :meta_datum_copyrights
 
   acts_as_nested_set
   
@@ -11,6 +11,12 @@ class Copyright < ActiveRecord::Base
     label
   end
 
+  def is_deletable?
+    not has_descendants? and meta_datum_copyrights.empty?
+  end
+
+#######################################
+
   def usage(value = "")
     (is_custom? ? value : read_attribute(:usage))
   end
@@ -18,7 +24,7 @@ class Copyright < ActiveRecord::Base
   def url(value = "")
     (is_custom? ? value : read_attribute(:url))
   end
-
+  
 #######################################
   
   def self.default

@@ -275,6 +275,9 @@ MAdeK::Application.routes.draw do
         post :special
       end
     end
+    
+    resources :copyrights
+    
   end
 
 # TODO ??
