@@ -66,7 +66,6 @@ Feature: Set Graph
     Then the element is highlighted
      And the inspector panel shows informations about the selected element
 
-
   @javascript
   Scenario: Zoom and move instructions
     When I see the set graph

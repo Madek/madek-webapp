@@ -89,3 +89,11 @@ Then /^the inspector panel shows informations about the selected element$/ do
   wait_until { find("#inspector .inspector") }
   find("#inspector").should have_content MediaSet.find(@clicked_id).title[0..15]
 end
+
+Then /^I see the zoom and move instructions$/ do
+  wait_until{ find("#instructions") }
+end
+
+Then /^the instructions say "(.*?)"$/ do |arg1|
+  wait_until{ find("#instructions span") }
+end

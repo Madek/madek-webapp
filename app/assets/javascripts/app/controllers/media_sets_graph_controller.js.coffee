@@ -13,6 +13,7 @@ class MediaSetsGraphController
     @el = $(@el)
     @inspector = @el.find("#inspector")
     @chart = @el.find("#chart")
+    @instructions = @el.find("#instructions")
     do @setMetrics
     do @setupGraph
     do @drawGraph
@@ -87,8 +88,13 @@ class MediaSetsGraphController
       @layout.tick() for i in [0..ticks]
       @layout.stop()
       @el.find(".graph>.info").remove()
+      do @setupInstructions
+
+  setupInstructions: => @instructions.fadeIn(600) unless @instructions.hasClass "fadedOut"
         
-  redrawGraph: => 
+  redrawGraph: =>
+    @instructions.addClass "fadedOut"
+    @instructions.fadeOut()
     @graph.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")")
   
   disableBar: => $("#bar .selection .types a").attr("disabled", true)
