@@ -96,7 +96,13 @@ class MetaKey < ActiveRecord::Base
   end
 
   def self.object_types
-    where("meta_datum_object_type IS NOT NULL").group(:meta_datum_object_type).collect(&:meta_datum_object_type).sort
+    # NOTE in development mode we need to preload
+    # FIXME
+    # Dir.glob(File.join(Rails.root, "app/models/meta_datum_*.rb")).each {|model_file| require model_file } if Rails.env == "development"
+    
+    r = MetaDatum.descendants.map(&:name).sort
+    r = ["MetaDatumCopyright", "MetaDatumDate", "MetaDatumDepartments", "MetaDatumKeywords", "MetaDatumMetaTerms", "MetaDatumPeople", "MetaDatumString", "MetaDatumUsers"] if r.blank?
+    r
   end
   
 ########################################################
