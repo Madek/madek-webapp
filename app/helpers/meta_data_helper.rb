@@ -118,7 +118,6 @@ module MetaDataHelper
         _("%s Uhr") % meta_datum.value.to_formatted_s(:date_time)
       when "MetaDatumMetaTerms"
         meta_datum.value.map do |dv|
-          #old# link_to dv, filter_media_resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :method => :post, :"data-meta_term_id" => dv.id #old# , :remote => true
           link_to dv, media_resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :"data-meta_term_id" => dv.id
         end.join(' ')
       else
@@ -438,8 +437,6 @@ module MetaDataHelper
           h += widget_meta_terms_multiselect(meta_datum, meta_key)
 
         when "MetaDatumCopyright"
-          #old# h += meta_datum.hidden_field :value, :class => "copyright_value"
-          
           h += hidden_field_tag "#{meta_datum.object_name}[value]", meta_datum.object.value, :class => "copyright_value"
           @copyright_all ||= Copyright.all 
           @copyright_roots ||= Copyright.roots

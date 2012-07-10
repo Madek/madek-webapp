@@ -93,7 +93,6 @@ KNOWN_EXTENSIONS = tmp_ext.join.split # now we have an array of individual exten
 tmp_ext = nil
 
 DOT_PATH = "/usr/local/bin/dot"
-#old# FILE_UTIL_PATH = "/usr/bin/file " + (`uname -s`.include?("Darwin") ? "-Ib" : "-ib")
 FILE_UTIL_PATH = "/usr/bin/file -b --mime-type"
 
 THUMBNAILS = { :x_large => '1024x768>', :large => '620x500>', :medium => '300x300>', :small_125 => '125x125>', :small => '100x100>' }
