@@ -281,8 +281,8 @@ When /^I remove "([^"]*)" permission from "([^"]*)"$/ do |permission, subject|
   step 'I save the permissions'
 end
 
-When /^I click(?: | on )the arrow next to "([^"]*)"/ do |string|
-  click_on_arrow_next_to(string)
+When /^I click the arrow next to my name$/ do
+  click_on_arrow_next_to(@current_user.shortname)
 end
 
 When /^I click the media entry titled "([^"]*)"/ do |title|

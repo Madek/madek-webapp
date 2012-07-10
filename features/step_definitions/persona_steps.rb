@@ -24,7 +24,3 @@ Given /^I am "(\w+)"$/ do |login|
   @current_user = User.find_by_login(login)
   @current_user ||= FactoryGirl.create(:user, {:login => login})
 end
-
-When /^I click the arrow next to my name$/ do
-  step 'I click the arrow next to "%s"' % @current_user.shortname
-end

@@ -27,7 +27,7 @@ Feature: Upload images and manage media entries based on images
      And I type "Land" into the "user" autocomplete field
      And I pick "Landschaft, Liselotte" from the autocomplete field
      And I give "view" permission to "Landschaft, Liselotte"
-     And I click on the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Abmelden"
      And I am "liselotte"
      And I go to the home page
@@ -54,7 +54,7 @@ Feature: Upload images and manage media entries based on images
       And I type "Mauer" into the "group" autocomplete field
       And I pick "Mauerfäller" from the autocomplete field
       And I give "view" permission to "Mauerfäller"
-      And I click on the arrow next to "Normalo, Normin"
+      And I click the arrow next to my name
       And I follow "Abmelden"
       And I am "liselotte"
       And I go to the home page
@@ -67,7 +67,7 @@ Feature: Upload images and manage media entries based on images
      And all the entries controls become visible
      And I switch to the grid view
      And I toggle the favorite star on the media entry titled "mein lieblingsknödel"
-     And I click on the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Favoriten"
     Then I should see "mein lieblingsknödel"
 
@@ -77,7 +77,7 @@ Feature: Upload images and manage media entries based on images
      And I go to the media entries
      And I click the media entry titled "mein lieblingsdackel"
      And I toggle the favorite star on this media entry
-     And I click on the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Favoriten"
     Then I should see "mein lieblingsdackel"
 
@@ -88,13 +88,13 @@ Feature: Upload images and manage media entries based on images
      And all the entries controls become visible
      And I switch to the grid view
      And I toggle the favorite star on the media entry titled "mein lieblingsbier"
-     And I click on the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Favoriten"
     Then I should see "mein lieblingsbier"
     When I go to the media entries
      And all the entries controls become visible
      And I toggle the favorite star on the media entry titled "mein lieblingsbier"
-     And I click on the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Favoriten"
     Then I should not see "mein lieblingsbier"
 
