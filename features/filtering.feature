@@ -37,7 +37,7 @@ Feature: Use the search filters on my search results
   Scenario: Filtering by keyword: Finding both media entries that have a common word, but showing just one when only one's keyword is selected
     Given I am "normin"
      And I upload some picture titled "The Necronomicon"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Medien"
      And all the hidden items become visible
      And I switch to the grid view
@@ -53,7 +53,7 @@ Feature: Use the search filters on my search results
      And I press "Speichern"
 
      And I upload some picture titled "Klaatu Barata Nicto"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Medien"
      And all the hidden items become visible
      And I switch to the grid view
@@ -80,7 +80,7 @@ Feature: Use the search filters on my search results
   Scenario: Filtering three different media entries
     Given I am "normin"
      And I upload some picture titled "Pure Evil"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Medien"
      And all the hidden items become visible
      And I click the edit icon on the media entry titled "Pure Evil"
@@ -92,7 +92,7 @@ Feature: Use the search filters on my search results
      |Schlagworte zu Inhalt und Motiv|pure|
      And I press "Speichern"
      And I upload some picture titled "Slightly less pure evil"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Medien"
      And all the hidden items become visible
      And I switch to the grid view
@@ -105,7 +105,7 @@ Feature: Use the search filters on my search results
      |Schlagworte zu Inhalt und Motiv|evil|
      And I press "Speichern"
      And I upload some picture titled "Completely unpure evil"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Medien"
      And all the hidden items become visible
      And I switch to the grid view

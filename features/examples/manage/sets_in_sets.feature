@@ -97,7 +97,7 @@ Feature: Sets in Sets
      And I create a new set named "After-Upload Set"
      And I submit the selection widget
      And I go to the home page
-     And I click the arrow next to "Max, Max"
+     And I click the arrow next to my name
      And I follow "Meine Sets"
      And I click the media entry titled "After-Upload Set"
      And I follow "Editieren"

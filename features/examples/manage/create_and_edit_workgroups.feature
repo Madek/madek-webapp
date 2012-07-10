@@ -12,7 +12,7 @@ Feature: Create and edit workgroups
   @javascript
   Scenario: Just create a group
     Given I am "normin"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Arbeitsgruppen"
      And I press "Neue Arbeitsgruppe erstellen"
      And I fill in "name" with "Looney Tunes"
@@ -24,7 +24,7 @@ Feature: Create and edit workgroups
   @javascript
   Scenario: Create a group, assign people to it
     Given I am "normin"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Arbeitsgruppen"
      And I press "Neue Arbeitsgruppe erstellen"
      And I fill in "name" with "Looney Tunes"
@@ -43,7 +43,7 @@ Feature: Create and edit workgroups
   @javascript
   Scenario: Try to create a group without a name and fail
     Given I am "normin"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Arbeitsgruppen"
      And I press "Neue Arbeitsgruppe erstellen"
      And I fill in "name" with ""

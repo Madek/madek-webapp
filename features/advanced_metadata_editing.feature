@@ -9,7 +9,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
   Scenario: Changing the core text fields of a media entry
     Given I am "normin"
      And I upload some picture titled "Millenium Falcon, Front View"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Medien"
      And all the hidden items become visible
      And I switch to the grid view
@@ -50,7 +50,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
   Scenario: Changing the author field on a media entry using the firstname/lastname entry form tab
     Given I am "normin"
      And I upload some picture titled "Me and Leia Organa"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Medien"
      And all the hidden items become visible
      And I switch to the grid view
@@ -59,7 +59,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      |label   |value   |
      |Autor/in|Foo, Bar|
      And I press "Speichern"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Medien"
      And I click the media entry titled "Me and Leia Organa"
      And I wait for the CSS element "#detail-excerpt"
@@ -69,7 +69,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
   Scenario: Putting a pseudonym into the author field
     Given I am "normin"
      And I upload some picture titled "Me and Leia Organa"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Medien"
      And all the hidden items become visible
      And I switch to the grid view
@@ -78,7 +78,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      |label   |value      |options           |
      |Autor/in|Yoda       |pseudonym field|
      And I press "Speichern"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Medien"
      And I click the media entry titled "Me and Leia Organa"
      And I wait for the CSS element "#detail-excerpt"
@@ -88,7 +88,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
   Scenario: Putting a group into the group name field in the group tab
     Given I am "normin"
      And I upload some picture titled "Me and Leia Organa"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Medien"
      And all the hidden items become visible
      And I switch to the grid view
@@ -97,7 +97,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      |label   |value             |options  |
      |Autor/in|The Rebel Alliance|group tab|
      And I press "Speichern"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Medien"
      And I click the media entry titled "Me and Leia Organa"
      And I wait for the CSS element "#detail-excerpt"
@@ -107,7 +107,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
   Scenario: Putting a name directly into the name input box
     Given I am "normin"
      And I upload some picture titled "Me and Leia Organa"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Medien"
      And all the hidden items become visible
      And I switch to the grid view
@@ -116,7 +116,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      |label   |value             |options  |
      |Autor/in|Furter, Frank|in-field entry box|
      And I press "Speichern"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Medien"
      And I click the media entry titled "Me and Leia Organa"
      And I wait for the CSS element "#detail-excerpt"
@@ -127,7 +127,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
   Scenario: Enter some keywords into the JS-based keyword dialog box
     Given I am "normin"
      And I upload some picture titled "Me and Leia Organa on the beach"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Medien"
      And all the hidden items become visible
      And I switch to the grid view
@@ -139,7 +139,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      |Schlagworte zu Inhalt und Motiv|sun|
      |Schlagworte zu Inhalt und Motiv|fun|
      And I press "Speichern"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Medien"
      And I click the media entry titled "Me and Leia Organa on the beach"
      And I wait for the CSS element "#detail-excerpt"
@@ -150,7 +150,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
   Scenario: Using the MAdeK multi-select widget
     Given I am "normin"
      And I upload some picture titled "Millenium Falcon, Front View"
-     And I click the arrow next to "Normalo, Normin"
+     And I click the arrow next to my name
      And I follow "Meine Medien"
      And all the hidden items become visible
      And I switch to the grid view
