@@ -67,3 +67,20 @@ Feature: Set Graph
      And the inspector panel shows informations about the selected element
 
 
+  @javascript
+  Scenario: Zoom and move instructions
+    When I see the set graph
+    Then I see the zoom and move instructions
+     And the instructions say "Klicken und ziehen, um die Ansicht zu bewegen. Scrollen, um hinein- und herauszuzuoomen."
+
+  @javascript
+  Scenario: Seeing the batch edit bar
+    When I see the set graph
+    Then I also see the batch edit bar
+     And I can add the resource shown in the inspector to my batch selection
+
+  @javascript
+  Scenario: Overlays with additional information in the set graph
+    When I see the set graph
+    Then I can choose to see icons for permissions on each node of the graph
+    And I can choose to see icons for favorites on each node of the graph
