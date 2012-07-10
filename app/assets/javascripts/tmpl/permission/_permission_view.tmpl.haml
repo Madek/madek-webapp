@@ -8,7 +8,7 @@
     %h4
       .groups_with_me.icon
       ="Gruppen mit mir"
-    {{each(i,current_user_group) $item.current_user.groups}}
+    {{each(i,current_user_group) current_user.groups}}
     {{each(i2, group) groups}}
     {{if current_user_group.id == group.id}}
     {{tmpl(group, {is_group:true, media_resource_ids: $item.media_resource_ids}) "tmpl/permission/_line"}}
