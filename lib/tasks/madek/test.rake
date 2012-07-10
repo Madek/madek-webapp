@@ -48,10 +48,7 @@ namespace :madek do
         system "bundle exec cucumber -p rerun"
         exit_code_rerun = $? >> 8
 
-        system "bundle exec cucumber -p rerun_again"
-        exit_code_rerun_again = $? >> 8
-
-        raise "Tests failed!" if exit_code_rerun_again != 0
+        raise "Tests failed!" if exit_code_rerun != 0
       end
 
       task :slow do
