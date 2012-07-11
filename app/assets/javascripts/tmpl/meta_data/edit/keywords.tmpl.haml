@@ -3,19 +3,10 @@
   {{tmpl "tmpl/meta_data/edit/cell/hint"}}
 .input
   %section.values
-    {{if value}}
-    {{if typeof(value) == "object"}}
-    {{each(i, element) value}}
-    {{tmpl({label: element}) "tmpl/meta_data/edit/multiple_entries/keyword"}}
+    {{each(i, value) raw_value}}
+    {{tmpl(value) "tmpl/meta_data/edit/multiple_entries/keywords"}}
     {{/each}}
-    {{else}}
-    ${$splitted_keywords = value.split(", "),""}
-    {{each(i, keyword) $splitted_keywords}}
-    ${$label = keyword, ""}
-    {{tmpl({label: $label}) "tmpl/meta_data/edit/multiple_entries/keyword"}}
-    {{/each}}
-    {{/if}}
-    {{/if}}
+
     
   %input{:type => "text",
     :"data-autocomplete" => true,

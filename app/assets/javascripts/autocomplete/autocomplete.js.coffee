@@ -38,7 +38,7 @@ class AutoComplete
       entries = []
       entries = switch field_type
         when "people" then $.map(data, (element)-> { data: element, id: element.id, value: Underscore.str.truncate(PersonMetaDatum.flatten_name(element), 65), name: PersonMetaDatum.flatten_name(element)})
-        when "keyword" then $.map(data, (element)-> { id: element.id, value: element.label, name: element.label })
+        when "keywords" then $.map(data, (element)-> { id: element.id, value: element.label, name: element.label })
         when "user" then $.map(data, (element)-> { id: element.id, value: element.name, name: element.name })
         else $.map(data, (element)-> { id: element.id, value: element.label, name: element.label })
       response entries
@@ -50,7 +50,7 @@ class AutoComplete
     # select puts entry to a multiple selection container when field is from a specific type 
     if field_type == "people" 
       $(values_container).append $.tmpl("tmpl/meta_data/edit/multiple_entries/"+field_type, element.item.data)
-    else if field_type == "keyword"
+    else if field_type == "keywords"
       $(values_container).append $.tmpl("tmpl/meta_data/edit/multiple_entries/"+field_type, element.item)
     # clear input field
     $(target).val("")

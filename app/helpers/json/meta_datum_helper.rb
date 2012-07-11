@@ -5,7 +5,7 @@ module Json
       h = { 
         name: "#{meta_datum.meta_key.label}",
         value: ((s = meta_datum.to_s).blank? ? nil : s),
-        raw_value: meta_datum.is_a?(MetaDatumString) ? meta_datum.value(current_user) : meta_datum.value,
+        raw_value: meta_datum.is_a?(MetaDatumString) ? meta_datum.value(current_user) : hash_for(meta_datum.value),
         type: MetaDatum.value_type_name(meta_datum.class)
       }
       
