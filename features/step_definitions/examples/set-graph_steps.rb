@@ -109,3 +109,17 @@ Then /^I can add the resource shown in the inspector to my batch selection$/ do
   find("#inspector .check_box").click
   find("#selected_items .thumb_mini")
 end
+
+Then /^I can choose to see icons for permissions on each node of the graph$/ do
+  page.execute_script('$("#overlay_manager *").show()')
+  find("#overlay_manager a[data-overlay='permissions']").click
+  wait_until { page.evaluate_script('$("#chart .node image.permissions").length') > 0 }
+  wait_until { find("#chart.permissions") }
+end
+
+Then /^I can choose to see icons for favorites on each node of the graph$/ do
+  page.execute_script('$("#overlay_manager *").show()')
+  find("#overlay_manager a[data-overlay='favorites']").click
+  wait_until { page.evaluate_script('$("#chart .node image.favorite").length') > 0 }
+  wait_until { find("#chart.favorites") }
+end

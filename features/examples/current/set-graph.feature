@@ -82,4 +82,4 @@ Feature: Set Graph
   Scenario: Overlays with additional information in the set graph
     When I see the set graph
     Then I can choose to see icons for permissions on each node of the graph
-    And I can choose to see icons for favorites on each node of the graph
+     And I can choose to see icons for favorites on each node of the graph

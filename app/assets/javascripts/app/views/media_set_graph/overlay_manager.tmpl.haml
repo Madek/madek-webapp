@@ -1,0 +1,20 @@
+%nav#overlay_manager
+  %table
+    %thead
+      %tr
+        %td
+          %a
+            = "Markierungen anzeigen"
+            .open
+              .arrow.down.icon
+    %tbody
+      %tr
+        %td
+          %a{:"data-overlay" => "favorites"}
+            .snag.icon  
+            = "Favoriten"
+      %tr
+        %td
+          %a{:"data-overlay" => "permissions"}
+            .snag.icon
+            = "Berechtigungen"
