@@ -86,17 +86,16 @@ function setupBatch(json) {
   $("#batch-select-all").click(function(event){
     event.preventDefault();
     var media_resources_json = get_media_resources_json();
-    // select all the visible and not already selected items
-    $(".item_box:visible").has(".check_box").each(function(i, elem) { 
-      var me = $(elem).tmplItem().data;
-      var i = is_Selected(media_resources_json, me.id);
-      // if not yet selected
-      if((i == -1)) {
-            media_resources_json.push(me);
-            $(elem).addClass('selected');
-            $('#selected_items').append($("#thumbnail_mini").tmpl(me));
-      };  
-    });
+
+    // select all loaded and not already selected items
+    var loaded_item_boxes = $("#results .item_box[data-id]"); 
+    var already_selected_ids = _.map(media_resources_json,function(m){return m.id});
+    var all_data = _.map(loaded_item_boxes,function(el){return $(el).tmplItem().data});
+    var all_data_without_already_selected = _.filter(all_data, function(el){return !_.include(already_selected_ids, el.id)}); 
+    media_resources_json = media_resources_json.concat(all_data_without_already_selected);
+    $('#selected_items').append($("#thumbnail_mini").tmpl(media_resources_json));
+    loaded_item_boxes.addClass("selected");
+    
     set_media_resources_json(media_resources_json);
     displayCount();
     return false;
