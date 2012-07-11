@@ -233,7 +233,7 @@ class EditMetaData
     meta_datum = Underscore.find meta_data, (meta_datum)-> (meta_datum.name == field_name)
     if field_type == "copyright"
       meta_datum.raw_value = Array($(field).find("option:selected:last").tmplItem().data)
-    else if field_type == "person"
+    else if field_type == "people"
       meta_datum.raw_value = Underscore.map $(field).find(".values .entry"), (element)->
         $(element).tmplItem().data
     else
@@ -259,7 +259,7 @@ class EditMetaData
     # compute value depending on field type
     field_value = undefined
     field_type = $(field).tmplItem().data.type
-    if field_type == "person"
+    if field_type == "people"
       field_value = Underscore.map $(field).find(".entry"), (entry)->
         if $(entry).tmplItem().data.id?
           $(entry).tmplItem().data.id
@@ -398,7 +398,7 @@ class EditMetaData
   @prepare_field_for_saving = (field)->
     # prepare field for saving depending on field type
     field_type = $(field).tmplItem().data.type
-    if field_type == "person" or field_type == "keyword"
+    if field_type == "people" or field_type == "keyword"
       # save on autocomplete select
       $(field).find("input").bind "autocompleteselect", (event)->
         # save with a litle time out, value should have time to be computed
