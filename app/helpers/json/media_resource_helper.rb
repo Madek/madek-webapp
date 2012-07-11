@@ -81,7 +81,7 @@ module Json
                 end.accessible_by_user(current_user)
                 pagination = ((with[:children].is_a? Hash) ? with[:children][:pagination] : nil) || true
                 forwarded_with = (with[:children].is_a? Hash) ? (with[:children][:with]||=nil) : nil
-                hash_for_media_resources_with_pagination(media_resources, pagination, forwarded_with)
+                hash_for_media_resources_with_pagination(media_resources, pagination, forwarded_with, true)
               end
             end
           
@@ -104,27 +104,26 @@ module Json
 
     ###########################################################################
 
-    def hash_for_media_resources_with_pagination(media_resources, pagination, with = nil)
+    def hash_for_media_resources_with_pagination(media_resources, pagination, with = nil, type_totals = false)
       page = (pagination.is_a?(Hash) ? pagination[:page] : nil) || 1
       per_page = [((pagination.is_a?(Hash) ? pagination[:per_page] : nil) || PER_PAGE.first).to_i, PER_PAGE.first].min
       paginated_media_resources = media_resources.paginate(:page => page, :per_page => per_page)
+      
+      pagination = {
+        total: paginated_media_resources.total_entries, 
+        page: paginated_media_resources.current_page,
+        per_page: paginated_media_resources.per_page,
+        total_pages: paginated_media_resources.total_pages
+      }
+      if type_totals
+        pagination[:total_media_entries] = media_resources.media_entries.count 
+        pagination[:total_media_sets] = media_resources.media_sets.count
+      end
+
       {
-        pagination: hash_for_pagination(media_resources, paginated_media_resources), 
+        pagination: pagination, 
         media_resources: hash_for(paginated_media_resources, with)
       }
-    end
-
-    ###########################################################################
-
-    def hash_for_pagination(media_resources, paginated_media_resources)
-      h = {}
-      h[:total_media_entries] = media_resources.media_entries.count if media_resources.respond_to? :media_entries 
-      h[:total_media_sets] = media_resources.media_sets.count if media_resources.respond_to? :media_sets
-      h[:total] = paginated_media_resources.total_entries 
-      h[:page] = paginated_media_resources.current_page 
-      h[:per_page] = paginated_media_resources.per_page 
-      h[:total_pages] = paginated_media_resources.total_pages
-      h    
     end
 
     ###########################################################################
