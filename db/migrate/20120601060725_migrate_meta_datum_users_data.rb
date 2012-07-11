@@ -9,8 +9,6 @@ module MigrationHelpers
         User.where(:id => ids).each do |md|
           mdp.users <<  md unless mdp.users.include?(md)
         end
-        mdp.update_column :value, nil
-        mdp.save!
       end
 
       def migrate_meta_datum_users

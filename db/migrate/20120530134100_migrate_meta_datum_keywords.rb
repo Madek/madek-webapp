@@ -9,8 +9,6 @@ module MigrationHelpers
           keyword = keyword.dup unless keyword.meta_datum_id.nil? 
           keyword.update_attributes(:meta_datum => mdp)
         end
-        mdp.update_column :value, nil
-        mdp.save!
       end
 
       def migrate_meta_datum_keywords

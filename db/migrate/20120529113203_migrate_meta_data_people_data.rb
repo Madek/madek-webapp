@@ -6,11 +6,7 @@ module MigrationHelpers
       def migrate_meta_person rmd
         mdp = MetaDatumPeople.find rmd.id
         ids = YAML.load(rmd.value)
-        Person.where(:id => ids).each do |person|
-          mdp.people << person
-        end
-        mdp.update_column :value, nil
-        mdp.save!
+        mdp.people << Person.where(:id => ids)
       end
 
       def migrate_meta_people

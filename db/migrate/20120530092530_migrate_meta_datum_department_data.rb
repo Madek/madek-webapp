@@ -8,8 +8,6 @@ module MigrationHelpers
         MetaDepartment.where(:id => ids).each do |md|
           mdp.meta_departments <<  md unless mdp.meta_departments.include?(md)
         end
-        mdp.update_column :value, nil
-        mdp.save!
       end
 
       def migrate_meta_datum_departments

@@ -11,8 +11,7 @@ module MigrationHelpers
           else
             ""
           end
-        raw_meta_datum.update_attributes(string: new_string_value, value: nil)
-        raw_meta_datum.save!
+        raw_meta_datum.update_attributes string: new_string_value
       end
 
       def migrate_meta_dates

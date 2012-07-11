@@ -3,15 +3,6 @@ module MigrationHelpers
     class << self
 
       ############ String ########################################
-      def migrate_meta_string raw_meta_datum
-        s = YAML.load raw_meta_datum.value
-        raw_meta_datum.update_attributes({ 
-          string: s, 
-          value: nil
-        })
-        raw_meta_datum.save!
-      end
-
 
       def migrate_meta_strings
         ids = RawMetaDatum
@@ -20,16 +11,12 @@ module MigrationHelpers
           .where("type is NULL or type = 'MetaDatum' ")
 
         RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
-          migrate_meta_string rmd
+          rmd.update_attributes string: YAML.load(rmd.value)
           rmd.update_column :type, "MetaDatumString"
         end
 
-        MetaKey.where("object_type is NULL").each do |mk|
-          mk.update_attributes(object_type: nil, meta_datum_object_type: 'MetaDatumString')
-        end
-
         MetaKey.update_all({object_type: nil, meta_datum_object_type: 'MetaDatumString'},
-                           {object_type: 'MetaCountry'})
+                           "object_type is NULL OR object_type = 'MetaCountry'")
       end
 
     end

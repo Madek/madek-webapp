@@ -8,8 +8,6 @@ module MigrationHelpers
         MetaTerm.where(:id => ids).each do |md|
           mdp.meta_terms << md unless mdp.meta_terms.include?(md)
         end
-        mdp.update_column :value, nil
-        mdp.save!
       end
 
       def migrate_meta_datum_meta_terms
