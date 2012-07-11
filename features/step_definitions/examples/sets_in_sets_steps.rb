@@ -419,5 +419,5 @@ Given /^I examine one of the child media entry more closely$/ do
 end
 
 Then /^I see more information about that media entry popping up$/ do
-  wait_until(10) { find(".entry_popup") }
+  wait_until { find(".entry_popup") }
 end
