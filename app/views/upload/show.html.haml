@@ -54,7 +54,8 @@
     $(".open_dropbox_dialog").live "click", ->
       open_dropbox_dialog(false)
     $("#create_dropbox").live "ajax:beforeSend", ->
-      $(this).html("Dropbox wird erstellt <img class='loading' src='/assets/loading.gif'/>")
+      $(this).html("Dropbox wird erstellt")
+      $(this).append $.tmpl("tmpl/loading_img")
       $(this).bind "click", (event) ->
         event.stopImmediatePropagation()
         event.preventDefault()

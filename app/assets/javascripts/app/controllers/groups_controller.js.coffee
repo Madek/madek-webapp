@@ -31,7 +31,7 @@ class GroupsController
     name = form.find(".name").val()
     button = form.find("button.create")
     button.data("text", button.html())
-    button.width(button.width()).html("").append("<img src='/assets/loading.gif'/>").addClass("loading")
+    button.width(button.width()).html("").append $.tmpl("tmpl/loading_img")
     $.ajax
       url: "/groups.json"
       type: "POST"
@@ -88,7 +88,7 @@ class GroupsController
     name = container.find("input.change_name").val()
     user_ids = _.map(container.find(".group .member"), (member)-> $(member).data("id"))
     button = container.find("button.save")
-    $(button).width($(button).width()).html("").append("<img src='/assets/loading.gif'/>").addClass("loading")
+    $(button).width($(button).width()).html("").append $.tmpl("tmpl/loading_img")
     $.ajax
       url: "/groups/#{group.id}.json"
       type: "PUT"

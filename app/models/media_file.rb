@@ -302,7 +302,6 @@ class MediaFile < ActiveRecord::Base
       else
         # TODO remove code related to preview as string
         #size = (size == :large ? :medium : :small)
-        #output = File.read("#{Rails.root}/app/assets/images/#{preview}_#{size}.png")
         output = thumb_placeholder
         return "data:#{content_type};base64,#{Base64.encode64(output)}"
     end

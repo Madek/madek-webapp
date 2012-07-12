@@ -126,14 +126,14 @@ create_popup = (target)->
   background.append $("<div class='parents'></div>")
   # create parent sets container
   parents = $(background).find ".parents"
-  parents.append $("<div class='loading'><img src='/assets/loading.gif'/></div>")
+  parents.append $.tmpl("tmpl/loading_img")
   parents.hide() 
   parents.append arrow_grey
   background.append $("<div class='children'></div>")
   # create child entries container
   children = $(background).find ".children"
   children.append $("<div class='bar'></div>")
-  children.append $("<div class='loading'><img src='/assets/loading.gif'/></div>")
+  children.append $.tmpl("tmpl/loading_img")
   children.find(".bar").append arrow_white
   children.hide()
   # hide arrows

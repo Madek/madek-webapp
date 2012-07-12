@@ -220,7 +220,7 @@ function SetWidget() {
     $(target).data("widget").find(".submit").click(function(){
       // show loading indicator
       $(this).data("text", $(this).html());
-      $(this).css("width", $(this).outerWidth()).css("height", $(this).outerHeight()).html("").append("<img src='/assets/loading.gif'/>").addClass("loading");
+      $(this).css("width", $(this).outerWidth()).css("height", $(this).outerHeight()).html("").append($.tmpl("tmpl/loading_img"));
       
       // disable click binding
       $(this).unbind("click");
