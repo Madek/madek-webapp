@@ -98,33 +98,28 @@ $(document).ready(function () {
 	document_ready();
 	
 	// Tabs
-	$(".tabs").tabs({ //spinner: 'Retrieving data...', // requires <span>link</span>
-					  cache: true,
-					  // selected: -1,
-					  // collapsible: true,
-					  add: function(event, ui) {
-				      	$(this).tabs('select', ui.index); //'#' + ui.panel.id
-				      },
-					  fx: { opacity: 'toggle' },
-					  ajaxOptions: { 
-					  	dataType: 'html',
-					  	error: function(data){
-					  		response = JSON.parse(data.responseText);
-					  		setTimeout(function(){
-						  		$(".ui-tabs-panel:visible").html(response.error);
-					  		}, 200);
-					  	} 
-					  }
-					});
+	$(".tabs").tabs({
+	  cache: true,
+	  add: function(event, ui) {
+    	$(this).tabs('select', ui.index); //'#' + ui.panel.id
+    },
+	  fx: { opacity: 'toggle' },
+	  ajaxOptions: { 
+	  	dataType: 'html',
+	  	error: function(data){
+	  		response = JSON.parse(data.responseText);
+	  		setTimeout(function(){
+		  		$(".ui-tabs-panel:visible").html(response.error);
+	  		}, 200);
+	  	} 
+	  }
+	});
 					
 	// For closing all open autocompletes in old tabs
 	$('#detail_specification').bind('tabsselect', function(event, ui) {
-		$('a.search_toggler').removeClass('active').find("img").attr("src", <%= image_tag "icons/toggler-arrow-closed.png" %>);
+		$('a.search_toggler').removeClass('active').find("img").attr("src","<%= image_path('icons/toggler-arrow-closed.png') %>");
 		$('input.ui-autocomplete-input').autocomplete("close");
 	});
-
-//////////////////////////////
-// placeholder
 
 	function hasPlaceholderSupport() {
 		var i = document.createElement('input');
@@ -134,8 +129,6 @@ $(document).ready(function () {
 	if(!Modernizr.input.placeholder && !hasPlaceholderSupport()){
 		$("form").placeholder();
 	};
-	
-//////////////////////////////
 
 	$("[data-meta_key] div.expander a").live("click", function() {
 		var parent = $(this).closest("[data-meta_key]");
@@ -156,31 +149,24 @@ $(document).ready(function () {
 		return false;
 	});
 
-
-//////////////////////////////
-
-	//////////////////////////////
 	// TODO move to keywords.js
-	
-		$(".holder.all .bit-box").live('click', function(){
-			var item = {label: $(this).attr("title"), id: $(this).attr("rel")};
-      var parent_block = $(this).closest("[data-meta_key]");
-      var search_field = parent_block.find("input[name='autocomplete_search']");
-			add_to_selected_items(item, search_field, false);
-			hide_keyword(parent_block, $(this).attr("rel"));
-		});
-	
-		$("[data-meta_key='keywords'] input[name='autocomplete_search']").bind("autocompleteselect", function(event, ui) {
-			var parent_block = $(this).closest("[data-meta_key]");
-	  		hide_keyword(parent_block, ui.item.id);
-		});
-	
-		$("ul.holder li .closebutton").live('click', function(){
-			remove_from_selected_items($(this).parent("li"));
-			return false;
-	  	});
-	//////////////////////////////
-	
+	$(".holder.all .bit-box").live('click', function(){
+		var item = {label: $(this).attr("title"), id: $(this).attr("rel")};
+    var parent_block = $(this).closest("[data-meta_key]");
+    var search_field = parent_block.find("input[name='autocomplete_search']");
+		add_to_selected_items(item, search_field, false);
+		hide_keyword(parent_block, $(this).attr("rel"));
+	});
+
+	$("[data-meta_key='keywords'] input[name='autocomplete_search']").bind("autocompleteselect", function(event, ui) {
+		var parent_block = $(this).closest("[data-meta_key]");
+  		hide_keyword(parent_block, ui.item.id);
+	});
+
+	$("ul.holder li .closebutton").live('click', function(){
+		remove_from_selected_items($(this).parent("li"));
+		return false;
+	});
 });
 
 /////////////////////////////////////////////////////////////
@@ -215,16 +201,16 @@ function is_Selected(media_resources_json, id) {
 //////////////////////////////
 // TODO move to keywords.js
 
-	function hide_keyword(parent_block, rel){
-		parent_block.find('.holder.all .bit-box[rel="'+rel+'"]').hide();
-	}
+function hide_keyword(parent_block, rel){
+	parent_block.find('.holder.all .bit-box[rel="'+rel+'"]').hide();
+}
 
-	function hide_selected_keywords(holder){
-		holder.find("li.bit-box input[type=hidden]").each(function(){
-			var parent_block = $(this).closest("[data-meta_key]");
-			hide_keyword(parent_block, $(this).attr("value"));
-		});
-	}
+function hide_selected_keywords(holder){
+	holder.find("li.bit-box input[type=hidden]").each(function(){
+		var parent_block = $(this).closest("[data-meta_key]");
+		hide_keyword(parent_block, $(this).attr("value"));
+	});
+}
 
 //////////////////////////////
 
