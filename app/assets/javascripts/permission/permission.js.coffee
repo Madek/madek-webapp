@@ -280,18 +280,18 @@ class Permission
         $(this).hide()
         $(this).val("")
         $(this).siblings(".button").show()
-        $(this).siblings(".loading_image").remove()
+        $(this).siblings(".loading").remove()
       
     # AUTOCOMPLETE
     $(container).find(".add input").autocomplete
       source: (request, response)->
         trigger = $(this.element)
-        $(trigger).siblings(".loading_image").remove()
-        $(trigger).after("<img src='/assets/loading.gif' class='loading_image'/>")
+        $(trigger).siblings(".loading").remove()
+        $(trigger).after $.tmpl("tmpl/loading_img")
         $.getJSON $(this.element).data("url"),
           query: request.term
         , (data)->
-          $(trigger).siblings(".loading_image").remove()
+          $(trigger).siblings(".loading").remove()
           type = if $(trigger).closest("section").hasClass("users") then "user" else "group"
           entries = $.map data, (element)-> { id: element.id, value: Underscore.str.truncate(element.name, 65), name: element.name }
           if type == "user"
@@ -413,7 +413,7 @@ class Permission
   @save = (button, container, callback)->
     $(container).find("input, select, .select").attr("disabled", true)
     $(container).find(".cancel").hide()
-    $(button).width($(button).width()).html("").append("<img src='/assets/loading.gif'/>").addClass("loading")
+    $(button).width($(button).width()).html("").append $.tmpl("tmpl/loading_img")
       
     new_permissions = Permission.compute container
     $.ajax

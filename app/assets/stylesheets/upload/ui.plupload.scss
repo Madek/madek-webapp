@@ -35,14 +35,14 @@ div.plupload div.plupload_header {border-width: 0 0 1px 0; position: relative;}
 }
 
 .plupload_header_content {
-  background-image: url('jquery.ui.plupload/plupload.png');
+  background-image: image-url('jquery.ui.plupload/plupload.png');
   background-repeat: no-repeat;
   background-position: 8px center;
   min-height: 56px;
   padding-left: 60px;
   position:relative;
 }
-.plupload_header_content_bw {background-image: url('jquery.ui.plupload/plupload-bw.png');}
+.plupload_header_content_bw {background-image: image-url('jquery.ui.plupload/plupload-bw.png');}
 .plupload_header_title {
   font: normal 18px sans-serif;
   padding: 6px 0 3px;

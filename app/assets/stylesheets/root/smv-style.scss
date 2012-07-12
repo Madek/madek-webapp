@@ -26,7 +26,7 @@ a:hover {
 	padding-top: 15px;
 	margin-top: -10px;
 	overflow: hidden;
-	background: transparent url(/assets/root/teaser-shadow-02.png) -10px 7px no-repeat;
+	background: transparent image-url('root/teaser-shadow-02.png') -10px 7px no-repeat;
 }
 
 #sidebar {
@@ -125,7 +125,7 @@ a:hover {
 	margin-right: 10px;
  	width: 81px; 
 	height: 81px;
-	background: #fff url(/assets/root/icon-media-01.png) 50% 50% no-repeat;
+	background: #fff image-url('root/icon-media-01.png') 50% 50% no-repeat;
 	border-radius: 5px;
 	margin-bottom: 1em; 
 	border: 2px solid #929292;
@@ -136,7 +136,7 @@ a:hover {
 	margin-right: 10px;
  	width: 81px; 
 	height: 81px;
-	background: #fff url(/assets/root/icon-users.png) 50% 50% no-repeat;
+	background: #fff image-url('root/icon-users.png') 50% 50% no-repeat;
 	border-radius: 5px;
 	margin-bottom: 1em; 
 	border: 2px solid #929292;
@@ -254,7 +254,7 @@ a:hover {
 	z-index: 100;
 	width: 99px;
 	height: 99px;
-	background: transparent url(/assets/beta-01.png) top left no-repeat;*/
+	background: transparent image-url('beta-01.png') top left no-repeat;*/
 	font-weight: bold;
 	-moz-background-clip: border;
     -moz-background-origin: padding;

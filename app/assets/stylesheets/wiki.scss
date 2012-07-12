@@ -22,7 +22,7 @@
     width: 940px;
 	position: relative;
 	padding: 20px;
-	background: #fff url(splitter.png) 675px 0 repeat-y;
+	background: #fff image-url("splitter.png") 675px 0 repeat-y;
 }
 
 .wiki_history {
@@ -129,7 +129,6 @@
 	width: 505px;
 	padding-left: 125px;
 	height: 125px;
-	background: transparent url('http://files.kitsune.ch/madek/functionalities-test-icon.png') top left no-repeat;
 }
 
 .wiki_content .archiving h3,

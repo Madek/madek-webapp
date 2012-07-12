@@ -35,7 +35,7 @@
   }
   
   label.mixed {
-    background: url("stripe_1.png") repeat scroll 0 0 red;
+    background: image-url("stripe_1.png") repeat scroll 0 0 red;
     @include border-radius(4px);
     
     &.overwritten {
@@ -117,7 +117,7 @@
       vertical-align: top;
     }
 
-    .loading_image {
+    .loading {
       display: inline-block;
       height: 13px;
       left: -20px;

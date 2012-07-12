@@ -58,7 +58,7 @@
     width: 15%;
     
     .arrow {
-      background: url('icons/toggler-arrow-closed.png') no-repeat;
+      background: image-url('icons/toggler-arrow-closed.png') no-repeat;
       margin: 0 auto;
       position: relative;
       height: 14px;
@@ -98,7 +98,7 @@
       width: 15%;
       
       .icon {
-        background: url('icons/madek_icon_sprites.png') no-repeat 0 -384px;
+        background: image-url('icons/madek_icon_sprites.png') no-repeat 0 -384px;
         margin: 0 auto;
         position: relative;
         top: 3px;
