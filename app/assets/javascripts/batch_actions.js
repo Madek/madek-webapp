@@ -215,14 +215,14 @@ function displayCount() {
 
 function displayButtons(){
   // display the task_bar only whether there is something selectable or something is already selected
-  if(get_media_resources_json().length == 0 && $(".item_box").has(".check_box").length == 0){
+  if(get_media_resources_json().length == 0 && $(".item_box").has(".check_box").length == 0 && $("#inspector").length == 0){
     $('.task_bar').hide();
     return false;
   }else{
     $('.task_bar').show();
   }
   // hide the select_deselect_all checkbox on the browse page
-  if($(".item_box .check_box").length < 2) {
+  if($(".item_box .check_box").length < 2 && $("#inspector").length == 0) {
     $("#batch-select-all").hide();
     if(get_media_resources_json().length == 0){
       $("#batch-deselect-all").hide().next().hide();

@@ -25,7 +25,7 @@
   {{if type}}
   ${is_set = (type=="media_set")?true:false, ""}
   {{/if}}
-  %div{:class => "thumb_mini {{if is_editable}}edit{{/if}} {{if is_manageable}}manage{{/if}}{{if is_set}} set{{/if}}", :rel => "${id}", :title => "${title}"}
+  %div{:class => "thumb_mini {{if is_editable}}edit{{/if}} {{if is_manageable}}manage{{/if}}{{if is_set}} set{{/if}}", :rel => "${id}", :title => "${MetaDatum.flatten(meta_data).title}"}
     {{if is_set}}
     .set_tab
     {{/if}}

@@ -12,6 +12,72 @@
     .selection .permissions
       display: none 
   
+  #overlay_manager
+    background: white
+    border: 1px solid rgb(160,160,160)
+    cursor: default
+    padding: 0
+    position: absolute
+    top: 8px
+    right: 8px
+    @include box-shadow(0 0 8px rgba(0,0,0,0.2))
+
+    a
+      border-bottom: 1px solid rgb(200,200,200)
+      display: block
+      text-decoration: none
+      padding: 5px 12px 5px 12px
+      @include unselectable
+
+      .snag.icon
+        margin-right: 4px
+        @include opacity(0.1)
+
+      &.active .snag.icon
+        @include opacity(0.5)
+
+    tbody     
+      display: none
+
+      a
+        cursor: pointer
+
+    &:hover tbody
+      display: table-row-group
+
+    tbody tr:last-child a
+      border-bottom: none
+
+    thead a
+      border: none
+      font-weight: normal
+
+    thead tr td
+      background-color: white
+      
+      .open
+        display: block
+        height: 10px
+        text-align: center
+        padding: 0
+
+        .icon
+          position: relative
+          top: 2px
+          vertical-align: text-top
+          @include opacity(0.6)
+
+    &:hover thead 
+
+      tr td a
+        background-color: rgb(245,245,245)
+        border-bottom: 1px solid rgb(190,190,190)
+        color: #404040 !important
+        @include box-shadow(0 2px 4px rgba(0,0,0,0.1))
+
+      .open
+        display: none
+
   &>.graph
     padding-bottom: 12px
     position: relative
@@ -87,8 +153,11 @@
           top: -20px
       
     .link 
-      stroke: #666
+      stroke: #AAA
       stroke-width: 1px
+
+    marker
+      fill: #AAA
     
     .node
       background: white
@@ -98,11 +167,15 @@
       text 
         pointer-events: none
         font: 10px sans-serif
+        @include text-shadow(-1px 1px 0 white)
       
       rect
-        fill: white
-        stroke: #AAA
+        fill: transparent
+        stroke: transparent
         stroke-width: 0.5
+
+      circle
+        fill: white
         
       &[data-hover] rect
         fill: #EEE
@@ -111,3 +184,14 @@
       &[data-selected] rect
         fill: #BBB
         stroke: #666
+
+  #instructions
+    color: grey
+    display: block
+    padding: 12px 10px 0
+
+  #chart .node .favorite, #chart .node .permissions
+    display: none
+
+  #chart.favorites .node .favorite, #chart.permissions .node .permissions
+    display: block

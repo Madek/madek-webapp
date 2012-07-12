@@ -89,3 +89,37 @@ Then /^the inspector panel shows informations about the selected element$/ do
   wait_until { find("#inspector .inspector") }
   find("#inspector").should have_content MediaSet.find(@clicked_id).title[0..15]
 end
+
+Then /^I see the zoom and move instructions$/ do
+  wait_until{ find("#instructions") }
+end
+
+Then /^the instructions say "(.*?)"$/ do |arg1|
+  wait_until{ find("#instructions") }
+end
+
+Then /^I also see the batch edit bar$/ do
+  wait_until { find(".task_bar") }
+end
+
+Then /^I can add the resource shown in the inspector to my batch selection$/ do
+  step 'I click a element in the set graph'
+  step 'the inspector panel shows informations about the selected element'
+  find("#batch-deselect-all").click
+  find("#inspector .check_box").click
+  find("#selected_items .thumb_mini")
+end
+
+Then /^I can choose to see icons for permissions on each node of the graph$/ do
+  page.execute_script('$("#overlay_manager *").show()')
+  find("#overlay_manager a[data-overlay='permissions']").click
+  wait_until { page.evaluate_script('$("#chart .node image.permissions").length') > 0 }
+  wait_until { find("#chart.permissions") }
+end
+
+Then /^I can choose to see icons for favorites on each node of the graph$/ do
+  page.execute_script('$("#overlay_manager *").show()')
+  find("#overlay_manager a[data-overlay='favorites']").click
+  wait_until { page.evaluate_script('$("#chart .node image.favorite").length') > 0 }
+  wait_until { find("#chart.favorites") }
+end
