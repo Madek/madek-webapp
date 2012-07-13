@@ -401,7 +401,7 @@ module MetaDataHelper
                   $(".datepicker").datepicker(
                     $.extend({
                       showOn: "button",
-                      buttonImage: "/assets/icons/calendar.png",
+                      buttonImage: "#{image_path 'icons/calendar.png'}",
                       buttonImageOnly: true,
                       changeMonth: true,
                       changeYear: true,

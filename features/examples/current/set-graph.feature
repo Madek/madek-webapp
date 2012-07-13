@@ -66,7 +66,6 @@ Feature: Set Graph
     Then the element is highlighted
      And the inspector panel shows informations about the selected element
 
-
   @javascript
   Scenario: Zoom and move instructions
     When I see the set graph
@@ -83,4 +82,4 @@ Feature: Set Graph
   Scenario: Overlays with additional information in the set graph
     When I see the set graph
     Then I can choose to see icons for permissions on each node of the graph
-    And I can choose to see icons for favorites on each node of the graph
+     And I can choose to see icons for favorites on each node of the graph

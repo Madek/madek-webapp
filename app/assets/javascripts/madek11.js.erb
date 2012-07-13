@@ -11,13 +11,13 @@ $(document).ready(function () {
     var media_entry_id = $(this).parent().attr("id").slice(4); // TODO $(this).closest(".item_box").attr("rel");
     $("span#fav_" + media_entry_id).html(response.responseText);
   }).live("ajax:beforeSend", function() {
-    $(this).parent().find(".button_favorit_off").replaceWith("<img class='loading' src='/assets/loading.gif'>");
-    $(this).parent().find(".button_favorit_on").replaceWith("<img class='loading' src='/assets/loading.gif'>");
+    $(this).parent().find(".button_favorit_off").replaceWith($.tmpl("tmpl/loading_img"));
+    $(this).parent().find(".button_favorit_on").replaceWith($.tmpl("tmpl/loading_img"));
   });
 
-	$("#menu").flickrmenu({ arrowPic: "/assets/icons/arrow.png",
-							arrowPicA: "/assets/icons/arrow_select.png",
-							arrowPicH: "/assets/icons/arrow_hover.png" });
+	$("#menu").flickrmenu({ arrowPic: "<%= image_path 'icons/arrow.png' %>",
+							arrowPicA: "<%= image_path 'icons/arrow_select.png' %>",
+							arrowPicH: "<%= image_path 'icons/arrow_hover.png' %>" });
 
     // OPTIMIZE Action Bar for media_entry and media_set templates
     $("a[panel]").click(function(){
@@ -29,7 +29,7 @@ $(document).ready(function () {
       });
       if(to_open){
         $(this).addClass("active");
-        $(this).css("background", "transparent url('/assets/icons/arrow-up-04.png') 50% bottom no-repeat");
+        $(this).css("background", "transparent url('<%= image_path 'icons/arrow-up-04.png' %>') 50% bottom no-repeat");
         $("div#"+$(this).attr("panel")+"-panel").slideDown("slow");
       }
       return false;

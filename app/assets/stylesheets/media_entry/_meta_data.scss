@@ -63,7 +63,7 @@
     
     &.open {
       .toggler-arrow {
-        background: url("/assets/icons/toggler-arrow.png") no-repeat scroll -11px 0 transparent !important;
+        background: image-url("icons/toggler-arrow.png") no-repeat scroll -11px 0 transparent !important;
       }
       
       .meta_group {

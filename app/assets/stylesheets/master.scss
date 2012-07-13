@@ -211,28 +211,28 @@ div#ajaxLoading {
 /************************************************** CSS image sprites generated with http://spritegen.website-performance.org and edited with http://www.spritebox.net/ */
 
 .icon_favorite {
-	background: url(icons/icon_favorites.png);
+	background: image-url("icons/icon_favorites.png");
 	width: 18px;
 	height: 18px;
 	display: inline-block;
 }
 
 .icon_me {
-	background: url(icons/madek_icon_sprites.png) -100px -381px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") -100px -381px no-repeat;
 	width: 13px;
 	height: 13px;
 	display: inline-block;
 }
 
 .icon_set {
-	background: url(icons/madek_icon_sprites.png) -100px -845px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") -100px -845px no-repeat;
 	width: 19px;
 	height: 19px;
 	display: inline-block;	
 }
 
 .icon_set_parents {
-  background: url(icons/madek_icon_sprites.png) -301px -844px no-repeat;
+  background: image-url("icons/madek_icon_sprites.png") -301px -844px no-repeat;
   cursor: pointer;
   width: 19px;
   height: 19px;
@@ -256,21 +256,21 @@ div#ajaxLoading {
 
 
 .icon_workgroup {
-	background: url(icons/madek_icon_sprites.png) -100px -1838px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") -100px -1838px no-repeat;
 	width: 19px;
 	height: 19px;
 	display: inline-block;	
 }
 
 .icon_status_perm_private {
-	background: url(icons/madek_icon_sprites.png) -100px -1038px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") -100px -1038px no-repeat;
 	width: 30px;
 	height: 30px;
 	@include opacity(0.9);
 }
 
 .icon_status_perm_public {
-	background: url(icons/madek_icon_sprites.png) -168px -1037px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") -168px -1037px no-repeat;
 	width: 30px;
 	height: 30px;
 	@include opacity(0.9);
@@ -285,14 +285,14 @@ div#ajaxLoading {
 }
 
 .icon_status_perm_shared {
-	background: url(icons/madek_icon_sprites.png) -168px -1107px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") -168px -1107px no-repeat;
 	width: 30px;
 	height: 30px;
 	@include opacity(0.9);
 }
 
 .check_box {
-	background: url(icons/madek_icon_sprites.png) 0 -314px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") 0 -314px no-repeat;
 	width: 18px;
 	height: 18px;
 	display: inline-block;
@@ -300,7 +300,7 @@ div#ajaxLoading {
 }
 
 .selected .check_box {
-	background: url(icons/madek_icon_sprites.png) 0 -382px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") 0 -382px no-repeat;
 	width: 18px;
 	height: 18px;
 	display: inline-block;
@@ -308,42 +308,42 @@ div#ajaxLoading {
 }
 
 .button_favorit_on {
-	background: url(icons/madek_icon_sprites.png) 0 -1062px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") 0 -1062px no-repeat;
 	width: 18px;
 	height: 18px;
 	display: inline-block;
 }
 
 .button_favorit_off {
-	background: url(icons/madek_icon_sprites.png) 0 -994px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") 0 -994px no-repeat;
 	width: 18px;
 	height: 18px;
 	display: inline-block;
 }
 
 .button_explore {
-	background: url(icons/madek_icon_sprites.png) 0 -926px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") 0 -926px no-repeat;
 	width: 18px;
 	height: 18px;
 	display: inline-block;
 }
 
 .button_permissions {
-	background: url(icons/madek_icon_sprites.png) -447px -1172px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") -447px -1172px no-repeat;
 	width: 18px;
 	height: 18px;
 	display: inline-block;
 }
 
 .button_edit_active {
-	background: url(icons/madek_icon_sprites.png) 0 -722px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") 0 -722px no-repeat;
 	width: 18px;
 	height: 18px;
 	display: inline-block;	
 }
 
 .button_edit_inactive {
-	background: url(icons/madek_icon_sprites.png) 0 -858px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") 0 -858px no-repeat;
 	width: 18px;
 	height: 18px;
 	display: inline-block;
@@ -351,35 +351,35 @@ div#ajaxLoading {
 }
 
 .button_delete_active {
-	background: url(icons/madek_icon_sprites.png) 0 -449px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") 0 -449px no-repeat;
 	width: 18px;
 	height: 18px;
 	display: inline-block;
 }
 
 .button_delete_inactive {
-	background: url(icons/madek_icon_sprites.png) 0 -585px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") 0 -585px no-repeat;
 	width: 18px;
 	height: 18px;
 	display: inline-block;	
 }
 
 .button_download {
-	background: url(icons/madek_icon_sprites.png) 0 -654px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") 0 -654px no-repeat;
 	width: 18px;
 	height: 18px;
 	display: inline-block;	
 }
 
 .button_addto {
-	background: url(icons/madek_icon_sprites.png) 0 -246px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") 0 -246px no-repeat;
 	width: 18px;
 	height: 18px;
 	display: inline-block;	
 }
 
 .button_highlights {
-	background: url(icons/madek_icon_sprites.png) -273px -1155px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") -273px -1155px no-repeat;
 	width: 18px;
 	height: 18px;
 	display: inline-block;	
@@ -405,7 +405,7 @@ nav {
 }
 
 .main_nav_upload {
-	background: url(icons/madek_icon_sprites.png) -300px -413px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") -300px -413px no-repeat;
 	border-style: none;
 	width: 32px;
 	height: 32px;
@@ -431,7 +431,7 @@ nav {
 }
 
 .main_nav_help {
-  background: url(icons/madek_icon_sprites.png) -299px -911px no-repeat;
+  background: image-url("icons/madek_icon_sprites.png") -299px -911px no-repeat;
   border-style: none;
   width: 32px;
   height: 32px;
@@ -457,7 +457,7 @@ nav {
 }
 
 .main_nav_browse {
-	background: url(icons/madek_icon_sprites.png) -299px -249px no-repeat;
+	background: image-url("icons/madek_icon_sprites.png") -299px -249px no-repeat;
 	border-style: none;
 	width: 32px;
 	height: 32px;
@@ -484,7 +484,7 @@ nav {
 /************************************************** Logos */
 
 .logo_left {
-	background: transparent url(icons/madek_icon_sprites.png) -300px -69px no-repeat;
+	background: transparent image-url("icons/madek_icon_sprites.png") -300px -69px no-repeat;
 	height: 40px;
 	width: 220px;
 	display: inline-block;
@@ -495,7 +495,7 @@ nav {
 
 
 .logo_right {
-	background: transparent url(icons/madek_icon_sprites.png) -300px -159px no-repeat;
+	background: transparent image-url("icons/madek_icon_sprites.png") -300px -159px no-repeat;
 	height: 40px;
 	width: 100px;
 	display: inline-block;
@@ -551,7 +551,7 @@ nav {
 	}
 	
 	input[type="submit"] {
-		background: url(icons/madek_icon_sprites.png) -301px -331px no-repeat;
+		background: image-url("icons/madek_icon_sprites.png") -301px -331px no-repeat;
 		border-style: none;
 		width: 32px;
 		height: 32px;
@@ -661,16 +661,16 @@ nav {
 }
 
 .item_line_me {
-  background: url(icons/madek_icon_sprites.png) -100px -432px no-repeat;
+  background: image-url("icons/madek_icon_sprites.png") -100px -432px no-repeat;
 }
 .item_line_set {
-  background: url(icons/madek_icon_sprites.png) -100px -775px no-repeat;
+  background: image-url("icons/madek_icon_sprites.png") -100px -775px no-repeat;
 }
 .item_line_fav {
-  background: url(icons/madek_icon_sprites.png) -100px -1959px no-repeat;
+  background: image-url("icons/madek_icon_sprites.png") -100px -1959px no-repeat;
 }
 .item_line_workgroup {
-  background: url(icons/madek_icon_sprites.png) -100px -1900px no-repeat;
+  background: image-url("icons/madek_icon_sprites.png") -100px -1900px no-repeat;
 }
 
 
@@ -887,7 +887,7 @@ ul li { float: left; }
   h3.filter_header {
     color: #FFFFFF;
     padding: 11px 0 10px 30px;
-    background: url(icons/madek_icon_sprites.png) -91px -195px no-repeat;
+    background: image-url("icons/madek_icon_sprites.png") -91px -195px no-repeat;
     background-color: #323232;
     font-size: 0.9em;
     font-weight: bold;
@@ -1073,10 +1073,10 @@ ul li { float: left; }
 	width:11px;
 	height:11px;
 	float: left;
-	background: url(/assets/icons/toggler-arrow.png) no-repeat 0 0;
+	background: image-url('icons/toggler-arrow.png') no-repeat 0 0;
 }
 .toggler-arrow-on {
-	background: url(/assets/icons/toggler-arrow.png) no-repeat -11px 0 !important;
+	background: image-url('icons/toggler-arrow.png') no-repeat -11px 0 !important;
 }
 .browse_recent {
 	margin-bottom: 25px;
@@ -1223,7 +1223,7 @@ ul li { float: left; }
 	height: 140px;
 	font-size: 1em;
 	line-height: 150px;
-	background: url(icons/icon_tn_project.png) no-repeat 0 -8px;
+	background: image-url("icons/icon_tn_project.png") no-repeat 0 -8px;
 	margin: 0 12px 10px 0;
 	position: relative;
 	width: 142px;
@@ -1435,7 +1435,7 @@ button.dark:hover {
 .button_delete {
 	width: 18px;
 	height:  18px;
-	background: url('icons/delete_master_sprite.png') bottom;
+	background: image-url('icons/delete_master_sprite.png') bottom;
 	text-indent: 999em;
 	overflow: hidden;
 	display: inline-block;
@@ -1576,7 +1576,7 @@ button.dark:hover {
 	}
 	
 	h3 {
-		background: url('icons/icon_set_small.png') no-repeat 0 1px;
+		background: image-url('icons/icon_set_small.png') no-repeat 0 1px;
 		padding-bottom: 0.5em;
 		text-indent: 27px;
 	}
@@ -1596,19 +1596,19 @@ button.dark:hover {
   }
 	
 	.button_edit_active {
-		background: url(icons/madek_icon_sprites.png) 6px -716px no-repeat;
+		background: image-url("icons/madek_icon_sprites.png") 6px -716px no-repeat;
 	}
 	
 	.button_edit_inactive {
-		background: url(icons/madek_icon_sprites.png) 6px -842px no-repeat;
+		background: image-url("icons/madek_icon_sprites.png") 6px -842px no-repeat;
 	}
 	
 	.button_delete_active {
-		background: url(icons/madek_icon_sprites.png) 6px -443px no-repeat;
+		background: image-url("icons/madek_icon_sprites.png") 6px -443px no-repeat;
 	}
 	
 	.button_delete_inactive {
-		background: url(icons/madek_icon_sprites.png) 6px -579px no-repeat;
+		background: image-url("icons/madek_icon_sprites.png") 6px -579px no-repeat;
 	}
 
   button {
@@ -1617,20 +1617,20 @@ button.dark:hover {
     border: 1px solid transparent;    
     
   	.button_addto {
-  		background: url(icons/madek_icon_sprites.png) 6px -240px no-repeat;
+  		background: image-url("icons/madek_icon_sprites.png") 6px -240px no-repeat;
   	}
   }
 
 	.button_favorit_on {
-		background: url(icons/madek_icon_sprites.png) 6px -1056px no-repeat;
+		background: image-url("icons/madek_icon_sprites.png") 6px -1056px no-repeat;
 	}
 	
 	.button_favorit_off {
-		background: url(icons/madek_icon_sprites.png) 6px -988px no-repeat;
+		background: image-url("icons/madek_icon_sprites.png") 6px -988px no-repeat;
 	}
 	
 	.button_permissions {
-    background: url(icons/madek_icon_sprites.png) -441px -1166px  no-repeat;
+    background: image-url("icons/madek_icon_sprites.png") -441px -1166px  no-repeat;
   }
 	
 	div {
@@ -1663,7 +1663,7 @@ button.dark:hover {
     }
 	}
 	
-	.open {  background: url("/assets/icons/arrow-up-04.png") no-repeat scroll 72% 72% transparent; }
+	.open {  background: image-url("icons/arrow-up-04.png") no-repeat scroll 72% 72% transparent; }
 }
 
 
@@ -1681,7 +1681,7 @@ button.dark:hover {
 		-moz-border-radius: 3px;
 		-webkit-border-radius: 3px;
 		border-radius: 3px;
-		background: url(icons/madek_icon_sprites.png) 10px -440px no-repeat;
+		background: image-url("icons/madek_icon_sprites.png") 10px -440px no-repeat;
 	}
 	
 	.button_explore.ghost {
@@ -1693,7 +1693,7 @@ button.dark:hover {
 		-moz-border-radius: 3px;
 		-webkit-border-radius: 3px;
 		border-radius: 3px;
-		background: url(icons/madek_icon_sprites.png) 10px -917px no-repeat;
+		background: image-url("icons/madek_icon_sprites.png") 10px -917px no-repeat;
 	}
 	
 	.button_edit_active.ghost {
@@ -1705,11 +1705,11 @@ button.dark:hover {
 		-moz-border-radius: 3px;
 		-webkit-border-radius: 3px;
 		border-radius: 3px;
-		background: url(icons/madek_icon_sprites.png) 10px -712px no-repeat;
+		background: image-url("icons/madek_icon_sprites.png") 10px -712px no-repeat;
 	}
 	
 	&>li > a.open {
-	  background: url("/assets/icons/arrow-up-04.png") no-repeat scroll 50% bottom transparent;
+	  background: image-url("icons/arrow-up-04.png") no-repeat scroll 50% bottom transparent;
 	}
 }
 
@@ -1767,7 +1767,7 @@ button.dark:hover {
 		letter-spacing: 0;
 		
 		.icon {
-		  background: url(icons/madek_icon_sprites.png) -303px -956px no-repeat;
+		  background: image-url("icons/madek_icon_sprites.png") -303px -956px no-repeat;
 		  display: inline-block;
 		  height: 18px;
 		  position: relative;
@@ -2155,7 +2155,7 @@ form.new_person {
 
 
 .different_values {
-    background: red url(stripe_1.png);
+    background: red image-url("stripe_1.png");
 }
   	
 table thead { 
@@ -2504,7 +2504,7 @@ form#set_media_sets input[type="submit"] {
 	  	span {
 	  		letter-spacing: 0;
 	  		font-size: 1.7em;
-	  		background: url(icons/icon_set_small.png) center left no-repeat;
+	  		background: image-url("icons/icon_set_small.png") center left no-repeat;
 	    	padding-left: 20px;
 	  	}
 	  	.thumb_box_set {
@@ -3098,12 +3098,12 @@ table.meta_data td {
 }
 
 .meta_data a[data-meta_term_id] {
-  background: url(icons/icon_toggle_browse_on.png) no-repeat -1px -4px;
+  background: image-url("icons/icon_toggle_browse_on.png") no-repeat -1px -4px;
   padding-left: 20px;
 }
 
 .meta_data a[data-meta_term_id].active {
-  background: url(icons/icon_toggle_browse_off.png) no-repeat -1px -4px;
+  background: image-url("icons/icon_toggle_browse_off.png") no-repeat -1px -4px;
   padding-left: 20px;
   color: black;
 }
@@ -3557,14 +3557,14 @@ table.permissions {
   
   p {
     padding: 5px 0 7px 20px;
-    background: url(icons/icon_toggle_browse_on.png) no-repeat 0 3px;
+    background: image-url("icons/icon_toggle_browse_on.png") no-repeat 0 3px;
     font-size: 1em;
     line-height: 1.2em;
     letter-spacing: 0.1ex;
 	&:hover {
 	  text-decoration: underline;
 	  color: black;
-	  background: url(icons/icon_toggle_browse_off.png) no-repeat 0 3px;
+	  background: image-url("icons/icon_toggle_browse_off.png") no-repeat 0 3px;
 	  cursor: pointer;
 	}
   }

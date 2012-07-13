@@ -34,7 +34,7 @@
   			<!-- Teaser -->
         <div id="slider-wrapper">
   				<div id="slider" class="nivoSlider">
-			      <img src="/assets/root/madek.jpg" alt="" title="#htmlcaption1" />
+			      <img src="<%= image_path('root/madek.jpg') %>" alt="" title="#htmlcaption1" />
           </div>
           <div id="htmlcaption1" class="nivo-html-caption">
               <strong>Medienarchiv der Künste</strong><br />Mediales Arbeiten an der Zürcher Hochschule der Künste
@@ -59,7 +59,7 @@
   						<p><span style="font-weight: bold; font-size: 1.5em;text-shadow: -1px -1px 2px #fff;"><%= User.count %></span><br />Nutzer/innen</p>
   					</div>
   					<div class="statbox">
-  						<div style="width: 81px; height: 81px; background: #fff url(/assets/root/icon-tags.png) 50% 50% no-repeat;border-radius: 5px; margin-bottom: 1em; border: 2px solid #929292">&nbsp;</div>
+  						<div style="width: 81px; height: 81px; background: #fff url(<%= image_path('root/icon-tags.png') %>) 50% 50% no-repeat;border-radius: 5px; margin-bottom: 1em; border: 2px solid #929292">&nbsp;</div>
   						<p><span style="font-weight: bold; font-size: 1.5em;text-shadow: -1px -1px 2px #fff;"><%= Keyword.joins(:meta_datum => :media_resource).where(:media_resources => {:type => ["MediaEntry", "MediaSet"]}).count %></span><br />Schlagworte</p>
   					</div>
   					</div>
@@ -68,22 +68,22 @@
 
   			<div id="funcs" class="stopfloating">
   				<div class="grid_2 alpha">
-  					<div class="madekfuncs"><img src="/assets/root/archiving-02.png" alt="" /></div>
+  					<div class="madekfuncs"><img src="<%= image_path('root/archiving-02.png') %>" alt="" /></div>
   					<h3>Werke archivieren</h3>
   					<p>Das Medienarchiv unterstützt die ersten Schritte der Archivierung an der ZHdK.</p>
   				</div>
   				<div class="grid_2">
-  					<div class="madekfuncs"><img src="/assets/root/sharing-02.png" alt="" /></div>
+  					<div class="madekfuncs"><img src="<%= image_path('root/sharing-02.png') %>" alt="" /></div>
   					<h3>Medien teilen</h3>
   					<p>Es ermöglicht Künstler/innen und Gestalter/innen ihre Medien zu teilen.</p>
   				</div>
   				<div class="grid_2">
-  					<div class="madekfuncs"><img src="/assets/root/learning-02.png" alt="" /></div>
+  					<div class="madekfuncs"><img src="<%= image_path('root/learning-02.png') %>" alt="" /></div>
   					<h3>Wissen entwickeln</h3>
   					<p>Expert/innen können über das Medienarchiv ihr Wissen für andere sichtbar machen.</p>
   				</div>
   				<div class="grid_2 omega">
-  					<div class="madekfuncs"><img src="/assets/root/exploring-02.png" alt="" /></div>
+  					<div class="madekfuncs"><img src="<%= image_path('root/exploring-02.png') %>" alt="" /></div>
   					<h3>Inhalte erkunden</h3>
   					<p>Im wachsenden Medienpool kann man stöbern und sich inspirieren lassen.</p>
   				</div>
@@ -135,20 +135,20 @@
   			  </div>
 
   				<div class="pilotitem tab1">
-  					<div class="portrait"><img src="/assets/root/oliver-emch-portrait.png" alt="Oliver Emch" /></div>
+  					<div class="portrait"><img src="<%= image_path('root/oliver-emch-portrait.png') %>" alt="Oliver Emch" /></div>
   					<p><span>Oliver Emch</span> nutzt das Medienarchiv für den Forschungsschwerpunkt Landschaftsvisualisierung.</p>
   				</div>
   				<div class="pilotitem stopfloating tab1">
-  					<div class="portrait"><img src="/assets/root/vertiefung-fotografie-portrait.png" alt="Vertiefung Fotografie" /></div>
+  					<div class="portrait"><img src="<%= image_path('root/vertiefung-fotografie-portrait.png') %>" alt="Vertiefung Fotografie" /></div>
   					<p><span>Vertiefung Fotografie</span> überträgt Ihre Diathek ins Medienarchiv: Lehrmittel zur Geschichte der Fotografie.</p>
   				</div>
   				<div class="pilotitem stopfloating tab1">
-  					<div class="portrait"><img src="/assets/root/vmk-portrait.png" alt="Birk Weiberg" /></div>
+  					<div class="portrait"><img src="<%= image_path('root/vmk-portrait.png') %>" alt="Birk Weiberg" /></div>
   					<p><span>Birk Weiberg</span> dokumentiert die Projekte der Vertiefung Mediale Künste im Medienarchiv.</p>
   				</div>
 
   				<div class="pilotitem tab2">
-            <div class="portrait"><img src="/assets/root/rolf-wolfensberger-portrait.png" alt="Rolf Wolfensberger" /></div>
+            <div class="portrait"><img src="<%= image_path('root/rolf-wolfensberger-portrait.png') %>" alt="Rolf Wolfensberger" /></div>
             <p><span>Rolf Wolfensberger</span>, Leiter Archiv ZHdK, schätzt das Medienarchiv als Werkzeug für die aktive Dokumentation vergänglicher Werke.</p>
           </div>
   			</div> <!-- #news -->

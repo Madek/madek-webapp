@@ -56,12 +56,11 @@
 }
 
 .plupload_header {
-  //background: #2A2C2E url('jquery.plupload.queue/backgrounds.gif') repeat-x;
   display: none;
 }
 
 .plupload_header_content {
-  background: url('jquery.plupload.queue/backgrounds.gif') no-repeat 0 -317px;
+  background: image-url('jquery.plupload.queue/backgrounds.gif') no-repeat 0 -317px;
   min-height: 56px;
   padding-left: 60px;
   color: #FFF;
@@ -87,7 +86,7 @@
 
 .plupload_filelist li, #dropbox_filelist li, #mei_filelist li {
   padding: 10px 0;
-  background: #F5F5F5 url('jquery.plupload.queue/backgrounds.gif') repeat-x 0 -156px;
+  background: #F5F5F5 image-url('jquery.plupload.queue/backgrounds.gif') repeat-x 0 -156px;
   border-bottom: 1px solid #DDD;
   margin-bottom: 1px !important;
   width: 100%;
@@ -162,10 +161,10 @@
 }
 
 li.plupload_uploading {
-  background: #ECF3DC url('jquery.plupload.queue/backgrounds.gif') repeat-x 0 -238px !important;
+  background: #ECF3DC image-url('jquery.plupload.queue/backgrounds.gif') repeat-x 0 -238px !important;
   
   a {
-    background: url('jquery.plupload.queue/transfering.gif') no-repeat !important;
+    background: image-url('jquery.plupload.queue/transfering.gif') no-repeat !important;
     display: block !important;
   }
   
@@ -174,26 +173,26 @@ li.plupload_uploading {
   }
 }
 li.plupload_done {
-  background: #c6ffbd url('jquery.plupload.queue/backgrounds.gif') repeat-x 0 -365px !important;
+  background: #c6ffbd image-url('jquery.plupload.queue/backgrounds.gif') repeat-x 0 -365px !important;
 }
 
 li.plupload_delete a {
   display: none !important;
-  background: url('jquery.plupload.queue/delete.gif') no-repeat;
+  background: image-url('jquery.plupload.queue/delete.gif') no-repeat;
 }
 
 li.plupload_transfer a {
-  background: url('jquery.plupload.queue/transfer.gif') no-repeat;
+  background: image-url('jquery.plupload.queue/transfer.gif') no-repeat;
   cursor: default;
 }
 
 li.plupload_failed a {
-  background: url('jquery.plupload.queue/error.gif');
+  background: image-url('jquery.plupload.queue/error.gif');
   cursor: default;
 }
 
 li.plupload_done a {
-  background: url('jquery.plupload.queue/done.gif');
+  background: image-url('jquery.plupload.queue/done.gif');
   cursor: default;
 }
 

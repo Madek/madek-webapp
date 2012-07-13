@@ -1,8 +1,3 @@
-// This is a manifest file that'll be compiled into including all the files listed below.
-// Add new JavaScript/Coffee code in separate files in this directory and they'll automatically
-// be included in the compiled file accessible from http://example.com/assets/application.js
-// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
-// the compiled file.
 
 /////////// Gem /////////////
 //= require jquery.min
@@ -103,33 +98,28 @@ $(document).ready(function () {
 	document_ready();
 	
 	// Tabs
-	$(".tabs").tabs({ //spinner: 'Retrieving data...', // requires <span>link</span>
-					  cache: true,
-					  // selected: -1,
-					  // collapsible: true,
-					  add: function(event, ui) {
-				      	$(this).tabs('select', ui.index); //'#' + ui.panel.id
-				      },
-					  fx: { opacity: 'toggle' },
-					  ajaxOptions: { 
-					  	dataType: 'html',
-					  	error: function(data){
-					  		response = JSON.parse(data.responseText);
-					  		setTimeout(function(){
-						  		$(".ui-tabs-panel:visible").html(response.error);
-					  		}, 200);
-					  	} 
-					  }
-					});
+	$(".tabs").tabs({
+	  cache: true,
+	  add: function(event, ui) {
+    	$(this).tabs('select', ui.index); //'#' + ui.panel.id
+    },
+	  fx: { opacity: 'toggle' },
+	  ajaxOptions: { 
+	  	dataType: 'html',
+	  	error: function(data){
+	  		response = JSON.parse(data.responseText);
+	  		setTimeout(function(){
+		  		$(".ui-tabs-panel:visible").html(response.error);
+	  		}, 200);
+	  	} 
+	  }
+	});
 					
 	// For closing all open autocompletes in old tabs
 	$('#detail_specification').bind('tabsselect', function(event, ui) {
-		$('a.search_toggler').removeClass('active').find("img").attr("src", "/assets/icons/toggler-arrow-closed.png");
+		$('a.search_toggler').removeClass('active').find("img").attr("src","<%= image_path('icons/toggler-arrow-closed.png') %>");
 		$('input.ui-autocomplete-input').autocomplete("close");
 	});
-
-//////////////////////////////
-// placeholder
 
 	function hasPlaceholderSupport() {
 		var i = document.createElement('input');
@@ -139,8 +129,6 @@ $(document).ready(function () {
 	if(!Modernizr.input.placeholder && !hasPlaceholderSupport()){
 		$("form").placeholder();
 	};
-	
-//////////////////////////////
 
 	$("[data-meta_key] div.expander a").live("click", function() {
 		var parent = $(this).closest("[data-meta_key]");
@@ -161,31 +149,24 @@ $(document).ready(function () {
 		return false;
 	});
 
-
-//////////////////////////////
-
-	//////////////////////////////
 	// TODO move to keywords.js
-	
-		$(".holder.all .bit-box").live('click', function(){
-			var item = {label: $(this).attr("title"), id: $(this).attr("rel")};
-      var parent_block = $(this).closest("[data-meta_key]");
-      var search_field = parent_block.find("input[name='autocomplete_search']");
-			add_to_selected_items(item, search_field, false);
-			hide_keyword(parent_block, $(this).attr("rel"));
-		});
-	
-		$("[data-meta_key='keywords'] input[name='autocomplete_search']").bind("autocompleteselect", function(event, ui) {
-			var parent_block = $(this).closest("[data-meta_key]");
-	  		hide_keyword(parent_block, ui.item.id);
-		});
-	
-		$("ul.holder li .closebutton").live('click', function(){
-			remove_from_selected_items($(this).parent("li"));
-			return false;
-	  	});
-	//////////////////////////////
-	
+	$(".holder.all .bit-box").live('click', function(){
+		var item = {label: $(this).attr("title"), id: $(this).attr("rel")};
+    var parent_block = $(this).closest("[data-meta_key]");
+    var search_field = parent_block.find("input[name='autocomplete_search']");
+		add_to_selected_items(item, search_field, false);
+		hide_keyword(parent_block, $(this).attr("rel"));
+	});
+
+	$("[data-meta_key='keywords'] input[name='autocomplete_search']").bind("autocompleteselect", function(event, ui) {
+		var parent_block = $(this).closest("[data-meta_key]");
+  		hide_keyword(parent_block, ui.item.id);
+	});
+
+	$("ul.holder li .closebutton").live('click', function(){
+		remove_from_selected_items($(this).parent("li"));
+		return false;
+	});
 });
 
 /////////////////////////////////////////////////////////////
@@ -220,16 +201,16 @@ function is_Selected(media_resources_json, id) {
 //////////////////////////////
 // TODO move to keywords.js
 
-	function hide_keyword(parent_block, rel){
-		parent_block.find('.holder.all .bit-box[rel="'+rel+'"]').hide();
-	}
+function hide_keyword(parent_block, rel){
+	parent_block.find('.holder.all .bit-box[rel="'+rel+'"]').hide();
+}
 
-	function hide_selected_keywords(holder){
-		holder.find("li.bit-box input[type=hidden]").each(function(){
-			var parent_block = $(this).closest("[data-meta_key]");
-			hide_keyword(parent_block, $(this).attr("value"));
-		});
-	}
+function hide_selected_keywords(holder){
+	holder.find("li.bit-box input[type=hidden]").each(function(){
+		var parent_block = $(this).closest("[data-meta_key]");
+		hide_keyword(parent_block, $(this).attr("value"));
+	});
+}
 
 //////////////////////////////
 
@@ -238,13 +219,13 @@ function create_multiselect_widget(search_field, is_extensible, with_toggler){
   var all_options = search_field.data("all_options");
   if (with_toggler) {
 	var toggler_id = search_field.attr("id").replace('autocomplete_search', 'toggler');
-  	search_field.closest(".madek_multiselect_container").append("<a class='search_toggler' href='#' id='" + toggler_id + "'><img src='/assets/icons/toggler-arrow-closed.png'></a>");
+  	search_field.closest(".madek_multiselect_container").append("<a class='search_toggler' href='#' id='" + toggler_id + "'><img src='<%= image_path 'icons/toggler-arrow-closed.png' %>'></a>");
 	var toggler = search_field.closest(".madek_multiselect_container").find("a.search_toggler");
 	
 	$('body').bind('click', function(e) {
 	    if($(e.target).closest('ul.ui-autocomplete').length == 0) {
         	// click happened outside of autocomplete select menu, hide any visible menu items
-			toggler.removeClass("active").find("img").attr("src", "/assets/icons/toggler-arrow-closed.png");
+			toggler.removeClass("active").find("img").attr("src", "<%= image_path 'icons/toggler-arrow-closed.png' %>");
 			search_field.autocomplete("close");
 	    }
 	});
@@ -295,7 +276,7 @@ function create_multiselect_widget(search_field, is_extensible, with_toggler){
 			$(this).val("");
 			just_selected = false;
 		}
-	  if (toggler != undefined) toggler.removeClass("active").find("img").attr("src", "/assets/icons/toggler-arrow-closed.png");
+	  if (toggler != undefined) toggler.removeClass("active").find("img").attr("src", "<%= image_path 'icons/toggler-arrow-closed.png' %>");
     }
   });
   
@@ -303,10 +284,10 @@ function create_multiselect_widget(search_field, is_extensible, with_toggler){
 	toggler.click(function(){
 		var elem = $(this); 
 		if (elem.hasClass('active')) {
-			elem.removeClass('active').find("img").attr("src", "/assets/icons/toggler-arrow-closed.png");
+			elem.removeClass('active').find("img").attr("src", "<%= image_path 'icons/toggler-arrow-closed.png' %>");
 			search_field.autocomplete("close");
 		} else {
-			elem.addClass('active').find("img").attr("src", "/assets/icons/toggler-arrow-opened.png");
+			elem.addClass('active').find("img").attr("src", "<%= image_path 'icons/toggler-arrow-opened.png' %>");
 			close_any_open_autocompletes(elem);
 			search_field.autocomplete("option", "minLength", 0);
 			search_field.autocomplete("search", "");
@@ -320,7 +301,7 @@ function create_multiselect_widget(search_field, is_extensible, with_toggler){
 function close_any_open_autocompletes(elem) {
 	var current_id = elem.attr("id");
 	var current_search_field_id = current_id.replace('toggler', 'autocomplete_search');
-	$('a.search_toggler:not(#'+ current_id +')').removeClass('active').find("img").attr("src", "/assets/icons/toggler-arrow-closed.png");
+	$('a.search_toggler:not(#'+ current_id +')').removeClass('active').find("img").attr("src", "<%= image_path 'icons/toggler-arrow-closed.png' %>");
 	$('input.ui-autocomplete-input:not(#' + current_search_field_id + ')').autocomplete("close");
 };
 

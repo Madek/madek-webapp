@@ -34,7 +34,7 @@ namespace :madek do
 
     task :rspec do
       system "bundle exec rspec --format d --format html --out tmp/html/rspec.html spec"
-      exit_code = $? >> 8 # magic brainfuck
+      exit_code = $?.exitstatus
       raise "Tests failed with: #{exit_code}" if exit_code != 0
     end
 
@@ -43,43 +43,24 @@ namespace :madek do
       task :all do
         puts "Running all Cucumber tests in one block"
         system "bundle exec cucumber -p all"
-        exit_code_first_run = $? >> 8 # magic brainfuck
+        exit_code_first_run = $?.exitstatus
 
-        system "bundle exec cucumber -p rerun"
-        exit_code_rerun = $? >> 8
-
-        raise "Tests failed!" if exit_code_rerun != 0
+        if exit_code_first_run != 0
+          system "bundle exec cucumber -p rerun"
+          exit_code_rerun = $?.exitstatus
+          raise "Tests failed!" if exit_code_rerun != 0
+        end
+        
       end
 
       task :slow do
         puts "Running Cucumber tests marked as @slow"
         system "bundle exec cucumber -p slow"
-        exit_code = $? >> 8 # magic brainfuck
+        exit_code = $?.exitstatus
 
         raise "Tests failed!" if exit_code != 0
       end
 
-      task :seperate do
-        puts "Running 'default' Cucumber profile"
-        system "bundle exec cucumber -p default"
-
-        puts "Running 'examples' Cucumber profile"
-        system "bundle exec cucumber -p examples"
-
-        puts "Running 'current_examples' Cucumber profile"
-        system "bundle exec cucumber -p current_examples"
-
-        system "bundle exec cucumber -p rerun"
-        exit_code_rerun = $? >> 8
-
-        if File.exists?("tmp/rerun_again.txt")
-          system "bundle exec cucumber -p rerun_again"
-          exit_code_rerun = $? >> 8
-        end
-
-        raise "Tests failed with: #{exit_code}" if exit_code_rerun != 0
-
-      end
     end
     
   end

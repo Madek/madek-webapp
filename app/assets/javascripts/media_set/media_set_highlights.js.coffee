@@ -97,7 +97,7 @@ class MediaSetHighlights
     $(container).find(".cancel").hide()
     # show loading
     button = event.currentTarget
-    $(button).width($(button).width()).html("").append("<img src='/assets/loading.gif'/>").addClass("loading")
+    $(button).width($(button).width()).html("").append $.tmpl("tmpl/loading_img")
     # save changed elements
     MediaSetHighlights.persist()
     # prevent link
