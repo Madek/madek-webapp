@@ -52,12 +52,19 @@ class AlterMetaDataSchema < ActiveRecord::Migration
     fkey_cascade_on_delete  :meta_data_users, ::MetaDatum
     fkey_cascade_on_delete  :meta_data_users, ::User
 
-
     MigrationHelpers::MetaDatum::RawMetaDatum.reset_column_information
+
+    change_table :keywords  do |t|
+      t.belongs_to :meta_datum
+      t.index :meta_datum_id
+    end
+    fkey_cascade_on_delete  :keywords, ::MetaDatum
 
   end
 
   def down
+    remove_column :keywords, :meta_datum_id
+
     drop_table :meta_data_users
     drop_table :meta_data_meta_terms
     drop_table :meta_data_meta_departments
