@@ -6,6 +6,8 @@ class MediaSet < MediaResource
   has_many :media_entries, :through => :out_arcs, :source => :child,  conditions: "media_resources.type = 'MediaEntry'"
 
   belongs_to :user
+
+
   
   def self.find_by_id_or_create_by_title(values, user)
     records = Array(values).map do |v|
@@ -38,7 +40,17 @@ class MediaSet < MediaResource
   def individual_and_inheritable_contexts
     (individual_contexts | inheritable_contexts).sort
   end
+
+
+
+### Size ##############################################
   
+  def size user=nil
+    descendants = GraphQueries.descendants(self)
+    descendants = descendants.accessible_by_user(user) if user
+    descendants.size
+  end
+
 ########################################################
 
   #tmp# this is currently up on MediaResource
