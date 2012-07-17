@@ -207,6 +207,9 @@ MAdeK::Application.routes.draw do
   namespace :admin do
     root :to => "keys#index"
 
+    match '/setup', :to => "setup#show"
+    match '/setup/:action', :to => "setup"
+
     resources :meta_context_groups do
       collection do
         put :reorder
@@ -277,15 +280,9 @@ MAdeK::Application.routes.draw do
     end
     
     resources :copyrights
-    
+        
   end
 
-# TODO ??
-#__ Schema namespace __##############################################################
-####################################################################################
-#  namespace :schema do
-#    resources :copyrights, only: :index
-#  end
 ####################################################################################
 
 end

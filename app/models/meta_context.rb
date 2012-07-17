@@ -108,7 +108,7 @@ class MetaContext < ActiveRecord::Base
 ##################################################################
 
   def self.defaults
-    [media_content, media_object, copyright, zhdk_bereich]
+    [media_content, media_object, copyright, zhdk_bereich] # TODO move zhdk to    + AppSettings.default_context.map {|x| send(x) }
   end
 
   def self.method_missing(*args)

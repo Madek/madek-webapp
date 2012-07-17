@@ -1,0 +1,10 @@
+%ul
+  - @checks.each do |x|
+    %li
+      %h3= x[:title]
+      - if x[:valid] 
+        %span{style: "color: green"}
+          = x[:success]
+      - else
+        %span{style: "color: red"}
+          = x[:failure]

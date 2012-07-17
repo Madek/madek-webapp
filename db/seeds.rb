@@ -6,7 +6,3 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
-
-
-Group.find_or_create_by_name(:name => "ZHdK (Zürcher Hochschule der Künste)")    
-MetaDepartment.setup_ldapdata_from_localfile

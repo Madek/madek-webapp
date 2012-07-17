@@ -4,8 +4,8 @@ class Admin::AdminController < ApplicationController
   layout "admin/main"
 
   before_filter do
-    # OPTIMIZE
-    required_group = Group.find_or_create_by_name("Admin")
+    # FIXME zhdk specific 
+    required_group = Group.find_by_name("Admin")
     unless current_user.groups.is_member?(required_group)
       # 10262 => Ramon Cahenzli
       # 10301 => Susanne Schumacher
