@@ -326,7 +326,7 @@ module MetaDataHelper
         # TODO set String for 'subject' key, TODO multiple fields for array 
         #       when "String"
         #          h += text_area_tag "media_entry[meta_data_attributes][0][value]", meta_datum.object.to_s
-        when "MetaDatumMetaCountry" # FIXME this doesn't exist yet!
+        when "MetaDatumCountry" 
           h += widget_meta_countries(meta_datum, meta_key)
     
         when "MetaDatumKeywords"
