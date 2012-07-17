@@ -14,9 +14,9 @@ ${is_set = (type=="media_set")?true:false, ""}
   %a{:href => "/media_entries/${id}"}
     {{tmpl($item.data) "tmpl/media_resource/thumb_box/image_thumb"}}
   %p.item_title{:title => "${$meta_data.title}"}
-    ${Underscore.str.truncate($meta_data.title, 20)}
+    ${Underscore.str.truncate($meta_data.title, 26)}
   %p.item_author{:title => "${$meta_data.author}"}
-    ${Underscore.str.truncate($meta_data.author, 0)}
+    ${Underscore.str.truncate($meta_data.author, 26)}
   %div{:style => "position: absolute; bottom: 0; left: 0; padding: 5px;"}
     .action_left
       .check_box
