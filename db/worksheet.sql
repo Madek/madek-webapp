@@ -1,5 +1,3 @@
-
-
 ##############################################
 
 SELECT id FROM media_resources WHERE media_resources.id in (
