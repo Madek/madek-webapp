@@ -54,6 +54,7 @@ namespace :madek do
     DevelopmentHelpers.fetch_from_ldap
   end
 
+  # FIXME this should be :make_missing_directories ??
   # CONSTANTS used here are in production.rb
   desc "Create needed directories"
   task :make_directories => :environment do

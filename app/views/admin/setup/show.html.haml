@@ -4,7 +4,7 @@
       %h3= x[:title]
       - if x[:valid] 
         %span{style: "color: green"}
-          = x[:success]
+          != x[:success]
       - else
         %span{style: "color: red"}
-          = x[:failure]
+          != x[:failure]

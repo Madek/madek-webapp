@@ -12,15 +12,35 @@ class Admin::SetupController < ActionController::Base
     @checks = methods.map {|m| send("#{m}_hash") }
   end
 
-=begin
-  def image_magick
-    if image_magick?
-      render :text => "TODO"
+
+  def directories_do
+    unless directories?
+      # FIXME this should be :make_missing_directories ??
+      system("rake madek:make_directories")
+    end
+    redirect_to admin_setup_path
+  end
+
+  def admin_user_do
+    redirect_to admin_setup_path if admin_user?
+    if request.post?
+      g = Group.find_or_create_by_name("Admin")
+      params_user = params[:person].delete(:user)
+      params_user.delete(:password_confirmation)
+      params_user[:password] = Digest::SHA1.hexdigest(params_user[:password]) 
+      p = Person.create(params[:person])
+      p.create_user(params_user)
+      if p.valid? and p.user.valid?
+        g.users << p.user
+        redirect_to admin_setup_path
+      else
+        flash[:error]
+      end
     else
-      render :text => "TODO"
+      @person = Person.new
+      @person.build_user
     end
   end
-=end
 
 ########################################################
   private
@@ -54,29 +74,19 @@ class Admin::SetupController < ActionController::Base
   end
 
 ##########
-  
-  def admin_user?
-    (g = Group.find_by_name("Admin")) and not g.members.empty?
-  end
-  
-  def admin_user_hash
-    {
-      valid: admin_user?,
-      title: "Admin user",
-      success: "An admin user already exists",
-      failure: "Create an admin user"
-    }
-  end
-
-##########
 
   def directories?
-    # TODO include tmp/...
-    [FILE_STORAGE_DIR, THUMBNAIL_STORAGE_DIR].all? do |dir|
+    a = [TEMP_STORAGE_DIR, DOWNLOAD_STORAGE_DIR, ZIP_STORAGE_DIR].all? do |dir|
+      File.exist?(dir)
+    end
+
+    b = [FILE_STORAGE_DIR, THUMBNAIL_STORAGE_DIR].all? do |dir|
       File.exist?(dir) and [ '0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f' ].all? do |h|
         File.exist?(File.join(dir, h))
       end 
     end
+    
+     a and b
   end
   
   def directories_hash
@@ -84,14 +94,30 @@ class Admin::SetupController < ActionController::Base
       valid: directories?,
       title: "Directories",
       success: "Success",
-      failure: "Failure"
+      failure: "Failure: <a href='/admin/setup/directories_do'>Create directories</a>"
+    }
+  end
+
+##########
+  
+  def admin_user?
+    (g = Group.find_by_name("Admin")) and not g.users.empty?
+  end
+  
+  def admin_user_hash
+    b = admin_user?
+    {
+      valid: b,
+      title: "Admin user",
+      success: b ? "Admin users: %s" % Group.find_by_name("Admin").users.map(&:login).join(', ') : "",
+      failure: "Failure: <a href='/admin/setup/admin_user_do'>Create an admin user</a>"
     }
   end
 
 ##########
 
   def usage_terms?
-    UsageTerm.exists?
+    UsageTerm.exists? and not UsageTerm.current.intro.blank? and not UsageTerm.current.body.blank?
   end
   
   def usage_terms_hash
@@ -99,7 +125,7 @@ class Admin::SetupController < ActionController::Base
       valid: usage_terms?,
       title: "UsageTerm",
       success: "Success",
-      failure: "Failure"
+      failure: "Failure: <a href='/admin/usage_term'>create or edit</a>"
     }
   end
 
@@ -114,7 +140,7 @@ class Admin::SetupController < ActionController::Base
       valid: copyrights?,
       title: "Copyrights",
       success: "Success",
-      failure: "Failure"
+      failure: "Failure: <a href='/admin/copyrights'>create</a>"
     }
   end
 
@@ -129,7 +155,7 @@ class Admin::SetupController < ActionController::Base
       valid: meta_keys?,
       title: "MetaKeys and MetaContexts",
       success: "Success",
-      failure: "Failure"
+      failure: "Failure: <a href='/admin/keys'>create</a>"
     }
   end
 
@@ -144,7 +170,7 @@ class Admin::SetupController < ActionController::Base
       valid: meta_mapping?,
       title: "File metadata mapping",
       success: "Success",
-      failure: "Failure"
+      failure: "Failure: <a href='/admin/contexts'>create</a>"
     }
   end
 
