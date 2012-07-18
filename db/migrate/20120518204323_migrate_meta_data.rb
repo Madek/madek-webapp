@@ -1,12 +1,12 @@
 module MigrationHelpers
   module MetaDatum
     class << self
-      
+
       def migrate_meta_strings
         type = "MetaDatumString"
         base_ids = RawMetaDatum.select("meta_data.id").joins(:meta_key)
         # test #          
-        ids = base_ids.where("meta_keys.object_type = 'MetaCountry' OR meta_keys.object_type is NULL").where("type is NULL or type = 'MetaDatum' ")
+        ids = base_ids.where("meta_keys.object_type is NULL").where("type is NULL or type = 'MetaDatum' ")
         ids.where("value like '%(Binary data % bytes)%' OR value like '%!binary |%'").destroy_all
         count_before = ids.count
         RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
@@ -16,13 +16,34 @@ module MigrationHelpers
           # test #
           raise "migration failed: #{type}" if not rmd.persisted? or rmd.string != value
         end
-        MetaKey.update_all({object_type: nil, meta_datum_object_type: type}, "object_type is NULL OR object_type = 'MetaCountry'")
+        MetaKey.update_all({object_type: nil, meta_datum_object_type: type}, "object_type is NULL")
         # test #          
         ids = base_ids.where(meta_keys: {meta_datum_object_type: type}, type: type)
         count_after = ids.count
         raise "migration failed: #{type}" unless count_before == count_after
       end
-  
+ 
+
+      def migrate_meta_countries
+        type = "MetaDatumCountry"
+        base_ids = RawMetaDatum.select("meta_data.id").joins(:meta_key)
+        # test #          
+        ids = base_ids.where("meta_keys.object_type = 'MetaCountry'").where("type is NULL or type = 'MetaDatum' ")
+        count_before = ids.count
+        RawMetaDatum.where("id in (#{ids.to_sql})").each do |rmd|
+          value = YAML.load(rmd.value)
+          rmd.update_attributes string: value
+          rmd.update_column :type, type
+          # test #
+          raise "migration failed: #{type}" if not rmd.persisted? or rmd.string != value
+        end
+        MetaKey.update_all({object_type: nil, meta_datum_object_type: type}, "object_type = 'MetaCountry'")
+        # test #          
+        ids = base_ids.where(meta_keys: {meta_datum_object_type: type}, type: type)
+        count_after = ids.count
+        raise "migration failed: #{type}" unless count_before == count_after
+      end
+ 
       def migrate_meta_dates
         type = "MetaDatumDate"
         base_ids = RawMetaDatum.select("meta_data.id").joins(:meta_key)
@@ -182,7 +203,8 @@ class MigrateMetaData < ActiveRecord::Migration
 
   def up
     transaction do
-      MigrationHelpers::MetaDatum.migrate_meta_strings
+      MigrationHelpers::MetaDatum.migrate_meta_strings # has to come before all
+      MigrationHelpers::MetaDatum.migrate_meta_countries
       MigrationHelpers::MetaDatum.migrate_meta_dates
       MigrationHelpers::MetaDatum.migrate_meta_people
       MigrationHelpers::MetaDatum.migrate_meta_datum_departments

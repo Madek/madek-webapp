@@ -1,4 +1,18 @@
+##############################################
 
+SELECT id FROM media_resources WHERE media_resources.id in (
+  WITH RECURSIVE pair(p,c) as
+  (
+      SELECT parent_id as p, child_id as c FROM media_resource_arcs 
+        WHERE parent_id = 1
+    UNION
+      SELECT pair.p as p, media_resource_arcs.child_id as c from pair, media_resource_arcs
+        WHERE media_resource_arcs.parent_id = c
+        
+  ) select c from pair
+) order by id; 
+
+##############################################
 
 ##############################################
 
