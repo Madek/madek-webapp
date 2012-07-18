@@ -2,8 +2,12 @@
 
 When /^I upload the file "([^"]*)" relative to the Rails directory$/ do |path|
   f = "#{Rails.root}/#{path}"
+  # Need to copy this file to a temporary new file because files are moved away after succesful
+  # uploads!
+  f_temp = "#{Rails.root}/tmp/temp_#{File.basename(f)}"
+  FileUtils.cp(f, f_temp)
   uploaded_data = ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
-                                                         :tempfile=> File.new(f, "r"),
+                                                         :tempfile=> File.new(f_temp, "r"),
                                                          :filename=> File.basename(f))
   @media_entry_incomplete = @current_user.incomplete_media_entries.create(:uploaded_data => uploaded_data)
   @media_entry_incomplete.valid?.should be_true
