@@ -16,8 +16,8 @@ class MediaFile < ActiveRecord::Base
   end
   
   after_create do
-    # Write the file out to storage
-    FileUtils.cp uploaded_data.tempfile.path, file_storage_location
+    # Move the file out to storage
+    FileUtils.mv uploaded_data.tempfile.path, file_storage_location
     FileUtils.chmod(0644, file_storage_location) # Otherwise Apache's X-Sendfile cannot access the file, as Apache runs as another user, e.g. 'www-data'
     import if meta_data.blank? # TODO in background?
     make_thumbnails
