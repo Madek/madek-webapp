@@ -121,8 +121,14 @@ end
 
 When /^I have started uploading some files$/ do
   visit "/upload"
-  attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/berlin_wall_01.jpg") )
-  attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/berlin_wall_02.jpg") )
+
+  # Need to copy this file to a temporary new file because files are moved away after succesful
+  # uploads!
+  ["features/data/images/berlin_wall_01.jpg", "features/data/images/berlin_wall_02.jpg"].each do |f|
+      f_temp = "#{Rails.root}/tmp/#{File.basename(f)}"
+      FileUtils.cp(Rails.root + f, f_temp)
+      attach_file(find("input[type='file']")[:id], f_temp )
+  end
   find(".plupload_start").click
 end
 
