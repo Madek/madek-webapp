@@ -163,6 +163,7 @@ When /^I delete some fo those after the upload$/ do
   deleted_plupload_file_element_after_upload.find(".delete_plupload_entry").click
   page.driver.browser.switch_to.alert.accept
   
+  wait_until(15) { find("#dropbox_filelist li span",:text => "berlin_wall_01.jpg").find(:xpath, "../..") }
   deleted_dropbox_file_element_after_upload = find("#dropbox_filelist li span",:text => "berlin_wall_01.jpg").find(:xpath, "../..")
   deleted_dropbox_file_element_after_upload.find(".delete_dropbox_file").click
   page.driver.browser.switch_to.alert.accept
