@@ -89,7 +89,7 @@ module MediaResourceModules
 
       # TODO: try to dry user and group to subject
       def accessible_by_user(user, action = :view)
-        action = action.to_sym
+        action = (action || :view).to_sym
 
         unless user.try(:id)
           where(action => true)
@@ -108,7 +108,7 @@ module MediaResourceModules
       end
       
       def accessible_by_group(group, action = :view)
-        action = action.to_sym
+        action = (action || :view).to_sym
 
         # TODO inner join sql
         resource_ids_by_grouppermission = Grouppermission.select("media_resource_id").where(action => true, :group_id => group)

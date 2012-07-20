@@ -36,6 +36,7 @@ class MediaResourcesController < ApplicationController
   # @optional [String] type Filter the response by MediaResource types: "media_sets" | "media_entries".
   # @optional [String] sort Sort the response (DESC) by: "updated_at"(Default) | "created_at" | "random".
   # @optional [String] query Make a search request which searches in all MetaData of all MediaResources responding with matched MediaResources.
+  # @optional [String] accessible_action Narrow down the result of MediaResources to the defined accessible_action ("view" | "edit" | "manage" | "download")
   #
   # @optional [Hash] with[meta_data] Adds MetaData to the responding collection of MediaResources and forwards the hash as options to the MetaData.
   # @optional [Array] with[meta_data][meta_context_names] Adds all requested MetaContexts in the format: ["context_name1", "context_name2", ...] as MetaData to the responding MediaResources. 
@@ -562,6 +563,7 @@ class MediaResourcesController < ApplicationController
             page = params[:page],
             per_page = [(params[:per_page] || PER_PAGE.first).to_i, PER_PAGE.first].min,
             meta_key_id = params[:meta_key_id],
+            accessible_action = params[:accessible_action],
             meta_term_id = params[:meta_term_id] )
             
     respond_to do |format|
@@ -594,7 +596,7 @@ class MediaResourcesController < ApplicationController
             else
               resources.where(:type => ["MediaEntry", "MediaSet"])
             end
-        end.accessible_by_user(current_user)
+        end.accessible_by_user(current_user, accessible_action)
 
         case sort
           when "author"
@@ -665,16 +667,23 @@ class MediaResourcesController < ApplicationController
 
 ########################################################################
 
-  def collection(ids = params[:ids],
+  def collection(ids = params[:ids] || raise("ids are required"),
+                 relation = params[:relation],
                  collection_id = params[:collection_id])
     if request.post? and ids
+      ids = case relation
+        when "parents"
+          MediaResource.where(:id => ids).flat_map do |child|
+            child.parent_sets.accessible_by_user(current_user).pluck("media_resources.id")
+          end.uniq
+        else
+          ids
+      end
       collection_id = Time.now.to_i
       Rails.cache.write({user: current_user.id, collection: collection_id}, ids, expires_in: 1.week)
     #elsif request.delete? and collection_id
     #  collection_id = session[:media_resource_ids][collection_id] = nil
     #elsif request.get? and collection_id
-    else
-      raise "error"
     end
 
     respond_to do |format|

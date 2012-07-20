@@ -65,13 +65,18 @@ class MediaSetHighlights
       success: (data)->
         arcs = data.media_resource_arcs
         MediaSetHighlights.children_ids = _.map arcs, (arc)-> arc.child_id
-        # create a media resource selection
-        MediaResourceSelection.setup 
-          container: $(container).find(".media_resource_selection")
-          media_resource_ids: MediaSetHighlights.children_ids
-          callback: MediaSetHighlights.page_rendered_calback
-          contexts: ["core"]
-          table_row_template: "tmpl/media_resource/table_row_with_checkbox"  
+        new MediaResourceSelection
+          el: $(container).find(".media_resource_selection")
+          ids: MediaSetHighlights.children_ids
+          onPageLoaded: MediaSetHighlights.page_rendered_calback
+          parameters:
+            with:
+              meta_data:
+                meta_context_names: ["core"]
+              image: 
+                as: "base64"
+                size: "small"
+          tableRowTemplate: "tmpl/media_resource/table_row_with_checkbox"
       
   @page_rendered_calback: (data)->
     # select the media resources from the current rendered page which are highlighted (checkbox = selected)
@@ -82,11 +87,9 @@ class MediaSetHighlights
     # put all selected to the top
     for selected in $("#media_set_highlights_lightbox table.media_resources input:checked").closest("tr")
       $("#media_set_highlights_lightbox table.media_resources tbody").prepend $(selected)
-    # render table
-    MediaResourceSelection.render_table $("#media_set_highlights_lightbox")
     # eneable save button when last page is rendered
     if data.pagination.page == data.pagination.total_pages
-      $("#media_set_highlights_lightbox .actions .save").removeClass "disabled" 
+      $("#media_set_highlights_lightbox .actions .save").removeClass "disabled"
 
   @save: (event)->
     event.preventDefault()

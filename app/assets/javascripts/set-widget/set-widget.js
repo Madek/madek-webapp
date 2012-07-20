@@ -22,40 +22,48 @@ function SetWidget() {
   }
   
   this.load = function(target) {
-    // call ajax for index
-    $.ajax({
-      url: $(target).data("index").path,
-      success: function(data, status, request) {
-        $(target).data("items", data.media_resources);
-        SetWidget.setup_widget(target);
+    // fetch index of media sets
+    $(target).data("items", []);
+    new App.MediaResourceCollection({
+      parameters: {
+        type: "media_sets",
+        accessible_action: "edit",
+        with: {
+          created_at: true,
+          meta_data: {
+            meta_key_names: ["title", "owner"]
+          },
+        },
       },
-      error: function(request, status, error){
-        SetWidget.setup_widget(target);
+      onPageLoaded: function(data) {
+        $(target).data("items", $(target).data("items").concat(data.media_resources));
       },
-      data: $(target).data("index").data,
-      type: $(target).data("index").method
+      afterCompletlyLoaded: function(data){
+        $(target).data("items_loaded", true);
+        SetWidget.setup_widget(target);
+      }
     });
     
-    
-    // create collection first before trying to get linked index
-    $.ajax({
-      url: "/media_resources/collection",
-      type: "POST",
-      data: { ids: $(target).data("selected_ids") },
-      success: function(data) {
-        $.ajax({
-          url: $(target).data("linked_index").path,
-          data: $.extend(true, $(target).data("linked_index").data, {collection_id: data.collection_id}),
-          success: function(data, status, request) {
-            $(target).data("linked_items", data.media_resources);
-            SetWidget.setup_widget(target);
-          },
-          error: function(request, status, error){
-            SetWidget.setup_widget(target);
-          },
-          type: $(target).data("linked_index").method
-        });         
-    }});
+    // fetch media sets that are linkes with the selection
+    $(target).data("linked_items", []);
+    new App.MediaResourceCollection({
+      ids: $(target).data("selected_ids"),
+      relation: "parents",
+      parameters: {
+        accessible_action: "edit",
+        type: "media_sets",
+        with: {
+          children: true
+        }
+      },
+      onPageLoaded: function(data){
+        $(target).data("linked_items", $(target).data("linked_items").concat(data.media_resources))
+      },
+      afterCompletlyLoaded: function(data){
+        $(target).data("linked_items_loaded", true);
+        SetWidget.setup_widget(target);
+      } 
+    });
   }
   
   this.create_widget = function(target){
@@ -72,7 +80,7 @@ function SetWidget() {
       .data("link_stack", [])
       .data("unlink_stack", []);
     
-	  SetWidget.setup_widget(target);
+    SetWidget.setup_widget(target);
     
     // bind window events resize and scroll to align widget method
     $(window).bind("resize scroll",function(){
@@ -138,16 +146,16 @@ function SetWidget() {
       var link = $(target).data("link_stack")[i];
       // check id and uid for items not yet created
       if((link.uid == undefined && link.id == item_data.id) || link.uid == item_data.uid) {
-		$(target).data("link_stack").splice(i, 1);
-		break;
+    $(target).data("link_stack").splice(i, 1);
+    break;
       }
     }
   }
   
   this.setup_widget = function(target) {
     // check if data is already there
-    if($(target).data("linked_items") == undefined || $(target).data("items") == undefined || $(target).data("widget") == undefined) {
-    	return false;
+    if($(target).data("linked_items_loaded") == undefined || $(target).data("items_loaded") == undefined || $(target).data("widget") == undefined) {
+      return false;
     }
     // remove start loading indicator
     $(target).data("widget").find(".loading").remove();
