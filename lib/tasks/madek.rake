@@ -59,8 +59,8 @@ namespace :madek do
   desc "Create needed directories"
   task :make_directories => :environment do
     # If any of the paths are either nil or set to ""...
-    if [FILE_STORAGE_DIR, THUMBNAIL_STORAGE_DIR, TEMP_STORAGE_DIR, DOWNLOAD_STORAGE_DIR, ZIP_STORAGE_DIR].map{|path| path.to_s}.uniq == ""
-      puts "DANGER, EXITING: The file storage paths are not defined! You need to define FILE_STORAGE_DIR, THUMBNAIL_STORAGE_DIR, TEMP_STORAGE_DIR, DOWNLOAD_STORAGE_DIR, ZIP_STORAGE_DIR in your config/application.rb"
+    if [FILE_STORAGE_DIR, THUMBNAIL_STORAGE_DIR, DOWNLOAD_STORAGE_DIR, ZIP_STORAGE_DIR].map{|path| path.to_s}.uniq == ""
+      puts "DANGER, EXITING: The file storage paths are not defined! You need to define FILE_STORAGE_DIR, THUMBNAIL_STORAGE_DIR, DOWNLOAD_STORAGE_DIR, ZIP_STORAGE_DIR in your config/application.rb"
       exit        
     else
       if (File.exist?(FILE_STORAGE_DIR) and File.exist?(THUMBNAIL_STORAGE_DIR))
@@ -73,7 +73,7 @@ namespace :madek do
         system "mkdir -p #{FILE_STORAGE_DIR}/#{h} #{THUMBNAIL_STORAGE_DIR}/#{h}"
       end
     
-      [TEMP_STORAGE_DIR, DOWNLOAD_STORAGE_DIR, ZIP_STORAGE_DIR].each do |path|
+      [DOWNLOAD_STORAGE_DIR, ZIP_STORAGE_DIR].each do |path|
         puts "Removing #{path}"
         system "rm -rf '#{path}'"
         puts "Creating #{path}"

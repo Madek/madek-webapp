@@ -90,7 +90,7 @@ class Admin::SetupController < ActionController::Base
 ##########
 
   def directories?
-    a = [TEMP_STORAGE_DIR, DOWNLOAD_STORAGE_DIR, ZIP_STORAGE_DIR].all? do |dir|
+    a = [DOWNLOAD_STORAGE_DIR, ZIP_STORAGE_DIR].all? do |dir|
       File.exist?(dir)
     end
 
