@@ -96,7 +96,8 @@ module MediaResourceModules
           self.updated_at = Time.now # OPTIMIZE touch
           update_attributes_without_pre_validation(dup_attributes)
         end
-
+      
+        alias_method_chain :update_attributes, :pre_validation
 
         ########################################################
 

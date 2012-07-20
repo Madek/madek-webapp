@@ -37,8 +37,6 @@ class MediaResource < ActiveRecord::Base
 
   validates_presence_of :user, :unless => Proc.new { |record| record.is_a?(Snapshot) }
 
-  alias_method_chain :update_attributes, :pre_validation
-
   has_one :full_text, :dependent => :destroy
   after_save { reindex } # OPTIMIZE
 
