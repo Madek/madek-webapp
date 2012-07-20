@@ -22,25 +22,39 @@ class Admin::SetupController < ActionController::Base
   end
 
   def admin_user_do
-    redirect_to admin_setup_path if admin_user?
-    if request.post?
-      g = Group.find_or_create_by_name("Admin")
-      params_user = params[:person].delete(:user)
-      params_user.delete(:password_confirmation)
-      params_user[:password] = Digest::SHA1.hexdigest(params_user[:password]) 
-      p = Person.create(params[:person])
-      p.create_user(params_user)
-      if p.valid? and p.user.valid?
-        g.users << p.user
-        redirect_to admin_setup_path
+    unless admin_user?
+      if request.post?
+        g = Group.find_or_create_by_name("Admin")
+        params_user = params[:person].delete(:user)
+        params_user.delete(:password_confirmation)
+        params_user[:password] = Digest::SHA1.hexdigest(params_user[:password]) 
+        p = Person.create(params[:person])
+        p.create_user(params_user)
+        if p.valid? and p.user.valid?
+          g.users << p.user
+          redirect_to admin_setup_path
+        else
+          flash[:error]
+        end
       else
-        flash[:error]
+        @person = Person.new
+        @person.build_user
       end
     else
-      @person = Person.new
-      @person.build_user
-    end
+      redirect_to admin_setup_path
+    end 
   end
+
+  def copyrights_do
+    unless copyrights?
+      file = "#{Rails.root}/config/definitions/helpers/copyrights_switzerland.yml"
+      entries = YAML.load_file(file)
+      Copyright.save_as_nested_set(entries)
+    end
+    
+    redirect_to admin_setup_path
+  end
+  
 
 ########################################################
   private
@@ -140,7 +154,7 @@ class Admin::SetupController < ActionController::Base
       valid: copyrights?,
       title: "Copyrights",
       success: "Success",
-      failure: "Failure: <a href='/admin/copyrights'>create</a>"
+      failure: "Failure: <a href='/admin/copyrights'>create</a> or <a href='/admin/setup/copyrights_do'>use default (Switzerland)</a>"
     }
   end
 
