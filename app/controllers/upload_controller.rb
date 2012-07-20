@@ -52,10 +52,7 @@ class UploadController < ApplicationController
 
     media_entry_incomplete = current_user.incomplete_media_entries.create(:uploaded_data => uploaded_data)
 
-    if media_entry_incomplete.persisted?
-      File.delete(f) if params[:dropbox_file]
-    else
-      # OPTIMIZE
+    unless media_entry_incomplete.persisted?
       raise "Import failed!"
     end
 

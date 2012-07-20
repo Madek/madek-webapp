@@ -45,7 +45,8 @@ describe GroupsController do
       describe "request group by normin" do
         it "should assign the @users to include adam" do 
           get :show, {format: :json, id: @group.id, include_users: true}, {user_id: @normin}
-          assigns(:users).should include @adam
+          json = JSON.parse(response.body)
+          json["users"].map{|x| x["id"]}.include?(@adam.id).should be_true
         end
 
         describe "the response" do
@@ -71,7 +72,8 @@ describe GroupsController do
       describe "request departement by normin"  do
         it "should return an empty user array" do
           get :show, {format: :json, id: @meta_dep.id, include_users: true}, {user_id: @normin}
-          assigns(:users).should eq []
+          json = JSON.parse(response.body)
+          json["users"].should eq []
         end
       end
     end

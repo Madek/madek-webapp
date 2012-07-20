@@ -297,7 +297,7 @@
         }
         
         &.intermediate {
-          background: white url("/assets/intermediate.png");
+          background: white image-url("intermediate.png");
           border-bottom: 1px solid white;
           
           .intermediate_pipe {

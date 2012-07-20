@@ -1,8 +1,5 @@
 # -*- encoding : utf-8 -*-
 
-# require 'media_resource/arcs' # for arcs, parents, and children 
-# require 'media_resource/permissions'
-
 class MediaResource < ActiveRecord::Base
   include MediaResourceModules::Arcs
   include MediaResourceModules::MetaData
@@ -128,30 +125,32 @@ class MediaResource < ActiveRecord::Base
 
 ##########################################################################################################################
 ##########################################################################################################################
+   
+  # ORDERINGS
   
+  scope :ordered_by_title, joins(meta_data: :meta_key).where("meta_keys.label = ?",:title).order("meta_data.string ASC")
+  scope :ordered_by_author, joins(meta_data: :meta_key).where("meta_keys.label = ?",:author)
+    .joins('INNER JOIN meta_data_people ON meta_data.id = meta_data_people.meta_datum_id')
+    .joins('INNER JOIN people ON meta_data_people.person_id = people.id')
+    .order('people.lastname, people.firstname ASC')
+
+
+  ################################################################
+
   scope :media_entries_or_media_entry_incompletes, where(:type => ["MediaEntry", "MediaEntryIncomplete"])
   scope :media_entries, where(:type => "MediaEntry")
   scope :media_sets, where(:type => "MediaSet")
 
-  ################################################################
-
+  ###############################################################
+  
   scope :by_user, lambda {|user| where(["media_resources.user_id = ?", user]) }
   scope :not_by_user, lambda {|user| where(["media_resources.user_id <> ?", user]) }
 
   ################################################################
 
-
-  scope :search, lambda {|q|
-    sql = joins("LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id")
-    where_clause= 
-      if SQLHelper.adapter_is_postgresql?
-        q.split.map{|x| "text ILIKE '%#{x}%'" }.join(' AND ')
-      elsif SQLHelper.adapter_is_mysql? 
-        q.split.map{|x| "text LIKE '%#{x}%'" }.join(' AND ')
-      else
-        raise "you sql adapter is not yet supported"
-      end
-    sql.where(where_clause)
+  scope :search, lambda { |q|
+    joins("LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id") \
+      .where(q.split.map{|x| "text #{SQLHelper.ilike} '%#{x}%'" }.join(' AND '))
   }
 
   ################################################################
@@ -169,37 +168,36 @@ class MediaResource < ActiveRecord::Base
   
   def self.filter_media_file(options = {})
     sql = media_entries.joins("RIGHT JOIN media_files ON media_resources.media_file_id = media_files.id")
-    
-    if options[:width] and not options[:width][:value].blank?
-      operator = case options[:width][:operator]
-        when "gt"
-          ">"
-        when "lt"
-          "<"
-        else
-          "="
-      end
-      sql = sql.where("media_files.width #{operator} ?", options[:width][:value])
+  
+    # OPTIMIZE this is mutual exclusive in case of many media_types  
+    options[:media_type].each do |x|
+      sql = sql.where("media_files.content_type #{SQLHelper.ilike} ?", "%#{x}%")
     end
-
-    if options[:height] and not options[:height][:value].blank?
-      operator = case options[:height][:operator]
-        when "gt"
-          ">"
-        when "lt"
-          "<"
-        else
-          "="
+    
+    [:width, :height].each do |x|
+      if options[x] and not options[x][:value].blank?
+        operator = case options[x][:operator]
+          when "gt"
+            ">"
+          when "lt"
+            "<"
+          else
+            "="
+        end
+        sql = sql.where("media_files.#{x} #{operator} ?", options[x][:value])
       end
-      sql = sql.where("media_files.height #{operator} ?", options[:height][:value])
     end
 
     unless options[:orientation].blank?
-      operator = case options[:orientation].to_i
-        when 0
-          "<"
-        when 1
-          ">"
+      operator = if options[:orientation].size == 2
+        "="
+      else
+        case options[:orientation].to_i
+          when 0
+            "<"
+          when 1
+            ">"
+        end
       end
       sql = sql.where("media_files.height #{operator} media_files.width")
     end
@@ -220,7 +218,7 @@ class MediaResource < ActiveRecord::Base
         km.strip!
         case definition.key_map_type
           when "Array"
-            value = meta_data.get(definition.meta_key_id).deserialized_value
+            value = meta_data.get(definition.meta_key_id).value
             vo = ["-#{km}= "]
             vo += value.collect {|m| "-#{km}='#{(m.respond_to?(:strip) ? m.strip : m)}'" } if value
             vo

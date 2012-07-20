@@ -1,0 +1,5 @@
+%tr
+  - [person.firstname, person.lastname, person.pseudonym,
+    person.user.try(:login) || link_to(_("Create User"), new_admin_person_user_path(person), :class => "buttons", :remote => true, :"data-type" => "html"),
+    link_to(_("Edit"), edit_admin_person_path(person), :class => "buttons", :remote => true, :"data-type" => "html")].each do |s|
+    %td= s

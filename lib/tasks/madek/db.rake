@@ -3,9 +3,8 @@ namespace :madek do
 
     desc "Dump the database from whatever DB to YAML"
     task :dump_to_yaml => :environment do
-      date_string = DateTime.now.to_s.gsub(":","-")
-      file_path = "tmp/db-dump-#{Rails.env}-#{date_string}.yml" 
       data_hash = DBHelper.create_hash Constants::ALL_TABLES
+      file_path = Rails.root.join "tmp", "#{DBHelper.base_file_name}.yml"
       File.open(file_path, "w"){|f| f.write data_hash.to_yaml } 
       puts "the file has been saved to #{file_path}"
     end
@@ -32,6 +31,11 @@ namespace :madek do
       puts "creating the db"  
       Rake::Task["db:create"].invoke
       DBHelper.restore_native ENV['FILE'], config: Rails.configuration.database_configuration[Rails.env]
+    end
+
+    desc "Restore Personas DB (and migrate to the maximal migration version if necessary)"
+    task :restore_personas  => :environment do
+      PersonasDBHelper.restore_personas_to_max_migration
     end
 
   end

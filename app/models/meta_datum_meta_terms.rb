@@ -7,7 +7,7 @@ class MetaDatumMetaTerms < MetaDatum
     association_foreign_key: :meta_term_id
 
   def to_s
-    deserialized_value.map(&:to_s).join("; ")
+    value.map(&:to_s).join("; ")
   end
 
   def value
@@ -16,7 +16,9 @@ class MetaDatumMetaTerms < MetaDatum
 
   def value=(new_value)
     new_meta_terms = Array(new_value).map do |v|
-      if v.is_a?(Fixnum) or (v.respond_to?(:is_integer?) and v.is_integer?)
+      if v.is_a?(MetaTerm)
+        v
+      elsif v.is_a?(Fixnum) or (v.respond_to?(:is_integer?) and v.is_integer?)
         # TODO check if is member of meta_key.meta_terms
         MetaTerm.find_by_id(v)
       elsif meta_key.is_extensible_list?

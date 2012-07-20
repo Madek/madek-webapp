@@ -6,7 +6,7 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
 
   belongs_to :person
-  delegate :name, :fullname, :to => :person
+  delegate :name, :fullname, :shortname, :to => :person
 
   has_many :userpermissions
 
@@ -53,6 +53,10 @@ class User < ActiveRecord::Base
 #temp#  attr_accessible :login, :email, :person_id
 
 #############################################################
+  
+  def self.find_by_login(login)
+    where("login #{SQLHelper.ilike} ?",login).limit(1).first
+  end
 
   def to_s
     name

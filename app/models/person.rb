@@ -41,15 +41,8 @@ class Person < ActiveRecord::Base
 
   def self.search(query)
     return scoped unless query
-
     w = query.split.map do |q|
-      if SQLHelper.adapter_is_mysql?
-        "firstname LIKE '%#{q}%' OR lastname LIKE '%#{q}%' OR pseudonym LIKE '%#{q}%'"
-      elsif SQLHelper.adapter_is_postgresql?
-        "firstname ILIKE '%#{q}%' OR lastname ILIKE '%#{q}%' OR pseudonym ILIKE '%#{q}%'"
-      else
-        raise "this db adapter is not supported"
-      end
+      "firstname #{SQLHelper.ilike} '%#{q}%' OR lastname #{SQLHelper.ilike} '%#{q}%' OR pseudonym #{SQLHelper.ilike}'%#{q}%'"
     end
     where(w.join(' OR '))
   end
@@ -59,6 +52,13 @@ class Person < ActiveRecord::Base
 
   def to_s
     name
+  end
+
+  def shortname
+    r = ""
+    r += "#{firstname[0]}. " unless firstname.blank?
+    r += "#{lastname}"
+    r
   end
 
   def name

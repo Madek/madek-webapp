@@ -1,0 +1,28 @@
+%h4
+  = @person.to_s
+
+= form_for @user, :url => admin_person_users_path(@person), :remote => true do |f| # TODO , :html => {:"data-remote" => true}
+  %table
+    %tr
+      %th= f.label :login
+      %th= f.text_field :login
+
+    %tr
+      %th= f.label :email
+      %th= f.text_field :email
+
+    %tr
+      %th= f.label :password
+      %th= f.password_field :password
+
+    %tr
+      %th= f.label :password_confirmation
+      %th= f.password_field :password_confirmation
+
+    %tr
+      %th= f.label :notes
+      %th= f.text_area :notes
+
+    %tr
+      %td
+      %td= f.submit _("Create")

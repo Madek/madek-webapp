@@ -54,7 +54,7 @@ jQuery ()->
     else
       # append to values container
       if value.length
-        if field_type == "person"
+        if field_type == "people"
           $(values_container).append $.tmpl("tmpl/meta_data/edit/multiple_entries/"+field_type, {firstname: firstname, lastname: lastname, pseudonym: pseudonym})
         else
           $(values_container).append $.tmpl("tmpl/meta_data/edit/multiple_entries/"+field_type, {label: value})

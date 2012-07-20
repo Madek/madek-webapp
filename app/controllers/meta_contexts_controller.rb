@@ -47,7 +47,7 @@ class MetaContextsController < ApplicationController
   def show(with = params[:with] || {})
     respond_to do |format|
       format.html {
-        @vocabulary_json = @context.vocabulary(current_user).as_json
+        @vocabulary_json = view_context.vocabulary(@context).as_json
         @abstract_json = @context.abstract(current_user).as_json
         @abstract_slider_json = { :context_id => @context.id,
                                   :total => begin
@@ -58,7 +58,7 @@ class MetaContextsController < ApplicationController
                                 }.as_json
       }
       format.json {
-        render :partial => @context, :locals => {:with => with}
+        render :json => view_context.json_for(@context, with)
       }
     end
   end

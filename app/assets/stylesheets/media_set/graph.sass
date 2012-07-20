@@ -1,0 +1,197 @@
+@import "mixins"
+
+#content_body.media_sets_graph
+
+  #bar
+    .scope_sets, .sort
+      display: none !important
+    
+    .layout .graph.icon
+      @include opacity(1.0)
+     
+    .selection .permissions
+      display: none 
+  
+  #overlay_manager
+    background: white
+    border: 1px solid rgb(160,160,160)
+    cursor: default
+    padding: 0
+    position: absolute
+    top: 8px
+    right: 8px
+    @include box-shadow(0 0 8px rgba(0,0,0,0.2))
+
+    a
+      border-bottom: 1px solid rgb(200,200,200)
+      display: block
+      text-decoration: none
+      padding: 5px 12px 5px 12px
+      @include unselectable
+
+      .snag.icon
+        margin-right: 4px
+        @include opacity(0.1)
+
+      &.active .snag.icon
+        @include opacity(0.5)
+
+    tbody     
+      display: none
+
+      a
+        cursor: pointer
+
+    &:hover tbody
+      display: table-row-group
+
+    tbody tr:last-child a
+      border-bottom: none
+
+    thead a
+      border: none
+      font-weight: normal
+
+    thead tr td
+      background-color: white
+      
+      .open
+        display: block
+        height: 10px
+        text-align: center
+        padding: 0
+
+        .icon
+          position: relative
+          top: 2px
+          vertical-align: text-top
+          @include opacity(0.6)
+
+    &:hover thead 
+
+      tr td a
+        background-color: rgb(245,245,245)
+        border-bottom: 1px solid rgb(190,190,190)
+        color: #404040 !important
+        @include box-shadow(0 2px 4px rgba(0,0,0,0.1))
+
+      .open
+        display: none
+
+  &>.graph
+    padding-bottom: 12px
+    position: relative
+    
+    .info
+      display: block
+      right: 242px
+      position: absolute
+      top: 10px
+      z-index: 1001
+      .loading
+        position: relative
+        top: 3px
+      
+    #chart
+      background: #F9F9F9
+      border: 1px solid #CCC
+      cursor: move
+      display: inline-block
+      height: 100%
+      position: relative
+      @include box-shadow(inset 0 0 8px rgba(0,0,0,0.1))
+      
+    #zoom_panel
+      position: absolute
+      top: 0
+      z-index: 1001
+      
+      button
+        font-size: 1.2em
+        height: 24px
+        left: 4px
+        text-align: center
+        padding: 0
+        position: absolute
+        width: 28px
+        @include border-radius(6px)
+        
+      .zoom_in
+        top: 6px
+        
+      .zoom_out
+        top: 36px
+      
+    #inspector
+      display: inline-block
+      height: 100%
+      position: absolute
+      right: 0
+      width: 235px
+      
+      .inspector
+        display: block
+        margin: 0 auto
+
+      .background
+        overflow: hidden
+        padding-bottom: 16px
+        position: relative
+        left: 15px
+        width: 201px
+        @include box-shadow(0 0 0 transparent)
+
+        .children
+          display: inline-block
+          height: auto
+          padding-bottom: 11px
+          position: relative
+          top: 21px
+
+        .arrow
+          position: absolute
+          top: -20px
+      
+    .link 
+      stroke: #AAA
+      stroke-width: 1px
+
+    marker
+      fill: #AAA
+    
+    .node
+      background: white
+      border: 1px solid rgba(0,0,0,0.4)
+      cursor: pointer
+      
+      text 
+        pointer-events: none
+        font: 10px sans-serif
+        @include text-shadow(-1px 1px 0 white)
+      
+      rect
+        fill: transparent
+        stroke: transparent
+        stroke-width: 0.5
+
+      circle
+        fill: white
+        
+      &[data-hover] rect
+        fill: #EEE
+        stroke: #999
+        
+      &[data-selected] rect
+        fill: #BBB
+        stroke: #666
+
+  #instructions
+    color: grey
+    display: block
+    padding: 12px 10px 0
+
+  #chart .node .favorite, #chart .node .permissions
+    display: none
+
+  #chart.favorites .node .favorite, #chart.permissions .node .permissions
+    display: block

@@ -16,6 +16,33 @@ class Admin::UsersController < Admin::AdminController
 
   def show
   end
+  
+#####################################################
+# nested to person
+
+  before_filter :only => [:new, :create] do
+    @person = Person.find(params[:person_id])
+  end
+
+  def new
+    @user = @person.build_user
+  end
+  
+  def create
+    respond_to do |format|
+      format.js {
+        params[:user].delete(:password_confirmation)
+        params[:user][:password] = Digest::SHA1.hexdigest(params[:user][:password]) 
+        if @person.create_user(params[:user]).valid?
+          render partial: "/admin/people/show", locals: {person: @person}
+        else
+          render text: @person.user.errors.full_messages.join(', '), status: 500
+        end
+      }
+    end
+  end
+
+#####################################################
 
   def edit
     respond_to do |format|
@@ -32,7 +59,7 @@ class Admin::UsersController < Admin::AdminController
       elsif !@user.groups.collect(&:id).include?(id)
         @user.groups << Group.find(id)
       end
-    end
+    end if groups
     @user.update_attributes(params[:user])
     redirect_to admin_users_path
   end

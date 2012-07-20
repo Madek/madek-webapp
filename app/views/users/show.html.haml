@@ -51,8 +51,7 @@
           success: (data)->
             if(data.media_resources.length)
               display_entries(data.media_resources, section.container)
-              if(data.pagination.total > per_page)
-                $(section.container).append("<div class='buttons'><a href=\""+section.url+"\">"+section.title+"</a></div>")
+              $(section.container).append("<div class='buttons'><a href=\""+section.url+"\">"+section.title+"</a></div>")
             else
               $(section.container).html("Keine Medien vorhanden")
           

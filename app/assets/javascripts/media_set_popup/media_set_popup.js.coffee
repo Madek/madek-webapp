@@ -10,10 +10,10 @@ jQuery ->
   setup()
 
 setup = ->
-  $(".item_box.set:not(.popup_target) .thumb_box_set").live "mouseenter", -> enter_target $(this)
-  $(".item_box.set.popup_target:not(.popup) .thumb_box_set").live "mouseenter", -> enter_target $(this)
-  $(".item_box.set:not(.popup_target) .thumb_box_set").live "click", -> stop_target_popup $(this)
-  $(".item_box.set:not(.popup) .thumb_box_set").live "mouseleave", -> leave_target $(this)
+  $(".item_box.set:not(.popup_target):not(.inspector) .thumb_box_set").live "mouseenter", -> enter_target $(this)
+  $(".item_box.set.popup_target:not(.popup):not(.inspector) .thumb_box_set").live "mouseenter", -> enter_target $(this)
+  $(".item_box.set:not(.popup_target):not(.inspector) .thumb_box_set").live "click", -> stop_target_popup $(this)
+  $(".item_box.set:not(.popup):not(.inspector) .thumb_box_set").live "mouseleave", -> leave_target $(this)
 
 stop_target_popup = (target) ->
   target = $(target).closest(".item_box")
@@ -34,24 +34,9 @@ load_children = (target)->
   if $(target).data("children_data")?
     setup_children(target, $(target).data("children_data"))
   else
-    $.ajax
-      url: "/media_sets/"+target.tmplItem().data.id+".json"
-      data:
-        with: 
-          children: 
-            pagination:
-              per_page: 6
-          meta_data:
-            meta_key_names: ["title"]
-          image:
-            as:"base64"
-            size:"small"
-      type: "GET"
-      success: (data, status, request) ->
-        $(target).data "children_data", data
-        setup_children(target, data)
-      error: (request, status, error) ->
-        console.log "ERROR LOADING"
+    App.MediaResources.fetch_children target.tmplItem().data.id, (data)->
+      $(target).data "children_data", data
+      setup_children(target, data)
     
 load_parents = (target)->
   if $(target).data("parents_data")?
@@ -61,40 +46,25 @@ load_parents = (target)->
       url: "/media_sets/"+target.tmplItem().data.id+".json"
       data:
         with:
-          meta_data:
-            meta_key_names: ["title"]
-          parents: {pagination: {per_page: 3}}
-          image:
-            as:"base64"
-            size:"small"
+          parents: 
+            pagination: 
+              per_page: 3
+            with:
+              meta_data:
+                meta_key_names: ["title"]
+              image:
+                as:"base64"
+                size:"small"
       type: "GET"
       success: (data, status, request) ->
         $(target).data "parents_data", data
         setup_parents(target, data)
       error: (request, status, error) ->
         console.log "ERROR LOADING"
-
-pluralize_resource_by_type = (type) ->
-  switch type
-    when "media_set" then "media_sets"
-    when "media_entry" then "media_entries"
-
-resource_setdiv_template= ->
-  """   <div class="set_bg"> </div>
-        <div class="set_label_shadow"> </div>
-        <div class="set_label"> </div>
-  """
   
 resource_template= (resource)->
-  meta_data = MetaDatum.flatten resource.meta_data if resource.meta_data?
-  title = if meta_data? then meta_data.title else "" 
-  """<a href="#{pluralize_resource_by_type(resource.type)}/#{resource.id}">
-      <div class="resource #{resource.type}" title="#{title}">
-        #{if resource.type is 'media_set' then resource_setdiv_template() else ''}
-        <img src="#{resource.image}" />
-      </div>
-     </a>
-     """
+
+
 setup_children = (target, data)->
   if $(target).data("popup")?
     # remove loading
@@ -107,7 +77,7 @@ setup_children = (target, data)->
     displayed_media_sets = (resource for resource in resources when resource.type is "media_set")
     for resource in resources
       do (resource) ->
-        $($(target).data("popup")).find(".children").append resource_template(resource) 
+        $($(target).data("popup")).find(".children").append $.tmpl("tmpl/media_set/popup/media_resource",resource) 
     # setup text
     $($(target).data("popup")).find(".children").append $("<div class='text'></div>")
     if media_entries? then $($(target).data("popup")).find(".children .text").append("<p>"+(data.children.pagination.total_media_entries-displayed_media_entries.length)+" weitere Medieneinträge</p>")
@@ -122,7 +92,7 @@ setup_parents = (target, data)->
     displayed_media_sets = (resource for resource in resources when resource.type is "media_set")
     for resource in resources
       do (resource) ->
-        $($(target).data("popup")).find(".parents").append resource_template(resource)
+        $($(target).data("popup")).find(".parents").append $.tmpl("tmpl/media_set/popup/media_resource",resource)
     # setup text
     $($(target).data("popup")).find(".parents").append $("<div class='text'></div>")
     if resources? then $($(target).data("popup")).find(".parents .text").append("<p>"+(data.parents.pagination.total-displayed_media_sets.length)+" weitere Sets</p>")
@@ -156,14 +126,14 @@ create_popup = (target)->
   background.append $("<div class='parents'></div>")
   # create parent sets container
   parents = $(background).find ".parents"
-  parents.append $("<div class='loading'><img src='/assets/loading.gif'/></div>")
+  parents.append $.tmpl("tmpl/loading_img")
   parents.hide() 
   parents.append arrow_grey
   background.append $("<div class='children'></div>")
   # create child entries container
   children = $(background).find ".children"
   children.append $("<div class='bar'></div>")
-  children.append $("<div class='loading'><img src='/assets/loading.gif'/></div>")
+  children.append $.tmpl("tmpl/loading_img")
   children.find(".bar").append arrow_white
   children.hide()
   # hide arrows

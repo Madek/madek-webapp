@@ -15,11 +15,11 @@ module SQLHelper
   end
 
   def adapter_is_mysql?
-    adapter_name == "Mysql2"
+    ["mysql", "mysql2"].include? Rails.configuration.database_configuration[Rails.env]["adapter"]
   end
 
   def adapter_is_postgresql?
-    adapter_name == "PostgreSQL"
+    "postgresql" == Rails.configuration.database_configuration[Rails.env]["adapter"]
   end
 
   def database_name
@@ -31,6 +31,14 @@ module SQLHelper
       (execute_sql "SELECT tablename from pg_tables where tableowner = 'rails' AND tablename <> 'schema_migrations' ORDER BY tablename").values.flatten
     elsif adapter_is_mysql?
       (execute_sql %Q@ SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE table_type = "BASE TABLE" AND TABLE_SCHEMA = "#{database_name}" @).to_a.flatten
+    end
+  end
+
+  def ilike
+    if SQLHelper.adapter_is_postgresql?
+      " ilike "
+    else
+      " like "
     end
   end
 

@@ -7,7 +7,7 @@ class MetaDatumPeople < MetaDatum
     association_foreign_key: :person_id
 
   def to_s
-    deserialized_value.map(&:to_s).join("; ")
+    value.map(&:to_s).join("; ")
   end
 
   def value

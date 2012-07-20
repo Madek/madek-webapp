@@ -150,7 +150,7 @@ end
 
 When /^I save the permissions$/ do 
   find("a.save").click()
-  sleep(1.5)
+  wait_until(10) { page.has_no_css?("#permissions") }
 end
 
 Then /^I cannot edit the following permissions any more:$/ do |table|

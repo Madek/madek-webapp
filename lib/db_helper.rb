@@ -6,7 +6,7 @@ module DBHelper
     end
 
     ###########################################################################
-    # database adapter specific import/export
+    # database adapter specific
     ###########################################################################
 
     def file_extension
@@ -19,10 +19,14 @@ module DBHelper
       end
     end
 
-    def dump_file_path
+    def base_file_name
       date_string = DateTime.now.to_s.gsub(":","-")
       migration_version =  ActiveRecord::Migrator.current_version
-      Rails.root.join "tmp", "db_dump_#{date_string}_#{migration_version}.#{file_extension}"
+      "db_dump_#{date_string}_#{migration_version}"
+    end
+
+    def dump_file_path
+      Rails.root.join "tmp", "#{base_file_name}.#{file_extension}"
     end
 
     def set_pg_env config
@@ -33,6 +37,40 @@ module DBHelper
       ENV['PGDATABASE'] = config['database'].to_s if config['database']
     end
 
+    def get_mysql_cmd_credentials config 
+      " -u #{config['username']} --password=#{config['password'].to_s} "
+    end
+
+    def drop config = Rails.configuration.database_configuration[Rails.env]
+      cmd=
+        if SQLHelper.adapter_is_postgresql?
+          set_pg_env config
+          "dropdb #{config['database']}" 
+        elsif SQLHelper.adapter_is_mysql?
+          "mysql #{get_mysql_cmd_credentials config} -e 'drop database if exists #{config['database']}' "
+        end
+      ActiveRecord::Base.remove_connection
+      system cmd
+      ActiveRecord::Base.establish_connection
+      raise "#{cmd} failed" unless $?.exitstatus == 0
+      $?
+    end
+
+    def create config = Rails.configuration.database_configuration[Rails.env]
+      cmd=
+        if SQLHelper.adapter_is_postgresql?
+          set_pg_env config
+          "createdb #{config['database']}"
+        elsif SQLHelper.adapter_is_mysql?
+          "mysql #{get_mysql_cmd_credentials config} -e 'create database #{config['database']}'"
+              end
+      ActiveRecord::Base.remove_connection
+      system cmd
+      ActiveRecord::Base.establish_connection
+      raise "#{cmd} failed" unless $?.exitstatus == 0
+      $?
+    end
+
     def dump_native options = {}
       path = options[:path] || dump_file_path
       config = options[:config] || Rails.configuration.database_configuration[Rails.env]
@@ -41,12 +79,14 @@ module DBHelper
           set_pg_env config
           "pg_dump -E utf-8 -F c -f #{path}"
         elsif SQLHelper.adapter_is_mysql? 
-          "mysqldump -u #{config['username']} --password=#{config['password'].to_s} #{config['database']} > #{path}"
+          "mysqldump #{get_mysql_cmd_credentials config} #{config['database']} > #{path}"
         else
           raise "adapter not supported"
         end
-      puts "executing : #{cmd}"
+      ActiveRecord::Base.remove_connection
       system cmd
+      ActiveRecord::Base.establish_connection
+      raise "#{cmd} failed" unless $?.exitstatus == 0
       {path: path, return_value: $?}
     end
 
@@ -55,14 +95,16 @@ module DBHelper
       cmd =
         if SQLHelper.adapter_is_postgresql?
           set_pg_env config
-          "pg_restore #{path}"
+          "pg_restore -d #{config['database'].to_s}  #{path}"
         elsif SQLHelper.adapter_is_mysql? 
-          cmd = "mysql -u #{config['username']} --password=#{config['password'].to_s} #{config['database']} < #{path}"
+          cmd = "mysql #{get_mysql_cmd_credentials config} #{config['database']} < #{path}"
         else
           raise "adapter not supported"
         end
-      puts "executing : #{cmd}"
+      ActiveRecord::Base.remove_connection
       system cmd
+      ActiveRecord::Base.establish_connection
+      raise "#{cmd} failed" unless $?.exitstatus == 0
       $?
     end
 

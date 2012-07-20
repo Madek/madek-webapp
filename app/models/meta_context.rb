@@ -49,23 +49,6 @@ class MetaContext < ActiveRecord::Base
   
 ##################################################################
 
-  def vocabulary(user, used_meta_term_ids = nil)
-    r = as_json
-    used_meta_term_ids ||= used_meta_term_ids(user)
-    r[:meta_keys] = meta_keys.for_meta_terms.map do |meta_key|
-      definition = meta_key.meta_key_definitions.for_context(self)
-      { :label => definition.label.to_s,
-        :meta_terms => meta_key.meta_terms.map do |meta_term|
-          { :id => meta_term.id,
-            :label => meta_term.to_s,
-            :is_used => (used_meta_term_ids.include?(meta_term.id) ? 1 : 0)
-          }
-        end
-      }
-    end
-    r
-  end
-
   # TODO dry with MediaSet#abstract  
   def abstract(current_user = nil, min_media_entries = nil)
     accessible_media_entry_ids = media_entries(current_user).pluck("media_resources.id")
@@ -84,13 +67,13 @@ class MetaContext < ActiveRecord::Base
     #1005# return h.collect {|k, v| meta_data.build(:meta_key_id => k, :value => v) }
     b = []
     h.each_pair {|k, v| b[meta_key_ids.index(k)] = MetaDatum.new(:meta_key_id => k, :value => v) }
-    
+
     return b.compact.map do |meta_datum|
       meta_datum.meta_key.reload #tmp# TODO remove this line, is an Identity Map problem ??
       definition = meta_datum.meta_key.meta_key_definitions.for_context(self)
       { :meta_key_id => meta_datum.meta_key_id,
         :meta_key_label => definition.label.to_s,
-        :meta_terms => meta_datum.deserialized_value.map do |meta_term|
+        :meta_terms => meta_datum.value.map do |meta_term|
           { :id => meta_term.id,
             :label => meta_term.to_s
           }
@@ -110,17 +93,16 @@ class MetaContext < ActiveRecord::Base
       MetaDatum.where(:meta_key_id => meta_key_ids)
     end
 
-    mds.flat_map(&:value).uniq.compact
+    mds.flat_map(&:meta_term_ids).uniq
   end
 
   # chainable query
   def media_entries(current_user = nil)
-    sql = if current_user
+    if current_user
       MediaEntry.accessible_by_user(current_user).joins("INNER JOIN meta_data ON media_resources.id = meta_data.media_resource_id")
     else
       MediaEntry.joins(:meta_data)
-    end
-    sql.group("meta_data.media_resource_id").where(:meta_data => {:meta_key_id => meta_key_ids})
+    end.select("DISTINCT media_resources.* ").where(:meta_data => {:meta_key_id => meta_key_ids})
   end
 
 ##################################################################

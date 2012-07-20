@@ -22,6 +22,10 @@ module MediaResourceModules
       end
     end
 
+    def size
+      GraphQueries.descendants(self).size
+    end
+
     def parents 
       case type
         when "MediaSet"

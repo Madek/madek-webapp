@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 source 'http://gems.github.com'
 
-gem 'rails', '3.2.5'
+gem 'rails', '3.2.6'
 
 gem 'mysql2', '~> 0.3.8'  
 gem 'pg'
@@ -11,8 +11,6 @@ gem 'memcache-client' #gem 'dalli' #gem 'redis-store'
 gem 'require_relative'
 
 gem 'json', '~> 1.7'
-gem 'rjson'
-gem 'jbuilder'
 gem 'haml', '~> 3.1'
 gem 'sass', '~> 3.1'
 gem 'coffee-script', '~> 2.2'
@@ -32,7 +30,7 @@ gem 'jquery-rails', '= 1.0.16'
 # OTHER THINGS STOP WORKING ALSO
 #
 gem 'rails_autolink', '~> 1.0'
-gem 'jquery-tmpl-rails', '~> 0.1.2'
+gem 'jquery-tmpl-rails', '~> 1.1'
 gem 'haml_assets'
 
 gem "d3_rails", "~> 2.9"
@@ -76,29 +74,35 @@ group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
   gem 'rvm-capistrano'
+  gem 'railroady'
+  gem 'statsample'
 end
 
 group :test, :development do
-  gem "guard", "~> 1.0"
-  gem "guard-cucumber", "~> 0.8"
-  gem "guard-rspec", "~> 0.7"
-  gem "guard-spork", "~> 0.8"
-  gem "guard-jasmine-headless-webkit", "~> 0.3.2"
-  gem "jasmine-headless-webkit", "~> 0.8.4" # needed for "headless" running of jasmine tests (needed for CI)
-  gem "jasmine-rails", "~> 0.0.3" # javascript test environment
-  gem "jasminerice", "~> 0.0.8" # needed for implement coffeescript, fixtures and asset pipeline serverd css into jasmine
-  gem "rb-fsevent", "~> 0.9"
-  gem "ruby_gntp", "~> 0.3.4"
   gem 'autotest'
   gem 'database_cleaner'
-  gem 'factory_girl', "~> 3.3"
-  gem 'factory_girl_rails', "~> 3.3"
+  gem 'factory_girl', '~> 3.3'
+  gem 'factory_girl_rails', '~> 3.3'
   gem 'faker'
+  gem 'guard', '~> 1.0'
+  gem 'guard-cucumber', '~> 1.2'
+  gem 'guard-rspec', '~> 1.1'
+  gem 'guard-spork', '~> 1.0'
   gem 'pry'
-  gem 'railroady'
+  gem 'rb-fsevent', '~> 0.9'
   gem 'rspec-rails'
+  gem 'ruby_gntp', '~> 0.3.4'
   gem 'spork'
-  gem 'statsample'
+
+#  Debugger works in ruby 1.9.3, however most functionality is in pry already; 
+#  gem 'debugger'
+
+# Disabling these gems because we don't do Jasmine at the moment, and loading gems makes our test startup time longer
+#  gem "guard-jasmine-headless-webkit", "~> 0.3.2"
+#  gem "jasmine-headless-webkit", "~> 0.8.4" # needed for "headless" running of jasmine tests (needed for CI)
+#  gem "jasmine-rails", "~> 0.0.3" # javascript test environment
+#  gem "jasminerice", "~> 0.0.8" # needed for implement coffeescript, fixtures and asset pipeline serverd css into jasmine
+
 end
 
 group :development, :production do

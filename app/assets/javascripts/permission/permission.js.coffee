@@ -27,9 +27,8 @@ class Permission
     container = Dialog.add
       trigger: target
       dialogClass: "permission_lightbox"
-      content: $.tmpl("tmpl/permission/container", {media_resource_ids: $(target).data("media_resource_ids"), current_user: $(target).data("current_user")})
+      content: $.tmpl("tmpl/permission/container", {media_resource_ids: $(target).data("media_resource_ids")})
       closeOnEscape: false
-    $(container).data("current_user", $(target).data("current_user"))
     $(container).data("media_resource_ids", $(target).data("media_resource_ids"))
     $(container).data("redirect_url", $(target).data("redirect_url"))
     # create collection
@@ -57,13 +56,11 @@ class Permission
         Permission.load_permissions container, $(trigger).data("media_resource_ids")
    
   @display_inline = (options)->
-    current_user = options.current_user
     media_resource_ids = options.media_resource_ids
-    view_template = $.tmpl("tmpl/permission/container", {media_resource_ids: media_resource_ids, current_user: current_user})
+    view_template = $.tmpl("tmpl/permission/container", {media_resource_ids: media_resource_ids})
     container = view_template
     button = options.button
     $(options.container).replaceWith container
-    $(container).data("current_user", current_user)
     $(container).data("media_resource_ids", media_resource_ids)
     $(container).data("external_submit_button", button)
     Permission.create_collection $(container), $(container)
@@ -111,7 +108,7 @@ class Permission
         owner.manage = owner.media_resource_ids
         data.users.unshift owner
     # setup permissions view
-    template = $.tmpl("tmpl/permission/_permission_view", data, {current_user: $(container).data("current_user"), media_resource_ids:  $(container).data("media_resource_ids")})
+    template = $.tmpl("tmpl/permission/_permission_view", data, {media_resource_ids:  $(container).data("media_resource_ids")})
     $(container).find(".permission_view").html template
     if $(".dialog").length>0
       Dialog.checkScale(container)
@@ -119,7 +116,7 @@ class Permission
     
   @setup_read_only = (container, data) ->
     # Ownership Read Only
-    if data.owners.length != 1 or data.owners[0].id != $(container).data("current_user").id
+    if data.owners.length != 1 or data.owners[0].id != current_user.id
       $(container).find(".owner input").attr("disabled", "disabled")
       
     # Manage Read Only
@@ -135,7 +132,7 @@ class Permission
     
   @remove_duplicated_groups = (container)->
     $(container).find(".me .groups.with_me .line").each (i_with_me, line_with_me)->
-      for line in $(container).find(".groups .line:not(.add)")
+      for line in $(container).find(".groups:not(.with_me) .line:not(.add)")
         if $(line).tmplItem().data.id == $(line_with_me).tmplItem().data.id
           $(line).remove()
           break
@@ -283,18 +280,18 @@ class Permission
         $(this).hide()
         $(this).val("")
         $(this).siblings(".button").show()
-        $(this).siblings(".loading_image").remove()
+        $(this).siblings(".loading").remove()
       
     # AUTOCOMPLETE
     $(container).find(".add input").autocomplete
       source: (request, response)->
         trigger = $(this.element)
-        $(trigger).siblings(".loading_image").remove()
-        $(trigger).after("<img src='/assets/loading.gif' class='loading_image'/>")
+        $(trigger).siblings(".loading").remove()
+        $(trigger).after $.tmpl("tmpl/loading_img")
         $.getJSON $(this.element).data("url"),
           query: request.term
         , (data)->
-          $(trigger).siblings(".loading_image").remove()
+          $(trigger).siblings(".loading").remove()
           type = if $(trigger).closest("section").hasClass("users") then "user" else "group"
           entries = $.map data, (element)-> { id: element.id, value: Underscore.str.truncate(element.name, 65), name: element.name }
           if type == "user"
@@ -306,8 +303,9 @@ class Permission
           response entries
       minLength: 1
       appendTo: $(container)
+      position: 
+        collision: "flip"
       select: (event, selection)->
-        
         # FOCUS INPUT AGAIN AFTER SELECTION
         window.setTimeout ()->
           $(event.target).val("")
@@ -343,7 +341,7 @@ class Permission
           $(event.target).closest(".line").before line
         else if type == "group"
           # if user is in that group add to groups with me
-          current_user_group_ids = $("#permissions").tmplItem().data.current_user.groups.map (element)-> element.id
+          current_user_group_ids = current_user.groups.map (element)-> element.id
           if current_user_group_ids.indexOf(selection.item.id)>-1
             $("#permissions section.groups.with_me").append line
           else
@@ -415,7 +413,7 @@ class Permission
   @save = (button, container, callback)->
     $(container).find("input, select, .select").attr("disabled", true)
     $(container).find(".cancel").hide()
-    $(button).width($(button).width()).html("").append("<img src='/assets/loading.gif'/>").addClass("loading")
+    $(button).width($(button).width()).html("").append $.tmpl("tmpl/loading_img")
       
     new_permissions = Permission.compute container
     $.ajax

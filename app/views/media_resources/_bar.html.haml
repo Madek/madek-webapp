@@ -1,0 +1,56 @@
+:ruby
+  h = current_settings
+  t = media_resources_index_title
+
+#bar
+  .icon
+  
+  .left
+    %h1
+      = t.first
+      %small= t.second if t.second
+    .scope_sets
+      = link_to _("Alle meine obersten Sets"), url_for(params.merge(:top_level => true)), :class => "top_level"
+      = link_to _("Alle meine Sets"), url_for(params.merge(:top_level => nil)), :class => "not_top_level"
+      .arrow.down.icon
+  
+  .selection
+    .types
+      = link_to _("Alle"), url_for(params.merge(:type => nil)), :class => "all", :"data-type" => "all"
+      = link_to _("Medieneinträge"), url_for(params.merge(:type => "media_entries")), :class => "media_entries", :"data-type" => "media_entries"
+      = link_to _("Sets"), url_for(params.merge(:type => "media_sets")), :class => "media_sets", :"data-type" => "media_sets"
+  
+    .permissions
+      = link_to _("Meine"), url_for(params.merge(:user_id => current_user, :not_by_current_user => nil, :public => nil)), :class => "mine"
+      = link_to _("Mir anvertraute"), url_for(params.merge(:user_id => nil, :not_by_current_user => true, :public => false)), :class => "entrusted"
+      = link_to _("Öffentliche"), url_for(params.merge(:user_id => nil, :not_by_current_user => true, :public => true)), :class => "public"
+      = link_to _("Jegliche Berechtigungen"), url_for(params.merge(:user_id => nil, :not_by_current_user => nil, :public => nil)), :class => "all"
+
+  .right
+    .sort
+      = link_to _("Sortieren nach Erstelldatum"), url_for(params.merge(:sort => :created_at)), :class => "created_at"
+      = link_to _("Sortieren nach Änderungsdatum"), url_for(params.merge(:sort => :updated_at)), :class => "updated_at"
+      = link_to _("Sortieren nach Titel"), url_for(params.merge(:sort => :title)), :class => "title"
+      = link_to _("Filtern und Sortieren nach Autor/in"), url_for(params.merge(:sort => :author)), :class => "author"
+      .arrow.down.icon
+    
+    .layout
+      = link_to "", media_resources_path, :class => "icon", :"data-type" => "miniature", :title => "Miniatur-Ansicht"
+      = link_to "", media_resources_path, :class => "icon", :"data-type" => "grid", :title => "Grid-Ansicht"
+      = link_to "", media_resources_path, :class => "icon", :"data-type" => "list", :title => "Listen-Ansicht"
+      -if params[:type] == "media_sets" and params[:user_id] == "#{current_user.id}"
+        = link_to "", graph_user_media_sets_path(current_user), :class => "graph icon", :title => _("Graph-Ansicht") 
+
+:javascript
+  $(document).ready(function () {
+    Bar.setup(
+      "#{h[:type]}", 
+      "#{h[:permissions]}", 
+      "#{params[:sort]}", 
+      "#{params[:favorites]}", 
+      "#{params[:query]}", 
+      "#{params[:top_level]}",
+      "#{params[:media_set_id]}",
+      "#{params[:group_id]}");
+  });
+

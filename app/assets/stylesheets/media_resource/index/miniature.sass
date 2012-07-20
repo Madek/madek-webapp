@@ -15,11 +15,17 @@
   #results
     margin-top: 40px
   
+    .no_values
+      display: none
+
     .item_box
       display: inline-block
       height: auto
       margin: 0
       width: auto
+
+      .thumb_box
+        @include box-shadow(0 0 1px rgba(100, 100, 100, 0.6))
       
       .meta_data
         display: none
@@ -27,16 +33,31 @@
       &.video .thumb_box
         background-position: -23px -183px
         top: 1px
+        @include box-shadow(0 0 0 transparent)
         
         img
           max-height: 38px
           max-width: 50px
           position: relative
           top: 5px
+
+      &.doc .thumb_box
+        background-position: -85px -393px
+        height: 65px
+        position: relative
+        top: -2px
+        left: 3px
+        width: 60px
+        @include box-shadow(0 0 0 transparent)
+
+        img
+          left: -1px
+          top: 2px
         
       &.set .thumb_box_set
         background: url($sprite) no-repeat
         background-position: -83px -183px
+        @include box-shadow(0 0 0 transparent)
         
         img
           max-height: 38px

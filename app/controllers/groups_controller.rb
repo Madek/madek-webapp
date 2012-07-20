@@ -35,25 +35,20 @@ class GroupsController < ApplicationController
       }
       format.json {
         # OPTIMIZE index groups to fulltext ??
-        groups = 
-          if  adapter_is_mysql?
-            Group.where("name LIKE :query OR ldap_name LIKE :query", {:query => "%#{query}%"})
-          elsif adapter_is_postgresql?
-            Group.where("name ILIKE :query OR ldap_name ILIKE :query", {:query => "%#{query}%"})
-          else 
-            raise "sql adapter is not supported"
-          end
-        render :partial => "groups/index", :formats => [:json], :handlers => [:rjson], :locals => {:groups => groups}
+        groups = Group.where("name #{SQLHelper.ilike} :query OR ldap_name #{SQLHelper.ilike} :query", {:query => "%#{query}%"})
+        render :json => view_context.json_for(groups)
       }
     end
   end
 
   def show
     respond_to do |format|
-      format.json { 
+      format.json {
+        # TODO what is this for ???
         @include_users = params[:include_users] and params[:include_users] == 'true'
-        @users = @group.type != "MetaDepartment" ?  @group.users : []
-        render :partial => "groups/group",  :formats => [:json], :handlers => [:rjson], :locals => {:group => @group, :users => @users}
+        
+        with = { users: {} }
+        render :json => view_context.json_for(@group, with)
       }
     end
   end
@@ -80,9 +75,9 @@ class GroupsController < ApplicationController
     respond_to do |format|
       format.json {
         if group.persisted?
-          render :partial => group
+          render json: view_context.json_for(group)
         else
-          render :json => {:error => group.errors.full_messages}, :status => :bad_request 
+          render json: {:error => group.errors.full_messages}, :status => :bad_request 
         end        
       }
     end
@@ -113,9 +108,9 @@ class GroupsController < ApplicationController
       format.html { redirect_to edit_group_path(@group) }
       format.json {
         if @group.save
-          render :partial => @group
+          render json: view_context.json_for(@group)
         else
-          render :json => {:error => group.errors.full_messages}, :status => :bad_request 
+          render json: {:error => group.errors.full_messages}, :status => :bad_request 
         end
       }
     end

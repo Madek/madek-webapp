@@ -26,10 +26,7 @@
   window.dropbox_sync_interval_time = 2000
   window.max_file_size = "1400mb"
   window.uploader
-  window.media_entry_incompletes = #{ render(:partial => "media_entry_incompletes/index",    
-                                             :formats => [:json],
-                                             :handlers => [:rjson], 
-                                             :locals => {:media_entry_incompletes => @media_entry_incompletes}) }
+  window.media_entry_incompletes = #{ json_for(@media_entry_incompletes, {:filename => true, :size => true}) }
   window.plupload_files_uploaded = []
   
   jQuery ->
@@ -57,7 +54,8 @@
     $(".open_dropbox_dialog").live "click", ->
       open_dropbox_dialog(false)
     $("#create_dropbox").live "ajax:beforeSend", ->
-      $(this).html("Dropbox wird erstellt <img class='loading' src='/assets/loading.gif'/>")
+      $(this).html("Dropbox wird erstellt")
+      $(this).append $.tmpl("tmpl/loading_img")
       $(this).bind "click", (event) ->
         event.stopImmediatePropagation()
         event.preventDefault()

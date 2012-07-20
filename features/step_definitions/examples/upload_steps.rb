@@ -2,8 +2,12 @@
 
 When /^I upload the file "([^"]*)" relative to the Rails directory$/ do |path|
   f = "#{Rails.root}/#{path}"
+  # Need to copy this file to a temporary new file because files are moved away after succesful
+  # uploads!
+  f_temp = "#{Rails.root}/tmp/temp_#{File.basename(f)}"
+  FileUtils.cp(f, f_temp)
   uploaded_data = ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
-                                                         :tempfile=> File.new(f, "r"),
+                                                         :tempfile=> File.new(f_temp, "r"),
                                                          :filename=> File.basename(f))
   @media_entry_incomplete = @current_user.incomplete_media_entries.create(:uploaded_data => uploaded_data)
   @media_entry_incomplete.valid?.should be_true
@@ -117,20 +121,24 @@ end
 
 When /^I have started uploading some files$/ do
   visit "/upload"
-  attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/berlin_wall_01.jpg") )
-  attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/berlin_wall_02.jpg") )
+
+  # Need to copy this file to a temporary new file because files are moved away after succesful
+  # uploads!
+  ["features/data/images/berlin_wall_01.jpg", "features/data/images/berlin_wall_02.jpg"].each do |f|
+      f_temp = "#{Rails.root}/tmp/#{File.basename(f)}"
+      FileUtils.cp(Rails.root + f, f_temp)
+      attach_file(find("input[type='file']")[:id], f_temp )
+  end
   find(".plupload_start").click
 end
 
 When /^I cancel the upload$/ do
-  sleep(1)
   step 'follow "Abbrechen"'
   page.driver.browser.switch_to.alert.accept
 end
 
 Then /^the uploaded files are still there$/ do
   visit "/upload"
-  sleep(0.5)
   wait_for_css_element("li.plupload_done")
 end
 
@@ -155,13 +163,13 @@ When /^I delete some fo those after the upload$/ do
   deleted_plupload_file_element_after_upload.find(".delete_plupload_entry").click
   page.driver.browser.switch_to.alert.accept
   
+  wait_until(15) { find("#dropbox_filelist li span",:text => "berlin_wall_01.jpg").find(:xpath, "../..") }
   deleted_dropbox_file_element_after_upload = find("#dropbox_filelist li span",:text => "berlin_wall_01.jpg").find(:xpath, "../..")
   deleted_dropbox_file_element_after_upload.find(".delete_dropbox_file").click
   page.driver.browser.switch_to.alert.accept
 end
 
 Then /^those files are deleted$/ do
-  sleep(2)
   @current_user.incomplete_media_entries.each do |element|
     element.media_file.filename.should_not == "berlin_wall_01.jpg"
   end

@@ -9,7 +9,7 @@ module UsersHelper
   # Example:
   # <%= if_authorized?(:index,   User)  do link_to('List all users', users_path) end %> |
   # <%= if_authorized?(:edit,    @user) do link_to('Edit this user', edit_user_path) end %> |
-  # <%= if_authorized?(:destroy, @user) do link_to 'Destroy', @user, :confirm => 'Sind Sie sicher?', :method => :delete end %> 
+  # <%= if_authorized?(:destroy, @user) do link_to 'Destroy', @user, :data => {:confirm => 'Sind Sie sicher?'}, :method => :delete end %> 
   #
   #
   def if_authorized?(action, resource, &block)

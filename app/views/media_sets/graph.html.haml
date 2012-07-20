@@ -1,202 +1,22 @@
-%button.zoom_in
-  Zoom In
-%button.zoom_out
-  Zoom Out
+%section#content_body.media_sets_graph
+  = render partial: "media_resources/bar"
 
-#chart
+  .graph
+    .info
+      = _("Graph wird berechnet")
+      = image_tag "loading.gif", :class => "loading"
+    / #zoom_panel  
+    /   %button.button.zoom_in +
+    /   %button.button.zoom_out -
+    #chart
+    #inspector.media_resources.index.grid
+    #instructions= "Klicken und ziehen, um die Ansicht zu bewegen. Scrollen, um hinein- und herauszuzuoomen."
 
-:css
-  path.link {
-    fill: none;
-    stroke: #666;
-    stroke-width: 1px;
-  }
-    
-  circle {
-    fill: #ccc;
-    stroke: #333;
-    stroke-width: 1px;
-  }
+= render :partial => "media_entries/batch_bar"
   
-  text {
-    font: 10px sans-serif;
-  }
+:coffeescript
   
-:javascript
-  $(document).ready(function () {
-    /*
-    var w = 960,
-        h = 500
-    
-    var vis = d3.select("body").append("svg:svg")
-        .attr("width", w)
-        .attr("height", h);
-    
-    d3.json("http://bl.ocks.org/d/950642/graph.json", function(json) {
-        var force = self.force = d3.layout.force()
-            .nodes(json.nodes)
-            .links(json.links)
-            .gravity(.05)
-            .distance(100)
-            .charge(-100)
-            .size([w, h])
-            .start();
-    
-        var link = vis.selectAll("line.link")
-            .data(json.links)
-            .enter().append("svg:line")
-            .attr("class", "link")
-            .attr("x1", function(d) { return d.source.x; })
-            .attr("y1", function(d) { return d.source.y; })
-            .attr("x2", function(d) { return d.target.x; })
-            .attr("y2", function(d) { return d.target.y; });
-    
-        var node = vis.selectAll("g.node")
-            .data(json.nodes)
-          .enter().append("svg:g")
-            .attr("class", "node")
-            .call(force.drag);
-    
-        node.append("svg:image")
-            .attr("class", "circle")
-            .attr("xlink:href", "https://d3nwyuy0nl342s.cloudfront.net/images/icons/public.png")
-            .attr("x", "-8px")
-            .attr("y", "-8px")
-            .attr("width", "16px")
-            .attr("height", "16px");
-    
-        node.append("svg:text")
-            .attr("class", "nodetext")
-            .attr("dx", 12)
-            .attr("dy", ".35em")
-            .text(function(d) { return d.name });
-    
-        force.on("tick", function() {
-          link.attr("x1", function(d) { return d.source.x; })
-              .attr("y1", function(d) { return d.source.y; })
-              .attr("x2", function(d) { return d.target.x; })
-              .attr("y2", function(d) { return d.target.y; });
-    
-          node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-        });
-    });
-    */
-    //
-    var w = window.innerWidth,
-        h = window.innerHeight,
-        marker_size = 10;
-	
-    var force = d3.layout.force()
-        .size([w, h])
-        .linkDistance(120)
-        .gravity(0.05)
-        .friction(0.4)
-        .charge(-300);
-	
-    var svg = d3.select("#chart").append("svg")
-        .attr("width", w)
-        .attr("height", h)
-        .call(d3.behavior.zoom()
-          .on("zoom", redraw))
-        .append("g")
-        .attr("scale", 1);
-	
-    d3.json(document.location.href + ".json", function(json) {
-      //
-      var nodes = {};
-      var links = [];
-      json.nodes.forEach(function(node) {
-        nodes[node.id] = {name: node.name, img_src: node.img_src};
-      });
-      //
-      json.links.forEach(function(link) {
-        //link.source = json.nodes[link.source] || (json.nodes[link.source] = {name: link.source});
-        //link.target = json.nodes[link.target] || (json.nodes[link.target] = {name: link.target});
-        //
-        links.push({source: nodes[link.source_id], target: nodes[link.target_id], type: "suit"});
-      });
-      force
-      //.nodes(d3.values(json.nodes))
-      .nodes(d3.values(nodes))
-      //.links(json.links)
-      .links(links)
-      .start();
-
-      // Per-type markers, as they don't inherit styles.
-      svg.append("defs").selectAll("marker")
-          .data(["suit"])
-        .enter().append("marker")
-          .attr("id", String)
-          .attr("viewBox", "0 -5 10 10")
-          .attr("refX", 30)
-          //.attr("refY", -3.0)
-          .attr("markerWidth", marker_size)
-          .attr("markerHeight", marker_size)
-          .attr("orient", "auto")
-        .append("path")
-        .attr("d", "M0,-5L10,0L0,5");
-	    
-      var path = svg.append("g").selectAll("path")
-          .data(force.links())
-        .enter().append("path")
-          .attr("class", function(d) { return "link " + d.type; })
-          .attr("marker-end", function(d) { return "url(#" + d.type + ")"; });
-      
-      var circle = svg.append("g").selectAll("circle")
-          .data(force.nodes())
-        .enter() //.append("circle")
-          //.attr("r", marker_size);
-        .append("svg:image")
-            .attr("class", "circle")
-            .attr("title", function(d) { return d.name; })
-            .attr("xlink:href", function(d) { return d.img_src; })
-            .attr("x", "-20px")
-            .attr("y", "-20px")
-            .attr("width", "40px")
-            .attr("height", "40px") //;
-          .on("mouseover", function(d) {
-              $(this).qtip({
-                position: { my: 'center left', at: 'center right', viewport: $(window) },
-                content: { attr: 'title' },
-                style: { classes: 'ui-tooltip-youtube ui-tooltip-shadow' }
-              });
-              $(this).qtip("show"); });
-      
-      var text = svg.append("g").selectAll("g")
-          .data(force.nodes())
-        .enter().append("g");
-
-      force.on("tick", function() {
-        path.attr("d", function(d) {
-          var dx = d.target.x - d.source.x,
-              dy = d.target.y - d.source.y,
-              dr = 0; //Math.sqrt(dx * dx + dy * dy); // Use elliptical arc path segments to doubly-encode directionality.
-          return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
-        });
-      
-        circle.attr("transform", function(d) {
-          return "translate(" + d.x + "," + d.y + ")";
-        });
-      
-        text.attr("transform", function(d) {
-          return "translate(" + d.x + "," + d.y + ")";
-        });
-      });
-	
-    });
-
-    function redraw() {
-      svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-    }
-
-    $("button.zoom_in").click(function(){
-      svg.attr("scale", parseFloat(svg.attr("scale")) * 1.1);
-      svg.attr("transform", "scale(" + svg.attr("scale") + ")");
-    });
-    $("button.zoom_out").click(function(){
-      svg.attr("scale", parseFloat(svg.attr("scale")) * 0.9);
-      svg.attr("transform", "scale(" + svg.attr("scale") + ")");
-    });
-    //
-  });
-    
+  jQuery ->
+    new App.MediaSetsGraph
+  
+  

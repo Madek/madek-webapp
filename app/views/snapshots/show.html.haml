@@ -12,7 +12,7 @@
           %li
             = link_to _("ZIP exportieren"), export_snapshots_path(:snapshot_ids => [@snapshot])
           %li
-            = link_to _("Kopie löschen"), @snapshot, :method => :delete, :confirm => _("Sind Sie sicher?")
+            = link_to _("Kopie löschen"), @snapshot, :method => :delete, :data => {:confirm => _("Sind Sie sicher?")}
   
     .grid_9
       %h3= _("Kopie für MIZ-Archiv editieren")

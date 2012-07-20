@@ -18,9 +18,10 @@ class MediaSetHighlights
     MediaSetHighlights.highlighted_resources = data.media_resources
     MediaSetHighlights.highlighted_resources_ids = _.map data.media_resources, (resource)-> resource.id
     @render()
-    setTimeout ->
-      MediaSetHighlights.setup_positioning()
-    , 100
+    @delegateEvents()
+    
+  @delegateEvents: ->
+    $("#media_set_highlights .inner img").load => @setup_positioning()
   
   @setup_listener: ->
     $(".open_media_set_highlights_lightbox").live "click", (event)->
@@ -96,7 +97,7 @@ class MediaSetHighlights
     $(container).find(".cancel").hide()
     # show loading
     button = event.currentTarget
-    $(button).width($(button).width()).html("").append("<img src='/assets/loading.gif'/>").addClass("loading")
+    $(button).width($(button).width()).html("").append $.tmpl("tmpl/loading_img")
     # save changed elements
     MediaSetHighlights.persist()
     # prevent link
@@ -107,7 +108,6 @@ class MediaSetHighlights
       child_id: $(arc).tmplItem().data.id
       highlight: $(arc).find(".selection input").is ":checked"
       parent_id: MediaSetHighlights.parent_id
-    console.log changed_arcs
     $.ajax
       url: "/media_resource_arcs.json"
       type: "PUT"

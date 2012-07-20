@@ -10,10 +10,10 @@ jQuery ->
   setup()
 
 setup = ->
-  $("#content_body.media_resources.miniature.index .item_box:not(.set):not(.popup_target) .thumb_box").live "mouseenter", -> enter_target $(this)
-  $("#content_body.media_resources.miniature.index .item_box:not(.set).popup_target:not(.popup) .thumb_box").live "mouseenter", -> enter_target $(this)
-  $("#content_body.media_resources.miniature.index .item_box:not(.set):not(.popup_target) .thumb_box").live "click", -> stop_target_popup $(this)
-  $("#content_body.media_resources.miniature.index .item_box:not(.set):not(.popup) .thumb_box").live "mouseleave", -> leave_target $(this)
+  $(".media_resources.miniature.index .item_box:not(.set):not(.popup_target) .thumb_box").live "mouseenter", -> enter_target $(this)
+  $(".media_resources.miniature.index .item_box:not(.set).popup_target:not(.popup) .thumb_box").live "mouseenter", -> enter_target $(this)
+  $(".media_resources.miniature.index .item_box:not(.set):not(.popup_target) .thumb_box").live "click", -> stop_target_popup $(this)
+  $(".media_resources.miniature.index .item_box:not(.set):not(.popup) .thumb_box").live "mouseleave", -> leave_target $(this)
 
 stop_target_popup = (target) ->
   target = $(target).closest(".item_box")
@@ -29,7 +29,7 @@ enter_target = (target)->
 open_popup = (target)->
   $(".entry_popup").each (i, element)-> close_popup element
   $(target).addClass("popup_target")
-  create_popup target if($(target).data("popup") == undefined) 
+  create_popup target if($(target).data("popup") == undefined)
   
 create_popup = (target)->
   # create copy of target

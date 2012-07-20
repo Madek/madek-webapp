@@ -116,7 +116,37 @@ describe MediaSet do
       end
       
     end
+
   end
   
+  describe "the size of a media set" do
+
+    before :each do
+      @owner = FactoryGirl.create :user
+      @viewer = FactoryGirl.create :user
+
+      @top_set1 = FactoryGirl.create :media_set, user: @owner
+      @top_set1.children << (@child_11 = FactoryGirl.create :media_set, user: @owner)
+      @top_set1.children << (@child_12 = FactoryGirl.create :media_set, user: @owner)
+
+      @child_11.children << (@child_111 = FactoryGirl.create :media_set, user: @owner)
+      @child_12.children << (@child_121 = FactoryGirl.create :media_resource, user: @owner)
+
+      @top_set2 = FactoryGirl.create :media_set, user: @owner
+      @top_set2.children << (@child_21 = FactoryGirl.create :media_set, user: @owner)
+
+      FactoryGirl.create :userpermission, user: @viewer, media_resource: @child_121, view: true
+
+    end
+
+    it "should report 4 without user restriction" do
+      @top_set1.size().should == 4
+    end
+
+    it "should report 1 with user restriction" do
+      @top_set1.size(@viewer).should == 1
+    end
+
+  end
 
 end

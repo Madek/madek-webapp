@@ -13,10 +13,6 @@ class MetaKey < ActiveRecord::Base
   end
   has_many :meta_contexts, :through => :meta_key_definitions
 
-#old#
-#  has_and_belongs_to_many :meta_terms, :class_name => "MetaTerm",  # TODO enforce meta_datum_object_type="MetaDatumMetaTerms" if meta_terms
-#                                       :join_table => :meta_keys_meta_terms,
-#                                       :association_foreign_key => :meta_term_id
   has_many :meta_key_meta_terms
   has_many :meta_terms, :through => :meta_key_meta_terms, :order => :position
   accepts_nested_attributes_for :meta_terms, :reject_if => proc { |attributes| LANGUAGES.all? {|l| attributes[l].blank? } } #old# , :allow_destroy => true
@@ -79,7 +75,7 @@ class MetaKey < ActiveRecord::Base
 #            context.meta_key_definitions.find_by_key_map(key_map).try(:meta_key)
 #          end
 
-    mk = MetaKeyDefinition.where("key_map LIKE ?", "%#{key_map}%").first.try(:meta_key)
+    mk = MetaKeyDefinition.where("key_map #{SQLHelper.ilike} ?", "%#{key_map}%").first.try(:meta_key)
 
     if mk.nil?
       entry_name = key_map.split(':').last.underscore.gsub(/[_-]/,' ')
@@ -100,14 +96,20 @@ class MetaKey < ActiveRecord::Base
   end
 
   def self.object_types
-    where("meta_datum_object_type IS NOT NULL").group(:meta_datum_object_type).collect(&:meta_datum_object_type).sort
+    # NOTE in development mode we need to preload
+    # FIXME
+    # Dir.glob(File.join(Rails.root, "app/models/meta_datum_*.rb")).each {|model_file| require model_file } if Rails.env == "development"
+    
+    r = MetaDatum.descendants.map(&:name).sort
+    r = ["MetaDatumCopyright", "MetaDatumDate", "MetaDatumDepartments", "MetaDatumKeywords", "MetaDatumMetaTerms", "MetaDatumPeople", "MetaDatumString", "MetaDatumUsers"] if r.blank?
+    r
   end
   
 ########################################################
 
   # TODO refactor to association has_many :used_meta_terms, :through ...
   def used_term_ids
-    meta_data.flat_map(&:value).uniq.compact if meta_datum_object_type == "MetaDatumMetaTerms"
+    meta_data.flat_map(&:value).map(&:id).uniq.compact if meta_datum_object_type == "MetaDatumMetaTerms"
   end
 
 end

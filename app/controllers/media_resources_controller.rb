@@ -40,7 +40,7 @@ class MediaResourcesController < ApplicationController
   # @optional [Hash] with[meta_data] Adds MetaData to the responding collection of MediaResources and forwards the hash as options to the MetaData.
   # @optional [Array] with[meta_data][meta_context_names] Adds all requested MetaContexts in the format: ["context_name1", "context_name2", ...] as MetaData to the responding MediaResources. 
   # @optional [Array] with[meta_data][meta_key_names] Adds all requested MetaKeys in the format: ["key_name1", "key_name2", ...] as MetaData to the responding MediaResources. 
-  # @optional [Hash] with[image] Request the image of the MediaResources. You can define the responding image format like {"image": {"as": "base64" | "url"}}. The image size can be requested with {"image": {"size": "small"(100x100) | "small_125"(125x125) | "medium"(300x300) | "large"(620x500) | "x-large"(1024x768) }}
+  # @optional [Hash] with[image] Request the image of the MediaResources. You can define the responding image format like {"image": {"as": "base64" | "url"}}. The image size can be requested with {"image": {"size": "small"(100x100) | "small_125"(125x125) | "medium"(300x300) | "large"(620x500) | "x_large"(1024x768) }}
   # @optional [Boolean] with[filename] Request the filename of the MediaResources.
   # @optional [Boolean] with[media_type] Request the media_type of the MediaResources.
   # @optional [Boolean] with[flags] Request status indicator informations (about permissions and favorites related to the current user) for the responding MediaResources.
@@ -75,6 +75,8 @@ class MediaResourcesController < ApplicationController
   #   ```
   # @example_response_description Responding with the index of media resources. Default sorting at on the update_at attribute latest first. You get 36 elements per page and informations about the current pagination.
   #
+  #####
+  #
   # @example_request
   #   ```json
   #   {
@@ -90,6 +92,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -118,6 +123,8 @@ class MediaResourcesController < ApplicationController
   #   ```
   # @example_response_description The attributes of the MetaContext "core" might change, you should get the shema of the context by fetching the "core" context through the MetaContext resource.
   #
+  #####
+  #
   # @example_request
   #   ```json
   #   {
@@ -142,6 +149,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -166,6 +176,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -188,6 +201,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -211,6 +227,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -234,6 +253,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -260,6 +282,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -286,6 +311,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -322,6 +350,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```  
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -355,6 +386,9 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```  
+  # @example_response_description
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -381,8 +415,10 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```  
-  # @example_request_description The responding MediaResource with id 1 is accesible by everyone and is editable, managable by the current user. The MediaResource is not part of the current user's favorites.
+  # @example_response_description The responding MediaResource with id 1 is accesible by everyone and is editable, managable by the current user. The MediaResource is not part of the current user's favorites.
   #
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -418,7 +454,50 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```  
-  # @example_request_description Children are not responding for MediaEntries. The children uses a "nested" pagination for its own. If you want to controll the pagination inside the children pass a "pagination" attribute to the children value (e.g. {"pagination":{"page":2}}). If you want to forward a "with" to the children to request more nested informations just parse a Hash to the value containing the with informations (e.g. {"with":{"children":{with:{"media_type": true}}}}).
+  # @example_response_description Children are not responding for MediaEntries. The children uses a "nested" pagination for its own. If you want to controll the pagination inside the children pass a "pagination" attribute to the children value (e.g. {"pagination":{"page":2}}). If you want to forward a "with" to the children to request more nested informations just parse a Hash to the value containing the with informations (e.g. {"with":{"children":{with:{"media_type": true}}}}).
+  #
+  #####
+  #
+  # @example_request
+  #   ```json
+  #   {
+  #     "ids": [1],
+  #     "with": {
+  #       "children":{
+  #         "pagination": {
+  #           page: 2,
+  #           per_page: 2
+  #         }
+  #       }
+  #     }
+  #   }
+  #   ``` 
+  # @example_request_description Paginate through children of MediaResource with id 1.
+  # @example_response
+  #   ```json
+  #   {
+  #     "media_resources": [
+  #       {
+  #         "id":1,
+  #         "type":"media_set",
+  #         "children": {
+  #           "media_resources": {[
+  #             {"id":4123}
+  #           ]},
+  #           "pagination": {
+  #             "total":3,
+  #             "page":2,
+  #             "per_page":2,
+  #             "total_pages":2
+  #           }
+  #         }
+  #       },
+  #     ]
+  #   }
+  #   ```  
+  # @example_response_description 
+  #
+  #####
   #
   # @example_request
   #   ```json
@@ -466,7 +545,7 @@ class MediaResourcesController < ApplicationController
   #     ]
   #   }
   #   ```  
-  # @example_request_description MediaEntries and MediaSets are responding with parents. The parents uses a "nested" pagination for its own. If you want to controll the pagination inside the parents pass a "pagination" attribute to the children value (e.g. {"pagination":{"page":2}}). If you want to forward a "with" to the parents to request more nested informations just parse a Hash to the value containing the with informations (e.g. {"with":{"parents":{"with":{"media_type": true}}}}).
+  # @example_response_description MediaEntries and MediaSets are responding with parents. The parents uses a "nested" pagination for its own. If you want to controll the pagination inside the parents pass a "pagination" attribute to the children value (e.g. {"pagination":{"page":2}}). If you want to forward a "with" to the parents to request more nested informations just parse a Hash to the value containing the with informations (e.g. {"with":{"parents":{"with":{"media_type": true}}}}).
   #
   def index(ids = (params[:collection_id] ? MediaResource.by_collection(current_user.id, params[:collection_id]) : params[:ids]),
             type = params[:type],
@@ -486,6 +565,7 @@ class MediaResourcesController < ApplicationController
             meta_term_id = params[:meta_term_id] )
             
     respond_to do |format|
+
       format.html
       format.json {
 
@@ -517,6 +597,10 @@ class MediaResourcesController < ApplicationController
         end.accessible_by_user(current_user)
 
         case sort
+          when "author"
+            resources = resources.ordered_by_author
+          when "title"
+            resources = resources.ordered_by_title
           when "updated_at", "created_at"
             resources = resources.order("media_resources.#{sort} DESC")
           when "random"
@@ -544,10 +628,7 @@ class MediaResourcesController < ApplicationController
         end
         
         resources = resources.search(query) unless query.blank?
-        resources = resources.paginate(:page => page, :per_page => per_page)
-    
-        # TODO ?? resources = resources.includes(:meta_data, :permissions)
-    
+
         if meta_key_id and meta_term_id
           meta_key = MetaKey.find(meta_key_id)
           meta_term = meta_key.meta_terms.find(meta_term_id)
@@ -555,8 +636,7 @@ class MediaResourcesController < ApplicationController
           resources = resources.where(:id => media_resource_ids)
         end
 
-        @media_resources = resources
-        @with = with
+        render json: view_context.hash_for_media_resources_with_pagination(resources, {:page => page, :per_page => per_page}, with).to_json
       }
     end
   end
@@ -630,8 +710,8 @@ class MediaResourcesController < ApplicationController
     end
     
     respond_to do |format|
-      format.json { 
-        render :partial => "media_resources/index", :formats => [:json], :handlers => [:rjson], :locals => {:media_resources => child_resources, :with => {:parents => true}}
+      format.json {
+        render :json => view_context.json_for(child_resources, {:parents => true})
       }
     end
   end
@@ -646,7 +726,7 @@ class MediaResourcesController < ApplicationController
   # @action GET
   # 
   # @required [Integer] id The id of the MediaResource you want to fetch the image for.
-  # @optional [String] size Set the responding size of the image: "small"(100x100) | "small_125"(125x125) | "medium"(300x300) | "large"(620x500)[DEFAULT] | "x-large"(1024x768).
+  # @optional [String] size Set the responding size of the image: "small"(100x100) | "small_125"(125x125) | "medium"(300x300) | "large"(620x500)[DEFAULT] | "x_large"(1024x768).
   #
   # @example_request /media_resource/3234/image
   # @example_request_description Request the image for MediaResource id 3234.
@@ -663,8 +743,7 @@ class MediaResourcesController < ApplicationController
       send_data Base64.decode64(output), :type => "image/gif", :disposition => 'inline'
     else
       preview = media_file.get_preview(size)
-      file = File.join(THUMBNAIL_STORAGE_DIR, media_file.shard, preview.filename)
-      if File.exist?(file)
+      if preview and File.exist?(file = File.join(THUMBNAIL_STORAGE_DIR, media_file.shard, preview.filename))
         output = File.read(file)
         send_data output, :type => preview.content_type, :disposition => 'inline'
       else
@@ -728,13 +807,9 @@ class MediaResourcesController < ApplicationController
         resources = resources.where_permission_presets_and_user presets, current_user
       end
 
-      resources = resources.paginate(:page => page, :per_page => per_page)
-
       respond_to do |format|
         format.json {
-          @media_resources = resources
-          @with = with
-          render :template => "media_resources/index.json.rjson"
+          render json: view_context.hash_for_media_resources_with_pagination(resources, {:page => page, :per_page => per_page}, with).to_json
         }
       end
 

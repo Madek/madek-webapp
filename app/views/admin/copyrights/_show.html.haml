@@ -1,0 +1,10 @@
+%tr
+  %td= copyright.parent_id
+  %td= copyright.id
+  %td= copyright.label
+  %td= copyright.is_default? ? "true" : nil
+  %td= copyright.is_custom? ? "true" : nil
+  %td.with_actions
+    = link_to _("Edit"), edit_admin_copyright_path(copyright), :class => "buttons", :remote => true, :"data-type" => "html"
+    %br
+    = link_to _("Delete"), admin_copyright_path(copyright), :class => "buttons", :method => :delete, :data => {:confirm => _("Sind Sie sicher?")} if copyright.is_deletable?

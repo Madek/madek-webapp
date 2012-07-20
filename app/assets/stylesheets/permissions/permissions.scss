@@ -29,9 +29,13 @@
     font-size: 1.0em;
     margin-bottom: 4px;
   }   
+
+  .icon {
+    vertical-align: inherit;
+  }
   
   label.mixed {
-    background: url("stripe_1.png") repeat scroll 0 0 red;
+    background: image-url("stripe_1.png") repeat scroll 0 0 red;
     @include border-radius(4px);
     
     &.overwritten {
@@ -109,7 +113,11 @@
       top: -2px;
     }
     
-    .loading_image {
+    .icon {
+      vertical-align: top;
+    }
+
+    .loading {
       display: inline-block;
       height: 13px;
       left: -20px;
@@ -209,7 +217,7 @@
       }
       
       .arrow {
-        background: url(icons/madek_icon_sprites.png) -409px -559px no-repeat;
+        background: image-url("icons/madek_icon_sprites.png") -409px -559px no-repeat;
         display: block;
         position: absolute;
         right: 9px;
@@ -238,7 +246,7 @@
       width: 21px;
       
       .public.icon {
-        background: url(icons/madek_icon_sprites.png) -252px -1039px no-repeat;
+        background: image-url("icons/madek_icon_sprites.png") -252px -1039px no-repeat;
         height: 15px;
         position: relative;
         left: -3px;
@@ -324,7 +332,7 @@
   }
   
   .me.icon {
-    background: url(icons/madek_icon_sprites.png) -308px -1039px no-repeat;
+    background: image-url("icons/madek_icon_sprites.png") -308px -1039px no-repeat;
     display: inline-block;
     height: 15px;
     margin-right: 5px;
@@ -344,7 +352,7 @@
   section.groups.with_me {
     
     .groups_with_me.icon {
-      background: url(icons/madek_icon_sprites.png) -338px -1039px no-repeat;
+      background: image-url("icons/madek_icon_sprites.png") -338px -1039px no-repeat;
       display: inline-block;
       height: 15px;
       left: -4px;
@@ -385,7 +393,7 @@
     section.users {
       
       .user.icon {
-        background: url(icons/madek_icon_sprites.png) -282px -1039px no-repeat;
+        background: image-url("icons/madek_icon_sprites.png") -282px -1039px no-repeat;
         display: inline-block;
         height: 15px;
         margin-right: 5px;
@@ -398,7 +406,7 @@
     section.groups {
       
       .groups.icon {
-        background: url(icons/madek_icon_sprites.png) -370px -1039px no-repeat;
+        background: image-url("icons/madek_icon_sprites.png") -370px -1039px no-repeat;
         display: inline-block;
         height: 15px;
         left: -4px;
@@ -412,7 +420,7 @@
       margin-bottom: 12px;
       
       .public.icon {
-        background: url(icons/madek_icon_sprites.png) -252px -1039px no-repeat;
+        background: image-url("icons/madek_icon_sprites.png") -252px -1039px no-repeat;
         display: inline-block;
         height: 15px;
         left: -2px;

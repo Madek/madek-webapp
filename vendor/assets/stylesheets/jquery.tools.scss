@@ -1,0 +1,36 @@
+/* tooltip styling. by default the element to be styled is .tooltip  */
+.tooltip {
+	display:none;
+	background:transparent image-url('jquery/tools/tooltip/black_arrow.png');
+	font-size:12px;
+	height:70px;
+	width:160px;
+	padding:25px;
+	color:#fff;	
+}
+
+.scrollable {
+	position: relative;
+	overflow: hidden;
+	height: 400px;
+	width: 200px;
+}
+.scrollable .items {
+	position: absolute;
+}
+.scrollable_actions {
+	width: 200px;
+	text-align: right;
+}
+.scrollable_actions a {
+	font-size: 11px;
+	cursor: pointer;
+	color: #666;
+}
+.scrollable_actions a:hover {
+	text-decoration: underline;
+	color: #000;
+}
+.scrollable_actions a.disabled {
+	visibility: hidden;
+}

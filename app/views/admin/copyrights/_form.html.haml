@@ -1,0 +1,24 @@
+- remote ||= false
+= form_for @copyright, :url => url, :remote => remote do |f|
+  %table
+    %tr
+      %th= f.label :parent_id
+      %td= f.text_field :parent_id
+    %tr
+      %th= f.label :label
+      %td= f.text_field :label
+    %tr
+      %th= f.label :usage
+      %td= f.text_field :usage
+    %tr
+      %th= f.label :url
+      %td= f.text_field :url
+    %tr
+      %th= f.label :is_default
+      %td= f.check_box :is_default
+    %tr
+      %th= f.label :is_custom
+      %td= f.check_box :is_custom
+    %tr
+      %td
+      %td= f.submit submit

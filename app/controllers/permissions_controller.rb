@@ -48,7 +48,8 @@ class PermissionsController < ApplicationController
   #
   def index(media_resource_ids = (params[:collection_id] ? MediaResource.by_collection(current_user.id, params[:collection_id]) : params[:media_resource_ids]))
     begin
-      @media_resources = MediaResource.accessible_by_user(current_user, :view).find(media_resource_ids)
+      media_resources = MediaResource.accessible_by_user(current_user, :view).find(media_resource_ids)
+      render :json => view_context.hash_for_permissions_for_media_resources(media_resources).to_json
     rescue
       not_authorized!
     end

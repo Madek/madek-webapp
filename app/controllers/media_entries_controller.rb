@@ -132,7 +132,7 @@ class MediaEntriesController < ApplicationController
     
     respond_to do |format|
       format.json {
-        render :partial => "media_resources/index", :formats => [:json], :handlers => [:rjson], :locals => {:media_resources => parent_media_sets}
+        render json: view_context.json_for(parent_media_sets)
       }
     end
   end
@@ -178,9 +178,9 @@ class MediaEntriesController < ApplicationController
   
   def edit_multiple
     labels = ["title", "author", "uploaded at", "uploaded by", "keywords", "copyright notice", "portrayed object dates"]
-    # custom hash for jQuery json templates
     @info_to_json = @media_entries.map do |me|
-      core_info = Hash.new
+      core_info = view_context.hash_for(me, {:image => {:as => "base64"}})
+      # TODO add more attributes using hash_for helper as here before
       labels.each do |label|
         core_info[label.gsub(' ', '_')] = ""
       end

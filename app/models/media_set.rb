@@ -6,6 +6,8 @@ class MediaSet < MediaResource
   has_many :media_entries, :through => :out_arcs, :source => :child,  conditions: "media_resources.type = 'MediaEntry'"
 
   belongs_to :user
+
+
   
   def self.find_by_id_or_create_by_title(values, user)
     records = Array(values).map do |v|
@@ -18,11 +20,11 @@ class MediaSet < MediaResource
     records.compact
   end
 
+  # TODO remove, it's used only on tests!
   # FIXME this only fetches the first set with that title,
   # but there could be many sets with the same title 
   def self.find_by_title(title)
-    MediaSet.joins(:meta_data => :meta_key).
-      where(:meta_data => {:meta_keys => {:label => "title"}, :string => title}).first
+    MediaSet.joins(:meta_data => :meta_key).where(:meta_keys => {:label => "title"}, :meta_data => {:string => title}).first
   end
 
 ########################################################
@@ -38,7 +40,17 @@ class MediaSet < MediaResource
   def individual_and_inheritable_contexts
     (individual_contexts | inheritable_contexts).sort
   end
+
+
+
+### Size ##############################################
   
+  def size user=nil
+    descendants = GraphQueries.descendants(self)
+    descendants = descendants.accessible_by_user(user) if user
+    descendants.size
+  end
+
 ########################################################
 
   #tmp# this is currently up on MediaResource
@@ -113,7 +125,7 @@ class MediaSet < MediaResource
     end
     meta_key_ids = individual_contexts.flat_map{|ic| ic.meta_keys.for_meta_terms.pluck("meta_keys.id") }
     mds = MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids)
-    mds.flat_map(&:value).uniq.compact
+    mds.flat_map(&:meta_term_ids).uniq
   end
 
 end

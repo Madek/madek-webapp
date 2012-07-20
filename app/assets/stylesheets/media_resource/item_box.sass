@@ -2,10 +2,16 @@
 @import "../variables"
 
 .item_box
-  &:hover
+  &:hover, &.inspector
     background: #f1f1f1
     .actions
       display: block
+  
+  &.inspector
+    padding: 5px 36px 5px 29px
+
+    .item_permission
+      left: 31px
   
   a
     text-decoration: none
@@ -21,10 +27,8 @@
     font-size: 0.8em
     line-height: 140px
     background-color: #fff
-    -webkit-box-shadow: 0 0 4px rgba(100, 100, 100, 0.3)
-    -moz-box-shadow: 0 0 4px rgba(100, 100, 100, 0.3)
-    box-shadow: 0 0 4px rgba(100, 100, 100, 0.3)
     margin-bottom: 10px
+    @include box-shadow(0 0 4px rgba(100, 100, 100, 0.4))
     
     img 
       margin-top: expression(( 140 - this.height ) / 2)
@@ -52,3 +56,24 @@
     .item_permission
       left: 10px
       top: 34px
+
+  &.doc
+    .thumb_box
+      background: url($sprite) no-repeat 0 -243px
+      height: 149px
+      position: relative
+      margin-bottom: 1px
+      top: -4px
+      width: 142px
+      @include box-shadow(0 0 0 transparent)
+
+    img
+      max-height: 140px
+      max-width: 120px
+      position: relative
+      top: 2px
+      left: 1px
+
+    .item_permission
+      left: 16px
+      top: 7px

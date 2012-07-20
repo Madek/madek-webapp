@@ -54,19 +54,7 @@ function setupBatch(json) {
 	if(json != undefined) display_results(json);
   listSelected();
   displayCount();
-
-	// display the task_bar only whether there is something selectable or something is already selected
-	if(get_media_entries_json().length == 0 && $(".item_box").has(".check_box").length == 0){
-		$('.task_bar').hide();
-		return false;
-	}else{
-	  $('.task_bar').show();
-	}
-	// hide the select_deselect_all checkbox on the browse page
-	if($(".item_box .check_box").length < 2) {
-		$("#batch-select-all").hide();
-		$("#batch-deselect-all").hide().next().hide();
-	}
+  displayButtons();
 
 	// make thumbnails removable from the selected items bar
     $('#selected_items .thumb_mini').live("hover", function() {
@@ -77,7 +65,7 @@ function setupBatch(json) {
 		toggleSelected(id);
 		
 		//TODO dry// display the task_bar only whether there is something selectable or something is already selected
-	    if(get_media_entries_json().length == 0 && $(".item_box").has(".check_box").length == 0){
+	    if(get_media_resources_json().length == 0 && $(".item_box").has(".check_box").length == 0){
 	      $('.task_bar').hide();
 	    }
     });
@@ -97,19 +85,18 @@ function setupBatch(json) {
   // select all function
   $("#batch-select-all").click(function(event){
     event.preventDefault();
-    var media_entries_json = get_media_entries_json();
-    // select all the visible and not already selected items
-    $(".item_box:visible").has(".check_box").each(function(i, elem) { 
-      var me = $(elem).tmplItem().data;
-      var i = is_Selected(media_entries_json, me.id);
-      // if not yet selected
-      if((i == -1)) {
-            media_entries_json.push(me);
-            $(elem).addClass('selected');
-            $('#selected_items').append($("#thumbnail_mini").tmpl(me));
-      };  
-    });
-    set_media_entries_json(media_entries_json);
+    var media_resources_json = get_media_resources_json();
+
+    // select all loaded and not already selected items
+    var loaded_item_boxes = $("#results .item_box[data-id]"); 
+    var already_selected_ids = _.map(media_resources_json,function(m){return m.id});
+    var all_data = _.map(loaded_item_boxes,function(el){return $(el).tmplItem().data});
+    var all_data_without_already_selected = _.filter(all_data, function(el){return !_.include(already_selected_ids, el.id)}); 
+    media_resources_json = media_resources_json.concat(all_data_without_already_selected);
+    $('#selected_items').append($("#thumbnail_mini").tmpl(media_resources_json));
+    loaded_item_boxes.addClass("selected");
+    
+    set_media_resources_json(media_resources_json);
     displayCount();
     return false;
   });
@@ -117,38 +104,39 @@ function setupBatch(json) {
   // deselect all function
   $("#batch-deselect-all").click(function(event){
     event.preventDefault();
-    var media_entries_json = get_media_entries_json();
+    var media_resources_json = get_media_resources_json();
     // remove everything from the action bar
-    $.each(media_entries_json, function(i, me){
+    $.each(media_resources_json, function(i, me){
       $('#thumb_' + me.id).removeClass('selected').removeAttr("style");
       $('#selected_items [rel="'+me.id+'"]').remove();
-      sessionStorage.removeItem("selected_media_entries");
+      sessionStorage.removeItem("selected_media_resources");
     });
     displayCount();
+    displayButtons();
     return false;
   });
   
 	function toggleSelected(me) {
-		var media_entries_json = get_media_entries_json();
+		var media_resources_json = get_media_resources_json();
 		var id = (typeof(me) == "object" ? me.id : parseInt(me));
-		var i = is_Selected(media_entries_json, id);
+		var i = is_Selected(media_resources_json, id);
 		
 		if(i > -1) {
-			media_entries_json.splice(i, 1);
+			media_resources_json.splice(i, 1);
 			$(".item_box[data-id="+id+"]").each(function(i, el){
 			  $(el).removeClass('selected');
 			});
 			$('#selected_items [rel="'+id+'"]').remove();
 			$("#positionable").fadeOut(); // only on browse page
 		} else {
-      media_entries_json.push(me);
+      media_resources_json.push(me);
       $(".item_box[data-id="+id+"]").each(function(i, el){
         $(el).addClass('selected');
       });
       $('#selected_items').append($("#thumbnail_mini").tmpl(me));
 		};
 
-		set_media_entries_json(media_entries_json);
+		set_media_resources_json(media_resources_json);
     displayCount();
 	};
 
@@ -162,25 +150,25 @@ function selected_items_highlight_off(selector){
 }
 
 function listSelected() {
-	var media_entries_json = get_media_entries_json();
+	var media_resources_json = get_media_resources_json();
 	// display all previously selected items under taskbar 
 	// TODO: this method needs to make sure that all ME in sessionStorage still exist
-	$('#selected_items').html($("#thumbnail_mini").tmpl(media_entries_json));
+	$('#selected_items').html($("#thumbnail_mini").tmpl(media_resources_json));
 };
 
 
 function displayCount() {
-	var media_entries_json = get_media_entries_json();
+	var media_resources_json = get_media_resources_json();
 	
 	// count media entries
 	var count_checked_media_entries = 0;
-	$.each(media_entries_json, function(i_resource, resource){
+	$.each(media_resources_json, function(i_resource, resource){
     if(!resource.is_set) count_checked_media_entries++;	  
 	});
 	
 	// count media sets
 	var count_checked_media_sets = 0;
-  $.each(media_entries_json, function(i_resource, resource){
+  $.each(media_resources_json, function(i_resource, resource){
     if(resource.is_set) count_checked_media_sets++;   
   });
 	
@@ -225,6 +213,23 @@ function displayCount() {
 	update_selection(); // needed for set widget
 };
 
+function displayButtons(){
+  // display the task_bar only whether there is something selectable or something is already selected
+  if(get_media_resources_json().length == 0 && $(".item_box").has(".check_box").length == 0 && $("#inspector").length == 0){
+    $('.task_bar').hide();
+    return false;
+  }else{
+    $('.task_bar').show();
+  }
+  // hide the select_deselect_all checkbox on the browse page
+  if($(".item_box .check_box").length < 2 && $("#inspector").length == 0) {
+    $("#batch-select-all").hide();
+    if(get_media_resources_json().length == 0){
+      $("#batch-deselect-all").hide().next().hide();
+    }
+  }
+}
+
 function display_page(json, container){
 	var rp = $("#result_page").tmpl(json);
 	if(container.hasClass("page")){
@@ -255,7 +260,7 @@ function display_results(json, container){
 
 function update_selection(){
   var selected_ids = [];
-  $.each(get_media_entries_json(), function(i, element){
+  $.each(get_media_resources_json(), function(i, element){
     selected_ids.push(element.id);
   });
   $($(".task_bar .has-set-widget").data("widget")).remove();

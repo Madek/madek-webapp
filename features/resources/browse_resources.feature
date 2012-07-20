@@ -6,7 +6,7 @@ Feature: Possibility to browse entries and sets
 
   Background: Set up the world some users, some sets and entries
     Given I have set up the world a little
-      And a user called "Max" with username "max" and password "moritz" exists
+      And a user called "Max" with username "max" and password "password" exists
       
       And a set titled "My Act Photos" created by "max" exists
       And a entry titled "Me with Nothing" created by "max" exists
@@ -30,7 +30,7 @@ Feature: Possibility to browse entries and sets
       And a entry titled "Me with School Uniform" created by "max" exists
       And the last entry is child of the last set
       
-      And a user called "Moritz" with username "moritz" and password "max" exists
+      And a user called "Moritz" with username "moritz" and password "password" exists
       
       And a public set titled "Photos from Moritz" created by "moritz" exists
       And a entry titled "This is Moritz" created by "moritz" exists
@@ -52,7 +52,7 @@ Feature: Possibility to browse entries and sets
       
   @javascript
   Scenario: Max goes to the homepage and want to see his own media entries and public media entries from other users
-    When I log in as "max" with password "moritz"
+    Given I am "max"
     When I go to the home page
     Then I should see "My Act Photos"
     And I should see "Me with Nothing"
@@ -70,7 +70,7 @@ Feature: Possibility to browse entries and sets
     
   @javascript
   Scenario: Moritz goes to the homepage and want to see his own media entries and public media entries from other users
-    When I log in as "moritz" with password "max"
+    Given I am "moritz"
     When I go to the home page
     Then I should not see "My Act Photos"
     And I should not see "Me with Nothing"

@@ -10,19 +10,15 @@ class Authenticator::DatabaseAuthenticationController < ApplicationController
   def login
     if request.post?
       crypted_password = Digest::SHA1.hexdigest(params[:password])
-      user = User.where(:login => params[:login], :password => crypted_password).first
-      if user
+      if user = User.where(:login => params[:login].try(&:downcase), :password => crypted_password).first
         session[:user_id] = user.id
-        redirect_to root_path
       else
-        flash[:notice] = _("Invalid username/password")
-        render :layout => false
+        flash[:error] = _("Invalid username/password")
       end
+      redirect_to root_path
     else
       render :layout => false
     end
-
-
   end
   
   def logout
