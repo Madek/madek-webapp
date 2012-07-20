@@ -9,7 +9,7 @@ require "bundler/capistrano"
 
 set :scm, :git
 set :repository, "git://github.com/zhdk/madek.git"
-set :branch, "master"
+set :branch, "feature_setup"
 set :deploy_via, :remote_cache
 
 set :db_config, "/home/madek/database.yml"
@@ -62,7 +62,7 @@ task :remove_htaccess do
 end
 
 task :make_tmp do
-  run "mkdir -p #{release_path}/tmp/sessions #{release_path}/tmp/cache #{release_path}/tmp/downloads #{release_path}/tmp/zipfiles"
+  run "mkdir -p #{release_path}/tmp/sessions #{release_path}/tmp/cache"
 end
 
 namespace :deploy do
