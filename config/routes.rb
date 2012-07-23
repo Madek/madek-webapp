@@ -221,8 +221,8 @@ MAdeK::Application.routes.draw do
     resource :meta, :controller => 'meta' do
       member do
         get :export
-        get :import
-        post :import
+        #old# get :import
+        #old# post :import
       end
     end
 
