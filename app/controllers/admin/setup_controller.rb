@@ -8,7 +8,8 @@ class Admin::SetupController < ActionController::Base
 
   def show
     methods = [:image_magick, :exiftool, :directories, :admin_user,
-               :usage_terms, :copyrights, :meta_keys, :meta_contexts]
+               :usage_terms, :copyrights, :meta_keys, :meta_contexts,
+               :permission_presets, :dropbox, :special_sets]
     @checks = methods.map {|m| send("#{m}_hash") }
   end
 
@@ -203,6 +204,51 @@ class Admin::SetupController < ActionController::Base
       title: "MetaContexts (%s)" % required_contexts.join(', '),
       success: "Success",
       failure: "Failure: <a href='/admin/contexts'>create on admin interface</a> or <a href='/admin/setup/meta_contexts_do'>create missing ones automatically</a>"
+    }
+  end
+
+##########
+
+  def permission_presets?
+    PermissionPreset.exists?
+  end
+  
+  def permission_presets_hash
+    {
+      valid: permission_presets?,
+      title: "Permission Presets",
+      success: "Success (some exist)",
+      failure: "Failure: <a href='/admin/permission_presets'>create on admin interface</a>"
+    }
+  end
+
+##########
+
+  def dropbox?
+    AppSettings.dropbox_root_dir and File.directory?(AppSettings.dropbox_root_dir)
+  end
+  
+  def dropbox_hash
+    {
+      valid: dropbox?,
+      title: "Dropbox",
+      success: "Success",
+      failure: "Failure: <a href='/admin/settings/dropbox'>create on admin interface</a>"
+    }
+  end
+
+##########
+
+  def special_sets?
+    AppSettings.featured_set_id and AppSettings.splashscreen_slideshow_set_id
+  end
+  
+  def special_sets_hash
+    {
+      valid: special_sets?,
+      title: "Special Sets",
+      success: "Success",
+      failure: "Failure: <a href='/admin/media_sets/special'>create on admin interface</a>"
     }
   end
 
