@@ -56,7 +56,7 @@ namespace :madek do
 
   desc "Reset"
   task :reset => :environment do
-     Rake::Task["app:setup:make_directories[reset]"].invoke
+     Rake::Task["app:setup:make_directories"].execute(:reset => "reset")
      
      system "rm -f tmp/*.mysql" 
      Rake::Task["log:clear"].invoke
