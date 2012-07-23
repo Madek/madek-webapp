@@ -8,7 +8,7 @@ class Admin::SetupController < ActionController::Base
 
   def show
     methods = [:image_magick, :exiftool, :directories, :admin_user,
-               :usage_terms, :copyrights, :meta_keys, :meta_contexts,
+               :usage_terms, :copyrights, :meta_keys, :dynamic_meta_keys, :meta_contexts,
                :permission_presets, :dropbox, :special_sets]
     @checks = methods.map {|m| send("#{m}_hash") }
   end
@@ -56,6 +56,17 @@ class Admin::SetupController < ActionController::Base
   def meta_keys_do
     unless meta_keys?
       DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
+    end
+    redirect_to admin_setup_path
+  end
+  
+  def dynamic_meta_keys_do
+    unless dynamic_meta_keys?
+      dynamic_meta_keys.each_pair do |k,v|
+        v.each do |x|
+          MetaKey.create label: x, is_dynamic: true, meta_datum_object_type: k
+        end
+      end
     end
     redirect_to admin_setup_path
   end
@@ -183,6 +194,35 @@ class Admin::SetupController < ActionController::Base
       title: "MetaKeys",
       success: "Success (some MetaKeys exist)",
       failure: "Failure: <a href='/admin/keys'>create on admin interface</a> or <a href='/admin/setup/meta_keys_do'>import zhdk preset (too much)</a>"
+    }
+  end
+
+##########
+
+  def dynamic_meta_keys
+    {
+      "MetaDatumUsers"  => ["owner"],
+      "MetaDatumDate"   => ["uploaded at"],
+      "MetaDatumString" => ["copyright usage", "copyright url", "public access", "media type", "parent media_resources", "child media_resources"]
+    }
+  end
+
+  def dynamic_meta_keys?
+    r = []
+    dynamic_meta_keys.each_pair do |k,v|
+      r << v.all? do |x|
+        MetaKey.exists? label: x, is_dynamic: true, meta_datum_object_type: k
+      end
+    end
+    r.all? {|x| x }
+  end
+  
+  def dynamic_meta_keys_hash
+    {
+      valid: dynamic_meta_keys?,
+      title: "Dynamic MetaKeys (%s)" % dynamic_meta_keys.values.flatten.join(', '),
+      success: "Success",
+      failure: "Failure: <a href='/admin/setup/dynamic_meta_keys_do'>create missing ones automatically</a>"
     }
   end
 
