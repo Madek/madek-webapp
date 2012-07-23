@@ -15,8 +15,7 @@ class Admin::SetupController < ActionController::Base
 
   def directories_do
     unless directories?
-      # FIXME this should be :make_missing_directories ??
-      system("rake madek:make_directories")
+      system("rake app:setup:make_directories")
     end
     redirect_to admin_setup_path
   end
@@ -108,7 +107,7 @@ class Admin::SetupController < ActionController::Base
       valid: directories?,
       title: "Directories",
       success: "Success",
-      failure: "Failure: <a href='/admin/setup/directories_do'>Create directories</a>"
+      failure: "Failure: <a href='/admin/setup/directories_do'>Create missing directories (existing ones will not be deleted)</a>"
     }
   end
 
