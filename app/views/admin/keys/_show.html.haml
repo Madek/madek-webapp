@@ -14,4 +14,4 @@
   %td.with_actions
     = link_to _("Edit"), edit_admin_key_path(key), :class => "buttons", :remote => true, :"data-type" => "html"
     %br
-    = link_to _("Delete"), admin_key_path(key), :class => "buttons", :method => :delete, :data => {:confirm => _("Sind Sie sicher?")} if key.meta_key_definitions.empty?
+    = link_to _("Delete"), admin_key_path(key), :class => "buttons", :method => :delete, :data => {:confirm => _("Sind Sie sicher?")} if key.is_deletable?
