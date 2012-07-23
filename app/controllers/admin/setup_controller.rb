@@ -8,10 +8,9 @@ class Admin::SetupController < ActionController::Base
 
   def show
     methods = [:image_magick, :exiftool, :directories, :admin_user,
-               :usage_terms, :copyrights, :meta_keys, :meta_mapping]
+               :usage_terms, :copyrights, :meta_keys, :meta_contexts]
     @checks = methods.map {|m| send("#{m}_hash") }
   end
-
 
   def directories_do
     unless directories?
@@ -56,6 +55,15 @@ class Admin::SetupController < ActionController::Base
   def meta_keys_do
     unless meta_keys?
       DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
+    end
+    redirect_to admin_setup_path
+  end
+
+  def meta_contexts_do
+    unless meta_contexts?
+      required_contexts.each do |x|
+        MetaContext.create(name: x, label: x.humanize) unless MetaContext.exists?(name: x)
+      end
     end
     redirect_to admin_setup_path
   end
@@ -143,14 +151,14 @@ class Admin::SetupController < ActionController::Base
       valid: usage_terms?,
       title: "UsageTerm",
       success: "Success (the UsageTerm is present)",
-      failure: "Failure: <a href='/admin/usage_term'>create or edit</a>"
+      failure: "Failure: <a href='/admin/usage_term'>create or edit on admin interface</a>"
     }
   end
 
 ##########
 
   def copyrights?
-    Copyright.exists?
+    Copyright.exists? # TODO and meta_keys with type
   end
   
   def copyrights_hash
@@ -158,37 +166,43 @@ class Admin::SetupController < ActionController::Base
       valid: copyrights?,
       title: "Copyrights",
       success: "Success (some Copyrights exist)",
-      failure: "Failure: <a href='/admin/copyrights'>create</a> or <a href='/admin/setup/copyrights_do'>use default (Switzerland)</a>"
+      failure: "Failure: <a href='/admin/copyrights'>create on admin interface</a> or <a href='/admin/setup/copyrights_do'>use default (Switzerland)</a>"
     }
   end
 
 ##########
 
   def meta_keys?
-    MetaKey.exists? and MetaContext.exists?
+    MetaKey.exists?
   end
   
   def meta_keys_hash
     {
       valid: meta_keys?,
-      title: "MetaKeys and MetaContexts",
-      success: "Success (some MetaKeys and some MetaContexts exist)",
-      failure: "Failure: <a href='/admin/keys'>create</a> or <a href='/admin/setup/meta_keys_do'>import preset</a>"
+      title: "MetaKeys",
+      success: "Success (some MetaKeys exist)",
+      failure: "Failure: <a href='/admin/keys'>create on admin interface</a> or <a href='/admin/setup/meta_keys_do'>import zhdk preset (too much)</a>"
     }
   end
 
 ##########
 
-  def meta_mapping?
-    MetaContext.exists?(name: "io_interface")
+  def required_contexts
+    ["io_interface", "core", "upload", "media_set", "media_content", "media_object", "copyright"]
+  end
+
+  def meta_contexts?
+    required_contexts.all? do |x|
+      MetaContext.exists?(name: x)
+    end
   end
   
-  def meta_mapping_hash
+  def meta_contexts_hash
     {
-      valid: meta_mapping?,
-      title: "File metadata mapping",
-      success: "Success (the io_interface MetaContext is present)",
-      failure: "Failure: <a href='/admin/contexts'>create</a>"
+      valid: meta_contexts?,
+      title: "MetaContexts (%s)" % required_contexts.join(', '),
+      success: "Success",
+      failure: "Failure: <a href='/admin/contexts'>create on admin interface</a> or <a href='/admin/setup/meta_contexts_do'>create missing ones automatically</a>"
     }
   end
 
