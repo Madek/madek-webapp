@@ -52,8 +52,19 @@ class Admin::SetupController < ActionController::Base
     end
     redirect_to admin_setup_path
   end
-  
+
   def meta_keys_do
+    unless meta_keys?
+      meta_keys.each_pair do |k,v|
+        v.each do |x|
+          MetaKey.create label: x, meta_datum_object_type: k
+        end
+      end
+    end
+    redirect_to admin_setup_path
+  end
+  
+  def meta_keys_import
     unless meta_keys?
       DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
     end
@@ -184,16 +195,34 @@ class Admin::SetupController < ActionController::Base
 
 ##########
 
+  def meta_keys
+    {
+      "MetaDatumDate"         => ["portrayed object dates"],
+      "MetaDatumPeople"       => ["author", "description author", "description author before import", "description author before snapshot"],
+      "MetaDatumUsers"        => ["uploaded by"],
+      "MetaDatumDepartments"  => ["institutional affiliation"],
+      "MetaDatumKeywords"     => ["keywords"],
+      "MetaDatumMetaTerms"    => ["type", "academic year", "project type"],
+      "MetaDatumString"       => ["title", "copyright notice"]
+    }
+  end
+
   def meta_keys?
-    MetaKey.exists?
+    r = []
+    meta_keys.each_pair do |k,v|
+      r << v.all? do |x|
+        MetaKey.exists? label: x, meta_datum_object_type: k
+      end
+    end
+    r.all? {|x| x }
   end
   
   def meta_keys_hash
     {
       valid: meta_keys?,
-      title: "MetaKeys",
-      success: "Success (some MetaKeys exist)",
-      failure: "Failure: <a href='/admin/keys'>create on admin interface</a> or <a href='/admin/setup/meta_keys_do'>import zhdk preset (too much)</a>"
+      title: "MetaKeys (%s)" % meta_keys.values.flatten.join(', '),
+      success: "Success",
+      failure: "Failure: <a href='/admin/keys'>create on admin interface</a> or <a href='/admin/setup/meta_keys_do'>create missing ones automatically</a> or <a href='/admin/setup/meta_keys_import'>import zhdk preset (maybe too much)</a>"
     }
   end
 
