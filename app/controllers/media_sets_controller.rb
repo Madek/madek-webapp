@@ -79,8 +79,9 @@ class MediaSetsController < ApplicationController
             child.parent_sets.accessible_by_user(current_user, accessible_action)
           end.uniq
         else
-          MediaSet.accessible_by_user(current_user, accessible_action)
+          MediaSet.(current_user, accessible_action)
         end
+        endaccessible_by_user
         render json: view_context.hash_for_media_resources_with_pagination(media_sets, true, with).to_json
       }
     end

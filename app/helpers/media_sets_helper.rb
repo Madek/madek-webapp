@@ -108,12 +108,9 @@ module MediaSetsHelper
               :"data-user" => current_user.to_json(only: {}, methods: :name),
               :"data-after_submit" => "window.location.reload();",
               :"data-detach_selected" => detach_selected,
-              :"data-index" => {path: "/media_sets.json", method: "GET", data: {accessible_action: "edit", with: {created_at: true, meta_data: {meta_key_names: ["title", "owner"]}}}}.to_json,
-              :"data-linked_index" => {path: "/media_sets.json", method: "GET", data: {accessible_action: "edit", child_ids: ":selected_ids", with: {children: 1}}.merge(linked_index_with)}.to_json,
               :"data-create" => {path: "/media_sets.json", method: "POST", data: {media_sets: ":created_items"}, created_item: {meta_data_attributes: {0 => {meta_key_label: "title", value: ":title"}}}}.to_json,
               :"data-link" => link.to_json,
               :"data-unlink" => unlink.to_json}
-  
       haml_tag :button, args do
         if linked_content
           haml_concat linked_content

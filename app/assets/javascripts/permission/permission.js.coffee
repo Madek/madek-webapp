@@ -36,14 +36,18 @@ class Permission
   
   @create_collection = (container, target)->
     # TODO GO ON HERE
-    MediaResourceSelection.setup 
-      container: $(container).find(".media_resource_selection")
-      media_resource_ids: $(container).data("media_resource_ids")
-      contexts: ["core"]
-      callback: ()->
-        $(".media_resource_selection .loading").remove()
-      collection_created_callback: (collection_id)->
-        Permission.collection_id = collection_id
+    new MediaResourceSelection 
+      el: $(container).find(".media_resource_selection")
+      ids: $(container).data("media_resource_ids")
+      parameters:
+        with:
+          meta_data:
+            meta_context_names: ["core"]
+          image:
+            as: "base64"
+            size: "medium"
+      afterCreate: (data)-> 
+        Permission.collection_id = data.collection_id
         Permission.load_permission_presets container, target if not sessionStorage.permission_presets? 
         Permission.load_permissions container, $(container).data("media_resource_ids")
         

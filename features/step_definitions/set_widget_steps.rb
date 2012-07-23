@@ -91,3 +91,12 @@ When /^(?:|I )search for "(.+)"$/ do |search|
   fill_in("widget_search", :with => search)
 end
 
+When /^I create (\d+) sets$/ do |amount|
+  amount.to_i.times {
+    step 'I create a new set named "%s"' % [Faker::Name.last_name()]
+  }
+end
+
+Then /^I see at least (\d+) entries in the set widget$/ do |amount|
+  all(".widget .list li").size.should > 36
+end

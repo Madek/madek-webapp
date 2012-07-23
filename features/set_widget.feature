@@ -125,3 +125,13 @@ Feature: Set Widget for Sets in Sets and Entries in Sets
     And I open the selection widget for this set
     Then I should see the "My New Images" set inside the widget
     And the "My_New_Images" checkbox should be checked
+
+  @javascript @slow
+  Scenario: More then 36 items in a set widget
+    When I open the "My Profile Pic" entry
+     And I open the selection widget for this entry
+     And I create 40 sets
+     And I submit the selection widget
+     And I open the "Images from School" set
+     And I open the selection widget for this set
+    Then I see at least 40 entries in the set widget
