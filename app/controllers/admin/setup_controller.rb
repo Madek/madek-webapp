@@ -50,10 +50,15 @@ class Admin::SetupController < ActionController::Base
       entries = YAML.load_file(file)
       Copyright.save_as_nested_set(entries)
     end
-    
     redirect_to admin_setup_path
   end
   
+  def meta_keys_do
+    unless meta_keys?
+      DevelopmentHelpers::MetaDataPreset.load_minimal_yaml
+    end
+    redirect_to admin_setup_path
+  end
 
 ########################################################
   private
@@ -137,7 +142,7 @@ class Admin::SetupController < ActionController::Base
     {
       valid: usage_terms?,
       title: "UsageTerm",
-      success: "Success",
+      success: "Success (the UsageTerm is present)",
       failure: "Failure: <a href='/admin/usage_term'>create or edit</a>"
     }
   end
@@ -152,7 +157,7 @@ class Admin::SetupController < ActionController::Base
     {
       valid: copyrights?,
       title: "Copyrights",
-      success: "Success",
+      success: "Success (some Copyrights exist)",
       failure: "Failure: <a href='/admin/copyrights'>create</a> or <a href='/admin/setup/copyrights_do'>use default (Switzerland)</a>"
     }
   end
@@ -167,8 +172,8 @@ class Admin::SetupController < ActionController::Base
     {
       valid: meta_keys?,
       title: "MetaKeys and MetaContexts",
-      success: "Success",
-      failure: "Failure: <a href='/admin/keys'>create</a>"
+      success: "Success (some MetaKeys and some MetaContexts exist)",
+      failure: "Failure: <a href='/admin/keys'>create</a> or <a href='/admin/setup/meta_keys_do'>import preset</a>"
     }
   end
 
@@ -182,7 +187,7 @@ class Admin::SetupController < ActionController::Base
     {
       valid: meta_mapping?,
       title: "File metadata mapping",
-      success: "Success",
+      success: "Success (the io_interface MetaContext is present)",
       failure: "Failure: <a href='/admin/contexts'>create</a>"
     }
   end
