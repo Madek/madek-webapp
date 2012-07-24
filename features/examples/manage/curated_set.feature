@@ -29,3 +29,14 @@ Feature: Curated set / Gallery
     When I view a set with highlighted resources
     Then I see the highlighted resources in bigger size than the other ones
      And I see the highlighted resources twice, once in the highlighted area, once in the "set contains" list
+
+  @javascript
+  Scenario: Default title of the highlighted elements
+    When I see a set with highlighted resources
+    Then the default title is "Hervorgehobene Inhalte"
+    
+  @javascript
+  Scenario: Set the title for the highlighted elements
+     When I open a set that I can edit which has children
+      And I open the highlight dialog
+     Then I can set the title for the highlighted elements
