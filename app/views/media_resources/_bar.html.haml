@@ -28,6 +28,7 @@
 
   .right
     .sort
+      -# FIXME preselect the current option
       = link_to _("Sortieren nach Erstelldatum"), url_for(params.merge(:sort => :created_at)), :class => "created_at"
       = link_to _("Sortieren nach Änderungsdatum"), url_for(params.merge(:sort => :updated_at)), :class => "updated_at"
       = link_to _("Sortieren nach Titel"), url_for(params.merge(:sort => :title)), :class => "title"

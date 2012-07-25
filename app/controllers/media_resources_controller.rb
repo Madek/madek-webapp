@@ -558,7 +558,7 @@ class MediaResourcesController < ApplicationController
             not_by_current_user = params[:not_by_current_user],
             public = params[:public],
             favorites = params[:favorites],
-            sort = params[:sort] ||= "updated_at",
+            sort = params[:sort],
             query = params[:query],
             page = params[:page],
             per_page = [(params[:per_page] || PER_PAGE.first).to_i, PER_PAGE.first].min,
@@ -574,7 +574,8 @@ class MediaResourcesController < ApplicationController
         resources = if favorites == "true"
             current_user.favorites
           elsif media_set_id
-            MediaSet.find(media_set_id).children
+            media_set = MediaSet.find(media_set_id)
+            media_set.children
           else
             MediaResource
           end
@@ -598,7 +599,10 @@ class MediaResourcesController < ApplicationController
             end
         end.accessible_by_user(current_user, accessible_action)
 
-        case sort
+        sort ||= media_set.settings[:sorting] if media_set
+        sort ||= MediaSet::ACCEPTED_VARS[:sorting][:default]
+        
+        case sort.to_s
           when "author"
             resources = resources.ordered_by_author
           when "title"

@@ -26,22 +26,19 @@ describe MediaResourcesController do
 
     describe "ordering by title" do
 
-      let :get_ordered_by_title do
+      before :each do
         get :index, {format: "json", sort: "title"}, session
       end
 
       it "should be successful" do
-        get_ordered_by_title
         response.should  be_success
       end
 
       it "should assign @media_resources" do
-        get_ordered_by_title
         JSON.parse(response.body)["media_resources"].should be
       end
 
       it "should be ordered by title" do
-        get_ordered_by_title
         resources = extract_resources 
         resources.map(&:title).sort.should ==  resources.map(&:title)
       end
@@ -105,6 +102,37 @@ describe MediaResourcesController do
 
        end
 
+    end
+
+    describe "ordering depending on settings" do
+      it "should consider the saved setting or the default" do
+        @media_sets = 3.times.map{FactoryGirl.create :media_set}
+  
+        media_set = @media_sets[0]
+        media_set.settings[:sorting] = :title
+        media_set.save
+        get :index, {format: "json", media_set_id: media_set.id}, session
+        resources = extract_resources 
+        resources.map(&:title).sort.should == resources.map(&:title)
+  
+        media_set = @media_sets[1]
+        media_set.settings[:sorting] = :author
+        media_set.save
+        get :index, {format: "json", media_set_id: media_set.id}, session
+        resources = extract_resources 
+        resources.map(&:author).sort.should == resources.map(&:author)
+
+        media_set = @media_sets[2]
+        get :index, {format: "json", media_set_id: media_set.id}, session
+        resources = extract_resources
+        default = MediaSet::ACCEPTED_VARS[:sorting][:default]
+        resources.map(&default).sort.should == resources.map(&default)
+        media_set.settings[:sorting] = :created_at
+        media_set.save
+        get :index, {format: "json", media_set_id: media_set.id}, session
+        resources = extract_resources 
+        resources.map(&:created_at).sort.should == resources.map(&:created_at)
+      end
     end
 
   end

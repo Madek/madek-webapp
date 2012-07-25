@@ -7,8 +7,6 @@ class MediaSet < MediaResource
 
   belongs_to :user
 
-  store :settings
-  
   def self.find_by_id_or_create_by_title(values, user)
     records = Array(values).map do |v|
                       if v.is_a?(Numeric) or (v.respond_to?(:is_integer?) and v.is_integer?)
@@ -41,7 +39,23 @@ class MediaSet < MediaResource
     (individual_contexts | inheritable_contexts).sort
   end
 
+### Settings ##########################################
 
+  store :settings
+
+  ACCEPTED_VARS = {
+    :layout => {:possible_values => [:miniature, :grid, :list], :default => :grid},
+    :sorting => {:possible_values => [:created_at, :updated_at, :title, :author], :default => :updated_at}
+  }
+
+  validate do
+    unless settings.blank?
+      errors.add(:settings, "Invalid key") unless (settings.keys - ACCEPTED_VARS.keys).empty?
+      settings.each_pair do |k,v|
+        errors.add(:settings, "Invalid value") unless ACCEPTED_VARS[k][:possible_values].include? v
+      end
+    end 
+  end
 
 ### Size ##############################################
   
