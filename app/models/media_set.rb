@@ -7,7 +7,7 @@ class MediaSet < MediaResource
 
   belongs_to :user
 
-
+  store :settings
   
   def self.find_by_id_or_create_by_title(values, user)
     records = Array(values).map do |v|
@@ -73,7 +73,7 @@ class MediaSet < MediaResource
 ########################################################
 
   def get_media_file(user)
-    media_entries.accessible_by_user(user).order("media_resources.updated_at DESC").first.try(:media_file)
+    media_entries.accessible_by_user(user).where(media_resource_arcs: {cover: true}).first.try(:media_file)
   end
 
 ########################################################
