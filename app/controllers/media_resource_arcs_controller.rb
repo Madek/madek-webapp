@@ -60,7 +60,8 @@ class MediaResourceArcsController < ApplicationController
     ActiveRecord::Base.transaction do
       begin 
         media_resource_arcs.each do |arc_params| 
-          arc = MediaResourceArc.where(parent_id: arc_params[:parent_id], child_id: arc_params[:child_id]).first
+          parent = MediaSet.accessible_by_user(current_user, :edit).find(arc_params[:parent_id])
+          arc = parent.out_arcs.where(child_id: arc_params[:child_id]).first
           arc.update_attributes!(arc_params)
         end
         respond_to do |format|
