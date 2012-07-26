@@ -87,7 +87,13 @@ class MediaSet < MediaResource
 ########################################################
 
   def get_media_file(user)
-    media_entries.accessible_by_user(user).where(media_resource_arcs: {cover: true}).first.try(:media_file)
+    if out_arcs.where(cover: true).empty?
+      # NOTE this is the fallback in case no cover is set yet.
+      # Because the personas sql dump on test, we cannot set automatically in MediaResourceArcs#after_create (as it should)
+      media_entries.accessible_by_user(user).order("media_resource_arcs.id ASC").first.try(:media_file)
+    else
+      media_entries.accessible_by_user(user).where(media_resource_arcs: {cover: true}).first.try(:media_file)
+    end
   end
 
 ########################################################
