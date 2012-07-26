@@ -31,12 +31,6 @@
       - label: "CC-By-NC-ND-CH: Attribution Non-Commercial No Derivates"
         usage: Bitte jeweils die angegebenen Nutzungsmodifikationen beachten.
         url: http://creativecommons.org/licenses/by-nc-nd/2.5/ch/
-  - ? 
-      label: ZHdK-Lizenzen
-    : 
-      - label: Studio Publikation
-        usage: Alle Rechte dem Studio Publikation der ZHdK vorbehalten. Freie Verwendung im Rahmen von Ankündigung und Berichterstattung der ZHdK.
-        url: http://www.zhdk.ch/index.php?id=1033
 
 ?
   label: Urheberrechtlich geschützt (individuelle Lizenz)

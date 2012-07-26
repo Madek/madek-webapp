@@ -54,36 +54,9 @@ namespace :madek do
     DevelopmentHelpers.fetch_from_ldap
   end
 
-# CONSTANTS used here are in environment.rb
   desc "Reset"
-  task :reset => :environment  do |t,args|
-    
-      def rm_and_mkdir(path)
-        puts "Removing #{path}"
-        system "rm -rf '#{path}'"
-        puts "Creating #{path}"
-        system "mkdir -p #{path}"
-      end
-    
-      # If any of the paths are either nil or set to ""...
-      if [FILE_STORAGE_DIR, THUMBNAIL_STORAGE_DIR, TEMP_STORAGE_DIR, DOWNLOAD_STORAGE_DIR, ZIP_STORAGE_DIR].map{|path| path.to_s}.uniq == ""
-        puts "DANGER, EXITING: The file storage paths are not defined! You need to define FILE_STORAGE_DIR, THUMBNAIL_STORAGE_DIR, TEMP_STORAGE_DIR, DOWNLOAD_STORAGE_DIR, ZIP_STORAGE_DIR in your config/application.rb"
-        exit        
-      else
-        if (File.exist?(FILE_STORAGE_DIR) and File.exist?(THUMBNAIL_STORAGE_DIR))
-          puts "Deleting #{FILE_STORAGE_DIR} and #{THUMBNAIL_STORAGE_DIR}"
-          system "rm -rf '#{FILE_STORAGE_DIR}' '#{THUMBNAIL_STORAGE_DIR}'"         
-        end
-      
-        [ '0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f' ].each do |h|
-          puts "Creating #{FILE_STORAGE_DIR}/#{h} and #{THUMBNAIL_STORAGE_DIR}/#{h}"
-          system "mkdir -p #{FILE_STORAGE_DIR}/#{h} #{THUMBNAIL_STORAGE_DIR}/#{h}"
-        end
-      
-        rm_and_mkdir(TEMP_STORAGE_DIR)
-        rm_and_mkdir(DOWNLOAD_STORAGE_DIR)
-        rm_and_mkdir(ZIP_STORAGE_DIR)
-      end
+  task :reset => :environment do
+     Rake::Task["app:setup:make_directories"].execute(:reset => "reset")
      
      system "rm -f tmp/*.mysql" 
      Rake::Task["log:clear"].invoke
@@ -93,7 +66,6 @@ namespace :madek do
      ActiveRecord::Base.subclasses.each { |a| a.reset_column_information }
 
      Rake::Task["db:seed"].invoke
-
   end
   
 end # madek namespace

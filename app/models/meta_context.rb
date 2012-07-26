@@ -108,7 +108,12 @@ class MetaContext < ActiveRecord::Base
 ##################################################################
 
   def self.defaults
-    [media_content, media_object, copyright, zhdk_bereich]
+    r = [media_content, media_object, copyright]
+
+    # TODO move zhdk to AppSettings.default_context.map {|x| send(x) }
+    r << zhdk_bereich if MetaContext.exists?(name: "zhdk_bereich")
+    
+    r
   end
 
   def self.method_missing(*args)

@@ -51,6 +51,12 @@ class MetaTerm < ActiveRecord::Base
       h
     elsif h.is_a? Integer
       find_by_id(h)
+    elsif h.is_a? String
+      l = {}
+      LANGUAGES.each do |lang|
+        l[lang] = h
+      end
+      find_or_create_by_en_gb_and_de_ch(l)
     elsif h.values.any? {|x| not x.blank? }
       find_or_create_by_en_gb_and_de_ch(h)
     end

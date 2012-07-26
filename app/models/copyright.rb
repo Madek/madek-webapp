@@ -39,20 +39,6 @@ class Copyright < ActiveRecord::Base
     where(:label => "Public Domain / Gemeinfrei").first
   end
 
-#######################################
-
-  def self.init(reset = false)
-    return 0 unless reset or count == 0
-    delete_all
-
-    file = "#{Rails.root}/config/definitions/helpers/copyrights.yml"
-    entries = YAML.load(File.read(file))
-
-    save_as_nested_set(entries)
-
-    return count
-  end
-
 ##################################################
   class << self
 
