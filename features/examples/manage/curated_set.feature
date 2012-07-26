@@ -37,6 +37,7 @@ Feature: Curated set / Gallery
     
   @javascript
   Scenario: Set the title for the highlighted elements
+    Given I am "Normin"
      When I open a set that I can edit which has children
       And I open the highlight dialog
      Then I can set the title for the highlighted elements
