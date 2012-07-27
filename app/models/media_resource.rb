@@ -5,13 +5,6 @@ class MediaResource < ActiveRecord::Base
   include MediaResourceModules::MetaData
   include MediaResourceModules::Permissions
 
-  after_create do
-    if is_a? Snapshot
-      group = Group.find_or_create_by_name("MIZ-Archiv") 
-      grouppermissions.create(group: group, view: true, edit: true, download: true, manage: true)
-    end
-  end
-
 ###############################################################
 
   belongs_to :user   # TODO remove down and set missing user for snapshots

@@ -46,9 +46,8 @@
     .grid_9.alpha
       = form_tag update_multiple_media_entries_path, :method => :put do
         = hidden_field_tag 'media_entry_ids', @media_entries.map(&:id).join(',')
-        - meta_contexts = MetaContext.defaults
         - common_individual_contexts = @media_entries.map(&:individual_contexts).inject(&:&) # individual contexts common to all
-        - meta_contexts = (meta_contexts + common_individual_contexts).flatten
+        - meta_contexts = (MetaContext.defaults + common_individual_contexts).flatten
         - content_for :buttons do
           %div{:class => "save_buttons"}
             = link_to _("Abbrechen"), :back, :class => "buttons"
