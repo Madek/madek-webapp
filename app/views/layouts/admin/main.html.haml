@@ -70,7 +70,7 @@
     
   %body
     %header.container_12.clearfix
-      %h1= link_to "Medienarchiv der Künste", root_path
+      .logo= link_to AppSettings.title, root_path, :class => AppSettings.title.blank? ? "img" : nil 
       = render :partial => "layouts/admin/menu"
       #ajaxLoading
         = image_tag("spinner.gif")

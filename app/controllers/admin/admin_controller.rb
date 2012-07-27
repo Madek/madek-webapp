@@ -21,4 +21,17 @@ class Admin::AdminController < ApplicationController
     end
   end
 
+
+  def settings
+    if request.post?
+      params[:settings][:authentication_systems] = Array(params[:settings][:authentication_systems]).map{|x| x.to_sym} if params[:settings][:authentication_systems]
+
+      params[:settings].each_pair do |k,v|
+        AppSettings.send("#{k}=", v)
+      end
+
+      flash[:notice] = "Updated"
+    end
+  end
+
 end
