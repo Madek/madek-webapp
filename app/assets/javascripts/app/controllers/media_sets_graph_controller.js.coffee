@@ -16,7 +16,8 @@ class MediaSetsGraphController
     @el = $(@el)
     @inspector = @el.find("#inspector")
     @chart = @el.find("#chart")
-    do @setMetrics
+    @marker_size = 10
+    do @setDimensions
     do @setupGraph
     do @setupInspector
     do @setupOverlayManager
@@ -55,6 +56,12 @@ class MediaSetsGraphController
     @chart.delegate ".node", "click", @inspectNode
     @el.delegate ".node", "mouseenter", @enterNode
     @el.delegate ".node", "mouseleave", @leaveNode
+    $(window).bind "resize", @resize
+
+  resize: (e)=>
+    do @setDimensions
+    do @setInspectorDimension
+    @chart.find("svg").attr("height", @height).attr("width", @width)
 
   enterNode: (e)=>
     node = $(e.currentTarget)
@@ -72,10 +79,9 @@ class MediaSetsGraphController
     translate = node.attr("transform").match(/translate\(.*?\)/)
     node.attr("transform", translate)
   
-  setMetrics: =>
+  setDimensions: =>
     @width = @el.innerWidth() - @inspector.outerWidth() - (@el.outerWidth()-@el.width())
-    @height = $(window).height() - @chart.offset().top - $("footer").outerHeight()
-    @marker_size = 10
+    @height = $(window).height() - @chart.offset().top - $("footer").outerHeight() - $(".task_bar").height()
     
   setupGraph: => 
     @svg = d3.select("#chart").append("svg").attr("height", @height).attr("width", @width).call(d3.behavior.zoom().scale(start_scale).on("zoom", @redrawGraph))
@@ -157,14 +163,25 @@ class MediaSetsGraphController
         @loadChildren node.data("id")
         @checkCheckState node.data("id")
 
+  setInspectorDimension: =>
+    if @inspector.find(".children").length
+      @inspector.find(".children").height(@height - @inspector.find(".item_box").outerHeight() - 32)
+
   checkCheckState: (id)=>
     selected_ids = _.map window.get_media_resources_json(), (r)-> r.id
     @inspector.find(".item_box").addClass("selected") if _.include selected_ids, id
 
   loadChildren: (parent_id)=>
+    requested_data = 
+      with: 
+        children: 
+          pagination:
+            per_page: 36
     App.MediaResources.fetch_children parent_id, (data)=>
       @setupChildren data.children.media_resources
-      
+      do @setInspectorDimension
+    , requested_data
+
   setupChildren: (children)=>
     @children = $("<div class='children'></div>")
     @children.append $.tmpl "tmpl/svg/arrow", classname: "white"
