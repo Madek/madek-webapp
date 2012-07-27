@@ -27,9 +27,8 @@ class User < ActiveRecord::Base
   
   has_and_belongs_to_many :groups do
     def is_member?(group)
-      # OPTIMIZE
-      group = Group.find_or_create_by_name(group) if group.is_a? String
-      include?(group)
+      group = Group.find_by_name(group) if group.is_a? String
+      group ? include?(group) : false
     end
   end
   
