@@ -108,12 +108,8 @@ class MetaContext < ActiveRecord::Base
 ##################################################################
 
   def self.defaults
-    r = [media_content, media_object, copyright]
-
-    # TODO move zhdk to AppSettings.default_context.map {|x| send(x) }
-    r << zhdk_bereich if MetaContext.exists?(name: "zhdk_bereich")
-    
-    r
+    # FIXME this is a quickfix, should we maybe have a default MetaContextGroup ??
+    MetaContextGroup.first.try(:meta_contexts) || []
   end
 
   def self.method_missing(*args)
