@@ -93,20 +93,22 @@ class MediaResourcesController
       data: $.extend(data, {format: "json"})
       success: options.success
 
-  @fetch_children: (parent_id, callback)->
+  @fetch_children: (parent_id, callback, data)->
+    default_data = 
+      with: 
+        children: 
+          pagination:
+            per_page: 6
+          with:
+            image:
+              as:"base64"
+              size:"small"
+            meta_data:
+              meta_key_names: ["title"]
+    data = $.extend default_data, data
     $.ajax
       url: "/media_sets/"+parent_id+".json"
-      data:
-        with: 
-          children: 
-            pagination:
-              per_page: 6
-            with:
-              image:
-                as:"base64"
-                size:"small"
-              meta_data:
-                meta_key_names: ["title"]
+      data: data
       type: "GET"
       success: (data, status, request) -> callback(data)
       error: (request, status, error) -> console.log "ERROR LOADING"
