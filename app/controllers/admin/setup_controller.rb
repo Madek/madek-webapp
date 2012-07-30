@@ -85,7 +85,13 @@ class Admin::SetupController < ActionController::Base
   def meta_contexts_do
     unless meta_contexts?
       required_contexts.values.flatten.each do |x|
-        MetaContext.create(name: x, label: x.humanize) unless MetaContext.exists?(name: x)
+        unless MetaContext.exists?(name: x)
+          if x == "io_interface"
+            DevelopmentHelpers::MetaDataPreset.import_context(x)
+          else
+            MetaContext.create(name: x, label: x.humanize)
+          end
+        end
       end
       unless MetaContextGroup.exists?
         mcg = MetaContextGroup.create(name: "Metadata")
