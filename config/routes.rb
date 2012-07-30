@@ -210,6 +210,8 @@ MAdeK::Application.routes.draw do
     match '/setup', :to => "setup#show"
     match '/setup/:action', :to => "setup"
 
+    match '/settings', :to => "admin#settings"
+
     resources :meta_context_groups do
       collection do
         put :reorder
@@ -262,15 +264,6 @@ MAdeK::Application.routes.draw do
     end
 
     resource :usage_term
-
-    resources :settings, :only => [] do
-      collection do
-        get :dropbox
-        post :dropbox
-        get :authentications
-        post :authentications
-      end
-    end
 
     resources :media_sets do
       collection do

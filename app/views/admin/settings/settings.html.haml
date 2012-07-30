@@ -1,3 +1,22 @@
+:ruby
+  active_a = AppSettings.authentication_systems
+  default_a = AppSettings::ACCEPTED_VARS[:authentication_systems][:default]
+  possible_a = AppSettings::ACCEPTED_VARS[:authentication_systems][:possible_values]
+  
+%h3
+  = _("Authentications")
+
+= form_tag authentications_admin_settings_path do
+  %ul
+    - possible_a.each do |a|
+      %li
+        - is_checked = active_a.include?(a)
+        = check_box_tag "authentication_systems[]", a, is_checked
+        = "#{a}"
+        = " (default)" if default_a.include?(a)
+  = submit_tag
+
+%hr
 %h3
   = _("Dropbox")
 

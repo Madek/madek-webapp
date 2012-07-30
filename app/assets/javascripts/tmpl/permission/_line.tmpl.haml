@@ -32,7 +32,7 @@
   .permissions
   
     {{if view}}
-    {{if JSON.stringify(view)==JSON.stringify($item.media_resource_ids)}}
+    {{if Underscore.isEqual(view.sort(), $item.media_resource_ids.sort())}}
     %label.view.permission{:title => "Betrachten"}
       = check_box_tag 'view', "true", true
     {{else}}
@@ -47,7 +47,7 @@
     {{/if}}
     
     {{if download}}
-    {{if JSON.stringify(download)==JSON.stringify($item.media_resource_ids)}}
+    {{if Underscore.isEqual(download.sort(), $item.media_resource_ids.sort())}}
     %label.download.permission{:title => "Exportieren Original"}
       = check_box_tag 'download', "true", true
     {{else}}
@@ -62,7 +62,7 @@
     {{/if}}
     
     {{if edit}}
-    {{if JSON.stringify(edit)==JSON.stringify($item.media_resource_ids)}}
+    {{if Underscore.isEqual(edit.sort(), $item.media_resource_ids.sort())}}
     %label.edit.permission{:title => "Editieren"}
       = check_box_tag 'edit', "true", true
     {{else}}
@@ -77,7 +77,7 @@
     {{/if}}
     
     {{if manage}}
-    {{if JSON.stringify(manage)==JSON.stringify($item.media_resource_ids)}}
+    {{if Underscore.isEqual(manage.sort(), $item.media_resource_ids.sort())}}
     %label.manage.permission{:title => "Berechtigungen verwalten"}
       = check_box_tag 'manage', "true", true
     {{else}}
