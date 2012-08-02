@@ -41,6 +41,16 @@
       -if params[:type] == "media_sets" and params[:user_id] == "#{current_user.id}"
         = link_to "", graph_user_media_sets_path(current_user), :class => "graph icon", :title => _("Graph-Ansicht") 
 
+    .action_menu  
+      = _("Aktionen")
+      .icon.arrow.up_and_down
+      .action_menu_list.right
+        %ul
+          %li
+            = link_to upload_path, :title => _("Medien importieren") do
+              .import.icon
+              = _("Importieren")
+
 :javascript
   $(document).ready(function () {
     Bar.setup(

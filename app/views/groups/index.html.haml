@@ -3,6 +3,16 @@
     %div.page_title_left
       .icon.groups
       =_("Meine Arbeitsgruppen")
+
+    .action_menu
+      = _("Aktionen")
+      .icon.arrow.up_and_down
+      .action_menu_list.right
+        %ul
+          %li
+            = link_to "", :class => "create_group", :title => _("Neue Arbeitsgruppe erstellen") do
+              .add_group.icon
+              = _("Neue Arbeitsgruppe")
     .clear
     
     %section.group
@@ -17,7 +27,6 @@
             %p= group
             - total_accessible_by_group = MediaResource.accessible_by_group(group).where(:type => ["MediaEntry", "MediaSet"]).count
             = link_to _("%d Inhalte") % total_accessible_by_group, media_resources_path(:group_id => group.id), :title => _("Inhalte diese Gruppe anzeigen")
-      %button.button.create= _("Neue Arbeitsgruppe erstellen")
     
     - unless @system_groups.empty?         
       %section.group     

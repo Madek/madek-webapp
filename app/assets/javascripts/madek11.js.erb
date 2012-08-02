@@ -29,7 +29,6 @@ $(document).ready(function () {
       });
       if(to_open){
         $(this).addClass("active");
-        $(this).css("background", "transparent url('<%= image_path 'icons/arrow-up-04.png' %>') 50% bottom no-repeat");
         $("div#"+$(this).attr("panel")+"-panel").slideDown("slow");
       }
       return false;

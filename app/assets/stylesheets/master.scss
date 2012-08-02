@@ -308,17 +308,19 @@ div#ajaxLoading {
 }
 
 .button_favorit_on {
-	background: image-url("icons/madek_icon_sprites.png") 0 -1062px no-repeat;
-	width: 18px;
-	height: 18px;
+	background: image-url("icons/madek_icon_sprites.png") 0 -1062px no-repeat !important;
+	width: 18px !important;
+	height: 18px !important;
 	display: inline-block;
+	vertical-align: inherit !important;
 }
 
 .button_favorit_off {
-	background: image-url("icons/madek_icon_sprites.png") 0 -994px no-repeat;
-	width: 18px;
-	height: 18px;
+	background: image-url("icons/madek_icon_sprites.png") 0 -994px no-repeat !important;
+	width: 18px !important;
+	height: 18px !important;
 	display: inline-block;
+	vertical-align: inherit !important;
 }
 
 .button_explore {
@@ -1586,86 +1588,6 @@ button.dark:hover {
 	display: block;
 }
 
-#set_actions {
-	padding: 20px 70px 30px 0;
-	display: block;
-	float: right;
-  
-  a {
-    text-decoration: none;
-  }
-	
-	.button_edit_active {
-		background: image-url("icons/madek_icon_sprites.png") 6px -716px no-repeat;
-	}
-	
-	.button_edit_inactive {
-		background: image-url("icons/madek_icon_sprites.png") 6px -842px no-repeat;
-	}
-	
-	.button_delete_active {
-		background: image-url("icons/madek_icon_sprites.png") 6px -443px no-repeat;
-	}
-	
-	.button_delete_inactive {
-		background: image-url("icons/madek_icon_sprites.png") 6px -579px no-repeat;
-	}
-
-  button {
-    padding: 1px;
-    background: transparent;
-    border: 1px solid transparent;    
-    
-  	.button_addto {
-  		background: image-url("icons/madek_icon_sprites.png") 6px -240px no-repeat;
-  	}
-  }
-
-	.button_favorit_on {
-		background: image-url("icons/madek_icon_sprites.png") 6px -1056px no-repeat;
-	}
-	
-	.button_favorit_off {
-		background: image-url("icons/madek_icon_sprites.png") 6px -988px no-repeat;
-	}
-	
-	.button_permissions {
-    background: image-url("icons/madek_icon_sprites.png") -441px -1166px  no-repeat;
-  }
-	
-	div {
-		padding: 6px;
-		margin-left: 10px;
-		-webkit-border-radius: 3px;
-		-moz-border-radius: 3px;
-		-o-border-radius: 3px;
-		border-radius: 3px;
-		-webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
-		-moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
-		box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
-		
-		&:hover {
-			-webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
-			-moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
-			box-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
-		}
-	}
-	
-	.button_addto {
-	  margin-left: 6px;
-	}
-	
-	button:hover {
-	   .button_addto {
-      -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
-      -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
-      box-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
-    }
-	}
-	
-	.open {  background: image-url("icons/arrow-up-04.png") no-repeat scroll 72% 72% transparent; }
-}
-
 
 .ghost {
 	opacity:0.3;
@@ -1708,9 +1630,6 @@ button.dark:hover {
 		background: image-url("icons/madek_icon_sprites.png") 10px -712px no-repeat;
 	}
 	
-	&>li > a.open {
-	  background: image-url("icons/arrow-up-04.png") no-repeat scroll 50% bottom transparent;
-	}
 }
 
 

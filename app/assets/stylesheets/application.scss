@@ -12,13 +12,14 @@
  *= require video-js
  *= require icons
  * 
- *= require media_entry/_meta_data
+ 
  *= require widgets/set_widget
  *= require button/button
  *= require modal_overlay/modal_overlay
  *= require media_set/popup
  * 
  *= require_tree ./upload
+ *= require_tree ./media_entry
  *= require_tree ./permissions
  *= require_tree ./dialog
  *= require_tree ./media_resource

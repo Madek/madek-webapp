@@ -24,8 +24,16 @@
     width: 15px;
     @include opacity(0.4);
   }
+
+  .action_menu {
+    left: auto;
+    margin-left: 16px;
+    position: relative;
+    right: 0;
+    top: -2px;
+  }
   
-  .left {
+  &>.left {
     position: absolute;
     top: 35px;
     left: 42px;
@@ -215,7 +223,7 @@
     }
   }
   
-  .right {
+  &>.right {
     display: inline-block;
     position: absolute;
     top: 38px;

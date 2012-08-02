@@ -9,59 +9,71 @@ Feature: Login
 
   @javascript
   Scenario: Context actions on the set detail view
-    When ...
+    When I open a set that I can edit which has children
     Then I can open the context actions drop down and see the following actions in the following order:
-    | action name |
+    | action |
     | edit |
     | favorite |
     | permissions |
     | add to set |
     | set highlight |
-    | set cover |
-    | save display settings |
-    | create set |
+    #| set cover |
+    #| save display settings |
+    #| create set |
     | delete |
 
   @javascript
   Scenario: Context actions on the media entry detail view
-    When ...
+    When I open one of my resources
     Then I can open the context actions drop down and see the following actions in the following order:
-    | action name |
+    | action |
     | edit |
     | favorite |
     | browse |
     | permissions |
     | add to set |
     | export |
-    | create set |
+    #| create set |
     | delete |
 
   @javascript
   Scenario: Context actions on the search result page
-    When ...
-    Then I can open the context actions drop down and see the following actions in the following order:
-    | create set |
+    #When ...
+    #Then I can open the context actions drop down and see the following actions in the following order:
+    #| action |
+    #| create set |
 
   @javascript
   Scenario: Context actions on the group page
-    When ...
+    When I click the arrow next to my name
+     And I follow "Meine Arbeitsgruppen"
     Then I can open the context actions drop down and see the following actions in the following order:
+    | action |
     | create group |
 
   @javascript
   Scenario: Context actions on the favorite view
-    When ...
+    When I click the arrow next to my name
+     And I follow "Meine Favoriten"
     Then I can open the context actions drop down and see the following actions in the following order:
-    | create set |
+    | action |
+    #| create set |
+    | import |
 
   @javascript
   Scenario: Context actions on the my media entries view
-    When ...
+    When I click the arrow next to my name
+     And I follow "Meine Medieneinträge"
     Then I can open the context actions drop down and see the following actions in the following order:
-    | create set |
+    | action |
+    #| create set |
+    | import |
 
   @javascript
   Scenario: Context actions on the my sets view
-    When ...
+    When I click the arrow next to my name
+     And I follow "Meine Sets"
     Then I can open the context actions drop down and see the following actions in the following order:
-    | create set |
+    | action |
+    #| create set |
+    | import |
