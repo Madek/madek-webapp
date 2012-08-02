@@ -15,6 +15,7 @@ jQuery ->
 class Permission
   
   @collection_id
+  @permission_presets
   
   @open_lightbox = (target)->
     # prepare badge
@@ -48,7 +49,7 @@ class Permission
             size: "medium"
       afterCreate: (data)-> 
         Permission.collection_id = data.collection_id
-        Permission.load_permission_presets container, target if not sessionStorage.permission_presets? 
+        Permission.load_permission_presets container, target if not Permission.permission_presets? 
         Permission.load_permissions container, $(container).data("media_resource_ids")
         
   @load_permission_presets = (container, trigger)->
@@ -56,7 +57,7 @@ class Permission
       url: "/permission_presets.json"
       type: "GET"
       success: (data)->
-        sessionStorage.permission_presets = JSON.stringify(data)
+        Permission.permission_presets = data
         Permission.load_permissions container, $(trigger).data("media_resource_ids")
    
   @display_inline = (options)->
@@ -170,7 +171,7 @@ class Permission
             $(user_line).find("div:not(.owner) input, div:not(.owner) select, div:not(.owner) .select").attr("disabled", "disabled")
   
   @match_preset = (line_permissions)->
-    for preset in JSON.parse(sessionStorage.permission_presets)
+    for preset in Permission.permission_presets
       if preset.view == line_permissions.view and preset.download == line_permissions.download and preset.edit == line_permissions.edit and preset.manage == line_permissions.manage
         return preset
   
