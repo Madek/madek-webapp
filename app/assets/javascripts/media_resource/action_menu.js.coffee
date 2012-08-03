@@ -21,11 +21,13 @@ class ActionMenu
     action_menu.addClass "open"
     action_menu.data "list", list
     list.data "menu", action_menu
+    my = if list.is(".right") then "right top" else "left top"
+    at = if list.is(".right") then "right bottom" else "left bottom"
     list.show().position
-      my: "left top"
-      at: "left bottom"
+      my: my
+      at: at
       of: action_menu
-      offset: "0 1"
+      offset: "0 -3"
       
   close_on_click: (e)=> @close $(e.currentTarget).closest(".action_menu_list")
   

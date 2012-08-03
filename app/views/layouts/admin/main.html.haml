@@ -70,7 +70,7 @@
     
   %body
     %header.container_12.clearfix
-      %h1= link_to "Medienarchiv der Künste", root_path
+      .logo= link_to AppSettings.title, root_path, :class => AppSettings.title.blank? ? "img" : nil 
       = render :partial => "layouts/admin/menu"
       #ajaxLoading
         = image_tag("spinner.gif")
@@ -82,7 +82,7 @@
     %footer.container_12.clearfix{:style => "padding-top: 4em;"}
       = link_to _("Export"), export_admin_meta_path
       |
-      = link_to _("Import"), import_admin_meta_path
+      =#old# link_to _("Import"), import_admin_meta_path
 
     %script{:type => "text/x-jquery-tmpl", :id => "edit_row"}
       %tr{:class => "${tr_class}"}

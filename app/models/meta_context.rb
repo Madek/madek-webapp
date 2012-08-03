@@ -108,7 +108,8 @@ class MetaContext < ActiveRecord::Base
 ##################################################################
 
   def self.defaults
-    [media_content, media_object, copyright, zhdk_bereich]
+    # FIXME this is a quickfix, should we maybe have a default MetaContextGroup ??
+    MetaContextGroup.first.try(:meta_contexts) || []
   end
 
   def self.method_missing(*args)

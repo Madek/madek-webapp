@@ -1,3 +1,4 @@
-= link_to toggle_favorites_media_resource_path(media_resource), :remote => true, :"data-type" => "html", :method => :post do
+= link_to toggle_favorites_media_resource_path(media_resource), :remote => true, :"data-type" => "html", :method => :post, :title => _("Als Favorit merken") do
   - s = (current_user.favorite_ids.include?(media_resource.id) ? "on" : "off")
-  %div{:class => "button_favorit_#{s}" }
+  %div{:class => "icon button_favorit_#{s}"}
+  .text{:style => "display: none;"}= _("Favorisieren")

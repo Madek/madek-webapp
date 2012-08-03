@@ -415,9 +415,10 @@ Given /^I switch the list of the childs to the miniature view$/ do
 end
 
 Given /^I examine one of the child media entry more closely$/ do
+  wait_until { find("#children #results .thumb_box") }
   page.execute_script('$("#children #results .thumb_box:first").trigger("mouseenter")')
 end
 
 Then /^I see more information about that media entry popping up$/ do
-  wait_until(45){ find(".entry_popup") }
+  wait_until(45){ all(".entry_popup").size > 0 }
 end

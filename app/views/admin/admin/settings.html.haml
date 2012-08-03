@@ -1,0 +1,45 @@
+= form_tag admin_settings_path do
+
+  %h3= _("Authentications")
+  :ruby
+    active_a = AppSettings.authentication_systems
+    default_a = AppSettings::ACCEPTED_VARS[:authentication_systems][:default]
+    possible_a = AppSettings::ACCEPTED_VARS[:authentication_systems][:possible_values]
+
+  %ul
+    - possible_a.each do |a|
+      %li
+        - is_checked = active_a.include?(a)
+        = check_box_tag "settings[authentication_systems][]", a, is_checked
+        = "#{a}"
+        = " (default)" if default_a.include?(a)
+  %hr
+  
+  %h3= _("Dropbox")
+  %p
+    Dropbox root directory path:
+    = text_field_tag 'settings[dropbox_root_dir]', AppSettings.dropbox_root_dir
+  %p
+    FTP Dropbox Server:
+    = text_field_tag 'settings[ftp_dropbox_server]', AppSettings.ftp_dropbox_server
+  %p
+    FTP Dropbox User Login:
+    = text_field_tag 'settings[ftp_dropbox_user]', AppSettings.ftp_dropbox_user
+    - if (u = AppSettings.ftp_dropbox_user)
+      UID:
+      - begin
+        = Etc.getpwnam(u).uid
+      - rescue
+        = _("Not Valid!")
+  %p
+    FTP Dropbox Password:
+    = text_field_tag 'settings[ftp_dropbox_password]', AppSettings.ftp_dropbox_password
+  %hr
+
+  %h3= _("Title")
+  %p
+    Instance title:
+    = text_field_tag 'settings[title]', AppSettings.title
+  %hr
+
+  = submit_tag

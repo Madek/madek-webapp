@@ -98,11 +98,13 @@ class MetaKey < ActiveRecord::Base
   def self.object_types
     # NOTE in development mode we need to preload
     # FIXME
-    # Dir.glob(File.join(Rails.root, "app/models/meta_datum_*.rb")).each {|model_file| require model_file } if Rails.env == "development"
-    
-    r = MetaDatum.descendants.map(&:name).sort
-    r = ["MetaDatumCopyright", "MetaDatumDate", "MetaDatumDepartments", "MetaDatumKeywords", "MetaDatumMetaTerms", "MetaDatumPeople", "MetaDatumString", "MetaDatumUsers"] if r.blank?
-    r
+    if Rails.env == "development"
+      # Dir.glob(File.join(Rails.root, "app/models/meta_datum_*.rb")).each {|model_file| require model_file } if Rails.env == "development"
+      ["MetaDatumCopyright", "MetaDatumDate", "MetaDatumDepartments", "MetaDatumKeywords",
+       "MetaDatumMetaTerms", "MetaDatumPeople", "MetaDatumString", "MetaDatumUsers"]
+    else
+      MetaDatum.descendants.map(&:name).sort
+    end
   end
   
 ########################################################
@@ -110,6 +112,10 @@ class MetaKey < ActiveRecord::Base
   # TODO refactor to association has_many :used_meta_terms, :through ...
   def used_term_ids
     meta_data.flat_map(&:value).map(&:id).uniq.compact if meta_datum_object_type == "MetaDatumMetaTerms"
+  end
+  
+  def is_deletable?
+    meta_key_definitions.empty? and meta_data.empty?
   end
 
 end

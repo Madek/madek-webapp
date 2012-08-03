@@ -1,14 +1,14 @@
 @import "../mixins"
 
 .action_menu
-  border: 1px solid rgba(0,0,0,0.1)
-  color: #666
+  border: 1px solid rgba(0,0,0,0.2)
+  color: #444
   cursor: default 
   display: inline-block
   font-size: 0.9em
   font-weight: bold
-  height: 21px
-  padding: 1px 19px 0 7px
+  height: 22px
+  padding: 2px 19px 0 7px
   position: absolute
   top: 154px
   left: 25px
@@ -18,7 +18,7 @@
   @include text-shadow(0 1px 0 rgba(255,255,255,0.8))
   @include vertical-gradient(#EFEFEF, #FFFFFF, 30%, 70%)
     
-  .icon
+  &>.icon
     display: block !important
     position: absolute
     top: 7px
@@ -32,42 +32,72 @@
     @include text-shadow(0 1px 0 rgba(255,255,255,0.8))
     @include vertical-gradient(#c3c3c3, #c3c3c3, 50%, 50%)
   
-.action_menu_list
-  display: none
-  position: absolute
-  margin-top: 2px
-  z-index: 1001
-      
-  ul
-    background: #f6f6f6
-    border: 1px solid #b6b6b6
-    display: inline-block
-    @include box-shadow(0 2px 4px rgba(0,0,0,0.4))
-    @include border-radius(6px)
+  .action_menu_list
+    display: none
+    position: absolute
+    padding-top: 4px
+    z-index: 1001
+
+    &.right 
+      right: 0
         
-    li
-      border-bottom: 1px solid #d1d1d1
-      color: #424242
-      display: block
-      font-weight: normal
-      white-space: nowrap
-      position: relative
-      width: 100%
-      @include box-shadow(0 1px 0 rgba(255,255,255,0.5))
-      
-      a
-        display: block
-        padding: 6px 12px
-        width: 100%
-      
-      &.active, &:active, &:hover 
-        background: #dedede
-        color: black
-        
-      &:last-child
-        border-bottom: none
-        @include box-shadow(0 0 0 rgba(0,0,0,0))
-            
-        &:hover
-          @include bottom-border-radius(6px)
+    ul
+      background: #f6f6f6
+      border: 1px solid #b6b6b6
+      display: inline-block
+      @include box-shadow(0 2px 4px rgba(0,0,0,0.4))
+      @include border-radius(6px)
           
+      li
+        border-bottom: 1px solid #d1d1d1
+        color: #424242
+        display: block
+        font-weight: normal
+        min-width: 150px
+        position: relative
+        white-space: nowrap
+        width: 100%
+        @include box-shadow(0 1px 0 rgba(255,255,255,0.5))
+        
+        a
+          cursor: pointer
+          display: block
+          padding: 6px 12px 6px 34px
+          text-decoration: none
+          width: 100%
+
+          .icon
+            position: absolute
+            left: 9px
+            top: 9px
+            @include opacity(0.6)
+
+            &.button_favorit_off, &.button_favorit_on
+              left: 7px
+              top: 7px
+
+            &.trash
+              top: 9px
+              left: 11px
+        
+        &.active, &:active, &:hover 
+          background: #dedede
+          color: black
+
+          .icon
+            @include opacity(1.0)
+          
+        &:last-child
+          border-bottom: none
+          @include box-shadow(0 0 0 rgba(0,0,0,0))
+              
+          &:hover
+            @include bottom-border-radius(6px)
+            
+  &:hover .action_menu_list
+    display: block
+
+  .action_menu_list .favorite_link
+    display: block
+    .text
+      display: block !important

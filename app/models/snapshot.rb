@@ -16,6 +16,9 @@ class Snapshot < MediaResource
     end
     descr_author_value = meta_data.get("description author", false).try(:value)
     meta_data.get("description author before snapshot").update_attributes(:value => descr_author_value) if descr_author_value
+
+    group = Group.find_or_create_by_name("MIZ-Archiv") 
+    grouppermissions.create(group: group, view: true, edit: true, download: true, manage: true)
   end
 
   default_scope order("created_at DESC")

@@ -207,6 +207,11 @@ MAdeK::Application.routes.draw do
   namespace :admin do
     root :to => "keys#index"
 
+    match '/setup', :to => "setup#show"
+    match '/setup/:action', :to => "setup"
+
+    match '/settings', :to => "admin#settings"
+
     resources :meta_context_groups do
       collection do
         put :reorder
@@ -218,8 +223,8 @@ MAdeK::Application.routes.draw do
     resource :meta, :controller => 'meta' do
       member do
         get :export
-        get :import
-        post :import
+        #old# get :import
+        #old# post :import
       end
     end
 
@@ -260,15 +265,6 @@ MAdeK::Application.routes.draw do
 
     resource :usage_term
 
-    resources :settings, :only => [] do
-      collection do
-        get :dropbox
-        post :dropbox
-        get :authentications
-        post :authentications
-      end
-    end
-
     resources :media_sets do
       collection do
         get :special
@@ -277,15 +273,9 @@ MAdeK::Application.routes.draw do
     end
     
     resources :copyrights
-    
+        
   end
 
-# TODO ??
-#__ Schema namespace __##############################################################
-####################################################################################
-#  namespace :schema do
-#    resources :copyrights, only: :index
-#  end
 ####################################################################################
 
 end

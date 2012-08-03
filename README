@@ -18,18 +18,16 @@ See you then!
 If you want to try to install this, here's some hints (we won't have a complete installation guide
 until 2012):
 
- * Install ExifTool, ImageMagick, Sphinx
+ * Install ExifTool, ImageMagick
  * Grab the MAdeK source
  * Adapt the paths etc. in config/application.rb. You'll have to point at a few binaries as installed
    on your system. 
- * Copy config/development.sphinx.conf_with_pipe to config/development.sphinx.conf and adapt
-   the settings.
  * cd into your MAdeK directory
  * Create (or copy from the samples) config/database.yml
- * rake db:create
  * bundle install
- * rake madek:reset
+ * rake db:create db:migrate
+ * open your browser and visit /admin/setup
 
 That should get you up and running.
 
-http://madek.zhdk.ch | http://github.com/psy-q/madek | http://code.zhdk.ch/projects/madek
+http://madek.zhdk.ch | http://github.com/zhdk/madek

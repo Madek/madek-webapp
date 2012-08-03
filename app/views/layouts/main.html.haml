@@ -4,7 +4,7 @@
   %head
     %meta{:charset => 'utf-8'}
     %title
-      = @title || "Medienarchiv - Zürcher Hochschule der Künste"
+      = @title || AppSettings.title || "Medienarchiv - Zürcher Hochschule der Künste"
     = stylesheet_link_tag "application"
     = javascript_include_tag "application"
     = javascript_include_tag "i18n/jquery.ui.datepicker-de-CH.js" # TODO i18n

@@ -10,6 +10,7 @@ class Admin::ContextsController < Admin::AdminController
 #####################################################
 
   def index
+    # TODO move zhdk to AppSettings.default_context.map {|x| send(x) }
     hard_sort = %w(io_interface tms core upload media_content media_object copyright zhdk_bereich media_set)
     @contexts = MetaContext.all.sort {|a,b| (hard_sort.index(a.name) || a.id) <=> (hard_sort.index(b.name) || b.id) }
   end

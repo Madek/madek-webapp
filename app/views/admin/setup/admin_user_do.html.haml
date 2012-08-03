@@ -1,0 +1,69 @@
+%h3
+  Create an Admin
+ 
+= flash_helper
+ 
+= form_for @person, :url => "/admin/setup/admin_user_do" do |f|
+  %table
+    %tr
+      %td= f.label :firstname
+      %td= f.text_field :firstname
+
+    %tr
+      %td= f.label :lastname
+      %td= f.text_field :lastname
+
+    %tr
+      %td= f.label :pseudonym
+      %td= f.text_field :pseudonym
+
+    = f.fields_for :user do |user_f|
+      %tr
+        %td= user_f.label :login
+        %td= user_f.text_field :login
+  
+      %tr
+        %td= user_f.label :email
+        %td= user_f.text_field :email
+  
+      %tr
+        %td= user_f.label :password
+        %td= user_f.password_field :password
+  
+      %tr
+        %td= user_f.label :password_confirmation
+        %td= user_f.password_field :password_confirmation
+  
+      %tr
+        %td= user_f.label :notes
+        %td= user_f.text_area :notes
+
+    %tr
+      %td
+      %td= f.submit "Create"
+
+
+= javascript_include_tag "jquery.min"
+
+:coffeescript
+  jQuery ->
+    $("form").bind "submit", ()->
+      _this = $(this)
+      r = true
+      em = _this.find("input#person_user_email")
+      em.next().remove()
+      if em.val() == ""
+        em.after("<span>Email can't be blank.</span>")
+        r = false
+      c = _this.find("input#person_user_password")
+      c.next().remove()
+      if c.val() == ""
+        c.after("<span>Password can't be blank.</span>")
+        r = false
+      pc = _this.find("input#person_user_password_confirmation")
+      pc.next().remove()
+      if c.val() != pc.val()
+        pc.after("<span>Password does not match the confirm password.</span>")
+        r = false
+      return r
+  

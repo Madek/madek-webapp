@@ -55,9 +55,6 @@ class ApplicationController < ActionController::Base
     @disable_search = true
   end
 
-  def catalog
-  end
-
 ##############################################  
   protected
 

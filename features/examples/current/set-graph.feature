@@ -92,5 +92,4 @@ Feature: Set Graph
     When I change the window height
     Then the set graph element is scaling to the new height
      And the inspector panel shows more child elements corresponding to the new height
- 
 

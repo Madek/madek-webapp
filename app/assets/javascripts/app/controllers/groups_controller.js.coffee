@@ -7,7 +7,7 @@ class GroupsController
     do @delegate_events
     
   delegate_events: ->
-    @el.delegate ".group .button.create", "click", @open_create_dialog 
+    @el.delegate ".create_group", "click", @open_create_dialog 
     @el.delegate ".group .edit", "click", @open_edit_dialog 
   
   open_create_dialog: (e)=>

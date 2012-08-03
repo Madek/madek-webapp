@@ -123,3 +123,38 @@ Then /^I can choose to see icons for favorites on each node of the graph$/ do
   wait_until { page.evaluate_script('$("#chart .node image.favorite").length') > 0 }
   wait_until { find("#chart.favorites") }
 end
+
+When /^I change the window width$/ do
+  @window = Capybara.current_session.driver.browser.manage.window
+  @window_start_size = @window.size
+  @window.resize_to @window.size.width/2, @window.size.height/2
+  visit(current_path)
+  @graph_start_width = page.evaluate_script %Q{ $("#chart svg").width() }
+  @window.resize_to @window_start_size.width, @window_start_size.height
+  @graph_width_after_resize = page.evaluate_script %Q{ $("#chart svg").width() }
+end
+
+Then /^the set graph element is scaling to the new width$/ do
+  @graph_width_after_resize.should != @graph_start_width unless page.evaluate_script(%Q{ $("#content_body").width() }) <= 920
+end
+
+When /^I change the window height$/ do
+  @window = Capybara.current_session.driver.browser.manage.window
+  @window_start_size = @window.size
+  @window.resize_to @window.size.width/2, @window.size.height/2
+  visit(current_path)
+  @graph_start_height = page.evaluate_script %Q{ $("#chart svg").height() }
+  @window.resize_to @window_start_size.width, @window_start_size.height
+  @graph_height_after_resize = page.evaluate_script %Q{ $("#chart svg").height() }
+end
+
+Then /^the set graph element is scaling to the new height$/ do
+  @graph_height_after_resize.should_not == @graph_start_height*2
+end
+
+Then /^the inspector panel shows more child elements corresponding to the new height$/ do
+  wait_until { page.evaluate_script('$("g.node:first").length') > 0 }
+  page.execute_script('$("g.node:first").trigger("mouseenter").click()')
+  wait_until { find("#inspector .children") } 
+  @graph_start_height.should < page.evaluate_script(%Q{ $("#inspector .children").height() })
+end

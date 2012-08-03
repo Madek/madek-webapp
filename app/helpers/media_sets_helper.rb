@@ -82,7 +82,7 @@ module MediaSetsHelper
     end
   end
 
-  def media_sets_widget(resources = nil, linked_content = nil, more_class = nil, linked_index_with = {})
+  def media_sets_widget(resources = nil, linked_content = nil, more_class = nil, linked_index_with = {}, tag = "button")
     resources = Array(resources)
     capture_haml do
       if resources.empty?
@@ -111,11 +111,21 @@ module MediaSetsHelper
               :"data-create" => {path: "/media_sets.json", method: "POST", data: {media_sets: ":created_items"}, created_item: {meta_data_attributes: {0 => {meta_key_label: "title", value: ":title"}}}}.to_json,
               :"data-link" => link.to_json,
               :"data-unlink" => unlink.to_json}
-      haml_tag :button, args do
-        if linked_content
-          haml_concat linked_content
-        else
-          haml_tag :div, :class => "button_addto"
+      if tag == "button"
+        haml_tag :button, args do
+          if linked_content
+            haml_concat linked_content
+          else
+            haml_tag :div, :class => "button_addto"
+          end
+        end
+      elsif tag == "link"
+        haml_tag :a, args do
+          if linked_content
+            haml_concat linked_content
+          else
+            haml_tag :div, :class => "button_addto"
+          end
         end
       end
     end
