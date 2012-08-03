@@ -56,6 +56,11 @@ class MediaResourceArcsController < ApplicationController
   # @example_response {}
   # @example_response_description Returns a Status: 200 (empty Hash).
   #
+  # @example_request {"media_resource_arcs": [{"parent_id": 1, "child_id": 23, "cover": true}]}
+  # @example_request_description Set the child with id 23 as cover of the MediaSet with id 1. Only MediaEntries can be set as cover.
+  # @example_response {}
+  # @example_response_description Returns a Status: 200 (empty Hash).
+  #
   def update_arcs(media_resource_arcs = Array(params[:media_resource_arcs].is_a?(Hash) ? params[:media_resource_arcs].values : params[:media_resource_arcs]))
     ActiveRecord::Base.transaction do
       begin 

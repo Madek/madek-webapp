@@ -24,8 +24,8 @@ class MediaSetArcsSelection
   openLightbox: (target)=>
     @lightbox = Dialog.add
       trigger: target
-      dialogClass: "media_set_highlights_lightbox"
-      content: $.tmpl("tmpl/media_set/highlights_lightbox")
+      dialogClass: "media_set_arcs_lightbox"
+      content: $.tmpl @template
       closeOnEscape: false
     do @delegateLightboxEvents
     do @load_arcs
@@ -34,8 +34,9 @@ class MediaSetArcsSelection
     @lightbox.find(".cancel").bind "click", =>
       @lightbox.closest(".dialog").dialog "close"
     @lightbox.find(".actions .save:not(.disabled)").live "click", @save
-    @lightbox.find(".media_resources .selection input").live "change", (e)=>
-      $(e.currentTarget).closest("tr").toggleClass("changed")
+    @lightbox.find(".media_resources .selection input").live "change", @onElementChange
+
+  onElementChange: (e)=> # virtual
 
   load_arcs: =>
     $.ajax
@@ -48,53 +49,36 @@ class MediaSetArcsSelection
         new MediaResourceSelection
           el: @lightbox.find(".media_resource_selection")
           ids: children_ids
-          onPageLoaded: @page_rendered_calback
-          parameters:
-            with:
-              meta_data:
-                meta_context_names: ["core"]
-              image: 
-                as: "base64"
-                size: "small"
+          onPageLoaded: @pageRenderedCallback
+          parameters: @parameters
           tableRowTemplate: "tmpl/media_resource/table_row_with_checkbox"
       
-  page_rendered_calback: (data)=>
-    # select the media resources from the current rendered page which are highlighted (checkbox = selected)
-    highlightedResources = _.filter data.media_resources, (resource)=> _.include(@highlightedResourcesIds, resource.id)
-    highlightedResourcesIds = _.map highlightedResources, (resource)-> resource.id
-    for id in highlightedResourcesIds
-      @lightbox.find("[data-media_resource_id='#{id}']").find("input[type=checkbox]").attr "checked", true
-    # put all selected to the top
-    for selected in @lightbox.find("table.media_resources input:checked").closest("tr")
-      @lightbox.find("table.media_resources tbody").prepend $(selected)
+  pageRenderedCallback: (data)=>
     # eneable save button when last page is rendered
     if data.pagination.page == data.pagination.total_pages
       @lightbox.find(".actions .save").removeClass "disabled"
 
   save: (e)=>
     e.preventDefault()
+    @setSavingState e.currentTarget
+    do @persist
+    # prevent link
+    return false
+
+  setSavingState: (button)=>
     # prevent changes
     @lightbox.find("input").attr "disabled", true
     # hide cancel
     @lightbox.find(".cancel").hide()
     # show loading
-    button = e.currentTarget
     $(button).width($(button).width()).html("").append $.tmpl("tmpl/loading_img")
-    # save changed elements
-    do @persist
-    # prevent link
-    return false
   
   persist: =>
-    changed_arcs = _.map @lightbox.find("table.media_resources tr.changed"), (arc)=>
-      child_id: $(arc).tmplItem().data.id
-      highlight: $(arc).find(".selection input").is ":checked"
-      parent_id: @parentId
     $.ajax
       url: "/media_resource_arcs.json"
       type: "PUT"
       data: 
-        media_resource_arcs: changed_arcs
+        media_resource_arcs: @changedArcs
       success: -> window.location = window.location
 
 window.MediaSetArcsSelection = MediaSetArcsSelection

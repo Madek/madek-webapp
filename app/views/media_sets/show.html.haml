@@ -58,7 +58,7 @@
                   = link_to "",
                   :title => "Titelbild für Set festlegen",
                   :class => "open_media_set_cover_lightbox" do
-                    .highlight.icon
+                    .set_cover.icon
                     %span.text= "Titelbild"
                 %li
                   %a{:href => "/media_resources/#{@media_set.id}", :title => "Unwiederbringlich entfernen", :onclick => "$(this).bind('ajax:success', function(){window.location = '/'});", :"data-method" => "delete", :"data-remote" => true, :class => "delete_me", :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher dass Sie diesen Inhalt löschen möchten?"}
@@ -158,6 +158,12 @@
       trigger: $(".open_media_set_highlights_lightbox")
       parentId: $("#media_set_highlights").data("parent_id")
       highlightedResources: #{ hash_for_media_resources_with_pagination(@media_set.out_arcs.select(&:highlight).map(&:child), nil, with).to_json }
+      template: "tmpl/media_set/highlights_lightbox"
+
+    new MediaSetArcsCover
+      trigger: $(".open_media_set_cover_lightbox")
+      parentId: $("#media_set_highlights").data("parent_id")
+      currentCoverId: #{ @media_set.out_arcs.where(cover: true).empty? ? "undefined" : @media_set.out_arcs.where(cover: true).first.child_id }
   
     $(".individual_context").change ->
       $(this).toggleClass("changed")

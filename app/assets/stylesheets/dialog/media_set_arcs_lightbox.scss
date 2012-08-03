@@ -1,15 +1,12 @@
 @import "../mixins";
 
-.ui-dialog.media_set_highlights_lightbox {
+.ui-dialog.media_set_arcs_lightbox {
   height: auto !important;
   width: 900px !important;
   
   .ui-dialog-titlebar {
     display: none;
   }
-}
-
-#media_set_highlights_lightbox {
   
   h2 {
     padding-bottom: 6px;
@@ -19,7 +16,7 @@
   p { 
     float: left;
     margin-bottom: 0;
-    width: 50%; 
+    width: 80%; 
   }
   
   .media_resource_selection {

@@ -8,13 +8,13 @@ Then /^I can open the set cover dialog$/ do
 end
 
 Then /^I see a list of media resources which are inside that set$/ do
-  binding.pry
+  pending
 end
 
 When /^I choose one of that media resources$/ do
-  binding.pry
+  pending
 end
 
 Then /^that media resource is displayed as cover of that set$/ do
-  binding.pry
+  pending
 end
