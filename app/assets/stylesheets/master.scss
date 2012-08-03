@@ -485,6 +485,19 @@ nav {
 
 /************************************************** Logos */
 
+.logo {
+  text-align: right;
+  position: absolute;
+  a, a:hover {
+    color: #dedede;
+    text-decoration: none;
+    height: 40px;
+    display: inline-block;
+    font-size: 14pt;
+    padding-top: 0.8em;
+  }
+}
+
 .logo_left {
 	background: transparent image-url("icons/madek_icon_sprites.png") -300px -69px no-repeat;
 	height: 40px;

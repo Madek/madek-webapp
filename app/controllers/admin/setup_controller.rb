@@ -84,8 +84,18 @@ class Admin::SetupController < ActionController::Base
 
   def meta_contexts_do
     unless meta_contexts?
-      required_contexts.each do |x|
-        MetaContext.create(name: x, label: x.humanize) unless MetaContext.exists?(name: x)
+      required_contexts.values.flatten.each do |x|
+        unless MetaContext.exists?(name: x)
+          if x == "io_interface"
+            DevelopmentHelpers::MetaDataPreset.import_context(x)
+          else
+            MetaContext.create(name: x, label: x.humanize)
+          end
+        end
+      end
+      unless MetaContextGroup.exists?
+        mcg = MetaContextGroup.create(name: "Metadata")
+        mcg.meta_contexts << MetaContext.where(name: required_contexts["Metadata"])
       end
     end
     redirect_to admin_setup_path
@@ -258,19 +268,22 @@ class Admin::SetupController < ActionController::Base
 ##########
 
   def required_contexts
-    ["io_interface", "core", "upload", "media_set", "media_content", "media_object", "copyright"]
+    {
+      "system"   => ["io_interface", "core", "upload", "media_set"],
+      "Metadata" => ["media_content", "media_object", "copyright"]
+    }
   end
 
   def meta_contexts?
-    required_contexts.all? do |x|
+    required_contexts.values.flatten.all? do |x|
       MetaContext.exists?(name: x)
-    end
+    end and MetaContextGroup.exists?
   end
   
   def meta_contexts_hash
     {
       valid: meta_contexts?,
-      title: "MetaContexts (%s)" % required_contexts.join(', '),
+      title: "MetaContexts (%s)" % required_contexts.values.flatten.join(', '),
       success: "Success",
       failure: "Failure: <a href='/admin/contexts'>create on admin interface</a> or <a href='/admin/setup/meta_contexts_do'>create missing ones automatically</a>"
     }
