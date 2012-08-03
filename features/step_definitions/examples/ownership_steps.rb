@@ -85,7 +85,9 @@ When /^I want to change the owner$/ do
 end
 
 When /^I open the permission lightbox$/ do
+  step 'I hover the context actions menu'
   wait_for_css_element(".open_permission_lightbox")
+  page.execute_script %Q{ $(".open_permission_lightbox").parents("*").show(); }
   find(".open_permission_lightbox").click
   wait_for_css_element(".permission_lightbox .line")
 end
