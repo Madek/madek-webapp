@@ -23,11 +23,13 @@ end
 When /^(?:|I )open the selection widget for this (.+)$/ do |type|
   case type
     when "set"
-      wait_until { find("#set_actions .has-set-widget") }
-      find("#set_actions .has-set-widget").click
+      wait_until { find("#content_head .action_menu") }
+      step 'I hover the context actions menu'
+      find("#content_head .action_menu .has-set-widget").click
     when "entry"
-      wait_until { find("#detail-action-bar .has-set-widget") }
-      find("#detail-action-bar .has-set-widget").click
+      wait_until { find("#content_head .action_menu") }
+      step 'I hover the context actions menu'
+      find("#content_head .action_menu .has-set-widget").click
     when "batchedit"
       wait_until { find(".task_bar .has-set-widget") }
       find(".task_bar .has-set-widget").click
