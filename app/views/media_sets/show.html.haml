@@ -54,7 +54,12 @@
                   :class => "open_media_set_highlights_lightbox" do
                     .highlight.icon
                     %span.text= "Hervorheben"
-              - if can_edit
+                %li
+                  = link_to "",
+                  :title => "Titelbild für Set festlegen",
+                  :class => "open_media_set_cover_lightbox" do
+                    .highlight.icon
+                    %span.text= "Titelbild"
                 %li
                   %a{:href => "/media_resources/#{@media_set.id}", :title => "Unwiederbringlich entfernen", :onclick => "$(this).bind('ajax:success', function(){window.location = '/'});", :"data-method" => "delete", :"data-remote" => true, :class => "delete_me", :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher dass Sie diesen Inhalt löschen möchten?"}
                     .trash.icon
@@ -150,8 +155,7 @@
       highlightedResources: #{ hash_for_media_resources_with_pagination(@media_set.out_arcs.select(&:highlight).map(&:child), nil, with).to_json }
 
     new MediaSetArcsHighlights
-      mode: "highlights"
-      trigger: $(".button_highlights")
+      trigger: $(".open_media_set_highlights_lightbox")
       parentId: $("#media_set_highlights").data("parent_id")
       highlightedResources: #{ hash_for_media_resources_with_pagination(@media_set.out_arcs.select(&:highlight).map(&:child), nil, with).to_json }
   

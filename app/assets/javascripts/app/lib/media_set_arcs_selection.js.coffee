@@ -11,10 +11,8 @@
 class MediaSetArcsSelection
   
   constructor: (options)->
-    @mode = options.mode
     @trigger = options.trigger
     @parentId = options.parentId
-    @highlightedResourcesIds = _.map options.highlightedResources.media_resources, (resource)-> resource.id
     @lightbox = undefined
     do @delegateEvents
   
