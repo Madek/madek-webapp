@@ -87,8 +87,6 @@
   #media_set_highlights{:class => (@media_set.out_arcs.any?(&:highlight)) ? "any" : nil, :"data-parent_id" => @media_set.id}
     .container
       .inner
-    .media_set_highlights_shadow.left
-    .media_set_highlights_shadow.right
   - unless @parents.empty?
     %div.page_title_left.set_parents_title
       .icon_set_parents
@@ -123,7 +121,15 @@
   
 :coffeescript
   jQuery ->
-    MediaSetHighlights.setup #{ hash_for_media_resources_with_pagination(@media_set.out_arcs.select(&:highlight).map(&:child), nil, with).to_json }
+
+    new App.MediaSets
+      highlightedResources: #{ hash_for_media_resources_with_pagination(@media_set.out_arcs.select(&:highlight).map(&:child), nil, with).to_json }
+
+    new MediaSetArcsHighlights
+      mode: "highlights"
+      trigger: $(".button_highlights")
+      parentId: $("#media_set_highlights").data("parent_id")
+      highlightedResources: #{ hash_for_media_resources_with_pagination(@media_set.out_arcs.select(&:highlight).map(&:child), nil, with).to_json }
   
     $(".individual_context").change ->
       $(this).toggleClass("changed")
