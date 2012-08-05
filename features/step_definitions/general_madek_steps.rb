@@ -362,6 +362,7 @@ When /^I press enter in the input field "([^"]*)"$/ do |field|
 end
 
 When "I toggle the favorite star on this media entry" do
+  step 'I hover the context actions menu'
   find(:css, ".favorite_link").find("a").click
   sleep(0.5)
 end
