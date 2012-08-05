@@ -4,6 +4,7 @@ When /^I open a set that I can edit which has children$/ do
 end
 
 Then /^I see the the option to edit the highlights for this set$/ do
+  step 'I hover the context actions menu'
   wait_until {find(".open_media_set_highlights_lightbox", :visible => true)}
 end
 
@@ -26,7 +27,6 @@ When /^I select a resource to be highlighted$/ do
   @highlight = @media_set.out_arcs.first.child
   find("table.media_resources tr", :text => @highlight.title).find(".selection input").click
   find("#media_set_highlights_lightbox .save").click
-  #binding.pry
   #wait_until(30){ all("#media_set_highlights_lightbox", :visible => true).size == 0 }
   wait_until(15) { page.has_css?("#media_set_highlights_lightbox", :visible => true) == false }
 end 
@@ -44,8 +44,8 @@ Then /^I see the highlighted resources in bigger size than the other ones$/ do
   wait_until { find(".thumb_box") }
   @highlight = @media_set.out_arcs.where(:highlight => true).first.child
   find(".highlight", :text => @highlight.title)
-  evaluate_script("$('.highlight:first img').width()").should > evaluate_script("$('.thumb_box:first img').width()") 
-  evaluate_script("$('.highlight:first img').height()").should > evaluate_script("$('.thumb_box:first img').height()") 
+  evaluate_script("$('#media_set_highlights .highlight:first img').width()").should > evaluate_script("$('.thumb_box:first img').width()") 
+  evaluate_script("$('#media_set_highlights .highlight:first img').height()").should > evaluate_script("$('.thumb_box:first img').height()") 
 end
 
 Then /^I see the highlighted resources twice, once in the highlighted area, once in the "([^"]*)" list$/ do |arg1|
