@@ -37,3 +37,4 @@ Feature: Login
      And I save that display settings
     When another user visits the detail view of that set
     Then he sees the content of that set according to the saved display settings
+    
