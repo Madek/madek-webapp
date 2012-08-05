@@ -49,16 +49,20 @@ class Permission
             size: "medium"
       afterCreate: (data)-> 
         Permission.collection_id = data.collection_id
-        Permission.load_permission_presets container, target if not Permission.permission_presets? 
-        Permission.load_permissions container, $(container).data("media_resource_ids")
+        if not Permission.permission_presets?
+          Permission.load_permission_presets container, target, =>
+            Permission.load_permissions container, $(container).data("media_resource_ids")
+        else
+          Permission.load_permissions container, $(container).data("media_resource_ids")
         
-  @load_permission_presets = (container, trigger)->
+  @load_permission_presets = (container, trigger, callback)->
     $.ajax
       url: "/permission_presets.json"
       type: "GET"
       success: (data)->
         Permission.permission_presets = data
         Permission.load_permissions container, $(trigger).data("media_resource_ids")
+        do callback if callback?
    
   @display_inline = (options)->
     media_resource_ids = options.media_resource_ids

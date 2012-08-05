@@ -226,6 +226,21 @@ class MediaSetsController < ApplicationController
 
 #####################################################
 
+  def settings
+    if request.post?
+      begin
+        @media_set.settings[:layout] = params[:layout].to_sym unless params[:layout].nil?
+        @media_set.settings[:sorting] = params[:sorting].to_sym unless params[:sorting].nil?
+        @media_set.save
+        render :nothing => true, :status => :ok
+      rescue
+        render :nothing => true, :status => :bad_request
+      end
+    end
+  end
+
+#####################################################
+
   def add_member
     if @media_set
       new_members = 0 #temp#

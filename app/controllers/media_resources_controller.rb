@@ -574,7 +574,8 @@ class MediaResourcesController < ApplicationController
         resources = if favorites == "true"
             current_user.favorites
           elsif media_set_id
-            MediaSet.find(media_set_id).children
+            media_set = MediaSet.find(media_set_id)
+            media_set.children
           else
             MediaResource
           end
@@ -597,8 +598,8 @@ class MediaResourcesController < ApplicationController
               resources.where(:type => ["MediaEntry", "MediaSet"])
             end
         end.accessible_by_user(current_user, accessible_action)
-
-        case sort
+        
+        case sort.to_s
           when "author"
             resources = resources.ordered_by_author
           when "title"

@@ -74,6 +74,17 @@ describe MediaResourceArc do
 
     end
 
+    context "cover" do
+
+      it "should set each new arc as a cover when there is no cover for that set already" do
+        set = FactoryGirl.create :media_set
+        entry = FactoryGirl.create :media_entry
+        set.children << entry
+        set.out_arcs.first[:cover].should be_true
+      end
+
+    end
+
   end
 
 end

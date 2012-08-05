@@ -22,23 +22,6 @@
     width: 100%;
   }
   
-  .media_set_highlights_shadow {
-    height: 200px;
-    position: absolute;
-    top: 5px;
-    width: 1px;
-    
-    &.left {
-      left: -5px;
-      @include box-shadow(5px 0 8px 2px rgba(0,0,0,0.1));
-    }
-    
-    &.right {
-      right: -5px;
-      @include box-shadow(-5px 0 8px 2px rgba(0,0,0,0.1));
-    }
-  }
-  
   .inner {
     display: inline-block;
     height: 192px;
