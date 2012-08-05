@@ -98,6 +98,7 @@ When /^I see all meta data contexts/ do
   page.execute_script('$(".meta_data .context").show()')
   find("#bar .layout a[data-type=grid]").click
   find("#bar .layout a[data-type=list]").click
+  page.execute_script('$(".meta_data .context").show()')
   wait_until { find(".item_box .meta_data").all(".context").size ==  find(".item_box .meta_data").all(".context", :visible => true).size }
 end
 
