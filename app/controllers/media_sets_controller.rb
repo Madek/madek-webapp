@@ -163,7 +163,7 @@ class MediaSetsController < ApplicationController
   # @argument [media_sets] array Including all media_sets wich have to be created
   #
   # @example_request
-  #   {"media_sets": [{"meta_key_label":"title", "value": "My Title"}, {"meta_key_label":"title", "value": "My Title"}]}
+  #   {"media_set": {"meta_data_attributes": [{"meta_key_label":"title", "value": "My Title"}]}}
   #
   # @request_field [Array] media_sets The array of media_sets which have to be created
   #
@@ -179,7 +179,6 @@ class MediaSetsController < ApplicationController
   # @response_field [Integer] title The title of the created set
   # 
   def create(attr = params[:media_sets] || params[:media_set])
-    
     is_saved = true
     if not attr.blank? and attr.has_key? "0" # CREATE MULTIPLE
       # TODO ?? find_by_id_or_create_by_title

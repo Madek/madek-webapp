@@ -14,7 +14,7 @@ class GroupsController
     do e.preventDefault
     dialog = Dialog.add
       trigger: e.currentTarget
-      dialogClass: "create_group"
+      dialogClass: "create_group small"
       content: $.tmpl "app/views/groups/new"
       closeOnEscape: false
     dialog.delegate "#create_group", "submit", (e)=>

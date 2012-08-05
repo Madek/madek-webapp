@@ -19,7 +19,7 @@ Feature: Login
     | set highlight |
     #| set cover |
     #| save display settings |
-    #| create set |
+    | create set |
     | delete |
 
   @javascript
@@ -33,7 +33,7 @@ Feature: Login
     | permissions |
     | add to set |
     | export |
-    #| create set |
+    | create set |
     | delete |
 
   @javascript
@@ -57,7 +57,7 @@ Feature: Login
      And I follow "Meine Favoriten"
     Then I can open the context actions drop down and see the following actions in the following order:
     | action |
-    #| create set |
+    | create set |
     | import |
 
   @javascript
@@ -66,7 +66,7 @@ Feature: Login
      And I follow "Meine Medieneinträge"
     Then I can open the context actions drop down and see the following actions in the following order:
     | action |
-    #| create set |
+    | create set |
     | import |
 
   @javascript
@@ -75,7 +75,7 @@ Feature: Login
      And I follow "Meine Sets"
     Then I can open the context actions drop down and see the following actions in the following order:
     | action |
-    #| create set |
+    | create set |
     | import |
     
     
