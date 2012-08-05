@@ -453,5 +453,5 @@ Given "I am pending" do
 end
 
 Given /^I hover the context actions menu$/ do
-  page.execute_script %Q{ $("#content_head .action_menu:first .action_menu_list").show(); }
+  page.execute_script %Q{ $(".action_menu:first .action_menu_list").show(); }
 end
