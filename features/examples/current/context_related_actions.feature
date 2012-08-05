@@ -41,7 +41,7 @@ Feature: Login
     #When ...
     #Then I can open the context actions drop down and see the following actions in the following order:
     #| action |
-    #| create set |
+    #| create intelligent set |
 
   @javascript
   Scenario: Context actions on the group page
