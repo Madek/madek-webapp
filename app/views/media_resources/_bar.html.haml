@@ -1,6 +1,9 @@
 :ruby
   h = current_settings
   t = media_resources_index_title
+  if @media_set and @media_set.settings[:sorting] and not params[:sort]
+    params[:sort] = @media_set.settings[:sorting].to_s
+  end
 
 #bar
   .icon
@@ -28,7 +31,6 @@
 
   .right
     .sort
-      -# FIXME preselect the current option
       = link_to _("Sortieren nach Erstelldatum"), url_for(params.merge(:sort => :created_at)), :class => "created_at"
       = link_to _("Sortieren nach Änderungsdatum"), url_for(params.merge(:sort => :updated_at)), :class => "updated_at"
       = link_to _("Sortieren nach Titel"), url_for(params.merge(:sort => :title)), :class => "title"

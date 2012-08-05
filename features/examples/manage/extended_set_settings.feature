@@ -21,7 +21,6 @@ Feature: Login
     When I add media resources to an empty set
     Then one of these media resources is set as the cover for that set automatically
 
-  @javascript
   Scenario: Display the cover of a set
     When a set is empty
     Then it has no cover

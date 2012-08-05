@@ -61,6 +61,12 @@
                     .set_cover.icon
                     %span.text= "Titelbild"
                 %li
+                  = link_to "",
+                  :title => "Sortierung und Darstellung des Sets festlegen",
+                  :class => "saves_display_settings" do
+                    .display.icon
+                    %span.text= "Darstellung speichern"
+                %li
                   %a{:href => "/media_resources/#{@media_set.id}", :title => "Unwiederbringlich entfernen", :onclick => "$(this).bind('ajax:success', function(){window.location = '/'});", :"data-method" => "delete", :"data-remote" => true, :class => "delete_me", :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher dass Sie diesen Inhalt löschen möchten?"}
                     .trash.icon
                     %span.text= "Löschen"
@@ -153,6 +159,7 @@
 
     new App.MediaSets
       highlightedResources: #{ hash_for_media_resources_with_pagination(@media_set.out_arcs.select(&:highlight).map(&:child), nil, with).to_json }
+      layout: "#{ @media_set.settings[:layout] ? @media_set.settings[:layout] : "" }"
 
     new MediaSetArcsHighlights
       trigger: $(".open_media_set_highlights_lightbox")
@@ -163,7 +170,7 @@
     new MediaSetArcsCover
       trigger: $(".open_media_set_cover_lightbox")
       parentId: $("#media_set_highlights").data("parent_id")
-      currentCoverId: #{ @media_set.out_arcs.where(cover: true).empty? ? "undefined" : @media_set.out_arcs.where(cover: true).first.child_id }
+      currentCoverId: #{ @media_set.out_arcs.where(cover: true).empty? ? undefined : @media_set.out_arcs.where(cover: true).first.child_id }
   
     $(".individual_context").change ->
       $(this).toggleClass("changed")

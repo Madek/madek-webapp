@@ -598,9 +598,6 @@ class MediaResourcesController < ApplicationController
               resources.where(:type => ["MediaEntry", "MediaSet"])
             end
         end.accessible_by_user(current_user, accessible_action)
-
-        sort ||= media_set.settings[:sorting] if media_set
-        sort ||= MediaSet::ACCEPTED_VARS[:sorting][:default]
         
         case sort.to_s
           when "author"

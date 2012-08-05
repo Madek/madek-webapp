@@ -148,6 +148,18 @@
     height: 16px;
     width: 16px;  
   }
+
+  &.display {
+    background-position: -51px -428px;
+    height: 16px;
+    width: 16px;   
+  }
+
+  &.loading {
+    background: url(image-path("loading.gif"));
+    height: 16px;
+    width: 16px;
+  }
 }
 
 #bar > .icon {

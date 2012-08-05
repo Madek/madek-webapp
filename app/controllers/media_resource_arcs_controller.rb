@@ -64,9 +64,10 @@ class MediaResourceArcsController < ApplicationController
   def update_arcs(media_resource_arcs = Array(params[:media_resource_arcs].is_a?(Hash) ? params[:media_resource_arcs].values : params[:media_resource_arcs]))
     ActiveRecord::Base.transaction do
       begin 
-        media_resource_arcs.each do |arc_params| 
+        media_resource_arcs.each do |arc_params|
           parent = MediaSet.accessible_by_user(current_user, :edit).find(arc_params[:parent_id])
           arc = parent.out_arcs.where(child_id: arc_params[:child_id]).first
+          parent.out_arcs.where(cover: true).first.update_attributes!({cover: false}) if arc_params["cover"] == "true"
           arc.update_attributes!(arc_params)
         end
         respond_to do |format|
