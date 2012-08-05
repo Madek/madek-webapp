@@ -170,7 +170,7 @@
     new MediaSetArcsCover
       trigger: $(".open_media_set_cover_lightbox")
       parentId: $("#media_set_highlights").data("parent_id")
-      currentCoverId: #{ @media_set.out_arcs.where(cover: true).empty? ? undefined : @media_set.out_arcs.where(cover: true).first.child_id }
+      currentCoverId: #{ @media_set.out_arcs.where(cover: true).empty? ? "undefined" : @media_set.out_arcs.where(cover: true).first.child_id }
   
     $(".individual_context").change ->
       $(this).toggleClass("changed")
