@@ -323,9 +323,10 @@ end
 # Creates a new set
 def create_set(set_title = "Untitled Set")
   visit media_resources_path(:user_id => @current_user, :type => "media_sets")
-  find(".create_new[title='Neues Set erstellen']").click
-  find("input[title='Titel des Sets']").set set_title
-  click_link_or_button "Neues Set erstellen"
+  step 'I hover the context actions menu'
+  find(".open_create_set_dialog").click
+  find("input.title").set set_title
+  click_link_or_button "Erstellen"
 end
 
 # Adds a media entry to a set. Only works if the media entry
