@@ -558,7 +558,7 @@ class MediaResourcesController < ApplicationController
             not_by_current_user = params[:not_by_current_user],
             public = params[:public],
             favorites = params[:favorites],
-            sort = params[:sort],
+            sort = params[:sort] ||= "updated_at",
             query = params[:query],
             page = params[:page],
             per_page = [(params[:per_page] || PER_PAGE.first).to_i, PER_PAGE.first].min,

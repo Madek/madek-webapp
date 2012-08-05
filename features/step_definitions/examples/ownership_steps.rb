@@ -1,16 +1,15 @@
 # coding: UTF-8
 
-
-
 When /^I change the owner to "([^"]*)"$/ do |new_owner|
-  @media_set = FactoryGirl.create :media_set, user: @current_user
+  @media_set = MediaSet.accessible_by_user(@current_user, :edit).first
   visit media_set_path @media_set
   step 'I open the permission lightbox'
   find(".users .line.add .button").click()
+  wait_until { find(".users .line.add input") }
   find(".users .line.add input").set(new_owner)
   wait_for_css_element(".ui-autocomplete li a")
   find(".ui-autocomplete li a").click()
-  find(".users .line .owner input").click()
+  find(".users .line", :text => new_owner).find(".owner input").click()
   step 'I save the permissions'
 end
 
@@ -25,7 +24,7 @@ end
 
 
 Given /^a resource owned by me$/ do
-  @media_set = FactoryGirl.create :media_set, user: @current_user
+  @media_set = MediaSet.accessible_by_user(@current_user, :edit).first
 end
 
 Then /^I can use some interface to change the resource's owner to "([^"]*)"$/ do |new_owner|
