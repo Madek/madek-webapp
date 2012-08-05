@@ -14,7 +14,7 @@ Feature: Create and edit workgroups
      And I click the arrow next to my name
      And I follow "Meine Arbeitsgruppen"
      And I hover the context actions menu
-     And I follow "Neue Arbeitsgruppe erstellen"
+     And I follow "Neue Arbeitsgruppe"
      And I fill in "name" with "Looney Tunes"
      And I press "Erstellen"
     Then I should see "Looney Tunes"
@@ -27,7 +27,7 @@ Feature: Create and edit workgroups
      And I click the arrow next to my name
      And I follow "Meine Arbeitsgruppen"
      And I hover the context actions menu
-     And I follow "Neue Arbeitsgruppe erstellen"
+     And I follow "Neue Arbeitsgruppe"
      And I fill in "name" with "Looney Tunes"
      And I press "Erstellen"
     Then I should see "Looney Tunes"
@@ -47,7 +47,7 @@ Feature: Create and edit workgroups
      And I click the arrow next to my name
      And I follow "Meine Arbeitsgruppen"
      And I hover the context actions menu
-     And I follow "Neue Arbeitsgruppe erstellen"
+     And I follow "Neue Arbeitsgruppe"
      And I fill in "name" with ""
      And I press "Erstellen"    
     Then I should see "Name can't be blank"

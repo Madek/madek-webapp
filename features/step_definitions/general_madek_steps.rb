@@ -307,7 +307,7 @@ When /^I create a set titled "([^"]*)"/ do |title|
 end
 
 When /^I add the picture "([^"]*)" to the set "([^"]*)" owned by "([^"]*)"/ do |picture_title, set_title, owner|
-    add_to_set(set_title, picture_title, owner)
+  add_to_set(set_title, picture_title, owner)
 end
 
 When /^I toggle the favorite star on the media entry titled "([^"]*)"$/ do |title|
@@ -362,6 +362,7 @@ When /^I press enter in the input field "([^"]*)"$/ do |field|
 end
 
 When "I toggle the favorite star on this media entry" do
+  step 'I hover the context actions menu'
   find(:css, ".favorite_link").find("a").click
   sleep(0.5)
 end
@@ -452,5 +453,5 @@ Given "I am pending" do
 end
 
 Given /^I hover the context actions menu$/ do
-  page.execute_script %Q{ $("#content_head .action_menu:first .action_menu_list").show(); }
+  page.execute_script %Q{ $(".action_menu:first .action_menu_list").show(); }
 end

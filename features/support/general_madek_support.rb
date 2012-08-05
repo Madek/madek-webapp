@@ -334,10 +334,11 @@ end
 def add_to_set(set_title = "Untitled Set", picture_title = "Untitled", owner = "No one")
   visit "/media_resources"
   click_media_entry_titled(picture_title)
+  step 'I hover the context actions menu'
   find(".has-set-widget").click
   wait_for_css_element(".widget .list")
   find("input##{set_title.gsub(/\s/, "_")}").click
   find(".widget .submit").click
-  wait_for_css_element(".has-set-widget:not(.open)")
+  wait_until { all(".widget").size == 0 }
 end
 
