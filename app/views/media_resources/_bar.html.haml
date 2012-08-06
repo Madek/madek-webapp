@@ -53,6 +53,10 @@
             = link_to upload_path, :title => _("Medien importieren") do
               .import.icon
               = _("Importieren")
+          %li
+            %a.open_create_set_dialog{:title => "Neues Set erstellen"}
+              .create_set.icon
+              %span.text= "Neues Set"
 
 :javascript
   $(document).ready(function () {

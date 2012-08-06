@@ -57,6 +57,10 @@
                   %a{:href => "/media_resources/#{media_entry.id}", :title => "Unwiederbringlich entfernen", :onclick => "$(this).bind('ajax:success', function(){window.location = '/'});", :"data-method" => "delete", :"data-remote" => true, :class => "delete_me", :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher dass Sie diesen Inhalt löschen möchten?"}
                     .trash.icon
                     %span.text= "Löschen"
+              %li
+                %a.open_create_set_dialog{:title => "Neues Set erstellen"}
+                  .create_set.icon
+                  %span.text= "Neues Set"
 
         .head-tabs
           %h2.title.grid_8
