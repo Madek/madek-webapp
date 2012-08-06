@@ -4,10 +4,10 @@ class MediaResourcesController
   
   active_layout: undefined
   
-  constructor: ->
+  constructor: (options)->
     @el = $(@el)
     do @plugin
-    @active_layout = if sessionStorage.active_layout? then sessionStorage.active_layout else "grid"
+    @active_layout = if options.layout? then options.layout else if sessionStorage.active_layout? then sessionStorage.active_layout else "grid"
     do @activate_layout
     do @delegate_events
     do @switch_context_fetch
@@ -59,8 +59,8 @@ class MediaResourcesController
     App.MediaResources.fetch options, false
 
   switch_layout: (e)=>
-    return true if @active_layout == $(e.currentTarget).data("type")
     do e.preventDefault
+    return true if @active_layout == $(e.currentTarget).data("type")
     @el.removeClass @active_layout
     sessionStorage.active_layout = $(e.currentTarget).data "type"
     @active_layout = $(e.currentTarget).data "type"

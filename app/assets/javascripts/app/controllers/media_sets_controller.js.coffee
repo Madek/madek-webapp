@@ -3,14 +3,8 @@ class MediaSetsController
   constructor: (options)->
     @highlightedResources = options.highlightedResources
     @highlights_el = $("#media_set_highlights")
-    @layout = if options.layout.length then options.layout else "grid"
     do @delegateEvents
     do @render
-    do @setLayout if @layout?
-
-  setLayout: => 
-    $("#content_body_set #children").removeClass("grid").removeClass("list").removeClass("miniature")
-    $("#content_body_set #children").addClass(@layout)
 
   delegateEvents: =>
     @highlights_el.find(".inner img").load => do alignHighlights

@@ -163,7 +163,6 @@
 
     new App.MediaSets
       highlightedResources: #{ hash_for_media_resources_with_pagination(@media_set.out_arcs.select(&:highlight).map(&:child), nil, with).to_json }
-      layout: "#{ @media_set.settings[:layout] ? @media_set.settings[:layout] : "" }"
 
     new MediaSetArcsHighlights
       trigger: $(".open_media_set_highlights_lightbox")
