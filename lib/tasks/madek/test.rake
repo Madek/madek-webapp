@@ -7,12 +7,6 @@ namespace :madek do
       Rake::Task["madek:test:cucumber:all"].invoke
     end
 
-    task :run_separate do
-      Rake::Task["madek:test:setup"].invoke
-      Rake::Task["madek:test:rspec"].invoke
-      Rake::Task["madek:test:cucumber:separate"].invoke
-    end
-
     task :run_slow do
       Rake::Task["madek:test:setup"].invoke
       Rake::Task["madek:test:rspec"].invoke
