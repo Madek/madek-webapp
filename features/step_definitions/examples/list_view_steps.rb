@@ -48,7 +48,7 @@ When /^I see a resource in a list view$/ do
   step 'I see a list of resources'
   step 'I switch to the list view'
   @inspected_resource = MediaResource.accessible_by_user(@current_user).last
-  wait_until(25) {find(".item_box[data-id='#{@inspected_resource.id}']")}
+  wait_until {find(".item_box[data-id='#{@inspected_resource.id}']")}
   @inspected_resource_element = find(".item_box[data-id='#{@inspected_resource.id}']")
 end
 
@@ -95,17 +95,23 @@ Then /^the type is shown through an icon$/ do
 end
 
 When /^I see all meta data contexts/ do
+  step 'I wait for the AJAX magic to happen'
   page.execute_script('$(".meta_data .context").show()')
   find("#bar .layout a[data-type=grid]").click
   find("#bar .layout a[data-type=list]").click
+  page.execute_script('$(".meta_data .context").show();$(".meta_data .context").css("display", "table-cell !important")')
+  step 'I wait for the AJAX magic to happen'
+  wait_until { find(".item_box .meta_data").reload.all(".context").size == find(".item_box .meta_data").reload.all(".context", :visible => true).size  }
 end
 
 Then /^I see the meta data for context "(.*?)"(.*)*$/ do |context, loading|
+  @inspected_resource_element = find(".item_box[data-id='#{@inspected_resource.id}']")
   if loading != ""
     @inspected_resource_element.find(".meta_data .context.#{context.downcase}")
   else
     step 'I see all meta data contexts'
-    wait_until(25) {@inspected_resource_element.find(".meta_data .context.#{context.downcase}")}
+    step 'I wait for the AJAX magic to happen'
+    wait_until {@inspected_resource_element.all(".meta_data .context.#{context.downcase}", :visible => true).size > 0}
   end
 end
 

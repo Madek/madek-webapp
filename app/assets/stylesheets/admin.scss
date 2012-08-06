@@ -80,34 +80,42 @@ a.buttons {
 
 /***** Header *****/
 
+
 header {
-	position: relative;
-	background-color: #333333;
-}
+  position: relative;
+  background-color: #333333;
+  
+  /* Logo */
+  .logo {
+    padding: 1em;
+    
+    a {
+      font-size: 14pt;
+      text-decoration: none;
+    }
 
-/* Logo */
-
-header h1 a {
-	display: block;
-	background: transparent image-url("logo-madek.png") top left no-repeat;
-	text-decoration: none;
-	text-indent: -999em;
-	height: 75px;
-	width: 325px;
-}
-
-header h4 {
-  color: white;
-}
-
-header a, header a:visited {
-  color: silver;
-}
-
-header ul {
-  list-style: disc;
-  margin-left: 1.2em;
-}
+    a.img {
+    	display: block;
+    	background: transparent image-url("logo-madek.png") top left no-repeat;
+    	text-indent: -999em;
+      height: 40px;
+      width: 325px;
+    }
+  }
+  
+  h4 {
+    color: white;
+  }
+  
+  a, a:visited {
+    color: silver;
+  }
+  
+  ul {
+    list-style: disc;
+    margin-left: 1.2em;
+  }
+} 
 
 .with_actions {
 	/*visibility: hidden;*/

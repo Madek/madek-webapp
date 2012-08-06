@@ -1,0 +1,17 @@
+%h3
+  = "Neues Set erstellen"
+
+%form#create_set
+
+  .errors
+  
+  %strong= "Titel des Sets"
+  %input.title{:type => :text, :name => "title"}
+
+  %br
+  %br
+  %section.actions
+    %a.cancel
+      = "Abbrechen"
+    %button.upload_buttons.create{:tabindex => 1, :type => :submit}
+      = "Erstellen"

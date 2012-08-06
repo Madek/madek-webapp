@@ -37,6 +37,10 @@
       whitespace: nowrap;
     }
   }
+
+  &.first_page_loaded > .loading {
+    display: none !important;
+  }
   
   .item_box {
     background: transparent !important;
@@ -119,7 +123,8 @@
         }
         
         &.selection {
-          width: 80px;
+          padding-left: 5px;
+          width: 90px;
           
           .container {
             position: relative;
@@ -127,7 +132,7 @@
           
           .media_set.icon {
             position: absolute;
-            right: -12px;
+            right: 6px;
             top: 11px;
             @include opacity(0.5);
           }

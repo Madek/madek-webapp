@@ -1,7 +1,9 @@
 .container_12.clearfix
   .grid_12
     %nav
-      = link_to "Medienarchiv der Künste", root_path, :class => "logo_left ir"
+      -# TODO restructure css, this is only a quick solution
+      .logo{:style => AppSettings.title.try(:size).to_i > 34 ? "left: #{34 - AppSettings.title.size}em" : nil}
+        = link_to AppSettings.title, root_path, :class => AppSettings.title.blank? ? "logo_left ir" : nil
       = render :partial => "layouts/search" unless @disable_search
       #nav_links
         = link_to _(@set), media_sets_path(:media_set_id => @set), :title => "Inhalte erkunden", :class => "main_nav_browse ir" if (@set = MediaSet.featured_set) and !@set.child_sets.empty?

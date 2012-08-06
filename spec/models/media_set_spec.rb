@@ -116,6 +116,18 @@ describe MediaSet do
       end
       
     end
+    
+    context "settings" do
+      it "stores the layout and sorting" do
+        @media_set.should respond_to(:settings)
+        @media_set.settings[:layout] = l = MediaSet::ACCEPTED_VARS[:layout][:possible_values].sample
+        @media_set.settings[:sorting] = s = MediaSet::ACCEPTED_VARS[:sorting][:possible_values].sample
+        @media_set.save.should be_true
+        @media_set.reload
+        @media_set.settings[:layout].should == l
+        @media_set.settings[:sorting].should == s
+      end
+    end
 
   end
   

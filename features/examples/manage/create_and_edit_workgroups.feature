@@ -5,7 +5,6 @@ Feature: Create and edit workgroups
   basis, I can create workgroups based on users who have logged into the system
   before.
 
-
   Background: The world and some users exist
     Given I have set up the world a little
 
@@ -14,7 +13,8 @@ Feature: Create and edit workgroups
     Given I am "normin"
      And I click the arrow next to my name
      And I follow "Meine Arbeitsgruppen"
-     And I press "Neue Arbeitsgruppe erstellen"
+     And I hover the context actions menu
+     And I follow "Neue Arbeitsgruppe"
      And I fill in "name" with "Looney Tunes"
      And I press "Erstellen"
     Then I should see "Looney Tunes"
@@ -26,7 +26,8 @@ Feature: Create and edit workgroups
     Given I am "normin"
      And I click the arrow next to my name
      And I follow "Meine Arbeitsgruppen"
-     And I press "Neue Arbeitsgruppe erstellen"
+     And I hover the context actions menu
+     And I follow "Neue Arbeitsgruppe"
      And I fill in "name" with "Looney Tunes"
      And I press "Erstellen"
     Then I should see "Looney Tunes"
@@ -45,7 +46,8 @@ Feature: Create and edit workgroups
     Given I am "normin"
      And I click the arrow next to my name
      And I follow "Meine Arbeitsgruppen"
-     And I press "Neue Arbeitsgruppe erstellen"
+     And I hover the context actions menu
+     And I follow "Neue Arbeitsgruppe"
      And I fill in "name" with ""
      And I press "Erstellen"    
     Then I should see "Name can't be blank"

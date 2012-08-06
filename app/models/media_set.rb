@@ -7,8 +7,6 @@ class MediaSet < MediaResource
 
   belongs_to :user
 
-
-  
   def self.find_by_id_or_create_by_title(values, user)
     records = Array(values).map do |v|
                       if v.is_a?(Numeric) or (v.respond_to?(:is_integer?) and v.is_integer?)
@@ -41,7 +39,23 @@ class MediaSet < MediaResource
     (individual_contexts | inheritable_contexts).sort
   end
 
+### Settings ##########################################
 
+  store :settings
+
+  ACCEPTED_VARS = {
+    :layout => {:possible_values => [:miniature, :grid, :list], :default => :grid},
+    :sorting => {:possible_values => [:created_at, :updated_at, :title, :author], :default => :updated_at}
+  }
+
+  validate do
+    unless settings.blank?
+      errors.add(:settings, "Invalid key") unless (settings.keys - ACCEPTED_VARS.keys).empty?
+      settings.each_pair do |k,v|
+        errors.add(:settings, "Invalid value") unless ACCEPTED_VARS[k][:possible_values].include? v
+      end
+    end 
+  end
 
 ### Size ##############################################
   
@@ -73,7 +87,15 @@ class MediaSet < MediaResource
 ########################################################
 
   def get_media_file(user)
-    media_entries.accessible_by_user(user).order("media_resources.updated_at DESC").first.try(:media_file)
+    if out_arcs.where(cover: true).empty?
+      # NOTE this is the fallback in case no cover is set yet.
+      # Because the personas sql dump on test, we cannot set automatically in MediaResourceArcs#after_create (as it should)
+      # then instead of a callback and a migration, we store on the fly the oldest media_entry child_arc as cover
+      arc = out_arcs.joins(:child).where(:media_resources => {:type => 'MediaEntry'}).order("media_resource_arcs.id ASC").readonly(false).first
+      arc.update_attributes(cover: true) if arc
+    end
+    
+    media_entries.accessible_by_user(user).where(media_resource_arcs: {cover: true}).first.try(:media_file)
   end
 
 ########################################################

@@ -9,7 +9,7 @@
     %tr
       %th= f.label :meta_datum_object_type
       %td
-        - if f.object.meta_datum_object_type.nil?
+        - if f.object.meta_datum_object_type.nil? or f.object.meta_data.empty?
           = f.select :meta_datum_object_type, MetaKey.object_types.collect {|o| [o, o]}, { :include_blank => true }
         - else
           = f.object.meta_datum_object_type

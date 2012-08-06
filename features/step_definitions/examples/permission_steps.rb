@@ -41,13 +41,13 @@ end
 
 Then /^"([^"]*)" can ([^"]*) the resource$/ do |user, permission|
   visit "/media_resources/#{@resource.id}/"
-  open_permissions
+  step 'I open the permission lightbox'
   find(".me .line .permissions .#{permission} input").checked?
 end
 
 Then /^"([^"]*)" is the owner of the resource$/ do |user|
   visit "/media_resources/#{@resource.id}/"
-  open_permissions
+  step 'I open the permission lightbox'
   find(".me .line .owner input").checked?
 end
 

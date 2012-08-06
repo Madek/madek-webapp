@@ -83,3 +83,13 @@ Feature: Set Graph
     When I see the set graph
     Then I can choose to see icons for permissions on each node of the graph
      And I can choose to see icons for favorites on each node of the graph
+
+  @javascript
+  Scenario: Automatic element-scaling on viewport scaling
+    When I see the set graph
+     And I change the window width
+    Then the set graph element is scaling to the new width
+    When I change the window height
+    Then the set graph element is scaling to the new height
+     And the inspector panel shows more child elements corresponding to the new height
+

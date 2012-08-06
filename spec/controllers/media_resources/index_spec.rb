@@ -26,22 +26,19 @@ describe MediaResourcesController do
 
     describe "ordering by title" do
 
-      let :get_ordered_by_title do
+      before :each do
         get :index, {format: "json", sort: "title"}, session
       end
 
       it "should be successful" do
-        get_ordered_by_title
         response.should  be_success
       end
 
       it "should assign @media_resources" do
-        get_ordered_by_title
         JSON.parse(response.body)["media_resources"].should be
       end
 
       it "should be ordered by title" do
-        get_ordered_by_title
         resources = extract_resources 
         resources.map(&:title).sort.should ==  resources.map(&:title)
       end

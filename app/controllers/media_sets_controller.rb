@@ -79,8 +79,9 @@ class MediaSetsController < ApplicationController
             child.parent_sets.accessible_by_user(current_user, accessible_action)
           end.uniq
         else
-          MediaSet.accessible_by_user(current_user, accessible_action)
+          MediaSet.(current_user, accessible_action)
         end
+        endaccessible_by_user
         render json: view_context.hash_for_media_resources_with_pagination(media_sets, true, with).to_json
       }
     end
@@ -162,7 +163,7 @@ class MediaSetsController < ApplicationController
   # @argument [media_sets] array Including all media_sets wich have to be created
   #
   # @example_request
-  #   {"media_sets": [{"meta_key_label":"title", "value": "My Title"}, {"meta_key_label":"title", "value": "My Title"}]}
+  #   {"media_set": {"meta_data_attributes": [{"meta_key_label":"title", "value": "My Title"}]}}
   #
   # @request_field [Array] media_sets The array of media_sets which have to be created
   #
@@ -178,7 +179,6 @@ class MediaSetsController < ApplicationController
   # @response_field [Integer] title The title of the created set
   # 
   def create(attr = params[:media_sets] || params[:media_set])
-    
     is_saved = true
     if not attr.blank? and attr.has_key? "0" # CREATE MULTIPLE
       # TODO ?? find_by_id_or_create_by_title
@@ -222,6 +222,21 @@ class MediaSetsController < ApplicationController
     end
     
     redirect_to @media_set
+  end
+
+#####################################################
+
+  def settings
+    if request.post?
+      begin
+        @media_set.settings[:layout] = params[:layout].to_sym unless params[:layout].nil?
+        @media_set.settings[:sorting] = params[:sorting].to_sym unless params[:sorting].nil?
+        @media_set.save
+        render :nothing => true, :status => :ok
+      rescue
+        render :nothing => true, :status => :bad_request
+      end
+    end
   end
 
 #####################################################

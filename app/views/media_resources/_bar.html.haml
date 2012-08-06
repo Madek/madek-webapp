@@ -1,6 +1,9 @@
 :ruby
   h = current_settings
   t = media_resources_index_title
+  if @media_set and @media_set.settings[:sorting] and not params[:sort]
+    params[:sort] = @media_set.settings[:sorting].to_s
+  end
 
 #bar
   .icon
@@ -40,6 +43,20 @@
       = link_to "", media_resources_path, :class => "icon", :"data-type" => "list", :title => "Listen-Ansicht"
       -if params[:type] == "media_sets" and params[:user_id] == "#{current_user.id}"
         = link_to "", graph_user_media_sets_path(current_user), :class => "graph icon", :title => _("Graph-Ansicht") 
+
+    .action_menu  
+      = _("Aktionen")
+      .icon.arrow.up_and_down
+      .action_menu_list.right
+        %ul
+          %li
+            = link_to upload_path, :title => _("Medien importieren") do
+              .import.icon
+              = _("Importieren")
+          %li
+            %a.open_create_set_dialog{:title => "Neues Set erstellen"}
+              .create_set.icon
+              %span.text= "Neues Set"
 
 :javascript
   $(document).ready(function () {

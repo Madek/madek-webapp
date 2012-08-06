@@ -15,5 +15,6 @@ Feature: Exporting a file
      And I upload some picture titled "Millenium Falcon, Front View"
      And I go to the home page
      And I click the media entry titled "Millenium Falcon, Front View"
+     And I hover the context actions menu
      And I follow "Exportieren"
     Then I click the download button for ZIP with metadata     

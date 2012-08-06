@@ -427,12 +427,18 @@ class EditMetaData
     return new_container 
   
   @setup_media_resource_selection = (media_resource_ids)->
-    MediaResourceSelection.setup 
-      container: $(EditMetaData.container).find(".media_resource_selection")
-      media_resource_ids: media_resource_ids
-      callback: EditMetaData.setup_media_resources
-      contexts: ["upload"]
-      additional_parameters: {filename: true}
+    new MediaResourceSelection 
+      el: $(EditMetaData.container).find(".media_resource_selection")
+      ids: media_resource_ids
+      onPageLoaded: EditMetaData.setup_media_resources
+      parameters:
+        with:
+          meta_data:
+            meta_context_names: ["upload"]
+          filename: true
+          image:
+            as: "base64"
+            size: "medium"
   
   @setup_media_resources = ()->
     if ! @initalized

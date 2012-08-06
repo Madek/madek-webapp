@@ -100,6 +100,72 @@
     height: 16px;
     width: 15px;
   }
+
+  &.export {
+    background-position: 0 -201px;
+    height: 16px;
+    width: 16px; 
+  }
+
+  &.permissions {
+    background-position: 0 -218px;
+    height: 16px;
+    width: 16px; 
+  }  
+
+  &.browse {
+    background-position: -68px -394px;
+    height: 16px;
+    width: 16px; 
+  }  
+
+  &.edit_arcs {
+    background-position: -68px -411px;
+    height: 16px;
+    width: 16px; 
+  }  
+
+  &.highlight {
+    background-position: -68px -428px;
+    height: 16px;
+    width: 16px; 
+  }
+
+  &.add_group {
+    background-position: -68px -445px;
+    height: 16px;
+    width: 16px; 
+  }
+
+  &.import {
+    background-position: -51px -394px;
+    height: 16px;
+    width: 16px;  
+  }
+
+  &.create_set {
+    background-position: -51px -445px;
+    height: 16px;
+    width: 16px;  
+  }
+
+  &.set_cover {
+    background-position: -51px -411px;
+    height: 16px;
+    width: 16px;  
+  }
+
+  &.display {
+    background-position: -51px -428px;
+    height: 16px;
+    width: 16px;   
+  }
+
+  &.loading {
+    background: url(image-path("loading.gif"));
+    height: 16px;
+    width: 16px;
+  }
 }
 
 #bar > .icon {

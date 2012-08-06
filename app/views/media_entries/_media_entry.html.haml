@@ -6,6 +6,62 @@
     #page_head
       #detail-main.grid_12
 
+        .action_menu
+          = _("Aktionen")
+          .icon.arrow.up_and_down
+          .action_menu_list.right
+            %ul
+              - if current_user and current_user.authorized?(:edit, media_entry)
+                %li
+                  = link_to edit_media_resource_path(media_entry), :title => "Metadaten editieren" do
+                    .edit.icon
+                    = _("Editieren")
+              - if is_expert and media_entry.snapshotable?
+                %li
+                  = link_to edit_tms_media_entry_path(@media_entry) do
+                    .edit.icon
+                    = _("Metadaten für MIZ-Archiv editieren")
+                - if can_edit
+                  %li
+                    = link_to to_snapshot_media_entry_path(media_entry) do
+                      .copy.icon
+                      = _("Kopie für MIZ-Archiv erstellen")
+              %li
+                %span.favorite_link{:id => "fav_#{media_entry.id}", :title => "Als Favorit merken"}
+                  = link_to toggle_favorites_media_resource_path(media_entry), :remote => true, :"data-type" => "html", :method => :post do
+                    - s = (current_user.favorite_ids.include?(media_entry.id) ? "on" : "off")
+                    %div{:class => "icon button_favorit_#{s}" }
+                    = "Favorisieren"
+              - if media_entry.meta_data.for_meta_terms.exists?
+                %li
+                  = link_to browse_media_entry_path(media_entry), :title => "Nach vergleichbaren Medieneinträgen erkunden" do
+                    .browse.icon
+                    = _("Erkunden")
+              %li
+                = link_to "",
+                :title => "Zugriffsberechtigungen lesen/bearbeiten",
+                :class => "open_permission_lightbox", 
+                :"data-media_resource_ids" => "[#{@media_entry.id}]",
+                :"data-redirect_url" => "#{root_path}",
+                :"data-current_user" => "#{current_user.to_json(:only=>:id, :include => :groups)}" do
+                  .permissions.icon
+                  = "Zugriffsberechtigungen"
+              %li
+                = media_sets_widget(@media_entry, "<div class='edit_arcs icon'></div> <span class='text'>Zu Set hinzufügen/entfernen</span>", nil, {}, "link")
+              %li
+                = link_to "#", :panel => "download", :title => "Auf meinen Computer herunterladen" do
+                  .export.icon
+                  = _("Exportieren")
+              - if current_user and current_user.authorized?(:manage, media_entry)
+                %li
+                  %a{:href => "/media_resources/#{media_entry.id}", :title => "Unwiederbringlich entfernen", :onclick => "$(this).bind('ajax:success', function(){window.location = '/'});", :"data-method" => "delete", :"data-remote" => true, :class => "delete_me", :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher dass Sie diesen Inhalt löschen möchten?"}
+                    .trash.icon
+                    %span.text= "Löschen"
+              %li
+                %a.open_create_set_dialog{:title => "Neues Set erstellen"}
+                  .create_set.icon
+                  %span.text= "Neues Set"
+
         .head-tabs
           %h2.title.grid_8
             %br
@@ -29,53 +85,6 @@
           - unless sets.empty?
             = media_sets_list(sets, true)
 
-        #detail-action-bar
-          %ul#toggle-panel
-            - if is_expert and media_entry.snapshotable?
-              %li= link_to _("Metadaten für MIZ-Archiv editieren"), edit_tms_media_entry_path(@media_entry)
-              - if can_edit
-                %li= link_to _("Kopie für MIZ-Archiv erstellen"), to_snapshot_media_entry_path(media_entry)
-            - if current_user and current_user.authorized?(:edit, media_entry)
-              %li
-                = link_to edit_media_resource_path(media_entry), :title => "Editieren" do
-                  .button_edit_active
-            - else
-              %li
-                .button_edit_active.ghost
-            %li
-              = link_to "",
-              :title => "Zugriffsberechtigung",
-              :class => "open_permission_lightbox", 
-              :"data-media_resource_ids" => "[#{@media_entry.id}]",
-              :"data-redirect_url" => "#{root_path}",
-              :"data-current_user" => "#{current_user.to_json(:only=>:id, :include => :groups)}" do
-                .button_permissions
-            %li
-              %span.favorite_link{:id => "fav_#{media_entry.id}", :title => "Favorit"}
-                = render :partial => "media_resources/favorite_link", :locals => {:media_resource => media_entry}
-            - if media_entry.meta_data.for_meta_terms.exists?
-              %li
-                = link_to browse_media_entry_path(media_entry), :title => "Erkunden" do
-                  .button_explore
-            - else
-              %li
-                .button_explore.ghost
-            %li
-              = link_to "#", :panel => "download", :title => "Exportieren" do
-                .button_download
-            %li
-              = media_sets_widget(@media_entry)
-            - if current_user and current_user.authorized?(:manage, media_entry)
-              %li
-                = link_to "#", :panel => "delete", :title => "Löschen" do
-                  .button_delete_active
-            - else
-              %li
-                .button_delete_active.ghost
-        #delete-panel.actionbar-panel{:style => "display: none"}
-          .actionbar-inner-panel
-            = _("Wollen Sie diesen Medieneintrag und alle zugehörigen Dateien wirklich löschen? Sie können dies nicht rückgängig machen. Die Daten sind unwiederbringlich verloren.")
-            = link_to _("Löschen"), media_entry_path(media_entry), :id => "delete_me", :method => :delete, :data => {:confirm => _("Sind Sie sicher?"), :id => media_entry.id}
         #download-panel.actionbar-panel{:style => "display: none"}
           .actionbar-inner-panel
             = render :partial => "download", :object => media_entry, :as => :media_entry
