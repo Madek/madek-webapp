@@ -95,10 +95,12 @@ Then /^the type is shown through an icon$/ do
 end
 
 When /^I see all meta data contexts/ do
+  step 'I wait for the AJAX magic to happen'
   page.execute_script('$(".meta_data .context").show()')
   find("#bar .layout a[data-type=grid]").click
   find("#bar .layout a[data-type=list]").click
   page.execute_script('$(".meta_data .context").show();$(".meta_data .context").css("display", "table-cell !important")')
+  step 'I wait for the AJAX magic to happen'
   wait_until { find(".item_box .meta_data").reload.all(".context").size == find(".item_box .meta_data").reload.all(".context", :visible => true).size  }
 end
 
