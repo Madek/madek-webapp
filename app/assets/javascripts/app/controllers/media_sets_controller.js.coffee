@@ -3,12 +3,8 @@ class MediaSetsController
   constructor: (options)->
     @highlightedResources = options.highlightedResources
     @highlights_el = $("#media_set_highlights")
-    @layout = if options.layout.length then options.layout else undefined
     do @delegateEvents
     do @render
-    do @setLayout if @layout?
-
-  setLayout: => $("#bar .layout a[data-type=#{@layout}]").trigger "click"
 
   delegateEvents: =>
     @highlights_el.find(".inner img").load => do alignHighlights
@@ -43,7 +39,6 @@ class MediaSetsController
         $(e.currentTarget).closest(".action_menu").bind "mouseout", @recoverIcon
 
   recoverIcon: (e)=>
-    console.log e.currentTarget
     $(e.currentTarget).find(".saves_display_settings .icon").attr("class", "display icon")
 
 window.App.MediaSets = MediaSetsController

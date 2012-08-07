@@ -27,6 +27,6 @@
       }
     });
     
-    new App.MediaResources;
+    new App.MediaResources({layout: #{(@media_set and @media_set.settings[:layout]) ? "\"#{@media_set.settings[:layout]}\"" : "undefined"}});
   });
   

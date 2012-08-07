@@ -39,8 +39,8 @@ class CreateSetDialog
           button = @dialog.find("button.create")
           button.data("text", button.html())
           button.width(button.width()).html("").append $.tmpl("tmpl/loading_img")
-        success: ->
-          window.location = "/media_resources?type=media_sets&user_id=#{current_user.id}"
+        success: (data)->
+          window.location = "/media_sets/#{data.id}"
     else
       @dialog.find(".errors").html("Bitte Titel eingeben").show()
 

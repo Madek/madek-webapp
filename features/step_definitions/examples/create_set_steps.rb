@@ -27,6 +27,5 @@ When /^I created that set$/ do
 end
 
 Then /^Im redirectet to the detail view of that set$/ do
-  find("h1").text.should == "Meine Sets"
-  wait_until { find(".item_box", :text => @title) }
+  find("h3").text.should == @title
 end
