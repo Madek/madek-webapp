@@ -9,7 +9,7 @@ require "bundler/capistrano"
 
 set :scm, :git
 set :repository, "git://github.com/zhdk/madek.git"
-set :branch, "feature_setup"
+set :branch, "master"
 set :deploy_via, :remote_cache
 
 set :db_config, "/home/madek/database.yml"
