@@ -37,7 +37,9 @@ class User < ActiveRecord::Base
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40
   validates_uniqueness_of   :login
-  validates_format_of       :login,    :with => /\A\w[\w\.\-_@]+\z/, :message => "use only letters, numbers, and .-_@ please."
+  # DANGER: This validation is broken! It allows only ASCII characters (\w only includes those), but our users have umlauts etc. in their logins!
+  #  validates_format_of       :login,    :with => /\A\w[\w\.\-_@]+\z/, :message => "use only letters, numbers, and .-_@ please."
+
 
   validates_presence_of     :email
   validates_length_of       :email,    :within => 6..100 #r@a.wk
