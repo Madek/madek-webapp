@@ -18,7 +18,6 @@ class MediaFile < ActiveRecord::Base
   after_create do
     # Move the file out to storage
     FileUtils.mv uploaded_data.tempfile.path, file_storage_location
-    FileUtils.chmod(0644, file_storage_location) # Otherwise Apache's X-Sendfile cannot access the file, as Apache runs as another user, e.g. 'www-data'
     import if meta_data.blank? # TODO in background?
     make_thumbnails
   end
@@ -162,7 +161,6 @@ class MediaFile < ActiveRecord::Base
             path = "#{prefix}_#{filename}"
             result = EncodeJob.ftp_get(f, path)
             if result == true # Retrieval was a success
-              FileUtils.chmod(0644, path) # Otherwise Apache's X-Sendfile cannot access the file, as Apache runs as another user, e.g. 'www-data'
               paths << path
             else
               logger.error("Retrieving #{f} and saving to #{path} failed.")
@@ -177,7 +175,6 @@ class MediaFile < ActiveRecord::Base
             path = "#{prefix}_#{filename}"
             result = EncodeJob.http_get(f, path)
             if result == true # Retrieval was a success
-              FileUtils.chmod(0644, path) # Otherwise Apache's X-Sendfile cannot access the file, as Apache runs as another user, e.g. 'www-data'
               thumbnail_paths << path
             else
               logger.error("Retrieving #{f} and saving to #{path} failed.")
