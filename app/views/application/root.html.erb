@@ -233,7 +233,10 @@
                       // caption
                       var meta_data = MetaDatum.flatten(entry.meta_data);
                       var entry_caption = $(caption_clone).clone();
-                      $(entry_caption).attr("id", "htmlcaption"+(i+1)).html("<strong>"+meta_data.title+"</strong><br/>"+meta_data.author);
+                      var caption_str = "";
+                      if(meta_data.title) caption_str += "<strong>"+meta_data.title+"</strong>";
+                      if(meta_data.author) caption_str += "<br/>"+meta_data.author;
+                      $(entry_caption).attr("id", "htmlcaption"+(i+1)).html(caption_str);
                       $("#slider-wrapper").append(entry_caption);
                     });
                     
