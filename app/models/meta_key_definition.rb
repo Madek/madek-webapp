@@ -28,18 +28,6 @@ class MetaKeyDefinition < ActiveRecord::Base
     end
   end
 
-  # TODO Rails 3.2
-  # store :settings, accessors: [:is_required, :length_min, :length_max]
-  serialize :settings, Hash
-  [:is_required, :length_min, :length_max].each do |name|
-    define_method name do
-      self.settings[name]
-    end
-    define_method "#{name}=" do |i|
-      self.settings[name] = i
-    end
-  end
-
 ###################################################
 
   # NOTE config.gem "rgl", :lib => "rgl/adjacency"

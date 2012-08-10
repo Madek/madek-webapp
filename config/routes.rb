@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 MAdeK::Application.routes.draw do
 
+
   wiki_root '/wiki'
 
   root :to => "application#root"
@@ -219,6 +220,8 @@ MAdeK::Application.routes.draw do
       end
     end
     
+    resources :meta_key_definitions
+
     resources :permission_presets
     
     resource :meta, :controller => 'meta' do

@@ -1,0 +1,9 @@
+
+%table.datatable
+  %thead
+    %tr
+      %th MetaContext Name
+      %th MetaKey Label
+      %th Is Required
+  %tbody
+    = render :partial => "show", collection: @meta_key_definitions, as: :meta_key_definition
