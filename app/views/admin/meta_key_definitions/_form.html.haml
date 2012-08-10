@@ -1,0 +1,26 @@
+= form_for @meta_key_definition, :url => url, :remote => remote do |f|
+  %table
+    %tr 
+      %th= f.label "MetaContext Name"
+      %td= f.label @meta_key_definition.meta_context.name
+    %tr 
+      %th= f.label "MetaKey Label"
+      %td= f.label @meta_key_definition.meta_key.label
+    %tr
+      %th= f.label :is_required
+      %td= f.check_box :is_required
+    %tr
+      %td
+      %td= f.submit submit
+
+:javascript
+  $(document).ready(function(){
+    $("ul.sortable").sortable({
+      handle: 'span.handler',
+      axis: 'y'
+    });
+
+    $('form.edit_meta_key').submit(function(){
+      $('#term_positions').val($("ul.sortable").sortable("serialize"));
+    });     
+  });
