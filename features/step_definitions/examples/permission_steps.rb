@@ -115,6 +115,8 @@ When /^I add "([^"]*)" to grant user permissions$/ do |user|
 end
 
 Then /^I can choose from a set of labeled permissions presets instead of grant permissions explicitly$/ do
+  # We must count the options to see if they're really there, otherwise the loop below (.each) never executes
+  find(".preset select").all("option").size.should == PermissionPreset.all.size
   find(".preset select").all("option").map(&:text).each do |preset_name|
     PermissionPreset.pluck(:name).include?(preset_name).should be_true
   end
