@@ -17,7 +17,7 @@ module Json
               hint: mkd.hint.to_s,
               description: mkd.description.to_s,
               type: MetaDatum.value_type_name(mkd.meta_key.meta_datum_object_type),
-              settings: mkd.settings
+              settings: {is_required: mkd.is_required, length_min: mkd.length_min, length_max: mkd.length_max}
             }
           end
         end 
