@@ -402,7 +402,7 @@ class Permission
     else # displayed in a lightbox
       template = $.tmpl "tmpl/permission/_actions"
       if $(container).find("input:not([disabled=disabled])").length > 0
-        # User has permission to change something 
+        # User has permission to change something
         $(template).find(".close_dialog").remove()
       else
         $(template).find(".close_dialog").bind "click", ()->
