@@ -44,7 +44,7 @@ namespace :madek do
           exit_code_rerun = $?.exitstatus
           raise "Tests failed!" if exit_code_rerun != 0
         end
-        
+
       end
 
       task :slow do
