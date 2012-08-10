@@ -278,7 +278,7 @@ class EditMetaData
         field_value = undefined
     else if field_type == "copyright"
       copyright_id = $(field).find("select:visible:last option:selected").tmplItem().data.id
-      field_value = [copyright_id]
+      field_value = copyright_id
     else # string
       if $(field).find("input").length
         field_value = $(field).find("input").val()
