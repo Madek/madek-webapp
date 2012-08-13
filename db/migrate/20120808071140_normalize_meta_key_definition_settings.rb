@@ -14,8 +14,10 @@ class NormalizeMetaKeyDefinitionSettings < ActiveRecord::Migration
     add_column :meta_key_definitions, :length_max, :integer
     add_column :meta_key_definitions, :length_min, :integer
     NormalizeMetaKeyDefinitionSettings::MetaKeyDefinition.all.each do |mkd|
-      YAML.load(mkd.settings).each do |k,v|
-        mkd.update_column k,v
+      if mkd.settings 
+        YAML.load(mkd.settings).each do |k,v|
+          mkd.update_column k,v
+        end
       end
     end
     remove_column :meta_key_definitions, :settings
