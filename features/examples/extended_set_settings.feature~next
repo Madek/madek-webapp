@@ -17,6 +17,12 @@ Feature: Login
     Then that media resource is displayed as cover of that set
 
   @javascript
+  Scenario: Try to set the cover of a set by hand when there are no children
+    When I see the detail view of a set that I can edit which has no children
+     And I can open the set cover dialog
+    Then I should see an information that this set is empty
+
+  @javascript
   Scenario: Set the cover of a set automatically
     When I add media resources to an empty set
     Then one of these media resources is set as the cover for that set automatically
