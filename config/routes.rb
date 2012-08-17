@@ -72,7 +72,6 @@ MAdeK::Application.routes.draw do
     
     resources :meta_data do
       collection do
-        get :objective
         get :edit_multiple
         put :update_multiple
       end

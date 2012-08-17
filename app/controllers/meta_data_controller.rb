@@ -6,7 +6,7 @@ class MetaDataController < ApplicationController
   before_filter do
     unless (params[:media_resource_id] ||= params[:media_entry_id] || params[:media_set_id] || params[:snapshot_id] || params[:collection_id]).blank?
       action = case request[:action].to_sym
-        when :index, :objective
+        when :index
           :view
         when :edit, :update, :edit_multiple, :update_multiple
           :edit
@@ -36,10 +36,6 @@ class MetaDataController < ApplicationController
         render :json => view_context.json_for(@meta_data, with)
       }
     end
-  end
-
-  def objective
-    @meta_data = @resource.media_file.meta_data_without_binary.sort
   end
 
   ### 

@@ -30,6 +30,7 @@ module MediaResourceModules
 
     ### instance methods 
 
+=begin #old??#
     def users_permitted_to_act(action)
       # do not optimize away this query as resource.user can be null
       owner_id = User.select("users.id").joins(:media_resources).where("media_resources.id" => id)
@@ -51,6 +52,7 @@ module MediaResourceModules
     def managers
       users_permitted_to_act :manage
     end
+=end
 
     def is_public?
       view?

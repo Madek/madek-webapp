@@ -8,7 +8,7 @@ class DropFeaturedSet < ActiveRecord::Migration
   def up
     
     if(featured_set = Media::FeaturedSet.first)
-      MediaSet.featured_set = featured_set
+      AppSettings.featured_set_id = featured_set.id
       featured_set.type = "Media::Set"
       featured_set.save
     end
