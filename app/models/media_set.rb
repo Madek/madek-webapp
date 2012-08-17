@@ -7,6 +7,7 @@ class MediaSet < MediaResource
 
   belongs_to :user
 
+=begin #old??#
   def self.find_by_id_or_create_by_title(values, user)
     records = Array(values).map do |v|
                       if v.is_a?(Numeric) or (v.respond_to?(:is_integer?) and v.is_integer?)
@@ -17,6 +18,7 @@ class MediaSet < MediaResource
                   end
     records.compact
   end
+=end
 
   # TODO remove, it's used only on tests!
   # FIXME this only fetches the first set with that title,
@@ -102,14 +104,6 @@ class MediaSet < MediaResource
 
   def is_featured_set?
     !self.id.nil? and self.id == AppSettings.featured_set_id
-  end
-
-  def self.featured_set
-    find_by_id(AppSettings.featured_set_id)
-  end
-
-  def self.featured_set=(media_set)
-    AppSettings.featured_set_id = media_set.id
   end
 
 ########################################################

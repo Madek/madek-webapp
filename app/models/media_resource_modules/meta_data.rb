@@ -53,12 +53,6 @@ module MediaResourceModules
           t
         end
 
-        def title_and_user
-          s = ""
-          s += "#{title} (#{user})"
-        end
-
-
         def update_attributes_with_pre_validation(attributes, current_user = nil)
           # we need to deep copy the attributes for batch edit (multiple resources)
           dup_attributes = Marshal.load(Marshal.dump(attributes)).deep_symbolize_keys
