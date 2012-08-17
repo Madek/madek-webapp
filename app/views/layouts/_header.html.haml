@@ -6,10 +6,10 @@
         = link_to AppSettings.title, root_path, :class => AppSettings.title.blank? ? "logo_left ir" : nil
       = render :partial => "layouts/search" unless @disable_search
       #nav_links
-        = link_to _(@set), media_sets_path(:media_set_id => @set), :title => "Inhalte erkunden", :class => "main_nav_browse ir" if (@set = MediaSet.featured_set) and !@set.child_sets.empty?
-        = link_to _("Hochladen"), upload_path, :title => "Medien importieren", :class => "main_nav_upload ir"
+        = link_to "#", media_sets_path(:media_set_id => AppSettings.featured_set_id), :title => _("Inhalte erkunden"), :class => "main_nav_browse ir" if AppSettings.featured_set_id
+        = link_to "#", upload_path, :title => _("Medien importieren"), :class => "main_nav_upload ir"
         = render :partial => "layouts/menu"
-        = link_to _("Hilfe"), "/wiki", :title => _("Hilfe Wiki anzeigen"), :class => "main_nav_help ir" #TODO: add wiki path here
+        = link_to "#", "/wiki", :title => _("Hilfe Wiki anzeigen"), :class => "main_nav_help ir" #TODO: add wiki path here
       = link_to "ZHdK", "http://www.zhdk.ch", :class => "logo_right ir"
 
     
