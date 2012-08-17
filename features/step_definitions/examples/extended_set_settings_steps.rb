@@ -3,6 +3,29 @@ When /^I see the detail view of a set that I can edit$/ do
   visit media_resource_path @media_set
 end
 
+When /^I see the detail view of a set that I can edit which has no children$/ do
+  @media_set = MediaResource.media_sets.accessible_by_user(@current_user, :edit).detect{|set| set.children.empty? }
+  if @media_set.nil?
+    steps %Q{
+      When I create a set through the context actions
+      Then I see a dialog with an input field for the title
+      When I provide a title
+      Then I can create a set with that title
+      When I created that set
+      Then Im redirectet to the detail view of that set
+    }
+    @media_set = MediaResource.media_sets.accessible_by_user(@current_user, :edit).detect{|set| set.children.empty? }
+  end
+
+  visit media_resource_path @media_set
+end
+
+Then /^I should see an information that this set is empty$/ do
+  wait_until { find(".dialog .empty_results") }
+  find(".dialog .close_dialog").click
+  wait_until{ all(".dialog", :visible => true).empty? }
+end
+
 Then /^I can open the set cover dialog$/ do
   step 'I hover the context actions menu'
   find(".action_menu .action_menu_list a", :text => "Titelbild").click
