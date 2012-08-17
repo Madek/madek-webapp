@@ -7,8 +7,7 @@ When /^I change the owner to "([^"]*)"$/ do |new_owner|
   find(".users .line.add .button").click()
   wait_until { find(".users .line.add input") }
   find(".users .line.add input").set(new_owner)
-  wait_for_css_element(".ui-autocomplete li a")
-  find(".ui-autocomplete li a").click()
+  wait_until { find(".ui-autocomplete li a") }.click()
   find(".users .line", :text => new_owner).find(".owner input").click()
   step 'I save the permissions'
 end
@@ -32,8 +31,7 @@ Then /^I can use some interface to change the resource's owner to "([^"]*)"$/ do
   step 'I open the permission lightbox'
   find(".users .line.add .button").click()
   find(".users .line.add input").set(new_owner)
-  wait_for_css_element(".ui-autocomplete li a")
-  find(".ui-autocomplete li a").click()
+  wait_until { find(".ui-autocomplete li a") }.click()
   find(".users .line .owner input").should_not be_nil
 end
 
@@ -85,10 +83,10 @@ end
 
 When /^I open the permission lightbox$/ do
   step 'I hover the context actions menu'
-  wait_for_css_element(".open_permission_lightbox")
+  wait_until { find(".open_permission_lightbox") }
   page.execute_script %Q{ $(".open_permission_lightbox").parents("*").show(); }
   find(".open_permission_lightbox").click
-  wait_for_css_element(".permission_lightbox .line")
+  wait_until { find(".permission_lightbox .line") }
 end
 
 Then /^I can choose a user as owner$/ do
@@ -103,20 +101,17 @@ end
 
 When /^I open a media resource owned by someone else$/ do
   visit root_path
-  wait_for_css_element("#results_others .thumb_box")
-  find("#results_others .thumb_box").click
+  wait_until { find("#results_others .thumb_box") }.click
 end
 
 When /^I open a media entry owned by someone else$/ do
   visit root_path
-  wait_for_css_element("#results_others .thumb_box")
-  find("#results_others .thumb_box").click
+  wait_until { find("#results_others .thumb_box") }.click
 end
 
 When /^I open a media set owned by someone else$/ do
   visit root_path
-  wait_for_css_element("#results_others .thumb_box_set")
-  find("#results_others .thumb_box_set").click
+  wait_until { find("#results_others .thumb_box_set") }.click
 end
 
 Then /^I cannot change the owner$/ do
@@ -129,10 +124,9 @@ end
 When /^"([^"]*)" changes the resource's permissions for "([^"]*)" as follows:$/ do |owner, new_owner, table|
   visit media_resource_path(@resource)
   step 'I open the permission lightbox'
-  find(".users .line.add .button").click()
-  find(".users .line.add input").set(new_owner)
-  wait_for_css_element(".ui-autocomplete li a")
-  find(".ui-autocomplete li a").click()
+  wait_until { find(".users .line.add .button") }.click()
+  wait_until { find(".users .line.add input") }.set(new_owner)
+  wait_until { find(".ui-autocomplete li a") }.click()
 
   table.hashes.each do |perm| 
     if (perm["value"] == "false" and find(%Q@.users .line input##{perm["permission"]}@).selected?) \
@@ -154,8 +148,7 @@ end
 
 When /^I open one of my resources$/ do
   visit root_path
-  wait_for_css_element("#content_body .thumb_box")
-  find("#content_body .thumb_box").click
+  wait_until { find("#content_body .thumb_box") }.click
 end
 
 Then /^I should have all permissions$/ do
