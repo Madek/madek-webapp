@@ -46,8 +46,6 @@ namespace :madek do
           puts "Rerun exited with #{exit_code_rerun}"
           raise "Tests failed during rerun!" if exit_code_rerun != 0
         end
-        raise "Tests failed during first run!" if exit_code_first_run != 0
-
       end
 
       task :slow do
