@@ -1,6 +1,8 @@
 %h3.label 
   ${label}
+  {{if settings}}
   {{if settings.is_required}}
   %span.is_required{:title=>"Dieses Feld ist erforderlich!"}
     *
+  {{/if}}
   {{/if}}

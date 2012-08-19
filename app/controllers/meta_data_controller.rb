@@ -60,9 +60,9 @@ class MetaDataController < ApplicationController
       respond_to do |format|
         format.json { render json: {} }
       end
-    rescue
+    rescue => e
       respond_to do |format|
-        format.json { render json: @resource.errors, status: :unprocessable_entity }
+        format.json { render json: e.to_s, status: :unprocessable_entity }
       end
     end
   end

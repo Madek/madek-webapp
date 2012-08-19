@@ -267,3 +267,57 @@ Then /^only files with missing metadata are listed$/ do
     wait_until {all(".item_box[data-media_resource_id='#{id}']",visible: true).size.should == 0}
   end 
 end
+
+Given /^MetaTerms are existing in the upload context$/ do
+  step 'I am "Adam"'
+  visit "/admin/contexts"
+  ["academic year", "epoch", "Zett_Ausgabe"].each do |key|
+    find("a", :text => "Upload").click
+    find(".buttons", :text => "Add Key").click
+    find("#meta_key_definition_meta_key_id").select(key)
+    find("#meta_key_definition_label_de_ch").set(key)
+    find("input[type=submit]").click
+  end
+end
+
+Then /^I can set values for the meta data from type meta terms$/ do
+  visit edit_upload_path
+  meta_data = @current_user.media_resources.where(:type => "MediaEntryIncomplete").first.meta_data
+  
+  # not_extensible_meta_terms_checkbox
+  not_extensible_meta_terms_checkbox = find(".edit_meta_datum_field.meta_terms.not_extensible_list.checkboxes")
+  not_extensible_meta_terms_checkbox.find("input").click
+  step 'I wait for the AJAX magic to happen'
+  meta_key_id = MetaKey.find_by_label not_extensible_meta_terms_checkbox["data-field_name"]
+  meta_data.reload.where(:meta_key_id => meta_key_id).first.value.length.should > 0
+
+  # extensible_meta_terms_autocomplete
+  extensible_meta_terms_autocomplete = find(".edit_meta_datum_field.meta_terms.extensible_list.autocomplete")
+  extensible_meta_terms_autocomplete.find(".list_toggle.button").click
+  wait_until { find(".ui-menu-item a") }
+  find(".ui-menu-item a").click
+  step 'I wait for the AJAX magic to happen'
+  wait_until { extensible_meta_terms_autocomplete.find(".success") }
+  sleep(1)
+  wait_until { meta_data.reload.where(:meta_key_id => meta_key_id).first.value.length > 0 }
+  extensible_meta_terms_autocomplete.find("input").set "added entry"
+  extensible_meta_terms_autocomplete.find("input").native.send_keys(:return)
+  wait_until { extensible_meta_terms_autocomplete.find(".loading") }
+  step 'I wait for the AJAX magic to happen'
+  wait_until { extensible_meta_terms_autocomplete.find(".success") }
+  sleep(1)
+  meta_key_id = MetaKey.find_by_label extensible_meta_terms_autocomplete["data-field_name"]
+  length = meta_data.reload.where(:meta_key_id => meta_key_id).first.value.length
+  wait_until { meta_data.reload.where(:meta_key_id => meta_key_id).first.value.length > 1 }
+
+  # not_extensible_meta_terms_autocomplete
+  not_extensible_meta_terms_autocomplete = find(".edit_meta_datum_field.meta_terms.not_extensible_list.autocomplete")
+  not_extensible_meta_terms_autocomplete.find(".list_toggle.button").click
+  wait_until { find(".ui-menu-item a") }
+  find(".ui-menu-item a").click
+  step 'I wait for the AJAX magic to happen'
+  wait_until { not_extensible_meta_terms_autocomplete.find(".success") }
+  sleep(1)
+  meta_key_id = MetaKey.find_by_label not_extensible_meta_terms_autocomplete["data-field_name"]
+  wait_until { meta_data.reload.where(:meta_key_id => meta_key_id).first.value.length > 0 }
+end

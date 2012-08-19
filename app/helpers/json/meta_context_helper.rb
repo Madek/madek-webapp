@@ -12,11 +12,13 @@ module Json
         if with[:meta_keys]
           h[:meta_keys] = meta_context.meta_key_definitions.map do |mkd|
             {
+              id: mkd.meta_key.id,
               name: mkd.meta_key.label, # TODO td: translate .label to .name
               label: mkd.label.to_s,
               hint: mkd.hint.to_s,
               description: mkd.description.to_s,
               type: MetaDatum.value_type_name(mkd.meta_key.meta_datum_object_type),
+              is_extensible_list: mkd.meta_key.is_extensible_list,
               settings: {is_required: mkd.is_required, length_min: mkd.length_min, length_max: mkd.length_max}
             }
           end

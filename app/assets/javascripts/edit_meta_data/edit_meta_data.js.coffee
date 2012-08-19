@@ -276,6 +276,11 @@ class EditMetaData
       field_value = $(field).find(".freetext input").val()
       if field_value.length == 0
         field_value = undefined
+    else if field_type == "meta_terms"
+      if $(field).is ".not_extensible_list.checkboxes"
+        field_value = _.map $(field).find(".input input:checked"), (checkbox)->$(checkbox).data "id"
+      else if $(field).is ".autocomplete"
+        field_value = _.map $(field).find(".values .entry"), (entry)->$(entry).data "value"
     else if field_type == "copyright"
       copyright_id = $(field).find("select:visible:last option:selected").tmplItem().data.id
       field_value = copyright_id
@@ -399,12 +404,8 @@ class EditMetaData
     # prepare field for saving depending on field type
     field_type = $(field).tmplItem().data.type
     if field_type == "people" or field_type == "keywords"
-      # save on autocomplete select
-      $(field).find("input").bind "autocompleteselect", (event)->
-        # save with a litle time out, value should have time to be computed
-        window.setTimeout ()->
-          EditMetaData.save_field(field)
-        , 100
+      $(field).delegate "input","autocompleteselect", (event)->
+        window.setTimeout (->EditMetaData.save_field(field)), 100 # save with a litle time out, value should have time to be computed
     else if field_type == "meta_date"
       # save when freetext is blured
       $(field).find(".freetext input").bind "blur", (event)->
@@ -412,6 +413,11 @@ class EditMetaData
     else if field_type == "copyright"
       $(field).delegate "select", "change", (event)->
         EditMetaData.save_field(field)
+    else if field_type == "meta_terms"
+      $(field).delegate "input[type=checkbox]", "change", (event)->
+        EditMetaData.save_field(field)
+      $(field).delegate "input","autocompleteselect", (event)->
+        window.setTimeout (->EditMetaData.save_field(field)), 100 # save with a litle time out, value should have time to be computed
     else # inlcuding type == "string"
       # save on blur 
       $(field).find("input, textarea").bind "blur", (event)->

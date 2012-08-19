@@ -2,6 +2,6 @@
   {{if typeof($.template("tmpl/meta_data/edit/"+type)) == "function"}}
   {{tmpl "tmpl/meta_data/edit/"+type}}
   {{else}}
-  template not found
+  unkown field type: ${type}
   {{/if}}
   .tip_target

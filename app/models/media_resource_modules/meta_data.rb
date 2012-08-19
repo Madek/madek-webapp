@@ -65,7 +65,6 @@ module MediaResourceModules
               if attr[:value].is_a? Array and attr[:value].all? {|x| x.blank? }
                 attr[:value] = nil
               end
-
               # find existing meta_datum, if it exists
               if attr[:id].blank?
                 if attr[:meta_key_label]

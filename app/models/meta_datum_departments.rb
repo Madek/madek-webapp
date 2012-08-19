@@ -26,8 +26,20 @@ class MetaDatumDepartments < MetaDatum
         v
       end
     end
+
+    #old#
     meta_departments.clear
     meta_departments << new_meta_departments.compact
+    
+    #new# FIXME test is failing because "Vertiefung Fotografie (DKM_FMK_BMK_VFO.alle)" is missing
+=begin
+    if new_meta_departments.include? nil
+      raise "invalid value"
+    else
+      meta_departments.clear
+      meta_departments << new_meta_departments
+    end
+=end
   end
 
 end

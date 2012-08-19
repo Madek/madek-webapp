@@ -22,7 +22,49 @@ class EditMetaDatumField
       @setup_meta_date field
     else if type is "copyright"
       @setup_copyright field
-      
+    else if type is "meta_terms"
+      @setup_meta_terms field
+
+  @setup_meta_terms = (field)->
+    field_data = field.tmplItem().data
+    loading = $.tmpl("tmpl/meta_data/edit/loading", {text: "Lade MetaTerms"})
+    $(field).find(".input").append loading
+    id = field_data.id
+    $.ajax
+      url: "/meta_terms"
+      type: "GET"
+      data:
+        meta_key_id: id
+      success: (data)->
+        if field_data.is_extensible_list
+          $(field).addClass "extensible_list autocomplete"
+          $(field).find(".input").html $.tmpl("tmpl/meta_data/edit/meta_terms/extensible_list_autocomplete", {meta_terms: data})
+          _.each field_data.raw_value, (v)-> $(field).find(".values").append $.tmpl("tmpl/meta_data/edit/multiple_entries/meta_terms", {value: v.value})
+        else # not a extensible list
+          if data.length < 17 # checkboxes
+            $(field).addClass "not_extensible_list checkboxes"
+            $(field).find(".input").html $.tmpl("tmpl/meta_data/edit/meta_terms/not_extensible_list_checkboxes", {meta_terms: data})
+            _.each field_data.raw_value, (v)->
+              $(field).find(".input input[data-id=#{v.id}]").attr "checked", true
+          else 
+            $(field).addClass "not_extensible_list autocomplete"
+            $(field).find(".input").html $.tmpl("tmpl/meta_data/edit/meta_terms/not_extensible_list_autocomplete", {meta_terms: data})
+            _.each field_data.raw_value, (v)-> $(field).find(".values").append $.tmpl("tmpl/meta_data/edit/multiple_entries/meta_terms", {value: v.value})
+        if $(field).is ".autocomplete"
+          $(field).delegate ".list_toggle.button", "click", (e)->
+            target = $(e.currentTarget)
+            if not target.is ".open"
+              target.addClass "open"
+              target.find(".icon").removeClass("closed").addClass("open")
+              $(field).find(".input input").focus().autocomplete( "option", "minLength", 0 ).autocomplete("search", "")
+            else
+              target.removeClass "open"
+              target.find(".icon").removeClass("open").addClass("closed")
+              $(field).find(".input input").blur()
+          $(field).find(".input input").bind "autocompleteclose", ->
+            $(field).find(".list_toggle.button").removeClass("open")
+            $(field).find(".list_toggle.button .icon").removeClass("open").addClass("closed")
+
   @setup_string = (field)->
     settings = $(field).tmplItem().data.settings
     if settings.is_required?

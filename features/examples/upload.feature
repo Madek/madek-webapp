@@ -97,7 +97,6 @@ Feature: Upload
     When I import a file
     Then I want to have its original file name inside its metadata
 
-    
   # https://www.pivotaltracker.com/story/show/24559317 -> Highlighting für Felder, die nicht validieren (required)
   @javascript @slow
   Scenario: Fields that don't validate should be highlighted
@@ -133,3 +132,11 @@ Feature: Upload
      And I can choose to list only files with missing metadata
     When I choose to list only files with missing metadata
     Then only files with missing metadata are listed
+
+  @javascript @slow
+  Scenario: meta terms in the context upload
+    Given MetaTerms are existing in the upload context
+     And I am "Normin"
+    When I upload a file
+    Then I can set values for the meta data from type meta terms
+    
