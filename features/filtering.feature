@@ -3,9 +3,6 @@ Feature: Use the search filters on my search results
   After searching for some keyword, I want to filter my results so that I find media that
   more accurately matches what I'm looking for.
 
-  Background: Set up the world and some users
-    Given I have set up the world a little
-
   @javascript @slow
   Scenario: A simple search, no filtering, that should return a result
     Given I am "normin"

@@ -5,8 +5,7 @@ Feature: Upload
   So that I can share my files with everyone
 
   Background: Load the example data and personas
-    Given I have set up the world a little
-      And I am "Normin"
+    Given I am "Normin"
       And all users have dropboxes
 
   # https://www.pivotaltracker.com/story/show/24559407 -> Zugriffsberechtigungen beim Upload: Gleich wie bei Medieneintrag editieren

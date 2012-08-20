@@ -5,8 +5,7 @@ Feature: File picker for uploading files
   I want to be able to pick files from my filesystem
   
   Background: Load the example data and personas
-    Given I have set up the world a little
-      And I am "Normin"
+    Given I am "Normin"
 
   @javascript
   Scenario: Picking a file that's size is 0 bytes

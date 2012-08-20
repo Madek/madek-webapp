@@ -1,8 +1,5 @@
 Feature: Curated set / Gallery
 
-  Background: Load the example data and personas
-    Given I have set up the world a little
-  
   @javascript @slow
   Scenario: Using the set highlight editing option
     Given I am "Normin"
@@ -30,12 +27,12 @@ Feature: Curated set / Gallery
     Then I see the highlighted resources in bigger size than the other ones
      And I see the highlighted resources twice, once in the highlighted area, once in the "set contains" list
 
-  @javascript
+  @javascript @upcoming
   Scenario: Default title of the highlighted elements
     When I see a set with highlighted resources
     Then the default title is "Hervorgehobene Inhalte"
     
-  @javascript
+  @javascript @upcoming
   Scenario: Set the title for the highlighted elements
     Given I am "Normin"
      When I open a set that I can edit which has children
