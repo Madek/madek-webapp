@@ -1,8 +1,7 @@
 Feature: Sets in Sets
 
   Background: Set up the world with a user and logging in
-    Given I have set up the world a little
-      And a user called "Max" with username "max" and password "password" exists
+    Given a user called "Max" with username "max" and password "password" exists
       And I am "max"
 
   # https://www.pivotaltracker.com/story/show/12828561

@@ -2,9 +2,6 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
 
   Foo
 
-  Background: Set up the world and some users
-    Given I have set up the world a little
-      
   @javascript @slow
   Scenario: Changing the core text fields of a media entry
     Given I am "normin"

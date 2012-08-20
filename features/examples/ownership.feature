@@ -18,8 +18,7 @@ Feature: Ownership
   So that I have a mental connection to them and am not confused by other people's files, or other files I have access to
 
   Background: Load the example data and personas
-   Given I have set up the world a little
-     And I am "Normin"
+   Given I am "Normin"
 
   # https://www.pivotaltracker.com/story/show/23669443
   @javascript

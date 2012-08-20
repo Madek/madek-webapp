@@ -17,9 +17,6 @@ Feature: Permissions
   I want to have different permissions on resources
   So that I can decide who has what kind of access to my data
 
-  Background: Load the example data and personas
-	Given I have set up the world a little
-
   @javascript
   Scenario: View permission
     Given a resource

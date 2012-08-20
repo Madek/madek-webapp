@@ -4,8 +4,7 @@ Feature: Login
   I want to set up extended settings for sets
 
   Background: Load the example data and personas
-    Given I have set up the world a little
-      And personas are loaded
+    Given personas are loaded
       And I am "Normin"
 
   @javascript

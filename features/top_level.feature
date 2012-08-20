@@ -4,9 +4,6 @@ Feature: Making top level sets visible (highlight)
   As a user
   I want to see top parents with a higher priority
 
-  Background: Loading world
-  Given I have set up the world a little
-
   @javascript
   Scenario: Viewing my sets
     Given I am "Normin"

@@ -5,8 +5,7 @@ Feature: Set Widget for Sets in Sets and Entries in Sets
   I want to have a widget which comes a long with features for: link, unlink, search and create sets on the fly
 
   Background: Set up the world some users, some sets and entries
-    Given I have set up the world a little
-      And a user called "Max" with username "max" and password "password" exists
+    Given a user called "Max" with username "max" and password "password" exists
       
       And a set titled "My Act Photos" created by "max" exists
       And a entry titled "Me with Nothing" created by "max" exists

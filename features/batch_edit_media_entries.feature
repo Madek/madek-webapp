@@ -5,8 +5,7 @@ Feature: Batch edit media entries
   I want to have a widget which provides functions for selecting multiple resources and provides batch-operations for the selection
 
   Background: Set up the world and some users
-    Given I have set up the world a little
-     Given I am "normin"
+    Given I am "normin"
 
 
   @javascript @slow
