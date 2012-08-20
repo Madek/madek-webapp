@@ -5,8 +5,7 @@ Feature: Possibility to browse entries and sets
   I want to be able to see entries and sets (resources) when i browse the applikation
 
   Background: Set up the world some users, some sets and entries
-    Given I have set up the world a little
-      And a user called "Max" with username "max" and password "password" exists
+    Given a user called "Max" with username "max" and password "password" exists
       
       And a set titled "My Act Photos" created by "max" exists
       And a entry titled "Me with Nothing" created by "max" exists

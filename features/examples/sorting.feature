@@ -3,8 +3,7 @@ Feature: Sorting Media Resources
   As a MAdeK user
 
   Background: Load the example data and personas
-    Given I have set up the world a little
-      And personas are loaded
+    Given personas are loaded
       And I am "Normin"
 
 

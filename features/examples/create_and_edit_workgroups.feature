@@ -5,9 +5,6 @@ Feature: Create and edit workgroups
   basis, I can create workgroups based on users who have logged into the system
   before.
 
-  Background: The world and some users exist
-    Given I have set up the world a little
-
   @javascript
   Scenario: Just create a group
     Given I am "normin"

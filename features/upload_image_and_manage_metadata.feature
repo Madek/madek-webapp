@@ -3,8 +3,7 @@ Feature: Upload images and manage media entries based on images
   Foo Bar
 
   Background: Set up the world and some users
-    Given I have set up the world a little
-      And I am "normin"
+    Given I am "normin"
       
   @javascript
   Scenario: Upload one image file without any special metatada
