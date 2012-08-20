@@ -11,6 +11,12 @@ GIT
       diff-lcs (>= 1.1.2)
       rails_autolink (>= 1.0)
 
+GIT
+  remote: git://github.com/justcfx2u/ruby-net-ldap.git
+  revision: 656039cee0708bb7cb5673eade7a821df03b5d9a
+  specs:
+    net-ldap (0.4.0)
+
 GEM
   remote: http://rubygems.org/
   remote: http://gems.github.com/
@@ -164,7 +170,6 @@ GEM
     nested_set (1.7.0)
       activerecord (>= 3.0.0)
       railties (>= 3.0.0)
-    net-ldap (0.3.1)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -349,7 +354,7 @@ DEPENDENCIES
   memcache-client
   mysql2 (~> 0.3.8)
   nested_set (~> 1.7)
-  net-ldap
+  net-ldap!
   newrelic_rpm (~> 3.3)
   nokogiri
   pg

@@ -54,7 +54,7 @@ gem 'rgl', '~> 0.4.0', :require => 'rgl/adjacency'
 gem 'nested_set', '~> 1.7'
 gem 'acts-as-dag', '~> 2.5.5' # TOOD use instead ?? gem 'dagnabit', '2.2.6'
 
-gem 'net-ldap', :require => 'net/ldap'
+gem 'net-ldap', :require => 'net/ldap', :git => 'git://github.com/justcfx2u/ruby-net-ldap.git'
 
 gem 'zencoder', '~> 2.4'
 gem 'uuidtools', '~> 2.1.2'
