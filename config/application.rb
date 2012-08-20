@@ -65,6 +65,7 @@ module MAdeK
                                     plupload/i18n/de.js
                                     plugins/jquery.shadowbox.js
                                     wiki.css
+                                    wiki.js
                                     feedback.css )
 
     # So that the Content-Length header is sent, so that e.g. video files
