@@ -20,7 +20,7 @@ class MediaFile < ActiveRecord::Base
     FileUtils.mv uploaded_data.tempfile.path, file_storage_location
     # chmod so that Apache's X-Sendfile gets access to this file, even though it is running under
     # a different user.
-    File.chmod("755", file_storage_location)
+    File.chmod(0755, file_storage_location)
     import if meta_data.blank? # TODO in background?
     make_thumbnails
   end
