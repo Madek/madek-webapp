@@ -24,32 +24,6 @@ html, body {
 }
 
 
-/* Special CSS for the ETHZ DARCH/Wohnforum instance arch.ethz.madek.zhdk.ch */
-.logo_darch_left {
-  height: 40px;
-  width: 350;
-  display: inline-block;
-  top:12px;
-  left: -10px;
-  position: absolute;
-  font-size: 14pt;
-}
-
-a.logo_darch_left, a.logo_darch_left:active, a.logo_darch_left:visited, a.logo_darch_left:hover {
-  color: #dedede;
-  text-decoration: none;
-}
-
-#logos {
-  text-decoration: none;
-  margin-bottom: 0.8em;
-  margin-top: 1.2em;
-}
-
-/* End special CSS for the ETHZ DARCH/Wohnforum instance arch.ethz.madek.zhdk.ch */
-
-
-
 /*Opera Fix*/
 body:before {/* thanks to Maleika (Kohoutec)*/
 content:"";
@@ -66,6 +40,23 @@ margin-top:-32767px;/* thank you Erik J - negate effect of float*/
   left: -7px;
   width: 609px;
 }
+
+
+#login {
+  td {
+    padding: 6px;
+  }
+
+  input[type=text], input[type=password] {
+    border: 1px solid #bebebe; 
+  }
+
+  input.button {
+    width: 180px;
+  }
+
+}
+
 
 #users.sidebar-box, #login.sidebar-box {
   

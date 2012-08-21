@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
         end
       end
     else
-      render :layout => false
+      render :template => 'application/root-arch.ethz.madek.zhdk.ch', :layout => false
     end
   end
 

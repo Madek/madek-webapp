@@ -30,10 +30,10 @@
           %table
             %tr
               %td Login
-              %td= text_field_tag :login
+              %td= text_field_tag(:login, nil, :size => 25)
             %tr
-              %td Password
-              %td= password_field_tag :password
+              %td Passwort
+              %td= password_field_tag(:password, nil, :size => 25)
             %tr
               %td
               %td= submit_tag _("Anmelden"), :class => "actionbutton button yellow"
