@@ -1,262 +1,64 @@
-<!DOCTYPE html>
-<html lang="de-CH">
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta charset="UTF-8">
-	<title>Forschungsplattform &quot;Gesellschaft und Gebaute Umwelt&quot;</title>
-	<%= stylesheet_link_tag "root" %>
-	<%= stylesheet_link_tag "button/button" %>
-	<%= javascript_include_tag "root.js" %>
-	<%= javascript_include_tag "meta_datum/meta_datum" %>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>ETH Wohnforum - ETH CASE</title>
+<link href="http://www.wohnforum.arch.ethz.ch/style/wohnforum.css" rel="stylesheet" type="text/css" />
 </head>
+<body id="projekte" onload="" onresize="">
 
-<body>
-
-  <div id="sticky-footer-wrapper">
-
-  	<header>
-  		<%= flash_helper %>
-  		<div class='container_12 clearfix'>
-  			<div class='grid_12'>
-  			<nav class='clearfix'>
-              <a href="/" class="logo_left darch">Forschungsplattform &quot;Gesellschaft und Gebaute Umwelt&quot;</a>
-  			</nav>
-              <a href="http://www.wohnforum.arch.ethz.ch" class="logo_right ir darch" style="margin-right: 22px;">ETHZ DARCH</a>
-  			</div>
-  					<div id="beta"><p>In Entwicklung<br /> Version <%= "#{RELEASE_VERSION}" %><br/><small>Beta</small></p></div>
-  		</div>
-  	</header>
-
-  	<div id="wrapper">
-  	<div id="container" class="container_12">
-  		<div id="content" class="grid_8 alpha">
-
-  			<!-- Teaser -->
-        <div id="slider-wrapper">
-  				<div id="slider" class="nivoSlider">
-			      <img src="<%= image_path('root/madek.jpg') %>" alt="" title="#htmlcaption1" />
-          </div>
-          <div id="htmlcaption1" class="nivo-html-caption">
-              <strong>Forschungsplattform &quot;Gesellschaft und Gebaute Umwelt&quot;</strong><br />Ein Online-Tool für wissenschaftliches Arbeiten an der Schnittstelle Gesellschaft &amp; gebaute Umwelt.
-          </div>
-  			</div>
-
-  			<!-- Short About & Statistics -->
-  			<div>
-  				<div id="about" class="grid_4 alpha">
-  					<h1>Forschungsplattform &quot;Gesellschaft und Gebaute Umwelt&quot;</h1>
-  					<p class="tagline">Ein Online-Tool für wissenschaftliches Arbeiten an der Schnittstelle Gesellschaft &amp; gebaute Umwelt.</p>
-  					<p class="short_about">Bilder, Fotos, Audio- und Text-Dateien:<br/>Die Forschungsplattform &quot;Gesellschaft und Gebaute Umwelt&quot; ist ein Werkzeug zum kooperativen Arbeiten mit Mediendateien und zum Teilen von Inhalten</p>
-  				</div> <!-- #about -->
-  				<div id="stats" class="grid_4 omega">
-  					<div id="inner-stats">
-  					<div class="statbox">
-  						<div id="media-stat">Media</div>
-  						<p><span><%= MediaEntry.count %></span><br />Medien</p>
-  					</div>
-  					<div class="statbox">
-  						<div id="user-stat">Users</div>
-  						<p><span style="font-weight: bold; font-size: 1.5em;text-shadow: -1px -1px 2px #fff;"><%= User.count %></span><br />Nutzer/innen</p>
-  					</div>
-  					<div class="statbox">
-  						<div style="width: 81px; height: 81px; background: #fff url(<%= image_path('root/icon-tags.png') %>) 50% 50% no-repeat;border-radius: 5px; margin-bottom: 1em; border: 2px solid #929292">&nbsp;</div>
-  						<p><span style="font-weight: bold; font-size: 1.5em;text-shadow: -1px -1px 2px #fff;"><%= Keyword.joins(:meta_datum => :media_resource).where(:media_resources => {:type => ["MediaEntry", "MediaSet"]}).count %></span><br />Schlagworte</p>
-  					</div>
-  					</div>
-  				</div> <!-- #stats -->
-  			</div>
-
-  			<div id="funcs" class="stopfloating">
-  				<div class="grid_2 alpha">
-  					<div class="madekfuncs"><img src="<%= image_path('root/archiving-02.png') %>" alt="" /></div>
-  					<h3>Wissen entwickeln</h3>
-  					<p>Forscher/-innen können ihr Wissen organisieren und für andere sichtbar machen.</p>
-  				</div>
-  				<div class="grid_2">
-  					<div class="madekfuncs"><img src="<%= image_path('root/sharing-02.png') %>" alt="" /></div>
-  					<h3>Medien teilen</h3>
-  					<p>Die Plattform ermöglicht Forschern und Forscherinnen ihre Daten und Medien zu teilen.</p>
-  				</div>
-  				<div class="grid_2">
-  					<div class="madekfuncs"><img src="<%= image_path('root/learning-02.png') %>" alt="" /></div>
-  					<h3>Inhalte suchen</h3>
-  					<p>Auf der Plattform kann man Informationen aus einzelnen Projekten finden.</p>
-  				</div>
-  				<div class="grid_2 omega">
-  					<div class="madekfuncs"><img src="<%= image_path('root/exploring-02.png') %>" alt="" /></div>
-  					<h3>Dokumente archivieren</h3>
-  					<p>Sie unterstützt die ersten Schritte der Archivierung.</p>
-  				</div>
-  			</div>
-
-  		</div> <!-- #content -->
-
-  		<div id="sidebar" class="grid_4 omega">
-        <%= render :partial => "login" %>
-
-  			<!-- News -->
-  			<div id="news" class="sidebar-box">
-  				<h4>Willkommen</h4>
-  				<p class="sidebar-box-claim"><!-- untertitel hier --></p>
-          <div class="newsitem">
-            <p>Die Forschungsplattform ist ein Online-Tool zum gemeinschaftlichen Arbeiten mit Medien und zum Teilen von Inhalten an der Schnittstelle &quot;Gesellschaft &amp; gebaute Umwelt&quot;.</p>
-            <p>Die Plattform ist aktuell im Aufbau, die Inhalte gehen vorläufig aus vier am ETH Wohnforum - ETH CASE (Centre for Research on Architecture Society and the Built Environment) angesiedelten Forschungsprojekten hervor. Sie wird von Forschern und Forscherinnen aus den Bereichen Sozial- und Kulturwissenschaften, Geographie, Politikwissenschaften, Planung und Architektur verwendet. Die Plattform &quot;Gesellschaft &amp; gebaute Umwelt&quot; kann projektspezifisch für das Teilen, die Entwicklung, die Suche und die Archivierung von Wissen angepasst und genutzt werden.</p>
-          </div>
-
-  			</div> <!-- #news -->
-
-  			<!-- Users -->
-  			<div id="users" class="sidebar-box">
-          <h4>Übersicht</h4>
-  				<p class="sidebar-box-claim">Bereits in Betrieb</p>
-
-  		    <div class="inline-tabs">
-  		      <div class="container">
-  		        <span class="tab active" data-items_class="tab1">
-  		          Forschungsprojekte
-  		        </span>
-  		        <span class="tab" data-items_class="tab2">
-  		          Nutzer-/innen
-              </span>
-  		      </div>
-  			  </div>
-
-  				<div class="pilotitem tab1">
-  					<div class="portrait"></div>
-  					<p><span>Das Wohnhochhaus:</span> Globalisierung einer Gebäudeform.</p>
-  				</div>
-
-  				<div class="pilotitem stopfloating tab1">
-  					<div class="portrait"></div>
-  					<p><span>Der Hauswart / die Hauswartin: Reparatur, Unterhalt und Warum unsere Städte nicht auseinanderfallen</span></p>
-  				</div>
-
-  				<div class="pilotitem stopfloating tab1">
-  					<div class="portrait"></div>
-  					<p><span>Atlas Urbane Qualität</span></p>
-  				</div>
-
-          <div class="pilotitem stopfloating tab1">
-            <div class="portrait"></div>
-            <p><span>Stühle in Gebrauch</span></p>
-          </div>
-
-  				<div class="pilotitem tab2">
-            <div class="portrait"></div>
-            <p><span>Rolf Wolfensberger</span>, Leiter Archiv ZHdK, schätzt das Medienarchiv als Werkzeug für die aktive Dokumentation vergänglicher Werke.</p>
-          </div>
+<div id='ethlogo'><a href='http://www.ethz.ch/' target="_blank"><img src='http://www.wohnforum.arch.ethz.ch/image_index/ethlogo_neg-1.gif' alt='ETH Z&uuml;rich' width="164" height="39" border='0' align="middle" /></a></div>
+<div id='darchlogo'><a href='http://www.arch.ethz.ch/' target="_blank"><img src='http://www.wohnforum.arch.ethz.ch/image_index/logo_darch.gif' alt='Departement Architektur ETH Zürich' width="161" height="40" border='0' align="middle" /></a></div>
+<div id="content">
+<div id='imageright'></div>
+<div id="translation"> <a href="../impressum/impressum.html">Impressum</a>
+</div>
+<div id="maintext">
 
 
-  			</div> <!-- #news -->
-  		</div>
-  	</div> <!-- #container -->
-	</div><!-- #wrapper -->
-	</div><!-- #stick-footer-wrapper -->
-	<div id="footer" class="stopfloating">
-		<div id="innerfooter" class="container_12">
-			<div class="grid_3 alpha">
-				<h4>Projekt</h4>
-				<ul>
-					<li><a href="http://www.zhdk.ch/?madek">Informationen</a></li><br/>
-					<li><a href="http://www.zhdk.ch/index.php?id=10360">Newsletter</a></li>
-				</ul>
-			</div>
-			<div class="grid_3">
-				<h4>Verwendung</h4>
-				<ul>
-					<li><%= link_to "Nutzungsbestimmungen", usage_terms_users_path %></li>
-				</ul>
-			</div>
-			<div class="grid_3">
-				<h4>Entwicklung</h4>
-				<ul>
-					<li><a href="http://www.zhdk.ch/index.php?id=12974">Freie Software</a></li>
-				</ul>
-			</div>
-			<div class="grid_3">
-				<h4>Kontakt</h4>
-				<ul>
-					<li><a href="http://www.wohnforum.arch.ethz.ch/team/team.html">Betreuung</a></li>
-				</ul>
-			</div>
 
-			<div id="copyright" class="grid_12">
-				<p>2009-2011 <a href="http://www.zhdk.ch">Zürcher Hochschule der Künste</a><br /><%= render :partial => "layouts/deploy_info" %></p>
-			</div>
+<h1>Online-Plattform 'Geselllschaft &amp; Gebaute Umwelt'</h1>
+  <h2>Für wissenschaftliches Arbeiten an der Schnittstelle Gesellschaft & gebaute Umwelt.    </h2>
+  <p>&nbsp;</p>
+  <p>Bilder, Fotos, Audio- und Text-Dateien:
+    Die Online-Plattfrom ist ein Werkzeug zum kooperativen Arbeiten mit Mediendateien und zum Teilen von Inhalten.</p>
+  <p>
+    
+ Die Plattform ist aktuell im Aufbau, die Inhalte gehen vorläufig aus vier am ETH Wohnforum - ETH CASE (Centre for Research on Architecture Society and the Built Environment) angesiedelten Forschungsprojekten hervor. Sie wird von Forschern und Forscherinnen aus den Bereichen Sozial- und Kulturwissenschaften, Geographie, Politikwissenschaften, Planung und Architektur verwendet. Die Plattform 'Gesellschaft & gebaute Umwelt' kann projektspezifisch für das Teilen, die Entwicklung, die Suche und die Archivierung von Wissen angepasst und genutzt werden.</p>
+  <p>&nbsp;</p>
+  <p>
+  <h2>Log in here</h2>
+  <p><%= flash_helper %></p>
+  <%= render :partial => "login" %>
 
-		</div>
-	</div>
-
-    <script type="text/javascript">
-      $(function(){
-        // tabs for pilotitems
-        $("#users.sidebar-box .inline-tabs .tab").click(function(){
-          if(!$(this).hasClass("active")) {
-            $(this).addClass("active").siblings(".tab").removeClass("active");
-            $("#users.sidebar-box").find(".pilotitem").hide();
-            $("#users.sidebar-box").find(".pilotitem."+$(this).data("items_class")).show();
-          }
-        });
-
-        // get splash screen images from splash_screen_set
-        var set_id = "<%= AppSettings.splashscreen_slideshow_set_id %>";
-        if(set_id != null) {
-          $.ajax("/media_sets/"+set_id, {
-            data: {with: {children:{type: "media_entries", 
-                                    with:{meta_data: {meta_context_names:["core"]}}}},
-                   format: "json"},
-            dataType: "json",
-            success: function(data, status, request) {
-              window.setTimeout(function(){
-                $("#slider").fadeOut(1000, function(){
-                  // setup splashscreen images
-                  var image_clone = $("#slider-wrapper #slider img").clone();
-                  $("#slider-wrapper #slider img").remove();
-                  var caption_clone = $("#slider-wrapper #htmlcaption1").clone();
-                  $("#slider-wrapper #htmlcaption1").remove();
-                  
-                  if(data.children.media_resources != null && data.children.media_resources.length) {
-                    randomElements = data.children.media_resources.sort(function(){ 
-                      return Math.round(Math.random())-0.5;
-                    }).slice(0,5);
-                    
-                    $.each(randomElements, function(i, entry){
-                      // image
-                      var entry_image = $(image_clone).clone();
-                      $(entry_image).attr("src", "/media_resources/"+entry.id+"/image?size=large").attr("title", "#htmlcaption"+(i+1));
-                      $("#slider-wrapper #slider").append(entry_image);
-                      
-                      // caption
-                      var meta_data = MetaDatum.flatten(entry.meta_data);
-                      var entry_caption = $(caption_clone).clone();
-                      var caption_str = "";
-                      if(meta_data.title) caption_str += "<strong>"+meta_data.title+"</strong>";
-                      if(meta_data.author) caption_str += "<br/>"+meta_data.author;
-                      $(entry_caption).attr("id", "htmlcaption"+(i+1)).html(caption_str);
-                      $("#slider-wrapper").append(entry_caption);
-                    });
-                    
-                    // setup nivo slider
-                    $('#slider').nivoSlider({
-                      pauseTime:5000,
-                      captionOpacity: 0.8,
-                      effect: 'fade',
-                      directionNav:false,
-                      controlNav: false
-                    });
-                    
-                    $("#slider").fadeIn();                    
-                  }
-                  
-                });
-              },1500);
-            },
-            error: function(request, status, error){
-              console.log(error);
-            }
-          });
-        }
-      });
-    </script>
+</p>
+</div>
+</div>
+<div id="header">
+<div id="caselogo"><a href="http://www.wohnforum.arch.ethz.ch/"><img src="http://www.wohnforum.arch.ethz.ch/image_index/logoDARCH_Wohnforum_CASE.gif" width="193" height="40" border="0" /></a></div>
+<div id="subnavigation">
+<h1>&rsaquo; PROJEKTE</h1>
+  <ul>
+    <li><a href="http://www.wohnforum.arch.ethz.ch/projekte/projekte_laufend.html">&rsaquo; laufende Projekte</a></li>
+    <li><a href="http://www.wohnforum.arch.ethz.ch/projekte/projekte_abgeschlossen.html">&rsaquo; Projektarchiv</a></li>
+    <li><a href="http://www.plattform-forschung.arch.ethz.ch">&rsaquo; Online-Plattform</a></li></ul>
+</div>
+<div id="mainnavigationbar">
+<ul>
+<li id="navcasesmain"><a href="http://www.wohnforum.arch.ethz.ch/index.html">&rsaquo; HOME</a></li>
+<li id='navabout'><a href="http://www.wohnforum.arch.ethz.ch/about/about.html">&rsaquo; &Uuml;BER UNS</a> </li>
+  <li id="navteam"><a href="http://www.wohnforum.arch.ethz.ch/team/team.html">&rsaquo; TEAM</a></li>
+  <li id="navprojekte"><a href="http://www.wohnforum.arch.ethz.ch/projekte/projekte_laufend.html">&rsaquo; PROJEKTE</a></li>
+  <li id="navpublikationen"><a href="http://www.wohnforum.arch.ethz.ch/publikationen/publikationen_main.html">&rsaquo; PUBLIKATIONEN</a></li>
+  <li id="navlehre"><a href="http://www.wohnforum.arch.ethz.ch/lehre/lehre.html">&rsaquo; LEHRE</a></li>
+  <li id="navforum"><a href="http://www.wohnforum.arch.ethz.ch/forum/forum_intro.html">&rsaquo; TAGUNG 2012</a></li>
+  <li id="navpartner"><a href="http://www.wohnforum.arch.ethz.ch/partner/partner.html">&rsaquo; PARTNER</a></li>
+  <li id="navstellen"><a href="http://www.wohnforum.arch.ethz.ch/stellen/stellen.html">&rsaquo; STELLEN</a></li>
+  <li id="navkontakt"><a href="http://www.wohnforum.arch.ethz.ch/kontakt/kontakt.html">&rsaquo; KONTAKT</a></li>
+  <li id="navlinks"><a href="http://www.wohnforum.arch.ethz.ch/links/links.html">&rsaquo; LINKS</a></li>
+  </ul>
+</div>
+</div>
 </body>
 </html>
