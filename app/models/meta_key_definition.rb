@@ -163,7 +163,7 @@ class MetaKeyDefinition < ActiveRecord::Base
       File.open(src, 'w') do |f|
         f << g.to_s << "\n"
       end
-      system( "#{DOT_PATH} -T#{fmt} #{src} -o #{dot}" ) # dot # neato # twopi # circo # fdp # sfdp 
+      system( "dot -T#{fmt} #{src} -o #{dot}" ) # dot # neato # twopi # circo # fdp # sfdp 
       dot.gsub('public/', '')
 
     ############ end graph
