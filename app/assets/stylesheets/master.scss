@@ -509,6 +509,25 @@ nav {
 }
 
 
+#sticky-footer-wrapper .logo_left.darch {
+	background: transparent; 
+	height: 40px;
+	width: 520px;
+	display: inline-block;
+	top:14px;
+	left: -10px;
+	position: absolute;
+    visibility: visible;
+
+    &, &:hover, &:active, &:visited {
+      color: #dedede;
+      text-decoration: none;
+      font-size: 14pt;
+    }
+}
+
+
+
 .logo_right {
 	background: transparent image-url("icons/madek_icon_sprites.png") -300px -159px no-repeat;
 	height: 40px;
