@@ -5,7 +5,6 @@ Feature: Filter panel
   So that I can get a good overview of all the things in the system
   And I can reduce my overview depending on various filter criteria
 
-  @upcoming
   Scenario: Where the filter panel appears
     When I look at one of these pages, then I can see the filter panel:
     | page_type              |
@@ -19,19 +18,21 @@ Feature: Filter panel
     When I look at one of these pages, then the filter panel is already expanded:
     | search results         |
 
-  @upcoming
+	@upcoming
   Scenario: Criteria of the filter panel
-    Given a list contains resources that have values in a meta key of type "MetaDatumMetaTerms"
-    Then I can filter by the values for that particular key
+		#Given a list contains resources that have values in a meta key of type "MetaDatumMetaTerms"
+		#Then I can filter by the values for that particular key
     #Given a list contains resources that have values in a meta key of type "MetaDatumDepartments"
     #Then I can filter by the values for that particular key
-    #Given a list contains resources that have values in a meta key of type "MetaDatumKeywords"
-    #Then I can filter by the values for that particular key
-    #And I can filter by permissions
-    #And I can filter by image format
-    #And I can filter by owner
-    #And I can filter by group
-  
+		#And I can always filter by permissions that appear in the result set
+		#And I can always filter by image formats that appear in the result set
+		#And I can always filter by owners that appear in the result set
+		#And I can always filter by groups that appear in the result set
+
+  Scenario: Filtering by MetaDatumKeywords
+    Given a list contains resources that have values in a meta key of type "MetaDatumKeywords"
+    Then I can filter by the values for that particular key
+
   @upcoming
   Scenario: Behavior when selecting a filter
     When I select a value to filter by
@@ -59,7 +60,7 @@ Feature: Filter panel
     Given I am "Liselotte"
     When I open a set that has children
     Then I can expand the filter panel
-    And I see a list of MetaKeys
+    And I see a list of MetaKey= 7s
     And I can open a particular MetaKey
     And I can filter by the values of that key
 
@@ -68,4 +69,7 @@ Feature: Filter panel
     Given I am "Liselotte"
     When I search for "Landschaft"
     Then I see a matching search result
-    When I filter "Schlagworte zu Inhalt und Motiv" by "kalt warm"
+		When I filter "Schlagworte zu Inhalt und Motiv" by "kalt warm"
+
+	@upcoming
+	Scenario: Filtering by individual contexts
