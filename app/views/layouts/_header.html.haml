@@ -2,7 +2,7 @@
   .grid_12
     %nav
       -# TODO restructure css, this is only a quick solution
-      .logo{:style => AppSettings.title.try(:size).to_i > 34 ? "left: #{34 - AppSettings.title.size}em" : nil}
+      .logo{:style => AppSettings.title.try(:size).to_i > 33 ? "left: #{33 - AppSettings.title.size}em" : nil}
         = link_to AppSettings.title, root_path, :class => AppSettings.title.blank? ? "logo_left ir" : nil
       = render :partial => "layouts/search" unless @disable_search
       #nav_links
