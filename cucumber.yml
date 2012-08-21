@@ -1,5 +1,0 @@
-all: -r features --tags=~@slow --format progress --format rerun --out tmp/rerun.txt --format junit --out tmp/junit --format html --out tmp/html/cucumber_all.html -e 'features/examples/upcoming'  features
-slow: -r features --tags=@slow --format progress --format junit --out tmp/junit --format html --out tmp/html/cucumber_slow.html -e 'features/examples/upcoming' features
-default: -r features --tags=~@slow --format progress --format rerun --out tmp/rerun.txt --format junit --out tmp/junit --format html --out tmp/html/cucumber_all.html -e 'features/examples/upcoming'  features
-rerun: "-r features @tmp/rerun.txt --format progress"
-profiling: -r features --no-color  --format pretty --format usage --out tmp/cucumber_usage.txt --format rerun --out tmp/rerun.txt -e 'features/examples/upcoming'  features

@@ -36,7 +36,7 @@ namespace :app do
       task :personas do
           
           puts "1) connecting to madek-personas@madek-server ..."
-          $cmdin, $cmdout, $cmderr = Open3.popen3("ssh madek-personas@madek-server")
+          $cmdin, $cmdout, $cmderr = Open3.popen3("ssh madek-personas@madek-server.zhdk.ch")
           $cmdin.puts("cd current")
           $cmdin.puts("RAILS_ENV=production bundle exec rake madek:dump_database")
           
@@ -54,7 +54,7 @@ namespace :app do
           $cmdin.puts("exit")
           
           puts "2) transfer dump to local ..."
-          $cmdin, $cmdout, $cmderr = Open3.popen3("scp madek-personas@madek-server:#{location} ./db")
+          $cmdin, $cmdout, $cmderr = Open3.popen3("scp madek-personas@madek-server.zhdk.ch:#{location} ./db")
           count = 0
           $cmdout.each do |line|
             puts line

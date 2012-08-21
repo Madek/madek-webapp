@@ -174,7 +174,11 @@ class MediaSetsGraphController
   loadChildren: (parent_id)=>
     requested_data = 
       with: 
-        children: 
+        children:
+          with:
+            image:
+              as:"base64"
+              size:"small"
           pagination:
             per_page: 36
     App.MediaResources.fetch_children parent_id, (data)=>

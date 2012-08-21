@@ -6,7 +6,7 @@ class MetaDataController < ApplicationController
   before_filter do
     unless (params[:media_resource_id] ||= params[:media_entry_id] || params[:media_set_id] || params[:snapshot_id] || params[:collection_id]).blank?
       action = case request[:action].to_sym
-        when :index, :objective
+        when :index
           :view
         when :edit, :update, :edit_multiple, :update_multiple
           :edit
@@ -38,10 +38,6 @@ class MetaDataController < ApplicationController
     end
   end
 
-  def objective
-    @meta_data = @resource.media_file.meta_data_without_binary.sort
-  end
-
   ### 
   # PUT /media_resources/1/meta_data/title {value: "My new title"}
   #
@@ -64,9 +60,9 @@ class MetaDataController < ApplicationController
       respond_to do |format|
         format.json { render json: {} }
       end
-    rescue
+    rescue => e
       respond_to do |format|
-        format.json { render json: @resource.errors, status: :unprocessable_entity }
+        format.json { render json: e.to_s, status: :unprocessable_entity }
       end
     end
   end

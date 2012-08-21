@@ -12,11 +12,10 @@ Our standard format for the API is JSON. To communicate to the API you have to s
     /media_resources.json
     /media_resources (with Header: "Accept: application/json")
 
-## RESTful API-Design
-GET, POST, PUT and DELETE...
+## Changelog
 
-## Authentication
-...
+### Version 0.1.1 (2012-08-18)
+#### Fetch MetaTerms associated to a specific MetaKey throug the meta_terms resource (e.g. for fetching all set values for a specific meta key -> Department: Music, Design etc.)
 
-## Pagination
-...
+### Version 0.1.0 (2012)
+#### The first relase of the API

@@ -35,6 +35,10 @@ class MediaSetArcsCover extends MediaSetArcsSelection
       @lightbox.find("table.media_resources tbody").prepend $(selected)
     super
 
+  noChildrenError: => 
+    @lightbox.find(".media_resource_selection .loading").replaceWith $.tmpl "app/views/media_set/cover/no_children_error"
+    @lightbox.find(".actions").html $.tmpl "tmpl/dialog/ok_close"
+
   persist: =>
     @changedArcs = _.map @lightbox.find("table.media_resources .selection input:checked").closest("tr"), (arc)=>
       child_id: $(arc).tmplItem().data.id

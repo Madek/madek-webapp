@@ -38,13 +38,14 @@ namespace :madek do
         puts "Running all Cucumber tests in one block"
         system "bundle exec cucumber -p all"
         exit_code_first_run = $?.exitstatus
+        puts "First run exited with #{exit_code_first_run}"
 
         if exit_code_first_run != 0
           system "bundle exec cucumber -p rerun"
           exit_code_rerun = $?.exitstatus
-          raise "Tests failed!" if exit_code_rerun != 0
+          puts "Rerun exited with #{exit_code_rerun}"
+          raise "Tests failed during rerun!" if exit_code_rerun != 0
         end
-
       end
 
       task :slow do

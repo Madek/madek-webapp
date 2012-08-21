@@ -1,0 +1,6 @@
+{{each(i, meta_term) meta_terms}}
+%label{:title => "${meta_term.value}"}
+  %input{:type => :checkbox, :"data-id" => "${meta_term.id}", :name => "${Underscore.str.underscored(meta_term.value)}"}
+  %span.value
+    ${Str.sliced_trunc(meta_term.value,30)}
+{{/each}}

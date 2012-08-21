@@ -31,12 +31,13 @@ class MediaSetArcsSelection
     do @load_arcs
   
   delegateLightboxEvents: =>
-    @lightbox.find(".cancel").bind "click", =>
+    @lightbox.find(".cancel, .close_dialog").live "click", =>
       @lightbox.closest(".dialog").dialog "close"
     @lightbox.find(".actions .save:not(.disabled)").live "click", @save
     @lightbox.find(".media_resources .selection input").live "change", @onElementChange
 
   onElementChange: (e)=> # virtual
+  noChildrenError: => # virtual
 
   load_arcs: =>
     $.ajax
@@ -46,12 +47,15 @@ class MediaSetArcsSelection
       success: (data)=>
         arcs = data.media_resource_arcs
         children_ids = _.map arcs, (arc)-> arc.child_id
-        new MediaResourceSelection
-          el: @lightbox.find(".media_resource_selection")
-          ids: children_ids
-          onPageLoaded: @pageRenderedCallback
-          parameters: @parameters
-          tableRowTemplate: "tmpl/media_resource/table_row_with_checkbox"
+        if children_ids.length
+          new MediaResourceSelection
+            el: @lightbox.find(".media_resource_selection")
+            ids: children_ids
+            onPageLoaded: @pageRenderedCallback
+            parameters: @parameters
+            tableRowTemplate: "tmpl/media_resource/table_row_with_checkbox"
+        else
+          do @noChildrenError
       
   pageRenderedCallback: (data)=>
     # eneable save button when last page is rendered

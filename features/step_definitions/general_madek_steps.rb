@@ -1,9 +1,6 @@
 # coding: UTF-8
 
-Given "I have set up the world a little" do
-  MetaDepartment.setup_ldapdata_from_localfile
-end
-
+=begin
 Given /^I have set up the world$/ do
   # Set this to a non-JS driver because:
   # 1. The Selenium driver times out during this step
@@ -29,6 +26,7 @@ Given /^I have set up the world$/ do
   # so they drop the database even if we seed it before running the tests. Therefore we recreate our world in this step. 
   MetaDepartment.setup_ldapdata_from_localfile
 end
+=end
 
 Given /^a user called "([^"]*)" with username "([^"]*)" and password "([^"]*)" exists$/ do |person_name, username, password|
   user = User.where(:login => username).first

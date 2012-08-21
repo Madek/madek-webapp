@@ -7,7 +7,11 @@ class MetaDatum < ActiveRecord::Base
           (meta_key = h[:meta_key] || (h[:meta_key_id] ? MetaKey.find_by_id(h[:meta_key_id]) : nil)) and
           (klass = meta_key.meta_datum_object_type.constantize)
             raise "#{klass.name} must be a subclass of #{self.name}" unless klass < self
-            klass.new_without_cast(*args, &block)
+            # NOTE the value setter has to be invoked after the instanciation (not during)
+            value = args.first.delete("value") || args.first.delete(:value)
+            r = klass.new_without_cast(*args, &block)
+            r.value = value if value
+            r
       elsif self < MetaDatum
         new_without_cast(*args, &block)
       else

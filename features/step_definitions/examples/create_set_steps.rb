@@ -23,7 +23,7 @@ Then /^I can create a set with that title$/ do
 end
 
 When /^I created that set$/ do
-  wait_until { all(".dialog", :visible => true).length == 0 }
+  step 'I wait for the AJAX magic to happen'
 end
 
 Then /^Im redirectet to the detail view of that set$/ do

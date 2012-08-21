@@ -43,6 +43,7 @@ MAdeK::Application.routes.draw do
   resources :meta_context_groups, only: :index
 
   resources :keywords, only: :index
+  resources :meta_terms, only: :index
   resources :meta_data, only: [:update] # TODO merge to media_resources#update ??
   resources :copyrights, only: :index
 
@@ -72,7 +73,6 @@ MAdeK::Application.routes.draw do
     
     resources :meta_data do
       collection do
-        get :objective
         get :edit_multiple
         put :update_multiple
       end

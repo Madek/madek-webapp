@@ -3,6 +3,7 @@
   Autocomplete
 
   This script provides functionalities for autocompleting things 
+
 ###
 
 jQuery ->
@@ -14,10 +15,10 @@ class AutoComplete
   @setup = (input_field)->
     field_type = $(input_field).tmplItem().data.type 
     $(input_field).autocomplete
-      source: @source
+      source: if $(input_field).data("data")? then $(input_field).data("data") else @source
       select: @select
     # if autocomplete can have multiple values bind enter for adding values
-    if $(input_field).siblings(".values").length
+    if $(input_field).siblings(".values").length and not $(input_field).data("select_only")?
       $(input_field).bind "keydown", (event)->
         if event.keyCode == 13
           return false if $(this).val() == ""
@@ -50,7 +51,7 @@ class AutoComplete
     # select puts entry to a multiple selection container when field is from a specific type 
     if field_type == "people" 
       $(values_container).append $.tmpl("tmpl/meta_data/edit/multiple_entries/"+field_type, element.item.data)
-    else if field_type == "keywords"
+    else if field_type == "keywords" or field_type = "meta_terms"
       $(values_container).append $.tmpl("tmpl/meta_data/edit/multiple_entries/"+field_type, element.item)
     # clear input field
     $(target).val("")

@@ -355,6 +355,23 @@ describe MediaResourcesController do
     
     describe "a response with nested meta data" do
       
+      describe "including the meta data type meta terms" do
+        it "should respond with meta data meta terms" do
+          mr = MediaResource.media_entries.first
+          mk = FactoryGirl.create :meta_key, :label => "Department", :meta_datum_object_type => "MetaDatumMetaTerms", :is_extensible_list => true
+          mr.meta_data.create :meta_key => mk, :value => [Faker::Lorem.words(4).join(' '), Faker::Lorem.words(4).join(' ')]
+          get :index, {format: 'json', ids: [mr.id], with: {meta_data: {meta_key_names: [mk.label]}}}, session
+          response.should  be_success
+          json = JSON.parse(response.body)
+          json["media_resources"].each do |mr|
+            mr["meta_data"].each do |md|
+              md["name"].should == "Department"
+              md["raw_value"].length.should == 2
+            end
+          end
+        end
+      end
+
       describe "through meta contexts" do
         it "should respond with a collection of media resources with nested meta data for the core meta context" do
           get :index, {format: 'json', ids: ids, with: {meta_data: {meta_context_names: [@meta_context.name]}}}, session

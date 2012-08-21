@@ -166,6 +166,19 @@
     height: 16px;
     width: 16px;
   }
+
+  &.list_toggle {
+    &.closed {
+      background-position: -34px -394px;
+      height: 16px;
+      width: 16px;
+    }
+    &.open {
+      background-position: -34px -411px;
+      height: 16px;
+      width: 16px;
+    }
+  }
 }
 
 #bar > .icon {

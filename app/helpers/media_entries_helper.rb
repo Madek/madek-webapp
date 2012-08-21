@@ -103,12 +103,6 @@ module MediaEntriesHelper
     end
   end
 
-  def recent_uploads
-    me = current_user.media_entries
-    s = me.size
-    return ( s > 6 ? me[s-6..s].reverse : me.reverse )
-  end
-
   def select_dimensions_header_for_entry(media_entry)
     media_file = media_entry.media_file
     unless media_file.nil?

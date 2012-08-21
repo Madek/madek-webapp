@@ -1,3 +1,4 @@
+@import "mixins";
 /* This is the MAdeK Wiki CSS */
 
 /* Wiki Customize Automatic CSS */
@@ -97,13 +98,11 @@
 
 .wiki_navigation ul {
 	margin-bottom: 1em !important;
-	overflow:hidden;
 }
 
 .wiki_navigation ul li ul {
 	font-size: 11px;
 	margin-bottom: 0 !important;
-	overflow:hidden;
 	padding-left: 10px;
 }
 
@@ -162,7 +161,7 @@
 
 .wiki_content ul,
 .wiki_content ol {
-	overflow: hidden;
+  display: inline-block;
 	margin-bottom: 2em;
 }
 
@@ -219,4 +218,13 @@
 	text-align: center;
 	margin: 16px 0 26px 0;
 	width: 630px !important;
+}
+
+.wiki_content .collapsible {
+  cursor: pointer;
+  @include unselectable();
+
+  &~* { display: none; }
+
+  &.open ~* { display: inline-block; }
 }

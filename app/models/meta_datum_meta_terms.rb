@@ -35,8 +35,16 @@ class MetaDatumMetaTerms < MetaDatum
         v
       end
     end
-    meta_terms.clear
-    meta_terms << new_meta_terms.compact
+    
+    if new_meta_terms.include? nil
+      # TODO add to errors doesn't persist
+      #errors.add(:value)
+      #media_resource.errors.add(:meta_data)
+      raise "invalid value"
+    else
+      meta_terms.clear
+      meta_terms << new_meta_terms
+    end
   end
 
 end
