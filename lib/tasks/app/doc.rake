@@ -10,7 +10,7 @@ namespace :app do
       commands << "rm -r ./doc/yard"
       commands << "bundle exec yardoc --output-dir ./doc/yard"
       commands << "rm -r ./doc/api/yard"
-      commands << "bundle exec yardoc --plugin rest --title 'MAdeK-API' --readme './doc/README_FOR_API' --output-dir ./public/api"
+      commands << "bundle exec yardoc --plugin rest --title 'MAdeK API' --readme './doc/README_FOR_API' --output-dir ./public/api"
 
       commands.each do |command|
         puts command
