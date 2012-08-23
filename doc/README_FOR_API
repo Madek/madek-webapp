@@ -3,6 +3,22 @@ This documentation describes the API for the MAdeK media archive system. It is a
 
 If you are a non-programmer and looking for instructions for installing your own MAdeK instance, general user documentation or system administrator documentation, please see the {http://github.com/zhdk/madek/wiki MAdeK wiki at GitHub} instead.
 
+## Philosophy and general architecture
+
+Our philosophy is that any frontend for MAdeK should be able to use any and all functions that the official, built-in MAdeK frontend has. We built the official frontend with the exact same building blocks that you can use through the API, and we will work that way in the future as well.
+
+Since MAdeK is very flexible and generic, this means that the keys and metadata contexts that are available to you depend on how your MAdeK instance is configured. We cannot provide API documentation for your specific instance. We can only describe how to generally work with the API, not how to query e.g. your MAdeK instance for all pictures and videos of cows.
+
+### Resources and MetaDataContexts
+
+In MAdeK, most things are Resources, and those resources have some metadata that is grouped into MetaDataContexts. For example: A picture of a cow is a resource of type 'media_entry'. It might have a MetaDataContext called 'Zoology', and within that context there might be a key called 'Animal Name' with the value 'Cow'.
+
+Multiple such entries can be grouped into sets. Sets are simply resources of type 'media_set'. So you could have a set with a key called 'Title', so you can save the title of the set somewhere. You could call the set 'Farm Animals' and add multiple pictures of cows as described above.
+
+
+To get started with using the API, see the 'Quick Examples' section below. For in-depth discussion of each resource, see the 'Resources' menu in the top right or use one of the links to a specific resource at the bottom of this page.
+
+
 ## Quick Examples
 ### List of the most recent MediaEntries
     /media_resources.json?with[type]=media_entry
