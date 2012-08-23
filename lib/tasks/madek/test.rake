@@ -41,10 +41,7 @@ namespace :madek do
         puts "First run exited with #{exit_code_first_run}"
 
         if exit_code_first_run != 0
-          system "bundle exec cucumber -p rerun"
-          exit_code_rerun = $?.exitstatus
-          puts "Rerun exited with #{exit_code_rerun}"
-          raise "Tests failed during rerun!" if exit_code_rerun != 0
+          Rake::Task["madek:test:cucumber:rerun"].invoke
         end
       end
 
@@ -53,9 +50,17 @@ namespace :madek do
         system "bundle exec cucumber -p slow"
         exit_code = $?.exitstatus
 
-        raise "Tests failed!" if exit_code != 0
+        if exit_code != 0
+          Rake::Task["madek:test:cucumber:rerun"].invoke
+        end
       end
 
+      task :rerun do
+          system "bundle exec cucumber -p rerun"
+          exit_code_rerun = $?.exitstatus
+          puts "Rerun exited with #{exit_code_rerun}"
+          raise "Tests failed during rerun!" if exit_code_rerun != 0
+      end
     end
     
   end

@@ -7,14 +7,13 @@ class MetaTermsController< ApplicationController
   #
   # @action GET
   #
-  # @optional meta_key_id
+  # @optional [integer] meta_key_id
   #
   # @response_field [integer] id    The id of the Keyword.
   # @response_field [string] value  The MetaTerm as string.
   #
   # @example_request {"meta_key_id": 4}
   # @example_request_description Request all MetaTerms associated to the MetaKey with id 4.
-  #
   # @example_response
   #   ```json
   #   [
