@@ -32,7 +32,7 @@ namespace :app do
         
         commands = []
         commands << "rm -r ./public/api"
-        commands << "bundle exec yardoc --plugin rest --title 'MAdeK-API' --readme './doc/README_FOR_API' --output-dir ./public/api"
+        commands << "bundle exec yardoc --plugin rest --title 'MAdeK API' --readme './doc/README_FOR_API' --output-dir ./public/api"
         
         commands.each do |command|
           puts command

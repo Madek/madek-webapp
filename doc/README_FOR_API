@@ -1,5 +1,7 @@
 ## Introduction
-Welcome to the MAdeK-API documentation.
+This documentation describes the API for the MAdeK media archive system. It is aimed at programmers and anyone interested in interacting with a specific MAdeK instance. Every time a new version of MAdeK is released, the API docs suitable for that version are installed under /api in your MAdeK instance.
+
+If you are a non-programmer and looking for instructions for installing your own MAdeK instance, general user documentation or system administrator documentation, please see the {http://github.com/zhdk/madek/wiki MAdeK wiki at GitHub} instead.
 
 ## Quick Examples
 ### List of the most recent MediaEntries
