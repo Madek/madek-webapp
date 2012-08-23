@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>
-  Class: KeywordsController
+  Class: MetaTermsController
   
     &mdash; MAdeK-API
   
@@ -287,13 +287,13 @@
 		<div class="service">
   <h1 class="noborder title">MAdeK-API</h1>
     <a class="back" href="index.html" title="back to the overview">&laquo; back to overview</a>
-    <h2>Keywords</h2>
+    <h2>MetaTerms</h2>
     
   <div id="Services" class="method_details_list">
     
 		<div class="method">
-			<p class="method_desc">returns a list of Keywords</p>
-			<h3 class="resource_url"><strong>/keywords</strong> [GET]</h3>
+			<p class="method_desc">returns a list of MetaTerms</p>
+			<h3 class="resource_url"><strong>/meta_terms</strong> [GET]</h3>
 
 			<div class="parameters">	
 				
@@ -304,9 +304,9 @@
 						
 							<ul>
 								<li>
-									<span class="name">query</span>
-									<span class="type">String</span>
-									<span class="text">The search query to find matching keywords</span>
+									<span class="name">meta_key_id</span>
+									<span class="type">integer</span>
+									<span class="text"></span>
 								</li>
 							</ul>
 						
@@ -328,9 +328,9 @@
 					
 						<ul>
 							<li>
-								<span class="name">label</span>
+								<span class="name">value</span>
 								<span class="type">string</span>
-								<span class="text">The name of the Keyword.</span>
+								<span class="text">The MetaTerm as string.</span>
 							</li>
 						</ul>
 					
@@ -347,12 +347,16 @@
 							
 							<span class="description">
 								
+									
+										Request all MetaTerms associated to the MetaKey with id 4.
+									
+								
 							</span>
 							<span class="hash request">
 								<strong class="type">Request</strong>
 								
 									
-										{}
+										{"meta_key_id": 4}
 									
 								
 							</span>
@@ -360,39 +364,30 @@
 								<strong class="type">Response</strong>
 								
 									
-										[{"id":1,"label":"Architekturtraktat"}]
+										<pre class="code json"><code>[
+  { 
+    &quot;id&quot;:1,
+    &quot;value&quot;:&quot;Blue&quot;
+  },
+  {
+    &quot;id&quot;:54,
+    &quot;value&quot;:&quot;Red&quot;
+  },
+  {
+    &quot;id&quot;:154,
+    &quot;value&quot;:&quot;Yellow&quot;
+  }
+]
+</code></pre>
+
 									
 								
 							</span>
 							<span class="description">
 								
-							</span>
-						</div>
-					
-						<div class="example">
-							
-							
-							
-							<span class="description">
-								
-							</span>
-							<span class="hash request">
-								<strong class="type">Request</strong>
-								
 									
-										{"query": "architektur"}
+										The associated MetaKeys are "Blue", "Red" and "Yellow".
 									
-								
-							</span>
-							<span class="hash response">
-								<strong class="type">Response</strong>
-								
-									
-										[{"id":1,"label":"Architekturtraktat"},{"id":2,"label":"Architektur"},{"id":3,"label":"Landschaftsarchitektur"}]
-									
-								
-							</span>
-							<span class="description">
 								
 							</span>
 						</div>

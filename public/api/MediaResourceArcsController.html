@@ -539,6 +539,42 @@ has multiple media entries and a media entry can have multiple parent sets
 							</span>
 						</div>
 					
+						<div class="example">
+							
+							
+							
+							<span class="description">
+								
+									
+										Set the child with id 23 as cover of the MediaSet with id 1. Only MediaEntries can be set as cover.
+									
+								
+							</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								
+									
+										{"media_resource_arcs": [{"parent_id": 1, "child_id": 23, "cover": true}]}
+									
+								
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								
+									
+										{}
+									
+								
+							</span>
+							<span class="description">
+								
+									
+										Returns a Status: 200 (empty Hash).
+									
+								
+							</span>
+						</div>
+					
 				</div>
 			
 		</div>	
@@ -562,7 +598,7 @@ has multiple media entries and a media entry can have multiple parent sets
 	</div>
     
     <div id="footer">
-  Generated on Mon Jul  2 11:49:51 2012 with ruby-1.9.3
+  Generated on Thu Aug 23 11:15:14 2012 with ruby-1.9.3
 </div>
 
   </body>
