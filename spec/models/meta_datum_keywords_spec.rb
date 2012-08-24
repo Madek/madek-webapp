@@ -89,7 +89,6 @@ describe MetaDatumKeywords do
       keywords.map(&:user).should == [@user1]
 
       # the second user creates a keyword providing a term string and the already existing term id
-      sleep(1) # wait for the database write
       params = {meta_data_attributes: {"0" =>  {meta_key_id: @meta_key.id, value: [@term1.id, @term2.to_s]}}}
       @media_entry.update_attributes(params, @user2)
       @media_entry.reload
@@ -99,7 +98,6 @@ describe MetaDatumKeywords do
       keywords.map(&:user).should == [@user1, @user2]
 
       # the second user deletes the keyword provided by the first user
-      sleep(1) # wait for the database write
       params = {meta_data_attributes: {"0" =>  {meta_key_id: @meta_key.id, value: [@term2.id]}}}
       @media_entry.update_attributes(params, @user2)
       @media_entry.reload

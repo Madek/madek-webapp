@@ -111,10 +111,18 @@ module DBHelper
     ###########################################################################
     # HASH / YAML import/export
     ###########################################################################
-    def create_hash tables
+    def create_hash tables, env = nil
+
+      if env
+        dbconf = YAML::load_file Rails.root.join('config','database.yml')
+        ActiveRecord::Base.remove_connection
+        ActiveRecord::Base.establish_connection dbconf[env]
+      end
+
       table_name_models = table_name_to_table_names_models tables
       Hash[
         table_name_models.map do |table_name,model| 
+        puts "#{Time.now} reading #{table_name}"
         query_chain= 
           if model.attribute_names.include?  model.primary_key
             model.order(model.primary_key)
@@ -126,10 +134,18 @@ module DBHelper
     end
 
 
-    def import_hash h, tables
+    def import_hash h, tables, env = nil
+
+      if env
+        dbconf = YAML::load_file Rails.root.join('config','database.yml')
+        ActiveRecord::Base.remove_connection
+        ActiveRecord::Base.establish_connection dbconf[env]
+      end
+
       table_name_models = table_name_to_table_names_models tables
       ActiveRecord::Base.transaction do
         tables.each do |table_name|
+          puts "#{Time.now} writing #{table_name}"
           model = table_name_models[table_name] || table_name_models[table_name.to_s]
           # trick pg to return something for join tables
           unless model.attribute_names.include? "id" 
@@ -144,6 +160,15 @@ module DBHelper
         puts "the data has been imported" 
       end
     end
+
+    ###########################################################################
+    # Transfer
+    ###########################################################################
+    def transfer tables, source_env, target_env
+      h = create_hash tables, source_env
+      import_hash h, tables, target_env
+    end
+
 
     private 
 

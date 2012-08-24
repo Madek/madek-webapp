@@ -98,10 +98,10 @@ class MediaFile < ActiveRecord::Base
     self.filename = CGI::escape(uploaded_data.original_filename)
     self.size = uploaded_data.size
 
-    # NOTE: Force the mimetype here and dont let the user's browser/os providing a possible wrong MimeType 
-    # possibile solution:
-    # self.content_type = Rack::Mime.mime_type(File.extname(filename))
-    self.content_type = uploaded_data.content_type
+    # Mac OS X is untrustworthy and often provides wrong MIME types, e.g. for PDFs and QuickTime .mov files. Therefore we must distrust
+    # everyone else as well and find our own MIME types.
+    self.content_type = Rack::Mime.mime_type(File.extname(filename))
+    #self.content_type = uploaded_data.content_type
   end
 
   # the cornerstone of identity..

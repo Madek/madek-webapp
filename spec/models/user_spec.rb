@@ -10,16 +10,6 @@ describe User do
     expect{ (FactoryGirl.create :user).destroy }.not_to raise_error
   end
 
-  context "referential integrity" do
-
-    it "should raise an execption if the person is deleted on the database layer" do
-      user = FactoryGirl.create :user
-      expect { SQLHelper.execute_sql "DELETE FROM people WHERE ID = #{user.person.id};" }.to raise_error
-    end
-
-  end
-
-
   context "permissions" do
 
     describe "A public viewable Mediaresource" do

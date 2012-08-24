@@ -1,6 +1,11 @@
 namespace :madek do
   namespace :db  do
 
+    desc "Transfer the data from on SOURCE env TARGET env (env is anything defined in config/database.yml)"
+    task :transfer => :environment do
+      DBHelper.transfer Constants::ALL_TABLES, ENV['SOURCE'], ENV['TARGET']
+    end
+
     desc "Dump the database from whatever DB to YAML"
     task :dump_to_yaml => :environment do
       data_hash = DBHelper.create_hash Constants::ALL_TABLES

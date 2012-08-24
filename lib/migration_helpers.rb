@@ -6,44 +6,6 @@ module MigrationHelpers
   extend self
 
 
-  # view
-  def create_view view_name, sql
-    sql = (sql.class == ActiveRecord::Relation)? sql.to_sql : sql.to_s
-
-    cmd = "CREATE VIEW #{view_name} AS #{sql} ;"
-    #puts "#{cmd}\n"
-    execute_sql cmd
-  end
-
-  def drop_view view_name
-    cmd = "DROP VIEW #{view_name};"
-    execute_sql cmd 
-  end
-
- 
-
-  # we are patching the index_name function here, 
-  # do it explicitly so limit the impact to only when it is needed
-
-  def patch_index_name
-    ActiveRecord::ConnectionAdapters::SchemaStatements.class_eval do
-      def index_name(table_name, options) #:nodoc:
-        if Hash === options # legacy support
-          if options[:column]
-            MigrationHelpers.shorten_schema_names("index_#{table_name}_on_#{Array.wrap(options[:column]) * '_and_'}")
-          elsif options[:name]
-            options[:name]
-          else
-            raise ArgumentError, "You must specify the index name"
-          end
-        else
-          MigrationHelpers.shorten_schema_names(index_name(table_name, :column => options))
-        end
-      end
-    end
-  end
-
-
   def ref_id model
     model.table_name.singularize + "_id"
   end
@@ -95,44 +57,6 @@ module MigrationHelpers
     col_name = infer_column_name col
     constraint_name = "#{table_name}_#{col_name}_unique"
     execute_sql "ALTER TABLE #{table_name} ADD CONSTRAINT #{constraint_name} UNIQUE (#{col_name});"
-  end
-
-######################################################################
-# Foreign key constraints
-######################################################################
-  
-  # TODO make the next ones more DRY
-   
-
-  def remove_fkey_constraint from_table, from_column, to_table
-    name = "#{from_table}_#{from_column}_#{to_table}_fkey"
-    if adapter_is_mysql? 
-      execute_sql "ALTER TABLE #{from_table} DROP FOREIGN KEY #{name};"
-    elsif adapter_is_postgresql? 
-      execute_sql "ALTER TABLE #{from_table} DROP CONSTRAINT #{name};"
-    end
-  end
-    
-  def add_fkey_referrence_constraint from_table, to_table, from_column=nil 
-    from_table_name = infer_table_name from_table
-    to_table_name = infer_table_name to_table
-    from_column ||= fkey_name to_table_name
-    contraint_name = "#{from_table_name}_#{from_column}_#{to_table_name}_fkey"
-
-    execute_sql "ALTER TABLE #{from_table_name} ADD CONSTRAINT #{contraint_name} FOREIGN KEY (#{from_column}) REFERENCES #{to_table_name} (id) ;"
-  end
-
-  def fkey_cascade_on_delete from_table, to_table, from_column=nil 
-    from_table_name = infer_table_name from_table
-    to_table_name = infer_table_name to_table
-    from_column ||= fkey_name to_table_name
-    contraint_name = "#{from_table_name}_#{from_column}_#{to_table_name}_fkey"
-
-    execute_sql <<-SQL 
-      ALTER TABLE #{from_table_name} 
-        ADD CONSTRAINT #{contraint_name} 
-        FOREIGN KEY (#{from_column}) REFERENCES #{to_table_name} (id) ON DELETE CASCADE;
-      SQL
   end
 
 

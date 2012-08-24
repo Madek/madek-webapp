@@ -33,7 +33,7 @@ class MetaDatumKeywords < MetaDatum
         Keyword.new(:meta_term_id => term.id, :user => user)
       end
     end
-    self.keywords.delete(self.keywords - new_keywords)
+    Keyword.delete(self.keywords - new_keywords)
     self.keywords << (new_keywords - self.keywords)
   end
 
