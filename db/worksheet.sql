@@ -1,3 +1,22 @@
+-- clean DB before tranfer data to new schema
+
+-- show the users to be notified
+SELECT user_id FROM keywords WHERE meta_datum_id IS NULL GROUP BY user_id;
+
+-- migrate the data
+DELETE FROM keywords WHERE meta_datum_id IS NULL; 
+DELETE FROM meta_keys_meta_terms  WHERE meta_term_id NOT IN (SELECT id FROM  meta_terms); 
+UPDATE media_resources SET user_id = 10301 WHERE user_id IS NULL;
+
+###############################################################################################
+--migrations:
+
+SELECT *  FROM meta_keys_meta_terms  WHERE meta_term_id NOT IN (SELECT id FROM  meta_terms);
+
+SELECT column_name FROM information_schema.columns WHERE table_name = 'people' ORDER BY column_name;
+
+select count(*) from information_schema.columns where table_name = 'people';
+
 ##############################################
 
 SELECT id FROM media_resources WHERE media_resources.id in (

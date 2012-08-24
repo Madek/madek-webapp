@@ -5,29 +5,49 @@ pg: &pg
   username: postgres
   host: localhost
   password:
-  
+  pool: 5
+ 
 my: &my
   adapter: mysql2
   encoding: utf8
   username: root
   host: localhost
   password:
+  pool: 5
 
 default: &default
   <<: *my
-  pool: 5
 
 
 development: 
   <<: *default
   database: madek_dev
-
 test: 
   <<: *default
   database: madek_test
-
 production:
   <<: *default
   database: madek_prod
 
+
+my_development: 
+  <<: *my 
+  database: madek_dev
+my_test: 
+  <<: *my 
+  database: madek_test
+my_production: 
+  <<: *my 
+  database: madek_prod
+
+
+pg_development: 
+  <<: *pg 
+  database: madek_dev
+pg_test: 
+  <<: *pg 
+  database: madek_test
+pg_production: 
+  <<: *pg 
+  database: madek_prod
 

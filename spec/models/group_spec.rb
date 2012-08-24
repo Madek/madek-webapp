@@ -32,16 +32,6 @@ describe Group do
 
     context "referential integrity " do
 
-      it "should not be possible to link to nonexisting users" do 
-      expect { SQLHelper.execute_sql "insert into groups_users (group_id, user_id) values (#{@group.id},-1);" 
-        }.to raise_error(ActiveRecord::InvalidForeignKey)
-      end
-
-      it "should not be possible to link to nonexisting groups" do 
-      expect { SQLHelper.execute_sql "insert into groups_users (group_id, user_id) values (-1,#{@user.id});" 
-        }.to raise_error(ActiveRecord::InvalidForeignKey)
-      end
-
       it "the row in groups_users should be deleted automatically when deleting the user on a database level" do
         @group.users << @user
 
