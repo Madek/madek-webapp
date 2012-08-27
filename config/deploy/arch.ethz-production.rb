@@ -94,8 +94,8 @@ task :configure_environment do
   run "cp #{release_path}/app/views/application/root-arch.ethz.madek.zhdk.ch.html.erb #{release_path}/app/views/application/root.html.erb"
 #  run "sed -i 's:ENCODING_TEST_MODE = 1:ENCODING_TEST_MODE = 0:' #{release_path}/config/application.rb"
 
-#  new_url = "http://medienarchiv.zhdk.ch".gsub("/","\\/")
-#  run "sed -i 's,ENCODING_BASE_URL.*,ENCODING_BASE_URL = \"#{new_url}\",' #{release_path}/config/application.rb"
+  new_url = "http://arch.ethz.madek.zhdk.ch".gsub("/","\\/")
+  run "sed -i 's,ENCODING_BASE_URL.*,ENCODING_BASE_URL = \"#{new_url}\",' #{release_path}/config/application.rb"
 end
 
 task :migrate_database do
