@@ -528,7 +528,10 @@ nav {
 
 
 
-.logo_right {
+/* Do not display any logo: Right now, the software cannot display custom, per-instance logos. So we
+   better display no logo at all than the wrong one. */
+
+/*.logo_right {
 	background: transparent image-url("icons/madek_icon_sprites.png") -300px -159px no-repeat;
 	height: 40px;
 	width: 100px;
@@ -537,7 +540,7 @@ nav {
 	position: absolute;
 	top:1px;
 	right: -11px;
-}
+}*/
 
 .logo_right.darch {
 	background: transparent image-url("icons/ethz_darch.png") no-repeat;
