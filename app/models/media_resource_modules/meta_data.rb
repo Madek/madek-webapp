@@ -13,7 +13,7 @@ module MediaResourceModules
             key_id = if key.is_a? MetaKey
               key.id
             elsif not key.is_a? Fixnum
-              MetaKey.find_by_label(key.downcase).id
+              MetaKey.find_by_label(key).id
             else
               key
             end
