@@ -1,0 +1,9 @@
+%li
+  {{if selected}}
+  {{tmpl "app/views/filter/term/selected"}}
+  {{else disabled}}
+  {{tmpl "app/views/filter/term/disabled"}}
+  {{else}}
+  {{tmpl "app/views/filter/term/enabled"}}
+  {{/if}}
+    

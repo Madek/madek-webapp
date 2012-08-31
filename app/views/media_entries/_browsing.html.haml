@@ -11,9 +11,8 @@
         content: {
           text: 'Loading...',
           ajax: {
-             url: that.attr('href').replace("/media_resources", "/media_resources/filter"),
+             url: that.attr('href'),
              data: {with: {image: {as: "base64"}}},
-             type: 'POST',
              dataType: 'json',
              success: function(json, status) {
                var container = $("<div id='' style='max-height: 200px; overflow: auto;'></div>");
@@ -43,12 +42,4 @@
   
   $(function() {
     browsing_document_ready();
-    
-    $("#browsing_media_entries p").live('click', function(){
-      var that = $(this);
-      that.parent().remove();
-      $(".meta_data a[data-remote][data-meta_term_id='"+that.data('meta_term_id')+"']").removeClass("active");
-      return false;
-    });
-    
   });

@@ -11,7 +11,9 @@
   .left
     %h1
       = t.first
-      %small= t.second if t.second
+      %small
+        %span.total
+        = t.second if t.second
     .scope_sets
       = link_to _("Alle meine obersten Sets"), url_for(params.merge(:top_level => true)), :class => "top_level"
       = link_to _("Alle meine Sets"), url_for(params.merge(:top_level => nil)), :class => "not_top_level"
@@ -41,7 +43,7 @@
       = link_to "", media_resources_path, :class => "icon", :"data-type" => "miniature", :title => "Miniatur-Ansicht"
       = link_to "", media_resources_path, :class => "icon", :"data-type" => "grid", :title => "Grid-Ansicht"
       = link_to "", media_resources_path, :class => "icon", :"data-type" => "list", :title => "Listen-Ansicht"
-      -if params[:type] == "media_sets" and params[:user_id] == "#{current_user.id}"
+      -if @filter[:type] == "media_sets" and @filter[:user_id] == "#{current_user.id}"
         = link_to "", graph_user_media_sets_path(current_user), :class => "graph icon", :title => _("Graph-Ansicht") 
 
     .action_menu  
@@ -64,10 +66,10 @@
       "#{h[:type]}", 
       "#{h[:permissions]}", 
       "#{params[:sort]}", 
-      "#{params[:favorites]}", 
-      "#{params[:query]}", 
-      "#{params[:top_level]}",
-      "#{params[:media_set_id]}",
-      "#{params[:group_id]}");
+      "#{@filter[:favorites]}", 
+      "#{@filter[:search]}", 
+      "#{@filter[:top_level]}",
+      "#{@filter[:media_set_id]}",
+      "#{@filter[:group_id]}");
   });
 

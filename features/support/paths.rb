@@ -36,17 +36,17 @@ module NavigationHelpers
       media_resources_path(:favorites => true)
       
     when /content assigned to me/
-      media_resources_path(:not_by_current_user => true)
+      media_resources_path(:not_by_current_user => true, :public => false)
       
     when /public content/
-      media_resources_path(:not_by_current_user => true, :public => true)
+      media_resources_path(:public => true)
       
     when /set view/
       media_set_path(MediaSet.accessible_by_user(@current_user).first)
       
     when /search results/
       term = MediaResource.accessible_by_user(@current_user).first.title[0..2]
-      media_resources_path(:query => term)
+      media_resources_path(:search => term)
     
     else
       begin

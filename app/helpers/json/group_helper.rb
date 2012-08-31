@@ -5,7 +5,7 @@ module Json
       h = {
         type: group.type,
         id: group.id,
-        name: group.name
+        name: group.to_s
       }
       
       if with ||= nil

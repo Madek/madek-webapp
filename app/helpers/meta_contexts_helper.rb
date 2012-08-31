@@ -56,10 +56,10 @@ module MetaContextsHelper
           haml_concat _("Es sind nicht genügend Werte für einen Set-Auszug vorhanden.")
         else
           abstract_json.collect do |meta_datum|
-            haml_tag :h4, meta_datum["meta_key_label"]
+            haml_tag :h4, meta_datum["definition_label"]
             haml_tag :p do
               meta_datum["meta_terms"].each do |meta_term|
-                haml_concat link_to(meta_term["label"], media_resources_path(:meta_key_id => meta_datum["meta_key_id"], :meta_term_id => meta_term["id"]), :"data-meta_term_id" => meta_term["id"])
+                haml_concat link_to(meta_term["label"], media_resources_path(:meta_data => {meta_datum["meta_key_label"] => {:ids => [meta_term["id"]]}}), :"data-meta_term_id" => meta_term["id"])
               end
             end
           end

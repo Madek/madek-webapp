@@ -1,7 +1,6 @@
 class MediaResourcesController
 
   el: "section.media_resources.index"
-  
   active_layout: undefined
   
   constructor: (options)->
@@ -26,18 +25,14 @@ class MediaResourcesController
     $this = $(this)
     next_page = $this.data "page"
     $this.removeAttr "data-page"
-    filter_form = $(".filter_content form:first")
+    data = 
+      page: next_page
+    $.extend true, data, MediaResourcesController.filter_params if MediaResourcesController.filter_params?
     options =
-      data:
-        page: next_page
+      data: data
       success: (data)->
         display_page(data, $this)
-    if filter_form.length and filter_form.data "paginate_using_filter"
-      options.url = filter_form.attr('action')
-      options.type = filter_form.attr('method')
-      $.extend true, options.data, filter_form.serializeObject() 
-    else
-      options.url = $this.data('url') if $this.data('url')?
+    options.url = $this.data('url') if $this.data('url')?
     App.MediaResources.fetch options
 
   render_context: ->
@@ -72,8 +67,9 @@ class MediaResourcesController
       @el.delegate ".meta_data .context[data-name]", "inview", @render_context
     else
       @el.undelegate ".meta_data .context[data-name]", "inview"
-      
+
   @fetch: (options, with_default)->
+    @filter_params = options.data.filter if options.data? and options.data.filter?
     with_default ?= true
     default_data =
       with: 
@@ -91,6 +87,7 @@ class MediaResourcesController
       url: options.url
       type: if options.type? then options.type else 'GET'
       data: $.extend(data, {format: "json"})
+      beforeSend: options.beforeSend
       success: options.success
 
   @fetch_children: (parent_id, callback, data)->

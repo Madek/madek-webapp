@@ -5,7 +5,7 @@ class MediaSetsController < ApplicationController
       @user = User.find(params[:user_id]) unless params[:user_id].blank?
       @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
       
-      unless (params[:media_set_id] ||= params[:id] ||= params[:media_set_ids]).blank?
+      unless (params[:media_set_id] ||= params[:id] || params[:media_set_ids]).blank?
         action = case request[:action].to_sym
           when :index, :show, :browse, :abstract, :inheritable_contexts, :parents
             :view
@@ -79,9 +79,8 @@ class MediaSetsController < ApplicationController
             child.parent_sets.accessible_by_user(current_user, accessible_action)
           end.uniq
         else
-          MediaSet.(current_user, accessible_action)
+          MediaSet.accessible_by_user(current_user, accessible_action)
         end
-        endaccessible_by_user
         render json: view_context.hash_for_media_resources_with_pagination(media_sets, true, with).to_json
       }
     end
@@ -120,6 +119,9 @@ class MediaSetsController < ApplicationController
            per_page = (params[:per_page] || PER_PAGE.first).to_i)
     respond_to do |format|
       format.html {
+        # TODO this is temporary (similar to media_resources#index), remove it when not needed anymore
+        @filter = params.select {|k,v| MediaResourceModules::Filter::KEYS.include?(k.to_sym) }.delete_if {|k,v| v.blank?}.deep_symbolize_keys
+
         @parents = @media_set.parent_sets.accessible_by_user(current_user)
       }
       format.json {
@@ -321,7 +323,10 @@ class MediaSetsController < ApplicationController
   def graph
     respond_to do |format|
       format.html {
-        params[:type] = "media_sets" # checked in current_settings view helper 
+        # TODO this is temporary (similar to media_resources#index), remove it when not needed anymore
+        @filter = params.select {|k,v| MediaResourceModules::Filter::KEYS.include?(k.to_sym) }.delete_if {|k,v| v.blank?}.deep_symbolize_keys
+
+        @filter[:type] = "media_sets" # checked in current_settings view helper 
       }
       format.json {
         #media_sets = MediaSet.accessible_by_user(current_user).relative_top_level

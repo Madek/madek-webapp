@@ -71,8 +71,8 @@ class MetaContext < ActiveRecord::Base
     return b.compact.map do |meta_datum|
       meta_datum.meta_key.reload #tmp# TODO remove this line, is an Identity Map problem ??
       definition = meta_datum.meta_key.meta_key_definitions.for_context(self)
-      { :meta_key_id => meta_datum.meta_key_id,
-        :meta_key_label => definition.label.to_s,
+      { :meta_key_label => meta_datum.meta_key.label,
+        :definition_label => definition.label.to_s,
         :meta_terms => meta_datum.value.map do |meta_term|
           { :id => meta_term.id,
             :label => meta_term.to_s

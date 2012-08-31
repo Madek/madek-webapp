@@ -58,7 +58,7 @@ GEM
     autotest (4.4.6)
       ZenTest (>= 4.4.1)
     builder (3.0.0)
-    capistrano (2.13.0)
+    capistrano (2.13.3)
       highline
       net-scp (>= 1.0.0)
       net-sftp (>= 2.0.0)
@@ -138,7 +138,7 @@ GEM
     haml_assets (0.1.0)
       haml
       tilt
-    highline (1.6.13)
+    highline (1.6.14)
     hike (1.2.1)
     i18n (0.6.0)
     journey (1.0.4)

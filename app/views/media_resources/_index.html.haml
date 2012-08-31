@@ -1,32 +1,40 @@
-- if !params[:query].blank?
-  .filter_area
-
 = render :partial => "media_resources/bar"
 
-#results
-  Loading...
+#filter_area
+
+#results= "Lade Inhalte..."
   
 = render :partial => "media_entries/batch_bar"
   
-:javascript
-  //old??// window.current_user = #{current_user.to_json(:only=>:id, :include => :groups, :methods => :name)}; 
-  
-  $(document).ready(function () {
-    $('.task_bar').hide();
-    var url = "#{media_resources_path(params.select {|k,v| not [:id, :action, :controller].include?(k.to_sym) })}";
-    App.MediaResources.fetch({
-      url: url,
-      success: function(data){
-        $("#results").html("");
-        data.url = url;
-        setupBatch(data);
-        if(#{not params[:media_set_id].blank?}) $("#bar h1 small").prepend(data.pagination.total);
-        if (data.media_resources.length == 0) {
-          $("#results").append($.tmpl("tmpl/media_resource/empty_results"));
-        }
-      }
-    });
-    
-    new App.MediaResources({layout: #{(@media_set and @media_set.settings[:layout]) ? "\"#{@media_set.settings[:layout]}\"" : "undefined"}});
-  });
-  
+:coffeescript
+  jQuery ->
+    ajax = undefined
+    $(".task_bar").hide()
+    App.Filter.setup
+      params: #{@filter.to_json}
+      onChange: (filter_params)-> fetch filter_params, false
+    do App.Filter.open if window.location.search.match("search=") or decodeURIComponent(window.location.search).match(/\[search\]=/)
+    new App.MediaResources
+      layout: #{(@media_set and @media_set.settings[:layout]) ? "\"#{@media_set.settings[:layout]}\"" : "undefined"}
+    url = "#{media_resources_path(@filter)}" 
+    fetch = (filter_params, with_filter)=>
+      data = {}
+      $.extend true, data, filter_params if filter_params?
+      $.extend true, data, {with_filter: true} if (with_filter? and with_filter) or filter_params?
+      $("#results").html "Lade Inhalte..."
+      ajax.abort() if ajax?
+      url = url.replace(/\?search=.*$/, "") if filter_params? and filter_params.search?
+      ajax = App.MediaResources.fetch
+        url: url
+        data: data
+        success: (data)=>
+          App.Filter.update data.filter if data.filter?
+          $("#results").html("")
+          data.url = url
+          setupBatch(data)
+          if (#{not @filter[:media_set_id].blank?}) 
+            $("#bar h1 small").html $("#bar h1 small").text().replace(/^\d+\s/,"")
+            $("#bar h1 small").prepend(data.pagination.total)
+          if (data.media_resources.length == 0)
+            $("#results").append($.tmpl("tmpl/media_resource/empty_results"))
+    fetch(undefined, true)

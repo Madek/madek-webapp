@@ -44,7 +44,7 @@ module MetaDataHelper
 
   def display_activities_for(media_entry, is_expert = false)
     meta_data = []
-    meta_data << [_("Hochgeladen von"), link_to(media_entry.user, media_resources_path(:query => media_entry.user.fullname))]
+    meta_data << [_("Hochgeladen von"), link_to(media_entry.user, media_resources_path(:search => media_entry.user.fullname))]
     meta_data << [_("Hochgeladen am"), _("%s Uhr") % media_entry.created_at.to_formatted_s(:date_time)]
 
     unless (edit_sessions = media_entry.edit_sessions.limit(5)).empty?
@@ -95,7 +95,7 @@ module MetaDataHelper
     s = people.map do |p|
       next unless p
       #temp# link_to p, p
-      link_to p, media_resources_path(:query => p.fullname)
+      link_to p, media_resources_path(:search => p.fullname)
     end
     s.join('<br />').html_safe
   end
@@ -109,7 +109,7 @@ module MetaDataHelper
       when "MetaDatumKeywords"
         s = Array(meta_datum.value).map do |v|
           next unless v
-          link_to v, media_resources_path(:query => v.to_s)
+          link_to v, media_resources_path(:search => v.to_s)
         end
         s.join(', ').html_safe
       when "MetaDatumDate"
@@ -118,7 +118,7 @@ module MetaDataHelper
         _("%s Uhr") % meta_datum.value.to_formatted_s(:date_time)
       when "MetaDatumMetaTerms"
         meta_datum.value.map do |dv|
-          link_to dv, media_resources_path(:meta_key_id => meta_datum.meta_key, :meta_term_id => dv.id), :"data-meta_term_id" => dv.id
+          link_to dv, media_resources_path(:meta_data => {meta_datum.meta_key.label => {:ids => [dv.id]}}), :"data-meta_term_id" => dv.id
         end.join(' ')
       else
         s = meta_datum.to_s

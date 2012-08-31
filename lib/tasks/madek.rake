@@ -45,7 +45,6 @@ namespace :madek do
    
    # output the pathname at the end
    puts "#{dump_path}.bz2"
-
   end
 
 

@@ -1,3 +1,5 @@
+# -*- encoding : utf-8 -*-
+
 module Json
   module MediaResourceHelper
 
@@ -18,7 +20,7 @@ module Json
             when "base64"
               media_resource.get_media_file(current_user).try(:thumb_base64, size)
             else # default return is a url to the image
-              "/media_resources/%d/image?size=%s" % [media_resource.id, size]
+              image_media_resource_path(media_resource, :size => size)
           end            
         end
         
@@ -104,7 +106,7 @@ module Json
 
     ###########################################################################
 
-    def hash_for_media_resources_with_pagination(media_resources, pagination, with = nil, type_totals = false)
+    def hash_for_media_resources_with_pagination(media_resources, pagination, with = nil, type_totals = false, with_filter = false)
       page = (pagination.is_a?(Hash) ? pagination[:page] : nil) || 1
       per_page = [((pagination.is_a?(Hash) ? pagination[:per_page] : nil) || PER_PAGE.first).to_i, PER_PAGE.first].min
       paginated_media_resources = media_resources.paginate(:page => page, :per_page => per_page)
@@ -120,12 +122,94 @@ module Json
         pagination[:total_media_sets] = media_resources.media_sets.count
       end
 
-      {
+      h = {
         pagination: pagination, 
         media_resources: hash_for(paginated_media_resources, with)
       }
+      h[:filter] = hash_for_filter(media_resources) if with_filter
+      h
     end
 
+    def hash_for_filter(media_resources)
+      r = []
+      
+      # OPTIMIZE this is not construct over media_resources
+      r << {
+        :label => "Berechtigungen, Ich bin...",
+        :name => "preset",
+        :filter_type => "permissions",
+        :filter_logic => "OR",
+        :terms => begin
+          permission_presets = PermissionPreset.where (Constants::Actions.reduce(" false ") { |s,action| s + " OR #{action} = true" })
+          permission_presets.map do |pp|
+            { :id => pp.id, :value => pp.name }
+          end
+        end 
+      }
+      
+      r << {
+        :label => "Eigentümer/in",
+        :name => "owner",
+        :filter_type => "permissions",
+        :filter_logic => "OR",
+        :terms => begin
+          owners = User.includes(:person)
+            .where("users.id in (#{media_resources.select("media_resources.user_id").to_sql}) ")
+            .order("people.lastname, people.firstname DESC")
+          owners.map do |owner|
+            { :id => owner.id, :value => owner.to_s }
+          end
+        end 
+      }
+      
+      r << {
+        :label => "Arbeitsgruppen",
+        :name => "group",
+        :filter_type => "permissions",
+        :filter_logic => "OR",
+        :terms => begin
+          sub = MediaResource.grouppermissions_not_disallowed(current_user, :view).
+                        where("grouppermissions.media_resource_id in (#{media_resources.select("media_resources.user_id").to_sql}) ").
+                        select("grouppermissions.group_id")
+          groups = Group.where( %Q< groups.id in (#{sub.to_sql})>).order("name ASC")
+          groups.map do |group|
+            { :id => group.id, :value => group.to_s }
+          end
+        end 
+      }
+      
+      # TODO define meta_keys on the admin panel ?? or just pick based on the meta_keys#meta_datum_object_type ??
+      meta_key_labels = ["keywords", "type", "academic year", "project type", "institutional affiliation"]
+      meta_keys = MetaKey.where(:label => meta_key_labels).order("FIELD (label, #{meta_key_labels.map{ |i|  %Q('#{i}') }.join(',')})")  
+      meta_keys.each do |meta_key|
+        # NOTE terms can be MetaTerm, MetaDepartment or Keyword
+        terms = case meta_key.label
+          when "keywords"
+            MetaTerm.select("meta_terms.*, COUNT(meta_data.media_resource_id) AS count_media_resources").
+                    joins("INNER JOIN keywords ON meta_terms.id = keywords.meta_term_id INNER JOIN meta_data ON meta_data.id = keywords.meta_datum_id").
+                    group("meta_terms.id")
+          when "institutional affiliation"
+            MetaDepartment.select("groups.*, COUNT(meta_data.media_resource_id) AS count_media_resources").
+                    joins("INNER JOIN meta_data_meta_departments ON groups.id = meta_data_meta_departments.meta_department_id INNER JOIN meta_data ON meta_data.id = meta_data_meta_departments.meta_datum_id").
+                    group("groups.id")
+          else
+            MetaTerm.select("meta_terms.*, COUNT(meta_data.media_resource_id) AS count_media_resources").
+                    joins("INNER JOIN meta_data_meta_terms ON meta_terms.id = meta_data_meta_terms.meta_term_id INNER JOIN meta_data ON meta_data.id = meta_data_meta_terms.meta_datum_id").
+                    where(:meta_data => {:meta_key_id => meta_key}).
+                    group("meta_terms.id")
+        end.where("meta_data.media_resource_id IN (#{media_resources.select("media_resources.id").to_sql})")
+        k = hash_for(meta_key).merge({
+          :label => meta_key.first_context_label,
+          :filter_type => "meta_data",
+          :terms => terms.map do |term|
+            h = hash_for(term).merge({:count => term.count_media_resources})
+          end.sort {|a,b| [b[:count], a[:value]] <=> [a[:count], b[:value]] }
+        })
+        r << k
+      end
+      r
+    end
+    
     ###########################################################################
 
     def hash_for_media_resource_arc(media_resource_arc, with = nil)

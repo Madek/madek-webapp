@@ -21,7 +21,7 @@ describe MediaResourcesController do
 
 
     let :request do
-      get :index, {format: 'json',ids: [@set.id], with: {children: true}}, {user_id: @user_b.id}
+      get :index, {format: 'json', ids: [@set.id], with: {children: true}}, {user_id: @user_b.id}
     end
 
     let :resources do

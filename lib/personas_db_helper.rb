@@ -35,6 +35,7 @@ module PersonasDBHelper
       system("RAILS_ENV=personas bundle exec rake db:migrate")
     end
 
+
     def check_for_persona_db_config
       config = Rails.configuration.database_configuration['personas']
       if config.nil? 
@@ -42,6 +43,18 @@ module PersonasDBHelper
       else
         return config
       end 
+    end
+
+    def restore_personas_to_max_migration
+      if not File.exist? PersonasDBHelper.path_to_max_migration or Rails.root.join('db',"#{base_file_name}.#{DBHelper.file_extension}").ctime > PersonasDBHelper.path_to_max_migration.ctime
+        DBHelper.drop
+        DBHelper.create
+        PersonasDBHelper.create_max_migration
+      end
+
+      DBHelper.drop
+      DBHelper.create
+      DBHelper.restore_native PersonasDBHelper.path_to_max_migration
     end
 
   end

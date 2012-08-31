@@ -1,0 +1,12 @@
+%label.term
+  %input{:type => "checkbox", :value => "${id}"}
+  %span.text
+    -# optimize
+    {{if value}}
+    ${value}
+    {{else name}}
+    ${name}
+    {{/if}}
+  {{if count}}
+  %span.count ${(count>9999) ? ">9999" : count} 
+  {{/if}}

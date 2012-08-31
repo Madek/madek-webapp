@@ -4,26 +4,12 @@ class MediaResource < ActiveRecord::Base
   include MediaResourceModules::Arcs
   include MediaResourceModules::MetaData
   include MediaResourceModules::Permissions
+  include MediaResourceModules::Filter
 
 ###############################################################
 
   belongs_to :user   # TODO remove down and set missing user for snapshots
   belongs_to :media_file  # TODO remove 
-
-  
-#temp#
-#    # enforce meta_key uniqueness updating existing meta_datum
-#    # also useful for bulk meta_data updates such as Copyright, Organizer forms,...
-#    before_validation(:on => :update) do |record|
-#      new_meta_data = record.meta_data.select{|md| md.new_record? }
-#      new_meta_data.each do |new_md|
-#        old_md = record.meta_data.detect{|md| !md.new_record? and md.meta_key_id == new_md.meta_key_id }
-#        if old_md
-#          old_md.value = new_md.value
-#          record.meta_data.delete(new_md)
-#        end
-#      end
-#    end
 
   has_many  :edit_sessions, :dependent => :destroy, :readonly => true
   has_many  :editors, :through => :edit_sessions, :source => :user
@@ -119,12 +105,28 @@ class MediaResource < ActiveRecord::Base
    
   # ORDERINGS
   
-  scope :ordered_by_title, joins(meta_data: :meta_key).where("meta_keys.label = ?",:title).order("meta_data.string ASC")
-  scope :ordered_by_author, joins(meta_data: :meta_key).where("meta_keys.label = ?",:author)
-    .joins('INNER JOIN meta_data_people ON meta_data.id = meta_data_people.meta_datum_id')
-    .joins('INNER JOIN people ON meta_data_people.person_id = people.id')
-    .order('people.lastname, people.firstname ASC')
-
+  scope :ordered_by, lambda {|x|
+    x ||= :updated_at 
+    case x.to_sym
+      when :author
+        joins(meta_data: :meta_key).where("meta_keys.label = ?", x)
+        .joins('INNER JOIN meta_data_people ON meta_data.id = meta_data_people.meta_datum_id')
+        .joins('INNER JOIN people ON meta_data_people.person_id = people.id')
+        .order('people.lastname, people.firstname ASC')
+      when :title
+        joins(meta_data: :meta_key).where("meta_keys.label = ?", x).order("meta_data.string ASC")
+      when :updated_at, :created_at
+        order("media_resources.#{x} DESC")
+      when :random
+        if SQLHelper.adapter_is_mysql?
+          order("RAND()")
+        elsif SQLHelper.adapter_is_postgresql? 
+          order("RANDOM()")
+        else
+          raise "SQL Adapter is not supported" 
+        end
+    end
+  }
 
   ################################################################
 
@@ -157,46 +159,6 @@ class MediaResource < ActiveRecord::Base
     all.map(&:reindex).uniq
   end
   
-  def self.filter_media_file(options = {})
-    sql = media_entries.joins("RIGHT JOIN media_files ON media_resources.media_file_id = media_files.id")
-  
-    # OPTIMIZE this is mutual exclusive in case of many media_types  
-    options[:media_type].each do |x|
-      sql = sql.where("media_files.content_type #{SQLHelper.ilike} ?", "%#{x}%")
-    end
-    
-    [:width, :height].each do |x|
-      if options[x] and not options[x][:value].blank?
-        operator = case options[x][:operator]
-          when "gt"
-            ">"
-          when "lt"
-            "<"
-          else
-            "="
-        end
-        sql = sql.where("media_files.#{x} #{operator} ?", options[x][:value])
-      end
-    end
-
-    unless options[:orientation].blank?
-      operator = if options[:orientation].size == 2
-        "="
-      else
-        case options[:orientation].to_i
-          when 0
-            "<"
-          when 1
-            ">"
-        end
-      end
-      sql = sql.where("media_files.height #{operator} media_files.width")
-    end
-
-    sql    
-  end
-
-
   private
 
   # returns the meta_data for a particular resource, so that it can written into a media file that is to be exported.
