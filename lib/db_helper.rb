@@ -56,11 +56,12 @@ module DBHelper
       $?
     end
 
-    def create config = Rails.configuration.database_configuration[Rails.env]
+    def create config = Rails.configuration.database_configuration[Rails.env], options = {}
+      template = options[:template]
       cmd=
         if SQLHelper.adapter_is_postgresql?
           set_pg_env config
-          "createdb #{config['database']}"
+          "createdb #{"--template %s " % template if template} #{config['database']}"
         elsif SQLHelper.adapter_is_mysql?
           "mysql #{get_mysql_cmd_credentials config} -e 'create database #{config['database']}'"
               end
