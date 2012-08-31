@@ -28,9 +28,10 @@ module PersonasDBHelper
     end
 
     def load_and_migrate_persona_data
+      puts "restoring stuff"
       config = check_for_persona_db_config
       DBHelper.restore_native \
-        Rails.root.join('db',"#{base_file_name}.#{DBHelper.file_extension}"), config
+        Rails.root.join('db',"#{base_file_name}.#{DBHelper.file_extension}"), {:config => config}
       system("RAILS_ENV=personas bundle exec rake db:migrate")
     end
 

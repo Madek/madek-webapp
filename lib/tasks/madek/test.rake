@@ -24,6 +24,7 @@ namespace :madek do
       Rake::Task["madek:reset"].invoke
       File.delete("tmp/rerun.txt") if File.exists?("tmp/rerun.txt")
       File.delete("tmp/rerun_again.txt") if File.exists?("tmp/rerun_again.txt")
+      PersonasDBHelper.load_and_migrate_persona_data
     end
 
     task :rspec do
