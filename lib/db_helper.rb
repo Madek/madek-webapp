@@ -63,8 +63,16 @@ module DBHelper
           set_pg_env config
           "createdb #{"--template %s " % template if template} #{config['database']}"
         elsif SQLHelper.adapter_is_mysql?
-          "mysql #{get_mysql_cmd_credentials config} -e 'create database #{config['database']}'"
-              end
+
+          if template
+            template_config =  Rails.configuration.database_configuration[template]
+            DBHelper.dump_native(:config => template_config, :path => Rails.root + 'tmp/template_dump.mysql')
+            DBHelper.create(:config => config)
+            DBHelper.restore_native(:config => config, :path => Rails.root + 'tmp/template_dump.mysql')
+          else
+            "mysql #{get_mysql_cmd_credentials config} -e 'create database #{config['database']}'"
+          end
+        end
       ActiveRecord::Base.remove_connection
       system cmd
       ActiveRecord::Base.establish_connection
