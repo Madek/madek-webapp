@@ -29,6 +29,7 @@ module PersonasDBHelper
       ActiveRecord::Base.establish_connection(Rails.configuration.database_configuration[Rails.env])
     end
 
+
     def load_and_migrate_persona_data
       config = check_for_persona_db_config
       persona_path = Rails.root.join('db',"#{base_file_name}.#{DBHelper.file_extension}")
