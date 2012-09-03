@@ -64,7 +64,7 @@ namespace :madek do
       # workaround for realoading Models
      ActiveRecord::Base.subclasses.each { |a| a.reset_column_information }
 
-     Rake::Task["db:seed"].invoke
+     #Rake::Task["db:seed"].invoke
   end
   
 end # madek namespace

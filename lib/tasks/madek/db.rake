@@ -40,7 +40,7 @@ namespace :madek do
 
     desc "Restore Personas DB (and migrate to the maximal migration version if necessary)"
     task :restore_personas  => :environment do
-      PersonasDBHelper.restore_personas_to_max_migration
+      PersonasDBHelper.clone_persona_to_test_db
     end
 
   end

@@ -11,8 +11,14 @@ module MediaResourceModules
     DEPRECATED_KEY = [ :query ]          
 
     def self.included(base)
-      
-      def base.filter(current_user, filter = {})
+      base.class_eval do
+        extend(ClassMethods)
+      end
+    end
+
+    module ClassMethods
+      # returns a chainable collection of media_resources
+      def filter(current_user, filter = {})
         filter = filter.delete_if {|k,v| v.blank?}.deep_symbolize_keys
         raise "invalid option" unless filter.is_a?(Hash) #and (filter.keys - KEYS).blank?
 
@@ -138,7 +144,7 @@ module MediaResourceModules
         resources
       end
 
-      def base.filter_media_file(options = {})
+      def filter_media_file(options = {})
         sql = media_entries.joins("RIGHT JOIN media_files ON media_resources.media_file_id = media_files.id")
       
         # OPTIMIZE this is mutual exclusive in case of many media_types  
@@ -176,7 +182,7 @@ module MediaResourceModules
     
         sql    
       end
-
+      
     end
 
   end

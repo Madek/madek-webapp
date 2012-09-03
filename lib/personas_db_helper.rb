@@ -16,23 +16,30 @@ module PersonasDBHelper
     end
 
     def clone_persona_to_test_db
-      config = check_for_persona_db_config
-      persona_database_name = config['database']
-     
+      persona_config = check_for_persona_db_config
+      persona_database_name = persona_config['database']
+      
       ActiveRecord::Base.connection_pool.disconnect!
-      ActiveRecord::Base.establish_connection(config)
+      ActiveRecord::Base.establish_connection(persona_config)
       DBHelper.drop(Rails.configuration.database_configuration[Rails.env])
-      DBHelper.create(Rails.configuration.database_configuration[Rails.env], {:template => persona_database_name})
+      DBHelper.create(Rails.configuration.database_configuration[Rails.env], {:template_config => persona_config})
+
       ActiveRecord::Base.connection_pool.disconnect!
+      puts "connecting to newly cloned db"
       ActiveRecord::Base.establish_connection(Rails.configuration.database_configuration[Rails.env])
     end
 
     def load_and_migrate_persona_data
-      puts "restoring stuff"
       config = check_for_persona_db_config
-      DBHelper.restore_native \
-        Rails.root.join('db',"#{base_file_name}.#{DBHelper.file_extension}"), {:config => config}
+      persona_path = Rails.root.join('db',"#{base_file_name}.#{DBHelper.file_extension}")
+      puts "Restoring static persona DB file '#{persona_path}' and migrating 'persona' database to latest version."
+      DBHelper.restore_native persona_path, {:config => config}
       system("RAILS_ENV=personas bundle exec rake db:migrate")
+      if $?.exitstatus == 0
+        return true
+      else
+        return false
+      end
     end
 
 
@@ -43,18 +50,6 @@ module PersonasDBHelper
       else
         return config
       end 
-    end
-
-    def restore_personas_to_max_migration
-      if not File.exist? PersonasDBHelper.path_to_max_migration or Rails.root.join('db',"#{base_file_name}.#{DBHelper.file_extension}").ctime > PersonasDBHelper.path_to_max_migration.ctime
-        DBHelper.drop
-        DBHelper.create
-        PersonasDBHelper.create_max_migration
-      end
-
-      DBHelper.drop
-      DBHelper.create
-      DBHelper.restore_native PersonasDBHelper.path_to_max_migration
     end
 
   end
