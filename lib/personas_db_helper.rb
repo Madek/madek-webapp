@@ -22,9 +22,7 @@ module PersonasDBHelper
       ActiveRecord::Base.connection_pool.disconnect!
       ActiveRecord::Base.establish_connection(persona_config)
       DBHelper.drop(Rails.configuration.database_configuration[Rails.env])
-      puts "trying to clone"
       DBHelper.create(Rails.configuration.database_configuration[Rails.env], {:template_config => persona_config})
-      puts "after clone"
 
       ActiveRecord::Base.connection_pool.disconnect!
       puts "connecting to newly cloned db"
@@ -37,6 +35,11 @@ module PersonasDBHelper
       puts "Restoring static persona DB file '#{persona_path}' and migrating 'persona' database to latest version."
       DBHelper.restore_native persona_path, {:config => config}
       system("RAILS_ENV=personas bundle exec rake db:migrate")
+      if $?.exitstatus == 0
+        return true
+      else
+        return false
+      end
     end
 
 
