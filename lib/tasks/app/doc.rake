@@ -1,5 +1,6 @@
 namespace :app do
-
+  require 'open3'
+  
 ########## DOC
   
   desc "Create a manifest of the living documentation by using YARD"
