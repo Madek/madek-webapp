@@ -25,9 +25,9 @@ module PersonasDBHelper
       DBHelper.create(Rails.configuration.database_configuration[Rails.env], {:template_config => persona_config})
 
       ActiveRecord::Base.connection_pool.disconnect!
-      puts "connecting to newly cloned db"
       ActiveRecord::Base.establish_connection(Rails.configuration.database_configuration[Rails.env])
     end
+
 
     def load_and_migrate_persona_data
       config = check_for_persona_db_config
