@@ -29,6 +29,13 @@
 
 
 	<style type="text/css">
+		body {
+			overflow-x: hidden;
+			overflow-y: auto;
+			padding: 0 !important;
+			margin: 0 !important;
+			width: 100%;
+		}
 		#toc {
 		  height: 100%;
 		  right: 0;
@@ -48,8 +55,9 @@
 	    z-index: 1001;
 	  }
 	  #content {
-	    margin-right: 254px;
+	    margin-right: 285px;
 	    position: relative;
+	    padding: 20px;
 	    z-index: 1;
 	  }
 		#toc .title {display: none;}
@@ -67,7 +75,8 @@
 		}
 		p.method_desc {
 			padding: 16px 0 0 14px;
-			font-size: 1.2em;
+			font-size: 1.4em;
+			font-weight: bold;
 		}
 		h2 {
 			margin: 2.4em 0 0.5em;
@@ -81,7 +90,6 @@
 			margin-top: 40px;
 			padding-top: 0;
 			position: relative;
-			box-shadow: 0 -6px 12px rgba(0,0,0,0.1);
 		}
 		h3 {
 			font-size: 1.2em;
@@ -303,7 +311,7 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
   <div id="Services" class="method_details_list">
     
 		<div class="method">
-			<p class="method_desc">Get a collection of MediaResources</p>
+			<p class="method_desc">Get a list of MediaResources</p>
 			<h3 class="resource_url"><strong>/media_resources</strong> [GET]</h3>
 
 			<div class="parameters">	
@@ -312,6 +320,14 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 				
 					<div class="optional">
 						<h4>Optional Parameters</h4>
+						
+							<ul>
+								<li>
+									<span class="name">sort</span>
+									<span class="type">String</span>
+									<span class="text">Sort the response (DESC) by: "updated_at"(Default) | "created_at".</span>
+								</li>
+							</ul>
 						
 							<ul>
 								<li>
@@ -331,15 +347,7 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 						
 							<ul>
 								<li>
-									<span class="name">sort</span>
-									<span class="type">String</span>
-									<span class="text">Sort the response (DESC) by: "updated_at"(Default) | "created_at" | "random".</span>
-								</li>
-							</ul>
-						
-							<ul>
-								<li>
-									<span class="name">query</span>
+									<span class="name">search</span>
 									<span class="type">String</span>
 									<span class="text">Make a search request which searches in all MetaData of all MediaResources responding with matched MediaResources.</span>
 								</li>
@@ -350,6 +358,30 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 									<span class="name">accessible_action</span>
 									<span class="type">String</span>
 									<span class="text">Narrow down the result of MediaResources to the defined accessible_action ("view" | "edit" | "manage" | "download")</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">favorites</span>
+									<span class="type">Boolean</span>
+									<span class="text">Lists the favorites only.</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">with_filter</span>
+									<span class="type">Boolean</span>
+									<span class="text">Requests the possible filters that can be applied over the responding list of MediaResources.</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">meta_data[>>type<<][ids]</span>
+									<span class="type">Array</span>
+									<span class="text">Filter the responding MediaResources by applying one or multiple ids of a specific type of MetaData.</span>
 								</li>
 							</ul>
 						
@@ -406,6 +438,46 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 									<span class="name">with[flags]</span>
 									<span class="type">Boolean</span>
 									<span class="text">Request status indicator informations (about permissions and favorites related to the current user) for the responding MediaResources.</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">with[size]</span>
+									<span class="type">Boolean</span>
+									<span class="text">Request the size of the MediaFile of a particular MediaEntry.</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">with[children]</span>
+									<span class="type">Hash|Boolean</span>
+									<span class="text">Request the children of the responding MediaResources (Attention: they are paginated!). Option forwarding possible.</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">with[children][with]</span>
+									<span class="type">Array</span>
+									<span class="text">Forward with conditions to the children.</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">with[parents]</span>
+									<span class="type">Hash|Boolean</span>
+									<span class="text">Request the parents of the responding MediaResources (Attention: they are paginated!). Option forwarding possible.</span>
+								</li>
+							</ul>
+						
+							<ul>
+								<li>
+									<span class="name">with[parents][with]</span>
+									<span class="type">Array</span>
+									<span class="text">Forward with conditions to the parents.</span>
 								</li>
 							</ul>
 						
@@ -493,7 +565,15 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 							<li>
 								<span class="name">is_favorite</span>
 								<span class="type">Boolean</span>
-								<span class="text">The is_fa status.</span>
+								<span class="text">The is_favorite status.</span>
+							</li>
+						</ul>
+					
+						<ul>
+							<li>
+								<span class="name">size</span>
+								<span class="type">Integer</span>
+								<span class="text">The size of the MediaFile of a particular MediaEntry.</span>
 							</li>
 						</ul>
 					
@@ -510,6 +590,14 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 								<span class="name">parents</span>
 								<span class="type">Array</span>
 								<span class="text">The parents of a MediaResource.</span>
+							</li>
+						</ul>
+					
+						<ul>
+							<li>
+								<span class="name">filter</span>
+								<span class="type">Array</span>
+								<span class="text">The filter that are applicable for the list of responding MediaResources.</span>
 							</li>
 						</ul>
 					
@@ -561,7 +649,7 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 							<span class="description">
 								
 									
-										Responding with the index of media resources. Default sorting at on the update_at attribute latest first. You get 36 elements per page and informations about the current pagination.
+										Responding with the index of media resources. Default sorting is on the update_at attribute latest first. You get 36 elements per page and informations about the current pagination.
 									
 								
 							</span>
@@ -740,7 +828,7 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 								
 									
 										<pre class="code json"><code>{
-  &quot;ids&quot;: [1],
+  &quot;ids&quot;: [1]
   &quot;with&quot;:{
     &quot;image&quot;: {
       &quot;as&quot;:&quot;base64&quot;
@@ -794,7 +882,7 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 								
 									
 										<pre class="code json"><code>{
-  &quot;ids&quot;: [1],
+  &quot;ids&quot;: [1]
   &quot;with&quot;:{
     &quot;filename&quot;:true
   }
@@ -898,9 +986,7 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 								<strong class="type">Request</strong>
 								
 									
-										<pre class="code json"><code>{
-  &quot;type&quot;:&quot;media_sets&quot;
-}
+										<pre class="code json"><code>  &quot;type&quot;:&quot;media_sets&quot;
 </code></pre>
 
 									
@@ -1064,7 +1150,7 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 								
 									
 										<pre class="code json"><code>{
-  &quot;query&quot;:&quot;blue&quot;,
+  &quot;search&quot;:&quot;blue&quot;
   &quot;with&quot;: {
     &quot;meta_context_names&quot;:[&quot;core&quot;]
   }
@@ -1314,7 +1400,7 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 								
 									
 										<pre class="code json"><code>{
-  &quot;ids&quot;: [1],
+  &quot;ids&quot;: [1]
   &quot;with&quot;: {
     &quot;children&quot;:{
       &quot;pagination&quot;: {
@@ -1443,12 +1529,147 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 							</span>
 						</div>
 					
+						<div class="example">
+							
+							
+							
+							<span class="description">
+								
+									
+										Request MediaResources with applicable filters.
+									
+								
+							</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;with_filter&quot;: true;
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;media_resources&quot;: &quot;[...]&quot;
+  &quot;filter&quot;: [
+    {
+      id: 9,
+      name: &quot;keywords&quot;,
+      filter_type: &quot;meta_data&quot;,
+      label: &quot;Keywords for content and design&quot;,
+      terms: [
+        {
+          id: 4359,
+          value: &quot;blueprint&quot;,
+          count: 1
+        }, {
+          id: 4811,
+          value: &quot;world&quot;,
+          count: 2
+        }
+      ]
+    }
+  ] 
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="description">
+								
+									
+										The responding MediaResources can be filtered by "keywords". Two Keywords ("blueprint", "world") are applicable as filter for the current list of MediaResources.
+									
+								
+							</span>
+						</div>
+					
+						<div class="example">
+							
+							
+							
+							<span class="description">
+								
+									
+										Request MediaResources and apply a MetaData filter for the MetaDatumType "keywords" by id 4359.
+									
+								
+							</span>
+							<span class="hash request">
+								<strong class="type">Request</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;meta_data&quot;: {
+    &quot;keywords&quot;: {
+      &quot;ids&quot;: [4359]
+    }
+  },
+  &quot;with&quot;: {&quot;meta_data&quot;: {&quot;meta_key_names&quot;: [&quot;keywords&quot;]}}
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="hash response">
+								<strong class="type">Response</strong>
+								
+									
+										<pre class="code json"><code>{
+  &quot;media_resources&quot;: [
+    {
+      &quot;id&quot;: 8183,
+      &quot;type&quot;: &quot;media_entry&quot;,
+      &quot;meta_data&quot;: [
+        {
+          &quot;name&quot;: &quot;keywords&quot;,
+          &quot;value&quot;: &quot;architect; blueprint; building;&quot;,
+          &quot;raw_value&quot;: [
+            {
+              &quot;id&quot;: 2132,
+              &quot;label&quot;: &quot;architect&quot;
+            },{
+              &quot;id&quot;: 4359,
+              &quot;label&quot;: &quot;blueprint&quot;
+            },{
+              &quot;id&quot;: 51232,
+              &quot;label&quot;: &quot;building&quot;
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+</code></pre>
+
+									
+								
+							</span>
+							<span class="description">
+								
+									
+										The responding MediaResources are filtered by "keywords": "blueprint". So the results are containing that MetaData.
+									
+								
+							</span>
+						</div>
+					
 				</div>
 			
 		</div>	
     
 		<div class="method">
-			<p class="method_desc">Get the image of MediaResource:</p>
+			<p class="method_desc">Get the image of a MediaResource:</p>
 			<h3 class="resource_url"><strong>/media_resources/:id/image</strong> [GET]</h3>
 
 			<div class="parameters">	
@@ -1544,7 +1765,7 @@ MediaEntries and MediaSets (Collection of MediaResources).</p>
 	</div>
     
     <div id="footer">
-  Generated on Tue Aug 28 11:00:18 2012 with ruby-1.9.3
+  Generated on Mon Sep  3 10:52:54 2012 with ruby-1.9.3
 </div>
 
   </body>

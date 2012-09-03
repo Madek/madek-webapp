@@ -18,9 +18,10 @@ class FilterController
     do @delegateSearchEvents
 
   @setSearchValue: => 
-    if decodeURIComponent(window.location.search).match(/search=\w+/)?
-      newSearchValue = decodeURIComponent(window.location.search).match(/search=.*&*$/)[0].replace(/search=/,"").replace(/\+/g," ").replace(/\s+$/,"") + " "
-      @searchInput.addClass("has_value").focus().select().val newSearchValue 
+    uri = new Uri(window.location.search)
+    if uri.getQueryParamValues("search").length
+      newSearchValue = uri.getQueryParamValues("search")[0]
+      @searchInput.addClass("has_value").focus().select().val newSearchValue+" "
 
   @delegateSearchEvents: =>
     delayedSearchTimer = undefined
@@ -42,9 +43,10 @@ class FilterController
         @currentSearch = window.location.search
 
   @updateSearchPage: =>
-    if decodeURIComponent(window.location).match(/search=\w+/)
+    uri = new Uri(window.location.search)
+    if uri.getQueryParamValues("search").length
       $("#filter_search").val @searchInput.val()
-      newUrl = decodeURIComponent(window.location).replace(/search=.*&*$/,"search=#{encodeURIComponent(@searchInput.val())}")
+      newUrl = uri.replaceQueryParam "search", @searchInput.val()
       window.history.pushState({}, window.document.title, newUrl)
       @currentSearch = window.location.search
       $("#bar h1 small").html $("#bar h1 small").text().replace(/".*"/, "\"#{@searchInput.val()}\"") if $("#bar .icon.search").length

@@ -12,7 +12,6 @@ module MediaResourceModules
 
     def self.included(base)
       
-      # returns a chainable collection of media_resources
       def base.filter(current_user, filter = {})
         filter = filter.delete_if {|k,v| v.blank?}.deep_symbolize_keys
         raise "invalid option" unless filter.is_a?(Hash) #and (filter.keys - KEYS).blank?

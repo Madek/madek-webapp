@@ -65,11 +65,8 @@ class Bar
   @set_href_selection_for = (active_element)->
     active_type = $(active_element).data "type"
     $("#bar .selection .permissions a").each (i, current_element)->
-      href = $(current_element).attr("href")
-      if href.match("type=")
-        href = href.replace(/type=(\w+|\w?)/, "type="+active_type)
-      else
-        href = href+"&type="+active_type
-      $(current_element).attr("href", href)
+      uri = new Uri($(current_element).attr("href"))
+      uri.replaceQueryParam "type", active_type
+      $(current_element).attr("href", uri.toString())
   
 window.Bar = Bar

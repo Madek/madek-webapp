@@ -25,18 +25,22 @@ class MediaResourcesController < ApplicationController
 ###################################################################################
 
   ##
-  # Get a collection of MediaResources
+  # Get a list of MediaResources
   # 
   # @resource /media_resources
   #
   # @action GET
   # 
-  # @optional [String] sort Sort the response (DESC) by: "updated_at"(Default) | "created_at" | "random".
+  # @optional [String] sort Sort the response (DESC) by: "updated_at"(Default) | "created_at".
   #
   # @optional [Array] ids A collection of MediaResources you want to fetch informations for.
   # @optional [String] type Filter the response by MediaResource types: "media_sets" | "media_entries".
   # @optional [String] search Make a search request which searches in all MetaData of all MediaResources responding with matched MediaResources.
   # @optional [String] accessible_action Narrow down the result of MediaResources to the defined accessible_action ("view" | "edit" | "manage" | "download")
+  # @optional [Boolean] favorites Lists the favorites only.
+  #
+  # @optional [Boolean] with_filter Requests the possible filters that can be applied over the responding list of MediaResources.
+  # @optional [Array] meta_data[>>type<<][ids] Filter the responding MediaResources by applying one or multiple ids of a specific type of MetaData.
   #
   # @optional [Hash] with[meta_data] Adds MetaData to the responding collection of MediaResources and forwards the hash as options to the MetaData.
   # @optional [Array] with[meta_data][meta_context_names] Adds all requested MetaContexts in the format: ["context_name1", "context_name2", ...] as MetaData to the responding MediaResources. 
@@ -45,6 +49,11 @@ class MediaResourcesController < ApplicationController
   # @optional [Boolean] with[filename] Request the filename of the MediaResources.
   # @optional [Boolean] with[media_type] Request the media_type of the MediaResources.
   # @optional [Boolean] with[flags] Request status indicator informations (about permissions and favorites related to the current user) for the responding MediaResources.
+  # @optional [Boolean] with[size] Request the size of the MediaFile of a particular MediaEntry.
+  # @optional [Hash|Boolean] with[children] Request the children of the responding MediaResources (Attention: they are paginated!). Option forwarding possible.
+  # @optional [Array] with[children][with] Forward with conditions to the children.
+  # @optional [Hash|Boolean] with[parents] Request the parents of the responding MediaResources (Attention: they are paginated!). Option forwarding possible.
+  # @optional [Array] with[parents][with] Forward with conditions to the parents.
   #
   # @response_field [Integer] id The id of the MediaResource  
   # @response_field [Hash] meta_data The MetaData of the MediaResource (To get a list of possible MetaData - or the schema - you have to consider the MetaDatum resource)
@@ -55,9 +64,11 @@ class MediaResourcesController < ApplicationController
   # @response_field [Boolean] is_shared The is_shared status.
   # @response_field [Boolean] is_editable The is_editable status.
   # @response_field [Boolean] is_managable The is_managable status.
-  # @response_field [Boolean] is_favorite The is_fa status.
+  # @response_field [Boolean] is_favorite The is_favorite status.
+  # @response_field [Integer] size The size of the MediaFile of a particular MediaEntry.
   # @response_field [Array] children The children of a MediaResource (only for MediaSets)..
   # @response_field [Array] parents The parents of a MediaResource.
+  # @response_field [Array] filter The filter that are applicable for the list of responding MediaResources.
   #
   # @example_request media_resources.json
   # @example_request_description Requesting the index of MediaResources without any attributes.
@@ -74,7 +85,7 @@ class MediaResourcesController < ApplicationController
   #     }
   #   }
   #   ```
-  # @example_response_description Responding with the index of media resources. Default sorting at on the update_at attribute latest first. You get 36 elements per page and informations about the current pagination.
+  # @example_response_description Responding with the index of media resources. Default sorting is on the update_at attribute latest first. You get 36 elements per page and informations about the current pagination.
   #
   #####
   #
@@ -546,6 +557,87 @@ class MediaResourcesController < ApplicationController
   #   ```  
   # @example_response_description MediaEntries and MediaSets are responding with parents. The parents uses a "nested" pagination for its own. If you want to controll the pagination inside the parents pass a "pagination" attribute to the children value (e.g. {"pagination":{"page":2}}). If you want to forward a "with" to the parents to request more nested informations just parse a Hash to the value containing the with informations (e.g. {"with":{"parents":{"with":{"media_type": true}}}}).
   #
+  #####
+  #
+  # @example_request
+  #   ```json
+  #   {
+  #     "with_filter": true;
+  #   }
+  #   ``` 
+  # @example_request_description Request MediaResources with applicable filters.
+  # @example_response
+  #   ```json
+  #   {
+  #     "media_resources": "[...]"
+  #     "filter": [
+  #       {
+  #         id: 9,
+  #         name: "keywords",
+  #         filter_type: "meta_data",
+  #         label: "Keywords for content and design",
+  #         terms: [
+  #           {
+  #             id: 4359,
+  #             value: "blueprint",
+  #             count: 1
+  #           }, {
+  #             id: 4811,
+  #             value: "world",
+  #             count: 2
+  #           }
+  #         ]
+  #       }
+  #     ] 
+  #   }
+  #   ```  
+  # @example_response_description The responding MediaResources can be filtered by "keywords". Two Keywords ("blueprint", "world") are applicable as filter for the current list of MediaResources.
+  #
+  #####
+  #
+  # @example_request
+  #   ```json
+  #   {
+  #     "meta_data": {
+  #       "keywords": {
+  #         "ids": [4359]
+  #       }
+  #     },
+  #     "with": {"meta_data": {"meta_key_names": ["keywords"]}}
+  #   }
+  #   ``` 
+  # @example_request_description Request MediaResources and apply a MetaData filter for the MetaDatumType "keywords" by id 4359.
+  # @example_response
+  #   ```json
+  #   {
+  #     "media_resources": [
+  #       {
+  #         "id": 8183,
+  #         "type": "media_entry",
+  #         "meta_data": [
+  #           {
+  #             "name": "keywords",
+  #             "value": "architect; blueprint; building;",
+  #             "raw_value": [
+  #               {
+  #                 "id": 2132,
+  #                 "label": "architect"
+  #               },{
+  #                 "id": 4359,
+  #                 "label": "blueprint"
+  #               },{
+  #                 "id": 51232,
+  #                 "label": "building"
+  #               }
+  #             ]
+  #           }
+  #         ]
+  #       }
+  #     ]
+  #   }
+  #   ```  
+  # @example_response_description The responding MediaResources are filtered by "keywords": "blueprint". So the results are containing that MetaData.
+  #
   def index(with_filter_panel = params[:with_filter],
             with = params[:with] || {},
             sort = params[:sort],
@@ -649,7 +741,7 @@ class MediaResourcesController < ApplicationController
 ###################################################################################
 
   ##
-  # Get the image of MediaResource:
+  # Get the image of a MediaResource:
   # 
   # @resource /media_resources/:id/image
   #

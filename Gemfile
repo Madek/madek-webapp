@@ -69,8 +69,8 @@ group :test, :development do
 end
 
 group :development, :production do
-  gem "yard", "~> 0.8.1"
-  gem "yard-rest", "~> 1.1.3"
+  gem "yard", "~> 0.8.2.1"
+  gem "yard-rest", "~> 1.1.4"
   gem 'redcarpet' # yard-rest dependency
 end
 

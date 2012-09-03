@@ -27,6 +27,13 @@
 
 
 	<style type="text/css">
+		body {
+			overflow-x: hidden;
+			overflow-y: auto;
+			padding: 0 !important;
+			margin: 0 !important;
+			width: 100%;
+		}
 		#toc {
 		  height: 100%;
 		  right: 0;
@@ -46,8 +53,9 @@
 	    z-index: 1001;
 	  }
 	  #content {
-	    margin-right: 254px;
+	    margin-right: 285px;
 	    position: relative;
+	    padding: 20px;
 	    z-index: 1;
 	  }
 		#toc .title {display: none;}
@@ -65,7 +73,8 @@
 		}
 		p.method_desc {
 			padding: 16px 0 0 14px;
-			font-size: 1.2em;
+			font-size: 1.4em;
+			font-weight: bold;
 		}
 		h2 {
 			margin: 2.4em 0 0.5em;
@@ -79,7 +88,6 @@
 			margin-top: 40px;
 			padding-top: 0;
 			position: relative;
-			box-shadow: 0 -6px 12px rgba(0,0,0,0.1);
 		}
 		h3 {
 			font-size: 1.2em;
@@ -327,13 +335,24 @@
 
 <h2>Changelog</h2>
 
+<h3>Version 0.1.2 (2012-09-03)</h3>
+
+<ul>
+<li>Renaming &quot;query&quot; to &quot;search&quot; for the MediaResources#index[GET]</li>
+<li>Provide more filter possibilites for the MediaResources#index[GET]<br></li>
+</ul>
+
 <h3>Version 0.1.1 (2012-08-18)</h3>
 
-<p>Fetch MetaTerms associated to a specific MetaKey throug the meta_terms resource (e.g. for fetching all set values for a specific meta key -&gt; Department: Music, Design etc.)</p>
+<ul>
+<li>Fetch MetaTerms associated to a specific MetaKey throug the meta_terms resource (e.g. for fetching all set values for a specific meta key -&gt; Department: Music, Design etc.)</li>
+</ul>
 
 <h3>Version 0.1.0 (2012)</h3>
 
-<p>The first relase of the API</p>
+<ul>
+<li>The first relase of the API</li>
+</ul>
 
   
   
@@ -375,7 +394,7 @@
 	</div>
     
     <div id="footer">
-  Generated on Tue Aug 28 11:00:18 2012 with ruby-1.9.3
+  Generated on Mon Sep  3 10:52:54 2012 with ruby-1.9.3
 </div>
 
   </body>
