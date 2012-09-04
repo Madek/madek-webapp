@@ -20,7 +20,7 @@ class FilterController
   @setSearchValue: => 
     uri = new Uri(window.location.search)
     if uri.getQueryParamValues("search").length
-      newSearchValue = uri.getQueryParamValues("search")[0]
+      newSearchValue = decodeURIComponent(uri.getQueryParamValues("search")[0]).replace(/\+/, " ")
       @searchInput.addClass("has_value").focus().select().val newSearchValue+" "
 
   @delegateSearchEvents: =>
@@ -50,6 +50,13 @@ class FilterController
       window.history.pushState({}, window.document.title, newUrl)
       @currentSearch = window.location.search
       $("#bar h1 small").html $("#bar h1 small").text().replace(/".*"/, "\"#{@searchInput.val()}\"") if $("#bar .icon.search").length
+      for link in $("#bar a")
+        link = $(link)
+        href = link.attr("href")
+        uri = new Uri href
+        if uri.getQueryParamValues("search").length
+          uri.replaceQueryParam "search", @searchInput.val()
+          link.attr "href", uri.toString()
 
   @setupPositioning: =>
     @startOffsetTop = $("header:first").height()
