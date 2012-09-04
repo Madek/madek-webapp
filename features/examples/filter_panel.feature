@@ -43,7 +43,9 @@ Feature: Filter panel
   @javascript
   Scenario: Result counts for each value
     Given I see a filtered list of resources
-    Then I see the match count for each value and the values are sorted by match counts
+    Then I see the match count for each value whose filter type is "meta_data" and the values are sorted by match counts
+    And I do not see the match count for each value whose filter type is "permissions"
+    And I do not see the match count for each value whose filter type is "media_file"
 
   @javascript
   Scenario: Filtering contents of a set that has many things in it
@@ -54,6 +56,39 @@ Feature: Filter panel
     And I can open a particular MetaKey
     And I can filter by the values of that key
 
+  Scenario: MetaContexts in the filter panel
+	  Given I see a filtered list of resources 
+    And some of the keys with the filter type "meta_data" are in any contexts
+    Then I see the context listed in the filter panel
+    And I can expand the context to reveal the keys
+
+  Scenario: Selecting keys that appear in multiple MetaContexts in the filter panel
+	  Given I see a filtered list of resources 
+    And some of the keys with the filter type "meta_data" are in any contexts
+    And I select a key that is present in multiple context
+    Then the key is selected in all the contexts
+		And when I deselect that key
+    Then it is deselected in all the contexts
+
+	Scenario: Filtering by permissions
+		Given I see a filtered list of resources
+    And all of the blocks with the filter type "permissions" are in the root block "Permissions"
+    When I expand the "Permissions" root block
+		Then I can filter by user permissions, group permissions, permission presets
+	  When I select some of the permission filters
+    Then the others are still available
+		And the result is a union of all the selected permission filters
+
+  Scenario: Filtering by media file properties
+    Given I see a filtered list of resources
+    And the list contains images
+    When I expand the root block "File Properties"
+    And I expand the block "Image Properties"
+    Then I can filter by the width of the image (exactly, less than, greater than)
+    And I can filter by the height of the image (exactly, less than, greater than)
+    And I can filter by landscape orientation
+    And I can filter by portrait orientation
+    
   #@upcoming
   #Scenario: Criteria of the filter panel
     #Given a list contains resources that have values in a meta key of type "MetaTerms"
