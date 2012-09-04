@@ -13,6 +13,10 @@ namespace :madek do
       Rake::Task["madek:test:cucumber:slow"].invoke
     end
 
+    task :travis do
+      Rake::Task["madek:test:setup"].invoke
+      Rake::Task["madek:test:rspec"].invoke
+    end
 
     task :setup do
       # Rake seems to be very stubborn about where it takes
