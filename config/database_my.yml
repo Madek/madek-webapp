@@ -18,6 +18,15 @@ my: &my
 default: &default
   <<: *my
 
+personas: 
+  adapter: mysql2
+  encoding: utf8
+  username: root
+  host: localhost
+  password:
+  database: madek_personas
+  pool: 5
+
 
 development: 
   <<: *default
