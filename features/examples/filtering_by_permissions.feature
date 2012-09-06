@@ -6,7 +6,6 @@ Feature: Filtering by permissions
   And so that I can see which resources I have specific permissions for (as 
   covered by the permissions presets)
 
-
   Scenario: Filtering by permission presets
     Given there are the following permission presets:
     | name       | view | edit  | download |
@@ -22,7 +21,6 @@ Feature: Filtering by permissions
     When I filter by permission preset "Editor"
     Then I see only those resources where I have permissions matching the preset "Editor"
     
-
   Scenario: Filtering by owner
     Given there are 20 media entries owned by 10 different owners
     When those entries appear in search results
