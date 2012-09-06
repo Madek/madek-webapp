@@ -1,0 +1,15 @@
+test: 
+  adapter: mysql2
+  database: madek_test
+  encoding: utf8
+  username: root
+  host: localhost
+  password:
+
+personas: 
+  adapter: mysql2
+  database: madek_personas
+  encoding: utf8
+  username: root
+  host: localhost
+  password:
