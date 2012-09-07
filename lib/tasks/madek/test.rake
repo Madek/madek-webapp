@@ -7,12 +7,6 @@ namespace :madek do
       Rake::Task["madek:test:cucumber:all"].invoke
     end
 
-    task :run_slow do
-      Rake::Task["madek:test:setup"].invoke
-      Rake::Task["madek:test:rspec"].invoke
-      Rake::Task["madek:test:cucumber:slow"].invoke
-    end
-
     task :travis do
       Rake::Task["madek:test:setup"].invoke
       Rake::Task["madek:test:rspec"].invoke
@@ -46,16 +40,6 @@ namespace :madek do
         puts "First run exited with #{exit_code_first_run}"
 
         if exit_code_first_run != 0
-          Rake::Task["madek:test:cucumber:rerun"].invoke
-        end
-      end
-
-      task :slow do
-        puts "Running Cucumber tests marked as @slow"
-        system "bundle exec cucumber -p slow"
-        exit_code = $?.exitstatus
-
-        if exit_code != 0
           Rake::Task["madek:test:cucumber:rerun"].invoke
         end
       end
