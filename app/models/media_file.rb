@@ -162,7 +162,7 @@ class MediaFile < ActiveRecord::Base
             filename = File.basename(f)
             prefix = "#{thumbnail_storage_location}_encoded"
             path = "#{prefix}_#{filename}"
-            result = EncodeJob.ftp_get(f, path)
+            result = EncodeJob.ftp_get(f, path, {:delete_after => true})
             if result == true # Retrieval was a success
               paths << path
             else
