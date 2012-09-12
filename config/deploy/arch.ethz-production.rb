@@ -13,8 +13,8 @@ set :branch, "master"
 set :deploy_via, :remote_cache
 
 set :db_config, "/home/madek/database.yml"
+set :zencoder_config, "/home/madek/zencoder.yml"
 #set :ldap_config, "/home/madek/LDAP.yml"
-#set :zencoder_config, "/home/madek/zencoder.yml"
 #set :newrelic_config, "/home/madek/newrelic.yml"
 
 set :checkout, :export
@@ -49,7 +49,7 @@ task :link_config do
 #  run "ln -s #{ldap_config} #{release_path}/config/LDAP.yml"
 
 #  run "rm -f #{release_path}/config/zencoder.yml"
-#  run "ln -s #{zencoder_config} #{release_path}/config/zencoder.yml"
+  run "ln -sf #{zencoder_config} #{release_path}/config/zencoder.yml"
 
 #  run "rm -f #{release_path}/config/newrelic.yml"
 #  run "ln -s #{newrelic_config} #{release_path}/config/newrelic.yml"
