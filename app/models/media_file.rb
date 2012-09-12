@@ -18,9 +18,12 @@ class MediaFile < ActiveRecord::Base
   after_create do
     # Move the file out to storage
     FileUtils.mv uploaded_data.tempfile.path, file_storage_location
+
+    # NOTE: chmod no longer necessary because we are sending the file with the right umask through
+    # vsftpd (umask 022)
     # chmod so that Apache's X-Sendfile gets access to this file, even though it is running under
     # a different user.
-    File.chmod(0755, file_storage_location)
+    #File.chmod(0755, file_storage_location)
     import if meta_data.blank? # TODO in background?
     make_thumbnails
   end
