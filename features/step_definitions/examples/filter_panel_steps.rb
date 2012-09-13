@@ -121,16 +121,24 @@ Given /^I see a filtered list of resources$/ do
   step 'I open the filter panel'
 end
 
-Then /^I see the match count for each value and the values are sorted by match counts$/ do
-  all(".block").each_with_index do |block, i|
-    block = all(".block")[i]
+Then /^I see the match count for each value whose filter type is "(.*?)" and the values are sorted by match counts$/ do |arg1|
+  all(:xpath, "//div[contains(@class, 'block')][@data-filter_type='#{arg1}']").each do |block|
     block.find("h3").click unless block["class"].match "open"
     block.all(".term").each_with_index do |term, i|
-      term = block.all(".term")[i]
+      #??# term = block.all(".term")[i]
       next_term = block.all(".term")[i+1] if i<block.all(".term").size-1 
       if next_term
         term.find(".count").text.to_i.should >= next_term.find(".count").text.to_i
       end
+    end
+  end
+end
+
+Then /^I do not see the match count for each value whose filter type is "(.*?)"$/ do |arg1|
+  all(:xpath, "//div[contains(@class, 'block')][@data-filter_type='#{arg1}']").each do |block, i|
+    block.find("h3").click unless block["class"].match "open"
+    block.all(".term").each do |term|
+      term.all(".count").size.should be_empty
     end
   end
 end
@@ -156,7 +164,8 @@ Then /^I can filter by the values of that key$/ do
   @term = @block.find(".term")
   @term.find("input").click  
   wait_until {all(".loading", :visible=>true).size == 0}
-  wait_until {all("#results .page .item_box").size > 0}
+  wait_until {find("#results .page .item_box")}
+  wait_until {find("#filter_area .block")}
   all("#results .page .item_box").each do |item|
     mr = MediaResource.find item["data-id"].to_i
     mr.meta_data.map(&:to_s).any?{|md| md.match @term.text.gsub(/\n.*/, "")}.should be_true

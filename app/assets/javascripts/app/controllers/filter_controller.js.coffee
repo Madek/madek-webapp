@@ -9,7 +9,7 @@ class FilterController
     do @setupPositioning
     do @setupSearch
     do @delegateFilterPanelEvents
-    do @blockForLoading
+    do @blockForLoading if options.start_open_filter
   
   @setupSearch: =>
     @searchInput = @el.find(".search input")
@@ -74,6 +74,16 @@ class FilterController
       $("#content_body_set").addClass "search"
     else
       $("section.media_resources").addClass "search"
+    do @fetch unless @filter?
+
+  @fetch: =>
+    $.ajax
+      url: window.location 
+      type: 'GET'
+      data: {format: 'json', with_filter: "only"}
+      beforeSend: => do @blockForLoading 
+      success: (data)=>
+        @update data.filter
 
   @close: =>
     @el.removeClass "open"
@@ -87,7 +97,7 @@ class FilterController
     @blocks = @panel.find(".blocks")
     @el.html @panel
   
-  @update: (filter)=>
+  @update: (new_filter)=>
     if @filter?
       # collect all selected terms
       selectedTerms = {}
@@ -100,9 +110,9 @@ class FilterController
         scrollTop: $(block).find(".content").scrollTop()
       # disable all filter terms that are not anymore in filter
       _.each @filter, (block)->
-        updatedFilterBlock = _.find filter, (updatedBlock) -> block.name == updatedBlock.name
+        updatedFilterBlock = _.find new_filter, (updatedBlock) -> block.name == updatedBlock.name
         _.each block.terms, (term)->
-          updatedTerm = _.find updatedFilterBlock.terms, (t)-> t.id == term.id
+          updatedTerm = _.find updatedFilterBlock.terms, ((t)-> t.id == term.id) if updatedFilterBlock?
           if updatedTerm?
             term.selected = if selectedTerms[block.name]? and _.include(selectedTerms[block.name],term.id) then true else false
             term.disabled = false
@@ -110,7 +120,7 @@ class FilterController
           else
             term.disabled = true unless block.filter_logic == "OR"
     else
-      @filter = filter
+      @filter = new_filter
     @blocks.html $.tmpl "app/views/filter/block", @filter
     _.each openBlocks, (block)=> @blocks.find("[data-filter_name='#{block.name}']").addClass("open").find(".content").scrollTop(block.scrollTop)
     do @delegateBlockEvents

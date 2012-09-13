@@ -40,4 +40,4 @@ Our standard format for the API is JSON. To communicate to the API you have to s
 - Fetch MetaTerms associated to a specific MetaKey throug the meta_terms resource (e.g. for fetching all set values for a specific meta key -> Department: Music, Design etc.)
 
 ### Version 0.1.0 (2012)
-- The first relase of the API
+- The first release of the API

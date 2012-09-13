@@ -1,12 +1,7 @@
 %label.term{:disabled => :disabled}
   %input{:type => "checkbox", :value => "${id}", :disabled => :disabled}
   %span.text
-    -# optimize
-    {{if value}}
     ${value}
-    {{else name}}
-    ${name}
-    {{/if}}
   {{if count}}
   %span.count 0
   {{/if}}

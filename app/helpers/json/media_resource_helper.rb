@@ -106,7 +106,7 @@ module Json
 
     ###########################################################################
 
-    def hash_for_media_resources_with_pagination(media_resources, pagination, with = nil, type_totals = false, with_filter = false)
+    def hash_for_media_resources_with_pagination(media_resources, pagination, with = nil, type_totals = false)
       page = (pagination.is_a?(Hash) ? pagination[:page] : nil) || 1
       per_page = [((pagination.is_a?(Hash) ? pagination[:per_page] : nil) || PER_PAGE.first).to_i, PER_PAGE.first].min
       paginated_media_resources = media_resources.paginate(:page => page, :per_page => per_page)
@@ -122,12 +122,10 @@ module Json
         pagination[:total_media_sets] = media_resources.media_sets.count
       end
 
-      h = {
+      {
         pagination: pagination, 
         media_resources: hash_for(paginated_media_resources, with)
       }
-      h[:filter] = hash_for_filter(media_resources) if with_filter
-      h
     end
 
     def hash_for_filter(media_resources)
@@ -178,35 +176,60 @@ module Json
         end 
       }
       
-      # TODO define meta_keys on the admin panel ?? or just pick based on the meta_keys#meta_datum_object_type ??
-      meta_key_labels = ["keywords", "type", "academic year", "project type", "institutional affiliation"]
-      meta_keys = MetaKey.where(:label => meta_key_labels).order("FIELD (label, #{meta_key_labels.map{ |i|  %Q('#{i}') }.join(',')})")  
-      meta_keys.each do |meta_key|
-        # NOTE terms can be MetaTerm, MetaDepartment or Keyword
-        terms = case meta_key.label
-          when "keywords"
-            MetaTerm.select("meta_terms.*, COUNT(meta_data.media_resource_id) AS count_media_resources").
-                    joins("INNER JOIN keywords ON meta_terms.id = keywords.meta_term_id INNER JOIN meta_data ON meta_data.id = keywords.meta_datum_id").
-                    group("meta_terms.id")
-          when "institutional affiliation"
-            MetaDepartment.select("groups.*, COUNT(meta_data.media_resource_id) AS count_media_resources").
-                    joins("INNER JOIN meta_data_meta_departments ON groups.id = meta_data_meta_departments.meta_department_id INNER JOIN meta_data ON meta_data.id = meta_data_meta_departments.meta_datum_id").
-                    group("groups.id")
+      meta_datum_object_types = ["MetaDatumMetaTerms", "MetaDatumKeywords", "MetaDatumDepartments"]
+      meta_datum_object_types.each do |meta_datum_object_type|
+        sql_select, sql_join, sql_group = case meta_datum_object_type
+          when "MetaDatumKeywords"
+            [%Q(meta_terms.id, meta_terms.#{DEFAULT_LANGUAGE} as value),
+             %Q(INNER JOIN keywords ON keywords.meta_datum_id = meta_data.id
+                INNER JOIN meta_terms ON keywords.meta_term_id = meta_terms.id),
+             %Q(meta_terms.id)]
+          when "MetaDatumDepartments"
+            [%Q(groups.id, groups.name AS value),
+             %Q(INNER JOIN meta_data_meta_departments ON meta_data_meta_departments.meta_datum_id = meta_data.id
+                INNER JOIN groups ON meta_data_meta_departments.meta_department_id = groups.id),
+             %Q(groups.id)]
           else
-            MetaTerm.select("meta_terms.*, COUNT(meta_data.media_resource_id) AS count_media_resources").
-                    joins("INNER JOIN meta_data_meta_terms ON meta_terms.id = meta_data_meta_terms.meta_term_id INNER JOIN meta_data ON meta_data.id = meta_data_meta_terms.meta_datum_id").
-                    where(:meta_data => {:meta_key_id => meta_key}).
-                    group("meta_terms.id")
-        end.where("meta_data.media_resource_id IN (#{media_resources.select("media_resources.id").to_sql})")
-        k = hash_for(meta_key).merge({
-          :label => meta_key.first_context_label,
-          :filter_type => "meta_data",
-          :terms => terms.map do |term|
-            h = hash_for(term).merge({:count => term.count_media_resources})
-          end.sort {|a,b| [b[:count], a[:value]] <=> [a[:count], b[:value]] }
-        })
-        r << k
+            [%Q(meta_terms.id, meta_terms.#{DEFAULT_LANGUAGE} as value),
+             %Q(INNER JOIN meta_data_meta_terms ON meta_data_meta_terms.meta_datum_id = meta_data.id
+                INNER JOIN meta_terms ON meta_data_meta_terms.meta_term_id = meta_terms.id),
+             %Q(meta_terms.id)]
+        end
+        sql = %Q( SELECT meta_contexts.name AS context_name, 
+                    meta_keys.label AS name, 
+                    mt2.#{DEFAULT_LANGUAGE} AS label,
+                    COUNT(meta_data.media_resource_id) AS count,
+                    #{sql_select}
+                  FROM meta_contexts
+                     INNER JOIN meta_key_definitions ON meta_key_definitions.meta_context_id = meta_contexts.id
+                     INNER JOIN meta_terms mt2 ON meta_key_definitions.label_id = mt2.id
+                     INNER JOIN meta_keys ON meta_key_definitions.meta_key_id = meta_keys.id
+                     INNER JOIN meta_data ON meta_data.meta_key_id = meta_keys.id
+                     #{sql_join}
+                  WHERE meta_keys.meta_datum_object_type = '#{meta_datum_object_type}'
+                  AND meta_contexts.meta_context_group_id IS NOT NULL
+                  AND meta_data.media_resource_id IN (#{media_resources.select("media_resources.id").to_sql})
+                  GROUP BY #{sql_group}, meta_contexts.name, meta_keys.label, mt2.#{DEFAULT_LANGUAGE} )
+        query = ActiveRecord::Base.connection.execute sql
+        fields = {}
+        query.fields.each_with_index {|field, index| fields[field.to_sym] = index }
+        grouped_query = query.group_by {|x| [x[fields[:context_name]], x[fields[:name]], x[fields[:label]]]}
+        grouped_query.each_pair do |k, v|
+          next if r.map{|x| x[:name]}.include?(k[1]) # TODO ignoring multiple meta_contexts for the same meta_key, delete when we want the 3-level filter panel
+          r << { :context_name => k[0],
+                 :name => k[1],
+                 :label => k[2],
+                 :filter_type => "meta_data",
+                 :terms => v.map do |vv|
+                   { :id => vv[fields[:id]],
+                     :value => vv[fields[:value]],
+                     :count => vv[fields[:count]]
+                   }
+                 end.sort {|a,b| [b[:count], a[:value]] <=> [a[:count], b[:value]] }
+               }
+        end
       end
+
       r
     end
     

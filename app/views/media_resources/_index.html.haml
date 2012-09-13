@@ -7,13 +7,18 @@
 = render :partial => "media_entries/batch_bar"
   
 :coffeescript
+  
+  open_filter = #{@filter[:search].nil? ? false : true}
+  first_filter_params = #{@filter.blank? ? "undefined" : @filter.to_json}
+  
   jQuery ->
     ajax = undefined
     $(".task_bar").hide()
     App.Filter.setup
       params: #{@filter.to_json}
       onChange: (filter_params)-> fetch filter_params, false
-    do App.Filter.open if window.location.search.match("search=") or decodeURIComponent(window.location.search).match(/\[search\]=/)
+      start_open_filter: open_filter
+    do App.Filter.open if open_filter
     new App.MediaResources
       layout: #{(@media_set and @media_set.settings[:layout]) ? "\"#{@media_set.settings[:layout]}\"" : "undefined"}
     url = "#{media_resources_path(@filter)}" 
@@ -37,4 +42,4 @@
             $("#bar h1 small").prepend(data.pagination.total)
           if (data.media_resources.length == 0)
             $("#results").append($.tmpl("tmpl/media_resource/empty_results"))
-    fetch(undefined, true)
+    fetch(first_filter_params, open_filter)

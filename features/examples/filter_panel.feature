@@ -56,12 +56,14 @@ Feature: Filter panel
     And I can open a particular MetaKey
     And I can filter by the values of that key
 
+  @javascript
   Scenario: MetaContexts in the filter panel
 	  Given I see a filtered list of resources 
     And some of the keys with the filter type "meta_data" are in any contexts
     Then I see the context listed in the filter panel
     And I can expand the context to reveal the keys
 
+  @javascript
   Scenario: Selecting keys that appear in multiple MetaContexts in the filter panel
 	  Given I see a filtered list of resources 
     And some of the keys with the filter type "meta_data" are in any contexts
@@ -70,6 +72,7 @@ Feature: Filter panel
 		And when I deselect that key
     Then it is deselected in all the contexts
 
+  @javascript
 	Scenario: Filtering by permissions
 		Given I see a filtered list of resources
     And all of the blocks with the filter type "permissions" are in the root block "Permissions"
@@ -79,6 +82,7 @@ Feature: Filter panel
     Then the others are still available
 		And the result is a union of all the selected permission filters
 
+  @javascript
   Scenario: Filtering by media file properties
     Given I see a filtered list of resources
     And the list contains images

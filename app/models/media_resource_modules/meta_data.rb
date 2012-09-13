@@ -8,7 +8,6 @@ module MediaResourceModules
 
        # TODO observe bulk changes and reindex once
         has_many :meta_data, :dependent => :destroy do #working here#7 :include => :meta_key
-
           def get(key, build_if_not_found = true)
             key_id = if key.is_a? MetaKey
               key.id

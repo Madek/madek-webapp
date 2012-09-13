@@ -9,6 +9,7 @@ module Json
       klass = target.class
       case klass.name
         when "Array", "ActiveRecord::Relation", "WillPaginate::Collection"
+          # TODO eager loading here for associations ?? 
           target.map do |t|
             hash_for(t, with)
           end

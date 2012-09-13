@@ -39,8 +39,9 @@ class MediaResourcesController < ApplicationController
   # @optional [String] accessible_action Narrow down the result of MediaResources to the defined accessible_action ("view" | "edit" | "manage" | "download")
   # @optional [Boolean] favorites Lists the favorites only.
   #
-  # @optional [Boolean] with_filter Requests the possible filters that can be applied over the responding list of MediaResources.
-  # @optional [Array] meta_data[>>type<<][ids] Filter the responding MediaResources by applying one or multiple ids of a specific type of MetaData.
+  # @optional [String] with_filter Request the possible filters data that can be applied for the filtered MediaResources: "false"(Default) | "true" | "only".
+  # @optional [Array] meta_data[>>type<<][ids] Filter the responding MediaResources by applying one or multiple ids of a specific type of MetaData (intersection of multiple filters and ids).
+  # @optional [Array] permissions[preset|owner|group][ids] Filter the responding MediaResources by applying one or multiple ids of a specific type of Permissions (union of multiple filters and ids).
   #
   # @optional [Hash] with[meta_data] Adds MetaData to the responding collection of MediaResources and forwards the hash as options to the MetaData.
   # @optional [Array] with[meta_data][meta_context_names] Adds all requested MetaContexts in the format: ["context_name1", "context_name2", ...] as MetaData to the responding MediaResources. 
@@ -638,20 +639,31 @@ class MediaResourcesController < ApplicationController
   #   ```  
   # @example_response_description The responding MediaResources are filtered by "keywords": "blueprint". So the results are containing that MetaData.
   #
-  def index(with_filter_panel = params[:with_filter],
+  def index(with_filter = params[:with_filter],
             with = params[:with] || {},
             sort = params[:sort],
             page = params[:page],
             per_page = [(params[:per_page] || PER_PAGE.first).to_i, PER_PAGE.first].min)
 
-    # OPTIMIZE is this temporary or we keep it that way ??
+    MediaResourceModules::Filter::DEPRECATED_KEYS.each_pair {|k,v| params[k] ||= params.delete(v) if params[v] }
     @filter = params.select {|k,v| MediaResourceModules::Filter::KEYS.include?(k.to_sym) }.delete_if {|k,v| v.blank?}.deep_symbolize_keys
     
     respond_to do |format|
       format.html
       format.json {
         resources = MediaResource.filter(current_user, @filter).ordered_by(sort)
-        render json: view_context.hash_for_media_resources_with_pagination(resources, {:page => page, :per_page => per_page}, with, false, with_filter_panel).to_json
+
+        h = case with_filter
+          when "true"
+            view_context.hash_for_media_resources_with_pagination(resources, {:page => page, :per_page => per_page}, with, false).
+            merge({:filter => view_context.hash_for_filter(resources)})
+          when "only"
+            {:filter => view_context.hash_for_filter(resources)}
+          else
+            view_context.hash_for_media_resources_with_pagination(resources, {:page => page, :per_page => per_page}, with, false)
+        end
+
+        render json: h.to_json
       }
     end
   end

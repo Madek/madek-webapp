@@ -5,10 +5,10 @@ module MediaResourceModules
 
     KEYS = [ :accessible_action, :collection_id, :favorites, :group_id, :ids,
              :media_file, :media_set_id, :meta_data, :not_by_current_user,
-             :permissions, :public, :search, :top_level, :type, :user_id ] 
+             :permissions, :public, :search, :top_level, :type, :user_id,
+             :query ] 
     
-    # TODO ??         
-    DEPRECATED_KEY = [ :query ]          
+    DEPRECATED_KEYS = {:search => :query}
 
     def self.included(base)
       base.class_eval do
@@ -21,6 +21,10 @@ module MediaResourceModules
       def filter(current_user, filter = {})
         filter = filter.delete_if {|k,v| v.blank?}.deep_symbolize_keys
         raise "invalid option" unless filter.is_a?(Hash) #and (filter.keys - KEYS).blank?
+
+        DEPRECATED_KEYS.each_pair do |k,v|
+          filter[k] ||= filter.delete(v) if filter[v]
+        end
 
         ############################################################
 
@@ -119,6 +123,7 @@ module MediaResourceModules
           # this is AND implementation
           v[:ids].each do |id|
             # OPTIMIZE resource.joins(etc...) directly intersecting multiple criteria doesn't work, then we use subqueries
+            # FIXME switch based on the meta_key.meta_datum_object_type 
             sub = case k
               when :keywords
                 joins(:meta_data).
