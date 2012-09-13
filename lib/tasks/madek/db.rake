@@ -4,6 +4,12 @@ namespace :madek do
     desc "Transfer the data from on SOURCE env TARGET env (env is anything defined in config/database.yml)"
     task :transfer => :environment do
       DBHelper.transfer Constants::ALL_TABLES, ENV['SOURCE'], ENV['TARGET']
+      DBHelper.reset_autoinc_sequences Constants::ALL_TABLES
+    end
+
+    desc "Reset the autoinc values" 
+    task :reset_auto_inc => :environment do
+      DBHelper.reset_autoinc_sequences Constants::ALL_TABLES
     end
 
     desc "Dump the database from whatever DB to YAML"
