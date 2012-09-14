@@ -103,8 +103,8 @@ task :backup_database do
   run "mkdir -p #{dump_dir}"
   # If mysqldump fails for any reason, Capistrano will stop here
   # because run catches the exit code of mysqldump
-  run "mysqldump -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -r #{dump_path} #{sql_database}"
-  #run "pg_dump -w -U #{sql_username} -f #{dump_path} #{sql_database}"
+  #run "mysqldump -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -r #{dump_path} #{sql_database}"
+  run "pg_dump -w -U #{sql_username} -f #{dump_path} #{sql_database}"
   run "bzip2 #{dump_path}"
 end
 
