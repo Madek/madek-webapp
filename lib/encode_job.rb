@@ -121,7 +121,7 @@ class EncodeJob
     return paths
   end
   
-  def self.ftp_get(source_url, target_filename)
+  def self.ftp_get(source_url, target_filename, options = {:delete_after => false})
     require 'net/ftp'
     uri = URI.parse(source_url)
     if uri.scheme == "ftp"
@@ -135,6 +135,9 @@ class EncodeJob
 
       begin
         result = ftp.getbinaryfile(uri.path, target_filename, 1024)
+        if result == true and options[:delete_after] == true
+          ftp.delete(uri.path)
+        end
         ftp.close
       rescue
         # Usually some filesystem error happened, can't write to file, or I can't reach the host etc.
