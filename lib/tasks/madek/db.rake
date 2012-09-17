@@ -32,7 +32,8 @@ namespace :madek do
 
     desc "Dump the database in the native adapter format"
     task :dump => :environment do
-      DBHelper.dump_native config: Rails.configuration.database_configuration[Rails.env]
+      res = DBHelper.dump_native config: Rails.configuration.database_configuration[Rails.env]
+      puts "the data has been dumped into #{res[:path]}"
     end
 
     desc "Restore the database from native adapter format" 

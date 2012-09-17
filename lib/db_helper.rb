@@ -11,7 +11,7 @@ module DBHelper
 
     def file_extension
       if SQLHelper.adapter_is_postgresql? 
-        "pgbin"
+        "pgsql.gz"
       elsif SQLHelper.adapter_is_mysql?
         "mysql"
       else 
@@ -86,7 +86,7 @@ module DBHelper
       cmd =
         if SQLHelper.adapter_is_postgresql?
           set_pg_env config
-          "pg_dump -E utf-8 -F c -f #{path}"
+          "pg_dump -E utf-8 -F p -Z 5 -f #{path}"
         elsif SQLHelper.adapter_is_mysql? 
           "mysqldump #{get_mysql_cmd_credentials config} #{config['database']} > #{path}"
         else
@@ -104,7 +104,7 @@ module DBHelper
       cmd =
         if SQLHelper.adapter_is_postgresql?
           set_pg_env config
-          "pg_restore -d #{config['database'].to_s}  #{path}"
+          "cat #{path} | gunzip | psql #{config['database'].to_s}"
         elsif SQLHelper.adapter_is_mysql? 
           cmd = "mysql #{get_mysql_cmd_credentials config} #{config['database']} < #{path}"
         else
