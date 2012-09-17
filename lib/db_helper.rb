@@ -186,6 +186,22 @@ module DBHelper
       import_hash h, tables, target_env
     end
 
+    ###########################################################################
+    # Compare
+    ###########################################################################
+
+    def compare tables, source_env, target_env
+      source_h = create_hash tables, source_env
+      target_h = create_hash tables, target_env
+      if source_h == target_h
+        puts "the databases have equal content"
+      else
+        puts "the databases differ"
+        diff = source_h.diff(target_h)
+      end
+      diff
+    end
+
 
     private 
 

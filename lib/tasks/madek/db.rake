@@ -7,6 +7,11 @@ namespace :madek do
       DBHelper.reset_autoinc_sequences Constants::ALL_TABLES
     end
 
+    desc "Compare the data in the SOURCE env TARGET env (env is anything defined in config/database.yml)"
+    task :compare => :environment do
+      DBHelper.compare Constants::ALL_TABLES, ENV['SOURCE'], ENV['TARGET']
+    end
+
     desc "Reset the autoinc values" 
     task :reset_auto_inc => :environment do
       DBHelper.reset_autoinc_sequences Constants::ALL_TABLES
