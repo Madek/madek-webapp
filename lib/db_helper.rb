@@ -104,7 +104,7 @@ module DBHelper
       cmd =
         if SQLHelper.adapter_is_postgresql?
           set_pg_env config
-          "cat #{path} | gunzip | psql #{config['database'].to_s}"
+          "cat #{path} | gunzip | psql -q #{config['database'].to_s}"
         elsif SQLHelper.adapter_is_mysql? 
           cmd = "mysql #{get_mysql_cmd_credentials config} #{config['database']} < #{path}"
         else

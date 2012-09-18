@@ -18,13 +18,15 @@ my: &my
 default: &default
   <<: *pg
 
-
 development: 
   <<: *default
   database: madek_dev
 test: 
   <<: *default
   database: madek_test
+personas: 
+  <<: *default
+  database: madek_personas
 production:
   <<: *default
   database: madek_prod
@@ -36,6 +38,9 @@ my_development:
 my_test: 
   <<: *my 
   database: madek_test
+my_personas: 
+  <<: *my
+  database: madek_personas
 my_production: 
   <<: *my 
   database: madek_prod
@@ -47,6 +52,9 @@ pg_development:
 pg_test: 
   <<: *pg 
   database: madek_test
+pg_personas: 
+  <<: *pg
+  database: madek_personas
 pg_production: 
   <<: *pg 
   database: madek_prod
