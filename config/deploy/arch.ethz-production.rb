@@ -48,8 +48,8 @@ task :link_config do
   run "ln -s #{db_config} #{release_path}/config/database.yml"
 #  run "ln -s #{ldap_config} #{release_path}/config/LDAP.yml"
 
-  run "rm -f #{release_path}/config/zencoder.yml"
-  run "ln -s #{zencoder_config} #{release_path}/config/zencoder.yml"
+#  run "rm -f #{release_path}/config/zencoder.yml"
+  run "ln -sf #{zencoder_config} #{release_path}/config/zencoder.yml"
 
 #  run "rm -f #{release_path}/config/newrelic.yml"
 #  run "ln -s #{newrelic_config} #{release_path}/config/newrelic.yml"

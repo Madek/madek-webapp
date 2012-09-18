@@ -58,51 +58,64 @@ Feature: Filter panel
 
   @javascript
   Scenario: MetaContexts in the filter panel
-	  Given I see a filtered list of resources 
+    Given I see a filtered list of resources 
     And some of the keys with the filter type "meta_data" are in any contexts
     Then I see the context listed in the filter panel
     And I can expand the context to reveal the keys
 
+  # https://www.pivotaltracker.com/story/show/36230221
   @javascript
   Scenario: Selecting keys that appear in multiple MetaContexts in the filter panel
-	  Given I see a filtered list of resources 
+    Given I see a filtered list of resources 
     And some of the keys with the filter type "meta_data" are in any contexts
     And I select a key that is present in multiple context
     Then the key is selected in all the contexts
-		And when I deselect that key
+    And when I deselect that key
     Then it is deselected in all the contexts
 
+  # https://www.pivotaltracker.com/story/show/36222567
   @javascript
-	Scenario: Filtering by permissions
-		Given I see a filtered list of resources
-    And all of the blocks with the filter type "permissions" are in the root block "Permissions"
-    When I expand the "Permissions" root block
-		Then I can filter by user permissions, group permissions, permission presets
-	  When I select some of the permission filters
-    Then the others are still available
-		And the result is a union of all the selected permission filters
+  Scenario: Feature by "any value for this key"
+    Given I am "Adam"
+    And I see a filtered list of resources
+    When I expand a context block
+    Then that block contains the value "any"
+    When I filter by the value "any"
+    Then I filter by all media resources that contain any value for that key
 
-  @javascript
-  Scenario: Filtering by media file properties
-    Given I see a filtered list of resources
-    And the list contains images
-    When I expand the root block "File Properties"
-    And I expand the block "Image Properties"
-    Then I can filter by the width of the image (exactly, less than, greater than)
-    And I can filter by the height of the image (exactly, less than, greater than)
-    And I can filter by landscape orientation
-    And I can filter by portrait orientation
-    
-  #@upcoming
+  # Was never committed
+  # https://www.pivotaltracker.com/story/show/36230629
+  #@javascript
+  #  Scenario: Filtering by permissions
+  #  Given I see a filtered list of resources
+  #  And all of the blocks with the filter type "permissions" are in the root block "Permissions"
+  #  When I expand the "Permissions" root block
+  #  Then I can filter by user permissions, group permissions, permission presets
+  #  When I select some of the permission filters
+  #  Then the others are still available
+  #  And the result is a union of all the selected permission filters
+
+  # Was never committed
+  # https://www.pivotaltracker.com/story/show/36230847
+  #@javascript
+  #Scenario: Filtering by media file properties
+  #  Given I see a filtered list of resources
+  #  And the list contains images
+  #  When I expand the root block "File Properties"
+  #  And I expand the block "Image Properties"
+  #  Then I can filter by the width of the image (exactly, less than, greater than)
+  #  And I can filter by the height of the image (exactly, less than, greater than)
+  #  And I can filter by landscape orientation
+  #  And I can filter by portrait orientation
+
+  # Was never committed
+  #@javascript
   #Scenario: Criteria of the filter panel
-    #Given a list contains resources that have values in a meta key of type "MetaTerms"
-    #Then I can filter by the values for that particular key
-    #Given a list contains resources that have values in a meta key of type "MetaDepartments"
-    #Then I can filter by the values for that particular key
-    #And I can always filter by permissions that appear in the result set
-    #And I can always filter by image formats that appear in the result set
-    #And I can always filter by owners that appear in the result set
-    #And I can always filter by groups that appear in the result set
-
-	#@upcoming
-	#Scenario: Filtering by individual contexts
+  #  Given a list contains resources that have values in a meta key of type "MetaTerms"
+  #  Then I can filter by the values for that particular key
+  #  #Given a list contains resources that have values in a meta key of type "MetaDepartments"
+  #  #Then I can filter by the values for that particular key
+  #  #And I can always filter by permissions that appear in the result set
+  #  And I can always filter by image formats that appear in the result set
+  #  #And I can always filter by owners that appear in the result set
+  #  #And I can always filter by groups that appear in the result set
