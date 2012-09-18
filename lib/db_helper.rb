@@ -197,11 +197,17 @@ module DBHelper
         puts "the databases have equal content"
       else
         puts "the databases differ"
-        diff = source_h.diff(target_h)
+        puts deep_diff(source_h,target_h).to_yaml
       end
-      diff
     end
 
+    def deep_diff d1, d2
+      if d1.is_a? Hash and d2.is_a? Hash
+        d1.select {|k| d1[k] != d2[k] }.map{ |k,v| {k => deep_diff(d1[k],d2[k])}}
+      elsif d1.is_a? Array and d2.is_a? Array
+        (d1 | d2) - ( d1 & d2)
+      end
+    end
 
     private 
 
