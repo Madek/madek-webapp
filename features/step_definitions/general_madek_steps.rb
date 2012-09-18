@@ -21,12 +21,15 @@ Given /^I have set up the world$/ do
   MetaKeyDefinition.count.should == minimal_meta[:meta_key_definitions].count
   MetaTerm.count.should == minimal_meta[:meta_terms].count
   UsageTerm.count.should == 1
- 
-  # This is actually normally called in the seeds, but the RSpec developers don't believe in using seeds,
-  # so they drop the database even if we seed it before running the tests. Therefore we recreate our world in this step. 
-  MetaDepartment.setup_ldapdata_from_localfile
 end
 =end
+
+Given /^I have set up some departments with ldap references$/ do
+  MetaDepartment.create([
+   {:ldap_id => "4396.studierende", :ldap_name => "DKV_FAE_BAE.studierende", :name => "Bachelor Vermittlung von Kunst und Design"},
+   {:ldap_id => "56663.dozierende", :ldap_name => "DDE_FDE_VID.dozierende", :name => "Vertiefung Industrial Design"} 
+  ]) 
+end
 
 Given /^a user called "([^"]*)" with username "([^"]*)" and password "([^"]*)" exists$/ do |person_name, username, password|
   user = User.where(:login => username).first
