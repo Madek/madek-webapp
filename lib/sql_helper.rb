@@ -6,16 +6,24 @@ module SQLHelper
     include SQLHelper
   end
 
+  def adapter_name
+    begin
+      ActiveRecord::Base.connection().adapter_name().downcase
+    rescue
+      Rails.configuration.database_configuration[Rails.env]["adapter"].downcase
+    end
+  end
+
   def execute_sql query
     ActiveRecord::Base.connection.execute query 
   end
 
   def adapter_is_mysql?
-    ["mysql", "mysql2"].include? Rails.configuration.database_configuration[Rails.env]["adapter"]
+    ["mysql", "mysql2"].include?  adapter_name
   end
 
   def adapter_is_postgresql?
-    "postgresql" == Rails.configuration.database_configuration[Rails.env]["adapter"]
+    "postgresql" == adapter_name
   end
 
   def ilike
