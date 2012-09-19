@@ -164,7 +164,13 @@ module DBHelper
       end
     end
 
-    def reset_autoinc_sequences tables
+    def reset_autoinc_sequences tables, env = nil
+      if env
+        dbconf = YAML::load_file Rails.root.join('config','database.yml')
+        ActiveRecord::Base.remove_connection
+        ActiveRecord::Base.establish_connection dbconf[env]
+      end
+ 
       table_name_models = table_name_to_table_names_models tables
       tables.each do |table_name|
         model = table_name_models[table_name] || table_name_models[table_name.to_s]
