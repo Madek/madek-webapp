@@ -212,7 +212,11 @@ module Json
                   GROUP BY #{sql_group}, meta_contexts.name, meta_keys.label, mt2.#{DEFAULT_LANGUAGE} )
         query = ActiveRecord::Base.connection.execute sql
         fields = {}
-        query.fields.each_with_index {|field, index| fields[field.to_sym] = index }
+        if SQLHelper.adapter_is_postgresql?
+          query.fields.each_with_index {|field, index| fields[field.to_sym] = field }
+        else
+          query.fields.each_with_index {|field, index| fields[field.to_sym] = index }
+        end
         grouped_query = query.group_by {|x| [x[fields[:context_name]], x[fields[:name]], x[fields[:label]]]}
         grouped_query.each_pair do |k, v|
           next if r.map{|x| x[:name]}.include?(k[1]) # TODO ignoring multiple meta_contexts for the same meta_key, delete when we want the 3-level filter panel
