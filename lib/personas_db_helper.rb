@@ -24,7 +24,7 @@ module PersonasDBHelper
       if SQLHelper.adapter_is_postgresql?
         DBHelper.create_from_template(Rails.configuration.database_configuration[Rails.env],persona_config)
       else
-        DBHelper.fucked_up_create(Rails.configuration.database_configuration[Rails.env], {:template_config => persona_config})
+        DBHelper.create_from_template_for_mysql(Rails.configuration.database_configuration[Rails.env], {:template_config => persona_config})
       end
       ActiveRecord::Base.connection_pool.disconnect!
       ActiveRecord::Base.establish_connection(Rails.configuration.database_configuration[Rails.env])

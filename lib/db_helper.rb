@@ -65,28 +65,13 @@ module DBHelper
       system cmd
     end
 
-    def fucked_up_create config = Rails.configuration.database_configuration[Rails.env], options = {}
+    def create_from_template_for_mysql config = Rails.configuration.database_configuration[Rails.env], options = {}
       template_config = options[:template_config]
-
-      unless template_config.nil?
-        DBHelper.dump_native({:config => template_config, :path => Rails.root + 'tmp/template_dump.mysql'})
-        DBHelper.create(config)
-        result = DBHelper.restore_native(Rails.root + 'tmp/template_dump.mysql', config)
-        return result
-      else
-        cmd=
-          if SQLHelper.adapter_is_postgresql?
-            set_pg_env config
-            "createdb #{"--template %s " % template_config['database'] if template_config} #{config['database']}"
-          elsif SQLHelper.adapter_is_mysql?
-            "mysql #{get_mysql_cmd_credentials config} -e 'create database #{config['database']}'"
-          end
-        ActiveRecord::Base.remove_connection
-        system cmd 
-        ActiveRecord::Base.establish_connection
-        raise "#{cmd} failed" unless $?.exitstatus == 0
-        $?
-      end
+      DBHelper.dump_native({:config => template_config, :path => Rails.root + 'tmp/template_dump.mysql'})
+      cmd = "mysql #{get_mysql_cmd_credentials config} -e 'create database #{config['database']}'"
+      system(cmd)
+      result = DBHelper.restore_native(Rails.root + 'tmp/template_dump.mysql', config)
+      return result
     end
 
     def dump_native options = {}
