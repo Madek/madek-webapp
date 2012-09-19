@@ -42,7 +42,7 @@ group :assets do
   gem 'uglifier', '~> 1.2'
 end
 
-group :development do
+group :development, :personas do
   gem 'capistrano'
   gem 'capistrano-ext'
   gem 'railroady'
@@ -51,7 +51,7 @@ group :development do
   gem 'thin' # web server (Webrick do not support keep-alive connections)
 end
 
-group :test, :development do
+group :test, :development, :personas do
   gem 'autotest'
   gem 'database_cleaner'
   gem 'factory_girl', '~> 4.0'
