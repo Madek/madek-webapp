@@ -26,19 +26,19 @@ CREATE TABLE `copyrights` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `is_default` tinyint(1) DEFAULT '0',
   `is_custom` tinyint(1) DEFAULT '0',
-  `label` varchar(255) DEFAULT NULL,
+  `label` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `parent_id` int(11) DEFAULT NULL,
   `lft` int(11) DEFAULT NULL,
   `rgt` int(11) DEFAULT NULL,
-  `usage` varchar(255) DEFAULT NULL,
-  `url` varchar(255) DEFAULT NULL,
+  `usage` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `url` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_copyrights_on_label` (`label`),
   KEY `index_copyrights_on_is_default` (`is_default`),
   KEY `index_copyrights_on_is_custom` (`is_custom`),
   KEY `index_copyrights_on_parent_id` (`parent_id`),
   KEY `index_copyrights_on_lft_and_rgt` (`lft`,`rgt`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +69,7 @@ CREATE TABLE `edit_sessions` (
   KEY `index_edit_sessions_on_user_id` (`user_id`),
   CONSTRAINT `edit_sessions_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `edit_sessions_media_resource_id_fk` FOREIGN KEY (`media_resource_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +96,7 @@ CREATE TABLE `favorites` (
   KEY `favorites_media_resource_id_fk` (`media_resource_id`),
   CONSTRAINT `favorites_media_resource_id_fk` FOREIGN KEY (`media_resource_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE,
   CONSTRAINT `favorites_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,11 +118,11 @@ DROP TABLE IF EXISTS `full_texts`;
 CREATE TABLE `full_texts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `media_resource_id` int(11) NOT NULL,
-  `text` text,
+  `text` text CHARACTER SET utf8,
   PRIMARY KEY (`id`),
   KEY `index_full_texts_on_media_resource_id` (`media_resource_id`),
   CONSTRAINT `full_texts_media_resource_id_fk` FOREIGN KEY (`media_resource_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,7 +156,7 @@ CREATE TABLE `grouppermissions` (
   KEY `index_grouppermissions_on_media_resource_id` (`media_resource_id`),
   CONSTRAINT `grouppermissions_media_resource_id_fk` FOREIGN KEY (`media_resource_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE,
   CONSTRAINT `grouppermissions_group_id_fk` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,15 +178,15 @@ DROP TABLE IF EXISTS `groups`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `ldap_id` varchar(255) DEFAULT NULL,
-  `ldap_name` varchar(255) DEFAULT NULL,
-  `type` varchar(255) NOT NULL DEFAULT 'Group',
+  `name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `ldap_id` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `ldap_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `type` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT 'Group',
   PRIMARY KEY (`id`),
   KEY `index_groups_on_type` (`type`),
   KEY `index_groups_on_ldap_id` (`ldap_id`),
   KEY `index_groups_on_ldap_name` (`ldap_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -213,7 +213,7 @@ CREATE TABLE `groups_users` (
   KEY `index_groups_users_on_group_id_and_user_id` (`group_id`,`user_id`),
   CONSTRAINT `groups_users_group_id_fk` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE,
   CONSTRAINT `groups_users_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -247,7 +247,7 @@ CREATE TABLE `keywords` (
   CONSTRAINT `keywords_meta_datum_id_fk` FOREIGN KEY (`meta_datum_id`) REFERENCES `meta_data` (`id`) ON DELETE CASCADE,
   CONSTRAINT `keywords_meta_term_id_fk` FOREIGN KEY (`meta_term_id`) REFERENCES `meta_terms` (`id`),
   CONSTRAINT `keywords_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -272,16 +272,16 @@ CREATE TABLE `media_files` (
   `height` int(11) DEFAULT NULL,
   `size` int(11) DEFAULT NULL,
   `width` int(11) DEFAULT NULL,
-  `content_type` varchar(255) DEFAULT NULL,
-  `filename` varchar(255) DEFAULT NULL,
-  `guid` varchar(255) DEFAULT NULL,
-  `job_id` varchar(255) DEFAULT NULL,
-  `access_hash` text,
-  `meta_data` text,
+  `content_type` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `filename` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `guid` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `job_id` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `access_hash` text CHARACTER SET utf8,
+  `meta_data` text CHARACTER SET utf8,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -314,7 +314,7 @@ CREATE TABLE `media_resource_arcs` (
   KEY `index_media_resource_arcs_on_child_id` (`child_id`),
   CONSTRAINT `media_resource_arcs_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE,
   CONSTRAINT `media_resource_arcs_child_id_fk` FOREIGN KEY (`child_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -343,8 +343,8 @@ CREATE TABLE `media_resources` (
   `media_entry_id` int(11) DEFAULT NULL,
   `media_file_id` int(11) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
-  `settings` varchar(255) DEFAULT NULL,
-  `type` varchar(255) DEFAULT NULL,
+  `settings` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `type` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
@@ -356,7 +356,7 @@ CREATE TABLE `media_resources` (
   CONSTRAINT `media_resources_media_entry_id_fk` FOREIGN KEY (`media_entry_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE,
   CONSTRAINT `media_resources_media_file_id_fk` FOREIGN KEY (`media_file_id`) REFERENCES `media_files` (`id`) ON DELETE CASCADE,
   CONSTRAINT `media_resources_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -383,7 +383,7 @@ CREATE TABLE `media_sets_meta_contexts` (
   KEY `media_sets_meta_contexts_meta_context_id_fk` (`meta_context_id`),
   CONSTRAINT `media_sets_meta_contexts_meta_context_id_fk` FOREIGN KEY (`meta_context_id`) REFERENCES `meta_contexts` (`id`) ON DELETE CASCADE,
   CONSTRAINT `media_sets_meta_contexts_media_set_id_fk` FOREIGN KEY (`media_set_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -405,12 +405,12 @@ DROP TABLE IF EXISTS `meta_context_groups`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `meta_context_groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `position` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_meta_context_groups_on_name` (`name`),
   KEY `index_meta_context_groups_on_position` (`position`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -437,17 +437,17 @@ CREATE TABLE `meta_contexts` (
   `meta_context_group_id` int(11) DEFAULT NULL,
   `is_user_interface` tinyint(1) DEFAULT '0',
   `position` int(11) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_meta_contexts_on_name` (`name`),
   KEY `index_meta_contexts_on_position` (`position`),
   KEY `meta_contexts_meta_context_group_id_fk` (`meta_context_group_id`),
   KEY `meta_contexts_description_id_fk` (`description_id`),
   KEY `meta_contexts_label_id_fk` (`label_id`),
-  CONSTRAINT `meta_contexts_label_id_fk` FOREIGN KEY (`label_id`) REFERENCES `meta_terms` (`id`),
   CONSTRAINT `meta_contexts_description_id_fk` FOREIGN KEY (`description_id`) REFERENCES `meta_terms` (`id`),
+  CONSTRAINT `meta_contexts_label_id_fk` FOREIGN KEY (`label_id`) REFERENCES `meta_terms` (`id`),
   CONSTRAINT `meta_contexts_meta_context_group_id_fk` FOREIGN KEY (`meta_context_group_id`) REFERENCES `meta_context_groups` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -472,15 +472,15 @@ CREATE TABLE `meta_data` (
   `copyright_id` int(11) DEFAULT NULL,
   `media_resource_id` int(11) NOT NULL,
   `meta_key_id` int(11) NOT NULL,
-  `type` varchar(255) DEFAULT NULL,
-  `string` text,
+  `type` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `string` text CHARACTER SET utf8,
   PRIMARY KEY (`id`),
   KEY `index_meta_data_on_copyright_id` (`copyright_id`),
   KEY `index_meta_data_on_media_resource_id_and_meta_key_id` (`media_resource_id`,`meta_key_id`),
   KEY `index_meta_data_on_meta_key_id` (`meta_key_id`),
-  CONSTRAINT `meta_data_meta_key_id_fk` FOREIGN KEY (`meta_key_id`) REFERENCES `meta_keys` (`id`),
-  CONSTRAINT `meta_data_media_resource_id_fk` FOREIGN KEY (`media_resource_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=latin1;
+  CONSTRAINT `meta_data_media_resource_id_fk` FOREIGN KEY (`media_resource_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `meta_data_meta_key_id_fk` FOREIGN KEY (`meta_key_id`) REFERENCES `meta_keys` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -507,7 +507,7 @@ CREATE TABLE `meta_data_meta_departments` (
   KEY `meta_data_meta_departments_meta_department_id_fk` (`meta_department_id`),
   CONSTRAINT `meta_data_meta_departments_meta_department_id_fk` FOREIGN KEY (`meta_department_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE,
   CONSTRAINT `meta_data_meta_departments_meta_datum_id_fk` FOREIGN KEY (`meta_datum_id`) REFERENCES `meta_data` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -533,7 +533,7 @@ CREATE TABLE `meta_data_meta_terms` (
   KEY `meta_data_meta_terms_meta_term_id_fk` (`meta_term_id`),
   CONSTRAINT `meta_data_meta_terms_meta_term_id_fk` FOREIGN KEY (`meta_term_id`) REFERENCES `meta_terms` (`id`) ON DELETE CASCADE,
   CONSTRAINT `meta_data_meta_terms_meta_datum_id_fk` FOREIGN KEY (`meta_datum_id`) REFERENCES `meta_data` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -560,7 +560,7 @@ CREATE TABLE `meta_data_people` (
   KEY `meta_data_people_person_id_fk` (`person_id`),
   CONSTRAINT `meta_data_people_person_id_fk` FOREIGN KEY (`person_id`) REFERENCES `people` (`id`) ON DELETE CASCADE,
   CONSTRAINT `meta_data_people_meta_datum_id_fk` FOREIGN KEY (`meta_datum_id`) REFERENCES `meta_data` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -587,7 +587,7 @@ CREATE TABLE `meta_data_users` (
   KEY `meta_data_users_user_id_fk` (`user_id`),
   CONSTRAINT `meta_data_users_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `meta_data_users_meta_datum_id_fk` FOREIGN KEY (`meta_datum_id`) REFERENCES `meta_data` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -618,8 +618,8 @@ CREATE TABLE `meta_key_definitions` (
   `length_max` int(11) DEFAULT NULL,
   `length_min` int(11) DEFAULT NULL,
   `position` int(11) NOT NULL,
-  `key_map` varchar(255) DEFAULT NULL,
-  `key_map_type` varchar(255) DEFAULT NULL,
+  `key_map` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `key_map_type` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
@@ -628,11 +628,11 @@ CREATE TABLE `meta_key_definitions` (
   KEY `meta_key_definitions_description_id_fk` (`description_id`),
   KEY `meta_key_definitions_hint_id_fk` (`hint_id`),
   KEY `meta_key_definitions_label_id_fk` (`label_id`),
-  CONSTRAINT `meta_key_definitions_label_id_fk` FOREIGN KEY (`label_id`) REFERENCES `meta_terms` (`id`),
   CONSTRAINT `meta_key_definitions_description_id_fk` FOREIGN KEY (`description_id`) REFERENCES `meta_terms` (`id`),
   CONSTRAINT `meta_key_definitions_hint_id_fk` FOREIGN KEY (`hint_id`) REFERENCES `meta_terms` (`id`),
+  CONSTRAINT `meta_key_definitions_label_id_fk` FOREIGN KEY (`label_id`) REFERENCES `meta_terms` (`id`),
   CONSTRAINT `meta_key_definitions_meta_key_id_fk` FOREIGN KEY (`meta_key_id`) REFERENCES `meta_keys` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=838 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=838 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -656,11 +656,11 @@ CREATE TABLE `meta_keys` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `is_dynamic` tinyint(1) DEFAULT NULL,
   `is_extensible_list` tinyint(1) DEFAULT NULL,
-  `label` varchar(255) DEFAULT NULL,
-  `meta_datum_object_type` varchar(255) DEFAULT NULL,
+  `label` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `meta_datum_object_type` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_meta_keys_on_label` (`label`)
-) ENGINE=InnoDB AUTO_INCREMENT=648 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=648 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -691,7 +691,7 @@ CREATE TABLE `meta_keys_meta_terms` (
   KEY `meta_keys_meta_terms_meta_term_id_fk` (`meta_term_id`),
   CONSTRAINT `meta_keys_meta_terms_meta_term_id_fk` FOREIGN KEY (`meta_term_id`) REFERENCES `meta_terms` (`id`) ON DELETE CASCADE,
   CONSTRAINT `meta_keys_meta_terms_meta_key_id_fk` FOREIGN KEY (`meta_key_id`) REFERENCES `meta_keys` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=548 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=548 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -713,12 +713,12 @@ DROP TABLE IF EXISTS `meta_terms`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `meta_terms` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `en_gb` varchar(255) DEFAULT NULL,
-  `de_ch` varchar(255) DEFAULT NULL,
+  `en_gb` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `de_ch` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_meta_terms_on_en_gb` (`en_gb`),
   KEY `index_meta_terms_on_de_ch` (`de_ch`)
-) ENGINE=InnoDB AUTO_INCREMENT=4598 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4598 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -743,18 +743,18 @@ CREATE TABLE `people` (
   `is_group` tinyint(1) DEFAULT '0',
   `birthdate` date DEFAULT NULL,
   `deathdate` date DEFAULT NULL,
-  `firstname` varchar(255) DEFAULT NULL,
-  `lastname` varchar(255) DEFAULT NULL,
-  `nationality` varchar(255) DEFAULT NULL,
-  `pseudonym` varchar(255) DEFAULT NULL,
-  `wiki_links` text,
+  `firstname` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `lastname` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `nationality` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `pseudonym` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `wiki_links` text CHARACTER SET utf8,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_people_on_firstname` (`firstname`),
   KEY `index_people_on_is_group` (`is_group`),
   KEY `index_people_on_lastname` (`lastname`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -776,7 +776,7 @@ DROP TABLE IF EXISTS `permission_presets`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `permission_presets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `download` tinyint(1) NOT NULL DEFAULT '0',
   `view` tinyint(1) NOT NULL DEFAULT '0',
   `edit` tinyint(1) NOT NULL DEFAULT '0',
@@ -784,7 +784,7 @@ CREATE TABLE `permission_presets` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_bools_unique` (`view`,`edit`,`download`,`manage`),
   UNIQUE KEY `idx_name_unique` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -809,15 +809,15 @@ CREATE TABLE `previews` (
   `media_file_id` int(11) NOT NULL,
   `height` int(11) DEFAULT NULL,
   `width` int(11) DEFAULT NULL,
-  `content_type` varchar(255) DEFAULT NULL,
-  `filename` varchar(255) DEFAULT NULL,
-  `thumbnail` varchar(255) DEFAULT NULL,
+  `content_type` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `filename` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `thumbnail` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_previews_on_media_file_id` (`media_file_id`),
   CONSTRAINT `previews_media_file_id_fk` FOREIGN KEY (`media_file_id`) REFERENCES `media_files` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -838,9 +838,9 @@ DROP TABLE IF EXISTS `schema_migrations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `schema_migrations` (
-  `version` varchar(255) NOT NULL,
+  `version` varchar(255) CHARACTER SET utf8 NOT NULL,
   UNIQUE KEY `unique_schema_migrations` (`version`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -862,15 +862,15 @@ DROP TABLE IF EXISTS `settings`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `settings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `var` varchar(255) NOT NULL,
-  `value` text,
+  `var` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `value` text CHARACTER SET utf8,
   `target_id` int(11) DEFAULT NULL,
-  `target_type` varchar(30) DEFAULT NULL,
+  `target_type` varchar(30) CHARACTER SET utf8 DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_settings_on_target_type_and_target_id_and_var` (`target_type`,`target_id`,`var`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -892,13 +892,13 @@ DROP TABLE IF EXISTS `usage_terms`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `usage_terms` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) DEFAULT NULL,
-  `version` varchar(255) DEFAULT NULL,
-  `intro` text,
-  `body` text,
+  `title` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `version` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `intro` text CHARACTER SET utf8,
+  `body` text CHARACTER SET utf8,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -932,7 +932,7 @@ CREATE TABLE `userpermissions` (
   KEY `index_userpermissions_on_user_id` (`user_id`),
   CONSTRAINT `userpermissions_media_resource_id_fk` FOREIGN KEY (`media_resource_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE,
   CONSTRAINT `userpermissions_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -956,10 +956,10 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `person_id` int(11) NOT NULL,
   `zhdkid` int(11) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `login` varchar(40) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `notes` text,
+  `email` varchar(100) CHARACTER SET utf8 DEFAULT NULL,
+  `login` varchar(40) CHARACTER SET utf8 DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `notes` text CHARACTER SET utf8,
   `usage_terms_accepted_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -968,7 +968,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `index_users_on_zhdkid` (`zhdkid`),
   KEY `index_users_on_person_id` (`person_id`),
   CONSTRAINT `users_person_id_fk` FOREIGN KEY (`person_id`) REFERENCES `people` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -993,15 +993,15 @@ CREATE TABLE `wiki_page_versions` (
   `page_id` int(11) DEFAULT NULL,
   `updator_id` int(11) DEFAULT NULL,
   `number` int(11) DEFAULT NULL,
-  `comment` varchar(255) DEFAULT NULL,
-  `path` varchar(255) DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `content` text,
+  `comment` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `path` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `title` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `content` text CHARACTER SET utf8,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_wiki_page_versions_on_page_id` (`page_id`),
   KEY `index_wiki_page_versions_on_updator_id` (`updator_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1024,18 +1024,18 @@ CREATE TABLE `wiki_pages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `creator_id` int(11) DEFAULT NULL,
   `updator_id` int(11) DEFAULT NULL,
-  `path` varchar(255) DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `content` text,
+  `path` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `title` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `content` text CHARACTER SET utf8,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_wiki_pages_on_path` (`path`),
   KEY `index_wiki_pages_on_creator_id` (`creator_id`),
   KEY `wiki_pages_updator_id_fk` (`updator_id`),
-  CONSTRAINT `wiki_pages_updator_id_fk` FOREIGN KEY (`updator_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `wiki_pages_creator_id_fk` FOREIGN KEY (`creator_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `wiki_pages_creator_id_fk` FOREIGN KEY (`creator_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `wiki_pages_updator_id_fk` FOREIGN KEY (`updator_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1056,4 +1056,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-09-19 11:38:18
+-- Dump completed on 2012-09-19 13:42:46
