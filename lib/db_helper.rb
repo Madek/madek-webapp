@@ -56,7 +56,16 @@ module DBHelper
       $?
     end
 
-    def create config = Rails.configuration.database_configuration[Rails.env], options = {}
+    def create_from_template config, template_config
+      unless  SQLHelper.adapter_is_postgresql?
+        raise "not supported"
+      end
+      set_pg_env template_config
+      cmd = "psql -q -c 'CREATE DATABASE #{config['database']} TEMPLATE = #{template_config['database']}'"
+      system cmd
+    end
+
+    def fucked_up_create config = Rails.configuration.database_configuration[Rails.env], options = {}
       template_config = options[:template_config]
 
       unless template_config.nil?

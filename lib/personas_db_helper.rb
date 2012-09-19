@@ -18,12 +18,14 @@ module PersonasDBHelper
     def clone_persona_to_test_db
       persona_config = check_for_persona_db_config
       persona_database_name = persona_config['database']
-      
       ActiveRecord::Base.connection_pool.disconnect!
       ActiveRecord::Base.establish_connection(persona_config)
       DBHelper.drop(Rails.configuration.database_configuration[Rails.env])
-      DBHelper.create(Rails.configuration.database_configuration[Rails.env], {:template_config => persona_config})
-
+      if SQLHelper.adapter_is_postgresql?
+        DBHelper.create_from_template(Rails.configuration.database_configuration[Rails.env],persona_config)
+      else
+        DBHelper.fucked_up_create(Rails.configuration.database_configuration[Rails.env], {:template_config => persona_config})
+      end
       ActiveRecord::Base.connection_pool.disconnect!
       ActiveRecord::Base.establish_connection(Rails.configuration.database_configuration[Rails.env])
     end
