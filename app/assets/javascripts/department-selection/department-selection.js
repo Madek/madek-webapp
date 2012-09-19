@@ -105,7 +105,7 @@ function DepartmentSelection() {
       // set deepest info
       parent["_info"] = {};
       parent["_info"]["id"] = option.id;
-      parent["_info"]["title"] = title + " (" + unit + ")"; //[#35836615 Pivotal]// title + "(" + unit + ")";
+      parent["_info"]["title"] = title; //[#35836615 Pivotal]// title + "(" + unit + ")";
       parent["_info"]["ldap"] = option.ldap; 
     });
     
@@ -177,7 +177,7 @@ function DepartmentSelection() {
     if(current_element["_info"] && current_element["_info"]["_titles"]) {
       // replace parenthesis on each element first
       $.each(current_element["_info"]["_titles"], function(index, current_title){
-        current_element["_info"]["_titles"][index] = current_title; //[#35836615 Pivotal]// DepartmentSelection.strip_units_in_parenthesis(current_title);
+        current_element["_info"]["_titles"][index] = DepartmentSelection.strip_units_in_parenthesis(current_title);
       });
       
       // fill title
@@ -189,7 +189,7 @@ function DepartmentSelection() {
   }
   
   this.strip_units_in_parenthesis = function(title) {
-    return title.replace(/\s\(.*?\)/, "");
+    return title; //[#35836615 Pivotal]// title.replace(/\s\(.*?\)/, "");
   }
   
   this.fill_up_title = function(titles) {
