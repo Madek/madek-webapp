@@ -114,6 +114,15 @@ When /^I add "([^"]*)" to grant user permissions$/ do |user|
   find(".ui-autocomplete li a").click()
 end
 
+When /^I add "([^"]*)" to grant group permissions$/ do |group|
+  find(".groups .line.add .button").click()
+  # FIXME search including parenthesis doesn't work ??
+  group_without_parenthesis = group.split('(', 2).first.strip
+  wait_until { find(".groups .line.add input") }.set(group_without_parenthesis)
+  wait_until { find(".ui-autocomplete li a") }.click()
+  find(".groups .line").find(:xpath, "div[@title='#{group}']")
+end
+
 Then /^I can choose from a set of labeled permissions presets instead of grant permissions explicitly$/ do
   # We must count the options to see if they're really there, otherwise the loop below (.each) never executes
   find(".preset select").all("option").size.should == PermissionPreset.all.size

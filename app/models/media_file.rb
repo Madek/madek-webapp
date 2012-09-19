@@ -23,7 +23,9 @@ class MediaFile < ActiveRecord::Base
     # vsftpd (umask 022)
     # chmod so that Apache's X-Sendfile gets access to this file, even though it is running under
     # a different user.
-    #File.chmod(0755, file_storage_location)
+    if File.stat(file_storage_location).uid == Process.uid # Only do this if we have permission to do so (= are the owner of the file)
+      File.chmod(0755, file_storage_location)
+    end
     import if meta_data.blank? # TODO in background?
     make_thumbnails
   end
