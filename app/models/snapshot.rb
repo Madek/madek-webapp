@@ -74,12 +74,10 @@ class Snapshot < MediaResource
                   end
                 end
               when "MetaDatumPeople"
-                xml.tag!(name, attrs) do
-                  meta_datum.value.each do |dv|
-                    xml.person do
-                      xml.tag!("firstname", dv.firstname)
-                      xml.tag!("lastname", dv.lastname)
-                    end
+                meta_datum.value.each do |dv|
+                  xml.tag!(name, attrs) do
+                    xml.tag!("firstname", dv.firstname)
+                    xml.tag!("lastname", dv.lastname)
                   end
                 end
               else

@@ -75,6 +75,7 @@ class MediaResource < ActiveRecord::Base
 
   # TODO move down to Snapshot class
   def self.to_tms_doc(resources, context = MetaContext.tms)
+    require 'active_support/builder' unless defined?(::Builder)
     xml = ::Builder::XmlMarkup.new
     xml.instruct!
     xml.madek(:version => RELEASE_VERSION) do
