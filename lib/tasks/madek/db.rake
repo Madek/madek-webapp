@@ -55,5 +55,28 @@ namespace :madek do
       PersonasDBHelper.clone_persona_to_test_db
     end
 
+
+    desc "Fetch the current dump of the personas db(Postgres only)" 
+    task :fetch_personas do
+      Open3.popen3('ssh madek-personas@madek-server "cd current;RAILS_ENV=production bundle exec rake madek:db:dump"') do |stdin,stdout,stderr,thread|
+        if thread.value.exitstatus == 0
+          s = stdout.gets
+          dumpfile = s.split(/\s/).last
+          target_file =  Rails.root.join 'db','empty_medienarchiv_instance_with_personas.pgsql.gz'
+          Open3.popen3("scp madek-personas@madek-server:#{dumpfile} #{target_file}") do |stdin,stdout,stderr,thread|
+            if thread.value.exitstatus == 0
+              puts "the db has been fetched into #{target_file}"
+            else
+              puts "copying the dump from the remote machine failed"
+              -1
+            end
+          end
+        else
+          puts "dumping the database on the remote server failed with #{stderr}"
+          -1
+        end
+      end
+    end
+
   end
 end
