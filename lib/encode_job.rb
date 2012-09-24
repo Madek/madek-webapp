@@ -20,11 +20,11 @@ class EncodeJob
   attr_accessor :video_codec  # Usually 'vp8'
   attr_accessor :audio_codec # Usually 'vorbis'
   attr_accessor :job_type # video or audio
-  
+
   def initialize(job_id = nil)
 
     raise 'Configuration @@config_path not found or malformed.' unless configured?
-   
+
     @job_id = job_id unless job_id.nil?
     config = YAML::load(File.open(@@config_path))
     api_key = config['zencoder']['api_key']
@@ -59,21 +59,21 @@ class EncodeJob
 
   # TODO: Add notification callback URLs
   # :notifications => ["http://medienarchiv.zhdk.ch/encode_jobs/notification"]
-  
+
   def start_by_url(url)
 
     test_mode = 0
     test_mode = 1 if ENCODING_TEST_MODE == 1
-    
+
     options = {:base_url => @base_url, :quality => 4, :speed => 2}
     if @job_type == "video"
       options.merge!(:video_codec => @video_codec).merge!(@size).merge!(@thumbnails)
     elsif @job_type == "audio"
       options.merge!(:audio_codec => @audio_codec, :skip_video => 1)
     end
-    
+
     outputs = [options]  # You can chain more outputs onto this array
-    
+
     settings = {:test => test_mode,
                 :input => url,
                 :outputs => outputs}
@@ -87,11 +87,11 @@ class EncodeJob
       return false
     end
   end
-  
+
   def details
     Zencoder::Job.details(@job_id).body['job']
   end
-  
+
   def progress
     Zencoder::Job.progress(@job_id).body
   end
@@ -112,7 +112,7 @@ class EncodeJob
     end
     return paths
   end
-  
+
   def thumbnail_file_urls
     paths = []
     details['thumbnails'].each do |tn|
@@ -120,13 +120,13 @@ class EncodeJob
     end
     return paths
   end
-  
+
   def self.ftp_get(source_url, target_filename, options = {:delete_after => false})
     require 'net/ftp'
     uri = URI.parse(source_url)
     if uri.scheme == "ftp"
       ftp = Net::FTP.new(uri.host)
-      
+
       if uri.user and uri.password
         ftp.login(uri.user, uri.password)
       else
