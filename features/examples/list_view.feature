@@ -67,7 +67,7 @@ Feature: List view
   @javascript
   Scenario: Contexts visible in list view
     When I see a resource in a list view
-    Then I see the meta data for context "Core"
+    Then I see the meta data for context "core"
     And I see the meta data for context "Institution" after some loading
     And I see the meta data for context "Nutzung" after some loading
 

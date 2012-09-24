@@ -107,11 +107,11 @@ end
 Then /^I see the meta data for context "(.*?)"(.*)*$/ do |context, loading|
   @inspected_resource_element = find(".item_box[data-id='#{@inspected_resource.id}']")
   if loading != ""
-    @inspected_resource_element.find(".meta_data .context.#{context.downcase}")
+    @inspected_resource_element.find(".meta_data .context.#{context}")
   else
     step 'I see all meta data contexts'
     step 'I wait for the AJAX magic to happen'
-    wait_until {@inspected_resource_element.all(".meta_data .context.#{context.downcase}", :visible => true).size > 0}
+    wait_until {@inspected_resource_element.all(".meta_data .context.#{context}", :visible => true).size > 0}
   end
 end
 
