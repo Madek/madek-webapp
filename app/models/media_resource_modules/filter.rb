@@ -127,16 +127,16 @@ module MediaResourceModules
             sub = case k
               when :keywords
                 joins(:meta_data).
-                joins("INNER JOIN `keywords` ON `keywords`.`meta_datum_id` = `meta_data`.`id`").
+                joins("INNER JOIN keywords ON keywords.meta_datum_id = meta_data.id").
                 where(:keywords => {:meta_term_id => id})
               when :"institutional affiliation"
                 joins(:meta_data).
-                joins("INNER JOIN `meta_data_meta_departments` ON `meta_data_meta_departments`.`meta_datum_id` = `meta_data`.`id`").
+                joins("INNER JOIN meta_data_meta_departments ON meta_data_meta_departments.meta_datum_id = meta_data.id").
                 where(:meta_data_meta_departments => {:meta_department_id => id})
               else
                 # OPTIMIZE accept also directly meta_key_id ?? 
                 joins(:meta_data => :meta_key).
-                joins("INNER JOIN `meta_data_meta_terms` ON `meta_data_meta_terms`.`meta_datum_id` = `meta_data`.`id`").
+                joins("INNER JOIN meta_data_meta_terms ON meta_data_meta_terms.meta_datum_id = meta_data.id").
                 where(:meta_keys => {:label => k, :meta_datum_object_type => "MetaDatumMetaTerms"},
                       :meta_data_meta_terms => {:meta_term_id => id})
             end
