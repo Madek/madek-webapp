@@ -38,7 +38,7 @@ CREATE TABLE `copyrights` (
   KEY `index_copyrights_on_is_custom` (`is_custom`),
   KEY `index_copyrights_on_parent_id` (`parent_id`),
   KEY `index_copyrights_on_lft_and_rgt` (`lft`,`rgt`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +69,7 @@ CREATE TABLE `edit_sessions` (
   KEY `index_edit_sessions_on_user_id` (`user_id`),
   CONSTRAINT `edit_sessions_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `edit_sessions_media_resource_id_fk` FOREIGN KEY (`media_resource_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -78,7 +78,7 @@ CREATE TABLE `edit_sessions` (
 
 LOCK TABLES `edit_sessions` WRITE;
 /*!40000 ALTER TABLE `edit_sessions` DISABLE KEYS */;
-INSERT INTO `edit_sessions` VALUES (1,6,33,'2012-08-31 11:55:41','2012-08-31 11:55:41'),(3,6,33,'2012-08-31 11:56:00','2012-08-31 11:56:00'),(5,6,33,'2012-08-31 11:56:03','2012-08-31 11:56:03'),(7,6,33,'2012-08-31 11:56:55','2012-08-31 11:56:55'),(9,6,33,'2012-08-31 11:58:17','2012-08-31 11:58:17'),(11,6,33,'2012-08-31 11:58:29','2012-08-31 11:58:29'),(13,6,33,'2012-08-31 11:59:08','2012-08-31 11:59:08'),(15,6,35,'2012-08-31 12:00:23','2012-08-31 12:00:23'),(17,6,35,'2012-08-31 12:00:32','2012-08-31 12:00:32'),(19,6,35,'2012-08-31 12:00:43','2012-08-31 12:00:43'),(21,6,35,'2012-08-31 12:01:18','2012-08-31 12:01:18'),(23,6,35,'2012-08-31 12:01:23','2012-08-31 12:01:23'),(25,6,35,'2012-08-31 12:01:27','2012-08-31 12:01:27'),(27,6,35,'2012-08-31 12:01:31','2012-08-31 12:01:31'),(29,6,35,'2012-08-31 12:01:35','2012-08-31 12:01:35'),(31,6,35,'2012-08-31 12:01:39','2012-08-31 12:01:39'),(33,6,35,'2012-08-31 12:01:43','2012-08-31 12:01:43'),(35,6,35,'2012-08-31 12:01:47','2012-08-31 12:01:47'),(37,6,35,'2012-08-31 12:01:59','2012-08-31 12:01:59'),(39,6,35,'2012-08-31 12:01:59','2012-08-31 12:01:59');
+INSERT INTO `edit_sessions` VALUES (1,6,33,'2012-08-31 11:55:41','2012-08-31 11:55:41'),(3,6,33,'2012-08-31 11:56:00','2012-08-31 11:56:00'),(5,6,33,'2012-08-31 11:56:03','2012-08-31 11:56:03'),(7,6,33,'2012-08-31 11:56:55','2012-08-31 11:56:55'),(9,6,33,'2012-08-31 11:58:17','2012-08-31 11:58:17'),(11,6,33,'2012-08-31 11:58:29','2012-08-31 11:58:29'),(13,6,33,'2012-08-31 11:59:08','2012-08-31 11:59:08'),(15,6,35,'2012-08-31 12:00:23','2012-08-31 12:00:23'),(17,6,35,'2012-08-31 12:00:32','2012-08-31 12:00:32'),(19,6,35,'2012-08-31 12:00:43','2012-08-31 12:00:43'),(21,6,35,'2012-08-31 12:01:18','2012-08-31 12:01:18'),(23,6,35,'2012-08-31 12:01:23','2012-08-31 12:01:23'),(25,6,35,'2012-08-31 12:01:27','2012-08-31 12:01:27'),(27,6,35,'2012-08-31 12:01:31','2012-08-31 12:01:31'),(29,6,35,'2012-08-31 12:01:35','2012-08-31 12:01:35'),(31,6,35,'2012-08-31 12:01:39','2012-08-31 12:01:39'),(33,6,35,'2012-08-31 12:01:43','2012-08-31 12:01:43'),(35,6,35,'2012-08-31 12:01:47','2012-08-31 12:01:47'),(37,6,35,'2012-08-31 12:01:59','2012-08-31 12:01:59'),(39,6,35,'2012-08-31 12:01:59','2012-08-31 12:01:59'),(41,2,27,'2012-09-24 10:07:22','2012-09-24 10:07:22');
 /*!40000 ALTER TABLE `edit_sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,7 +96,7 @@ CREATE TABLE `favorites` (
   KEY `favorites_media_resource_id_fk` (`media_resource_id`),
   CONSTRAINT `favorites_media_resource_id_fk` FOREIGN KEY (`media_resource_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE,
   CONSTRAINT `favorites_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +122,7 @@ CREATE TABLE `full_texts` (
   PRIMARY KEY (`id`),
   KEY `index_full_texts_on_media_resource_id` (`media_resource_id`),
   CONSTRAINT `full_texts_media_resource_id_fk` FOREIGN KEY (`media_resource_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +131,7 @@ CREATE TABLE `full_texts` (
 
 LOCK TABLES `full_texts` WRITE;
 /*!40000 ALTER TABLE `full_texts` DISABLE KEYS */;
-INSERT INTO `full_texts` VALUES (1,1,'Landschaften Admin, Adam'),(2,2,'Zett Admin, Adam'),(3,3,'Zett über Landschaften Admin, Adam'),(4,4,'Abgabe zum Kurs Product Design Normalo, Normin'),(5,5,'Mein Test Set Paula, Petra'),(6,6,'Mein Erstes Photo (mit der neuen Nikon) Paula, Petra'),(7,7,'Abgabe Normalo, Normin'),(8,8,'Konzepte Normalo, Normin'),(9,9,'Fotografie Kurs HS 2010 Normalo, Normin'),(10,10,'Portrait Normalo, Normin'),(11,11,'Stilleben Normalo, Normin'),(12,12,'Meine Ausstellungen Normalo, Normin'),(13,13,'Meine Highlights 2012 Normalo, Normin'),(14,14,'Dropbox Normalo, Normin'),(15,15,'Diplomarbeit 2012 Normalo, Normin'),(16,16,'Präsentation Normalo, Normin'),(17,17,'Ausstellungen Normalo, Normin'),(18,18,'Ausstellung Photo 1 Normalo, Normin'),(19,19,'Ausstellung Photo 2 Normalo, Normin'),(20,20,'Ausstellung Photo 3 Normalo, Normin'),(21,21,'Ausstellung Photo 4 Normalo, Normin'),(22,22,'Ausstellung ZHdK Normalo, Normin'),(23,23,'Ausstellung Museum Zürich Normalo, Normin'),(24,24,'Ausstellung Photo 5 Normalo, Normin'),(25,25,'Ausstellung Gallerie Limatquai Normalo, Normin'),(26,26,'Konzepte Normalo, Normin'),(27,27,'Erster Entwurf Normalo, Normin'),(28,28,'Zweiter Entwurf Normalo, Normin'),(29,29,'Schweizer Panorama Landschaft, Liselotte'),(30,30,'Deutsches Panorama Landschaft, Liselotte'),(31,31,'Chinese Temple Landschaft, Liselotte'),(32,32,'Splashscreen Admin, Adam'),(33,33,'Deutzer Hafen in Köln; Schulte, Wilhelm; 2002; Forschung; im Studienverlauf entstanden; Recherche; Architektur; Wilhlem Schulte; Alle Rechte vorbehalten; Tusche und Aquarell auf Bütenpapier; Landschaft, Liselotte Landschaft, Liselotte'),(35,35,'Virgin and Child with Saints Catherine and Barbara; Memling, Hans; 1470/1500; Dunkelheit vorne; Durchgang; Farbigkeit vorne; Figur Grund; Helligkeit hinten; Kontrast vorne; Schaerfe vorne; Strukturreichtum vorne; unbekannt; Alle Rechte vorbehalten; Landschaft, Liselotte Landschaft, Liselotte'),(37,37,'Abgaben Landschaft, Liselotte');
+INSERT INTO `full_texts` VALUES (1,1,'Landschaften Admin, Adam'),(2,2,'Zett Admin, Adam'),(3,3,'Zett über Landschaften Admin, Adam'),(4,4,'Abgabe zum Kurs Product Design Normalo, Normin'),(5,5,'Mein Test Set Paula, Petra'),(6,6,'Mein Erstes Photo (mit der neuen Nikon) Paula, Petra'),(7,7,'Abgabe Normalo, Normin'),(8,8,'Konzepte Normalo, Normin'),(9,9,'Fotografie Kurs HS 2010 Normalo, Normin'),(10,10,'Portrait Normalo, Normin'),(11,11,'Stilleben Normalo, Normin'),(12,12,'Meine Ausstellungen Normalo, Normin'),(13,13,'Meine Highlights 2012 Normalo, Normin'),(14,14,'Dropbox Normalo, Normin'),(15,15,'Diplomarbeit 2012 Normalo, Normin'),(16,16,'Präsentation Normalo, Normin'),(17,17,'Ausstellungen Normalo, Normin'),(18,18,'Ausstellung Photo 1 Normalo, Normin'),(19,19,'Ausstellung Photo 2 Normalo, Normin'),(20,20,'Ausstellung Photo 3 Normalo, Normin'),(21,21,'Ausstellung Photo 4 Normalo, Normin'),(22,22,'Ausstellung ZHdK Normalo, Normin'),(23,23,'Ausstellung Museum Zürich Normalo, Normin'),(24,24,'Ausstellung Photo 5 Normalo, Normin'),(25,25,'Ausstellung Gallerie Limatquai Normalo, Normin'),(26,26,'Konzepte Normalo, Normin'),(27,27,'Erster Entwurf; MAS (Master of Advanced Studies); Projekt.; Abschlussarbeit; Projekt. Normalo, Normin'),(28,28,'Zweiter Entwurf Normalo, Normin'),(29,29,'Schweizer Panorama Landschaft, Liselotte'),(30,30,'Deutsches Panorama Landschaft, Liselotte'),(31,31,'Chinese Temple Landschaft, Liselotte'),(32,32,'Splashscreen Admin, Adam'),(33,33,'Deutzer Hafen in Köln; Schulte, Wilhelm; 2002; Forschung; im Studienverlauf entstanden; Recherche; Architektur; Wilhlem Schulte; Alle Rechte vorbehalten; Tusche und Aquarell auf Bütenpapier; Landschaft, Liselotte Landschaft, Liselotte'),(35,35,'Virgin and Child with Saints Catherine and Barbara; Memling, Hans; 1470/1500; Dunkelheit vorne; Durchgang; Farbigkeit vorne; Figur Grund; Helligkeit hinten; Kontrast vorne; Schaerfe vorne; Strukturreichtum vorne; unbekannt; Alle Rechte vorbehalten; Landschaft, Liselotte Landschaft, Liselotte'),(37,37,'Abgaben Landschaft, Liselotte');
 /*!40000 ALTER TABLE `full_texts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -156,7 +156,7 @@ CREATE TABLE `grouppermissions` (
   KEY `index_grouppermissions_on_media_resource_id` (`media_resource_id`),
   CONSTRAINT `grouppermissions_media_resource_id_fk` FOREIGN KEY (`media_resource_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE,
   CONSTRAINT `grouppermissions_group_id_fk` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,7 +186,7 @@ CREATE TABLE `groups` (
   KEY `index_groups_on_type` (`type`),
   KEY `index_groups_on_ldap_id` (`ldap_id`),
   KEY `index_groups_on_ldap_name` (`ldap_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -213,7 +213,7 @@ CREATE TABLE `groups_users` (
   KEY `index_groups_users_on_group_id_and_user_id` (`group_id`,`user_id`),
   CONSTRAINT `groups_users_group_id_fk` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE,
   CONSTRAINT `groups_users_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -247,7 +247,7 @@ CREATE TABLE `keywords` (
   CONSTRAINT `keywords_meta_datum_id_fk` FOREIGN KEY (`meta_datum_id`) REFERENCES `meta_data` (`id`) ON DELETE CASCADE,
   CONSTRAINT `keywords_meta_term_id_fk` FOREIGN KEY (`meta_term_id`) REFERENCES `meta_terms` (`id`),
   CONSTRAINT `keywords_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -281,7 +281,7 @@ CREATE TABLE `media_files` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -314,7 +314,7 @@ CREATE TABLE `media_resource_arcs` (
   KEY `index_media_resource_arcs_on_child_id` (`child_id`),
   CONSTRAINT `media_resource_arcs_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE,
   CONSTRAINT `media_resource_arcs_child_id_fk` FOREIGN KEY (`child_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -356,7 +356,7 @@ CREATE TABLE `media_resources` (
   CONSTRAINT `media_resources_media_entry_id_fk` FOREIGN KEY (`media_entry_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE,
   CONSTRAINT `media_resources_media_file_id_fk` FOREIGN KEY (`media_file_id`) REFERENCES `media_files` (`id`) ON DELETE CASCADE,
   CONSTRAINT `media_resources_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -365,7 +365,7 @@ CREATE TABLE `media_resources` (
 
 LOCK TABLES `media_resources` WRITE;
 /*!40000 ALTER TABLE `media_resources` DISABLE KEYS */;
-INSERT INTO `media_resources` VALUES (1,0,0,0,1,NULL,NULL,1,'--- {}\n\n','MediaSet','2012-04-20 12:04:17','2012-04-20 12:04:17'),(2,0,0,0,0,NULL,NULL,1,'--- {}\n\n','MediaSet','2012-04-20 12:04:17','2012-04-20 12:04:17'),(3,0,0,0,0,NULL,NULL,1,'--- {}\n\n','MediaSet','2012-04-20 12:04:17','2012-04-20 12:04:17'),(4,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:17','2012-04-20 12:04:17'),(5,0,0,0,0,NULL,NULL,3,'--- {}\n\n','MediaSet','2012-04-20 12:04:17','2012-04-20 12:04:17'),(6,0,0,0,1,NULL,1,3,NULL,'MediaEntry','2012-04-20 12:04:18','2012-04-20 12:04:18'),(7,0,0,0,0,NULL,2,2,NULL,'MediaEntry','2012-04-20 12:04:18','2012-04-20 12:04:18'),(8,0,0,0,0,NULL,3,2,NULL,'MediaEntry','2012-04-20 12:04:19','2012-04-20 12:04:19'),(9,0,0,0,1,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:19','2012-04-20 12:04:19'),(10,0,0,0,0,NULL,4,2,NULL,'MediaEntry','2012-04-20 12:04:19','2012-04-20 12:04:19'),(11,0,0,0,0,NULL,5,2,NULL,'MediaEntry','2012-04-20 12:04:20','2012-04-20 12:04:20'),(12,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:20','2012-04-20 12:04:20'),(13,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:20','2012-04-20 12:04:20'),(14,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:20','2012-04-20 12:04:20'),(15,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:20','2012-04-20 12:04:20'),(16,0,0,0,1,NULL,6,2,NULL,'MediaEntry','2012-04-20 12:04:20','2012-04-20 12:04:20'),(17,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:20','2012-04-20 12:04:20'),(18,0,0,0,0,NULL,7,2,NULL,'MediaEntry','2012-04-20 12:04:21','2012-04-20 12:04:21'),(19,0,0,0,0,NULL,8,2,NULL,'MediaEntry','2012-04-20 12:04:21','2012-04-20 12:04:21'),(20,0,0,0,0,NULL,9,2,NULL,'MediaEntry','2012-04-20 12:04:21','2012-04-20 12:04:21'),(21,0,0,0,0,NULL,10,2,NULL,'MediaEntry','2012-04-20 12:04:22','2012-04-20 12:04:22'),(22,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:22','2012-04-20 12:04:22'),(23,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:22','2012-04-20 12:04:22'),(24,0,0,0,0,NULL,11,2,NULL,'MediaEntry','2012-04-20 12:04:22','2012-04-20 12:04:22'),(25,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:22','2012-04-20 12:04:22'),(26,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:22','2012-04-20 12:04:22'),(27,0,0,0,0,NULL,12,2,NULL,'MediaEntry','2012-04-20 12:04:23','2012-04-20 12:04:23'),(28,0,0,0,0,NULL,13,2,NULL,'MediaEntry','2012-04-20 12:04:23','2012-04-20 12:04:23'),(29,0,0,0,0,NULL,14,6,NULL,'MediaEntry','2012-04-20 12:04:24','2012-04-20 12:04:24'),(30,0,0,0,0,NULL,15,6,NULL,'MediaEntry','2012-04-20 12:04:24','2012-04-20 12:04:24'),(31,0,0,0,0,NULL,16,6,NULL,'MediaEntry','2012-04-20 12:04:25','2012-04-20 12:04:25'),(32,0,0,0,1,NULL,NULL,1,'--- {}\n\n','MediaSet','2012-06-21 10:59:57','2012-06-21 11:00:16'),(33,0,0,0,1,NULL,19,6,NULL,'MediaEntry','2012-08-31 09:18:03','2012-08-31 11:59:08'),(35,0,0,0,1,NULL,21,6,NULL,'MediaEntry','2012-08-31 12:00:08','2012-08-31 12:01:59'),(37,0,0,0,0,NULL,NULL,6,'--- {}\n\n','MediaSet','2012-08-31 14:36:24','2012-08-31 14:36:24');
+INSERT INTO `media_resources` VALUES (1,0,0,0,1,NULL,NULL,1,'--- {}\n\n','MediaSet','2012-04-20 12:04:17','2012-04-20 12:04:17'),(2,0,0,0,0,NULL,NULL,1,'--- {}\n\n','MediaSet','2012-04-20 12:04:17','2012-04-20 12:04:17'),(3,0,0,0,0,NULL,NULL,1,'--- {}\n\n','MediaSet','2012-04-20 12:04:17','2012-04-20 12:04:17'),(4,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:17','2012-04-20 12:04:17'),(5,0,0,0,0,NULL,NULL,3,'--- {}\n\n','MediaSet','2012-04-20 12:04:17','2012-04-20 12:04:17'),(6,0,0,0,1,NULL,1,3,NULL,'MediaEntry','2012-04-20 12:04:18','2012-04-20 12:04:18'),(7,0,0,0,0,NULL,2,2,NULL,'MediaEntry','2012-04-20 12:04:18','2012-04-20 12:04:18'),(8,0,0,0,0,NULL,3,2,NULL,'MediaEntry','2012-04-20 12:04:19','2012-04-20 12:04:19'),(9,0,0,0,1,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:19','2012-04-20 12:04:19'),(10,0,0,0,0,NULL,4,2,NULL,'MediaEntry','2012-04-20 12:04:19','2012-04-20 12:04:19'),(11,0,0,0,0,NULL,5,2,NULL,'MediaEntry','2012-04-20 12:04:20','2012-04-20 12:04:20'),(12,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:20','2012-04-20 12:04:20'),(13,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:20','2012-04-20 12:04:20'),(14,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:20','2012-04-20 12:04:20'),(15,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:20','2012-04-20 12:04:20'),(16,0,0,0,1,NULL,6,2,NULL,'MediaEntry','2012-04-20 12:04:20','2012-04-20 12:04:20'),(17,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:20','2012-04-20 12:04:20'),(18,0,0,0,0,NULL,7,2,NULL,'MediaEntry','2012-04-20 12:04:21','2012-04-20 12:04:21'),(19,0,0,0,0,NULL,8,2,NULL,'MediaEntry','2012-04-20 12:04:21','2012-04-20 12:04:21'),(20,0,0,0,0,NULL,9,2,NULL,'MediaEntry','2012-04-20 12:04:21','2012-04-20 12:04:21'),(21,0,0,0,0,NULL,10,2,NULL,'MediaEntry','2012-04-20 12:04:22','2012-04-20 12:04:22'),(22,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:22','2012-04-20 12:04:22'),(23,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:22','2012-04-20 12:04:22'),(24,0,0,0,0,NULL,11,2,NULL,'MediaEntry','2012-04-20 12:04:22','2012-04-20 12:04:22'),(25,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:22','2012-04-20 12:04:22'),(26,0,0,0,0,NULL,NULL,2,'--- {}\n\n','MediaSet','2012-04-20 12:04:22','2012-04-20 12:04:22'),(27,0,0,0,0,NULL,12,2,NULL,'MediaEntry','2012-04-20 12:04:23','2012-09-24 10:07:22'),(28,0,0,0,0,NULL,13,2,NULL,'MediaEntry','2012-04-20 12:04:23','2012-04-20 12:04:23'),(29,0,0,0,0,NULL,14,6,NULL,'MediaEntry','2012-04-20 12:04:24','2012-04-20 12:04:24'),(30,0,0,0,0,NULL,15,6,NULL,'MediaEntry','2012-04-20 12:04:24','2012-04-20 12:04:24'),(31,0,0,0,0,NULL,16,6,NULL,'MediaEntry','2012-04-20 12:04:25','2012-04-20 12:04:25'),(32,0,0,0,1,NULL,NULL,1,'--- {}\n\n','MediaSet','2012-06-21 10:59:57','2012-06-21 11:00:16'),(33,0,0,0,1,NULL,19,6,NULL,'MediaEntry','2012-08-31 09:18:03','2012-08-31 11:59:08'),(35,0,0,0,1,NULL,21,6,NULL,'MediaEntry','2012-08-31 12:00:08','2012-08-31 12:01:59'),(37,0,0,0,0,NULL,NULL,6,'--- {}\n\n','MediaSet','2012-08-31 14:36:24','2012-08-31 14:36:24');
 /*!40000 ALTER TABLE `media_resources` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -383,7 +383,7 @@ CREATE TABLE `media_sets_meta_contexts` (
   KEY `media_sets_meta_contexts_meta_context_id_fk` (`meta_context_id`),
   CONSTRAINT `media_sets_meta_contexts_meta_context_id_fk` FOREIGN KEY (`meta_context_id`) REFERENCES `meta_contexts` (`id`) ON DELETE CASCADE,
   CONSTRAINT `media_sets_meta_contexts_media_set_id_fk` FOREIGN KEY (`media_set_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -410,7 +410,7 @@ CREATE TABLE `meta_context_groups` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_meta_context_groups_on_name` (`name`),
   KEY `index_meta_context_groups_on_position` (`position`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -447,7 +447,7 @@ CREATE TABLE `meta_contexts` (
   CONSTRAINT `meta_contexts_description_id_fk` FOREIGN KEY (`description_id`) REFERENCES `meta_terms` (`id`),
   CONSTRAINT `meta_contexts_label_id_fk` FOREIGN KEY (`label_id`) REFERENCES `meta_terms` (`id`),
   CONSTRAINT `meta_contexts_meta_context_group_id_fk` FOREIGN KEY (`meta_context_group_id`) REFERENCES `meta_context_groups` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -480,7 +480,7 @@ CREATE TABLE `meta_data` (
   KEY `index_meta_data_on_meta_key_id` (`meta_key_id`),
   CONSTRAINT `meta_data_media_resource_id_fk` FOREIGN KEY (`media_resource_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE,
   CONSTRAINT `meta_data_meta_key_id_fk` FOREIGN KEY (`meta_key_id`) REFERENCES `meta_keys` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -489,7 +489,7 @@ CREATE TABLE `meta_data` (
 
 LOCK TABLES `meta_data` WRITE;
 /*!40000 ALTER TABLE `meta_data` DISABLE KEYS */;
-INSERT INTO `meta_data` VALUES (1,NULL,1,3,'MetaDatumString','Landschaften'),(2,NULL,2,3,'MetaDatumString','Zett'),(3,NULL,3,3,'MetaDatumString','Zett über Landschaften'),(4,NULL,4,3,'MetaDatumString','Abgabe zum Kurs Product Design'),(5,NULL,5,3,'MetaDatumString','Mein Test Set'),(6,NULL,6,3,'MetaDatumString','Mein Erstes Photo (mit der neuen Nikon)'),(7,NULL,7,3,'MetaDatumString','Abgabe'),(8,NULL,8,3,'MetaDatumString','Konzepte'),(9,NULL,9,3,'MetaDatumString','Fotografie Kurs HS 2010'),(10,NULL,10,3,'MetaDatumString','Portrait'),(11,NULL,11,3,'MetaDatumString','Stilleben'),(12,NULL,12,3,'MetaDatumString','Meine Ausstellungen'),(13,NULL,13,3,'MetaDatumString','Meine Highlights 2012'),(14,NULL,14,3,'MetaDatumString','Dropbox'),(15,NULL,15,3,'MetaDatumString','Diplomarbeit 2012'),(16,NULL,16,3,'MetaDatumString','Präsentation'),(17,NULL,17,3,'MetaDatumString','Ausstellungen'),(18,NULL,18,3,'MetaDatumString','Ausstellung Photo 1'),(19,NULL,19,3,'MetaDatumString','Ausstellung Photo 2'),(20,NULL,20,3,'MetaDatumString','Ausstellung Photo 3'),(21,NULL,21,3,'MetaDatumString','Ausstellung Photo 4'),(22,NULL,22,3,'MetaDatumString','Ausstellung ZHdK'),(23,NULL,23,3,'MetaDatumString','Ausstellung Museum Zürich'),(24,NULL,24,3,'MetaDatumString','Ausstellung Photo 5'),(25,NULL,25,3,'MetaDatumString','Ausstellung Gallerie Limatquai'),(26,NULL,26,3,'MetaDatumString','Konzepte'),(27,NULL,27,3,'MetaDatumString','Erster Entwurf'),(28,NULL,28,3,'MetaDatumString','Zweiter Entwurf'),(29,NULL,29,3,'MetaDatumString','Schweizer Panorama'),(30,NULL,30,3,'MetaDatumString','Deutsches Panorama'),(31,NULL,31,3,'MetaDatumString','Chinese Temple'),(32,NULL,32,3,'MetaDatumString','Splashscreen'),(33,3,33,53,'MetaDatumCopyright',NULL),(35,NULL,33,60,'MetaDatumUsers',NULL),(37,NULL,33,3,'MetaDatumString','Deutzer Hafen in Köln'),(39,NULL,33,8,'MetaDatumDate','2002'),(41,NULL,33,5,'MetaDatumPeople',NULL),(43,NULL,33,52,'MetaDatumString','Wilhlem Schulte'),(45,NULL,33,31,'MetaDatumMetaTerms',NULL),(47,NULL,33,58,'MetaDatumMetaTerms',NULL),(49,NULL,33,24,'MetaDatumMetaTerms',NULL),(51,3,35,53,'MetaDatumCopyright',NULL),(53,NULL,35,60,'MetaDatumUsers',NULL),(55,NULL,35,3,'MetaDatumString','Virgin and Child with Saints Catherine and Barbara'),(57,NULL,35,5,'MetaDatumPeople',NULL),(59,NULL,35,8,'MetaDatumDate','1470/1500'),(61,NULL,35,9,'MetaDatumKeywords',NULL),(63,NULL,35,52,'MetaDatumString','unbekannt'),(65,NULL,37,3,'MetaDatumString','Abgaben');
+INSERT INTO `meta_data` VALUES (1,NULL,1,3,'MetaDatumString','Landschaften'),(2,NULL,2,3,'MetaDatumString','Zett'),(3,NULL,3,3,'MetaDatumString','Zett über Landschaften'),(4,NULL,4,3,'MetaDatumString','Abgabe zum Kurs Product Design'),(5,NULL,5,3,'MetaDatumString','Mein Test Set'),(6,NULL,6,3,'MetaDatumString','Mein Erstes Photo (mit der neuen Nikon)'),(7,NULL,7,3,'MetaDatumString','Abgabe'),(8,NULL,8,3,'MetaDatumString','Konzepte'),(9,NULL,9,3,'MetaDatumString','Fotografie Kurs HS 2010'),(10,NULL,10,3,'MetaDatumString','Portrait'),(11,NULL,11,3,'MetaDatumString','Stilleben'),(12,NULL,12,3,'MetaDatumString','Meine Ausstellungen'),(13,NULL,13,3,'MetaDatumString','Meine Highlights 2012'),(14,NULL,14,3,'MetaDatumString','Dropbox'),(15,NULL,15,3,'MetaDatumString','Diplomarbeit 2012'),(16,NULL,16,3,'MetaDatumString','Präsentation'),(17,NULL,17,3,'MetaDatumString','Ausstellungen'),(18,NULL,18,3,'MetaDatumString','Ausstellung Photo 1'),(19,NULL,19,3,'MetaDatumString','Ausstellung Photo 2'),(20,NULL,20,3,'MetaDatumString','Ausstellung Photo 3'),(21,NULL,21,3,'MetaDatumString','Ausstellung Photo 4'),(22,NULL,22,3,'MetaDatumString','Ausstellung ZHdK'),(23,NULL,23,3,'MetaDatumString','Ausstellung Museum Zürich'),(24,NULL,24,3,'MetaDatumString','Ausstellung Photo 5'),(25,NULL,25,3,'MetaDatumString','Ausstellung Gallerie Limatquai'),(26,NULL,26,3,'MetaDatumString','Konzepte'),(27,NULL,27,3,'MetaDatumString','Erster Entwurf'),(28,NULL,28,3,'MetaDatumString','Zweiter Entwurf'),(29,NULL,29,3,'MetaDatumString','Schweizer Panorama'),(30,NULL,30,3,'MetaDatumString','Deutsches Panorama'),(31,NULL,31,3,'MetaDatumString','Chinese Temple'),(32,NULL,32,3,'MetaDatumString','Splashscreen'),(33,3,33,53,'MetaDatumCopyright',NULL),(35,NULL,33,60,'MetaDatumUsers',NULL),(37,NULL,33,3,'MetaDatumString','Deutzer Hafen in Köln'),(39,NULL,33,8,'MetaDatumDate','2002'),(41,NULL,33,5,'MetaDatumPeople',NULL),(43,NULL,33,52,'MetaDatumString','Wilhlem Schulte'),(45,NULL,33,31,'MetaDatumMetaTerms',NULL),(47,NULL,33,58,'MetaDatumMetaTerms',NULL),(49,NULL,33,24,'MetaDatumMetaTerms',NULL),(51,3,35,53,'MetaDatumCopyright',NULL),(53,NULL,35,60,'MetaDatumUsers',NULL),(55,NULL,35,3,'MetaDatumString','Virgin and Child with Saints Catherine and Barbara'),(57,NULL,35,5,'MetaDatumPeople',NULL),(59,NULL,35,8,'MetaDatumDate','1470/1500'),(61,NULL,35,9,'MetaDatumKeywords',NULL),(63,NULL,35,52,'MetaDatumString','unbekannt'),(65,NULL,37,3,'MetaDatumString','Abgaben'),(67,NULL,27,24,'MetaDatumMetaTerms',NULL),(69,NULL,27,22,'MetaDatumMetaTerms',NULL),(71,NULL,27,73,'MetaDatumString','Projekt.'),(73,NULL,27,23,'MetaDatumString','Projekt.');
 /*!40000 ALTER TABLE `meta_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -507,7 +507,7 @@ CREATE TABLE `meta_data_meta_departments` (
   KEY `meta_data_meta_departments_meta_department_id_fk` (`meta_department_id`),
   CONSTRAINT `meta_data_meta_departments_meta_department_id_fk` FOREIGN KEY (`meta_department_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE,
   CONSTRAINT `meta_data_meta_departments_meta_datum_id_fk` FOREIGN KEY (`meta_datum_id`) REFERENCES `meta_data` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -533,7 +533,7 @@ CREATE TABLE `meta_data_meta_terms` (
   KEY `meta_data_meta_terms_meta_term_id_fk` (`meta_term_id`),
   CONSTRAINT `meta_data_meta_terms_meta_term_id_fk` FOREIGN KEY (`meta_term_id`) REFERENCES `meta_terms` (`id`) ON DELETE CASCADE,
   CONSTRAINT `meta_data_meta_terms_meta_datum_id_fk` FOREIGN KEY (`meta_datum_id`) REFERENCES `meta_data` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -542,7 +542,7 @@ CREATE TABLE `meta_data_meta_terms` (
 
 LOCK TABLES `meta_data_meta_terms` WRITE;
 /*!40000 ALTER TABLE `meta_data_meta_terms` DISABLE KEYS */;
-INSERT INTO `meta_data_meta_terms` VALUES (45,73),(49,88),(49,89),(49,91),(47,2169);
+INSERT INTO `meta_data_meta_terms` VALUES (69,60),(45,73),(67,85),(49,88),(49,89),(49,91),(47,2169);
 /*!40000 ALTER TABLE `meta_data_meta_terms` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -560,7 +560,7 @@ CREATE TABLE `meta_data_people` (
   KEY `meta_data_people_person_id_fk` (`person_id`),
   CONSTRAINT `meta_data_people_person_id_fk` FOREIGN KEY (`person_id`) REFERENCES `people` (`id`) ON DELETE CASCADE,
   CONSTRAINT `meta_data_people_meta_datum_id_fk` FOREIGN KEY (`meta_datum_id`) REFERENCES `meta_data` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -587,7 +587,7 @@ CREATE TABLE `meta_data_users` (
   KEY `meta_data_users_user_id_fk` (`user_id`),
   CONSTRAINT `meta_data_users_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `meta_data_users_meta_datum_id_fk` FOREIGN KEY (`meta_datum_id`) REFERENCES `meta_data` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -632,7 +632,7 @@ CREATE TABLE `meta_key_definitions` (
   CONSTRAINT `meta_key_definitions_hint_id_fk` FOREIGN KEY (`hint_id`) REFERENCES `meta_terms` (`id`),
   CONSTRAINT `meta_key_definitions_label_id_fk` FOREIGN KEY (`label_id`) REFERENCES `meta_terms` (`id`),
   CONSTRAINT `meta_key_definitions_meta_key_id_fk` FOREIGN KEY (`meta_key_id`) REFERENCES `meta_keys` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=838 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=838 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -660,7 +660,7 @@ CREATE TABLE `meta_keys` (
   `meta_datum_object_type` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_meta_keys_on_label` (`label`)
-) ENGINE=InnoDB AUTO_INCREMENT=648 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=648 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -691,7 +691,7 @@ CREATE TABLE `meta_keys_meta_terms` (
   KEY `meta_keys_meta_terms_meta_term_id_fk` (`meta_term_id`),
   CONSTRAINT `meta_keys_meta_terms_meta_term_id_fk` FOREIGN KEY (`meta_term_id`) REFERENCES `meta_terms` (`id`) ON DELETE CASCADE,
   CONSTRAINT `meta_keys_meta_terms_meta_key_id_fk` FOREIGN KEY (`meta_key_id`) REFERENCES `meta_keys` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=548 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=548 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -718,7 +718,7 @@ CREATE TABLE `meta_terms` (
   PRIMARY KEY (`id`),
   KEY `index_meta_terms_on_en_gb` (`en_gb`),
   KEY `index_meta_terms_on_de_ch` (`de_ch`)
-) ENGINE=InnoDB AUTO_INCREMENT=4598 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4598 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -754,7 +754,7 @@ CREATE TABLE `people` (
   KEY `index_people_on_firstname` (`firstname`),
   KEY `index_people_on_is_group` (`is_group`),
   KEY `index_people_on_lastname` (`lastname`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -784,7 +784,7 @@ CREATE TABLE `permission_presets` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_bools_unique` (`view`,`edit`,`download`,`manage`),
   UNIQUE KEY `idx_name_unique` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -817,7 +817,7 @@ CREATE TABLE `previews` (
   PRIMARY KEY (`id`),
   KEY `index_previews_on_media_file_id` (`media_file_id`),
   CONSTRAINT `previews_media_file_id_fk` FOREIGN KEY (`media_file_id`) REFERENCES `media_files` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -840,7 +840,7 @@ DROP TABLE IF EXISTS `schema_migrations`;
 CREATE TABLE `schema_migrations` (
   `version` varchar(255) CHARACTER SET utf8 NOT NULL,
   UNIQUE KEY `unique_schema_migrations` (`version`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -870,7 +870,7 @@ CREATE TABLE `settings` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_settings_on_target_type_and_target_id_and_var` (`target_type`,`target_id`,`var`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -898,7 +898,7 @@ CREATE TABLE `usage_terms` (
   `body` text CHARACTER SET utf8,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -932,7 +932,7 @@ CREATE TABLE `userpermissions` (
   KEY `index_userpermissions_on_user_id` (`user_id`),
   CONSTRAINT `userpermissions_media_resource_id_fk` FOREIGN KEY (`media_resource_id`) REFERENCES `media_resources` (`id`) ON DELETE CASCADE,
   CONSTRAINT `userpermissions_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -968,7 +968,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `index_users_on_zhdkid` (`zhdkid`),
   KEY `index_users_on_person_id` (`person_id`),
   CONSTRAINT `users_person_id_fk` FOREIGN KEY (`person_id`) REFERENCES `people` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1001,7 +1001,7 @@ CREATE TABLE `wiki_page_versions` (
   PRIMARY KEY (`id`),
   KEY `index_wiki_page_versions_on_page_id` (`page_id`),
   KEY `index_wiki_page_versions_on_updator_id` (`updator_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1035,7 +1035,7 @@ CREATE TABLE `wiki_pages` (
   KEY `wiki_pages_updator_id_fk` (`updator_id`),
   CONSTRAINT `wiki_pages_creator_id_fk` FOREIGN KEY (`creator_id`) REFERENCES `users` (`id`),
   CONSTRAINT `wiki_pages_updator_id_fk` FOREIGN KEY (`updator_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1056,4 +1056,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-09-19 13:42:46
+-- Dump completed on 2012-09-24 12:09:35
