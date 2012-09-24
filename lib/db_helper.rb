@@ -80,7 +80,7 @@ module DBHelper
       cmd =
         if SQLHelper.adapter_is_postgresql?
           set_pg_env config
-          "pg_dump -E utf-8 -F p -Z 5 -f #{path}"
+          "pg_dump -E utf-8 -F p -Z 5 -O --no-acl -f #{path}"
         elsif SQLHelper.adapter_is_mysql? 
           "mysqldump #{get_mysql_cmd_credentials config} #{config['database']} > #{path}"
         else
