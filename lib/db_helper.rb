@@ -50,6 +50,7 @@ module DBHelper
           "mysql #{get_mysql_cmd_credentials config} -e 'drop database if exists #{config['database']}' "
         end
       ActiveRecord::Base.remove_connection
+      terminate_open_connections config
       system cmd
       ActiveRecord::Base.establish_connection
       raise "#{cmd} failed" unless $?.exitstatus == 0
@@ -74,21 +75,42 @@ module DBHelper
       return result
     end
 
+    ###########################################################################
+    # admin
+    ###########################################################################
+
+    def terminate_open_connections config
+      if SQLHelper.adapter_is_postgresql?
+        set_pg_env config
+        cmd = "psql template1 -c \"SELECT pg_terminate_backend(pg_stat_activity.procpid) FROM pg_stat_activity WHERE pg_stat_activity.datname = '#{config['database']}';\""
+        Open3.popen3(cmd) do |stdin,stdout,stderr,thread|
+          if thread.value.exitstatus == 0
+            {status: thread.value.exitstatus, output: stdout.gets}
+          else
+            {status: thread.value.exitstatus, output: "failed"}
+          end
+        end
+      end
+    end
+
+    ###########################################################################
+    # dump and restore
+    ###########################################################################
+
     def dump_native options = {}
       path = options[:path] || dump_file_path
       config = options[:config] || Rails.configuration.database_configuration[Rails.env]
       cmd =
         if SQLHelper.adapter_is_postgresql?
           set_pg_env config
+          binding.pry
           "pg_dump -E utf-8 -F p -Z 5 -O --no-acl -f #{path}"
         elsif SQLHelper.adapter_is_mysql? 
           "mysqldump #{get_mysql_cmd_credentials config} #{config['database']} > #{path}"
         else
           raise "adapter not supported"
         end
-      ActiveRecord::Base.remove_connection
       system cmd
-      ActiveRecord::Base.establish_connection
       raise "#{cmd} failed" unless $?.exitstatus == 0
       {path: path, return_value: $?}
     end
@@ -105,6 +127,7 @@ module DBHelper
           raise "adapter not supported"
         end
       ActiveRecord::Base.remove_connection
+      terminate_open_connections config
       system cmd
       ActiveRecord::Base.establish_connection
       raise "#{cmd} failed" unless $?.exitstatus == 0

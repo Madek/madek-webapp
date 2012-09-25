@@ -25,6 +25,17 @@ namespace :madek do
       PersonasDBHelper.load_and_migrate_persona_data
     end
 
+    task :clean_setup do
+      Rails.env = 'personas'
+      Rake::Task["db:drop"].invoke
+      Rake::Task["db:create"].invoke
+      Rails.env = 'test'
+      Rake::Task["db:drop"].invoke
+      Rake::Task["db:create"].invoke
+      Rake::Task["db:migrate"].invoke
+      Rake::Task["madek:test:setup"].invoke
+    end
+
     task :rspec do
       system "bundle exec rspec --format d --format html --out tmp/html/rspec.html spec"
       exit_code = $?.exitstatus
