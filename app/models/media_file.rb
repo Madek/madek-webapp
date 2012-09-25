@@ -229,7 +229,16 @@ class MediaFile < ActiveRecord::Base
             if previews.create(:content_type => content_type, :filename => File.basename(path), :width => w.to_i, :height => h.to_i, :thumbnail => 'large')
               # Link the file to a symlink inside of public/ so that Apache serves the preview file, otherwise
               # it would become far too hard to support partial content (status 206) and ranges (for seeking in media files)
-              File.symlink(path, Rails.root + "public/previews/#{File.basename(path)}")
+              # This is an evil hack to determine if we have to symlink to 'current' instead of 'releases/#{timestamp}'
+              # Ideally, we would instead make the THUMBNAIL_STORAGE_DIR available under public/previews
+              # and/or save an absolute path to a potentially entirely different directory for the previews somewhere
+              if Rails.root.to_s.split("/").include?("releases") # If we're under "releases", we were probably deployed with Capistrano
+                directory_prefix = Rails.root + "../../current/public/previews"
+              else
+                directory_prefix = Rails.root + "public/previews"
+              end
+
+              File.symlink(path, "#{directory_prefix}/#{File.basename(path)}")
               return true
             else
               return false
