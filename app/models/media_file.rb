@@ -83,15 +83,27 @@ class MediaFile < ActiveRecord::Base
     update_attributes(:meta_data => meta_data)
   end
 
-# The final resting place of the media file. consider it permanent storage.
-# basing the shard on (some non-zero) part of the guid gives us a trivial 'storage balancer' which completely ignores
-# any size attributes of the file, and distributes amongst directories pseudorandomly (which in practice averages out in the long-term).
-# 
+  # String with the UNIX path to the sharded location of this media file.
+  # Files should *not* be in a publicly-accessible location, instead, they are served through
+  # some X-Sendfile implementation of your web server.
+  #
+  # Basing the shard on (some non-zero) part of the guid gives us a trivial 'storage balancer' which completely ignores
+  # any size attributes of the file, and distributes amongst directories pseudorandomly (which in practice averages out in the long-term).
+  #
+  # @return [String] UNIX path to the media file.
+  # @example
+  #   "/home/rails/madek/releases/20120920155659/db/media_files/attachments/b/bcd1eb0a90d9404b8e8ac689b18b45bd"
+  
   def file_storage_location
     File.join(FILE_STORAGE_DIR, shard, guid)
   end
 
-# remember, thumbnails *could* be on a faster storage medium than original files.
+  # The first portion of the UNIX path to the sharded location of the thumbnail for this media file.
+  # Thumbnails should be in a publicly-accessible location so that e.g. Apache can serve them up.
+  # Thumbnail sare also thought of as "previews", so consider that this might be a 200 MB video file as well as tiny PNGs.
+  # @return [String] Beginning of the UNIX path to potential thumbnails, ending in the guid of the file.
+  # @example
+  #   "/home/rails/madek/releases/20120920155659/public/previews/b/bcd1eb0a90d9404b8e8ac689b18b45bd"
   def thumbnail_storage_location
     File.join(THUMBNAIL_STORAGE_DIR, shard, guid)
   end
