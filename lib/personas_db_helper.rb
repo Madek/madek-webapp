@@ -19,14 +19,15 @@ module PersonasDBHelper
       persona_config = check_for_persona_db_config
       persona_database_name = persona_config['database']
       ActiveRecord::Base.connection_pool.disconnect!
-      ActiveRecord::Base.establish_connection(persona_config)
+      DBHelper.terminate_open_connections Rails.configuration.database_configuration[Rails.env]
       DBHelper.drop(Rails.configuration.database_configuration[Rails.env])
       if SQLHelper.adapter_is_postgresql?
         DBHelper.create_from_template(Rails.configuration.database_configuration[Rails.env],persona_config)
       else
+        ActiveRecord::Base.establish_connection(persona_config) 
         DBHelper.create_from_template_for_mysql(Rails.configuration.database_configuration[Rails.env], {:template_config => persona_config})
+        ActiveRecord::Base.connection_pool.disconnect! 
       end
-      ActiveRecord::Base.connection_pool.disconnect!
       ActiveRecord::Base.establish_connection(Rails.configuration.database_configuration[Rails.env])
     end
 

@@ -17,6 +17,12 @@ namespace :madek do
       DBHelper.reset_autoinc_sequences Constants::ALL_TABLES
     end
 
+    desc "Terminate all open connections"
+    task :terminate_open_connections => :environment do
+      DBHelper.terminate_open_connections Rails.configuration.database_configuration[Rails.env]
+    end
+    task :kill => :terminate_open_connections
+
     desc "Dump the database from whatever DB to YAML"
     task :dump_to_yaml => :environment do
       data_hash = DBHelper.create_hash Constants::ALL_TABLES
@@ -43,6 +49,7 @@ namespace :madek do
 
     desc "Restore the database from native adapter format" 
     task :restore => :environment do
+      DBHelper.terminate_open_connections Rails.configuration.database_configuration[Rails.env]
       puts "dropping the db" 
       Rake::Task["db:drop"].invoke
       puts "creating the db"  
