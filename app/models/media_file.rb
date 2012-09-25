@@ -233,9 +233,12 @@ class MediaFile < ActiveRecord::Base
               # and/or save an absolute path to a potentially entirely different directory for the previews somewhere
               if Rails.root.to_s.split("/").include?("releases") # If we're under "releases", we were probably deployed with Capistrano
                 directory_prefix = Rails.root + "../../current/public/previews"
+                path = path.gsub!(/releases\/\d+/,"current")
               else
                 directory_prefix = Rails.root + "public/previews"
               end
+
+
 
               File.symlink(path, "#{directory_prefix}/#{File.basename(path)}")
               return true
