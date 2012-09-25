@@ -165,7 +165,6 @@ class MediaFile < ActiveRecord::Base
 
 
   def retrieve_encoded_files
-    require Rails.root + 'lib/encode_job'
     paths = []
     thumbnail_paths = []
 
@@ -466,7 +465,6 @@ class MediaFile < ActiveRecord::Base
     if force == true or job_id.blank?
       begin
         # submit http://this_host/download?media_file_id=foo&access_hash=bar
-        require Rails.root + 'lib/encode_job'
         job = EncodeJob.new
       rescue Exception => e  
         logger.error("Encode job handling failed with exception: #{e.message}")
@@ -499,7 +497,6 @@ class MediaFile < ActiveRecord::Base
     if self.job_id.blank?
       return false
     else
-      require Rails.root + 'lib/encode_job'
       begin
         job = EncodeJob.new(self.job_id)
         return job.finished?
@@ -514,7 +511,6 @@ class MediaFile < ActiveRecord::Base
       return 0
     else
       begin
-        require Rails.root + 'lib/encode_job'
         job = EncodeJob.new(self.job_id)
         return job.progress['progress'].to_f
       rescue Exception => e  
