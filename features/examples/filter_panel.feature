@@ -30,9 +30,11 @@ Feature: Filter panel
   @javascript
   Scenario: Behavior when selecting a filter
     When I select a value to filter by
-    Then I see all the values that can be filtered or not filtered by
+    Then I see all the values that can still be used as additional filters
+     And all values that have no results disappear
     When I deselect the value
-    Then all values that have no results disappear
+    Then I see all the values that can still be used as additional filters
+     And all previously disappeared values are reappearing
 
   @javascript
   Scenario: Rules for when a MetaKey is displayed in the filter panel
