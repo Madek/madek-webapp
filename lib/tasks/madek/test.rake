@@ -29,11 +29,27 @@ namespace :madek do
       Rails.env = 'personas'
       Rake::Task["db:drop"].invoke
       Rake::Task["db:create"].invoke
+
       Rails.env = 'test'
       Rake::Task["db:drop"].invoke
       Rake::Task["db:create"].invoke
       Rake::Task["db:migrate"].invoke
       Rake::Task["madek:test:setup"].invoke
+    end
+
+    task :setup_cidbs do
+      base_config = YAML.load_file Rails.root.join "config","database_jenkins.psql.yml"
+      if ENV['CI_TEST_NAME'] 
+        base_config['personas']['database'] =  base_config['personas']['database'] + "_" + ENV['CI_TEST_NAME'] 
+        base_config['test']['database'] =  base_config['test']['database'] + "_" + ENV['CI_TEST_NAME']
+      end
+      File.open(Rails.root.join('config','database.yml'),'w'){ |f| f.write base_config.to_yaml}
+       ['personas','test'].each do |name|
+         db_name = base_config[name]['database']
+         DBHelper.set_pg_env base_config[name]
+         system "psql -d template1 -c 'DROP DATABASE IF EXISTS #{db_name};'"
+         system "psql -d template1 -c \"CREATE DATABASE #{db_name} WITH ENCODING 'utf8' TEMPLATE template0;\""
+       end
     end
 
     task :rspec do
