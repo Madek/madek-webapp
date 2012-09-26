@@ -45,6 +45,18 @@ Feature: Login
     | create set |
     | create filter set |
 
+  Scenario: Context actions on the filter set detail view
+    When I open a filter set that I can edit which has children
+    Then I can open the context actions drop down and see the following actions in the following order:
+    | action |
+    | edit |
+    | favorite |
+    | permissions |
+    | add to set |
+    | save display settings |
+    | create set |
+    | delete |
+
   @javascript
   Scenario: Context actions on the group page
     When I click the arrow next to my name

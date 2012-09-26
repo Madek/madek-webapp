@@ -32,7 +32,7 @@ Feature: Filter panel
     When I select a value to filter by
     Then I see all the values that can be filtered or not filtered by
     When I deselect the value
-    Then none of the values are deactivated
+    Then all values that have no results disappear
 
   @javascript
   Scenario: Rules for when a MetaKey is displayed in the filter panel
