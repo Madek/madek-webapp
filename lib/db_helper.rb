@@ -11,7 +11,7 @@ module DBHelper
 
     def file_extension
       if SQLHelper.adapter_is_postgresql? 
-        "pgbin"
+        "pgsql.gz"
       elsif SQLHelper.adapter_is_mysql?
         "mysql"
       else 
@@ -50,26 +50,52 @@ module DBHelper
           "mysql #{get_mysql_cmd_credentials config} -e 'drop database if exists #{config['database']}' "
         end
       ActiveRecord::Base.remove_connection
+      terminate_open_connections config
       system cmd
       ActiveRecord::Base.establish_connection
       raise "#{cmd} failed" unless $?.exitstatus == 0
       $?
     end
 
-    def create config = Rails.configuration.database_configuration[Rails.env]
-      cmd=
-        if SQLHelper.adapter_is_postgresql?
-          set_pg_env config
-          "createdb #{config['database']}"
-        elsif SQLHelper.adapter_is_mysql?
-          "mysql #{get_mysql_cmd_credentials config} -e 'create database #{config['database']}'"
-              end
-      ActiveRecord::Base.remove_connection
+    def create_from_template config, template_config
+      unless  SQLHelper.adapter_is_postgresql?
+        raise "not supported"
+      end
+      set_pg_env template_config
+      cmd = "psql -q -c 'CREATE DATABASE #{config['database']} TEMPLATE = #{template_config['database']}'"
       system cmd
-      ActiveRecord::Base.establish_connection
-      raise "#{cmd} failed" unless $?.exitstatus == 0
-      $?
     end
+
+    def create_from_template_for_mysql config = Rails.configuration.database_configuration[Rails.env], options = {}
+      template_config = options[:template_config]
+      DBHelper.dump_native({:config => template_config, :path => Rails.root + 'tmp/template_dump.mysql'})
+      cmd = "mysql #{get_mysql_cmd_credentials config} -e 'create database #{config['database']}'"
+      system(cmd)
+      result = DBHelper.restore_native(Rails.root + 'tmp/template_dump.mysql', config)
+      return result
+    end
+
+    ###########################################################################
+    # admin
+    ###########################################################################
+
+    def terminate_open_connections config
+      if SQLHelper.adapter_is_postgresql?
+        set_pg_env config
+        cmd = "psql template1 -c \"SELECT pg_terminate_backend(pg_stat_activity.procpid) FROM pg_stat_activity WHERE pg_stat_activity.datname = '#{config['database']}';\""
+        Open3.popen3(cmd) do |stdin,stdout,stderr,thread|
+          if thread.value.exitstatus == 0
+            {status: thread.value.exitstatus, output: stdout.gets}
+          else
+            {status: thread.value.exitstatus, output: "failed"}
+          end
+        end
+      end
+    end
+
+    ###########################################################################
+    # dump and restore
+    ###########################################################################
 
     def dump_native options = {}
       path = options[:path] || dump_file_path
@@ -77,15 +103,14 @@ module DBHelper
       cmd =
         if SQLHelper.adapter_is_postgresql?
           set_pg_env config
-          "pg_dump -E utf-8 -F c -f #{path}"
+          binding.pry
+          "pg_dump -E utf-8 -F p -Z 5 -O --no-acl -f #{path}"
         elsif SQLHelper.adapter_is_mysql? 
           "mysqldump #{get_mysql_cmd_credentials config} #{config['database']} > #{path}"
         else
           raise "adapter not supported"
         end
-      ActiveRecord::Base.remove_connection
       system cmd
-      ActiveRecord::Base.establish_connection
       raise "#{cmd} failed" unless $?.exitstatus == 0
       {path: path, return_value: $?}
     end
@@ -95,13 +120,14 @@ module DBHelper
       cmd =
         if SQLHelper.adapter_is_postgresql?
           set_pg_env config
-          "pg_restore -d #{config['database'].to_s}  #{path}"
+          "cat #{path} | gunzip | psql -q #{config['database'].to_s}"
         elsif SQLHelper.adapter_is_mysql? 
           cmd = "mysql #{get_mysql_cmd_credentials config} #{config['database']} < #{path}"
         else
           raise "adapter not supported"
         end
       ActiveRecord::Base.remove_connection
+      terminate_open_connections config
       system cmd
       ActiveRecord::Base.establish_connection
       raise "#{cmd} failed" unless $?.exitstatus == 0
@@ -161,6 +187,20 @@ module DBHelper
       end
     end
 
+    def reset_autoinc_sequences tables, env = nil
+      if env
+        dbconf = YAML::load_file Rails.root.join('config','database.yml')
+        ActiveRecord::Base.remove_connection
+        ActiveRecord::Base.establish_connection dbconf[env]
+      end
+ 
+      table_name_models = table_name_to_table_names_models tables
+      tables.each do |table_name|
+        model = table_name_models[table_name] || table_name_models[table_name.to_s]
+        SQLHelper.reset_autoinc_sequence_to_max model if model.attribute_names.include? "id"
+      end
+    end
+
     ###########################################################################
     # Transfer
     ###########################################################################
@@ -169,6 +209,28 @@ module DBHelper
       import_hash h, tables, target_env
     end
 
+    ###########################################################################
+    # Compare
+    ###########################################################################
+
+    def compare tables, source_env, target_env
+      source_h = create_hash tables, source_env
+      target_h = create_hash tables, target_env
+      if source_h == target_h
+        puts "the databases have equal content"
+      else
+        puts "the databases differ"
+        puts deep_diff(source_h,target_h).to_yaml
+      end
+    end
+
+    def deep_diff d1, d2
+      if d1.is_a? Hash and d2.is_a? Hash
+        d1.select {|k| d1[k] != d2[k] }.map{ |k,v| {k => deep_diff(d1[k],d2[k])}}
+      elsif d1.is_a? Array and d2.is_a? Array
+        (d1 | d2) - ( d1 & d2)
+      end
+    end
 
     private 
 

@@ -75,9 +75,8 @@ end
 
 When /^a set has a cover$/ do
   @user = User.first
-  @media_set = MediaResource.media_sets.accessible_by_user(@user, :edit).first
-  @media_entry = MediaResource.media_entries.accessible_by_user(@user).first
-  @media_set.children << @media_entry
+  @media_set = MediaResource.media_sets.accessible_by_user(@user, :edit).detect{|ms| ms.out_arcs.where(:cover => true) }
+  @media_entry = @media_set.out_arcs.where(:cover => true).first.child
 end
 
 Then /^that cover is displayed$/ do

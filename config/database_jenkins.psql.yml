@@ -1,0 +1,13 @@
+test: 
+  adapter: postgresql
+  database: madek_next_test
+  encoding: utf8
+  username: jenkins
+  password: jenkins
+
+personas: 
+  adapter: postgresql
+  database: madek_next_test_personas
+  encoding: utf8
+  username: jenkins
+  password: jenkins

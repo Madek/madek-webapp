@@ -4,7 +4,24 @@ namespace :madek do
     desc "Transfer the data from on SOURCE env TARGET env (env is anything defined in config/database.yml)"
     task :transfer => :environment do
       DBHelper.transfer Constants::ALL_TABLES, ENV['SOURCE'], ENV['TARGET']
+      DBHelper.reset_autoinc_sequences Constants::ALL_TABLES
     end
+
+    desc "Compare the data in the SOURCE env TARGET env (env is anything defined in config/database.yml)"
+    task :compare => :environment do
+      DBHelper.compare Constants::ALL_TABLES, ENV['SOURCE'], ENV['TARGET']
+    end
+
+    desc "Reset the autoinc values" 
+    task :reset_auto_inc => :environment do
+      DBHelper.reset_autoinc_sequences Constants::ALL_TABLES
+    end
+
+    desc "Terminate all open connections"
+    task :terminate_open_connections => :environment do
+      DBHelper.terminate_open_connections Rails.configuration.database_configuration[Rails.env]
+    end
+    task :kill => :terminate_open_connections
 
     desc "Dump the database from whatever DB to YAML"
     task :dump_to_yaml => :environment do
@@ -26,11 +43,13 @@ namespace :madek do
 
     desc "Dump the database in the native adapter format"
     task :dump => :environment do
-      DBHelper.dump_native config: Rails.configuration.database_configuration[Rails.env]
+      res = DBHelper.dump_native config: Rails.configuration.database_configuration[Rails.env]
+      puts "the data has been dumped into #{res[:path]}"
     end
 
     desc "Restore the database from native adapter format" 
     task :restore => :environment do
+      DBHelper.terminate_open_connections Rails.configuration.database_configuration[Rails.env]
       puts "dropping the db" 
       Rake::Task["db:drop"].invoke
       puts "creating the db"  
@@ -40,7 +59,30 @@ namespace :madek do
 
     desc "Restore Personas DB (and migrate to the maximal migration version if necessary)"
     task :restore_personas  => :environment do
-      PersonasDBHelper.restore_personas_to_max_migration
+      PersonasDBHelper.clone_persona_to_test_db
+    end
+
+
+    desc "Fetch the current dump of the personas db(Postgres only)" 
+    task :fetch_personas do
+      Open3.popen3('ssh madek-personas@madek-server "cd current;RAILS_ENV=production bundle exec rake madek:db:dump"') do |stdin,stdout,stderr,thread|
+        if thread.value.exitstatus == 0
+          s = stdout.gets
+          dumpfile = s.split(/\s/).last
+          target_file =  Rails.root.join 'db','empty_medienarchiv_instance_with_personas.pgsql.gz'
+          Open3.popen3("scp madek-personas@madek-server:#{dumpfile} #{target_file}") do |stdin,stdout,stderr,thread|
+            if thread.value.exitstatus == 0
+              puts "the db has been fetched into #{target_file}"
+            else
+              puts "copying the dump from the remote machine failed"
+              -1
+            end
+          end
+        else
+          puts "dumping the database on the remote server failed with #{stderr}"
+          -1
+        end
+      end
     end
 
   end

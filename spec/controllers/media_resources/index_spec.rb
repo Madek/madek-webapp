@@ -447,30 +447,30 @@ describe MediaResourcesController do
       end
     
       it "should respond with success" do
-        post :filter, {format: 'json', filter: {ids: media_resource_ids.join(',')} }, session
+        get :index, {format: 'json'}, session
         response.should  be_success
       end
       it "should filter only type MediaEntry" do
-        post :filter, {format: 'json', type: "media_entries", filter: {ids: media_resource_ids.join(',')} }, session
+        get :index, {format: 'json', type: "media_entries"}, session
         json = JSON.parse(response.body)
         json["pagination"]["total"].should == MediaEntry.count
         json["media_resources"].collect {|x| x["type"]}.uniq.should == ["media_entry"]
       end
       it "should filter only type MediaSet" do
-        post :filter, {format: 'json', type: "media_sets", filter: {ids: media_resource_ids.join(',')} }, session
+        get :index, {format: 'json', type: "media_sets"}, session
         json = JSON.parse(response.body)
         json["pagination"]["total"].should == MediaSet.count
         json["media_resources"].collect {|x| x["type"]}.uniq.should == ["media_set"]
       end
-      it "should filter exactly the one MediaResource" do
-        mr_id = media_resource_ids.first
-        post :filter, {format: 'json', filter: {ids: Array(mr_id).join(',')} }, session
+      it "should filter exactly the specific MediaResources" do
+        mr_ids = media_resource_ids.shuffle[0, 5]
+        get :index, {format: 'json', ids: mr_ids }, session
         json = JSON.parse(response.body)
-        json["pagination"]["total"].should == 1
-        json["media_resources"].first["id"].should == mr_id
+        json["pagination"]["total"].should == 5
+        json["media_resources"].map{|x| x["id"]}.sort.should == mr_ids.sort
       end
       it "should filter only MediaResources with image as MediaFile" do
-        post :filter, {format: 'json', filter: {ids: media_resource_ids.join(',')}, MediaEntry: {media_type: ["Image"]} }, session
+        get :index, {format: 'json', media_file: {content_type: ["Image"]} }, session
         json = JSON.parse(response.body)
         json["pagination"]["total"].should == MediaEntry.joins(:media_file).where("media_files.content_type LIKE '%image%'").count
         json["media_resources"].collect {|x| x["type"]}.uniq.should == ["media_entry"]
@@ -479,13 +479,13 @@ describe MediaResourcesController do
         landscape, vertical, square = ["<", ">", "="].map do |operator|
           MediaEntry.joins(:media_file).where("media_files.height #{operator} media_files.width").count
         end
-        post :filter, {format: 'json', filter: {ids: media_resource_ids.join(',')}, MediaEntry: {media_type: ["Image"], orientation: 0} }, session
+        get :index, {format: 'json', ids: media_resource_ids, media_file: {content_type: ["Image"], orientation: 0} }, session
         json = JSON.parse(response.body)
         json["pagination"]["total"].should == landscape
-        post :filter, {format: 'json', filter: {ids: media_resource_ids.join(',')}, MediaEntry: {media_type: ["Image"], orientation: 1} }, session
+        get :index, {format: 'json', ids: media_resource_ids, media_file: {content_type: ["Image"], orientation: 1} }, session
         json = JSON.parse(response.body)
         json["pagination"]["total"].should == vertical
-        post :filter, {format: 'json', filter: {ids: media_resource_ids.join(',')}, MediaEntry: {media_type: ["Image"], orientation: [0, 1]} }, session
+        get :index, {format: 'json', ids: media_resource_ids, media_file: {content_type: ["Image"], orientation: [0, 1]} }, session
         json = JSON.parse(response.body)
         json["pagination"]["total"].should == square
       end

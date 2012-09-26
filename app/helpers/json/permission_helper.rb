@@ -36,7 +36,7 @@ module Json
         h[:you][:id] = current_user.id
       end
       
-      if (with = params[:with])
+      if with ||= nil
         # OWNERS
         if with[:owners] and with[:owners].to_s == "true" # OPTIMIZE boolean check
           h[:owners] = media_resources.map(&:user).uniq.map do |user|

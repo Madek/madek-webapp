@@ -35,12 +35,15 @@ Feature: Login
     | create set |
     | delete |
 
+  # https://www.pivotaltracker.com/story/show/33961905
   @javascript
   Scenario: Context actions on the search result page
-    #When ...
-    #Then I can open the context actions drop down and see the following actions in the following order:
-    #| action |
-    #| create intelligent set |
+    When I see some search results
+    Then I can open the context actions drop down and see the following actions in the following order:
+    | action |
+    | import |
+    | create set |
+    | create filter set |
 
   @javascript
   Scenario: Context actions on the group page

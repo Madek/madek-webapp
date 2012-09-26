@@ -1,0 +1,37 @@
+.block
+  %h3 Medientyp und Format
+  %ul
+    %h5.filter_subcategory.filter_category.clearfix
+      %span.input_wrapper
+        %input{:type => "checkbox", :name => "filter[media_file][content_type][]", :value => "Image"}
+        Bild
+    .filter_content
+      %ul
+        %li
+          Querformat
+          %input{:type => "checkbox", :name => "filter[media_file][orientation]", :value => "0"}
+        %li
+          Hochformat
+          %input{:type => "checkbox", :name => "filter[media_file][orientation]", :value => "1"}
+      %ul
+        %li
+          Breite:
+          %select{:name => "filter[media_file][width][operator]"}
+            %option{:value => ""}
+            %option{:value => "is"} ist genau
+            %option{:value => "gt"} grösser als
+            %option{:value => "lt"} kleiner als
+          %input{:type => "text", :name => "filter[media_file][width][value]", :size => 5}
+          %span
+            Pixel
+        %li
+          Höhe:
+          %select{:name => "filter[media_file][height][operator]"}
+            %option{:value => ""}
+            %option{:value => "is"} ist genau
+            %option{:value => "gt"} grösser als
+            %option{:value => "lt"} kleiner als
+          %input{:type => "text", :name => "filter[media_file][height][value]", :size => 5}
+          %span
+            Pixel
+  

@@ -74,7 +74,7 @@ end
 # There's a summary of the fuckedupness here: https://github.com/cucumber/cucumber-rails/issues/166
 Before('@javascript, ~@transactional') do
   DatabaseCleaner.strategy = :truncation
-  PersonasDBHelper.restore_personas_to_max_migration
+  PersonasDBHelper.clone_persona_to_test_db
 end
 
 After('@javascript, ~@transactional') do

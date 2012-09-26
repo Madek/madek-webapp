@@ -167,6 +167,12 @@
     width: 16px;
   }
 
+  &.loading.white {
+    background: url(image-path("loading_white.gif"));
+    height: 16px;
+    width: 16px;
+  }
+
   &.list_toggle {
     &.closed {
       background-position: -34px -394px;
@@ -178,6 +184,18 @@
       height: 16px;
       width: 16px;
     }
+  }
+
+  &.filter {
+      background-position: -34px -428px;
+      height: 13px;
+      width: 16px;
+  }
+
+  &.search.white {
+    background-position: -18px -394px;
+    height: 14px;
+    width: 15px;
   }
 }
 

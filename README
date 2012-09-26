@@ -1,4 +1,4 @@
-== MAdeK ==
+= MAdeK
 
 MAdeK is short for 'Medienarchiv der Künste', a project at the Zürich University of the Arts.
 
@@ -13,20 +13,20 @@ end of 2011.
 See you then!
 
 
-= Installation (for the brave) =
+== Installation (for the brave)
 
 If you want to try to install this, here's some hints (we won't have a complete installation guide
 until 2012):
 
- * Install ExifTool, ImageMagick
- * Grab the MAdeK source
- * Adapt the paths etc. in config/application.rb. You'll have to point at a few binaries as installed
-   on your system. 
- * cd into your MAdeK directory
- * Create (or copy from the samples) config/database.yml
- * bundle install
- * rake db:create db:migrate
- * open your browser and visit /admin/setup
+* Install ExifTool, ImageMagick
+* Grab the MAdeK source
+* Adapt the paths etc. in config/application.rb. You'll have to point at a few binaries as installed
+  on your system. 
+* cd into your MAdeK directory
+* Create (or copy from the samples) config/database.yml
+* bundle install
+* rake db:create db:migrate
+* open your browser and visit /admin/setup
 
 That should get you up and running.
 

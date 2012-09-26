@@ -2,6 +2,7 @@ module Json
   module MetaContextHelper
 
     def hash_for_meta_context(meta_context, with = nil)
+
       h = {
         name: meta_context.name,
         label: meta_context.label.to_s,

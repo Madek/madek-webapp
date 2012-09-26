@@ -1,3 +1,5 @@
+# -*- encoding : utf-8 -*-
+
 module Json
   module MediaResourceHelper
 
@@ -18,7 +20,7 @@ module Json
             when "base64"
               media_resource.get_media_file(current_user).try(:thumb_base64, size)
             else # default return is a url to the image
-              "/media_resources/%d/image?size=%s" % [media_resource.id, size]
+              image_media_resource_path(media_resource, :size => size)
           end            
         end
         
@@ -126,6 +128,115 @@ module Json
       }
     end
 
+    def hash_for_filter(media_resources)
+      r = []
+      
+      # OPTIMIZE this is not construct over media_resources
+      r << {
+        :label => "Berechtigungen, Ich bin...",
+        :name => "preset",
+        :filter_type => "permissions",
+        :filter_logic => "OR",
+        :terms => begin
+          permission_presets = PermissionPreset.where (Constants::Actions.reduce(" false ") { |s,action| s + " OR #{action} = true" })
+          permission_presets.map do |pp|
+            { :id => pp.id, :value => pp.name }
+          end
+        end 
+      }
+      
+      r << {
+        :label => "Eigentümer/in",
+        :name => "owner",
+        :filter_type => "permissions",
+        :filter_logic => "OR",
+        :terms => begin
+          owners = User.includes(:person)
+            .where("users.id in (#{media_resources.select("media_resources.user_id").to_sql}) ")
+            .order("people.lastname, people.firstname DESC")
+          owners.map do |owner|
+            { :id => owner.id, :value => owner.to_s }
+          end
+        end 
+      }
+      
+      r << {
+        :label => "Arbeitsgruppen",
+        :name => "group",
+        :filter_type => "permissions",
+        :filter_logic => "OR",
+        :terms => begin
+          sub = MediaResource.grouppermissions_not_disallowed(current_user, :view).
+                        where("grouppermissions.media_resource_id in (#{media_resources.select("media_resources.user_id").to_sql}) ").
+                        select("grouppermissions.group_id")
+          groups = Group.where( %Q< groups.id in (#{sub.to_sql})>).order("name ASC")
+          groups.map do |group|
+            { :id => group.id, :value => group.to_s }
+          end
+        end 
+      }
+      
+      meta_datum_object_types = ["MetaDatumMetaTerms", "MetaDatumKeywords", "MetaDatumDepartments"]
+      meta_datum_object_types.each do |meta_datum_object_type|
+        sql_select, sql_join, sql_group = case meta_datum_object_type
+          when "MetaDatumKeywords"
+            [%Q(meta_terms.id, meta_terms.#{DEFAULT_LANGUAGE} as value),
+             %Q(INNER JOIN keywords ON keywords.meta_datum_id = meta_data.id
+                INNER JOIN meta_terms ON keywords.meta_term_id = meta_terms.id),
+             %Q(meta_terms.id)]
+          when "MetaDatumDepartments"
+            [%Q(groups.id, groups.name AS value),
+             %Q(INNER JOIN meta_data_meta_departments ON meta_data_meta_departments.meta_datum_id = meta_data.id
+                INNER JOIN groups ON meta_data_meta_departments.meta_department_id = groups.id),
+             %Q(groups.id)]
+          else
+            [%Q(meta_terms.id, meta_terms.#{DEFAULT_LANGUAGE} as value),
+             %Q(INNER JOIN meta_data_meta_terms ON meta_data_meta_terms.meta_datum_id = meta_data.id
+                INNER JOIN meta_terms ON meta_data_meta_terms.meta_term_id = meta_terms.id),
+             %Q(meta_terms.id)]
+        end
+        sql = %Q( SELECT meta_contexts.name AS context_name, 
+                    meta_keys.label AS name, 
+                    mt2.#{DEFAULT_LANGUAGE} AS label,
+                    COUNT(meta_data.media_resource_id) AS count,
+                    #{sql_select}
+                  FROM meta_contexts
+                     INNER JOIN meta_key_definitions ON meta_key_definitions.meta_context_id = meta_contexts.id
+                     INNER JOIN meta_terms mt2 ON meta_key_definitions.label_id = mt2.id
+                     INNER JOIN meta_keys ON meta_key_definitions.meta_key_id = meta_keys.id
+                     INNER JOIN meta_data ON meta_data.meta_key_id = meta_keys.id
+                     #{sql_join}
+                  WHERE meta_keys.meta_datum_object_type = '#{meta_datum_object_type}'
+                  AND meta_contexts.meta_context_group_id IS NOT NULL
+                  AND meta_data.media_resource_id IN (#{media_resources.select("media_resources.id").to_sql})
+                  GROUP BY #{sql_group}, meta_contexts.name, meta_keys.label, mt2.#{DEFAULT_LANGUAGE} )
+        query = ActiveRecord::Base.connection.execute sql
+        fields = {}
+        if SQLHelper.adapter_is_postgresql?
+          query.fields.each_with_index {|field, index| fields[field.to_sym] = field }
+        else
+          query.fields.each_with_index {|field, index| fields[field.to_sym] = index }
+        end
+        grouped_query = query.group_by {|x| [x[fields[:context_name]], x[fields[:name]], x[fields[:label]]]}
+        grouped_query.each_pair do |k, v|
+          next if r.map{|x| x[:name]}.include?(k[1]) # TODO ignoring multiple meta_contexts for the same meta_key, delete when we want the 3-level filter panel
+          r << { :context_name => k[0],
+                 :name => k[1],
+                 :label => k[2],
+                 :filter_type => "meta_data",
+                 :terms => v.map do |vv|
+                   { :id => vv[fields[:id]],
+                     :value => vv[fields[:value]],
+                     :count => vv[fields[:count]]
+                   }
+                 end.sort {|a,b| [b[:count], a[:value]] <=> [a[:count], b[:value]] }
+               }
+        end
+      end
+
+      r
+    end
+    
     ###########################################################################
 
     def hash_for_media_resource_arc(media_resource_arc, with = nil)

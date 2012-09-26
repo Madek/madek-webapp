@@ -1,0 +1,3 @@
+-o doc/app
+--exclude /features
+--exclude /spec

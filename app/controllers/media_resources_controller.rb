@@ -25,18 +25,23 @@ class MediaResourcesController < ApplicationController
 ###################################################################################
 
   ##
-  # Get a collection of MediaResources
+  # Get a list of MediaResources
   # 
   # @resource /media_resources
   #
   # @action GET
   # 
-  # @optional [Array] ids A collection of MediaResources you want to fetch informations for.
+  # @optional [String] sort Sort the response (DESC) by: "updated_at"(Default) | "created_at".
   #
+  # @optional [Array] ids A collection of MediaResources you want to fetch informations for.
   # @optional [String] type Filter the response by MediaResource types: "media_sets" | "media_entries".
-  # @optional [String] sort Sort the response (DESC) by: "updated_at"(Default) | "created_at" | "random".
-  # @optional [String] query Make a search request which searches in all MetaData of all MediaResources responding with matched MediaResources.
+  # @optional [String] search Make a search request which searches in all MetaData of all MediaResources responding with matched MediaResources.
   # @optional [String] accessible_action Narrow down the result of MediaResources to the defined accessible_action ("view" | "edit" | "manage" | "download")
+  # @optional [Boolean] favorites Lists the favorites only.
+  #
+  # @optional [String] with_filter Request the possible filters data that can be applied for the filtered MediaResources: "false"(Default) | "true" | "only".
+  # @optional [Array] meta_data[>>type<<][ids] Filter the responding MediaResources by applying one or multiple ids of a specific type of MetaData (intersection of multiple filters and ids).
+  # @optional [Array] permissions[preset|owner|group][ids] Filter the responding MediaResources by applying one or multiple ids of a specific type of Permissions (union of multiple filters and ids).
   #
   # @optional [Hash] with[meta_data] Adds MetaData to the responding collection of MediaResources and forwards the hash as options to the MetaData.
   # @optional [Array] with[meta_data][meta_context_names] Adds all requested MetaContexts in the format: ["context_name1", "context_name2", ...] as MetaData to the responding MediaResources. 
@@ -45,6 +50,11 @@ class MediaResourcesController < ApplicationController
   # @optional [Boolean] with[filename] Request the filename of the MediaResources.
   # @optional [Boolean] with[media_type] Request the media_type of the MediaResources.
   # @optional [Boolean] with[flags] Request status indicator informations (about permissions and favorites related to the current user) for the responding MediaResources.
+  # @optional [Boolean] with[size] Request the size of the MediaFile of a particular MediaEntry.
+  # @optional [Hash|Boolean] with[children] Request the children of the responding MediaResources (Attention: they are paginated!). Option forwarding possible.
+  # @optional [Array] with[children][with] Forward with conditions to the children.
+  # @optional [Hash|Boolean] with[parents] Request the parents of the responding MediaResources (Attention: they are paginated!). Option forwarding possible.
+  # @optional [Array] with[parents][with] Forward with conditions to the parents.
   #
   # @response_field [Integer] id The id of the MediaResource  
   # @response_field [Hash] meta_data The MetaData of the MediaResource (To get a list of possible MetaData - or the schema - you have to consider the MetaDatum resource)
@@ -55,9 +65,11 @@ class MediaResourcesController < ApplicationController
   # @response_field [Boolean] is_shared The is_shared status.
   # @response_field [Boolean] is_editable The is_editable status.
   # @response_field [Boolean] is_managable The is_managable status.
-  # @response_field [Boolean] is_favorite The is_fa status.
+  # @response_field [Boolean] is_favorite The is_favorite status.
+  # @response_field [Integer] size The size of the MediaFile of a particular MediaEntry.
   # @response_field [Array] children The children of a MediaResource (only for MediaSets)..
   # @response_field [Array] parents The parents of a MediaResource.
+  # @response_field [Array] filter The filter that are applicable for the list of responding MediaResources.
   #
   # @example_request media_resources.json
   # @example_request_description Requesting the index of MediaResources without any attributes.
@@ -74,7 +86,7 @@ class MediaResourcesController < ApplicationController
   #     }
   #   }
   #   ```
-  # @example_response_description Responding with the index of media resources. Default sorting at on the update_at attribute latest first. You get 36 elements per page and informations about the current pagination.
+  # @example_response_description Responding with the index of media resources. Default sorting is on the update_at attribute latest first. You get 36 elements per page and informations about the current pagination.
   #
   #####
   #
@@ -157,7 +169,7 @@ class MediaResourcesController < ApplicationController
   # @example_request
   #   ```json
   #   {
-  #     "ids": [1],
+  #     "ids": [1]
   #     "with":{
   #       "image": {
   #         "as":"base64"
@@ -184,7 +196,7 @@ class MediaResourcesController < ApplicationController
   # @example_request
   #   ```json
   #   {
-  #     "ids": [1],
+  #     "ids": [1]
   #     "with":{
   #       "filename":true
   #     }
@@ -234,9 +246,7 @@ class MediaResourcesController < ApplicationController
   #
   # @example_request
   #   ```json
-  #   {
   #     "type":"media_sets"
-  #   }
   #   ``` 
   # @example_request_description Request MediaResources but only MediaSets.
   # @example_response
@@ -319,7 +329,7 @@ class MediaResourcesController < ApplicationController
   # @example_request
   #   ```json
   #   {
-  #     "query":"blue",
+  #     "search":"blue"
   #     "with": {
   #       "meta_context_names":["core"]
   #     }
@@ -462,7 +472,7 @@ class MediaResourcesController < ApplicationController
   # @example_request
   #   ```json
   #   {
-  #     "ids": [1],
+  #     "ids": [1]
   #     "with": {
   #       "children":{
   #         "pagination": {
@@ -548,98 +558,112 @@ class MediaResourcesController < ApplicationController
   #   ```  
   # @example_response_description MediaEntries and MediaSets are responding with parents. The parents uses a "nested" pagination for its own. If you want to controll the pagination inside the parents pass a "pagination" attribute to the children value (e.g. {"pagination":{"page":2}}). If you want to forward a "with" to the parents to request more nested informations just parse a Hash to the value containing the with informations (e.g. {"with":{"parents":{"with":{"media_type": true}}}}).
   #
-  def index(ids = (params[:collection_id] ? MediaResource.by_collection(current_user.id, params[:collection_id]) : params[:ids]),
-            type = params[:type],
+  #####
+  #
+  # @example_request
+  #   ```json
+  #   {
+  #     "with_filter": true;
+  #   }
+  #   ``` 
+  # @example_request_description Request MediaResources with applicable filters.
+  # @example_response
+  #   ```json
+  #   {
+  #     "media_resources": "[...]"
+  #     "filter": [
+  #       {
+  #         id: 9,
+  #         name: "keywords",
+  #         filter_type: "meta_data",
+  #         label: "Keywords for content and design",
+  #         terms: [
+  #           {
+  #             id: 4359,
+  #             value: "blueprint",
+  #             count: 1
+  #           }, {
+  #             id: 4811,
+  #             value: "world",
+  #             count: 2
+  #           }
+  #         ]
+  #       }
+  #     ] 
+  #   }
+  #   ```  
+  # @example_response_description The responding MediaResources can be filtered by "keywords". Two Keywords ("blueprint", "world") are applicable as filter for the current list of MediaResources.
+  #
+  #####
+  #
+  # @example_request
+  #   ```json
+  #   {
+  #     "meta_data": {
+  #       "keywords": {
+  #         "ids": [4359]
+  #       }
+  #     },
+  #     "with": {"meta_data": {"meta_key_names": ["keywords"]}}
+  #   }
+  #   ``` 
+  # @example_request_description Request MediaResources and apply a MetaData filter for the MetaDatumType "keywords" by id 4359.
+  # @example_response
+  #   ```json
+  #   {
+  #     "media_resources": [
+  #       {
+  #         "id": 8183,
+  #         "type": "media_entry",
+  #         "meta_data": [
+  #           {
+  #             "name": "keywords",
+  #             "value": "architect; blueprint; building;",
+  #             "raw_value": [
+  #               {
+  #                 "id": 2132,
+  #                 "label": "architect"
+  #               },{
+  #                 "id": 4359,
+  #                 "label": "blueprint"
+  #               },{
+  #                 "id": 51232,
+  #                 "label": "building"
+  #               }
+  #             ]
+  #           }
+  #         ]
+  #       }
+  #     ]
+  #   }
+  #   ```  
+  # @example_response_description The responding MediaResources are filtered by "keywords": "blueprint". So the results are containing that MetaData.
+  #
+  def index(with_filter = params[:with_filter],
             with = params[:with] || {},
-            top_level = params[:top_level],
-            user = (params[:user_id] ? User.find(params[:user_id]) : nil),
-            group = (params[:group_id] ? Group.find(params[:group_id]) : nil),
-            media_set_id = params[:media_set_id],
-            not_by_current_user = params[:not_by_current_user],
-            public = params[:public],
-            favorites = params[:favorites],
-            sort = params[:sort] ||= "updated_at",
-            query = params[:query],
+            sort = params[:sort],
             page = params[:page],
-            per_page = [(params[:per_page] || PER_PAGE.first).to_i, PER_PAGE.first].min,
-            meta_key_id = params[:meta_key_id],
-            accessible_action = params[:accessible_action],
-            meta_term_id = params[:meta_term_id] )
-            
-    respond_to do |format|
+            per_page = [(params[:per_page] || PER_PAGE.first).to_i, PER_PAGE.first].min)
 
+    MediaResourceModules::Filter::DEPRECATED_KEYS.each_pair {|k,v| params[k] ||= params.delete(v) if params[v] }
+    @filter = params.select {|k,v| MediaResourceModules::Filter::KEYS.include?(k.to_sym) }.delete_if {|k,v| v.blank?}.deep_symbolize_keys
+    
+    respond_to do |format|
       format.html
       format.json {
+        resources = MediaResource.filter(current_user, @filter).ordered_by(sort)
 
-        resources = if favorites == "true"
-            current_user.favorites
-          elsif media_set_id
-            media_set = MediaSet.find(media_set_id)
-            media_set.children
+        h = case with_filter
+          when "true"
+            view_context.hash_for_media_resources_with_pagination(resources, {:page => page, :per_page => per_page}, with, false).
+            merge({:filter => view_context.hash_for_filter(resources)})
+          when "only"
+            {:filter => view_context.hash_for_filter(resources)}
           else
-            MediaResource
-          end
-
-        resources = resources.where(:id => ids) if ids
-    
-        resources = case type
-          when "media_sets"
-            r = resources.where(:type => "MediaSet")
-            r = r.top_level if top_level
-            r
-          when "media_entries"
-            resources.where(:type => "MediaEntry")
-          when "media_entry_incompletes"
-            resources.where(:type => "MediaEntryIncomplete")
-          else
-            if ids
-              resources.where(:type => ["MediaEntry", "MediaSet", "MediaEntryIncomplete"])
-            else
-              resources.where(:type => ["MediaEntry", "MediaSet"])
-            end
-        end.accessible_by_user(current_user, accessible_action)
-        
-        case sort.to_s
-          when "author"
-            resources = resources.ordered_by_author
-          when "title"
-            resources = resources.ordered_by_title
-          when "updated_at", "created_at"
-            resources = resources.order("media_resources.#{sort} DESC")
-          when "random"
-            if SQLHelper.adapter_is_mysql?
-              resources = resources.order("RAND()")
-            elsif SQLHelper.adapter_is_postgresql? 
-              resources = resources.order("RANDOM()")
-            else
-              raise "SQL Adapter is not supported" 
-            end
+            view_context.hash_for_media_resources_with_pagination(resources, {:page => page, :per_page => per_page}, with, false)
         end
 
-        resources = resources.accessible_by_group(group) if group
-        
-        resources = resources.by_user(user) if user
-        # FIXME use presets and :manage permission
-        if not_by_current_user
-          resources = resources.not_by_user(current_user)
-          case public
-            when "true"
-              resources = resources.where(:view => true)
-            when "false"
-              resources = resources.where(:view => false)
-          end
-        end
-        
-        resources = resources.search(query) unless query.blank?
-
-        if meta_key_id and meta_term_id
-          meta_key = MetaKey.find(meta_key_id)
-          meta_term = meta_key.meta_terms.find(meta_term_id)
-          media_resource_ids = meta_term.meta_data(meta_key).collect(&:media_resource_id)
-          resources = resources.where(:id => media_resource_ids)
-        end
-
-        render json: view_context.hash_for_media_resources_with_pagination(resources, {:page => page, :per_page => per_page}, with).to_json
+        render json: h.to_json
       }
     end
   end
@@ -729,7 +753,7 @@ class MediaResourcesController < ApplicationController
 ###################################################################################
 
   ##
-  # Get the image of MediaResource:
+  # Get the image of a MediaResource:
   # 
   # @resource /media_resources/:id/image
   #
@@ -762,87 +786,6 @@ class MediaResourcesController < ApplicationController
       end
     end
   end  
-
-###################################################################################
-
-  # TODO merge search and filter methods ??
-  def filter(query = params[:query],
-             type = params[:type],
-             with = params[:with] || {},
-             page = params[:page],
-             per_page = (params[:per_page] || PER_PAGE.first).to_i,
-             meta_key_id = params[:meta_key_id],
-             meta_term_id = params[:meta_term_id],
-             filter = params[:filter] )
-
-    where_type = case type
-      when "media_sets"
-        "MediaSet"
-      when "media_entries"
-        "MediaEntry"
-      else
-        ["MediaEntry", "MediaSet"]
-    end
-    resources = MediaResource.accessible_by_user(current_user).where(:type => where_type)
- 
-    if request.post?
-
-      if meta_key_id and meta_term_id
-        meta_key = MetaKey.find(meta_key_id)
-        meta_term = meta_key.meta_terms.find(meta_term_id)
-        media_resource_ids = meta_term.meta_data(meta_key).collect(&:media_resource_id)
-      else
-        if params["MediaEntry"] and params["MediaEntry"]["media_type"]
-          resources = resources.filter_media_file(params["MediaEntry"])
-        end
-        media_resource_ids = filter[:ids].split(',').map(&:to_i) 
-      end
-  
-      resources = resources.where(:id => media_resource_ids)
-
-      unless params[:owner_id].blank? 
-        resources = resources.where("user_id in (?) ", params[:owner_id].map(&:to_i))
-      end
-
-      unless params[:group_id].blank?
-        resources = resources.where( %Q< media_resources.id  in (
-          #{MediaResource
-             .grouppermissions_not_disallowed(current_user, :view)
-             .where("grouppermissions.group_id in ( ? )",params[:group_id].map(&:to_i))
-             .select("media_resource_id").to_sql})>)
-      end
-
-      unless params[:permission_preset].blank? 
-        presets = PermissionPreset.where(" id in ( ? )",  params[:permission_preset].map(&:to_i))
-        resources = resources.where_permission_presets_and_user presets, current_user
-      end
-
-      respond_to do |format|
-        format.json {
-          render json: view_context.hash_for_media_resources_with_pagination(resources, {:page => page, :per_page => per_page}, with).to_json
-        }
-      end
-
-    else
-
-      @resources = resources.search(query)
-
-      @owners = User.includes(:person)
-        .where("users.id in (#{resources.search(query).select("media_resources.user_id").to_sql}) ")
-        .order("people.lastname, people.firstname DESC")
-
-      @groups = Group.where( %Q< groups.id in ( 
-          #{MediaResource.grouppermissions_not_disallowed(current_user, :view).select("grouppermissions.group_id").to_sql}
-          )>) 
-        .order("name ASC")
-
-      @permission_presets = PermissionPreset.where (Constants::Actions.reduce(" false ") { |s,action| s + " OR #{action} = true" }) 
-
-      respond_to do |format|
-        format.html { render :layout => false}
-      end
-    end
-  end
 
 end
 

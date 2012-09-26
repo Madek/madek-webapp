@@ -1,0 +1,7 @@
+%label.term{:disabled => :disabled}
+  %input{:type => "checkbox", :value => "${id}", :disabled => :disabled}
+  %span.text
+    ${value}
+  {{if count}}
+  %span.count 0
+  {{/if}}

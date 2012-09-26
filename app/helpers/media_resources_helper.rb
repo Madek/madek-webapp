@@ -3,13 +3,13 @@ module MediaResourcesHelper
   
   def media_resources_index_title
 
-    r = if params[:favorites] == "true"
+    r = if @filter[:favorites] == "true"
       _("Favoriten")
-    elsif not params[:query].blank?
-      [_("Suchergebnisse"), _("für \"%s\"") % params[:query]] 
-    elsif params[:media_set_id]
-      [_("Set enthält"), _(" von %d für Sie sichtbar") % MediaSet.find(params[:media_set_id]).children.count]
-    elsif group_id = params[:group_id]
+    elsif not @filter[:search].blank?
+      [_("Suchergebnisse"), _("für \"%s\"") % @filter[:search]] 
+    elsif @filter[:media_set_id]
+      [_("Set enthält"), _(" von %d für Sie sichtbar") % MediaSet.find(@filter[:media_set_id]).children.count]
+    elsif group_id = @filter[:group_id]
       Group.find group_id
     end 
     
@@ -53,7 +53,7 @@ module MediaResourcesHelper
   def current_settings
     h = {}
     
-    h[:type] = case params[:type]
+    h[:type] = case @filter[:type]
       when "media_entries"
         :media_entries
       when "media_sets"
@@ -62,11 +62,11 @@ module MediaResourcesHelper
         :all
     end
     
-    h[:permissions] = if (params[:user_id].to_i == current_user.id)
+    h[:permissions] = if (@filter[:user_id].to_i == current_user.id)
       :mine
-    elsif (params[:not_by_current_user] == "true" and params[:public] == "false")
+    elsif (@filter[:not_by_current_user] == "true" and @filter[:public] == "false")
       :entrusted
-    elsif (params[:not_by_current_user] == "true" and params[:public] == "true") 
+    elsif (@filter[:not_by_current_user] == "true" and @filter[:public] == "true") 
       :public
     else
       :all

@@ -7,12 +7,10 @@ namespace :madek do
       Rake::Task["madek:test:cucumber:all"].invoke
     end
 
-    task :run_slow do
+    task :travis do
       Rake::Task["madek:test:setup"].invoke
       Rake::Task["madek:test:rspec"].invoke
-      Rake::Task["madek:test:cucumber:slow"].invoke
     end
-
 
     task :setup do
       # Rake seems to be very stubborn about where it takes
@@ -24,6 +22,34 @@ namespace :madek do
       Rake::Task["madek:reset"].invoke
       File.delete("tmp/rerun.txt") if File.exists?("tmp/rerun.txt")
       File.delete("tmp/rerun_again.txt") if File.exists?("tmp/rerun_again.txt")
+      PersonasDBHelper.load_and_migrate_persona_data
+    end
+
+    task :clean_setup do
+      Rails.env = 'personas'
+      Rake::Task["db:drop"].invoke
+      Rake::Task["db:create"].invoke
+
+      Rails.env = 'test'
+      Rake::Task["db:drop"].invoke
+      Rake::Task["db:create"].invoke
+      Rake::Task["db:migrate"].invoke
+      Rake::Task["madek:test:setup"].invoke
+    end
+
+    task :setup_cidbs do
+      base_config = YAML.load_file Rails.root.join "config","database_jenkins.psql.yml"
+      if ENV['CI_TEST_NAME'] 
+        base_config['personas']['database'] =  base_config['personas']['database'] + "_" + ENV['CI_TEST_NAME'] 
+        base_config['test']['database'] =  base_config['test']['database'] + "_" + ENV['CI_TEST_NAME']
+      end
+      File.open(Rails.root.join('config','database.yml'),'w'){ |f| f.write base_config.to_yaml}
+       ['personas','test'].each do |name|
+         db_name = base_config[name]['database']
+         DBHelper.set_pg_env base_config[name]
+         system "psql -d template1 -c 'DROP DATABASE IF EXISTS #{db_name};'"
+         system "psql -d template1 -c \"CREATE DATABASE #{db_name} WITH ENCODING 'utf8' TEMPLATE template0;\""
+       end
     end
 
     task :rspec do
@@ -41,16 +67,6 @@ namespace :madek do
         puts "First run exited with #{exit_code_first_run}"
 
         if exit_code_first_run != 0
-          Rake::Task["madek:test:cucumber:rerun"].invoke
-        end
-      end
-
-      task :slow do
-        puts "Running Cucumber tests marked as @slow"
-        system "bundle exec cucumber -p slow"
-        exit_code = $?.exitstatus
-
-        if exit_code != 0
           Rake::Task["madek:test:cucumber:rerun"].invoke
         end
       end

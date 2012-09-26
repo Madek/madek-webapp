@@ -175,7 +175,7 @@ module MediaResourceModules
           # END BY_USERPERMISSION
 
           # now put user and grouppermissions together in chainable query
-          where "id in (#{by_grouppermission} UNION #{by_userpermission})" 
+          where "media_resources.id in (#{by_grouppermission} UNION #{by_userpermission})" 
 
       end
 

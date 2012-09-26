@@ -18,6 +18,9 @@ class MediaFile < ActiveRecord::Base
   after_create do
     # Move the file out to storage
     FileUtils.mv uploaded_data.tempfile.path, file_storage_location
+
+    # NOTE: chmod no longer necessary because we are sending the file with the right umask through
+    # vsftpd (umask 022)
     # chmod so that Apache's X-Sendfile gets access to this file, even though it is running under
     # a different user.
     if File.stat(file_storage_location).uid == Process.uid # Only do this if we have permission to do so (= are the owner of the file)
@@ -80,15 +83,27 @@ class MediaFile < ActiveRecord::Base
     update_attributes(:meta_data => meta_data)
   end
 
-# The final resting place of the media file. consider it permanent storage.
-# basing the shard on (some non-zero) part of the guid gives us a trivial 'storage balancer' which completely ignores
-# any size attributes of the file, and distributes amongst directories pseudorandomly (which in practice averages out in the long-term).
-# 
+  # String with the UNIX path to the sharded location of this media file.
+  # Files should *not* be in a publicly-accessible location, instead, they are served through
+  # some X-Sendfile implementation of your web server.
+  #
+  # Basing the shard on (some non-zero) part of the guid gives us a trivial 'storage balancer' which completely ignores
+  # any size attributes of the file, and distributes amongst directories pseudorandomly (which in practice averages out in the long-term).
+  #
+  # @return [String] UNIX path to the media file.
+  # @example
+  #   "/home/rails/madek/releases/20120920155659/db/media_files/attachments/b/bcd1eb0a90d9404b8e8ac689b18b45bd"
+  
   def file_storage_location
     File.join(FILE_STORAGE_DIR, shard, guid)
   end
 
-# remember, thumbnails *could* be on a faster storage medium than original files.
+  # The first portion of the UNIX path to the sharded location of the thumbnail for this media file.
+  # Thumbnails should be in a publicly-accessible location so that e.g. Apache can serve them up.
+  # Thumbnail sare also thought of as "previews", so consider that this might be a 200 MB video file as well as tiny PNGs.
+  # @return [String] Beginning of the UNIX path to potential thumbnails, ending in the guid of the file.
+  # @example
+  #   "/home/rails/madek/releases/20120920155659/public/previews/b/bcd1eb0a90d9404b8e8ac689b18b45bd"
   def thumbnail_storage_location
     File.join(THUMBNAIL_STORAGE_DIR, shard, guid)
   end
@@ -150,7 +165,6 @@ class MediaFile < ActiveRecord::Base
 
 
   def retrieve_encoded_files
-    require Rails.root + 'lib/encode_job'
     paths = []
     thumbnail_paths = []
 
@@ -164,7 +178,7 @@ class MediaFile < ActiveRecord::Base
             filename = File.basename(f)
             prefix = "#{thumbnail_storage_location}_encoded"
             path = "#{prefix}_#{filename}"
-            result = EncodeJob.ftp_get(f, path)
+            result = EncodeJob.ftp_get(f, path, {:delete_after => true})
             if result == true # Retrieval was a success
               paths << path
             else
@@ -214,7 +228,19 @@ class MediaFile < ActiveRecord::Base
             if previews.create(:content_type => content_type, :filename => File.basename(path), :width => w.to_i, :height => h.to_i, :thumbnail => 'large')
               # Link the file to a symlink inside of public/ so that Apache serves the preview file, otherwise
               # it would become far too hard to support partial content (status 206) and ranges (for seeking in media files)
-              File.symlink(path, Rails.root + "public/previews/#{File.basename(path)}")
+              # This is an evil hack to determine if we have to symlink to 'current' instead of 'releases/#{timestamp}'
+              # Ideally, we would instead make the THUMBNAIL_STORAGE_DIR available under public/previews
+              # and/or save an absolute path to a potentially entirely different directory for the previews somewhere
+              if Rails.root.to_s.split("/").include?("releases") # If we're under "releases", we were probably deployed with Capistrano
+                directory_prefix = Rails.root + "../../current/public/previews"
+                path = path.gsub!(/releases\/\d+/,"current")
+              else
+                directory_prefix = Rails.root + "public/previews"
+              end
+
+
+
+              File.symlink(path, "#{directory_prefix}/#{File.basename(path)}")
               return true
             else
               return false
@@ -442,7 +468,6 @@ class MediaFile < ActiveRecord::Base
     if force == true or job_id.blank?
       begin
         # submit http://this_host/download?media_file_id=foo&access_hash=bar
-        require Rails.root + 'lib/encode_job'
         job = EncodeJob.new
       rescue Exception => e  
         logger.error("Encode job handling failed with exception: #{e.message}")
@@ -475,7 +500,6 @@ class MediaFile < ActiveRecord::Base
     if self.job_id.blank?
       return false
     else
-      require Rails.root + 'lib/encode_job'
       begin
         job = EncodeJob.new(self.job_id)
         return job.finished?
@@ -490,7 +514,6 @@ class MediaFile < ActiveRecord::Base
       return 0
     else
       begin
-        require Rails.root + 'lib/encode_job'
         job = EncodeJob.new(self.job_id)
         return job.progress['progress'].to_f
       rescue Exception => e  
