@@ -62,7 +62,7 @@ namespace :madek do
 
       task :all do
         puts "Running all Cucumber tests in one block"
-        system "bundle exec cucumber -p all"
+        system "bundle exec cucumber -p all #{ENV['FILE']}"
         exit_code_first_run = $?.exitstatus
         puts "First run exited with #{exit_code_first_run}"
 
