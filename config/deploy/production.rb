@@ -39,7 +39,7 @@ task :retrieve_db_config do
   get(db_config, "/tmp/madek_db_config.yml")
   dbconf = YAML::load_file("/tmp/madek_db_config.yml")["production"]
   set :sql_database, dbconf['database']
-  set :sql_host, dbconf['host']
+  #set :sql_host, dbconf['host']
   set :sql_username, dbconf['username']
   set :sql_password, dbconf['password']
 end
@@ -108,11 +108,8 @@ task :migrate_database do
   current_dump_path =  "#{dump_dir}/#{sql_database}-current.sql"
 
   run "mkdir -p #{dump_dir}"
-  # If mysqldump fails for any reason, Capistrano will stop here
-  # because run catches the exit code of mysqldump
-  run "mysqldump -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -r #{backup_dump_path} #{sql_database}"
-  run "bzip2 #{backup_dump_path}"
-
+  run "pg_dump -w -U #{sql_username} -f #{dump_path} #{sql_database}"
+  run "bzip2 #{dump_path}"
   # Migration here
   # deploy.migrate should work, but is buggy and is run in the _previous_ release's
   # directory, thus never runs anything? Strange.
@@ -120,7 +117,8 @@ task :migrate_database do
   run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:migrate"
 
   run "rm -f #{current_dump_path}.bz2"
-  run "mysqldump -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -r #{current_dump_path} #{sql_database}"
+
+  run "pg_dump -w -U #{sql_username} -f #{current_dump_path} #{sql_database}"
   run "bzip2 #{current_dump_path}"
 end
 

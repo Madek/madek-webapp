@@ -83,9 +83,10 @@ task :configure_environment do
 end
 
 task :load_empty_instance_with_personas do
-  run "mysql -h #{sql_host} --user=#{sql_username} --password=#{sql_password} #{sql_database} -e 'drop database #{sql_database}'"
-  run "mysql -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -e 'create database #{sql_database}'"
-  run "mysql -h #{sql_host} --user=#{sql_username} --password=#{sql_password} #{sql_database} < \"#{release_path + '/db/empty_medienarchiv_instance_with_personas.mysql'}\""
+  run "psql -U #{sql_username} -c 'drop database if exists #{sql_database}'"
+  run "psql -U #{sql_username} -c 'create database #{sql_database}'"
+  run "psql -U #{sql_username} -f #{sql_database} < \"#{release_path + '/db/empty_medienarchiv_instance_with_personas.pgsql.gz'}\""
+
 end
 
 task :backup_database do
@@ -94,9 +95,7 @@ task :backup_database do
   dump_dir = "#{deploy_to}/#{shared_dir}/db_backups"
   dump_path =  "#{dump_dir}/#{sql_database}-#{date_string}.sql"
   run "mkdir -p #{dump_dir}"
-  # If mysqldump fails for any reason, Capistrano will stop here
-  # because run catches the exit code of mysqldump
-  run "mysqldump -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -r #{dump_path} #{sql_database}"
+  run "pg_dump -w -U #{sql_username} -f #{dump_path} #{sql_database}"
   run "bzip2 #{dump_path}"
 end
 

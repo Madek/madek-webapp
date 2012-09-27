@@ -31,11 +31,10 @@ role :web, "madek-demo@madek-server.zhdk.ch"
 role :db,  "madek-demo@madek-server.zhdk.ch", :primary => true
 
 task :retrieve_db_config do
-  # DB credentials needed by mysqldump etc.
   get(db_config, "/tmp/madek_db_config.yml")
   dbconf = YAML::load_file("/tmp/madek_db_config.yml")["production"]
   set :sql_database, dbconf['database']
-  set :sql_host, dbconf['host']
+  #set :sql_host, dbconf['host']
   set :sql_username, dbconf['username']
   set :sql_password, dbconf['password']
 end
@@ -93,9 +92,7 @@ task :backup_database do
   dump_dir = "#{deploy_to}/#{shared_dir}/db_backups"
   dump_path =  "#{dump_dir}/#{sql_database}-#{date_string}.sql"
   run "mkdir -p #{dump_dir}"
-  # If mysqldump fails for any reason, Capistrano will stop here
-  # because run catches the exit code of mysqldump
-  run "mysqldump -h #{sql_host} --user=#{sql_username} --password=#{sql_password} -r #{dump_path} #{sql_database}"
+  run "pg_dump -w -U #{sql_username} -f #{dump_path} #{sql_database}"
   run "bzip2 #{dump_path}"
 end
 
