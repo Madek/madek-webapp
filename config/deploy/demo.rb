@@ -30,14 +30,13 @@ role :app, "madek-demo@madek-server.zhdk.ch"
 role :web, "madek-demo@madek-server.zhdk.ch"
 role :db,  "madek-demo@madek-server.zhdk.ch", :primary => true
 
-task :retrieve_db_config do
-  get(db_config, "/tmp/madek_db_config.yml")
-  dbconf = YAML::load_file("/tmp/madek_db_config.yml")["production"]
-  set :sql_database, dbconf['database']
-  #set :sql_host, dbconf['host']
-  set :sql_username, dbconf['username']
-  set :sql_password, dbconf['password']
-end
+load 'config/deploy/recipes/link_attachments'
+load 'config/deploy/recipes/retrieve_db_config'
+load 'config/deploy/recipes/make_tmp'
+load 'config/deploy/recipes/backup_database'
+load 'config/deploy/recipes/migrate_database'
+load 'config/deploy/recipes/precompile_assets'
+load 'config/deploy/recipes/clear_cache'
 
 task :link_config do
   run "rm -f #{release_path}/config/database.yml"
@@ -46,17 +45,6 @@ task :link_config do
 
   run "rm -f #{release_path}/config/zencoder.yml"
   run "ln -s #{zencoder_config} #{release_path}/config/zencoder.yml"
-end
-
-
-task :remove_htaccess do
-  # Kill the .htaccess file as we are using mongrel, so this file
-  # will only confuse the web server if parsed.
-  run "rm #{release_path}/public/.htaccess"
-end
-
-task :make_tmp do
-  run "mkdir -p #{release_path}/tmp/sessions #{release_path}/tmp/cache #{release_path}/tmp/downloads #{release_path}/tmp/zipfiles"
 end
 
 namespace :deploy do
@@ -71,29 +59,10 @@ namespace :deploy do
 
 end
 
-task :link_attachments do
-  # DANGER: The attachments directory is only a symlink, so no rm -r please!
-  run "rm -f #{release_path}/db/media_files/production/attachments"
-  run "rm -rf #{release_path}/doc/Testbilder"
-  run "mkdir -p #{release_path}/db/media_files/production/"
-  run "ln -s #{deploy_to}/#{shared_dir}/attachments #{release_path}/db/media_files/production/attachments"
-  run "ln -sf #{deploy_to}/#{shared_dir}/previews #{release_path}/public/previews"
-end
-
 task :configure_environment do
   run "sed -i 's:EXIFTOOL_PATH = \"/opt/local/bin/exiftool\":EXIFTOOL_PATH = \"/usr/local/bin/exiftool\":' #{release_path}/config/application.rb"
   run "sed -i 's,ENCODING_BASE_URL.*,ENCODING_BASE_URL = \"http://demo.medienarchiv.zhdk.ch\",'  #{release_path}/config/application.rb"
 
-end
-
-task :backup_database do
-  # Produce a string like 2010-07-15T09-16-35+02-00
-  date_string = DateTime.now.to_s.gsub(":","-")
-  dump_dir = "#{deploy_to}/#{shared_dir}/db_backups"
-  dump_path =  "#{dump_dir}/#{sql_database}-#{date_string}.sql"
-  run "mkdir -p #{dump_dir}"
-  run "pg_dump -w -U #{sql_username} -f #{dump_path} #{sql_database}"
-  run "bzip2 #{dump_path}"
 end
 
 task :migrate_database do
@@ -104,14 +73,9 @@ task :migrate_database do
   run "cd #{release_path} && RAILS_ENV='production'  bundle exec rake db:migrate"
 end
 
-task :precompile_assets do
-  run "cd #{release_path} && RAILS_ENV=production bundle exec rake assets:precompile"
-end
-
 task :load_seed_data do
     run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:seed"
 end
-
 
 task :generate_documentation do
   run "cd #{release_path} && RAILS_ENV=production bundle exec rake app:doc:api"
@@ -122,11 +86,6 @@ task :record_deploy_info do
   run "echo 'Deployed on #{deploy_date}' > #{release_path}/app/views/layouts/_deploy_info.erb" 
 end 
 
-task :clear_cache do
-  # We have to run it this way (in a subshell) because Rails.cache is not available
-  # in Rake tasks, otherwise we could stick a task into lib/tasks/madek.rake
-  run "cd #{release_path} && RAILS_ENV=production bundle exec rails runner 'Rails.cache.clear'"
-end
 
 before "deploy", "retrieve_db_config"
 before "deploy:create_symlink", :make_tmp
