@@ -83,6 +83,7 @@ module DBHelper
 
     def terminate_open_connections config
       if SQLHelper.adapter_is_postgresql?
+        require 'open3'
         set_pg_env config
         cmd = "psql template1 -c \"SELECT pg_terminate_backend(pg_stat_activity.procpid) FROM pg_stat_activity WHERE pg_stat_activity.datname = '#{config['database']}';\""
         Open3.popen3(cmd) do |stdin,stdout,stderr,thread|

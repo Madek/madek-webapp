@@ -17,8 +17,8 @@
         %td= set.class
         %td= set.title
         %td= set.user
-        %td= set.media_entries.count
+        %td= set.child_media_resources.media_entries.count
         %td.with_actions
           = link_to _("Edit"), edit_admin_media_set_path(set), :class => "buttons", :remote => true
           %br
-          = link_to _("Delete"), admin_media_set_path(set), :class => "buttons", :method => :delete, :data => {:confirm => _("Sind Sie sicher?")} if set.media_entries.empty?
+          = link_to _("Delete"), admin_media_set_path(set), :class => "buttons", :method => :delete, :data => {:confirm => _("Sind Sie sicher?")} if set.child_media_resources.media_entries.empty?

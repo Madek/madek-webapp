@@ -51,10 +51,10 @@ describe MediaSetsController do
 
       before :all do
         (1..5).each do
-          @parent_media_set.media_entries << (FactoryGirl.create :media_entry, view: true, user: @user)
+          @parent_media_set.child_media_resources << (FactoryGirl.create :media_entry, view: true, user: @user)
           media_set = FactoryGirl.create  :media_set, view: true, user: @user
-          media_set.media_entries << (FactoryGirl.create  :media_entry, view: true, user: @user)
-          parent_media_set.child_sets << media_set
+          media_set.child_media_resources << (FactoryGirl.create  :media_entry, view: true, user: @user)
+          parent_media_set.child_media_resources << media_set
         end
 
         context "when i get a set with nested resources, the json response"  do
@@ -70,7 +70,9 @@ describe MediaSetsController do
           end
 
           it  "should have the right sum of contained resources"  do
-            json_body["media_resources"].size.should == @parent_media_set.media_entries.size + @parent_media_set.child_sets.size
+            summed_sizes = @parent_media_set.child_media_resources.media_entries.size + @parent_media_set.child_media_resources.media_sets.size
+            @parent_media_set.child_media_resources.size.should == summed_sizes
+            json_body["media_resources"].size.should == summed_sizes
           end
 
           it  "should contain the internal properties of the resource" do 

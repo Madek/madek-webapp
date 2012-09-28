@@ -6,7 +6,7 @@ ${$meta_data = MetaDatum.flatten(meta_data), ""}
         %input{:type => "checkbox", :id => "selected_${id}"}
         .media_resource.thumb.micro
           %image{:src => "${image}"}
-      {{if type == "media_set"}}
+      {{if !!type.match(/set/)}}
       .media_set.icon{:title => "Set"}
       {{/if}}
   {{each(i, meta_datum) meta_data}}

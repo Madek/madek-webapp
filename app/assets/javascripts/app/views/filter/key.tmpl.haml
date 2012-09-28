@@ -1,0 +1,10 @@
+{{if terms.length > 0}}
+.key{:data => {:key_name => "${key_name}"}}
+  {{if current_user.is_admin()}}
+  %input.any{:type => "checkbox", :title => "filter content by any value in this key", :value => "any"}
+  {{/if}}
+  %h3 ${key_label}
+  .content
+    %ul
+      {{tmpl(terms) "app/views/filter/term"}}
+{{/if}}

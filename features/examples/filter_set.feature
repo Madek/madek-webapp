@@ -31,7 +31,7 @@ Feature: Filter set
     |permissions|
     |favorite|
     |add to set|
-    |save changes to filter settings|
+    |edit changes to filter settings|
     # |set highlight|
     # |set cover|
     # |save display settings|

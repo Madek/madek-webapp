@@ -8,7 +8,7 @@ class MediaResource < ActiveRecord::Base
 
 ###############################################################
 
-  belongs_to :user   # TODO remove down and set missing user for snapshots
+  belongs_to :user
   belongs_to :media_file  # TODO remove 
 
   has_many  :edit_sessions, :dependent => :destroy, :readonly => true
@@ -133,7 +133,7 @@ class MediaResource < ActiveRecord::Base
 
   scope :media_entries_or_media_entry_incompletes, where(:type => ["MediaEntry", "MediaEntryIncomplete"])
   scope :media_entries, where(:type => "MediaEntry")
-  scope :media_sets, where(:type => "MediaSet")
+  scope :media_sets, where(:type => ["MediaSet", "FilterSet"])
 
   ###############################################################
   

@@ -8,12 +8,12 @@
 
 class Bar
   
-  @setup = (type, permission, sort_by, favorites, search, top_level, media_set, group)->
+  @setup = (type, permission, sort_by, favorites, search, top_level, media_set, group, edit_filter_set)->
     @setup_type type
     @setup_permissions permission
     @setup_sort_by sort_by
     @setup_interactivity()
-    @setup_icon type, favorites, search, group
+    @setup_icon type, favorites, search, group, edit_filter_set
     if type == "media_sets" and permission == "mine" and favorites != "true" and search == "" and media_set == ""
       @setup_media_set_scope(top_level) 
 
@@ -44,9 +44,11 @@ class Bar
       $(this).find(".types .current").addClass("active")
       Bar.set_href_selection_for $(this).find(".types .current")
   
-  @setup_icon = (type, favorites, search, group)->
+  @setup_icon = (type, favorites, search, group, edit_filter_set)->
     if favorites? and favorites != ""
       $("#bar > .icon").addClass("favorites")
+    else if edit_filter_set.length
+      $("#bar > .icon").addClass("edit_filter_set")
     else if search? and search != ""
       $("#bar > .icon").addClass("search")
     else if group? and group != ""

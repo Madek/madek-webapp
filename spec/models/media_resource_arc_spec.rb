@@ -43,7 +43,7 @@ describe MediaResourceArc do
     context "graph relations" do
 
       it "the arcs child should be in the child_sets of the parent" do
-        @arc.parent.child_sets.should include @arc.child
+        @arc.parent.child_media_resources.media_sets.should include @arc.child
       end
 
       it "the arcs parent should be in the parent_sets of the child" do
@@ -64,11 +64,11 @@ describe MediaResourceArc do
 
       it "should be appendable " do
         @set3 = FactoryGirl.create :media_set
-        expect {@set1.child_sets << @set3}.not_to raise_error
+        expect {@set1.child_media_resources << @set3}.not_to raise_error
       end
 
       it "the set2 should be included in children" do
-        by_ms = @set1.children
+        by_ms = @set1.child_media_resources
         by_ms.first.should == @set2
       end
 
@@ -79,7 +79,7 @@ describe MediaResourceArc do
       it "should set each new arc as a cover when there is no cover for that set already" do
         set = FactoryGirl.create :media_set
         entry = FactoryGirl.create :media_entry
-        set.children << entry
+        set.child_media_resources << entry
         set.out_arcs.first[:cover].should be_true
       end
 

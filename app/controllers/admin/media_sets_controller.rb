@@ -44,7 +44,7 @@ class Admin::MediaSetsController < Admin::AdminController
   end
 
   def destroy
-    @set.destroy if @set.media_entries.empty?
+    @set.destroy if @set.child_media_resources.media_entries.empty?
     redirect_to admin_media_sets_path
   end
 

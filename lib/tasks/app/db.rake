@@ -16,7 +16,7 @@ namespace :app do
       commands << "scp madek@madek-server:/home/rails/madek/shared/db_backups/rails_madek_prod-current.sql.bz2 ./db/backups/"
       commands << "bunzip2 -f ./db/backups/rails_madek_prod-current.sql.bz2"
       commands << "rake db:drop db:create"
-      commands << "mysql -h localhost -u root madek_dev < ./db/backups/rails_madek_prod-current.sql"
+      commands << "psql -U postgres madek_dev < ./db/backups/rails_madek_prod-current.sql"
       commands << "rake db:migrate"
 
       commands.each do |command|

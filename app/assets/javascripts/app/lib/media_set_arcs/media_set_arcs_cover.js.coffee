@@ -28,16 +28,20 @@ class MediaSetArcsCover extends MediaSetArcsSelection
     # ... todo only one is selected at a time
 
   pageRenderedCallback: (data)=>
-    selected = @lightbox.find("[data-media_resource_id='#{@currentCoverId}']")
-    if selected.length
-      selected.find("input[type=checkbox]").attr "checked", true
-      # put selected at top
-      @lightbox.find("table.media_resources tbody").prepend $(selected)
-    super
+    if data.pagination.total is 0
+      do @noChildrenError
+    else 
+      selected = @lightbox.find("[data-media_resource_id='#{@currentCoverId}']")
+      if selected.length
+        selected.find("input[type=checkbox]").attr "checked", true
+        # put selected at top
+        @lightbox.find("table.media_resources tbody").prepend $(selected)
+      super
 
   noChildrenError: => 
     @lightbox.find(".media_resource_selection .loading").replaceWith $.tmpl "app/views/media_set/cover/no_children_error"
     @lightbox.find(".actions").html $.tmpl "tmpl/dialog/ok_close"
+    @lightbox.find(".media_resource_selection").removeClass "completely_loaded"
 
   persist: =>
     @changedArcs = _.map @lightbox.find("table.media_resources .selection input:checked").closest("tr"), (arc)=>

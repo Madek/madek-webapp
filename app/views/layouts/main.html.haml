@@ -10,7 +10,7 @@
     = javascript_include_tag "i18n/jquery.ui.datepicker-de-CH.js" # TODO i18n
     = javascript_tag ""
     = javascript_tag '$.fx.off = true;' if Rails.env.test?
-    = javascript_tag "window.current_user = #{json_for(current_user, {:groups => true})}"
+    = javascript_tag "window.current_user = new App.User(#{json_for(current_user, {:groups => true})})"
     = csrf_meta_tag
     = yield :head
 

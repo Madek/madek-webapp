@@ -71,10 +71,10 @@ setup_children = (target, data)->
     $($(target).data("popup")).find(".children .loading").remove()
     # setup resources
     media_entries = (resource for resource in data.children.media_resources when resource.type is "media_entry")
-    media_sets = (resource for resource in data.children.media_resources when resource.type is "media_set")
+    media_sets = (resource for resource in data.children.media_resources when resource.type.match(/set/))
     resources = data.children.media_resources
     displayed_media_entries = (resource for resource in resources when resource.type is "media_entry")
-    displayed_media_sets = (resource for resource in resources when resource.type is "media_set")
+    displayed_media_sets = (resource for resource in resources when resource.type.match(/set/))
     for resource in resources
       do (resource) ->
         $($(target).data("popup")).find(".children").append $.tmpl("tmpl/media_set/popup/media_resource",resource) 
@@ -89,7 +89,7 @@ setup_parents = (target, data)->
     $($(target).data("popup")).find(".parents .loading").remove()
     # setup resources
     resources = data.parents.media_resources
-    displayed_media_sets = (resource for resource in resources when resource.type is "media_set")
+    displayed_media_sets = (resource for resource in resources when resource.type.match(/set/))
     for resource in resources
       do (resource) ->
         $($(target).data("popup")).find(".parents").append $.tmpl("tmpl/media_set/popup/media_resource",resource)

@@ -1,10 +1,15 @@
-When /^I see the detail view of a set that I can edit$/ do
-  @media_set = MediaResource.media_sets.accessible_by_user(@current_user, :edit).first
+When /^I see the detail view of a public set that I can edit$/ do
+  @media_set = MediaResource.media_sets.where(:view => true).accessible_by_user(@current_user, :edit).first
+  visit media_resource_path @media_set
+end
+
+When /^I see the detail view of a set with media entries that I can edit$/ do
+  @media_set = MediaResource.media_sets.accessible_by_user(@current_user, :edit).detect{|set| !set.child_media_resources.media_entries.empty? }
   visit media_resource_path @media_set
 end
 
 When /^I see the detail view of a set that I can edit which has no children$/ do
-  @media_set = MediaResource.media_sets.accessible_by_user(@current_user, :edit).detect{|set| set.children.empty? }
+  @media_set = MediaResource.media_sets.accessible_by_user(@current_user, :edit).detect{|set| set.child_media_resources.empty? }
   if @media_set.nil?
     steps %Q{
       When I create a set through the context actions
@@ -14,7 +19,7 @@ When /^I see the detail view of a set that I can edit which has no children$/ do
       When I created that set
       Then Im redirectet to the detail view of that set
     }
-    @media_set = MediaResource.media_sets.accessible_by_user(@current_user, :edit).detect{|set| set.children.empty? }
+    @media_set = MediaResource.media_sets.accessible_by_user(@current_user, :edit).detect{|set| set.child_media_resources.empty? }
   end
 
   visit media_resource_path @media_set
@@ -31,8 +36,8 @@ Then /^I can open the set cover dialog$/ do
   find(".action_menu .action_menu_list a", :text => "Titelbild").click
 end
 
-Then /^I see a list of media resources which are inside that set$/ do
-  @media_set.children.each do |child|
+Then /^I see a list of media entries which are inside that set$/ do
+  @media_set.child_media_resources.media_entries.each do |child|
     find(".dialog tr", :text => child.title)
   end
 end
@@ -62,7 +67,7 @@ Then /^one of these media resources is set as the cover for that set automatical
 end
 
 When /^a set is empty$/ do
-  @media_set = MediaSet.all.detect {|ms| ms.children.length == 0}
+  @media_set = MediaSet.all.detect {|ms| ms.child_media_resources.length == 0}
 end
 
 Then /^it has no cover$/ do
@@ -70,7 +75,7 @@ Then /^it has no cover$/ do
 end
 
 When /^a set contains only sets$/ do
-  @media_set = MediaSet.all.detect {|ms| ms.media_entries.length == 0 and ms.child_sets.length > 0 }
+  @media_set = MediaSet.all.detect {|ms| ms.child_media_resources.media_entries.length == 0 and ms.child_media_resources.media_sets.length > 0 }
 end
 
 When /^a set has a cover$/ do

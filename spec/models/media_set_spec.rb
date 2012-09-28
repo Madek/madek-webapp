@@ -7,7 +7,8 @@ describe MediaSet do
   end
   
   it "should contain media entries" do
-    @media_set.should respond_to :media_entries
+    @media_set.should respond_to :child_media_resources
+    @media_set.child_media_resources.should respond_to :media_entries
   end
 
   it "should be producible by a factory" do
@@ -70,7 +71,8 @@ describe MediaSet do
 
     context "child sets" do
       it "could contain sets" do
-        @media_set.should respond_to :child_sets
+        @media_set.should respond_to :child_media_resources
+        @media_set.child_media_resources.should respond_to :media_sets
       end
     end
 
@@ -82,7 +84,7 @@ describe MediaSet do
       it "doesn't have parents, when it's a top-level set" do
         @media_set.parent_sets.should be_empty
         MediaSet.top_level.include?(@media_set).should == true
-        (FactoryGirl.create :media_set).child_sets << @media_set
+        (FactoryGirl.create :media_set).child_media_resources << @media_set
         MediaSet.top_level.include?(@media_set).should == false
       end
       
@@ -94,8 +96,8 @@ describe MediaSet do
           sets = 10.times.map do
             FactoryGirl.create :media_set
           end
-          sets[0].child_sets << sets[1, 2]
-          sets[2].child_sets << sets[3, 2]
+          sets[0].child_media_resources << sets[1, 2]
+          sets[2].child_media_resources << sets[3, 2]
           
           (MediaSet.count - existing_sets_count).should == 10
           (MediaSet.top_level.count - existing_top_level_count).should == 6
@@ -120,8 +122,8 @@ describe MediaSet do
     context "settings" do
       it "stores the layout and sorting" do
         @media_set.should respond_to(:settings)
-        @media_set.settings[:layout] = l = MediaSet::ACCEPTED_VARS[:layout][:possible_values].sample
-        @media_set.settings[:sorting] = s = MediaSet::ACCEPTED_VARS[:sorting][:possible_values].sample
+        @media_set.settings[:layout] = l = MediaSet::ACCEPTED_SETTINGS[:layout][:possible_values].sample
+        @media_set.settings[:sorting] = s = MediaSet::ACCEPTED_SETTINGS[:sorting][:possible_values].sample
         @media_set.save.should be_true
         @media_set.reload
         @media_set.settings[:layout].should == l
@@ -138,14 +140,14 @@ describe MediaSet do
       @viewer = FactoryGirl.create :user
 
       @top_set1 = FactoryGirl.create :media_set, user: @owner
-      @top_set1.children << (@child_11 = FactoryGirl.create :media_set, user: @owner)
-      @top_set1.children << (@child_12 = FactoryGirl.create :media_set, user: @owner)
+      @top_set1.child_media_resources << (@child_11 = FactoryGirl.create :media_set, user: @owner)
+      @top_set1.child_media_resources << (@child_12 = FactoryGirl.create :media_set, user: @owner)
 
-      @child_11.children << (@child_111 = FactoryGirl.create :media_set, user: @owner)
-      @child_12.children << (@child_121 = FactoryGirl.create :media_resource, user: @owner)
+      @child_11.child_media_resources << (@child_111 = FactoryGirl.create :media_set, user: @owner)
+      @child_12.child_media_resources << (@child_121 = FactoryGirl.create :media_resource, user: @owner)
 
       @top_set2 = FactoryGirl.create :media_set, user: @owner
-      @top_set2.children << (@child_21 = FactoryGirl.create :media_set, user: @owner)
+      @top_set2.child_media_resources << (@child_21 = FactoryGirl.create :media_set, user: @owner)
 
       FactoryGirl.create :userpermission, user: @viewer, media_resource: @child_121, view: true
 

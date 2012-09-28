@@ -7,7 +7,7 @@ describe MediaSetsController do
     FactoryGirl.create :usage_term
     @user = FactoryGirl.create :user
     @media_set = FactoryGirl.create :media_set, :user => @user
-    3.times { @media_set.children << FactoryGirl.create(:media_entry, :user => @user) }
+    3.times { @media_set.child_media_resources << FactoryGirl.create(:media_entry, :user => @user) }
   end
   
   let :session do

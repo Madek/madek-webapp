@@ -15,16 +15,16 @@ describe MediaResource do
     context "relationships" do
       
       it "should be possible to add a media_entry as a child to media_set" do
-        expect {@media_set_parent.media_entries << @media_entry}.not_to raise_error 
+        expect {@media_set_parent.child_media_resources << @media_entry}.not_to raise_error 
       end
   
       context "a media_set has a media_entry as child " do
         before :each do
-          @media_set_parent.media_entries << @media_entry
+          @media_set_parent.child_media_resources << @media_entry
         end
   
         it "should be included in the media_entries of the set" do
-          @media_set_parent.media_entries.should include @media_entry
+          @media_set_parent.child_media_resources.media_entries.should include @media_entry
         end
   
         it "the media_set should be included in the parents of the media_entry" do
@@ -33,16 +33,16 @@ describe MediaResource do
       end
       
       it "should be possible to add a media_sets to the child_sets of a media_set " do
-        expect { @media_set_parent.child_sets << @media_set_child }.not_to raise_error
+        expect { @media_set_parent.child_media_resources << @media_set_child }.not_to raise_error
       end
   
       context "a media_set has a media_set as child " do
         before :each do
-          @media_set_parent.child_sets << @media_set_child
+          @media_set_parent.child_media_resources << @media_set_child
         end
   
         it "should be included in the child_sets of the parents " do
-          @media_set_parent.child_sets.should include @media_set_child
+          @media_set_parent.child_media_resources.media_sets.should include @media_set_child
         end
   
         it "the media_set_parent should be included in the parents of the media_set_child" do

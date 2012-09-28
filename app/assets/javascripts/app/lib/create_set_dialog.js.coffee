@@ -1,6 +1,5 @@
 jQuery -> 
   $("body").delegate ".open_create_set_dialog", "click", (e)-> 
-    console.log "CLICK"
     do e.preventDefault
     trigger = if $(e.target).is ".open_create_set_dialog" then $(e.target) else $(e.target).closest("a")
     new CreateSetDialog trigger
@@ -25,16 +24,19 @@ class CreateSetDialog
       $(@dialog).dialog("close")
     @dialog.delegate "#create_set", "submit", (e)=>
       do e.preventDefault
-      @createGroup @dialog.find("input.title").val()
+      @createSet @dialog.find("form#create_set")
 
-  createGroup: (title)=>
+  createSet: (form)=>
+    title = form.find("input.title").val()
     if title.length
+      data = media_set:
+              meta_data_attributes:[{meta_key_label: "title",value: title}]
+      if form.find("input[name='as_filterset']:checked").length
+        $.extend(data, {filter: App.MediaResources.filter.current})
       $.ajax
         url: "/media_sets.json"
         type: "POST"
-        data: 
-          media_set:
-            meta_data_attributes:[{meta_key_label: "title",value: title}]
+        data: data
         beforeSende: =>
           button = @dialog.find("button.create")
           button.data("text", button.html())
@@ -43,6 +45,3 @@ class CreateSetDialog
           window.location = "/media_sets/#{data.id}"
     else
       @dialog.find(".errors").html("Bitte Titel eingeben").show()
-
-
-  

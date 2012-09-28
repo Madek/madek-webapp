@@ -28,14 +28,14 @@ Given /^a list contains resources that have values in a meta key of type "(.*?)"
     when "Keywords"
       MetaKey.where(:meta_datum_object_type => "MetaDatumKeywords").first
   end
-  @block = find(".block[data-filter_name='#{meta_key.label}']")
-  wait_until {find(".block[data-filter_name='#{meta_key.label}']")}
+  all(".context > h3").each {|context| context.click}
+  @key = find(".key[data-key_name='#{meta_key.label}']")
 end
 
 Then /^I can filter by the values for that particular key$/ do
-  @block.find("h3").click
-  @term = @block.find(".term")
-  @term.find("input").click  
+  @key.find("h3").click
+  @term = @key.find(".term")
+  @term.click  
   wait_until {all(".loading", :visible=>true).size == 0}
   wait_until {all("#results .page .item_box").size > 0}
   all("#results .page .item_box").each do |item|
@@ -47,10 +47,11 @@ end
 When /^I select a value to filter by$/ do
   step 'I go to public content'
   step 'I open the filter panel'
-  block = all(".block").last
-  block.find("h3").click unless block["class"].match "open"
-  term = block.find(".term")
-  term.find("input").click
+  all(".context > h3").each {|context| context.click}
+  key = all(".key").last
+  key.find("h3").click unless key["class"].match "open"
+  term = key.find(".term")
+  term.click
 end
 
 Then /^I see all the values that can be filtered or not filtered by$/ do
@@ -144,7 +145,7 @@ Then /^I do not see the match count for each value whose filter type is "(.*?)"$
 end
 
 When /^I open a set that has children$/ do
-  @media_set = MediaSet.filter(@current_user).detect{|ms| ms.children.filter(@current_user).media_entries.any?{|me| me.meta_data.where(:type => "MetaDatumKeywords").exists?} }
+  @media_set = MediaSet.filter(@current_user).detect{|ms| ms.child_media_resources.filter(@current_user).media_entries.any?{|me| me.meta_data.where(:type => "MetaDatumKeywords").exists?} }
   visit media_resource_path @media_set
 end
 
@@ -153,19 +154,20 @@ Then /^I can expand the filter panel$/ do
 end
 
 Then /^I see a list of MetaKeys$/ do
-  @block = all("#filter_area .block").first
+  all(".context > h3").each {|context| context.click}
+  @key = all("#filter_area .key").first
 end
 
 Then /^I can open a particular MetaKey$/ do
-  @block.find("h3").click
+  @key.find("h3").click
 end
 
 Then /^I can filter by the values of that key$/ do
-  @term = @block.find(".term")
-  @term.find("input").click  
+  @term = @key.find(".term")
+  @term.click  
   wait_until {all(".loading", :visible=>true).size == 0}
   wait_until {find("#results .page .item_box")}
-  wait_until {find("#filter_area .block")}
+  wait_until {find("#filter_area .key")}
   all("#results .page .item_box").each do |item|
     mr = MediaResource.find item["data-id"].to_i
     mr.meta_data.map(&:to_s).any?{|md| md.match @term.text.gsub(/\n.*/, "")}.should be_true

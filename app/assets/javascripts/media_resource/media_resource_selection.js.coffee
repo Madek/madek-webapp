@@ -63,7 +63,7 @@ class MediaResourceSelection
     @el.addClass("first_page_loaded") 
     @mediaContainer.append $.tmpl("tmpl/media_resource/image", data.media_resources)
     @tableContainer.append $.tmpl(@tableRowTemplate, data.media_resources)
-    @setupTableHead data.media_resources[0].meta_data
+    @setupTableHead data.media_resources[0].meta_data if data.media_resources.length
     
   prepareMultiplePages: (pagination)=>
     for page in [2..pagination.total_pages]

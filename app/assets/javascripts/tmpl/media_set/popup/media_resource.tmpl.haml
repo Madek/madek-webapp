@@ -4,9 +4,12 @@ ${$title = MetaDatum.flatten(meta_data).title, ""}
 
 %a{:href => "/${App.MediaResource.pluralize(type)}/${id}"}
   %div{:class => "resource ${type}", :title => "${$title}"}
-    {{if type == "media_set"}}
+    {{if type.match(/set/)}}
     .set_bg
     .set_label_shadow
     .set_label
+    {{/if}}
+    {{if type == "filter_set"}}
+    .filter_set.icon
     {{/if}}
     %img{:src => "${image}"}

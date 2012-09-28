@@ -26,10 +26,10 @@
       = link_to _("Sets"), url_for(params.merge(:type => "media_sets")), :class => "media_sets", :"data-type" => "media_sets"
   
     .permissions
-      = link_to _("Meine"), url_for(params.merge(:user_id => current_user, :not_by_current_user => nil, :public => nil)), :class => "mine"
-      = link_to _("Mir anvertraute"), url_for(params.merge(:user_id => nil, :not_by_current_user => true, :public => false)), :class => "entrusted"
-      = link_to _("Öffentliche"), url_for(params.merge(:user_id => nil, :not_by_current_user => true, :public => true)), :class => "public"
-      = link_to _("Jegliche Berechtigungen"), url_for(params.merge(:user_id => nil, :not_by_current_user => nil, :public => nil)), :class => "all"
+      = link_to _("Meine"), url_for(params.merge(:user_id => current_user, :not_by_user_id => nil, :public => nil)), :class => "mine"
+      = link_to _("Mir anvertraute"), url_for(params.merge(:user_id => nil, :not_by_user_id => current_user, :public => false)), :class => "entrusted"
+      = link_to _("Öffentliche"), url_for(params.merge(:user_id => nil, :not_by_user_id => current_user, :public => true)), :class => "public"
+      = link_to _("Jegliche Berechtigungen"), url_for(params.merge(:user_id => nil, :not_by_user_id => nil, :public => nil)), :class => "all"
 
   .right
     .sort
@@ -51,10 +51,16 @@
       .icon.arrow.up_and_down
       .action_menu_list.right
         %ul
-          %li
-            = link_to upload_path, :title => _("Medien importieren") do
-              .import.icon
-              = _("Importieren")
+          - unless params[:edit_filter_set_id].blank?
+            %li
+              = link_to media_set_path(params[:edit_filter_set_id]), :class => "save_filter_set", :title => _("Änderungen an den Einstellungen des Filterset speichern") do
+                .edit_filter_set.icon
+                = _("Änderungen speichern")
+          - else
+            %li
+              = link_to upload_path, :title => _("Medien importieren") do
+                .import.icon
+                = _("Importieren")
           %li
             %a.open_create_set_dialog{:title => "Neues Set erstellen"}
               .create_set.icon
@@ -70,6 +76,7 @@
       "#{@filter[:search]}", 
       "#{@filter[:top_level]}",
       "#{@filter[:media_set_id]}",
-      "#{@filter[:group_id]}");
+      "#{@filter[:group_id]}",
+      "#{params[:edit_filter_set_id]}");
   });
 

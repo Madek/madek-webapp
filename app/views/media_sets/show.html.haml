@@ -1,6 +1,6 @@
 :ruby
   thumb_class = "thumb_box_set"
-  tab_title = _("Set")
+  tab_title = @media_set.is_a?(FilterSet) ? _("Filterset") : _("Set")
   content_title = _("Set")
   icon_class = "icon_set"
   can_edit = current_user.authorized?(:edit, @media_set)
@@ -15,7 +15,10 @@
             %div.item_permission_set
               = display_permission(@media_set, :icon)
             %div{:class => thumb_class}
-              = thumb_for(@media_set, :small_125)
+              - if @media_set.is_a?(FilterSet)
+                .filter_set.icon
+              - else
+                = thumb_for(@media_set, :small_125)
 
       .grid_9
 
@@ -29,6 +32,11 @@
                   = link_to edit_media_resource_path(@media_set), :title => "Metadaten editieren" do
                     .edit.icon
                     = _("Editieren")
+                - if @media_set.is_a?(FilterSet)
+                  %li
+                    = link_to media_resources_path(@media_set.get_filter.merge(:edit_filter_set_id => @media_set.id)), :title => "Einstellungen des Filtersets ändern" do
+                      .edit_filter_set.icon
+                      = _("Einstellungen ändern")
               %li
                 %span.favorite_link{:id => "fav_#{@media_set.id}", :title => "Als Favorit merken"}
                   = link_to toggle_favorites_media_resource_path(@media_set), :remote => true, :"data-type" => "html", :method => :post do
@@ -48,18 +56,19 @@
                 = media_sets_widget(@media_set, "<div class='edit_arcs icon'></div> <span class='text'>Zu Set hinzufügen/entfernen</span>", nil, {}, "link")
 
               - if can_edit
-                %li
-                  = link_to "",
-                  :title => "Inhalte des Sets hervorheben",
-                  :class => "open_media_set_highlights_lightbox" do
-                    .highlight.icon
-                    %span.text= "Hervorheben"
-                %li
-                  = link_to "",
-                  :title => "Titelbild für Set festlegen",
-                  :class => "open_media_set_cover_lightbox" do
-                    .set_cover.icon
-                    %span.text= "Titelbild"
+                - unless @media_set.is_a? FilterSet
+                  %li
+                    = link_to "",
+                    :title => "Inhalte des Sets hervorheben",
+                    :class => "open_media_set_highlights_lightbox" do
+                      .highlight.icon
+                      %span.text= "Hervorheben"
+                  %li
+                    = link_to "",
+                    :title => "Titelbild für Set festlegen",
+                    :class => "open_media_set_cover_lightbox" do
+                      .set_cover.icon
+                      %span.text= "Titelbild"
                 %li
                   = link_to "",
                   :title => "Sortierung und Darstellung des Sets festlegen",
@@ -91,13 +100,17 @@
                 = link_to _("Kontexte"), "#contexts_tab"
 
           #info_tab.clearfix
+            -# TODO remove this, it's just temporary for debugging
+            - if @media_set.is_a?(FilterSet) and Rails.env.development?
+              = @media_set.settings[:filter].inspect
+
             - context = MetaContext.media_set
             = display_meta_data_for_context(@media_set, context)
           - unless @media_set.individual_contexts.empty?
             = render :partial => "media_entries/browsing"
             #abstract_tab.clearfix
               %p= _("Diese Metadaten wurden am häufigsten vergeben. Sie zeigen den thematischen Schwerpunkt des Projekts an.")
-              - total_children = @media_set.children.accessible_by_user(current_user).count
+              - total_children = @media_set.child_media_resources.accessible_by_user(current_user).count
               = display_set_abstract_slider(@media_set, total_children)
               = display_set_abstract(@media_set, (total_children * 30 / 100), current_user)
             #vocabulary_tab.clearfix
@@ -122,6 +135,7 @@
               %hr
               %p= _("So können für alle Medieneinträge, die in diesem Set enthalten sind, weitere inhaltliche Angaben gemacht werden. Darüber hinaus können alle Sets, die diesem Set zugewiesen werden, ebenfalls die ausgewählten zusätzlichen Kontexte erhalten.")
 
+#filter_area
 %section#content_body_set
   #media_set_highlights{:class => (@media_set.out_arcs.any?(&:highlight)) ? "any" : nil, :"data-parent_id" => @media_set.id}
     .container
@@ -134,6 +148,7 @@
         = _("Dieses Set ist in %s enthalten") % pluralize(@parents.size, "Set")
     .clear
     #parents.media_resources.index.grid
+
   %section#children.media_resources.index
     = render :partial => "media_resources/index"
 
