@@ -1,4 +1,6 @@
 module DBHelper
+  require 'open3'
+
   class << self
 
     def module_path # for convenient reloading
