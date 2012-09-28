@@ -27,7 +27,7 @@ module MediaResourceModules
     end
 
     def parents 
-      case type
+      case self.class.model_name.to_s
         when "MediaSet"
           parent_sets
         when "MediaEntry"

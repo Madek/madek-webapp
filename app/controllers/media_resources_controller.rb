@@ -573,19 +573,24 @@ class MediaResourcesController < ApplicationController
   #     "media_resources": "[...]"
   #     "filter": [
   #       {
-  #         id: 9,
-  #         name: "keywords",
+  #         context_name: "media_content",
+  #         context_label: "Werk",
   #         filter_type: "meta_data",
-  #         label: "Keywords for content and design",
-  #         terms: [
+  #         keys: [
   #           {
-  #             id: 4359,
-  #             value: "blueprint",
-  #             count: 1
-  #           }, {
-  #             id: 4811,
-  #             value: "world",
-  #             count: 2
+  #             key_name: "keywords",
+  #             key_label: "Keywords for content and design",
+  #             terms: [
+  #               {
+  #                 id: 4359,
+  #                 value: "blueprint",
+  #                 count: 1
+  #               }, {
+  #                 id: 4811,
+  #                 value: "world",
+  #                 count: 2
+  #               }
+  #             ]
   #           }
   #         ]
   #       }
@@ -663,7 +668,7 @@ class MediaResourcesController < ApplicationController
             view_context.hash_for_media_resources_with_pagination(resources, {:page => page, :per_page => per_page}, with, false)
         end
 
-        render json: h.to_json
+        render json: h.merge(:current_filter => @filter).to_json
       }
     end
   end
@@ -673,7 +678,7 @@ class MediaResourcesController < ApplicationController
   end
 
   def edit
-    render :template => "/#{@media_resource.type.pluralize.underscore}/edit"
+    render :template => "/#{@media_resource.class.model_name.pluralize.underscore}/edit"
   end
 
   def destroy

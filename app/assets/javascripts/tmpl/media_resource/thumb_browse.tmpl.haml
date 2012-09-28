@@ -1,7 +1,7 @@
 ${$meta_data = MetaDatum.flatten(meta_data), ""}
 
 {{if type}}
-${is_set = (type=="media_set")?true:false, ""}
+${is_set = !!type.match(/set/), ""}
 {{/if}}
 
 .item_box.tmp{:id => "thumb_${id}", :style => "background-color: #f1f1f1; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);"}

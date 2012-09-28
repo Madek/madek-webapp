@@ -61,7 +61,7 @@ class MediaSetsController < ApplicationController
     
         @media_sets, @my_media_sets, @my_title, @other_title = if @media_set
           # all media_sets I can see, nested within a media set (for now only used with featured sets)
-          [resources.where(:id => @media_set.child_sets), nil, "#{@media_set}", nil]
+          [resources.where(:id => @media_set.child_media_resources.media_sets), nil, "#{@media_set}", nil]
         elsif @user and @user != current_user
           # all media_sets I can see that have been created by another user
           [resources.by_user(@user), nil, "Sets von %s" % @user, nil]
@@ -165,6 +165,10 @@ class MediaSetsController < ApplicationController
   # 
   # @argument [media_sets] array Including all media_sets wich have to be created
   #
+  # @argument [media_sets][filter][meta_data] array Including meta_data to be filtered, in this case a filter_set will be created
+  # @argument [media_sets][filter][search] string The search string to be filtered, in this case a filter_set will be created
+  #
+  #
   # @example_request
   #   {"media_set": {"meta_data_attributes": [{"meta_key_label":"title", "value": "My Title"}]}}
   #
@@ -181,7 +185,8 @@ class MediaSetsController < ApplicationController
   #
   # @response_field [Integer] title The title of the created set
   # 
-  def create(attr = params[:media_sets] || params[:media_set])
+  def create(attr = params[:media_sets] || params[:media_set],
+             filter = params[:filter])
     is_saved = true
     if not attr.blank? and attr.has_key? "0" # CREATE MULTIPLE
       # TODO ?? find_by_id_or_create_by_title
@@ -195,6 +200,16 @@ class MediaSetsController < ApplicationController
     else # CREATE SINGLE
       @media_set = current_user.media_sets.create
       is_saved = @media_set.update_attributes(attr)
+    end
+
+    # we are actually creating a filter_set
+    unless filter.blank?
+      (@media_sets || [@media_set]).each do |media_set|
+        media_set.becomes FilterSet
+        media_set.update_column(:type, "FilterSet")
+        media_set.settings[:filter] = filter.delete_if {|k,v| v.blank?}.deep_symbolize_keys
+        media_set.save
+      end
     end
 
     respond_to do |format|
@@ -216,15 +231,25 @@ class MediaSetsController < ApplicationController
     end
   end
   
-  def update
-    if params[:individual_context_ids]
-      params[:individual_context_ids].delete_if &:blank? # NOTE receiving params[:individual_context_ids] even if no checkbox is checked
+  def update(individual_context_ids = params[:individual_context_ids],
+             filter = params[:filter])
+    if individual_context_ids
+      individual_context_ids.delete_if &:blank? # NOTE receiving params[:individual_context_ids] even if no checkbox is checked
       @media_set.individual_contexts.clear
-      @media_set.individual_contexts = MetaContext.find(params[:individual_context_ids])
+      @media_set.individual_contexts = MetaContext.find(individual_context_ids)
       @media_set.save
     end
-    
-    redirect_to @media_set
+
+    # we are actually updating a filter_set
+    if @media_set.is_a?(FilterSet) and not filter.blank?
+      @media_set.settings[:filter] = filter.delete_if {|k,v| v.blank?}.deep_symbolize_keys
+      @media_set.save
+    end
+
+    respond_to do |format|
+      format.html { redirect_to @media_set }
+      format.json { render :json => {:id => @media_set.id}, :status => :ok }
+    end
   end
 
 #####################################################
@@ -251,7 +276,7 @@ class MediaSetsController < ApplicationController
       if params[:media_entry_ids] && !(params[:media_entry_ids] == "null") #check for blank submission from select
         ids = params[:media_entry_ids].is_a?(String) ? params[:media_entry_ids].split(",") : params[:media_entry_ids]
         media_entries = MediaEntry.find(ids)
-        new_members = @media_set.media_entries << media_entries
+        new_members = @media_set.child_media_resources << media_entries
       end
       flash[:notice] = if new_members > 1
          "#{new_members} neue Medieneinträge wurden dem Set #{@media_set.title} hinzugefügt" 

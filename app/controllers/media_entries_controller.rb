@@ -46,7 +46,7 @@ class MediaEntriesController < ApplicationController
   
         begin
           @media_entry =  if @media_set
-                            @media_set.media_entries.accessible_by_user(current_user, action).find(params[:media_entry_id])
+                            @media_set.child_media_resources.media_entries.accessible_by_user(current_user, action).find(params[:media_entry_id])
                           elsif @user
                             @user.media_entries.accessible_by_user(current_user, action).find(params[:media_entry_id])
                           # TODO if @user and @media_set ??
@@ -124,9 +124,9 @@ class MediaEntriesController < ApplicationController
 
     parent_media_sets.each do |media_set|
       if request.post?
-        media_set.media_entries << @media_entry
+        media_set.child_media_resources << @media_entry
       else
-        media_set.media_entries.delete(@media_entry)
+        media_set.child_media_resources.delete(@media_entry)
       end
     end
     
@@ -155,7 +155,7 @@ class MediaEntriesController < ApplicationController
 # BATCH actions
 
   def remove_multiple
-    @media_set.media_entries.delete(@media_entries)
+    @media_set.child_media_resources.delete(@media_entries)
     flash[:notice] = "Die Medieneinträge wurden aus dem Set gelöscht."
     redirect_to media_set_url(@media_set)
   end

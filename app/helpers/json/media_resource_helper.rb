@@ -69,18 +69,20 @@ module Json
           h[:parents] = hash_for_media_resources_with_pagination(media_resources, pagination, forwarded_with)
         end
       
-        case media_resource.type
+        case media_resource.class.model_name.to_s
           when "MediaSet"
             if with[:children]
               h[:children] = begin
-                type = with[:children].is_a?(Hash) and with[:children][:type] ? with[:children][:type] : nil 
-                media_resources = if type == "media_entry"
-                  media_resource.media_entries
-                elsif type == "media_set"
-                  media_resource.child_sets
-                else # respond with media_resources children
-                  media_resource.children
-                end.accessible_by_user(current_user)
+                # respond with media_resources children
+                media_resources = media_resource.child_media_resources.accessible_by_user(current_user)
+                
+                case with[:children][:type]
+                  when "media_entry"
+                    media_resources = media_resources.media_entries
+                  when "media_set"
+                    media_resources = media_resources.media_sets
+                end if with[:children].is_a?(Hash) and with[:children][:type]
+                  
                 pagination = ((with[:children].is_a? Hash) ? with[:children][:pagination] : nil) || true
                 forwarded_with = (with[:children].is_a? Hash) ? (with[:children][:with]||=nil) : nil
                 hash_for_media_resources_with_pagination(media_resources, pagination, forwarded_with, true)
@@ -103,6 +105,7 @@ module Json
     alias :hash_for_media_entry_incomplete :hash_for_media_resource 
     alias :hash_for_media_entry :hash_for_media_resource 
     alias :hash_for_media_set :hash_for_media_resource 
+    alias :hash_for_filter_set :hash_for_media_resource 
 
     ###########################################################################
 
@@ -130,7 +133,8 @@ module Json
 
     def hash_for_filter(media_resources)
       r = []
-      
+
+=begin # TODO reactivate this block when required on the filter panel
       # OPTIMIZE this is not construct over media_resources
       r << {
         :label => "Berechtigungen, Ich bin...",
@@ -159,7 +163,8 @@ module Json
           end
         end 
       }
-      
+
+      # FIXME this query is too slow!
       r << {
         :label => "Arbeitsgruppen",
         :name => "group",
@@ -175,9 +180,10 @@ module Json
           end
         end 
       }
+=end
       
       meta_datum_object_types = ["MetaDatumMetaTerms", "MetaDatumKeywords", "MetaDatumDepartments"]
-      meta_datum_object_types.each do |meta_datum_object_type|
+      queries = meta_datum_object_types.map do |meta_datum_object_type|
         sql_select, sql_join, sql_group = case meta_datum_object_type
           when "MetaDatumKeywords"
             [%Q(meta_terms.id, meta_terms.#{DEFAULT_LANGUAGE} as value),
@@ -195,43 +201,46 @@ module Json
                 INNER JOIN meta_terms ON meta_data_meta_terms.meta_term_id = meta_terms.id),
              %Q(meta_terms.id)]
         end
-        sql = %Q( SELECT meta_contexts.name AS context_name, 
-                    meta_keys.label AS name, 
-                    mt2.#{DEFAULT_LANGUAGE} AS label,
-                    COUNT(meta_data.media_resource_id) AS count,
-                    #{sql_select}
-                  FROM meta_contexts
-                     INNER JOIN meta_key_definitions ON meta_key_definitions.meta_context_id = meta_contexts.id
-                     INNER JOIN meta_terms mt2 ON meta_key_definitions.label_id = mt2.id
-                     INNER JOIN meta_keys ON meta_key_definitions.meta_key_id = meta_keys.id
-                     INNER JOIN meta_data ON meta_data.meta_key_id = meta_keys.id
-                     #{sql_join}
-                  WHERE meta_keys.meta_datum_object_type = '#{meta_datum_object_type}'
-                  AND meta_contexts.meta_context_group_id IS NOT NULL
-                  AND meta_data.media_resource_id IN (#{media_resources.select("media_resources.id").to_sql})
-                  GROUP BY #{sql_group}, meta_contexts.name, meta_keys.label, mt2.#{DEFAULT_LANGUAGE} )
-        query = ActiveRecord::Base.connection.execute sql
-        fields = {}
-        if SQLHelper.adapter_is_postgresql?
-          query.fields.each_with_index {|field, index| fields[field.to_sym] = field }
-        else
-          query.fields.each_with_index {|field, index| fields[field.to_sym] = index }
-        end
-        grouped_query = query.group_by {|x| [x[fields[:context_name]], x[fields[:name]], x[fields[:label]]]}
-        grouped_query.each_pair do |k, v|
-          next if r.map{|x| x[:name]}.include?(k[1]) # TODO ignoring multiple meta_contexts for the same meta_key, delete when we want the 3-level filter panel
-          r << { :context_name => k[0],
-                 :name => k[1],
-                 :label => k[2],
-                 :filter_type => "meta_data",
-                 :terms => v.map do |vv|
-                   { :id => vv[fields[:id]],
-                     :value => vv[fields[:value]],
-                     :count => vv[fields[:count]]
-                   }
-                 end.sort {|a,b| [b[:count], a[:value]] <=> [a[:count], b[:value]] }
-               }
-        end
+        %Q( SELECT meta_contexts.name AS context_name, 
+                mt3.#{DEFAULT_LANGUAGE} AS context_label,
+                meta_keys.label AS key_name, 
+                mt2.#{DEFAULT_LANGUAGE} AS key_label,
+                COUNT(meta_data.media_resource_id) AS count,
+                meta_context_groups.position AS context_group_position,
+                meta_contexts.position AS context_position,
+                meta_key_definitions.position AS definition_position,
+                #{sql_select}
+              FROM meta_contexts
+                 INNER JOIN meta_context_groups ON meta_context_groups.id = meta_contexts.meta_context_group_id
+                 INNER JOIN meta_key_definitions ON meta_key_definitions.meta_context_id = meta_contexts.id
+                 INNER JOIN meta_terms mt2 ON meta_key_definitions.label_id = mt2.id
+                 INNER JOIN meta_terms mt3 ON meta_contexts.label_id = mt3.id
+                 INNER JOIN meta_keys ON meta_key_definitions.meta_key_id = meta_keys.id
+                 INNER JOIN meta_data ON meta_data.meta_key_id = meta_keys.id
+                 #{sql_join}
+              WHERE meta_keys.meta_datum_object_type = '#{meta_datum_object_type}'
+              AND meta_data.media_resource_id IN (#{media_resources.select("media_resources.id").to_sql})
+              GROUP BY #{sql_group}, meta_contexts.name, mt3.#{DEFAULT_LANGUAGE}, meta_keys.label, mt2.#{DEFAULT_LANGUAGE},
+                        meta_context_groups.position, meta_contexts.position, meta_key_definitions.position )
+      end
+      sql = "SELECT * FROM (%s) AS t1 ORDER BY context_group_position, context_position, definition_position" % queries.join(" UNION ")
+      executed_query = ActiveRecord::Base.connection.execute(sql)
+      executed_query.group_by{|x| x["context_name"]}.each_pair do |k, v|
+        r << { :filter_type => "meta_data",
+               :context_name => v.first["context_name"],
+               :context_label => v.first["context_label"],
+               :keys => v.group_by{|x| x["key_name"]}.map do |vv|
+                 { :key_name => vv[1].first["key_name"],
+                   :key_label => vv[1].first["key_label"],
+                   :terms => vv[1].map do |vvv|
+                     { :id => vvv["id"],
+                       :value => vvv["value"],
+                       :count => vvv["count"].to_i
+                     }
+                   end.sort {|a,b| [b[:count], a[:value]] <=> [a[:count], b[:value]] }
+                 }
+               end
+             }
       end
 
       r
@@ -255,7 +264,7 @@ module Json
       media_sets.each do |media_set|
         h[:nodes] << hash_for(media_set, with)
         #v2# h[:nodes] << {:name => media_set.title}
-        media_set.child_sets.each do |child_set|
+        media_set.child_media_resources.media_sets.each do |child_set|
           h[:nodes] << hash_for(child_set, with)
           h[:links] << {source_id: media_set.id, target_id: child_set.id}
           #v2# h[:links] << {source: media_set.title, target: child_set.title, type: "suit"}

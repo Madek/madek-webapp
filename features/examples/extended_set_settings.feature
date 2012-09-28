@@ -9,9 +9,9 @@ Feature: Login
 
   @javascript
   Scenario: Set the cover of a set by hand
-    When I see the detail view of a set that I can edit
+    When I see the detail view of a set with media entries that I can edit
     Then I can open the set cover dialog
-     And I see a list of media resources which are inside that set
+     And I see a list of media entries which are inside that set
     When I choose one of that media resources
     Then that media resource is displayed as cover of that set
 
@@ -36,7 +36,7 @@ Feature: Login
 
   @javascript
   Scenario: Save display settings of a set
-    When I see the detail view of a set that I can edit
+    When I see the detail view of a public set that I can edit
      And I changed the layout
      And I changed the sorting
      And I save that display settings

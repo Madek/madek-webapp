@@ -1,5 +1,5 @@
 {{if type}}
-${is_set = (type=="media_set")?true:false, ""}
+${is_set = !!type.match(/set/), ""}
 {{/if}}
 
 %div{:id => "thumb_${id}", :class => "item_box ${media_type.toLowerCase()}{{if is_set}} set{{/if}}", :"data-id" => "${id}"}

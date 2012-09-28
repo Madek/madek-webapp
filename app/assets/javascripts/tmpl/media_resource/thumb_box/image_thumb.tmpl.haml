@@ -4,6 +4,8 @@ ${$class = (is_set) ? "thumb_box_set" : "thumb_box", ""}
   %div{:class => "${$class}"}
     {{if image}}
     %img{:src => "${image}"}
+    {{else $item.data.type == "filter_set"}}
+    .filter_set.icon
     {{/if}}
 {{else}}
 %div{:class => "${$class}"}

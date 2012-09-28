@@ -88,6 +88,12 @@
     height: 15px;
     width: 15px;
   }
+
+  &.edit_filter_set {
+    background-position: -34px -442px;
+    height: 16px;
+    width: 16px;
+  }
   
   &.groups {
     background-position: 0 -183px;
@@ -196,6 +202,12 @@
     background-position: -18px -394px;
     height: 14px;
     width: 15px;
+  }
+
+  &.filter_set {
+    background-position: -13px -408px;
+    height: 20px;
+    width: 20px;
   }
 }
 

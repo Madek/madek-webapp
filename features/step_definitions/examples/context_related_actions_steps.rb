@@ -27,6 +27,8 @@ Then /^I can open the context actions drop down and see the following actions in
         menu.find("li", :text => "Erkunden") if MediaResource.find(current_path.gsub(/\D/, "").to_i).meta_data.for_meta_terms.exists?
       when "create set"
         menu.find("li", :text => "Neues Set")
+      when "edit changes to filter settings"
+        menu.find("li", :text => "Einstellungen ändern")
       else
         raise "#{hash} action not found"
     end

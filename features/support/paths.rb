@@ -36,7 +36,7 @@ module NavigationHelpers
       media_resources_path(:favorites => true)
       
     when /content assigned to me/
-      media_resources_path(:not_by_current_user => true, :public => false)
+      media_resources_path(:not_by_user_id => @current_user, :public => false)
       
     when /public content/
       media_resources_path(:public => true)

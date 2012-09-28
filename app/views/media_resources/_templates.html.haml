@@ -23,7 +23,7 @@
 
 %script#thumbnail_mini{:type => "text/x-jquery-tmpl"}
   {{if type}}
-  ${is_set = (type=="media_set")?true:false, ""}
+  ${is_set = !!type.match(/set/), ""}
   {{/if}}
   %div{:class => "thumb_mini {{if is_editable}}edit{{/if}} {{if is_manageable}}manage{{/if}}{{if is_set}} set{{/if}}", :rel => "${id}", :title => "${MetaDatum.flatten(meta_data).title}"}
     {{if is_set}}

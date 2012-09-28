@@ -8,8 +8,8 @@ module MediaSetsHelper
         haml_tag :div, thumb_for(media_set, :small_125), :class => thumb_class if with_main_thumb
         haml_tag :br
         haml_tag :span, media_set.title, :style => "font-weight: bold; font-size: 1.2em;"
-        #2001# " (%d/%d Medieneinträge)" % [visible_media_entries.count, media_set.media_entries.count]
-        haml_concat " (%d Medieneinträge)" % [media_set.media_entries.count]
+        #2001# " (%d/%d Medieneinträge)" % [visible_media_entries.count, media_set.child_media_resources.media_entries.count]
+        haml_concat " (%d Medieneinträge)" % [media_set.child_media_resources.media_entries.count]
         haml_tag :br
         unless (authors = media_set.meta_data.get_value_for("author")).blank?
           haml_concat "von #{authors}"
@@ -17,7 +17,7 @@ module MediaSetsHelper
         end
         if total_thumbs > 0
           haml_tag :br
-          media_entries = media_set.media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").paginate(:page => 1, :per_page => total_thumbs)
+          media_entries = media_set.child_media_resources.media_entries.accessible_by_user(current_user).order("media_resources.updated_at DESC").paginate(:page => 1, :per_page => total_thumbs)
           if media_entries.empty?
             haml_tag :small, _("Noch keine Medieneinträge enthalten")
           else
@@ -74,7 +74,7 @@ module MediaSetsHelper
       else
         haml_tag :h4, _("Enthalten in")
         media_sets.each do |media_set|
-          #2001# media_entries = media_set.media_entries.select {|media_entry| current_user.authorized?(:view, media_entry)}
+          #2001# media_entries = media_set.child_media_resources.media_entries.select {|media_entry| current_user.authorized?(:view, media_entry)}
           #2001# media_set_title(media_set, media_entries, true)
           haml_concat media_set_title(media_set, true, true)
         end

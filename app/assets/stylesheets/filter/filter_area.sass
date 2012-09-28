@@ -1,16 +1,15 @@
 @import "mixins"
 
 #filter_area
-  background-color: #323232
   color: #FFFFFF
   height: 35px
-  position: fixed
+  position: absolute
   overflow: hidden
-  top: 55px
+  top: 80px
   left: -225px
   width: 257px
   z-index: 1001
-  @include box-shadow(0 2px 6px rgba(0,0,0,0.3))
+  padding-bottom: 140px
   @include unselectable()
 
   &.open
@@ -20,7 +19,15 @@
   *
     letter-spacing: 0
 
+  .panel > div
+    display: none !important
+
+  &.open .panel > div
+    display: block !important
+
   .panel    
+    background-color: #323232
+    @include box-shadow(0 2px 6px rgba(0,0,0,0.3))
 
     &>h3
       background-color: #323232
@@ -107,8 +114,7 @@
         &:active
           @include box-shadow(inset 0 1px 4px rgba(0,0,0,0.3))          
 
-
-    .blocks
+    .inner
       position: relative
       padding-bottom: 2px
 
@@ -121,13 +127,15 @@
         top: 0
         width: 100%
 
-      .block
+      .key
         background-color: #7C7C7C
+        margin-left: 8px
+        position: relative
 
         &:not(.open) .content
           display: none
 
-        &.open + .block>h3
+        &.open + .key>h3
           border-top: 1px solid #5C5C5C
 
         &>h3
@@ -138,19 +146,27 @@
           color: #FFFFFF
           cursor: pointer
           display: block
-          font-size: 0.9em
+          font-size: 0.85em
           font-weight: bold
-          padding: 6px 0 4px 10px
+          padding: 6px 0 4px 20px
           @include text-shadow(-1px 1px 0 rgba(0,0,0,0.2))
 
-          &:active
-            background-color: #3A3A3A
+        &>h3:hover, &.open>h3
+          background-color: #5C5C5C
+          border-bottom: 1px solid #4C4C4C
+          border-top: 1px solid #666666
+          @include text-shadow(-1px 1px 0 rgba(0,0,0,0.2))
 
-          &:hover
-            background-color: #5C5C5C
-            border-bottom: 1px solid #4C4C4C
-            border-top: 1px solid #666666
-            @include text-shadow(-1px 1px 0 rgba(0,0,0,0.2))
+        &>h3:active
+          background-color: #3A3A3A
+
+        input.any
+          position: absolute
+          left: 8px
+          top: 10px
+
+          &+h3
+            padding: 6px 0 4px 28px
 
         .content
           background-color: #CFCFCF
@@ -159,6 +175,7 @@
           overflow: hidden
           overflow-y: auto
           max-height: 252px
+          margin-left: 2px
           @include text-shadow(-1px 1px 0 rgba(255,255,255,0.3))
 
           ul
@@ -179,18 +196,22 @@
                 padding: 2px 2px 4px 14px
                 position: relative
 
-                &[disabled=disabled]
-                  background: rgba(255,255,255,0.1)
-                  cursor: default
-                  @include opacity(0.6)
-
-                &:not([disabled=disabled]):active
+                &:active
                   background-color: #CFCFCF
 
-                &:not([disabled=disabled]):hover
+                &:hover
                   background-color: #BFBFBF
 
+                &.selected
+                  font-weight: bold
+                  background-color: #EFEFEF
+
+                  &:hover
+                    background-color: #BFBFBF
+                    color: rgb(40,40,40)
+
                 input[type=checkbox]
+                  display: none
                   float:left
                   vertical-align: middle
 
@@ -202,7 +223,7 @@
                   padding-top: 4px
                   padding-right: 30px
                   vertical-align: middle
-                  width: 79%
+                  width: 85%
 
                 .count
                   color: #555
@@ -218,4 +239,33 @@
                 
                 &:not([disabled=disabled]):hover .count
                   color: #222
-                  
+
+      .context 
+
+        & > .key
+          display: none
+
+        &.open > .key
+          display: block
+
+        &>h3 
+          background-color: #7C7C7C
+          border-bottom: 1px solid #5C5C5C
+          border-top: 1px solid #8C8C8C
+          border-right: 1px solid #8C8C8C
+          color: #FFFFFF
+          cursor: pointer
+          display: block
+          font-size: 1.0em
+          font-weight: bold
+          padding: 6px 0 4px 10px
+          @include text-shadow(-1px 1px 0 rgba(0,0,0,0.2))
+
+        &>h3:hover, &.open>h3
+          background-color: #5C5C5C
+          border-bottom: 1px solid #4C4C4C
+          border-top: 1px solid #666666
+          @include text-shadow(-1px 1px 0 rgba(0,0,0,0.2))
+
+        &>h3:active
+          background-color: #3A3A3A

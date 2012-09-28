@@ -19,6 +19,8 @@ class MetaKeyDefinition < ActiveRecord::Base
     end
   end
 
+  default_scope order(:position)
+
 #########################
 
   [:label, :description, :hint].each do |name|

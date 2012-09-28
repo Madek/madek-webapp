@@ -17,7 +17,7 @@ class MediaResourceArc < ActiveRecord::Base
   end
 
   def only_set_as_parent
-    if parent.class != MediaSet
+    if parent.class != MediaSet # TODO accept parent as FilterSet as well ?? unless parent.is_a? MediaSet
       errors[:base] << "only sets can be parents"
     end
   end
