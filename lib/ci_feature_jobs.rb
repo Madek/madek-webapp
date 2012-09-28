@@ -82,7 +82,10 @@ module CIFeatureJobs
         begin
           create_ci_job! job_params, xml_config
         rescue
+        end
+        begin
           update_ci_job! job_params, xml_config
+        rescue
         end
       end
     end
