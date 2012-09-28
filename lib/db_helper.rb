@@ -64,7 +64,7 @@ module DBHelper
         raise "not supported"
       end
       set_pg_env template_config
-      cmd = "psql -q -c 'CREATE DATABASE #{config['database']} TEMPLATE = #{template_config['database']}'"
+      cmd = "psql -q -c 'CREATE DATABASE \"#{config['database']}\" TEMPLATE = \"#{template_config['database']}\"'"
       system cmd
     end
 
