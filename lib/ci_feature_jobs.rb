@@ -52,23 +52,23 @@ module CIFeatureJobs
 
     ### CI API ##################################################################
 
-    def create_connection
+    def create_connection opts
       Faraday.new(url: BASE_PATH) do |faraday|
         faraday.adapter Faraday.default_adapter
-        faraday.basic_auth(ENV['CI_USER'], ENV['CI_PW'])
+        faraday.basic_auth(opts_or_env(:ci_user,opts), opts_or_env(:ci_pw,opts))
       end
     end
 
-    def update_ci_job! job_params, xml
-      create_connection.post do |req|
+    def update_ci_job! job_params, xml, opts = {}
+      create_connection(opts).post do |req|
         req.path= "job/#{ci_job_name(job_params)}/config.xml"
         req.headers['Content-Type'] = 'application/xml'
         req.body = xml
       end
     end
 
-    def create_ci_job! job_params, xml
-      create_connection.post do |req|
+    def create_ci_job! job_params, xml, opts = {}
+      create_connection(opts).post do |req|
         req.path= "/createItem"
         req.params['name'] = ci_job_name(job_params)
         req.headers['Content-Type'] = 'application/xml'
@@ -76,16 +76,18 @@ module CIFeatureJobs
       end
     end
 
-    def create_or_update_all_jobs! 
+    def create_or_update_all_jobs!  opts = {}
       all_jobs_params.each do |job_params|
         xml_config = job_xml job_params
         begin
-          create_ci_job! job_params, xml_config
+          create_ci_job! job_params, xml_config, opts
         rescue
         end
         begin
-          update_ci_job! job_params, xml_config
-        rescue
+          resp = update_ci_job! job_params, xml_config, opts
+          binding.pry
+        rescue => e
+          puts "update error: #{e}"
         end
       end
     end

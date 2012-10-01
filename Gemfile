@@ -14,7 +14,6 @@ gem 'pg'
 gem "coffee-filter", "~> 0.1.1"
 gem "d3_rails", "~> 2.10"
 gem 'RedCloth'
-gem 'acts-as-dag', '~> 2.5.7' # TOOD use instead ?? gem 'dagnabit', '2.2.6'
 gem 'coffee-script', '~> 2.2'
 gem 'haml', '~> 3.1'
 gem 'haml_assets'
