@@ -89,6 +89,40 @@ namespace :madek do
       end
     end
 
+    desc "Fetch and restore the life database" 
+    task :fetch_and_restore_lifedb do
+      remote_dump_cmd = 'ssh madek@madek-server "cd current;RAILS_ENV=production DIR=/tmp bundle exec rake madek:db:dump"'
+      Open3.popen3(remote_dump_cmd) do |stdin,stdout,stderr,thread|
+        if thread.value.exitstatus == 0
+          puts "the db has been dumped on the server"
+          s = stdout.gets
+          dumpfile = s.split(/\s/).last
+          filename = dumpfile.split('/').last
+          target_dir = Rails.root.join 'tmp'
+          filename_path = "#{target_dir}/#{filename}"
+          Open3.popen3("scp madek-personas@madek-server:#{dumpfile} #{filename_path}") do |stdin,stdout,stderr,thread|
+            if thread.value.exitstatus == 0
+              puts "the db has been fetched"
+              Rake::Task["db:drop"].invoke
+              puts "creating the db"  
+              Rake::Task["db:create"].invoke
+              puts "restoring data"
+              DBHelper.restore_native filename_path, config: Rails.configuration.database_configuration[Rails.env]
+              puts "running the migrations"
+              Rake::Task["db:migrate"].invoke
+            else
+              puts "copying the dump from the remote machine failed"
+              -1
+            end
+          end
+        else
+          puts "dumping the database on the remote server failed with #{stderr}"
+          -1
+        end
+      end
+    end
+
+
     desc "Fetch the current dump of the personas db(Postgres only)" 
     task :fetch_personas do
       Open3.popen3('ssh madek-personas@madek-server "cd current;RAILS_ENV=production bundle exec rake madek:db:dump"') do |stdin,stdout,stderr,thread|
