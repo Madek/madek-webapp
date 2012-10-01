@@ -27,8 +27,9 @@ module DBHelper
       "db_dump_#{date_string}_#{migration_version}"
     end
 
-    def dump_file_path
-      Rails.root.join "tmp", "#{base_file_name}.#{file_extension}"
+    def dump_file_path opts 
+      dir = opts[:dir] || (Rails.root.join "tmp")
+      dir.join '/', "#{base_file_name}.#{file_extension}"
     end
 
     def set_pg_env config
@@ -101,12 +102,12 @@ module DBHelper
     ###########################################################################
 
     def dump_native options = {}
-      path = options[:path] || dump_file_path
+      options = options.symbolize_keys
+      path = options[:path] || dump_file_path(options[:dir])
       config = options[:config] || Rails.configuration.database_configuration[Rails.env]
       cmd =
         if SQLHelper.adapter_is_postgresql?
           set_pg_env config
-          binding.pry
           "pg_dump -E utf-8 -F p -Z 5 -O --no-acl -f #{path}"
         elsif SQLHelper.adapter_is_mysql? 
           "mysqldump #{get_mysql_cmd_credentials config} #{config['database']} > #{path}"
