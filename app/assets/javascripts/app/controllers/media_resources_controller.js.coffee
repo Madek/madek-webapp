@@ -32,7 +32,6 @@ class MediaResourcesController
       data: data
       success: (data)->
         display_page(data, $this)
-    options.url = $this.data('url') if $this.data('url')?
     App.MediaResources.fetch options
 
   render_context: ->
@@ -102,7 +101,7 @@ class MediaResourcesController
     else
       data = if options.data? then options.data else {}
     $.ajax
-      url: options.url
+      url: if options.url? then options.url else "/media_resources.json"
       type: if options.type? then options.type else 'GET'
       data: $.extend(data, {format: "json"})
       beforeSend: options.beforeSend
