@@ -42,9 +42,9 @@ namespace :madek do
       end
     end
 
-    desc "Dump the database in the native adapter format"
+    desc "Dump the database in the native adapter format, use DIR or FILE env to specify a destination"
     task :dump => :environment do
-      res = DBHelper.dump_native config: Rails.configuration.database_configuration[Rails.env]
+      res = DBHelper.dump_native config: Rails.configuration.database_configuration[Rails.env], dir: ENV['DIR'], path: ENV['FILE']
       puts "the data has been dumped into #{res[:path]}"
     end
 
@@ -63,6 +63,31 @@ namespace :madek do
       PersonasDBHelper.clone_persona_to_test_db
     end
 
+
+    desc "Fetch and restore the last life/production database"
+    task :fetch_and_restore_lifedata => :environment do
+      file= "rails_madek_prod-current.sql.bz2"
+      target_file= "tmp/#{file}"
+      fetch_cmd = "scp madek@madek-server:/home/rails/madek/shared/db_backups/#{file} #{target_file}"
+      Open3.popen3(fetch_cmd) do |stdin,stdout,stderr,thread|
+        if thread.value.exitstatus == 0
+          puts "the life db has been fetched into #{target_file}"
+          puts "dropping the db" 
+          Rake::Task["db:drop"].invoke
+          puts "creating the db"  
+          Rake::Task["db:create"].invoke
+          print "restoring ..."
+          DBHelper.restore_native target_file, config: Rails.configuration.database_configuration[Rails.env]
+          print " done\n"
+          print "migrating ..."
+          Rake::Task["db:migrate"].invoke
+          print " done\n"
+        else
+          puts "copying the dump from the remote machine failed"
+          exit -1
+        end
+      end
+    end
 
     desc "Fetch the current dump of the personas db(Postgres only)" 
     task :fetch_personas do
