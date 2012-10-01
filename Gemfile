@@ -83,5 +83,4 @@ group :test do
   gem 'cucumber-rails', '~> 1.3', :require => false
   gem 'launchy'  
   gem 'selenium-webdriver', '~> 2.25'
-  gem 'simplecov', '~> 0.6'
 end

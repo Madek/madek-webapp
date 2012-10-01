@@ -3,13 +3,6 @@
 require 'rubygems'
 require 'spork'
 
-require 'simplecov'
-SimpleCov.start 'rails' do
-  merge_timeout 3600
-end
-
-# Code coverage tool that supports Ruby 1.9 and Rails 3
-
 Spork.prefork do
   # Loading more in this block will cause your tests to run faster. However, 
   # if you change any configuration or code from libraries loaded here, you'll
