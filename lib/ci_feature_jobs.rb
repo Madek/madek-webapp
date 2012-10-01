@@ -1,5 +1,7 @@
 module CIFeatureJobs
 
+  require 'rexml/document'
+
   TEMPLATE_URL = "http://ci.zhdk.ch/job/MAdeK_next_TEMPLATE/config.xml"
   BASE_PATH = "http://ci.zhdk.ch"
   BASE_NAME = "MAdeK_next_feature"
