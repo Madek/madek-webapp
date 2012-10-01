@@ -39,6 +39,7 @@ module CIFeatureJobs
       doc = REXML::Document.new template_xml
       REXML::XPath.first(doc, "/project/buildWrappers/EnvInjectBuildWrapper/info/propertiesContent").text=
         job_env(job_params)
+      REXML::XPath.first(doc, "/project/disabled").text="false"
       doc.to_s
     end
 
