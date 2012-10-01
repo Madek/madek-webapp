@@ -78,14 +78,14 @@ module CIFeatureJobs
 
     def create_or_update_all_jobs!  opts = {}
       all_jobs_params.each do |job_params|
-        xml_config = job_xml job_params
+        xml =  template_xml reload = false , opts
+        xml_config = job_xml job_params, xml
         begin
           create_ci_job! job_params, xml_config, opts
         rescue
         end
         begin
           resp = update_ci_job! job_params, xml_config, opts
-          binding.pry
         rescue => e
           puts "update error: #{e}"
         end

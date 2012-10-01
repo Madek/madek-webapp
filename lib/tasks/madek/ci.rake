@@ -5,7 +5,7 @@ namespace :madek do
     task :create_or_update_all_feature_jobs do
       opts = 
         begin 
-          YAML::load_file ENV['AUTH_FILE'].symbolize_keys
+          YAML::load_file(ENV['AUTH_FILE']).symbolize_keys
         rescue 
           {}
         end
