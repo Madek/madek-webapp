@@ -119,7 +119,7 @@ module MetaDataHelper
       when "MetaDatumMetaTerms"
         meta_datum.value.map do |dv|
           link_to dv, media_resources_path(:meta_data => {meta_datum.meta_key.label => {:ids => [dv.id]}}), :"data-meta_term_id" => dv.id
-        end.join(' ')
+        end.join(' ').html_safe
       else
         s = meta_datum.to_s
         #(s =~ /\n/ ? simple_format(s) : s)

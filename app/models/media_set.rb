@@ -108,7 +108,9 @@ class MediaSet < MediaResource
   # TODO dry with MetaContext#abstract  
   def abstract(min_media_entries = nil, current_user = nil)
     min_media_entries ||= media_entries.count.to_f * 50 / 100
-    meta_key_ids = individual_contexts.flat_map(&:meta_key_ids)
+    meta_key_ids = individual_contexts.map do |c|
+      c.meta_keys.for_meta_terms.pluck("meta_keys.id")
+    end.flatten
     h = {} #1005# TODO upgrade to Ruby 1.9 and use ActiveSupport::OrderedHash.new
     mds = MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids_by(current_user))
     mds.each do |md|
