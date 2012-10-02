@@ -80,9 +80,12 @@ group :test, :development, :personas do
 end
 
 group :development, :production do
-  gem "yard", "~> 0.8.2.1"
-  gem "yard-rest", "~> 1.1.4"
-  gem 'redcarpet' # yard-rest dependency
+  # redcarpet does not exist on jRuby
+  platform :ruby do
+    gem "yard", "~> 0.8.2.1"
+    gem "yard-rest", "~> 1.1.4"
+    gem 'redcarpet' # yard-rest dependency
+  end
 end
 
 group :test do
