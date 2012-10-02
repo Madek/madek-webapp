@@ -4,7 +4,9 @@ notifications:
 rvm:
   - 1.9.3
   - jruby-19mode
-env: DISPLAY=:99.0
+env: 
+  - DISPLAY=:99.0
+  - RAILS_ENV=test
 before_script:
   - psql -c 'create database madek_test;' -U postgres
   - psql -c 'create database madek_personas;' -U postgres
