@@ -1,3 +1,24 @@
+<% jruby = defined?(JRUBY_VERSION)  %>
+
+<% if jruby == "constant" %>
+development:
+  adapter: jdbcpostgresql
+  host: localhost
+  database: madek_dev
+  encoding: utf8
+  username: postgres
+  password: 
+
+test:
+  adapter: jdbcpostgresql
+  host: localhost
+  encoding: utf8
+  database: madek_test
+  username: postgres
+  password: 
+
+<% else %>
+
 pg: &pg
   adapter: postgresql
   host: localhost
@@ -58,4 +79,4 @@ pg_personas:
 pg_production: 
   <<: *pg 
   database: madek_prod
-
+<% end %>
