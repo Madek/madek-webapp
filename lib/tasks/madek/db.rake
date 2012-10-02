@@ -63,34 +63,8 @@ namespace :madek do
       PersonasDBHelper.clone_persona_to_test_db
     end
 
-
-    desc "Fetch and restore the last life/production database"
-    task :fetch_and_restore_lifedata => :environment do
-      file= "rails_madek_prod-current.sql.bz2"
-      target_file= "tmp/#{file}"
-      fetch_cmd = "scp madek@madek-server:/home/rails/madek/shared/db_backups/#{file} #{target_file}"
-      Open3.popen3(fetch_cmd) do |stdin,stdout,stderr,thread|
-        if thread.value.exitstatus == 0
-          puts "the life db has been fetched into #{target_file}"
-          puts "dropping the db" 
-          Rake::Task["db:drop"].invoke
-          puts "creating the db"  
-          Rake::Task["db:create"].invoke
-          print "restoring ..."
-          DBHelper.restore_native target_file, config: Rails.configuration.database_configuration[Rails.env]
-          print " done\n"
-          print "migrating ..."
-          Rake::Task["db:migrate"].invoke
-          print " done\n"
-        else
-          puts "copying the dump from the remote machine failed"
-          exit -1
-        end
-      end
-    end
-
-    desc "Fetch and restore the life database" 
-    task :fetch_and_restore_lifedb do
+    desc "Fetch and restore the productive data" 
+    task :fetch_and_restore_productive_data do
       remote_dump_cmd = 'ssh madek@madek-server "cd current;RAILS_ENV=production DIR=/tmp bundle exec rake madek:db:dump"'
       Open3.popen3(remote_dump_cmd) do |stdin,stdout,stderr,thread|
         if thread.value.exitstatus == 0
