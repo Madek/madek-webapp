@@ -15,10 +15,6 @@
   - if active_a.include?(:zhdk_agw)
     #zhdk_agw.authentication
       %p
-        Gleich einsteigen oder
-        %a{:href => "http://demo.medienarchiv.zhdk.ch/login"}
-          Demo testen
-      %p
         = link_to _("Anmelden"), login_path, :class => "actionbutton button yellow"
       %p.disclaimer
         Bis Ende 2012 ist das Medienarchiv nur für ZHdK-Angehörige zugänglich.

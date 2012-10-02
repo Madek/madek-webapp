@@ -129,7 +129,7 @@ describe MediaResourcesController do
         get :index, {format: 'json'}
         response.should  be_success
         json = JSON.parse(response.body)
-        json.keys.sort.should == ["media_resources", "pagination"]
+        json.keys.sort.should == ["current_filter", "media_resources", "pagination"]
         json["pagination"].keys.sort.should == ["page", "per_page", "total", "total_pages"]
         json["media_resources"].is_a?(Array).should be_true
         json["media_resources"].size.should <= json["pagination"]["per_page"]
@@ -143,7 +143,7 @@ describe MediaResourcesController do
         get :index, {format: 'json'}, session
         response.should  be_success
         json = JSON.parse(response.body)
-        json.keys.sort.should == ["media_resources", "pagination"]
+        json.keys.sort.should == ["current_filter", "media_resources", "pagination"]
         json["pagination"].keys.sort.should == ["page", "per_page", "total", "total_pages"]
         json["media_resources"].is_a?(Array).should be_true
         json["media_resources"].size.should <= json["pagination"]["per_page"]
@@ -281,7 +281,7 @@ describe MediaResourcesController do
           if mr["type"] == "media_set"
             mr.keys.should include("children")
             mr["children"].keys.should include("pagination")
-            mr["children"]["pagination"]["total"].should == MediaResource.find(mr["id"]).children.size            
+            mr["children"]["pagination"]["total"].should == MediaResource.find(mr["id"]).child_media_resources.size            
           end
         end 
       end
@@ -294,7 +294,7 @@ describe MediaResourcesController do
         40.times {
           type = rand > 0.5 ? :media_entry : :media_set
           mr = FactoryGirl.create type, :user => @user
-          media_resource.children << mr
+          media_resource.child_media_resources << mr
         }
         get :index, {format: 'json', ids: [media_resource.id], with: {children: true}}, session
         json = JSON.parse(response.body)

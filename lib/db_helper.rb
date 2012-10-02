@@ -1,4 +1,6 @@
 module DBHelper
+  require 'open3'
+
   class << self
 
     def module_path # for convenient reloading
@@ -25,8 +27,9 @@ module DBHelper
       "db_dump_#{date_string}_#{migration_version}"
     end
 
-    def dump_file_path
-      Rails.root.join "tmp", "#{base_file_name}.#{file_extension}"
+    def dump_file_path opts={}
+      dir = opts[:dir] || (Rails.root.join "tmp")
+      "#{dir}/#{base_file_name}.#{file_extension}"
     end
 
     def set_pg_env config
@@ -62,7 +65,7 @@ module DBHelper
         raise "not supported"
       end
       set_pg_env template_config
-      cmd = "psql -q -c 'CREATE DATABASE #{config['database']} TEMPLATE = #{template_config['database']}'"
+      cmd = "psql -q -c 'CREATE DATABASE \"#{config['database']}\" TEMPLATE = \"#{template_config['database']}\"'"
       system cmd
     end
 
@@ -81,6 +84,7 @@ module DBHelper
 
     def terminate_open_connections config
       if SQLHelper.adapter_is_postgresql?
+        require 'open3'
         set_pg_env config
         cmd = "psql template1 -c \"SELECT pg_terminate_backend(pg_stat_activity.procpid) FROM pg_stat_activity WHERE pg_stat_activity.datname = '#{config['database']}';\""
         Open3.popen3(cmd) do |stdin,stdout,stderr,thread|
@@ -98,12 +102,12 @@ module DBHelper
     ###########################################################################
 
     def dump_native options = {}
-      path = options[:path] || dump_file_path
+      options = options.symbolize_keys
+      path = options[:path] || dump_file_path(options)
       config = options[:config] || Rails.configuration.database_configuration[Rails.env]
       cmd =
         if SQLHelper.adapter_is_postgresql?
           set_pg_env config
-          binding.pry
           "pg_dump -E utf-8 -F p -Z 5 -O --no-acl -f #{path}"
         elsif SQLHelper.adapter_is_mysql? 
           "mysqldump #{get_mysql_cmd_credentials config} #{config['database']} > #{path}"

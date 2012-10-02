@@ -47,8 +47,8 @@ namespace :madek do
        ['personas','test'].each do |name|
          db_name = base_config[name]['database']
          DBHelper.set_pg_env base_config[name]
-         system "psql -d template1 -c 'DROP DATABASE IF EXISTS #{db_name};'"
-         system "psql -d template1 -c \"CREATE DATABASE #{db_name} WITH ENCODING 'utf8' TEMPLATE template0;\""
+         system "psql -d template1 -c 'DROP DATABASE IF EXISTS \"#{db_name}\";'"
+         system "psql -d template1 -c \"CREATE DATABASE \"#{db_name}\" WITH ENCODING 'utf8' TEMPLATE template0;\""
        end
     end
 
@@ -62,7 +62,7 @@ namespace :madek do
 
       task :all do
         puts "Running all Cucumber tests in one block"
-        system "bundle exec cucumber -p all"
+        system "bundle exec cucumber -p all #{ENV['FILE']}"
         exit_code_first_run = $?.exitstatus
         puts "First run exited with #{exit_code_first_run}"
 

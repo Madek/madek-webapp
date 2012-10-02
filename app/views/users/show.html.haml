@@ -29,15 +29,15 @@
   jQuery ->
     per_page = 10
     sections = [{
-      url: "#{media_resources_path(:user_id => current_user)}"
+      url: "#{media_resources_path(user_id: current_user)}"
       container: "#results"
       title: "Alle meine Inhalte"
     },{
-      url: "#{media_resources_path(not_by_current_user: true, public: false)}"
+      url: "#{media_resources_path(not_by_user_id: current_user, public: false)}"
       container: "#results_others.not_public"
       title: "Alle mir anvertrauten Inhalte"
     },{
-      url: "#{media_resources_path(not_by_current_user: true, public: true)}"
+      url: "#{media_resources_path(not_by_user_id: current_user, public: true)}"
       container: "#results_others.public"
       title: "Alle öffentlichen Inhalte"
     }]

@@ -8,6 +8,6 @@ content_tag :div, :class => (editable ? "editable" : nil), :meta_key_id => meta_
 		a += link_to _("Editieren"),
 					polymorphic_path([:edit, resource, :meta_datum], :id => meta_datum.meta_key, :context_id => context),
 					:class => "inplace-buttons" if editable and !meta_datum.meta_key.is_dynamic?
-		a
+    a
 	end
 end %>

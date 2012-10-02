@@ -103,11 +103,11 @@ Given /^the last entry is child of the (.+) set/ do |offset|
   if offset == "last"
     parent_set = MediaSet.all.sort_by(&:id).last
   entry = MediaEntry.all.sort_by(&:id).last
-  parent_set.media_entries << entry
+  parent_set.child_media_resources << entry
   else
     parent_set = MediaSet.all.sort_by(&:id)[offset.to_i-1]
     entry = MediaEntry.all.sort_by(&:id).last
-    parent_set.media_entries << entry
+    parent_set.child_media_resources << entry
   end
 end
 
@@ -124,7 +124,7 @@ Given /^the set titled "(.+)" is child of the set titled "(.+)"$/ do |child, par
   if child_set.nil? or parent_set.nil?
     raise "Child or parent not found."
   else
-    parent_set.child_sets << child_set
+    parent_set.child_media_resources << child_set
     parent_set.save
   end
 end
@@ -132,13 +132,13 @@ end
 Given /^the last set is parent of the (.+) set$/ do |offset|
   parent_set = MediaSet.all.sort_by(&:id).last
   child_set = MediaSet.all.sort_by(&:id)[offset.to_i-1]
-  parent_set.child_sets << child_set
+  parent_set.child_media_resources << child_set
 end
 
 Given /^the last set is child of the (.+) set$/ do |offset|
   child_set = MediaSet.all.sort_by(&:id).last
   parent_set = MediaSet.all.sort_by(&:id)[offset.to_i-1]
-  parent_set.child_sets << child_set
+  parent_set.child_media_resources << child_set
 end
 
 When /^I debug$/ do

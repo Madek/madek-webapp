@@ -1,5 +1,6 @@
 namespace :madek do
   namespace :db  do
+    require 'open3'
 
     desc "Transfer the data from on SOURCE env TARGET env (env is anything defined in config/database.yml)"
     task :transfer => :environment do
@@ -41,9 +42,9 @@ namespace :madek do
       end
     end
 
-    desc "Dump the database in the native adapter format"
+    desc "Dump the database in the native adapter format, use DIR or FILE env to specify a destination"
     task :dump => :environment do
-      res = DBHelper.dump_native config: Rails.configuration.database_configuration[Rails.env]
+      res = DBHelper.dump_native config: Rails.configuration.database_configuration[Rails.env], dir: ENV['DIR'], path: ENV['FILE']
       puts "the data has been dumped into #{res[:path]}"
     end
 
@@ -60,6 +61,39 @@ namespace :madek do
     desc "Restore Personas DB (and migrate to the maximal migration version if necessary)"
     task :restore_personas  => :environment do
       PersonasDBHelper.clone_persona_to_test_db
+    end
+
+    desc "Fetch and restore the productive data" 
+    task :fetch_and_restore_productive_data do
+      remote_dump_cmd = 'ssh madek@madek-server "cd current;RAILS_ENV=production DIR=/tmp bundle exec rake madek:db:dump"'
+      Open3.popen3(remote_dump_cmd) do |stdin,stdout,stderr,thread|
+        if thread.value.exitstatus == 0
+          puts "the db has been dumped on the server"
+          s = stdout.gets
+          dumpfile = s.split(/\s/).last
+          filename = dumpfile.split('/').last
+          target_dir = Rails.root.join 'tmp'
+          filename_path = "#{target_dir}/#{filename}"
+          Open3.popen3("scp madek-personas@madek-server:#{dumpfile} #{filename_path}") do |stdin,stdout,stderr,thread|
+            if thread.value.exitstatus == 0
+              puts "the db has been fetched"
+              Rake::Task["db:drop"].invoke
+              puts "creating the db"  
+              Rake::Task["db:create"].invoke
+              puts "restoring data"
+              DBHelper.restore_native filename_path, config: Rails.configuration.database_configuration[Rails.env]
+              puts "running the migrations"
+              Rake::Task["db:migrate"].invoke
+            else
+              puts "copying the dump from the remote machine failed"
+              -1
+            end
+          end
+        else
+          puts "dumping the database on the remote server failed with #{stderr}"
+          -1
+        end
+      end
     end
 
 

@@ -1,11 +1,8 @@
 # -*- encoding : utf-8 -*-
 class MediaSet < MediaResource
 
-  has_many :children, :through => :out_arcs, :source => :child
-  has_many :child_sets, :through => :out_arcs, :source => :child, conditions: "media_resources.type = 'MediaSet'"
-  has_many :media_entries, :through => :out_arcs, :source => :child,  conditions: "media_resources.type = 'MediaEntry'"
+  has_many :child_media_resources, :through => :out_arcs, :source => :child
 
-  belongs_to :user
 
 =begin #old??#
   def self.find_by_id_or_create_by_title(values, user)
@@ -45,16 +42,16 @@ class MediaSet < MediaResource
 
   store :settings
 
-  ACCEPTED_VARS = {
+  ACCEPTED_SETTINGS = {
     :layout => {:possible_values => [:miniature, :grid, :list], :default => :grid},
     :sorting => {:possible_values => [:created_at, :updated_at, :title, :author], :default => :updated_at}
   }
 
   validate do
     unless settings.blank?
-      errors.add(:settings, "Invalid key") unless (settings.keys - ACCEPTED_VARS.keys).empty?
+      errors.add(:settings, "Invalid key") unless (settings.keys - ACCEPTED_SETTINGS.keys).empty?
       settings.each_pair do |k,v|
-        errors.add(:settings, "Invalid value") unless ACCEPTED_VARS[k][:possible_values].include? v
+        errors.add(:settings, "Invalid value") if ACCEPTED_SETTINGS[k][:possible_values] and not ACCEPTED_SETTINGS[k][:possible_values].include?(v)
       end
     end 
   end
@@ -83,7 +80,7 @@ class MediaSet < MediaResource
   end
   
   def title_and_count
-    "#{title} (#{media_entries.count})" # TODO filter accessible ?? "(#{media_entries.accessible_by_user(current_user).count})"
+    "#{title} (#{child_media_resources.media_entries.count})" # TODO filter accessible ?? "(#{child_media_resources.media_entries.accessible_by_user(current_user).count})"
   end
 
 ########################################################
@@ -97,7 +94,7 @@ class MediaSet < MediaResource
       arc.update_attributes(cover: true) if arc
     end
     
-    media_entries.accessible_by_user(user).where(media_resource_arcs: {cover: true}).first.try(:media_file)
+    child_media_resources.media_entries.accessible_by_user(user).where(media_resource_arcs: {cover: true}).first.try(:media_file)
   end
 
 ########################################################
@@ -111,14 +108,11 @@ class MediaSet < MediaResource
   # TODO dry with MetaContext#abstract  
   def abstract(min_media_entries = nil, current_user = nil)
     min_media_entries ||= media_entries.count.to_f * 50 / 100
-    accessible_media_entry_ids = if current_user
-      media_entries.accessible_by_user(current_user).pluck("media_resources.id")
-    else
-      media_entry_ids
-    end
-    meta_key_ids = individual_contexts.flat_map(&:meta_key_ids)
+    meta_key_ids = individual_contexts.map do |c|
+      c.meta_keys.for_meta_terms.pluck("meta_keys.id")
+    end.flatten
     h = {} #1005# TODO upgrade to Ruby 1.9 and use ActiveSupport::OrderedHash.new
-    mds = MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids)
+    mds = MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids_by(current_user))
     mds.each do |md|
       h[md.meta_key_id] ||= [] # TODO md.meta_key
       h[md.meta_key_id] << md.value
@@ -134,14 +128,19 @@ class MediaSet < MediaResource
 
   # TODO dry with MetaContext#used_meta_term_ids  
   def used_meta_term_ids(current_user = nil)
-    accessible_media_entry_ids = if current_user
-      media_entries.accessible_by_user(current_user).pluck("media_resources.id")
-    else
-      media_entry_ids
-    end
     meta_key_ids = individual_contexts.flat_map{|ic| ic.meta_keys.for_meta_terms.pluck("meta_keys.id") }
-    mds = MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids)
+    mds = MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids_by(current_user))
     mds.flat_map(&:meta_term_ids).uniq
+  end
+
+  private
+  
+  def accessible_media_entry_ids_by(current_user)
+    if current_user
+      child_media_resources.media_entries.accessible_by_user(current_user)
+    else
+      child_media_resources.media_entries
+    end.pluck("media_resources.id")
   end
 
 end

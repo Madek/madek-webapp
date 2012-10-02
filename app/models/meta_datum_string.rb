@@ -29,8 +29,8 @@ class MetaDatumString < MetaDatum
         when "parent media_resources"
           {:media_sets => media_resource.parent_sets.accessible_by_user(user).count}
         when "child media_resources"
-          {:media_sets => media_resource.child_sets.accessible_by_user(user).count,
-           :media_entries => media_resource.media_entries.accessible_by_user(user).count} if media_resource.is_a?(MediaSet)
+          {:media_sets => media_resource.child_media_resources.media_sets.accessible_by_user(user).count,
+           :media_entries => media_resource.child_media_resources.media_entries.accessible_by_user(user).count} if media_resource.is_a?(MediaSet)
         #when "gps"
         #  return media_resource.media_file.meta_data["GPS"]
       end

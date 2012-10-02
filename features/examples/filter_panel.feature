@@ -30,9 +30,12 @@ Feature: Filter panel
   @javascript
   Scenario: Behavior when selecting a filter
     When I select a value to filter by
-    Then I see all the values that can be filtered or not filtered by
+    Then I see all the values that can still be used as additional filters
+     And all values that have no results disappear
+     And all values that are currently selected do not disappear when I collapse this key
     When I deselect the value
-    Then none of the values are deactivated
+    Then I see all the values that can still be used as additional filters
+     And all previously disappeared values are reappearing
 
   @javascript
   Scenario: Rules for when a MetaKey is displayed in the filter panel
@@ -83,6 +86,12 @@ Feature: Filter panel
     When I filter by the value "any"
     Then I filter by all media resources that contain any value for that key
 
+  @javascript
+	Scenario: Reset filters
+    When I have a filtered list of resources
+		And I click "reset filters"
+		Then the list is not filtered anymore
+
   # Was never committed
   # https://www.pivotaltracker.com/story/show/36230629
   #@javascript
@@ -95,18 +104,18 @@ Feature: Filter panel
   #  Then the others are still available
   #  And the result is a union of all the selected permission filters
 
-  # Was never committed
-  # https://www.pivotaltracker.com/story/show/36230847
-  #@javascript
-  #Scenario: Filtering by media file properties
-  #  Given I see a filtered list of resources
-  #  And the list contains images
-  #  When I expand the root block "File Properties"
-  #  And I expand the block "Image Properties"
-  #  Then I can filter by the width of the image (exactly, less than, greater than)
-  #  And I can filter by the height of the image (exactly, less than, greater than)
-  #  And I can filter by landscape orientation
-  #  And I can filter by portrait orientation
+  @javascript
+  Scenario: Filtering by media file properties
+    Given I see a filtered list of resources
+    And the list contains images
+    When I expand the root block "File Properties"
+    And I expand the block "Image Properties"
+    Then I can filter by the filename extension of the files, letting me choose all the filename extensions (.tif, .jpeg, etc.) that were found
+    And I can filter by the media type of the file, letting me choose between audio, video, image and documents
+    #Then I can filter by the width of the image (exactly, less than, greater than)
+    #And I can filter by the height of the image (exactly, less than, greater than)
+    #And I can filter by landscape orientation
+    #And I can filter by portrait orientation
 
   # Was never committed
   #@javascript

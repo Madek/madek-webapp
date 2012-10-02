@@ -1,5 +1,5 @@
 .item_box{:"data-media_resource_id" => "${id}"}
-  {{if type == "media_set"}}
+  {{if !!type.match(/set/)}}
   .thumb_box_set
     %img{:src => "${image}"}
   {{else}}

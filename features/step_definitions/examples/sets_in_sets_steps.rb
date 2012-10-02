@@ -300,11 +300,11 @@ Then /^I see relationships for this set$/ do
 end
 
 Then /^I see how many media entries that are viewable for me in this set$/ do
-  find(".set_popup .children .text", :text => "#{(@media_set.media_entries.size-@display_child_entries.size)} weitere Medieneinträge")
+  find(".set_popup .children .text", :text => "#{(@media_set.child_media_resources.media_entries.size-@display_child_entries.size)} weitere Medieneinträge")
 end
 
 Then /^I see how many sets that are viewable for me in this set$/ do
-  find(".set_popup .children .text", :text => "#{(@media_set.child_sets.size-@display_child_sets.size)} weitere Sets")
+  find(".set_popup .children .text", :text => "#{(@media_set.child_media_resources.media_sets.size-@display_child_sets.size)} weitere Sets")
 end
 
 Then /^I see how many sets that are viewable for me are parents of this set$/ do
@@ -319,10 +319,10 @@ Given /^the set called "([^"]*)" is child of "([^"]*)" and "([^"]*)"$/ do |set_t
   @set = MediaSet.find_by_title(set_title)
   
   @parent_set_1 = MediaSet.find_by_title(parent_set_title_1)
-  @parent_set_1.child_sets.include?(@set).should be_true
+  @parent_set_1.child_media_resources.media_sets.include?(@set).should be_true
   
   @parent_set_2 = MediaSet.find_by_title(parent_set_title_2)
-  @parent_set_2.child_sets.include?(@set).should be_true
+  @parent_set_2.child_media_resources.media_sets.include?(@set).should be_true
 end
 
 Given /^I can edit the set "([^"]*)"$/ do |set_title|
@@ -406,7 +406,7 @@ When /^I hover those previews of parents I see the title of those resources$/ do
 end
 
 Given /^I open a set which has child media entries$/ do
-  @set = MediaResource.accessible_by_user(@current_user).detect{|resource| resource.media_entries.accessible_by_user(@current_user).count > 0}
+  @set = MediaResource.accessible_by_user(@current_user).detect{|resource| resource.child_media_resources.media_entries.accessible_by_user(@current_user).count > 0}
   visit media_set_path(@set)
 end
 

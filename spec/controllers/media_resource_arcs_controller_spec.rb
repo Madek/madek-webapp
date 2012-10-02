@@ -9,7 +9,7 @@ describe MediaResourceArcsController do
     @parent_set = FactoryGirl.create :media_set, user: @user
     @child1 = FactoryGirl.create :media_entry, user: @user
     @child2 = FactoryGirl.create :media_entry, user: @user
-    @parent_set.children << [@child1,@child2]
+    @parent_set.child_media_resources << [@child1,@child2]
   end
 
   def valid_session

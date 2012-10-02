@@ -7,7 +7,6 @@
 class MediaEntry < MediaResource
   
   belongs_to                :media_file #, :include => :previews # TODO validates_presence # TODO on destroy, also destroy the media_file if this is the only related media_entry and snapshot
-  belongs_to                :user
   has_many                  :snapshots
 
   alias :media_sets :parent_sets 

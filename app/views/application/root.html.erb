@@ -60,7 +60,7 @@
   					</div>
   					<div class="statbox">
   						<div style="width: 81px; height: 81px; background: #fff url(<%= image_path('root/icon-tags.png') %>) 50% 50% no-repeat;border-radius: 5px; margin-bottom: 1em; border: 2px solid #929292">&nbsp;</div>
-  						<p><span style="font-weight: bold; font-size: 1.5em;text-shadow: -1px -1px 2px #fff;"><%= Keyword.joins(:meta_datum => :media_resource).where(:media_resources => {:type => ["MediaEntry", "MediaSet"]}).count %></span><br />Schlagworte</p>
+  						<p><span style="font-weight: bold; font-size: 1.5em;text-shadow: -1px -1px 2px #fff;"><%= Keyword.joins(:meta_datum => :media_resource).where(:media_resources => {:type => ["MediaEntry", "MediaSet", "FilterSet"]}).count %></span><br />Schlagworte</p>
   					</div>
   					</div>
   				</div> <!-- #stats -->

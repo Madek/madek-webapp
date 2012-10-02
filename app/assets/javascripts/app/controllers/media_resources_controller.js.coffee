@@ -1,12 +1,12 @@
 class MediaResourcesController
 
-  el: "section.media_resources.index"
-  active_layout: undefined
+  @filter = {current:undefined, base: undefined}
   
   constructor: (options)->
-    @el = $(@el)
+    @el = $("section.media_resources.index")
     do @plugin
     @active_layout = if options.layout? then options.layout else if sessionStorage.active_layout? then sessionStorage.active_layout else "grid"
+    MediaResourcesController.current_filter = options.filter if options.filter?
     do @activate_layout
     do @delegate_events
     do @switch_context_fetch
@@ -27,12 +27,11 @@ class MediaResourcesController
     $this.removeAttr "data-page"
     data = 
       page: next_page
-    $.extend true, data, MediaResourcesController.filter_params if MediaResourcesController.filter_params?
+    $.extend true, data, App.MediaResources.current_filter
     options =
       data: data
       success: (data)->
         display_page(data, $this)
-    options.url = $this.data('url') if $this.data('url')?
     App.MediaResources.fetch options
 
   render_context: ->
@@ -68,8 +67,26 @@ class MediaResourcesController
     else
       @el.undelegate ".meta_data .context[data-name]", "inview"
 
+  fetch: (new_filter_params, with_filter)=>
+    data = JSON.parse JSON.stringify App.MediaResources.current_filter
+    $.extend data, new_filter_params if new_filter_params?
+    $.extend data, {with_filter: true} if with_filter
+    @el.find("#results").html "Lade Inhalte..."
+    @ajax.abort() if @ajax?
+    @ajax = App.MediaResources.fetch
+      url: "/media_resources.json"
+      data: data
+      success: (data)=>
+        App.Filter.update data.filter if data.filter?
+        @el.find("#results").html("")
+        setupBatch data
+        if App.MediaResources.current_filter.media_set_id?
+          @el.find("#bar h1 small").html @el.find("#bar h1 small").text().replace(/^\d+\s/,"")
+          @el.find("#bar h1 small").prepend(data.pagination.total)
+        if (data.media_resources.length == 0)
+          @el.find("#results").append $.tmpl("tmpl/media_resource/empty_results")
+
   @fetch: (options, with_default)->
-    @filter_params = options.data.filter if options.data? and options.data.filter?
     with_default ?= true
     default_data =
       with: 
@@ -84,11 +101,13 @@ class MediaResourcesController
     else
       data = if options.data? then options.data else {}
     $.ajax
-      url: options.url
+      url: if options.url? then options.url else "/media_resources.json"
       type: if options.type? then options.type else 'GET'
       data: $.extend(data, {format: "json"})
       beforeSend: options.beforeSend
-      success: options.success
+      success: (data)->
+        App.MediaResources.filter.current = data.current_filter
+        options.success(data)
 
   @fetch_children: (parent_id, callback, data)->
     default_data = 

@@ -4,7 +4,7 @@ module MediaResourceModules
   module Filter
 
     KEYS = [ :accessible_action, :collection_id, :favorites, :group_id, :ids,
-             :media_file, :media_set_id, :meta_data, :not_by_current_user,
+             :media_file, :media_set_id, :meta_data, :not_by_user_id,
              :permissions, :public, :search, :top_level, :type, :user_id,
              :query ] 
     
@@ -18,7 +18,8 @@ module MediaResourceModules
 
     module ClassMethods
       # returns a chainable collection of media_resources
-      def filter(current_user, filter = {})
+      # when current_user argument is not provided, the permissions are not considered
+      def filter(current_user = nil, filter = {})
         filter = filter.delete_if {|k,v| v.blank?}.deep_symbolize_keys
         raise "invalid option" unless filter.is_a?(Hash) #and (filter.keys - KEYS).blank?
 
@@ -28,35 +29,34 @@ module MediaResourceModules
 
         ############################################################
 
-        filter[:ids] = by_collection(current_user.id, filter[:collection_id]) if filter[:collection_id]
+        filter[:ids] = by_collection(current_user.id, filter[:collection_id]) if current_user and filter[:collection_id]
 
         ############################################################
         
-        resources = if filter[:favorites] == "true"
+        resources = if current_user and filter[:favorites] == "true"
           current_user.favorites
         elsif filter[:media_set_id]
-          media_set = MediaSet.find(filter[:media_set_id])
-          media_set.children
+          MediaSet.find(filter[:media_set_id]).child_media_resources
         else
           self
         end
 
         resources = case filter[:type]
           when "media_sets"
-            r = resources.where(:type => "MediaSet")
+            r = resources.media_sets
             r = r.top_level if filter[:top_level]
             r
           when "media_entries"
-            resources.where(:type => "MediaEntry")
+            resources.media_entries
           when "media_entry_incompletes"
             resources.where(:type => "MediaEntryIncomplete")
           else
-            if filter[:ids]
-              resources.where(:type => ["MediaEntry", "MediaSet", "MediaEntryIncomplete"])
-            else
-              resources.where(:type => ["MediaEntry", "MediaSet"])
-            end
-        end.accessible_by_user(current_user, filter[:accessible_action])
+            types = ["MediaEntry", "MediaSet", "FilterSet"]
+            types << "MediaEntryIncomplete" if filter[:ids]
+            resources.where(:type => types)
+        end
+        
+        resources = resources.accessible_by_user(current_user, filter[:accessible_action]) if current_user
 
         ############################################################
 
@@ -66,21 +66,41 @@ module MediaResourceModules
 
         ############################################################
         
-        resources = resources.accessible_by_group(Group.find(filter[:group_id])) if filter[:group_id]
+        resources = resources.accessible_by_group(filter[:group_id]) if filter[:group_id]
 
-        resources = resources.by_user(User.find(filter[:user_id])) if filter[:user_id]
+        resources = resources.by_user(filter[:user_id]) if filter[:user_id]
 
         # FIXME use presets and :manage permission
-        resources = resources.not_by_user(current_user) if filter[:not_by_current_user]
-        
-        resources = case filter[:public]
-          when "true"
-            resources.where(:view => true)
-          when "false"
-            resources.where(:view => false)
-        end if filter[:public]
+        resources = resources.not_by_user(filter[:not_by_user_id]) if filter[:not_by_user_id]
 
-        filter[:permissions].each_pair do |k,v|
+        resources = resources.filter_public(filter[:public]) if filter[:public]
+
+        resources = resources.filter_permissions(current_user, filter[:permissions]) if current_user and filter[:permissions]
+
+        ############################################################
+
+        resources = resources.filter_meta_data(filter[:meta_data]) if filter[:meta_data]
+
+        resources = resources.filter_media_file(filter[:media_file]) if filter[:media_file] and filter[:media_file][:content_type]
+
+        resources
+      end
+
+      # FIXME doesn't work the chaining when are private methods
+      # private
+
+      def filter_public(filter = {})
+        case filter
+          when "true"
+            where(:view => true)
+          when "false"
+            where(:view => false)
+        end
+      end
+
+      def filter_permissions(current_user, filter = {})
+        resources = scoped
+        filter.each_pair do |k,v|
 =begin
           # this is AND implementation
           v[:ids].each do |id|
@@ -92,7 +112,7 @@ module MediaResourceModules
                 resources.where(:user_id => id)
               when :group
                 resources.where( %Q< media_resources.id  in (
-                  #{grouppermissions_not_disallowed(current_user, :view)
+                  #{MediaResource.grouppermissions_not_disallowed(current_user, :view)
                      .where("grouppermissions.group_id in ( ? )", id)
                      .select("media_resource_id").to_sql})>)
             end
@@ -107,48 +127,46 @@ module MediaResourceModules
               resources.where(:user_id => v[:ids])
             when :group
               resources.where( %Q< media_resources.id  in (
-                #{grouppermissions_not_disallowed(current_user, :view)
+                #{MediaResource.grouppermissions_not_disallowed(current_user, :view)
                     .where("grouppermissions.group_id in ( ? )", v[:ids])
                     .select("media_resource_id").to_sql})>)
           end
-        end if filter[:permissions]
-
-        ############################################################
-
-        resources = resources.filter_media_file(filter[:media_file]) if filter[:media_file] and filter[:media_file][:content_type]
-
-        ############################################################
-
-        filter[:meta_data].each_pair do |k,v|
+        end
+        resources
+      end
+      
+      def filter_meta_data(filter = {})
+        resources = scoped
+        filter.each_pair do |k,v|
           # this is AND implementation
           v[:ids].each do |id|
             # OPTIMIZE resource.joins(etc...) directly intersecting multiple criteria doesn't work, then we use subqueries
             # FIXME switch based on the meta_key.meta_datum_object_type 
             sub = case k
               when :keywords
-                joins(:meta_data).
-                joins("INNER JOIN keywords ON keywords.meta_datum_id = meta_data.id").
-                where(:keywords => {:meta_term_id => id})
+                s = unscoped.joins(:meta_data).
+                         joins("INNER JOIN keywords ON keywords.meta_datum_id = meta_data.id")
+                s = s.where(:keywords => {:meta_term_id => id}) unless id == "any"
+                s
               when :"institutional affiliation"
-                joins(:meta_data).
-                joins("INNER JOIN meta_data_meta_departments ON meta_data_meta_departments.meta_datum_id = meta_data.id").
-                where(:meta_data_meta_departments => {:meta_department_id => id})
+                s = unscoped.joins(:meta_data).
+                         joins("INNER JOIN meta_data_meta_departments ON meta_data_meta_departments.meta_datum_id = meta_data.id")
+                s = s.where(:meta_data_meta_departments => {:meta_department_id => id}) unless id == "any"
+                s
               else
                 # OPTIMIZE accept also directly meta_key_id ?? 
-                joins(:meta_data => :meta_key).
-                joins("INNER JOIN meta_data_meta_terms ON meta_data_meta_terms.meta_datum_id = meta_data.id").
-                where(:meta_keys => {:label => k, :meta_datum_object_type => "MetaDatumMetaTerms"},
-                      :meta_data_meta_terms => {:meta_term_id => id})
+                s = unscoped.joins(:meta_data => :meta_key).
+                         joins("INNER JOIN meta_data_meta_terms ON meta_data_meta_terms.meta_datum_id = meta_data.id").
+                         where(:meta_keys => {:label => k, :meta_datum_object_type => "MetaDatumMetaTerms"})
+                s = s.where(:meta_data_meta_terms => {:meta_term_id => id}) unless id == "any"
+                s
             end
             resources = resources.where("media_resources.id IN  (#{sub.select("media_resources.id").to_sql})")
           end
-        end if filter[:meta_data]
-
-        ############################################################
-
+        end
         resources
       end
-
+      
       def filter_media_file(options = {})
         sql = media_entries.joins("RIGHT JOIN media_files ON media_resources.media_file_id = media_files.id")
       

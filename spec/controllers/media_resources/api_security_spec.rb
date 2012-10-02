@@ -11,8 +11,8 @@ describe MediaResourcesController do
     @set = FactoryGirl.create :media_set, user: @user_a
     @entry_1 = FactoryGirl.create :media_entry, user: @user_a
     @entry_2 = FactoryGirl.create :media_entry, user: @user_a
-    @set.children << @entry_1
-    @set.children << @entry_2
+    @set.child_media_resources << @entry_1
+    @set.child_media_resources << @entry_2
   end
 
 
