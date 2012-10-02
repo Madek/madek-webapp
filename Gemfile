@@ -7,8 +7,16 @@ gem 'rails', '3.2.8'
 # DATABASE
 gem 'foreigner'
 gem 'memcache-client' 
-gem 'mysql2', '~> 0.3.11'  
-gem 'pg'
+
+platforms :ruby do
+  gem 'mysql2', '~> 0.3.11'  
+  gem 'pg'
+end
+
+platforms :jruby do
+  gem 'jdbc-postgres'
+  gem 'activerecord-jdbcpostgresql-adapter'
+end
 
 # THE REST
 gem "coffee-filter", "~> 0.1.1"
@@ -60,13 +68,15 @@ group :test, :development, :personas do
   gem 'guard', '~> 1.3'
   gem 'guard-cucumber', '~> 1.2'
   gem 'guard-rspec', '~> 1.2'
-  gem 'guard-spork', '~> 1.1'
+  platform :ruby do
+    gem 'guard-spork', '~> 1.1'
+    gem 'spork'
+  end
   gem 'pry'
   gem 'rb-fsevent', '~> 0.9'
   gem 'rest-client'
   gem 'rspec-rails'
   gem 'ruby_gntp', '~> 0.3.4'
-  gem 'spork'
 end
 
 group :development, :production do
