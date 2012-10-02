@@ -101,8 +101,6 @@ module MediaResourceModules
       def filter_permissions(current_user, filter = {})
         resources = scoped
         filter.each_pair do |k,v|
-=begin
-          # this is AND implementation
           v[:ids].each do |id|
             resources = case k
               when :preset
@@ -116,20 +114,6 @@ module MediaResourceModules
                      .where("grouppermissions.group_id in ( ? )", id)
                      .select("media_resource_id").to_sql})>)
             end
-          end
-=end
-          # this is OR implementation
-          resources = case k
-            when :preset
-              presets = PermissionPreset.where(:id => v[:ids])
-              resources.where_permission_presets_and_user presets, current_user
-            when :owner
-              resources.where(:user_id => v[:ids])
-            when :group
-              resources.where( %Q< media_resources.id  in (
-                #{MediaResource.grouppermissions_not_disallowed(current_user, :view)
-                    .where("grouppermissions.group_id in ( ? )", v[:ids])
-                    .select("media_resource_id").to_sql})>)
           end
         end
         resources

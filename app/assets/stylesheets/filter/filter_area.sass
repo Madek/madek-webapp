@@ -241,7 +241,11 @@
                   color: #222
 
       .context 
-
+        
+        &:not([data-filter_type='meta_data'])
+          input.any
+            display: none
+        
         & > .key
           display: none
 

@@ -134,42 +134,36 @@ module Json
     def hash_for_filter(media_resources)
       r = []
 
-=begin # TODO reactivate this block when required on the filter panel
-      # OPTIMIZE this is not construct over media_resources
-      r << {
-        :label => "Berechtigungen, Ich bin...",
-        :name => "preset",
-        :filter_type => "permissions",
-        :filter_logic => "OR",
-        :terms => begin
-          permission_presets = PermissionPreset.where (Constants::Actions.reduce(" false ") { |s,action| s + " OR #{action} = true" })
-          permission_presets.map do |pp|
-            { :id => pp.id, :value => pp.name }
-          end
-        end 
-      }
-      
-      r << {
-        :label => "Eigentümer/in",
-        :name => "owner",
-        :filter_type => "permissions",
-        :filter_logic => "OR",
-        :terms => begin
-          owners = User.includes(:person)
-            .where("users.id in (#{media_resources.select("media_resources.user_id").to_sql}) ")
-            .order("people.lastname, people.firstname DESC")
-          owners.map do |owner|
-            { :id => owner.id, :value => owner.to_s }
-          end
-        end 
-      }
+      r << { :filter_type => "permissions",
+             :context_name => "permissions",        # FIXME
+             :context_label => "Berechtigung",      # FIXME
+             :keys => ["Eigentümer/in"].map do |vv| # FIXME
+               { :key_name => "owner",              # FIXME
+                 :key_label => vv,                  # FIXME
+                 :terms => begin
+                   #executed_query.map do |vvv|
+                   owners = User.select("users.*, COUNT(media_resources.id) AS count").
+                              includes(:person).
+                              joins("INNER JOIN media_resources ON media_resources.user_id = users.id AND media_resources.id in (#{media_resources.select("media_resources.id").to_sql}) ").
+                              group("users.id").
+                              order("count DESC")
+                   owners.map do |owner|
+                     { :id => owner.id,
+                       :value => owner.to_s,
+                       :count => owner.count
+                     }
+                   end
+                 end
+               }
+             end
+           }
 
+=begin
       # FIXME this query is too slow!
       r << {
         :label => "Arbeitsgruppen",
         :name => "group",
         :filter_type => "permissions",
-        :filter_logic => "OR",
         :terms => begin
           sub = MediaResource.grouppermissions_not_disallowed(current_user, :view).
                         where("grouppermissions.media_resource_id in (#{media_resources.select("media_resources.user_id").to_sql}) ").

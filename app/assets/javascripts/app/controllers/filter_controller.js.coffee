@@ -110,8 +110,9 @@ class FilterController
   @update: (new_filter)=>
     @filter = new_filter
     @inner.html $.tmpl "app/views/filter/context", @filter
-    if App.MediaResources.filter.current.meta_data?
-      for metaKey, values of App.MediaResources.filter.current.meta_data
+    for filter_type, filter of App.MediaResources.filter.current
+      continue if typeof filter != "object"
+      for metaKey, values of filter
         for id in values.ids
           keys = @el.find(".key[data-key_name='#{metaKey}']")
           keys.addClass "open"
@@ -153,7 +154,7 @@ class FilterController
     @el.find("h3 .icon").removeAttr("class").addClass("filter icon")
       
   @computeParams: =>
-    filter = {meta_data: {}, search: {}}
+    filter = {meta_data: {}, search: {}, permissions: {}}
     _.each @inner.find("input:checked"), (term)->
       term = $(term)
       key = term.closest(".key")
