@@ -7,11 +7,15 @@ Feature: Filtering by permissions
   covered by the permissions presets)
 
   Scenario: Filtering by owner
-    Given there are 20 media entries owned by 10 different owners
-    When those entries appear in search results
-    Then I can filter so that I see only the media entries by each of those owners
+    When I see the filter panel
+    Then I can filter so that I see only the media resources by each of the owners of any media resources shown
 
   Scenario: Filtering by group
-    Given there are 20 media entries that belong to 3 different groups
-    When those entries appear in search results
-    Then I can filter so that I see only the media entries that have some permissions relating to each of those groups
+    When I see the filter panel
+    Then I can filter so that I see only the media resources that have view permissions relating to each of those groups
+
+  Scenario: Filter by permissions
+    When I see the filter panel
+	Then I can filter by "My content"
+	And I can filter by "Content assigned to me"
+	And I can filter by "Available to the public"
