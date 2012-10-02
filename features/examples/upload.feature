@@ -138,4 +138,9 @@ Feature: Upload
      And I am "Normin"
     When I upload a file
     Then I can set values for the meta data from type meta terms
-    
+
+  @javascript
+	Scenario: Dependencies among the pulldown menus of the copyright field
+		When I select a copyright status from the predefined ones and this status has values for each of its fields
+		And then switch to another copyright status that has no or blank values for any of its fields
+		Then each of these fields of the copyright status are cleared
