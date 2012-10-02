@@ -5,11 +5,11 @@ rvm:
   - 1.9.3
 env: DISPLAY=:99.0
 before_script:
-  - mysql -e 'create database madek_test;'
-  - mysql -e 'create database madek_personas;'
+  - psql -c 'create database madek_test;' -U postgres
+  - psql -c 'create database madek_personas;' -U postgres
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
-  - "cp config/database_my.yml config/database.yml"
+  - "cp config/database_pg.yml config/database.yml"
   - "rm -f tmp/*.mysql"
 before_install:
   - "sudo apt-get update"
