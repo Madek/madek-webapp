@@ -55,7 +55,9 @@ group :development, :personas do
   gem 'railroady'
   gem 'rvm-capistrano'
   gem 'statsample'
-  gem 'thin' # web server (Webrick do not support keep-alive connections)
+  platform :ruby do
+    gem 'thin' # web server (Webrick do not support keep-alive connections)
+  end
 end
 
 group :test, :development, :personas do
