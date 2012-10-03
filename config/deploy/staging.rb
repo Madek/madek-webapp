@@ -75,14 +75,6 @@ task :load_empty_instance_with_personas do
 end
 
 
-task :migrate_database do
-  # Migration here 
-  # deploy.migrate should work, but is buggy and is run in the _previous_ release's
-  # directory, thus never runs anything? Strange.
-  #deploy.migrate
-  run "cd #{release_path} && RAILS_ENV='production'  bundle exec rake db:migrate"
-end
-
 task :load_seed_data do
   run "cd #{release_path} && RAILS_ENV='production'  bundle exec rake db:seed"
 end
@@ -107,11 +99,11 @@ after "deploy:create_symlink", :record_deploy_info
 #after "deploy:create_symlink", :generate_documentation 
 
 before "migrate_database", :backup_database
-# Enable this once we have a complete persona data set in /db/empty_medienarchiv_instance_with_personas.sql
-#after "backup_database", :load_empty_instance_with_personas
 after "link_config", :migrate_database
 
 after "link_config", "precompile_assets"
+
+before "migrate_database", :backup_database
 after "migrate_database", :clear_cache
 
 after "deploy", "deploy:cleanup"
