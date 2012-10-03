@@ -103,16 +103,14 @@ module MediaResourceModules
         filter.each_pair do |k,v|
           v[:ids].each do |id|
             resources = case k
-              when :preset
-                presets = PermissionPreset.where(:id => id)
-                resources.where_permission_presets_and_user presets, current_user
+              #old??#
+              #when :preset
+              #  presets = PermissionPreset.where(:id => id)
+              #  resources.where_permission_presets_and_user presets, current_user
               when :owner
                 resources.where(:user_id => id)
               when :group
-                resources.where( %Q< media_resources.id  in (
-                  #{MediaResource.grouppermissions_not_disallowed(current_user, :view)
-                     .where("grouppermissions.group_id in ( ? )", id)
-                     .select("media_resource_id").to_sql})>)
+                resources.accessible_by_group(id)
             end
           end
         end
