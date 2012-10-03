@@ -5,10 +5,12 @@ source 'http://gems.github.com'
 gem 'rails', '3.2.8'
 
 # DATABASE
+gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
 gem 'foreigner'
+gem 'jdbc-postgres', platform: :jruby
 gem 'memcache-client' 
-gem 'mysql2', '~> 0.3.11'  
-gem 'pg'
+gem 'mysql2', '~> 0.3.11', platform: :mri_19
+gem 'pg', platform: :mri_19
 
 # THE REST
 gem "coffee-filter", "~> 0.1.1"
@@ -20,6 +22,7 @@ gem 'haml_assets'
 gem 'irwi', :git => 'git://github.com/alno/irwi.git', :ref => 'b78694'
 gem 'jquery-rails', '= 1.0.16' # NOTE WARNING DO NOT CHANGE THIS LINE
 gem 'jquery-tmpl-rails', '~> 1.1'
+gem 'jruby-openssl', platform: :jruby
 gem 'json', '~> 1.7'
 gem 'ledermann-rails-settings', :require => 'rails-settings' # alternatives: 'settingslogic', 'settler', 'rails_config', 'settings', 'simpleconfig' 
 gem 'nested_set', '~> 1.7'
@@ -47,7 +50,7 @@ group :development, :personas do
   gem 'railroady'
   gem 'rvm-capistrano'
   gem 'statsample'
-  gem 'thin' # web server (Webrick do not support keep-alive connections)
+  gem 'thin', platform: :mri_19 # web server (Webrick do not support keep-alive connections)
 end
 
 group :test, :development, :personas do
@@ -60,19 +63,22 @@ group :test, :development, :personas do
   gem 'guard', '~> 1.3'
   gem 'guard-cucumber', '~> 1.2'
   gem 'guard-rspec', '~> 1.2'
-  gem 'guard-spork', '~> 1.1'
+  gem 'guard-spork', '~> 1.1', platform: :mri_19
+  gem 'spork-rails'
   gem 'pry'
   gem 'rb-fsevent', '~> 0.9'
   gem 'rest-client'
   gem 'rspec-rails'
   gem 'ruby_gntp', '~> 0.3.4'
-  gem 'spork'
 end
 
 group :development, :production do
-  gem "yard", "~> 0.8.2.1"
-  gem "yard-rest", "~> 1.1.4"
-  gem 'redcarpet' # yard-rest dependency
+  # we could use yard with an other mkd provider https://github.com/lsegal/yard/issues/488
+  platform :mri_19 do
+    gem "yard", "~> 0.8.2.1"
+    gem "yard-rest", "~> 1.1.4"
+    gem 'redcarpet' # yard-rest dependency
+  end
 end
 
 group :test do

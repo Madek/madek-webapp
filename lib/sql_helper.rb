@@ -23,7 +23,7 @@ module SQLHelper
   end
 
   def adapter_is_postgresql?
-    "postgresql" == adapter_name
+    ["postgresql","jdbcpostgresql"].include?(adapter_name)
   end
 
   def ilike
