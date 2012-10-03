@@ -17,6 +17,13 @@ test:
   username: postgres
   password: 
 
+personas:
+  adapter: jdbcpostgresql
+  host: localhost
+  database: madek_personas
+  encoding: utf8
+  username: postgres
+  password: 
 <% else %>
 
 pg: &pg
