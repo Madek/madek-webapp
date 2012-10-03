@@ -11,7 +11,7 @@ module NavigationHelpers
     when /the home\s?page/, /the dashboard/, /the splash screen/
       root_path
 
-    when /the media entries/
+    when /the media resources/, /the media entries/
       media_resources_path
       
     when /the upload edit/
