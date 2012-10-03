@@ -16,6 +16,7 @@ end
 platforms :jruby do
   gem 'jdbc-postgres'
   gem 'activerecord-jdbcpostgresql-adapter'
+  gem 'jruby-openssl'
 end
 
 # THE REST
