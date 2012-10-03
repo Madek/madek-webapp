@@ -22,6 +22,7 @@ gem 'haml_assets'
 gem 'irwi', :git => 'git://github.com/alno/irwi.git', :ref => 'b78694'
 gem 'jquery-rails', '= 1.0.16' # NOTE WARNING DO NOT CHANGE THIS LINE
 gem 'jquery-tmpl-rails', '~> 1.1'
+gem 'jruby-openssl', platform: :jruby
 gem 'json', '~> 1.7'
 gem 'ledermann-rails-settings', :require => 'rails-settings' # alternatives: 'settingslogic', 'settler', 'rails_config', 'settings', 'simpleconfig' 
 gem 'nested_set', '~> 1.7'

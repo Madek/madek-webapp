@@ -59,6 +59,7 @@ GEM
     arel (3.0.2)
     autotest (4.4.6)
       ZenTest (>= 4.4.1)
+    bouncy-castle-java (1.5.0146.1)
     builder (3.0.3)
     capistrano (2.13.4)
       highline
@@ -157,6 +158,8 @@ GEM
       thor (~> 0.14)
     jquery-tmpl-rails (1.1.0)
       rails (>= 3.1.0)
+    jruby-openssl (0.7.7)
+      bouncy-castle-java (>= 1.5.0146.1)
     jruby-pageant (1.1.1)
     jruby-pageant (1.1.1-java)
     json (1.7.5)
@@ -379,6 +382,7 @@ DEPENDENCIES
   jdbc-postgres
   jquery-rails (= 1.0.16)
   jquery-tmpl-rails (~> 1.1)
+  jruby-openssl
   json (~> 1.7)
   launchy
   ledermann-rails-settings
