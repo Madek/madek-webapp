@@ -33,20 +33,21 @@ module PersonasDBHelper
       ActiveRecord::Base.establish_connection(Rails.configuration.database_configuration[Rails.env])
     end
 
-
     def load_and_migrate_persona_data
       config = check_for_persona_db_config
       persona_path = Rails.root.join('db',"#{base_file_name}.#{DBHelper.file_extension}")
       puts "Restoring static persona DB file '#{persona_path}' and migrating 'persona' database to latest version."
       DBHelper.restore_native persona_path, {:config => config}
-      system("RAILS_ENV=personas bundle exec rake db:migrate")
-      if $?.exitstatus == 0
-        return true
-      else
-        return false
+      cmd = "bundle exec rake db:migrate RAILS_ENV=personas"
+      Open3.popen3(cmd) do |stdin,stdout,stderr,thread|
+          if thread.value.exitstatus == 0
+            exit 0
+          else
+            puts stderr.gets 
+            exit -1
+          end
       end
     end
-
 
     def check_for_persona_db_config
       config = Rails.configuration.database_configuration['personas']
