@@ -118,7 +118,7 @@ class MediaFile < ActiveRecord::Base
     # Mac OS X is untrustworthy and often provides wrong MIME types, e.g. for PDFs and QuickTime .mov files. Therefore we must distrust
     # everyone else as well and find our own MIME types.
     self.content_type = Rack::Mime.mime_type(File.extname(filename))
-    #self.content_type = uploaded_data.content_type
+    self.extension = File.extname(self.filename).downcase.gsub(/^\./,'')
   end
 
   # the cornerstone of identity..

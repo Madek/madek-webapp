@@ -134,6 +134,35 @@ module Json
     def hash_for_filter(media_resources)
       r = []
 
+      r << { :filter_type => "media_files",
+             :context_name => "media_files", 
+             :context_label => "Datei Eigenschaften",
+             :keys => [ {label: "Datei-Typ", column: "content_type"},
+                        {label: "Datei-Endung", column: "extension"}].map do |key|
+               column = key[:column]
+               { :key_name => column,
+                 :key_label => key[:label],
+                 :terms => begin
+
+                    filters = MediaFile.
+                      select("media_files.#{column} as value, count(*) as count").
+                      from("media_files,media_resources").
+                      where("media_files.id = media_resources.media_file_id").
+                      where("media_resources.id in (#{media_resources.select("media_resources.id").to_sql})").
+                      group("media_files.#{column}").
+                      order("count DESC")
+
+                    filters.map do |filter|
+                      { :id => filter.value, # jpg | png | ...
+                       :value => filter.value, #  jpg | png | ...
+                       :count => filter.count
+                      }
+                   end
+                 end
+               }
+             end
+           }
+
       r << { :filter_type => "permissions",
              :context_name => "permissions",       # FIXME
              :context_label => "Berechtigung",     # FIXME get label from the DB

@@ -650,23 +650,34 @@ class MediaResourcesController < ApplicationController
             page = params[:page],
             per_page = [(params[:per_page] || PER_PAGE.first).to_i, PER_PAGE.first].min)
 
-    MediaResourceModules::Filter::DEPRECATED_KEYS.each_pair {|k,v| params[k] ||= params.delete(v) if params[v] }
-    @filter = params.select {|k,v| MediaResourceModules::Filter::KEYS.include?(k.to_sym) }.delete_if {|k,v| v.blank?}.deep_symbolize_keys
-    
+    MediaResourceModules::Filter::DEPRECATED_KEYS.each_pair do |k,v| 
+      params[k] ||= params.delete(v) if params[v]
+    end
+
+    @filter = params.select do |k,v| 
+      MediaResourceModules::Filter::KEYS.include?(k.to_sym) 
+    end.delete_if {|k,v| v.blank?}.deep_symbolize_keys
+
     respond_to do |format|
       format.html
       format.json {
         resources = MediaResource.filter(current_user, @filter).ordered_by(sort)
 
         h = case with_filter
-          when "true"
-            view_context.hash_for_media_resources_with_pagination(resources, {:page => page, :per_page => per_page}, with, false).
-            merge({:filter => view_context.hash_for_filter(resources)})
-          when "only"
+
+            when "true"
+              view_context.hash_for_media_resources_with_pagination(resources, \
+                      {:page => page, :per_page => per_page}, with, false) \
+                      .merge({:filter => view_context.hash_for_filter(resources)})
+
+            when "only"
             {:filter => view_context.hash_for_filter(resources)}
-          else
-            view_context.hash_for_media_resources_with_pagination(resources, {:page => page, :per_page => per_page}, with, false)
-        end
+          
+            else
+              view_context.hash_for_media_resources_with_pagination(resources, \
+                {:page => page, :per_page => per_page}, with, false)
+
+          end
 
         render json: h.merge(:current_filter => @filter).to_json
       }
