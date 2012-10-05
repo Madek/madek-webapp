@@ -87,10 +87,10 @@ Feature: Filter panel
     Then I filter by all media resources that contain any value for that key
 
   @javascript
-	Scenario: Reset filters
-    When I have a filtered list of resources
-		And I click "reset filters"
-		Then the list is not filtered anymore
+  Scenario: Reset filters
+    Given I see a filtered list of resources
+     When I click "reset filters"
+     Then the list is not filtered anymore
 
   # Was never committed
   # https://www.pivotaltracker.com/story/show/36230629

@@ -39,7 +39,7 @@ class FilterController
     delayedSearchTimer = undefined
     @searchInput.bind "focus", => @searchInput.closest(".search").addClass("active")
     @searchInput.bind "blur", => @searchInput.closest(".search").removeClass("active")
-    @el.find(".search button")  .bind "click", => do @filterContent
+    @el.find(".search button").bind "click", => do @filterContent
     @searchInput.bind "change", => if @searchInput.val().length then @searchInput.addClass("has_value") else @searchInput.removeClass("has_value")
     @searchInput.bind "keyup", =>
       clearTimeout delayedSearchTimer if delayedSearchTimer?
@@ -105,13 +105,16 @@ class FilterController
   @render: => 
     @panel = $.tmpl "app/views/filter/panel"
     @inner = @panel.find(".inner")
+    @reset_button = @panel.find(".reset > h4")
     @el.html @panel
   
   @update: (new_filter)=>
     @filter = new_filter
     @inner.html $.tmpl "app/views/filter/context", @filter
+    do @reset_button.hide
     for filter_type, filter of App.MediaResources.filter.current
       continue if typeof filter != "object"
+      do @delegateReset # TODO move out to also reset search and other params
       for metaKey, values of filter
         for id in values.ids
           keys = @el.find(".key[data-key_name='#{metaKey}']")
@@ -127,10 +130,10 @@ class FilterController
     do @delegateBlockEvents
     do @unblockAfterLoading
       
-  @filterContent: =>
+  @filterContent: (params)=>
     do @updateSearchPage
     do @blockForLoading
-    @onChange @computeParams()
+    @onChange if params? then params else @computeParams()
 
   @delegateBlockEvents: =>
     @inner.find("input").bind "change", (e)=> 
@@ -154,7 +157,7 @@ class FilterController
     @el.find("h3 .icon").removeAttr("class").addClass("filter icon")
       
   @computeParams: =>
-    filter = {meta_data: {}, search: {}, permissions: {}}
+    filter = {meta_data: {}, search: {}, permissions: {}, media_files: {}}
     _.each @inner.find("input:checked"), (term)->
       term = $(term)
       key = term.closest(".key")
@@ -169,5 +172,10 @@ class FilterController
         # consider later (e.g. image)
     filter["search"] = _.str.trim @searchInput.val() if @searchInput.val().length
     return filter
+
+  @delegateReset: =>
+    do @reset_button.show
+    @reset_button.bind "click", =>
+      @filterContent {meta_data: {}, permissions: {}, media_files: {}}
   
 window.App.Filter = FilterController

@@ -118,8 +118,12 @@ Then /^I see a list of MetaKeys the resources have values for$/ do
 end
 
 Given /^I see a filtered list of resources$/ do
-  step 'I go to public content'
+  meta_term_id = MediaResource.where(:view => true).flat_map{|x| x.meta_data.get("keywords") }.flat_map(&:value).first.try(:meta_term_id)
+  filter = {:public => "true", :meta_data => {:keywords => {:ids => [meta_term_id]}}}
+  visit media_resources_path(filter)
   step 'I open the filter panel'
+  count = MediaResource.filter(@current_user, filter).count
+  wait_until { find("#results .pagination", :text => /#{count} Resultate/) }
 end
 
 Then /^I see the match count for each value whose filter type is "(.*?)" and the values are sorted by match counts$/ do |arg1|
@@ -155,7 +159,7 @@ end
 
 Then /^I see a list of MetaKeys$/ do
   all(".context > h3").each {|context| context.click}
-  @key = all("#filter_area .key").first
+  @key = find("#filter_area").find(:xpath, "//div[@data-filter_type='meta_data']").find(".key")
 end
 
 Then /^I can open a particular MetaKey$/ do
@@ -172,4 +176,13 @@ Then /^I can filter by the values of that key$/ do
     mr = MediaResource.find item["data-id"].to_i
     mr.meta_data.map(&:to_s).any?{|md| md.match @term.text.gsub(/\n.*/, "")}.should be_true
   end
+end
+
+When /^I click "(.*?)"$/ do |arg1|
+  find("#filter_area .reset > h4").click
+end
+
+Then /^the list is not filtered anymore$/ do
+  count = MediaResource.where(:view => true).count
+  wait_until { find("#results .pagination", :text => /#{count} Resultate/) }
 end
