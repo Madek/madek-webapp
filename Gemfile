@@ -89,4 +89,6 @@ group :test do
   gem 'launchy'  
   gem 'selenium-webdriver', '~> 2.25'
   gem 'simplecov', '~> 0.6'
+  gem 'therubyracer', :platform => :mri_19
+  gem 'therubyrhino', :platform => :jruby
 end
