@@ -99,9 +99,8 @@ module DBHelper
                      "procpid"
                    end
         set_pg_env config
-        cmd = "psql template1 -c \"SELECT pg_terminate_backend(pg_stat_activity.#{pid_name}) FROM pg_stat_activity WHERE pg_stat_activity.datname = '#{config['database']}';\""
-        stdout = `#{cmd}`
-        {status: $?.exitstatus,output: stdout  }
+        stdout = `psql template1 -c \"SELECT pg_terminate_backend(pg_stat_activity.#{pid_name}) FROM pg_stat_activity WHERE pg_stat_activity.datname = '#{config['database']}';\"`
+        {status: $?.exitstatus,output: stdout}
       end
     end
 
