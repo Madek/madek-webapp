@@ -1,5 +1,4 @@
 module DBHelper
-  require 'open3'
 
   class << self
 
@@ -19,6 +18,15 @@ module DBHelper
       else 
         raise "adapter not supported"
       end
+    end
+
+    def db_server_version
+      @version ||=
+        if SQLHelper.adapter_is_postgresql?
+          SQLHelper.execute_sql("select version()").first["version"].split.second
+        else
+          raise "not implemented"
+        end
     end
 
     def base_file_name
@@ -84,16 +92,15 @@ module DBHelper
 
     def terminate_open_connections config
       if SQLHelper.adapter_is_postgresql?
-        require 'open3'
+        # the name has changed from procpid to pid in 9.2 
+        pid_name = begin # this will raise an error if the connection is terminated allready
+                     db_server_version.match(/9\.2/) ? "pid" : "procpid"
+                   rescue # we return procpid; as used in < 9.2, e.g. on production
+                     "procpid"
+                   end
         set_pg_env config
-        cmd = "psql template1 -c \"SELECT pg_terminate_backend(pg_stat_activity.procpid) FROM pg_stat_activity WHERE pg_stat_activity.datname = '#{config['database']}';\""
-        Open3.popen3(cmd) do |stdin,stdout,stderr,thread|
-          if thread.value.exitstatus == 0
-            {status: thread.value.exitstatus, output: stdout.gets}
-          else
-            {status: thread.value.exitstatus, output: "failed"}
-          end
-        end
+        stdout = `psql template1 -c \"SELECT pg_terminate_backend(pg_stat_activity.#{pid_name}) FROM pg_stat_activity WHERE pg_stat_activity.datname = '#{config['database']}';\"`
+        {status: $?.exitstatus,output: stdout}
       end
     end
 

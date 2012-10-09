@@ -6,6 +6,8 @@ class FilterController
     @onChange = if options? and options.onChange? then options.onChange else (=>)
     @options = options
     do @render
+    @inner = @panel.find(".inner")
+    @resetButton = @panel.find(".reset > h4")
     do @setupSearch
     do @delegateFilterPanelEvents
     do @delegateSaveFilterSetEvents
@@ -39,18 +41,23 @@ class FilterController
     delayedSearchTimer = undefined
     @searchInput.bind "focus", => @searchInput.closest(".search").addClass("active")
     @searchInput.bind "blur", => @searchInput.closest(".search").removeClass("active")
-    @el.find(".search button").bind "click", => do @filterContent
+    @el.find(".search button").bind "click", =>
+      do @updateSearchPage 
+      do @filterContent
     @searchInput.bind "change", => if @searchInput.val().length then @searchInput.addClass("has_value") else @searchInput.removeClass("has_value")
     @searchInput.bind "keyup", =>
       clearTimeout delayedSearchTimer if delayedSearchTimer?
       delayedSearchTimer = setTimeout =>
-        do @filterContent if @searchInput.val() != @lastSearchValue 
+        if @searchInput.val() != @lastSearchValue
+          do @updateSearchPage
+          do @filterContent
         @lastSearchValue = @searchInput.val()
       , 500
     @currentSearch = window.location.search
     $(window).bind "popstate", => 
       if @currentSearch != window.location.search
         do @setSearchValue
+        do @updateSearchPage
         do @filterContent
         @currentSearch = window.location.search
 
@@ -75,6 +82,9 @@ class FilterController
   @delegateFilterPanelEvents: =>
     @el.find(".panel>h3").bind "click", (e)=>
       if @el.is ":not(.open)" then do @open else do @close
+    @resetButton.bind "click", =>
+      @inner.find("input:checked").attr "checked", false
+      do @filterContent
 
   @open: =>
     @el.addClass "open"
@@ -104,17 +114,15 @@ class FilterController
 
   @render: => 
     @panel = $.tmpl "app/views/filter/panel"
-    @inner = @panel.find(".inner")
-    @reset_button = @panel.find(".reset > h4")
     @el.html @panel
   
   @update: (new_filter)=>
     @filter = new_filter
     @inner.html $.tmpl "app/views/filter/context", @filter
-    do @reset_button.hide
+    do @resetButton.hide
     for filter_type, filter of App.MediaResources.filter.current
       continue if typeof filter != "object"
-      do @delegateReset # TODO move out to also reset search and other params
+      do @resetButton.show
       for metaKey, values of filter
         for id in values.ids
           keys = @el.find(".key[data-key_name='#{metaKey}']")
@@ -130,10 +138,9 @@ class FilterController
     do @delegateBlockEvents
     do @unblockAfterLoading
       
-  @filterContent: (params)=>
-    do @updateSearchPage
+  @filterContent: =>
     do @blockForLoading
-    @onChange if params? then params else @computeParams()
+    @onChange @computeParams()
 
   @delegateBlockEvents: =>
     @inner.find("input").bind "change", (e)=> 
@@ -173,9 +180,4 @@ class FilterController
     filter["search"] = _.str.trim @searchInput.val() if @searchInput.val().length
     return filter
 
-  @delegateReset: =>
-    do @reset_button.show
-    @reset_button.bind "click", =>
-      @filterContent {meta_data: {}, permissions: {}, media_files: {}}
-  
 window.App.Filter = FilterController
