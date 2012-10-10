@@ -137,7 +137,7 @@ module Json
       r << { :filter_type => "media_files",
              :context_name => "media_files", 
              :context_label => "Datei Eigenschaften",
-             :keys => [ {label: "Datei-Typ", column: "content_type"},
+             :keys => [ {label: "Datei-Typ", column: "media_type"},
                         {label: "Datei-Endung", column: "extension"}].map do |key|
                column = key[:column]
                { :key_name => column,
