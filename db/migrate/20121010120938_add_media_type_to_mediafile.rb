@@ -3,7 +3,7 @@ class AddMediaTypeToMediafile < ActiveRecord::Migration
   def up
     add_column :media_files, :media_type, :string 
 
-    MediaFile.where(true).select("id,content_type").each do |mf|
+    MediaFile.where(true).select("id,media_type,content_type").each do |mf|
       mf.update_attribute :media_type, MediaFile.media_type(mf.content_type)
     end
 

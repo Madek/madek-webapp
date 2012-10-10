@@ -38,8 +38,14 @@ module PersonasDBHelper
       persona_path = Rails.root.join('db',"#{base_file_name}.#{DBHelper.file_extension}")
       puts "Restoring static persona DB file '#{persona_path}' and migrating 'persona' database to latest version."
       DBHelper.restore_native persona_path, {:config => config}
-      puts `bundle exec rake db:migrate RAILS_ENV=personas`
-      $?.exitstatus
+      puts `bundle exec rake db:migrate RAILS_ENV=personas 2>&1`
+      unless  $?.exitstatus == 0
+        puts "MIGRATION FAILED"
+        exit $?.exitstatus
+      else
+        puts "migration succeeded"
+        $?.exitstatus
+      end
     end
 
     def check_for_persona_db_config
