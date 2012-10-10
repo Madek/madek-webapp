@@ -50,8 +50,8 @@ When /^I select a value to filter by$/ do
   all(".context > h3").each {|context| context.click}
   key = all(".key").last
   key.find("h3").click unless key["class"].match "open"
-  term = key.find(".term")
-  term.click
+  @selected_term = key.find(".term")
+  @selected_term.click
 end
 
 Then /^I see all the values that can be filtered or not filtered by$/ do
@@ -206,6 +206,19 @@ end
 Then /^I can filter letting me choose "(.*?)" in the sub\-block "(.*?)" of the root block "(.*?)"$/ do |type, sub, root|
   all("#filter_area .#{root} *[data-key_name='#{sub}'] .text").map(&:text).should include(type)
   find("#filter_area .#{root} *[data-key_name='#{sub}'] input[value='#{type}']+.text").click()
+end
+
+When /^I collapse its parent key$/ do
+  @selected_term.find(:xpath, "./../..[contains(@class, 'key')]/h3").click
+end
+
+Then /^I collapse its parent context$/ do
+  @selected_term.find(:xpath, "./../../..[contains(@class, 'context')]/h3").click
+end
+
+Then /^all selected nested terms do not disappear$/ do
+  wait_until {(all(".term.selected", :visible => true).size - all(".term.selected", :visible => false).size).should == 0}
+  @selected_term.reload[:class].include?("selected")
 end
 
 
