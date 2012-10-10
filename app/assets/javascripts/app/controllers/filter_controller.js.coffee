@@ -135,6 +135,7 @@ class FilterController
             terms = @el.find(".key[data-key_name='#{metaKey}'] .term input[value='#{id}']").closest(".term")
             terms.addClass "selected"
             terms.find("input[value='#{id}']").attr "checked", true
+            terms.closest(".key").addClass "has_selected"
     do @delegateBlockEvents
     do @unblockAfterLoading
       
