@@ -98,6 +98,7 @@ Given /^a list of resources$/ do
   @listOfResources = MediaResource.filter(@current_user, {:public => "true"})
 end
 
+
 When /^I see the filter panel$/ do
   step 'I open the filter panel'
 end
@@ -185,4 +186,8 @@ end
 Then /^the list is not filtered anymore$/ do
   count = MediaResource.where(:view => true).count
   wait_until { find("#results .pagination", :text => /#{count} Resultate/) }
+end
+
+When /^the list contains images$/ do
+  binding.pry
 end

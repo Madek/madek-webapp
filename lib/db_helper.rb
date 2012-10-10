@@ -20,15 +20,6 @@ module DBHelper
       end
     end
 
-    def db_server_version
-      @version ||=
-        if SQLHelper.adapter_is_postgresql?
-          SQLHelper.execute_sql("select version()").first["version"].split.second
-        else
-          raise "not implemented"
-        end
-    end
-
     def base_file_name
       date_string = DateTime.now.to_s.gsub(":","-")
       migration_version =  ActiveRecord::Migrator.current_version
@@ -92,14 +83,12 @@ module DBHelper
 
     def terminate_open_connections config
       if SQLHelper.adapter_is_postgresql?
-        # the name has changed from procpid to pid in 9.2 
-        pid_name = begin # this will raise an error if the connection is terminated allready
-                     db_server_version.match(/9\.2/) ? "pid" : "procpid"
-                   rescue # we return procpid; as used in < 9.2, e.g. on production
-                     "procpid"
-                   end
+        pid_name =  ENV['PGPIDNAME']  || "procpid"
         set_pg_env config
-        stdout = `psql template1 -c \"SELECT pg_terminate_backend(pg_stat_activity.#{pid_name}) FROM pg_stat_activity WHERE pg_stat_activity.datname = '#{config['database']}';\"`
+        stdout = `psql template1 -c \"SELECT pg_terminate_backend(pg_stat_activity.#{pid_name}) FROM pg_stat_activity WHERE pg_stat_activity.datname = '#{config['database']}';\" 2>&1`
+        unless $?.exitstatus == 0 
+          puts "TERMINATING OPEN PG CONNECTIONS FAILED, set the PGPIDNAME env variable to pid if you are using postgresql 9.2 or later"
+        end
         {status: $?.exitstatus,output: stdout}
       end
     end

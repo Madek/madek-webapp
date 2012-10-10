@@ -104,9 +104,10 @@ Feature: Filter panel
   #  Then the others are still available
   #  And the result is a union of all the selected permission filters
 
-  @javascript
+  @javascript @wip
   Scenario: Filtering by media file properties
-    Given I see a filtered list of resources
+    Given a list of esources
+    When I see the filter panel
     And the list contains images
     When I expand the root block "File Properties"
     And I expand the block "Image Properties"
