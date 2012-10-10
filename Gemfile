@@ -27,7 +27,6 @@ gem 'json', '~> 1.7'
 gem 'ledermann-rails-settings', :require => 'rails-settings' # alternatives: 'settingslogic', 'settler', 'rails_config', 'settings', 'simpleconfig' 
 gem 'nested_set', '~> 1.7'
 gem 'net-ldap', :require => 'net/ldap', :git => 'git://github.com/justcfx2u/ruby-net-ldap.git'
-gem 'newrelic_rpm', '~> 3.4'
 gem 'nokogiri'
 gem 'rails_autolink', '~> 1.0'
 gem 'require_relative'
@@ -42,6 +41,10 @@ group :assets do
   gem 'coffee-rails', '~> 3.2'
   gem 'sass-rails', '~> 3.2'
   gem 'uglifier', '~> 1.2'
+end
+
+group :production do
+  gem 'newrelic_rpm', '~> 3.4'
 end
 
 group :development, :personas do
