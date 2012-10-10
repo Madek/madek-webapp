@@ -104,7 +104,7 @@ Feature: Filter panel
   #  Then the others are still available
   #  And the result is a union of all the selected permission filters
 
-  @javascript @wip
+  @javascript 
   Scenario: Filtering by media type
     Given a list of resources
     When I see the filter panel
@@ -114,7 +114,7 @@ Feature: Filter panel
     Then I can filter letting me choose "image/jpeg" in the sub-block "content_type" of the root block "media_files"
 
 
-  @javascript @wip
+  @javascript 
   Scenario: Filtering by file extension
     Given a list of resources
     When I see the filter panel
