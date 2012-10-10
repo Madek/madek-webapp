@@ -98,6 +98,13 @@ Given /^a list of resources$/ do
   @listOfResources = MediaResource.filter(@current_user, {:public => "true"})
 end
 
+When /^the list contains images$/ do
+  @listOfResources.map(&:media_file).
+    select{|mf| not mf.nil?}.map(&:extension).
+    select{|ext| ext.match /jpg|jepg|png|tiff/}.
+    size.should > 0
+end
+
 
 When /^I see the filter panel$/ do
   step 'I open the filter panel'
@@ -188,6 +195,17 @@ Then /^the list is not filtered anymore$/ do
   wait_until { find("#results .pagination", :text => /#{count} Resultate/) }
 end
 
-When /^the list contains images$/ do
-  binding.pry
+When /^I expand the root block "(.*?)"$/ do |arg1|
+  find("#filter_area .#{arg1} >*:first-child").click()
 end
+
+When /^I expand the sub\-block "(.*?)" of the root block "(.*?)"$/ do |sub, root|
+   find("#filter_area .#{root} *[data-key_name='#{sub}'] >*:first-child").click()
+end
+
+Then /^I can filter letting me choose "(.*?)" in the sub\-block "(.*?)" of the root block "(.*?)"$/ do |type, sub, root|
+  all("#filter_area .#{root} *[data-key_name='#{sub}'] .text").map(&:text).should include(type)
+  find("#filter_area .#{root} *[data-key_name='#{sub}'] input[value='#{type}']+.text").click()
+end
+
+

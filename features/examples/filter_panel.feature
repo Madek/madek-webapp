@@ -105,18 +105,23 @@ Feature: Filter panel
   #  And the result is a union of all the selected permission filters
 
   @javascript @wip
-  Scenario: Filtering by media file properties
-    Given a list of esources
+  Scenario: Filtering by media type
+    Given a list of resources
     When I see the filter panel
     And the list contains images
-    When I expand the root block "File Properties"
-    And I expand the block "Image Properties"
-    Then I can filter by the filename extension of the files, letting me choose all the filename extensions (.tif, .jpeg, etc.) that were found
-    And I can filter by the media type of the file, letting me choose between audio, video, image and documents
-    #Then I can filter by the width of the image (exactly, less than, greater than)
-    #And I can filter by the height of the image (exactly, less than, greater than)
-    #And I can filter by landscape orientation
-    #And I can filter by portrait orientation
+    When I expand the root block "media_files"
+    And I expand the sub-block "content_type" of the root block "media_files"
+    Then I can filter letting me choose "image/jpeg" in the sub-block "content_type" of the root block "media_files"
+
+
+  @javascript @wip
+  Scenario: Filtering by file extension
+    Given a list of resources
+    When I see the filter panel
+    And the list contains images
+    When I expand the root block "media_files"
+    And I expand the sub-block "extension" of the root block "media_files"
+    Then I can filter letting me choose "jpg" in the sub-block "extension" of the root block "media_files"
 
   # Was never committed
   #@javascript
