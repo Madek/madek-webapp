@@ -28,14 +28,10 @@ namespace :madek do
 
     desc "like setup, but cleans personas and test dbs before"
     task :clean_setup do
-      Rails.env = 'personas'
-      Rake::Task["db:drop"].invoke
-      Rake::Task["db:create"].invoke
-
-      Rails.env = 'test'
-      Rake::Task["db:drop"].invoke
-      Rake::Task["db:create"].invoke
-      Rake::Task["db:migrate"].invoke
+      DBHelper.terminate_open_connections Rails.configuration.database_configuration["personas"]
+      `bundle exec rake db:drop db:create RAILS_ENV=personas`
+      DBHelper.terminate_open_connections Rails.configuration.database_configuration["test"]
+      `bundle exec rake db:drop db:create db:migrate RAILS_ENV=test`
       Rake::Task["madek:test:setup"].invoke
     end
 

@@ -119,6 +119,7 @@ class MediaFile < ActiveRecord::Base
     # everyone else as well and find our own MIME types.
     self.content_type = Rack::Mime.mime_type(File.extname(filename))
     self.extension = File.extname(self.filename).downcase.gsub(/^\./,'')
+    self.media_type = MediaFile.media_type(self.content_type)
   end
 
   # the cornerstone of identity..
@@ -494,7 +495,7 @@ class MediaFile < ActiveRecord::Base
     end
   end
 
- 
+
   # TODO: Refactor into something like MediaFile#encode_job ?
   def encode_job_finished?
     if self.job_id.blank?
@@ -508,7 +509,7 @@ class MediaFile < ActiveRecord::Base
       end
     end
   end
-  
+
   def encode_job_progress_percentage
     if self.job_id.blank?
       return 0
@@ -522,7 +523,28 @@ class MediaFile < ActiveRecord::Base
       end
     end
   end
-  
+
+  def self.media_type(content_type)
+    unless content_type
+      "other"
+    else
+      case content_type
+      when /^image/
+        "image"
+      when /^video/
+        "video"
+      when /^audio/
+        "audio"
+      when /^text/
+        "document"
+      when /^application/
+        "document"
+      else
+        "other"
+      end
+    end
+
+  end
   
   # OPTIMIZE
   def meta_data_without_binary

@@ -6,6 +6,18 @@ module DBHelper
       Rails.root.join(__FILE__)
     end
 
+    def max_migration
+      ActiveRecord::Migrator.migrations(ActiveRecord::Migrator.migrations_path).map(&:version).max
+    end
+
+    def completly_migrated
+      unless @completly_migrated
+        stdouts = `rake db:migrate:status RAILS_ENV=#{Rails.env}`
+        @completly_migrated = stdouts.scan(/\n/).size > 1 and stdouts.match(/\n  down/)
+      end
+      @completly_migrated
+    end
+
     ###########################################################################
     # database adapter specific
     ###########################################################################
@@ -75,6 +87,21 @@ module DBHelper
       system(cmd)
       result = DBHelper.restore_native(Rails.root + 'tmp/template_dump.mysql', config)
       return result
+    end
+
+    def create config = Rails.configuration.database_configuration[Rails.env]
+      cmd=
+        if SQLHelper.adapter_is_postgresql?
+          set_pg_env config
+          "createdb #{config['database']}"
+        elsif SQLHelper.adapter_is_mysql?
+          "mysql #{get_mysql_cmd_credentials config} -e 'create database #{config['database']}'"
+              end
+      ActiveRecord::Base.remove_connection
+      system cmd
+      ActiveRecord::Base.establish_connection
+      raise "#{cmd} failed" unless $?.exitstatus == 0
+      $?
     end
 
     ###########################################################################

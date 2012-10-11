@@ -4,7 +4,29 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
-  layout "main"
+##############################################
+# Redesign Switcher
+  layout Proc.new { |controller| if redesign? then "redesign" else "main" end }
+
+  def render(options = nil, extra_options = {}, &block)
+    if redesign? and request.format == "text/html"
+      unless options.has_key?(:template)
+        options[:template] = "/redesign/#{params[:controller]}/#{params[:action]}"
+      else
+        options[:template] = "/redesign#{options[:template]}"
+      end
+    end
+    super(options, extra_options, &block)
+  end
+
+  def redesign?
+    if params.has_key?(:redesign)
+      session[:design] = :redesign
+    elsif params.has_key?(:resetdesign)
+      session.delete :design
+    end
+    params.has_key?(:redesign) or session[:design] == :redesign
+  end
 
 ##############################################  
 # Authentication
