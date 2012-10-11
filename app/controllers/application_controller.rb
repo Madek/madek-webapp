@@ -20,12 +20,12 @@ class ApplicationController < ActionController::Base
   end
 
   def redesign?
-    if params.has_key?(:redesign)
-      session[:design] = :redesign
+    if params.has_key?(:setredesign)
+      session[:design] = :setredesign
     elsif params.has_key?(:resetdesign)
       session.delete :design
     end
-    params.has_key?(:redesign) or session[:design] == :redesign
+    params.has_key?(:setredesign) or session[:design] == :setredesign
   end
 
 ##############################################  
