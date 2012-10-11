@@ -58,9 +58,9 @@ namespace :madek do
       DBHelper.restore_native ENV['FILE'], config: Rails.configuration.database_configuration[Rails.env]
     end
 
-    desc "Restore Personas DB (and migrate to the maximal migration version if necessary)"
-    task :restore_personas  => :environment do
-      PersonasDBHelper.clone_persona_to_test_db
+    desc "Restore Personas DB (and migrate to the maximal migration version if necessary) and update the persona dump file."
+    task :restore_personas_to_max_migration  => :environment do
+      PersonasDBHelper.restore_personas_to_max_migration
     end
 
     desc "Fetch and restore the productive data" 
