@@ -1,0 +1,9 @@
+%h2= "MediaResources#index"
+
+- MediaResource.accessible_by_user(current_user).media_entries.limit(10).each do |mr|
+  
+  %a{:href => media_resource_path(mr)}
+
+    = image_tag image_media_resource_path(mr)
+
+%a{:href => root_path}= "Back to Start"

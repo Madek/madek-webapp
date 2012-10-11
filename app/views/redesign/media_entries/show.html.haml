@@ -1,0 +1,4 @@
+%h2= "MediaResources#show"
+%h3= @media_entry.title
+= image_tag image_media_resource_path(@media_entry)
+%a{:href => media_resources_path}= "Back to Index"
