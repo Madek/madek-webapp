@@ -13,6 +13,7 @@ class AddMediaTypeToMediafile < ActiveRecord::Migration
 
   def down
     remove_column :media_files, :media_type
+    add_index :media_files, :content_type
   end
 
 end

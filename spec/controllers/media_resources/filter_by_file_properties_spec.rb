@@ -5,7 +5,7 @@ describe MediaResourcesController do
 
   before :all do
     @user = FactoryGirl.create :user
-    @me_jpg = FactoryGirl.create :media_entry
+    #@me_jpg = FactoryGirl.create :media_entry
   end
 
   let :valid_session do
@@ -16,7 +16,6 @@ describe MediaResourcesController do
   describe "basic get request" do
 
     it "should be successful" do
-      pending
       get :index, {format: "json"}, valid_session
       expect(response.success?).to be_true
     end
