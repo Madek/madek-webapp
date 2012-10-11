@@ -200,7 +200,7 @@ When /^I expand the root block "(.*?)"$/ do |arg1|
 end
 
 When /^I expand the sub\-block "(.*?)" of the root block "(.*?)"$/ do |sub, root|
-   find("#filter_area .#{root} *[data-key_name='#{sub}'] >*:first-child").click()
+  find("#filter_area .#{root} *[data-key_name='#{sub}'] >*:first-child").click()
 end
 
 Then /^I can filter letting me choose "(.*?)" in the sub\-block "(.*?)" of the root block "(.*?)"$/ do |type, sub, root|

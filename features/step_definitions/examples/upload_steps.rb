@@ -321,3 +321,20 @@ Then /^I can set values for the meta data from type meta terms$/ do
   meta_key_id = MetaKey.find_by_label not_extensible_meta_terms_autocomplete["data-field_name"]
   wait_until { meta_data.reload.where(:meta_key_id => meta_key_id).first.value.length > 0 }
 end
+
+
+When /^I select a copyright status from the predefined ones and this status has values for each of its fields$/ do
+  find(".collapsible_button").click()
+  find("[data-field_name='copyright usage'] textarea").value().should_not eq("")
+  find("[data-field_name='copyright url'] textarea").value().should_not eq("")
+end
+
+When /^then switch to another copyright status that has no or blank values for any of its fields$/ do
+   find("[data-field_name='copyright status'] select").select("individuelle")
+end
+
+Then /^each of these fields of the copyright status are cleared$/ do
+  find("[data-field_name='copyright usage'] textarea").value().should eq("")
+  find("[data-field_name='copyright url'] textarea").value().should eq("")
+end
+
