@@ -9,7 +9,6 @@ gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
 gem 'foreigner'
 gem 'jdbc-postgres', platform: :jruby
 gem 'memcache-client' 
-gem 'mysql2', '~> 0.3.11', platform: :mri_19
 gem 'pg', platform: :mri_19
 
 # THE REST
