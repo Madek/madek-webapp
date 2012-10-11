@@ -28,14 +28,21 @@ Feature: Filter panel
     Then I can filter by the values for that particular key
 
   @javascript
-  Scenario: Behavior when selecting a filter
+  Scenario: Behavior when selecting and deselecting a filter
     When I select a value to filter by
     Then I see all the values that can still be used as additional filters
      And all values that have no results disappear
-     And all values that are currently selected do not disappear when I collapse this key
     When I deselect the value
     Then I see all the values that can still be used as additional filters
      And all previously disappeared values are reappearing
+
+  @javascript
+  Scenario: Behavior when collapsing a context or a key
+    When I select a value to filter by
+     And I collapse its parent key
+    Then all selected nested terms do not disappear 
+     And I collapse its parent context
+    Then all selected nested terms do not disappear 
 
   @javascript
   Scenario: Rules for when a MetaKey is displayed in the filter panel
