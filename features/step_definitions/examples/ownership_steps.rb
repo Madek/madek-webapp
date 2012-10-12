@@ -58,18 +58,18 @@ end
 
 Then /^I see a list of content owned by me$/ do
   # TODO real test using presets (in rspec ??)
-  find("#content_body .page_title_left", :text => "Meine Inhalte")
+  find(".content_body .page_title_left", :text => "Meine Inhalte")
 end
 
 Then /^I see a list of content that can be managed by me$/ do
   # FIXME the current implementation is wrong!
   # TODO real test using presets (in rspec ??)
-  find("#content_body2 .page_title_left", :text => "Mir anvertraute Inhalte")
+  find(".content_body .page_title_left", :text => "Mir anvertraute Inhalte")
 end
 
 Then /^I see a list of other people's content that is visible to me$/ do
   # TODO real test using presets (in rspec ??)
-  find("#content_body2 .page_title_left", :text => "Öffentliche Inhalte")
+  find(".content_body .page_title_left", :text => "Öffentliche Inhalte")
 end
 
 When /^I open the set called "([^"]*)"$/ do |set_title|
@@ -99,19 +99,22 @@ Then /^I can not choose any groups as owner$/ do
   all(".public .line .owner input").size == 0
 end
 
-When /^I open a media resource owned by someone else$/ do
+When /^I open one of my resources$/ do
   visit root_path
-  wait_until { find("#results_others .thumb_box") }.click
+  wait_until { find(".results .item_box .thumb_box") }.click
 end
 
-When /^I open a media entry owned by someone else$/ do
+When /^I open a media ([^"]*) owned by someone else$/ do |arg1|
   visit root_path
-  wait_until { find("#results_others .thumb_box") }.click
-end
-
-When /^I open a media set owned by someone else$/ do
-  visit root_path
-  wait_until { find("#results_others .thumb_box_set") }.click
+  what = case arg1
+    when "resource"
+      nil
+    when "entry"
+      " .thumb_box"
+    when "set"
+      " .thumb_box_set"
+  end
+  wait_until { find(".results.others .item_box#{what}") }.click
 end
 
 Then /^I cannot change the owner$/ do
@@ -144,11 +147,6 @@ Then /^the resource has the following permissions for "([^"]*)":$/ do |user_logi
   table.hashes.each do |perm| 
     userpermission.send(perm["permission"]).to_s.should == perm["value"]
   end
-end
-
-When /^I open one of my resources$/ do
-  visit root_path
-  wait_until { find("#content_body .thumb_box") }.click
 end
 
 Then /^I should have all permissions$/ do

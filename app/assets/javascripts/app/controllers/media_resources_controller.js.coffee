@@ -71,20 +71,20 @@ class MediaResourcesController
     data = JSON.parse JSON.stringify App.MediaResources.current_filter
     $.extend data, new_filter_params if new_filter_params?
     $.extend data, {with_filter: true} if with_filter
-    @el.find("#results").html "Lade Inhalte..."
+    @el.find(".results").html "Lade Inhalte..."
     @ajax.abort() if @ajax?
     @ajax = App.MediaResources.fetch
       url: "/media_resources.json"
       data: data
       success: (data)=>
         App.Filter.update data.filter if data.filter?
-        @el.find("#results").html("")
+        @el.find(".results").html("")
         setupBatch data
         if App.MediaResources.current_filter.media_set_id?
           @el.find("#bar h1 small").html @el.find("#bar h1 small").text().replace(/^\d+\s/,"")
           @el.find("#bar h1 small").prepend(data.pagination.total)
         if (data.media_resources.length == 0)
-          @el.find("#results").append $.tmpl("tmpl/media_resource/empty_results")
+          @el.find(".results").append $.tmpl("tmpl/media_resource/empty_results")
 
   @fetch: (options, with_default)->
     with_default ?= true

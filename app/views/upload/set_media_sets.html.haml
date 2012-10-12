@@ -1,8 +1,8 @@
 #upload-container.set_media_sets
   .clearfix{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
-    #results.media_resources.index.grid
+    .results.media_resources.index.grid
     = media_sets_widget(@media_entries, _("Einträge zu einem Set hinzufügen"), "upload_buttons", {:with => {:children => true}})
 
 :coffeescript
   jQuery ->
-    $("#results").html($.tmpl("tmpl/media_resource/thumb_box", #{old_render_json(@media_entries, :media_resources)}, {with_actions: false, with_link: false}))
+    $(".results").html($.tmpl("tmpl/media_resource/thumb_box", #{old_render_json(@media_entries, :media_resources)}, {with_actions: false, with_link: false}))

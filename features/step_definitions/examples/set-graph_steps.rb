@@ -30,7 +30,7 @@ When /^I see the set graph$/ do
 end
 
 Then /^I see that the set graph is integrated in the site layout$/ do
-  find("#content_body")
+  find(".content_body")
   find("#bar")
 end
 
@@ -135,7 +135,7 @@ When /^I change the window width$/ do
 end
 
 Then /^the set graph element is scaling to the new width$/ do
-  @graph_width_after_resize.should != @graph_start_width unless page.evaluate_script(%Q{ $("#content_body").width() }) <= 920
+  @graph_width_after_resize.should != @graph_start_width unless page.evaluate_script(%Q{ $(".content_body").width() }) <= 920
 end
 
 When /^I change the window height$/ do

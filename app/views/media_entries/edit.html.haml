@@ -9,7 +9,7 @@
 - is_expert = current_user.groups.is_member?("Expert")
 
 .container_12
-  %section#content_body.clearfix
+  %section.content_body.clearfix
     #detail-main.grid_2
       #detail-image{:style => "padding: 5px 0 0 0;"}
         = link_to thumb_for(@media_resource, :small), @media_resource

@@ -49,5 +49,5 @@ end
 
 Then /^I see the highlighted resources twice, once in the highlighted area, once in the "([^"]*)" list$/ do |arg1|
   find("#media_set_highlights .highlight", :text => @highlight.title)
-  find("#results .item_box", :text => @highlight.title)
+  find(".results .item_box", :text => @highlight.title)
 end

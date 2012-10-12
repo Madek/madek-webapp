@@ -42,7 +42,7 @@
               %tbody
               
 .container_12.clearfix              
-  %section#content_body_fixed
+  %section.content_body_fixed
     .grid_9.alpha
       = form_tag update_multiple_media_entries_path, :method => :put do
         = hidden_field_tag 'media_entry_ids', @media_entries.map(&:id).join(',')

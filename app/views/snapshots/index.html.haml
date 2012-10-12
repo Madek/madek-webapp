@@ -1,8 +1,8 @@
-%section#content_body
+%section.content_body
   %div.page_title_left
     =_("Kopien für MIZ-Archiv")
   .clear
-  #results.clearfix
+  .results.clearfix
     %ul.items{:style => "margin: 10px;"}
       - @snapshots.each do |snapshot|
         %li{:style => "width: 125px; height: 14em; margin-right: 20px; text-align: left;"}

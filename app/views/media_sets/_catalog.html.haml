@@ -1,0 +1,8 @@
+- if AppSettings.catalog_set_id and catalog_set = MediaSet.find(AppSettings.catalog_set_id)
+  %section.content_body
+    %div.page_title_left
+      = catalog_set.title
+    .clear
+    - catalog_set.child_media_resources.media_sets.each do |filter_set|
+      %a.item_box{:href => categories_media_set_path(filter_set)}
+        = filter_set.title

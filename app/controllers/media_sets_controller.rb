@@ -362,5 +362,8 @@ class MediaSetsController < ApplicationController
       }
     end
   end
+
+  def categories
+  end
       
 end

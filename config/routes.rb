@@ -94,6 +94,7 @@ MAdeK::Application.routes.draw do
       post :settings
       post :parents # TODO: remove
       delete :parents # TODO: remove
+      get :categories
     end
     
     resources :meta_data do

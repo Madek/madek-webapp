@@ -51,7 +51,7 @@ function removeItems(array, item) {
 /////////////////////////////////////////////////////
 
 function setupBatch(json) {
-	if(json != undefined) display_results(json);
+	if(json != undefined) display_page(json, $(".results"));
   listSelected();
   displayCount();
   displayButtons();
@@ -88,7 +88,7 @@ function setupBatch(json) {
     var media_resources_json = get_media_resources_json();
 
     // select all loaded and not already selected items
-    var loaded_item_boxes = $("#results .item_box[data-id]"); 
+    var loaded_item_boxes = $(".results .item_box[data-id]"); 
     var already_selected_ids = _.map(media_resources_json,function(m){return m.id});
     var all_data = _.map(loaded_item_boxes,function(el){return $(el).tmplItem().data});
     var all_data_without_already_selected = _.filter(all_data, function(el){return !_.include(already_selected_ids, el.id)}); 
@@ -250,11 +250,6 @@ function display_page(json, container){
 		$('#thumb_' + id).addClass('selected');
 	});
 }
-
-function display_results(json, container){
-	var container = container ? (typeof(container) === "string" ? $("#" + container) : container) : $("#results");
-	display_page(json, container);
-};
 
 ///////////////////////////////////////////////////////// SELECTION UPDATE FOR SET WIDGET
 

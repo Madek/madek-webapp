@@ -12,7 +12,7 @@ class FilterController
     do @setupSearch
     do @delegateFilterPanelEvents
     do @delegateSaveFilterSetEvents
-    do @positioningForSetView if $("#content_body_set").length
+    do @positioningForSetView if $(".content_body_set").length
     do @blockForLoading if options.start_with_open_filter
     do @open if options.start_with_open_filter
   
@@ -63,7 +63,7 @@ class FilterController
         @currentSearch = window.location.search
 
   @positioningForSetView: =>
-    @el.offset {top: $("#content_body_set #children").offset().top}
+    @el.offset {top: $(".content_body_set #children").offset().top}
 
   @updateSearchPage: =>
     uri = new Uri(window.location.search)
@@ -91,8 +91,8 @@ class FilterController
 
   @open: =>
     @el.addClass "open"
-    if $("#content_body_set").length
-      $("#content_body_set").addClass "search"
+    if $(".content_body_set").length
+      $(".content_body_set").addClass "search"
     else
       $("section.media_resources").addClass "search"
     do @fetch if not @filter? and not @options.start_with_open_filter
@@ -110,8 +110,8 @@ class FilterController
 
   @close: =>
     @el.removeClass "open"
-    if $("#content_body_set").length
-      $("#content_body_set").removeClass "search"
+    if $(".content_body_set").length
+      $(".content_body_set").removeClass "search"
     else
       $("section.media_resources").removeClass "search"
 

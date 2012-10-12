@@ -1,6 +1,6 @@
 class GroupsController
 
-  el: "section#content_body"
+  el: "section.content_body"
   
   constructor: ->
     @el = $(@el)

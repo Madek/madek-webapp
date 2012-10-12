@@ -52,12 +52,11 @@ class Admin::MediaSetsController < Admin::AdminController
 
   def special
     if request.post?
+      AppSettings.catalog_set_id = params[:catalog_set_id].to_i
       AppSettings.featured_set_id = params[:featured_set_id].to_i
       AppSettings.splashscreen_slideshow_set_id = params[:splashscreen_slideshow_set_id].to_i
       redirect_to special_admin_media_sets_path
     else
-      @featured_set_id = AppSettings.featured_set_id
-      @splashscreen_slideshow_set_id = AppSettings.splashscreen_slideshow_set_id
       @media_sets = MediaSet.where(:view => true)
     end
   end
