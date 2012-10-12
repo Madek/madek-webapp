@@ -190,7 +190,6 @@ When /^I expand the sub\-block "(.*?)" of the root block "(.*?)"$/ do |sub, root
 end
 
 Then /^I can filter letting me choose "(.*?)" in the sub\-block "(.*?)" of the root block "(.*?)"$/ do |type, sub, root|
-  binding.pry
   all("#filter_area .#{root} *[data-key_name='#{sub}'] .text").map(&:text).should include(type)
   find("#filter_area .#{root} *[data-key_name='#{sub}'] input[value='#{type}']+.text").click()
 end
