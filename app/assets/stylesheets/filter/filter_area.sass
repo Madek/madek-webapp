@@ -41,21 +41,52 @@
       border-top: 1px solid #535353
       border-right: 1px solid #333
       color: #FFFFFF
-      cursor: pointer
-      font-size: 0.9em
+      height: 18px
+      font-size: 1em
       font-weight: bold
-      line-height: 1.2em
+      line-height: 1.3em
       padding: 11px 0 10px 10px
       @include text-shadow(-1px 1px 0 rgba(0,0,0,0.7))
 
-      .icon
-        position: absolute
-        right: 9px
-        top: 12px
-        @include opacity(0.6)
+    &>.icon
+      cursor: pointer
+      position: absolute
+      right: 9px
+      top: 14px
+      @include opacity(0.6)
 
-      &:hover .icon
+      &:hover
         @include opacity(1.0)
+
+    &>button.reset
+      background: #4A4A4A
+      border-top: 1px solid rgb(20,20,20)
+      border-right: 1px solid rgb(20,20,20)
+      border-bottom: 1px solid rgb(20,20,20)
+      border-left: 1px solid rgb(20,20,20)
+      color: white
+      display: none
+      font-size: 0.9em
+      padding: 7px 4px 4px 4px
+      position: absolute
+      top: 6px
+      left: 5px
+      @include border-radius(4px)
+      @include box-shadow(0 1px 0 rgba(255,255,255,0.2))
+
+      &>.icon
+        position: relative
+        top: -2px
+        @include opacity(0.5)
+
+      &:hover
+        background-color: #5C5C5C
+
+        &>.icon
+          @include opacity(0.8)
+
+      &:active
+        background: #4A4A4A
 
     &>.search
       background-color: #7C7C7C
@@ -69,11 +100,21 @@
       overflow-y: auto
       @include text-shadow(-1px 1px 0 rgba(255,255,255,0.3))
 
+      h4
+        color: white
+        font-size: 0.9em
+        padding-bottom: 2px
+        @include text-shadow(-1px 1px 0 rgba(0,0,0,0.4))
+
+      label
+        display: block
+        width: 100%
+
       &:hover, &.active
         background-color: #5C5C5C
         border-bottom: 1px solid #4C4C4C
         border-top: 1px solid #666666
-        @include text-shadow(-1px 1px 0 rgba(0,0,0,0.2))
+        @include text-shadow(-1px 1px 0 rgba(0,0,0,0.4))
 
         button
           background-color: #7C7C7C
@@ -88,6 +129,7 @@
         border-left: 1px solid #5C5C5C
         font-size: 1.0em
         padding: 3px 6px 2px 6px
+        width: 78%
         @include border-radius(4px)
         @include box-shadow(0 1px 0 rgba(255,255,255,0.2))
 
@@ -101,7 +143,7 @@
         border-right: 1px solid #5C5C5C
         border-bottom: 1px solid #6C6C6C
         border-left: 1px solid #5C5C5C
-        padding: 3px 3px 4px 2px
+        padding: 3px 5px 4px
         @include border-radius(4px)
         @include box-shadow(0 1px 0 rgba(255,255,255,0.2))
 
@@ -133,7 +175,7 @@
       .context 
         
         &:not([data-filter_type='meta_data'])
-          input.any
+          .any
             display: none
         
         &>h3 
@@ -147,13 +189,13 @@
           font-size: 1.0em
           font-weight: bold
           padding: 6px 0 4px 10px
-          @include text-shadow(-1px 1px 0 rgba(0,0,0,0.2))
+          @include text-shadow(-1px 1px 0 rgba(0,0,0,0.4))
 
         &>h3:hover, &.open>h3
           background-color: #5C5C5C
           border-bottom: 1px solid #4C4C4C
           border-top: 1px solid #666666
-          @include text-shadow(-1px 1px 0 rgba(0,0,0,0.2))
+          @include text-shadow(-1px 1px 0 rgba(0,0,0,0.4))
 
         &>h3:active
           background-color: #3A3A3A
@@ -188,25 +230,51 @@
             display: block
             font-size: 0.85em
             font-weight: bold
-            padding: 6px 0 4px 20px
-            @include text-shadow(-1px 1px 0 rgba(0,0,0,0.2))
+            padding: 6px 0 4px 13px
+            @include text-shadow(-1px 1px 0 rgba(0,0,0,0.4))
+
+          &.for_admins > h3 .text
+            display: block
+            width: 75%
   
           &>h3:hover, &.open>h3
             background-color: #5C5C5C
             border-bottom: 1px solid #4C4C4C
             border-top: 1px solid #666666
-            @include text-shadow(-1px 1px 0 rgba(0,0,0,0.2))
+            @include text-shadow(-1px 1px 0 rgba(0,0,0,0.4))
   
           &>h3:active
             background-color: #3A3A3A
   
-          input.any
+          .any
+            background: transparent
+            border-top: 1px solid #5C5C5C
+            border-right: 1px solid #5C5C5C
+            border-bottom: 1px solid #6C6C6C
+            border-left: 1px solid #5C5C5C
+            cursor: pointer
+            font-size: 0.7em
+            padding: 1px 3px 1px 2px
             position: absolute
-            left: 8px
-            top: 10px
-  
-            &+h3
-              padding: 6px 0 4px 28px
+            right: 6px
+            top: 3px
+            @include border-radius(4px)
+            @include box-shadow(0 1px 0 rgba(255,255,255,0.2))
+            @include text-shadow(-1px 1px 0 rgba(0,0,0,0.4))
+
+            &:hover, &.selected
+              background: #4A4A4A !important
+
+            &.selected:hover
+              background: #7C7C7C !important
+
+            input
+              position: relative
+              top: -1px
+
+          &:hover .any, &.open .any
+            background-color: #7C7C7C
+            border: 1px solid #4C4C4C
 
           .content
             background-color: #CFCFCF

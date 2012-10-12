@@ -7,7 +7,8 @@ class FilterController
     @options = options
     do @render
     @inner = @panel.find(".inner")
-    @resetButton = @panel.find(".reset > h4")
+    @resetButton = @panel.find(".reset.button")
+    @title = @panel.find(".h3 .text")
     do @setupSearch
     do @delegateFilterPanelEvents
     do @delegateSaveFilterSetEvents
@@ -80,10 +81,12 @@ class FilterController
           link.attr "href", uri.toString()
 
   @delegateFilterPanelEvents: =>
-    @el.find(".panel>h3").bind "click", (e)=>
+    @el.find(".panel>.icon").bind "click", (e)=>
       if @el.is ":not(.open)" then do @open else do @close
     @resetButton.bind "click", =>
       @inner.find("input:checked").attr "checked", false
+      do @resetButton.hide
+      do @title.show
       do @filterContent
 
   @open: =>
@@ -120,9 +123,11 @@ class FilterController
     @filter = new_filter
     @inner.html $.tmpl "app/views/filter/context", @filter
     do @resetButton.hide
+    do @title.show
     for filter_type, filter of App.MediaResources.filter.current
       continue if typeof filter != "object"
       do @resetButton.show
+      do @title.hide
       for metaKey, values of filter
         for id in values.ids
           keys = @el.find(".key[data-key_name='#{metaKey}']")
@@ -130,7 +135,9 @@ class FilterController
           context = @el.find(".key[data-key_name='#{metaKey}']").closest ".context"
           context.addClass "open"
           if id is "any"
-            @el.find(".key[data-key_name='#{metaKey}']>input.any").attr "checked", true
+            any = @el.find(".key[data-key_name='#{metaKey}']>.any")
+            any.addClass "selected"
+            @el.find(".key[data-key_name='#{metaKey}']>.any input").attr "checked", true
           else
             terms = @el.find(".key[data-key_name='#{metaKey}'] .term input[value='#{id}']").closest(".term")
             terms.addClass "selected"
@@ -140,12 +147,13 @@ class FilterController
     do @unblockAfterLoading
       
   @filterContent: =>
-    do @blockForLoading
+    @blockForLoading()
     @onChange @computeParams()
 
   @delegateBlockEvents: =>
     @inner.find("input").bind "change", (e)=> 
       term = $(e.currentTarget)
+      term.closest(".term").addClass "selected"
       key_name = term.closest(".key").data "key_name"
       @inner.find(".key[data-key_name='#{key_name}'] input[value='#{term.val()}']").attr "checked", $(term).is(":checked")
       do @filterContent
@@ -159,10 +167,10 @@ class FilterController
   @blockForLoading: =>
     @blockingLayer ?= $("<div class='blocking_layer'></div>")
     @inner.append @blockingLayer unless @inner.find(".blocking_layer").length
-    @el.find("h3 .icon").removeAttr("class").addClass("loading white icon")
+    @el.find(".panel>.icon").removeAttr("class").addClass("loading white icon")
 
   @unblockAfterLoading: =>
-    @el.find("h3 .icon").removeAttr("class").addClass("filter icon")
+    @el.find(".panel>.icon").removeAttr("class").addClass("filter icon")
       
   @computeParams: =>
     filter = {meta_data: {}, search: {}, permissions: {}, media_files: {}}

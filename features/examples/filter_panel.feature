@@ -33,8 +33,7 @@ Feature: Filter panel
     Then I see all the values that can still be used as additional filters
      And all values that have no results disappear
     When I deselect the value
-    Then I see all the values that can still be used as additional filters
-     And all previously disappeared values are reappearing
+     Then all previously disappeared values are reappearing
 
   @javascript
   Scenario: Behavior when collapsing a context or a key
@@ -68,19 +67,17 @@ Feature: Filter panel
 
   @javascript
   Scenario: MetaContexts in the filter panel
-    Given I see a filtered list of resources 
+    Given I see a list of resources that can be filtered
     And some of the keys with the filter type "meta_data" are in any contexts
-    Then I see the context listed in the filter panel
-    And I can expand the context to reveal the keys
+    Then I can expand the context to reveal the keys
 
   # https://www.pivotaltracker.com/story/show/36230221
   @javascript
   Scenario: Selecting keys that appear in multiple MetaContexts in the filter panel
-    Given I see a filtered list of resources 
-    And some of the keys with the filter type "meta_data" are in any contexts
-    And I select a key that is present in multiple context
-    Then the key is selected in all the contexts
-    And when I deselect that key
+    Given I see a list of resources that can be filtered
+    And I select a term that is present in multiple context
+    Then the term is selected in all the contexts
+    When I deselect that term
     Then it is deselected in all the contexts
 
   # https://www.pivotaltracker.com/story/show/36222567
@@ -96,7 +93,7 @@ Feature: Filter panel
   @javascript
   Scenario: Reset filters
     Given I see a filtered list of resources
-     When I click "reset filters"
+     When I reset the filter panel
      Then the list is not filtered anymore
 
   # Was never committed

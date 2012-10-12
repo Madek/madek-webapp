@@ -1,12 +1,13 @@
 .panel
   %h3{:title => "Filter ein/ausblenden"}
-    = "Inhalte filtern"
-    .filter.icon
+    %span.text= "Inhalte filtern"
+  %span.filter.icon
+  %button.button.reset
+    .x.icon.white
+    = "Filter zurücksetzen"
   .search
+    %h4= "Inhalte eingrenzen mit Suchwort"
     %input{:type=>"text", :placeholder => "Suche"}
     %button
       .search.white.icon
   .inner
-  .reset
-    %h4
-      = "Alle Filter abwählen"

@@ -657,7 +657,7 @@ class MediaResourcesController < ApplicationController
     @filter = params.select do |k,v| 
       MediaResourceModules::Filter::KEYS.include?(k.to_sym) 
     end.delete_if {|k,v| v.blank?}.deep_symbolize_keys
-
+    
     respond_to do |format|
       format.html
       format.json {

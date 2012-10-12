@@ -48,37 +48,22 @@ When /^I select a value to filter by$/ do
   step 'I go to public content'
   step 'I open the filter panel'
   all(".context > h3").each {|context| context.click}
-  key = all(".key").last
-  key.find("h3").click unless key["class"].match "open"
-  @selected_term = key.find(".term")
+  @key = all(".key").last
+  @key.find("h3").click unless @key["class"].match "open"
+  @all_terms = all("#filter_area .term").map do |term|
+    filter = {}
+    filter[:type] = term.find(:xpath, "./../../..")["data-filter_type"]
+    filter[:key] = term.find(:xpath, "./../..")["data-key_name"]
+    filter[:value] = term.find("input")["value"]
+    filter
+  end
+  @selected_term = @key.find(".term")
   @selected_term.click
 end
 
-Then /^I see all the values that can be filtered or not filtered by$/ do
-  all(".block").each_with_index do |block, i|
-    block = all(".block")[i]
-    block.find("h3").click unless block["class"].match "open"
-    block.all(".term").each_with_index do |term, i|
-      term = block.all(".term")[i]
-      if term.all(".count").size > 0
-        if term.find(".count").text.to_i > 0
-          term.find("input")["disabled"].should be_nil
-        else
-          term.find("input")["disabled"].should == "true"
-        end
-      else
-        term.find("input")["disabled"].should be_nil
-      end
-    end
-  end
-end
-
 When /^I deselect the value$/ do
-  block = all(".block").last
-  block.find("h3").click unless block["class"].match "open"
-  term = block.find(".term")
-  term.find("input").checked?.should be_true
-  term.find("input").click
+  term = @key.find(".term.selected")
+  term.click
   wait_until{all(".loading", :visible => true).size == 0}
 end
 
@@ -186,8 +171,9 @@ Then /^I can filter by the values of that key$/ do
   end
 end
 
-When /^I click "(.*?)"$/ do |arg1|
-  find("#filter_area .reset > h4").click
+When /^I reset the filter panel$/ do
+  wait_until {find("#filter_area .reset.button")}
+  find("#filter_area .reset.button").click
 end
 
 Then /^the list is not filtered anymore$/ do
@@ -204,6 +190,7 @@ When /^I expand the sub\-block "(.*?)" of the root block "(.*?)"$/ do |sub, root
 end
 
 Then /^I can filter letting me choose "(.*?)" in the sub\-block "(.*?)" of the root block "(.*?)"$/ do |type, sub, root|
+  binding.pry
   all("#filter_area .#{root} *[data-key_name='#{sub}'] .text").map(&:text).should include(type)
   find("#filter_area .#{root} *[data-key_name='#{sub}'] input[value='#{type}']+.text").click()
 end
@@ -221,4 +208,84 @@ Then /^all selected nested terms do not disappear$/ do
   @selected_term.reload[:class].include?("selected")
 end
 
+Then /^I see all the values that can still be used as additional filters$/ do
+  @key.all(".term").each do |term|
+    term.find(".count").text.to_i.should > 0
+  end
+end
 
+Then /^all values that have no results disappear$/ do
+  wait_until { all(".loading", :visible=> true).size == 0 }
+  @new_all_terms = all("#filter_area .term").map do |term|
+    filter = {}
+    filter[:type] = term.find(:xpath, "./../../..")["data-filter_type"]
+    filter[:key] = term.find(:xpath, "./../..")["data-key_name"]
+    filter[:value] = term.find("input")["value"]
+    filter
+  end
+  @terms_not_visible_anymore = @all_terms.select {|t| not @new_all_terms.any? {|nt| nt == t}}
+  visible_media_resoures = all(".item_box").map {|mr| MediaResource.find mr["data-id"]}
+  @terms_not_visible_anymore.each do |t|
+    filter = {}
+    filter[t[:type]] = {} if filter[t[:type]].nil?
+    filter[t[:type]][t[:key]] = {:ids => Array(t[:value])}
+    filter = filter.deep_symbolize_keys
+    different_media_resources = MediaResource.filter(@current_user, filter).map(&:id)
+    visible_media_resoures.each {|mr| different_media_resources.include?(mr.id).should be_false } 
+  end
+end
+
+Then /^all previously disappeared values are reappearing$/ do
+  @all_terms.each do |term|
+    find(".context[data-filter_type='#{term[:type]}'] .key[data-key_name='#{term[:key]}'] input[value='#{term[:value]}']")
+  end
+end
+
+Given /^I see a list of resources that can be filtered$/ do
+  visit media_resources_path({:search => ""})
+  find("#filter_area .icon").click
+  wait_until { all(".loading").size == 0 }
+end
+
+Given /^some of the keys with the filter type "(.*?)" are in any contexts$/ do |filter_type|
+  @contexts = all(".context[data-filter_type='#{filter_type}']").map do |context|
+    MetaContext.find_by_name context[:class].gsub(/^\w+\s/, "")
+  end
+end
+
+Then /^I can expand the context to reveal the keys$/ do
+  @contexts.each do |context|
+    find(".context.#{context.name}").find("h3").click
+    find(".context.#{context.name} .key")
+  end
+end
+
+Given /^I select a term that is present in multiple context$/ do
+  @multiple_present_term = all("#filter_area .term").detect do |term|
+    term_value = term.find("input")[:value]
+    term_key = term.find(:xpath, "./../..")["data-key_name"]
+    @contexts = all(".key[data-key_name='#{term_key}'] .term input[value='#{term_value}']").map {|t| t.find(:xpath, "./../../..") }
+    term_value != "" and all(".key[data-key_name='#{term_key}'] .term input[value='#{term_value}']").size > 2
+  end
+  @multiple_present_term.find(:xpath, "./../../..").find("h3").click
+  @multiple_present_term.find(:xpath, "./../..").find("h3").click
+  @multiple_present_term_value = @multiple_present_term.find("input")[:value]
+  @multiple_present_term.click
+end
+
+Then /^the term is selected in all the contexts$/ do
+  @contexts.each do |context|
+    context.find(".term.selected input[value='#{@multiple_present_term_value}']")
+  end
+end
+
+When /^I deselect that term$/ do
+  @multiple_present_term.click
+  wait_until { all(".loading").size == 0 }
+end
+
+Then /^it is deselected in all the contexts$/ do
+  @contexts.each do |context|
+    context.all(".term.selected input[value='#{@multiple_present_term_value}']").size.should == 0
+  end
+end
