@@ -109,6 +109,7 @@ class EditMetaDatumField
   @bind_copyright_changes = (field)->
     $(field).delegate "select", "change", (event)->
       selected_option_data = $(this).find("option:selected").tmplItem().data
+
       # manage empty usage and url == unknown (hide url and usage)
       EditMetaDatumField.check_extended_copyright_infos(selected_option_data)
       # manage leaves and predefined text
@@ -162,12 +163,11 @@ class EditMetaDatumField
     $(field).find("select.root").after select
                 
   @set_copyright_text = (field, data)->
-    if not data.is_custom
-      usage = $("[data-field_name='copyright usage'] textarea")
-      usage.val(data.usage)
-      usage.trigger("blur")
-      url = $("[data-field_name='copyright url'] textarea") 
-      url.val(data.url)
-      url.trigger("blur")
+    usage = $("[data-field_name='copyright usage'] textarea")
+    usage.val(data.usage)
+    usage.trigger("blur")
+    url = $("[data-field_name='copyright url'] textarea") 
+    url.val(data.url)
+    url.trigger("blur")
         
 window.EditMetaDatumField = EditMetaDatumField

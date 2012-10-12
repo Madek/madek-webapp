@@ -1,10 +1,12 @@
 {{if terms.length > 0}}
-.key{:data => {:key_name => "${key_name}"}}
+%div{:class => "key{{if current_user.is_admin()}} for_admins{{/if}}", :data => {:key_name => "${key_name}"}}
   {{if current_user.is_admin()}}
-  %input.any{:type => "checkbox", :title => "filter content by any value in this key", :value => "any"}
+  %label.any{:title => 'Nach Inhalten eingrenzen die Werte für "${key_label}" haben.'}
+    %input{:type => "checkbox", :value => "any"}
+    = "Any"
   {{/if}}
-  %h3 ${key_label}
+  %h3
+    %span.text ${key_label}
   .content
-    %ul
-      {{tmpl(terms) "app/views/filter/term"}}
+    {{tmpl(terms) "app/views/filter/term"}}
 {{/if}}

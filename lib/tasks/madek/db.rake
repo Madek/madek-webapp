@@ -58,63 +58,59 @@ namespace :madek do
       DBHelper.restore_native ENV['FILE'], config: Rails.configuration.database_configuration[Rails.env]
     end
 
-    desc "Restore Personas DB (and migrate to the maximal migration version if necessary)"
-    task :restore_personas  => :environment do
-      PersonasDBHelper.clone_persona_to_test_db
+    desc "Restore Personas DB (and migrate to the maximal migration version if necessary) and update the persona dump file."
+    task :restore_personas_to_max_migration  => :environment do
+      PersonasDBHelper.restore_personas_to_max_migration
     end
 
     desc "Fetch and restore the productive data" 
-    task :fetch_and_restore_productive_data do
-      remote_dump_cmd = 'ssh madek@madek-server "cd current;RAILS_ENV=production DIR=/tmp bundle exec rake madek:db:dump"'
-      Open3.popen3(remote_dump_cmd) do |stdin,stdout,stderr,thread|
-        if thread.value.exitstatus == 0
-          puts "the db has been dumped on the server"
-          s = stdout.gets
-          dumpfile = s.split(/\s/).last
-          filename = dumpfile.split('/').last
-          target_dir = Rails.root.join 'tmp'
-          filename_path = "#{target_dir}/#{filename}"
-          Open3.popen3("scp madek-personas@madek-server:#{dumpfile} #{filename_path}") do |stdin,stdout,stderr,thread|
-            if thread.value.exitstatus == 0
-              puts "the db has been fetched"
-              Rake::Task["db:drop"].invoke
-              puts "creating the db"  
-              Rake::Task["db:create"].invoke
-              puts "restoring data"
-              DBHelper.restore_native filename_path, config: Rails.configuration.database_configuration[Rails.env]
-              puts "running the migrations"
-              Rake::Task["db:migrate"].invoke
-            else
-              puts "copying the dump from the remote machine failed"
-              -1
-            end
-          end
+    task :fetch_and_restore_productive_data => :environment do
+      
+      outs = `ssh madek@madek-server "cd current;RAILS_ENV=production DIR=/tmp bundle exec rake madek:db:dump"  2>&1`
+      unless $?.exitstatus == 0
+        puts "dumping the database on the remote server failed, #{outs}"
+        $?.exitstatus
+      else
+        puts "the db has been dumped on the server"
+        dumpfile = outs.split(/\s/).last
+        filename = dumpfile.split('/').last
+        target_dir = Rails.root.join 'tmp'
+        filename_path = "#{target_dir}/#{filename}"
+        stdouts = `scp madek-personas@madek-server:#{dumpfile} #{filename_path} 2>&1`
+        unless $?.exitstatus == 0
+          puts "copying the dump from the remote machine failed, #{outs}"
+          $?.exitstatus
         else
-          puts "dumping the database on the remote server failed with #{stderr}"
-          -1
+          puts "the db has been fetched into #{filename_path}"
+          DBHelper.terminate_open_connections Rails.configuration.database_configuration[Rails.env]
+          Rake::Task["db:drop"].invoke
+          puts "creating the db"  
+          Rake::Task["db:create"].invoke
+          puts "restoring data"
+          DBHelper.restore_native filename_path, config: Rails.configuration.database_configuration[Rails.env]
+          puts "running the migrations"
+          Rake::Task["db:migrate"].invoke
+          0
         end
       end
     end
 
-
     desc "Fetch the current dump of the personas db(Postgres only)" 
     task :fetch_personas do
-      Open3.popen3('ssh madek-personas@madek-server "cd current;RAILS_ENV=production bundle exec rake madek:db:dump"') do |stdin,stdout,stderr,thread|
-        if thread.value.exitstatus == 0
-          s = stdout.gets
-          dumpfile = s.split(/\s/).last
-          target_file =  Rails.root.join 'db','empty_medienarchiv_instance_with_personas.pgsql.gz'
-          Open3.popen3("scp madek-personas@madek-server:#{dumpfile} #{target_file}") do |stdin,stdout,stderr,thread|
-            if thread.value.exitstatus == 0
-              puts "the db has been fetched into #{target_file}"
-            else
-              puts "copying the dump from the remote machine failed"
-              -1
-            end
-          end
+      outs = `ssh madek-personas@madek-server "cd current;RAILS_ENV=production bundle exec rake madek:db:dump" 2>&1`
+      unless $?.exitstatus == 0
+        puts "dumping the database on the remote server failed with #{stderr}"
+        $?.exitstatus
+      else
+        dumpfile = outs.split(/\s/).last
+        target_file =  Rails.root.join 'db','empty_medienarchiv_instance_with_personas.pgsql.gz'
+        outs = `scp madek-personas@madek-server:#{dumpfile} #{target_file} 2>&1`
+        unless $?.exitstatus == 0
+          puts "copying the dump from the remote machine failed"
+          $?.exitstatus
         else
-          puts "dumping the database on the remote server failed with #{stderr}"
-          -1
+          puts "the db has been fetched into #{target_file}"
+          0
         end
       end
     end

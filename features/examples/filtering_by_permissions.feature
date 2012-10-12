@@ -6,16 +6,22 @@ Feature: Filtering by permissions
   And so that I can see which resources I have specific permissions for (as 
   covered by the permissions presets)
 
+  Background: Load the example data and personas
+    Given personas are loaded
+     And I am "Normin"
+    When I go to the media resources
+     And I see the filter panel
+
+  @javascript
   Scenario: Filtering by owner
-    When I see the filter panel
     Then I can filter so that I see only the media resources by each of the owners of any media resources shown
 
+  @javascript
   Scenario: Filtering by group
-    When I see the filter panel
     Then I can filter so that I see only the media resources that have view permissions relating to each of those groups
 
+  @javascript
   Scenario: Filter by permissions
-    When I see the filter panel
-	Then I can filter by "My content"
-	And I can filter by "Content assigned to me"
-	And I can filter by "Available to the public"
+  	Then I can filter by "My content"
+	   And I can filter by "Content assigned to me"
+	   And I can filter by "Available to the public"

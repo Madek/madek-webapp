@@ -4,7 +4,7 @@ module MediaResourceModules
   module Filter
 
     KEYS = [ :accessible_action, :collection_id, :favorites, :group_id, :ids,
-             :media_file, :media_set_id, :meta_data, :not_by_user_id,
+             :media_file,:media_files, :media_set_id, :meta_data, :not_by_user_id,
              :permissions, :public, :search, :top_level, :type, :user_id,
              :query ] 
     
@@ -26,6 +26,7 @@ module MediaResourceModules
         DEPRECATED_KEYS.each_pair do |k,v|
           filter[k] ||= filter.delete(v) if filter[v]
         end
+
 
         ############################################################
 
@@ -57,6 +58,17 @@ module MediaResourceModules
         end
         
         resources = resources.accessible_by_user(current_user, filter[:accessible_action]) if current_user
+
+        ############################################################
+      
+        if media_files_filter = filter[:media_files]
+          media_files_filter.each do |column,h|
+            value =h[:ids].first # we can simplify here, since there can be only one extension/type
+            resources = resources.
+              joins(:media_file).
+              where("media_files.#{column} = ?", value)
+          end
+        end
 
         ############################################################
 
@@ -101,35 +113,17 @@ module MediaResourceModules
       def filter_permissions(current_user, filter = {})
         resources = scoped
         filter.each_pair do |k,v|
-=begin
-          # this is AND implementation
           v[:ids].each do |id|
             resources = case k
-              when :preset
-                presets = PermissionPreset.where(:id => id)
-                resources.where_permission_presets_and_user presets, current_user
+              #old??#
+              #when :preset
+              #  presets = PermissionPreset.where(:id => id)
+              #  resources.where_permission_presets_and_user presets, current_user
               when :owner
                 resources.where(:user_id => id)
               when :group
-                resources.where( %Q< media_resources.id  in (
-                  #{MediaResource.grouppermissions_not_disallowed(current_user, :view)
-                     .where("grouppermissions.group_id in ( ? )", id)
-                     .select("media_resource_id").to_sql})>)
+                resources.accessible_by_group(id)
             end
-          end
-=end
-          # this is OR implementation
-          resources = case k
-            when :preset
-              presets = PermissionPreset.where(:id => v[:ids])
-              resources.where_permission_presets_and_user presets, current_user
-            when :owner
-              resources.where(:user_id => v[:ids])
-            when :group
-              resources.where( %Q< media_resources.id  in (
-                #{MediaResource.grouppermissions_not_disallowed(current_user, :view)
-                    .where("grouppermissions.group_id in ( ? )", v[:ids])
-                    .select("media_resource_id").to_sql})>)
           end
         end
         resources

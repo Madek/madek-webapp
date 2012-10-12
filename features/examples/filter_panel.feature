@@ -28,14 +28,20 @@ Feature: Filter panel
     Then I can filter by the values for that particular key
 
   @javascript
-  Scenario: Behavior when selecting a filter
+  Scenario: Behavior when selecting and deselecting a filter
     When I select a value to filter by
     Then I see all the values that can still be used as additional filters
      And all values that have no results disappear
-     And all values that are currently selected do not disappear when I collapse this key
     When I deselect the value
-    Then I see all the values that can still be used as additional filters
-     And all previously disappeared values are reappearing
+     Then all previously disappeared values are reappearing
+
+  @javascript
+  Scenario: Behavior when collapsing a context or a key
+    When I select a value to filter by
+     And I collapse its parent key
+    Then all selected nested terms do not disappear 
+     And I collapse its parent context
+    Then all selected nested terms do not disappear 
 
   @javascript
   Scenario: Rules for when a MetaKey is displayed in the filter panel
@@ -61,19 +67,17 @@ Feature: Filter panel
 
   @javascript
   Scenario: MetaContexts in the filter panel
-    Given I see a filtered list of resources 
+    Given I see a list of resources that can be filtered
     And some of the keys with the filter type "meta_data" are in any contexts
-    Then I see the context listed in the filter panel
-    And I can expand the context to reveal the keys
+    Then I can expand the context to reveal the keys
 
   # https://www.pivotaltracker.com/story/show/36230221
   @javascript
   Scenario: Selecting keys that appear in multiple MetaContexts in the filter panel
-    Given I see a filtered list of resources 
-    And some of the keys with the filter type "meta_data" are in any contexts
-    And I select a key that is present in multiple context
-    Then the key is selected in all the contexts
-    And when I deselect that key
+    Given I see a list of resources that can be filtered
+    And I select a term that is present in multiple context
+    Then the term is selected in all the contexts
+    When I deselect that term
     Then it is deselected in all the contexts
 
   # https://www.pivotaltracker.com/story/show/36222567
@@ -87,10 +91,10 @@ Feature: Filter panel
     Then I filter by all media resources that contain any value for that key
 
   @javascript
-	Scenario: Reset filters
-    When I have a filtered list of resources
-		And I click "reset filters"
-		Then the list is not filtered anymore
+  Scenario: Reset filters
+    Given I see a filtered list of resources
+     When I reset the filter panel
+     Then the list is not filtered anymore
 
   # Was never committed
   # https://www.pivotaltracker.com/story/show/36230629
@@ -105,17 +109,23 @@ Feature: Filter panel
   #  And the result is a union of all the selected permission filters
 
   @javascript
-  Scenario: Filtering by media file properties
-    Given I see a filtered list of resources
+  Scenario: Filtering by media type
+    Given a list of resources
+    When I see the filter panel
     And the list contains images
-    When I expand the root block "File Properties"
-    And I expand the block "Image Properties"
-    Then I can filter by the filename extension of the files, letting me choose all the filename extensions (.tif, .jpeg, etc.) that were found
-    And I can filter by the media type of the file, letting me choose between audio, video, image and documents
-    #Then I can filter by the width of the image (exactly, less than, greater than)
-    #And I can filter by the height of the image (exactly, less than, greater than)
-    #And I can filter by landscape orientation
-    #And I can filter by portrait orientation
+    When I expand the root block "media_files"
+    And I expand the sub-block "media_type" of the root block "media_files"
+    Then I can filter letting me choose "image" in the sub-block "media_type" of the root block "media_files"
+
+
+  @javascript 
+  Scenario: Filtering by file extension
+    Given a list of resources
+    When I see the filter panel
+    And the list contains images
+    When I expand the root block "media_files"
+    And I expand the sub-block "extension" of the root block "media_files"
+    Then I can filter letting me choose "jpg" in the sub-block "extension" of the root block "media_files"
 
   # Was never committed
   #@javascript

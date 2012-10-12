@@ -24,26 +24,6 @@ Feature: Set Graph
   Scenario: What i see in the set graph itself
     When I see the set graph
     Then I see the realtionship between my sets
-     #wip And I see a zoom panel
-     #wip And I see a navigation panel (up, down, left, right)
-
-  # @wip
-  # Scenario: Using the zoom panel
-  #   When I see the set graph
-  #    And I click "zoom in" then the graph zooms in 
-  #    And I click "zoom out" then the graph zooms out
-
-  # @wip
-  # Scenario: Using the navigation panel
-  #   When I see the set graph
-  #   When I click "move up" 
-  #   Then the graph moves down 
-  #   When I click "move down" 
-  #   Then the graph moves up 
-  #   When I click "move left" 
-  #   Then the graph moves right 
-  #   When I click "move right" 
-  #   Then the graph moves left 
 
   @javascript
   Scenario: What I see on the graph

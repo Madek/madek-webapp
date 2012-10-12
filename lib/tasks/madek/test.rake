@@ -12,6 +12,7 @@ namespace :madek do
       Rake::Task["madek:test:rspec"].invoke
     end
 
+    desc "invoke madek:reset, clean cucumber files and load and migrate the personas db"
     task :setup do
       # Rake seems to be very stubborn about where it takes
       # the RAILS_ENV from, so let's set a lot of options (?)
@@ -25,15 +26,12 @@ namespace :madek do
       PersonasDBHelper.load_and_migrate_persona_data
     end
 
+    desc "like setup, but cleans personas and test dbs before"
     task :clean_setup do
-      Rails.env = 'personas'
-      Rake::Task["db:drop"].invoke
-      Rake::Task["db:create"].invoke
-
-      Rails.env = 'test'
-      Rake::Task["db:drop"].invoke
-      Rake::Task["db:create"].invoke
-      Rake::Task["db:migrate"].invoke
+      DBHelper.terminate_open_connections Rails.configuration.database_configuration["personas"]
+      `bundle exec rake db:drop db:create RAILS_ENV=personas`
+      DBHelper.terminate_open_connections Rails.configuration.database_configuration["test"]
+      `bundle exec rake db:drop db:create db:migrate RAILS_ENV=test`
       Rake::Task["madek:test:setup"].invoke
     end
 

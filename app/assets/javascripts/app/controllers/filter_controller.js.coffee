@@ -6,6 +6,9 @@ class FilterController
     @onChange = if options? and options.onChange? then options.onChange else (=>)
     @options = options
     do @render
+    @inner = @panel.find(".inner")
+    @resetButton = @panel.find(".reset.button")
+    @title = @panel.find(".h3 .text")
     do @setupSearch
     do @delegateFilterPanelEvents
     do @delegateSaveFilterSetEvents
@@ -39,18 +42,23 @@ class FilterController
     delayedSearchTimer = undefined
     @searchInput.bind "focus", => @searchInput.closest(".search").addClass("active")
     @searchInput.bind "blur", => @searchInput.closest(".search").removeClass("active")
-    @el.find(".search button")  .bind "click", => do @filterContent
+    @el.find(".search button").bind "click", =>
+      do @updateSearchPage 
+      do @filterContent
     @searchInput.bind "change", => if @searchInput.val().length then @searchInput.addClass("has_value") else @searchInput.removeClass("has_value")
     @searchInput.bind "keyup", =>
       clearTimeout delayedSearchTimer if delayedSearchTimer?
       delayedSearchTimer = setTimeout =>
-        do @filterContent if @searchInput.val() != @lastSearchValue 
+        if @searchInput.val() != @lastSearchValue
+          do @updateSearchPage
+          do @filterContent
         @lastSearchValue = @searchInput.val()
       , 500
     @currentSearch = window.location.search
     $(window).bind "popstate", => 
       if @currentSearch != window.location.search
         do @setSearchValue
+        do @updateSearchPage
         do @filterContent
         @currentSearch = window.location.search
 
@@ -73,8 +81,13 @@ class FilterController
           link.attr "href", uri.toString()
 
   @delegateFilterPanelEvents: =>
-    @el.find(".panel>h3").bind "click", (e)=>
+    @el.find(".panel>.icon").bind "click", (e)=>
       if @el.is ":not(.open)" then do @open else do @close
+    @resetButton.bind "click", =>
+      @inner.find("input:checked").attr "checked", false
+      do @resetButton.hide
+      do @title.show
+      do @filterContent
 
   @open: =>
     @el.addClass "open"
@@ -104,36 +117,43 @@ class FilterController
 
   @render: => 
     @panel = $.tmpl "app/views/filter/panel"
-    @inner = @panel.find(".inner")
     @el.html @panel
   
   @update: (new_filter)=>
     @filter = new_filter
     @inner.html $.tmpl "app/views/filter/context", @filter
-    if App.MediaResources.filter.current.meta_data?
-      for metaKey, values of App.MediaResources.filter.current.meta_data
+    do @resetButton.hide
+    do @title.show
+    for filter_type, filter of App.MediaResources.filter.current
+      continue if typeof filter != "object"
+      do @resetButton.show
+      do @title.hide
+      for metaKey, values of filter
         for id in values.ids
           keys = @el.find(".key[data-key_name='#{metaKey}']")
           keys.addClass "open"
           context = @el.find(".key[data-key_name='#{metaKey}']").closest ".context"
           context.addClass "open"
           if id is "any"
-            @el.find(".key[data-key_name='#{metaKey}']>input.any").attr "checked", true
+            any = @el.find(".key[data-key_name='#{metaKey}']>.any")
+            any.addClass "selected"
+            @el.find(".key[data-key_name='#{metaKey}']>.any input").attr "checked", true
           else
             terms = @el.find(".key[data-key_name='#{metaKey}'] .term input[value='#{id}']").closest(".term")
             terms.addClass "selected"
             terms.find("input[value='#{id}']").attr "checked", true
+            terms.closest(".key").addClass "has_selected"
     do @delegateBlockEvents
     do @unblockAfterLoading
       
   @filterContent: =>
-    do @updateSearchPage
-    do @blockForLoading
+    @blockForLoading()
     @onChange @computeParams()
 
   @delegateBlockEvents: =>
     @inner.find("input").bind "change", (e)=> 
       term = $(e.currentTarget)
+      term.closest(".term").addClass "selected"
       key_name = term.closest(".key").data "key_name"
       @inner.find(".key[data-key_name='#{key_name}'] input[value='#{term.val()}']").attr "checked", $(term).is(":checked")
       do @filterContent
@@ -147,13 +167,13 @@ class FilterController
   @blockForLoading: =>
     @blockingLayer ?= $("<div class='blocking_layer'></div>")
     @inner.append @blockingLayer unless @inner.find(".blocking_layer").length
-    @el.find("h3 .icon").removeAttr("class").addClass("loading white icon")
+    @el.find(".panel>.icon").removeAttr("class").addClass("loading white icon")
 
   @unblockAfterLoading: =>
-    @el.find("h3 .icon").removeAttr("class").addClass("filter icon")
+    @el.find(".panel>.icon").removeAttr("class").addClass("filter icon")
       
   @computeParams: =>
-    filter = {meta_data: {}, search: {}}
+    filter = {meta_data: {}, search: {}, permissions: {}, media_files: {}}
     _.each @inner.find("input:checked"), (term)->
       term = $(term)
       key = term.closest(".key")
@@ -168,5 +188,5 @@ class FilterController
         # consider later (e.g. image)
     filter["search"] = _.str.trim @searchInput.val() if @searchInput.val().length
     return filter
-  
+
 window.App.Filter = FilterController

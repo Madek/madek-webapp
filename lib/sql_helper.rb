@@ -6,6 +6,9 @@ module SQLHelper
     include SQLHelper
   end
 
+  def module_path
+  end
+
   def adapter_name
     begin
       ActiveRecord::Base.connection().adapter_name().downcase
@@ -18,12 +21,20 @@ module SQLHelper
     ActiveRecord::Base.connection.execute query 
   end
 
+  def db_server_version
+    if adapter_is_postgresql?
+      execute_sql("select version()").first["version"].split.second
+    else
+      raise "not implemented"
+    end
+  end
+
   def adapter_is_mysql?
     ["mysql", "mysql2"].include?  adapter_name
   end
 
   def adapter_is_postgresql?
-    "postgresql" == adapter_name
+    ["postgresql","jdbcpostgresql"].include?(adapter_name)
   end
 
   def ilike

@@ -209,6 +209,18 @@
     height: 20px;
     width: 20px;
   }
+
+  &.x.white {
+    background-position: -21px -429px;
+    height: 12px;
+    width: 12px;
+  }
+
+  &.x.black {
+    background-position: -21px -442px;
+    height: 12px;
+    width: 12px;
+  }
 }
 
 #bar > .icon {

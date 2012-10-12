@@ -1,10 +1,21 @@
 module DBHelper
-  require 'open3'
 
   class << self
 
     def module_path # for convenient reloading
       Rails.root.join(__FILE__)
+    end
+
+    def max_migration
+      ActiveRecord::Migrator.migrations(ActiveRecord::Migrator.migrations_path).map(&:version).max
+    end
+
+    def completly_migrated
+      unless @completly_migrated
+        stdouts = `rake db:migrate:status RAILS_ENV=#{Rails.env}`
+        @completly_migrated = stdouts.scan(/\n/).size > 1 and stdouts.match(/\n  down/)
+      end
+      @completly_migrated
     end
 
     ###########################################################################
@@ -78,22 +89,34 @@ module DBHelper
       return result
     end
 
+    def create config = Rails.configuration.database_configuration[Rails.env]
+      cmd=
+        if SQLHelper.adapter_is_postgresql?
+          set_pg_env config
+          "createdb #{config['database']}"
+        elsif SQLHelper.adapter_is_mysql?
+          "mysql #{get_mysql_cmd_credentials config} -e 'create database #{config['database']}'"
+              end
+      ActiveRecord::Base.remove_connection
+      system cmd
+      ActiveRecord::Base.establish_connection
+      raise "#{cmd} failed" unless $?.exitstatus == 0
+      $?
+    end
+
     ###########################################################################
     # admin
     ###########################################################################
 
     def terminate_open_connections config
       if SQLHelper.adapter_is_postgresql?
-        require 'open3'
+        pid_name =  ENV['PGPIDNAME']  || "procpid"
         set_pg_env config
-        cmd = "psql template1 -c \"SELECT pg_terminate_backend(pg_stat_activity.procpid) FROM pg_stat_activity WHERE pg_stat_activity.datname = '#{config['database']}';\""
-        Open3.popen3(cmd) do |stdin,stdout,stderr,thread|
-          if thread.value.exitstatus == 0
-            {status: thread.value.exitstatus, output: stdout.gets}
-          else
-            {status: thread.value.exitstatus, output: "failed"}
-          end
+        stdout = `psql template1 -c \"SELECT pg_terminate_backend(pg_stat_activity.#{pid_name}) FROM pg_stat_activity WHERE pg_stat_activity.datname = '#{config['database']}';\" 2>&1`
+        unless $?.exitstatus == 0 
+          puts "TERMINATING OPEN PG CONNECTIONS FAILED, set the PGPIDNAME env variable to pid if you are using postgresql 9.2 or later"
         end
+        {status: $?.exitstatus,output: stdout}
       end
     end
 

@@ -134,54 +134,78 @@ module Json
     def hash_for_filter(media_resources)
       r = []
 
-=begin # TODO reactivate this block when required on the filter panel
-      # OPTIMIZE this is not construct over media_resources
-      r << {
-        :label => "Berechtigungen, Ich bin...",
-        :name => "preset",
-        :filter_type => "permissions",
-        :filter_logic => "OR",
-        :terms => begin
-          permission_presets = PermissionPreset.where (Constants::Actions.reduce(" false ") { |s,action| s + " OR #{action} = true" })
-          permission_presets.map do |pp|
-            { :id => pp.id, :value => pp.name }
-          end
-        end 
-      }
-      
-      r << {
-        :label => "Eigentümer/in",
-        :name => "owner",
-        :filter_type => "permissions",
-        :filter_logic => "OR",
-        :terms => begin
-          owners = User.includes(:person)
-            .where("users.id in (#{media_resources.select("media_resources.user_id").to_sql}) ")
-            .order("people.lastname, people.firstname DESC")
-          owners.map do |owner|
-            { :id => owner.id, :value => owner.to_s }
-          end
-        end 
-      }
+      r << { :filter_type => "media_files",
+             :context_name => "media_files", 
+             :context_label => "Datei Eigenschaften",
+             :keys => [ {label: "Datei-Typ", column: "media_type"},
+                        {label: "Datei-Endung", column: "extension"}].map do |key|
+               column = key[:column]
+               { :key_name => column,
+                 :key_label => key[:label],
+                 :terms => begin
 
-      # FIXME this query is too slow!
-      r << {
-        :label => "Arbeitsgruppen",
-        :name => "group",
-        :filter_type => "permissions",
-        :filter_logic => "OR",
-        :terms => begin
-          sub = MediaResource.grouppermissions_not_disallowed(current_user, :view).
-                        where("grouppermissions.media_resource_id in (#{media_resources.select("media_resources.user_id").to_sql}) ").
-                        select("grouppermissions.group_id")
-          groups = Group.where( %Q< groups.id in (#{sub.to_sql})>).order("name ASC")
-          groups.map do |group|
-            { :id => group.id, :value => group.to_s }
-          end
-        end 
-      }
-=end
-      
+                    filters = MediaFile.
+                      select("media_files.#{column} as value, count(*) as count").
+                      from("media_files,media_resources").
+                      where("media_files.id = media_resources.media_file_id").
+                      where("media_resources.id in (#{media_resources.select("media_resources.id").to_sql})").
+                      group("media_files.#{column}").
+                      order("count DESC")
+
+                    filters.map do |filter|
+                      { :id => filter.value, # jpg | png | ...
+                       :value => filter.value, #  jpg | png | ...
+                       :count => filter.count
+                      }
+                   end
+                 end
+               }
+             end
+           }
+
+      r << { :filter_type => "permissions",
+             :context_name => "permissions",       # FIXME
+             :context_label => "Berechtigung",     # FIXME get label from the DB
+             :keys => [:owner, :group].map do |k|
+               case k
+                 when :owner
+                   { :key_name => k,                   
+                     :key_label => "Eigentümer/in", # FIXME get label from the DB
+                     :terms => begin
+                       owners = User.select("users.*, COUNT(media_resources.id) AS count").
+                                  includes(:person).
+                                  joins("INNER JOIN media_resources ON media_resources.user_id = users.id AND media_resources.id IN (#{media_resources.select("media_resources.id").to_sql}) ").
+                                  group("users.id").
+                                  order("count DESC")
+                       owners.map do |owner|
+                         { :id => owner.id,
+                           :value => owner.to_s,
+                           :count => owner.count
+                         }
+                       end
+                     end
+                   }
+                 when :group
+                   { :key_name => k,
+                     :key_label => "Arbeitsgruppen", # FIXME get label from the DB
+                     :terms => begin
+                       groups = Group.select("groups.*, COUNT(grouppermissions.media_resource_id) AS count").
+                                  joins("INNER JOIN groups_users ON groups_users.group_id = groups.id AND groups_users.user_id = #{current_user.id}").
+                                  joins("INNER JOIN grouppermissions ON grouppermissions.group_id = groups.id AND grouppermissions.view = TRUE AND grouppermissions.media_resource_id IN (#{media_resources.select("media_resources.id").to_sql}) ").
+                                  group("groups.id").
+                                  order("count DESC, name")
+                       groups.map do |group|
+                         { :id => group.id,
+                           :value => group.to_s,
+                           :count => group.count
+                         }
+                       end
+                     end
+                   }
+               end
+             end
+           }
+
       meta_datum_object_types = ["MetaDatumMetaTerms", "MetaDatumKeywords", "MetaDatumDepartments"]
       queries = meta_datum_object_types.map do |meta_datum_object_type|
         sql_select, sql_join, sql_group = case meta_datum_object_type

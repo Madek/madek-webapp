@@ -1,0 +1,12 @@
+!!! 5
+%html{:lang => "de-CH"}
+
+  %head
+    %meta{:charset => 'utf-8'}
+    %title= "Medienarchiv - Zürcher Hochschule der Künste"
+    = stylesheet_link_tag "redesign"
+    = javascript_include_tag "redesign"
+    
+  %body
+    %h1= "MAdeK Redesign"
+    = yield
