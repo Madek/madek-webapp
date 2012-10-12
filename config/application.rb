@@ -66,7 +66,10 @@ module MAdeK
                                     plugins/jquery.shadowbox.js
                                     wiki.css
                                     wiki.js
-                                    feedback.css )
+                                    feedback.css 
+                                    redesign.js
+                                    redesign.css
+                                  )
 
     # So that the Content-Length header is sent, so that e.g. video files
     # can be seeked and that mobile clients know how much data is coming
