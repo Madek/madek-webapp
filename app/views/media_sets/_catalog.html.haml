@@ -2,7 +2,11 @@
   %section.content_body
     %div.page_title_left
       = catalog_set.title
+    %div{:style => "clear:both;"}
+      = catalog_set.meta_data.get("description")
     .clear
     - catalog_set.child_media_resources.media_sets.each do |filter_set|
       %a.item_box{:href => categories_media_set_path(filter_set)}
-        = filter_set.title
+        %h4
+          = filter_set.title
+        = filter_set.meta_data.get("description")

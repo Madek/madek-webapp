@@ -1,10 +1,12 @@
 %section.content_body
   %h3= @media_set.title
+  %div= @media_set.meta_data.get("description")
   - if @media_set.is_a? FilterSet
     - hf = hash_for_filter(@media_set.child_media_resources)
     - @media_set.get_filter[:meta_data].each_pair do |k,v|
       - next unless v[:ids].include? "any"
       - hf.detect{|x| x[:filter_type] == "meta_data" and x[:keys].detect{|y| y[:key_name] == "#{k}"} }[:keys].detect{|y| y[:key_name] == "#{k}" }[:terms].each do |term| 
         %a.item_box{:href => media_resources_path(:meta_data => {k => {:ids => [term[:id]]}})}
-          = "%s (%d)" % [term[:value], term[:count]]
+          %h4= term[:value]
+          = "%d Inhalte" % term[:count]
       
