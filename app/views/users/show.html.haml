@@ -36,7 +36,8 @@
         success: (data)->
           if(data.media_resources.length)
             $(container).html($.tmpl("tmpl/media_resource/thumb_box", data.media_resources, {with_checkbox: false}))
-            if(data.pagination.total > per_page)
-              $(container).append("<div class='buttons'><a href='"+section.data("url")+"'>"+section.data("title")+"</a></div>")
+            # always show button, see dashboard.feature
+            # to remove button: # if(data.pagination.total > per_page)
+            $(container).append("<div class='buttons'><a href='"+section.data("url")+"'>"+section.data("title")+"</a></div>")
           else
             $(container).html("Keine Medien vorhanden")
