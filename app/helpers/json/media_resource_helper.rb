@@ -131,140 +131,146 @@ module Json
       }
     end
 
-    def hash_for_filter(media_resources)
+    def hash_for_filter(media_resources, filter_types = [:media_files, :permissions, :meta_data])
       r = []
 
-      r << { :filter_type => "media_files",
-             :context_name => "media_files", 
-             :context_label => "Datei Eigenschaften",
-             :keys => [ {label: "Datei-Typ", column: "media_type"},
-                        {label: "Datei-Endung", column: "extension"}].map do |key|
-               column = key[:column]
-               { :key_name => column,
-                 :key_label => key[:label],
-                 :terms => begin
-
-                    filters = MediaFile.
-                      select("media_files.#{column} as value, count(*) as count").
-                      from("media_files,media_resources").
-                      where("media_files.id = media_resources.media_file_id").
-                      where("media_resources.id in (#{media_resources.select("media_resources.id").to_sql})").
-                      group("media_files.#{column}").
-                      order("count DESC")
-
-                    filters.map do |filter|
-                      { :id => filter.value, # jpg | png | ...
-                       :value => filter.value, #  jpg | png | ...
-                       :count => filter.count
-                      }
+      if filter_types.include? :media_files
+        r << { :filter_type => "media_files",
+               :context_name => "media_files", 
+               :context_label => "Datei Eigenschaften",
+               :keys => [ {label: "Datei-Typ", column: "media_type"},
+                          {label: "Datei-Endung", column: "extension"}].map do |key|
+                 column = key[:column]
+                 { :key_name => column,
+                   :key_label => key[:label],
+                   :terms => begin
+  
+                      filters = MediaFile.
+                        select("media_files.#{column} as value, count(*) as count").
+                        from("media_files,media_resources").
+                        where("media_files.id = media_resources.media_file_id").
+                        where("media_resources.id in (#{media_resources.select("media_resources.id").to_sql})").
+                        group("media_files.#{column}").
+                        order("count DESC")
+  
+                      filters.map do |filter|
+                        { :id => filter.value, # jpg | png | ...
+                         :value => filter.value, #  jpg | png | ...
+                         :count => filter.count
+                        }
+                     end
                    end
-                 end
-               }
-             end
-           }
-
-      r << { :filter_type => "permissions",
-             :context_name => "permissions",       # FIXME
-             :context_label => "Berechtigung",     # FIXME get label from the DB
-             :keys => [:owner, :group].map do |k|
-               case k
-                 when :owner
-                   { :key_name => k,                   
-                     :key_label => "Eigentümer/in", # FIXME get label from the DB
-                     :terms => begin
-                       owners = User.select("users.*, COUNT(media_resources.id) AS count").
-                                  includes(:person).
-                                  joins("INNER JOIN media_resources ON media_resources.user_id = users.id AND media_resources.id IN (#{media_resources.select("media_resources.id").to_sql}) ").
-                                  group("users.id").
-                                  order("count DESC")
-                       owners.map do |owner|
-                         { :id => owner.id,
-                           :value => owner.to_s,
-                           :count => owner.count
-                         }
-                       end
-                     end
-                   }
-                 when :group
-                   { :key_name => k,
-                     :key_label => "Arbeitsgruppen", # FIXME get label from the DB
-                     :terms => begin
-                       groups = Group.select("groups.*, COUNT(grouppermissions.media_resource_id) AS count").
-                                  joins("INNER JOIN groups_users ON groups_users.group_id = groups.id AND groups_users.user_id = #{current_user.id}").
-                                  joins("INNER JOIN grouppermissions ON grouppermissions.group_id = groups.id AND grouppermissions.view = TRUE AND grouppermissions.media_resource_id IN (#{media_resources.select("media_resources.id").to_sql}) ").
-                                  group("groups.id").
-                                  order("count DESC, name")
-                       groups.map do |group|
-                         { :id => group.id,
-                           :value => group.to_s,
-                           :count => group.count
-                         }
-                       end
-                     end
-                   }
-               end
-             end
-           }
-
-      meta_datum_object_types = ["MetaDatumMetaTerms", "MetaDatumKeywords", "MetaDatumDepartments"]
-      queries = meta_datum_object_types.map do |meta_datum_object_type|
-        sql_select, sql_join, sql_group = case meta_datum_object_type
-          when "MetaDatumKeywords"
-            [%Q(meta_terms.id, meta_terms.#{DEFAULT_LANGUAGE} as value),
-             %Q(INNER JOIN keywords ON keywords.meta_datum_id = meta_data.id
-                INNER JOIN meta_terms ON keywords.meta_term_id = meta_terms.id),
-             %Q(meta_terms.id)]
-          when "MetaDatumDepartments"
-            [%Q(groups.id, groups.name AS value),
-             %Q(INNER JOIN meta_data_meta_departments ON meta_data_meta_departments.meta_datum_id = meta_data.id
-                INNER JOIN groups ON meta_data_meta_departments.meta_department_id = groups.id),
-             %Q(groups.id)]
-          else
-            [%Q(meta_terms.id, meta_terms.#{DEFAULT_LANGUAGE} as value),
-             %Q(INNER JOIN meta_data_meta_terms ON meta_data_meta_terms.meta_datum_id = meta_data.id
-                INNER JOIN meta_terms ON meta_data_meta_terms.meta_term_id = meta_terms.id),
-             %Q(meta_terms.id)]
-        end
-        %Q( SELECT meta_contexts.name AS context_name, 
-                mt3.#{DEFAULT_LANGUAGE} AS context_label,
-                meta_keys.label AS key_name, 
-                mt2.#{DEFAULT_LANGUAGE} AS key_label,
-                COUNT(meta_data.media_resource_id) AS count,
-                meta_context_groups.position AS context_group_position,
-                meta_contexts.position AS context_position,
-                meta_key_definitions.position AS definition_position,
-                #{sql_select}
-              FROM meta_contexts
-                 INNER JOIN meta_context_groups ON meta_context_groups.id = meta_contexts.meta_context_group_id
-                 INNER JOIN meta_key_definitions ON meta_key_definitions.meta_context_id = meta_contexts.id
-                 INNER JOIN meta_terms mt2 ON meta_key_definitions.label_id = mt2.id
-                 INNER JOIN meta_terms mt3 ON meta_contexts.label_id = mt3.id
-                 INNER JOIN meta_keys ON meta_key_definitions.meta_key_id = meta_keys.id
-                 INNER JOIN meta_data ON meta_data.meta_key_id = meta_keys.id
-                 #{sql_join}
-              WHERE meta_keys.meta_datum_object_type = '#{meta_datum_object_type}'
-              AND meta_data.media_resource_id IN (#{media_resources.select("media_resources.id").to_sql})
-              GROUP BY #{sql_group}, meta_contexts.name, mt3.#{DEFAULT_LANGUAGE}, meta_keys.label, mt2.#{DEFAULT_LANGUAGE},
-                        meta_context_groups.position, meta_contexts.position, meta_key_definitions.position )
-      end
-      sql = "SELECT * FROM (%s) AS t1 ORDER BY context_group_position, context_position, definition_position" % queries.join(" UNION ")
-      executed_query = ActiveRecord::Base.connection.execute(sql)
-      executed_query.group_by{|x| x["context_name"]}.each_pair do |k, v|
-        r << { :filter_type => "meta_data",
-               :context_name => v.first["context_name"],
-               :context_label => v.first["context_label"],
-               :keys => v.group_by{|x| x["key_name"]}.map do |vv|
-                 { :key_name => vv[1].first["key_name"],
-                   :key_label => vv[1].first["key_label"],
-                   :terms => vv[1].map do |vvv|
-                     { :id => vvv["id"],
-                       :value => vvv["value"],
-                       :count => vvv["count"].to_i
-                     }
-                   end.sort {|a,b| [b[:count], a[:value]] <=> [a[:count], b[:value]] }
                  }
                end
              }
+      end
+
+      if filter_types.include? :permissions
+        r << { :filter_type => "permissions",
+               :context_name => "permissions",       # FIXME
+               :context_label => "Berechtigung",     # FIXME get label from the DB
+               :keys => [:owner, :group].map do |k|
+                 case k
+                   when :owner
+                     { :key_name => k,                   
+                       :key_label => "Eigentümer/in", # FIXME get label from the DB
+                       :terms => begin
+                         owners = User.select("users.*, COUNT(media_resources.id) AS count").
+                                    includes(:person).
+                                    joins("INNER JOIN media_resources ON media_resources.user_id = users.id AND media_resources.id IN (#{media_resources.select("media_resources.id").to_sql}) ").
+                                    group("users.id").
+                                    order("count DESC")
+                         owners.map do |owner|
+                           { :id => owner.id,
+                             :value => owner.to_s,
+                             :count => owner.count
+                           }
+                         end
+                       end
+                     }
+                   when :group
+                     { :key_name => k,
+                       :key_label => "Arbeitsgruppen", # FIXME get label from the DB
+                       :terms => begin
+                         groups = Group.select("groups.*, COUNT(grouppermissions.media_resource_id) AS count").
+                                    joins("INNER JOIN groups_users ON groups_users.group_id = groups.id AND groups_users.user_id = #{current_user.id}").
+                                    joins("INNER JOIN grouppermissions ON grouppermissions.group_id = groups.id AND grouppermissions.view = TRUE AND grouppermissions.media_resource_id IN (#{media_resources.select("media_resources.id").to_sql}) ").
+                                    group("groups.id").
+                                    order("count DESC, name")
+                         groups.map do |group|
+                           { :id => group.id,
+                             :value => group.to_s,
+                             :count => group.count
+                           }
+                         end
+                       end
+                     }
+                 end
+               end
+             }
+      end
+
+      if filter_types.include? :meta_data
+        meta_datum_object_types = ["MetaDatumMetaTerms", "MetaDatumKeywords", "MetaDatumDepartments"]
+        queries = meta_datum_object_types.map do |meta_datum_object_type|
+          sql_select, sql_join, sql_group = case meta_datum_object_type
+            when "MetaDatumKeywords"
+              [%Q(meta_terms.id, meta_terms.#{DEFAULT_LANGUAGE} as value),
+               %Q(INNER JOIN keywords ON keywords.meta_datum_id = meta_data.id
+                  INNER JOIN meta_terms ON keywords.meta_term_id = meta_terms.id),
+               %Q(meta_terms.id)]
+            when "MetaDatumDepartments"
+              [%Q(groups.id, groups.name AS value),
+               %Q(INNER JOIN meta_data_meta_departments ON meta_data_meta_departments.meta_datum_id = meta_data.id
+                  INNER JOIN groups ON meta_data_meta_departments.meta_department_id = groups.id),
+               %Q(groups.id)]
+            else
+              [%Q(meta_terms.id, meta_terms.#{DEFAULT_LANGUAGE} as value),
+               %Q(INNER JOIN meta_data_meta_terms ON meta_data_meta_terms.meta_datum_id = meta_data.id
+                  INNER JOIN meta_terms ON meta_data_meta_terms.meta_term_id = meta_terms.id),
+               %Q(meta_terms.id)]
+          end
+          %Q( SELECT meta_contexts.name AS context_name, 
+                  mt3.#{DEFAULT_LANGUAGE} AS context_label,
+                  meta_keys.label AS key_name, 
+                  mt2.#{DEFAULT_LANGUAGE} AS key_label,
+                  COUNT(meta_data.media_resource_id) AS count,
+                  meta_context_groups.position AS context_group_position,
+                  meta_contexts.position AS context_position,
+                  meta_key_definitions.position AS definition_position,
+                  #{sql_select}
+                FROM meta_contexts
+                   INNER JOIN meta_context_groups ON meta_context_groups.id = meta_contexts.meta_context_group_id
+                   INNER JOIN meta_key_definitions ON meta_key_definitions.meta_context_id = meta_contexts.id
+                   INNER JOIN meta_terms mt2 ON meta_key_definitions.label_id = mt2.id
+                   INNER JOIN meta_terms mt3 ON meta_contexts.label_id = mt3.id
+                   INNER JOIN meta_keys ON meta_key_definitions.meta_key_id = meta_keys.id
+                   INNER JOIN meta_data ON meta_data.meta_key_id = meta_keys.id
+                   #{sql_join}
+                WHERE meta_keys.meta_datum_object_type = '#{meta_datum_object_type}'
+                AND meta_data.media_resource_id IN (#{media_resources.select("media_resources.id").to_sql})
+                GROUP BY #{sql_group}, meta_contexts.name, mt3.#{DEFAULT_LANGUAGE}, meta_keys.label, mt2.#{DEFAULT_LANGUAGE},
+                          meta_context_groups.position, meta_contexts.position, meta_key_definitions.position )
+        end
+        sql = "SELECT * FROM (%s) AS t1 ORDER BY context_group_position, context_position, definition_position" % queries.join(" UNION ")
+        executed_query = ActiveRecord::Base.connection.execute(sql)
+        executed_query.group_by{|x| x["context_name"]}.each_pair do |k, v|
+          r << { :filter_type => "meta_data",
+                 :context_name => v.first["context_name"],
+                 :context_label => v.first["context_label"],
+                 :keys => v.group_by{|x| x["key_name"]}.map do |vv|
+                   { :key_name => vv[1].first["key_name"],
+                     :key_label => vv[1].first["key_label"],
+                     :terms => vv[1].map do |vvv|
+                       { :id => vvv["id"],
+                         :value => vvv["value"],
+                         :count => vvv["count"].to_i
+                       }
+                     end.sort {|a,b| [b[:count], a[:value]] <=> [a[:count], b[:value]] }
+                   }
+                 end
+               }
+        end
       end
 
       r
