@@ -137,9 +137,9 @@ module Json
       if filter_types.include? :media_files
         r << { :filter_type => "media_files",
                :context_name => "media_files", 
-               :context_label => "Datei Eigenschaften",
-               :keys => [ {label: "Datei-Typ", column: "media_type"},
-                          {label: "Datei-Endung", column: "extension"}].map do |key|
+               :context_label => "Datei",
+               :keys => [ {label: "Medientyp", column: "media_type"},
+                          {label: "Dokumenttyp", column: "extension"}].map do |key|
                  column = key[:column]
                  { :key_name => column,
                    :key_label => key[:label],
