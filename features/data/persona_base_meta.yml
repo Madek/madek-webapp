@@ -7466,11 +7466,6 @@
   object_type: 
   is_dynamic: 
   is_extensible_list: 
-- id: 19
-  label: other document participants
-  object_type: 
-  is_dynamic: 
-  is_extensible_list: 
 - id: 20
   label: participating institution
   object_type: 
@@ -10146,14 +10141,6 @@
   meta_key_id: 18
   position: 26
   key_map: XMP-madek:OtherCreativeParticipants
-  settings: 
-    :length_max: 255
-    :length_min: 1
-- id: 46
-  meta_context_id: 3
-  meta_key_id: 19
-  position: 27
-  key_map: XMP-madek:OtherDocumentParticipants
   settings: 
     :length_max: 255
     :length_min: 1

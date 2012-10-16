@@ -90,11 +90,6 @@ meta_keys:
   is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
-- id: 19
-  label: other document participants
-  is_dynamic: 
-  is_extensible_list: 
-  meta_datum_object_type: MetaDatumString
 - id: 20
   label: participating institution
   is_dynamic: 
@@ -12387,20 +12382,6 @@ meta_key_definitions:
   meta_key_id: 18
   position: 26
   key_map: XMP-madek:OtherCreativeParticipants
-  key_map_type: 
-  created_at: 2011-01-18 07:42:47 Z
-  updated_at: 2012-02-22 15:18:09 Z
-  label_id: 
-  description_id: 
-  hint_id: 
-  settings: "--- \n\
-    :length_max: 255\n\
-    :length_min: 1\n"
-- id: 46
-  meta_context_id: 3
-  meta_key_id: 19
-  position: 27
-  key_map: XMP-madek:OtherDocumentParticipants
   key_map_type: 
   created_at: 2011-01-18 07:42:47 Z
   updated_at: 2012-02-22 15:18:09 Z
