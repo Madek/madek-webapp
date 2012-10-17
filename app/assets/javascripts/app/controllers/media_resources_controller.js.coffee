@@ -1,6 +1,4 @@
 class MediaResourcesController
-
-  @filter = {current:undefined, base: undefined}
   
   constructor: (options)->
     @el = $("section.media_resources.index")
@@ -106,7 +104,7 @@ class MediaResourcesController
       data: $.extend(data, {format: "json"})
       beforeSend: options.beforeSend
       success: (data)->
-        App.MediaResources.filter.current = data.current_filter
+        App.MediaResources.current_filter = data.current_filter
         options.success(data)
 
   @fetch_children: (parent_id, callback, data)->

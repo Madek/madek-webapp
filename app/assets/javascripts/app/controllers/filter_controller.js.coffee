@@ -35,7 +35,7 @@ class FilterController
       $.ajax
         url: url
         type: "PUT"
-        data: {filter: App.MediaResources.filter.current, format: "json"}
+        data: {filter: App.MediaResources.current_filter, format: "json"}
         success: => window.location = url
 
   @delegateSearchEvents: =>
@@ -124,7 +124,7 @@ class FilterController
     @inner.html $.tmpl "app/views/filter/context", @filter
     do @resetButton.hide
     do @title.show
-    for filter_type, filter of App.MediaResources.filter.current
+    for filter_type, filter of App.MediaResources.current_filter
       continue if typeof filter != "object"
       do @resetButton.show
       do @title.hide

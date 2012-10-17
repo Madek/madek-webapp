@@ -32,7 +32,7 @@ class CreateSetDialog
       data = media_set:
               meta_data_attributes:[{meta_key_label: "title",value: title}]
       if form.find("input[name='as_filterset']:checked").length
-        $.extend(data, {filter: App.MediaResources.filter.current})
+        $.extend(data, {filter: App.MediaResources.current_filter})
       $.ajax
         url: "/media_sets.json"
         type: "POST"
