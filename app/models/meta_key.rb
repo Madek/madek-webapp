@@ -37,17 +37,11 @@ class MetaKey < ActiveRecord::Base
   end
 
   def to_s
-    label #.capitalize
+    label
   end
 
   def all_context_labels
-    #meta_key_definitions.collect {|d| "#{d.meta_context}: #{d.label}" if d.key_map.blank? }.compact.join(', ')
-    meta_key_definitions.collect {|d| d.label if d.key_map.blank? }.compact.uniq.join(', ')
-  end
-
-  # OPTIMIZE with context argument
-  def first_context_label
-    meta_key_definitions.collect {|d| d.label if d.key_map.blank? }.compact.uniq.first.to_s
+    meta_key_definitions.collect {|d| d.label.to_s if d.key_map.blank? }.compact.uniq.join(', ')
   end
 
 ########################################################

@@ -933,8 +933,6 @@ ul li { float: left; }
       /*border-bottom: 1px solid silver;*/
       padding-top: 0;
       width: 100%;
-      height: 130px;
-      overflow-y: hidden;
       
       .browse_key {
         background-color: #E9E9E9;
@@ -947,8 +945,6 @@ ul li { float: left; }
       
       .browse_thumbs {
         padding: 15px 30px 10px 10px;
-        height: 55px;
-        overflow-y: hidden;
         position: relative;
         
         .thumb_mini {
@@ -986,6 +982,7 @@ ul li { float: left; }
   height: auto !important;
   background-color: #F4F4F4;
   border-bottom: white solid 5px;
+  margin-bottom: 20px;
 }
 .toggler-arrow {
   margin: 11px 8px 0 10px;

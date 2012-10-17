@@ -82,8 +82,6 @@ class MediaEntriesController < ApplicationController
   end
   
   def browse
-    # TODO merge with index
-    @viewable_ids = MediaEntry.accessible_by_user(current_user).pluck(:id)
   end
   
 #####################################################
