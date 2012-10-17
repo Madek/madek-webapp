@@ -14,7 +14,7 @@ class Group < ActiveRecord::Base
   end
 
   def is_readonly?
-    ["Admin", "Expert", "MIZ-Archiv", "ZHdK (Zürcher Hochschule der Künste)"].include?(name) # FIXME remove zhdk
+    ["Admin", "ZHdK (Zürcher Hochschule der Künste)"].include?(name) # FIXME remove zhdk
   end
   
 end

@@ -7836,11 +7836,6 @@
   object_type: Person
   is_dynamic: 
   is_extensible_list: 
-- id: 78
-  label: description author before snapshot
-  object_type: Person
-  is_dynamic: 
-  is_extensible_list: 
 - id: 79
   label: sidecar for extension
   object_type: 
@@ -11018,14 +11013,6 @@
   label_id: 355
   description_id: 369
   hint_id: 355
-- id: 220
-  meta_context_id: 2
-  meta_key_id: 78
-  position: 37
-  key_map: "textentries textart=\"Erfasser/in vor dem Kopieren f\xC3\xBCrs MIZ-Achiv\""
-  label_id: 353
-  description_id: 370
-  hint_id: 2659
 - id: 221
   meta_context_id: 7
   meta_key_id: 77

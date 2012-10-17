@@ -28,7 +28,9 @@ class DownloadController < ApplicationController
           @size = params[:size].try(:to_sym)           
           @content_type = @media_entry.media_file.content_type
 
-          if !params[:zip].blank?
+          if params[:type] == "tms"
+            send_tms
+          elsif !params[:zip].blank?
             send_as_zip
           elsif !params[:update].blank?
             send_updated_file
@@ -181,5 +183,48 @@ class DownloadController < ApplicationController
                     :disposition  =>  'attachment'})
   end
 
+  # Export a media entry xml file, for tms (The Museum System)
+  def send_tms
+    unless params[:zip]
+      render :xml => MediaEntry.to_tms_doc(@media_entry)
+    else
+      # Export a media entry into a zipfile with xml file, for tms (The Museum System)
+      all_good = true
+      clxn = []
+      [@media_entry].each do |media_entry|
+        xml = MediaEntry.to_tms_doc(media_entry)
+        # not providing the full filename of the media_file to be zipped,
+        # since it will be provided to the 3rd party receiving system in the accompanying XML
+        # however we do apparently need to supply the suffix for the file. hence the unoptimsed nonsense below.
+        file_ext = media_entry.media_file.filename.split(".").last
+        filetype_extension = ".#{file_ext}" if KNOWN_EXTENSIONS.any? {|e| e == file_ext } #OPTIMIZE
+        filetype_extension ||= ""
+        timestamp = Time.now.to_i # stops racing below
+        filename = [media_entry.id, timestamp ].join("_")
+        media_filename  = filename + filetype_extension
+        xml_filename    = filename + ".xml"
+        path = media_entry.updated_resource_file
+        clxn << [ xml, media_filename, xml_filename, path ] if path
+        all_good = false unless path
+      end
+      # zip = xml+file
+      if all_good
+        race_free_filename = ["tms", rand(Time.now.to_i).to_s].join("_") + ".zip" # TODO handle user-provided filename
+        Zip::ZipOutputStream.open("#{ZIP_STORAGE_DIR}/#{race_free_filename}") do |zos|
+          clxn.each do |x|
+            xml, filename, xml_filename, path = x
+            zos.put_next_entry(filename)
+            zos.print IO.read(path)
+            zos.put_next_entry(xml_filename)
+            zos.print xml
+          end
+        end
+        send_file File.join(ZIP_STORAGE_DIR, race_free_filename), :type => "application/zip"
+      else
+        flash[:error] = "There was a problem creating the files(s) for export"
+        redirect_to media_resource_path(@media_entry)
+      end
+    end
+  end
   
 end # class

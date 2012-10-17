@@ -40,7 +40,7 @@ class MediaEntriesController < ApplicationController
         action = case request[:action].to_sym
           when :show, :map, :browse, :media_sets
             :view
-          when :update, :edit_tms, :to_snapshot
+          when :update
             :edit
         end
   
@@ -84,18 +84,6 @@ class MediaEntriesController < ApplicationController
   def browse
   end
   
-#####################################################
-
-  def edit_tms
-    not_authorized! and return unless current_user.groups.is_member?("Expert")
-  end
-
-  def to_snapshot
-    not_authorized! and return unless current_user.groups.is_member?("Expert")
-    @media_entry.to_snapshot(current_user)
-    redirect_to @media_entry
-  end
-
 #####################################################
 
   ##

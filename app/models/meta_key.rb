@@ -4,16 +4,17 @@
 # Holds the set of basic meta data keys
 class MetaKey < ActiveRecord::Base
 
-  has_many :meta_data
+  has_many :meta_data, :dependent => :destroy
   has_many :media_entries, :through => :meta_data, :uniq => true
-  has_many :meta_key_definitions do
+  
+  has_many :meta_key_definitions, :dependent => :destroy do
     def for_context(context)
       scoped_by_meta_context_id(context).first
     end
   end
   has_many :meta_contexts, :through => :meta_key_definitions
 
-  has_many :meta_key_meta_terms
+  has_many :meta_key_meta_terms, :dependent => :destroy
   has_many :meta_terms, :through => :meta_key_meta_terms, :order => :position
   accepts_nested_attributes_for :meta_terms, :reject_if => proc { |attributes| LANGUAGES.all? {|l| attributes[l].blank? } } #old# , :allow_destroy => true
 

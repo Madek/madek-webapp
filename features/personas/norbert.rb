@@ -43,8 +43,7 @@
 #   zu bearbeiten. Diese Abschlussarbeiten bestehen aus je einem Set mit
 #   verschiedenen Medieneinträgen. Sie werden entweder von den Studis ins
 #   Medienarchiv geladen oder von ihm importiert. Die Studis weissen ihm
-#   ihre ME und Sets zu, er kontrolliert und überarbeitet diese. Norbert
-#   erstellt nach der Vorbereitung einen Snapshot fürs Archiv ZHdK. Die
+#   ihre ME und Sets zu, er kontrolliert und überarbeitet diese. Die
 #   Daten sind weiterhin im Medienarchiv sichtbar.  Im Medienarchiv hat er
 #   die Rolle des "Experten".
 #

@@ -42,7 +42,7 @@ module MetaDataHelper
     display_meta_data_helper(_("Datei"), meta_data)
   end
 
-  def display_activities_for(media_entry, is_expert = false)
+  def display_activities_for(media_entry)
     meta_data = []
     meta_data << [_("Hochgeladen von"), link_to(media_entry.user, media_resources_path(:search => media_entry.user.fullname))]
     meta_data << [_("Hochgeladen am"), _("%s Uhr") % media_entry.created_at.to_formatted_s(:date_time)]
@@ -55,22 +55,8 @@ module MetaDataHelper
 
     unless (description_author_before_import = media_entry.meta_data.get_value_for("description author before import")).blank?
       meta_data << [_("Beschreibung durch (vor dem Hochladen ins Medienarchiv)"), description_author_before_import]
-      unless media_entry.snapshots.empty?
-        meta_data << [_("MIZ-Archiv Kopie"), "#{_("%s Uhr") % media_entry.snapshots.first.created_at.to_formatted_s(:date_time)}"]
-      end
     end
 
-    if is_expert
-      unless media_entry.snapshots.empty?
-        date = media_entry.snapshots.first.created_at.to_formatted_s(:date)
-        time = media_entry.snapshots.first.created_at.to_formatted_s(:time)
-        meta_data << ["", "Eine Kopie dieses Medieneintrages wurde am #{date} um #{time} Uhr für das MIZ-Archiv erstellt."]
-      end
-      unless media_entry.snapshotable?
-        meta_data << ["", _("Diese Kopie wird gegenwärtig durch das MIZ-Archiv bearbeitet.")]
-      end
-    end
-    
     display_meta_data_helper( _("Aktivitäten"), meta_data)
   end
   

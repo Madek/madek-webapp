@@ -7,10 +7,10 @@
 
 %table#download-table
   %tr
-    %th.col1= _("Version")
-    %th.col2= select_dimensions_header_for_entry(media_entry)
-    %th.col3= _("Grösse")
-    %th.col4= _("Download")
+    %th= _("Version")
+    %th= select_dimensions_header_for_entry(media_entry)
+    %th= _("Grösse")
+    %th= _("Download")
 
   - if x_large_file_available
     - unless original_file.content_type.match(/^video.*/)
@@ -33,9 +33,6 @@
             \~
             = number_to_human_size(x_large_file.size)
           %td.align-right= link_to _("Download"), "/download?id=#{media_entry.id}&naked=1&size=x_large"
-      %tr
-        %td{:colspan => 4}
-          %hr
     
       %tr.download-unit
         %td{:rowspan => 2}
@@ -55,9 +52,6 @@
             \~
             = number_to_human_size(x_large_file.size)
           %td.align-right= link_to _("Download"), "/download?id=#{media_entry.id}&update=1&size=x_large"
-      %tr
-        %td{:colspan => 4}
-          %hr
 
       %tr.download-unit
         %td{:rowspan => 2}
@@ -77,9 +71,6 @@
             \~
             = number_to_human_size(x_large_file.size)
           %td.align-right= link_to _("Download"), "/download?id=#{media_entry.id}&zip=1&size=x_large"
-      %tr
-        %td{:colspan => 4}
-          %hr
 
   - if File.exist?(original_file.file_storage_location) # NOTE it could be a zip file
     %tr.download-unit
@@ -100,6 +91,25 @@
           = number_to_human_size(x_large_file.size)
         %td.align-right
           = link_to _("Download"),"/download?id=#{media_entry.id}&size=x_large"
+
+  %tr.download-unit
+    %td{:rowspan => 2}
+      %p.download-info
+        %span= _("ZIP-Verzeichnis mit Datei und TMS XML")
+        = _("Das gezippte Verzeichnis enthält die Datei mit eingeschriebenen, aktuellen Metadaten sowie einem separaten TMS XML Metadatendokument")
+    %td.align-right
+      = "#{dimensions_for(original_file)} (#{format_original_file})"
+    %td.align-right
+      \~
+      = number_to_human_size(original_file.size)
+    %td.align-right
+      = link_to _("Download"), "/download?id=#{media_entry.id}&type=tms&zip=1&update=1" if can_download
+  %tr
+    %td.align-right
+      = "xml"
+    %td.align-right
+    %td.align-right
+      = link_to _("Export"), "/download?id=#{media_entry.id}&type=tms"
 
 -#old# else
   =#old# _("Die Dateien sind leider nicht zum Download vorhanden.")

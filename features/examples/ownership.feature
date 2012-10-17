@@ -78,16 +78,6 @@ Feature: Ownership
     When I create a resource
     Then I am the owner of that resource
 
-
-  # DEPRECATED: Snapshot features will be removed from future versions of MAdeK
-  # https://www.pivotaltracker.com/story/show/23669443
-  #@javascript
-  #Scenario: Ownership on snapshots
-  # Given I am "Norbert"
-  #  When I create a snapshot of a media entry owned by "Normin"
-  #  Then I am the owner of the snapshot
-  #   And "Normin" is still the original media entry's owner
-
   # https://www.pivotaltracker.com/story/show/23670991
   @javascript
   Scenario: Visible representation of ownership

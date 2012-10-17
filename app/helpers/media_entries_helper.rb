@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 module MediaEntriesHelper
  
-  def meta_data(media_entry, is_expert)
+  def meta_data(media_entry)
 
     meta_context_group_data = []
 
@@ -24,8 +24,7 @@ module MediaEntriesHelper
     [MetaContextGroup.new(name: _("Weitere Daten"))].each do |meta_context_group|
       meta_contexts = []
       meta_contexts << display_objective_meta_data_for(media_entry)
-      meta_contexts << display_activities_for(media_entry, is_expert)
-      meta_contexts << display_meta_data_for(media_entry, MetaContext.tms) if is_expert
+      meta_contexts << display_activities_for(media_entry)
 
       meta_context_group_data << {meta_context_group: meta_context_group, meta_contexts: meta_contexts}
     end

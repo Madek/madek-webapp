@@ -9,67 +9,14 @@ class MediaResource < ActiveRecord::Base
 ###############################################################
 
   belongs_to :user
-  belongs_to :media_file  # TODO remove 
 
   has_many  :edit_sessions, :dependent => :destroy, :readonly => true
   has_many  :editors, :through => :edit_sessions, :source => :user
 
-  validates_presence_of :user, :unless => Proc.new { |record| record.is_a?(Snapshot) }
+  validates_presence_of :user
 
   has_one :full_text, :dependent => :destroy
   after_save { reindex } # OPTIMIZE
-
-
-  # Instance method to update a copy (referenced by path) of a media file with the meta_data tags provided
-  # args: blank_all_tags = flag indicating whether we clean all the tags from the file, or update the tags in the file
-  # returns: the path and filename of the updated copy or nil (if the copy failed)
-  def updated_resource_file(blank_all_tags = false, size = nil)
-    begin
-      source_filename = if size
-        media_file.get_preview(size).full_path
-      else
-        media_file.file_storage_location
-      end
-      FileUtils.cp( source_filename, DOWNLOAD_STORAGE_DIR )
-      # remember we want to handle the following:
-      # include all madek tags in file
-      # remove all (ok, as many as we can) tags from the file.
-      cleaner_tags = (blank_all_tags ? "-All= " : "-IPTC:All= ") + "-XMP-madek:All= -IFD0:Artist= -IFD0:Copyright= -IFD0:Software= " # because we do want to remove IPTC tags, regardless
-      tags = cleaner_tags + (blank_all_tags ? "" : to_metadata_tags)
-
-      path = File.join(DOWNLOAD_STORAGE_DIR, File.basename(source_filename))
-      # TODO Tom ask: why is this called from here and not when the meta_key_definitions are updated? 
-      Exiftool.generate_exiftool_config if MetaContext.io_interface.meta_key_definitions.maximum("updated_at").to_i > File.stat(EXIFTOOL_CONFIG).mtime.to_i
-
-      resout = `#{EXIFTOOL_PATH} #{tags} "#{path}"`
-      FileUtils.rm("#{path}_original") if resout.include?("1 image files updated") # Exiftool backs up the original before editing. We don't need the backup.
-      return path.to_s
-    rescue 
-      # "No such file or directory" ?
-      logger.error "copy failed with #{$!}"
-      return nil
-    end
-  end
-    
-########################################################
-
-  def get_media_file(user = nil)
-    media_file
-  end
-  
-########################################################
-
-  # TODO move down to Snapshot class
-  def self.to_tms_doc(resources, context = MetaContext.tms)
-    require 'active_support/builder' unless defined?(::Builder)
-    xml = ::Builder::XmlMarkup.new
-    xml.instruct!
-    xml.madek(:version => RELEASE_VERSION) do
-      Array(resources).each do |resource|
-        resource.to_tms(xml, context)
-      end
-    end
-  end
   
 ########################################################
 
@@ -80,25 +27,6 @@ class MediaResource < ActiveRecord::Base
       new_text << " #{send(method)}" if respond_to?(method)
     end
     ft.update_attributes(:text => new_text)
-  end
-
-########################################################
-
-  def media_type
-    if respond_to?(:media_file) and media_file
-      case media_file.content_type
-        when /video/ then 
-          "Video"
-        when /audio/ then
-          "Audio"
-        when /image/ then
-          "Image"
-        else 
-          "Doc"
-      end 
-    else
-      self.type.gsub(/Media/, '')
-    end    
   end
 
 ##########################################################################################################################

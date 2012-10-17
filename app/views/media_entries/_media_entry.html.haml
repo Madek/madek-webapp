@@ -1,5 +1,4 @@
 - can_edit = current_user.authorized?(:edit, media_entry)
-- is_expert = current_user.groups.is_member?("Expert")
 
 %section#content_head
   .container_12.clearfix
@@ -16,16 +15,6 @@
                   = link_to edit_media_resource_path(media_entry), :title => "Metadaten editieren" do
                     .edit.icon
                     = _("Editieren")
-              - if is_expert and media_entry.snapshotable?
-                %li
-                  = link_to edit_tms_media_entry_path(@media_entry) do
-                    .edit.icon
-                    = _("Metadaten für MIZ-Archiv editieren")
-                - if can_edit
-                  %li
-                    = link_to to_snapshot_media_entry_path(media_entry) do
-                      .copy.icon
-                      = _("Kopie für MIZ-Archiv erstellen")
               %li
                 %span.favorite_link{:id => "fav_#{media_entry.id}", :title => "Als Favorit merken"}
                   = link_to toggle_favorites_media_resource_path(media_entry), :remote => true, :"data-type" => "html", :method => :post do
@@ -91,7 +80,7 @@
         .clear
 
 %section#meta_data
-  = meta_data(media_entry, is_expert)
+  = meta_data(media_entry)
   .clear
 
 :javascript

@@ -64,8 +64,6 @@ MAdeK::Application.routes.draw do
     member do
       post :media_sets
       delete :media_sets
-      get :edit_tms
-      get :to_snapshot
       get :image, :to => "media_resources#image"
       get :map
       get :browse
@@ -137,19 +135,6 @@ MAdeK::Application.routes.draw do
 ###############################################
 
   resources :media_files # TODO remove ??
-
-  resources :snapshots do
-    collection do
-      get :export
-    end
-    
-    resources :meta_data do
-      collection do
-        get :edit_multiple
-        put :update_multiple
-      end
-    end
-  end
   
 ###############################################
 # TODO refactor nested resources to people and make user as single resource

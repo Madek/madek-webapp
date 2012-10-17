@@ -97,6 +97,10 @@ class MediaSet < MediaResource
     child_media_resources.media_entries.accessible_by_user(user).where(media_resource_arcs: {cover: true}).first.try(:media_file)
   end
 
+  def media_type
+    self.type.gsub(/Media/, '')
+  end
+
 ########################################################
 
   def is_featured_set?

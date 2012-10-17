@@ -63,17 +63,12 @@ namespace :app do
       media_entries = MediaEntry.all.as_json(h2)
   
       #####################################################
-      puts "Exporting snapshots..."
-      snapshots = Snapshot.all.as_json(h2)
-
-      #####################################################
 
       export =  {:subjects => {:people => people,
                                :groups => groups},
                  :media_sets => media_sets,
                  :media_featured_set_id => media_featured_set_id,
-                 :media_entries => media_entries,
-                 :snapshots => snapshots }.merge(minimal_export)
+                 :media_entries => media_entries }.merge(minimal_export)
       
       write_to_file(export)
     end

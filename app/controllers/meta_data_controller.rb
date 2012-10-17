@@ -4,7 +4,7 @@ class MetaDataController < ApplicationController
   layout "meta_data"
 
   before_filter do
-    unless (params[:media_resource_id] ||= params[:media_entry_id] || params[:media_set_id] || params[:snapshot_id] || params[:collection_id]).blank?
+    unless (params[:media_resource_id] ||= params[:media_entry_id] || params[:media_set_id] || params[:collection_id]).blank?
       action = case request[:action].to_sym
         when :index
           :view
@@ -85,11 +85,7 @@ class MetaDataController < ApplicationController
 
     respond_to do |format|
       format.html {
-        if @resource.is_a? Snapshot
-          redirect_to snapshots_path
-        else
-          redirect_to @resource
-        end
+        redirect_to @resource
       }
     end
   end

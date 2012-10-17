@@ -31,7 +31,7 @@ class MediaFile < ActiveRecord::Base
   end
 
   after_destroy do
-    # TODO ensure that the media file is not still being used by another media_entry or snapshot
+    # TODO ensure that the media file is not still being used by another media_entry
     File.delete(file_storage_location)
   end
 
