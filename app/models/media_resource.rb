@@ -71,8 +71,11 @@ class MediaResource < ActiveRecord::Base
   ################################################################
 
   scope :search, lambda { |q|
-    joins("LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id") \
-      .where(q.split.map{|x| "text #{SQLHelper.ilike} '%#{x}%'" }.join(' AND '))
+    sql = joins("LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id")
+    q.split.each do |x|
+      sql = sql.where(["text #{SQLHelper.ilike} ?", "%#{q}%"])
+    end
+    sql
   }
 
   ################################################################
