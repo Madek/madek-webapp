@@ -85,7 +85,7 @@ class MetaKey < ActiveRecord::Base
                                       :description => {:en_gb => "", :de_ch => ""},
                                       :key_map => key_map,
                                       :key_map_type => nil,
-                                      :position => mc.meta_key_definitions.maximum("position") + 1 )
+                                      :position => mc.meta_key_definitions.maximum("position").to_i + 1 )
     end
     mk
   end
