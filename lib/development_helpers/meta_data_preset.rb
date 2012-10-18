@@ -38,7 +38,9 @@ module DevelopmentHelpers
             position: d["position"],
             key_map: d["key_map"],
             key_map_type: d["key_map_type"],
-            settings: YAML.load(d["settings"]),
+            is_required: d["is_required"]
+            length_max: d["length_max"]
+            length_min: d["length_min"]
             label: h["meta_terms"].detect{|x| x["id"] == d["label_id"]},
             description: h["meta_terms"].detect{|x| x["id"] == d["description_id"]},
             hint_id: h["meta_terms"].detect{|x| x["id"] == d["hint_id"]}
