@@ -41,10 +41,8 @@ class Person < ActiveRecord::Base
 
   def self.search(query)
     return scoped unless query
-    w = query.split.map do |q|
-      "firstname #{SQLHelper.ilike} '%#{q}%' OR lastname #{SQLHelper.ilike} '%#{q}%' OR pseudonym #{SQLHelper.ilike}'%#{q}%'"
-    end
-    where(w.join(' OR '))
+    q = query.split.map{|s| "%#{s}%"}
+    where(arel_table[:firstname].matches_any(q).or(arel_table[:lastname].matches_any(q)).or(arel_table[:pseudonym].matches_any(q)))
   end
 
 
