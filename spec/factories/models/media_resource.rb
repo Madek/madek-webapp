@@ -36,7 +36,9 @@ FactoryGirl.define do
     
     factory :media_set_with_title, class: "MediaSet" do
       after(:create) do |ms| 
-        MetaDatum.create media_resource: ms, meta_key: MetaKey.find_by_label(:title), value: Faker::Lorem.words[0]
+        meta_key = MetaKey.find_by_label(:title) || FactoryGirl.create(:meta_key_title)
+        ms.meta_data.create meta_key: meta_key, value: Faker::Lorem.words[0]
+        ms.reindex
       end
     end
   end

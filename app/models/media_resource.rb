@@ -70,12 +70,10 @@ class MediaResource < ActiveRecord::Base
 
   ################################################################
 
-  scope :search, lambda { |q|
-    sql = joins("LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id")
-    q.split.each do |x|
-      sql = sql.where(["text #{SQLHelper.ilike} ?", "%#{q}%"])
-    end
-    sql
+  scope :search, lambda { |query|
+    q = query.split.map{|s| "%#{s}%"}
+    joins("LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id").
+      where(FullText.arel_table[:text].matches_all(q))
   }
 
   ################################################################
