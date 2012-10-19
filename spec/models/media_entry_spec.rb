@@ -27,13 +27,18 @@ describe MediaEntry do
 
     it "title should be assignable using meta_key_id" do
       meta_key_id = MetaKey.find_by_label("title").id
-      
+
       title = "My new value using meta_key_id with symbol keys"
-      params = {meta_data_attributes: {"0" =>  {meta_key_id: meta_key_id,value: title}}}
+      params = {:meta_data_attributes => {"0" => {:meta_key_id => meta_key_id, :value => title}}}
       @media_entry.update_attributes(params)
       @media_entry.reload.title.should == title
 
-      title = "My new value using meta_key_id with string keys"
+      title = "My new value using meta_key_id with string keys, old syntax"
+      params = {"meta_data_attributes" => {"0" => {"meta_key_id" => meta_key_id, "value" => title}}}
+      @media_entry.update_attributes(params)
+      @media_entry.reload.title.should == title
+
+      title = "My new value using meta_key_id with string keys, new syntax"
       params = {meta_data_attributes: {"0" =>  {meta_key_id: meta_key_id, value: title}}}
       @media_entry.update_attributes(params)
       @media_entry.reload.title.should == title
@@ -41,11 +46,16 @@ describe MediaEntry do
 
     it "title should be assignable using meta_key_label" do
       title = "My new value using meta_key_label with symbol keys"
-      params = {meta_data_attributes: {"0" =>  {meta_key_label: "title",value: title}}}
+      params = {:meta_data_attributes => {"0" => {:meta_key_label => "title", :value => title}}}
       @media_entry.update_attributes(params)
       @media_entry.reload.title.should == title
 
-      title = "My new value using meta_key_label with string keys"
+      title = "My new value using meta_key_label with string keys, old syntax"
+      params = {"meta_data_attributes" => {"0" => {"meta_key_label" => "title", "value" => title}}}
+      @media_entry.update_attributes(params)
+      @media_entry.reload.title.should == title
+
+      title = "My new value using meta_key_label with string keys, new syntax"
       params = {meta_data_attributes: {"0" =>  {meta_key_label: "title",value: title}}}
       @media_entry.update_attributes(params)
       @media_entry.reload.title.should == title
