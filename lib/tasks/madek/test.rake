@@ -12,7 +12,7 @@ namespace :madek do
       Rake::Task["madek:test:rspec"].invoke
     end
 
-    desc "invoke madek:reset, clean cucumber files and load and migrate the personas db"
+    desc "Invoke madek:reset, clean Cucumber files"
     task :setup do
       # Rake seems to be very stubborn about where it takes
       # the RAILS_ENV from, so let's set a lot of options (?)
@@ -22,14 +22,15 @@ namespace :madek do
       # to import from a file here. Instead, we reset based on our migrations.
       Rake::Task["madek:reset"].invoke
       File.delete("tmp/rerun.txt") if File.exists?("tmp/rerun.txt")
-      File.delete("tmp/rerun_again.txt") if File.exists?("tmp/rerun_again.txt")
+      File.delete("tmp/rererun.txt") if File.exists?("tmp/rererun.txt")
       PersonasDBHelper.load_and_migrate_persona_data
     end
 
-    desc "like setup, but cleans personas and test dbs before"
+    desc "Like setup, but cleans personas and test dbs before, then migrates persona DB. Mostly for use on local machines, not that much use on CI."
     task :clean_setup do
       DBHelper.terminate_open_connections Rails.configuration.database_configuration["personas"]
       `bundle exec rake db:drop db:create RAILS_ENV=personas`
+      `bundle exec rake madek:db:restore_personas_to_max_migration RAILS_ENV=personas`
       DBHelper.terminate_open_connections Rails.configuration.database_configuration["test"]
       `bundle exec rake db:drop db:create db:migrate RAILS_ENV=test`
       Rake::Task["madek:test:setup"].invoke
@@ -65,6 +66,7 @@ namespace :madek do
         puts "First run exited with #{exit_code_first_run}"
 
         if exit_code_first_run != 0
+          puts "Non-zero exit necessiates a rerun. Go, go, go!"
           Rake::Task["madek:test:cucumber:rerun"].invoke
         end
       end
@@ -89,7 +91,6 @@ namespace :madek do
           raise "Tests failed during rerun!" if exit_code != 0
       end
     end
-    
   end
 
 end
