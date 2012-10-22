@@ -39,12 +39,12 @@ class Person < ActiveRecord::Base
   end
 =end
 
-  def self.search(query)
-    return scoped unless query
+  scope :search, lambda { |query|
+    return scoped if query.blank?
+
     q = query.split.map{|s| "%#{s}%"}
     where(arel_table[:firstname].matches_any(q).or(arel_table[:lastname].matches_any(q)).or(arel_table[:pseudonym].matches_any(q)))
-  end
-
+  }
 
 #######################################
 

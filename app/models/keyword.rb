@@ -16,11 +16,11 @@ class Keyword < ActiveRecord::Base
   
 #######################################
 
-  def self.search(query)
-    return scoped unless query
+  scope :search, lambda { |query|
+    return scoped if query.blank?
 
     q = query.split.map{|s| "%#{s}%"}
     joins(:meta_term).where(MetaTerm.arel_table[DEFAULT_LANGUAGE].matches_all(q))
-  end
+  }
   
 end
