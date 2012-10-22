@@ -16,7 +16,7 @@ describe MetaDatum do
   end
 
   it "should be of correct type when created with a meta_key" do
-    (MetaDatum.create meta_key: @mk, media_resource: @mr).class.should == MetaDatumString
+    (@mr.meta_data.create meta_key: @mk).class.should == MetaDatumString
   end
 
 end

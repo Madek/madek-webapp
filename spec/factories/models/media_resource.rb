@@ -50,7 +50,7 @@ FactoryGirl.define do
     factory :filter_set_with_title, class: "FilterSet" do
       after(:create) do |ms| 
         meta_key = MetaKey.find_by_label(:title) || FactoryGirl.create(:meta_key_title)
-        MetaDatum.create media_resource: ms, meta_key: meta_key, value: Faker::Lorem.words[0]
+        ms.meta_data.create meta_key: meta_key, value: Faker::Lorem.words[0]
       end
     end
   end
