@@ -28,11 +28,35 @@ namespace :madek do
 
     desc "Like setup, but cleans personas and test dbs before, then migrates persona DB. Mostly for use on local machines, not that much use on CI."
     task :setup_local_dbs do
+      puts "Terminating connections to 'personas' database"
       DBHelper.terminate_open_connections Rails.configuration.database_configuration["personas"]
-      `bundle exec rake db:drop db:create RAILS_ENV=personas`
-      `bundle exec rake madek:db:restore_personas_to_max_migration RAILS_ENV=personas`
+      
+      puts "Dropping and creating 'personas' database"
+      output = `bundle exec rake db:drop db:create RAILS_ENV=personas`
+      if $?.exitstatus != 0 
+        puts "Dropping and recreating 'personas' database failed. Output was:\n"
+        puts output
+        raise "setup_local_dbs failed"
+      end
+
+      puts "Migrating 'personas' database to maximum available migration"
+      output = `bundle exec rake madek:db:restore_personas_to_max_migration RAILS_ENV=personas`
+      if $?.exitstatus != 0 
+        puts "Migrating 'personas' failed. Output was:\n"
+        puts output
+        raise "setup_local_dbs failed"
+      end
+      
+      puts "Terminating connections to 'test' database"
       DBHelper.terminate_open_connections Rails.configuration.database_configuration["test"]
-      `bundle exec rake db:drop db:create db:migrate RAILS_ENV=test`
+      puts "Dropping, creating and migrating 'test' database"
+      output = `bundle exec rake db:drop db:create db:migrate RAILS_ENV=test`
+      if $?.exitstatus != 0 
+        puts "Recreating 'test' database failed. Output was:\n"
+        puts output
+        raise "setup_local_dbs failed"
+      end
+
       Rake::Task["madek:test:setup"].invoke
     end
 
