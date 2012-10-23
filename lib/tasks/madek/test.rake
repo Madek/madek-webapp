@@ -23,41 +23,28 @@ namespace :madek do
       Rake::Task["madek:reset"].invoke
       File.delete("tmp/rerun.txt") if File.exists?("tmp/rerun.txt")
       File.delete("tmp/rererun.txt") if File.exists?("tmp/rererun.txt")
-      PersonasDBHelper.load_and_migrate_persona_data
     end
 
     desc "Like setup, but cleans personas and test dbs before, then migrates persona DB. Mostly for use on local machines, not that much use on CI."
     task :setup_local_dbs do
+      Rake::Task["madek:test:setup"].invoke
       puts "Terminating connections to 'personas' database"
       DBHelper.terminate_open_connections Rails.configuration.database_configuration["personas"]
-      
-      puts "Dropping and creating 'personas' database"
-      output = `bundle exec rake db:drop db:create RAILS_ENV=personas`
+
+      puts "Dropping, creating and migrating 'personas' database to maximum available migration"
+      puts `bundle exec rake madek:db:restore_personas_to_max_migration`
       if $?.exitstatus != 0 
-        puts "Dropping and recreating 'personas' database failed. Output was:\n"
-        puts output
-        raise "setup_local_dbs failed"
+        raise "Migrating 'personas' failed."
       end
 
-      puts "Migrating 'personas' database to maximum available migration"
-      output = `bundle exec rake madek:db:restore_personas_to_max_migration RAILS_ENV=personas`
-      if $?.exitstatus != 0 
-        puts "Migrating 'personas' failed. Output was:\n"
-        puts output
-        raise "setup_local_dbs failed"
-      end
-      
       puts "Terminating connections to 'test' database"
       DBHelper.terminate_open_connections Rails.configuration.database_configuration["test"]
       puts "Dropping, creating and migrating 'test' database"
-      output = `bundle exec rake db:drop db:create db:migrate RAILS_ENV=test`
+      puts `bundle exec rake db:drop db:create db:migrate RAILS_ENV=test`
       if $?.exitstatus != 0 
-        puts "Recreating 'test' database failed. Output was:\n"
-        puts output
-        raise "setup_local_dbs failed"
+        raise "Recreating 'test' database failed."
       end
 
-      Rake::Task["madek:test:setup"].invoke
     end
 
     task :setup_ci_dbs do
@@ -72,6 +59,7 @@ namespace :madek do
          DBHelper.set_pg_env base_config[name]
          system "psql -d template1 -c 'DROP DATABASE IF EXISTS \"#{db_name}\";'"
          system "psql -d template1 -c \"CREATE DATABASE \"#{db_name}\" WITH ENCODING 'utf8' TEMPLATE template0;\""
+         PersonasDBHelper.load_and_migrate_persona_data
        end
     end
 
