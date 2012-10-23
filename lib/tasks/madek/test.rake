@@ -27,7 +27,7 @@ namespace :madek do
     end
 
     desc "Like setup, but cleans personas and test dbs before, then migrates persona DB. Mostly for use on local machines, not that much use on CI."
-    task :clean_setup do
+    task :setup_local_dbs do
       DBHelper.terminate_open_connections Rails.configuration.database_configuration["personas"]
       `bundle exec rake db:drop db:create RAILS_ENV=personas`
       `bundle exec rake madek:db:restore_personas_to_max_migration RAILS_ENV=personas`
@@ -36,7 +36,7 @@ namespace :madek do
       Rake::Task["madek:test:setup"].invoke
     end
 
-    task :setup_cidbs do
+    task :setup_ci_dbs do
       base_config = YAML.load_file Rails.root.join "config","database_jenkins.psql.yml"
       if ENV['CI_TEST_NAME'] 
         base_config['personas']['database'] =  base_config['personas']['database'] + "_" + ENV['CI_TEST_NAME'] 
