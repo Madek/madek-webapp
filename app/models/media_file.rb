@@ -108,11 +108,15 @@ class MediaFile < ActiveRecord::Base
     File.join(THUMBNAIL_STORAGE_DIR, shard, guid)
   end
 
+  def filename
+    CGI::unescape read_attribute(:filename)
+  end
+
   # set some attributes, for use when storing the file.
   # NB Depending on if we are being called from a rake task or the webserver, we either get a tempfile or an array.
   def set_filename
     self.guid = get_guid 
-    self.filename = CGI::escape(uploaded_data.original_filename)
+    self.filename = uploaded_data.original_filename
     self.size = uploaded_data.size
 
     # Mac OS X is untrustworthy and often provides wrong MIME types, e.g. for PDFs and QuickTime .mov files. Therefore we must distrust

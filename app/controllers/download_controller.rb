@@ -20,10 +20,7 @@ class DownloadController < ApplicationController
         if @media_entry.nil?
           not_authorized!
         else
-          # This is broken, presumably because of ruby 1.8.x not having any native idea of character encodings.
-          # If we move the gsub to execute after the unescape has processed, we can easily lose part of the 
-          # filename if it contains diacritics and spaces.       
-          @filename = CGI::unescape(@media_entry.media_file.filename.gsub(/\+/, '_'))
+          @filename = @media_entry.media_file.filename
 
           @size = params[:size].try(:to_sym)           
           @content_type = @media_entry.media_file.content_type
