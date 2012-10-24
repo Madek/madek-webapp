@@ -87,7 +87,7 @@ class DownloadController < ApplicationController
       `convert "#{path}" -resize "#{THUMBNAILS[@size]}" "#{outfile}"`
       path = outfile
     end
-    fixed_send_file(path,
+    send_file(path,
                    {:filename => @filename,
                     :type          =>  @content_type,
                     :disposition  =>  'attachment'})
@@ -118,7 +118,7 @@ class DownloadController < ApplicationController
     end
 
     if path
-        fixed_send_file("#{ZIP_STORAGE_DIR}/#{race_free_filename}.zip",
+        send_file("#{ZIP_STORAGE_DIR}/#{race_free_filename}.zip",
                         {:filename => "#{race_free_filename}.zip",
                          :type          =>  @content_type,
                          :disposition  =>  'attachment'})  
@@ -137,7 +137,7 @@ class DownloadController < ApplicationController
     # path = @media_entry.media_file.update_file_metadata(@media_entry.to_metadata_tags)
     path = @media_entry.updated_resource_file(false, @size) # false means we don't want to blank all the tags
     if path
-      fixed_send_file(path,
+      send_file(path,
                       {:filename => @filename,
                        :type          =>  @content_type,
                        :disposition  =>  'attachment'})            
@@ -152,7 +152,7 @@ class DownloadController < ApplicationController
     path = @media_entry.updated_resource_file(true, @size) # true means we do want to blank all the tags
 
     if path
-        fixed_send_file(path,
+        send_file(path,
                         {:filename => @filename,
                          :type          =>  @content_type,
                          :disposition  =>  'attachment'})            
@@ -170,14 +170,14 @@ class DownloadController < ApplicationController
     #           :filename => @filename,
     #           :type          =>  @content_type,
     #           :disposition  =>  'attachment')
-    fixed_send_file(path,
+    send_file(path,
                     {:filename => @filename,
                      :type          =>  @content_type,
                      :disposition  =>  'attachment'})
   end
   
   def send_multimedia_preview
-    fixed_send_file(@path,
+    send_file(@path,
                    {:filename => @filename,
                     :type          =>  @content_type,
                     :disposition  =>  'attachment'})
