@@ -36,9 +36,9 @@ module PersonasDBHelper
     def load_and_migrate_persona_data
       config = check_for_persona_db_config
       persona_path = PersonasDBHelper.path_to_native_dump
-      puts "Restoring static persona DB file '#{persona_path}' and migrating 'persona' database to latest version."
+      puts "Restoring static persona DB file '#{persona_path}' and migrating '#{config[:database]}' database to latest version."
       DBHelper.restore_native persona_path, {:config => config}
-      puts `bundle exec rake db:migrate RAILS_ENV=personas 2>&1`
+      puts `bundle exec rake db:migrate 2>&1 RAILS_ENV=personas`
       unless  $?.exitstatus == 0
         puts "MIGRATION FAILED"
         exit $?.exitstatus
