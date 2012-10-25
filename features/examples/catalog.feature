@@ -1,8 +1,10 @@
 Feature: Catalog
 
+  Background: Load the example data and personas
+    Given I am "Adam"
+
   @javascript
   Scenario: Configuring the catalog
-    Given I am "Adam"
     When I select a set to be the catalog
     Then it is set as catalog for this Madek instance
 

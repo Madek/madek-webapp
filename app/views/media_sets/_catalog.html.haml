@@ -6,7 +6,7 @@
       = catalog_set.meta_data.get("description")
     .clear
     - catalog_set.child_media_resources.media_sets.each do |filter_set|
-      %a.item_box{:href => categories_media_set_path(filter_set)}
+      %a.item_box{:href => category_media_set_path(filter_set)}
         %h4
           = filter_set.title
         = filter_set.meta_data.get("description")

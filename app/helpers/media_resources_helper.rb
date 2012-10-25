@@ -2,6 +2,7 @@
 module MediaResourcesHelper
   
   def media_resources_index_title
+    return Array(params[:title]) unless params[:title].blank?
 
     r = if @filter[:favorites] == "true"
       _("Favoriten")
