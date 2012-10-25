@@ -60,7 +60,7 @@ namespace :madek do
          system "psql -d template1 -c 'DROP DATABASE IF EXISTS \"#{db_name}\";'"
          system "psql -d template1 -c \"CREATE DATABASE \"#{db_name}\" WITH ENCODING 'utf8' TEMPLATE template0;\""
        end
-       Rake::Task["madek:db:restore_personas_to_max_migration"]
+       Rake::Task["madek:db:restore_personas_to_max_migration"].invoke
     end
 
     task :rspec do
