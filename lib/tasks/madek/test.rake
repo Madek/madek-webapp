@@ -59,8 +59,8 @@ namespace :madek do
          DBHelper.set_pg_env base_config[name]
          system "psql -d template1 -c 'DROP DATABASE IF EXISTS \"#{db_name}\";'"
          system "psql -d template1 -c \"CREATE DATABASE \"#{db_name}\" WITH ENCODING 'utf8' TEMPLATE template0;\""
-         PersonasDBHelper.load_and_migrate_persona_data
        end
+       PersonasDBHelper.load_and_migrate_persona_data
     end
 
     task :rspec do
