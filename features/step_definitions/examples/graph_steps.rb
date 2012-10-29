@@ -1,21 +1,25 @@
 Then /^I can see the relations for that resource[s]*$/ do
-  @resources = @media_set
-  @resources ||= @media_entry
-  @resources ||= MediaResource.filter(@current_user, @filter) 
-  # nodes
-  nodes = if @filter then @resources else MediaResource.connected_resources @resources end
+  if @media_set
+    nodes = MediaResource.descendants_and_set(@media_set, MediaResource.accessible_by_user(@current_user))
+  elsif @media_entry
+    nodes = MediaResource.connected_resources(@media_entry, MediaResource.accessible_by_user(@current_user))
+  else
+    nodes = MediaResource.filter(@current_user, @filter) 
+  end
   page.driver.browser.switch_to.window page.driver.browser.window_handles.last
-  node_data = page.evaluate_script("Visualization.nodes")
+  wait_until { !current_url.match(/http:\/\//).nil? }
+  env = Rack::MockRequest.env_for(current_url)
+  request = Rack::Request.new(env)
+  visit url_for Rails.application.routes.recognize_path(current_url).merge({:insert_to_dom => "true", :only_path => true}).merge(request.params)
+  # nodes
+  node_data = JSON.parse(find("#graph-data")[:"data-nodes"])
   node_data.map{|n| n["id"]}.sort.should == nodes.map(&:id).sort
   nodes.each{|node| find(".node[data-resource-id='#{node.id}']")}
   # arcs
   arcs = MediaResourceArc.connecting nodes
-  arc_data = page.evaluate_script("Visualization.arcs")
+  arc_data = JSON.parse(find("#graph-data")[:"data-arcs"])
   arcs.each{|arc| arc_data.any?{|a| a["child_id"] == arc.child_id and a["parent_id"] == arc.parent_id}.should be_true}
   arcs.each{|arc| find(".arc[parent_id='#{arc.parent_id}'][child_id='#{arc.child_id}']")}
-  ###
-  # TODO test that the layouter works !
-  ###
 end
 
 When /^I open a media entry that is child of a set that I can see$/ do
