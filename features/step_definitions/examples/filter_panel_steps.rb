@@ -48,9 +48,12 @@ end
 When /^I select a value to filter by$/ do
   step 'I go to public content'
   step 'I open the filter panel'
+  wait_until {all(".loading", :visible=>true).size == 0}
+  wait_until {all(".context > h3", :visible => true).size > 0}
   all(".context > h3").each {|context| context.click}
+  wait_until {all(".key", :visible => true).size > 0}
   @key = all(".key").last
-  @key.find("h3").click unless @key["class"].match "open"
+  @key.find("h3").click if @key["class"].match("open").nil?
   @all_terms = all("#filter_area .term").map do |term|
     filter = {}
     filter[:type] = term.find(:xpath, "./../../..")["data-filter_type"]
@@ -85,7 +88,7 @@ Given /^a list of resources$/ do
 end
 
 When /^the list contains images$/ do
-  @listOfResources.map(&:media_file).
+  @listOfResources.media_entries.map(&:media_file).
     select{|mf| not mf.nil?}.map(&:extension).
     select{|ext| ext.match /jpg|jepg|png|tiff/}.
     size.should > 0
