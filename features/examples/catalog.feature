@@ -30,11 +30,11 @@ Feature: Catalog
 
   @javascript
   Scenario: Viewing a category
-    Given I am viewing the category called "Gattung"
-    Then I see the title of that category: "Gattung"
+    Given I am viewing the category called "Schlagworte"
+    Then I see the title of that category: "Schlagworte"
     And I see the description of that category
-    And I see the sections of the category "Gattung"
-    And one of these sections is called "Architektur"
+    And I see the sections of the category "Schlagworte"
+    And one of these sections is called "Fotografie"
     And I see how many resources are related to that section
     And this page's title is the title of the category itself, prefixed by catalog title
     And I can choose to navigate to one of these sections
