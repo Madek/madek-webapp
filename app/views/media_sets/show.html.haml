@@ -84,6 +84,11 @@
                   .create_set.icon
                   %span.text= "Neues Set"
 
+              %li
+                %a.open_graph{:title => "Beziehung von Inhalten als Graph visualisieren", :href => "/visualization/descendants_of/#{@media_set.id}", :target => "_blank"}
+                  .graph.icon
+                  %span.text= "Graph berechnen"
+
         #detail_specification.tabs
           %ul
             %li

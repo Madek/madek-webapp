@@ -10,6 +10,77 @@ class MediaResource < ActiveRecord::Base
 
   belongs_to :user
 
+
+  ### Connected Resources ##################################################
+  def self.connected_resources(media_resource, resource_condition=nil)
+    where <<-SQL
+    media_resources.id in  (
+      (WITH RECURSIVE pair(p,c) AS
+      (
+        SELECT parent_id as p, child_id as c FROM media_resource_arcs 
+          WHERE (parent_id in (#{media_resource.id}) OR child_id in (#{media_resource.id}))
+          #{ "AND parent_id in (#{resource_condition.select("media_resources.id").to_sql })" if resource_condition }
+          #{ "AND child_id in (#{resource_condition.select("media_resources.id").to_sql})" if resource_condition }
+        UNION
+          SELECT media_resource_arcs.parent_id as p, media_resource_arcs.child_id as c FROM pair, media_resource_arcs
+          WHERE ( 
+            media_resource_arcs.parent_id = pair.c
+            OR media_resource_arcs.child_id = pair.c
+            OR media_resource_arcs.parent_id = pair.p
+            OR media_resource_arcs.child_id = pair.p)
+          #{ "AND media_resource_arcs.parent_id in (#{resource_condition.select("media_resources.id").to_sql})"  if resource_condition }
+          #{ "AND media_resource_arcs.child_id in (#{resource_condition.select("media_resources.id").to_sql})"  if resource_condition }
+      )
+      SELECT pair.c from pair UNION SELECT pair.p from pair
+      )
+    )
+    SQL
+  end
+
+
+  ### Descendants #######################################
+  
+  # set condition must be a query that returns media_resources; 
+  # condition is on the inclution of the arcpoints
+  def self.descendants_and_set(media_set, resource_condition=nil)
+    where <<-SQL
+    media_resources.id in  (
+      (WITH RECURSIVE pair(p,c) AS
+      (
+        SELECT parent_id as p, child_id as c FROM media_resource_arcs 
+          WHERE parent_id in (#{media_set.id})
+          #{ "AND parent_id in (#{resource_condition.select("media_resources.id").to_sql })" if resource_condition }
+          #{ "AND child_id in (#{resource_condition.select("media_resources.id").to_sql})" if resource_condition }
+        UNION
+          SELECT media_resource_arcs.parent_id as p, media_resource_arcs.child_id as c FROM pair, media_resource_arcs
+          WHERE media_resource_arcs.parent_id = pair.c
+          #{ "AND media_resource_arcs.parent_id in (#{resource_condition.select("media_resources.id").to_sql})"  if resource_condition }
+      )
+      SELECT pair.c from pair
+      )
+     UNION
+    (
+      SELECT media_resources.id FROM media_resources WHERE id = #{media_set.id}
+    ))
+    SQL
+  end
+
+  
+#temp#
+#    # enforce meta_key uniqueness updating existing meta_datum
+#    # also useful for bulk meta_data updates such as Copyright, Organizer forms,...
+#    before_validation(:on => :update) do |record|
+#      new_meta_data = record.meta_data.select{|md| md.new_record? }
+#      new_meta_data.each do |new_md|
+#        old_md = record.meta_data.detect{|md| !md.new_record? and md.meta_key_id == new_md.meta_key_id }
+#        if old_md
+#          old_md.value = new_md.value
+#          record.meta_data.delete(new_md)
+#        end
+#      end
+#    end
+
+
   has_many  :edit_sessions, :dependent => :destroy, :readonly => true
   has_many  :editors, :through => :edit_sessions, :source => :user
 

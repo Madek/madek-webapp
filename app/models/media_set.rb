@@ -56,22 +56,6 @@ class MediaSet < MediaResource
     end 
   end
 
-### Size ##############################################
-  
-  def size user=nil
-    descendants = GraphQueries.descendants(self)
-    descendants = descendants.accessible_by_user(user) if user
-    descendants.size
-  end
-
-########################################################
-
-  #tmp# this is currently up on MediaResource
-  #scope :top_level, joins("LEFT JOIN media_resource_arcs ON media_resource_arcs.child_id = media_resources.id").
-  #                  where(:media_resource_arcs => {:parent_id => nil})
-
-  #tmp# FIXME count.size # scope :not_top_level, joins(:in_arcs).group("media_resource_arcs.child_id")
-
 ########################################################
 
   def to_s

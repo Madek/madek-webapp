@@ -1,3 +1,156 @@
+
+
+SELECT count(arc_id) as size, media_resources.id, meta_data.string as meta_datum_title FROM "media_resources" LEFT OUTER JOIN (  WITH RECURSIVE triple(p,c,media_resource_id) as
+      (
+        SELECT parent_id as p, child_id as c, media_resources.id as media_resource_id 
+          FROM media_resource_arcs, media_resources
+          WHERE parent_id = media_resources.id
+          AND child_id in ( SELECT media_resources.id FROM "media_resources"  WHERE (media_resources.id in (6751,6763,6755,6745,6753,6749,6741,6747,6743,6757,6761,8375,6759)) )
+        UNION
+        SELECT parent_id as p, child_id as c, media_resource_id FROM triple, media_resource_arcs
+          WHERE parent_id = triple.c
+          AND child_id in ( SELECT media_resources.id FROM "media_resources"  WHERE (media_resources.id in (6751,6763,6755,6745,6753,6749,6741,6747,6743,6757,6761,8375,6759)) )
+      ) 
+      SELECT id as arc_id, media_resource_id FROM media_resource_arcs, triple
+        WHERE media_resource_arcs.parent_id = triple.p
+        AND media_resource_arcs.child_id = triple.c 
+     ) descendants ON media_resources.id = descendants.media_resource_id 
+   LEFT OUTER JOIN "meta_data" ON "meta_data"."media_resource_id" = "media_resources"."id" 
+   LEFT OUTER JOIN "meta_keys" ON "meta_keys"."id" = "meta_data"."meta_key_id" 
+   WHERE (media_resources.id in (6751,6763,6755,6745,6753,6749,6741,6747,6743,6757,6761,8375,6759)) 
+   AND (("meta_keys"."label" = 'title' OR  "meta_keys"."label" is NULL)) 
+   GROUP BY media_resources.id, meta_datum_title
+;
+
+
+[6751, 6763, 6755, 6745, 6753, 6749, 6741, 6747, 6743, 6757, 6761, 8375, 6759]
+-- Fix: include nodes without title
+
+SELECT media_resources.id, media_resources.type, meta_data.string as meta_datum_title 
+  FROM media_resources
+  LEFT OUTER JOIN "meta_data" ON "meta_data"."media_resource_id" = "media_resources"."id" 
+  LEFT OUTER JOIN "meta_keys" ON "meta_keys"."id" = "meta_data"."meta_key_id" 
+  WHERE ("meta_keys"."label" = 'title' OR  "meta_keys"."label" is NULL)
+  GROUP BY media_resources.id, meta_datum_title
+  ;
+
+SELECT count(arc_id) as size, media_resources.id,media_resources.type, meta_data.string as meta_datum_title FROM "media_resources" 
+  LEFT OUTER JOIN "meta_data" ON "meta_data"."media_resource_id" = "media_resources"."id" 
+  LEFT OUTER JOIN "meta_keys" ON "meta_keys"."id" = "meta_data"."meta_key_id" 
+  LEFT OUTER JOIN 
+    (  WITH RECURSIVE triple(p,c,media_resource_id) as
+        (
+          SELECT parent_id as p, child_id as c, media_resources.id as media_resource_id 
+            FROM media_resource_arcs, media_resources
+            WHERE parent_id = media_resources.id
+            AND child_id in ( SELECT media_resources.id FROM "media_resources"  WHERE "media_resources"."user_id" = 1 )
+          UNION
+          SELECT parent_id as p, child_id as c, media_resource_id FROM triple, media_resource_arcs
+            WHERE parent_id = triple.c
+            AND child_id in ( SELECT media_resources.id FROM "media_resources"  WHERE "media_resources"."user_id" = 1 )
+        ) 
+        SELECT id as arc_id, media_resource_id FROM media_resource_arcs, triple
+          WHERE media_resource_arcs.parent_id = triple.p
+          AND media_resource_arcs.child_id = triple.c 
+       ) descendants ON media_resources.id = descendants.media_resource_id 
+  WHERE "media_resources"."user_id" = 1 
+  AND ( "meta_keys"."label" = 'title' OR  "meta_keys"."label" is NULL)
+  GROUP BY media_resources.id, meta_datum_title
+  ;
+
+-- SINGLE QUERY for Visualization ###########################################
+
+SELECT count(arc_id) as size, media_resources.id
+FROM media_resources,
+  (
+    WITH RECURSIVE triple(p,c,media_resource_id) as
+    (
+      SELECT parent_id as p, child_id as c, media_resources.id as media_resource_id 
+        FROM media_resource_arcs, media_resources
+        WHERE parent_id = media_resources.id
+      UNION
+      SELECT parent_id as p, child_id as c, media_resource_id FROM triple, media_resource_arcs
+        WHERE parent_id = triple.c
+    ) 
+    SELECT id as arc_id, media_resource_id FROM media_resource_arcs, triple
+      WHERE media_resource_arcs.parent_id = triple.p
+      AND media_resource_arcs.child_id = triple.c 
+  ) descendants 
+  WHERE media_resources.id = media_resource_id
+  GROUP BY media_resources.id
+  ORDER BY size DESC;
+
+
+    WITH RECURSIVE triple(p,c,media_resource_id) as
+    (
+      SELECT parent_id as p, child_id as c, media_resources.id as media_resource_id 
+        FROM media_resource_arcs, media_resources
+        WHERE parent_id = media_resources.id
+      UNION
+      SELECT parent_id as p, child_id as c, media_resource_id FROM triple, media_resource_arcs
+        WHERE parent_id = triple.c
+    ) 
+    SELECT id as arc_id, media_resource_id FROM media_resource_arcs, triple
+      WHERE media_resource_arcs.parent_id = triple.p
+      AND media_resource_arcs.child_id = triple.c 
+      ;
+
+
+select count(arc_id), media_resource_id 
+  FROM media_resources,
+    (
+      WITH RECURSIVE pair(p,c) as
+      (
+        SELECT parent_id as p, child_id as c FROM media_resource_arcs 
+          WHERE parent_id = 163
+        UNION
+        SELECT parent_id as p, child_id as c FROM pair, media_resource_arcs
+          WHERE parent_id = pair.c
+      ) 
+      SELECT id as arc_id, 163 as media_resource_id FROM media_resource_arcs, pair
+        WHERE media_resource_arcs.parent_id = pair.p
+        AND media_resource_arcs.child_id = pair.c 
+    ) descendants
+  WHERE descendants.media_resource_id = media_resources.id
+  GROUP BY media_resource_id
+      ;
+
+
+WITH RECURSIVE pair(p,c) as
+(
+  SELECT parent_id as p, child_id as c FROM media_resource_arcs 
+    WHERE parent_id = 163
+  UNION
+  SELECT parent_id as p, child_id as c FROM pair, media_resource_arcs
+    WHERE parent_id = pair.c
+) 
+SELECT id FROM media_resource_arcs, pair
+  WHERE media_resource_arcs.parent_id = pair.p
+  AND media_resource_arcs.child_id = pair.c ;
+
+
+SELECT COUNT(id) FROM "media_resources" 
+  WHERE ( media_resources.id in 
+    ( SELECT child_id FROM "media_resource_arcs" 
+      WHERE ( media_resource_arcs.id in ( 
+         WITH RECURSIVE pair(p,c) as
+         (
+           SELECT parent_id as p, child_id as c FROM media_resource_arcs 
+           WHERE parent_id = 163
+           UNION
+           SELECT parent_id as p, child_id as c FROM pair, media_resource_arcs
+           WHERE parent_id = pair.c
+           ) 
+           SELECT id FROM media_resource_arcs, pair
+           WHERE media_resource_arcs.parent_id = pair.p
+           AND media_resource_arcs.child_id = pair.c
+           )) 
+    ) 
+  )  ;
+
+
+-- ##########################################################################
+
 -- clean DB before tranfer data to new schema
 
 -- show the users to be notified
@@ -16,6 +169,61 @@ SELECT *  FROM meta_keys_meta_terms  WHERE meta_term_id NOT IN (SELECT id FROM  
 SELECT column_name FROM information_schema.columns WHERE table_name = 'people' ORDER BY column_name;
 
 select count(*) from information_schema.columns where table_name = 'people';
+
+# descendants
+
+SELECT * from media_resources 
+  WHERE media_resources.id = 147
+  AND media_resources.id in (SELECT media_resources.id where media_resources.user_id = 10301)
+UNION
+  (
+  WITH RECURSIVE pair(p,c) AS
+    (
+      SELECT parent_id as p, child_id as c FROM media_resource_arcs 
+          WHERE parent_id in (163)
+          AND parent_id in (SELECT media_resources.id FROM media_resources WHERE media_resources.user_id = 10301)
+          AND child_id in (SELECT media_resources.id FROM media_resources WHERE media_resources.user_id = 10301)
+      UNION
+        SELECT media_resource_arcs.parent_id as p, media_resource_arcs.child_id as c FROM pair, media_resource_arcs
+          WHERE media_resource_arcs.parent_id = pair.c
+          AND media_resource_arcs.parent_id in (SELECT media_resources.id FROM media_resources WHERE media_resources.user_id = 10301)
+    )
+  SELECT * from media_resources  where media_resources.id in (SELECT pair.c from pair)
+  )
+;
+
+
+WITH RECURSIVE pair(p,c) AS
+(
+  SELECT parent_id as p, child_id as c FROM media_resource_arcs 
+  WHERE parent_id in (163)
+  AND parent_id in (SELECT media_resources.id FROM media_resources WHERE media_resources.user_id = 10301)
+  AND child_id in (SELECT media_resources.id FROM media_resources WHERE media_resources.user_id = 10301)
+  UNION
+  SELECT media_resource_arcs.parent_id as p, media_resource_arcs.child_id as c FROM pair, media_resource_arcs
+  WHERE media_resource_arcs.parent_id = pair.c
+  AND media_resource_arcs.parent_id in (SELECT media_resources.id FROM media_resources WHERE media_resources.user_id = 10301)
+)
+SELECT * from media_resources  where media_resources.id in (SELECT pair.c from pair)
+    ;
+
+##############################################
+
+WITH RECURSIVE pair(p,c) as
+(
+    SELECT parent_id as p, child_id as c FROM media_resource_arcs 
+      WHERE parent_id in (43886)
+       OR child_id in (43886)
+  UNION
+    SELECT parent_id as p, child_id as c FROM pair, media_resource_arcs
+      WHERE parent_id = pair.c
+      OR parent_id = pair.p
+      OR child_id = pair.p
+      OR child_id = pair.c
+) 
+SELECT * FROM pair ;
+
+select * from media_resource_arcs where parent_id in ( 43885,43886,43887) ;
 
 ##############################################
 

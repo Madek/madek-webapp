@@ -25,7 +25,7 @@ class FilterController
   @setSearchValue: => 
     uri = new Uri(window.location.search)
     if uri.getQueryParamValues("search").length
-      newSearchValue = decodeURIComponent(uri.getQueryParamValues("search")[0]).replace(/\+/, " ")
+      newSearchValue = decodeURIComponent(uri.getQueryParamValues("search")[0]).replace(/\+/g, " ")
       @searchInput.addClass("has_value").focus().select().val newSearchValue+" "
 
   @delegateSaveFilterSetEvents: =>
@@ -40,7 +40,9 @@ class FilterController
 
   @delegateSearchEvents: =>
     delayedSearchTimer = undefined
-    @searchInput.bind "focus", => @searchInput.closest(".search").addClass("active")
+    @searchInput.bind "focus", => 
+      @searchInput.select()
+      @searchInput.closest(".search").addClass("active")
     @searchInput.bind "blur", => @searchInput.closest(".search").removeClass("active")
     @el.find(".search button").bind "click", =>
       do @updateSearchPage 
@@ -54,13 +56,6 @@ class FilterController
           do @filterContent
         @lastSearchValue = @searchInput.val()
       , 500
-    @currentSearch = window.location.search
-    $(window).bind "popstate", => 
-      if @currentSearch != window.location.search
-        do @setSearchValue
-        do @updateSearchPage
-        do @filterContent
-        @currentSearch = window.location.search
 
   @positioningForSetView: =>
     @el.offset {top: $(".content_body_set #children").offset().top}
@@ -68,17 +63,18 @@ class FilterController
   @updateSearchPage: =>
     uri = new Uri(window.location.search)
     if uri.getQueryParamValues("search").length
-      $("#filter_search").val @searchInput.val()
-      newUrl = uri.replaceQueryParam "search", @searchInput.val()
-      @currentSearch = window.location.search
       $("#bar h1 small").html $("#bar h1 small").text().replace(/".*"/, "\"#{@searchInput.val()}\"") if $("#bar .icon.search").length
-      for link in $("#bar a")
-        link = $(link)
-        href = link.attr("href")
-        uri = new Uri href
-        if uri.getQueryParamValues("search").length
-          uri.replaceQueryParam "search", @searchInput.val()
-          link.attr "href", uri.toString()
+  
+  @updateBar: =>
+    for link in $("#bar a.open_graph")
+      link = $(link)
+      href = link.attr("href")
+      uri = new Uri(href)
+      params = App.MediaResources.current_filter
+      for param in uri.queryPairs
+        params[param[0]] = param[1]
+      uri = uri.setQuery($.param(params))
+      link.attr "href", uri.toString()
 
   @delegateFilterPanelEvents: =>
     @el.find(".panel>.icon").bind "click", (e)=>
@@ -145,9 +141,10 @@ class FilterController
             terms.closest(".key").addClass "has_selected"
     do @delegateBlockEvents
     do @unblockAfterLoading
+    do @updateBar
       
   @filterContent: =>
-    @blockForLoading()
+    do @blockForLoading
     @onChange @computeParams()
 
   @delegateBlockEvents: =>

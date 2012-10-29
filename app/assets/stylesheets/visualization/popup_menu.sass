@@ -1,0 +1,52 @@
+@import "mixins"
+
+html#visualization 
+
+  .popup_menu
+    min-height: 100px
+    width: 260px
+
+    .inner
+      cursor: default
+      display: block
+      position: relative
+      width: 242px
+      @include unselectable()
+
+    .infos
+      height: 24px
+      position: absolute
+      top: 0
+      left: 0
+
+    .image
+      height: 164px
+      text-align: center
+
+      .item_box
+        background: transparent !important
+        height: 164px
+        pointer-events: none
+
+        .meta_data
+          display: none !important
+
+    h2
+      font-size: 1.4em
+      line-height: 1.1em
+      padding-bottom: 8px
+
+    .links
+
+      a
+        border-top: 1px solid rgb(220,220,220)
+        color: grey
+        display: block
+        padding: 10px 0 10px
+        text-decoration: none
+
+      a:hover
+        color: black
+
+        &.my
+          display: none

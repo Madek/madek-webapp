@@ -3,6 +3,13 @@ FactoryGirl.define do
 
   factory :media_resource do
     user {User.find_random || (FactoryGirl.create :user)}
+    factory :media_resource_with_title, class: "MediaResource" do
+      after(:create) do |ms| 
+        meta_key = MetaKey.find_by_label(:title) || FactoryGirl.create(:meta_key_title)
+        ms.meta_data.create meta_key: meta_key, value: Faker::Lorem.words[0]
+        ms.reindex
+      end
+    end
   end
 
 ##################################################################
@@ -10,6 +17,13 @@ FactoryGirl.define do
   factory :media_entry do
     user {User.find_random || (FactoryGirl.create :user)}
     media_file {FactoryGirl.create :media_file}
+    factory :media_entry_with_title, class: "MediaEntry" do
+      after(:create) do |ms| 
+        meta_key = MetaKey.find_by_label(:title) || FactoryGirl.create(:meta_key_title)
+        ms.meta_data.create meta_key: meta_key, value: Faker::Lorem.words[0]
+        ms.reindex
+      end
+    end
   end
 
   factory :media_entry_incomplete do

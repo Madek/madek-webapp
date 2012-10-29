@@ -44,7 +44,6 @@ namespace :madek do
       if $?.exitstatus != 0 
         raise "Recreating 'test' database failed."
       end
-
     end
 
     task :setup_ci_dbs do
@@ -59,6 +58,7 @@ namespace :madek do
          DBHelper.set_pg_env base_config[name]
          system "psql -d template1 -c 'DROP DATABASE IF EXISTS \"#{db_name}\";'"
          system "psql -d template1 -c \"CREATE DATABASE \"#{db_name}\" WITH ENCODING 'utf8' TEMPLATE template0;\""
+         PersonasDBHelper.load_and_migrate_persona_data
        end
        Rake::Task["db:migrate"].invoke
        Rake::Task["madek:db:restore_personas_to_max_migration"].invoke
@@ -75,34 +75,23 @@ namespace :madek do
       task :all do
         puts "Running all Cucumber tests in one block"
         system "bundle exec cucumber -p all #{ENV['FILE']}"
-        exit_code_first_run = $?.exitstatus
-        puts "First run exited with #{exit_code_first_run}"
+        exit_code = $?.exitstatus
+        puts "First run exited with #{exit_code}"
 
-        if exit_code_first_run != 0
-          puts "Non-zero exit necessiates a rerun. Go, go, go!"
-          Rake::Task["madek:test:cucumber:rerun"].invoke
-        end
-      end
+        rerun_limit = ENV['RERUN_LIMIT'].try(:to_i) || 1
+        rerun_count = 0
 
-      task :rerun do
-        rerun_count = 9
-        puts "Rerunning up to #{rerun_count + 1} times."
+        while exit_code != 0 and rerun_count < rerun_limit
           system "bundle exec cucumber -p rerun"
           exit_code = $?.exitstatus
-          if exit_code != 0
-            while (rerun_count > 0 and exit_code != 0)
-              puts "Maximum #{rerun_count} reruns remaining. Trying to rerun until we're successful."
-              if File.exists?("tmp/rererun.txt") and File.stat("tmp/rererun.txt").size > 0 # The 'rererun.txt' file contains some failed examples
-                File.rename("tmp/rererun.txt","tmp/rerun.txt")
-                system "bundle exec cucumber -p rerun"
-                exit_code = $?.exitstatus
-                rerun_count -= 1
-              end
-            end
-          end
-          puts "Final rerun exited with #{exit_code}"
-          raise "Tests failed during rerun!" if exit_code != 0
+          rerun_count += 1
+        end
+
+        puts "Final rerun exited with #{exit_code}"
+        raise "Tests failed during rerun!" if exit_code != 0
+
       end
+
     end
   end
 

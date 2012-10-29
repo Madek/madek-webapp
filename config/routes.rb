@@ -1,12 +1,22 @@
 # -*- encoding : utf-8 -*-
 MAdeK::Application.routes.draw do
 
-
   wiki_root '/wiki'
-
   root :to => "application#root"
 
-###############################################
+#####################################################
+
+  # :action is actually more like a resources that describes part of MediaRsources, such as
+  #   my_media_resources or my_sets_and_direct_descendants
+  match 'visualization' => 'visualization#put', via: 'put'
+  get 'visualization/filtered_resources' => 'visualization#filtered_resources'
+  match 'visualization/:action(/:id)', controller: 'visualization'
+
+  #match 'visualization/:action', controller: 'visualization'
+  #match 'visualization/*params' => 'visualization#index', via: ['get']
+  #match 'visualization/my_sets_and_direct_descendants' => 'visualization#my_sets_and_direct_descendants', via: ['get']
+
+#####################################################
 
   match '/help', :to => "application#help"
   match '/feedback', :to => "application#feedback"
@@ -154,7 +164,6 @@ MAdeK::Application.routes.draw do
       end
       collection do
         get :add_member
-        get :graph
       end
       resources :media_entries, :except => :destroy
     end 

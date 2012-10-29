@@ -288,21 +288,6 @@ module Json
 
     ###########################################################################
 
-    def hash_for_graph(media_sets)
-      h = {nodes: [], links: []}
-      with = {:meta_data => {:meta_key_names => ["title"]}, :image => {:as => :base64}, :flags => true}
-      media_sets.each do |media_set|
-        h[:nodes] << hash_for(media_set, with)
-        #v2# h[:nodes] << {:name => media_set.title}
-        media_set.child_media_resources.media_sets.each do |child_set|
-          h[:nodes] << hash_for(child_set, with)
-          h[:links] << {source_id: media_set.id, target_id: child_set.id}
-          #v2# h[:links] << {source: media_set.title, target: child_set.title, type: "suit"}
-        end
-      end
-      h
-    end
-
   end
 end
       

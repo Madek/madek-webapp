@@ -1,0 +1,13 @@
+@import "mixins"
+
+html#visualization #controls
+
+  .display_panel.menu
+    cursor: pointer
+
+    .snag.icon
+      top: 0
+      @include opacity(0.3)
+
+    &.active .icon, &.active h2
+      @include opacity(1.0)

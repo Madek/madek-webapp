@@ -1,0 +1,42 @@
+%h2 
+  .arrow.down.icon
+  = "Berechnungsoptionen"
+
+.inner
+
+  %form
+
+    %label 
+      Edge-Length: 
+      %span#edge_length_value  
+    #edge_length
+
+    %hr
+
+    %label
+      Additional Edge-Length between Sets: 
+      %span#add_set_set_edge_length_value
+    #add_set_set_edge_length
+
+    %hr
+
+    %label 
+      Component-Separation:  
+      %span#component_separation_value
+    #component_separation
+
+    %hr
+
+    %label
+      Default Node-Radius: 
+      %span#node_radius_value
+    #node_radius
+
+    %hr
+
+    %label
+      Additional Radius: 
+      %span#max_set_radius_value
+    #max_set_radius
+
+  .overlay

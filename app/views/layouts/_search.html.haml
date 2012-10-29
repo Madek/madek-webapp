@@ -3,5 +3,5 @@
     %form{:action => media_resources_path, :method => :get}
       #search-query.basic
         %div
-          = text_field_tag 'search', (@filter || {})[:search], :id => 'filter_search'
+          = text_field_tag 'search', "", :id => 'filter_search'
           = submit_tag _("Suchen"), :title => "Suchen", :id => 'search-submit', :class => "ir", :name => nil

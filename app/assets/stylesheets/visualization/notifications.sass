@@ -1,0 +1,38 @@
+@import "mixins"
+
+html#visualization 
+
+  #notifications
+    display: block
+    position: relative
+    width: 100%
+    @include unselectable()
+
+    & > div
+      font-size: 1.0em
+      font-weight: bold
+      line-height: 1.3em
+      margin: 5px 24px 16px
+      padding: 4px 24px 4px 12px
+      position: relative
+      display: block
+      @include border-radius(6px)
+
+      .close
+        cursor: pointer
+        position: absolute
+        top: 6px
+        right: 8px
+        @include opacity(0.5)
+
+        &:hover
+          @include opacity(0.9)          
+    
+    .notification
+      background: rgba(255, 255, 50, 0.5)
+      border: 1px solid rgba(240, 240, 0, 0.8)
+
+    .alert
+      background: rgba(255, 50, 50, 0.5)
+      border: 1px solid rgba(240, 0, 0, 0.8)
+      color: rgb(35,35,35)

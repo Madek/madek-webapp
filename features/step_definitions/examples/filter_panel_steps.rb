@@ -112,10 +112,10 @@ end
 
 Given /^I see a filtered list of resources$/ do
   meta_term_id = MediaResource.where(:view => true).flat_map{|x| x.meta_data.get("keywords") }.flat_map(&:value).first.try(:meta_term_id)
-  filter = {:public => "true", :meta_data => {:keywords => {:ids => [meta_term_id]}}}
-  visit media_resources_path(filter)
+  @filter = {:public => "true", :meta_data => {:keywords => {:ids => [meta_term_id]}}}
+  visit media_resources_path(@filter)
   step 'I open the filter panel'
-  count = MediaResource.filter(@current_user, filter).count
+  count = MediaResource.filter(@current_user, @filter).count
   wait_until { find(".results .pagination", :text => /#{count} Resultate/) }
 end
 

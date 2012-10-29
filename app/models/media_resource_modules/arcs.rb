@@ -22,10 +22,6 @@ module MediaResourceModules
       end
     end
 
-    def size
-      GraphQueries.descendants(self).size
-    end
-
     def parents 
       case self.class.model_name.to_s
         when "MediaSet"
@@ -36,6 +32,7 @@ module MediaResourceModules
           raise "parents is not supported (yet) for your type"
       end
     end
+
 
   end
 end
