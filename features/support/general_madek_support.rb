@@ -343,3 +343,13 @@ def add_to_set(set_title = "Untitled Set", picture_title = "Untitled", owner = "
   wait_until { all(".widget").size == 0 }
 end
 
+def scroll_to_next_page
+  @current_page ||= 1
+  @current_page += 1
+  wait_until {find(".page .pagination", :text => /Seite #{@current_page}\svon/)}
+  find(".page .pagination", :text => /Seite #{@current_page}\svon/).click
+  wait_until {
+    all(".page[data-page='#{@current_page}']").size == 0 and
+    find(".page .pagination", :text => /Seite #{@current_page}\svon/).find(:xpath, "./..").all(".item_box img").size > 0
+  }
+end

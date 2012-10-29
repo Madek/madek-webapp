@@ -42,17 +42,21 @@ end
 
 When /^I see a list of resources$/ do
   visit media_resources_path
+  wait_until {all(".item_box").size > 0}
 end
 
 Then /^I can see if a resource is only visible for me$/ do
+  while all(".item_box .icon_status_perm_private").size == 0 do scroll_to_next_page end
   find(".item_box .icon_status_perm_private")
 end
 
 Then /^I can see if a resource is visible for multiple other users$/ do
+  while all(".item_box .icon_status_perm_shared").size == 0 do scroll_to_next_page end
   find(".item_box .icon_status_perm_shared")
 end
 
 Then /^I can see if a resource is visible for the public$/ do
+  while all(".item_box .icon_status_perm_public").size == 0 do scroll_to_next_page end
   find(".item_box .icon_status_perm_public")
 end
 
