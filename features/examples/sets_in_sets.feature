@@ -136,16 +136,13 @@ Feature: Sets in Sets
      And I expand the "Metadaten" context group
     Then I should see "http://www.zhdk.ch"
     When I follow "http://www.zhdk.ch"
-     
-
-
 
   # https://www.pivotaltracker.com/story/show/23825307
   @javascript
   Scenario: Preview of content and relationships of a set in the grid view
     Given I am "Normin"
-     When I view a grid of these sets
-      And I examine my "Ausstellungen" sets more closely
+     When I view a grid of sets
+      And I examine a visible set that has children and parents more closely
      Then I see relationships for this set
       And I see how many media entries that are viewable for me in this set
       And I see how many sets that are viewable for me in this set

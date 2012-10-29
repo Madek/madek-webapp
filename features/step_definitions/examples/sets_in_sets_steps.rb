@@ -282,14 +282,15 @@ Then /^it is a top\-level set$/ do
   MediaSet.top_level.include?(@top_level_set)
 end
 
-When /^I view a grid of these sets$/ do
-  visit media_resources_path()
+When /^I view a grid of sets$/ do
+  visit media_resources_path(type:"media_sets")
+  find("#bar .layout .icon[data-type=grid]").click
 end
 
-When /^I examine my "([^"]*)" sets more closely$/ do |title|
-  wait_for_css_element('.thumb_box')
-  @media_set = MediaSet.find_by_title title
-  page.execute_script "$(\"dd[title='#{title}']\").closest(\".item_box\").find(\".thumb_box_set\").trigger(\"mouseenter\")"
+When /^I examine a visible set that has children and parents more closely$/ do
+  wait_until {all(".item_box.set").size > 0}
+  @media_set =  MediaSet.accessible_by_user(@current_user).detect{|ms| ms.parents.size > 0 and ms.child_media_resources.size > 0}
+  page.execute_script "$(\".item_box[data-id='#{@media_set.id}']\").find(\".thumb_box_set\").trigger(\"mouseenter\")"
   wait_for_css_element('.set_popup')
 end
 
