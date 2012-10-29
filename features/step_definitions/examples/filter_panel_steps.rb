@@ -155,11 +155,14 @@ Then /^I can expand the filter panel$/ do
 end
 
 Then /^I see a list of MetaKeys$/ do
+  wait_until{all(".loading", :visible=>true).size==0}
+  wait_until{all(".context > h3").size > 0}
   all(".context > h3").each {|context| context.click}
   @key = find("#filter_area").find(:xpath, "//div[@data-filter_type='meta_data']").find(".key")
 end
 
 Then /^I can open a particular MetaKey$/ do
+
   @key.find("h3").click
 end
 
