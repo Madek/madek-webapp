@@ -28,6 +28,7 @@ Given /^a list contains resources that have values in a meta key of type "(.*?)"
     when "Keywords"
       MetaKey.where(:meta_datum_object_type => "MetaDatumKeywords").first
   end
+  wait_until {all(".loading",:visible=>true).size == 0}
   all(".context > h3").each {|context| context.click}
   @key = find(".key[data-key_name='#{meta_key.label}']")
 end
