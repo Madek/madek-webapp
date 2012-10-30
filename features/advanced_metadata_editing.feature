@@ -22,7 +22,6 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I wait for the CSS element "#media_object"
      And I fill in the metadata form as follows:
      |label|value|
-     |Weitere Personen Medienerstellung|Rebel United Photo Developers|
      |Material/Format|Collage|
      And I follow "Credits"
      And I wait for the CSS element "#copyright"
