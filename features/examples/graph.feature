@@ -69,7 +69,41 @@ Feature: Visualization / Graph
       |open this media resource| # Diesen Inhalt öffnen
       |visualize all connected resources| # Alle verbundenen Inhalte visualisieren
       |visualize all my connected resources| # Alle meine verbundenen Inhalte visualisieren
-      |visualize all descendants resources| # Alle untergeordneten Inhalte visualisieren
-      |visualize all my descendants resources| # Alle meine 
 
-     
+  @javascript
+  Scenario: Title
+    Given I am "Normin"
+     When I a see a graph
+     Then I see a title
+     When I visualize the filter "Meine Sets"
+     Then I see the title "Meine Sets"
+     When I visualize the filter "Meine Inhalte"
+     Then I see the title "Meine Inhalte"
+     When I visualize the filter "Mir anvertraute Inhalte"
+     Then I see the title "Meine anvertraute Inhalte"
+     When I visualize the filter "Meine Favoriten"
+     Then I see the title "Meine Favoriten"
+     When I visualize the filter Suchergebnisse für "Land"
+     Then I see the title "Suchergebnisse für Land"
+
+  @javascript
+  Scenario: Title
+    Given I am "Normin"
+     When I a see a graph
+     When I visualize the descendants of a Set
+     Then I see the originating set beeing highlighted
+     And I see the title of the set as graph-title
+     When I visualize the component of a Entry
+     Then I see the originating entry beeing highlighted
+     And I see the title of the entry as graph-title
+
+  @javascript
+  Scenario: Title
+    Given I am "Normin"
+     When I a see a graph
+     Then I see exactly the labels of the sets that have children in the current visualization
+     When I select no labels
+     Then I see no lables
+     When I select all labels
+     Then I see all lables
+
