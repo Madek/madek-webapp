@@ -23,6 +23,7 @@ When /^I create a new person$/ do
 end
 
 When /^I create a new user for "(.*?)"$/ do |arg1|
+  find(".dataTables_filter input").set arg1
   find("tr", :text => arg1).find("a", :text => "Create User").click
 end
 
