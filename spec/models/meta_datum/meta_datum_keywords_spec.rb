@@ -75,7 +75,7 @@ describe MetaDatumKeywords do
       @media_entry.update_attributes(params, @user1)
       @media_entry.reload
       @media_entry.meta_data.count.should == 1
-      @media_entry.meta_data.flat_map(&:value).map(&:meta_term).should == [@term1, @term2]
+      @media_entry.meta_data.flat_map(&:value).map(&:meta_term).map(&:id).sort.should == [@term1.id, @term2.id].sort
     end
   
     it "should keep existing keywords assigning new keywords" do
@@ -94,8 +94,8 @@ describe MetaDatumKeywords do
       @media_entry.reload
       @media_entry.meta_data.count.should == 1
       keywords = @media_entry.meta_data.flat_map(&:value) 
-      keywords.map(&:meta_term).should == [@term1, @term2]
-      keywords.map(&:user).should == [@user1, @user2]
+      keywords.map(&:meta_term).map(&:id).sort.should == [@term1, @term2].map(&:id).sort
+      keywords.map(&:user).map(&:id).sort.should == [@user1, @user2].map(&:id).sort
 
       # the second user deletes the keyword provided by the first user
       params = {meta_data_attributes: {"0" =>  {meta_key_id: @meta_key.id, value: [@term2.id]}}}
