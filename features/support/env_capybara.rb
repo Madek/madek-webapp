@@ -10,11 +10,13 @@ end
 
 
 # phantomjs
-Before('@poltergeist') do |scenario|
+if `which phantomjs` != "" 
+  Before('@poltergeist') do |scenario|
     Capybara.current_driver = :poltergeist
-end
-After('@poltergeist') do |scenario|
+  end
+  After('@poltergeist') do |scenario|
     Capybara.use_default_driver
+  end
 end
 
 # Firefox
@@ -25,12 +27,15 @@ After('@firefox') do |scenario|
     Capybara.use_default_driver
 end
 
+
 # Chrome
-Before('@chrome') do |scenario|
+if `which chromedriver` != ""
+  Before('@chrome') do |scenario|
     Capybara.current_driver = :selenium_chrome
-end
-After('@chrome') do |scenario|
+  end
+  After('@chrome') do |scenario|
     Capybara.use_default_driver
+  end
 end
 
 
