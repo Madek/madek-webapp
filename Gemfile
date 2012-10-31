@@ -69,12 +69,13 @@ group :test, :development, :personas do
   gem 'guard-cucumber', '~> 1.2'
   gem 'guard-rspec', '~> 1.2'
   gem 'guard-spork', '~> 1.1', platform: :mri_19
-  gem 'spork-rails'
+  gem 'poltergeist'
   gem 'pry'
   gem 'rb-fsevent', '~> 0.9'
   gem 'rest-client'
   gem 'rspec-rails'
   gem 'ruby_gntp', '~> 0.3.4'
+  gem 'spork-rails'
 end
 
 group :development, :production do
