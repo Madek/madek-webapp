@@ -47,11 +47,11 @@ Feature: Visualization / Graph
       And I see the number of children devided by media entry and media set
       And I have the following option:
       |Option|
-      |open this media resource| # Diesen Inhalt öffnen
-      |visualize all connected resources| # Alle verbundenen Inhalte visualisieren
-      |visualize all my connected resources| # Alle meine verbundenen Inhalte visualisieren
-      |visualize all descendants resources| # Alle untergeordneten Inhalte visualisieren
-      |visualize all my descendants resources| # Alle meine untergeordneten Inhalte visualisieren
+      |open this media resource|
+      |visualize all connected resources|
+      |visualize all my connected resources|
+      |visualize all descendants resources|
+      |visualize all my descendants resources|
 
 
   @javascript
@@ -66,9 +66,9 @@ Feature: Visualization / Graph
       And I dont see any number of children and parents
       And I have the following option:
       |Option|
-      |open this media resource| # Diesen Inhalt öffnen
-      |visualize all connected resources| # Alle verbundenen Inhalte visualisieren
-      |visualize all my connected resources| # Alle meine verbundenen Inhalte visualisieren
+      |open this media resource| 
+      |visualize all connected resources| 
+      |visualize all my connected resources| 
 
   @javascript
   Scenario: Title
