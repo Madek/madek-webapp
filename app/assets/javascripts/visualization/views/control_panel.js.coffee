@@ -4,9 +4,38 @@ Visualization.Views.ControlPanel = Backbone.View.extend
 
   initialize: ->
     model = @options.model
+
+    @setElement $("#controls .control_panel")
     @el =  $("#controls .control_panel")
+
     @render()
+
+    ### labels ##########################################################
+    @$("select.show_labels").change (event)=> 
+      model.set("show_labels",@$("select.show_labels :selected").val())
+
+
+    model.on "change:show_labels", (model,value,change_object)->
+      $("select.show_labels option[value='#{value}']").attr('selected',true)
+      switch value
+        when "none"
+          $("html").removeClass("show_labels_all")
+          $("html").removeClass("show_labels_sets_having_descendants")
+        when "sets_having_descendants"
+          $("html").removeClass("show_labels_all")
+          $("html").addClass("show_labels_sets_having_descendants")
+        when "all"
+          $("html").removeClass("show_labels_sets_having_descendants")
+          $("html").addClass("show_labels_all")
+
+     
+
+    ### overlay ##########################################################
+
     @overlay = @el.find ".overlay"
+
+
+    ### sliders ##########################################################
 
     sliders_conf=
       edge_length: 

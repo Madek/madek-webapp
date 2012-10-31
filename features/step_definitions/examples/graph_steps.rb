@@ -40,3 +40,22 @@ When /^I see a filtered list of resources where at least one element has arcs$/ 
   @filter = {:meta_data => {:keywords => {:ids => [me.meta_data.where(:type => "MetaDatumKeywords").last.value.first.meta_term_id]}}}
   visit media_resources_path(@filter)
 end
+
+Given /^There are no persisted visualizations$/ do
+  Visualization.delete_all
+end
+
+When /^I a see the graph of the resource "(.*?)"$/ do |resource|
+    visit "/visualization/#{resource}"
+end
+
+When /^I get rid of the anoying browser warning$/ do
+  find("#not_supported_warning button").click()
+end
+
+
+Then /^the label option "(.*?)" is selected$/ do |option|
+  expect(find("form select.show_labels option[value='#{option}']").selected?).to be_true
+end
+
+

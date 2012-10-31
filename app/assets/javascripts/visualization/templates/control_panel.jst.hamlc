@@ -6,6 +6,15 @@
 
   %form
 
+    %hr
+      %label Labels
+        %select.show_labels
+          %option{value:"none"} None
+          %option{value:"sets_having_descendants"} Sets with children
+          %option{value:"all"} All
+
+    %hr 
+
     %label 
       Edge-Length: 
       %span#edge_length_value  

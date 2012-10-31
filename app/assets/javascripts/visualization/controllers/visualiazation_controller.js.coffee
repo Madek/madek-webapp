@@ -22,21 +22,16 @@ window.Visualization.Controllers.create_visualization_controller= (options) ->
   _.extend(self,Backbone.Events)
 
   # react on panel_model change events ###################################################################
-  options.control_panel_model.on "change" , ->
-    #console.log "the control model changed"
-
   options.control_panel_model.on "change:edge_length" , ->
-    #console.log "the edge_length has changed"
+    console.log "the edge_length has changed"
     d3layouter.edge_length(options.control_panel_model.get("edge_length"))
     self.methods.restart_d3layouter()
 
   options.control_panel_model.on "change:add_set_set_edge_length" , ->
-    #console.log "the add_set_set_edge_length has changed"
     d3layouter.add_set_set_edge_length(options.control_panel_model.get("add_set_set_edge_length"))
     self.methods.restart_d3layouter()
 
   options.control_panel_model.on "change:component_separation" , ->
-    #console.log "the component_separation has changed"
     d3layouter.component_separation(options.control_panel_model.get("component_separation"))
     self.methods.restart_d3layouter()
 

@@ -51,6 +51,7 @@ Visualization.Controllers.create_persistence_controller = (options)->
       is_triggered = true
 
   self.graph.on "worker_computed_new_layout", (e)-> self.persist()
+  self.control_panel_model.on "change", (e)-> self.persist()
 
   # return the object (though there is no point in using it!)
   self
