@@ -456,3 +456,11 @@ end
 Given /^I hover the context actions menu$/ do
   page.execute_script %Q{ $(".action_menu:first .action_menu_list").show(); }
 end
+
+Given /^I close any alert message$/
+  # close any alert message to not disturb following tests
+  begin
+    page.driver.browser.switch_to.alert.accept
+  rescue #silently
+  end
+end

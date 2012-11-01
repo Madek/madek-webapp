@@ -13,6 +13,7 @@ Feature: Visualization / Graph
     When I open a set that has children and parents
      And I use the "show graph" context action
     Then I can see the relations for that resource
+     And I close any alert message
 
   @javascript
   Scenario: Calculate graph on the media entry view
@@ -20,6 +21,7 @@ Feature: Visualization / Graph
     When I open a media entry that is child of a set that I can see
      And I use the "show graph" context action
     Then I can see the relations for that resource
+     And I close any alert message
 
   @javascript
   Scenario: Calculate graph on a filtered list
@@ -27,6 +29,7 @@ Feature: Visualization / Graph
     Given I see a filtered list of resources where at least one element has arcs
      And I use the "show graph" context action
     Then I can see the relations for that resources
+     And I close any alert message
 
   @javascript
   Scenario: Browser Switcher
