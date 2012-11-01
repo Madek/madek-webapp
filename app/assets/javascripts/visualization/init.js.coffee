@@ -33,11 +33,11 @@ window.Visualization.init = (options) ->
 
   control_panel_model = 
     Visualization.Objects.control_panel_model = 
-      new Visualization.Models.ControlPanel(options)
+      new Visualization.Models.ControlPanel()
 
   new Visualization.Views.ControlPanel 
     model: control_panel_model
-  new Visualization.Views.DisplayPanel
+
   new Visualization.Views.PopupMenu
 
   Visualization.Objects.graph = graph = Visualization.Models.create_graph
@@ -59,6 +59,7 @@ window.Visualization.init = (options) ->
     component_separation: 12
     node_radius: 5
     max_set_radius: 25
+    show_labels: "sets_having_descendants"
   # then possibly saved parameters:
   control_panel_model.set options.control_settings
 

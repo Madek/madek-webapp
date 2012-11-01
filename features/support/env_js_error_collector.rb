@@ -10,7 +10,8 @@ Capybara.register_driver :selenium do |app|
 end
 
 After do |scenario|
-  if page.driver.to_s.match("Selenium")
+
+  if Capybara.current_driver == :selenium  and page.driver.to_s.match("Selenium")
     errors = page.execute_script("return window.JSErrorCollector_errors.pump()")
 
     if errors.any?

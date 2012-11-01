@@ -27,7 +27,6 @@ namespace :madek do
 
     desc "Like setup, but cleans personas and test dbs before, then migrates persona DB. Mostly for use on local machines, not that much use on CI."
     task :setup_local_dbs do
-      Rake::Task["madek:test:setup"].invoke
       puts "Terminating connections to 'personas' database"
       DBHelper.terminate_open_connections Rails.configuration.database_configuration["personas"]
 
@@ -44,6 +43,8 @@ namespace :madek do
       if $?.exitstatus != 0 
         raise "Recreating 'test' database failed."
       end
+
+      Rake::Task["madek:test:setup"].invoke
     end
 
     task :setup_ci_dbs do

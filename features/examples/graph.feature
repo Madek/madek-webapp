@@ -31,14 +31,14 @@ Feature: Visualization / Graph
     Then I can see the relations for that resources
      And I close any alert message
 
-  @javascript
+  @poltergeist
   Scenario: Browser Switcher
     Given I am "Normin"
       And I use Firefox
      When I open a complex graph
      Then I see the graph after its finished layouting/computing
 
-  @javascript
+  @poltergeist
   Scenario: Popup for a set
     Given I am "Normin"
      When I a see a graph
@@ -50,14 +50,14 @@ Feature: Visualization / Graph
       And I see the number of children devided by media entry and media set
       And I have the following option:
       |Option|
-      |open this media resource| # Diesen Inhalt öffnen
-      |visualize all connected resources| # Alle verbundenen Inhalte visualisieren
-      |visualize all my connected resources| # Alle meine verbundenen Inhalte visualisieren
-      |visualize all descendants resources| # Alle untergeordneten Inhalte visualisieren
-      |visualize all my descendants resources| # Alle meine untergeordneten Inhalte visualisieren
+      |open this media resource|
+      |visualize all connected resources|
+      |visualize all my connected resources|
+      |visualize all descendants resources|
+      |visualize all my descendants resources|
 
 
-  @javascript
+  @poltergeist
   Scenario: Popup for a media entry
     Given I am "Normin"
      When I a see a graph
@@ -69,11 +69,11 @@ Feature: Visualization / Graph
       And I dont see any number of children and parents
       And I have the following option:
       |Option|
-      |open this media resource| # Diesen Inhalt öffnen
-      |visualize all connected resources| # Alle verbundenen Inhalte visualisieren
-      |visualize all my connected resources| # Alle meine verbundenen Inhalte visualisieren
+      |open this media resource| 
+      |visualize all connected resources| 
+      |visualize all my connected resources| 
 
-  @javascript
+  @poltergeist
   Scenario: Title
     Given I am "Normin"
      When I a see a graph
@@ -89,10 +89,11 @@ Feature: Visualization / Graph
      When I visualize the filter Suchergebnisse für "Land"
      Then I see the title "Suchergebnisse für Land"
 
-  @javascript
+  @poltergeist
   Scenario: Title
     Given I am "Normin"
      When I a see a graph
+     And I get rid of the anoying browser warning
      When I visualize the descendants of a Set
      Then I see the originating set beeing highlighted
      And I see the title of the set as graph-title
@@ -100,13 +101,36 @@ Feature: Visualization / Graph
      Then I see the originating entry beeing highlighted
      And I see the title of the entry as graph-title
 
-  @javascript
-  Scenario: Title
+  @wip @poltergeist
+  Scenario: Default labels
     Given I am "Normin"
-     When I a see a graph
-     Then I see exactly the labels of the sets that have children in the current visualization
-     When I select no labels
-     Then I see no lables
-     When I select all labels
-     Then I see all lables
+     And  There are no persisted visualizations
+     When I a see the graph of the resource "my_media_resources"
+     And I get rid of the anoying browser warning
+     Then the label option "sets_having_descendants" is selected 
+     Then I see by default exactly the labels of the sets that have children in the current visualization
+
+  @wip @poltergeist
+  Scenario: Selecting and saving the option all labels
+    Given I am "Normin"
+     And  There are no persisted visualizations
+     When I a see the graph of the resource "my_media_resources"
+     And I get rid of the anoying browser warning
+     When I select "all" of the label select options 
+     And  I wait for persisting the options
+     And  I revisit the current_path
+     Then the label option "sets_having_descendants" is selected 
+     And I see that all labels are show 
+
+  @wip @poltergeist
+  Scenario: Selecting and saving the option all labels
+    Given I am "Normin"
+     And  There are no persisted visualizations
+     When I a see the graph of the resource "my_media_resources"
+     And I get rid of the anoying browser warning
+     When I select "all" of the label select options 
+     And  I wait for persisting the options
+     And  I revisit the current_path
+     Then the label option "sets_having_descendants" is selected 
+     And I see that all labels are show 
 
