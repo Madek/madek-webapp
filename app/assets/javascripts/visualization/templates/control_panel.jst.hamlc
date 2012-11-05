@@ -1,51 +1,59 @@
 %h2 
   .arrow.down.icon
-  = "Berechnungsoptionen"
+  = "Darstellungsoptionen"
 
 .inner
 
   %form
 
     %hr
-      %label Labels
+      %label Beschriftung
         %select.show_labels
-          %option{value:"none"} None
-          %option{value:"sets_having_descendants"} Sets with children
-          %option{value:"all"} All
+          %option{value:"none"} keine
+          %option{value:"sets_having_descendants"} nur Sets mit Nachfolger
+          %option{value:"all"} alle 
 
-    %hr 
+    .basic_option
+      %hr 
+      %label 
+        Kantenlänge:
+        %span#edge_length_value  
+      #edge_length
 
-    %label 
-      Edge-Length: 
-      %span#edge_length_value  
-    #edge_length
+    .basic_option
+      %hr
+      %label 
+        Komponentenabstand:  
+        %span#component_separation_value
+        * Kantenlänge
+      #component_separation
 
-    %hr
+    .basic_option
+      %hr
+        %label
+          %input#show_advanced_options{type: 'checkbox'}
+          Zeige weitere Optionen
+ 
 
-    %label
-      Additional Edge-Length between Sets: 
-      %span#add_set_set_edge_length_value
-    #add_set_set_edge_length
+    .advanced_option
+      %hr
+      %label
+        Zusätzliche Kantenlänge zwischen Sets: 
+        %span#add_set_set_edge_length_value
+      #add_set_set_edge_length
 
-    %hr
+    .advanced_option
+      %hr
+      %label
+        Knoten-Radius:
+        %span#node_radius_value
+      #node_radius
 
-    %label 
-      Component-Separation:  
-      %span#component_separation_value
-    #component_separation
-
-    %hr
-
-    %label
-      Default Node-Radius: 
-      %span#node_radius_value
-    #node_radius
-
-    %hr
-
-    %label
-      Additional Radius: 
-      %span#max_set_radius_value
-    #max_set_radius
+    .advanced_option
+      %hr
+      %label
+        Zusätzlicher-Radius:
+        %span#max_set_radius_value
+      #max_set_radius
 
   .overlay
