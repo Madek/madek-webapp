@@ -13,3 +13,6 @@ Visualization.Functions.box_add= (box,val)->
 Visualization.Functions.center_of_box = (box) ->
   [box[0]+(box[2]-box[0])/2, box[1]+(box[3]-box[1])/2]
 
+
+Visualization.Functions.is_very_modern_browser= ->
+  (BrowserDetection.name() is 'Chrome' and BrowserDetection.major_version() >= 20) or (BrowserDetection.name() is 'Safari' and BrowserDetection.major_version() >= 6)

@@ -102,3 +102,5 @@ Here are some examples of userAgent outputs
       match = agent.match(/MSIE \d*\.*\d*/)
       return match.join().replace(/MSIE /, "")
       
+  major_version: ->
+    parseFloat(@version().split('.')[0])

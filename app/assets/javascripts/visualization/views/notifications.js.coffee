@@ -4,9 +4,10 @@ Visualization.Views.Notifications = Backbone.View.extend
     @el =  $("#notifications")
 
     # loading notification
-    @add "loading", "notification", "<div class='loading icon'></div> Graph wird berechnet..."
-    remove_loading_notification = => @remove "loading"; $(window).unbind "worker_finished_layouting", remove_loading_notification
-    $(window).bind "worker_finished_layouting", remove_loading_notification
+    $(window).bind "worker_startes_layouting", => 
+      @add "loading", "notification", "<div class='loading icon'></div> Graph wird berechnet... "
+      remove_loading_notification = => @remove "loading"; $(window).unbind "worker_finished_layouting", remove_loading_notification
+      $(window).bind "worker_finished_layouting", remove_loading_notification
 
     # alert when there are only media_entries 
     if @options.only_media_entries

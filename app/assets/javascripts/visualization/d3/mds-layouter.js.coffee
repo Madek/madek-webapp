@@ -25,7 +25,7 @@ d3.layout.mds = ->
   mds_core = window.MDSCoreLayouter
 
   # EVENTS ###########################################################################################
-  event = d3.dispatch("worker_computed_new_layout","new_layout_available", "worker_finished_layouting")
+  event = d3.dispatch("worker_computed_new_layout","new_layout_available", "worker_startes_layouting", "worker_finished_layouting")
 
   # FUNCTIONS ########################################################################################
   # replace some of them with those defined in mds_core
@@ -126,6 +126,7 @@ d3.layout.mds = ->
     start: -> 
       if current_pos? and edge_length? and component_separation?
         console.log "posting start event to the worker"
+        event.worker_startes_layouting()
         layout_web_worker.postMessage(start: {})
       else
         console.log "NOT STARTING LAYOUTER, PARAMETERS ARE MISSING"

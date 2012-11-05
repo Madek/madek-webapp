@@ -50,13 +50,13 @@ window.Visualization.Controllers.create_visualization_controller= (options) ->
   # propagating events ################################################################################
 
   d3layouter.on "worker_computed_new_layout", (e) ->
-    console.log "worker_computed_new_layout"
+    #console.log "worker_computed_new_layout"
     self.trigger "worker_computed_new_layout", e
     graph.worker_computed_new_layout()
     $(window).trigger("worker_computed_new_layout")
 
   d3layouter.on "new_layout_available", (e) ->
-    console.log "new_layout_available"
+    #console.log "new_layout_available"
     self.trigger "new_layout_available", e
     graph.new_layout_available()
     $(window).trigger("new_layout_available")
@@ -65,6 +65,12 @@ window.Visualization.Controllers.create_visualization_controller= (options) ->
     console.log "worker_finished_layouting"
     self.trigger "worker_finished_layouting", e
     $(window).trigger("worker_finished_layouting")
+
+  d3layouter.on "worker_startes_layouting", (e) ->
+    console.log "worker_startes_layouting"
+    self.trigger "worker_startes_layouting", e
+    $(window).trigger("worker_startes_layouting")
+
 
 
   ######################################################################

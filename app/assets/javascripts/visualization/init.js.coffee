@@ -72,6 +72,7 @@ window.Visualization.init = (options) ->
 
   graph_view = new Visualization.Views.GraphView
     graph: graph
+    visualization_controller: visualization_controller
   graph_view.render()
 
   # at last (re)start the layouter

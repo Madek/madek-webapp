@@ -7,9 +7,16 @@ Visualization.Views.GraphView = Backbone.View.extend
 
   initialize: ->
     @graph=@options.graph
-    @graph.on "new_layout_available", (e) => 
-      @relayout()
-      @autozoom()
+
+    if Visualization.Functions.is_very_modern_browser()
+      @graph.on "new_layout_available", (e) => 
+        @relayout()
+        @autozoom()
+    else
+      @options.visualization_controller.on "worker_finished_layouting", (e)=>
+        @relayout()
+        @autozoom()
+
     $(window).bind "resize", (e)=> 
       @svg.attr("width", $(window).width()).attr("height", $(window).height())
       @autozoom()
@@ -56,7 +63,7 @@ Visualization.Views.GraphView = Backbone.View.extend
     @svg.attr('visibility','visible')
 
   relayout: ->
-    console.log "relayout called ..."
+    #console.log "relayout called ..."
     @circles_vis.attr("cx",(n)->n.x).attr("cy",(n)->n.y)
       .attr("r",(n)-> n.radius)
     @links_vis.attr("x1",((e)-> e.source.x)).attr("y1",((e)-> e.source.y))
@@ -65,7 +72,7 @@ Visualization.Views.GraphView = Backbone.View.extend
     @autozoom()
 
   autozoom: ->
-    console.log "resetting transform ..."
+    #console.log "resetting transform ..."
     bbox = Visualization.Functions.box_add Visualization.Functions.bbox($("#drawing .node,#drawing g.node_label")), [-25,-100,25,25]
     bbox_center = Visualization.Functions.center_of_box bbox
     @svg_graph.select("rect#bbox").remove()
