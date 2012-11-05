@@ -12,12 +12,13 @@
     media_resources = new App.MediaResources
       layout: #{(@media_set and @media_set.settings[:layout]) ? "\"#{@media_set.settings[:layout]}\"" : "undefined"}
       filter: #{@filter.to_json}
+      sort: #{params[:sort].to_json}
 
     start_with_open_filter = #{!params[:edit_filter_set_id].blank?} or App.MediaResources.current_filter.search?
 
     App.Filter.setup
-      onChange: (filter_params)-> media_resources.fetch filter_params, true
+      onChange: (filter_params)-> media_resources.initial_fetch filter_params, true
       start_with_open_filter: start_with_open_filter
               
     # initial fetch of media resources
-    media_resources.fetch {}, start_with_open_filter
+    media_resources.initial_fetch {}, start_with_open_filter

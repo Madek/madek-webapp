@@ -5,6 +5,7 @@ class MediaResourcesController
     do @plugin
     @active_layout = if options.layout? then options.layout else if sessionStorage.active_layout? then sessionStorage.active_layout else "grid"
     MediaResourcesController.current_filter = options.filter if options.filter?
+    MediaResourcesController.current_sort = options.sort if options.sort?
     do @activate_layout
     do @delegate_events
     do @switch_context_fetch
@@ -26,6 +27,7 @@ class MediaResourcesController
     data = 
       page: next_page
     $.extend true, data, App.MediaResources.current_filter
+    $.extend data, {sort: App.MediaResources.current_sort}
     options =
       data: data
       success: (data)->
@@ -65,8 +67,9 @@ class MediaResourcesController
     else
       @el.undelegate ".meta_data .context[data-name]", "inview"
 
-  fetch: (new_filter_params, with_filter)=>
+  initial_fetch: (new_filter_params, with_filter)=>
     data = JSON.parse JSON.stringify App.MediaResources.current_filter
+    $.extend data, {sort: App.MediaResources.current_sort}
     $.extend data, new_filter_params if new_filter_params?
     $.extend data, {with_filter: true} if with_filter
     @el.find(".results").html "Lade Inhalte..."

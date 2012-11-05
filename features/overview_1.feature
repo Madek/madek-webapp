@@ -29,7 +29,13 @@ Feature: Overview I
      And I can filter content assigned to me
      And I can filter content that is public
      And I can sort by created at
+     And the results are sorted by created at 
      And I can sort by updated at
+     And the results are sorted by updated at 
+     And I can sort by title
+     And the results are sorted by title 
+     And I can sort by author
+     And the results are sorted by author
     
   # This scenario includes actually clicking each of the actions and trying
   # each of the behaviors.

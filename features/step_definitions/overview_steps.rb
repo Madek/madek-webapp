@@ -31,47 +31,47 @@ end
 Then /^I can filter content (.*)$/ do |filter|
   wait_until { find("#bar") }
   page.execute_script("$('#bar .permissions a').show()")
-  case filter
+  s = case filter
     when "by any permissions"
-      find("#bar .selection .permissions .all").click
-      wait_until { find("#bar") }
-      find("#bar .permissions .all.active")
+      ".all"
     when "by my content"
-      find("#bar .selection .permissions .mine").click
-      wait_until { find("#bar") }
-      find("#bar .permissions .mine.active")
+      ".mine"
     when "assigned to me"
-      find("#bar .selection .permissions .entrusted").click
-      wait_until { find("#bar") }
-      find("#bar .permissions .entrusted.active")
-    when "content that is public"
-      find("#bar .selection .permissions .public").click
-      wait_until { find("#bar") }
-      find("#bar .permissions .public.active")
+      ".entrusted"
+    when "that is public"
+      ".public"
   end  
+  find("#bar .selection .permissions #{s}").click
+  wait_until { find("#bar .selection .permissions #{s}.active") }
 end
 
 Then /^I can sort by (.*)$/ do |sort_by|
   wait_until { find("#bar") }
   page.execute_script("$('#bar .sort a').show()")
-  case sort_by
+  s = case sort_by
     when "created at"
-      find("#bar .sort .created_at").click
-      wait_until { find("#bar") }
-      find("#bar .sort .created_at.active")
+      ".created_at"
     when "updated at"
-      find("#bar .sort .updated_at").click
-      wait_until { find("#bar") }
-      find("#bar .sort .updated_at.active")
+      ".updated_at"
     when "title" 
-      find("#bar .sort .title").click
-      wait_until { find("#bar") }
-      find("#bar .sort .title.active")
+      ".title"
     else
-      find("#bar .sort .#{sort_by}").click
-      wait_until { find("#bar") }
-      find("#bar .sort .#{sort_by}.active")
+      ".#{sort_by}"
   end
+  find("#bar .sort #{s}").click
+  underscored_sort_by = sort_by.gsub(/\s/, '_')
+  wait_until { find("#bar .sort .#{underscored_sort_by}.active") }
+end  
+  
+Then /^the results are sorted by (.*)$/ do |sort_by|
+  underscored_sort_by = sort_by.gsub(/\s/, '_')
+  wait_until { find(".results .item_box[data-id]") }
+  dom_ids = all(".results .item_box[data-id]").map {|x| x[:"data-id"].to_i}
+  model_sorted_ids = MediaResource.filter(@current_user, page.evaluate_script('App.MediaResources.current_filter')).
+                      ordered_by(underscored_sort_by).
+                      paginate(:page => 1, :per_page => PER_PAGE.first).
+                      map(&:id)
+  model_sorted_ids.should == dom_ids
 end
 
 When /^I can switch the layout of the results to the (.*) view$/ do |layout|
@@ -109,6 +109,12 @@ When /^I change any of the settings in the bar then i am forwarded to a differen
   last_url.should_not be current_url
   last_url = current_url
   step 'I can sort by updated at'
+  last_url.should_not be current_url
+  last_url = current_url
+  step 'I can sort by title'
+  last_url.should_not be current_url
+  last_url = current_url
+  step 'I can sort by author'
   last_url.should_not be current_url
   last_url = current_url
 end
