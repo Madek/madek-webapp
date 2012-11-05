@@ -34,9 +34,6 @@ Visualization.Models.create_graph = (options)->
     arc.source = graph.nodes_hash[arc.parent_id]
     arc.target = graph.nodes_hash[arc.child_id]
     graph.arcs.push arc
-    #console.log arc
-    #debugger unless graph.nodes_hash[arc.parent_id]?
-    #debugger unless graph.nodes_hash[arc.child_id]?
     graph.nodes_hash[arc.parent_id].children.push arc.child_id
     graph.nodes_hash[arc.child_id].parents.push arc.parent_id
   graph.nodes_array = d3.values(graph.nodes_hash) # for some things a sparse arrays is more convenient
@@ -56,11 +53,9 @@ Visualization.Models.create_graph = (options)->
   # computing the radii ##################################################################################
 
   compute_radii= ->
-    #console.log "computing_radii..."
     node_radius = options.control_panel_model.get("node_radius")
     max_radius = options.control_panel_model.get("max_set_radius")
     max_size = _.max( graph.nodes_array.map (x)-> parseFloat(x.size) ? 0 ) 
-    #console.log "node_radius: #{node_radius}, max_radius: #{max_radius}, max size: #{max_size} "
     if node_radius? and max_radius? and max_size?
       graph.nodes_array.forEach (n)->
         n.radius= 
@@ -68,10 +63,7 @@ Visualization.Models.create_graph = (options)->
             max_radius * n.size / max_size + node_radius
           else
             node_radius
-    else
-      "computing_radii, bailing out since not all necessary parameters are set"
-    console.log graph.nodes_array.map((x)-> x.size )
-    console.log graph.nodes_array.map((x)-> x.radius)
+
   compute_radii()
 
   graph.export_layout = ->

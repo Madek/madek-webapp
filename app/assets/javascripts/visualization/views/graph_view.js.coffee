@@ -14,12 +14,14 @@ Visualization.Views.GraphView = Backbone.View.extend
       @svg.attr("width", $(window).width()).attr("height", $(window).height())
       @autozoom()
 
-  render: ->
+  render: -> # this is called only once from init, se relayout for updating elements
+    console.log "rendering graph ..."
 
     self = @
-
     # setting-up the svg element ###########################################################################
-    @svg = d3.select("svg#drawing").attr("width", $(window).width()).attr("height", $(window).height())
+    @svg = d3.select("svg#drawing")
+    @svg.attr('visibility','hidden') # we hide to prevent flickering during initial rendering 
+    @svg.attr("width", $(window).width()).attr("height", $(window).height())
     @svg_height = ->
       $("#visualization svg").attr("height")
     @svg_width = ->
@@ -50,17 +52,20 @@ Visualization.Views.GraphView = Backbone.View.extend
 
     @labels_vis = @nodes_vis.append("g").attr("class", "node_label")
     @labels_vis.each (n,i)-> $(@).append self.node_label_template({node:n,view:self})
+    @relayout()
+    @svg.attr('visibility','visible')
 
   relayout: ->
-    #console.log "resetting coordinates ..."
+    console.log "relayout called ..."
     @circles_vis.attr("cx",(n)->n.x).attr("cy",(n)->n.y)
       .attr("r",(n)-> n.radius)
     @links_vis.attr("x1",((e)-> e.source.x)).attr("y1",((e)-> e.source.y))
       .attr("x2",((e)-> e.target.x)).attr("y2",((e)-> e.target.y))
     @labels_vis.select("svg.node_label").attr("x",(n)=>n.x+@label_xoff).attr("y",(n)=>n.y+@label_yoff)
+    @autozoom()
 
   autozoom: ->
-    #console.log "resetting transform ..."
+    console.log "resetting transform ..."
     bbox = Visualization.Functions.box_add Visualization.Functions.bbox($("#drawing .node,#drawing g.node_label")), [-25,-100,25,25]
     bbox_center = Visualization.Functions.center_of_box bbox
     @svg_graph.select("rect#bbox").remove()

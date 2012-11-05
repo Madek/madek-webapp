@@ -70,8 +70,6 @@ d3.layout.mds = ->
 
     # do not proceed unless all parameters are set
     unless current_pos? and edge_length? and component_separation?
-      console.log "some parameters are not set, bailing out"
-      console.log [current_pos,edge_length,component_separation]
       return 
 
     n = nodes.length
@@ -107,9 +105,6 @@ d3.layout.mds = ->
   window.layout_web_worker = layout_web_worker= new Worker "/assets/visualization/layout_web_worker.js"
 
   layout_web_worker.addEventListener 'message', (e) ->
-    #console.log "a message from the worker"
-    #console.log e
-
     if e.data['layout']? 
       set_node_positions(e.data.layout.positions)
       event.worker_computed_new_layout(e.data)
