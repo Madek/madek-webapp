@@ -2,6 +2,13 @@ Visualization.Views.ControlPanel = Backbone.View.extend
 
   template: JST['visualization/templates/control_panel']
 
+  set_events: ->
+    @$('input#show_advanced_options').change (event) =>
+      if @$('input#show_advanced_options').attr('checked')?
+        @$(".advanced_option").show()
+      else
+        @$(".advanced_option").hide()
+
   initialize: ->
     model = @options.model
 
@@ -9,6 +16,8 @@ Visualization.Views.ControlPanel = Backbone.View.extend
     @el =  $("#controls .control_panel")
 
     @render()
+
+    @set_events()
 
     ### labels ##########################################################
     @$("select.show_labels").change (event)=> 
@@ -28,7 +37,6 @@ Visualization.Views.ControlPanel = Backbone.View.extend
           $("html").removeClass("show_labels_sets_having_descendants")
           $("html").addClass("show_labels_all")
 
-     
 
     ### overlay ##########################################################
 
@@ -76,6 +84,7 @@ Visualization.Views.ControlPanel = Backbone.View.extend
         model.on "change:#{local_name}", (model,value)=>
           @block()
           $("##{local_name}").slider('option','value',value)
+
 
   render: -> $(@el).html @template
 
