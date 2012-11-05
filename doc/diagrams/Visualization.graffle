@@ -2746,8 +2746,8 @@ Graph-Data is imbedded in an data-attribute}</string>
 			<integer>18</integer>
 			<key>Points</key>
 			<array>
-				<string>{307.49838952228873, 600.84151806777868}</string>
-				<string>{266.65164191109011, 565.61654106119636}</string>
+				<string>{307.49838950276251, 600.84151806778129}</string>
+				<string>{266.6516418765824, 565.6165410614783}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -3065,7 +3065,7 @@ Graph-Data is imbedded in an data-attribute}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2012-10-26 07:02:59 +0000</string>
+	<string>2012-11-05 10:35:34 +0000</string>
 	<key>Modifier</key>
 	<string>Thomas Schank</string>
 	<key>NotesVisible</key>
@@ -3102,16 +3102,6 @@ Graph-Data is imbedded in an data-attribute}</string>
 		<array>
 			<string>int</string>
 			<string>0</string>
-		</array>
-		<key>NSPrinter</key>
-		<array>
-			<string>coded</string>
-			<string>BAtzdHJlYW10eXBlZIHoA4QBQISEhAlOU1ByaW50ZXIAhIQITlNPYmplY3QAhZKEhIQITlNTdHJpbmcBlIQBKwRzcTA2hoY=</string>
-		</array>
-		<key>NSPrinterName</key>
-		<array>
-			<string>string</string>
-			<string>sq06</string>
 		</array>
 		<key>NSRightMargin</key>
 		<array>
@@ -3170,7 +3160,7 @@ Graph-Data is imbedded in an data-attribute}</string>
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{-164, 103.98009999583657}, {888.05970570606837, 527.86069902192639}}</string>
+		<string>{{-164, 90.049751671035494}, {888.05970570606837, 527.86069902192639}}</string>
 		<key>Zoom</key>
 		<real>2.0099999904632568</real>
 		<key>ZoomValues</key>
