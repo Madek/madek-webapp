@@ -15,12 +15,24 @@ html#visualization
         stroke: rgb(100,100,100)
         stroke-width: 1px
 
+      circle
+        stroke-width: 2
+
       .MediaSet
-        fill: Red
+        circle 
+          fill: hsl(0, 96%, 79%)
+          &.origin
+            fill: red
+            stroke: black
 
       .MediaEntry
-        fill: Blue
-        
+        circle
+          fill: hsl(240, 90%, 73%)
+          &.origin
+            fill: blue
+            stroke: black
+
+       
       .MediaEntryIncomplete
         fill: LightGray
 

@@ -2,6 +2,7 @@ class VisualizationController < ApplicationController
   layout 'visualization'
   respond_to 'html','json'
 
+  before_filter :set_layout_and_control_variables, except: :put
 
   def my_component_with
     @resources = MediaResource.connected_resources(
@@ -11,6 +12,7 @@ class VisualizationController < ApplicationController
     min_id = @resources.map(&:id).min
     @resource_identifier = "my-component-#{min_id}"
     set_layout_and_control_variables
+    @title = "Medienarchiv Visualisierung - \"#{@origin_resource.title}\" und meine verbundenen Inhalte" 
     render 'index'
   end
 
@@ -22,6 +24,7 @@ class VisualizationController < ApplicationController
     min_id = @resources.map(&:id).min
     @resource_identifier = "component-#{min_id}"
     set_layout_and_control_variables
+    @title = "Medienarchiv Visualisierung - \"#{@origin_resource.title}\" und verbundenen Inhalte" 
     render 'index'
   end
 
@@ -30,6 +33,7 @@ class VisualizationController < ApplicationController
     set_layout_and_control_variables
     @resources = MediaSet.where(user_id: current_user.id)
     @arcs = MediaResourceArc.connecting @resources
+    @title = "Medienarchiv Visualisierung - Meine Sets" 
     render 'index'
   end
 
@@ -40,6 +44,7 @@ class VisualizationController < ApplicationController
     @resources = MediaResource.descendants_and_set(set,
                      MediaResource.where("user_id = ?",current_user.id))
     @arcs = MediaResourceArc.connecting @resources
+    @title = "Medienarchiv Visualisierung - \"#{@origin_resource.title}\" und meine untergeordneten Inhalte" 
     render 'index'
   end
 
@@ -50,6 +55,7 @@ class VisualizationController < ApplicationController
     @resources = MediaResource.descendants_and_set(set,
                   MediaResource.accessible_by_user(current_user))
     @arcs = MediaResourceArc.connecting @resources
+    @title = "Medienarchiv Visualisierung - \"#{@origin_resource.title}\" und untergeordneten Inhalte" 
     render 'index'
   end
 
@@ -95,6 +101,9 @@ class VisualizationController < ApplicationController
   end
 
   def set_layout_and_control_variables
+    if params[:id]
+      @origin_resource = MediaResource.find(params[:id])
+    end
     if visualization = Visualization.find_or_falsy(current_user.id, @resource_identifier)
       @control_settings = visualization.control_settings
       @layout = visualization.layout

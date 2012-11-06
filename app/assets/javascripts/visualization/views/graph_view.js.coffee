@@ -62,6 +62,9 @@ Visualization.Views.GraphView = Backbone.View.extend
     @relayout()
     @svg.attr('visibility','visible')
 
+    if @options.origin_resource?
+      $("#resource-#{@options.origin_resource.id} > circle").attr("class","origin")
+
   relayout: ->
     #console.log "relayout called ..."
     @circles_vis.attr("cx",(n)->n.x).attr("cy",(n)->n.y)
