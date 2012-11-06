@@ -14,6 +14,6 @@
   .links
     %a{href: "/media_resources/#{@id}", target: "_blank"}= "Betrachte diese Resource im Medienarchiv"
     %a{href: "/visualization/component_with/#{@id}"}= "Zeigen alle verbundenen Inhalte"
-    %a.my{href: "/visualization/my_component_with/#{@id}"}= "Zeigen meine verbundenen Inhalte"
-    %a{href: "/visualization/descendants_of/#{@id}"}= "Zeige alle untergeordneten Inhalte"
-    %a.my{href: "/visualization/my_descendants_of/#{@id}"}= "Zeige meine untergeordneten Inhalte"
+    %a#link_for_my_component_with{href: "/visualization/my_component_with/#{@id}"}= "Zeigen meine verbundenen Inhalte"
+    %a#link_for_descendants_of{href: "/visualization/descendants_of/#{@id}"}= "Zeige alle untergeordneten Inhalte"
+    %a#link_for_my_descendants_of{href: "/visualization/my_descendants_of/#{@id}"}= "Zeige meine untergeordneten Inhalte"
