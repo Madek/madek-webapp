@@ -116,7 +116,8 @@ def check_media_entry_titled(title)
   wait_until(15) { find(".thumb_box") }
   # Crutch so we can check the otherwise invisible checkboxes (they only appear on hover,
   # which Capybara can't do)
-  make_hidden_items_visible
+  #make_hidden_items_visible
+  make_entries_controls_visible
   entry = find_media_entry_titled(title)
   #cb_icon = entry.find(:css, ".check_box").find("img")
   cb_icon = entry.find(:css, "div.check_box")
@@ -140,7 +141,7 @@ def find_media_entry_titled(title)
 
   found_item = find_item_box(title)
   found_item ||= begin
-    make_hidden_items_visible
+    make_entries_controls_visible
     find_item_box(title)
   end
   
