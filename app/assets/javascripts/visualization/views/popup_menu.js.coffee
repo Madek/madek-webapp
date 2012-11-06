@@ -17,26 +17,34 @@ Visualization.Views.PopupMenu = Backbone.View.extend
         content:
           text: =>
             if not target.data("template")?
-              template = $ @template 
+              $template = $ @template 
                 title: target.data("title")
                 id: target.data("resource-id")
                 type: target.data("type")
-              template.find(".image").append $.tmpl "tmpl/media_resource/thumb_box", 
+              $template.find(".image").append $.tmpl "tmpl/media_resource/thumb_box", 
                   is_set: target.data("type")=="MediaSet"
                   media_type: target.data("type")
                   image: "/media_resources/#{target.data("resource-id")}/image"
                 ,
                   with_link: false
                   with_actions: false
-              target.data "template", template
-              template.data "target", target
+              target.data "template", $template
+              $template.data "target", target
               # prevent media set popup
-              template.delegate ".item_box .thumb_box_set", "mouseenter", (e)-> e.stopImmediatePropagation(); return false
-              template.find(".links .my").css("display", "block") if target.data("user-id") == current_user.id
-              @getAdditionalData template, target.data("resource-id")
+              $template.delegate ".item_box .thumb_box_set", "mouseenter", (e)-> e.stopImmediatePropagation(); return false
+
+              is_mine= -> target.data("user-id") == current_user.id 
+              is_set= -> target.data("type") == "MediaSet"
+
+              $template.find('#link_for_descendants_of').addClass('shown') if is_set()
+              $template.find('#link_for_my_component_with').addClass('shown') if is_mine()
+              $template.find('#link_for_my_descendants_of').addClass('shown') if is_mine() and is_set()
+
+
+              @getAdditionalData $template, target.data("resource-id")
             else
-              template = target.data "template"
-            return template
+              $template = target.data "template"
+            return $template
         style:
           classes: 'ui-tooltip-meta_data_description popup_menu'
           tip:
