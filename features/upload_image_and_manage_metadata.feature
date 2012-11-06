@@ -48,7 +48,7 @@ Feature: Upload images and manage media entries based on images
       And I wait for the CSS element ".has-set-widget"
       And I follow "Import abschliessen"
       And I go to the home page
-      And I click the media entry titled "A second piece of the Berlin"
+      And I click the media entry titled "A second piece of the Berlin Wall"
       And I open the permission lightbox
       And I type "Mauer" into the "group" autocomplete field
       And I pick "Mauerfäller" from the autocomplete field
@@ -57,7 +57,7 @@ Feature: Upload images and manage media entries based on images
       And I follow "Abmelden"
       And I am "liselotte"
       And I go to the home page
-      Then I should see "A second piece of the Berlin"
+      Then I should see "A second piece of the Berlin Wall"
 
   @javascript @slow
   Scenario: Add a single media entry to favorites from the media entry list
@@ -84,8 +84,8 @@ Feature: Upload images and manage media entries based on images
   Scenario: Add and remove a single media entry from favorites
     When I upload some picture titled "mein lieblingsbier"
      And I go to the media entries
-     And all the entries controls become visible
      And I switch to the grid view
+     And all the entries controls become visible
      And I toggle the favorite star on the media entry titled "mein lieblingsbier"
      And I click the arrow next to my name
      And I follow "Meine Favoriten"
