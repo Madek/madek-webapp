@@ -97,7 +97,14 @@ end
 
 
 def click_media_entry_titled(title)
-  entry = find_media_entry_titled(title)
+  entry = find_media_resource_titled(title)
+  wait_until { entry.find("a") }
+  entry.find("a").click
+  sleep 1.0
+end
+
+def click_media_set_titled(title)
+  entry = find_media_resource_titled(title, MediaSet)
   wait_until { entry.find("a") }
   entry.find("a").click
   sleep 1.0
@@ -119,7 +126,7 @@ def check_media_entry_titled(title)
   # which Capybara can't do)
   #make_hidden_items_visible
   make_entries_controls_visible
-  entry = find_media_entry_titled(title)
+  entry = find_media_resource_titled(title)
   #cb_icon = entry.find(:css, ".check_box").find("img")
   cb_icon = entry.find(:css, "div.check_box")
   #debugger; puts "lala"
@@ -131,10 +138,13 @@ end
 # Attempts to find a media entry based on its title by looking for
 # the .item_box that contains the title. Returns the whole .item_box element
 # if successful, nil otherwise.
-def find_media_entry_titled(title)
-#  wait_until { find(".item_box") }
+def find_media_resource_titled(title, type = MediaResource)
   wait_until(35) { find(".item_box") }
-  mr = MediaResource.find_by_title(title).first
+  
+  results = type.find_by_title(title)
+  results = Array(results) unless results.is_a? Array
+  raise "title is not unique" if results.length > 1
+  mr = results.first
   found_item = find(".item_box[data-id='#{mr.id}']")
 
   unless found_item
