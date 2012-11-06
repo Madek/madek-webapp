@@ -3,6 +3,7 @@
 html#visualization 
 
   .popup_menu
+
     min-height: 100px
     width: 260px
 
@@ -45,8 +46,12 @@ html#visualization
         padding: 10px 0 10px
         text-decoration: none
 
+        &[id]
+          display: none
+        &.shown
+          display: block !important
+
       a:hover
         color: black
 
-        &.my
-          display: none
+
