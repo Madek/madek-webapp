@@ -133,17 +133,20 @@ end
 def find_media_entry_titled(title)
 #  wait_until { find(".item_box") }
   wait_until(35) { find(".item_box") }
-  def find_item_box(title)
-    all(".item_box").detect do |item|
-      not item.all(".meta_datum .title.full", :text => title).empty?
-    end
-  end
+  
+  mr = MediaResource.find_by_title(title).first
+  found_item = find(".item_box[data-id='#{mr.id}']")
+  #def find_item_box(title)
+  #  all(".item_box").detect do |item|
+  #    not item.all(".meta_datum .title.full", :text => title).empty?
+  #  end
+  #end
 
-  found_item = find_item_box(title)
-  found_item ||= begin
-    make_entries_controls_visible
-    find_item_box(title)
-  end
+  #found_item = find_item_box(title)
+  #found_item ||= begin
+  #  make_entries_controls_visible
+  #  find_item_box(title)
+  #end
   
   unless found_item
     puts "No media entry found with title '#{title}'"

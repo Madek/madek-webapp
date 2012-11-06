@@ -63,8 +63,8 @@ Feature: Upload images and manage media entries based on images
   Scenario: Add a single media entry to favorites from the media entry list
     When I upload some picture titled "mein lieblingsknödel"
      And I go to the media entries
-     And all the entries controls become visible
      And I switch to the grid view
+     And all the entries controls become visible
      And I toggle the favorite star on the media entry titled "mein lieblingsknödel"
      And I click the arrow next to my name
      And I follow "Meine Favoriten"
@@ -101,8 +101,8 @@ Feature: Upload images and manage media entries based on images
   Scenario: Upload an image and delete it afterwards
     When I upload some picture titled "mein lieblingsflugzeug"
      And I go to the media entries
-     And all the entries controls become visible
      And I switch to the grid view
+     And all the entries controls become visible
      And I click the delete icon on the media entry titled "mein lieblingsflugzeug"
      And I go to the media entries
     Then I should not see "mein lieblingsflugzeug"
