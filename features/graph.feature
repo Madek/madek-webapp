@@ -90,7 +90,6 @@ Feature: Visualization / Graph
   Scenario: Title
     Given I am "Normin"
      When I a see a graph
-     And I get rid of the anoying browser warning
      When I visualize the descendants of a Set
      Then I see the originating set beeing highlighted
      And I see the title of the set as graph-title
@@ -103,7 +102,6 @@ Feature: Visualization / Graph
     Given I am "Normin"
      And  There are no persisted visualizations
      When I a see the graph of the resource "my_media_resources"
-     And I get rid of the anoying browser warning
      Then the label option "sets_having_descendants" is selected 
      Then I see by default exactly the labels of the sets that have children in the current visualization
 
@@ -112,7 +110,6 @@ Feature: Visualization / Graph
     Given I am "Normin"
      And  There are no persisted visualizations
      When I a see the graph of the resource "my_media_resources"
-     And I get rid of the anoying browser warning
      When I select "all" of the label select options 
      And  I wait for persisting the options
      And  I revisit the current_path
@@ -124,7 +121,6 @@ Feature: Visualization / Graph
     Given I am "Normin"
      And  There are no persisted visualizations
      When I a see the graph of the resource "my_media_resources"
-     And I get rid of the anoying browser warning
      When I select "all" of the label select options 
      And  I wait for persisting the options
      And  I revisit the current_path
