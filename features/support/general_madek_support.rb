@@ -97,6 +97,7 @@ end
 
 def click_media_entry_titled(title)
   entry = find_media_entry_titled(title)
+  wait_until { entry.find("a") }
   entry.find("a").click
   sleep 1.0
 end
@@ -129,8 +130,8 @@ end
 # the .item_box that contains the title. Returns the whole .item_box element
 # if successful, nil otherwise.
 def find_media_entry_titled(title)
-  wait_until { find(".item_box") }
-  
+#  wait_until { find(".item_box") }
+  wait_until(35) { find(".item_box") }
   def find_item_box(title)
     all(".item_box").detect do |item|
       not item.all(".meta_datum .title.full", :text => title).empty?
