@@ -46,12 +46,17 @@ class AutoComplete
       
   @select = (event, element)->
     target = event.target
-    field_type = $(target).closest(".edit_meta_datum_field").tmplItem().data.type
+    field = $(target).closest(".edit_meta_datum_field")
+    field_type = field.tmplItem().data.type
     values_container = $(target).siblings(".values")
     # select puts entry to a multiple selection container when field is from a specific type 
     if field_type == "people" 
       $(values_container).append $.tmpl("tmpl/meta_data/edit/multiple_entries/"+field_type, element.item.data)
-    else if field_type == "keywords" or field_type = "meta_terms"
+    else if field_type == "keywords"
+      current_values = _.map $(field).find(".entry"), (entry)-> $(entry).data("value")
+      if current_values.indexOf(element.item.value) == -1 
+        $(values_container).append $.tmpl("tmpl/meta_data/edit/multiple_entries/"+field_type, element.item)
+    else if field_type = "meta_terms"
       $(values_container).append $.tmpl("tmpl/meta_data/edit/multiple_entries/"+field_type, element.item)
     # clear input field
     $(target).val("")
