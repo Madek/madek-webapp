@@ -66,10 +66,9 @@ task :configure_environment do
 end
 
 task :load_empty_instance_with_personas do
-  run "psql -U #{sql_username} -c 'drop database if exists #{sql_database}'"
-  run "psql -U #{sql_username} -c 'create database #{sql_database}'"
-  run "psql -U #{sql_username} -f #{sql_database} < \"#{release_path + '/db/empty_medienarchiv_instance_with_personas.pgsql.gz'}\""
-
+  # run "psql -U #{sql_username} -c 'drop database if exists #{sql_database}'"
+  # run "psql -U #{sql_username} -c 'create database #{sql_database}'"
+  # run "psql -U #{sql_username} -f #{sql_database} < \"#{release_path + '/db/empty_medienarchiv_instance_with_personas.pgsql.gz'}\""
 end
 
 task :load_seed_data do

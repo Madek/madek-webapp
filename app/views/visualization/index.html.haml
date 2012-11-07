@@ -1,0 +1,33 @@
+
+- if @title
+  #title
+    %h1= @title
+
+%svg#drawing{'xmlns' => "http://www.w3.org/2000/svg", version:"1.1", 'xmlns:xlink' => "http://www.w3.org/1999/xlink"}
+
+#overlay
+
+  #controls 
+    .control_panel.menu
+    .clear
+
+  #notifications
+
+-if params[:insert_to_dom]
+  != content_tag "div", id: "graph-data" , data: { nodes: vis_json(@resources), arcs: @arcs.as_json(only: [:child_id,:parent_id])}{}
+  != content_tag "div", id: "layout-data", data: { resource_identifier: @resource_identifier, control_settings: @control_settings, layout: @layout }{}
+
+:coffeescript
+  
+  jQuery -> Visualization.init
+    nodes: #{vis_json(@resources).to_json}
+    arcs: #{@arcs.to_json(only: [:child_id,:parent_id])}
+    only_media_entries: #{@resources.media_sets.size==0}
+    resource_identifier: #{@resource_identifier.to_json}
+    control_settings: #{@control_settings.to_json}
+    layout: #{@layout.to_json}
+    origin_resource: #{@origin_resource.to_json}
+
+
+
+    

@@ -9,67 +9,85 @@ class MediaResource < ActiveRecord::Base
 ###############################################################
 
   belongs_to :user
-  belongs_to :media_file  # TODO remove 
+
+
+  ### Connected Resources ##################################################
+  def self.connected_resources(media_resource, resource_condition=nil)
+    where <<-SQL
+    media_resources.id in  (
+      (WITH RECURSIVE pair(p,c) AS
+      (
+        SELECT parent_id as p, child_id as c FROM media_resource_arcs 
+          WHERE (parent_id in (#{media_resource.id}) OR child_id in (#{media_resource.id}))
+          #{ "AND parent_id in (#{resource_condition.select("media_resources.id").to_sql })" if resource_condition }
+          #{ "AND child_id in (#{resource_condition.select("media_resources.id").to_sql})" if resource_condition }
+        UNION
+          SELECT media_resource_arcs.parent_id as p, media_resource_arcs.child_id as c FROM pair, media_resource_arcs
+          WHERE ( 
+            media_resource_arcs.parent_id = pair.c
+            OR media_resource_arcs.child_id = pair.c
+            OR media_resource_arcs.parent_id = pair.p
+            OR media_resource_arcs.child_id = pair.p)
+          #{ "AND media_resource_arcs.parent_id in (#{resource_condition.select("media_resources.id").to_sql})"  if resource_condition }
+          #{ "AND media_resource_arcs.child_id in (#{resource_condition.select("media_resources.id").to_sql})"  if resource_condition }
+      )
+      SELECT pair.c from pair UNION SELECT pair.p from pair
+      )
+    )
+    SQL
+  end
+
+
+  ### Descendants #######################################
+  
+  # set condition must be a query that returns media_resources; 
+  # condition is on the inclution of the arcpoints
+  def self.descendants_and_set(media_set, resource_condition=nil)
+    where <<-SQL
+    media_resources.id in  (
+      (WITH RECURSIVE pair(p,c) AS
+      (
+        SELECT parent_id as p, child_id as c FROM media_resource_arcs 
+          WHERE parent_id in (#{media_set.id})
+          #{ "AND parent_id in (#{resource_condition.select("media_resources.id").to_sql })" if resource_condition }
+          #{ "AND child_id in (#{resource_condition.select("media_resources.id").to_sql})" if resource_condition }
+        UNION
+          SELECT media_resource_arcs.parent_id as p, media_resource_arcs.child_id as c FROM pair, media_resource_arcs
+          WHERE media_resource_arcs.parent_id = pair.c
+          #{ "AND media_resource_arcs.parent_id in (#{resource_condition.select("media_resources.id").to_sql})"  if resource_condition }
+      )
+      SELECT pair.c from pair
+      )
+     UNION
+    (
+      SELECT media_resources.id FROM media_resources WHERE id = #{media_set.id}
+    ))
+    SQL
+  end
+
+  
+#temp#
+#    # enforce meta_key uniqueness updating existing meta_datum
+#    # also useful for bulk meta_data updates such as Copyright, Organizer forms,...
+#    before_validation(:on => :update) do |record|
+#      new_meta_data = record.meta_data.select{|md| md.new_record? }
+#      new_meta_data.each do |new_md|
+#        old_md = record.meta_data.detect{|md| !md.new_record? and md.meta_key_id == new_md.meta_key_id }
+#        if old_md
+#          old_md.value = new_md.value
+#          record.meta_data.delete(new_md)
+#        end
+#      end
+#    end
+
 
   has_many  :edit_sessions, :dependent => :destroy, :readonly => true
   has_many  :editors, :through => :edit_sessions, :source => :user
 
-  validates_presence_of :user, :unless => Proc.new { |record| record.is_a?(Snapshot) }
+  validates_presence_of :user
 
   has_one :full_text, :dependent => :destroy
   after_save { reindex } # OPTIMIZE
-
-
-  # Instance method to update a copy (referenced by path) of a media file with the meta_data tags provided
-  # args: blank_all_tags = flag indicating whether we clean all the tags from the file, or update the tags in the file
-  # returns: the path and filename of the updated copy or nil (if the copy failed)
-  def updated_resource_file(blank_all_tags = false, size = nil)
-    begin
-      source_filename = if size
-        media_file.get_preview(size).full_path
-      else
-        media_file.file_storage_location
-      end
-      FileUtils.cp( source_filename, DOWNLOAD_STORAGE_DIR )
-      # remember we want to handle the following:
-      # include all madek tags in file
-      # remove all (ok, as many as we can) tags from the file.
-      cleaner_tags = (blank_all_tags ? "-All= " : "-IPTC:All= ") + "-XMP-madek:All= -IFD0:Artist= -IFD0:Copyright= -IFD0:Software= " # because we do want to remove IPTC tags, regardless
-      tags = cleaner_tags + (blank_all_tags ? "" : to_metadata_tags)
-
-      path = File.join(DOWNLOAD_STORAGE_DIR, File.basename(source_filename))
-      # TODO Tom ask: why is this called from here and not when the meta_key_definitions are updated? 
-      Exiftool.generate_exiftool_config if MetaContext.io_interface.meta_key_definitions.maximum("updated_at").to_i > File.stat(EXIFTOOL_CONFIG).mtime.to_i
-
-      resout = `#{EXIFTOOL_PATH} #{tags} "#{path}"`
-      FileUtils.rm("#{path}_original") if resout.include?("1 image files updated") # Exiftool backs up the original before editing. We don't need the backup.
-      return path.to_s
-    rescue 
-      # "No such file or directory" ?
-      logger.error "copy failed with #{$!}"
-      return nil
-    end
-  end
-    
-########################################################
-
-  def get_media_file(user = nil)
-    media_file
-  end
-  
-########################################################
-
-  # TODO move down to Snapshot class
-  def self.to_tms_doc(resources, context = MetaContext.tms)
-    require 'active_support/builder' unless defined?(::Builder)
-    xml = ::Builder::XmlMarkup.new
-    xml.instruct!
-    xml.madek(:version => RELEASE_VERSION) do
-      Array(resources).each do |resource|
-        resource.to_tms(xml, context)
-      end
-    end
-  end
   
 ########################################################
 
@@ -80,25 +98,6 @@ class MediaResource < ActiveRecord::Base
       new_text << " #{send(method)}" if respond_to?(method)
     end
     ft.update_attributes(:text => new_text)
-  end
-
-########################################################
-
-  def media_type
-    if respond_to?(:media_file) and media_file
-      case media_file.content_type
-        when /video/ then 
-          "Video"
-        when /audio/ then
-          "Audio"
-        when /image/ then
-          "Image"
-        else 
-          "Doc"
-      end 
-    else
-      self.type.gsub(/Media/, '')
-    end    
   end
 
 ##########################################################################################################################
@@ -142,9 +141,10 @@ class MediaResource < ActiveRecord::Base
 
   ################################################################
 
-  scope :search, lambda { |q|
-    joins("LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id") \
-      .where(q.split.map{|x| "text #{SQLHelper.ilike} '%#{x}%'" }.join(' AND '))
+  scope :search, lambda { |query|
+    q = query.split.map{|s| "%#{s}%"}
+    joins("LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id").
+      where(FullText.arel_table[:text].matches_all(q))
   }
 
   ################################################################

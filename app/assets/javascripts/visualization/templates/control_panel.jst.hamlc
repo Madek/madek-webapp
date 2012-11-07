@@ -1,0 +1,59 @@
+%h2 
+  .arrow.down.icon
+  = "Darstellungsoptionen"
+
+.inner
+
+  %form
+
+    %hr
+      %label Beschriftung
+        %select.show_labels
+          %option{value:"none"} keine
+          %option{value:"sets_having_descendants"} nur Sets mit Nachfolger
+          %option{value:"all"} alle 
+
+    .basic_option
+      %hr 
+      %label 
+        Kantenlänge:
+        %span#edge_length_value  
+      #edge_length
+
+    .basic_option
+      %hr
+      %label 
+        Komponentenabstand:  
+        %span#component_separation_value
+        * Kantenlänge
+      #component_separation
+
+    .basic_option
+      %hr
+        %label
+          %input#show_advanced_options{type: 'checkbox'}
+          Zeige weitere Optionen
+ 
+
+    .advanced_option
+      %hr
+      %label
+        Zusätzliche Kantenlänge zwischen Sets: 
+        %span#add_set_set_edge_length_value
+      #add_set_set_edge_length
+
+    .advanced_option
+      %hr
+      %label
+        Knoten-Radius:
+        %span#node_radius_value
+      #node_radius
+
+    .advanced_option
+      %hr
+      %label
+        Zusätzlicher-Radius:
+        %span#max_set_radius_value
+      #max_set_radius
+
+  .overlay

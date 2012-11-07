@@ -31,27 +31,14 @@ module PersonasDBHelper
       #ActiveRecord::Base.connection_pool.disconnect! 
       ActiveRecord::Base.remove_connection
       ActiveRecord::Base.establish_connection(Rails.configuration.database_configuration[Rails.env])
-
-      # load and migrate personas on inconsistent state of persona db
-      if PersonasDBHelper.check_state == false
-        raise "Your persona database is not migrated/loaded correctly! run 'RAILS_ENV=personas rake madek:db:restore_personas_to_max_migration'"
-      end
-    end
-
-    def check_state
-      ActiveRecord::Migrator.current_version == DBHelper.max_migration and
-      ActiveRecord::Base.connection.tables.size != 0 and
-      DBHelper.completly_migrated != false and
-      MediaResource.all.size != 0 and 
-      User.all.size != 0
     end
 
     def load_and_migrate_persona_data
       config = check_for_persona_db_config
       persona_path = PersonasDBHelper.path_to_native_dump
-      puts "Restoring static persona DB file '#{persona_path}' and migrating 'persona' database to latest version."
+      puts "Restoring static persona DB file '#{persona_path}' and migrating '#{config['database']}' database to latest version."
       DBHelper.restore_native persona_path, {:config => config}
-      puts `bundle exec rake db:migrate RAILS_ENV=personas 2>&1`
+      puts `bundle exec rake db:migrate 2>&1 RAILS_ENV=personas`
       unless  $?.exitstatus == 0
         puts "MIGRATION FAILED"
         exit $?.exitstatus
@@ -63,34 +50,22 @@ module PersonasDBHelper
 
     def check_for_persona_db_config
       config = Rails.configuration.database_configuration['personas']
-      if config.nil? 
+      if config.nil?
         raise "You need to define a 'personas' database section in your database.yml and then load and migrate a current dump using PersonasDBHelper.load_and_migrate_persona_data"
       else
         return config
-      end 
+      end
     end
 
     def path_to_native_dump
       Rails.root.join('db',"#{base_file_name}.#{DBHelper.file_extension}")
     end
 
-    def create_max_migration config = Rails.configuration.database_configuration[Rails.env]
-      DBHelper.restore_native \
-        PersonasDBHelper.path_to_native_dump, config
-      system 'bundle exec rake db:migrate'
-      DBHelper.dump_native path: path_to_native_dump, config: config
-    end
-
      def restore_personas_to_max_migration
-      DBHelper.drop
-      DBHelper.create
-      PersonasDBHelper.create_max_migration
-
-      DBHelper.drop
-      DBHelper.create
-      DBHelper.restore_native PersonasDBHelper.path_to_native_dump
-
-      PersonasDBHelper.load_and_migrate_persona_data
+      config = check_for_persona_db_config
+      DBHelper.drop(config)
+      DBHelper.create(config)
+      PersonasDBHelper.load_and_migrate_persona_data # Does not need 'config', it always works in the 'personas' env
     end
   end
 end

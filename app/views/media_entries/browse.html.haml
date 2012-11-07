@@ -1,20 +1,5 @@
-%section#content_body_browse
+%section.content_body_browse
   .fixcolumn_left
-    /
-      .browse_recent
-        %p
-          Zurück zu:
-        .thumb_mini
-          %a{:href => "#"}
-            %img{:src => "http://lorempixum.com/100/100/transport/1", :alt => "tn"}
-        .thumb_mini
-          %a{:href => "#"}
-            %img{:src => "http://lorempixum.com/100/100/transport/2", :alt => "tn"}
-        .thumb_mini
-          %a{:href => "#"}
-            %img{:src => "http://lorempixum.com/100/100/transport/3", :alt => "tn"}  
-      .clear
-    
     #detail-excerpt.sidebar-box
       .browse_reference
         %h5
@@ -41,32 +26,29 @@
       %ul.browse
         - meta_datum.value.each do |meta_term|
           :ruby
-            media_entry_ids = meta_term.meta_data(meta_datum.meta_key).collect(&:media_resource_id)
-            media_entry_ids.delete(@media_entry.id)
-            media_entries = MediaEntry.find(media_entry_ids & @viewable_ids)
-            c = media_entries.count
+            media_entries = MediaEntry.filter(current_user, {:meta_data => {meta_datum.meta_key.label.to_sym => {:ids => [meta_term.id]}}}).
+                              where("media_resources.id != ?", @media_entry.id).
+                              paginate(:per_page => 20, :page => 1)
+            c = media_entries.total_entries
             next if c.zero?
             nothing_found = false
             media_entries_data = json_for(media_entries, {:image => {:as => "base64"},
                                                           :flags => true,
                                                           :meta_data => {:meta_key_names => ["title", "author"]}})
-          %li
-            %a.toggler{:href => "#"}
+          %li.browse_show
+            %a.toggler{:href => media_resources_path(:meta_data => {meta_datum.meta_key.label.to_sym => {:ids => [meta_term.id]}}), :target => :blank}
               .browse_key
-                .toggler-arrow
                 %h5
                   = meta_datum.meta_key.all_context_labels
                   \:
                   %span
-                    = meta_term
-                    = "(#{c})"
+                    = "%s (%d)" % [meta_term, c]
               .clear
             .browse_thumbs{:"data-media_entries" => media_entries_data}
 
           %clear
       %clear
     - if nothing_found
-      =# _("Mit diesem Medieneintrag ist das erkunden des Medienarchivs nicht möglich, da er zu wenig Metadaten enthält.")
       = _("Es gibt keine vergleichbaren Medieneinträge im Medienarchiv.")
 
 #positionable{:style => "position: absolute; display: none;"}
@@ -79,16 +61,6 @@
 
     $(".browse_thumbs").each(function(){
       $(this).html($.tmpl("tmpl/media_resource/thumb_box_mini", $(this).data('media_entries')));
-    });
-
-    $("ul.browse a.toggler").click(function(event) {
-      var that = $(this);
-      var next_div = that.next(); 
-      that.parent().toggleClass("browse_show");
-      next_div.toggleClass("browse_show");
-      that.find(".toggler-arrow").toggleClass("toggler-arrow-on");
-      next_div.find(".browse_thumbs_more").toggle();
-      return false;
     });
 
     var delayed;

@@ -64,11 +64,12 @@ module MediaResourceModules
         if media_files_filter = filter[:media_files]
           media_files_filter.each do |column,h|
             value =h[:ids].first # we can simplify here, since there can be only one extension/type
-            resources = resources.
-              joins(:media_file).
+            resources = resources.media_entries. # only media entries can have media file
+              joins("INNER JOIN media_files ON media_files.id = media_resources.media_file_id").
               where("media_files.#{column} = ?", value)
           end
         end
+
 
         ############################################################
 

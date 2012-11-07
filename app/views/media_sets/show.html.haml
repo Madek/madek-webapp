@@ -84,6 +84,11 @@
                   .create_set.icon
                   %span.text= "Neues Set"
 
+              %li
+                %a.open_graph{:title => "Beziehung von Inhalten als Graph visualisieren", :href => "/visualization/descendants_of/#{@media_set.id}", :target => "_blank"}
+                  .graph.icon
+                  %span.text= "Graph berechnen"
+
         #detail_specification.tabs
           %ul
             %li
@@ -136,7 +141,7 @@
               %p= _("So können für alle Medieneinträge, die in diesem Set enthalten sind, weitere inhaltliche Angaben gemacht werden. Darüber hinaus können alle Sets, die diesem Set zugewiesen werden, ebenfalls die ausgewählten zusätzlichen Kontexte erhalten.")
 
 #filter_area
-%section#content_body_set
+%section.content_body_set
   #media_set_highlights{:class => (@media_set.out_arcs.any?(&:highlight)) ? "any" : nil, :"data-parent_id" => @media_set.id}
     .container
       .inner

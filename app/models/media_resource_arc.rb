@@ -8,6 +8,11 @@ class MediaResourceArc < ActiveRecord::Base
   belongs_to  :child, :class_name => "MediaResource",  :foreign_key => :child_id
   belongs_to  :parent, :class_name => "MediaResource",  :foreign_key => :parent_id
 
+  def self.connecting media_resources
+    ids = media_resources.map(&:id)
+    where("parent_id in (?) and child_id in (?)",ids,ids)
+  end
+
   private 
 
   def no_self_reference

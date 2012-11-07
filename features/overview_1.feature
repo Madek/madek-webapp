@@ -29,12 +29,18 @@ Feature: Overview I
      And I can filter content assigned to me
      And I can filter content that is public
      And I can sort by created at
+     And the results are sorted by created at 
      And I can sort by updated at
+     And the results are sorted by updated at 
+     And I can sort by title
+     And the results are sorted by title 
+     And I can sort by author
+     And the results are sorted by author
     
   # This scenario includes actually clicking each of the actions and trying
   # each of the behaviors.
   # https://www.pivotaltracker.com/story/show/27418863
-  @javascript
+  @javascript 
   Scenario: Layout i can set in the action bar
     Given I am "Normin"
      When I see the action bar

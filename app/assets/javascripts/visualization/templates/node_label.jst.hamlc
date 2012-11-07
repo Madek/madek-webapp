@@ -1,0 +1,15 @@
+%svg.node_label{id:"node-label-#{@node.id}",data-size: @node.size,x:(@node.x + @view.label_xoff), y:(@node.y + @view.label_yoff)}
+
+  %rect.bg{height: 20, width: 130, width:130, height:20, rx: 3, ry: 3}
+
+  - if(@node.meta_datum_title!=null)
+    %text.node_label_title{font-size: 11, x: 5, y:15}
+      - if(@node.meta_datum_title.length > 15)
+        = @node.meta_datum_title.slice(0,15)
+        = "..."
+      - else
+        = @node.meta_datum_title
+
+  - if(@node.type=="MediaSet")
+    %text.node_label_size{x: 125, y:10, font-size: 7, text-anchor: "end", title: "Enthaltene Elemente"}
+      %tspan= @node.size

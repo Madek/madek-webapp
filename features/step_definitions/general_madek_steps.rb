@@ -291,7 +291,7 @@ When /^I click the media entry titled "([^"]*)"/ do |title|
 end
 
 When /^I click the mediaset titled "([^"]*)"/ do |title|
-  click_media_entry_titled(title)
+  click_media_set_titled(title)
 end
 
 When /^I check the media entry titled "([^"]*)"/ do |title|
@@ -312,7 +312,7 @@ When /^I add the picture "([^"]*)" to the set "([^"]*)" owned by "([^"]*)"/ do |
 end
 
 When /^I toggle the favorite star on the media entry titled "([^"]*)"$/ do |title|
-  entry = find_media_entry_titled(title)
+  entry = find_media_resource_titled(title)
   entry.find(:css, ".favorite_link").find("a").click
   sleep(0.5)
 end
@@ -320,12 +320,12 @@ end
 When /^I click the edit icon on the media entry titled "([^"]*)"$/ do |title|
   wait_until { find(".item_box") }
   page.execute_script("$('.actions').show()")
-  entry = find_media_entry_titled(title)
+  entry = find_media_resource_titled(title)
   entry.find(".button_edit_active").click
 end
 
 When /^I click the delete icon on the media entry titled "([^"]*)"$/ do |title|
-  entry = find_media_entry_titled(title)
+  entry = find_media_resource_titled(title)
    # Fake some functions so that we automatically accept the confirmation dialog
    page.evaluate_script("window.alert = function(msg) { return true; }")
    page.evaluate_script("window.confirm = function(msg) { return true; }")
@@ -334,7 +334,7 @@ When /^I click the delete icon on the media entry titled "([^"]*)"$/ do |title|
 end
 
 When /^I click the delete icon on the set titled "([^"]*)"$/ do |title|
-  entry = find_media_entry_titled(title)
+  entry = find_media_resource_titled(title)
   # show controls
   page.execute_script '$(".item_box *:hidden").show();'
   sleep 0.5
@@ -455,4 +455,12 @@ end
 
 Given /^I hover the context actions menu$/ do
   page.execute_script %Q{ $(".action_menu:first .action_menu_list").show(); }
+end
+
+Given /^I close any alert message$/ do
+  # close any alert message to not disturb following tests
+  begin
+    page.driver.browser.switch_to.alert.accept
+  rescue #silently
+  end
 end

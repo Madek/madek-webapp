@@ -1,0 +1,22 @@
+.resource_context
+  %p
+    %span.type
+      = @resource.type
+  %p 
+    %span.title 
+      = @resource.meta_datum_title
+  %p
+    %a{:target=>"_blank", :href=>"/visualization/my_component_with/#{@resource.id}"}
+      Visualize the 
+      %span.bolder component with this node 
+      in a new tab.
+
+  - if(@resource.type == 'MediaSet')
+    %p
+      %a{:target=>"_blank", :href=>"/visualization/my_descendants_of/#{@resource.id}"}
+        Visualize the 
+        %span.bolder decendants of this set 
+        in new tab.
+
+ 
+    

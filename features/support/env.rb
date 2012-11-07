@@ -75,10 +75,15 @@ end
 Before('@javascript, ~@transactional') do
   DatabaseCleaner.strategy = :truncation
   PersonasDBHelper.clone_persona_to_test_db
+  # close any alert message to not disturb following tests
+  begin
+    page.driver.browser.switch_to.alert.accept
+  rescue #silently
+  end
 end
 
 After('@javascript, ~@transactional') do
-   DatabaseCleaner.strategy = our_default_strategy
+  DatabaseCleaner.strategy = our_default_strategy
 end
 
 Before do

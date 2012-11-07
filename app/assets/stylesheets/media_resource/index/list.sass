@@ -5,7 +5,7 @@
   #bar .layout .icon[data-type="list"]
     @include opacity(1.0)
     
-  #results
+  .results
     padding-top: 19px
     position: relative
     width: 100%
@@ -194,9 +194,9 @@
                 width: auto
                 
 @media screen and (max-width: 1500px)
-  section.media_resources.index.list #results .meta_data .context:nth-child(n+3)
+  section.media_resources.index.list .results .meta_data .context:nth-child(n+3)
     display: none
 
 @media screen and (max-width: 850px)
-  section.media_resources.index.list #results .meta_data .context:nth-child(n+2)
+  section.media_resources.index.list .results .meta_data .context:nth-child(n+2)
     display: none

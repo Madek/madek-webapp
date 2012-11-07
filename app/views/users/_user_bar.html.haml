@@ -7,7 +7,6 @@
       = link_to _("Meine Medieneinträge"), media_resources_path(:user_id => current_user, :type => "media_entries"), :class => "item_line_me"
       = link_to _("Meine Sets"), media_resources_path(:user_id => current_user, :type => "media_sets"), :class => "item_line_set"
       = link_to _("Meine Favoriten"), media_resources_path(:favorites => true), :class => "item_line_fav"
-      = link_to _("Kopien für MIZ-Archiv"), snapshots_path if current_user.groups.is_member?("MIZ-Archiv")
       = link_to _("Meine Arbeitsgruppen"), groups_path, :class => "item_line item_line_workgroup"
       = link_to _("Admin"), admin_root_path, :class => "item_line" if current_user.groups.is_member?("Admin")
       = link_to _("Abmelden"), logout_path, :class => "item_line"

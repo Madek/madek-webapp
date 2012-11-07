@@ -144,19 +144,14 @@ module DBHelper
 
     def restore_native path, options = {} 
       config = options[:config] || Rails.configuration.database_configuration[Rails.env]
-      cmd =
-        if SQLHelper.adapter_is_postgresql?
-          set_pg_env config
-          "cat #{path} | gunzip | psql -q #{config['database'].to_s}"
-        elsif SQLHelper.adapter_is_mysql? 
-          cmd = "mysql #{get_mysql_cmd_credentials config} #{config['database']} < #{path}"
-        else
-          raise "adapter not supported"
-        end
+      cmd = "cat #{path} | gunzip | psql -q #{config['database'].to_s}"
       ActiveRecord::Base.remove_connection
       terminate_open_connections config
       system cmd
+      begin # the following may fail if we call from outside an working env
       ActiveRecord::Base.establish_connection
+      rescue => e
+      end
       raise "#{cmd} failed" unless $?.exitstatus == 0
       $?
     end

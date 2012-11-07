@@ -52,18 +52,20 @@ module MAdeK
     config.assets.version = '0.7.1'
 
     # Please add any files you need precompiled here, otherwise it breaks production
-    config.assets.precompile += %w( jquery/fcbkcomplete.css 
-                                    jquery/fcbkcomplete_custom.css 
+    config.assets.precompile += %w( admin.css
+                                    button/button.css
+                                    feedback.css
+                                    feedback.css 
                                     i18n/jquery.ui.datepicker-de-CH.js 
                                     i18n/jquery.ui.datepicker-en-GB.js 
-                                    admin.css
-                                    feedback.css
-                                    button/button.css
+                                    jquery/fcbkcomplete.css 
+                                    jquery/fcbkcomplete_custom.css 
+                                    meta_datum/meta_datum.js
+                                    plugins/jquery.shadowbox.js
+                                    plupload/i18n/de.js
                                     root.css
                                     root.js
-                                    meta_datum/meta_datum.js
-                                    plupload/i18n/de.js
-                                    plugins/jquery.shadowbox.js
+                                    visualization/layout_web_worker.js
                                     wiki.css
                                     wiki.js
                                     feedback.css 

@@ -1,10 +1,15 @@
 {{if type}}
-${is_set = !!type.match(/set/), ""}
+${is_set = !!type.match(/set/i), ""}
 {{/if}}
 
 %div{:id => "thumb_${id}", :class => "item_box ${media_type.toLowerCase()}{{if is_set}} set{{/if}}", :"data-id" => "${id}"}
   {{tmpl($item.data) "tmpl/media_resource/thumb_box/permissions_icon"}}
   {{tmpl($item.data, {with_link: $item.with_link}) "tmpl/media_resource/thumb_box/image_thumb"}}
   .clear
+  {{if $item.data.meta_data}}
   {{tmpl($item.data) "tmpl/media_resource/thumb_box/meta_data_3_contexts"}}
-  {{tmpl($item.data, {with_actions: $item.with_actions}) "tmpl/media_resource/thumb_box/actions"}}
+  {{/if}}
+
+  {{if ($item.with_actions == null || $item.with_actions)}}
+  {{tmpl($item.data) "tmpl/media_resource/thumb_box/actions"}}
+  {{/if}}

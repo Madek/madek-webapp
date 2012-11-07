@@ -6,10 +6,17 @@
 //= require jquery-tmpl
 //= require d3.v2
 
+/////////// Vendor /////////////
+//= require modernizr.min
+//= require video
+//= require image_resample/image_resample
+//= require underscore
+//= require backbone
+//= require_tree ../../../vendor/assets/javascripts/.
+
 /////////// App /////////////
 //= require batch_actions
 //= require madek11
-//= require browser-check/browser-check
 //= require highlight/highlight
 //= require video-js/video
 //= require department-selection/department-selection
@@ -18,6 +25,7 @@
 //= require media_entry_popup/media_entry_popup
 //= require permission/permission
 //= require iframe-wrapper/iframe-wrapper
+//= require visualization/init
 //= require_tree ./media_resource
 //= require_tree ./meta_datum
 //= require_tree ./edit_meta_data
@@ -35,13 +43,6 @@
 /////////// Lib /////////////
 //= require browser-detection/browser-detection
 //= require dialog/dialog
-
-/////////// Vendor /////////////
-//= require_tree ../../../vendor/assets/javascripts/.
-//= require modernizr.min
-//= require video
-//= require image_resample/image_resample
-//= require underscore
 
 /////////// PLUPLOAD /////////////
 //= require plupload/plupload
@@ -321,16 +322,21 @@ function remove_from_selected_items(dom_item){
 };
 
 function add_to_selected_items(item, search_field, add_to_options){
-	if(add_to_options || !item.selected){
-		var all_options = search_field.data("all_options");
-		if(add_to_options){
-			item.selected = true;
-			all_options.push(item);
-		}else if(!item.selected){
-			all_options.forEach(function(element){ if(element.id == item.id) element.selected = true; });  	
-		}
-	}
-	item.field_name_prefix = search_field.data("field_name_prefix");
-	$("#madek_multiselect_item").tmpl(item).insertBefore(search_field.parent()).fadeIn('slow');
+  var already_selected_strings = search_field.closest(".holder").find("li.bit-box").map(function(){
+      return $.trim($(this).text());
+  });
+  if($.inArray(item.label, already_selected_strings) == -1){
+  	if(add_to_options || !item.selected){
+  		var all_options = search_field.data("all_options");
+  		if(add_to_options){
+  			item.selected = true;
+  			all_options.push(item);
+  		}else if(!item.selected){
+  			all_options.forEach(function(element){ if(element.id == item.id) element.selected = true; });  	
+  		}
+  	}
+  	item.field_name_prefix = search_field.data("field_name_prefix");
+  	$("#madek_multiselect_item").tmpl(item).insertBefore(search_field.parent()).fadeIn('slow');
+  }
 	search_field.val("");
 };

@@ -42,7 +42,7 @@ class Bar
       return false if $(e.currentTarget).is("[disabled='disabled']")
       $(this).find(".types .active").removeClass("active")
       $(this).find(".types .current").addClass("active")
-      Bar.set_href_selection_for $(this).find(".types .current")
+      Bar.set_href_selection_for $(this).find(".types .current") 
   
   @setup_icon = (type, favorites, search, group, edit_filter_set)->
     if favorites? and favorites != ""

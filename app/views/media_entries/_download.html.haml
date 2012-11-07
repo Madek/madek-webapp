@@ -1,16 +1,17 @@
 :ruby
-  original_file = media_entry.media_file
-  x_large_file = media_entry.media_file.get_preview(:x_large)
-  format_original_file = file_format_for(original_file)
   can_download = current_user.authorized?(:download, media_entry)
-  x_large_file_available = x_large_file && File.exist?(x_large_file.full_path)
+  original_file = media_entry.media_file
+  original_file_available = (original_file and File.exist?(original_file.file_storage_location)) # NOTE it could be a zip file
+  format_original_file = file_format_for(original_file)
+  x_large_file = media_entry.media_file.get_preview(:x_large)
+  x_large_file_available = (x_large_file and File.exist?(x_large_file.full_path))
 
 %table#download-table
   %tr
-    %th.col1= _("Version")
-    %th.col2= select_dimensions_header_for_entry(media_entry)
-    %th.col3= _("Grösse")
-    %th.col4= _("Download")
+    %th= _("Version")
+    %th= select_dimensions_header_for_entry(media_entry)
+    %th= _("Grösse")
+    %th= _("Download")
 
   - if x_large_file_available
     - unless original_file.content_type.match(/^video.*/)
@@ -33,9 +34,6 @@
             \~
             = number_to_human_size(x_large_file.size)
           %td.align-right= link_to _("Download"), "/download?id=#{media_entry.id}&naked=1&size=x_large"
-      %tr
-        %td{:colspan => 4}
-          %hr
     
       %tr.download-unit
         %td{:rowspan => 2}
@@ -55,9 +53,6 @@
             \~
             = number_to_human_size(x_large_file.size)
           %td.align-right= link_to _("Download"), "/download?id=#{media_entry.id}&update=1&size=x_large"
-      %tr
-        %td{:colspan => 4}
-          %hr
 
       %tr.download-unit
         %td{:rowspan => 2}
@@ -77,11 +72,8 @@
             \~
             = number_to_human_size(x_large_file.size)
           %td.align-right= link_to _("Download"), "/download?id=#{media_entry.id}&zip=1&size=x_large"
-      %tr
-        %td{:colspan => 4}
-          %hr
 
-  - if File.exist?(original_file.file_storage_location) # NOTE it could be a zip file
+  - if original_file_available
     %tr.download-unit
       %td{:rowspan => 2}
         %p.download-info
@@ -92,14 +84,34 @@
         \~
         = number_to_human_size(original_file.size)
       %td.align-right= link_to _("Download"),"/download?id=#{media_entry.id}" if can_download
-    %tr
-      - if x_large_file_available #old# x_large_file #and x_large_file.width < original_file.width  
+    - if x_large_file_available #old# x_large_file #and x_large_file.width < original_file.width  
+      %tr
         %td.align-right= "#{dimensions_for(x_large_file)} (jpeg)"
         %td.align-right
           \~
           = number_to_human_size(x_large_file.size)
         %td.align-right
           = link_to _("Download"),"/download?id=#{media_entry.id}&size=x_large"
+
+  %tr.download-unit
+    %td{:rowspan => 2}
+      %p.download-info
+        %span= _("ZIP-Verzeichnis mit Datei und TMS XML")
+        = _("Das gezippte Verzeichnis enthält die Datei mit eingeschriebenen, aktuellen Metadaten sowie einem separaten TMS XML Metadatendokument")
+    - if original_file_available and can_download
+      %td.align-right
+        = "#{dimensions_for(original_file)} (#{format_original_file})"
+      %td.align-right
+        \~
+        = number_to_human_size(original_file.size)
+      %td.align-right
+        = link_to _("Download"), "/download?id=#{media_entry.id}&type=tms&zip=1&update=1"
+  %tr
+    %td.align-right
+      = "xml"
+    %td.align-right
+    %td.align-right
+      = link_to _("Export"), "/download?id=#{media_entry.id}&type=tms", :target => "_blank"
 
 -#old# else
   =#old# _("Die Dateien sind leider nicht zum Download vorhanden.")

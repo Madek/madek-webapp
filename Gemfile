@@ -6,6 +6,7 @@ gem 'rails', '3.2.8'
 
 # DATABASE
 gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
+gem 'composite_primary_keys'
 gem 'foreigner'
 gem 'jdbc-postgres', platform: :jruby
 gem 'memcache-client' 
@@ -13,7 +14,6 @@ gem 'pg', platform: :mri_19
 
 # THE REST
 gem "coffee-filter", "~> 0.1.1"
-gem "d3_rails", "~> 2.10"
 gem 'RedCloth'
 gem 'coffee-script', '~> 2.2'
 gem 'haml', '~> 3.1'
@@ -27,6 +27,7 @@ gem 'ledermann-rails-settings', :require => 'rails-settings' # alternatives: 'se
 gem 'nested_set', '~> 1.7'
 gem 'net-ldap', :require => 'net/ldap', :git => 'git://github.com/justcfx2u/ruby-net-ldap.git'
 gem 'nokogiri'
+gem 'quiet_assets', group: :development
 gem 'rails_autolink', '~> 1.0'
 gem 'require_relative'
 gem 'rgl', '~> 0.4.0', :require => 'rgl/adjacency'
@@ -38,6 +39,8 @@ gem 'zip', '~> 2.0.2' # alternatives: 'rubyzip', 'zipruby', 'zippy'
 
 group :assets do
   gem 'coffee-rails', '~> 3.2'
+  gem 'execjs'
+  gem 'haml_coffee_assets'
   gem 'sass-rails', '~> 3.2'
   gem 'uglifier', '~> 1.2'
 end
@@ -66,12 +69,13 @@ group :test, :development, :personas do
   gem 'guard-cucumber', '~> 1.2'
   gem 'guard-rspec', '~> 1.2'
   gem 'guard-spork', '~> 1.1', platform: :mri_19
-  gem 'spork-rails'
+  gem 'poltergeist'
   gem 'pry'
   gem 'rb-fsevent', '~> 0.9'
   gem 'rest-client'
   gem 'rspec-rails'
   gem 'ruby_gntp', '~> 0.3.4'
+  gem 'spork-rails'
 end
 
 group :development, :production do

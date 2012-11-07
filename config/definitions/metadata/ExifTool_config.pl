@@ -157,7 +157,6 @@
 	NextTrackID => { },
 	OpColor => { },
 	OtherCreativeParticipants => { },
-	OtherDocumentParticipants => { },
 	ParticipatingInstitution => { },
 	PortrayedInstitution => { },
 	PortrayedObjectDates => { },

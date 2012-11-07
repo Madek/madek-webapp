@@ -134,6 +134,8 @@ describe MediaSet do
   end
   
   describe "the size of a media set" do
+    # the size has been removed from the set 
+    # we use it in a helter test it there
 
     before :each do
       @owner = FactoryGirl.create :user
@@ -154,11 +156,13 @@ describe MediaSet do
     end
 
     it "should report 4 without user restriction" do
-      @top_set1.size().should == 4
+      pending
+      #@top_set1.size().should == 4
     end
 
     it "should report 1 with user restriction" do
-      @top_set1.size(@viewer).should == 1
+      pending
+      #@top_set1.size(@viewer).should == 1
     end
 
   end

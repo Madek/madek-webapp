@@ -33,8 +33,9 @@ def make_hidden_items_visible
 end
 
 def make_entries_controls_visible
+  wait_until { find(".item_box") }
   page.execute_script '$(".item_box *:hidden").show();'
-  sleep 0.5
+  sleep 1.5
 end
 
 def click_on_arrow_next_to(word)
@@ -96,7 +97,15 @@ end
 
 
 def click_media_entry_titled(title)
-  entry = find_media_entry_titled(title)
+  entry = find_media_resource_titled(title)
+  wait_until { entry.find("a") }
+  entry.find("a").click
+  sleep 1.0
+end
+
+def click_media_set_titled(title)
+  entry = find_media_resource_titled(title, MediaSet)
+  wait_until { entry.find("a") }
   entry.find("a").click
   sleep 1.0
 end
@@ -115,8 +124,9 @@ def check_media_entry_titled(title)
   wait_until(15) { find(".thumb_box") }
   # Crutch so we can check the otherwise invisible checkboxes (they only appear on hover,
   # which Capybara can't do)
-  make_hidden_items_visible
-  entry = find_media_entry_titled(title)
+  #make_hidden_items_visible
+  make_entries_controls_visible
+  entry = find_media_resource_titled(title)
   #cb_icon = entry.find(:css, ".check_box").find("img")
   cb_icon = entry.find(:css, "div.check_box")
   #debugger; puts "lala"
@@ -128,21 +138,15 @@ end
 # Attempts to find a media entry based on its title by looking for
 # the .item_box that contains the title. Returns the whole .item_box element
 # if successful, nil otherwise.
-def find_media_entry_titled(title)
-  wait_until { find(".item_box") }
+def find_media_resource_titled(title, type = MediaResource)
+  wait_until(35) { find(".item_box") }
   
-  def find_item_box(title)
-    all(".item_box").detect do |item|
-      not item.all(".meta_datum .title.full", :text => title).empty?
-    end
-  end
+  results = type.accessible_by_user(@current_user).find_by_title(title)
+  results = Array(results) unless results.is_a? Array
+  
+  mr = results.first
+  found_item = find(".item_box[data-id='#{mr.id}']")
 
-  found_item = find_item_box(title)
-  found_item ||= begin
-    make_hidden_items_visible
-    find_item_box(title)
-  end
-  
   unless found_item
     puts "No media entry found with title '#{title}'"
   end
@@ -343,3 +347,13 @@ def add_to_set(set_title = "Untitled Set", picture_title = "Untitled", owner = "
   wait_until { all(".widget").size == 0 }
 end
 
+def scroll_to_next_page
+  @current_page ||= 1
+  @current_page += 1
+  wait_until {find(".page .pagination", :text => /Seite #{@current_page}\svon/)}
+  find(".page .pagination", :text => /Seite #{@current_page}\svon/).click
+  wait_until {
+    all(".page[data-page='#{@current_page}']").size == 0 and
+    find(".page .pagination", :text => /Seite #{@current_page}\svon/).find(:xpath, "./..").all(".item_box img").size > 0
+  }
+end

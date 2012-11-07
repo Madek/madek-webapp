@@ -1,0 +1,14 @@
+%section.content_body
+  - @catalog_set = @media_set.parents.find(AppSettings.catalog_set_id)
+  %h3= "%s / %s" % [@catalog_set.title, @media_set.title]
+  %div= @media_set.meta_data.get("description")
+  - if @media_set.is_a? FilterSet
+    - hf = hash_for_filter(@media_set.child_media_resources, [:meta_data])
+    - @media_set.get_filter[:meta_data].each_pair do |k,v|
+      - next unless v[:ids].include? "any"
+      - next unless hf2 = hf.detect{|x| x[:keys].detect{|y| y[:key_name] == "#{k}"} }
+      - hf2[:keys].detect{|y| y[:key_name] == "#{k}" }[:terms].each do |term| 
+        %a.item_box{:href => media_resources_path(:meta_data => {k => {:ids => [term[:id]]}}, :title => "%s / %s / %s" % [@catalog_set.title, @media_set.title, term[:value]])}
+          %h4= term[:value]
+          = "%d Inhalte" % term[:count]
+      

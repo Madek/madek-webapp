@@ -29,7 +29,7 @@
                     = f.submit _("Erstellen")
 
   .container_12.clearfix
-    %section#content_body.clearfix
+    %section.content_body.clearfix
       %div.page_title_left
         - if @media_sets
           %div{:class => icon_class}
@@ -44,7 +44,7 @@
         = media_set_title(media_set, true, true, 9) 
     
   .container_12.clearfix
-    %section#content_body2.clearfix
+    %section.content_body.clearfix
       %div.page_title_left
         %a{:id => "weitere", :name => "weitere", :href => "#"}
         %div{:class => icon_class}
@@ -59,7 +59,7 @@
 
 - else # FeaturedSet
   .container_12.clearfix
-    %section#content_body.clearfix
+    %section.content_body.clearfix
       %div.page_title_left
         %div{:class => icon_class}
         = @my_title

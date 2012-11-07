@@ -12,7 +12,7 @@ class FilterController
     do @setupSearch
     do @delegateFilterPanelEvents
     do @delegateSaveFilterSetEvents
-    do @positioningForSetView if $("#content_body_set").length
+    do @positioningForSetView if $(".content_body_set").length
     do @blockForLoading if options.start_with_open_filter
     do @open if options.start_with_open_filter
   
@@ -25,7 +25,7 @@ class FilterController
   @setSearchValue: => 
     uri = new Uri(window.location.search)
     if uri.getQueryParamValues("search").length
-      newSearchValue = decodeURIComponent(uri.getQueryParamValues("search")[0]).replace(/\+/, " ")
+      newSearchValue = decodeURIComponent(uri.getQueryParamValues("search")[0]).replace(/\+/g, " ")
       @searchInput.addClass("has_value").focus().select().val newSearchValue+" "
 
   @delegateSaveFilterSetEvents: =>
@@ -35,12 +35,14 @@ class FilterController
       $.ajax
         url: url
         type: "PUT"
-        data: {filter: App.MediaResources.filter.current, format: "json"}
+        data: {filter: App.MediaResources.current_filter, format: "json"}
         success: => window.location = url
 
   @delegateSearchEvents: =>
     delayedSearchTimer = undefined
-    @searchInput.bind "focus", => @searchInput.closest(".search").addClass("active")
+    @searchInput.bind "focus", => 
+      @searchInput.select()
+      @searchInput.closest(".search").addClass("active")
     @searchInput.bind "blur", => @searchInput.closest(".search").removeClass("active")
     @el.find(".search button").bind "click", =>
       do @updateSearchPage 
@@ -54,31 +56,25 @@ class FilterController
           do @filterContent
         @lastSearchValue = @searchInput.val()
       , 500
-    @currentSearch = window.location.search
-    $(window).bind "popstate", => 
-      if @currentSearch != window.location.search
-        do @setSearchValue
-        do @updateSearchPage
-        do @filterContent
-        @currentSearch = window.location.search
 
   @positioningForSetView: =>
-    @el.offset {top: $("#content_body_set #children").offset().top}
+    @el.offset {top: $(".content_body_set #children").offset().top}
 
   @updateSearchPage: =>
     uri = new Uri(window.location.search)
     if uri.getQueryParamValues("search").length
-      $("#filter_search").val @searchInput.val()
-      newUrl = uri.replaceQueryParam "search", @searchInput.val()
-      @currentSearch = window.location.search
       $("#bar h1 small").html $("#bar h1 small").text().replace(/".*"/, "\"#{@searchInput.val()}\"") if $("#bar .icon.search").length
-      for link in $("#bar a")
-        link = $(link)
-        href = link.attr("href")
-        uri = new Uri href
-        if uri.getQueryParamValues("search").length
-          uri.replaceQueryParam "search", @searchInput.val()
-          link.attr "href", uri.toString()
+  
+  @updateBar: =>
+    for link in $("#bar a.open_graph")
+      link = $(link)
+      href = link.attr("href")
+      uri = new Uri(href)
+      params = App.MediaResources.current_filter
+      for param in uri.queryPairs
+        params[param[0]] = param[1]
+      uri = uri.setQuery($.param(params))
+      link.attr "href", uri.toString()
 
   @delegateFilterPanelEvents: =>
     @el.find(".panel>.icon").bind "click", (e)=>
@@ -91,8 +87,8 @@ class FilterController
 
   @open: =>
     @el.addClass "open"
-    if $("#content_body_set").length
-      $("#content_body_set").addClass "search"
+    if $(".content_body_set").length
+      $(".content_body_set").addClass "search"
     else
       $("section.media_resources").addClass "search"
     do @fetch if not @filter? and not @options.start_with_open_filter
@@ -110,8 +106,8 @@ class FilterController
 
   @close: =>
     @el.removeClass "open"
-    if $("#content_body_set").length
-      $("#content_body_set").removeClass "search"
+    if $(".content_body_set").length
+      $(".content_body_set").removeClass "search"
     else
       $("section.media_resources").removeClass "search"
 
@@ -124,7 +120,7 @@ class FilterController
     @inner.html $.tmpl "app/views/filter/context", @filter
     do @resetButton.hide
     do @title.show
-    for filter_type, filter of App.MediaResources.filter.current
+    for filter_type, filter of App.MediaResources.current_filter
       continue if typeof filter != "object"
       do @resetButton.show
       do @title.hide
@@ -145,9 +141,10 @@ class FilterController
             terms.closest(".key").addClass "has_selected"
     do @delegateBlockEvents
     do @unblockAfterLoading
+    do @updateBar
       
   @filterContent: =>
-    @blockForLoading()
+    do @blockForLoading
     @onChange @computeParams()
 
   @delegateBlockEvents: =>

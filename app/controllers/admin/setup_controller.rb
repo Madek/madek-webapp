@@ -208,7 +208,7 @@ class Admin::SetupController < ActionController::Base
   def meta_keys
     {
       "MetaDatumDate"         => ["portrayed object dates"],
-      "MetaDatumPeople"       => ["author", "description author", "description author before import", "description author before snapshot"],
+      "MetaDatumPeople"       => ["author", "description author", "description author before import"],
       "MetaDatumUsers"        => ["uploaded by"],
       "MetaDatumDepartments"  => ["institutional affiliation"],
       "MetaDatumKeywords"     => ["keywords"],

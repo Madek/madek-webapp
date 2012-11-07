@@ -43,8 +43,6 @@
       = link_to "", media_resources_path, :class => "icon", :"data-type" => "miniature", :title => "Miniatur-Ansicht"
       = link_to "", media_resources_path, :class => "icon", :"data-type" => "grid", :title => "Grid-Ansicht"
       = link_to "", media_resources_path, :class => "icon", :"data-type" => "list", :title => "Listen-Ansicht"
-      -if @filter[:type] == "media_sets" and @filter[:user_id] == "#{current_user.id}"
-        = link_to "", graph_user_media_sets_path(current_user), :class => "graph icon", :title => _("Graph-Ansicht") 
 
     .action_menu  
       = _("Aktionen")
@@ -65,6 +63,10 @@
             %a.open_create_set_dialog{:title => "Neues Set erstellen"}
               .create_set.icon
               %span.text= "Neues Set"
+          %li
+            %a.open_graph{:title => "Beziehung von Inhalten als Graph visualisieren", :href => visualization_filtered_resources_path(@filter), :target => "_blank"}
+              .graph.icon
+              %span.text= "Graph berechnen"
 
 :javascript
   $(document).ready(function () {

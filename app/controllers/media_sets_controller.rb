@@ -345,22 +345,7 @@ class MediaSetsController < ApplicationController
     end
   end
 
-  # TODO merge to index ??
-  def graph
-    respond_to do |format|
-      format.html {
-        # TODO this is temporary (similar to media_resources#index), remove it when not needed anymore
-        MediaResourceModules::Filter::DEPRECATED_KEYS.each_pair {|k,v| params[k] ||= params.delete(v) if params[v] }
-        @filter = params.select {|k,v| MediaResourceModules::Filter::KEYS.include?(k.to_sym) }.delete_if {|k,v| v.blank?}.deep_symbolize_keys
-
-        @filter[:type] = "media_sets" # checked in current_settings view helper 
-      }
-      format.json {
-        #media_sets = MediaSet.accessible_by_user(current_user).relative_top_level
-        media_sets = current_user.media_sets #.relative_top_level
-        render json: view_context.hash_for_graph(media_sets).to_json
-      }
-    end
+  def category
   end
       
 end

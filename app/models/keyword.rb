@@ -8,7 +8,7 @@ class Keyword < ActiveRecord::Base
   validates_presence_of :meta_term # FIXME check after, :meta_datum
   validates_uniqueness_of :meta_term_id, :scope => :meta_datum_id
 
-  default_scope :include => :meta_term
+  #default_scope :include => :meta_term
 
   def to_s
     "#{meta_term}"
@@ -16,18 +16,11 @@ class Keyword < ActiveRecord::Base
   
 #######################################
 
-  def self.search(query)
-    return scoped unless query
+  scope :search, lambda { |query|
+    return scoped if query.blank?
 
-    sql = select("DISTINCT keywords.*").joins(:meta_term)
-
-    w = query.split.map do |x|
-      "(%s)" % LANGUAGES.map do |l|
-        "meta_terms.#{l} #{SQLHelper.ilike} '%#{x}%'"
-      end.join(' OR ')
-    end.join(' AND ')
-
-    sql.where(w)
-  end
+    q = query.split.map{|s| "%#{s}%"}
+    joins(:meta_term).where(MetaTerm.arel_table[DEFAULT_LANGUAGE].matches_all(q))
+  }
   
 end
