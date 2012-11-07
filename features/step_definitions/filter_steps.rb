@@ -13,7 +13,7 @@ When /^I see a filtered list of resources with more then one page$/ do
   end
   @selected_term.click
   wait_until { all(".loading").size == 0 }
-  @current_filter = page.evaluate_script('App.MediaResources.current_filter')
+  @current_filter = page.evaluate_script('$("section.media_resources.index").data("controller").filter_panel.current_filter')
   @total_count = find(".pagination").text[/\d+/].to_i
 end
 
@@ -21,6 +21,6 @@ Then /^I can paginate to see the following pages which are also filtered$/ do
   find(".page[data-page='2']").click
   wait_until{ all(".page[data-page='2']").size == 0 }
   wait_until{ all(".page")[1].find(".item_box[data-id]") }
-  @current_filter.should == page.evaluate_script('App.MediaResources.current_filter')
+  @current_filter.should == page.evaluate_script('$("section.media_resources.index").data("controller").filter_panel.current_filter')
   all(".page")[1].find(".pagination").text[/\d+/].to_i.should == @total_count
 end

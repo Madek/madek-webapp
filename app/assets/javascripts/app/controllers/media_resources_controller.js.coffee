@@ -2,13 +2,19 @@ class MediaResourcesController
   
   constructor: (options)->
     @el = $("section.media_resources.index")
+    @el.data "controller", @
     do @plugin
     @active_layout = if options.layout? then options.layout else if sessionStorage.active_layout? then sessionStorage.active_layout else "grid"
-    MediaResourcesController.current_filter = options.filter if options.filter?
+    @start_with_open_filter = options.start_with_open_filter if options.start_with_open_filter?
+    @filter_panel = new App.Filter
+      onChange: (filter_params)=> @initial_fetch filter_params, true
+      start_with_open_filter: @start_with_open_filter
+      current_filter: options.filter
     MediaResourcesController.current_sort = options.sort if options.sort?
     do @activate_layout
     do @delegate_events
     do @switch_context_fetch
+    @initial_fetch {}, @start_with_open_filter
     
   plugin: ->
     new ActionMenu @el
@@ -20,13 +26,13 @@ class MediaResourcesController
   activate_layout: ->
     @el.addClass @active_layout
 
-  render_page: ->
-    $this = $(this)
+  render_page: (e)=>
+    $this = $(e.currentTarget)
     next_page = $this.data "page"
     $this.removeAttr "data-page"
     data = 
       page: next_page
-    $.extend true, data, App.MediaResources.current_filter
+    $.extend true, data, @filter_panel.current_filter
     $.extend data, {sort: App.MediaResources.current_sort}
     options =
       data: data
@@ -68,7 +74,7 @@ class MediaResourcesController
       @el.undelegate ".meta_data .context[data-name]", "inview"
 
   initial_fetch: (new_filter_params, with_filter)=>
-    data = JSON.parse JSON.stringify App.MediaResources.current_filter
+    data = JSON.parse JSON.stringify @filter_panel.current_filter
     $.extend data, {sort: App.MediaResources.current_sort}
     $.extend data, new_filter_params if new_filter_params?
     $.extend data, {with_filter: true} if with_filter
@@ -78,10 +84,11 @@ class MediaResourcesController
       url: "/media_resources.json"
       data: data
       success: (data)=>
-        App.Filter.update data.filter if data.filter?
+        @filter_panel.current_filter = data.current_filter
+        @filter_panel.update data.filter if data.filter?
         @el.find(".results").html("")
         setupBatch data
-        if App.MediaResources.current_filter.media_set_id?
+        if @filter_panel.current_filter.media_set_id?
           @el.find("#bar h1 small").html @el.find("#bar h1 small").text().replace(/^\d+\s/,"")
           @el.find("#bar h1 small").prepend(data.pagination.total)
         if (data.media_resources.length == 0)
@@ -107,7 +114,6 @@ class MediaResourcesController
       data: $.extend(data, {format: "json"})
       beforeSend: options.beforeSend
       success: (data)->
-        App.MediaResources.current_filter = data.current_filter
         options.success(data)
 
   @fetch_children: (parent_id, callback, data)->
