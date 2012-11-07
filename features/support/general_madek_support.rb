@@ -141,9 +141,9 @@ end
 def find_media_resource_titled(title, type = MediaResource)
   wait_until(35) { find(".item_box") }
   
-  results = type.find_by_title(title)
+  results = type.accessible_by_user(@current_user).find_by_title(title)
   results = Array(results) unless results.is_a? Array
-  raise "title is not unique" if results.length > 1
+  
   mr = results.first
   found_item = find(".item_box[data-id='#{mr.id}']")
 
