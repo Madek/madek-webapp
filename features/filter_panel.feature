@@ -115,8 +115,8 @@ Feature: Filter panel
 
   @javascript
   Scenario: Filtering by media type
+    Given I am "Normin"
     Given a list of resources
-    And I am "Normin"
     When I see the filter panel
     And the list contains images
     When I expand the root block "media_files"
