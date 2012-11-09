@@ -29,7 +29,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .title-xxl {
   font-size: $font-h;
-  line-height: $line-height-s;
+  line-height: $line-height-xs;
 }
 .title-xl {
   font-size: $font-xxl;
@@ -37,7 +37,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .title-l {
   font-size: $font-xl;
-  line-height: $line-height-m;
+  line-height: $line-height-l;
   font-weight: 700;
   span,
   small {

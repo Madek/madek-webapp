@@ -28,6 +28,17 @@
   margin-bottom: $space-m;
 }
 
+// HOME PAGE VIEW
+
+.view-home-page .elevator-pitch {
+  @include dimension(940px,220px);
+  @include position-top-right(50%,50%);
+  @include position-bottom-left(50%,50%);
+  margin: -130px -490px;
+  z-index: 50;
+}
+
+
 // DASHBOARD VIEW
 
 .view-dashboard .body-wrapper {
