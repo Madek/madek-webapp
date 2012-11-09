@@ -7,7 +7,7 @@
 .collage {
   @include border-top-right-radius($border-radius-m);
   background: $darkest;
-  margin: -1px -2px 0 -1px;
+  margin: -1px -1px 0 -1px;
   overflow: hidden;
   padding: 1px;
   position: relative;
@@ -38,11 +38,11 @@
   text-align: center;
 }
 .collage-image {
-  @include max-dimension(120%,120%);
+  @include position-top-left(0,0);
+  @include max-dimension(110%,120%);
   @include min-dimension(100%,100%);
   display: inline-block;
-  margin: 0 -50%;
-  position: absolute;
+  margin: 0;
 }
 .collage-meta {
   @include position-bottom-left(0,0);
@@ -113,11 +113,12 @@
   border-color: $darkest;
   border-style: solid;
   border-width: 2px 0;
-  margin: 0 -2px;
+  margin: 0;
+  padding: 0;
   .collage-item {
     position: relative;
     top: -2px;
-    width: 12.5%;
+    width: 20%;
     &.even .collage-image-wrapper {
       position: relative;
     }
@@ -126,40 +127,29 @@
 
 @media #{$screen-size-xs} {
   .collage.crooked {
-    height: 300px;
-  }
-  .collage.crooked .collage-image-wrapper {
-    @include dimension(100%,100px);
-  }
-  .collage.crooked .collage-item.even .collage-image-wrapper {
-    top: -50px;
-  }
-}
-@media #{$screen-size-s} {
-  .collage.crooked {
-    height: 390px;
-  }
-  .collage.crooked .collage-image-wrapper {
-    @include dimension(100%,130px);
-  }
-  .collage.crooked .even .collage-image-wrapper {
-    top: -65px;
-  }
-}
-@media #{$screen-size-m} {
-  .collage.crooked {
     height: 450px;
   }
   .collage.crooked .collage-image-wrapper {
     @include dimension(100%,150px);
   }
-  .collage.crooked .even .collage-image-wrapper {
+  .collage.crooked .collage-item.even .collage-image-wrapper {
     top: -75px;
   }
 }
-@media #{$screen-size-l} {
+@media #{$screen-size-s} {
   .collage.crooked {
-    height: 454px;
+    height: 510px;
+  }
+  .collage.crooked .collage-image-wrapper {
+    @include dimension(100%,170px);
+  }
+  .collage.crooked .even .collage-image-wrapper {
+    top: -85px;
+  }
+}
+@media #{$screen-size-m} {
+  .collage.crooked {
+    height: 540px;
   }
   .collage.crooked .collage-image-wrapper {
     @include dimension(100%,180px);
@@ -168,25 +158,56 @@
     top: -90px;
   }
 }
+@media #{$screen-size-l} {
+  .collage.crooked {
+    height: 600px;
+  }
+  .collage.crooked .collage-image-wrapper {
+    @include dimension(100%,200px);
+  }
+  .collage.crooked .even .collage-image-wrapper {
+    top: -100px;
+  }
+}
 @media #{$screen-size-xl} {
   .collage.crooked {
-    height: 660px;
+    height: 600px;
   }
   .collage.crooked .collage-image-wrapper {
     @include dimension(100%,220px);
   }
   .collage.crooked .even .collage-image-wrapper {
-    top: -110px;
+    top: -160px;
+  }
+  .collage.crooked .odd .collage-image-wrapper {
+    top: -30px;
   }
 }
 @media #{$screen-size-xxl} {
   .collage.crooked {
-    height: 780px;
+    height: 600px;
   }
   .collage.crooked .collage-image-wrapper {
-    @include dimension(100%,260px);
+    @include dimension(100%,250px);
+  }
+  .collage.crooked .odd .collage-image-wrapper {
+    top: -210px;
   }
   .collage.crooked .even .collage-image-wrapper {
-    top: -130px;
+    top: -75px;
+  }
+}
+@media #{$screen-size-xxl-plus} {
+  .collage.crooked {
+    height: 700px;
+  }
+  .collage.crooked .collage-image-wrapper {
+    @include dimension(100%,350px);
+  }
+  .collage.crooked .even .collage-image-wrapper {
+    top: -175px;
+  }
+  .collage.crooked .odd .collage-image-wrapper {
+    top: 0;
   }
 }

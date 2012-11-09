@@ -64,24 +64,47 @@
 
 // Hover and selected states
 
-.thumbnail-wrapper:hover,
-.thumbnail-wrapper.selected {
-  background: $brightest;
-  .thumbnail-author {
-    display: none;
+.media-entries.active {
+  .thumbnail-wrapper:hover,
+  .thumbnail-wrapper.selected {
+    background: $brightest;
+    .thumbnail-author {
+      display: none;
+    }
+    .thumbnail-actions {
+      display: block;
+    }
   }
-  .thumbnail-actions {
-    display: block;
+  .thumbnail-wrapper:hover {
+    @include box-shadow(0 1px 3px $darken);
   }
-}
-.thumbnail-wrapper:hover {
-  @include box-shadow(0 1px 3px $darken);
-}
-.thumbnail-wrapper.selected {
-  @include border-radius($border-radius-m);
-  @include box-shadow(none);
-  border: 1px solid $grey-light;
-  padding: 11px; // .thumbnail-wrapper's padding value -1 because of the border
+  .thumbnail-wrapper.selected {
+    @include border-radius($border-radius-m);
+    @include box-shadow(none);
+    border: 1px solid $grey-light;
+    padding: 11px; // .thumbnail-wrapper's padding value -1 because of the border
+  }
+
+  // SET
+
+  .thumbnail-wrapper.media-set:hover {
+    @include border-radius(0);
+    background: $brightest image-url("redesign/backgrounds/thumb-set-backg.png") 4px 3px no-repeat;
+    .thumbnail-level-up-items,
+    .thumbnail-level-down-items {
+      display: block;
+    }
+  }
+  .thumbnail-wrapper.media-set.selected {
+    background: $brightest image-url("redesign/backgrounds/thumb-set-backg.png") 4px 3px no-repeat;
+  }
+
+  // Catalog
+
+  .thumbnail-wrapper.media-catalog:hover {
+    background: $brightest image-url("redesign/backgrounds/thumb-set-backg-large.png") 3px 2px no-repeat;
+  }
+
 }
 
 /**
@@ -100,17 +123,6 @@
   margin-bottom: $space-s;
   margin-right: $space-s;
   padding: 12px;
-}
-.thumbnail-wrapper.media-set:hover {
-  @include border-radius(0);
-  background: $brightest image-url("redesign/backgrounds/thumb-set-backg.png") 4px 3px no-repeat;
-  .thumbnail-level-up-items,
-  .thumbnail-level-down-items {
-    display: block;
-  }
-}
-.thumbnail-wrapper.media-set.selected {
-  background: $brightest image-url("redesign/backgrounds/thumb-set-backg.png") 4px 3px no-repeat;
 }
 
 // Set thumbs' extra elements
@@ -217,15 +229,19 @@
  */
 
 .thumbnail-wrapper.media-catalog {
-  @include dimension(300px, 250px);
+  @include dimension(300px, auto);
   @include micro-clearfix;
   background: transparent image-url("redesign/backgrounds/thumb-set-backg-large.png") 3px 2px no-repeat;
   display: inline-block;
   margin-bottom: $space-s;
   margin-right: $space-s;
   padding: 12px;
-  &:hover {
-    background: $brightest image-url("redesign/backgrounds/thumb-set-backg-large.png") 3px 2px no-repeat;
+  .thumbnail-name,
+  .thumbnail-author {
+    height: auto;
+  }
+  .thumbnail-name {
+    margin-bottom: $space-x;
   }
 }
 .thumbnail-wrapper.media-catalog .thumbnail-additional-data {

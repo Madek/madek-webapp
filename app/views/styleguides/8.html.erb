@@ -305,13 +305,120 @@
 <% end %>
 
 <% kss_block '8.8.2' do %>
-<div class="collage">
-
+<div class="collage crooked">
+  <div class="collage-row">
+    <div class="collage-item odd">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-1.png", :class => "collage-image" %>
+      </div>
+    </div>
+    <div class="collage-item even">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-2.png", :class => "collage-image" %>
+      </div>
+    </div>
+    <div class="collage-item odd">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-3.jpeg", :class => "collage-image" %>
+      </div>
+    </div>
+    <div class="collage-item even">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-4.jpeg", :class => "collage-image" %>
+      </div>
+    </div>
+    <div class="collage-item odd">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-5.jpeg", :class => "collage-image" %>
+      </div>
+    </div>
+  </div>
+  <div class="collage-row">
+    <div class="collage-item odd">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-8.jpeg", :class => "collage-image" %>
+      </div>
+    </div>
+    <div class="collage-item even">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-7.jpeg", :class => "collage-image" %>
+      </div>
+    </div>
+    <div class="collage-item odd">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-6.jpeg", :class => "collage-image" %>
+      </div>
+    </div>
+    <div class="collage-item even">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-5.jpeg", :class => "collage-image" %>
+      </div>
+    </div>
+    <div class="collage-item odd">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-4.jpeg", :class => "collage-image" %>
+      </div>
+    </div>
+  </div>
+  <div class="collage-row">
+    <div class="collage-item odd">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-1.png", :class => "collage-image" %>
+      </div>
+    </div>
+    <div class="collage-item even">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-2.png", :class => "collage-image" %>
+      </div>
+    </div>
+    <div class="collage-item odd">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-3.jpeg", :class => "collage-image" %>
+      </div>
+    </div>
+    <div class="collage-item even">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-4.jpeg", :class => "collage-image" %>
+      </div>
+    </div>
+    <div class="collage-item odd">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-5.jpeg", :class => "collage-image" %>
+      </div>
+    </div>
+  </div>
+  <div class="collage-row">
+    <div class="collage-item odd">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-1.png", :class => "collage-image" %>
+      </div>
+    </div>
+    <div class="collage-item even">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-2.png", :class => "collage-image" %>
+      </div>
+    </div>
+    <div class="collage-item odd">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-3.jpeg", :class => "collage-image" %>
+      </div>
+    </div>
+    <div class="collage-item even">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-4.jpeg", :class => "collage-image" %>
+      </div>
+    </div>
+    <div class="collage-item odd">
+      <div class="collage-image-wrapper">
+        <%= image_tag "redesign/tmp/media-entry-5.jpeg", :class => "collage-image" %>
+      </div>
+    </div>
+  </div>
 </div>
 <% end %>
 
 <% kss_block '8.9.1', :padding_top => "50", :padding_bottom => "110" do %>
-<ul class="media-entries grid">
+<ul class="media-entries grid $modifier-class">
   <li class="media-entries-item">
     <div class="thumbnail-wrapper media-catalog">
       <div class="thumbnail-privacy">
@@ -449,7 +556,7 @@
 <% end %>
 
 <% kss_block '8.9.2' do %>
-<ul class="media-entries grid tight">
+<ul class="media-entries grid tight $modifier-class">
   <li class="media-entries-item">
     <a class="thumbnail-wrapper media-entry" href="#">
       <div class="thumbnail-package small">
@@ -475,7 +582,7 @@
 <% end %>
 
 <% kss_block '8.9.3' do %>
-<ul class="media-entries list">
+<ul class="media-entries list $modifier-class">
   <li class="media-entries-item odd">
     <div class="entry-head">
       <h2 class="entry-title">Karen Kägi: Blick aus der Siedlung</h2>
@@ -803,5 +910,46 @@
       </a>
     </li>
   </ul>
+</div>
+<% end %>
+
+<% kss_block '8.11' do %>
+<div class="elevator-pitch container">
+  <div class="col2of3">
+    <div class="pitch-claim">
+      <h1 class="title-xxl">Bilder, Fotos, Videos und Audio-Dateien</h1>
+      <h2 class="title-l">Das Medienarchiv ist ein Werkzeug zum gemeinschaftlichen arbeiten mit Medien und zum Teilen von Inhalten.</h2>
+    </div>
+  </div>
+  <div class="col1of3">
+    <div class="pitch-login">
+      <ul class="tab-navigation container">
+        <li class="tab-navigation-item active left"><a href="#zhdk-user" data-toggle="tab">ZHdK-Login</a></li>
+        <li class="tab-navigation-item right"><a href="#external-user" data-toggle="tab">Externe Benutzer</a></li>
+      </ul>
+      <div class="tab-content pitch-login-tab">
+        <div class="tab-pane active" id="zhdk-user">
+          <p>Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est uVivamus hendrerit arcu sed erat molestie vehicula. Sed au.</p>
+        </div>
+        <div class="tab-pane" id="external-user">
+          <form>
+            <div class="form-body">
+              <ul class="form-body-list">
+                <li class="form-body-list-item">
+                  <input type="text" class="block large" placeholder="Benutzername" />
+                </li>
+                <li class="form-body-list-item">
+                  <input type="password" class="block large" placeholder="Passwort" />
+                </li>
+              </ul>
+            </div>
+            <div class="form-footer">
+              <button class="primary-button block large">Anmelden</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <% end %>
