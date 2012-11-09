@@ -199,13 +199,13 @@
 }
 @media #{$screen-size-xxl-plus} {
   .collage.crooked {
-    height: 600px;
+    height: 700px;
   }
   .collage.crooked .collage-image-wrapper {
-    @include dimension(100%,400px);
+    @include dimension(100%,350px);
   }
   .collage.crooked .even .collage-image-wrapper {
-    top: -150px;
+    top: -175px;
   }
   .collage.crooked .odd .collage-image-wrapper {
     top: 0;
