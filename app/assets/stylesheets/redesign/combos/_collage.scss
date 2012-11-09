@@ -197,3 +197,17 @@
     top: -75px;
   }
 }
+@media #{$screen-size-xxl-plus} {
+  .collage.crooked {
+    height: 600px;
+  }
+  .collage.crooked .collage-image-wrapper {
+    @include dimension(100%,400px);
+  }
+  .collage.crooked .even .collage-image-wrapper {
+    top: -150px;
+  }
+  .collage.crooked .odd .collage-image-wrapper {
+    top: 0;
+  }
+}

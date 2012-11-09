@@ -79,6 +79,7 @@ $space-h:             60px;
 $screen-size-xs-s:    "only screen and (max-width: 1151px)";
 $screen-size-m-l:     "only screen and (min-width: 1152px) and (max-width: 1399px)";
 $screen-size-xl-xxl:  "only screen and (min-width: 1400px)";
+$screen-size-xxl-plus:"only screen and (min-width: 1680px)";
 
 $screen-size-xs:      "only screen and (max-width: 1023px)";
 $screen-size-s:       "only screen and (min-width: 1024px) and (max-width: 1151px)";
@@ -86,6 +87,7 @@ $screen-size-m:       "only screen and (min-width: 1152px) and (max-width: 1279p
 $screen-size-l:       "only screen and (min-width: 1280px) and (max-width: 1399px)";
 $screen-size-xl:      "only screen and (min-width: 1400px) and (max-width: 1599px)";
 $screen-size-xxl:     "only screen and (min-width: 1600px)";
+
 
 /* Base Imports
 ----------------------------------------------- */
