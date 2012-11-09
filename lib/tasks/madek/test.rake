@@ -9,6 +9,7 @@ namespace :madek do
 
     task :travis do
       Rake::Task["madek:test:setup"].invoke
+      Rake::Task["db:migrate"].invoke
       Rake::Task["madek:test:rspec"].invoke
     end
 
