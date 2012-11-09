@@ -1,0 +1,109 @@
+/**
+ * ## Side filter `.side-filter`
+ *
+ * Styleguide 7.3
+ */
+
+/* Class naming convention:
+ *
+ * side-filter      - top level filter
+ * side-filter-lvl2 - second level filter
+ * side-filter-lvl3 - third level filter
+ * side-filter-lvl4 - lowest level filter
+ *
+ */
+
+.side-filter {
+  @include box-shadow(1px 0 0 $brightest);
+  @include micro-clearfix;
+  border-right: 1px solid $grey-mid-light;
+  min-width: 200px;
+  padding-right: $space-m;
+}
+
+.filter-search-input {
+
+}
+
+.filter-search-button {
+  @include position-top-right(6px,$space-x);
+}
+
+// Box model
+
+.side-filter li {
+  clear: both;
+  position: relative;
+}
+.side-filter a {
+  display: block;
+}
+.side-filter-lvl3-item {
+  padding-left: $space-m;
+  &:first-child {
+    padding-top: $space-x;
+  }
+  &:last-child {
+    padding-bottom: $space-x;
+  }
+}
+.side-filter-lvl4 {
+  padding-left: $space-m;
+}
+
+// Typography
+
+.side-filter li {
+  list-style: none;
+}
+.side-filter-item,
+.side-filter-lvl2-item {
+  line-height: $line-height-xxl;
+}
+.side-filter li.side-filter-lvl3-item {
+  line-height: $line-height-xl;
+}
+.side-filter li.side-filter-lvl4-item {
+  line-height: $line-height-l;
+}
+.side-filter-lvl2-item > a,
+.side-filter-lvl3-item > a {
+  font-size: $font-s;
+  font-weight: 600;
+}
+.side-filter-lvl4-item > a {
+  font-size: $font-xs;
+}
+
+// Borders & separators
+
+.side-filter-lvl2-item,
+.side-filter-lvl3-item:first-child {
+  border-top: 1px solid $grey-mid-light;
+  @include box-shadow(inset 0 1px 0 $brightest);
+}
+.side-filter-item {
+  @include box-shadow(0 1px 0 $brightest);
+  border-bottom: 1px solid $grey-mid-light;
+  &:last-child {
+    @include box-shadow(0 0 0 $brightest);
+    border-bottom: none;
+  }
+}
+
+// Icons
+
+.side-filter-item i {
+  @include position-top-right($space-s, 0)
+}
+
+// Hover and active states
+.side-filter a {
+  &:hover {
+    background: $lighten-more;
+  }
+  &:active,
+  .active {
+    @include box-shadow(inset 0 1p 3px $darken-more);
+  }
+}

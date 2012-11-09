@@ -97,4 +97,3 @@ namespace :madek do
   end
 
 end
-

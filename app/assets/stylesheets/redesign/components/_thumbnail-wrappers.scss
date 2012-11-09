@@ -1,0 +1,250 @@
+// Privacy icons
+
+.thumbnail-privacy {
+  @include border-radius($border-radius-m 0, $border-radius-s 0);
+  @include dimension(21px,21px);
+  @include position-top-left(13px,13px); // Must be +1px than .media-thumb-item padding
+  @include hide-text;
+  background-color: $brightest;
+  border-color: $grey-mid-light;
+  border-style: solid;
+  border-width: 0 1px 1px 0;
+  z-index: 30;
+}
+.thumbnail-privacy i {
+  float: left;
+}
+
+// Metadata
+
+.thumbnail-metadata {
+  margin-top: $space-s;
+}
+.thumbnail-name,
+.thumbnail-author {
+  height: $space-l;
+  overflow: hidden;
+}
+
+// Actions
+
+.thumbnail-actions {
+  @include micro-clearfix;
+  @include position-bottom-left($space-s,$space-s);
+  display: none;
+  line-height: 0;
+  right: $space-s;
+  li {
+    display: inline-block;
+  }
+}
+
+/* -------------------------------------------- */
+
+/**
+ * ## Media thumb item `.thumbnail-wrapper`
+ *
+ * :hover    - Hovered variation
+ * .selected - Selected variation
+ *
+ * Styleguide 7.6
+ */
+
+.thumbnail-wrapper {
+  @include border-radius($border-radius-m);
+  @include dimension(140px, 220px);
+  @include micro-clearfix;
+  border: none;
+  display: inline-block;
+  margin-bottom: $space-s;
+  margin-right: $space-s;
+  padding: 12px;
+  position: relative;
+}
+
+// Hover and selected states
+
+.media-entries.active {
+  .thumbnail-wrapper:hover,
+  .thumbnail-wrapper.selected {
+    background: $brightest;
+    .thumbnail-author {
+      display: none;
+    }
+    .thumbnail-actions {
+      display: block;
+    }
+  }
+  .thumbnail-wrapper:hover {
+    @include box-shadow(0 1px 3px $darken);
+  }
+  .thumbnail-wrapper.selected {
+    @include border-radius($border-radius-m);
+    @include box-shadow(none);
+    border: 1px solid $grey-light;
+    padding: 11px; // .thumbnail-wrapper's padding value -1 because of the border
+  }
+
+  // SET
+
+  .thumbnail-wrapper.media-set:hover {
+    @include border-radius(0);
+    background: $brightest image-url("redesign/backgrounds/thumb-set-backg.png") 4px 3px no-repeat;
+    .thumbnail-level-up-items,
+    .thumbnail-level-down-items {
+      display: block;
+    }
+  }
+  .thumbnail-wrapper.media-set.selected {
+    background: $brightest image-url("redesign/backgrounds/thumb-set-backg.png") 4px 3px no-repeat;
+  }
+
+  // Catalog
+
+  .thumbnail-wrapper.media-catalog:hover {
+    background: $brightest image-url("redesign/backgrounds/thumb-set-backg-large.png") 3px 2px no-repeat;
+  }
+
+}
+
+/**
+ * ## Media thumb set `.thumbnail-wrapper.media-set`
+ *
+ * :hover    - Hovered variation
+ * .selected - Selected variation
+ *
+ * Styleguide 7.7
+ */
+
+.thumbnail-wrapper.media-set {
+  @include micro-clearfix;
+  background: transparent image-url("redesign/backgrounds/thumb-set-backg.png") 4px 3px no-repeat;
+  display: inline-block;
+  margin-bottom: $space-s;
+  margin-right: $space-s;
+  padding: 12px;
+}
+
+// Set thumbs' extra elements
+
+.thumbnail-level-up-items,
+.thumbnail-level-down-items {
+  @include micro-clearfix;
+  border-color: $grey-mid-light;
+  border-style: solid;
+  background: $grey-lighter;
+  display: none;
+  left: 0;
+  padding: $space-s $space-x;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  z-index: 50;
+}
+.thumbnail-level-up-items {
+  @include border-top-radius($border-radius-m);
+  @include box-shadow(0 -1px 2px $darken);
+  bottom: 100%;
+  border-width: 0 0 1px;
+  padding-bottom: $space-s;
+}
+.thumbnail-level-down-items {
+  @include border-bottom-radius($border-radius-m);
+  @include box-shadow(0 1px 2px $darken);
+  top: 100%; // must be same as .thumbnail-wrapper height + padding values
+  border-width: 1px 0 0;
+  padding-top: $space-s;
+}
+
+// Set thumbs' extra elements - arrows
+
+.thumbnail-level-up-items {
+  &:before,
+  &:after {
+    bottom: -1px;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+  &:before {
+    border-color: rgba(204, 204, 204, 0);
+    border-bottom-color: #ccc;
+    border-width: 6px;
+    left: 50%;
+    margin-left: -6px;
+  }
+  &:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-bottom-color: #ffffff;
+    border-width: 5px;
+    left: 50%;
+    margin-left: -5px;
+  }
+}
+.thumbnail-level-down-items {
+  &:before,
+  &:after {
+    top: -1px;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+  &:before {
+    border-color: rgba(204, 204, 204, 0);
+    border-top-color: #ccc;
+    border-width: 6px;
+    left: 50%;
+    margin-left: -6px;
+  }
+  &:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-top-color: #ffffff;
+    border-width: 5px;
+    left: 50%;
+    margin-left: -5px;
+  }
+}
+
+// Set thumbs' extra elements - thumbnails
+
+.thumbnail-level-up-items .thumbnail.odd,
+.thumbnail-level-down-items .thumbnail.odd {
+  margin: $space-s $space-s $space-s 0;
+}
+.thumbnail-level-up-items .thumbnail.even,
+.thumbnail-level-down-items .thumbnail.even {
+  margin: $space-s 0 $space-s $space-s;
+}
+
+/**
+ * ## Media thumb catalog `.thumbnail-wrapper.media-catalog`
+ *
+ * Styleguide 7.8
+ */
+
+.thumbnail-wrapper.media-catalog {
+  @include dimension(300px, auto);
+  @include micro-clearfix;
+  background: transparent image-url("redesign/backgrounds/thumb-set-backg-large.png") 3px 2px no-repeat;
+  display: inline-block;
+  margin-bottom: $space-s;
+  margin-right: $space-s;
+  padding: 12px;
+  .thumbnail-name,
+  .thumbnail-author {
+    height: auto;
+  }
+  .thumbnail-name {
+    margin-bottom: $space-x;
+  }
+}
+.thumbnail-wrapper.media-catalog .thumbnail-additional-data {
+  color: $grey-mid;
+  font-size: $font-s;
+}

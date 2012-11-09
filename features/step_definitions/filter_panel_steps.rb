@@ -295,3 +295,17 @@ Then /^it is deselected in all the contexts$/ do
     context.all(".term.selected input[value='#{@multiple_present_term_value}']").size.should == 0
   end
 end
+
+When /^the filter panel contains empty values$/ do
+  find("#filter_area .term input[value='']")
+end
+
+Then /^the label text of the empty values is "(.*?)"$/ do |text|
+  all("#filter_area .term input[value='']").each do |empty_filter_entry|
+    empty_filter_entry = empty_filter_entry.find(:xpath, "./..")
+    empty_filter_entry.find(".unknown")
+    empty_filter_entry.find(:xpath, "./../../..").find("h3").click
+    empty_filter_entry.find(:xpath, "./../..").find("h3").click
+    empty_filter_entry.find(".text").text.should == text
+  end
+end

@@ -1,1 +1,2 @@
-#= require redesign/test
+#= require redesign/application
+#= require redesign/layout

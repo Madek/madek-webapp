@@ -1,0 +1,44 @@
+/**
+ * ## Clipboad `.clipboard`
+ *
+ * Styleguide 8.6
+ */
+
+.clipboard-toggle {
+  @include border-top-radius($border-radius-m);
+  @include dimension(260px,17px);
+  @include position-top-right(-22px,50%);
+  @include position-left(50%);
+  margin-left: -135px;
+  padding: $space-x $space-x 0;
+}
+.clipboard-wrapper {
+  position: relative;
+  /* background: image-url("redesign/backgrounds/clipboard-slot.png") 20px 20px repeat; */
+}
+
+.clipboard-actions {
+  padding-top: $space-m;
+  padding-right: $space-m;
+  .primary-button {
+    margin-bottom: $space-s;
+  }
+}
+
+
+
+/*
+
+// CLIPBOARD SSTUFF //
+.media-entries.grid.tight {
+  @include min-dimension(auto,80px);
+  background: image-url("redesign/backgrounds/clipboard-slot.png") 20px 20px repeat;
+  padding: $space-m;
+  .media-entries-item {
+    @include dimension(60px,60px);
+    @include float-left;
+    margin: 0 $space-m $space-m 0;
+  }
+}
+
+*/

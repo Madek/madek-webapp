@@ -1,0 +1,138 @@
+body {
+  color: $grey-darker;
+  font-family: $default-font-family;
+  font-size: $default-font-size;
+  line-height: $line-height-m;
+}
+p,
+h1, h2, h3, h4, h5, h6 {
+  color: $grey-darker;
+  font-family: $default-font-family;
+  font-weight: normal;
+}
+
+/**
+ * ## Titles `h1-h6`
+ *
+ * .title-xxl     - Hero title, ideally this style would apply only to home page elevator pitch title
+ * .title-xl      - Page titles
+ * .title-l       - Section titles, used for bold titles marking sections and subtitles accompanying Hero title
+ * .title-n       - Subsection titles, katalog thumb titles
+ * .title-s       - Thumb name titles
+ * .title-xs      - Mini titles, used for Weitere Daten and similar labels
+ * .title-xs-alt  - Mini titles, used for media entry authors
+ * .separated     - Separated with a bottom border
+ * .separated.light - Separated with a light bottom border
+ *
+ * Styleguide 2.1
+ */
+
+.title-xxl {
+  font-size: $font-h;
+  line-height: $line-height-xs;
+}
+.title-xl {
+  font-size: $font-xxl;
+  line-height: $line-height-s;
+}
+.title-l {
+  font-size: $font-xl;
+  line-height: $line-height-l;
+  font-weight: 700;
+  span,
+  small {
+    font-size: $font-m;
+    margin-top: 2px;
+  }
+}
+.title-n {
+  font-size: $font-l;
+  line-height: $line-height-m;
+}
+.title-s {
+  font-size: $font-s;
+  font-weight: 600;
+  line-height: $line-height-m
+}
+.title-xs {
+  font-size: $font-xs;
+  font-weight: 700;
+  line-height: $line-height-s
+}
+.title-xs-alt {
+  color: $grey-mid;
+  font-size: $font-xs;
+  line-height: $line-height-m;
+}
+
+/**
+ * ## Paragraphs `p`
+ *
+ * .paragraph-l     - Section titles, used for bold titles marking sections
+ * .paragraph-s     - Thumb name titles, Set description and Weitere Daten content
+ *
+ * Styleguide 2.2
+ */
+
+p {
+  color: $grey-darker;
+  font-family: $default-font-family;
+  font-size: $default-font-size;
+  line-height: $line-height-m;
+}
+.paragraph-l {
+  font-size: $font-l;
+  line-height: $line-height-l;
+}
+.paragraph-s {
+  font-size: $font-s;
+  line-height: $line-height-s;
+}
+
+/**
+ * ## Unordered lists `ul`
+ *
+ * .inline  - Inline variant
+ *
+ * Styleguide 2.3
+ */
+
+ul {
+
+}
+ul li {
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+ol.inline li,
+ul.inline li {
+  display: inline;
+  margin-right: $space-x;
+  list-style: none;
+  &:after {
+    content: ",";
+  }
+}
+
+ol.inline li:last-child,
+ul.inline li:last-child {
+  &:after {
+    content: none;
+  }
+}
+
+/**
+ * ## Ordered lists `ol`
+ *
+ * .inline  - Inline variant
+ *
+ * Styleguide 2.4
+ */
+
+ol {
+}
+ol li {
+  list-style-type: decimal;
+  list-style-position: inside;
+}

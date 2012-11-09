@@ -1,0 +1,111 @@
+/* Application configuration
+----------------------------------------------- */
+
+// Body
+
+$body-background:     image-url("redesign/backgrounds/body-background.png");
+
+// Typography
+$default-font-family: 'Open Sans', sans-serif;
+
+// Font sizes
+$default-font-size:   13px;
+
+$font-h:              55px; // As in Humongous
+$font-xxl:            40px;
+$font-xl:             17px;
+$font-l:              15px;
+$font-m:              $default-font-size;
+$font-s:              12px;
+$font-xs:             11px;
+
+$line-height-xxl:     3;
+$line-height-xl:      2.2;
+$line-height-l:       2;
+$line-height-m:       1.55;
+$line-height-s:       1.25;
+$line-height-xs:      1;
+
+// Colors
+$base-color:          #4C4C4C;
+
+// Grey Shades
+$darkest:             #000;
+$grey-darker:         $base-color;
+$grey-dark:           #666;
+$grey-mid:            #9A9A9A;
+$grey-mid-light:      #ccc;
+$grey-light:          #E7E7E7;
+$grey-lighter:        #F3F3F3;
+$brightest:           #fff;
+
+// Green Shades
+$green-dark:          #698F31;
+$green-mid:           #7A9D29;
+$green-light:         #8FB539;
+
+// Feedback colour rainbow
+$red:                 #B63A52;
+$blue:                #3A91B6;
+$yellow:              #B69D3A;
+
+// Transparency values
+$transparency-strong: 0.75;
+$transparency-medium: 0.5;
+$transparency-subtle: 0.25;
+$transparency-light:  0.15;
+
+// Shadows and flaires
+$darken-more:         rgba(0,0,0,$transparency-medium);
+$darken:              rgba(0,0,0,$transparency-subtle);
+$darken-less:         rgba(0,0,0,$transparency-light);
+
+$lighten-more:        rgba(255,255,255,$transparency-medium);
+$lighten:             rgba(255,255,255,$transparency-subtle);
+$lighten-less:        rgba(255,255,255,$transparency-light);
+
+// Border radii
+$border-radius-s:     3px;
+$border-radius-m:     5px;
+
+// Spaces
+$space-x:             5px;
+$space-s:             10px;
+$space-m:             20px;
+$space-l:             40px;
+$space-h:             60px;
+
+// Media query variables
+$screen-size-xs-s:    "only screen and (max-width: 1151px)";
+$screen-size-m-l:     "only screen and (min-width: 1152px) and (max-width: 1399px)";
+$screen-size-xl-xxl:  "only screen and (min-width: 1400px)";
+$screen-size-xxl-plus:"only screen and (min-width: 1680px)";
+
+$screen-size-xs:      "only screen and (max-width: 1023px)";
+$screen-size-s:       "only screen and (min-width: 1024px) and (max-width: 1151px)";
+$screen-size-m:       "only screen and (min-width: 1152px) and (max-width: 1279px)";
+$screen-size-l:       "only screen and (min-width: 1280px) and (max-width: 1399px)";
+$screen-size-xl:      "only screen and (min-width: 1400px) and (max-width: 1599px)";
+$screen-size-xxl:     "only screen and (min-width: 1600px)";
+
+
+/* Base Imports
+----------------------------------------------- */
+
+// Mixins
+@import "compass";
+@import "library/dimension";
+@import "library/ixt-reset";
+@import "library/micro-clearfix";
+@import "library/position";
+@import "library/replacement";
+@import "library/sticky-footer";
+@import "library/sprite";
+
+// Dependent on Mixins
+@import "library/grid";
+@import "library/space";
+
+// Load external fonts
+
+@import url("http://fonts.googleapis.com/css?family=Open+Sans:400,600,700");

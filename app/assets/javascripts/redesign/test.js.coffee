@@ -1,1 +1,0 @@
-console.log "redesign js test loaded!"

@@ -1,0 +1,264 @@
+$icons: sprite-map("redesign/icons/*.png");
+
+/**
+ * ## Checkbox `.icon-check`
+ *
+ * :hover    - Checkbox hovered
+ * .active   - Checkbox pressed
+ * .disabled - Checkbox disabled
+ *
+ * Styleguide 5.1
+ */
+
+.icon-check {
+  @include ixt-sprite($icons, icon-check-active);
+  &:hover {
+    @include ixt-sprite($icons, icon-check-hover);
+  }
+  &.active {
+    @include ixt-sprite($icons, icon-check-pressed);
+  }
+  &.disabled {
+    @include ixt-sprite($icons, icon-check-inactive);
+  }
+}
+
+/**
+ * ## Favorite `.icon-fav`
+ *
+ * :hover    - Fav hovered
+ * .active   - Fav pressed
+ * .disabled - Fav disabled
+ *
+ * Styleguide 5.2
+ */
+
+.icon-fav {
+  @include ixt-sprite($icons, icon-fav-active);
+  &:hover {
+    @include ixt-sprite($icons, icon-fav-hover);
+  }
+  &.active {
+    @include ixt-sprite($icons, icon-fav-pressed);
+  }
+  &.disabled {
+    @include ixt-sprite($icons, icon-fav-inactive);
+  }
+}
+
+/**
+ * ## Explore `.icon-explore`
+ *
+ * :hover    - Explore hovered
+ * .disabled - Explore disabled
+ *
+ * Styleguide 5.3
+ */
+
+.icon-explore {
+  @include ixt-sprite($icons, icon-explore-active);
+  &:hover {
+    @include ixt-sprite($icons, icon-explore-hover);
+  }
+  &.disabled {
+    @include ixt-sprite($icons, icon-explore-inactive);
+  }
+}
+
+/**
+ * ## Edit `.icon-edit`
+ *
+ * :hover    - Edit hovered
+ * .disabled - Edit disabled
+ *
+ * Styleguide 5.4
+ */
+
+.icon-edit {
+  @include ixt-sprite($icons, icon-edit-active);
+  &:hover {
+    @include ixt-sprite($icons, icon-edit-hover);
+  }
+  &.disabled {
+    @include ixt-sprite($icons, icon-edit-inactive);
+  }
+}
+
+/**
+ * ## Delete `.icon-delete`
+ *
+ * :hover    - Delete hovered
+ * .disabled - Delete disabled
+ *
+ * Styleguide 5.5
+ */
+
+.icon-delete {
+  @include ixt-sprite($icons, icon-delete-active);
+  &:hover {
+    @include ixt-sprite($icons, icon-delete-hover);
+  }
+  &.disabled {
+    @include ixt-sprite($icons, icon-delete-inactive);
+  }
+}
+
+/**
+ * ## Privacy `.icon-privacy-`
+ *
+ * Styleguide 5.6
+ */
+
+.icon-privacy-public {
+  @include ixt-sprite($icons, icon-privacy-public-dark);
+}
+.icon-privacy-group {
+  @include ixt-sprite($icons, icon-privacy-group-dark);
+}
+.icon-privacy-private {
+  @include ixt-sprite($icons, icon-privacy-private-dark);
+}
+
+/**
+ * ## Top bar icons `.icon-`
+ *
+ * .bright  - white variation for darker backgrounds
+ *
+ * Styleguide 5.7
+ */
+
+.icon-home {
+  @include ixt-sprite($icons, icon-home-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-home-bright);
+  }
+}
+.icon-search {
+  @include ixt-sprite($icons, icon-lens-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-lens-bright);
+  }
+}
+.icon-user {
+  @include ixt-sprite($icons, icon-user-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-user-bright);
+  }
+}
+.icon-help {
+  @include ixt-sprite($icons, icon-help-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-help-bright);
+  }
+}
+
+/**
+ * ## Arrow icons `.icon-arrow-`
+ *
+ * .bright  - white variation for darker backgrounds
+ * .green   - green variation
+ *
+ * Styleguide 5.8
+ */
+
+.icon-arrow-down {
+  @include ixt-sprite($icons, icon-arrow-down-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-arrow-down-bright);
+  }
+  &.green {
+    @include ixt-sprite($icons, icon-arrow-down-green);
+  }
+}
+.icon-arrow-up {
+  @include ixt-sprite($icons, icon-arrow-up-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-arrow-up-bright);
+  }
+  &.green {
+    @include ixt-sprite($icons, icon-arrow-up-green);
+  }
+}
+
+
+/**
+ * ## Visualization switch icons `.icon-vis-`
+ *
+ * .bright  - white variation for darker backgrounds
+ *
+ * Styleguide 5.9
+ */
+
+.icon-vis-grid {
+  @include ixt-sprite($icons, icon-vis-grid);
+  &.bright {
+    @include ixt-sprite($icons, icon-vis-grid-active);
+  }
+}
+.icon-vis-tiles {
+  @include ixt-sprite($icons, icon-vis-tiles);
+  &.bright {
+    @include ixt-sprite($icons, icon-vis-tiles-active);
+  }
+}
+.icon-vis-list {
+  @include ixt-sprite($icons, icon-vis-list);
+  &.bright {
+    @include ixt-sprite($icons, icon-vis-list-active);
+  }
+}
+
+
+/**
+ * ## Mainly button-accompanying icons `.icon-`
+ *
+ * .bright  - white variation for darker backgrounds
+ *
+ * Styleguide 5.10
+ */
+
+.icon-upload {
+  @include ixt-sprite($icons, icon-upload-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-upload-bright);
+  }
+}
+.icon-trash {
+  @include ixt-sprite($icons, icon-trash-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-trash-bright);
+  }
+}
+.icon-tag {
+  @include ixt-sprite($icons, icon-tags-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-tags-bright);
+  }
+}
+.icon-new-set {
+  @include ixt-sprite($icons, icon-nuset-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-nuset-bright);
+  }
+}
+.icon-privacy {
+  @include ixt-sprite($icons, icon-lock-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-lock-bright);
+  }
+}
+.icon-download {
+  @include ixt-sprite($icons, icon-download-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-download-bright);
+  }
+}
+.icon-clipboard {
+  @include ixt-sprite($icons, icon-clipboard-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-clipboard-bright);
+  }
+}
+.icon-explore-tag {
+  @include ixt-sprite($icons, icon-explore-hover);
+}

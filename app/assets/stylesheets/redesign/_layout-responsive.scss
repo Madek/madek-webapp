@@ -1,0 +1,50 @@
+/**
+ *
+ * ## Defining layout of pages and rounded corners on containers as they vary from screen to screen
+ *
+ */
+
+@media #{$screen-size-xs} {
+
+  .header-brand-name,
+  .header-instance-name {
+    display: block;
+    line-height: $line-height-s;
+  }
+  .header-instance-name {
+    $font-size: $font-xs;
+  }
+  .header-brand-logo {
+    display: none;
+  }
+}
+
+@media #{$screen-size-xs-s} {
+
+  // Responsive Footer
+
+  @include sticky-footer(75px, ".app-content-wrapper", ".app-footer-placeholder", ".app-footer-wrapper");
+  .app-footer {
+    height: 65px;
+  }
+  .footer-menu,
+  .footer-instance-area {
+    clear: both;
+    display: block;
+    float: none;
+    text-align: center;
+    width: auto;
+  }
+  .footer-instance-logo {
+    display: inline-block;
+    float: none;
+    margin: 0 $space-s 0 0;
+    position: relative;
+    top: $space-x;
+  }
+  .footer-copyrights {
+    display: inline;
+    margin: 0;
+  }
+
+}

@@ -10,6 +10,7 @@
       %span.grey= "kein Titel"
     - else
       = @title
+  .contains_info
 
   .links
     %a{href: "/media_resources/#{@id}", target: "_blank"}= "Betrachte diese Resource im Medienarchiv"

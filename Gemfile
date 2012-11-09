@@ -42,6 +42,7 @@ group :assets do
   gem 'execjs'
   gem 'haml_coffee_assets'
   gem 'sass-rails', '~> 3.2'
+  gem 'compass-rails'
   gem 'uglifier', '~> 1.2'
 end
 
@@ -85,6 +86,11 @@ group :development, :production do
     gem "yard-rest", "~> 1.1.4"
     gem 'redcarpet' # yard-rest dependency
   end
+end
+
+group :development do
+  # CSS styleguides
+  gem 'nkss-rails', github: 'interactivethings/nkss-rails'
 end
 
 group :test do

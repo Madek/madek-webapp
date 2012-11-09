@@ -67,7 +67,14 @@ Then /^the results are sorted by (.*)$/ do |sort_by|
   underscored_sort_by = sort_by.gsub(/\s/, '_')
   wait_until { find(".results .item_box[data-id]") }
   dom_ids = all(".results .item_box[data-id]").map {|x| x[:"data-id"].to_i}
-  model_sorted_ids = MediaResource.filter(@current_user, page.evaluate_script('App.MediaResources.current_filter')).
+  
+  env = Rack::MockRequest.env_for(current_url)
+  request = Rack::Request.new(env)
+  @filter = request.params.select do |k,v| 
+    MediaResourceModules::Filter::KEYS.include?(k.to_sym) 
+  end.delete_if {|k,v| v.blank?}.deep_symbolize_keys
+    
+  model_sorted_ids = MediaResource.filter(@current_user, @filter).
                       ordered_by(underscored_sort_by).
                       paginate(:page => 1, :per_page => PER_PAGE.first).
                       map(&:id)

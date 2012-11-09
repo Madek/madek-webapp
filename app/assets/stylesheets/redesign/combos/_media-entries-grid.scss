@@ -1,0 +1,32 @@
+/**
+ * ## Thumbnail section - Grid `.media-entries.grid`
+ *
+ * .active    - For when the items on the list are to be interacted with
+ *
+ * Styleguide 8.9.1
+ */
+
+.media-entries.grid {
+  .media-entries-item {
+    @include float-left;
+    list-style: none;
+    position: relative;
+  }
+}
+
+/**
+ * ## Thumbnail section - Tight Grid
+ *
+ * Styleguide 8.9.2
+ */
+
+.media-entries.tight {
+  padding-left: $space-x;
+}
+.media-entries.tight .thumbnail-wrapper {
+  @include dimension(60px,60px);
+  padding: $space-x;
+  margin-right: 16px;
+}
+
+

@@ -1,0 +1,94 @@
+/**
+ * ## Tab navigation `.tab-navigation`
+ *
+ * .primary   - Primary tab navigation
+ * .small     - Small tab navigation
+ * .large     - Large tab navigation
+ * .primary large - Primary large tab navigation
+ * .by-right  - Aligned right
+ * .by-center - Centered
+ *
+ * Styleguide 7.5
+ */
+
+// Tab style
+
+.tab-navigation {
+  margin-left: -3px;
+  margin-right: -3px;
+}
+.tab-navigation-item {
+  display: inline-block;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+.tab-navigation-item a {
+  @extend .button;
+  @include box-shadow($lighten-more 0 1px 0 0, $darken-less 0 -1px 2px 0 inset);
+  @include border-bottom-left-radius(0);
+  @include border-bottom-right-radius(0);
+  border-bottom: none;
+  padding-bottom: 1px;
+  text-align: center;
+}
+.tab-navigation-item.active a,
+.tab-navigation-item a.active {
+  @include box-shadow(none);
+  background: $brightest;
+  cursor: default;
+}
+
+// Colour variations
+.tab-navigation.primary .tab-navigation-item a {
+  @extend .primary-button;
+  @include border-bottom-left-radius(0);
+  @include border-bottom-right-radius(0);
+  @include box-shadow($lighten-more 0 1px 0, $darken 0 -1px 2px inset);
+  border: none;
+  font-weight: normal;
+  padding-bottom: 1px;
+  padding-top: 1px;
+  i {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+.tab-navigation.primary .tab-navigation-item.active a {
+  @include box-shadow(0 -2px 2px $darken-less);
+  @include single-text-shadow(false, 1px, 0, false, $lighten-more);
+  background: $body-background;
+  border: none;
+  color: $grey-darker;
+  cursor: default;
+}
+
+// Size variations
+
+.tab-navigation-item a {
+  padding-left: $space-s;
+  padding-right: $space-s;
+}
+.tab-navigation.small .tab-navigation-item {
+  a {
+    @extend .button.small;
+    padding-left: $space-x;
+    padding-right: $space-x;
+  }
+}
+.tab-navigation.large .tab-navigation-item a {
+  @extend .button.large;
+  padding-left: $space-s;
+  padding-right: $space-s;
+}
+
+// "Behavioral" CSS
+
+.tab-content {
+  margin-top: -1px;
+}
+.tab-pane {
+  display: none;
+  &.active {
+    display: block;
+  }
+}

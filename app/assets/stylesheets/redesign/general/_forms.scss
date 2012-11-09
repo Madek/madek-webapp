@@ -1,0 +1,40 @@
+/**
+ * ## Side filter `.side-filter`
+ *
+ * Styleguide 7.3
+ */
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  @include border-radius($border-radius-m);
+  @include box-shadow(inset 0 1px 3px $darken-less);
+  border: 1px solid $grey-mid-light;
+  color: $grey-darker;
+  font-size: $font-m;
+  font-family: $default-font-family;
+  font-weight: 400;
+  line-height: $line-height-s;
+  margin-bottom: $space-s;
+  padding: $space-x 0;
+  text-indent: 0.5em;
+}
+
+input.block {
+  display: block;
+  width: 100%;
+}
+
+input.large {
+  font-size: $font-l;
+  line-height: $line-height-l
+}
+
+.form-body {
+
+}
+.form-body-list {
+}
+.form-body-list-item {
+  list-style: none;
+}

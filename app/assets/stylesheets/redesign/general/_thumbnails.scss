@@ -1,0 +1,177 @@
+// Thumbnail generic style
+
+.thumbnail {
+  @include border-radius($border-radius-s);
+  @include box-shadow(0px 1px 3px rgba(0,0,0,0.2));
+  background: $brightest;
+  border: 1px solid $grey-mid-light;
+  display: inline-block;
+  position: relative;
+  text-align: center;
+}
+.thumbnail img {
+  display: inline-block;
+}
+
+// Define thumb's size variations
+
+.thumbnail-video,
+.thumbnail-audio,
+.thumbnail-doc,
+.thumbnail-package {
+  @extend .thumbnail;
+  @include dimension(130px,100px);
+  padding: 18px 4px;
+  img {
+    @include max-dimension(130px,100px);
+    margin: 0 auto;
+  }
+}
+.thumbnail-video.small,
+.thumbnail-audio.small,
+.thumbnail-doc.small,
+.thumbnail-package.small {
+  @include dimension(50px,42px);
+  padding: 8px 4px;
+}
+
+/**
+ * ## Set and katalog thumbnails `.thumbnail-set`
+ *
+ * .small    - Small thumbs
+ * .large    - Large thumbs
+ *
+ * Styleguide 6.1
+ */
+
+// Set 'stack' effect
+.thumbnail-set,
+.thumbnail-set:before {
+  @extend .thumbnail;
+  border: 1px solid $grey-mid;
+  padding: 4px;
+}
+.thumbnail-set:before {
+  content: "";
+  -webkit-backface-visibility: hidden;
+  z-index: -1;
+}
+
+// Define size variations and stack effect properties
+
+.thumbnail-set.small {
+  @include dimension(50px,50px);
+  &:before {
+    @include dimension(50px,50px);
+    @include position-top-left(-1%,-1%);
+    @include rotate(-10deg);
+  }
+}
+.thumbnail-set {
+  @include dimension(130px,130px);
+  &:before {
+    @include dimension(130px,130px);
+    @include position-top-left(-1%,-1%);
+    @include rotate(-6deg);
+  }
+}
+.thumbnail-set.large {
+  @include dimension(290px,190px);
+  &:before {
+    @include dimension(287px,186px);
+    @include position-top-left(1px,1px);
+    @include rotate(4deg);
+  }
+}
+
+// Make the image fill whole thumbnail space
+
+.thumbnail-set {
+  .inner-wrapper {
+    display: block;
+    overflow: hidden;
+    position: relative;
+  }
+  &.small .inner-wrapper {
+    @include dimension(50px,50px);
+    img {
+      @include min-dimension(auto,100%);
+      @include max-dimension(130%,auto);
+    }
+  }
+  .inner-wrapper,
+  &.thumb-n .inner-wrapper {
+    @include dimension(130px,130px);
+    img {
+      @include min-dimension(auto,100%);
+      @include max-dimension(130%,auto);
+    }
+  }
+  &.large .inner-wrapper {
+    @include dimension(290px,190px);
+    img {
+      @include min-dimension(auto,100%);
+      @include max-dimension(130%,auto);
+    }
+  }
+}
+
+/**
+ * ## Video file thumbnails `.thumbnail-video`
+ *
+ * Styleguide 6.2
+ */
+
+.thumbnail-video {
+  background-image: image-url("redesign/backgrounds/thumb-video-backg.png");
+}
+.thumbnail-video img {
+  @include max-dimension(130px,100px);
+}
+
+/**
+ * ## Small video file thumbnails `.thumbnail-video.small`
+ *
+ * Styleguide 6.3
+ */
+
+.thumbnail-video.small {
+  background-image: image-url("redesign/backgrounds/thumb-video-backg-small.png");
+}
+
+/**
+ * ## Audio file thumbnails `.thumbnail-audio`
+ *
+ * Styleguide 6.4
+ */
+
+/**
+ * ## Small audio file thumbnails `.thumbnail-audio.small`
+ *
+ * Styleguide 6.5
+ */
+
+/**
+ * ## Doc file thumbnails `.thumbnail-doc`
+ *
+ * Styleguide 6.6
+ */
+
+/**
+ * ## Small doc file thumbnails `.thumbnail-doc.small`
+ *
+ * Styleguide 6.7
+ */
+
+/**
+ * ## Package file thumbnails `.thumbnail-package`
+ *
+ * Styleguide 6.8
+ */
+
+/**
+ * ## Small package file thumbnails `.thumbnail-package.small`
+ *
+ * Styleguide 6.9
+ */
+

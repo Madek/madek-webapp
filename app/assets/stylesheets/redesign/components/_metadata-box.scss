@@ -1,0 +1,36 @@
+/**
+ * ## Metadata box Orinated List variation `.metadata-box`
+ *
+ * Styleguide 7.13
+ */
+
+.metadata-box ol li {
+  float: left;
+  font-size: $font-xs;
+  list-style: none;
+  margin-bottom: $space-x;
+  padding-right: 1%;
+  width: 49%;
+  &.odd {
+    clear: left;
+  }
+  &.even {
+    clear: right;
+  }
+}
+
+/**
+ * ## Metadata box Definition List variation `.metadata-box`
+ *
+ * Styleguide 7.14
+ */
+
+.metadata-box dt {
+  margin-bottom: $space-x;
+}
+.metadata-box dd {
+  margin-bottom: $space-m;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}

@@ -1,0 +1,73 @@
+/**
+ * ## Button group - groups several buttons into one element `.button-group`
+ *
+ * .primary     - Primary button group
+ * .tertiary    - Secondary button group
+ * .small       - Small button group
+ * .large       - Large button group
+ *
+ * Styleguide 3.7
+ */
+
+// Support for size variations with just a modifier class
+
+.button-group.large .button {
+  @extend .button.large;
+}
+.button-group.small .button {
+  @extend .button.small;
+}
+
+// Support for colour variations with just a modifier class
+
+.button-group.primary .button {
+  @extend .primary-button;
+}
+.button-group.tertiary .button {
+  @extend .tertiary-button;
+}
+
+// Button group styling and box model
+
+.button-group {
+  @include position;
+  white-space: nowrap;
+}
+.button-group + .button-group {
+  margin-left: 5px;
+}
+.button-group .button {
+  @include position;
+  @include border-radius(0);
+}
+.button-group .button i {
+  margin-left: -1px;
+  margin-right: 0;
+}
+.button-group > .button + .button {
+  margin-left: -1px;
+}
+.button-group > .button:first-child {
+  @include border-left-radius($border-radius-s);
+  margin-left: 0;
+}
+.button-group > .button:last-child {
+  @include border-right-radius($border-radius-s);
+}
+
+// On hover/focus/active, bring the proper btn to front
+.button-group > .button:hover,
+.button-group > .button:focus,
+.button-group > .button:active,
+.button-group > .button.active {
+  z-index: 2;
+}
+.button-group.inline {
+  display: inline-block;
+}
+
+// Font-size inline-block hack
+.button-group {
+  font-size: 0;
+  > .button { font-size: $default-font-size;}
+}

@@ -1,0 +1,265 @@
+/**
+ * ## Links `a`
+ *
+ * :hover   - Hovered link
+ * :active  - Active link
+ * .strong  - Enhanced link
+ * .weak    - Secondary link
+ *
+ * Styleguide 3.1
+*/
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: $green-dark;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+a.strong {
+  font-weight: bold;
+}
+a.weak {
+  color: $grey-dark;
+}
+
+a:active {
+  color: $grey-dark;
+}
+
+/**
+ * ## Button `.button`
+ *
+ * :hover    - Hovered primary button
+ * .active   - Active primary button
+ * .block    - Primary button that takes the whole width
+ * .small    - Small primary button
+ * .large    - Large primary button
+ * .disabled - Disabled link
+ *
+ * Styleguide 3.2
+ */
+
+.button {
+  // Support for background gradients in IE9 through SVG
+  $experimental-support-for-svg: true;
+  @include background-image(linear-gradient($grey-lighter, $grey-light));
+  @include border-radius($border-radius-s);
+  @include box-shadow($lighten 0 1px 0 inset);
+  @include single-text-shadow(false, 1px, false, false, $lighten);
+  background-color: $grey-lighter;
+  border: 1px solid $grey-mid-light;
+  color: $grey-darker;
+  cursor: pointer;
+  display: inline-block;
+  font-size: $default-font-size;
+  font-weight: 600;
+  line-height: $line-height-l;
+  min-height: 26px;
+  overflow: hidden;
+  padding: 0 $space-s;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  &:hover {
+    text-decoration: none;
+  }
+}
+.button:hover {
+  @include background-image(linear-gradient(lighten($grey-lighter, 3%), lighten($grey-light, 3%)));
+  @include single-text-shadow(false, 1px, false, false, $lighten);
+  background-color: lighten($grey-light, 3%);
+  border-color: darken($grey-mid-light, 3%);
+  color: $grey-darker;
+}
+.button:active,
+.button.active {
+  @include background-image(linear-gradient(darken($grey-lighter, 10%), darken($grey-light, 10%)));
+  @include box-shadow($darken 0 1px 3px inset);
+  border-color: darken($grey-mid-light, 5%);
+  color: $grey-mid;
+  outline: 0;
+}
+.button.small {
+  font-size: $font-xs;
+  line-height: $line-height-m;
+  min-height: 18px;
+  padding-left: $space-x;
+  padding-right: $space-x;
+}
+.button.large {
+  font-size: $font-xl;
+  line-height: $line-height-xl;
+  min-height: 37px;
+}
+.button.disabled {
+  @include background-image(linear-gradient(darken($grey-lighter, 10%), darken($grey-light, 10%)));
+  border-color: darken($grey-mid-light, 5%);
+  color: $grey-mid;
+  &:active {
+    @include box-shadow(none);
+  }
+}
+
+// Icons within buttons
+
+.button i {
+  margin-left: -1px;
+  margin-top: 3px;
+  position: relative;
+}
+.button:active i,
+.button.disabled i {
+  opacity: 0.5;
+}
+.button.small i {
+  margin-bottom: -2px;
+  margin-top: -1px;
+}
+.button.large i {
+  margin-top: 8px;
+}
+.button .stand-alone {
+  margin-left: $space-x;
+  margin-right: -3px;
+  position: relative;
+  &:after {
+    @include position-top-left(-1px,-1px);
+    bottom: 0;
+    content: " ";
+    display: block;
+    border-left: 1px solid $darken;
+    height: 150%;
+    z-index: 3;
+    background: $grey-darker;
+  }
+}
+
+// Extended buttons (most commonly featuring a dropdown icon)
+
+.button.block i.stand-alone {
+  @include position-top-right(50%,$space-x);
+  display: inline-block;
+  margin: -10px 0 0; // must be equal to half of icons's size
+}
+
+// Block buttons
+
+.button.block {
+  display: block;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%; // Explicit width for <button> elements
+}
+
+/**
+ * ## Primary Button `.primary-button`
+ *
+ * :hover    - Hovered primary button
+ * .active   - Active primary button
+ * .block    - Primary button that takes the whole width
+ * .small    - Small primary button
+ * .large    - Large primary button
+ *
+ * Styleguide 3.3
+ */
+
+.primary-button {
+  @extend .button;
+  @include background-image(linear-gradient($green-light, $green-mid));
+  @include single-text-shadow(false, 1px, 0, false, $darken);
+  background-color: $green-mid;
+  border: 1px solid $green-dark;
+  color: darken($brightest, 5%);
+}
+
+// Hover state
+.primary-button:hover {
+  @include background-image(linear-gradient(lighten($green-light, 3%), lighten($green-mid, 3%)));
+  @include single-text-shadow(false, 1px, 0, false, $darken);
+  background-color: lighten($green-mid, 3%);
+  border-color: darken($green-dark, 3%);
+  color: $brightest;
+}
+
+// Active state
+.primary-button:active,
+.primary-button.active {
+  @include box-shadow($darken 0 1px 3px inset);
+  @include background-image(linear-gradient(darken($green-light, 10%), darken($green-mid, 10%)));
+  @include single-text-shadow(false, -1px, 0, false, $darken);
+  border-color: darken($green-dark, 5%);
+  color: darken($brightest, 5%);
+  outline: 0;
+}
+
+/**
+ * ## Tertiary Buttons `.tertiary-button`
+ *
+ * :hover   - Hovered tag button
+ * :active  - Active tag button
+ * .block   - Tertiary button that takes the whole width
+ * .small   - Small tertiary button
+ * .large   - Large tertiary button
+ *
+ * Styleguide 3.4
+*/
+
+.tertiary-button {
+  @extend .button;
+  @include background-image(linear-gradient($grey-mid, $grey-dark));
+  @include single-text-shadow(false, 1px, 0, false, $darken);
+  background-color: $grey-dark;
+  border: 1px solid $grey-darker;
+  color: $grey-lighter;
+}
+.tertiary-button:hover {
+  @include background-image(linear-gradient(lighten($grey-mid, 3%), lighten($grey-dark, 3%)));
+  @include single-text-shadow(false, 1px, 0, false, $darken);
+  background-color: lighten($grey-dark, 3%);
+  border: 1px solid darken($grey-darker, 5%);
+  color: $brightest;
+}
+.tertiary-button:active,
+.tertiary-button.active {
+  @include background-image(linear-gradient(darken($grey-dark, 10%), darken($grey-darker, 10%)));
+  @include box-shadow($darken 0 1px 3px inset);
+  @include single-text-shadow(false, -1px, 0, false, $darken-more);
+  border: 1px solid $darkest;
+  color: $brightest;
+}
+.tertiary-button:active {
+  color: $grey-mid;
+}
+
+/**
+ * ## Extended Buttons `.button`
+ *
+ * .small         - Small extended button
+ * .large         - Large extended button
+ * .block         - Block extended button
+ * .block small   - Block extended button
+ * .block large   - Block extended button
+ *
+ * Styleguide 3.5
+*/
+
+/**
+ * ## Tag Buttons `.tag-button`
+ *
+ * :hover   - Hovered tag button
+ * :active  - Active tag button
+ * .small   - Small tag button
+ * .large   - Large tag button
+ *
+ * Styleguide 3.6
+*/
+
+.tag-button {
+  @extend .button;
+  @include border-radius($font-h);
+}

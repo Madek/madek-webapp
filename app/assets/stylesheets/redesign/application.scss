@@ -1,0 +1,57 @@
+/**
+ * APPLICATION
+ * The main file that will be available to the browser
+ * Authors:
+ * - Peter Gassner <peter@interactivethings.com>
+ * - Piotr Fedorczyk <piotr@interactivethings.com>
+ */
+
+@import "config";
+
+/* Reset all styles
+----------------------------------------------- */
+@include ixt-reset;
+
+/* Import app specific styles
+----------------------------------------------- */
+
+
+// General
+@import "general/buttons";
+@import "general/button-groups";
+@import "general/forms";
+@import "general/icons";
+@import "general/tables";
+@import "general/typography";
+@import "general/thumbnails";
+
+// Components
+@import "components/alerts";
+@import "components/containers";
+@import "components/dropdowns";
+@import "components/media-entries";
+@import "components/metadata-box";
+@import "components/page-title";
+@import "components/side-filter";
+@import "components/side-navigation";
+@import "components/slider";
+@import "components/tag-cloud";
+@import "components/tab-navigation";
+@import "components/thumbnail-wrappers";
+
+// Combos
+@import "combos/clipboard";
+@import "combos/collage";
+@import "combos/elevator-pitch";
+@import "combos/featured-entries";
+@import "combos/footer";
+@import "combos/header";
+@import "combos/media-entries-list";
+@import "combos/media-entries-grid";
+@import "combos/metadata-summary";
+@import "combos/media-overview";
+@import "combos/toolbar";
+
+// Layout
+@import "layout";
+@import "layout-responsive";

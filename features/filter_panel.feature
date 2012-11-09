@@ -5,12 +5,9 @@ Feature: Filter panel
   So that I can get a good overview of all the things in the system
   And I can reduce my overview depending on various filter criteria
 
-  Background: Load the example data and personas
-    Given personas are loaded
-      And I am "Normin"
-
   @javascript
   Scenario: Where the filter panel appears
+   Given I am "Normin"
     When I look at one of these pages, then I can use the filter panel, but its not open initially:
     | page_type              |
     | my media entries       |
@@ -24,11 +21,13 @@ Feature: Filter panel
 
   @javascript
   Scenario: Filtering by MetaDatumKeywords
+   Given I am "Normin"
     Given a list contains resources that have values in a meta key of type "Keywords"
     Then I can filter by the values for that particular key
 
   @javascript
   Scenario: Behavior when selecting and deselecting a filter
+   Given I am "Normin"
     When I select a value to filter by
     Then I see all the values that can still be used as additional filters
      And all values that have no results disappear
@@ -37,6 +36,7 @@ Feature: Filter panel
 
   @javascript
   Scenario: Behavior when collapsing a context or a key
+   Given I am "Normin"
     When I select a value to filter by
      And I collapse its parent key
     Then all selected nested terms do not disappear 
@@ -45,12 +45,14 @@ Feature: Filter panel
 
   @javascript
   Scenario: Rules for when a MetaKey is displayed in the filter panel
+   Given I am "Normin"
     Given a list of resources
     When I see the filter panel
     Then I see a list of MetaKeys the resources have values for
 
   @javascript
   Scenario: Result counts for each value
+   Given I am "Normin"
     Given I see a filtered list of resources
     Then I see the match count for each value whose filter type is "meta_data" and the values are sorted by match counts
     And I do not see the match count for each value whose filter type is "permissions"
@@ -67,6 +69,7 @@ Feature: Filter panel
 
   @javascript
   Scenario: MetaContexts in the filter panel
+   Given I am "Normin"
     Given I see a list of resources that can be filtered
     And some of the keys with the filter type "meta_data" are in any contexts
     Then I can expand the context to reveal the keys
@@ -74,6 +77,7 @@ Feature: Filter panel
   # https://www.pivotaltracker.com/story/show/36230221
   @javascript
   Scenario: Selecting keys that appear in multiple MetaContexts in the filter panel
+   Given I am "Normin"
     Given I see a list of resources that can be filtered
     And I select a term that is present in multiple context
     Then the term is selected in all the contexts
@@ -92,6 +96,7 @@ Feature: Filter panel
 
   @javascript
   Scenario: Reset filters
+   Given I am "Normin"
     Given I see a filtered list of resources
      When I reset the filter panel
      Then the list is not filtered anymore
@@ -110,6 +115,7 @@ Feature: Filter panel
 
   @javascript
   Scenario: Filtering by media type
+    Given I am "Normin"
     Given a list of resources
     When I see the filter panel
     And the list contains images
@@ -117,15 +123,23 @@ Feature: Filter panel
     And I expand the sub-block "media_type" of the root block "media_files"
     Then I can filter letting me choose "image" in the sub-block "media_type" of the root block "media_files"
 
-
   @javascript 
   Scenario: Filtering by file extension
+    Given I am "Normin"
     Given a list of resources
     When I see the filter panel
     And the list contains images
     When I expand the root block "media_files"
     And I expand the sub-block "extension" of the root block "media_files"
     Then I can filter letting me choose "jpg" in the sub-block "extension" of the root block "media_files"
+
+  @javascript 
+  Scenario: Filtering empty values
+    Given I am "Karen"
+    Given a list of resources
+    When I see the filter panel
+    And the filter panel contains empty values
+    Then the label text of the empty values is "unbekannt"
 
   # Was never committed
   #@javascript
