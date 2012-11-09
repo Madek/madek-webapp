@@ -37,7 +37,36 @@
   margin: -130px -490px;
   z-index: 50;
 }
-
+.view-home-page .app-body {
+  margin: 0 auto;
+  padding: 0 0 $space-l;
+  position: relative;
+  width: 980px;
+  .header-menu {
+    margin-top: -50px;
+  }
+  .header-menu .tab-navigation-item {
+    @include box-shadow(0 -2px 2px $darken-more);
+  }
+  .media-entries-wrapper {
+    margin-top: $space-m;
+    padding: 0;
+    width: 100%;
+  }
+  .media-entries-header {
+    padding-left: $space-s;
+    margin-left: $space-x;
+  }
+  .media-entries-item {
+    margin-left: -1px;
+  }
+  .thumbnail-wrapper {
+    margin-right: 0;
+    &.media-catalog {
+      margin-right: 3px;
+    }
+  }
+}
 
 // DASHBOARD VIEW
 

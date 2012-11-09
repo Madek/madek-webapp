@@ -31,15 +31,6 @@
         .collage-item.odd
           .collage-image-wrapper
             %img.collage-image{:alt => "Media-entry-8", :src => "/assets/redesign/tmp/media-entry-8.jpeg"}/
-        .collage-item.even
-          .collage-image-wrapper
-            %img.collage-image{:alt => "Media-entry-6", :src => "/assets/redesign/tmp/media-entry-6.jpeg"}/
-        .collage-item.odd
-          .collage-image-wrapper
-            %img.collage-image{:alt => "Media-entry-7", :src => "/assets/redesign/tmp/media-entry-7.jpeg"}/
-        .collage-item.even
-          .collage-image-wrapper
-            %img.collage-image{:alt => "Media-entry-8", :src => "/assets/redesign/tmp/media-entry-8.jpeg"}/
       .collage-row
         .collage-item.odd
           .collage-image-wrapper
@@ -56,38 +47,20 @@
         .collage-item.odd
           .collage-image-wrapper
             %img.collage-image{:alt => "Media-entry-4", :src => "/assets/redesign/tmp/media-entry-4.jpeg"}/
-        .collage-item.even
-          .collage-image-wrapper
-            %img.collage-image{:alt => "Media-entry-3", :src => "/assets/redesign/tmp/media-entry-3.jpeg"}/
-        .collage-item.odd
-          .collage-image-wrapper
-            %img.collage-image{:alt => "Media-entry-4", :src => "/assets/redesign/tmp/media-entry-4.jpeg"}/
-        .collage-item.even
-          .collage-image-wrapper
-            %img.collage-image{:alt => "Media-entry-4", :src => "/assets/redesign/tmp/media-entry-4.jpeg"}/
       .collage-row
         .collage-item.odd
           .collage-image-wrapper
-            %img.collage-image{:alt => "Media-entry-6", :src => "/assets/redesign/tmp/media-entry-6.jpeg"}/
-        .collage-item.even
-          .collage-image-wrapper
-            %img.collage-image{:alt => "Media-entry-5", :src => "/assets/redesign/tmp/media-entry-5.jpeg"}/
-        .collage-item.odd
-          .collage-image-wrapper
-            %img.collage-image{:alt => "Media-entry-6", :src => "/assets/redesign/tmp/media-entry-6.jpeg"}/
-        .collage-item.even
-          .collage-image-wrapper
             %img.collage-image{:alt => "Media-entry-7", :src => "/assets/redesign/tmp/media-entry-7.jpeg"}/
-        .collage-item.odd
+        .collage-item.even
           .collage-image-wrapper
             %img.collage-image{:alt => "Media-entry-8", :src => "/assets/redesign/tmp/media-entry-8.jpeg"}/
-        .collage-item.even
-          .collage-image-wrapper
-            %img.collage-image{:alt => "Media-entry-6", :src => "/assets/redesign/tmp/media-entry-6.jpeg"}/
         .collage-item.odd
           .collage-image-wrapper
-            %img.collage-image{:alt => "Media-entry-7", :src => "/assets/redesign/tmp/media-entry-7.jpeg"}/
+            %img.collage-image{:alt => "Media-entry-6", :src => "/assets/redesign/tmp/media-entry-6.jpeg"}/
         .collage-item.even
+          .collage-image-wrapper
+            %img.collage-image{:alt => "Media-entry-7", :src => "/assets/redesign/tmp/media-entry-7.jpeg"}/
+        .collage-item.odd
           .collage-image-wrapper
             %img.collage-image{:alt => "Media-entry-8", :src => "/assets/redesign/tmp/media-entry-8.jpeg"}/
       .collage-row
@@ -96,13 +69,7 @@
             %img.collage-image{:alt => "Media-entry-1", :src => "/assets/redesign/tmp/media-entry-1.png"}/
         .collage-item.even
           .collage-image-wrapper
-            %img.collage-image{:alt => "Media-entry-2", :src => "/assets/redesign/tmp/media-entry-2.png"}/
-        .collage-item.odd
-          .collage-image-wrapper
             %img.collage-image{:alt => "Media-entry-3", :src => "/assets/redesign/tmp/media-entry-3.jpeg"}/
-        .collage-item.even
-          .collage-image-wrapper
-            %img.collage-image{:alt => "Media-entry-4", :src => "/assets/redesign/tmp/media-entry-4.jpeg"}/
         .collage-item.odd
           .collage-image-wrapper
             %img.collage-image{:alt => "Media-entry-4", :src => "/assets/redesign/tmp/media-entry-4.jpeg"}/
@@ -110,9 +77,6 @@
           .collage-image-wrapper
             %img.collage-image{:alt => "Media-entry-3", :src => "/assets/redesign/tmp/media-entry-3.jpeg"}/
         .collage-item.odd
-          .collage-image-wrapper
-            %img.collage-image{:alt => "Media-entry-4", :src => "/assets/redesign/tmp/media-entry-4.jpeg"}/
-        .collage-item.even
           .collage-image-wrapper
             %img.collage-image{:alt => "Media-entry-4", :src => "/assets/redesign/tmp/media-entry-4.jpeg"}/
 
@@ -141,6 +105,168 @@
                         %input.block.large{:placeholder => "Passwort", :type => "password"}/
                   .form-footer
                     %button.primary-button.block.large Anmelden
+
+    .app-body.container
+      %ul.header-menu.large.primary.tab-navigation
+        %li.tab-navigation-item.active
+          %a
+            %i.icon-home
+              Home Page
+        %li.tab-navigation-item
+          %a{:href => "#"} Erkunden
+        %li.tab-navigation-item
+          %a{:href => "#"}
+            %i.icon-search.bright
+            Suchen
+        %li.tab-navigation-item
+          %a{:href => "#"}
+            %i.icon-help.bright Help
+
+      .media-entries-wrapper
+        .media-entries-header.container
+          %h2.title-l.media-entries-title
+            ZHdK-Katalog
+            %a.strong{:href => "#"} Alle anziegen
+        %ul.media-entries.grid
+          %li.media-entries-item
+            .thumbnail-wrapper.media-catalog
+              .thumbnail-privacy
+                %i.icon-privacy-public This media is public
+              .thumbnail-set.large.thumbnail
+                %a
+                  .inner-wrapper
+                    %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}
+              .thumbnail-metadata
+                %h3.title-s.thumbnail-name Katalog name that can easily go onto 2 lines
+                %p.title-xs-alt Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin vel ante a orci tempus eleifend.
+          %li.media-entries-item
+            .thumbnail-wrapper.media-catalog
+              .thumbnail-privacy
+                %i.icon-privacy-public This media is public
+              .thumbnail-set.large.thumbnail
+                %a
+                  .inner-wrapper
+                    %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}
+              .thumbnail-metadata
+                %h3.title-s.thumbnail-name Katalog name that can easily go onto 2 lines
+                %p.title-xs-alt Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin vel ante a orci tempus eleifend.
+          %li.media-entries-item
+            .thumbnail-wrapper.media-catalog
+              .thumbnail-privacy
+                %i.icon-privacy-public This media is public
+              .thumbnail-set.large.thumbnail
+                %a
+                  .inner-wrapper
+                    %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}
+              .thumbnail-metadata
+                %h3.title-s.thumbnail-name Katalog name that can easily go onto 2 lines
+                %p.title-xs-alt Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin vel ante a orci tempus eleifend.
+
+      %hr.separator
+
+      .media-entries-wrapper
+        .media-entries-header.container
+          %h2.title-l.media-entries-title
+            Interessante Inhalte
+            %a.strong{:href => "#"} Alle anziegen
+        %ul.media-entries.grid
+          %li.media-entries-item
+            .thumbnail-wrapper.media-set
+              .thumbnail-set.thumbnail
+                %a
+                  .inner-wrapper
+                    %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
+              .thumbnail-metadata
+                %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+          %li.media-entries-item
+            .thumbnail-wrapper.media-entry
+              %a.thumbnail-audio.thumbnail
+                %img{:alt => "", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
+              .thumbnail-metadata
+                %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+          %li.media-entries-item
+            .thumbnail-wrapper.media-entry
+              %a.thumbnail-video.thumbnail
+                %img{:alt => "Thumb-video", :src => "/assets/redesign/thumbnails/thumb-video-mov.png"}/
+              .thumbnail-metadata
+                %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+          %li.media-entries-item
+            .thumbnail-wrapper.media-entry
+              %a.thumbnail-audio.thumbnail
+                %img{:alt => "Thumb-audio", :src => "/assets/redesign/thumbnails/thumb-audio-mp3.png"}/
+              .thumbnail-metadata
+                %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+          %li.media-entries-item
+            .thumbnail-wrapper.media-entry
+              %a.thumbnail-doc.thumbnail
+                %img{:alt => "Thumb-doc", :src => "/assets/redesign/thumbnails/thumb-doc-doc.png"}/
+              .thumbnail-metadata
+                %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+          %li.media-entries-item
+            .thumbnail-wrapper.media-entry
+              %a.thumbnail-doc.thumbnail
+                %img{:alt => "Thumb-doc", :src => "/assets/redesign/thumbnails/thumb-doc-doc.png"}/
+              .thumbnail-metadata
+                %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+
+      %hr.separator
+
+      .media-entries-wrapper
+        .media-entries-header.container
+          %h2.title-l.media-entries-title
+            Neue Inhalte
+            %a.strong{:href => "#"} Alle anziegen
+        %ul.media-entries.grid
+          %li.media-entries-item
+            .thumbnail-wrapper.media-set
+              .thumbnail-set.thumbnail
+                %a
+                  .inner-wrapper
+                    %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
+              .thumbnail-metadata
+                %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+          %li.media-entries-item
+            .thumbnail-wrapper.media-entry
+              %a.thumbnail-audio.thumbnail
+                %img{:alt => "", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
+              .thumbnail-metadata
+                %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+          %li.media-entries-item
+            .thumbnail-wrapper.media-entry
+              %a.thumbnail-video.thumbnail
+                %img{:alt => "Thumb-video", :src => "/assets/redesign/thumbnails/thumb-video-mov.png"}/
+              .thumbnail-metadata
+                %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+          %li.media-entries-item
+            .thumbnail-wrapper.media-entry
+              %a.thumbnail-audio.thumbnail
+                %img{:alt => "Thumb-audio", :src => "/assets/redesign/thumbnails/thumb-audio-mp3.png"}/
+              .thumbnail-metadata
+                %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+          %li.media-entries-item
+            .thumbnail-wrapper.media-entry
+              %a.thumbnail-doc.thumbnail
+                %img{:alt => "Thumb-doc", :src => "/assets/redesign/thumbnails/thumb-doc-doc.png"}/
+              .thumbnail-metadata
+                %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+          %li.media-entries-item
+            .thumbnail-wrapper.media-entry
+              %a.thumbnail-doc.thumbnail
+                %img{:alt => "Thumb-doc", :src => "/assets/redesign/thumbnails/thumb-doc-doc.png"}/
+              .thumbnail-metadata
+                %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
 
     .app-footer-placeholder
 

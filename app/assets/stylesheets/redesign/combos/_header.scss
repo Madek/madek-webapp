@@ -45,11 +45,15 @@
 
 .header-menu {
   @include position-top-right(11px,50%);
-  @include position-bottom-left(0,50%);
+  @include position-bottom-left(auto,50%);
   text-align: center;
   margin-left: -250px;
   width: 500px;
   z-index: 50;
+}
+.header-menu .tab-navigation-item {
+  @include border-top-radius($border-radius-s);
+  @include box-shadow(0 -2px 2px $darken);
 }
 
 // Header user area

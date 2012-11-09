@@ -7,13 +7,12 @@
 .elevator-pitch {
   @include border-radius($border-radius-m);
   @include box-shadow(0 1px 3px $darken-more);
-  background: rgba(255,255,255,$transparency-strong);
+  background: rgba(255,255,255,0.9s);
   border: 1px solid $grey-dark;
   padding: $space-m;
 }
 .pitch-claim {
   padding: $space-s $space-l $space-s $space-s;
-  h1 { }
   h2 { padding-top: $space-s; }
 }
 .pitch-login {
