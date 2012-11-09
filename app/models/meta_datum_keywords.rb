@@ -18,6 +18,8 @@ class MetaDatumKeywords < MetaDatum
         k = nil
         k = Keyword.where(:meta_term_id => v, :meta_datum_id => self.id).first if self.persisted?
         k ||= Keyword.new(:meta_term_id => v, :user => user)
+      elsif v.is_a? Keyword
+        Keyword.new(:meta_term => v.meta_term)        
       else
         conditions = {DEFAULT_LANGUAGE => v}
         term = MetaTerm.where(conditions).first

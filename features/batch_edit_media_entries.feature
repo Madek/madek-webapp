@@ -4,15 +4,12 @@ Feature: Batch edit media entries
   As a normal and expert user
   I want to have a widget which provides functions for selecting multiple resources and provides batch-operations for the selection
 
-  Background: Set up the world and some users
-    Given I am "normin"
-
-
-  @javascript @slow
+  @javascript
   Scenario: Remove two media entries from a set using batch edit
+   Given I am "Normin" 
    Given I upload some picture titled "Picture One"
-    And I upload some picture titled "Picture Two"
-    And I upload some picture titled "Picture Three"
+     And I upload some picture titled "Picture Two"
+     And I upload some picture titled "Picture Three"
     When I create a set titled "Set One"
      And I add the picture "Picture One" to the set "Set One" owned by "Normalo, Normin"
      And I add the picture "Picture Two" to the set "Set One" owned by "Normalo, Normin"
@@ -31,8 +28,9 @@ Feature: Batch edit media entries
     Then I should not see "Picture One"
      And I should not see "Picture Two"
 
-  @javascript @slow
+  @javascript
   Scenario: Change metadata on two media entries using batch edit
+   Given I am "Normin" 
    Given I upload some picture titled "Picture One"
      And I upload some picture titled "Picture Two"
      And I upload some picture titled "Picture Three"  
@@ -58,12 +56,28 @@ Feature: Batch edit media entries
      And I should not see "Picture One"
      And I should not see "Picture Two"
 
-  @javascript @slow
+  @javascript
   Scenario: Use the batch's "Select all" button
+    Given I am "Normin" 
       And I am on the homepage
       And I follow "Alle meine Inhalte"
      When I click the mediaset titled "Konzepte"
       And I use batch's deselect all
       And I use batch's select all
      Then I should see that all visible resources are in my batch bar
-    
+
+  @javascript
+  Scenario: Different/Same values while batch editing MetaDatumMetaTerms
+    Given I am "Karen"
+     When I edit two MediaEntries meta data that have the same values for a MetaData with type "MetaDatumMetaTerms"
+     Then I should see that this meta data field has same values
+     When I edit two MediaEntries meta data that have different values for a MetaData with type "MetaDatumMetaTerms"
+     Then I should see that this meta data field has different values
+     When I edit two MediaEntries meta data that have the same values for a MetaData with type "MetaDatumKeywords"
+     Then I should see that this meta data field has same values
+     When I edit two MediaEntries meta data that have different values for a MetaData with type "MetaDatumKeywords"
+     Then I should see that this meta data field has different values
+     When I edit two MediaEntries meta data that have the same values for a MetaData with type "MetaDatumPeople"
+     Then I should see that this meta data field has same values
+     When I edit two MediaEntries meta data that have different values for a MetaData with type "MetaDatumPeople"
+     Then I should see that this meta data field has different values

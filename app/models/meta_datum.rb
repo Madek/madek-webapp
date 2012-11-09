@@ -48,10 +48,10 @@ class MetaDatum < ActiveRecord::Base
   def same_value?(other_value)
     # TODO raise "this method must be implemented in the derived class"
 
-    case value
-      when String
+    case value.class.to_s
+      when "String"
         value == other_value
-      when Array
+      when "Array"
         return false unless other_value.is_a?(Array)
         if value.first.is_a?(MetaDatumDate)
           other_value.first.is_a?(MetaDatumDate) and (other_value.first.free_text == value.first.free_text)
@@ -61,7 +61,7 @@ class MetaDatum < ActiveRecord::Base
         else
           value.uniq.sort.eql?(other_value.uniq.sort)
         end
-      when NilClass
+      when "NilClass"
         other_value.blank?
     end
   end

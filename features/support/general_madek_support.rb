@@ -139,21 +139,36 @@ end
 # the .item_box that contains the title. Returns the whole .item_box element
 # if successful, nil otherwise.
 def find_media_resource_titled(title, type = MediaResource)
+  page.execute_script("$(document).scrollTop(0)")
   wait_until(35) { find(".item_box") }
   
   results = type.accessible_by_user(@current_user).find_by_title(title)
-  results = Array(results) unless results.is_a? Array
-  
-  mr = results.first
-  found_item = find(".item_box[data-id='#{mr.id}']")
+  results = Array(results) unless results.is_a? Array # because of the different behaviour of MediaSet and MediaEntry .find_by_title -.-
 
-  unless found_item
-    puts "No media entry found with title '#{title}'"
-  end
-
-  return found_item
+  find_media_resource_by_id results.first
 end
 
+def find_media_resource_by_id(id, type = MediaResource)
+  page.execute_script("$(document).scrollTop(0)")
+  wait_until(35) { find(".item_box") }
+  
+  find_media_resource_element type.accessible_by_user(@current_user).find id
+end
+
+# find the interface element of a media resource on the current screen
+def find_media_resource_element(mr)
+  while (all(".item_box[data-id='#{mr.id}']").empty?) 
+    scroll_to_next_page
+  end 
+  element = find(".item_box[data-id='#{mr.id}']")
+  puts "Interface element was not found for that media resource" unless element
+  return element
+end
+
+# switch context on the meta data edit page
+def switch_to_next_meta_data_context
+  find(".ui-state-active").find(:xpath, "following-sibling::li").find("a").click
+end
 
 # Options are:
 # "pseudonym field": Use the "pseudonym" field instea of first or last name
@@ -348,12 +363,11 @@ def add_to_set(set_title = "Untitled Set", picture_title = "Untitled", owner = "
 end
 
 def scroll_to_next_page
-  @current_page ||= 1
-  @current_page += 1
-  wait_until {find(".page .pagination", :text => /Seite #{@current_page}\svon/)}
-  find(".page .pagination", :text => /Seite #{@current_page}\svon/).click
+  page = find(".page[data-page]")[:"data-page"]
+  wait_until {find(".page .pagination", :text => /Seite #{page}\svon/)}
+  find(".page .pagination", :text => /Seite #{page}\svon/).click
   wait_until {
-    all(".page[data-page='#{@current_page}']").size == 0 and
-    find(".page .pagination", :text => /Seite #{@current_page}\svon/).find(:xpath, "./..").all(".item_box img").size > 0
+    all(".page[data-page='#{page}']").size == 0 and
+    find(".page .pagination", :text => /Seite #{page}\svon/).find(:xpath, "./..").all(".item_box img").size > 0
   }
 end
