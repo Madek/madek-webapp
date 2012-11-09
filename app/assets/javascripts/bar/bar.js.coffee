@@ -10,7 +10,6 @@ class Bar
   
   @setup = (type, permission, sort_by, favorites, search, top_level, media_set, group, edit_filter_set)->
     @setup_type type
-    @setup_permissions permission
     @setup_sort_by sort_by
     @setup_interactivity()
     @setup_icon type, favorites, search, group, edit_filter_set
@@ -20,9 +19,6 @@ class Bar
   @setup_type = (type)->
     $("#bar .selection .types ."+type).addClass("active").addClass("current")
   
-  @setup_permissions = (permission)->
-    $("#bar .permissions ."+permission).addClass("active")
-
   @setup_sort_by = (sort_by)->
     if sort_by? and not (sort_by == "")
       $("#bar .sort ."+sort_by).addClass("active")
@@ -36,13 +32,11 @@ class Bar
       return false if $(e.currentTarget).is("[disabled='disabled']")
       $(this).closest(".types").find(".active").removeClass("active")
       $(this).addClass("active")
-      Bar.set_href_selection_for $(this) 
     # mouseleave selection  
     $("#bar .selection").bind "mouseleave", (e)->
       return false if $(e.currentTarget).is("[disabled='disabled']")
       $(this).find(".types .active").removeClass("active")
       $(this).find(".types .current").addClass("active")
-      Bar.set_href_selection_for $(this).find(".types .current") 
   
   @setup_icon = (type, favorites, search, group, edit_filter_set)->
     if favorites? and favorites != ""
@@ -63,12 +57,5 @@ class Bar
     else
       $("#bar .scope_sets .not_top_level").addClass("active")
     $("#bar .scope_sets").prepend $("#bar .scope_sets .active")
-  
-  @set_href_selection_for = (active_element)->
-    active_type = $(active_element).data "type"
-    $("#bar .selection .permissions a").each (i, current_element)->
-      uri = new Uri($(current_element).attr("href"))
-      uri.replaceQueryParam "type", active_type
-      $(current_element).attr("href", uri.toString())
-  
+    
 window.Bar = Bar

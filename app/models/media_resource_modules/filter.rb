@@ -81,7 +81,7 @@ module MediaResourceModules
         
         resources = resources.accessible_by_group(filter[:group_id]) if filter[:group_id]
 
-        resources = resources.by_user(filter[:user_id]) if filter[:user_id]
+        resources = resources.where(:user_id => filter[:user_id]) if filter[:user_id]
 
         # FIXME use presets and :manage permission
         resources = resources.not_by_user(filter[:not_by_user_id]) if filter[:not_by_user_id]
@@ -124,6 +124,15 @@ module MediaResourceModules
                 resources.where(:user_id => id)
               when :group
                 resources.accessible_by_group(id)
+              when :scope
+                case id.to_sym
+                  when :mine
+                    resources.where(:user_id => current_user)
+                  when :entrusted
+                    resources.entrusted_to_user(current_user)
+                  when :public
+                    resources.filter_public("true")
+                end
             end
           end
         end

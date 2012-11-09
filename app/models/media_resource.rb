@@ -116,7 +116,7 @@ class MediaResource < ActiveRecord::Base
       when :title
         joins(meta_data: :meta_key).where("meta_keys.label = ?", x).order("meta_data.string ASC")
       when :updated_at, :created_at
-        order("media_resources.#{x} DESC")
+        order(arel_table[x.to_sym].desc)
       when :random
         if SQLHelper.adapter_is_mysql?
           order("RAND()")
@@ -136,8 +136,10 @@ class MediaResource < ActiveRecord::Base
 
   ###############################################################
   
-  scope :by_user, lambda {|user| where(["media_resources.user_id = ?", user]) }
-  scope :not_by_user, lambda {|user| where(["media_resources.user_id <> ?", user]) }
+  scope :not_by_user, lambda {|user|
+    x = user.is_a?(User) ? user.id : user
+    where(arel_table[:user_id].not_eq(x))
+  }
 
   ################################################################
 

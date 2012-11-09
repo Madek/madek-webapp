@@ -24,10 +24,6 @@ Feature: Overview I
     Then I can choose between showing only sets
      And I can choose between showing only media entries
      And I can choose between showing media entries and sets
-     And I can filter content by any permissions
-     And I can filter content by my content
-     And I can filter content assigned to me
-     And I can filter content that is public
      And I can sort by created at
      And the results are sorted by created at 
      And I can sort by updated at

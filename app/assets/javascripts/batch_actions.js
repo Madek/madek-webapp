@@ -200,7 +200,7 @@ function displayCount() {
 	};
 
 	if($('#selected_items .edit').length && !$('#selected_items > .set').length){ $("#batch-edit").show(); }else{ $("#batch-edit").hide(); }
-	if($('#selected_items .manage').length && !$('#selected_items > .set').length){ $("#batch-permissions").show(); }else{ $("#batch-permissions").hide(); }
+	if($('#selected_items .manage').length){ $("#batch-permissions").show(); }else{ $("#batch-permissions").hide(); }
 	if(($("#batch-edit:visible").length || $("#batch-permissions:visible").length) && !$('#selected_items > .set').length) { $(".task_bar .seperator.edit").show(); }else{ $(".task_bar .seperator.edit").hide(); }
 	if($('#selected_items .thumb_mini').length){ 
 	  $("#batch-add-to-set").show(); 

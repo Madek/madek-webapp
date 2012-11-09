@@ -14,14 +14,15 @@ Feature: Filtering by permissions
 
   @javascript
   Scenario: Filtering by owner
-    Then I can filter so that I see only the media resources by each of the owners of any media resources shown
+    Then I can filter so that I see only the media resources that have view permissions relating to each of those owners
 
   @javascript
   Scenario: Filtering by group
     Then I can filter so that I see only the media resources that have view permissions relating to each of those groups
 
   @javascript
-  Scenario: Filter by permissions
-  	Then I can filter by "My content"
-	   And I can filter by "Content assigned to me"
-	   And I can filter by "Available to the public"
+  Scenario: Filtering by permission
+    Then I can filter so that I see only the media resources that have view permissions relating to each of those permissions
+     And I can filter by the "My content" scope
+     And I can filter by the "Content assigned to me" scope
+     And I can filter by the "Available to the public" scope

@@ -28,23 +28,6 @@ Then /^I can choose between showing (.*)$/ do |type|
   end
 end
 
-Then /^I can filter content (.*)$/ do |filter|
-  wait_until { find("#bar") }
-  page.execute_script("$('#bar .permissions a').show()")
-  s = case filter
-    when "by any permissions"
-      ".all"
-    when "by my content"
-      ".mine"
-    when "assigned to me"
-      ".entrusted"
-    when "that is public"
-      ".public"
-  end  
-  find("#bar .selection .permissions #{s}").click
-  wait_until { find("#bar .selection .permissions #{s}.active") }
-end
-
 Then /^I can sort by (.*)$/ do |sort_by|
   wait_until { find("#bar") }
   page.execute_script("$('#bar .sort a').show()")
@@ -98,18 +81,6 @@ When /^I change any of the settings in the bar then i am forwarded to a differen
   last_url.should_not be current_url
   last_url = current_url
   step 'I can choose between showing media entries and sets'
-  last_url.should_not be current_url
-  last_url = current_url
-  step 'I can filter content by any permissions'
-  last_url.should_not be current_url
-  last_url = current_url
-  step 'I can filter content by my content'
-  last_url.should_not be current_url
-  last_url = current_url
-  step 'I can filter content assigned to me'
-  last_url.should_not be current_url
-  last_url = current_url
-  step 'I can filter content that is public'
   last_url.should_not be current_url
   last_url = current_url
   step 'I can sort by created at'

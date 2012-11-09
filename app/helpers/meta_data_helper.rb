@@ -11,11 +11,15 @@ module MetaDataHelper
               haml_tag :li, _("Es sind keine Metadaten zu diesem Kontext bereit gestellt."), :class=>"meta_data_comment"
             else
               values.each do |value|
-                haml_tag :li, :class=>"meta_vocab" do
-                  haml_tag :h5, value.first, :class=>"meta_vocab_name"
-                  haml_tag :span, :class => "meta_terms" do
-                    haml_concat value.last.gsub(/\S\,\S/,", ")
+                begin
+                  haml_tag :li, :class=>"meta_vocab" do
+                    haml_tag :h5, value.first, :class=>"meta_vocab_name"
+                    haml_tag :span, :class => "meta_terms" do
+                      haml_concat value.last.gsub(/\S\,\S/,", ")
+                    end
                   end
+                rescue
+                  # catching ArgumentError: invalid byte sequence in UTF-8
                 end
               end
             end

@@ -25,12 +25,6 @@
       = link_to _("Medieneinträge"), url_for(params.merge(:type => "media_entries")), :class => "media_entries", :"data-type" => "media_entries"
       = link_to _("Sets"), url_for(params.merge(:type => "media_sets")), :class => "media_sets", :"data-type" => "media_sets"
   
-    .permissions
-      = link_to _("Meine"), url_for(params.merge(:user_id => current_user, :not_by_user_id => nil, :public => nil)), :class => "mine"
-      = link_to _("Mir anvertraute"), url_for(params.merge(:user_id => nil, :not_by_user_id => current_user, :public => false)), :class => "entrusted"
-      = link_to _("Öffentliche"), url_for(params.merge(:user_id => nil, :not_by_user_id => current_user, :public => true)), :class => "public"
-      = link_to _("Jegliche Berechtigungen"), url_for(params.merge(:user_id => nil, :not_by_user_id => nil, :public => nil)), :class => "all"
-
   .right
     .sort
       = link_to _("Sortieren nach Erstelldatum"), url_for(params.merge(:sort => :created_at)), :class => "created_at"

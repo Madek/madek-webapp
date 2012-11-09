@@ -116,6 +116,19 @@ module MediaResourceModules
         resource_ids_by_grouppermission = Grouppermission.select("media_resource_id").where(action => true, :group_id => group)
         where " media_resources.id IN  ( #{resource_ids_by_grouppermission.to_sql} )" 
       end
+      
+      def entrusted_to_user(user, action = :view)
+        action = (action || :view).to_sym
+
+        resource_ids_by_userpermission = Userpermission.select("media_resource_id").where(action => true, :user_id => user)
+
+        #where(:user_id)
+        where("media_resources.id IN  (
+        #{resource_ids_by_userpermission.to_sql} 
+          UNION
+        #{grouppermissions_not_disallowed(user,action).select("media_resource_id").to_sql} 
+                )") 
+      end
 
       ##############################
 

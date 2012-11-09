@@ -169,7 +169,7 @@ module Json
         r << { :filter_type => "permissions",
                :context_name => "permissions",       # FIXME
                :context_label => "Berechtigung",     # FIXME get label from the DB
-               :keys => [:owner, :group].map do |k|
+               :keys => [:owner, :group, :scope].map do |k|
                  case k
                    when :owner
                      { :key_name => k,                   
@@ -203,6 +203,22 @@ module Json
                              :count => group.count
                            }
                          end
+                       end
+                     }
+                   when :scope
+                     { :key_name => k,
+                       :key_label => "Zugriff", # FIXME get label from the DB
+                       :terms => begin
+                         [[:mine, _("Meine")],
+                          [:entrusted, _("Mir anvertraute")],
+                          [:public,_("Öffentliche")]].map do |x,y|
+                           if (c = media_resources.filter_permissions(current_user, {:scope => {:ids => [x]}}).count) > 0
+                            {:id => x,
+                             :value => y,
+                             :count => c
+                            }   
+                           end
+                         end.compact.sort {|a,b| [b[:count], a[:value]] <=> [a[:count], b[:value]] }
                        end
                      }
                  end
