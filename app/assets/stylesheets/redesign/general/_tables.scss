@@ -1,0 +1,27 @@
+/**
+ * ## Tables
+ *
+ * .bordered  - Bordered table
+ *
+ * Styleguide 2.5
+ */
+
+// Table
+
+td {
+  line-height: $line-height-m;
+  padding: $space-x $space-m $space-x 0;
+  vertical-align: top;
+}
+td:last-child {
+  padding-right: 0;
+}
+thead td {
+  font-weight: 600;
+}
+
+// Bordered Variation
+
+table.bordered tbody tr {
+  border-top: 1px solid $grey-light;
+}

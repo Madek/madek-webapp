@@ -1,0 +1,87 @@
+/**
+ * ## Dropdowns `.dropdown`
+ *
+ * Styleguide 7.11
+ */
+
+.dropdown {
+  clear: none;
+  display: inline-block;
+  position: relative;
+}
+
+// Dropdown Menu
+
+.dropdown-menu {
+  @include border-radius($border-radius-s);
+  @include box-shadow(0 1px 3px $darken);
+  @include min-dimension(200px,auto);
+  @include position-top-right(100%,0);
+  display: none;
+  background: $grey-lighter;
+  border: 1px solid $grey-mid;
+  margin-top: $space-x;
+  z-index: 150;
+  text-align: left;
+}
+.dropdown-toggle:active,
+.open .dropdown-toggle {
+  outline: 0;
+}
+
+// Dropdown Menu Pointers
+
+.dropdown-menu:after,
+.dropdown-menu:before {
+  bottom: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  z-index: 200;
+}
+.dropdown-menu:after {
+  border-color: rgba(63, 63, 3, 0);
+  border-bottom-color: $grey-lighter;
+  border-width: 5px;
+  right: 4px;
+}
+.dropdown-menu:before {
+  border-color: rgba(154, 154, 154, 0);
+  border-bottom-color: $grey-mid;
+  border-width: 6px;
+  right: 3px;
+}
+
+// Dropdown Menu Items
+
+.dropdown-menu-item {
+  list-style: none;
+}
+.dropdown-menu-item a {
+  @include single-text-shadow(none);
+  color: $grey-darker;
+  &:hover {
+    text-decoration: none;
+  }
+}
+.dropdown-menu-item:first-child a {
+  @include border-top-radius($border-radius-m);
+}
+.dropdown-menu-item:last-child a {
+  @include border-bottom-radius($border-radius-m);
+}
+.dropdown-menu-item a {
+  color: $base-color;
+  display: block;
+  padding: $space-x $space-s;
+  &:hover {
+    background: $lighten-more;
+  }
+  &:active {
+    @include box-shadow(inset 0 1px 2px $darken);
+    background: $darken-less;
+  }
+}

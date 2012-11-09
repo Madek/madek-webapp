@@ -18,6 +18,13 @@ MAdeK::Application.routes.draw do
 
 #####################################################
 
+###############################################
+
+  # Mount the KSS engine for CSS styleguide development (development mode only)
+  mount Nkss::Engine => '/styleguide' if Rails.env.development?
+
+###############################################
+
   match '/help', :to => "application#help"
   match '/feedback', :to => "application#feedback"
 

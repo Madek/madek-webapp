@@ -1,0 +1,23 @@
+/**
+ * Mixin for using images stored in sprite maps as backgrounds for icons.
+ *
+ * @param $map  A sprite map
+ * @param $name The icon file name
+ *
+ * Example:
+ *
+ * $icons: sprite-map("icons/*.png");
+ * .my-icon {
+ *   @include ixt-sprite($icons, my-icon-filename)
+ * }
+ */
+@mixin ixt-sprite($map, $name) {
+  @include hide-text;
+  background-image: sprite-url($map);
+  background-position: sprite-position($map, $name);
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: image-height(sprite-file($map, $name));
+  vertical-align: top;
+  width: image-width(sprite-file($map, $name));
+}

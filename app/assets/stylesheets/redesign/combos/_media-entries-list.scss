@@ -1,0 +1,83 @@
+/**
+ * ## Media Entries - List
+ *
+ * Styleguide 8.9.3
+ */
+
+.media-entries.list {
+
+  // Item row
+
+  .media-entries-item {
+    list-style: none;
+    margin-bottom: -$space-l;
+    padding: $space-s;
+  }
+  .media-entries-item.even {
+    background: $grey-lighter;
+  }
+
+  // Item wrapper
+
+  // Entry Head
+
+  .entry-head {
+    border-bottom: 1px solid $grey-light;
+    margin-bottom: $space-s;
+    padding-bottom: $space-x;
+  }
+  .entry-title {
+    font-weight: bold;
+    white-space: nowrap;
+  }
+  .entry-actions {
+    @include float-right;
+    text-align: right;
+    position: relative;
+    top: -$space-m;
+  }
+  .entry-actions li {
+    display: inline-block;
+    list-style: none;
+  }
+
+  // Entry Body
+
+  .entry-body {
+    display: table;
+    position: relative;
+    width: 100%;
+  }
+  .entry-body .summary-label {
+    max-width: 100px;
+  }
+  .entry-thumbnail {
+    width: 160px;
+    .thumbnail-wrapper {
+      height: 175px;
+      margin-top: -3px;
+      margin-left: -12px;
+      .thumbnail-metadata {
+        display: none;
+      }
+    }
+  }
+  .entry-thumbnail,
+  .entry-metadata,
+  .entry-description,
+  .entry-details {
+    display: table-cell;
+    vertical-align: top;
+  }
+  .entry-metadata,
+  .entry-description {
+    padding-right: $space-s;
+  }
+  .entry-description,
+  .entry-details {
+    padding-left: $space-s;
+  }
+  .entry-description {
+    padding-top: $space-x;
+  }
+}

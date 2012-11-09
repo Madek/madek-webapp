@@ -1,0 +1,56 @@
+/**
+ * ## Thumb section header `.media-entries-header`
+ *
+ * Styleguide 7.9
+ */
+
+.media-entries-wrapper {
+  display: table;
+  margin-right: -$space-l;
+  padding: 0 $space-m $space-m;
+  width: 96%;
+  .media-entries-sidebar,
+  .media-entries {
+    display: table-cell;
+    vertical-align: top;
+  }
+  .inline,
+  .tag-cloud {
+    margin-left: $space-s;
+  }
+}
+
+.media-entries-sidebar {
+  padding-right: $space-m;
+  padding-top: $space-s;
+}
+
+// Thumbnail section headers
+
+.media-entries-header {
+  display: table-caption;
+  margin-bottom: $space-s;
+  padding: $space-s 30px;
+}
+.media-entries-intro {
+  padding: $space-m 0 0;
+}
+.media-entries-header a {
+  font-size: $font-s;
+  margin-left: $space-m;
+  &:after {
+    content: " \2192";
+  }
+}
+
+.media-entries {
+  @include micro-clearfix;
+}
+
+.media-entries-toolbar.separated {
+  padding-bottom: $space-m;
+}
+
+.media-entries > .tag-cloud {
+  margin: 0 $space-s;
+}

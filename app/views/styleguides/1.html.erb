@@ -1,0 +1,33 @@
+<% kss_block '1.1' do %>
+<div class="clearfix">
+  <div class="$modifier-class" style="background: #ddd; line-height: 2em;">$modifier-class</div>
+</div>
+<% end %>
+
+<% kss_block '1.1.1' do %>
+<div class="clearfix">
+  <div class="$modifier-class" style="background: #ddd; line-height: 2em;">$modifier-class</div>
+</div>
+<% end %>
+
+<% kss_block '1.2' do %>
+<div style="background: #f8c489; width: 40px; overflow: hidden; display: inline-block; margin-right: 20px;">
+  <div class="pv$modifier-class" style="background: #b5c974;"><div style="background: #79a5b3; padding: 4px; text-align: center;">Box</div></div>
+</div>
+
+<div style="background: #f8c489; width: 40px; overflow: hidden; display: inline-block; margin-right: 20px;">
+  <div class="mv$modifier-class" style="background: #b5c974;"><div style="background: #79a5b3; padding: 4px; text-align: center;">Box</div></div>
+</div>
+
+<div style="background: #f8c489; width: 40px; overflow: hidden; display: inline-block; margin-right: 20px;">
+  <div class="pv$modifier-class mt$modifier-class" style="background: #b5c974;"><div style="background: #79a5b3; padding: 4px; text-align: center;">Box</div></div>
+</div>
+<% end %>
+
+<% kss_block '1.3' do %>
+<hr class="separator $modifier-class" >
+<% end %>
+
+<% kss_block '1.4' do %>
+<h2 class="separated $modifier-class" >Title separated with a bottom border</h2>
+<% end %>

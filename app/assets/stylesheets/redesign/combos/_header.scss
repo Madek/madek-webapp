@@ -1,0 +1,58 @@
+/**
+ * ## App header `.app-header`
+ *
+ * Styleguide 8.3
+ */
+
+.app-header {
+  @include box-shadow(inset 0 -1px 3px $darken);
+  display: table;
+  height: 50px;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+}
+.header-brand-area,
+.header-user-area {
+  display: table-cell;
+  vertical-align: bottom;
+}
+.header-brand-area,
+.header-user-area {
+  width: 50%;
+  vertical-align: middle;
+}
+
+// Header brand area
+
+.header-brand-area {
+  padding-left: $space-s;
+}
+.header-brand-logo {
+  @include float-left;
+  margin-right: $space-m;
+}
+.header-brand-name {
+  display: none;
+}
+.header-instance-name {
+  line-height: $line-height-xl;
+  padding-top: 3px;
+}
+
+// Header tabbed menu
+
+.header-menu {
+  @include position-top-right(11px,50%);
+  @include position-bottom-left(0,50%);
+  text-align: center;
+  margin-left: -250px;
+  width: 500px;
+  z-index: 50;
+}
+
+// Header user area
+
+.header-user-area {
+  padding-right: $space-s;
+}

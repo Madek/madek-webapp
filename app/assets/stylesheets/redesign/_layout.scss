@@ -1,0 +1,106 @@
+/**
+ *
+ * ## Defining layout of pages and rounded corners on containers as they vary from screen to screen
+ *
+ */
+
+.app-content-wrapper {
+  background: $body-background;
+}
+.app-body {
+  padding: $space-m $space-m $space-l;
+}
+.app-sidebar,
+.app-content {
+    display: table-cell;
+    vertical-align: top;
+}
+.app-sidebar {
+  @include border-left-radius($border-radius-m);
+  width: 200px;
+}
+.app-content {
+  @include border-right-radius($border-radius-m);
+  border-left: 1px solid $grey-mid-light;
+  margin-left: -1px;
+}
+.app-content .separator {
+  margin-bottom: $space-m;
+}
+
+// DASHBOARD VIEW
+
+.view-dashboard .body-wrapper {
+  @include border-radius($border-radius-m);
+  display: table;
+  width: 100%;
+}
+
+// MEDIA ENTRY VIEW
+
+.view-media-entry .body-wrapper {
+  @include border-top-right-radius($border-radius-m);
+  @include border-bottom-radius($border-radius-m);
+}
+.view-media-entry .media-entry-primary {
+  @include border-top-right-radius($border-radius-m);
+}
+.view-media-entry #kontext .media-entry-primary,
+.view-media-entry #other-data .media-entry-primary {
+  @include border-bottom-radius($border-radius-m);
+}
+
+.view-media-entry .media-entry-secondary {
+  @include border-bottom-radius($border-radius-m);
+  @include box-shadow(inset 0 1px 3px $darken-less);
+}
+.view-media-entry #parenting-sets .media-entry-primary {
+  @include border-bottom-radius($border-radius-m);
+}
+
+// Bootstrap
+
+.fade {
+  opacity: 0;
+  -webkit-transition: opacity 0.15s linear;
+     -moz-transition: opacity 0.15s linear;
+       -o-transition: opacity 0.15s linear;
+          transition: opacity 0.15s linear;
+}
+
+.fade.in {
+  opacity: 1;
+}
+
+.collapse {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: height 0.35s ease;
+     -moz-transition: height 0.35s ease;
+       -o-transition: height 0.35s ease;
+          transition: height 0.35s ease;
+}
+.collapse.in {
+  height: auto;
+}
+
+// Toggling content
+.hide {
+  display: none;
+}
+.show {
+  display: block;
+}
+
+// Open state for the dropdown
+// ---------------------------
+.open {
+  // IE7's z-index only goes to the nearest positioned ancestor, which would
+  // make the menu appear below buttons that appeared later on the page
+  *z-index: 60;
+
+  & > .dropdown-menu {
+    display: block;
+  }
+}

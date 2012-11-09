@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
     params.has_key?(:setredesign) or session[:design] == :setredesign
   end
 
-##############################################  
+##############################################
 # Authentication
 
   before_filter :login_required, :except => [:root, :login, :login_successful, :logout, :feedback, :usage_terms] # TODO :help
@@ -38,19 +38,19 @@ class ApplicationController < ActionController::Base
   def logged_in?
     !!current_user
   end
-    
+
   def current_user
     @current_user ||= login_from_session
   end
 
-##############################################  
+##############################################
 
   # TODO i18n
   def _(s)
     s
   end
 
-##############################################  
+##############################################
 
   def root
     if logged_in?
@@ -65,7 +65,7 @@ class ApplicationController < ActionController::Base
         end
       end
     else
-      render :layout => false
+      render :layout => redesign?
     end
   end
 
@@ -77,7 +77,7 @@ class ApplicationController < ActionController::Base
     @disable_search = true
   end
 
-##############################################  
+##############################################
   protected
 
   def not_authorized!
@@ -85,14 +85,14 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html { flash[:error] = msg
                     redirect_to (request.env["HTTP_REFERER"] ? :back : root_path)
-                  } 
+                  }
       format.json { render :json => {error: msg}, :status => 500}
     end
   end
 
-##############################################  
+##############################################
   private
-  
+
   def login_required
     unless logged_in?
       store_location
@@ -126,10 +126,10 @@ class ApplicationController < ActionController::Base
     return if request[:action].to_sym == :usage_terms # OPTIMIZE
     unless current_user.usage_terms_accepted?
       redirect_to usage_terms_user_path(current_user)
-      @already_redirected = true # OPTIMIZE prevent DoubleRenderError 
+      @already_redirected = true # OPTIMIZE prevent DoubleRenderError
     end
   end
-  
+
   def store_location
     session[:return_to] = request.fullpath
   end

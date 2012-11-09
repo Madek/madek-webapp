@@ -1,0 +1,73 @@
+/**
+ * ## Containers `.container`
+ *
+ * .bright      - Bright container
+ * .transparent - Semi-transparent bright box: home page elevator pitch
+ * .inverted    - Dark gradient boxes: top-nav, footer and filter bar containers
+ * .inverted-transparent - Semi-transparent dark box: clipboard
+ * .midtone     - Light grey box: thumb grid containers
+ * .bordered    - Box with border
+ *
+ * Styleguide 7.1
+ */
+
+.container {
+  @include micro-clearfix;
+}
+
+// Bright containers
+
+.container.bright {
+  background-color: $brightest;
+}
+.container.transparent {
+  background: $lighten-more;
+}
+
+// Dark containers
+
+.container.inverted {
+  @include background-image(linear-gradient($grey-dark, $grey-darker));
+  @include single-text-shadow(false, 1px, false, false, $darken);
+  background-color: $grey-dark;
+  color: $grey-lighter;
+  h1,h2,h3,h4,h5,h6,
+  > a,
+  .dropdown > a {
+    color: $grey-lighter;
+  }
+  > a:hover,
+  .dropdown > a:hover {
+    color: $brightest;
+  }
+}
+.container.inverted-transparent,
+.inverted-transparent {
+  background-color:rgba(0,0,0,0.75);
+}
+.container.inverted,
+.container.inverted-transparent,
+.inverted-transparent {
+  .primary-button {
+    border: none;
+  }
+  .thumbnail {
+    border: none;
+  }
+}
+.container.inverted-transparent .tertiary-button,
+.inverted-transparent .tertiary-button {
+  border: none;
+}
+
+// Grey containers
+
+.container.midtone {
+  background-image: image-url("redesign/backgrounds/container-midtone.png");
+}
+
+// Container extensions
+
+.container.bordered {
+  border: 1px solid $grey-mid-light;
+}

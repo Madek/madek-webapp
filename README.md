@@ -39,3 +39,4 @@ stuff. We thank PremiumSoft CyberTech Ltd. for granting us a free Navicat Premiu
 license to support development of our Free/Open Source Software project:
 
 [![alt text](https://github.com/zhdk/madek/raw/master/doc/images/zhdk_logo.png "ZHdK logo")](http://www.zhdk.ch) ![alt text](https://github.com/zhdk/madek/raw/master/doc/images/navicat_logo.png "Navicat Premium Logo")
+![alt text](https://github.com/zhdk/madek/raw/master/doc/images/navicat_logo.png "Navicat Premium Logo")
