@@ -66,6 +66,10 @@
       margin-right: 3px;
     }
   }
+  hr.separator {
+    margin-left: $space-s;
+    margin-right: $space-s;
+  }
 }
 
 // DASHBOARD VIEW
