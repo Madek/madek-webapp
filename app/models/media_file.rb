@@ -108,10 +108,6 @@ class MediaFile < ActiveRecord::Base
     File.join(THUMBNAIL_STORAGE_DIR, shard, guid)
   end
 
-  def filename
-    CGI::unescape read_attribute(:filename)
-  end
-
   # set some attributes, for use when storing the file.
   # NB Depending on if we are being called from a rake task or the webserver, we either get a tempfile or an array.
   def set_filename
