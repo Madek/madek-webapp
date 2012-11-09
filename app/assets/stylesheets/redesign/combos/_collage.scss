@@ -38,11 +38,11 @@
   text-align: center;
 }
 .collage-image {
+  @include position-top-left(0,0);
   @include max-dimension(110%,120%);
   @include min-dimension(100%,100%);
   display: inline-block;
-  margin: 0 -50%;
-  position: absolute;
+  margin: 0;
 }
 .collage-meta {
   @include position-bottom-left(0,0);
@@ -190,10 +190,10 @@
   .collage.crooked .collage-image-wrapper {
     @include dimension(100%,250px);
   }
-  .collage.crooked .even .collage-image-wrapper {
+  .collage.crooked .odd .collage-image-wrapper {
     top: -210px;
   }
-  .collage.crooked .odd .collage-image-wrapper {
+  .collage.crooked .even .collage-image-wrapper {
     top: -75px;
   }
 }
