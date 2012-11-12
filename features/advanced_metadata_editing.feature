@@ -2,7 +2,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
 
   Foo
 
-  @javascript @slow
+  @javascript 
   Scenario: Changing the core text fields of a media entry
     Given I am "normin"
      And I upload some picture titled "Millenium Falcon, Front View"
@@ -42,7 +42,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I should see "Collage"
      And I should see "Photographs of Han's rides"
 
-  @javascript @slow
+  @javascript 
   Scenario: Changing the author field on a media entry using the firstname/lastname entry form tab
     Given I am "normin"
      And I upload some picture titled "Me and Leia Organa"
@@ -61,7 +61,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I wait for the CSS element "#detail-excerpt"
      Then I should see "Foo, Bar"
 
-  @javascript @slow
+  @javascript 
   Scenario: Putting a pseudonym into the author field
     Given I am "normin"
      And I upload some picture titled "Me and Leia Organa"
@@ -80,7 +80,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I wait for the CSS element "#detail-excerpt"
      Then I should see "(Yoda)"
 
-  @javascript @slow
+  @javascript 
   Scenario: Putting a group into the group name field in the group tab
     Given I am "normin"
      And I upload some picture titled "Me and Leia Organa"
@@ -99,7 +99,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      And I wait for the CSS element "#detail-excerpt"
      Then I should see "The Rebel Alliance"
 
-  @javascript @slow
+  @javascript 
   Scenario: Putting a name directly into the name input box
     Given I am "normin"
      And I upload some picture titled "Me and Leia Organa"
@@ -119,7 +119,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      Then I should see "Furter, Frank"
 
 
-  @javascript @slow
+  @javascript 
   Scenario: Enter some keywords into the JS-based keyword dialog box
     Given I am "normin"
      And I upload some picture titled "Me and Leia Organa on the beach"
@@ -142,7 +142,7 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      Then I should see "leia, beach, sun, fun"
 
 
-  @javascript @slow
+  @javascript 
   Scenario: Using the MAdeK multi-select widget
     Given I am "normin"
      And I upload some picture titled "Millenium Falcon, Front View"

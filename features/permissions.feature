@@ -62,7 +62,7 @@ Feature: Permissions
       And I am "Normin"
      Then "Normin" is the owner of the resource
   
-  @javascript @slow
+  @javascript 
   Scenario: Permission which allows a user to add MediaResources to a MediaSet  
     Given a set named "Editable Set"
       And I am "Normin"
