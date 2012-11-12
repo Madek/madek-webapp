@@ -363,7 +363,9 @@ def add_to_set(set_title = "Untitled Set", picture_title = "Untitled", owner = "
 end
 
 def scroll_to_next_page
+  wait_until { find(".page[data-page]") }
   page = find(".page[data-page]")[:"data-page"]
+  
   wait_until {find(".page .pagination", :text => /Seite #{page}\svon/)}
   find(".page .pagination", :text => /Seite #{page}\svon/).click
   wait_until {
