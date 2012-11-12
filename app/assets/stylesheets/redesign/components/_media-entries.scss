@@ -8,11 +8,14 @@
   display: table;
   margin-right: -$space-l;
   padding: 0 $space-m $space-m;
-  width: 96%;
+  width: 100%;
   .media-entries-sidebar,
   .media-entries {
     display: table-cell;
     vertical-align: top;
+  }
+  .media-entries {
+    padding-right: $space-m;
   }
   .inline,
   .tag-cloud {

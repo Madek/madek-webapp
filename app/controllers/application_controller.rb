@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 # Redesign Switcher
   layout Proc.new { |controller| if redesign? then "redesign" else "main" end }
 
-  def render(options = nil, extra_options = {}, &block)
+  def render(options = {}, extra_options = {}, &block)
     if redesign? and request.format == "text/html"
       unless options.has_key?(:template)
         options[:template] = "/redesign/#{params[:controller]}/#{params[:action]}"

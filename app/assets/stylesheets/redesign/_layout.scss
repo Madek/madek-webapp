@@ -9,24 +9,33 @@
 }
 .app-body {
   padding: $space-m $space-m $space-l;
+  position: relative;
 }
 .app-sidebar,
 .app-content {
-    display: table-cell;
-    vertical-align: top;
+  display: table-cell;
+  vertical-align: top;
 }
 .app-sidebar {
   @include border-left-radius($border-radius-m);
-  width: 200px;
+  width: 15%;
 }
 .app-content {
   @include border-right-radius($border-radius-m);
   border-left: 1px solid $grey-mid-light;
   margin-left: -1px;
+  width: 85%;
 }
 .app-content .separator {
   margin-bottom: $space-m;
 }
+.body-wrapper {
+  @include border-radius($border-radius-m);
+  display: table;
+  table-layout:fixed;
+  width: 100%;
+}
+
 
 // HOME PAGE VIEW
 

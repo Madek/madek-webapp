@@ -18,6 +18,11 @@ MAdeK::Application.routes.draw do
 
 #####################################################
 
+  match 'browse' => 'browse#index'
+  match 'browse/:id' => 'browse#categories'
+  match 'browse/:id/:category' => 'browse#sections'
+  match 'browse/:id/:category/:section' => 'browse#media_resources'
+
 ###############################################
 
   # Mount the KSS engine for CSS styleguide development (development mode only)

@@ -1,0 +1,124 @@
+.app-content-wrapper.container.view-browse
+
+  // Header
+
+  %header.app-header.container.inverted
+    .header-brand-area
+      %a.header-brand-logo{:href => "#"}
+        %img{:alt => "Image-logo-zhdk", :src => "/assets/redesign/inserts/image-logo-zhdk.png"}
+      %h1.header-brand-name Z&uuml;rcher Hochschule der K&uuml;nste
+      %h2.header-instance-name Medienarchiv der K&uuml;nste
+    %ul.header-menu.large.primary.tab-navigation
+      %li.tab-navigation-item
+        %a{:href => "#"}
+          %i.icon-home.bright
+            Home
+      %li.tab-navigation-item
+        %a{:href => "#"} Erkunden
+      %li.tab-navigation-item
+        %a{:href => "#"}
+          %i.icon-search.bright
+          Suchen
+      %li.tab-navigation-item
+        %a{:href => "#"}
+          %i.icon-help.bright Help
+    .header-user-area.by-right
+
+      %a.primary-button
+        %i.icon-user.bright
+        Anmelden
+
+  // Body
+
+  .app-body.container
+    .page-title
+      .page-title-label
+        %h1.title-xl Erkunden / Katalog
+
+    .body-wrapper.bordered.container.midtone
+      .app-sidebar.bright.container
+        %ul.side-navigation
+          %li.side-navigation-item
+            %a.strong{:href => "#"} Katalog
+          %ul.side-navigation-lvl2
+            %li.side-navigation-lvl2-item
+              %a.weak{:href => "#"} ZHdK Bereich
+            %li.side-navigation-lvl2-item
+              %a.weak{:href => "#"} Gattung
+            %li.side-navigation-lvl2-item
+              %a.weak{:href => "#"} Projekttyp
+          %li.separator.mini
+          %li.side-navigation-item
+            %a.strong{:href => "#"} Interessante Inhalte
+          %li.separator.mini
+          %li.side-navigation-item
+            %a.strong{:href => "#"} Neue Inhalte
+          %li.separator.mini
+          %li.side-navigation-item
+            %a.strong{:href => "#"} H&auml;ufige Schlagworte
+          %li.separator.mini
+
+      .app-content.midtone.container.pvm
+
+        .media-entries-wrapper
+
+          .media-entries-header
+            %p.paragraph-l Der ZHdK-Katalog bietet Ihnen die Möglichkeit das Medienarchiv der Künste nach Überraschendem zu erkunden.
+
+          %ul.media-entries.grid
+            %li.media-entries-item
+              .thumbnail-wrapper.media-catalog
+                .thumbnail-set.large.thumbnail
+                  %a
+                    .inner-wrapper
+                      %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}
+                .thumbnail-metadata
+                  %h3.title-s.thumbnail-name Katalog name that can easily go onto 2 lines
+                  %h4.title-xs-alt Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet.
+
+            %li.media-entries-item
+              .thumbnail-wrapper.media-catalog
+                .thumbnail-set.large.thumbnail
+                  %a
+                    .inner-wrapper
+                      %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}
+                .thumbnail-metadata
+                  %h3.title-s.thumbnail-name Katalog name that can easily go onto 2 lines
+                  %h4.title-xs-alt Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet.
+
+            %li.media-entries-item
+              .thumbnail-wrapper.media-catalog
+                .thumbnail-set.large.thumbnail
+                  %a
+                    .inner-wrapper
+                      %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}
+                .thumbnail-metadata
+                  %h3.title-s.thumbnail-name Katalog name that can easily go onto 2 lines
+                  %h4.title-xs-alt Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet.
+
+  .app-footer-placeholder
+
+// Footer
+
+.app-footer-wrapper
+  %footer.app-footer.container.inverted
+    %ul.footer-menu
+      %li.footer-menu-item
+        %a{:href => "#"} Informationen zum Projekt
+      %li.footer-menu-item
+        %a{:href => "#"} Impressum
+      %li.footer-menu-item
+        %a{:href => "#"} Kontakt
+      %li.footer-menu-item
+        %a{:href => "#"} Blog
+      %li.footer-menu-item
+        %a{:href => "#"} Hilfe
+      %li.footer-menu-item
+        %a{:href => "#"} Nutzungsbestimmungen
+      %li.footer-menu-item
+        %a{:href => "#"} Freie Software
+      %li.footer-menu-item
+        %a{:href => "#"} Archivierungsrichtlinien ZHdK
+    .footer-instance-area.col2of6
+      %a.footer-instance-logo{:href => "#"}= image_tag "redesign/inserts/image-logo-madek.png"
+      %h1.footer-copyrights &copy; 2009-2011 Z&uuml;rcher Hochschule der K&uuml;nste
