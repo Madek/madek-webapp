@@ -1,5 +1,4 @@
 namespace :app do
-  require 'open3'
 
 ########## DB
 

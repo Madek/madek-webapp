@@ -1,58 +1,57 @@
 %h2 
   .arrow.down.icon
-  = "Darstellungsoptionen"
+  = "Darstellung"
 
 .inner
 
   %form
 
     %hr
-      %label Beschriftung
-        %select.show_labels
+      %label Anzeige Titel:
+        %select#show_labels.show_labels
           %option{value:"none"} keine
-          %option{value:"sets_having_descendants"} nur Sets mit Nachfolger
+          %option{value:"sets_having_descendants"} die Wichtigsten
           %option{value:"all"} alle 
 
     .basic_option
       %hr 
       %label 
-        Kantenlänge:
+        Abstand zwischen Nachbarn:
         %span#edge_length_value  
       #edge_length
 
     .basic_option
       %hr
       %label 
-        Komponentenabstand:  
+        Abstand der Komponenten:  
         %span#component_separation_value
-        * Kantenlänge
       #component_separation
 
     .basic_option
       %hr
         %label
           %input#show_advanced_options{type: 'checkbox'}
-          Zeige weitere Optionen
+          Weitere Optionen
  
 
     .advanced_option
       %hr
       %label
-        Zusätzliche Kantenlänge zwischen Sets: 
+        Zusätzlicher Abstand zwischen benachbarten Sets: 
         %span#add_set_set_edge_length_value
       #add_set_set_edge_length
 
     .advanced_option
       %hr
       %label
-        Knoten-Radius:
+        Radius der Knoten:
         %span#node_radius_value
       #node_radius
 
     .advanced_option
       %hr
       %label
-        Zusätzlicher-Radius:
+        Zusätzlicher Radius gemäss Anzahl der Kinder:
         %span#max_set_radius_value
       #max_set_radius
 

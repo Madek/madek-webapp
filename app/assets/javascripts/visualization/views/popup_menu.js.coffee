@@ -1,6 +1,7 @@
 Visualization.Views.PopupMenu = Backbone.View.extend
 
   template: JST['visualization/templates/popup_menu']
+  template_contains: JST['visualization/templates/popup_menu_info_contains']
 
   initialize: ->
     @el = $("#drawing")
@@ -77,7 +78,10 @@ Visualization.Views.PopupMenu = Backbone.View.extend
         mr = data.media_resources[0]
         template.find(".infos").html JST['visualization/templates/popup_menu_info'](mr)
         if mr.children? 
-          template.find(".contains_info").html "Enthält: #{mr.children.pagination.total_media_entries} <span title='Medieneintrag' class='media_entry icon'/> und #{mr.children.pagination.total_media_sets} <span title='Set' class='media_set icon'/>"
+          template.find(".contains_info").html @template_contains
+            n_media_entries: mr.children.pagination.total_media_entries
+            n_media_sets: mr.children.pagination.total_media_sets
+
         template.find(".image").html $.tmpl "tmpl/media_resource/thumb_box", 
           $.extend true, mr,
             image: "/media_resources/#{mr.id}/image"

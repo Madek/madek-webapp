@@ -103,4 +103,4 @@ Here are some examples of userAgent outputs
       return match.join().replace(/MSIE /, "")
       
   major_version: ->
-    parseFloat(@version().split('.')[0])
+    parseFloat((@version() ? "0.0").split('.')[0])

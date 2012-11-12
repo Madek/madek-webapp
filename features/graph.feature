@@ -31,44 +31,37 @@ Feature: Visualization / Graph
   @poltergeist
   Scenario: Browser Switcher
     Given I am "Normin"
-      And I use Firefox
-     When I open a complex graph
-     Then I see the graph after its finished layouting/computing
+      And There are no persisted visualizations
+      And I don't use Chrome or Safari
+     When I open the visualization with the hash-tag test_noupdate_positions
+      And The visualization test test_noupdate_positions is running 
+     Then I see the graph after it has finished layouting/computing
+      And I don't see "Test failed"
 
   @poltergeist
   Scenario: Popup for a set
     Given I am "Normin"
-     When I a see a graph
+     When I visit the visualization of "my_media_resources"
       And I inspect a media set node more closely
      Then I see a popup
       And I see the title of that resource
       And I see the permission icon for that resource
       And I see the favorite status for that resource
       And I see the number of children devided by media entry and media set
-      And I have the following option:
-      |Option|
-      |open this media resource|
-      |visualize all connected resources|
-      |visualize all my connected resources|
-      |visualize all descendants resources|
-      |visualize all my descendants resources|
+      And I see the links to the resource, (my-)descendants, and (my)components
 
-
-  @poltergeist
+  @poltergeist 
   Scenario: Popup for a media entry
     Given I am "Normin"
-     When I a see a graph
+     When I visit the visualization of "my_media_resources"
       And I inspect a media entry node more closely
       Then I see a popup
       And I see the title of that resource
       And I see the permission icon for that resource
       And I see the favorite status for that resource
       And I dont see any number of children and parents
-      And I have the following option:
-      |Option|
-      |open this media resource| 
-      |visualize all connected resources| 
-      |visualize all my connected resources| 
+      And I see the links to the resource (my)components
+      And I don't see the links to the resource (my)descendants
 
   @poltergeist
   Scenario: Title
@@ -80,16 +73,15 @@ Feature: Visualization / Graph
      When I visualize the filter "Meine Inhalte"
      Then I see the title "Meine Inhalte"
      When I visualize the filter "Mir anvertraute Inhalte"
-     Then I see the title "Meine anvertraute Inhalte"
+     Then I see the title "Mir anvertraute Inhalte"
      When I visualize the filter "Meine Favoriten"
-     Then I see the title "Meine Favoriten"
-     When I visualize the filter Suchergebnisse für "Land"
-     Then I see the title "Suchergebnisse für Land"
+     Then I see the title "Favoriten"
+     When I visualize the filter Suchergebnisse für "ZHdK"
+     Then I see the title Suchergebnisse für "ZHdK"
 
   @poltergeist
-  Scenario: Title
+  Scenario: Origin Highlight
     Given I am "Normin"
-     When I a see a graph
      When I visualize the descendants of a Set
      Then I see the originating set beeing highlighted
      And I see the title of the set as graph-title
@@ -97,7 +89,7 @@ Feature: Visualization / Graph
      Then I see the originating entry beeing highlighted
      And I see the title of the entry as graph-title
 
-  @wip @poltergeist
+  @poltergeist
   Scenario: Default labels
     Given I am "Normin"
      And  There are no persisted visualizations
@@ -105,25 +97,19 @@ Feature: Visualization / Graph
      Then the label option "sets_having_descendants" is selected 
      Then I see by default exactly the labels of the sets that have children in the current visualization
 
-  @wip @poltergeist
-  Scenario: Selecting and saving the option all labels
+  @poltergeist
+  Scenario: Selecting option all labels
     Given I am "Normin"
      And  There are no persisted visualizations
      When I a see the graph of the resource "my_media_resources"
-     When I select "all" of the label select options 
-     And  I wait for persisting the options
-     And  I revisit the current_path
-     Then the label option "sets_having_descendants" is selected 
-     And I see that all labels are show 
+     When I select "alle" of the label select options 
+     Then I see that all labels are show 
 
-  @wip @poltergeist
-  Scenario: Selecting and saving the option all labels
+  @poltergeist
+  Scenario: Selecting non labels
     Given I am "Normin"
      And  There are no persisted visualizations
      When I a see the graph of the resource "my_media_resources"
-     When I select "all" of the label select options 
-     And  I wait for persisting the options
-     And  I revisit the current_path
-     Then the label option "sets_having_descendants" is selected 
-     And I see that all labels are show 
+     When I select "keine" of the label select options 
+     Then I see that none labels are show 
 

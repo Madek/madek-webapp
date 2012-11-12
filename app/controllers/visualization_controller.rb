@@ -12,7 +12,7 @@ class VisualizationController < ApplicationController
     min_id = @resources.map(&:id).min
     @resource_identifier = "my-component-#{min_id}"
     set_layout_and_control_variables
-    @title = "Medienarchiv Visualisierung - \"#{@origin_resource.title}\" und meine verbundenen Inhalte" 
+    @title = "\"#{@origin_resource.title}\" und meine verbundenen Inhalte" 
     render 'index'
   end
 
@@ -24,7 +24,7 @@ class VisualizationController < ApplicationController
     min_id = @resources.map(&:id).min
     @resource_identifier = "component-#{min_id}"
     set_layout_and_control_variables
-    @title = "Medienarchiv Visualisierung - \"#{@origin_resource.title}\" und verbundenen Inhalte" 
+    @title = "\"#{@origin_resource.title}\" und verbundenen Inhalte" 
     render 'index'
   end
 
@@ -33,7 +33,7 @@ class VisualizationController < ApplicationController
     set_layout_and_control_variables
     @resources = MediaSet.where(user_id: current_user.id)
     @arcs = MediaResourceArc.connecting @resources
-    @title = "Medienarchiv Visualisierung - Meine Sets" 
+    @title = "Meine Sets" 
     render 'index'
   end
 
@@ -44,7 +44,7 @@ class VisualizationController < ApplicationController
     @resources = MediaResource.descendants_and_set(set,
                      MediaResource.where("user_id = ?",current_user.id))
     @arcs = MediaResourceArc.connecting @resources
-    @title = "Medienarchiv Visualisierung - \"#{@origin_resource.title}\" und meine untergeordneten Inhalte" 
+    @title = "\"#{@origin_resource.title}\" und meine untergeordneten Inhalte" 
     render 'index'
   end
 
@@ -55,7 +55,7 @@ class VisualizationController < ApplicationController
     @resources = MediaResource.descendants_and_set(set,
                   MediaResource.accessible_by_user(current_user))
     @arcs = MediaResourceArc.connecting @resources
-    @title = "Medienarchiv Visualisierung - \"#{@origin_resource.title}\" und untergeordneten Inhalte" 
+    @title = "\"#{@origin_resource.title}\" und untergeordneten Inhalte" 
     render 'index'
   end
 
@@ -70,6 +70,8 @@ class VisualizationController < ApplicationController
 
 
   def filtered_resources
+    @filter = params
+    @title = view_context.media_resources_index_title.join(" ")
     nil_namespace = 
     filter = params.select {|k,v| MediaResourceModules::Filter::KEYS.include?(k.to_sym) }.delete_if {|k,v| v.blank?}.deep_symbolize_keys
     # we store the filter in a digested form to keep it short, there is sofar no usecase to reconstruct the filter itself

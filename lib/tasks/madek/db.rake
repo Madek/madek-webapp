@@ -1,6 +1,5 @@
 namespace :madek do
   namespace :db  do
-    require 'open3'
 
     desc "Transfer the data from on SOURCE env TARGET env (env is anything defined in config/database.yml)"
     task :transfer => :environment do

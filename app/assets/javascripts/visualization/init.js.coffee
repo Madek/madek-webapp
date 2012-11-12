@@ -17,8 +17,8 @@ window.Visualization =
   Modules: {}
   Objects: {}
   Routers: {}
-  Views: {}
   State: {}
+  Views: {}
 
 window.Visualization.init = (options) ->
 

@@ -37,10 +37,12 @@ end
 # Chrome
 if `which chromedriver` != ""
   Before('@chrome') do |scenario|
+    Capybara.default_wait_time = new_madek_capybara_wait_time
     Capybara.current_driver = :selenium_chrome
   end
   After('@chrome') do |scenario|
     Capybara.use_default_driver
+    Capybara.default_wait_time = old_madek_capybara_wait_time
   end
 end
 

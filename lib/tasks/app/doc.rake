@@ -1,6 +1,5 @@
 namespace :app do
-  require 'open3'
-  
+ 
 ########## DOC
   
   desc "Create a manifest of the living documentation by using YARD"
@@ -15,9 +14,6 @@ namespace :app do
 
       commands.each do |command|
         puts command
-        Open3.popen3(command) do |i,o,e,t|
-          puts o.read.chomp
-        end
       end
 
     puts "DONE"
@@ -37,9 +33,6 @@ namespace :app do
         
         commands.each do |command|
           puts command
-          Open3.popen3(command) do |i,o,e,t|
-            puts o.read.chomp
-          end
         end
   
         puts "DONE"
