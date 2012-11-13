@@ -28,11 +28,11 @@ Then /^I can filter by the "(.*?)" scope$/ do |filter|
   a.find(".key h3", :text => "Zugriff").click
   label = case filter
     when "My content"
-      "Meine"
+      "Meine Inhalte"
     when "Content assigned to me"
-      "Mir anvertraute"
+      "Mir anvertraute Inhalte"
     when "Available to the public"
-      "Öffentliche"
+      "Öffentliche Inhalte"
   end  
   c = a.find(".key .term", :text => label)
   count = c.find(".count").text.to_i
