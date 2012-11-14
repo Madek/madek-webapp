@@ -4,11 +4,11 @@ When /^I change the owner to "([^"]*)"$/ do |new_owner|
   @media_set = MediaSet.accessible_by_user(@current_user, :edit).first
   visit media_set_path @media_set
   step 'I open the permission lightbox'
-  find(".users .line.add .button").click()
-  wait_until { find(".users .line.add input") }
-  find(".users .line.add input").set(new_owner)
-  wait_until { find(".ui-autocomplete li a") }.click()
-  find(".users .line", :text => new_owner).find(".owner input").click()
+  wait_until { all(".users .line.add .button").size > 0 }
+  find(".users .line.add .button").click
+  wait_until { find(".users .line.add input") }.set(new_owner)
+  wait_until { find(".ui-autocomplete li a") }.click
+  find(".users .line", :text => new_owner).find(".owner input").click
   step 'I save the permissions'
 end
 
@@ -29,9 +29,9 @@ end
 Then /^I can use some interface to change the resource's owner to "([^"]*)"$/ do |new_owner|
   visit media_set_path(@media_set)
   step 'I open the permission lightbox'
-  find(".users .line.add .button").click()
+  find(".users .line.add .button").click
   find(".users .line.add input").set(new_owner)
-  wait_until { find(".ui-autocomplete li a") }.click()
+  wait_until { find(".ui-autocomplete li a") }.click
   find(".users .line .owner input").should_not be_nil
 end
 
@@ -131,14 +131,14 @@ end
 When /^"([^"]*)" changes the resource's permissions for "([^"]*)" as follows:$/ do |owner, new_owner, table|
   visit media_resource_path(@resource)
   step 'I open the permission lightbox'
-  wait_until { find(".users .line.add .button") }.click()
+  wait_until { find(".users .line.add .button") }.click
   wait_until { find(".users .line.add input") }.set(new_owner)
-  wait_until { find(".ui-autocomplete li a") }.click()
+  wait_until { find(".ui-autocomplete li a") }.click
 
   table.hashes.each do |perm| 
     if (perm["value"] == "false" and find(%Q@.users .line input##{perm["permission"]}@).selected?) \
       or (perm["value"] == "true" and (not find(%Q@.users .line input##{perm["permission"]}@).selected?))
-        find(%Q@.users .line input##{perm["permission"]}@).click()
+        find(%Q@.users .line input##{perm["permission"]}@).click
     end
   end
   

@@ -15,6 +15,7 @@ class MediaResourcesController
     do @delegate_events
     do @switch_context_fetch
     @initial_fetch {}, @start_with_open_filter
+    do setupBatch
     
   plugin: ->
     new ActionMenu @el
@@ -36,9 +37,23 @@ class MediaResourcesController
     $.extend data, {sort: App.MediaResources.current_sort}
     options =
       data: data
-      success: (data)->
-        display_page(data, $this)
+      success: (data)=>
+        @display_page(data, $this)
     App.MediaResources.fetch options
+
+  display_page: (json, container)->
+    rp = $("#result_page").tmpl(json)
+    if container.hasClass("page")
+      container.replaceWith(rp.show())
+    else
+      container.append(rp.show())
+      while json.pagination.page < json.pagination.total_pages
+        json.pagination.page++;
+        container.append($("#empty_result_page").tmpl(json, {empty: true}).show())
+    #check all the previously selected checkboxes
+    selected_entries = get_selected_media_entry_ids()
+    $.each selected_entries, (i, id)-> $('#thumb_' + id).addClass('selected')
+    do displayButtons
 
   render_context: ->
     $this = $(this)
@@ -87,7 +102,7 @@ class MediaResourcesController
         @filter_panel.current_filter = data.current_filter
         @filter_panel.update data.filter if data.filter?
         @el.find(".results").html("")
-        setupBatch data
+        @display_page data, $(".results")
         if @filter_panel.current_filter.media_set_id?
           @el.find("#bar h1 small").html @el.find("#bar h1 small").text().replace(/^\d+\s/,"")
           @el.find("#bar h1 small").prepend(data.pagination.total)

@@ -68,7 +68,7 @@ group :test, :development, :personas do
   gem 'faraday'
   gem 'guard', '~> 1.3'
   gem 'guard-cucumber', '~> 1.2'
-  gem 'guard-rspec', '~> 1.2'
+  gem 'guard-rspec', '~> 2.1'
   gem 'guard-spork', '~> 1.1', platform: :mri_19
   gem 'poltergeist'
   gem 'pry'
@@ -82,7 +82,7 @@ end
 group :development, :production do
   # we could use yard with an other mkd provider https://github.com/lsegal/yard/issues/488
   platform :mri_19 do
-    gem "yard", "~> 0.8.2.1"
+    gem "yard", "~> 0.8.3"
     gem "yard-rest", "~> 1.1.4"
     gem 'redcarpet' # yard-rest dependency
   end

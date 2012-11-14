@@ -10,10 +10,10 @@ jQuery ->
   setup()
 
 setup = ->
-  $(".item_box.set:not(.popup_target):not(.inspector) .thumb_box_set").live "mouseenter", -> enter_target $(this)
-  $(".item_box.set.popup_target:not(.popup):not(.inspector) .thumb_box_set").live "mouseenter", -> enter_target $(this)
-  $(".item_box.set:not(.popup_target):not(.inspector) .thumb_box_set").live "click", -> stop_target_popup $(this)
-  $(".item_box.set:not(.popup):not(.inspector) .thumb_box_set").live "mouseleave", -> leave_target $(this)
+  $(".item_box.set:not(.popup_target) .thumb_box_set").live "mouseenter", -> enter_target $(this)
+  $(".item_box.set.popup_target:not(.popup) .thumb_box_set").live "mouseenter", -> enter_target $(this)
+  $(".item_box.set:not(.popup_target) .thumb_box_set").live "click", -> stop_target_popup $(this)
+  $(".item_box.set:not(.popup) .thumb_box_set").live "mouseleave", -> leave_target $(this)
 
 stop_target_popup = (target) ->
   target = $(target).closest(".item_box")

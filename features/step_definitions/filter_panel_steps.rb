@@ -53,6 +53,7 @@ When /^I select a value to filter by$/ do
   all(".context > h3").each {|context| context.click}
   wait_until {all(".key", :visible => true).size > 0}
   @key = all(".key").last
+  @key_name = @key[:"data-key_name"]
   @key.find("h3").click if @key["class"].match("open").nil?
   @all_terms = all("#filter_area .term").map do |term|
     filter = {}
@@ -61,13 +62,11 @@ When /^I select a value to filter by$/ do
     filter[:value] = term.find("input")["value"]
     filter
   end
-  @selected_term = @key.find(".term")
-  @selected_term.click
+  @key.find(".term").click
 end
 
 When /^I deselect the value$/ do
-  term = @key.find(".term.selected")
-  term.click
+  selected_term.click
   wait_until{all(".loading", :visible => true).size == 0}
 end
 
@@ -202,16 +201,16 @@ Then /^I can filter letting me choose "(.*?)" in the sub\-block "(.*?)" of the r
 end
 
 When /^I collapse its parent key$/ do
-  @selected_term.find(:xpath, "./../..[contains(@class, 'key')]/h3").click
+  selected_term.find(:xpath, "./../..[contains(@class, 'key')]/h3").click
 end
 
 Then /^I collapse its parent context$/ do
-  @selected_term.find(:xpath, "./../../..[contains(@class, 'context')]/h3").click
+  selected_term.find(:xpath, "./../../..[contains(@class, 'context')]/h3").click
 end
 
 Then /^all selected nested terms do not disappear$/ do
   wait_until {(all(".term.selected", :visible => true).size - all(".term.selected", :visible => false).size).should == 0}
-  @selected_term.reload[:class].include?("selected")
+  selected_term.reload[:class].include?("selected")
 end
 
 Then /^I see all the values that can still be used as additional filters$/ do
@@ -267,31 +266,33 @@ Then /^I can expand the context to reveal the keys$/ do
 end
 
 Given /^I select a term that is present in multiple context$/ do
-  @multiple_present_term = all("#filter_area .term").detect do |term|
-    term_value = term.find("input")[:value]
-    term_key = term.find(:xpath, "./../..")["data-key_name"]
-    @contexts = all(".key[data-key_name='#{term_key}'] .term input[value='#{term_value}']").map {|t| t.find(:xpath, "./../../..") }
-    term_value != "" and all(".key[data-key_name='#{term_key}'] .term input[value='#{term_value}']").size > 2
+  multiple_present_term = all("#filter_area .term").detect do |term|
+    @term_value = term.find("input")[:value]
+    @term_key = term.find(:xpath, "./../..")["data-key_name"]
+    @term_value != "" and all(".key[data-key_name='#{@term_key}'] .term input[value='#{@term_value}']").size > 2
   end
-  @multiple_present_term.find(:xpath, "./../../..").find("h3").click
-  @multiple_present_term.find(:xpath, "./../..").find("h3").click
-  @multiple_present_term_value = @multiple_present_term.find("input")[:value]
-  @multiple_present_term.click
+  multiple_present_term.find(:xpath, "./../../..").find("h3").click
+  multiple_present_term.find(:xpath, "./../..").find("h3").click
+  @multiple_present_term_value = multiple_present_term.find("input")[:value]
+  multiple_present_term.click
 end
 
 Then /^the term is selected in all the contexts$/ do
-  @contexts.each do |context|
+  wait_until { all(".loading").size == 0 }
+  contexts = all(".key[data-key_name='#{@term_key}'] .term input[value='#{@term_value}']").map {|t| t.find(:xpath, "./../../..") }
+  contexts.each do |context|
     context.find(".term.selected input[value='#{@multiple_present_term_value}']")
   end
 end
 
 When /^I deselect that term$/ do
-  @multiple_present_term.click
+  deselect_term(@multiple_present_term_value)
   wait_until { all(".loading").size == 0 }
 end
 
 Then /^it is deselected in all the contexts$/ do
-  @contexts.each do |context|
+  contexts = all(".key[data-key_name='#{@term_key}'] .term input[value='#{@term_value}']").map {|t| t.find(:xpath, "./../../..") }
+  contexts.each do |context|
     context.all(".term.selected input[value='#{@multiple_present_term_value}']").size.should == 0
   end
 end

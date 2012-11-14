@@ -7,8 +7,6 @@
 :coffeescript
   
   jQuery ->
-    $(".task_bar").hide()
-
     media_resources = new App.MediaResources
       layout: #{(@media_set and @media_set.settings[:layout]) ? "\"#{@media_set.settings[:layout]}\"" : "undefined"}
       filter: #{@filter.to_json}

@@ -50,37 +50,35 @@ function removeItems(array, item) {
 
 /////////////////////////////////////////////////////
 
-function setupBatch(json) {
-	if(json != undefined) display_page(json, $(".results"));
+function setupBatch() {
   listSelected();
   displayCount();
-  displayButtons();
 
-	// make thumbnails removable from the selected items bar
-    $('#selected_items .thumb_mini').live("hover", function() {
-        $(this).children('img.thumb_remove').toggle();
-    }).live("click", function() {
-		var id = $(this).attr("rel");
-		$(this).remove();
-		toggleSelected(id);
-		
-		//TODO dry// display the task_bar only whether there is something selectable or something is already selected
-	    if(get_media_resources_json().length == 0 && $(".item_box").has(".check_box").length == 0){
-	      $('.task_bar').hide();
-	    }
-    });
+  // make thumbnails removable from the selected items bar
+  $('#selected_items .thumb_mini').live("hover", function() {
+      $(this).children('img.thumb_remove').toggle();
+  }).live("click", function() {
+    var id = $(this).attr("rel");
+    $(this).remove();
+    toggleSelected(id);
+    
+    //TODO dry// display the task_bar only whether there is something selectable or something is already selected
+    if(get_media_resources_json().length == 0 && $(".item_box").has(".check_box").length == 0){
+      $('.task_bar').hide();
+    }
+  });
 
-    $(".check_box").live("click", function(){
-      if($(this).closest(".set_popup").length) {
-        // if target is a popup forward original
-        toggleSelected($(this).closest(".set_popup").data("target").tmplItem().data);
-      } else if($(this).closest(".entry_popup").length) {
-        // if target is a popup forward original
-        toggleSelected($(this).closest(".entry_popup").data("target").tmplItem().data);
-      } else {
-        toggleSelected($(this).closest(".item_box").tmplItem().data);
-      }
-    });
+  $(".check_box").live("click", function(){
+    if($(this).closest(".set_popup").length) {
+      // if target is a popup forward original
+      toggleSelected($(this).closest(".set_popup").data("target").tmplItem().data);
+    } else if($(this).closest(".entry_popup").length) {
+      // if target is a popup forward original
+      toggleSelected($(this).closest(".entry_popup").data("target").tmplItem().data);
+    } else {
+      toggleSelected($(this).closest(".item_box").tmplItem().data);
+    }
+  });
 
   // select all function
   $("#batch-select-all").click(function(event){
@@ -92,11 +90,12 @@ function setupBatch(json) {
     var already_selected_ids = _.map(media_resources_json,function(m){return m.id});
     var all_data = _.map(loaded_item_boxes,function(el){return $(el).tmplItem().data});
     var all_data_without_already_selected = _.filter(all_data, function(el){return !_.include(already_selected_ids, el.id)}); 
-    media_resources_json = media_resources_json.concat(all_data_without_already_selected);
-    $('#selected_items').append($("#thumbnail_mini").tmpl(media_resources_json));
+    if(all_data_without_already_selected){
+      media_resources_json = media_resources_json.concat(all_data_without_already_selected);
+      $('#selected_items').append($("#thumbnail_mini").tmpl(all_data_without_already_selected));
+      set_media_resources_json(media_resources_json);
+    }
     loaded_item_boxes.addClass("selected");
-    
-    set_media_resources_json(media_resources_json);
     displayCount();
     return false;
   });
@@ -116,29 +115,27 @@ function setupBatch(json) {
     return false;
   });
   
-	function toggleSelected(me) {
-		var media_resources_json = get_media_resources_json();
-		var id = (typeof(me) == "object" ? me.id : parseInt(me));
-		var i = is_Selected(media_resources_json, id);
-		
-		if(i > -1) {
-			media_resources_json.splice(i, 1);
-			$(".item_box[data-id="+id+"]").each(function(i, el){
-			  $(el).removeClass('selected');
-			});
-			$('#selected_items [rel="'+id+'"]').remove();
-			$("#positionable").fadeOut(); // only on browse page
-		} else {
+  function toggleSelected(me) {
+    var media_resources_json = get_media_resources_json();
+    var id = (typeof(me) == "object" ? me.id : parseInt(me));
+    var i = is_Selected(media_resources_json, id);
+    if(i > -1) {
+      media_resources_json.splice(i, 1);
+      $(".item_box[data-id="+id+"]").each(function(i, el){
+        $(el).removeClass('selected');
+      });
+      $('#selected_items [rel="'+id+'"]').remove();
+      $("#positionable").fadeOut(); // only on browse page
+    } else {
       media_resources_json.push(me);
       $(".item_box[data-id="+id+"]").each(function(i, el){
         $(el).addClass('selected');
       });
       $('#selected_items').append($("#thumbnail_mini").tmpl(me));
-		};
-
-		set_media_resources_json(media_resources_json);
+    }
+    set_media_resources_json(media_resources_json);
     displayCount();
-	};
+  };
 
 }
 
@@ -215,40 +212,19 @@ function displayCount() {
 
 function displayButtons(){
   // display the task_bar only whether there is something selectable or something is already selected
-  if(get_media_resources_json().length == 0 && $(".item_box").has(".check_box").length == 0 && $("#inspector").length == 0){
+  if(get_media_resources_json().length == 0 && $(".item_box").has(".check_box").length == 0){
     $('.task_bar').hide();
     return false;
   }else{
     $('.task_bar').show();
   }
   // hide the select_deselect_all checkbox on the browse page
-  if($(".item_box .check_box").length < 2 && $("#inspector").length == 0) {
+  if($(".item_box .check_box").length < 2) {
     $("#batch-select-all").hide();
     if(get_media_resources_json().length == 0){
       $("#batch-deselect-all").hide().next().hide();
     }
   }
-}
-
-function display_page(json, container){
-	var rp = $("#result_page").tmpl(json);
-	if(container.hasClass("page")){
-		container.replaceWith(rp.show());
-	}else{
-		container.append(rp.show());
-		//var $max_pages = page.pagination.page + 4;
-		//while(page.pagination.page < Math.min(pagination.total_pages, $max_pages)){
-		while(json.pagination.page < json.pagination.total_pages){
-			json.pagination.page++;
-			container.append($("#empty_result_page").tmpl(json, {empty: true}).show());
-		}
-	}
-
-	//check all the previously selected checkboxes
-	var selected_entries = get_selected_media_entry_ids();
-	$.each(selected_entries, function(i, id) {
-		$('#thumb_' + id).addClass('selected');
-	});
 }
 
 ///////////////////////////////////////////////////////// SELECTION UPDATE FOR SET WIDGET

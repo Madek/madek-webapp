@@ -363,13 +363,24 @@ def add_to_set(set_title = "Untitled Set", picture_title = "Untitled", owner = "
 end
 
 def scroll_to_next_page
-  wait_until(25) { find(".page[data-page]") }
+  wait_until { all(".page[data-page]").size > 0 }
   page = find(".page[data-page]")[:"data-page"]
-  
-  wait_until(25) {find(".page .pagination", :text => /Seite #{page}\svon/)}
-  find(".page .pagination", :text => /Seite #{page}\svon/).click
+  wait_until {find(".page .pagination", :text => /Seite #{page}\svon/)}.click
   wait_until {
     all(".page[data-page='#{page}']").size == 0 and
+    find(".page .pagination", :text => /Seite #{page}\svon/).find(:xpath, "./..") and
     find(".page .pagination", :text => /Seite #{page}\svon/).find(:xpath, "./..").all(".item_box img").size > 0
   }
+end
+
+# after filter panel has been updated, fetch fresh the selected term
+def selected_term
+  find(".key[data-key_name='#{@key_name}'] .term.selected")
+end
+
+def deselect_term(value)
+  selected_checkbox = find(".term.selected input[value='#{value}']")
+  selected_checkbox.find(:xpath, "./../../../..").find("h3").click
+  selected_checkbox.find(:xpath, "./../../..").find("h3").click
+  selected_checkbox.find(:xpath, "./..").click
 end
