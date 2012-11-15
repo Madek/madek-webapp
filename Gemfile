@@ -94,7 +94,7 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '~> 1.1'
+  gem 'capybara', '1.1.2'
   gem 'capybara-screenshot'
   gem 'cucumber', '~> 1.2'
   gem 'cucumber-rails', '~> 1.3', :require => false
