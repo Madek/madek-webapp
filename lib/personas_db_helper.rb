@@ -63,8 +63,6 @@ module PersonasDBHelper
 
      def restore_personas_to_max_migration
       config = check_for_persona_db_config
-      DBHelper.drop(config)
-      DBHelper.create(config)
       PersonasDBHelper.load_and_migrate_persona_data # Does not need 'config', it always works in the 'personas' env
     end
   end
