@@ -29,9 +29,10 @@ namespace :madek do
     desc "Like setup, but cleans personas and test dbs before, then migrates persona DB. Mostly for use on local machines, not that much use on CI."
     task :setup_local_dbs do
       puts "Terminating connections to 'personas' database"
-      DBHelper.terminate_open_connections Rails.configuration.database_configuration["personas"]
-
       puts "Dropping, creating and migrating 'personas' database to maximum available migration"
+      DBHelper.terminate_open_connections Rails.configuration.database_configuration["personas"]
+      puts `bundle exec rake db:drop RAILS_ENV=personas`
+      puts `bundle exec rake db:create RAILS_ENV=personas`
       puts `bundle exec rake madek:db:restore_personas_to_max_migration`
       if $?.exitstatus != 0 
         raise "Migrating 'personas' failed."
@@ -40,7 +41,8 @@ namespace :madek do
       puts "Terminating connections to 'test' database"
       DBHelper.terminate_open_connections Rails.configuration.database_configuration["test"]
       puts "Dropping, creating and migrating 'test' database"
-      puts `bundle exec rake db:drop db:create db:migrate RAILS_ENV=test`
+      puts `bundle exec rake db:drop  RAILS_ENV=test`
+      puts `bundle exec rake db:create db:migrate RAILS_ENV=test`
       if $?.exitstatus != 0 
         raise "Recreating 'test' database failed."
       end
