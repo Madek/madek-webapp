@@ -1,3 +1,11 @@
+
+# Otherwise Passenger/Rack throws a hissy fit
+# http://stackoverflow.com/questions/8252160/invalid-byte-sequence-error-in-normalize-yaml-input-being-thrown
+if RUBY_VERSION =~ /1.9/
+  Encoding.default_external = Encoding::UTF_8
+  Encoding.default_internal = Encoding::UTF_8
+end
+
 source 'http://rubygems.org'
 source 'http://gems.github.com'
 
