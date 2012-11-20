@@ -20,7 +20,7 @@
   %p= "Im Admin-Bereich des Medienarchives wurde noch keine FTP-Dropbox eingerichtet!"
   {{else}}
   %p= "Sie haben noch keine FTP-Dropbox erstellt:"
-  = link_to "Dropbox erstellen", dropbox_upload_path, :class => "upload_buttons", :id => "create_dropbox",:remote => true, :method => :post
+  = link_to "Dropbox erstellen", "/import/dropbox", :class => "upload_buttons", :id => "create_dropbox",:remote => true, :method => :post
   {{/if}}
   
 #ftp_existing.ftp_informations{:style => "display:{{if dropbox_exists}}block{{else}}none{{/if}}"}

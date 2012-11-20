@@ -4,37 +4,9 @@
  * Styleguide 7.9
  */
 
-.media-entries-wrapper {
-  display: table;
-  margin-right: -$space-l;
-  padding: 0 $space-m $space-m;
-  width: 100%;
-  .media-entries-sidebar,
-  .media-entries {
-    display: table-cell;
-    vertical-align: top;
-  }
-  .media-entries {
-    padding-right: $space-m;
-  }
-  .inline,
-  .tag-cloud {
-    margin-left: $space-s;
-  }
-}
-
-.media-entries-sidebar {
-  padding-right: $space-m;
-  padding-top: $space-s;
-}
 
 // Thumbnail section headers
 
-.media-entries-header {
-  display: table-caption;
-  margin-bottom: $space-s;
-  padding: $space-s 30px;
-}
 .media-entries-intro {
   padding: $space-m 0 0;
 }
@@ -50,10 +22,6 @@
   @include micro-clearfix;
 }
 
-.media-entries-toolbar.separated {
+.media-entries-ui-toolbar.separated {
   padding-bottom: $space-m;
-}
-
-.media-entries > .tag-cloud {
-  margin: 0 $space-s;
 }

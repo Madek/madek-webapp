@@ -4,47 +4,29 @@
  * Styleguide 8.4
  */
 
-@include sticky-footer(55px, ".app-content-wrapper", ".app-footer-placeholder", ".app-footer-wrapper");
-
-.app-footer {
+.ui-footer {
   @include box-shadow(inset 0 1px 3px $darken);
-  @include dimension(100%,45px);
-  padding-top: $space-s;
+  padding: $space-s;
+  position: relative;
 }
-
-// Footer instance area
-
-.footer-instance-area {
-  @include float-left;
-  margin-left: $space-s;
-  margin-top: 2px;
-}
-.footer-instance-logo {
-  @include float-left;
-  margin-right: $space-m;
-  margin-top: $space-x;
-}
-.footer-copyrights {
+.ui-footer ul,
+.ui-footer p {
   font-size: $font-s;
-  margin-top: 7px;
+  line-height: $line-height-m;
 }
-
-// Footer menu
-
-.footer-menu {
+.ui-footer-menu {
   @include float-right;
-  margin-right: $space-s;
-}
-.footer-menu-item {
-  display: inline-block;
-  margin-left: $space-s;
-  margin-top: 7px;
-}
-.footer-menu-item a {
-  color: $grey-lighter;
-  font-size: $font-s;
-  font-weight: 700;
-  &:hover {
-    color: $brightest;
+  position: relative;
+  top: $space-x;
+  > li {
+    display: inline-block;
+    margin-left: $space-s;
   }
+}
+
+.ui-footer-logo {
+  display: inline-block;
+  margin-right: $space-s;
+  position: relative;
+  top: $space-x;
 }

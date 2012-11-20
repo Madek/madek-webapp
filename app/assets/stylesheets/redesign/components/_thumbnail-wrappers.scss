@@ -42,7 +42,7 @@
 /* -------------------------------------------- */
 
 /**
- * ## Media thumb item `.thumbnail-wrapper`
+ * ## Media thumb item `.ui-thumbnail-wrapper`
  *
  * :hover    - Hovered variation
  * .selected - Selected variation
@@ -50,7 +50,7 @@
  * Styleguide 7.6
  */
 
-.thumbnail-wrapper {
+.ui-thumbnail-wrapper {
   @include border-radius($border-radius-m);
   @include dimension(140px, 220px);
   @include micro-clearfix;
@@ -65,8 +65,8 @@
 // Hover and selected states
 
 .media-entries.active {
-  .thumbnail-wrapper:hover,
-  .thumbnail-wrapper.selected {
+  .ui-thumbnail-wrapper:hover,
+  .ui-thumbnail-wrapper.selected {
     background: $brightest;
     .thumbnail-author {
       display: none;
@@ -75,19 +75,19 @@
       display: block;
     }
   }
-  .thumbnail-wrapper:hover {
+  .ui-thumbnail-wrapper:hover {
     @include box-shadow(0 1px 3px $darken);
   }
-  .thumbnail-wrapper.selected {
+  .ui-thumbnail-wrapper.selected {
     @include border-radius($border-radius-m);
-    @include box-shadow(none);
+    @include box-shadow(inset 0 1px 2px $darken);
     border: 1px solid $grey-light;
-    padding: 11px; // .thumbnail-wrapper's padding value -1 because of the border
+    padding: 11px; // .ui-thumbnail-wrapper's padding value -1 because of the border
   }
 
   // SET
 
-  .thumbnail-wrapper.media-set:hover {
+  .ui-thumbnail-wrapper.media-set:hover {
     @include border-radius(0);
     background: $brightest image-url("redesign/backgrounds/thumb-set-backg.png") 4px 3px no-repeat;
     .thumbnail-level-up-items,
@@ -95,20 +95,20 @@
       display: block;
     }
   }
-  .thumbnail-wrapper.media-set.selected {
+  .ui-thumbnail-wrapper.media-set.selected {
     background: $brightest image-url("redesign/backgrounds/thumb-set-backg.png") 4px 3px no-repeat;
   }
 
   // Catalog
 
-  .thumbnail-wrapper.media-catalog:hover {
+  .ui-thumbnail-wrapper.media-catalog:hover {
     background: $brightest image-url("redesign/backgrounds/thumb-set-backg-large.png") 3px 2px no-repeat;
   }
 
 }
 
 /**
- * ## Media thumb set `.thumbnail-wrapper.media-set`
+ * ## Media thumb set `.ui-thumbnail-wrapper.media-set`
  *
  * :hover    - Hovered variation
  * .selected - Selected variation
@@ -116,7 +116,7 @@
  * Styleguide 7.7
  */
 
-.thumbnail-wrapper.media-set {
+.ui-thumbnail-wrapper.media-set {
   @include micro-clearfix;
   background: transparent image-url("redesign/backgrounds/thumb-set-backg.png") 4px 3px no-repeat;
   display: inline-block;
@@ -151,7 +151,7 @@
 .thumbnail-level-down-items {
   @include border-bottom-radius($border-radius-m);
   @include box-shadow(0 1px 2px $darken);
-  top: 100%; // must be same as .thumbnail-wrapper height + padding values
+  top: 100%; // must be same as .ui-thumbnail-wrapper height + padding values
   border-width: 1px 0 0;
   padding-top: $space-s;
 }
@@ -223,18 +223,18 @@
 }
 
 /**
- * ## Media thumb catalog `.thumbnail-wrapper.media-catalog`
+ * ## Media thumb catalog `.ui-thumbnail-wrapper.media-catalog`
  *
  * Styleguide 7.8
  */
 
-.thumbnail-wrapper.media-catalog {
+.ui-thumbnail-wrapper.media-catalog {
   @include dimension(300px, auto);
   @include micro-clearfix;
   background: transparent image-url("redesign/backgrounds/thumb-set-backg-large.png") 3px 2px no-repeat;
   display: inline-block;
   margin-bottom: $space-s;
-  margin-right: $space-s;
+  margin-right: 25px;
   padding: 12px;
   .thumbnail-name,
   .thumbnail-author {
@@ -244,7 +244,7 @@
     margin-bottom: $space-x;
   }
 }
-.thumbnail-wrapper.media-catalog .thumbnail-additional-data {
+.ui-thumbnail-wrapper.media-catalog .thumbnail-additional-data {
   color: $grey-mid;
   font-size: $font-s;
 }

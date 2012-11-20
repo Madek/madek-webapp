@@ -4,16 +4,16 @@
 <% end %>
 
 <% kss_block '7.2' do %>
-<ul class="side-navigation">
-  <li class="side-navigation-item">
+<ul class="ui-side-navigation">
+  <li class="ui-side-navigation-item">
     <a href="#" class="strong">Item 1</a></li>
-    <ul class="side-navigation-lvl2">
-      <li class="side-navigation-lvl2-item"><a href="#" class="weak">Sub-Item 1</a></li>
-      <li class="side-navigation-lvl2-item"><a href="#" class="weak">Sub-Item 2</a></li>
+    <ul class="ui-side-navigation-lvl2">
+      <li class="ui-side-navigation-lvl2-item"><a href="#" class="weak">Sub-Item 1</a></li>
+      <li class="ui-side-navigation-lvl2-item"><a href="#" class="weak">Sub-Item 2</a></li>
     </ul>
   </li>
   <li class="separator mini"></li>
-  <li class="side-navigation-item">
+  <li class="ui-side-navigation-item">
     <a href="#" class="strong">Item 2</a>
   </li>
   <li class="separator mini"></li>
@@ -160,9 +160,9 @@
 
 <% kss_block '7.4' do %>
 <ul class="tag-cloud $modifier-class">
-  <li><a href="#" class="tag-button">Tag 1</a></li>
-  <li><a href="#" class="tag-button">Tag 2</a></li>
-  <li><a href="#" class="tag-button">Tag 3</a></li>
+  <li class="tag-button"><a href="#">Tag 1</a></li>
+  <li class="tag-button"><a href="#">Tag 2</a></li>
+  <li class="tag-button"><a href="#">Tag 3</a></li>
 </ul>
 <% end %>
 
@@ -174,7 +174,7 @@
 <% end %>
 
 <% kss_block '7.6' do %>
-<div class="thumbnail-wrapper media-entry $modifier-class">
+<div class="ui-thumbnail-wrapper media-entry $modifier-class">
 
     <div class="thumbnail-privacy">
       <i class="icon-privacy-private">This media is private</i>
@@ -205,7 +205,7 @@
 <% end %>
 
 <% kss_block '7.7', :padding_top => "50", :padding_bottom => "150" do %>
-<div class="thumbnail-wrapper media-set $modifier-class">
+<div class="ui-thumbnail-wrapper media-set $modifier-class">
 
     <div class="thumbnail-level-up-items">
       <h3 class="title-xs-alt">Keine übergeordneten Sets</h3>
@@ -253,7 +253,7 @@
 <% end %>
 
 <% kss_block '7.8' do %>
-<div class="thumbnail-wrapper media-catalog $modifier-class">
+<div class="ui-thumbnail-wrapper media-catalog $modifier-class">
 
     <div class="thumbnail-privacy">
       <i class="icon-privacy-public">This media is public</i>
@@ -273,18 +273,18 @@
 <% end %>
 
 <% kss_block '7.9' do %>
-<div class="media-entries-header">
+<div class="media-entries-header" style="display:block;">
   <h2 class="title-l media-entries-title">A filter <a href="#" class="strong">Alle anziegen</a></h2>
   <p class="paragraph-l media-entries-intro">Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet arcu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
 </div>
 <% end %>
 
 <% kss_block '7.10' do %>
-<div class="page-title">
-  <div class="page-title-label">
+<div class="ui-body-title">
+  <div class="ui-body-title-label">
     <h1 class="title-xl">Page header that could possibly go onto two lines but will not because of the overlay.</h1>
   </div>
-  <div class="page-title-actions">
+  <div class="ui-body-title-actions">
     <a href="#" class="primary-button">Primary button</a>
     <a href="#" class="button">Secondary button</a>
   </div>
@@ -310,8 +310,8 @@
 <% end %>
 
 <% kss_block '7.13' do %>
-<div class="metadata-box">
-  <h3 class="title-n separated light">Horizontlinie</h3>
+<div class="ui-metadata-box">
+  <h3 class="title-m separated light">Horizontlinie</h3>
   <ol>
     <li class="odd">Agglomeration</li>
     <li class="even">Bucht</li>
@@ -326,7 +326,7 @@
 <% end %>
 
 <% kss_block '7.14' do %>
-<div class="metadata-box">
+<div class="ui-metadata-box">
   <dl>
     <dt class="title-xs">Titel</dt>
     <dd class="title-l">Die Eismalerin</dd>
@@ -347,8 +347,8 @@
     <dt class="title-xs">Schlagworte zu Inhalt und Motiv</dt>
     <dd>
       <ul class="tag-cloud small">
-        <li><a href="#">Tag 1</a></li>
-        <li><a href="#">Tag 2</a></li>
+        <li class="tag-button"><a href="#">Tag 1</a></li>
+        <li class="tag-button"><a href="#">Tag 2</a></li>
       </ul>
     </dd>
 
@@ -369,9 +369,81 @@
 <% end %>
 
 <% kss_block '7.15' do %>
-<div class="slider">
-  <a class="slider-handle"><span class="slider-info container inverted">8 von 14</span></a>
+<div class="ui-slider">
+  <a class="ui-slider-handle"><span class="ui-slider-info container inverted">8 von 14</span></a>
 </div>
 <% end %>
 
+<% kss_block '7.16' do %>
+<div class="stepline">
+  <div class="stepline-item">
+    <h3 class="title-s stepline-item-title">
+      <small>
+        1 of 4
+      </small>
+      Medien übertragen
+    </h3>
+  </div>
+  <div class="stepline-item">
+    <h3 class="title-s stepline-item-title">
+      <small>
+        2 of 4
+      </small>
+      Berechtigungen setzen
+    </h3>
+  </div>
+  <div class="stepline-item active">
+    <h3 class="title-s stepline-item-title">
+      <small>
+        3 of 4
+      </small>
+      Metadaten ergänzen
+    </h3>
+  </div>
+  <div class="stepline-item">
+    <h3 class="title-s stepline-item-title">
+      <small>
+        4 of 4
+      </small>
+      Medien zusammenstellen
+    </h3>
+  </div>
+</div>
+<% end %>
 
+<% kss_block '7.17' do %>
+<div class="actions-bar">
+  <a class="left link">
+    Abbrechen
+  </a>
+  <a class="primary-button large">
+    Eintrage zum einem Set hinzufugen
+  </a>
+  <a class="button">
+    Import anschliessen
+  </a>
+</div>
+<% end %>
+
+<% kss_block '7.18' do %>
+<div class="flyout">
+  <div class="flyout-head">
+    <h3 class="title-l">Flyout Title</h3>
+  </div>
+  <div class="flyout-ui-toolbar top">
+    ui-toolbar content if any
+  </div>
+  <div class="flyout-body">
+    Flyout Body
+  </div>
+  <div class="flyout-ui-toolbar bottom">
+    ui-toolbar content if any
+  </div>
+  <div class="flyout-footer">
+    <div class="actions-bar">
+      <a href="#" class="primary-button">Primary action</a>
+      <a href="#" class="left link">Secondary action</a>
+    </div>
+  </div>
+</div>
+<% end %>

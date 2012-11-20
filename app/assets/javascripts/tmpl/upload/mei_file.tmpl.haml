@@ -4,7 +4,7 @@
       ${filename}
   .plupload_file_action
     %a{:href => "#", :style => "display: block;"}
-    = link_to "", upload_path, :class => "delete_mei"
+    = link_to "", "/import", :class => "delete_mei"
   .plupload_file_status= "100%"
   .plupload_file_size
     ${Number(size/1024).toFixed()} KB

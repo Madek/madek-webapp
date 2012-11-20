@@ -78,6 +78,7 @@ MAdeK::Application.routes.draw do
     collection do
       get :keywords
       post :edit_multiple
+      get :edit_multiple
       put :update_multiple
       post :media_sets
       delete :media_sets
@@ -187,16 +188,15 @@ MAdeK::Application.routes.draw do
 
 ###############################################
 
-  # TODO rename :import
-  resource :upload, :controller => 'upload', :except => :new do
-    member do
-      get :permissions
-      get :set_media_sets
-      put :complete
-      get :dropbox
-      post :dropbox
-    end
-  end
+  get  'import' => 'import#start'
+  post 'import' => 'import#upload'
+  delete 'import' => 'import#destroy'
+  get  'import/dropbox' => 'import#dropbox'
+  post 'import/dropbox' => 'import#dropbox'
+  get  'import/permissions' => 'import#permissions', :as => "permissions_import"
+  get  'import/meta_data' => 'import#meta_data', :as => "edit_import"
+  get  'import/organize' => 'import#organize'
+  put  'import/complete' => 'import#complete'
   
 ###################
    

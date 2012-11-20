@@ -1,8 +1,8 @@
 <% kss_block '8.1' do %>
-  <div class="container inverted toolbar phs pvx">
-    <h2 class="toolbar-header left col1of2"><strong>Set enthält</strong> (3 von 11 für Sie sichtbar)</h2>
+  <div class="container inverted ui-toolbar phs pvx">
+    <h2 class="ui-toolbar-header left col1of2"><strong>Set enthält</strong> (3 von 11 für Sie sichtbar)</h2>
 
-    <div class="toolbar-controls col1of2 by-right">
+    <div class="ui-toolbar-controls col1of2 by-right">
       <div class="button-group tertiary small right mls">
         <a class="button active"><i class="icon-vis-grid bright">Grid</i></a>
         <a class="button"><i class="icon-vis-tiles">Tiles</i></a>
@@ -31,7 +31,7 @@
 <% end %>
 
 <% kss_block '8.2' do %>
-<div class="container toolbar media-entries-toolbar separated">
+<div class="container ui-toolbar media-entries-ui-toolbar separated">
   <div class="left col2of6">
     <a class="button active" href="#">
       <i class="icon-arrow-down dark"></i>
@@ -111,7 +111,7 @@
 <% end %>
 
 <% kss_block '8.5' do %>
-<div class="metadata-box metadata-summary">
+<div class="ui-metadata-box metadata-summary">
   <table class="borderless">
     <tbody>
       <tr>
@@ -134,8 +134,8 @@
         <td class="summary-label">Schlagworte</td>
         <td>
           <ul class="tag-cloud small">
-            <li><a href="#" class="">Tag 1</a></li>
-            <li><a href="#">Tag 2</a></li>
+            <li class="tag-button"><a href="#" class="">Tag 1</a></li>
+            <li class="tag-button"><a href="#">Tag 2</a></li>
           </ul>
         </td>
       </tr>
@@ -193,7 +193,7 @@
 <% end %>
 
 <% kss_block '8.7' do %>
-<div class="media-overview metadata-box">
+<div class="media-overview ui-metadata-box">
   <dl>
     <dt class="title-xs">Titel</dt>
     <dd class="title-l">Die Eismalerin</dd>
@@ -206,8 +206,8 @@
     <dt class="title-xs">Schlagworte zu Inhalt und Motiv</dt>
     <dd>
       <ul class="tag-cloud small">
-        <li><a href="#">Tag 1</a></li>
-        <li><a href="#">Tag 2</a></li>
+        <li class="tag-button"><a href="#">Tag 1</a></li>
+        <li class="tag-button"><a href="#">Tag 2</a></li>
       </ul>
     </dd>
     <dt class="title-xs">Rechte am geistigen Eigentum</dt>
@@ -420,7 +420,7 @@
 <% kss_block '8.9.1', :padding_top => "50", :padding_bottom => "110" do %>
 <ul class="media-entries grid $modifier-class">
   <li class="media-entries-item">
-    <div class="thumbnail-wrapper media-catalog">
+    <div class="ui-thumbnail-wrapper media-catalog">
       <div class="thumbnail-privacy">
         <i class="icon-privacy-public">This media is public</i>
       </div>
@@ -438,7 +438,7 @@
     </div>
   </li>
   <li class="media-entries-item">
-    <div class="thumbnail-wrapper media-set">
+    <div class="ui-thumbnail-wrapper media-set">
       <div class="thumbnail-level-up-items">
         <h3 class="title-xs-alt">Keine übergeordneten Sets</h3>
       </div>
@@ -508,7 +508,7 @@
     </div>
   </li>
   <li class="media-entries-item">
-    <div class="thumbnail-wrapper media-entry">
+    <div class="ui-thumbnail-wrapper media-entry">
       <div class="thumbnail-privacy">
         <i class="icon-privacy-private">This media is private</i>
       </div>
@@ -558,21 +558,21 @@
 <% kss_block '8.9.2' do %>
 <ul class="media-entries grid tight $modifier-class">
   <li class="media-entries-item">
-    <a class="thumbnail-wrapper media-entry" href="#">
+    <a class="ui-thumbnail-wrapper media-entry" href="#">
       <div class="thumbnail-package small">
         <img alt="Thumb-package-7z-small" src="/assets/redesign/thumbnails/thumb-package-7z-small.png">
       </div>
     </a>
   </li>
   <li class="media-entries-item">
-    <a class="thumbnail-wrapper media-entry" href="#">
+    <a class="ui-thumbnail-wrapper media-entry" href="#">
       <div class="thumbnail-doc small">
         <img alt="Thumb-doc-ods-small" src="/assets/redesign/thumbnails/thumb-doc-ods-small.png">
       </div>
     </a>
   </li>
   <li class="media-entries-item">
-    <a class="thumbnail-wrapper media-entry" href="#">
+    <a class="ui-thumbnail-wrapper media-entry" href="#">
       <div class="thumbnail-video small">
         <img alt="Thumb-video-mpg-small" src="/assets/redesign/thumbnails/thumb-video-mpg-small.png">
       </div>
@@ -593,7 +593,7 @@
     </div>
     <div class="entry-body">
       <div class="entry-thumbnail">
-        <div class="thumbnail-wrapper media-set">
+        <div class="ui-thumbnail-wrapper media-set">
           <div class="thumbnail-level-up-items">
             <h3 class="title-xs-alt">Keine übergeordneten Sets</h3>
           </div>
@@ -663,7 +663,7 @@
         </div>
       </div>
       <div class="entry-metadata">
-        <div class="metadata-box metadata-summary">
+        <div class="ui-metadata-box metadata-summary">
           <table class="borderless">
             <tbody>
               <tr>
@@ -674,9 +674,9 @@
                 <td class="summary-label">Schlagworte zu Inhalt und Motiv</td>
                 <td>
                   <ul class="tag-cloud small">
-                    <li><a href="#" class="button">Tag</a></li>
-                    <li><a href="#" class="button">Tag</a></li>
-                    <li><a href="#" class="button">Tag</a></li>
+                    <li class="tag-button"><a href="#">Tag</a></li>
+                    <li class="tag-button"><a href="#">Tag</a></li>
+                    <li class="tag-button"><a href="#">Tag</a></li>
                   </ul>
                 </td>
               </tr>
@@ -696,7 +696,7 @@
         <p>Es sind keine Metadaten zu dem Kontext "Institution" bereit gestellt.</p>
       </div>
       <div class="entry-details">
-        <div class="metadata-box metadata-summary">
+        <div class="ui-metadata-box metadata-summary">
           <table class="borderless">
             <tbody>
               <tr>
@@ -727,7 +727,7 @@
     </div>
     <div class="entry-body">
       <div class="entry-thumbnail">
-        <div class="thumbnail-wrapper media-set">
+        <div class="ui-thumbnail-wrapper media-set">
           <div class="thumbnail-level-up-items">
             <h3 class="title-xs-alt">Keine übergeordneten Sets</h3>
           </div>
@@ -797,7 +797,7 @@
         </div>
       </div>
       <div class="entry-metadata">
-        <div class="metadata-box metadata-summary">
+        <div class="ui-metadata-box metadata-summary">
           <table class="borderless">
             <tbody>
               <tr>
@@ -808,9 +808,9 @@
                 <td class="summary-label">Schlagworte zu Inhalt und Motiv</td>
                 <td>
                   <ul class="tag-cloud small">
-                    <li><a href="#" class="button">Tag</a></li>
-                    <li><a href="#" class="button">Tag</a></li>
-                    <li><a href="#" class="button">Tag</a></li>
+                    <li class="tag-button"><a href="#">Tag</a></li>
+                    <li class="tag-button"><a href="#">Tag</a></li>
+                    <li class="tag-button"><a href="#">Tag</a></li>
                   </ul>
                 </td>
               </tr>
@@ -830,7 +830,7 @@
         <p>Es sind keine Metadaten zu dem Kontext "Institution" bereit gestellt.</p>
       </div>
       <div class="entry-details">
-        <div class="metadata-box metadata-summary">
+        <div class="ui-metadata-box metadata-summary">
           <table class="borderless">
             <tbody>
               <tr>
@@ -855,9 +855,9 @@
 <% end %>
 
 <% kss_block '8.10' do %>
-<div class="featured-entries-wrapper">
-  <ul class="featured-entries">
-    <li class="featured-entries-item">
+<div class="ui-featured-entries-wrapper">
+  <ul class="ui-featured-entries">
+    <li class="ui-featured-entries-item">
       <a href="#" class="featured-entry">
         <div class="featured-entry-preview">
           <span>
@@ -870,7 +870,7 @@
         </div>
       </a>
     </li>
-    <li class="featured-entries-item">
+    <li class="ui-featured-entries-item">
       <a href="#" class="featured-entry">
         <div class="featured-entry-preview">
           <span>
@@ -883,7 +883,7 @@
         </div>
       </a>
     </li>
-    <li class="featured-entries-item">
+    <li class="ui-featured-entries-item">
       <a href="#" class="featured-entry">
         <div class="featured-entry-preview">
           <span>
@@ -896,7 +896,7 @@
         </div>
       </a>
     </li>
-    <li class="featured-entries-item">
+    <li class="ui-featured-entries-item">
       <a href="#" class="featured-entry">
         <div class="featured-entry-preview">
           <span>
@@ -952,4 +952,259 @@
     </div>
   </div>
 </div>
+<% end %>
+
+<% kss_block '8.12' do %>
+<div class="flyout sets-flyout">
+  <div class="flyout-head">
+    <h3 class="title-l">Zu Set hinzufügen/entfernen</h3>
+  </div>
+  <div class="flyout-ui-toolbar top">
+    <input type="text" placeholder="Suchen…" class="block">
+  </div>
+  <div class="flyout-body">
+    <ol class="sets-list">
+      <li>
+        <label title="Awesomest set">
+          <input id="Awesomest_set" name="Awesomeset_Set" type="checkbox" value="1">
+          <span class="title">Awesomest set</span>
+          <span class="owner">Interactive Things</span>
+          <span class="created-at" data-search="20.08.2012">20.08.2012</span>
+        </label>
+      </li>
+      <li>
+        <label title="Awesomest set2">
+          <input id="Awesomest_set2" name="Awesomeset_Set2" type="checkbox" value="1">
+          <span class="title">Awesomest set2</span>
+          <span class="owner">Interactive Things</span>
+          <span class="created-at" data-search="20.08.2012">20.08.2012</span>
+        </label>
+      </li>
+      <li>
+        <label title="Awesomest set2">
+          <input id="Awesomest_set2" name="Awesomeset_Set2" type="checkbox" value="1">
+          <span class="title">Awesomest set2</span>
+          <span class="owner">Interactive Things</span>
+          <span class="created-at" data-search="20.08.2012">20.08.2012</span>
+        </label>
+      </li>
+      <li>
+        <label title="Awesomest set2">
+          <input id="Awesomest_set2" name="Awesomeset_Set2" type="checkbox" value="1">
+          <span class="title">Awesomest set2</span>
+          <span class="owner">Interactive Things</span>
+          <span class="created-at" data-search="20.08.2012">20.08.2012</span>
+        </label>
+      </li>
+      <li>
+        <label title="Awesomest set2">
+          <input id="Awesomest_set2" name="Awesomeset_Set2" type="checkbox" value="1">
+          <span class="title">Awesomest set2</span>
+          <span class="owner">Interactive Things</span>
+          <span class="created-at" data-search="20.08.2012">20.08.2012</span>
+        </label>
+      </li>
+      <li>
+        <label title="Awesomest set2">
+          <input id="Awesomest_set2" name="Awesomeset_Set2" type="checkbox" value="1">
+          <span class="title">Awesomest set2</span>
+          <span class="owner">Interactive Things</span>
+          <span class="created-at" data-search="20.08.2012">20.08.2012</span>
+        </label>
+      </li>
+      <li>
+        <label title="Awesomest set2">
+          <input id="Awesomest_set2" name="Awesomeset_Set2" type="checkbox" value="1">
+          <span class="title">Awesomest set2</span>
+          <span class="owner">Interactive Things</span>
+          <span class="created-at" data-search="20.08.2012">20.08.2012</span>
+        </label>
+      </li>
+      <li>
+        <label title="Awesomest set2">
+          <input id="Awesomest_set2" name="Awesomeset_Set2" type="checkbox" value="1">
+          <span class="title">Awesomest set2</span>
+          <span class="owner">Interactive Things</span>
+          <span class="created-at" data-search="20.08.2012">20.08.2012</span>
+        </label>
+      </li>
+    </ol>
+  </div>
+  <div class="flyout-ui-toolbar bottom">
+    <a class="button small block">Neues Set erstellen</a>
+    <div class="sets-add-new hide">
+      <input type="text" class="block small">
+      <a class="button small"><i class="icon-plus">Add</i></a>
+    </div>
+  </div>
+  <div class="flyout-footer">
+    <div class="actions-bar">
+      <a href="#" class="primary-button">Anwenden</a>
+      <a href="#" class="left link">Abbrechen</a>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<% kss_block '8.13' do %>
+<div class="rights-management">
+  <div class="rights-body">
+    <table class="rights-group bordered">
+      <caption>Ich</caption>
+      <thead>
+        <tr>
+          <td class="rights-user-title">User</td>
+          <td class="rights-role-title">Berechtigung</td>
+          <td class="rights-check-title">Betrachten</td>
+          <td class="rights-check-title">Download Original</td>
+          <td class="rights-check-title">Editieren</td>
+          <td class="rights-check-title">Berechtigung verwalten</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="rights-user">Interactive Things</td>
+          <td class="rights-role">Eigentumer/in</td>
+          <td class="rights-check"><input type="checkbox" checked="checked" disabled="disabled"></td>
+          <td class="rights-check"><input type="checkbox" checked="checked" disabled="disabled"></td>
+          <td class="rights-check"><input type="checkbox" checked="checked" disabled="disabled"></td>
+          <td class="rights-check"><input type="checkbox" checked="checked" disabled="disabled"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="rights-body">
+    <table class="rights-group bordered">
+      <caption>Personen <i class="icon-privacy-private"></i></caption>
+      <tbody>
+        <tr>
+          <td class="rights-user">Interactive Things</td>
+          <td class="rights-role">
+            <select>
+              <option>Bevollmachtigte/r</option>
+              <option>Betrachter/in</option>
+              <option>Betrachter/in &amp; Original</option>
+              <option>Gesperrt</option>
+              <option>Redakteur/in</option>
+            </select>
+          </td>
+          <td class="rights-check"><input type="checkbox" ></td>
+          <td class="rights-check"><input type="checkbox" ></td>
+          <td class="rights-check"><input type="checkbox" ></td>
+          <td class="rights-check"><input type="checkbox" ></td>
+        </tr>
+        <tr>
+          <td class="rights-user">Interactive Things 2</td>
+          <td class="rights-role">
+            <select>
+              <option>Bevollmachtigte/r</option>
+              <option>Betrachter/in</option>
+              <option>Betrachter/in &amp; Original</option>
+              <option>Gesperrt</option>
+              <option>Redakteur/in</option>
+            </select>
+          </td>
+          <td class="rights-check"><input type="checkbox" ></td>
+          <td class="rights-check"><input type="checkbox" ></td>
+          <td class="rights-check"><input type="checkbox" ></td>
+          <td class="rights-check"><input type="checkbox" ></td>
+        </tr>
+      </tbody>
+    </table>
+    <a href="#" class="button small"><i class="icon-plus"></i> Person hinzufugen</a>
+  </div>
+  <div class="rights-body">
+    <table class="rights-group bordered">
+      <caption>Gruppen <i class="icon-privacy-group"></i></caption>
+      <tbody>
+        <tr>
+          <td class="rights-user">Interactive Things</td>
+          <td class="rights-role">
+            <select>
+              <option>Bevollmachtigte/r</option>
+              <option>Betrachter/in</option>
+              <option>Betrachter/in &amp; Original</option>
+              <option>Gesperrt</option>
+              <option>Redakteur/in</option>
+            </select>
+          </td>
+          <td class="rights-check"><input type="checkbox" ></td>
+          <td class="rights-check"><input type="checkbox" ></td>
+          <td class="rights-check"><input type="checkbox" ></td>
+          <td class="rights-check"><input type="checkbox" ></td>
+        </tr>
+        <tr>
+          <td class="rights-user">Interactive Things 2</td>
+          <td class="rights-role">
+            <select>
+              <option>Bevollmachtigte/r</option>
+              <option>Betrachter/in</option>
+              <option>Betrachter/in &amp; Original</option>
+              <option>Gesperrt</option>
+              <option>Redakteur/in</option>
+            </select>
+          </td>
+          <td class="rights-check"><input type="checkbox" ></td>
+          <td class="rights-check"><input type="checkbox" ></td>
+          <td class="rights-check"><input type="checkbox" ></td>
+          <td class="rights-check"><input type="checkbox" ></td>
+        </tr>
+      </tbody>
+    </table>
+    <a href="#" class="button small"><i class="icon-plus"></i> Gruppe hinzufugen</a>
+  </div>
+  <div class="rights-body">
+    <table class="rights-group bordered">
+      <caption>Öffentlichkeit <i class="icon-privacy-public"></i></caption>
+      <tbody>
+        <tr>
+          <td class="rights-user">Öffentlichkeit</td>
+          <td class="rights-role">
+            <select>
+              <option>Bevollmachtigte/r</option>
+              <option>Betrachter/in</option>
+              <option>Betrachter/in &amp; Original</option>
+              <option>Gesperrt</option>
+              <option>Redakteur/in</option>
+            </select>
+          </td>
+          <td class="rights-check"><input type="checkbox" ></td>
+          <td class="rights-check"><input type="checkbox" ></td>
+          <td class="rights-check"><input type="checkbox" ></td>
+          <td class="rights-check"><input type="checkbox" ></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<% end %>
+
+<% kss_block '8.14' do %>
+<table class="ui-workgroups bordered">
+  <thead>
+    <tr>
+      <td class="ui-workgroup-name-title">Arbeitsgrupp</td>
+      <td class="ui-workgroup-items-title">Inhalte</td>
+      <td class="ui-workgroup-actions-title">Aktionen</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="ui-workgroup-name">Interactive Things</td>
+      <td class="ui-workgroup-items">
+        <a href="#">
+          54243
+        </a>
+      </td>
+      <td class="ui-workgroup-actions">
+        <a class="button small">
+          <i class="icon-trash dark"></i>
+        </a>
+        <a class="button small">
+          <i class="icon-edit dark"></i>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 <% end %>

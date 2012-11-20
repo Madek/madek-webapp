@@ -104,6 +104,6 @@
   }
   &:active,
   .active {
-    @include box-shadow(inset 0 1p 3px $darken-more);
+    @include box-shadow(inset 0 1px 3px $darken-more);
   }
 }

@@ -1,0 +1,27 @@
+#upload.container_12.clearfix
+  %section.content_body.clearfix
+    = render :partial => "header"
+    
+    #upload-container
+      .clearfix{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
+        #permissions
+        
+    :javascript
+      
+      $(document).ready(function(){
+        Permission.display_inline({ 
+          container: $("#permissions"), 
+          media_resource_ids: #{@media_entries.map(&:id).to_json},
+          current_user: #{current_user.to_json(:only=>:id, :include => :groups)},
+          button: $("#save_permissions")
+        });
+        
+        $("#save_permissions").bind("click", function(){
+          $(this).unbind("click");
+          Permission.save($(this), $("#permissions"), function(){
+            window.setTimeout(function(){
+              window.location = "http:\/\/"+window.location.host+"/import/meta_data"
+            }, 100);
+          });
+        });
+      });

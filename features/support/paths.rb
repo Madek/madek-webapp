@@ -15,7 +15,10 @@ module NavigationHelpers
       media_resources_path
       
     when /the upload edit/
-      edit_upload_path
+      edit_import_path
+
+    when /the upload page/
+      import_path
       
     when /^the wiki$/
       '/wiki'

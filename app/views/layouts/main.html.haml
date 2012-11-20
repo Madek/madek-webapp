@@ -18,7 +18,7 @@
   %body#basic-layout.home
     %header= render :partial => "layouts/header"
     = flash_helper
-    = content_for?(:content) ? yield(:content) : yield
+    = yield
     %footer.container_12.clearfix
       = render :partial => "layouts/footer"
     / Piwik tracking bug

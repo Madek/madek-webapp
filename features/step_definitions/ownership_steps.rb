@@ -161,7 +161,7 @@ end
 
 When /^I create a resource$/ do
   step 'I upload a file'
-  visit "/upload/permissions"
+  visit "/import/permissions"
 end
 
 Then /^I am the owner of that resource$/ do

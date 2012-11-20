@@ -12,11 +12,6 @@
 
   .media-entries-item {
     list-style: none;
-    margin-bottom: -$space-l;
-    padding: $space-s;
-  }
-  .media-entries-item.even {
-    background: $grey-lighter;
   }
 
   // Item wrapper
@@ -24,7 +19,7 @@
   // Entry Head
 
   .entry-head {
-    border-bottom: 1px solid $grey-light;
+    border-bottom: 1px solid $grey-mid-light;
     margin-bottom: $space-s;
     padding-bottom: $space-x;
   }
@@ -36,7 +31,7 @@
     @include float-right;
     text-align: right;
     position: relative;
-    top: -$space-m;
+    top: -$space-l;
   }
   .entry-actions li {
     display: inline-block;
@@ -55,7 +50,7 @@
   }
   .entry-thumbnail {
     width: 160px;
-    .thumbnail-wrapper {
+    .ui-thumbnail-wrapper {
       height: 175px;
       margin-top: -3px;
       margin-left: -12px;

@@ -1,27 +1,52 @@
 /**
  * ## Tables
  *
- * .bordered  - Bordered table
+ * .borderless    - Borderless tables
  *
  * Styleguide 2.5
  */
 
 // Table
 
-td {
-  line-height: $line-height-m;
-  padding: $space-x $space-m $space-x 0;
-  vertical-align: top;
+table {
+
 }
-td:last-child {
-  padding-right: 0;
+table.block {
+  width: 100%;
+}
+
+thead tr,
+tfoot tr {
+  background: $grey-lighter;
 }
 thead td {
-  font-weight: 600;
+  border-bottom: 1px solid $grey-mid-light;
+  font-size: $font-xs;
+  font-weight: 700;
+}
+tfoot td {
+  font-size: $font-xs;
+}
+caption {
+  border-bottom: 1px solid $grey-mid-light;
+  font-weight: 700;
+  line-height: $line-height-m;
+  padding: $space-x;
+  text-align: left;
 }
 
-// Bordered Variation
+td {
+  border-bottom: 1px solid $grey-light;
+  line-height: $line-height-m;
+  padding: $space-x;
+  vertical-align: top;
+}
 
-table.bordered tbody tr {
-  border-top: 1px solid $grey-light;
+// Borderless Tables
+
+.borderless {
+  td,
+  caption {
+    border: none;
+  }
 }

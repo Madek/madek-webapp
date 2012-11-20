@@ -1,0 +1,55 @@
+/**
+ * ## Upload Container `.upload-management`
+ *
+ * Styleguide 8.12.1
+ */
+
+.upload-management {
+  min-height: 200px;
+  max-height: 400px;
+  overflow-y: auto;
+  position: relative;
+}
+.upload-call {
+  @include single-text-shadow(false, 1px, 0, false, $lighten-more);
+  @include position-top-right(40%,0);
+  @include position-bottom-left(40%,0);
+  color: $grey-mid;
+  font-size: $font-l;
+  font-weight: 700;
+  text-align: center;
+}
+.upload-file-list {
+
+}
+.upload-list-item {
+
+}
+
+/**
+ * ## Upload Preview `.upload-preview`
+ *
+ * Styleguide 8.12.2
+ */
+
+.upload-preview {
+  @include max-dimension(auto, 350px);
+  overflow-y: auto;
+  padding: $space-s $space-s 0;
+  .ui-thumbnail-wrapper {
+    @include dimension(140px,140px);
+  }
+}
+
+/**
+ * ## Upload Overview `.upload-overview`
+ *
+ * Styleguide 8.12.3
+ */
+
+.upload-overview {
+  @include max-dimension(auto,520px);
+  display: block;
+  overflow-y: auto;
+  padding: $space-s $space-s 0;
+}

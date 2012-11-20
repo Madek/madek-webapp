@@ -171,11 +171,8 @@
 .separated {
   @include box-shadow(0 1px 0 $brightest);
   border-bottom: 1px solid $grey-mid-light;
-  margin-bottom: $space-l;
-  padding-bottom: $space-s;
 }
 .separated.light {
   @include box-shadow(0 1px 0 $lighten-less);
   border-bottom: 1px solid $grey-light;
-  margin-bottom: $space-s;
 }

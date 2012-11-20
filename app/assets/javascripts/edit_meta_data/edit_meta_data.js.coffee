@@ -488,7 +488,7 @@ class EditMetaData
           checkbox.trigger("click")
       else
         # finish successfuly
-        window.location = window.location.protocol+"//"+window.location.host+"/upload/set_media_sets"
+        window.location = window.location.protocol+"//"+window.location.host+"/import/organize"
     
   @validate_element = (element)->
     if EditMetaData.required_meta_keys?

@@ -1,0 +1,59 @@
+/**
+ * ## Rights management table `.rights-management`
+ *
+ * Styleguide 8.13
+ */
+
+.rights-management {
+
+}
+
+.rights-body {
+  padding-bottom: $space-m;
+}
+.rights-body > a.button {
+  margin-top: $space-s;
+}
+
+.rights-group {
+  width: 100%;
+  table-layout: fixed;
+}
+
+// Group Items
+
+.rights-user,
+.rights-user-title,
+.rights-role,
+.rights-role-title {
+  width: 20%;
+}
+
+// Group Titles
+
+.rights-user-title,
+.rights-role-title,
+.rights-check-title {
+  font-size: $font-xs;
+  white-space: nowrap;
+}
+
+.rights-user-title {
+
+}
+.rights-role-title {
+
+}
+.rights-check-title,
+.rights-check {
+  text-align: center;
+}
+
+// Group Labels
+
+.rights-user {
+
+}
+.rights-role {
+
+}

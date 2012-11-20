@@ -1,0 +1,23 @@
+/**
+ * Overriding and extending Bootstrap Modal properties
+ */
+
+ .modal-header,
+.modal-footer {
+  background: $grey-lighter;
+  border-color: $grey-mid-light;
+}
+.modal-header {
+  @include border-top-radius($border-radius-m)
+}
+.modal-body {
+  @include box-shadow(inset 0 1px 3px $darken-less);
+  .form-group:last-child {
+    border: none;
+    margin-bottom: -10px;
+    padding-bottom: 0;
+  }
+}
+.modal-close {
+  @include position-top-right(15px,15px);
+}

@@ -1,0 +1,119 @@
+/**
+ * Overriding PLUPLOAD properties
+ */
+
+.media-import-content {
+  position: relative;
+}
+
+// Redefining background image paths
+
+.plupload_button,
+.plupload_disabled, a.plupload_disabled:hover {
+  background-image: none;
+}
+li.plupload_uploading {
+  background-image: image-url("redesign/vendor/plupload-1.5.4/buttons-disabled.png") repeat-x 0 -238px;
+}
+li.plupload_delete a {
+  @include dimension(20px,20px);
+  background-image: image-url("redesign/icons/icon-delete-hover.png");
+}
+li.plupload_failed a {
+  background-image: image-url("redesign/vendor/plupload-1.5.4/error.gif")
+}
+li.plupload_done a {
+  @include dimension(20px,20px);
+  background-image: image-url("redesign/icons/icon-ok-dark.png");
+}
+
+// Generic reset
+
+.plupload_header,
+.plupload_filelist_header,
+.plupload_filelist_footer .plupload_file_status,
+.plupload_filelist_footer .plupload_total_status,
+.plupload_filelist_footer .plupload_file_size,
+.plupload_filelist_footer .plupload_progress,
+.plupload_droptext {
+  display: none;
+}
+.plupload_filelist_footer {
+  background: transparent;
+  border: none;
+}
+
+// Header elements
+
+.plupload_header,
+.plupload_filelist_header {
+  display: none;
+}
+
+// Body elements
+
+#call2action {
+  @include position-top-right(40%,20px);
+  @include position-top-left(40%,20px);
+  color: $grey-mid;
+  font-size: $font-l;
+  font-weight: 700;
+  list-style: none;
+  text-align: center;
+}
+
+// File list elements
+
+.plupload_scroll .plupload_filelist {
+  overflow-y: auto;
+  .plupload_transfer,
+  .plupload_delete,
+  .plupload_done,
+  li.plupload_uploading {
+    background: transparent;
+    display: block;
+    line-height: 20px;
+    height: 20px;
+    list-style: none;
+  }
+  .plupload_done {
+    position: relative;
+  }
+}
+.delete_plupload_entry {
+  @extend .icon-remove;
+}
+
+// Move buttons up right
+
+.plupload_buttons {
+  @include position-top-right(-70px,-5px);
+  .plupload_disabled {
+    display: none;
+  }
+}
+
+.uploader_filelist,
+.plupload_scroll .plupload_filelist {
+  background: transparent;
+  border: none;
+}
+.uploader_filelist {
+  border-color: $grey-mid-light;
+  border-style: solid;
+  border-width: 1px 0;
+}
+.plupload_wrapper {
+  font: inherit;
+}
+.plupload_buttons a,
+.plupload_button {
+  @extend .button;
+}
+.plupload_buttons .plupload_start {
+  @extend .primary-button;
+}
+// Footer elements
+
+
+

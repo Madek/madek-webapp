@@ -1,0 +1,52 @@
+/**
+ * ## Multi-select form element `.multi-select`
+ *
+ * Styleguide 4.1
+ */
+
+.multi-select {
+  @include border-radius($border-radius-m);
+  @include micro-clearfix;
+  background: $brightest;
+  border: 1px solid $grey-mid-light;
+  padding: $space-s;
+}
+
+.multi-select-holder {
+  @extend .tag-cloud.small;
+}
+
+.multi-select-tag {
+  @extend .tag-button;
+}
+
+.multi-select-tag-remove {
+  @extend .icon-delete.mini;
+  @include position-top(1px, relative);
+}
+
+.multi-select-input-holder {
+  @include micro-clearfix;
+  @include position;
+  display: block;
+  list-style: none;
+  margin-top: $space-x;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  .multi-select-input {
+    @include box-sizing(border-box);
+    display: block;
+    margin-bottom: 0;
+    padding: $space-x 0;
+    text-indent: 0.5em;
+    width: 100%;
+  }
+
+  .multi-select-input-toggle {
+    @include position-top-right(8px, 6px);
+    @extend .icon-arrow-down;
+  }
+}

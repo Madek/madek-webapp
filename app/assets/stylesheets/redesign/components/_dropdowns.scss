@@ -15,7 +15,7 @@
 .dropdown-menu {
   @include border-radius($border-radius-s);
   @include box-shadow(0 1px 3px $darken);
-  @include min-dimension(200px,auto);
+  @include min-dimension(220px,auto);
   @include position-top-right(100%,0);
   display: none;
   background: $grey-lighter;
@@ -62,6 +62,7 @@
 }
 .dropdown-menu-item a {
   @include single-text-shadow(none);
+  font-size: $font-xs;
   color: $grey-darker;
   &:hover {
     text-decoration: none;

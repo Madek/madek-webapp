@@ -92,13 +92,19 @@
   }
 }
 @media #{$screen-size-xl} {
+  .collage-item {
+    width: 20%;
+  }
   .collage-image-wrapper {
-    @include dimension(100%,280px);
+    @include dimension(100%,220px);
   }
 }
 @media #{$screen-size-xxl} {
+  .collage-item {
+    width: 20%;
+  }
   .collage-image-wrapper {
-    @include dimension(100%,360px);
+    @include dimension(100%,240px);
   }
 }
 

@@ -96,10 +96,13 @@ a:active {
   line-height: $line-height-xl;
   min-height: 37px;
 }
-.button.disabled {
+.button.disabled,
+.button.disabled:hover {
   @include background-image(linear-gradient(darken($grey-lighter, 10%), darken($grey-light, 10%)));
+  @include single-text-shadow(false, 1px, 0, false, $lighten);
   border-color: darken($grey-mid-light, 5%);
   color: $grey-mid;
+  cursor: default;
   &:active {
     @include box-shadow(none);
   }
@@ -193,7 +196,7 @@ a:active {
   @include background-image(linear-gradient(darken($green-light, 10%), darken($green-mid, 10%)));
   @include single-text-shadow(false, -1px, 0, false, $darken);
   border-color: darken($green-dark, 5%);
-  color: darken($brightest, 5%);
+  color: darken($brightest, 20%);
   outline: 0;
 }
 
@@ -262,4 +265,12 @@ a:active {
 .tag-button {
   @extend .button;
   @include border-radius($font-h);
+
+  // Treat direct-child anchors as special elements,
+  // because they're a common use-case
+  > a {
+    color: inherit;
+    font-weight: inherit;
+    text-decoration: none;
+  }
 }

@@ -7,6 +7,7 @@
  */
 
 .media-entries.grid {
+  margin-left: -5px;
   .media-entries-item {
     @include float-left;
     list-style: none;
@@ -20,13 +21,8 @@
  * Styleguide 8.9.2
  */
 
-.media-entries.tight {
-  padding-left: $space-x;
-}
-.media-entries.tight .thumbnail-wrapper {
+.media-entries.tight .ui-thumbnail-wrapper {
   @include dimension(60px,60px);
   padding: $space-x;
   margin-right: 16px;
 }
-
-

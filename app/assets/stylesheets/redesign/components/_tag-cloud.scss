@@ -10,20 +10,17 @@
 .tag-cloud {
   @include micro-clearfix;
 }
-.tag-cloud li {
+.tag-cloud .tag-button {
   display: inline-block;
-  margin-right: $space-x;
-}
-.tag-cloud li a {
-  @extend .tag-button;
   margin-bottom: $space-s;
+  margin-right: $space-x;
 }
 
 // Size variations
 
-.tag-cloud.small li a {
+.tag-cloud.small .tag-button {
   @extend .button.small;
 }
-.tag-cloud.large li a {
+.tag-cloud.large .tag-button {
   @extend .button.large;
 }

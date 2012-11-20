@@ -6,7 +6,8 @@
 
 input[type="text"],
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+textarea {
   @include border-radius($border-radius-m);
   @include box-shadow(inset 0 1px 3px $darken-less);
   border: 1px solid $grey-mid-light;
@@ -16,12 +17,25 @@ input[type="password"] {
   font-weight: 400;
   line-height: $line-height-s;
   margin-bottom: $space-s;
-  padding: $space-x 0;
-  text-indent: 0.5em;
+  padding: $space-x;
+}
+textarea {
+  @include min-dimension(auto,100px);
+  display: block;
+  text-indent: 0;
+  padding: $space-x;
+}
+select {
+  margin-bottom: $space-s;
 }
 
-input.block {
+input.block,
+select.block,
+textarea.block {
+  @include box-sizing(border-box);
   display: block;
+  padding: $space-x 0;
+  text-indent: 0.5em;
   width: 100%;
 }
 
@@ -30,11 +44,83 @@ input.large {
   line-height: $line-height-l
 }
 
-.form-body {
+// Form instructions
 
+.form-note {
+  color: $grey-mid;
+  font-size: $font-s;
+  margin-bottom: $space-s;
 }
-.form-body-list {
+
+// New Form Structure
+
+.form-footer {
+  padding-top: $space-x;
+  padding-left: 200px;
+  .primary-button {
+    @include float-left;
+    margin: -$space-s $space-m 0 0;
+  }
 }
-.form-body-list-item {
-  list-style: none;
+
+// Columned Form Group
+
+.form-group.columned {
+  @include micro-clearfix;
+  border-bottom: 1px solid $grey-light;
+  margin-bottom: $space-m;
+  padding-bottom: $space-s;
+  padding-right: 30px;
+  position: relative;
+  > .form-label {
+    @include float-left;
+    color: $grey-darker;
+    font-weight: 700;
+    padding-top: $space-x;
+    padding-bottom: $space-s;
+    width: 160px;
+    small {
+      color: $grey-mid;
+      display: block;
+      font-size: $font-xs;
+      font-weight: normal;
+    }
+    .form-tooltip-toggle {
+      @include position-top-right($space-x,0);
+      display: inline-block;
+    }
+  }
+  > .form-item {
+    margin-left: 200px; // form-label width + 40px
+    > .form-item-extension {
+      margin-top: $space-s;
+      margin-bottom: $space-m;
+    }
+    > .form-person-widget {
+      margin-top: $space-s;
+    }
+  }
+}
+
+// Rowed Form Group
+
+.form-group.rowed {
+  > .form-label {
+    clear: both;
+    display: block;
+  }
+  > .form-item {
+    @include micro-clearfix;
+  }
+}
+
+.form-checkbox-label {
+  display: block;
+  font-size: $font-s;
+  padding-left: $space-m;
+  padding-right: $space-x;
+  position: relative;
+  input[type="checkbox"] {
+    @include position-top-left(1px,0);
+  }
 }

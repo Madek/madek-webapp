@@ -51,13 +51,13 @@ end
 
 Then /^I can set the permissions for the media entry during the upload process$/ do
   step 'I upload a file'
-  visit permissions_upload_path
+  visit permissions_import_path
   wait_for_css_element("#permissions .line")
 end
 
 Then /^I add the media entry to a set called "([^"]*)"$/ do |arg1|
   @media_entry_incomplete.media_sets.empty?.should be_true
-  visit "/upload/set_media_sets"
+  visit "/import/organize"
   find("button", :text => "Einträge zu einem Set hinzufügen").click
   step 'I should see the "Konzepte" set inside the widget'
   step 'I select "Konzepte" as parent set'
@@ -69,7 +69,7 @@ When /^I upload a file with a file size greater than 1.4 GB$/ do
   begin
     path = File.join(::Rails.root, "tmp/file_biger_then_1_4_GB.mov") 
     `dd if=/dev/zero of=#{path} count=3000000` 
-    visit "/upload"
+    visit "/import"
     attach_file(find("input[type='file']")[:id], path)
   ensure
     File.delete path
@@ -90,7 +90,7 @@ When /^I have uploaded some files to my dropbox$/ do
 end
 
 When /^I start a new upload process$/ do
-  visit "/upload"
+  visit "/import"
 end
 
 Given /^all users have dropboxes$/ do
@@ -120,7 +120,7 @@ When /^I have uploaded a directory containing files to my dropbox$/ do
 end
 
 When /^I have started uploading some files$/ do
-  visit "/upload"
+  visit "/import"
 
   # Need to copy this file to a temporary new file because files are moved away after succesful
   # uploads!
@@ -138,7 +138,7 @@ When /^I cancel the upload$/ do
 end
 
 Then /^the uploaded files are still there$/ do
-  visit "/upload"
+  visit "/import"
   wait_for_css_element("li.plupload_done")
 end
 
@@ -149,7 +149,7 @@ end
 When /^I uploading some files from the dropbox and from the filesystem$/ do
   @user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, @current_user.dropbox_dir_name)
   step 'I have uploaded some files to my dropbox'
-  visit "/upload"
+  visit "/import"
   attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/berlin_wall_01.jpg") )
   attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/berlin_wall_02.jpg") )
   attach_file(find("input[type='file']")[:id], File.join(::Rails.root, "features/data/images/date_should_be_1990.jpg") )
@@ -281,7 +281,7 @@ Given /^MetaTerms are existing in the upload context$/ do
 end
 
 Then /^I can set values for the meta data from type meta terms$/ do
-  visit edit_upload_path
+  visit edit_import_path
   meta_data = @current_user.media_resources.where(:type => "MediaEntryIncomplete").first.meta_data
   
   # not_extensible_meta_terms_checkbox

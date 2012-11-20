@@ -365,7 +365,10 @@ end
 def scroll_to_next_page
   wait_until { all(".page[data-page]").size > 0 }
   page = find(".page[data-page]")[:"data-page"]
-  wait_until {find(".page .pagination", :text => /Seite #{page}\svon/)}.click
+  
+  wait_until(25) {find(".page .pagination", :text => /Seite #{page}\svon/)}
+  find(".page .pagination", :text => /Seite #{page}\svon/).click
+  wait_until {all(".page[data-page='#{page}']").empty?}
   wait_until {
     all(".page[data-page='#{page}']").size == 0 and
     find(".page .pagination", :text => /Seite #{page}\svon/).find(:xpath, "./..") and

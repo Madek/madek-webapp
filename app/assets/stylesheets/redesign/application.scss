@@ -15,7 +15,6 @@
 /* Import app specific styles
 ----------------------------------------------- */
 
-
 // General
 @import "general/buttons";
 @import "general/button-groups";
@@ -26,15 +25,19 @@
 @import "general/thumbnails";
 
 // Components
+@import "components/action-bar";
 @import "components/alerts";
 @import "components/containers";
 @import "components/dropdowns";
+@import "components/flyouts";
 @import "components/media-entries";
 @import "components/metadata-box";
-@import "components/page-title";
+@import "components/multi-select";
+@import "components/ui-body-title";
 @import "components/side-filter";
-@import "components/side-navigation";
-@import "components/slider";
+@import "components/ui-side-navigation";
+@import "components/ui-slider";
+@import "components/stepline";
 @import "components/tag-cloud";
 @import "components/tab-navigation";
 @import "components/thumbnail-wrappers";
@@ -43,15 +46,30 @@
 @import "combos/clipboard";
 @import "combos/collage";
 @import "combos/elevator-pitch";
-@import "combos/featured-entries";
+@import "combos/ui-featured-entries";
 @import "combos/footer";
 @import "combos/header";
 @import "combos/media-entries-list";
 @import "combos/media-entries-grid";
 @import "combos/metadata-summary";
 @import "combos/media-overview";
-@import "combos/toolbar";
+@import "combos/rights-management";
+@import "combos/ui-toolbar";
+@import "combos/sets-flyout";
+@import "combos/upload";
+@import "combos/ui-workgroups";
 
 // Layout
 @import "layout";
 @import "layout-responsive";
+
+// Vendor
+
+@import "vendor/bootstrap-modal";
+@import "vendor/bootstrap-tooltip";
+@import "vendor/jquery.plupload.queue";
+
+// Vendor overrides
+
+@import "overrides/bootstrap-modal";
+@import "overrides/jquery.plupload.queue";

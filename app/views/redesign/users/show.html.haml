@@ -1,50 +1,32 @@
-.app-content-wrapper.container.view-dashboard
+.app.view-dashboard
 
-  // Header
+  // HEADER
 
-  %header.app-header.container.inverted
-    .header-brand-area
-      %a.header-brand-logo{:href => "#"}
-        %img{:alt => "Image-logo-zhdk", :src => "/assets/redesign/inserts/image-logo-zhdk.png"}
-      %h1.header-brand-name Z&uuml;rcher Hochschule der K&uuml;nste
-      %h2.header-instance-name Medienarchiv der K&uuml;nste
-    %ul.header-menu.large.primary.tab-navigation
-      %li.tab-navigation-item.active
-        %a{:href => "#"} Mein Archiv
-      %li.tab-navigation-item
-        %a{:href => "#"} Erkunden
-      %li.tab-navigation-item
-        %a{:href => "#"}
-          %i.icon-search.bright
-          Suchen
-      %li.tab-navigation-item
-        %a{:href => "#"}
-          %i.icon-help.bright Help
-    .header-user-area.by-right
+  .app-header
+    %header.ui-header.container.inverted
+      .ui-header-brand
+        = image_tag "redesign/inserts/image-logo-zhdk.png", :alt => "ZHDK", :class => "ui-header-logo"
+        %h1.ui-header-brand-name Z&uuml;rcher Hochschule der K&uuml;nste
+        %h2.ui-header-instance-name Medienarchiv der K&uuml;nste
 
-      .dropdown
-        %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-          Franziska M&uuml;ller-Rei&szlig;mann
-          %i.icon-arrow-down.bright.stand-alone
-        %ul.dropdown-menu{"aria-labelledby" => "dLabel", :role => "menu"}
-          %li.dropdown-menu-item
-            %a{:href => "#"} Item 1
-          %li.dropdown-menu-item
-            %a{:href => "#"} Item 2
-          %li.separator
-          %li.dropdown-menu-item
-            %a{:href => "#"} Abmelden
+      .ui-header-menu
+        %ul.large.primary.tab-navigation
+          %li.tab-navigation-item.active
+            %a{:href => "#"} Mein Archiv
+          %li.tab-navigation-item
+            %a{:href => "#"} Erkunden
+          %li.tab-navigation-item
+            %a{:href => "#"}
+              %i.icon-search.bright
+              Suchen
+          %li.tab-navigation-item
+            %a{:href => "#"}
+              %i.icon-help.bright Help
 
-  // Body
-
-  .app-body.container
-    .page-title
-      .page-title-label
-        %h1.title-xl Mein Archiv
-      .page-title-actions
+      .ui-header-user
         .dropdown
-          %a.primary-button.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-            Primary button
+          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+            Franziska M&uuml;ller-Rei&szlig;mann
             %i.icon-arrow-down.bright.stand-alone
           %ul.dropdown-menu{"aria-labelledby" => "dLabel", :role => "menu"}
             %li.dropdown-menu-item
@@ -54,702 +36,690 @@
             %li.separator
             %li.dropdown-menu-item
               %a{:href => "#"} Abmelden
-        %a.button{:href => "#"} Secondary button
 
-    .body-wrapper.bordered.container.midtone
-      .app-sidebar.bright.container
-        %ul.side-navigation
-          %li.side-navigation-item
-            %a.strong{:href => "#"} Katalog
-          %ul.side-navigation-lvl2
-            %li.side-navigation-lvl2-item
-              %a.weak{:href => "#"} ZHdK Bereich
-            %li.side-navigation-lvl2-item
-              %a.weak{:href => "#"} Gattung
-            %li.side-navigation-lvl2-item
-              %a.weak{:href => "#"} Projekttyp
-          %li.separator.mini
-          %li.side-navigation-item
-            %a.strong{:href => "#"} Interessante Inhalte
-          %li.separator.mini
-          %li.side-navigation-item
-            %a.strong{:href => "#"} Neue Inhalte
-          %li.separator.mini
-          %li.side-navigation-item
-            %a.strong{:href => "#"} H&auml;ufige Schlagworte
-          %li.separator.mini
-      .app-content.midtone.container.pvm
+  // PAGE TITLE
 
-        .media-entries-wrapper
-          .media-entries-header.container
-            %h2.title-l.media-entries-title
-              Meine Inhalte
-              %a.strong{:href => "#"} Alle anziegen
+  .app-body
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl Mein Archiv
+        .ui-body-title-actions
+          .dropdown
+            %a.primary-button.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              Primary button
+              %i.icon-arrow-down.bright.stand-alone
+            %ul.dropdown-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+              %li.dropdown-menu-item
+                %a{:href => "#"} Item 1
+              %li.dropdown-menu-item
+                %a{:href => "#"} Item 2
+              %li.separator
+              %li.dropdown-menu-item
+                %a{:href => "#"} Abmelden
+          %a.button{:href => "#"} Secondary button
 
-          %ul.media-entries.grid.active
-            %li.media-entries-item
-              .thumbnail-wrapper.media-set
-                .thumbnail-level-up-items
-                  %h3.title-xs-alt Keine übergeordneten Sets
-                .thumbnail-privacy
-                  %i.icon-privacy-group This media is shared with a group
-                .thumbnail-set.thumbnail
-                  %a
-                    .inner-wrapper
-                      %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                .thumbnail-metadata
-                  %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                  %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                .thumbnail-actions
-                  %ul.left.by-left
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-check Select
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-fav Favorite
-                  %ul.right.by-right
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-explore Explore
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-edit Edit
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-delete Delete
-                .thumbnail-level-down-items
-                  %h3.title-s Set enthalt
-                  .thumbnail.thumbnail-set.small.odd
-                    %a
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                  .thumbnail.thumbnail-set.small.even
-                    %a
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                  %h4.title-xs-alt 5 Inhalte
-            %li.media-entries-item
-              .thumbnail-wrapper.media-entry
-                .thumbnail-privacy
-                  %i.icon-privacy-private This media is private
-                .thumbnail-audio.thumbnail
-                  %img{:alt => "", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                .thumbnail-metadata
-                  %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                  %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                .thumbnail-actions
-                  %ul.left.by-left
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-check Select
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-fav Favorite
-                  %ul.right.by-right
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-explore Explore
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-edit Edit
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-delete Delete
-            %li.media-entries-item
-              .thumbnail-wrapper.media-entry
-                .thumbnail-privacy
-                  %i.icon-privacy-private This media is private
-                .thumbnail-video.thumbnail
-                  %img{:alt => "Thumb-video", :src => "/assets/redesign/thumbnails/thumb-video-mov.png"}/
-                .thumbnail-metadata
-                  %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                  %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                .thumbnail-actions
-                  %ul.left.by-left
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-check Select
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-fav Favorite
-                  %ul.right.by-right
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-explore Explore
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-edit Edit
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-delete Delete
-            %li.media-entries-item
-              .thumbnail-wrapper.media-entry
-                .thumbnail-privacy
-                  %i.icon-privacy-private This media is private
-                .thumbnail-audio.thumbnail
-                  %img{:alt => "Thumb-audio", :src => "/assets/redesign/thumbnails/thumb-audio-mp3.png"}/
-                .thumbnail-metadata
-                  %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                  %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                .thumbnail-actions
-                  %ul.left.by-left
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-check Select
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-fav Favorite
-                  %ul.right.by-right
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-explore Explore
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-edit Edit
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-delete Delete
-            %li.media-entries-item
-              .thumbnail-wrapper.media-entry
-                .thumbnail-privacy
-                  %i.icon-privacy-private This media is private
-                .thumbnail-doc.thumbnail
-                  %img{:alt => "Thumb-doc", :src => "/assets/redesign/thumbnails/thumb-doc-doc.png"}/
-                .thumbnail-metadata
-                  %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                  %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                .thumbnail-actions
-                  %ul.left.by-left
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-check Select
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-fav Favorite
-                  %ul.right.by-right
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-explore Explore
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-edit Edit
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-delete Delete
-            %li.media-entries-item
-              .thumbnail-wrapper.media-entry
-                .thumbnail-privacy
-                  %i.icon-privacy-private This media is private
-                .thumbnail-audio.thumbnail
-                  %img{:alt => "", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                .thumbnail-metadata
-                  %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                  %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                .thumbnail-actions
-                  %ul.left.by-left
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-check Select
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-fav Favorite
-                  %ul.right.by-right
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-explore Explore
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-edit Edit
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-delete Delete
-            %li.media-entries-item
-              .thumbnail-wrapper.media-set
-                .thumbnail-level-up-items
-                  %h3.title-xs-alt Keine übergeordneten Sets
-                .thumbnail-privacy
-                  %i.icon-privacy-group This media is shared with a group
-                .thumbnail-set.thumbnail
-                  %a
-                    .inner-wrapper
-                      %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                .thumbnail-metadata
-                  %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                  %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                .thumbnail-actions
-                  %ul.left.by-left
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-check Select
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-fav Favorite
-                  %ul.right.by-right
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-explore Explore
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-edit Edit
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-delete Delete
-                .thumbnail-level-down-items
-                  %h3.title-s Set enthalt
-                  .thumbnail.thumbnail-set.small.odd
-                    %a
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                  .thumbnail.thumbnail-set.small.even
-                    %a
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                  %h4.title-xs-alt 5 Inhalte
-            %li.media-entries-item
-              .thumbnail-wrapper.media-entry
-                .thumbnail-privacy
-                  %i.icon-privacy-private This media is private
-                .thumbnail-audio.thumbnail
-                  %img{:alt => "", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                .thumbnail-metadata
-                  %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                  %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                .thumbnail-actions
-                  %ul.left.by-left
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-check Select
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-fav Favorite
-                  %ul.right.by-right
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-explore Explore
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-edit Edit
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-delete Delete
-            %li.media-entries-item
-              .thumbnail-wrapper.media-entry
-                .thumbnail-privacy
-                  %i.icon-privacy-private This media is private
-                .thumbnail-video.thumbnail
-                  %img{:alt => "Thumb-video", :src => "/assets/redesign/thumbnails/thumb-video-mov.png"}/
-                .thumbnail-metadata
-                  %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                  %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                .thumbnail-actions
-                  %ul.left.by-left
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-check Select
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-fav Favorite
-                  %ul.right.by-right
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-explore Explore
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-edit Edit
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-delete Delete
-            %li.media-entries-item
-              .thumbnail-wrapper.media-entry
-                .thumbnail-privacy
-                  %i.icon-privacy-private This media is private
-                .thumbnail-audio.thumbnail
-                  %img{:alt => "Thumb-audio", :src => "/assets/redesign/thumbnails/thumb-audio-mp3.png"}/
-                .thumbnail-metadata
-                  %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                  %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                .thumbnail-actions
-                  %ul.left.by-left
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-check Select
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-fav Favorite
-                  %ul.right.by-right
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-explore Explore
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-edit Edit
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-delete Delete
+    .app-body-container
+      .bordered.container.midtone.rounded.table
 
-        %hr.separator
+        // SIDEBAR
 
-        .media-entries-wrapper
-          .media-entries-header
-            %h2.title-l.media-entries-title
-              Meine letzen Importe
-              %a.strong{:href => "#"} Alle anziegen
+        .app-body-sidebar.table-cell.bright.container.bordered-right.rounded-left.table-side
+          .container.rounded-left.phm.pvl
+            %ul.ui-side-navigation
+              %li.ui-side-navigation-item
+                %a.strong{:href => "#"} Meine Inhalte
+              %li.separator.mini
+              %li.ui-side-navigation-item
+                %a.strong{:href => "#"} Meine letzen Importe
+              %li.separator.mini
+              %li.ui-side-navigation-item
+                %a.strong{:href => "#"} Meine Faroviten
+              %li.separator.mini
+              %li.ui-side-navigation-item
+                %a.strong{:href => "#"} Meine Schlagworte
+              %li.separator.mini
+              %li.ui-side-navigation-item
+                %a.strong{:href => "#"} Mir anvertaute Inhalte
+              %li.separator.mini
+              %li.ui-side-navigation-item
+                %a.strong{:href => "#"} Inhalte meiner Arbeitsgruppen
+              %li.separator.mini
+              %li.ui-side-navigation-item
+                %a.strong{:href => "#"} Meine Arbeitsgruppen
+              %li.separator.mini
 
-          %ul.media-entries.grid.active
-            %li.media-entries-item
-              .thumbnail-wrapper.media-entry
-                .thumbnail-privacy
-                  %i.icon-privacy-private This media is private
-                .thumbnail-audio.thumbnail
-                  %img{:alt => "", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                .thumbnail-metadata
-                  %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                  %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                .thumbnail-actions
-                  %ul.left.by-left
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-check Select
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-fav Favorite
-                  %ul.right.by-right
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-explore Explore
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-edit Edit
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-delete Delete
-            %li.media-entries-item
-              .thumbnail-wrapper.media-entry
-                .thumbnail-privacy
-                  %i.icon-privacy-private This media is private
-                .thumbnail-video.thumbnail
-                  %img{:alt => "Thumb-video", :src => "/assets/redesign/thumbnails/thumb-video-mov.png"}/
-                .thumbnail-metadata
-                  %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                  %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                .thumbnail-actions
-                  %ul.left.by-left
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-check Select
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-fav Favorite
-                  %ul.right.by-right
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-explore Explore
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-edit Edit
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-delete Delete
-            %li.media-entries-item
-              .thumbnail-wrapper.media-entry
-                .thumbnail-privacy
-                  %i.icon-privacy-private This media is private
-                .thumbnail-audio.thumbnail
-                  %img{:alt => "Thumb-audio", :src => "/assets/redesign/thumbnails/thumb-audio-mp3.png"}/
-                .thumbnail-metadata
-                  %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                  %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                .thumbnail-actions
-                  %ul.left.by-left
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-check Select
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-fav Favorite
-                  %ul.right.by-right
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-explore Explore
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-edit Edit
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-delete Delete
-            %li.media-entries-item
-              .thumbnail-wrapper.media-entry
-                .thumbnail-privacy
-                  %i.icon-privacy-private This media is private
-                .thumbnail-doc.thumbnail
-                  %img{:alt => "Thumb-doc", :src => "/assets/redesign/thumbnails/thumb-doc-doc.png"}/
-                .thumbnail-metadata
-                  %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                  %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                .thumbnail-actions
-                  %ul.left.by-left
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-check Select
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-fav Favorite
-                  %ul.right.by-right
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-explore Explore
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-edit Edit
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-delete Delete
-            %li.media-entries-item
-              .thumbnail-wrapper.media-entry
-                .thumbnail-privacy
-                  %i.icon-privacy-private This media is private
-                .thumbnail-audio.thumbnail
-                  %img{:alt => "", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                .thumbnail-metadata
-                  %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                  %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                .thumbnail-actions
-                  %ul.left.by-left
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-check Select
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-fav Favorite
-                  %ul.right.by-right
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-explore Explore
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-edit Edit
-                    %li
-                      %a{:href => "#"}
-                        %i.icon-delete Delete
+        .app-body-content.table-cell.table-substance.container
 
-        %hr.separator
+          // CONTENT
 
-        .media-entries-wrapper
-          .media-entries-header
-            %h2.title-l.media-entries-title
-              Maine Favortinen
-              %a.strong{:href => "#"} Alle anziegen
+          .container.ptl.phl.pbm
+            .media-entries-wrapper
+              .media-entries-header.mbm
+                %h2.title-l.media-entries-title
+                  Meine Inhalte
+                  %a.strong{:href => "#"} Alle anziegen
+              %ul.media-entries.grid.active
+                %li.media-entries-item
+                  .ui-thumbnail-wrapper.media-set
+                    .thumbnail-level-up-items
+                      %h3.title-xs-alt Keine übergeordneten Sets
+                    .thumbnail-privacy
+                      %i.icon-privacy-group This media is shared with a group
+                    .thumbnail-set.thumbnail
+                      %a
+                        .inner-wrapper
+                          %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
+                    .thumbnail-metadata
+                      %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                      %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+                    .thumbnail-actions
+                      %ul.left.by-left
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-check Select
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-fav Favorite
+                      %ul.right.by-right
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-explore Explore
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-edit Edit
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-delete Delete
+                    .thumbnail-level-down-items
+                      %h3.title-s Set enthalt
+                      .thumbnail.thumbnail-set.small.odd
+                        %a
+                          .inner-wrapper
+                            %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
+                      .thumbnail.thumbnail-set.small.even
+                        %a
+                          .inner-wrapper
+                            %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
+                      %h4.title-xs-alt 5 Inhalte
+                %li.media-entries-item
+                  .ui-thumbnail-wrapper.media-entry
+                    .thumbnail-privacy
+                      %i.icon-privacy-private This media is private
+                    .thumbnail-audio.thumbnail
+                      %img{:alt => "", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
+                    .thumbnail-metadata
+                      %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                      %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+                    .thumbnail-actions
+                      %ul.left.by-left
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-check Select
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-fav Favorite
+                      %ul.right.by-right
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-explore Explore
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-edit Edit
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-delete Delete
+                %li.media-entries-item
+                  .ui-thumbnail-wrapper.media-entry
+                    .thumbnail-privacy
+                      %i.icon-privacy-private This media is private
+                    .thumbnail-video.thumbnail
+                      %img{:alt => "Thumb-video", :src => "/assets/redesign/thumbnails/thumb-video-mov.png"}/
+                    .thumbnail-metadata
+                      %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                      %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+                    .thumbnail-actions
+                      %ul.left.by-left
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-check Select
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-fav Favorite
+                      %ul.right.by-right
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-explore Explore
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-edit Edit
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-delete Delete
+                %li.media-entries-item
+                  .ui-thumbnail-wrapper.media-entry
+                    .thumbnail-privacy
+                      %i.icon-privacy-private This media is private
+                    .thumbnail-doc.thumbnail
+                      %img{:alt => "Thumb-doc", :src => "/assets/redesign/thumbnails/thumb-doc-doc.png"}/
+                    .thumbnail-metadata
+                      %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                      %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+                    .thumbnail-actions
+                      %ul.left.by-left
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-check Select
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-fav Favorite
+                      %ul.right.by-right
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-explore Explore
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-edit Edit
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-delete Delete
+                %li.media-entries-item
+                  .ui-thumbnail-wrapper.media-set
+                    .thumbnail-level-up-items
+                      %h3.title-xs-alt Keine übergeordneten Sets
+                    .thumbnail-privacy
+                      %i.icon-privacy-group This media is shared with a group
+                    .thumbnail-set.thumbnail
+                      %a
+                        .inner-wrapper
+                          %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
+                    .thumbnail-metadata
+                      %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                      %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+                    .thumbnail-actions
+                      %ul.left.by-left
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-check Select
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-fav Favorite
+                      %ul.right.by-right
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-explore Explore
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-edit Edit
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-delete Delete
+                    .thumbnail-level-down-items
+                      %h3.title-s Set enthalt
+                      .thumbnail.thumbnail-set.small.odd
+                        %a
+                          .inner-wrapper
+                            %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
+                      .thumbnail.thumbnail-set.small.even
+                        %a
+                          .inner-wrapper
+                            %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
+                      %h4.title-xs-alt 5 Inhalte
+                %li.media-entries-item
+                  .ui-thumbnail-wrapper.media-entry
+                    .thumbnail-privacy
+                      %i.icon-privacy-private This media is private
+                    .thumbnail-audio.thumbnail
+                      %img{:alt => "Thumb-audio", :src => "/assets/redesign/thumbnails/thumb-audio-mp3.png"}/
+                    .thumbnail-metadata
+                      %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                      %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+                    .thumbnail-actions
+                      %ul.left.by-left
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-check Select
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-fav Favorite
+                      %ul.right.by-right
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-explore Explore
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-edit Edit
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-delete Delete
 
-          %ul.media-entries.grid.tight.active
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
+          %hr.separator
+
+          .container.midtone.rounded-right.ptl.phl.pbm
+            .media-entries-wrapper
+              .media-entries-header.mbm
+                %h2.title-l.media-entries-title
+                  Meine letzen Importe
+                  %a.strong{:href => "#"} Alle anziegen
+              %ul.media-entries.grid.active
+                %li.media-entries-item
+                  .ui-thumbnail-wrapper.media-set
+                    .thumbnail-level-up-items
+                      %h3.title-xs-alt Keine übergeordneten Sets
+                    .thumbnail-privacy
+                      %i.icon-privacy-group This media is shared with a group
+                    .thumbnail-set.thumbnail
+                      %a
+                        .inner-wrapper
+                          %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
+                    .thumbnail-metadata
+                      %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                      %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+                    .thumbnail-actions
+                      %ul.left.by-left
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-check Select
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-fav Favorite
+                      %ul.right.by-right
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-explore Explore
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-edit Edit
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-delete Delete
+                    .thumbnail-level-down-items
+                      %h3.title-s Set enthalt
+                      .thumbnail.thumbnail-set.small.odd
+                        %a
+                          .inner-wrapper
+                            %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
+                      .thumbnail.thumbnail-set.small.even
+                        %a
+                          .inner-wrapper
+                            %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
+                      %h4.title-xs-alt 5 Inhalte
+                %li.media-entries-item
+                  .ui-thumbnail-wrapper.media-entry
+                    .thumbnail-privacy
+                      %i.icon-privacy-private This media is private
+                    .thumbnail-audio.thumbnail
+                      %img{:alt => "", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
+                    .thumbnail-metadata
+                      %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                      %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+                    .thumbnail-actions
+                      %ul.left.by-left
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-check Select
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-fav Favorite
+                      %ul.right.by-right
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-explore Explore
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-edit Edit
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-delete Delete
+                %li.media-entries-item
+                  .ui-thumbnail-wrapper.media-entry
+                    .thumbnail-privacy
+                      %i.icon-privacy-private This media is private
+                    .thumbnail-video.thumbnail
+                      %img{:alt => "Thumb-video", :src => "/assets/redesign/thumbnails/thumb-video-mov.png"}/
+                    .thumbnail-metadata
+                      %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                      %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+                    .thumbnail-actions
+                      %ul.left.by-left
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-check Select
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-fav Favorite
+                      %ul.right.by-right
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-explore Explore
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-edit Edit
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-delete Delete
+                %li.media-entries-item
+                  .ui-thumbnail-wrapper.media-entry
+                    .thumbnail-privacy
+                      %i.icon-privacy-private This media is private
+                    .thumbnail-doc.thumbnail
+                      %img{:alt => "Thumb-doc", :src => "/assets/redesign/thumbnails/thumb-doc-doc.png"}/
+                    .thumbnail-metadata
+                      %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                      %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+                    .thumbnail-actions
+                      %ul.left.by-left
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-check Select
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-fav Favorite
+                      %ul.right.by-right
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-explore Explore
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-edit Edit
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-delete Delete
+                %li.media-entries-item
+                  .ui-thumbnail-wrapper.media-set
+                    .thumbnail-level-up-items
+                      %h3.title-xs-alt Keine übergeordneten Sets
+                    .thumbnail-privacy
+                      %i.icon-privacy-group This media is shared with a group
+                    .thumbnail-set.thumbnail
+                      %a
+                        .inner-wrapper
+                          %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
+                    .thumbnail-metadata
+                      %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                      %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+                    .thumbnail-actions
+                      %ul.left.by-left
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-check Select
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-fav Favorite
+                      %ul.right.by-right
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-explore Explore
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-edit Edit
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-delete Delete
+                    .thumbnail-level-down-items
+                      %h3.title-s Set enthalt
+                      .thumbnail.thumbnail-set.small.odd
+                        %a
+                          .inner-wrapper
+                            %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
+                      .thumbnail.thumbnail-set.small.even
+                        %a
+                          .inner-wrapper
+                            %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
+                      %h4.title-xs-alt 5 Inhalte
+                %li.media-entries-item
+                  .ui-thumbnail-wrapper.media-entry
+                    .thumbnail-privacy
+                      %i.icon-privacy-private This media is private
+                    .thumbnail-audio.thumbnail
+                      %img{:alt => "Thumb-audio", :src => "/assets/redesign/thumbnails/thumb-audio-mp3.png"}/
+                    .thumbnail-metadata
+                      %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
+                      %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+                    .thumbnail-actions
+                      %ul.left.by-left
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-check Select
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-fav Favorite
+                      %ul.right.by-right
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-explore Explore
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-edit Edit
+                        %li
+                          %a{:href => "#"}
+                            %i.icon-delete Delete
+
+          %hr.separator
+
+          .container.midtone.rounded-right.ptl.phl.pbm
+            .media-entries-wrapper
+              .media-entries-header.mbm
+                %h2.title-l.media-entries-title
+                  Meine Favoriten
+                  %a.strong{:href => "#"} Alle anziegen
+              %ul.media-entries.grid.tight.active
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-package.small
+                      = image_tag "redesign/thumbnails/thumb-package-7z-small.png"
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-doc.small
+                      = image_tag "redesign/thumbnails/thumb-doc-ods-small.png"
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-video.small
+                      = image_tag "redesign/thumbnails/thumb-video-mpg-small.png"
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-audio.small
+                      = image_tag "redesign/thumbnails/thumb-audio-aif-small.png"
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-set.small
+                      .inner-wrapper= image_tag "redesign/thumbnails/tmp-thumb-large.jpg"
+
+          %hr.separator
+
+            .container.midtone.rounded-right.ptl.phl.pbm
+              .media-entries-wrapper
+                .media-entries-header.mbm
+                  %h2.title-l.media-entries-title
+                    Meine Schlagworte
+                    %a.strong{:href => "#"} Alle anziegen
+                %ul.tag-cloud
+                  %li.tag-button
+                    %a{:href => "#"} Tag 1
+                  %li.tag-button
+                    %a{:href => "#"} Tag 2
+                  %li.tag-button
+                    %a{:href => "#"} Tag 3
+                  %li.tag-button
+                    %a{:href => "#"} Tag 4
+                  %li.tag-button
+                    %a{:href => "#"} Tag 5
+                  %li.tag-button
+                    %a{:href => "#"} Tag 6
+
+          %hr.separator
+
+          .container.midtone.rounded-right.ptl.phl.pbm
+            .media-entries-wrapper
+              .media-entries-header.mbm
+                %h2.title-l.media-entries-title
+                  Mir anvertaute Inhalte
+                  %a.strong{:href => "#"} Alle anziegen
+              %ul.media-entries.grid.tight.active
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-package.small
+                      = image_tag "redesign/thumbnails/thumb-package-7z-small.png"
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-doc.small
+                      = image_tag "redesign/thumbnails/thumb-doc-ods-small.png"
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-video.small
+                      = image_tag "redesign/thumbnails/thumb-video-mpg-small.png"
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-audio.small
+                      = image_tag "redesign/thumbnails/thumb-audio-aif-small.png"
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-set.small
+                      .inner-wrapper= image_tag "redesign/thumbnails/tmp-thumb-large.jpg"
+
+          %hr.separator
+
+          .container.midtone.rounded-right.ptl.phl.pbm
+            .media-entries-wrapper
+              .media-entries-header.mbm
+                %h2.title-l.media-entries-title
+                  Inhalte meiner Arbeitsgruppen
+                  %a.strong{:href => "#"} Alle anziegen
+              %ul.media-entries.grid.tight.active
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-package.small
+                      = image_tag "redesign/thumbnails/thumb-package-7z-small.png"
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-doc.small
+                      = image_tag "redesign/thumbnails/thumb-doc-ods-small.png"
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-video.small
+                      = image_tag "redesign/thumbnails/thumb-video-mpg-small.png"
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-audio.small
+                      = image_tag "redesign/thumbnails/thumb-audio-aif-small.png"
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-set.small
+                      .inner-wrapper= image_tag "redesign/thumbnails/tmp-thumb-large.jpg"
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-package.small
+                      = image_tag "redesign/thumbnails/thumb-package-7z-small.png"
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-doc.small
+                      = image_tag "redesign/thumbnails/thumb-doc-ods-small.png"
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-video.small
+                      = image_tag "redesign/thumbnails/thumb-video-mpg-small.png"
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-audio.small
+                      = image_tag "redesign/thumbnails/thumb-audio-aif-small.png"
+                %li.media-entries-item
+                  %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                    .thumbnail-set.small
+                      .inner-wrapper= image_tag "redesign/thumbnails/tmp-thumb-large.jpg"
+
+          %hr.separator
+
+          .container.midtone.rounded-right.ptl.phl.pbl
+            .media-entries-wrapper
+              .media-entries-header.mbm
+                %h2.title-l.media-entries-title
+                  Meine Arbeitsgruppen
+                  %a.strong{:href => "#"} Alle anziegen
+              %ul.inline
+                %li
+                  %a{:href => "#"}
+                    Projekt 2423
+                %li
+                  %a{:href => "#"}
+                    Projekt 2423
+                %li
+                  %a{:href => "#"}
+                    Projekt 2423
+
+  // FOOTER
+
+  .app-footer
+
+    .app-clipboard
+      .clipboard-toggle.inverted-transparent
+        %a.block.small#clipboard-toggle
+          %i.icon-clipboard.bright
+          Zwischenablage (%number% Inhalte)
+      .container.inverted-transparent.clipboard-content
+        .col5of6
+          %ul.media-entries.clipboard-entries.grid.tight.active.mls
+            %li.media-entries-item.clipboard-entries-item
+              %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
                 .thumbnail-package.small
-                  = image_tag "redesign/thumbnails/thumb-package-7z-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
+                  %img{:alt => "Thumb-package-7z-small", :src => "/assets/redesign/thumbnails/thumb-package-7z-small.png"}
+            %li.media-entries-item.clipboard-entries-item
+              %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
                 .thumbnail-doc.small
-                  = image_tag "redesign/thumbnails/thumb-doc-ods-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
+                  %img{:alt => "Thumb-doc-ods-small", :src => "/assets/redesign/thumbnails/thumb-doc-ods-small.png"}
+            %li.media-entries-item.clipboard-entries-item
+              %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
                 .thumbnail-video.small
-                  = image_tag "redesign/thumbnails/thumb-video-mpg-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
+                  %img{:alt => "Thumb-video-mpg-small", :src => "/assets/redesign/thumbnails/thumb-video-mpg-small.png"}
+            %li.media-entries-item.clipboard-entries-item
+              %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
                 .thumbnail-audio.small
-                  = image_tag "redesign/thumbnails/thumb-audio-aif-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-set.small
-                  .inner-wrapper= image_tag "redesign/thumbnails/tmp-thumb-large.jpg"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
+                  %img{:alt => "Thumb-audio-aif-small", :src => "/assets/redesign/thumbnails/thumb-audio-aif-small.png"}
+            %li.media-entries-item.clipboard-entries-item
+              %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
+                .thumbnail-audio.small
+                  %img{:alt => "Thumb-audio-aif-small", :src => "/assets/redesign/thumbnails/thumb-audio-aif-small.png"}
+            %li.media-entries-item.clipboard-entries-item
+              %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
                 .thumbnail-package.small
-                  = image_tag "redesign/thumbnails/thumb-package-7z-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
+                  %img{:alt => "Thumb-package-7z-small", :src => "/assets/redesign/thumbnails/thumb-package-7z-small.png"}
+            %li.media-entries-item.clipboard-entries-item
+              %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
                 .thumbnail-doc.small
-                  = image_tag "redesign/thumbnails/thumb-doc-ods-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
+                  %img{:alt => "Thumb-doc-ods-small", :src => "/assets/redesign/thumbnails/thumb-doc-ods-small.png"}
+            %li.media-entries-item.clipboard-entries-item
+              %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
                 .thumbnail-video.small
-                  = image_tag "redesign/thumbnails/thumb-video-mpg-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
+                  %img{:alt => "Thumb-video-mpg-small", :src => "/assets/redesign/thumbnails/thumb-video-mpg-small.png"}
+            %li.media-entries-item.clipboard-entries-item
+              %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
                 .thumbnail-audio.small
-                  = image_tag "redesign/thumbnails/thumb-audio-aif-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-set.small
-                  .inner-wrapper= image_tag "redesign/thumbnails/tmp-thumb-large.jpg"
+                  %img{:alt => "Thumb-audio-aif-small", :src => "/assets/redesign/thumbnails/thumb-audio-aif-small.png"}
+          %p.clipboard-alert.title-l Clipboard empty
+        .col1of6
+          .clipboard-actions
+            %a.primary-button.block{:href => "#"}
+              Aktionen
+              %i.icon-arrow-down.bright.stand-alone
+            %a.tertiary-button.small.block.clipboard-clear{:href => "#"} Zwischenablage Leeren
 
-        %hr.separator
-
-        .media-entries-wrapper
-          .media-entries-header
-            %h2.title-l.media-entries-title
-              Meine Schlagworte
-              %a.strong{:href => "#"} Alle anziegen
-
-          %ul.tag-cloud
-            %li
-              %a.tag-button{:href => "#"} Tag 1
-            %li
-              %a.tag-button{:href => "#"} Tag 2
-            %li
-              %a.tag-button{:href => "#"} Tag 3
-            %li
-              %a.tag-button{:href => "#"} Tag 4
-            %li
-              %a.tag-button{:href => "#"} Tag 5
-            %li
-              %a.tag-button{:href => "#"} Tag 6
-
-        %hr.separator
-
-        .media-entries-wrapper
-          .media-entries-header
-            %h2.title-l.media-entries-title
-              Mir anvertaute Inhalte
-              %a.strong{:href => "#"} Alle anziegen
-
-          %ul.media-entries.grid.tight.active
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-package.small
-                  = image_tag "redesign/thumbnails/thumb-package-7z-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-doc.small
-                  = image_tag "redesign/thumbnails/thumb-doc-ods-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-video.small
-                  = image_tag "redesign/thumbnails/thumb-video-mpg-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-audio.small
-                  = image_tag "redesign/thumbnails/thumb-audio-aif-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-set.small
-                  .inner-wrapper= image_tag "redesign/thumbnails/tmp-thumb-large.jpg"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-package.small
-                  = image_tag "redesign/thumbnails/thumb-package-7z-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-doc.small
-                  = image_tag "redesign/thumbnails/thumb-doc-ods-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-video.small
-                  = image_tag "redesign/thumbnails/thumb-video-mpg-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-audio.small
-                  = image_tag "redesign/thumbnails/thumb-audio-aif-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-set.small
-                  .inner-wrapper= image_tag "redesign/thumbnails/tmp-thumb-large.jpg"
-
-        %hr.separator
-
-        .media-entries-wrapper
-          .media-entries-header
-            %h2.title-l.media-entries-title
-              Inhalte meiner Arbeitsgruppen
-              %a.strong{:href => "#"} Alle anziegen
-
-          %ul.media-entries.grid.tight.active
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-package.small
-                  = image_tag "redesign/thumbnails/thumb-package-7z-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-doc.small
-                  = image_tag "redesign/thumbnails/thumb-doc-ods-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-video.small
-                  = image_tag "redesign/thumbnails/thumb-video-mpg-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-audio.small
-                  = image_tag "redesign/thumbnails/thumb-audio-aif-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-set.small
-                  .inner-wrapper= image_tag "redesign/thumbnails/tmp-thumb-large.jpg"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-package.small
-                  = image_tag "redesign/thumbnails/thumb-package-7z-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-doc.small
-                  = image_tag "redesign/thumbnails/thumb-doc-ods-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-video.small
-                  = image_tag "redesign/thumbnails/thumb-video-mpg-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-audio.small
-                  = image_tag "redesign/thumbnails/thumb-audio-aif-small.png"
-            %li.media-entries-item
-              %a.thumbnail-wrapper.media-entry{:href => "#"}
-                .thumbnail-set.small
-                  .inner-wrapper= image_tag "redesign/thumbnails/tmp-thumb-large.jpg"
-
-        %hr.separator
-
-        .media-entries-wrapper
-          .media-entries-header
-            %h2.title-l.media-entries-title
-              Meine Arbeitsgruppen
-              %a.strong{:href => "#"} Alle anziegen
-
-          %ul.inline
-            %li
-              %a{:href => "#"}
-                Projekt 2423
-            %li
-              %a{:href => "#"}
-                Projekt 2423
-            %li
-              %a{:href => "#"}
-                Projekt 2423
-
-  .app-footer-placeholder
-
-// Footer
-
-.app-footer-wrapper
-  %footer.app-footer.container.inverted
-    %ul.footer-menu
-      %li.footer-menu-item
-        %a{:href => "#"} Informationen zum Projekt
-      %li.footer-menu-item
-        %a{:href => "#"} Impressum
-      %li.footer-menu-item
-        %a{:href => "#"} Kontakt
-      %li.footer-menu-item
-        %a{:href => "#"} Blog
-      %li.footer-menu-item
-        %a{:href => "#"} Hilfe
-      %li.footer-menu-item
-        %a{:href => "#"} Nutzungsbestimmungen
-      %li.footer-menu-item
-        %a{:href => "#"} Freie Software
-      %li.footer-menu-item
-        %a{:href => "#"} Archivierungsrichtlinien ZHdK
-    .footer-instance-area.col2of6
-      %a.footer-instance-logo{:href => "#"}= image_tag "redesign/inserts/image-logo-madek.png"
-      %h1.footer-copyrights &copy; 2009-2011 Z&uuml;rcher Hochschule der K&uuml;nste
-
-// %h2= "Users#show"
-// %a{:href => media_resources_path}= "MediaResources"
+    %footer.ui-footer.container.inverted
+      %ul.ui-footer-menu
+        %li
+          %a{:href => "#"} Informationen zum Projekt
+        %li
+          %a{:href => "#"} Impressum
+        %li
+          %a{:href => "#"} Kontakt
+        %li
+          %a{:href => "#"} Blog
+        %li
+          %a{:href => "#"} Hilfe
+        %li
+          %a{:href => "#"} Nutzungsbestimmungen
+        %li
+          %a{:href => "#"} Freie Software
+        %li
+          %a{:href => "#"} Archivierungsrichtlinien ZHdK
+      %p.ui-footer-copy
+        = image_tag "redesign/inserts/image-logo-madek.png", :alt => "MADEK", :class => "ui-footer-logo"
+        &copy; 2009-2011 Z&uuml;rcher Hochschule der K&uuml;nste

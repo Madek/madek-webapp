@@ -4,60 +4,41 @@
  * Styleguide 8.3
  */
 
-.app-header {
+.ui-header {
+  @include min-dimension(auto,30px);
   @include box-shadow(inset 0 -1px 3px $darken);
-  display: table;
-  height: 50px;
-  padding-left: 0;
-  padding-right: 0;
+  padding: $space-s;
   position: relative;
-  width: 100%;
 }
-.header-brand-area,
-.header-user-area {
-  display: table-cell;
-  vertical-align: bottom;
-}
-.header-brand-area,
-.header-user-area {
-  width: 50%;
-  vertical-align: middle;
-}
-
-// Header brand area
-
-.header-brand-area {
-  padding-left: $space-s;
-}
-.header-brand-logo {
-  @include float-left;
-  margin-right: $space-m;
-}
-.header-brand-name {
-  display: none;
-}
-.header-instance-name {
-  line-height: $line-height-xl;
-  padding-top: 3px;
-}
-
-// Header tabbed menu
-
-.header-menu {
-  @include position-top-right(11px,50%);
-  @include position-bottom-left(auto,50%);
+.ui-header-menu {
+  @include position-bottom-right(0,50%);
+  @include position-bottom-left(0,50%);
   text-align: center;
   margin-left: -250px;
   width: 500px;
   z-index: 50;
 }
-.header-menu .tab-navigation-item {
+.ui-header-menu .tab-navigation-item {
   @include border-top-radius($border-radius-s);
   @include box-shadow(0 -2px 2px $darken);
 }
+.ui-header-user {
+  @include position-top-right($space-s,$space-s);
+  .dropdown {
+    top: $space-x;
+  }
+}
 
-// Header user area
+// Header brand area
 
-.header-user-area {
-  padding-right: $space-s;
+.ui-header-logo {
+  @include float-left;
+  margin-right: $space-m;
+}
+.ui-header-brand-name {
+  display: none;
+}
+.ui-header-instance-name {
+  line-height: $line-height-xl;
+  padding-top: 3px;
 }

@@ -1,0 +1,24 @@
+/**
+ * ## Side Navigation `.ui-side-navigation`
+ *
+ * Styleguide 7.2
+ */
+
+.ui-side-navigation {
+}
+.ui-side-navigation li {
+  clear: both;
+  font-size: $font-s;
+  list-style: none;
+  margin: $space-x 0;
+}
+.ui-side-navigation-item > a {
+  line-height: $line-height-l;
+}
+.ui-side-navigation-lvl2 {
+  padding: 0 0 $space-x;
+}
+.ui-side-navigation-lvl2-item > a {
+  @extend a.weak;
+  line-height: $line-height-s;
+}

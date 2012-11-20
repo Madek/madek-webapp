@@ -1,0 +1,50 @@
+#content-header.clearfix
+  #detail-title.page_title_left
+    Medien importieren
+
+#uploader-subnavigation.clearfix{:style => "margin-bottom: 3em;"}
+  %ol#upload_steps.clearfix
+    %li.step_1.container_12.grid_3{:class => (current_page?(:controller => :import, :action => :start) ? "active" : nil)}
+      %p
+        1. Medien übertragen
+        %br
+        %span
+          Fotos, Videos und Audiofiles bereitstellen
+    %li.step_2.container_12.grid_3{:class => (current_page?(:controller => :import, :action => :permissions) ? "active" : nil)}
+      %p
+        2. Berechtigungen setzen
+        %br
+        %span
+          Zugriff und Sichtbarkeit festlegen
+    %li.step_3.container_12.grid_3{:class => (current_page?(:controller => :import, :action => :meta_data) ? "active" : nil)}
+      %p
+        3. Metadaten ergänzen
+        %br
+        %span
+          Titel, Beschreibung und Rechte hinzufügen
+    %li.step_4.container_12.grid_3{:class => (current_page?(:controller => :import, :action => :organize) ? "active" : nil)}
+      %p
+        4. Medien zusammenstellen
+        %br
+        %span
+          Fotos, Videos und Audiofiles in Sets verwalten (optional)
+
+%span#step_arrow
+
+#upload_navigation
+  
+  .right
+    - if current_page?(:controller => :import, :action => :start)
+      = link_to _("weiter..."), "javascript:void(0)", :"data-link_when_enabled" => "/import/permissions", :class => "upload_buttons next disabled"
+      = link_to _("Medien übertragen..."), "javascript:void(0)", :class => "upload_buttons plupload_start plupload_disabled"
+    - elsif current_page?(:controller => :import, :action => :permissions)
+      = link_to _("Berechtigungen speichern und weiter..."), "javascript:void(0)", :onclick => "$('#upload form').submit();", :class => "upload_buttons next disabled", :id => "save_permissions"
+    - elsif current_page?(:controller => :import, :action => :meta_data)
+      = link_to _("weiter..."), "javascript:void(0)", :class => "upload_buttons next disabled", :id => "finish_meta_data"
+    - elsif current_page?(:controller => :import, :action => :organize)
+      = link_to _("Import abschliessen"), "/import/complete", :id => "cancel_import", :method => :put, :class => "upload_buttons next",:id => "complete_import"
+    = link_to "Abbrechen", "/import", :title=> "Import Abbrechen", :id => "cancel_import", :method => :delete, :data => {:confirm => "Wollen Sie den Import wirklich abbrechen?"}
+
+:coffeescript
+  jQuery ->
+    $("#step_arrow").appendTo("#upload_steps li.active").show()

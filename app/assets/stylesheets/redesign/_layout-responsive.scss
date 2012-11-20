@@ -6,45 +6,45 @@
 
 @media #{$screen-size-xs} {
 
-  .header-brand-name,
-  .header-instance-name {
+  .ui-header-brand-name,
+  .ui-header-instance-name {
     display: block;
-    line-height: $line-height-s;
+    line-height: $line-height-xs;
   }
-  .header-instance-name {
+  .ui-header-instance-name {
     $font-size: $font-xs;
   }
-  .header-brand-logo {
+  .ui-header-logo {
     display: none;
   }
+
 }
 
 @media #{$screen-size-xs-s} {
 
   // Responsive Footer
-
-  @include sticky-footer(75px, ".app-content-wrapper", ".app-footer-placeholder", ".app-footer-wrapper");
-  .app-footer {
-    height: 65px;
+  .ui-footer {
+    text-align: center;
   }
-  .footer-menu,
-  .footer-instance-area {
+  .ui-footer-menu {
     clear: both;
     display: block;
     float: none;
+    margin-bottom: $space-s;
+  }
+
+}
+@media #{$screen-size-m} {
+
+  // Responsive Footer
+  .ui-footer {
     text-align: center;
-    width: auto;
   }
-  .footer-instance-logo {
-    display: inline-block;
+  .ui-footer-menu {
+    clear: both;
+    display: block;
     float: none;
-    margin: 0 $space-s 0 0;
-    position: relative;
-    top: $space-x;
-  }
-  .footer-copyrights {
-    display: inline;
-    margin: 0;
+    margin-bottom: $space-s;
   }
 
 }

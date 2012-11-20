@@ -35,7 +35,8 @@ $icons: sprite-map("redesign/icons/*.png");
 
 .icon-fav {
   @include ixt-sprite($icons, icon-fav-active);
-  &:hover {
+  &:hover,
+  &.dark {
     @include ixt-sprite($icons, icon-fav-hover);
   }
   &.active {
@@ -76,7 +77,8 @@ $icons: sprite-map("redesign/icons/*.png");
 
 .icon-edit {
   @include ixt-sprite($icons, icon-edit-active);
-  &:hover {
+  &:hover,
+  &.dark {
     @include ixt-sprite($icons, icon-edit-hover);
   }
   &.disabled {
@@ -93,6 +95,7 @@ $icons: sprite-map("redesign/icons/*.png");
  * Styleguide 5.5
  */
 
+.icon-close.dark,
 .icon-delete {
   @include ixt-sprite($icons, icon-delete-active);
   &:hover {
@@ -100,6 +103,15 @@ $icons: sprite-map("redesign/icons/*.png");
   }
   &.disabled {
     @include ixt-sprite($icons, icon-delete-inactive);
+  }
+}
+
+.icon-close-mini,
+.icon-delete.mini {
+  @include ixt-sprite($icons, icon-delete-mini-mid);
+  &:hover,
+  &.dark {
+    @include ixt-sprite($icons, icon-delete-mini-dark);
   }
 }
 
@@ -207,6 +219,15 @@ $icons: sprite-map("redesign/icons/*.png");
     @include ixt-sprite($icons, icon-vis-list-active);
   }
 }
+.icon-vis-links {
+  @include ixt-sprite($icons, icon-vis-list);
+  &.bright {
+    @include ixt-sprite($icons, icon-vis-list-active);
+  }
+  &.dark {
+    @include ixt-sprite($icons, icon-links-dark);
+  }
+}
 
 
 /**
@@ -261,4 +282,22 @@ $icons: sprite-map("redesign/icons/*.png");
 }
 .icon-explore-tag {
   @include ixt-sprite($icons, icon-explore-hover);
+}
+.icon-plus {
+  @include ixt-sprite($icons, icon-plus-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-plus-bright);
+  }
+}
+.icon-ok {
+  @include ixt-sprite($icons, icon-ok-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-ok-bright);
+  }
+}
+.icon-questionmark {
+  @include ixt-sprite($icons, icon-questionmark-middark);
+}
+.icon-new-group {
+  @include ixt-sprite($icons, icon-group-new-dark);
 }

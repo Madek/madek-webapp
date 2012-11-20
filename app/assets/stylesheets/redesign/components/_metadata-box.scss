@@ -1,10 +1,10 @@
 /**
- * ## Metadata box Orinated List variation `.metadata-box`
+ * ## Metadata box ordinated List variation `.ui-metadata-box`
  *
  * Styleguide 7.13
  */
 
-.metadata-box ol li {
+.ui-metadata-box ol li {
   float: left;
   font-size: $font-xs;
   list-style: none;
@@ -20,15 +20,15 @@
 }
 
 /**
- * ## Metadata box Definition List variation `.metadata-box`
+ * ## Metadata box definition list variation `.ui-metadata-box`
  *
  * Styleguide 7.14
  */
 
-.metadata-box dt {
+.ui-metadata-box dt {
   margin-bottom: $space-x;
 }
-.metadata-box dd {
+.ui-metadata-box dd {
   margin-bottom: $space-m;
   &:last-child {
     margin-bottom: 0;

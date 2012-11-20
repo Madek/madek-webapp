@@ -1,0 +1,23 @@
+/**
+ * ## Thumbnail grid ui-toolbar
+ *
+ * Styleguide 8.1
+ */
+
+.ui-toolbar {
+  margin-right: -2px;
+  position: relative;
+  top: -1px;
+  right: -1px;
+  left: -1px;
+}
+.ui-toolbar .ui-toolbar-header {
+  font-size: $font-m;
+  line-height: $line-height-s;
+}
+
+/**
+ * ## Thumbnail grid inner ui-toolbar
+ *
+ * Styleguide 8.2
+ */

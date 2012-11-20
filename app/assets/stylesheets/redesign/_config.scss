@@ -50,12 +50,13 @@ $blue:                #3A91B6;
 $yellow:              #B69D3A;
 
 // Transparency values
-$transparency-strong: 0.75;
+$transparency-strong: 0.85;
 $transparency-medium: 0.5;
 $transparency-subtle: 0.25;
 $transparency-light:  0.15;
 
 // Shadows and flaires
+$darken-strong:       rgba(0,0,0,$transparency-strong);
 $darken-more:         rgba(0,0,0,$transparency-medium);
 $darken:              rgba(0,0,0,$transparency-subtle);
 $darken-less:         rgba(0,0,0,$transparency-light);

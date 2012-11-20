@@ -1,0 +1,257 @@
+.app.view-import
+
+  // HEADER
+
+  .app-header
+    %header.ui-header.container.inverted
+      .ui-header-brand
+        = image_tag "redesign/inserts/image-logo-zhdk.png", :alt => "ZHDK", :class => "ui-header-logo"
+        %h1.ui-header-brand-name Z&uuml;rcher Hochschule der K&uuml;nste
+        %h2.ui-header-instance-name Medienarchiv der K&uuml;nste
+
+      .ui-header-menu
+        %ul.large.primary.tab-navigation
+          %li.tab-navigation-item
+            %a{:href => "#"} Mein Archiv
+          %li.tab-navigation-item
+            %a{:href => "#"} Erkunden
+          %li.tab-navigation-item
+            %a{:href => "#"}
+              %i.icon-search.bright
+              Suchen
+          %li.tab-navigation-item
+            %a{:href => "#"}
+              %i.icon-help.bright Help
+
+      .ui-header-user
+        .dropdown
+          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+            Franziska M&uuml;ller-Rei&szlig;mann
+            %i.icon-arrow-down.bright.stand-alone
+          %ul.dropdown-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+            %li.dropdown-menu-item
+              %a{:href => "#"} Item 1
+            %li.dropdown-menu-item
+              %a{:href => "#"} Item 2
+            %li.separator
+            %li.dropdown-menu-item
+              %a{:href => "#"} Abmelden
+
+  .app-body
+
+    // PAGE TITLE
+
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl Medien Importieren
+
+    .app-body-container
+      .container.bordered.bright.rounded
+
+        .stepline
+          .stepline-item
+            %h3.title-s.stepline-item-title
+              1. Medien übertragen
+          .stepline-item.active
+            %h3.title-s.stepline-item-title
+              2. Berechtigungen setzen
+          .stepline-item
+            %h3.title-s.stepline-item-title
+              3. Metadaten ergänzen
+          .stepline-item
+            %h3.title-s.stepline-item-title
+              4. Medien zusammenstellen
+
+        .media-import.step2.pal
+
+          %h3.title-l Zugriff und Sichtbarkeit festlegen:
+
+          .container.clearfix.mvl.bordered.midtone.rounded.upload-preview
+
+            %ul.media-entries.grid
+              %li.media-entries-item
+                .ui-thumbnail-wrapper.media-entry
+                  .thumbnail-audio.thumbnail
+                    %img{:alt => "", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}
+              %li.media-entries-item
+                .ui-thumbnail-wrapper.media-entry
+                  .thumbnail-video.thumbnail
+                    %img{:alt => "Thumb-video", :src => "/assets/redesign/thumbnails/thumb-video-mov.png"}
+              %li.media-entries-item
+                .ui-thumbnail-wrapper.media-entry
+                  .thumbnail-audio.thumbnail
+                    %img{:alt => "Thumb-audio", :src => "/assets/redesign/thumbnails/thumb-audio-mp3.png"}
+              %li.media-entries-item
+                .ui-thumbnail-wrapper.media-entry
+                  .thumbnail-doc.thumbnail
+                    %img{:alt => "Thumb-doc", :src => "/assets/redesign/thumbnails/thumb-doc-doc.png"}
+              %li.media-entries-item
+                .ui-thumbnail-wrapper.media-entry
+                  .thumbnail-audio.thumbnail
+                    %img{:alt => "", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}
+
+          .rights-management.mbl
+            .rights-body
+              %table.rights-group.bordered
+                %caption Ich
+                %thead
+                  %tr
+                    %td.rights-user-title User
+                    %td.rights-role-title Berechtigung
+                    %td.rights-check-title Betrachten
+                    %td.rights-check-title Download Original
+                    %td.rights-check-title Editieren
+                    %td.rights-check-title Berechtigung verwalten
+                %tbody
+                  %tr
+                    %td.rights-user Interactive Things
+                    %td.rights-role Eigentumer/in
+                    %td.rights-check
+                      %input{:checked => "checked", :disabled => "disabled", :type => "checkbox"}/
+                    %td.rights-check
+                      %input{:checked => "checked", :disabled => "disabled", :type => "checkbox"}/
+                    %td.rights-check
+                      %input{:checked => "checked", :disabled => "disabled", :type => "checkbox"}/
+                    %td.rights-check
+                      %input{:checked => "checked", :disabled => "disabled", :type => "checkbox"}/
+            .rights-body
+              %table.rights-group.bordered
+                %caption
+                  Personen
+                  %i.icon-privacy-private
+                %tbody
+                  %tr
+                    %td.rights-user Interactive Things
+                    %td.rights-role
+                      %select
+                        %option Bevollmachtigte/r
+                        %option Betrachter/in
+                        %option Betrachter/in &amp; Original
+                        %option Gesperrt
+                        %option Redakteur/in
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+                  %tr
+                    %td.rights-user Interactive Things 2
+                    %td.rights-role
+                      %select
+                        %option Bevollmachtigte/r
+                        %option Betrachter/in
+                        %option Betrachter/in &amp; Original
+                        %option Gesperrt
+                        %option Redakteur/in
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+              %a.button.small{:href => "#"}
+                %i.icon-plus
+                Person hinzufugen
+            .rights-body
+              %table.rights-group.bordered
+                %caption
+                  Gruppen
+                  %i.icon-privacy-group
+                %tbody
+                  %tr
+                    %td.rights-user Interactive Things
+                    %td.rights-role
+                      %select
+                        %option Bevollmachtigte/r
+                        %option Betrachter/in
+                        %option Betrachter/in &amp; Original
+                        %option Gesperrt
+                        %option Redakteur/in
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+                  %tr
+                    %td.rights-user Interactive Things 2
+                    %td.rights-role
+                      %select
+                        %option Bevollmachtigte/r
+                        %option Betrachter/in
+                        %option Betrachter/in &amp; Original
+                        %option Gesperrt
+                        %option Redakteur/in
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+              %a.button.small{:href => "#"}
+                %i.icon-plus
+                Gruppe hinzufugen
+            .rights-body
+              %table.rights-group.bordered
+                %caption
+                  Öffentlichkeit
+                  %i.icon-privacy-public
+                %tbody
+                  %tr
+                    %td.rights-user Öffentlichkeit
+                    %td.rights-role
+                      %select
+                        %option Bevollmachtigte/r
+                        %option Betrachter/in
+                        %option Betrachter/in &amp; Original
+                        %option Gesperrt
+                        %option Redakteur/in
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+                    %td.rights-check
+                      %input{:type => "checkbox"}/
+
+          .actions-bar
+            %a.left.link
+              Abbrechen
+            %a.primary-button.large
+              Berechtigungen speichern und weiter&hellip;
+
+  // FOOTER
+
+  .app-footer
+    %footer.ui-footer.container.inverted
+      %ul.ui-footer-menu
+        %li
+          %a{:href => "#"} Informationen zum Projekt
+        %li
+          %a{:href => "#"} Impressum
+        %li
+          %a{:href => "#"} Kontakt
+        %li
+          %a{:href => "#"} Blog
+        %li
+          %a{:href => "#"} Hilfe
+        %li
+          %a{:href => "#"} Nutzungsbestimmungen
+        %li
+          %a{:href => "#"} Freie Software
+        %li
+          %a{:href => "#"} Archivierungsrichtlinien ZHdK
+      %p.ui-footer-copy
+        = image_tag "redesign/inserts/image-logo-madek.png", :alt => "MADEK", :class => "ui-footer-logo"
+        &copy; 2009-2011 Z&uuml;rcher Hochschule der K&uuml;nste

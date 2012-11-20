@@ -17,7 +17,7 @@ h1, h2, h3, h4, h5, h6 {
  * .title-xxl     - Hero title, ideally this style would apply only to home page elevator pitch title
  * .title-xl      - Page titles
  * .title-l       - Section titles, used for bold titles marking sections and subtitles accompanying Hero title
- * .title-n       - Subsection titles, katalog thumb titles
+ * .title-m       - Subsection titles, katalog thumb titles
  * .title-s       - Thumb name titles
  * .title-xs      - Mini titles, used for Weitere Daten and similar labels
  * .title-xs-alt  - Mini titles, used for media entry authors
@@ -37,7 +37,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .title-l {
   font-size: $font-xl;
-  line-height: $line-height-l;
+  line-height: $line-height-m;
   font-weight: 700;
   span,
   small {
@@ -45,7 +45,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 2px;
   }
 }
-.title-n {
+.title-m {
   font-size: $font-l;
   line-height: $line-height-m;
 }
@@ -59,7 +59,8 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: $line-height-s
 }
-.title-xs-alt {
+.title-xs-alt,
+.small-print {
   color: $grey-mid;
   font-size: $font-xs;
   line-height: $line-height-m;
