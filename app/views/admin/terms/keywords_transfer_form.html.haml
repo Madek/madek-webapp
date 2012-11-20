@@ -1,0 +1,19 @@
+%form#keywords_transfer
+  %label ID des empfangenden Terms:
+  %input.id_receiver{name: "id_receiver", type: 'text'}
+  %input{type: "submit", value: "Schlüsselwörter transferieren"}
+
+:coffeescript
+  $("form#keywords_transfer input:submit").click (e)->
+
+    $.ajax "#{keywords_transfer_admin_term_path}"
+      data:  $("form#keywords_transfer").serializeObject() 
+      type: 'POST'
+      complete: ->
+        $("#terms_datatable").dataTable().fnDraw()
+
+    false
+    
+
+    
+    

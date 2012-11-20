@@ -35,5 +35,29 @@ class Admin::PeopleController < Admin::AdminController
     @person.update_attributes(params[:person])
     redirect_to admin_people_path
   end
+
+  def destroy
+    ActiveRecord::Base.transaction do
+      Person.find(params[:person_id]).destroy
+    end
+    redirect_to admin_people_path
+  end
+
+######
   
+  def meta_data_transfer_form
+    render layout: false
+  end
+  
+  def meta_data_transfer
+    person_originator= Person.find(params[:person_id])
+    person_receiver= Person.find(params[:id_receiver])
+    
+    ActiveRecord::Base.transaction do
+      person_receiver.meta_data << person_originator.meta_data
+      person_originator.meta_data.destroy_all
+    end
+
+    redirect_to admin_people_path
+  end
 end

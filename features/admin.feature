@@ -12,10 +12,9 @@ Feature: Admin interface
     Then for each person I see the id
      And I see the count of MetaData associated to each person
     When a person has some MetaData associated to it
-     And I edit that person
      And I move all MetaData from that person to another person 
-     And I navigate to the people list
-    Then the count of MetaData associated to that person is 0
+    Then I am redirected to the admin people list
+    Then the count of MetaData associated to origin person is 0
 
   @javascript
   Scenario: Delete a person

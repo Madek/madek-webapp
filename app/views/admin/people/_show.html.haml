@@ -1,5 +1,17 @@
 %tr
-  - [person.firstname, person.lastname, person.pseudonym,
-    person.user.try(:login) || link_to(_("Create User"), new_admin_person_user_path(person), :class => "buttons", :remote => true, :"data-type" => "html"),
-    link_to(_("Edit"), edit_admin_person_path(person), :class => "buttons", :remote => true, :"data-type" => "html")].each do |s|
-    %td= s
+  %td= person.id 
+  %td= person.firstname
+  %td= person.lastname
+  %td
+    - if person.meta_data.count > 0
+      = link_to "Transfer #{person.meta_data.count} to ...", meta_data_transfer_form_admin_person_path(person), :class => "buttons", :remote => true, :"data-type" => "html"
+    - else
+      0
+  %td= person.pseudonym
+  %td= person.user.try(:login) || link_to(_("Create User"), new_admin_person_user_path(person), :class => "buttons", :remote => true, :"data-type" => "html")
+  %td= link_to(_("Edit"), edit_admin_person_path(person), class: "buttons", remote: true, :"data-type" => "html")
+  %td
+    - if person.meta_data.count == 0 and person.user.nil?
+      = link_to _("Delete"), admin_person_path(person), class: "buttons", method: 'delete', remote: false, :data => {:confirm => _("Sind Sie sicher?")} 
+
+

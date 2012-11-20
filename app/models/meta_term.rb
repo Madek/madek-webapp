@@ -5,7 +5,7 @@ class MetaTerm < ActiveRecord::Base
 
   # TODO include keywords ??
   has_and_belongs_to_many :meta_data
-  #tmp# has_many :keywords, :foreign_key => :meta_term_id
+  has_many :keywords, :foreign_key => :meta_term_id
 
   validate do
     errors.add(:base, "A term cannot be blank") if LANGUAGES.all? {|lang| send(lang).blank? }

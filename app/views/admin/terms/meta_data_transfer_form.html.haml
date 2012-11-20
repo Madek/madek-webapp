@@ -1,0 +1,19 @@
+%form#meta_data_transfer
+  %label ID des empfangenden Terms:
+  %input.id_receiver{name: "id_receiver", type: 'text'}
+  %input{type: "submit", value: "Metadaten transferieren"}
+
+:coffeescript
+  $("form#meta_data_transfer input:submit").click (e)->
+
+    $.ajax "#{meta_data_transfer_admin_term_path}"
+      data:  $("form#meta_data_transfer").serializeObject() 
+      type: 'POST'
+      complete: ->
+        $("#terms_datatable").dataTable().fnDraw()
+
+    false
+    
+
+    
+    

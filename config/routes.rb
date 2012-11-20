@@ -157,7 +157,7 @@ MAdeK::Application.routes.draw do
 ###############################################
 
   resources :media_files # TODO remove ??
-  
+   
 ###############################################
 # TODO refactor nested resources to people and make user as single resource
 
@@ -251,16 +251,31 @@ MAdeK::Application.routes.draw do
       end
     end
 
-    resources :terms
-    
+    resources :terms do
+      collection do
+        get 'data'
+      end
+      member do
+        get 'meta_data_transfer_form'
+        post 'meta_data_transfer'
+        get 'keywords_transfer_form'
+        post 'keywords_transfer'
+      end
+    end
+
     resources :users, :except => [:new, :create] do
       member do
         get :switch_to
+
       end
     end
 
     resources :people do
-      resources :users, :only => [:new, :create]
+      resources :users, :only => [:new, :create, :destroy]
+      member do
+        get 'meta_data_transfer_form'
+        post 'meta_data_transfer'
+      end
     end
 
     resources :groups do

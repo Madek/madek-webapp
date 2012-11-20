@@ -3,14 +3,20 @@
     %td{:colspan => (LANGUAGES.size + 1), :style => "text-align: right; white-space: nowrap;"}
       = link_to _("New Term"), new_admin_term_path, :class => "buttons", :remote => true, :"data-type" => "html"
 
-%table.datatable
+%table#terms_datatable
   %thead
     %tr
+      %th.id.sortable ID
       - LANGUAGES.each do |lang|
-        %th
+        %th{class: lang}
           = lang
-      %th
-        Used?
-      %th
+      %th.meta_data.notsortable MetaData
+      %th.keywords.notsortable Keywords
+      %th.used.notsortable Used?
+      %th.notsortable
+      %th.notsortable
   %tbody
-    = render :partial => "show", :collection => @terms, :as => :term
+
+:coffeescript 
+  $ -> window.Admin.Terms.init_datatable()
+  
