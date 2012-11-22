@@ -1,0 +1,13 @@
+.collage.crooked
+  - 4.times do |row|
+    .collage-row
+      - 5.times do |col|
+        - i = (((row*5)+col)%@splashscreen_set.child_media_resources.size)
+        - mr = @splashscreen_set_children[i]
+        .collage-item{:class => col.odd? ? "even" : "odd"}
+          .collage-image-wrapper
+            -if mr
+              -# TODO remove http://medienarchiv.zhdk.ch
+              %img.collage-image{:alt => "#{mr.title}", :src => "http://medienarchiv.zhdk.ch/media_resources/#{mr.id}/image"} 
+
+  = render "application/login"

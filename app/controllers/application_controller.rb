@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
 
 ##############################################
 # Redesign Switcher
+  before_filter {prepend_view_path "app/views/redesign" if redesign?}
+  
   layout Proc.new { |controller| if redesign? then "redesign" else "main" end }
 
   def render(options = {}, extra_options = {}, &block)
@@ -25,7 +27,10 @@ class ApplicationController < ActionController::Base
     elsif params.has_key?(:resetdesign)
       session.delete :design
     end
-    params.has_key?(:setredesign) or session[:design] == :setredesign
+
+    redesign = params.has_key?(:setredesign) or session[:design] == :setredesign
+    Thread.current[:redesign] = redesign
+    return redesign
   end
 
 ##############################################
@@ -65,6 +70,13 @@ class ApplicationController < ActionController::Base
         end
       end
     else
+      @splashscreen_set = MediaSet.splashscreen
+      @splashscreen_set_children = @splashscreen_set.child_media_resources.shuffle
+      @featured_set = MediaSet.featured
+      @featured_set_children = @featured_set.child_media_resources.limit(6) if @featured_set
+      @catalog_set = MediaSet.catalog
+      @catalog_set_categories = @catalog_set.categories.limit(3) if @catalog_set
+      @latest_media_entries = MediaResource.media_entries.where(:view => true).limit(6)
       render :layout => redesign?
     end
   end

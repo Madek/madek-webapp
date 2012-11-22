@@ -3,9 +3,11 @@
 
   %head
     %meta{:charset => 'utf-8'}
-    %title= "Medienarchiv - Zürcher Hochschule der Künste"
+    %title= AppSettings.title
     = stylesheet_link_tag "redesign"
+    = favicon_link_tag "favicon.ico"
     = javascript_include_tag "redesign"
 
   %body
+    = render :partial => "application/flash", :locals => {:flash => flash} unless flash.empty?
     = yield

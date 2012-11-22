@@ -1,0 +1,10 @@
+%li.media-entries-item
+  %div{:class => "ui-thumbnail-wrapper #{media_resource.type.underscore.dasherize}"}
+    %div{:class => "thumbnail thumbnail-#{media_resource.media_type.downcase}"}
+      %a
+        .inner-wrapper
+          -# TODO remove http://medienarchiv.zhdk.ch
+          %img{:alt => "#{media_resource.title}", :src => "http://medienarchiv.zhdk.ch/media_resources/#{media_resource.id}/image?size=medium"}
+    .thumbnail-metadata
+      %h3.title-s.thumbnail-name= media_resource.title
+      %h4.title-xs-alt.thumbnail-author= media_resource.author

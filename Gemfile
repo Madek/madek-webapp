@@ -98,7 +98,7 @@ end
 
 group :development do
   # CSS styleguides
-  gem 'nkss-rails', github: 'interactivethings/nkss-rails'
+  gem 'nkss-rails', :git => 'git://github.com/interactivethings/nkss-rails.git'
 end
 
 group :test do

@@ -337,7 +337,11 @@ class MediaFile < ActiveRecord::Base
   end
   
   def thumb_placeholder
-    dir = File.join(Rails.root, "app/assets/images/thumbnails")
+    dir = if Thread.current[:redesign] == true
+      File.join(Rails.root, "app/assets/images/redesign/thumbnails")
+    else
+      File.join(Rails.root, "app/assets/images/thumbnails")
+    end
     @@placeholders ||= Dir.glob(File.join(dir, "*"))
     extension = File.extname(filename).downcase
     file_path = @@placeholders.detect {|x| x =~ /#{extension}\.png$/ }

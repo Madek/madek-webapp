@@ -3,7 +3,6 @@ class MediaSet < MediaResource
 
   has_many :child_media_resources, :through => :out_arcs, :source => :child
 
-
 =begin #old??#
   def self.find_by_id_or_create_by_title(values, user)
     records = Array(values).map do |v|
@@ -24,6 +23,18 @@ class MediaSet < MediaResource
     MediaSet.joins(:meta_data => :meta_key).where(:meta_keys => {:label => "title"}, :meta_data => {:string => title}).first
   end
 
+  def self.splashscreen 
+    where(:id => AppSettings.splashscreen_slideshow_set_id).first
+  end
+
+  def self.featured
+    where(:id => AppSettings.featured_set_id).first
+  end
+
+  def self.catalog
+    where(:id => AppSettings.catalog_set_id).first
+  end
+
 ########################################################
 
   has_and_belongs_to_many :individual_contexts, :class_name => "MetaContext",
@@ -36,6 +47,10 @@ class MediaSet < MediaResource
 
   def individual_and_inheritable_contexts
     (individual_contexts | inheritable_contexts).sort
+  end
+
+  def categories
+    self.child_media_resources.filter_sets
   end
 
 ### Settings ##########################################

@@ -15,6 +15,7 @@
 
 // Define thumb's size variations
 
+.thumbnail-image,
 .thumbnail-video,
 .thumbnail-audio,
 .thumbnail-doc,
@@ -27,6 +28,7 @@
     margin: 0 auto;
   }
 }
+.thumbnail-image.small,
 .thumbnail-video.small,
 .thumbnail-audio.small,
 .thumbnail-doc.small,

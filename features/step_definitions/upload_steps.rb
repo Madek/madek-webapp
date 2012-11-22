@@ -176,7 +176,7 @@ Then /^those files are deleted$/ do
 end
 
 Then /^only the rest of the files are available for import$/ do
-  visit upload_path
+  visit import_path
   page.should_not have_content "berlin_wall_01.jpg"
   page.should have_content "berlin_wall_02.jpg"
   page.should have_content "date_should_be_1990.jpg"

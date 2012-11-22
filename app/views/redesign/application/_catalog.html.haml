@@ -1,0 +1,9 @@
+.container.ptl.pbm
+  .media-entries-wrapper
+    .media-entries-header.mbm
+      %h2.title-l.media-entries-title
+        = @catalog_set.title
+        %a.strong{:href => "#"} Alle anziegen
+    %ul.media-entries.grid
+      - @catalog_set_categories.each do |category|
+        = render :partial => "media_sets/category", :locals => {:category => category}

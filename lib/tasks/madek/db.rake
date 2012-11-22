@@ -64,7 +64,6 @@ namespace :madek do
 
     desc "Fetch and restore the productive data" 
     task :fetch_and_restore_productive_data => :environment do
-      
       outs = `ssh madek@madek-server "cd current;RAILS_ENV=production DIR=/tmp bundle exec rake madek:db:dump"  2>&1`
       unless $?.exitstatus == 0
         puts "dumping the database on the remote server failed, #{outs}"

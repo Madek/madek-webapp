@@ -1,0 +1,10 @@
+%li.media-entries-item
+  .ui-thumbnail-wrapper.media-catalog
+    .thumbnail-set.large.thumbnail
+      %a
+        .inner-wrapper
+          -# TODO remove http://medienarchiv.zhdk.ch
+          %img{:alt => "#{category.title}", :src => "http://medienarchiv.zhdk.ch/media_resources/#{category.id}/image"} 
+    .thumbnail-metadata
+      %h3.title-s.thumbnail-name= category.title
+      %p.title-xs-alt= category.description

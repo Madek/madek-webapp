@@ -58,6 +58,14 @@ module MediaResourceModules
           t
         end
 
+        def description
+          t = meta_data.get_value_for("description")
+        end
+
+        def author
+          t = meta_data.get_value_for("author")
+        end
+
         def update_attributes_with_pre_validation(attributes, current_user = nil)
           # we need to deep copy the attributes for batch edit (multiple resources)
           dup_attributes = Marshal.load(Marshal.dump(attributes)).deep_symbolize_keys

@@ -1,0 +1,11 @@
+- flashes = [:success, :warning, :error, :notice, :plain]
+- flashes.each do |f|
+  - current_flash = flash[f]
+  - f = :confirmation if f == :notice
+  - if current_flash
+    %div{:class => "alert #{f}"}
+      %p
+        -if current_flash.is_a? Array
+          = current_flash.join(", ")
+        -else 
+          = current_flash
