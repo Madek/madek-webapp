@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe UploadController do
+describe ImportController do
 
   before :all do
     FactoryGirl.create :usage_term
