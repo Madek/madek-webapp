@@ -1,13 +1,15 @@
-.collage.crooked
+.ui-collage.crooked.ui-container.overlaid
   - 4.times do |row|
-    .collage-row
+    .ui-collage-row
       - 5.times do |col|
         - i = (((row*5)+col)%@splashscreen_set.child_media_resources.size)
         - mr = @splashscreen_set_children[i]
-        .collage-item{:class => col.odd? ? "even" : "odd"}
-          .collage-image-wrapper
+        .ui-collage-item{:class => col.odd? ? "even" : "odd"}
+          .ui-collage-item-wrapper
             -if mr
-              -# TODO remove http://medienarchiv.zhdk.ch
-              %img.collage-image{:alt => "#{mr.title}", :src => "http://medienarchiv.zhdk.ch/media_resources/#{mr.id}/image"} 
+              - if Rails.env.development? # TODO remove this
+                %img.ui-collage-item-image{:alt => "#{mr.title}", :src => MediaFile.thumb_lorempixum_url(mr.id,:medium)} 
+              - else
+                %img.ui-collage-item-image{:alt => "#{mr.title}", :src => "http://medienarchiv.zhdk.ch/media_resources/#{mr.id}/image"} 
 
   = render "application/login"

@@ -116,6 +116,7 @@ a:active {
   position: relative;
 }
 .button:active i,
+.button.active i,
 .button.disabled i {
   opacity: 0.5;
 }

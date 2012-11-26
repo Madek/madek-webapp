@@ -1,0 +1,31 @@
+/**
+ * ## Footer `.ui-footer`
+ *
+ * Styleguide 7.4
+ */
+
+.ui-footer {
+  @include box-shadow(inset 0 1px 3px $darken);
+  padding: $space-s;
+  position: relative;
+}
+.ui-footer ul,
+.ui-footer p {
+  font-size: $font-s;
+  line-height: $line-height-m;
+}
+.ui-footer-menu {
+  @include float-right;
+  position: relative;
+  top: $space-x;
+  > li {
+    display: inline-block;
+    margin-left: $space-s;
+  }
+}
+.ui-footer-logo {
+  display: inline-block;
+  margin-right: $space-s;
+  position: relative;
+  top: $space-x;
+}

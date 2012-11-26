@@ -1,7 +1,7 @@
 /**
  * ## Metadata box ordinated List variation `.ui-metadata-box`
  *
- * Styleguide 7.13
+ * Styleguide 6.13
  */
 
 .ui-metadata-box ol li {
@@ -22,14 +22,14 @@
 /**
  * ## Metadata box definition list variation `.ui-metadata-box`
  *
- * Styleguide 7.14
+ * Styleguide 6.14
  */
 
-.ui-metadata-box dt {
-  margin-bottom: $space-x;
+.ui-metadata-box .media-data-title {
 }
-.ui-metadata-box dd {
-  margin-bottom: $space-m;
+.ui-metadata-box .media-data-content {
+  line-height: $line-height-m;
+  margin-bottom: $space-s;
   &:last-child {
     margin-bottom: 0;
   }

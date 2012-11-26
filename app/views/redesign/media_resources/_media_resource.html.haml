@@ -1,10 +1,21 @@
-%li.media-entries-item
-  %div{:class => "ui-thumbnail-wrapper #{media_resource.type.underscore.dasherize}"}
-    %div{:class => "thumbnail thumbnail-#{media_resource.media_type.downcase}"}
-      %a
-        .inner-wrapper
-          -# TODO remove http://medienarchiv.zhdk.ch
-          %img{:alt => "#{media_resource.title}", :src => "http://medienarchiv.zhdk.ch/media_resources/#{media_resource.id}/image?size=medium"}
-    .thumbnail-metadata
-      %h3.title-s.thumbnail-name= media_resource.title
-      %h4.title-xs-alt.thumbnail-author= media_resource.author
+:ruby
+  with_permissions = (defined? with_permissions and with_permissions)
+  with_actions = (defined? with_actions and with_actions)
+  editable = with_actions and current_user.authorized?(:edit, media_resource)
+
+%li.ui-resources-item
+  %div{:class => "ui-thumbnail #{media_resource.type.underscore.dasherize}"}
+    = render :partial => "media_sets/thumbnail_level_up" if media_resource.type == "MediaSet"
+    = render :partial => "media_resources/privacy", :locals => {:media_resource => media_resource} if with_permissions
+    = render :partial => "media_resources/actions", :locals => {:media_resource => media_resource, :editable => editable} if with_actions
+    = render :partial => "media_sets/thumbnail_level_down" if media_resource.type == "MediaSet"
+    %div{:class => "thumbnail #{media_resource.media_type.downcase}"}
+      %a.ui-thumbnail-image-wrapper
+        .ui-thumbnail-image-holder
+          - if Rails.env.development? # TODO remove this
+            %img{:alt => "#{media_resource.title}", :src => MediaFile.thumb_lorempixum_url(media_resource.id,:medium), :class => "ui-thumbnail-image"}
+          - else
+            %img{:alt => "#{media_resource.title}", :src => "/media_resources/#{media_resource.id}/image?size=medium", :class => "ui-thumbnail-image"}
+    .ui-thumbnail-meta
+      %h3.ui-thumbnail-meta-title= media_resource.title
+      %h4.ui-thumbnail-meta-subtitle= media_resource.author

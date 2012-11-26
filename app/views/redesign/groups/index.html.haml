@@ -1,41 +1,6 @@
 .app.view-dashboard
 
-  // HEADER
-
-  .app-header
-    %header.ui-header.container.inverted
-      .ui-header-brand
-        = image_tag "redesign/inserts/image-logo-zhdk.png", :alt => "ZHDK", :class => "ui-header-logo"
-        %h1.ui-header-brand-name Z&uuml;rcher Hochschule der K&uuml;nste
-        %h2.ui-header-instance-name Medienarchiv der K&uuml;nste
-
-      .ui-header-menu
-        %ul.large.primary.tab-navigation
-          %li.tab-navigation-item
-            %a{:href => "#"} Mein Archiv
-          %li.tab-navigation-item
-            %a{:href => "#"} Erkunden
-          %li.tab-navigation-item
-            %a{:href => "#"}
-              %i.icon-search.bright
-              Suchen
-          %li.tab-navigation-item
-            %a{:href => "#"}
-              %i.icon-help.bright Help
-
-      .ui-header-user
-        .dropdown
-          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-            Franziska M&uuml;ller-Rei&szlig;mann
-            %i.icon-arrow-down.bright.stand-alone
-          %ul.dropdown-menu{"aria-labelledby" => "dLabel", :role => "menu"}
-            %li.dropdown-menu-item
-              %a{:href => "#"} Item 1
-            %li.dropdown-menu-item
-              %a{:href => "#"} Item 2
-            %li.separator
-            %li.dropdown-menu-item
-              %a{:href => "#"} Abmelden
+  = render "application/header/logged_in"
 
   // PAGE TITLE
 
@@ -50,19 +15,16 @@
               %i.icon-new-group
               Neue Arbeitsgruppe
 
-    .app-body-container
-      .bordered.container.midtone.rounded.table
+    .app-body-ui-container
+      .bordered.ui-container.midtone.rounded.table
 
         // SIDEBAR
 
-        .app-body-sidebar.table-cell.bright.container.bordered-right.rounded-left.table-side
-          .container.rounded-left.phm.pvl
+        .app-body-sidebar.table-cell.bright.ui-container.bordered-right.rounded-left.table-side
+          .ui-container.rounded-left.phm.pvl
             %ul.ui-side-navigation
               %li.ui-side-navigation-item
                 %a.strong{:href => "#"} Meine Inhalte
-              %li.separator.mini
-              %li.ui-side-navigation-item
-                %a.strong{:href => "#"} Meine letzen Importe
               %li.separator.mini
               %li.ui-side-navigation-item
                 %a.strong{:href => "#"} Meine Faroviten
@@ -73,21 +35,18 @@
               %li.ui-side-navigation-item
                 %a.strong{:href => "#"} Mir anvertaute Inhalte
               %li.separator.mini
-              %li.ui-side-navigation-item
-                %a.strong{:href => "#"} Inhalte meiner Arbeitsgruppen
-              %li.separator.mini
-              %li.ui-side-navigation-item
+              %li.ui-side-navigation-item.active
                 %a.strong{:href => "#"} Meine Arbeitsgruppen
               %li.separator.mini
 
-        .app-body-content.table-cell.table-substance.container
+        .app-body-content.table-cell.table-substance.ui-container
 
           // CONTENT
 
-          .container.ptl.phl.pbm
-            .media-entries-wrapper
-              .media-entries-header.mbm
-                %h2.title-l.media-entries-title
+          .ui-container.ptl.phl.pbm
+            .ui-resources-wrapper
+              .ui-resources-header.mbm
+                %h2.title-l.ui-resources-title
                   Arbeitsgruppen
               %table.ui-workgroups.bordered.block
                 %thead
@@ -105,7 +64,7 @@
                       %a.button.small{:href => "#workgroup-delete", "data-toggle" => "modal"}
                         %i.icon-trash.dark
                       %a.button.small{:href => "#workgroup-edit", "data-toggle" => "modal"}
-                        %i.icon-edit.dark
+                        %i.icon-pen.dark
                   %tr
                     %td.ui-workgroup-name Interactive Things 2
                     %td.ui-workgroup-items
@@ -115,7 +74,7 @@
                       %a.button.small{:href => "#workgroup-delete", "data-toggle" => "modal"}
                         %i.icon-trash.dark
                       %a.button.small{:href => "#workgroup-edit", "data-toggle" => "modal"}
-                        %i.icon-edit.dark
+                        %i.icon-pen.dark
                   %tr
                     %td.ui-workgroup-name Interactive Things 3
                     %td.ui-workgroup-items
@@ -125,14 +84,14 @@
                       %a.button.small{:href => "#workgroup-delete", "data-toggle" => "modal"}
                         %i.icon-trash.dark
                       %a.button.small{:href => "#workgroup-edit", "data-toggle" => "modal"}
-                        %i.icon-edit.dark
+                        %i.icon-pen.dark
 
           %hr.separator
 
-          .container.ptl.phl.pbm
-            .media-entries-wrapper
-              .media-entries-header.mbm
-                %h2.title-l.media-entries-title
+          .ui-container.ptl.phl.pbm
+            .ui-resources-wrapper
+              .ui-resources-header.mbm
+                %h2.title-l.ui-resources-title
                   Systemgruppen
               %table.ui-workgroups.bordered.block
                 %thead
@@ -152,189 +111,55 @@
 
     .app-footer
 
-      .app-clipboard
-        .clipboard-toggle.inverted-transparent
-          %a.tertiary-button.block.small#clipboard-toggle
-            %i.icon-clipboard.bright
-            Zwischenablage (% Medientr&auml;ge)
-        .container.inverted-transparent.clipboard-content
-          .col5of6
-            %ul.media-entries.grid.tight.active
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-package.small
-                    %img{:alt => "Thumb-package-7z-small", :src => "/assets/redesign/thumbnails/thumb-package-7z-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-doc.small
-                    %img{:alt => "Thumb-doc-ods-small", :src => "/assets/redesign/thumbnails/thumb-doc-ods-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-video.small
-                    %img{:alt => "Thumb-video-mpg-small", :src => "/assets/redesign/thumbnails/thumb-video-mpg-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-audio.small
-                    %img{:alt => "Thumb-audio-aif-small", :src => "/assets/redesign/thumbnails/thumb-audio-aif-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-package.small
-                    %img{:alt => "Thumb-package-7z-small", :src => "/assets/redesign/thumbnails/thumb-package-7z-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-package.small
-                    %img{:alt => "Thumb-package-7z-small", :src => "/assets/redesign/thumbnails/thumb-package-7z-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-doc.small
-                    %img{:alt => "Thumb-doc-ods-small", :src => "/assets/redesign/thumbnails/thumb-doc-ods-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-video.small
-                    %img{:alt => "Thumb-video-mpg-small", :src => "/assets/redesign/thumbnails/thumb-video-mpg-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-audio.small
-                    %img{:alt => "Thumb-audio-aif-small", :src => "/assets/redesign/thumbnails/thumb-audio-aif-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-package.small
-                    %img{:alt => "Thumb-package-7z-small", :src => "/assets/redesign/thumbnails/thumb-package-7z-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-doc.small
-                    %img{:alt => "Thumb-doc-ods-small", :src => "/assets/redesign/thumbnails/thumb-doc-ods-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-video.small
-                    %img{:alt => "Thumb-video-mpg-small", :src => "/assets/redesign/thumbnails/thumb-video-mpg-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-audio.small
-                    %img{:alt => "Thumb-audio-aif-small", :src => "/assets/redesign/thumbnails/thumb-audio-aif-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-package.small
-                    %img{:alt => "Thumb-package-7z-small", :src => "/assets/redesign/thumbnails/thumb-package-7z-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-doc.small
-                    %img{:alt => "Thumb-doc-ods-small", :src => "/assets/redesign/thumbnails/thumb-doc-ods-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-video.small
-                    %img{:alt => "Thumb-video-mpg-small", :src => "/assets/redesign/thumbnails/thumb-video-mpg-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-audio.small
-                    %img{:alt => "Thumb-audio-aif-small", :src => "/assets/redesign/thumbnails/thumb-audio-aif-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-package.small
-                    %img{:alt => "Thumb-package-7z-small", :src => "/assets/redesign/thumbnails/thumb-package-7z-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-doc.small
-                    %img{:alt => "Thumb-doc-ods-small", :src => "/assets/redesign/thumbnails/thumb-doc-ods-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-video.small
-                    %img{:alt => "Thumb-video-mpg-small", :src => "/assets/redesign/thumbnails/thumb-video-mpg-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-audio.small
-                    %img{:alt => "Thumb-audio-aif-small", :src => "/assets/redesign/thumbnails/thumb-audio-aif-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-package.small
-                    %img{:alt => "Thumb-package-7z-small", :src => "/assets/redesign/thumbnails/thumb-package-7z-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-doc.small
-                    %img{:alt => "Thumb-doc-ods-small", :src => "/assets/redesign/thumbnails/thumb-doc-ods-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-video.small
-                    %img{:alt => "Thumb-video-mpg-small", :src => "/assets/redesign/thumbnails/thumb-video-mpg-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-audio.small
-                    %img{:alt => "Thumb-audio-aif-small", :src => "/assets/redesign/thumbnails/thumb-audio-aif-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-package.small
-                    %img{:alt => "Thumb-package-7z-small", :src => "/assets/redesign/thumbnails/thumb-package-7z-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-doc.small
-                    %img{:alt => "Thumb-doc-ods-small", :src => "/assets/redesign/thumbnails/thumb-doc-ods-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-video.small
-                    %img{:alt => "Thumb-video-mpg-small", :src => "/assets/redesign/thumbnails/thumb-video-mpg-small.png"}
-              %li.media-entries-item
-                %a.ui-thumbnail-wrapper.media-entry{:href => "#"}
-                  .thumbnail-audio.small
-                    %img{:alt => "Thumb-audio-aif-small", :src => "/assets/redesign/thumbnails/thumb-audio-aif-small.png"}
-          .col1of6
-            .clipboard-actions
-              %a.primary-button.block{:href => "#"}
-                Aktionen
-                %i.icon-arrow-down.bright.stand-alone
-              %a.tertiary-button.small.block{:href => "#"} Zwischenablage Leeren
+  .app-footer-push
 
-  .app-footer
-    %footer.ui-footer.container.inverted
-      %ul.ui-footer-menu
-        %li
-          %a{:href => "#"} Informationen zum Projekt
-        %li
-          %a{:href => "#"} Impressum
-        %li
-          %a{:href => "#"} Kontakt
-        %li
-          %a{:href => "#"} Blog
-        %li
-          %a{:href => "#"} Hilfe
-        %li
-          %a{:href => "#"} Nutzungsbestimmungen
-        %li
-          %a{:href => "#"} Freie Software
-        %li
-          %a{:href => "#"} Archivierungsrichtlinien ZHdK
-      %p.ui-footer-copy
-        = image_tag "redesign/inserts/image-logo-madek.png", :alt => "MADEK", :class => "ui-footer-logo"
-        &copy; 2009-2011 Z&uuml;rcher Hochschule der K&uuml;nste
+.app-footer
+  %footer.ui-footer.ui-container.inverted
+    %ul.ui-footer-menu
+      %li
+        %a{:href => "#"} Informationen zum Projekt
+      %li
+        %a{:href => "#"} Impressum
+      %li
+        %a{:href => "#"} Kontakt
+      %li
+        %a{:href => "#"} Blog
+      %li
+        %a{:href => "#"} Hilfe
+      %li
+        %a{:href => "#"} Nutzungsbestimmungen
+      %li
+        %a{:href => "#"} Freie Software
+      %li
+        %a{:href => "#"} Archivierungsrichtlinien ZHdK
+    %p.ui-footer-copy
+      = image_tag "redesign/inserts/image-logo-madek.png", :alt => "MADEK", :class => "ui-footer-logo"
+      &copy; 2009-2011 Z&uuml;rcher Hochschule der K&uuml;nste
 
-#workgroup-new.modal.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "workgroup-new-label", :role => "dialog", :tabindex => "-1"}
+#workgroup-new.modal.hide.fade.ui-modal.narrow{"aria-hidden" => "true", "aria-labelledby" => "workgroup-new-label", :role => "dialog", :tabindex => "-1"}
   %form
-    .modal-header
-      %a.modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
-        %i.icon-close.dark
-          Abbrechen
+    .ui-modal-head
       %h3#workgroup-new-label.title-l Neue Gruppe erstellen
-    .modal-body
+      %a.ui-modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button", :title => "Close", :class => "weak"}
+    .ui-modal-body
       .form-body
-      .form-group.columned
-        %label.form-label
-          Name
-        .form-item
-          %input.block{:type => "text"}
-    .modal-footer
-      .actions-bar
-        %a.weak.left{"aria-hidden" => "true", "data-dismiss" => "modal"} Abbrechen
+        .form-group.rowed
+          %label.form-label
+            Enter Name
+          .form-item
+            %input.block{:type => "text"}
+    .ui-modal-footer
+      .ui-actions
+        %a.link.weak{"aria-hidden" => "true", "data-dismiss" => "modal", :class => "weak link"} Abbrechen
         %button.primary-button Erstellen
 
-#workgroup-edit.modal.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "workgroup-edit-label", :role => "dialog", :tabindex => "-1"}
+#workgroup-edit.modal.hide.fade.ui-modal.wide{"aria-hidden" => "true", "aria-labelledby" => "workgroup-edit-label", :role => "dialog", :tabindex => "-1"}
   %form
-    .modal-header
-      %a.modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
-        %i.icon-close.dark
-          Abbrechen
+    .ui-modal-head
+      %a.ui-modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button", :title => "Close", :class => "weak"}
       %h3#workgroup-edit-label.title-l Group Name
-    .modal-body
-
-      %table.mbs
+    .ui-modal-body
+      %table.mbs.block
         %thead
           %tr
             %td User
@@ -357,19 +182,19 @@
             %input.block{:type => "text", :placeholder => "Person hinzufügen"}
             %p.form-note
               Es können nur Personen ausgewählt werden, die sich schon einmal im Medienarchiv eingeloggt haben.
-    .modal-footer
-      .actions-bar
-        %a.weak.left{"aria-hidden" => "true", "data-dismiss" => "modal"} Abbrechen
+    .ui-modal-footer
+      .ui-actions
+        %a.link.weak{"aria-hidden" => "true", "data-dismiss" => "modal", :class => "weak link"} Abbrechen
         %button.primary-button Speichern
 
-#workgroup-delete.modal.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "workgroup-delete-label", :role => "dialog", :tabindex => "-1"}
+#workgroup-delete.modal.hide.fade.ui-modal.narrow{"aria-hidden" => "true", "aria-labelledby" => "workgroup-delete-label", :role => "dialog", :tabindex => "-1"}
   %form
-    .modal-header
-      %a.modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
-        %i.icon-close.dark
-          Abbrechen
+    .ui-modal-head
       %h3#workgroup-delete-label.title-l Sind Sie sicher?
-    .modal-footer
-      .actions-bar
-        %a.weak.left{"aria-hidden" => "true", "data-dismiss" => "modal"} Abbrechen
+      %a.ui-modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button", :title => "Close", :class => "weak"}
+    .ui-modal-body
+      %p.pal.by-center You choose to remove an item. Proceed?
+    .ui-modal-footer
+      .ui-actions
+        %a.link.weak{"aria-hidden" => "true", "data-dismiss" => "modal", :class => "weak link"} Abbrechen
         %button.primary-button Speichern

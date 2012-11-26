@@ -1,54 +1,37 @@
 // BODY RULES
 
-html {
-  height: 100%;
-}
-body,
-.app {
+html,
+body {
   background: $body-background;
   height: 100%;
-  position: static;
+  min-width: 980px;
 }
 .app-body {
+  background: $body-background;
   padding: $space-m $space-m 120px $space-m;
   position: relative;
 }
 
 // FOOTER
 
-.app-footer {
-  @include position-bottom-left(0,0);
-  @include position-bottom-right(0,0);
-  position: fixed;
-  z-index: 400;
-  -webkit-backface-visibility: hidden; /* webkit flicker work-around */
+@include sticky-footer(50px, ".app", ".app-footer-push", ".app-footer");
+
+.ui-footer {
+  height: 30px;
 }
 
 // CLIPBOARD
 
 .app-clipboard {
-  @include position-bottom-left(100%,0);
-  @include position-bottom-right(100%,0);
-}
-
-// TABLE BOX MODEL
-
-.table {
-  table-layout: fixed;
-  &.auto {
-    table-layout: auto;
-  }
-}
-.table-side {
-  width: 190px;
-}
-.table-substance {
-  width: 100%;
+  -webkit-backface-visibility: hidden; /* webkit flicker work-around */
+  @include position-bottom-left(0,0);
+  @include position-bottom-right(0,0);
+  position: fixed;
 }
 
 // HOME PAGE VIEW
 
-.view-home .elevator-pitch {
+.view-home .ui-home-claim {
   @include dimension(940px,220px);
   @include position-top-right(50%,50%);
   @include position-bottom-left(50%,50%);
@@ -58,33 +41,28 @@ body,
 .view-home .app-body {
   padding: 0 0 120px 0;
 }
-.view-home .app-body-container {
+.view-home .app-body-ui-container {
   margin: 0 auto;
   position: relative;
   width: 980px;
   .ui-header-menu {
     bottom: 100%;
   }
-  .ui-header-menu .tab-navigation-item {
+  .ui-header-menu .ui-tabs-item {
     @include box-shadow(0 -2px 2px $darken-more);
   }
-  .media-entries-wrapper {
+  .ui-resources-wrapper {
     position: relative;
     left: 5px;
   }
-  .media-entries {
-    padding: 0;
-    margin: 0;
-  }
-  .media-entries-item {
-    margin: 0 0 0 -6px;
-    .ui-thumbnail-wrapper.media-entry,
-    .ui-thumbnail-wrapper.media-set {
+  .ui-resources-item {
+    margin: 0 0 0 -2pxx;
+    .ui-thumbnail.media-entry,
+    .ui-thumbnail.media-set {
       width: 135px;
     }
-    .ui-thumbnail-wrapper.media-catalog {
-      margin-right: 10px;
-      width: 298px;
+    .ui-thumbnail.media-catalog {
+      margin-left: -14px;
     }
   }
 }
@@ -93,6 +71,12 @@ body,
 
 .view-media-entry .tab-pane > div:first-child {
   @include border-top-right-radius($border-radius-m);
+}
+
+// MEDIA SET VIEW
+
+.ui-summary-table {
+  max-width: 1200px;
 }
 
 // MEDIA ENTRY EDIT VIEW

@@ -22,46 +22,6 @@
 @import "general/icons";
 @import "general/tables";
 @import "general/typography";
-@import "general/thumbnails";
-
-// Components
-@import "components/action-bar";
-@import "components/alerts";
-@import "components/containers";
-@import "components/dropdowns";
-@import "components/flyouts";
-@import "components/media-entries";
-@import "components/metadata-box";
-@import "components/multi-select";
-@import "components/ui-body-title";
-@import "components/side-filter";
-@import "components/ui-side-navigation";
-@import "components/ui-slider";
-@import "components/stepline";
-@import "components/tag-cloud";
-@import "components/tab-navigation";
-@import "components/thumbnail-wrappers";
-
-// Combos
-@import "combos/clipboard";
-@import "combos/collage";
-@import "combos/elevator-pitch";
-@import "combos/ui-featured-entries";
-@import "combos/footer";
-@import "combos/header";
-@import "combos/media-entries-list";
-@import "combos/media-entries-grid";
-@import "combos/metadata-summary";
-@import "combos/media-overview";
-@import "combos/rights-management";
-@import "combos/ui-toolbar";
-@import "combos/sets-flyout";
-@import "combos/upload";
-@import "combos/ui-workgroups";
-
-// Layout
-@import "layout";
-@import "layout-responsive";
 
 // Vendor
 
@@ -69,7 +29,55 @@
 @import "vendor/bootstrap-tooltip";
 @import "vendor/jquery.plupload.queue";
 
+// Components
+
+@import "components/ui-actions";
+@import "components/ui-alerts";
+@import "components/ui-body-title";
+@import "components/ui-containers";
+@import "components/ui-modals";
+@import "components/ui-preloaders";
+@import "components/ui-resources-head";
+@import "components/ui-set-list";
+@import "components/ui-side-filter";
+@import "components/ui-side-navigation";
+@import "components/ui-slider";
+@import "components/ui-stepline";
+@import "components/ui-tabs";
+@import "components/ui-tag-cloud";
+@import "components/ui-thumb-actions";
+@import "components/ui-thumb-catalog";
+
+@import "components/dropdowns";
+@import "components/metadata-box";
+@import "components/multi-select";
+
+// Combos
+
+@import "combos/ui-clipboard";
+@import "combos/ui-collage";
+@import "combos/ui-featured-entries";
+@import "combos/ui-footer";
+@import "combos/ui-header";
+@import "combos/ui-home-claim";
+@import "combos/ui-media-overview";
+@import "combos/ui-rights-management";
+@import "combos/ui-summary-table";
+@import "combos/ui-toolbar";
+@import "combos/ui-workgroups";
+
+// Separating the following for their complexity
+@import "combos/ui-resources-common";
+@import "combos/ui-resources-tiles";
+@import "combos/ui-resources-list";
+@import "combos/ui-resources-grid";
+
+@import "combos/upload";
+
+// Layout
+@import "layout";
+@import "layout-responsive";
+
 // Vendor overrides
 
-@import "overrides/bootstrap-modal";
 @import "overrides/jquery.plupload.queue";

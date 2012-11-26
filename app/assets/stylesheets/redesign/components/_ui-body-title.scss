@@ -1,7 +1,7 @@
 /**
  * ## Page header `.page-header`
  *
- * Styleguide 7.10
+ * Styleguide 6.10
  */
 
 .ui-body-title {
@@ -46,8 +46,7 @@
   overflow: hidden;
   z-index: 50;
 }
-.ui-body-title-actions .dropdown-toggle,
-.ui-body-title-actions > a {
+.ui-body-title-actions .primary-button,
+.ui-body-title-actions .button {
   margin-left: $space-s;
-  margin-top: $space-x;
 }

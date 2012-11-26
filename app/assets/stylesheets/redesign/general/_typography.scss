@@ -57,13 +57,13 @@ h1, h2, h3, h4, h5, h6 {
 .title-xs {
   font-size: $font-xs;
   font-weight: 700;
-  line-height: $line-height-s
+  line-height: $line-height-l;
 }
 .title-xs-alt,
 .small-print {
   color: $grey-mid;
   font-size: $font-xs;
-  line-height: $line-height-m;
+  line-height: $line-height-l;
 }
 
 /**

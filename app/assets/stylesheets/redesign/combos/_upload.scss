@@ -1,7 +1,7 @@
 /**
  * ## Upload Container `.upload-management`
  *
- * Styleguide 8.12.1
+ * Styleguide 7.12.1
  */
 
 .upload-management {
@@ -29,14 +29,14 @@
 /**
  * ## Upload Preview `.upload-preview`
  *
- * Styleguide 8.12.2
+ * Styleguide 7.12.2
  */
 
 .upload-preview {
   @include max-dimension(auto, 350px);
   overflow-y: auto;
   padding: $space-s $space-s 0;
-  .ui-thumbnail-wrapper {
+  .ui-thumbnail {
     @include dimension(140px,140px);
   }
 }
@@ -44,7 +44,7 @@
 /**
  * ## Upload Overview `.upload-overview`
  *
- * Styleguide 8.12.3
+ * Styleguide 7.12.3
  */
 
 .upload-overview {

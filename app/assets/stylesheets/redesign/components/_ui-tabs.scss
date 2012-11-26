@@ -1,0 +1,93 @@
+/**
+ * ## Tabs `.ui-tabs`
+ *
+ * .primary   - Primary tab navigation
+ * .small     - Small tab navigation
+ * .large     - Large tab navigation
+ * .by-right  - Aligned right
+ * .by-center - Centered
+ *
+ * Styleguide 6.5
+ */
+
+// Tab style
+
+.ui-tabs {
+  margin-left: -3px;
+  margin-right: -3px;
+}
+.ui-tabs-item {
+  display: inline-block;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+.ui-tabs-item a {
+  @extend .button;
+  @include box-shadow($lighten-more 0 1px 0 0, $darken-less 0 -1px 2px 0 inset);
+  @include border-bottom-left-radius(0);
+  @include border-bottom-right-radius(0);
+  border-bottom: none;
+  padding-bottom: 1px;
+  text-align: center;
+}
+.ui-tabs-item.active a,
+.ui-tabs-item a.active {
+  @include box-shadow(none);
+  background: $brightest;
+  cursor: default;
+}
+
+// Colour variations
+.ui-tabs.primary .ui-tabs-item a {
+  @extend .primary-button;
+  @include border-bottom-left-radius(0);
+  @include border-bottom-right-radius(0);
+  @include box-shadow($lighten-more 0 1px 0, $darken 0 -1px 2px inset);
+  border: none;
+  font-weight: normal;
+  padding-bottom: 1px;
+  padding-top: 1px;
+  i {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+.ui-tabs.primary .ui-tabs-item.active a {
+  @include box-shadow(0 -2px 2px $darken-less);
+  @include single-text-shadow(false, 1px, 0, false, $lighten-more);
+  background: $body-background;
+  border: none;
+  color: $grey-darker;
+  cursor: default;
+}
+
+// Size variations
+
+.ui-tabs-item a {
+  padding-left: $space-s;
+  padding-right: $space-s;
+}
+.ui-tabs.small .ui-tabs-item {
+  a {
+    @extend .button.small;
+    padding-left: $space-x;
+    padding-right: $space-x;
+  }
+}
+.ui-tabs.large .ui-tabs-item a {
+  @extend .button.large;
+  padding-left: $space-s;
+  padding-right: $space-s;
+}
+
+// "Behavioral" CSS
+
+.tab-content {
+  margin-top: -1px;
+}
+.tab-pane {
+  display: none;
+  &.active {
+    display: block;
+  }
+}

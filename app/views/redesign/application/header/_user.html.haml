@@ -1,0 +1,24 @@
+.ui-header-user
+  .dropdown
+    %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+      = current_user.fullname
+      %i.icon-arrow-down.bright.stand-alone
+    %ul.dropdown-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+      %li.dropdown-menu-item
+        %a{:href => "/media_resources?type=media_entries&user_id=#{current_user.id}"}
+          Meine Medieneinträge
+      %li.dropdown-menu-item
+        %a{:href => "/media_resources?type=media_sets&user_id=#{current_user.id}"}
+          Meine Sets
+      %li.dropdown-menu-item
+        %a{:href => "/media_resources?favorites=true"}
+          Meine Favoriten
+      %li.dropdown-menu-item
+        %a{:href => "/groups"}
+          Meine Arbeitsgruppen
+      - if current_user and current_user.groups.is_member?("Admin")
+        %li.dropdown-menu-item
+          %a{:href => admin_root_path}
+            Admin
+      %li.dropdown-menu-item
+        %a{:href => "/logout"} Abmelden

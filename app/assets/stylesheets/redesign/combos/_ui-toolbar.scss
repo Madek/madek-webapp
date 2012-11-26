@@ -1,7 +1,7 @@
 /**
  * ## Thumbnail grid ui-toolbar
  *
- * Styleguide 8.1
+ * Styleguide 7.1
  */
 
 .ui-toolbar {
@@ -16,8 +16,36 @@
   line-height: $line-height-s;
 }
 
+.ui-toolbar-vis-button {
+  .ui-toolbar-icon-grid,
+  .ui-toolbar-icon-tiles,
+  .ui-toolbar-icon-list {
+    opacity: $opacity-strong;
+  }
+  &:hover {
+    .ui-toolbar-icon-grid,
+    .ui-toolbar-icon-tiles,
+    .ui-toolbar-icon-list {
+      opacity: 1;
+    }
+  }
+}
+
+.ui-toolbar-icon-grid {
+  @extend .icon-vis-grid;
+  @extend .bright;
+}
+.ui-toolbar-icon-list {
+  @extend .icon-vis-list;
+  @extend .bright;
+}
+.ui-toolbar-icon-tiles {
+  @extend .icon-vis-tiles;
+  @extend .bright;
+}
+
 /**
  * ## Thumbnail grid inner ui-toolbar
  *
- * Styleguide 8.2
+ * Styleguide 7.2
  */

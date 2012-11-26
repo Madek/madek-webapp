@@ -1,0 +1,9 @@
+.ui-container.midtone.rounded-right.ptl.phl.pbm
+  .media-resources-wrapper
+    .ui-resources-header.mbm
+      %h2.title-l.ui-resources-title
+        = "#{title}"
+        %a.strong{:href => keywords_path} Alle anziegen
+    %ul.ui-tag-cloud
+      - keywords.each do |keyword|
+        = render :partial => "keywords/keyword", :locals => {:keyword => keyword}

@@ -17,7 +17,7 @@ li.plupload_uploading {
 }
 li.plupload_delete a {
   @include dimension(20px,20px);
-  background-image: image-url("redesign/icons/icon-delete-hover.png");
+  background-image: image-url("redesign/icons/icon-trash-hover.png");
 }
 li.plupload_failed a {
   background-image: image-url("redesign/vendor/plupload-1.5.4/error.gif")

@@ -23,6 +23,15 @@
 @media #{$screen-size-xs-s} {
 
   // Responsive Footer
+
+  @include sticky-footer(75px, ".app", ".app-footer-push", ".app-footer");
+
+  .app-footer {
+    -webkit-backface-visibility: hidden; /* webkit flicker work-around */
+  }
+  .ui-footer {
+    height: 55px;
+  }
   .ui-footer {
     text-align: center;
   }
@@ -37,6 +46,15 @@
 @media #{$screen-size-m} {
 
   // Responsive Footer
+
+  @include sticky-footer(75px, ".app", ".app-footer-push", ".app-footer");
+
+  .app-footer {
+    -webkit-backface-visibility: hidden; /* webkit flicker work-around */
+  }
+  .ui-footer {
+    height: 55px;
+  }
   .ui-footer {
     text-align: center;
   }

@@ -1,41 +1,6 @@
 .app.view-import
 
-  // HEADER
-
-  .app-header
-    %header.ui-header.container.inverted
-      .ui-header-brand
-        = image_tag "redesign/inserts/image-logo-zhdk.png", :alt => "ZHDK", :class => "ui-header-logo"
-        %h1.ui-header-brand-name Z&uuml;rcher Hochschule der K&uuml;nste
-        %h2.ui-header-instance-name Medienarchiv der K&uuml;nste
-
-      .ui-header-menu
-        %ul.large.primary.tab-navigation
-          %li.tab-navigation-item
-            %a{:href => "#"} Mein Archiv
-          %li.tab-navigation-item
-            %a{:href => "#"} Erkunden
-          %li.tab-navigation-item
-            %a{:href => "#"}
-              %i.icon-search.bright
-              Suchen
-          %li.tab-navigation-item
-            %a{:href => "#"}
-              %i.icon-help.bright Help
-
-      .ui-header-user
-        .dropdown
-          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-            Franziska M&uuml;ller-Rei&szlig;mann
-            %i.icon-arrow-down.bright.stand-alone
-          %ul.dropdown-menu{"aria-labelledby" => "dLabel", :role => "menu"}
-            %li.dropdown-menu-item
-              %a{:href => "#"} Item 1
-            %li.dropdown-menu-item
-              %a{:href => "#"} Item 2
-            %li.separator
-            %li.dropdown-menu-item
-              %a{:href => "#"} Abmelden
+  = render "application/header/logged_in"
 
   .app-body
 
@@ -46,169 +11,221 @@
         .ui-body-title-label
           %h1.title-xl Medien Importieren
 
-    .app-body-container
-      .container.bordered.bright.rounded
+    .app-body-ui-container
+      .ui-container.bordered.bright.rounded
 
-        .stepline
-          .stepline-item
-            %h3.title-s.stepline-item-title
+        .ui-stepline
+          .ui-stepline-item
+            %h3.title-m.ui-stepline-item-title
               1. Medien übertragen
-          .stepline-item
-            %h3.title-s.stepline-item-title
+          .ui-stepline-item
+            %h3.title-m.ui-stepline-item-title
               2. Berechtigungen setzen
-          .stepline-item
-            %h3.title-s.stepline-item-title
+          .ui-stepline-item
+            %h3.title-m.ui-stepline-item-title
               3. Metadaten ergänzen
-          .stepline-item.active
-            %h3.title-s.stepline-item-title
+          .ui-stepline-item.active
+            %h3.title-m.ui-stepline-item-title
               4. Medien zusammenstellen
 
         .media-import.step4.pal
 
-          %h3.title-l Fotos, Videos und Audiofiles in Sets verwalten (optional):
+          %h3.title-l
+            Fotos, Videos und Audiofiles in Sets verwalten (optional):
+            %span.right
+              %a.button.left{:href => "#add-to-set", "data-toggle" => "modal"}
+                Eintrage zum einem Set hinzufugen
 
-          .container.clearfix.mvl.bordered.midtone.rounded.upload-overview
-            %ul.media-entries.grid
-              %li.media-entries-item
-                .ui-thumbnail-wrapper.media-entry
+          .ui-container.clearfix.mvl.bordered.midtone.rounded.upload-overview
+            %ul.ui-resources.grid
+              %li.ui-resources-item
+                .ui-thumbnail.media-entry
                   .thumbnail-audio.thumbnail
-                    %img{:alt => "", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}
-                  .thumbnail-metadata
-                    %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                    %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-              %li.media-entries-item
-                .ui-thumbnail-wrapper.media-entry
+                    %img{:alt => "", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}
+                  .ui-resource-metadata
+                    %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                    %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
+              %li.ui-resources-item
+                .ui-thumbnail.media-entry
                   .thumbnail-video.thumbnail
                     %img{:alt => "Thumb-video", :src => "/assets/redesign/thumbnails/thumb-video-mov.png"}
-                  .thumbnail-metadata
-                    %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                    %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-              %li.media-entries-item
-                .ui-thumbnail-wrapper.media-entry
+                  .ui-resource-metadata
+                    %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                    %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
+              %li.ui-resources-item
+                .ui-thumbnail.media-entry
                   .thumbnail-audio.thumbnail
                     %img{:alt => "Thumb-audio", :src => "/assets/redesign/thumbnails/thumb-audio-mp3.png"}
-                  .thumbnail-metadata
-                    %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                    %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-              %li.media-entries-item
-                .ui-thumbnail-wrapper.media-entry
+                  .ui-resource-metadata
+                    %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                    %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
+              %li.ui-resources-item
+                .ui-thumbnail.media-entry
                   .thumbnail-doc.thumbnail
                     %img{:alt => "Thumb-doc", :src => "/assets/redesign/thumbnails/thumb-doc-doc.png"}
-                  .thumbnail-metadata
-                    %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                    %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-              %li.media-entries-item
-                .ui-thumbnail-wrapper.media-entry
+                  .ui-resource-metadata
+                    %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                    %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
+              %li.ui-resources-item
+                .ui-thumbnail.media-entry
                   .thumbnail-audio.thumbnail
-                    %img{:alt => "", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}
-                  .thumbnail-metadata
-                    %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                    %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+                    %img{:alt => "", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}
+                  .ui-resource-metadata
+                    %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                    %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
 
-          .actions-bar
-            %a.left.link
+          .ui-actions
+            %a.link.weak
               Abbrechen
             %a.primary-button.large
               Import anschliessen
-            %a.button{:href => "#add-to-set", "data-toggle" => "modal"}
-              Eintrage zum einem Set hinzufugen
 
-  // FOOTER
-
-  .app-footer
-    %footer.ui-footer.container.inverted
-      %ul.ui-footer-menu
-        %li
-          %a{:href => "#"} Informationen zum Projekt
-        %li
-          %a{:href => "#"} Impressum
-        %li
-          %a{:href => "#"} Kontakt
-        %li
-          %a{:href => "#"} Blog
-        %li
-          %a{:href => "#"} Hilfe
-        %li
-          %a{:href => "#"} Nutzungsbestimmungen
-        %li
-          %a{:href => "#"} Freie Software
-        %li
-          %a{:href => "#"} Archivierungsrichtlinien ZHdK
-      %p.ui-footer-copy
-        = image_tag "redesign/inserts/image-logo-madek.png", :alt => "MADEK", :class => "ui-footer-logo"
-        &copy; 2009-2011 Z&uuml;rcher Hochschule der K&uuml;nste
+  .app-footer-push
+.app-footer
+  %footer.ui-footer.ui-container.inverted
+    %ul.ui-footer-menu
+      %li
+        %a{:href => "#"} Informationen zum Projekt
+      %li
+        %a{:href => "#"} Impressum
+      %li
+        %a{:href => "#"} Kontakt
+      %li
+        %a{:href => "#"} Blog
+      %li
+        %a{:href => "#"} Hilfe
+      %li
+        %a{:href => "#"} Nutzungsbestimmungen
+      %li
+        %a{:href => "#"} Freie Software
+      %li
+        %a{:href => "#"} Archivierungsrichtlinien ZHdK
+    %p.ui-footer-copy
+      = image_tag "redesign/inserts/image-logo-madek.png", :alt => "MADEK", :class => "ui-footer-logo"
+      &copy; 2009-2011 Z&uuml;rcher Hochschule der K&uuml;nste
 
 
-#add-to-set.modal.sets-flyout.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "add-to-set-label", :role => "dialog", :tabindex => "-1"}
+#add-to-set.modal.ui-modal.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "add-to-set-label", :role => "dialog", :tabindex => "-1"}
 
   %form
-    .modal-header
-      %a.modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
-        %i.icon-close.dark
-          Abbrechen
+    .ui-modal-head
       %h3#add-to-set-label.title-l Group Name
-    .flyout-ui-toolbar.top
+      %a.ui-modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button", :title => "Close", :class => "weak"}
+    .ui-modal-toolbar.top
       %input.block{:placeholder => "Suchen…", :type => "text"}
-    .modal-body.flyout-body
-
-      %ol.sets-list
-        %li
+    .ui-modal-body
+      %ol.ui-set-list
+        %li.ui-set-list-item
           %label{:title => "Awesomest set"}
             %input#Awesomest_set{:name => "Awesomeset_Set", :type => "checkbox", :value => "1"}
               %span.title Awesomest set
               %span.owner Interactive Things
               %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li
+        %li.ui-set-list-item
           %label{:title => "Awesomest set2"}
             %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
               %span.title Awesomest set2
               %span.owner Interactive Things
               %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li
+        %li.ui-set-list-item
           %label{:title => "Awesomest set2"}
             %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
               %span.title Awesomest set2
               %span.owner Interactive Things
               %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li
+        %li.ui-set-list-item
           %label{:title => "Awesomest set2"}
             %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
               %span.title Awesomest set2
               %span.owner Interactive Things
               %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li
+        %li.ui-set-list-item
           %label{:title => "Awesomest set2"}
             %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
               %span.title Awesomest set2
               %span.owner Interactive Things
               %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li
+        %li.ui-set-list-item
           %label{:title => "Awesomest set2"}
             %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
               %span.title Awesomest set2
               %span.owner Interactive Things
               %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li
+        %li.ui-set-list-item
           %label{:title => "Awesomest set2"}
             %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
               %span.title Awesomest set2
               %span.owner Interactive Things
               %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li
+        %li.ui-set-list-item
+          %label{:title => "Awesomest set2"}
+            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
+              %span.title Awesomest set2
+              %span.owner Interactive Things
+              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
+        %li.ui-set-list-item
+          %label{:title => "Awesomest set2"}
+            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
+              %span.title Awesomest set2
+              %span.owner Interactive Things
+              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
+        %li.ui-set-list-item
+          %label{:title => "Awesomest set2"}
+            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
+              %span.title Awesomest set2
+              %span.owner Interactive Things
+              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
+        %li.ui-set-list-item
+          %label{:title => "Awesomest set2"}
+            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
+              %span.title Awesomest set2
+              %span.owner Interactive Things
+              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
+        %li.ui-set-list-item
+          %label{:title => "Awesomest set2"}
+            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
+              %span.title Awesomest set2
+              %span.owner Interactive Things
+              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
+        %li.ui-set-list-item
+          %label{:title => "Awesomest set2"}
+            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
+              %span.title Awesomest set2
+              %span.owner Interactive Things
+              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
+        %li.ui-set-list-item
+          %label{:title => "Awesomest set2"}
+            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
+              %span.title Awesomest set2
+              %span.owner Interactive Things
+              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
+        %li.ui-set-list-item
+          %label{:title => "Awesomest set2"}
+            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
+              %span.title Awesomest set2
+              %span.owner Interactive Things
+              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
+        %li.ui-set-list-item
+          %label{:title => "Awesomest set2"}
+            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
+              %span.title Awesomest set2
+              %span.owner Interactive Things
+              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
+        %li.ui-set-list-item
           %label{:title => "Awesomest set2"}
             %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
               %span.title Awesomest set2
               %span.owner Interactive Things
               %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
 
-    .flyout-ui-toolbar.bottom
-      %a.button.small.block Neues Set erstellen
+    .ui-modal-toolbar.bottom
+      %a.button.block Neues Set erstellen
       .sets-add-new.hide
         %input.block.small{:type => "text"}
           %a.button.small
             %i.icon-plus Add
 
-    .modal-footer.flyout-footer
-      .actions-bar
-        %a.weak.left{"aria-hidden" => "true", "data-dismiss" => "modal"} Abbrechen
+    .ui-modal-footer
+      .ui-actions
+        %a.link{"aria-hidden" => "true", "data-dismiss" => "modal", :class => "weak link"} Abbrechen
         %button.primary-button Speichern

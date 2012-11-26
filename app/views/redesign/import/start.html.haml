@@ -1,41 +1,6 @@
 .app.view-import
 
-  // HEADER
-
-  .app-header
-    %header.ui-header.container.inverted
-      .ui-header-brand
-        = image_tag "redesign/inserts/image-logo-zhdk.png", :alt => "ZHDK", :class => "ui-header-logo"
-        %h1.ui-header-brand-name Z&uuml;rcher Hochschule der K&uuml;nste
-        %h2.ui-header-instance-name Medienarchiv der K&uuml;nste
-
-      .ui-header-menu
-        %ul.large.primary.tab-navigation
-          %li.tab-navigation-item
-            %a{:href => "#"} Mein Archiv
-          %li.tab-navigation-item
-            %a{:href => "#"} Erkunden
-          %li.tab-navigation-item
-            %a{:href => "#"}
-              %i.icon-search.bright
-              Suchen
-          %li.tab-navigation-item
-            %a{:href => "#"}
-              %i.icon-help.bright Help
-
-      .ui-header-user
-        .dropdown
-          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-            Franziska M&uuml;ller-Rei&szlig;mann
-            %i.icon-arrow-down.bright.stand-alone
-          %ul.dropdown-menu{"aria-labelledby" => "dLabel", :role => "menu"}
-            %li.dropdown-menu-item
-              %a{:href => "#"} Item 1
-            %li.dropdown-menu-item
-              %a{:href => "#"} Item 2
-            %li.separator
-            %li.dropdown-menu-item
-              %a{:href => "#"} Abmelden
+  = render "application/header/logged_in"
 
   .app-body
 
@@ -46,32 +11,32 @@
         .ui-body-title-label
           %h1.title-xl Medien Importieren
 
-    .app-body-container
-      .container.bordered.bright.rounded
+    .app-body-ui-container
+      .ui-container.bordered.bright.rounded
 
-        .stepline
-          .stepline-item.active
-            %h3.title-s.stepline-item-title
+        .ui-stepline
+          .ui-stepline-item.active
+            %h3.title-m.ui-stepline-item-title
               1. Medien übertragen
-          .stepline-item
-            %h3.title-s.stepline-item-title
+          .ui-stepline-item
+            %h3.title-m.ui-stepline-item-title
               2. Berechtigungen setzen
-          .stepline-item
-            %h3.title-s.stepline-item-title
+          .ui-stepline-item
+            %h3.title-m.ui-stepline-item-title
               3. Metadaten ergänzen
-          .stepline-item
-            %h3.title-s.stepline-item-title
+          .ui-stepline-item
+            %h3.title-m.ui-stepline-item-title
               4. Medien zusammenstellen
 
-        .media-import.step1.pal.bordered-bottom.container
+        .media-import.step1.pal.bordered-bottom.ui-container
 
           %h3.title-l Fotos, Videos und Audiofiles bereitstellen:
 
-          .container.clearfix.mvl.bordered.midtone.rounded.media-import-content
+          .ui-container.clearfix.mvl.bordered.midtone.rounded.media-import-content
 
             = javascript_include_tag "plupload/i18n/de.js"
 
-            #upload-container
+            #upload-ui-container
               #call2action
                 = "Sie habe noch keine Medien ausgewählt."
                 %br
@@ -228,7 +193,7 @@
                     start_dropbox_transfer()
 
               setup_dopbox_files = (files)->
-                # if container is gone create the container again
+                # if ui-container is gone create the ui-container again
                 if $("#uploader #dropbox_filelist").length == 0
                   $("#uploader #uploader_filelist").after $("<ul id='dropbox_filelist'></ul>")
                 # add files
@@ -273,7 +238,7 @@
                 window.uploader = $("#uploader").pluploadQueue()
 
               remove_not_needed_plupload_elements = ->
-                $("#uploader_container").removeAttr("title")
+                $("#uploader_ui-container").removeAttr("title")
 
               bind_upload_progress = ->
                 uploader.bind "UploadProgress", (uploader, file) ->
@@ -404,7 +369,7 @@
                 enable_continue_button()
 
               setup_media_entry_incomplete_files = (files)->
-                # if container is gone create the container again
+                # if ui-container is gone create the ui-container again
                 if $("#uploader #mei_filelist").length == 0
                   $("#uploader #uploader_filelist").after $("<ul id='mei_filelist'></ul>")
 
@@ -417,7 +382,7 @@
                 $("#uploader #mei_filelist").prepend template
 
               bind_errors = ->
-                window.alert = (msg)->
+                window.ui-alert = (msg)->
                   #prevent plupload error message
                 uploader.bind "error", (uploader, error) ->
                   if error.code == -600
@@ -504,13 +469,13 @@
                     hide_start_button()
                     show_continue_button()
 
-          .actions-bar
-            %a.left.link
+          .ui-actions
+            %a.link.weak
               Abbrechen
             %a.primary-button.large.disabled
               Weiter&hellip;
 
-        .row.container.midtone.pvm.phl.rounded-bottom
+        .row.ui-container.midtone.pvm.phl.rounded-bottom
           .col1of2
             %h3.title-s.prm
               Akzeptierte Dateiformate
@@ -523,27 +488,26 @@
               Dateien mit einer Grösse von über 1.4 GB müssen über eine FTP-Dropbox in das Medienarchiv geladen werden.
               %a.open_dropbox_dialog{:href => "javascript:void(0)", :style => "cursor:pointer"} So laden Sie Dateien über die FTP-Dropbox ins Medienarchiv.
 
-  // FOOTER
-
-  .app-footer
-    %footer.ui-footer.container.inverted
-      %ul.ui-footer-menu
-        %li
-          %a{:href => "#"} Informationen zum Projekt
-        %li
-          %a{:href => "#"} Impressum
-        %li
-          %a{:href => "#"} Kontakt
-        %li
-          %a{:href => "#"} Blog
-        %li
-          %a{:href => "#"} Hilfe
-        %li
-          %a{:href => "#"} Nutzungsbestimmungen
-        %li
-          %a{:href => "#"} Freie Software
-        %li
-          %a{:href => "#"} Archivierungsrichtlinien ZHdK
-      %p.ui-footer-copy
-        = image_tag "redesign/inserts/image-logo-madek.png", :alt => "MADEK", :class => "ui-footer-logo"
-        &copy; 2009-2011 Z&uuml;rcher Hochschule der K&uuml;nste
+  .app-footer-push
+.app-footer
+  %footer.ui-footer.ui-container.inverted
+    %ul.ui-footer-menu
+      %li
+        %a{:href => "#"} Informationen zum Projekt
+      %li
+        %a{:href => "#"} Impressum
+      %li
+        %a{:href => "#"} Kontakt
+      %li
+        %a{:href => "#"} Blog
+      %li
+        %a{:href => "#"} Hilfe
+      %li
+        %a{:href => "#"} Nutzungsbestimmungen
+      %li
+        %a{:href => "#"} Freie Software
+      %li
+        %a{:href => "#"} Archivierungsrichtlinien ZHdK
+    %p.ui-footer-copy
+      = image_tag "redesign/inserts/image-logo-madek.png", :alt => "MADEK", :class => "ui-footer-logo"
+      &copy; 2009-2011 Z&uuml;rcher Hochschule der K&uuml;nste

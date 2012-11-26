@@ -787,7 +787,7 @@ class MediaResourcesController < ApplicationController
     # TODO dry => Resource#thumb_base64 and Download audio/video
     media_file = @media_resource.get_media_file(current_user)
     
-    unless media_file
+    if (not media_file) or ["MediaSet", "FilterSet"].include? @media_resource.type
       # empty gif pixel
       output = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==\n"
       send_data Base64.decode64(output), :type => "image/gif", :disposition => 'inline'

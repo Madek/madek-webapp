@@ -1,0 +1,82 @@
+/**
+ * ## Media Resources Grid Mode `.ui-resources.grid`
+ *
+ * .active    - To be interacted with
+ *
+ * Styleguide 7.9.2
+ */
+
+.ui-resources-list.grid {
+
+  .ui-thumbnail.media-entry,
+  .ui-thumbnail.media-set,
+  .ui-thumbnail.filter-set {
+    @include dimension(60px,60px);
+    padding: 10px;
+    position: relative;
+    .ui-thumbnail-privacy {
+      @include position-top-left(11px,11px);
+    }
+    .ui-thumbnail-image {
+      @include position-top-right(50%,50%);
+      @include position-bottom-left(50%,50%);
+      @include min-dimension(auto,100%);
+      @include max-dimension(110%,auto);
+      margin-top: -50%;
+      margin-left: -50%;
+    }
+    .ui-thumbnail-meta {
+      margin: 10px 0 0;
+    }
+    .ui-thumbnail-meta-title,
+    .ui-thumbnail-meta-subtitle {
+      height: 35px;
+    }
+  }
+
+  // Sets' stack effect
+
+  .ui-thumbnail.media-set,
+  .ui-thumbnail.filter-set {
+    background: transparent image-url("redesign/backgrounds/thumb-set-backg-small.png") -1px 0px no-repeat;
+    .ui-thumbnail-image-holder {
+      @include dimension(50px,50px);
+    }
+  }
+
+  // Media entries' properties
+
+  .ui-thumbnail.media-entry {
+    .ui-thumbnail-image-wrapper {
+      @include dimension(50px,50px);
+    }
+    .ui-thumbnail-image-holder {
+      @include dimension(50px,36px);
+      position: relative;
+      top: 7px;
+    }
+  }
+
+  // Video entries get pellicola background
+
+  .ui-thumbnail.video .ui-thumbnail-image-wrapper {
+    background: $brightest image-url("redesign/backgrounds/thumb-video-backg-small.png") 0 0px no-repeat;
+  }
+
+  // Hiding stuff unnecessary in Grid view
+
+  .ui-thumbnail-level-up-items,
+  .ui-thumbnail-level-down-items,
+  .ui-thumbnail-meta,
+  .ui-thumbnail-actions {
+    display: none;
+  }
+}
+
+/*
+ * Active Mode
+ * ------------------------------------- */
+
+.ui-resources.grid.active {
+
+}

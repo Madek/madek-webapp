@@ -50,20 +50,21 @@ $blue:                #3A91B6;
 $yellow:              #B69D3A;
 
 // Transparency values
-$transparency-strong: 0.85;
-$transparency-medium: 0.5;
-$transparency-subtle: 0.25;
-$transparency-light:  0.15;
+$opacity-strong: 0.85;
+$opacity-medium: 0.5;
+$opacity-subtle: 0.25;
+$opacity-light:  0.15;
 
 // Shadows and flaires
-$darken-strong:       rgba(0,0,0,$transparency-strong);
-$darken-more:         rgba(0,0,0,$transparency-medium);
-$darken:              rgba(0,0,0,$transparency-subtle);
-$darken-less:         rgba(0,0,0,$transparency-light);
+$darken-strong:       rgba(0,0,0,$opacity-strong);
+$darken-more:         rgba(0,0,0,$opacity-medium);
+$darken:              rgba(0,0,0,$opacity-subtle);
+$darken-less:         rgba(0,0,0,$opacity-light);
 
-$lighten-more:        rgba(255,255,255,$transparency-medium);
-$lighten:             rgba(255,255,255,$transparency-subtle);
-$lighten-less:        rgba(255,255,255,$transparency-light);
+$lighten-strong:      rgba(255,255,255,$opacity-strong);
+$lighten-more:        rgba(255,255,255,$opacity-medium);
+$lighten:             rgba(255,255,255,$opacity-subtle);
+$lighten-less:        rgba(255,255,255,$opacity-light);
 
 // Border radii
 $border-radius-s:     3px;

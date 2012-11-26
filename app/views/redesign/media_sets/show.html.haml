@@ -2,40 +2,7 @@
 
   // HEADER
 
-  .app-header
-    %header.ui-header.container.inverted
-      .ui-header-brand
-        = image_tag "redesign/inserts/image-logo-zhdk.png", :alt => "ZHDK", :class => "ui-header-logo"
-        %h1.ui-header-brand-name Z&uuml;rcher Hochschule der K&uuml;nste
-        %h2.ui-header-instance-name Medienarchiv der K&uuml;nste
-
-      .ui-header-menu
-        %ul.large.primary.tab-navigation
-          %li.tab-navigation-item
-            %a{:href => "#"} Mein Archiv
-          %li.tab-navigation-item
-            %a{:href => "#"} Erkunden
-          %li.tab-navigation-item
-            %a{:href => "#"}
-              %i.icon-search.bright
-              Suchen
-          %li.tab-navigation-item
-            %a{:href => "#"}
-              %i.icon-help.bright Help
-
-      .ui-header-user
-        .dropdown
-          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-            Franziska M&uuml;ller-Rei&szlig;mann
-            %i.icon-arrow-down.bright.stand-alone
-          %ul.dropdown-menu{"aria-labelledby" => "dLabel", :role => "menu"}
-            %li.dropdown-menu-item
-              %a{:href => "#"} Item 1
-            %li.dropdown-menu-item
-              %a{:href => "#"} Item 2
-            %li.separator
-            %li.dropdown-menu-item
-              %a{:href => "#"} Abmelden
+  = render "application/header/logged_in"
 
   .app-body
 
@@ -48,158 +15,240 @@
         .ui-body-title-actions
           .dropdown
             %a.primary-button.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-              Set Aktionen
+              Weitere Aktionen
               %i.icon-arrow-down.bright.stand-alone
             %ul.dropdown-menu{"aria-labelledby" => "dLabel", :role => "menu"}
               %li.dropdown-menu-item
-                %a{:href => "#"} Item 1
+                %a{:href => "#"}
+                  %i.icon-pen
+                  Editieren
               %li.dropdown-menu-item
-                %a{:href => "#"} Item 2
-              %li.separator
+                %a{:href => "#"}
+                  %i.icon-star
+                  Favorisieren
               %li.dropdown-menu-item
-                %a{:href => "#"} Abmelden
+                %a{:href => "#"}
+                  %i.icon-lock
+                  Zugriffsberechtigungen
+              %li.dropdown-menu-item
+                %a{:href => "#"}
+                  %i.icon-move
+                  Zu Set hinzufugen / entfernen
+              %li.dropdown-menu-item
+                %a{:href => "#"}
+                  Hervorheben
+              %li.dropdown-menu-item
+                %a{:href => "#"}
+                  %i.icon-cover
+                  Titelbild
+              %li.dropdown-menu-item
+                %a{:href => "#"}
+                  %i.icon-eye
+                  Darstellung speichern
+              %li.dropdown-menu-item
+                %a{:href => "#"}
+                  %i.icon-trash
+                  Löschen
+              %li.dropdown-menu-item
+                %a{:href => "#"}
+                  %i.icon-new-set
+                  Neues Set
+              %li.dropdown-menu-item
+                %a{:href => "#"}
+                  %i.icon-vis-graph
+                  Graph berechnen
 
-    .app-body-container
+    .app-body-ui-container
 
       // TABS
 
-      %ul.tab-navigation.large
-        %li.tab-navigation-item.active
+      %ul.ui-tabs.large
+        %li.ui-tabs-item.active
           %a{"data-toggle" => "tab", :href => "#set-overview"} Set-&Uuml;bersicht
-        %li.tab-navigation-item
+        %li.ui-tabs-item
           %a{"data-toggle" => "tab", :href => "#parenting-sets"} &Uuml;bergeordnete Sets
-        %li.tab-navigation-item
+        %li.ui-tabs-item
           %a{"data-toggle" => "tab", :href => "#contexts"} Kontexte
-        %li.tab-navigation-item
+        %li.ui-tabs-item
           %a{"data-toggle" => "tab", :href => "#excerpt"} Auszug
-        %li.tab-navigation-item
+        %li.ui-tabs-item
           %a{"data-toggle" => "tab", :href => "#vocabulary"} Vokabular
 
       // TAB CONTENT
 
-      .container.rounded-right.rounded-bottom.tab-content
+      .ui-container.rounded-right.rounded-bottom.tab-content
 
         // SET OVERVIEW
 
         .tab-pane.active#set-overview
-          .container.bright.bordered.pal
-            .thumbnail-set.thumbnail.left.mrl
-              .inner-wrapper
-                %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-            .ui-metadata-box.metadata-summary
+          .ui-container.bright.bordered.pal
+            %ul.ui-resources-list.tiles
+              %li.ui-resources-item.mrl
+                .ui-thumbnail.media-set
+                  .ui-thumbnail-level-up-items
+                    %h3.ui-thumbnail-level-notes Set enthalt
+                    %ul.ui-thumbnail-level-items
+                      %li.ui-thumbnail-level-item.odd
+                        %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                          .ui-thumbnail-level-image-holder
+                            = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                      %li.ui-thumbnail-level-item.even
+                        %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                          .ui-thumbnail-level-image-holder
+                            = image_tag "redesign/styleguide/media-entry-5.jpeg", :class => "ui-thumbnail-level-image"
+                    %span.ui-thumbnail-level-notes 5 Inhalte
+                  .ui-thumbnail-privacy
+                    %i.icon-privacy-group This media is shared with a group
+                  %a.ui-thumbnail-image-wrapper
+                    .ui-thumbnail-image-holder
+                      = image_tag "redesign/styleguide/media-entry-9.jpg", :class => "ui-thumbnail-image"
+                  .ui-thumbnail-meta
+                    %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
+                    %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
+                  .ui-thumbnail-actions
+                    %ul.left.by-left
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-checkbox Select
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-favorite Favorite
+                    %ul.right.by-right
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-browse Browse
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-edit Edit
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-delete Delete
+                  .ui-thumbnail-level-down-items
+                    %h3.ui-thumbnail-level-notes Set enthalt
+                    %ul.ui-thumbnail-level-items
+                      %li.ui-thumbnail-level-item.odd
+                        %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                          .ui-thumbnail-level-image-holder
+                            = image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-thumbnail-level-image"
+                      %li.ui-thumbnail-level-item.even
+                        %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                          .ui-thumbnail-level-image-holder
+                            = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                    %span.ui-thumbnail-level-notes 5 Inhalte
+            .ui-metadata-box.ui-summary-table
               %table.borderless
                 %tbody
                   %tr
-                    %td.title-xs-alt Titel
-                    %td.title-l Black hot drink
+                    %td.ui-summary-label Titel
+                    %td.ui-summary-content.title-l Black hot drink
                   %tr
-                    %td.title-xs-alt Beschreibung
-                    %td Die Medieneintr&auml;ge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden k&ouml;nnen. Die Medieneintr&auml;ge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden k&ouml;nnen. Die Medieneintr&auml;ge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden k&ouml;nnen. Die Medieneintr&auml;ge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden k&ouml;nnen.
+                    %td.ui-summary-label Beschreibung
+                    %td.ui-summary-content Die Medieneintr&auml;ge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden k&ouml;nnen. Die Medieneintr&auml;ge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden k&ouml;nnen. Die Medieneintr&auml;ge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden k&ouml;nnen. Die Medieneintr&auml;ge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden k&ouml;nnen.
                   %tr
-                    %td.title-xs-alt Autor/in
-                    %td
+                    %td.ui-summary-label Autor/in
+                    %td.ui-summary-content
                       %a{:href => "#"} Federico C.
                   %tr
-                    %td.title-xs-alt Eigentumer/in
-                    %td
+                    %td.ui-summary-label Eigentumer/in
+                    %td.ui-summary-content
                       %a{:href => "#"} Federico C.
                   %tr
-                    %td.title-xs-alt Schlagworte
-                    %td
-                      %ul.tag-cloud.small
+                    %td.ui-summary-label Schlagworte
+                    %td.ui-summary-content
+                      %ul.ui-tag-cloud.small
                         %li.tag-button
                           %a{:href => "#"} Tag 1
                         %li.tag-button
                           %a{:href => "#"} Tag 2
-        .tab-pane#parenting-sets
-          .media-entry-primary.bright.container.pal.bordered
-            %h2.title-l.separated.mbl Diese Media ist in 2 Sets enthalten.
-            %ul.media-entries.grid.active
-              %li.media-entries-item
-                .ui-thumbnail-wrapper.media-set
-                  .thumbnail-level-up-items
-                    %h3.title-xs-alt Keine übergeordneten Sets
-                  .thumbnail-privacy
-                    %i.icon-privacy-group This media is shared with a group
-                  .thumbnail-set.thumbnail
-                    .inner-wrapper
-                      %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                  .thumbnail-metadata
-                    %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                    %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                  .thumbnail-actions
-                    %ul.left.by-left
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-check Select
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-fav Favorite
-                    %ul.right.by-right
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-explore Explore
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-edit Edit
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-delete Delete
-                  .thumbnail-level-down-items
-                    %h3.title-s Set enthalt
-                    .thumbnail.thumbnail-set.small.odd
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                    .thumbnail.thumbnail-set.small.even
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                    %h4.title-xs-alt 5 Inhalte
-              %li.media-entries-item
-                .ui-thumbnail-wrapper.media-set
-                  .thumbnail-level-up-items
-                    %h3.title-xs-alt Keine übergeordneten Sets
-                  .thumbnail-privacy
-                    %i.icon-privacy-group This media is shared with a group
-                  .thumbnail-set.thumbnail
-                    .inner-wrapper
-                      %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                  .thumbnail-metadata
-                    %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                    %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                  .thumbnail-actions
-                    %ul.left.by-left
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-check Select
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-fav Favorite
-                    %ul.right.by-right
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-explore Explore
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-edit Edit
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-delete Delete
-                  .thumbnail-level-down-items
-                    %h3.title-s Set enthalt
-                    .thumbnail.thumbnail-set.small.odd
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                    .thumbnail.thumbnail-set.small.even
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                    %h4.title-xs-alt 5 Inhalte
 
-        // SET CONTEXTS
+        .tab-pane#parenting-sets
+          .media-entry-primary.bright.ui-container.pal.bordered
+            %h2.title-l.separated.mbl Diese Media ist in 2 Sets enthalten.
+            %ul.ui-resources-list.tiles.active
+              %li.ui-resources-item
+                .ui-thumbnail.media-set
+                  .ui-thumbnail-level-up-items
+                    %h3.ui-thumbnail-level-notes Set enthalt
+                    %ul.ui-thumbnail-level-items
+                      %li.ui-thumbnail-level-item.odd
+                        %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                          .ui-thumbnail-level-image-holder
+                            = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                      %li.ui-thumbnail-level-item.even
+                        %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                          .ui-thumbnail-level-image-holder
+                            = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                    %span.ui-thumbnail-level-notes 5 Inhalte
+                  .ui-thumbnail-privacy
+                    %i.icon-privacy-group This media is shared with a group
+                  %a.ui-thumbnail-image-wrapper
+                    .ui-thumbnail-image-holder
+                      = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-image"
+                  .ui-thumbnail-meta
+                    %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
+                    %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
+                  .ui-thumbnail-actions
+                    %ul.left.by-left
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-checkbox Select
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-favorite Favorite
+                    %ul.right.by-right
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-browse Browse
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-edit Edit
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-delete Delete
+                  .ui-thumbnail-level-down-items
+                    %h3.ui-thumbnail-level-notes Set enthalt
+                    %ul.ui-thumbnail-level-items
+                      %li.ui-thumbnail-level-item.odd
+                        %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                          .ui-thumbnail-level-image-holder
+                            = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                      %li.ui-thumbnail-level-item.even
+                        %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                          .ui-thumbnail-level-image-holder
+                            = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                    %span.ui-thumbnail-level-notes 5 Inhalte
+              %li.ui-resources-item
+                .ui-thumbnail.media-set
+                  .ui-thumbnail-level-up-items
+                    %span.ui-thumbnail-level-notes Keine übergeordneten Sets
+                  .ui-thumbnail-privacy
+                    %i.icon-privacy-group This media is shared with a group
+                  %a.ui-thumbnail-image-wrapper
+                    .ui-thumbnail-image-holder
+                      = image_tag "redesign/styleguide/media-entry-7.jpeg", :class => "ui-thumbnail-image"
+                  .ui-thumbnail-meta
+                    %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
+                    %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
+                  .ui-thumbnail-actions
+                    %ul.left.by-left
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-checkbox Select
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-favorite Favorite
+                    %ul.right.by-right
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-browse Browse
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-edit Edit
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-delete Delete
+                  .ui-thumbnail-level-down-items
+                    %h3.ui-thumbnail-level-notes Set enthalt
+                    %ul.ui-thumbnail-level-items
+                      %li.ui-thumbnail-level-item.odd
+                        %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                          .ui-thumbnail-level-image-holder
+                            = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                      %li.ui-thumbnail-level-item.even
+                        %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                          .ui-thumbnail-level-image-holder
+                            = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                    %span.ui-thumbnail-level-notes 5 Inhalte
 
         .tab-pane#contexts
-          .media-entry-primary.bright.container.pal.bordered
+          .media-entry-primary.bright.ui-container.pal.bordered
             %h2.title-l.separated.mbl Kontexte.
-            .container.mbl
+            .ui-container.mbl
               .col1of3
                 .ui-metadata-box.prm
                   %h3.title-m.separated.light.mbm Landschaftstyp
@@ -232,7 +281,7 @@
                     %li.even Erholungszone
                     %li{:class => "odd"} Landwirtschaft
                     %li.even Naturlandschaft
-            .container.mbl
+            .ui-container.mbl
               .col1of3
                 .ui-metadata-box.prm
                   %h3.title-m.separated.light.mbm Räumliche Wahrnehmung
@@ -265,7 +314,7 @@
                     %li.even Erholungszone
                     %li{:class => "odd"} Landwirtschaft
                     %li.even Naturlandschaft
-            .container.mbl
+            .ui-container.mbl
               .col1of3
                 .ui-metadata-box.prm
                   %h3.title-m.separated.light.mbm Wetter/Klima
@@ -298,7 +347,7 @@
                     %li.even Erholungszone
                     %li{:class => "odd"} Landwirtschaft
                     %li.even Naturlandschaft
-            .container
+            .ui-container
               .col1of3
                 .ui-metadata-box.prm
                   %h3.title-m.separated.light.mbm Wetter/Klima
@@ -335,203 +384,203 @@
         // EXCERPTS
 
         .tab-pane#excerpt
-          .media-entry-primary.bright.container.pal.bordered
+          .media-entry-primary.bright.ui-container.pal.bordered
             %h2.title-l.separated.mbl Diese Metadaten wurden am h&auml;ufigsten vergeben. Sie zeigen den thematischen Schwerpunkt des Projekts an.
-            .container.mbl
+            .ui-container.mbl
               .ui-slider
                 %a.ui-slider-handle
-                  %span.ui-slider-info.container.inverted 8 von 14
-            .container.mbl
+                  %span.ui-slider-info.ui-container.inverted 8 von 14
+            .ui-container.mbl
               .col1of3
                 .ui-metadata-box.prm
                   %h3.title-m.separated.light.mbm Landschaftstyp
-                  %ul.tag-cloud.small
+                  %ul.ui-tag-cloud.small
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 1
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 2
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 3
               .col1of3
                 .ui-metadata-box.phm
                   %h3.title-m.separated.light.mbm Horizontlinie
-                  %ul.tag-cloud.small
+                  %ul.ui-tag-cloud.small
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 1
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 2
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 3
               .col1of3
                 .ui-metadata-box.plm
                   %h3.title-m.separated.light.mbm Verwendungszweck
-                  %ul.tag-cloud.small
+                  %ul.ui-tag-cloud.small
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 1
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 2
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 3
-            .container.mbl
+            .ui-container.mbl
               .col1of3
                 .ui-metadata-box.prm
                   %h3.title-m.separated.light.mbm Räumliche Wahrnehmung
-                  %ul.tag-cloud.small
+                  %ul.ui-tag-cloud.small
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 1
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 2
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 3
               .col1of3
                 .ui-metadata-box.phm
                   %h3.title-m.separated.light.mbm Bildzeit
-                  %ul.tag-cloud.small
+                  %ul.ui-tag-cloud.small
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 1
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 2
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 3
               .col1of3
                 .ui-metadata-box.plm
                   %h3.title-m.separated.light.mbm Abstraktionsgrad
-                  %ul.tag-cloud.small
+                  %ul.ui-tag-cloud.small
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 1
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 2
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 3
-            .container.mbl
+            .ui-container.mbl
               .col1of3
                 .ui-metadata-box.prm
                   %h3.title-m.separated.light.mbm Wetter/Klima
-                  %ul.tag-cloud.small
+                  %ul.ui-tag-cloud.small
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 1
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 2
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 3
               .col1of3
                 .ui-metadata-box.phm
                   %h3.title-m.separated.light.mbm Landschaftselemente
-                  %ul.tag-cloud.small
+                  %ul.ui-tag-cloud.small
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 1
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 2
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 3
               .col1of3
                 .ui-metadata-box.plm
                   %h3.title-m.separated.light.mbm Farbe
-                  %ul.tag-cloud.small
+                  %ul.ui-tag-cloud.small
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 1
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 2
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 3
-            .container
+            .ui-container
               .col1of3
                 .ui-metadata-box.prm
                   %h3.title-m.separated.light.mbm Bildwirkung
-                  %ul.tag-cloud.small
+                  %ul.ui-tag-cloud.small
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 1
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 2
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 3
               .col1of3
                 .ui-metadata-box.phm
                   %h3.title-m.separated.light.mbm Genre
-                  %ul.tag-cloud.small
+                  %ul.ui-tag-cloud.small
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 1
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 2
                     %li.tag-button
                       %a{:href => "#"}
-                        %i.icon-explore.dark
+                        %i.icon-eye
                         Tag 3
 
         .tab-pane#vocabulary
-          .media-entry-primary.bright.container.pal.bordered
+          .media-entry-primary.bright.ui-container.pal.bordered
             %h2.title-l.separated.mbl
               Für dieses Set wurde ein spezifisches Vokabular erstellt.
               %span.right
                 %a{:href => "#", :class => "weak"}<
-                  %i.icon-check>
+                  %i.icon-checkbox>
                   Die bereits vergebenen Werte hervorheben
 
-            .container.mbl
+            .ui-container.mbl
               .col1of3
                 .ui-metadata-box.prm
                   %h3.title-m.separated.light.mbm Landschaftstyp
@@ -566,7 +615,7 @@
                     %li.even Erholungszone
                     %li{:class => "odd"} Landwirtschaft
                     %li.even Naturlandschaft
-            .container
+            .ui-container
               .col1of3
                 .ui-metadata-box.prm
                   %h3.title-m.separated.light.mbm Räumliche Wahrnehmung
@@ -602,62 +651,62 @@
 
     // FEATURED ENTRIES
 
-    .container.midtone-darker.bordered
-      .container.inverted.ui-toolbar.phs.pvx
+    .ui-container.midtone-darker.bordered
+      .ui-container.inverted.ui-toolbar.phs.pvx
         %h2.ui-toolbar-header.left.col1of2
           %strong Interessante Elemente in diesem Set
 
-      .ui-featured-entries-wrapper
-        %ul.ui-featured-entries.pal
+      .ui-featured-entries
+        %ul.ui-featured-entries-list.pal
           %li.ui-featured-entries-item
-            %a.featured-entry{:href => "#"}
-              .featured-entry-preview
+            %a.ui-featured-entry{:href => "#"}
+              .ui-featured-entry-preview
                 %span
-                  = image_tag "redesign/tmp/media-entry-7.jpeg"
-              .featured-entry-metadata
-                %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as asily go onto 2 lines as well
+                  = image_tag "redesign/styleguide/media-entry-7.jpeg"
+              .ui-featured-entry-metadata
+                %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as asily go onto 2 lines as well
           %li.ui-featured-entries-item
-            %a.featured-entry{:href => "#"}
-              .featured-entry-preview
+            %a.ui-featured-entry{:href => "#"}
+              .ui-featured-entry-preview
                 %span
-                  = image_tag "redesign/tmp/media-entry-8.jpeg"
-              .featured-entry-metadata
-                %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+                  = image_tag "redesign/styleguide/media-entry-8.jpeg"
+              .ui-featured-entry-metadata
+                %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
           %li.ui-featured-entries-item
-            %a.featured-entry{:href => "#"}
-              .featured-entry-preview
+            %a.ui-featured-entry{:href => "#"}
+              .ui-featured-entry-preview
                 %span
-                  = image_tag "redesign/tmp/media-entry-3.jpeg"
-              .featured-entry-metadata
-                %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+                  = image_tag "redesign/styleguide/media-entry-3.jpeg"
+              .ui-featured-entry-metadata
+                %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
           %li.ui-featured-entries-item
-            %a.featured-entry{:href => "#"}
-              .featured-entry-preview
+            %a.ui-featured-entry{:href => "#"}
+              .ui-featured-entry-preview
                 %span
-                  = image_tag "redesign/tmp/media-entry-6.jpeg"
-              .featured-entry-metadata
-                %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
+                  = image_tag "redesign/styleguide/media-entry-6.jpeg"
+              .ui-featured-entry-metadata
+                %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
 
     // SET ITEMS
 
-    .container.midtone.bordered.rounded-bottom
+    .ui-container.midtone.bordered.rounded-bottom
 
-      .ui-toolbar.inverted.container.pvx.phs
+      .ui-toolbar.inverted.ui-container.pvx.phs
         %h2.ui-toolbar-header.col1of2
           %strong Set enthält
           (3 von 11 für Sie sichtbar)
         .ui-toolbar-controls.col1of2.by-right
           .button-group.tertiary.small.right.mls
-            %a.button.active
-              %i.icon-vis-grid.bright Grid
-            %a.button
-              %i.icon-vis-tiles Tiles
-            %a.button
-              %i.icon-vis-list List
+            %a.button.ui-toolbar-vis-button{"data-vis-mode" => "grid"}
+              %i.ui-toolbar-icon-grid Grid
+            %a.button.active.ui-toolbar-vis-button{"data-vis-mode" => "tiles"}
+              %i.ui-toolbar-icon-tiles Tiles
+            %a.button.ui-toolbar-vis-button{"data-vis-mode" => "list"}
+              %i.ui-toolbar-icon-list List
           .dropdown
             %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
               Sort by Name
@@ -671,10 +720,10 @@
               %li.dropdown-menu-item
                 %a{:href => "#"} Abmelden
 
-      .ui-filterbar.separated.mam.pbm.container
+      .ui-filterbar.separated.mam.pbm.ui-container
         .left.col2of6
-          %a.button.active#filter-toggle
-            %i.icon-arrow-down.dark
+          %a.button.active#ui-side-filter-toggle
+            %i.icon-sidebar
             Filtern
         .col2of6.by-center
           .button-group
@@ -684,319 +733,254 @@
         .col2of6.by-right
           %a.weak{:href => "#"}<
             Select All
-            %i.icon-check>
+            %i.icon-checkbox>
 
-      .container.table.auto
-        .container.table-cell#side-filter
+      .ui-container.table.auto
+        .ui-container.table-cell#ui-side-filter
 
-          %ul#side-filter.side-filter.accordion.mam
-            %li.side-filter-item
+          %ul#ui-side-filter.ui-side-filter.ui-accordion.mam
+            %li.ui-side-filter-item
               %input.block.filter-search-input{:type => "text"}
                 %button.small.filter-search-button.primary-button Search
-            %li.side-filter-item.accordion-group
-              .accordion-heading
-                %a.strong.accordion-toggle{"data-parent" => "#side-filter", "data-toggle" => "collapse", :href => "#collapseTwo"}
-                  Level 1 Filter
-                  %i.icon-arrow-up.green
-              #collapseTwo.accordion-body.collapse.in
-                %ul.side-filter-lvl2.accordion-inner
-                  %li.side-filter-lvl2-item
+            %li.ui-side-filter-item
+              %a.strong.ui-accordion-toggle.ui-side-filter-lvl1-item
+                Level 1 Filter
+                %i.ui-side-filter-icon-arrow
+              .ui-accordion-body
+                %ul.ui-side-filter-lvl2
+                  %li.ui-side-filter-lvl2-item
                     %a.weak{:href => "#"} Level 2 Filter
-                  %li.side-filter-lvl2-item
+                  %li.ui-side-filter-lvl2-item
                     %a.weak{:href => "#"} Level 2 Filter
-                    %ul.side-filter-lvl3
-                      %li.side-filter-lvl3-item
+                    %ul.ui-side-filter-lvl3
+                      %li.ui-side-filter-lvl3-item
                         %a.weak{:href => "#"} Level 3 filter
-                      %li.side-filter-lvl3-item
+                      %li.ui-side-filter-lvl3-item
                         %a.weak{:href => "#"} Level 3 filter
-                        %ul.side-filter-lvl4
-                          %li.side-filter-lvl4-item
+                        %ul.ui-side-filter-lvl4
+                          %li.ui-side-filter-lvl4-item
                             %a.weak{:href => "#"} Item 1
-                          %li.side-filter-lvl4-item
+                          %li.ui-side-filter-lvl4-item
                             %a.weak{:href => "#"} Item 2
-                      %li.side-filter-lvl3-item
+                      %li.ui-side-filter-lvl3-item
                         %a.weak{:href => "#"} Level 3 filter
-                      %li.side-filter-lvl3-item
+                      %li.ui-side-filter-lvl3-item
                         %a.weak{:href => "#"} Level 3 filter
-                  %li.side-filter-lvl2-item
+                  %li.ui-side-filter-lvl2-item
                     %a.weak{:href => "#"} Level 2 Filter
-                  %li.side-filter-lvl2-item
+                  %li.ui-side-filter-lvl2-item
                     %a.weak{:href => "#"} Level 2 Filter
-            %li.side-filter-item.accordion-group
-              .accordion-heading
-                %a.strong.accordion-toggle{"data-parent" => "#side-filter", "data-toggle" => "collapse", :href => "#collapseThree"}
-                  Level 1 Filter
-                  %i.icon-arrow-down.green
-              #collapseThree.accordion-body.collapse
-                %ul.side-filter-lvl2.accordion-inner
-                  %li.side-filter-lvl2-item
+            %li.ui-side-filter-item
+              %a.strong.ui-accordion-toggle.ui-side-filter-lvl1-item
+                Level 1 Filter
+                %i.ui-side-filter-icon-arrow
+              .ui-accordion-body{:style => "display: block;"}
+                %ul.ui-side-filter-lvl2
+                  %li.ui-side-filter-lvl2-item
                     %a.weak{:href => "#"} Level 2 Filter
-                  %li.side-filter-lvl2-item
+                  %li.ui-side-filter-lvl2-item
                     %a.weak{:href => "#"} Level 2 Filter
-                    %ul.side-filter-lvl3
-                      %li.side-filter-lvl3-item
+                    %ul.ui-side-filter-lvl3
+                      %li.ui-side-filter-lvl3-item
                         %a.weak{:href => "#"} Level 3 filter
-                      %li.side-filter-lvl3-item
+                      %li.ui-side-filter-lvl3-item
                         %a.weak{:href => "#"} Level 3 filter
-                        %ul.side-filter-lvl4
-                          %li.side-filter-lvl4-item
+                        %ul.ui-side-filter-lvl4
+                          %li.ui-side-filter-lvl4-item
                             %a.weak{:href => "#"} Item 1
-                          %li.side-filter-lvl4-item
+                          %li.ui-side-filter-lvl4-item
                             %a.weak{:href => "#"} Item 2
-                      %li.side-filter-lvl3-item
+                      %li.ui-side-filter-lvl3-item
                         %a.weak{:href => "#"} Level 3 filter
-                      %li.side-filter-lvl3-item
+                      %li.ui-side-filter-lvl3-item
                         %a.weak{:href => "#"} Level 3 filter
-                  %li.side-filter-lvl2-item
+                  %li.ui-side-filter-lvl2-item
                     %a.weak{:href => "#"} Level 2 Filter
-                  %li.side-filter-lvl2-item
+                  %li.ui-side-filter-lvl2-item
                     %a.weak{:href => "#"} Level 2 Filter
-            %li.side-filter-item.accordion-group
-              .accordion-heading
-                %a.strong.accordion-toggle{"data-parent" => "#side-filter", "data-toggle" => "collapse", :href => "#collapseOne"}
-                  Level 1 Filter
-                  %i.icon-arrow-down.green
-              #collapseOne.accordion-body.collapse
-                %ul.side-filter-lvl2.accordion-inner
-                  %li.side-filter-lvl2-item
+            %li.ui-side-filter-item
+              %a.strong.ui-accordion-toggle.ui-side-filter-lvl1-item
+                Level 1 Filter
+                %i.ui-side-filter-icon-arrow
+              .ui-accordion-body{:style => "display: none;"}
+                %ul.ui-side-filter-lvl2
+                  %li.ui-side-filter-lvl2-item
                     %a.weak{:href => "#"} Level 2 Filter
-                  %li.side-filter-lvl2-item
+                  %li.ui-side-filter-lvl2-item
                     %a.weak{:href => "#"} Level 2 Filter
-                    %ul.side-filter-lvl3
-                      %li.side-filter-lvl3-item
+                    %ul.ui-side-filter-lvl3
+                      %li.ui-side-filter-lvl3-item
                         %a.weak{:href => "#"} Level 3 filter
-                      %li.side-filter-lvl3-item
+                      %li.ui-side-filter-lvl3-item
                         %a.weak{:href => "#"} Level 3 filter
-                        %ul.side-filter-lvl4
-                          %li.side-filter-lvl4-item
+                        %ul.ui-side-filter-lvl4
+                          %li.ui-side-filter-lvl4-item
                             %a.weak{:href => "#"} Item 1
-                          %li.side-filter-lvl4-item
+                          %li.ui-side-filter-lvl4-item
                             %a.weak{:href => "#"} Item 2
-                      %li.side-filter-lvl3-item
+                      %li.ui-side-filter-lvl3-item
                         %a.weak{:href => "#"} Level 3 filter
-                      %li.side-filter-lvl3-item
+                      %li.ui-side-filter-lvl3-item
                         %a.weak{:href => "#"} Level 3 filter
-                  %li.side-filter-lvl2-item
+                  %li.ui-side-filter-lvl2-item
                     %a.weak{:href => "#"} Level 2 Filter
-                  %li.side-filter-lvl2-item
+                  %li.ui-side-filter-lvl2-item
                     %a.weak{:href => "#"} Level 2 Filter
 
-        .container.table-cell
-          .container.pam
-            .media-entries-wrapper
-              %ul.media-entries.grid.active
-                %li.media-entries-item
-                  .ui-thumbnail-wrapper.media-set
-                    .thumbnail-level-up-items
-                      %h3.title-xs-alt Keine übergeordneten Sets
-                    .thumbnail-privacy
+        .ui-container.table-cell
+          .ui-container.pam
+            .media-resources-wrapper
+              %ul.ui-resources-list.tiles.active
+                %li.ui-resources-item
+                  .ui-thumbnail.media-set
+                    .ui-thumbnail-level-up-items
+                      %h3.ui-thumbnail-level-notes Set enthalt
+                      %ul.ui-thumbnail-level-items
+                        %li.ui-thumbnail-level-item.odd
+                          %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                            .ui-thumbnail-level-image-holder
+                              = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                        %li.ui-thumbnail-level-item.even
+                          %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                            .ui-thumbnail-level-image-holder
+                              = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                      %span.ui-thumbnail-level-notes 5 Inhalte
+                    .ui-thumbnail-privacy
                       %i.icon-privacy-group This media is shared with a group
-                    .thumbnail-set.thumbnail
-                      %a
-                        .inner-wrapper
-                          %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                    .thumbnail-metadata
-                      %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                      %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                    .thumbnail-actions
+                    %a.ui-thumbnail-image-wrapper
+                      .ui-thumbnail-image-holder
+                        = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-image"
+                    .ui-thumbnail-meta
+                      %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
+                      %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
+                    .ui-thumbnail-actions
                       %ul.left.by-left
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-check Select
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-fav Favorite
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-checkbox Select
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-favorite Favorite
                       %ul.right.by-right
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-explore Explore
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-edit Edit
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-delete Delete
-                    .thumbnail-level-down-items
-                      %h3.title-s Set enthalt
-                      .thumbnail.thumbnail-set.small.odd
-                        %a
-                          .inner-wrapper
-                            %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                      .thumbnail.thumbnail-set.small.even
-                        %a
-                          .inner-wrapper
-                            %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                      %h4.title-xs-alt 5 Inhalte
-                %li.media-entries-item
-                  .ui-thumbnail-wrapper.media-entry
-                    .thumbnail-privacy
-                      %i.icon-privacy-private This media is private
-                    .thumbnail-audio.thumbnail
-                      %img{:alt => "", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                    .thumbnail-metadata
-                      %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                      %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                    .thumbnail-actions
-                      %ul.left.by-left
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-check Select
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-fav Favorite
-                      %ul.right.by-right
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-explore Explore
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-edit Edit
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-delete Delete
-                %li.media-entries-item
-                  .ui-thumbnail-wrapper.media-entry
-                    .thumbnail-privacy
-                      %i.icon-privacy-private This media is private
-                    .thumbnail-video.thumbnail
-                      %img{:alt => "Thumb-video", :src => "/assets/redesign/thumbnails/thumb-video-mov.png"}/
-                    .thumbnail-metadata
-                      %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                      %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                    .thumbnail-actions
-                      %ul.left.by-left
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-check Select
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-fav Favorite
-                      %ul.right.by-right
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-explore Explore
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-edit Edit
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-delete Delete
-                %li.media-entries-item
-                  .ui-thumbnail-wrapper.media-entry
-                    .thumbnail-privacy
-                      %i.icon-privacy-private This media is private
-                    .thumbnail-doc.thumbnail
-                      %img{:alt => "Thumb-doc", :src => "/assets/redesign/thumbnails/thumb-doc-doc.png"}/
-                    .thumbnail-metadata
-                      %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                      %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                    .thumbnail-actions
-                      %ul.left.by-left
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-check Select
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-fav Favorite
-                      %ul.right.by-right
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-explore Explore
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-edit Edit
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-delete Delete
-                %li.media-entries-item
-                  .ui-thumbnail-wrapper.media-set
-                    .thumbnail-level-up-items
-                      %h3.title-xs-alt Keine übergeordneten Sets
-                    .thumbnail-privacy
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-browse Browse
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-edit Edit
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-delete Delete
+                    .ui-thumbnail-level-down-items
+                      %h3.ui-thumbnail-level-notes Set enthalt
+                      %ul.ui-thumbnail-level-items
+                        %li.ui-thumbnail-level-item.odd
+                          %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                            .ui-thumbnail-level-image-holder
+                              = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                        %li.ui-thumbnail-level-item.even
+                          %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                            .ui-thumbnail-level-image-holder
+                              = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                      %span.ui-thumbnail-level-notes 5 Inhalte
+                %li.ui-resources-item
+                  .ui-thumbnail.filter-set
+                    .ui-thumbnail-level-up-items
+                      %span.ui-thumbnail-level-notes Keine übergeordneten Sets
+                    .ui-thumbnail-privacy
                       %i.icon-privacy-group This media is shared with a group
-                    .thumbnail-set.thumbnail
-                      %a
-                        .inner-wrapper
-                          %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                    .thumbnail-metadata
-                      %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                      %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                    .thumbnail-actions
+                    %a.ui-thumbnail-image-wrapper
+                      .ui-thumbnail-image-holder
+                        = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-image"
+                    .ui-thumbnail-meta
+                      %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
+                      %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
+                    .ui-thumbnail-actions
                       %ul.left.by-left
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-check Select
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-fav Favorite
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-checkbox Select
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-favorite Favorite
                       %ul.right.by-right
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-explore Explore
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-edit Edit
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-delete Delete
-                    .thumbnail-level-down-items
-                      %h3.title-s Set enthalt
-                      .thumbnail.thumbnail-set.small.odd
-                        %a
-                          .inner-wrapper
-                            %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                      .thumbnail.thumbnail-set.small.even
-                        %a
-                          .inner-wrapper
-                            %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                      %h4.title-xs-alt 5 Inhalte
-                %li.media-entries-item
-                  .ui-thumbnail-wrapper.media-entry
-                    .thumbnail-privacy
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-browse Browse
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-edit Edit
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-delete Delete
+                    .ui-thumbnail-level-down-items
+                      %h3.ui-thumbnail-level-notes Set enthalt
+                      %ul.ui-thumbnail-level-items
+                        %li.ui-thumbnail-level-item.odd
+                          %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                            .ui-thumbnail-level-image-holder
+                              = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                        %li.ui-thumbnail-level-item.even
+                          %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                            .ui-thumbnail-level-image-holder
+                              = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                      %span.ui-thumbnail-level-notes 5 Inhalte
+                %li.ui-resources-item
+                  .ui-thumbnail.media-entry.video
+                    .ui-thumbnail-privacy
                       %i.icon-privacy-private This media is private
-                    .thumbnail-audio.thumbnail
-                      %img{:alt => "Thumb-audio", :src => "/assets/redesign/thumbnails/thumb-audio-mp3.png"}/
-                    .thumbnail-metadata
-                      %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                      %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                    .thumbnail-actions
+                    %a.ui-thumbnail-image-wrapper
+                      .ui-thumbnail-image-holder
+                        = image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-thumbnail-image"
+                    .ui-thumbnail-meta
+                      %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
+                      %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
+                    .ui-thumbnail-actions
                       %ul.left.by-left
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-check Select
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-fav Favorite
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-checkbox Select
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-favorite Favorite
                       %ul.right.by-right
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-explore Explore
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-edit Edit
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-delete Delete
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-browse Browse
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-edit Edit
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-delete Delete
+                %li.ui-resources-item
+                  .ui-thumbnail.media-entry.image
+                    .ui-thumbnail-privacy
+                      %i.icon-privacy-open This media is Public
+                    %a.ui-thumbnail-image-wrapper
+                      .ui-thumbnail-image-holder= image_tag "redesign/styleguide/media-entry-5.jpeg", :class => "ui-thumbnail-image"
+                    .ui-thumbnail-meta
+                      %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
+                      %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
+                    .ui-thumbnail-actions
+                      %ul.left.by-left
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-checkbox Select
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-favorite Favorite
+                      %ul.right.by-right
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-browse Browse
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-edit Edit
+                        %li.ui-thumbnail-action
+                          %a.ui-thumbnail-action-delete Delete
 
-  .app-footer
-    %footer.ui-footer.container.inverted
-      %ul.ui-footer-menu
-        %li
-          %a{:href => "#"} Informationen zum Projekt
-        %li
-          %a{:href => "#"} Impressum
-        %li
-          %a{:href => "#"} Kontakt
-        %li
-          %a{:href => "#"} Blog
-        %li
-          %a{:href => "#"} Hilfe
-        %li
-          %a{:href => "#"} Nutzungsbestimmungen
-        %li
-          %a{:href => "#"} Freie Software
-        %li
-          %a{:href => "#"} Archivierungsrichtlinien ZHdK
-      %p.ui-footer-copy
-        = image_tag "redesign/inserts/image-logo-madek.png", :alt => "MADEK", :class => "ui-footer-logo"
-        &copy; 2009-2011 Z&uuml;rcher Hochschule der K&uuml;nste
+  .app-footer-push
+.app-footer
+  %footer.ui-footer.ui-container.inverted
+    %ul.ui-footer-menu
+      %li
+        %a{:href => "#"} Informationen zum Projekt
+      %li
+        %a{:href => "#"} Impressum
+      %li
+        %a{:href => "#"} Kontakt
+      %li
+        %a{:href => "#"} Blog
+      %li
+        %a{:href => "#"} Hilfe
+      %li
+        %a{:href => "#"} Nutzungsbestimmungen
+      %li
+        %a{:href => "#"} Freie Software
+      %li
+        %a{:href => "#"} Archivierungsrichtlinien ZHdK
+    %p.ui-footer-copy
+      = image_tag "redesign/inserts/image-logo-madek.png", :alt => "MADEK", :class => "ui-footer-logo"
+      &copy; 2009-2011 Z&uuml;rcher Hochschule der K&uuml;nste

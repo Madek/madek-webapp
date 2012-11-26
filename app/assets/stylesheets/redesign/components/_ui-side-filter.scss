@@ -1,0 +1,123 @@
+/**
+ * ## Side filter `.ui-side-filter`
+ *
+ * Styleguide 6.3
+ */
+
+/* Class naming convention:
+ *
+ * ui-side-filter-lvl1 - top level filter
+ * ui-side-filter-lvl2 - second level filter
+ * ui-side-filter-lvl3 - third level filter
+ * ui-side-filter-lvl4 - lowest level filter
+ *
+ */
+
+.ui-side-filter {
+  @include box-shadow(1px 0 0 $brightest);
+  @include micro-clearfix;
+  border-right: 1px solid $grey-mid-light;
+  min-width: 200px;
+  padding-right: $space-m;
+}
+.filter-search-button {
+  @include position-top-right(6px,$space-x);
+}
+
+// Box model
+
+.ui-side-filter li {
+  clear: both;
+  position: relative;
+}
+.ui-side-filter a {
+  display: block;
+}
+.ui-side-filter-lvl3-item {
+  padding-left: $space-m;
+  &:first-child {
+    padding-top: $space-x;
+  }
+  &:last-child {
+    padding-bottom: $space-x;
+  }
+}
+.ui-side-filter-lvl4 {
+  padding-left: $space-m;
+}
+
+// Typography
+
+.ui-side-filter li {
+  list-style: none;
+}
+.ui-side-filter-item,
+.ui-side-filter-lvl2-item {
+  line-height: $line-height-xxl;
+}
+.ui-side-filter li.ui-side-filter-lvl3-item {
+  line-height: $line-height-xl;
+}
+.ui-side-filter li.ui-side-filter-lvl4-item {
+  line-height: $line-height-l;
+}
+.ui-side-filter-lvl2-item > a,
+.ui-side-filter-lvl3-item > a {
+  font-size: $font-s;
+  font-weight: 600;
+}
+.ui-side-filter-lvl4-item > a {
+  font-size: $font-xs;
+}
+
+// Borders & separators
+
+.ui-side-filter-lvl2-item,
+.ui-side-filter-lvl3-item:first-child {
+  border-top: 1px solid $grey-mid-light;
+  @include box-shadow(inset 0 1px 0 $brightest);
+}
+.ui-side-filter-item {
+  @include box-shadow(0 1px 0 $brightest);
+  border-bottom: 1px solid $grey-mid-light;
+  &:last-child {
+    @include box-shadow(0 0 0 $brightest);
+    border-bottom: none;
+  }
+}
+
+// Icons
+
+.ui-side-filter-lvl1-item .ui-side-filter-icon-arrow {
+  @extend .icon-arrow-down;
+  @extend .green;
+  @include position-top-right($space-s, 0)
+}
+.ui-side-filter-lvl1-item.active .ui-side-filter-icon-arrow {
+  @extend .icon-arrow-up;
+  @extend .green;
+  @include position-top-right($space-s, 0)
+}
+
+// Hover and active states
+.ui-side-filter a {
+  &:hover {
+    background: $lighten-more;
+  }
+  &:active,
+  .active {
+    @include box-shadow(inset 0 1px 3px $darken-more);
+  }
+}
+
+.ui-side-filter-lvl2-item.active {
+  @include border-radius($space-l);
+}
+
+.ui-side-filter-lvl3-item.active {
+  @include border-radius($space-l);
+}
+
+.ui-side-filter-lvl4-item.active {
+  @include border-radius($space-l);
+}

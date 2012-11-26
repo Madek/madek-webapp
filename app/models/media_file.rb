@@ -322,17 +322,13 @@ class MediaFile < ActiveRecord::Base
 
     # nothing found, we show then a placeholder icon
     case Rails.env
-      when false # "development"
-        w, h = THUMBNAILS[size].split('x').map(&:to_i)
-        categories = %w(abstract food people technics animals nightlife nature transport city fashion sports)
-        cat = categories[id % categories.size]
-        n = (id % 10) + 1
-        return "http://lorempixum.com/#{w}/#{h}/#{cat}/#{n}"
+      when "development"
+        self.class.thumb_lorempixum_url id, size
       else
         # TODO remove code related to preview as string
         #size = (size == :large ? :medium : :small)
         output = thumb_placeholder
-        return "data:#{content_type};base64,#{Base64.encode64(output)}"
+        "data:#{content_type};base64,#{Base64.encode64(output)}"
     end
   end
   
@@ -348,7 +344,17 @@ class MediaFile < ActiveRecord::Base
     file_path ||= File.join(dir, "base_document.png")
     File.read file_path
   end
-    
+
+  class << self
+    def thumb_lorempixum_url(id, size = :small)
+      w, h = THUMBNAILS[size].split('x').map(&:to_i)
+      categories = %w(abstract food people technics animals nightlife nature transport city fashion sports)
+      cat = categories[id % categories.size]
+      n = (id % 10) + 1
+      "http://lorempixum.com/#{w}/#{h}/#{cat}/#{n}"
+    end
+  end
+
 ######################################################################
 
   def importable_zipfile?

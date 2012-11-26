@@ -1,0 +1,7 @@
+.ui-thumbnail-privacy
+  - if media_resource.is_public?
+    %i.icon-privacy-open{:title => "Diese Inhalte sind öffentlich zugänglich"} Diese Inhalte sind öffentlich zugänglich
+  - elsif media_resource.is_private? current_user
+    %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"} Diese Inhalte sind nur für Sie zugänglich
+  - elsif media_resource.is_shared? current_user
+    %i.icon-privacy-group{:title => "Diese Inhalte werden mit Anderen geteilt"} Diese Inhalte werden mit Anderen geteilt

@@ -1,18 +1,18 @@
-.elevator-pitch.container
+.ui-home-claim.ui-container
   .col2of3
     .pitch-claim
       %h1.title-xxl Bilder, Fotos, Videos und Audio-Dateien
       %h2.title-l Das Medienarchiv ist ein Werkzeug zum gemeinschaftlichen arbeiten mit Medien und zum Teilen von Inhalten.
   .col1of3
     .pitch-login
-      %ul.tab-navigation.container
-        %li.tab-navigation-item.active.left
-          %a{"data-toggle" => "tab", :href => "#zhdk-user"} ZHdK-Login
-        %li.tab-navigation-item.right
+      %ul.ui-tabs.ui-container
+        %li.ui-tabs-item.active.left
+          %a{"data-toggle" => "tab", :href => "#internal-user"} ZHdK-Login
+        %li.ui-tabs-item.right
           %a{"data-toggle" => "tab", :href => "#external-user"} Externe Benutzer
       .tab-content.pitch-login-tab
         - if AppSettings.authentication_systems.include? :zhdk_agw
-          #zhdk-user.tab-pane.active
+          #internal-user.tab-pane.active
             %form
               .form-body
                 .form-group.rowed

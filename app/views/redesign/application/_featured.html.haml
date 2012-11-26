@@ -1,9 +1,0 @@
-.container.ptl.pbm
-  .media-entries-wrapper
-    .media-entries-header.mbm
-      %h2.title-l.media-entries-title
-        = @featured_set.title
-        %a.strong{:href => "#"} Alle anziegen
-    %ul.media-entries.grid
-      - @featured_set_children.each do |mr|
-        = render :partial => "media_resources/media_resource", :locals => {:media_resource => mr}

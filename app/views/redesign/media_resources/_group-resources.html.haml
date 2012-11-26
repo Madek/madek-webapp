@@ -1,0 +1,470 @@
+.app-body.ui-container
+  .ui-body-title
+    .ui-body-title-label
+      %h1.title-xl
+        = "Resource of #{Group.find_by_id(params[:group_id]).name}"
+
+  .app-body-ui-container
+    .bordered.midtone.ui-container.rounded
+      .app-body-content
+        .ui-toolbar.inverted.ui-container.pax.rounded-top
+          %h2.ui-toolbar-header.col1of2
+            %strong Set enthält
+            (3 von 11 für Sie sichtbar)
+          .ui-toolbar-controls.col1of2.by-right
+            .button-group.tertiary.small.right.mls
+              %a.button.active
+                %i.icon-vis-grid.bright Grid
+              %a.button
+                %i.icon-vis-tiles Tiles
+              %a.button
+                %i.icon-vis-list List
+            .dropdown
+              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                Sort by Name
+                %i.icon-arrow-down.bright
+              %ul.dropdown-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+                %li.dropdown-menu-item
+                  %a{:href => "#"} Item 1
+                %li.dropdown-menu-item
+                  %a{:href => "#"} Item 2
+                %li.separator
+                %li.dropdown-menu-item
+                  %a{:href => "#"} Abmelden
+
+        .ui-filterbar.separated.mam.pbm.ui-container
+          .left.col2of6
+            %a.button.active#ui-side-filter-toggle
+              %i.icon-sidebar
+              Filtern
+          .col2of6.by-center
+            .button-group
+              %a.button.active{:href => "#"} Alle
+              %a.button{:href => "#"} Medientrage
+              %a.button{:href => "#"} Sets
+          .col2of6.by-right
+            %a.weak{:href => "#"}<
+              Select All
+              %i.icon-checkbox>
+
+        .ui-container.table.auto
+          .ui-container.table-cell#ui-side-filter
+
+            %ul#ui-side-filter.ui-side-filter.ui-accordion.mam
+              %li.ui-side-filter-item
+                %input.block.filter-search-input{:type => "text"}
+                  %button.small.filter-search-button.primary-button Search
+              %li.ui-side-filter-item
+                %a.strong.ui-accordion-toggle.ui-side-filter-lvl1-item
+                  Level 1 Filter
+                  %i.ui-side-filter-icon-arrow
+                .ui-accordion-body
+                  %ul.ui-side-filter-lvl2
+                    %li.ui-side-filter-lvl2-item
+                      %a.weak{:href => "#"} Level 2 Filter
+                    %li.ui-side-filter-lvl2-item
+                      %a.weak{:href => "#"} Level 2 Filter
+                      %ul.ui-side-filter-lvl3
+                        %li.ui-side-filter-lvl3-item
+                          %a.weak{:href => "#"} Level 3 filter
+                        %li.ui-side-filter-lvl3-item
+                          %a.weak{:href => "#"} Level 3 filter
+                          %ul.ui-side-filter-lvl4
+                            %li.ui-side-filter-lvl4-item
+                              %a.weak{:href => "#"} Item 1
+                            %li.ui-side-filter-lvl4-item
+                              %a.weak{:href => "#"} Item 2
+                        %li.ui-side-filter-lvl3-item
+                          %a.weak{:href => "#"} Level 3 filter
+                        %li.ui-side-filter-lvl3-item
+                          %a.weak{:href => "#"} Level 3 filter
+                    %li.ui-side-filter-lvl2-item
+                      %a.weak{:href => "#"} Level 2 Filter
+                    %li.ui-side-filter-lvl2-item
+                      %a.weak{:href => "#"} Level 2 Filter
+              %li.ui-side-filter-item
+                %a.strong.ui-accordion-toggle.ui-side-filter-lvl1-item
+                  Level 1 Filter
+                  %i.ui-side-filter-icon-arrow
+                .ui-accordion-body{:style => "display: block;"}
+                  %ul.ui-side-filter-lvl2
+                    %li.ui-side-filter-lvl2-item
+                      %a.weak{:href => "#"} Level 2 Filter
+                    %li.ui-side-filter-lvl2-item
+                      %a.weak{:href => "#"} Level 2 Filter
+                      %ul.ui-side-filter-lvl3
+                        %li.ui-side-filter-lvl3-item
+                          %a.weak{:href => "#"} Level 3 filter
+                        %li.ui-side-filter-lvl3-item
+                          %a.weak{:href => "#"} Level 3 filter
+                          %ul.ui-side-filter-lvl4
+                            %li.ui-side-filter-lvl4-item
+                              %a.weak{:href => "#"} Item 1
+                            %li.ui-side-filter-lvl4-item
+                              %a.weak{:href => "#"} Item 2
+                        %li.ui-side-filter-lvl3-item
+                          %a.weak{:href => "#"} Level 3 filter
+                        %li.ui-side-filter-lvl3-item
+                          %a.weak{:href => "#"} Level 3 filter
+                    %li.ui-side-filter-lvl2-item
+                      %a.weak{:href => "#"} Level 2 Filter
+                    %li.ui-side-filter-lvl2-item
+                      %a.weak{:href => "#"} Level 2 Filter
+              %li.ui-side-filter-item
+                %a.strong.ui-accordion-toggle.ui-side-filter-lvl1-item
+                  Level 1 Filter
+                  %i.ui-side-filter-icon-arrow
+                .ui-accordion-body{:style => "display: none;"}
+                  %ul.ui-side-filter-lvl2
+                    %li.ui-side-filter-lvl2-item
+                      %a.weak{:href => "#"} Level 2 Filter
+                    %li.ui-side-filter-lvl2-item
+                      %a.weak{:href => "#"} Level 2 Filter
+                      %ul.ui-side-filter-lvl3
+                        %li.ui-side-filter-lvl3-item
+                          %a.weak{:href => "#"} Level 3 filter
+                        %li.ui-side-filter-lvl3-item
+                          %a.weak{:href => "#"} Level 3 filter
+                          %ul.ui-side-filter-lvl4
+                            %li.ui-side-filter-lvl4-item
+                              %a.weak{:href => "#"} Item 1
+                            %li.ui-side-filter-lvl4-item
+                              %a.weak{:href => "#"} Item 2
+                        %li.ui-side-filter-lvl3-item
+                          %a.weak{:href => "#"} Level 3 filter
+                        %li.ui-side-filter-lvl3-item
+                          %a.weak{:href => "#"} Level 3 filter
+                    %li.ui-side-filter-lvl2-item
+                      %a.weak{:href => "#"} Level 2 Filter
+                    %li.ui-side-filter-lvl2-item
+                      %a.weak{:href => "#"} Level 2 Filter
+
+
+          .ui-container.table-cell
+            .ui-container.pam
+              .media-resources-wrapper
+                %ul.media-resources.grid.active
+                  %li.media-resources-item
+                    .ui-thumbnail.media-set
+                      .ui-thumbnail-level-up-items
+                        %h3.title-xs-alt Keine übergeordneten Sets
+                      .thumbnail-privacy
+                        %i.icon-privacy-group This media is shared with a group
+                      .thumbnail-set.thumbnail
+                        %a
+                          .inner-wrapper
+                            %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}/
+                      .ui-thumbnail-metadata
+                        %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                        %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li
+                            %a.ui-thumbnail-actions-checkbox Select
+                          %li
+                            %a.ui-thumbnail-actions-favorite Favorite
+                        %ul.right.by-right
+                          %li
+                            %a.ui-thumbnail-actions-browse Browse
+                          %li
+                            %a.ui-thumbnail-actions-edit Edit
+                          %li
+                            %a.ui-thumbnail-actions-delete Delete
+                      .ui-thumbnail-level-down-items
+                        %h3.title-s Set enthalt
+                        .thumbnail.thumbnail-set.small.odd
+                          %a
+                            .inner-wrapper
+                              %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}/
+                        .thumbnail.thumbnail-set.small.even
+                          %a
+                            .inner-wrapper
+                              %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}/
+                        %h4.title-xs-alt 5 Inhalte
+                  %li.media-resources-item
+                    .ui-thumbnail.media-entry
+                      .thumbnail-privacy
+                        %i.icon-privacy-private This media is private
+                      .thumbnail-audio.thumbnail
+                        %img{:alt => "", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}/
+                      .ui-thumbnail-metadata
+                        %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                        %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li
+                            %a.ui-thumbnail-actions-checkbox Select
+                          %li
+                            %a.ui-thumbnail-actions-favorite Favorite
+                        %ul.right.by-right
+                          %li
+                            %a.ui-thumbnail-actions-browse Browse
+                          %li
+                            %a.ui-thumbnail-actions-edit Edit
+                          %li
+                            %a.ui-thumbnail-actions-delete Delete
+                  %li.media-resources-item
+                    .ui-thumbnail.media-entry
+                      .thumbnail-privacy
+                        %i.icon-privacy-private This media is private
+                      .thumbnail-video.thumbnail
+                        %img{:alt => "Thumb-video", :src => "/assets/redesign/thumbnails/thumb-video-mov.png"}/
+                      .ui-thumbnail-metadata
+                        %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                        %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li
+                            %a.ui-thumbnail-actions-checkbox Select
+                          %li
+                            %a.ui-thumbnail-actions-favorite Favorite
+                        %ul.right.by-right
+                          %li
+                            %a.ui-thumbnail-actions-browse Browse
+                          %li
+                            %a.ui-thumbnail-actions-edit Edit
+                          %li
+                            %a.ui-thumbnail-actions-delete Delete
+                  %li.media-resources-item
+                    .ui-thumbnail.media-entry
+                      .thumbnail-privacy
+                        %i.icon-privacy-private This media is private
+                      .thumbnail-doc.thumbnail
+                        %img{:alt => "Thumb-doc", :src => "/assets/redesign/thumbnails/thumb-doc-doc.png"}/
+                      .ui-thumbnail-metadata
+                        %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                        %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li
+                            %a.ui-thumbnail-actions-checkbox Select
+                          %li
+                            %a.ui-thumbnail-actions-favorite Favorite
+                        %ul.right.by-right
+                          %li
+                            %a.ui-thumbnail-actions-browse Browse
+                          %li
+                            %a.ui-thumbnail-actions-edit Edit
+                          %li
+                            %a.ui-thumbnail-actions-delete Delete
+                  %li.media-resources-item
+                    .ui-thumbnail.media-set
+                      .ui-thumbnail-level-up-items
+                        %h3.title-xs-alt Keine übergeordneten Sets
+                      .thumbnail-privacy
+                        %i.icon-privacy-group This media is shared with a group
+                      .thumbnail-set.thumbnail
+                        %a
+                          .inner-wrapper
+                            %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}/
+                      .ui-thumbnail-metadata
+                        %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                        %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li
+                            %a.ui-thumbnail-actions-checkbox Select
+                          %li
+                            %a.ui-thumbnail-actions-favorite Favorite
+                        %ul.right.by-right
+                          %li
+                            %a.ui-thumbnail-actions-browse Browse
+                          %li
+                            %a.ui-thumbnail-actions-edit Edit
+                          %li
+                            %a.ui-thumbnail-actions-delete Delete
+                      .ui-thumbnail-level-down-items
+                        %h3.title-s Set enthalt
+                        .thumbnail.thumbnail-set.small.odd
+                          %a
+                            .inner-wrapper
+                              %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}/
+                        .thumbnail.thumbnail-set.small.even
+                          %a
+                            .inner-wrapper
+                              %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}/
+                        %h4.title-xs-alt 5 Inhalte
+                  %li.media-resources-item
+                    .ui-thumbnail.media-entry
+                      .thumbnail-privacy
+                        %i.icon-privacy-private This media is private
+                      .thumbnail-audio.thumbnail
+                        %img{:alt => "Thumb-audio", :src => "/assets/redesign/thumbnails/thumb-audio-mp3.png"}/
+                      .ui-thumbnail-metadata
+                        %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                        %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li
+                            %a.ui-thumbnail-actions-checkbox Select
+                          %li
+                            %a.ui-thumbnail-actions-favorite Favorite
+                        %ul.right.by-right
+                          %li
+                            %a.ui-thumbnail-actions-browse Browse
+                          %li
+                            %a.ui-thumbnail-actions-edit Edit
+                          %li
+                            %a.ui-thumbnail-actions-delete Delete
+                  %li.media-resources-item
+                    .ui-thumbnail.media-set
+                      .ui-thumbnail-level-up-items
+                        %h3.title-xs-alt Keine übergeordneten Sets
+                      .thumbnail-privacy
+                        %i.icon-privacy-group This media is shared with a group
+                      .thumbnail-set.thumbnail
+                        %a
+                          .inner-wrapper
+                            %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}/
+                      .ui-thumbnail-metadata
+                        %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                        %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li
+                            %a.ui-thumbnail-actions-checkbox Select
+                          %li
+                            %a.ui-thumbnail-actions-favorite Favorite
+                        %ul.right.by-right
+                          %li
+                            %a.ui-thumbnail-actions-browse Browse
+                          %li
+                            %a.ui-thumbnail-actions-edit Edit
+                          %li
+                            %a.ui-thumbnail-actions-delete Delete
+                      .ui-thumbnail-level-down-items
+                        %h3.title-s Set enthalt
+                        .thumbnail.thumbnail-set.small.odd
+                          %a
+                            .inner-wrapper
+                              %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}/
+                        .thumbnail.thumbnail-set.small.even
+                          %a
+                            .inner-wrapper
+                              %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}/
+                        %h4.title-xs-alt 5 Inhalte
+                  %li.media-resources-item
+                    .ui-thumbnail.media-entry
+                      .thumbnail-privacy
+                        %i.icon-privacy-private This media is private
+                      .thumbnail-audio.thumbnail
+                        %img{:alt => "", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}/
+                      .ui-thumbnail-metadata
+                        %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                        %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li
+                            %a.ui-thumbnail-actions-checkbox Select
+                          %li
+                            %a.ui-thumbnail-actions-favorite Favorite
+                        %ul.right.by-right
+                          %li
+                            %a.ui-thumbnail-actions-browse Browse
+                          %li
+                            %a.ui-thumbnail-actions-edit Edit
+                          %li
+                            %a.ui-thumbnail-actions-delete Delete
+                  %li.media-resources-item
+                    .ui-thumbnail.media-entry
+                      .thumbnail-privacy
+                        %i.icon-privacy-private This media is private
+                      .thumbnail-video.thumbnail
+                        %img{:alt => "Thumb-video", :src => "/assets/redesign/thumbnails/thumb-video-mov.png"}/
+                      .ui-thumbnail-metadata
+                        %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                        %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li
+                            %a.ui-thumbnail-actions-checkbox Select
+                          %li
+                            %a.ui-thumbnail-actions-favorite Favorite
+                        %ul.right.by-right
+                          %li
+                            %a.ui-thumbnail-actions-browse Browse
+                          %li
+                            %a.ui-thumbnail-actions-edit Edit
+                          %li
+                            %a.ui-thumbnail-actions-delete Delete
+                  %li.media-resources-item
+                    .ui-thumbnail.media-entry
+                      .thumbnail-privacy
+                        %i.icon-privacy-private This media is private
+                      .thumbnail-doc.thumbnail
+                        %img{:alt => "Thumb-doc", :src => "/assets/redesign/thumbnails/thumb-doc-doc.png"}/
+                      .ui-thumbnail-metadata
+                        %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                        %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li
+                            %a.ui-thumbnail-actions-checkbox Select
+                          %li
+                            %a.ui-thumbnail-actions-favorite Favorite
+                        %ul.right.by-right
+                          %li
+                            %a.ui-thumbnail-actions-browse Browse
+                          %li
+                            %a.ui-thumbnail-actions-edit Edit
+                          %li
+                            %a.ui-thumbnail-actions-delete Delete
+                  %li.media-resources-item
+                    .ui-thumbnail.media-set
+                      .ui-thumbnail-level-up-items
+                        %h3.title-xs-alt Keine übergeordneten Sets
+                      .thumbnail-privacy
+                        %i.icon-privacy-group This media is shared with a group
+                      .thumbnail-set.thumbnail
+                        %a
+                          .inner-wrapper
+                            %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}/
+                      .ui-thumbnail-metadata
+                        %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                        %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li
+                            %a.ui-thumbnail-actions-checkbox Select
+                          %li
+                            %a.ui-thumbnail-actions-favorite Favorite
+                        %ul.right.by-right
+                          %li
+                            %a.ui-thumbnail-actions-browse Browse
+                          %li
+                            %a.ui-thumbnail-actions-edit Edit
+                          %li
+                            %a.ui-thumbnail-actions-delete Delete
+                      .ui-thumbnail-level-down-items
+                        %h3.title-s Set enthalt
+                        .thumbnail.thumbnail-set.small.odd
+                          %a
+                            .inner-wrapper
+                              %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}/
+                        .thumbnail.thumbnail-set.small.even
+                          %a
+                            .inner-wrapper
+                              %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}/
+                        %h4.title-xs-alt 5 Inhalte
+                  %li.media-resources-item
+                    .ui-thumbnail.media-entry
+                      .thumbnail-privacy
+                        %i.icon-privacy-private This media is private
+                      .thumbnail-audio.thumbnail
+                        %img{:alt => "Thumb-audio", :src => "/assets/redesign/thumbnails/thumb-audio-mp3.png"}/
+                      .ui-thumbnail-metadata
+                        %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
+                        %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li
+                            %a.ui-thumbnail-actions-checkbox Select
+                          %li
+                            %a.ui-thumbnail-actions-favorite Favorite
+                        %ul.right.by-right
+                          %li
+                            %a.ui-thumbnail-actions-browse Browse
+                          %li
+                            %a.ui-thumbnail-actions-edit Edit
+                          %li
+                            %a.ui-thumbnail-actions-delete Delete

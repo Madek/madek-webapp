@@ -9,11 +9,12 @@
 #= require ./vendor/bootstrap-2.2.1/bootstrap-dropdown
 #= require ./vendor/bootstrap-2.2.1/bootstrap-tab
 #= require ./vendor/bootstrap-2.2.1/bootstrap-tooltip
-#= require ./vendor/bootstrap-2.2.1/bootstrap-collapse
 
 #= require ./vendor/plupload-1.5.4/plupload
 #= require ./vendor/plupload-1.5.4/jquery.plupload.queue
 #= require ./vendor/plupload-1.5.4/plupload.html5
+
+#= require ./vendor/waypoints-1.1.7/waypoints
 
 ## General
 
@@ -21,4 +22,5 @@
 
 # Combos
 
-#= require ./combos/clipboard
+#= require ./combos/ui-side-filter
+#= require ./combos/ui-toolbar

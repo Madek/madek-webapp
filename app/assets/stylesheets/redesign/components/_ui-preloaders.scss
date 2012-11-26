@@ -1,0 +1,16 @@
+/**
+ * ## Preloaders `.ui-preloader`
+ *
+ * .small   - Small variation
+ *
+ * Styleguide 6.19
+ */
+
+.ui-preloader {
+  @include dimension(auto,50px);
+  @include hide-text;
+  background: transparent image-url("redesign/backgrounds/preloader-large.gif") center center no-repeat;
+}
+.ui-preloader.small {
+  background: transparent image-url("redesign/backgrounds/preloader-small.gif") center center no-repeat;
+}

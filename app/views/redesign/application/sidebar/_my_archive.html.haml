@@ -1,0 +1,24 @@
+.app-body-sidebar.table-cell.bright.ui-container.bordered-right.rounded-left.table-side
+  .ui-container.rounded-left.phm.pvl
+    %ul.ui-side-navigation
+      %li.ui-side-navigation-item
+        %a.strong{:href => media_resources_path(:user_id => current_user)} 
+          Meine Inhalte
+      %li.separator.mini
+      %li.ui-side-navigation-item
+        %a.strong{:href => media_resources_path(:user_id => current_user, :sort => :created_at, :type => :media_entries)} 
+          Meine letzen Importe
+      %li.separator.mini
+      %li.ui-side-navigation-item
+        %a.strong{:href => media_resources_path(:favorites => true)} 
+          Meine Faroviten
+      %li.separator.mini
+      %li.ui-side-navigation-item
+        %a.strong{:href => keywords_path} Meine Schlagworte
+      %li.separator.mini
+      %li.ui-side-navigation-item
+        %a.strong{:href => media_resources_path(:permissions => {:scope => {:ids => [:entrusted]}})} Mir anvertaute Inhalte
+      %li.separator.mini
+      %li.ui-side-navigation-item
+        %a.strong{:href => groups_path} Meine Arbeitsgruppen
+      %li.separator.mini

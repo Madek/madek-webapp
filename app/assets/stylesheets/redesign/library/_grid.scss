@@ -119,12 +119,17 @@
 .by-center {
   text-align: center;
 }
-
-@media all and (max-width: 499px) {
-  .col1of2, .col1of3, .col1of4, .col1of5, .col1of6 {
-    float: none;
-    width: auto;
+.table {
+  table-layout: fixed;
+  &.auto {
+    table-layout: auto;
   }
+}
+.table-side {
+  width: 190px;
+}
+.table-substance {
+  width: 100%;
 }
 
 /**
@@ -132,6 +137,7 @@
  *
  * Styleguide 1.1.1
  */
+
 .clearfix {
   @include micro-clearfix;
 }

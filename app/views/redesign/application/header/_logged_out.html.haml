@@ -1,6 +1,3 @@
 .app-header
-  %header.ui-header.container.inverted
-    .ui-header-brand
-      = image_tag "redesign/inserts/image-logo-zhdk.png", :alt => "ZHDK", :class => "ui-header-logo"
-      %h1.ui-header-brand-name Z&uuml;rcher Hochschule der K&uuml;nste
-      %h2.ui-header-instance-name= AppSettings.title
+  %header.ui-header.ui-container.inverted
+    = render "application/header/brand"

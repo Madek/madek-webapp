@@ -1,341 +1,412 @@
 <% kss_block '6.1' do %>
-  <div class="thumbnail-set $modifier-class">
-    <div class="inner-wrapper"><%= image_tag "redesign/thumbnails/tmp-thumb-large.jpg" %></div>
+  <div class="ui-container $modifier-class" style="height:80px">
   </div>
 <% end %>
 
 <% kss_block '6.2' do %>
-  <div class="thumbnail-video $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video.png" %>
-  </div>
-  <div class="thumbnail-video $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-avi.png" %>
-  </div>
-  <div class="thumbnail-video $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-dif.png" %>
-  </div>
-  <div class="thumbnail-video $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-dv.png" %>
-  </div>
-  <div class="thumbnail-video $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-mkv.png" %>
-  </div>
-  <div class="thumbnail-video $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-mov.png" %>
-  </div>
-  <div class="thumbnail-video $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-mp4.png" %>
-  </div>
-  <div class="thumbnail-video $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-mpe.png" %>
-  </div>
-  <div class="thumbnail-video $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-mpeg.png" %>
-  </div>
-  <div class="thumbnail-video $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-mpg.png" %>
-  </div>
-  <div class="thumbnail-video $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-ogv.png" %>
-  </div>
-  <div class="thumbnail-video $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-qt.png" %>
-  </div>
-  <div class="thumbnail-video $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-webm.png" %>
-  </div>
-  <div class="thumbnail-video $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-wmv.png" %>
-  </div>
+<ul class="ui-side-navigation">
+  <li class="ui-side-navigation-item">
+    <a class="strong" href="#">Katalog</a>
+  </li>
+  <ul class="ui-side-navigation-lvl2">
+    <li class="ui-side-navigation-lvl2-item">
+      <a class="weak" href="#">ZHdK Bereich</a>
+    </li>
+    <li class="ui-side-navigation-lvl2-item active">
+      <a class="weak" href="#">Gattung</a>
+      <ul class="ui-side-navigation-lvl3">
+        <li class="ui-side-navigation-lvl3-item">
+          <a class="weak" href="#">Architektur</a>
+        </li>
+        <li class="ui-side-navigation-lvl3-item">
+          <a class="weak" href="#">Design</a>
+        </li>
+        <li class="ui-side-navigation-lvl3-item">
+          <a class="weak" href="#">Film</a>
+        </li>
+        <li class="ui-side-navigation-lvl3-item">
+          <a class="weak" href="#">Fotografie</a>
+        </li>
+      </ul>
+    </li>
+    <li class="ui-side-navigation-lvl2-item">
+      <a class="weak" href="#">Projekttyp</a>
+    </li>
+  </ul>
+  <li class="separator mini"></li>
+  <li class="ui-side-navigation-item">
+    <a class="strong" href="#">Interessante Inhalte</a>
+  </li>
+  <li class="separator mini"></li>
+  <li class="ui-side-navigation-item">
+    <a class="strong" href="#">Neue Inhalte</a>
+  </li>
+  <li class="separator mini"></li>
+  <li class="ui-side-navigation-item">
+    <a class="strong" href="#">Häufige Schlagworte</a>
+  </li>
+  <li class="separator mini"></li>
+</ul>
 <% end %>
 
 <% kss_block '6.3' do %>
-  <div class="thumbnail-video small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-small.png" %>
-  </div>
-  <div class="thumbnail-video small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-avi-small.png" %>
-  </div>
-  <div class="thumbnail-video small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-dif-small.png" %>
-  </div>
-  <div class="thumbnail-video small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-dv-small.png" %>
-  </div>
-  <div class="thumbnail-video small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-mkv-small.png" %>
-  </div>
-  <div class="thumbnail-video small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-mov-small.png" %>
-  </div>
-  <div class="thumbnail-video small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-mp4-small.png" %>
-  </div>
-  <div class="thumbnail-video small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-mpe-small.png" %>
-  </div>
-  <div class="thumbnail-video small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-mpeg-small.png" %>
-  </div>
-  <div class="thumbnail-video small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-mpg-small.png" %>
-  </div>
-  <div class="thumbnail-video small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-ogv-small.png" %>
-  </div>
-  <div class="thumbnail-video small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-qt-small.png" %>
-  </div>
-  <div class="thumbnail-video small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-webm-small.png" %>
-  </div>
-  <div class="thumbnail-video small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-video-wmv-small.png" %>
-  </div>
+<ul class="ui-side-filter ui-accordion" id="ui-side-filter">
+  <li class="ui-side-filter-item">
+    <input class="block filter-search-input" type="text">
+      <button class="small filter-search-button primary-button">Search</button>
+
+  </li>
+  <li class="ui-side-filter-item">
+    <a class="strong ui-accordion-toggle ui-side-filter-lvl1-item">
+      Level 1 Filter
+      <i class="ui-side-filter-icon-arrow"></i>
+    </a>
+    <div class="ui-accordion-body">
+      <ul class="ui-side-filter-lvl2">
+        <li class="ui-side-filter-lvl2-item">
+          <a class="weak" href="#">Level 2 Filter</a>
+        </li>
+        <li class="ui-side-filter-lvl2-item">
+          <a class="weak" href="#">Level 2 Filter</a>
+          <ul class="ui-side-filter-lvl3">
+            <li class="ui-side-filter-lvl3-item">
+              <a class="weak" href="#">Level 3 filter</a>
+            </li>
+            <li class="ui-side-filter-lvl3-item">
+              <a class="weak" href="#">Level 3 filter</a>
+              <ul class="ui-side-filter-lvl4">
+                <li class="ui-side-filter-lvl4-item">
+                  <a class="weak" href="#">Item 1</a>
+                </li>
+                <li class="ui-side-filter-lvl4-item">
+                  <a class="weak" href="#">Item 2</a>
+                </li>
+              </ul>
+            </li>
+            <li class="ui-side-filter-lvl3-item">
+              <a class="weak" href="#">Level 3 filter</a>
+            </li>
+            <li class="ui-side-filter-lvl3-item">
+              <a class="weak" href="#">Level 3 filter</a>
+            </li>
+          </ul>
+        </li>
+        <li class="ui-side-filter-lvl2-item">
+          <a class="weak" href="#">Level 2 Filter</a>
+        </li>
+        <li class="ui-side-filter-lvl2-item">
+          <a class="weak" href="#">Level 2 Filter</a>
+        </li>
+      </ul>
+    </div>
+  </li>
+  <li class="ui-side-filter-item">
+    <a class="strong ui-accordion-toggle ui-side-filter-lvl1-item">
+      Level 1 Filter
+      <i class="ui-side-filter-icon-arrow"></i>
+    </a>
+    <div class="ui-accordion-body" style="display: block;">
+      <ul class="ui-side-filter-lvl2">
+        <li class="ui-side-filter-lvl2-item">
+          <a class="weak" href="#">Level 2 Filter</a>
+        </li>
+        <li class="ui-side-filter-lvl2-item">
+          <a class="weak" href="#">Level 2 Filter</a>
+          <ul class="ui-side-filter-lvl3">
+            <li class="ui-side-filter-lvl3-item">
+              <a class="weak" href="#">Level 3 filter</a>
+            </li>
+            <li class="ui-side-filter-lvl3-item">
+              <a class="weak" href="#">Level 3 filter</a>
+              <ul class="ui-side-filter-lvl4">
+                <li class="ui-side-filter-lvl4-item">
+                  <a class="weak" href="#">Item 1</a>
+                </li>
+                <li class="ui-side-filter-lvl4-item">
+                  <a class="weak" href="#">Item 2</a>
+                </li>
+              </ul>
+            </li>
+            <li class="ui-side-filter-lvl3-item">
+              <a class="weak" href="#">Level 3 filter</a>
+            </li>
+            <li class="ui-side-filter-lvl3-item">
+              <a class="weak" href="#">Level 3 filter</a>
+            </li>
+          </ul>
+        </li>
+        <li class="ui-side-filter-lvl2-item">
+          <a class="weak" href="#">Level 2 Filter</a>
+        </li>
+        <li class="ui-side-filter-lvl2-item">
+          <a class="weak" href="#">Level 2 Filter</a>
+        </li>
+      </ul>
+    </div>
+  </li>
+  <li class="ui-side-filter-item">
+    <a class="strong ui-accordion-toggle ui-side-filter-lvl1-item">
+      Level 1 Filter
+      <i class="ui-side-filter-icon-arrow"></i>
+    </a>
+    <div class="ui-accordion-body" style="display: none;">
+      <ul class="ui-side-filter-lvl2">
+        <li class="ui-side-filter-lvl2-item">
+          <a class="weak" href="#">Level 2 Filter</a>
+        </li>
+        <li class="ui-side-filter-lvl2-item">
+          <a class="weak" href="#">Level 2 Filter</a>
+          <ul class="ui-side-filter-lvl3">
+            <li class="ui-side-filter-lvl3-item">
+              <a class="weak" href="#">Level 3 filter</a>
+            </li>
+            <li class="ui-side-filter-lvl3-item">
+              <a class="weak" href="#">Level 3 filter</a>
+              <ul class="ui-side-filter-lvl4">
+                <li class="ui-side-filter-lvl4-item">
+                  <a class="weak" href="#">Item 1</a>
+                </li>
+                <li class="ui-side-filter-lvl4-item">
+                  <a class="weak" href="#">Item 2</a>
+                </li>
+              </ul>
+            </li>
+            <li class="ui-side-filter-lvl3-item">
+              <a class="weak" href="#">Level 3 filter</a>
+            </li>
+            <li class="ui-side-filter-lvl3-item">
+              <a class="weak" href="#">Level 3 filter</a>
+            </li>
+          </ul>
+        </li>
+        <li class="ui-side-filter-lvl2-item">
+          <a class="weak" href="#">Level 2 Filter</a>
+        </li>
+        <li class="ui-side-filter-lvl2-item">
+          <a class="weak" href="#">Level 2 Filter</a>
+        </li>
+      </ul>
+    </div>
+  </li>
+</ul>
 <% end %>
 
 <% kss_block '6.4' do %>
-  <div class="thumbnail-audio $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio.png" %>
-  </div>
-  <div class="thumbnail-audio $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-aif.png" %>
-  </div>
-  <div class="thumbnail-audio $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-aifc.png" %>
-  </div>
-  <div class="thumbnail-audio $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-aiff.png" %>
-  </div>
-  <div class="thumbnail-audio $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-flac.png" %>
-  </div>
-  <div class="thumbnail-audio $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-m4a.png" %>
-  </div>
-  <div class="thumbnail-audio $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-mp2.png" %>
-  </div>
-  <div class="thumbnail-audio $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-mp3.png" %>
-  </div>
-  <div class="thumbnail-audio $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-mpega.png" %>
-  </div>
-  <div class="thumbnail-audio $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-mpga.png" %>
-  </div>
-  <div class="thumbnail-audio $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-oga.png" %>
-  </div>
-  <div class="thumbnail-audio $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-ogg.png" %>
-  </div>
-  <div class="thumbnail-audio $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-spx.png" %>
-  </div>
-  <div class="thumbnail-audio $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-wav.png" %>
-  </div>
-  <div class="thumbnail-audio $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-wma.png" %>
-  </div>
+<ul class="ui-tag-cloud $modifier-class">
+  <li class="tag-button"><a href="#">Tag 1</a></li>
+  <li class="tag-button"><a href="#">Tag 2</a></li>
+  <li class="tag-button"><a href="#">Tag 3</a></li>
+</ul>
 <% end %>
 
 <% kss_block '6.5' do %>
-  <div class="thumbnail-audio small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-small.png" %>
-  </div>
-  <div class="thumbnail-audio small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-aif-small.png" %>
-  </div>
-  <div class="thumbnail-audio small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-aifc-small.png" %>
-  </div>
-  <div class="thumbnail-audio small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-aiff-small.png" %>
-  </div>
-  <div class="thumbnail-audio small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-flac-small.png" %>
-  </div>
-  <div class="thumbnail-audio small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-m4a-small.png" %>
-  </div>
-  <div class="thumbnail-audio small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-mp2-small.png" %>
-  </div>
-  <div class="thumbnail-audio small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-mp3-small.png" %>
-  </div>
-  <div class="thumbnail-audio small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-mpega-small.png" %>
-  </div>
-  <div class="thumbnail-audio small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-mpga-small.png" %>
-  </div>
-  <div class="thumbnail-audio small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-oga-small.png" %>
-  </div>
-  <div class="thumbnail-audio small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-ogg-small.png" %>
-  </div>
-  <div class="thumbnail-audio small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-spx-small.png" %>
-  </div>
-  <div class="thumbnail-audio small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-wav-small.png" %>
-  </div>
-  <div class="thumbnail-audio small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-audio-wma-small.png" %>
-  </div>
+<ul class="ui-tabs $modifier-class">
+  <li class="ui-tabs-item"><a href="#">Item 1</a></li>
+  <li class="ui-tabs-item active"><a href="#">Item 2</a></li>
+</ul>
 <% end %>
-
-<% kss_block '6.6' do %>
-  <div class="thumbnail-doc $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc.png" %>
-  </div>
-  <div class="thumbnail-doc $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-doc.png" %>
-  </div>
-  <div class="thumbnail-doc $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-docx.png" %>
-  </div>
-  <div class="thumbnail-doc $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-odp.png" %>
-  </div>
-  <div class="thumbnail-doc $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-ods.png" %>
-  </div>
-  <div class="thumbnail-doc $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-odt.png" %>
-  </div>
-  <div class="thumbnail-doc $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-pdf.png" %>
-  </div>
-  <div class="thumbnail-doc $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-pps.png" %>
-  </div>
-  <div class="thumbnail-doc $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-ppt.png" %>
-  </div>
-  <div class="thumbnail-doc $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-pptx.png" %>
-  </div>
-  <div class="thumbnail-doc $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-swf.png" %>
-  </div>
-  <div class="thumbnail-doc $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-swfl.png" %>
-  </div>
-  <div class="thumbnail-doc $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-txt.png" %>
-  </div>
-  <div class="thumbnail-doc $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-xlb.png" %>
-  </div>
-  <div class="thumbnail-doc $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-xls.png" %>
-  </div>
-  <div class="thumbnail-doc $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-xlsx.png" %>
-  </div>
-  <div class="thumbnail-doc $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-xlt.png" %>
-  </div>
-<% end %>
-
-<% kss_block '6.7' do %>
-  <div class="thumbnail-doc small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-small.png" %>
-  </div>
-  <div class="thumbnail-doc small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-doc-small.png" %>
-  </div>
-  <div class="thumbnail-doc small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-docx-small.png" %>
-  </div>
-  <div class="thumbnail-doc small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-odp-small.png" %>
-  </div>
-  <div class="thumbnail-doc small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-ods-small.png" %>
-  </div>
-  <div class="thumbnail-doc small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-odt-small.png" %>
-  </div>
-  <div class="thumbnail-doc small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-pdf-small.png" %>
-  </div>
-  <div class="thumbnail-doc small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-pps-small.png" %>
-  </div>
-  <div class="thumbnail-doc small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-ppt-small.png" %>
-  </div>
-  <div class="thumbnail-doc small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-pptx-small.png" %>
-  </div>
-  <div class="thumbnail-doc small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-swf-small.png" %>
-  </div>
-  <div class="thumbnail-doc small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-swfl-small.png" %>
-  </div>
-  <div class="thumbnail-doc small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-txt-small.png" %>
-  </div>
-  <div class="thumbnail-doc small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-xlb-small.png" %>
-  </div>
-  <div class="thumbnail-doc small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-xls-small.png" %>
-  </div>
-  <div class="thumbnail-doc small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-xlsx-small.png" %>
-  </div>
-  <div class="thumbnail-doc small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-doc-xlt-small.png" %>
-  </div>
-<% end %>
-
-<% kss_block '6.8' do %>
-  <div class="thumbnail-package $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-package.png" %>
-  </div>
-  <div class="thumbnail-package $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-package-7z.png" %>
-  </div>
-  <div class="thumbnail-package $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-package-rar.png" %>
-  </div>
-  <div class="thumbnail-package $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-package-taz.png" %>
-  </div>
-  <div class="thumbnail-package $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-package-tgz.png" %>
-  </div>
-  <div class="thumbnail-package $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-package-zip.png" %>
-  </div>
-<% end %>
-
 <% kss_block '6.9' do %>
-  <div class="thumbnail-package small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-package-small.png" %>
+<div class="ui-resources-header" style="display:block;">
+  <h2 class="title-l ui-resources-title">A filter <a href="#" class="strong">Alle anziegen</a></h2>
+  <p class="paragraph-l ui-resources-intro">Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet arcu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+</div>
+<% end %>
+
+<% kss_block '6.10' do %>
+<div class="ui-body-title">
+  <div class="ui-body-title-label">
+    <h1 class="title-xl">Page header that could possibly go onto two lines but will not because of the overlay.</h1>
   </div>
-  <div class="thumbnail-package small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-package-7z-small.png" %>
+  <div class="ui-body-title-actions">
+    <a href="#" class="primary-button">Primary button</a>
+    <a href="#" class="button">Secondary button</a>
   </div>
-  <div class="thumbnail-package small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-package-rar-small.png" %>
+</div>
+<% end %>
+
+<% kss_block '6.11', :padding_bottom => "120", :padding_left => "120" do %>
+<div class="dropdown">
+  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dropdown trigger</a>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+    <li class="dropdown-menu-item"><a href="#">Item 1</a></li>
+    <li class="dropdown-menu-item"><a href="#">Item 2</a></li>
+    <li class="separator"></li>
+    <li class="dropdown-menu-item"><a href="#">Item 3</a></li>
+  </ul>
+</div>
+<% end %>
+
+<% kss_block '6.12' do %>
+<div class="ui-alert $modifier-class">Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere.</div>
+<% end %>
+
+<% kss_block '6.13' do %>
+<div class="ui-metadata-box">
+  <h3 class="title-m separated light mbs pbs">Horizontlinie</h3>
+  <ol>
+    <li class="odd">Agglomeration</li>
+    <li class="even">Bucht</li>
+    <li class="odd">Ebene</li>
+    <li class="even">Erholungszone</li>
+    <li class="odd">Something very very long that could break</li>
+    <li class="even">Short</li>
+    <li class="odd">Landwirtschaft</li>
+    <li class="even">Naturlandschaft</li>
+  </ol>
+</div>
+<% end %>
+
+<% kss_block '6.14' do %>
+<div class="ui-metadata-box">
+  <dl>
+    <dt class="media-data-title title-xs">Titel</dt>
+    <dd class="media-data-content title-l">Die Eismalerin</dd>
+
+    <dt class="media-data-title title-xs">Untertitel</dt>
+    <dd class="media-data-content">Installationsansicht</dd>
+
+    <dt class="media-data-title title-xs">Autor/in</dt>
+    <dd class="media-data-content">
+      <ul class="inline">
+        <li><a href="#">Stemmle, Janka</a></li>
+      </ul>
+    </dd>
+
+    <dt class="media-data-title title-xs">Datierrung</dt>
+    <dd class="media-data-content">2012</dd>
+
+    <dt class="media-data-title title-xs">Schlagworte zu Inhalt und Motiv</dt>
+    <dd class="media-data-content">
+      <ul class="ui-tag-cloud small">
+        <li class="tag-button"><a href="#">Tag 1</a></li>
+        <li class="tag-button"><a href="#">Tag 2</a></li>
+      </ul>
+    </dd>
+
+    <dt class="media-data-title title-xs">Rechte am geistigen Eigentum</dt>
+    <dd class="media-data-content">ZHdK DKM VMK</dd>
+
+    <dt class="media-data-title title-xs">Privacy</dt>
+    <dd class="media-data-content">This entry is public <i class="icon-privacy-open"></i></dd>
+
+    <dt class="media-data-title title-xs">Eigentumer/in im Medienarchiv</dt>
+    <dd class="media-data-content">
+      <ul class="inline">
+        <li><a href="#">Rüegger, Romy</a></li>
+      </ul>
+    </dd>
+  </dl>
+</div>
+<% end %>
+
+<% kss_block '6.15' do %>
+<div class="ui-slider">
+  <a class="ui-slider-handle"><span class="ui-slider-info ui-container inverted">8 von 14</span></a>
+</div>
+<% end %>
+
+<% kss_block '6.16' do %>
+<div class="ui-stepline">
+  <div class="ui-stepline-item">
+    <h3 class="title-s ui-stepline-item-title">
+      <small>
+        1 of 4
+      </small>
+      Medien übertragen
+    </h3>
   </div>
-  <div class="thumbnail-package small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-package-taz-small.png" %>
+  <div class="ui-stepline-item">
+    <h3 class="title-s ui-stepline-item-title">
+      <small>
+        2 of 4
+      </small>
+      Berechtigungen setzen
+    </h3>
   </div>
-  <div class="thumbnail-package small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-package-tgz-small.png" %>
+  <div class="ui-stepline-item active">
+    <h3 class="title-s ui-stepline-item-title">
+      <small>
+        3 of 4
+      </small>
+      Metadaten ergänzen
+    </h3>
   </div>
-  <div class="thumbnail-package small $modifier-class">
-    <%= image_tag "redesign/thumbnails/thumb-package-zip-small.png" %>
+  <div class="ui-stepline-item">
+    <h3 class="title-s ui-stepline-item-title">
+      <small>
+        4 of 4
+      </small>
+      Medien zusammenstellen
+    </h3>
   </div>
+</div>
+<% end %>
+
+<% kss_block '6.17' do %>
+<div class="ui-actions">
+  <a class="link weak">Secondary Action</a>
+  <a class="primary-button">Primary Action</a>
+</div>
+<% end %>
+
+<% kss_block '6.18' do %>
+<div class="ui-modal $modifier-class">
+  <div class="ui-modal-head">
+    <h3 class="title-l">ui-modal Title</h3>
+    <a class="modal-close ui-modal-close" aria-hidden="true" data-dismiss="modal" title="Close"></a>
+  </div>
+  <div class="ui-modal-toolbar top">
+    ui-toolbar content if any
+  </div>
+  <div class="ui-modal-body">
+    ui-modal Body
+  </div>
+  <div class="ui-modal-toolbar bottom">
+    ui-toolbar content if any
+  </div>
+  <div class="ui-modal-footer">
+    <div class="ui-actions">
+      <a class="link weak">Secondary Action</a>
+      <a class="primary-button">Primary Action</a>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<% kss_block '6.19' do %>
+<div class="ui-preloader $modifier-class">
+  Loading in progress
+</div>
+<% end %>
+
+<% kss_block '6.20' do %>
+<div class="ui-thumbnail media-catalog">
+  <div class="ui-thumbnail-privacy">
+    <i class="icon-privacy-open">This media is Public</i>
+  </div>
+  <a class="ui-thumbnail-image-wrapper">
+    <div class="ui-thumbnail-image-holder">
+      <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-image" %>
+    </div>
+  </a>
+  <div class="ui-thumbnail-meta">
+    <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines so lets try make it so shall we.</h3>
+    <p class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well so how about seeing how it works then?</p>
+    <span class="ui-thumbnail-meta-extension">500</span>
+  </div>
+</div>
+<% end %>
+
+<% kss_block '6.21' do %>
+<div class="ui-thumbnail-actions">
+  <ul class="left by-left">
+    <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
+    <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
+  </ul>
+  <ul class="right by-right">
+    <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Select</a></li>
+    <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Select</a></li>
+    <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Select</a></li>
+  </ul>
+</div>
 <% end %>

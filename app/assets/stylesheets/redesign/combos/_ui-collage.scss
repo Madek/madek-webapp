@@ -1,0 +1,220 @@
+/**
+ * ## Straight Collage `.ui-collage`
+ *
+ * Styleguide 7.7.1
+ */
+
+.ui-collage {
+  @include border-top-right-radius($border-radius-m);
+  background: $darkest;
+  margin: -1px -1px 0 -1px;
+  overflow: hidden;
+  padding: 1px;
+  position: relative;
+  width: 100%;
+}
+
+.ui-collage-row {
+  display: table;
+  width: 100%;
+  &:first-child {
+    @include border-top-right-radius($border-radius-m);
+    .ui-collage-item:last-child {
+      @include border-top-right-radius($border-radius-m);
+    }
+  }
+}
+.ui-collage-item {
+  display: table-cell;
+  border: 1px solid $darkest;
+  line-height: 0;
+  position: relative;
+  vertical-align: middle;
+  width: 25%;
+}
+.ui-collage-item-wrapper {
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+}
+.ui-collage-item-image {
+  @include position-top-left(0,0);
+  @include max-dimension(110%,120%);
+  @include min-dimension(100%,100%);
+  display: inline-block;
+  margin: 0;
+}
+.ui-collage-item-meta {
+  @include position-bottom-left(0,0);
+  @include position-right(0);
+  display: none;
+  background: $brightest;
+  overflow: hidden;
+  padding: $space-x 0;
+  text-indent: $space-s;
+  text-align: left;
+  &:after {
+    @include background(linear-gradient(right, $brightest, rgba(255,255,255,0)));
+    @include dimension(20%,100%);
+    @include position-top-right(0,0);
+    display: block;
+    content: " ";
+  }
+  h3, h4 {
+    white-space: nowrap
+  }
+}
+.ui-collage-item:hover {
+  .ui-collage-item-meta {
+    display: block;
+  }
+}
+
+// Media queries
+
+@media #{$screen-size-xs} {
+  .ui-collage-item-wrapper {
+    @include dimension(100%,150px);
+  }
+}
+@media #{$screen-size-s} {
+  .ui-collage-item-wrapper {
+    @include dimension(100%,180px);
+  }
+}
+@media #{$screen-size-m} {
+  .ui-collage-item-wrapper {
+    @include dimension(100%,220px);
+  }
+}
+@media #{$screen-size-l} {
+  .ui-collage-item-wrapper {
+    @include dimension(100%,250px);
+  }
+}
+@media #{$screen-size-xl} {
+  .ui-collage-item {
+    width: 20%;
+  }
+  .ui-collage-item-wrapper {
+    @include dimension(100%,220px);
+  }
+}
+@media #{$screen-size-xxl} {
+  .ui-collage-item {
+    width: 20%;
+  }
+  .ui-collage-item-wrapper {
+    @include dimension(100%,240px);
+  }
+}
+
+/**
+ * ## Crooked Collage `.ui-collage.crooked`
+ *
+ * Styleguide 7.7.2
+ */
+
+.ui-collage.crooked {
+  @include border-radius(0);
+  border-color: $darkest;
+  border-style: solid;
+  border-width: 2px 0;
+  margin: 0;
+  padding: 0;
+  .ui-collage-item {
+    position: relative;
+    top: -2px;
+    width: 20%;
+    &.even .ui-collage-item-wrapper {
+      position: relative;
+    }
+  }
+}
+
+@media #{$screen-size-xs} {
+  .ui-collage.crooked {
+    height: 450px;
+  }
+  .ui-collage.crooked .ui-collage-item-wrapper {
+    @include dimension(100%,150px);
+  }
+  .ui-collage.crooked .ui-collage-item.even .ui-collage-item-wrapper {
+    top: -75px;
+  }
+}
+@media #{$screen-size-s} {
+  .ui-collage.crooked {
+    height: 510px;
+  }
+  .ui-collage.crooked .ui-collage-item-wrapper {
+    @include dimension(100%,170px);
+  }
+  .ui-collage.crooked .even .ui-collage-item-wrapper {
+    top: -85px;
+  }
+}
+@media #{$screen-size-m} {
+  .ui-collage.crooked {
+    height: 540px;
+  }
+  .ui-collage.crooked .ui-collage-item-wrapper {
+    @include dimension(100%,180px);
+  }
+  .ui-collage.crooked .even .ui-collage-item-wrapper {
+    top: -90px;
+  }
+}
+@media #{$screen-size-l} {
+  .ui-collage.crooked {
+    height: 600px;
+  }
+  .ui-collage.crooked .ui-collage-item-wrapper {
+    @include dimension(100%,200px);
+  }
+  .ui-collage.crooked .even .ui-collage-item-wrapper {
+    top: -100px;
+  }
+}
+@media #{$screen-size-xl} {
+  .ui-collage.crooked {
+    height: 600px;
+  }
+  .ui-collage.crooked .ui-collage-item-wrapper {
+    @include dimension(100%,220px);
+  }
+  .ui-collage.crooked .even .ui-collage-item-wrapper {
+    top: -160px;
+  }
+  .ui-collage.crooked .odd .ui-collage-item-wrapper {
+    top: -30px;
+  }
+}
+@media #{$screen-size-xxl} {
+  .ui-collage.crooked {
+    height: 600px;
+  }
+  .ui-collage.crooked .ui-collage-item-wrapper {
+    @include dimension(100%,250px);
+  }
+  .ui-collage.crooked .odd .ui-collage-item-wrapper {
+    top: -210px;
+  }
+  .ui-collage.crooked .even .ui-collage-item-wrapper {
+    top: -75px;
+  }
+}
+@media #{$screen-size-xxl-plus} {
+  .ui-collage.crooked {
+    height: 700px;
+  }
+  .ui-collage.crooked .ui-collage-item-wrapper {
+    @include dimension(100%,350px);
+  }
+  .ui-collage.crooked .even .ui-collage-item-wrapper {
+    top: -175px;
+  }
+  .ui-collage.crooked .odd .ui-collage-item-wrapper {
+    top: 0;
+  }
+}

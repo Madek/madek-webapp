@@ -1,7 +1,7 @@
 /**
- * ## Side filter `.side-filter`
+ * ## Side filter `.ui-side-filter`
  *
- * Styleguide 7.3
+ * Styleguide 6.3
  */
 
 input[type="text"],
@@ -86,8 +86,13 @@ input.large {
       font-weight: normal;
     }
     .form-tooltip-toggle {
+      @extend .icon-question-mark;
       @include position-top-right($space-x,0);
       display: inline-block;
+      opacity: $opacity-medium;
+    }
+    .form-tooltip-toggle:hover {
+      opacity: 1;
     }
   }
   > .form-item {

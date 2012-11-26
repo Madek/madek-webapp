@@ -6,18 +6,30 @@
     
     = render "application/collage"
 
-    .app-body-container
+    .app-body-ui-container
 
       = render "application/navigation"
 
-      = render "application/catalog" if @catalog_set and not @catalog_set_categories.blank?
+      - if @catalog_set and not @catalog_set_categories.blank?
+        = render :partial => "media_resources/wrapper", 
+                 :locals => {:media_resources => @catalog_set_categories, 
+                             :title => @catalog_set.title, 
+                             :link => "/explore/media_resources",
+                             :as_categories => true}
+        %hr.separator
       
       - if @featured_set and not @featured_set_children.blank?
+        = render :partial => "media_resources/wrapper", 
+                 :locals => {:media_resources => @featured_set_children, 
+                             :title => @featured_set.title,
+                             :link => "/explore/media_resources"}
         %hr.separator
-        = render "application/featured" 
 
       - unless @latest_media_entries.blank?
-        %hr.separator
-        = render "application/new" 
+        = render :partial => "media_resources/wrapper", 
+                 :locals => {:media_resources => @latest_media_entries, 
+                             :title => "Neue Inhalte",
+                             :link => "/explore/media_resources"}
 
-  = render "application/footer"
+  .app-footer-push
+= render "application/footer"

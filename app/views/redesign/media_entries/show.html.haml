@@ -1,39 +1,6 @@
 .app.view-media-entry
 
-  .app-header
-    %header.ui-header.container.inverted
-      .ui-header-brand
-        = image_tag "redesign/inserts/image-logo-zhdk.png", :alt => "ZHDK", :class => "ui-header-logo"
-        %h1.ui-header-brand-name Z&uuml;rcher Hochschule der K&uuml;nste
-        %h2.ui-header-instance-name Medienarchiv der K&uuml;nste
-
-      .ui-header-menu
-        %ul.large.primary.tab-navigation
-          %li.tab-navigation-item
-            %a{:href => "#"} Mein Archiv
-          %li.tab-navigation-item
-            %a{:href => "#"} Erkunden
-          %li.tab-navigation-item
-            %a{:href => "#"}
-              %i.icon-search.bright
-              Suchen
-          %li.tab-navigation-item
-            %a{:href => "#"}
-              %i.icon-help.bright Help
-
-      .ui-header-user
-        .dropdown
-          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-            Franziska M&uuml;ller-Rei&szlig;mann
-            %i.icon-arrow-down.bright.stand-alone
-          %ul.dropdown-menu{"aria-labelledby" => "dLabel", :role => "menu"}
-            %li.dropdown-menu-item
-              %a{:href => "#"} Item 1
-            %li.dropdown-menu-item
-              %a{:href => "#"} Item 2
-            %li.separator
-            %li.dropdown-menu-item
-              %a{:href => "#"} Abmelden
+  = render "application/header/logged_in"
 
   .app-body
 
@@ -51,23 +18,23 @@
             %ul.dropdown-menu{"aria-labelledby" => "dLabel", :role => "menu"}
               %li.dropdown-menu-item
                 %a{:href => "#"}
-                  %i.icon-edit.dark
+                  %i.icon-pen
                   Editieren
               %li.dropdown-menu-item
                 %a{:href => "#"}
-                  %i.icon-fav.dark
+                  %i.icon-star
                   Favorisieren
               %li.dropdown-menu-item
                 %a{:href => "#"}
-                  %i.icon-privacy
+                  %i.icon-lock
                   Zugriffsberechtigungen
               %li.dropdown-menu-item
                 %a{:href => "#"}
-                  %i.icon-privacy
+                  %i.icon-move
                   Zu Set hinzufugen / entfernen
               %li.dropdown-menu-item
                 %a{:href => "#"}
-                  %i.icon-download.dark
+                  %i.icon-dload
                   Exportieren
               %li.dropdown-menu-item
                 %a{:href => "#"}
@@ -79,62 +46,64 @@
                   Neues Set
               %li.dropdown-menu-item
                 %a{:href => "#"}
-                  %i.icon-vis-links.dark
+                  %i.icon-vis-graph
                   Graph berechnen
 
-    .app-body-container
+    .app-body-ui-container
 
       // TABS
 
-      %ul.tab-navigation.large
-        %li.tab-navigation-item.active
-          %a{"data-toggle" => "tab", :href => "#media-overview"} Media
-        %li.tab-navigation-item
+      %ul.ui-tabs.large
+        %li.ui-tabs-item.active
+          %a{"data-toggle" => "tab", :href => "#ui-media-overview"} Media
+        %li.ui-tabs-item
           %a{"data-toggle" => "tab", :href => "#parenting-sets"} Übergeordnete Sets
-        %li.tab-navigation-item
+        %li.ui-tabs-item
           %a{"data-toggle" => "tab", :href => "#kontext"} Kontexte
-        %li.tab-navigation-item
+        %li.ui-tabs-item
           %a{"data-toggle" => "tab", :href => "#other-data"} Weitere Daten
+        %li.ui-tabs-item
+          %a{"data-toggle" => "tab", :href => "#location-data"} Google Maps
 
       // TAB CONTENT
 
-      .container.rounded-right.rounded-bottom.bordered.tab-content
+      .ui-container.rounded-right.rounded-bottom.bordered.tab-content
 
-        .tab-pane.active#media-overview
-          .bright.container.pal
+        .tab-pane.active#ui-media-overview
+          .bright.ui-container.pal
 
-            .media-overview
-              %dl.media-overview-metadata.ui-metadata-box
-                %dt.title-xs Titel
-                %dd.title-l Die Eismalerin
-                %dt.title-xs Untertitel
-                %dd Installationsansicht
-                %dt.title-xs Autor/in
-                %dd
+            .ui-media-overview
+              %dl.ui-media-overview-metadata.ui-metadata-box
+                %dt.media-data-title.title-xs-alt Titel
+                %dd.media-data-content.title-l Die Eismalerin
+                %dt.media-data-title.title-xs-alt Untertitel
+                %dd.media-data-content Installationsansicht
+                %dt.media-data-title.title-xs-alt Autor/in
+                %dd.media-data-content
                   %a{:href => "#"} Stemmle, Janka
-                %dt.title-xs Datierrung
-                %dd 2012
-                %dt.title-xs Schlagworte zu Inhalt und Motiv
-                %dd
-                  %ul.tag-cloud.small
+                %dt.media-data-title.title-xs-alt Datierrung
+                %dd.media-data-content 2012
+                %dt.media-data-title.title-xs-alt Schlagworte zu Inhalt und Motiv
+                %dd.media-data-content
+                  %ul.ui-tag-cloud.small
                     %li.tag-button
                       %a{:href => "#"} Tag 1
                     %li.tag-button
                       %a{:href => "#"} Tag 2
-                %dt.title-xs Rechte am geistigen Eigentum
-                %dd ZHdK DKM VMK
-                %dt.title-xs Privacy
-                %dd
+                %dt.media-data-title.title-xs-alt Rechte am geistigen Eigentum
+                %dd.media-data-content ZHdK DKM VMK
+                %dt.media-data-title.title-xs-alt Privacy
+                %dd.media-data-content
                   This entry is public
                   %i.icon-privacy-public
-                %dt.title-xs Eigentumer/in im Medienarchiv
-                %dd
+                %dt.media-data-title.title-xs-alt Eigentumer/in im Medienarchiv
+                %dd.media-data-content
                   %a{:href => "#"} R&uuml;egger, Romy
-              .media-overview-preview
-                = image_tag "redesign/tmp/media-entry-1.png"
+              .ui-media-overview-preview
+                = image_tag "redesign/styleguide/media-entry-1.png"
 
-          .midtone.container.pal.rounded-bottom.well
-            .media-entry-metadata.container
+          .midtone.ui-container.pal.rounded-bottom.well
+            .media-entry-metadata.ui-container
               .col1of4
                 .ui-metadata-box.prm
                   %h3.title-l.separated.mbm Werk
@@ -152,7 +121,7 @@
                     %dd.media-data-content 2012
                     %dt.media-data-title.title-xs Schlagworte zu Inhalt und Motiv
                     %dd.media-data-content
-                      %ul.tag-cloud.small
+                      %ul.ui-tag-cloud.small
                         %li.tag-button
                           %a{:href => "#"} Tag 1
                         %li.tag-button
@@ -220,249 +189,99 @@
                           %a{:href => "#"} Stemmle, Janka
 
         .tab-pane#parenting-sets
-          .bright.container.pal.rounded-bottom
+          .bright.ui-container.pal.rounded-bottom
             %h2.title-l.separated.mbl Diese Media ist in 2 Sets enthalten.
-            %ul.media-entries.grid.active
-              %li.media-entries-item
-                .ui-thumbnail-wrapper.media-set
-                  .thumbnail-level-up-items
-                    %h3.title-xs-alt Keine übergeordneten Sets
-                  .thumbnail-privacy
+            %ul.ui-resources-list.tiles.active
+              %li.ui-resources-item
+                .ui-thumbnail.set
+                  .ui-thumbnail-level-up-items
+                    %h3.ui-thumbnail-level-notes Set enthalt
+                    %ul.ui-thumbnail-level-items
+                      %li.ui-thumbnail-level-item.odd
+                        %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                          .ui-thumbnail-level-image-holder
+                            = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                      %li.ui-thumbnail-level-item.even
+                        %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                          .ui-thumbnail-level-image-holder
+                            = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                    %span.ui-thumbnail-level-notes 5 Inhalte
+                  .ui-thumbnail-privacy
                     %i.icon-privacy-group This media is shared with a group
-                  .thumbnail-set.thumbnail
-                    .inner-wrapper
-                      %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                  .thumbnail-metadata
-                    %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                    %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                  .thumbnail-actions
+                  %a.ui-thumbnail-image-wrapper
+                    .ui-thumbnail-image-holder
+                      = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-image"
+                  .ui-thumbnail-meta
+                    %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
+                    %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
+                  .ui-thumbnail-actions
                     %ul.left.by-left
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-check Select
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-fav Favorite
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-checkbox Select
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-favorite Favorite
                     %ul.right.by-right
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-explore Explore
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-edit Edit
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-delete Delete
-                  .thumbnail-level-down-items
-                    %h3.title-s Set enthalt
-                    .thumbnail.thumbnail-set.small.odd
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                    .thumbnail.thumbnail-set.small.even
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                    %h4.title-xs-alt 5 Inhalte
-              %li.media-entries-item
-                .ui-thumbnail-wrapper.media-set
-                  .thumbnail-level-up-items
-                    %h3.title-xs-alt Keine übergeordneten Sets
-                  .thumbnail-privacy
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-browse Browse
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-edit Edit
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-delete Delete
+                  .ui-thumbnail-level-down-items
+                    %h3.ui-thumbnail-level-notes Set enthalt
+                    %ul.ui-thumbnail-level-items
+                      %li.ui-thumbnail-level-item.odd
+                        %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                          .ui-thumbnail-level-image-holder
+                            = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                      %li.ui-thumbnail-level-item.even
+                        %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                          .ui-thumbnail-level-image-holder
+                            = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                    %span.ui-thumbnail-level-notes 5 Inhalte
+              %li.ui-resources-item
+                .ui-thumbnail.filter-set
+                  .ui-thumbnail-level-up-items
+                    %span.ui-thumbnail-level-notes Keine übergeordneten Sets
+                  .ui-thumbnail-privacy
                     %i.icon-privacy-group This media is shared with a group
-                  .thumbnail-set.thumbnail
-                    .inner-wrapper
-                      %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                  .thumbnail-metadata
-                    %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                    %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                  .thumbnail-actions
+                  %a.ui-thumbnail-image-wrapper
+                    .ui-thumbnail-image-holder
+                      = image_tag "redesign/styleguide/media-entry-7.jpeg", :class => "ui-thumbnail-image"
+                  .ui-thumbnail-meta
+                    %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
+                    %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
+                  .ui-thumbnail-actions
                     %ul.left.by-left
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-check Select
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-fav Favorite
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-checkbox Select
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-favorite Favorite
                     %ul.right.by-right
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-explore Explore
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-edit Edit
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-delete Delete
-                  .thumbnail-level-down-items
-                    %h3.title-s Set enthalt
-                    .thumbnail.thumbnail-set.small.odd
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                    .thumbnail.thumbnail-set.small.even
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                    %h4.title-xs-alt 5 Inhalte
-              %li.media-entries-item
-                .ui-thumbnail-wrapper.media-set
-                  .thumbnail-level-up-items
-                    %h3.title-xs-alt Keine übergeordneten Sets
-                  .thumbnail-privacy
-                    %i.icon-privacy-group This media is shared with a group
-                  .thumbnail-set.thumbnail
-                    .inner-wrapper
-                      %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                  .thumbnail-metadata
-                    %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                    %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                  .thumbnail-actions
-                    %ul.left.by-left
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-check Select
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-fav Favorite
-                    %ul.right.by-right
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-explore Explore
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-edit Edit
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-delete Delete
-                  .thumbnail-level-down-items
-                    %h3.title-s Set enthalt
-                    .thumbnail.thumbnail-set.small.odd
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                    .thumbnail.thumbnail-set.small.even
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                    %h4.title-xs-alt 5 Inhalte
-              %li.media-entries-item
-                .ui-thumbnail-wrapper.media-set
-                  .thumbnail-level-up-items
-                    %h3.title-xs-alt Keine übergeordneten Sets
-                  .thumbnail-privacy
-                    %i.icon-privacy-group This media is shared with a group
-                  .thumbnail-set.thumbnail
-                    .inner-wrapper
-                      %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                  .thumbnail-metadata
-                    %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                    %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                  .thumbnail-actions
-                    %ul.left.by-left
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-check Select
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-fav Favorite
-                    %ul.right.by-right
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-explore Explore
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-edit Edit
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-delete Delete
-                  .thumbnail-level-down-items
-                    %h3.title-s Set enthalt
-                    .thumbnail.thumbnail-set.small.odd
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                    .thumbnail.thumbnail-set.small.even
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                    %h4.title-xs-alt 5 Inhalte
-              %li.media-entries-item
-                .ui-thumbnail-wrapper.media-set
-                  .thumbnail-level-up-items
-                    %h3.title-xs-alt Keine übergeordneten Sets
-                  .thumbnail-privacy
-                    %i.icon-privacy-group This media is shared with a group
-                  .thumbnail-set.thumbnail
-                    .inner-wrapper
-                      %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                  .thumbnail-metadata
-                    %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                    %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                  .thumbnail-actions
-                    %ul.left.by-left
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-check Select
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-fav Favorite
-                    %ul.right.by-right
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-explore Explore
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-edit Edit
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-delete Delete
-                  .thumbnail-level-down-items
-                    %h3.title-s Set enthalt
-                    .thumbnail.thumbnail-set.small.odd
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                    .thumbnail.thumbnail-set.small.even
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                    %h4.title-xs-alt 5 Inhalte
-              %li.media-entries-item
-                .ui-thumbnail-wrapper.media-set
-                  .thumbnail-level-up-items
-                    %h3.title-xs-alt Keine übergeordneten Sets
-                  .thumbnail-privacy
-                    %i.icon-privacy-group This media is shared with a group
-                  .thumbnail-set.thumbnail
-                    .inner-wrapper
-                      %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                  .thumbnail-metadata
-                    %h3.title-s.thumbnail-name Name that can easily go onto 2 lines
-                    %h4.title-xs-alt.thumbnail-author Author that can easily go onto 2 lines as well
-                  .thumbnail-actions
-                    %ul.left.by-left
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-check Select
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-fav Favorite
-                    %ul.right.by-right
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-explore Explore
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-edit Edit
-                      %li
-                        %a{:href => "#"}
-                          %i.icon-delete Delete
-                  .thumbnail-level-down-items
-                    %h3.title-s Set enthalt
-                    .thumbnail.thumbnail-set.small.odd
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                    .thumbnail.thumbnail-set.small.even
-                      .inner-wrapper
-                        %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/thumbnails/tmp-thumb-large.jpg"}/
-                    %h4.title-xs-alt 5 Inhalte
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-browse Browse
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-edit Edit
+                      %li.ui-thumbnail-action
+                        %a.ui-thumbnail-action-delete Delete
+                  .ui-thumbnail-level-down-items
+                    %h3.ui-thumbnail-level-notes Set enthalt
+                    %ul.ui-thumbnail-level-items
+                      %li.ui-thumbnail-level-item.odd
+                        %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                          .ui-thumbnail-level-image-holder
+                            = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                      %li.ui-thumbnail-level-item.even
+                        %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                          .ui-thumbnail-level-image-holder
+                            = image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image"
+                    %span.ui-thumbnail-level-notes 5 Inhalte
 
         .tab-pane#kontext
-          .bright.container.pal.rounded-bottom
+          .bright.ui-container.pal.rounded-bottom
             %h2.title-l.separated.mbl Kontexte
 
-            .container.mbm
+            .ui-container.mbm
               .col1of3
                 .ui-metadata-box.prm
                   %h3.title-m.separated.light.mbm Landschaftstyp
@@ -496,7 +315,7 @@
                     %li{:clas => "odd"} Landwirtschaft
                     %li.even Naturlandschaft
 
-            .container.mbm
+            .ui-container.mbm
               .col1of3
                 .ui-metadata-box.prm
                   %h3.title-m.separated.light.mbm Wetter/Klima
@@ -530,7 +349,7 @@
                     %li{:clas => "odd"} Landwirtschaft
                     %li.even Naturlandschaft
 
-            .container.mbm
+            .ui-container.mbm
               .col1of3
                 .ui-metadata-box.prm
                   %h3.title-m.separated.light.mbm Räumliche Wahrnehmung
@@ -564,7 +383,7 @@
                     %li{:clas => "odd"} Landwirtschaft
                     %li.even Naturlandschaft
 
-            .container.mbm
+            .ui-container.mbm
               .col1of3
                 .ui-metadata-box.prm
                   %h3.title-m.separated.light.mbm Bildwirkung
@@ -598,7 +417,7 @@
                     %li{:clas => "odd"} Landwirtschaft
                     %li.even Naturlandschaft
 
-            .container.mbm
+            .ui-container.mbm
               .col1of3
                 .ui-metadata-box.prm
                   %h3.title-m.separated.light.mbm Epoche
@@ -612,9 +431,8 @@
                     %li.odd Landwirtschaft
                     %li.even Naturlandschaft
 
-
         .tab-pane#other-data
-          .bright.container.pal.rounded-bottom
+          .bright.ui-container.pal.rounded-bottom
             .col1of3
               .ui-metadata-box.prm
                 %h3.title-l.separated.mbl Aktivitaten
@@ -632,44 +450,49 @@
                     %a{:href => "#"} Diplom
 
             .col2of3
-              .ui-metadata-box.plm
+              .ui-metadata-box.ui-summary-table.plm
                 %h3.title-l.separated.mbl Datei
                 %table.borderless
-                  %tr
-                    %td.title-xs Bereich ZHdK
-                    %td Vertiefung Fotografie (DKM_FMK_BMK_VFO.studierende); Vertiefung Fotografie (DKM_FMK_BMK_VFO.alle)
-                  %tr
-                    %td.title-xs ZHdK Projekttyp
-                    %td
-                      %a{:href => "#"} Abschlcussarbeit
-                  %tr
-                    %td.title-xs Studienabschnitt
-                    %td
-                      %a{:href => "#"} Hauptstudium Diplom
-                  %tr
-                    %td.title-xs Projekttitel
-                    %td
-                      %a{:href => "#"} Diplom
+                  %tbody
+                    %tr
+                      %td.ui-summary-label Bereich ZHdK
+                      %td.ui-summary-content Vertiefung Fotografie (DKM_FMK_BMK_VFO.studierende); Vertiefung Fotografie (DKM_FMK_BMK_VFO.alle)
+                    %tr
+                      %td.ui-summary-label ZHdK Projekttyp
+                      %td.ui-summary-content
+                        %a{:href => "#"} Abschlcussarbeit
+                    %tr
+                      %td.ui-summary-label Studienabschnitt
+                      %td.ui-summary-content
+                        %a{:href => "#"} Hauptstudium Diplom
+                    %tr
+                      %td.ui-summary-label Projekttitel
+                      %td.ui-summary-content
+                        %a{:href => "#"} Diplom
 
-  .app-footer
-    %footer.ui-footer.container.inverted
-      %ul.ui-footer-menu
-        %li
-          %a{:href => "#"} Informationen zum Projekt
-        %li
-          %a{:href => "#"} Impressum
-        %li
-          %a{:href => "#"} Kontakt
-        %li
-          %a{:href => "#"} Blog
-        %li
-          %a{:href => "#"} Hilfe
-        %li
-          %a{:href => "#"} Nutzungsbestimmungen
-        %li
-          %a{:href => "#"} Freie Software
-        %li
-          %a{:href => "#"} Archivierungsrichtlinien ZHdK
-      %p.ui-footer-copy
-        = image_tag "redesign/inserts/image-logo-madek.png", :alt => "MADEK", :class => "ui-footer-logo"
-        &copy; 2009-2011 Z&uuml;rcher Hochschule der K&uuml;nste
+        .tab-pane#location-data
+          .bright.ui-container.pal.rounded-bottom
+
+  .app-footer-push
+.app-footer
+  %footer.ui-footer.ui-container.inverted
+    %ul.ui-footer-menu
+      %li
+        %a{:href => "#"} Informationen zum Projekt
+      %li
+        %a{:href => "#"} Impressum
+      %li
+        %a{:href => "#"} Kontakt
+      %li
+        %a{:href => "#"} Blog
+      %li
+        %a{:href => "#"} Hilfe
+      %li
+        %a{:href => "#"} Nutzungsbestimmungen
+      %li
+        %a{:href => "#"} Freie Software
+      %li
+        %a{:href => "#"} Archivierungsrichtlinien ZHdK
+    %p.ui-footer-copy
+      = image_tag "redesign/inserts/image-logo-madek.png", :alt => "MADEK", :class => "ui-footer-logo"
+      &copy; 2009-2011 Z&uuml;rcher Hochschule der K&uuml;nste

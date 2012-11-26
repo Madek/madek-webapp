@@ -1,0 +1,40 @@
+/**
+ * ## Alert messages `.ui-alert`
+ *
+ * .success       - Success messages
+ * .warning       - Warning messages
+ * .error         - Error messages
+ * .confirmation  - Confirmation messages
+ *
+ * Styleguide 6.12
+ */
+
+.ui-alert {
+  background: $grey-lighter;
+  padding: $space-x;
+  font-weight: 600;
+  text-align: center;
+}
+
+// Colour variations
+
+.ui-alert.success,
+.ui-alert.warning,
+.ui-alert.error,
+.ui-alert.confirmation {
+  @include single-text-shadow(false, 1px, false, false, $darken);
+  color: $brightest;
+}
+
+.ui-alert.success {
+  background: $green-light;
+}
+.ui-alert.warning {
+  background: $yellow;
+}
+.ui-alert.error {
+  background: $red;
+}
+.ui-alert.confirmation {
+  background: $blue;
+}

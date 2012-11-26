@@ -1,0 +1,39 @@
+/**
+ * ## Set list `.ui-set-list`
+ *
+ * Styleguide 6.20
+ */
+
+.ui-set-list-item {
+  border-bottom: 1px solid $grey-light;
+  display: block;
+  list-style: none;
+  padding: $space-x $space-x $space-x 25px;
+  position: relative;
+  &:last-child {
+    border: none;
+  }
+  &:hover {
+    background: $grey-lighter;
+  }
+}
+.ui-set-list-item input[type="checkbox"] {
+  @include position-top-left(15px,0);
+}
+.ui-set-list-item label {
+  @include micro-clearfix;
+  display: block;
+}
+.ui-set-list-item .title {
+  clear: both;
+  display: block;
+}
+.ui-set-list-item .owner,
+.ui-set-list-item .created-at {
+  color: $grey-mid;
+  font-size: $font-s;
+}
+.ui-set-list-item .created-at {
+  @include float-right;
+  margin-top: 2px;
+}

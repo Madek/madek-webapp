@@ -31,14 +31,14 @@ caption {
   border-bottom: 1px solid $grey-mid-light;
   font-weight: 700;
   line-height: $line-height-m;
-  padding: $space-x;
+  padding: $space-x 0;
   text-align: left;
 }
 
 td {
   border-bottom: 1px solid $grey-light;
   line-height: $line-height-m;
-  padding: $space-x;
+  padding: $space-x 0;
   vertical-align: top;
 }
 

@@ -1,0 +1,66 @@
+/**
+ * ## Rights management table `.ui-rights-management`
+ *
+ * Styleguide 7.12
+ */
+
+.ui-rights-management {
+
+}
+
+.ui-rights-body {
+  padding-bottom: $space-m;
+}
+.ui-rights-body > a.button {
+  margin-top: $space-s;
+}
+
+.ui-rights-group {
+  width: 100%;
+  table-layout: fixed;
+}
+
+// Group Items
+
+.ui-rights-user,
+.ui-rights-user-title,
+.ui-rights-role,
+.ui-rights-role-title {
+  width: 20%;
+}
+
+// Group Titles
+
+.ui-rights-user-title,
+.ui-rights-role-title,
+.ui-rights-check-title {
+  font-size: $font-xs;
+  white-space: nowrap;
+}
+
+.ui-rights-user-title {
+
+}
+.ui-rights-role-title {
+
+}
+.ui-rights-check-title,
+.ui-rights-check,
+.ui-rights-owner-title,
+.ui-rights-owner {
+  text-align: center;
+}
+
+// Group Labels
+
+.ui-rights-user {
+}
+.ui-rights-role {
+}
+
+// Remove button
+
+.ui-rights-remove {
+  @include float-left;
+  margin: 0 $space-x 0 0;
+}

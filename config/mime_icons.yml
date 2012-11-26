@@ -1,5 +1,22 @@
 ---
 icons:
+  
+  - mime-type: image/jpeg
+    icon: base_document.png
+    extensions:
+      - jpg
+      - jpeg
+
+  - mime-type: image/png
+    icon: base_document.png
+    extensions:
+      - png
+
+  - mime-type: image/gif
+    icon: base_document.png
+    extensions:
+      - gif
+
   - mime-type: video/quicktime
     icon: base_video.png
     extensions:

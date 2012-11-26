@@ -65,6 +65,9 @@ module MediaResourceModules
         not grouppermissions.where(:view => true).exists?)
     end
 
+    def is_shared?(user)
+      not is_public? and not is_private?(user)
+    end
 
 
     #############################################

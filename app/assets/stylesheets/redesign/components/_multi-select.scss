@@ -13,7 +13,7 @@
 }
 
 .multi-select-holder {
-  @extend .tag-cloud.small;
+  @extend .ui-tag-cloud.small;
 }
 
 .multi-select-tag {
@@ -21,7 +21,7 @@
 }
 
 .multi-select-tag-remove {
-  @extend .icon-delete.mini;
+  @extend .icon-trash.mini;
   @include position-top(1px, relative);
 }
 

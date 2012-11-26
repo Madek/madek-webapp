@@ -1,15 +1,15 @@
 /**
- * ## Featured entries
+ * ## Featured entries `.ui-featured-entries`
  *
- * Styleguide 8.10
+ * Styleguide 7.10
  */
 
-.ui-featured-entries-wrapper {
+.ui-featured-entries {
   height: 400px;
   position: relative;
 }
 
-.ui-featured-entries {
+.ui-featured-entries-list {
   @include position-top-right(0,0);
   @include position-bottom-left(0,0);
   display: block;
@@ -24,7 +24,7 @@
   display: inline-block;
 }
 
-.featured-entry {
+.ui-featured-entry {
   @include box-shadow(0 1px 3px $darken);
   @include dimension(300px,320px);
   background: $brightest;
@@ -37,7 +37,7 @@
   }
 }
 
-.featured-entry-preview {
+.ui-featured-entry-preview {
   display: table-cell;
   span {
     @include dimension(300px,260px);
@@ -54,11 +54,11 @@
     }
   }
 }
-.featured-entry-metadata {
+.ui-featured-entry-metadata {
   padding: $space-s;
   position: relative;
-  .thumbnail-name,
-  .thumbnail-author {
+  .ui-thumbnail-name,
+  .ui-thumbnail-author {
     height: $space-m;
     white-space: nowrap;
     text-align: left;

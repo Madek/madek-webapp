@@ -27,9 +27,9 @@ namespace :app do
             source_file = File.join(dir, type["icon"])
             base_extension = File.extname(type["icon"])
             target_file = File.join(dir, [File.basename(type["icon"], base_extension), ".", extension, base_extension].join)
-            pointsize = extension.size > 4 ? 60 / extension.size : 16
+            pointsize = extension.size > 4 ? 60 / extension.size : 11
             offset = extension.size > 4 ? 2 : 0
-            `convert "#{source_file}" -pointsize #{pointsize} -gravity North -font 'lib/fonts/OpenSans-Regular.ttf' -fill '#767676' -annotate +0+#{49+offset} '#{extension}' "#{target_file}"`
+            `convert "#{source_file}" -pointsize #{pointsize} -gravity North -font 'lib/fonts/OpenSans-Regular.ttf' -fill '#767676' -annotate +0+#{60+offset} '#{extension}' "#{target_file}"`
           end
         end
       end

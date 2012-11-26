@@ -1,0 +1,26 @@
+/**
+ * ## Tag cloud `.ui-tag-cloud`
+ *
+ * .small   - Small variation
+ * .large   - Large variation
+ *
+ * Styleguide 6.4
+ */
+
+.ui-tag-cloud {
+  @include micro-clearfix;
+}
+.ui-tag-cloud .tag-button {
+  display: inline-block;
+  margin-bottom: $space-s;
+  margin-right: $space-x;
+}
+
+// Size variations
+
+.ui-tag-cloud.small .tag-button {
+  @extend .button.small;
+}
+.ui-tag-cloud.large .tag-button {
+  @extend .button.large;
+}

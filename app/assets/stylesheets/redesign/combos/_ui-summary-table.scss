@@ -1,0 +1,10 @@
+/**
+ * ## Metadata summary `.ui-summary-table`
+ *
+ * Styleguide 7.5
+ */
+
+.ui-summary-label {
+  @extend .title-xs-alt;
+  padding-right: $space-s;
+}
