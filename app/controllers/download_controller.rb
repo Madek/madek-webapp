@@ -1,22 +1,14 @@
 # -*- encoding : utf-8 -*-
 
 class DownloadController < ApplicationController
+
+  # e.g.
+  # 'update' param present means original file updated by exiftool with current state of madek meta-data for that mediaentry
+  # update not present? just give the original file, as it was uploaded.
+  # WE SHOULD NEVER UPDATE AN UPLOADED FILE WITH MADEK METADATA.
   def download
-    
-# e.g.
-# 'zip' param present means original file + xml sidecar of meta-data all zipped as one file
-# 'update' param present means original file updated by exiftool with current state of madek meta-data for that mediaentry
-# (update and zip should be treated as mutally exclusive in the context of one download call)
-# neither zip nor update present? just give the original file, as it was uploaded.
-# WE SHOULD NEVER UPDATE AN UPLOADED FILE WITH MADEK METADATA.
-
-#####################################################################################################################
-#####################################################################################################################
-
       unless params[:id].blank? 
-
         @media_entry = MediaEntry.accessible_by_user(current_user).find_by_id(params[:id])
-
         if @media_entry.nil?
           not_authorized!
         else
@@ -27,8 +19,8 @@ class DownloadController < ApplicationController
 
           if params[:type] == "tms"
             send_tms
-          elsif !params[:zip].blank?
-            send_as_zip
+          elsif params[:type] == "xml"
+            send_xml
           elsif !params[:update].blank?
             send_updated_file
           elsif !params[:naked].blank?
@@ -67,8 +59,7 @@ class DownloadController < ApplicationController
           
         end
       end
-
-  end # download 
+  end 
   
   
   def send_preview
@@ -88,44 +79,6 @@ class DownloadController < ApplicationController
                    {:filename => @filename,
                     :type          =>  @content_type,
                     :disposition  =>  'attachment'})
-
-  end
-  
-  
-  # A media file updated with current madek meta-data, zipped up together with a bunch of side-car meta-data files.
-  # At present these are yaml and xml files, but they are pretty raw ATM - exposing the internals of the model/schema
-  # instead of following a well formed and easier to comprehend xml/yml schema..
-  def send_as_zip
-    path = @media_entry.updated_resource_file(false, @size) # false means we don't want to blank all the tags
-
-    # create the zipfile - we need a name that hopefully won't collide as it's being written to..
-    race_free_filename = [Time.now.to_i.to_s, @media_entry.id.to_s, @filename].join("_")
-
-    Zip::ZipOutputStream.open("#{ZIP_STORAGE_DIR}/#{race_free_filename}.zip") do |zos|
-      zos.put_next_entry(@filename)
-      zos.print IO.read(path)
-      zos.put_next_entry("#{@filename}.xml")
-      zos.print @media_entry.to_xml(:include => {:meta_data => {:include => :meta_key}} )
-      
-      # FIXME yaml not working properly anymore!
-      # YAML::ENGINE.yamler='psych'
-      # zos.put_next_entry("#{filename}.yml")
-      # zos.print @media_entry.to_yaml(:include => {:meta_data => {:include => :meta_key}} )
-      # YAML::ENGINE.yamler='syck'
-    end
-
-    if path
-        fixed_send_file("#{ZIP_STORAGE_DIR}/#{race_free_filename}.zip",
-                        {:filename => "#{race_free_filename}.zip",
-                         :type          =>  @content_type,
-                         :disposition  =>  'attachment'})  
-    else
-      render :status => 500
-    end
-
-    # TODO - Background job submission to remove the unlocked (ie downloaded) zipfile.
-    # since it fails if we try here (because the file is locked while the user 
-    # downloads it at some arbitrarily slow speed)
   end
   
   
@@ -147,7 +100,6 @@ class DownloadController < ApplicationController
   # A bare file - as little meta-data as can be allowed without breaking the file.  
   def send_naked_file
     path = @media_entry.updated_resource_file(true, @size) # true means we do want to blank all the tags
-
     if path
         fixed_send_file(path,
                         {:filename => @filename,
@@ -162,11 +114,6 @@ class DownloadController < ApplicationController
     # Provide a copy of the original file, not updated or nuffin'
     path = @media_entry.media_file.file_storage_location.to_s
     path = Pathname.new(path)
-
-    #send_file(path,
-    #           :filename => @filename,
-    #           :type          =>  @content_type,
-    #           :disposition  =>  'attachment')
     fixed_send_file(path,
                     {:filename => @filename,
                      :type          =>  @content_type,
@@ -180,48 +127,21 @@ class DownloadController < ApplicationController
                     :disposition  =>  'attachment'})
   end
 
+  # Export a media entry xml file
+  def send_xml
+    data = @media_entry.to_xml(:include => {:meta_data => {:include => :meta_key}})
+    send_data(data, { :filename => "#{@filename}.xml",
+                      :type => :xml,
+                      :disposition => 'attachment'})
+
+  end
+
   # Export a media entry xml file, for tms (The Museum System)
   def send_tms
-    unless params[:zip]
-      render :xml => MediaEntry.to_tms_doc(@media_entry)
-    else
-      # Export a media entry into a zipfile with xml file, for tms (The Museum System)
-      all_good = true
-      clxn = []
-      [@media_entry].each do |media_entry|
-        xml = MediaEntry.to_tms_doc(media_entry)
-        # not providing the full filename of the media_file to be zipped,
-        # since it will be provided to the 3rd party receiving system in the accompanying XML
-        # however we do apparently need to supply the suffix for the file. hence the unoptimsed nonsense below.
-        file_ext = media_entry.media_file.filename.split(".").last
-        filetype_extension = ".#{file_ext}" if KNOWN_EXTENSIONS.any? {|e| e == file_ext } #OPTIMIZE
-        filetype_extension ||= ""
-        timestamp = Time.now.to_i # stops racing below
-        filename = [media_entry.id, timestamp ].join("_")
-        media_filename  = filename + filetype_extension
-        xml_filename    = filename + ".xml"
-        path = media_entry.updated_resource_file
-        clxn << [ xml, media_filename, xml_filename, path ] if path
-        all_good = false unless path
-      end
-      # zip = xml+file
-      if all_good
-        race_free_filename = ["tms", rand(Time.now.to_i).to_s].join("_") + ".zip" # TODO handle user-provided filename
-        Zip::ZipOutputStream.open("#{ZIP_STORAGE_DIR}/#{race_free_filename}") do |zos|
-          clxn.each do |x|
-            xml, filename, xml_filename, path = x
-            zos.put_next_entry(filename)
-            zos.print IO.read(path)
-            zos.put_next_entry(xml_filename)
-            zos.print xml
-          end
-        end
-        fixed_send_file File.join(ZIP_STORAGE_DIR, race_free_filename), :type => "application/zip"
-      else
-        flash[:error] = "There was a problem creating the files(s) for export"
-        redirect_to media_resource_path(@media_entry)
-      end
-    end
+    data = MediaEntry.to_tms_doc(@media_entry)
+    send_data(data, { :filename => "#{@filename}.tms.xml",
+                      :type => :xml,
+                      :disposition => 'attachment'})
   end
 
   # send_file() as above seems to be broken in Rails 3.1.3 and onwards?
@@ -235,6 +155,4 @@ class DownloadController < ApplicationController
     render :nothing => true
   end
 
-
-
-end # class
+end

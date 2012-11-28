@@ -54,25 +54,6 @@
             = number_to_human_size(x_large_file.size)
           %td.align-right= link_to _("Download"), "/download?id=#{media_entry.id}&update=1&size=x_large"
 
-      %tr.download-unit
-        %td{:rowspan => 2}
-          %p.download-info
-            %span= _("ZIP-Verzeichnis mit Datei und separaten Metadaten")
-            = _("Das gezippte Verzeichnis enthält die Datei mit eingeschriebenen, aktuellen Metadaten sowie einem separaten XML Metadatendokument") #old# " und YAML"
-        %td.align-right= "#{dimensions_for(original_file)} (#{format_original_file})"
-        %td.align-right
-          \~
-          = number_to_human_size(original_file.size)
-        %td.align-right
-          = link_to _("Download"), "/download?id=#{media_entry.id}&zip=1" if can_download
-      %tr
-        - if x_large_file #and x_large_file.width < original_file.width
-          %td.align-right= "#{dimensions_for(x_large_file)} (jpeg)"
-          %td.align-right
-            \~
-            = number_to_human_size(x_large_file.size)
-          %td.align-right= link_to _("Download"), "/download?id=#{media_entry.id}&zip=1&size=x_large"
-
   - if original_file_available
     %tr.download-unit
       %td{:rowspan => 2}
@@ -94,24 +75,24 @@
           = link_to _("Download"),"/download?id=#{media_entry.id}&size=x_large"
 
   %tr.download-unit
-    %td{:rowspan => 2}
+    %td
       %p.download-info
-        %span= _("ZIP-Verzeichnis mit Datei und TMS XML")
-        = _("Das gezippte Verzeichnis enthält die Datei mit eingeschriebenen, aktuellen Metadaten sowie einem separaten TMS XML Metadatendokument")
-    - if original_file_available and can_download
-      %td.align-right
-        = "#{dimensions_for(original_file)} (#{format_original_file})"
-      %td.align-right
-        \~
-        = number_to_human_size(original_file.size)
-      %td.align-right
-        = link_to _("Download"), "/download?id=#{media_entry.id}&type=tms&zip=1&update=1"
-  %tr
+        = _("XML Metadatendokument")
     %td.align-right
-      = "xml"
+      (xml)
     %td.align-right
     %td.align-right
-      = link_to _("Export"), "/download?id=#{media_entry.id}&type=tms", :target => "_blank"
+      = link_to _("Download"), "/download?id=#{media_entry.id}&type=xml", :target => "_blank"
+
+  %tr.download-unit
+    %td
+      %p.download-info
+        = _("TMS XML Metadatendokument")
+    %td.align-right
+      (xml)
+    %td.align-right
+    %td.align-right
+      = link_to _("Download"), "/download?id=#{media_entry.id}&type=tms", :target => "_blank"
 
 -#old# else
   =#old# _("Die Dateien sind leider nicht zum Download vorhanden.")
