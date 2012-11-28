@@ -288,6 +288,7 @@ describe MediaResourcesController do
       
       it "has paginatable childrens" do
         get :index, {format: 'json', ids: ids, with: {children: true}}, session
+        response.should be_success
         json = JSON.parse(response.body)
         mr = json["media_resources"].detect {|mr| mr["type"] == "media_set" }
         media_resource = MediaResource.find mr["id"]
@@ -297,6 +298,7 @@ describe MediaResourcesController do
           media_resource.child_media_resources << mr
         }
         get :index, {format: 'json', ids: [media_resource.id], with: {children: true}}, session
+        response.should be_success
         json = JSON.parse(response.body)
         mr = json["media_resources"].first
         children_pagination = mr["children"]["pagination"] 
@@ -304,6 +306,7 @@ describe MediaResourcesController do
         children_pagination["total"].should >= 40
         children_pagination["total_pages"].should > 1
         get :index, {format: 'json', ids: [media_resource.id], with: {children: {pagination: {page: 2}}}}, session
+        response.should be_success
         json = JSON.parse(response.body)
         mr = json["media_resources"].first
         children_pagination = mr["children"]["pagination"] 

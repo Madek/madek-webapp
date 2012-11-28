@@ -18,7 +18,7 @@ Given /^the main page links to it$/ do
 end
 
 Then /^I should see the "([^"]*)" wiki page$/ do |name|
-  step 'I should be on the "' + name + '" wiki page'
+  step 'I should be on the "%s" wiki page' % name
   page.body.should =~ /wiki_content/
 end
 
@@ -43,13 +43,13 @@ end
 When /^I add a line "([^"]*)" to the wiki front page and save$/ do |text|
   step "I go to the wiki"
   step 'I follow "Edit"'
-  step 'I fill in "page_content" with "' + text + '"'
+  step 'I fill in "page_content" with "%s"' % text
   step 'I press "Save page"'
 end
 
 When /^I add a link "([^"]*)" to it on the wiki front page and save$/ do |text|
   text = text.sub("xxx", @media_entry.id.to_s)
-  step 'I add a line "' + text + '" to the wiki front page and save'
+  step 'I add a line "%s" to the wiki front page and save' % text
 end
 
 Then /^I should see the media entry (\d+)$/ do |arg1|

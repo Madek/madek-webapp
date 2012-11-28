@@ -133,8 +133,13 @@ When /^I have started uploading some files$/ do
 end
 
 When /^I cancel the upload$/ do
-  step 'follow "Abbrechen"'
-  page.driver.browser.switch_to.alert.accept
+  if  page.driver.is_a? Capybara::Poltergeist::Driver
+    page.execute_script(%Q[window.alert = function(){return true;}])
+    step 'follow "Abbrechen"'
+  else
+    step 'follow "Abbrechen"'
+    page.driver.browser.switch_to.alert.accept
+  end
 end
 
 Then /^the uploaded files are still there$/ do
@@ -270,13 +275,15 @@ end
 
 Given /^MetaTerms are existing in the upload context$/ do
   step 'I am "Adam"'
-  visit "/admin/contexts"
   ["academic year", "epoch", "Zett_Ausgabe"].each do |key|
-    find("a", :text => "Upload").click
-    find(".buttons", :text => "Add Key").click
-    find("#meta_key_definition_meta_key_id").select(key)
-    find("#meta_key_definition_label_de_ch").set(key)
-    find("input[type=submit]").click
+    visit "/admin/meta_contexts"
+    find("tr",text: 'Upload').find("a",text:"View").click()
+    find("a",text:'Add Key').click()
+    find("select#meta_key_definition_meta_key_id").select(key)
+    find("input#meta_key_definition_label_id").set(key)
+    find("input#meta_key_definition_description_id").set(key)
+    find("input#meta_key_definition_hint_id").set(key)
+    find("input[type=submit]").click()
   end
 end
 

@@ -1,7 +1,0 @@
-<% if true %>
-	<%= image_tag "/#{@graph}", {:style => "width: 100%; height: auto;"} if @graph %>
-<% else %>
-	<div>
-	<embed src="/<%= @graph %>" width="100%" type="image/svg+xml" />
-	<div/>
-<% end %>

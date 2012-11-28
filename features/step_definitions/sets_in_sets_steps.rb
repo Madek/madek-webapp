@@ -127,9 +127,7 @@ end
 
 Then /^I can see the owner of each set$/ do
   @accesible_sets.each do |set|
-    steps %Q{
-      Then I should see "#{set.user.name}"
-    }
+    step 'I should see "%s"' % set.user.name
   end
 end
 
@@ -152,7 +150,7 @@ Then /^I can read the sliced title of each set$/ do
     else
       set.title
     end
-    steps 'Then I should see "%s"' % match_string
+    step 'I should see "%s"' % match_string
   end
 end
 

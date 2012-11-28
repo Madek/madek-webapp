@@ -21,6 +21,10 @@ class MetaKeyDefinition < ActiveRecord::Base
 
   default_scope order(:position)
 
+  before_create do 
+    self.position = meta_context.next_position  unless self.position
+  end
+
 #########################
 
   [:label, :description, :hint].each do |name|
@@ -122,9 +126,9 @@ class MetaKeyDefinition < ActiveRecord::Base
 
         disinct_key_map =
           if SQLHelper.adapter_is_postgresql? 
-            select " DISTINCT ON (key_map) * " 
+            unscoped.select(" DISTINCT ON (key_map) * ")
           elsif SQLHelper.adapter_is_mysql?
-            group :key_map 
+            group(:key_map) 
           end
 
         disinct_key_map.where("key_map IS NOT NULL").each do |definition|

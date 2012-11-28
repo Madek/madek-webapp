@@ -1,7 +1,0 @@
-%table.datatable
-  %thead
-    %tr
-      - [_("Login"), _("Email"), _("Name"), _("Total MediaEntries"), _("Notes"), _("Groups"), ""].collect do |s|
-        %th= s
-  %tbody
-    = render :partial => "show", :collection => @users, :as => :user

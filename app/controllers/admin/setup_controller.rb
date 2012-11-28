@@ -26,7 +26,6 @@ class Admin::SetupController < ActionController::Base
         g = Group.find_or_create_by_name("Admin")
         params_user = params[:person].delete(:user)
         params_user.delete(:password_confirmation)
-        params_user[:password] = Digest::SHA1.hexdigest(params_user[:password]) 
         p = Person.create(params[:person])
         p.create_user(params_user)
         if p.valid? and p.user.valid?
@@ -184,7 +183,7 @@ class Admin::SetupController < ActionController::Base
       valid: usage_terms?,
       title: "UsageTerm",
       success: "Success (the UsageTerm is present)",
-      failure: "Failure: <a href='/admin/usage_term'>create or edit on admin interface</a>"
+      failure: "Failure: <a href='/admin/usage_terms'>create or edit on admin interface</a>"
     }
   end
 
@@ -232,7 +231,7 @@ class Admin::SetupController < ActionController::Base
       valid: meta_keys?,
       title: "MetaKeys (%s)" % meta_keys.values.flatten.join(', '),
       success: "Success",
-      failure: "Failure: <a href='/admin/keys'>create on admin interface</a> or <a href='/admin/setup/meta_keys_do'>create missing ones automatically</a> or <a href='/admin/setup/meta_keys_import'>import zhdk preset (maybe too much)</a>"
+      failure: "Failure: <a href='/admin/meta_keys'>create on admin interface</a> or <a href='/admin/setup/meta_keys_do'>create missing ones automatically</a> or <a href='/admin/setup/meta_keys_import'>import zhdk preset (maybe too much)</a>"
     }
   end
 
@@ -285,7 +284,7 @@ class Admin::SetupController < ActionController::Base
       valid: meta_contexts?,
       title: "MetaContexts (%s)" % required_contexts.values.flatten.join(', '),
       success: "Success",
-      failure: "Failure: <a href='/admin/contexts'>create on admin interface</a> or <a href='/admin/setup/meta_contexts_do'>create missing ones automatically</a>"
+      failure: "Failure: <a href='/admin/meta_contexts'>create on admin interface</a> or <a href='/admin/setup/meta_contexts_do'>create missing ones automatically</a>"
     }
   end
 
@@ -315,7 +314,7 @@ class Admin::SetupController < ActionController::Base
       valid: dropbox?,
       title: "Dropbox",
       success: "Success",
-      failure: "Failure: <a href='/admin/settings/dropbox'>create on admin interface</a>"
+      failure: "Failure: <a href='/admin/settings'>create on admin interface</a>"
     }
   end
 
@@ -330,7 +329,7 @@ class Admin::SetupController < ActionController::Base
       valid: special_sets?,
       title: "Special Sets",
       success: "Success",
-      failure: "Failure: <a href='/admin/media_sets/special'>create on admin interface</a>"
+      failure: "Failure: <a href='/admin/media_sets'>create on admin interface</a>"
     }
   end
 

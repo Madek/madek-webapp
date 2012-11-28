@@ -78,7 +78,6 @@ MAdeK::Application.routes.draw do
     collection do
       get :keywords
       post :edit_multiple
-      get :edit_multiple
       put :update_multiple
       post :media_sets
       delete :media_sets
@@ -212,94 +211,10 @@ MAdeK::Application.routes.draw do
 ####################################################################################
 
   namespace :admin do
-    root :to => "keys#index"
-
     match '/setup', :to => "setup#show"
     match '/setup/:action', :to => "setup"
-
-    match '/settings', :to => "admin#settings"
-
-    resources :meta_context_groups do
-      collection do
-        put :reorder
-      end
-    end
-    
-    resources :meta_key_definitions
-
-    resources :permission_presets
-    
-    resource :meta, :controller => 'meta' do
-      member do
-        get :export
-        #old# get :import
-        #old# post :import
-      end
-    end
-
-    resources :keys do
-      collection do
-        get :mapping
-      end
-    end
-
-    resources :contexts do
-      resources :definitions do
-        collection do
-          put :reorder
-        end
-      end
-    end
-
-    resources :terms do
-      collection do
-        get 'data'
-      end
-      member do
-        get 'meta_data_transfer_form'
-        post 'meta_data_transfer'
-        get 'keywords_transfer_form'
-        post 'keywords_transfer'
-      end
-    end
-
-    resources :users, :except => [:new, :create] do
-      member do
-        get :switch_to
-
-      end
-    end
-
-    resources :people do
-      resources :users, :only => [:new, :create, :destroy]
-      member do
-        get 'meta_data_transfer_form'
-        post 'meta_data_transfer'
-      end
-    end
-
-    resources :groups do
-      resources :users, :only => [] do
-        member do
-          post :membership
-          delete :membership
-        end
-      end
-    end
-
-    resource :usage_term
-
-    resources :media_sets do
-      collection do
-        get :special
-        post :special
-      end
-    end
-    
-    resources :copyrights
-        
   end
 
-####################################################################################
-
+  ActiveAdmin.routes(self)
+    
 end

@@ -1,5 +1,0 @@
-#admin_tabs.tabs
-	%ul
-		- @contexts.each do |context|
-			%li= link_to context, admin_context_definitions_path(context)
-		%li= link_to "+", new_admin_context_path 

@@ -1,4 +1,4 @@
-= form_for @group, :url => path do |f|
+= form_for [:admin, @group] do |f|
   %table
     %tr
       %th
@@ -8,4 +8,45 @@
     %tr
       %td
       %td
-        = f.submit submit
+        = f.submit
+
+%table#members
+  = render :partial => "admin/groups/user", :collection => @group.users
+
+Add user:
+%input#new_user
+
+:javascript
+  $(function() {
+    $("input#new_user").autocomplete({
+      source: function( request, response ) {
+        $.ajax({
+          url: "/users.json",
+          data: {
+            format:'json',
+            query: request.term
+          },
+          success: function( data ) {
+            response( $.map(data, function( item ) {
+              return { label: item.name, id: item.id }
+            }));
+          }
+        });
+      },
+      minLength: 3,
+      select: function( event, ui ) {
+        $.ajax({
+          url: "/admin/groups/#{@group.id}/users/"+ui.item.id+"/add_membership",
+          type: "post",
+          dataType: "html",
+          success: function(response){
+            $("input#new_user").val("");
+            $(response).appendTo('table#members').effect('highlight');
+          }
+        });
+      }
+    });
+    $("table#members a[data-method='delete']").live('ajax:success', function(){
+      $(this).closest("tr").fadeOut();
+    });
+  });

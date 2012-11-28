@@ -52,8 +52,7 @@ module MAdeK
     config.assets.version = '0.7.1'
 
     # Please add any files you need precompiled here, otherwise it breaks production
-    config.assets.precompile += %w( admin.css
-                                    button/button.css
+    config.assets.precompile += %w( button/button.css
                                     feedback.css
                                     feedback.css 
                                     i18n/jquery.ui.datepicker-de-CH.js 

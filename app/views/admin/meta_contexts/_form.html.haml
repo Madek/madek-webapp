@@ -1,0 +1,42 @@
+= form_for [:admin, @meta_context] do |f|
+
+  %h3= f.label "Meta Context Group"
+  = select("meta_context","meta_context_group_id", MetaContextGroup.all.collect {|mcg| [ mcg.name, mcg.id ] }, {include_blank: :true, selected: @meta_context.meta_context_group_id})
+  %br
+  %br
+
+  %h3= f.label :name
+  - if @meta_context.new_record?
+    = f.text_field :name
+  - else
+    = @meta_context.name
+  %br
+  %br
+
+  %h3 Label
+  - LANGUAGES.each do |lang|
+    - value = (@meta_context.label ? @meta_context.label.to_s(lang) : nil)
+    = lang
+    \:
+    = text_field_tag "meta_context[label][#{lang}]", value
+    %br
+
+  %br
+  %br
+
+  %h3 Description
+  - LANGUAGES.each do |lang|
+    - value = (@meta_context.description ? @meta_context.description.to_s(lang) : nil)
+    = lang
+    \:
+    = text_area_tag "meta_context[description][#{lang}]", value
+    %br
+  %br
+  %br
+
+  %br
+  = f.label :is_user_interface
+  \:
+  = f.check_box :is_user_interface
+  %br
+  = f.submit

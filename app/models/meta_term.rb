@@ -11,6 +11,14 @@ class MetaTerm < ActiveRecord::Base
     errors.add(:base, "A term cannot be blank") if LANGUAGES.all? {|lang| send(lang).blank? }
   end
 
+  scope :with_meta_data, where(%Q<
+    "meta_terms"."id" in (#{joins(:meta_data).select('"meta_terms"."id"').group('"meta_terms"."id"').to_sql}) >)
+    # essentially does the same as above with DISTINCT ON instead of GROUP BY, 
+    # queries are different but there is no much difference in speed
+  scope :with_keywords, where(%Q<
+    "meta_terms"."id" in (#{joins(:keywords).select('DISTINCT ON ("meta_terms"."id") "meta_terms"."id"').to_sql}) >)
+
+
   def to_s(lang = nil)
     lang ||= DEFAULT_LANGUAGE
     self.send(lang)
@@ -29,18 +37,11 @@ class MetaTerm < ActiveRecord::Base
   ######################################################
 
     def is_used?
-      self.class.used_ids.include?(self.id)
-    end
-  
-    # OPTIMIZE method cache
-    def self.used_ids
-      @used_ids ||= begin
-        ids = MetaContext.all.map {|x| [x.label_id, x.description_id] }
-        ids += MetaKeyDefinition.all.map {|x| [x.label_id, x.description_id, x.hint_id] }
-        ids += MetaKey.for_meta_terms.collect(&:used_term_ids)
-        ids += Keyword.select(:meta_term_id).group(:meta_term_id).collect(&:meta_term_id)
-        ids.flatten.uniq.compact
-      end
+      MetaKeyDefinition.where("? IN (label_id, description_id, hint_id)", id).exists? or
+      MetaContext.where("? IN (label_id, description_id)", id).exists? or
+      meta_key_meta_terms.exists? or
+      keywords.exists? or
+      meta_data.exists?
     end
   
   ######################################################

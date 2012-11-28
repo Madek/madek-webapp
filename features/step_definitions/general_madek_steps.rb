@@ -36,12 +36,11 @@ Given /^a user called "([^"]*)" with username "([^"]*)" and password "([^"]*)" e
   if user.nil?
     firstname, lastname = person_name, person_name
     firstname, lastname = person_name.split(" ") if person_name.include?(" ")
-    crypted_password = Digest::SHA1.hexdigest(password)
     person = Person.find_or_create_by_firstname_and_lastname(:firstname => firstname,
                                                             :lastname => lastname)
     user = person.build_user(:login => username,
                              :email => "#{username}@zhdk.ch",
-                             :password => crypted_password)
+                             :password => password)
     user.usage_terms_accepted_at = DateTime.now + 10.years
     user.save.should == true
   end
@@ -407,15 +406,9 @@ end
 
 
 When /I choose the set "([^"]*)" from the media entry$/ do |set_name|
-  wait_until {
-    find(:xpath, "//div[@class='set-box' and @oldtitle]")
-  }
-  element = find(:xpath, "//div[@class='set-box' and @oldtitle]")
-  unless element.nil?
-    if element[:oldtitle] =~ /^#{set_name}/
-      link = element.find("a")
-      link.click
-    end
+  element = wait_until { find(:xpath, "//div[@class='set-box' and @oldtitle]") }
+  if not element.nil? and element[:oldtitle] =~ /^#{set_name}/
+    element.find("a").click
   end
 end
 

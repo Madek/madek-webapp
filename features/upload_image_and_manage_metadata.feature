@@ -32,7 +32,7 @@ Feature: Upload images and manage media entries based on images
      And I go to the home page
      Then I should see "A beautiful piece of the B..."
 
-  @poltergeist 
+  @javascript
   Scenario: Upload an image file for my group to see
     Given a group called "Mauerfäller" exists
       And the user with username "normin" is member of the group "Mauerfäller"

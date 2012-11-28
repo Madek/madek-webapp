@@ -48,7 +48,10 @@ module MetaDataHelper
 
   def display_activities_for(media_entry)
     meta_data = []
-    meta_data << [_("Hochgeladen von"), link_to(media_entry.user, media_resources_path(:search => media_entry.user.fullname))]
+    
+    if uploaded_by = media_entry.meta_data.get("uploaded by").value.first
+      meta_data << [_("Hochgeladen von"), link_to(uploaded_by, media_resources_path(:search => uploaded_by.fullname))]
+    end
     meta_data << [_("Hochgeladen am"), _("%s Uhr") % media_entry.created_at.to_formatted_s(:date_time)]
 
     unless (edit_sessions = media_entry.edit_sessions.limit(5)).empty?
@@ -60,6 +63,8 @@ module MetaDataHelper
     unless (description_author_before_import = media_entry.meta_data.get_value_for("description author before import")).blank?
       meta_data << [_("Beschreibung durch (vor dem Hochladen ins Medienarchiv)"), description_author_before_import]
     end
+
+    meta_data << [_("Eigentümer/in im Medienarchiv"), link_to(media_entry.user, media_resources_path(:search => media_entry.user.fullname))]
 
     display_meta_data_helper( _("Aktivitäten"), meta_data)
   end

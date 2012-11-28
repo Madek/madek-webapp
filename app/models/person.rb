@@ -10,40 +10,25 @@ class Person < ActiveRecord::Base
 
   has_and_belongs_to_many :meta_data, join_table: :meta_data_people
 
-  default_scope order(:lastname)
-
   validate do
     errors.add(:base, "Name cannot be blank") if [firstname, lastname, pseudonym].all? {|x| x.blank? }
   end
   
-  # TODO has_many :media_entries (where the person is related through meta_data)
-#  def media_entries
-#    MediaEntry.search self.to_s
-#    # TODO through new method meta_data
-#  end
 
-  def self.with_meta_data
-    select("DISTINCT people.*").joins("INNER JOIN meta_data_people ON people.id = meta_data_people.person_id")
-  end
+### SCOPES ####################################
 
-#######################################
+  scope :with_meta_data, where(%Q<
+    "people"."id" in ( #{Person.joins(:meta_data).select('"people"."id"').group('"people"."id"').to_sql}) >)
+  scope :with_user, joins(:user)
 
-=begin #tmp#
-  has_one :full_text, :as => :resource, :dependent => :destroy
-  after_save { reindex }
-
-  def reindex
-    ft = full_text || build_full_text
-    new_text = "#{firstname} #{lastname} #{pseudonym}"
-    ft.update_attributes(:text => new_text)
-  end
-=end
 
   scope :search, lambda { |query|
     return scoped if query.blank?
 
     q = query.split.map{|s| "%#{s}%"}
-    where(arel_table[:firstname].matches_any(q).or(arel_table[:lastname].matches_any(q)).or(arel_table[:pseudonym].matches_any(q)))
+    where(arel_table[:firstname].matches_any(q).
+          or(arel_table[:lastname].matches_any(q)).
+          or(arel_table[:pseudonym].matches_any(q)))
   }
 
 #######################################

@@ -4,10 +4,10 @@ def preload_catalog_set_and_div
 end
 
 When /^I select a set to be the catalog$/ do
-  visit special_admin_media_sets_path
-  @set = MediaSet.where(MediaSet.arel_table[:id].not_eq(AppSettings.catalog_set_id)).first
+  @set = MediaSet.where(:view => true).where(MediaSet.arel_table[:id].not_eq(AppSettings.catalog_set_id)).first
   AppSettings.catalog_set_id.should_not == @set.id
-  find("input#catalog_set_id_%d" % @set.id).click
+  visit edit_admin_media_set_path(@set)
+  find("input#catalog_set_id").click
   find("input[type='submit']").click
 end
 

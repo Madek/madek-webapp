@@ -9,13 +9,13 @@ Feature: Upload
       And all users have dropboxes
 
   # https://www.pivotaltracker.com/story/show/24559407 -> Zugriffsberechtigungen beim Upload: Gleich wie bei Medieneintrag editieren
-  @javascript 
+  @poltergeist 
   Scenario: Setting permissions during upload
     When I upload a file
     Then the file is attached to a media entry
      And I can set the permissions for the media entry during the upload process
  
-  @javascript 
+  @poltergeist 
   Scenario: Filling in core metadata during upload
     When I upload a file
     Then the file is attached to a media entry
@@ -30,7 +30,7 @@ Feature: Upload
      | Rechte                       | Tester                   |
      
   # https://www.pivotaltracker.com/story/show/24559377 -> User kann beim Upload beim Vergeben der Metadaten die Werte zu Titel, Autor, Datierung, Schlagworte und Rechten von einem auf alle Medieneinträge übertrage
-  @javascript 
+  @poltergeist 
   Scenario: Assigning one value to all uploaded things
     When I upload several files
      When I go to the upload edit
@@ -46,35 +46,35 @@ Feature: Upload
     Then I can assign the Copyright to all the other files I just uploaded
 
   # Feature exists already, but needs this test
-  @javascript 
+  @poltergeist 
   Scenario: Adding to a set during upload
     When I upload a file
     Then the file is attached to a media entry
      And I add the media entry to a set called "Konzepte"
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
-  @javascript 
+  @poltergeist 
   Scenario: Uploading large files
     When I upload a file with a file size greater than 1.4 GB
     Then the system gives me a warning telling me it's impossible to upload so much through the browser
      And the warning includes instructions for an FTP upload
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
-  @javascript 
+  @poltergeist 
   Scenario: Uploading via a dropbox
     When I have uploaded some files to my dropbox
      And I start a new upload process
     Then I can choose files from my dropbox instead of uploading them through the browser
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
-  @javascript 
+  @poltergeist 
   Scenario: Recursively searching for importable files in my dropbox
     When I have uploaded a directory containing files to my dropbox
      And I start a new upload process
     Then I can choose files from my dropbox instead of uploading them through the browser
   
   # https://www.pivotaltracker.com/story/show/24564545 -> Upload abbrechen können   
-  @javascript 
+  @javascript
   Scenario: Cancelling my upload
     When I have started uploading some files
      And I cancel the upload
@@ -82,7 +82,7 @@ Feature: Upload
      And the uploaded files are still there
   
   # https://www.pivotaltracker.com/story/show/24564505 -> Dateien nach Upload aber vor Import löschen   
-  @javascript 
+  @javascript
   Scenario: Deleting files before, during and after upload without completing the import
     When I uploading some files from the dropbox and from the filesystem
      And I delete some fo those after the upload
@@ -91,13 +91,13 @@ Feature: Upload
      And only the rest of the files are available for import
     
   # https://www.pivotaltracker.com/story/show/14696355 -> Angabe des Original-Dateinamens bei einem Medieneintrag
-  @javascript
+  @poltergeist
   Scenario: Extracting the file name into metadata
     When I import a file
     Then I want to have its original file name inside its metadata
 
   # https://www.pivotaltracker.com/story/show/24559317 -> Highlighting für Felder, die nicht validieren (required)
-  @javascript 
+  @poltergeist 
   Scenario: Fields that don't validate should be highlighted
     When I upload a file
       When I go to the upload edit
@@ -109,7 +109,7 @@ Feature: Upload
       And the field "Rechte" is highlighted as invalid
 
   # https://www.pivotaltracker.com/story/show/25923269
-  @javascript 
+  @poltergeist 
   Scenario: Sequential batch editor for uploading many files
     When I upload several files
       When I go to the upload edit
@@ -118,7 +118,7 @@ Feature: Upload
        And I can jump to the previous file
 
   # https://www.pivotaltracker.com/story/show/25923269
-  @javascript 
+  @poltergeist 
   Scenario: Filtering only media entries with missing metadata in the sequential batch editor
     When I upload several files
      When I go to the upload edit
@@ -132,14 +132,14 @@ Feature: Upload
     When I choose to list only files with missing metadata
     Then only files with missing metadata are listed
 
-  @javascript 
+  @poltergeist
   Scenario: meta terms in the context upload
     Given MetaTerms are existing in the upload context
      And I am "Normin"
     When I upload a file
     Then I can set values for the meta data from type meta terms
 
-  @javascript @wip
+  @poltergeist
 	Scenario: Dependencies among the pulldown menus of the copyright field
     When I upload several files
      When I go to the upload edit

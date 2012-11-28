@@ -65,8 +65,7 @@ module Persona
     end
 
     def create_user
-      @crypted_password = Digest::SHA1.hexdigest(@@password)
-      @user = FactoryGirl.create(:user, person: @person, login: @name.downcase, password: @crypted_password)
+      @user = FactoryGirl.create(:user, person: @person, login: @name.downcase, password: @@password)
     end
 
     def create_dropbox_dir

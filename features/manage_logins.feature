@@ -6,7 +6,6 @@ Feature: Managing Logins
     Given personas are loaded
       And I am "Adam"
 
-  @javascript
   Scenario: Create a new database login
     When I open the admin interface
      And I navigate to the people list
@@ -16,16 +15,16 @@ Feature: Managing Logins
       | person_firstname   | Paul    |
       | person_lastname    | Hewson  |
       | person_pseudonym   | Bono    |
-     And I press "Update"
+     And I press "Create Person"
      And I create a new user for "Bono"
      And I fill in the following:
       | user_login                  | bono             |
       | user_email                  | bono@u2band.com  |
       | user_password               | u2bono           |
-      | user_password_confirmation  | u2bono           |
       | user_notes                  | external user    |
-     And I press "Create"
-    When I see if there is already an associated user (Edit/Add User)
+     And I press "Create User"
+     And I navigate to the people list
+     And I see if there is already an associated user (Edit/Add User)
     Then a new user with login "bono" is created 
      And a database login is created
      And the password is crypted

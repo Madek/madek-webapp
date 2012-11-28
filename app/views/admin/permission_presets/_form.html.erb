@@ -1,8 +1,0 @@
-<%= form_for @permission_preset, url: @form_path do |f| %>
-    <p>Name: <%= f.text_field :name %></p>
-    <p><%= f.check_box :view %> View</p>
-    <p><%= f.check_box :download %> Download</p>
-    <p><%= f.check_box :edit %> Edit</p>
-    <p><%= f.check_box :manage %> Manage</p>
-  <p><%= f.submit %></p>
-<% end %>

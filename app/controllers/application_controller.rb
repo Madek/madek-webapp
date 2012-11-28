@@ -49,6 +49,18 @@ class ApplicationController < ActionController::Base
     @current_user ||= login_from_session
   end
 
+########################################################
+# Admin Authentication 
+
+def authenticate_admin_user!
+  unless current_user and Group.find_by_name("Admin").users.include? current_user
+    flash[:error] = "You are not in the admin-group!"
+    redirect_to root_path
+  else
+    true
+  end
+end
+
 ##############################################
 
   # TODO i18n
@@ -76,7 +88,7 @@ class ApplicationController < ActionController::Base
       end
     else
       @splashscreen_set = MediaSet.splashscreen
-      @splashscreen_set_children = @splashscreen_set.child_media_resources.where(:view => true).shuffle
+      @splashscreen_set_children = @splashscreen_set.child_media_resources.where(:view => true).shuffle if @splashscreen_set
       @featured_set = MediaSet.featured
       @featured_set_children = @featured_set.child_media_resources.where(:view => true).limit(6) if @featured_set
       @catalog_set = MediaSet.catalog

@@ -3,11 +3,11 @@ When /^I open the admin interface$/ do
 end
 
 When /^I navigate to the people list$/ do
-  find("header a", :text => "People").click
+  visit admin_people_path
 end
 
 When /^I navigate to the users list$/ do
-  find("header a", :text => "Users").click
+  visit admin_users_path
 end
 
 When /^I see if there is already an associated user \(Edit\/Add User\)$/ do
@@ -22,9 +22,10 @@ When /^I create a new person$/ do
   find("a", :text => "New Person").click
 end
 
-When /^I create a new user for "(.*?)"$/ do |arg1|
-  find(".dataTables_filter input").set arg1
-  find("tr", :text => arg1).find("a", :text => "Create User").click
+When /^I create a new user for "(.*?)"$/ do |pseudonym|
+  @person = Person.find_by_pseudonym pseudonym
+  visit '/admin/users/new'
+  find("select#user_person_id").select @person.to_s
 end
 
 Then /^a new user with login "(.*?)" is created$/ do |arg1|

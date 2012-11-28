@@ -10,19 +10,20 @@ source 'http://rubygems.org'
 source 'http://gems.github.com'
 
 # RAILS
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.9'
 
 # DATABASE
 gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
-gem 'composite_primary_keys'
+gem 'composite_primary_keys', '~> 5.0.10'
 gem 'foreigner'
 gem 'jdbc-postgres', platform: :jruby
 gem 'memcache-client' 
 gem 'pg', platform: :mri_19
 
 # THE REST
-gem "coffee-filter", "~> 0.1.1"
 gem 'RedCloth'
+gem 'activeadmin', '~> 0.5.0'
+gem 'coffee-filter', "~> 0.1.1"
 gem 'coffee-script', '~> 2.2'
 gem 'haml', '~> 3.1'
 gem 'haml_assets'
