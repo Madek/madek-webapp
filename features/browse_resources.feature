@@ -49,7 +49,7 @@ Feature: Possibility to browse entries and sets
       And the last entry is child of the last set
       And the last set is parent of the 3rd set
       
-  @javascript
+  @poltergeist
   Scenario: Max goes to the homepage and want to see his own media entries and public media entries from other users
     Given I am "max"
     When I go to the home page
@@ -67,7 +67,7 @@ Feature: Possibility to browse entries and sets
     And I should not see "Hockey Pics"
     And I should not see "Brackets"
     
-  @javascript
+  @poltergeist
   Scenario: Moritz goes to the homepage and want to see his own media entries and public media entries from other users
     Given I am "moritz"
     When I go to the home page

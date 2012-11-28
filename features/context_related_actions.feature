@@ -5,7 +5,7 @@ Feature: Login
   Background: Load the example data and personas
     Given personas are loaded
 
-  @javascript
+  @poltergeist
   Scenario: Context actions on the set detail view
     Given I am "Normin"
     When I open a set that I can edit which has children
@@ -22,7 +22,7 @@ Feature: Login
     | delete |
     | show graph |
 
-  @javascript
+  @poltergeist
   Scenario: Context actions on the media entry detail view
    Given I am "Normin"
     When I open one of my resources
@@ -38,7 +38,7 @@ Feature: Login
     | delete |
     | show graph |
 
-  @javascript
+  @poltergeist
   Scenario: Context actions on the search result page
    Given I am "Normin"
     When I see some search results
@@ -48,7 +48,7 @@ Feature: Login
     | create set |
     | show graph |
 
-  @javascript
+  @poltergeist
   Scenario: Context actions on the filter set detail view
    Given I am "Adam"
     When I open a filter set that I can edit
@@ -63,7 +63,7 @@ Feature: Login
     | delete |
     | show graph |
 
-  @javascript
+  @poltergeist
   Scenario: Context actions on the group page
    Given I am "Normin"
     When I click the arrow next to my name
@@ -72,7 +72,7 @@ Feature: Login
     | action |
     | create group |
 
-  @javascript
+  @poltergeist
   Scenario: Context actions on the favorite view
    Given I am "Normin"
     When I click the arrow next to my name
@@ -83,7 +83,7 @@ Feature: Login
     | import |
     | show graph |
 
-  @javascript
+  @poltergeist
   Scenario: Context actions on the my media entries view
    Given I am "Normin"
     When I click the arrow next to my name
@@ -94,7 +94,7 @@ Feature: Login
     | import |
     | show graph |
 
-  @javascript
+  @poltergeist
   Scenario: Context actions on the my sets view
    Given I am "Normin" 
     When I click the arrow next to my name

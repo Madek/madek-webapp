@@ -5,7 +5,7 @@ Feature: Create and edit workgroups
   basis, I can create workgroups based on users who have logged into the system
   before.
 
-  @javascript
+  @poltergeist
   Scenario: Just create a group
     Given I am "normin"
      And I click the arrow next to my name
@@ -38,7 +38,7 @@ Feature: Create and edit workgroups
      And "Landschaft, Liselotte" should be a member of the "Looney Tunes" group
      And "Normalo, Normin" should be a member of the "Looney Tunes" group
     
-  @javascript
+  @poltergeist
   Scenario: Try to create a group without a name and fail
     Given I am "normin"
      And I click the arrow next to my name

@@ -7,7 +7,7 @@ Feature: Sets in Sets
   # https://www.pivotaltracker.com/story/show/12828561
   # Pts: 40 - ?
   # This includes refactoring of media sets/entries -> resources
-  @javascript
+  @poltergeist
   Scenario: Add a set to my favorites
    Given I see some sets
     When I add them to my favorites
@@ -33,7 +33,7 @@ Feature: Sets in Sets
   # And I can filter for my sets # The "my" is not defined yet!
   #
   # Currently:
-  @javascript
+  @poltergeist
   Scenario: Information I see when I open the sets in sets tool
     Given are some sets and entries
      When I open the sets in sets tool
@@ -138,7 +138,7 @@ Feature: Sets in Sets
     When I follow "http://www.zhdk.ch"
 
   # https://www.pivotaltracker.com/story/show/23825307
-  @javascript
+  @poltergeist
   Scenario: Preview of content and relationships of a set in the grid view
     Given I am "Normin"
      When I view a grid of sets
@@ -152,7 +152,7 @@ Feature: Sets in Sets
       And I see previews of the resources that are parent of this set
       When I hover those previews of parents I see the title of those resources
       
-  @javascript
+  @poltergeist
   Scenario: MediaEntry popup on a media set page
     Given I am "Normin"
       And I open a set which has child media entries
@@ -161,7 +161,7 @@ Feature: Sets in Sets
      Then I see more information about that media entry popping up
 
   # https://www.pivotaltracker.com/story/show/22394303
-  @javascript
+  @poltergeist
   Scenario: Choosing which contexts are valid for a set
    Given I am "Adam"
      And a context called "Landschaftsvisualisierung" exists
@@ -182,7 +182,7 @@ Feature: Sets in Sets
      And the set still has the context called "Games"
 
   # https://www.pivotaltracker.com/story/show/22464659
-  @javascript
+  @poltergeist
   Scenario: Viewing which contexts a set could have
    Given I am "Adam"
      And a context called "Landschaftsvisualisierung" exists

@@ -5,11 +5,11 @@ Feature: Upload images and manage media entries based on images
   Background: Set up the world and some users
     Given I am "normin"
       
-  @javascript
+  @poltergeist
   Scenario: Upload one image file without any special metatada
      When I upload some picture titled "not a special picture"
 
-  @javascript 
+  @javascript
   Scenario: Upload an image file for another user to see
     When I upload the file "features/data/images/berlin_wall_01.jpg" relative to the Rails directory
      And I go to the upload edit
@@ -32,7 +32,7 @@ Feature: Upload images and manage media entries based on images
      And I go to the home page
      Then I should see "A beautiful piece of the B..."
 
-  @javascript 
+  @poltergeist 
   Scenario: Upload an image file for my group to see
     Given a group called "Mauerfäller" exists
       And the user with username "normin" is member of the group "Mauerfäller"
@@ -59,7 +59,7 @@ Feature: Upload images and manage media entries based on images
       And I go to the home page
       Then I should see "A second piece of the Berlin Wall"
 
-  @javascript 
+  @poltergeist 
   Scenario: Add a single media entry to favorites from the media entry list
     When I upload some picture titled "mein lieblingsknödel"
      And I go to the media entries
@@ -70,7 +70,7 @@ Feature: Upload images and manage media entries based on images
      And I follow "Meine Favoriten"
     Then I should see "mein lieblingsknödel"
 
-  @javascript 
+  @poltergeist 
   Scenario: Add a single media entry to favorites from the media detail page
     When I upload some picture titled "mein lieblingsdackel"
      And I go to the media entries
@@ -80,7 +80,7 @@ Feature: Upload images and manage media entries based on images
      And I follow "Meine Favoriten"
     Then I should see "mein lieblingsdackel"
 
-  @javascript 
+  @poltergeist 
   Scenario: Add and remove a single media entry from favorites
     When I upload some picture titled "mein lieblingsbier"
      And I go to the media entries
@@ -97,7 +97,7 @@ Feature: Upload images and manage media entries based on images
      And I follow "Meine Favoriten"
     Then I should not see "mein lieblingsbier"
 
-  @javascript 
+  @poltergeist 
   Scenario: Upload an image and delete it afterwards
     When I upload some picture titled "mein lieblingsflugzeug"
      And I go to the media entries
@@ -118,7 +118,7 @@ Feature: Upload images and manage media entries based on images
      And I click the media entry titled "Grumpy Cat"
     Then I should see "30.05.2011"
 
-  @javascript @ts
+  @poltergeist 
   Scenario: Upload an image that has MAdeK metadata with a from/to date in its EXIF/IPTC metadata
     When I upload the file "features/data/images/date_should_be_from_to_may.jpg" relative to the Rails directory
      And I go to the upload edit
@@ -132,7 +132,7 @@ Feature: Upload images and manage media entries based on images
      And I should see "Buser, Monika"
      And I should see "Diplomarbeit, Porträt, Selbstporträt, Schweiz"
 
-  @javascript @ts
+  @poltergeist 
   Scenario: Upload an image that has MAdeK metadata with a string instead of a date its EXIF/IPTC metadata
     When I upload the file "features/data/images/date_should_be_1990.jpg" relative to the Rails directory
      And I go to the upload edit

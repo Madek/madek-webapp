@@ -14,7 +14,7 @@ Feature: Filter set
       And I am "Normin"
 
   # https://www.pivotaltracker.com/story/show/33961905
-  @javascript
+  @poltergeist
   Scenario: Saving a filter configuration as a filtered set
     When I see a filtered list of resources as a result of a search
     Then I can choose to save the configuration of the filters as a new set
@@ -22,7 +22,7 @@ Feature: Filter set
     Then I am prompted for the name of the new set that is thus created
 
   # https://www.pivotaltracker.com/story/show/33961905
-  @javascript
+  @poltergeist
   Scenario: Actions available for a filter set
     When I look at a filter set
     Then I can open the context actions drop down and see the following actions in the following order:

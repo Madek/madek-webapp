@@ -6,7 +6,7 @@ Feature: Login
     Given personas are loaded
       And I am "Petra"
 
-  @javascript
+  @poltergeist
   Scenario: The three blocks of content available on the dashboard
     Given I am on the dashboard
      Then I see a block of resources showing my content

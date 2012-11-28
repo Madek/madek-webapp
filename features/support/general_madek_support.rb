@@ -99,7 +99,7 @@ end
 def click_media_entry_titled(title)
   entry = find_media_resource_titled(title)
   wait_until { entry.find("a") }
-  entry.find("a").click
+  entry.find("a img").click
   sleep 1.0
 end
 
