@@ -1,9 +1,9 @@
 # -*- encoding : utf-8 -*-
 module MetaContextsHelper
 
-  def display_context_abstract_slider(abstract_slider_json)
-    total = abstract_slider_json["total"]
-    url = abstract_meta_context_path(abstract_slider_json["context_id"])
+  def display_context_abstract_slider(abstract_slider_hash)
+    total = abstract_slider_hash[:total]
+    url = abstract_meta_context_path(abstract_slider_hash[:context_id])
     
     capture_haml do
       haml_tag :p, :style => "padding: 1.8em;" do
@@ -49,17 +49,17 @@ module MetaContextsHelper
     end
   end
 
-  def display_context_abstract(abstract_json)
+  def display_context_abstract(abstract_hash)
     capture_haml do
       haml_tag :div, :class => "meta_data" do
-        if abstract_json.blank?
+        if abstract_hash.blank?
           haml_concat _("Es sind nicht genügend Werte für einen Set-Auszug vorhanden.")
         else
-          abstract_json.collect do |meta_datum|
-            haml_tag :h4, meta_datum["definition_label"]
+          abstract_hash.collect do |meta_datum|
+            haml_tag :h4, meta_datum[:definition_label]
             haml_tag :p do
-              meta_datum["meta_terms"].each do |meta_term|
-                haml_concat link_to(meta_term["label"], media_resources_path(:meta_data => {meta_datum["meta_key_label"] => {:ids => [meta_term["id"]]}}), :"data-meta_term_id" => meta_term["id"])
+              meta_datum[:meta_terms].each do |meta_term|
+                haml_concat link_to(meta_term[:label], media_resources_path(:meta_data => {meta_datum[:meta_key_label] => {:ids => [meta_term[:id]]}}), :"data-meta_term_id" => meta_term[:id])
               end
             end
           end
@@ -81,13 +81,13 @@ module MetaContextsHelper
       haml_tag :br
 
       vocabulary_json.each do |context|
-        haml_tag :h3, context["label"][DEFAULT_LANGUAGE.to_s] if context["label"]
-        haml_tag :p, context["description"][DEFAULT_LANGUAGE.to_s] if context["description"]
-        context["meta_keys"].each do |meta_key|
-          haml_tag :h4, meta_key["label"]
+        haml_tag :h3, context[:label] if context[:label]
+        haml_tag :p, context[:description] if context[:description]
+        context[:meta_keys].each do |meta_key|
+          haml_tag :h4, meta_key[:label]
           haml_tag :div, :class => "columns_3" do
-            meta_key["meta_terms"].each do |meta_term|
-              haml_tag :p, meta_term["label"], :"data-meta_term_id" => meta_term["id"], :"data-used" => meta_term["is_used"]
+            meta_key[:meta_terms].each do |meta_term|
+              haml_tag :p, meta_term[:label], :"data-meta_term_id" => meta_term[:id], :"data-used" => meta_term[:is_used]
             end
           end
         end

@@ -24,6 +24,8 @@ class MetaContextsController < ApplicationController
   # @required [String] name The name of the MetaContext you want to fetch informations for.
   #
   # @optional [Hash] with[keys] Adds MetaKeys to the responding MetaContext. 
+  # @optional [Hash] with[vocabulary] Adds Vocabulary to the responding MetaContext. 
+  # @optional [Hash] with[abstract] Adds Abstract to the responding MetaContext. 
   #
   # @example_request /meta_contexts/upload.json
   # @example_request_description Request the "upload" MetaContext.
@@ -47,15 +49,10 @@ class MetaContextsController < ApplicationController
   def show(with = params[:with] || {})
     respond_to do |format|
       format.html {
-        @vocabulary_json = view_context.vocabulary(@context).as_json
-        @abstract_json = @context.abstract(current_user).as_json
-        @abstract_slider_json = { :context_id => @context.id,
-                                  :total => begin
-                                                      # OPTIMIZE @context.media_entries(current_user).count
-                                                      me = @context.media_entries(current_user)
-                                                      me.to_a.size
-                                                    end
-                                }.as_json
+        @context_json = view_context.hash_for(@context, with.merge({vocabulary: true, abstract: true}))
+        @abstract_slider_hash = { :context_id => @context.id,
+                                  :total => @context.media_entries(current_user).to_a.size # OPTIMIZE @context.media_entries(current_user).count
+                                }
       }
       format.json {
         render :json => view_context.json_for(@context, with)
@@ -64,7 +61,7 @@ class MetaContextsController < ApplicationController
   end
 
   def abstract
-    @abstract_json = @context.abstract(current_user, params[:value].to_i).as_json
+    @abstract_hash = @context.abstract(current_user, params[:value].to_i)
     respond_to do |format|
       format.js { render :layout => false }
     end

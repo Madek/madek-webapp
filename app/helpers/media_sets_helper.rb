@@ -201,12 +201,12 @@ module MediaSetsHelper
   end
 
   def display_set_vocabulary(set, current_user)
-    used_meta_term_ids = set.used_meta_term_ids(current_user)
-    vocabulary_json = set.individual_contexts.map {|context| vocabulary(context, used_meta_term_ids).as_json }
     capture_haml do
       haml_tag :p do
         haml_concat "Für dieses Set wurde ein spezifisches Vokabular erstellt."
       end
+      used_meta_term_ids = set.used_meta_term_ids(current_user)
+      vocabulary_json = set.individual_contexts.map {|context| vocabulary(context, used_meta_term_ids) }
       haml_concat display_contexts_vocabulary(vocabulary_json)
     end
   end

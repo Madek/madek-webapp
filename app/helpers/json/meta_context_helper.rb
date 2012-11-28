@@ -9,7 +9,7 @@ module Json
         description: meta_context.description.to_s
       }
       
-      if with ||= nil  
+      if with ||= nil
         if with[:meta_keys]
           h[:meta_keys] = meta_context.meta_key_definitions.map do |mkd|
             {
@@ -24,13 +24,23 @@ module Json
             }
           end
         end 
+
+        if with[:vocabulary]
+          h[:vocabulary] = vocabulary(meta_context, nil, false)
+        end
+
+        if with[:abstract]
+          h[:abstract] = meta_context.abstract(current_user)
+        end
       end 
       
       h
     end
 
-    def vocabulary(meta_context, used_meta_term_ids = nil)
-      r = hash_for(meta_context)
+    def vocabulary(meta_context, used_meta_term_ids = nil, include_parent = true)
+      # TODO drop the include_parent argument
+      r = include_parent ? hash_for(meta_context) : {}
+      
       used_meta_term_ids ||= meta_context.used_meta_term_ids(current_user)
       r[:meta_keys] = meta_context.meta_keys.for_meta_terms.map do |meta_key|
         definition = meta_key.meta_key_definitions.for_context(meta_context)

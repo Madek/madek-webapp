@@ -6,10 +6,10 @@
         .head-tabs
           %h2.title.grid_8{:style => "height: 60px;"}
             %br
-            %span{:style => "margin-right: 4px"}= _("Kontext")
-            = @vocabulary_json["label"][DEFAULT_LANGUAGE.to_s]
+            = @context_json[:label]
           .clear
-          %p.description= @vocabulary_json["description"][DEFAULT_LANGUAGE.to_s]
+          %p.description
+            = @context_json[:description]
             
       .grid_12
         #detail_specification.tabs
@@ -21,11 +21,11 @@
   
           = render :partial => "media_entries/browsing"
           #vocabulary_tab.clearfix
-            = display_contexts_vocabulary(@vocabulary_json)
+            = display_contexts_vocabulary(@context_json[:vocabulary])
           #abstract_tab.clearfix
             %p= _("Diese Metadaten wurden am häufigsten vergeben. Sie zeigen den thematischen Schwerpunkt des Projekts an.")
-            = display_context_abstract_slider(@abstract_slider_json)
-            = display_context_abstract(@abstract_json)
+            = display_context_abstract_slider(@abstract_slider_hash)
+            = display_context_abstract(@context_json[:abstract])
 
 :css
   #vocabulary_tab h3 {
