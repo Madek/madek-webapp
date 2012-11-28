@@ -35,6 +35,14 @@ class User < ActiveRecord::Base
   
 #############################################################
 
+  def individual_contexts
+    # NOTE media_sets scope includes the subclasses (FilterSet) 
+    r = MediaSet.media_sets.accessible_by_user(self).select("media_resources.id")
+    MetaContext.joins(:media_sets).uniq.where("media_resources.id IN (#{r.to_sql})")
+  end
+
+#############################################################
+
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40
   validates_uniqueness_of   :login
