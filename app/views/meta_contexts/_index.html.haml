@@ -1,0 +1,10 @@
+- if meta_contexts = current_user.individual_contexts and not meta_contexts.empty?
+  %section.content_body
+    %div.page_title_left
+      = _("Kontexte")
+    .clear
+    - meta_contexts.each do |meta_context|
+      %a.item_box{:href => meta_context_path(meta_context)}
+        %h4
+          = meta_context
+        = "%s (%d keys)" % [meta_context.description, meta_context.meta_keys.count]
