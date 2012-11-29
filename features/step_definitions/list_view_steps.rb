@@ -32,10 +32,10 @@ When /^I see the "(.*?)" meta key of a set/ do |meta_key|
   step 'I see all meta data contexts'
   case meta_key
     when"children"
-      wait_until(25){ find("dt.child_media_resources") }
+      wait_until { find("dt.child_media_resources") }
       @el = find("dt.child_media_resources").find(:xpath, "..")
     when "parents"
-      wait_until(25){ find("dt.parent_media_resources") }
+      wait_until { find("dt.parent_media_resources") }
       @el = find("dt.parent_media_resources").find(:xpath, "..")
   end
 end

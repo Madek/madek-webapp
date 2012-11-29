@@ -132,7 +132,7 @@ Feature: Upload
     When I choose to list only files with missing metadata
     Then only files with missing metadata are listed
 
-  @poltergeist
+  @javascript
   Scenario: meta terms in the context upload
     Given MetaTerms are existing in the upload context
      And I am "Normin"

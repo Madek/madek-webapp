@@ -42,7 +42,7 @@ end
 When /^(?:|I )select "(.+)" as parent set$/ do |label|
   label.gsub!(/\s/, "_")
   raise "#{label} is already selected so you can not select it again" if find("input##{label}").checked?
-  wait_until(20) { find("input##{label}:not(selected)") }
+  wait_until { find("input##{label}:not(selected)") }
   find("input##{label}:not(selected)").click
   raise "#{label} was not selected" unless find("input##{label}").checked?
 end
@@ -55,24 +55,24 @@ When /^(?:|I )deselect "(.+)" as parent set$/ do |label|
 end
 
 When /^(?:|I )submit the selection widget$/ do
-  wait_until(40){find(".widget .submit")}
+  wait_until{find(".widget .submit")}
   find(".widget .submit").click
   
   # This always breaks on CI but works locally -- no idea how to really solve this.
   # BOTH of these time out -- let's try a super-idiotic approach below
-  #wait_until(40){ all(".set.widget", :visible => true).size == 0 }
-  #wait_until(55){ all(".set.widget").size == 0 }
+  #wait_until{ all(".set.widget", :visible => true).size == 0 }
+  #wait_until{ all(".set.widget").size == 0 }
   sleep 5.0 # Super-idiotic approach
 end
 
 When /^(?:|I )create a new set named "(.+)"$/ do |name|
-  wait_until(15){ find(".widget .create_new a") }
+  wait_until{ find(".widget .create_new a") }
   find(".widget .create_new a").click
-  wait_until(15){ find("#create_name") }
+  wait_until{ find("#create_name") }
   fill_in("create_name", :with => name)
-  wait_until(15){ find(".widget .create_new .button") }
+  wait_until{ find(".widget .create_new .button") }
   find(".widget .create_new .button").click
-  wait_until(15){ find(".widget .create_new a") }
+  wait_until{ find(".widget .create_new a") }
 end
 
 When /^(?:|I )create a new set$/ do

@@ -99,7 +99,7 @@ end
 
 Then /^the counter is formatted as "([^"]*)"$/ do |string|
   re = Regexp.new(string.gsub(/[N,M]/,'\d')) 
-  wait_until(15){ find("section", :text => re) }
+  wait_until { find("section", :text => re) }
 end
 
 Given /^the system is set up$/ do

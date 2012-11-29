@@ -10,8 +10,8 @@ end
 
 Then /^I can select which children to highlight$/ do
   find(".open_media_set_highlights_lightbox").click
-  wait_until(10){ all(".loading", :visible => true).size == 0 }
-  wait_until(10){ all("#media_set_highlights_lightbox table.media_resources tr", :visible => true).size > 0 }
+  wait_until { all(".loading", :visible => true).size == 0 }
+  wait_until { all("#media_set_highlights_lightbox table.media_resources tr", :visible => true).size > 0 }
 end
 
 When /^I open a set that I can not edit which has children$/ do

@@ -69,8 +69,8 @@ When /^I open the visualization with the hash\-tag test_noupdate_positions$/ do
 end
 
 Then /^I see the graph after it has finished layouting\/computing$/ do
-  wait_until(10){all('.loading',visible: true).size>0}
-  wait_until(10){all('.loading',visible: true).size==0}
+  wait_until {all('.loading',visible: true).size>0}
+  wait_until {all('.loading',visible: true).size==0}
 end
 
 Then /^I don't see "(.*?)"$/ do |arg1|

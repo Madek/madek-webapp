@@ -419,5 +419,5 @@ Given /^I examine one of the child media entry more closely$/ do
 end
 
 Then /^I see more information about that media entry popping up$/ do
-  wait_until(45){ all(".entry_popup").size > 0 }
+  wait_until { all(".entry_popup").size > 0 }
 end

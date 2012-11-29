@@ -163,12 +163,12 @@ When /^I uploading some files from the dropbox and from the filesystem$/ do
 end
 
 When /^I delete some fo those after the upload$/ do
-  wait_until(15) { find("#uploader_filelist li span",:text => "berlin_wall_01.jpg").find(:xpath, "../..") }
+  wait_until { find("#uploader_filelist li span",:text => "berlin_wall_01.jpg").find(:xpath, "../..") }
   deleted_plupload_file_element_after_upload = find("#uploader_filelist li span",:text => "berlin_wall_01.jpg").find(:xpath, "../..")
   deleted_plupload_file_element_after_upload.find(".delete_plupload_entry").click
   page.driver.browser.switch_to.alert.accept
   
-  wait_until(15) { find("#dropbox_filelist li span",:text => "berlin_wall_01.jpg").find(:xpath, "../..") }
+  wait_until { find("#dropbox_filelist li span",:text => "berlin_wall_01.jpg").find(:xpath, "../..") }
   deleted_dropbox_file_element_after_upload = find("#dropbox_filelist li span",:text => "berlin_wall_01.jpg").find(:xpath, "../..")
   deleted_dropbox_file_element_after_upload.find(".delete_dropbox_file").click
   page.driver.browser.switch_to.alert.accept
@@ -228,15 +228,15 @@ end
 
 
 Then /^I see a list of my uploaded files$/ do
-  wait_until(15){ all(".loading", :visible => true).size == 0 }
+  wait_until{ all(".loading", :visible => true).size == 0 }
   all('.media_resource_selection .media .item_box').size.should be >= 2
-  wait_until(15){ all(".edit_meta_datum_field", :visible => true).size > 0 }
-  wait_until(15){ find(".attention_flag") } if MediaEntryIncomplete.any? {|me| not me.context_valid?(MetaContext.upload)}  
+  wait_until{ all(".edit_meta_datum_field", :visible => true).size > 0 }
+  wait_until{ find(".attention_flag") } if MediaEntryIncomplete.any? {|me| not me.context_valid?(MetaContext.upload)}  
 end
 
 
 And /^I can jump to the next file$/ do
-  wait_until(15){ all(".loading", :visible => true).size == 0 }
+  wait_until{ all(".loading", :visible => true).size == 0 }
   wait_until { find(".navigation .next:not([disabled=disabled])") }
   next_id= find(".navigation .next")[:"data-media_resource_id"]
   find(".navigation .next").click
@@ -244,7 +244,7 @@ And /^I can jump to the next file$/ do
 end
 
 And /^I can jump to the previous file$/ do
-  wait_until(15){ find(".navigation .previous:not([disabled=disabled])") }
+  wait_until{ find(".navigation .previous:not([disabled=disabled])") }
   previous_id= find(".navigation .previous")[:"data-media_resource_id"]
   find(".navigation .previous").click
   wait_until { find(".navigation .current")[:"data-media_resource_id"] == previous_id }
@@ -295,6 +295,7 @@ Then /^I can set values for the meta data from type meta terms$/ do
   not_extensible_meta_terms_checkbox = find(".edit_meta_datum_field.meta_terms.not_extensible_list.checkboxes")
   not_extensible_meta_terms_checkbox.find("input").click
   step 'I wait for the AJAX magic to happen'
+  sleep(1)
   meta_key_id = MetaKey.find_by_label not_extensible_meta_terms_checkbox["data-field_name"]
   meta_data.reload.where(:meta_key_id => meta_key_id).first.value.length.should > 0
 

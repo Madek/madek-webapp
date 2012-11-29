@@ -181,7 +181,7 @@ When /I fill in the metadata for entry number (\d+) as follows:/ do |num, table|
     input.set hash['value']
     # makes sure that we are leaving the field again
     page.execute_script("$('.#{field[:class].gsub(/\s/, ".")}').find('input, textarea').blur()")
-    wait_until(10){ field.find(".status .ok") }  
+    wait_until { field.find(".status .ok") }  
   end
   
   wait_until{ all(".loading", :visible => true).size == 0 }
