@@ -137,14 +137,18 @@ end
 
   def login_from_session
     user = nil
+
+    # TODO rename is_api_request to something sensible
+    is_api_request = (request.format.to_sym == :json or
+          (request[:controller] == "media_resources" and request[:action] == "image") )
+
     if session[:user_id]
       # TODO use find without exception: self.current_user = User.find(session[:user_id])
       self.current_user = user = User.find_by_id(session[:user_id])
-      check_usage_terms_accepted
+      check_usage_terms_accepted unless is_api_request
 
     # TODO remove this when public open OR logged in through API
-    elsif request.format.to_sym == :json or
-          (request[:controller] == "media_resources" and request[:action] == "image")
+    elsif is_api_request
       @current_user = user = User.new
 
     end
