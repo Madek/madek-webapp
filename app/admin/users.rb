@@ -57,7 +57,7 @@ ActiveAdmin.register User do
       f.input :person
       f.input :login
       f.input :email
-      f.input :password
+      f.input :password if f.object.new_record?
       f.input :notes
       f.input :usage_terms_accepted_at
     end
