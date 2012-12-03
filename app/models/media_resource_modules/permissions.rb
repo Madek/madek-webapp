@@ -133,68 +133,6 @@ module MediaResourceModules
                 )") 
       end
 
-      ##############################
-
-      def where_permission_presets_and_user presets, user 
-
-          # BEGIN BY_GROUPPERMISSION
-          by_grouppermission = 
-            presets.reduce(" SELECT NULL \n") do |grouppermission_query,preset|
-
-              # BEGIN EXCEPT clause for preselected grouppermissions
-              #  all those media entries the user is allowed for the current preset by grouppermission but denied by some userpermission
-              #  we will then use except_denied_db_adapter_dependent further below
-              preset_true_actions = Constants::Actions.select{|action| preset[action]}
-              denied_mediaresource_ids = 
-                preset_true_actions.reduce("(SELECT NULL)") do |denied_query, action|
-                  media_resource_ids_deniedby_userpermission =
-                    Userpermission.where(action => false).where(user_id: user).joins(:media_resource).select("media_resources.id")
-                  denied_query + "UNION  #{media_resource_ids_deniedby_userpermission.to_sql} "
-                end
-              # END EXCEPT
-              
-              # BEGIN GROUPPERMISSIONS_PRESET here is where the actual query based on the preset gets formed
-              grouppermissions_with_actions = 
-                Constants::Actions.reduce(Grouppermission) do |up,action|
-                  up.where(action => preset[action])
-                end
-
-              media_resource_ids_by_grouppermissions =
-                grouppermissions_with_actions
-                  .joins(group: :users)
-                  .where("users.id = ?", user.id)
-                  .joins(:media_resource)
-                  .select("media_resources.id as media_resource_id")
-
-                  if SQLHelper.adapter_is_postgresql? 
-                    "#{grouppermission_query} UNION  (( #{media_resource_ids_by_grouppermissions.to_sql} ) EXCEPT (#{denied_mediaresource_ids}))  \n"
-                  elsif SQLHelper.adapter_is_mysql?
-                    "#{grouppermission_query} UNION  #{media_resource_ids_by_grouppermissions.to_sql} \n"
-                  else
-                    raise "adapter not supported"
-                  end
-              #END GROUPPERMISSIONS_PRESET
-            end 
-          # END BY_GROUPPERMISSION
-
-          # BEGIN BY_USERPERMISSION
-          by_userpermission =
-            presets.reduce(" SELECT NULL \n") do |up_query,preset|
-            userpermission_by_action =
-              Constants::Actions.reduce(Userpermission) do |up,action|
-                up.where(action => preset[action])
-              end
-             media_resource_ids_by_userpermission =
-               userpermission_by_action.where(user_id: user).joins(:media_resource).select("media_resources.id as media_resource_id")
-            up_query + "UNION  #{media_resource_ids_by_userpermission.to_sql}  \n"
-            end 
-          # END BY_USERPERMISSION
-
-          # now put user and grouppermissions together in chainable query
-          where "media_resources.id in (#{by_grouppermission} UNION #{by_userpermission})" 
-
-      end
-
     end
 
   end
