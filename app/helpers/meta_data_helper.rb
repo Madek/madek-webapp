@@ -186,13 +186,7 @@ module MetaDataHelper
       when "MetaDatumDepartments"
         selected = Array(meta_datum.object.value)
         departments_without_semester = 
-          if SQLHelper.adapter_is_mysql?
-            MetaDepartment.where("ldap_name NOT REGEXP '_[0-9]{2}[A-Za-z]\.studierende'")
-          elsif SQLHelper.adapter_is_postgresql?
-            MetaDepartment.where("ldap_name NOT SIMILAR TO '%_[0-9]{2}[A-Za-z]\.studierende'")
-          else
-            raise "adapter is not supported"
-          end
+          MetaDepartment.where("ldap_name NOT SIMILAR TO '%_[0-9]{2}[A-Za-z]\.studierende'")
         all_options = departments_without_semester.collect {|x| {:label => x.to_s, :id => x.id, :selected => selected.include?(x)} }
       when "MetaDatumMetaTerms"
         selected = Array(meta_datum.object.value)
@@ -204,14 +198,7 @@ module MetaDataHelper
       when "MetaDatumKeywords"
         keywords = meta_datum.object.value
         meta_term_ids = keywords.collect(&:meta_term_id)
-        all_grouped_keywords = 
-          if SQLHelper.adapter_is_mysql?
-            Keyword.group(:meta_term_id)
-          elsif SQLHelper.adapter_is_postgresql?
-            Keyword.select "DISTINCT ON (meta_term_id) * "
-          else
-            raise "adapter is not supported"
-          end
+        all_grouped_keywords = Keyword.select "DISTINCT ON (meta_term_id) * "
         all_grouped_keywords = all_grouped_keywords.where(["meta_term_id NOT IN (?)", meta_term_ids]) unless meta_term_ids.empty?
         all_options = keywords.collect {|x| {:label => x.to_s, :id => x.meta_term_id, :selected => true}}
         all_options += all_grouped_keywords.collect {|x| {:label => x.to_s, :id => x.meta_term_id, :selected => false}}
