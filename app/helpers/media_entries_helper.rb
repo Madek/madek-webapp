@@ -67,7 +67,7 @@ module MediaEntriesHelper
       video_preview_apple = media_file.previews.where(:content_type => 'video/mpeg', :thumbnail => 'large').last
       # Since we don't have a video preview, we also don't have any thumbnails, since those are generated while
       # encoding the video.
-      if video_preview_webm.nil? or video_preview_apple.nil?
+      if video_preview_webm.nil?
         if !media_file.encode_job_finished?
           # TODO: Display a nicer box with this information, not just dump the text there
           "<p>Diese Videodatei wird gerade fürs Web konvertiert. Die Konvertierung ist zu %.2f Prozent abgeschlossen. Sobald sie ganz abgeschlossen ist, finden Sie hier eine abspielbare Version. Laden Sie diese Seite neu, um den aktuellsten Stand zu erfahren.</p>" % media_file.encode_job_progress_percentage 
