@@ -69,8 +69,8 @@ When /^I open the visualization with the hash\-tag test_noupdate_positions$/ do
 end
 
 Then /^I see the graph after it has finished layouting\/computing$/ do
-  wait_until {all('.loading',visible: true).size>0}
-  wait_until {all('.loading',visible: true).size==0}
+  wait_until(5){all('.loading',visible: true).size>0}
+  wait_until(5){all('.loading',visible: true).size==0}
 end
 
 Then /^I don't see "(.*?)"$/ do |arg1|
@@ -93,7 +93,7 @@ When /^I inspect a media entry node more closely$/ do
 end
 
 When /^The visualization test test_noupdate_positions is running$/ do
-  expect(find("#test_noupdate_positions_running")).to be
+  wait_until(5){ all("#test_noupdate_positions_running").size > 0}
 end
 
 Then /^I see a popup$/ do
