@@ -238,7 +238,7 @@ class MediaFile < ActiveRecord::Base
                 directory_prefix = Rails.root + "public/previews"
               end
 
-              File.symlink(path, "#{directory_prefix}/#{File.basename(path)}")
+              File.symlink(path, "#{directory_prefix}/#{File.basename(path)}") unless File.exists?("#{directory_prefix}/#{File.basename(path)}")
               return true
             else
               return false
