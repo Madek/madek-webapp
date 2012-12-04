@@ -63,10 +63,11 @@ module MediaEntriesHelper
     # image that was extracted from the video file.
     if media_file.content_type =~ /video/ && size == :large
       media_file.assign_video_thumbnails_to_preview
-      video_preview = media_file.previews.where(:content_type => 'video/webm', :thumbnail => 'large').last
+      video_preview_webm = media_file.previews.where(:content_type => 'video/webm', :thumbnail => 'large').last
+      video_preview_apple = media_file.previews.where(:content_type => 'video/mpeg', :thumbnail => 'large').last
       # Since we don't have a video preview, we also don't have any thumbnails, since those are generated while
       # encoding the video.
-      if video_preview.nil?
+      if video_preview_webm.nil? or video_preview_apple.nil?
         if !media_file.encode_job_finished?
           # TODO: Display a nicer box with this information, not just dump the text there
           "<p>Diese Videodatei wird gerade fürs Web konvertiert. Die Konvertierung ist zu %.2f Prozent abgeschlossen. Sobald sie ganz abgeschlossen ist, finden Sie hier eine abspielbare Version. Laden Sie diese Seite neu, um den aktuellsten Stand zu erfahren.</p>" % media_file.encode_job_progress_percentage 
@@ -77,7 +78,14 @@ module MediaEntriesHelper
         content_tag :video, {:width => video_preview.width, :height => video_preview.height, :autoplay => '', :controls => 'controls'} do
           # This src points to a symlink to the actual file, so that Apache serves it. This lets us support
           # seeking, partial content (HTTP status code 206) and request ranges without any additional work.
-          tag :source, {:type => video_preview.content_type, :src => "/previews/#{video_preview.filename}"}
+          if video_preview_apple
+            # Apple uses a nonstandard, patent-emcumbered codec (H.264) that is the only one supported in their browsers
+            tag :source, {:type => video_preview_apple.content_type, :src => "/previews/#{video_preview_apple.filename}"}
+          end
+          if video_preview_webm
+            # Everyone else uses an open codec (WebM)
+            tag :source, {:type => video_preview_webm.content_type, :src => "/previews/#{video_preview_webm.filename}"}
+          end
         end
       end
 

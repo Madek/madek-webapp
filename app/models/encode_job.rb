@@ -30,13 +30,6 @@ class EncodeJob
   # @see https://app.zencoder.com/docs/api/encoding/resolution/size
   attr_accessor :size
 
-  # Video codec to use. Usually this is 'vp8' (this encodes to WebM)
-  # @return [String]
-  # @example
-  #   "vp8"
-  # @see https://app.zencoder.com/docs/api/encoding/format-and-codecs/video-codec
-  attr_accessor :video_codec  # Usually 'vp8'
-
   # Audio codec to use. Usually this is 'vorbis' (Ogg Vorbis)
   # @return [String]
   # @example
@@ -78,7 +71,6 @@ class EncodeJob
       max_width ||= 620
     end
     @size ||= { :width => max_width }
-    @video_codec ||= "vp8"
     @audio_codec ||= "vorbis"
     @job_type ||= "video"
     @thumbnails ||= {:thumbnails => {:interval => 60, :prefix => 'frame'}}
@@ -110,12 +102,20 @@ class EncodeJob
 
     options = {:base_url => @base_url, :quality => 4, :speed => 2}
     if @job_type == "video"
-      options.merge!(:video_codec => @video_codec).merge!(@size).merge!(@thumbnails)
+      webm_options = options.clone
+      webm_options.merge!(:video_codec => "vp8").merge!(@size).merge!(@thumbnails)
+      # Apple uses nonstandard formats and codecs, so we need to add a specific Apple-only option
+      apple_options = options.clone
+      apple_options.merge!(:format => 'mp4', :video_codec => "h264").merge!(@size).merge!(@thumbnails)
     elsif @job_type == "audio"
       options.merge!(:audio_codec => @audio_codec, :skip_video => 1)
     end
 
-    outputs = [options]  # You can chain more outputs onto this array
+    if @job_type == "video"
+      outputs = [webm_options, apple_options]
+    elsif @job_type == "audio"
+      outputs = [options]  # You can chain more outputs onto this array
+    end
 
     settings = {:test => test_mode,
                 :input => url,

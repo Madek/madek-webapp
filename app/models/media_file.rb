@@ -218,12 +218,11 @@ class MediaFile < ActiveRecord::Base
   # Video thumbnails only come in one size (large) because re-encoding these costs money and they only make sense
   # in the media_entries/show view anyhow (not in smaller versions).
   def assign_video_thumbnails_to_preview
-    content_type = "video/webm"
-    if previews.where(:content_type => content_type).empty?
+    if previews.where(:content_type => "video/webm").empty? or previews.where(:content_type => "video/mpeg").empty? 
       paths = retrieve_encoded_files
       unless paths.empty?
         paths.each do |path|
-          if File.extname(path) == ".webm"
+          if File.extname(path) == ".webm" or File.extname(path) == ".mp4"
             # Must have Exiftool with Image::ExifTool::Matroska to support WebM!
             w, h = Exiftool.parse_metadata(path, ["Composite:ImageSize"])[0][0][1].split("x")
             if previews.create(:content_type => content_type, :filename => File.basename(path), :width => w.to_i, :height => h.to_i, :thumbnail => 'large')
@@ -238,8 +237,6 @@ class MediaFile < ActiveRecord::Base
               else
                 directory_prefix = Rails.root + "public/previews"
               end
-
-
 
               File.symlink(path, "#{directory_prefix}/#{File.basename(path)}")
               return true
