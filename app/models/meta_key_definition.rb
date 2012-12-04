@@ -124,13 +124,7 @@ class MetaKeyDefinition < ActiveRecord::Base
 #          end
         end
 
-        disinct_key_map =
-          if SQLHelper.adapter_is_postgresql? 
-            unscoped.select(" DISTINCT ON (key_map) * ")
-          elsif SQLHelper.adapter_is_mysql?
-            group(:key_map) 
-          end
-
+        disinct_key_map = unscoped.select(" DISTINCT ON (key_map) * ")
         disinct_key_map.where("key_map IS NOT NULL").each do |definition|
           definition.key_map.split(',').collect do |km|
             km.strip!

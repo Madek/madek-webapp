@@ -21,14 +21,7 @@ class KeywordsController< ApplicationController
   def index(query = params[:query],
             with = params[:with])
 
-    keywords = 
-      if SQLHelper.adapter_is_mysql?
-        Keyword.search(query).group(:meta_term_id)
-      elsif SQLHelper.adapter_is_postgresql?
-        Keyword.search(query).select "DISTINCT ON (meta_term_id) * "
-      else
-        raise "adapter is not supported"
-      end
+    keywords = Keyword.search(query).select "DISTINCT ON (meta_term_id) * "
 
     respond_to do |format|
       format.json {

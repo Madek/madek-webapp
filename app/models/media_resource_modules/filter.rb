@@ -116,10 +116,6 @@ module MediaResourceModules
         filter.each_pair do |k,v|
           v[:ids].each do |id|
             resources = case k
-              #old??#
-              #when :preset
-              #  presets = PermissionPreset.where(:id => id)
-              #  resources.where_permission_presets_and_user presets, current_user
               when :owner
                 resources.where(:user_id => id)
               when :group

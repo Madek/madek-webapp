@@ -52,7 +52,7 @@ ActiveAdmin.register MetaContext do
   collection_action :reorder, :method => :put do
     meta_context_group = MetaContextGroup.find(params[:meta_context_group_id])
     MetaContext.transaction do
-      # OPTIMIZE workaround for the mysql uniqueness [meta_context_group_id, position]
+      # OPTIMIZE keep [meta_context_group_id, position] unique: 
       meta_context_group.meta_contexts.update_all("position = (position*-1)", ["id IN (?)", params[:meta_context]])
       # using update_all (instead of update) to avoid instantiating (and validating) the object
       params[:meta_context].each_with_index do |id, index|
