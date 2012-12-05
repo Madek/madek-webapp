@@ -86,6 +86,7 @@ module MediaEntriesHelper
             # Everyone else uses an open codec (WebM)
             tag :source, {:type => video_preview_webm.content_type, :src => "/previews/#{video_preview_webm.filename}"}
           end
+          "<p>Ihr Browser unterstützt leider kein HTML5-Video. Verwenden Sie bitte einen standardfähigen Browser (z.B. Firefox 9, Chrome 10, Opera 9 oder höher).</p>"
         end
       end
 
