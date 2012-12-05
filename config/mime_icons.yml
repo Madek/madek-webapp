@@ -1,6 +1,12 @@
 ---
 icons:
   
+  - mime-type: image/tiff
+    icon: base_document.png
+    extensions:
+      - tif
+      - tiff
+
   - mime-type: image/jpeg
     icon: base_document.png
     extensions:
