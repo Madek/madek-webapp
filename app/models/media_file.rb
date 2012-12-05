@@ -218,10 +218,13 @@ class MediaFile < ActiveRecord::Base
   # Video thumbnails only come in one size (large) because re-encoding these costs money and they only make sense
   # in the media_entries/show view anyhow (not in smaller versions).
   def assign_video_thumbnails_to_preview
-    if previews.where(:content_type => "video/webm").empty? or previews.where(:content_type => "video/mp4").empty? 
+    supported_types = ["video/webm","video/mp4"]
+    if previews.where(:content_type => supported_types).empty?
       paths = retrieve_encoded_files
       unless paths.empty?
         paths.each do |path|
+          content_type = "video/webm"
+          content_type = "video/mp4" if File.extname(path) == ".mp4"
           if File.extname(path) == ".webm" or File.extname(path) == ".mp4"
             # Must have Exiftool with Image::ExifTool::Matroska to support WebM!
             w, h = Exiftool.parse_metadata(path, ["Composite:ImageSize"])[0][0][1].split("x")
