@@ -218,7 +218,7 @@ class MediaFile < ActiveRecord::Base
   # Video thumbnails only come in one size (large) because re-encoding these costs money and they only make sense
   # in the media_entries/show view anyhow (not in smaller versions).
   def assign_video_thumbnails_to_preview
-    if previews.where(:content_type => "video/webm").empty? or previews.where(:content_type => "video/mpeg").empty? 
+    if previews.where(:content_type => "video/webm").empty? or previews.where(:content_type => "video/mp4").empty? 
       paths = retrieve_encoded_files
       unless paths.empty?
         paths.each do |path|

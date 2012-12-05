@@ -64,7 +64,7 @@ module MediaEntriesHelper
     if media_file.content_type =~ /video/ && size == :large
       media_file.assign_video_thumbnails_to_preview
       video_preview_webm = media_file.previews.where(:content_type => 'video/webm', :thumbnail => 'large').last
-      video_preview_apple = media_file.previews.where(:content_type => 'video/mpeg', :thumbnail => 'large').last
+      video_preview_apple = media_file.previews.where(:content_type => 'video/mp4', :thumbnail => 'large').last
       # Since we don't have a video preview, we also don't have any thumbnails, since those are generated while
       # encoding the video.
       if video_preview_webm.nil?
