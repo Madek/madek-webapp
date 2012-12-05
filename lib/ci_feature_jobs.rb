@@ -2,13 +2,16 @@ module CIFeatureJobs
 
   require 'rexml/document'
 
-  TEMPLATE_URL = "http://ci.zhdk.ch/job/MAdeK_next_TEMPLATE/config.xml"
   BASE_PATH = "http://ci.zhdk.ch"
-  BASE_NAME = "MAdeK_next_feature"
+  BASE_NAME = "MAdeK_AT_"
 
   class << self
 
     ### HELPERS ###############################################################################
+
+    def reload! 
+      load Rails.root.join(__FILE__)
+    end
 
     def module_path # for convenient reloading
       Rails.root.join(__FILE__)
@@ -18,21 +21,94 @@ module CIFeatureJobs
       opts[symb] || opts[symb.to_s] || ENV[symb.to_s.upcase]
     end
 
+    ### CREATE NEW JOB TEMPLATE and  AGGREGATOR ##################################################
+    
+    def job_template_name branch_name = ENV['BRANCH_NAME']
+      "#{BASE_NAME}_#{branch_name}___TEMPLATE"
+    end
+
+    def template_url branch_name = ENV['BRANCH_NAME']
+      "#{BASE_PATH}/job/#{job_template_name}/config.xml"
+    end
+
+    def aggregator_job_name branch_name
+      "#{BASE_NAME}_#{branch_name}___AGGREGATOR"
+    end
+
+    def creator_job_name branch_name
+      "#{BASE_NAME}_#{branch_name}___CREATOR"
+    end
+    
+    def create_new_job_template! branch_name, job_template_xml_doc = \
+      REXML::Document.new(File.new Rails.root.join "lib","ci","job_template.xml")
+
+      REXML::XPath.first(job_template_xml_doc,  \
+                         "/project/scm/branches/hudson.plugins.git.BranchSpec/name") \
+                         .text= branch_name
+
+      REXML::XPath.first(job_template_xml_doc,  \
+                         "/project/publishers/hudson.tasks.BuildTrigger/childProjects") \
+                         .text= aggregator_job_name(branch_name)
+
+      # this seems the only way to get it up reliably
+      create_ci_job!(job_template_name(branch_name), job_template_xml_doc.to_s) rescue nil
+      update_ci_job!(job_template_name(branch_name), job_template_xml_doc.to_s) rescue nil
+
+    end
+
+    def create_new_job_aggreagtor! branch_name, aggregator_xml_doc = \
+      REXML::Document.new(File.new Rails.root.join "lib","ci","aggregator.xml")
+      
+      REXML::XPath.first(aggregator_xml_doc,  \
+                         "/project/scm/branches/hudson.plugins.git.BranchSpec/name") \
+                         .text= branch_name
+
+      REXML::XPath.first(aggregator_xml_doc, \
+                         "/project/buildWrappers/EnvInjectBuildWrapper/info/propertiesContent") \
+                         .text= %Q[\nRAILS_ENV=test \nBRANCH_NAME=#{branch_name} \n]
+
+      create_ci_job!(aggregator_job_name(branch_name), aggregator_xml_doc.to_s) rescue nil
+      update_ci_job!(aggregator_job_name(branch_name), aggregator_xml_doc.to_s) rescue nil
+    end
+
+
+    def create_new_job_creator! branch_name, xml_doc = \
+      REXML::Document.new(File.new Rails.root.join "lib","ci","creator.xml")
+      
+      REXML::XPath.first(xml_doc,  \
+                         "/project/scm/branches/hudson.plugins.git.BranchSpec/name") \
+                         .text= branch_name
+
+      REXML::XPath.first(xml_doc, \
+                         "/project/buildWrappers/EnvInjectBuildWrapper/info/propertiesContent") \
+                         .text= %Q[\nRAILS_ENV=test \nBRANCH_NAME=#{branch_name} \n]
+
+      create_ci_job!(creator_job_name(branch_name), xml_doc.to_s) rescue nil
+      update_ci_job!(creator_job_name(branch_name), xml_doc.to_s) rescue nil
+    end
+
+
+
     ### JOBS and JOB HELPERS ##################################################################
 
-    def all_jobs_params  basedir = "features"
-      Dir.glob("#{basedir}/**/*.feature").map do |filename| 
-        { filename: filename,
-          name: File.basename(filename,".feature") }
-      end.sort_by{|h| h[:name]}
+    def all_jobs_params  basedir = "features", branch_name = ENV['BRANCH_NAME'] 
+      unless branch_name 
+        raise 'env BRANCH_NAME is required'
+      else
+        Dir.glob("#{basedir}/**/*.feature").map do |filename| 
+          { filename: filename,
+            name: File.basename(filename,".feature"),
+            branch_name: branch_name }
+        end.sort_by{|h| h[:name]}
+      end
     end
 
     def job_env job_params
-      "RAILS_ENV=test\nCI_TEST_NAME=#{job_params[:name]}\nCUCUMBER_FILE=#{job_params[:filename]}"
+      "RAILS_ENV=test\nCI_TEST_NAME=#{job_params[:branch_name]}_#{job_params[:name]}\nCUCUMBER_FILE=#{job_params[:filename]}"
     end
 
     def ci_job_name job_params
-      "#{BASE_NAME}_#{job_params[:name]}"
+      "#{BASE_NAME}_#{job_params[:branch_name]}__#{job_params[:name]}"
     end
 
     def job_xml job_params, template_xml = template_xml()
@@ -47,13 +123,39 @@ module CIFeatureJobs
       (!reload and @template_xml) ||  @template_xml = begin
         RestClient::Request.new( \
           method: :get, 
-          url: TEMPLATE_URL, 
+          url: template_url, 
           user: opts_or_env(:ci_user,opts), 
           password: opts_or_env(:ci_pw,opts)).execute
       end
     end
 
+    #############################################################################
     ### CI API ##################################################################
+    #############################################################################
+    
+  
+    ### list and delete jobs #################
+     
+    def list_all_jobs
+      JSON.parse(RestClient.get "#{BASE_PATH}/view/All/api/json")['jobs']
+    end
+
+    def filter_jobs_by_regex strex, jobs = list_all_jobs 
+      r = Regexp.new strex
+      jobs.select{|j| r.match j['name']}
+    end
+
+    def delete_jobs jobs, opts = {}
+      jobs.map do |job|
+        resp = create_connection(opts).post do |req|
+          req.path= "job/#{job['name']}/doDelete"
+          req.body= ''
+        end
+        job.merge status: resp.env[:status] 
+      end
+    end
+
+    ###########################################
 
     def create_connection opts
       Faraday.new(url: BASE_PATH) do |faraday|
@@ -62,18 +164,18 @@ module CIFeatureJobs
       end
     end
 
-    def update_ci_job! job_params, xml, opts = {}
+    def update_ci_job! job_name, xml, opts = {}
       create_connection(opts).post do |req|
-        req.path= "job/#{ci_job_name(job_params)}/config.xml"
+        req.path= "job/#{job_name}/config.xml"
         req.headers['Content-Type'] = 'application/xml'
         req.body = xml
       end
     end
 
-    def create_ci_job! job_params, xml, opts = {}
+    def create_ci_job! job_name, xml, opts = {}
       create_connection(opts).post do |req|
         req.path= "/createItem"
-        req.params['name'] = ci_job_name(job_params)
+        req.params['name'] = job_name 
         req.headers['Content-Type'] = 'application/xml'
         req.body = xml
       end
@@ -84,11 +186,11 @@ module CIFeatureJobs
         xml =  template_xml reload = false , opts
         xml_config = job_xml job_params, xml
         begin
-          create_ci_job! job_params, xml_config, opts
+          create_ci_job! ci_job_name(job_params), xml_config, opts
         rescue
         end
         begin
-          resp = update_ci_job! job_params, xml_config, opts
+          resp = update_ci_job! ci_job_name(job_params), xml_config, opts
         rescue => e
           puts "update error: #{e}"
         end

@@ -67,6 +67,19 @@ namespace :madek do
        Rake::Task["madek:db:restore_personas_to_max_migration"].invoke
     end
 
+    task :drop_ci_dbs do
+      base_config = YAML.load_file Rails.root.join "config","database_jenkins.psql.yml"
+      if ENV['CI_TEST_NAME'] 
+        base_config['personas']['database'] =  base_config['personas']['database'] + "_" + ENV['CI_TEST_NAME'] 
+        base_config['test']['database'] =  base_config['test']['database'] + "_" + ENV['CI_TEST_NAME']
+      end
+       ['personas','test'].each do |name|
+         db_name = base_config[name]['database']
+         DBHelper.set_pg_env base_config[name]
+         system "psql -d template1 -c 'DROP DATABASE IF EXISTS \"#{db_name}\";'"
+       end
+    end
+
     task :rspec do
       system "bundle exec rspec --format d --format html --out tmp/html/rspec.html spec"
       exit_code = $?.exitstatus
